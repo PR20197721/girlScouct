@@ -2,9 +2,9 @@
 
 /.settings/
 
-/cq/bundle/.classpath
+/web/bundle/.classpath
 
-/cq/content/src/main/content/jcr_root/apps/girlscouts/install/
+/web/content/src/main/content/jcr_root/apps/girlscouts/install/
 
 .classpath
 
@@ -12,6 +12,6 @@
 
 .settings
 
-/cq/bundle/target
+/web/bundle/target
 
-/cq/content/target
+/web/content/target
