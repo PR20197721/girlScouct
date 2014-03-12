@@ -25,7 +25,7 @@
                     <appendAssemblyId>true</appendAssemblyId>
                     <attach>true</attach>
                     <filters>
-                        <filter>${project.basedir}/environments/${environment}-apache.properties</filter>
+                        <filter>${project.basedir}/environments/${environment}.properties</filter>
                     </filters>
                     <descriptors>
                         <descriptor>${project.basedir}/assembly/girlscouts-apache-config.xml</descriptor>
