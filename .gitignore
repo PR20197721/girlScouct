@@ -1,0 +1,17 @@
+/.project
+
+/.settings/
+
+/cq/bundle/.classpath
+
+/cq/content/src/main/content/jcr_root/apps/girlscouts/install/
+
+.classpath
+
+.project
+
+.settings
+
+/cq/bundle/target
+
+/cq/content/target
