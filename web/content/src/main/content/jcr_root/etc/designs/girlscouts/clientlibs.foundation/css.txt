@@ -1,5 +1,5 @@
 #base=css
 
 normalize.css
-foundation.css
+foundation.min.css
 app.css
