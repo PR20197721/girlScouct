@@ -5,6 +5,6 @@
     <filter root="/content/dam/girlscouts-usa/static"/>
     <filter root="/etc/map.author"/>
     <filter root="/etc/map.publish"/>
-    <filter root="/etc/designs/girlscouts-usa/clientlibs"/>
-    <filter root="/etc/designs/girlscouts-usa/images"/>
+    <filter root="/etc/designs/girlscouts"/>
+    <filter root="/etc/designs/girlscouts-usa"/>
 </workspaceFilter>

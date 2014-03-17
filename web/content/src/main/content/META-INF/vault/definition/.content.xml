@@ -45,12 +45,12 @@
         <f5
             jcr:primaryType="nt:unstructured"
             mode="replace"
-            root="/etc/designs/girlscouts-usa/clientlibs"
+            root="/etc/designs/girlscouts"
             rules="[]"/>
         <f6
             jcr:primaryType="nt:unstructured"
             mode="replace"
-            root="/etc/designs/girlscouts-usa/images"
+            root="/etc/designs/girlscouts-usa"
             rules="[]"/>
     </filter>
 </jcr:root>
