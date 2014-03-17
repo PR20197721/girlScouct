@@ -1,0 +1,2 @@
+// Startup Foundation
+$(document).foundation();
