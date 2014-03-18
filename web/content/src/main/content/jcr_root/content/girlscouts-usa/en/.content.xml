@@ -2,7 +2,7 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2014-03-18T10:16:51.432-04:00"
+        cq:lastModified="{Date}2014-03-18T10:23:18.260-04:00"
         cq:lastModifiedBy="admin"
         cq:lastReplicated="{Date}2014-03-12T17:33:08.138-04:00"
         cq:lastReplicatedBy="admin"
@@ -36,7 +36,7 @@
                 <text
                     jcr:created="{Date}2014-03-18T10:16:40.585-04:00"
                     jcr:createdBy="admin"
-                    jcr:lastModified="{Date}2014-03-18T10:16:51.425-04:00"
+                    jcr:lastModified="{Date}2014-03-18T10:23:18.226-04:00"
                     jcr:lastModifiedBy="admin"
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="foundation/components/text"
