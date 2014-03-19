@@ -14,4 +14,5 @@
         jcr:title="Girl Scouts USA English"
         jcr:uuid="5e13f36a-c7eb-4798-b0c1-d209b1ae813c"
         sling:resourceType="girlscouts/components/page"/>
+    <contact_us_form/>
 </jcr:root>
