@@ -1,5 +1,7 @@
 package org.girlscouts.web.dataimport;
 
-public interface DataImporter {
+import org.girlscouts.web.exception.GirlScoutsException;
 
+public interface DataImporter {
+    public void importIntoJcr() throws GirlScoutsException;
 }
