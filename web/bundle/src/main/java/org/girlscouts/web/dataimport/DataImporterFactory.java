@@ -2,6 +2,8 @@ package org.girlscouts.web.dataimport;
 
 import java.io.Reader;
 
+import org.apache.sling.api.resource.ResourceResolver;
+
 public interface DataImporterFactory {
-    public DataImporter getDataImporter(String type, Reader reader);
+    DataImporter getDataImporter(String type, Reader reader, ResourceResolver rr, String confPath, String destPath);
 }

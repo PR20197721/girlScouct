@@ -25,6 +25,7 @@ import org.apache.sling.api.resource.ResourceResolver;
 import org.girlscouts.web.dataimport.DataImporter;
 import org.girlscouts.web.exception.GirlScoutsException;
 
+import com.day.cq.commons.jcr.JcrUtil;
 import com.day.text.csv.Csv;
 
 public class CsvDataImporter implements DataImporter {
@@ -96,7 +97,6 @@ public class CsvDataImporter implements DataImporter {
 		String key = node.getName();
 		String type = node.hasProperty("type") ? node.getProperty("type").getString() : "string";
 		String script = node.hasProperty("script") ? node.getProperty("script").getString() : null; 
-		String propertyName = node.hasProperty("propertyName") ? node.getProperty("propertyName").getString() : key;
 
 		String[] confArr = new String[3];
 		confArr[0] = key;
@@ -155,6 +155,37 @@ public class CsvDataImporter implements DataImporter {
 	return this.dryRunPath;
     }
     
+    public String[] doImport() throws GirlScoutsException {
+	List<String> errors = new ArrayList<String>();
+	
+	Node tmpParentNode = rr.resolve(dryRunPath).adaptTo(Node.class);
+	Node destParentNode = rr.resolve(destPath).adaptTo(Node.class);
+	NodeIterator iter;
+	try {
+	    iter = tmpParentNode.getNodes();
+	} catch (RepositoryException e) {
+	    throw new GirlScoutsException(e, "Cannot get child nodes.");
+	}
+	while(iter.hasNext()) {
+	    Node node = iter.nextNode();
+	    try {
+		JcrUtil.copy(node, destParentNode, node.getName());
+	    } catch (RepositoryException e) {
+		try {
+		    errors.add("Error saving node: "+ node.getName());
+		} catch (RepositoryException e1) {
+		    errors.add("Error saving unkown node");
+		}
+	    }
+	}
+	try {
+	    tmpParentNode.remove();
+	} catch (RepositoryException e) {
+	    throw new GirlScoutsException(e, "Cannot remove the temp folder");
+	}
+	return errors.toArray(new String[errors.size()]);
+    }
+   
     public LineError[] doDryRun() throws GirlScoutsException {
 	List<LineError> errors = new ArrayList<LineError>();
 	Iterator<String[]> lineIter;
