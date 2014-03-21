@@ -15,6 +15,7 @@ import java.util.Random;
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
+import javax.jcr.Session;
 import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -151,16 +152,6 @@ public class CsvDataImporter implements DataImporter {
 	}
     }
 
-    public static class LineError {
-	public int lineNum;
-	public String reason;
-
-	LineError(int lineNum, String reason) {
-	    this.lineNum = lineNum;
-	    this.reason = reason;
-	}
-    }
-
     public String getDryRunPath() throws GirlScoutsException {
 	if (this.dryRunPath == null) {
 	    throw new GirlScoutsException(null, "Dry run never executed.");
@@ -199,8 +190,8 @@ public class CsvDataImporter implements DataImporter {
 	return errors.toArray(new String[errors.size()]);
     }
 
-    public LineError[] doDryRun() throws GirlScoutsException {
-	List<LineError> errors = new ArrayList<LineError>();
+    public String[] doDryRun() throws GirlScoutsException {
+	List<String> errors = new ArrayList<String>();
 	Iterator<String[]> lineIter;
 	try {
 	    lineIter = new Csv().read(reader);
@@ -210,13 +201,11 @@ public class CsvDataImporter implements DataImporter {
 	}
 
 	// Generate tmp folder
-	String tmpName = new SimpleDateFormat(DataImporter.DEFAULT_DATE_FORMAT)
-		.format(new Date())
-		+ Integer.toString(new Random().nextInt(1000));
+	String tmpName = Long.toString(System.currentTimeMillis()) + "-" + Integer.toString(new Random().nextInt(1000));
 	this.dryRunPath = DataImporter.TMP_ROOT + "/" + tmpName;
 	try {
-	    rr.resolve(DataImporter.TMP_ROOT).adaptTo(Node.class)
-		    .addNode(tmpName, "nt:unstructured");
+	    Node tmpRootNode = rr.resolve(DataImporter.TMP_ROOT).adaptTo(Node.class);
+            tmpRootNode.addNode(tmpName, "nt:unstructured");
 	} catch (RepositoryException e) {
 	    throw new GirlScoutsException(e, "Cannot create tmp folder: "
 		    + dryRunPath);
@@ -231,7 +220,7 @@ public class CsvDataImporter implements DataImporter {
 		String nodeName = getName(result);
 
 		String actualPath = destPath + "/" + nodeName;
-		if (rr.resolve(actualPath) != null) {
+		if (!rr.resolve(actualPath).getResourceType().equals("sling:nonexisting")) {
 		    throw new GirlScoutsException(null, "Node already exists: "
 			    + actualPath);
 		}
@@ -239,16 +228,24 @@ public class CsvDataImporter implements DataImporter {
 		Node parentNode = rr.resolve(dryRunPath).adaptTo(Node.class);
 		saveNode(parentNode, nodeName, result);
 	    } catch (GirlScoutsException e) {
-		errors.add(new LineError(lineCount, e.getReason()));
+		errors.add("Error on line: " + lineCount + ": " + e.getReason());
 	    }
 	}
-	return errors.toArray(new LineError[errors.size()]);
+	try {
+	    rr.adaptTo(Session.class).save();
+	} catch (RepositoryException e) {
+	    throw new GirlScoutsException(e, "Repository Exception while saving temp nodes.");
+	}
+	return errors.toArray(new String[errors.size()]);
     }
 
     private void saveNode(Node parentNode, String nodeName, List<Object> values)
 	    throws GirlScoutsException {
 	try {
 	    Node node = parentNode.addNode(nodeName, primaryType);
+	    if (primaryType.equals("cq:Page")) {
+		node = node.addNode("jcr:content", "cq:PageContent");
+	    }
 
 	    for (String[] field : defaultFields) {
 		saveProperty(node, field[0], field[2], field[1]);
@@ -267,7 +264,7 @@ public class CsvDataImporter implements DataImporter {
 
     private String getName(List<Object> values) throws GirlScoutsException {
 	if (isNameFromField) {
-	    return fields.get(nameFieldIndexes[0])[0];
+	    return (String)values.get(nameFieldIndexes[0]);
 	} else {
 	    String[] scriptParams = new String[nameFieldIndexes.length];
 	    for (int i = 0; i < scriptParams.length; i++) {
