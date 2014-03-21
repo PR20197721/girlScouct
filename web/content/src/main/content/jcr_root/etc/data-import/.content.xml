@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured">
+    <girlscouts jcr:primaryType="nt:unstructured">
+        <csv jcr:primaryType="nt:unstructured">
+            <Event
+                jcr:primaryType="nt:unstructured"
+                primaryType="cq:Page">
+                <fields jcr:primaryType="nt:unstructured">
+                    <title
+                        jcr:primaryType="nt:unstructured"
+                        type="string"/>
+                    <description
+                        jcr:primaryType="nt:unstructured"
+                        type="string"/>
+                    <date
+                        jcr:primaryType="nt:unstructured"
+                        type="date(yyyy-MM-dd HH:mm)"/>
+                </fields>
+                <nameGen
+                    jcr:primaryType="nt:unstructured"
+                    fromField="title"/>
+                <defaultFields jcr:primaryType="nt:unstructured">
+                    <sling:resourceType
+                        jcr:primaryType="nt:unstructured"
+                        type="string"
+                        value="girlscouts/components/event-page"/>
+                </defaultFields>
+            </Event>
+        </csv>
+    </girlscouts>
+</jcr:root>

@@ -20,16 +20,20 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 
-import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.girlscouts.web.dataimport.DataImporter;
 import org.girlscouts.web.exception.GirlScoutsException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.day.cq.commons.jcr.JcrUtil;
 import com.day.text.csv.Csv;
 
 public class CsvDataImporter implements DataImporter {
     public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SX";
+
+    private static Logger log = LoggerFactory.getLogger(CsvDataImporter.class);
+
     private Reader reader;
     private ResourceResolver rr;
     private String confPath;
@@ -44,7 +48,7 @@ public class CsvDataImporter implements DataImporter {
     private String[] nameScriptFields;
     private int[] nameFieldIndexes;
     private String dryRunPath;
-    
+
     public CsvDataImporter(Reader reader, ResourceResolver rr, String confPath,
 	    String destPath) throws GirlScoutsException {
 	this.reader = reader;
@@ -58,30 +62,32 @@ public class CsvDataImporter implements DataImporter {
 
     private void initConf() throws GirlScoutsException {
 	try {
-	    Resource confResource = rr.resolve(confPath);
-	    if (confResource == null) {
-		throw new GirlScoutsException(null, "Conf path not found: " + confPath);
+	    Node confNode = rr.resolve(confPath).adaptTo(Node.class);
+	    if (confNode == null) {
+		throw new GirlScoutsException(null, "Conf path not found: "
+			+ confPath);
 	    }
-	    Node confNode = confResource.adaptTo(Node.class);
 
 	    // Read primary type
-	    if (confNode.hasProperty(primaryType)) {
+	    if (confNode.hasProperty("primaryType")) {
 		primaryType = confNode.getProperty("primaryType").getString();
 	    } else {
 		primaryType = "nt:unstructured";
 	    }
-	    
+
 	    // Read name gen conf
 	    Node nameGenNode = confNode.getNode("nameGen");
-	    if (nameGenNode.hasNode("fromField")) {
+	    if (nameGenNode.hasProperty("fromField")) {
 		isNameFromField = true;
-		nameFromField = nameGenNode.getProperty("fromField").getString();
+		nameFromField = nameGenNode.getProperty("fromField")
+			.getString();
 	    } else {
 		isNameFromField = false;
 		nameScript = nameGenNode.getProperty("script").getString();
-		nameScriptFields = nameGenNode.getProperty("scriptFields").getString().split(",");
+		nameScriptFields = nameGenNode.getProperty("scriptFields")
+			.getString().split(",");
 	    }
-	    
+
 	    // Prepare nameFieldIndexes
 	    if (isNameFromField) {
 		nameFieldIndexes = new int[1];
@@ -89,21 +95,23 @@ public class CsvDataImporter implements DataImporter {
 		nameFieldIndexes = new int[nameScriptFields.length];
 	    }
 	    // Read fields
-	    fields= new ArrayList<String[]>();
+	    fields = new ArrayList<String[]>();
 	    Node fieldsNode = confNode.getNode("fields");
 	    NodeIterator nodeIter = fieldsNode.getNodes();
 	    while (nodeIter.hasNext()) {
 		Node node = nodeIter.nextNode();
 		String key = node.getName();
-		String type = node.hasProperty("type") ? node.getProperty("type").getString() : "string";
-		String script = node.hasProperty("script") ? node.getProperty("script").getString() : null; 
+		String type = node.hasProperty("type") ? node.getProperty(
+			"type").getString() : "string";
+		String script = node.hasProperty("script") ? node.getProperty(
+			"script").getString() : null;
 
 		String[] confArr = new String[3];
 		confArr[0] = key;
 		confArr[1] = type;
 		confArr[2] = script;
 		fields.add(confArr);
-		
+
 		// Remember the indexes of script fields
 		if (!isNameFromField) {
 		    for (int i = 0; i < nameScriptFields.length; i++) {
@@ -117,27 +125,32 @@ public class CsvDataImporter implements DataImporter {
 		    }
 		}
 	    }
-	    
+
 	    // Read default fields
-	    fields= new ArrayList<String[]>();
+	    defaultFields = new ArrayList<String[]>();
 	    Node defaultFieldsNode = confNode.getNode("defaultFields");
-	    nodeIter = defaultFieldsNode.getNodes();
-	    while(nodeIter.hasNext()) {
-		Node node = nodeIter.nextNode();
-		String key = node.getName();
-		String type = node.hasProperty("type") ? node.getProperty("type").getString() : "string";
-		String value = node.getProperty("value").getString();
-		String[] confArr = new String[3];
-		confArr[0] = key;
-		confArr[1] = type;
-		confArr[2] = value;
-		defaultFields.add(confArr);
+	    if (defaultFieldsNode != null) {
+		nodeIter = defaultFieldsNode.getNodes();
+		while (nodeIter.hasNext()) {
+		    Node node = nodeIter.nextNode();
+		    String key = node.getName();
+		    String type = node.hasProperty("type") ? node.getProperty(
+			    "type").getString() : "string";
+		    String value = node.getProperty("value").getString();
+		    String[] confArr = new String[3];
+		    confArr[0] = key;
+		    confArr[1] = type;
+		    confArr[2] = value;
+		    defaultFields.add(confArr);
+		}
 	    }
 	} catch (RepositoryException e) {
-	    throw new GirlScoutsException(e, "Repository Exception while reading import configuration: " + confPath);
+	    throw new GirlScoutsException(e,
+		    "Repository Exception while reading import configuration: "
+			    + confPath + ". Reason: " + e.getMessage());
 	}
     }
-    
+
     public static class LineError {
 	public int lineNum;
 	public String reason;
@@ -147,17 +160,17 @@ public class CsvDataImporter implements DataImporter {
 	    this.reason = reason;
 	}
     }
-    
+
     public String getDryRunPath() throws GirlScoutsException {
 	if (this.dryRunPath == null) {
 	    throw new GirlScoutsException(null, "Dry run never executed.");
 	}
 	return this.dryRunPath;
     }
-    
+
     public String[] doImport() throws GirlScoutsException {
 	List<String> errors = new ArrayList<String>();
-	
+
 	Node tmpParentNode = rr.resolve(dryRunPath).adaptTo(Node.class);
 	Node destParentNode = rr.resolve(destPath).adaptTo(Node.class);
 	NodeIterator iter;
@@ -166,13 +179,13 @@ public class CsvDataImporter implements DataImporter {
 	} catch (RepositoryException e) {
 	    throw new GirlScoutsException(e, "Cannot get child nodes.");
 	}
-	while(iter.hasNext()) {
+	while (iter.hasNext()) {
 	    Node node = iter.nextNode();
 	    try {
 		JcrUtil.copy(node, destParentNode, node.getName());
 	    } catch (RepositoryException e) {
 		try {
-		    errors.add("Error saving node: "+ node.getName());
+		    errors.add("Error saving node: " + node.getName());
 		} catch (RepositoryException e1) {
 		    errors.add("Error saving unkown node");
 		}
@@ -185,23 +198,28 @@ public class CsvDataImporter implements DataImporter {
 	}
 	return errors.toArray(new String[errors.size()]);
     }
-   
+
     public LineError[] doDryRun() throws GirlScoutsException {
 	List<LineError> errors = new ArrayList<LineError>();
 	Iterator<String[]> lineIter;
 	try {
 	    lineIter = new Csv().read(reader);
 	} catch (IOException e) {
-	    throw new GirlScoutsException(e, "IO Exception while importing CSV.");
+	    throw new GirlScoutsException(e,
+		    "IO Exception while importing CSV.");
 	}
-	
+
 	// Generate tmp folder
-	String tmpName = new SimpleDateFormat(DataImporter.DEFAULT_DATE_FORMAT).format(new Date()) + Integer.toString(new Random().nextInt(1000));
+	String tmpName = new SimpleDateFormat(DataImporter.DEFAULT_DATE_FORMAT)
+		.format(new Date())
+		+ Integer.toString(new Random().nextInt(1000));
 	this.dryRunPath = DataImporter.TMP_ROOT + "/" + tmpName;
 	try {
-	    rr.resolve(DataImporter.TMP_ROOT).adaptTo(Node.class).addNode(tmpName, "nt:unstructured");
+	    rr.resolve(DataImporter.TMP_ROOT).adaptTo(Node.class)
+		    .addNode(tmpName, "nt:unstructured");
 	} catch (RepositoryException e) {
-	    throw new GirlScoutsException(e, "Cannot create tmp folder: " + dryRunPath);
+	    throw new GirlScoutsException(e, "Cannot create tmp folder: "
+		    + dryRunPath);
 	}
 
 	int lineCount = 0;
@@ -211,12 +229,13 @@ public class CsvDataImporter implements DataImporter {
 	    try {
 		List<Object> result = readLine(cols);
 		String nodeName = getName(result);
-		
+
 		String actualPath = destPath + "/" + nodeName;
 		if (rr.resolve(actualPath) != null) {
-		    throw new GirlScoutsException(null, "Node already exists: " + actualPath);
+		    throw new GirlScoutsException(null, "Node already exists: "
+			    + actualPath);
 		}
-		
+
 		Node parentNode = rr.resolve(dryRunPath).adaptTo(Node.class);
 		saveNode(parentNode, nodeName, result);
 	    } catch (GirlScoutsException e) {
@@ -225,8 +244,9 @@ public class CsvDataImporter implements DataImporter {
 	}
 	return errors.toArray(new LineError[errors.size()]);
     }
-    
-    private void saveNode(Node parentNode, String nodeName, List<Object> values) throws GirlScoutsException {
+
+    private void saveNode(Node parentNode, String nodeName, List<Object> values)
+	    throws GirlScoutsException {
 	try {
 	    Node node = parentNode.addNode(nodeName, primaryType);
 
@@ -235,15 +255,16 @@ public class CsvDataImporter implements DataImporter {
 	    }
 
 	    int i = 0;
-	    for (String[] field: fields) {
+	    for (String[] field : fields) {
 		saveProperty(node, field[0], values.get(i), field[1]);
 		i++;
 	    }
 	} catch (RepositoryException e) {
-	    throw new GirlScoutsException(e, "Error while saving node: " + nodeName);
+	    throw new GirlScoutsException(e, "Error while saving node: "
+		    + nodeName);
 	}
     }
-    
+
     private String getName(List<Object> values) throws GirlScoutsException {
 	if (isNameFromField) {
 	    return fields.get(nameFieldIndexes[0])[0];
@@ -255,8 +276,9 @@ public class CsvDataImporter implements DataImporter {
 	    return executeJavaScript(nameScript, scriptParams);
 	}
     }
-    
-    private String executeJavaScript(String nameScript, String... value) throws GirlScoutsException {
+
+    private String executeJavaScript(String nameScript, String... value)
+	    throws GirlScoutsException {
 	ScriptEngineManager manager = new ScriptEngineManager();
 	ScriptEngine engine = manager.getEngineByName("JavaScript");
 
@@ -267,30 +289,33 @@ public class CsvDataImporter implements DataImporter {
 	    Invocable inv = (Invocable) engine;
 	    return (String) inv.invokeFunction("theFunction", value);
 	} catch (ScriptException e) {
-	    throw new GirlScoutsException(e, "Error executing JavaScript: " + script);
+	    throw new GirlScoutsException(e, "Error executing JavaScript: "
+		    + script);
 	} catch (NoSuchMethodException e) {
 	    throw new GirlScoutsException(e, "No JavaScript engine found.");
 	}
     }
-    
+
     private List<Object> readLine(String[] cols) throws GirlScoutsException {
 	List<Object> result = new ArrayList<Object>();
 	for (int i = 0; i < cols.length; i++) {
 	    String type = fields.get(i)[1];
 	    String script = fields.get(i)[2];
 	    String value = cols[i];
-	    
+
 	    // Execute script
 	    if (script != null) {
 		value = executeJavaScript(script, value);
 	    }
-	    
+
 	    if (type.equals("string")) {
 		result.add(value);
 	    } else if (type.equals("boolean")) {
-		result.add(new Boolean(value.equalsIgnoreCase("true") ? true : false));
+		result.add(new Boolean(value.equalsIgnoreCase("true") ? true
+			: false));
 	    } else if (type.startsWith("date")) {
-		String formatStr = type.substring("date".length() + 1, type.length() - 1);
+		String formatStr = type.substring("date".length() + 1,
+			type.length() - 1);
 		if (formatStr.isEmpty()) {
 		    formatStr = CsvDataImporter.DEFAULT_DATE_FORMAT;
 		}
@@ -299,7 +324,8 @@ public class CsvDataImporter implements DataImporter {
 		try {
 		    date = sdf.parse(value);
 		} catch (ParseException e) {
-		    throw new GirlScoutsException(e, "Error parsing date \"" + value + "\" using format \"" + formatStr + "\"");
+		    throw new GirlScoutsException(e, "Error parsing date \""
+			    + value + "\" using format \"" + formatStr + "\"");
 		}
 		Calendar cal = new GregorianCalendar();
 		cal.setTime(date);
@@ -313,14 +339,15 @@ public class CsvDataImporter implements DataImporter {
 	    throws GirlScoutsException {
 	try {
 	    if (type.equals("string")) {
-		node.setProperty(key, (String)value);
+		node.setProperty(key, (String) value);
 	    } else if (type.equals("boolean")) {
-		node.setProperty(key,((Boolean)value).booleanValue());
+		node.setProperty(key, ((Boolean) value).booleanValue());
 	    } else if (type.indexOf("date") == 0) {
-		node.setProperty(key, (Calendar)value);
+		node.setProperty(key, (Calendar) value);
 	    }
 	} catch (RepositoryException e) {
-	    throw new GirlScoutsException(e, "Repository Exception while setting property: " + key);
+	    throw new GirlScoutsException(e,
+		    "Repository Exception while setting property: " + key);
 	}
     }
 }
