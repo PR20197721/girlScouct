@@ -16,14 +16,12 @@ import javax.jcr.Node;
 import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
-import javax.script.Invocable;
-import javax.script.ScriptEngine;
-import javax.script.ScriptEngineManager;
-import javax.script.ScriptException;
 
 import org.apache.sling.api.resource.ResourceResolver;
 import org.girlscouts.web.dataimport.DataImporter;
 import org.girlscouts.web.exception.GirlScoutsException;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -268,7 +266,7 @@ public class CsvDataImporter implements DataImporter {
 	} else {
 	    String[] scriptParams = new String[nameFieldIndexes.length];
 	    for (int i = 0; i < scriptParams.length; i++) {
-		scriptParams[i] = nameScriptFields[nameFieldIndexes[i]];
+		scriptParams[i] = (String)values.get(nameFieldIndexes[i]);
 	    }
 	    return executeJavaScript(nameScript, scriptParams);
 	}
@@ -276,21 +274,20 @@ public class CsvDataImporter implements DataImporter {
 
     private String executeJavaScript(String nameScript, String... value)
 	    throws GirlScoutsException {
-	ScriptEngineManager manager = new ScriptEngineManager();
-	ScriptEngine engine = manager.getEngineByName("JavaScript");
-
-	// evaluate script
-	String script = "theFunction = " + nameScript;
-	try {
-	    engine.eval(script);
-	    Invocable inv = (Invocable) engine;
-	    return (String) inv.invokeFunction("theFunction", value);
-	} catch (ScriptException e) {
-	    throw new GirlScoutsException(e, "Error executing JavaScript: "
-		    + script);
-	} catch (NoSuchMethodException e) {
-	    throw new GirlScoutsException(e, "No JavaScript engine found.");
+	StringBuilder sb = new StringBuilder();
+	for (int i = 0; i < value.length - 1; i++) {
+	    sb.append("'").append(value[i]).append("',");
 	}
+	if (value.length > 0) {
+	    sb.append("'").append(value[value.length - 1]).append("'");
+	}
+	String args = sb.toString();
+
+	Context cx = Context.enter();
+	Scriptable scope = cx.initStandardObjects();
+	String script = "var getName = " + nameScript + "; getName(" + args + ");";
+	Object result = cx.evaluateString(scope, script, "script", 1, null);
+	return (String)result;
     }
 
     private List<Object> readLine(String[] cols) throws GirlScoutsException {
