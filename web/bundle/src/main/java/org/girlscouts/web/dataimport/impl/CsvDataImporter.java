@@ -21,6 +21,7 @@ import org.apache.sling.api.resource.ResourceResolver;
 import org.girlscouts.web.dataimport.DataImporter;
 import org.girlscouts.web.exception.GirlScoutsException;
 import org.mozilla.javascript.Context;
+import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.Scriptable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -283,11 +284,15 @@ public class CsvDataImporter implements DataImporter {
 	}
 	String args = sb.toString();
 
+	try {
 	Context cx = Context.enter();
 	Scriptable scope = cx.initStandardObjects();
 	String script = "var getName = " + nameScript + "; getName(" + args + ");";
 	Object result = cx.evaluateString(scope, script, "script", 1, null);
 	return (String)result;
+	} catch (EvaluatorException e) {
+	    throw new GirlScoutsException(e, "Error executing javascript: " + e.getMessage());
+	}
     }
 
     private List<Object> readLine(String[] cols) throws GirlScoutsException {
