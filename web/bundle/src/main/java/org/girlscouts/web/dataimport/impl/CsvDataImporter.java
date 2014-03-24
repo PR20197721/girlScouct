@@ -218,7 +218,7 @@ public class CsvDataImporter implements DataImporter {
 	    String[] cols = lineIter.next();
 	    try {
 		List<Object> result = readLine(cols);
-		String nodeName = getName(result);
+		String nodeName = getName(cols);
 
 		String actualPath = destPath + "/" + nodeName;
 		if (!rr.resolve(actualPath).getResourceType().equals("sling:nonexisting")) {
@@ -262,13 +262,13 @@ public class CsvDataImporter implements DataImporter {
 	}
     }
 
-    private String getName(List<Object> values) throws GirlScoutsException {
+    private String getName(String[] cols) throws GirlScoutsException {
 	if (isNameFromField) {
-	    return (String)values.get(nameFieldIndexes[0]);
+	    return (String)cols[nameFieldIndexes[0]];
 	} else {
 	    String[] scriptParams = new String[nameFieldIndexes.length];
 	    for (int i = 0; i < scriptParams.length; i++) {
-		scriptParams[i] = (String)values.get(nameFieldIndexes[i]);
+		scriptParams[i] = cols[nameFieldIndexes[i]];
 	    }
 	    return executeJavaScript(nameScript, scriptParams);
 	}
