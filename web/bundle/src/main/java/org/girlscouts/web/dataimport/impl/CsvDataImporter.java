@@ -36,6 +36,7 @@ public class CsvDataImporter implements DataImporter {
 
     private Reader reader;
     private ResourceResolver rr;
+    private Session session;
     private String confPath;
     private String destPath;
 
@@ -52,10 +53,11 @@ public class CsvDataImporter implements DataImporter {
     public CsvDataImporter(Reader reader, ResourceResolver rr, String confPath,
 	    String destPath) throws GirlScoutsException {
 	this.reader = reader;
-	this.rr = rr;
 	this.confPath = confPath;
 	this.destPath = destPath;
 	this.dryRunPath = null;
+	this.rr = rr;
+	this.session = rr.adaptTo(Session.class);
 
 	initConf();
     }
@@ -224,24 +226,24 @@ public class CsvDataImporter implements DataImporter {
 			    + actualPath);
 		}
 
-		Node parentNode = rr.resolve(dryRunPath).adaptTo(Node.class);
-		saveNode(parentNode, nodeName, result);
+		String tmpPath = dryRunPath + "/" + nodeName;
+		saveNode(tmpPath, result);
 	    } catch (GirlScoutsException e) {
 		errors.add("Error on line: " + lineCount + ": " + e.getReason());
 	    }
 	}
 	try {
-	    rr.adaptTo(Session.class).save();
+	    this.session.save();
 	} catch (RepositoryException e) {
 	    throw new GirlScoutsException(e, "Repository Exception while saving temp nodes.");
 	}
 	return errors.toArray(new String[errors.size()]);
     }
 
-    private void saveNode(Node parentNode, String nodeName, List<Object> values)
+    private void saveNode(String path, List<Object> values)
 	    throws GirlScoutsException {
 	try {
-	    Node node = parentNode.addNode(nodeName, primaryType);
+	    Node node = JcrUtil.createPath(path, primaryType, session);
 	    if (primaryType.equals("cq:Page")) {
 		node = node.addNode("jcr:content", "cq:PageContent");
 	    }
@@ -256,8 +258,7 @@ public class CsvDataImporter implements DataImporter {
 		i++;
 	    }
 	} catch (RepositoryException e) {
-	    throw new GirlScoutsException(e, "Error while saving node: "
-		    + nodeName);
+	    throw new GirlScoutsException(e, "Error while saving node: " + path);
 	}
     }
 
