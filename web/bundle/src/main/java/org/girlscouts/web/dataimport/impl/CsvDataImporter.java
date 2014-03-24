@@ -17,6 +17,7 @@ import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 
+import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.girlscouts.web.dataimport.DataImporter;
 import org.girlscouts.web.exception.GirlScoutsException;
@@ -164,29 +165,33 @@ public class CsvDataImporter implements DataImporter {
 	List<String> errors = new ArrayList<String>();
 
 	Node tmpParentNode = rr.resolve(dryRunPath).adaptTo(Node.class);
-	Node destParentNode = rr.resolve(destPath).adaptTo(Node.class);
 	NodeIterator iter;
 	try {
 	    iter = tmpParentNode.getNodes();
-	} catch (RepositoryException e) {
-	    throw new GirlScoutsException(e, "Cannot get child nodes.");
-	}
-	while (iter.hasNext()) {
-	    Node node = iter.nextNode();
-	    try {
-		JcrUtil.copy(node, destParentNode, node.getName());
-	    } catch (RepositoryException e) {
+	    while (iter.hasNext()) {
+		Node node = iter.nextNode();
 		try {
-		    errors.add("Error saving node: " + node.getName());
-		} catch (RepositoryException e1) {
-		    errors.add("Error saving unkown node");
+		    merge(node.getPath(), destPath);
+		} catch (RepositoryException e) {
+		    try {
+			errors.add("Error saving node: " + node.getName());
+		    } catch (RepositoryException e1) {
+			errors.add("Error saving unkown node");
+		    }
 		}
 	    }
-	}
-	try {
-	    tmpParentNode.remove();
+	    session.save();
 	} catch (RepositoryException e) {
-	    throw new GirlScoutsException(e, "Cannot remove the temp folder");
+	    throw new GirlScoutsException(e,
+		    "Repository Exception while saving nodes.");
+	} finally {
+	    try {
+		tmpParentNode.remove();
+		session.save();
+	    } catch (RepositoryException e) {
+		throw new GirlScoutsException(e,
+			"Cannot remove the temp folder");
+	    }
 	}
 	return errors.toArray(new String[errors.size()]);
     }
@@ -202,11 +207,13 @@ public class CsvDataImporter implements DataImporter {
 	}
 
 	// Generate tmp folder
-	String tmpName = Long.toString(System.currentTimeMillis()) + "-" + Integer.toString(new Random().nextInt(1000));
+	String tmpName = Long.toString(System.currentTimeMillis()) + "-"
+		+ Integer.toString(new Random().nextInt(1000));
 	this.dryRunPath = DataImporter.TMP_ROOT + "/" + tmpName;
 	try {
-	    Node tmpRootNode = rr.resolve(DataImporter.TMP_ROOT).adaptTo(Node.class);
-            tmpRootNode.addNode(tmpName, "nt:unstructured");
+	    Node tmpRootNode = rr.resolve(DataImporter.TMP_ROOT).adaptTo(
+		    Node.class);
+	    tmpRootNode.addNode(tmpName, "nt:unstructured");
 	} catch (RepositoryException e) {
 	    throw new GirlScoutsException(e, "Cannot create tmp folder: "
 		    + dryRunPath);
@@ -221,7 +228,9 @@ public class CsvDataImporter implements DataImporter {
 		String nodeName = getName(cols);
 
 		String actualPath = destPath + "/" + nodeName;
-		if (!rr.resolve(actualPath).getResourceType().equals("sling:nonexisting")) {
+		Resource res = rr.resolve(actualPath);
+		if (res != null
+			&& !res.getResourceType().equals("sling:nonexisting")) {
 		    throw new GirlScoutsException(null, "Node already exists: "
 			    + actualPath);
 		}
@@ -235,7 +244,8 @@ public class CsvDataImporter implements DataImporter {
 	try {
 	    this.session.save();
 	} catch (RepositoryException e) {
-	    throw new GirlScoutsException(e, "Repository Exception while saving temp nodes.");
+	    throw new GirlScoutsException(e,
+		    "Repository Exception while saving temp nodes.");
 	}
 	return errors.toArray(new String[errors.size()]);
     }
@@ -264,7 +274,7 @@ public class CsvDataImporter implements DataImporter {
 
     private String getName(String[] cols) throws GirlScoutsException {
 	if (isNameFromField) {
-	    return (String)cols[nameFieldIndexes[0]];
+	    return (String) cols[nameFieldIndexes[0]];
 	} else {
 	    String[] scriptParams = new String[nameFieldIndexes.length];
 	    for (int i = 0; i < scriptParams.length; i++) {
@@ -286,13 +296,15 @@ public class CsvDataImporter implements DataImporter {
 	String args = sb.toString();
 
 	try {
-	Context cx = Context.enter();
-	Scriptable scope = cx.initStandardObjects();
-	String script = "var getName = " + nameScript + "; getName(" + args + ");";
-	Object result = cx.evaluateString(scope, script, "script", 1, null);
-	return (String)result;
+	    Context cx = Context.enter();
+	    Scriptable scope = cx.initStandardObjects();
+	    String script = "var getName = " + nameScript + "; getName(" + args
+		    + ");";
+	    Object result = cx.evaluateString(scope, script, "script", 1, null);
+	    return (String) result;
 	} catch (EvaluatorException e) {
-	    throw new GirlScoutsException(e, "Error executing javascript: " + e.getMessage());
+	    throw new GirlScoutsException(e, "Error executing javascript: "
+		    + e.getMessage());
 	}
     }
 
@@ -333,6 +345,47 @@ public class CsvDataImporter implements DataImporter {
 	    }
 	}
 	return result;
+    }
+
+    private void merge(String origPath, String destParentPath)
+	    throws GirlScoutsException {
+	Node origNode = rr.getResource(origPath).adaptTo(Node.class);
+	Node destParentNode = rr.getResource(destParentPath)
+		.adaptTo(Node.class);
+	Node destNode = null;
+	try {
+	    String destPath = destParentPath + "/" + origNode.getName();
+	    Resource res = rr.getResource(destPath);
+	    if (res == null || res.equals("sling:nonexisting")) {
+		if (origNode != null) {
+		    destNode = JcrUtil.copy(origNode, destParentNode, null);
+		}
+	    } else {
+		destNode = res.adaptTo(Node.class);
+	    }
+	} catch (RepositoryException e) {
+	    throw new GirlScoutsException(e,
+		    "Repository Exception while copying node from " + origPath
+			    + " to " + destParentPath);
+	}
+
+	NodeIterator iter;
+	try {
+	    iter = origNode.getNodes();
+	} catch (RepositoryException e) {
+	    throw new GirlScoutsException(e,
+		    "Repository Exception while getting children nodes of "
+			    + origPath);
+	}
+	while (iter.hasNext()) {
+	    Node origNodeChild = iter.nextNode();
+	    try {
+		merge(origNodeChild.getPath(), destNode.getPath());
+	    } catch (RepositoryException e) {
+		throw new GirlScoutsException(e,
+			"Repository Exception while get path of nodes.");
+	    }
+	}
     }
 
     private void saveProperty(Node node, String key, Object value, String type)
