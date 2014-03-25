@@ -1,5 +1,7 @@
 package org.girlscouts.web.dataimport;
 
+import java.util.List;
+
 import org.girlscouts.web.exception.GirlScoutsException;
 
 public interface DataImporter {
@@ -7,6 +9,6 @@ public interface DataImporter {
     static String TMP_ROOT = "/tmp/data-import/csv";
 
     String[] doDryRun() throws GirlScoutsException;
-    String[] doImport() throws GirlScoutsException;
     String getDryRunPath() throws GirlScoutsException;
+    List<String[]> getFields();
 }

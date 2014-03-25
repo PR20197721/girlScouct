@@ -15,3 +15,7 @@ for (String msg : msgs) {
     %><%= msg %><br /><%
 }
 %>
+<%= importer.getDryRunPath() %>
+<%
+    importer.doImport();
+%>

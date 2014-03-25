@@ -153,47 +153,17 @@ public class CsvDataImporter implements DataImporter {
 			    + confPath + ". Reason: " + e.getMessage());
 	}
     }
+    
+    public List<String[]> getFields() {
+	return this.fields;
+    }
+
 
     public String getDryRunPath() throws GirlScoutsException {
 	if (this.dryRunPath == null) {
 	    throw new GirlScoutsException(null, "Dry run never executed.");
 	}
 	return this.dryRunPath;
-    }
-
-    public String[] doImport() throws GirlScoutsException {
-	List<String> errors = new ArrayList<String>();
-
-	Node tmpParentNode = rr.resolve(dryRunPath).adaptTo(Node.class);
-	NodeIterator iter;
-	try {
-	    iter = tmpParentNode.getNodes();
-	    while (iter.hasNext()) {
-		Node node = iter.nextNode();
-		try {
-		    merge(node.getPath(), destPath);
-		} catch (RepositoryException e) {
-		    try {
-			errors.add("Error saving node: " + node.getName());
-		    } catch (RepositoryException e1) {
-			errors.add("Error saving unkown node");
-		    }
-		}
-	    }
-	    session.save();
-	} catch (RepositoryException e) {
-	    throw new GirlScoutsException(e,
-		    "Repository Exception while saving nodes.");
-	} finally {
-	    try {
-		tmpParentNode.remove();
-		session.save();
-	    } catch (RepositoryException e) {
-		throw new GirlScoutsException(e,
-			"Cannot remove the temp folder");
-	    }
-	}
-	return errors.toArray(new String[errors.size()]);
     }
 
     public String[] doDryRun() throws GirlScoutsException {
@@ -309,6 +279,9 @@ public class CsvDataImporter implements DataImporter {
     }
 
     private List<Object> readLine(String[] cols) throws GirlScoutsException {
+	if (cols.length < fields.size()) {
+	    throw new GirlScoutsException(null, "Too Few columns. There should be " + fields.size() + " columns");
+	}
 	List<Object> result = new ArrayList<Object>();
 	for (int i = 0; i < cols.length; i++) {
 	    String type = fields.get(i)[1];
@@ -350,8 +323,18 @@ public class CsvDataImporter implements DataImporter {
     private void merge(String origPath, String destParentPath)
 	    throws GirlScoutsException {
 	Node origNode = rr.getResource(origPath).adaptTo(Node.class);
-	Node destParentNode = rr.getResource(destParentPath)
-		.adaptTo(Node.class);
+	Resource destParentResource = rr.getResource(destParentPath);
+
+	Node destParentNode = null;
+	if (destParentResource != null && !destParentResource.equals("sling:nonexisting")) {
+	    destParentNode = destParentResource.adaptTo(Node.class);
+	} else {
+	    try {
+		destParentNode = JcrUtil.createPath(destParentPath, this.primaryType, this.session);
+	    } catch (RepositoryException e) {
+		throw new GirlScoutsException(e, "Repository Exception while creating path:" + destParentPath);
+	    }
+	}
 	Node destNode = null;
 	try {
 	    String destPath = destParentPath + "/" + origNode.getName();
