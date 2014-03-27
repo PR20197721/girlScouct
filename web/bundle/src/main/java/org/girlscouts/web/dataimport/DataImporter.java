@@ -10,5 +10,6 @@ public interface DataImporter {
 
     String[] doDryRun() throws GirlScoutsException;
     String getDryRunPath() throws GirlScoutsException;
+    boolean isDryRunSuccess();
     List<String[]> getFields();
 }

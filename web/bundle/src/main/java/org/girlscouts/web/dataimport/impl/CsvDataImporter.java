@@ -50,6 +50,7 @@ public class CsvDataImporter implements DataImporter {
     private String[] nameScriptFields;
     private int[] nameFieldIndexes;
     private String dryRunPath;
+    private boolean dryRunSuccess;
 
     public CsvDataImporter(Reader reader, ResourceResolver rr, String confPath,
 	    String destPath) throws GirlScoutsException {
@@ -59,6 +60,7 @@ public class CsvDataImporter implements DataImporter {
 	this.dryRunPath = null;
 	this.rr = rr;
 	this.session = rr.adaptTo(Session.class);
+	this.dryRunSuccess = false;
 
 	initConf();
     }
@@ -167,11 +169,13 @@ public class CsvDataImporter implements DataImporter {
     }
 
     public String[] doDryRun() throws GirlScoutsException {
+	this.dryRunSuccess = true;
 	List<String> errors = new ArrayList<String>();
 	Iterator<String[]> lineIter;
 	try {
 	    lineIter = new Csv().read(reader);
 	} catch (IOException e) {
+	    this.dryRunSuccess = false;
 	    throw new GirlScoutsException(e,
 		    "IO Exception while importing CSV.");
 	}
@@ -185,6 +189,7 @@ public class CsvDataImporter implements DataImporter {
 		    Node.class);
 	    tmpRootNode.addNode(tmpName, "nt:unstructured");
 	} catch (RepositoryException e) {
+	    this.dryRunSuccess = false;
 	    throw new GirlScoutsException(e, "Cannot create tmp folder: "
 		    + dryRunPath);
 	}
@@ -208,12 +213,14 @@ public class CsvDataImporter implements DataImporter {
 		String tmpPath = dryRunPath + "/" + nodeName;
 		saveNode(tmpPath, result);
 	    } catch (GirlScoutsException e) {
+		this.dryRunSuccess = false;
 		errors.add("Error on line: " + lineCount + ": " + e.getReason());
 	    }
 	}
 	try {
 	    this.session.save();
 	} catch (RepositoryException e) {
+	    this.dryRunSuccess = false;
 	    throw new GirlScoutsException(e,
 		    "Repository Exception while saving temp nodes.");
 	}
@@ -385,5 +392,9 @@ public class CsvDataImporter implements DataImporter {
 	    throw new GirlScoutsException(e,
 		    "Repository Exception while setting property: " + key);
 	}
+    }
+
+    public boolean isDryRunSuccess() {
+	return this.dryRunSuccess;
     }
 }
