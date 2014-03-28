@@ -45,7 +45,7 @@ if (action.equals("import")) {
 				<input type="hidden" name="action" value="save" />
 				<input type="hidden" name="orig-path" value="<%= importer.getDryRunPath() %>" />
 				<input type="hidden" name="dest-path" value="<%= destPath %>" />
-				<input type="submit" value="Save" />
+                <input type="submit" value="Save"> to <%= destPath %> </input>
 			</form>
 		<% 
 	} else {
