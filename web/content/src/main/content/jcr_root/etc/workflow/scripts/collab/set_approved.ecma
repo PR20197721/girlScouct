@@ -1,0 +1,52 @@
+/*
+ * Helper method to evaluate script arguments.
+ * 
+ */
+function getArgs(metaData){
+    
+    log.debug("metaData used: " + metaData);
+    
+    var PROCESS_ARGS = "PROCESS_ARGS";
+    var APPROVE = "APPROVE";
+    
+    // legacy, using 'PROCESS_ARGS' if set
+    if(metaData.get(PROCESS_ARGS)){
+        log.debug("using PROCESS_ARGS metaData = " + metaData.get(PROCESS_ARGS));
+        return metaData.get(PROCESS_ARGS).split(",");
+    }
+    else if(metaData.get(APPROVE)){
+        log.debug("using APPROVE meataData = " + metaData.get(APPROVE));
+        if(metaData.get(APPROVE) == "true"){
+            return new Array(metaData.get(APPROVE));
+        }
+        else{
+            return new Array("false");
+        }
+    }
+    else{
+        log.error("return false array.");
+        return new Array("false");
+    }
+    
+}
+
+args = getArgs(metaData);
+log.debug("using args: " + args);
+
+var workflowData = workItem.getWorkflowData();
+if (workflowData.getPayloadType() == "JCR_PATH") {
+    var path = workflowData.getPayload().toString();
+    if (workflowSession.getSession().itemExists(path)) {
+        var node = workflowSession.getSession().getItem(path);
+        node.setProperty("approved", args[0] == "true" ? true : false);
+        node.save();
+    } else {
+        log.error("Could not approve the payload. Missing Payload: " + path);
+        if (workItem.getWorkflow().isActive()) {
+            workflowSession.terminateWorkflow(workItem.getWorkflow());
+            log.error("Terminated workflow since payload is missing");
+        } else {
+            throw new Packages.com.day.cq.workflow.WorkflowException("Cannot terminate workflow instance as it is not active");
+        }
+    }
+}

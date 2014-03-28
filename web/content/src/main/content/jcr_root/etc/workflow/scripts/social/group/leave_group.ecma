@@ -1,0 +1,71 @@
+/*
+ *
+ * ADOBE CONFIDENTIAL
+ * __________________
+ *
+ *  Copyright 2012 Adobe Systems Incorporated
+ *  All Rights Reserved.
+ *
+ * NOTICE:  All information contained herein is, and remains
+ * the property of Adobe Systems Incorporated and its suppliers,
+ * if any.  The intellectual and technical concepts contained
+ * herein are proprietary to Adobe Systems Incorporated and its
+ * suppliers and are protected by trade secret or copyright law.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Adobe Systems Incorporated.
+ */
+/***
+ * Workflow process to add a user to given user group create a user group if not 
+ ***/
+
+var TYPE_JCR_PATH = "JCR_PATH";
+var USER_ID = "socialstateToggleUser";
+
+var workflowData = workItem.getWorkflowData();
+if(workflowData.getPayloadType() == TYPE_JCR_PATH){
+    var path = workflowData.getPayload().toString();
+    var session = workflowSession.getSession();
+    var resolver = sling.getService(Packages.org.apache.sling.jcr.resource.JcrResourceResolverFactory).getResourceResolver(session);
+    var repository = sling.getService(Packages.org.apache.sling.jcr.api.SlingRepository);
+    var groupService = sling.getService(Packages.com.adobe.cq.social.group.api.GroupService);
+    var authorizable = resolver.adaptTo(Packages.org.apache.jackrabbit.api.security.user.Authorizable);
+
+    var groupName="";
+    var adminSession = repository.loginAdministrative(null);
+    if(path.indexOf(".")!=-1){
+        path = path.substring(0, path.indexOf("."));
+    }
+    try {
+        groupName = path.substring(path.lastIndexOf("/")+1);
+        //log.debug("*********************** leave_group: groupName: "+groupName);
+        var uid = workflowData.getMetaDataMap().get(USER_ID).getString();
+        var uidArray = new Array(1);
+        if(uid instanceof String){
+            uid = uid.substring(uid.lastIndexOf("/")+1);
+            uidArray[0] = uid;
+        }                    
+        if(groupName.equals("")){
+            log.error("group name cannot be empty");
+        }
+        if(groupService == null){
+            log.error("cannot get com.adobe.cq.social.group.api.GroupService ");
+        }
+        if(groupService != null && !groupName.equals("")){
+            groupService.removeGroupMembers(repository, groupName, uidArray);
+        }
+
+    }catch(e){
+        log.error("leave_group: cannot remove "+uid+" from group '"+groupName+"'. "+e);
+    } finally {
+        if (adminSession != null) {
+            if (adminSession.hasPendingChanges()) {
+                adminSession.save();
+            }
+            adminSession.logout();
+        }
+    }
+    
+
+                        
+}

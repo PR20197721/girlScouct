@@ -1,0 +1,54 @@
+var workflowData = workItem.getWorkflowData();
+
+if (workflowData.getPayloadType() == "JCR_PATH") {
+
+        /* Init */
+        var cfgMgr = sling.getService(Packages.com.day.cq.wcm.webservicesupport.ConfigurationManager);        
+        var config = null;
+        if (cfgMgr != null) {
+            var cfgPath = metaData.get("cq:cloudserviceconfig");
+            config = cfgMgr.getConfiguration(cfgPath);
+        }
+        
+        if (config != null) {
+
+	        var path = workflowData.getPayload().toString();
+	        var session = workflowSession.getSession();
+	        var pageManager = resource.getResourceResolver().adaptTo(Packages.com.day.cq.wcm.api.PageManager);
+	
+	        var clientcode = config.getInherited('clientcode','');
+	        var email = config.getInherited('email','');
+	
+	        // validate data
+	        if (clientcode && clientcode != "" &&
+	            email && email != "") {
+
+                var testandtarget = sling.getService(Packages.com.day.cq.analytics.testandtarget.TestandtargetService);
+                var externalizer = resource.getResourceResolver().adaptTo(Packages.com.day.cq.commons.Externalizer);
+                
+                try {
+                    var page = pageManager.getPage(path);               
+                    var node = page.getContentResource().adaptTo(Packages.javax.jcr.Node);
+                    var pageName = path.substring(1).replace("/", "-");
+                    var publishUrl = externalizer.externalLink(resource.getResourceResolver(), Packages.com.day.cq.commons.Externalizer.PUBLISH, path) + "/_jcr_content/par.html";
+                    var thirdPartyId = Packages.com.day.cq.analytics.testandtarget.util.OfferHelper.getThirdPartyID(node);
+                    var id = testandtarget.publishOffer(config, pageName, publishUrl, thirdPartyId);
+
+                    Packages.com.day.cq.analytics.testandtarget.util.OfferHelper.saveThirdPartyID(
+                        node,
+                        Packages.com.day.cq.analytics.testandtarget.TestandtargetService.OPERATION_SAVE,
+                        id
+                    );
+                    
+                    log.info("Offer [" + pageName + "] published successfully");
+                }catch(err){
+                    log.error("Offer publishing failed: " + ((err) ? err : ""));
+                }
+	        } else {
+	            log.warn("Publish offer not executed. Missing parameters.");
+	        }
+	        
+        } else {
+            log.warn("Configuration could not be found");
+        }
+}

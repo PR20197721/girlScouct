@@ -1,0 +1,74 @@
+/*
+ *
+ * ADOBE CONFIDENTIAL
+ * __________________
+ *
+ *  Copyright 2012 Adobe Systems Incorporated
+ *  All Rights Reserved.
+ *
+ * NOTICE:  All information contained herein is, and remains
+ * the property of Adobe Systems Incorporated and its suppliers,
+ * if any.  The intellectual and technical concepts contained
+ * herein are proprietary to Adobe Systems Incorporated and its
+ * suppliers and are protected by trade secret or copyright law.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Adobe Systems Incorporated.
+ */
+/*
+ * Helper method to evaluate script arguments.
+ * 
+ */
+function getArgs(metaData){
+	
+	log.debug("metaData used: " + metaData);
+	
+	var PROCESS_ARGS = "PROCESS_ARGS";
+	var AGENT = "AGENT";
+	
+	// legacy, using 'PROCESS_ARGS' if set
+	if(metaData.get(PROCESS_ARGS)){
+		log.debug("using PROCESS_ARGS metaData = " + metaData.get(PROCESS_ARGS));
+		return metaData.get(PROCESS_ARGS).split(",");
+	}
+	else if(metaData.get(AGENT)){
+		log.debug("using AGENT meataData = " + metaData.get(AGENT));
+		return new Array("AGENT:"+ metaData.get(AGENT));
+	}
+	else{
+		log.error("not able to evaluate args, return empty array instead.");
+		return new Array();
+	}
+	
+}
+
+args = getArgs(metaData);
+log.debug("using args: " + args);
+
+var workflowData = workItem.getWorkflowData();
+if (workflowData.getPayloadType() == "JCR_PATH") {
+    var session = workflowSession.getSession();
+    var path = workflowData.getPayload().toString();
+    var resolver = sling.getService(Packages.org.apache.sling.jcr.resource.JcrResourceResolverFactory).getResourceResolver(session);
+    var pageManager = resolver.adaptTo(Packages.com.day.cq.wcm.api.PageManager);
+
+    // get containing page in /content/usergenerated
+    var containingPage = pageManager.getContainingPage(path);
+
+    // cut away /content/usergenerated to make sure that the correct page is flushed
+    var pagePath = containingPage.getPath().substring("/content/usergenerated".length);
+
+    var agentId = args[0].split(":")[1];
+    log.debug("using agentId " + agentId);
+    var filter = new Packages.com.day.cq.replication.AgentIdFilter(agentId);
+
+    var replicator = sling.getService(Packages.com.day.cq.replication.Replicator);
+    var opts = new Packages.com.day.cq.replication.ReplicationOptions();
+    opts.setFilter(filter);
+    try {
+        replicator.replicate(session, Packages.com.day.cq.replication.ReplicationActionType.ACTIVATE, pagePath, opts);
+    } catch(e) {
+        log.warn("Cannot flush page " + pagePath +
+                "(comment " + path + " got activated right before) on dispatcher (agentId: " + agentId + "): " + e);
+    }
+}

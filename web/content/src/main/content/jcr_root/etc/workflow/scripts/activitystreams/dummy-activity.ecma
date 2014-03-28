@@ -1,0 +1,64 @@
+/***
+ * Workflow process to create real activities from reverse replicated
+ * "dummy"-activities, and handle unsubscription activities.
+ ***/
+
+var TYPE_JCR_PATH = "JCR_PATH";
+var PROPERTY_DUMMY_ACTIVITY = "dummyActivity";
+var VERB_UNSUBSCRIBE = "unsubscribe";
+var PROPERTY_NEWSLETTER_STOPALL = "newsletter/stopAll";
+
+var workflowData = workItem.getWorkflowData();
+if(workflowData.getPayloadType() == TYPE_JCR_PATH){
+    var path = workflowData.getPayload().toString();
+    var session = workflowSession.getSession();
+    var resolver = sling.getService(Packages.org.apache.sling.jcr.resource.JcrResourceResolverFactory).getResourceResolver(session);
+
+    // read dummy node and create activity object
+    var actResource = resolver.resolve(path);
+    var activityService = sling.getService(Packages.com.day.cq.activitystreams.api.ActivityService);
+    var activity = activityService.readActivity(actResource);
+
+    // find user by uuid and update createdBy property
+    var createdBy = activity.getCreatedBy();
+    if(createdBy){
+        var userNode = session.getNodeByUUID(activity.getCreatedBy());
+    }
+    if(userNode){
+        var res = resolver.resolve(userNode.getPath());
+        var authorizable = res.adaptTo(Packages.com.day.cq.security.Authorizable);
+        var userName = authorizable.getID();
+        activity.setCreatedBy(userName);
+        activity.setProperty(PROPERTY_DUMMY_ACTIVITY, "false");
+
+        // write the new activity
+        activityService.writeActivity(activity);
+
+        // if this is an unsubscription activity
+        // update the users profile
+        if(VERB_UNSUBSCRIBE.equals(activity.getVerb())){
+            // additionally handle unsubscription request
+            var profileManager = sling.getService(Packages.com.day.cq.security.profile.ProfileManager);
+            if(profileManager){
+                var profile = profileManager.getProfile(userName, session);
+                if(profile){
+                    profile.put(PROPERTY_NEWSLETTER_STOPALL, true);
+                    profile.save();
+                    log.info("User {} successfully unsubscribed from Newsletter", userName);
+                }
+                else{
+                    log.error("Unsubscription failed: Could not get Profile");
+                }
+            }
+            else {
+                log.error("Unsubscription failed: Could not get ProfileManager");
+            }
+        }
+        // delete the dummy activity
+        session.removeItem(path);
+        session.save();
+    }
+    else {
+        log.error("Cannot create activity. Could not identify user.");
+    }
+}

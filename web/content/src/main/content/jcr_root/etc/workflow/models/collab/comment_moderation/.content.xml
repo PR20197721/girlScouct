@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:tags="[workflow:collab]"
+        cq:template="/libs/cq/workflow/templates/model"
+        jcr:description="Moderation of user comments"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Comment moderation"
+        sling:resourceType="cq/workflow/components/pages/model">
+        <flow
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="foundation/components/parsys">
+            <or
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="cq/workflow/components/model/or"
+                branches="{Long}2"
+                default2="true"
+                orSplit="{Boolean}true"
+                scriptPath1="/etc/workflow/scripts/collab/check_isModerated.ecma"
+                scriptPath2="/etc/workflow/scripts/collab/check_isNotModerated.ecma">
+                <_x0031_
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="cq/flow/components/parsys">
+                    <participant
+                        jcr:description="Approve Comment"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Approve Comment"
+                        sling:resourceType="cq/workflow/components/model/participant">
+                        <metaData
+                            jcr:primaryType="nt:unstructured"
+                            PARTICIPANT="/home/users/a/admin"/>
+                    </participant>
+                    <or
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="cq/workflow/components/model/or"
+                        branches="{Long}3"
+                        orSplit="{Boolean}true">
+                        <_x0031_
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="cq/flow/components/parsys">
+                            <process
+                                jcr:description="Approve/Ignore/Delete comment"
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="Approve Comment"
+                                sling:resourceType="cq/workflow/components/model/process">
+                                <metaData
+                                    jcr:primaryType="nt:unstructured"
+                                    PROCESS="/etc/workflow/scripts/collab/set_approved.ecma"
+                                    PROCESS_ARGS="true"
+                                    PROCESS_AUTO_ADVANCE="true"/>
+                            </process>
+                            <process0
+                                jcr:description="Activate comment"
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="Activate comment"
+                                sling:resourceType="cq/workflow/components/model/process">
+                                <metaData
+                                    jcr:primaryType="nt:unstructured"
+                                    PROCESS="com.day.cq.wcm.workflow.process.ActivatePageProcess"
+                                    PROCESS_ARGS=""
+                                    PROCESS_AUTO_ADVANCE="true"/>
+                            </process0>
+                            <process1
+                                jcr:description="Flush dispatcher"
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="Flush dispatcher"
+                                sling:resourceType="cq/workflow/components/model/process">
+                                <metaData
+                                    jcr:primaryType="nt:unstructured"
+                                    PROCESS="/etc/workflow/scripts/collab/flush_page.ecma"
+                                    PROCESS_ARGS="agent:flush"
+                                    PROCESS_AUTO_ADVANCE="true"/>
+                            </process1>
+                        </_x0031_>
+                        <_x0032_
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="cq/flow/components/parsys">
+                            <process
+                                jcr:description="Deletes the comment"
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="Delete Comment"
+                                sling:resourceType="cq/workflow/components/model/process">
+                                <metaData
+                                    jcr:primaryType="nt:unstructured"
+                                    PROCESS="/etc/workflow/scripts/delete.ecma"
+                                    PROCESS_ARGS=""
+                                    PROCESS_AUTO_ADVANCE="true"/>
+                            </process>
+                        </_x0032_>
+                        <_x0033_
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="cq/flow/components/parsys">
+                            <process
+                                jcr:description="Ignores the comment"
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="Ignore comment"
+                                sling:resourceType="cq/workflow/components/model/process">
+                                <metaData
+                                    jcr:primaryType="nt:unstructured"
+                                    PROCESS="/etc/workflow/scripts/noop.ecma"
+                                    PROCESS_ARGS=""
+                                    PROCESS_AUTO_ADVANCE="true"/>
+                            </process>
+                            <participant
+                                jcr:description="Dummy Step"
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="Dummy Step"
+                                sling:resourceType="cq/workflow/components/model/participant">
+                                <metaData
+                                    jcr:primaryType="nt:unstructured"
+                                    DO_NOTIFY="false"
+                                    PARTICIPANT="/home/users/a/admin"
+                                    timeoutHandler="com.day.cq.workflow.timeout.autoadvance.AutoAdvancer"
+                                    timeoutMillis="0"/>
+                            </participant>
+                        </_x0033_>
+                    </or>
+                </_x0031_>
+                <_x0032_
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="cq/flow/components/parsys">
+                    <process
+                        jcr:description="Approve/Ignore/Delete comment"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Approve comment process"
+                        sling:resourceType="cq/workflow/components/model/process">
+                        <metaData
+                            jcr:primaryType="nt:unstructured"
+                            PROCESS="/etc/workflow/scripts/collab/set_approved.ecma"
+                            PROCESS_ARGS="true"
+                            PROCESS_AUTO_ADVANCE="true"/>
+                    </process>
+                    <process0
+                        jcr:description="Activate comment"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Activate comment"
+                        sling:resourceType="cq/workflow/components/model/process">
+                        <metaData
+                            jcr:primaryType="nt:unstructured"
+                            PROCESS="com.day.cq.wcm.workflow.process.ActivatePageProcess"
+                            PROCESS_ARGS="false"
+                            PROCESS_AUTO_ADVANCE="true"/>
+                    </process0>
+                    <process1
+                        jcr:description="Flush dispatcher"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Flush dispatcher"
+                        sling:resourceType="cq/workflow/components/model/process">
+                        <metaData
+                            jcr:primaryType="nt:unstructured"
+                            PROCESS="/etc/workflow/scripts/collab/flush_page.ecma"
+                            PROCESS_ARGS="agent:flush"
+                            PROCESS_AUTO_ADVANCE="true"/>
+                    </process1>
+                </_x0032_>
+            </or>
+        </flow>
+        <model/>
+    </jcr:content>
+</jcr:root>

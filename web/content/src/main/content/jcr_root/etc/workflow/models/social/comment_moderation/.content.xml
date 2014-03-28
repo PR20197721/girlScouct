@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2012-11-30T10:25:54.479-08:00"
+        cq:lastModifiedBy="admin"
+        cq:scaffolding="/etc/scaffolding"
+        cq:tags="[workflow:social]"
+        cq:template="/libs/cq/workflow/templates/model"
+        jcr:description="Social Moderation of user comments"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Social Moderation"
+        sling:resourceType="cq/workflow/components/pages/model">
+        <flow
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="foundation/components/parsys">
+            <watchwords
+                jcr:created="{Date}2012-09-09T22:49:44.805-07:00"
+                jcr:createdBy="admin"
+                jcr:description="WatchWords Analyzer"
+                jcr:lastModified="{Date}2012-11-30T10:25:54.476-08:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="WatchWords Analyzer"
+                sling:resourceType="cq/workflow/components/workflow/social/watchwords"
+                PROCESS="com.adobe.cq.social.moderation.workflow.common.WatchWordsAnalyzerProcess"
+                PROCESS_AUTO_ADVANCE="true">
+                <metaData
+                    jcr:primaryType="nt:unstructured"
+                    negative="ahole,anus,ash0le,ash0les,asholes,ass,Ass Monkey,Assface,assh0le,assh0lez,asshole,assholes,assholz,asswipe,azzhole,bassterds,bastard,bastards,bastardz,basterds,basterdz,Biatch,bitch,bitches,Blow Job,boffing,butthole,buttwipe,c0ck,c0cks,c0k,Carpet Muncher,cawk,cawks,Clit,cnts,cntz,cock,cockhead,cock-head,cocks,CockSucker,cock-sucker,crap,cum,cunt,cunts,cuntz,dick,dild0,dild0s,dildo,dildos,dilld0,dilld0s,dominatricks,dominatrics,dominatrix,dyke,enema,f u c k,f u c k e r,fag,fag1t,faget,fagg1t,faggit,faggot,fagit,fags,fagz,faig,faigs,fart,flipping the bird,fuck,fucker,fuckin,fucking,fucks,Fudge Packer,fuk,Fukah,Fuken,fuker,Fukin,Fukk,Fukkah,Fukken,Fukker,Fukkin,g00k,gay,gayboy,gaygirl,gays,gayz,God-damned,h00r,h0ar,h0re,hells,hoar,hoor,hoore,jackoff,jap,japs,jerk-off,jisim,jiss,jizm,jizz,knob,knobs,knobz,kunt,kunts,kuntz,Lesbian,Lezzian,Lipshits,Lipshitz,masochist,masokist,massterbait,masstrbait,masstrbate,masterbaiter,masterbate,masterbates,Motha Fucker,Motha Fuker,Motha Fukkah,Motha Fukker,Mother Fucker,Mother Fukah,Mother Fuker,Mother Fukkah,Mother Fukker,mother-fucker,Mutha Fucker,Mutha Fukah,Mutha Fuker,Mutha Fukkah,Mutha Fukker,n1gr,nastt,nigger;,nigur;,niiger;,niigr;,orafis,orgasim;,orgasm,orgasum,oriface,orifice,orifiss,packi,packie,packy,paki,pakie,paky,pecker,peeenus,peeenusss,peenus,peinus,pen1s,penas,penis,penis-breath,penus,penuus,Phuc,Phuck,Phuk,Phuker,Phukker,polac,polack,polak,Poonani,pr1c,pr1ck,pr1k,pusse,pussee,pussy,puuke,puuker,queer,queers,queerz,qweers,qweerz,qweir,recktum,rectum,retard,sadist,scank,schlong,screwing,semen,sex,sexy,Sh!t,sh1t,sh1ter,sh1ts,sh1tter,sh1tz,shit,shits,shitter,Shitty,Shity,shitz,Shyt,Shyte,Shytty,Shyty,skanck,skank,skankee,skankey,skanks,Skanky,slut,sluts,Slutty,slutz,son-of-a-bitch,tit,turd,va1jina,vag1na,vagiina,vagina,vaj1na,vajina,vullva,vulva,w0p,wh00r,wh0re,whore,xrated,xxx,b!+ch,bitch,blowjob,clit,arschloch,fuck,shit,ass,asshole,b!tch,b17ch,b1tch,bastard,bi+ch,boiolas,buceta,c0ck,cawk,chink,cipa,clits,cock,cum,cunt,dildo,dirsa,ejakulate,fatass,fcuk,fuk,fux0r,hoer,hore,jism,kawk,l3itch,l3i+ch,lesbian,masturbate,masterbat,masterbat3,motherfucker,s.o.b.,mofo,nazi,nigga,nigger,nutsack,phuck,pimpis,pusse,pussy,scrotum,sh!t,shemale,shi+,sh!+,slut,smut,teets,tits,boobs,b00bs,teez,testical,testicle,titt,w00se,jackoff,wank,whoar,whore,damn,dyke,fuck,shit,@$$,amcik,andskota,arse,assrammer,ayir,bi7ch,bitch,bollock,breasts,butt-pirate,cabron,cazzo,chraa,chuj,Cock,cunt,d4mn,daygo,dego,dick,dike,dupa,dziwka,ejackulate,Ekrem,Ekto,enculer,faen,fag,fanculo,fanny,feces,feg,Felcher,ficken,fitt,Flikker,foreskin,Fotze,Fu(,fuk,futkretzn,gay,gook,guiena,h0r,h4x0r,hell,helvete,hoer,honkey,Huevon,hui,injun,jizz,kanker,kike,klootzak,kraut,knulle,kuk,kuksuger,Kurac,kurwa,kusi,kyrpa,lesbo,mamhoon,masturbat,merd,mibun,monkleigh,mouliewop,muie,mulkku,muschi,nazis,nepesaurio,nigger,orospu,paska,perse,picka,pierdol,pillu,pimmel,piss,pizda,poontsee,poop,porn,p0rn,pr0n,preteen,pula,pule,puta,puto,qahbeh,queef,rautenberg,schaffer,scheiss,schlampe,schmuck,screw,sh!t,sharmuta,sharmute,shipal,shiz,skrib"
+                    positive="Absolutely,Abundant,Accept,Acclaimed,Accomplishment,Achievement,Action,Active,Activist,Acumen,Adjust,Admire,Adopt,Adorable,Adored,Adventure,Affirmation,Affirmative,Affluent,Agree,Airy,Alive,Alliance,Ally,Alter,Amaze,Amity,Animated,Answer,Appreciation,Approve,Aptitude,Artistic,Assertive,Astonish,Astounding,Astute,Attractive,Authentic,Basic,Beaming,Beautiful,Believe,Benefactor,Benefit,Bighearted,Blessed,Bliss,Bloom,Bountiful,Bounty,Brave,Bright,Brilliant,Bubbly,Bunch,Burgeon,Calm,Care,Celebrate,Certain,Change,Character,Charitable,Charming,Cheer,Cherish,Clarity,Classy,Clean,Clever,Closeness,Commend,Companionship,Complete,Comradeship,Confident,Connect,Connected,Constant,Content,Conviction,Copious,Core,Coupled,Courageous,Creative,Cuddle,Cultivate,Cure,Curious,Cute,Dazzling,Delight,Direct,Discover,Distinguished,Divine,Donate,Each Day,Eager,Earnest,Easy,Ecstasy,Effervescent,Efficient,Effortless,Electrifying,Elegance,Embrace,Encompassing,Encourage,Endorse,Energized,Energy,Enjoy,Enormous,Enthuse,Enthusiastic,Entirely,Essence,Established,Esteem,Everyday,Everyone,Excited,Exciting,Exhilarating,Expand,Explore,Express,Exquisite,Exultant,Faith,Familiar,Family,Famous,Feat,Fit,Flourish,Fortunate,Fortune,Freedom,Fresh,Friendship,Full,Funny,Gather,Generous,Genius,Genuine,Give,Glad,Glow,Good,Gorgeous,Grace,Graceful,Gratitude,Green,Grin,Group,Grow,Handsome,Happy,Harmony,Healed,Healing,Healthful,Healthy,Heart,Hearty,Heavenly,Helpful,Here,Highest Good,Hold,Holy,Honest,Honor,Hug,I affirm,I allow,I am willing,I am.,I Can,I choose,I create,I follow,I know,I know, without a doubt,I make,I realize,I take action,I trust,Idea,Ideal,Imaginative,Increase,Incredible,Independent,Ingenious,Innate,Innovate,Inspire,Instantaneous,Instinct,Intellectual,Intelligence,Intuitive,Inventive,Joined,Jovial,Joy,Jubilation,Keen,Key,Kind,Kiss,Knowledge,Laugh,Leader,Learn,Legendary,Let Go,Light,Lively,Love,Loveliness,Lucidity,Lucrative,Luminous,Maintain,Marvelous,Master,Meaningful,Meditate,Mend,Metamorphosis,Mind-Blowing,Miracle,Mission,Modify,Motivate,Moving,Natural,Nature,Nourish,Nourished,Novel,Now,Nurture,Nutritious,One,Open,Openhanded,Optimistic,Paradise,Party,Peace,Perfect,Phenomenon,Pleasure,Plenteous,Plentiful,Plenty,Plethora,Poise,Polish,Popular,Positive,Powerful,Prepared,Pretty,Principle,Productive,Project,Prominent,Prosperous,Protect,Proud,Purpose,Quest,Quick,Quiet,Ready,Recognize,Refinement,Refresh,Rejoice,Rejuvenate,Relax,Reliance,Rely,Remarkable,Renew,Renowned,Replenish,Resolution,Resound,Resources,Respect,Restore,Revere,Revolutionize,Rewarding,Rich,Robust,Rousing,Safe,Secure,See,Sensation,Serenity,Shift,Shine,Show,Silence,Simple,Sincerity,Smart,Smile,Smooth,Solution,Soul,Sparkling,Spirit,Spirited,Spiritual,Splendid,Spontaneous,Still,Stir,Strong,Style,Success,Sunny,Support,Sure,Surprise,Sustain,Synchronized,Team,Thankful,Therapeutic,Thorough,Thrilled,Thrive,Today,Together,Tranquil,Transform,Triumph,Trust,Truth,Unity,Unusual,Unwavering,Upbeat,Value,Vary,Venerate,Venture,Very,Vibrant,Victory,Vigorous,Vision,Visualize,Vital,Vivacious,Voyage,Wealthy,Welcome,Well,Whole,Wholesome,Willing,Wonder,Wonderful,Wondrous,Xanadu,Yes,Yippee,Young,Youth,Youthful,Zeal,Zest,Zing,Zip"
+                    PROCESS="com.adobe.cq.social.moderation.workflow.common.WatchWordsAnalyzerProcess"
+                    PROCESS_AUTO_ADVANCE="true"/>
+            </watchwords>
+            <sentiments
+                jcr:created="{Date}2012-09-09T22:49:55.029-07:00"
+                jcr:createdBy="admin"
+                jcr:description="Sentiment Analyzer"
+                jcr:lastModified="{Date}2012-11-29T17:20:10.846-08:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Sentiment Analyzer"
+                sling:resourceType="cq/workflow/components/workflow/social/sentiments"
+                PROCESS="com.adobe.cq.social.moderation.workflow.common.SentimentAnalyzerProcess"
+                PROCESS_AUTO_ADVANCE="true">
+                <metaData
+                    jcr:primaryType="nt:unstructured"
+                    PROCESS="com.adobe.cq.social.moderation.workflow.common.SentimentAnalyzerProcess"
+                    PROCESS_AUTO_ADVANCE="true"/>
+            </sentiments>
+            <or
+                jcr:lastModified="{Date}2012-11-29T17:23:06.017-08:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="cq/workflow/components/model/or"
+                branches="{Long}2"
+                default2="true"
+                orSplit="{Boolean}true"
+                scriptPath1="/etc/workflow/scripts/social/check_isModerated.ecma"
+                scriptPath2="/etc/workflow/scripts/social/check_isNotModerated.ecma">
+                <_x0031_
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="cq/flow/components/parsys">
+                    <or_0
+                        jcr:created="{Date}2012-09-09T22:50:18.191-07:00"
+                        jcr:createdBy="admin"
+                        jcr:lastModified="{Date}2012-09-09T22:56:47.250-07:00"
+                        jcr:lastModifiedBy="admin"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="cq/workflow/components/model/or"
+                        branches="2"
+                        default1="true"
+                        orSplit="true"
+                        scriptPath1="/etc/workflow/scripts/social/check_isLowSentiment.ecma">
+                        <_x0031_
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="cq/flow/components/parsys">
+                            <approvecomment
+                                jcr:created="{Date}2012-09-09T22:55:08.730-07:00"
+                                jcr:createdBy="admin"
+                                jcr:description="Approve a comment posted to forum or page"
+                                jcr:lastModified="{Date}2012-09-09T22:55:24.235-07:00"
+                                jcr:lastModifiedBy="admin"
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="Approve Comment"
+                                sling:resourceType="social/commons/components/workflow/approvecomment"
+                                DIALOG_PATH="/libs/social/commons/components/workflow/approvecomment/workflow_dialog">
+                                <metaData
+                                    jcr:primaryType="nt:unstructured"
+                                    DIALOG_PATH="/libs/social/commons/components/workflow/approvecomment/workflow_dialog"
+                                    PARTICIPANT="/home/users/a/admin"/>
+                            </approvecomment>
+                            <or
+                                jcr:created="{Date}2012-09-09T22:55:46.049-07:00"
+                                jcr:createdBy="admin"
+                                jcr:lastModified="{Date}2012-09-09T22:57:22.789-07:00"
+                                jcr:lastModifiedBy="admin"
+                                jcr:primaryType="nt:unstructured"
+                                sling:resourceType="cq/workflow/components/model/or"
+                                branches="3"
+                                orSplit="true">
+                                <_x0031_
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="cq/flow/components/parsys">
+                                    <approvecommentproces
+                                        jcr:created="{Date}2012-09-09T22:57:34.050-07:00"
+                                        jcr:createdBy="admin"
+                                        jcr:description="A process to approve the comment"
+                                        jcr:lastModified="{Date}2012-09-09T22:57:34.050-07:00"
+                                        jcr:lastModifiedBy="admin"
+                                        jcr:primaryType="nt:unstructured"
+                                        jcr:title="Approve comment"
+                                        sling:resourceType="social/commons/components/workflow/approvecommentprocess">
+                                        <metaData
+                                            jcr:primaryType="nt:unstructured"
+                                            PROCESS="/etc/workflow/scripts/social/set_approved.ecma"
+                                            PROCESS_AUTO_ADVANCE="true"/>
+                                    </approvecommentproces>
+                                    <process
+                                        jcr:created="{Date}2012-09-09T22:59:22.022-07:00"
+                                        jcr:createdBy="admin"
+                                        jcr:description="Activate comment"
+                                        jcr:lastModified="{Date}2012-09-09T22:59:32.519-07:00"
+                                        jcr:lastModifiedBy="admin"
+                                        jcr:primaryType="nt:unstructured"
+                                        jcr:title="Activate Comment"
+                                        sling:resourceType="cq/workflow/components/model/process">
+                                        <metaData
+                                            jcr:primaryType="nt:unstructured"
+                                            PROCESS="com.day.cq.wcm.workflow.process.ActivatePageProcess"
+                                            PROCESS_AUTO_ADVANCE="true"/>
+                                    </process>
+                                    <process_0
+                                        jcr:created="{Date}2012-09-09T22:59:41.092-07:00"
+                                        jcr:createdBy="admin"
+                                        jcr:description="Flush dispatcher"
+                                        jcr:lastModified="{Date}2012-11-29T17:24:32.748-08:00"
+                                        jcr:lastModifiedBy="admin"
+                                        jcr:primaryType="nt:unstructured"
+                                        jcr:title="Flush Dispatcher"
+                                        sling:resourceType="cq/workflow/components/model/process">
+                                        <metaData
+                                            jcr:primaryType="nt:unstructured"
+                                            PROCESS="/etc/workflow/scripts/social/flush_page.ecma"
+                                            PROCESS_ARGS="agent:flush"
+                                            PROCESS_AUTO_ADVANCE="true"/>
+                                    </process_0>
+                                </_x0031_>
+                                <_x0032_
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="cq/flow/components/parsys">
+                                    <process
+                                        jcr:created="{Date}2012-09-09T22:58:23.952-07:00"
+                                        jcr:createdBy="admin"
+                                        jcr:description="Deletes the comment"
+                                        jcr:lastModified="{Date}2012-09-09T22:58:45.683-07:00"
+                                        jcr:lastModifiedBy="admin"
+                                        jcr:primaryType="nt:unstructured"
+                                        jcr:title="Delete Comment"
+                                        sling:resourceType="cq/workflow/components/model/process">
+                                        <metaData
+                                            jcr:primaryType="nt:unstructured"
+                                            PROCESS="/etc/workflow/scripts/delete.ecma"
+                                            PROCESS_AUTO_ADVANCE="true"/>
+                                    </process>
+                                </_x0032_>
+                                <_x0033_
+                                    jcr:primaryType="nt:unstructured"
+                                    sling:resourceType="cq/flow/components/parsys">
+                                    <process
+                                        jcr:created="{Date}2012-09-09T22:59:00.193-07:00"
+                                        jcr:createdBy="admin"
+                                        jcr:description="Ignores the comment"
+                                        jcr:lastModified="{Date}2012-09-09T22:59:11.307-07:00"
+                                        jcr:lastModifiedBy="admin"
+                                        jcr:primaryType="nt:unstructured"
+                                        jcr:title="Ignore Comment"
+                                        sling:resourceType="cq/workflow/components/model/process">
+                                        <metaData
+                                            jcr:primaryType="nt:unstructured"
+                                            PROCESS="/etc/workflow/scripts/noop.ecma"
+                                            PROCESS_AUTO_ADVANCE="true"/>
+                                    </process>
+                                    <participant
+                                        jcr:created="{Date}2012-09-09T23:00:03.645-07:00"
+                                        jcr:createdBy="admin"
+                                        jcr:description="Dummy Step"
+                                        jcr:lastModified="{Date}2012-09-09T23:00:16.271-07:00"
+                                        jcr:lastModifiedBy="admin"
+                                        jcr:primaryType="nt:unstructured"
+                                        jcr:title="Dummy Step"
+                                        sling:resourceType="cq/workflow/components/model/participant">
+                                        <metaData
+                                            jcr:primaryType="nt:unstructured"
+                                            PARTICIPANT="/home/users/a/admin"
+                                            timeoutHandler="com.day.cq.workflow.timeout.autoadvance.AutoAdvancer"
+                                            timeoutMillis="0"/>
+                                    </participant>
+                                </_x0033_>
+                            </or>
+                        </_x0031_>
+                        <_x0032_
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="cq/flow/components/parsys">
+                            <process
+                                jcr:created="{Date}2012-09-09T23:03:01.101-07:00"
+                                jcr:createdBy="admin"
+                                jcr:description="Approve/Ignore/Delete comment"
+                                jcr:lastModified="{Date}2012-11-29T17:22:41.446-08:00"
+                                jcr:lastModifiedBy="admin"
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="Approve comment process"
+                                sling:resourceType="cq/workflow/components/model/process">
+                                <metaData
+                                    jcr:primaryType="nt:unstructured"
+                                    PROCESS="/etc/workflow/scripts/social/set_approved.ecma"
+                                    PROCESS_ARGS="true"
+                                    PROCESS_AUTO_ADVANCE="true"/>
+                            </process>
+                            <process_0
+                                jcr:created="{Date}2012-09-09T23:03:22.982-07:00"
+                                jcr:createdBy="admin"
+                                jcr:description="Activate comment"
+                                jcr:lastModified="{Date}2012-09-09T23:03:35.884-07:00"
+                                jcr:lastModifiedBy="admin"
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="Activate comment"
+                                sling:resourceType="cq/workflow/components/model/process">
+                                <metaData
+                                    jcr:primaryType="nt:unstructured"
+                                    PROCESS="com.day.cq.wcm.workflow.process.ActivatePageProcess"
+                                    PROCESS_ARGS="false"
+                                    PROCESS_AUTO_ADVANCE="true"/>
+                            </process_0>
+                            <process_1
+                                jcr:created="{Date}2012-09-09T23:03:44.895-07:00"
+                                jcr:createdBy="admin"
+                                jcr:description="Flush dispatcher"
+                                jcr:lastModified="{Date}2012-11-29T17:22:49.931-08:00"
+                                jcr:lastModifiedBy="admin"
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="Flush dispatcher"
+                                sling:resourceType="cq/workflow/components/model/process">
+                                <metaData
+                                    jcr:primaryType="nt:unstructured"
+                                    PROCESS="/etc/workflow/scripts/social/flush_page.ecma"
+                                    PROCESS_ARGS="agent:flush"
+                                    PROCESS_AUTO_ADVANCE="true"/>
+                            </process_1>
+                        </_x0032_>
+                    </or_0>
+                </_x0031_>
+                <_x0032_
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="cq/flow/components/parsys">
+                    <process
+                        jcr:description="Approve/Ignore/Delete comment"
+                        jcr:lastModified="{Date}2012-11-29T17:18:39.675-08:00"
+                        jcr:lastModifiedBy="admin"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Approve comment process"
+                        sling:resourceType="cq/workflow/components/model/process">
+                        <metaData
+                            jcr:primaryType="nt:unstructured"
+                            PROCESS="/etc/workflow/scripts/social/set_approved.ecma"
+                            PROCESS_ARGS="true"
+                            PROCESS_AUTO_ADVANCE="true"/>
+                    </process>
+                    <process0
+                        jcr:description="Activate comment"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Activate comment"
+                        sling:resourceType="cq/workflow/components/model/process">
+                        <metaData
+                            jcr:primaryType="nt:unstructured"
+                            PROCESS="com.day.cq.wcm.workflow.process.ActivatePageProcess"
+                            PROCESS_ARGS="false"
+                            PROCESS_AUTO_ADVANCE="true"/>
+                    </process0>
+                    <process1
+                        jcr:description="Flush dispatcher"
+                        jcr:lastModified="{Date}2012-11-29T17:18:48.646-08:00"
+                        jcr:lastModifiedBy="admin"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Flush dispatcher"
+                        sling:resourceType="cq/workflow/components/model/process">
+                        <metaData
+                            jcr:primaryType="nt:unstructured"
+                            PROCESS="/etc/workflow/scripts/social/flush_page.ecma"
+                            PROCESS_ARGS="agent:flush"
+                            PROCESS_AUTO_ADVANCE="true"/>
+                    </process1>
+                </_x0032_>
+            </or>
+        </flow>
+        <model/>
+    </jcr:content>
+</jcr:root>

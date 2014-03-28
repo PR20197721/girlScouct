@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Workflow"
+    jcr:uuid="276e10bf-f43f-46ad-a368-c7c3eec8b83d"
+    sling:resourceType="cq/workflow/components/instance"
+    initiator="admin"
+    modelId="/etc/workflow/models/email-workflow/jcr:content/model"
+    modelVersion="1.4"
+    startTime="{Date}2014-03-27T11:41:21.377-04:00"
+    status="RUNNING">
+    <data jcr:primaryType="cq:WorkflowData">
+        <metaData
+            jcr:primaryType="nt:unstructured"
+            currentJobs="VolatileWorkItem_node1_etc_workflow_instances_2014-03-27_model_1395934881377456000"/>
+        <payload
+            jcr:primaryType="cq:Payload"
+            path="{Path}/content/usergenerated/girlscouts-usa/en/contact_us_form/cq-gen1395432570773/1395934881354_25"/>
+    </data>
+    <history jcr:primaryType="nt:unstructured">
+        <_x0031_395934881385
+            jcr:primaryType="nt:unstructured"
+            date="{Date}2014-03-27T11:41:21.386-04:00"
+            event="WorkflowCompleted"
+            message=""
+            user="admin">
+            <workItem
+                jcr:primaryType="cq:WorkItem"
+                sling:resourceType="cq/workflow/components/workitem"
+                assignee="system"
+                endTime="{Date}2014-03-27T11:41:21.386-04:00"
+                nodeId="node0"
+                startTime="{Date}2014-03-27T11:41:21.384-04:00"
+                status="COMPLETE"
+                workflowId="/etc/workflow/instances/2014-03-27/model_1395934881377456000">
+                <metaData
+                    jcr:primaryType="nt:unstructured"
+                    archived="{Boolean}true"/>
+            </workItem>
+        </_x0031_395934881385>
+    </history>
+    <metaData jcr:primaryType="nt:unstructured"/>
+    <workItems jcr:primaryType="nt:unstructured">
+        <node1_etc_workflow_instances_2014-03-27_model_1395934881377456000
+            jcr:primaryType="cq:WorkItem"
+            sling:resourceType="cq/workflow/components/workitem"
+            assignee="admin"
+            nodeId="node1"
+            startTime="{Date}2014-03-27T11:41:27.524-04:00"
+            status="ACTIVE"
+            subType="FailureItem"
+            workflowId="/etc/workflow/instances/2014-03-27/model_1395934881377456000">
+            <metaData
+                jcr:primaryType="nt:unstructured"
+                failedNodeTitle="Double click to enter title."
+                failedWorkItemId="VolatileWorkItem_node1_etc_workflow_instances_2014-03-27_model_1395934881377456000"
+                failureMessage="Process execution resulted in an error"
+                failureStack="com.adobe.granite.workflow.WorkflowException: Process execution resulted in an error&#xa;&#x9;at com.adobe.granite.workflow.core.job.HandlerBase.executeProcess(HandlerBase.java:218)&#xa;&#x9;at com.adobe.granite.workflow.core.job.JobHandler.process(JobHandler.java:139)&#xa;&#x9;at org.apache.sling.event.jobs.JobUtil$1.run(JobUtil.java:272)&#xa;&#x9;at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)&#xa;&#x9;at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)&#xa;&#x9;at java.lang.Thread.run(Thread.java:744)&#xa;Caused by: com.adobe.granite.workflow.WorkflowException: /content/usergenerated/girlscouts-usa/en/contact_us_form/cq-gen1395432570773/1395934881354_25/jcr:content&#xa;&#x9;at org.girlscouts.cq.workflow.CustomProcessStep.execute(CustomProcessStep.java:97)&#xa;&#x9;at com.adobe.granite.workflow.core.job.HandlerBase.executeProcess(HandlerBase.java:212)&#xa;&#x9;... 5 more&#xa;Caused by: javax.jcr.PathNotFoundException: /content/usergenerated/girlscouts-usa/en/contact_us_form/cq-gen1395432570773/1395934881354_25/jcr:content&#xa;&#x9;at org.apache.jackrabbit.core.ItemManager.getItem(ItemManager.java:552)&#xa;&#x9;at org.apache.jackrabbit.core.session.SessionItemOperation$4.perform(SessionItemOperation.java:97)&#xa;&#x9;at org.apache.jackrabbit.core.session.SessionItemOperation$4.perform(SessionItemOperation.java:93)&#xa;&#x9;at org.apache.jackrabbit.core.session.SessionItemOperation.perform(SessionItemOperation.java:187)&#xa;&#x9;at org.apache.jackrabbit.core.session.SessionState.perform(SessionState.java:216)&#xa;&#x9;at org.apache.jackrabbit.core.SessionImpl.perform(SessionImpl.java:361)&#xa;&#x9;at org.apache.jackrabbit.core.SessionImpl.getItem(SessionImpl.java:786)&#xa;&#x9;at org.girlscouts.cq.workflow.CustomProcessStep.execute(CustomProcessStep.java:53)&#xa;&#x9;... 6 more&#xa;"
+                historyEntryPath="/etc/workflow/instances/2014-03-27/model_1395934881377456000/history/1395934881385"/>
+        </node1_etc_workflow_instances_2014-03-27_model_1395934881377456000>
+    </workItems>
+</jcr:root>

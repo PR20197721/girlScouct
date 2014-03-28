@@ -1,0 +1,14 @@
+From: cq5@adobe.com
+To: ${initiator.email}
+Subject: [CQ5 Forum] Unsubscription for "${payload.jcr:title}"
+
+Dear ${initiator.name},
+
+You've been unsubscribed from the following forum topic:
+${payload.path}
+
+You will no longer receive change notifications for this topic.
+
+-----------------------------------------
+This is an automated message. Do not reply.
+-----------------------------------------

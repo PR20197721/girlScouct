@@ -1,0 +1,16 @@
+subject=Workflow notification: ${event.EventType}
+
+header=-------------------------------------------------------------------------------------\n \
+Time: ${event.TimeStamp}\n \
+Step: ${item.node.title}\n \
+User: ${participant.name} (${participant.id})\n \
+Workflow: ${model.title}\n \
+-------------------------------------------------------------------------------------\n\n
+
+message=Page: ${host.prefix}${payload.path}.html\n
+
+footer=\n \
+-------------------------------------------------------------------------------------\n \
+View the overview in your ${host.prefix}/inbox\n \
+-------------------------------------------------------------------------------------\n \
+This is an automatically generated message. Please do not reply.

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:designPath="/etc/designs/default"
+        cq:lastModified="{Date}2011-02-04T15:46:31.067+01:00"
+        cq:lastModifiedBy="admin"
+        cq:tags="[workflow:campaigns]"
+        cq:template="/libs/cq/workflow/templates/model"
+        jcr:description="Create real activities from reverse replicated dummy activities and handle unsubscription requests."
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Newsletter Activity Handler"
+        sling:resourceType="cq/workflow/components/pages/model">
+        <flow
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="foundation/components/parsys">
+            <or
+                jcr:created="{Date}2011-01-25T13:25:16.262+01:00"
+                jcr:createdBy="admin"
+                jcr:lastModified="{Date}2011-01-25T16:59:55.167+01:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="cq/workflow/components/model/or"
+                branches="2"
+                orSplit="true"
+                script1="function check(){&#xa;       var settingsService = sling.getService(Packages.org.apache.sling.settings.SlingSettingsService);&#xa;      return( settingsService.getRunModes().contains(&quot;author&quot;));&#xa;}"
+                script2="function check(){&#xa;       var settingsService = sling.getService(Packages.org.apache.sling.settings.SlingSettingsService);&#xa;return( settingsService.getRunModes().contains(&quot;publish&quot;));&#xa;}">
+                <_x0031_
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="cq/flow/components/parsys">
+                    <process
+                        jcr:created="{Date}2011-01-25T13:19:23.846+01:00"
+                        jcr:createdBy="admin"
+                        jcr:description="Create real activities from reverse replicated dummy-activities."
+                        jcr:lastModified="{Date}2011-01-25T16:05:49.881+01:00"
+                        jcr:lastModifiedBy="admin"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Handle Dummy Activities"
+                        sling:resourceType="cq/workflow/components/model/process">
+                        <metaData
+                            jcr:primaryType="nt:unstructured"
+                            PROCESS="/etc/workflow/scripts/activitystreams/dummy-activity.ecma"
+                            PROCESS_AUTO_ADVANCE="true"/>
+                    </process>
+                </_x0031_>
+                <_x0032_
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="cq/flow/components/parsys">
+                    <reversereplicateproc
+                        jcr:created="{Date}2011-01-25T13:36:54.201+01:00"
+                        jcr:createdBy="admin"
+                        jcr:description="A process to reverse replicate content."
+                        jcr:lastModified="{Date}2011-01-25T13:36:54.201+01:00"
+                        jcr:lastModifiedBy="admin"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Reverse Replicate Content"
+                        sling:resourceType="wcm/workflow/components/workflow/reversereplicateprocess">
+                        <metaData
+                            jcr:primaryType="nt:unstructured"
+                            PROCESS="com.day.cq.wcm.workflow.process.ReverseReplicateProcess"
+                            PROCESS_AUTO_ADVANCE="true"/>
+                    </reversereplicateproc>
+                    <deletenodeprocess
+                        jcr:created="{Date}2011-01-25T16:46:21.098+01:00"
+                        jcr:createdBy="admin"
+                        jcr:description="A process to delete the given payload node"
+                        jcr:lastModified="{Date}2011-01-25T16:46:21.098+01:00"
+                        jcr:lastModifiedBy="admin"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Delete Node"
+                        sling:resourceType="cq/workflow/components/workflow/deletenodeprocess">
+                        <metaData
+                            jcr:primaryType="nt:unstructured"
+                            PROCESS="/etc/workflow/scripts/delete.ecma"
+                            PROCESS_AUTO_ADVANCE="true"/>
+                    </deletenodeprocess>
+                </_x0032_>
+            </or>
+        </flow>
+        <image
+            jcr:lastModified="{Date}2011-02-04T15:46:31.063+01:00"
+            jcr:lastModifiedBy="admin"
+            jcr:primaryType="nt:unstructured"
+            imageRotate="0"/>
+        <model/>
+    </jcr:content>
+</jcr:root>

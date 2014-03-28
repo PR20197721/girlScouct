@@ -52,5 +52,10 @@
             mode="replace"
             root="/etc/designs/girlscouts-usa"
             rules="[]"/>
+	<f7
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/workflow/models/email-workflow"
+            rules="[]"/>
     </filter>
 </jcr:root>

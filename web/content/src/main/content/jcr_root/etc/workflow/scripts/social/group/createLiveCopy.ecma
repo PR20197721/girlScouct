@@ -1,0 +1,88 @@
+/*
+ *
+ * ADOBE CONFIDENTIAL
+ * __________________
+ *
+ *  Copyright 2012 Adobe Systems Incorporated
+ *  All Rights Reserved.
+ *
+ * NOTICE:  All information contained herein is, and remains
+ * the property of Adobe Systems Incorporated and its suppliers,
+ * if any.  The intellectual and technical concepts contained
+ * herein are proprietary to Adobe Systems Incorporated and its
+ * suppliers and are protected by trade secret or copyright law.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Adobe Systems Incorporated.
+ */
+/***
+ * Workflow process to add a user to given user group create a user group if not 
+ ***/
+
+var TYPE_JCR_PATH = "JCR_PATH";
+var PROPERTY_USERGROUP_PATH = "userGroupPath";
+var PROPERTY_GROUP_NAME = "socialGroupName";
+var PROPERTY_LIVECOPY_TITLE = "liveCopyTitle";
+var PROPERTY_LIVECOPY_PATH = "liveCopyPath";
+var PROPERTY_BLUEPRINT_PATH = "bluePrintPath";
+var PROPERTY_MASTER_PAGES = "msmMasterPages";
+var PROPERTY_CHAPTER_PAGES = "msmChapterPages";
+var PROPERTY_ROLLOUT_CONFIGS = "msmRolloutConfigs";
+
+var workflowData = workItem.getWorkflowData();
+if(workflowData.getPayloadType() == TYPE_JCR_PATH){
+    var path = workflowData.getPayload().toString();
+    var session = workflowSession.getSession();
+    var resolver = sling.getService(Packages.org.apache.sling.jcr.resource.JcrResourceResolverFactory).getResourceResolver(session);
+    var repository = sling.getService(Packages.org.apache.sling.jcr.api.SlingRepository);
+    var groupService = sling.getService(Packages.com.adobe.cq.social.group.api.GroupMSMService);
+    var rolloutManager = sling.getService(Packages.com.day.cq.wcm.msm.api.RolloutManager);
+
+    try {
+        var resource = resolver.getResource(path);
+
+        var props = Packages.org.apache.sling.api.resource.ResourceUtil.getValueMap(resource);
+
+        var groupPath= props.get(PROPERTY_USERGROUP_PATH, "");
+        var groupName= props.get(PROPERTY_GROUP_NAME, "");
+        var liveCopyTitle = props.get(PROPERTY_LIVECOPY_TITLE, "");
+        //log.error(path);
+        //log.error(liveCopyTitle);
+        //log.error(groupName);       
+        var liveCopyPath = props.get(PROPERTY_LIVECOPY_PATH, "");
+        var bluePrintPath = props.get(PROPERTY_BLUEPRINT_PATH, "");
+        var langs = props.get(PROPERTY_MASTER_PAGES, "");
+        var chaps = props.get(PROPERTY_CHAPTER_PAGES, "");
+        var rolloutConfigs = props.get(PROPERTY_ROLLOUT_CONFIGS, "");
+        //log.error(langs);       
+        //log.error(chaps);       
+        //log.error(rolloutConfigs);       
+    
+        if(groupName.equals("")){
+            log.error("group name cannot be empty");
+        }
+        if(liveCopyTitle.equals("")){
+            log.error("live copy title cannot be empty");
+        }
+        if(bluePrintPath.equals("")){
+            log.error("blueprint path cannot be empty");
+        }
+        if(liveCopyPath.equals("")){
+            log.error("destination of live copy cannot be empty");
+        }
+        if(langs.equals("")){
+            log.error("no language selected");
+        }
+        if(groupService == null){
+            log.error("cannot get com.adobe.cq.social.group.api.GroupService ");
+        }
+        if(groupService != null && !groupName.equals("")){
+            var liveCopy = groupService.createLiveCopy(repository, resolver, rolloutManager, groupName, liveCopyTitle, bluePrintPath, liveCopyPath, props);
+        }
+
+    }
+    catch(e){
+        log.error("cannot create live copy : "+groupName+" social community at: "+liveCopyPath
+            +" from blueprint: "+bluePrintPath+". "+e);
+    }
+}

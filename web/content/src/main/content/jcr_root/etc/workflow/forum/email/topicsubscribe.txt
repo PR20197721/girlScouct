@@ -1,0 +1,14 @@
+From: cq5@adobe.com
+To: ${initiator.email}
+Subject: [CQ5 Forum] Subscription for "${payload.jcr:title}"
+
+Dear ${initiator.name},
+
+You've been subscribed to the following forum topic:
+${payload.path}
+
+You will be notified of any changes to that topic.
+
+-----------------------------------------
+This is an automated message. Do not reply.
+-----------------------------------------

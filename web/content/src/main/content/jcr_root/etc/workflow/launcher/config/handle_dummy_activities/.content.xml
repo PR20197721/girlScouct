@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:WorkflowLauncher"
+    condition="dummyActivity==true"
+    description="Create real activities from reverse replicated dummy activities"
+    enabled="{Boolean}true"
+    eventType="{Long}1"
+    excludeList=""
+    glob="/var/statistics/tracking/dummy(/.*)"
+    nodetype="nt:unstructured"
+    runModes="author,publish"
+    workflow="/etc/workflow/models/dummy-activity-handler/jcr:content/model"/>
