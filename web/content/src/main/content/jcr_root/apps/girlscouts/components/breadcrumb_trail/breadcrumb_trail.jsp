@@ -6,7 +6,7 @@
 	Page trail = null;
 	String title = "";
 
-    long level = 3;
+    long level = 2;
 
     String delimStr = currentStyle.get("delim", "&nbsp;&gt;&nbsp;");
     String trailStr = currentStyle.get("trail", "");
@@ -41,26 +41,27 @@
 
 	trail = currentPage.getAbsoluteParent((int) level);
 	if(trail != null){
-		title = trail.getNavigationTitle();
-	
-	    if (title == null || title.equals("")) {
-	        title = trail.getNavigationTitle();
-	    }
-	    if (title == null || title.equals("")) {
-	        title = trail.getTitle();
-	    }
-	    if (title == null || title.equals("")) {
-	        title = trail.getName();
-	    }
-	
-	
-	    %><%= xssAPI.filterHTML(delim) %><%
-	
-	    %><%= xssAPI.encodeForHTML(title) %><%
-	
-	    if (trailStr.length() > 0) {
-	        %><%= xssAPI.filterHTML(trailStr) %><%
-	    }
+
+        title = trail.getNavigationTitle();
+    
+        if (title == null || title.equals("")) {
+            title = trail.getNavigationTitle();
+        }
+        if (title == null || title.equals("")) {
+            title = trail.getTitle();
+        }
+        if (title == null || title.equals("")) {
+            title = trail.getName();
+        }
+    
+    
+        %><%= xssAPI.filterHTML(delim) %><%
+    
+        %><%= xssAPI.encodeForHTML(title) %><%
+    
+        if (trailStr.length() > 0) {
+            %><%= xssAPI.filterHTML(trailStr) %><%
+        }
 	}
 
 %>
