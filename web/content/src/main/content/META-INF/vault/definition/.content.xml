@@ -30,7 +30,7 @@
         <f2
             jcr:primaryType="nt:unstructured"
             mode="replace"
-            root="/content/dam/girlscouts-usa/static"
+            root="/content/dam/girlscouts-shared"
             rules="[]"/>
         <f3
             jcr:primaryType="nt:unstructured"
