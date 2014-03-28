@@ -12,32 +12,32 @@
                 title="Multi-Field"
                 xtype="panel">
                 <items jcr:primaryType="cq:WidgetCollection">
+                    <type
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Type"
+                        name="./type"
+                        type="radio"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <option0
+                                jcr:primaryType="nt:unstructured"
+                                text="Global Navigation"
+                                value="global-nav-cell"/>
+                            <option1
+                                jcr:primaryType="nt:unstructured"
+                                text="Eyebrow Navigation"
+                                value="eyebrow-nav-cell"/>
+                        </options>
+                    </type>
                     <multi
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Multi-Field"
+                        fieldLabel="Links"
                         hideLabel="{Boolean}true"
                         name="./links"
                         xtype="multifield">
                         <fieldConfig
                             jcr:primaryType="nt:unstructured"
                             xtype="customlink"/>
-                        <type
-                            jcr:primaryType="cq:Widget"
-                            fieldLabel="Type"
-                            name="./type"
-                            type="radio"
-                            xtype="selection">
-                            <Options jcr:primaryType="cq:WidgetCollection">
-                                <option0
-                                    jcr:primaryType="nt:unstructured"
-                                    text="Global Navigation"
-                                    value="global-nav-cell"/>
-                                <option1
-                                    jcr:primaryType="nt:unstructured"
-                                    text="Eyebrow Navigation"
-                                    value="eyebrow-nav-cell"/>
-                            </Options>
-                        </type>
                     </multi>
                 </items>
             </first>
