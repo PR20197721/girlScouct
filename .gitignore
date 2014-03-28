@@ -17,3 +17,5 @@
 /web/content/target
 
 /web/dispatcher/target
+
+/web/bundle/deploy.sh
