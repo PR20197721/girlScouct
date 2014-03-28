@@ -2,7 +2,8 @@
 <workspaceFilter version="1.0">
     <filter root="/apps/girlscouts"/>
     <filter root="/content/girlscouts-usa"/>
-    <filter root="/content/dam/girlscouts-usa/static"/>
+    <filter root="/content/dam/girlscouts-usa"/>
+    <filter root="/content/dam/girlscouts-shared"/>
     <filter root="/etc/map.author"/>
     <filter root="/etc/map.publish"/>
     <filter root="/etc/designs/girlscouts"/>
