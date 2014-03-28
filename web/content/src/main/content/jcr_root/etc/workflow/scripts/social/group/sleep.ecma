@@ -1,0 +1,25 @@
+/*
+ *
+ * ADOBE CONFIDENTIAL
+ * __________________
+ *
+ *  Copyright 2012 Adobe Systems Incorporated
+ *  All Rights Reserved.
+ *
+ * NOTICE:  All information contained herein is, and remains
+ * the property of Adobe Systems Incorporated and its suppliers,
+ * if any.  The intellectual and technical concepts contained
+ * herein are proprietary to Adobe Systems Incorporated and its
+ * suppliers and are protected by trade secret or copyright law.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Adobe Systems Incorporated.
+ */
+//log.error("Sleep process called for: " + workItem.getWorkflowData().getPayload());
+//log.error(args[0]);
+// wait for content creation completed
+try {
+    java.lang.Thread.sleep(args[0]==null? 4: args[0]);
+} catch(e) {
+    log.error(e);
+}

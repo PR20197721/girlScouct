@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:isCheckedOut="{Boolean}false"
+    jcr:primaryType="cq:WorkflowModel"
+    jcr:uuid="096a3374-b7bc-41bf-abb0-f73c25fef6fa"
+    sling:resourceType="cq/workflow/components/model"
+    description="Description of Forum Topic Subscription"
+    title="Social Forum Topic Subscription">
+    <metaData
+        cq:lastModified="{Long}1344473028233"
+        cq:lastModifiedBy="admin"
+        jcr:primaryType="nt:unstructured"
+        tags="social"/>
+    <nodes jcr:primaryType="nt:unstructured">
+        <node0
+            jcr:primaryType="cq:WorkflowNode"
+            title="Start"
+            type="START">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node0>
+        <node1
+            jcr:primaryType="cq:WorkflowNode"
+            description="Subscribes authors of new forum topics for email notifications when a topic changes."
+            title="Subscribe Topic Author"
+            type="PROCESS">
+            <metaData
+                jcr:primaryType="nt:unstructured"
+                PROCESS="com.adobe.cq.social.forum.impl.ForumSubscribeProcess"
+                PROCESS_ARGS=""
+                PROCESS_AUTO_ADVANCE="true"/>
+        </node1>
+        <node2
+            jcr:primaryType="cq:WorkflowNode"
+            description="Notify the topic author about the subscription."
+            title="Notify topic author"
+            type="PROCESS">
+            <metaData
+                jcr:primaryType="nt:unstructured"
+                PROCESS="com.adobe.cq.social.commons.SendEmailProcess"
+                PROCESS_ARGS="/etc/workflow/forum/email/topicsubscribe.txt"
+                PROCESS_AUTO_ADVANCE="true"/>
+        </node2>
+        <node3
+            jcr:primaryType="cq:WorkflowNode"
+            title="End"
+            type="END">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node3>
+    </nodes>
+    <transitions jcr:primaryType="nt:unstructured">
+        <node0_x0023_node1
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node0"
+            rule=""
+            to="node1">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node0_x0023_node1>
+        <node1_x0023_node2
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node1"
+            rule=""
+            to="node2">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node1_x0023_node2>
+        <node2_x0023_node3
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node2"
+            to="node3">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node2_x0023_node3>
+    </transitions>
+</jcr:root>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:designPath="/etc/designs/default"
+        cq:lastModified="{Date}2012-07-14T18:50:20.238-07:00"
+        cq:lastModifiedBy="admin"
+        cq:template="/libs/cq/workflow/templates/model"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Moderation - Mark Spam"
+        sling:resourceType="cq/workflow/components/pages/model">
+        <flow
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="foundation/components/parsys">
+            <process
+                jcr:created="{Date}2012-04-26T13:46:50.517-07:00"
+                jcr:createdBy="admin"
+                jcr:lastModified="{Date}2012-04-26T13:47:33.015-07:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Spam"
+                sling:resourceType="cq/workflow/components/model/process">
+                <metaData
+                    jcr:primaryType="nt:unstructured"
+                    PROCESS="com.adobe.cq.social.moderation.workflow.common.MarkSpamWorkflowProcess"
+                    PROCESS_AUTO_ADVANCE="true"/>
+            </process>
+        </flow>
+        <model/>
+    </jcr:content>
+</jcr:root>

@@ -1,0 +1,50 @@
+/*
+ *
+ * ADOBE CONFIDENTIAL
+ * __________________
+ *
+ *  Copyright 2012 Adobe Systems Incorporated
+ *  All Rights Reserved.
+ *
+ * NOTICE:  All information contained herein is, and remains
+ * the property of Adobe Systems Incorporated and its suppliers,
+ * if any.  The intellectual and technical concepts contained
+ * herein are proprietary to Adobe Systems Incorporated and its
+ * suppliers and are protected by trade secret or copyright law.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Adobe Systems Incorporated.
+ */
+
+function check() {
+    log.debug("isBranch" + workflowData.getPayloadType());
+
+    if (workflowData.getPayloadType() == "JCR_PATH") {
+        var path = workflowData.getPayload().toString();
+        var node = workflowSession.getSession().getItem(path);
+
+        var resourceResolverFactory = sling.getService(Packages.org.apache.sling.jcr.resource.JcrResourceResolverFactory);
+        var resolver = resourceResolverFactory.getResourceResolver(workflowSession.getSession());
+        var res = resolver.getResource(path);
+        var comment = res.adaptTo(Packages.com.adobe.cq.social.commons.Comment);
+        log.debug("is:Comment" + comment);
+        
+        var node = res.adaptTo(Packages.javax.jcr.Node);
+        var postProperty = node.getProperty("sling:resourceType");
+        var propValue = postProperty.getValue().getString();
+        var isPost = (propValue == "social/forum/components/post");
+        var retVal;
+        if (isPost) {
+            var post = res.adaptTo(Packages.com.adobe.cq.social.forum.api.Post);
+            retVal = !post.isApproved();
+        }
+        else
+            retVal = (comment == null) ? false: !comment.isApproved();
+         log.debug("isApproved:" + retVal);
+
+        return retVal;
+    } else {
+        // should not happen
+        return false;
+    }
+}

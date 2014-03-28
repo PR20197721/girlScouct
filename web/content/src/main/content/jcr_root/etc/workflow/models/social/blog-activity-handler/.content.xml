@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:designPath="/etc/designs/default"
+        cq:lastModified="{Date}2012-09-17T22:08:21.323-04:00"
+        cq:lastModifiedBy="admin"
+        cq:tags="[workflow:social]"
+        cq:template="/libs/cq/workflow/templates/model"
+        jcr:description="Create a blog activity in this authors activity stream"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Social Blog Activity Handler"
+        sling:resourceType="cq/workflow/components/pages/model">
+        <flow
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="foundation/components/parsys">
+            <process
+                jcr:created="{Date}2011-01-25T15:27:27.617+01:00"
+                jcr:createdBy="admin"
+                jcr:description="Create a 'blog'-activity in this authors activity stream."
+                jcr:lastModified="{Date}2012-09-17T22:08:21.317-04:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Social blog activity workflow"
+                sling:resourceType="cq/workflow/components/model/process">
+                <metaData
+                    jcr:primaryType="nt:unstructured"
+                    PROCESS="/etc/workflow/scripts/social/create_blog_activity.ecma"
+                    PROCESS_AUTO_ADVANCE="true"/>
+            </process>
+        </flow>
+        <image
+            jcr:lastModified="{Date}2011-01-25T15:28:40.684+01:00"
+            jcr:lastModifiedBy="admin"
+            jcr:primaryType="nt:unstructured"
+            imageRotate="0"/>
+        <model/>
+    </jcr:content>
+</jcr:root>

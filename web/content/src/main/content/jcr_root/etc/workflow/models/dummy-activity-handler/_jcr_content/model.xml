@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:isCheckedOut="{Boolean}false"
+    jcr:primaryType="cq:WorkflowModel"
+    jcr:uuid="8be81542-6500-442c-acda-3bdacfe707dc"
+    sling:resourceType="cq/workflow/components/model"
+    description="Create real activities from reverse replicated dummy activities and handle unsubscription requests."
+    title="Newsletter Activity Handler">
+    <metaData
+        cq:lastModified="{Long}1296830797581"
+        cq:lastModifiedBy="admin"
+        jcr:primaryType="nt:unstructured"
+        tags="campaigns"/>
+    <nodes jcr:primaryType="nt:unstructured">
+        <node0
+            jcr:primaryType="cq:WorkflowNode"
+            title="Start"
+            type="START">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node0>
+        <node1
+            jcr:primaryType="cq:WorkflowNode"
+            title="OR_SPLIT"
+            type="OR_SPLIT">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node1>
+        <node2
+            jcr:primaryType="cq:WorkflowNode"
+            title="OR_JOIN"
+            type="OR_JOIN">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node2>
+        <node3
+            jcr:primaryType="cq:WorkflowNode"
+            description="Create real activities from reverse replicated dummy-activities."
+            title="Handle Dummy Activities"
+            type="PROCESS">
+            <metaData
+                jcr:primaryType="nt:unstructured"
+                PROCESS="/etc/workflow/scripts/activitystreams/dummy-activity.ecma"
+                PROCESS_AUTO_ADVANCE="true"/>
+        </node3>
+        <node4
+            jcr:primaryType="cq:WorkflowNode"
+            description="A process to reverse replicate content."
+            title="Reverse Replicate Content"
+            type="PROCESS">
+            <metaData
+                jcr:primaryType="nt:unstructured"
+                PROCESS="com.day.cq.wcm.workflow.process.ReverseReplicateProcess"
+                PROCESS_AUTO_ADVANCE="true"/>
+        </node4>
+        <node5
+            jcr:primaryType="cq:WorkflowNode"
+            description="A process to delete the given payload node"
+            title="Delete Node"
+            type="PROCESS">
+            <metaData
+                jcr:primaryType="nt:unstructured"
+                PROCESS="/etc/workflow/scripts/delete.ecma"
+                PROCESS_AUTO_ADVANCE="true"/>
+        </node5>
+        <node6
+            jcr:primaryType="cq:WorkflowNode"
+            title="End"
+            type="END">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node6>
+    </nodes>
+    <transitions jcr:primaryType="nt:unstructured">
+        <node0_x0023_node1
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node0"
+            to="node1">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node0_x0023_node1>
+        <node1_x0023_node3
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node1"
+            rule="function check(){&#xa;       var settingsService = sling.getService(Packages.org.apache.sling.settings.SlingSettingsService);&#xa;      return( settingsService.getRunModes().contains(&quot;author&quot;));&#xa;}"
+            to="node3">
+            <metaData
+                jcr:primaryType="nt:unstructured"
+                isDefault="false"/>
+        </node1_x0023_node3>
+        <node3_x0023_node2
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node3"
+            to="node2">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node3_x0023_node2>
+        <node1_x0023_node4
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node1"
+            rule="function check(){&#xa;       var settingsService = sling.getService(Packages.org.apache.sling.settings.SlingSettingsService);&#xa;return( settingsService.getRunModes().contains(&quot;publish&quot;));&#xa;}"
+            to="node4">
+            <metaData
+                jcr:primaryType="nt:unstructured"
+                isDefault="false"/>
+        </node1_x0023_node4>
+        <node4_x0023_node5
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node4"
+            rule=""
+            to="node5">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node4_x0023_node5>
+        <node5_x0023_node2
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node5"
+            to="node2">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node5_x0023_node2>
+        <node2_x0023_node6
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node2"
+            to="node6">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node2_x0023_node6>
+    </transitions>
+</jcr:root>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:crx="http://www.day.com/crx/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:rep="internal"
+    jcr:primaryType="rep:ACL">
+    <deny
+        jcr:primaryType="rep:DenyACE"
+        rep:principalName="workflow-users"
+        rep:privileges="{Name}[jcr:removeNode,jcr:modifyProperties,jcr:versionManagement,jcr:addChildNodes,jcr:lockManagement,jcr:removeChildNodes,jcr:nodeTypeManagement]"/>
+    <allow
+        jcr:primaryType="rep:GrantACE"
+        rep:principalName="workflow-editors"
+        rep:privileges="{Name}[jcr:removeNode,jcr:modifyProperties,jcr:versionManagement,jcr:addChildNodes,jcr:lockManagement,jcr:removeChildNodes,jcr:nodeTypeManagement,crx:replicate]"/>
+</jcr:root>

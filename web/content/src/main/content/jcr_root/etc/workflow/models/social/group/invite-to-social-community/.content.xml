@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:designPath="/etc/designs/default"
+        cq:lastModified="{Date}2012-11-29T14:50:26.455-05:00"
+        cq:lastModifiedBy="admin"
+        cq:tags="[workflow:social]"
+        cq:template="/libs/cq/workflow/templates/model"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Invite To Social Community"
+        sling:resourceType="cq/workflow/components/pages/model">
+        <flow
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="foundation/components/parsys">
+            <process
+                jcr:created="{Date}2012-09-30T21:18:10.986-07:00"
+                jcr:createdBy="admin"
+                jcr:description="Add a list of users to the social community"
+                jcr:lastModified="{Date}2012-09-30T21:19:25.517-07:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="addGroupMembers"
+                sling:resourceType="cq/workflow/components/model/process">
+                <metaData
+                    jcr:primaryType="nt:unstructured"
+                    PROCESS="/etc/workflow/scripts/social/group/addGroupMemeber.ecma"
+                    PROCESS_AUTO_ADVANCE="true"/>
+            </process>
+        </flow>
+        <model/>
+        <image
+            jcr:lastModified="{Date}2012-11-29T14:50:26.452-05:00"
+            jcr:lastModifiedBy="admin"
+            jcr:primaryType="nt:unstructured"
+            imageRotate="0"/>
+    </jcr:content>
+</jcr:root>

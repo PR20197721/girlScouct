@@ -1,0 +1,156 @@
+/***
+ * Workflow process to create an activity in community stream
+ ***/
+
+var PROPERTY_ACTIVITY_CREATED = "activityCreated";
+var PROPERTY_JCR_TITLE = "jcr:title";
+var PROPERTY_JCR_DESCRIPTION = "jcr:description";
+var PROPERTY_SLING_RESOURCE_TYPE = "sling:resourceType";
+var TYPE_JCR_PATH = "JCR_PATH";
+var JCR_CONTENT = "jcr:content";
+var COMMUNITY_STREAM_NAME = "public"
+var GROUP_MEMBERGROUP = "membergroup";
+var ACTIVITY_TITLE = "{0} {1} on {2}";
+var PROPERTY_TARGET = "target";
+var PROPERTY_OBJECT = "object";
+var PROPERTY_ID = "id";
+var PROPERTY_DISPLAY_NAME = "displayName";
+var PROPERTY_OBJECT_TYPE = "objectType";
+var PROPERTY_SUB_TYPE = "subType";
+var TYPE_JCR_PATH = "JCR_PATH";
+var ACTIVITY_VERB = "POST";
+var PROPERTY_VERB = "verb";
+var PROPERTY_SUB_TYPE ="subType";
+var PROPERTY_JCR_CREATED_BY = "jcr:createdBy";
+//community items
+var isCommunityActivity = false;
+var communityStreamPath = "";
+var communityStreamResource;
+
+
+var workflowData = workItem.getWorkflowData();
+
+
+function isPartOfCommunity(resolver, targetPath) {
+    
+   var communityRootPagePath = Packages.com.adobe.cq.social.group.api.GroupUtil.getCommunityRootPagePath(resolver, targetPath);
+    
+    if (communityRootPagePath != null) {             
+        isCommunityActivity = true;        
+        communityStreamPath = Packages.com.adobe.cq.social.commons.CollabUtil.resourceToUGCPath(resolver.getResource(communityRootPagePath));
+        //need to remove jcr:content, activity streams API will add this to the path in when creating the stream.
+        communityStreamPath = Packages.org.apache.commons.lang.StringUtils.substringBefore(communityStreamPath, "/" + JCR_CONTENT);
+        communityStreamResource = resolver.getResource(communityStreamPath);         
+    }             
+}
+
+
+
+if(workflowData.getPayloadType() == TYPE_JCR_PATH){
+        
+    
+    var path = workflowData.getPayload().toString();
+    var session = workflowSession.getSession();
+    var resolver = sling.getService(Packages.org.apache.sling.jcr.resource.JcrResourceResolverFactory).getResourceResolver(session);
+    var activityManager = sling.getService(Packages.com.adobe.granite.activitystreams.ActivityManager);    
+        
+    var i18n = new Packages.com.day.cq.i18n.I18n(request);              
+    // get target node and content
+    var node = null;    
+        
+    try {
+        node = session.getNode(path);        
+    }
+    catch(e){
+        // path not found -> comment has been deleted
+    }
+    try {
+        if(node != null){
+            var pagePath = Packages.com.adobe.cq.social.commons.CollabUtil.getPagePath(resolver.resolve(node.getPath()));           
+            var targetPath;
+            var targetNode;
+            var targetIdValue;
+            var target;
+
+                                                
+            if (node.hasNode(PROPERTY_TARGET))  {
+                targetNode = node.getNode(PROPERTY_TARGET);
+                targetIdValue = targetNode.getProperty(PROPERTY_ID).getValue();                                
+            }                 
+                  
+            if (targetIdValue != null) {                
+                targetPath = targetIdValue.getString();
+                isPartOfCommunity(resolver, targetPath);                                               
+            }                   
+                //getting the object and target of the activity to use in new activity creation
+                var objectNode = node.getNode(PROPERTY_OBJECT);
+                //don't execute yet
+                if (objectNode != null && isCommunityActivity) {
+                    
+                    // create activity object
+                    var object = activityManager.newActivityObject();
+                    //needs to be the id, not the
+                    object.setId(objectNode.getProperty(PROPERTY_ID).getString());
+                    if(objectNode.hasProperty(PROPERTY_OBJECT_TYPE)){
+                        object.setObjectType(objectNode.getProperty(PROPERTY_OBJECT_TYPE).getString());                       
+                    }
+                    if(objectNode.hasProperty(PROPERTY_SUB_TYPE)){                        
+                        object.setProperty(PROPERTY_SUB_TYPE, objectNode.getProperty(PROPERTY_SUB_TYPE).getString());
+                    }                     
+                    // create activity target
+                    var target = activityManager.newActivityObject();
+                    target.setId(targetPath);
+                    // create activity target
+                    //needs to be the target from node
+                    var targetTitle = targetNode.getProperty(PROPERTY_DISPLAY_NAME).getString();
+                    target.setDisplayName(targetTitle);
+                    if(targetNode.hasProperty(PROPERTY_OBJECT_TYPE)){
+                        target.setObjectType(targetNode.getProperty(PROPERTY_OBJECT_TYPE).getString());                         
+                    }
+                    // create activity
+                    var activity = activityManager.newActivity();
+                    //get verb from original activity
+                    if (node.hasProperty(PROPERTY_VERB)) {
+                        activity.setVerb(node.getProperty(PROPERTY_VERB).getValue().getString());
+                    } else {
+                        activity.setVerb(ACTIVITY_VERB);
+                    }
+
+                    // duplicate content of comment
+                    var content = "";
+                    if(objectNode.hasProperty(PROPERTY_JCR_DESCRIPTION)){
+                        content = objectNode.getProperty(PROPERTY_JCR_DESCRIPTION).getString();
+                    }
+                    object.setContent(content);
+                    if(node.hasProperty(PROPERTY_JCR_CREATED_BY)){
+                        activity.setActorUserId(node.getProperty(PROPERTY_JCR_CREATED_BY).getString());
+                        activity.setTitle("{createdBy} {verb}ed on " + targetTitle);
+                        activity.setObject(object);
+                        activity.setTarget(target);                    
+                    
+                    // write activity to community
+                    var stream = activityManager.getStream(communityStreamResource, COMMUNITY_STREAM_NAME, true);
+                    stream.append(activity);                   
+                    }
+
+                } else {
+                        log.info("Not a community stream activity, no activity created");
+                 }
+            } 
+        } catch (e){
+                log.error("Community Stream: cannot create community stream activity :" + e);
+        } finally {
+            if (session != null) {
+                try {
+                    if (session.hasPendingChanges()) {
+                        session.save();
+                    }
+                } catch (e) {
+                        //ignore exception here
+                }
+                   //currently causing an exception, commenting out this call
+                   // session.logout();
+                }
+            }
+    }
+    

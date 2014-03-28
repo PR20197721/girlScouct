@@ -1,0 +1,122 @@
+/*
+ *
+ * ADOBE CONFIDENTIAL
+ * __________________
+ *
+ *  Copyright 2012 Adobe Systems Incorporated
+ *  All Rights Reserved.
+ *
+ * NOTICE:  All information contained herein is, and remains
+ * the property of Adobe Systems Incorporated and its suppliers,
+ * if any.  The intellectual and technical concepts contained
+ * herein are proprietary to Adobe Systems Incorporated and its
+ * suppliers and are protected by trade secret or copyright law.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Adobe Systems Incorporated.
+ */
+/***
+ * Workflow process to create an activity for a blog post
+ ***/
+
+var PROPERTY_AUTHORIZABLE_ID = "authorizableId";
+var PROPERTY_USER_IDENTIFIER = "userIdentifier";
+var PROPERTY_LAST_MODIFIED_ID = "cq:lastModifiedBy";
+var PROPERTY_ACTIVITY_CREATED = "activityCreated";
+var PROPERTY_JCR_TITLE = "jcr:title";
+var PROPERTY_JCR_DESCRIPTION = "jcr:description";
+var PROPERTY_SLING_RESOURCE_TYPE = "sling:resourceType";
+var TYPE_JCR_PATH = "JCR_PATH";
+var SUFFIX_JCR_CONTENT = "/jcr:content";
+var ACTIVITY_VERB = "POST";
+var ACTIVITY_OBJECT_TYPE = "article";
+var ACTIVITY_TITLE = "{0} {1} on {2}";
+
+var workflowData = workItem.getWorkflowData();
+if(workflowData.getPayloadType() == TYPE_JCR_PATH){
+    var path = workflowData.getPayload().toString();
+    var session = workflowSession.getSession();
+    var resolver = sling.getService(Packages.org.apache.sling.jcr.resource.JcrResourceResolverFactory).getResourceResolver(session);
+    var activityService = sling.getService(Packages.com.adobe.granite.activitystreams.ActivityManager);
+    
+    
+    var i18n = new Packages.com.day.cq.i18n.I18n(request);
+    var localizedVerb = i18n.get(ACTIVITY_VERB);
+
+    // Blog is a page
+    var node = null;
+    try {
+        node = session.getItem(path);
+    }
+    catch(e){
+        log.error(e + " : exception in node = session.getItem(path) ");
+    }
+    try {
+        if(node){
+            var pagePath = Packages.com.adobe.cq.social.commons.CollabUtil.getPagePath(resolver.resolve(node.getPath()));
+            
+            //MCM 09.06.2012 blogs are pages, use the page path
+            var targetNode = session.getItem(pagePath+SUFFIX_JCR_CONTENT);            
+
+            var alreadyCreated = (node.hasProperty(PROPERTY_ACTIVITY_CREATED) &&
+                           "true".equals(node.getProperty(PROPERTY_ACTIVITY_CREATED).getString()));
+
+            if(!alreadyCreated){
+                // create activity object (for blog)
+                var object = activityService.newActivityObject();
+                object.setId(node.getPath());
+                if(node.hasProperty(PROPERTY_SLING_RESOURCE_TYPE)){
+                    object.setObjectType(ACTIVITY_OBJECT_TYPE);
+                    object.setProperty("subType", node.getProperty(PROPERTY_SLING_RESOURCE_TYPE).getString());
+                }
+                
+                // create activity target
+                var target = activityService.newActivityObject();
+                target.setId(pagePath);
+                var targetTitle = targetNode.getProperty(PROPERTY_JCR_TITLE).getString()
+                target.setDisplayName(targetTitle);
+                if(targetNode.hasProperty(PROPERTY_SLING_RESOURCE_TYPE)){
+                    target.setObjectType(targetNode.getProperty(PROPERTY_SLING_RESOURCE_TYPE).getString());
+                }
+
+                // create activity
+                var activity = activityService.newActivity();
+                activity.setVerb(ACTIVITY_VERB);
+               
+
+                // duplicate content of comment
+                var content = "";
+                if(node.hasProperty(PROPERTY_JCR_TITLE)){
+                    content = node.getProperty(PROPERTY_JCR_TITLE).getString();
+                }
+                object.setContent(content);
+
+                if(node.hasProperty(PROPERTY_LAST_MODIFIED_ID)){
+                    activity.setActorUserId(node.getProperty(PROPERTY_LAST_MODIFIED_ID).getString());
+                    
+                    localizedTitle = i18n.get(targetTitle);                    
+                    //need to pass in localized replacement strings first
+                    var replArgs = [node.getProperty(PROPERTY_LAST_MODIFIED_ID).getString(), localizedVerb, localizedTitle]
+                    var localizedTitle = i18n.get(ACTIVITY_TITLE, "", replArgs);
+                                        
+                    activity.setTitle(localizedTitle);
+                    activity.setObject(object);
+                    activity.setTarget(target);
+
+                    // write activity
+                    var stream = activityService.getUserStream(resolver, activity.getActorUserId(), null);
+                    stream.append(activity);
+                    
+                    node.setProperty(PROPERTY_ACTIVITY_CREATED, "true");
+                    node.save();
+                }
+                else{
+                    log.error("Could not create comment activity. Missing author identifier.");
+                }
+            }
+        }
+    }
+    catch(e){
+        log.error("Could not create comment activity: "+e);
+    }
+}

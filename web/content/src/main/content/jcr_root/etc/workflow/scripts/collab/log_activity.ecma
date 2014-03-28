@@ -1,0 +1,90 @@
+/***
+ * Workflow process to create an activity if a user posts an approved cq:Comment
+ ***/
+
+var PROPERTY_AUTHORIZABLE_ID = "authorizableId";
+var PROPERTY_ACTIVITY_CREATED = "activityCreated";
+var PROPERTY_JCR_TITLE = "jcr:title";
+var PROPERTY_JCR_DESCRIPTION = "jcr:description";
+var PROPERTY_SLING_RESOURCE_TYPE = "sling:resourceType";
+var TYPE_JCR_PATH = "JCR_PATH";
+var SUFFIX_JCR_CONTENT = "/jcr:content";
+var ACTIVITY_VERB = "comment";
+
+var workflowData = workItem.getWorkflowData();
+if(workflowData.getPayloadType() == TYPE_JCR_PATH){
+    var path = workflowData.getPayload().toString();
+    var session = workflowSession.getSession();
+    var resolver = sling.getService(Packages.org.apache.sling.jcr.resource.JcrResourceResolverFactory).getResourceResolver(session);
+    var activityService = sling.getService(Packages.com.adobe.granite.activitystreams.ActivityManager);
+
+    // get target node and content
+    var node = null;
+    try {
+        node = session.getItem(path);
+    }
+    catch(e){
+        // path not found -> comment has been deleted
+    }
+    try {
+        if(node){
+            var pagePath = Packages.com.day.cq.collab.commons.CollabUtil.getPagePath(resolver.resolve(node.getPath()));
+            var targetPath = Packages.com.day.cq.collab.commons.CollabUtil.UGCToResourcePath(resolver.resolve(pagePath));
+            var targetNode = session.getItem(targetPath+SUFFIX_JCR_CONTENT);
+
+
+            var alreadyCreated = (node.hasProperty(PROPERTY_ACTIVITY_CREATED) &&
+                           "true".equals(node.getProperty(PROPERTY_ACTIVITY_CREATED).getString()));
+
+            if(!alreadyCreated){
+                // create activity object (comment)
+                var object = activityService.newActivityObject();
+                object.setId(node.getPath());
+                if(node.hasProperty(PROPERTY_SLING_RESOURCE_TYPE)){
+                    object.setObjectType(node.getProperty(PROPERTY_SLING_RESOURCE_TYPE).getString());
+                }
+
+                // create activity target
+                var target = activityService.newActivityObject();
+                target.setId(targetPath);
+                var targetTitle = targetNode.getProperty(PROPERTY_JCR_TITLE).getString()
+                target.setDisplayName(targetTitle);
+                if(targetNode.hasProperty(PROPERTY_SLING_RESOURCE_TYPE)){
+                    target.setObjectType(targetNode.getProperty(PROPERTY_SLING_RESOURCE_TYPE).getString());
+                }
+
+                // create activity
+                var activity = activityService.newActivity();
+                activity.setVerb(ACTIVITY_VERB);
+               
+
+                // duplicate content of comment
+                var content = "";
+                if(node.hasProperty(PROPERTY_JCR_DESCRIPTION)){
+                    content = node.getProperty(PROPERTY_JCR_DESCRIPTION).getString();
+                }
+                activity.setContent(content);
+
+                if(node.hasProperty(PROPERTY_AUTHORIZABLE_ID)){
+                    activity.setActorUserId(node.getProperty(PROPERTY_AUTHORIZABLE_ID).getString());
+                    activity.setTitle("{createdBy} {verb}ed on " + targetTitle);
+                    activity.setObject(object);
+                    activity.setTarget(target);
+
+                    // write activity
+                    var stream = activityService.getUserStream(resolver, activity.getActorUserId(), null);
+                    stream.append(activity);
+                    
+                    node.setProperty(PROPERTY_ACTIVITY_CREATED, "true");
+                    node.save();
+                }
+                else{
+                    log.error("Could not create comment activity. Missing author identifier.");
+                }
+            }
+        }
+    }
+    catch(e){
+        log.error("Could not create comment activity: "+e);
+    }
+}

@@ -1,0 +1,38 @@
+/*
+ *
+ * ADOBE CONFIDENTIAL
+ * __________________
+ *
+ *  Copyright 2012 Adobe Systems Incorporated
+ *  All Rights Reserved.
+ *
+ * NOTICE:  All information contained herein is, and remains
+ * the property of Adobe Systems Incorporated and its suppliers,
+ * if any.  The intellectual and technical concepts contained
+ * herein are proprietary to Adobe Systems Incorporated and its
+ * suppliers and are protected by trade secret or copyright law.
+ * Dissemination of this information or reproduction of this material
+ * is strictly forbidden unless prior written permission is obtained
+ * from Adobe Systems Incorporated.
+ */
+
+function check() {
+    var PROPERTY_NEED_APPROVAL = "toggleStateApproval";
+    
+    var na = workflowData.getMetaDataMap().get(PROPERTY_NEED_APPROVAL);
+    var needApproval = (na==null)? null : na.getString();
+    //log.error("true".equals(needApproval));
+    if(needApproval != null)  return ("true".equals(needApproval));  
+    
+    var path = workflowData.getPayload().toString();
+    var session = workflowSession.getSession();
+    var node = session.getItem(path);
+    var resolver = sling.getService(Packages.org.apache.sling.jcr.resource.JcrResourceResolverFactory).getResourceResolver(session);
+    var resource = resolver.getResource(path);    
+    var props = Packages.org.apache.sling.api.resource.ResourceUtil.getValueMap(resource);
+    needApproval = props.get(PROPERTY_NEED_APPROVAL, "false");
+    //log.debug("needApproval="+needApproval);
+    if(needApproval != null)  return ("true".equals(needApproval));
+    
+    return true;
+}    
