@@ -20,7 +20,19 @@
 %><cq:includeClientLib categories="cq.foundation-main"/><%
 %><cq:include script="/libs/cq/cloudserviceconfigs/components/servicelibs/servicelibs.jsp"/><%
     currentDesign.writeCssIncludes(pageContext); %>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
 <!-- Begin: Include Girl Scout clientlibs -->
+<!-- Artifact Browser -->
+<!--[if lt IE 9]>
+        <link rel="stylesheet" href="/etc/designs/girlscouts/clientlibs.foundation/css/foundation-ie8.css" />
+<![endif]-->
+<!-- Modern Browser -->
+<!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="/etc/designs/girlscouts/clientlibs.foundation/css/foundation.css" />
+<!--<![endif]-->
+
 <cq:includeClientLib categories="apps.girlscouts" />
 <!-- End: Include Girl Scout clientlibs -->
