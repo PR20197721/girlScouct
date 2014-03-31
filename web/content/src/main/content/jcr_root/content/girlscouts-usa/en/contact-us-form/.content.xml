@@ -7,13 +7,12 @@
         cq:lastReplicated="{Date}2014-03-19T15:43:00.406-04:00"
         cq:lastReplicatedBy="admin"
         cq:lastReplicationAction="Activate"
-        cq:template="/apps/girlscouts/templates/contact_us_form"
         jcr:isCheckedOut="{Boolean}true"
         jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="cq:PageContent"
         jcr:title="Contact Us Form"
         jcr:uuid="49996301-4d1b-4455-bff8-bc52d655a461"
-        sling:resourceType="girlscouts/components/contact_us_form">
+        sling:resourceType="girlscouts/components/contact-us-form">
         <formtext
             jcr:lastModified="{Date}2014-03-17T14:22:45.789-04:00"
             jcr:lastModifiedBy="admin"
