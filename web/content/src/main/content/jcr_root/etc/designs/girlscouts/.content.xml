@@ -10,5 +10,9 @@
         jcr:title="Girl Scouts"
         sling:resourceType="wcm/core/components/designer"/>
     <clientlibs.jquery/>
-    <clientlibs.foundation/>
+    <clientlibs.foundation.base/>
+    <clientlibs.foundation.modern/>
+    <clientlibs.foundation.ie8/>
+    <clientlibs.modern/>
+    <clientlibs.ie8/>
 </jcr:root>
