@@ -12,8 +12,12 @@ import javax.jcr.Session;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.girlscouts.web.events.search.EventsSrch;
 import org.girlscouts.web.events.search.FacetBuilder;
 import org.girlscouts.web.events.search.FacetsInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.day.cq.tagging.TagManager;
 import com.day.cq.tagging.Tag;
 import com.day.cq.search.PredicateGroup;
@@ -29,8 +33,11 @@ public class FacetBuilderImpl implements FacetBuilder{
 	private PredicateGroup predicateGroup = new PredicateGroup();
 	private static String FACETS_PATH = "/etc/tags/girlscouts"; 
 	private HashMap<String,List<FacetsInfo>> facets = new HashMap<String, List<FacetsInfo>>();
+	private static Logger log = LoggerFactory.getLogger(FacetBuilderImpl.class);
 	
 	private void buildFacets(SlingHttpServletRequest slingRequest,QueryBuilder builder){
+		
+		log.debug("Building Facets ");
 		
 		TagManager tagMgr = slingRequest.getResourceResolver().adaptTo(TagManager.class);
 		ResourceResolver resourceResolver = slingRequest.getResourceResolver();
@@ -40,7 +47,7 @@ public class FacetBuilderImpl implements FacetBuilder{
 		{
 			Resource resource = resources.next();			
 		    Tag tag = tagMgr.resolve(resource.getPath());
-		    //System.out.println("Title" +tag.getTitle());
+		   
 			facets.put(tag.getName(), new ArrayList<FacetsInfo>());
 			Iterator <Resource> childFactes= resourceResolver.listChildren(resource);
 		
@@ -60,7 +67,7 @@ public class FacetBuilderImpl implements FacetBuilder{
 
 
 	public HashMap<String, List<FacetsInfo>> getFacets(SlingHttpServletRequest slingRequest,QueryBuilder builder) {
-		// TODO Auto-generated method stub
+	
 		buildFacets(slingRequest,builder);
 		return facets;
 	}

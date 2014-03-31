@@ -1,49 +1,35 @@
 package org.girlscouts.web.events.search;
-
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.StringTokenizer;
 
 import javax.jcr.RepositoryException;
-import javax.jcr.Session;
-
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.girlscouts.web.events.search.impl.EventResultsImpl;
 import org.girlscouts.web.events.search.impl.FacetBuilderImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import com.day.cq.search.QueryBuilder;
 
-public class EventsSrch extends EventSrchQuery {
+public class EventsSrch  
+{
 	private static Logger log = LoggerFactory.getLogger(EventsSrch.class);
 	private SlingHttpServletRequest slingRequest;
 	private QueryBuilder queryBuilder;
 	private HashMap<String,List<FacetsInfo>> facetAndTags = new HashMap<String,List<FacetsInfo>>();
-	private LinkedHashMap<String, String> linkedHashMap = new LinkedHashMap<String, String>();
-	private static String YEARPTH = "/content/girlscouts-usa/en/events/";
-	private static String EVENTS_TYPE="cq:Page";
+
 	private static String EVENTS_PROP="jcr:content/cq:tags";
 	private static String PATH_1 = "/content/girlscouts-usa/en/events/";
-	private int grp_path = 0;
 	private Map<String, ArrayList<String>> facetsQryBuilder = new HashMap<String, ArrayList<String>>();
 	
 	
  	private SearchResultsInfo searchResultsInfo;
  	int propertyCounter = 0;
-	
-	//Search Query Map
-	//Map<String, String> searchQuery = new HashMap<String,String>();
  	LinkedHashMap<String, String> searchQuery = new LinkedHashMap<String, String>();
 	
 	// Which return the object of Facets as Well as the Results;
@@ -55,25 +41,14 @@ public class EventsSrch extends EventSrchQuery {
 	
 	public void search(String q,String[] tags,String offset, String month,String year, String startdtRange, String enddtRange, String region )
 	{
-		
-		//Error Traking
-		
-		/*if((year!=null && month==null)|| (month!=null && year==null)){
-			throw Exception
-			
-		}*/
-		
-		
-		
-		
 		try 
 		{
 			createFacets();
-			
 			eventResults(q,offset,month,year,startdtRange,enddtRange,region,tags);
 			combineSearchTagsCounts();
 		} catch (RepositoryException e)
 		{
+			log.error("Error Generated in the search() of EventSrch Class");
 			e.printStackTrace();
 		}
 	}
@@ -81,8 +56,6 @@ public class EventsSrch extends EventSrchQuery {
 	
 	public HashMap<String,List<FacetsInfo>> getFacets()
 	{
-		
-		
 		return facetAndTags;
 	}
 	
@@ -94,27 +67,26 @@ public class EventsSrch extends EventSrchQuery {
 	
 	private void eventResults(String q,String offset,String month,String year, String startdtRange, String enddtRange,String region,String[] tags) throws RepositoryException{
 		EventResults eventResults = new EventResultsImpl();
-		//searchQuery = EventSrchQuery.defaultQueryMap();
+
 		
+		if(q!=null && !q.isEmpty()){
+			log.info("Search Query Term [" +q +"]");
+			searchQuery.put("fulltext",q);
+		}
+
 		searchQuery.put("type", "cq:Page");
 		searchQuery.put("path",PATH_1);
 		searchQuery.put(++propertyCounter+"_property",EVENTS_PROP);
 		
 		//Check if the query is null
 		System.out.println("Query Parameter" +q);
-		// Default all the value need to be add
 		
-		if(q!=null && !q.isEmpty()){
-			searchQuery.put("fulltext",q);
-			
-		}
 		if(tags!=null){
 			addToDefaultQuery(searchQuery,tags);
 			// All search query to the map 
 		}
 		
 		if((year!=null && !year.isEmpty()) &&  (month!=null && !month.isEmpty())){
-			
 			addMonthYearToQuery(month,year,searchQuery);
 		}
 		
@@ -127,18 +99,17 @@ public class EventsSrch extends EventSrchQuery {
 		}
 		
 		//performContentSearch(searchQuery);
-		System.out.println("SearchQuery" +searchQuery);
+		log.debug("SearchQuery  ["   +searchQuery  +"]");
 		searchResultsInfo = eventResults.performContentSearch(searchQuery,slingRequest,this.queryBuilder,offset);
 		Iterator searchIterator = searchResultsInfo.getFacetsWithCount().keySet().iterator();
 		while(searchIterator.hasNext())
 		{
 			String key = (String)searchIterator.next();
-			System.out.println("This is the ^^^^^^^^^^^^^^^"+key);
 			Map<String,Long> Categoriestags = searchResultsInfo.getFacetsWithCount().get(key);
 			Iterator search= Categoriestags.keySet().iterator();
 			while(search.hasNext()){
 				String key1 =(String) search.next();
-				System.out.println(" ----- tags" +key1 +"Counts" +Categoriestags.get(key1));
+				log.debug("tags key [ " +key1 +" ] Counts [" +Categoriestags.get(key1) +"]");
 			}
 		}
 		
@@ -148,21 +119,10 @@ public class EventsSrch extends EventSrchQuery {
 		return this.searchResultsInfo;
 	}
 	
-	
-	
 	public void addToDefaultQuery(Map<String, String> searchQuery,String[] tags){
-		ArrayList<String> result = new ArrayList<String>();
-		
-		/*StringTokenizer stringTokens = new StringTokenizer(query,"|");
-		
-		while(stringTokens.hasMoreElements()){
-			result.add(stringTokens.nextToken());
-		}*/
-		
 		for(String s:tags)
 		{
 			String temp = s.replaceAll("%3A", ":").replaceAll("%2F", "/");
-			System.out.println("temp----------------------------&&&&&&&" +temp);
 			// categories/badge
 			String key = temp.substring(temp.indexOf(":")+1,temp.length());
 			String category = key.substring(0,key.indexOf("/"));
@@ -209,22 +169,17 @@ public class EventsSrch extends EventSrchQuery {
 	}
 	
 	public void addMonthYearToQuery(String month, String year,Map<String, String> searchQuery){
-	
-		String yearContentPath = this.YEARPTH+year;
-		System.out.println("path" +yearContentPath);
 		String mthYr = month+" "+year;
-		System.out.println(mthYr);
+		log.debug("Year and the Month Paramter ["  +mthYr  +"]");
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Calendar c = Calendar.getInstance();
-		
 		c.set(Integer.parseInt(year),Integer.parseInt(month),0);
-		
 		c.set(Calendar.DAY_OF_MONTH,c.getActualMinimum(Calendar.DAY_OF_MONTH));
-		System.out.println(formatter.format(c.getTime()).toString());
 		String lowerBound = formatter.format(c.getTime()).toString();
+		log.debug("Lower Bound Value [" +lowerBound +"]");
 		c.set(Calendar.DAY_OF_MONTH,c.getActualMaximum(Calendar.DAY_OF_MONTH));
 		String upperBound=formatter.format(c.getTime()).toString();
-		System.out.println(searchQuery.toString());
+		log.debug("Upper Bound Value [" +upperBound +"]");
 		addDateRangeQuery(lowerBound,upperBound);
 		
 	}
@@ -239,24 +194,28 @@ public class EventsSrch extends EventSrchQuery {
 		
 	}
 	
-	public void combineSearchTagsCounts(){
-		if(searchResultsInfo.getFacetsWithCount().isEmpty()){
+	public void combineSearchTagsCounts()
+	{
+		
+		if(searchResultsInfo.getFacetsWithCount().isEmpty())
+		{
 			return;
 		}
 		
 		Iterator <String> everyThingFacets = this.facetAndTags.keySet().iterator();
 		Map<String, Map<String, Long>> facetsWithCounts = searchResultsInfo.getFacetsWithCount();
-		while(everyThingFacets.hasNext()){
+		while(everyThingFacets.hasNext())
+		{
 			String facetName = everyThingFacets.next();
 			List <FacetsInfo> facetInfo = facetAndTags.get(facetName);
-			System.out.println("I am coming in here ******######"+facetsWithCounts.toString());
+			log.debug("Facets Name ["+facetsWithCounts.toString() +"]");
 			if(facetsWithCounts.containsKey(facetName))
 			{
 				Map<String, Long> fwc = facetsWithCounts.get(facetName);
-				System.out.println(fwc.toString());
-				
-				for(int i=0;i<facetInfo.size();i++){
-					if(fwc.containsKey(facetInfo.get(i).getFacetsTitle())){
+				for(int i=0;i<facetInfo.size();i++)
+				{
+					if(fwc.containsKey(facetInfo.get(i).getFacetsTitle()))
+					{
 						facetInfo.get(i).setChecked(true);						
 						facetInfo.get(i).setCount(fwc.get(facetInfo.get(i).getFacetsTitle()));
 						
@@ -266,8 +225,6 @@ public class EventsSrch extends EventSrchQuery {
 			}
 			
 		}
-		
-		
 	}
 	
 
