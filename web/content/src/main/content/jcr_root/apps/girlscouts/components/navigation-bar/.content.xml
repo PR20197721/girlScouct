@@ -3,4 +3,4 @@
     jcr:description="Global Nav / Eyebrow Nav"
     jcr:primaryType="cq:Component"
     jcr:title="Navigation Bar"
-    componentGroup="Girl Scouts"/>
+    componentGroup=".hidden"/>
