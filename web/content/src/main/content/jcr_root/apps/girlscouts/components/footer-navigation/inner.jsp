@@ -1,1 +1,0 @@
-<li><a class="menu <%= clazz %>" href="<%= path %>"><%= label %></a></li>

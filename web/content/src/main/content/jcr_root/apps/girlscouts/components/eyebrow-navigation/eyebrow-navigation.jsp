@@ -12,14 +12,14 @@ String[] links = properties.get("links", String[].class);
 if (links == null || links.length == 0) {
 	%>##### Navigation Bar #####<%
 } else {
-	%><div class="large-19 medium-19 hide-for-small columns"><% 
+	%><div class="large-17 medium-17 hide-for-small columns toplinks"><%
     %><ul class="inline-list"><%
     for (int i = 0; i < links.length; i++) {
         String[] values = links[i].split("\\|\\|\\|");
         String label = values[0];
         String path = values.length >= 2 ? values[1] : "";
         String clazz = values.length >= 3 ? " "+ values[2] : "";
-		%><a class="menu<%= clazz %>" href="<%= path %>"><%= label %></a><%
+		%><li><a class="menu<%= clazz %>" href="<%= path %>"><%= label %></a></li><%
     }
     %></ul></div><%
 }
