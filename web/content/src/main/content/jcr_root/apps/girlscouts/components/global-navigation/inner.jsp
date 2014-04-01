@@ -1,0 +1,1 @@
+<a href="<%= path %>" class="<%= clazz %>"><%= label %></a>
