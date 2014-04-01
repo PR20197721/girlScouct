@@ -27,12 +27,10 @@
 <!-- Begin: Include Girl Scout clientlibs -->
 <!-- Artifact Browser -->
 <!--[if lt IE 9]>
-        <link rel="stylesheet" href="/etc/designs/girlscouts/clientlibs.foundation/css/foundation-ie8.css" />
+	<cq:includeClientLib categories="apps.girlscouts.ie8" />
 <![endif]-->
 <!-- Modern Browser -->
 <!--[if gt IE 8]><!-->
-        <link rel="stylesheet" href="/etc/designs/girlscouts/clientlibs.foundation/css/foundation.css" />
+	<cq:includeClientLib categories="apps.girlscouts.modern" />
 <!--<![endif]-->
-
-<cq:includeClientLib categories="apps.girlscouts" />
 <!-- End: Include Girl Scout clientlibs -->
