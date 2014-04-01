@@ -6,7 +6,7 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
 	%><cq:includeClientLib categories="apps.girlscouts.components.navigationbar"/><%
 }
 
-String basicClass = properties.get("type", "global-nav-cell");
+String basicClass = properties.get("type", "menu");
 
 String[] links = properties.get("links", String[].class);
 if (links == null || links.length == 0) {
