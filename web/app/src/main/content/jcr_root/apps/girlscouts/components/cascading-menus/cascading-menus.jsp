@@ -11,7 +11,7 @@
   Iterator<Page> menuLevel1;
   String navigation="";
   Set<String> navigationPath;
-  String currPath = currentPath.getPath();
+  String currPath = currentPage.getPath();
   if(currPath.equalsIgnoreCase(currentPage.getAbsoluteParent(2).getPath()))
   {
 	 // So I am the root, Check for the children
