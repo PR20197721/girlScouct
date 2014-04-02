@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    activeTab="{Long}0"
+    helpPath="en/cq/current/wcm/default_components.html#Image"
+    xtype="tabpanel">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <regular-image
+            jcr:primaryType="cq:Widget"
+            cropParameter="./regularImageCrop"
+            ddGroups="[media]"
+            fileNameParameter="./regularFileName"
+            fileReferenceParameter="./regularFileReference"
+            mapParameter="./regularImageMap"
+            name="./regularFile"
+            requestSuffix=".img.png"
+            rotateParameter="./regularImageRotate"
+            title="Regular Image"
+            xtype="html5smartimage"/>
+        <small-screen-image
+            jcr:primaryType="cq:Widget"
+            cropParameter="./imageCrop"
+            ddGroups="[media]"
+            fileNameParameter="./fileName"
+            fileReferenceParameter="./fileReference"
+            mapParameter="./imageMap"
+            name="./file"
+            requestSuffix=".img.png"
+            rotateParameter="./imageRotate"
+            title="Small Screen Image"
+            xtype="html5smartimage"/>
+        <advanced
+            jcr:primaryType="cq:Widget"
+            title="Advanced"
+            xtype="panel">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <alt
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="(leave empty to use the title defined above)"
+                    fieldLabel="Alt Text"
+                    name="./alt"
+                    xtype="textfield"/>
+                <linkURL
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="Drop files or pages from the Content Finder"
+                    fieldLabel="Link to"
+                    name="./linkURL"
+                    xtype="pathfield"/>
+                <regular-size
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Regular Size"
+                    heightParameter="./regularHeight"
+                    widthParameter="./regularWidth"
+                    xtype="sizefield"/>
+                <small-screen-size
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Small Screen Size"
+                    heightParameter="./smallHeight"
+                    widthParameter="./smallWidth"
+                    xtype="sizefield"/>
+            </items>
+        </advanced>
+    </items>
+</jcr:root>
