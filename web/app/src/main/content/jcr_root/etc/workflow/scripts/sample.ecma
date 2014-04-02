@@ -1,2 +1,0 @@
-log.info("executing script now...");
-log.info("Payload: " + workItem.getWorkflowData().getPayload());
