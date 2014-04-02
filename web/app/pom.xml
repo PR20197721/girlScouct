@@ -15,8 +15,8 @@
     <!-- P R O J E C T D E S C R I P T I O N -->
     <!-- ====================================================================== -->
 
-    <artifactId>girlscouts-content</artifactId>
-    <packaging>content-package</packaging>
+    <artifactId>girlscouts-app</artifactId>
+    <packaging>app-package</packaging>
     <name>Girl Scouts USA Package</name>
 
     <dependencies>
