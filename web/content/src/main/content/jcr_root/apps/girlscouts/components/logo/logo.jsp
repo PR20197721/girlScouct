@@ -1,3 +1,4 @@
+<%@include file="/libs/foundation/global.jsp" %>
 <%
 	String regularWidth = properties.get("regularWidth", "188");
 	String regularHeight = properties.get("regularHeight", "73");

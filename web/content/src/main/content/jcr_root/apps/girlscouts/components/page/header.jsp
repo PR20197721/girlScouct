@@ -36,26 +36,7 @@
 
 		<!--PAGE STRUCTURE: HEADER-->
 		<div id="header" class="row">
-			<div class="large-4 medium-5 small-24 columns">
-				<!-- Artifact Browser -->
-				<!--[if lt IE 9]>
-                        <nav class="logoLarge">
-<%@include file="logo.jsp"%>
-                        </nav>
-<![endif]-->
-				<!-- Modern Browser -->
-				<!--[if gt IE 8]><!-->
-				<nav class="hide-for-small logoLarge">
-					<%@include file="logo.jsp"%>
-				</nav>
-				<nav class="show-for-small logoSmall debug">
-					<img src="images/gateway-logo-small.png" width="293" height="51"
-						class="debug" /> <a
-						class="right-off-canvas-toggle menu-icon debug"><img
-						src="images/hamburger.png" width="22" height="28" class="debug" /></a>
-				</nav>
-				<!--<![endif]-->
-			</div>
+			<cq:include path="<%= headerPath + "/logo" %>" resourceType="girlscouts/components/logo" />
 			<div class="large-20 medium-19 small-24 columns">
 				<div class="row">
 					<cq:include path="<%= headerPath + "/eyebrow-nav" %>" resourceType="girlscouts/components/eyebrow-navigation" />
