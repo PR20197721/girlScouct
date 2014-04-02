@@ -54,6 +54,5 @@
 	<!--PAGE STRUCTURE: HEADER BAR-->
 	<div id="headerBar" class="row">
 		<div class="large-5 medium-5 hide-for-small columns">&nbsp;</div>
-		<cq:include path="header/global-nav"
-			resourceType="girlscouts/components/global-navigation" />
+		<cq:include path="<%= headerPath + "/global-nav" %>" resourceType="girlscouts/components/global-navigation" />
 	</div>
