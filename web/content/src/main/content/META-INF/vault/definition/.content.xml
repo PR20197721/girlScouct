@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:vlt="http://www.day.com/jcr/vault/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
-    jcr:created="{Date}2014-03-14T13:47:11.509-04:00"
+    jcr:created="{Date}2014-04-02T13:15:16.782-04:00"
     jcr:createdBy="admin"
     jcr:description="Maven Multimodule project for Girl Scouts USA."
-    jcr:lastModified="{Date}2014-03-14T13:47:11.509-04:00"
+    jcr:lastModified="{Date}2014-04-02T13:15:16.782-04:00"
     jcr:lastModifiedBy="admin"
     jcr:primaryType="vlt:PackageDefinition"
     buildCount="1"
     builtWith="Adobe CQ-5.6.0.20130125"
     group="GirlScouts"
-    lastUnwrapped="{Date}2014-03-14T13:47:11.509-04:00"
+    lastUnwrapped="{Date}2014-04-02T13:15:16.782-04:00"
     lastUnwrappedBy="admin"
-    lastWrapped="{Date}2014-03-14T13:47:11.509-04:00"
+    lastWrapped="{Date}2014-04-02T13:15:16.782-04:00"
     lastWrappedBy="admin"
     name="girlscouts-content"
     version="0.1-SNAPSHOT">
@@ -19,43 +19,13 @@
     <filter jcr:primaryType="nt:unstructured">
         <f0
             jcr:primaryType="nt:unstructured"
-            mode="replace"
-            root="/apps/girlscouts"
+            mode="merge"
+            root="/content/girlscouts-usa"
             rules="[]"/>
         <f1
             jcr:primaryType="nt:unstructured"
-            mode="replace"
-            root="/content/girlscouts-usa"
-            rules="[]"/>
-        <f2
-            jcr:primaryType="nt:unstructured"
-            mode="replace"
+            mode="merge"
             root="/content/dam/girlscouts-shared"
-            rules="[]"/>
-        <f3
-            jcr:primaryType="nt:unstructured"
-            mode="replace"
-            root="/etc/map.author"
-            rules="[]"/>
-        <f4
-            jcr:primaryType="nt:unstructured"
-            mode="replace"
-            root="/etc/map.publish"
-            rules="[]"/>
-        <f5
-            jcr:primaryType="nt:unstructured"
-            mode="replace"
-            root="/etc/designs/girlscouts"
-            rules="[]"/>
-        <f6
-            jcr:primaryType="nt:unstructured"
-            mode="replace"
-            root="/etc/designs/girlscouts-usa"
-            rules="[]"/>
-	<f7
-            jcr:primaryType="cq:Page"
-            mode="replace"
-            root="/etc/workflow/models/email-workflow"
             rules="[]"/>
     </filter>
 </jcr:root>

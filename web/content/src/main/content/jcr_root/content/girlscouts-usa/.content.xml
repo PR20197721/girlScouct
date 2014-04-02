@@ -3,6 +3,7 @@
     jcr:primaryType="cq:Page">
     <jcr:content
         cq:designPath="/etc/designs/girlscouts-usa"
+        cq:doctype="html_5"
         cq:lastModified="{Date}2014-03-12T10:26:15.596-04:00"
         cq:lastModifiedBy="admin"
         cq:lastReplicated="{Date}2014-03-12T17:33:07.967-04:00"
