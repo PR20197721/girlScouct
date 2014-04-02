@@ -10,7 +10,7 @@ String basicClass = properties.get("type", "");
 
 String[] links = properties.get("links", String[].class);
 if (links == null || links.length == 0) {
-	%>##### Navigation Bar #####<%
+	%>##### Footer Navigation #####<%
 } else {
     %><div><%
     for (int i = 0; i < links.length; i++) {

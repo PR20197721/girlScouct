@@ -10,7 +10,7 @@ String basicClass = properties.get("type", "");
 
 String[] links = properties.get("links", String[].class);
 if (links == null || links.length == 0) {
-	%>##### Navigation Bar #####<%
+	%>##### Global Navigation #####<%
 } else {
 	%><div class="large-19 medium-19 hide-for-small columns"><%
     %><ul class="inline-list"><%
