@@ -1,5 +1,4 @@
 <%@page import="java.util.Iterator,java.util.HashSet,java.util.Set, java.util.Arrays" %>
-
 <%@include file="/libs/foundation/global.jsp"%>
 <cq:includeClientLib categories="apps.girlscouts" />
 <cq:defineObjects/>
