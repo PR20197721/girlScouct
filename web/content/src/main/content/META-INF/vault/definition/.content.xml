@@ -19,12 +19,12 @@
     <filter jcr:primaryType="nt:unstructured">
         <f0
             jcr:primaryType="nt:unstructured"
-            mode="replace"
+            mode="merge"
             root="/content/girlscouts-usa"
             rules="[]"/>
         <f1
             jcr:primaryType="nt:unstructured"
-            mode="replace"
+            mode="merge"
             root="/content/dam/girlscouts-shared"
             rules="[]"/>
     </filter>
