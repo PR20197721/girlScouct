@@ -17,7 +17,7 @@
 
     <artifactId>girlscouts-content</artifactId>
     <packaging>content-package</packaging>
-    <name>Girl Scouts USA Package</name>
+    <name>Girl Scouts USA Content Package</name>
 
     <dependencies>
         <dependency>

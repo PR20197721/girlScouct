@@ -17,7 +17,7 @@
 
     <artifactId>girlscouts-app</artifactId>
     <packaging>app-package</packaging>
-    <name>Girl Scouts USA Package</name>
+    <name>Girl Scouts USA App Package</name>
 
     <dependencies>
         <dependency>
