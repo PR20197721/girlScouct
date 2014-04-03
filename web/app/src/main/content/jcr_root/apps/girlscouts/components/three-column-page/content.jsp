@@ -45,7 +45,7 @@
 				<!--PAGE STRUCTURE: MAIN CONTENT-->
 				<div id="mainContent">
 					<h1>Highest Awards</h1>
-					<img src="images/guitar.png" width="1000" height="566" />
+					<img src="/content/dam/girlscouts-shared/en/articles/guitar.png" width="1000" height="566" />
 					<p>We know you want to do good things for the world. Help the
 						people who need it most. Protect animals that can't speak for
 						themselves. Treat the environment with the respect it deserves. We
@@ -62,7 +62,7 @@
 				<br />
 				<br />
 				<br />
-				<br /> <img src="images/i-cant-wait.png" width="250" height="442" />
+				<br /> <img src="/content/dam/girlscouts-shared/en/ads/i-cant-wait.png" width="250" height="442" />
 				<br />
 				<br />
 				<br />
