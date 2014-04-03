@@ -1,8 +1,9 @@
-<%@page import="java.util.Iterator,java.util.HashSet,java.util.Set, java.util.Arrays" %>
+<%@page
+	import="java.util.Iterator,java.util.HashSet,java.util.Set, java.util.Arrays"%>
 
 <%@include file="/libs/foundation/global.jsp"%>
 <cq:includeClientLib categories="apps.girlscouts" />
-<cq:defineObjects/>
+<cq:defineObjects />
 
 <%
   String currPath = currentPage.getPath();
@@ -27,8 +28,8 @@
   buildMenu(menuLevel1,navigationPath,menuBuilder,levelDepth);
  
  %>
-  <%=menuBuilder %>
- <%!
+<%=menuBuilder %>
+<%!
   public StringBuilder buildMenu(Iterator<Page>menuLevel1, Set<String> navigationPath, StringBuilder menuBuilder, int levelDepth){
     levelDepth++; 
     if(menuLevel1.hasNext())
@@ -44,29 +45,27 @@
           Page level1 = menuLevel1.next();
           if(navigationPath.contains(level1.getName()) )
           {
-              menuBuilder.append("<li class=\"active\">").append(level1.getTitle()).append("</li>");
-              if(level1.listChildren().hasNext() && levelDepth < 3){
-                  buildMenu(level1.listChildren(),navigationPath,menuBuilder,levelDepth);
-                  
-              }
-          }else
-          {
-              
-            menuBuilder.append("<li><a href=");
-            menuBuilder.append(level1.getPath()+".html");
-            menuBuilder.append(">"+level1.getTitle()+"</a></li>");
-            
-            if (levelDepth == 1) {
-        	  menuBuilder.append("<li class=\"divider\"></li>");
-            }
-              
+              menuBuilder.append("<li class=\"active\">");
+          } else {
+              menuBuilder.append("<li>");
           }
-          
+              
+          menuBuilder.append("<a href=")
+	          .append(level1.getPath()+".html")
+	          .append(">")
+	          .append(level1.getTitle())
+	          .append("</a></li>");
+          if(navigationPath.contains(level1.getName()) && level1.listChildren().hasNext() && levelDepth < 3){
+              buildMenu(level1.listChildren(),navigationPath,menuBuilder,levelDepth);
+          }
+
+          if (levelDepth == 1) {
+        	menuBuilder.append("<li class=\"divider\"></li>");
+          }
       }
       menuBuilder.append("</ul>"); 
     }
     return menuBuilder;
  }
 
-%>  
-  
+%>
