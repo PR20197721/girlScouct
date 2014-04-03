@@ -16,5 +16,7 @@
         sling:resourceType="girlscouts/components/three-column-page">
         <content jcr:primaryType="nt:unstructured"/>
     </jcr:content>
+    <badges/>
     <highest-awards/>
+    <cookies/>
 </jcr:root>
