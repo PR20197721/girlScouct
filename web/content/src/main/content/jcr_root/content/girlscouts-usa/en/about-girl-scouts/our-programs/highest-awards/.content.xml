@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-04-01T10:34:24.141-04:00"
+        cq:lastModifiedBy="admin"
+        cq:lastReplicated="{Date}2014-03-12T17:33:08.138-04:00"
+        cq:lastReplicatedBy="admin"
+        cq:lastReplicationAction="Activate"
+        cq:template="/apps/girlscouts/templates/page"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Highest Awards"
+        jcr:uuid="88f5f651-73f0-4926-855c-863212682edb"
+        sling:resourceType="girlscouts/components/three-column-page">
+        <content jcr:primaryType="nt:unstructured"/>
+    </jcr:content>
+</jcr:root>
