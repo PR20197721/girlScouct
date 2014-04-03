@@ -7,31 +7,7 @@
 	<div class="large-4 medium-5 hide-for-small columns mainLeft">
 		<!--PAGE STRUCTURE: LEFT CONTENT-->
 		<div id="leftContent">
-
-			<!--COMPONENTS: SIDE NAV-->
-			<ul class="side-nav" style="padding: 0px;">
-				<li><a href="#">Our Mission</a></li>
-				<li class="divider"></li>
-				<li class="active"><a href="#">Our Programs</a>
-					<ul>
-						<li><a href="#">Grade Levels</a></li>
-						<li class="active"><a href="#">Ways to Participate</a>
-							<ul>
-								<li><a href="#">Troops</a></li>
-								<li><a href="#">Camp</a></li>
-								<li><a href="#">Travel</a></li>
-								<li><a href="#">Series and Events</a></li>
-							</ul></li>
-						<li><a href="#">Journeys</a></li>
-						<li><a href="#">Badges</a></li>
-						<li><a href="#">Highest Awards</a></li>
-						<li><a href="#">Cookies</a></li>
-					</ul></li>
-				<li class="divider"></li>
-				<li><a href="#">Our History</a></li>
-				<li class="divider"></li>
-				<li><a href="#">How to Join</a></li>
-			</ul>
+			<cq:include path="content/cascading-menus" resourceType="girlscouts/components/cascading-menus" />
 		</div>
 	</div>
 	<div class="large-20 medium-19 small-24 columns mainRight">

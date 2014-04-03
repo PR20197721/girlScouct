@@ -5,9 +5,6 @@
 <cq:defineObjects/>
 
 <%
-  System.out.println("I am in this");
-  System.out.println(currentPage.getAbsoluteParent(2).getPath());
-  System.out.println(currentPage.getPath());
   String currPath = currentPage.getPath();
   Iterator<Page> menuLevel1;
   String navigation="";
@@ -36,14 +33,18 @@
     levelDepth++; 
     if(menuLevel1.hasNext())
     {
-     menuBuilder.append("<ul>");
+	 if (levelDepth == 1) {
+      menuBuilder.append("<ul class=\"side-nav\" stype=\"padding:0px\">");
+	 } else {
+      menuBuilder.append("<ul>");
+	 }
      while(menuLevel1.hasNext())
      {
          
           Page level1 = menuLevel1.next();
           if(navigationPath.contains(level1.getName()) )
           {
-              menuBuilder.append("<li>").append(level1.getTitle()).append("</li>");
+              menuBuilder.append("<li class=\"active\">").append(level1.getTitle()).append("</li>");
               if(level1.listChildren().hasNext() && levelDepth < 3){
                   buildMenu(level1.listChildren(),navigationPath,menuBuilder,levelDepth);
                   
@@ -54,6 +55,10 @@
             menuBuilder.append("<li><a href=");
             menuBuilder.append(level1.getPath()+".html");
             menuBuilder.append(">"+level1.getTitle()+"</a></li>");
+            
+            if (levelDepth == 1) {
+        	  menuBuilder.append("<li class=\"divider\"></li>");
+            }
               
           }
           
