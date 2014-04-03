@@ -54,10 +54,11 @@
 	          .append(level1.getPath()+".html")
 	          .append(">")
 	          .append(level1.getTitle())
-	          .append("</a></li>");
+	          .append("</a>");
           if(navigationPath.contains(level1.getName()) && level1.listChildren().hasNext() && levelDepth < 3){
               buildMenu(level1.listChildren(),navigationPath,menuBuilder,levelDepth);
           }
+          menuBuilder.append("</li>");
 
           if (levelDepth == 1) {
         	menuBuilder.append("<li class=\"divider\"></li>");
