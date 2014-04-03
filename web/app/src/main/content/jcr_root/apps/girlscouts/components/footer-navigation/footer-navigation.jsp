@@ -2,10 +2,6 @@
 <%@include file="/libs/foundation/global.jsp"%>
 
 <%
-if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
-	%><cq:includeClientLib categories="apps.girlscouts.components.navigationbar"/><%
-}
-
 String[] links = properties.get("links", String[].class);
 if (links == null || links.length == 0) {
 	%>##### Footer Navigation #####<%
@@ -21,4 +17,8 @@ if (links == null || links.length == 0) {
     %></div><%
 }
 
+// Including multifield widget
+if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
+	%><cq:includeClientLib categories="apps.girlscouts.components.navigationbar"/><%
+}
 %>
