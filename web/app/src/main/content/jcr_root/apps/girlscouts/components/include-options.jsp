@@ -8,4 +8,9 @@ public void setCssClasses(String tags, HttpServletRequest request) {
 	Set<String> classes = opt.getCssClassNames();
 	classes.addAll(Arrays.asList(tags.split(" ")));
 }
+
+public void setHtmlTag(String tag, HttpServletRequest request) {
+	IncludeOptions opt = IncludeOptions.getOptions(request, true);
+	opt.setDecorationTagName(tag);
+}
 %>
