@@ -35,7 +35,7 @@
     if(menuLevel1.hasNext())
     {
 	 if (levelDepth == 1) {
-      menuBuilder.append("<ul class=\"side-nav\" stype=\"padding:0px\">");
+      menuBuilder.append("<ul class=\"side-nav\" style=\"padding:0px\">");
 	 } else {
       menuBuilder.append("<ul>");
 	 }
