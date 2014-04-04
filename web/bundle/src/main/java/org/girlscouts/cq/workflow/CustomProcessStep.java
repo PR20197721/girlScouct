@@ -54,7 +54,6 @@ public class CustomProcessStep implements WorkflowProcess {
 	    throws WorkflowException {
 	WorkflowData workflowData = item.getWorkflowData();
 
-	log.error("We are inside the process");
 	if (workflowData.getPayloadType().equals(TYPE_JCR_PATH)) {
 	    String path = workflowData.getPayload().toString();
 	    try {
