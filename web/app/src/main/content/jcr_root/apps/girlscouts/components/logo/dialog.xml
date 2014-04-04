@@ -7,40 +7,58 @@
     <items jcr:primaryType="cq:WidgetCollection">
         <regular-image
             jcr:primaryType="cq:Widget"
-            cropParameter="./regularImageCrop"
             ddGroups="[media]"
-            fileNameParameter="./regularFileName"
-            fileReferenceParameter="./regularFileReference"
-            mapParameter="./regularImageMap"
-            name="./regularFile"
-            requestSuffix=".img.png"
-            rotateParameter="./regularImageRotate"
+            fileNameParameter="./regular/fileName"
+            fileReferenceParameter="./regular/fileReference"
+            name="./regular/file"
+            requestSuffix="/regular.img.png"
             title="Regular Image"
-            xtype="html5smartimage"/>
+            xtype="html5smartimage">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <resType
+                    jcr:primaryType="cq:Widget"
+                    ignoreData="{Boolean}true"
+                    name="./regular/sling:resourceType"
+                    value="foundation/components/image"
+                    xtype="hidden"/>
+            </items>
+        </regular-image>
         <small-screen-image
             jcr:primaryType="cq:Widget"
-            cropParameter="./smallImageCrop"
             ddGroups="[media]"
-            fileNameParameter="./smallFileName"
-            fileReferenceParameter="./smallFileReference"
-            mapParameter="./smallImageMap"
-            name="./smallFile"
-            requestSuffix=".img.png"
-            rotateParameter="./smallImageRotate"
+            fileNameParameter="./small/fileName"
+            fileReferenceParameter="./small/fileReference"
+            name="./small/file"
+            requestSuffix="/small.img.png"
             title="Small Screen Image"
-            xtype="html5smartimage"/>
+            xtype="html5smartimage">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <resType
+                    jcr:primaryType="cq:Widget"
+                    ignoreData="{Boolean}true"
+                    name="./small/sling:resourceType"
+                    value="foundation/components/image"
+                    xtype="hidden"/>
+            </items>
+        </small-screen-image>
         <hamburger-image
             jcr:primaryType="cq:Widget"
-            cropParameter="./hamburgerImageCrop"
             ddGroups="[media]"
-            fileNameParameter="./hamburgerFileName"
-            fileReferenceParameter="./hamburgerFileReference"
-            mapParameter="./hamburgerImageMap"
-            name="./hamburgerFile"
-            requestSuffix=".img.png"
-            rotateParameter="./hamburgerImageRotate"
+            fileNameParameter="./hamburger/fileName"
+            fileReferenceParameter="./hamburger/fileReference"
+            name="./hamburger/file"
+            requestSuffix="/hamburger.img.png"
             title="Hamburger Image"
-            xtype="html5smartimage"/>
+            xtype="html5smartimage">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <resType
+                    jcr:primaryType="cq:Widget"
+                    ignoreData="{Boolean}true"
+                    name="./hamburger/sling:resourceType"
+                    value="foundation/components/image"
+                    xtype="hidden"/>
+            </items>
+        </hamburger-image>
         <advanced
             jcr:primaryType="cq:Widget"
             title="Advanced"
@@ -61,20 +79,20 @@
                 <regular-size
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Regular Size"
-                    heightParameter="./regularHeight"
-                    widthParameter="./regularWidth"
+                    heightParameter="./regular/height"
+                    widthParameter="./regular/width"
                     xtype="sizefield"/>
                 <small-screen-size
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Small Screen Size"
-                    heightParameter="./smallHeight"
-                    widthParameter="./smallWidth"
+                    heightParameter="./small/height"
+                    widthParameter="./small/width"
                     xtype="sizefield"/>
                 <hamburger-size
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Hamburger Size"
-                    heightParameter="./hamburgerHeight"
-                    widthParameter="./hamburgerWidth"
+                    heightParameter="./hamburger/height"
+                    widthParameter="./hamburger/width"
                     xtype="sizefield"/>
             </items>
         </advanced>

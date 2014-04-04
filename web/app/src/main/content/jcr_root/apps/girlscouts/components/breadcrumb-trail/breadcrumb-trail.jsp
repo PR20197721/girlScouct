@@ -1,14 +1,12 @@
 <%@include file="/libs/foundation/global.jsp"%>
-
-<h1>GIRL SCOUTS</h1>
-
+<nav class="breadcrumbs">
 <%
 	Page trail = null;
 	String title = "";
 
-    long level = 2;
+    long level = 3;
 
-    String delimStr = currentStyle.get("delim", "&nbsp;&gt;&nbsp;");
+    String delimStr = currentStyle.get("delim", "");
     String trailStr = currentStyle.get("trail", "");
     int currentLevel = currentPage.getDepth();
     String delim = "";
@@ -31,7 +29,6 @@
 
         %><%= xssAPI.filterHTML(delim) %><%
         %><a href="<%= xssAPI.getValidHref(trail.getPath()+".html") %>"
-             onclick="CQ_Analytics.record({event:'followBreadcrumb',values: { breadcrumbPath: '<%= xssAPI.getValidHref(trail.getPath()) %>' },collect: false,options: { obj: this },componentPath: '<%=resource.getResourceType()%>'})"><%
         %><%= xssAPI.encodeForHTML(title) %><%
         %></a><%
 
@@ -56,8 +53,7 @@
     
     
         %><%= xssAPI.filterHTML(delim) %><%
-    
-        %><%= xssAPI.encodeForHTML(title) %><%
+        %><a class="current" href="#"><%= xssAPI.encodeForHTML(title) %></a><%
     
         if (trailStr.length() > 0) {
             %><%= xssAPI.filterHTML(trailStr) %><%
@@ -65,3 +61,4 @@
 	}
 
 %>
+</nav>

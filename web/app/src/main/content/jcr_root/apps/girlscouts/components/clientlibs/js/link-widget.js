@@ -63,6 +63,10 @@ girlscouts.components.LinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
                 change: {
                     scope:this,
                     fn:this.updateHidden
+                },
+                dialogselect: {
+                    scope:this,
+                    fn:this.updateHidden
                 }
             } 
         });
