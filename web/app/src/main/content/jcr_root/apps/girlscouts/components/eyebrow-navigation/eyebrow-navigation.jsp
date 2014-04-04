@@ -12,7 +12,7 @@ if (links == null || links.length == 0) {
         String label = values[0];
         String path = values.length >= 2 ? values[1] : "";
         String clazz = values.length >= 3 ? "class=\""+ values[2] + "\"": "";
-		%><li><a <%= clazz %> href="<%= path %>"><%= label %></a></li><%
+		%><li><a <%= clazz %> href="<%= path %>.html"><%= label %></a></li><%
     }
     %></ul><%
 }
