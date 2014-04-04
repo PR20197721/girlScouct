@@ -20,17 +20,7 @@
 			<div class="large-19 medium-19 small-24 columns rightBodyLeft">
 				<!--PAGE STRUCTURE: MAIN CONTENT-->
 				<div id="mainContent">
-					<h1>Highest Awards</h1>
-					<img src="/content/dam/girlscouts-shared/en/articles/guitar.png" width="1000" height="566" />
-					<p>We know you want to do good things for the world. Help the
-						people who need it most. Protect animals that can't speak for
-						themselves. Treat the environment with the respect it deserves. We
-						know you have great ideas, ones that make a lasting difference.
-						And that you're more than ready to work hard to put those ideas
-						into motion. Girl Scounting's highest awards&mdash;the Bronze,
-						Silver, and Gold Awrads&mdash;are your chance to make a lasting
-						difference in your community... and in the larger world. Click
-						below. And start changing th world today!</p>
+					<cq:include path="content/par" resourceType="foundation/components/parsys" />
 				</div>
 			</div>
 			<!--PAGE STRUCTURE: RIGHT CONTENT-->
