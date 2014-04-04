@@ -1,2 +1,0 @@
-#base=js
-contact_form.js
