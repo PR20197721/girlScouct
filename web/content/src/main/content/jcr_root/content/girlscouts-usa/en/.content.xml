@@ -2,7 +2,7 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2014-04-03T16:11:27.832-04:00"
+        cq:lastModified="{Date}2014-04-04T16:00:47.522-04:00"
         cq:lastModifiedBy="admin"
         cq:lastReplicated="{Date}2014-03-12T17:33:08.138-04:00"
         cq:lastReplicatedBy="admin"
@@ -33,11 +33,11 @@
                 sling:resourceType="girlscouts/components/eyebrow-navigation"
                 links="[About Our Council|||#|||,Shop|||#|||,Forms|||#|||,Calendar|||#|||,Contact|||#|||,Espanol|||#|||]"/>
             <global-nav
-                jcr:lastModified="{Date}2014-04-01T13:37:34.838-04:00"
+                jcr:lastModified="{Date}2014-04-04T16:00:47.519-04:00"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="girlscouts/components/global-navigation"
-                links="[About Girl Scouts|||#|||,Events &amp; Activities|||#|||,Camp|||#|||,Cookies|||#|||,For Volunteers|||#|||,Leader|||#|||menuHighlight]"/>
+                links="[About Girl Scouts|||/content/girlscouts-usa/en/about-girl-scouts|||,Events &amp; Activities|||#|||,Camp|||#|||,Cookies|||#|||,For Volunteers|||#|||,Leader|||#|||menuHighlight]"/>
             <search-box
                 jcr:lastModified="{Date}2014-04-03T15:39:08.484-04:00"
                 jcr:lastModifiedBy="admin"
@@ -49,7 +49,8 @@
                 jcr:lastModified="{Date}2014-04-03T16:11:27.826-04:00"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
-                sling:resourceType="girlscouts/components/logo">
+                sling:resourceType="girlscouts/components/logo"
+                linkURL="/content/girlscouts-usa/en">
                 <regular
                     jcr:lastModified="{Date}2014-04-03T16:11:27.826-04:00"
                     jcr:lastModifiedBy="admin"
