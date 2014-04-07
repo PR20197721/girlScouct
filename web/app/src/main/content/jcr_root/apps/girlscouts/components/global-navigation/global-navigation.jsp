@@ -19,6 +19,6 @@ if (links == null || links.length == 0) {
 
 // Including multifield widget
 if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
-	%><cq:includeClientLib categories="apps.girlscouts.components.authoring"/><%
+	%><cq:includeClientLib categories="apps.girlscouts.authoring"/><%
 }
 %>
