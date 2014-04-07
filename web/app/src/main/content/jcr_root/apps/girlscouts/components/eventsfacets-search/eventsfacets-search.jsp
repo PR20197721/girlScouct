@@ -61,7 +61,9 @@
    while(yrs.hasNext()){
        years.add(yrs.next().getTitle());
        
-   }	   
+   }
+   
+   request.setAttribute("results", searchQuery.getSearchResultsInfo());
   
 %>
 <div style="width:100%;"> 
@@ -162,21 +164,7 @@
    
     </div>
    <div style="float:right; width:80%; ">
-     Total Counts <%=hitCounts%>
-       <%
-    
-     for(Map.Entry<String,String> result: results.entrySet()){
-    %>
-    <div>
-      <a href="<%=result.getValue()%>"><%=result.getKey() %></a>    
-   </div>    
-     <%}
-         
-  
-  
-  %>
-      
-    
+      <cq:include script="event-lists.jsp"/>
     </div>
     
     <div id="pagination">
