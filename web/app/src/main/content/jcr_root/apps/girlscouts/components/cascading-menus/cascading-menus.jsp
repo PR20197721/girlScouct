@@ -5,14 +5,13 @@
 <cq:defineObjects />
 
 <%
-  System.out.println("I am in this");
-  System.out.println(currentPage.getAbsoluteParent(2).getPath());
-  System.out.println(currentPage.getPath());
-  String currPath = currentPage.getPath();
+  
+
+
   Iterator<Page> menuLevel1;
   String navigation="";
   Set<String> navigationPath;
-  
+  String currPath = currentPage.getPath();
   if(currPath.equalsIgnoreCase(currentPage.getAbsoluteParent(2).getPath()))
   {
 	 // So I am the root, Check for the children
