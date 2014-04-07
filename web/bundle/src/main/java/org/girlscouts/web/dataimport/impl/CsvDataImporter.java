@@ -106,13 +106,15 @@ public class CsvDataImporter implements DataImporter {
 	    while (nodeIter.hasNext()) {
 		Node node = nodeIter.nextNode();
 		String key = node.getName();
+		String name = node.hasProperty("name") ? node.getProperty(
+			"name").getString() : key;
 		String type = node.hasProperty("type") ? node.getProperty(
 			"type").getString() : "string";
 		String script = node.hasProperty("script") ? node.getProperty(
 			"script").getString() : null;
 
 		String[] confArr = new String[3];
-		confArr[0] = key;
+		confArr[0] = name;
 		confArr[1] = type;
 		confArr[2] = script;
 		fields.add(confArr);
@@ -139,11 +141,13 @@ public class CsvDataImporter implements DataImporter {
 		while (nodeIter.hasNext()) {
 		    Node node = nodeIter.nextNode();
 		    String key = node.getName();
+		    String name = node.hasProperty("name") ? node.getProperty(
+			    "name").getString() : key;
 		    String type = node.hasProperty("type") ? node.getProperty(
 			    "type").getString() : "string";
 		    String value = node.getProperty("value").getString();
 		    String[] confArr = new String[3];
-		    confArr[0] = key;
+		    confArr[0] = name;
 		    confArr[1] = type;
 		    confArr[2] = value;
 		    defaultFields.add(confArr);
@@ -187,6 +191,9 @@ public class CsvDataImporter implements DataImporter {
 	try {
 	    Node tmpRootNode = rr.resolve(DataImporter.TMP_ROOT).adaptTo(
 		    Node.class);
+	    if (tmpRootNode == null) {
+		tmpRootNode = JcrUtil.createPath(DataImporter.TMP_ROOT, "nt:unstructured", session);
+	    }
 	    tmpRootNode.addNode(tmpName, "nt:unstructured");
 	} catch (RepositoryException e) {
 	    this.dryRunSuccess = false;
