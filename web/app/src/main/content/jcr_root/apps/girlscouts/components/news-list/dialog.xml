@@ -21,9 +21,9 @@
                     xtype="multifield">
                     <fieldConfig
                         jcr:primaryType="cq:Widget"
-                        rootPath="{Path}content/girlscouts-usa/en/news"
+                        relativePath="/news"
                         width="155"
-                        xtype="pathfield"/>
+                        xtype="dynamicPathField"/>
                 </pages>
             </items>
         </static>
