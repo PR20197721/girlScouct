@@ -9,6 +9,7 @@
                 <fields jcr:primaryType="nt:unstructured">
                     <title
                         jcr:primaryType="nt:unstructured"
+                        name="jcr:title"
                         type="string"/>
                     <description
                         jcr:primaryType="nt:unstructured"
@@ -19,7 +20,7 @@
                 </fields>
                 <nameGen
                     jcr:primaryType="nt:unstructured"
-                    script="function(title, date) {return date.substring(0, 4) + '/' + title.toLowerCase().replace(/ /g, '_'); }"
+                    script="function(title, date) {return date.substring(0, 4) + '/' + title.toLowerCase().replace(/ /g, '-'); }"
                     scriptFields="title,date"/>
                 <defaultFields jcr:primaryType="nt:unstructured">
                     <sling:resourceType
@@ -28,6 +29,31 @@
                         value="girlscouts/components/event-page"/>
                 </defaultFields>
             </Event>
+            <News
+                jcr:primaryType="nt:unstructured"
+                primaryType="cq:Page">
+                <fields jcr:primaryType="nt:unstructured">
+                    <title
+                        jcr:primaryType="nt:unstructured"
+                        type="string"/>
+                    <description
+                        jcr:primaryType="nt:unstructured"
+                        type="string"/>
+                    <date
+                        jcr:primaryType="nt:unstructured"
+                        type="date(yyyy-MM-dd HH:mm)"/>
+                </fields>
+                <nameGen
+                    jcr:primaryType="nt:unstructured"
+                    script="function(title, date) {return date.substring(0, 4) + '/' + title.toLowerCase().replace(/ /g, '-'); }"
+                    scriptFields="title,date"/>
+                <defaultFields jcr:primaryType="nt:unstructured">
+                    <sling:resourceType
+                        jcr:primaryType="nt:unstructured"
+                        type="string"
+                        value="girlscouts/components/news-page"/>
+                </defaultFields>
+            </News>
         </csv>
     </girlscouts>
 </jcr:root>
