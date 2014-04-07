@@ -16,10 +16,12 @@
   Displays and provides editing of scaffoldings
 
 --%><%@include file="/libs/foundation/global.jsp"%><%
-%><%@ page import="com.day.cq.wcm.api.WCMMode" %><%
+%><%@ page import="com.day.cq.wcm.api.WCMMode,
+	com.day.cq.commons.jcr.JcrUtil,
+	javax.jcr.Session,
+	java.util.Calendar" %><%
 %><body>
     <script src="/libs/cq/ui/resources/cq-ui.js" type="text/javascript"></script><%
-
         String contentPath = properties.get("cq:targetPath", "");
         String dlgPath = resource.getPath() + "/dialog";
         String templatePath = properties.get("cq:targetTemplate", "");
@@ -32,6 +34,9 @@
             isUpdate = true;
         }
     %>
+    contentPath = <%= contentPath %>
+    scaffoldPath = <%= scaffoldPath %>
+
     <h1><%= currentPage.getTitle() %></h1><%
     if (!isUpdate) {
         if (WCMMode.fromRequest(request) == WCMMode.DESIGN) {
@@ -255,7 +260,22 @@
                         params[":nameHint"] = hint;
                     }
                 }
+                
+                /****************************************
+                // Customize code to add year
+                ****************************************/
+				var dateField = frm.findField("./jcr:content/date");
+                var year;
+                if (dateField) {
+                	year = dateField.getValue().getFullYear();	
+                } else {
+                	year = new Date().getFullYear();
+                }
+                var destDir = '<%= contentPath %>/' + year;
+                girlscouts.functions.createPath(destDir, 'cq:Page');
 
+                frm.url = destDir + '/*';
+                
                 var action = new CQ.form.SlingSubmitAction(frm, {
                     params: params,
                     success: function(frm, resp) {
