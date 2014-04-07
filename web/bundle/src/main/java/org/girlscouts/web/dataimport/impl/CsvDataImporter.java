@@ -200,7 +200,35 @@ public class CsvDataImporter implements DataImporter {
 	    throw new GirlScoutsException(e, "Cannot create tmp folder: "
 		    + dryRunPath);
 	}
-
+	
+	// Cleanup obsolete tmp nodes
+	new Thread(new Runnable() {
+	    public void run() {
+		Node tmpRootNode = rr.resolve(CsvDataImporter.TMP_ROOT).adaptTo(Node.class);
+		if (tmpRootNode != null) {
+		    try {
+    		    	NodeIterator nodeIter = tmpRootNode.getNodes();
+    		    	while (nodeIter.hasNext()) {
+    		    	    Node currentNode = nodeIter.nextNode();
+    		    	    String name = currentNode.getName();
+    		    	    // Strip off the random number and the hyphen
+    		    	    String timeStr = name.substring(0, name.length() - 4);
+    		    	    Date nodeDate = new Date(Long.parseLong(timeStr));
+    		    	    Calendar cal = Calendar.getInstance();
+    		    	    cal.add(Calendar.DATE, -1);
+    				
+    		    	    if (nodeDate.before(cal.getTime())) {
+    		    		currentNode.remove();
+    		    	    }
+    		    	    session.save();
+    		    	}
+		    } catch (RepositoryException e) {
+			log.error("Repository Exception while removing tmp nodes");
+		    }
+		}
+	    }
+	}).run();
+	
 	int lineCount = 0;
 	while (lineIter.hasNext()) {
 	    lineCount++;
