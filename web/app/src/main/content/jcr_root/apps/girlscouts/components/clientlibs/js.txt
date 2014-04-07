@@ -2,3 +2,4 @@
 
 main.js
 link-widget.js
+dynamic-pathfield.js
