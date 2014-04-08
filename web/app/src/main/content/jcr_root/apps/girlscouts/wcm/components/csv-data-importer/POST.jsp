@@ -68,10 +68,22 @@ if (action.equals("import")) {
     List<String> keys = new ArrayList<String>();
     NodeIterator confIter = confNode.getNodes();
     while (confIter.hasNext()) {
-		keys.add(confIter.nextNode().getName());
+		Node currentConfNode = confIter.nextNode();
+		String key = null;
+		if (currentConfNode.hasProperty("name")) {
+		   	key = currentConfNode.getProperty("name").getString(); 
+		} else {
+		    key = currentConfNode.getName();
+		}
+		keys.add(key);
 	}
 
 	%><table border="1"><%
+	%><tr><%
+		for (String key : keys) {
+			%><td><%= key %></td><%
+		}
+	%></tr><%
 	while (!queue.isEmpty()) {
 	    Node node = queue.poll();
 	    if (node.hasNodes()) {
@@ -81,9 +93,6 @@ if (action.equals("import")) {
 			}
 		} else {
 			%><tr><%
-			for (String key : keys) {
-				%><td><%= key %></td><%
-			}
 			for (String key : keys) {
 				%><td><%= node.getProperty(key).getString() %></td><%
 			}
