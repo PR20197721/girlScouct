@@ -27,8 +27,7 @@
                 <team
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Team"
-                    name="./jcr:content/team"
-                    xtype="combo"/>
+                    name="./jcr:content/team"/>
             </items>
         </tab1>
     </items>
