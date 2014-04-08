@@ -266,7 +266,7 @@
                 ****************************************/
 				var dateField = frm.findField("./jcr:content/date");
                 var year;
-                if (dateField) {
+                if (dateField.getValue()) {
                 	year = dateField.getValue().getFullYear();	
                 } else {
                 	year = new Date().getFullYear();
