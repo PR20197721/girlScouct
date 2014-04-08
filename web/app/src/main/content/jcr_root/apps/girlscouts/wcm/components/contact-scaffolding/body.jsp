@@ -262,16 +262,16 @@
                 }
                 
                 /****************************************
-                // Customize code to add year
+                // Customize code to add team 
                 ****************************************/
-				var dateField = frm.findField("./jcr:content/date");
-                var year;
-                if (dateField) {
-                	year = dateField.getValue().getFullYear();	
+				var teamField = frm.findField("./jcr:content/team");
+                var team;
+                if (teamField) {
+                	team = teamField.getValue();
                 } else {
-                	year = new Date().getFullYear();
+                	team = "default";
                 }
-                var destDir = '<%= contentPath %>/' + year;
+                var destDir = '<%= contentPath %>/' + team;
                 girlscouts.functions.createPath(destDir, 'cq:Page');
 
                 frm.url = destDir + '/*';
