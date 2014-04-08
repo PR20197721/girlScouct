@@ -255,7 +255,7 @@
                 }
                 var title = frm.findField("./jcr:content/jcr:title");
                 if (title) {
-                    var hint = title.getValue();
+                    var hint = title.getValue().toLowerCase().replace(" ", "-");
                     if (hint) {
                         params[":nameHint"] = hint;
                     }
@@ -266,8 +266,8 @@
                 ****************************************/
 				var teamField = frm.findField("./jcr:content/team");
                 var team;
-                if (teamField) {
-                	team = teamField.getValue();
+                if (teamField.getValue()) {
+                	team = teamField.getValue().toLowerCase().replace(" ", "-");
                 } else {
                 	team = "default";
                 }
