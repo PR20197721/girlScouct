@@ -255,7 +255,7 @@
                 }
                 var title = frm.findField("./jcr:content/jcr:title");
                 if (title) {
-                    var hint = title.getValue().toLowerCase().replace(" ", "-");
+                    var hint = title.getValue();
                     if (hint) {
                         params[":nameHint"] = hint;
                     }
