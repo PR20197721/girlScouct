@@ -12,6 +12,11 @@
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Title"
                     name="./jcr:content/jcr:title"/>
+                <date
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Date"
+                    name="./jcr:content/date"
+                    xtype="datefield"/>
                 <text
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Text"
