@@ -4,22 +4,20 @@
                    java.util.Iterator"%><%
 %><%@include file="/libs/foundation/global.jsp"%><%
 
-    WCMMode mode = WCMMode.fromRequest(request);
-
-    if (mode == WCMMode.EDIT) {
-        //drop target css class = dd prefix + name of the drop target in the edit config
-        String ddClassName = DropTarget.CSS_CLASS_PREFIX + "pages";
-        %><div class="<%= ddClassName %>"><%
-    }
-
-    if (properties.get("feedEnabled", false)) {
-        %><link rel="alternate" type="application/atom+xml" title="Atom 1.0 (List)" href="<%= resource.getPath() %>.feed" /><%
-    }
-
     // initialize the list
     %><cq:include script="init.jsp"/><%
+    String offset = "";
+    offset = request.getParameter("offset");
+  
     List list = (List)request.getAttribute("list");
-    if (!list.isEmpty()) {
+    if(offset!=null && !offset.isEmpty()){
+      // Do nothing
+    }else{
+    	offset = "";
+    	
+    }
+    
+    if (!list.isEmpty() && offset.isEmpty()) {
         String cls = list.getType();
         cls = (cls == null) ? "" : cls.replaceAll("/", "");
 
@@ -48,8 +46,8 @@
     } else {
         %><cq:include script="empty.jsp"/><%
     }
-    
-    if (mode == WCMMode.EDIT) {
-        %></div><%
-    }
+    if(!list.isEmpty()){
+    	%><cq:include script="list-news.jsp"/>
+    <%}
+   
 %>
