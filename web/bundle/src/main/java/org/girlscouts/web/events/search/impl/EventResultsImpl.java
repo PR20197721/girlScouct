@@ -83,7 +83,8 @@ public class EventResultsImpl implements EventResults {
 		for(int i=0;i<hits.size();i++)
 		{
 			Hit ht = hits.get(i);
-			String path = ht.getNode().isNodeType("cq:Page")?ht.getPath()+".html":ht.getPath();
+			//String path = ht.getNode().isNodeType("cq:Page")?ht.getPath()+".html":ht.getPath();
+			String path = ht.getNode().isNodeType("cq:Page")?ht.getPath():ht.getPath();
 			Sresults.put(ht.getTitle(), path);
 			
 		}
