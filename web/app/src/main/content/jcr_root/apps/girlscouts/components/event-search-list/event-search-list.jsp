@@ -36,23 +36,27 @@
    <%
       for(Map.Entry<String,String> result: results.entrySet()){
     	 Node node =  resourceResolver.getResource(result.getValue()).adaptTo(Node.class);
-    	 System.out.println("Node Name" +node.getName());
     	 Node propNode = node.getNode("jcr:content/content/middle/par/event");
     	 String title = propNode.getProperty("title").getString();
     	 String href = result.getValue()+".html";
     	 String time = propNode.getProperty("time").getString();
     	 String fromdate = propNode.getProperty("fromdate").getString();
-    	 String todate = propNode.getProperty("todate").getString();
+    	 String todate="";
+    	 Date tdt = null;
+    	 if(propNode.hasProperty("todate")){
+    	 	 todate = propNode.getProperty("todate").getString();
+    	 	 tdt = fromFormat.parse(todate);
+    	 }
     	 String location = resourceResolver.getResource(propNode.getProperty("location").getString()).adaptTo(Page.class).getTitle();
     	 String details = propNode.getProperty("srchdisp").getString();
     	 Date fdt = fromFormat.parse(fromdate);
-    	 Date tdt = fromFormat.parse(todate);
+    	
     %>
       <div>
             <a href="<%=href%>"><%=title %></a>
             <p><%=details%></p>
             <p>Time :<%=time%></p> 
-            <p>Date : <%=toFormat.format(fdt) %> to <%=toFormat.format(tdt) %></p>   
+            <p>Date : <%=toFormat.format(fdt)%> <%if(propNode.hasProperty("todate")) {%> to <%=toFormat.format(tdt) %> <%}%></p>   
             <p>Location : <%=location %></p>
       </div>    
      <%}%>
