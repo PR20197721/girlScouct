@@ -18,6 +18,7 @@
 
    //String date = properties.get("date",String.class);
    String details = properties.get("details"," ");
+   String title = properties.get("title","");
    String time = properties.get("time", " ");
    String location = properties.get("location", "");
    String fileReference = properties.get("fileReference", "");
@@ -40,6 +41,14 @@
        
     }
 %>
+<style>
+  h1{color: #000000}
+
+</style>
+<div id="tl">
+<h1><%=title%></h1>
+</div>
+<p>
 <%if(time!=null && time.length() >0){ %>
 <Strong>Time:</Strong> <%=time %>
 <% }if(fromdate!=null && fromdate.length() > 0){
@@ -64,3 +73,4 @@
    <img src="<%=fileReference%>" alt="<%if(imgAlt!=null && imgAlt.length()>0){%><%=imgAlt%><%}%>" width=<%=imgWidth%> height="<%=imgHeight%>"/>
 
 <%} %>
+</p>
