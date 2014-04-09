@@ -9,7 +9,7 @@
 
 <%
 
-   
+
    String COUNTS = "/content/girlscouts-usa/en/events/tag-counts";
    String REGIONS = "/content/girlscouts-usa/en/locations";
    String YEARS="/content/girlscouts-usa/en/events";
@@ -148,7 +148,6 @@
        for(int i=0;i<categoriesList.size();i++)
     	   {
     	    FacetsInfo facetsTags = (FacetsInfo)categoriesList.get(i);
-    	    System.out.println("Title" +facetsTags.getFacetsTitle() +"Counts " +facetsTags.getCounts());
     	     %>
     	      <input type="checkbox" id="<%=facetsTags.getFacetsTagId()%>" value="<%=facetsTags.getFacetsTagId()%>" name="tags" <%if(set.contains(facetsTags.getFacetsTagId())){ %>checked <%} %>/>
               <label for="<%=facetsTags.getFacetsTitle() %>"><%=facetsTags.getFacetsTitle()%>&nbsp;(<%=facetsTags.getCounts()%>)</label>
