@@ -76,6 +76,8 @@ public class EventsSrch
 
 		searchQuery.put("type", "cq:Page");
 		searchQuery.put("path",PATH_1);
+		searchQuery.put("boolproperty","jcr:content/hideInNav");
+		searchQuery.put("boolproperty.value","false");
 		searchQuery.put(++propertyCounter+"_property",EVENTS_PROP);
 		
 		//Check if the query is null
