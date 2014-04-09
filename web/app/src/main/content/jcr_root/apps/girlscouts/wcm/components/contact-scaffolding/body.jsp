@@ -273,7 +273,7 @@
                 }
                 var	teamNodeName = team.toLowerCase().replace(" ", "-");
                 var destDir = '<%= contentPath %>/' + teamNodeName;
-                girlscouts.functions.createPath(destDir, 'cq:Page', 'name|' + team);
+                girlscouts.functions.createPath(destDir, 'cq:Page', 'jcr:title|' + team);
 
                 frm.url = destDir + '/*';
                 
