@@ -17,8 +17,8 @@
    
 
    //String date = properties.get("date",String.class);
-   String details = properties.get("details","");
-   String time = properties.get("time", "");
+   String details = properties.get("details"," ");
+   String time = properties.get("time", " ");
    String location = properties.get("location", "");
    String fileReference = properties.get("fileReference", "");
    String imgWidth = properties.get("width", "");
