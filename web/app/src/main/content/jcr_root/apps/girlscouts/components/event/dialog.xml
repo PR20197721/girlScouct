@@ -12,6 +12,7 @@
             <items jcr:primaryType="cq:WidgetCollection">
                 <title
                     jcr:primaryType="cq:Widget"
+                    allowBlank="{Boolean}false"
                     fieldLabel="Event Title"
                     name="./title"
                     xtype="textfield"/>
@@ -22,6 +23,7 @@
                     xtype="pathfield"/>
                 <fromdate
                     jcr:primaryType="cq:Widget"
+                    allowBlank="{Boolean}false"
                     fieldLabel="From Date"
                     name="./fromdate"
                     xtype="datefield"/>
@@ -32,6 +34,7 @@
                     xtype="datefield"/>
                 <time
                     jcr:primaryType="cq:Widget"
+                    allowBlank="{Boolean}false"
                     fieldLabel="Event Time"
                     name="./time"
                     xtype="textfield"/>
