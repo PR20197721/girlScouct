@@ -11,7 +11,7 @@ girlscouts.functions.createPath = function(path, type, prop) {
 		data: {"path": path, "type" : type},
 		async: false
 	};
-	if (!prop) {
+	if (prop) {
 		conf.data.prop = prop;
 	}
 

@@ -6,7 +6,7 @@
 <%
 	String path = request.getParameter("path");
 	String type = request.getParameter("type");
-	String propertiesStr = request.getParameter("properties");
+	String propertiesStr = request.getParameter("prop");
 	
 	if (type == null || type.isEmpty()) {
 		type = "cq:Page";
