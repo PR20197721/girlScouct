@@ -7,69 +7,75 @@
 <cq:includeClientLib categories="apps.girlscouts" />
 <cq:defineObjects/>
 
+<%  
+
+
+  HashMap<String,List<FacetsInfo>> facetsAndTags = (HashMap<String, List<FacetsInfo>>) request.getAttribute("facetsAndTags");
+  
+  if(null==facetsAndTags)
+  {
+%>
+    <cq:include path="content/left/par/event-search" resourceType="girlscouts/components/event-search" />
+<%  }
+    facetsAndTags = (HashMap<String, List<FacetsInfo>>) request.getAttribute("facetsAndTags");
+
+%>
+
+
 <%
 
 
-   String COUNTS = "/content/girlscouts-usa/en/events/tag-counts";
    String REGIONS = "/content/girlscouts-usa/en/locations";
    String YEARS="/content/girlscouts-usa/en/events";
    long RESULTS_PER_PAGE = 10;
-   
-   
-   
-   ArrayList<String> regions = new ArrayList<String>();
-   ArrayList<String> years = new ArrayList<String>();
-  
-   QueryBuilder queryBuilder = sling.getService(QueryBuilder.class);
-   
-   EventsSrch searchQuery = new EventsSrch(slingRequest,queryBuilder);
- 
-   Map<String, ArrayList<String>> tagsToCheck = new HashMap<String, ArrayList<String>>();
+
    String[] tags = request.getParameterValues("tags");
    HashSet<String> set = new HashSet<String>();
    if(tags!=null)
    {
-	    set = new HashSet<String>();
-	    for (String words : tags){
-	    	set.add(words);
-	    }
+        set = new HashSet<String>();
+        for (String words : tags){
+            set.add(words);
+        }
    }
-   String q = request.getParameter("q");
-   String offset = request.getParameter("offset");
-   String region = request.getParameter("region");
+
+   String year=request.getParameter("year");
    String month = request.getParameter("month");
    String startdtRange = request.getParameter("startdtRange");
    String enddtRange = request.getParameter("enddtRange");
-   String year=request.getParameter("year");
-  
-   searchQuery.search(q,tags,offset,month,year,startdtRange,enddtRange,region);
-   HashMap<String,List<FacetsInfo>> facetsAndTags =  searchQuery.getFacets();
-   
-   
-   SearchResultsInfo searchResultsInfo = searchQuery.getSearchResultsInfo();
-   SearchResult searchResults = searchResultsInfo.getSearchResults();
-   
-  
-   Map<String,String> results = searchResultsInfo.getResults();
-   long hitCounts = searchResultsInfo.getHitCounts();
+
+   ArrayList<String> regions = new ArrayList<String>();
+   ArrayList<String> years = new ArrayList<String>();
+
+
+   Iterator<Page> yrs= resourceResolver.getResource(YEARS).adaptTo(Page.class).listChildren();
+
+   String formAction = currentPage.getPath()+".html";
+   if(properties.get("formaction", String.class)!=null && properties.get("formaction", String.class).length()>0){
+	   formAction = properties.get("formaction", String.class);
+   }
+		   
+		   
    Iterator<Page> pages= resourceResolver.getResource(REGIONS).adaptTo(Page.class).listChildren();
    while(pages.hasNext()){
-	   regions.add(pages.next().getTitle());
-	   
+       regions.add(pages.next().getTitle());
+
    }
-   Iterator<Page> yrs= resourceResolver.getResource(YEARS).adaptTo(Page.class).listChildren();
-   while(yrs.hasNext()){
+   while(yrs.hasNext())
+   {
        years.add(yrs.next().getTitle());
-       
    }
-   
-   request.setAttribute("results", searchQuery.getSearchResultsInfo());
-  
+
+   SearchResultsInfo srchInfo = (SearchResultsInfo)request.getAttribute("results");
+   Map<String, String> results = srchInfo.getResults();
+   request.setAttribute("formAction", formAction);
+
+
 %>
-<div style="width:100%;"> 
- 
-   <div style="float:left; width:20%;">
-    <form action="<%=currentPage.getPath()%>.html" method="get" id="form">
+<div> 
+
+   <div>
+    <form action="<%=formAction%>" method="get" id="form">
        <div>
          <p>
               KeyWord : <input type="text" name="q" id="q"/>
@@ -125,7 +131,7 @@
            %>  
             <input type="checkbox"  id="<%=programLevelList.getFacetsTagId()%>" value="<%=programLevelList.getFacetsTagId()%>" name="tags" <%if(set.contains(programLevelList.getFacetsTagId())){ %>checked <%} %>/>
              <label for="<%=programLevelList.getFacetsTitle() %>"><%=programLevelList.getFacetsTitle()%>&nbsp;(<%=programLevelList.getCounts()%>)</label>
-        	<br/>
+            <br/>
         <%}%>  
     </div>
     <div>
@@ -146,10 +152,10 @@
        
        
        for(int i=0;i<categoriesList.size();i++)
-    	   {
-    	    FacetsInfo facetsTags = (FacetsInfo)categoriesList.get(i);
-    	     %>
-    	      <input type="checkbox" id="<%=facetsTags.getFacetsTagId()%>" value="<%=facetsTags.getFacetsTagId()%>" name="tags" <%if(set.contains(facetsTags.getFacetsTagId())){ %>checked <%} %>/>
+           {
+            FacetsInfo facetsTags = (FacetsInfo)categoriesList.get(i);
+             %>
+              <input type="checkbox" id="<%=facetsTags.getFacetsTagId()%>" value="<%=facetsTags.getFacetsTagId()%>" name="tags" <%if(set.contains(facetsTags.getFacetsTagId())){ %>checked <%} %>/>
               <label for="<%=facetsTags.getFacetsTitle() %>"><%=facetsTags.getFacetsTitle()%>&nbsp;(<%=facetsTags.getCounts()%>)</label>
               <br/>
     
@@ -162,36 +168,9 @@
    
    
     </div>
-   <div style="float:right; width:80%; ">
-      <cq:include script="event-lists.jsp"/>
-    </div>
-    
-    <div id="pagination">
-       <%if(searchResults.getResultPages().size() > 1) 
-    	 { 
-    	    
-    	    for(int i=0;i<searchResults.getResultPages().size(); i++)
-    	    {   long offst = i*10;
-    	   	  if(searchResults.getResultPages().get(i).isCurrentPage()){%>
-    	   	  
-       	         <%=i+1 %>
-              <%}
-   	    	  else{
-   	    	    if(q!=null){%>
-   	    	    	 <a x-cq-linkchecker="skip" href="<%=currentPage.getPath()%>.html?q=<%=q%>&offset=<%=offst%>"><%=i+1%></a>
-   	    	    <%}else{%>
-   	    	        <a x-cq-linkchecker="skip" href="<%=currentPage.getPath()%>.html?offset=<%=offst%>"><%=i+1%></a>
-   	    	  <%}%>
-   	    	      
-    	         	   
-                <%}
-    	      }
-    	    
-    	  }  
-        %>
-    </div>
- 
+   
  
  
  
  </div>  
+

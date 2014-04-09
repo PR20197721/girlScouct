@@ -8,6 +8,7 @@
 		<!--PAGE STRUCTURE: LEFT CONTENT-->
 		<div id="leftContent">
 			<cq:include path="content/left/cascading-menus" resourceType="girlscouts/components/cascading-menus" />
+			<cq:include path="content/left/par" resourceType="foundation/components/parsys" />
 		</div>
 	</div>
 	<div class="large-20 medium-19 small-24 columns mainRight">
