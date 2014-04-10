@@ -27,5 +27,10 @@
             mode="merge"
             root="/content/dam/girlscouts-shared"
             rules="[]"/>
+        <f2
+            jcr:primaryType="nt:unstructured"
+            mode="merge"
+            root="/etc/tags/girlscouts"
+            rules="[]"/>
     </filter>
 </jcr:root>
