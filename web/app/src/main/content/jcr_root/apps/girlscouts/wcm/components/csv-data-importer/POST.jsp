@@ -5,7 +5,8 @@ java.io.StringReader,
 java.util.Queue,
 java.util.LinkedList,
 java.util.ArrayList,
-java.util.List" %>
+java.util.List,
+java.util.Iterator" %>
 <%@include file="/libs/foundation/global.jsp" %>
 
 
@@ -57,11 +58,11 @@ if (action.equals("import")) {
 	}
 	
 	String dryRunPath = importer.getDryRunPath();
-	Queue<Node> queue = new LinkedList<Node>();
+	Queue<Page> queue = new LinkedList<Page>();
 	Node tmpNode = resourceResolver.resolve(dryRunPath).adaptTo(Node.class);
 	NodeIterator tmpIter = tmpNode.getNodes();
 	while (tmpIter.hasNext()) {
-		queue.offer(tmpIter.nextNode());
+		queue.offer(resourceResolver.resolve(tmpIter.nextNode().getPath()).adaptTo(Page.class));
 	}
 	
 	Node confNode = resourceResolver.resolve(type + "/fields").adaptTo(Node.class);
@@ -85,16 +86,16 @@ if (action.equals("import")) {
 		}
 	%></tr><%
 	while (!queue.isEmpty()) {
-	    Node node = queue.poll();
-	    if (node.hasNodes()) {
-			NodeIterator iter = node.getNodes();
+	    Page thisPage = queue.poll();
+	    if (thisPage.listChildren().hasNext()) {
+			Iterator<Page> iter = thisPage .listChildren();
 			while (iter.hasNext()) {
-			    queue.offer(iter.nextNode());
+			    queue.offer(iter.next());
 			}
 		} else {
 			%><tr><%
 			for (String key : keys) {
-				%><td><%= node.getProperty(key).getString() %></td><%
+				%><td><%= thisPage.getProperties().get(key, "") %></td><%
 			}
 			%></tr><%
 	    }

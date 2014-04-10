@@ -267,12 +267,13 @@
 				var teamField = frm.findField("./jcr:content/team");
                 var team;
                 if (teamField.getValue()) {
-                	team = teamField.getValue().toLowerCase().replace(" ", "-");
+                	team = teamField.getValue();
                 } else {
                 	team = "default";
                 }
-                var destDir = '<%= contentPath %>/' + team;
-                girlscouts.functions.createPath(destDir, 'cq:Page');
+                var	teamNodeName = team.toLowerCase().replace(" ", "-");
+                var destDir = '<%= contentPath %>/' + teamNodeName;
+                girlscouts.functions.createPath(destDir, 'cq:Page', 'jcr:title|' + team);
 
                 frm.url = destDir + '/*';
                 

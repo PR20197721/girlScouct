@@ -43,6 +43,7 @@ public class CsvDataImporter implements DataImporter {
 
     private List<String[]> fields;
     private List<String[]> defaultFields;
+    private List<Object[]> parentFields;
     private String primaryType;
     private boolean isNameFromField;
     private String nameFromField;
@@ -99,6 +100,8 @@ public class CsvDataImporter implements DataImporter {
 	    } else {
 		nameFieldIndexes = new int[nameScriptFields.length];
 	    }
+
+
 	    // Read fields
 	    fields = new ArrayList<String[]>();
 	    Node fieldsNode = confNode.getNode("fields");
@@ -106,15 +109,18 @@ public class CsvDataImporter implements DataImporter {
 	    while (nodeIter.hasNext()) {
 		Node node = nodeIter.nextNode();
 		String key = node.getName();
+		String name = node.hasProperty("name") ? node.getProperty(
+			"name").getString() : key;
 		String type = node.hasProperty("type") ? node.getProperty(
 			"type").getString() : "string";
 		String script = node.hasProperty("script") ? node.getProperty(
 			"script").getString() : null;
 
-		String[] confArr = new String[3];
-		confArr[0] = key;
+		String[] confArr = new String[4];
+		confArr[0] = name;
 		confArr[1] = type;
 		confArr[2] = script;
+		confArr[3] = key;
 		fields.add(confArr);
 
 		// Remember the indexes of script fields
@@ -128,6 +134,34 @@ public class CsvDataImporter implements DataImporter {
 		    if (nameFromField.equals(key)) {
 			nameFieldIndexes[0] = fields.size() - 1;
 		    }
+		}
+	    }
+
+	    // Read parent fields
+	    parentFields = new ArrayList<Object[]>();
+	    if (confNode.hasNode("parent-fields")) {
+		Node parentFieldsNode = confNode.getNode("parent-fields");
+		nodeIter = parentFieldsNode.getNodes();
+		while (nodeIter.hasNext()) {
+		    Node node = nodeIter.nextNode();
+		    String key = node.getName();
+		    String name = node.hasProperty("name") ? node.getProperty(
+			    "name").getString() : key;
+		    String script = node.hasProperty("script") ? node
+			    .getProperty("script").getString() : null;
+		    Object[] confArr = new Object[3];
+		    confArr[0] = name;
+		    
+		    confArr[1] = 0;
+		    for (int i = 0; i < fields.size(); i++) {
+			String[] field = fields.get(i);
+			if (field[3].equals(key)) {
+			    confArr[1] = i;
+			    break;
+			}
+		    }
+		    confArr[2] = script;
+		    parentFields.add(confArr);
 		}
 	    }
 
@@ -155,11 +189,10 @@ public class CsvDataImporter implements DataImporter {
 			    + confPath + ". Reason: " + e.getMessage());
 	}
     }
-    
+
     public List<String[]> getFields() {
 	return this.fields;
     }
-
 
     public String getDryRunPath() throws GirlScoutsException {
 	if (this.dryRunPath == null) {
@@ -187,6 +220,9 @@ public class CsvDataImporter implements DataImporter {
 	try {
 	    Node tmpRootNode = rr.resolve(DataImporter.TMP_ROOT).adaptTo(
 		    Node.class);
+	    if (tmpRootNode == null) {
+		tmpRootNode = JcrUtil.createPath(DataImporter.TMP_ROOT, "nt:unstructured", session);
+	    }
 	    tmpRootNode.addNode(tmpName, "nt:unstructured");
 	} catch (RepositoryException e) {
 	    this.dryRunSuccess = false;
@@ -230,6 +266,28 @@ public class CsvDataImporter implements DataImporter {
     private void saveNode(String path, List<Object> values)
 	    throws GirlScoutsException {
 	try {
+	    // Create parent node first
+	    String parentPath = path.substring(0, path.lastIndexOf('/'));
+	    if (rr.resolve(parentPath).adaptTo(Node.class) == null) {
+		Node parentNode = JcrUtil.createPath(parentPath, primaryType, session);
+		if (primaryType.equals("cq:Page")) {
+		    parentNode = parentNode.addNode("jcr:content", "cq:PageContent");
+		}
+		
+		for (Object[] field : parentFields) {
+		    String name = (String)field[0];
+		    int index = (Integer)field[1];
+		    String script = (String)field[2];
+		    Object value = values.get(index);
+		    String type = fields.get(index)[1];
+		    if (script != null && !script.isEmpty()) {
+			value = executeJavaScript(script, value.toString());
+			type = "string";
+		    }
+		    saveProperty(parentNode, name, value, type);
+		}
+	    }
+	    
 	    Node node = JcrUtil.createPath(path, primaryType, session);
 	    if (primaryType.equals("cq:Page")) {
 		node = node.addNode("jcr:content", "cq:PageContent");
@@ -287,7 +345,9 @@ public class CsvDataImporter implements DataImporter {
 
     private List<Object> readLine(String[] cols) throws GirlScoutsException {
 	if (cols.length < fields.size()) {
-	    throw new GirlScoutsException(null, "Too Few columns. There should be " + fields.size() + " columns");
+	    throw new GirlScoutsException(null,
+		    "Too Few columns. There should be " + fields.size()
+			    + " columns");
 	}
 	List<Object> result = new ArrayList<Object>();
 	for (int i = 0; i < cols.length; i++) {
@@ -333,13 +393,17 @@ public class CsvDataImporter implements DataImporter {
 	Resource destParentResource = rr.getResource(destParentPath);
 
 	Node destParentNode = null;
-	if (destParentResource != null && !destParentResource.equals("sling:nonexisting")) {
+	if (destParentResource != null
+		&& !destParentResource.equals("sling:nonexisting")) {
 	    destParentNode = destParentResource.adaptTo(Node.class);
 	} else {
 	    try {
-		destParentNode = JcrUtil.createPath(destParentPath, this.primaryType, this.session);
+		destParentNode = JcrUtil.createPath(destParentPath,
+			this.primaryType, this.session);
 	    } catch (RepositoryException e) {
-		throw new GirlScoutsException(e, "Repository Exception while creating path:" + destParentPath);
+		throw new GirlScoutsException(e,
+			"Repository Exception while creating path:"
+				+ destParentPath);
 	    }
 	}
 	Node destNode = null;
