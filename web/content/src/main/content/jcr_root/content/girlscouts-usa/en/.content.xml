@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
+    <contacts/>
+    <event-list/>
+    <events/>
+    <location/>
+    <locations/>
+    <news/>
+    <news-list/>
     <jcr:content
-        cq:lastModified="{Date}2014-04-04T16:00:47.522-04:00"
+        cq:lastModified="{Date}2014-04-10T16:46:56.382-04:00"
         cq:lastModifiedBy="admin"
         cq:lastReplicated="{Date}2014-03-12T17:33:08.138-04:00"
         cq:lastReplicatedBy="admin"
@@ -71,6 +78,9 @@
                     fileReference="/content/dam/girlscouts-shared/en/design/hamburger.png"/>
             </logo>
         </header>
+        <image jcr:primaryType="nt:unstructured">
+            <file/>
+        </image>
     </jcr:content>
     <site/>
     <about-girl-scouts/>
