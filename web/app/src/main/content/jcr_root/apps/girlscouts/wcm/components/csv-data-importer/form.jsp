@@ -19,7 +19,7 @@ NodeIterator iter = confNode.getNodes();
     		Node typeNode = iter.nextNode();
     %>
 		<input type="radio" name="type" value="<%= typeNode.getPath() %>" checked><%=typeNode.getName()%></input>	 
-		<div><input type="submit" /></div>
     <% } %>
+		<div><input type="submit" /></div>
 	</div>
 </form>
