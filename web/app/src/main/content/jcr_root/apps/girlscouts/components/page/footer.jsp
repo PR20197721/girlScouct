@@ -10,3 +10,5 @@
 	<% setCssClasses("large-24 medium-24 small-24 column", request); %>
     <cq:include path="<%= footerPath + "/nav"%>" resourceType="girlscouts/components/navigation-bar"/>
 </div>
+
+<cq:include script="/libs/foundation/components/page/stats.jsp" />
