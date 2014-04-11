@@ -3,4 +3,5 @@
     <filter root="/content/girlscouts-usa"/>
     <filter root="/content/girlscouts-usa"/>
     <filter root="/etc/tags/girlscouts"/>
+    <filter root="/etc/projects/girlscouts"/>
 </workspaceFilter>

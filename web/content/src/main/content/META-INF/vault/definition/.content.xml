@@ -32,5 +32,10 @@
             mode="merge"
             root="/etc/tags/girlscouts"
             rules="[]"/>
+        <f3
+            jcr:primaryType="nt:unstructured"
+            mode="merge"
+            root="/etc/projects/girlscouts"
+            rules="[]"/>
     </filter>
 </jcr:root>
