@@ -445,6 +445,12 @@ public class CsvDataImporter implements DataImporter {
     private void saveProperty(Node node, String key, Object value, String type)
 	    throws GirlScoutsException {
 	try {
+	    if (key.contains("/")) {
+        	String relPath = key.substring(0, key.lastIndexOf('/'));
+        	String absolutePath = node.getPath() + "/" + relPath;
+        	key = key.substring(key.lastIndexOf('/') + 1);
+        	node = JcrUtil.createPath(absolutePath, "nt:unstructured", session);
+	    }
 	    if (type.equals("string")) {
 		node.setProperty(key, (String) value);
 	    } else if (type.equals("boolean")) {
