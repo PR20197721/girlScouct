@@ -35,14 +35,24 @@
         <f3
             jcr:primaryType="nt:unstructured"
             mode="replace"
-            root="/etc/designs/girlscouts"
+            root="/etc/data-import"
             rules="[]"/>
         <f4
             jcr:primaryType="nt:unstructured"
             mode="replace"
+            root="/etc/data-importers"
+            rules="[]"/>
+        <f5
+            jcr:primaryType="nt:unstructured"
+            mode="replace"
+            root="/etc/designs/girlscouts"
+            rules="[]"/>
+        <f6
+            jcr:primaryType="nt:unstructured"
+            mode="replace"
             root="/etc/designs/girlscouts-usa"
             rules="[]"/>
-	    <f5
+	    <f7
             jcr:primaryType="cq:Page"
             mode="replace"
             root="/etc/workflow/models/email-workflow"

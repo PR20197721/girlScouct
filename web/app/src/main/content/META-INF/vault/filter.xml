@@ -3,6 +3,8 @@
     <filter root="/apps/girlscouts"/>
     <filter root="/etc/map.author"/>
     <filter root="/etc/map.publish"/>
+    <filter root="/etc/data-importers"/>
+    <filter root="/etc/data-import"/>
     <filter root="/etc/designs/girlscouts"/>
     <filter root="/etc/designs/girlscouts-usa"/>
     <filter root="/etc/workflow/models/email-workflow"/>
