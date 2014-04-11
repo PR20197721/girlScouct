@@ -65,6 +65,7 @@
                         type="string"/>
                     <title
                         jcr:primaryType="nt:unstructured"
+                        name="whatever/whatever2/title"
                         type="string"/>
                     <phone
                         jcr:primaryType="nt:unstructured"
