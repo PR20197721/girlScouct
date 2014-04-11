@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <workspaceFilter version="1.0">
     <filter root="/content/girlscouts-usa"/>
-    <filter root="/content/girlscouts-usa"/>
+    <filter root="/content/dam/girlscouts-shared"/>
     <filter root="/etc/tags/girlscouts"/>
     <filter root="/etc/projects/girlscouts"/>
 </workspaceFilter>
