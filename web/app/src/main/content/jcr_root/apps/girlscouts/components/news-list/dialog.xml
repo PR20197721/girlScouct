@@ -42,7 +42,7 @@
                     jcr:primaryType="cq:Widget"
                     fieldDescription="(Only Check the boxes if News-List need to be displayed as featured)"
                     fieldLabel="Display on Home Page"
-                    name=".isonhomepage"
+                    name="./isonhomepage"
                     xtype="checkbox"/>
                 <newscounts
                     jcr:primaryType="cq:Widget"
