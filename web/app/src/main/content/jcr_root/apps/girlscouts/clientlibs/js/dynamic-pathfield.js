@@ -6,14 +6,15 @@ girlscouts.components.DynamicPathField = CQ.Ext.extend(CQ.form.PathField, {
         for (var i = 0; i < PARENT_LEVEL; i++) {
 			slashIndex = currentPath.indexOf("/", slashIndex + 1);
         }
-        var rootPath = currentPath.substring(0, slashIndex);
+        var rootPath = slashIndex == -1 ? currentPath : currentPath.substring(0, slashIndex);
         if (typeof(config.relativePath) != 'undefined') {
 			rootPath += config.relativePath;
         }
 
         config = config || { };
         var defaults = {
-            "rootPath": rootPath
+            "rootPath": rootPath,
+            "rootTitle": "Website"
         };
         config = CQ.Util.applyDefaults(config, defaults);
         girlscouts.components.DynamicPathField.superclass.constructor.call(this, config);
