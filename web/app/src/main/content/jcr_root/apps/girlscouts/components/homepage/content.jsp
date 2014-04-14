@@ -15,8 +15,8 @@
                         </div>
                         <div class="row">
 
-                            <cq:include path="feature-storystories" resourceType="girlscouts/components/parsys-feature-shortstories"/>
-                             <cq:include path="par" resourceType="foundation/components/parsys"/>
+                           <cq:include path="feature-storystories" resourceType="girlscouts/components/parsys-feature-shortstories"/>
+                            <cq:include path="content/par" resourceType="foundation/components/parsys"/>
 
                            <!--
                             <div id="homeBlockGrid" class="large-8 medium-8 small-12 columns">
