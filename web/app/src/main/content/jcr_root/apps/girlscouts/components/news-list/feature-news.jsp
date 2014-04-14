@@ -10,7 +10,7 @@
   java.util.List <Hit> resultsHits = results.getHits();
   Format formatter = new SimpleDateFormat("dd MMM yyyy");
  
-  Integer count =  Integer.parseInt(properties.get("count",String.class));;
+  Integer count =  Integer.parseInt(properties.get("count",String.class));
   if(count > resultsHits.size()){
 	  count = resultsHits.size();
   }
@@ -46,7 +46,17 @@ for(int i=0;i<count;i++)
 
 %>
 
-
+<div>
+    <%
+      if(properties.containsKey("urltolink")){
+    %>    
+        <a href="<%=properties.get("urltolink")%>.html"><%=properties.get("linktext")%></a>
+          
+     <% }
+    
+    %>
+  
+  </div>
 
    
    
