@@ -10,15 +10,15 @@
 <%
 
    
-   String COUNTS = "/content/girlscouts-usa/en/events/tag-counts";
+   
    String REGIONS = "/content/girlscouts-usa/en/locations";
    String YEARS="/content/girlscouts-usa/en/events";
    long RESULTS_PER_PAGE = 10;
    
    
    
-   ArrayList<String> regions = new ArrayList<String>();
-   ArrayList<String> years = new ArrayList<String>();
+   List<String> regions = new ArrayList<String>();
+   List<String> years = new ArrayList<String>();
   
    QueryBuilder queryBuilder = sling.getService(QueryBuilder.class);
    
@@ -26,7 +26,7 @@
  
    Map<String, ArrayList<String>> tagsToCheck = new HashMap<String, ArrayList<String>>();
    String[] tags = request.getParameterValues("tags");
-   HashSet<String> set = new HashSet<String>();
+   Set<String> set = new HashSet<String>();
    if(tags!=null)
    {
         set = new HashSet<String>();
@@ -43,7 +43,7 @@
    String year=request.getParameter("year");
   
    searchQuery.search(q,tags,offset,month,year,startdtRange,enddtRange,region);
-   HashMap<String,List<FacetsInfo>> facetsAndTags =  searchQuery.getFacets();
+   Map<String,List<FacetsInfo>> facetsAndTags =  searchQuery.getFacets();
    
   
    SearchResultsInfo searchResultsInfo = searchQuery.getSearchResultsInfo();
