@@ -2,14 +2,10 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2014-04-02T16:39:03.168-04:00"
+        cq:lastModified="{Date}2014-04-02T11:29:26.331-04:00"
         cq:lastModifiedBy="admin"
-        cq:template="/apps/girlscouts/templates/news"
+        cq:template="/apps/girlscouts/templates/page"
         jcr:primaryType="cq:PageContent"
-        jcr:title="News"
-        sling:resourceType="girlscouts/components/news"/>
-    <_x0032_014/>
-    <_x0032_013/>
-    <_x0032_015/>
-    <news-page/>
+        jcr:title="Series and Events"
+        sling:resourceType="girlscouts/components/page"/>
 </jcr:root>
