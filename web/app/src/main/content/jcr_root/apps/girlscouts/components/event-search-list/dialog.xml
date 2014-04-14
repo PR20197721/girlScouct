@@ -36,8 +36,8 @@
                         xtype="pathfield"/>
                     <selectList
                         jcr:primaryType="cq:Widget"
-                        fieldDescription="(Select layout 2 or 1 column layout)"
                         defaultValue="0"
+                        fieldDescription="(Select layout 2 or 1 column layout)"
                         fieldLabel="Layout"
                         name="./layout"
                         type="select"
@@ -47,11 +47,10 @@
                                 jcr:primaryType="nt:unstructured"
                                 text="1"
                                 value="1"/>
-                             <two
-           						jcr:primaryType="nt:unstructured"
-          					    text="2"
-           						value="2"/>
-       						   
+                            <two
+                                jcr:primaryType="nt:unstructured"
+                                text="2"
+                                value="2"/>
                         </options>
                     </selectList>
                 </items>
