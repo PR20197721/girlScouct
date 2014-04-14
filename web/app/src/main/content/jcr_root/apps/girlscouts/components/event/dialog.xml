@@ -37,7 +37,7 @@
                     allowBlank="{Boolean}false"
                     fieldLabel="Event Time"
                     name="./time"
-                    xtype="textfield"/>
+                    xtype="timefield"/>
                 <details
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Other Information"
