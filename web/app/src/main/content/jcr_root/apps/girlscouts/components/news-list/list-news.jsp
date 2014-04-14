@@ -54,7 +54,11 @@
   SearchResult results = query.getResult();
  
   
+  System.out.println("How many matches-------------->" +results.getTotalMatches());
   java.util.List <Hit> resultsHits = results.getHits();
+  
+  System.out.println("How many matches-------------->" +results.getTotalMatches() +"HIts " +results.getHits().size());
+  
   
   
   Format formatter = new SimpleDateFormat("dd MMM yyyy");

@@ -27,5 +27,43 @@
                 </pages>
             </items>
         </static>
+        <feature
+            jcr:primaryType="cq:Widget"
+            title="Home Page News-List"
+            xtype="panel">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <title
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="(Title Displayed with the Feature News )"
+                    fieldLabel="Title "
+                    name="./title"
+                    xtype="textfield"/>
+                <newsfeatures
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="(Only Check the boxes if News-List need to be displayed as featured)"
+                    fieldLabel="Display on Home Page"
+                    name=".isonhomepage"
+                    xtype="checkbox"/>
+                <newscounts
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="(Number of News to be displayed in Feature)"
+                    fieldLabel="Number of News"
+                    name="./count"
+                    xtype="textfield"/>
+            </items>
+        </feature>
+        <image
+            jcr:primaryType="cq:Widget"
+            cropParameter="./imageCrop"
+            ddGroups="[media]"
+            fieldDescription="Image only for the Feature"
+            fileNameParameter="./fileName"
+            fileReferenceParameter="./fileReference"
+            mapParameter="./imageMap"
+            name="./file"
+            requestSuffix=".img.png"
+            rotateParameter="./imageRotate"
+            title="Feature Icon Image"
+            xtype="html5smartimage"/>
     </items>
 </jcr:root>
