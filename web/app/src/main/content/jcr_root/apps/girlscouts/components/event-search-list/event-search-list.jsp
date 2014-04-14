@@ -15,7 +15,7 @@
   if(null==srchInfo)
   {
 %>
-    <cq:include path="content/middle/par/event-search-list" resourceType="girlscouts/components/event-search-list" />
+    <cq:include path="content/middle/par/event-search" resourceType="girlscouts/components/event-search" />
 <%  }
      srchInfo =  (SearchResultsInfo)request.getAttribute("results");
 
