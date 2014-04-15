@@ -58,6 +58,12 @@
                                 value="2"/>
                         </options>
                     </selectList>
+                    <results-per-page
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="(How many results in one page. For pagination use.)"
+                        fieldLabel="Results Per Page"
+                        name="./resultsPerPage"
+                        xtype="textfield"/>
                 </items>
             </tab1>
             <image
