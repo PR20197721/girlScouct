@@ -11,28 +11,46 @@
 <% 
   DateFormat fromFormat = new SimpleDateFormat("mm/dd/yy");
   DateFormat toFormat = new SimpleDateFormat("EEE dd MMM yyyy");
-  SearchResultsInfo srchInfo = (SearchResultsInfo)request.getAttribute("results");
+  SearchResultsInfo srchInfo = (SearchResultsInfo)request.getAttribute("eventresults");
   if(null==srchInfo)
   {
 %>
-    <cq:include path="content/middle/par/event-search-list" resourceType="girlscouts/components/event-search-list" />
-<%  }
-     srchInfo =  (SearchResultsInfo)request.getAttribute("results");
+    <cq:include path="content/middle/par/event-search" resourceType="girlscouts/components/event-search" />
+<%  
+      
+  }
+  srchInfo =  (SearchResultsInfo)request.getAttribute("eventresults");
+    
 
 %>
 
 <%
 
-  
+
     Map<String, String> results = srchInfo.getResults();
     long hitCounts = srchInfo.getHitCounts();
     SearchResult searchResults = (SearchResult)request.getAttribute("searchResults");
     String q = request.getParameter("q");
 
 %>
+<%
+    if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents").equals("on") ){
+    
+%> 
+      <cq:include script="feature-events.jsp"/>
+
+<%   
+
+    } else{
+
+%> 
+
+
+
+    
 
 <div>
-    Total Counts <%=hitCounts%> 
+     Total Counts <%=hitCounts%> 
    <%
       for(Map.Entry<String,String> result: results.entrySet()){
     	 Node node =  resourceResolver.getResource(result.getValue()).adaptTo(Node.class);
@@ -85,4 +103,4 @@
           }  
         %>
  </div>
- 
+<%} %>

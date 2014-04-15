@@ -5,10 +5,13 @@
 %><%@include file="/libs/foundation/global.jsp"%><%
 
     // initialize the list
-    %><cq:include script="init.jsp"/><%
+    %><cq:include script="init.jsp"/>
+    
+    
+    
+    <%
     String offset = "";
     offset = request.getParameter("offset");
-  
     List list = (List)request.getAttribute("list");
     if(offset!=null && !offset.isEmpty()){
       // Do nothing
@@ -40,12 +43,17 @@
             %><cq:include script="<%= script %>"/><%
         }
         %><%= list.isOrdered() ? "</ol>" : "</ul>" %><%
-        if (list.isPaginating()) {
-            %><cq:include script="pagination.jsp"/><%
-        }
+        
     } else {
-        %><cq:include script="empty.jsp"/><%
-    }
+        %><%
+    }%>
+      <cq:include script="news-search.jsp"/>
+    <%
+    
+    if(properties.containsKey("isonhomepage") && properties.get("isonhomepage").equals("on")){%>
+    	  <cq:include script="feature-news.jsp"/>
+    <%}
+    
     if(!list.isEmpty()){
     	%><cq:include script="list-news.jsp"/>
     <%}

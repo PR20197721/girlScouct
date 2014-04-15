@@ -5,59 +5,12 @@
 
 <%@include file="/libs/foundation/global.jsp"%>
 <%
-  List list = (List)request.getAttribute("list"); 
-
-  HashSet<String>set = new HashSet<String>(); 
-  
-   
-  String offset = request.getParameter("offset");
-  String path = currentPage.getAbsoluteParent(2).getPath();
-  
-  
-  Map <String, String> queryMap = new HashMap<String, String>();
-  queryMap.put("type", "cq:Page");
-  queryMap.put("path", path+"/news");
-  queryMap.put("boolproperty","jcr:content/isFeature");
-  queryMap.put("boolproperty.value","false");
-  queryMap.put("orderby","@jcr:content/date");
-  queryMap.put("orderby.sort","desc");
-  
-
-  String start = request.getParameter("start");
-  
-  if(start!=null && !start.isEmpty()){
-	 
-	  queryMap.put("p.limit", "10");
-	  
-  }
-  else{
-	 start = Integer.toString(10 - list.size()); 
-	 //queryMap.put("p.limit", 10));
-	  
-  }
-  if(offset!=null && !offset.isEmpty()){
-	  queryMap.put("p.offset",offset);
-	  
-	    
-  }else{
-	  queryMap.put("p.offset", "0");
-  }
-  
-  QueryBuilder queryBuilder = sling.getService(QueryBuilder.class);
-  Query query = queryBuilder.createQuery(PredicateGroup.create(queryMap), slingRequest.getResourceResolver().adaptTo(Session.class));
-  
-  if(start!=null && !start.isEmpty()){
-	  query.setStart(Long.parseLong(start));
-  }
- 
-  
-  SearchResult results = query.getResult();
- 
-  
+  SearchResult results = (SearchResult)request.getAttribute("results");
   java.util.List <Hit> resultsHits = results.getHits();
-  
-  
   Format formatter = new SimpleDateFormat("dd MMM yyyy");
+  List list = (List)request.getAttribute("list"); 
+  String start = (String) request.getAttribute("start");
+  
   for(Hit hit:resultsHits)
       {
 	  Node content = hit.getNode(); 
@@ -84,15 +37,14 @@
 	  
       }
 
-%>    
+%>
+    
 <div id="pagination">
      <% 
          long totalResults = results.getTotalMatches() + list.size();
          long numberofPage = totalResults/10;
          if(numberofPage>1)
          {
-        
-         
         	   String pc="";
         	   pc =  request.getParameter("pc");
          	   int cPage = 1;

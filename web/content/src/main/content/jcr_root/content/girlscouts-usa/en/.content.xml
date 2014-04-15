@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
-    <contacts/>
-    <event-list/>
-    <events/>
-    <location/>
-    <locations/>
-    <news/>
-    <news-list/>
+    <contact-us-form/>
     <jcr:content
-        cq:lastModified="{Date}2014-04-10T16:46:56.382-04:00"
+        cq:lastModified="{Date}2014-04-14T16:32:19.106-04:00"
         cq:lastModifiedBy="admin"
         cq:lastReplicated="{Date}2014-03-12T17:33:08.138-04:00"
         cq:lastReplicatedBy="admin"
@@ -22,12 +16,16 @@
         jcr:uuid="5e13f36a-c7eb-4798-b0c1-d209b1ae813c"
         sling:resourceType="girlscouts/components/homepage">
         <footer jcr:primaryType="nt:unstructured">
+            <par
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/parsys"/>
             <nav
                 jcr:lastModified="{Date}2014-04-01T13:29:54.802-04:00"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
-                sling:resourceType="girlscouts/components/footer-navigation"
-                links="[Privacy Policy|||#|||,Terms and Conditions|||#|||]"/>
+                sling:resourceType="girlscouts/components/navigation-bar"
+                links="[Privacy Policy|||#|||,Terms and Conditions|||#|||]"
+                type="eyebrow-nav-cell"/>
         </footer>
         <header jcr:primaryType="nt:unstructured">
             <par
@@ -40,48 +38,116 @@
                 sling:resourceType="girlscouts/components/eyebrow-navigation"
                 links="[About Our Council|||#|||,Shop|||#|||,Forms|||#|||,Calendar|||#|||,Contact|||#|||,Espanol|||#|||]"/>
             <global-nav
-                jcr:lastModified="{Date}2014-04-04T16:00:47.519-04:00"
+                jcr:lastModified="{Date}2014-04-01T13:37:34.838-04:00"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="girlscouts/components/global-navigation"
-                links="[About Girl Scouts|||/content/girlscouts-usa/en/about-girl-scouts|||,Events &amp; Activities|||#|||,Camp|||#|||,Cookies|||#|||,For Volunteers|||#|||,Leader|||#|||menuHighlight]"/>
-            <search-box
-                jcr:lastModified="{Date}2014-04-03T15:39:08.484-04:00"
-                jcr:lastModifiedBy="admin"
-                jcr:primaryType="nt:unstructured"
-                sling:resourceType="girlscouts/components/search-box"
-                fileReference="/content/dam/girlscouts-shared/en/design/hamburger.png"
-                imageRotate="0"/>
+                links="[About Girl Scouts|||#|||,Events &amp; Activities|||#|||,Camp|||#|||,Cookies|||#|||,For Volunteers|||#|||,Leader|||#|||menuHighlight]"/>
             <logo
-                jcr:lastModified="{Date}2014-04-03T16:11:27.826-04:00"
+                jcr:lastModified="{Date}2014-04-02T11:23:40.541-04:00"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="girlscouts/components/logo"
-                linkURL="/content/girlscouts-usa/en">
-                <regular
-                    jcr:lastModified="{Date}2014-04-03T16:11:27.826-04:00"
-                    jcr:lastModifiedBy="admin"
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="foundation/components/image"
-                    fileReference="/content/dam/girlscouts-shared/en/design/gateway-logo.png"/>
-                <small
-                    jcr:lastModified="{Date}2014-04-03T16:11:27.826-04:00"
-                    jcr:lastModifiedBy="admin"
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="foundation/components/image"
-                    fileReference="/content/dam/girlscouts-shared/en/design/gateway-logo-small.png"/>
-                <hamburger
-                    jcr:lastModified="{Date}2014-04-03T16:11:27.826-04:00"
-                    jcr:lastModifiedBy="admin"
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="foundation/components/image"
-                    fileReference="/content/dam/girlscouts-shared/en/design/hamburger.png"/>
-            </logo>
+                alt="Home"
+                hamburgerFileReference="/content/dam/girlscouts-shared/en/design/hamburger.png"
+                hamburgerHeight="28"
+                hamburgerImageRotate="0"
+                hamburgerWidth="22"
+                linkURL="/content/girlscouts-usa/en"
+                regularFileReference="/content/dam/girlscouts-shared/en/design/gateway-logo.png"
+                regularHeight="73"
+                regularImageRotate="0"
+                regularWidth="183"
+                smallFileReference="/content/dam/girlscouts-shared/en/design/gateway-logo-small.png"
+                smallHeight="51"
+                smallImageRotate="0"
+                smallWidth="293"/>
         </header>
-        <image jcr:primaryType="nt:unstructured">
-            <file/>
-        </image>
+        <feature-storystories
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="girlscouts/components/parsys-feature-shortstories">
+            <feature_shortstory_0
+                jcr:created="{Date}2014-04-11T14:49:51.401-04:00"
+                jcr:createdBy="admin"
+                jcr:lastModified="{Date}2014-04-11T16:05:36.236-04:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="girlscouts/components/feature-shortstory"
+                fileReference="/content/dam/girlscouts-shared/en/thumbnails/girls.png"
+                imageRotate="0"
+                isspringboard="on"
+                pathfield="http://yahoo.com"
+                shortdesc="&lt;p>Girls Scouts of Arkansas, Oklahoma and Texass is where girls discover the fun, friendship and power of working together.&lt;br>&#xa;Thought extraordinary field trips, sports, skill-building clinics community service projects, cultural exchanges and environlemt stewardships, our girls courageous and strong.&lt;/p>&#xa;&lt;p>&amp;nbsp;&lt;/p>&#xa;"
+                title="Be A Girls Scout"/>
+            <feature_shortstory
+                jcr:created="{Date}2014-04-11T16:30:26.403-04:00"
+                jcr:createdBy="admin"
+                jcr:lastModified="{Date}2014-04-11T16:51:12.518-04:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="girlscouts/components/feature-shortstory"
+                fileReference="/content/dam/girlscouts-shared/en/thumbnails/flower-plantation.png"
+                imageRotate="0"
+                pathfield="http://cnn.com"
+                shortdesc="&lt;p>Girls Scouts of Arkansas, Oklahoma and Texass is where girls discover the fun, friendship and power of working together.&lt;br>&#xa;Thought extraordinary field trips, sports, skill-building clinics community service projects, cultural exchanges and environlemt stewardships, our girls courageous and strong.&lt;/p>&#xa;"
+                title="Volunteer"/>
+            <feature_shortstory_1
+                jcr:created="{Date}2014-04-11T16:48:21.131-04:00"
+                jcr:createdBy="admin"
+                jcr:lastModified="{Date}2014-04-11T16:51:00.477-04:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="girlscouts/components/feature-shortstory"
+                fileReference="/content/dam/girlscouts-shared/en/thumbnails/flower-plantation.png"
+                imageRotate="0"
+                pathfield="http://yahoo.com"
+                shortdesc="&lt;p>During our year of no sugar, one of the rules was that, as a family, we could have one actual sugar-containing dessert per month. If it was your birthday, you got to choose the dessert. By the time September rolled around we noticed our palates starting to change, and slowly, we began enjoying our monthly &amp;quot;treat&amp;quot; less and less.&lt;/p>&#xa;&lt;p>But when we ate the decadent multi-layered banana cream pie my husband had requested for his birthday celebration, I knew something new was happening. Not only did I not enjoy my slice of pie, I couldn't even finish it. It tasted sickly sweet to my now sensitive palate. It actually made my teeth hurt. My head began to pound and my heart began to race. I felt awful.&lt;/p>&#xa;"
+                title="placeholder"/>
+        </feature-storystories>
+        <content jcr:primaryType="nt:unstructured">
+            <par
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/parsys">
+                <news_list
+                    jcr:created="{Date}2014-04-14T10:55:30.604-04:00"
+                    jcr:createdBy="admin"
+                    jcr:lastModified="{Date}2014-04-14T16:31:29.011-04:00"
+                    jcr:lastModifiedBy="admin"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="girlscouts/components/news-list"
+                    count="4"
+                    fileReference="/content/dam/girlscouts-shared/en/icons/council-news.png"
+                    imageRotate="0"
+                    isonhomepage="on"
+                    linktext="See All News"
+                    title="Title"
+                    urltolink="/content/girlscouts-usa/en/news-list"/>
+                <event_search_list_0
+                    jcr:created="{Date}2014-04-14T14:58:09.727-04:00"
+                    jcr:createdBy="admin"
+                    jcr:lastModified="{Date}2014-04-14T16:32:19.100-04:00"
+                    jcr:lastModifiedBy="admin"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="girlscouts/components/event-search-list"
+                    eventcount="4"
+                    fileReference="/content/dam/girlscouts-shared/en/icons/upcoming-events.png"
+                    imageRotate="0"
+                    isfeatureevents="on"
+                    linktext="See All Upcoming events"
+                    urltolink="/content/girlscouts-usa/en/event-list"/>
+            </par>
+        </content>
     </jcr:content>
     <site/>
-    <about-girl-scouts/>
+    <about-girls-scouts/>
+    <news/>
+    <terms-and-conditions/>
+    <news-list/>
+    <shouldwork/>
+    <events/>
+    <location/>
+    <facets-search/>
+    <locations/>
+    <event-list/>
+    <short-story/>
 </jcr:root>

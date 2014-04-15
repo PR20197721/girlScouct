@@ -27,5 +27,74 @@
                 </pages>
             </items>
         </static>
+        <feature
+            jcr:primaryType="cq:Widget"
+            title="Home Page News-List Mode"
+            xtype="panel">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <featuretitle
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="(Title Displayed with the Feature News )"
+                    fieldLabel="Title "
+                    name="./featuretitle"
+                    xtype="textfield"/>
+                <newsfeatures
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="(Only Check the boxes if News-List need to be displayed as featured)"
+                    fieldLabel="Display on Home Page"
+                    name="./isonhomepage"
+                    xtype="checkbox"/>
+                <newscounts
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="(Number of News to be displayed in Feature)"
+                    fieldLabel="Number of News"
+                    name="./count"
+                    xtype="textfield"/>
+                <linktext
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="(Provide the text to link to all the Events Page)"
+                    fieldLabel="Link text"
+                    name="./linktext"
+                    xtype="textfield"/>
+                <url
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="(Select the Event List Page)"
+                    fieldLabel="Url"
+                    name="./urltolink"
+                    xtype="pathfield"/>
+                <selectList
+                    jcr:primaryType="cq:Widget"
+                    defaultValue="0"
+                    fieldDescription="(Select layout 2 or 1 column layout)"
+                    fieldLabel="Layout"
+                    name="./layout"
+                    type="select"
+                    xtype="selection">
+                    <options jcr:primaryType="cq:WidgetCollection">
+                        <one
+                            jcr:primaryType="nt:unstructured"
+                            text="1"
+                            value="1"/>
+                        <two
+                            jcr:primaryType="nt:unstructured"
+                            text="2"
+                            value="2"/>
+                    </options>
+                </selectList>
+            </items>
+        </feature>
+        <image
+            jcr:primaryType="cq:Widget"
+            cropParameter="./imageCrop"
+            ddGroups="[media]"
+            fieldDescription="Image only for the Feature"
+            fileNameParameter="./fileName"
+            fileReferenceParameter="./fileReference"
+            mapParameter="./imageMap"
+            name="./file"
+            requestSuffix=".img.png"
+            rotateParameter="./imageRotate"
+            title="Feature Icon Image"
+            xtype="html5smartimage"/>
     </items>
 </jcr:root>
