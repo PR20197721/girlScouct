@@ -3,7 +3,7 @@
 
 <%
 String[] links = properties.get("links", String[].class);
-if (links == null || links.length == 0) {
+if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
 	%>##### Eyebrow Navigation #####<%
 } else {
     %><ul class="inline-list"><%
@@ -15,10 +15,5 @@ if (links == null || links.length == 0) {
 		%><li><a <%= clazz %> href="<%= path %>.html"><%= label %></a></li><%
     }
     %></ul><%
-}
-
-// Including multifield widget
-if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
-	%><cq:includeClientLib categories="apps.girlscouts.authoring"/><%
 }
 %>
