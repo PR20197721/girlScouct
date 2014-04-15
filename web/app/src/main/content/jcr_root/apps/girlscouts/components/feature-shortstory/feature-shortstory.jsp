@@ -1,5 +1,5 @@
 <%@ page import="org.girlscouts.web.constants.*,com.day.cq.wcm.api.WCMMode" %>
-
+<%@include file="/apps/girlscouts/components/include-options.jsp"%>
 
 <%@include file="/libs/foundation/global.jsp"%>
 <cq:defineObjects/>
@@ -23,8 +23,9 @@
 
 %>  
 
-
- <div id="homeBlockGrid" class="large-8 medium-8 small-12 columns">
+   
+ 
+ 
    <%if(iconImage!=null && iconImage.length() >0){ %>
         <br/> <img src="<%=iconImage%>"/>
     <%} %>
@@ -38,4 +39,3 @@
 	   <img src="<%=fileReference%>" alt="<%if(imgAlt!=null && imgAlt.length()>0){%><%=imgAlt%><%}%>" width=<%=imgWidth%> height="<%=imgHeight%>"/>
 
 	<%} %>
-</div>
