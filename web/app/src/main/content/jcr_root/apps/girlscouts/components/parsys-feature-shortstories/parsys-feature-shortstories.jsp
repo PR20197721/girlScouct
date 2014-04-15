@@ -41,6 +41,7 @@
                 }
                 if (editContext != null) {
                     // draw 'edit' bar
+                	setCssClasses("large-8 medium-8 small-12 columns", request);
                     IncludeOptions.getOptions(request, true).getCssClassNames().add("section");
                     %><sling:include resource="<%= par %>"/><%
                 }
@@ -53,10 +54,10 @@
                 hasColumns = true;
                 break;
             case BREAK:
-            	System.out.println("************************Break**********");
                 if (editContext != null) {
                 	
                     // draw 'new' bar
+                	setCssClasses("large-8 medium-8 small-12 columns", request);
                     IncludeOptions.getOptions(request, true).getCssClassNames().add("section");
                     %><sling:include resource="<%= par %>" resourceType="<%= newType %>"/><%
                 }
@@ -64,9 +65,9 @@
                 %></div><div class="parsys_column <%= par.getCssClass() %>"><%
                 break;
             case END:
-            	System.out.println("*************************Third Div" +par.getCssClass());
                 if (editContext != null) {
                     // draw new bar
+                	setCssClasses("large-8 medium-8 small-12 columns", request);
                     IncludeOptions.getOptions(request, true).getCssClassNames().add("section");
                     %><sling:include resource="<%= par %>" resourceType="<%= newType %>"/><%
                 }
@@ -77,6 +78,7 @@
                 }
                 if (editContext != null && WCMMode.fromRequest(request) == WCMMode.EDIT) {
                     // draw 'end' bar
+                	setCssClasses("large-8 medium-8 small-12 columns", request);
                     IncludeOptions.getOptions(request, true).getCssClassNames().add("section");
                     %><sling:include resource="<%= par %>"/><%
                 }
@@ -87,7 +89,6 @@
                 
                 // draw anchor if needed
                 if (currentStyle.get("drawAnchors", false)) {
-                	System.out.println("*************************Anchore ***************" +par.getCssClass());
                     String path = par.getPath();
                 	path = path.substring(path.indexOf(JcrConstants.JCR_CONTENT)
                             + JcrConstants.JCR_CONTENT.length() + 1);
@@ -101,13 +102,12 @@
     }
     if (hasColumns) {
         // close divs in case END missing. and clear floating
-		System.out.println("*************************hasColumn ***************");
         %></div></div><div style="clear:both"></div><%
     }
     if (editContext != null) {
-    	System.out.println("Do I come here *********************************");
         editContext.setAttribute("currentResource", null);
         // draw 'new' bar
+        setCssClasses("large-8 medium-8 small-12 columns", request);
         IncludeOptions.getOptions(request, true).getCssClassNames().add("section");
         %><cq:include path="*" resourceType="<%= newType %>"/><%
     }
