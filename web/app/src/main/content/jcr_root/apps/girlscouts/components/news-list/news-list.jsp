@@ -45,7 +45,7 @@
         %><%= list.isOrdered() ? "</ol>" : "</ul>" %><%
         
     } else {
-        %><cq:include script="empty.jsp"/><%
+        %><%
     }%>
       <cq:include script="news-search.jsp"/>
     <%
