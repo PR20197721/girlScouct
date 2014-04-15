@@ -11,7 +11,7 @@
   DateFormat toFormat = new SimpleDateFormat("EEE dd MMM yyyy");
   SearchResultsInfo srchInfo = (SearchResultsInfo)request.getAttribute("eventresults");
   Map<String, String> results = srchInfo.getResults();
-  System.out.println("Count --->" +results.size());
+
   int eventcounts = 0;
   String key="";
   String value="";
@@ -30,8 +30,9 @@
   
   
   %>
-  <img src="<%=properties.get("fileReference", String.class)%>" width="400" height="400"/>
-  
+  <div>
+            <img src="<%=properties.get("fileReference", String.class)%>"/><%=properties.get("featuretitle",String.class) %>
+  </div>
   
   <% 
   

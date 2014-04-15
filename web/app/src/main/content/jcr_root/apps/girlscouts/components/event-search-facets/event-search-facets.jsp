@@ -66,7 +66,7 @@
        years.add(yrs.next().getTitle());
    }
 
-   SearchResultsInfo srchInfo = (SearchResultsInfo)request.getAttribute("results");
+   SearchResultsInfo srchInfo = (SearchResultsInfo)request.getAttribute("eventresults");
    Map<String, String> results = srchInfo.getResults();
    request.setAttribute("formAction", formAction);
 

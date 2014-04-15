@@ -64,6 +64,6 @@
    }
    request.setAttribute("searchResults", searchResults);
    request.setAttribute("facetsAndTags", facetsAndTags);
-   request.setAttribute("results", searchQuery.getSearchResultsInfo());
+   request.setAttribute("eventresults", searchQuery.getSearchResultsInfo());
   
 %>

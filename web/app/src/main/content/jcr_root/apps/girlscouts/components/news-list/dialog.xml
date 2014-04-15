@@ -32,11 +32,11 @@
             title="Home Page News-List Mode"
             xtype="panel">
             <items jcr:primaryType="cq:WidgetCollection">
-                <title
+                <featuretitle
                     jcr:primaryType="cq:Widget"
                     fieldDescription="(Title Displayed with the Feature News )"
                     fieldLabel="Title "
-                    name="./title"
+                    name="./featuretitle"
                     xtype="textfield"/>
                 <newsfeatures
                     jcr:primaryType="cq:Widget"
@@ -62,28 +62,26 @@
                     fieldLabel="Url"
                     name="./urltolink"
                     xtype="pathfield"/>
-                    
                 <selectList
-                 jcr:primaryType="cq:Widget"
-                 fieldDescription="(Select layout 2 or 1 column layout)"
-                 defaultValue="0"
-                 fieldLabel="Layout"
-                 name="./layout"
-                 type="select"
-                 xtype="selection">
-                 <options jcr:primaryType="cq:WidgetCollection">
-                    <one
-                       jcr:primaryType="nt:unstructured"
-                       text="1"
-                       value="1"/>
-                     <two
-           				jcr:primaryType="nt:unstructured"
-          				text="2"
-           				value="2"/>
-       		    </options>
-             </selectList>    
+                    jcr:primaryType="cq:Widget"
+                    defaultValue="0"
+                    fieldDescription="(Select layout 2 or 1 column layout)"
+                    fieldLabel="Layout"
+                    name="./layout"
+                    type="select"
+                    xtype="selection">
+                    <options jcr:primaryType="cq:WidgetCollection">
+                        <one
+                            jcr:primaryType="nt:unstructured"
+                            text="1"
+                            value="1"/>
+                        <two
+                            jcr:primaryType="nt:unstructured"
+                            text="2"
+                            value="2"/>
+                    </options>
+                </selectList>
             </items>
-            
         </feature>
         <image
             jcr:primaryType="cq:Widget"

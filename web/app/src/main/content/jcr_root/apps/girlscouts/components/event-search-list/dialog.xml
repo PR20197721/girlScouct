@@ -11,6 +11,11 @@
                 jcr:primaryType="cq:Panel"
                 title="Feature Events Mode">
                 <items jcr:primaryType="cq:WidgetCollection">
+                    <featuretitle
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Feature Title"
+                        name="./featuretitle"
+                        xtype="textfield"/>
                     <feature
                         jcr:primaryType="cq:Widget"
                         fieldDescription="(Check this box if Events need to be displayed under feature,else will be displayed as List)"

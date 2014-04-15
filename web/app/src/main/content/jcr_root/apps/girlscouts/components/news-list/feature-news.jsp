@@ -16,7 +16,9 @@
   }
   
 %>
-<img src="<%=properties.get("fileReference", String.class)%>" width="400" height="400"/>
+<div>
+    <img src="<%=properties.get("fileReference", String.class)%>"/><%=properties.get("featuretitle",String.class) %>
+</div>
 <%
 for(int i=0;i<count;i++)
       {

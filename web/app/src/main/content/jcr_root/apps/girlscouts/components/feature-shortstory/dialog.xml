@@ -34,6 +34,18 @@
                     xtype="checkbox"/>
             </items>
         </tab1>
+        <featureiconimage
+            jcr:primaryType="cq:Widget"
+            cropParameter="./imageCrop"
+            ddGroups="[media]"
+            fileNameParameter="./fileName"
+            fileReferenceParameter="./featureiconimage"
+            mapParameter="./imageMap"
+            name="./file"
+            requestSuffix=".img.png"
+            rotateParameter="./imageRotate"
+            title="Feature Icon Image"
+            xtype="html5smartimage"/>
         <image
             jcr:primaryType="cq:Widget"
             cropParameter="./imageCrop"
