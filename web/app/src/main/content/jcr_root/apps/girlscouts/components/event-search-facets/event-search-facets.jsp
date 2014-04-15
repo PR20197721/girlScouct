@@ -6,6 +6,7 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <cq:includeClientLib categories="apps.girlscouts" />
 <cq:defineObjects/>
+<%@include file="/apps/girlscouts/components/site-conf.jsp"%>
 
 <%  
 
@@ -23,11 +24,10 @@
 
 
 <%
-
-
-   String REGIONS = "/content/girlscouts-usa/en/locations";
-   String YEARS="/content/girlscouts-usa/en/events";
-   long RESULTS_PER_PAGE = 10;
+   String homepagePath = currentPage.getAbsoluteParent(2).getPath();
+   String REGIONS = currentSite.get("locationsPath", homepagePath + "/locations");
+   String YEARS = currentSite.get("eventsPath", homepagePath + "/events");
+   long RESULTS_PER_PAGE = Long.parseLong(properties.get("resultsPerPage", "10"));
 
    String[] tags = request.getParameterValues("tags");
    HashSet<String> set = new HashSet<String>();
