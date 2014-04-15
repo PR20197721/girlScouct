@@ -15,8 +15,9 @@
 
   ==============================================================================
 
---%><%@ page session="false" %><%
-%><%@include file="/libs/foundation/global.jsp" %><%
+--%><%@ page session="false" %>
+<%@page import="com.day.cq.wcm.api.WCMMode"%>
+<%@include file="/libs/foundation/global.jsp" %><%
 %><cq:includeClientLib categories="cq.foundation-main"/><%
 %><cq:include script="/libs/cq/cloudserviceconfigs/components/servicelibs/servicelibs.jsp"/><%
     currentDesign.writeCssIncludes(pageContext); %>
@@ -33,4 +34,7 @@
 <!--[if gt IE 8]><!-->
 	<cq:includeClientLib categories="apps.girlscouts.modern" />
 <!--<![endif]-->
+<% if (WCMMode.fromRequest(request) == WCMMode.EDIT) { %>
+	<cq:includeClientLib categories="apps.girlscouts.authoring" />
+<% } %>
 <!-- End: Include Girl Scout clientlibs -->
