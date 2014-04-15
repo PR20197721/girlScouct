@@ -21,8 +21,9 @@
                     com.day.cq.wcm.api.components.IncludeOptions,
                     com.day.cq.commons.jcr.JcrConstants,
                     com.day.cq.wcm.api.WCMMode" %><%
-%><%@include file="/libs/foundation/global.jsp"%><%
-    
+%><%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/girlscouts/components/include-options.jsp"%>
+<%
     ParagraphSystem parSys = ParagraphSystem.create(resource, slingRequest);
     String newType = resource.getResourceType() + "/new";
     
@@ -31,6 +32,7 @@
         if (editContext != null) {
             editContext.setAttribute("currentResource", par);
         }
+        System.out.println(par.getType());
         switch (par.getType()) {
             case START:
                 if (hasColumns) {
@@ -39,18 +41,23 @@
                 }
                 if (editContext != null) {
                     // draw 'edit' bar
+                	setCssClasses("large-8 medium-8 small-12 columns", request);
                     IncludeOptions.getOptions(request, true).getCssClassNames().add("section");
                     %><sling:include resource="<%= par %>"/><%
                 }
+
                 // open outer div
-                %><div class="parsys_column <%= par.getBaseCssClass()%>"><%
+                %><div class="parsys_column <%= par.getBaseCssClass()%>">
+                <%
                 // open column div
                 %><div class="parsys_column <%= par.getCssClass() %>"><%
                 hasColumns = true;
                 break;
             case BREAK:
                 if (editContext != null) {
+                	
                     // draw 'new' bar
+                	setCssClasses("large-8 medium-8 small-12 columns", request);
                     IncludeOptions.getOptions(request, true).getCssClassNames().add("section");
                     %><sling:include resource="<%= par %>" resourceType="<%= newType %>"/><%
                 }
@@ -60,6 +67,7 @@
             case END:
                 if (editContext != null) {
                     // draw new bar
+                	setCssClasses("large-8 medium-8 small-12 columns", request);
                     IncludeOptions.getOptions(request, true).getCssClassNames().add("section");
                     %><sling:include resource="<%= par %>" resourceType="<%= newType %>"/><%
                 }
@@ -70,13 +78,14 @@
                 }
                 if (editContext != null && WCMMode.fromRequest(request) == WCMMode.EDIT) {
                     // draw 'end' bar
+                	setCssClasses("large-8 medium-8 small-12 columns", request);
                     IncludeOptions.getOptions(request, true).getCssClassNames().add("section");
                     %><sling:include resource="<%= par %>"/><%
                 }
                 break;
             case NORMAL:
                 // include 'normal' paragraph
-                IncludeOptions.getOptions(request, true).getCssClassNames().add("section");
+               // IncludeOptions.getOptions(request, true).getCssClassNames().add("section");
                 
                 // draw anchor if needed
                 if (currentStyle.get("drawAnchors", false)) {
@@ -86,6 +95,7 @@
                 	String anchorID = path.replace("/", "_").replace(":", "_");
                     %><a name="<%= anchorID %>" style="visibility:hidden"></a><%
                 }
+                setCssClasses("large-8 medium-8 small-12 columns", request);
                 %><sling:include resource="<%= par %>"/><%
                 break;
         }
@@ -97,6 +107,7 @@
     if (editContext != null) {
         editContext.setAttribute("currentResource", null);
         // draw 'new' bar
+        setCssClasses("large-8 medium-8 small-12 columns", request);
         IncludeOptions.getOptions(request, true).getCssClassNames().add("section");
         %><cq:include path="*" resourceType="<%= newType %>"/><%
     }

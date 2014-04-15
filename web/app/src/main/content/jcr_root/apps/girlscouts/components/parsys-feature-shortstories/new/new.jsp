@@ -26,12 +26,17 @@
         <%
 
     EditContext editContext = WCMUtils.getComponentContext(request).getEditContext();
-
     editContext.getEditConfig().setEmpty(true);
+
+
     if (editContext != null) {
+    	System.out.println("This is the new.jsp **************");
         if (editContext.getParent() != null) {
+        	System.out.println("This is the new.jsp --2**************");
             Resource curRes = (Resource) editContext.getParent().getAttribute("currentResource");
+            //System.out.println("curRes" +curRes.getName());
             if (curRes != null) {
+            	System.out.println("This is the new.jsp 3 **************");
                 String prev = Text.getName(curRes.getPath());
                 editContext.getEditConfig().setInsertBehavior("before " + prev);
             }
