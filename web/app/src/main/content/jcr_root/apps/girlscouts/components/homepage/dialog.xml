@@ -31,6 +31,22 @@
                     jcr:primaryType="cq:Widget"
                     path="/libs/foundation/components/page/tab_livecopy.infinity.json"
                     xtype="cqinclude"/>
+                <girl-scouts
+                    jcr:primaryType="cq:Widget"
+                    title="Girl Scouts">
+                    <items jcr:primaryType="cq:WidgetCollection">
+                        <event-path
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Event Path"
+                            name="./eventPath"
+                            xtype="dynamicPathField"/>
+                        <news-path
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="News Path"
+                            name="./newsPath"
+                            xtype="dynamicPathField"/>
+                    </items>
+                </girl-scouts>
             </items>
         </tabs>
     </items>
