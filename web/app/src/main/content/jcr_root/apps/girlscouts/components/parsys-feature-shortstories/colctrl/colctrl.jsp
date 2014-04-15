@@ -22,12 +22,16 @@
 %><%@ page import="com.day.cq.wcm.api.WCMMode,
                  com.day.cq.i18n.I18n,
                  com.day.cq.wcm.foundation.Paragraph,
-                 com.day.cq.wcm.api.components.Toolbar" %><%
+                 com.day.cq.wcm.api.components.Toolbar" %>
+ <%
 
     if (editContext != null
             && WCMMode.fromRequest(request) == WCMMode.EDIT
             && resource instanceof Paragraph) {
         Paragraph par = (Paragraph) resource;
+        System.out.println("This is the colctrl.jsp");
+
+
         switch (par.getType()) {
             case START: {
                 String text = I18n.get(slingRequest, "Start of {0} Columns", "{0} is the placeholder for the nr of columns", par.getNumCols());
@@ -54,5 +58,5 @@
             case NORMAL:
                 break;
         }
-    }
+                 }
 %>
