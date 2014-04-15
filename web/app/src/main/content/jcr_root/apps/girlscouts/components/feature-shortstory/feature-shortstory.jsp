@@ -2,7 +2,7 @@
 
 
 <%@include file="/libs/foundation/global.jsp"%>
-
+<cq:defineObjects/>
 <%
 
    
@@ -15,8 +15,8 @@
    String imgHeight = properties.get("height", "");
    String imgAlt = properties.get("alt", "");
    String imgTitle = properties.get("imgtitle", "");
+   String iconImage = properties.get("featureiconimage","");
  
-   System.out.println("This si the isSpringBroad" +isSpringBoard);
    if (title.isEmpty() && WCMMode.fromRequest(request) == WCMMode.EDIT) {
 		%>#### Double click here to configure #####<%
 	}
@@ -25,6 +25,9 @@
 
 
  <div id="homeBlockGrid" class="large-8 medium-8 small-12 columns">
+   <%if(iconImage!=null && iconImage.length() >0){ %>
+        <br/> <img src="<%=iconImage%>"/>
+    <%} %>
 	<%if(title!=null && title.length() >0){ %>
 	    <br/> <a href="<%=linkTitle%>"><%=title %></a>
 	<%} %>
@@ -33,6 +36,6 @@
 	<%} %>
 	<%if(fileReference!=null && fileReference.length()>0){ %>
 	   <img src="<%=fileReference%>" alt="<%if(imgAlt!=null && imgAlt.length()>0){%><%=imgAlt%><%}%>" width=<%=imgWidth%> height="<%=imgHeight%>"/>
-	
+
 	<%} %>
 </div>
