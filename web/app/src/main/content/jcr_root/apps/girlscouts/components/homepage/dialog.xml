@@ -35,15 +35,20 @@
                     jcr:primaryType="cq:Widget"
                     title="Girl Scouts">
                     <items jcr:primaryType="cq:WidgetCollection">
-                        <event-path
+                        <events-path
                             jcr:primaryType="cq:Widget"
-                            fieldLabel="Event Path"
+                            fieldLabel="Events Path"
                             name="./eventPath"
                             xtype="dynamicPathField"/>
                         <news-path
                             jcr:primaryType="cq:Widget"
                             fieldLabel="News Path"
                             name="./newsPath"
+                            xtype="dynamicPathField"/>
+                        <locations-path
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Locations Path"
+                            name="./locationsPath"
                             xtype="dynamicPathField"/>
                     </items>
                 </girl-scouts>
