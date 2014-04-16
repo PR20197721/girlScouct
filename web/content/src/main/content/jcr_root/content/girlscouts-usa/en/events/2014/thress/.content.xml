@@ -8,53 +8,26 @@
         cq:template="/apps/girlscouts/templates/three-column-page"
         jcr:primaryType="cq:PageContent"
         jcr:title="threee"
-        sling:resourceType="girlscouts/components/three-column-page">
-        <content jcr:primaryType="nt:unstructured">
-            <left jcr:primaryType="nt:unstructured">
-                <par
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="foundation/components/parsys">
-                    <event_search_facets
-                        jcr:created="{Date}2014-04-08T13:48:49.473-04:00"
-                        jcr:createdBy="admin"
-                        jcr:lastModified="{Date}2014-04-09T10:50:14.789-04:00"
-                        jcr:lastModifiedBy="admin"
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="girlscouts/components/event-search-facets"
-                        formaction="http://yahoo.com"/>
-                </par>
-            </left>
-            <middle jcr:primaryType="nt:unstructured">
-                <par
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="foundation/components/parsys">
-                    <event
-                        jcr:created="{Date}2014-04-09T11:50:12.022-04:00"
-                        jcr:createdBy="admin"
-                        jcr:lastModified="{Date}2014-04-09T12:37:58.052-04:00"
-                        jcr:lastModifiedBy="admin"
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="girlscouts/components/event"
-                        alt="alt"
-                        details="&lt;p>&lt;b>Fee: &lt;/b>$75 Per Girl, $45 Per RA&lt;br>&#xa;&lt;b>Patch:&lt;/b>Participation&lt;br>&#xa;&lt;b>Patch Placement:&lt;/b> 4/02/2014 12:00 PM&lt;br>&#xa;&lt;b>Closing:&lt;/b> 6/25/2014 12:00 PM&lt;br>&#xa;&lt;b>Certifications:&lt;/b> RA, +, OCC/CCC&lt;br>&#xa;&lt;b>Focus Area:&lt;/b> Girls Go Green, Girls Go Strong&lt;br>&#xa;&lt;b>Special Instructions:&lt;/b> Troops must provide their own meals and gear. Gear may be available to rent upon request.&lt;b>&lt;br>&#xa;Program Level: &lt;/b>Ambassador, Senior, Brownie&lt;br>&#xa;Check in Fri at 8 pm, Check out Sun at 11 am&lt;/p>&#xa;&lt;p>Register for this event&lt;/p>&#xa;"
-                        fileReference="/content/dam/girlscouts-shared/en/banners/welcome.png"
-                        fromdate="04/22/14"
-                        height="200"
-                        imageRotate="0"
-                        imgtitle="title"
-                        location="/content/girlscouts-usa/en/locations/san-diego-zoo"
-                        srchdisp="Come join some of our favorite collaborators for a weekend of fun! Anglar fishing, wilderness survival techniques, mountain biking, and other outdoor adventures are on the schedule so lets get out and play!"
-                        time="2:00 PM"
-                        title="Winter Jam"
-                        todate="04/25/14"
-                        width="200"/>
-                </par>
-            </middle>
-        </content>
-        <image
-            jcr:lastModified="{Date}2014-04-09T13:54:08.828-04:00"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:created="{Date}2014-04-09T11:50:12.022-04:00"
+            jcr:createdBy="admin"
+            jcr:lastModified="{Date}2014-04-09T12:37:58.052-04:00"
             jcr:lastModifiedBy="admin"
             jcr:primaryType="nt:unstructured"
-            imageRotate="0"/>
+            sling:resourceType="girlscouts/components/event"
+            alt="alt"
+            details="&lt;p>&lt;b>Fee: &lt;/b>$75 Per Girl, $45 Per RA&lt;br>&#xa;&lt;b>Patch:&lt;/b>Participation&lt;br>&#xa;&lt;b>Patch Placement:&lt;/b> 4/02/2014 12:00 PM&lt;br>&#xa;&lt;b>Closing:&lt;/b> 6/25/2014 12:00 PM&lt;br>&#xa;&lt;b>Certifications:&lt;/b> RA, +, OCC/CCC&lt;br>&#xa;&lt;b>Focus Area:&lt;/b> Girls Go Green, Girls Go Strong&lt;br>&#xa;&lt;b>Special Instructions:&lt;/b> Troops must provide their own meals and gear. Gear may be available to rent upon request.&lt;b>&lt;br>&#xa;Program Level: &lt;/b>Ambassador, Senior, Brownie&lt;br>&#xa;Check in Fri at 8 pm, Check out Sun at 11 am&lt;/p>&#xa;&lt;p>Register for this event&lt;/p>&#xa;"
+            fileReference="/content/dam/girlscouts-shared/en/banners/welcome.png"
+            fromdate="04/22/14"
+            height="200"
+            imageRotate="0"
+            imgtitle="title"
+            location="/content/girlscouts-usa/en/locations/san-diego-zoo"
+            srchdisp="Come join some of our favorite collaborators for a weekend of fun! Anglar fishing, wilderness survival techniques, mountain biking, and other outdoor adventures are on the schedule so lets get out and play!"
+            time="2:00 PM"
+            title="Winter Jam"
+            todate="04/25/14"
+            width="200"/>
     </jcr:content>
 </jcr:root>
