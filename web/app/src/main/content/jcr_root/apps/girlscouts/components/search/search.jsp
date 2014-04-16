@@ -15,6 +15,8 @@
    
     String searchIn = (String) properties.get("searchIn");
     String requestSearchPath = request.getParameter("path");
+   // System.out.println("Path" +requestSearchPath);
+   // System.out.println("searchIn" +searchIn);
     if (searchIn != null) {
       if (requestSearchPath != null && requestSearchPath.startsWith(searchIn)) {
             search.setSearchIn(requestSearchPath);
@@ -22,7 +24,10 @@
             search.setSearchIn(searchIn);
         }
     } else if (requestSearchPath != null) {
-    	  search.setSearchIn(currentPage.getAbsoluteParent(2).getPath());
+    	   search.setSearchIn(requestSearchPath);
+    	  
+    }else{
+    	search.setSearchIn(currentPage.getAbsoluteParent(2).getPath());
     }
    
     final String escapedQuery = xssAPI.encodeForHTML(search.getQuery());
