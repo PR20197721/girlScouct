@@ -7,41 +7,20 @@
         cq:template="/apps/girlscouts/templates/three-column-page"
         jcr:primaryType="cq:PageContent"
         jcr:title="Cookie Skill"
-        sling:resourceType="girlscouts/components/three-column-page">
-        <content jcr:primaryType="nt:unstructured">
-            <left jcr:primaryType="nt:unstructured">
-                <par
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="foundation/components/parsys">
-                    <event_search_facets
-                        jcr:created="{Date}2014-04-09T12:43:13.606-04:00"
-                        jcr:createdBy="admin"
-                        jcr:lastModified="{Date}2014-04-09T12:43:13.606-04:00"
-                        jcr:lastModifiedBy="admin"
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="girlscouts/components/event-search-facets"/>
-                </par>
-            </left>
-            <middle jcr:primaryType="nt:unstructured">
-                <par
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="foundation/components/parsys">
-                    <event
-                        jcr:created="{Date}2014-04-09T13:58:07.770-04:00"
-                        jcr:createdBy="admin"
-                        jcr:lastModified="{Date}2014-04-09T15:24:17.575-04:00"
-                        jcr:lastModifiedBy="admin"
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="girlscouts/components/event"
-                        details="&lt;p>THis is the text&lt;br>&#xa;&lt;/p>&#xa;"
-                        fromdate="04/10/14"
-                        imageRotate="0"
-                        location="/content/girlscouts-usa/en/location/san-deigo"
-                        srchdisp="This is a search"
-                        time="3:00 PM"
-                        title="Cookies Skill"/>
-                </par>
-            </middle>
-        </content>
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:created="{Date}2014-04-09T13:58:07.770-04:00"
+            jcr:createdBy="admin"
+            jcr:lastModified="{Date}2014-04-09T15:24:17.575-04:00"
+            jcr:lastModifiedBy="admin"
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="girlscouts/components/event"
+            details="&lt;p>THis is the text&lt;br>&#xa;&lt;/p>&#xa;"
+            fromdate="04/10/14"
+            imageRotate="0"
+            location="/content/girlscouts-usa/en/location/san-deigo"
+            srchdisp="This is a search"
+            time="3:00 PM"
+            title="Cookies Skill"/>
     </jcr:content>
 </jcr:root>
