@@ -9,7 +9,7 @@
 
 <%
     Search search = new Search(slingRequest);
-
+    System.out.print(currentPage.getAbsoluteParent(2).getPath());
     final Locale pageLocale = currentPage.getLanguage(true);
     final ResourceBundle resourceBundle = slingRequest.getResourceBundle(pageLocale);
    
@@ -22,7 +22,7 @@
             search.setSearchIn(searchIn);
         }
     } else if (requestSearchPath != null) {
-        search.setSearchIn(requestSearchPath);
+    	  search.setSearchIn(currentPage.getAbsoluteParent(2).getPath());
     }
    
     final String escapedQuery = xssAPI.encodeForHTML(search.getQuery());
