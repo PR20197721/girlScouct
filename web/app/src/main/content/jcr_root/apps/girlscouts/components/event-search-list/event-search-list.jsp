@@ -54,7 +54,7 @@
    <%
       for(Map.Entry<String,String> result: results.entrySet()){
     	 Node node =  resourceResolver.getResource(result.getValue()).adaptTo(Node.class);
-    	 Node propNode = node.getNode("jcr:content/content/middle/par/event");
+    	 Node propNode = node.getNode("jcr:content/data");
     	 String title = propNode.getProperty("title").getString();
     	 String href = result.getValue()+".html";
     	 String time = propNode.getProperty("time").getString();

@@ -41,7 +41,7 @@
 	 value = results.get(key);
 	 System.out.println("key"  +key + "value" +value);
 	 Node node = resourceResolver.getResource(value).adaptTo(Node.class);
-	 Node propNode = node.getNode("jcr:content/content/middle/par/event");
+	 Node propNode = node.getNode("jcr:content/data");
      String title = propNode.getProperty("title").getString();
      String href = value+".html";
      String time = propNode.getProperty("time").getString();
