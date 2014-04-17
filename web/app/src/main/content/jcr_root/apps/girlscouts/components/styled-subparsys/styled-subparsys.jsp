@@ -23,7 +23,10 @@
                     com.day.cq.wcm.api.components.IncludeOptions,
                     com.day.cq.wcm.foundation.Paragraph,
                     com.day.cq.wcm.foundation.ParagraphSystem" %><%
-%><%@include file="/libs/foundation/global.jsp"%><%
+%><%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/girlscouts/components/include-options.jsp"%>
+<%
+	String cssClasses = properties.get("cssClasses", "");
 
     ParagraphSystem parSys = ParagraphSystem.create(resource, slingRequest);
     String newType = resource.getResourceType() + "/new";
@@ -45,6 +48,7 @@
                     addedClasses.add("section");
                     addedClasses.add("colctrl-start");
                     IncludeOptions.getOptions(request, true).getCssClassNames().addAll(addedClasses);
+                    setCssClasses(cssClasses, request);
                     %><sling:include resource="<%= par %>"/><%
                 }
                 // open outer div
@@ -57,6 +61,7 @@
                 if (editContext != null) {
                     // draw 'new' bar
                     IncludeOptions.getOptions(request, true).getCssClassNames().add("section");
+                    setCssClasses(cssClasses, request);
                     %><sling:include resource="<%= par %>" resourceType="<%= newType %>"/><%
                 }
                 // open next column div
@@ -66,6 +71,7 @@
                 if (editContext != null) {
                     // draw new bar
                     IncludeOptions.getOptions(request, true).getCssClassNames().add("section");
+                    setCssClasses(cssClasses, request);
                     %><sling:include resource="<%= par %>" resourceType="<%= newType %>"/><%
                 }
                 if (hasColumns) {
@@ -76,6 +82,7 @@
                 if (editContext != null && WCMMode.fromRequest(request) == WCMMode.EDIT) {
                     // draw 'end' bar
                     IncludeOptions.getOptions(request, true).getCssClassNames().add("section");
+                    setCssClasses(cssClasses, request);
                     %><sling:include resource="<%= par %>"/><%
                 }
                 break;
@@ -91,6 +98,7 @@
                 	String anchorID = path.replace("/", "_").replace(":", "_");
                     %><a name="<%= anchorID %>" style="visibility:hidden"></a><%
                 }
+                setCssClasses(cssClasses, request);
                 %><sling:include resource="<%= par %>"/><%
                 break;
         }
@@ -103,6 +111,7 @@
         editContext.setAttribute("currentResource", null);
         // draw 'new' bar
         IncludeOptions.getOptions(request, true).getCssClassNames().add("section");
+        setCssClasses(cssClasses, request);
         %><cq:include path="*" resourceType="<%= newType %>"/><%
     }
 %>
