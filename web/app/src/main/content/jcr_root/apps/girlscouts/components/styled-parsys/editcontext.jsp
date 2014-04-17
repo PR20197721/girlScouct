@@ -21,12 +21,18 @@
                     com.day.cq.wcm.api.WCMMode" %><%
 %><%@include file="/libs/foundation/global.jsp"%><%
 
+boolean isEditMode = WCMMode.fromRequest(slingRequest) == WCMMode.EDIT;
+String cssClasses = properties.get("cssClasses", "");
 IncludeOptions opts = IncludeOptions.getOptions(slingRequest, true);
-if (editContext==null && WCMMode.fromRequest(slingRequest) == WCMMode.EDIT) {
+if (editContext==null && isEditMode) {
 	opts.forceEditContext(true);
     opts.setDecorationTagName("");
 	slingRequest.getRequestDispatcher(resource).include(slingRequest, slingResponse);
 } else {
+    if (isEditMode && !cssClasses.isEmpty()) {
+		Set<String> classes = opt.getCssClassNames();
+		classes.addAll(Arrays.asList(tags.split(" ")));
+    }
     RequestDispatcherOptions reqOpts = new RequestDispatcherOptions();
     reqOpts.setReplaceSelectors("");
     componentContext.setDecorate(false);
