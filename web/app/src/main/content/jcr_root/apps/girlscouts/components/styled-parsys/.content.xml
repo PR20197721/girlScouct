@@ -4,4 +4,4 @@
     jcr:description="A paragraph system that supports customize CSS."
     jcr:primaryType="cq:Component"
     jcr:title="Styled Parsys"
-    componentGroup=".hidden"/>
+    componentGroup="Girl Scouts"/>
