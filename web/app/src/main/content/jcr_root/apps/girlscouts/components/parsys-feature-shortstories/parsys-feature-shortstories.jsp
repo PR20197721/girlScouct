@@ -25,6 +25,13 @@
 <%@include file="/apps/girlscouts/components/include-options.jsp"%>
 <%
     ParagraphSystem parSys = ParagraphSystem.create(resource, slingRequest);
+    String inlineCSS = "";
+    if(properties.containsKey("inlinecss") && !properties.get("inlinecss",String.class).isEmpty())
+    {
+       
+    	inlineCSS = properties.get("inlinecss", String.class);
+    	System.out.println(properties.get("inlinecss",String.class));
+    }
     String newType = resource.getResourceType() + "/new";
     
     boolean hasColumns = false;
@@ -41,7 +48,8 @@
                 }
                 if (editContext != null) {
                     // draw 'edit' bar
-                	setCssClasses("large-8 medium-8 small-12 columns", request);
+                	if(!inlineCSS.isEmpty())
+                      setCssClasses(inlineCSS, request);
                     IncludeOptions.getOptions(request, true).getCssClassNames().add("section");
                     %><sling:include resource="<%= par %>"/><%
                 }
@@ -57,7 +65,8 @@
                 if (editContext != null) {
                 	
                     // draw 'new' bar
-                	setCssClasses("large-8 medium-8 small-12 columns", request);
+                    if(!inlineCSS.isEmpty())
+                      setCssClasses(inlineCSS, request);
                     IncludeOptions.getOptions(request, true).getCssClassNames().add("section");
                     %><sling:include resource="<%= par %>" resourceType="<%= newType %>"/><%
                 }
@@ -67,7 +76,8 @@
             case END:
                 if (editContext != null) {
                     // draw new bar
-                	setCssClasses("large-8 medium-8 small-12 columns", request);
+                	if(!inlineCSS.isEmpty())
+                      setCssClasses(inlineCSS, request);
                     IncludeOptions.getOptions(request, true).getCssClassNames().add("section");
                     %><sling:include resource="<%= par %>" resourceType="<%= newType %>"/><%
                 }
@@ -78,7 +88,8 @@
                 }
                 if (editContext != null && WCMMode.fromRequest(request) == WCMMode.EDIT) {
                     // draw 'end' bar
-                	setCssClasses("large-8 medium-8 small-12 columns", request);
+                	if(!inlineCSS.isEmpty())
+                      setCssClasses(inlineCSS, request);
                     IncludeOptions.getOptions(request, true).getCssClassNames().add("section");
                     %><sling:include resource="<%= par %>"/><%
                 }
@@ -95,7 +106,8 @@
                 	String anchorID = path.replace("/", "_").replace(":", "_");
                     %><a name="<%= anchorID %>" style="visibility:hidden"></a><%
                 }
-                setCssClasses("large-8 medium-8 small-12 columns", request);
+                if(!inlineCSS.isEmpty())
+                    setCssClasses(inlineCSS, request);
                 %><sling:include resource="<%= par %>"/><%
                 break;
         }
@@ -107,7 +119,8 @@
     if (editContext != null) {
         editContext.setAttribute("currentResource", null);
         // draw 'new' bar
-        setCssClasses("large-8 medium-8 small-12 columns", request);
+        if(!inlineCSS.isEmpty())
+           setCssClasses(inlineCSS, request);
         IncludeOptions.getOptions(request, true).getCssClassNames().add("section");
         %><cq:include path="*" resourceType="<%= newType %>"/><%
     }
