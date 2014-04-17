@@ -21,3 +21,4 @@
 /web/bundle/deploy.sh
 
 /web/app/target/
+.DS_Store
