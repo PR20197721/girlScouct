@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <about-girl-scouts/>
     <contacts/>
     <contact-us-form/>
     <jcr:content
-        cq:lastModified="{Date}2014-04-15T12:08:35.437-04:00"
+        cq:lastModified="{Date}2014-04-16T16:24:54.429-04:00"
         cq:lastModifiedBy="admin"
+        cq:lastReplicated="{Date}2014-03-12T17:33:08.138-04:00"
+        cq:lastReplicatedBy="admin"
+        cq:lastReplicationAction="Activate"
+        cq:template="/apps/girlscouts/templates/page"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="cq:PageContent"
-        sling:resourceType="girlscouts/components/homepage"
-        eventPath="/content/girlscouts-usa/en/events"
-        newsPath="/content/girlscouts-usa/en/news">
+        jcr:title="Girl Scouts USA English"
+        jcr:uuid="5e13f36a-c7eb-4798-b0c1-d209b1ae813c"
+        sling:resourceType="girlscouts/components/homepage">
         <footer jcr:primaryType="nt:unstructured">
             <par
                 jcr:primaryType="nt:unstructured"
@@ -34,13 +40,13 @@
                 sling:resourceType="girlscouts/components/eyebrow-navigation"
                 links="[About Our Council|||#|||,Shop|||#|||,Forms|||#|||,Calendar|||#|||,Contact|||#|||,Espanol|||#|||]"/>
             <global-nav
-                jcr:lastModified="{Date}2014-04-15T11:26:00.650-04:00"
+                jcr:lastModified="{Date}2014-04-01T13:37:34.838-04:00"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="girlscouts/components/global-navigation"
-                links="[About Girl Scouts|||/content/girlscouts-usa/en/about-girl-scouts|||,Events &amp; Activities|||#|||,Camp|||#|||,Cookies|||#|||,For Volunteers|||#|||,Leader|||#|||menuHighlight]"/>
+                links="[About Girl Scouts|||#|||,Events &amp; Activities|||#|||,Camp|||#|||,Cookies|||#|||,For Volunteers|||#|||,Leader|||#|||menuHighlight]"/>
             <logo
-                jcr:lastModified="{Date}2014-04-15T11:26:32.195-04:00"
+                jcr:lastModified="{Date}2014-04-02T11:23:40.541-04:00"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="girlscouts/components/logo"
@@ -57,30 +63,21 @@
                 smallFileReference="/content/dam/girlscouts-shared/en/design/gateway-logo-small.png"
                 smallHeight="51"
                 smallImageRotate="0"
-                smallWidth="293">
-                <regular
-                    jcr:lastModified="{Date}2014-04-15T11:26:32.195-04:00"
-                    jcr:lastModifiedBy="admin"
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="foundation/components/image"
-                    fileReference="/content/dam/girlscouts-shared/en/design/gateway-logo.png"/>
-                <small
-                    jcr:lastModified="{Date}2014-04-15T11:26:32.195-04:00"
-                    jcr:lastModifiedBy="admin"
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="foundation/components/image"
-                    fileReference="/content/dam/girlscouts-shared/en/design/gateway-logo-small.png"/>
-                <hamburger
-                    jcr:lastModified="{Date}2014-04-15T11:26:32.195-04:00"
-                    jcr:lastModifiedBy="admin"
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="foundation/components/image"
-                    fileReference="/content/dam/girlscouts-shared/en/design/hamburger.png"/>
-            </logo>
+                smallWidth="293"/>
+            <search-box
+                jcr:lastModified="{Date}2014-04-16T16:24:54.379-04:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="girlscouts/components/search-box"
+                searchIn="/content/girlscouts-usa/en/site-search"
+                srchaction="/content/girlscouts-usa/en/site-search"/>
         </header>
         <feature-storystories
+            jcr:lastModified="{Date}2014-04-16T12:35:30.684-04:00"
+            jcr:lastModifiedBy="admin"
             jcr:primaryType="nt:unstructured"
-            sling:resourceType="girlscouts/components/parsys-feature-shortstories">
+            sling:resourceType="girlscouts/components/parsys-feature-shortstories"
+            inlinecss="large-8 medium-8 small-12 columns">
             <feature_shortstory_0
                 jcr:created="{Date}2014-04-11T14:49:51.401-04:00"
                 jcr:createdBy="admin"
@@ -121,6 +118,21 @@
                 pathfield="http://www.yahoo.com"
                 shortdesc="&lt;p>This is the title test for the placeholder&lt;/p>&#xa;"
                 title="placeholder"/>
+            <feature_shortstory_2
+                jcr:created="{Date}2014-04-16T12:31:38.532-04:00"
+                jcr:createdBy="admin"
+                jcr:lastModified="{Date}2014-04-16T12:32:24.278-04:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="girlscouts/components/feature-shortstory"
+                featureiconimage="/content/dam/girlscouts-shared/en/thumbnails/heart1.png"
+                fileReference="/content/dam/girlscouts-shared/en/thumbnails/girls.png"
+                imageCrop="[,]"
+                imageMap="[,]"
+                imageRotate="[0,0]"
+                pathfield="hello1"
+                shortdesc="&lt;p>asdasdasdasd asdasdadasd&lt;/p>&#xa;"
+                title="hello"/>
         </feature-storystories>
         <content jcr:primaryType="nt:unstructured">
             <par
@@ -189,11 +201,14 @@
             jcr:lastModified="{Date}2014-04-15T10:54:30.763-04:00"
             jcr:lastModifiedBy="admin"
             jcr:primaryType="nt:unstructured"
-            imageRotate="0"/>
+            imageRotate="0">
+            <file/>
+        </image>
     </jcr:content>
     <site/>
     <about-girls-scouts/>
     <news/>
+    <terms-and-conditions/>
     <news-list/>
     <shouldwork/>
     <events/>
@@ -202,4 +217,5 @@
     <locations/>
     <event-list/>
     <short-story/>
+    <site-search/>
 </jcr:root>
