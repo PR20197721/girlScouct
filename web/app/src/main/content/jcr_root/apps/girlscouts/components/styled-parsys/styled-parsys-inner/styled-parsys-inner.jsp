@@ -1,8 +1,8 @@
 <%--
 
-  Styled Parsys component.
+  Styled Parsys Inner component.
 
-  The Paragraph System that supports customizing CSS.
+  The Paragraph System that supports customizing CSS.The implementation.
 
 --%><%
 %><%@include file="/libs/foundation/global.jsp"%><%
