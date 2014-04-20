@@ -2,5 +2,5 @@
 <jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
     cq:actions="[_clear,insert]"
     cq:disableTargeting="{Boolean}true"
-    cq:emptyText="Styled Parsys: Drag components or assets here"
+    cq:emptyText="Styled Parsys: Drag components or assets here."
     jcr:primaryType="cq:EditConfig"/>

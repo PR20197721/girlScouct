@@ -8,10 +8,11 @@
         <items jcr:primaryType="cq:WidgetCollection">
             <tab1
                 jcr:primaryType="cq:Panel"
-                title="CSS Classes">
+                title="Style">
                 <items jcr:primaryType="cq:WidgetCollection">
-                    <cssClasses
+                    <css-classes
                         jcr:primaryType="cq:Widget"
+                        fieldDescription="CSS Classes separated by spaces"
                         fieldLabel="CSS Classes"
                         name="./cssClasses"
                         xtype="textfield"/>

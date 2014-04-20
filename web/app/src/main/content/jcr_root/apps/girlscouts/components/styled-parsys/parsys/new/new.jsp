@@ -25,6 +25,7 @@
 
     EditContext editContext = WCMUtils.getComponentContext(request).getEditContext();
     editContext.getEditConfig().setEmpty(true);
+
     if (editContext != null) {
         if (editContext.getParent() != null) {
             Resource curRes = (Resource) editContext.getParent().getAttribute("currentResource");
