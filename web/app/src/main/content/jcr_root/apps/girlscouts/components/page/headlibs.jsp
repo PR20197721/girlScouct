@@ -19,8 +19,7 @@
 <%@page import="com.day.cq.wcm.api.WCMMode"%>
 <%@include file="/libs/foundation/global.jsp" %><%
 %><cq:includeClientLib categories="cq.foundation-main"/><%
-%><cq:include script="/libs/cq/cloudserviceconfigs/components/servicelibs/servicelibs.jsp"/><%
-    currentDesign.writeCssIncludes(pageContext); %>
+%><cq:include script="/libs/cq/cloudserviceconfigs/components/servicelibs/servicelibs.jsp"/>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -37,4 +36,5 @@
 <% if (WCMMode.fromRequest(request) == WCMMode.EDIT) { %>
 	<cq:includeClientLib categories="apps.girlscouts.authoring" />
 <% } %>
+<% currentDesign.writeCssIncludes(pageContext); %>
 <!-- End: Include Girl Scout clientlibs -->
