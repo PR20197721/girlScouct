@@ -5,5 +5,6 @@
     cq:lastReplicationAction="Activate"
     jcr:mixinTypes="[cq:ReplicationStatus]"
     jcr:primaryType="sling:OrderedFolder">
+    <girlscouts-design/>
     <http/>
 </jcr:root>
