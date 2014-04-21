@@ -7,7 +7,7 @@
         cq:lastModifiedBy="admin"
         cq:template="/libs/wcm/core/templates/designpage"
         jcr:primaryType="cq:PageContent"
-        jcr:title="Girl Scouts USA"
+        jcr:title="Girl Scouts USA Base"
         sling:resourceType="wcm/core/components/designer">
         <page jcr:primaryType="nt:unstructured">
             <par
