@@ -346,8 +346,11 @@ public class CsvDataImporter implements DataImporter {
     private List<Object> readLine(String[] cols) throws GirlScoutsException {
 	if (cols.length < fields.size()) {
 	    throw new GirlScoutsException(null,
-		    "Too Few columns. There should be " + fields.size()
-			    + " columns");
+		    "Too Few columns. There should be " + fields.size() + " columns");
+	}
+	if (cols.length > fields.size()) {
+	    throw new GirlScoutsException(null,
+		    "Too many columns. There should be " + fields.size() + " columns");
 	}
 	List<Object> result = new ArrayList<Object>();
 	for (int i = 0; i < cols.length; i++) {
@@ -360,7 +363,7 @@ public class CsvDataImporter implements DataImporter {
 		value = executeJavaScript(script, value);
 	    }
 
-	    if (type.equals("string")) {
+	    if (type.startsWith("string")) {
 		result.add(value);
 	    } else if (type.equals("boolean")) {
 		result.add(new Boolean(value.equalsIgnoreCase("true") ? true
@@ -387,61 +390,6 @@ public class CsvDataImporter implements DataImporter {
 	return result;
     }
 
-    private void merge(String origPath, String destParentPath)
-	    throws GirlScoutsException {
-	Node origNode = rr.getResource(origPath).adaptTo(Node.class);
-	Resource destParentResource = rr.getResource(destParentPath);
-
-	Node destParentNode = null;
-	if (destParentResource != null
-		&& !destParentResource.equals("sling:nonexisting")) {
-	    destParentNode = destParentResource.adaptTo(Node.class);
-	} else {
-	    try {
-		destParentNode = JcrUtil.createPath(destParentPath,
-			this.primaryType, this.session);
-	    } catch (RepositoryException e) {
-		throw new GirlScoutsException(e,
-			"Repository Exception while creating path:"
-				+ destParentPath);
-	    }
-	}
-	Node destNode = null;
-	try {
-	    String destPath = destParentPath + "/" + origNode.getName();
-	    Resource res = rr.getResource(destPath);
-	    if (res == null || res.equals("sling:nonexisting")) {
-		if (origNode != null) {
-		    destNode = JcrUtil.copy(origNode, destParentNode, null);
-		}
-	    } else {
-		destNode = res.adaptTo(Node.class);
-	    }
-	} catch (RepositoryException e) {
-	    throw new GirlScoutsException(e,
-		    "Repository Exception while copying node from " + origPath
-			    + " to " + destParentPath);
-	}
-
-	NodeIterator iter;
-	try {
-	    iter = origNode.getNodes();
-	} catch (RepositoryException e) {
-	    throw new GirlScoutsException(e,
-		    "Repository Exception while getting children nodes of "
-			    + origPath);
-	}
-	while (iter.hasNext()) {
-	    Node origNodeChild = iter.nextNode();
-	    try {
-		merge(origNodeChild.getPath(), destNode.getPath());
-	    } catch (RepositoryException e) {
-		throw new GirlScoutsException(e,
-			"Repository Exception while get path of nodes.");
-	    }
-	}
-    }
-
     private void saveProperty(Node node, String key, Object value, String type)
 	    throws GirlScoutsException {
 	try {
@@ -457,6 +405,8 @@ public class CsvDataImporter implements DataImporter {
 		node.setProperty(key, ((Boolean) value).booleanValue());
 	    } else if (type.indexOf("date") == 0) {
 		node.setProperty(key, (Calendar) value);
+	    } else if (type.equals("string[]")) {
+		node.setProperty(key, ((String)value).split(","));
 	    }
 	} catch (RepositoryException e) {
 	    throw new GirlScoutsException(e,

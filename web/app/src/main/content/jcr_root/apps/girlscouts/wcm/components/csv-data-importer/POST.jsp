@@ -6,6 +6,7 @@ java.util.Queue,
 java.util.LinkedList,
 java.util.ArrayList,
 java.util.List,
+java.util.Arrays,
 java.util.Iterator" %>
 <%@include file="/libs/foundation/global.jsp" %>
 
@@ -66,7 +67,7 @@ if (action.equals("import")) {
 	}
 	
 	Node confNode = resourceResolver.resolve(type + "/fields").adaptTo(Node.class);
-    List<String> keys = new ArrayList<String>();
+    List<String[]> keys = new ArrayList<String[]>();
     NodeIterator confIter = confNode.getNodes();
     while (confIter.hasNext()) {
 		Node currentConfNode = confIter.nextNode();
@@ -76,13 +77,17 @@ if (action.equals("import")) {
 		} else {
 		    key = currentConfNode.getName();
 		}
-		keys.add(key);
+		String thisType = null;
+		if (currentConfNode.hasProperty("type")) {
+		    thisType = currentConfNode.getProperty("type").getString();
+		}
+		keys.add(new String[]{key, thisType});
 	}
 
 	%><table border="1"><%
 	%><tr><%
-		for (String key : keys) {
-			%><td><%= key %></td><%
+		for (String[] key : keys) {
+			%><td><%= key[0] %></td><%
 		}
 	%></tr><%
 	while (!queue.isEmpty()) {
@@ -94,8 +99,12 @@ if (action.equals("import")) {
 			}
 		} else {
 			%><tr><%
-			for (String key : keys) {
-				%><td><%= thisPage.getProperties().get(key, "") %></td><%
+			for (String[] key : keys) {
+			    if (!key[1].isEmpty() && key[1].equals("string[]")) {
+					%><td><%= Arrays.toString(thisPage.getProperties().get(key[0], String[].class)) %></td><%
+			    } else {
+					%><td><%= thisPage.getProperties().get(key[0], "") %></td><%
+			    }
 			}
 			%></tr><%
 	    }
