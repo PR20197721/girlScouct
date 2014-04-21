@@ -5,7 +5,8 @@
     <contacts/>
     <contact-us-form/>
     <jcr:content
-        cq:lastModified="{Date}2014-04-16T16:24:54.429-04:00"
+        cq:designPath="/etc/designs/girlscouts-usa-green"
+        cq:lastModified="{Date}2014-04-21T16:50:32.378-04:00"
         cq:lastModifiedBy="admin"
         cq:lastReplicated="{Date}2014-03-12T17:33:08.138-04:00"
         cq:lastReplicatedBy="admin"
@@ -40,13 +41,13 @@
                 sling:resourceType="girlscouts/components/eyebrow-navigation"
                 links="[About Our Council|||#|||,Shop|||#|||,Forms|||#|||,Calendar|||#|||,Contact|||#|||,Espanol|||#|||]"/>
             <global-nav
-                jcr:lastModified="{Date}2014-04-01T13:37:34.838-04:00"
+                jcr:lastModified="{Date}2014-04-21T16:50:32.375-04:00"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="girlscouts/components/global-navigation"
-                links="[About Girl Scouts|||#|||,Events &amp; Activities|||#|||,Camp|||#|||,Cookies|||#|||,For Volunteers|||#|||,Leader|||#|||menuHighlight]"/>
+                links="[About Girl Scouts|||/content/girlscouts-usa/en/about-girl-scouts|||,Events &amp; Activities|||#|||,Camp|||#|||,Cookies|||#|||,For Volunteers|||#|||,Leader|||#|||menuHighlight]"/>
             <logo
-                jcr:lastModified="{Date}2014-04-02T11:23:40.541-04:00"
+                jcr:lastModified="{Date}2014-04-21T16:50:17.522-04:00"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="girlscouts/components/logo"
@@ -63,7 +64,26 @@
                 smallFileReference="/content/dam/girlscouts-shared/en/design/gateway-logo-small.png"
                 smallHeight="51"
                 smallImageRotate="0"
-                smallWidth="293"/>
+                smallWidth="293">
+                <regular
+                    jcr:lastModified="{Date}2014-04-21T16:50:17.522-04:00"
+                    jcr:lastModifiedBy="admin"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/image"
+                    fileReference="/content/dam/girlscouts-shared/en/design/gateway-logo.png"/>
+                <small
+                    jcr:lastModified="{Date}2014-04-21T16:50:17.522-04:00"
+                    jcr:lastModifiedBy="admin"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/image"
+                    fileReference="/content/dam/girlscouts-shared/en/design/gateway-logo-small.png"/>
+                <hamburger
+                    jcr:lastModified="{Date}2014-04-21T16:50:17.522-04:00"
+                    jcr:lastModifiedBy="admin"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/image"
+                    fileReference="/content/dam/girlscouts-shared/en/design/hamburger.png"/>
+            </logo>
             <search-box
                 jcr:lastModified="{Date}2014-04-16T16:24:54.379-04:00"
                 jcr:lastModifiedBy="admin"
@@ -198,7 +218,7 @@
             </par>
         </content>
         <image
-            jcr:lastModified="{Date}2014-04-15T10:54:30.763-04:00"
+            jcr:lastModified="{Date}2014-04-21T16:45:47.437-04:00"
             jcr:lastModifiedBy="admin"
             jcr:primaryType="nt:unstructured"
             imageRotate="0">
@@ -208,7 +228,6 @@
     <site/>
     <about-girls-scouts/>
     <news/>
-    <terms-and-conditions/>
     <news-list/>
     <shouldwork/>
     <events/>
