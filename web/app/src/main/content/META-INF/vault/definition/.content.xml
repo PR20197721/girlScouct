@@ -50,9 +50,19 @@
         <f6
             jcr:primaryType="nt:unstructured"
             mode="replace"
-            root="/etc/designs/girlscouts-usa"
+            root="/etc/designs/girlscouts-usa-_base"
             rules="[]"/>
-	    <f7
+        <f7
+            jcr:primaryType="nt:unstructured"
+            mode="replace"
+            root="/etc/designs/girlscouts-usa-green"
+            rules="[]"/>
+        <f8
+            jcr:primaryType="nt:unstructured"
+            mode="replace"
+            root="/etc/designs/girlscouts-usa-blue"
+            rules="[]"/>
+	    <f9
             jcr:primaryType="cq:Page"
             mode="replace"
             root="/etc/workflow/models/email-workflow"

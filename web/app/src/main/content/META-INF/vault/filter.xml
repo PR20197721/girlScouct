@@ -6,6 +6,8 @@
     <filter root="/etc/data-importers"/>
     <filter root="/etc/data-import"/>
     <filter root="/etc/designs/girlscouts"/>
-    <filter root="/etc/designs/girlscouts-usa"/>
+    <filter root="/etc/designs/girlscouts-usa-_base"/>
+    <filter root="/etc/designs/girlscouts-usa-green"/>
+    <filter root="/etc/designs/girlscouts-usa-blue"/>
     <filter root="/etc/workflow/models/email-workflow"/>
 </workspaceFilter>
