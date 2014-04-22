@@ -1,0 +1,13 @@
+#base=source
+
+TimeZone.js
+Calendar.js
+
+widgets/EventDialog.js
+widgets/EventPopup.js
+widgets/WeekView.js
+widgets/CalendarLens.js
+widgets/DayLens.js
+widgets/WeekLens.js
+widgets/MonthLens.js
+widgets/RecurrenceRuleField.js

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    title="Calendar Export Link"
+    xtype="panel">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <title
+            jcr:primaryType="cq:Widget"
+            fieldLabel="Link title"
+            name="./jcr:title"
+            xtype="textfield"/>
+        <type
+            jcr:primaryType="cq:Widget"
+            defaultValue="download"
+            fieldLabel="Link type"
+            name="./type"
+            type="select"
+            xtype="selection">
+            <options jcr:primaryType="cq:WidgetCollection">
+                <download
+                    jcr:primaryType="nt:unstructured"
+                    text="Download ICS file (http://)"
+                    value="download"/>
+                <webcal
+                    jcr:primaryType="nt:unstructured"
+                    text="Webcal subscription (webcal://)"
+                    value="webcal"/>
+            </options>
+        </type>
+        <path
+            jcr:primaryType="cq:Widget"
+            fieldDescription="Leave empty to use the calendar component on this page."
+            fieldLabel="Calendar component"
+            name="./path"
+            predicate="nosystem"
+            rootPath="/content"
+            showTitlesInTree="false"
+            xtype="pathfield"/>
+    </items>
+</jcr:root>

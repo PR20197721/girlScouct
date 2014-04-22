@@ -21,6 +21,6 @@
                 sling:resourceType="girlscouts/components/eventsfacets-search"/>
         </par>
     </jcr:content>
-    <thress/>
     <cookies-skill/>
+    <thress/>
 </jcr:root>

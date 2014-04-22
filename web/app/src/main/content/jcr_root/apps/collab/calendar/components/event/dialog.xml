@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    title="Event"
+    xtype="panel">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <eventform
+            jcr:primaryType="cq:Widget"
+            fieldDescription="Leave empty to use a standard event form."
+            fieldLabel="Event Form"
+            name="./eventForm"
+            predicate="siteadmin"
+            rootPath="/"
+            xtype="pathfield"/>
+        <eventdialogsize
+            jcr:primaryType="cq:Widget"
+            fieldDescription="Define width &amp;times; height to fit the size of a custom event form"
+            fieldLabel="Event Dialog Size"
+            heightParameter="./eventDialogHeight"
+            widthParameter="./eventDialogWidth"
+            xtype="sizefield"/>
+    </items>
+</jcr:root>

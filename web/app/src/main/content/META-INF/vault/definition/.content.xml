@@ -62,5 +62,10 @@
             mode="replace"
             root="/etc/workflow/models/email-workflow"
             rules="[]"/>
+	    <f8
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/apps/collab"
+            rules="[]"/>
     </filter>
 </jcr:root>
