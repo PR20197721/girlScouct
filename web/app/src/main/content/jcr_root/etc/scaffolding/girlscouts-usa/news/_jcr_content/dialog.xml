@@ -141,6 +141,7 @@
                 <tags
                     jcr:primaryType="cq:Widget"
                     name="./jcr:content/cq:tags"
+                    namespaces="[girlscouts]"
                     xtype="tags"/>
             </items>
         </tab4>

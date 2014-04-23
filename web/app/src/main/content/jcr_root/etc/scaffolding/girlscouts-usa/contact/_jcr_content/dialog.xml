@@ -30,5 +30,16 @@
                     name="./jcr:content/team"/>
             </items>
         </tab1>
+        <tab2
+            jcr:primaryType="cq:Panel"
+            title="Tags/Keywords">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <tags
+                    jcr:primaryType="cq:Widget"
+                    name="./jcr:content/cq:tags"
+                    namespaces="[girlscouts]"
+                    xtype="tags"/>
+            </items>
+        </tab2>
     </items>
 </jcr:root>
