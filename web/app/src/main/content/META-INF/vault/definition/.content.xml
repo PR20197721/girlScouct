@@ -62,5 +62,15 @@
             mode="replace"
             root="/etc/workflow/models/email-workflow"
             rules="[]"/>
+	    <f9
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/scaffolding/girlscouts-usa"
+            rules="[]"/>
+	    <f10
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/apps/collab"
+            rules="[]"/>
     </filter>
 </jcr:root>

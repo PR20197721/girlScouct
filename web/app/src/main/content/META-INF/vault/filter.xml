@@ -8,5 +8,6 @@
     <filter root="/etc/designs/girlscouts"/>
     <filter root="/etc/designs/girlscouts-usa-green"/>
     <filter root="/etc/designs/girlscouts-usa-blue"/>
+    <filter root="/etc/scaffolding/girlscouts-usa"/>
     <filter root="/etc/workflow/models/email-workflow"/>
 </workspaceFilter>
