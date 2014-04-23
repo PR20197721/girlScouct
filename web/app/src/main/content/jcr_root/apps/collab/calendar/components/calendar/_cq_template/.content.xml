@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="nt:unstructured"
+    sling:resourceType="collab/calendar/components/calendar">
+    <querybuilder
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="cq/search/components/querybuilder">
+        <predicates
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="foundation/components/parsys"/>
+    </querybuilder>
+    <lenses
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="collab/calendar/components/lenses/parsys">
+        <month
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="collab/calendar/components/lenses/month"/>
+        <agenda
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="collab/calendar/components/lenses/agenda"/>
+    </lenses>
+    <calendars jcr:primaryType="nt:unstructured">
+        <default
+            jcr:mixinTypes="[cq:Calendar]"
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="collab/calendar"/>
+    </calendars>
+</jcr:root>

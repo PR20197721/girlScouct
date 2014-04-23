@@ -1,26 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2014-04-09T15:24:17.587-04:00"
+        cq:lastModified="{Date}2014-04-22T15:03:40.774-04:00"
         cq:lastModifiedBy="admin"
-        cq:template="/apps/girlscouts/templates/three-column-page"
+        cq:lastReplicated="{Date}2014-04-22T15:03:42.802-04:00"
+        cq:lastReplicatedBy="admin"
+        cq:lastReplicationAction="Activate"
+        cq:template="girlscouts/templates/event-page"
         jcr:primaryType="cq:PageContent"
-        jcr:title="Cookie Skill"
-        sling:resourceType="girlscouts/components/event-page">
+        jcr:title="Cookies Skill"
+        sling:resourceType="girlscouts/components/event-page"
+        subtitle="2011-10-12">
         <data
-            jcr:created="{Date}2014-04-09T13:58:07.770-04:00"
-            jcr:createdBy="admin"
-            jcr:lastModified="{Date}2014-04-09T15:24:17.575-04:00"
+            cq:distribute="{Boolean}true"
+            jcr:lastModified="{Date}2014-04-22T19:03:40.000Z"
             jcr:lastModifiedBy="admin"
-            jcr:primaryType="nt:unstructured"
-            sling:resourceType="girlscouts/components/event"
-            details="&lt;p>THis is the text&lt;br>&#xa;&lt;/p>&#xa;"
-            fromdate="04/10/14"
-            imageRotate="0"
-            location="/content/girlscouts-usa/en/location/san-deigo"
-            srchdisp="This is a search"
-            time="3:00 PM"
-            title="Cookies Skill"/>
+            jcr:primaryType="cq:CalendarEvent"
+            jcr:title="Cookies Skill"
+            end="{Date}2014-04-23T00:00:00.000Z"
+            isDate="{Boolean}true"
+            sequence="{Long}3"
+            stamp="{Date}2009-10-09T12:11:00.000Z"
+            start="{Date}2014-04-22T00:00:00.000Z"
+            uid="8332F4E8-465A-4D7A-89CD-B4612863C7D3"
+            url="/content/girlscouts-usa/en/events/2014/cookies-skill"/>
     </jcr:content>
 </jcr:root>

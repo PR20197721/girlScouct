@@ -1,33 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2014-04-09T13:54:08.871-04:00"
+        cq:lastModified="{Date}2011-02-07T17:43:42.291+01:00"
         cq:lastModifiedBy="admin"
-        cq:tags="[girlscouts:program-level/daisy,girlscouts:program-level/brownie,girlscouts:categories/badge,girlscouts:categories/camp]"
-        cq:template="/apps/girlscouts/templates/three-column-page"
+        cq:template="girlscouts/templates/event-page"
         jcr:primaryType="cq:PageContent"
-        jcr:title="threee"
-        sling:resourceType="girlscouts/components/event-page">
+        jcr:title="Cookies Skill"
+        sling:resourceType="girlscouts/components/event-page"
+        subtitle="2011-10-12">
         <data
-            jcr:created="{Date}2014-04-09T11:50:12.022-04:00"
-            jcr:createdBy="admin"
-            jcr:lastModified="{Date}2014-04-09T12:37:58.052-04:00"
+            cq:distribute="{Boolean}true"
+            jcr:lastModified="{Date}2011-02-07T16:43:23.000Z"
             jcr:lastModifiedBy="admin"
-            jcr:primaryType="nt:unstructured"
-            sling:resourceType="girlscouts/components/event"
-            alt="alt"
-            details="&lt;p>&lt;b>Fee: &lt;/b>$75 Per Girl, $45 Per RA&lt;br>&#xa;&lt;b>Patch:&lt;/b>Participation&lt;br>&#xa;&lt;b>Patch Placement:&lt;/b> 4/02/2014 12:00 PM&lt;br>&#xa;&lt;b>Closing:&lt;/b> 6/25/2014 12:00 PM&lt;br>&#xa;&lt;b>Certifications:&lt;/b> RA, +, OCC/CCC&lt;br>&#xa;&lt;b>Focus Area:&lt;/b> Girls Go Green, Girls Go Strong&lt;br>&#xa;&lt;b>Special Instructions:&lt;/b> Troops must provide their own meals and gear. Gear may be available to rent upon request.&lt;b>&lt;br>&#xa;Program Level: &lt;/b>Ambassador, Senior, Brownie&lt;br>&#xa;Check in Fri at 8 pm, Check out Sun at 11 am&lt;/p>&#xa;&lt;p>Register for this event&lt;/p>&#xa;"
-            fileReference="/content/dam/girlscouts-shared/en/banners/welcome.png"
-            fromdate="04/22/14"
-            height="200"
-            imageRotate="0"
-            imgtitle="title"
-            location="/content/girlscouts-usa/en/locations/san-diego-zoo"
-            srchdisp="Come join some of our favorite collaborators for a weekend of fun! Anglar fishing, wilderness survival techniques, mountain biking, and other outdoor adventures are on the schedule so lets get out and play!"
-            time="2:00 PM"
-            title="Winter Jam"
-            todate="04/25/14"
-            width="200"/>
+            jcr:primaryType="cq:CalendarEvent"
+            jcr:title="Thress"
+            end="{Date}2014-04-23T00:00:00.000-04:00"
+            isDate="{Boolean}true"
+            sequence="{Long}1"
+            stamp="{Date}2009-10-09T12:11:00.000Z"
+            start="{Date}2014-04-22T00:00:00.000-04:00"
+            uid="8332F4E8-465A-4D7A-89CD-B4612863C7D3"
+            url="/content/girlscouts-usa/en/events/2014/thress"/>
     </jcr:content>
 </jcr:root>
