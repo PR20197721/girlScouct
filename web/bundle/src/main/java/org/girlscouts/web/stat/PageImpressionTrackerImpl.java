@@ -1,7 +1,5 @@
 package org.girlscouts.web.stat;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -30,10 +28,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.adobe.cq.social.commons.AsyncReverseReplicator;
-import com.day.cq.analytics.sitecatalyst.ImpressionsEntry;
 import com.day.cq.commons.jcr.JcrUtil;
 import com.day.cq.statistics.StatisticsService;
 import com.day.cq.wcm.api.PageManager;
+import com.day.cq.wcm.api.WCMMode;
+import com.day.cq.wcm.core.stats.PageView;
 
 @Component
 @Services({
@@ -122,6 +121,11 @@ public class PageImpressionTrackerImpl implements PageImpressionTracker, Runnabl
 	try {
 	    if (isPublish) {
 		// Publish
+		try {
+		    session.getNode(STAT_PATH);
+		} catch (PathNotFoundException e) {
+		    JcrUtil.createPath(STAT_PATH, "nt:unstructured", session);
+		}
 		StringBuilder sb = new StringBuilder();
 		synchronized(statMap) {
 		    for (String path : statMap.keySet()) {
@@ -137,12 +141,7 @@ public class PageImpressionTrackerImpl implements PageImpressionTracker, Runnabl
 		}
 		if (!mapValueStr.isEmpty()) {
 		    String statNodePath = STAT_PATH + "/" + Long.toString((new Date()).getTime());
-		    Node statNode = null;
-		    try {
-			statNode = session.getNode(statNodePath);
-		    } catch (PathNotFoundException e) {
-			statNode = JcrUtil.createPath(statNodePath, "nt:unstructured", session);
-		    }
+		    Node statNode = JcrUtil.createPath(statNodePath, "nt:unstructured", session);
 		    statNode.setProperty(STAT_PROPERTY, mapValueStr); 
 		    session.save();
 		    replicator.reverseReplicate(statNodePath);
@@ -174,7 +173,7 @@ public class PageImpressionTrackerImpl implements PageImpressionTracker, Runnabl
 			}
 			String[] stats = statNode.getProperty(STAT_PROPERTY).getString().split(DELIMITER);
 			// Known from the decompiled src of ImpressionsEntry.
-			DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+			//DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 			for (int i = 0; i < stats.length; i++) {
 			    String[] currentStat = stats[i].split(EQUAL_SIGN);
         			if (currentStat.length == 2) {
@@ -186,11 +185,14 @@ public class PageImpressionTrackerImpl implements PageImpressionTracker, Runnabl
         			// So, it is expected there is a delay of the view date
         			// and some records may go to the next day.
         			// However, this is a tradeoff for performance.
-        			ImpressionsEntry entry = new ImpressionsEntry(statisticsPath, path, format.format(nodeDate), count);
+        			PageView view = new PageView(statisticsPath, pageManager.getPage(path), WCMMode.DISABLED);
         			for (long j = 0; j < count; j++) {
         			    // Do we have better option here?
         			    // Is it something similar like addEntry(view, count)?
-        			    statisticsService.addEntry(entry);
+        			    // How to make this work?
+        			    //ImpressionsEntry entry = new ImpressionsEntry(statisticsPath, path, format.format(nodeDate), count);
+        			    //statisticsService.addEntry(entry);
+        			    statisticsService.addEntry(view);
         			}
 			    }
 			}
@@ -209,15 +211,13 @@ public class PageImpressionTrackerImpl implements PageImpressionTracker, Runnabl
     
     private void cleanup() {
 	try {
-	    Calendar cal = Calendar.getInstance();
-	    cal.add(Calendar.SECOND, STAT_TIMEOUT);
-	    Date yesterdayNow = cal.getTime();
+	    Date timeoutCut = new Date(new Date().getTime() - STAT_TIMEOUT * 1000);
 	    Node statRootNode = session.getNode(STAT_PATH);
 	    NodeIterator iter = statRootNode.getNodes();
 	    while (iter.hasNext()) {
 		Node statNode = iter.nextNode(); 
 		Date nodeDate = new Date(Long.parseLong(statNode.getName()));
-		if (yesterdayNow.after(nodeDate)) {
+		if (timeoutCut.after(nodeDate)) {
 		    statNode.remove();
 		}
 	    }
