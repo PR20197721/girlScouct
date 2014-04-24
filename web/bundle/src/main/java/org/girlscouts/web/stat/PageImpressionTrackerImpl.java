@@ -40,9 +40,9 @@ import com.day.cq.wcm.core.stats.PageView;
     @Service(value=Runnable.class)
 })
 @Properties({
-    // Stat nodes will be collected every 30 minutes.
+    // Stat nodes will be collected every 10 minutes.
     // To KISS, we use same time intervals on auth and pub, or we need to have two classes.
-    @Property(name = "scheduler.period", longValue=1800L, propertyPrivate=true),
+    @Property(name = "scheduler.period", longValue=600L, propertyPrivate=true),
     @Property(name = "service.pid", value = "org.girlscouts.web.stat.PageImpressionTracker", propertyPrivate = false),
     @Property(name = "service.description", value = "Collect page impressions", propertyPrivate = false),
     @Property(name = "service.vendor", value = "Girl Scouts USA", propertyPrivate = false) 
