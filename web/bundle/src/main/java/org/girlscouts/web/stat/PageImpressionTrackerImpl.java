@@ -48,12 +48,17 @@ import com.day.cq.wcm.core.stats.PageView;
 })
 public class PageImpressionTrackerImpl implements PageImpressionTracker, Runnable {
     private static Logger log = LoggerFactory.getLogger(PageImpressionTrackerImpl.class);
+
+    // Root path to store stat nodes 
     private static String STAT_PATH = "/var/stat";
+    // Property to save page views. Format: path===count|||anotherPath===anotherCount...
+    private static String STAT_PROPERTY = "gsstat";
     private static String EQUAL_SIGN = "===";
     private static String DELIMITER = "\\|\\|\\|";
-    private static String STAT_PROPERTY = "gsstat";
+    // Property to record the last collected stat node timestamp.
     private static String LAST_COLLECTED = "gsstatLastCollected";
-    private static long STAT_TIMEOUT = 3600*24;
+    // Time interval to cleanup obsolete stat nodes, in seconds.
+    private static int STAT_TIMEOUT = 3600*24;
 
     private Session session;
     private PageManager pageManager;
@@ -201,7 +206,7 @@ public class PageImpressionTrackerImpl implements PageImpressionTracker, Runnabl
     private void cleanup() {
 	try {
 	    Calendar cal = Calendar.getInstance();
-	    cal.add(Calendar.DATE, -1);
+	    cal.add(Calendar.SECOND, STAT_TIMEOUT);
 	    Date yesterdayNow = cal.getTime();
 	    Node statRootNode = session.getNode(STAT_PATH);
 	    NodeIterator iter = statRootNode.getNodes();
