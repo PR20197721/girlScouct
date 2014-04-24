@@ -40,7 +40,8 @@ import com.day.cq.wcm.core.stats.PageView;
     @Service(value=Runnable.class)
 })
 @Properties({
-    @Property(name = "scheduler.period", longValue=10L, propertyPrivate=true),
+    // Stat nodes will be collected every 30 minutes.
+    @Property(name = "scheduler.period", longValue=1800L, propertyPrivate=true),
     @Property(name = "service.pid", value = "org.girlscouts.web.stat.PageImpressionTracker", propertyPrivate = false),
     @Property(name = "service.description", value = "Collect page impressions", propertyPrivate = false),
     @Property(name = "service.vendor", value = "Girl Scouts USA", propertyPrivate = false) 
@@ -52,6 +53,7 @@ public class PageImpressionTrackerImpl implements PageImpressionTracker, Runnabl
     private static String DELIMITER = "\\|\\|\\|";
     private static String STAT_PROPERTY = "gsstat";
     private static String LAST_COLLECTED = "gsstatLastCollected";
+    private static long STAT_TIMEOUT = 3600*24;
 
     private Session session;
     private PageManager pageManager;
@@ -86,8 +88,7 @@ public class PageImpressionTrackerImpl implements PageImpressionTracker, Runnabl
         } catch (RepositoryException e) {
             log.error("Cannot login to JCR session.");
         } catch (LoginException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
+            log.error("Cannot login into the repository using the session token.");
 	}	
         log.error("Startup complete");
     }
@@ -111,26 +112,16 @@ public class PageImpressionTrackerImpl implements PageImpressionTracker, Runnabl
     }
 
     public void run() {
-	log.error("RUNNING");
 	try {
 	    if (isPublish) {
 		// Publish
-		log.error("publish");
-		String statNodePath = STAT_PATH + "/" + Long.toString((new Date()).getTime());
-		Node statNode = null;
-		try {
-		    statNode = session.getNode(statNodePath);
-		} catch (PathNotFoundException e) {
-		    statNode = JcrUtil.createPath(statNodePath, "nt:unstructured", session);
-		}
-
 		StringBuilder sb = new StringBuilder();
 		synchronized(statMap) {
 		    for (String path : statMap.keySet()) {
 			sb.append(path).append(EQUAL_SIGN).append(statMap.get(path)).append(DELIMITER);
 		    }
 		}
-		// TODO: how to synchronize here?
+		// how to synchronize here?
 		// Can exceptions be thrown within synchronized block?
 		newStatMap();
 		String mapValueStr = sb.toString();
@@ -138,13 +129,19 @@ public class PageImpressionTrackerImpl implements PageImpressionTracker, Runnabl
 		    mapValueStr = mapValueStr.substring(0, sb.length() - DELIMITER.length());
 		}
 		if (!mapValueStr.isEmpty()) {
+		    String statNodePath = STAT_PATH + "/" + Long.toString((new Date()).getTime());
+		    Node statNode = null;
+		    try {
+			statNode = session.getNode(statNodePath);
+		    } catch (PathNotFoundException e) {
+			statNode = JcrUtil.createPath(statNodePath, "nt:unstructured", session);
+		    }
 		    statNode.setProperty(STAT_PROPERTY, mapValueStr); 
 		    session.save();
 		    replicator.reverseReplicate(statNodePath);
 		}
 	    } else {
 		// Authoring
-		log.error("authoring");
 		Node rootStatNode = null;
 		try {
 		    rootStatNode = session.getNode(STAT_PATH);
@@ -175,10 +172,15 @@ public class PageImpressionTrackerImpl implements PageImpressionTracker, Runnabl
         			String path = currentStat[0];
         			long count = Long.parseLong(currentStat[1]);
         			    
+        			// Page view is generated here when it is collected at authoring
+        			// rather than when the page is viewed at publishing.
+        			// So, it is expected there is a delay of the view date
+        			// and some records may go to the next day.
+        			// However, this is a tradeoff for performance.
         			PageView view = new PageView(statisticsPath, pageManager.getPage(path), WCMMode.DISABLED);
         			for (long j = 0; j < count; j++) {
-        			    // TODO: tracker
-        			    log.error("log: " + j);
+        			    // Do we have better option here?
+        			    // Is it something similar like addEntry(view, count)?
         			    statisticsService.addEntry(view);
         			}
 			    }
@@ -190,8 +192,28 @@ public class PageImpressionTrackerImpl implements PageImpressionTracker, Runnabl
 		rootStatNode.setProperty(LAST_COLLECTED, cal);
 		session.save();
 	    }
+	    cleanup();
 	} catch (RepositoryException e) {
-	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+    }
+    
+    private void cleanup() {
+	try {
+	    Calendar cal = Calendar.getInstance();
+	    cal.add(Calendar.DATE, -1);
+	    Date yesterdayNow = cal.getTime();
+	    Node statRootNode = session.getNode(STAT_PATH);
+	    NodeIterator iter = statRootNode.getNodes();
+	    while (iter.hasNext()) {
+		Node statNode = iter.nextNode(); 
+		Date nodeDate = new Date(Long.parseLong(statNode.getName()));
+		if (yesterdayNow.after(nodeDate)) {
+		    statNode.remove();
+		}
+	    }
+	    session.save();
+	} catch (RepositoryException e) {
 	    e.printStackTrace();
 	}
     }
