@@ -17,6 +17,7 @@ import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
+import org.apache.felix.scr.annotations.Services;
 import org.apache.sling.api.resource.LoginException;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.jcr.api.SlingRepository;
@@ -33,12 +34,16 @@ import com.day.cq.wcm.api.WCMMode;
 import com.day.cq.wcm.core.stats.PageView;
 
 @Component
-@Service(value=PageImpressionTracker.class)
+@Services({
+    @Service(value=PageImpressionTracker.class),
+    @Service(value=Runnable.class)
+})
 @Properties({
     @Property(name = "scheduler.period", longValue=10L, propertyPrivate=true),
     @Property(name = "service.pid", value = "org.girlscouts.web.stat.PageImpressionTracker", propertyPrivate = false),
     @Property(name = "service.description", value = "Collect page impressions", propertyPrivate = false),
-    @Property(name = "service.vendor", value = "Girl Scouts USA", propertyPrivate = false) })
+    @Property(name = "service.vendor", value = "Girl Scouts USA", propertyPrivate = false) 
+})
 public class PageImpressionTrackerImpl implements PageImpressionTracker, Runnable {
     private static Logger log = LoggerFactory.getLogger(PageImpressionTrackerImpl.class);
     private static String STAT_PATH = "/var/tracker";
