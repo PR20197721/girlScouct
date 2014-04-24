@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
-    jcr:description="Provides a webcal or icalendar download link for a calendar"
-    jcr:primaryType="cq:Component"
-    jcr:title="Calendar Export Link"
-    allowedParents="[*/parsys]"
-    componentGroup="Calendar"/>

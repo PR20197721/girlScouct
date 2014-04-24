@@ -70,11 +70,6 @@
 	    <f10
             jcr:primaryType="cq:Page"
             mode="replace"
-            root="/apps/collab"
-            rules="[]"/>
-	    <f11
-            jcr:primaryType="cq:Page"
-            mode="replace"
             root="/etc/tracker"
             rules="[]"/>
     </filter>
