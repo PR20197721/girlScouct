@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
+import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 
@@ -46,7 +47,7 @@ import com.day.cq.wcm.core.stats.PageView;
 })
 public class PageImpressionTrackerImpl implements PageImpressionTracker, Runnable {
     private static Logger log = LoggerFactory.getLogger(PageImpressionTrackerImpl.class);
-    private static String STAT_PATH = "/var/tracker";
+    private static String STAT_PATH = "/var/stat";
     private static String EQUAL_SIGN = "===";
     private static String DELIMITER = "\\|\\|\\|";
     private static String STAT_PROPERTY = "gsstat";
@@ -116,8 +117,13 @@ public class PageImpressionTrackerImpl implements PageImpressionTracker, Runnabl
 		// Publish
 		log.error("publish");
 		String statNodePath = STAT_PATH + "/" + Long.toString((new Date()).getTime());
-		// TODO: what does createPath give us?
-		Node statNode = JcrUtil.createPath(statNodePath, "nt:unstructured", session);
+		Node statNode = null;
+		try {
+		    statNode = session.getNode(statNodePath);
+		} catch (PathNotFoundException e) {
+		    statNode = JcrUtil.createPath(statNodePath, "nt:unstructured", session);
+		}
+
 		StringBuilder sb = new StringBuilder();
 		synchronized(statMap) {
 		    for (String path : statMap.keySet()) {
@@ -131,14 +137,21 @@ public class PageImpressionTrackerImpl implements PageImpressionTracker, Runnabl
 		if (mapValueStr.contains(DELIMITER)) {
 		    mapValueStr = mapValueStr.substring(0, sb.length() - DELIMITER.length());
 		}
-		statNode.setProperty(STAT_PROPERTY, mapValueStr); 
-		session.save();
-		replicator.reverseReplicate(statNodePath);
+		if (!mapValueStr.isEmpty()) {
+		    statNode.setProperty(STAT_PROPERTY, mapValueStr); 
+		    session.save();
+		    replicator.reverseReplicate(statNodePath);
+		}
 	    } else {
 		// Authoring
 		log.error("authoring");
-		// TODO: createPath?
-		Node rootStatNode = session.getNode(STAT_PATH);
+		Node rootStatNode = null;
+		try {
+		    rootStatNode = session.getNode(STAT_PATH);
+		} catch (PathNotFoundException e) {
+		    rootStatNode = JcrUtil.createPath(STAT_PATH, "nt:unstructured", session);
+		}
+
 		Date lastCollected = null;
 		if (!rootStatNode.hasProperty(LAST_COLLECTED)) {
 		    lastCollected = new Date(0);
@@ -147,10 +160,14 @@ public class PageImpressionTrackerImpl implements PageImpressionTracker, Runnabl
 		}
 
 		NodeIterator iter = rootStatNode.getNodes();
+		Date newLastCollected = lastCollected;
 		while (iter.hasNext()) {
 		    Node statNode = iter.nextNode();
 		    Date nodeDate = new Date(Long.parseLong(statNode.getName()));
 		    if (nodeDate.after(lastCollected)) {
+			if (nodeDate.after(newLastCollected)) {
+			    newLastCollected = nodeDate;
+			}
 			String[] stats = statNode.getProperty(STAT_PROPERTY).getString().split(DELIMITER);
 			for (int i = 0; i < stats.length; i++) {
 			    String[] currentStat = stats[i].split(EQUAL_SIGN);
@@ -169,7 +186,7 @@ public class PageImpressionTrackerImpl implements PageImpressionTracker, Runnabl
 		    }
 		}
 		Calendar cal = new GregorianCalendar();
-		cal.setTime(new Date());
+		cal.setTime(newLastCollected);
 		rootStatNode.setProperty(LAST_COLLECTED, cal);
 		session.save();
 	    }
