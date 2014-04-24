@@ -1,7 +1,9 @@
 package org.girlscouts.web.stat;
 
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,7 +43,7 @@ public class PageImpressionTrackerImpl implements PageImpressionTracker, Runnabl
     private static Logger log = LoggerFactory.getLogger(PageImpressionTrackerImpl.class);
     private static String STAT_PATH = "/var/tracker";
     private static String EQUAL_SIGN = "===";
-    private static String DELIMITER = "|||";
+    private static String DELIMITER = "\\|\\|\\|";
     private static String STAT_PROPERTY = "gsstat";
     private static String LAST_COLLECTED = "gsstatLastCollected";
 
@@ -109,6 +111,7 @@ public class PageImpressionTrackerImpl implements PageImpressionTracker, Runnabl
 		// Publish
 		log.error("publish");
 		String statNodePath = STAT_PATH + "/" + Long.toString((new Date()).getTime());
+		// TODO: what does createPath give us?
 		Node statNode = JcrUtil.createPath(statNodePath, "nt:unstructured", session);
 		StringBuilder sb = new StringBuilder();
 		synchronized(statMap) {
@@ -129,7 +132,8 @@ public class PageImpressionTrackerImpl implements PageImpressionTracker, Runnabl
 	    } else {
 		// Authoring
 		log.error("authoring");
-		Node rootStatNode = JcrUtil.createPath(STAT_PATH, "nt:unstructured", session);
+		// TODO: createPath?
+		Node rootStatNode = session.getNode(STAT_PATH);
 		Date lastCollected = null;
 		if (!rootStatNode.hasProperty(LAST_COLLECTED)) {
 		    lastCollected = new Date(0);
@@ -140,20 +144,29 @@ public class PageImpressionTrackerImpl implements PageImpressionTracker, Runnabl
 		NodeIterator iter = rootStatNode.getNodes();
 		while (iter.hasNext()) {
 		    Node statNode = iter.nextNode();
-		    if (new Date(Long.parseLong(statNode.getName())).after(lastCollected)) {
+		    Date nodeDate = new Date(Long.parseLong(statNode.getName()));
+		    if (nodeDate.after(lastCollected)) {
 			String[] stats = statNode.getProperty(STAT_PROPERTY).getString().split(DELIMITER);
 			for (int i = 0; i < stats.length; i++) {
 			    String[] currentStat = stats[i].split(EQUAL_SIGN);
-			    String path = currentStat[0];
-			    long count = Long.parseLong(currentStat[1]);
-			    
-			    PageView view = new PageView(statisticsPath, pageManager.getPage(path), WCMMode.DISABLED);
-			    for (long j = 0; j < count; j++) {
-				statisticsService.addEntry(view);
+        			if (currentStat.length == 2) {
+        			String path = currentStat[0];
+        			long count = Long.parseLong(currentStat[1]);
+        			    
+        			PageView view = new PageView(statisticsPath, pageManager.getPage(path), WCMMode.DISABLED);
+        			for (long j = 0; j < count; j++) {
+        			    // TODO: tracker
+        			    log.error("log: " + j);
+        			    statisticsService.addEntry(view);
+        			}
 			    }
 			}
 		    }
 		}
+		Calendar cal = new GregorianCalendar();
+		cal.setTime(new Date());
+		rootStatNode.setProperty(LAST_COLLECTED, cal);
+		session.save();
 	    }
 	} catch (RepositoryException e) {
 	    // TODO Auto-generated catch block
