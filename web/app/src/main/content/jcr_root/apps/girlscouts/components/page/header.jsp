@@ -62,12 +62,10 @@
                     </div>
                 </div>
             </div>
-
 		</div>
 	</div>
 	<!--PAGE STRUCTURE: HEADER BAR-->
 	<div id="headerBar" class="row">
-		<div class="large-4 medium-5 hide-for-small columns">&nbsp;</div>
-		<% setCssClasses("large-20 medium-19 hide-for-small columns", request); %>
+		<% setCssClasses("large-24 medium-24 hide-for-small columns", request); %>
 		<cq:include path="<%= headerPath + "/global-nav" %>" resourceType="girlscouts/components/global-navigation" />
 	</div>
