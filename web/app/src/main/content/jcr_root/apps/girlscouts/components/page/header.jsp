@@ -2,6 +2,7 @@
 <%@include file="/apps/girlscouts/components/include-options.jsp"%>
 <%
 	String headerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
+	String designPath = currentDesign == null ? "/" : currentDesign.getPath();
 %>
 <div class="off-canvas-wrap">
 	<div class="inner-wrap">
@@ -46,11 +47,22 @@
 				<div class="large-17 medium-17 columns">
 					<span>Hello Sandy.</span> <a x-cq-linkchecker="skip" href="/signout" class="signout">SIGN OUT</a>
 				</div>
+				<% setCssClasses("large-7 medium-7 small-24 columns searchBar", request); %>
+				<cq:include path="<%= headerPath + "/search-box" %>" resourceType="girlscouts/components/search-box" />
 			</div>
 			
-			
-			<% setCssClasses("large-7 medium-7 small-24 columns searchBar", request); %>
-			<cq:include path="<%= headerPath + "/search-box" %>" resourceType="girlscouts/components/search-box" />
+			<div class="show-for-small small-24 columns topMessage alt">
+                <div class="row">
+                    <div class="small-18 columns">
+                        <span>Hello Sandy.</span> <a x-cq-linkchecker="skip" href="/signout" class="signout">SIGN OUT</a>
+                    </div>
+                    <div class="small-6 columns">
+                        <a class="right-off-canvas-toggle menu-icon"><img src="<%= designPath %>/images/magnifyer-small.png" width="21" height="21"/></a>
+                        <a class="right-off-canvas-toggle menu-icon"><img src="<%= designPath %>images/hamburger.png" width="22" height="28"/></a>
+                    </div>
+                </div>
+            </div>
+
 		</div>
 	</div>
 	<!--PAGE STRUCTURE: HEADER BAR-->
