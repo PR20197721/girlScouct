@@ -21,7 +21,8 @@
                 sling:resourceType="girlscouts/components/eventsfacets-search"/>
         </par>
     </jcr:content>
-    <cookies-skill/>
-    <thress/>
-    <Copy_x0020_of_x0020_thress/>
+    <winter-jam/>
+    <winter-jam0/>
+    <winter-jam1/>
+    <winter-jam2/>
 </jcr:root>
