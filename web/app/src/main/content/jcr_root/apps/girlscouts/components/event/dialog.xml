@@ -5,7 +5,7 @@
     helpPath="en/cq/current/wcm/default_components.html#Image"
     xtype="tabpanel">
     <items jcr:primaryType="cq:WidgetCollection">
-        <tab1
+        <event
             jcr:primaryType="cq:Widget"
             title="Event Details"
             xtype="panel">
@@ -14,22 +14,24 @@
                     jcr:primaryType="cq:Widget"
                     allowBlank="{Boolean}false"
                     fieldLabel="Event Title"
-                    name="./title"
+                    name="./jcr:title"
                     xtype="textfield"/>
                 <location
                     jcr:primaryType="cq:Widget"
+                    allowBlank="{Boolean}false"
                     fieldLabel="Location"
                     name="./location"
-                    xtype="pathfield"/>
-                <fromdate
+                    xtype="textfield"/>
+                <startdate
                     jcr:primaryType="cq:Widget"
                     allowBlank="{Boolean}false"
-                    fieldLabel="From Date"
+                    fieldLabel="Start Date"
                     name="./fromdate"
                     xtype="datefield"/>
-                <todate
+                <enddate
                     jcr:primaryType="cq:Widget"
-                    fieldLabel="To Date"
+                    allowBlank="{Boolean}false"
+                    fieldLabel="End Date"
                     name="./todate"
                     xtype="datefield"/>
                 <time
@@ -40,7 +42,7 @@
                     xtype="timefield"/>
                 <details
                     jcr:primaryType="cq:Widget"
-                    fieldLabel="Other Information"
+                    fieldLabel="Details"
                     name="./details"
                     xtype="richtext"/>
                 <srchdisp
@@ -49,7 +51,7 @@
                     name="./srchdisp"
                     xtype="textfield"/>
             </items>
-        </tab1>
+        </event>
         <image
             jcr:primaryType="cq:Widget"
             cropParameter="./imageCrop"
