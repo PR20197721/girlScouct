@@ -1,7 +1,5 @@
 <%@page import="java.util.Set,
 	java.util.Arrays,
-	javax.servlet.http.HttpServletRequest,
-	com.day.cq.wcm.api.components.IncludeOptions,
 	com.day.cq.wcm.api.Page" %>
 
 <%
