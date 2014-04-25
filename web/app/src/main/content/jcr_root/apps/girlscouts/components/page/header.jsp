@@ -1,5 +1,5 @@
 <%@include file="/libs/foundation/global.jsp"%>
-<%@include file="/apps/girlscouts/components/include-options.jsp"%>
+<%@include file="/apps/girlscouts/components/global.jsp"%>
 <%
 	String headerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
 	String designPath = currentDesign == null ? "/" : currentDesign.getPath();

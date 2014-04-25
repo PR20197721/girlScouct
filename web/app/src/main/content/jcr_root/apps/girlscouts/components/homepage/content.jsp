@@ -1,5 +1,5 @@
 <%@include file="/libs/foundation/global.jsp" %>
-<%@include file="/apps/girlscouts/components/include-options.jsp"%>
+<%@include file="/apps/girlscouts/components/global.jsp"%>
 <!--PAGE STRUCTURE: MAIN-->
                 <div id="main" class="row">
                     <div class="large-24 medium-24 small-24 columns">

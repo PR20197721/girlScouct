@@ -1,6 +1,6 @@
 <%@page import="com.day.cq.wcm.api.components.IncludeOptions"%>
 <%@include file="/libs/foundation/global.jsp" %>
-<%@include file="/apps/girlscouts/components/include-options.jsp"%>
+<%@include file="/apps/girlscouts/components/global.jsp"%>
 
 <%
     String footerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/footer";
