@@ -20,18 +20,16 @@
   queryMap.put("orderby","@jcr:content/date");
   queryMap.put("orderby.sort","desc");
   String start = request.getParameter("start");
-  
   if(start!=null && !start.isEmpty()){
-      queryMap.put("p.limit", "10");      
+     start = Integer.toString(10 - list.size()); 
   }
   else
   {
-     start = Integer.toString(10 - list.size()); 
+      queryMap.put("p.limit", "10");      
   }
   if(offset!=null && !offset.isEmpty())
   {
       queryMap.put("p.offset",offset);
-        
   }else{
       queryMap.put("p.offset", "0");
   }
