@@ -6,7 +6,7 @@
     <contact-us-form/>
     <jcr:content
         cq:designPath="/etc/designs/girlscouts-usa-green"
-        cq:lastModified="{Date}2014-04-21T16:50:32.378-04:00"
+        cq:lastModified="{Date}2014-04-24T19:44:02.702-04:00"
         cq:lastModifiedBy="admin"
         cq:lastReplicated="{Date}2014-03-12T17:33:08.138-04:00"
         cq:lastReplicatedBy="admin"
@@ -17,7 +17,10 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="Girl Scouts USA English"
         jcr:uuid="5e13f36a-c7eb-4798-b0c1-d209b1ae813c"
-        sling:resourceType="girlscouts/components/homepage">
+        sling:resourceType="girlscouts/components/homepage"
+        eventPath="/content/girlscouts-usa/en/events"
+        locationsPath="/content/girlscouts-usa/en/locations"
+        newsPath="/content/girlscouts-usa/en/news">
         <footer jcr:primaryType="nt:unstructured">
             <par
                 jcr:primaryType="nt:unstructured"
@@ -35,17 +38,17 @@
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="foundation/components/parsys"/>
             <eyebrow-nav
-                jcr:lastModified="{Date}2014-04-01T13:35:44.755-04:00"
+                jcr:lastModified="{Date}2014-04-24T19:42:25.506-04:00"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="girlscouts/components/eyebrow-navigation"
-                links="[About Our Council|||#|||,Shop|||#|||,Forms|||#|||,Calendar|||#|||,Contact|||#|||,Espanol|||#|||]"/>
+                links="[About Our Council|||#|||,Shop|||#|||,Forms|||#|||,Calendar|||/content/girlscouts-usa/en/calendar|||,Contact|||#|||,Espanol|||#|||]"/>
             <global-nav
-                jcr:lastModified="{Date}2014-04-21T16:50:32.375-04:00"
+                jcr:lastModified="{Date}2014-04-24T19:42:44.289-04:00"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="girlscouts/components/global-navigation"
-                links="[About Girl Scouts|||/content/girlscouts-usa/en/about-girl-scouts|||,Events &amp; Activities|||#|||,Camp|||#|||,Cookies|||#|||,For Volunteers|||#|||,Leader|||#|||menuHighlight]"/>
+                links="[About Girl Scouts|||/content/girlscouts-usa/en/about-girl-scouts|||,Events &amp; Activities|||/content/girlscouts-usa/en/events|||,Camp|||#|||,Cookies|||#|||,For Volunteers|||#|||,Leader|||#|||menuHighlight]"/>
             <logo
                 jcr:lastModified="{Date}2014-04-21T16:50:17.522-04:00"
                 jcr:lastModifiedBy="admin"
@@ -218,7 +221,7 @@
             </par>
         </content>
         <image
-            jcr:lastModified="{Date}2014-04-21T16:45:47.437-04:00"
+            jcr:lastModified="{Date}2014-04-24T19:44:02.698-04:00"
             jcr:lastModifiedBy="admin"
             jcr:primaryType="nt:unstructured"
             imageRotate="0">
@@ -230,11 +233,11 @@
     <news/>
     <news-list/>
     <shouldwork/>
-    <events/>
+    <calendar/>
     <location/>
     <facets-search/>
     <locations/>
-    <event-list/>
+    <events/>
     <short-story/>
     <site-search/>
 </jcr:root>

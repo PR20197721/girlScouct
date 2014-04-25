@@ -2,14 +2,15 @@
 <%@ page import="com.day.cq.tagging.TagManager,java.util.ArrayList,java.util.HashSet,java.text.DateFormat,java.text.SimpleDateFormat,java.util.Date,
                  java.util.Locale,java.util.Map,java.util.Iterator,java.util.HashMap,java.util.List,java.util.Set,com.day.cq.search.result.SearchResult,
                  java.util.ResourceBundle,com.day.cq.search.QueryBuilder,javax.jcr.PropertyIterator,org.girlscouts.web.events.search.SearchResultsInfo,
-                 com.day.cq.i18n.I18n,org.apache.sling.api.resource.ResourceResolver,org.girlscouts.web.events.search.EventsSrch,org.girlscouts.web.events.search.FacetsInfo" %>
+                 com.day.cq.i18n.I18n,org.apache.sling.api.resource.ResourceResolver,org.girlscouts.web.events.search.EventsSrch,org.girlscouts.web.events.search.FacetsInfo,java.util.Calendar,java.util.TimeZone" %>
 
 <%@include file="/libs/foundation/global.jsp"%>
 <cq:includeClientLib categories="apps.girlscouts" />
 <cq:defineObjects/>
  
 <% 
-  DateFormat fromFormat = new SimpleDateFormat("mm/dd/yy");
+  DateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.S");
+  fromFormat.setCalendar(Calendar.getInstance(TimeZone.getTimeZone("GMT")));
   DateFormat toFormat = new SimpleDateFormat("EEE dd MMM yyyy");
   SearchResultsInfo srchInfo = (SearchResultsInfo)request.getAttribute("eventresults");
   if(null==srchInfo)
@@ -55,17 +56,15 @@
       for(Map.Entry<String,String> result: results.entrySet()){
     	 Node node =  resourceResolver.getResource(result.getValue()).adaptTo(Node.class);
     	 Node propNode = node.getNode("jcr:content/data");
-    	 String title = propNode.getProperty("title").getString();
+    	 String title = propNode.getProperty("jcr:title").getString();
     	 String href = result.getValue()+".html";
-    	 String time = propNode.getProperty("time").getString();
-    	 String fromdate = propNode.getProperty("fromdate").getString();
+    	 String fromdate = propNode.getProperty("start").getString();
     	 String todate="";
     	 Date tdt = null;
-    	 if(propNode.hasProperty("todate")){
-    	 	 todate = propNode.getProperty("todate").getString();
+    	 if(propNode.hasProperty("end")){
+    	 	 todate = propNode.getProperty("end").getString();
     	 	 tdt = fromFormat.parse(todate);
     	 }
-    	 String location = resourceResolver.getResource(propNode.getProperty("location").getString()).adaptTo(Page.class).getTitle();
     	 String details = propNode.getProperty("srchdisp").getString();
     	 Date fdt = fromFormat.parse(fromdate);
     	
@@ -73,9 +72,7 @@
       <div>
             <a href="<%=href%>"><%=title %></a>
             <p><%=details%></p>
-            <p>Time :<%=time%></p> 
-            <p>Date : <%=toFormat.format(fdt)%> <%if(propNode.hasProperty("todate")) {%> to <%=toFormat.format(tdt) %> <%}%></p>   
-            <p>Location : <%=location %></p>
+            <p>Date : <%=toFormat.format(fdt)%> <%if(propNode.hasProperty("end")) {%> to <%=toFormat.format(tdt) %> <%}%></p>   
       </div>    
      <%}%>
 </div>
