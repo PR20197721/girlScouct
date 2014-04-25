@@ -5,64 +5,77 @@
 
 <%@include file="/libs/foundation/global.jsp"%>
 <%
+	String designPath = currentDesign.getPath();
+	String featureIcon = properties.get("fileReference", "");
+	String featureTitle = properties.get("title", "");
+	String featureLink = properties.get("urltolink", "") + ".html";
 
-  SearchResult results = (SearchResult)request.getAttribute("results");
-  java.util.List <Hit> resultsHits = results.getHits();
-  Format formatter = new SimpleDateFormat("dd MMM yyyy");
- 
-  Integer count =  Integer.parseInt(properties.get("count",String.class));
-  if(count > resultsHits.size()){
-	  count = resultsHits.size();
-  }
-  
+    SearchResult results = (SearchResult)request.getAttribute("results");
+    java.util.List <Hit> resultsHits = results.getHits();
+	Format formatter = new SimpleDateFormat("dd MMM yyyy");
+	 
+	Integer count =  Integer.parseInt(properties.get("count",String.class));
+	if(count > resultsHits.size()){
+	    count = resultsHits.size();
+    }
 %>
-<div>
-    <img src="<%=properties.get("fileReference", String.class)%>"/><%=properties.get("featuretitle",String.class) %>
-</div>
-<%
-for(int i=0;i<count;i++)
-      {
-      Node content = resultsHits.get(i).getNode(); 
-      if(content.hasNode("jcr:content/title")){%>
-               <p><a href="<%=resultsHits.get(i).getPath()+".html" %>"><%=content.getNode("jcr:content/title").getProperty("jcr:title").getString()%></a>
-                   <%  if(content.getNode("jcr:content").hasProperty("date"))
-                        {
-                           String contentDt = content.getNode("jcr:content").getProperty("date").getString();
-                       %>
-                   <br/> <%=formatter.format(DateParser.parseDate(contentDt)) %>
-                   <%} %>
-               </p> 
-        <% }%>
-      
-      <% 
-         if(content.hasNode("jcr:content/image"))
-      {%> 
-         <img src="<%=content.getNode("jcr:content/image").getProperty("fileReference").getString()%>" height="100" width="100" alt="<%if(content.getNode("jcr:content/image").hasProperty("alt")){%><%=content.getNode("jcr:content/image").getProperty("fileReference").getValue()%><%}%>"/>
-      <% }%>
-      <%if(content.hasNode("jcr:content/text")){
-    %>    
-          <p><%=content.getNode("jcr:content/text").getProperty("text").getString() %></p>
-      <%}
-      
-      }
+<div class="small-24 medium-24 large-24 columns">
+	<div class="row">
+		<div class="hide-for-small hide-for-medium large-24 columns">
+			<div class="feature-icon">
+				<img src="<%= featureIcon %>" width="50" height="50">
+			</div>	
+			<div class="feature-title">
+				<h2>
+					<a href="<%= featureLink %>"><%= featureTitle %></a>
+				</h2>
+			</div>
+		</div>
+		<div class="medium-8 show-for-medium columns">&nbsp;</div>
+        <div class="small-24 medium-12 hide-for-large  hide-for-xlarge hide-for-xxlarge columns">
+            <div class="feature-icon">
+                <img src="<%= designPath %>/images/arrow-down.png" width="30" height="30"/>
+            </div>
+            <div class="feature-title">
+                <h2><a href="<%= featureLink %>"><%= featureTitle %></a></h2>
+            </div>
+        </div>
+        <div class="medium-4 show-for-medium columns">&nbsp;</div>
+	</div>
+	
+	<ul class="small-block-grid-1 content">
+	<%
+	    for(int i=0;i<count;i++) {
+      		Node resultNode = resultsHits.get(i).getNode();
+      		String newsLink = resultNode.getPath() + ".html";
+      		
+      		Node contentNode = resultNode.getNode("jcr:content");
+      		String newsTitle = contentNode.hasProperty("jcr:title") ? contentNode.getProperty("jcr:title").getString() : "";
 
-%>
-
-<div>
-    <%
-      if(properties.containsKey("urltolink")){
-    %>    
-        <a href="<%=properties.get("urltolink")%>.html"><%=properties.get("linktext")%></a>
-          
-     <% }
-    
+      		String newsDateStr = "";
+      		if (contentNode.hasProperty("date")) {
+      			Date newsDate = contentNode.getProperty("date").getDate().getTime();
+      			newsDateStr = formatter.format(newsDate);
+      		}
+      		
+      		String newsDesc = contentNode.hasProperty("description") ? contentNode.getProperty("description").getString() : "";
+      		
+      		String imgPath = contentNode.hasProperty("image/fileReference") ? contentNode.getProperty("image/fileReference").getString() : "";
     %>
-  
-  </div>
-
-   
-   
-   
-
-
-
+    	<li>
+    		<div class="row">
+    			<div class="small-24 medium-8 large-6 columns">
+    				<img src="<%= imgPath %>" width="483" height="305" />
+    			</div>
+    			<div class="small-24 medium-16 large-18 columns">
+    				<h3>
+    					<a href="<%= newsLink %>"><%= newsTitle %></a>
+    				</h3>
+    				<p><%= newsDateStr %></p>
+    				<p><%= newsDesc %></p>
+    			</div>
+    		</div>
+    	</li>
+    <% } %>
+	</ul>
+</div>
