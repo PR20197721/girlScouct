@@ -6,9 +6,9 @@
         cq:lastModifiedBy="admin"
         cq:template="/apps/girlscouts/templates/page"
         jcr:primaryType="cq:PageContent"
-        jcr:title="SanDeigo Zoo"
+        jcr:title="Camp Lakamanga"
         sling:resourceType="girlscouts/components/page"
-        region="San Deigo">
+        region="Minneapolis">
         <par
             jcr:primaryType="nt:unstructured"
             sling:resourceType="foundation/components/parsys">
