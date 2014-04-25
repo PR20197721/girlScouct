@@ -20,7 +20,7 @@
 <!-- Artifact Browser -->
 <!--[if lt IE 9]>
 	<nav class="logoLarge">
-		<img src="images/gateway-logo.png" width="188" height="73"/>
+		<img src="<%= regularImage %>"<%= alt %> width="<%= regularWidth %>" height="<%= regularHeight %>" />
 	</nav>
 <![endif]-->
 <!-- Modern Browser -->
