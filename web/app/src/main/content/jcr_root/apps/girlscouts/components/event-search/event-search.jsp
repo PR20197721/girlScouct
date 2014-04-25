@@ -50,7 +50,7 @@
    SearchResult searchResults = searchResultsInfo.getSearchResults();
    
   
-   Map<String,String> results = searchResultsInfo.getResults();
+   List<String> results = searchResultsInfo.getResults();
    long hitCounts = searchResultsInfo.getHitCounts();
    Iterator<Page> pages= resourceResolver.getResource(REGIONS).adaptTo(Page.class).listChildren();
    while(pages.hasNext()){
