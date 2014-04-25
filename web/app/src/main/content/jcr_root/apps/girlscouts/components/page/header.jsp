@@ -42,13 +42,15 @@
 		</div>    
 		<div class="large-20 medium-19 hide-for-small columns topMessage">
 			<cq:include path="<%= headerPath + "/eyebrow-nav" %>" resourceType="girlscouts/components/eyebrow-navigation" />
-			<% setCssClasses("large-7 medium-7 small-24 columns searchBar", request); %>
-			<cq:include path="<%= headerPath + "/search-box" %>" resourceType="girlscouts/components/search-box" />
 			<div class="row">
-				<div class="message large-24 medium-24 small-24 columns">
-					<span>Hello Sandy.</span> <a href="/signout" class="signout">SIGN OUT</a>
+				<div class="large-17 medium-17 columns">
+					<span>Hello Sandy.</span> <a x-cq-linkchecker="skip" href="/signout" class="signout">SIGN OUT</a>
 				</div>
 			</div>
+			
+			
+			<% setCssClasses("large-7 medium-7 small-24 columns searchBar", request); %>
+			<cq:include path="<%= headerPath + "/search-box" %>" resourceType="girlscouts/components/search-box" />
 		</div>
 	</div>
 	<!--PAGE STRUCTURE: HEADER BAR-->
