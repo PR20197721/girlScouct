@@ -31,11 +31,13 @@
 	<% if (!linkURL.isEmpty()) { %> </a> <% } %>
 </nav>
 <nav class="show-for-small logoSmall">
-	<% if (!linkURL.isEmpty()) { %> <a href="<%= linkURL %>"> <% } %>
-		<img src="<%= smallImage %>"<%= alt %> width="<%= smallWidth %>" height="<%= smallHeight %>" />
-	<% if (!linkURL.isEmpty()) { %> </a> <% } %>
-	<a class="right-off-canvas-toggle menu-icon debug">
-		<img src="<%= hamburgerImage %>" width="<%= hamburgerWidth %>" height="<%= hamburgerHeight %>" />
-	</a>
+	<center>
+		<% if (!linkURL.isEmpty()) { %> <a href="<%= linkURL %>"> <% } %>
+			<img src="<%= smallImage %>"<%= alt %> width="<%= smallWidth %>" height="<%= smallHeight %>" />
+		<% if (!linkURL.isEmpty()) { %> </a> <% } %>
+		<a class="right-off-canvas-toggle menu-icon debug">
+			<img src="<%= hamburgerImage %>" width="<%= hamburgerWidth %>" height="<%= hamburgerHeight %>" />
+		</a>
+	</center>
 </nav>
 <!--<![endif]-->
