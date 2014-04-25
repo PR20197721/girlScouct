@@ -4,6 +4,7 @@
 	String designPath = currentDesign.getPath();
 	String title = properties.get("title","");
 	String linkTitle = properties.get("pathfield","");
+	String featureIcon = properties.get("featureiconimage", "");
 %>
 <br/><br/>
 <div class="row home-section feature-shortstory">
@@ -11,7 +12,7 @@
 		<div class="row">
 			<div class="hide-for-small hide-for-medium large-24 columns">
 				<div class="feature-icon">
-					<img src="<%= designPath %>/images/trefoil-icon.png" width="50" height="50" />
+					<img src="<%= featureIcon %>" width="50" height="50" />
 				</div>
 				<div class="feature-title">
 					<h2>
@@ -34,8 +35,13 @@
 			<div class="medium-4 show-for-medium columns">&nbsp;</div>
 		</div>
 		<div class="row content">
+		<% if (properties.get("imageOnLeft", "off").equals("on")) { %>
+			<cq:include script="image.jsp" />
+			<cq:include script="text.jsp" />
+		<% } else { %>
 			<cq:include script="text.jsp" />
 			<cq:include script="image.jsp" />
+		<% } %>
 		</div>
 	</div>
 </div>

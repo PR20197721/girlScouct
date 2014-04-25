@@ -27,6 +27,12 @@
                     fieldLabel="Description"
                     name="./shortdesc"
                     xtype="richtext"/>
+                <imageOnLeft
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="The story images is by default on the right. Check this to display it on the left."
+                    fieldLabel="Image On Left"
+                    name="./imageOnLeft"
+                    xtype="checkbox"/>
                 <springboard
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Spring Broad Display"
