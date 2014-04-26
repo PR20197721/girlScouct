@@ -42,6 +42,7 @@
 			<cq:include path="<%= headerPath + "/logo" %>" resourceType="girlscouts/components/logo" />
 		</div>    
 		<div class="large-20 medium-19 hide-for-small columns topMessage">
+			<% setCssClasses("columns", request); %>
 			<cq:include path="<%= headerPath + "/eyebrow-nav" %>" resourceType="girlscouts/components/eyebrow-navigation" />
 			<div class="row">
 				<div class="large-17 medium-17 columns">
