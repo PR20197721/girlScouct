@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    title="dialog"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab1
+                jcr:primaryType="cq:Panel"
+                title="Feature Events Mode">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <featuretitle
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Feature Title"
+                        name="./featuretitle"
+                        xtype="textfield"/>
+                    <feature
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="(Check this box if Events need to be displayed under feature,else will be displayed as List)"
+                        fieldLabel="Displayed under Feature"
+                        name="./isfeatureevents"
+                        xtype="checkbox"/>
+                    <eventcounts
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Number of Events"
+                        name="./eventcount"
+                        xtype="textfield"/>
+                    <linktext
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="(Provide the text to link to all the Events Page)"
+                        fieldLabel="Link text"
+                        name="./linktext"
+                        xtype="textfield"/>
+                    <url
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="(Select the Event List Page)"
+                        fieldLabel="Url"
+                        name="./urltolink"
+                        xtype="pathfield"/>
+                    <selectList
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="0"
+                        fieldDescription="(Select layout 2 or 1 column layout)"
+                        fieldLabel="Layout"
+                        name="./layout"
+                        type="select"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <one
+                                jcr:primaryType="nt:unstructured"
+                                text="1"
+                                value="1"/>
+                            <two
+                                jcr:primaryType="nt:unstructured"
+                                text="2"
+                                value="2"/>
+                        </options>
+                    </selectList>
+                    <results-per-page
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="(How many results in one page. For pagination use.)"
+                        fieldLabel="Results Per Page"
+                        name="./resultsPerPage"
+                        xtype="textfield"/>
+                </items>
+            </tab1>
+            <image
+                jcr:primaryType="cq:Widget"
+                cropParameter="./imageCrop"
+                ddGroups="[media]"
+                fileNameParameter="./fileName"
+                fileReferenceParameter="./fileReference"
+                mapParameter="./imageMap"
+                name="./file"
+                requestSuffix=".img.png"
+                rotateParameter="./imageRotate"
+                title="Image"
+                xtype="html5smartimage"/>
+        </items>
+    </items>
+</jcr:root>

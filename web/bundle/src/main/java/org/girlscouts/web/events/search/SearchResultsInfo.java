@@ -2,29 +2,30 @@ package org.girlscouts.web.events.search;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.day.cq.search.result.SearchResult;
 
 public class SearchResultsInfo {
-	private Map<String, String> results;
+	private List<String> results;
 	private Map<String,Map<String,Long>> facetsWithCount;
 	private Map<String,ArrayList<String>> facts;
 	private long hitCounts ;
 	private SearchResult searchResults;
 	
 	public SearchResultsInfo(){
-		results = new HashMap<String,String>();
+		results = new ArrayList<String>();
 		facetsWithCount = new HashMap<String,Map<String,Long>>();
 		facts = new HashMap<String,ArrayList<String>>();
 		
 		
 	}
-	public void setResults(Map<String,String>results){
+	public void setResults(List<String>results){
 		this.results = results;
 	}
 
-	public Map<String,String> getResults(){
+	public List<String> getResults(){
 		return results;
 	}
 	

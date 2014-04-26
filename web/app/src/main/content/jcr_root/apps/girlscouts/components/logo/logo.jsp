@@ -8,19 +8,15 @@
 	String linkURL = properties.get("linkURL", "");
 	if (!linkURL.isEmpty()) linkURL += ".html";
 
-	String smallWidth = properties.get("small/width", "293");
-	String smallHeight = properties.get("small/height", "51");
+	String smallWidth = properties.get("small/width", "38");
+	String smallHeight = properties.get("small/height", "38");
 	String smallImage = properties.get("small/fileReference", "");
-	
-	String hamburgerWidth = properties.get("hamburger/width", "22");
-	String hamburgerHeight = properties.get("hamburger/height", "28");
-	String hamburgerImage = properties.get("hamburger/fileReference", "");
 %>
 
 <!-- Artifact Browser -->
 <!--[if lt IE 9]>
 	<nav class="logoLarge">
-		<img src="images/gateway-logo.png" width="188" height="73"/>
+		<img src="<%= regularImage %>"<%= alt %> width="<%= regularWidth %>" height="<%= regularHeight %>" />
 	</nav>
 <![endif]-->
 <!-- Modern Browser -->
@@ -31,11 +27,10 @@
 	<% if (!linkURL.isEmpty()) { %> </a> <% } %>
 </nav>
 <nav class="show-for-small logoSmall">
-	<% if (!linkURL.isEmpty()) { %> <a href="<%= linkURL %>"> <% } %>
-		<img src="<%= smallImage %>"<%= alt %> width="<%= smallWidth %>" height="<%= smallHeight %>" />
-	<% if (!linkURL.isEmpty()) { %> </a> <% } %>
-	<a class="right-off-canvas-toggle menu-icon debug">
-		<img src="<%= hamburgerImage %>" width="<%= hamburgerWidth %>" height="<%= hamburgerHeight %>" />
-	</a>
+	<center>
+		<% if (!linkURL.isEmpty()) { %> <a href="<%= linkURL %>"> <% } %>
+			<img src="<%= smallImage %>"<%= alt %> width="<%= smallWidth %>" height="<%= smallHeight %>" />
+		<% if (!linkURL.isEmpty()) { %> </a> <% } %>
+	</center>
 </nav>
 <!--<![endif]-->

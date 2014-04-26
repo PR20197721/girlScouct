@@ -8,8 +8,6 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="2013"
         sling:resourceType="girlscouts/components/news"/>
-    <news1/>
-    <news11/>
-    <news2/>
-    <news3/>
+    <coolie-skills-translate-to-life-skills/>
+    <coolie-skills-translate-to-life-skills_0/>
 </jcr:root>

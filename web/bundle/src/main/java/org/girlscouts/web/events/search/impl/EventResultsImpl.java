@@ -2,7 +2,6 @@ package org.girlscouts.web.events.search.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,22 +10,20 @@ import javax.jcr.Session;
 
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.girlscouts.web.events.search.EventResults;
-import org.girlscouts.web.events.search.EventsSrch;
 import org.girlscouts.web.events.search.FacetsInfo;
 import org.girlscouts.web.events.search.SearchResultsInfo;
-import org.girlscouts.web.search.eval.WapperJcrPropertyPredicateEvaluator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.day.cq.tagging.TagManager;
-import com.day.cq.tagging.Tag;
 import com.day.cq.search.PredicateGroup;
+import com.day.cq.search.Query;
 import com.day.cq.search.QueryBuilder;
 import com.day.cq.search.facets.Bucket;
 import com.day.cq.search.facets.Facet;
 import com.day.cq.search.result.Hit;
 import com.day.cq.search.result.SearchResult;
-import com.day.cq.search.Query;
+import com.day.cq.tagging.Tag;
+import com.day.cq.tagging.TagManager;
 
 public class EventResultsImpl implements EventResults {
 
@@ -40,7 +37,7 @@ public class EventResultsImpl implements EventResults {
 		
 		
 		sResults = new SearchResultsInfo();
-		Map<String,String> Sresults = new HashMap<String,String>();		
+		List<String> Sresults = new ArrayList<String>();		
 		PredicateGroup predicateGroup = PredicateGroup.create(map);
 		Query query = builder.createQuery(predicateGroup,slingRequest.getResourceResolver().adaptTo(Session.class));
 		
@@ -85,7 +82,7 @@ public class EventResultsImpl implements EventResults {
 			Hit ht = hits.get(i);
 			//String path = ht.getNode().isNodeType("cq:Page")?ht.getPath()+".html":ht.getPath();
 			String path = ht.getNode().isNodeType("cq:Page")?ht.getPath():ht.getPath();
-			Sresults.put(ht.getTitle(), path);
+			Sresults.add(path);
 			
 		}
 		

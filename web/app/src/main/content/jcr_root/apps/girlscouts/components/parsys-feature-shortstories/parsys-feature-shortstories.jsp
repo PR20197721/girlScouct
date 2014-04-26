@@ -22,7 +22,7 @@
                     com.day.cq.commons.jcr.JcrConstants,
                     com.day.cq.wcm.api.WCMMode" %><%
 %><%@include file="/libs/foundation/global.jsp"%>
-<%@include file="/apps/girlscouts/components/include-options.jsp"%>
+<%@include file="/apps/girlscouts/components/global.jsp"%>
 <%
     ParagraphSystem parSys = ParagraphSystem.create(resource, slingRequest);
     String inlineCSS = "";

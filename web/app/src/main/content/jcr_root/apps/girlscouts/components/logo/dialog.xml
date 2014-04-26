@@ -41,24 +41,6 @@
                     xtype="hidden"/>
             </items>
         </small-screen-image>
-        <hamburger-image
-            jcr:primaryType="cq:Widget"
-            ddGroups="[media]"
-            fileNameParameter="./hamburger/fileName"
-            fileReferenceParameter="./hamburger/fileReference"
-            name="./hamburger/file"
-            requestSuffix="/hamburger.img.png"
-            title="Hamburger Image"
-            xtype="html5smartimage">
-            <items jcr:primaryType="cq:WidgetCollection">
-                <resType
-                    jcr:primaryType="cq:Widget"
-                    ignoreData="{Boolean}true"
-                    name="./hamburger/sling:resourceType"
-                    value="foundation/components/image"
-                    xtype="hidden"/>
-            </items>
-        </hamburger-image>
         <advanced
             jcr:primaryType="cq:Widget"
             title="Advanced"
@@ -87,12 +69,6 @@
                     fieldLabel="Small Screen Size"
                     heightParameter="./small/height"
                     widthParameter="./small/width"
-                    xtype="sizefield"/>
-                <hamburger-size
-                    jcr:primaryType="cq:Widget"
-                    fieldLabel="Hamburger Size"
-                    heightParameter="./hamburger/height"
-                    widthParameter="./hamburger/width"
                     xtype="sizefield"/>
             </items>
         </advanced>

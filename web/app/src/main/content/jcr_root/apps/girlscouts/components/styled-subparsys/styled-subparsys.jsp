@@ -24,7 +24,7 @@
                     com.day.cq.wcm.foundation.Paragraph,
                     com.day.cq.wcm.foundation.ParagraphSystem" %><%
 %><%@include file="/libs/foundation/global.jsp"%>
-<%@include file="/apps/girlscouts/components/include-options.jsp"%>
+<%@include file="/apps/girlscouts/components/global.jsp"%>
 <%
 	String cssClasses = properties.get("cssClasses", "");
 
