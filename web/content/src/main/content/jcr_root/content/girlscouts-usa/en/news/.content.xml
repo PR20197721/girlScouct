@@ -8,8 +8,5 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="News"
         sling:resourceType="girlscouts/components/news"/>
-    <_x0032_014/>
     <_x0032_013/>
-    <_x0032_015/>
-    <news-page/>
 </jcr:root>

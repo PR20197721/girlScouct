@@ -2,20 +2,20 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2014-04-03T13:47:56.247-04:00"
+        cq:lastModified="{Date}2014-04-03T09:28:11.379-04:00"
         cq:lastModifiedBy="admin"
         cq:template="/apps/girlscouts/templates/news"
         jcr:primaryType="cq:PageContent"
-        jcr:title="News Title-1"
+        jcr:title="Cookie Skills Translate to Life Skills"
         sling:resourceType="girlscouts/components/news"
         date="{Date}2014-04-02T16:39:23.876-04:00"
-        description="Short Description for the News Releases">
+        description="Almost everyone knows Girl Scouts Cookies, but some don't realize that the Girl Scout Cookie Program is the largest girl-run business in the world. Through learning by earning, Girl Scouting aims...">
         <image
             jcr:lastModified="{Date}2014-04-03T09:13:39.345-04:00"
             jcr:lastModifiedBy="admin"
             jcr:primaryType="nt:unstructured"
             sling:resourceType="foundation/components/image"
-            fileReference="/content/dam/geometrixx-outdoors/products/scarf/Halifax.jpg"
+            fileReference="/content/dam/girlscouts-shared/en/news/2013/small-leader.png"
             imageRotate="0"/>
         <title
             jcr:lastModified="{Date}2014-04-03T09:16:57.172-04:00"
