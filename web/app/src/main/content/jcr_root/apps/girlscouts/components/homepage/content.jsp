@@ -9,7 +9,6 @@
                                 <img src="/content/dam/girlscouts-shared/en/banners/medium/welcome-medium.png" class="show-for-medium"/>
                                 <img src="/content/dam/girlscouts-shared/en/banners/small/welcome-small.png" class="show-for-small"/>
                             </div>
-                            </div>
                         </div>
                         
                         <cq:include path="content/styled-subpar" resourceType="girlscouts/components/styled-subparsys"/>
