@@ -67,7 +67,7 @@
    }
 
    SearchResultsInfo srchInfo = (SearchResultsInfo)request.getAttribute("eventresults");
-   Map<String, String> results = srchInfo.getResults();
+   List<String> results = srchInfo.getResults();
    request.setAttribute("formAction", formAction);
 
 
