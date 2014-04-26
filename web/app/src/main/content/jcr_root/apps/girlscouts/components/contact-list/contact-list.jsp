@@ -5,6 +5,7 @@ org.apache.sling.api.resource.ValueMap" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@page session="false" %>
 <cq:defineObjects/>
+<hr/>
 <%
 String rootPath = properties.get("path", "");
 if (rootPath.isEmpty()) {
@@ -19,8 +20,8 @@ Iterator<Page> teamIter = contactRoot.listChildren();
 while (teamIter.hasNext()) {
     Page currentTeam = teamIter.next();
     String teamName = currentTeam.getProperties().get("jcr:title", "");
-    %><p><%= teamName %><br/><%
-	%><table><tr><td>Name</td><td>Title</td><td>Phone</td><td>Email</td></tr><%
+    %><div id="contactsList"><h2><%= teamName %><h2/><%
+	%><table><tbody><tr><th>Name</th><th>Title</th><th>Phone</th><th>Email</th></tr><%
     Iterator<Page> contactIter = currentTeam.listChildren();
     while (contactIter.hasNext()) {
 		Page currentContact = contactIter.next();
@@ -32,7 +33,7 @@ while (teamIter.hasNext()) {
 		
 		%><tr><td><%=name%></td><td><%=title%></td><td><%=phone%></td><td><%=email%></td><%
     }
-    %></tr></table></p><%
+    %></tr></tbody></table></div><%
 }
 
 %>
