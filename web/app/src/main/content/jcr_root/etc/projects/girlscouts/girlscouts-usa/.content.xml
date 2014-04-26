@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:description="Girl Scouts USA"
+    jcr:primaryType="nt:unstructured"
+    jcr:title="I can't wait to be a Girl Scout."
+    sling:resourceType="cq/gui/components/projects/admin/projectcard">
+    <image/>
+    <links jcr:primaryType="nt:unstructured">
+        <websites
+            jcr:primaryType="nt:unstructured"
+            jcr:title="Main Site"
+            sling:resourceType="cq/gui/components/projects/admin/projectlink"
+            class="card-page"
+            consolePath="/sites.html"
+            suffix="/content/girlscouts-usa">
+            <image
+                cq:isCancelledForChildren="{Boolean}true"
+                cq:lastRolledout="{Date}2012-06-05T16:36:05.602+01:00"
+                cq:lastRolledoutBy="admin"
+                jcr:lastModified="{Date}2012-11-28T10:44:42.001+01:00"
+                jcr:lastModifiedBy="admin"
+                jcr:mixinTypes="[cq:LiveRelationship,cq:LiveSyncCancelled]"
+                jcr:primaryType="nt:unstructured"
+                imageRotate="0">
+                <file/>
+            </image>
+        </websites>
+        <assets
+            jcr:primaryType="nt:unstructured"
+            jcr:title="Shared Assets"
+            sling:resourceType="cq/gui/components/projects/admin/assetlink"
+            consolePath="/assets.html"
+            suffix="/content/dam/girlscouts-shared"/>
+    </links>
+</jcr:root>
