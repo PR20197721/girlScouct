@@ -1,12 +1,12 @@
-<%@ page import="java.text.Format,java.text.ParseException,java.lang.Exception,java.text.SimpleDateFormat,java.util.Date,com.day.cq.dam.commons.util.DateParser,java.text.DateFormat"%>
-
+<%@ page import="java.text.Format,
+	java.text.ParseException,
+	java.lang.Exception,
+	java.text.SimpleDateFormat,
+	java.util.Date"%>
 <%@include file="/libs/foundation/global.jsp"%>
+<cq:defineObjects />
 
-<%@page session="false" %>
-<cq:defineObjects/>
 <%
-
-
    DateFormat fromFormat = new SimpleDateFormat("mm/dd/yy");
    DateFormat toFormat = new SimpleDateFormat("mm/dd/yy");
 
@@ -58,36 +58,43 @@
 
     %>
 <style>
-  h1{color: #000000}
-
+h1 {
+	color: #000000
+}
 </style>
 <div id="tl">
-    <h1><%=jcrTitle%></h1>
+	<h1><%=jcrTitle%></h1>
 </div>
 <%if(fileReference!=null && fileReference.length()>0){ %>
-   <img src="<%=fileReference%>" alt="<%if(imgAlt!=null && imgAlt.length()>0){%><%=imgAlt%><%}%>" width=<%=imgWidth%> height="<%=imgHeight%>"/>
+<img src="<%=fileReference%>"
+	alt="<%if(imgAlt!=null && imgAlt.length()>0){%><%=imgAlt%><%}%>"
+	width=<%=imgWidth%> height="<%=imgHeight%>" />
 
 <%} %>
 <p>
-<%if(time!=null && time.length()>0){ %>
-    <br/> <Strong>Time: </Strong><%=time%>
-<%} %>
-<%if(fromdate!=null && fromdate.length() > 0){
+	<%if(time!=null && time.length()>0){ %>
+	<br /> <Strong>Time: </Strong><%=time%>
+	<%} %>
+	<%if(fromdate!=null && fromdate.length() > 0){
 	  Date fdt = fromFormat.parse(fromdate);
 
 	%>
-    <br/><Strong>Date:</Strong> <%= toFormat.format(fdt) %>
-<%} %>
-    <%if(todate!=null && todate.length() > 0){
+	<br />
+	<Strong>Date:</Strong>
+	<%= toFormat.format(fdt) %>
+	<%} %>
+	<%if(todate!=null && todate.length() > 0){
 	 Date tdt = fromFormat.parse(todate);
 	%>
-     to <%=toFormat.format(tdt) %>
-<%} %>
-<%if(location!=null && location.length() >0){ %>
-    <br/> <Strong>Location: </Strong><%=location%>
-<%} %>
-<%if(details!=null && details.length() >0){ %>
-    <br/> <%=details %>
-<%} %>
-<br>
+	to
+	<%=toFormat.format(tdt) %>
+	<%} %>
+	<%if(location!=null && location.length() >0){ %>
+	<br /> <Strong>Location: </Strong><%=location%>
+	<%} %>
+	<%if(details!=null && details.length() >0){ %>
+	<br />
+	<%=details %>
+	<%} %>
+	<br>
 </p>

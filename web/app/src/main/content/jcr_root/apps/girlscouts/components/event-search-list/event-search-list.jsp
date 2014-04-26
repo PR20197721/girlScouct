@@ -28,7 +28,7 @@
 <%
 
 
-    Map<String, String> results = srchInfo.getResults();
+    List<String> results = srchInfo.getResults();
     long hitCounts = srchInfo.getHitCounts();
     SearchResult searchResults = (SearchResult)request.getAttribute("searchResults");
     String q = request.getParameter("q");
@@ -53,11 +53,11 @@
 <div>
      Total Counts <%=hitCounts%> 
    <%
-      for(Map.Entry<String,String> result: results.entrySet()){
-    	 Node node =  resourceResolver.getResource(result.getValue()).adaptTo(Node.class);
+      for(String result: results){
+    	 Node node =  resourceResolver.getResource(result).adaptTo(Node.class);
     	 Node propNode = node.getNode("jcr:content/data");
     	 String title = propNode.getProperty("jcr:title").getString();
-    	 String href = result.getValue()+".html";
+    	 String href = result+".html";
     	 String fromdate = propNode.getProperty("start").getString();
     	 String todate="";
     	 Date tdt = null;
