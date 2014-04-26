@@ -8,8 +8,8 @@
 	String linkURL = properties.get("linkURL", "");
 	if (!linkURL.isEmpty()) linkURL += ".html";
 
-	String smallWidth = properties.get("small/width", "293");
-	String smallHeight = properties.get("small/height", "51");
+	String smallWidth = properties.get("small/width", "38");
+	String smallHeight = properties.get("small/height", "38");
 	String smallImage = properties.get("small/fileReference", "");
 	
 	String hamburgerWidth = properties.get("hamburger/width", "22");
