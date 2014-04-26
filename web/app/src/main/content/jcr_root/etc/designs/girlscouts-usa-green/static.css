@@ -118,9 +118,6 @@ a:hover.menuHighlight {
 #header nav.logoSmall {
     min-width:330px;
 }
-#header nav.logoSmall a {
-    float:right;
-}
 #header ul {
     float: right;
 }
