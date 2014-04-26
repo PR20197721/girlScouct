@@ -6,7 +6,7 @@
     <contact-us-form/>
     <jcr:content
         cq:designPath="/etc/designs/girlscouts-usa-green"
-        cq:lastModified="{Date}2014-04-25T13:47:18.350-04:00"
+        cq:lastModified="{Date}2014-04-25T15:33:03.179-04:00"
         cq:lastModifiedBy="admin"
         cq:lastReplicated="{Date}2014-03-12T17:33:08.138-04:00"
         cq:lastReplicatedBy="admin"
@@ -96,9 +96,18 @@
                 srchaction="/content/girlscouts-usa/en/site-search"/>
         </header>
         <content jcr:primaryType="nt:unstructured">
-            <par
+            <styled-subpar
+                jcr:lastModified="{Date}2014-04-25T15:33:03.177-04:00"
+                jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
-                sling:resourceType="foundation/components/parsys">
+                sling:resourceType="girlscouts/components/styled-subparsys"
+                cssClasses="row home-section">
+                <line-break
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="girlscouts/components/line-break"/>
+                <line-break_1
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="girlscouts/components/line-break"/>
                 <feature_shortstory
                     jcr:created="{Date}2014-04-15T09:36:01.456-04:00"
                     jcr:createdBy="admin"
@@ -115,6 +124,12 @@
                     shortdesc="&lt;p>Girls Scouts of Arkansas, Oklahoma and Texas is where girls discover the fun, friendship and power of working together.Thought extraordinary field trips, sports, skill-building clinics community service projects, cultural exchanges and environlemt stewardships, our girls courageous and strong.&lt;/p>&#xa;"
                     title="BE A GIRL SCOUT"
                     width="800"/>
+                <line-break_2
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="girlscouts/components/line-break"/>
+                <line-break_3
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="girlscouts/components/line-break"/>
                 <feature_shortstory_0
                     jcr:created="{Date}2014-04-15T09:36:01.456-04:00"
                     jcr:createdBy="admin"
@@ -133,49 +148,35 @@
                     shortdesc="&lt;p>Girls Scouts of Arkansas, Oklahoma and Texas is where girls discover the fun, friendship and power of working together.Thought extraordinary field trips, sports, skill-building clinics community service projects, cultural exchanges and environlemt stewardships, our girls courageous and strong.&lt;/p>&#xa;"
                     title="VOLUNTEER"
                     width="800"/>
-                <news_list
+                <events-list
+                    jcr:created="{Date}2014-04-14T14:58:09.727-04:00"
+                    jcr:createdBy="admin"
+                    jcr:lastModified="{Date}2014-04-25T14:37:03.678-04:00"
+                    jcr:lastModifiedBy="admin"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="girlscouts/components/events-list"
+                    eventcount="4"
+                    featuretitle="UPCOMING EVENTS"
+                    fileReference="/content/dam/girlscouts-shared/en/icons/heart-icon.png"
+                    imageRotate="0"
+                    isfeatureevents="on"
+                    linktext="See All Upcoming events"
+                    urltolink="/content/girlscouts-usa/en/events"/>
+                <news-list
                     jcr:created="{Date}2014-04-14T10:55:30.604-04:00"
                     jcr:createdBy="admin"
                     jcr:lastModified="{Date}2014-04-15T08:01:14.165-04:00"
                     jcr:lastModifiedBy="admin"
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="girlscouts/components/news-list"
-                    count="4"
+                    count="2"
                     featuretitle="News"
-                    fileReference="/content/dam/girlscouts-shared/en/thumbnails/flower.png"
+                    fileReference="/content/dam/girlscouts-shared/en/icons/heart-icon.png"
                     imageRotate="0"
                     isonhomepage="on"
-                    linktext="See All News"
-                    title="Title"
-                    urltolink="/content/girlscouts-usa/en/news-list"/>
-                <event_search_list_0
-                    jcr:created="{Date}2014-04-14T14:58:09.727-04:00"
-                    jcr:createdBy="admin"
-                    jcr:lastModified="{Date}2014-04-15T07:53:30.593-04:00"
-                    jcr:lastModifiedBy="admin"
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="girlscouts/components/event-search-list"
-                    eventcount="4"
-                    featuretitle="Upcoming events"
-                    fileReference="/content/dam/girlscouts-shared/en/thumbnails/heart1.png"
-                    imageRotate="0"
-                    isfeatureevents="on"
-                    linktext="See All Upcoming events"
-                    urltolink="/content/girlscouts-usa/en/event-list"/>
-                <feature-s
-                    jcr:lastModified="{Date}2014-04-15T09:47:06.238-04:00"
-                    jcr:lastModifiedBy="admin"
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="girlscouts/components/feature-shortstory"
-                    featureiconimage="/content/dam/girlscouts-shared/en/thumbnails/flower.png"
-                    fileReference="/content/dam/girlscouts-shared/en/thumbnails/flower-plantation.png"
-                    imageCrop="[,]"
-                    imageMap="[,]"
-                    imageRotate="[0,0]"
-                    pathfield="sadasd"
-                    shortdesc="&lt;p>asfdasdasd afasfasfasfas afasdfasfasfas&lt;/p>&#xa;"
-                    title="sadasdas"/>
-            </par>
+                    title="COUNCIL NEWS"
+                    urltolink="/content/girlscouts-usa/en/news"/>
+            </styled-subpar>
         </content>
         <image
             jcr:lastModified="{Date}2014-04-24T21:03:16.417-04:00"
