@@ -8,5 +8,5 @@
 <!--PAGE STRUCTURE: FOOTER-->
 <div id="footer" class="row">
 	<% setCssClasses("large-24 medium-24 small-24 column", request); %>
-    <cq:include path="<%= footerPath + "/nav"%>" resourceType="girlscouts/components/navigation-bar"/>
+    <cq:include path="<%= footerPath + "/nav"%>" resourceType="girlscouts/components/footer-navigation"/>
 </div>
