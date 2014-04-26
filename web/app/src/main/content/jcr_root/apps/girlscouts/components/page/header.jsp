@@ -59,7 +59,7 @@
                  </div>
                  <div class="small-6 columns">
                      <a class="right-off-canvas-toggle menu-icon"><img src="<%= designPath %>/images/magnifyer-small.png" width="21" height="21"/></a>
-                     <a class="right-off-canvas-toggle menu-icon"><img src="<%= designPath %>images/hamburger.png" width="22" height="28"/></a>
+                     <a class="right-off-canvas-toggle menu-icon"><img src="<%= designPath %>/images/hamburger.png" width="22" height="28"/></a>
                  </div>
              </div>
          </div>
