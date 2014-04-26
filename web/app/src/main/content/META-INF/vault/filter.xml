@@ -11,5 +11,5 @@
     <filter root="/etc/scaffolding/girlscouts-usa"/>
     <filter root="/etc/workflow/models/email-workflow"/>
     <filter root="/etc/tracker"/>
-    <filter root="/etc/projects/girlscouts"/>
+    <filter root="/etc/projects/defaults"/>
 </workspaceFilter>

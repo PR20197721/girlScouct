@@ -75,7 +75,7 @@
 	    <f11
             jcr:primaryType="cq:Page"
             mode="replace"
-            root="/etc/projects/girlscouts"
+            root="/etc/projects/defaults"
             rules="[]"/>
     </filter>
 </jcr:root>
