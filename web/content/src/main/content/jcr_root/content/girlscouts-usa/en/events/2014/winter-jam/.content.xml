@@ -15,14 +15,14 @@
             jcr:lastModifiedBy="admin"
             jcr:primaryType="cq:CalendarEvent"
             jcr:title="Winter Jam"
-            end="{Date}2014-01-11T15:00:00.000-05:00"
+            end="{Date}2014-04-03T15:00:00.000-05:00"
             fileReference="/content/dam/girlscouts-shared/en/events/2014/small-snowkids.png"
             isDate="{Boolean}true"
             location="/content/girlscouts-usa/en/locations/camp-lakamanga"
             sequence="{Long}1"
-            srchdisp="This is a dummy event. One Two Threeeeeeeee"
+            srchdisp="Let's go camping!"
             stamp="{Date}2009-10-09T12:11:00.000Z"
-            start="{Date}2014-01-10T19:00:00.000-05:00"
+            start="{Date}2014-04-01T19:00:00.000-05:00"
             time="6:00 pm to 2:00 pm"
             uid="8332F4E8-465A-4D7A-89CD-B4612863C7D3"/>
     </jcr:content>
