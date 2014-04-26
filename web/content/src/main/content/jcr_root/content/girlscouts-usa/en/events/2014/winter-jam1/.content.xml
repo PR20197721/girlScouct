@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2011-02-07T17:43:42.291+01:00"
+        cq:lastModified="{Date}2014-04-26T17:11:44.715-04:00"
         cq:lastModifiedBy="admin"
+        cq:tags="[girlscouts:program-level/brownie,girlscouts:categories/camp]"
         cq:template="girlscouts/templates/event-page"
         jcr:primaryType="cq:PageContent"
         jcr:title="Winter Jam"
@@ -25,5 +26,10 @@
             start="{Date}2014-04-12T19:00:00.000-05:00"
             time="6:00 pm to 2:00 pm"
             uid="8332F4E8-465A-4D7A-89CD-B4612863C7D3"/>
+        <image
+            jcr:lastModified="{Date}2014-04-26T17:11:44.711-04:00"
+            jcr:lastModifiedBy="admin"
+            jcr:primaryType="nt:unstructured"
+            imageRotate="0"/>
     </jcr:content>
 </jcr:root>
