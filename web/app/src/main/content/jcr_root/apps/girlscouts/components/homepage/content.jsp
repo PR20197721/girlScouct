@@ -5,8 +5,10 @@
                     <div class="large-24 medium-24 small-24 columns">
                         <div class="row">
                             <div id="heroBanner" class="large-24 medium-24 small-24 columns">
-                                <img src="/content/dam/girlscouts-shared/en/banners/welcome.png" width="1998" height="874" class="hide-for-small"/>
-                                <img src="/content/dam/girlscouts-shared/en/banners/welcome-small.png" width="1998" height="874" class="show-for-small"/>
+                                <img src="/content/dam/girlscouts-shared/en/banners/big/welcome.png" class="hide-for-small hide-for-medium"/>
+                                <img src="/content/dam/girlscouts-shared/en/banners/medium/welcome-medium.png" class="show-for-medium"/>
+                                <img src="/content/dam/girlscouts-shared/en/banners/small/welcome-small.png" class="show-for-small"/>
+                            </div>
                             </div>
                         </div>
                         
