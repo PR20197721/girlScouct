@@ -2,6 +2,7 @@
 	java.text.ParseException,
 	java.lang.Exception,
 	java.text.SimpleDateFormat,
+	java.text.DateFormat,
 	java.util.Date"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <cq:defineObjects />
