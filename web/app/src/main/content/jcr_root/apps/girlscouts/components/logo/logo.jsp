@@ -11,10 +11,6 @@
 	String smallWidth = properties.get("small/width", "38");
 	String smallHeight = properties.get("small/height", "38");
 	String smallImage = properties.get("small/fileReference", "");
-	
-	String hamburgerWidth = properties.get("hamburger/width", "22");
-	String hamburgerHeight = properties.get("hamburger/height", "28");
-	String hamburgerImage = properties.get("hamburger/fileReference", "");
 %>
 
 <!-- Artifact Browser -->
@@ -35,9 +31,6 @@
 		<% if (!linkURL.isEmpty()) { %> <a href="<%= linkURL %>"> <% } %>
 			<img src="<%= smallImage %>"<%= alt %> width="<%= smallWidth %>" height="<%= smallHeight %>" />
 		<% if (!linkURL.isEmpty()) { %> </a> <% } %>
-		<a class="right-off-canvas-toggle menu-icon debug">
-			<img src="<%= hamburgerImage %>" width="<%= hamburgerWidth %>" height="<%= hamburgerHeight %>" />
-		</a>
 	</center>
 </nav>
 <!--<![endif]-->
