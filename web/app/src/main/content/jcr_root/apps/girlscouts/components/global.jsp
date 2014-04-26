@@ -1,6 +1,7 @@
 <%@page import="java.util.Set,
 	java.util.Arrays,
-	com.day.cq.wcm.api.Page" %>
+	com.day.cq.wcm.api.Page,
+	com.day.cq.wcm.api.components.IncludeOptions" %>
 
 <%
 Page homepage = currentPage.getAbsoluteParent(2);
