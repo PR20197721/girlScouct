@@ -3,6 +3,7 @@
 	java.text.ParseException,
 	java.lang.Exception,
 	java.text.SimpleDateFormat,
+	java.text.DateFormat,
 	java.util.Date"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <cq:defineObjects />
@@ -11,20 +12,26 @@
 	String currentPath = currentPage.getPath() + ".html";
 
 	// date and time
-    DateFormat dateFormat = new SimpleDateFormat("mm/dd/yy");
-    String time = properties.get("time", " ");
+    DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy");
+	DateFormat timeFormat = new SimpleDateFormat("KK:mm a");
+
 	Date startDate = properties.get("start", Date.class); 
 	String startDateStr = dateFormat.format(startDate);
+	String startTimeStr = timeFormat.format(startDate);
+	
 	Date endDate = properties.get("end", Date.class); 
 	String dateStr = startDateStr;
+    String time = startTimeStr;
 	if (endDate != null) {
 		String endDateStr = dateFormat.format(startDate);
+		String endTimeStr = timeFormat.format(endDate);
 	    dateStr += " to " + endDateStr;
+	    time += " to " + endTimeStr;
 	}
 	String endDateStr = dateFormat.format(endDate);
 	
 	// content
-    String title = properties.get("title", "");
+    String title = currentPage.getTitle();
     String details = properties.get("details", " ");
 
     // images
@@ -38,7 +45,7 @@
 
     // location
     String locationPath = properties.get("location", "");
-    String location = null;
+    String location = "";
     if (!locationPath.isEmpty()) {
 		Page locationPage = resourceResolver.resolve(locationPath).adaptTo(Page.class);	
 		if (locationPage != null) {
@@ -57,7 +64,9 @@
 <p>
 	Time: <%= time %><br/>
 	Date: <%= dateStr %> <br/>
+<% if (!location.isEmpty()) { %>
 	Location: <%= location %>
+<% } %>
 </p>
 <p>
 	<%= details %>
