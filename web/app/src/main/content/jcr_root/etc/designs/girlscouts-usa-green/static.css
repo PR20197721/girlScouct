@@ -320,3 +320,6 @@ table, tr:first-child  {
 #contactsList table {
      width:100%;
 }
+.event .data img {
+     width: 150px;
+}

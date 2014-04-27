@@ -7,7 +7,6 @@
 	java.util.Date"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <cq:defineObjects />
-
 <%
 	String currentPath = currentPage.getPath() + ".html";
 
@@ -53,21 +52,18 @@
 		}
     }
 %>
-
-<!-- TODO: fix the h2 color in CSS -->
-<h2 style="color: green;"><%= title %></h2>
+<div class="row">
+    <div class="small-24 columns">
+<h2><%= title %></h2>
 <% if (!fileReference.isEmpty()) { %>
-<p>	
-	<img src="<%= fileReference %>" <%= imgWidth %> <%= imgHeight %> <%= imgAlt %> />
-</p>
+<img src="<%= fileReference %>" <%= imgWidth %> <%= imgHeight %> <%= imgAlt %> />
 <% } %>
-<p>
-	Time: <%= time %><br/>
-	Date: <%= dateStr %> <br/>
+<br/><br/>
+	<b>Time:</b> <%= time %><br/>
+	<b>Date:</b> <%= dateStr %> <br/>
 <% if (!location.isEmpty()) { %>
-	Location: <%= location %>
+	<b>Location:</b> <%= location %>
 <% } %>
-</p>
-<p>
-	<%= details %>
-</p>
+<p><%= details %></p>
+    </div>
+</div>
