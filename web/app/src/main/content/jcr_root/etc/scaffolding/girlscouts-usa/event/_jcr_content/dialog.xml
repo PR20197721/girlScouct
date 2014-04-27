@@ -13,11 +13,6 @@
                     allowBlank="{Boolean}false"
                     fieldLabel="Title"
                     name="./jcr:content/jcr:title"/>
-                <time
-                    jcr:primaryType="cq:Widget"
-                    allowBlank="{Boolean}false"
-                    fieldLabel="Time"
-                    name="./jcr:content/data/time"/>
                 <start
                     jcr:primaryType="cq:Widget"
                     allowBlank="{Boolean}false"
