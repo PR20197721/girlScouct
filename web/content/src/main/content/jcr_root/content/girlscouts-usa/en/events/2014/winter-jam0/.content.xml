@@ -16,6 +16,7 @@
             jcr:lastModifiedBy="admin"
             jcr:primaryType="cq:CalendarEvent"
             jcr:title="Winter Jam"
+            sling:ResourceType="foundation/components/image"
             end="{Date}2014-04-07T15:00:00.000-05:00"
             fileReference="/content/dam/girlscouts-shared/en/events/2014/small-trio.png"
             isDate="{Boolean}true"
