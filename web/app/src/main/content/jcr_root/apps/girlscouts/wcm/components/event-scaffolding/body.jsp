@@ -253,7 +253,7 @@
                         "./jcr:content/cq:scaffolding": "<%= scaffoldPath %>"
                     };
                 }
-                var title = frm.findField("./jcr:content/data/title");
+                var title = frm.findField("./jcr:content/jcr:title");
                 if (title) {
                     var hint = title.getValue();
                     if (hint) {
