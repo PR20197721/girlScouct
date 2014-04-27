@@ -72,10 +72,5 @@
             mode="replace"
             root="/etc/tracker"
             rules="[]"/>
-	    <f11
-            jcr:primaryType="cq:Page"
-            mode="replace"
-            root="/etc/projects/defaults"
-            rules="[]"/>
     </filter>
 </jcr:root>
