@@ -5,88 +5,17 @@
     helpPath="en/cq/current/wcm/default_components.html#Image"
     xtype="tabpanel">
     <items jcr:primaryType="cq:WidgetCollection">
-        <event
+        <tab1
             jcr:primaryType="cq:Widget"
-            title="Event Details"
+            title="Use Scaffolding"
             xtype="panel">
             <items jcr:primaryType="cq:WidgetCollection">
-                <title
+                <label
                     jcr:primaryType="cq:Widget"
-                    allowBlank="{Boolean}false"
-                    fieldLabel="Event Title"
-                    name="./jcr:title"
-                    xtype="textfield"/>
-                <location
-                    jcr:primaryType="cq:Widget"
-                    allowBlank="{Boolean}false"
-                    fieldLabel="Location"
-                    name="./location"
-                    xtype="textfield"/>
-                <startdate
-                    jcr:primaryType="cq:Widget"
-                    allowBlank="{Boolean}false"
-                    fieldLabel="Start Date"
-                    name="./fromdate"
-                    xtype="datefield"/>
-                <enddate
-                    jcr:primaryType="cq:Widget"
-                    allowBlank="{Boolean}false"
-                    fieldLabel="End Date"
-                    name="./todate"
-                    xtype="datefield"/>
-                <time
-                    jcr:primaryType="cq:Widget"
-                    allowBlank="{Boolean}false"
-                    fieldLabel="Event Time"
-                    name="./time"
-                    xtype="timefield"/>
-                <details
-                    jcr:primaryType="cq:Widget"
-                    fieldLabel="Details"
-                    name="./details"
-                    xtype="richtext"/>
-                <srchdisp
-                    jcr:primaryType="cq:Widget"
-                    fieldLabel="Description for search page"
-                    name="./srchdisp"
-                    xtype="textfield"/>
+                    fieldLabel="Hint"
+                    html="&lt;p>&lt;b>Use the scaffolding to edit event&lt;/b>&lt;/p>&#xa;&lt;p>Go to the sidekick and click the &lt;b>fourth&lt;/b> button on the bottom to edit.&lt;/p>"
+                    xtype="label"/>
             </items>
-        </event>
-        <image
-            jcr:primaryType="cq:Widget"
-            cropParameter="./imageCrop"
-            ddGroups="[media]"
-            fileNameParameter="./fileName"
-            fileReferenceParameter="./fileReference"
-            mapParameter="./imageMap"
-            name="./file"
-            requestSuffix=".img.png"
-            rotateParameter="./imageRotate"
-            title="Image"
-            xtype="html5smartimage"/>
-        <advanced
-            jcr:primaryType="cq:Widget"
-            title="Image Properties"
-            xtype="panel">
-            <items jcr:primaryType="cq:WidgetCollection">
-                <title
-                    jcr:primaryType="cq:Widget"
-                    fieldLabel="Image Title"
-                    name="./imgtitle"
-                    xtype="textfield"/>
-                <alt
-                    jcr:primaryType="cq:Widget"
-                    fieldDescription="(leave empty to use the title defined above)"
-                    fieldLabel="Alt Text"
-                    name="./alt"
-                    xtype="textfield"/>
-                <size
-                    jcr:primaryType="cq:Widget"
-                    fieldLabel="Size"
-                    heightParameter="./height"
-                    widthParameter="./width"
-                    xtype="sizefield"/>
-            </items>
-        </advanced>
+        </tab1>
     </items>
 </jcr:root>

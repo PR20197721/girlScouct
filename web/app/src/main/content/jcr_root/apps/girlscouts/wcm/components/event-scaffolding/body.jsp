@@ -264,7 +264,7 @@
                 /****************************************
                 // Customize code to add year
                 ****************************************/
-				var dateField = frm.findField("./jcr:content/date");
+				var dateField = frm.findField("./jcr:content/data/start");
                 var year;
                 if (dateField.getValue()) {
                 	year = dateField.getValue().getFullYear();	

@@ -16,7 +16,16 @@
 	
 	if (path != null  && !path.isEmpty()) {
 		Node node = JcrUtil.createPath(path, type, session);
-		Node jcrNode = node.addNode("jcr:content", "cq:PageContent");
+		Node jcrNode = null;
+		if (type.equals("cq:Page")) {
+		    if (!node.hasNode("jcr:content")) {
+				jcrNode = node.addNode("jcr:content", "cq:PageContent");
+		    } else {
+				jcrNode = node.getNode("jcr:content");
+		    }
+		} else {
+		    jcrNode = node;
+		}
 		
 		if (propertiesStr != null && !propertiesStr.isEmpty()) {
 			String[] targetProperties = propertiesStr.split("\\|\\|\\|");

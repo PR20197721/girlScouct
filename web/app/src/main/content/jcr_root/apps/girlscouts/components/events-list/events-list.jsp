@@ -18,7 +18,8 @@
     }
     DateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.S");
     fromFormat.setCalendar(Calendar.getInstance(TimeZone.getTimeZone("GMT")));
-    DateFormat toFormat = new SimpleDateFormat("EEE dd MMM yyyy");
+    DateFormat dateFormat = new SimpleDateFormat("EEE dd MMM yyyy");
+	DateFormat timeFormat = new SimpleDateFormat("KK:mm a");
     List<String> results = srchInfo.getResults();
 
     int eventcounts = 0;
@@ -67,7 +68,7 @@
 		Node node = resourceResolver.getResource(value).adaptTo( Node.class);
 		String eventUrl = node.getPath() + ".html";
 		Node propNode = node.getNode("jcr:content/data");
-		String title = propNode.getProperty("jcr:title").getString();
+		String title = propNode.getProperty("../jcr:title").getString();
 		String href = value + ".html";
 		String fromdate = propNode.getProperty("start").getString();
 		String todate = "";
@@ -80,9 +81,12 @@
 
 		Date fdt = fromFormat.parse(fromdate);
 		
-		String eventTime = propNode.getProperty("time").getString();
-		String fromDate = toFormat.format(fdt);
-		String toDate = toFormat.format(tdt);
+		String eventTime = timeFormat.format(fdt);
+		if (propNode.hasProperty("end")) {
+			eventTime = eventTime + " to " + timeFormat.format(fdt);
+		}
+		String fromDate = dateFormat.format(fdt);
+		String toDate = dateFormat.format(tdt);
 		String eventImg = propNode.getProperty("fileReference").getString();
 %>
 	<li>

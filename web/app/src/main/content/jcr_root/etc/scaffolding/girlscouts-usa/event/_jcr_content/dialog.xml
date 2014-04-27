@@ -10,17 +10,25 @@
             <items jcr:primaryType="cq:WidgetCollection">
                 <title
                     jcr:primaryType="cq:Widget"
+                    allowBlank="{Boolean}false"
                     fieldLabel="Title"
                     name="./jcr:content/jcr:title"/>
-                <date
+                <start
                     jcr:primaryType="cq:Widget"
-                    fieldLabel="Date"
-                    name="./jcr:content/date"
-                    xtype="datefield"/>
-                <text
+                    allowBlank="{Boolean}false"
+                    fieldLabel="Start Date"
+                    name="./jcr:content/data/start"
+                    xtype="datetime"/>
+                <end
                     jcr:primaryType="cq:Widget"
+                    fieldLabel="End Date"
+                    name="./jcr:content/data/end"
+                    xtype="datetime"/>
+                <details
+                    jcr:primaryType="cq:Widget"
+                    allowBlank="{Boolean}false"
                     fieldLabel="Text"
-                    name="./jcr:content/par/text/text"
+                    name="./jcr:content/data/details"
                     xtype="richtext">
                     <rtePlugins jcr:primaryType="nt:unstructured">
                         <table
@@ -64,21 +72,23 @@
                             jcr:primaryType="nt:unstructured"
                             features="*"/>
                     </rtePlugins>
-                </text>
-                <richFlag
+                </details>
+                <srchdisp
                     jcr:primaryType="cq:Widget"
-                    ignoreData="{Boolean}true"
-                    name="./jcr:content/par/text/textIsRich"
-                    value="true"
-                    xtype="hidden"/>
-                <resourceType
-                    jcr:primaryType="cq:Widget"
-                    ignoreData="{Boolean}true"
-                    name="./jcr:content/par/text/sling:resourceType"
-                    value="foundation/components/textimage"
-                    xtype="hidden"/>
+                    fieldLabel="Search Discription"
+                    name="./jcr:content/data/srchdisp"/>
             </items>
         </tab1>
+        <tab4
+            jcr:primaryType="cq:Panel"
+            title="Tags/Keywords">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <tags
+                    jcr:primaryType="cq:Widget"
+                    name="./jcr:content/cq:tags"
+                    xtype="tags"/>
+            </items>
+        </tab4>
         <tab2
             jcr:primaryType="cq:Panel"
             title="Image">
@@ -86,16 +96,16 @@
                 <image
                     jcr:primaryType="cq:Widget"
                     border="true"
-                    cropParameter="./jcr:content/par/text/image/imageCrop"
+                    cropParameter="./jcr:content/data/imageCrop"
                     ddGroups="[media]"
-                    fileNameParameter="./jcr:content/par/text/image/fileName"
-                    fileReferenceParameter="./jcr:content/par/text/image/fileReference"
+                    fileNameParameter="./jcr:content/data/fileName"
+                    fileReferenceParameter="./jcr:content/data/fileReference"
                     height="400"
                     hideLabel="false"
-                    mapParameter="./jcr:content/par/text/image/imageMap"
-                    name="./jcr:content/par/text/image/file"
-                    requestSuffix="/jcr:content/par/text/image.img.png"
-                    rotateParameter="./jcr:content/par/text/image/imageRotate"
+                    mapParameter="./jcr:content/data/imageMap"
+                    name="./jcr:content/data/file"
+                    requestSuffix="/jcr:content/data.img.png"
+                    rotateParameter="./jcr:content/data/imageRotate"
                     sizeLimit="100"
                     xtype="html5smartimage"/>
             </items>
@@ -104,46 +114,19 @@
             jcr:primaryType="cq:Panel"
             title="Image / Advanced">
             <items jcr:primaryType="cq:WidgetCollection">
-                <title
-                    jcr:primaryType="cq:Widget"
-                    fieldLabel="Title"
-                    name="./jcr:content/par/text/image/jcr:title"
-                    xtype="textfield"/>
                 <alt
                     jcr:primaryType="cq:Widget"
                     fieldDescription="(leave empty to use the title defined above)"
                     fieldLabel="Alt Text"
-                    name="./jcr:content/par/text/image/alt"
+                    name="./jcr:content/data/alt"
                     xtype="textfield"/>
-                <description
-                    jcr:primaryType="cq:Widget"
-                    fieldLabel="Description"
-                    name="./jcr:content/par/text/image/jcr:description"
-                    xtype="textarea"/>
                 <size
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Size"
-                    heightParameter="./jcr:content/par/text/image/height"
-                    widthParameter="./jcr:content/par/text/image/width"
+                    heightParameter="./jcr:content/data/height"
+                    widthParameter="./jcr:content/data/width"
                     xtype="sizefield"/>
-                <resType
-                    jcr:primaryType="cq:Widget"
-                    ignoreData="{Boolean}true"
-                    name="./jcr:content/par/text/image/sling:resourceType"
-                    value="foundation/components/image"
-                    xtype="hidden"/>
             </items>
         </tab3>
-        <tab4
-            jcr:primaryType="cq:Panel"
-            title="Tags/Keywords">
-            <items jcr:primaryType="cq:WidgetCollection">
-                <tags
-                    jcr:primaryType="cq:Widget"
-                    name="./jcr:content/cq:tags"
-                    namespaces="[girlscouts]"
-                    xtype="tags"/>
-            </items>
-        </tab4>
     </items>
 </jcr:root>

@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2011-02-07T17:43:42.291+01:00"
+        cq:lastModified="{Date}2014-04-27T01:37:00.408-04:00"
         cq:lastModifiedBy="admin"
+        cq:lastReplicated="{Date}2014-04-27T01:37:02.449-04:00"
+        cq:lastReplicatedBy="admin"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/girlscouts-usa/event"
+        cq:tags="[girlscouts:program-level/junior,girlscouts:categories/camp]"
         cq:template="girlscouts/templates/event-page"
         jcr:primaryType="cq:PageContent"
         jcr:title="Winter Jam"
@@ -11,19 +16,27 @@
         subtitle="2011-10-12">
         <data
             cq:distribute="{Boolean}true"
-            jcr:lastModified="{Date}2011-02-07T16:43:23.000Z"
+            jcr:lastModified="{Date}2014-04-27T05:37:00.000Z"
             jcr:lastModifiedBy="admin"
             jcr:primaryType="cq:CalendarEvent"
             jcr:title="Winter Jam"
-            end="{Date}2014-04-25T15:00:00.000-05:00"
+            sling:ResourceType="foundation/components/image"
+            details="&lt;p>&lt;b>Lorem Ipsum&lt;/b> is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p>&#xa;"
+            end="{Date}2014-04-25T20:00:00.000Z"
             fileReference="/content/dam/girlscouts-shared/en/events/2014/small-hiking.png"
+            imageRotate="0"
             isDate="{Boolean}true"
             location="/content/girlscouts-usa/en/locations/camp-lakamanga"
-            sequence="{Long}1"
+            sequence="{Long}2"
             srchdisp="Let's go camping!"
             stamp="{Date}2009-10-09T12:11:00.000Z"
-            start="{Date}2014-04-21T19:00:00.000-05:00"
+            start="{Date}2014-04-22T00:00:00.000Z"
             time="6:00 pm to 2:00 pm"
             uid="8332F4E8-465A-4D7A-89CD-B4612863C7D3"/>
+        <image
+            jcr:lastModified="{Date}2014-04-26T17:12:10.562-04:00"
+            jcr:lastModifiedBy="admin"
+            jcr:primaryType="nt:unstructured"
+            imageRotate="0"/>
     </jcr:content>
 </jcr:root>
