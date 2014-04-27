@@ -2,9 +2,9 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:designPath="/etc/designs/girlscouts-usa"
+        cq:designPath="/etc/designs/girlscouts-usa-green"
         cq:doctype="html_5"
-        cq:lastModified="{Date}2014-04-10T16:42:45.279-04:00"
+        cq:lastModified="{Date}2014-04-27T12:21:12.743-04:00"
         cq:lastModifiedBy="admin"
         cq:lastReplicated="{Date}2014-03-12T17:33:07.967-04:00"
         cq:lastReplicatedBy="admin"
