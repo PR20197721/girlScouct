@@ -37,18 +37,18 @@
     // images
     boolean hasImage = currentNode.hasNode("image");
     String fileReference = null;
-	String imgWidth = null;
-	String imgHeight = null;
-	String imgAlt = null;
+    String imgWidth = null;
+    String imgHeight = null;
+    String imgAlt = null;
     if (hasImage) {
 		ValueMap imageProps = resourceResolver.resolve(currentNode.getPath() + "/image").adaptTo(ValueMap.class);
 	    fileReference = imageProps.get("fileReference", "");
 	    imgWidth = imageProps.get("width", "");
-	    if (!imgWidth.isEmpty()) imgWidth = "image=\"" + imgWidth + "\"";
+	    if (!imgWidth.isEmpty()) imgWidth = "width=\"" + imgWidth + "\"";
 	    imgHeight = imageProps.get("height", "");
-	    if (!imgHeight.isEmpty()) imgHeight = "image=\"" + imgHeight + "\"";
+	    if (!imgHeight.isEmpty()) imgHeight = "height=\"" + imgHeight + "\"";
 	    imgAlt = imageProps.get("alt", "");
-	    if (!imgAlt.isEmpty()) imgAlt = "image=\"" + imgAlt + "\"";
+	    if (!imgAlt.isEmpty()) imgAlt = "alt=\"" + imgAlt + "\"";
     }
 
     // location
