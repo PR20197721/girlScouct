@@ -76,6 +76,5 @@
 <% if (!location.isEmpty()) { %>
 	<b>Location:</b> <%= location %>
 <% } %>
+<br/>
 <%= details %>
-    </div>
-</div>
