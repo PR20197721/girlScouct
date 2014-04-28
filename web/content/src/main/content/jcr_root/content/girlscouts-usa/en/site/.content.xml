@@ -13,7 +13,7 @@
         jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="cq:PageContent"
         jcr:title="Site"
-        jcr:uuid="91a1e184-b36a-4261-ae63-ce29418e4a37"
+        jcr:uuid="2ac5ee85-d9b0-4e81-8bc5-48ac1b663f41"
         sling:resourceType="girlscouts/components/page">
         <content jcr:primaryType="nt:unstructured">
             <par

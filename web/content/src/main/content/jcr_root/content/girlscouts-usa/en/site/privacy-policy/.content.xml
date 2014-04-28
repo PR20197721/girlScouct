@@ -12,7 +12,7 @@
         jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="cq:PageContent"
         jcr:title="Privacy Policy"
-        jcr:uuid="b3b1a1ff-f627-4c3d-a6a9-79d56686d1f3"
+        jcr:uuid="949afb40-4005-4323-a60d-2d99fc8f6a21"
         sling:resourceType="girlscouts/components/page">
         <content jcr:primaryType="nt:unstructured">
             <par

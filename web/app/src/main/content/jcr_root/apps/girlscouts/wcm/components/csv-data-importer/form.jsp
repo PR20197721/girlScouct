@@ -27,6 +27,6 @@ String type = request.getParameter("type");
 		<% if (typeNode.getPath().equals(type)) { %> checked<% } %>
 	><%=typeNode.getName()%></input>	 
     <% } %>
-		<div><input type="submit" /></div>
+		<div><input value="Upload" type="submit" /></div>
 	</div>
 </form>

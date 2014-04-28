@@ -35,13 +35,21 @@
     String details = properties.get("details", " ");
 
     // images
-    String fileReference = properties.get("fileReference", "");
-    String imgWidth = properties.get("width", "");
-    if (!imgWidth.isEmpty()) imgWidth = "image=\"" + imgWidth + "\"";
-    String imgHeight = properties.get("height", "");
-    if (!imgHeight.isEmpty()) imgHeight = "image=\"" + imgHeight + "\"";
-    String imgAlt = properties.get("alt", "");
-    if (!imgAlt.isEmpty()) imgAlt = "image=\"" + imgAlt + "\"";
+    boolean hasImage = currentNode.hasNode("image");
+    String fileReference = null;
+    String imgWidth = null;
+    String imgHeight = null;
+    String imgAlt = null;
+    if (hasImage) {
+		ValueMap imageProps = resourceResolver.resolve(currentNode.getPath() + "/image").adaptTo(ValueMap.class);
+	    fileReference = imageProps.get("fileReference", "");
+	    imgWidth = imageProps.get("width", "");
+	    if (!imgWidth.isEmpty()) imgWidth = "width=\"" + imgWidth + "\"";
+	    imgHeight = imageProps.get("height", "");
+	    if (!imgHeight.isEmpty()) imgHeight = "height=\"" + imgHeight + "\"";
+	    imgAlt = imageProps.get("alt", "");
+	    if (!imgAlt.isEmpty()) imgAlt = "alt=\"" + imgAlt + "\"";
+    }
 
     // location
     String locationPath = properties.get("location", "");
@@ -53,11 +61,14 @@
 		}
     }
 %>
-<div class="row">
-    <div class="small-24 columns">
-<h2><%= title %></h2>
-<% if (!fileReference.isEmpty()) { %>
-<img src="<%= fileReference %>" <%= imgWidth %> <%= imgHeight %> <%= imgAlt %> />
+
+<!-- TODO: fix the h2 color in CSS -->
+<h2 style="color: green;"><%= title %></h2>
+<% if (hasImage) { %>
+<p>	
+	<img src="<%= fileReference %>" <%= imgWidth %> <%= imgHeight %> <%= imgAlt %> />
+</p>
+
 <% } %>
 <br/><br/>
 	<b>Time:</b> <%= time %><br/>
