@@ -12,7 +12,7 @@
         jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="cq:PageContent"
         jcr:title="Terms and Conditions"
-        jcr:uuid="56b65fd5-9241-484e-bdf1-4019d77f403d"
+        jcr:uuid="adbc15fe-c5d8-4727-850f-e83e9dee15dd"
         sling:resourceType="girlscouts/components/page">
         <content jcr:primaryType="nt:unstructured">
             <par

@@ -2,9 +2,10 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2014-04-26T12:57:38.860-04:00"
+        cq:lastModified="{Date}2014-04-27T23:12:13.016-04:00"
         cq:lastModifiedBy="admin"
         jcr:primaryType="cq:PageContent"
+        jcr:title="Contacts"
         sling:resourceType="girlscouts/components/three-column-page">
         <content jcr:primaryType="nt:unstructured">
             <middle jcr:primaryType="nt:unstructured">
@@ -14,11 +15,11 @@
                     <contact_list
                         jcr:created="{Date}2014-04-26T12:57:10.411-04:00"
                         jcr:createdBy="admin"
-                        jcr:lastModified="{Date}2014-04-26T12:57:38.838-04:00"
+                        jcr:lastModified="{Date}2014-04-27T23:12:13.013-04:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="girlscouts/components/contact-list"
-                        path="/content/girlscouts-usa/en/contacts"/>
+                        path="/content/girlscouts-usa/en/contact/contacts"/>
                 </par>
             </middle>
         </content>
