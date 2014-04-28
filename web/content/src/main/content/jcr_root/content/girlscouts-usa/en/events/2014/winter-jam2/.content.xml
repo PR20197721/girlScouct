@@ -36,7 +36,7 @@
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="foundation/components/image"
-                fileReference="/content/dam/girlscouts-shared/en/events/2014/small-campfire.png"
+                fileReference="/content/dam/girlscouts-shared/en/events/2014/small-hiking.png"
                 imageRotate="0"/>
         </data>
     </jcr:content>
