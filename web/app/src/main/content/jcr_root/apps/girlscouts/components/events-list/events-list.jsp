@@ -87,7 +87,7 @@
 		}
 		String fromDate = dateFormat.format(fdt);
 		String toDate = dateFormat.format(tdt);
-		String eventImg = propNode.getProperty("fileReference").getString();
+		String eventImg = propNode.getProperty("image/fileReference").getString();
 %>
 	<li>
 		<div class="row">

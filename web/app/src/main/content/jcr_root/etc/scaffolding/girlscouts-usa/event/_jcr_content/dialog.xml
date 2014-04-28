@@ -24,6 +24,12 @@
                     fieldLabel="End Date"
                     name="./jcr:content/data/end"
                     xtype="datetime"/>
+                <location
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Location"
+                    name="./jcr:content/data/location"
+                    rootPath="/content/girlscouts-usa/en/locations"
+                    xtype="pathfield"/>
                 <details
                     jcr:primaryType="cq:Widget"
                     allowBlank="{Boolean}false"
@@ -96,18 +102,26 @@
                 <image
                     jcr:primaryType="cq:Widget"
                     border="true"
-                    cropParameter="./jcr:content/data/imageCrop"
+                    cropParameter="./jcr:content/data/image/imageCrop"
                     ddGroups="[media]"
-                    fileNameParameter="./jcr:content/data/fileName"
-                    fileReferenceParameter="./jcr:content/data/fileReference"
+                    fileNameParameter="./jcr:content/data/image/fileName"
+                    fileReferenceParameter="./jcr:content/data/image/fileReference"
                     height="400"
                     hideLabel="false"
-                    mapParameter="./jcr:content/data/imageMap"
-                    name="./jcr:content/data/file"
-                    requestSuffix="/jcr:content/data.img.png"
-                    rotateParameter="./jcr:content/data/imageRotate"
+                    mapParameter="./jcr:content/data/image/imageMap"
+                    name="./jcr:content/data/image/file"
+                    requestSuffix="/jcr:content/data/image.img.png"
+                    rotateParameter="./jcr:content/data/image/imageRotate"
                     sizeLimit="100"
-                    xtype="html5smartimage"/>
+                    xtype="html5smartimage">
+                    <items jcr:primaryType="cq:WidgetCollection">
+                        <resType
+                            jcr:primaryType="cq:Widget"
+                            name="./jcr:content/data/image/sling:resourceType"
+                            value="foundation/components/image"
+                            xtype="hidden"/>
+                    </items>
+                </image>
             </items>
         </tab2>
         <tab3
@@ -118,13 +132,13 @@
                     jcr:primaryType="cq:Widget"
                     fieldDescription="(leave empty to use the title defined above)"
                     fieldLabel="Alt Text"
-                    name="./jcr:content/data/alt"
+                    name="./jcr:content/data/image/alt"
                     xtype="textfield"/>
                 <size
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Size"
-                    heightParameter="./jcr:content/data/height"
-                    widthParameter="./jcr:content/data/width"
+                    heightParameter="./jcr:content/data/image/height"
+                    widthParameter="./jcr:content/data/image/width"
                     xtype="sizefield"/>
             </items>
         </tab3>

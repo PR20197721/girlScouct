@@ -22,3 +22,9 @@
 
 /web/app/target/
 .DS_Store
+
+/web/bundle/bin/
+
+/web/content/bin/
+
+/web/app/bin/
