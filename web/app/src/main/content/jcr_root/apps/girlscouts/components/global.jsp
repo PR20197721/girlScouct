@@ -2,12 +2,10 @@
 	java.util.Arrays,
 	com.day.cq.wcm.api.Page,
 	com.day.cq.wcm.api.components.IncludeOptions" %>
-
 <%
 Page homepage = currentPage.getAbsoluteParent(2);
 ValueMap currentSite = homepage.getContentResource().adaptTo(ValueMap.class);
 %>
-
 <%!
 public void setCssClasses(String tags, HttpServletRequest request) {
 	IncludeOptions opt = IncludeOptions.getOptions(request, true);

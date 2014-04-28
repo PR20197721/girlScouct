@@ -7,6 +7,7 @@
 	java.util.Date"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <cq:defineObjects />
+<!-- apps/girlscouts/components/components/event/event.jsp -->
 <%
 	String currentPath = currentPage.getPath() + ".html";
 
@@ -64,6 +65,6 @@
 <% if (!location.isEmpty()) { %>
 	<b>Location:</b> <%= location %>
 <% } %>
-<p><%= details %></p>
+<%= details %>
     </div>
 </div>

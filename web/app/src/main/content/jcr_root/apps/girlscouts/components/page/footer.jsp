@@ -1,5 +1,6 @@
 <%@page import="com.day.cq.wcm.api.components.IncludeOptions"%>
 <%@include file="/libs/foundation/global.jsp" %>
+<!-- apps/girlscouts/components/page/footer.jsp -->
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 
 <%

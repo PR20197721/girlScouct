@@ -1,5 +1,5 @@
 <%@include file="/libs/foundation/global.jsp"%>
-
+<!-- apps/girlscouts/components/three-column-page/content.jsp -->
 <!--PAGE STRUCTURE: MAIN-->
 <div id="main" class="row">
 	<!--PAGE STRUCTURE: LEFT CONTENT-->

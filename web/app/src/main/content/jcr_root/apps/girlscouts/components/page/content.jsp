@@ -1,3 +1,3 @@
 <%@include file="/libs/foundation/global.jsp" %>
-<!--PAGE STRUCTURE: MAIN-->
+<!-- apps/girlscouts/components/page/content.jsp -->
 <cq:include path="content/par" resourceType="girlscouts/components/styled-parsys" />

@@ -4,6 +4,7 @@
                  com.day.cq.i18n.I18n,org.apache.sling.api.resource.ResourceResolver,org.girlscouts.web.events.search.EventsSrch,org.girlscouts.web.events.search.FacetsInfo,java.util.Calendar,java.util.TimeZone" %>
 
 <%@include file="/libs/foundation/global.jsp"%>
+<!-- apps/girlscouts/components/event-search-list/feature-events.jsp -->
 <cq:includeClientLib categories="apps.girlscouts" />
 <cq:defineObjects/>
 <% 

@@ -2,6 +2,7 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <cq:includeClientLib categories="apps.girlscouts" />
 <cq:defineObjects/>
+<!-- apps/girlscouts/components/event-search-facets/event-search-facets.jsp -->
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <%  
 	HashMap<String,List<FacetsInfo>> facetsAndTags = (HashMap<String, List<FacetsInfo>>) request.getAttribute("facetsAndTags");
