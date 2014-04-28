@@ -5,6 +5,7 @@
 <'jcr'='http://www.jcp.org/jcr/1.0'>
 <'rep'='internal'>
 <'mix'='http://www.jcp.org/jcr/mix/1.0'>
+<'gs'='http://www.girlscouts.org/jcr/1.0'>
 
 [sling:Folder] > nt:folder
   - * (undefined)
@@ -80,3 +81,6 @@
   + jcr:content (nt:base) = nt:unstructured
   + * (nt:base) = nt:base version
 
+[gs:CalendarEvent] > cq:CalendarEvent
+  orderable
+  + nt:unstructured (nt:base)
