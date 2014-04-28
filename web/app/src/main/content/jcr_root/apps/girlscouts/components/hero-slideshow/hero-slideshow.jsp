@@ -85,11 +85,11 @@
             	   while(scrSizeImages.hasNext())
             	   {
             		   Node srcSizeImage = scrSizeImages.next().adaptTo(Node.class);
-                       try{
+            		   try{
                     	   if(srcSizeImage.getName().equalsIgnoreCase("medium-image"))
-                    		 %>  
+                    	   { %>  
                     		   <img src="<%=srcSizeImage.getProperty("fileReference").getString() %>" class="show-for-medium"/>
-                    		<%
+                    		<% }
                     		if(srcSizeImage.getName().equalsIgnoreCase("small-image"))
                     			{
                     		%>
@@ -97,6 +97,7 @@
                     			
                     		<%}
                     	 }catch(Exception e){}
+                      
             	   }
                } 
                %>
