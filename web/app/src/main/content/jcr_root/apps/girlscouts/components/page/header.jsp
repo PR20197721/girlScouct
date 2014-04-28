@@ -5,8 +5,6 @@
 	String headerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
 	String designPath = currentDesign == null ? "/" : currentDesign.getPath();
 %>
-<div class="off-canvas-wrap">
-	<div class="inner-wrap">
 		<!-- Modern Browser -->
 <!--[if gt IE 8]><!-->
 		<aside class="right-off-canvas-menu">
@@ -69,5 +67,3 @@
 <% setCssClasses("large-24 medium-24 hide-for-small columns", request); %>
 <cq:include path="<%= headerPath + "/global-nav" %>" resourceType="girlscouts/components/global-navigation" />
 		</div>
-	</div>
-</div>
