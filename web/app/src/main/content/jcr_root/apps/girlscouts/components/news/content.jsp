@@ -10,7 +10,7 @@
 		</div>
 		<div class="large-24 medium-24 small-24 columns">
 			<div id="mainContent">
-<cq:include path="title" resourceType="foundation/components/title"/>
+<cq:include script="/libs/foundation/components/title/title.jsp"/>
 <%
 	String date = properties.get("date","");
 	Format formatter = new SimpleDateFormat("dd MMM yyyy");

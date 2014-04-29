@@ -9,11 +9,13 @@ import java.util.List;
 import java.util.Map;
 
 import javax.jcr.RepositoryException;
+
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.girlscouts.web.events.search.impl.EventResultsImpl;
 import org.girlscouts.web.events.search.impl.FacetBuilderImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import com.day.cq.search.QueryBuilder;
 
 public class EventsSrch  
@@ -165,7 +167,7 @@ public class EventsSrch
 	}
 	
 	public void addRegionToQuery(String region){
-		searchQuery.put(++propertyCounter+"_property", "jcr:content/region"); 
+		searchQuery.put(++propertyCounter+"_property", "jcr:content/data/region"); 
 		searchQuery.put(propertyCounter+"_property.value", region);
 		
 	}
@@ -186,7 +188,7 @@ public class EventsSrch
 		
 	}
 	public void addDateRangeQuery(String lowerBound, String upperBound){
-		searchQuery.put("daterange.property","jcr:content/date" );
+		searchQuery.put("daterange.property","jcr:content/data/start" );
 		searchQuery.put("daterange.lowerBound",lowerBound);	
 		searchQuery.put("daterange.upperBound",upperBound);
 		

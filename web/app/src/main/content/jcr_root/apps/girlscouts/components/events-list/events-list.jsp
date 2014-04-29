@@ -48,8 +48,7 @@
 				<h2><a href="<%= eventsLink %>"><%= featureTitle %></a></h2>
 			</div>
 		</div>
-	</div>
-	<div class="medium-8 show-for-medium columns">&nbsp;</div>
+		<div class="medium-8 show-for-medium columns">&nbsp;</div>
 		<div class="small-24 medium-12 hide-for-large  hide-for-xlarge hide-for-xxlarge columns">
 			<div class="feature-icon">
 				<img src="<%= designPath %>/images/arrow-down.png" width="30" height="30"/>
@@ -58,6 +57,7 @@
 				<h2><a href="<%= eventsLink %>"><%= featureTitle %></a></h2>
 			</div>
 		</div>
+		<div class="medium-4 show-for-medium columns">&nbsp;</div>
 	</div>
 </div>
 <ul class="small-block-grid-1 medium-block-grid-1  large-block-grid-2 content">
