@@ -42,12 +42,13 @@
 	 }
      while(menuLevel1.hasNext())
      {
-         
+          
           Page level1 = menuLevel1.next();
-          if(navigationPath.contains(level1.getName()) )
+          if(navigationPath.contains(level1.getName()))
           {
               menuBuilder.append("<li class=\"active\">");
           } else {
+        	  
               menuBuilder.append("<li>");
           }
               
