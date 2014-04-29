@@ -30,7 +30,7 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 	for(String result: results){
 		Node node =  resourceResolver.getResource(result).adaptTo(Node.class);
 		Node propNode = node.getNode("jcr:content/data");
-		String title = propNode.getProperty("jcr:title").getString();
+		String title = propNode.getProperty("../jcr:title").getString();
 		String href = result+".html";
 		String fromdate = propNode.getProperty("start").getString();
 		String todate="";
