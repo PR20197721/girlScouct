@@ -8,36 +8,29 @@
 <cq:setContentBundle source="page" />
 
 <%
-    Search search = new Search(slingRequest);
-    System.out.print(currentPage.getAbsoluteParent(2).getPath());
-    final Locale pageLocale = currentPage.getLanguage(true);
-    final ResourceBundle resourceBundle = slingRequest.getResourceBundle(pageLocale);
-   
-    String searchIn = (String) properties.get("searchIn");
-    String requestSearchPath = request.getParameter("path");
-   // System.out.println("Path" +requestSearchPath);
-   // System.out.println("searchIn" +searchIn);
-    if (searchIn != null) {
-      if (requestSearchPath != null && requestSearchPath.startsWith(searchIn)) {
-            search.setSearchIn(requestSearchPath);
-        } else {
-            search.setSearchIn(searchIn);
-        }
-    } else if (requestSearchPath != null) {
-    	   search.setSearchIn(requestSearchPath);
-    	  
-    }else{
-    	search.setSearchIn(currentPage.getAbsoluteParent(2).getPath());
+Search search = new Search(slingRequest);
+
+final Locale pageLocale = currentPage.getLanguage(true);
+final ResourceBundle resourceBundle = slingRequest.getResourceBundle(pageLocale);
+
+String searchIn = (String) properties.get("searchIn");
+if (searchIn != null) {
+	System.out.println(searchIn);
+        search.setSearchIn(searchIn);
     }
-   
-    final String escapedQuery = xssAPI.encodeForHTML(search.getQuery());
-    final String escapedQueryForAttr = xssAPI.encodeForHTMLAttr(search.getQuery());
-    // reset query string to make sure we do not send any malicious script further
-    search.setQuery(escapedQueryForAttr);
-    pageContext.setAttribute("escapedQuery", escapedQuery);
-    pageContext.setAttribute("escapedQueryForAttr", escapedQueryForAttr);
-    pageContext.setAttribute("search", search);
-    TagManager tm = resourceResolver.adaptTo(TagManager.class);
+ else {
+	  System.out.println(currentPage.getAbsoluteParent(2).getPath());
+      search.setSearchIn(currentPage.getAbsoluteParent(2).getPath());
+}
+
+final String escapedQuery = xssAPI.encodeForHTML(search.getQuery());
+final String escapedQueryForAttr = xssAPI.encodeForHTMLAttr(search.getQuery());
+
+pageContext.setAttribute("escapedQuery", escapedQuery);
+pageContext.setAttribute("escapedQueryForAttr", escapedQueryForAttr);
+
+pageContext.setAttribute("search", search);
+TagManager tm = resourceResolver.adaptTo(TagManager.class);
 %>
 <c:set var="trends" value="${search.trends}"/><c:set var="result" value="${search.result}"/>
 <center>
@@ -69,7 +62,7 @@
       <fmt:param value="${escapedQuery}"/>
       <fmt:param value="${result.executionTime}"/>
     </fmt:message>
-   
+   <br/>
       <c:forEach var="hit" items="${result.hits}" varStatus="status">
         <br/>
         <c:if test="${hit.extension != \"\" && hit.extension != \"html\"}">
