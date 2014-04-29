@@ -5,9 +5,6 @@
 <cq:defineObjects />
 
 <%
-  
-
-
   Iterator<Page> menuLevel1;
   String navigation="";
   Set<String> navigationPath;
@@ -29,14 +26,17 @@
   buildMenu(menuLevel1,navigationPath,menuBuilder,levelDepth);
  
  %>
+
 <%=menuBuilder %>
 <%!
   public StringBuilder buildMenu(Iterator<Page>menuLevel1, Set<String> navigationPath, StringBuilder menuBuilder, int levelDepth){
-    levelDepth++; 
+    levelDepth++;
+    
     if(menuLevel1.hasNext())
     {
 	 if (levelDepth == 1) {
-      menuBuilder.append("<ul class=\"side-nav\" style=\"padding:0px\">");
+		 
+	        menuBuilder.append("<ul class=\"side-nav\" style=\"padding:0px\">");
 	 } else {
       menuBuilder.append("<ul>");
 	 }
@@ -44,10 +44,12 @@
      {
          
           Page level1 = menuLevel1.next();
-          if(navigationPath.contains(level1.getName()) )
-          {
-              menuBuilder.append("<li class=\"active\">");
-          } else {
+          if(!level1.isHideInNav())
+          { 
+        	 if(navigationPath.contains(level1.getName()) )
+           	   {
+                menuBuilder.append("<li class=\"active\">");
+                } else {
               menuBuilder.append("<li>");
           }
               
@@ -56,17 +58,20 @@
 	          .append(">")
 	          .append(level1.getTitle())
 	          .append("</a>");
-          if(navigationPath.contains(level1.getName()) && level1.listChildren().hasNext() && levelDepth < 3){
+          
+          }
+          if(navigationPath.contains(level1.getName()) && !level1.isHideInNav() && level1.listChildren().hasNext() && levelDepth < 3){
               buildMenu(level1.listChildren(),navigationPath,menuBuilder,levelDepth);
           }
           menuBuilder.append("</li>");
-
           if (levelDepth == 1) {
         	menuBuilder.append("<li class=\"divider\"></li>");
           }
+        }  
       }
+      
       menuBuilder.append("</ul>"); 
-    }
+      
     return menuBuilder;
  }
 
