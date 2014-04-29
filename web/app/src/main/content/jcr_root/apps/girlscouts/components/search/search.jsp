@@ -15,11 +15,9 @@ final ResourceBundle resourceBundle = slingRequest.getResourceBundle(pageLocale)
 
 String searchIn = (String) properties.get("searchIn");
 if (searchIn != null) {
-	System.out.println(searchIn);
         search.setSearchIn(searchIn);
     }
- else {
-	  System.out.println(currentPage.getAbsoluteParent(2).getPath());
+else{
       search.setSearchIn(currentPage.getAbsoluteParent(2).getPath());
 }
 
