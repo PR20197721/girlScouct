@@ -37,8 +37,11 @@
                 </excludes>
             </resource>
             <resource>
-                <directory>${basedir}/src/main/content/META-INF</directory>
-                <targetPath>../vault-work/META-INF</targetPath>
+                <directory>${basedir}/src/main/content/META-INF/vault</directory>
+                <includes>
+                    <include>nodetypes.cnd</include>
+                </includes>
+                <targetPath>../vault-work/META-INF/vault</targetPath>
             </resource>
         </resources>
 
