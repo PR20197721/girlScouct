@@ -24,10 +24,8 @@ import com.day.cq.wcm.api.components.IncludeOptions;
 
 @Component
 @Service
-@Properties({ 
-    @Property(name = "sling.filter.scope", value = "COMPONENT"),
-    @Property(name = "service.ranking", intValue = -1000) 
-})
+@Properties({ @Property(name = "sling.filter.scope", value = "COMPONENT"),
+        @Property(name = "service.ranking", intValue = -1000) })
 /**
  * 
  * @author mike
@@ -37,30 +35,45 @@ import com.day.cq.wcm.api.components.IncludeOptions;
  */
 public class StyleFilter implements javax.servlet.Filter {
 
-	private static final Logger log = LoggerFactory
-			.getLogger(StyleFilter.class);
+    private static final Logger log = LoggerFactory
+            .getLogger(StyleFilter.class);
 
-	public void destroy() {
+    public void destroy() {
+        // Nothing to do
+    }
 
-	}
+    public void doFilter(ServletRequest request, ServletResponse response,
+            FilterChain filterChain) throws IOException, ServletException {
+        process(request, response);
+        filterChain.doFilter(request, response);
+    }
 
-	public void doFilter(ServletRequest request, ServletResponse response,
-			FilterChain filterChain) throws IOException, ServletException {
-	    	SlingHttpServletRequest req = (SlingHttpServletRequest) request;
-	    	
-	    	Resource resource = req.getResource();
-	    	ValueMap properties = resource.adaptTo(ValueMap.class);
-	    	String additionalCss = properties.get("additionalCss", "");
-	    	if (!additionalCss.isEmpty()) {
-	    	    IncludeOptions opt = IncludeOptions.getOptions(req, true);
-	    	    Set<String> css = opt.getCssClassNames();
-	    	    css.addAll(Arrays.asList(additionalCss.split(" ")));
-	    	}
-	    	
-		filterChain.doFilter(req, response);
-	}
+    private void process(ServletRequest request, ServletResponse response)
+            throws IOException, ServletException {
+        SlingHttpServletRequest req = (SlingHttpServletRequest) request;
 
-	public void init(FilterConfig arg0) throws ServletException {
-		// Nothing to do
-	}
+        Resource resource = req.getResource();
+        if (resource == null) {
+            log.warn("Cannot get resource from sling request.");
+            return;
+        }
+
+        ValueMap properties = resource.adaptTo(ValueMap.class);
+        if (properties == null) {
+            log.warn("Cannot get properties: " + resource.getPath());
+            return;
+        }
+
+        String additionalCss = properties.get("additionalCss", "");
+        if (!additionalCss.isEmpty()) {
+            IncludeOptions opt = IncludeOptions.getOptions(req, true);
+            Set<String> css = opt.getCssClassNames();
+            css.addAll(Arrays.asList(additionalCss.split(" ")));
+            log.debug("Add additional CSS: " + additionalCss);
+        }
+    }
+
+    public void init(FilterConfig arg0) throws ServletException {
+        // Nothing to do
+    }
 }
