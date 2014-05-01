@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    activeTab="{Long}0"
+    helpPath="en/cq/current/wcm/default_components.html#Image"
+    xtype="tabpanel">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <regular-image
+            jcr:primaryType="cq:Widget"
+            ddGroups="[media]"
+            fileNameParameter="./regular/fileName"
+            fileReferenceParameter="./regular/fileReference"
+            name="./regular/file"
+            requestSuffix="/regular.img.png"
+            title="Regular Image"
+            xtype="html5smartimage">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <resType
+                    jcr:primaryType="cq:Widget"
+                    ignoreData="{Boolean}true"
+                    name="./regular/sling:resourceType"
+                    value="foundation/components/image"
+                    xtype="hidden"/>
+                <imagesize
+                    jcr:primaryType="cq:Widget"
+                    name="./regular/imagesize"
+                    value="regular"
+                    xtype="hidden"/>
+            </items>
+        </regular-image>
+        <medium-screen-image
+            jcr:primaryType="cq:Widget"
+            ddGroups="[media]"
+            fileNameParameter="./medium/fileName"
+            fileReferenceParameter="./medium/fileReference"
+            name="./medium/file"
+            requestSuffix="/medium.img.png"
+            title="Medium Screen Image"
+            xtype="html5smartimage">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <resType
+                    jcr:primaryType="cq:Widget"
+                    ignoreData="{Boolean}true"
+                    name="./medium/sling:resourceType"
+                    value="foundation/components/image"
+                    xtype="hidden"/>
+                <imagesize
+                    jcr:primaryType="cq:Widget"
+                    name="./medium/imagesize"
+                    value="medium"
+                    xtype="hidden"/>
+            </items>
+        </medium-screen-image>
+        <small-screen-image
+            jcr:primaryType="cq:Widget"
+            ddGroups="[media]"
+            fileNameParameter="./small/fileName"
+            fileReferenceParameter="./small/fileReference"
+            name="./small/file"
+            requestSuffix="/small.img.png"
+            title="Small Screen Image"
+            xtype="html5smartimage">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <resType
+                    jcr:primaryType="cq:Widget"
+                    ignoreData="{Boolean}true"
+                    name="./small/sling:resourceType"
+                    value="foundation/components/image"
+                    xtype="hidden"/>
+                <imagesize
+                    jcr:primaryType="cq:Widget"
+                    name="./small/imagesize"
+                    value="small"
+                    xtype="hidden"/>
+            </items>
+        </small-screen-image>
+        <advanced
+            jcr:primaryType="cq:Widget"
+            title="Advanced"
+            xtype="panel">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <alt
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="(leave empty to use the title defined above)"
+                    fieldLabel="Alt Text"
+                    name="./alt"
+                    xtype="textfield"/>
+                <linkURL
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="Drop files or pages from the Content Finder"
+                    fieldLabel="Link to"
+                    name="./linkURL"
+                    xtype="pathfield"/>
+                <regular-size
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Regular Size"
+                    heightParameter="./regular/height"
+                    widthParameter="./regular/width"
+                    xtype="sizefield"/>
+                <small-screen-size
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Small Screen Size"
+                    heightParameter="./small/height"
+                    widthParameter="./small/width"
+                    xtype="sizefield"/>
+                <medium-screen-size
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Medium Screen Size"
+                    heightParameter="./medium/height"
+                    widthParameter="./medium/width"
+                    xtype="sizefield"/>
+            </items>
+        </advanced>
+    </items>
+</jcr:root>

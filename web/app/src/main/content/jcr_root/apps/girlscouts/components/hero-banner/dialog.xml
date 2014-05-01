@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab1
+                jcr:primaryType="cq:Panel"
+                title="Number Of Slide Show Image">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <slide-show-counts
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="0"
+                        fieldDescription="(Select number of image slideshow)"
+                        fieldLabel="Number of Slide Show Images"
+                        imageLabel="Image"
+                        name="./slideshowcount"
+                        type="select"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <one
+                                jcr:primaryType="nt:unstructured"
+                                text="1"
+                                value="1"/>
+                            <two
+                                jcr:primaryType="nt:unstructured"
+                                text="2"
+                                value="2"/>
+                            <three
+                                jcr:primaryType="nt:unstructured"
+                                text="3"
+                                value="3"/>
+                            <four
+                                jcr:primaryType="nt:unstructured"
+                                text="4"
+                                value="4"/>
+                            <five
+                                jcr:primaryType="nt:unstructured"
+                                text="5"
+                                value="5"/>
+                            <six
+                                jcr:primaryType="nt:unstructured"
+                                text="6"
+                                value="6"/>
+                            <seven
+                                jcr:primaryType="nt:unstructured"
+                                text="7"
+                                value="7"/>
+                            <eight
+                                jcr:primaryType="nt:unstructured"
+                                text="8"
+                                value="8"/>
+                        </options>
+                    </slide-show-counts>
+                </items>
+            </tab1>
+        </items>
+    </items>
+</jcr:root>
