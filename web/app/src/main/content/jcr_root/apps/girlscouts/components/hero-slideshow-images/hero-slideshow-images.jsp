@@ -27,7 +27,7 @@ if ((null==imageNode) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
        alt = imageNode.getProperty("alt").getString();
    }
    if(imageNode.hasProperty("linkURL")){
-       linkUrl = imageNode.getProperty("linkURL").getString();
+	   linkUrl = imageNode.getProperty("linkURL").getString()+".html";
    }
   
  %>  
