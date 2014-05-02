@@ -264,6 +264,9 @@ a:hover.menuHighlight {
 .home-section {
     padding: 10px;
 }
+.home-section.hero-banner {
+    padding: 0px 0px 10px 0px;
+}
 .home-section .feature-icon {
     display: inline-block;
     position: relative;

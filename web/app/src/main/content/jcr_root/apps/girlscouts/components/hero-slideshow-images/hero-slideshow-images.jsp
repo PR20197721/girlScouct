@@ -16,7 +16,7 @@ if ((null==imageNode) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
 	
     %>
     <div style="text-align:center; height:500px;"> 
-           <p style="text-align: center"> #####  Slide-Show Images  ##### </p>
+           <p style="text-align: center">Click edit above and select number of slides. Then click here to add images to slides.</p>
     </div>
    <% }
    else{  
