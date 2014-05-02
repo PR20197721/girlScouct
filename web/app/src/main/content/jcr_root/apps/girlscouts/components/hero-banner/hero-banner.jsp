@@ -14,6 +14,7 @@ String cssClasses = properties.get("cssClasses", "");
 %>
 <%!
    int slideShowCount=0;
+   int timer = 0;
 
 %>
  <div id="heroBanner" class="large-24 medium-24 small-24 columns">
@@ -24,7 +25,7 @@ String cssClasses = properties.get("cssClasses", "");
            
           
              slideShowCount = Integer.parseInt(properties.get("slideshowcount", "1"));
-             
+             timer = Integer.parseInt(properties.get("timer", "6000"));
              for(int i=0; i<slideShowCount;i++){
             	  String path = "./"+"Image_"+i;
             	     %>
@@ -49,65 +50,8 @@ String cssClasses = properties.get("cssClasses", "");
    </div>
                        
 
-<script>
-
-$(function () {
-    var jcarousel = $('.jcarousel');
-     
-    jcarousel
-            .on('jcarousel:reload jcarousel:create', function () {
-                jcarousel.jcarousel('items').width(jcarousel.innerWidth());
-            }).jcarousel({
-                wrap: 'circular',
-                transitions: Modernizr.csstransitions ? {
-                    transforms:   Modernizr.csstransforms,
-                    transforms3d: Modernizr.csstransforms3d,
-                    easing:       'ease'
-                } : false
-            });
-
-    
-    
-     $('.jcarousel-control-prev')
-            .on('jcarouselcontrol:active', function() {
-                $(this).removeClass('inactive');
-            })
-            .on('jcarouselcontrol:inactive', function() {
-                $(this).addClass('inactive');
-            })
-            .jcarouselControl({
-                target: '-=1'
-            });
-
-    $('.jcarousel-control-next')
-            .on('jcarouselcontrol:active', function() {
-                $(this).removeClass('inactive');
-            })
-            .on('jcarouselcontrol:inactive', function() {
-                $(this).addClass('inactive');
-            })
-            .on('click', function(e) {
-                e.preventDefault();
-            })
-            .jcarouselControl({
-                target: '+=1'
-            });
-
-    $('.jcarousel-pagination')
-            .on('jcarouselpagination:active', 'a', function() {
-                $(this).addClass('active');
-            })
-            .on('jcarouselpagination:inactive', 'a', function() {
-                $(this).removeClass('active');
-            })
-            .on('click', function(e) {
-                e.preventDefault();
-            })
-            .jcarouselPagination({
-                item: function(page) {
-                    return '<a href="#' + page + '">' + page + '</a>';
-                }
-            });
-});
-
-    </script>
+ <script>
+ $(document).ready(function(){
+	     displaySlideShow("<%=timer%>");
+	});
+ </script>  

@@ -54,6 +54,13 @@
                                 value="8"/>
                         </options>
                     </slide-show-counts>
+                    <slideshow-timer
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="(Provide time in millisecond.Default (6000ms))"
+                        fieldLabel="TIme Interval"
+                        imageLabel="Image"
+                        name="./slideshowtimer"
+                        xtype="textfield"/>
                 </items>
             </tab1>
         </items>
