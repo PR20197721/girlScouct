@@ -26,9 +26,11 @@ String cssClasses = properties.get("cssClasses", "");
           
              slideShowCount = Integer.parseInt(properties.get("slideshowcount", "1"));
              timer = Integer.parseInt(properties.get("timer", "6000"));
-             for(int i=0; i<slideShowCount;i++){
+             for(int i=1; i<slideShowCount+1;i++){
             	  String path = "./"+"Image_"+i;
+            	 
             	     %>
+            	    
            <li> 	     
             <cq:include path="<%=path%>" resourceType="girlscouts/components/hero-slideshow-images"/>  
            </li> 

@@ -12,9 +12,10 @@
    Node imageNode = resource.adaptTo(Node.class);
 
 if ((null==imageNode) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
+	
     %>
     <div style="text-align:center; height:500px;"> 
-           <p style="text-align: center"> #####  Images ##### </p>
+           <p style="text-align: center"> #####  Slide-Show Images  ##### </p>
     </div>
    <% }
    else{  
@@ -69,6 +70,6 @@ if ((null==imageNode) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
    }
     %>
  
-   
+
    
   
