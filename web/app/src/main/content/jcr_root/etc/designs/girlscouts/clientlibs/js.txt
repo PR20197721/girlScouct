@@ -1,3 +1,5 @@
 #base=js
 
 main.js
+jcarousel.js
+slideshow.js
