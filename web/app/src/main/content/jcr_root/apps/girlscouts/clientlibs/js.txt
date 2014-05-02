@@ -3,4 +3,3 @@
 main.js
 link-widget.js
 dynamic-pathfield.js
-html5-smart-image-multi-field.js
