@@ -1,9 +1,36 @@
-<!-- TODO: This is a dummy component now -->
-<br />
-<br />
-<br />
-<br /> <img src="/content/dam/girlscouts-shared/en/ads/i-cant-wait.png" width="250" height="442" />
-<br />
-<br />
-<br />
-<br />
+<%@page import="java.util.Iterator,
+com.day.cq.wcm.api.WCMMode,
+com.day.cq.wcm.api.PageManager,
+org.apache.sling.api.resource.ValueMap" %>
+<%@include file="/libs/foundation/global.jsp"%>
+<%@page session="false" %>
+<cq:defineObjects/>
+<hr/>
+<%
+String rootPath = properties.get("path", "");%>
+<%
+if (rootPath.isEmpty()) {
+    if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
+		%>Contacts List: path not configured.<%
+    }
+    return;
+}
+
+Page adRoot = resourceResolver.resolve(rootPath).adaptTo(Page.class);
+Iterator<Page> Iter = adRoot.listChildren();
+while(Iter.hasNext()) {
+    Page currentAd = Iter.next();
+    String adName = currentAd.getProperties().get("jcr:title", "");
+    String path = currentAd.getPath();
+    String adLink = currentAd.getProperties().get("link", "");
+    if (adLink != null && adLink != ""){
+    adLink = adLink + ".html";
+    }
+    else {
+    adLink = path + ".html";	
+    }
+    %><%=adName%>
+<a href="<%=adLink%>"><cq:include path= "<%=path +"/jcr:content/image"%>" resourceType="foundation/components/image" /></a>
+<%
+}
+	%>
