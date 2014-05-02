@@ -6,8 +6,9 @@
 <%@ page import="java.util.Iterator" %>
 <%@ page import="org.apache.sling.commons.json.JSONArray" %>
 <%@ page import="org.apache.sling.commons.json.JSONException" %>
+<%@page import="com.day.cq.wcm.api.WCMMode" %>
 <%@include file="/libs/foundation/global.jsp"%>
-<%@include file="/apps/girlscouts/components/component_global.jsp"%>
+
 <%
    Node imageNode = resource.adaptTo(Node.class);
 
