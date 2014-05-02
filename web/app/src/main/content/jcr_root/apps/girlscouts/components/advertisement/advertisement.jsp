@@ -8,7 +8,7 @@ org.apache.sling.api.resource.ValueMap" %>
 <hr/>
 <%
 String rootPath = properties.get("path", "");%>
-<%=rootPath%><%
+<%
 if (rootPath.isEmpty()) {
     if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
 		%>Contacts List: path not configured.<%
@@ -21,23 +21,16 @@ Iterator<Page> Iter = adRoot.listChildren();
 while(Iter.hasNext()) {
     Page currentAd = Iter.next();
     String adName = currentAd.getProperties().get("jcr:title", "");
-%><%=adName%><%
+    String path = currentAd.getPath();
+    String adLink = currentAd.getProperties().get("link", "");
+    if (adLink != null && adLink != ""){
+    adLink = adLink + ".html";
+    }
+    else {
+    adLink = path + ".html";	
+    }
+    %><%=adName%>
+<a href="<%=adLink%>"><cq:include path= "<%=path +"/jcr:content/image"%>" resourceType="foundation/components/image" /></a>
+<%
 }
-/*Iterator<Page> teamIter = contactRoot.listChildren();
-while (teamIter.hasNext()) {
-    Page currentTeam = teamIter.next();
-    String teamName = currentTeam.getProperties().get("jcr:title", "");*/
-    %><%
-	%><%
-        /*    Iterator<Page> contactIter = currentTeam.listChildren();
-    while (contactIter.hasNext()) {
-		Page currentContact = contactIter.next();
-		ValueMap props = currentContact.getProperties();
-		String name = props.get("jcr:title", "");
-        */	
-		%><tr><td></td><%
-        //}
-    %></tr><%
-        //}
-
-%>
+	%>

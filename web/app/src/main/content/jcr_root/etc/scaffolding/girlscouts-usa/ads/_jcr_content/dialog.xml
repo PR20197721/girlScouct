@@ -51,6 +51,11 @@
                     fieldLabel="Text"
                     name="./jcr:content/text/text"
                     xtype="richtext"/>
+                <path
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Link"
+                    name="./jcr:content/link"
+                    xtype="pathfield"/>
             </items>
         </tab3>
     </items>
