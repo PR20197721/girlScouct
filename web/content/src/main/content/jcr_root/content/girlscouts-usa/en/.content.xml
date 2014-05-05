@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
+    <ads/>
     <about-girl-scouts/>
     <contact/>
     <jcr:content
@@ -101,12 +102,6 @@
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="girlscouts/components/styled-subparsys"
                 cssClasses="row home-section">
-                <line-break
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="girlscouts/components/line-break"/>
-                <line-break_1
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="girlscouts/components/line-break"/>
                 <hero_banner
                     jcr:created="{Date}2014-05-02T11:22:24.516-04:00"
                     jcr:createdBy="admin"
@@ -184,12 +179,6 @@
                     shortdesc="&lt;p>Girls Scouts of Arkansas, Oklahoma and Texas is where girls discover the fun, friendship and power of working together.Thought extraordinary field trips, sports, skill-building clinics community service projects, cultural exchanges and environlemt stewardships, our girls courageous and strong.&lt;/p>&#xa;"
                     title="BE A GIRL SCOUT"
                     width="800"/>
-                <line-break_2
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="girlscouts/components/line-break"/>
-                <line-break_3
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="girlscouts/components/line-break"/>
                 <feature_shortstory_0
                     jcr:created="{Date}2014-04-15T09:36:01.456-04:00"
                     jcr:createdBy="admin"
