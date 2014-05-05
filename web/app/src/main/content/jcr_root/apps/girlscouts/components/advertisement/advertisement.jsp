@@ -27,8 +27,13 @@ if (rootPath.isEmpty()) {
 
 Page adRoot = resourceResolver.resolve(rootPath).adaptTo(Page.class);
 Iterator<Page> Iter = adRoot.listChildren();
-while(Iter.hasNext()) {
+int defaultAdCount = 2;
+int adCount = defaultAdCount;
+while(Iter.hasNext() && adCount > 0) {
+    adCount--;
     Page currentAd = Iter.next();
+    //TODO: This assignment is too long
+    String adCount2 = currentDesign.getContentResource().adaptTo(Node.class).getProperty("three-column-page/advertisement/adCount").getString();
     String adName = currentAd.getProperties().get("jcr:title", "");
     String path = currentAd.getPath();
     String adLink = currentAd.getProperties().get("link", "");
@@ -38,7 +43,7 @@ while(Iter.hasNext()) {
     else {
     adLink = path + ".html";	
     }
-    %><%=adName%>
+    %><%=adName%>#<%= adCount2 %>#
 <a href="<%=adLink%>"><cq:include path= "<%=path +"/jcr:content/image"%>" resourceType="foundation/components/image" /></a>
 <%
 }
