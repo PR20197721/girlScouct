@@ -3,11 +3,20 @@ com.day.cq.wcm.api.WCMMode,
 com.day.cq.wcm.api.PageManager,
 org.apache.sling.api.resource.ValueMap" %>
 <%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/girlscouts/components/global.jsp"%>
 <%@page session="false" %>
 <cq:defineObjects/>
 <hr/>
 <%
-String rootPath = properties.get("path", "");%>
+String rootPath = properties.get("path", "");
+if (rootPath.isEmpty()) {
+    rootPath = currentSite.get("adsPath", "");
+}
+if (rootPath.isEmpty()) {
+    // TODO: will move "ads" to a constant
+    rootPath = currentPage.getAbsoluteParent(2).getPath() + "/ads";
+}
+%>
 <%
 if (rootPath.isEmpty()) {
     if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
