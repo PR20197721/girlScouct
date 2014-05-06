@@ -4,9 +4,9 @@
 <%@page import="java.util.Map" %>
 <%@page import="java.util.HashMap" %>
 <%@ page import="java.util.Iterator" %>
+<%@page import="com.day.cq.wcm.api.WCMMode" %>
 <%@ page import="org.apache.sling.commons.json.JSONArray" %>
 <%@ page import="org.apache.sling.commons.json.JSONException" %>
-<%@page import="com.day.cq.wcm.api.WCMMode" %>
 <%@include file="/libs/foundation/global.jsp"%>
 
 <%
@@ -27,12 +27,15 @@ if ((null==imageNode) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
        alt = imageNode.getProperty("alt").getString();
    }
    if(imageNode.hasProperty("linkURL")){
+
 	   linkUrl = imageNode.getProperty("linkURL").getString()+".html";
+
    }
   
  %>  
   
- <%   
+ <% 
+  String imgPath = "";
    while(images.hasNext())
        {
           
@@ -48,7 +51,9 @@ if ((null==imageNode) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
                width = imgNode.getProperty("height").getString();
            }
            //imgNode.getProperty("fileReference").getString();
-           String imgPath = imgNode.getProperty("fileReference").getString();
+           if(imgNode.hasProperty("fileReference")){
+             imgPath = imgNode.getProperty("fileReference").getString();
+           }
            if(imgNode.getProperty("imagesize").getString().equalsIgnoreCase("regular"))
            {%><a href="<%=linkUrl%>">  
                <img class="hide-for-small hide-for-medium" src="<%=imgPath %>"<%if(!width.isEmpty()){%> width="<%=width%>"<%}%><%if(!height.isEmpty()){%>width="<%=height%>"<%}%><%if(!alt.isEmpty()){%>alt="<%=alt%>"<%}%>>
@@ -70,7 +75,3 @@ if ((null==imageNode) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
     <% }  
    }
     %>
- 
-
-   
-  
