@@ -3,11 +3,20 @@ com.day.cq.wcm.api.WCMMode,
 com.day.cq.wcm.api.PageManager,
 org.apache.sling.api.resource.ValueMap" %>
 <%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/girlscouts/components/global.jsp"%>
 <%@page session="false" %>
 <cq:defineObjects/>
 <hr/>
 <%
-String rootPath = properties.get("path", "");%>
+String rootPath = properties.get("path", "");
+if (rootPath.isEmpty()) {
+    rootPath = currentSite.get("adsPath", "");
+}
+if (rootPath.isEmpty()) {
+    // TODO: will move "ads" to a constant
+    rootPath = currentPage.getAbsoluteParent(2).getPath() + "/ads";
+}
+%>
 <%
 if (rootPath.isEmpty()) {
     if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
@@ -15,10 +24,21 @@ if (rootPath.isEmpty()) {
     }
     return;
 }
-
+//Setting adCount
+String tempAdCount = currentDesign.getStyle("three-column-page/advertisement").get("adCount", "");
+int adCount;
+if (tempAdCount.isEmpty()) {
+	int defaultAdCount = 2;
+    adCount = defaultAdCount;
+}
+else {
+    adCount = Integer.parseInt(tempAdCount);
+}
 Page adRoot = resourceResolver.resolve(rootPath).adaptTo(Page.class);
 Iterator<Page> Iter = adRoot.listChildren();
-while(Iter.hasNext()) {
+
+while(Iter.hasNext() && adCount > 0) {
+    adCount--;
     Page currentAd = Iter.next();
     String adName = currentAd.getProperties().get("jcr:title", "");
     String path = currentAd.getPath();

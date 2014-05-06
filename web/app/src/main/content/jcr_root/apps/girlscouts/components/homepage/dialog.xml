@@ -45,6 +45,11 @@
                             fieldLabel="News Path"
                             name="./newsPath"
                             xtype="dynamicPathField"/>
+                        <ads-path
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Ads Path"
+                            name="./adsPath"
+                            xtype="dynamicPathField"/>
                         <locations-path
                             jcr:primaryType="cq:Widget"
                             fieldLabel="Locations Path"

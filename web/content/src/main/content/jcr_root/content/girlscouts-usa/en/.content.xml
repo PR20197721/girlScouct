@@ -19,6 +19,7 @@
         jcr:uuid="5e13f36a-c7eb-4798-b0c1-d209b1ae813c"
         sling:resourceType="girlscouts/components/homepage"
         eventPath="/content/girlscouts-usa/en/events"
+        adsPath="/content/girlscouts-usa/en/ads"
         locationsPath="/content/girlscouts-usa/en/locations"
         newsPath="/content/girlscouts-usa/en/news">
         <footer jcr:primaryType="nt:unstructured">

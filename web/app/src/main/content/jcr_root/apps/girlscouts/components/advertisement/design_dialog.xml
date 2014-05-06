@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
     jcr:primaryType="cq:Dialog"
-    title="Ad Dialog"
+    title="Ad Count"
     xtype="dialog">
     <items
         jcr:primaryType="cq:Widget"
@@ -9,13 +9,13 @@
         <items jcr:primaryType="cq:WidgetCollection">
             <tab1
                 jcr:primaryType="cq:Panel"
-                title="Path">
+                title="Tab 1">
                 <items jcr:primaryType="cq:WidgetCollection">
-                    <path
+                    <adCount
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Path to Ads"
-                        name="./path"
-                        xtype="pathfield"/>
+                        fieldLabel="Number of Ads"
+                        name="./adCount"
+                        xtype="numberfield"/>
                 </items>
             </tab1>
         </items>
