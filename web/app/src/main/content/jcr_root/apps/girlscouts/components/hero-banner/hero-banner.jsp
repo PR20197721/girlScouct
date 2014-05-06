@@ -15,8 +15,18 @@ String cssClasses = properties.get("cssClasses", "");
 <%!
    int slideShowCount=0;
    int timer = 0;
-
+  
 %>
+<%
+  boolean editFlag = false;
+
+if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
+    editFlag =true;  
+    %>
+    
+   <% }
+%>
+
  <div id="heroBanner" class="large-24 medium-24 small-24 columns">
  <div class="jcarousel-wrapper">
      <div class="jcarousel">
@@ -25,7 +35,7 @@ String cssClasses = properties.get("cssClasses", "");
            
           
              slideShowCount = Integer.parseInt(properties.get("slideshowcount", "1"));
-             timer = Integer.parseInt(properties.get("timer", "6000"));
+             timer = Integer.parseInt(properties.get("slideshowtimer", "6000"));
              for(int i=1; i<slideShowCount+1;i++){
             	  String path = "./"+"Image_"+i;
             	 
@@ -54,6 +64,6 @@ String cssClasses = properties.get("cssClasses", "");
 
  <script>
  $(document).ready(function(){
-	     displaySlideShow("<%=timer%>");
+	     displaySlideShow("<%=timer%>","<%=editFlag%>");
 	});
  </script>  

@@ -1,9 +1,10 @@
-function displaySlideShow(timer) {
+function displaySlideShow(timer, editflag) {
     var jcarousel = $('.jcarousel');
     
     console.log("***********"+timer);
+    console.log("Eidt Flag" +editflag);
      
-    jcarousel
+    carouselIn = jcarousel
             .on('jcarousel:reload jcarousel:create', function () {
                 jcarousel.jcarousel('items').width(jcarousel.innerWidth());
             }).jcarousel({
@@ -13,11 +14,21 @@ function displaySlideShow(timer) {
                     transforms3d: Modernizr.csstransforms3d,
                     easing:       'ease'
                 } : false
-            }).jcarouselAutoscroll({
-                interval: timer,
-                target: '+=1'
             });
-
+    if(editflag=='true'){
+    	carouselIn.jcarouselAutoscroll({
+    		autostart:false
+    	});
+    }else{
+    	carouselIn.jcarouselAutoscroll({
+             interval: timer,
+             target: '+=1'
+             
+         });
+    	
+    }
+    
+   
     
     
      $('.jcarousel-control-prev')
