@@ -24,16 +24,22 @@ if (rootPath.isEmpty()) {
     }
     return;
 }
-
+//Setting adCount
+String tempAdCount = currentDesign.getStyle("three-column-page/advertisement").get("adCount", "");
+int adCount;
+if (tempAdCount.isEmpty()) {
+	int defaultAdCount = 2;
+    adCount = defaultAdCount;
+}
+else {
+    adCount = Integer.parseInt(tempAdCount);
+}
 Page adRoot = resourceResolver.resolve(rootPath).adaptTo(Page.class);
 Iterator<Page> Iter = adRoot.listChildren();
-int defaultAdCount = 2;
-int adCount = defaultAdCount;
+
 while(Iter.hasNext() && adCount > 0) {
     adCount--;
     Page currentAd = Iter.next();
-    //TODO: This assignment is too long
-    String adCount2 = currentDesign.getContentResource().adaptTo(Node.class).getProperty("three-column-page/advertisement/adCount").getString();
     String adName = currentAd.getProperties().get("jcr:title", "");
     String path = currentAd.getPath();
     String adLink = currentAd.getProperties().get("link", "");
@@ -43,7 +49,7 @@ while(Iter.hasNext() && adCount > 0) {
     else {
     adLink = path + ".html";	
     }
-    %><%=adName%>#<%= adCount2 %>#
+    %><%=adName%>
 <a href="<%=adLink%>"><cq:include path= "<%=path +"/jcr:content/image"%>" resourceType="foundation/components/image" /></a>
 <%
 }
