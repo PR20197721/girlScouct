@@ -2,16 +2,38 @@ package org.girlscouts.vtk.model;
 
 import java.util.List;
 
+/**
+ * Represents meeting content.
+ * It is either a template which is parsed from docx
+ * or a troop leader customize content (mostly with her own agenda).
+ * 
+ * @author mike
+ *
+ */
 public interface MeetingContent {
-    // B2014B4
+    /**
+     * @return e.g. B2014B4
+     */
     String getId();
-    // Brownie
+    
+    /**
+     * @return e.g. Brownie
+     */
     String getLevel();
-    // Inventor Part One
+    
+    /**
+     * @return e.g. Inventor Part One
+     */
     String getName();
-    // Descriptive phase
+
+    /**
+     * @return e.g. Descriptive phase
+     */
     String getBlurb();
-    // Science / Financial 
+    
+    /**
+     * @return e.g. Science / Financial 
+     */
     String getCategory();
     
     List<Asset> getAids();

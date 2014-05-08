@@ -1,5 +1,9 @@
 package org.girlscouts.vtk.model;
 
+/**
+ * @author mike
+ *
+ */
 public interface Location {
     String getName();
     void setName(String name);
