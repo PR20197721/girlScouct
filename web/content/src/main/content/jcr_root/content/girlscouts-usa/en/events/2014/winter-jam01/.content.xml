@@ -2,7 +2,7 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2014-05-02T10:55:37.316-04:00"
+        cq:lastModified="{Date}2014-05-08T10:39:28.581-04:00"
         cq:lastModifiedBy="admin"
         cq:tags="[girlscouts:program-level/daisy,girlscouts:categories/camp]"
         cq:template="girlscouts/templates/event-page"

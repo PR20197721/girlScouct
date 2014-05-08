@@ -4,7 +4,6 @@
     <jcr:content
         cq:lastModified="{Date}2014-05-08T10:40:44.456-04:00"
         cq:lastModifiedBy="admin"
-        cq:tags="[girlscouts:program-level/junior,girlscouts:program-level,girlscouts:program-level/daisy,girlscouts:categories,girlscouts:categories/camp]"
         cq:template="/apps/girlscouts/templates/three-column-page"
         jcr:primaryType="cq:PageContent"
         jcr:title="Events List"
@@ -43,5 +42,4 @@
             jcr:primaryType="nt:unstructured"
             imageRotate="0"/>
     </jcr:content>
-    <_x0032_014/>
 </jcr:root>
