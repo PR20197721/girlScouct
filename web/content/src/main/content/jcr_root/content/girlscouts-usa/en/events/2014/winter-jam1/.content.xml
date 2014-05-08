@@ -2,7 +2,7 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2014-04-28T10:25:37.386-04:00"
+        cq:lastModified="{Date}2014-04-27T01:36:41.929-04:00"
         cq:lastModifiedBy="admin"
         cq:lastReplicated="{Date}2014-04-27T01:36:43.974-04:00"
         cq:lastReplicatedBy="admin"
@@ -39,15 +39,5 @@
                 fileReference="/content/dam/girlscouts-shared/en/events/2014/small-campfire.png"
                 imageRotate="0"/>
         </data>
-        <content jcr:primaryType="nt:unstructured">
-            <left jcr:primaryType="nt:unstructured">
-                <event-search-facets
-                    jcr:lastModified="{Date}2014-04-28T10:25:37.385-04:00"
-                    jcr:lastModifiedBy="admin"
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="girlscouts/components/event-search-facets"
-                    formaction="/content/girlscouts-usa/en/events.html"/>
-            </left>
-        </content>
     </jcr:content>
 </jcr:root>
