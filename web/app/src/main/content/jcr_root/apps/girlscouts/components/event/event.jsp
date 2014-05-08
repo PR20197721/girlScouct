@@ -4,21 +4,34 @@
 	java.lang.Exception,
 	java.text.SimpleDateFormat,
 	java.text.DateFormat,
-	java.util.Date"%>
+	java.util.Date,
+	java.util.Calendar"%>
 <%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/girlscouts/components/global.jsp" %>
 <cq:defineObjects />
 <!-- apps/girlscouts/components/components/event/event.jsp -->
 <%
 	String currentPath = currentPage.getPath() + ".html";
-
+   
 	// date and time
     DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy");
 	DateFormat timeFormat = new SimpleDateFormat("KK:mm a");
-
+    DateFormat calendarFormat = new SimpleDateFormat("M-yyyy");
 	Date startDate = properties.get("start", Date.class); 
+	
 	String startDateStr = dateFormat.format(startDate);
 	String startTimeStr = timeFormat.format(startDate);
 	
+	//Calendar Date and Month
+	
+    Calendar calendar = Calendar.getInstance();
+    calendar.setTime(startDate);
+    int month = calendar.get(Calendar.MONTH);
+    int year = calendar.get(Calendar.YEAR);
+    String combineMonthYear = month+"-"+year;
+    String calendarUrl = currentSite.get("calendarPath",String.class)+".html/"+combineMonthYear;
+    System.out.println("CalendarUrl" +calendarUrl);
+    
 	Date endDate = properties.get("end", Date.class); 
 	String dateStr = startDateStr;
     String time = startTimeStr;
@@ -63,7 +76,16 @@
 %>
 
 <!-- TODO: fix the h2 color in CSS -->
-<h2 style="color: green;"><%= title %></h2>
+<div class="row">
+   <div class="large-17 medium-17 columns">
+        <h2 style="color: green;"><%= title %></h2>
+   </div>
+   <div class="medium-7 columns small-24">
+        <a href="<%=calendarUrl%>">View event on calendar</a>
+   </div>
+
+</div>
+
 <% if (hasImage) { %>
 <p>	
 	<img src="<%= fileReference %>" <%= imgWidth %> <%= imgHeight %> <%= imgAlt %> />
