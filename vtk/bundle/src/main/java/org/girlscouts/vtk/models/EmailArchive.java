@@ -1,4 +1,4 @@
-package org.girlscouts.vtk.model;
+package org.girlscouts.vtk.models;
 
 import java.util.Date;
 

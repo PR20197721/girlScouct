@@ -1,4 +1,4 @@
-package org.girlscouts.vtk.model;
+package org.girlscouts.vtk.models;
 
 /**
  * Asset reference in the DAM.
