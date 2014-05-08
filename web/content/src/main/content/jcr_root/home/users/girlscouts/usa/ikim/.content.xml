@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0" xmlns:rep="internal"
+    cq:lastModified="{Date}2014-05-08T15:33:24.509-04:00"
+    cq:lastModifiedBy="admin"
+    jcr:mixinTypes="[rep:AccessControllable]"
+    jcr:primaryType="rep:User"
+    jcr:uuid="0f0c88c7-2b5d-381c-baae-c8af1a7189de"
+    rep:password="\{SHA-256}352f75011e4f118f-1000-cc75600a8669cf2760e27e4ed9660fbfff77acdbe6b22b7feaddd7e09c9087af"
+    rep:principalName="ikim">
+    <preferences
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="cq:Preferences"/>
+    <profile
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="cq/security/components/profile"
+        email="ikim@northps.com"
+        familyName="Kim"
+        givenName="In Koo"/>
+</jcr:root>
