@@ -1,8 +1,9 @@
 package org.girlscouts.vtk.model;
 
 /**
- * Represents an asset reference in the DAM.
+ * Asset reference in the DAM.
  * It can be either shared asset or troop leader customize asset.
+ * 
  * @author mike
  *
  */

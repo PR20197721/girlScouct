@@ -1,7 +1,8 @@
 package org.girlscouts.vtk.model;
 
 /**
- * Represents an agenda item in a meeting.
+ * An agenda item in a meeting.
+ * 
  * @author mike
  *
  */

@@ -3,7 +3,7 @@ package org.girlscouts.vtk.model;
 import java.util.List;
 
 /**
- * Represents meeting content.
+ * Meeting content.
  * It is either a template which is parsed from docx
  * or a troop leader customize content (mostly with her own agenda).
  * 

@@ -3,7 +3,7 @@ package org.girlscouts.vtk.model;
 import java.util.Date;
 
 /**
- * Represents an activity in the year plan.
+ * An activity in the year plan.
  * e.g. go skiing, go bowling
  * 
  * @author mike

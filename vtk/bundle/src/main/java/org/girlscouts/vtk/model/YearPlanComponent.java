@@ -13,11 +13,15 @@ import java.util.Date;
  */
 public interface YearPlanComponent {
     /**
-     * @return the component type
-     * @see YearPlanComponentType
+     * @return the component type.
+     * @see {@link YearPlanComponentType}
      */
     YearPlanComponentType getType();
 
+    /**
+     * @return the <b>start</b> date.
+     *         <code>null</code> if not set.
+     */
     Date getDate();
     void setDate(Date date);
 }
