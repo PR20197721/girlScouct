@@ -55,6 +55,21 @@
                             fieldLabel="Locations Path"
                             name="./locationsPath"
                             xtype="dynamicPathField"/>
+                        <events-srch-landing-path
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Events Landing Page"
+                            name="./eventLanding"
+                            xtype="dynamicPathField"/>
+                        <global-srch-landing-page
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Global Search Landing Page"
+                            name="./globalLanding"
+                            xtype="dynamicPathField"/>
+                        <calendar-path
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Calendar Path"
+                            name="./calendarPath"
+                            xtype="dynamicPathField"/>
                     </items>
                 </girl-scouts>
             </items>

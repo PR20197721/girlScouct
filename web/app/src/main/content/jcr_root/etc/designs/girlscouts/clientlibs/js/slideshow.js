@@ -23,6 +23,7 @@ function displaySlideShow(timer, editflag) {
          });
     	
     }
+
      $('.jcarousel-control-prev')
             .on('jcarouselcontrol:active', function() {
                 $(this).removeClass('inactive');

@@ -1,14 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Dialog"
-    helpPath="en/cq/current/wcm/default_components.html#Search"
-    title="Search"
-    xtype="panel">
-    <items jcr:primaryType="cq:WidgetCollection">
-        <searchformaction
-            jcr:primaryType="cq:Widget"
-            fieldLabel="Form Action"
-            name="./srchaction"
-            xtype="pathfield"/>
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab1
+                jcr:primaryType="cq:Panel"
+                title="Configure Search Path">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <site-search
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="0"
+                        fieldDescription="(Select area to perform a search)"
+                        fieldLabel="Search Paths"
+                        name="./searchAction"
+                        type="select"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <event-search-target
+                                jcr:primaryType="nt:unstructured"
+                                text="Event Search Landing Page"
+                                value="eventLanding"/>
+                            <global-site-target
+                                jcr:primaryType="nt:unstructured"
+                                text="Global Search Landing Page"
+                                value="globalLanding"/>
+                        </options>
+                    </site-search>
+                </items>
+            </tab1>
+            <tab2
+                jcr:primaryType="cq:Panel"
+                title="Design ">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <css-styles
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="(Provide the css design)"
+                        fieldLabel="Css Styles"
+                        name="./additionalCss"
+                        xtype="textfield"/>
+                </items>
+            </tab2>
+        </items>
     </items>
 </jcr:root>

@@ -41,12 +41,12 @@ public class EventsSrch
 		this.queryBuilder = builder;
 	}
 	
-	public void search(String q,String[] tags,String offset, String month,String year, String startdtRange, String enddtRange, String region )
+	public void search(String q,String[] tags,String offset, String month,String year, String startdtRange, String enddtRange, String region,String path )
 	{
 		try 
 		{
 			createFacets();
-			eventResults(q,offset,month,year,startdtRange,enddtRange,region,tags);
+			eventResults(q,offset,month,year,startdtRange,enddtRange,region,tags,path);
 			combineSearchTagsCounts();
 		} catch (RepositoryException e)
 		{
@@ -67,7 +67,7 @@ public class EventsSrch
 		}
 	
 	
-	private void eventResults(String q,String offset,String month,String year, String startdtRange, String enddtRange,String region,String[] tags) throws RepositoryException{
+	private void eventResults(String q,String offset,String month,String year, String startdtRange, String enddtRange,String region,String[] tags, String path) throws RepositoryException{
 		EventResults eventResults = new EventResultsImpl();
 
 		
@@ -77,7 +77,7 @@ public class EventsSrch
 		}
 
 		searchQuery.put("type", "cq:Page");
-		searchQuery.put("path",PATH_1);
+		searchQuery.put("path",path);
 		searchQuery.put("boolproperty","jcr:content/hideInNav");
 		searchQuery.put("boolproperty.value","false");
 		searchQuery.put(++propertyCounter+"_property",EVENTS_PROP);
