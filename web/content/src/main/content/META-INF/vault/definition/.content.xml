@@ -37,5 +37,15 @@
             mode="merge"
             root="/etc/projects/girlscouts"
             rules="[]"/>
+        <f4
+            jcr:primaryType="nt:unstructured"
+            mode="merge"
+            root="/home/groups/c/content-authors"
+            rules="[]"/>
+        <f5
+            jcr:primaryType="nt:unstructured"
+            mode="merge"
+            root="/home/users/girlscouts"
+            rules="[]"/>
     </filter>
 </jcr:root>
