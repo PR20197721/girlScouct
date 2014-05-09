@@ -18,6 +18,8 @@ import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.day.cq.replication.Replicator;
+
 @Component(immediate = true)
 @Service
 public class VtkNodeListener implements EventListener, Constants {
@@ -29,6 +31,9 @@ public class VtkNodeListener implements EventListener, Constants {
 
     @Reference
     private SlingRepository repository;
+    
+    @Reference
+    private Replicator replicator;
 
     private Session session;
     private ObservationManager manager;
@@ -53,9 +58,13 @@ public class VtkNodeListener implements EventListener, Constants {
             final String[] types = { Constants.PRIMARY_TYPE };
 
             if (mode.equals("author")) {
-                this.listener = new AuthorVtkNodeListener(session);
+                this.listener = new AuthorVtkNodeListener(session, replicator);
             } else {
-                this.listener = new PublishVtkNodeListener(session);
+                String publishId = context.getBundleContext().getProperty("publishId");
+                if (publishId == null) {
+                    publishId = "publish";
+                }
+                this.listener = new PublishVtkNodeListener(session, replicator, publishId);
             }
 
             for (int i = 0; i < MONITOR_PATHS.length; i++) {

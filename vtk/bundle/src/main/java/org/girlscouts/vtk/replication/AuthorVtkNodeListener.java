@@ -1,19 +1,62 @@
 package org.girlscouts.vtk.replication;
 
+import javax.jcr.Node;
+import javax.jcr.RepositoryException;
 import javax.jcr.Session;
+import javax.jcr.Value;
+import javax.jcr.observation.Event;
 import javax.jcr.observation.EventIterator;
 import javax.jcr.observation.EventListener;
 
-public class AuthorVtkNodeListener implements EventListener {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import com.day.cq.replication.ReplicationActionType;
+import com.day.cq.replication.ReplicationException;
+import com.day.cq.replication.ReplicationOptions;
+import com.day.cq.replication.Replicator;
+
+public class AuthorVtkNodeListener implements EventListener, Constants {
+    private static final Logger log = LoggerFactory.getLogger(AuthorVtkNodeListener.class);
     private Session session;
+    private Replicator replicator;
     
-    public AuthorVtkNodeListener(Session session) {
+    public AuthorVtkNodeListener(Session session, Replicator replicator) {
         this.session = session;
+        this.replicator = replicator;
     }
-    
+
     public void onEvent(EventIterator iter) {
-        
+        while (iter.hasNext()) {
+            try {
+                Event event = iter.nextEvent();
+                String path = event.getPath();
+                
+                Node node = session.getNode(path);
+                String fromPublisher = node.getProperty(Constants.FROM_PUBLISHER_PROPERTY).getString();
+                node.setProperty(Constants.FROM_PUBLISHER_PROPERTY, (Value)null);
+
+                boolean isRemove = false;
+                if (node.hasProperty(Constants.NODE_REMOVED_PROPERTY)) {
+                    isRemove = node.getProperty(Constants.NODE_REMOVED_PROPERTY).getBoolean();
+                    node.setProperty(Constants.NODE_REMOVED_PROPERTY, (Value)null);
+                }
+                
+                // This should not take long, but might be a bottleneck.
+                ReplicationOptions opts = new ReplicationOptions();
+                opts.setFilter(new AgentIdExcludeFilter(fromPublisher));
+                    
+                if (isRemove) {
+                    replicator.replicate(session, ReplicationActionType.DEACTIVATE, path, opts);
+                } else {
+                    replicator.replicate(session, ReplicationActionType.ACTIVATE, path, opts);
+                }
+            } catch (RepositoryException e) {
+                log.error("Repository Exception. Event not handled.");
+            } catch (ReplicationException e) {
+                log.error("Replication Exception. Event not handled.");
+            }
+        }
     }
 
 }
