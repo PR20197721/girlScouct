@@ -60,6 +60,13 @@
             <groupId>org.apache.sling</groupId>
             <artifactId>org.apache.sling.jcr.api</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.adobe.granite</groupId>
+            <artifactId>com.adobe.granite.replication.core</artifactId>
+            <version>5.12.2</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <!-- ====================================================================== -->
