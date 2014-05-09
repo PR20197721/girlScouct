@@ -1,6 +1,7 @@
 package org.girlscouts.vtk.replication;
 
 import javax.jcr.Repository;
+import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.observation.Event;
 import javax.jcr.observation.EventIterator;
@@ -9,6 +10,7 @@ import javax.jcr.observation.ObservationManager;
 
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Deactivate;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.jcr.api.SlingRepository;
@@ -51,22 +53,32 @@ public class VtkNodeListener implements EventListener, Constants {
             final String[] types = { Constants.PRIMARY_TYPE };
 
             if (mode.equals("author")) {
-                for (int i = 0; i < MONITOR_PATHS.length; i++) {
-                    manager.addEventListener(
-                            new AuthorVtkNodeListener(session),
-                            PROPERTY_UPDATE, MONITOR_PATHS[i], true, null,
-                            types, false);
-                }
+                this.listener = new AuthorVtkNodeListener(session);
             } else {
-                for (int i = 0; i < MONITOR_PATHS.length; i++) {
-                    manager.addEventListener(
-                            new PublishVtkNodeListener(session),
-                            PROPERTY_UPDATE, MONITOR_PATHS[i], true, null,
-                            types, false);
-                }
+                this.listener = new PublishVtkNodeListener(session);
+            }
+
+            for (int i = 0; i < MONITOR_PATHS.length; i++) {
+                manager.addEventListener(this.listener, PROPERTY_UPDATE,
+                        MONITOR_PATHS[i], true, null, types, false);
             }
         } else {
             log.error("Listeners not added.");
+        }
+    }
+
+    @Deactivate
+    protected void deactivate(ComponentContext componentContext) {
+        if (manager != null) {
+            try {
+                manager.removeEventListener(this.listener);
+            } catch (RepositoryException e) {
+                log.error("Error deactivating listeners");
+            }
+        }
+        if (session != null) {
+            session.logout();
+            session = null;
         }
     }
 
