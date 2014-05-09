@@ -1,5 +1,7 @@
 package org.girlscouts.vtk.replication;
 
+import java.util.Dictionary;
+
 import javax.jcr.Repository;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
@@ -20,7 +22,7 @@ import org.slf4j.LoggerFactory;
 
 import com.day.cq.replication.Replicator;
 
-@Component(immediate = true)
+@Component(immediate=true)
 @Service
 public class VtkNodeListener implements EventListener, Constants {
     private static final String[] MONITOR_PATHS = { Constants.ROOT_PATH };
@@ -41,7 +43,8 @@ public class VtkNodeListener implements EventListener, Constants {
 
     @Activate
     protected void activate(ComponentContext context) throws Exception {
-        String mode = context.getBundleContext().getProperty("mode");
+        final Dictionary dict = context.getProperties();
+        String mode = (String)dict.get(Constants.MODE_PROPERTY);
         if (mode == null) {
             log.error("Cannot find run mode. Quit");
             return;
@@ -60,7 +63,7 @@ public class VtkNodeListener implements EventListener, Constants {
             if (mode.equals("author")) {
                 this.listener = new AuthorVtkNodeListener(session, replicator);
             } else {
-                String publishId = context.getBundleContext().getProperty("publishId");
+                String publishId = (String)dict.get("publisherId");
                 if (publishId == null) {
                     publishId = "publish";
                 }
