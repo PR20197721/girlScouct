@@ -30,7 +30,7 @@ import com.day.cq.replication.Replicator;
     @Property(name=Constants.MODE_PROPERTY, description="author/publish"),
     @Property(name=Constants.FROM_PUBLISHER_PROPERTY, description="This publisher ID")
 })
-public class VtkNodeListener implements EventListener, Constants {
+public class VtkNodeListener implements Constants {
     private static final String[] MONITOR_PATHS = { Constants.ROOT_PATH };
     private static final int PROPERTY_UPDATE = Event.PROPERTY_ADDED
             | Event.PROPERTY_CHANGED | Event.PROPERTY_REMOVED;

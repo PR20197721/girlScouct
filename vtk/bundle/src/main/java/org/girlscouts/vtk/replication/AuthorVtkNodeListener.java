@@ -32,11 +32,13 @@ public class AuthorVtkNodeListener implements EventListener, Constants {
                 Event event = iter.nextEvent();
                 String path = event.getPath();
                 
+                //TODO: Remove later
+                log.error("Event logged: " + path);
+                
                 int type = event.getType();
                 if (type == Event.PROPERTY_ADDED || type == Event.PROPERTY_CHANGED || type == Event.PROPERTY_REMOVED) {
                     String property = path.substring(path.lastIndexOf('/') + 1);
-                    String namespace = property.split(":")[0];
-                    if (namespace.equals("jcr") || namespace.equals("cq")) {
+                    if (property.indexOf("jcr") == 0 || property.indexOf("cq") == 0) {
                         log.debug("This is CQ property, ignore");
                         continue;
                     }
