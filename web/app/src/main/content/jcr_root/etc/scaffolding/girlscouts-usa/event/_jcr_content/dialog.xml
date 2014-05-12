@@ -24,12 +24,21 @@
                     fieldLabel="End Date"
                     name="./jcr:content/data/end"
                     xtype="datetime"/>
-                <location
+                <region
                     jcr:primaryType="cq:Widget"
-                    fieldLabel="Location"
-                    name="./jcr:content/data/location"
-                    rootPath="/content/girlscouts-usa/en/locations"
-                    xtype="pathfield"/>
+                    fieldLabel="Region"
+                    name="./jcr:content/data/region"
+                    xtype="textfield"/>
+                <locationLabel
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Location Label"
+                    name="./jcr:content/data/locationLabel"
+                    xtype="textfield"/>
+                <address
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Address"
+                    name="./jcr:content/data/address"
+                    xtype="textfield"/>
                 <details
                     jcr:primaryType="cq:Widget"
                     allowBlank="{Boolean}false"
