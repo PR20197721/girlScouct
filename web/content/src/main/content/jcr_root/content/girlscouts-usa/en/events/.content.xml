@@ -2,7 +2,7 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2014-05-06T18:10:49.842-04:00"
+        cq:lastModified="{Date}2014-05-08T10:40:44.456-04:00"
         cq:lastModifiedBy="admin"
         cq:tags="[girlscouts:program-level/junior,girlscouts:program-level,girlscouts:program-level/daisy,girlscouts:categories,girlscouts:categories/camp]"
         cq:template="/apps/girlscouts/templates/three-column-page"
@@ -34,13 +34,6 @@
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         sling:resourceType="girlscouts/components/event-search-list"/>
-                    <calendar
-                        jcr:created="{Date}2014-05-02T13:40:00.905-04:00"
-                        jcr:createdBy="admin"
-                        jcr:lastModified="{Date}2014-05-02T13:40:00.905-04:00"
-                        jcr:lastModifiedBy="admin"
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="girlscouts/components/calendar"/>
                 </par>
             </middle>
         </content>

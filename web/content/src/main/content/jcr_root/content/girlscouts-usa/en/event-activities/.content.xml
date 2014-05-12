@@ -8,7 +8,7 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="Events &amp; Activities"
         sling:resourceType="girlscouts/components/three-column-page"/>
-    <events/>
+    <events-list/>
     <calendar0/>
     <activity-policy/>
 </jcr:root>
