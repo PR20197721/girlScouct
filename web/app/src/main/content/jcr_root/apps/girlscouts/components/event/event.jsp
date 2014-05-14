@@ -99,11 +99,11 @@
 		ValueMap imageProps = resourceResolver.resolve(currentNode.getPath() + "/image").adaptTo(ValueMap.class);
 		
 		fileReference = imageProps.get("fileReference", "");
-		Asset assets = resource.getResourceResolver().getResource(fileReference).adaptTo(Asset.class);
-	    
-	    Resource rendition =  assets.getRendition("cq5dam.thumbnail.520.215.png");
-	    
-		fileReference = rendition.getPath();
+		try{
+			  Asset assets = resource.getResourceResolver().getResource(fileReference).adaptTo(Asset.class);
+			  Resource rendition =  assets.getRendition("cq5dam.thumbnail.520.215.png");
+			  fileReference = rendition.getPath();
+		}catch(Exception e){}
 	    imgWidth = imageProps.get("width", "");
 	    if (!imgWidth.isEmpty()) imgWidth = "width=\"" + imgWidth + "\"";
 	    imgHeight = imageProps.get("height", "");

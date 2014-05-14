@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:exif="http://ns.adobe.com/exif/1.0/" xmlns:photoshop="http://ns.adobe.com/photoshop/1.0/" xmlns:tiff="http://ns.adobe.com/tiff/1.0/" xmlns:xmp="http://ns.adobe.com/xap/1.0/" xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/" xmlns:stRef="http://ns.adobe.com/xap/1.0/sType/ResourceRef#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dam="http://www.day.com/dam/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="dam:Asset">
+    <jcr:content
+        jcr:lastModified="{Date}2014-05-14T09:07:35.218-04:00"
+        jcr:lastModifiedBy="admin"
+        jcr:primaryType="dam:AssetContent">
+        <metadata
+            dam:Bitsperpixel="{Long}24"
+            dam:By-line="Suzanne Carr Rossi"
+            dam:DateTime="{Date}2007-01-17T17:55:48.000-05:00"
+            dam:ExifOffset="{Long}412"
+            dam:extracted="{Date}2014-05-14T09:07:33.589-04:00"
+            dam:Fileformat="JPEG"
+            dam:JpgFromRawLength="{Long}7977"
+            dam:JpgFromRawStart="{Long}550"
+            dam:MIMEtype="image/jpeg"
+            dam:Numberofimages="{Long}1"
+            dam:Numberoftextualcomments="{Long}0"
+            dam:OtherImageLength="{Long}7977"
+            dam:OtherImageStart="{Long}550"
+            dam:Physicalheightindpi="{Long}200"
+            dam:Physicalheightininches="{Double}1.7000000476837158"
+            dam:Physicalwidthindpi="{Long}200"
+            dam:Physicalwidthininches="{Double}2.5"
+            dam:Progressive="no"
+            dam:sha1="19c851693260e0c27839d8f8a806871c47a8b2c5"
+            dam:size="{Long}65070"
+            dam:Source="@WireImgId=2154102"
+            dc:creator="[Suzanne Carr Rossi]"
+            dc:date="[20040728]"
+            dc:description="[JULY\, 2004 FILE PHOTO: Girl Scouts hike on one of the trails at Camp Kittamaqund in the Northern Neck. The camp is located in Burgess\, near Reedville. FILE PHOTO/SUZANNE CARR ROSSI&#xd;&#xd;------&#xd;&#xd;2 col color A1,JULY\, 2004 FILE PHOTO: Girl Scouts hike on one of the trails at Camp Kittamaqund in the Northern Neck. The camp is located in Burgess\, near Reedville. FILE PHOTO/SUZANNE CARR ROSSI&#xa;&#xa;------&#xa;&#xa;2 col color A1]"
+            dc:format="image/jpeg"
+            dc:title="[lo0119Kitty2]"
+            exif:ColorSpace="-1"
+            exif:ExifImageLength="{Long}1312"
+            exif:ExifImageWidth="{Long}1929"
+            exif:NativeDigest="36864,40960,40961,37121,37122,40962,40963,37510,40964,36867,36868,33434,33437,34850,34852,34855,34856,37377,37378,37379,37380,37381,37382,37383,37384,37385,37386,37396,41483,41484,41486,41487,41488,41492,41493,41495,41728,41729,41730,41985,41986,41987,41988,41989,41990,41991,41992,41993,41994,41995,41996,42016,0,2,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,22,23,24,25,26,27,28,30;2FC60040AEBBA90CD0D7EC3416864BBD"
+            exif:PixelXDimension="1929"
+            exif:PixelYDimension="1312"
+            jcr:mixinTypes="[cq:Taggable]"
+            jcr:primaryType="nt:unstructured"
+            jcr:title="lo0119Kitty2"
+            photoshop:ColorMode="3"
+            photoshop:DateCreated="{Date}2004-07-28T00:00:00.000-04:00"
+            photoshop:History=""
+            photoshop:Source="@WireImgId=2154102"
+            tiff:Compression="{Long}6"
+            tiff:ImageLength="{Long}340"
+            tiff:ImageWidth="{Long}500"
+            tiff:NativeDigest="256,257,258,259,262,274,277,284,530,531,282,283,296,301,318,319,529,532,306,270,271,272,305,315,33432;F87538F5274003CB5C6E0CE23944115D"
+            tiff:Orientation="1"
+            tiff:ResolutionUnit="2"
+            tiff:XResolution="2000000/10000"
+            tiff:YResolution="2000000/10000"
+            xmp:CreateDate="{Date}2007-01-17T17:55:48.000-05:00"
+            xmp:CreatorTool="Adobe Photoshop CS2 Macintosh"
+            xmp:MetadataDate="{Date}2007-01-17T17:55:48.000-05:00"
+            xmp:ModifyDate="{Date}2007-01-17T17:55:48.000-05:00"
+            xmpMM:DocumentID="uuid:3F706AA6A7E611DBB3C0C68A62BA6790"
+            xmpMM:InstanceID="uuid:3F706AA7A7E611DBB3C0C68A62BA6790">
+            <xmpMM:DerivedFrom
+                jcr:primaryType="nt:unstructured"
+                stRef:documentID="uuid:F37EC15FA7E511DBB3C0C68A62BA6790"
+                stRef:instanceID="uuid:F37EC15FA7E511DBB3C0C68A62BA6790"
+                newRendition="{Boolean}true"/>
+        </metadata>
+        <renditions/>
+        <related jcr:primaryType="nt:unstructured"/>
+    </jcr:content>
+</jcr:root>
