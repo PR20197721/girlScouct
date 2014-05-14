@@ -27,7 +27,6 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 <%
 
     int tempMonth =0;
-    System.out.println("This is the event::::" +results.size());
     for(String result: results){
 		Node node =  resourceResolver.getResource(result).adaptTo(Node.class);
 		Node propNode = node.getNode("jcr:content/data");
@@ -59,10 +58,9 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(fdt);
 		int month = cal.get(Calendar.MONTH);
-	    System.out.println("What is today" +today+ "after60days" +after60days);
-	    System.out.println("What is fdt  ----->" +fdt +result);
+	   
 	    
-		if(today.after(fdt) && fdt.before(after60days))
+		if((fdt.equals(today) || fdt.after(today)) &&   fdt.before(after60days))
 		{
 			if(tempMonth!=month)
 			  {
