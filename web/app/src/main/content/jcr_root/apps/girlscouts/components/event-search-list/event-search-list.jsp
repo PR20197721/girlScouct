@@ -124,12 +124,3 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 <%
 }//for
 %>
-<style>
-#left {
-    float:left;
-    padding-left:10px;
-    padding-right:10px;
-}
-
-
-</style>
