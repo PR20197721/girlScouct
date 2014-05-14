@@ -58,8 +58,9 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(fdt);
 		int month = cal.get(Calendar.MONTH);
-	
-		if(fdt.after(today) && fdt.before(after60days))
+	   
+	    
+		if((fdt.equals(today) || fdt.after(today)) &&   fdt.before(after60days))
 		{
 			if(tempMonth!=month)
 			  {
@@ -72,7 +73,6 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
         <% }
 			  // Image
 			  boolean hasImage = propNode.hasNode("image");
-			  System.out.println("hasImage#################################" +hasImage);
 			  String fileReference = null;
 		      String imgWidth = null;
 		      String imgHeight = null;
@@ -80,10 +80,11 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 	    	  if (hasImage) {
 			        ValueMap imageProps = resourceResolver.resolve(propNode.getPath() + "/image").adaptTo(ValueMap.class);
 			        fileReference = imageProps.get("fileReference", "");
+			        try{
 			        Asset assets = resource.getResourceResolver().getResource(fileReference).adaptTo(Asset.class);
-			        
 			        Resource rendition =  assets.getRendition("cq5dam.thumbnail.120.80.png");
 			        fileReference = rendition.getPath();
+			        }catch(Exception e){}
 			        imgWidth = imageProps.get("width", "");
 			        if (!imgWidth.isEmpty()) imgWidth = "width=\"" + imgWidth + "\"";
 			        imgHeight = imageProps.get("height", "");
@@ -93,18 +94,18 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 			    } 
 		%>
 <div class="row">
-    <div class="small-24 large-24 medium-24">
+    <div class="small-24 large-24 medium-24 columns">
     <%if(hasImage) {%>
-      <div id="left">
+      <div class="small-4 large-4 medium-4 columns left">
           <img src="<%= fileReference %>" <%= imgWidth %> <%= imgHeight %> <%= imgAlt %> />
        </div>  
       <%} %> 
-       <div>
+       <div class="small-20 large-20 medium-20 columns right">
           <h4><a href="<%=href%>"><%=title %></a></h4>
-         <div class="time">
+         <div class="small-10 large-10 medium-10 columns time">
             <b>Time:</b> <%= time %>
          </div>
-         <div class="date">
+         <div class="small-10 large-10 medium-10 columns date">
              <b>Date :</b> <%=toFormat.format(fdt)%> <%if(propNode.hasProperty("end")) {%> to <%=toFormat.format(tdt) %> <%}%>
          </div>
          <%if(!locationLabel.isEmpty()){ %>
@@ -112,10 +113,38 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
               <b>Location: </b><%=locationLabel %>
            </div>
          <%} %>
+          <%=details%>
        </div>
-       <p><%=details%></p>
+       
     </div>  
-</div>    
+</div>
+
+<style>
+.left{
+  align:left;
+  
+  
+}
+
+.right{
+ 
+  padding-left:0px;
+  vertical-align: text-top;
+}
+.date{
+  width:50%;
+  align:left;
+  
+}
+.time{
+  width:50%;
+  align:left;
+  padding-left:0px;
+}
+
+</style>  
+
+  
 <%
    }//if
  }//else

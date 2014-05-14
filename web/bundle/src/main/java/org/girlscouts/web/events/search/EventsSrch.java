@@ -81,6 +81,10 @@ public class EventsSrch
 		searchQuery.put("boolproperty","jcr:content/hideInNav");
 		searchQuery.put("boolproperty.value","false");
 		searchQuery.put(++propertyCounter+"_property",EVENTS_PROP);
+		searchQuery.put("p.limit", "-1");
+		searchQuery.put("orderby","@jcr:content/data/start");
+		searchQuery.put("orderby.sort", "asc");
+
 		
 		//Check if the query is null
 		System.out.println("Query Parameter" +q);
