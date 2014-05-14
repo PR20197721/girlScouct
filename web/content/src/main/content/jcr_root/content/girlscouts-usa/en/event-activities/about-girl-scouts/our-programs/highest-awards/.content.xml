@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-05-12T14:31:36.473-04:00"
+        cq:lastModifiedBy="admin"
+        cq:template="/apps/girlscouts/templates/page"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Highest Awards"
+        jcr:uuid="e9161407-5db4-4492-8187-c867de2e5039"
+        sling:resourceType="girlscouts/components/three-column-page">
+        <content jcr:primaryType="nt:unstructured">
+            <middle jcr:primaryType="nt:unstructured">
+                <par
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/parsys">
+                    <title
+                        jcr:created="{Date}2014-04-04T14:19:44.114-04:00"
+                        jcr:createdBy="admin"
+                        jcr:lastModified="{Date}2014-04-04T14:19:44.114-04:00"
+                        jcr:lastModifiedBy="admin"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="foundation/components/title"/>
+                    <image
+                        jcr:created="{Date}2014-04-04T14:19:54.779-04:00"
+                        jcr:createdBy="admin"
+                        jcr:lastModified="{Date}2014-04-04T14:20:05.852-04:00"
+                        jcr:lastModifiedBy="admin"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="foundation/components/image"
+                        fileReference="/content/dam/girlscouts-shared/en/articles/guitar.png"/>
+                    <text
+                        jcr:created="{Date}2014-04-04T14:20:24.919-04:00"
+                        jcr:createdBy="admin"
+                        jcr:lastModified="{Date}2014-04-04T14:20:34.589-04:00"
+                        jcr:lastModifiedBy="admin"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="foundation/components/text"
+                        text="&lt;p>We know you want to do good things for the world. Help the people who need it most. Protect animals that can't speak for themselves. Treat the environment with the respect it deserves. We know you have great ideas, ones that make a lasting difference. And that you're more than ready to work hard to put those ideas into motion. Girl Scounting's highest awards—the Bronze, Silver, and Gold Awrads—are your chance to make a lasting difference in your community... and in the larger world. Click below. And start changing th world today!&lt;/p>&#xa;"
+                        textIsRich="true"/>
+                </par>
+            </middle>
+        </content>
+    </jcr:content>
+</jcr:root>
