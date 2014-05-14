@@ -24,7 +24,7 @@
             isDate="{Boolean}true"
             location="/content/girlscouts-usa/en/locations/camp-lakamanga"
             locationLabel="Camp Location"
-            region="New York&#xa;Alpharetta, Georgia 30022"
+            region="New York"
             sequence="{Long}5"
             srchdisp="Let's go camping!"
             stamp="{Date}2009-10-09T12:11:00.000Z"
@@ -36,7 +36,7 @@
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="foundation/components/image"
-                fileReference="/content/dam/girlscouts-shared/en/events/2014/small-snowkids.png"
+                fileReference="/content/dam/girlscouts-shared/en/events/2014/alaska.jpg"
                 imageRotate="0"/>
         </data>
     </jcr:content>

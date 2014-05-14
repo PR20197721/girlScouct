@@ -70,6 +70,11 @@
                             fieldLabel="Calendar Path"
                             name="./calendarPath"
                             xtype="dynamicPathField"/>
+                        <event-left-nav-root
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Event Left Nav Root"
+                            name="./leftNavRoot"
+                            xtype="dynamicPathField"/>
                     </items>
                 </girl-scouts>
             </items>

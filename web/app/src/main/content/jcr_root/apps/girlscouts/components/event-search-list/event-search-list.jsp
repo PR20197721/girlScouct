@@ -1,6 +1,5 @@
-<%@ page import="com.day.cq.tagging.TagManager,java.util.ArrayList,java.util.HashSet,java.text.DateFormat,java.text.SimpleDateFormat,java.util.Date, java.util.Locale,java.util.Map,java.util.Iterator,java.util.HashMap,java.util.List,java.util.Set,com.day.cq.search.result.SearchResult, java.util.ResourceBundle,com.day.cq.search.QueryBuilder,javax.jcr.PropertyIterator,org.girlscouts.web.events.search.SearchResultsInfo, com.day.cq.i18n.I18n,org.apache.sling.api.resource.ResourceResolver,org.girlscouts.web.events.search.EventsSrch,org.girlscouts.web.events.search.FacetsInfo,java.util.Calendar,java.util.TimeZone" %>
+<%@ page import="com.day.cq.tagging.TagManager,com.day.cq.dam.api.Asset,java.util.ArrayList,java.util.HashSet,java.text.DateFormat,java.text.SimpleDateFormat,java.util.Date, java.util.Locale,java.util.Map,java.util.Iterator,java.util.HashMap,java.util.List,java.util.Set,com.day.cq.search.result.SearchResult, java.util.ResourceBundle,com.day.cq.search.QueryBuilder,javax.jcr.PropertyIterator,org.girlscouts.web.events.search.SearchResultsInfo, com.day.cq.i18n.I18n,org.apache.sling.api.resource.ResourceResolver,org.girlscouts.web.events.search.EventsSrch,org.girlscouts.web.events.search.FacetsInfo,java.util.Calendar,java.util.TimeZone" %>
 <%@include file="/libs/foundation/global.jsp"%>
-<!-- apps/girlscouts/components/event-search-list/event-search-list.jsp -->
 <cq:includeClientLib categories="apps.girlscouts" />
 <cq:defineObjects/>
 <% 
@@ -24,58 +23,113 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 <%   
 } else{
 %> 
-<h3>Event Search Results: <%=hitCounts%></h3>
-<hr/>
+
 <%
-	for(String result: results){
+
+    int tempMonth =0;
+    for(String result: results){
 		Node node =  resourceResolver.getResource(result).adaptTo(Node.class);
 		Node propNode = node.getNode("jcr:content/data");
+		String fromdate = propNode.getProperty("start").getString();
 		String title = propNode.getProperty("../jcr:title").getString();
 		String href = result+".html";
-		String fromdate = propNode.getProperty("start").getString();
+		String time = "";
 		String todate="";
 		Date tdt = null;
+		String locationLabel = "";
+		Date today = new Date();
+		Calendar cal1 = Calendar.getInstance();
+		cal1.setTime(today);
+		cal1.add(Calendar.DAY_OF_MONTH, +61);
+		Date after60days = cal1.getTime();
+		if(propNode.hasProperty("time"))
+		{
+		   time = propNode.getProperty("time").getString();	
+		}
+		if(propNode.hasProperty("locationLabel")){
+			locationLabel=propNode.getProperty("locationLabel").getString();
+		}
 		if(propNode.hasProperty("end")){
 			todate = propNode.getProperty("end").getString();
 			tdt = fromFormat.parse(todate);
 		}
-		String details = propNode.getProperty("srchdisp").getString();
+		String details = propNode.getProperty("details").getString();
 		Date fdt = fromFormat.parse(fromdate);
-
-%>
-<div>
-	<h4><a href="<%=href%>"><%=title %></a></h4>
-	<p><%=details%></p>
-	<p>Date : <%=toFormat.format(fdt)%> <%if(propNode.hasProperty("end")) {%> to <%=toFormat.format(tdt) %> <%}%></p>   
-        <hr/>
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(fdt);
+		int month = cal.get(Calendar.MONTH);
+	
+		if(fdt.after(today) && fdt.before(after60days))
+		{
+			if(tempMonth!=month)
+			  {
+				Date d = new Date(cal.getTimeInMillis());
+		        String monthName = new SimpleDateFormat("MMMM").format(d);
+	    	    String yr = new SimpleDateFormat("yyyy").format(d);
+		        tempMonth = month;
+		      %>	
+	           <%=monthName %>  <%=yr %><hr/>
+        <% }
+			  // Image
+			  boolean hasImage = propNode.hasNode("image");
+			  System.out.println("hasImage#################################" +hasImage);
+			  String fileReference = null;
+		      String imgWidth = null;
+		      String imgHeight = null;
+		      String imgAlt = null;
+	    	  if (hasImage) {
+			        ValueMap imageProps = resourceResolver.resolve(propNode.getPath() + "/image").adaptTo(ValueMap.class);
+			        fileReference = imageProps.get("fileReference", "");
+			        Asset assets = resource.getResourceResolver().getResource(fileReference).adaptTo(Asset.class);
+			        
+			        Resource rendition =  assets.getRendition("cq5dam.thumbnail.120.80.png");
+			        fileReference = rendition.getPath();
+			        imgWidth = imageProps.get("width", "");
+			        if (!imgWidth.isEmpty()) imgWidth = "width=\"" + imgWidth + "\"";
+			        imgHeight = imageProps.get("height", "");
+			        if (!imgHeight.isEmpty()) imgHeight = "height=\"" + imgHeight + "\"";
+			        imgAlt = imageProps.get("alt", "");
+			        if (!imgAlt.isEmpty()) imgAlt = "alt=\"" + imgAlt + "\"";
+			    } 
+		%>
+<div class="row">
+    <div class="small-24 large-24 medium-24">
+    <%if(hasImage) {%>
+      <div id="left">
+          <img src="<%= fileReference %>" <%= imgWidth %> <%= imgHeight %> <%= imgAlt %> />
+       </div>  
+      <%} %> 
+       <div>
+          <h4><a href="<%=href%>"><%=title %></a></h4>
+         <div class="time">
+            <b>Time:</b> <%= time %>
+         </div>
+         <div class="date">
+             <b>Date :</b> <%=toFormat.format(fdt)%> <%if(propNode.hasProperty("end")) {%> to <%=toFormat.format(tdt) %> <%}%>
+         </div>
+         <%if(!locationLabel.isEmpty()){ %>
+           <div class="locationLabel">
+              <b>Location: </b><%=locationLabel %>
+           </div>
+         <%} %>
+       </div>
+       <p><%=details%></p>
+    </div>  
 </div>    
 <%
-		}
+   }//if
+ }//else
 %>
-<div id="pagination">
+
 <%
-		if(searchResults.getResultPages().size() > 1) { 
-			for(int i=0;i<searchResults.getResultPages().size(); i++) {
-			long offst = i*10;
-			if(searchResults.getResultPages().get(i).isCurrentPage()){
+}//for
 %>
-	<%=i+1 %>
-<%
-			} else {
-				if(q!=null){
-%>
-	<a x-cq-linkchecker="skip" href="<%=currentPage.getPath()%>.html?q=<%=q%>&offset=<%=offst%>"><%=i+1%></a>
-<%
-				}else{
-%>
-	<a x-cq-linkchecker="skip" href="<%=currentPage.getPath()%>.html?offset=<%=offst%>"><%=i+1%></a>
-<%
-				}
-			}
-		}
-	}  
-%>
-</div>
-<%
+<style>
+#left {
+    float:left;
+    padding-left:10px;
+    padding-right:10px;
 }
-%>
+
+
+</style>

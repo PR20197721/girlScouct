@@ -7,7 +7,7 @@
     <contact/>
     <jcr:content
         cq:designPath="/etc/designs/girlscouts-usa-green"
-        cq:lastModified="{Date}2014-05-08T15:41:44.371-04:00"
+        cq:lastModified="{Date}2014-05-13T12:27:19.324-04:00"
         cq:lastModifiedBy="admin"
         cq:lastReplicated="{Date}2014-03-12T17:33:08.138-04:00"
         cq:lastReplicatedBy="admin"
@@ -21,9 +21,10 @@
         sling:resourceType="girlscouts/components/homepage"
         adsPath="/content/girlscouts-usa/en/ads"
         calendarPath="/content/girlscouts-usa/en/event-activities/calendar0"
-        eventLanding="/content/girlscouts-usa/en/event-activities/events"
+        eventLanding="/content/girlscouts-usa/en/event-activities/events-list"
         eventPath="/content/girlscouts-usa/en/events"
         globalLanding="/content/girlscouts-usa/en/site-search"
+        leftNavRoot="/content/girlscouts-usa/en/event-activities/events-list"
         locationsPath="/content/girlscouts-usa/en/locations"
         newsPath="/content/girlscouts-usa/en/news">
         <footer jcr:primaryType="nt:unstructured">
@@ -234,7 +235,7 @@
             </styled-subpar>
         </content>
         <image
-            jcr:lastModified="{Date}2014-05-08T15:41:44.366-04:00"
+            jcr:lastModified="{Date}2014-05-13T12:27:19.313-04:00"
             jcr:lastModifiedBy="admin"
             jcr:primaryType="nt:unstructured"
             imageRotate="0">
@@ -253,4 +254,5 @@
     <short-story/>
     <site-search/>
     <events/>
+    <map/>
 </jcr:root>
