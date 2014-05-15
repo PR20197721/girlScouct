@@ -68,8 +68,19 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 		        String monthName = new SimpleDateFormat("MMMM").format(d);
 	    	    String yr = new SimpleDateFormat("yyyy").format(d);
 		        tempMonth = month;
-		      %>	
-	           <%=monthName %>  <%=yr %><hr/>
+		      %>
+		      
+		<div class="row">
+		  <div class="small-24 large-24 medium-24 columns topPadding">
+		     <div class="small-4 large-4 medium-4 columns noPadding text-left">
+		         <%=monthName %> <%=yr %>
+		    </div>
+		    <div class="small-20 large-20 medium-20 columns noPadding text-center">
+		       <span class="underlined-title"/>
+		    </div>
+		   
+		  </div>
+	    </div>       
         <% }
 			  // Image
 			  boolean hasImage = propNode.hasNode("image");
@@ -122,7 +133,8 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 <style>
 .left{
   align:left;
-  
+  padding-left:0px;
+  padding-right:10px;
   
 }
 

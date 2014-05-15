@@ -28,8 +28,8 @@
         Node propNode = node.getNode("jcr:content/data");
         if(propNode.hasProperty("region"))
         {
-        	regions.add(propNode.getProperty("region").getString());
-        	
+            regions.add(propNode.getProperty("region").getString());
+            
         }
     }  
     List<String> sortList = new ArrayList<String>(regions);
@@ -71,44 +71,58 @@
     System.out.println("eventSuffix" +eventSuffix);
   
 %>
-
-
 <div class="row">
-  <div class="twoColumn">
-   <cq:include path="search-box" resourceType="girlscouts/components/search-box" />
+   
+     <div class="twoColumn">
+         <cq:include path="search-box" resourceType="girlscouts/components/search-box" />
+     
+     </div>
+     
+       <div class="twoColumn topPadding">
+        <span id="advSearch">
+           <a href="<%=currentPage.getPath()%>.html/advanced">Advanced Search</a>
+       </span>
+     </div>
+   
+
 </div>
-<div class="twoColumn">
-   <a href="<%=currentPage.getPath()%>.html/advanced">Advanced Search</a>
-</div>
+
+
 
 <% if(null!=eventSuffix){ %>
 
 <div class="baseDiv anActivity small-24 large-24 medium-24 columns">
    <div id="title">Find an Activity</div>
 </div>
+
 <form action="<%=formAction%><%=eventSuffix %>" method="get" id="form">
-<div class="item">
-  <div id="title"> By Keyword </div>
-  <input type="text" name="q" placeholder="Keywords"/>
-  
-</div>
-    
-    <div class="item"> 
+<div class="baseDiv programLevel">
+  <div class="item">
+    <div id="title"> By Keyword </div>
+      <input type="text" name="q" placeholder="Keywords"/>
+  </div>
+  <div class="item"> 
     <div id="title"> Region  </div>
-        <select name="regions" id="regions">
-            <option value="choose">Choose</option>
-<%for(String str: sortList) {%>
-            <option value="<%=str%>"><%=str%></option>
-<%} %>
-        </select> </div>
-   <div class="item">
-        <div id="title"> By Date  </div>
-        <div id="inputField">
-                <input type="text" name="startdtRange" id="startdtRange"   <%if((enddtRange!=null && !enddtRange.isEmpty()) && (startdtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="From Today"/>
-                <input type="text" name="enddtRange" id="enddtRange"  <%if((startdtRange!=null && !startdtRange.isEmpty()) && (enddtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="To"/>
-        </div>
+      <select name="regions" id="regions">
+        <option value="choose">Choose</option>
+            <%for(String str: sortList) {%>
+                <option value="<%=str%>"><%=str%></option>
+            <%} %>
+      </select>
+  </div>
+  <div class="item withoutPadding">
+    <div id="title"> By Date  </div>
+      <div class="inputField">
+        <input id="date" type="text" name="startdtRange" <%if((enddtRange!=null && !enddtRange.isEmpty()) && (startdtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="From Today"/>
+      </div>
+       <div class="inputField withoutPadding">  
+        <input type="text" id="date" name="enddtRange" <%if((startdtRange!=null && !startdtRange.isEmpty()) && (enddtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="To"/>
     </div>
-  <div class="baseDiv programLevel" >
+  </div>
+
+</div>
+
+<div class="baseDiv programLevel small-8 large-8 medium-8 columns" >
    <div id="title"> By Program  </div>
         <%
          List programLevel = facetsAndTags.get("program-level");
@@ -123,7 +137,7 @@
 %>
 </div>
 
-<div class="baseDiv programLevel" >
+<div class="baseDiv programLevel small-8 large-8 medium-8 columns" >
    <div id="title">
   Categories </div>
 <%
@@ -139,14 +153,12 @@
     }
 %>
 </div>
-<div>
+<div class="baseDiv programLevel">
     
-      <center>
-        <input value="Search Events" type="submit"/>
-      </center>
+       <input type="submit" value="Search" id="sub" class="form-btn pull-right">
 </div>      
 
 </form>
 <%} %>
-</div>
+
 
