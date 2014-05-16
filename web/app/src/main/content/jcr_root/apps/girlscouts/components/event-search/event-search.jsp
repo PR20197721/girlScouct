@@ -10,7 +10,6 @@
    long RESULTS_PER_PAGE = 10;
    
    String path = currentSite.get("eventPath",String.class);
-   System.out.println("path" +path);
    
    List<String> regions = new ArrayList<String>();
    List<String> years = new ArrayList<String>();

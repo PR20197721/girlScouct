@@ -19,10 +19,10 @@
             jcr:lastModified="{Date}2014-05-13T21:42:53.000Z"
             jcr:lastModifiedBy="admin"
             jcr:primaryType="cq:CalendarEvent"
-            jcr:title="Winter Jam"
+            jcr:title="Change the we Camp!!!!"
             sling:ResourceType="foundation/components/image"
             address="Broadway NYC"
-            details="&lt;p>&lt;b>Lorem Ipsum&lt;/b> is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p>&#xa;"
+            details="Change the way we camp is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.&lt;/p>&#xa;"
             end="{Date}2014-04-07T20:00:00.000Z"
             isDate="{Boolean}true"
             location="/content/girlscouts-usa/en/locations/camp-lakamanga"
@@ -32,7 +32,7 @@
             srchdisp="Let's go camping!"
             stamp="{Date}2009-10-09T12:11:00.000Z"
             start="{Date}2014-06-03T00:00:00.000Z"
-            time="6:00 pm to 2:00 pm"
+            time="6:00 pm - 2:00 pm"
             uid="8332F4E8-465A-4D7A-89CD-B4612863C7D3">
             <image
                 jcr:lastModified="{Date}2014-05-13T17:42:53.802-04:00"

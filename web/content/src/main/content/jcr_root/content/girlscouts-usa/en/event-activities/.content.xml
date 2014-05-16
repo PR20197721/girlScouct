@@ -9,7 +9,6 @@
         jcr:title="Events &amp; Activities"
         sling:resourceType="girlscouts/components/three-column-page"/>
     <events-list/>
-    <calendar0/>
+    <calendar/>
     <activity-policy/>
-    <about-girl-scouts/>
 </jcr:root>

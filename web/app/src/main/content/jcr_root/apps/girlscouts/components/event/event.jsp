@@ -13,7 +13,8 @@
 	java.util.Iterator,
 	com.day.cq.tagging.TagManager,
 	com.day.cq.tagging.Tag,
-	com.day.cq.dam.api.Asset
+	com.day.cq.dam.api.Asset,
+	java.util.Locale
 	"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
@@ -26,48 +27,43 @@
     DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy");
 	DateFormat timeFormat = new SimpleDateFormat("KK:mm a");
     DateFormat calendarFormat = new SimpleDateFormat("M-yyyy");
+   
 	Date startDate = properties.get("start", Date.class); 
 	
 	String startDateStr = dateFormat.format(startDate);
 	String startTimeStr = timeFormat.format(startDate);
 	
 	//Calendar Date and Month
+	 DateFormat calendarMonth = new SimpleDateFormat("MM");
 	
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(startDate);
-    int month = calendar.get(Calendar.MONTH);
-    int year = calendar.get(Calendar.YEAR);
-    String combineMonthYear = month+"-"+year;
-    String calendarUrl = currentSite.get("calendarPath",String.class)+".html/"+combineMonthYear; 
-	Date endDate = properties.get("end", Date.class); 
-	String dateStr = startDateStr;
-    String time = startTimeStr;
+   
+   String month = calendarMonth.format(calendar.getTime());
+   int year = calendar.get(Calendar.YEAR);
+   
+   String combineMonthYear = year+"/"+month;
+   String calendarUrl = currentSite.get("calendarPath",String.class)+".html/"+combineMonthYear; 
+   Date endDate = properties.get("end", Date.class); 
+   String dateStr = startDateStr;
+   
 	if (endDate != null) {
 		String endDateStr = dateFormat.format(startDate);
 		String endTimeStr = timeFormat.format(endDate);
 	    dateStr += " to " + endDateStr;
-	    time += " to " + endTimeStr;
 	}
+	
+	String time = properties.get("time", "");
 	String endDateStr = dateFormat.format(endDate);
 	Map<String,List<String>> tags= new HashMap<String,List<String>>() ;
 	
 	if(currentNode.getParent().hasProperty("cq:tags")){
-		
-		
 		ValueMap jcrProps = resourceResolver.getResource(currentNode.getParent().getPath()).adaptTo(ValueMap.class);
 		String[] cqTags = jcrProps.get("cq:tags", String[].class);
 	    TagManager tagManager = resourceResolver.adaptTo(TagManager.class);
-	    
-	    
-		
-		System.out.println(cqTags.length);
 	    for(String str:cqTags)
 	    {
-	    	System.out.println("String" +str);
 	    	Tag tag  = tagManager.resolve(str);
-	    	
-	    	System.out.println("tag" +tag.getTitle() + tag.getParent().getTitle());
-	    	
 	    	if(tags.containsKey(tag.getParent().getTitle()))
 	    	{
 	    		tags.get(tag.getParent().getTitle()).add(tag.getTitle());
