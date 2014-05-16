@@ -113,17 +113,14 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
       <%} %> 
        <div class="small-20 large-20 medium-20 columns right">
           <h4><a href="<%=href%>"><%=title %></a></h4>
-         <div class="small-10 large-10 medium-10 columns time">
-            <b>Time:</b> <%= time %>
+         <div>
+            <b>Date :</b> <%=toFormat.format(fdt)%> <%if(propNode.hasProperty("end")) {%> - <%=toFormat.format(tdt) %> <%}%>, <%= time %>
          </div>
-         <div class="small-10 large-10 medium-10 columns date">
-             <b>Date :</b> <%=toFormat.format(fdt)%> <%if(propNode.hasProperty("end")) {%> to <%=toFormat.format(tdt) %> <%}%>
-         </div>
+         <div>
          <%if(!locationLabel.isEmpty()){ %>
-           <div class="locationLabel">
               <b>Location: </b><%=locationLabel %>
-           </div>
          <%} %>
+        </div> 
           <%=details%>
        </div>
        

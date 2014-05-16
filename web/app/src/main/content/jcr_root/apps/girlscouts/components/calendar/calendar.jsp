@@ -45,7 +45,7 @@
             jsonEvents = eventArray.toString();
            
            }catch(Exception je){
-               System.out.println("Exception" +je.getStackTrace());
+               
            }  
      return jsonEvents;
 }
@@ -57,10 +57,13 @@
    String eventSuffix = slingRequest.getRequestPathInfo().getSuffix();
    if(null!=eventSuffix)
    {
-	String temp = eventSuffix.substring(eventSuffix.indexOf("/")+1, eventSuffix.length());
-	String[] my = temp.split("-");
-	month = my[0];
-	year = my[1];
+	   
+	String mon = eventSuffix.substring(eventSuffix.indexOf("/")+1, eventSuffix.length());
+	String[] monthYear = eventSuffix.substring(eventSuffix.indexOf("/")+1, eventSuffix.length()).split("/");
+	year = monthYear[0];
+	month = Integer.toString(Integer.parseInt(monthYear[1])-1);
+
+	
    }
 
 SearchResultsInfo srchInfo = (SearchResultsInfo)request.getAttribute("eventresults");

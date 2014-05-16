@@ -2,8 +2,11 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2014-05-09T14:37:27.825-04:00"
+        cq:lastModified="{Date}2014-05-16T13:35:28.727-04:00"
         cq:lastModifiedBy="admin"
+        cq:lastReplicated="{Date}2014-05-16T13:35:31.147-04:00"
+        cq:lastReplicatedBy="admin"
+        cq:lastReplicationAction="Activate"
         cq:scaffolding="/etc/scaffolding/girlscouts-usa/event"
         cq:tags="[girlscouts:program-level/brownie,girlscouts:categories/camp]"
         cq:template="girlscouts/templates/event-page"
@@ -13,7 +16,7 @@
         subtitle="2011-10-12">
         <data
             cq:distribute="{Boolean}true"
-            jcr:lastModified="{Date}2014-04-27T05:36:41.000Z"
+            jcr:lastModified="{Date}2014-05-16T17:35:28.000Z"
             jcr:lastModifiedBy="admin"
             jcr:primaryType="cq:CalendarEvent"
             jcr:title="Winter Jam"
@@ -25,14 +28,14 @@
             location="/content/girlscouts-usa/en/locations/camp-lakamanga"
             locationLabel="Scout Picnic"
             region="NYC"
-            sequence="{Long}2"
+            sequence="{Long}3"
             srchdisp="Let's go camping!"
             stamp="{Date}2009-10-09T12:11:00.000Z"
-            start="{Date}2014-05-21T00:00:00.000-04:00"
-            time="6:00 pm to 2:00 pm"
+            start="{Date}2014-05-21T18:15:00.000Z"
+            time="6:00 pm - 2:00 pm"
             uid="8332F4E8-465A-4D7A-89CD-B4612863C7D3">
             <image
-                jcr:lastModified="{Date}2014-04-26T17:10:57.353-04:00"
+                jcr:lastModified="{Date}2014-05-16T13:35:28.723-04:00"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="foundation/components/image"

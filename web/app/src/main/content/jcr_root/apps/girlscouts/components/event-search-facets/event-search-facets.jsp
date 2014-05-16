@@ -11,7 +11,6 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <cq:includeClientLib categories="apps.girlscouts" />
 <cq:defineObjects/>
-<!-- apps/girlscouts/components/event-search-facets/event-search-facets.jsp -->
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <%  
     HashMap<String,List<FacetsInfo>> facetsAndTags = (HashMap<String, List<FacetsInfo>>) request.getAttribute("facetsAndTags");
@@ -68,27 +67,8 @@
     request.setAttribute("formAction", formAction);
     String m = request.getParameter("m"); 
     String eventSuffix = slingRequest.getRequestPathInfo().getSuffix();
-    System.out.println("eventSuffix" +eventSuffix);
   
 %>
-<div class="row">
-   
-     <div class="twoColumn">
-         <cq:include path="search-box" resourceType="girlscouts/components/search-box" />
-     
-     </div>
-     
-       <div class="twoColumn topPadding">
-        <span id="advSearch">
-           <a href="<%=currentPage.getPath()%>.html/advanced">Advanced Search</a>
-       </span>
-     </div>
-   
-
-</div>
-
-
-
 <% if(null!=eventSuffix){ %>
 
 <div class="baseDiv anActivity small-24 large-24 medium-24 columns">
@@ -121,22 +101,19 @@
   </div>
 
 </div>
-
 <div class="baseDiv programLevel small-8 large-8 medium-8 columns" >
    <div id="title"> By Program  </div>
         <%
          List programLevel = facetsAndTags.get("program-level");
         for(int pi=0; pi<programLevel.size(); pi++){
             FacetsInfo programLevelList = (FacetsInfo)programLevel.get(pi);
-%>  
-        <input type="checkbox"  id="<%=programLevelList.getFacetsTagId()%>" value="<%=programLevelList.getFacetsTagId()%>" name="tags" <%if(set.contains(programLevelList.getFacetsTagId())){ %>checked <%} %>/>
-        <label for="<%=programLevelList.getFacetsTitle() %>"><%=programLevelList.getFacetsTitle()%></label>
-        
-<%
-    }
-%>
+            %>      
+                <input type="checkbox"  id="<%=programLevelList.getFacetsTagId()%>" value="<%=programLevelList.getFacetsTagId()%>" name="tags" <%if(set.contains(programLevelList.getFacetsTagId())){ %>checked <%} %>/>
+                <label for="<%=programLevelList.getFacetsTitle() %>"><%=programLevelList.getFacetsTitle()%></label>
+            <%
+           }
+        %>
 </div>
-
 <div class="baseDiv programLevel small-8 large-8 medium-8 columns" >
    <div id="title">
   Categories </div>
@@ -154,11 +131,20 @@
 %>
 </div>
 <div class="baseDiv programLevel">
-    
-       <input type="submit" value="Search" id="sub" class="form-btn pull-right">
+  <input type="submit" value="Search" id="sub" class="form-btn pull-right">
 </div>      
-
 </form>
-<%} %>
+<%}if(null==eventSuffix){%>
+<div class="row">
+     <div class="twoColumn">
+         <cq:include path="search-box" resourceType="girlscouts/components/search-box" />
+     </div>
+     <div class="twoColumn topPadding">
+        <span id="advSearch">
+           <a href="<%=currentPage.getPath()%>.html/advanced">Advanced Search</a>
+       </span>
+     </div>
+</div>
+<%}%>
 
 
