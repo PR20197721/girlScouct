@@ -43,11 +43,10 @@
 <% setCssClasses("columns", request); %>
 <cq:include path="<%= headerPath + "/eyebrow-nav" %>" resourceType="girlscouts/components/eyebrow-navigation" />
 				<div class="row">
-					<div class="large-17 medium-17 columns">
-						<span>Hello Sandy.</span> <a x-cq-linkchecker="skip" href="/signout" class="signout">SIGN OUT</a>
-					</div>
-<% setCssClasses("large-7 medium-7 small-24 columns searchBar", request); %>
-<cq:include path="<%= headerPath + "/search-box" %>" resourceType="girlscouts/components/search-box" />
+					<% setCssClasses("large-17 medium-17 columns", request); %>
+					<cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
+					<% setCssClasses("large-7 medium-7 small-24 columns searchBar", request); %>
+					<cq:include path="<%= headerPath + "/search-box" %>" resourceType="girlscouts/components/search-box" />
 				</div>
 			</div>
 			<div class="show-for-small small-24 columns topMessage alt">
