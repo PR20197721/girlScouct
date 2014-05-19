@@ -51,9 +51,8 @@
 			</div>
 			<div class="show-for-small small-24 columns topMessage alt">
 				<div class="row">
-					<div class="small-18 columns">
-						<span>Hello Sandy.</span> <a x-cq-linkchecker="skip" href="/signout" class="signout">SIGN OUT</a>
-					</div>
+					<% setCssClasses("small-18 columns", request); %>
+					<cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
 					<div class="small-6 columns">
 						<a class="right-off-canvas-toggle menu-icon"><img src="<%= designPath %>/images/magnifyer-small.png" width="21" height="21"/></a>
 						<a class="right-off-canvas-toggle menu-icon"><img src="<%= designPath %>/images/hamburger.png" width="22" height="28"/></a>
