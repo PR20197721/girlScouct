@@ -22,3 +22,17 @@
 <% } %>
 <% currentDesign.writeCssIncludes(pageContext); %>
 <!-- End: Include Girl Scout clientlibs -->
+
+<!-- Begin: login logic -->
+<%
+	// TODO: read from OSGI
+	String controllerUrl = "/content/girlscouts-vtk/controllers/auth.authenticate.html";
+	if (!controllerUrl.isEmpty()) {
+%>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				girlscouts.components.login.genCode('<%= controllerUrl %>');
+			});
+		</script>
+<%  } %>
+<!-- End: login logic -->
