@@ -27,11 +27,14 @@
 <%
 	// TODO: read from OSGI
 	String controllerUrl = "/content/girlscouts-vtk/controllers/auth.authenticate.html";
+	String currentPath = currentPage.getPath() + ".html";
+	String siteRoot = currentPage.getAbsoluteParent(2).getPath();
+	String language = siteRoot.substring(siteRoot.lastIndexOf("/") + 1);
 	if (!controllerUrl.isEmpty()) {
 %>
 		<script type="text/javascript">
 			$(document).ready(function() {
-				girlscouts.components.login.genCode('<%= controllerUrl %>');
+				girlscouts.components.login.genCode('<%= controllerUrl %>', '<%= currentPath %>', '<%= language %>');
 			});
 		</script>
 <%  } %>
