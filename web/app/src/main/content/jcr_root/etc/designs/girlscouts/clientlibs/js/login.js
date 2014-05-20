@@ -6,3 +6,8 @@ girlscouts.components.login.genCode = function(target) {
 	script.src = target + '?rand=' + randNum;
 	document.getElementsByTagName('head')[0].appendChild(script);
 }
+
+girlscouts.components.login.updateLogin = function(state, name) {
+	if (state === 'authenticated') {
+	}
+}

@@ -10,5 +10,5 @@
         sling:resourceType="girlscouts/components/page"/>
     <auth
         jcr:primaryType="nt:unstructured"
-        sling:resourceType="girlscouts-vtk/components/auth-controller"/>
+        sling:resourceType="girlscouts-vtk/components/auth-state"/>
 </jcr:root>

@@ -1,1 +1,0 @@
-$('.login').html('Hello Mike');
