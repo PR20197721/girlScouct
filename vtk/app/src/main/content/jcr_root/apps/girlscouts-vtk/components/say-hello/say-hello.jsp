@@ -1,9 +1,10 @@
+<%@page import="org.girlscouts.vtk.auth.models.User" %>
 <% 
-	String state = (String)session.getAttribute("state");
+	User user = (User)session.getAttribute("org.girlscouts.vtk.auth.models.User");
 	
-	if (state == null || state.isEmpty()) {
+	if (user == null) {
 	    %><%@include file="./not-authenticated.jsp" %><%
-    } else if (state.equals("authenticated")){
+    } else {
 	    %><%@include file="./authenticated.jsp"%><%
     }
 %>
