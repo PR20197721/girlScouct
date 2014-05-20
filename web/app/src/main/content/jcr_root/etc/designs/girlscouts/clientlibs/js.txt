@@ -8,3 +8,4 @@ calendar/calendar.js
 calendar/jquery-ui-min.js
 calendar/calendar-display.js
 #calendar/moment.js
+login.js
