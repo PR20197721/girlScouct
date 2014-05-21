@@ -17,12 +17,14 @@
   int eventcounts = 0;
   String key="";
   String value="";
+  System.out.println(properties.get("eventcount"));
   if(properties.containsKey("eventcount")){
 	  eventcounts =  Integer.parseInt(properties.get("eventcount",String.class));
 	  if(eventcounts > results.size()){
 		  eventcounts = results.size();
 	  }
   }
+  System.out.println(eventcounts);
   
   Set<String>set = results.keySet();
   
@@ -39,6 +41,7 @@
   for(int i=0;i<eventcounts;i++){
 	 key =(String) keys[i];
 	 value = results.get(key);
+	 System.out.println("key"  +key + "value" +value);
 	 Node node = resourceResolver.getResource(value).adaptTo(Node.class);
 	 Node propNode = node.getNode("jcr:content/data");
      String title = propNode.getProperty("jcr:title").getString();

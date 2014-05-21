@@ -59,9 +59,8 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(fdt);
 		int month = cal.get(Calendar.MONTH);
-	   
-	    
-		if((fdt.equals(today) || fdt.after(today)) &&   fdt.before(after60days))
+	
+		if(fdt.after(today) && fdt.before(after60days))
 		{
 			if(tempMonth!=month)
 			  {
@@ -69,22 +68,12 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 		        String monthName = new SimpleDateFormat("MMMM").format(d);
 	    	    String yr = new SimpleDateFormat("yyyy").format(d);
 		        tempMonth = month;
-		      %>
-		      
-		<div class="row">
-		  <div class="small-24 large-24 medium-24 columns topPadding">
-		     <div class="small-4 large-4 medium-4 columns noPadding text-left">
-		         <%=monthName %> <%=yr %>
-		    </div>
-		    <div class="small-20 large-20 medium-20 columns noPadding text-center">
-		       <span class="underlined-title"/>
-		    </div>
-		   
-		  </div>
-	    </div>       
+		      %>	
+	           <%=monthName %>  <%=yr %><hr/>
         <% }
 			  // Image
 			  boolean hasImage = propNode.hasNode("image");
+			  System.out.println("hasImage#################################" +hasImage);
 			  String fileReference = null;
 		      String imgWidth = null;
 		      String imgHeight = null;
@@ -92,11 +81,10 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 	    	  if (hasImage) {
 			        ValueMap imageProps = resourceResolver.resolve(propNode.getPath() + "/image").adaptTo(ValueMap.class);
 			        fileReference = imageProps.get("fileReference", "");
-			        try{
 			        Asset assets = resource.getResourceResolver().getResource(fileReference).adaptTo(Asset.class);
+			        
 			        Resource rendition =  assets.getRendition("cq5dam.thumbnail.120.80.png");
 			        fileReference = rendition.getPath();
-			        }catch(Exception e){}
 			        imgWidth = imageProps.get("width", "");
 			        if (!imgWidth.isEmpty()) imgWidth = "width=\"" + imgWidth + "\"";
 			        imgHeight = imageProps.get("height", "");
@@ -106,29 +94,32 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 			    } 
 		%>
 <div class="row">
-    <div class="small-24 large-24 medium-24 columns">
+    <div class="small-24 large-24 medium-24">
     <%if(hasImage) {%>
-      <div class="small-4 large-4 medium-4 columns left">
+      <div id="left">
           <img src="<%= fileReference %>" <%= imgWidth %> <%= imgHeight %> <%= imgAlt %> />
        </div>  
       <%} %> 
-       <div class="small-20 large-20 medium-20 columns right">
+       <div>
           <h4><a href="<%=href%>"><%=title %></a></h4>
-         <div>
-            <b>Date :</b> <%=toFormat.format(fdt)%> <%if(propNode.hasProperty("end")) {%> - <%=toFormat.format(tdt) %> <%}%>, <%= time %>
+         <div class="time">
+            <b>Time:</b> <%= time %>
          </div>
-         <div>
+         <div class="date">
+             <b>Date :</b> <%=toFormat.format(fdt)%> <%if(propNode.hasProperty("end")) {%> to <%=toFormat.format(tdt) %> <%}%>
+         </div>
          <%if(!locationLabel.isEmpty()){ %>
+           <div class="locationLabel">
               <b>Location: </b><%=locationLabel %>
+           </div>
          <%} %>
-        </div> 
-          <%=details%>
        </div>
-       
+       <p><%=details%></p>
     </div>  
-</div>
+
 
   
+</div>    
 <%
    }//if
  }//else
@@ -163,3 +154,4 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 }
 
 </style>  
+

@@ -11,6 +11,7 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <cq:includeClientLib categories="apps.girlscouts" />
 <cq:defineObjects/>
+<!-- apps/girlscouts/components/event-search-facets/event-search-facets.jsp -->
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <%  
     HashMap<String,List<FacetsInfo>> facetsAndTags = (HashMap<String, List<FacetsInfo>>) request.getAttribute("facetsAndTags");
@@ -27,8 +28,8 @@
         Node propNode = node.getNode("jcr:content/data");
         if(propNode.hasProperty("region"))
         {
-            regions.add(propNode.getProperty("region").getString());
-            
+        	regions.add(propNode.getProperty("region").getString());
+        	
         }
     }  
     List<String> sortList = new ArrayList<String>(regions);
@@ -67,54 +68,62 @@
     request.setAttribute("formAction", formAction);
     String m = request.getParameter("m"); 
     String eventSuffix = slingRequest.getRequestPathInfo().getSuffix();
+    System.out.println("eventSuffix" +eventSuffix);
   
 %>
+
+
+<div class="row">
+  <div class="twoColumn">
+   <cq:include path="search-box" resourceType="girlscouts/components/search-box" />
+</div>
+<div class="twoColumn">
+   <a href="<%=currentPage.getPath()%>.html/advanced">Advanced Search</a>
+</div>
+
 <% if(null!=eventSuffix){ %>
 
 <div class="baseDiv anActivity small-24 large-24 medium-24 columns">
    <div id="title">Find an Activity</div>
 </div>
-
 <form action="<%=formAction%><%=eventSuffix %>" method="get" id="form">
-<div class="baseDiv programLevel">
-  <div class="item">
-    <div id="title"> By Keyword </div>
-      <input type="text" name="q" placeholder="Keywords"/>
-  </div>
-  <div class="item"> 
-    <div id="title"> Region  </div>
-      <select name="regions" id="regions">
-        <option value="choose">Choose</option>
-            <%for(String str: sortList) {%>
-                <option value="<%=str%>"><%=str%></option>
-            <%} %>
-      </select>
-  </div>
-  <div class="item withoutPadding">
-    <div id="title"> By Date  </div>
-      <div class="inputField">
-        <input id="date" type="text" name="startdtRange" <%if((enddtRange!=null && !enddtRange.isEmpty()) && (startdtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="From Today"/>
-      </div>
-       <div class="inputField withoutPadding">  
-        <input type="text" id="date" name="enddtRange" <%if((startdtRange!=null && !startdtRange.isEmpty()) && (enddtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="To"/>
-    </div>
-  </div>
-
+<div class="item">
+  <div id="title"> By Keyword </div>
+  <input type="text" name="q" placeholder="Keywords"/>
+  
 </div>
-<div class="baseDiv programLevel small-8 large-8 medium-8 columns" >
+    
+    <div class="item"> 
+    <div id="title"> Region  </div>
+        <select name="regions" id="regions">
+            <option value="choose">Choose</option>
+<%for(String str: sortList) {%>
+            <option value="<%=str%>"><%=str%></option>
+<%} %>
+        </select> </div>
+   <div class="item">
+        <div id="title"> By Date  </div>
+        <div id="inputField">
+                <input type="text" name="startdtRange" id="startdtRange"   <%if((enddtRange!=null && !enddtRange.isEmpty()) && (startdtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="From Today"/>
+                <input type="text" name="enddtRange" id="enddtRange"  <%if((startdtRange!=null && !startdtRange.isEmpty()) && (enddtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="To"/>
+        </div>
+    </div>
+  <div class="baseDiv programLevel" >
    <div id="title"> By Program  </div>
         <%
          List programLevel = facetsAndTags.get("program-level");
         for(int pi=0; pi<programLevel.size(); pi++){
             FacetsInfo programLevelList = (FacetsInfo)programLevel.get(pi);
-            %>      
-                <input type="checkbox"  id="<%=programLevelList.getFacetsTagId()%>" value="<%=programLevelList.getFacetsTagId()%>" name="tags" <%if(set.contains(programLevelList.getFacetsTagId())){ %>checked <%} %>/>
-                <label for="<%=programLevelList.getFacetsTitle() %>"><%=programLevelList.getFacetsTitle()%></label>
-            <%
-           }
-        %>
+%>  
+        <input type="checkbox"  id="<%=programLevelList.getFacetsTagId()%>" value="<%=programLevelList.getFacetsTagId()%>" name="tags" <%if(set.contains(programLevelList.getFacetsTagId())){ %>checked <%} %>/>
+        <label for="<%=programLevelList.getFacetsTitle() %>"><%=programLevelList.getFacetsTitle()%></label>
+        
+<%
+    }
+%>
 </div>
-<div class="baseDiv programLevel small-8 large-8 medium-8 columns" >
+
+<div class="baseDiv programLevel" >
    <div id="title">
   Categories </div>
 <%
@@ -130,21 +139,14 @@
     }
 %>
 </div>
-<div class="baseDiv programLevel">
-  <input type="submit" value="Search" id="sub" class="form-btn pull-right">
+<div>
+    
+      <center>
+        <input value="Search Events" type="submit"/>
+      </center>
 </div>      
-</form>
-<%}if(null==eventSuffix){%>
-<div class="row">
-     <div class="twoColumn">
-         <cq:include path="search-box" resourceType="girlscouts/components/search-box" />
-     </div>
-     <div class="twoColumn topPadding">
-        <span id="advSearch">
-           <a href="<%=currentPage.getPath()%>.html/advanced">Advanced Search</a>
-       </span>
-     </div>
-</div>
-<%}%>
 
+</form>
+<%} %>
+</div>
 
