@@ -26,15 +26,23 @@
 <!-- Begin: login logic -->
 <%
 	// TODO: read from OSGI
-	String controllerUrl = "/content/girlscouts-vtk/controllers/hello.html";
+	String helloUrl = "/content/girlscouts-vtk/controllers/hello.html";
+
+	String loginUrl = "/content/girlscouts-vtk/controllers/auth.html?action=login";
+	String logoutUrl = "/content/girlscouts-vtk/controllers/auth.html?action=logout";
 	String siteRoot = currentPage.getAbsoluteParent(2).getPath();
 	String language = siteRoot.substring(siteRoot.lastIndexOf("/") + 1);
-	if (!controllerUrl.isEmpty()) {
 %>
-		<script type="text/javascript">
-			$(document).ready(function() {
-				girlscouts.components.login.genCode('<%= controllerUrl %>', '<%= language %>');
-			});
-		</script>
-<%  } %>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			girlscouts.components.login.init('<%= language %>', '<%= loginUrl %>', '<%= logoutUrl %>');
+
+			var name = $.cookie('girl-scout-name');
+			if (name) {
+				girlscouts.components.login.sayHello('loggedin', name);	
+			} else {
+				girlscouts.components.login.genCode('<%= helloUrl %>');
+			}
+		});
+	</script>
 <!-- End: login logic -->
