@@ -72,5 +72,15 @@
             mode="replace"
             root="/etc/tracker"
             rules="[]"/>
+        <f11
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/workflow/models/dam"
+            rules="[]"/>
+        <f12
+            jcr:primaryType="cq:WorkflowLauncher"
+            mode="replace"
+            root="/etc/workflow/launcher/config"
+            rules="[]"/>    
     </filter>
 </jcr:root>

@@ -4,44 +4,24 @@
 <%
 	String headerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
 	String designPath = currentDesign == null ? "/" : currentDesign.getPath();
+	int depth = currentPage.getDepth();
+    request.setAttribute("headerPath", headerPath);
 %>
+  
+ 
+
 		<!-- Modern Browser -->
 <!--[if gt IE 8]><!-->
-		<aside class="right-off-canvas-menu">
-			<ul class="off-canvas-list">
-				<li><label class="first">Foundation</label></li>
-				<li><a href="index.html">Home</a></li>
-			</ul>
-			<hr>
-			<ul class="off-canvas-list">
-				<li><label class="first">Learn</label></li>
-				<li><a href="learn/features.html">Features</a></li>
-				<li><a href="learn/faq.html">FAQ</a></li>
-			</ul>
-			<hr>
-			<ul class="off-canvas-list">
-				<li><label>Develop</label></li>
-				<li><a href="templates.html">Add-ons</a></li>
-				<li><a href="docs">Docs</a></li>
-			</ul>
-			<hr>
-			<div class="zurb-links">
-				<ul class="top">
-					<li><a href="http://zurb.com/about">About</a></li>
-					<li><a href="http://zurb.com/blog">Blog</a></li>
-					<li><a href="http://zurb.com/contact">Contact</a></li>
-				</ul>
-			</div>
-		</aside>
+
 <!--<![endif]-->
 		<!--PAGE STRUCTURE: HEADER-->
 		<div id="header" class="row">
 			<div class="large-4 medium-5 small-24 columns">
-<cq:include path="<%= headerPath + "/logo" %>" resourceType="girlscouts/components/logo" />
+                <cq:include path="<%= headerPath + "/logo" %>" resourceType="girlscouts/components/logo" />
 			</div>    
 			<div class="large-20 medium-19 hide-for-small columns topMessage">
-<% setCssClasses("columns", request); %>
-<cq:include path="<%= headerPath + "/eyebrow-nav" %>" resourceType="girlscouts/components/eyebrow-navigation" />
+            <% setCssClasses("columns", request); %>
+            <cq:include path="<%= headerPath + "/eyebrow-nav" %>" resourceType="girlscouts/components/eyebrow-navigation" />
 				<div class="row">
 					<div class="large-17 medium-17 columns">
 						<span>Hello Sandy.</span> <a x-cq-linkchecker="skip" href="/signout" class="signout">SIGN OUT</a>
@@ -63,7 +43,14 @@
 			</div>
 		</div>
 <!--PAGE STRUCTURE: HEADER BAR-->
-		<div id="headerBar" class="row">
-<% setCssClasses("large-24 medium-24 hide-for-small columns", request); %>
-<cq:include path="<%= headerPath + "/global-nav" %>" resourceType="girlscouts/components/global-navigation" />
-		</div>
+<div id="headerBar" class="row">
+<% setCssClasses("large-24 medium-24 small-24 columns", request); %>
+    <cq:include path="<%= headerPath + "/global-nav" %>" resourceType="girlscouts/components/global-navigation" />
+       
+    
+</div>
+
+<!-- SMALL SCREEN CANVAS should be after the global navigation is loaded,since global navigation won't be 
+  authorable-->
+
+<cq:include script="small-screen-menus"/>

@@ -15,6 +15,8 @@
    List<String> years = new ArrayList<String>();
   
    QueryBuilder queryBuilder = sling.getService(QueryBuilder.class);
+   
+   System.out.println("Do I come here-------------->");
    EventsSrch searchQuery = new EventsSrch(slingRequest,queryBuilder);
    Map<String, ArrayList<String>> tagsToCheck = new HashMap<String, ArrayList<String>>();
    String[] tags = request.getParameterValues("tags");

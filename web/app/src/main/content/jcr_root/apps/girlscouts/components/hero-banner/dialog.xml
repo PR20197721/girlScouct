@@ -61,8 +61,79 @@
                         imageLabel="Image"
                         name="./slideshowtimer"
                         xtype="textfield"/>
+                    <sb-placement
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="0"
+                        fieldDescription="(Select spring board location)"
+                        fieldLabel="Number of Slide Show Images"
+                        name="./spplacement"
+                        type="select"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <right
+                                jcr:primaryType="nt:unstructured"
+                                text="Right"
+                                value="right"/>
+                            <bottom
+                                jcr:primaryType="nt:unstructured"
+                                text="Bottom"
+                                value="bottom"/>
+                        </options>
+                    </sb-placement>
                 </items>
             </tab1>
+            <first-spring-board
+                jcr:primaryType="cq:Panel"
+                title="First Spring Broad Component">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <first-sb-title
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Spring Board Title"
+                        name="./firstsbtitle"
+                        xtype="textfield"/>
+                    <first-sb-des
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Spring Board Details"
+                        name="./firstsbdesc"
+                        xtype="textarea"/>
+                    <first-sb-link
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Spring Board Url"
+                        name="./firstsburl"
+                        xtype="dynamicPathField"/>
+                    <first-sb-button-txt
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Spring Board Url"
+                        name="./firstsbbutton"
+                        xtype="textfield"/>
+                </items>
+            </first-spring-board>
+            <second-spring-board
+                jcr:primaryType="cq:Panel"
+                title="Second Spring Broad Component">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <second-sb-title
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Spring Board Title"
+                        name="./secondsbtitle"
+                        xtype="textfield"/>
+                    <second-sb-des
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Spring Board Details"
+                        name="./secondsbdesc"
+                        xtype="textarea"/>
+                    <second-sb-link
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Spring Board Url"
+                        name="./secondsburl"
+                        xtype="dynamicPathField"/>
+                    <second-sb-button-txt
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Spring Board Url"
+                        name="./secondsbbutton"
+                        xtype="textfield"/>
+                </items>
+            </second-spring-board>
         </items>
     </items>
 </jcr:root>
