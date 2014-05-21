@@ -2,7 +2,7 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2014-05-08T15:29:30.092-04:00"
+        cq:lastModified="{Date}2014-05-19T22:19:09.528-04:00"
         cq:lastModifiedBy="admin"
         cq:template="/apps/girlscouts/templates/three-column-page"
         jcr:isCheckedOut="{Boolean}true"
@@ -12,58 +12,17 @@
         jcr:uuid="d59f843c-a120-46ca-8414-96276a9854d2"
         sling:resourceType="girlscouts/components/three-column-page">
         <content jcr:primaryType="nt:unstructured">
-            <left jcr:primaryType="nt:unstructured">
-                <par
-                    jcr:primaryType="nt:unstructured"
-                    sling:resourceType="foundation/components/parsys"/>
-            </left>
             <middle jcr:primaryType="nt:unstructured">
                 <par
                     jcr:primaryType="nt:unstructured"
                     sling:resourceType="foundation/components/parsys">
-                    <styled_parsys
-                        jcr:created="{Date}2014-05-08T15:26:29.550-04:00"
+                    <calendar
+                        jcr:created="{Date}2014-05-19T22:19:09.525-04:00"
                         jcr:createdBy="admin"
-                        jcr:lastModified="{Date}2014-05-08T15:27:49.278-04:00"
+                        jcr:lastModified="{Date}2014-05-19T22:19:09.525-04:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
-                        sling:resourceType="girlscouts/components/styled-parsys/parsys"
-                        cssClasses="row">
-                        <title
-                            jcr:created="{Date}2014-05-08T15:28:00.782-04:00"
-                            jcr:createdBy="admin"
-                            jcr:lastModified="{Date}2014-05-08T15:28:19.667-04:00"
-                            jcr:lastModifiedBy="admin"
-                            jcr:primaryType="nt:unstructured"
-                            jcr:title="Event Calendar"
-                            sling:resourceType="girlscouts/components/title"
-                            additionalCss="small-12 columns"/>
-                    </styled_parsys>
-                    <search_box
-                        jcr:created="{Date}2014-05-08T15:28:35.392-04:00"
-                        jcr:createdBy="admin"
-                        jcr:lastModified="{Date}2014-05-08T15:28:52.091-04:00"
-                        jcr:lastModifiedBy="admin"
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="girlscouts/components/search-box"
-                        additionalCss="small-12 cloumns"
-                        searchAction="eventLanding"/>
-                    <styled_parsys_0
-                        jcr:created="{Date}2014-05-08T15:29:00.241-04:00"
-                        jcr:createdBy="admin"
-                        jcr:lastModified="{Date}2014-05-08T15:29:00.241-04:00"
-                        jcr:lastModifiedBy="admin"
-                        jcr:primaryType="nt:unstructured"
-                        sling:resourceType="girlscouts/components/styled-parsys">
-                        <calendar
-                            jcr:created="{Date}2014-05-08T15:29:10.486-04:00"
-                            jcr:createdBy="admin"
-                            jcr:lastModified="{Date}2014-05-08T15:29:30.086-04:00"
-                            jcr:lastModifiedBy="admin"
-                            jcr:primaryType="nt:unstructured"
-                            sling:resourceType="girlscouts/components/calendar"
-                            additionalCss="small-24 columns"/>
-                    </styled_parsys_0>
+                        sling:resourceType="girlscouts/components/calendar"/>
                 </par>
             </middle>
         </content>

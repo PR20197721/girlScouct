@@ -27,7 +27,8 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 <%
 
     int tempMonth =0;
-    for(String result: results){
+    for(String result: results)
+    {
 		Node node =  resourceResolver.getResource(result).adaptTo(Node.class);
 		Node propNode = node.getNode("jcr:content/data");
 		String fromdate = propNode.getProperty("start").getString();
@@ -127,6 +128,16 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
     </div>  
 </div>
 
+  
+<%
+   }//if
+ }//else
+%>
+
+<%
+}//for
+%>
+
 <style>
 .left{
   align:left;
@@ -152,13 +163,3 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 }
 
 </style>  
-
-  
-<%
-   }//if
- }//else
-%>
-
-<%
-}//for
-%>
