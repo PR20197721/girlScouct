@@ -48,7 +48,7 @@
    String dateStr = startDateStr;
    
 	if (endDate != null) {
-		String endDateStr = dateFormat.format(startDate);
+		String endDateStr = dateFormat.format(endDate);
 		String endTimeStr = timeFormat.format(endDate);
 	    dateStr += " to " + endDateStr;
 	}
