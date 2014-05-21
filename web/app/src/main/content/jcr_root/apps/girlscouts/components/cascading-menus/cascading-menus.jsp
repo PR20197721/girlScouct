@@ -7,11 +7,6 @@
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 
 <cq:includeClientLib categories="apps.girlscouts" />
-
-
-
-
-
 <cq:defineObjects />
 
 <%
