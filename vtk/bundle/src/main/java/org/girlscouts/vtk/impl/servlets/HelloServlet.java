@@ -5,6 +5,7 @@ import java.io.PrintWriter;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
@@ -12,12 +13,19 @@ import org.girlscouts.vtk.auth.models.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@SlingServlet(
+   resourceTypes = "sling/servlet/default",
+   selectors = "hello",
+   extensions = "js",
+   methods = "GET"
+)
 public class HelloServlet extends SlingSafeMethodsServlet {
     private static final long serialVersionUID = 5981389970977916595L;
 
     private static Logger log = LoggerFactory.getLogger(HelloServlet.class);
 
-    public void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) {
+    @Override
+    protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) {
         try {
             PrintWriter out = response.getWriter();
 
