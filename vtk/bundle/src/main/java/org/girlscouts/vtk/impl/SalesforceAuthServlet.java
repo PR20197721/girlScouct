@@ -1,6 +1,5 @@
 package org.girlscouts.vtk.impl;
 
-import java.io.IOException;
 import java.util.Dictionary;
 
 import javax.servlet.http.HttpSession;
@@ -119,7 +118,7 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet {
     private void redirect(SlingHttpServletResponse response, String redirectUrl) {
         try {
             response.sendRedirect(redirectUrl);
-        } catch (IOException e) {
+        } catch (Exception e) {
             // TODO: What to do here? Send 500?
             log.error("Error while sending redirect: " + redirectUrl);
         }
