@@ -1,25 +1,42 @@
 package org.girlscouts.vtk.impl;
 
 import java.io.IOException;
+import java.util.Dictionary;
 
 import javax.servlet.http.HttpSession;
 
-import org.apache.felix.scr.annotations.sling.SlingServlet;
+import org.apache.felix.scr.annotations.Activate;
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Modified;
+import org.apache.felix.scr.annotations.Properties;
+import org.apache.felix.scr.annotations.Property;
+import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
 import org.girlscouts.vtk.auth.dao.SalesforceDAO;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.models.User;
+import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@SlingServlet(
-    resourceTypes = "sling/servlet/default",
-    selectors = "sfauth",
-    extensions = "html",
-    methods = "GET"
+@Component(
+    label="Girl Scouts VTK Salesforce Authentication Servlet",
+    description="Handles OAuth Authentication with Salesforce",
+    metatype=true, 
+    immediate=true
 )
+@Service
+@Properties ({
+    @Property(propertyPrivate=true, name = "sling.servlet.resourceTypes", value = "sling/servlet/default"),
+    @Property(propertyPrivate=true, name = "sling.servlet.selectors", value = "sfauth"),
+    @Property(propertyPrivate=true, name = "sling.servlet.extensions", value = "html"),
+    @Property(propertyPrivate=true, name = "sling.servlet.methods", value = "GET"),
+    @Property(name="OAuthUrl", label="OAuth URL", description="URL to Salesforce OAuth endpoint."),
+    @Property(name="callbackUrl", label="Redirect URL", description="Callback URI that Salesforce redirects to after authentication. Usually it is our controller."),
+    @Property(name="targetUrl", label="Target URL", description="Redirect to this URL if authentication succeeds. Usually it is VTK homepage.")
+})
 public class SalesforceAuthServlet extends SlingSafeMethodsServlet {
     private static final long serialVersionUID = 8152897311719564370L;
 
@@ -29,6 +46,10 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet {
     private static final String SIGNOUT = "signout";
     // Salesforce callback code
     private static final String CODE = "code";
+    
+    private String OAuthUrl;
+    private String callbackUrl;
+    private String targetUrl;
     
     @Override
     protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) {
@@ -44,19 +65,23 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet {
         }
     }
     
+    @Activate
+    @Modified
+    private void updateParams(ComponentContext context) {
+        @SuppressWarnings("rawtypes")
+        Dictionary properties = context.getProperties();
+        OAuthUrl = (String)properties.get("OAuthUrl");
+        callbackUrl = (String)properties.get("callbackUrl");
+        targetUrl = (String)properties.get("targetUrl");
+    }
+    
+    
     private void signIn(SlingHttpServletRequest request, SlingHttpServletResponse response) {
-        // TODO: from OSGI
-        String targetUrl = "http://localhost:4502/content/girlscouts-usa/en.html";
-
         HttpSession session = request.getSession();
         ApiConfig config = (ApiConfig)session.getAttribute(ApiConfig.class.getName());
         String redirectUrl;
         if (config == null || config.getId() == null) {
-            // TODO: from OSGI
-            String oAuthUrl = "https://test.salesforce.com/services/oauth2/authorize?response_type=code&client_id=3MVG9A2kN3Bn17hsP.Ui7f1jgy.inaXzsZ4VKF6DcS.LKlCZSdhHBeH.992uouy19lQAyvfZC98jgGtM73lIu";
-            // TODO: Do I have to encode it? What if this redirectUrl itself has question marks?
-            String callbackUrl = "http://localhost:4502/content/testLogin2/login5.html";
-            redirectUrl = oAuthUrl + "&redirect_uri=" + callbackUrl + "&state=" + targetUrl;
+            redirectUrl = OAuthUrl + "&redirect_uri=" + callbackUrl + "&state=" + targetUrl;
         } else {
             redirectUrl = targetUrl;
         }
@@ -87,9 +112,6 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet {
 
         User user = dao.getUser(config);
         session.setAttribute(User.class.getName(), user);
-        
-        // TODO: from OSGI
-        String targetUrl = "http://localhost:4502/content/girlscouts-usa/en.html";
         
         redirect(response, targetUrl);
     }
