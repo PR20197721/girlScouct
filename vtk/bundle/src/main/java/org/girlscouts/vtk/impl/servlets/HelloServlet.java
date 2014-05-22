@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 public class HelloServlet extends SlingSafeMethodsServlet {
     private static final long serialVersionUID = 5981389970977916595L;
 
-    private static Logger log = LoggerFactory.getLogger(HelloServlet.class);
+    private static final Logger log = LoggerFactory.getLogger(HelloServlet.class);
 
     @Override
     protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) {
@@ -33,6 +33,7 @@ public class HelloServlet extends SlingSafeMethodsServlet {
             if (session == null) {
                 sayPleaseSignIn(out);
             } else {
+                // TODO: Users may be lazy loaded. May refactor later.
                 User user = (User)session.getAttribute(User.class.getName());
                 if (user == null) {
                     sayPleaseSignIn(out);
@@ -47,11 +48,11 @@ public class HelloServlet extends SlingSafeMethodsServlet {
     }
     
     private void sayPleaseSignIn(PrintWriter out) {
-        out.println("girlscouts.components.login.sayHello('loggedout');");
+        out.println("girlscouts.components.login.sayHello('signedout');");
     }
     
     private void sayHello(PrintWriter out, String name) {
         out.println("$.cookie('girl-scout-name', '" + name + "');");
-        out.println("girlscouts.components.login.sayHello('loggedin', '" + name + "');");
+        out.println("girlscouts.components.login.sayHello('signedin', '" + name + "');");
     }
 }

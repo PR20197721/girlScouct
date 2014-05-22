@@ -19,9 +19,9 @@ girlscouts.components.login = {
     sayHello: function(state, name) {
 	    // TODO: Add language
 	    var html;
-	    if (state === 'loggedin') {
+	    if (state === 'signedin') {
 		    html = '<span>' + 'Hello ' + name + ' <a href="' + this.logoutUrl+ '" class="signout">' + 'SIGN OUT' + '</a></span>';
-	    } else if (state === 'loggedout') {
+	    } else if (state === 'signedout') {
 		    html = '<span><a href="' + this.loginUrl + '" class="signin">' + 'SIGN IN' + '</a></span>';
     	}
 	    $('.login').html(html);
