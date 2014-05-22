@@ -28,8 +28,8 @@
 	// TODO: read from OSGI
 	String helloUrl = "/content/girlscouts-vtk/controllers/hello.hello.js";
 
-	String signInUrl = "/content/girlscouts-vtk/controllers/auth.html?action=signin";
-	String signOutUrl = "/content/girlscouts-vtk/controllers/auth.html?action=signout";
+	String signInUrl = "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signin";
+	String signOutUrl = "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signout";
 	String siteRoot = currentPage.getAbsoluteParent(2).getPath();
 	String language = siteRoot.substring(siteRoot.lastIndexOf("/") + 1);
 %>

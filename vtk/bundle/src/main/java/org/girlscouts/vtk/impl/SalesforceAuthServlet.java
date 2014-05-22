@@ -21,6 +21,8 @@ import org.slf4j.LoggerFactory;
     methods = "GET"
 )
 public class SalesforceAuthServlet extends SlingSafeMethodsServlet {
+    private static final long serialVersionUID = 8152897311719564370L;
+
     private static final Logger log = LoggerFactory.getLogger(SalesforceAuthServlet.class);
     private static final String ACTION = "action";
     private static final String SIGNIN = "signin";
@@ -31,18 +33,20 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet {
     @Override
     protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) {
         String action = request.getParameter(ACTION);
-        if (action.equals(SIGNIN)) {
+        if (action == null) {
+            salesforceCallback(request, response);
+        } else if (action.equals(SIGNIN)) {
             signIn(request, response);
         } else if (action.equals(SIGNOUT)){
             signOut(request, response);
         } else {
-            salesforceCallback(request, response);
+            log.error("Unsupported action: " + action);
         }
     }
     
     private void signIn(SlingHttpServletRequest request, SlingHttpServletResponse response) {
         // TODO: from OSGI
-        String targetUrl = "http://localhost:4502/content/girlscouts/en.html";
+        String targetUrl = "http://localhost:4502/content/girlscouts-usa/en.html";
 
         HttpSession session = request.getSession();
         ApiConfig config = (ApiConfig)session.getAttribute(ApiConfig.class.getName());
@@ -66,24 +70,26 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet {
     
     private void salesforceCallback(SlingHttpServletRequest request, SlingHttpServletResponse response) {
         HttpSession session = request.getSession();
-        ApiConfig config = (ApiConfig)session.getAttribute(ApiConfig.class.getName());
-        if (config != null) {
-            log.error("In Salesforce callback but the ApiConfig already exists. Quitting.");
+        if ((ApiConfig)session.getAttribute(ApiConfig.class.getName()) != null) {
+            log.error("In Salesforce callback but the ApiConfig already exists. Quit.");
             return;
         }
         
         String code = request.getParameter(CODE);
         if (code == null) {
-            log.error("In Salesforce callback but \"code\"parameter not returned.");
+            log.error("In Salesforce callback but \"code\" parameter not returned. Quit.");
             return;
         }
         
         SalesforceDAO dao = new SalesforceDAO();
+        ApiConfig config = dao.doAuth(code);
+        session.setAttribute(ApiConfig.class.getName(), config);
+
         User user = dao.getUser(config);
         session.setAttribute(User.class.getName(), user);
         
         // TODO: from OSGI
-        String targetUrl = "http://localhost:4502/content/girlscouts/en.html";
+        String targetUrl = "http://localhost:4502/content/girlscouts-usa/en.html";
         
         redirect(response, targetUrl);
     }
