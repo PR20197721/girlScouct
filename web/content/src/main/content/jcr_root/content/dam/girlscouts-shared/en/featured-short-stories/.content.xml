@@ -4,4 +4,6 @@
     <jcr:content
         jcr:primaryType="nt:unstructured"
         jcr:title="featured-short-stories"/>
+    <life-vests.png/>
+    <gardening.png/>
 </jcr:root>

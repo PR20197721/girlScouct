@@ -2,33 +2,44 @@
 <jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
     jcr:primaryType="cq:Dialog"
     helpPath="en/cq/current/wcm/default_components.html#Search"
-    title="Search"
-    xtype="panel">
-    <items jcr:primaryType="cq:WidgetCollection">
-        <searchIn
-            jcr:primaryType="cq:Widget"
-            fieldLabel="Path to search in"
-            name="./searchIn"
-            xtype="pathfield"/>
-        <noResultsText
-            jcr:primaryType="cq:Widget"
-            fieldLabel="No results text"
-            name="./noResultsText"
-            xtype="textarea"/>
-        <resultPagesText
-            jcr:primaryType="cq:Widget"
-            fieldLabel="Result pages label"
-            name="./resultPagesText"
-            xtype="textfield"/>
-        <previousText
-            jcr:primaryType="cq:Widget"
-            fieldLabel="Previous label"
-            name="./previousText"
-            xtype="textfield"/>
-        <nextText
-            jcr:primaryType="cq:Widget"
-            fieldLabel="Next label"
-            name="./nextText"
-            xtype="textfield"/>
+    title="Search">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab1
+                jcr:primaryType="cq:Panel"
+                title="Configure Search Path">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <noResultsText
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="No results text"
+                        name="./noResultsText"
+                        xtype="textarea"/>
+                    <searchIn
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Path to search in"
+                        name="./searchIn"
+                        xtype="pathfield"/>
+                    <resultPagesText
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Result pages label"
+                        name="./resultPagesText"
+                        xtype="textfield"/>
+                </items>
+            </tab1>
+            <tab2
+                jcr:primaryType="cq:Panel"
+                title="Design ">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <css-styles
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="(Provide the css design)"
+                        fieldLabel="Css Styles"
+                        name="./additionalCss"
+                        xtype="textfield"/>
+                </items>
+            </tab2>
+        </items>
     </items>
 </jcr:root>

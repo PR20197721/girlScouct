@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
         cq:lastModified="{Date}2014-05-08T10:39:28.280-04:00"
         cq:lastModifiedBy="admin"
+        cq:lastReplicated="{Date}2014-05-20T15:03:28.780-04:00"
+        cq:lastReplicatedBy="mzou"
+        cq:lastReplicationAction="Activate"
         cq:template="/apps/girlscouts/templates/page"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="cq:PageContent"
         jcr:title="2014"
+        jcr:uuid="cbf26f25-cb65-4d08-be3b-673fbd8043cf"
         sling:resourceType="girlscouts/components/page"
         hideInNav="{Boolean}true">
         <par
@@ -14,14 +20,9 @@
             sling:resourceType="foundation/components/parsys"/>
     </jcr:content>
     <winter-jam/>
-    <winter-jam0/>
     <winter-jam1/>
-    <winter-jam2/>
     <winter-jam3/>
     <winter-jam4/>
-    <winter-jam02/>
     <winter-jam11/>
     <winter-jam31/>
-    <winter-jam011/>
-    <new-winter-jam0/>
 </jcr:root>
