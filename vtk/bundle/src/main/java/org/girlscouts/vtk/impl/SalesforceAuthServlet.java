@@ -91,7 +91,8 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
     }
 
     private void signOut(SlingHttpServletRequest request, SlingHttpServletResponse response) {
-        
+        HttpSession session = request.getSession();
+        session.invalidate();
     }
     
     private void salesforceCallback(SlingHttpServletRequest request, SlingHttpServletResponse response) {
