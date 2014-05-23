@@ -6,9 +6,9 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Modified;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
+import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
@@ -16,7 +16,8 @@ import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
 import org.girlscouts.vtk.auth.dao.SalesforceDAO;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.models.User;
-import org.osgi.service.component.ComponentContext;
+import org.girlscouts.vtk.impl.filters.ConfigListener;
+import org.girlscouts.vtk.impl.helpers.ConfigManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,12 +32,9 @@ import org.slf4j.LoggerFactory;
     @Property(propertyPrivate=true, name = "sling.servlet.resourceTypes", value = "sling/servlet/default"),
     @Property(propertyPrivate=true, name = "sling.servlet.selectors", value = "sfauth"),
     @Property(propertyPrivate=true, name = "sling.servlet.extensions", value = "html"),
-    @Property(propertyPrivate=true, name = "sling.servlet.methods", value = "GET"),
-    @Property(name="OAuthUrl", label="OAuth URL", description="URL to Salesforce OAuth endpoint."),
-    @Property(name="callbackUrl", label="Redirect URL", description="Callback URI that Salesforce redirects to after authentication. Usually it is our controller."),
-    @Property(name="targetUrl", label="Target URL", description="Redirect to this URL if authentication succeeds. Usually it is VTK homepage.")
+    @Property(propertyPrivate=true, name = "sling.servlet.methods", value = "GET")
 })
-public class SalesforceAuthServlet extends SlingSafeMethodsServlet {
+public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements ConfigListener {
     private static final long serialVersionUID = 8152897311719564370L;
 
     private static final Logger log = LoggerFactory.getLogger(SalesforceAuthServlet.class);
@@ -49,6 +47,9 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet {
     private String OAuthUrl;
     private String callbackUrl;
     private String targetUrl;
+    
+    @Reference
+    private ConfigManager configManager;
     
     @Override
     protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) {
@@ -64,16 +65,17 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet {
         }
     }
     
-    @Activate
-    @Modified
-    private void updateParams(ComponentContext context) {
-        @SuppressWarnings("rawtypes")
-        Dictionary properties = context.getProperties();
-        OAuthUrl = (String)properties.get("OAuthUrl");
-        callbackUrl = (String)properties.get("callbackUrl");
-        targetUrl = (String)properties.get("targetUrl");
+    @SuppressWarnings("rawtypes")
+    public void updateConfig(Dictionary configs) {
+        OAuthUrl = (String)configs.get("OAuthUrl");
+        callbackUrl = (String)configs.get("callbackUrl");
+        targetUrl = (String)configs.get("targetUrl");
     }
     
+    @Activate
+    public void init() {
+        configManager.register(this);
+    }
     
     private void signIn(SlingHttpServletRequest request, SlingHttpServletResponse response) {
         HttpSession session = request.getSession();
