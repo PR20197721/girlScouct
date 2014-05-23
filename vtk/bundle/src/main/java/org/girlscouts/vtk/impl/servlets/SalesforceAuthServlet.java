@@ -1,4 +1,4 @@
-package org.girlscouts.vtk.impl;
+package org.girlscouts.vtk.impl.servlets;
 
 import java.util.Dictionary;
 
