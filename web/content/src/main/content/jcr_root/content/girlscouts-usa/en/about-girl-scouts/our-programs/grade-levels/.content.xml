@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-05-21T15:10:35.541-04:00"
+        cq:lastModifiedBy="kstavisky"
+        cq:lastReplicated="{Date}2014-05-20T15:03:23.270-04:00"
+        cq:lastReplicatedBy="mzou"
+        cq:lastReplicationAction="Activate"
+        cq:template="/apps/girlscouts/templates/three-column-page"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Grade Levels"
+        jcr:uuid="9604d42f-5279-4415-a40e-f357af77421a"
+        sling:resourceType="girlscouts/components/three-column-page">
+        <content jcr:primaryType="nt:unstructured">
+            <middle jcr:primaryType="nt:unstructured">
+                <par
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/parsys">
+                    <title
+                        jcr:created="{Date}2014-05-21T14:50:19.570-04:00"
+                        jcr:createdBy="kstavisky"
+                        jcr:lastModified="{Date}2014-05-21T15:10:35.540-04:00"
+                        jcr:lastModifiedBy="kstavisky"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="What Daisies Do"
+                        sling:resourceType="girlscouts/components/title"
+                        type="large"/>
+                    <text
+                        jcr:created="{Date}2014-05-21T14:53:41.755-04:00"
+                        jcr:createdBy="kstavisky"
+                        jcr:lastModified="{Date}2014-05-21T15:06:14.980-04:00"
+                        jcr:lastModifiedBy="kstavisky"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="foundation/components/text"
+                        text="&lt;p>Don’t we all wish we could look at the world through a Daisy’s eyes? Everything they do—from planting a garden to putting on a skit to proudly adding that first petal to their vest—sparkles with that “first time ever” newness! Along the way, they’ll use their Daisy exuberance to help others—and they’ll never forget how that feels. Every Daisy meeting is an adventure filled with giggles, energy, and excitement.&lt;/p>&#xa;&lt;p>As a Daisy, she might:&lt;/p>&#xa;&lt;p>• Gain new friends as part of a troop. [link to About&amp;gt;Ways to Participate&amp;gt;Troop via Troop]&lt;/p>&#xa;&lt;p>• Earn petals (the special Daisy version of the badges earned by older Girl Scouts) as she embraces the Girl Scout Promise and Law. [link to About&amp;gt;Our Mission via Girl Scout Promise and Law]&lt;/p>&#xa;&lt;p>• Make a difference in the community through a Leadership Journey. [link to About&amp;gt;Our Program&amp;gt;Journeys via Journey]&lt;/p>&#xa;&lt;p>• Sell cookies (and have fun doing it). [Link to Cookies&amp;gt;For Cookie Sellers]&lt;/p>&#xa;&lt;p>• Explore nature and the outdoors. [Link to About&amp;gt;Ways to&amp;nbsp;&lt;/p>&#xa;&lt;p>Participate&amp;gt;Camp via explore nature]&lt;/p>&#xa;"
+                        textIsRich="true"/>
+                </par>
+            </middle>
+        </content>
+    </jcr:content>
+    <what-do-daisies-do/>
+    <what-do-brownies-do/>
+    <what-do-juniors-do/>
+    <what-do-cadettes-do/>
+    <what-do-seniors-and-ambassadors-do/>
+</jcr:root>

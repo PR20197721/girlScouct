@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-05-21T10:07:23.549-04:00"
+        cq:lastModifiedBy="kstavisky"
+        cq:lastReplicated="{Date}2014-05-21T10:09:22.019-04:00"
+        cq:lastReplicatedBy="kstavisky"
+        cq:lastReplicationAction="Activate"
+        cq:template="/apps/girlscouts/templates/three-column-page"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Silver"
+        jcr:uuid="46488cce-60b6-445e-b19a-1d89b17b3e24"
+        sling:resourceType="girlscouts/components/three-column-page">
+        <content jcr:primaryType="nt:unstructured">
+            <middle jcr:primaryType="nt:unstructured">
+                <par
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/parsys">
+                    <title
+                        jcr:created="{Date}2014-05-21T10:02:27.900-04:00"
+                        jcr:createdBy="kstavisky"
+                        jcr:lastModified="{Date}2014-05-21T10:02:27.900-04:00"
+                        jcr:lastModifiedBy="kstavisky"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="foundation/components/title"/>
+                    <text
+                        jcr:created="{Date}2014-05-21T10:02:30.941-04:00"
+                        jcr:createdBy="kstavisky"
+                        jcr:lastModified="{Date}2014-05-21T10:03:28.684-04:00"
+                        jcr:lastModifiedBy="kstavisky"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="foundation/components/text"
+                        text="&lt;p>Have you ever looked around your neighborhood or school and wondered how you could make a change for the better? Going for the Girl Scout Silver Award—the highest award a Girl Scout Cadette can earn—gives you the chance to do big things and make your community better in the process. Download the Silver Award guidelines via “Silver Award guidelines” to find out how.&lt;/p>&#xa;&lt;p>&amp;nbsp;&lt;/p>&#xa;"
+                        textIsRich="true"/>
+                    <title_0
+                        jcr:created="{Date}2014-05-21T10:03:31.608-04:00"
+                        jcr:createdBy="kstavisky"
+                        jcr:lastModified="{Date}2014-05-21T10:03:40.568-04:00"
+                        jcr:lastModifiedBy="kstavisky"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Girl Scout Silver Award Prerequisites"
+                        sling:resourceType="foundation/components/title"
+                        type="large"/>
+                    <text_0
+                        jcr:created="{Date}2014-05-21T10:03:47.838-04:00"
+                        jcr:createdBy="kstavisky"
+                        jcr:lastModified="{Date}2014-05-21T10:04:40.389-04:00"
+                        jcr:lastModifiedBy="kstavisky"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="foundation/components/text"
+                        text="&lt;p>You must…&lt;/p>&#xa;&lt;p>·&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Be in sixth, seventh, or eighth grade (or equivalent)&lt;/p>&#xa;&lt;p>·&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Be a registered Girl Scout Cadette&lt;/p>&#xa;&lt;p>·&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Have completed a Cadette Journey&lt;/p>&#xa;"
+                        textIsRich="true"/>
+                    <title_1
+                        jcr:created="{Date}2014-05-21T10:04:59.824-04:00"
+                        jcr:createdBy="kstavisky"
+                        jcr:lastModified="{Date}2014-05-21T10:06:13.273-04:00"
+                        jcr:lastModifiedBy="kstavisky"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Girl Scout Silver Award Steps"
+                        sling:resourceType="foundation/components/title"
+                        type="large"/>
+                    <text_1
+                        jcr:created="{Date}2014-05-21T10:07:12.535-04:00"
+                        jcr:createdBy="kstavisky"
+                        jcr:lastModified="{Date}2014-05-21T10:07:23.547-04:00"
+                        jcr:lastModifiedBy="kstavisky"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="foundation/components/text"
+                        text="&lt;p>1 Identify issues you care about.&lt;/p>&#xa;&lt;p>2 Build your Girl Scout Silver Award team or decide to go solo.&lt;/p>&#xa;&lt;p>3 Explore your community.&lt;/p>&#xa;&lt;p>4 Pick your Silver Award project.&lt;/p>&#xa;&lt;p>5 Develop your project.&lt;/p>&#xa;&lt;p>6 Make a plan and put it into motion.&lt;/p>&#xa;&lt;p>7 Reflect, share your story, and celebrate.&lt;b>&lt;/b>&lt;/p>&#xa;"
+                        textIsRich="true"/>
+                </par>
+            </middle>
+        </content>
+    </jcr:content>
+</jcr:root>

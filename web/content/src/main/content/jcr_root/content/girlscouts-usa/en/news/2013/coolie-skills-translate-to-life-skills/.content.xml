@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
         cq:keywords="[would like you to join us]"
         cq:lastModified="{Date}2014-04-03T09:28:11.379-04:00"
         cq:lastModifiedBy="admin"
+        cq:lastReplicated="{Date}2014-05-20T15:03:27.545-04:00"
+        cq:lastReplicatedBy="mzou"
+        cq:lastReplicationAction="Activate"
         cq:template="/apps/girlscouts/templates/news"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="cq:PageContent"
         jcr:title="Cookie Skills Translate to Life Skills"
+        jcr:uuid="3f30001f-2483-4064-976f-0ee2e6e8cc2f"
         sling:resourceType="girlscouts/components/news"
         date="{Date}2014-04-02T16:39:23.876-04:00"
         description="Almost everyone knows Girl Scouts Cookies, but some don't realize that the Girl Scout Cookie Program is the largest girl-run business in the world. Through learning by earning, Girl Scouting aims...">

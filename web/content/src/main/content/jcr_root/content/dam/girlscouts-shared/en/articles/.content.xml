@@ -3,4 +3,6 @@
     jcr:primaryType="sling:OrderedFolder">
     <jcr:content jcr:primaryType="nt:unstructured"/>
     <guitar.png/>
+    <herohome-page.png/>
+    <guitar-lesson.png/>
 </jcr:root>

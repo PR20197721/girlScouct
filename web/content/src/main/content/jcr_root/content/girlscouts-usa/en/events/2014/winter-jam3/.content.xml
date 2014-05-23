@@ -1,18 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:gs="http://www.girlscouts.org/jcr/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:gs="http://www.girlscouts.org/jcr/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
         cq:lastModified="{Date}2014-05-08T10:39:28.518-04:00"
         cq:lastModifiedBy="admin"
+        cq:lastReplicated="{Date}2014-05-20T15:03:29.427-04:00"
+        cq:lastReplicatedBy="mzou"
+        cq:lastReplicationAction="Activate"
         cq:scaffolding="/etc/scaffolding/girlscouts-usa/event"
         cq:tags="[girlscouts:program-level/daisy,girlscouts:categories/camp]"
         cq:template="girlscouts/templates/event-page"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="cq:PageContent"
         jcr:title="Winter Jam"
+        jcr:uuid="92efd1ec-4c67-47ca-aeb0-ad289eb0062e"
         sling:resourceType="girlscouts/components/event-page"
         subtitle="2011-10-12">
         <data
-            cq:distribute="{Boolean}true"
             jcr:lastModified="{Date}2014-04-27T05:36:21.000Z"
             jcr:lastModifiedBy="admin"
             jcr:primaryType="gs:CalendarEvent"
@@ -26,7 +31,7 @@
             srchdisp="Let's go camping!"
             stamp="{Date}2009-10-09T12:11:00.000Z"
             start="{Date}2014-04-02T00:00:00.000Z"
-            time="6:00 pm - 2:00 pm"
+            time="6:00 pm to 2:00 pm"
             uid="8332F4E8-465A-4D7A-89CD-B4612863C7D3">
             <image
                 jcr:lastModified="{Date}2014-04-26T17:10:57.353-04:00"
