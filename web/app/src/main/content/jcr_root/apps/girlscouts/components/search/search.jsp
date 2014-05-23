@@ -45,7 +45,6 @@ final ResourceBundle resourceBundle = slingRequest.getResourceBundle(pageLocale)
 	Query searchQuery = queryBuilder.createQuery(PredicateGroup.create(query),slingRequest.getResourceResolver().adaptTo(Session.class));
 	SearchResult results = searchQuery.getResult();
     List<Hit> hits = results.getHits();
-	pageContext.setAttribute("results", results);		
 
 %>
 <center>
@@ -66,7 +65,7 @@ final ResourceBundle resourceBundle = slingRequest.getResourceBundle(pageLocale)
 	     {
 		   String path = hit.getPath();
 		   Node node = hit.getNode();
-		  
+		   System.out.println("node type" +node.isNodeType("cq:Page"));
 		   if(node.isNodeType("cq:Page")){
 			   path+=".html";
 			   System.out.println("path" +path);
