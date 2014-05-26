@@ -29,13 +29,14 @@ public class SalesforceDAO {
   // org private String redirectUri= "http://localhost:4502/cf#/content/testMy.html";
   //private String redirectUri= "http://localhost:4502/content/testMy.html";
   private String redirectUri="http://localhost:4502/content/testLogin2/login5.html";
-  
-  String code="aPrxMZkm7lCkgfSJMlB6uxm.vu1.jTVRhlwG97lMQiRW1qqe_99CUDoLyaa7VtEamBomHFVHEg==";
+  // no need
+  //String code="aPrxMZkm7lCkgfSJMlB6uxm.vu1.jTVRhlwG97lMQiRW1qqe_99CUDoLyaa7VtEamBomHFVHEg==";
   //String authUrl= null;
   //String accessToken=null;
   //String instanceUrl=null;
   
   
+  // CACA
   private void doInit(){
       String environment="https://login.salesforce.com";
       try {
@@ -84,6 +85,7 @@ public class SalesforceDAO {
           try{
               //-String instanceUrl="https://na15.salesforce.com";
           HttpClient httpclient = new HttpClient();
+          //constant MZMZMZMZ
           GetMethod get = new GetMethod(config.getInstanceUrl()
                   + "/services/data/v20.0/query");
 
@@ -291,6 +293,7 @@ return resp;
   
   
   
+  //caca
   public void createTest(String login){
       
        ApiConfig apiConfig = new ApiConfig();
