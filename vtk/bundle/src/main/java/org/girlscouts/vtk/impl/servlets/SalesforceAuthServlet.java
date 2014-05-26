@@ -14,6 +14,7 @@ import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
 import org.girlscouts.vtk.impl.auth.dao.SalesforceDAO;
+import org.girlscouts.vtk.impl.auth.dao.SalesforceDAOFactory;
 import org.girlscouts.vtk.impl.auth.models.ApiConfig;
 import org.girlscouts.vtk.impl.auth.models.User;
 import org.girlscouts.vtk.impl.helpers.ConfigListener;
@@ -51,6 +52,9 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
     
     @Reference
     private ConfigManager configManager;
+    
+    @Reference
+    private SalesforceDAOFactory salesforceDAOFactory;
     
     @Override
     protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) {
@@ -115,7 +119,7 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
             return;
         }
         
-        SalesforceDAO dao = new SalesforceDAO();
+        SalesforceDAO dao = salesforceDAOFactory.getInstance();
         ApiConfig config = dao.doAuth(code);
         session.setAttribute(ApiConfig.class.getName(), config);
 
