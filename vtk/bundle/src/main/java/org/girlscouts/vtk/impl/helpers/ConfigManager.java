@@ -24,6 +24,7 @@ import org.osgi.service.component.ComponentContext;
 @Properties ({
     @Property(name="OAuthUrl", label="OAuth URL", description="URL to Salesforce OAuth endpoint."),
     @Property(name="clientId", label="Client ID", description="Salesforce Client ID"),
+    @Property(name="clientSecret", label="Client Secret", description="Salesforce Client Secret"),
     @Property(name="callbackUrl", label="Redirect URL", description="Callback URI that Salesforce redirects to after authentication. Usually it is our controller."),
     @Property(name="targetUrl", label="Target URL", description="Redirect to this URL if authentication succeeds. Usually it is VTK homepage.")
 })
