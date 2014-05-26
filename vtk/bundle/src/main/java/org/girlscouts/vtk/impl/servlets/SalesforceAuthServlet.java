@@ -45,6 +45,7 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
     private static final String CODE = "code";
     
     private String OAuthUrl;
+    private String clientId;
     private String callbackUrl;
     private String targetUrl;
     
@@ -68,6 +69,7 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
     @SuppressWarnings("rawtypes")
     public void updateConfig(Dictionary configs) {
         OAuthUrl = (String)configs.get("OAuthUrl");
+        clientId = (String)configs.get("clientId");
         callbackUrl = (String)configs.get("callbackUrl");
         targetUrl = (String)configs.get("targetUrl");
     }
@@ -82,7 +84,10 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
         ApiConfig config = (ApiConfig)session.getAttribute(ApiConfig.class.getName());
         String redirectUrl;
         if (config == null || config.getId() == null) {
-            redirectUrl = OAuthUrl + "&redirect_uri=" + callbackUrl + "&state=" + targetUrl;
+            redirectUrl = OAuthUrl 
+                          + "/services/oauth2/authorize?response_type=code&client_id=" + clientId
+                          + "&redirect_uri=" + callbackUrl
+                          + "&state=" + targetUrl;
         } else {
             redirectUrl = targetUrl;
         }
