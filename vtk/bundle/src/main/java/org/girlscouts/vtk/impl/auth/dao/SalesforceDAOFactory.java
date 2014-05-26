@@ -25,14 +25,14 @@ public class SalesforceDAOFactory implements ConfigListener {
     private String clientId;
     private String clientSecret;
     private String OAuthUrl;
-    private String targetUrl;
+    private String callbackUrl;
 
     @SuppressWarnings("rawtypes")
     public void updateConfig(Dictionary configs) {
         clientId = (String)configs.get("clientId");
         clientSecret = (String)configs.get("clientSecret");
         OAuthUrl = (String)configs.get("OAuthUrl");
-        targetUrl = (String)configs.get("targetUrl");
+        callbackUrl = (String)configs.get("callbackUrl");
     }
     
     @Activate
@@ -45,7 +45,7 @@ public class SalesforceDAOFactory implements ConfigListener {
         dao.clientId = clientId;
         dao.clientSecret = clientSecret;
         dao.OAuthUrl = OAuthUrl;
-        dao.targetUrl = targetUrl;
+        dao.callbackUrl = callbackUrl;
         return dao;
     }
 }

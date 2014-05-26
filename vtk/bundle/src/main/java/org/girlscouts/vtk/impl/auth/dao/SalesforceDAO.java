@@ -17,13 +17,14 @@ import org.json.JSONTokener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: Need thread pool here
 public class SalesforceDAO {
     private final Logger log = LoggerFactory.getLogger(SalesforceDAO.class);
 
     String OAuthUrl;
     String clientId;
     String clientSecret;
-    String targetUrl;
+    String callbackUrl;
 
     public User getUser(ApiConfig config) {
         User user = new User();
@@ -89,7 +90,7 @@ public class SalesforceDAO {
         post.addParameter("grant_type", "authorization_code");
         post.addParameter("client_id", clientId);
         post.addParameter("client_secret", clientSecret);
-        post.addParameter("redirect_uri", targetUrl);
+        post.addParameter("redirect_uri", callbackUrl);
 
         try {
             httpclient.executeMethod(post);
