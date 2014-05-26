@@ -10,7 +10,6 @@ import org.apache.felix.scr.annotations.Modified;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Service;
-import org.girlscouts.vtk.impl.filters.ConfigListener;
 import org.osgi.service.component.ComponentContext;
 
 @Component(

@@ -1,4 +1,4 @@
-package org.girlscouts.vtk.impl.filters;
+package org.girlscouts.vtk.impl.helpers;
 
 import java.util.Dictionary;
 

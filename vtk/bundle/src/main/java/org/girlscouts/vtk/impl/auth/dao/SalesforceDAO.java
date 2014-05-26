@@ -1,4 +1,4 @@
-package org.girlscouts.vtk.auth.dao;
+package org.girlscouts.vtk.impl.auth.dao;
 
 //import org.apache.commons.httpclient.methods.PostMethod;
 //import org.apache.http.client.HttpClient;
@@ -12,8 +12,8 @@ import org.apache.commons.httpclient.methods.DeleteMethod;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.commons.httpclient.methods.StringRequestEntity;
-import org.girlscouts.vtk.auth.models.ApiConfig;
-import org.girlscouts.vtk.auth.models.User;
+import org.girlscouts.vtk.impl.auth.models.ApiConfig;
+import org.girlscouts.vtk.impl.auth.models.User;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;

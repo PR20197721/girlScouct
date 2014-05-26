@@ -1,4 +1,4 @@
-package org.girlscouts.vtk.auth.models;
+package org.girlscouts.vtk.impl.auth.models;
 
 public class ApiConfig {
 

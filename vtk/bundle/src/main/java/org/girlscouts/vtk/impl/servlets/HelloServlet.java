@@ -9,7 +9,7 @@ import org.apache.felix.scr.annotations.sling.SlingServlet;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
-import org.girlscouts.vtk.auth.models.User;
+import org.girlscouts.vtk.impl.auth.models.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
