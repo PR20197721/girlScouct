@@ -13,7 +13,12 @@
         <f0
             jcr:primaryType="nt:unstructured"
             mode="replace"
-            root="/apps/myproject"
+            root="/apps/girlscouts-vtk"
+            rules="[]"/>
+        <f1
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/content/girlscouts-vtk"
             rules="[]"/>
     </filter>
 </jcr:root>
