@@ -30,6 +30,7 @@ for (int i = 0; i < links.length; i++)
         String[] values = links[i].split("\\|\\|\\|");
         String label = values[0];
         String path = values.length >= 2 ? values[1] : "";
+        path = genLink(resourceResolver, path);
         String clazz = values.length >= 3 ? " "+ values[2] : "";
         String mLabel = values.length >=4 ? " "+values[3] : "";
         String sLabel = values.length >=5 ? " "+values[4] : "";
@@ -38,7 +39,7 @@ for (int i = 0; i < links.length; i++)
         String navigation="";
         %>
        
-          <li><a href="<%= path %>.html"><%= mLabel %></a></li>
+          <li><a href="<%= path %>"><%= mLabel %></a></li>
       <% 
         if(!path.isEmpty() && !path.equalsIgnoreCase("#"))
         {
