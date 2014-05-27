@@ -15,7 +15,7 @@
 
   Includes all child resources but respects the columns control resources and
   layouts the HTML accordingly.
-
+  
 --%><%@page import="java.util.HashSet,
                     java.util.Set,
                     com.day.cq.commons.jcr.JcrConstants,
@@ -24,7 +24,7 @@
                     com.day.cq.wcm.foundation.Paragraph,
                     com.day.cq.wcm.foundation.ParagraphSystem" %><%
 %><%@include file="/libs/foundation/global.jsp"%><%
-
+    
     ParagraphSystem parSys = ParagraphSystem.create(resource, slingRequest);
     String newType = resource.getResourceType() + "/new";
     
@@ -82,7 +82,7 @@
             case NORMAL:
                 // include 'normal' paragraph
                 IncludeOptions.getOptions(request, true).getCssClassNames().add("section");
-
+                
                 // draw anchor if needed
                 if (currentStyle.get("drawAnchors", false)) {
                     String path = par.getPath();
@@ -97,8 +97,11 @@
     }
     if (hasColumns) {
         // close divs in case END missing. and clear floating
-        %></div></div><div style="clear:both"></div><%
+        %></div></div><%
     }
+    
+    // Fix for issue under foundation framework: the "new" bar misbehaves
+    %><div style="clear:both"></div><%
     if (editContext != null) {
         editContext.setAttribute("currentResource", null);
         // draw 'new' bar

@@ -5,4 +5,4 @@
     jcr:primaryType="cq:Component"
     jcr:title="Styled Sub Paragraph System"
     allowedChildren="[*]"
-    componentGroup="Girl Scouts"/>
+    componentGroup=".hidden"/>

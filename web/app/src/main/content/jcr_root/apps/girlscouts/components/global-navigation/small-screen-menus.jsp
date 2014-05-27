@@ -2,6 +2,7 @@
 <%@page import="java.util.Iterator,
                 java.util.HashSet,java.util.Set,
                 java.util.Arrays,org.apache.sling.api.resource.ResourceResolver,
+                 org.apache.sling.api.resource.Resource,
                 org.slf4j.Logger,org.slf4j.LoggerFactory"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
@@ -30,6 +31,7 @@ for (int i = 0; i < links.length; i++)
         String[] values = links[i].split("\\|\\|\\|");
         String label = values[0];
         String path = values.length >= 2 ? values[1] : "";
+        path = genLink(resourceResolver, path);
         String clazz = values.length >= 3 ? " "+ values[2] : "";
         String mLabel = values.length >=4 ? " "+values[3] : "";
         String sLabel = values.length >=5 ? " "+values[4] : "";
@@ -38,7 +40,7 @@ for (int i = 0; i < links.length; i++)
         String navigation="";
         %>
        
-          <li><a href="<%= path %>.html"><%= mLabel %></a></li>
+          <li><a href="<%= path %>"><%= mLabel %></a></li>
       <% 
         if(!path.isEmpty() && !path.equalsIgnoreCase("#"))
         {
@@ -59,7 +61,9 @@ for (int i = 0; i < links.length; i++)
             	startingPoint = startingPoint.substring(0, startingPoint.indexOf("/"));
             }
             
-            menuLevel1 = resourceResolver.getResource(rootPath+"/"+startingPoint).adaptTo(Page.class).listChildren();
+            //menuLevel1 = resourceResolver.getResource(rootPath+"/"+startingPoint).adaptTo(Page.class).listChildren();
+            Resource res = resourceResolver.getResource(rootPath+"/"+startingPoint);
+            menuLevel1 = res.adaptTo(Page.class).listChildren();
             StringBuilder menuBuilder = new StringBuilder();
             if(navigationPath.contains(startingPoint)){
             buildMenu(menuLevel1, navigationPath, menuBuilder, 0,currTitle,currPath,eventGrdParent,etPath);

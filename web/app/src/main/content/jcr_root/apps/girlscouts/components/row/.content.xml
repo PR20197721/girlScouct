@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
     cq:isContainer="true"
-    jcr:description="Include components in a paragraph system."
+    jcr:description="For advanced users: a &lt;div> tag with CSS class &quot;row&quot; predefined. This will create a row for Foundation framework."
     jcr:primaryType="cq:Component"
-    jcr:title="Paragraph System"
+    jcr:title="Row"
     allowedChildren="[*]"
-    componentGroup=".hidden"/>
+    componentGroup="Girl Scouts"/>
