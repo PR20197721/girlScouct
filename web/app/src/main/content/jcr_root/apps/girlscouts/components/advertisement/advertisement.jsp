@@ -12,7 +12,6 @@ if (rootPath.isEmpty()) {
     rootPath = currentSite.get("adsPath", "");
 }
 if (rootPath.isEmpty()) {
-    // TODO: will move "ads" to a constant
     rootPath = currentPage.getAbsoluteParent(2).getPath() + "/ads";
 }
 %>
