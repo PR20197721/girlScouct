@@ -27,8 +27,8 @@
     <filter root="/etc/workflow/models/dam/gs_update_asset_medium_hero"/>   
     <filter root="/etc/workflow/models/dam/gs_update_asset_medium_logo"/> 
     <filter root="/etc/workflow/models/dam/gs_update_asset_news"/>
-    <filter root="/etc/workflow/models/dam/gs_update_small_hero"/>
-    <filter root="/etc/workflow/models/dam/gs_update_small_logo"/>
+    <filter root="/etc/workflow/models/dam/gs_update_asset_small_hero"/>
+    <filter root="/etc/workflow/models/dam/gs_update_asset_small_logo"/>
     <filter root="/etc/workflow/models/dam/update_asset_event"/>
     <filter root="/etc/workflow/models/dam/gs_update_asset_articles"/>
     <filter root="/etc/tracker"/>
