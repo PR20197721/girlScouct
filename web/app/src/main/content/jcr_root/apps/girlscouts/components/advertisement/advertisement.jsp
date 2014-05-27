@@ -6,7 +6,6 @@ org.apache.sling.api.resource.ValueMap" %>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <%@page session="false" %>
 <cq:defineObjects/>
-<hr/>
 <%
 String rootPath = properties.get("path", "");
 if (rootPath.isEmpty()) {
@@ -49,7 +48,7 @@ while(Iter.hasNext() && adCount > 0) {
     else {
     adLink = path + ".html";	
     }
-    %><%=adName%>
+    %>
 <a href="<%=adLink%>"><cq:include path= "<%=path +"/jcr:content/image"%>" resourceType="foundation/components/image" /></a>
 <%
 }
