@@ -81,10 +81,13 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 	    	  if (hasImage) {
 			        ValueMap imageProps = resourceResolver.resolve(propNode.getPath() + "/image").adaptTo(ValueMap.class);
 			        fileReference = imageProps.get("fileReference", "");
-			        Asset assets = resource.getResourceResolver().getResource(fileReference).adaptTo(Asset.class);
+			        
+			        try{
+			            Asset assets = resource.getResourceResolver().getResource(fileReference).adaptTo(Asset.class);
 			        
 			        Resource rendition =  assets.getRendition("cq5dam.thumbnail.120.80.png");
 			        fileReference = rendition.getPath();
+			        }catch(Exception e){}
 			        imgWidth = imageProps.get("width", "");
 			        if (!imgWidth.isEmpty()) imgWidth = "width=\"" + imgWidth + "\"";
 			        imgHeight = imageProps.get("height", "");

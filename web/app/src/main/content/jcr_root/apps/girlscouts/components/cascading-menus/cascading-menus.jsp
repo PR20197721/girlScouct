@@ -28,7 +28,9 @@
  
  // Handling events
   String eventGrandParent = currentPage.getParent().getParent().getPath();
-  String eventLeftNavRoot = currentSite.get("leftNavRoot", String.class);  
+  String eventLeftNavRoot = currentSite.get("leftNavRoot", String.class);
+  String eventDisplUnder = currentSite.get("eventPath", String.class);
+  
   String insertAfter="";
  if(eventGrandParent.equalsIgnoreCase(currentSite.get("eventPath", String.class))){
      String eventPath = eventLeftNavRoot.substring(0,eventLeftNavRoot.lastIndexOf("/"));
@@ -36,14 +38,14 @@
      iterPage = resourceResolver.getResource(eventPath).adaptTo(Page.class).listChildren();
   
  }
- buildMenu(iterPage, rootPath, gs_us_path, menuBuilder, levelDepth,"",levelFlag,eventLeftNavRoot, curPath, curTitle);
+ buildMenu(iterPage, rootPath, gs_us_path, menuBuilder, levelDepth,"",levelFlag,eventLeftNavRoot, curPath, curTitle, eventDisplUnder);
  
  
  %>
  <%=menuBuilder %>
  <%!
  
- public StringBuilder buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_path,StringBuilder menuBuilder,int levelDepth,String ndePath, boolean levelFlag,String eventLeftNavRoot,String currPath, String currTitle) throws RepositoryException{
+ public StringBuilder buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_path,StringBuilder menuBuilder,int levelDepth,String ndePath, boolean levelFlag,String eventLeftNavRoot,String currPath, String currTitle, String eventDispUnder) throws RepositoryException{
      
 	/* try{
 		 if(null==topLevel)
@@ -82,6 +84,9 @@
                             menuBuilder.append("<li class=\"active\">");
                             menuBuilder.append("<a href=").append(page.getPath()+".html").append(">").append(page.getTitle()).append("</a>");
                             menuBuilder.append("</li>");
+                            
+                            
+                            
                          }
                      else
                         {
@@ -102,12 +107,12 @@
                          }
                    if(page.listChildren().hasNext())
                      {
-                	      buildMenu(page.listChildren(), rootPath,gs_us_path, menuBuilder, levelDepth,nodePath, levelFlag,eventLeftNavRoot,currPath, currTitle);           
+                	      buildMenu(page.listChildren(), rootPath,gs_us_path, menuBuilder, levelDepth,nodePath, levelFlag,eventLeftNavRoot,currPath, currTitle, eventDispUnder);           
 	                 }
                 }
                 else
                    {
-                	 if(page.getPath().indexOf(eventLeftNavRoot)==0)
+                	 if(page.getPath().indexOf(eventLeftNavRoot)==0 && currPath.indexOf(eventDispUnder)==0)
                 	 {
                 		 menuBuilder.append("<li class=\"active\">");
                          menuBuilder.append("<a href=").append(page.getPath()+".html").append(">").append(page.getTitle()).append("</a>");
