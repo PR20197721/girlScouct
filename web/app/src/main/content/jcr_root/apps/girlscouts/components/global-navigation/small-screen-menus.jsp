@@ -2,7 +2,6 @@
 <%@page import="java.util.Iterator,
                 java.util.HashSet,java.util.Set,
                 java.util.Arrays,org.apache.sling.api.resource.ResourceResolver,
-                 org.apache.sling.api.resource.Resource,
                 org.slf4j.Logger,org.slf4j.LoggerFactory"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
@@ -61,9 +60,7 @@ for (int i = 0; i < links.length; i++)
             	startingPoint = startingPoint.substring(0, startingPoint.indexOf("/"));
             }
             
-            //menuLevel1 = resourceResolver.getResource(rootPath+"/"+startingPoint).adaptTo(Page.class).listChildren();
-            Resource res = resourceResolver.getResource(rootPath+"/"+startingPoint);
-            menuLevel1 = res.adaptTo(Page.class).listChildren();
+            menuLevel1 = resourceResolver.getResource(rootPath+"/"+startingPoint).adaptTo(Page.class).listChildren();
             StringBuilder menuBuilder = new StringBuilder();
             if(navigationPath.contains(startingPoint)){
             buildMenu(menuLevel1, navigationPath, menuBuilder, 0,currTitle,currPath,eventGrdParent,etPath);
