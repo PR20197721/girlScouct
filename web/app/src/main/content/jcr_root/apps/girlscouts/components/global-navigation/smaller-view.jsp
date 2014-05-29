@@ -15,8 +15,8 @@ for (int i = 0; i < links.length; i++)
         String clazz = values.length >= 3 ? " "+ values[2] : "";
         String mLabel = values.length >=4 ? " "+values[3] : "";
         String sLabel = values.length >=5 ? " "+values[4] : "";
-        %><li>
-           <a class="<%= clazz %>" href="<%= path %>"><%= mLabel %></a>
+        %><li> <label>
+           <a class="<%= clazz %>" href="<%= path %>"><%= mLabel %></a></label>
          </li>
            
            <%
