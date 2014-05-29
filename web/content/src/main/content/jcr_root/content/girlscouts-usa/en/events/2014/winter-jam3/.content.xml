@@ -8,7 +8,7 @@
         cq:lastReplicatedBy="mzou"
         cq:lastReplicationAction="Activate"
         cq:scaffolding="/etc/scaffolding/girlscouts-usa/event"
-        cq:tags="[girlscouts:program-level/daisy,girlscouts:categories/camp]"
+        cq:tags="[]"
         cq:template="girlscouts/templates/event-page"
         jcr:isCheckedOut="{Boolean}true"
         jcr:mixinTypes="[mix:versionable]"

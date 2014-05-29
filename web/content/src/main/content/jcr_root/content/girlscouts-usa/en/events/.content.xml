@@ -7,7 +7,7 @@
         cq:lastReplicated="{Date}2014-05-20T15:03:28.605-04:00"
         cq:lastReplicatedBy="mzou"
         cq:lastReplicationAction="Activate"
-        cq:tags="[girlscouts:program-level/junior,girlscouts:program-level,girlscouts:program-level/daisy,girlscouts:categories,girlscouts:categories/camp]"
+        cq:tags="[]"
         cq:template="/apps/girlscouts/templates/three-column-page"
         jcr:isCheckedOut="{Boolean}true"
         jcr:mixinTypes="[mix:versionable]"

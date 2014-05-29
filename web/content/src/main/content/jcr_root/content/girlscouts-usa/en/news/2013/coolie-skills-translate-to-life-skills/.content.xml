@@ -14,7 +14,7 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="Cookie Skills Translate to Life Skills"
         jcr:uuid="3f30001f-2483-4064-976f-0ee2e6e8cc2f"
-        sling:resourceType="girlscouts/components/news"
+        sling:resourceType="girlscouts/components/news-page"
         date="{Date}2014-04-02T16:39:23.876-04:00"
         description="Almost everyone knows Girl Scouts Cookies, but some don't realize that the Girl Scout Cookie Program is the largest girl-run business in the world. Through learning by earning, Girl Scouting aims...">
         <image

@@ -13,6 +13,7 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="News"
         jcr:uuid="436db4cd-01c6-409e-ad37-62a925bfa123"
-        sling:resourceType="girlscouts/components/news"/>
+        sling:resourceType="girlscouts/components/news-page"/>
     <_x0032_013/>
+    <_x0032_014/>
 </jcr:root>
