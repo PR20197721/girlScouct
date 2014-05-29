@@ -12,7 +12,7 @@
         path = genLink(resourceResolver, path);
         String clazz = values.length >= 3 ? "class=\""+ values[2] + "\"": "";
         %>
-        <li><a href="<%= path %>"><%= label %></a></li>
+        <li><label><a href="<%= path %>"><%= label %></a></label></li>
         <%
     }
     
