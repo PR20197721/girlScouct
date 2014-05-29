@@ -3,6 +3,6 @@
     cq:isContainer="true"
     jcr:description="Include components in a paragraph system."
     jcr:primaryType="cq:Component"
-    jcr:title="Paragraph System"
+    jcr:title="Styled Paragraph System"
     allowedChildren="[*]"
-    componentGroup="Girl Scouts"/>
+    componentGroup=".hidden"/>
