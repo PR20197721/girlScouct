@@ -27,8 +27,14 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
    <% }
 %>
 
- <div id="heroBanner" class="large-24 medium-24 small-24 columns">
- <div class="jcarousel-wrapper">
+<%
+ String spPlacement = properties.get("spplacement","none");
+ System.out.println(" $$$$$$$$$$$$ Place of the spring board" +spPlacement); 
+
+%>
+
+<div id="heroBanner" class="large-18 medium-18 small-18 columns">
+  <div class="jcarousel-wrapper">
      <div class="jcarousel">
         <ul class="clearfix">
         <%
@@ -59,8 +65,9 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
         <p class="jcarousel-pagination"></p>
         <%} %>
  </div>
-   </div>
-                       
+  
+</div>
+      <cq:include script="spring-board.jsp"/>
 
  <script>
  $(document).ready(function(){
