@@ -1,5 +1,5 @@
 <%= request.getParameter("planId")%>
-<%@ page import="org.girlsscout.vtk.models.*,org.girlsscout.vtk.dao.*,org.girlsscout.vtk.ejb.*" %>
+<%@ page import="org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
   
 <%
     String yearPlanId= request.getParameter("planId");

@@ -1,7 +1,7 @@
 
 <%@page import="java.util.Calendar"%>
 <%@page import="org.joda.time.LocalDate"%>
-<%@ page import="org.girlsscout.vtk.models.user.*, org.girlsscout.vtk.models.*,org.girlsscout.vtk.ejb.*, org.girlsscout.vtk.dao.*" %>
+<%@ page import="org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.ejb.*, org.girlscouts.vtk.dao.*" %>
 
 <%
 
