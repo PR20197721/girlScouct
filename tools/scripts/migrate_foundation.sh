@@ -1,8 +1,8 @@
 #!/bin/bash
 # This script migrates from foundation components to girlscouts components
-# This is for Mac. For GNU sed, replace [[:<:]] and [[:>:]] with \b
+# For GNU sed
 # This script should only be run under /content, NOT /apps
 
-find . -name '.content.xml' -exec bash -c "sed -i'' -e 's/[[:<:]]foundation\/components\/text[[:>:]]/girlscouts\/components\/text/g' {};\
-                                           sed -i'' -e 's/[[:<:]]foundation\/components\/textimage[[:>:]]/girlscouts\/components\/textimage/g' {};\
-                                           sed -i'' -e 's/[[:<:]]foundation\/components\/image[[:>:]]/girlscouts\/components\/image/g' {};" \;
+find . -name '.content.xml' -exec bash -c "sed -e 's/\bfoundation\/components\/text\b/girlscouts\/components\/text/g' -i'' {};\
+                                           sed -e 's/\bfoundation\/components\/textimage\b/girlscouts\/components\/textimage/g' -i'' {};\
+                                           sed -e 's/\bfoundation\/components\/image\b/girlscouts\/components\/image/g' -i'' {};" \;
