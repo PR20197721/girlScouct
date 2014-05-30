@@ -1,7 +1,7 @@
   
 <%@ page import="org.girlsscout.vtk.models.user.*, org.girlsscout.vtk.models.*,org.girlsscout.vtk.dao.*,org.girlsscout.vtk.ejb.*" %>
   
-<%@include file="/include/headerDev.jsi" %>
+<%@include file="include/headerDev.jsi" %>
 <script type="text/javascript" src="js/vtk/locationManager.js"></script>
 <div id="locMsg1"></div>
 <div>

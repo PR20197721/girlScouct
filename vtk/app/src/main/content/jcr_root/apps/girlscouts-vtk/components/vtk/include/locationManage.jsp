@@ -1,7 +1,7 @@
   
   <%@ page import="org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
   
-   <%@include file="/include/headerDev.jsi" %>
+   <%@include file="include/headerDev.jsi" %>
 <script>
 
 	function rmLocation(locationName){
