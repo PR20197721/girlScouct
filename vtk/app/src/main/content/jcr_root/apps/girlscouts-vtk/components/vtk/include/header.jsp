@@ -35,7 +35,7 @@
         	
         		 function x(planId){
         			
-        		    $("#div1").load("include/meeting.jsp?planId="+planId);
+        		    $("#div1").load("/content/girlscouts-vtk/controllers/vtk.meeting.html?planId="+planId);
         		  }
         		 
         		 function testIt(){
