@@ -138,5 +138,5 @@
                 
                 
                 
-                 <a href="http://localhost:8080/VTK/plan.jsp?ageLevel=brownie">Start</a> || <a href="http://localhost:8080/VTK/planView.jsp">Plan</a>
+                 <a href="/VTK/plan.jsp?ageLevel=brownie">Start</a> || <a href="/VTK/planView.jsp">Plan</a>
         <br/><br/>
