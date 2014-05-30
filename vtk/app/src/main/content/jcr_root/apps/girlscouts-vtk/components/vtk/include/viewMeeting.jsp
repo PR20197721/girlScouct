@@ -16,7 +16,7 @@
  				<%=meeting.getBlurb() %>
  				
  				
- 				<a href="planView.jsp?elem=<%=date.getTime()%>">View Meeting</a>
+ 				<a href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=date.getTime()%>">View Meeting</a>
  				
  				<span style="background-color:gray; padding:2px;"><%=meeting.getAidTags() %></span>
  			</li>

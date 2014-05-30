@@ -13,7 +13,7 @@ java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  meetingInfo.ge
 	
 	
 	<%if( prevDate!=0 ){ %>
-		<a href="planView.jsp?elem=<%=prevDate%>"> << PREV </a>
+		<a href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=prevDate%>"> << PREV </a>
 	<%} %>
 	
 	<br/>
@@ -23,14 +23,14 @@ java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  meetingInfo.ge
 	
 	
 	<%if( nextDate!=0 ){ %>
-		<br/><a href="planView.jsp?elem=<%=nextDate%>">NEXT>></a>
+		<br/><a href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=nextDate%>">NEXT>></a>
 	<%} %>
 	
 	
 
 </div>
 
-<!--  <a href="meetingLibrary.jsp">change this meeting</a> -->
+<!--  <a href="/content/girlscouts-vtk/en/vtk.meetingLibrary.html">change this meeting</a> -->
 <a href="javascript:void(0)" onclick="viewMeetingLibrary('<%=meeting.getPath()%>')">replace this meeting</a>
 
 <h1>Meeting: <%= meetingInfo.getName() %></h1>

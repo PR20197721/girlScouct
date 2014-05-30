@@ -23,7 +23,7 @@ if( user ==null){
 <dl class="tabs" data-tab >
   <dd ><a href="#panel2-1">My Troup</a></dd>
   <dd class="active"><a href="#panel2-2">Year Plan</a></dd>
-  <dd><a href="planView.jsp" >Meeting Plan</a></dd>
+  <dd><a href="/content/girlscouts-vtk/en/vtk.planView.html" >Meeting Plan</a></dd>
   <dd><a href="#panel2-4">Resources</a></dd>
   <dd><a href="#panel2-5">Community</a></dd>
 </dl>
@@ -40,7 +40,7 @@ if( user ==null){
   <div class="content active" id="panel2-2">
   <a href="javascript:void(0)" onclick="newActivity()">Add Activity</a> ||
 <a href="javascript:void(0)" onclick="newLocCal()">Specify Meeting Dates and Locations</a> ||
-<a href="meetingLibrary.jsp" >Add Meeting From Library</a> 
+<a href="/content/girlscouts-vtk/en/vtk.meetingLibrary.html" >Add Meeting From Library</a> 
   <div style="color:#FFF; background-color:gray;">Year Plan LIBRARY<a href="javascript:void(0)" onclick="yesPlan()">reveal</a></div>
   <% if(user.getYearPlan()!=null){%>
   	<div id="div2" style="display:none;">

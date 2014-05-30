@@ -10,14 +10,14 @@ Activity activity = (Activity) _comp;
 	<%
 	System.err.println( "tatat: "+ searchDate );
 	if( prevDate!=0 ){ %>
-		<a href="planView.jsp?elem=<%=prevDate%>"> << PREV </a>
+		<a href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=prevDate%>"> << PREV </a>
 	<%} %>
 	
 	<br/><%=fmt.format(searchDate) %>
 	
 	
 	<%if( nextDate!=0 ){ %>
-		<br/><a href="planView.jsp?elem=<%=nextDate%>">NEXT>></a>
+		<br/><a href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=nextDate%>">NEXT>></a>
 	<%} %>
 	
 	

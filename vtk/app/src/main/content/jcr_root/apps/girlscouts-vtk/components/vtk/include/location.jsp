@@ -11,5 +11,5 @@
 	<br/>Zip <input type="text" id="loc_zip" value=""/>
 	<br/><br/>
 	<br/><a href="javascript:void(0)" onclick="addLocation()">add</a>
-	|| <a href="locationManage.jsp">Manage Locations</a>
+	|| <a href="/content/girlscouts-vtk/en/vtk.locationManage.html">Manage Locations</a>
 </div>

@@ -18,7 +18,7 @@ function showIt(x){
 	<div style="float:left; background-color:green; color:#FFF; padding:20px;">
 		
 		<% if( i>0) { %>
-				<a href="meeting.jsp?mid=<%=meetings.get(i-1).getPath()%>"><< PREV</a> 
+				<a href="/content/girlscouts-vtk/en/vtk.meeting.html?mid=<%=meetings.get(i-1).getPath()%>"><< PREV</a> 
 		<% }
 		
 		
@@ -34,7 +34,7 @@ function showIt(x){
 		
 		
 		if( i< (meetings.size()-1) ) { %>
-				<a href="meeting.jsp?mid=<%=meetings.get(i+1).getPath()%>"> NEXT >></a> 
+				<a href="/content/girlscouts-vtk/en/vtk.meeting.html?mid=<%=meetings.get(i+1).getPath()%>"> NEXT >></a> 
 		<% } %>
 		
 		

@@ -8,7 +8,7 @@
 
 	java.util.List< Meeting> meetings=  new MeetingDAOImpl().search();
 %>
- <a href="<%= meetingPath==null ? "plan.jsp" : "planView.jsp"%>">exit meeting library</a>
+ <a href="<%= meetingPath==null ? "/content/girlscouts-vtk/en/vtk.plan.html" : "/content/girlscouts-vtk/en/vtk.planView.html"%>">exit meeting library</a>
 <div style="background-color:gray;">Meeting Library</div>
 <p>Browse meetings, and select them to review the details</p>
 <div>
@@ -19,7 +19,7 @@
 			<div>#<%=i+1 %></div>
 			<div><%=meeting.getName()%></div>
 			<%=meeting.getBlurb() %>
-			<a href="viewMeetingLibraryMeeting.jsp?rpath=<%=meetingPath %>&mpath=<%=meeting.getPath()%>">View Meeting</a>
+			<a href="/content/girlscouts-vtk/en/vtk.viewMeetingLibraryMeeting.html?rpath=<%=meetingPath %>&mpath=<%=meeting.getPath()%>">View Meeting</a>
 			<%=meeting.getAidTags() %>
 			</div>
 	    <% 

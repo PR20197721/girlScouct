@@ -138,5 +138,5 @@
                 
                 
                 
-                 <a href="plan.jsp?ageLevel=brownie">Start</a> || <a href="planView.jsp">Plan</a>
+                 <a href="/content/girlscouts-vtk/en/vtk.plan.html?ageLevel=brownie">Start</a> || <a href="/content/girlscouts-vtk/en/vtk.planView.html">Plan</a>
         <br/><br/>
