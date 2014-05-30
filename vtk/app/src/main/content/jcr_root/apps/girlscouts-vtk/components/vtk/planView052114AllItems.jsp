@@ -32,7 +32,7 @@ java.util.Iterator itr = sched.keySet().iterator();
 
 %>
 
-   <%@include file="include/headerDev.jsp" %>     
+   <%@include file="include/headerDev.jsi" %>     
        
        <h1>YEar Plan Sched</h1>
        
@@ -65,11 +65,11 @@ java.util.Iterator itr = sched.keySet().iterator();
        				switch( _comp.getType() ){
        				
        					case ACTIVITY :
-       					%>  <%@include file="include/viewYearPlanActivity.jsp" %>    <% 
+       					%>  <%@include file="include/viewYearPlanActivity.jsi" %>    <% 
        					break;
        					
        					case MEETING :
-           					%>  <%@include file="include/viewYearPlanMeeting.jsp" %>    <% 
+           					%>  <%@include file="include/viewYearPlanMeeting.jsi" %>    <% 
            					break;
        				}
        			%>

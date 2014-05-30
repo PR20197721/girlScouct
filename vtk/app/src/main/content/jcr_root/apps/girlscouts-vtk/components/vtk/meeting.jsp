@@ -3,7 +3,7 @@
 
 
 	   <%User user= (User)session.getValue("VTK_user");%>
-       <%@include file="include/headerDev.jsp" %>         
+       <%@include file="include/headerDev.jsi" %>         
        <script type="text/javascript" src="js/vtk/meeting.js"></script>
        <a href="plan.jsp?ageLevel=brownie">Back to Plan</a>
        <div id="errInfo"></div>
@@ -29,7 +29,7 @@
     					meetingDate.setTimeInMillis(Long.parseLong(calT.nextToken()));
            		    }
        				
-       				%><%@include file="include/meetingView.jsp" %><%
+       				%><%@include file="include/meetingView.jsi" %><%
        				break;
        			}
        		
@@ -37,7 +37,7 @@
        		}
        %>
        
-       <%@include file="include/footer.jsp" %>
+       <%@include file="include/footer.jsi" %>
        <%!
        java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat("MM/dd/yyyy hh:mm a");
        %>

@@ -14,7 +14,7 @@
 	java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  meeting.getMeetingInfo();
 	
 %>
-<%@include file="include/headerDev.jsp" %>  
+<%@include file="include/headerDev.jsi" %>  
 <script>
 	function cngMeeting(){
 		
@@ -113,5 +113,5 @@ PDF HERE
 </table>
 </div>
 
-<%@include file="include/manageCommunications.jsp" %> 
-<%@include file="include/footer.jsp" %> 
+<%@include file="include/manageCommunications.jsi" %> 
+<%@include file="include/footer.jsi" %> 

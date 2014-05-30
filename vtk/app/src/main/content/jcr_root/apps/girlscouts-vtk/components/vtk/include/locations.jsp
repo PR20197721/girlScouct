@@ -37,10 +37,10 @@ Freq<select id="calFreq"><option value="weekly">weekly</option> <option value="m
 </div>
 
 
-<%@include file="location.jsp" %>
+<%@include file="location.jsi" %>
 
 <br/><br/>
-<%@include file="manageActivities.jsp" %>
+<%@include file="manageActivities.jsi" %>
 
 
 

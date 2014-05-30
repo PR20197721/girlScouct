@@ -1,1 +1,1 @@
-<%@include file="plan.jsp" %>
+<%@include file="plan.jsi" %>

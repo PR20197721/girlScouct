@@ -7,7 +7,7 @@ if( user ==null){
 	session.putValue("VTK_user", user);
 }
 %>
-<%@include file="include/headerDev.jsp" %>     
+<%@include file="include/headerDev.jsi" %>     
 <script type="text/javascript" src="js/vtk/plan.js"></script>        
 </head>
 <body>
@@ -105,4 +105,4 @@ if( user ==null){
     
 
                 </div>
-<%@include file="include/footer.jsp" %>
+<%@include file="include/footer.jsi" %>

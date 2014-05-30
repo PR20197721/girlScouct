@@ -156,7 +156,7 @@ if( meeting.getCancelled()!=null && meeting.getCancelled().equals("true")){ %>
  	<% for(int ii=0;ii< _activities.size();ii++){ 
  			Activity _activity = _activities.get(ii);
  			
- 			%><%@include file="/include/editActivity.jsp" %> 
+ 			%><%@include file="/include/editActivity.jsi" %> 
  	<%} %>
  
  
