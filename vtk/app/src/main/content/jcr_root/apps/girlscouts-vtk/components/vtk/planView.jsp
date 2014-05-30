@@ -27,7 +27,6 @@ if( currInd>0 )
 YearPlanComponent _comp= sched.get(searchDate);
 
 %>
-       <%@include file="include/headerDev.jsp" %>     
        
        <h1>Year Plan Sched</h1>
        <div id="planMsg"></div>

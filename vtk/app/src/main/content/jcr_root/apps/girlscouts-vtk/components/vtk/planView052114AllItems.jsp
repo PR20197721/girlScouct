@@ -32,7 +32,6 @@ java.util.Iterator itr = sched.keySet().iterator();
 
 %>
 
-   <%@include file="include/headerDev.jsp" %>     
        
        <h1>YEar Plan Sched</h1>
        

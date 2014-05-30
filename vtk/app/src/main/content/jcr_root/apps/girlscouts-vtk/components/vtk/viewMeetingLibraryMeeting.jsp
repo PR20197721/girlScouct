@@ -14,7 +14,6 @@
 	java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  meeting.getMeetingInfo();
 	
 %>
-<%@include file="include/headerDev.jsp" %>  
 <script>
 	function cngMeeting(){
 		
