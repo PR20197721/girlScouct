@@ -29,7 +29,7 @@ Freq<select id="calFreq"><option value="weekly">weekly</option> <option value="m
 <input type="checkbox" name="exclDt" value="01/01/2014"/>01/01/2014
 
 <br/><input type="button" value="create calendar" onclick="buildSched()"/>
-<input type="button" value="manage calendar" onclick="document.location='calendar.jsp'" />
+<input type="button" value="manage calendar" onclick="document.location='/content/girlscouts-vtk/en/vtk.calendar.html'" />
 
 </form>
 
