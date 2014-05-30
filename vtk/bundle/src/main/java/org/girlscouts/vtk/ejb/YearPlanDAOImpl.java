@@ -3,11 +3,12 @@ package org.girlscouts.vtk.ejb;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.jcr.Repository;
 import javax.jcr.Session;
-import javax.jcr.SimpleCredentials;
 
-import org.apache.jackrabbit.commons.JcrUtils;
+import org.apache.felix.scr.annotations.Activate;
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Reference;
+import org.apache.felix.scr.annotations.Service;
 import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
 import org.apache.jackrabbit.ocm.manager.impl.ObjectContentManagerImpl;
 import org.apache.jackrabbit.ocm.mapper.Mapper;
@@ -25,28 +26,24 @@ import org.girlscouts.vtk.models.YearPlan;
 //import javax.jcr.query.QueryManager;
 //import javax.jcr.query.QueryManager;
 
+@Component
+@Service(value=YearPlanDAO.class)
 public class YearPlanDAOImpl implements YearPlanDAO{
 
-	
-	
-	private Session getConnection() throws Exception{
-		
-		
-		// Connection
-        Repository repository = JcrUtils.getRepository("http://localhost:4502/crx/server/");
-        
-        //Workspace Login
-        SimpleCredentials creds = new SimpleCredentials("admin", "admin".toCharArray());
-        Session session = null;
-        session = repository.login(creds, "crx.default");
-		return session;
-	}
+   private Session session;
+    
+    @Reference
+    private SessionPool pool;
+    
+    @Activate
+    void activate() {
+        this.session = pool.getSession();
+    }
 	
 	//public List<YearPlan> test() {
 	public List<YearPlan> getAllYearPlans(String ageLevel) {
 		java.util.List <YearPlan> yearPlans =null;
 		try{
-		Session session = getConnection();
 		List<Class> classes = new ArrayList<Class>();	
 		classes.add(YearPlan.class); 
 		classes.add(Meeting.class); 
@@ -110,7 +107,6 @@ public class YearPlanDAOImpl implements YearPlanDAO{
 		plan.setPath("/yearPlan");
 		
 		try{
-			Session session = getConnection();
 			List<Class> classes = new ArrayList<Class>();	
 			classes.add(YearPlan.class); 
 			

@@ -3,11 +3,12 @@ package org.girlscouts.vtk.ejb;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.jcr.Repository;
 import javax.jcr.Session;
-import javax.jcr.SimpleCredentials;
 
-import org.apache.jackrabbit.commons.JcrUtils;
+import org.apache.felix.scr.annotations.Activate;
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Reference;
+import org.apache.felix.scr.annotations.Service;
 import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
 import org.apache.jackrabbit.ocm.manager.impl.ObjectContentManagerImpl;
 import org.apache.jackrabbit.ocm.mapper.Mapper;
@@ -24,8 +25,19 @@ import org.girlscouts.vtk.models.user.User;
 //import javax.jcr.query.Query;
 //import javax.jcr.query.QueryManager;
 
+@Component
+@Service(value=MeetingDAO.class)
 public class MeetingDAOImpl implements MeetingDAO {
 
+   private Session session;
+    
+    @Reference
+    private SessionPool pool;
+    
+    @Activate
+    void activate() {
+        this.session = pool.getSession();
+    }
 	
 
 	//by planId
@@ -36,7 +48,6 @@ public java.util.List<MeetingE> getAllEventMeetings(String yearPlanId){
 		
 		
 		try{
-			Session session = getConnection();
 			List<Class> classes = new ArrayList<Class>();	
 			classes.add(MeetingE.class); 
 			
@@ -85,7 +96,6 @@ public java.util.List<MeetingE> getAllEventMeetings_byPath(String yearPlanPath){
 	
 	
 	try{
-		Session session = getConnection();
 		List<Class> classes = new ArrayList<Class>();	
 		classes.add(MeetingE.class); 
 		
@@ -116,21 +126,6 @@ public java.util.List<MeetingE> getAllEventMeetings_byPath(String yearPlanPath){
 }
 
 
-	private Session getConnection() throws Exception{
-		
-		
-		// Connection
-        Repository repository = JcrUtils.getRepository("http://localhost:4502/crx/server/");
-        
-        //Workspace Login
-        SimpleCredentials creds = new SimpleCredentials("admin", "admin".toCharArray());
-        Session session = null;
-        session = repository.login(creds, "crx.default");
-		return session;
-	}
-	
-	
-	
 	public java.util.List<Meeting> getAllMeetings(String yearPlanId){
 		
 		java.util.List<Meeting> meetings =null; //new java.util.ArrayList();
@@ -150,7 +145,6 @@ public java.util.List<MeetingE> getAllEventMeetings_byPath(String yearPlanPath){
 	*/	
 		
 		try{
-			Session session = getConnection();
 			List<Class> classes = new ArrayList<Class>();	
 			classes.add(Meeting.class); 
 			classes.add(Activity.class);
@@ -210,7 +204,6 @@ public Meeting getMeeting(String path){
 		
 		
 		try{
-			Session session = getConnection();
 			List<Class> classes = new ArrayList<Class>();	
 			 
 			classes.add(Meeting.class); 
@@ -246,7 +239,6 @@ public java.util.List<MeetingE> getAllUsersEventMeetings(User user, String yearP
 	
 	
 	try{
-		Session session = getConnection();
 		List<Class> classes = new ArrayList<Class>();	
 		classes.add(MeetingE.class); 
 		
@@ -276,7 +268,6 @@ public Meeting createCustomMeeting(User user, MeetingE meetingEvent, Meeting mee
 	
 	//Meeting meeting =null;
 	try{
-		Session session = getConnection();
 		List<Class> classes = new ArrayList<Class>();	
 		classes.add(MeetingE.class); 
 		classes.add(Meeting.class);
@@ -315,7 +306,6 @@ public Meeting addActivity(Meeting meeting, Activity activity){
 	meeting.setActivities(activities);
 	
 	try{
-	Session session = getConnection();
 	List<Class> classes = new ArrayList<Class>();	
 	classes.add(MeetingE.class); 
 	classes.add(Meeting.class);
@@ -340,7 +330,6 @@ public List< Meeting> search(){
 	
 	List< Meeting> meetings=null;
 	try{
-		Session session = getConnection();
 		List<Class> classes = new ArrayList<Class>();	
 		classes.add(Meeting.class); 
 		classes.add(Activity.class);

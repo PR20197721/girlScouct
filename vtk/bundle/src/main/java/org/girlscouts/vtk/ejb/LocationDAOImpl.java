@@ -3,11 +3,12 @@ package org.girlscouts.vtk.ejb;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.jcr.Repository;
 import javax.jcr.Session;
-import javax.jcr.SimpleCredentials;
 
-import org.apache.jackrabbit.commons.JcrUtils;
+import org.apache.felix.scr.annotations.Activate;
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Reference;
+import org.apache.felix.scr.annotations.Service;
 import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
 import org.apache.jackrabbit.ocm.manager.impl.ObjectContentManagerImpl;
 import org.apache.jackrabbit.ocm.mapper.Mapper;
@@ -20,15 +21,24 @@ import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.user.User;
 
+@Component
+@Service(value=LocationDAO.class)
 public class LocationDAOImpl implements LocationDAO{
 
-	
+   private Session session;
+    
+    @Reference
+    private SessionPool pool;
+    
+    @Activate
+    void activate() {
+        this.session = pool.getSession();
+    }
 
 	public void removeLocation(User user, String locationName) {
 		
 		try{
 			System.err.println("Rm loc: "+ locationName);
-			Session session = getConnection();
 			List<Class> classes = new ArrayList<Class>();	
 			classes.add(User.class);
 			classes.add(Activity.class);
@@ -63,23 +73,6 @@ public class LocationDAOImpl implements LocationDAO{
 		
 		
 		
-	}
-	
-	
-	
-
-
-	private Session getConnection() throws Exception{
-		
-		
-		// Connection
-        Repository repository = JcrUtils.getRepository("http://localhost:4502/crx/server/");
-        
-        //Workspace Login
-        SimpleCredentials creds = new SimpleCredentials("admin", "admin".toCharArray());
-        Session session = null;
-        session = repository.login(creds, "crx.default");
-		return session;
 	}
 	
 

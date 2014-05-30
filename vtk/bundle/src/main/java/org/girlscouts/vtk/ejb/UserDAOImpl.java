@@ -3,11 +3,12 @@ package org.girlscouts.vtk.ejb;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.jcr.Repository;
 import javax.jcr.Session;
-import javax.jcr.SimpleCredentials;
 
-import org.apache.jackrabbit.commons.JcrUtils;
+import org.apache.felix.scr.annotations.Activate;
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Reference;
+import org.apache.felix.scr.annotations.Service;
 import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
 import org.apache.jackrabbit.ocm.manager.impl.ObjectContentManagerImpl;
 import org.apache.jackrabbit.ocm.mapper.Mapper;
@@ -23,13 +24,24 @@ import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.user.User;
 
+@Component
+@Service(value=UserDAO.class)
 public class UserDAOImpl implements UserDAO{
 
+   private Session session;
+    
+    @Reference
+    private SessionPool pool;
+    
+    @Activate
+    void activate() {
+        this.session = pool.getSession();
+    }
+    
 	public User getUser(String userId) {
 		
 		User user =null;
 		try{
-			Session session = getConnection();
 			List<Class> classes = new ArrayList<Class>();	
 			classes.add(User.class); 
 			classes.add(YearPlan.class); 
@@ -73,20 +85,6 @@ public static void main(String args[]){
 
 
 
-	private Session getConnection() throws Exception{
-		
-		
-		// Connection
-        Repository repository = JcrUtils.getRepository("http://localhost:4502/crx/server/");
-        
-        //Workspace Login
-        SimpleCredentials creds = new SimpleCredentials("admin", "admin".toCharArray());
-        Session session = null;
-        session = repository.login(creds, "crx.default");
-		return session;
-	}
-	
-	
 	public YearPlan addYearPlan( User user, String yearPlanPath ){
 		
 		 YearPlan plan =null;
@@ -99,7 +97,6 @@ public static void main(String args[]){
 			//path has not meetings/ TODO check if exists
 			yearPlanPath += "meetings/";
 			
-			Session session = getConnection();
 			List<Class> classes = new ArrayList<Class>();	
 			classes.add(User.class); 
 			classes.add(YearPlan.class); 
@@ -138,7 +135,6 @@ public static void main(String args[]){
 		
          try{
 			
-			Session session = getConnection();
 			List<Class> classes = new ArrayList<Class>();	
 			classes.add(User.class); 
 			classes.add(YearPlan.class); 
