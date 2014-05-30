@@ -23,7 +23,7 @@
        			MeetingE meeting = meetings.get(i);
        			
        			if( meeting.getPath().equals( meetingPath )){
-       				Meeting meetingInfo = new MeetingDAOImpl().getMeeting(meeting.getRefId());
+       				Meeting meetingInfo = meetingDAO.getMeeting(meeting.getRefId());
        				
        				if( calT !=null){ //sched
     					meetingDate = Calendar.getInstance();

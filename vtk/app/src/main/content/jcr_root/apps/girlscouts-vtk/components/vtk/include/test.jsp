@@ -15,7 +15,6 @@
     }else{ //pull
     	
  
-    	MeetingDAO meetingDAO = new MeetingDAOImpl();
     	java.util.List <Meeting> _meetings = meetingDAO.getAllMeetings(yearPlanId);
     
     	meetings = _meetings.listIterator();

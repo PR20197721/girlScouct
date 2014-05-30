@@ -8,7 +8,7 @@
 	String meetingPath = request.getParameter("mpath");
 	if( meetingPath==null || meetingPath.equals("null") || meetingPath.equals("")) meetingPath=null;
 
-	java.util.List< Meeting> meetings=  new MeetingDAOImpl().search();
+	java.util.List< Meeting> meetings=  meetingDAO.search();
 %>
  <a href="<%= meetingPath==null ? "/content/girlscouts-vtk/en/vtk.plan.html" : "/content/girlscouts-vtk/en/vtk.planView.html"%>">exit meeting library</a>
 <div style="background-color:gray;">Meeting Library</div>

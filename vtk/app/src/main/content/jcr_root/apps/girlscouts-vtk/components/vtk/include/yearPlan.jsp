@@ -12,7 +12,6 @@
 <%
 	YearPlanDAO yearPlanDAO = sling.getService(YearPlanDAO.class);
 
-	YearPlanDAO yearPlanDAO = new YearPlanDAOImpl();
 	java.util.Iterator <YearPlan>yearPlans =yearPlanDAO.getAllYearPlans( request.getParameter("ageLevel")).listIterator();
 
 	while(yearPlans.hasNext()){

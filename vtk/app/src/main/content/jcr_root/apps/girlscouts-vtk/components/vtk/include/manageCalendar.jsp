@@ -13,7 +13,7 @@
    	<td>
    	
    	
-   	<%=   	new MeetingDAOImpl().getMeeting(  user.getYearPlan().getMeetingEvents().get(i).getRefId() ).getName() %>
+   	<%=   	meetingDAO.getMeeting(  user.getYearPlan().getMeetingEvents().get(i).getRefId() ).getName() %>
    </table>
 	
 	<div id="<%=(i+1) %>" style="padding:40px; background-color:gray;display:none; border:1px solid red;">

@@ -5,7 +5,7 @@ YearPlanDAO yearPlanDAO = sling.getService(YearPlanDAO.class);
 
 User user= (User)session.getValue("VTK_user");
 if( user ==null){
-	user= new UserDAOImpl().getUser( request.getParameter("userId"));
+	user= userDAO.getUser( request.getParameter("userId"));
 	session.putValue("VTK_user", user);
 }
 %>

@@ -18,7 +18,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 }else if( request.getParameter("newCustActivity") !=null ){
 	
 	
-		new ActivityDAOImpl().createActivity(
+		activityDAO.createActivity(
 				(User) session.getValue("VTK_user"),
 				new Activity( 
 			request.getParameter("newCustActivity_name"), 
@@ -40,7 +40,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	
 }else if( request.getParameter("addYearPlanUser") !=null ){
 	
-	new UserDAOImpl().selectYearPlan(  (User) session.getValue("VTK_user"), request.getParameter("addYearPlanUser"));
+	userDAO.selectYearPlan(  (User) session.getValue("VTK_user"), request.getParameter("addYearPlanUser"));
 	
 	
 }else if( request.getParameter("addLocation") !=null ){
@@ -52,7 +52,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	
 }else if( request.getParameter("rmLocation") !=null ){
 
-	new LocationDAOImpl().removeLocation((User) session.getValue("VTK_user"), request.getParameter("rmLocation"));
+	locationDAO.removeLocation((User) session.getValue("VTK_user"), request.getParameter("rmLocation"));
 	
 	
 	

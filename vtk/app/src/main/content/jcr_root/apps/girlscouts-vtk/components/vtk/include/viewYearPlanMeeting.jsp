@@ -3,7 +3,7 @@
 MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
 
 MeetingE meeting = (MeetingE) _comp;
-Meeting meetingInfo = new MeetingDAOImpl().getMeeting(  meeting.getRefId() );
+Meeting meetingInfo = meetingDAO.getMeeting(  meeting.getRefId() );
 java.util.List <Activity> _activities = meetingInfo.getActivities();
 java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  meetingInfo.getMeetingInfo();
 %>

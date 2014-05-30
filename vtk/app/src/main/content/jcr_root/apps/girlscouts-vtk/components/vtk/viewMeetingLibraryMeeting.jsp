@@ -8,7 +8,7 @@
 	String orgMeetingPath = request.getParameter("rpath");
     if( orgMeetingPath==null || orgMeetingPath.equals("null") || orgMeetingPath.equals("")) orgMeetingPath=null;
 	String meetingPath = request.getParameter("mpath");
-	Meeting meeting = new MeetingDAOImpl().getMeeting(meetingPath);
+	Meeting meeting = meetingDAO.getMeeting(meetingPath);
 	if( meeting==null ){ out.println("Meeting not found");return;}
 	java.util.List <Activity> activities = meeting.getActivities();
 	
