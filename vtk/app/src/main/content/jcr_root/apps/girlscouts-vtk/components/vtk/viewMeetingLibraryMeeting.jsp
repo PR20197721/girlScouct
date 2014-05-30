@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@ page import="org.girlsscout.vtk.models.*,org.girlsscout.vtk.dao.*, org.girlsscout.vtk.ejb.*" %>
+    <%@ page import="org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*, org.girlscouts.vtk.ejb.*" %>
 
 <%
 
@@ -14,16 +14,16 @@
 	java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  meeting.getMeetingInfo();
 	
 %>
-<%@include file="include/headerDev.jsi" %>  
+<%@include file="include/headerDev.jsp" %>  
 <script>
 	function cngMeeting(){
 		
 		
-		$( "#cngMeet" ).load( "/VTK/include/controller.jsp?<%=orgMeetingPath==null ? "addMeeting" : "cngMeeting"%>=true&fromPath=<%=orgMeetingPath%>&toPath=<%=meetingPath%>",function( html ) {
+		$( "#cngMeet" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?<%=orgMeetingPath==null ? "addMeeting" : "cngMeeting"%>=true&fromPath=<%=orgMeetingPath%>&toPath=<%=meetingPath%>",function( html ) {
 			 <%if(orgMeetingPath==null){%>
-			    document.location="/VTK/plan.jsp";
+			    document.location="/content/girlscouts-vtk/en/vtk.plan.html";
 			 <%}else{%>
-			 	document.location="/VTK/planView.jsp";
+			 	document.location="/content/girlscouts-vtk/en/vtk.planView.html";
 			 <%}%>
 			 
 		  });
@@ -32,9 +32,9 @@
 	function exitLib(){
 		
 	 <%if(orgMeetingPath==null){%>
-	    document.location="/VTK/plan.jsp";
+	    document.location="/content/girlscouts-vtk/en/vtk.plan.html";
 	 <%}else{%>
-	 	document.location="/VTK/planView.jsp";
+	 	document.location="/content/girlscouts-vtk/en/vtk.planView.html";
 	 <%}%>
 		
 	}
@@ -113,5 +113,5 @@ PDF HERE
 </table>
 </div>
 
-<%@include file="include/manageCommunications.jsi" %> 
-<%@include file="include/footer.jsi" %> 
+<%@include file="include/manageCommunications.jsp" %> 
+<%@include file="include/footer.jsp" %> 
