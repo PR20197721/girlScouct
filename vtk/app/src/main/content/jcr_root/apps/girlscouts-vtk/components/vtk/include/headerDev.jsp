@@ -138,5 +138,5 @@
                 
                 
                 
-                 <a href="/VTK/plan.jsp?ageLevel=brownie">Start</a> || <a href="/VTK/planView.jsp">Plan</a>
+                 <a href="plan.jsp?ageLevel=brownie">Start</a> || <a href="planView.jsp">Plan</a>
         <br/><br/>

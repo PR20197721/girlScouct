@@ -29,7 +29,7 @@ Freq<select id="calFreq"><option value="weekly">weekly</option> <option value="m
 <input type="checkbox" name="exclDt" value="01/01/2014"/>01/01/2014
 
 <br/><input type="button" value="create calendar" onclick="buildSched()"/>
-<input type="button" value="manage calendar" onclick="document.location='/VTK/calendar.jsp'" />
+<input type="button" value="manage calendar" onclick="document.location='calendar.jsp'" />
 
 </form>
 

@@ -6,13 +6,13 @@
 
 	function rmLocation(locationName){
 		
-		 $("#locMsg1").load("/VTK/include/controller.jsp?rmLocation="+locationName);
+		 $("#locMsg1").load("include/controller.jsp?rmLocation="+locationName);
 		 
 	}
 	
 	function applyLocToAllMeetings(locationPath){
 		
-		 $("#locMsg1").load("/VTK/include/controller.jsp?setLocationToAllMeetings="+locationPath);
+		 $("#locMsg1").load("include/controller.jsp?setLocationToAllMeetings="+locationPath);
 		 
 	}
 	
@@ -29,11 +29,11 @@
 			   }
 			  }
 		
-		//$("#locMsg1").load("/VTK/include/controller.jsp?chnLocation="+addon+"&newLocPath="+locationPath);
+		//$("#locMsg1").load("include/controller.jsp?chnLocation="+addon+"&newLocPath="+locationPath);
 		 
 		
 		 var x =$.ajax({ // ajax call starts
-	          url: "/VTK/include/controller.jsp?chnLocation="+addon+"&newLocPath="+locationPath, // JQuery loads serverside.php
+	          url: "include/controller.jsp?chnLocation="+addon+"&newLocPath="+locationPath, // JQuery loads serverside.php
 	          data: '', // Send value of the clicked button
 	          dataType: 'html', // Choosing a JSON datatype
 	          success: function (data) { 

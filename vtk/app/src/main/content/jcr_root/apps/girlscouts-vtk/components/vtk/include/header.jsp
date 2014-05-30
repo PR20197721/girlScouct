@@ -35,7 +35,7 @@
         	
         		 function x(planId){
         			
-        		    $("#div1").load("/VTK/include/meeting.jsp?planId="+planId);
+        		    $("#div1").load("include/meeting.jsp?planId="+planId);
         		  }
         		 
         		 function testIt(){
