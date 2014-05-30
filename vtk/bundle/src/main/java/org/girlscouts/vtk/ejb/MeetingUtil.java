@@ -4,6 +4,11 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Reference;
+import org.apache.felix.scr.annotations.Service;
+import org.girlscouts.vtk.dao.MeetingDAO;
+import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.Meeting;
@@ -12,9 +17,15 @@ import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
 import org.girlscouts.vtk.models.user.User;
 
+@Component
+@Service
 public class MeetingUtil {
-
-	
+    
+    @Reference
+    UserDAO userDAO;
+    
+    @Reference
+    MeetingDAO meetingDAO;
 	
 	public java.util.List<MeetingE> updateMeetingPos(java.util.List<MeetingE> orgMeetings, java.util.List <Integer> newPoss){
 		
@@ -97,7 +108,7 @@ public class MeetingUtil {
 	
 	
 	
-	public static void changeMeetingPositions(User user, String newPositions){
+	public void changeMeetingPositions(User user, String newPositions){
 		
 		java.util.List <Integer> newMeetingSetup= new java.util.ArrayList();
 		java.util.StringTokenizer t= new java.util.StringTokenizer( newPositions, ",");
@@ -122,7 +133,7 @@ public class MeetingUtil {
 	}
 	
 	
-	public static void createCustomAgenda(User user, String name, String meetingPath, int duration, long _startTime ){
+	public void createCustomAgenda(User user, String name, String meetingPath, int duration, long _startTime ){
 		
 		java.util.Calendar startTime =  Calendar.getInstance();
 		startTime.setTimeInMillis(  _startTime  );
@@ -151,7 +162,7 @@ public class MeetingUtil {
 		userDAO.updateUser(user);
 	}
 	
-	public static void rmCustomActivity (User user, String activityPath ){
+	public void rmCustomActivity (User user, String activityPath ){
 		
 		
 		java.util.List <Activity> activities = user.getYearPlan().getActivities();
@@ -167,7 +178,7 @@ public class MeetingUtil {
 		
 	}
 	
-	public static void swapMeetings(User user, String fromPath, String toPath){
+	public void swapMeetings(User user, String fromPath, String toPath){
 		
 		java.util.List<MeetingE> meetings = user.getYearPlan().getMeetingEvents();
 		for(int i=0;i<meetings.size();i++){
@@ -184,7 +195,7 @@ public class MeetingUtil {
 		userDAO.updateUser(user);
 	}
 
-	public static void rearrangeActivity(User user, String meetingPath, String _newPoss){
+	public void rearrangeActivity(User user, String meetingPath, String _newPoss){
 		
 		//TOREDO
 		java.util.List<Integer> newPoss = new java.util.ArrayList();
@@ -220,7 +231,7 @@ public class MeetingUtil {
 	}
 	
 	
-	public static MeetingE getMeeting(java.util.List<MeetingE> meetings, String meetingPath){
+	public MeetingE getMeeting(java.util.List<MeetingE> meetings, String meetingPath){
 		
 		
 		for(int i=0;i<meetings.size();i++){
@@ -232,7 +243,7 @@ public class MeetingUtil {
 		return null;
 	}
 	
-	public static void addMeetings(User user, String newMeetingPath){
+	public void addMeetings(User user, String newMeetingPath){
 		
 		MeetingE meeting = new MeetingE();
 		meeting.setRefId(newMeetingPath);
@@ -262,7 +273,7 @@ public class MeetingUtil {
 	}
 	
 	
-	public static void rmAgenda(User user, String agendaPathToRm , String fromMeetingPath  ){
+	public void rmAgenda(User user, String agendaPathToRm , String fromMeetingPath  ){
 		
 		for(int i=0;i< user.getYearPlan().getMeetingEvents().size();i++){
 			
@@ -288,7 +299,7 @@ public class MeetingUtil {
 		}
 	}
 	
-	public static void editAgendaDuration(User user, int duration, String activityPath, String meetingPath){
+	public void editAgendaDuration(User user, int duration, String activityPath, String meetingPath){
 	
         for(int i=0;i< user.getYearPlan().getMeetingEvents().size();i++){
 			

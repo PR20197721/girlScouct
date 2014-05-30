@@ -16,6 +16,7 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
 import org.apache.jackrabbit.ocm.query.Filter;
 import org.apache.jackrabbit.ocm.query.Query;
 import org.apache.jackrabbit.ocm.query.QueryManager;
+import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Cal;
@@ -32,6 +33,9 @@ public class UserDAOImpl implements UserDAO{
     
     @Reference
     private SessionPool pool;
+    
+    @Reference
+    private MeetingDAO meetingDAO;
     
     @Activate
     void activate() {
@@ -77,14 +81,6 @@ public class UserDAOImpl implements UserDAO{
 	}
 	
 	
-public static void main(String args[]){
-	
-	userDAO.getUser("5");
-}
-	
-
-
-
 	public YearPlan addYearPlan( User user, String yearPlanPath ){
 		
 		 YearPlan plan =null;
@@ -160,7 +156,7 @@ public static void main(String args[]){
 
 				
 		YearPlan oldPlan = user.getYearPlan();
-		YearPlan newYearPlan = userDAO.addYearPlan(user, yearPlanPath);
+		YearPlan newYearPlan = addYearPlan(user, yearPlanPath);
 		
 		
 		
@@ -195,7 +191,7 @@ public static void main(String args[]){
 		//remove all custom activitites
 		user.getYearPlan().setActivities(null);
 		
-		 userDAO.updateUser(user);
+		updateUser(user);
 		
 	}
 

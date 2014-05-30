@@ -119,15 +119,4 @@ public class YearPlanDAOImpl implements YearPlanDAO{
 			System.err.println("done");
 		}catch(Exception e){e.printStackTrace();}
 	}
-	
-	
-	public static void main(String args[]){
-		
-		try {
-			yearPlanDAO.getAllYearPlans("brownie");
-			yearPlanDAO.test();
-			
-		}catch(Exception e){e.printStackTrace();}
-	}
-	
 }

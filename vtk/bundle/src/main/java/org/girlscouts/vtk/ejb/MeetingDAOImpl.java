@@ -190,13 +190,6 @@ public java.util.List<MeetingE> getAllEventMeetings_byPath(String yearPlanPath){
 	}
 	
 	
-	public static void main(String []args){
-		
-		meetingDAO.search();
-	}
-	
-	
-	
 public Meeting getMeeting(String path){
 		
 		Meeting meeting =null; 

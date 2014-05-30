@@ -2,6 +2,10 @@ package org.girlscouts.vtk.ejb;
 
 import java.util.List;
 
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Reference;
+import org.apache.felix.scr.annotations.Service;
+import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.MeetingE;
@@ -9,7 +13,11 @@ import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
 import org.girlscouts.vtk.models.user.User;
 
+@Component
+@Service
 public class LocationUtil {
+    @Reference
+    UserDAO userDAO;
 
 	public void setLocationAllMeetings( User user, String locationPath ){
 		
@@ -32,7 +40,7 @@ public class LocationUtil {
 		//TODO
 	}
   
-  public static void setLocation(User user, Location location){
+  public void setLocation(User user, Location location){
 	  
 		YearPlan plan = user.getYearPlan();
 		java.util.List <Location> locations = plan.getLocations();
@@ -44,7 +52,7 @@ public class LocationUtil {
 		userDAO.updateUser(user);
 		
   }
-  public static void changeLocation(User user, String dates, String locationRef){
+  public void changeLocation(User user, String dates, String locationRef){
 	  
 	  
 	 	

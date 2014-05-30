@@ -1,11 +1,19 @@
 package org.girlscouts.vtk.ejb;
 
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Reference;
+import org.apache.felix.scr.annotations.Service;
+import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.user.User;
 
+@Component
+@Service
 public class CalendarUtil {
+    @Reference
+    UserDAO userDAO;
 
 	public void weeklyCal( java.util.Date startDate ){}
 		
@@ -126,7 +134,7 @@ public class CalendarUtil {
 			userDAO.updateUser(user);
 		}
 		
-		public static void updateSched(User user, String meetingPath, String time, String date, String ap, 
+		public void updateSched(User user, String meetingPath, String time, String date, String ap, 
 				String isCancelledMeeting, long currDate){
 			
 			java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat("MM/dd/yyyy hh:mm a");
