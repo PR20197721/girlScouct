@@ -27,25 +27,25 @@ if( currInd>0 )
 YearPlanComponent _comp= sched.get(searchDate);
 
 %>
-       <%@include file="include/headerDev.jsi" %>     
+       <%@include file="include/headerDev.jsp" %>     
        
        <h1>Year Plan Sched</h1>
        <div id="planMsg"></div>
       <% 
        				switch( _comp.getType() ){
        					case ACTIVITY :
-       					%>  <%@include file="include/viewYearPlanActivity.jsi" %>    <% 
+       					%>  <%@include file="include/viewYearPlanActivity.jsp" %>    <% 
        					break;
        					
        					case MEETING :
-           					%>  <%@include file="include/viewYearPlanMeeting.jsi" %>    <% 
+           					%>  <%@include file="include/viewYearPlanMeeting.jsp" %>    <% 
            					break;
        				}       			
        %>
        
        <div id="editAgenda"></div>
-       <%@include file="include/manageCommunications.jsi" %>
-       <%@include file="include/footer.jsi" %>  
+       <%@include file="include/manageCommunications.jsp" %>
+       <%@include file="include/footer.jsp" %>  
        
        <%!
        java.text.SimpleDateFormat fmtDate= new java.text.SimpleDateFormat("MM/dd/yyyy");

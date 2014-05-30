@@ -1,7 +1,7 @@
   
 <%@ page import="org.girlsscout.vtk.models.user.*, org.girlsscout.vtk.models.*,org.girlsscout.vtk.dao.*,org.girlsscout.vtk.ejb.*" %>
   
-<%@include file="include/headerDev.jsi" %>
+<%@include file="include/headerDev.jsp" %>
 <script type="text/javascript" src="js/vtk/locationManager.js"></script>
 <div id="locMsg1"></div>
 <div>
@@ -37,7 +37,7 @@ for(int i=0;i<locations.size();i++){
 	<%}%>
 </div>
 
-  <%@include file="include/footer.jsi" %>
+  <%@include file="include/footer.jsp" %>
 
 
 <%!
