@@ -24,7 +24,6 @@ public class LocationDAOImpl implements LocationDAO{
 
 	
 
-	@Override
 	public void removeLocation(User user, String locationName) {
 		
 		try{

@@ -7,7 +7,6 @@ import javax.jcr.Repository;
 import javax.jcr.Session;
 import javax.jcr.SimpleCredentials;
 
-
 import org.apache.jackrabbit.commons.JcrUtils;
 import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
 import org.apache.jackrabbit.ocm.manager.impl.ObjectContentManagerImpl;
@@ -26,7 +25,6 @@ import org.girlscouts.vtk.models.user.User;
 
 public class UserDAOImpl implements UserDAO{
 
-	@Override
 	public User getUser(String userId) {
 		
 		User user =null;

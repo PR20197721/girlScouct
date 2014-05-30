@@ -3,15 +3,9 @@ package org.girlscouts.vtk.ejb;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.jcr.NodeIterator;
 import javax.jcr.Repository;
 import javax.jcr.Session;
 import javax.jcr.SimpleCredentials;
-//import javax.jcr.query.Query;
-//import javax.jcr.query.QueryManager;
-import javax.jcr.query.QueryResult;
-//import javax.jcr.query.QueryManager;
-
 
 import org.apache.jackrabbit.commons.JcrUtils;
 import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
@@ -27,6 +21,9 @@ import org.girlscouts.vtk.dao.YearPlanDAO;
 import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.YearPlan;
+//import javax.jcr.query.Query;
+//import javax.jcr.query.QueryManager;
+//import javax.jcr.query.QueryManager;
 
 public class YearPlanDAOImpl implements YearPlanDAO{
 
@@ -45,7 +42,6 @@ public class YearPlanDAOImpl implements YearPlanDAO{
 		return session;
 	}
 	
-	@Override
 	//public List<YearPlan> test() {
 	public List<YearPlan> getAllYearPlans(String ageLevel) {
 		java.util.List <YearPlan> yearPlans =null;

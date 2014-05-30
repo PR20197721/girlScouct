@@ -3,10 +3,6 @@ package org.girlscouts.vtk.ejb;
 import java.util.ArrayList;
 import java.util.List;
 
-//import javax.jcr.query.Query;
-//import javax.jcr.query.QueryManager;
-import javax.jcr.query.QueryResult;
-
 import javax.jcr.Repository;
 import javax.jcr.Session;
 import javax.jcr.SimpleCredentials;
@@ -16,20 +12,17 @@ import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
 import org.apache.jackrabbit.ocm.manager.impl.ObjectContentManagerImpl;
 import org.apache.jackrabbit.ocm.mapper.Mapper;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.apache.jackrabbit.ocm.query.Filter;
 import org.apache.jackrabbit.ocm.query.Query;
 import org.apache.jackrabbit.ocm.query.QueryManager;
-
 import org.girlscouts.vtk.dao.MeetingDAO;
-
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.JcrCollectionHoldString;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
-import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.user.User;
+//import javax.jcr.query.Query;
+//import javax.jcr.query.QueryManager;
 
 public class MeetingDAOImpl implements MeetingDAO {
 

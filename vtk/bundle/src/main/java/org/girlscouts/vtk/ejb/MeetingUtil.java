@@ -1,11 +1,9 @@
 package org.girlscouts.vtk.ejb;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import org.girlscouts.vtk.dao.YearPlanComponentType;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.Meeting;
@@ -13,8 +11,6 @@ import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
 import org.girlscouts.vtk.models.user.User;
-import org.joda.time.DateTime;
-import org.joda.time.Days;
 
 public class MeetingUtil {
 

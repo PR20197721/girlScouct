@@ -12,9 +12,6 @@ import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
 import org.apache.jackrabbit.ocm.manager.impl.ObjectContentManagerImpl;
 import org.apache.jackrabbit.ocm.mapper.Mapper;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
-import org.apache.jackrabbit.ocm.query.Filter;
-import org.apache.jackrabbit.ocm.query.Query;
-import org.apache.jackrabbit.ocm.query.QueryManager;
 import org.girlscouts.vtk.dao.ActivityDAO;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
 import org.girlscouts.vtk.models.Activity;
@@ -22,7 +19,6 @@ import org.girlscouts.vtk.models.ActivitySearch;
 import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.JcrCollectionHoldString;
 import org.girlscouts.vtk.models.Location;
-import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.user.User;
@@ -51,7 +47,6 @@ public class ActivityDAOImpl implements ActivityDAO{
 	
 	
 	
-	@Override
 	public void createActivity(User user, Activity activity) {
 		
 		try{
@@ -89,7 +84,6 @@ public class ActivityDAOImpl implements ActivityDAO{
 		
 	}
 
-	@Override
 	public java.util.List<Activity> search(ActivitySearch search) {
 		// TODO Auto-generated method stub
 		
