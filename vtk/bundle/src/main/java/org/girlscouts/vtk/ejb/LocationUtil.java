@@ -23,7 +23,7 @@ public class LocationUtil {
 		}
 		
 		
-		new UserDAOImpl().updateUser(user);
+		userDAO.updateUser(user);
 		
 	}
 	
@@ -41,7 +41,7 @@ public class LocationUtil {
 		plan.setLocations(locations);
 		user.setYearPlan(plan);
 		
-		new UserDAOImpl().updateUser(user);
+		userDAO.updateUser(user);
 		
   }
   public static void changeLocation(User user, String dates, String locationRef){
@@ -82,7 +82,7 @@ public class LocationUtil {
 			
 		
 	}
-		new UserDAOImpl().updateUser(user);
+		userDAO.updateUser(user);
 		
 		
 		

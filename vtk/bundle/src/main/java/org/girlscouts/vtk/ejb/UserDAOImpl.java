@@ -79,7 +79,7 @@ public class UserDAOImpl implements UserDAO{
 	
 public static void main(String args[]){
 	
-	new UserDAOImpl().getUser("5");
+	userDAO.getUser("5");
 }
 	
 
@@ -109,7 +109,7 @@ public static void main(String args[]){
 			
 			 plan = new YearPlan();
 			 plan.setRefId( yearPlanPath );
-			 plan.setMeetingEvents( new MeetingDAOImpl().getAllEventMeetings_byPath( yearPlanPath ));
+			 plan.setMeetingEvents( meetingDAO.getAllEventMeetings_byPath( yearPlanPath ));
 			
 			 //System.out.println("**** "+ plan.getMeetingEvents().size() );
 			 
@@ -160,7 +160,7 @@ public static void main(String args[]){
 
 				
 		YearPlan oldPlan = user.getYearPlan();
-		YearPlan newYearPlan = new UserDAOImpl().addYearPlan(user, yearPlanPath);
+		YearPlan newYearPlan = userDAO.addYearPlan(user, yearPlanPath);
 		
 		
 		
@@ -195,7 +195,7 @@ public static void main(String args[]){
 		//remove all custom activitites
 		user.getYearPlan().setActivities(null);
 		
-		 new UserDAOImpl().updateUser(user);
+		 userDAO.updateUser(user);
 		
 	}
 

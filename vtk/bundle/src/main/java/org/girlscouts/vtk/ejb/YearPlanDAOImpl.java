@@ -124,9 +124,8 @@ public class YearPlanDAOImpl implements YearPlanDAO{
 	public static void main(String args[]){
 		
 		try {
-			YearPlanDAOImpl  me= new YearPlanDAOImpl();
-			me.getAllYearPlans("brownie");
-			me.test();
+			yearPlanDAO.getAllYearPlans("brownie");
+			yearPlanDAO.test();
 			
 		}catch(Exception e){e.printStackTrace();}
 	}

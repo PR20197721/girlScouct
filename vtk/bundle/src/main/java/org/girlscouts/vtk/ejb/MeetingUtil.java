@@ -116,7 +116,7 @@ public class MeetingUtil {
 		plan.setMeetingEvents(rearangedMeetings);
 		user.setYearPlan(plan);
 		
-		new UserDAOImpl().updateUser(user);
+		userDAO.updateUser(user);
 		
 		
 	}
@@ -133,13 +133,13 @@ public class MeetingUtil {
 			MeetingE m= meetings.get(i);
 			if( m.getPath().equals(meetingPath)){
 				
-				Meeting meeting =new MeetingDAOImpl().createCustomMeeting(user, m);
+				Meeting meeting =meetingDAO.createCustomMeeting(user, m);
 				
 				Activity activity= new Activity();
 				activity.setName(name);
 				activity.setDuration(duration);
 			
-				new MeetingDAOImpl().addActivity( meeting,  activity);
+				meetingDAO.addActivity( meeting,  activity);
 				
 				Cal cal = user.getYearPlan().getSchedule();
 				cal.addDate( startTime.getTime() );
@@ -148,7 +148,7 @@ public class MeetingUtil {
 				
 			}
 		}
-		new UserDAOImpl().updateUser(user);
+		userDAO.updateUser(user);
 	}
 	
 	public static void rmCustomActivity (User user, String activityPath ){
@@ -163,7 +163,7 @@ public class MeetingUtil {
 			
 		}
 		
-		new UserDAOImpl().updateUser(user);
+		userDAO.updateUser(user);
 		
 	}
 	
@@ -181,7 +181,7 @@ public class MeetingUtil {
 		}
 		
 		
-		new UserDAOImpl().updateUser(user);
+		userDAO.updateUser(user);
 	}
 
 	public static void rearrangeActivity(User user, String meetingPath, String _newPoss){
@@ -194,7 +194,7 @@ public class MeetingUtil {
 		
 		
 		System.err.println( "rearrangeActivity "+ meetingPath +" : "+ newPoss);
-		Meeting meetingInfo = new MeetingDAOImpl().getMeeting(  meetingPath );
+		Meeting meetingInfo = meetingDAO.getMeeting(  meetingPath );
 		java.util.List<Activity>orgActivities = meetingInfo.getActivities();
 		java.util.List<Activity> newActivity = new java.util.ArrayList<Activity>();
 		for(int i=0;i<orgActivities.size();i++) newActivity.add(null);  
@@ -215,7 +215,7 @@ public class MeetingUtil {
 		
 		//create custom meeting
 		MeetingE meetingE= getMeeting(user.getYearPlan().getMeetingEvents(), meetingPath);
-		new MeetingDAOImpl().createCustomMeeting(user, meetingE, meetingInfo);
+		meetingDAO.createCustomMeeting(user, meetingE, meetingInfo);
 		
 	}
 	
@@ -257,7 +257,7 @@ public class MeetingUtil {
 			
 			
 		}
-		new UserDAOImpl().updateUser(user);
+		userDAO.updateUser(user);
 	
 	}
 	
@@ -269,15 +269,15 @@ public class MeetingUtil {
 			if( user.getYearPlan().getMeetingEvents().get(i).getPath().equals( fromMeetingPath)){
 				
 				MeetingE meeting = user.getYearPlan().getMeetingEvents().get(i);
-				Meeting meetingInfo = new MeetingDAOImpl().getMeeting(  meeting.getRefId() );
+				Meeting meetingInfo = meetingDAO.getMeeting(  meeting.getRefId() );
 				List<Activity> activities = meetingInfo.getActivities();
 				for(int y=0;y<activities.size();y++){
 					
 					if( activities.get(y).getPath().equals( agendaPathToRm ) ){
 						
 						activities.remove(y);
-						new MeetingDAOImpl().createCustomMeeting(user, meeting, meetingInfo);
-						new UserDAOImpl().updateUser(user);
+						meetingDAO.createCustomMeeting(user, meeting, meetingInfo);
+						userDAO.updateUser(user);
 						return;
 					}
 						
@@ -295,7 +295,7 @@ public class MeetingUtil {
 			if( user.getYearPlan().getMeetingEvents().get(i).getPath().equals( meetingPath)){
 				
 				MeetingE meeting = user.getYearPlan().getMeetingEvents().get(i);
-				Meeting meetingInfo = new MeetingDAOImpl().getMeeting(  meeting.getRefId() );
+				Meeting meetingInfo = meetingDAO.getMeeting(  meeting.getRefId() );
 				List<Activity> activities = meetingInfo.getActivities();
 				for(int y=0;y<activities.size();y++){
 					
@@ -304,8 +304,8 @@ public class MeetingUtil {
 						Activity activity = activities.get(y);
 						activity.setDuration(duration);
 						System.err.println("Changing duration to "+ duration);
-						new MeetingDAOImpl().createCustomMeeting(user, meeting, meetingInfo);
-						new UserDAOImpl().updateUser(user);
+						meetingDAO.createCustomMeeting(user, meeting, meetingInfo);
+						userDAO.updateUser(user);
 						return;
 						
 					}

@@ -123,7 +123,7 @@ public class CalendarUtil {
 			plan.setSchedule(calendar);
 			user.setYearPlan(plan);
 			
-			new UserDAOImpl().updateUser(user);
+			userDAO.updateUser(user);
 		}
 		
 		public static void updateSched(User user, String meetingPath, String time, String date, String ap, 
@@ -151,7 +151,7 @@ public class CalendarUtil {
 					meeting.setCancelled(isCancelledMeeting);
 			}
 			
-			new UserDAOImpl().updateUser(user);
+			userDAO.updateUser(user);
 			
 		}
 	
