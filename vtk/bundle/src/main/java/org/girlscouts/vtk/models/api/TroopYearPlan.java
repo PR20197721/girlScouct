@@ -1,4 +1,4 @@
-package org.girlscouts.vtk.models;
+package org.girlscouts.vtk.models.api;
 
 import java.util.Date;
 import java.util.List;

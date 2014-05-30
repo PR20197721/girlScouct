@@ -1,4 +1,4 @@
-package org.girlscouts.vtk.models;
+package org.girlscouts.vtk.models.api;
 
 /**
  * @author mike

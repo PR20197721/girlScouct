@@ -1,4 +1,4 @@
-package org.girlscouts.vtk.models;
+package org.girlscouts.vtk.models.api;
 
 /**
  * An agenda item in a meeting.

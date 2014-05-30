@@ -1,4 +1,4 @@
-package org.girlscouts.vtk.models;
+package org.girlscouts.vtk.models.api;
 
 /**
  * A milestone in a year plan instance.
