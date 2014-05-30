@@ -36,7 +36,6 @@ for(int i=0;i<locations.size();i++){
 	<%}%>
 </div>
 
-  <%@include file="include/footer.jsp" %>
 
 
 <%!

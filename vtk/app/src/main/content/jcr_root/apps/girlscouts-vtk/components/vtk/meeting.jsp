@@ -36,7 +36,6 @@
        		}
        %>
        
-       <%@include file="include/footer.jsp" %>
        <%!
        java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat("MM/dd/yyyy hh:mm a");
        %>

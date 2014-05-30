@@ -104,4 +104,3 @@ if( user ==null){
     
 
                 </div>
-<%@include file="include/footer.jsp" %>

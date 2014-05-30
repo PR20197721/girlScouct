@@ -113,4 +113,3 @@ PDF HERE
 </div>
 
 <%@include file="include/manageCommunications.jsp" %> 
-<%@include file="include/footer.jsp" %> 
