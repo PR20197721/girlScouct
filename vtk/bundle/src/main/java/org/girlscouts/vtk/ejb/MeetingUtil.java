@@ -18,7 +18,7 @@ import org.girlscouts.vtk.models.YearPlanComponent;
 import org.girlscouts.vtk.models.user.User;
 
 @Component
-@Service
+@Service(MeetingUtil.class)
 public class MeetingUtil {
     
     @Reference

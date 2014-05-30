@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Component
-@Service
+@Service(value=SessionPool.class)
 // TODO: Implement Real session pool
 // TODO: Do not login as admin
 public class SessionPool {

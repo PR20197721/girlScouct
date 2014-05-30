@@ -10,7 +10,7 @@ import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.user.User;
 
 @Component
-@Service
+@Service(value=CalendarUtil.class)
 public class CalendarUtil {
     @Reference
     UserDAO userDAO;

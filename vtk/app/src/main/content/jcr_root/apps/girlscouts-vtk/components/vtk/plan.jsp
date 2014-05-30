@@ -1,7 +1,12 @@
 
  <%@ page import="org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@include file="/libs/foundation/global.jsp" %>
+<cq:defineObjects/>
 <%
 YearPlanDAO yearPlanDAO = sling.getService(YearPlanDAO.class);
+UserDAO userDAO = sling.getService(UserDAO.class);
+
+HttpSession session = request.getSession();
 
 User user= (User)session.getValue("VTK_user");
 if( user ==null){

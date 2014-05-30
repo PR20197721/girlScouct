@@ -14,7 +14,7 @@ import org.girlscouts.vtk.models.YearPlanComponent;
 import org.girlscouts.vtk.models.user.User;
 
 @Component
-@Service
+@Service(LocationUtil.class)
 public class LocationUtil {
     @Reference
     UserDAO userDAO;
