@@ -2,12 +2,12 @@ package org.girlscouts.vtk.ejb;
 
 import java.util.List;
 
-import org.girlsscout.vtk.models.Activity;
-import org.girlsscout.vtk.models.Location;
-import org.girlsscout.vtk.models.MeetingE;
-import org.girlsscout.vtk.models.YearPlan;
-import org.girlsscout.vtk.models.YearPlanComponent;
-import org.girlsscout.vtk.models.user.User;
+import org.girlscouts.vtk.models.Activity;
+import org.girlscouts.vtk.models.Location;
+import org.girlscouts.vtk.models.MeetingE;
+import org.girlscouts.vtk.models.YearPlan;
+import org.girlscouts.vtk.models.YearPlanComponent;
+import org.girlscouts.vtk.models.user.User;
 
 public class LocationUtil {
 

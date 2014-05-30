@@ -3,7 +3,7 @@ package org.girlscouts.vtk.models;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Bean;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
-import org.girlsscout.vtk.dao.YearPlanComponentType;
+import org.girlscouts.vtk.dao.YearPlanComponentType;
 
 @Node
 public class MeetingE extends YearPlanComponent{

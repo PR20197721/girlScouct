@@ -1,8 +1,8 @@
 package org.girlscouts.vtk.dao;
 
-import org.girlsscout.vtk.models.Activity;
-import org.girlsscout.vtk.models.ActivitySearch;
-import org.girlsscout.vtk.models.user.User;
+import org.girlscouts.vtk.models.Activity;
+import org.girlscouts.vtk.models.ActivitySearch;
+import org.girlscouts.vtk.models.user.User;
 
 public interface ActivityDAO {
 

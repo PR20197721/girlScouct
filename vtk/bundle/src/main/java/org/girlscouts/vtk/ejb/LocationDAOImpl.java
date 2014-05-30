@@ -12,13 +12,13 @@ import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
 import org.apache.jackrabbit.ocm.manager.impl.ObjectContentManagerImpl;
 import org.apache.jackrabbit.ocm.mapper.Mapper;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
-import org.girlsscout.vtk.dao.LocationDAO;
-import org.girlsscout.vtk.models.Activity;
-import org.girlsscout.vtk.models.JcrCollectionHoldString;
-import org.girlsscout.vtk.models.Location;
-import org.girlsscout.vtk.models.MeetingE;
-import org.girlsscout.vtk.models.YearPlan;
-import org.girlsscout.vtk.models.user.User;
+import org.girlscouts.vtk.dao.LocationDAO;
+import org.girlscouts.vtk.models.Activity;
+import org.girlscouts.vtk.models.JcrCollectionHoldString;
+import org.girlscouts.vtk.models.Location;
+import org.girlscouts.vtk.models.MeetingE;
+import org.girlscouts.vtk.models.YearPlan;
+import org.girlscouts.vtk.models.user.User;
 
 public class LocationDAOImpl implements LocationDAO{
 

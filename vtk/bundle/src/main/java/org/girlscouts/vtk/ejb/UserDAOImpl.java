@@ -16,13 +16,13 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
 import org.apache.jackrabbit.ocm.query.Filter;
 import org.apache.jackrabbit.ocm.query.Query;
 import org.apache.jackrabbit.ocm.query.QueryManager;
-import org.girlsscout.vtk.dao.UserDAO;
-import org.girlsscout.vtk.models.Activity;
-import org.girlsscout.vtk.models.Cal;
-import org.girlsscout.vtk.models.Location;
-import org.girlsscout.vtk.models.MeetingE;
-import org.girlsscout.vtk.models.YearPlan;
-import org.girlsscout.vtk.models.user.User;
+import org.girlscouts.vtk.dao.UserDAO;
+import org.girlscouts.vtk.models.Activity;
+import org.girlscouts.vtk.models.Cal;
+import org.girlscouts.vtk.models.Location;
+import org.girlscouts.vtk.models.MeetingE;
+import org.girlscouts.vtk.models.YearPlan;
+import org.girlscouts.vtk.models.user.User;
 
 public class UserDAOImpl implements UserDAO{
 

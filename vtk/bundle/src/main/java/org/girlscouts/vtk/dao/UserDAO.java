@@ -1,7 +1,7 @@
 package org.girlscouts.vtk.dao;
 
-import org.girlsscout.vtk.models.YearPlan;
-import org.girlsscout.vtk.models.user.User;
+import org.girlscouts.vtk.models.YearPlan;
+import org.girlscouts.vtk.models.user.User;
 
 public interface UserDAO {
 

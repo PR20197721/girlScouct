@@ -5,14 +5,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import org.girlsscout.vtk.dao.YearPlanComponentType;
-import org.girlsscout.vtk.models.Activity;
-import org.girlsscout.vtk.models.Cal;
-import org.girlsscout.vtk.models.Meeting;
-import org.girlsscout.vtk.models.MeetingE;
-import org.girlsscout.vtk.models.YearPlan;
-import org.girlsscout.vtk.models.YearPlanComponent;
-import org.girlsscout.vtk.models.user.User;
+import org.girlscouts.vtk.dao.YearPlanComponentType;
+import org.girlscouts.vtk.models.Activity;
+import org.girlscouts.vtk.models.Cal;
+import org.girlscouts.vtk.models.Meeting;
+import org.girlscouts.vtk.models.MeetingE;
+import org.girlscouts.vtk.models.YearPlan;
+import org.girlscouts.vtk.models.YearPlanComponent;
+import org.girlscouts.vtk.models.user.User;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
 

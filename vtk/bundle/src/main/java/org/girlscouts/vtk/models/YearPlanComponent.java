@@ -1,7 +1,7 @@
 package org.girlscouts.vtk.models;
 
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
-import org.girlsscout.vtk.dao.YearPlanComponentType;
+import org.girlscouts.vtk.dao.YearPlanComponentType;
 
 public class YearPlanComponent {
 

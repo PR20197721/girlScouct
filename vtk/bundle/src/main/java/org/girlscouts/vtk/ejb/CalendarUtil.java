@@ -1,9 +1,9 @@
 package org.girlscouts.vtk.ejb;
 
-import org.girlsscout.vtk.models.Cal;
-import org.girlsscout.vtk.models.MeetingE;
-import org.girlsscout.vtk.models.YearPlan;
-import org.girlsscout.vtk.models.user.User;
+import org.girlscouts.vtk.models.Cal;
+import org.girlscouts.vtk.models.MeetingE;
+import org.girlscouts.vtk.models.YearPlan;
+import org.girlscouts.vtk.models.user.User;
 
 public class CalendarUtil {
 

@@ -1,8 +1,8 @@
 package org.girlscouts.vtk.dao;
 
-import org.girlsscout.vtk.models.Meeting;
-import org.girlsscout.vtk.models.MeetingE;
-import org.girlsscout.vtk.models.user.User;
+import org.girlscouts.vtk.models.Meeting;
+import org.girlscouts.vtk.models.MeetingE;
+import org.girlscouts.vtk.models.user.User;
 
 public interface MeetingDAO {
 

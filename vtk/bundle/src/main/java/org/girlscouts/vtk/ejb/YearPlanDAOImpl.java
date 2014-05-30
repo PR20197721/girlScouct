@@ -23,10 +23,10 @@ import org.apache.jackrabbit.ocm.query.Query;
 import org.apache.jackrabbit.ocm.query.QueryManager;
 //import org.apache.jackrabbit.ocm.query.Query;
 //import org.apache.jackrabbit.ocm.query.QueryManager;
-import org.girlsscout.vtk.dao.YearPlanDAO;
-import org.girlsscout.vtk.models.Cal;
-import org.girlsscout.vtk.models.Meeting;
-import org.girlsscout.vtk.models.YearPlan;
+import org.girlscouts.vtk.dao.YearPlanDAO;
+import org.girlscouts.vtk.models.Cal;
+import org.girlscouts.vtk.models.Meeting;
+import org.girlscouts.vtk.models.YearPlan;
 
 public class YearPlanDAOImpl implements YearPlanDAO{
 
