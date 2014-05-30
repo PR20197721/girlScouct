@@ -59,10 +59,11 @@ public class CalendarUtil {
 			
 			while( date.getYear() == startDate.getYear() ){
 				
-				switch(freq){
-					case "weekly" : date= date.plusWeeks(1); break;
-					case "monthly" : date= date.plusMonths(1); break;
-				}
+	            if (freq.equals("weekly")){
+	                date= date.plusWeeks(1); break;
+	            } else if (freq.equals("monthly")) {
+	                date= date.plusMonths(1); break;
+	            }
 				
 				
 				if( date.getYear() != startDate.getYear() ) break;
