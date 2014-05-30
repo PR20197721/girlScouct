@@ -1,10 +1,10 @@
-package org.girlsscout.vtk.models.user;
+package org.girlscouts.vtk.models.user;
 
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Bean;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
-import org.girlsscout.vtk.models.YearPlan;
+import org.girlscouts.vtk.models.YearPlan;
 
 @Node
 public class User {

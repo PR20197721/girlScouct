@@ -1,4 +1,4 @@
-package org.girlsscout.vtk.ejb;
+package org.girlscouts.vtk.ejb;
 
 import org.girlsscout.vtk.models.Cal;
 import org.girlsscout.vtk.models.MeetingE;

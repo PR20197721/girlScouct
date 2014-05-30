@@ -1,4 +1,4 @@
-package org.girlsscout.vtk.models;
+package org.girlscouts.vtk.models;
 
 
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;

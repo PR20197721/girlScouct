@@ -1,4 +1,4 @@
-package org.girlsscout.vtk.ejb;
+package org.girlscouts.vtk.ejb;
 
 import java.util.Calendar;
 import java.util.Date;

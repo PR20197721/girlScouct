@@ -1,4 +1,4 @@
-package org.girlsscout.vtk.models;
+package org.girlscouts.vtk.models;
 
 public class CopyOfActivity extends YearPlanComponent{
 

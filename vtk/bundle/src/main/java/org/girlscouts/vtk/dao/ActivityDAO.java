@@ -1,4 +1,4 @@
-package org.girlsscout.vtk.dao;
+package org.girlscouts.vtk.dao;
 
 import org.girlsscout.vtk.models.Activity;
 import org.girlsscout.vtk.models.ActivitySearch;

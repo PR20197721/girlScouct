@@ -1,4 +1,4 @@
-package org.girlsscout.vtk.models;
+package org.girlscouts.vtk.models;
 
 public enum ActionController {
 	REARRANGE_MEETINGS
