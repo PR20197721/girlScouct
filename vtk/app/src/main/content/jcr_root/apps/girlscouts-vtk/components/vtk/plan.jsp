@@ -1,6 +1,8 @@
 
  <%@ page import="org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%
+YearPlanDAO yearPlanDAO = sling.getService(YearPlanDAO.class);
+
 User user= (User)session.getValue("VTK_user");
 if( user ==null){
 	user= new UserDAOImpl().getUser( request.getParameter("userId"));
@@ -53,7 +55,6 @@ if( user ==null){
 							Year Plan Library</div>
 
 						<%
-							YearPlanDAO yearPlanDAO = new YearPlanDAOImpl();
 							java.util.Iterator<YearPlan> yearPlans = yearPlanDAO
 									.getAllYearPlans(request.getParameter("ageLevel"))
 									.listIterator();

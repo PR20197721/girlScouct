@@ -8,6 +8,8 @@
        <div id="errInfo"></div>
        
        <%
+			MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
+
        		String meetingPath = request.getParameter("mid");
        		java.util.List <MeetingE> meetings= user.getYearPlan().getMeetingEvents();
        		

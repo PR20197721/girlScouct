@@ -2,6 +2,8 @@
 <%@ page import="org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
   
 <%
+	MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
+
     String yearPlanId= request.getParameter("planId");
     java.util.Iterator <Meeting> meetings = null;
     		

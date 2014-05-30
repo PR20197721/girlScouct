@@ -1,5 +1,6 @@
 <%
 
+MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
 
 MeetingE meeting = (MeetingE) _comp;
 Meeting meetingInfo = new MeetingDAOImpl().getMeeting(  meeting.getRefId() );

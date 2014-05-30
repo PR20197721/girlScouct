@@ -4,6 +4,9 @@
 <%@ page import="org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.ejb.*, org.girlscouts.vtk.dao.*" %>
 
 <%
+	ActivityDAO activityDAO = sling.getService(ActivityDAO.class);
+	UserDAO activityDAO = sling.getService(UserDAO.class);
+	LocationDAO activityDAO = sling.getService(ActivityDAO.class);
 
 if( request.getParameter("isMeetingCngAjax") !=null){
 	

@@ -3,6 +3,8 @@
     <%@ page import="org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*, org.girlscouts.vtk.ejb.*" %>
 
 <%
+	MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
+
 	String meetingPath = request.getParameter("mpath");
 	if( meetingPath==null || meetingPath.equals("null") || meetingPath.equals("")) meetingPath=null;
 

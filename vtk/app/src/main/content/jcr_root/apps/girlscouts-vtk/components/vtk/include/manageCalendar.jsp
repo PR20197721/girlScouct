@@ -1,4 +1,6 @@
-
+<%
+	MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
+%>
 
 
 <div >

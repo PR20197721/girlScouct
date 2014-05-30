@@ -1,6 +1,9 @@
 
 
-		<% Meeting meeting = new MeetingDAOImpl().getMeeting(meetingE.getRefId());%>
+		<% 
+		MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
+
+		Meeting meeting = new MeetingDAOImpl().getMeeting(meetingE.getRefId());%>
  			<li value="<%=meetingCount%>">
  			    <span style="background-color:green; color:#FFF; ">
  					(#<%= meetingCount %>) <%= user.getYearPlan().getSchedule()==null ? "" : df.format(date) %>
