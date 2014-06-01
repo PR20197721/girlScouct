@@ -1,10 +1,14 @@
  <%@page import="java.util.Iterator"%>
 <%@ page import="org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 
+<%@include file="/libs/foundation/global.jsp" %>
+<cq:defineObjects/>
 
 <script type="text/javascript" src="js/vtk/planView.js"></script>
 
 <%
+HttpSession session = request.getSession();
+
 User user= (User) session.getValue("VTK_user");
 
 if( user ==null ){ out.println("No user"); return;} 
