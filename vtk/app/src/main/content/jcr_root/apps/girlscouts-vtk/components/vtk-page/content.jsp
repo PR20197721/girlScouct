@@ -17,3 +17,7 @@
         <cq:include path="vtk" resourceType="girlscouts-vtk/components/vtk" />
     </div>
 </div>
+
+<!-- TODO -->
+<!-- <cq:includeClientLib categories="apps.girlscouts-vtk" /> -->
+<script src="/etc/designs/girlscouts-vtk/clientlibs.js"></script>
