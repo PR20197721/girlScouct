@@ -1,0 +1,349 @@
+
+        		function loadMeetings(){
+        			
+        			
+        			var url = '/content/girlscouts-vtk/controllers/vtk.include.meeting.html';
+        			 $("#div1").load(url);
+        			 
+        			 
+        			 
+        			 
+        			 
+        		}	
+        
+        		 function x(planId, planPath){
+        			 
+        			 
+        			 $.ajax({
+        				  url: "/content/girlscouts-vtk/controllers/vtk.include.controller.html?addYearPlanUser="+planPath,
+        				  cache: false
+        				})
+        				  .done(function( html ) {
+        					  loadMeetings();
+        					  yesPlan();
+        				  });
+        			 
+        			
+        		  }
+        		 
+        		 function testIt(){
+        			 var s =  document.getElementById("sortable");
+        			
+        			 s.sortable=true
+        			 
+        			
+        			 
+					}
+        		
+
+        		  
+        		   
+
+        		   
+        		   function getNewMeetingSetup() {
+        			   var toRet="";
+        			   
+        		       var liTags = document.getElementById ("sortable123").getElementsByTagName ("li");
+        		       for (var i = 0; i < liTags.length; i++) {
+        		    
+        		    	   toRet+=  liTags[i].value +"," ; 
+        		       }
+        		       return toRet.substring(0, toRet.length-1);
+        		   }
+        		   
+        		   function doUpdMeeting(){
+        			
+        			   var newVals = getNewMeetingSetup();
+        			   
+        			   
+        			   var x =$.ajax({ // ajax call starts
+        			          url: '/content/girlscouts-vtk/controllers/vtk.include.controller.html?isMeetingCngAjax='+ newVals, // JQuery loads serverside.php
+        			          data: '', // Send value of the clicked button
+        			          dataType: 'html', // Choosing a JSON datatype
+        			          success: function (data) { 
+        			              
+        			             
+        			              loadMeetings();
+        			              
+        			          },
+        			   			error: function (data) { 
+        			   				
+        			   			}
+        			      });
+        			     
+        			 
+        			   
+        				
+        				
+        				
+        		   }
+        		   
+        		   function reloadMeeting(){
+        			   
+        			  
+        			   
+        			   var x =$.ajax({ // ajax call starts
+     			          url: '/content/girlscouts-vtk/controllers/vtk.include.meeting.html?isRefresh=true', // JQuery loads serverside.php
+     			          data: '', // Send value of the clicked button
+     			          dataType: 'html', // Choosing a JSON datatype
+     			          success: function (data) { 
+     			              
+     			              
+     			             
+     			          },
+     			   			error: function (data) { 
+     			   				
+     			   				
+     			   			}
+     			      });
+        			   
+        		   }
+        		   
+        		   function newActivity(){
+        			 
+        			  
+        			    $( "#newActivity" ).load( "/content/girlscouts-vtk/controllers/vtk.include.newCustomActivity.html", function( response, status, xhr ) {
+        			    	  if ( status == "error" ) {
+        			    	    var msg = "Sorry but there was an error: ";
+        			    	    $( "#error" ).html( msg + xhr.status + " " + xhr.statusText );
+        			    	  }else{
+        			    	
+        			    		  
+        			    		  $(function() {
+        	        				    $( "#newActivity" ).dialog({width:800});
+        	        				  });
+        	        			
+        			    		  
+        			    	  }
+        			    	  
+        			    	  
+        			    	});
+        			    
+        			    
+        		   }
+        		   
+      
+       
+        
+        
+          
+        
+        
+        function addExistActivity(activityId){
+        	
+        	$("#addExistActivity_err_"+activityId).load("/content/girlscouts-vtk/controllers/vtk.include.controller.html?addExistActivity="+activityId);
+        	
+        }
+        
+        
+        
+        function newLocCal(){
+        	
+        	
+        	 $( "#newLocationCal" ).load( "/content/girlscouts-vtk/controllers/vtk.include.locations.html", function( response, status, xhr ) {
+		    	  if ( status == "error" ) {
+		    	    var msg = "Sorry but there was an error: ";
+		    	    $( "#error" ).html( msg + xhr.status + " " + xhr.statusText );
+		    	  }else{
+		    	
+		    		  
+		    		  $(function() {
+       				    $( "#newLocationCal" ).dialog({width:800});
+       				  });
+       			
+		    		  
+		    	  }
+		    	  
+		    	  
+		    	});
+        	
+        }
+        
+        function yesPlan(){
+        	if( document.getElementById('div1').style.display=='none' ){
+        		document.getElementById('div1').style.display='block';
+        		document.getElementById('div2').style.display='none';	
+        	}else{
+        		document.getElementById('div2').style.display='block';
+        		document.getElementById('div1').style.display='none';
+        	}
+        }
+        
+        function addLocation(){
+       	 
+       	 var  name = document.getElementById("loc_name").value;
+       	 var  address = document.getElementById("loc_address").value;
+       	 var  city = document.getElementById("loc_city").value;
+       	 var  state = document.getElementById("loc_state").value;
+       	 var  zip = document.getElementById("loc_zip").value;
+       	 
+       	 var urlParam = "&name="+ name+
+       	 				"&address="+address+
+       	 				"&city="+city+
+       	 				"&state="+state+
+       	 				"&zip="+zip;
+       	 
+       	 $("#locMsg").load("/content/girlscouts-vtk/controllers/vtk.include.controller.html?addLocation=true"+ urlParam);
+       	
+       }
+        
+        
+        
+        
+        
+        //locations
+        
+       
+          
+          
+        function updSched(i, meetingPath, currDt){
+        	
+        	var date = document.getElementById("cngDate"+i).value;
+        	var time = document.getElementById("cngTime"+i).value;
+        	var ap = document.getElementById("cngAP"+i).value;
+        	var isCancelled = document.getElementById("isCancellMeeting"+i).checked;
+        	var urlParam =  "meetingPath="+meetingPath+
+        					"&date="+date+
+        					"&time="+time+
+        					"&ap="+ap+
+        					"&currDt="+currDt+
+        					"&isCancelledMeeting="+ isCancelled;
+        	
+        	$( "#locMsg" ).load( "/content/girlscouts-vtk/controllers/vtk.include.controller.html?updSched=true&"+urlParam, function( response, status, xhr ) {
+        	   	  if ( status != "error" ) { }else{ }  
+        	   	});
+        	
+        }
+          
+          
+          function buildSched(){
+        	  
+        	  
+        	  
+        		 var calStartDt = document.getElementById("calStartDt").value;
+        		 var calAP = document.getElementById("calAP").value;
+        		 var calFreq = document.getElementById("calFreq");
+        		 var z =calFreq.options[calFreq.selectedIndex].text
+        		 var calTime = document.getElementById("calTime").value;
+        		 if( $.trim(calTime) =='') {alert("Time field empty");return;}
+        		
+        		 var _level="";
+        		 var levels = document.getElementsByName('exclDt');
+        		 for (var i=0; i < levels.length; i++){ 
+        			 if (levels[i].checked)
+        				_level+= levels[i].value +",";
+        		 }
+        		 var urlParam = 'calStartDt='+ calStartDt +'&' +
+        		 "&calAP="+calAP+
+        		 "&calFreq="+z+
+        		 "&calTime="+calTime+
+        		 "&exclDt="+_level;
+        		 			
+        		 $( "#calView" ).load( "/content/girlscouts-vtk/controllers/vtk.include.controller.html?buildSched=true&"+urlParam, function( response, status, xhr ) {
+        	   	  if ( status != "error" ) {
+        	   		  
+        	   		location.reload();
+        	   	  }else{
+        	   		  
+        	   		  location.reload();
+        	   	  }
+        	   	  
+        	   	  
+        	   	});
+          }
+          
+          
+
+          function rmCustActivity(x){
+          	
+          	$( "#locMsg" ).load( "/content/girlscouts-vtk/controllers/vtk.include.controller.html?rmCustActivity="+x, function( response, status, xhr ) {
+          	   	  if ( status != "error" ) {
+          	   	  }else{
+          	   	  }
+          	   	  
+          	   	});
+
+          }
+          
+          
+        
+   
+
+
+   
+   
+   function createNewCustActivity(){
+  	 
+  	 var newCustActivity_name = document.getElementById("newCustActivity_name").value;
+ 	
+  	 //ex: MAND field 
+  	 if( $.trim(newCustActivity_name) =='' ){alert("Please fill 'Name' field"); return false;}
+ 
+  	 var newCustActivity_date = document.getElementById("newCustActivity_date").value;
+
+  	 var newCustActivity_startTime = document.getElementById("newCustActivity_startTime").value;
+
+  	 var newCustActivity_endTime = document.getElementById("newCustActivity_endTime").value;
+  	 
+  	 var newCustActivity_txt = document.getElementById("newCustActivity_txt").value;
+  	 
+  	 var urlParam = 'newCustActivity_name='+ newCustActivity_name +'&' +
+  	 			'newCustActivity_date='+ newCustActivity_date +'&'+
+  	 			'newCustActivity_startTime='+ newCustActivity_startTime +'&'+
+  	 			'newCustActivity_endTime='+ newCustActivity_endTime +'&'+
+  	 			'newCustActivity_txt='+ newCustActivity_txt ;
+  	 			
+  	 $( "#newCustActivity_err" ).load( "/content/girlscouts-vtk/controllers/vtk.include.controller.html?newCustActivity=true&"+urlParam, function( response, status, xhr ) {
+     	  if ( status != "error" ) {
+     	    
+     		  	location.reload();
+     	  }else{
+     		  
+     		 location.reload();
+     	  }
+     	  
+     	  
+     	});
+   }
+   
+   function searchActivity(){
+  	 
+  	 var existActivSFind = document.getElementById("existActivSFind").value;
+  	 var existActivSMon  = document.getElementById("existActivSMon").value;
+  	 var existActivSYr = document.getElementById("existActivSYr").value;
+  	 var existActivSDtFrom = document.getElementById("existActivSDtFrom").value;
+  	 var existActivSDtTo= document.getElementById("existActivSDtTo").value;
+  	 var existActivSReg= document.getElementById("existActivSReg").value;
+  	 
+  	 var _level="";
+  	 var levels = document.getElementsByName('existActivSLevl');
+  	 for (var i=0; i < levels.length; i++){ 
+  		 if (levels[i].checked)
+  			_level+= levels[i].value +",";
+  	 }
+  	 
+  	 var _cat="";
+  	 var levels = document.getElementsByName('existActivSCat');
+  	 for (var i=0; i < levels.length; i++){ 
+  		 if (levels[i].checked)
+  			_cat+= levels[i].value +",";
+  	 }
+  	 
+  	 var urlParam="&existActivSFind="+existActivSFind+
+  	 		"&existActivSMon="+existActivSMon+
+  	 		"&existActivSYr="+existActivSYr+
+  	 		"&existActivSDtFrom="+existActivSDtFrom+
+  	 		"&existActivSDtTo="+existActivSDtTo+
+  	 		"&existActivSReg="+existActivSReg
+  	 		"&existActivSLevl="+_level+
+  	 		"&existActivSCat="+existActivSCat;
+  	 
+  	
+  	 
+  	 
+  	 $("#listExistActivity").load("/content/girlscouts-vtk/controllers/vtk.include.controller.html?searchExistActivity=true"+ urlParam);
+   }
+   
+   
+          
+          

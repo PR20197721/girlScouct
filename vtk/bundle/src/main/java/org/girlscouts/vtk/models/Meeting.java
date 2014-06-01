@@ -1,53 +1,142 @@
 package org.girlscouts.vtk.models;
 
-import java.util.List;
+import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
+import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
+import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
-/**
- * A meeting in a year plan instance.
- * This is a decorator of a {@link MeetingContent}
- * which adds fields like data, isCancelled and location.
- * 
- * @author mike
- *
- */
-public interface Meeting extends YearPlanComponent {
-    // proxies to MeetingContent 
-    String getId();
-    String getLevel();
-    String getName();
-    String getBlurb();
-    String getCategory();
-    List<Asset> getAids();
-    List<Asset> getResources();
-    List<AgendaItem> getAgendaItems();
-    
-    boolean isCancelled();
-    void cancel();
-    void resume();
-    
-    Location getLocation();
-    void setLocation(Location location);
-    
-    /**
-     * <b>Wipes out</b> the current meeting content and sets a new one. 
-     * 
-     * @param content   new meeting content.
-     */
-    void setMeetingContent(MeetingContent content);
-    
-    /**
-     * @return a list of assets that the troop leader uploaded.
-     *         e.g. photos of the meeting.
-     */
-    List<Asset> getUploads();
 
-    /**
-     * @return a list of archived reminder emails of this meeting.
-     */
-    List<EmailArchive> getReminders();
-    
-    /**
-     * @return a list of archived summary emails of this meeting.
-     */
-    List<EmailArchive> getSummaries();
+
+
+@Node
+public class Meeting extends YearPlanComponent {
+
+	
+	@Field(path=true) String path;
+	@Field private String id, name;
+	@Field private String  level, blurb, cat;
+	@Field private String aidTags,resources, agenda;
+
+	
+	@Collection private java.util.List <Activity> activities;
+	
+	
+    @Collection private java.util.Map<String, JcrCollectionHoldString> meetingInfo;
+	
+   
+
+
+public java.util.Map<String, JcrCollectionHoldString> getMeetingInfo() {
+	return meetingInfo;
+}
+
+
+public void setMeetingInfo(java.util.Map<String, JcrCollectionHoldString> meetingInfo) {
+	this.meetingInfo = meetingInfo;
+}
+
+
+
+	public java.util.List<Activity> getActivities() {
+		return activities;
+	}
+
+
+
+	public void setActivities(java.util.List<Activity> activities) {
+		this.activities = activities;
+	}
+
+
+
+	public String getAidTags() {
+		return aidTags;
+	}
+
+
+
+	public void setAidTags(String aidTags) {
+		this.aidTags = aidTags;
+	}
+
+
+
+	public String getResources() {
+		return resources;
+	}
+
+
+
+	public void setResources(String resources) {
+		this.resources = resources;
+	}
+
+
+
+	public String getAgenda() {
+		return agenda;
+	}
+
+
+
+	public void setAgenda(String agenda) {
+		this.agenda = agenda;
+	}
+
+
+
+	public Meeting(){this.path="/meeting";}
+	
+	
+
+	public String getLevel() {
+		return level;
+	}
+
+	public void setLevel(String level) {
+		this.level = level;
+	}
+
+	public String getBlurb() {
+		return blurb;
+	}
+
+	public void setBlurb(String blurb) {
+		this.blurb = blurb;
+	}
+
+	public String getCat() {
+		return cat;
+	}
+
+	public void setCat(String cat) {
+		this.cat = cat;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+	
+	
+	
+	
 }
