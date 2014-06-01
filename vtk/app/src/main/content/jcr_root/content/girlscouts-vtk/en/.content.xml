@@ -3,7 +3,7 @@
     jcr:primaryType="cq:Page">
     <jcr:content
         cq:designPath="/etc/designs/girlscouts-usa-green"
-        cq:lastModified="{Date}2014-05-26T18:57:32.390-04:00"
+        cq:lastModified="{Date}2014-05-31T22:45:24.417-04:00"
         cq:lastModifiedBy="admin"
         cq:lastReplicated="{Date}2014-05-20T17:11:30.393-04:00"
         cq:lastReplicatedBy="hkimm"
@@ -46,11 +46,11 @@
                 sling:resourceType="girlscouts/components/eyebrow-navigation"
                 links="[About Our Council|||#|||,Shop|||#|||,Forms|||#|||,Calendar|||/content/girlscouts-usa/en/event-activities/event-calendar|||,Contact|||/content/girlscouts-usa/en/about-girl-scouts/contact-us-form|||||||||,Espanol|||/content/girlscouts-usa/es|||]"/>
             <global-nav
-                jcr:lastModified="{Date}2014-05-26T18:57:32.378-04:00"
+                jcr:lastModified="{Date}2014-05-31T22:45:24.407-04:00"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="girlscouts/components/global-navigation"
-                links="[ABOUT GIRL SCOUTS|||/content/girlscouts-usa/en/about-girl-scouts||||||About|||,EVENTS &amp; ACTIVITIES|||/content/girlscouts-usa/en/event-activities||||||Activities|||,CAMP|||/content/girlscouts-usa/en/camps||||||Camp|||,COOKIES|||/content/girlscouts-usa/en/cookies||||||Cookies|||,FOR  VOLUNTEERS|||/content/girlscouts-usa/en/for-volunteers||||||Volunteers|||,My GS|||http://www.google.com|||menuHighlight|||My GS|||]"/>
+                links="[ABOUT GIRL SCOUTS|||/content/girlscouts-usa/en/about-girl-scouts||||||About|||,EVENTS &amp; ACTIVITIES|||/content/girlscouts-usa/en/event-activities||||||Activities|||,CAMP|||/content/girlscouts-usa/en/camps||||||Camp|||,COOKIES|||/content/girlscouts-usa/en/cookies||||||Cookies|||,FOR  VOLUNTEERS|||/content/girlscouts-usa/en/for-volunteers||||||Volunteers|||,My GS|||/content/girlscouts-vtk/en/vtk|||menuHighlight|||My GS|||]"/>
             <logo
                 jcr:lastModified="{Date}2014-04-21T16:50:17.522-04:00"
                 jcr:lastModifiedBy="admin"
