@@ -14,7 +14,7 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="Girl Scouts USA English"
         jcr:uuid="3d4b6198-8c4b-4655-8a49-5fdc9b660758"
-        sling:resourceType="girlscouts-vtk/components/vtk"
+        sling:resourceType="girlscouts-vtk/components/vtk-page"
         adsPath="/content/girlscouts-usa/en/ads"
         calendarPath="/content/girlscouts-usa/en/event-activities/calendar0"
         eventLanding="/content/girlscouts-usa/en/event-activities/events-list"
