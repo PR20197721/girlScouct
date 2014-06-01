@@ -16,7 +16,7 @@
        		var urlPath =mPath +"&duration="+newCustAgendaDuration+"&name="+ newCustAgendaName+"&startTime="+time ;
        		
        		 $.ajax({
-        				  url: "/VTK/include/controller.jsp?newCustAgendaName="+urlPath,
+        				  url: "/content/girlscouts-vtk/controllers/vtk.include.controller.html?newCustAgendaName="+urlPath,
         				  cache: false
         				})
         				  .done(function( html ) {
