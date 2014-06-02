@@ -27,12 +27,6 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
    <% }
 %>
 
-<%
- String spPlacement = properties.get("spplacement","none");
- System.out.println(" $$$$$$$$$$$$ Place of the spring board" +spPlacement); 
-
-%>
-
 <div id="heroBanner" class="large-18 medium-18 small-18 columns">
   <div class="jcarousel-wrapper">
      <div class="jcarousel">
@@ -67,7 +61,7 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
  </div>
   
 </div>
-      <cq:include script="spring-board.jsp"/>
+   
 
  <script>
  $(document).ready(function(){
