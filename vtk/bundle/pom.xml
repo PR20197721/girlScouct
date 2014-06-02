@@ -94,11 +94,27 @@
         </dependency>
         <!-- This package is not included in CQ5.6.1 by default -->
         <dependency>
-            <groupId>org.apache.sling</groupId>
-            <artifactId>org.apache.sling.jcr.ocm</artifactId>
-            <version>2.0.4-incubator</version>
-            <scope>provided</scope>
+            <groupId>org.apache.jackrabbit</groupId>
+            <artifactId>jackrabbit-ocm</artifactId>
+            <version>1.5.3</version>
         </dependency>
+        <!--
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version>[0,)</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>[0,)</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-digester</groupId>
+            <artifactId>commons-digester</artifactId>
+            <version>[0,)</version>
+        </dependency>
+        -->
     </dependencies>
 
     <!-- ====================================================================== -->
@@ -125,6 +141,17 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>org.girlscouts.vtk.girlscouts-vtk-bundle</Bundle-SymbolicName>
+                        <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
+                        <Import-Package>
+                            !org.apache.tools.ant,
+                            !org.apache.tools.ant.types,
+                            !org.objectweb.asm,
+                            !org.objectweb.asm.attrs,
+                            !org.objectweb.asm.util,
+                            !org.codehaus.aspectwerkz.hook,
+                            *
+                        </Import-Package>
+                        <Embed-Transitive>true</Embed-Transitive>
                     </instructions>
                 </configuration>
             </plugin>
