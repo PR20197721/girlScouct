@@ -27,8 +27,8 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
    <% }
 %>
 
- <div id="heroBanner" class="large-24 medium-24 small-24 columns">
- <div class="jcarousel-wrapper">
+<div id="heroBanner" class="large-18 medium-18 small-18 columns">
+  <div class="jcarousel-wrapper">
      <div class="jcarousel">
         <ul class="clearfix">
         <%
@@ -59,8 +59,9 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
         <p class="jcarousel-pagination"></p>
         <%} %>
  </div>
-   </div>
-                       
+  
+</div>
+   
 
  <script>
  $(document).ready(function(){

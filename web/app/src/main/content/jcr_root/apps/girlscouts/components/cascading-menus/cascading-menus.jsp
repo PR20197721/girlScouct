@@ -46,19 +46,6 @@
  <%!
  
  public StringBuilder buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_path,StringBuilder menuBuilder,int levelDepth,String ndePath, boolean levelFlag,String eventLeftNavRoot,String currPath, String currTitle, String eventDispUnder) throws RepositoryException{
-     
-	/* try{
-		 if(null==topLevel)
-		 {
-	         //System.out.println("This is the " +topLevel.getName());
-	         
-	     }else
-	     {
-	         //System.out.println("This is the " +topLevel.getName());
-	     }
-	 }catch(Exception e){}*/
-	 
-	 
 	 levelDepth++;
 	 if(iterPage.hasNext())
 	    {
@@ -83,9 +70,6 @@
                         {
                             menuBuilder.append("<li class=\"active\">");
                             menuBuilder.append("<a href=").append(page.getPath()+".html").append(">").append(page.getTitle()).append("</a>");
-                            menuBuilder.append("</li>");
-                            
-                            
                             
                          }
                      else
@@ -93,16 +77,12 @@
                            if(levelFlag && page.listChildren().hasNext()){
                         	   menuBuilder.append("<li class=\"active\">");
                                menuBuilder.append("<a href=").append(page.getPath()+".html").append(">").append(page.getTitle()).append("</a>");
-                               menuBuilder.append("</li>");
                                levelFlag=false;
                             }else{  	
                                menuBuilder.append("<li>");
                                menuBuilder.append("<a href=").append(page.getPath()+".html").append(">").append(page.getTitle()).append("</a>");
-                               menuBuilder.append("</li>");
                                
                            }    
-                               
-                               
                                
                          }
                    if(page.listChildren().hasNext())
@@ -116,23 +96,35 @@
                 	 {
                 		 menuBuilder.append("<li class=\"active\">");
                          menuBuilder.append("<a href=").append(page.getPath()+".html").append(">").append(page.getTitle()).append("</a>");
-                         menuBuilder.append("</li>");
+                         //menuBuilder.append("</li>");
                          
                          menuBuilder.append("<ul><li class=\"active\">");
                          menuBuilder.append("<a href=").append(currPath+".html").append(">").append(currTitle).append("</a>");
                          menuBuilder.append("</li></ul>");
                      }else
                 	 {
+                    	
                     	menuBuilder.append("<li>");
             	        menuBuilder.append("<a href=").append(page.getPath()+".html").append(">").append(page.getTitle()).append("</a>");
             	        menuBuilder.append("</li>");
+            	        
                 	 }
-               }
+                   
+                }
     
 	       }
+    	 	   
+    	 if(levelDepth==1)
+            { 
+                  menuBuilder.append("<li class=\"divider\">").append("</li>");
+                 
+              }
 	  }
+	 
+    menuBuilder.append("</li>");
 	}
-     menuBuilder.append("</ul>"); 
+	
+     menuBuilder.append("</ul>");
      return menuBuilder;
      
  }
