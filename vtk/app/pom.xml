@@ -58,7 +58,7 @@
                         <embedded>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>girlscouts-vtk-bundle</artifactId>
-                            <target>/apps/myproject/install</target>
+                            <target>/apps/girlscouts-vtk/install</target>
                         </embedded>
                     </embeddeds>
                     <targetURL>http://${crx.host}:${crx.port}/crx/packmgr/service.jsp</targetURL>
