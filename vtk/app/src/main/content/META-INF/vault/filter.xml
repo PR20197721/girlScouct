@@ -2,4 +2,5 @@
 <workspaceFilter version="1.0">
     <filter root="/apps/girlscouts-vtk"/>
     <filter root="/content/girlscouts-vtk"/>
+    <filter root="/etc/designs/girlscouts-vtk"/>
 </workspaceFilter>

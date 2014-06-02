@@ -20,5 +20,10 @@
             mode="replace"
             root="/content/girlscouts-vtk"
             rules="[]"/>
+        <f2
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/designs/girlscouts-vtk"
+            rules="[]"/>
     </filter>
 </jcr:root>
