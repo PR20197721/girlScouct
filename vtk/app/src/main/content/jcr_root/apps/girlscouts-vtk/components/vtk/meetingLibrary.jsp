@@ -1,8 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     <%@ page import="org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*, org.girlscouts.vtk.ejb.*" %>
+<%@include file="/libs/foundation/global.jsp" %>
+<cq:defineObjects/>
 
 <%
+	HttpSession session = request.getSession();
+
 	MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
 
 	String meetingPath = request.getParameter("mpath");
