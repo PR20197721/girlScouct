@@ -1,5 +1,7 @@
 package org.girlscouts.vtk.dao;
 
+import java.util.List;
+
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
@@ -16,4 +18,5 @@ public interface MeetingDAO {
 	public Meeting createCustomMeeting(User user, MeetingE meetingEvent);
 	public Meeting createCustomMeeting(User user, MeetingE meetingEvent, Meeting meeting);
 	public Meeting addActivity(Meeting meeting, Activity activity);
+	List<Meeting> search();
 }
