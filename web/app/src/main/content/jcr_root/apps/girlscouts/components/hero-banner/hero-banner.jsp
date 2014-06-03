@@ -27,34 +27,22 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
    <% }
 %>
 
-<%
- String spPlacement = properties.get("spplacement","none");
- System.out.println(" $$$$$$$$$$$$ Place of the spring board" +spPlacement); 
-
-%>
-
-<div id="heroBanner" class="large-18 medium-18 small-18 columns">
+<div id="heroBanner" class="large-24 medium-24 small-24 columns" style="height:650;">
   <div class="jcarousel-wrapper">
      <div class="jcarousel">
         <ul class="clearfix">
         <%
-           
-          
              slideShowCount = Integer.parseInt(properties.get("slideshowcount", "1"));
              timer = Integer.parseInt(properties.get("slideshowtimer", "6000"));
              for(int i=1; i<slideShowCount+1;i++){
             	  String path = "./"+"Image_"+i;
             	 
             	     %>
-            	    
            <li> 	     
             <cq:include path="<%=path%>" resourceType="girlscouts/components/hero-slideshow-images"/>  
            </li> 
         <%}
         	
-        	
-        
-  
 %>
          </ul>   
         </div>
@@ -65,12 +53,12 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
         <p class="jcarousel-pagination"></p>
         <%} %>
  </div>
-  
-</div>
-      <cq:include script="spring-board.jsp"/>
 
- <script>
+</div>
+<script>
  $(document).ready(function(){
 	     displaySlideShow("<%=timer%>","<%=editFlag%>");
 	});
  </script>  
+  
+  
