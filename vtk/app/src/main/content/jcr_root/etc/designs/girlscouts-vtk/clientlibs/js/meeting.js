@@ -20,7 +20,7 @@
         				  cache: false
         				})
         				  .done(function( html ) {
-        					  document.location="meeting.jsp?mid="+ mPath;
+        					  document.location="/content/girlscouts-vtk/en/vtk.planView.html?mid="+ mPath;
         				  });
        		
        		
