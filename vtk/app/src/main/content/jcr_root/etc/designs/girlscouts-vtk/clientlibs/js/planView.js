@@ -46,7 +46,8 @@ function viewMeetingLibrary(meetingPath){
 	}
 	
 
-   	function createCustAgendaItem(mid, time, mPath){
+	<!-- TODO: change js name -->
+   	function createCustAgendaItem1(mid, time, mPath){
    		console.log(1)
    		var newCustAgendaName = document.getElementById("newCustAgendaName").value;
    		var newCustAgendaDuration= document.getElementById("newCustAgendaDuration").value;
@@ -58,7 +59,7 @@ function viewMeetingLibrary(meetingPath){
     				})
     				  .done(function( html ) {
     					  //document.location="meeting.jsp?mid="+ mPath;
-    					  document.location="/content/girlscouts-vtk/controllers/vtk.planView.html?elem="+mid;
+    					  document.location="/content/girlscouts-vtk/en/vtk.planView.html?elem="+mid;
     				  });
    		
    		
