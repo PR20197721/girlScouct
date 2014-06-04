@@ -3,7 +3,6 @@
 
 
 	   <%User user= (User)session.getValue("VTK_user");%>
-       <script type="text/javascript" src="js/vtk/meeting.js"></script>
        <a href="/content/girlscouts-vtk/en/vtk.plan.html?ageLevel=brownie">Back to Plan</a>
        <div id="errInfo"></div>
        

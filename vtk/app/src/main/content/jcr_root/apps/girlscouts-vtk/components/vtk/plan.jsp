@@ -14,7 +14,6 @@ if( user ==null){
 	session.putValue("VTK_user", user);
 }
 %>
-<script type="text/javascript" src="js/vtk/plan.js"></script>        
 </head>
 <body>
 
@@ -82,7 +81,7 @@ if( user ==null){
     
   <div id="div1">
   <% if(user.getYearPlan()!=null){%>
-	<script>loadMeetings()</script>
+	<script>$(document).ready(function(){loadMeetings();});</script>
   <% } %>
   
   </div>

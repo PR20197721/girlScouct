@@ -4,7 +4,6 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 
-<script type="text/javascript" src="js/vtk/planView.js"></script>
 
 <%
 HttpSession session = request.getSession();
@@ -48,7 +47,6 @@ YearPlanComponent _comp= sched.get(searchDate);
        
        <div id="editAgenda"></div>
        <%@include file="include/manageCommunications.jsp" %>
-       <%@include file="include/footer.jsp" %>  
        
        <%!
        java.text.SimpleDateFormat fmtDate= new java.text.SimpleDateFormat("MM/dd/yyyy");
