@@ -27,13 +27,13 @@ while( itr.hasNext() ){
   switch( _comp.getType() ){
 	case ACTIVITY :
 		Activity activity = (Activity) _comp;
-		%>  <%@include file="viewActivity.jsp" %>    <% 
+		%>  <%@include file="include/viewActivity.jsp" %>    <% 
 		break;
 	
 	case MEETING :
 		meetingCount++;
 		MeetingE meetingE =(MeetingE)_comp;
-		%>  <%@include file="viewMeeting.jsp" %>    <% 
+		%>  <%@include file="include/viewMeeting.jsp" %>    <% 
 		break;
   }       	
 }
