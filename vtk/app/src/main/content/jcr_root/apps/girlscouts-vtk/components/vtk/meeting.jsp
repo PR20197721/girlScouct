@@ -1,8 +1,14 @@
 <%@page import="java.util.Calendar"%>
 <%@ page import="org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 
+<%@include file="/libs/foundation/global.jsp" %>
+<cq:defineObjects/>
 
-	   <%User user= (User)session.getValue("VTK_user");%>
+
+	   <%
+	   HttpSession session = request.getSession();
+	   User user= (User)session.getValue("VTK_user");
+	   %>
        <a href="/content/girlscouts-vtk/en/vtk.plan.html?ageLevel=brownie">Back to Plan</a>
        <div id="errInfo"></div>
        
