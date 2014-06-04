@@ -233,7 +233,7 @@
         			 if (levels[i].checked)
         				_level+= levels[i].value +",";
         		 }
-        		 var urlParam = 'calStartDt='+ calStartDt +'&' +
+        		 var urlParam = 'calStartDt='+ calStartDt +
         		 "&calAP="+calAP+
         		 "&calFreq="+z+
         		 "&calTime="+calTime+
