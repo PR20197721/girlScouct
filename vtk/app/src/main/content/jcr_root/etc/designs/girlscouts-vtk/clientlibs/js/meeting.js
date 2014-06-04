@@ -16,11 +16,11 @@
        		var urlPath =mPath +"&duration="+newCustAgendaDuration+"&name="+ newCustAgendaName+"&startTime="+time ;
        		
        		 $.ajax({
-        				  url: "/content/girlscouts-vtk/controllers/vtk.include.controller.html?newCustAgendaName="+urlPath,
+        				  url: "/content/girlscouts-vtk/controllers/vtk.controller.html?newCustAgendaName="+urlPath,
         				  cache: false
         				})
         				  .done(function( html ) {
-        					  document.location="meeting.jsp?mid="+ mPath;
+        					  document.location="/content/girlscouts-vtk/en/vtk.planView.html?mid="+ mPath;
         				  });
        		
        		

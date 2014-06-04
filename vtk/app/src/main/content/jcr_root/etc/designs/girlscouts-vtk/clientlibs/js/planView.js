@@ -1,7 +1,7 @@
 
-function rmCustActivity(x){
+function rmCustActivity1(x){
 	
-	$( "#planMsg" ).load( "/content/girlscouts-vtk/controllers/vtk.include.controller.html?rmCustActivity="+x, function( response, status, xhr ) {
+	$( "#planMsg" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?rmCustActivity="+x, function( response, status, xhr ) {
 	   	  if ( status != "error" ) {
 	   	    
 	   		 
@@ -46,19 +46,20 @@ function viewMeetingLibrary(meetingPath){
 	}
 	
 
-   	function createCustAgendaItem(mid, time, mPath){
+	<!-- TODO: change js name -->
+   	function createCustAgendaItem1(mid, time, mPath){
    		console.log(1)
    		var newCustAgendaName = document.getElementById("newCustAgendaName").value;
    		var newCustAgendaDuration= document.getElementById("newCustAgendaDuration").value;
    		var urlPath =mPath +"&duration="+newCustAgendaDuration+"&name="+ newCustAgendaName+"&startTime="+time ;
    		console.log( urlPath )
    		 $.ajax({
-    				  url: "/content/girlscouts-vtk/controllers/vtk.include.controller.html?newCustAgendaName="+urlPath,
+    				  url: "/content/girlscouts-vtk/controllers/vtk.controller.html?newCustAgendaName="+urlPath,
     				  cache: false
     				})
     				  .done(function( html ) {
     					  //document.location="meeting.jsp?mid="+ mPath;
-    					  document.location="/content/girlscouts-vtk/controllers/vtk.planView.html?elem="+mid;
+    					  document.location="/content/girlscouts-vtk/en/vtk.planView.html?elem="+mid;
     				  });
    		
    		
@@ -91,7 +92,7 @@ function viewMeetingLibrary(meetingPath){
 		   
 		   
 		   var x =$.ajax({ // ajax call starts
-		          url: '/content/girlscouts-vtk/controllers/vtk.include.controller.html?mid='+meetingPath+'&isActivityCngAjax='+ newVals, // JQuery loads serverside.php
+		          url: '/content/girlscouts-vtk/controllers/vtk.controller.html?mid='+meetingPath+'&isActivityCngAjax='+ newVals, // JQuery loads serverside.php
 		          data: '', // Send value of the clicked button
 		          dataType: 'html', // Choosing a JSON datatype
 		          success: function (data) { 
@@ -121,7 +122,7 @@ function viewMeetingLibrary(meetingPath){
 		  
 		  
 		   var x =$.ajax({ // ajax call starts
-		          url: '/content/girlscouts-vtk/controllers/vtk.include.controller.html?rmAgenda='+id+'&mid='+mid, // JQuery loads serverside.php
+		          url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rmAgenda='+id+'&mid='+mid, // JQuery loads serverside.php
 		          data: '', // Send value of the clicked button
 		          dataType: 'html', // Choosing a JSON datatype
 		          success: function (data) { 
@@ -138,7 +139,7 @@ function viewMeetingLibrary(meetingPath){
 	  function durEditActiv(duration, activPath, meetingPath){
 		  
 		  var x =$.ajax({ // ajax call starts
-	          url: '/content/girlscouts-vtk/controllers/vtk.include.controller.html?editAgendaDuration='+duration+'&aid='+activPath+'&mid='+meetingPath, // JQuery loads serverside.php
+	          url: '/content/girlscouts-vtk/controllers/vtk.controller.html?editAgendaDuration='+duration+'&aid='+activPath+'&mid='+meetingPath, // JQuery loads serverside.php
 	          data: '', // Send value of the clicked button
 	          dataType: 'html', // Choosing a JSON datatype
 	          success: function (data) { 

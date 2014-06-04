@@ -27,7 +27,8 @@ Activity activity = (Activity) _comp;
 <h1>Activity</h1>
 Activity: <%= activity.getName()%>
 
-<input type="button" value="delete this activity" onclick="rmCustActivity('<%=activity.getPath()%>')"/>
+<!-- TODO: change js name later -->
+<input type="button" value="delete this activity" onclick="rmCustActivity1('<%=activity.getPath()%>')"/>
 
 
 <br/><br/>Date: <%=fmtDate.format(activity.getDate()) %>

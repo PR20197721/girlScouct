@@ -1,7 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 
+<%@include file="/libs/foundation/global.jsp" %>
+<cq:defineObjects/>
 
+<%
+	HttpSession session = request.getSession();
+%>
 <script>
 $(function() {
 	
@@ -37,10 +42,10 @@ Freq<select id="calFreq"><option value="weekly">weekly</option> <option value="m
 </div>
 
 
-<%@include file="location.jsp" %>
+<%@include file="include/location.jsp" %>
 
 <br/><br/>
-<%@include file="manageActivities.jsp" %>
+<%@include file="include/manageActivities.jsp" %>
 
 
 
