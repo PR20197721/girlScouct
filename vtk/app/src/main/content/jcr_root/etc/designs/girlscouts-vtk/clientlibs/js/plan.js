@@ -2,7 +2,7 @@
         		function loadMeetings(){
         			
         			
-        			var url = '/content/girlscouts-vtk/controllers/vtk.include.meeting.html';
+        			var url = '/content/girlscouts-vtk/controllers/vtk.meetingInclude.html';
         			 $("#div1").load(url);
         			 
         			 
@@ -83,7 +83,7 @@
         			  
         			   
         			   var x =$.ajax({ // ajax call starts
-     			          url: '/content/girlscouts-vtk/controllers/vtk.include.meeting.html?isRefresh=true', // JQuery loads serverside.php
+     			          url: '/content/girlscouts-vtk/controllers/vtk.meetingInclude.html?isRefresh=true', // JQuery loads serverside.php
      			          data: '', // Send value of the clicked button
      			          dataType: 'html', // Choosing a JSON datatype
      			          success: function (data) { 
