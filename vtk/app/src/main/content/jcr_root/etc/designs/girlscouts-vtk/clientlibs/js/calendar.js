@@ -20,7 +20,7 @@ function updSched(i, meetingPath, currDt){
 					"&currDt="+currDt+
 					"&isCancelledMeeting="+ isCancelled;
 	
-	$( "#locMsg" ).load( "/content/girlscouts-vtk/controllers/vtk.include.controller.html?updSched=true&"+urlParam, function( response, status, xhr ) {
+	$( "#locMsg" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?updSched=true&"+urlParam, function( response, status, xhr ) {
 	   	  if ( status != "error" ) {}else{}
 	   	 });
 	

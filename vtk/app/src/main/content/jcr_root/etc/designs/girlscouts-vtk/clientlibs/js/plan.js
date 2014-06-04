@@ -15,7 +15,7 @@
         			 
         			 
         			 $.ajax({
-        				  url: "/content/girlscouts-vtk/controllers/vtk.include.controller.html?addYearPlanUser="+planPath,
+        				  url: "/content/girlscouts-vtk/controllers/vtk.controller.html?addYearPlanUser="+planPath,
         				  cache: false
         				})
         				  .done(function( html ) {
@@ -57,7 +57,7 @@
         			   
         			   
         			   var x =$.ajax({ // ajax call starts
-        			          url: '/content/girlscouts-vtk/controllers/vtk.include.controller.html?isMeetingCngAjax='+ newVals, // JQuery loads serverside.php
+        			          url: '/content/girlscouts-vtk/controllers/vtk.controller.html?isMeetingCngAjax='+ newVals, // JQuery loads serverside.php
         			          data: '', // Send value of the clicked button
         			          dataType: 'html', // Choosing a JSON datatype
         			          success: function (data) { 
@@ -131,7 +131,7 @@
         
         function addExistActivity(activityId){
         	
-        	$("#addExistActivity_err_"+activityId).load("/content/girlscouts-vtk/controllers/vtk.include.controller.html?addExistActivity="+activityId);
+        	$("#addExistActivity_err_"+activityId).load("/content/girlscouts-vtk/controllers/vtk.controller.html?addExistActivity="+activityId);
         	
         }
         
@@ -183,7 +183,7 @@
        	 				"&state="+state+
        	 				"&zip="+zip;
        	 
-       	 $("#locMsg").load("/content/girlscouts-vtk/controllers/vtk.include.controller.html?addLocation=true"+ urlParam);
+       	 $("#locMsg").load("/content/girlscouts-vtk/controllers/vtk.controller.html?addLocation=true"+ urlParam);
        	
        }
         
@@ -209,7 +209,7 @@
         					"&currDt="+currDt+
         					"&isCancelledMeeting="+ isCancelled;
         	
-        	$( "#locMsg" ).load( "/content/girlscouts-vtk/controllers/vtk.include.controller.html?updSched=true&"+urlParam, function( response, status, xhr ) {
+        	$( "#locMsg" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?updSched=true&"+urlParam, function( response, status, xhr ) {
         	   	  if ( status != "error" ) { }else{ }  
         	   	});
         	
@@ -239,7 +239,7 @@
         		 "&calTime="+calTime+
         		 "&exclDt="+_level;
         		 			
-        		 $( "#calView" ).load( "/content/girlscouts-vtk/controllers/vtk.include.controller.html?buildSched=true&"+urlParam, function( response, status, xhr ) {
+        		 $( "#calView" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?buildSched=true&"+urlParam, function( response, status, xhr ) {
         	   	  if ( status != "error" ) {
         	   		  
         	   		location.reload();
@@ -256,7 +256,7 @@
 
           function rmCustActivity(x){
           	
-          	$( "#locMsg" ).load( "/content/girlscouts-vtk/controllers/vtk.include.controller.html?rmCustActivity="+x, function( response, status, xhr ) {
+          	$( "#locMsg" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?rmCustActivity="+x, function( response, status, xhr ) {
           	   	  if ( status != "error" ) {
           	   	  }else{
           	   	  }
@@ -293,7 +293,7 @@
   	 			'newCustActivity_endTime='+ newCustActivity_endTime +'&'+
   	 			'newCustActivity_txt='+ newCustActivity_txt ;
   	 			
-  	 $( "#newCustActivity_err" ).load( "/content/girlscouts-vtk/controllers/vtk.include.controller.html?newCustActivity=true&"+urlParam, function( response, status, xhr ) {
+  	 $( "#newCustActivity_err" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?newCustActivity=true&"+urlParam, function( response, status, xhr ) {
      	  if ( status != "error" ) {
      	    
      		  	location.reload();
@@ -341,7 +341,7 @@
   	
   	 
   	 
-  	 $("#listExistActivity").load("/content/girlscouts-vtk/controllers/vtk.include.controller.html?searchExistActivity=true"+ urlParam);
+  	 $("#listExistActivity").load("/content/girlscouts-vtk/controllers/vtk.controller.html?searchExistActivity=true"+ urlParam);
    }
    
    

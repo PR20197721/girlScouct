@@ -1,7 +1,7 @@
 
 function rmCustActivity(x){
 	
-	$( "#planMsg" ).load( "/content/girlscouts-vtk/controllers/vtk.include.controller.html?rmCustActivity="+x, function( response, status, xhr ) {
+	$( "#planMsg" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?rmCustActivity="+x, function( response, status, xhr ) {
 	   	  if ( status != "error" ) {
 	   	    
 	   		 
@@ -53,7 +53,7 @@ function viewMeetingLibrary(meetingPath){
    		var urlPath =mPath +"&duration="+newCustAgendaDuration+"&name="+ newCustAgendaName+"&startTime="+time ;
    		console.log( urlPath )
    		 $.ajax({
-    				  url: "/content/girlscouts-vtk/controllers/vtk.include.controller.html?newCustAgendaName="+urlPath,
+    				  url: "/content/girlscouts-vtk/controllers/vtk.controller.html?newCustAgendaName="+urlPath,
     				  cache: false
     				})
     				  .done(function( html ) {
@@ -91,7 +91,7 @@ function viewMeetingLibrary(meetingPath){
 		   
 		   
 		   var x =$.ajax({ // ajax call starts
-		          url: '/content/girlscouts-vtk/controllers/vtk.include.controller.html?mid='+meetingPath+'&isActivityCngAjax='+ newVals, // JQuery loads serverside.php
+		          url: '/content/girlscouts-vtk/controllers/vtk.controller.html?mid='+meetingPath+'&isActivityCngAjax='+ newVals, // JQuery loads serverside.php
 		          data: '', // Send value of the clicked button
 		          dataType: 'html', // Choosing a JSON datatype
 		          success: function (data) { 
@@ -121,7 +121,7 @@ function viewMeetingLibrary(meetingPath){
 		  
 		  
 		   var x =$.ajax({ // ajax call starts
-		          url: '/content/girlscouts-vtk/controllers/vtk.include.controller.html?rmAgenda='+id+'&mid='+mid, // JQuery loads serverside.php
+		          url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rmAgenda='+id+'&mid='+mid, // JQuery loads serverside.php
 		          data: '', // Send value of the clicked button
 		          dataType: 'html', // Choosing a JSON datatype
 		          success: function (data) { 
@@ -138,7 +138,7 @@ function viewMeetingLibrary(meetingPath){
 	  function durEditActiv(duration, activPath, meetingPath){
 		  
 		  var x =$.ajax({ // ajax call starts
-	          url: '/content/girlscouts-vtk/controllers/vtk.include.controller.html?editAgendaDuration='+duration+'&aid='+activPath+'&mid='+meetingPath, // JQuery loads serverside.php
+	          url: '/content/girlscouts-vtk/controllers/vtk.controller.html?editAgendaDuration='+duration+'&aid='+activPath+'&mid='+meetingPath, // JQuery loads serverside.php
 	          data: '', // Send value of the clicked button
 	          dataType: 'html', // Choosing a JSON datatype
 	          success: function (data) { 
