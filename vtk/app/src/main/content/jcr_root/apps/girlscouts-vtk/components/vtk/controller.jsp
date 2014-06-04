@@ -9,15 +9,15 @@
 	HttpSession session = request.getSession();
 
 	ActivityDAO activityDAO = sling.getService(ActivityDAO.class);
-	UserDAO activityDAO = sling.getService(UserDAO.class);
-	LocationDAO activityDAO = sling.getService(ActivityDAO.class);
+	UserDAO userDAO = sling.getService(UserDAO.class);
+	LocationDAO locationDAO = sling.getService(LocationDAO.class);
 	CalendarUtil calendarUtil = sling.getService(CalendarUtil.class);
 	LocationUtil locationUtil = sling.getService(LocationUtil.class);
 	MeetingUtil meetingUtil = sling.getService(MeetingUtil.class);
 
 if( request.getParameter("isMeetingCngAjax") !=null){
 	
-	MeetingUtil.changeMeetingPositions( (User) session.getValue("VTK_user"),
+	meetingUtil.changeMeetingPositions( (User) session.getValue("VTK_user"),
 			request.getParameter("isMeetingCngAjax") );
 	
 	
@@ -73,7 +73,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	
 }else if( request.getParameter("setLocationToAllMeetings") !=null ){
 	
-	locationUtil().setLocationAllMeetings((User) session.getValue("VTK_user"), 
+	locationUtil.setLocationAllMeetings((User) session.getValue("VTK_user"), 
 			request.getParameter("setLocationToAllMeetings") );
 	
 }else if( request.getParameter("updSched") !=null ){
