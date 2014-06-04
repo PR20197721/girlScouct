@@ -9,5 +9,5 @@ public interface UserDAO {
 	public User getUser(String userId);
 	public YearPlan addYearPlan( User user, String yearPlanPath );
 	public void updateUser(User user);
-	
+	public void selectYearPlan(User user, String yearPlanPath);
 }
