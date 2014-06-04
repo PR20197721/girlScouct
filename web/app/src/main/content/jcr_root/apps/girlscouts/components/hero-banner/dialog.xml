@@ -65,7 +65,7 @@
                         jcr:primaryType="cq:Widget"
                         defaultValue="0"
                         fieldDescription="(Select spring board location)"
-                        fieldLabel="Number of Slide Show Images"
+                        fieldLabel="Spring Board Position"
                         name="./spplacement"
                         type="select"
                         xtype="selection">
@@ -103,7 +103,7 @@
                         xtype="dynamicPathField"/>
                     <first-sb-button-txt
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Spring Board Url"
+                        fieldLabel="Spring Board Button"
                         name="./firstsbbutton"
                         xtype="textfield"/>
                 </items>
@@ -129,7 +129,7 @@
                         xtype="dynamicPathField"/>
                     <second-sb-button-txt
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Spring Board Url"
+                        fieldLabel="Spring Board Button"
                         name="./secondsbbutton"
                         xtype="textfield"/>
                 </items>
