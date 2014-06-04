@@ -68,9 +68,9 @@ public class CalendarUtil {
 			while( date.getYear() == startDate.getYear() ){
 				
 	            if (freq.equals("weekly")){
-	                date= date.plusWeeks(1); break;
+	                date= date.plusWeeks(1); 
 	            } else if (freq.equals("monthly")) {
-	                date= date.plusMonths(1); break;
+	                date= date.plusMonths(1);
 	            }
 				
 				
