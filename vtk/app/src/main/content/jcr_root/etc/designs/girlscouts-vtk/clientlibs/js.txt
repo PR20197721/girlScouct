@@ -1,7 +1,6 @@
 #base=js
 
 jquery-ui.min.js
-jquery-sortable.js
 calendar.js
 locationManager.js
 meeting.js
