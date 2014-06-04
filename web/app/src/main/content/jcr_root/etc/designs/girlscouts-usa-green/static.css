@@ -74,18 +74,23 @@ a:hover {
 }
 
 a.menu {
-    color: #eeeeee;
-    font-size: 1.25em;
+    color: #C1EAD4;
+    font-size: 1.042em;
     font-weight: "bold";
 }
 a:hover.menu {
-    color: #f93;
+    color: #ffffff;
 }
 a.menuHighlight {
-    color: #FAA61A;
+    color: #FFC057;
+    font-weight: "bold";
 }
 a:hover.menuHighlight {
-    color: #fc3;
+   color: #fc3;
+}
+
+.inline-list > li.active>a{
+  color: #ffffff;
 }
 
 /***********************************/
@@ -163,7 +168,7 @@ a:hover.menuHighlight {
     padding: 0px 8px;
 }
 #headerBar li:hover {
-    background-color:#063;
+   /* background-color:#063;*/
 }
 
 
