@@ -35,8 +35,12 @@ Activity: <%= activity.getName()%>
 <br/><br/>Time: <%=fmtHr.format(activity.getDate()) %> - <%= fmtHr.format(activity.getEndDate()) %> 
 <br/><br/>Age range:
 <br/><br/>Location: <%=activity.getLocationRef() %>
+<%= activity.getLocationName() %>
+<%=activity.getLocationAddress()%>
+
 <%
-   if( activity.getLocationRef()!=null && user.getYearPlan().getLocations()!=null )
+ //TODO depricated all if  
+if( activity.getLocationRef()!=null && user.getYearPlan().getLocations()!=null )
 	for(int k=0;k<user.getYearPlan().getLocations().size();k++){
 		if( user.getYearPlan().getLocations().get(k).getPath().equals( activity.getLocationRef() ) )
 			%>

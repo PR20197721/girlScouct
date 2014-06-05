@@ -54,7 +54,8 @@ function viewMeetingLibrary(meetingPath){
    		console.log(1)
    		var newCustAgendaName = document.getElementById("newCustAgendaName").value;
    		var newCustAgendaDuration= document.getElementById("newCustAgendaDuration").value;
-   		var urlPath =mPath +"&duration="+newCustAgendaDuration+"&name="+ newCustAgendaName+"&startTime="+time ;
+   		var createCustAgendaTxt = document.getElementById("newCustAgendaTxt").value;
+   		var urlPath =mPath +"&duration="+newCustAgendaDuration+"&name="+ newCustAgendaName+"&startTime="+time+"&txt="+createCustAgendaTxt ;
    		console.log( urlPath )
    		 $.ajax({
     				  url: "/content/girlscouts-vtk/controllers/vtk.controller.html?newCustAgendaName="+urlPath,

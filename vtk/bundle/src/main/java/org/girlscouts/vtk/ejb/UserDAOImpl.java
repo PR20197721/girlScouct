@@ -153,7 +153,7 @@ public class UserDAOImpl implements UserDAO{
 	
 	public void selectYearPlan(User user, String yearPlanPath){
 		
-System.err.println("Switch year to : "+ yearPlanPath);
+
 				
 		YearPlan oldPlan = user.getYearPlan();
 		YearPlan newYearPlan = addYearPlan(user, yearPlanPath);
@@ -163,15 +163,14 @@ System.err.println("Switch year to : "+ yearPlanPath);
 			
 			   
 				String oldDates  = oldPlan.getSchedule().getDates();
-	System.err.println( "OldDates: "+ oldDates);			
+			
 				int count=0;
 				java.util.StringTokenizer t= new java.util.StringTokenizer( oldDates, ",");
 				while(t.hasMoreElements()){
 				
 					long date= Long.parseLong(t.nextToken());
-					System.err.println("Process "+ new java.util.Date() +" : "+ new java.util.Date(date) +": " +new java.util.Date().after( new java.util.Date(date) ));
+					
 					if( new java.util.Date().before( new java.util.Date(date) )){
-				System.err.println("22 "+ count +" : to:"+newYearPlan.getMeetingEvents().get(count ).getRefId()  );
 						java.util.List <MeetingE> newMeetings = newYearPlan.getMeetingEvents();
 						oldPlan.getMeetingEvents().get(count).setRefId(  newYearPlan.getMeetingEvents().get(count ).getRefId() );
 						
@@ -181,7 +180,7 @@ System.err.println("Switch year to : "+ yearPlanPath);
 				}
 					
 		}else{
-			System.err.println("No sched in year");
+			
 			oldPlan.setMeetingEvents(newYearPlan.getMeetingEvents() );
 			user.setYearPlan(oldPlan);
 		}

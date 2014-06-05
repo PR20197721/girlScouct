@@ -31,7 +31,8 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 			request.getParameter("newCustActivity_name"), 
 			request.getParameter("newCustActivity_txt"),
 			dateFormat5.parse(request.getParameter("newCustActivity_date") +" "+request.getParameter("newCustActivity_startTime")), 
-			dateFormat5.parse(request.getParameter("newCustActivity_date") +" "+request.getParameter("newCustActivity_endTime"))  )
+			dateFormat5.parse(request.getParameter("newCustActivity_date") +" "+request.getParameter("newCustActivity_endTime")), 
+			request.getParameter("newCustActivityLocName"), request.getParameter("newCustActivityLocAddr"))
 				);
 	
 	
@@ -67,7 +68,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 
 	meetingUtil.createCustomAgenda((User) session.getValue("VTK_user"), 
 			request.getParameter("name"), request.getParameter("newCustAgendaName"), 
-			Integer.parseInt(request.getParameter("duration")), Long.parseLong( request.getParameter("startTime") ) );
+			Integer.parseInt(request.getParameter("duration")), Long.parseLong( request.getParameter("startTime") ), request.getParameter("txt") );
 	
 	
 	

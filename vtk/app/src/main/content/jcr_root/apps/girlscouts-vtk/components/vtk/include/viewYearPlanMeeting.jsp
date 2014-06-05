@@ -178,7 +178,10 @@ if( meeting.getCancelled()!=null && meeting.getCancelled().equals("true")){ %>
 	
 	 + (<%= activSched.getTime()%>)
 	
+	<br/>Description:<textarea id="newCustAgendaTxt"></textarea>
 	<br/><br/>
+	
+	
 	<input type="button" value="save" onclick="createCustAgendaItem1('<%=searchDate.getTime()%>', '<%=activSched.getTime().getTime()%>', '<%=meeting.getPath()%>')"/>
      <%}else{ out.println("VIEW MODE"); } %>
        </div>

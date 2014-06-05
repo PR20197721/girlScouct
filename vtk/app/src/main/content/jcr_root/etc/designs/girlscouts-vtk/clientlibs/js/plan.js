@@ -286,11 +286,16 @@
   	 var newCustActivity_endTime = document.getElementById("newCustActivity_endTime").value;
   	 
   	 var newCustActivity_txt = document.getElementById("newCustActivity_txt").value;
-  	 
+  	
+  	 var newCustActivityLocName = document.getElementById("newCustActivity_locName").value;
+  	var newCustActivityLocAddr = document.getElementById("newCustActivity_locAddr").value;
+  	
   	 var urlParam = 'newCustActivity_name='+ newCustActivity_name +'&' +
   	 			'newCustActivity_date='+ newCustActivity_date +'&'+
   	 			'newCustActivity_startTime='+ newCustActivity_startTime +'&'+
   	 			'newCustActivity_endTime='+ newCustActivity_endTime +'&'+
+  	 			'newCustActivityLocName='+ newCustActivityLocName +'&'+
+  	 			'newCustActivityLocAddr='+ newCustActivityLocAddr +'&'+
   	 			'newCustActivity_txt='+ newCustActivity_txt ;
   	 			
   	 $( "#newCustActivity_err" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?newCustActivity=true&"+urlParam, function( response, status, xhr ) {

@@ -9,11 +9,14 @@ public class Activity extends YearPlanComponent{
 
 	public Activity(){super.setType(YearPlanComponentType.ACTIVITY);}
 	
-	public Activity(String name, String content, java.util.Date date, java.util.Date endDate){
+	public Activity(String name, String content, java.util.Date date, java.util.Date endDate,
+			String locationName, String locationAddress){
 		this.name= name;
 		this.content= content;
 		this.date= date;
 		this.endDate= endDate;
+		this.locationName= locationName;
+		this.locationAddress = locationAddress;
 		super.setType(YearPlanComponentType.ACTIVITY);
 	}
 	
@@ -21,15 +24,36 @@ public class Activity extends YearPlanComponent{
 	@Field private String name, activityDescription;
 	@Field private int duration, activityNumber;
 	@Field private String materials, steps;
-	
 	@Field private java.util.Date endDate, date;
 	@Field private String content, id;
 	
-	//@Field private String 
+	@Field private String locationName, locationAddress; 
 	
 	@Field private String locationRef;//depricated
 	
 	
+	
+	
+	
+	
+	
+	
+	public String getLocationName() {
+		return locationName;
+	}
+
+	public void setLocationName(String locationName) {
+		this.locationName = locationName;
+	}
+
+	public String getLocationAddress() {
+		return locationAddress;
+	}
+
+	public void setLocationAddress(String locationAddress) {
+		this.locationAddress = locationAddress;
+	}
+
 	public String getLocationRef() {
 		return locationRef;
 	}

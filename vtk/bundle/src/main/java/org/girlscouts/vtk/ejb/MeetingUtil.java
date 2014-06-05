@@ -133,7 +133,7 @@ public class MeetingUtil {
 	}
 	
 	
-	public void createCustomAgenda(User user, String name, String meetingPath, int duration, long _startTime ){
+	public void createCustomAgenda(User user, String name, String meetingPath, int duration, long _startTime, String txt ){
 		
 		java.util.Calendar startTime =  Calendar.getInstance();
 		startTime.setTimeInMillis(  _startTime  );
@@ -149,6 +149,7 @@ public class MeetingUtil {
 				Activity activity= new Activity();
 				activity.setName(name);
 				activity.setDuration(duration);
+				activity.setActivityDescription(txt);
 			
 				meetingDAO.addActivity( meeting,  activity);
 				

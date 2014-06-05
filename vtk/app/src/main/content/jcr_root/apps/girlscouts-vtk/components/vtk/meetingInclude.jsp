@@ -14,7 +14,6 @@
 
     java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
 
-out.println("MIKKKK : "+ sched.size() +" : "+ user.getYearPlan().getMeetingEvents().size() );
     %>
     
 <p>Drag and drop to reorder meetings</p>
