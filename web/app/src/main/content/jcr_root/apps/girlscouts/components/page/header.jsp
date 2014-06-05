@@ -18,6 +18,8 @@
         <div id="header" class="row">
             <div class="large-4 medium-5 small-24 columns">
                 <cq:include path="<%= headerPath + "/logo" %>" resourceType="girlscouts/components/logo" />
+                <!-- TODO: Mike Z. This is an empty <div> that fixes the green box on Chrome. Temp solution. -->
+                <cq:include path="<%= headerPath + "/placeholder" %>" resourceType="girlscouts/components/placeholder" />
             </div>    
             <div class="large-20 medium-19 hide-for-small columns topMessage">
                 <% setCssClasses("columns", request); %>
