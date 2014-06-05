@@ -112,7 +112,7 @@ a:hover.menuHighlight {
     color: #fff;
 }
 #header a:hover {
-    color: yellow;
+    color: #FAA61A;
 }
 #header a.signout {
     font-size: 0.875em;
@@ -484,6 +484,71 @@ input.form-btn, a.form-btn {
 td.fc-header-left{
    padding-top:12px;
 }
- 
 
+/**********************************************************/
+/***************************SIDE HAMBURGER VIEW************/
+/**********************************************************/
+#right-canvas-menu .side-nav *{
+    color: #858585;
+    margin: 0px;
+}
+#right-canvas-menu ul {
+    list-style: none;
+}
+#right-canvas-menu .side-nav li{
+    padding: 5px 0px 5px 15px;
+}
+#right-canvas-menu .side-nav li a:hover {
+    color: #ffffff;
+}
+
+#right-canvas-menu .side-nav li.active>a{
+  color: #ffffff;
+}
+#right-canvas-menu .side-nav li.divider {
+    margin: 0px;
+    padding: 0px;
+    background: none; 
+}
+#right-canvas-menu .side-nav .active>a {
+    font-weight: bold;
+}
+#right-canvas-menu .side-nav>li>a{
+    /*font-weight: bold;*/
+}
+#right-canvas-menu .side-nav>li>li a{
+    font-weight: normal;
+}
+#right-canvas-menu .side-nav>li {
+    background: url('images/orange-vertical.png') repeat-y  0px 0px; 
+     
+}
+#right-canvas-menu .side-nav>li.active {
+    background: url('images/orange-yellow-vertical.png') repeat-y  0px 0px; 
+    /*background-color:#f7f7f6;*/
+}
+
+#right-canvas-menu .side-nav>li#sub-active {
+    background: url('images/orange-yellow-vertical.png') repeat-y  0px 0px; 
+    /*background-color:#f7f7f6;*/
+}
+
+.emptyrow{
+ height:20px;
+}
+
+.logoLargePadding{
+ padding:1.35px 0 0 1.35px
+}
+
+.eyebrow-fontsize>li a{
+ font-size:0.875rem;
+
+}
+
+.searchBar form input
+{
+  height:21px;
+  width:100%;
+}
 
