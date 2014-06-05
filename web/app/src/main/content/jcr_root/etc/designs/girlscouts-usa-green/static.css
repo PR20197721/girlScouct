@@ -488,38 +488,48 @@ td.fc-header-left{
 /**********************************************************/
 /***************************SIDE HAMBURGER VIEW************/
 /**********************************************************/
-#right-canvas-menu .side-nav *{
+#right-canvas-menu a{
     color: #ddd;
+}
+#right-canvas-menu li{
     margin: 0px;
 }
-#right-canvas-menu ul {
+.right-off-canvas-menu ul {
     list-style: none;
 }
-#right-canvas-menu .side-nav li{
-    padding: 5px 0px 5px 15px;
+.right-off-canvas-menu li{
+    padding: 8px 0px 8px 15px;
 }
-#right-canvas-menu .side-nav div:nth-of-type(2) {
+#right-canvas-menu-bottom {
 	border-top: 1px solid #464646; 
 }
-#right-canvas-menu .side-nav li a:hover {
+#right-canvas-menu-bottom ul{
+	margin-left: 0;
+}
+.right-off-canvas-menu .side-nav li a:hover {
     color: #ffffff;
 }
 
-#right-canvas-menu .side-nav li.active>a{
+.right-off-canvas-menu .side-nav li.active>a{
   color: #ffffff;
 }
-#right-canvas-menu .side-nav li.divider {
+.right-off-canvas-menu .side-nav li.divider {
     margin: 0px;
     padding: 0px;
     background: none; 
 }
-#right-canvas-menu .side-nav .active>a {
+.right-off-canvas-menu .side-nav .active>a {
     font-weight: bold;
 }
-#right-canvas-menu .side-nav>li>a{
+.right-off-canvas-menu a{
+    color:#ddd;
+    
+}
+
+.right-off-canvas-menu .side-nav>li>a{
     /*font-weight: bold;*/
 }
-#right-canvas-menu .side-nav>li>li a{
+.right-off-canvas-menu .side-nav>li>li a{
     font-weight: normal;
 }
 #right-canvas-menu .side-nav>li {
@@ -534,6 +544,10 @@ td.fc-header-left{
 #right-canvas-menu .side-nav>li#sub-active {
     background: url('images/orange-yellow-vertical.png') repeat-y  0px 0px; 
     /*background-color:#f7f7f6;*/
+}
+
+.right-off-canvas-menu li{
+  font-size:0.875rem;
 }
 
 .emptyrow{
