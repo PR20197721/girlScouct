@@ -1,7 +1,9 @@
 
-function rmCustActivity1(x){
+function rmCustActivity12(x){
 	
-	$( "#planMsg" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?rmCustActivity="+x, function( response, status, xhr ) {
+	//6/4/$( "#planMsg" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?rmCustActivity="+x, function( response, status, xhr ) {
+	
+	$( "#editAgenda" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?rmCustActivity="+x, function( response, status, xhr ) {
 	   	  if ( status != "error" ) {
 	   	    
 	   		 
@@ -14,7 +16,8 @@ function rmCustActivity1(x){
 	   	});
 	
 	
-	document.location="planView.jsp";
+	//6/4/document.location="planView.jsp";
+	document.location="/content/girlscouts-vtk/en/vtk.planView.html";
 }
 
 function viewMeetingLibrary(meetingPath){

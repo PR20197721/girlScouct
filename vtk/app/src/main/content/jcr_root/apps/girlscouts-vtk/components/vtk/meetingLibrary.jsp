@@ -38,11 +38,11 @@ function cngMeeting(mPath){
 	
 	//console.log(mPath);
 	//console.log("/VTK/include/controller.jsp?<%=meetingPath ==null ? "addMeeting" : "cngMeeting"%>=true&fromPath=<%=meetingPath%>&toPath="+mPath);
-	$( "#cngMeet" ).load( "/VTK/include/controller.jsp?<%=meetingPath ==null ? "addMeeting" : "cngMeeting"%>=true&fromPath=<%=meetingPath%>&toPath="+mPath,function( html ) {
+	$( "#cngMeet" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?<%=meetingPath ==null ? "addMeeting" : "cngMeeting"%>=true&fromPath=<%=meetingPath%>&toPath="+mPath,function( html ) {
 		 <%if(meetingPath==null){%>
-		    document.location="/VTK/plan.jsp";
+		    document.location="/content/girlscouts-vtk/en/vtk.plan.html";
 		 <%}else{%>
-		 	document.location="/VTK/planView.jsp";
+		 	document.location="/content/girlscouts-vtk/en/vtk.planView.html";
 		 <%}%>
 		 
 	  });
