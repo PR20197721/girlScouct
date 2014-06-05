@@ -41,10 +41,13 @@
     <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="<%= xssAPI.getValidHref(favIcon) %>"<%=xs%>>
     <% } %>
     <% 
-    	String title = currentPage.adaptTo(ValueMap.class).get("pageTitle", "");
-    	if (title.isEmpty()) {
-    		title = currentPage.getTitle() == null ? currentPage.getName() : currentPage.getTitle();
-    	}
+		String title = "";
+		try {
+        	title = currentPage.getContentResource().adaptTo(ValueMap.class).get("seoTitle", "");
+    		if (title.isEmpty()) {
+    			title = currentPage.getTitle() == null ? currentPage.getName() : currentPage.getTitle();
+    		}
+        } catch (Exception e) {}
     	title = xssAPI.encodeForHTML(title);
     %>
     <title><%= title %></title>
