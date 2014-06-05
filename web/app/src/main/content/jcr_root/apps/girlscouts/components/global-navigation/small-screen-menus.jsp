@@ -2,7 +2,7 @@
 <%@page import="java.util.Iterator,
                 java.util.HashSet,java.util.Set,
                 java.util.Arrays,org.apache.sling.api.resource.ResourceResolver,
-                org.slf4j.Logger,org.slf4j.LoggerFactory"%>
+                org.slf4j.Logger,org.slf4j.LoggerFactory,org.apache.sling.api.resource.ResourceUtil"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 <!-- apps/girlscouts/components/global-navigation/global-navigation.jsp -->
@@ -45,29 +45,40 @@ for (int i = 0; i < links.length; i++)
         String navigation="";
         StringBuilder menuBuilder = new StringBuilder();
         Iterator<Page> iterPage=null;
+        Boolean resourceFlag = false;
+        String startingPoint = "";
         
         if(!path.isEmpty() && !path.equalsIgnoreCase("#"))
         {
             //String rootPath = currentPage.getPath().substring(gs_us_path.length()+1, currPath.length()); 
            
-            String startingPoint = menuPath.substring(currentPage.getAbsoluteParent(2).getPath().length()+1,menuPath.length());
+            startingPoint = menuPath.substring(currentPage.getAbsoluteParent(2).getPath().length()+1,menuPath.length());
             
             if(startingPoint.indexOf("/")>0)
               {
                  startingPoint = startingPoint.substring(0, startingPoint.indexOf("/"));
                }
              
-            iterPage = resourceResolver.getResource(gs_us_path+"/"+startingPoint).adaptTo(Page.class).listChildren();
+           Resource pathResource = resourceResolver.getResource(gs_us_path+"/"+startingPoint);
+           if(pathResource==null || ResourceUtil.isNonExistingResource(pathResource) || !pathResource.getResourceType().equalsIgnoreCase("cq:Page")){
+        	        resourceFlag = true;
+        	}
+            
+         
         }
         %>
-      <%   if(!currPath.equals(rootPath) && !menuPath.equals('#'))
+      <%   
+      if(!resourceFlag){
+    	  iterPage = resourceResolver.getResource(gs_us_path+"/"+startingPoint).adaptTo(Page.class).listChildren();
+    	  
+      if(!currPath.equals(rootPath) && !menuPath.equals('#'))
       {
           //This if to handle the special case for the events
           if(currPath.startsWith(eventPath) && eventLeftNavRoot.startsWith(menuPath))
           {%>
           
            <li id="sub-active">
-               <a href="<%= path %>"><%= mLabel %></a>
+               <a href="<%= path %>"><%= sLabel %></a>
           <%
               if(eventGrandParent.equalsIgnoreCase(currentSite.get("eventPath", String.class))){
                    eventPath = eventLeftNavRoot.substring(0,eventLeftNavRoot.lastIndexOf("/"));
@@ -91,7 +102,7 @@ for (int i = 0; i < links.length; i++)
             	 <li id="sub-active">
             	
             <%} %>
-             <a href="<%= path %>"><%= mLabel %></a>
+             <a href="<%= path %>"><%= sLabel %></a>
             <% 
               
                if(currPath.indexOf(menuPath)==0 || (!eventPath.isEmpty() && menuPath.equals(eventPath)))
@@ -108,16 +119,18 @@ for (int i = 0; i < links.length; i++)
           else{
            %>
              <li>
-              <a href="<%= path %>"><%= mLabel %></a>
+              <a href="<%= path %>"><%= sLabel %></a>
             <%}
         }
        // Else to handle rest of the menu items 
       else{%>
            <li>
-              <a href="<%= path %>"><%= mLabel %></a>
+              <a href="<%= path %>"><%= sLabel %></a>
           
               
-        <% } %>  
+        <% }
+      
+      }%>  
         </li> 
      
         
@@ -126,41 +139,7 @@ for (int i = 0; i < links.length; i++)
  </ul> 
  </div>
 
-<%!
-public StringBuilder displayMenu(Iterator<Page> subPages,String menuPath, StringBuilder menuBuilder,String currPath){
-	menuBuilder.append("<ul>");
-	
-	while(subPages.hasNext()){
-		Page subPage = subPages.next();
-		String subPagePath = subPage.getPath();
-		if(menuPath.startsWith(subPagePath)){
-			if(currPath.equals(subPagePath)){
-				menuBuilder.append("<li class=\"active\">");
-			}
-			//whether its equal to current page
-			
-			if(subPage.listChildren().hasNext())
-			{
-				displayMenu(subPage.listChildren(), menuPath, menuBuilder, currPath);
-				
-		     }
-			
-			
-			
-		}
-		
-		
-		
-	}
-	
-return menuBuilder;	
-	
-	
-	
-}
 
-
-%>
 
 
 <%!
@@ -181,7 +160,7 @@ return menuBuilder;
                { 
                 int dept = page.getDepth();
                 String nodePath = page.getPath().substring(gs_us_path.length()+1, page.getPath().length());
-                System.out.println("###########" +rootPath + "$$$$$$" +nodePath);
+              
                 if(rootPath.indexOf(nodePath) == 0)
                 {
                     if(rootPath.equalsIgnoreCase(nodePath) )
