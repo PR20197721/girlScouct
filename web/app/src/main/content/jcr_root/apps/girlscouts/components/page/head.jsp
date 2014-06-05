@@ -40,5 +40,12 @@
     <link rel="icon" type="image/vnd.microsoft.icon" href="<%= xssAPI.getValidHref(favIcon) %>"<%=xs%>>
     <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="<%= xssAPI.getValidHref(favIcon) %>"<%=xs%>>
     <% } %>
-    <title><%= currentPage.getTitle() == null ? xssAPI.encodeForHTML(currentPage.getName()) : xssAPI.encodeForHTML(currentPage.getTitle()) %></title>
+    <% 
+    	String title = currentPage.adaptTo(ValueMap.class).get("pageTitle", "");
+    	if (title.isEmpty()) {
+    		title = currentPage.getTitle() == null ? currentPage.getName() : currentPage.getTitle();
+    	}
+    	title = xssAPI.encodeForHTML(title);
+    %>
+    <title><%= title %></title>
 </head>
