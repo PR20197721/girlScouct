@@ -175,7 +175,7 @@ a:hover.menuHighlight {
 /* FOOTER */
 #footer {
     background-color: #00ae58;
-    padding: 15px 0px;
+    padding: 0px 0px;
 }
 #footer a {
     font-size: 0.875em;
@@ -242,7 +242,7 @@ a:hover.menuHighlight {
     list-style: none;
 }
 #main .side-nav li{
-    padding: 5px 0px 5px 15px;
+    padding: 5px 3px 5px 15px;
 }
 #main .side-nav li a:hover {
     background-color: #B0B0B0;
@@ -580,4 +580,13 @@ td.fc-header-left{
 }
 
 
+#footer div.footer-navigation{
+	padding:10px 0 10px 20px;
+    background: url('images/small-trefoil.png') no-repeat;
+    background-position:center;
+}
 
+#leftContent li.active ul li.active{
+    background: url('images/small-green-arrow-right.png') no-repeat  0px 0px;
+    background-position:right center;  
+}
