@@ -24,7 +24,9 @@ $(function() {
 Start Date<input type="text" id="calStartDt" />
 Time<input type="text" id="calTime" value="09:30"/>
 <select id="calAP"><option value="pm">pm</option> <option value="am">am</option></select>
-Freq<select id="calFreq"><option value="weekly">weekly</option> <option value="monthly" SELECTED>monthly</option></select>
+Freq<select id="calFreq"><option value="weekly">weekly</option>
+<option value="biweekly" SELECTED>biweekly</option>
+    </select>
 
 <div style="padding-top:10px;">Do not schedule a meeting during the week of</div>
 <input type="checkbox" name="exclDt" value="10/01/2014"/>10/01/2014

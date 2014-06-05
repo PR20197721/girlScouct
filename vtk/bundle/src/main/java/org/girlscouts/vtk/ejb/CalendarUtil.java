@@ -23,7 +23,7 @@ public class CalendarUtil {
 		
 		
 		public java.util.List<org.joda.time.DateTime> genSched( org.joda.time.DateTime date, 
-				String freq, java.util.List<org.joda.time.DateTime> exclWeeksOfDate ){
+				String freq, java.util.List<org.joda.time.DateTime> exclWeeksOfDate,int NumOfMeetings ){
 			
 			
 			
@@ -34,7 +34,7 @@ public class CalendarUtil {
 			
 			
 			java.util.List <org.joda.time.DateTime> sched = 
-					new CalendarUtil().byWeeklySched( date , freq, exclDates);
+					new CalendarUtil().byWeeklySched( date , freq, exclDates, NumOfMeetings);
 			
 			
 			
@@ -55,9 +55,14 @@ public class CalendarUtil {
 			return toRet;
 		}
 		
+		
+		
+		
+		
+		
 		//generate sched : by weekly
 		public java.util.List <org.joda.time.DateTime> byWeeklySched( org.joda.time.DateTime startDate, String freq, 
-								java.util.List <org.joda.time.DateTime> exclDates ){
+								java.util.List <org.joda.time.DateTime> exclDates, int numOfMeetings ){
 			
 			java.util.List<org.joda.time.DateTime> sched = new java.util.ArrayList();
 			
@@ -65,20 +70,30 @@ public class CalendarUtil {
 			org.joda.time.DateTime date = new org.joda.time.DateTime(startDate);
 			sched.add(date);
 			
-			while( date.getYear() == startDate.getYear() ){
+			
+			
+		
+			//while( date.getYear() == startDate.getYear() ){
+			for(int i=1;i<numOfMeetings;i++){
 				
 	            if (freq.equals("weekly")){
-	                date= date.plusWeeks(1); break;
+	                date= date.plusWeeks(1); 
+	                
 	            } else if (freq.equals("monthly")) {
-	                date= date.plusMonths(1); break;
+	                date= date.plusMonths(1); 
+	                
+	            } else if (freq.equals("biweekly")) {
+	            	date= date.plusWeeks(2);
+	                
 	            }
 				
+			
+				//if( date.getYear() != startDate.getYear() ) break;
 				
-				if( date.getYear() != startDate.getYear() ) break;
-				
-				if (!exclDates.contains( date ) )
+				if (!exclDates.contains( date ) ){
 					sched.add(date);
-				
+					
+				}
 				    
 				
 			}
@@ -120,8 +135,8 @@ public class CalendarUtil {
 			while( t.hasMoreElements() )
 				exclDt.add( new org.joda.time.DateTime( new java.util.Date(t.nextToken())) );
 			
-			java.util.List <org.joda.time.DateTime> sched = new CalendarUtil().genSched( p, freq, exclDt );
-
+			java.util.List <org.joda.time.DateTime> sched = new CalendarUtil().genSched( p, freq, exclDt,  user.getYearPlan().getMeetingEvents().size() );
+//System.err.println( "SChed: "+ sched.size() );
 			
 			YearPlan plan = user.getYearPlan();
 			Cal calendar = plan.getSchedule();

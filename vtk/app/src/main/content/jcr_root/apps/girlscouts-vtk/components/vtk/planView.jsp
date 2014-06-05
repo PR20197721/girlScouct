@@ -1,9 +1,26 @@
  <%@page import="java.util.Iterator"%>
 <%@ page import="org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 
+
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 
+
+
+<dl class="tabs" data-tab >
+  <dd ><a href="#panel2-1">My Troup</a></dd>
+  <dd ><a href="http://localhost:4502/content/girlscouts-vtk/en/vtk.html?ageLevel=brownie">Year Plan</a></dd>
+  <dd class="active">Meeting Plan</dd>
+  <dd><a href="#panel2-4">Resources</a></dd>
+  <dd><a href="#panel2-5">Community</a></dd>
+</dl>
+<div class="tabs-content">
+    <div class="content" id="panel2-1"></div>
+    <div class="content" id="panel2-2"></div>
+    <div class="content" id="panel2-3"></div>
+    <div class="content" id="panel2-4"></div>
+    <div class="content" id="panel2-5"></div>
+</div>
 
 <%
 HttpSession session = request.getSession();

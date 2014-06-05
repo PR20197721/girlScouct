@@ -158,9 +158,6 @@ public class UserDAOImpl implements UserDAO{
 		YearPlan oldPlan = user.getYearPlan();
 		YearPlan newYearPlan = addYearPlan(user, yearPlanPath);
 		
-		
-		
-		
 		//if dates, copy dates to new year plan && copy/replace OLD PASSED Meetings
 		if( oldPlan.getSchedule()!=null ){ //no dates; no past meetings to copy
 			

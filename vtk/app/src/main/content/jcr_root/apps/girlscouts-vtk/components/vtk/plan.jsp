@@ -9,9 +9,13 @@ UserDAO userDAO = sling.getService(UserDAO.class);
 HttpSession session = request.getSession();
 
 User user= (User)session.getValue("VTK_user");
-if( user ==null){
+if(true){// user ==null){
 	user= userDAO.getUser( request.getParameter("userId"));
 	session.putValue("VTK_user", user);
+
+
+	
+
 }
 %>
 </head>
@@ -59,6 +63,7 @@ if( user ==null){
 							Year Plan Library</div>
 
 						<%
+
 							java.util.Iterator<YearPlan> yearPlans = yearPlanDAO
 									.getAllYearPlans(request.getParameter("ageLevel"))
 									.listIterator();

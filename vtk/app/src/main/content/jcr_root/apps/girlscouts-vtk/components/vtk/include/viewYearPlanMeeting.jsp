@@ -141,12 +141,10 @@ if( meeting.getCancelled()!=null && meeting.getCancelled().equals("true")){ %>
  		<td></td>
  		<td><b>End</b></td>
  		<td>
- 		<b> <%
-				int hr = duration /60;
-				int min= duration%60;
-				if(hr>0) out.println( hr +" : ") ;
-				out.println( min );
-				%>
+ 		<b> 
+ 				<%int min= duration%60;%>
+				<%=duration /60 >0 ? duration /60 +"hr" : ""%>
+				<%= min<10 ? "0"+min : min%>min 	
 				</b>
  		</td>
  		</table>
