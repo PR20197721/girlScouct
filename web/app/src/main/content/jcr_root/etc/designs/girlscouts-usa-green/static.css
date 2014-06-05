@@ -40,7 +40,7 @@ html {
     font-size: 16px;
 }
 body {
-    background-color: #666666;
+    background-color: #6b6b6b;
     font-family: "Open Sans", Arial, sans-serif;
 }
 h1, h2, h3, h4, h5, h6 {
@@ -109,7 +109,7 @@ a:hover.menuHighlight {
     font-weight: bold;
 }
 #header a {
-    color: #fff;
+    color: #333;
 }
 #header a:hover {
     color: #FAA61A;
@@ -489,7 +489,7 @@ td.fc-header-left{
 /***************************SIDE HAMBURGER VIEW************/
 /**********************************************************/
 #right-canvas-menu .side-nav *{
-    color: #858585;
+    color: #ddd;
     margin: 0px;
 }
 #right-canvas-menu ul {
@@ -497,6 +497,9 @@ td.fc-header-left{
 }
 #right-canvas-menu .side-nav li{
     padding: 5px 0px 5px 15px;
+}
+#right-canvas-menu .side-nav div:nth-of-type(2) {
+	border-top: 1px solid #464646; 
 }
 #right-canvas-menu .side-nav li a:hover {
     color: #ffffff;
@@ -546,9 +549,8 @@ td.fc-header-left{
 
 }
 
-.searchBar form input
-{
-  height:21px;
+#header .searchField {
+  height:28px;
   width:100%;
 }
 
