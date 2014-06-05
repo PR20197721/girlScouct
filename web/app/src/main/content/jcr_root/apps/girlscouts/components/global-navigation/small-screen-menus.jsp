@@ -16,14 +16,17 @@
    int levelDepth = 0;
    String insertAfter="";
    String currTitle = currentPage.getTitle();
-   String eventPath="";
+   String eventPath = currentSite.get("eventPath", String.class);
    String gs_us_path = currentPage.getAbsoluteParent(2).getPath();
    String rootPath = currentPage.getPath().substring(gs_us_path.length()+1, currPath.length()); 
    String eventGrandParent = currentPage.getParent().getParent().getPath();
    String eventLeftNavRoot = currentSite.get("leftNavRoot", String.class);
    String eventDisplUnder = currentSite.get("eventPath", String.class);
+   boolean levelFlag = true;
 %>
-
+<div id="right-canvas-menu"> 
+ <ul class="side-nav" style="padding:0px"> 
+ 
 <% 
 
 
@@ -40,44 +43,131 @@ for (int i = 0; i < links.length; i++)
         Set<String> navigationPath;
         Iterator<Page> menuLevel1;
         String navigation="";
-        %>
-        <li><label><a href="<%= path %>"><%= mLabel %></label></a></li>
-         
-      <% 
+        StringBuilder menuBuilder = new StringBuilder();
+        Iterator<Page> iterPage=null;
+        
         if(!path.isEmpty() && !path.equalsIgnoreCase("#"))
         {
-        	//String rootPath = currentPage.getPath().substring(gs_us_path.length()+1, currPath.length()); 
-        	boolean levelFlag = true;
-        	String startingPoint = menuPath.substring(currentPage.getAbsoluteParent(2).getPath().length()+1,menuPath.length());
-        	//String eventGrandParent = currentPage.getParent().getParent().getPath();
-            //String eventLeftNavRoot = currentSite.get("leftNavRoot", String.class);
-        	//String eventDisplUnder = currentSite.get("eventPath", String.class);
-        	if(startingPoint.indexOf("/")>0)
-        	  {
+            //String rootPath = currentPage.getPath().substring(gs_us_path.length()+1, currPath.length()); 
+           
+            String startingPoint = menuPath.substring(currentPage.getAbsoluteParent(2).getPath().length()+1,menuPath.length());
+            
+            if(startingPoint.indexOf("/")>0)
+              {
                  startingPoint = startingPoint.substring(0, startingPoint.indexOf("/"));
                }
-        	 
-            Iterator<Page> iterPage = resourceResolver.getResource(gs_us_path+"/"+startingPoint).adaptTo(Page.class).listChildren();
-        	if(eventGrandParent.equalsIgnoreCase(currentSite.get("eventPath", String.class))){
-        	     eventPath = eventLeftNavRoot.substring(0,eventLeftNavRoot.lastIndexOf("/"));
-        	     iterPage = resourceResolver.getResource(eventPath).adaptTo(Page.class).listChildren();
-        	 }
-        	 StringBuilder menuBuilder = new StringBuilder();
-        	 if(currPath.indexOf(menuPath)==0 || (!eventPath.isEmpty() && menuPath.equals(eventPath))){
-        	    buildMenu(iterPage, rootPath, gs_us_path, menuBuilder, levelDepth,"",levelFlag,eventLeftNavRoot, currPath, currTitle, eventDisplUnder);
-        	 }
-        	 %>
-        	  <%=menuBuilder%>
-        
-        <%}%>
+             
+            iterPage = resourceResolver.getResource(gs_us_path+"/"+startingPoint).adaptTo(Page.class).listChildren();
+        }
+        %>
+      <%   if(!currPath.equals(rootPath) && !menuPath.equals('#'))
+      {
+          //This if to handle the special case for the events
+          if(currPath.startsWith(eventPath) && eventLeftNavRoot.startsWith(menuPath))
+          {%>
+          
+           <li id="sub-active">
+               <a href="<%= path %>"><%= mLabel %></a>
+          <%
+              if(eventGrandParent.equalsIgnoreCase(currentSite.get("eventPath", String.class))){
+                   eventPath = eventLeftNavRoot.substring(0,eventLeftNavRoot.lastIndexOf("/"));
+                   iterPage = resourceResolver.getResource(eventPath).adaptTo(Page.class).listChildren();
+               }
+              buildMenu(iterPage, rootPath, gs_us_path, menuBuilder, levelDepth,"",levelFlag,eventLeftNavRoot, currPath, currTitle, eventDisplUnder);
+        	%>
+             <%=menuBuilder%> 
+          
+              
+          <%}
+            //This is handle the case for when on the current page and need to display children below
+          else if((menuPath.indexOf(currPath) == 0) || (currPath.startsWith(menuPath)))
+           {
+        	  if(currPath.equals(menuPath)){
+            %>
+        	  
+             <li class="active">
+              
+            <%}else{%>
+            	 <li id="sub-active">
+            	
+            <%} %>
+             <a href="<%= path %>"><%= mLabel %></a>
+            <% 
+              
+               if(currPath.indexOf(menuPath)==0 || (!eventPath.isEmpty() && menuPath.equals(eventPath)))
+               {
+                 buildMenu(iterPage, rootPath, gs_us_path, menuBuilder, levelDepth,"",levelFlag,eventLeftNavRoot, currPath, currTitle, eventDisplUnder);
+                }
+                   %>
+                  <%=menuBuilder%>   
+              
+              
+            <%
+            }
+            // This else is to highlight everything when you are on the Home page
+          else{
+           %>
+             <li>
+              <a href="<%= path %>"><%= mLabel %></a>
+            <%}
+        }
+       // Else to handle rest of the menu items 
+      else{%>
+           <li>
+              <a href="<%= path %>"><%= mLabel %></a>
+          
+              
+        <% } %>  
+        </li> 
+     
         
 <% }%>
+
+ </ul> 
+ </div>
+
+<%!
+public StringBuilder displayMenu(Iterator<Page> subPages,String menuPath, StringBuilder menuBuilder,String currPath){
+	menuBuilder.append("<ul>");
+	
+	while(subPages.hasNext()){
+		Page subPage = subPages.next();
+		String subPagePath = subPage.getPath();
+		if(menuPath.startsWith(subPagePath)){
+			if(currPath.equals(subPagePath)){
+				menuBuilder.append("<li class=\"active\">");
+			}
+			//whether its equal to current page
+			
+			if(subPage.listChildren().hasNext())
+			{
+				displayMenu(subPage.listChildren(), menuPath, menuBuilder, currPath);
+				
+		     }
+			
+			
+			
+		}
+		
+		
+		
+	}
+	
+return menuBuilder;	
+	
+	
+	
+}
+
+
+%>
+
 
 <%!
  
  public StringBuilder buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_path,StringBuilder menuBuilder,int levelDepth,String ndePath, boolean levelFlag,String eventLeftNavRoot,String currPath, String currTitle, String eventDispUnder) throws RepositoryException{
      levelDepth++;
-     //menuBuilder.append("<ul>");
+     menuBuilder.append("<ul>");
      
      
      if(iterPage.hasNext())
@@ -91,29 +181,23 @@ for (int i = 0; i < links.length; i++)
                { 
                 int dept = page.getDepth();
                 String nodePath = page.getPath().substring(gs_us_path.length()+1, page.getPath().length());
-                
+                System.out.println("###########" +rootPath + "$$$$$$" +nodePath);
                 if(rootPath.indexOf(nodePath) == 0)
                 {
                     if(rootPath.equalsIgnoreCase(nodePath) )
                         {
                             menuBuilder.append("<li class=\"active\">");
                             menuBuilder.append("<a href=").append(page.getPath()+".html").append(">").append(page.getTitle()).append("</a>");
-                            menuBuilder.append("</li>");
+                            //menuBuilder.append("</li>");
                             
                          }
                      else
                         {
-                           if(levelFlag && page.listChildren().hasNext()){
-                               menuBuilder.append("<li class=\"active\">");
-                               menuBuilder.append("<a href=").append(page.getPath()+".html").append(">").append(page.getTitle()).append("</a>");
-                               menuBuilder.append("</li>");
-                               levelFlag=false;
-                            }else{      
-                               menuBuilder.append("<li>");
-                               menuBuilder.append("<a href=").append(page.getPath()+".html").append(">").append(page.getTitle()).append("</a>");
-                               menuBuilder.append("</li>");
+                           menuBuilder.append("<li>");
+                           menuBuilder.append("<a href=").append(page.getPath()+".html").append(">").append(page.getTitle()).append("</a>");
+                           menuBuilder.append("</li>");
                                
-                           }    
+                           
                     }
                    if(page.listChildren().hasNext())
                      {
@@ -124,9 +208,9 @@ for (int i = 0; i < links.length; i++)
                    {
                      if(page.getPath().indexOf(eventLeftNavRoot)==0 && currPath.indexOf(eventDispUnder)==0)
                      {
-                         menuBuilder.append("<li class=\"active\">");
+                         menuBuilder.append("<li>");
                          menuBuilder.append("<a href=").append(page.getPath()+".html").append(">").append(page.getTitle()).append("</a>");
-                         menuBuilder.append("</li>");
+                         //menuBuilder.append("</li>");
                          
                          menuBuilder.append("<ul><li class=\"active\">");
                          menuBuilder.append("<a href=").append(currPath+".html").append(">").append(currTitle).append("</a>");
@@ -141,8 +225,9 @@ for (int i = 0; i < links.length; i++)
     
            }
       }
-    }
-   //  menuBuilder.append("</ul>"); 
+        menuBuilder.append("</li>");
+        }
+     menuBuilder.append("</ul>"); 
      return menuBuilder;
      
  }

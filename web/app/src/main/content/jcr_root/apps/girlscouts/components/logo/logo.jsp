@@ -21,7 +21,7 @@
 <![endif]-->
 <!-- Modern Browser -->
 <!--[if gt IE 8]><!-->
-<nav class="hide-for-small logoLarge">
+<nav class="hide-for-small logoLarge logoLargePadding">
 	<% if (!linkURL.isEmpty()) { %> <a href="<%= linkURL %>"> <% } %>
 		<img src="<%= regularImage %>"<%= alt %> width="<%= regularWidth %>" height="<%= regularHeight %>" />
 	<% if (!linkURL.isEmpty()) { %> </a> <% } %>

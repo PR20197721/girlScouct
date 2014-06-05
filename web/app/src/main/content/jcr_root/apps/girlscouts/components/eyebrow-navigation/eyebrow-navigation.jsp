@@ -9,7 +9,7 @@ if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMM
 } else {
     %>
     
-    <ul class="inline-list">
+    <ul class="inline-list eyebrow-fontsize">
       <cq:include script="main.jsp"/>
    </ul><%
 }

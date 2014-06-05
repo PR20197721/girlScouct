@@ -2347,7 +2347,7 @@ meta.foundation-mq-topbar {
         color: #999999;
         cursor: default; }
     .breadcrumbs > *:before {
-      content: "/";
+      content: ">";
       color: #aaaaaa;
       margin: 0 0.75em;
       position: relative;

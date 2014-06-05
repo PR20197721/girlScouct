@@ -5,7 +5,12 @@
 
 %>
 <aside class="right-off-canvas-menu">
-   <ul class="off-canvas-list">
+
+   
+   <div id="right-canvas-menu"> 
+     <ul class="side-nav" style="padding:0px"> 
+    
+     
      <sling:include path="<%= headerPath + "/eyebrow-nav" %>" resourceType="girlscouts/components/eyebrow-navigation" addSelectors="smaller-view"/>
      <%if(depth==3){ %>
         <sling:include path="<%= headerPath + "/global-nav" %>" resourceType="girlscouts/components/global-navigation" addSelectors="smaller-view"/>
@@ -14,8 +19,14 @@
      <%}else{ %>
        <sling:include path="<%= headerPath + "/global-nav" %>" resourceType="girlscouts/components/global-navigation" addSelectors="small-screen-menus"/>
      <%} %>
-   </ul>
-  </aside>
+     
+      </ul> 
+ </div> 
+     
+   
+
+
+   </aside>
  
   <a class="exit-off-canvas"></a>
     
