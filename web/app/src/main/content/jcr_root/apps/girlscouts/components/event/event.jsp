@@ -48,18 +48,7 @@
         dateStr += " to " + endDateStr;
         time += " to " + endTimeStr;
     }
-    
-	
-	
-	/*if (endDate != null) {
-		String endDateStr = dateFormat.format(endDate);
-		String endTimeStr = timeFormat.format(endDate);
-	    dateStr += " to " + endDateStr;
-	    time += " to " + endTimeStr;
-	}*/
-	
-	//String endDateStr = dateFormat.format(endDate);
-	Map<String,List<String>> tags= new HashMap<String,List<String>>() ;
+    Map<String,List<String>> tags= new HashMap<String,List<String>>() ;
 	
 	if(currentNode.getParent().hasProperty("cq:tags")){
 		
