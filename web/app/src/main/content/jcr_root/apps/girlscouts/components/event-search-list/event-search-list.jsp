@@ -90,7 +90,7 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 			        fileReference = imageProps.get("fileReference", "");
 			        try{
 			            Asset assets = resource.getResourceResolver().getResource(fileReference).adaptTo(Asset.class);
-   			        	Resource rendition =  assets.getRendition("cq5dam.thumbnail.120.80.png");
+   			        	Resource rendition =  assets.getRendition("cq5dam.web.120.80.png");
 			        	fileReference = rendition.getPath();
 			        }catch(Exception e){}
 			        imgWidth = imageProps.get("width", "");
