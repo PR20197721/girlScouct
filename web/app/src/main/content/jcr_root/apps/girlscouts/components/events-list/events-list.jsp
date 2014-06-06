@@ -26,7 +26,7 @@
 	DateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.S");
 	fromFormat.setCalendar(Calendar.getInstance(TimeZone.getTimeZone("GMT")));
 	DateFormat dateFormat = new SimpleDateFormat("EEE dd MMM yyyy");
-	DateFormat timeFormat = new SimpleDateFormat("KK:mm a");
+	DateFormat timeFormat = new SimpleDateFormat("hh:mm a");
 	List<String> results = srchInfo.getResults();
 
 	int eventcounts = 0;
@@ -72,6 +72,7 @@
      Calendar cal1 = Calendar.getInstance();
      cal1.setTime(today);
      int count = 0;
+    // DateFormat timeFormat = new SimpleDateFormat("KK:mm a");
      
      for(String result: results){
     	 Node node = resourceResolver.getResource(result).adaptTo(Node.class);
@@ -82,23 +83,25 @@
          String href = result+".html";
          String time = "";
          String todate="";
+         String toDate="";
          Date tdt = null;
          String locationLabel = "";
          if(fdt.equals(today) || fdt.after(today)){
-        	 if(propNode.hasProperty("time"))
-             {
-                time = propNode.getProperty("time").getString(); 
-             }
-             if(propNode.hasProperty("locationLabel")){
+        	 
+        	 time = timeFormat.format(propNode.getProperty("start").getDate().getTime());
+        	 
+        	 if(propNode.hasProperty("locationLabel")){
                  locationLabel=propNode.getProperty("locationLabel").getString();
              }
              if(propNode.hasProperty("end")){
-                 todate = propNode.getProperty("end").getString();
-                 tdt = fromFormat.parse(todate);
+                 //toDate = dateFormat.format(propNode.getProperty("end").getDate());
+                 tdt = fromFormat.parse(propNode.getProperty("end").getString());
+                 toDate = dateFormat.format(tdt);
+                 time+= " to " + timeFormat.format(propNode.getProperty("end").getDate().getTime());
              }
              
              String fromDate = dateFormat.format(fdt);
-             String toDate = dateFormat.format(tdt);
+            
              boolean hasImage = propNode.hasNode("image");
              String fileReference = null;
              String imgWidth = null;
@@ -124,8 +127,11 @@
      <li>
         <div class="row">
             <div class="small-24 medium-12 large-8 columns">
+               <%if(!fileReference.isEmpty()){ %>
               
                 <img src="<%= fileReference %>" <%= imgWidth %> <%= imgHeight %> <%= imgAlt %> />
+                
+                <%} %>
             </div>
             <div class="small-24 medium-12 large-16 columns">
                 <h3><a href="<%= href %>"><%= title %></a></h3>
