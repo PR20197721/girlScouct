@@ -17,7 +17,7 @@
   int eventcounts = 0;
   String key="";
   String value="";
-  System.out.println(properties.get("eventcount"));
+  
   if(properties.containsKey("eventcount")){
 	  eventcounts =  Integer.parseInt(properties.get("eventcount",String.class));
 	  if(eventcounts > results.size()){

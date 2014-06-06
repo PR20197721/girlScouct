@@ -59,13 +59,11 @@
 	    
 	    
 		
-		System.out.println(cqTags.length);
+		
 	    for(String str:cqTags)
 	    {
-	    	System.out.println("String" +str);
-	    	Tag tag  = tagManager.resolve(str);
 	    	
-	    	System.out.println("tag" +tag.getTitle() + tag.getParent().getTitle());
+	    	Tag tag  = tagManager.resolve(str);
 	    	
 	    	if(tags.containsKey(tag.getParent().getTitle()))
 	    	{
