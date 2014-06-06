@@ -1,6 +1,7 @@
 package org.girlscouts.web.search;
 
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
@@ -9,6 +10,11 @@ import com.day.cq.search.result.Hit;
 
 public final class DocHit {
     private final Hit hit;
+    private static Pattern[] excerptPatterns = {
+        Pattern.compile("^.*?>"),
+        Pattern.compile("<.*?$"),
+        Pattern.compile("<.*?>")
+    };
 
     public DocHit(Hit hit) {
         this.hit = hit;
@@ -23,7 +29,11 @@ public final class DocHit {
     }
 
     public String getExcerpt() throws RepositoryException {
-        return this.hit.getExcerpt();
+        String excerpt = this.hit.getExcerpt();
+        for (Pattern pattern: excerptPatterns) {
+            excerpt = pattern.matcher(excerpt).replaceAll("");
+        }
+        return excerpt;
     }
 
     public String getURL() throws RepositoryException {
