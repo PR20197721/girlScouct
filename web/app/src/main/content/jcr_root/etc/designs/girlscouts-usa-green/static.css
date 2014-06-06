@@ -209,6 +209,7 @@ a:hover.menuHighlight {
 /* RIGHT CONTENT */
 #rightContent {
     text-align: center;
+    padding-right: 0px;
 }
 
 /***********************************/
@@ -588,5 +589,5 @@ td.fc-header-left{
 
 #leftContent li.active ul li.active{
     background: url('images/small-green-arrow-right.png') no-repeat  0px 0px;
-    background-position:right center;  
+    background-position:right 9px;  
 }
