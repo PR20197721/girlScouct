@@ -69,7 +69,7 @@
             jsonEvents = eventArray.toString();
            
            }catch(Exception je){
-               System.out.println("Exception" +je.getStackTrace());
+               
            }  
      return jsonEvents;
 }

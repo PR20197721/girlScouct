@@ -63,13 +63,11 @@
 		ValueMap jcrProps = resourceResolver.getResource(currentNode.getParent().getPath()).adaptTo(ValueMap.class);
 		String[] cqTags = jcrProps.get("cq:tags", String[].class);
 	    TagManager tagManager = resourceResolver.adaptTo(TagManager.class);
-	   
+
 	    for(String str:cqTags)
 	    {
-	    	System.out.println("String" +str);
-	    	Tag tag  = tagManager.resolve(str);
 	    	
-	    	System.out.println("tag" +tag.getTitle() + tag.getParent().getTitle());
+	    	Tag tag  = tagManager.resolve(str);
 	    	
 	    	if(tags.containsKey(tag.getParent().getTitle()))
 	    	{
