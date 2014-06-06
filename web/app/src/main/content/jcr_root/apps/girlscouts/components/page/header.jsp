@@ -27,8 +27,11 @@
                    <cq:include path="<%= headerPath + "/eyebrow-nav" %>" resourceType="girlscouts/components/eyebrow-navigation" />
                  
                 <div class="row">
+                    <div class="large-17 medium-17 columns">&nbsp;</div>
+                    <%-- TODO: Mike Z. Temp remove sign in 
                     <% setCssClasses("large-17 medium-17 columns", request); %>
                     <cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
+                    --%>
                     <% setCssClasses("large-7 medium-7 small-24 columns searchBar", request); %>
                     <cq:include path="<%= headerPath + "/search-box" %>" resourceType="girlscouts/components/search-box" />
                 </div>

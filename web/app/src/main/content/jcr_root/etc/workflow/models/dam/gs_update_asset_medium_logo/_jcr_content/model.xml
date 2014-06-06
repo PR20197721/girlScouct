@@ -2,7 +2,7 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:isCheckedOut="{Boolean}false"
     jcr:primaryType="cq:WorkflowModel"
-    jcr:uuid="7bcdb8ca-aeec-484e-aab6-408eb8feb7d4"
+    jcr:uuid="181c0a9f-cb0e-4b37-a646-c0af4883b493"
     sling:resourceType="cq/workflow/components/model"
     description="This workflow manages the update of assets for medium Hero"
     title="Girl Scouts Medium Logo Update Asset">
