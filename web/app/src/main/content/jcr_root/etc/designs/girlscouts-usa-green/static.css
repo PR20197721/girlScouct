@@ -305,8 +305,8 @@ a:hover.menuHighlight {
 }
 
 .events-list p {
-    line-height:50%;
-    white-space:nowrap;
+    line-height:100%;
+    margin-bottom: 0.2rem;
 }
 
 .events-list .content, .news-list .content {
