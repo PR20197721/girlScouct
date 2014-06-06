@@ -52,3 +52,18 @@ for (int i = 0; i < links.length; i++) {
 	}
 }
 %>
+
+ <script>
+$(window).resize(function(){
+   var currentMainHeight = $('#main').height();
+   var targetMainHeight = $(this).height() - $("#header").height() - $("#headerBar").height() - $("#footer").height() - 20;
+   if (targetMainHeight > 1.1 * currentMainHeight) {
+      $('#main').height(targetMainHeight);
+   }
+})
+
+
+$( window ).load(function() {
+    $(window).resize();
+});
+</script>
