@@ -68,12 +68,19 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 		        String monthName = new SimpleDateFormat("MMMM").format(d);
 	    	    String yr = new SimpleDateFormat("yyyy").format(d);
 		        tempMonth = month;
-		      %>	
-	           <%=monthName %>  <%=yr %><hr/>
+		      %>
+		      
+		    <div class="row">
+		       <div class="sma11-24 large-24 medium-24 column" style="padding:15px 0px 0px 10px">
+		            <%=monthName %>  <%=yr %><hr/>
+		       </div>
+		       
+		       
+		      
+		    </div>   
         <% }
 			  // Image
 			  boolean hasImage = propNode.hasNode("image");
-			  System.out.println("hasImage#################################" +hasImage);
 			  String fileReference = null;
 		      String imgWidth = null;
 		      String imgHeight = null;
@@ -94,14 +101,17 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 			        if (!imgAlt.isEmpty()) imgAlt = "alt=\"" + imgAlt + "\"";
 			    } 
 		%>
-<div class="row">
-    <div class="small-24 large-24 medium-24">
-    <%if(hasImage) {%>
-      <div id="left">
-          <img src="<%= fileReference %>" <%= imgWidth %> <%= imgHeight %> <%= imgAlt %> />
-       </div>  
+
+    <div class=row>
+      <div class="small-6 medium-6 large-6 columns">
+        <%if(hasImage) {%>
+              <div id="left">
+                  <img src="<%= fileReference %>" <%= imgWidth %> <%= imgHeight %> <%= imgAlt %> />
+             </div>  
       <%} %> 
-       <div>
+     </div>
+      
+       <div class="small-18 medium-18 large-18 columns">
           <h4><a href="<%=href%>"><%=title %></a></h4>
          <div class="time">
             <b>Time:</b> <%= time %>
@@ -115,12 +125,17 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
            </div>
          <%} %>
        </div>
-       <p><%=details%></p>
-    </div>  
-
+    </div> 
+   <div class="row">
+         <div class="small-24 large-24 medium-24 columns">
+          <p><%=details%></p>
+        </div>
+     </div>     
 
   
-</div>    
+
+  
+    
 <%
    }//if
  }//else
@@ -131,7 +146,7 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 %>
 
 <style>
-.left{
+/*.left{
   align:left;
   padding-left:0px;
   padding-right:10px;
@@ -153,6 +168,5 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
   align:left;
   padding-left:0px;
 }
-
+*/
 </style>  
-
