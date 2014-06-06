@@ -68,7 +68,7 @@ public class CustomSendEmailProcess implements WorkflowProcess {
 
 		// Get the jcr node that represents the form submission
 		Node node = (Node) jcrSession.getItem(path);
-
+		
 		if (node != null) {
 
 		    String emailTemplate = "";
@@ -178,7 +178,7 @@ public class CustomSendEmailProcess implements WorkflowProcess {
 		javax.jcr.Property prop = (javax.jcr.Property) iter.next();
 		map.put(prop.getName(), prop.getValue().getString());
 	    */
-
+		
 	    map.put("model.title", item.getWorkflowModel().getTitle());
 	    map.put("model.description", item.getWorkflowModel().getDescription());
 	    map.put("model.id", item.getWorkflowModel().getId());
