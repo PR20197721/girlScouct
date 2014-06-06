@@ -56,7 +56,6 @@
 		} 
 	    time += " to " + endTimeStr;
 	}
-	String endDateStr = dateFormat.format(endDate);
 	Map<String,List<String>> tags= new HashMap<String,List<String>>() ;
 	
 	if(currentNode.getParent().hasProperty("cq:tags")){
