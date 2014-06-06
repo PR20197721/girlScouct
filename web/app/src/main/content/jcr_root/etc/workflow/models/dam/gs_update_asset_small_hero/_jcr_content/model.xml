@@ -2,12 +2,12 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:isCheckedOut="{Boolean}false"
     jcr:primaryType="cq:WorkflowModel"
-    jcr:uuid="25f19e19-ce3e-4dae-9d3b-0f594593a3a4"
+    jcr:uuid="7bcdb8ca-aeec-484e-aab6-408eb8feb7d4"
     sling:resourceType="cq/workflow/components/model"
-    description="This workflow manages the update of assets for Small Hero"
+    description="This workflow manages the update of assets for small Hero"
     title="Girl Scouts Small Hero Update Asset">
     <metaData
-        cq:lastModified="{Long}1400695393865"
+        cq:lastModified="{Long}1402071142027"
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
         tags="dam"/>
@@ -31,71 +31,25 @@
         </node1>
         <node2
             jcr:primaryType="cq:WorkflowNode"
-            description="Upload asset to CreativeCloud"
-            title="CreativeCloud Upload"
+            description="A process to create a web enabled representation from an asset. Provides various configuration arguments."
+            title="Create Web Enabled Image"
             type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
-                PROCESS="com.day.cq.dam.creativecloud.CreativeCloudSyncProcess"
-                PROCESS_AUTO_ADVANCE="true"/>
+                HEIGHT="320"
+                MIME_TYPE="image/jpeg"
+                PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
+                PROCESS_AUTO_ADVANCE="true"
+                QUALITY="90"
+                SKIP="[application/pdf,audio/mpeg,video/(.*)]"
+                WIDTH="400"/>
         </node2>
         <node3
-            jcr:primaryType="cq:WorkflowNode"
-            description="Image &amp; document thumbnails"
-            title="Thumbnail creation"
-            type="PROCESS">
-            <metaData
-                jcr:primaryType="nt:unstructured"
-                PROCESS="com.day.cq.dam.core.process.CreateThumbnailProcess"
-                PROCESS_ARGS="\[320:400]"
-                PROCESS_AUTO_ADVANCE="true"/>
-        </node3>
-        <node4
-            jcr:primaryType="cq:WorkflowNode"
-            description="InDesign Media Extraction"
-            title="Media Extraction"
-            type="EXTERNAL_PROCESS">
-            <metaData
-                jcr:primaryType="nt:unstructured"
-                advanceOnTimeout="true"
-                EXTERNAL_PROCESS="com.day.cq.dam.indd.process.INDDMediaExtractProcess"
-                libPath="/etc/dam/indesign/scripts/cq-lib.jsx"
-                linkPath="/Links"
-                period="10"
-                PROCESS_AUTO_ADVANCE="true"
-                scriptPaths="[/etc/dam/indesign/scripts/ThumbnailExport.jsx,/etc/dam/indesign/scripts/XHTMLExport.jsx,/etc/dam/indesign/scripts/IDMLExport.jsx]"
-                timeout="3600"/>
-        </node4>
-        <node5
-            jcr:primaryType="cq:WorkflowNode"
-            description="InDesign Page Extraction"
-            title="Page Extraction"
-            type="PROCESS">
-            <metaData
-                jcr:primaryType="nt:unstructured"
-                extractionHandler="com.day.cq.dam.indd.impl.idml.IDMLExtractionHandler"
-                pageDesign="/etc/designs/geometrixx"
-                pageTemplate="/apps/geometrixx/templates/contentpage"
-                pageTitle="IDML Extraction"
-                PROCESS="com.day.cq.dam.indd.process.INDDPageExtractProcess"
-                PROCESS_AUTO_ADVANCE="true"/>
-        </node5>
-        <node6
-            jcr:primaryType="cq:WorkflowNode"
-            description="Apply metadata template to uploaded assets"
-            title="Apply Metadata Template"
-            type="PROCESS">
-            <metaData
-                jcr:primaryType="nt:unstructured"
-                PROCESS="com.day.cq.dam.core.process.ApplyMetadataTemplateProcess"
-                PROCESS_AUTO_ADVANCE="true"/>
-        </node6>
-        <node7
             jcr:primaryType="cq:WorkflowNode"
             title="End"
             type="END">
             <metaData jcr:primaryType="nt:unstructured"/>
-        </node7>
+        </node3>
     </nodes>
     <transitions jcr:primaryType="nt:unstructured">
         <node0_x0023_node1
@@ -115,36 +69,8 @@
         <node2_x0023_node3
             jcr:primaryType="cq:WorkflowTransition"
             from="node2"
-            rule=""
             to="node3">
             <metaData jcr:primaryType="nt:unstructured"/>
         </node2_x0023_node3>
-        <node3_x0023_node4
-            jcr:primaryType="cq:WorkflowTransition"
-            from="node3"
-            rule=""
-            to="node4">
-            <metaData jcr:primaryType="nt:unstructured"/>
-        </node3_x0023_node4>
-        <node4_x0023_node5
-            jcr:primaryType="cq:WorkflowTransition"
-            from="node4"
-            rule=""
-            to="node5">
-            <metaData jcr:primaryType="nt:unstructured"/>
-        </node4_x0023_node5>
-        <node5_x0023_node6
-            jcr:primaryType="cq:WorkflowTransition"
-            from="node5"
-            rule=""
-            to="node6">
-            <metaData jcr:primaryType="nt:unstructured"/>
-        </node5_x0023_node6>
-        <node6_x0023_node7
-            jcr:primaryType="cq:WorkflowTransition"
-            from="node6"
-            to="node7">
-            <metaData jcr:primaryType="nt:unstructured"/>
-        </node6_x0023_node7>
     </transitions>
 </jcr:root>

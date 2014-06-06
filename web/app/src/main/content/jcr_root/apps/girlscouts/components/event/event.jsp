@@ -41,6 +41,7 @@
     String calendarUrl = currentSite.get("calendarPath",String.class)+".html/"+combineMonthYear; 
     String dateStr = startDateStr;
     String time = startTimeStr;
+	Date endDate = properties.get("end", Date.class); 
 
 	if (endDate != null) {
 	    Calendar cal1 = Calendar.getInstance();
@@ -103,7 +104,7 @@
 		fileReference = imageProps.get("fileReference", "");
 		try{
 			  Asset assets = resource.getResourceResolver().getResource(fileReference).adaptTo(Asset.class);
-			  Resource rendition =  assets.getRendition("cq5dam.thumbnail.520.215.png");
+			  Resource rendition =  assets.getRendition("cq5dam.web.520.520.png");
 			  fileReference = rendition.getPath();
 		}catch(Exception e){}
 	    imgWidth = imageProps.get("width", "");
