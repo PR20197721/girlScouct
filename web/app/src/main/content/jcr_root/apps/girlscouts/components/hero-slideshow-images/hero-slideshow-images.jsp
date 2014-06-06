@@ -40,7 +40,7 @@ if ((null==imageNode) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
     	 //Image image =  scrSizeImages.next().adaptTo(Image.class);
            //Resource resource = sc
            Node imgNode = images.next().adaptTo(Node.class);
-           String width = "";
+           String width = "1120";
            String height="";
            if(imgNode.hasProperty("width")){
                width = imgNode.getProperty("width").getString();
