@@ -65,7 +65,7 @@ if ((null==imageNode) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
             	 
             	  try{
             		   assets = resource.getResourceResolver().getResource(largePath).adaptTo(Asset.class);
-            		   rendition =  assets.getRendition("cq5dam.web.960.420.png");
+            		   rendition =  assets.getRendition("cq5dam.web.1120.490.png");
                        largePath = rendition.getPath(); 
             		  
             	  }catch(Exception e){
@@ -103,7 +103,7 @@ if ((null==imageNode) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
                    
                    try{
                          assets = resource.getResourceResolver().getResource(smallPath).adaptTo(Asset.class);
-                         rendition =  assets.getRendition("cq5dam.web.400.320.png");
+                         rendition =  assets.getRendition("cq5dam.web.320.400.png");
                         smallPath = rendition.getPath(); 
                        
                    }catch(Exception e){}
