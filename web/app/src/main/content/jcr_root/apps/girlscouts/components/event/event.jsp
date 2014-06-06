@@ -39,16 +39,26 @@
     int year = calendar.get(Calendar.YEAR);
     String combineMonthYear = month+"-"+year;
     String calendarUrl = currentSite.get("calendarPath",String.class)+".html/"+combineMonthYear; 
-	Date endDate = properties.get("end", Date.class); 
-	String dateStr = startDateStr;
+    String dateStr = startDateStr;
     String time = startTimeStr;
-	if (endDate != null) {
+    if(properties.containsKey("end")){
+    	Date endDate = properties.get("end", Date.class); 
+    	String endDateStr = dateFormat.format(endDate);
+        String endTimeStr = timeFormat.format(endDate);
+        dateStr += " to " + endDateStr;
+        time += " to " + endTimeStr;
+    }
+    
+	
+	
+	/*if (endDate != null) {
 		String endDateStr = dateFormat.format(endDate);
 		String endTimeStr = timeFormat.format(endDate);
 	    dateStr += " to " + endDateStr;
 	    time += " to " + endTimeStr;
-	}
-	String endDateStr = dateFormat.format(endDate);
+	}*/
+	
+	//String endDateStr = dateFormat.format(endDate);
 	Map<String,List<String>> tags= new HashMap<String,List<String>>() ;
 	
 	if(currentNode.getParent().hasProperty("cq:tags")){
