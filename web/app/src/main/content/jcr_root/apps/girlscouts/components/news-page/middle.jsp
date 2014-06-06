@@ -5,7 +5,6 @@
 	<div class="row">
 		<div class="large-24 medium-24 hide-for-small columns rightBodyTop">
 			<nav class="breadcrumbs">
-				<a href="#">/path/to/event</a>
 			</nav>
 		</div>
 		<div class="large-24 medium-24 small-24 columns">
@@ -27,3 +26,4 @@
 		</div>
 	</div>
 </div>
+
