@@ -24,7 +24,7 @@
    
 	// date and time
     DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy");
-	DateFormat timeFormat = new SimpleDateFormat("KK:mm a");
+	DateFormat timeFormat = new SimpleDateFormat("hh:mm a");
     DateFormat calendarFormat = new SimpleDateFormat("M-yyyy");
 	Date startDate = properties.get("start", Date.class); 
 	
