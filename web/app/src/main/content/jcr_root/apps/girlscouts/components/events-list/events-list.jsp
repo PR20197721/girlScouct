@@ -127,8 +127,11 @@
      <li>
         <div class="row">
             <div class="small-24 medium-12 large-8 columns">
+               <%if(!fileReference.isEmpty()){ %>
               
                 <img src="<%= fileReference %>" <%= imgWidth %> <%= imgHeight %> <%= imgAlt %> />
+                
+                <%} %>
             </div>
             <div class="small-24 medium-12 large-16 columns">
                 <h3><a href="<%= href %>"><%= title %></a></h3>
