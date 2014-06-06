@@ -77,6 +77,12 @@
                     name="./jcr:content/middle/par/text/sling:resourceType"
                     value="foundation/components/textimage"
                     xtype="hidden"/>
+                <description
+                    jcr:primaryType="cq:Widget"
+                    fieldDesciption="A short sentence that will display in the event list view."
+                    fieldLabel="Short Description"
+                    name="./jcr:content/description"
+                    xtype="textfield"/>
             </items>
         </tab1>
         <tab2
