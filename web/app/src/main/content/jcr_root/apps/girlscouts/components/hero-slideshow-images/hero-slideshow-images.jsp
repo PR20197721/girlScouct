@@ -15,6 +15,8 @@
    String largePath = "";
    String smallPath ="";
    String mediumPath ="";
+   Asset assets=null;
+   Resource rendition=null;
   
 if ((null==imageNode) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
 	
@@ -52,6 +54,9 @@ if ((null==imageNode) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
            if(imgNode.hasProperty("height")){
                width = imgNode.getProperty("height").getString();
            }
+          
+           
+               
            if(imgNode.getProperty("imagesize").getString().equalsIgnoreCase("regular"))
            {
         	 //String fileReference = imgNode.getProperty("fileReference").getString(); 
@@ -59,8 +64,8 @@ if ((null==imageNode) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
             	  largePath = imgNode.getProperty("fileReference").getString();
             	 
             	  try{
-            		  Asset assets = resource.getResourceResolver().getResource(largePath).adaptTo(Asset.class);
-            		  Resource rendition =  assets.getRendition("cq5dam.web.960.420.png");
+            		   assets = resource.getResourceResolver().getResource(largePath).adaptTo(Asset.class);
+            		   rendition =  assets.getRendition("cq5dam.web.960.420.png");
                        largePath = rendition.getPath(); 
             		  
             	  }catch(Exception e){
@@ -78,10 +83,10 @@ if ((null==imageNode) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
            if(imgNode.getProperty("imagesize").getString().equalsIgnoreCase("medium")){
               if(imgNode.hasProperty("fileReference")){
                   mediumPath = imgNode.getProperty("fileReference").getString();
-                 
+                  System.out.println("What is the image" +mediumPath);
                   try{
-                       Asset assets =   resource.getResourceResolver().getResource(mediumPath).adaptTo(Asset.class);
-                       Resource rendition =  assets.getRendition("cq5dam.web.720.420.png");
+                        assets =   resource.getResourceResolver().getResource(mediumPath).adaptTo(Asset.class);
+                        rendition =  assets.getRendition("cq5dam.web.720.420.png");
                        mediumPath = rendition.getPath(); 
                       
                   }catch(Exception e){}
@@ -97,12 +102,13 @@ if ((null==imageNode) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
                    smallPath = imgNode.getProperty("fileReference").getString();
                    
                    try{
-                        Asset assets = resource.getResourceResolver().getResource(smallPath).adaptTo(Asset.class);
-                        Resource rendition =  assets.getRendition("cq5dam.web.400.320.png");
+                         assets = resource.getResourceResolver().getResource(smallPath).adaptTo(Asset.class);
+                         rendition =  assets.getRendition("cq5dam.web.400.320.png");
                         smallPath = rendition.getPath(); 
                        
                    }catch(Exception e){}
-           
+                   
+                  
         	     }  
                    %>  
            
