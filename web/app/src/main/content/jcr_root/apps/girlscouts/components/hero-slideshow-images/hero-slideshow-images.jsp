@@ -83,7 +83,7 @@ if ((null==imageNode) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
            if(imgNode.getProperty("imagesize").getString().equalsIgnoreCase("medium")){
               if(imgNode.hasProperty("fileReference")){
                   mediumPath = imgNode.getProperty("fileReference").getString();
-                  System.out.println("What is the image" +mediumPath);
+                 
                   try{
                         assets =   resource.getResourceResolver().getResource(mediumPath).adaptTo(Asset.class);
                         rendition =  assets.getRendition("cq5dam.web.720.420.png");
