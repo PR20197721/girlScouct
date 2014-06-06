@@ -35,7 +35,7 @@
 	
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(startDate);
-    int month = calendar.get(Calendar.MONTH);
+    int month = calendar.get(Calendar.MONTH)+1;
     int year = calendar.get(Calendar.YEAR);
     String combineMonthYear = month+"-"+year;
     String calendarUrl = currentSite.get("calendarPath",String.class)+".html/"+combineMonthYear; 

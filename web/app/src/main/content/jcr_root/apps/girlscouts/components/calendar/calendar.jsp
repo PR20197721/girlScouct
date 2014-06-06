@@ -59,7 +59,7 @@
    {
 	String temp = eventSuffix.substring(eventSuffix.indexOf("/")+1, eventSuffix.length());
 	String[] my = temp.split("-");
-	month = my[0];
+	month = String.valueOf(Integer.parseInt(my[0])-1);
 	year = my[1];
    }
 
