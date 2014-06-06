@@ -98,7 +98,12 @@
 
     
     // images
-    boolean hasImage = currentNode.hasNode("image");
+    boolean hasImage = false;
+    try {
+        Node imageNode = currentNode.getNode("image");
+        hasImage = imageNode.hasProperty("fileReference");
+    } catch (Exception e) {}
+    
     String fileReference = null;
     String imgWidth = null;
     String imgHeight = null;
