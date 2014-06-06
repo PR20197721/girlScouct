@@ -43,9 +43,17 @@
 	String dateStr = startDateStr;
     String time = startTimeStr;
 	if (endDate != null) {
+	    Calendar cal1 = Calendar.getInstance();
+	    Calendar cal2 = Calendar.getInstance();
+	    cal1.setTime(startDate);
+	    cal2.setTime(endDate);
+	    boolean sameDay = cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+	                      cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
 		String endDateStr = dateFormat.format(endDate);
 		String endTimeStr = timeFormat.format(endDate);
-	    dateStr += " to " + endDateStr;
+		if (!sameDay) {
+	    	dateStr += " to " + endDateStr;
+		} 
 	    time += " to " + endTimeStr;
 	}
 	String endDateStr = dateFormat.format(endDate);
