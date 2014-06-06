@@ -41,6 +41,7 @@
     String calendarUrl = currentSite.get("calendarPath",String.class)+".html/"+combineMonthYear; 
     String dateStr = startDateStr;
     String time = startTimeStr;
+	Date endDate = properties.get("end", Date.class); 
 
 	if (endDate != null) {
 	    Calendar cal1 = Calendar.getInstance();
