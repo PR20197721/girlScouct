@@ -20,7 +20,7 @@
                 <text
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Text"
-                    name="./jcr:content/par/text/text"
+                    name="./jcr:content/middle/par/text/text"
                     xtype="richtext">
                     <rtePlugins jcr:primaryType="nt:unstructured">
                         <table
@@ -68,13 +68,13 @@
                 <richFlag
                     jcr:primaryType="cq:Widget"
                     ignoreData="{Boolean}true"
-                    name="./jcr:content/par/text/textIsRich"
+                    name="./jcr:content/middle/par/text/textIsRich"
                     value="true"
                     xtype="hidden"/>
                 <resourceType
                     jcr:primaryType="cq:Widget"
                     ignoreData="{Boolean}true"
-                    name="./jcr:content/par/text/sling:resourceType"
+                    name="./jcr:content/middle/par/text/sling:resourceType"
                     value="foundation/components/textimage"
                     xtype="hidden"/>
             </items>
@@ -86,16 +86,16 @@
                 <image
                     jcr:primaryType="cq:Widget"
                     border="true"
-                    cropParameter="./jcr:content/par/text/image/imageCrop"
+                    cropParameter="./jcr:content/middle/par/text/image/imageCrop"
                     ddGroups="[media]"
-                    fileNameParameter="./jcr:content/par/text/image/fileName"
-                    fileReferenceParameter="./jcr:content/par/text/image/fileReference"
+                    fileNameParameter="./jcr:content/middle/par/text/image/fileName"
+                    fileReferenceParameter="./jcr:content/middle/par/text/image/fileReference"
                     height="400"
                     hideLabel="false"
-                    mapParameter="./jcr:content/par/text/image/imageMap"
-                    name="./jcr:content/par/text/image/file"
-                    requestSuffix="/jcr:content/par/text/image.img.png"
-                    rotateParameter="./jcr:content/par/text/image/imageRotate"
+                    mapParameter="./jcr:content/middle/par/text/image/imageMap"
+                    name="./jcr:content/middle/par/text/image/file"
+                    requestSuffix="/jcr:content/middle/par/text/image.img.png"
+                    rotateParameter="./jcr:content/middle/par/text/image/imageRotate"
                     sizeLimit="100"
                     xtype="html5smartimage"/>
             </items>
@@ -107,29 +107,29 @@
                 <title
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Title"
-                    name="./jcr:content/par/text/image/jcr:title"
+                    name="./jcr:content/middle/par/text/image/jcr:title"
                     xtype="textfield"/>
                 <alt
                     jcr:primaryType="cq:Widget"
                     fieldDescription="(leave empty to use the title defined above)"
                     fieldLabel="Alt Text"
-                    name="./jcr:content/par/text/image/alt"
+                    name="./jcr:content/middle/par/text/image/alt"
                     xtype="textfield"/>
                 <description
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Description"
-                    name="./jcr:content/par/text/image/jcr:description"
+                    name="./jcr:content/middle/par/text/image/jcr:description"
                     xtype="textarea"/>
                 <size
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Size"
-                    heightParameter="./jcr:content/par/text/image/height"
-                    widthParameter="./jcr:content/par/text/image/width"
+                    heightParameter="./jcr:content/middle/par/text/image/height"
+                    widthParameter="./jcr:content/middle/par/text/image/width"
                     xtype="sizefield"/>
                 <resType
                     jcr:primaryType="cq:Widget"
                     ignoreData="{Boolean}true"
-                    name="./jcr:content/par/text/image/sling:resourceType"
+                    name="./jcr:content/middle/par/text/image/sling:resourceType"
                     value="foundation/components/image"
                     xtype="hidden"/>
             </items>

@@ -1,4 +1,4 @@
-<%@page import="java.text.Format,com.day.cq.dam.commons.util.DateParser,java.text.SimpleDateFormat"%>
+<%@page import="java.text.DateFormat,com.day.cq.dam.commons.util.DateParser,java.text.SimpleDateFormat"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <!-- apps/girlscouts/components/news/content.jsp -->
 <div id="main">
@@ -12,16 +12,18 @@
 <cq:include script="/libs/foundation/components/title/title.jsp"/>
 <%
 	String date = properties.get("date","");
-	Format formatter = new SimpleDateFormat("dd MMM yyyy");
+	DateFormat inFormatter = new SimpleDateFormat("MM/dd/yyyy");
+	DateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
 	if(date!=null && !date.isEmpty()){
 %>
-				<p><%=formatter.format(DateParser.parseDate(date)) %></p>
+				<p><%=formatter.format(inFormatter.parse(date)) %></p>
 <%
 	}
 %>
 				<br/>
-<cq:include path="image" resourceType="foundation/components/image" />
-<cq:include path="text" resourceType="foundation/components/text"/>
+<cq:include path="middle/par/text/image" resourceType="foundation/components/image" />
+<cq:include path="middle/par/text" resourceType="foundation/components/text"/>
+
 			</div>
 		</div>
 	</div>
