@@ -15,13 +15,13 @@
     
     DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy");
     DateFormat timeFormat = new SimpleDateFormat("h:mm a");
-    String color = "#00AE58";
+  
     String end ="";
     
     DateFormat dateFt = new SimpleDateFormat("MMM d, yyyy");
         String jsonEvents="";
         for(String path: eventsPath){
-        
+        	String color = "#00AE58";
          try
          {   Node node =   resourceResolver.getResource(path).adaptTo(Node.class);
              Node propNode = node.getNode("jcr:content/data");
@@ -44,7 +44,7 @@
              
             
              if(propNode.hasProperty("color")){
-            	 color = node.getProperty("color").getString();
+            	 color = propNode.getProperty("color").getString();
             	 
              }
              String url = path+".html";
