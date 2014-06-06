@@ -7,5 +7,5 @@
 	<cq:include script="content.jsp"/>
 	<cq:include script="footer.jsp"/>
         </div>
-</div
+</div>
 </body>

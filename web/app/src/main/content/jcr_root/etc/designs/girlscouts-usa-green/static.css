@@ -109,7 +109,7 @@ a:hover.menuHighlight {
     font-weight: bold;
 }
 #header a {
-    color: #333;
+    color: #FFFFFF;
 }
 #header a:hover {
     color: #FAA61A;
@@ -153,7 +153,7 @@ a:hover.menuHighlight {
     background-color: #009447;
 }
 #headerBar>div{
-    padding: 3px 100px 3px 10px;
+    padding: 3px 100px 0px 10px;
 }
 
 #headerBar ul.inline-list {
@@ -165,7 +165,7 @@ a:hover.menuHighlight {
 }
 #headerBar li {
     margin: 0px;
-    padding: 0px 8px;
+    padding: 0px 8px 4px 0;
 }
 #headerBar li:hover {
    /* background-color:#063;*/
@@ -175,7 +175,7 @@ a:hover.menuHighlight {
 /* FOOTER */
 #footer {
     background-color: #00ae58;
-    padding: 15px 0px;
+    padding: 0px 0px;
 }
 #footer a {
     font-size: 0.875em;
@@ -230,7 +230,9 @@ a:hover.menuHighlight {
     background-color: #fff;
     border: 0px;
 }
-
+.breadcrumbs a.current {
+    color: #00ae58;
+}
 /* SIDE NAV */
 #main .side-nav *{
     color: #333333;
@@ -240,7 +242,7 @@ a:hover.menuHighlight {
     list-style: none;
 }
 #main .side-nav li{
-    padding: 5px 0px 5px 15px;
+    padding: 5px 3px 5px 15px;
 }
 #main .side-nav li a:hover {
     background-color: #B0B0B0;
@@ -488,38 +490,48 @@ td.fc-header-left{
 /**********************************************************/
 /***************************SIDE HAMBURGER VIEW************/
 /**********************************************************/
-#right-canvas-menu .side-nav *{
+#right-canvas-menu a{
     color: #ddd;
+}
+#right-canvas-menu li{
     margin: 0px;
 }
-#right-canvas-menu ul {
+.right-off-canvas-menu ul {
     list-style: none;
 }
-#right-canvas-menu .side-nav li{
-    padding: 5px 0px 5px 15px;
+.right-off-canvas-menu li{
+    padding: 8px 0px 8px 15px;
 }
-#right-canvas-menu .side-nav div:nth-of-type(2) {
+#right-canvas-menu-bottom {
 	border-top: 1px solid #464646; 
 }
-#right-canvas-menu .side-nav li a:hover {
+#right-canvas-menu-bottom ul{
+	margin-left: 0;
+}
+.right-off-canvas-menu .side-nav li a:hover {
     color: #ffffff;
 }
 
-#right-canvas-menu .side-nav li.active>a{
+.right-off-canvas-menu .side-nav li.active>a{
   color: #ffffff;
 }
-#right-canvas-menu .side-nav li.divider {
+.right-off-canvas-menu .side-nav li.divider {
     margin: 0px;
     padding: 0px;
     background: none; 
 }
-#right-canvas-menu .side-nav .active>a {
+.right-off-canvas-menu .side-nav .active>a {
     font-weight: bold;
 }
-#right-canvas-menu .side-nav>li>a{
+.right-off-canvas-menu a{
+    color:#ddd;
+    
+}
+
+.right-off-canvas-menu .side-nav>li>a{
     /*font-weight: bold;*/
 }
-#right-canvas-menu .side-nav>li>li a{
+.right-off-canvas-menu .side-nav>li>li a{
     font-weight: normal;
 }
 #right-canvas-menu .side-nav>li {
@@ -534,6 +546,10 @@ td.fc-header-left{
 #right-canvas-menu .side-nav>li#sub-active {
     background: url('images/orange-yellow-vertical.png') repeat-y  0px 0px; 
     /*background-color:#f7f7f6;*/
+}
+
+.right-off-canvas-menu li{
+  font-size:0.875rem;
 }
 
 .emptyrow{
@@ -554,3 +570,23 @@ td.fc-header-left{
   width:100%;
 }
 
+#headerBar ul li.active {
+    background: url('images/white-up-arrow.png') no-repeat  60px 0px;
+    background-position:center bottom;  
+}
+
+#header .signin{
+   color:#FFF;
+}
+
+
+#footer div.footer-navigation{
+	padding:10px 0 10px 20px;
+    background: url('images/small-trefoil.png') no-repeat;
+    background-position:center;
+}
+
+#leftContent li.active ul li.active{
+    background: url('images/small-green-arrow-right.png') no-repeat  0px 0px;
+    background-position:right center;  
+}

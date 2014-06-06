@@ -24,7 +24,7 @@
    
 	// date and time
     DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy");
-	DateFormat timeFormat = new SimpleDateFormat("KK:mm a");
+	DateFormat timeFormat = new SimpleDateFormat("hh:mm a");
     DateFormat calendarFormat = new SimpleDateFormat("M-yyyy");
 	Date startDate = properties.get("start", Date.class); 
 	
@@ -35,7 +35,7 @@
 	
     Calendar calendar = Calendar.getInstance();
     calendar.setTime(startDate);
-    int month = calendar.get(Calendar.MONTH);
+    int month = calendar.get(Calendar.MONTH)+1;
     int year = calendar.get(Calendar.YEAR);
     String combineMonthYear = month+"-"+year;
     String calendarUrl = currentSite.get("calendarPath",String.class)+".html/"+combineMonthYear; 
@@ -43,12 +43,19 @@
 	String dateStr = startDateStr;
     String time = startTimeStr;
 	if (endDate != null) {
+	    Calendar cal1 = Calendar.getInstance();
+	    Calendar cal2 = Calendar.getInstance();
+	    cal1.setTime(startDate);
+	    cal2.setTime(endDate);
+	    boolean sameDay = cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+	                      cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
 		String endDateStr = dateFormat.format(endDate);
 		String endTimeStr = timeFormat.format(endDate);
-	    dateStr += " to " + endDateStr;
+		if (!sameDay) {
+	    	dateStr += " to " + endDateStr;
+		} 
 	    time += " to " + endTimeStr;
 	}
-	String endDateStr = dateFormat.format(endDate);
 	Map<String,List<String>> tags= new HashMap<String,List<String>>() ;
 	
 	if(currentNode.getParent().hasProperty("cq:tags")){
@@ -90,7 +97,12 @@
 
     
     // images
-    boolean hasImage = currentNode.hasNode("image");
+    boolean hasImage = false;
+    try {
+        Node imageNode = currentNode.getNode("image");
+        hasImage = imageNode.hasProperty("fileReference");
+    } catch (Exception e) {}
+    
     String fileReference = null;
     String imgWidth = null;
     String imgHeight = null;
