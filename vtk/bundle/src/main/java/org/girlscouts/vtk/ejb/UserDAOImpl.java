@@ -158,22 +158,49 @@ public class UserDAOImpl implements UserDAO{
 		YearPlan oldPlan = user.getYearPlan();
 		YearPlan newYearPlan = addYearPlan(user, yearPlanPath);
 		
+		
+		
+		for(int i=0;i<newYearPlan.getMeetingEvents().size();i++)
+			System.err.println("NYDDDd :"+newYearPlan.getMeetingEvents().get(i));
+		
+		
+		
 		//if dates, copy dates to new year plan && copy/replace OLD PASSED Meetings
 		if( oldPlan.getSchedule()!=null ){ //no dates; no past meetings to copy
 			
-			   
+			    System.err.println("New YP size:" +newYearPlan.getMeetingEvents().size() +" : "+ oldPlan.getMeetingEvents().size() ); 
 				String oldDates  = oldPlan.getSchedule().getDates();
 			
 				int count=0;
 				java.util.StringTokenizer t= new java.util.StringTokenizer( oldDates, ",");
 				while(t.hasMoreElements()){
-				
+				System.err.println(count);
 					long date= Long.parseLong(t.nextToken());
 					
-					if( new java.util.Date().before( new java.util.Date(date) )){
+					if( count>= newYearPlan.getMeetingEvents().size() ){
+						
+						System.err.println("b4: "+ oldPlan.getSchedule().getDates() );
+						
+						//rm all other dates
+						oldPlan.getSchedule().setDates( oldPlan.getSchedule().getDates().substring(0, oldPlan.getSchedule().getDates().indexOf(""+date)  ));
+						
+						System.err.println("AFter: "+ oldPlan.getSchedule().getDates() );
+						
+						for(int i=count;i<oldPlan.getMeetingEvents().size();i++){
+						
+							System.err.println("Removing meeting "+ (count) +" : "+ oldPlan.getMeetingEvents().size());
+							
+							oldPlan.getMeetingEvents().remove(count);
+							//if( (count+1) > oldPlan.getMeetingEvents().size() ) break;
+						}
+						break;
+					}else if(  new java.util.Date().before( new java.util.Date(date) )){
+						
+						System.err.println( "Subst old new  :"+new java.util.Date(date));
+						
 						java.util.List <MeetingE> newMeetings = newYearPlan.getMeetingEvents();
 						oldPlan.getMeetingEvents().get(count).setRefId(  newYearPlan.getMeetingEvents().get(count ).getRefId() );
-						
+						oldPlan.getMeetingEvents().get(count).setCancelled("false");
 					
 					}
 					count++;

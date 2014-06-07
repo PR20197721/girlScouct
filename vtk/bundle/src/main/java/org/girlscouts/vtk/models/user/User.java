@@ -3,6 +3,7 @@ package org.girlscouts.vtk.models.user;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Bean;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
+import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.models.YearPlan;
 
 @Node
@@ -13,11 +14,16 @@ public class User {
 	@Field(path=true) String path;
 	@Bean YearPlan yearPlan;
 	
+	private ApiConfig apiConfig;
 	
 	
 	
-	
-	
+	public ApiConfig getApiConfig() {
+		return apiConfig;
+	}
+	public void setApiConfig(ApiConfig apiConfig) {
+		this.apiConfig = apiConfig;
+	}
 	public YearPlan getYearPlan() {
 		return yearPlan;
 	}

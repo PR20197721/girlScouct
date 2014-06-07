@@ -84,7 +84,10 @@ public class MeetingUtil {
 		int count=0;
 		while( t.hasMoreElements()){
 			
-			sched.put( new java.util.Date( Long.parseLong( (t.nextToken() ) ) ) , meetingEs.get(count));
+			try{
+				//if( meetingEs.size()<=count) continue; //dates more then meetings. on delete maybe?
+				sched.put( new java.util.Date( Long.parseLong( (t.nextToken() ) ) ) , meetingEs.get(count));
+			}catch(Exception e){e.printStackTrace();}
 			count++;
 		}
 	}else{ //no dates: create 1976
@@ -179,7 +182,7 @@ public class MeetingUtil {
 		
 	}
 	
-	public void swapMeetings(User user, String fromPath, String toPath){
+	public    void swapMeetings(User user, String fromPath, String toPath){
 		
 		java.util.List<MeetingE> meetings = user.getYearPlan().getMeetingEvents();
 		for(int i=0;i<meetings.size();i++){
@@ -328,4 +331,31 @@ public class MeetingUtil {
 		
 	}
 	
+	
+	
+
+	
+	public  void reverAgenda(User user, String meetingPath){
+		 
+		 MeetingE meeting= null;
+		 for(int i=0;i<user.getYearPlan().getMeetingEvents().size();i++)
+			 if( user.getYearPlan().getMeetingEvents().get(i).getPath().equals(meetingPath))
+				  meeting =user.getYearPlan().getMeetingEvents().get(i);
+		 
+		 String[] split = meeting.getRefId().split("/");
+		 String file= split[7];
+		 file= file.substring(0, file.indexOf("_"));
+		 
+		 java.util.List< Meeting> __meetings=  meetingDAO.search();
+		 for(int i=0;i<__meetings.size();i++){
+				Meeting __meeting = __meetings.get(i);
+				if( __meeting.getPath().endsWith(file) ){
+						swapMeetings(user, meetingPath, __meeting.getPath());
+						return;
+				}
+		 }
+		 
+		 
+		
+	}
 }
