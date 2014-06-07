@@ -1,5 +1,6 @@
 <%@ page import="com.day.cq.tagging.TagManager,com.day.cq.dam.api.Asset,java.util.ArrayList,java.util.HashSet,java.text.DateFormat,java.text.SimpleDateFormat,java.util.Date, java.util.Locale,java.util.Map,java.util.Iterator,java.util.HashMap,java.util.List,java.util.Set,com.day.cq.search.result.SearchResult, java.util.ResourceBundle,com.day.cq.search.QueryBuilder,javax.jcr.PropertyIterator,org.girlscouts.web.events.search.SearchResultsInfo, com.day.cq.i18n.I18n,org.apache.sling.api.resource.ResourceResolver,org.girlscouts.web.events.search.EventsSrch,org.girlscouts.web.events.search.FacetsInfo,java.util.Calendar,java.util.TimeZone" %>
 <%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/girlscouts/components/global.jsp"%>
 <cq:includeClientLib categories="apps.girlscouts" />
 <cq:defineObjects/>
 <% 
@@ -78,27 +79,16 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 		       
 		      
 		    </div>   
-        <% }
-			  // Image
-			    boolean hasImage = false;
-			    try {
-			        Node imageNode = currentNode.getNode("image");
-			        hasImage = imageNode.hasProperty("fileReference");
-			    } catch (Exception e) {}
-
-	    	  if (hasImage) {
-					String fileReference = imageProps.get("fileReference", "");
-					displayRendition(resourceResolver, fileReference, "cqdam.web.120.80", pageContext);
-			    } 
-		%>
+        <% } %>
 
     <div class=row>
       <div class="small-6 medium-6 large-6 columns">
-        <%if(hasImage) {%>
               <div id="left">
-                  <img src="<%= fileReference %>" <%= imgWidth %> <%= imgHeight %> <%= imgAlt %> />
+              	<%
+              		String imgPath = propNode.getPath() + "/image";
+              		displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80", pageContext); 
+              	%>
              </div>  
-      <%} %> 
      </div>
       
        <div class="small-18 medium-18 large-18 columns">

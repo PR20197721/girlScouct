@@ -111,7 +111,7 @@
 	<%  
 		try {
 		    String imgPath = resource.getPath() + "/image";
-			displayRendition(resourceResolver, imgPath, "cqdam.web.520.520", pageContext);
+			displayRendition(resourceResolver, imgPath, "cq5dam.web.520.520", pageContext);
 		} catch (Exception e) {}
 	%>
 </p>
