@@ -1,6 +1,7 @@
 <%@page import="java.util.Set,
 	java.util.Arrays,
-	java.io.PrintWriter,
+	javax.servlet.jsp.PageContext,
+	javax.servlet.jsp.JspWriter,
 	org.slf4j.Logger,
 	org.slf4j.LoggerFactory,
 	org.apache.sling.api.resource.ResourceResolver,
@@ -36,11 +37,11 @@ public String genLink(ResourceResolver rr, String link) {
     }
 }
 
-public void displayRendition(ResourceResolver rr, String imagePath, String renditionStr, HttpServletResponse response) {
-	displayRendition(rr, imagePath, renditionStr, response, null);
+public void displayRendition(ResourceResolver rr, String imagePath, String renditionStr, PageContext context) {
+	displayRendition(rr, imagePath, renditionStr, context, null);
 }
 
-public void displayRendition(ResourceResolver rr, String imagePath, String renditionStr, HttpServletResponse response, String additionalCss) {
+public void displayRendition(ResourceResolver rr, String imagePath, String renditionStr, PageContext context, String additionalCss) {
 	if (renditionStr == null) return;
 	
 	try {
@@ -74,8 +75,6 @@ public void displayRendition(ResourceResolver rr, String imagePath, String rendi
 		    title= "title=\"" + title+ "\" ";
 		}
 
-        PrintWriter out = response.getWriter();
-
 		String width = "";
 		String height = "";
 		if (isOriginal) {
@@ -91,6 +90,7 @@ public void displayRendition(ResourceResolver rr, String imagePath, String rendi
 			css = "class=\"" + additionalCss + "\" ";
 		}
 
+        JspWriter out = context.getOut();
 		out.print("<img ");
 		out.print(css);
 		out.print(title);
