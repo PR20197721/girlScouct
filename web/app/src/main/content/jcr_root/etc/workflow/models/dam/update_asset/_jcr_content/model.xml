@@ -7,7 +7,7 @@
     description="This workflow manages the update of assets"
     title="DAM Update Asset">
     <metaData
-        cq:lastModified="{Long}1402071598434"
+        cq:lastModified="{Long}1402163524676"
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
         tags="dam"/>
@@ -87,23 +87,23 @@
         <node7
             jcr:primaryType="cq:WorkflowNode"
             description="This process creates a web enabled rendition. E.g. a jpeg from a tiff (if the tiff file would be the original source)"
-            title="Web enabled rendition 120x80"
+            title="Web enabled rendition"
             type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                PROCESS_ARGS="dimension:120:80,mimetype:image/jpeg,quality:90,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
+                PROCESS_ARGS="dimension:1280:1280,mimetype:image/jpeg,quality:90,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node7>
         <node8
             jcr:primaryType="cq:WorkflowNode"
             description="This process creates a web enabled rendition. E.g. a jpeg from a tiff (if the tiff file would be the original source)"
-            title="Web enabled rendition 240x240"
+            title="Web enabled rendition 520x520"
             type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                PROCESS_ARGS="dimension:240:240,mimetype:image/jpeg,quality:90,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
+                PROCESS_ARGS="dimension:520:520,mimetype:image/jpeg,quality:90,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node8>
         <node9
@@ -120,23 +120,23 @@
         <node10
             jcr:primaryType="cq:WorkflowNode"
             description="This process creates a web enabled rendition. E.g. a jpeg from a tiff (if the tiff file would be the original source)"
-            title="Web enabled rendition 520x520"
+            title="Web enabled rendition 240x240"
             type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                PROCESS_ARGS="dimension:520:520,mimetype:image/jpeg,quality:90,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
+                PROCESS_ARGS="dimension:240:240,mimetype:image/jpeg,quality:90,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node10>
         <node11
             jcr:primaryType="cq:WorkflowNode"
             description="This process creates a web enabled rendition. E.g. a jpeg from a tiff (if the tiff file would be the original source)"
-            title="Web enabled rendition"
+            title="Web enabled rendition 120x80"
             type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                PROCESS_ARGS="dimension:1280:1280,mimetype:image/jpeg,quality:90,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
+                PROCESS_ARGS="dimension:120:80,mimetype:image/jpeg,quality:90,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node11>
         <node12
