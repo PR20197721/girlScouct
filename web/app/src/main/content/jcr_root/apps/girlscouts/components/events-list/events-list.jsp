@@ -11,6 +11,7 @@
             org.girlscouts.web.events.search.EventsSrch,org.girlscouts.web.events.search.FacetsInfo,java.util.Calendar,java.util.TimeZone,com.day.cq.dam.api.Asset"%>
 
 <%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/girlscouts/components/global.jsp"%>
 <!-- apps/girlscouts/components/events-list/events-list.jsp -->
 <cq:includeClientLib categories="apps.girlscouts" />
 <cq:defineObjects />
@@ -102,36 +103,17 @@
              
              String fromDate = dateFormat.format(fdt);
             
-             boolean hasImage = propNode.hasNode("image");
+             boolean hasImage = false;
              String fileReference = null;
-             String imgWidth = null;
-             String imgHeight = null;
-             String imgAlt = null;
-             if (hasImage) {
-                   ValueMap imageProps = resourceResolver.resolve(propNode.getPath() + "/image").adaptTo(ValueMap.class);
-                   fileReference = imageProps.get("fileReference", "");
-                   try{
-                   Asset assets = resource.getResourceResolver().getResource(fileReference).adaptTo(Asset.class);
-                   Resource rendition =  assets.getRendition("cq5dam.web.120.80.png");
-                   fileReference = rendition.getPath();
-                   }catch(Exception e){}
-                   imgWidth = imageProps.get("width", "");
-                   if (!imgWidth.isEmpty()) imgWidth = "width=\"" + imgWidth + "\"";
-                   imgHeight = imageProps.get("height", "");
-                   if (!imgHeight.isEmpty()) imgHeight = "height=\"" + imgHeight + "\"";
-                   imgAlt = imageProps.get("alt", "");
-                   if (!imgAlt.isEmpty()) imgAlt = "alt=\"" + imgAlt + "\"";
-               } 
              count++;
            %> 
      <li>
         <div class="row">
             <div class="small-24 medium-12 large-8 columns">
-               <%if(!fileReference.isEmpty()){ %>
-              
-                <img src="<%= fileReference %>" <%= imgWidth %> <%= imgHeight %> <%= imgAlt %> />
-                
-                <%} %>
+            <%
+            	String imgPath = node.getPath() + "/jcr:content/data/image";
+				displayRendition(resourceResolver, imgPath, "cqdam.web.120.80", pageContext);
+            %>
             </div>
             <div class="small-24 medium-12 large-16 columns">
                 <h3><a href="<%= href %>"><%= title %></a></h3>
