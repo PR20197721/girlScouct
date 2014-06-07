@@ -80,25 +80,15 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 		    </div>   
         <% }
 			  // Image
-			  boolean hasImage = propNode.hasNode("image");
-			  String fileReference = null;
-		      String imgWidth = null;
-		      String imgHeight = null;
-		      String imgAlt = null;
+			    boolean hasImage = false;
+			    try {
+			        Node imageNode = currentNode.getNode("image");
+			        hasImage = imageNode.hasProperty("fileReference");
+			    } catch (Exception e) {}
+
 	    	  if (hasImage) {
-			        ValueMap imageProps = resourceResolver.resolve(propNode.getPath() + "/image").adaptTo(ValueMap.class);
-			        fileReference = imageProps.get("fileReference", "");
-			        try{
-			            Asset assets = resource.getResourceResolver().getResource(fileReference).adaptTo(Asset.class);
-   			        	Resource rendition =  assets.getRendition("cq5dam.web.120.80.png");
-			        	fileReference = rendition.getPath();
-			        }catch(Exception e){}
-			        imgWidth = imageProps.get("width", "");
-			        if (!imgWidth.isEmpty()) imgWidth = "width=\"" + imgWidth + "\"";
-			        imgHeight = imageProps.get("height", "");
-			        if (!imgHeight.isEmpty()) imgHeight = "height=\"" + imgHeight + "\"";
-			        imgAlt = imageProps.get("alt", "");
-			        if (!imgAlt.isEmpty()) imgAlt = "alt=\"" + imgAlt + "\"";
+					String fileReference = imageProps.get("fileReference", "");
+					displayRendition(resourceResolver, fileReference, "cqdam.web.120.80", pageContext);
 			    } 
 		%>
 
