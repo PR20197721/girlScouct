@@ -8,7 +8,7 @@ java.util.List <Activity> _activities = meetingInfo.getActivities();
 java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  meetingInfo.getMeetingInfo();
 %>
 
-<div style=" background-color:#FFF;">
+<div style=" background-color:#FFF;" class="caca">
 
 <div style="float:left; width:100px; height:100px;background-color:blue; color:#fff;">
 	
@@ -102,13 +102,43 @@ if( meeting.getCancelled()!=null && meeting.getCancelled().equals("true")){ %>
 	
  
  <div style="background-color:gray; color:#fff;">Meeting Aids</div>
- Name of the video
- <br/>Represents PDF
+ 
+ 
+ 
+ 
+	
+	
+	<%@ page import="java.util.*, org.apache.sling.api.resource.*, org.apache.sling.jcr.api .*,java.lang.ref.*, com.day.cq.tagging.*, com.day.cq.tagging.*, org.apache.jackrabbit.commons.JcrUtils, org.apache.sling.api.resource.*"%>
+
+	<cq:defineObjects/>
+<%
+String aidTags = meetingInfo.getAidTags();
+aidTags= aidTags==null ? "" : aidTags.trim().toLowerCase();
+%><div style="background-color:yellow;">AidTags:<%=aidTags %></div><%
+
+TagManager tagManager = (TagManager)resourceResolver.adaptTo(TagManager.class);
+
+java.util.StringTokenizer t= new java.util.StringTokenizer( aidTags, ",");
+while( t.hasMoreElements()){
+	
+	com.day.cq.tagging.TagManager.FindResults x = tagManager.findByTitle(t.nextToken());
+	java.util.Iterator r = x.resources ;
+	while( r.hasNext() ){
+		Resource res = (Resource) r.next();
+	    %><li> <a href="<%=res.getPath().replace("/jcr:content/metadata", "")%>"> <%=res.getName()%></a></li><%
+
+	  }
+}
+%>
+	
  
  
  <div style="background-color:gray; color:#fff;">Meeting Agenda</div>
+ <a href="javascript:void(0)" onclick="revertAgenda('<%=meeting.getPath()%>')">Revert to Original Agenda</a>
+ 
  <p>
 	Select an item to view details, edit duration, or delete. Drag and drop items to reorder them.
+	
  </p>
  
  <ul id="sortable" >
@@ -123,7 +153,7 @@ if( meeting.getCancelled()!=null && meeting.getCancelled().equals("true")){ %>
  				<li value="<%=(ii+1)%>">
  					<table>
   					<td><%if( user.getYearPlan().getSchedule()!=null ){ out.println(fmtHr.format(activSched.getTime())); }%></td>
- 				    <td><a href="javascript:void(0)" onclick="editAgenda('<%=_activity.getActivityNumber()%>')"><%=_activity.getName() %></a></td>
+ 				    <td><a href="javascript:void(0)" onclick="editAgenda('<%=ii %>')"><%=_activity.getName() %></a></td>
  				    <td><%=_activity.getDuration() %></td>
  				    </table>
  				</li>
@@ -196,8 +226,25 @@ if( meeting.getCancelled()!=null && meeting.getCancelled().equals("true")){ %>
  
  
  
- <div id="meetingLibraryView"></div>
+ <div id="meetingLibraryView">
+
+
+<% if( user.getYearPlan().getSchedule()!=null ) { %>
+  <div class="tmp" id="popup" style="background-color:orange;">
+	/content/girlscouts-vtk/controllers/vtk.include.email.meetingReminder.html
+	<%@include file="email/meetingReminder.jsp" %>
+  </div>
+<%} %>
+
+
+
+
+
 </div>
+ 
+ 
+</div>
+
 
 
 <script>
@@ -211,7 +258,14 @@ if( meeting.getCancelled()!=null && meeting.getCancelled().equals("true")){ %>
         				        }
         				}
         		   );
-        		   </script>
+  
+  
+ </script>
         		   
         		   
-        		   
+        		 <%!
+        		 
+        		 
+        		 java.text.SimpleDateFormat dateFormat55 = new java.text.SimpleDateFormat("EEE MMM dd,yyyy hh:mm a");
+        		 
+        		 %>  

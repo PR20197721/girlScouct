@@ -57,8 +57,9 @@
         			   
         			   
         			   var x =$.ajax({ // ajax call starts
-        			          url: '/content/girlscouts-vtk/controllers/vtk.controller.html?isMeetingCngAjax='+ newVals, // JQuery loads serverside.php
+        				   url: '/content/girlscouts-vtk/controllers/vtk.controller.html?isMeetingCngAjax='+ newVals, // JQuery loads serverside.php
         			          data: '', // Send value of the clicked button
+        			          type: "POST",
         			          dataType: 'html', // Choosing a JSON datatype
         			          success: function (data) { 
         			              

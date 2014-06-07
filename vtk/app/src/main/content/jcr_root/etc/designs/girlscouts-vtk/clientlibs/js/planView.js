@@ -156,4 +156,58 @@ function viewMeetingLibrary(meetingPath){
 	      });
 		  
 	  }
+	  
+
+	  
+	  function revertAgenda(mid) {
+		  
+		  var x =$.ajax({ // ajax call starts
+	          url: '/content/girlscouts-vtk/controllers/vtk.controller.html?revertAgenda=true&mid='+ mid, // JQuery loads serverside.php
+	          data: '', // Send value of the clicked button
+	          dataType: 'html', // Choosing a JSON datatype
+	          success: function (data) { 
+	              
+	              location.reload();
+	          },
+	   			error: function (data) { 
+	   				
+	   			}
+	      });
+		  
+	  }
+	  
+	  
+	  function sendMeetingReminderEmail(mid){
+		  
+		  var email_to_gp = document.getElementById("email_to_gp").value;
+		  var email_to_sf = document.getElementById("email_to_sf").value;
+		  var email_to_tv = document.getElementById("email_to_tv").value;
+		  var email_cc = document.getElementById("email_to_cc").value;
+		  var email_subj = document.getElementById("email_subj").value;
+		  var email_htm = document.getElementById("email_htm").value; 
+		  
+		  var urlParam = "&email_to_gp="+email_to_gp+
+		  				"&email_to_sf="+email_to_sf+
+		  				"&email_to_tv="+email_to_tv+
+		  				"&email_cc="+ email_cc+
+		  				"&email_subj="+email_subj+
+		  				"&email_htm="+ email_htm;
+		  //console.log(urlParam);
+		  
+		  
+		  var x =$.ajax({ // ajax call starts
+	          url: '/content/girlscouts-vtk/controllers/vtk.controller.html', // JQuery loads serverside.php
+	          data: 'sendMeetingReminderEmail=true&mid='+ mid+''+ urlParam, // Send value of the clicked button
+	          //type: "POST",
+	          dataType: 'html', // Choosing a JSON datatype
+	          success: function (data) { 
+	              
+	              //location.reload();
+	          },
+	   			error: function (data) { 
+	   				
+	   			}
+	      });
+		  
+	  }
 	   

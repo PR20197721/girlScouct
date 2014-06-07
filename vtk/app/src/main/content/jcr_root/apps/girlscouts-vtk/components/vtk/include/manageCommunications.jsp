@@ -14,7 +14,11 @@
 
 <tr>
 <td>Edit/Send Activity Reminder Email </td>
-<td>View</td>
+<td><a href="javascript:void(0)" >View</a>
+
+
+
+</td>
 </tr>
 
 
@@ -28,3 +32,4 @@
 <td>(not sent)</td>
 </tr>
 </table>
+

@@ -22,6 +22,6 @@
 		<select id="cngAP<%=(i+1) %>"><option value="pm">pm</option> <option value="am">am</option></select>
 		
 		<input type="checkbox" id="isCancellMeeting<%=(i+1) %>" />Cancel Meeting
-		<input type="button" value="update" onclick="updSched('<%=(i+1)%>','<%=user.getYearPlan().getMeetingEvents().get(i).getPath()%>','<%=sched.get(i).getMillis()%>')"/>
+		<input type="button" value="update" onclick="updSched1('<%=(i+1)%>','<%=user.getYearPlan().getMeetingEvents().get(i).getPath()%>','<%=sched.get(i).getMillis()%>')"/>
 	</div>
 </div>
