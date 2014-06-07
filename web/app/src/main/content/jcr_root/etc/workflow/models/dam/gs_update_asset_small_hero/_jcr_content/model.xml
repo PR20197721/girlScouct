@@ -4,8 +4,8 @@
     jcr:primaryType="cq:WorkflowModel"
     jcr:uuid="25f19e19-ce3e-4dae-9d3b-0f594593a3a4"
     sling:resourceType="cq/workflow/components/model"
-    description="This workflow manages the update of assets for large Hero"
-    title="Girl Scouts Large Logo Update Asset">
+    description="This workflow manages the update of assets for small Hero"
+    title="Girl Scouts Small Hero Update Asset">
     <metaData
         cq:lastModified="{Long}1402084950896"
         cq:lastModifiedBy="admin"
