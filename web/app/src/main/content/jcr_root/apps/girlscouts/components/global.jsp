@@ -6,8 +6,6 @@
 <%
 Page homepage = currentPage.getAbsoluteParent(2);
 ValueMap currentSite = homepage.getContentResource().adaptTo(ValueMap.class);
-
-final String IMG_RENDITION_ATTR = "org.girlscouts.image.rendition.attribute";
 %>
 <%!
 public void setCssClasses(String tags, HttpServletRequest request) {

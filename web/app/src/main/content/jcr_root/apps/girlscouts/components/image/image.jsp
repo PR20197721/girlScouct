@@ -19,39 +19,6 @@
     com.day.cq.wcm.api.components.DropTarget,
     com.day.cq.wcm.foundation.Image, com.day.cq.wcm.foundation.Placeholder" %><%
 %><%@include file="/libs/foundation/global.jsp"%><%
-%><%@include file="/apps/girlscouts/components/global.jsp"%><%
-    /***********************************************************/
-    // Girl Scouts customize code to generate renditions
-    // TODO:
-	request.setAttribute(IMG_RENDITION_ATTR, "100x100");	
-
-	String rendition = (String)request.getAttribute(IMG_RENDITION_ATTR);	
-	if (rendition != null) {
-	    try {
-	    	String[] values = rendition.split("x");
-	    	if (values.length != 2) {
-	    	    throw new IllegalArgumentException();
-	    	}
-	    	String widthStr = values[0];
-	    	String heightStr = values[1];
-	    	// Just to make sure that the integers are in correct format
-    		int width = Integer.parseInt(widthStr);
-    		int height = Integer.parseInt(heightStr);
-    		
-    		Node imageNode = resource.adaptTo(Node.class);
-    		if (width != 0) imageNode.setProperty("width", widthStr);
-    		if (height != 0) imageNode.setProperty("height", heightStr);
-    		resourceResolver.adaptTo(Session.class).save();
-	    } catch (IllegalArgumentException ie) {
-	        log.error("Error parsing image rendition:" + rendition 
-	                + " resource: " + resource.getPath());
-	    } catch (RepositoryException re) {
-	        log.error("Repository Exception while generatint rendition: " + rendition
-	                + " resource: " + resource.getPath());
-	    }
-	}
-    /***********************************************************/
-
     Image image = new Image(resource);
     image.setIsInUITouchMode(Placeholder.isAuthoringUIModeTouch(slingRequest));
 
@@ -65,8 +32,6 @@
         image.setSuffix(currentDesign.getId());
     }
     String divId = "cq-image-jsp-" + resource.getPath();
-
-
     %><div id="<%= divId %>"><% image.draw(out); %></div><%
     %><cq:text property="jcr:description" placeholder="" tagName="small" escapeXml="true"/>
     
