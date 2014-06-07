@@ -1,8 +1,4 @@
-<%@ page import="java.text.DateFormat,com.day.cq.wcm.api.WCMMode,com.day.cq.wcm.foundation.List,
-                   com.day.cq.wcm.api.components.DropTarget,com.day.cq.search.Query,com.day.cq.search.result.SearchResult,com.day.cq.search.result.Hit,
-                   java.util.Map,java.util.HashMap,com.day.cq.search.QueryBuilder,com.day.cq.search.PredicateGroup,java.util.Arrays,java.util.HashSet,java.util.ArrayList,
-                   java.util.Iterator,java.text.SimpleDateFormat,java.util.Date, java.text.Format,com.day.cq.dam.commons.util.DateParser"%>
-
+<%@ page import="java.text.DateFormat,com.day.cq.wcm.api.WCMMode,com.day.cq.wcm.foundation.List, com.day.cq.wcm.api.components.DropTarget,com.day.cq.search.Query,com.day.cq.search.result.SearchResult,com.day.cq.search.result.Hit, java.util.Map,java.util.HashMap,com.day.cq.search.QueryBuilder,com.day.cq.search.PredicateGroup,java.util.Arrays,java.util.HashSet,java.util.ArrayList, java.util.Iterator,java.text.SimpleDateFormat,java.util.Date, java.text.Format,com.day.cq.dam.commons.util.DateParser"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%
 	String designPath = currentDesign.getPath();
@@ -45,25 +41,27 @@
 	</div>
 	
 	<ul class="small-block-grid-1 content">
-	<%
+<%
 	    for(int i=0;i<count;i++) {
-      		Node resultNode = resultsHits.get(i).getNode();
-      		String newsLink = resultNode.getPath() + ".html";
-      		
-      		Node contentNode = resultNode.getNode("jcr:content");
-      		String newsTitle = contentNode.hasProperty("jcr:title") ? contentNode.getProperty("jcr:title").getString() : "";
+                String newsLink = null;
+                try {
+			Node resultNode = resultsHits.get(i).getNode();
+			newsLink = resultNode.getPath() + ".html";
+			
+			Node contentNode = resultNode.getNode("jcr:content");
+			String newsTitle = contentNode.hasProperty("jcr:title") ? contentNode.getProperty("jcr:title").getString() : "";
 
-      		String newsDateStr = "";
-      		if (contentNode.hasProperty("date")) {
-      			String dateString = contentNode.getProperty("date").getString();
-      			Date newsDate = inFormatter.parse(dateString);
-      			newsDateStr = formatter.format(newsDate);
-      		}
-      		
-      		String newsDesc = contentNode.hasProperty("description") ? contentNode.getProperty("description").getString() : "";
-      		
-      		String imgPath = contentNode.hasProperty("middle/par/text/image/fileReference") ? contentNode.getProperty("middle/par/text/image/fileReference").getString() : "";
-    %>
+			String newsDateStr = "";
+			if (contentNode.hasProperty("date")) {
+				String dateString = contentNode.getProperty("date").getString();
+				Date newsDate = inFormatter.parse(dateString);
+				newsDateStr = formatter.format(newsDate);
+			}
+			
+			String newsDesc = contentNode.hasProperty("description") ? contentNode.getProperty("description").getString() : "";
+			
+			String imgPath = contentNode.hasProperty("middle/par/text/image/fileReference") ? contentNode.getProperty("middle/par/text/image/fileReference").getString() : "";
+%>
     	<li>
     		<div class="row">
     			<div class="small-24 medium-8 large-6 columns">
@@ -78,6 +76,11 @@
     			</div>
     		</div>
     	</li>
-    <% } %>
+<%
+                } catch (java.text.ParseException pe) {
+			log.error(">>>>>>> News Item (" + newsLink + ") has an unparseable date.");
+		}
+           }
+%>
 	</ul>
 </div>

@@ -1,4 +1,3 @@
-
 <%@ page import="com.day.cq.tagging.TagManager,java.util.ArrayList,
             java.util.HashSet,java.text.DateFormat,
             java.text.SimpleDateFormat,java.util.Date,
@@ -28,7 +27,6 @@
 	DateFormat dateFormat = new SimpleDateFormat("EEE dd MMM yyyy");
 	DateFormat timeFormat = new SimpleDateFormat("hh:mm a");
 	List<String> results = srchInfo.getResults();
-
 	int eventcounts = 0;
 	String key = "";
 	String value = "";
@@ -38,7 +36,6 @@
 			eventcounts = results.size();
 		}
 	}
-
 	String designPath = currentDesign.getPath();
 	String iconImg = properties.get("fileReference", String.class);
 	String eventsLink = properties.get("urltolink", "") + ".html";
