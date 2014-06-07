@@ -1,15 +1,20 @@
 <%@page import="java.util.Set,
 	java.util.Arrays,
+	java.io.PrintWriter,
+	org.slf4j.Logger,
+	org.slf4j.LoggerFactory,
 	org.apache.sling.api.resource.ResourceResolver,
+	com.day.cq.dam.commons.util.PrefixRenditionPicker,
+	com.day.cq.dam.api.Asset,
+	com.day.cq.dam.api.Rendition,
 	com.day.cq.wcm.api.Page,
 	com.day.cq.wcm.api.components.IncludeOptions" %>
 <%
-final string IMAGE_RENDITION_ATTR = "org.girlscouts.image.rendition";
-
 Page homepage = currentPage.getAbsoluteParent(2);
 ValueMap currentSite = homepage.getContentResource().adaptTo(ValueMap.class);
 %>
 <%!
+private static Logger log = LoggerFactory.getLogger("girlscouts.components.global");
 public void setCssClasses(String tags, HttpServletRequest request) {
 	IncludeOptions opt = IncludeOptions.getOptions(request, true);
 	Set<String> classes = opt.getCssClassNames();
@@ -31,19 +36,30 @@ public String genLink(ResourceResolver rr, String link) {
     }
 }
 
-public String displayRendition(ResourceResolver rr, String imagePath, String rendition, HttpServletResponse response) {
-	if (rendition == null) return;
+public void displayRendition(ResourceResolver rr, String imagePath, String renditionStr, HttpServletResponse response) {
+	if (renditionStr == null) return;
 	
 	try {
-		Asset asset = resourceResolver.resolve(imagePath).adaptTo(Asset.class);
+		Resource imgResource = rr.resolve(imagePath);
+		ValueMap properties = imgResource.adaptTo(ValueMap.class);
+		
+		String fileReference = properties.get("fileReference", "");
+		Asset asset;
+		if (!fileReference.isEmpty()) {
+		    // fileRefence. Assuming this resource is an image component instance.
+			asset = rr.resolve(fileReference).adaptTo(Asset.class);
+		} else {
+		    // fileRefence empty. Assuming this resource is a DAM asset.
+		    asset = imgResource.adaptTo(Asset.class);
+		}
 		
 		boolean isOriginal = false;
-		Asset renditionAsset = asset.getRendition(new PrefixRenditionPicker(rendition));
+		Rendition rendition = asset.getRendition(new PrefixRenditionPicker(renditionStr));
 		if (rendition == null) {
 		    isOriginal = true;
-		    renditionAsset = asset.getOriginal();
+		    rendition = asset.getOriginal();
 		}
-		String src = "src=\"" + renditionAsset.getPath() + "\" ";
+		String src = "src=\"" + rendition.getPath() + "\" ";
 		
 		String alt = properties.get("alt", "");
 		if (!alt.isEmpty()) {
@@ -53,16 +69,19 @@ public String displayRendition(ResourceResolver rr, String imagePath, String ren
 		if (!title.isEmpty()) {
 		    title= "title=\"" + title+ "\" ";
 		}
-		String width, height;
+
+        PrintWriter out = response.getWriter();
+
+		String width = "";
+		String height = "";
 		if (isOriginal) {
-		    String[] renditionParams = rendition.split("\.");
+		    String[] renditionParams = renditionStr.split("\\.");
 		    if (renditionParams.length >= 4) {
 		        width = "width=\"" + renditionParams[2] + "\" ";
 		        height = "height=\"" + renditionParams[3] + "\" ";
 		    }
 		}
-		
-		PrintWriter out = response.getWriter();
+
 		out.print("<img ");
 		out.print(title);
 		out.print(alt);
