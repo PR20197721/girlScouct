@@ -90,7 +90,7 @@ public void displayRendition(ResourceResolver rr, String imagePath, String rendi
 		out.print(src);
 		out.print("/>");
 	} catch (Exception e) {
-	    log.error("Canot include an image rendition: " + e.getMessage());
+	    log.error("Cannot include an image rendition: " + imagePath + "|" + renditionStr);
 	}
 }
 
