@@ -4,6 +4,8 @@
 	com.day.cq.wcm.api.Page,
 	com.day.cq.wcm.api.components.IncludeOptions" %>
 <%
+final string IMAGE_RENDITION_ATTR = "org.girlscouts.image.rendition";
+
 Page homepage = currentPage.getAbsoluteParent(2);
 ValueMap currentSite = homepage.getContentResource().adaptTo(ValueMap.class);
 %>
@@ -28,4 +30,49 @@ public String genLink(ResourceResolver rr, String link) {
         return link;
     }
 }
+
+public String displayRendition(ResourceResolver rr, String imagePath, String rendition, HttpServletResponse response) {
+	if (rendition == null) return;
+	
+	try {
+		Asset asset = resourceResolver.resolve(imagePath).adaptTo(Asset.class);
+		
+		boolean isOriginal = false;
+		Asset renditionAsset = asset.getRendition(new PrefixRenditionPicker(rendition));
+		if (rendition == null) {
+		    isOriginal = true;
+		    renditionAsset = asset.getOriginal();
+		}
+		String src = "src=\"" + renditionAsset.getPath() + "\" ";
+		
+		String alt = properties.get("alt", "");
+		if (!alt.isEmpty()) {
+		    alt = "alt=\"" + alt + "\" ";
+		}
+		String title = properties.get("jcr:title", "");
+		if (!title.isEmpty()) {
+		    title= "title=\"" + title+ "\" ";
+		}
+		String width, height;
+		if (isOriginal) {
+		    String[] renditionParams = rendition.split("\.");
+		    if (renditionParams.length >= 4) {
+		        width = "width=\"" + renditionParams[2] + "\" ";
+		        height = "height=\"" + renditionParams[3] + "\" ";
+		    }
+		}
+		
+		PrintWriter out = response.getWriter();
+		out.print("<img ");
+		out.print(title);
+		out.print(alt);
+		out.print(width);
+		out.print(height);
+		out.print(src);
+		out.print("/>");
+	} catch (Exception e) {
+	    log.error("Canot include an image rendition: " + e.getMessage());
+	}
+}
+
 %>
