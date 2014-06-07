@@ -40,7 +40,7 @@ html {
     font-size: 16px;
 }
 body {
-    background-color: #666666;
+    background-color: #6b6b6b;
     font-family: "Open Sans", Arial, sans-serif;
 }
 h1, h2, h3, h4, h5, h6 {
@@ -109,10 +109,10 @@ a:hover.menuHighlight {
     font-weight: bold;
 }
 #header a {
-    color: #fff;
+    color: #FFFFFF;
 }
 #header a:hover {
-    color: yellow;
+    color: #FAA61A;
 }
 #header a.signout {
     font-size: 0.875em;
@@ -153,7 +153,7 @@ a:hover.menuHighlight {
     background-color: #009447;
 }
 #headerBar>div{
-    padding: 3px 100px 3px 10px;
+    padding: 3px 100px 0px 10px;
 }
 
 #headerBar ul.inline-list {
@@ -165,7 +165,7 @@ a:hover.menuHighlight {
 }
 #headerBar li {
     margin: 0px;
-    padding: 0px 8px;
+    padding: 0px 8px 4px 0;
 }
 #headerBar li:hover {
    /* background-color:#063;*/
@@ -175,7 +175,7 @@ a:hover.menuHighlight {
 /* FOOTER */
 #footer {
     background-color: #00ae58;
-    padding: 15px 0px;
+    padding: 0px 0px;
 }
 #footer a {
     font-size: 0.875em;
@@ -209,6 +209,7 @@ a:hover.menuHighlight {
 /* RIGHT CONTENT */
 #rightContent {
     text-align: center;
+    padding-right: 0px;
 }
 
 /***********************************/
@@ -230,7 +231,9 @@ a:hover.menuHighlight {
     background-color: #fff;
     border: 0px;
 }
-
+.breadcrumbs a.current {
+    color: #00ae58;
+}
 /* SIDE NAV */
 #main .side-nav *{
     color: #333333;
@@ -240,7 +243,7 @@ a:hover.menuHighlight {
     list-style: none;
 }
 #main .side-nav li{
-    padding: 5px 0px 5px 15px;
+    padding: 5px 3px 5px 15px;
 }
 #main .side-nav li a:hover {
     background-color: #B0B0B0;
@@ -302,8 +305,8 @@ a:hover.menuHighlight {
 }
 
 .events-list p {
-    line-height:50%;
-    white-space:nowrap;
+    line-height:100%;
+    margin-bottom: 0.2rem;
 }
 
 .events-list .content, .news-list .content {
@@ -484,6 +487,107 @@ input.form-btn, a.form-btn {
 td.fc-header-left{
    padding-top:12px;
 }
- 
+
+/**********************************************************/
+/***************************SIDE HAMBURGER VIEW************/
+/**********************************************************/
+#right-canvas-menu a{
+    color: #ddd;
+}
+#right-canvas-menu li{
+    margin: 0px;
+}
+.right-off-canvas-menu ul {
+    list-style: none;
+}
+.right-off-canvas-menu li{
+    padding: 8px 0px 8px 15px;
+}
+#right-canvas-menu-bottom {
+	border-top: 1px solid #464646; 
+}
+#right-canvas-menu-bottom ul{
+	margin-left: 0;
+}
+.right-off-canvas-menu .side-nav li a:hover {
+    color: #ffffff;
+}
+
+.right-off-canvas-menu .side-nav li.active>a{
+  color: #ffffff;
+}
+.right-off-canvas-menu .side-nav li.divider {
+    margin: 0px;
+    padding: 0px;
+    background: none; 
+}
+.right-off-canvas-menu .side-nav .active>a {
+    font-weight: bold;
+}
+.right-off-canvas-menu a{
+    color:#ddd;
+    
+}
+
+.right-off-canvas-menu .side-nav>li>a{
+    /*font-weight: bold;*/
+}
+.right-off-canvas-menu .side-nav>li>li a{
+    font-weight: normal;
+}
+#right-canvas-menu .side-nav>li {
+    background: url('images/orange-vertical.png') repeat-y  0px 0px; 
+     
+}
+#right-canvas-menu .side-nav>li.active {
+    background: url('images/orange-yellow-vertical.png') repeat-y  0px 0px; 
+    /*background-color:#f7f7f6;*/
+}
+
+#right-canvas-menu .side-nav>li#sub-active {
+    background: url('images/orange-yellow-vertical.png') repeat-y  0px 0px; 
+    /*background-color:#f7f7f6;*/
+}
+
+.right-off-canvas-menu li{
+  font-size:0.875rem;
+}
+
+.emptyrow{
+ height:20px;
+}
+
+.logoLargePadding{
+ padding:1.35px 0 0 1.35px
+}
+
+.eyebrow-fontsize>li a{
+ font-size:0.875rem;
+
+}
+
+#header .searchField {
+  height:28px;
+  width:100%;
+}
+
+#headerBar ul li.active {
+    background: url('images/white-up-arrow.png') no-repeat  60px 0px;
+    background-position:center bottom;  
+}
+
+#header .signin{
+   color:#FFF;
+}
 
 
+#footer div.footer-navigation{
+	padding:10px 0 10px 20px;
+    background: url('images/small-trefoil.png') no-repeat;
+    background-position:center;
+}
+
+#leftContent li.active ul li.active{
+    background: url('images/small-green-arrow-right.png') no-repeat  0px 0px;
+    background-position:right 9px;  
+}

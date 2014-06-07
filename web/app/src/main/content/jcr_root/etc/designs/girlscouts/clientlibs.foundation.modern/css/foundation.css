@@ -106,7 +106,7 @@ select {
   margin-right: auto;
   margin-top: 0;
   margin-bottom: 0;
-  max-width: 60em;
+  max-width: 70em;
   *zoom: 1; }
   .row:before, .row:after {
     content: " ";
@@ -2330,8 +2330,8 @@ meta.foundation-mq-topbar {
         color: #999999;
         cursor: default; }
     .breadcrumbs > *:before {
-      content: "/";
-      color: #aaaaaa;
+      content: ">";
+      color: #00ae58;
       margin: 0 0.75rem;
       position: relative;
       top: 1px; }
@@ -4889,7 +4889,7 @@ dialog[open] {
   bottom: 0;
   position: absolute;
   overflow-y: auto;
-  background: #333333;
+ /* background: #333333;*/
   z-index: 1001;
   box-sizing: content-box;
   -webkit-overflow-scrolling: touch;

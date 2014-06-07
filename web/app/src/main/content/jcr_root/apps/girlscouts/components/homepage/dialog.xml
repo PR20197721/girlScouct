@@ -9,7 +9,7 @@
             <items jcr:primaryType="cq:WidgetCollection">
                 <basic
                     jcr:primaryType="cq:Widget"
-                    path="/libs/foundation/components/page/tab_basic.infinity.json"
+                    path="/apps/girlscouts/components/page/tab_basic.infinity.json"
                     xtype="cqinclude"/>
                 <advanced
                     jcr:primaryType="cq:Widget"

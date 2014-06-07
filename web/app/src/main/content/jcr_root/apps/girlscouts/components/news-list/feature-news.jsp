@@ -1,4 +1,4 @@
-<%@ page import="com.day.cq.wcm.api.WCMMode,com.day.cq.wcm.foundation.List,
+<%@ page import="java.text.DateFormat,com.day.cq.wcm.api.WCMMode,com.day.cq.wcm.foundation.List,
                    com.day.cq.wcm.api.components.DropTarget,com.day.cq.search.Query,com.day.cq.search.result.SearchResult,com.day.cq.search.result.Hit,
                    java.util.Map,java.util.HashMap,com.day.cq.search.QueryBuilder,com.day.cq.search.PredicateGroup,java.util.Arrays,java.util.HashSet,java.util.ArrayList,
                    java.util.Iterator,java.text.SimpleDateFormat,java.util.Date, java.text.Format,com.day.cq.dam.commons.util.DateParser"%>
@@ -12,6 +12,7 @@
 
     SearchResult results = (SearchResult)request.getAttribute("results");
     java.util.List <Hit> resultsHits = results.getHits();
+	DateFormat inFormatter = new SimpleDateFormat("MM/dd/yyyy");
 	Format formatter = new SimpleDateFormat("dd MMM yyyy");
 	 
 	Integer count =  Integer.parseInt(properties.get("count",String.class));
@@ -54,13 +55,14 @@
 
       		String newsDateStr = "";
       		if (contentNode.hasProperty("date")) {
-      			Date newsDate = contentNode.getProperty("date").getDate().getTime();
+      			String dateString = contentNode.getProperty("date").getString();
+      			Date newsDate = inFormatter.parse(dateString);
       			newsDateStr = formatter.format(newsDate);
       		}
       		
       		String newsDesc = contentNode.hasProperty("description") ? contentNode.getProperty("description").getString() : "";
       		
-      		String imgPath = contentNode.hasProperty("image/fileReference") ? contentNode.getProperty("image/fileReference").getString() : "";
+      		String imgPath = contentNode.hasProperty("middle/par/text/image/fileReference") ? contentNode.getProperty("middle/par/text/image/fileReference").getString() : "";
     %>
     	<li>
     		<div class="row">

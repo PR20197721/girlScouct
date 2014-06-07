@@ -14,6 +14,7 @@
                 <text
                     jcr:primaryType="cq:Widget"
                     editElementQuery="div[class=&quot;text&quot;]"
+                    enableSpecialChars="{Boolean}true"
                     hideLabel="{Boolean}true"
                     name="./text"
                     xtype="richtext">

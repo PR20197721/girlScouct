@@ -4,7 +4,7 @@
     <images/>
     <jcr:content
         cq:doctype="html_5"
-        cq:lastModified="{Date}2014-05-29T17:31:37.553-04:00"
+        cq:lastModified="{Date}2014-05-05T15:22:58.625-04:00"
         cq:lastModifiedBy="admin"
         cq:template="/libs/wcm/core/templates/designpage"
         jcr:primaryType="cq:PageContent"
@@ -22,11 +22,11 @@
         </homepage>
         <three-column-page jcr:primaryType="nt:unstructured">
             <par
-                jcr:lastModified="{Date}2014-05-29T17:31:37.551-04:00"
+                jcr:lastModified="{Date}2014-04-27T23:11:13.077-04:00"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="foundation/components/parsys"
-                components="group:Girl Scouts">
+                components="[group:General,group:Girl Scouts]">
                 <section jcr:primaryType="nt:unstructured"/>
             </par>
             <advertisement

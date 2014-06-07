@@ -92,6 +92,12 @@
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Search Discription"
                     name="./jcr:content/data/srchdisp"/>
+                <color
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="The color of the event in the calendar. e.g. #112233 red"
+                    fieldLabel="Color"
+                    name="./jcr:content/data/color"
+                    xtyle="colorfield"/>
             </items>
         </tab1>
         <tab4

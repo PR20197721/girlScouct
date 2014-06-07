@@ -55,24 +55,16 @@ pageContext.setAttribute("escapedQueryForAttr", escapedQueryForAttr);
    PredicateGroup predicateFullText = PredicateGroup.create(mapFullText);
    
    
-   Map otherMap  = new HashMap();
-   otherMap.put("type","nt:hierarchyNode" );
-   otherMap.put("boolproperty","jcr:content/hideInNav");
-   otherMap.put("boolproperty.value","false");
-   otherMap.put("p.limit","-1");
+   Map masterMap  = new HashMap();
+   masterMap.put("type","nt:hierarchyNode" );
+   masterMap.put("boolproperty","jcr:content/hideInNav");
+   masterMap.put("boolproperty.value","false");
+   masterMap.put("p.limit","-1");
    
-   
-   PredicateGroup other =   PredicateGroup.create(otherMap);
-   PredicateGroup master = new PredicateGroup();
+   PredicateGroup master = PredicateGroup.create(masterMap);
  
    master.add(predicatePath);
    master.add(predicateFullText);
-   master.add(other);
-   
-
-
-		
-		
 		
 Query query = queryBuilder.createQuery(master,slingRequest.getResourceResolver().adaptTo(Session.class));
 
