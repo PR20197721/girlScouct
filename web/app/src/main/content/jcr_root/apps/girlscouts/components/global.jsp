@@ -37,6 +37,10 @@ public String genLink(ResourceResolver rr, String link) {
 }
 
 public void displayRendition(ResourceResolver rr, String imagePath, String renditionStr, HttpServletResponse response) {
+	displayRendition(rr, imagePath, renditionStr, response, null);
+}
+
+public void displayRendition(ResourceResolver rr, String imagePath, String renditionStr, HttpServletResponse response, String additionalCss) {
 	if (renditionStr == null) return;
 	
 	try {
@@ -81,8 +85,14 @@ public void displayRendition(ResourceResolver rr, String imagePath, String rendi
 		        height = "height=\"" + renditionParams[3] + "\" ";
 		    }
 		}
+		
+		String css = "";
+		if (additionalCss != null) {
+			css = "class=\"" + additionalCss + "\" ";
+		}
 
 		out.print("<img ");
+		out.print(css);
 		out.print(title);
 		out.print(alt);
 		out.print(width);
