@@ -151,14 +151,14 @@
                             jcr:lastModifiedBy="admin"
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="foundation/components/image"
-                            fileReference="/content/dam/girlscouts-shared/en/banners/medium/wecome-medium-2.png"
+                            fileReference="/content/dam/girlscouts-shared/en/banners/big/welcome2.png"
                             imagesize="regular"/>
                         <medium
                             jcr:lastModified="{Date}2014-06-06T17:57:56.814-04:00"
                             jcr:lastModifiedBy="admin"
                             jcr:primaryType="nt:unstructured"
                             sling:resourceType="foundation/components/image"
-                            fileReference="/content/dam/girlscouts-shared/en/banners/big/welcome2.png"
+                            fileReference="/content/dam/girlscouts-shared/en/banners/medium/welcome-medium-2.png"
                             imagesize="medium"/>
                         <small
                             jcr:lastModified="{Date}2014-06-06T17:57:56.814-04:00"
