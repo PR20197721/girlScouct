@@ -8,7 +8,7 @@
 
     SearchResult results = (SearchResult)request.getAttribute("results");
     java.util.List <Hit> resultsHits = results.getHits();
-	DateFormat inFormatter = new SimpleDateFormat("MM/dd/yyyy");
+	DateFormat inFormatter = new SimpleDateFormat("MM/dd/yy");
 	Format formatter = new SimpleDateFormat("dd MMM yyyy");
 	 
 	Integer count =  Integer.parseInt(properties.get("count",String.class));
