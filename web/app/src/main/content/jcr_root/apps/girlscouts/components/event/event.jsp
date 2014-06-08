@@ -87,34 +87,6 @@
    // address 
    String address = properties.get("address", "");
 
-    // images
-    boolean hasImage = false;
-    try {
-        Node imageNode = currentNode.getNode("image");
-        hasImage = imageNode.hasProperty("fileReference");
-    } catch (Exception e) {}
-    
-    String fileReference = null;
-    String imgWidth = null;
-    String imgHeight = null;
-    String imgAlt = null;
-    if (hasImage) {
-		ValueMap imageProps = resourceResolver.resolve(currentNode.getPath() + "/image").adaptTo(ValueMap.class);
-		
-		fileReference = imageProps.get("fileReference", "");
-		try{
-			  Asset assets = resource.getResourceResolver().getResource(fileReference).adaptTo(Asset.class);
-			  Resource rendition =  assets.getRendition("cq5dam.web.520.520.png");
-			  fileReference = rendition.getPath();
-		}catch(Exception e){}
-	    imgWidth = imageProps.get("width", "");
-	    if (!imgWidth.isEmpty()) imgWidth = "width=\"" + imgWidth + "\"";
-	    imgHeight = imageProps.get("height", "");
-	    if (!imgHeight.isEmpty()) imgHeight = "height=\"" + imgHeight + "\"";
-	    imgAlt = imageProps.get("alt", "");
-	    if (!imgAlt.isEmpty()) imgAlt = "alt=\"" + imgAlt + "\"";
-    }
-
     //Region
     String region = properties.get("region", "");
     
@@ -134,13 +106,15 @@
 
 </div>
 
-<% if (hasImage) { %>
 <div>
 <p>	
-	<img src="<%= fileReference %>" <%= imgWidth %> <%= imgHeight %> <%= imgAlt %> />
+	<%  
+		try {
+		    String imgPath = resource.getPath() + "/image";
+			displayRendition(resourceResolver, imgPath, "cq5dam.web.520.520", pageContext);
+		} catch (Exception e) {}
+	%>
 </p>
-
-<% } %>
 </div>
  <div>
    <div class="inner">
