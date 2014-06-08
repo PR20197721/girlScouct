@@ -10,12 +10,15 @@
     <launches/>
     <usergenerated/>
     <rep:policy/>
-    <mac/>
-    <geometrixx/>
-    <geometrixx_mobile/>
     <geometrixx-media/>
     <publications/>
     <geometrixx-outdoors/>
     <geometrixx-outdoors-mobile/>
+    <communities/>
+    <mac/>
+    <geometrixx/>
+    <geometrixx_mobile/>
+    <es/>
     <girlscouts-usa/>
+    <girlscouts-vtk/>
 </jcr:root>

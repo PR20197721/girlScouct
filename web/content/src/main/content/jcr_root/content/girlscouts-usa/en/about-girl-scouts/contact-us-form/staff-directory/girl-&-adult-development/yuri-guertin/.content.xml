@@ -5,6 +5,7 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="Yuri Guertin"
         email="name@council.org"
+        hideInNav="{Boolean}true"
         phone="234-456-6789"
         team="Girl &amp; Adult Development"
         title="CDM - District 15"/>

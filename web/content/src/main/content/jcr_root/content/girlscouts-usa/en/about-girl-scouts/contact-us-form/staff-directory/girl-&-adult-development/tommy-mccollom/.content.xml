@@ -5,6 +5,7 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="Tommy Mccollom"
         email="name@council.org"
+        hideInNav="{Boolean}true"
         phone="234-456-6789"
         team="Girl &amp; Adult Development"
         title="Girl Development Assistant"/>

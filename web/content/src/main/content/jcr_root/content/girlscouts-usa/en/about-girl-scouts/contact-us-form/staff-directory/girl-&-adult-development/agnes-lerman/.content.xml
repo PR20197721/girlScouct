@@ -5,6 +5,7 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="Agnes Lerman"
         email="name@council.org"
+        hideInNav="{Boolean}true"
         phone="789-901-1234"
         team="Girl &amp; Adult Development"
         title="CDM - District 14"/>
