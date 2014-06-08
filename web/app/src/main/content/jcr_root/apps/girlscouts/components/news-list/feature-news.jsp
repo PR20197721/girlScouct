@@ -1,14 +1,18 @@
 <%@ page import="java.text.DateFormat,com.day.cq.wcm.api.WCMMode,com.day.cq.wcm.foundation.List, com.day.cq.wcm.api.components.DropTarget,com.day.cq.search.Query,com.day.cq.search.result.SearchResult,com.day.cq.search.result.Hit, java.util.Map,java.util.HashMap,com.day.cq.search.QueryBuilder,com.day.cq.search.PredicateGroup,java.util.Arrays,java.util.HashSet,java.util.ArrayList, java.util.Iterator,java.text.SimpleDateFormat,java.util.Date, java.text.Format,com.day.cq.dam.commons.util.DateParser"%>
 <%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/girlscouts/components/global.jsp"%>
 <%
 	String designPath = currentDesign.getPath();
 	String featureIcon = properties.get("fileReference", "");
 	String featureTitle = properties.get("title", "");
-	String featureLink = properties.get("urltolink", "") + ".html";
+	String featureLink = properties.get("urltolink", "");
+	if (!featureLink.isEmpty()) {
+	    featureLink = "href=\"" + genLink(resourceResolver, featureLink) + "\" ";
+	}
 
     SearchResult results = (SearchResult)request.getAttribute("results");
     java.util.List <Hit> resultsHits = results.getHits();
-	DateFormat inFormatter = new SimpleDateFormat("MM/dd/yyyy");
+	DateFormat inFormatter = new SimpleDateFormat("MM/dd/yy");
 	Format formatter = new SimpleDateFormat("dd MMM yyyy");
 	 
 	Integer count =  Integer.parseInt(properties.get("count",String.class));
@@ -24,7 +28,7 @@
 			</div>	
 			<div class="feature-title">
 				<h2>
-					<a href="<%= featureLink %>"><%= featureTitle %></a>
+					<a <%= featureLink %>"><%= featureTitle %></a>
 				</h2>
 			</div>
 		</div>
@@ -34,7 +38,7 @@
                 <img src="<%= designPath %>/images/arrow-down.png" width="30" height="30"/>
             </div>
             <div class="feature-title">
-                <h2><a href="<%= featureLink %>"><%= featureTitle %></a></h2>
+                <h2><a <%= featureLink %>"><%= featureTitle %></a></h2>
             </div>
         </div>
         <div class="medium-4 show-for-medium columns">&nbsp;</div>

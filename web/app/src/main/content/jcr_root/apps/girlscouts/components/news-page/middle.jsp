@@ -12,7 +12,7 @@
 <cq:include script="/libs/foundation/components/title/title.jsp"/>
 <%
 	String date = properties.get("date","");
-	DateFormat inFormatter = new SimpleDateFormat("MM/dd/yyyy");
+	DateFormat inFormatter = new SimpleDateFormat("MM/dd/yy");
 	DateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
 	if(date!=null && !date.isEmpty()){
 %>

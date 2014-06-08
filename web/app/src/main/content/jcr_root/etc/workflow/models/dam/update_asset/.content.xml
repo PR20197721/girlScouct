@@ -2,7 +2,7 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2014-06-07T13:51:46.541-04:00"
+        cq:lastModified="{Date}2014-06-08T11:23:03.874-04:00"
         cq:lastModifiedBy="admin"
         cq:tags="[workflow:dam]"
         cq:template="/libs/cq/workflow/templates/model"
@@ -79,19 +79,6 @@
                     PROCESS_ARGS="profile:firefoxhq,profile:hq,profile:flv"
                     PROCESS_AUTO_ADVANCE="true"/>
             </process3>
-            <process4
-                jcr:description="This process creates a web enabled rendition. E.g. a jpeg from a tiff (if the tiff file would be the original source)"
-                jcr:lastModified="{Date}2014-06-06T12:19:53.908-04:00"
-                jcr:lastModifiedBy="admin"
-                jcr:primaryType="nt:unstructured"
-                jcr:title="Web enabled rendition"
-                sling:resourceType="cq/workflow/components/model/process">
-                <metaData
-                    jcr:primaryType="nt:unstructured"
-                    PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
-                    PROCESS_ARGS="dimension:1280:1280,mimetype:image/jpeg,quality:90,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
-                    PROCESS_AUTO_ADVANCE="true"/>
-            </process4>
             <process_2
                 jcr:created="{Date}2014-06-06T12:12:39.884-04:00"
                 jcr:createdBy="admin"
@@ -107,6 +94,19 @@
                     PROCESS_ARGS="dimension:520:520,mimetype:image/jpeg,quality:90,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
                     PROCESS_AUTO_ADVANCE="true"/>
             </process_2>
+            <process4
+                jcr:description="This process creates a web enabled rendition. E.g. a jpeg from a tiff (if the tiff file would be the original source)"
+                jcr:lastModified="{Date}2014-06-08T11:23:03.872-04:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Web enabled rendition 1280x1280"
+                sling:resourceType="cq/workflow/components/model/process">
+                <metaData
+                    jcr:primaryType="nt:unstructured"
+                    PROCESS="com.day.cq.dam.core.process.CreateWebEnabledImageProcess"
+                    PROCESS_ARGS="dimension:1280:1280,mimetype:image/jpeg,quality:90,skip:application/pdf,skip:audio/mpeg,skip:video/(.*)"
+                    PROCESS_AUTO_ADVANCE="true"/>
+            </process4>
             <process_3
                 jcr:created="{Date}2014-06-06T12:12:52.994-04:00"
                 jcr:createdBy="admin"

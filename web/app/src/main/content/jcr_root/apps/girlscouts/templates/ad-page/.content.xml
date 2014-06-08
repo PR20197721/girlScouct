@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
-    jcr:description="A page with three columns -- the default Girl Scout page construction."
+    jcr:description="A piece of advertisement that will display on a page, usually on the right column. Please use scaffolding to generate an Ad."
     jcr:primaryType="cq:Template"
-    jcr:title="Three Column Page"
+    jcr:title="Advertisement"
     allowedPaths="[/content/girlscouts.*]"
-    ranking="{Long}10">
+    ranking="{Long}50">
     <jcr:content
         jcr:primaryType="cq:PageContent"
-        sling:resourceType="girlscouts/components/three-column-page"/>
+        sling:resourceType="girlscouts/components/ad-page"
+        hideInNav="{Boolean}true"/>
 </jcr:root>
