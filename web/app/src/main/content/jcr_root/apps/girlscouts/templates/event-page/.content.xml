@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
-    jcr:description="Girl Scouts Event Page"
+    jcr:description="Please use scaffolding to generate an event."
     jcr:primaryType="cq:Template"
-    jcr:title="Girl Scouts"
-    allowedPaths="[/content(/.*)?]"
-    ranking="{Long}100">
+    jcr:title="Event"
+    allowedPaths="[/content/girlscouts.*]"
+    ranking="{Long}40">
     <jcr:content
         jcr:primaryType="cq:PageContent"
         sling:resourceType="girlscouts/components/event-page"/>
