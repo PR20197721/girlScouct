@@ -86,7 +86,9 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
               <div id="left">
               	<%
               		String imgPath = propNode.getPath() + "/image";
-              		displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80", pageContext); 
+%>
+<%= displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80") %>
+<%
               	%>
              </div>  
      </div>

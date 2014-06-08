@@ -66,7 +66,7 @@ if ((null==imageNode) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
              }
            
            %><a href="<%=linkUrl%>">  
-					<% displayRendition(resourceResolver, largePath, "cq5dam.web.1120.490", pageContext, "hide-for-small hide-for-medium"); %>
+				<%= displayRendition(resourceResolver, largePath, "cq5dam.web.1120.490", "hide-for-small hide-for-medium", BREAKPOINT_MAX_LARGE) %>
               </a> 
           <%
            }
@@ -76,7 +76,7 @@ if ((null==imageNode) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
               } 
                   %>  
                <a href="<%=linkUrl%>"> 
-				<% displayRendition(resourceResolver, mediumPath, "cq5dam.web.720.420", pageContext, "show-for-medium"); %>
+				<%= displayRendition(resourceResolver, mediumPath, "cq5dam.web.720.420", "show-for-medium", BREAKPOINT_MAX_MEDIUM) %>
                </a>  
           <%   }
            if(imgNode.getProperty("imagesize").getString().equalsIgnoreCase("small")){
@@ -86,7 +86,7 @@ if ((null==imageNode) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
                    %>  
            
               <a href="<%=linkUrl%>">  
-				<% displayRendition(resourceResolver, smallPath, "cq5dam.web.320.400", pageContext, "show-for-small"); %>
+				<%= displayRendition(resourceResolver, smallPath, "cq5dam.web.320.400", "show-for-small", BREAKPOINT_MAX_SMALL) %>
               </a> 
           <%  }
       %>   

@@ -15,6 +15,10 @@ Page homepage = currentPage.getAbsoluteParent(2);
 ValueMap currentSite = homepage.getContentResource().adaptTo(ValueMap.class);
 %>
 <%!
+public static final int BREAKPOINT_MAX_LARGE = 1120;
+public static final int BREAKPOINT_MAX_MEDIUM = 1024;
+public static final int BREAKPOINT_MAX_SMALL = 640;
+
 private static Logger log = LoggerFactory.getLogger("girlscouts.components.global");
 public void setCssClasses(String tags, HttpServletRequest request) {
 	IncludeOptions opt = IncludeOptions.getOptions(request, true);
@@ -37,13 +41,13 @@ public String genLink(ResourceResolver rr, String link) {
     }
 }
 
-public void displayRendition(ResourceResolver rr, String imagePath, String renditionStr, PageContext context) {
-	displayRendition(rr, imagePath, renditionStr, context, null);
+public String displayRendition(ResourceResolver rr, String imagePath, String renditionStr) {
+	return displayRendition(rr, imagePath, renditionStr, null, -1);
 }
 
-public void displayRendition(ResourceResolver rr, String imagePath, String renditionStr, PageContext context, String additionalCss) {
-	if (renditionStr == null) return;
-	
+public String displayRendition(ResourceResolver rr, String imagePath, String renditionStr, String additionalCss, int imageWidth) {
+	if (renditionStr == null) return null;
+	StringBuffer returnImage = new StringBuffer("<img ");
 	try {
 		Resource imgResource = rr.resolve(imagePath);
 		ValueMap properties = imgResource.adaptTo(ValueMap.class);
@@ -77,31 +81,33 @@ public void displayRendition(ResourceResolver rr, String imagePath, String rendi
 
 		String width = "";
 		String height = "";
-		if (isOriginal) {
-		    String[] renditionParams = renditionStr.split("\\.");
-		    if (renditionParams.length >= 4) {
-		        width = "width=\"" + renditionParams[2] + "\" ";
-		        height = "height=\"" + renditionParams[3] + "\" ";
-		    }
-		}
+                if (imageWidth > 0) {
+                    width = "width=\"" + imageWidth + "\" ";
+                } else {
+			if (isOriginal) {
+			    String[] renditionParams = renditionStr.split("\\.");
+			    if (renditionParams.length >= 4) {
+				width = "width=\"" + renditionParams[2] + "\" ";
+				height = "height=\"" + renditionParams[3] + "\" ";
+			    }
+			}
+                }
 		
 		String css = "";
 		if (additionalCss != null) {
 			css = "class=\"" + additionalCss + "\" ";
 		}
 
-        JspWriter out = context.getOut();
-		out.print("<img ");
-		out.print(css);
-		out.print(title);
-		out.print(alt);
-		out.print(width);
-		out.print(height);
-		out.print(src);
-		out.print("/>");
+		returnImage.append(css);
+		returnImage.append(title);
+		returnImage.append(alt);
+		returnImage.append(width);
+		returnImage.append(height);
+		returnImage.append(src);
 	} catch (Exception e) {
 	    log.error("Cannot include an image rendition: " + imagePath + "|" + renditionStr);
 	}
+	returnImage.append("/>");
+        return returnImage.toString();
 }
-
 %>

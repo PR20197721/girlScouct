@@ -109,7 +109,8 @@
             <div class="small-24 medium-12 large-8 columns">
             <%
             	String imgPath = node.getPath() + "/jcr:content/data/image";
-				displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80", pageContext);
+%>
+<%= displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80")%>
             %>
             </div>
             <div class="small-24 medium-12 large-16 columns">
