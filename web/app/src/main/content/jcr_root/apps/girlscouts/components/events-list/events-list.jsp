@@ -114,7 +114,6 @@
             </div>
             <div class="small-24 medium-12 large-16 columns">
                 <h3><a href="<%= href %>"><%= title %></a></h3>
-                <p>Time: <%= time %></p>
                 <p>Date: <%= fromDate %> <% if (!toDate.isEmpty()) { %> to <%= toDate %> <% } %> </p>
                 <p>Location: <%= locationLabel %></p>
             </div>

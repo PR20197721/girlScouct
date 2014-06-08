@@ -93,9 +93,6 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
       
        <div class="small-18 medium-18 large-18 columns">
           <h4><a href="<%=href%>"><%=title %></a></h4>
-         <div class="time">
-            <b>Time:</b> <%= time %>
-         </div>
          <div class="date">
              <b>Date :</b> <%=toFormat.format(fdt)%> <%if(propNode.hasProperty("end")) {%> to <%=toFormat.format(tdt) %> <%}%>
          </div>
@@ -124,29 +121,3 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 <%
 }//for
 %>
-
-<style>
-/*.left{
-  align:left;
-  padding-left:0px;
-  padding-right:10px;
-  
-}
-
-.right{
- 
-  padding-left:0px;
-  vertical-align: text-top;
-}
-.date{
-  width:50%;
-  align:left;
-  
-}
-.time{
-  width:50%;
-  align:left;
-  padding-left:0px;
-}
-*/
-</style>  
