@@ -9,7 +9,7 @@
         cq:template="/libs/cq/workflow/templates/model"
         jcr:description="This workflow manages the update of assets for large Hero"
         jcr:primaryType="cq:PageContent"
-        jcr:title="Girl Scouts Large Logo Update Asset"
+        jcr:title="Girl Scouts Large Hero Update Asset"
         sling:resourceType="cq/workflow/components/pages/model">
         <flow
             jcr:primaryType="nt:unstructured"

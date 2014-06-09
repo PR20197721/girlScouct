@@ -8,6 +8,7 @@
 <%@ page import="org.apache.sling.commons.json.JSONArray" %>
 <%@ page import="org.apache.sling.commons.json.JSONException,com.day.cq.dam.api.Asset" %>
 <%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/girlscouts/components/global.jsp"%>
 
 <%
    Node imageNode = resource.adaptTo(Node.class);
@@ -62,58 +63,30 @@ if ((null==imageNode) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
         	 //String fileReference = imgNode.getProperty("fileReference").getString(); 
              if(imgNode.hasProperty("fileReference")){
             	  largePath = imgNode.getProperty("fileReference").getString();
-            	 
-            	  try{
-            		   assets = resource.getResourceResolver().getResource(largePath).adaptTo(Asset.class);
-            		   rendition =  assets.getRendition("cq5dam.web.1120.490.png");
-                       largePath = rendition.getPath(); 
-            		  
-            	  }catch(Exception e){
-            		 
-            	  }
-            	 
-            	 
              }
            
            %><a href="<%=linkUrl%>">  
-               <img class="hide-for-small hide-for-medium" src="<%=largePath %>"<%if(!width.isEmpty()){%> width="<%=width%>"<%}%><%if(!height.isEmpty()){%>width="<%=height%>"<%}%><%if(!alt.isEmpty()){%>alt="<%=alt%>"<%}%>>
+				<%= displayRendition(resourceResolver, largePath, "cq5dam.web.1120.490", "hide-for-small hide-for-medium", BREAKPOINT_MAX_LARGE) %>
               </a> 
           <%
            }
            if(imgNode.getProperty("imagesize").getString().equalsIgnoreCase("medium")){
               if(imgNode.hasProperty("fileReference")){
                   mediumPath = imgNode.getProperty("fileReference").getString();
-                 
-                  try{
-                        assets =   resource.getResourceResolver().getResource(mediumPath).adaptTo(Asset.class);
-                        rendition =  assets.getRendition("cq5dam.web.720.420.png");
-                       mediumPath = rendition.getPath(); 
-                      
-                  }catch(Exception e){}
-                 
               } 
                   %>  
                <a href="<%=linkUrl%>"> 
-                <img class="show-for-medium" src="<%=mediumPath %>"<%if(!width.isEmpty()){%> width="<%=width%>"<%}%><%if(!height.isEmpty()){%>width="<%=height%>"<%}%><%if(!alt.isEmpty()){%>alt="<%=alt%>"<%}%>>
+				<%= displayRendition(resourceResolver, mediumPath, "cq5dam.web.720.420", "show-for-medium", BREAKPOINT_MAX_MEDIUM) %>
                </a>  
           <%   }
            if(imgNode.getProperty("imagesize").getString().equalsIgnoreCase("small")){
         	   if(imgNode.hasProperty("fileReference")){
                    smallPath = imgNode.getProperty("fileReference").getString();
-                   
-                   try{
-                         assets = resource.getResourceResolver().getResource(smallPath).adaptTo(Asset.class);
-                         rendition =  assets.getRendition("cq5dam.web.320.400.png");
-                        smallPath = rendition.getPath(); 
-                       
-                   }catch(Exception e){}
-                   
-                  
         	     }  
                    %>  
            
               <a href="<%=linkUrl%>">  
-               <img class="show-for-small" src="<%=smallPath %>"<%if(!width.isEmpty()){%> width="<%=width%>"<%}%><%if(!height.isEmpty()){%>width="<%=height%>"<%}%><%if(!alt.isEmpty()){%>alt="<%=alt%>"<%}%>>
+				<%= displayRendition(resourceResolver, smallPath, "cq5dam.web.320.400", "show-for-small", BREAKPOINT_MAX_SMALL) %>
               </a> 
           <%  }
       %>   

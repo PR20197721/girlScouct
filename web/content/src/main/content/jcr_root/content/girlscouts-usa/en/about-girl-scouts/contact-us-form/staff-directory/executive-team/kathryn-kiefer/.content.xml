@@ -5,6 +5,7 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="Kathryn Kiefer"
         email="name@council.org"
+        hideInNav="{Boolean}true"
         phone="789-901-1234"
         team="Executive Team"
         title="Chief Marketing Officer"/>

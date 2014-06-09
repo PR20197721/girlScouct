@@ -5,6 +5,7 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="Lahoma Doyel"
         email="name@council.org"
+        hideInNav="{Boolean}true"
         phone="345-567-8901"
         team="Girl &amp; Adult Development"
         title="CDM District 12 Suburban"/>

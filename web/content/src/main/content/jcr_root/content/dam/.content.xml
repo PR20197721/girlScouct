@@ -4,10 +4,16 @@
     jcr:primaryType="sling:OrderedFolder">
     <rep:policy/>
     <jcr:content/>
-    <geometrixx/>
+    <mac/>
     <geometrixx-media/>
     <geometrixx-unlimited/>
     <geometrixx-outdoors/>
+    <geometrixx/>
     <hierarchy/>
+    <collections/>
     <girlscouts-shared/>
+    <about-girl-scouts/>
+    <for-volunteers/>
+    <cookies/>
+    <gateway/>
 </jcr:root>

@@ -34,15 +34,22 @@
 	String language = siteRoot.substring(siteRoot.lastIndexOf("/") + 1);
 %>
 	<script type="text/javascript">
+		window.onload = function(){
+		   var currentMainHeight = $('#main').height();
+		   var targetMainHeight = $(this).height() - $("#header").height() - $("#headerBar").height() - $("#footer").height() - 50;
+		   if (targetMainHeight > 1.2 * currentMainHeight) {
+		      $('#main').height(targetMainHeight);
+		   }
+		};
 		$(document).ready(function() {
 			girlscouts.components.login.init('<%= language %>', '<%= signInUrl %>', '<%= signOutUrl %>');
-
 			var name = $.cookie('girl-scout-name');
 			if (name) {
 				girlscouts.components.login.sayHello('signedin', name);	
 			} else {
 				girlscouts.components.login.genCode('<%= helloUrl %>');
 			}
+			$(window).resize();
 		});
 	</script>
 <!-- End: login logic -->

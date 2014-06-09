@@ -7,9 +7,9 @@
         cq:scaffolding="/etc/scaffolding"
         cq:tags="[workflow:dam]"
         cq:template="/libs/cq/workflow/templates/model"
-        jcr:description="This workflow manages the update of assets for large Hero"
+        jcr:description="This workflow manages the update of assets for medium Logo"
         jcr:primaryType="cq:PageContent"
-        jcr:title="Girl Scouts Large Logo Update Asset"
+        jcr:title="Girl Scouts Medium Logo Update Asset"
         sling:resourceType="cq/workflow/components/pages/model">
         <flow
             jcr:primaryType="nt:unstructured"
