@@ -186,23 +186,32 @@ function viewMeetingLibrary(meetingPath){
 		  var email_subj = document.getElementById("email_subj").value;
 		  var email_htm = document.getElementById("email_htm").value; 
 		  
-		  var urlParam = "&email_to_gp="+email_to_gp+
+		 /* var urlParam = "&email_to_gp="+email_to_gp+
 		  				"&email_to_sf="+email_to_sf+
 		  				"&email_to_tv="+email_to_tv+
 		  				"&email_cc="+ email_cc+
 		  				"&email_subj="+email_subj+
-		  				"&email_htm="+ email_htm;
+		  				"&email_htm="+ email_htm;*/
 		  //console.log(urlParam);
 		  
 		  
 		  
 		  
 		  
-		  var str = '?sendMeetingReminderEmail=true&mid='+ mid+''+ urlParam;
+		  //var str = 'mid='+ mid+''+ urlParam;
 		  $.ajax({
 		      url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
 		      type: 'POST',
-		      data: { mystring: str },
+		      data: { 
+		    	  sendMeetingReminderEmail: true,
+		    	  mid: mid,
+		 		  email_to_gp :email_to_gp,
+	  				email_to_sf:email_to_sf,
+	  				email_to_tv:email_to_tv,
+	  				email_cc:email_cc,
+	  				email_subj:email_subj,
+	  				email_htm: email_htm
+		      },
 		      success: function(result) {
 		          console.log(result);
 		      }
