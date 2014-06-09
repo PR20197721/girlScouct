@@ -1,23 +1,4 @@
 
-<%
-try{	
-	HttpSession session = request.getSession();
-	org.girlscouts.vtk.auth.models.ApiConfig apiConfig=
-			(org.girlscouts.vtk.auth.models.ApiConfig)
-				session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName());
-	if( apiConfig==null ){
-		/*
-		%><jsp:forward page="/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signin"/><% 
-		return;
-		*/
-	}
-}catch(Exception e){e.printStackTrace();}
-%>
-
-
-
-
-
 
 <%--
 

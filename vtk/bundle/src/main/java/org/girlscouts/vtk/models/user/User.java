@@ -9,6 +9,12 @@ import org.girlscouts.vtk.models.YearPlan;
 @Node
 public class User {
 
+	public User(){}
+	public User(String userId){
+		this.id=userId;
+		this.path= "/content/girlscouts-vtk/users/"+ userId;
+	}
+	
 	//@Collection private java.util.List <YearPlan> yearPlans;
 	@Field private String id, refId;
 	@Field(path=true) String path;

@@ -195,6 +195,23 @@ function viewMeetingLibrary(meetingPath){
 		  //console.log(urlParam);
 		  
 		  
+		  
+		  
+		  
+		  var str = '?sendMeetingReminderEmail=true&mid='+ mid+''+ urlParam;
+		  $.ajax({
+		      url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
+		      type: 'POST',
+		      data: { mystring: str },
+		      success: function(result) {
+		          console.log(result);
+		      }
+		  });
+		  
+		  
+		  if(true)return;
+		  
+		  
 		  var x =$.ajax({ // ajax call starts
 	          url: '/content/girlscouts-vtk/controllers/vtk.controller.html', // JQuery loads serverside.php
 	          data: 'sendMeetingReminderEmail=true&mid='+ mid+''+ urlParam, // Send value of the clicked button

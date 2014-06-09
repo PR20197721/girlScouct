@@ -30,10 +30,13 @@ public class tester3 {
 		
 		
 		ApiConfig apiConfig = new ApiConfig();
-		apiConfig.setAccessToken("00DZ000000MheRX!ARwAQBg7rM9hYds4UDT212oiiKT8WWxX1_dByAOZI3iehopp26GAgZ8m_yvBzuukwJ.bGAmPy.Li1YTfV8PUZ04T1xs3WimZ" );
+		apiConfig.setAccessToken("00DZ000000MheRX!ARwAQLqPduxwpO2pHk0WCudWp1GXzJZDsIp6fxtJLb_zLJcOgM69zkuN8VU2uhCqjzU2yYL.YoCwjPGjsnGLkmMyJZID5vdU" );
 		apiConfig.setInstanceUrl("https://cs11.salesforce.com");
-		// apiConfig.setUserId("005Z00000025MoMIAU");
+		//apiConfig.setUserId("005Z00000025MoMIAU");
 		apiConfig.setUserId("003Z000000j8I4j");//003G000001ZRqxVIAT");//701Z0000000WZA7");//005Z00000025ybG");// debra go
+		//apiConfig.setUserId("005Z00000025nQWIAY");
+		
+		
 		
 	tester3 me= new tester3();
 	
@@ -42,10 +45,12 @@ public class tester3 {
 	for(int i=0;i<campaignIds.size();i++){
 		System.err.println( "CampID: "+ campaignIds.get(i));
 	
+		/*
 		if( i==0 ){
 			me.getCampaign(apiConfig, "701Z0000000WZA7");
 			me.getGirstEmails(apiConfig, "701Z0000000WZA7", "Volunteer");
 		}
+		*/
 	}
 	
 	
@@ -774,7 +779,7 @@ public java.util.List<String> getCampaignIds(ApiConfig apiConfig){
 			httpclient.executeMethod(get);
 			
 			
-			System.err.println("RespCode "+ get.getResponseBodyAsString());
+			System.err.println("RespCode::: "+ get.getResponseBodyAsString());
 			JSONObject _response = new JSONObject(
 					new JSONTokener(new InputStreamReader(
 							get.getResponseBodyAsStream())));

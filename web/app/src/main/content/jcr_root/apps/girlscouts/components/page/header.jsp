@@ -28,10 +28,8 @@
                  
                 <div class="row">
                     <div class="large-17 medium-17 columns">&nbsp;</div>
-                    <%-- TODO: Mike Z. Temp remove sign in 
                     <% setCssClasses("large-17 medium-17 columns", request); %>
                     <cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
-                    --%>
                     <% setCssClasses("large-7 medium-7 small-24 columns searchBar", request); %>
                     <cq:include path="<%= headerPath + "/search-box" %>" resourceType="girlscouts/components/search-box" />
                 </div>
@@ -60,4 +58,9 @@
   authorable-->
 
 <cq:include script="small-screen-menus"/>
+
+<%if( request.getParameter("isSignOutSalesForce")!=null){ %>
+<iframe src="https://cs11.salesforce.com/secur/logout.jsp?display=touch" style="display:none;"></iframe>
+<div>You are successfuly loged out.......</div>
+<%}//edn if %>
 
