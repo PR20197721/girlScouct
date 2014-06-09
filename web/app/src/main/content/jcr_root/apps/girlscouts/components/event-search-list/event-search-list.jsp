@@ -72,18 +72,25 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 		      %>
 		      
 		    <div class="row">
-		       <div class="sma11-24 large-24 medium-24 column" style="padding:15px 0px 0px 10px">
-		            <%=monthName %>  <%=yr %><hr/>
+		       <div class="small-4 medium-4 large-4 column" style="padding:10px 0px 10px 15px">
+		            <%=monthName %>  <%=yr %>
 		       </div>
-		       
-		       
-		      
+		       <div class="small-20 large-20 medium-20 column" style="padding:0px 0px 2px 0px">
+		         <div id="hrStyle">
+		          <hr/>
+		         </div>
+		       </div>
+		       <div class="row">
+		         <div class="small-24 medium-24 large-24 columns">
+		           &nbsp;
+		         </div>
+		       </div>
 		    </div>   
         <% } %>
 
     <div class=row>
-      <div class="small-6 medium-6 large-6 columns">
-              <div id="left">
+      <div class="small-4 medium-4 large-4 columns">
+           <div id="paddingTop"> 
               	<%
               		String imgPath = propNode.getPath() + "/image";
 %>
@@ -93,26 +100,34 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
              </div>  
      </div>
       
-       <div class="small-18 medium-18 large-18 columns">
-          <h4><a href="<%=href%>"><%=title %></a></h4>
-         <div class="date">
-             <b>Date :</b> <%=toFormat.format(fdt)%> <%if(propNode.hasProperty("end")) {%> to <%=toFormat.format(tdt) %> <%}%>
-         </div>
-         <%if(!locationLabel.isEmpty()){ %>
-           <div class="locationLabel">
-              <b>Location: </b><%=locationLabel %>
+       <div class="small-20 large-20 medium-20 columns" style="padding-left:0px">
+         <div class="row">
+           <div class="small-24 large-24 medium-24 columns">
+               <h4><a href="<%=href%>"><%=title %></a></h4>
            </div>
-         <%} %>
+         
+         </div>
+        <div class="row">
+             <div class="small-24 large-24 medium-24 columns">
+                 <b>Date :</b> <%=toFormat.format(fdt)%> <%if(propNode.hasProperty("end")) {%> to <%=toFormat.format(tdt) %> <%}%>
+           </div>
+        </div>
+          <div class="row">
+              <div class="small-24 large-24 medium-24 columns">
+                <%if(!locationLabel.isEmpty()){ %>
+                    <div class="locationLabel">
+                      <b>Location: </b><%=locationLabel %>
+                  </div>
+                <%} %>
+                </div>
+           </div>
+          <div class="row">
+              <div class="small-24 large-24 medium-24 columns">
+                 <p><%=details%></p>
+            </div>
+          </div> 
        </div>
     </div> 
-   <div class="row">
-         <div class="small-24 large-24 medium-24 columns">
-          <p><%=details%></p>
-        </div>
-     </div>     
-
-  
-
   
     
 <%
@@ -123,3 +138,4 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 <%
 }//for
 %>
+
