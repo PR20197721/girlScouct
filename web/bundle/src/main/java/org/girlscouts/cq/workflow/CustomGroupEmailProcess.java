@@ -22,8 +22,6 @@ import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
-import org.apache.jackrabbit.api.security.user.Group;
-import org.apache.jackrabbit.api.security.user.UserManager;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.slf4j.Logger;
@@ -34,7 +32,6 @@ import com.adobe.granite.security.user.UserPropertiesManager;
 import com.day.cq.mailer.MailService;
 import com.day.cq.mailer.MessageGateway;
 import com.day.cq.mailer.MessageGatewayService;
-import com.day.cq.wcm.api.Page;
 import com.day.cq.workflow.WorkflowException;
 import com.day.cq.workflow.WorkflowSession;
 import com.day.cq.workflow.exec.WorkItem;
@@ -54,13 +51,11 @@ public class CustomGroupEmailProcess implements WorkflowProcess {
 	protected MailService mailService;
 
     private static final Logger log = LoggerFactory
-	    .getLogger(CustomGroupEmailProcess.class);
+	    .getLogger(CustomSendEmailProcess.class);
 
     @Reference
     private MessageGatewayService messageGatewayService;
 	private String initiatorEmail;
-
-	  @Reference
 
     @Property(value = "Custom Group Email Process")
     static final String LABEL = "process.label";
@@ -78,23 +73,16 @@ public class CustomGroupEmailProcess implements WorkflowProcess {
 	Workflow workflow = item.getWorkflow();
 	log.error("######## workItemPath:" + args.keySet());
 	log.error("######## workItemPath:" + item.getMetaDataMap());
-	
+	log.error("######## workItemPath:" + item.getCurrentAssignee());
 
 
 	if (workflowData.getPayloadType().equals(TYPE_JCR_PATH)) {
 	    String path = workflowData.getPayload().toString();
-		//log.error("######## path:" + "/content/girlscouts-usa/en/about-our-council");
+		log.error("######## path:" + path);
 
-		
-		Page page = (Page) resolver.resolve("/content/girlscouts-usa/en/about-our-council").adaptTo(Page.class);
-    	//Page page = (Page)resolver.adaptTo(Page.class);
-log.debug("################################");
-log.error("######## rootPATH" + page.getAbsoluteParent(2).getPath());
 	    try {
 		Session jcrSession = session.getSession();
-		//UserManager userManager = this.userManagerFactory.createUserManager(session.getSession());
-   /* 	Group groupMgr = (Group)resolver.adaptTo(Group.class);
-log.error("#@*&$@(#)*6387^98273652987356" + groupMgr.getMembers().next().toString());*/
+
 		// Get the jcr node that represents the form submission
 		Node node = (Node) jcrSession.getItem(path);
 		
@@ -223,15 +211,12 @@ log.error("#@*&$@(#)*6387^98273652987356" + groupMgr.getMembers().next().toStrin
     }
     private String getInitiatorEmail(ResourceResolver resolver, Workflow workflow){
 	    try{  
-	    	/*UserPropertiesManager upMgr = (UserPropertiesManager)resolver.adaptTo(UserPropertiesManager.class);
+	    	UserPropertiesManager upMgr = (UserPropertiesManager)resolver.adaptTo(UserPropertiesManager.class);
 	    	UserProperties initiator = null;
 	    	String initiatorId = workflow.getInitiator();
 	    	initiator = upMgr.getUserProperties(initiatorId, "profile");
 	    	log.error("WEOIFWOEIFHWEOIFRGORG" + initiator.getProperty("email"));
-	    	initiatorEmail = initiator.getProperty("email");*/
-	    	
-	    	Group groupMgr = (Group)resolver.adaptTo(Group.class);
-log.error("#@*&$@(#)*6387^98273652987356" + groupMgr.getMembers().next().toString());
+	    	initiatorEmail = initiator.getProperty("email");
 	    	}
 	    catch(Exception e){
 	    	e.printStackTrace();
