@@ -491,9 +491,23 @@ td.fc-header-left{
 /**********************************************************/
 /***************************SIDE HAMBURGER VIEW************/
 /**********************************************************/
+
+.right-off-canvas-menu.ul{
+  padding:0px;
+  margin:0px;
+}
+
+.right-off-canvas-menu a{
+    color: #ddd;
+    padding: 10px 0px 0px 10px;
+}
+
 #right-canvas-menu a{
     color: #ddd;
+    padding: 10px 0px 0px 10px;
 }
+
+
 #right-canvas-menu li{
     margin: 0px;
 }
@@ -501,14 +515,12 @@ td.fc-header-left{
     list-style: none;
 }
 .right-off-canvas-menu li{
-    padding: 8px 0px 8px 15px;
+    padding: 8px 0px 0px 5px;
 }
 #right-canvas-menu-bottom {
-	border-top: 1px solid #464646; 
+    border-top: 1px solid #464646; 
 }
-#right-canvas-menu-bottom ul{
-	margin-left: 0;
-}
+
 .right-off-canvas-menu .side-nav li a:hover {
     color: #ffffff;
 }
@@ -526,31 +538,43 @@ td.fc-header-left{
 }
 .right-off-canvas-menu a{
     color:#ddd;
+    height:50px;
+    font-size:1rem;
+   
     
 }
 
-.right-off-canvas-menu .side-nav>li>a{
-    /*font-weight: bold;*/
-}
+
 .right-off-canvas-menu .side-nav>li>li a{
     font-weight: normal;
 }
 #right-canvas-menu .side-nav>li {
     background: url('images/orange-vertical.png') repeat-y  0px 0px; 
+    
      
 }
 #right-canvas-menu .side-nav>li.active {
-    background: url('images/orange-yellow-vertical.png') repeat-y  0px 0px; 
-    /*background-color:#f7f7f6;*/
+    background: url('images/orange-yellow-vertical.png') repeat-y  0px 0px;
+    padding :0px 0px 0px 10px; 
+  
 }
 
 #right-canvas-menu .side-nav>li#sub-active {
     background: url('images/orange-yellow-vertical.png') repeat-y  0px 0px; 
-    /*background-color:#f7f7f6;*/
+  
 }
 
-.right-off-canvas-menu li{
-  font-size:0.875rem;
+
+
+
+#right-canvas-menu .side-nav ul#submenu  {
+    padding:0px;    
+  
+}
+
+
+.right-off-canvas-menu ul li{
+  font-size:1rem;
 }
 
 .emptyrow{
@@ -582,7 +606,7 @@ td.fc-header-left{
 
 
 #footer div.footer-navigation{
-	padding:10px 0 10px 20px;
+    padding:10px 0 10px 20px;
     background: url('images/small-trefoil.png') no-repeat;
     background-position:center;
 }
@@ -600,3 +624,57 @@ td.fc-header-left{
 #paddingTop{
   padding-top:10px;
 }
+
+.right-off-canvas-menu ul li.active > a{
+     background-color:#B0B0B0;
+     
+
+}
+
+ul.side-nav, li#sub-active ul, li#sub-active > ul > li > ul > li{
+  padding:0px;
+  margin:0px;
+}
+
+.side-nav li {
+    text-indent:30px;
+    }
+    
+.side-nav ul li ul li {
+    text-indent:0px;
+    }    
+    
+.side-nav li ul li {
+    text-indent:10px;
+   }  
+
+.side-nav li ul li ul li {
+    text-indent:60px;
+   } 
+
+.side-nav ul ul li {
+    text-indent:60px;
+   }  
+   
+.side-nav ul ul ul li {
+    text-indent:70px;
+   }    
+   
+
+.side-nav li ul li ul li {
+    text-indent:30px;
+   } 
+   
+li#sub-active > ul > ul >li > ul > li {
+  text-indent:80px;
+}       
+.side-nav li {
+    text-indent:10px;
+    }  
+    
+#right-canvas-menu-bottom li 
+ {
+    height:50px;
+    width:100%;
+    text-indent:-5px;
+    }
