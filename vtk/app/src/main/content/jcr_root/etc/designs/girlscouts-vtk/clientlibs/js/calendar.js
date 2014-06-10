@@ -4,7 +4,7 @@ $(function() {
   });
   
   
-function updSched(i, meetingPath, currDt){
+function updSched1(i, meetingPath, currDt){
 	
 	var date = document.getElementById("cngDate"+i).value;
 	var time = document.getElementById("cngTime"+i).value;
@@ -24,4 +24,5 @@ function updSched(i, meetingPath, currDt){
 	   	  if ( status != "error" ) {}else{}
 	   	 });
 	
+	document.location="/content/girlscouts-vtk/en/vtk.plan.html";
 }

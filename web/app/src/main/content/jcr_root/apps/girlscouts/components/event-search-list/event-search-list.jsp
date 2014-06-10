@@ -1,5 +1,6 @@
 <%@ page import="com.day.cq.tagging.TagManager,com.day.cq.dam.api.Asset,java.util.ArrayList,java.util.HashSet,java.text.DateFormat,java.text.SimpleDateFormat,java.util.Date, java.util.Locale,java.util.Map,java.util.Iterator,java.util.HashMap,java.util.List,java.util.Set,com.day.cq.search.result.SearchResult, java.util.ResourceBundle,com.day.cq.search.QueryBuilder,javax.jcr.PropertyIterator,org.girlscouts.web.events.search.SearchResultsInfo, com.day.cq.i18n.I18n,org.apache.sling.api.resource.ResourceResolver,org.girlscouts.web.events.search.EventsSrch,org.girlscouts.web.events.search.FacetsInfo,java.util.Calendar,java.util.TimeZone" %>
 <%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/girlscouts/components/global.jsp"%>
 <cq:includeClientLib categories="apps.girlscouts" />
 <cq:defineObjects/>
 <% 
@@ -71,69 +72,62 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 		      %>
 		      
 		    <div class="row">
-		       <div class="sma11-24 large-24 medium-24 column" style="padding:15px 0px 0px 10px">
-		            <%=monthName %>  <%=yr %><hr/>
+		       <div class="small-4 medium-4 large-4 column" style="padding:10px 0px 10px 15px">
+		            <%=monthName %>  <%=yr %>
 		       </div>
-		       
-		       
-		      
+		       <div class="small-20 large-20 medium-20 column" style="padding:0px 0px 2px 0px">
+		         <div id="hrStyle">
+		          <hr/>
+		         </div>
+		       </div>
+		       <div class="row">
+		         <div class="small-24 medium-24 large-24 columns">
+		           &nbsp;
+		         </div>
+		       </div>
 		    </div>   
-        <% }
-			  // Image
-			  boolean hasImage = propNode.hasNode("image");
-			  String fileReference = null;
-		      String imgWidth = null;
-		      String imgHeight = null;
-		      String imgAlt = null;
-	    	  if (hasImage) {
-			        ValueMap imageProps = resourceResolver.resolve(propNode.getPath() + "/image").adaptTo(ValueMap.class);
-			        fileReference = imageProps.get("fileReference", "");
-			        try{
-			            Asset assets = resource.getResourceResolver().getResource(fileReference).adaptTo(Asset.class);
-   			        	Resource rendition =  assets.getRendition("cq5dam.thumbnail.120.80.png");
-			        	fileReference = rendition.getPath();
-			        }catch(Exception e){}
-			        imgWidth = imageProps.get("width", "");
-			        if (!imgWidth.isEmpty()) imgWidth = "width=\"" + imgWidth + "\"";
-			        imgHeight = imageProps.get("height", "");
-			        if (!imgHeight.isEmpty()) imgHeight = "height=\"" + imgHeight + "\"";
-			        imgAlt = imageProps.get("alt", "");
-			        if (!imgAlt.isEmpty()) imgAlt = "alt=\"" + imgAlt + "\"";
-			    } 
-		%>
+        <% } %>
 
     <div class=row>
-      <div class="small-6 medium-6 large-6 columns">
-        <%if(hasImage) {%>
-              <div id="left">
-                  <img src="<%= fileReference %>" <%= imgWidth %> <%= imgHeight %> <%= imgAlt %> />
+      <div class="small-4 medium-4 large-4 columns">
+           <div id="paddingTop"> 
+              	<%
+              		String imgPath = propNode.getPath() + "/image";
+%>
+<%= displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80") %>
+<%
+              	%>
              </div>  
-      <%} %> 
      </div>
       
-       <div class="small-18 medium-18 large-18 columns">
-          <h4><a href="<%=href%>"><%=title %></a></h4>
-         <div class="time">
-            <b>Time:</b> <%= time %>
-         </div>
-         <div class="date">
-             <b>Date :</b> <%=toFormat.format(fdt)%> <%if(propNode.hasProperty("end")) {%> to <%=toFormat.format(tdt) %> <%}%>
-         </div>
-         <%if(!locationLabel.isEmpty()){ %>
-           <div class="locationLabel">
-              <b>Location: </b><%=locationLabel %>
+       <div class="small-20 large-20 medium-20 columns" style="padding-left:0px">
+         <div class="row">
+           <div class="small-24 large-24 medium-24 columns">
+               <h4><a href="<%=href%>"><%=title %></a></h4>
            </div>
-         <%} %>
+         
+         </div>
+        <div class="row">
+             <div class="small-24 large-24 medium-24 columns">
+                 <b>Date :</b> <%=toFormat.format(fdt)%> <%if(propNode.hasProperty("end")) {%> to <%=toFormat.format(tdt) %> <%}%>
+           </div>
+        </div>
+          <div class="row">
+              <div class="small-24 large-24 medium-24 columns">
+                <%if(!locationLabel.isEmpty()){ %>
+                    <div class="locationLabel">
+                      <b>Location: </b><%=locationLabel %>
+                  </div>
+                <%} %>
+                </div>
+           </div>
+          <div class="row">
+              <div class="small-24 large-24 medium-24 columns">
+                 <p><%=details%></p>
+            </div>
+          </div> 
        </div>
     </div> 
-   <div class="row">
-         <div class="small-24 large-24 medium-24 columns">
-          <p><%=details%></p>
-        </div>
-     </div>     
-
-  
-
   
     
 <%
@@ -145,28 +139,3 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 }//for
 %>
 
-<style>
-/*.left{
-  align:left;
-  padding-left:0px;
-  padding-right:10px;
-  
-}
-
-.right{
- 
-  padding-left:0px;
-  vertical-align: text-top;
-}
-.date{
-  width:50%;
-  align:left;
-  
-}
-.time{
-  width:50%;
-  align:left;
-  padding-left:0px;
-}
-*/
-</style>  

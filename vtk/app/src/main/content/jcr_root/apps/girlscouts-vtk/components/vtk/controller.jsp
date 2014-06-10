@@ -14,9 +14,11 @@
 	CalendarUtil calendarUtil = sling.getService(CalendarUtil.class);
 	LocationUtil locationUtil = sling.getService(LocationUtil.class);
 	MeetingUtil meetingUtil = sling.getService(MeetingUtil.class);
-
+	EmailUtil emailUtil = sling.getService(EmailUtil.class);
+System.err.println("controller");
 if( request.getParameter("isMeetingCngAjax") !=null){
 	
+	System.err.println("contr : meeting rearg");
 	meetingUtil.changeMeetingPositions( (User) session.getValue("VTK_user"),
 			request.getParameter("isMeetingCngAjax") );
 	
@@ -118,6 +120,35 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	meetingUtil.editAgendaDuration((User)session.getValue("VTK_user"), Integer.parseInt(request.getParameter("editAgendaDuration")), 
 			request.getParameter("aid"),
 			request.getParameter("mid"));
+}else if( request.getParameter("revertAgenda") !=null ){
+	
+	meetingUtil.reverAgenda((User)session.getValue("VTK_user"),  request.getParameter("mid") );
+	
+}else if( request.getParameter("sendMeetingReminderEmail") !=null ){
+	  
+	System.err.println("EMAILINGGGGGGG");
+	
+	  String email_to_gp =request.getParameter("email_to_gp");
+	  String email_to_sf =request.getParameter("email_to_sf");
+	  String email_to_tv =request.getParameter("email_to_tv");
+	  String cc = request.getParameter("email_to_cc");
+	  String subj = request.getParameter("email_subj");
+	  String html = request.getParameter("email_htm"); 
+	  
+	  System.err.println("contrHTML: "+ html);
+	  
+	  EmailMeetingReminder emr = new EmailMeetingReminder(null, null, cc, subj, html);
+	  emr.setEmailToGirlParent(email_to_gp);
+	  emr.setEmailToSelf(email_to_sf);
+	  emr.setEmailToTroopVolunteer(email_to_tv);
+	  
+	  User user = (User)session.getValue("VTK_user");
+	  user.setApiConfig((org.girlscouts.vtk.auth.models.ApiConfig)session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
+	  
+	  
+	  emailUtil.sendMeetingReminder((User)session.getValue("VTK_user"), emr);
+	  
+	  
 }else{
 	
 	//TODO throw ERROR CODE

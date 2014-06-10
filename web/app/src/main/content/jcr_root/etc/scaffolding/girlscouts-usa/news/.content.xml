@@ -5,7 +5,7 @@
         cq:lastModified="{Date}2009-04-01T12:27:34.647+02:00"
         cq:lastModifiedBy="admin"
         cq:targetPath="/content/girlscouts-usa/en/news"
-        cq:targetTemplate="/apps/girlscouts/templates/news"
+        cq:targetTemplate="/apps/girlscouts/templates/news-page"
         jcr:description="Girl Scouts News Scaffolding"
         jcr:primaryType="cq:PageContent"
         jcr:title="News"

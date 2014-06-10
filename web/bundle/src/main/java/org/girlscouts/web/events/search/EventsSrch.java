@@ -86,8 +86,7 @@ public class EventsSrch
 		searchQuery.put("orderby.sort", "asc");
 
 		
-		//Check if the query is null
-		System.out.println("Query Parameter" +q);
+		log.debug("Query Parameter : " +q);
 		
 		if(tags!=null){
 			addToDefaultQuery(searchQuery,tags);

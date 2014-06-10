@@ -209,6 +209,7 @@ a:hover.menuHighlight {
 /* RIGHT CONTENT */
 #rightContent {
     text-align: center;
+    padding-right: 0px;
 }
 
 /***********************************/
@@ -304,8 +305,8 @@ a:hover.menuHighlight {
 }
 
 .events-list p {
-    line-height:50%;
-    white-space:nowrap;
+    line-height:100%;
+    margin-bottom: 0.2rem;
 }
 
 .events-list .content, .news-list .content {
@@ -588,5 +589,14 @@ td.fc-header-left{
 
 #leftContent li.active ul li.active{
     background: url('images/small-green-arrow-right.png') no-repeat  0px 0px;
-    background-position:right center;  
+    background-position:right 9px;  
+}
+
+#hrStyle >hr{
+  border-color:#9C9C9C;
+  border-width:1px 0px 0px 0px;
+}
+
+#paddingTop{
+  padding-top:10px;
 }

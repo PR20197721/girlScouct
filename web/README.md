@@ -28,3 +28,24 @@ The CRX host and port can be specified on the command line with:
 mvn -Dcrx.host=otherhost -Dcrx.port=5502 <goals>
 
 
+DAM Image Renditions
+----------------
+
+If you find that after importing a package in the DAM that renditions are not created, you will need to manually navigate to the item in the DAM (e.g.http://localhost:4502/damadmin#/content/dam/girlscouts-shared/en/banners/big/welcome2.png), click Edit... and save (without any changes).  This will re-run the corresponding rendition workflow.  If the renditions are not generated, you likely have STALE workflows that need to be cleared (usually resulting from flawed content imports).  Go to http://localhost:4502/libs/cq/workflow/content/console.html Instances tab and terminate or restart workflows so that the queue is able to reach the asset rendition workflows.
+
+
+Fixing the internal Lucene Index
+--------------------------------
+CQ relies on a Lucene indexes to properly maintain functionality.  Importing content may cause these indexes to get out of sync with new and deleted files.  To completely rebuild the index, simply remove the following folder in your running CQ instance:
+	crx-quickstart/repository/workspaces/crx.default/index/
+
+If you want to repair the indexes, modify crx-quickstart/repository/workspaces/crx.default/workspace.xml by appending the three parammeters below accordingly and restart:
+
+<SearchIndex class="com.day.crx.query.lucene.LuceneHandler">
+    ... existing config
+    <param name="enableConsistencyCheck" value="true" />
+    <param name="forceConsistencyCheck" value="true" />
+    <param name="autoRepair" value="true" />
+</SearchIndex>
+
+Remove the three parameters when complete or the repair and check will re-run every time the app starts up.

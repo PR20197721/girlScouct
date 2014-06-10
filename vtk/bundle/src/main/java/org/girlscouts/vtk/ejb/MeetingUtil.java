@@ -84,7 +84,10 @@ public class MeetingUtil {
 		int count=0;
 		while( t.hasMoreElements()){
 			
-			sched.put( new java.util.Date( Long.parseLong( (t.nextToken() ) ) ) , meetingEs.get(count));
+			try{
+				//if( meetingEs.size()<=count) continue; //dates more then meetings. on delete maybe?
+				sched.put( new java.util.Date( Long.parseLong( (t.nextToken() ) ) ) , meetingEs.get(count));
+			}catch(Exception e){e.printStackTrace();}
 			count++;
 		}
 	}else{ //no dates: create 1976
@@ -110,23 +113,29 @@ public class MeetingUtil {
 	
 	public void changeMeetingPositions(User user, String newPositions){
 		
+		
+		
 		java.util.List <Integer> newMeetingSetup= new java.util.ArrayList();
 		java.util.StringTokenizer t= new java.util.StringTokenizer( newPositions, ",");
 		while( t.hasMoreElements() )
 			newMeetingSetup.add( Integer.parseInt( t.nextToken() ));
 		
+		
+		
 		MeetingUtil meetingUtil = new MeetingUtil();
 		
 		
-		java.util.List<MeetingE> rearangedMeetings = 
-		           meetingUtil.updateMeetingPos( user.getYearPlan().getMeetingEvents(), newMeetingSetup);
-
-		
+	
+		java.util.List<MeetingE> rearangedMeetings = null;
+		try{
+			rearangedMeetings=  updateMeetingPos( user.getYearPlan().getMeetingEvents(), newMeetingSetup);
+	}catch(Exception e){e.printStackTrace();}
+				
 		
 		YearPlan plan = user.getYearPlan();
 		plan.setMeetingEvents(rearangedMeetings);
+	
 		user.setYearPlan(plan);
-		
 		userDAO.updateUser(user);
 		
 		
@@ -179,7 +188,7 @@ public class MeetingUtil {
 		
 	}
 	
-	public void swapMeetings(User user, String fromPath, String toPath){
+	public    void swapMeetings(User user, String fromPath, String toPath){
 		
 		java.util.List<MeetingE> meetings = user.getYearPlan().getMeetingEvents();
 		for(int i=0;i<meetings.size();i++){
@@ -328,4 +337,31 @@ public class MeetingUtil {
 		
 	}
 	
+	
+	
+
+	
+	public  void reverAgenda(User user, String meetingPath){
+		 
+		 MeetingE meeting= null;
+		 for(int i=0;i<user.getYearPlan().getMeetingEvents().size();i++)
+			 if( user.getYearPlan().getMeetingEvents().get(i).getPath().equals(meetingPath))
+				  meeting =user.getYearPlan().getMeetingEvents().get(i);
+		 
+		 String[] split = meeting.getRefId().split("/");
+		 String file= split[7];
+		 file= file.substring(0, file.indexOf("_"));
+		 
+		 java.util.List< Meeting> __meetings=  meetingDAO.search();
+		 for(int i=0;i<__meetings.size();i++){
+				Meeting __meeting = __meetings.get(i);
+				if( __meeting.getPath().endsWith(file) ){
+						swapMeetings(user, meetingPath, __meeting.getPath());
+						return;
+				}
+		 }
+		 
+		 
+		
+	}
 }

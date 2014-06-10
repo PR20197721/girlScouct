@@ -19,6 +19,7 @@ import org.apache.jackrabbit.ocm.query.QueryManager;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.JcrCollectionHoldString;
+import org.girlscouts.vtk.models.JcrNode;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.user.User;
@@ -266,6 +267,7 @@ public Meeting createCustomMeeting(User user, MeetingE meetingEvent, Meeting mee
 		classes.add(Meeting.class);
 		classes.add(Activity.class);
 		classes.add(JcrCollectionHoldString.class);
+		classes.add(JcrNode.class);
 		
 		Mapper mapper = new AnnotationMapperImpl(classes);
 		ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
@@ -276,6 +278,15 @@ public Meeting createCustomMeeting(User user, MeetingE meetingEvent, Meeting mee
 		//String newPath = meetingEvent.getPath()+"/"+meeting.getId()+"_"+Math.random();
 		String newPath = user.getPath()+"/lib/meetings/"+meeting.getId()+"_"+Math.random();
 		System.err.println("New Custom Meet path : "+ newPath );
+		
+		if( !session.itemExists(user.getPath()+"/lib/meetings/") ){
+			ocm.insert( new JcrNode(user.getPath()+"/lib") );
+			ocm.insert( new JcrNode(user.getPath()+"/lib/meetings") );
+			ocm.save();
+		}
+	
+		
+	
 		
 		meetingEvent.setRefId(newPath);
 		meeting.setPath(newPath);

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-06-06T06:59:55.778-04:00"
+        cq:lastModifiedBy="admin"
+        cq:lastReplicated="{Date}2014-06-06T15:42:18.954-04:00"
+        cq:lastReplicatedBy="admin"
+        cq:lastReplicationAction="Activate"
+        cq:scaffolding="/etc/scaffolding/girlscouts-usa/event"
+        cq:tags="[]"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="American Red Cross First Aid/CPR/AED Certification"
+        jcr:uuid="aa1b1428-d2d0-477b-8503-84f1a9c7d90f"
+        sling:resourceType="girlscouts/components/event-page">
+        <data
+            jcr:primaryType="nt:unstructured"
+            details="&lt;p>Each troop is required to have a certified adult who can render first aid and CPR when camping and/or are participating in activities that meet the Safety Activity check point requiremnet for needing a first aider. Please bring a towel or yoga mat to kneel on, bag meal, and a water bottle. Participant Manual must be purchased by any participant who does not already have one.&lt;/p>&#xa;&lt;p>&lt;a href=&quot;https://gsusa.ebiz.uapps.net/vp/default.aspx?pid=7&quot; target=&quot;_blank&quot;>Register This Event&lt;/a>&lt;br>&#xa;&lt;/p>&#xa;"
+            end="{Date}2014-07-15T06:58:53.000-04:00"
+            locationLabel="Raleigh Service Center-Wake County"
+            srchdisp="Each troop is required to have a certified adult who can render first aid and CPR when camping and/or are participating in activities that meet the Safety Activity check point requirement for needing a first aider. "
+            start="{Date}2014-07-15T06:58:00.000-04:00">
+            <image
+                jcr:lastModified="{Date}2014-06-06T06:59:55.773-04:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/image"
+                fileReference="/content/dam/girlscouts-shared/en/upcoming_events"
+                imageRotate="0"/>
+        </data>
+    </jcr:content>
+</jcr:root>

@@ -5,6 +5,7 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="Kevin Brown"
         email="name@council.org"
+        hideInNav="{Boolean}true"
         phone="901-123-3456"
         team="Camping Services"
         title="Ranger, Tuckaho"/>

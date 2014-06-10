@@ -19,8 +19,14 @@
         				  cache: false
         				})
         				  .done(function( html ) {
-        					  loadMeetings();
-        					  yesPlan();
+        					  
+        					  
+        					 loadMeetings();
+        					  
+        					 //yesPlan();
+        					 
+        					location.reload();
+        					  
         				  });
         			 
         			
@@ -54,27 +60,18 @@
         		   function doUpdMeeting(){
         			
         			   var newVals = getNewMeetingSetup();
-        			   
-        			   
+        			   console.log("doUpd");
+        			   console.log( newVals)
         			   var x =$.ajax({ // ajax call starts
-        			          url: '/content/girlscouts-vtk/controllers/vtk.controller.html?isMeetingCngAjax='+ newVals, // JQuery loads serverside.php
+        				   url: '/content/girlscouts-vtk/controllers/vtk.controller.html?isMeetingCngAjax='+ newVals, // JQuery loads serverside.php
         			          data: '', // Send value of the clicked button
+        			          
         			          dataType: 'html', // Choosing a JSON datatype
-        			          success: function (data) { 
-        			              
-        			             
-        			              loadMeetings();
-        			              
-        			          },
-        			   			error: function (data) { 
-        			   				
-        			   			}
-        			      });
+        			          
+        			      })
+        			      .done(function( html ) { loadMeetings();});
         			     
-        			 
-        			   
-        				
-        				
+        			   console.log("doUpd end")
         				
         		   }
         		   
@@ -160,13 +157,19 @@
         }
         
         function yesPlan(){
+        	
+        	
         	if( document.getElementById('div1').style.display=='none' ){
+        		
         		document.getElementById('div1').style.display='block';
         		document.getElementById('div2').style.display='none';	
         	}else{
+        		
         		document.getElementById('div2').style.display='block';
         		document.getElementById('div1').style.display='none';
         	}
+        	
+        	
         }
         
         function addLocation(){

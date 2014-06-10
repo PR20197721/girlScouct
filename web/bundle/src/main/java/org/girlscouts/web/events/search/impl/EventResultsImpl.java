@@ -71,8 +71,11 @@ public class EventResultsImpl implements EventResults {
 				for(Bucket bucket: fat.getBuckets()){
 					TagManager tagMgr = slingRequest.getResourceResolver().adaptTo(TagManager.class);
 					Tag tag = tagMgr.resolve(bucket.getValue());
-					sResults.createFacetsWithTag(tag.getParent().getName(),tag.getTitle(), bucket.getCount());
-					
+                                        if (tag != null) {
+						sResults.createFacetsWithTag(tag.getParent().getName(),tag.getTitle(), bucket.getCount());
+                                        } else {
+                                            log.error(">>>>> Unable to resolve tag " + bucket.getValue());
+                                        }
 				}
 			}	
 		}

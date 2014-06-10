@@ -1,4 +1,3 @@
-<style>
 /*!
  * FullCalendar v1.6.4 Stylesheet
  * Docs & License: http://arshaw.com/fullcalendar/
@@ -621,9 +620,7 @@ th.fc-widget-header{
 
 
 
-    #calendar {
-       /* width: 900px;*/
-        margin: 0 auto;
-        }
-
-</style>
+#calendar {
+	/* width: 900px;*/
+    margin: 0 auto;
+}

@@ -1,4 +1,3 @@
-
 <%@ page import="com.day.cq.tagging.TagManager,java.util.ArrayList,
             java.util.HashSet,java.text.DateFormat,
             java.text.SimpleDateFormat,java.util.Date,
@@ -11,6 +10,7 @@
             org.girlscouts.web.events.search.EventsSrch,org.girlscouts.web.events.search.FacetsInfo,java.util.Calendar,java.util.TimeZone,com.day.cq.dam.api.Asset"%>
 
 <%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/girlscouts/components/global.jsp"%>
 <!-- apps/girlscouts/components/events-list/events-list.jsp -->
 <cq:includeClientLib categories="apps.girlscouts" />
 <cq:defineObjects />
@@ -26,9 +26,8 @@
 	DateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.S");
 	fromFormat.setCalendar(Calendar.getInstance(TimeZone.getTimeZone("GMT")));
 	DateFormat dateFormat = new SimpleDateFormat("EEE dd MMM yyyy");
-	DateFormat timeFormat = new SimpleDateFormat("KK:mm a");
+	DateFormat timeFormat = new SimpleDateFormat("hh:mm a");
 	List<String> results = srchInfo.getResults();
-
 	int eventcounts = 0;
 	String key = "";
 	String value = "";
@@ -38,7 +37,6 @@
 			eventcounts = results.size();
 		}
 	}
-
 	String designPath = currentDesign.getPath();
 	String iconImg = properties.get("fileReference", String.class);
 	String eventsLink = properties.get("urltolink", "") + ".html";
@@ -72,6 +70,7 @@
      Calendar cal1 = Calendar.getInstance();
      cal1.setTime(today);
      int count = 0;
+    // DateFormat timeFormat = new SimpleDateFormat("KK:mm a");
      
      for(String result: results){
     	 Node node = resourceResolver.getResource(result).adaptTo(Node.class);
@@ -82,54 +81,39 @@
          String href = result+".html";
          String time = "";
          String todate="";
+         String toDate="";
          Date tdt = null;
          String locationLabel = "";
          if(fdt.equals(today) || fdt.after(today)){
-        	 if(propNode.hasProperty("time"))
-             {
-                time = propNode.getProperty("time").getString(); 
-             }
-             if(propNode.hasProperty("locationLabel")){
+        	 
+        	 time = timeFormat.format(propNode.getProperty("start").getDate().getTime());
+        	 
+        	 if(propNode.hasProperty("locationLabel")){
                  locationLabel=propNode.getProperty("locationLabel").getString();
              }
              if(propNode.hasProperty("end")){
-                 todate = propNode.getProperty("end").getString();
-                 tdt = fromFormat.parse(todate);
+                 //toDate = dateFormat.format(propNode.getProperty("end").getDate());
+                 tdt = fromFormat.parse(propNode.getProperty("end").getString());
+                 toDate = dateFormat.format(tdt);
+                 time+= " to " + timeFormat.format(propNode.getProperty("end").getDate().getTime());
              }
              
              String fromDate = dateFormat.format(fdt);
-             String toDate = dateFormat.format(tdt);
-             boolean hasImage = propNode.hasNode("image");
+            
+             boolean hasImage = false;
              String fileReference = null;
-             String imgWidth = null;
-             String imgHeight = null;
-             String imgAlt = null;
-             if (hasImage) {
-                   ValueMap imageProps = resourceResolver.resolve(propNode.getPath() + "/image").adaptTo(ValueMap.class);
-                   fileReference = imageProps.get("fileReference", "");
-                   try{
-                   Asset assets = resource.getResourceResolver().getResource(fileReference).adaptTo(Asset.class);
-                   Resource rendition =  assets.getRendition("cq5dam.thumbnail.120.80.png");
-                   fileReference = rendition.getPath();
-                   }catch(Exception e){}
-                   imgWidth = imageProps.get("width", "");
-                   if (!imgWidth.isEmpty()) imgWidth = "width=\"" + imgWidth + "\"";
-                   imgHeight = imageProps.get("height", "");
-                   if (!imgHeight.isEmpty()) imgHeight = "height=\"" + imgHeight + "\"";
-                   imgAlt = imageProps.get("alt", "");
-                   if (!imgAlt.isEmpty()) imgAlt = "alt=\"" + imgAlt + "\"";
-               } 
              count++;
            %> 
      <li>
         <div class="row">
             <div class="small-24 medium-12 large-8 columns">
-              
-                <img src="<%= fileReference %>" <%= imgWidth %> <%= imgHeight %> <%= imgAlt %> />
+            <%
+            	String imgPath = node.getPath() + "/jcr:content/data/image";
+%>
+<%= displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80")%>
             </div>
             <div class="small-24 medium-12 large-16 columns">
                 <h3><a href="<%= href %>"><%= title %></a></h3>
-                <p>Time: <%= time %></p>
                 <p>Date: <%= fromDate %> <% if (!toDate.isEmpty()) { %> to <%= toDate %> <% } %> </p>
                 <p>Location: <%= locationLabel %></p>
             </div>

@@ -2,6 +2,7 @@ package org.girlscouts.vtk.impl.servlets;
 
 import java.util.Dictionary;
 
+import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpSession;
 
 import org.apache.felix.scr.annotations.Activate;
@@ -13,14 +14,17 @@ import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
-import org.girlscouts.vtk.impl.auth.dao.SalesforceDAO;
-import org.girlscouts.vtk.impl.auth.dao.SalesforceDAOFactory;
-import org.girlscouts.vtk.impl.auth.models.ApiConfig;
-import org.girlscouts.vtk.impl.auth.models.User;
+import org.girlscouts.vtk.auth.dao.SalesforceDAO;
+import org.girlscouts.vtk.auth.dao.SalesforceDAOFactory;
+import org.girlscouts.vtk.auth.models.ApiConfig;
+import org.girlscouts.vtk.auth.models.User;
 import org.girlscouts.vtk.impl.helpers.ConfigListener;
 import org.girlscouts.vtk.impl.helpers.ConfigManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.*;
+import java.net.*;
 
 @Component(
     label="Girl Scouts VTK Salesforce Authentication Servlet",
@@ -100,9 +104,28 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
     }
 
     private void signOut(SlingHttpServletRequest request, SlingHttpServletResponse response) {
-        HttpSession session = request.getSession();
+        
+    	boolean isLogoutApi=false, isLogoutWeb=false;
+    	
+    	HttpSession session = request.getSession();
+    	ApiConfig apiConfig = (ApiConfig) session.getAttribute(ApiConfig.class.getName());
+    	if( apiConfig!=null){
+    		try{ isLogoutApi = logoutApi(apiConfig); }catch(Exception e){e.printStackTrace();}
+    		try{ isLogoutWeb = logoutWeb(apiConfig); }catch(Exception e){e.printStackTrace();}
+    	}//edn if
+    	
+    	System.err.println("Logout: "+ isLogoutApi +" :" + isLogoutWeb);
+    	
+    	//HttpSession session = request.getSession();
         session.invalidate();
         String referer = request.getHeader("referer");
+       
+        
+        referer="/content/girlscouts-usa/en.html";
+        System.err.println("Refeferffff: "+ referer);
+        referer= referer.contains("?") ? (referer = referer +"&isSignOutSalesForce=true") : 
+        	(referer = referer +"?isSignOutSalesForce=true") ;
+        System.err.println("Refeferffff after: "+ referer);
         redirect(response, referer);
     }
     
@@ -137,4 +160,123 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
             log.error("Error while sending redirect: " + redirectUrl);
         }
     }
+    
+    
+    
+    
+    
+  //aPI logout
+  	public boolean logoutApi(ApiConfig apiConfig) throws Exception{
+  		
+  		DataOutputStream wr=null;
+  		boolean isSucc=false;
+  		URL obj=null;
+  		HttpsURLConnection con =null;
+  		
+  		try{
+  		String url = "https://test.salesforce.com/services/oauth2/revoke"; //DYNAMIC 
+  		obj = new URL(url);
+  		con= (HttpsURLConnection) obj.openConnection();
+  		
+  		con.setRequestMethod("POST");
+  		con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+  		String urlParameters = "token="+ apiConfig.getAccessToken();
+  		con.setDoOutput(true);
+  		wr= new DataOutputStream(con.getOutputStream());
+  		wr.writeBytes(urlParameters);
+  		
+  		wr.flush();
+  		wr.close();
+   
+  		int responseCode = con.getResponseCode();
+  		if( responseCode==200)
+  			isSucc=true;
+   
+  		
+  		}catch(Exception e){e.printStackTrace();
+  		}finally{
+  			try{
+  				wr=null;
+  				obj=null;
+  				con=null;
+  			}catch(Exception e){
+  				e.printStackTrace();
+  			}
+  		}
+  		
+  		
+  		return isSucc;
+  	}
+  	
+  	
+  	
+  	//web salesforce logout
+  public boolean logoutWeb(ApiConfig apiConfig) throws Exception{
+  		
+  		DataOutputStream wr=null;
+  		boolean isSucc=false;
+  		URL obj=null;
+  		HttpsURLConnection con =null;
+  		
+  		try{
+  		String url = apiConfig.getInstanceUrl() +"/secur/logout.jsp?display=touch"; //DYNAMIC 
+  		obj = new URL(url);
+  		con= (HttpsURLConnection) obj.openConnection();
+  		
+  		con.setRequestMethod("POST");
+  		con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+  		String urlParameters = "token="+ apiConfig.getAccessToken();
+  		con.setDoOutput(true);
+  		wr= new DataOutputStream(con.getOutputStream());
+  		wr.writeBytes(urlParameters);
+  		wr.flush();
+  		wr.close();
+   
+  		int responseCode = con.getResponseCode();
+  		if( responseCode==200)
+  			isSucc=true;
+   
+  		
+  		
+  		
+  		
+  		/*
+  		
+  		System.out.println("\nSending 'POST' request to URL : " + url);
+  		System.out.println("Post parameters : " + urlParameters);
+  		System.out.println("Response Code : " + responseCode);
+   
+  		BufferedReader in = new BufferedReader(
+  		        new InputStreamReader(con.getInputStream()));
+  		String inputLine;
+  		StringBuffer response = new StringBuffer();
+   
+  		while ((inputLine = in.readLine()) != null) {
+  			response.append(inputLine);
+  		}
+  		in.close();
+   
+  		//print result
+  		System.out.println(response.toString());
+  		*/
+  		
+  		
+  		}catch(Exception e){e.printStackTrace();
+  		}finally{
+  			try{
+  				wr=null;
+  				obj=null;
+  				con=null;
+  			}catch(Exception e){
+  				e.printStackTrace();
+  			}
+  		}
+  		
+  		
+  		return isSucc;
+  	}
+    
+    
+    
+    
 }

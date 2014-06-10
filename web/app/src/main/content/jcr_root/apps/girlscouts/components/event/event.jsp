@@ -39,9 +39,10 @@
     int year = calendar.get(Calendar.YEAR);
     String combineMonthYear = month+"-"+year;
     String calendarUrl = currentSite.get("calendarPath",String.class)+".html/"+combineMonthYear; 
-	Date endDate = properties.get("end", Date.class); 
-	String dateStr = startDateStr;
+    String dateStr = startDateStr;
     String time = startTimeStr;
+	Date endDate = properties.get("end", Date.class); 
+
 	if (endDate != null) {
 	    Calendar cal1 = Calendar.getInstance();
 	    Calendar cal2 = Calendar.getInstance();
@@ -57,23 +58,17 @@
 	    time += " to " + endTimeStr;
 	}
 	Map<String,List<String>> tags= new HashMap<String,List<String>>() ;
-	
 	if(currentNode.getParent().hasProperty("cq:tags")){
 		
 		
 		ValueMap jcrProps = resourceResolver.getResource(currentNode.getParent().getPath()).adaptTo(ValueMap.class);
 		String[] cqTags = jcrProps.get("cq:tags", String[].class);
 	    TagManager tagManager = resourceResolver.adaptTo(TagManager.class);
-	    
-	    
-		
-		System.out.println(cqTags.length);
+
 	    for(String str:cqTags)
 	    {
-	    	System.out.println("String" +str);
-	    	Tag tag  = tagManager.resolve(str);
 	    	
-	    	System.out.println("tag" +tag.getTitle() + tag.getParent().getTitle());
+	    	Tag tag  = tagManager.resolve(str);
 	    	
 	    	if(tags.containsKey(tag.getParent().getTitle()))
 	    	{
@@ -85,44 +80,12 @@
 	    	}
 	    }
 	}
-    
-	
-	// content
+    // content
     String title = currentPage.getTitle();
     String details = properties.get("details", " ");
    
-    
    // address 
    String address = properties.get("address", "");
-
-    
-    // images
-    boolean hasImage = false;
-    try {
-        Node imageNode = currentNode.getNode("image");
-        hasImage = imageNode.hasProperty("fileReference");
-    } catch (Exception e) {}
-    
-    String fileReference = null;
-    String imgWidth = null;
-    String imgHeight = null;
-    String imgAlt = null;
-    if (hasImage) {
-		ValueMap imageProps = resourceResolver.resolve(currentNode.getPath() + "/image").adaptTo(ValueMap.class);
-		
-		fileReference = imageProps.get("fileReference", "");
-		try{
-			  Asset assets = resource.getResourceResolver().getResource(fileReference).adaptTo(Asset.class);
-			  Resource rendition =  assets.getRendition("cq5dam.thumbnail.520.215.png");
-			  fileReference = rendition.getPath();
-		}catch(Exception e){}
-	    imgWidth = imageProps.get("width", "");
-	    if (!imgWidth.isEmpty()) imgWidth = "width=\"" + imgWidth + "\"";
-	    imgHeight = imageProps.get("height", "");
-	    if (!imgHeight.isEmpty()) imgHeight = "height=\"" + imgHeight + "\"";
-	    imgAlt = imageProps.get("alt", "");
-	    if (!imgAlt.isEmpty()) imgAlt = "alt=\"" + imgAlt + "\"";
-    }
 
     //Region
     String region = properties.get("region", "");
@@ -143,13 +106,17 @@
 
 </div>
 
-<% if (hasImage) { %>
 <div>
 <p>	
-	<img src="<%= fileReference %>" <%= imgWidth %> <%= imgHeight %> <%= imgAlt %> />
+	<%  
+		try {
+		    String imgPath = resource.getPath() + "/image";
+%>
+<%= displayRendition(resourceResolver, imgPath, "cq5dam.web.520.520") %>
+<%
+		} catch (Exception e) {}
+	%>
 </p>
-
-<% } %>
 </div>
  <div>
    <div class="inner">

@@ -72,66 +72,66 @@
             mode="replace"
             root="/etc/tracker"
             rules="[]"/>
-        <f11
-            jcr:primaryType="cq:Page"
-            mode="replace"
-            root="/etc/workflow/models/dam/gs_update_asset_articles"
-            rules="[]"/>
-        <f12
-            jcr:primaryType="cq:WorkflowLauncher"
-            mode="replace"
-            root="/etc/workflow/launcher/config/create_asset_event"
-            rules="[]"/> 
-         <f13
-            jcr:primaryType="cq:WorkflowLauncher"
-            mode="replace"
-            root="/etc/workflow/launcher/config/gs_create_asset_articles"
-            rules="[]"/>
-         <f14
-            jcr:primaryType="cq:WorkflowLauncher"
-            mode="replace"
-            root="/etc/workflow/launcher/config/gs_create_asset_featured_story_stories"
-            rules="[]"/> 
-         <f15
+         <f11
             jcr:primaryType="cq:WorkflowLauncher"
             mode="replace"
             root="/etc/workflow/launcher/config/gs_create_asset_large_hero"
             rules="[]"/>
-          <f16
+          <f12
             jcr:primaryType="cq:WorkflowLauncher"
             mode="replace"
             root="/etc/workflow/launcher/config/gs_create_asset_large_logo"
             rules="[]"/>
-          <f17
+          <f13
             jcr:primaryType="cq:WorkflowLauncher"
             mode="replace"
             root="/etc/workflow/launcher/config/gs_create_asset_medium_logo"
             rules="[]"/> 
-          <f18
+          <f14
             jcr:primaryType="cq:WorkflowLauncher"
             mode="replace"
             root="/etc/workflow/launcher/config/gs_create_asset_medium_hero"
             rules="[]"/> 
-          <f19
+          <f15
             jcr:primaryType="cq:WorkflowLauncher"
             mode="replace"
             root="/etc/workflow/launcher/config/gs_create_asset_small_logo"
             rules="[]"/> 
-          <f20
+          <f16
             jcr:primaryType="cq:WorkflowLauncher"
             mode="replace"
             root="/etc/workflow/launcher/config/gs_create_asset_small_hero"
             rules="[]"/>
+          <f17
+            jcr:primaryType="cq:WorkflowLauncher"
+            mode="replace"
+            root="/etc/workflow/launcher/config/gs_modify_asset_large_hero"
+            rules="[]"/>
+          <f18
+            jcr:primaryType="cq:WorkflowLauncher"
+            mode="replace"
+            root="/etc/workflow/launcher/config/gs_modify_asset_large_logo"
+            rules="[]"/>
+          <f19
+            jcr:primaryType="cq:WorkflowLauncher"
+            mode="replace"
+            root="/etc/workflow/launcher/config/gs_modify_asset_medium_logo"
+            rules="[]"/> 
+          <f20
+            jcr:primaryType="cq:WorkflowLauncher"
+            mode="replace"
+            root="/etc/workflow/launcher/config/gs_modify_asset_medium_hero"
+            rules="[]"/> 
           <f21
             jcr:primaryType="cq:WorkflowLauncher"
             mode="replace"
-            root="/etc/workflow/launcher/config/gs_create_asset_news"
-            rules="[]"/>  
+            root="/etc/workflow/launcher/config/gs_modify_asset_small_logo"
+            rules="[]"/> 
           <f22
-            jcr:primaryType="cq:Page"
+            jcr:primaryType="cq:WorkflowLauncher"
             mode="replace"
-            root="/etc/workflow/models/dam/gs_update_asset_featured_short_stories"
-            rules="[]"/>
+            root="/etc/workflow/launcher/config/gs_modify_asset_small_hero"
+            rules="[]"/> 
            <f23
             jcr:primaryType="cq:Page"
             mode="replace"
@@ -152,11 +152,6 @@
             mode="replace"
             root="/etc/workflow/models/dam/gs_update_asset_medium_logo"
             rules="[]"/> 
-         <f27
-            jcr:primaryType="cq:Page"
-            mode="replace"
-            root="/etc/workflow/models/dam/gs_update_asset_news"
-            rules="[]"/>
          <f28
             jcr:primaryType="cq:Page"
             mode="replace"
@@ -167,16 +162,11 @@
             mode="replace"
             root="/etc/workflow/models/dam/gs_update_small_logo"
             rules="[]"/> 
-           <f29
+           <f30
             jcr:primaryType="cq:Page"
             mode="replace"
-            root="/etc/workflow/models/dam/update_asset_event"
+            root="/etc/workflow/models/dam/update_asset"
             rules="[]"/>
-            <f30
-            jcr:primaryType="cq:Page"
-            mode="replace"
-            root="/etc/workflow/models/dam/gs_update_asset_articles"
-            rules="[]"/>                
                                  
     </filter>
 </jcr:root>

@@ -11,33 +11,57 @@
   
   private String getJsonEvents(List<String> eventsPath, ResourceResolver resourceResolver){    
     List<JSONObject> eventList = new ArrayList<JSONObject>();
-    DateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy");
+    
+    
+    DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy");
+    DateFormat timeFormat = new SimpleDateFormat("h:mm a");
+  
+    String end ="";
+    
+    DateFormat dateFt = new SimpleDateFormat("MMM d, yyyy");
         String jsonEvents="";
         for(String path: eventsPath){
-        
+        	String color = "#00AE58";
          try
          {   Node node =   resourceResolver.getResource(path).adaptTo(Node.class);
              Node propNode = node.getNode("jcr:content/data");
              JSONObject obj = new JSONObject();
              String title = propNode.getProperty("../jcr:title").getString();
              String detail = propNode.getProperty("details").getString();
-             String time =  propNode.getProperty("time").getString();
-             Calendar startDt = propNode.getProperty("start").getDate();
-             Calendar endDt = propNode.getProperty("end").getDate();
-             String start = dateFormat.format(startDt.getTime());
              
-             String end = dateFormat.format(endDt.getTime());
+             Calendar startDt = propNode.getProperty("start").getDate();
+             //Calendar endDt = propNode.getProperty("end").getDate();
+             String start = dateFt.format(startDt.getTime());
+             String time = timeFormat.format(propNode.getProperty("start").getDate().getTime());
+             //String end = dateFormat.format(endDt.getTime());
+             
+             if(propNode.hasProperty("end")){
+            	 String endTimeStr = timeFormat.format(propNode.getProperty("end").getDate().getTime());
+                 time += " to " + endTimeStr;
+                 Calendar endDt = propNode.getProperty("end").getDate();
+                 end = dateFormat.format(endDt.getTime());
+             }
+             
+            
+             if(propNode.hasProperty("color")){
+            	 color = propNode.getProperty("color").getString();
+            	 
+             }
              String url = path+".html";
              obj.put("title", title);
-             obj.put("color","blue");
+             
+             obj.put("color",color);
              obj.put("description", detail);
              obj.put("start",start);
-             obj.put("end", end);
+             if(!end.isEmpty())
+                obj.put("end", end);
              obj.put("path", url);
             
-             obj.put("time", time);
+              obj.put("time", time);
              eventList.add(obj); 
          }catch(Exception e){
+            
+         
          }
         }
         try{
@@ -45,7 +69,7 @@
             jsonEvents = eventArray.toString();
            
            }catch(Exception je){
-               System.out.println("Exception" +je.getStackTrace());
+               
            }  
      return jsonEvents;
 }

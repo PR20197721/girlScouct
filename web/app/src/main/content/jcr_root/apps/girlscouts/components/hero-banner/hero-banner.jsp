@@ -26,7 +26,7 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
     
    <% }
 %>
-<div id="heroBanner" class="large-24 medium-24 small-24 columns" style="height:650;">
+<div id="heroBanner" class="large-24 medium-24 small-24 columns">
 
   <div class="jcarousel-wrapper">
      <div class="jcarousel">
