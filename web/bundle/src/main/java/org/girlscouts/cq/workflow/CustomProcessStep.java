@@ -25,15 +25,15 @@ import org.apache.felix.scr.annotations.Service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.adobe.granite.workflow.WorkflowException;
-import com.adobe.granite.workflow.WorkflowSession;
-import com.adobe.granite.workflow.exec.WorkItem;
-import com.adobe.granite.workflow.exec.WorkflowData;
-import com.adobe.granite.workflow.exec.WorkflowProcess;
-import com.adobe.granite.workflow.metadata.MetaDataMap;
 import com.day.cq.mailer.MailService;
 import com.day.cq.mailer.MessageGateway;
 import com.day.cq.mailer.MessageGatewayService;
+import com.day.cq.workflow.WorkflowException;
+import com.day.cq.workflow.WorkflowSession;
+import com.day.cq.workflow.exec.WorkItem;
+import com.day.cq.workflow.exec.WorkflowData;
+import com.day.cq.workflow.exec.WorkflowProcess;
+import com.day.cq.workflow.metadata.MetaDataMap;
 
 @Component
 @Service
@@ -57,7 +57,7 @@ public class CustomProcessStep implements WorkflowProcess {
 	if (workflowData.getPayloadType().equals(TYPE_JCR_PATH)) {
 	    String path = workflowData.getPayload().toString();
 	    try {
-		Session jcrSession = session.adaptTo(Session.class);
+		Session jcrSession = session.getSession();
 
 		// Get the jcr node that represents the form submission
 		Node node = (Node) jcrSession.getItem(path);

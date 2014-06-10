@@ -93,11 +93,6 @@
           	<scope>provided</scope> 
         </dependency>
 		<dependency>
-			<groupId>com.adobe.granite</groupId>
-			<artifactId>com.adobe.granite.workflow.api</artifactId>
-			<version>1.0.2</version>
-		</dependency>
-		<dependency>
   			<groupId>com.day.cq</groupId>
   			<artifactId>cq-mailer</artifactId>
   			<version>5.4.0</version>
@@ -151,6 +146,24 @@
             <version>5.6.16</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+	<groupId>com.adobe.granite</groupId>
+	<artifactId>com.adobe.granite.security.user</artifactId>
+	<version>0.1.6</version>
+	<scope>provided</scope>
+</dependency>
+<dependency>
+	<groupId>com.day.cq.workflow</groupId>
+	<artifactId>cq-workflow-api</artifactId>
+	<version>5.6.2</version>
+	<scope>provided</scope>
+</dependency>
+<dependency>
+	<groupId>org.apache.jackrabbit</groupId>
+	<artifactId>jackrabbit-api</artifactId>
+	<version>2.6.2</version>
+	<scope>provided</scope>
+</dependency>
         <!-- END STATS -->
     </dependencies>
 
