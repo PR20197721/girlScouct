@@ -625,6 +625,7 @@ public String sendEmail(ApiConfig apiConfig, Email emailInfo){
 	
 		httpclient.executeMethod(post);
 		
+		System.err.println("Email send "+ post.getStatusCode() +" : "+  post.getResponseBodyAsString());
 
 			if (post.getStatusCode() == HttpStatus.SC_CREATED) {
 				try {

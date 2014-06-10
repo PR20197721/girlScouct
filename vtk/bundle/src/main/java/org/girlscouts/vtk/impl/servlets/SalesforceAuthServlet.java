@@ -5,6 +5,9 @@ import java.util.Dictionary;
 import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
@@ -20,6 +23,9 @@ import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.models.User;
 import org.girlscouts.vtk.impl.helpers.ConfigListener;
 import org.girlscouts.vtk.impl.helpers.ConfigManager;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -93,7 +99,7 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
         String redirectUrl;
         if (config == null || config.getId() == null) {
             redirectUrl = OAuthUrl 
-                          + "/services/oauth2/authorize?response_type=code&client_id=" + clientId
+                          + "/services/oauth2/authorize?prompt=login&response_type=code&client_id=" + clientId
                           + "&redirect_uri=" + callbackUrl
                           + "&state=" + targetUrl;
         } else {
@@ -110,22 +116,29 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
     	HttpSession session = request.getSession();
     	ApiConfig apiConfig = (ApiConfig) session.getAttribute(ApiConfig.class.getName());
     	if( apiConfig!=null){
-    		try{ isLogoutApi = logoutApi(apiConfig); }catch(Exception e){e.printStackTrace();}
+    		try{ isLogoutApi = logoutApi(apiConfig, false); }catch(Exception e){e.printStackTrace();}
+    		
+    		
+    		try{ logoutApi(apiConfig, true); }catch(Exception e){e.printStackTrace();}
+    		
     		try{ isLogoutWeb = logoutWeb(apiConfig); }catch(Exception e){e.printStackTrace();}
     	}//edn if
     	
-    	System.err.println("Logout: "+ isLogoutApi +" :" + isLogoutWeb);
+    	apiConfig=null;
+    	
     	
     	//HttpSession session = request.getSession();
         session.invalidate();
+        session=null;
+        
         String referer = request.getHeader("referer");
        
         
         referer="/content/girlscouts-usa/en.html";
-        System.err.println("Refeferffff: "+ referer);
+      
         referer= referer.contains("?") ? (referer = referer +"&isSignOutSalesForce=true") : 
         	(referer = referer +"?isSignOutSalesForce=true") ;
-        System.err.println("Refeferffff after: "+ referer);
+       
         redirect(response, referer);
     }
     
@@ -148,6 +161,7 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
 
         User user = dao.getUser(config);
         session.setAttribute(User.class.getName(), user);
+        config.setUser(user);
         
         redirect(response, targetUrl);
     }
@@ -166,7 +180,12 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
     
     
   //aPI logout
-  	public boolean logoutApi(ApiConfig apiConfig) throws Exception{
+  	public boolean logoutApi(ApiConfig apiConfig, boolean isRefreshToken) throws Exception{
+  		
+  		
+  		
+  		
+  		
   		
   		DataOutputStream wr=null;
   		boolean isSucc=false;
@@ -181,6 +200,13 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
   		con.setRequestMethod("POST");
   		con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
   		String urlParameters = "token="+ apiConfig.getAccessToken();
+  		if( isRefreshToken){
+  			System.err.println("Revoke refresh token "+ apiConfig.getRefreshToken()); urlParameters = "token="+ apiConfig.getRefreshToken();}
+  		else
+  			System.err.println("REvoke token "+ apiConfig.getAccessToken());
+  		
+  		
+  		
   		con.setDoOutput(true);
   		wr= new DataOutputStream(con.getOutputStream());
   		wr.writeBytes(urlParameters);
@@ -189,6 +215,9 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
   		wr.close();
    
   		int responseCode = con.getResponseCode();
+  		
+  		System.err.println("resp code: "+ responseCode +" : "+ con.getResponseMessage() );
+  		
   		if( responseCode==200)
   			isSucc=true;
    
@@ -220,6 +249,7 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
   		
   		try{
   		String url = apiConfig.getInstanceUrl() +"/secur/logout.jsp?display=touch"; //DYNAMIC 
+  		
   		obj = new URL(url);
   		con= (HttpsURLConnection) obj.openConnection();
   		
@@ -275,8 +305,6 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
   		
   		return isSucc;
   	}
-    
-    
     
     
 }

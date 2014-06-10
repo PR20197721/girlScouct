@@ -59,7 +59,7 @@
 
 <cq:include script="small-screen-menus"/>
 
-<%if( request.getParameter("isSignOutSalesForce")!=null){ %>
+<%if( false) {//request.getParameter("isSignOutSalesForce")!=null){ %>
 <iframe src="https://cs11.salesforce.com/secur/logout.jsp?display=touch" style="display:none;"></iframe>
 <div>You are successfuly loged out.......</div>
 <%}//edn if %>

@@ -2,9 +2,31 @@ package org.girlscouts.vtk.auth.models;
 
 public class ApiConfig {
 
-    private String accessToken, instanceUrl, tokenType, id, userId;
+    private String accessToken, instanceUrl, tokenType, id,
+    		refreshToken,
+    		userId; /*userId should be moved out.User obj exists**/
+    private org.girlscouts.vtk.auth.models.User user;
+    
+    
+    
+    
+    public String getRefreshToken() {
+		return refreshToken;
+	}
 
-    public String getUserId() {
+	public void setRefreshToken(String refreshToken) {
+		this.refreshToken = refreshToken;
+	}
+
+	public org.girlscouts.vtk.auth.models.User getUser() {
+		return user;
+	}
+
+	public void setUser(org.girlscouts.vtk.auth.models.User user) {
+		this.user = user;
+	}
+
+	public String getUserId() {
         return userId;
     }
 
