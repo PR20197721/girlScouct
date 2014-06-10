@@ -28,10 +28,8 @@ The CRX host and port can be specified on the command line with:
 mvn -Dcrx.host=otherhost -Dcrx.port=5502 <goals>
 
 
-Dam Health Check
+DAM Image Renditions
 ----------------
-
-To resolve inconsistencies between the dam records in /var and /content, run the health checker (http://localhost:4502/etc/dam/healthchecker.html) and decide whether delete or synchronize the anomalies.  This will be necessary particularly when importing DAM assets through the package manager.
 
 If you find that after importing a package in the DAM that renditions are not created, you will need to manually navigate to the item in the DAM (e.g.http://localhost:4502/damadmin#/content/dam/girlscouts-shared/en/banners/big/welcome2.png), click Edit... and save (without any changes).  This will re-run the corresponding rendition workflow.  If the renditions are not generated, you likely have STALE workflows that need to be cleared (usually resulting from flawed content imports).  Go to http://localhost:4502/libs/cq/workflow/content/console.html Instances tab and terminate or restart workflows so that the queue is able to reach the asset rendition workflows.
 

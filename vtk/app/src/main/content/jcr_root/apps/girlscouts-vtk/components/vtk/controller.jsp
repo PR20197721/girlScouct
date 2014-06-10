@@ -15,9 +15,10 @@
 	LocationUtil locationUtil = sling.getService(LocationUtil.class);
 	MeetingUtil meetingUtil = sling.getService(MeetingUtil.class);
 	EmailUtil emailUtil = sling.getService(EmailUtil.class);
-
+System.err.println("controller");
 if( request.getParameter("isMeetingCngAjax") !=null){
 	
+	System.err.println("contr : meeting rearg");
 	meetingUtil.changeMeetingPositions( (User) session.getValue("VTK_user"),
 			request.getParameter("isMeetingCngAjax") );
 	
@@ -125,6 +126,8 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	
 }else if( request.getParameter("sendMeetingReminderEmail") !=null ){
 	  
+	System.err.println("EMAILINGGGGGGG");
+	
 	  String email_to_gp =request.getParameter("email_to_gp");
 	  String email_to_sf =request.getParameter("email_to_sf");
 	  String email_to_tv =request.getParameter("email_to_tv");

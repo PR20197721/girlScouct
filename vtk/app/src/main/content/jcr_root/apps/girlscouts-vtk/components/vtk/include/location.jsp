@@ -11,6 +11,10 @@
 	<br/>State<input type="text" id="loc_state" value=""/>
 	<br/>Zip <input type="text" id="loc_zip" value=""/>
 	-->
+	<input type="hidden" id="loc_city" value=""/>
+	<input type="hidden" id="loc_state" value=""/>
+	<input type="hidden" id="loc_zip" value=""/>
+	
 	<br/><br/>
 	<br/><a href="javascript:void(0)" onclick="addLocation()">add</a>
 	|| <a href="/content/girlscouts-vtk/en/vtk.locationManage.html">Manage Locations</a>

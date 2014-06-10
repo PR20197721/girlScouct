@@ -591,3 +591,12 @@ td.fc-header-left{
     background: url('images/small-green-arrow-right.png') no-repeat  0px 0px;
     background-position:right 9px;  
 }
+
+#hrStyle >hr{
+  border-color:#9C9C9C;
+  border-width:1px 0px 0px 0px;
+}
+
+#paddingTop{
+  padding-top:10px;
+}

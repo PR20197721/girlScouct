@@ -113,23 +113,29 @@ public class MeetingUtil {
 	
 	public void changeMeetingPositions(User user, String newPositions){
 		
+		
+		
 		java.util.List <Integer> newMeetingSetup= new java.util.ArrayList();
 		java.util.StringTokenizer t= new java.util.StringTokenizer( newPositions, ",");
 		while( t.hasMoreElements() )
 			newMeetingSetup.add( Integer.parseInt( t.nextToken() ));
 		
+		
+		
 		MeetingUtil meetingUtil = new MeetingUtil();
 		
 		
-		java.util.List<MeetingE> rearangedMeetings = 
-		           meetingUtil.updateMeetingPos( user.getYearPlan().getMeetingEvents(), newMeetingSetup);
-
-		
+	
+		java.util.List<MeetingE> rearangedMeetings = null;
+		try{
+			rearangedMeetings=  updateMeetingPos( user.getYearPlan().getMeetingEvents(), newMeetingSetup);
+	}catch(Exception e){e.printStackTrace();}
+				
 		
 		YearPlan plan = user.getYearPlan();
 		plan.setMeetingEvents(rearangedMeetings);
+	
 		user.setYearPlan(plan);
-		
 		userDAO.updateUser(user);
 		
 		

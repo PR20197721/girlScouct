@@ -44,6 +44,8 @@ public class UserDAOImpl implements UserDAO{
     
 	public User getUser(String userId) {
 		
+		
+		System.err.println("getUser: "+ userId);
 		User user =null;
 		try{
 			List<Class> classes = new ArrayList<Class>();	
@@ -61,15 +63,14 @@ public class UserDAOImpl implements UserDAO{
 			Filter filter = queryManager.createFilter(User.class);
 			
 	      
-	        filter.setScope(  "/content/girlscouts-vtk/users/");
+	        //-filter.setScope(  "/content/girlscouts-vtk/users/5");//+userId);
+	        //Query query = queryManager.createQuery(filter);
+	        
+	        
+	        user = (User) ocm.getObject("/content/girlscouts-vtk/users/"+ userId);
 	      
-	        Query query = queryManager.createQuery(filter);
 	        
-	        
-	        user = (User) ocm.getObject(query);
-	      
-	        
-	        System.err.println("User: "+ user==null);
+	        System.err.println("User: "+ (user==null));
 			
 			}catch(Exception e){e.printStackTrace();}
 		
@@ -141,8 +142,15 @@ public class UserDAOImpl implements UserDAO{
 			
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
-		
-			 ocm.update(user);
+		System.err.println("User update: "+ user.getPath() );
+			
+			if( session.itemExists( user.getPath() )){
+				System.err.println( "User updated");
+				ocm.update(user);
+			}else{
+				System.err.println( "User created/insert");
+				ocm.insert(user);
+			}
 			 ocm.save();
 			 
 			
@@ -159,14 +167,17 @@ public class UserDAOImpl implements UserDAO{
 		YearPlan newYearPlan = addYearPlan(user, yearPlanPath);
 		
 		
-		
+		/*
 		for(int i=0;i<newYearPlan.getMeetingEvents().size();i++)
 			System.err.println("NYDDDd :"+newYearPlan.getMeetingEvents().get(i));
+		*/
 		
-		
-		
+		if( oldPlan==null ){ //new user new plan, first time
+			
+			user.setYearPlan(newYearPlan);
+			
 		//if dates, copy dates to new year plan && copy/replace OLD PASSED Meetings
-		if( oldPlan.getSchedule()!=null ){ //no dates; no past meetings to copy
+		}else if( oldPlan.getSchedule()!=null ){ //no dates; no past meetings to copy
 			
 			    System.err.println("New YP size:" +newYearPlan.getMeetingEvents().size() +" : "+ oldPlan.getMeetingEvents().size() ); 
 				String oldDates  = oldPlan.getSchedule().getDates();
