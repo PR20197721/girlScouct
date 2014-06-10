@@ -9,8 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.jcr.Node;
-import javax.jcr.NodeIterator;
-import javax.jcr.PropertyIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.mail.internet.AddressException;
@@ -29,17 +27,20 @@ import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.adobe.granite.workflow.WorkflowException;
-import com.adobe.granite.workflow.WorkflowSession;
-import com.adobe.granite.workflow.exec.WorkItem;
-import com.adobe.granite.workflow.exec.Workflow;
-import com.adobe.granite.workflow.exec.WorkflowData;
-import com.adobe.granite.workflow.exec.WorkflowProcess;
-import com.adobe.granite.workflow.metadata.MetaDataMap;
+import com.adobe.granite.security.user.UserProperties;
+import com.adobe.granite.security.user.UserPropertiesManager;
 import com.day.cq.mailer.MailService;
 import com.day.cq.mailer.MessageGateway;
 import com.day.cq.mailer.MessageGatewayService;
 import com.day.cq.wcm.api.Page;
+import com.day.cq.workflow.WorkflowException;
+import com.day.cq.workflow.WorkflowSession;
+import com.day.cq.workflow.exec.WorkItem;
+import com.day.cq.workflow.exec.Workflow;
+import com.day.cq.workflow.exec.WorkflowData;
+import com.day.cq.workflow.exec.WorkflowProcess;
+import com.day.cq.workflow.metadata.MetaDataMap;
+
 
 public class CustomGroupEmailProcess implements WorkflowProcess {
 	private static final String TYPE_JCR_PATH = "JCR_PATH";
@@ -86,7 +87,7 @@ public class CustomGroupEmailProcess implements WorkflowProcess {
 log.debug("################################");
 log.error("######## rootPATH" + page.getAbsoluteParent(2).getPath());
 	    try {
-			Session jcrSession = session.adaptTo(Session.class);
+			Session jcrSession = session.getSession();
 		//UserManager userManager = this.userManagerFactory.createUserManager(session.getSession());
    /* 	Group groupMgr = (Group)resolver.adaptTo(Group.class);
 log.error("#@*&$@(#)*6387^98273652987356" + groupMgr.getMembers().next().toString());*/
