@@ -15,7 +15,7 @@
 
   Includes all child resources but respects the columns control resources and
   layouts the HTML accordingly.
-  
+
 --%><%@page import="java.util.HashSet,
                     java.util.Set,
                     com.day.cq.commons.jcr.JcrConstants,
@@ -23,8 +23,11 @@
                     com.day.cq.wcm.api.components.IncludeOptions,
                     com.day.cq.wcm.foundation.Paragraph,
                     com.day.cq.wcm.foundation.ParagraphSystem" %><%
-%><%@include file="/libs/foundation/global.jsp"%><%
-    
+%><%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/girlscouts/components/global.jsp"%>
+<%
+	String cssClasses = properties.get("cssClasses", "");
+
     ParagraphSystem parSys = ParagraphSystem.create(resource, slingRequest);
     String newType = resource.getResourceType() + "/new";
     
@@ -45,6 +48,7 @@
                     addedClasses.add("section");
                     addedClasses.add("colctrl-start");
                     IncludeOptions.getOptions(request, true).getCssClassNames().addAll(addedClasses);
+                    setCssClasses(cssClasses, request);
                     %><sling:include resource="<%= par %>"/><%
                 }
                 // open outer div
@@ -57,6 +61,7 @@
                 if (editContext != null) {
                     // draw 'new' bar
                     IncludeOptions.getOptions(request, true).getCssClassNames().add("section");
+                    setCssClasses(cssClasses, request);
                     %><sling:include resource="<%= par %>" resourceType="<%= newType %>"/><%
                 }
                 // open next column div
@@ -66,6 +71,7 @@
                 if (editContext != null) {
                     // draw new bar
                     IncludeOptions.getOptions(request, true).getCssClassNames().add("section");
+                    setCssClasses(cssClasses, request);
                     %><sling:include resource="<%= par %>" resourceType="<%= newType %>"/><%
                 }
                 if (hasColumns) {
@@ -76,13 +82,14 @@
                 if (editContext != null && WCMMode.fromRequest(request) == WCMMode.EDIT) {
                     // draw 'end' bar
                     IncludeOptions.getOptions(request, true).getCssClassNames().add("section");
+                    setCssClasses(cssClasses, request);
                     %><sling:include resource="<%= par %>"/><%
                 }
                 break;
             case NORMAL:
                 // include 'normal' paragraph
                 IncludeOptions.getOptions(request, true).getCssClassNames().add("section");
-                
+
                 // draw anchor if needed
                 if (currentStyle.get("drawAnchors", false)) {
                     String path = par.getPath();
@@ -91,6 +98,7 @@
                 	String anchorID = path.replace("/", "_").replace(":", "_");
                     %><a name="<%= anchorID %>" style="visibility:hidden"></a><%
                 }
+                setCssClasses(cssClasses, request);
                 %><sling:include resource="<%= par %>"/><%
                 break;
         }
@@ -99,13 +107,13 @@
         // close divs in case END missing. and clear floating
         %></div></div><%
     }
-    
     // Fix for issue under foundation framework: the "new" bar misbehaves
     %><div style="clear:both"></div><%
     if (editContext != null) {
         editContext.setAttribute("currentResource", null);
         // draw 'new' bar
         IncludeOptions.getOptions(request, true).getCssClassNames().add("section");
+        setCssClasses(cssClasses, request);
         %><cq:include path="*" resourceType="<%= newType %>"/><%
     }
 %>
