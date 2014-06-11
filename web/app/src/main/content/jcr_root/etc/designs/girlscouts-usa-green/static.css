@@ -500,11 +500,13 @@ td.fc-header-left{
 .right-off-canvas-menu a{
     color: #ddd;
     padding: 10px 0px 0px 10px;
+    text-transform:capitalize;
 }
 
 #right-canvas-menu a{
     color: #ddd;
     padding: 10px 0px 0px 10px;
+    text-transform:capitalize;
 }
 
 
