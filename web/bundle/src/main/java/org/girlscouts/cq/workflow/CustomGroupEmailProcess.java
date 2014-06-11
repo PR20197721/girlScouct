@@ -6,6 +6,8 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.jcr.Node;
@@ -29,9 +31,14 @@ import org.slf4j.LoggerFactory;
 
 import com.adobe.granite.security.user.UserProperties;
 import com.adobe.granite.security.user.UserPropertiesManager;
+import com.day.cq.commons.Externalizer;
 import com.day.cq.mailer.MailService;
 import com.day.cq.mailer.MessageGateway;
 import com.day.cq.mailer.MessageGatewayService;
+import com.day.cq.security.Authorizable;
+import com.day.cq.security.User;
+import com.day.cq.security.UserManager;
+import com.day.cq.security.Group;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.workflow.WorkflowException;
 import com.day.cq.workflow.WorkflowSession;
@@ -41,13 +48,14 @@ import com.day.cq.workflow.exec.WorkflowData;
 import com.day.cq.workflow.exec.WorkflowProcess;
 import com.day.cq.workflow.metadata.MetaDataMap;
 
-
+@Component
+@Service
 public class CustomGroupEmailProcess implements WorkflowProcess {
 	private static final String TYPE_JCR_PATH = "JCR_PATH";
 	@Reference
 	private ResourceResolverFactory resourceResolverFactory;
 
-	protected MailService mailService;
+    protected MailService mailService;
 
     private static final Logger log = LoggerFactory
 	    .getLogger(CustomGroupEmailProcess.class);
@@ -55,8 +63,8 @@ public class CustomGroupEmailProcess implements WorkflowProcess {
     @Reference
     private MessageGatewayService messageGatewayService;
 	private String initiatorEmail;
-
-	  @Reference
+	private Iterator<Authorizable> iter;
+	
 
     @Property(value = "Custom Group Email Process")
     static final String LABEL = "process.label";
@@ -74,23 +82,26 @@ public class CustomGroupEmailProcess implements WorkflowProcess {
 	Workflow workflow = item.getWorkflow();
 	log.error("######## workItemPath:" + args.keySet());
 	log.error("######## workItemPath:" + item.getMetaDataMap());
-	
 
 
 	if (workflowData.getPayloadType().equals(TYPE_JCR_PATH)) {
 	    String path = workflowData.getPayload().toString();
-		//log.error("######## path:" + "/content/girlscouts-usa/en/about-our-council");
+	
+		Page page = (Page) resolver.resolve(workflowData.getPayload().toString()).adaptTo(Page.class);
+		log.error("PAGE" + workflowData.getPayload().toString());
+		//Page page = (Page)resolver.adaptTo(Page.class);
 
-		
-		Page page = (Page) resolver.resolve("/content/girlscouts-usa/en/about-our-council").adaptTo(Page.class);
-    	//Page page = (Page)resolver.adaptTo(Page.class);
-log.debug("################################");
-log.error("######## rootPATH" + page.getAbsoluteParent(2).getPath());
+//log.error("######## rootPATH" + page.getAbsoluteParent(1).getName());
+String councilGroup = page.getAbsoluteParent(1).getName();
+councilGroup = councilGroup + "-reviewers";
+
+log.error("######## group" + councilGroup);
 	    try {
 			Session jcrSession = session.getSession();
-		//UserManager userManager = this.userManagerFactory.createUserManager(session.getSession());
-   /* 	Group groupMgr = (Group)resolver.adaptTo(Group.class);
-log.error("#@*&$@(#)*6387^98273652987356" + groupMgr.getMembers().next().toString());*/
+
+		//principalMgr.findPrincipals(councilGroup);
+		//principalMgr.getPrincipal(councilGroup);
+//		log.error("######## OKKKKKKK" + principalMgr.getEveryone().toString());		
 		// Get the jcr node that represents the form submission
 		Node node = (Node) jcrSession.getItem(path);
 		
@@ -151,7 +162,6 @@ log.error("#@*&$@(#)*6387^98273652987356" + groupMgr.getMembers().next().toStrin
 			StrSubstitutor sub = new StrSubstitutor(propertyMap);
 
 			message = sub.replace(unrefinedMessage);
-
 			log.error(message);
 			log.error("Email Address" + sub.replace(address));
 			try {
@@ -163,9 +173,13 @@ log.error("#@*&$@(#)*6387^98273652987356" + groupMgr.getMembers().next().toStrin
 				ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
 				email.setSubject(sub.replace(workflow.getWorkflowModel().getTitle()));
 				try {
+					List<String> emails = getGroupEmails(resolver, councilGroup);
+
+					for (int i = 0; i < emails.size(); i++) {
 
 				    emailRecipients.add(new InternetAddress(
-				    		sub.replace(address)));
+				    		emails.get(i)));
+}
 				} catch (AddressException e) {
 
 				    log.error(e.getMessage());
@@ -199,7 +213,13 @@ log.error("#@*&$@(#)*6387^98273652987356" + groupMgr.getMembers().next().toStrin
 	Map map = new HashMap();
 
 	try {
-		
+	      Externalizer externalizer = (Externalizer)resolver.adaptTo(Externalizer.class);
+	      String externalizerHost = externalizer.externalLink(resolver, "local", "");
+	      if ((externalizerHost != null) && (externalizerHost.endsWith("/"))) {
+	        map.put("host.prefix", externalizerHost.substring(0, externalizerHost.length() - 1));
+	        log.error("HOST PREFIX" + externalizerHost.substring(0, externalizerHost.length() - 1));
+	      }
+	      log.error(externalizerHost.substring(0, externalizerHost.length() - 1));
 	    map.put("model.title", flow.getWorkflowModel().getTitle());
 	    map.put("model.description", flow.getWorkflowModel().getDescription());
 	    map.put("model.id", flow.getWorkflowModel().getId());
@@ -208,7 +228,7 @@ log.error("#@*&$@(#)*6387^98273652987356" + groupMgr.getMembers().next().toStrin
         map.put("payload.path", data.getPayload().toString());
         map.put("payload.type", data.getPayloadType());
         map.put("comment", item.getMetaDataMap().get("comment", String.class));
-        map.put("initiator.email", getInitiatorEmail(resolver, flow));
+        //map.put("initiator.email", getInitiatorEmail(resolver, flow));
 	
 	} catch (Exception e) {
 
@@ -217,21 +237,24 @@ log.error("#@*&$@(#)*6387^98273652987356" + groupMgr.getMembers().next().toStrin
 
 	return map;
     }
-    private String getInitiatorEmail(ResourceResolver resolver, Workflow workflow){
-	    try{  
-	    	UserPropertiesManager upMgr = (UserPropertiesManager)resolver.adaptTo(UserPropertiesManager.class);
-	    	UserProperties initiator = null;
-	    	String initiatorId = workflow.getInitiator();
-	    	initiator = upMgr.getUserProperties(initiatorId, "profile");
-	    	log.error("WEOIFWOEIFHWEOIFRGORG" + initiator.getProperty("email"));
-	    	initiatorEmail = initiator.getProperty("email");
-	    	
-	    	//Group groupMgr = (Group)resolver.adaptTo(Group.class);
-//log.error("#@*&$@(#)*6387^98273652987356" + groupMgr.getMembers().next().toString());
+    private List<String> getGroupEmails(ResourceResolver resolver, String councilGroup){
+    	List<String> emails = new ArrayList<String>();
+    	try{  
+	    	UserManager manager = (UserManager)resolver.adaptTo(UserManager.class);
+	    	Group group = (Group)manager.findByHome("/home/groups/girlscouts-usa/" + councilGroup);
+	    	Iterator<Authorizable> iter = group.members();
+	    	while (iter.hasNext()) {
+	    		String temp = null;
+	    		User user = (User)iter.next();
+	    		temp = user.getProperty("profile/email");
+	    		emails.add(user.getProperty("profile/email"));
+	    		log.error("######## EMAILS" + temp);
+	    		log.error("EMAILSSSSSSSSSSSS" + emails);
 	    	}
-	    catch(Exception e){
+	    } catch(Exception e){
 	    	e.printStackTrace();
-	    	}	
-	    return initiatorEmail;
-	    }
+	    }	
+	    log.error("EMAILZZZZZZZZZZZZ" + emails);
+	    return emails;
+	}
 }
