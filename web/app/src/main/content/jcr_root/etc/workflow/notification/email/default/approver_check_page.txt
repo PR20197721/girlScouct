@@ -1,0 +1,8 @@
+To: ${initiator.email},
+
+Hi ${initiator.name},<br><br>
+
+Please approve or reject the following page authored by ${initiator.id}: <br>
+${host.prefix}${payload.path}.html<br><br>
+
+
