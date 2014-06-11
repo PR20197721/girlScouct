@@ -1,5 +1,11 @@
 
 <%@page import="org.girlscouts.vtk.auth.models.ApiConfig" %>
+<%
+ApiConfig apiConfig= (ApiConfig)session.getAttribute(ApiConfig.class.getName());
+%>
+
+<%=apiConfig.getUserId() %>--
+<%=apiConfig.getAccessToken() %>
 
 <br/>Reminder Meeting#  XXX <%= dateFormat55.format(searchDate) %>
 	
@@ -14,7 +20,7 @@
 <input type="checkbox" id="email_to_tv"/>Troop Volunteers
 
 
-<br/>Enter your own:<input type="text" id="email_to_cc" value=""/>
+<br/>Enter your own:<input type="text" id="email_to_cc" value="<%=apiConfig.getUser().getEmail()%>"/>
 
 <div style="background-color:gray">Compose Email</div>
 
@@ -65,11 +71,15 @@ Hello Girl Scout Families,
 
 <%=meetingInfoItems.get("overview").getStr() %>
 
-<br/><br/>If you have any questions, or want to participate in this meeting, please contact me at XXX
+<br/><br/>If you have any questions, or want to participate in this meeting, please contact me at 
+<%=apiConfig.getUser().getPhone() %>
+<%=apiConfig.getUser().getMobilePhone() %>
+<%=apiConfig.getUser().getHomePhone() %>
+<%=apiConfig.getUser().getAssistantPhone() %>
 
 <br/><br/>Thank you for supporting your XXX,
 
-<br/><br/>XXX
+<br/><br/><%=apiConfig.getUser().getName() %>
 <br/>Troop XXX
 
 

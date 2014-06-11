@@ -42,8 +42,14 @@ public class SalesforceDAO {
         // set the SOQL as a query param
         NameValuePair[] params = new NameValuePair[1];
 
-        params[0] = new NameValuePair("q", "SELECT ID,name,email from User where id='" 
+        /*
+        params[0] = new NameValuePair("q", "SELECT ID,name,email, phone, mobilephone, homephone,otherPhone, AssistantPhone from User where id='" 
                     + config.getUserId() + "' limit 1");
+        */
+        params[0] = new NameValuePair("q", "SELECT ID,name,email, phone, mobilephone  from User where id='" 
+                + config.getUserId() + "' limit 1");
+        
+        
         get.setQueryString(params);
 
         try {
@@ -62,8 +68,15 @@ public class SalesforceDAO {
     
                     // Always use the last record
                     int current = results.length() - 1;
+                    try{
                     user.setName(results.getJSONObject(current).getString("Name"));
                     user.setEmail(results.getJSONObject(current).getString("Email"));
+                    //user.setPhone(results.getJSONObject(current).getString("Phone"));
+                    //user.setHomePhone(results.getJSONObject(current).getString("HomePhone"));
+                   // user.setMobilePhone(results.getJSONObject(current).getString("MobilePhone"));
+                   // user.setMobilePhone(results.getJSONObject(current).getString("AssistantPhone"));
+                    }catch(Exception e){e.printStackTrace();}
+                    
                     return user;
                 } catch (JSONException e) {
                     log.error("JSON Parse exception: " + e.toString());
@@ -112,6 +125,7 @@ public class SalesforceDAO {
                     String id = authResponse.getString("id");
                     config.setId(id);
                     config.setUserId(id.substring(id.lastIndexOf("/") + 1));
+                    config.setRefreshToken(authResponse.getString("refresh_token"));
                     return config;
                 } catch (JSONException e) {
                     log.error("JSON Parse exception: " + e.toString());
