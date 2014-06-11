@@ -1,23 +1,13 @@
 
 function rmCustActivity12(x){
 	
-	//6/4/$( "#planMsg" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?rmCustActivity="+x, function( response, status, xhr ) {
 	
-	$( "#editAgenda" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?rmCustActivity="+x, function( response, status, xhr ) {
-	   	  if ( status != "error" ) {
-	   	    
-	   		 
-	   	  }else{
-	   		  
-	   		
-	   	  }
-	   	  
-	   	  
-	   	});
+	$( "#editAgenda" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?rmCustActivity="+x);
+	
 	
 	
 	//6/4/document.location="planView.jsp";
-	document.location="/content/girlscouts-vtk/en/vtk.planView.html";
+	document.location="/content/girlscouts-vtk/en/vtk.plan.html";
 }
 
 function viewMeetingLibrary(meetingPath){

@@ -14,7 +14,7 @@
 
 <tr>
 <td>Edit/Send Activity Reminder Email </td>
-<td><a href="javascript:void(0)" >View</a>
+<td>View
 
 
 

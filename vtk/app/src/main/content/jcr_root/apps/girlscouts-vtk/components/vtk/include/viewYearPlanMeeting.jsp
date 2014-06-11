@@ -17,7 +17,7 @@ java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  meetingInfo.ge
 		<a href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=prevDate%>"> << PREV </a>
 	<%} %>
 	
-	<br/>
+	<br/>(#<%=(currInd+1) %>)
 	<%if( user.getYearPlan().getSchedule()!=null ) {%>
 		<%=fmt.format(searchDate) %>
 	<%}else{ out.println( fmtX.format(searchDate) ); } %>
@@ -80,18 +80,18 @@ if( meeting.getCancelled()!=null && meeting.getCancelled().equals("true")){ %>
  	<input type="button" value="overview" onclick="showIt('m_overview')" />
 	<input type="button" value="activity plan" onclick="showIt('m_activities')"/>
 	
-	<div id="m_overview" style="display:none;">
-		Overview:<textarea rows="5" cols="5"><%=meetingInfoItems.get("overview").getStr() %></textarea>
+	<div id="m_overview" style="display:none; height:100px; overflow:auto; background-color:yellow;">
+		Overview:<%=meetingInfoItems.get("overview").getStr() %>
 	</div>
 	
-	<div id="m_activities"  style="display:none;">
+	<div id="m_activities"  style="display:none; height:100px; overflow:auto; background-color:yellow;">
 	<%
 	
 		java.util.Iterator itr1=  meetingInfoItems.keySet().iterator(); 
 		while( itr1.hasNext() ){
 			String name= (String) itr1.next();
 	%>
-			<%=name %><textarea rows="5" cols="5"><%=meetingInfoItems.get(name).getStr() %></textarea>
+			<%=name %><%=meetingInfoItems.get(name).getStr() %>
 	<%} %>
 	</div>
 	
