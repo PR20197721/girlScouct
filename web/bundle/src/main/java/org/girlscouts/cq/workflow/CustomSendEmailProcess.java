@@ -9,8 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.jcr.Node;
-import javax.jcr.NodeIterator;
-import javax.jcr.PropertyIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.mail.internet.AddressException;
@@ -35,21 +33,14 @@ import com.day.cq.commons.Externalizer;
 import com.day.cq.mailer.MailService;
 import com.day.cq.mailer.MessageGateway;
 import com.day.cq.mailer.MessageGatewayService;
-import com.day.cq.wcm.api.Page;
 import com.day.cq.workflow.WorkflowException;
 import com.day.cq.workflow.WorkflowSession;
 import com.day.cq.workflow.exec.WorkItem;
 import com.day.cq.workflow.exec.Workflow;
 import com.day.cq.workflow.exec.WorkflowData;
 import com.day.cq.workflow.exec.WorkflowProcess;
-import com.adobe.granite.security.user.UserProperties;
-import com.adobe.granite.security.user.UserPropertiesManager;
-import com.day.cq.workflow.exec.WorkflowData;
 import com.day.cq.workflow.metadata.MetaDataMap;
-import com.day.cq.mailer.MailService;
-import com.day.cq.mailer.MessageGateway;
-import com.day.cq.mailer.MessageGatewayService;
-import com.day.cq.wcm.api.Page;
+
 
 @Component
 @Service
@@ -57,186 +48,204 @@ public class CustomSendEmailProcess implements WorkflowProcess {
 	private static final String TYPE_JCR_PATH = "JCR_PATH";
 	@Reference
 	private ResourceResolverFactory resourceResolverFactory;
-	
+
 	protected MailService mailService;
 
-    private static final Logger log = LoggerFactory
-	    .getLogger(CustomSendEmailProcess.class);
+	private static final Logger log = LoggerFactory
+			.getLogger(CustomSendEmailProcess.class);
 
-    @Reference
-    private MessageGatewayService messageGatewayService;
+	@Reference
+	private MessageGatewayService messageGatewayService;
 	private String initiatorEmail;
 
-    @Property(value = "Custom Send Email Process")
-    static final String LABEL = "process.label";
+	@Property(value = "Custom Send Email Process")
+	static final String LABEL = "process.label";
 
-    public void execute(WorkItem item, WorkflowSession session, MetaDataMap args)
-    	    throws WorkflowException {
-        	ResourceResolver resolver = null;
-        	try {
-        	resolver = this.resourceResolverFactory.getResourceResolver(Collections.singletonMap("user.jcr.session", (Object)session.getSession()));
-            }
-            catch (Exception e){
-            	log.error(e.getMessage());
-            }
-        WorkflowData workflowData = item.getWorkflowData();
-    	Workflow workflow = item.getWorkflow();
-    	log.error("######## workItemPath:" + args.keySet());
-    	log.error("######## workItemPath:" + item.getMetaDataMap());
-    	
+	public void execute(WorkItem item, WorkflowSession session, MetaDataMap args)
+			throws WorkflowException {
+		ResourceResolver resolver = null;
+		try {
+			resolver = this.resourceResolverFactory
+					.getResourceResolver(Collections.singletonMap(
+							"user.jcr.session", (Object) session.getSession()));
+		} catch (Exception e) {
+			log.error(e.getMessage());
+		}
+		WorkflowData workflowData = item.getWorkflowData();
+		Workflow workflow = item.getWorkflow();
+		log.error("######## workItemPath:" + args.keySet());
+		log.error("######## workItemPath:" + item.getMetaDataMap());
 
+		if (workflowData.getPayloadType().equals(TYPE_JCR_PATH)) {
+			String path = workflowData.getPayload().toString();
 
-    	if (workflowData.getPayloadType().equals(TYPE_JCR_PATH)) {
-    	    String path = workflowData.getPayload().toString();
+			log.debug("################################");
 
-    log.debug("################################");
+			try {
+				Session jcrSession = session.getSession();
 
-    	    try {
-    			Session jcrSession = session.getSession();
- 
-    		// Get the jcr node that represents the form submission
-    		Node node = (Node) jcrSession.getItem(path);
-    		
-    		if (node != null) {
+				// Get the jcr node that represents the form submission
+				Node node = (Node) jcrSession.getItem(path);
 
-    		    String emailTemplate = "";
-    		    String templatePath = "";
-    		    
-    		    // Attempt to get the email template
-    		    emailTemplate = args.get("template", String.class);
-    		    // If template text is not found try to get template from
-    		    // path
-    		    if (emailTemplate == null || emailTemplate.equals("")) {
-    			templatePath = args.get("templatePath", String.class);
-    			
-    			log.error("######## templatePath:" + templatePath);
+				if (node != null) {
 
-    			try {
-    			    Node content = jcrSession.getNode(templatePath
-    				    + "/" + "jcr:content");
-    			    InputStream is = content.getProperty("jcr:data")
-    				    .getBinary().getStream();
-    			    InputStreamReader r = new InputStreamReader(is,
-    				    "utf-8");
-    			    StringWriter w = new StringWriter();			   
-    			    IOUtils.copy(r, w);
-    			    emailTemplate = w.toString();
-    			    
-    			} catch (Exception e) {
-    			    e.printStackTrace();
-    			}
-    		    }
+					String emailTemplate = "";
+					String templatePath = "";
+
+					// Attempt to get the email template
+					emailTemplate = args.get("template", String.class);
+					// If template text is not found try to get template from
+					// path
+					if (emailTemplate == null || emailTemplate.equals("")) {
+						templatePath = args.get("templatePath", String.class);
+
+						log.error("######## templatePath:" + templatePath);
+
+						try {
+							Node content = jcrSession.getNode(templatePath
+									+ "/" + "jcr:content");
+							InputStream is = content.getProperty("jcr:data")
+									.getBinary().getStream();
+							InputStreamReader r = new InputStreamReader(is,
+									"utf-8");
+							StringWriter w = new StringWriter();
+							IOUtils.copy(r, w);
+							emailTemplate = w.toString();
+
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
 
     		    // If emailTemplate is still not found or is empty log an
     		    // error
-    		    if (emailTemplate == null || emailTemplate.equals("")) {
-    			log.error("Unable to locate email template OR Template is empty");
-    		    } else {
+					if (emailTemplate == null || emailTemplate.equals("")) {
+						log.error("Unable to locate email template OR Template is empty");
+					} else {
 
-    		    }
-    		    
-    		    // Dissect the email template
-    		    String firstLine = emailTemplate.substring(0,
-    			    emailTemplate.indexOf('\n'));
-    		    String unrefinedMessage = emailTemplate
-    			    .substring(emailTemplate.indexOf("\n") + 1);
-    		    String to = firstLine.substring(0, firstLine.indexOf(':'));
-    		    String address = firstLine
-    			    .substring(firstLine.indexOf(':') + 1);
-    		    address = address.trim();
-    		    to = to.trim();
+					}
 
-    		    if (to.equalsIgnoreCase("to")) {
-    			String message = "";
-    			
-    			Map propertyMap = getPropertyMap(workflowData, workflow, item, jcrSession, resolver);
-    			log.error("#*&@^#*&##*($&@#" + propertyMap.entrySet().toString());
-    			StrSubstitutor sub = new StrSubstitutor(propertyMap);
+					// Dissect the email template
+					String firstLine = emailTemplate.substring(0,
+							emailTemplate.indexOf('\n'));
+					String unrefinedMessage = emailTemplate
+							.substring(emailTemplate.indexOf("\n") + 1);
+					String to = firstLine.substring(0, firstLine.indexOf(':'));
+					String address = firstLine
+							.substring(firstLine.indexOf(':') + 1);
+					address = address.trim();
+					to = to.trim();
 
-    			message = sub.replace(unrefinedMessage);
+					if (to.equalsIgnoreCase("to")) {
+						String message = "";
 
-    			log.error(message);
-    			log.error("Email Address" + sub.replace(address));
-    			try {
+						Map propertyMap = getPropertyMap(workflowData,
+								workflow, item, jcrSession, resolver);
+						log.error("#*&@^#*&##*($&@#"
+								+ propertyMap.entrySet().toString());
+						StrSubstitutor sub = new StrSubstitutor(propertyMap);
 
-    			    if (messageGatewayService != null) {
-    				MessageGateway<HtmlEmail> messageGateway = messageGatewayService
-    					.getGateway(HtmlEmail.class);
-    				HtmlEmail email = new HtmlEmail();
-    				ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
-    				email.setSubject(sub.replace(workflow.getWorkflowModel().getTitle()));
-    				try {
+						message = sub.replace(unrefinedMessage);
 
-    				    emailRecipients.add(new InternetAddress(
-    				    		sub.replace(address)));
-    				} catch (AddressException e) {
+						log.error(message);
+						log.error("Email Address" + sub.replace(address));
+						try {
 
-    				    log.error(e.getMessage());
-    				}	
-    				email.setTo(emailRecipients);
-    				email.setHtmlMsg(message);
-    log.error(email.toString());
-    				messageGateway.send(email);
+							if (messageGatewayService != null) {
+								MessageGateway<HtmlEmail> messageGateway = messageGatewayService
+										.getGateway(HtmlEmail.class);
+								HtmlEmail email = new HtmlEmail();
+								ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
+								email.setSubject(sub.replace(workflow
+										.getWorkflowModel().getTitle()));
+								try {
 
-    			    } else {
-    				log.error("messageGatewayService is null");
-    			    }
+									emailRecipients.add(new InternetAddress(sub
+											.replace(address)));
+								} catch (AddressException e) {
 
-    			} catch (EmailException e) {
+									log.error(e.getMessage());
+								}
+								email.setTo(emailRecipients);
+								email.setHtmlMsg(message);
+								log.error(email.toString());
+								messageGateway.send(email);
 
-    			    e.printStackTrace();
-    			}
+							} else {
+								log.error("messageGatewayService is null");
+							}
 
-    		    } else {
-    			log.error("Email template is invalid first line does not inlcude To:");
-    		    }
+						} catch (EmailException e) {
 
-    		}
-    	    } catch (RepositoryException e) {
-    		throw new WorkflowException(e.getMessage(), e);
-    	    }
-    	}
-        }
+							e.printStackTrace();
+						}
 
-        private Map getPropertyMap(WorkflowData data, Workflow flow, WorkItem item, Session session, ResourceResolver resolver) {
+					} else {
+						log.error("Email template is invalid first line does not inlcude To:");
+					}
 
-        Map map = new HashMap();
-
-    	try {
-
-    	        map.put("model.title", flow.getWorkflowModel().getTitle());
-    	    map.put("model.description", flow.getWorkflowModel().getDescription());
-    	    map.put("model.id", flow.getWorkflowModel().getId());
-    	    map.put("model.version", flow.getWorkflowModel().getVersion());
-    	    map.put("initiator.id", flow.getInitiator());
-            map.put("payload.path", data.getPayload().toString());
-            map.put("payload.type", data.getPayloadType());
-            map.put("comment", item.getMetaDataMap().get("comment", String.class));
-            map.put("initiator.email", getInitiatorEmail(resolver, flow));
-    	
-    	} catch (Exception e) {
-
-    	    log.error(e.getMessage());
-    	}
-
-    	return map;
-        }
-        private String getInitiatorEmail(ResourceResolver resolver, Workflow workflow){
-    	    try{  
-    	    	UserPropertiesManager upMgr = (UserPropertiesManager)resolver.adaptTo(UserPropertiesManager.class);
-    	    	UserProperties initiator = null;
-    	    	String initiatorId = workflow.getInitiator();
-    	    	initiator = upMgr.getUserProperties(initiatorId, "profile");
-    	    	log.error("WEOIFWOEIFHWEOIFRGORG" + initiator.getProperty("email"));
-    	    	initiatorEmail = initiator.getProperty("email");
-    	    	
-    	    	}
-    	    catch(Exception e){
-    	    	e.printStackTrace();
-    	    	}	
-    	    return initiatorEmail;
-    	    }
-			
+				}
+			} catch (RepositoryException e) {
+				throw new WorkflowException(e.getMessage(), e);
+			}
 		}
-		
-  
+	}
+
+	private Map getPropertyMap(WorkflowData data, Workflow flow, WorkItem item,
+			Session session, ResourceResolver resolver) {
+
+		Map map = new HashMap();
+
+		try {
+			map.put("host.prefix", getHostPrefix(resolver));
+			map.put("model.title", flow.getWorkflowModel().getTitle());
+			map.put("model.description", flow.getWorkflowModel()
+					.getDescription());
+			map.put("model.id", flow.getWorkflowModel().getId());
+			map.put("model.version", flow.getWorkflowModel().getVersion());
+			map.put("initiator.id", flow.getInitiator());
+			map.put("payload.path", data.getPayload().toString());
+			map.put("payload.type", data.getPayloadType());
+			map.put("comment",
+					item.getMetaDataMap().get("comment", String.class));
+			map.put("initiator.email", getInitiatorEmail(resolver, flow));
+
+		} catch (Exception e) {
+
+			log.error(e.getMessage());
+		}
+
+		return map;
+	}
+
+	private String getInitiatorEmail(ResourceResolver resolver,
+			Workflow workflow) {
+		try {
+			UserPropertiesManager upMgr = (UserPropertiesManager) resolver
+					.adaptTo(UserPropertiesManager.class);
+			UserProperties initiator = null;
+			String initiatorId = workflow.getInitiator();
+			initiator = upMgr.getUserProperties(initiatorId, "profile");
+			log.error("WEOIFWOEIFHWEOIFRGORG" + initiator.getProperty("email"));
+			initiatorEmail = initiator.getProperty("email");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return initiatorEmail;
+	}
+
+	private String getHostPrefix(ResourceResolver resolver) {
+		String hostPrefix = null;
+		Externalizer externalizer = (Externalizer) resolver
+				.adaptTo(Externalizer.class);
+		String externalizerHost = externalizer.externalLink(resolver, "local",
+				"");
+		if ((externalizerHost != null) && (externalizerHost.endsWith("/"))) {
+			hostPrefix = externalizerHost.substring(0,
+					externalizerHost.length() - 1);
+
+		}
+		return hostPrefix;
+	}
+}

@@ -60,7 +60,7 @@ System.err.println("User is null.Setting new "+ apiConfig.getUserId());
   <dd>
   <%if( user.getYearPlan()!=null ){ %>
   	<a href="/content/girlscouts-vtk/en/vtk.planView.html" >Meeting Plan</a>
-  <%}else{%> <a href="#">Year Plan</a> <%} %>
+  <%}else{%> <a href="#">Meeting Plan</a> <%} %>
   </dd>
   
   

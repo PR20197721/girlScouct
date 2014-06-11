@@ -1,0 +1,12 @@
+To: ${initiator.email}
+From: My Name <my.name@whoeveryouare.com>
+
+Subject: Page Approval Granted
+
+Hi ${initiator.name},
+Your page ${host.prefix}${payload.path}.html has been approved and published.
+Comments:
+<br>
+${comment}
+Regards,
+Your local friendly CQ5 Admin

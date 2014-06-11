@@ -7,7 +7,7 @@ ApiConfig apiConfig= (ApiConfig)session.getAttribute(ApiConfig.class.getName());
 <%=apiConfig.getUserId() %>--
 <%=apiConfig.getAccessToken() %>
 
-<br/>Reminder Meeting#  XXX <%= dateFormat55.format(searchDate) %>
+<br/>Reminder Meeting#  <%=(currInd+1) %> <%= dateFormat55.format(searchDate) %>
 	
 
 <br/>Sent: XXX
@@ -24,7 +24,7 @@ ApiConfig apiConfig= (ApiConfig)session.getAttribute(ApiConfig.class.getName());
 
 <div style="background-color:gray">Compose Email</div>
 
-<br/>Subject: <input type="text" id="email_subj" value="Reminder XXX  Meeting# XXX <%= dateFormat55.format(searchDate) %>"/>
+<br/>Subject: <input type="text" id="email_subj" value="Reminder XXX  Meeting# <%=(currInd+1) %> <%= dateFormat55.format(searchDate) %>"/>
 
 <div>XXX widget fmt</div>
 
@@ -108,10 +108,6 @@ XXX
 <br/><br/><input type="button" value="Send" onclick="sendMeetingReminderEmail('<%=meeting.getPath()%>')"/>
 
 
-<form action="/content/girlscouts-vtk/controllers/vtk.controller.html" method="get">
-<input type="hidden" value="sendMeetingReminderEmail" name="sendMeetingReminderEmail"/>
-<input type="submit"/>
-</form> 
 
 
 <% 
