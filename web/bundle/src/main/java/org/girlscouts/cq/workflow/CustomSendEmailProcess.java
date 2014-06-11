@@ -41,7 +41,6 @@ import com.day.cq.workflow.exec.WorkflowData;
 import com.day.cq.workflow.exec.WorkflowProcess;
 import com.day.cq.workflow.metadata.MetaDataMap;
 
-
 @Component
 @Service
 public class CustomSendEmailProcess implements WorkflowProcess {
@@ -73,13 +72,10 @@ public class CustomSendEmailProcess implements WorkflowProcess {
 		}
 		WorkflowData workflowData = item.getWorkflowData();
 		Workflow workflow = item.getWorkflow();
-		log.error("######## workItemPath:" + args.keySet());
 		log.error("######## workItemPath:" + item.getMetaDataMap());
 
 		if (workflowData.getPayloadType().equals(TYPE_JCR_PATH)) {
 			String path = workflowData.getPayload().toString();
-
-			log.debug("################################");
 
 			try {
 				Session jcrSession = session.getSession();
@@ -117,8 +113,8 @@ public class CustomSendEmailProcess implements WorkflowProcess {
 						}
 					}
 
-    		    // If emailTemplate is still not found or is empty log an
-    		    // error
+					// If emailTemplate is still not found or is empty log an
+					// error
 					if (emailTemplate == null || emailTemplate.equals("")) {
 						log.error("Unable to locate email template OR Template is empty");
 					} else {
@@ -149,37 +145,39 @@ public class CustomSendEmailProcess implements WorkflowProcess {
 
 						log.error(message);
 						log.error("Email Address" + sub.replace(address));
-						try {
+						if (sub.replace(address).equals("${initiator.email}")) {
+							log.error("Initiator email unavailable");
+						} else {
+							try {
 
-							if (messageGatewayService != null) {
-								MessageGateway<HtmlEmail> messageGateway = messageGatewayService
-										.getGateway(HtmlEmail.class);
-								HtmlEmail email = new HtmlEmail();
-								ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
-								email.setSubject(sub.replace(workflow
-										.getWorkflowModel().getTitle()));
-								try {
+								if (messageGatewayService != null) {
+									MessageGateway<HtmlEmail> messageGateway = messageGatewayService
+											.getGateway(HtmlEmail.class);
+									HtmlEmail email = new HtmlEmail();
+									ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
+									email.setSubject(sub.replace(workflow
+											.getWorkflowModel().getTitle()));
+									try {
 
-									emailRecipients.add(new InternetAddress(sub
-											.replace(address)));
-								} catch (AddressException e) {
-
-									log.error(e.getMessage());
+										emailRecipients
+												.add(new InternetAddress(sub
+														.replace(address)));
+									} catch (AddressException e) {
+										log.error("Initiator email incorrectly formatted");
+										log.error(e.getMessage());
+									}
+									email.setTo(emailRecipients);
+									email.setHtmlMsg(message);
+									messageGateway.send(email);
+								} else {
+									log.error("messageGatewayService is null");
 								}
-								email.setTo(emailRecipients);
-								email.setHtmlMsg(message);
-								log.error(email.toString());
-								messageGateway.send(email);
 
-							} else {
-								log.error("messageGatewayService is null");
+							} catch (EmailException e) {
+
+								e.printStackTrace();
 							}
-
-						} catch (EmailException e) {
-
-							e.printStackTrace();
 						}
-
 					} else {
 						log.error("Email template is invalid first line does not inlcude To:");
 					}

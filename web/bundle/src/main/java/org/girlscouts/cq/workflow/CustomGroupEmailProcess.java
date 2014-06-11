@@ -235,10 +235,9 @@ public class CustomGroupEmailProcess implements WorkflowProcess {
 					.findByHome("/home/groups/girlscouts-usa/" + councilGroup);
 			Iterator<Authorizable> iter = group.members();
 			while (iter.hasNext()) {
-				String temp = null;
 				User user = (User) iter.next();
-				temp = user.getProperty("profile/email");
 				emailAddresses.add(user.getProperty("profile/email"));
+				log.error(user.getProperty("I AM HANKEEEEEEE"+ "profile/email"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
