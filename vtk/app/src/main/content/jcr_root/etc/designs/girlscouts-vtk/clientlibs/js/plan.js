@@ -301,6 +301,28 @@
   	 			'newCustActivityLocAddr='+ newCustActivityLocAddr +'&'+
   	 			'newCustActivity_txt='+ newCustActivity_txt ;
   	 			
+  	 
+  	 
+  	 
+  	 $.ajax({
+	      url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
+	      type: 'POST',
+	      data: { 
+	    	  newCustActivity:true,
+	    	  newCustActivity_name:newCustActivity_name ,
+	 			newCustActivity_date:newCustActivity_date ,
+	 			newCustActivity_startTime: newCustActivity_startTime ,
+	 			newCustActivity_endTime:newCustActivity_endTime ,
+	 			newCustActivityLocName: newCustActivityLocName ,
+	 			newCustActivityLocAddr: newCustActivityLocAddr ,
+	 			newCustActivity_txt: newCustActivity_txt
+	      },
+	      success: function(result) {
+	    	  location.reload();
+	      }
+	  });
+	  
+  	 /*
   	 $( "#newCustActivity_err" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?newCustActivity=true&"+urlParam, function( response, status, xhr ) {
      	  if ( status != "error" ) {
      	    
@@ -312,6 +334,7 @@
      	  
      	  
      	});
+     	*/
    }
    
    function searchActivity(){

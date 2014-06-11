@@ -59,7 +59,7 @@ function cngMeeting(mPath){
 	//console.log(mPath);
 	//console.log("/VTK/include/controller.jsp?<%=meetingPath ==null ? "addMeeting" : "cngMeeting"%>=true&fromPath=<%=meetingPath%>&toPath="+mPath);
 	$( "#cngMeet" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?<%=meetingPath ==null ? "addMeeting" : "cngMeeting"%>=true&fromPath=<%=meetingPath%>&toPath="+mPath,function( html ) {
-		 <%if(meetingPath==null){%>
+		 <%if(true){//meetingPath==null){%>
 		    document.location="/content/girlscouts-vtk/en/vtk.plan.html";
 		 <%}else{%>
 		 	document.location="/content/girlscouts-vtk/en/vtk.planView.html";

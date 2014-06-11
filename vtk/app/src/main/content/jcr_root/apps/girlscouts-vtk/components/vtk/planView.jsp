@@ -57,7 +57,9 @@ YearPlanComponent _comp= sched.get(searchDate);
        					break;
        					
        					case MEETING :
+       						
            					%>  <%@include file="include/viewYearPlanMeeting.jsp" %>    <% 
+           					
            					break;
        				}       			
        %>
