@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.jcr.Node;
+import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.mail.internet.AddressException;
@@ -144,7 +145,7 @@ public class CustomSendEmailProcess implements WorkflowProcess {
 						message = sub.replace(unrefinedMessage);
 
 						log.error(message);
-						log.error("Email Address" + sub.replace(address));
+
 						if (sub.replace(address).equals("${initiator.email}")) {
 							log.error("Initiator email unavailable");
 						} else {
@@ -204,8 +205,7 @@ public class CustomSendEmailProcess implements WorkflowProcess {
 			map.put("initiator.id", flow.getInitiator());
 			map.put("payload.path", data.getPayload().toString());
 			map.put("payload.type", data.getPayloadType());
-			map.put("comment",
-					item.getMetaDataMap().get("comment", String.class));
+			map.put("comment", getComment(flow, session));
 			map.put("initiator.email", getInitiatorEmail(resolver, flow));
 
 		} catch (Exception e) {
@@ -245,5 +245,27 @@ public class CustomSendEmailProcess implements WorkflowProcess {
 
 		}
 		return hostPrefix;
+	}
+
+	private String getComment(Workflow flow, Session session) {
+		String comment = null;
+		try {
+
+			String commentPath = flow.getId();
+			Node content1 = session.getNode(commentPath + "/history");
+			NodeIterator iter = content1.getNodes();
+			iter.nextNode();
+			iter.nextNode();
+			iter.nextNode();
+			iter.nextNode();
+			Node content2 = iter.nextNode();
+			content2 = session.getNode(content2.getPath()
+					+ "/workItem/metaData/");
+			comment = content2.getProperty("comment").getValue().getString();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return comment;
 	}
 }
