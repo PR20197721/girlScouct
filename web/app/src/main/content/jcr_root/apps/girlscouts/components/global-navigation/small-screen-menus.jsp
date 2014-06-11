@@ -47,6 +47,19 @@ for (int i = 0; i < links.length; i++)
         Iterator<Page> iterPage=null;
         Boolean resourceFlag = false;
         String startingPoint = "";
+        Iterator <Page> slingResourceIter;
+        String slingResourceType = "girlscouts/components/placeholder-page";
+        String contentResourceType = resource.getResourceResolver().getResource(menuPath+"/jcr:content").getResourceType();
+        
+        if(contentResourceType.equals(slingResourceType)){
+        	slingResourceIter = resource.getResourceResolver().getResource(menuPath).adaptTo(Page.class).listChildren();
+        	if(slingResourceIter.hasNext()){
+        		Page firstChild =  slingResourceIter.next();
+        		path = genLink(resourceResolver, firstChild.getPath());
+        		
+        	}
+        	
+        }
         
         if(!path.isEmpty() && !path.equalsIgnoreCase("#"))
         {
@@ -94,14 +107,18 @@ for (int i = 0; i < links.length; i++)
           else if((menuPath.indexOf(currPath) == 0) || (currPath.startsWith(menuPath)))
            {
         	  if(currPath.equals(menuPath)){
-            %>
-        	  
-             <li class="active">
+        		  
+               %>
+        	    <li class="active">
               
-            <%}else{%>
+            <%}else{
+            
+                %>
             	 <li id="sub-active">
             	
-            <%} %>
+            <%}  
+               
+               %>
              <a href="<%= path %>"><%= sLabel %></a>
             <% 
               

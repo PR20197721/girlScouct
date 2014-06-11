@@ -565,10 +565,6 @@ td.fc-header-left{
     background: url('images/orange-yellow-vertical.png') repeat-y  0px 0px; 
   
 }
-
-
-
-
 #right-canvas-menu .side-nav ul#submenu  {
     padding:0px;    
   
@@ -629,9 +625,7 @@ td.fc-header-left{
 
 .right-off-canvas-menu ul li.active > a{
      background-color:#B0B0B0;
-     
-
-}
+ }
 
 ul.side-nav, li#sub-active ul, li#sub-active > ul > li > ul > li{
   padding:0px;
@@ -640,7 +634,7 @@ ul.side-nav, li#sub-active ul, li#sub-active > ul > li > ul > li{
 
 .side-nav li {
     text-indent:30px;
-    }
+  }
     
 .side-nav ul li ul li {
     text-indent:0px;
@@ -673,10 +667,30 @@ li#sub-active > ul > ul >li > ul > li {
 .side-nav li {
     text-indent:10px;
     }  
-    
+
+#right-canvas-menu-bottom > ul{
+   padding:0px;
+  margin:0px;
+}
 #right-canvas-menu-bottom li 
  {
     height:50px;
     width:100%;
-    text-indent:-5px;
+   /* text-indent:-5px;*/
     }
+    
+#right-canvas-menu-bottom > ul > li.active{
+  background-color:#B0B0B0;
+}
+
+#right-canvas-menu-bottom li{
+    padding: 8px 0px 0px 5px;
+}
+
+#right-canvas-menu-bottom > ul > li >a{
+   padding:0px;
+}
+
+#right-canvas-menu-bottom li {
+    text-indent:19px;
+  }
