@@ -429,8 +429,9 @@ public class TraverseFind {
 
             StringTokenizer t = new StringTokenizer(title, "|");
             // t.nextToken(); //?
+            String nextToken = t.nextToken().replaceAll("<.*?>", "");
 
-            activity.setActivityNumber(Integer.parseInt(t.nextToken()));
+            activity.setActivityNumber(Integer.parseInt(nextToken));
             activity.setName(t.nextToken().replace("&#x201d;", ""));
             // GOOD activity.setDuration(Integer.parseInt( t.nextToken() ) );
 
