@@ -161,6 +161,9 @@ public class CalendarUtil {
 			
 			java.util.Date newDate = null;
 			try{ newDate =dateFormat4.parse( date +" "+time + " "+ap); }catch(Exception e){e.printStackTrace();}
+			
+			System.err.println("Replacing with: "+ newDate);
+			
 			String sched = cal.getDates();
 			sched = sched.replace(""+currDate, newDate.getTime()+"");
 			cal.setDates(sched);

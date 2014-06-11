@@ -65,7 +65,7 @@ System.err.println("User is null.Setting new "+ apiConfig.getUserId());
   
   
   
-  <dd><a href="#panel2-4">Resources</a></dd>
+  <dd><a href="/content/girlscouts-vtk/en/vtk.resource.html">Resources</a></dd>
   <dd><a href="#panel2-5">Community</a></dd>
 </dl>
 <div class="tabs-content">
@@ -96,7 +96,8 @@ System.err.println("User is null.Setting new "+ apiConfig.getUserId());
   <%} %>
 
 
-						<br /> <br />To Start choose plan
+						<br /> <br />To start planning your year, select a Year Plan
+						<a href="javascript:void(0)" id="plan_hlp_hrf">help</a>
 						<div style="background-color: gray; height: 20px; color: #FFF;">
 							Year Plan Library</div>
 
@@ -152,3 +153,6 @@ System.err.println("User is null.Setting new "+ apiConfig.getUserId());
     
 
                 </div>
+                
+                
+                <div id="plan_hlp" style="display:none;"><h1>Year Plan Help:</h1><ul><li>asdf></li><li>asdf></li><li>asdf></li></ul></div>
