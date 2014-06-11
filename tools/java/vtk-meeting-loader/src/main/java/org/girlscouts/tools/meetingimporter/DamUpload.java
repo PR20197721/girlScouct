@@ -32,7 +32,7 @@ try
  javax.jcr.Session session = repository.login( new SimpleCredentials("admin", "admin".toCharArray()));     
   
 //Read the DOM upload XML file from file system
- java.io.File fXmlFile = new java.io.File("/Users/akobovich/caca/DamUpload.xml");
+ java.io.File fXmlFile = new java.io.File("/Users/mike/Desktop/brownie");
  DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
  DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
  Document doc = dBuilder.parse(fXmlFile);
