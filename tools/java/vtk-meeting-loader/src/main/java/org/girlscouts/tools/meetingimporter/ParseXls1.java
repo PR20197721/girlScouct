@@ -91,7 +91,7 @@ public class ParseXls1 {
             if (docxMeeting == null) {
             } else {
                 List<Activity> chngActivities = new java.util.ArrayList();
-                Pattern p = Pattern.compile("\\[(.*?)^(.*?)^(.*?)\\]");
+                Pattern p = Pattern.compile("\\[(.*?)\\^(.*?)\\^(.*?)\\]");
                 Matcher m = p.matcher(meeting.getAgenda());
                 int count = 0;
                 while (m.find()) {
@@ -120,9 +120,10 @@ public class ParseXls1 {
                 java.util.Iterator itr = meetings.keySet().iterator();
                 while (itr.hasNext()) {
                     String title = (String) itr.next();
+                    String titleWithoutTags = title.replaceAll("<.*?>", "");
 
                     _meetings.put(
-                            title,
+                            titleWithoutTags,
                             new CollectionHoldString(docx.fmtStr(meetings
                                     .get(title))));
                 }
