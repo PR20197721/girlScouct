@@ -187,7 +187,7 @@ public class TraverseFind {
             String title = (String) _itr.next();
             System.err.println("--- " + title);
             // MEETING populate
-            if (title.trim().toLowerCase().equals("detailed activity plan"))
+            if (title.trim().toLowerCase().replaceAll("<.*?>", "").equals("detailed activity plan"))
                 meeting = new TraverseFind().processMeeting((String) _container
                         .get(title));
         }
@@ -405,7 +405,7 @@ public class TraverseFind {
 
         Meeting meeting = new Meeting();
         // System.err.println("&&&&&&&&&&& Meeting.."+txt);
-        String pattern = "\\[Activity(.*?)\\]]"; // "\\[[Activity|[0=9]|\\]]";
+        String pattern = "\\[.*?Activity(.*?)\\]]"; // "\\[[Activity|[0=9]|\\]]";
                                                  // //"\\[(.*?)\\]]"
         java.util.Map container = breakup1(txt, pattern);
         java.util.List<Activity> activities = new java.util.ArrayList();
@@ -418,7 +418,8 @@ public class TraverseFind {
             setActivityLog("Processing title: " + title);
             // System.err.println( "Title: "+ title);
             String str = (String) container.get(title);
-
+            
+            title = title.replaceAll("<.*?>", "");
             Activity activity = new Activity();
 
             // String g= str.substring(str.indexOf("<p>") );
@@ -428,12 +429,9 @@ public class TraverseFind {
             // activity.setActivityDescription(g);
 
             StringTokenizer t = new StringTokenizer(title, "|");
-            // t.nextToken(); //?
-            String nextToken = t.nextToken().replaceAll("<.*?>", "");
 
-            activity.setActivityNumber(Integer.parseInt(nextToken));
-            nextToken = t.nextToken().replace("&#x201d;", "").replaceAll("<.*?>", "");
-            activity.setName(nextToken);
+            activity.setActivityNumber(Integer.parseInt(t.nextToken()));
+            activity.setName(t.nextToken().replace("&#x201d;", ""));
             // GOOD activity.setDuration(Integer.parseInt( t.nextToken() ) );
 
             java.util.Map subContainer = breakup1(str, "\\[(.*?)\\]]");

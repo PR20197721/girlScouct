@@ -89,6 +89,7 @@ public class ParseXls1 {
                 e.printStackTrace();
             }
             if (docxMeeting == null) {
+                System.err.println("Cannot parse meeting:" + meetingId);
             } else {
                 List<Activity> chngActivities = new java.util.ArrayList();
                 Pattern p = Pattern.compile("\\[(.*?)\\^(.*?)\\^(.*?)\\]");
