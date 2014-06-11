@@ -432,7 +432,8 @@ public class TraverseFind {
             String nextToken = t.nextToken().replaceAll("<.*?>", "");
 
             activity.setActivityNumber(Integer.parseInt(nextToken));
-            activity.setName(t.nextToken().replace("&#x201d;", ""));
+            nextToken = t.nextToken().replace("&#x201d;", "").replaceAll("<.*?>", "");
+            activity.setName(nextToken);
             // GOOD activity.setDuration(Integer.parseInt( t.nextToken() ) );
 
             java.util.Map subContainer = breakup1(str, "\\[(.*?)\\]]");

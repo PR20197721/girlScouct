@@ -32,7 +32,7 @@ public class ParseXls1 {
         ParseXls1 me = new ParseXls1();
 
         FileInputStream fis = new FileInputStream(
-                "/Users/akobovich/Desktop/girls.xlsx");
+                "/Users/mike/Desktop/brownie/yearplan.xlsx");
         Workbook workbook = WorkbookFactory.create(fis);
 
         FormulaEvaluator evaluator = workbook.getCreationHelper()
@@ -49,14 +49,14 @@ public class ParseXls1 {
                 break;
             }
 
-            String meetingTitle = me.getCellVal(evaluator, sheet, "B" + i);
+            //String meetingTitle = me.getCellVal(evaluator, sheet, "B" + i);
+            String meetingName = me.getCellVal(evaluator, sheet, "B" + i);
             String level = me.getCellVal(evaluator, sheet, "C" + i);
-            String meetingName = me.getCellVal(evaluator, sheet, "D" + i);
-            String meetingBlurb = me.getCellVal(evaluator, sheet, "E" + i);
-            String cat = me.getCellVal(evaluator, sheet, "F" + i);
-            String aids_tags = me.getCellVal(evaluator, sheet, "G" + i);
-            String resource_tags = me.getCellVal(evaluator, sheet, "H" + i);
-            String agenda = me.getCellVal(evaluator, sheet, "I" + i);
+            String meetingBlurb = me.getCellVal(evaluator, sheet, "D" + i);
+            String cat = me.getCellVal(evaluator, sheet, "E" + i);
+            String aids_tags = me.getCellVal(evaluator, sheet, "F" + i);
+            String resource_tags = me.getCellVal(evaluator, sheet, "G" + i);
+            String agenda = me.getCellVal(evaluator, sheet, "H" + i);
 
             Meeting meeting = new Meeting();
             meeting.setId(meetingId);
@@ -79,7 +79,7 @@ public class ParseXls1 {
             TraverseFind docx = new TraverseFind();
 
             java.util.Map<String, String> meetings = docx
-                    .getMeetingInfo("/Users/akobovich/Desktop/"
+                    .getMeetingInfo("/Users/mike/Desktop/brownie/"
                             + meetingId.toUpperCase() + ".docx");
 
             Meeting docxMeeting = null;
@@ -91,7 +91,7 @@ public class ParseXls1 {
             if (docxMeeting == null) {
             } else {
                 List<Activity> chngActivities = new java.util.ArrayList();
-                Pattern p = Pattern.compile("\\[(.*?)-(.*?)-(.*?)\\]");
+                Pattern p = Pattern.compile("\\[(.*?)^(.*?)^(.*?)\\]");
                 Matcher m = p.matcher(meeting.getAgenda());
                 int count = 0;
                 while (m.find()) {
@@ -143,7 +143,7 @@ public class ParseXls1 {
 
     // Meeting
     public void doJcr(Meeting meeting) throws Exception {
-
+        System.out.println("beginning doJcr");
         // Connection
         javax.jcr.Repository repository = JcrUtils
                 .getRepository("http://localhost:4502/crx/server/");
