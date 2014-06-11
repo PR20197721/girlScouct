@@ -4,7 +4,7 @@ From: My Name <my.name@whoeveryouare.com>
 Subject: Page Approval Reject
 
 Hi ${initiator.name},
-Your page ${host.prefix}${payload.path}.html has been approved and published.
+Your page ${host.prefix}${payload.path}.html has been rejected.
 <br>
 Comments:
 <br>
