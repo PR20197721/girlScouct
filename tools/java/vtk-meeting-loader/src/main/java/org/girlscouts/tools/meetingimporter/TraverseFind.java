@@ -439,18 +439,6 @@ public class TraverseFind {
             java.util.Map subContainer = breakup1(str, "\\[(.*?)\\]]");
 
             java.util.Iterator subItr = subContainer.keySet().iterator();
-            while (subItr.hasNext()) {
-
-                String _title = (String) subItr.next();
-
-                if (_title.replace("[", "").toLowerCase().trim()
-                        .equals("materials")) {
-                    activity.setMaterials((String) subContainer.get(_title));
-                } else if (_title.replace("[", "").toLowerCase().trim()
-                        .equals("steps")) {
-                    activity.setSteps((String) subContainer.get(_title));
-                }
-            }
             activities.add(activity);
 
             // System.err.println(">>>"+activity.getActivityDescription());

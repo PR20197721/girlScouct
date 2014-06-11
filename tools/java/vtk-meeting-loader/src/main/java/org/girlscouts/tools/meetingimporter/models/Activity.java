@@ -12,8 +12,6 @@ public class Activity {
     private String name, activityDescription;
     @Field
     private int duration, activityNumber;
-    @Field
-    private String materials, steps;
 
     public String getPath() {
 
@@ -30,22 +28,6 @@ public class Activity {
 
     public void setActivityDescription(String activityDescription) {
         this.activityDescription = activityDescription;
-    }
-
-    public String getMaterials() {
-        return materials;
-    }
-
-    public void setMaterials(String materials) {
-        this.materials = materials;
-    }
-
-    public String getSteps() {
-        return steps;
-    }
-
-    public void setSteps(String steps) {
-        this.steps = steps;
     }
 
     public String getName() {
