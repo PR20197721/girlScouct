@@ -77,20 +77,16 @@ public class CustomGroupEmailProcess implements WorkflowProcess {
 		}
 		WorkflowData workflowData = item.getWorkflowData();
 		Workflow workflow = item.getWorkflow();
-		log.error("######## workItemPath:" + args.keySet());
-		log.error("######## workItemPath:" + item.getMetaDataMap());
 
 		if (workflowData.getPayloadType().equals(TYPE_JCR_PATH)) {
 			String path = workflowData.getPayload().toString();
 
 			Page page = (Page) resolver.resolve(
 					workflowData.getPayload().toString()).adaptTo(Page.class);
-			log.error("PAGE" + workflowData.getPayload().toString());
 
 			String councilGroup = page.getAbsoluteParent(1).getName();
 			councilGroup = councilGroup + "-reviewers";
 
-			log.error("######## group" + councilGroup);
 			try {
 				Session jcrSession = session.getSession();
 
@@ -108,8 +104,6 @@ public class CustomGroupEmailProcess implements WorkflowProcess {
 					// path
 					if (emailTemplate == null || emailTemplate.equals("")) {
 						templatePath = args.get("templatePath", String.class);
-
-						log.error("######## templatePath:" + templatePath);
 
 						try {
 							Node content = jcrSession.getNode(templatePath
@@ -163,15 +157,24 @@ public class CustomGroupEmailProcess implements WorkflowProcess {
 								email.setSubject(sub.replace(workflow
 										.getWorkflowModel().getTitle()));
 								try {
+									int missingEmails = 0;
 									List<String> emails = getGroupEmails(
 											resolver, councilGroup);
 
 									for (int i = 0; i < emails.size(); i++) {
+										if (emails.get(i) != null) {
+											emailRecipients
+													.add(new InternetAddress(
+															emails.get(i)));
 
-										emailRecipients
-												.add(new InternetAddress(emails
-														.get(i)));
+										} else {
+
+											missingEmails++;
+											log.error(missingEmails
+													+ " email Addresses missing");
+										}
 									}
+
 								} catch (AddressException e) {
 
 									log.error(e.getMessage());
@@ -237,7 +240,6 @@ public class CustomGroupEmailProcess implements WorkflowProcess {
 			while (iter.hasNext()) {
 				User user = (User) iter.next();
 				emailAddresses.add(user.getProperty("profile/email"));
-				log.error(user.getProperty("I AM HANKEEEEEEE"+ "profile/email"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
