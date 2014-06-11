@@ -231,7 +231,6 @@ while( t.hasMoreElements()){
 
 <% if( user.getYearPlan().getSchedule()!=null ) { %>
   <div class="tmp" id="popup" style="background-color:orange;">
-	/content/girlscouts-vtk/controllers/vtk.include.email.meetingReminder.html
 	<%@include file="email/meetingReminder.jsp" %>
   </div>
 <%} %>

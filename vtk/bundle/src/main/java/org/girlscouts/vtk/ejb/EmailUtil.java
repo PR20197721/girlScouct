@@ -14,6 +14,7 @@ import org.girlscouts.vtk.models.user.User;
 import org.girlscouts.vtk.salesforce.Campaign;
 import org.girlscouts.vtk.salesforce.Contact;
 import org.girlscouts.vtk.salesforce.Email;
+import org.girlscouts.vtk.salesforce.Users;
 import org.girlscouts.vtk.salesforce.tester3;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,9 +57,22 @@ public class EmailUtil {
 				emailTo.add( contacts.get(i).getEmail());
 		}
 		
+		//Users salesForceUser = new tester3().getUserInfo(apiConfig);	 //TODO store and pull 
+		//emr.setFrom(salesForceUser.getEmail());
+		
+		if( emr.getEmailToSelf() !=null )
+				emailTo.add(emr.getFrom());
 		
 		
-		/*
+		
+		
+		String _to = "";
+		for(int i=0;i<emailTo.size();i++)
+			_to+= emailTo.get(i);
+		emr.setTo(_to);
+		
+		//emr.setFrom(user.getApiConfig().getUser().getEmail() );
+		
 		System.err.println(apiConfig.getAccessToken());
 		
 		System.err.println("From: "+ emr.getFrom());
@@ -71,17 +85,18 @@ public class EmailUtil {
 		
 		//new SalesforceDAO().getUserInfo(apiConfig);
 		//new SalesforceDAO().getContactEmailList(apiConfig);
-		*/
+	
 
 		
 		//TODO send email via salesforce
 		Email email = new Email();
 		email.setFrom(emr.getFrom());
-		email.setTo(emailTo.toString());
+		email.setTo(emr.getTo());
 		email.setSubject(emr.getSubj());
 		email.setTxtEmail(emr.getHtml());
 		email.setParentId("500Z0000007Szyg");
 		String confId =new tester3().sendEmail(apiConfig, email);
+		System.err.println("Email conf :"+ confId);
 		
 	}
 	
