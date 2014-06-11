@@ -9,7 +9,7 @@
             jcr:primaryType="cq:Widget"
             fieldDescription="Leave empty to use the page title."
             fieldLabel="Title"
-            name="./jcr:title"
+            name="./title"
             xtype="textfield"/>
         <type
             jcr:primaryType="cq:Widget"
@@ -18,24 +18,31 @@
             type="select"
             xtype="selection">
             <options jcr:primaryType="cq:WidgetCollection">
-                <def
+                <h1
                     jcr:primaryType="nt:unstructured"
-                    text="(default)"
-                    value=""/>
-                <small
+                    text="h1"
+                    value="h1"/>
+                <h2
                     jcr:primaryType="nt:unstructured"
-                    text="Small"
-                    value="small"/>
-                <large
+                    text="h2"
+                    value="h2"/>
+                <h3
                     jcr:primaryType="nt:unstructured"
-                    text="Large"
-                    value="large"/>
+                    text="h3"
+                    value="h3"/>
+                <h4
+                    jcr:primaryType="nt:unstructured"
+                    text="h4"
+                    value="h4"/>
+                <h5
+                    jcr:primaryType="nt:unstructured"
+                    text="h5"
+                    value="h5"/>
+                <h6
+                    jcr:primaryType="nt:unstructured"
+                    text="h6"
+                    value="h6"/>
             </options>
         </type>
-        <css-styles
-            jcr:primaryType="cq:Widget"
-            fieldLabel="Css Classes"
-            name="./additionalCss"
-            xtype="textfield"/>
     </items>
 </jcr:root>
