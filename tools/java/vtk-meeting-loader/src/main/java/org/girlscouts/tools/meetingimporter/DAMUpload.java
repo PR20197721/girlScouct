@@ -56,7 +56,7 @@ public class DAMUpload {
 	
 	private void parseMeetingPlan() throws Exception{
 		
-		 FileInputStream fis = new FileInputStream("/Users/akobovich/Desktop/girls1.xlsx");
+		 FileInputStream fis = new FileInputStream("/Users/mike/Desktop/brownie/yearplan.xlsx");
          Workbook workbook = WorkbookFactory.create(fis);
          
          FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
@@ -141,21 +141,28 @@ for(int i=2;i<sheet.getLastRowNum();i++){
 	// 1 row header(s)
 	private void parseAssetLoad() throws Exception{
 		
-		FileInputStream fis = new FileInputStream("/Users/akobovich/Desktop/girls1.xlsx");
+		FileInputStream fis = new FileInputStream("/Users/mike/Desktop/brownie/yearplan.xlsx");
         Workbook workbook = WorkbookFactory.create(fis);
         
         FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
-        Sheet sheet = workbook.getSheetAt(2);
+        Sheet sheet = workbook.getSheetAt(1);
 
         for(int i=2;i<sheet.getLastRowNum();i++){
         	String fileName = getCellVal( evaluator, sheet, "A"+i );
         	if( fileName==null || fileName.length()<1) break;
         	String type = getCellVal( evaluator, sheet, "B"+i );
         	String destination = getCellVal( evaluator, sheet, "C"+i );
-        	String metaData = getCellVal( evaluator, sheet, "D"+i );
         	String meetingId = destination.substring( destination.lastIndexOf("/")+1);
         	
         	java.util.Map metaDatas = new java.util.TreeMap();
+        	metaDatas.put("name", getCellVal(evaluator, sheet, "D" + i));
+        	metaDatas.put("tags", getCellVal(evaluator, sheet, "E" + i));
+        	metaDatas.put("description", getCellVal(evaluator, sheet, "F" + i));
+        	metaDatas.put("category", getCellVal(evaluator, sheet, "G" + i));
+        	metaDatas.put("duration", getCellVal(evaluator, sheet, "H" + i));
+
+
+        	/*
         	if( metaData.contains("\n") ){
         		
         	 java.util.StringTokenizer t= new java.util.StringTokenizer( metaData, "\n");
@@ -168,11 +175,13 @@ for(int i=2;i<sheet.getLastRowNum();i++){
             	metaDatas.put( elems[0].trim().toLowerCase(), elems[1].trim());
             	
             }
-            	
+            */
         	
         	try{ 
-        		
-        		damUpload("/Users/akobovich/caca/VTK Test Meeting package/2014/Brownie/", fileName, metaDatas, destination, type);
+        	    String[] destinations = destination.split("\n");
+        	    for (int j = 0; j < destinations.length; j++) {
+        	        damUpload("/Users/mike/Desktop/brownie/", fileName, metaDatas, destinations[j], type);
+        	    }
         	}catch(Exception e){e.printStackTrace();}
         	
         }
@@ -266,7 +275,9 @@ for(int i=2;i<sheet.getLastRowNum();i++){
 	
 		
 		try{
-			
+		    
+		String uploadFileName = fileName.replaceAll(" ", "-");
+		
 		HttpClient httpclient = new DefaultHttpClient();
 			
 			
@@ -275,9 +286,9 @@ for(int i=2;i<sheet.getLastRowNum();i++){
 	    
 	    HttpPost httppost = null;
 	    if( destination.toLowerCase().trim().contains("/global") )
-	    	httppost = new HttpPost( "http://localhost:4502/content/dam/girlscouts-vtk/global/"+ type.toLowerCase().trim() +"/"+java.net.URLEncoder.encode(fileName));
+	    	httppost = new HttpPost( "http://localhost:4502/content/dam/girlscouts-vtk/global/"+ type.toLowerCase().trim() +"/"+java.net.URLEncoder.encode(uploadFileName));
 	    else
-	    	httppost = new HttpPost( "http://localhost:4502/content/dam/girlscouts-vtk/local/"+ type.toLowerCase().trim() +""+ destination+"/"+java.net.URLEncoder.encode(fileName));
+	    	httppost = new HttpPost( "http://localhost:4502/content/dam/girlscouts-vtk/local/"+ type.toLowerCase().trim() +""+ destination+"/"+java.net.URLEncoder.encode(uploadFileName));
 	    
 	    String basic_auth = new String(Base64.encodeBase64(( "admin:admin" ).getBytes()));
 	    httppost.addHeader("Authorization", "Basic " + basic_auth);
