@@ -165,14 +165,14 @@ public class UserDAOImpl implements UserDAO{
 				
 		YearPlan oldPlan = user.getYearPlan();
 		YearPlan newYearPlan = addYearPlan(user, yearPlanPath);
-		
+	try{
 		
 		/*
 		for(int i=0;i<newYearPlan.getMeetingEvents().size();i++)
 			System.err.println("NYDDDd :"+newYearPlan.getMeetingEvents().get(i));
 		*/
 		
-		if( oldPlan==null ){ //new user new plan, first time
+		if( oldPlan==null || oldPlan.getMeetingEvents()==null || oldPlan.getMeetingEvents().size()<=0){ //new user new plan, first time
 			
 			user.setYearPlan(newYearPlan);
 			
@@ -222,7 +222,13 @@ public class UserDAOImpl implements UserDAO{
 			oldPlan.setMeetingEvents(newYearPlan.getMeetingEvents() );
 			user.setYearPlan(oldPlan);
 		}
-		
+	}catch(Exception e){
+		e.printStackTrace();
+		try{
+				System.err.println("Error setting new Plan: dumping old plan and replacing with new Plan");
+				user.setYearPlan(newYearPlan);
+		}catch(Exception ew){ew.printStackTrace();}
+	}
 		//remove all custom activitites
 		user.getYearPlan().setActivities(null);
 		
