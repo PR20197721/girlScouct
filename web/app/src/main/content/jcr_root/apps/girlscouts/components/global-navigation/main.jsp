@@ -24,7 +24,8 @@ for (int i = 0; i < links.length; i++) {
     String slingResourceType = "girlscouts/components/placeholder-page";
     contentResourceType="";
     
-    try{
+    try
+    {
       contentResourceType = resource.getResourceResolver().getResource(menuPath+"/jcr:content").getResourceType();
 	  if(contentResourceType.equals(slingResourceType)){
          slingResourceIter = resource.getResourceResolver().getResource(menuPath).adaptTo(Page.class).listChildren();
@@ -34,7 +35,7 @@ for (int i = 0; i < links.length; i++) {
              
          }
          
-     }
+        }
 	 }catch(Exception e){}
 	
 	if(!currPath.equals(rootPath)) {
