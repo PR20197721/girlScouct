@@ -8,12 +8,8 @@ import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
-import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.models.User;
-import org.girlscouts.vtk.salesforce.Campaign;
-import org.girlscouts.vtk.salesforce.Email;
-import org.girlscouts.vtk.salesforce.tester3;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -125,7 +121,7 @@ public class SalesforceDAO {
                     String id = authResponse.getString("id");
                     config.setId(id);
                     config.setUserId(id.substring(id.lastIndexOf("/") + 1));
-                    config.setRefreshToken(authResponse.getString("refresh_token"));
+                    //config.setRefreshToken(authResponse.getString("refresh_token"));
                     return config;
                 } catch (JSONException e) {
                     log.error("JSON Parse exception: " + e.toString());

@@ -18,7 +18,8 @@
 	
 	<div id="<%=(i+1) %>" style="padding:40px; background-color:gray;display:none; border:1px solid red;">
 		Change Date: <input type="text" value="<%= sched.get(i).toString(fmtDate) %>" id="cngDate<%=(i+1) %>" onclick="dtPicker('cngDate<%=(i+1) %>')" />
-		Change Time: <input tyle="text" id="cngTime<%=(i+1) %>" value="<%= sched.get(i).toString(fmtHr) %>"/>
+		Change Time: <input tyle="text" id="cngTime<%=(i+1) %>" value="<%= sched.get(i).toString(fmtHr1) %>"/>
+		
 		<select id="cngAP<%=(i+1) %>"><option value="pm">pm</option> <option value="am">am</option></select>
 		
 		<input type="checkbox" id="isCancellMeeting<%=(i+1) %>" />Cancel Meeting

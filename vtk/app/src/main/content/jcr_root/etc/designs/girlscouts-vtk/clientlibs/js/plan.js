@@ -179,7 +179,7 @@
        	 var  city = document.getElementById("loc_city").value;
        	 var  state = document.getElementById("loc_state").value;
        	 var  zip = document.getElementById("loc_zip").value;
-       	 
+       	 /*
        	 var urlParam = "&name="+ name+
        	 				"&address="+address+
        	 				"&city="+city+
@@ -187,7 +187,29 @@
        	 				"&zip="+zip;
        	 
        	 $("#locMsg").load("/content/girlscouts-vtk/controllers/vtk.controller.html?addLocation=true"+ urlParam);
+       	*/
+       	 
+       	 
+       	 
+       	 $.ajax({
+   	      url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
+   	      type: 'POST',
+   	      data: { 
+   	    	  		addLocation:true,
+   	    	  		name:name,
+	 				address:address,
+	 				city:city,
+	 				state:state,
+	 				zip:zip,
+	 				a:Date.now()
+   	      },
+   	      success: function(result) {
+   	    	document.location="/content/girlscouts-vtk/en/vtk.locationManage.html";
+   	      }
+   	  });
        	
+       	 
+       	 
        }
         
         
@@ -292,7 +314,7 @@
   	
   	 var newCustActivityLocName = document.getElementById("newCustActivity_locName").value;
   	var newCustActivityLocAddr = document.getElementById("newCustActivity_locAddr").value;
-  	
+  	/*
   	 var urlParam = 'newCustActivity_name='+ newCustActivity_name +'&' +
   	 			'newCustActivity_date='+ newCustActivity_date +'&'+
   	 			'newCustActivity_startTime='+ newCustActivity_startTime +'&'+
@@ -301,7 +323,7 @@
   	 			'newCustActivityLocAddr='+ newCustActivityLocAddr +'&'+
   	 			'newCustActivity_txt='+ newCustActivity_txt ;
   	 			
-  	 
+  	 */
   	 
   	 
   	 $.ajax({
@@ -322,19 +344,7 @@
 	      }
 	  });
 	  
-  	 /*
-  	 $( "#newCustActivity_err" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?newCustActivity=true&"+urlParam, function( response, status, xhr ) {
-     	  if ( status != "error" ) {
-     	    
-     		  	location.reload();
-     	  }else{
-     		  
-     		 location.reload();
-     	  }
-     	  
-     	  
-     	});
-     	*/
+  	
    }
    
    function searchActivity(){
@@ -376,5 +386,11 @@
    }
    
    
-          
+
+   $('#plan_hlp_hrf').click(function() {
+       $('#plan_hlp').dialog();
+       return false;
+   });
+   
+   
           

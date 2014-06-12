@@ -165,14 +165,14 @@ public class UserDAOImpl implements UserDAO{
 				
 		YearPlan oldPlan = user.getYearPlan();
 		YearPlan newYearPlan = addYearPlan(user, yearPlanPath);
-		
+	try{
 		
 		/*
 		for(int i=0;i<newYearPlan.getMeetingEvents().size();i++)
 			System.err.println("NYDDDd :"+newYearPlan.getMeetingEvents().get(i));
 		*/
 		
-		if( oldPlan==null ){ //new user new plan, first time
+		if( oldPlan==null || oldPlan.getMeetingEvents()==null || oldPlan.getMeetingEvents().size()<=0){ //new user new plan, first time
 			
 			user.setYearPlan(newYearPlan);
 			
@@ -184,6 +184,23 @@ public class UserDAOImpl implements UserDAO{
 			
 				int count=0;
 				java.util.StringTokenizer t= new java.util.StringTokenizer( oldDates, ",");
+				
+				//if number of dates less then new meetings 
+				if( t.countTokens() < newYearPlan.getMeetingEvents().size() )
+				{
+					int countDates = t.countTokens();
+					System.err.println("b4 adding dates " +oldDates);
+					
+					long lastDate = 0;
+					while( t.hasMoreElements()) lastDate= Long.parseLong(t.nextToken());
+					
+					for(int z=countDates;z<newYearPlan.getMeetingEvents().size();z++ )
+							oldDates+= (lastDate+99999)+",";
+					System.err.println("b4 after dates " +oldDates);
+					oldPlan.getSchedule().setDates(oldDates);
+					t= new java.util.StringTokenizer( oldDates, ",");
+				}
+					
 				while(t.hasMoreElements()){
 				System.err.println(count);
 					long date= Long.parseLong(t.nextToken());
@@ -208,9 +225,12 @@ public class UserDAOImpl implements UserDAO{
 					}else if(  new java.util.Date().before( new java.util.Date(date) )){
 						
 						System.err.println( "Subst old new  :"+new java.util.Date(date));
+						//java.util.List <MeetingE> newMeetings = newYearPlan.getMeetingEvents();
 						
-						java.util.List <MeetingE> newMeetings = newYearPlan.getMeetingEvents();
-						oldPlan.getMeetingEvents().get(count).setRefId(  newYearPlan.getMeetingEvents().get(count ).getRefId() );
+						if( count>= oldPlan.getMeetingEvents().size()) // oldPlan has less meetings than new -add
+							oldPlan.getMeetingEvents().add(newYearPlan.getMeetingEvents().get(count ));
+						else //replace meeting refs
+							oldPlan.getMeetingEvents().get(count).setRefId(  newYearPlan.getMeetingEvents().get(count ).getRefId() );
 						oldPlan.getMeetingEvents().get(count).setCancelled("false");
 					
 					}
@@ -222,7 +242,13 @@ public class UserDAOImpl implements UserDAO{
 			oldPlan.setMeetingEvents(newYearPlan.getMeetingEvents() );
 			user.setYearPlan(oldPlan);
 		}
-		
+	}catch(Exception e){
+		e.printStackTrace();
+		try{
+				System.err.println("Error setting new Plan: dumping old plan and replacing with new Plan");
+				user.setYearPlan(newYearPlan);
+		}catch(Exception ew){ew.printStackTrace();}
+	}
 		//remove all custom activitites
 		user.getYearPlan().setActivities(null);
 		

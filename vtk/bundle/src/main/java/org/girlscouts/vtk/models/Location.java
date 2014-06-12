@@ -41,6 +41,7 @@ public class Location {
 
 		public void setPath(String path) {
 			this.path = path;
+			
 		}
 
 		public String getAddress() {
