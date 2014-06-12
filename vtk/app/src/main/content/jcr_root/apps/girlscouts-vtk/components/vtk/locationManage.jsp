@@ -13,7 +13,7 @@
 
 <dl class="tabs" data-tab >
   <dd ><a href="#panel2-1">My Troup</a></dd>
-  <dd ><a href="/content/girlscouts-vtk/en/vtk.html?ageLevel=brownie">Year Plan</a></dd>
+  <dd ><a href="/content/girlscouts-vtk/en/vtk.html">Year Plan</a></dd>
   <dd class="active"><a href="/content/girlscouts-vtk/en/vtk.planView.html">Meeting Plan</a></dd>
   <dd ><a href="#panel2-4">Resources</a></dd>
   <dd><a href="#panel2-5">Community</a></dd>

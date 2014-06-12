@@ -138,5 +138,5 @@
                 
                 
                 
-                 <a href="/content/girlscouts-vtk/en/vtk.plan.html?ageLevel=brownie">Start</a> || <a href="/content/girlscouts-vtk/en/vtk.planView.html">Plan</a>
+                 <a href="/content/girlscouts-vtk/en/vtk.plan.html">Start</a> || <a href="/content/girlscouts-vtk/en/vtk.planView.html">Plan</a>
         <br/><br/>

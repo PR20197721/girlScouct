@@ -104,7 +104,7 @@ if( user ==null){
 						<%
 
 							java.util.Iterator<YearPlan> yearPlans = yearPlanDAO
-									.getAllYearPlans(request.getParameter("ageLevel"))
+									.getAllYearPlans(apiConfig.getUser().getAgeLevel())
 									.listIterator();
 
 
