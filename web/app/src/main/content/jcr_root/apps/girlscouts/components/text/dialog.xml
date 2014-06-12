@@ -15,6 +15,7 @@
                     jcr:primaryType="cq:Widget"
                     enableSourceEdit="{Boolean}true"
                     enableSpecialChars="{Boolean}true"
+                    enableSubSuperScript="{Boolean}true"
                     hideLabel="{Boolean}true"
                     name="./text"
                     xtype="richtext">
@@ -69,6 +70,12 @@
                             <em-dash
                                 jcr:primaryType="nt:unstructured"
                                 entity="&amp;#8212;"/>
+                            <copyright
+                                jcr:primaryType="nt:unstructured"
+                                entity="&amp;#169;"/>
+                            <registered
+                                jcr:primaryType="nt:unstructured"
+                                entity="&amp;#174;"/>
                         </chars>
                     </specialCharsConfig>
                 </text>
