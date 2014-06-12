@@ -9,6 +9,7 @@ String currPath = currentPage.getPath();
 String rootPath = currentPage.getAbsoluteParent(2).getPath();
 String eventLeftNavRoot = currentSite.get("leftNavRoot", String.class);
 String eventPath = currentSite.get("eventPath", String.class);
+String contentResourceType="";
  
 for (int i = 0; i < links.length; i++) {
 	String[] values = links[i].split("\\|\\|\\|");
@@ -21,8 +22,11 @@ for (int i = 0; i < links.length; i++) {
 	String sLabel = values.length >=5 ? " "+values[4] : "";
 	Iterator <Page> slingResourceIter;
     String slingResourceType = "girlscouts/components/placeholder-page";
-    String contentResourceType = resource.getResourceResolver().getResource(menuPath+"/jcr:content").getResourceType();
-	 if(contentResourceType.equals(slingResourceType)){
+    contentResourceType="";
+    
+    try{
+      contentResourceType = resource.getResourceResolver().getResource(menuPath+"/jcr:content").getResourceType();
+	  if(contentResourceType.equals(slingResourceType)){
          slingResourceIter = resource.getResourceResolver().getResource(menuPath).adaptTo(Page.class).listChildren();
          if(slingResourceIter.hasNext()){
              Page firstChild =  slingResourceIter.next();
@@ -31,6 +35,7 @@ for (int i = 0; i < links.length; i++) {
          }
          
      }
+	 }catch(Exception e){}
 	
 	if(!currPath.equals(rootPath)) {
 		if(currPath.startsWith(eventPath) && eventLeftNavRoot.startsWith(menuPath)) {
