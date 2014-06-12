@@ -10,6 +10,9 @@ HttpSession session = request.getSession();
 User user= (User) session.getValue("VTK_user");
 
 java.util.List <org.joda.time.DateTime> sched = new java.util.ArrayList<org.joda.time.DateTime>();
+
+if( user.getYearPlan().getSchedule()==null ) {out.println("No schedule"); return; }
+
 String str =  user.getYearPlan().getSchedule().getDates();
 java.util.StringTokenizer t= new java.util.StringTokenizer( str, ",");
 while( t.hasMoreElements())
@@ -42,6 +45,8 @@ java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat("MM/dd/y
 
 org.joda.time.format.DateTimeFormatter fmtDate = org.joda.time.format.DateTimeFormat.forPattern("MM/d/yyyy");
 org.joda.time.format.DateTimeFormatter fmtHr = org.joda.time.format.DateTimeFormat.forPattern("HH:mm");
+org.joda.time.format.DateTimeFormatter fmtHr1 = org.joda.time.format.DateTimeFormat.forPattern("hh:mm");
+
 %>
       
        

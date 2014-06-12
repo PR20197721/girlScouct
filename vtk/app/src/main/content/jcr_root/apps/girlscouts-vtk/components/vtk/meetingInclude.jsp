@@ -58,5 +58,5 @@ while( itr.hasNext() ){
         		   
         		   <%!
         		   
-        		   java.text.SimpleDateFormat df = new java.text.SimpleDateFormat("MMM dd hh:mm a");
+        		   java.text.SimpleDateFormat df = new java.text.SimpleDateFormat("MMM dd yyyy hh:mm a");
         		   %>

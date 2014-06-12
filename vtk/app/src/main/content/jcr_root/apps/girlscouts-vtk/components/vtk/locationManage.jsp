@@ -36,7 +36,8 @@ HttpSession session = request.getSession();
 
 User user= (User)session.getValue("VTK_user");
 java.util.List <Location> locations = user.getYearPlan().getLocations();
-if( locations==null ){ out.println("No locations");return;}
+if( locations==null || locations.size()<=0){ out.println("No locations");return;}
+
 for(int i=0;i<locations.size();i++){
 	Location location = locations.get(i);
 	%>
@@ -54,8 +55,17 @@ for(int i=0;i<locations.size();i++){
 				java.util.Iterator itr=  sched.keySet().iterator();
 				while( itr.hasNext()){
 					java.util.Date date = (java.util.Date) itr.next();
+					YearPlanComponent _comp= sched.get(date);
+					
+					
+					if( _comp.getType() != YearPlanComponentType.MEETING ) continue;
+					
+					String mLoc = ((MeetingE)_comp).getLocationRef();
+					mLoc = mLoc==null ? "" : mLoc;
 					%>
-						<li><input type="checkbox" name="<%=location.getName() %>" value="<%=date%>"/><%=fmtDate.format(date) %></li>
+						<li><input type="checkbox" name="<%=location.getName() %>" value="<%=date%>" <%= mLoc.equals(location.getPath() ) ? "CHECKED" : ""%> /><%=fmtDate.format(date) %></li>
+						
+						
 					<% 
 				}
 				%>

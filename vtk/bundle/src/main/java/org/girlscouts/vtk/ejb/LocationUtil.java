@@ -45,8 +45,18 @@ public class LocationUtil {
 		YearPlan plan = user.getYearPlan();
 		java.util.List <Location> locations = plan.getLocations();
 		if(locations==null) locations= new java.util.ArrayList<Location>();
+		
+		System.err.println("Check new loc Path: " +location.getPath() );
 		locations.add( location );
+		
+		Location newLoc =  locations.get(locations.size()-1) ;
+		System.err.println("New loc path: "+ newLoc.getPath());
+		
+		
+		
 		plan.setLocations(locations);
+		
+		
 		user.setYearPlan(plan);
 		
 		userDAO.updateUser(user);
@@ -54,7 +64,7 @@ public class LocationUtil {
   }
   public void changeLocation(User user, String dates, String locationRef){
 	  
-	  
+	  java.util.List <String> processedMeetings =new java.util.ArrayList();
 	 	
 		java.util.List <Activity> activities = user.getYearPlan().getActivities();
 		java.util.List <MeetingE> meetings = user.getYearPlan().getMeetingEvents();
@@ -72,11 +82,11 @@ public class LocationUtil {
 				case MEETING:
 					MeetingE _meeting = (MeetingE) comp;
 					for(int i=0;i<meetings.size();i++)
-						if( meetings.get(i).getPath().equals(_meeting.getPath()))
+						if( meetings.get(i).getPath().equals(_meeting.getPath())){
 								meetings.get(i).setLocationRef(locationRef);
-					
-					
-							
+								processedMeetings.add(meetings.get(i).getPath());
+						}
+								
 					break;
 				case ACTIVITY:
 					Activity _activity = (Activity) comp;
@@ -90,6 +100,17 @@ public class LocationUtil {
 			
 		
 	}
+	
+	
+		//go through every meeting and if not on list but location set to locationRef set to null. unchecked from this location
+	    for(int i=0;i<meetings.size();i++){
+	    	if( meetings.get(i).getLocationRef()!=null && 
+	    			meetings.get(i).getLocationRef().equals( locationRef ) &&
+	    			!processedMeetings.contains(meetings.get(i).getPath()) )
+	    		meetings.get(i).setLocationRef("");
+	    	
+	    }
+		
 		userDAO.updateUser(user);
 		
 		

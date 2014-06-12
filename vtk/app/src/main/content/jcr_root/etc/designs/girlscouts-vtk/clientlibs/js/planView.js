@@ -2,9 +2,19 @@
 function rmCustActivity12(x){
 	
 	
-	$( "#editAgenda" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?rmCustActivity="+x);
+	//$( "#editAgenda" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?rmCustActivity="+x);
 	
-	
+	$.ajax({
+	      url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
+	      type: 'POST',
+	      data: { 
+	    	  rmCustActivity:x,
+	    	  a:Date.now()
+	      },
+	      success: function(result) {
+	          
+	      }
+	  });
 	
 	//6/4/document.location="planView.jsp";
 	document.location="/content/girlscouts-vtk/en/vtk.plan.html";
@@ -46,7 +56,7 @@ function viewMeetingLibrary(meetingPath){
    		var newCustAgendaDuration= document.getElementById("newCustAgendaDuration").value;
    		var createCustAgendaTxt = document.getElementById("newCustAgendaTxt").value;
    		var urlPath =mPath +"&duration="+newCustAgendaDuration+"&name="+ newCustAgendaName+"&startTime="+time+"&txt="+createCustAgendaTxt ;
-   		console.log( urlPath )
+   		
    		 $.ajax({
     				  url: "/content/girlscouts-vtk/controllers/vtk.controller.html?newCustAgendaName="+urlPath,
     				  cache: false

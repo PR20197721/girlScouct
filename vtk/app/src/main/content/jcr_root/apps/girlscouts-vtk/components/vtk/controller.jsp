@@ -6,6 +6,9 @@
 <cq:defineObjects/>
 
 <%
+
+//System.err.println("controller");
+
 	HttpSession session = request.getSession();
 
 	ActivityDAO activityDAO = sling.getService(ActivityDAO.class);
@@ -15,10 +18,10 @@
 	LocationUtil locationUtil = sling.getService(LocationUtil.class);
 	MeetingUtil meetingUtil = sling.getService(MeetingUtil.class);
 	EmailUtil emailUtil = sling.getService(EmailUtil.class);
-System.err.println("controller");
+//System.err.println("controller");
 if( request.getParameter("isMeetingCngAjax") !=null){
 	
-	System.err.println("contr : meeting rearg");
+	//System.err.println("contr : meeting rearg");
 	meetingUtil.changeMeetingPositions( (User) session.getValue("VTK_user"),
 			request.getParameter("isMeetingCngAjax") );
 	
@@ -80,6 +83,10 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 			request.getParameter("setLocationToAllMeetings") );
 	
 }else if( request.getParameter("updSched") !=null ){
+	
+	System.err.println("updSched");
+	System.err.println("UpdCal: "+request.getParameter("date") +" " + request.getParameter("time") +" " + request.getParameter("ap"));
+	
 	
 	calendarUtil.updateSched((User)session.getValue("VTK_user"), request.getParameter("meetingPath"), 
 			request.getParameter("time"), request.getParameter("date"), request.getParameter("ap"), 
