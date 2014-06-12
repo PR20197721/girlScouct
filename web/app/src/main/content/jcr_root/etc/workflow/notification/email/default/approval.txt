@@ -1,9 +1,7 @@
 To: ${initiator.email}
-From: My Name <my.name@whoeveryouare.com>
-
-Subject: Page Approval Granted
 
 Hi ${initiator.id},
+<br>
 Your page ${host.prefix}${payload.path}.html has been approved and published.
 <br>
 Comments:
