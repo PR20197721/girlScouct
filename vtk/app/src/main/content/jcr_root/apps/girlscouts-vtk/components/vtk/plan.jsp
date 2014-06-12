@@ -31,7 +31,7 @@ if( user ==null){
 	
 	//first time - new user
 	if( user==null ){
-System.err.println("User is null.Setting new "+ apiConfig.getUserId());		
+//System.err.println("User is null.Setting new "+ apiConfig.getUserId());		
 		user = new User(apiConfig.getUserId());
 		//user.setId( apiConfig.getUserId());
 	}
@@ -107,6 +107,7 @@ System.err.println("User is null.Setting new "+ apiConfig.getUserId());
 									.getAllYearPlans(request.getParameter("ageLevel"))
 									.listIterator();
 
+
 							while (yearPlans.hasNext()) {
 								YearPlan yearPlan = yearPlans.next();
 						%>
@@ -116,7 +117,9 @@ System.err.println("User is null.Setting new "+ apiConfig.getUserId());
 							<%=yearPlan.getDesc()%>-<%=yearPlan.getId()%>
 
 						</div>
-							<%}%>
+							<%}
+							
+							%>
 
 
 	</div>

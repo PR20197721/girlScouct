@@ -44,7 +44,7 @@ java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  meetingInfo.ge
 
 <p><%=meetingInfo.getBlurb() %></p>
 
-<br/>Location: <%=meeting.getLocationRef() %>
+<br/>Location: 
 <%
 
 
@@ -81,17 +81,19 @@ if( meeting.getCancelled()!=null && meeting.getCancelled().equals("true")){ %>
 	<input type="button" value="activity plan" onclick="showIt('m_activities')"/>
 	
 	<div id="m_overview" style="display:none; height:100px; overflow:auto; background-color:yellow;">
-		Overview:<%=meetingInfoItems.get("overview").getStr() %>
+		<h3>Overview:</h3><%=meetingInfoItems.get("overview").getStr() %>
 	</div>
 	
 	<div id="m_activities"  style="display:none; height:100px; overflow:auto; background-color:yellow;">
 	<%
-	
+		
 		java.util.Iterator itr1=  meetingInfoItems.keySet().iterator(); 
 		while( itr1.hasNext() ){
 			String name= (String) itr1.next();
+			if( name.trim().toLowerCase().equals("overview")) continue;
+			if( name.trim().toLowerCase().equals("meeting id")) continue;
 	%>
-			<%=name %><%=meetingInfoItems.get(name).getStr() %>
+			<h3><%=name %></h3><%=meetingInfoItems.get(name).getStr() %>
 	<%} %>
 	</div>
 	
@@ -201,6 +203,7 @@ while( t.hasMoreElements()){
 	
 	<br/>Time Allotment: = 
 	<select id="newCustAgendaDuration">
+	<option value="5">5</option>
 	<option value="10">10</option>
 	<option value="20">20</option>
 	<option value="30">30</option>

@@ -51,6 +51,7 @@ for(int i=0;i<locations.size();i++){
 			<a href="javascript:void(0)" onclick="applyLocToAllMeetings('<%=location.getPath()%>')">Apply to All meetings</a>
 			<div style="padding:30px; background-color:gray;">
 				<% 
+			  if( user.getYearPlan().getSchedule()!=null){	
 				java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
 				java.util.Iterator itr=  sched.keySet().iterator();
 				while( itr.hasNext()){
@@ -68,8 +69,10 @@ for(int i=0;i<locations.size();i++){
 						
 					<% 
 				}
+			  
 				%>
 				<input type="button" value="assign locations" onclick="updLocations('<%=location.getPath()%>', '<%=location.getName()%>')"/>
+			<%} %>
 			</div>
 		</div>
 	<%}%>

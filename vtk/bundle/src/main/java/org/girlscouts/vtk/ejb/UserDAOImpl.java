@@ -167,10 +167,7 @@ public class UserDAOImpl implements UserDAO{
 		YearPlan newYearPlan = addYearPlan(user, yearPlanPath);
 	try{
 		
-		/*
-		for(int i=0;i<newYearPlan.getMeetingEvents().size();i++)
-			System.err.println("NYDDDd :"+newYearPlan.getMeetingEvents().get(i));
-		*/
+		
 		
 		if( oldPlan==null || oldPlan.getMeetingEvents()==null || oldPlan.getMeetingEvents().size()<=0){ //new user new plan, first time
 			
@@ -191,11 +188,16 @@ public class UserDAOImpl implements UserDAO{
 					int countDates = t.countTokens();
 					System.err.println("b4 adding dates " +oldDates);
 					
-					long lastDate = 0;
-					while( t.hasMoreElements()) lastDate= Long.parseLong(t.nextToken());
+					long lastDate = 0, meetingTimeDiff=99999;
+					while( t.hasMoreElements()){ 
+						long diff = lastDate;
+						lastDate= Long.parseLong(t.nextToken());
+						if(diff!=0)
+								meetingTimeDiff = lastDate- diff;
+						}
 					
 					for(int z=countDates;z<newYearPlan.getMeetingEvents().size();z++ )
-							oldDates+= (lastDate+99999)+",";
+							oldDates+= (lastDate+meetingTimeDiff)+",";
 					System.err.println("b4 after dates " +oldDates);
 					oldPlan.getSchedule().setDates(oldDates);
 					t= new java.util.StringTokenizer( oldDates, ",");

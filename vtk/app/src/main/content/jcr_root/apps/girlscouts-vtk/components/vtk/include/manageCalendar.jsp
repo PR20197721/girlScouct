@@ -9,7 +9,7 @@
    	<tr>
    	<td><a href="javascript:void(0)" onclick="document.getElementById('<%=(i+1) %>').style.display = 'block';">IMG</a>
    	<td><%=(i+1) %>
-   	<td><%= sched.get(i).toString(fmt) %>
+   	<td><%= sched.get(i).toString(fmt1) %>
    	<td>
    	
    	

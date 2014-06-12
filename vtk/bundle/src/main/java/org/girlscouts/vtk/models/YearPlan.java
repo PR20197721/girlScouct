@@ -8,6 +8,7 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 @Node
 public class YearPlan {
 
+	public YearPlan(){calFreq="biweekly";}
 	
 	@Field private String name, desc, id, refId;
 	@Field(path=true) String path;
@@ -16,10 +17,41 @@ public class YearPlan {
 	@Bean private Cal schedule;
 	@Collection private java.util.List <Location> locations;
 	
+	//cal settings cache
+	@Field private Long calStartDate;
+	@Field private String calFreq, calExclWeeksOf;
 	
 	
 	
 	
+	
+	
+	
+
+	public Long getCalStartDate() {
+		return calStartDate;
+	}
+
+	public void setCalStartDate(Long calStartDate) {
+		this.calStartDate = calStartDate;
+	}
+
+	public String getCalFreq() {
+		return calFreq;
+	}
+
+	public void setCalFreq(String calFreq) {
+		this.calFreq = calFreq;
+	}
+
+	public String getCalExclWeeksOf() {
+		return calExclWeeksOf;
+	}
+
+	public void setCalExclWeeksOf(String calExclWeeksOf) {
+		this.calExclWeeksOf = calExclWeeksOf;
+	}
+
 	public Cal getSchedule() {
 		return schedule;
 	}

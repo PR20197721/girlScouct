@@ -139,6 +139,10 @@ public class CalendarUtil {
 //System.err.println( "SChed: "+ sched.size() );
 			
 			YearPlan plan = user.getYearPlan();
+			plan.setCalFreq(freq);
+			plan.setCalStartDate( p.getMillis() );
+			plan.setCalExclWeeksOf(exclDate);
+			
 			Cal calendar = plan.getSchedule();
 			if(calendar==null) calendar= new Cal();
 			calendar.fmtDate(sched);

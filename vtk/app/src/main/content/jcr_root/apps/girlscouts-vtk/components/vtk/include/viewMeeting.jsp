@@ -4,9 +4,9 @@
 		MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
 
 		Meeting meeting = meetingDAO.getMeeting(meetingE.getRefId());%>
- 			<li value="<%=meetingCount%>">
+ 			<li value="<%=meetingCount%>" style="background-color:<%=( user.getYearPlan().getSchedule()==null || new java.util.Date().before(date)) ? "#FFF" : "gray"%>;">
  			    <span style="background-color:green; color:#FFF; ">
- 					(#<%= meetingCount %>) <%= user.getYearPlan().getSchedule()==null ? "" : df.format(date) %>
+ 				(#<%= meetingCount %>) <%= user.getYearPlan().getSchedule()==null ? "" : df.format(date) %>
  			    </span>
  			
  				<%if( meetingE.getCancelled()!=null && meetingE.getCancelled().equals("true")){%>

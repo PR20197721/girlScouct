@@ -34,7 +34,7 @@ Activity: <%= activity.getName()%>
 <br/><br/>Date: <%=fmtDate.format(activity.getDate()) %>
 <br/><br/>Time: <%=fmtHr.format(activity.getDate()) %> - <%= fmtHr.format(activity.getEndDate()) %> 
 <br/><br/>Age range:
-<br/><br/>Location: <%=activity.getLocationRef() %>
+<br/><br/>Location: 
 <%= activity.getLocationName() %>
 <%=activity.getLocationAddress()%>
 
