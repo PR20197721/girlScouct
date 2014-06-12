@@ -76,6 +76,9 @@
                             <registered
                                 jcr:primaryType="nt:unstructured"
                                 entity="&amp;#174;"/>
+                            <trademark
+                                jcr:primaryType="nt:unstructured"
+                                entity="&amp;#8482;"/>
                         </chars>
                     </specialCharsConfig>
                 </text>
