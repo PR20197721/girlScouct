@@ -76,7 +76,7 @@ CQ.form.rte.plugins.SpecialCharsDialog = CQ.Ext.extend(CQ.Dialog, {
                         charSelector += " class=\"" + config.cellCls + "\"";
                     }
                     charSelector += ">";
-                    charSelector += cDef.entity;
+                    charSelector += cDef.displayEntity ? cDef.displayEntity: cDef.entity;
                     charSelector += "</td>";
                     this.charsInTable.push(cDef.entity);
                     if (col == (cpr - 1)) {

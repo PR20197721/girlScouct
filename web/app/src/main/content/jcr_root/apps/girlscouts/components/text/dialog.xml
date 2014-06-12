@@ -135,6 +135,10 @@
                             <trademark
                                 jcr:primaryType="nt:unstructured"
                                 entity="&amp;#8482;"/>
+                            <horizontal-rule
+                                jcr:primaryType="nt:unstructured"
+                                displayEntity="HR"
+                                entity="&lt;hr>"/>
                         </chars>
                     </specialCharsConfig>
                 </text>
