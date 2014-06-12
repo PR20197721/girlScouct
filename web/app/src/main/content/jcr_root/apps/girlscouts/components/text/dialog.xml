@@ -11,11 +11,14 @@
             title="Text"
             xtype="panel">
             <items jcr:primaryType="cq:WidgetCollection">
+                <isRichTextFlag
+                    jcr:primaryType="cq:Widget"
+                    ignoreData="{Boolean}true"
+                    name="./textIsRich"
+                    value="true"
+                    xtype="hidden"/>
                 <text
                     jcr:primaryType="cq:Widget"
-                    enableSourceEdit="{Boolean}true"
-                    enableSpecialChars="{Boolean}true"
-                    enableSubSuperScript="{Boolean}true"
                     hideLabel="{Boolean}true"
                     name="./text"
                     xtype="richtext">
@@ -64,6 +67,59 @@
                                 </linkAttributes>
                             </linkDialogConfig>
                         </links>
+                        <misctools
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <edit
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <findreplace
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <format
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <image
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <keys
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <justify
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <lists
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <paraformat
+                            jcr:primaryType="nt:unstructured"
+                            features="*">
+                            <formats jcr:primaryType="cq:WidgetCollection">
+                                <hr
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Horizontal Rule"
+                                    tag="hr"/>
+                                <p
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Paragraph"
+                                    tag="p"/>
+                            </formats>
+                        </paraformat>
+                        <spellcheck
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <styles
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <subsuperscript
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <table
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
+                        <undo
+                            jcr:primaryType="nt:unstructured"
+                            features="*"/>
                     </rtePlugins>
                     <specialCharsConfig jcr:primaryType="nt:unstructured">
                         <chars jcr:primaryType="nt:unstructured">
@@ -82,12 +138,6 @@
                         </chars>
                     </specialCharsConfig>
                 </text>
-                <isRichTextFlag
-                    jcr:primaryType="cq:Widget"
-                    ignoreData="{Boolean}true"
-                    name="./textIsRich"
-                    value="true"
-                    xtype="hidden"/>
             </items>
         </tab1>
         <tab2
