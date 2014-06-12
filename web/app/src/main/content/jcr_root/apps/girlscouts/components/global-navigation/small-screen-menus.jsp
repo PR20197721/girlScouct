@@ -23,6 +23,7 @@
    String eventLeftNavRoot = currentSite.get("leftNavRoot", String.class);
    String eventDisplUnder = currentSite.get("eventPath", String.class);
    boolean levelFlag = true;
+   String contentResourceType="";
 %>
 <div id="right-canvas-menu"> 
  <ul class="side-nav" style="padding:0px"> 
@@ -49,7 +50,9 @@ for (int i = 0; i < links.length; i++)
         String startingPoint = "";
         Iterator <Page> slingResourceIter;
         String slingResourceType = "girlscouts/components/placeholder-page";
-        String contentResourceType = resource.getResourceResolver().getResource(menuPath+"/jcr:content").getResourceType();
+        contentResourceType = "";
+        try{
+        contentResourceType = resource.getResourceResolver().getResource(menuPath+"/jcr:content").getResourceType();
         
         if(contentResourceType.equals(slingResourceType)){
         	slingResourceIter = resource.getResourceResolver().getResource(menuPath).adaptTo(Page.class).listChildren();
@@ -60,6 +63,7 @@ for (int i = 0; i < links.length; i++)
         	}
         	
         }
+        }catch(Exception e){}
         
         if(!path.isEmpty() && !path.equalsIgnoreCase("#"))
         {
