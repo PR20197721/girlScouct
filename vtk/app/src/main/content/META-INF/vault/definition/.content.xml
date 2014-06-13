@@ -18,9 +18,14 @@
         <f1
             jcr:primaryType="cq:Page"
             mode="replace"
-            root="/content/girlscouts-vtk"
+            root="/content/girlscouts-vtk/controllers"
             rules="[]"/>
         <f2
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/content/girlscouts-vtk/en"
+            rules="[]"/>
+        <f3
             jcr:primaryType="cq:Page"
             mode="replace"
             root="/etc/designs/girlscouts-vtk"
