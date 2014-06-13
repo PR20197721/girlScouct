@@ -16,7 +16,7 @@ public class MeetingE extends YearPlanComponent{
 	private Meeting meetingInfo; 
 	
 	@Field private String cancelled;
-	
+	@Field private Boolean isLocked;
 	
 
 	public String getCancelled() {

@@ -5,7 +5,8 @@ function rmCustActivity12(x){
 	//$( "#editAgenda" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?rmCustActivity="+x);
 	
 	$.ajax({
-	      url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
+		  cache: false,
+	      url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand=' + Date.now(),
 	      type: 'POST',
 	      data: { 
 	    	  rmCustActivity:x,
