@@ -12,7 +12,7 @@
   <dd ><a href="#panel2-1">My Troup</a></dd>
   <dd ><a href="/content/girlscouts-vtk/en/vtk.html">Year Plan</a></dd>
   <dd ><a href="/content/girlscouts-vtk/en/vtk.planView.html">Meeting Plan</a></dd>
-  <dd class="active"><a href="#panel2-4">Resources</a></dd>
+  <dd class="active">Resources</dd>
   <dd><a href="#panel2-5">Community</a></dd>
 </dl>
 <div class="tabs-content">
