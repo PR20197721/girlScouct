@@ -31,7 +31,7 @@ Start Date<input type="text" id="calStartDt" value="<%=user.getYearPlan().getCal
 Time<input type="text" id="calTime" value="<%=user.getYearPlan().getCalStartDate()==null ? (org.girlscouts.vtk.models.api.VTKConfig.CALENDAR_START_TIME_HOUR+":"+org.girlscouts.vtk.models.api.VTKConfig.CALENDAR_START_TIME_MIN) : dateFormat44.format(new java.util.Date(user.getYearPlan().getCalStartDate())) %>"/>
 <select id="calAP">
 <%if( user.getYearPlan().getCalStartDate()!=null){ %>
-	<option value="" SELECTED><%=user.getYearPlan().getCalStartDate()==null ? "" : dateFormat41.format(new java.util.Date(user.getYearPlan().getCalStartDate())) %></option>
+	<option value="<%=user.getYearPlan().getCalStartDate()==null ? "" : dateFormat41.format(new java.util.Date(user.getYearPlan().getCalStartDate())) %>" SELECTED><%=user.getYearPlan().getCalStartDate()==null ? "" : dateFormat41.format(new java.util.Date(user.getYearPlan().getCalStartDate())) %></option>
 <%} %>
 <option value="pm">pm</option> <option value="am">am</option></select>
 

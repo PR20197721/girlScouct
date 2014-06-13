@@ -45,11 +45,12 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	
 }else if( request.getParameter("buildSched") !=null ){
 
+	try{
 	calendarUtil.createSched((User) session.getValue("VTK_user"), 
 			request.getParameter("calFreq"), 
 			new org.joda.time.DateTime(dateFormat4.parse(request.getParameter("calStartDt") +" "+ request.getParameter("calTime") +
 					" "+ request.getParameter("calAP"))), request.getParameter("exclDt"));
-	
+	}catch(Exception e){e.printStackTrace();}
 	
 }else if( request.getParameter("addYearPlanUser") !=null ){
 	
