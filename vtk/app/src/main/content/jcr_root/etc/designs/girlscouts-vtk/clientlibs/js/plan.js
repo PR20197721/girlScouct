@@ -258,6 +258,24 @@
         			 if (levels[i].checked)
         				_level+= levels[i].value +",";
         		 }
+        		 
+        		 
+        		 $.ajax({
+        		      url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
+        		      type: 'POST',
+        		      data: { 
+        		    	         buildSched:true,
+        		    	         calStartDt:calStartDt ,
+        		        		 calAP:calAP,
+        		        		 calFreq:z,
+        		        		 calTime:calTime,
+        		        		 exclDt:_level
+        		      },
+        		      success: function(result) {
+        		    	  location.reload();
+        		      }
+        		  });
+        		 /*
         		 var urlParam = 'calStartDt='+ calStartDt +
         		 "&calAP="+calAP+
         		 "&calFreq="+z+
@@ -275,6 +293,7 @@
         	   	  
         	   	  
         	   	});
+        	   	*/
           }
           
           
