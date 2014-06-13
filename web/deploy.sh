@@ -12,3 +12,9 @@ curl -u admin:admin -F file=@"$HOME/.m2/repository/org/girlscouts/web/girlscouts
 
 curl -u admin:admin -F file=@"$HOME/.m2/repository/org/girlscouts/web/girlscouts-app/$VERSION/girlscouts-app-$VERSION.zip" -F name="girlscouts-app" -F force=true -F install=true http://localhost:4503/crx/packmgr/service.jsp
 curl -u admin:admin -F file=@"$HOME/.m2/repository/org/girlscouts/web/girlscouts-content/$VERSION/girlscouts-content-$VERSION.zip" -F name="girlscouts-content" -F force=true -F install=true http://localhost:4503/crx/packmgr/service.jsp
+
+curl -u admin:admin -F file=@"$HOME/.m2/repository/org/girlscouts/web/girlscouts-app/$VERSION/girlscouts-app-$VERSION.zip" -F name="girlscouts-app" -F force=true -F install=true http://localhost:4506/crx/packmgr/service.jsp
+curl -u admin:admin -F file=@"$HOME/.m2/repository/org/girlscouts/web/girlscouts-content/$VERSION/girlscouts-content-$VERSION.zip" -F name="girlscouts-content" -F force=true -F install=true http://localhost:4506/crx/packmgr/service.jsp
+
+curl -u admin:admin -F file=@"$HOME/.m2/repository/org/girlscouts/web/girlscouts-app/$VERSION/girlscouts-app-$VERSION.zip" -F name="girlscouts-app" -F force=true -F install=true http://localhost:4505/crx/packmgr/service.jsp
+curl -u admin:admin -F file=@"$HOME/.m2/repository/org/girlscouts/web/girlscouts-content/$VERSION/girlscouts-content-$VERSION.zip" -F name="girlscouts-content" -F force=true -F install=true http://localhost:4505/crx/packmgr/service.jsp
