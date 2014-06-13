@@ -92,14 +92,34 @@
                             jcr:primaryType="nt:unstructured"
                             features="*">
                             <formats jcr:primaryType="cq:WidgetCollection">
-                                <hr
-                                    jcr:primaryType="nt:unstructured"
-                                    description="Horizontal Rule"
-                                    tag="hr"/>
                                 <p
                                     jcr:primaryType="nt:unstructured"
                                     description="Paragraph"
                                     tag="p"/>
+                                <h1
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 1"
+                                    tag="h1"/>
+                                <h2
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 2"
+                                    tag="h2"/>
+                                <h3
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 3"
+                                    tag="h3"/>
+                                <h4
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 4"
+                                    tag="h4"/>
+                                <h5
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 5"
+                                    tag="h5"/>
+                                <h6
+                                    jcr:primaryType="nt:unstructured"
+                                    description="Header 6"
+                                    tag="h6"/>
                             </formats>
                         </paraformat>
                         <spellcheck
