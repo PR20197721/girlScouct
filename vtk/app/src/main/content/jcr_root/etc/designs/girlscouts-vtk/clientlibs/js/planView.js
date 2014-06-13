@@ -3,7 +3,7 @@ function rmCustActivity12(x){
 	
 	
 	//$( "#editAgenda" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?rmCustActivity="+x);
-	alert("REMOVING ACTIV");
+	//alert("REMOVING ACTIV");
 	$.ajax({
 		  cache: false,
 	      url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand=' + Date.now(),
@@ -12,14 +12,15 @@ function rmCustActivity12(x){
 	    	  rmCustActivity:x,
 	    	  a:Date.now()
 	      },
+	      
 	      success: function(result) {
 	          
 	      }
 	  });
 	
-	alert("REMOVED ACTIV")
-	//6/4/document.location="planView.jsp";
-	//-document.location="/content/girlscouts-vtk/en/vtk.plan.html";
+	//alert("REMOVED ACTIV")
+	
+	document.location="/content/girlscouts-vtk/en/vtk.plan.html";
 }
 
 function viewMeetingLibrary(meetingPath){
