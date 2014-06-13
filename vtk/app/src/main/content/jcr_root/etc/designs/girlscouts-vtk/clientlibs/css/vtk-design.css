@@ -1,0 +1,29 @@
+.vtk {
+	padding: 1.5em;
+}
+
+dl.tabs {
+	border-bottom: 3px solid #999;
+	padding-left:1.5em;
+}
+
+dl.tabs dd {
+	border: 1px solid #99CC99;
+}
+
+dl.tabs dd.active {
+	padding: 1rem 2rem;
+}
+
+#vtkSubNav li {
+	display: inline;
+	list-style-type: none;
+	padding-right: 20px;
+}
+
+.sectionHeader {
+	color:#000;
+	background-color:#ccc;
+	padding: 1.5em;
+	text-align: center;
+}
