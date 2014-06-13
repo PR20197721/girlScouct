@@ -219,7 +219,10 @@ public class CustomGroupEmailProcess implements WorkflowProcess {
 			map.put("payload.path", data.getPayload().toString());
 			map.put("payload.type", data.getPayloadType());
 			map.put("comment",
-					item.getMetaDataMap().get("comment", String.class));
+					flow.getMetaDataMap().get("startComment", String.class));
+			map.put("workflow.title",
+					flow.getMetaDataMap().get("workflowTitle", String.class));
+			
 		} catch (Exception e) {
 
 			log.error(e.getMessage());
