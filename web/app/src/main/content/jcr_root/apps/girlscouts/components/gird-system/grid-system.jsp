@@ -27,11 +27,24 @@
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <%
 	String cssClasses = properties.get("cssClasses", "");
+	String largeBlocks = properties.get("largeBlocks", "");
+	if (!largeBlocks.isEmpty()) {
+		largeBlocks = "large-block-grid-" + largeBlocks + " ";
+    }
+
+	String mediumBlocks = properties.get("mediumBlocks", "");
+	if (!mediumBlocks.isEmpty()) {
+		mediumBlocks = "medium-block-grid-" + mediumBlocks + " ";
+    }
+	String smallBlocks = properties.get("smallBlocks", "");
+	if (!smallBlocks.isEmpty()) {
+		smallBlocks = "small-block-grid-" + smallBlocks + " ";
+    }
 
     ParagraphSystem parSys = ParagraphSystem.create(resource, slingRequest);
     String newType = resource.getResourceType() + "/new";
     
-    %><ul class="large-block-grid-4 medium-block-grid-2 small-block-grid-1"><% 
+    %><ul class="<%=largeBlocks%><%=mediumBlocks%><%=smallBlocks%>"><% 
     
     boolean hasColumns = false;
     for (Paragraph par: parSys.paragraphs()) {
