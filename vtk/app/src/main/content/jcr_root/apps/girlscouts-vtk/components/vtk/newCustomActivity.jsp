@@ -12,7 +12,7 @@
             
 $(function() {
 	
-	$( "#newCustActivity_date" ).datepicker();
+	$( "#newCustActivity_date" ).datepicker({minDate: 0});
    
   });
 </script>   

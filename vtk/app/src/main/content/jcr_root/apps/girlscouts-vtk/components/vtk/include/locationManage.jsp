@@ -81,9 +81,12 @@ for(int i=0;i<locations.size();i++){
 				java.util.Iterator itr=  sched.keySet().iterator();
 				while( itr.hasNext()){
 					java.util.Date date = (java.util.Date) itr.next();
+					
+					
 					%>
 						<li><input type="checkbox" name="<%=location.getName() %>" value="<%=date%>"/><%=fmtDate.format(date) %></li>
 					<% 
+					
 					
 				}
 				%>

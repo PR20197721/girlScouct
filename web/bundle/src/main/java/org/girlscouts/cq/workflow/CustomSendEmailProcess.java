@@ -73,7 +73,6 @@ public class CustomSendEmailProcess implements WorkflowProcess {
 		}
 		WorkflowData workflowData = item.getWorkflowData();
 		Workflow workflow = item.getWorkflow();
-		log.error("######## workItemPath:" + item.getMetaDataMap());
 
 		if (workflowData.getPayloadType().equals(TYPE_JCR_PATH)) {
 			String path = workflowData.getPayload().toString();
@@ -95,8 +94,6 @@ public class CustomSendEmailProcess implements WorkflowProcess {
 					// path
 					if (emailTemplate == null || emailTemplate.equals("")) {
 						templatePath = args.get("templatePath", String.class);
-
-						log.error("######## templatePath:" + templatePath);
 
 						try {
 							Node content = jcrSession.getNode(templatePath
@@ -224,7 +221,6 @@ public class CustomSendEmailProcess implements WorkflowProcess {
 			UserProperties initiator = null;
 			String initiatorId = workflow.getInitiator();
 			initiator = upMgr.getUserProperties(initiatorId, "profile");
-			log.error("WEOIFWOEIFHWEOIFRGORG" + initiator.getProperty("email"));
 			initiatorEmail = initiator.getProperty("email");
 
 		} catch (Exception e) {
@@ -258,11 +254,17 @@ public class CustomSendEmailProcess implements WorkflowProcess {
 			iter.nextNode();
 			iter.nextNode();
 			iter.nextNode();
+			iter.nextNode();
+			iter.nextNode();
+			iter.nextNode();
+			iter.nextNode();
 			Node content2 = iter.nextNode();
 			content2 = session.getNode(content2.getPath()
 					+ "/workItem/metaData/");
 			comment = content2.getProperty("comment").getValue().getString();
-
+			if (comment == null || comment.equals("")) {
+				comment = "";
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

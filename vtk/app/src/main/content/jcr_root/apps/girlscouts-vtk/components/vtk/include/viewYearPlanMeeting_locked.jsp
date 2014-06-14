@@ -31,16 +31,10 @@ java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  meetingInfo.ge
 
 </div>
 
-<!--  <a href="/content/girlscouts-vtk/en/vtk.meetingLibrary.html">change this meeting</a> -->
-<a href="javascript:void(0)" onclick="viewMeetingLibrary('<%=meeting.getPath()%>')">replace this meeting</a>
 
 <h1>Meeting: <%= meetingInfo.getName() %></h1>
 
-<!--  
-<br/>Date: <%= fmtDate.format(searchDate) %>
-<br/>Time: <%= fmtHr.format(searchDate) %>
-<br/>Age Range:
--->
+
 
 <p><%=meetingInfo.getBlurb() %></p>
 
@@ -136,14 +130,13 @@ while( t.hasMoreElements()){
  
  
  <div style="background-color:gray; color:#fff;">Meeting Agenda</div>
- <a href="javascript:void(0)" onclick="revertAgenda('<%=meeting.getPath()%>')">Revert to Original Agenda</a>
  
  <p>
 	Select an item to view details, edit duration, or delete. Drag and drop items to reorder them.
 	
  </p>
  
- <ul id="sortable" >
+ <ul  >
  	<%
  		java.util.Calendar activSched= java.util.Calendar.getInstance();
  		activSched.setTime( searchDate);
@@ -155,7 +148,7 @@ while( t.hasMoreElements()){
  				<li value="<%=(ii+1)%>">
  					<table>
   					<td><%if( user.getYearPlan().getSchedule()!=null ){ out.println(fmtHr.format(activSched.getTime())); }%></td>
- 				    <td><a href="javascript:void(0)" onclick="editAgenda('<%=ii %>')"><%=_activity.getName() %></a></td>
+ 				    <td><%=_activity.getName() %></td>
  				    <td><%=_activity.getDuration() %></td>
  				    </table>
  				</li>
@@ -184,86 +177,10 @@ while( t.hasMoreElements()){
  	
  	
  	
- 	<% for(int ii=0;ii< _activities.size();ii++){ 
- 			Activity _activity = _activities.get(ii);
- 			
- 			%><%@include file="editActivity.jsp" %> 
- 	<%} %>
+ 	
  
  
- 
- 
- <input type="button" name="" value="Add Agenda Items" onclick="addCustAgenda()"/>
- <div id="newMeetingAgenda" style="display:none;">
-       <% if( user.getYearPlan().getSchedule() !=null){ %>
-       <h1>Add New Agenda Item</h1> 
-	
-	Enter Agenda Item Name:<br/>
-	<input type="text" id="newCustAgendaName" value=""/>
-	
-	<br/>Time Allotment: = 
-	<select id="newCustAgendaDuration">
-	<option value="5">5</option>
-	<option value="10">10</option>
-	<option value="20">20</option>
-	<option value="30">30</option>
-	</select>
-	
-	 + (<%= activSched.getTime()%>)
-	
-	<br/>Description:<textarea id="newCustAgendaTxt"></textarea>
-	<br/><br/>
-	
-	
-	<input type="button" value="save" onclick="createCustAgendaItem1('<%=searchDate.getTime()%>', '<%=activSched.getTime().getTime()%>', '<%=meeting.getPath()%>')"/>
-     <%}else{ out.println("VIEW MODE"); } %>
-       </div>
-       
-       
-       
-       
-</div>
-
-<br/><br/>
- 
- 
- 
- 
- <div id="meetingLibraryView">
-
-
-<% if( user.getYearPlan().getSchedule()!=null ) { %>
-  <div class="tmp" id="popup" style="background-color:orange;">
-	<%@include file="email/meetingReminder.jsp" %>
-  </div>
-<%} %>
-
-
-
-
-
-</div>
- 
- 
-</div>
-
-
-
-<script>
-  $("#sortable").sortable(
-        				   
-        				   {
-        				       
-        				        update:  function (event, ui) {
-        				       
-        				       repositionActivity('<%=meeting.getRefId()%>');
-        				        }
-        				}
-        		   );
-  
-  
- </script>
  
   
-        		   
-        		 
+</div>
+   

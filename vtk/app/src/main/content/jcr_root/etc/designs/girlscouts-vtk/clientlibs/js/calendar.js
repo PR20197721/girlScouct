@@ -1,6 +1,6 @@
 
 $(function() {
-    $( "#calStartDt" ).datepicker();
+    $( "#calStartDt" ).datepicker({minDate: 0});
   });
   
   

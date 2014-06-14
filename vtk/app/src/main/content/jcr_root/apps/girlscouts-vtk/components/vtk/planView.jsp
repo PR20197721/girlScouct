@@ -57,19 +57,29 @@ YearPlanComponent _comp= sched.get(searchDate);
        					break;
        					
        					case MEETING :
-       						
-           					%>  <%@include file="include/viewYearPlanMeeting.jsp" %>    <% 
-           					
+       						if(!searchDate.before( new java.util.Date() )){
+           						  %>  
+           						  <%@include file="include/viewYearPlanMeeting.jsp" %>  
+           						  <%@include file="include/manageCommunications.jsp" %>
+           						  <% 
+       						}else{
+       							%>  <%@include file="include/viewYearPlanMeeting_locked.jsp" %>    <% 
+       						}
            					break;
        				}       			
        %>
        
        <div id="editAgenda"></div>
-       <%@include file="include/manageCommunications.jsp" %>
+     
        
        <%!
        java.text.SimpleDateFormat fmtDate= new java.text.SimpleDateFormat("MM/dd/yyyy");
        java.text.SimpleDateFormat fmtHr= new java.text.SimpleDateFormat(" hh:mm a");
        java.text.SimpleDateFormat fmt= new java.text.SimpleDateFormat("MMM dd  hh:mm a");
        java.text.SimpleDateFormat fmtX= new java.text.SimpleDateFormat("d");
+
+	
+		 java.text.SimpleDateFormat dateFormat55 = new java.text.SimpleDateFormat("EEE MMM dd,yyyy hh:mm a");
+		 
+		 
        %>

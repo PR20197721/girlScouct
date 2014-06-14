@@ -16,7 +16,9 @@ org.girlscouts.vtk.models.user.User user= (org.girlscouts.vtk.models.user.User) 
 <script>
 $(function() {
 	
-    $( "#calStartDt" ).datepicker();
+	//dev $( "#calStartDt" ).datepicker();
+    // PROD
+    $( "#calStartDt" ).datepicker({minDate: 0});
    
   });
 </script>
@@ -30,16 +32,19 @@ $(function() {
 Start Date<input type="text" id="calStartDt" value="<%=user.getYearPlan().getCalStartDate()==null ? "" : dateFormat4.format(new java.util.Date(user.getYearPlan().getCalStartDate())) %>" />
 Time<input type="text" id="calTime" value="<%=user.getYearPlan().getCalStartDate()==null ? (org.girlscouts.vtk.models.api.VTKConfig.CALENDAR_START_TIME_HOUR+":"+org.girlscouts.vtk.models.api.VTKConfig.CALENDAR_START_TIME_MIN) : dateFormat44.format(new java.util.Date(user.getYearPlan().getCalStartDate())) %>"/>
 <select id="calAP">
-<%if( user.getYearPlan().getCalStartDate()!=null){ %>
-	<option value="<%=user.getYearPlan().getCalStartDate()==null ? "" : dateFormat41.format(new java.util.Date(user.getYearPlan().getCalStartDate())) %>" SELECTED><%=user.getYearPlan().getCalStartDate()==null ? "" : dateFormat41.format(new java.util.Date(user.getYearPlan().getCalStartDate())) %></option>
-<%} %>
-<option value="pm">pm</option> <option value="am">am</option></select>
+<% String AM = "am";
+	if( user.getYearPlan().getCalStartDate() !=null ){
+		AM = dateFormat41.format(new java.util.Date(user.getYearPlan().getCalStartDate()));
+	} 
+	%>
+
+<option value="pm" <%=AM.equals("pm") ? " SELECTED" : "" %>>pm</option>
+<option value="am" <%=AM.equals("am") ? " SELECTED" : "" %>>am</option></select>
 
 Freq<select id="calFreq">
 
-<option value="<%=user.getYearPlan().getCalFreq() %>"><%=user.getYearPlan().getCalFreq() %></option>
-<option value="weekly">weekly</option>
-<option value="biweekly" SELECTED>biweekly</option>
+<option value="weekly" <%= user.getYearPlan().getCalFreq().equals("weekly") ? " SELECTED" : "" %>>weekly</option>
+<option value="biweekly"  <%= user.getYearPlan().getCalFreq().equals("biweekly") ? " SELECTED" : "" %>>biweekly</option>
     </select>
 
 <div style="padding-top:10px;">Do not schedule a meeting during the week of</div>

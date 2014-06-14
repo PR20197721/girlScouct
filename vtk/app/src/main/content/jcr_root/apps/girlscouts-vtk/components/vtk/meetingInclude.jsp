@@ -43,6 +43,7 @@ while( itr.hasNext() ){
 %>
 </ul>
 <script>
+/*
   $("#sortable123").sortable(
         				   
         				   {
@@ -52,8 +53,33 @@ while( itr.hasNext() ){
         				        }
         				}
         		   );
+        		   */
         		   </script>
-        		   
+        		
+        		
+        		
+        		
+        
+ <style>
+  #sortable123{ list-style-type: none; margin: 0; padding: 0; zoom: 1; }
+  #sortable123 li { margin: 0 5px 5px 5px; padding: 3px; width: 90%; }
+  </style>
+  <script>
+  $(function() {
+    $( "#sortable123" ).sortable({
+      		
+    	items: "li:not(.ui-state-disabled)",
+    
+    
+    	  update:  function (event, ui) {
+	        	doUpdMeeting()
+	        }
+    });
+ 
+    $( "#sortable123 li" ).disableSelection();
+  });
+  </script>
+        		  		   
         		   
         		   
         		   <%!
