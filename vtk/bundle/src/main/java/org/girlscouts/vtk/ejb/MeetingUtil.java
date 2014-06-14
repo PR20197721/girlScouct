@@ -1,9 +1,12 @@
 package org.girlscouts.vtk.ejb;
 
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import org.apache.commons.beanutils.BeanComparator;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
@@ -32,12 +35,13 @@ public class MeetingUtil {
 
 		
 		java.util.List<MeetingE> newMeeting = new java.util.ArrayList<MeetingE>();//orgMeetings.size());
-		for(int i=0;i<orgMeetings.size();i++) newMeeting.add(null); //TODO 
+		for(int i=0;i<orgMeetings.size();i++) newMeeting.add(orgMeetings.get(i)); //TODO BAD
 		
 		for(int i=0;i<orgMeetings.size();i++){
 			
 			MeetingE meeting = orgMeetings.get(i);
 			int newpos = newPoss.indexOf(i+1) ;
+			meeting.setId(newpos);
 			newMeeting.set(newpos,  meeting);
 			
 		}
@@ -78,6 +82,15 @@ public class MeetingUtil {
 		
 		
 	java.util.List <MeetingE> meetingEs = plan.getMeetingEvents();
+	
+	Comparator<MeetingE> comp = new BeanComparator("id");
+    Collections.sort(meetingEs, comp);
+    for (MeetingE person : meetingEs) {
+      System.out.println("Sorted: "+person.getId());
+    }
+	
+	
+	
 	if( plan.getSchedule() !=null ){
 		String calMeeting= plan.getSchedule().getDates();
 		StringTokenizer t= new StringTokenizer( calMeeting, ",");
@@ -85,6 +98,7 @@ public class MeetingUtil {
 		while( t.hasMoreElements()){
 			
 			try{
+				System.err.println( "MeetingUtil :" +t.countTokens() +" : "+ count +" : "+ (meetingEs==null) +" : "+(sched==null) );
 				//if( meetingEs.size()<=count) continue; //dates more then meetings. on delete maybe?
 				sched.put( new java.util.Date( Long.parseLong( (t.nextToken() ) ) ) , meetingEs.get(count));
 			}catch(Exception e){e.printStackTrace();}
@@ -129,7 +143,7 @@ public class MeetingUtil {
 		java.util.List<MeetingE> rearangedMeetings = null;
 		try{
 			rearangedMeetings=  updateMeetingPos( user.getYearPlan().getMeetingEvents(), newMeetingSetup);
-	}catch(Exception e){e.printStackTrace();}
+		}catch(Exception e){e.printStackTrace();}
 				
 		
 		YearPlan plan = user.getYearPlan();
@@ -257,6 +271,7 @@ public class MeetingUtil {
 		
 		MeetingE meeting = new MeetingE();
 		meeting.setRefId(newMeetingPath);
+		meeting.setId( user.getYearPlan().getMeetingEvents().size()+3 );
 		
 		user.getYearPlan().getMeetingEvents().add(meeting);
 		

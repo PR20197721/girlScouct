@@ -63,11 +63,20 @@ for(int i=0;i<locations.size();i++){
 					
 					String mLoc = ((MeetingE)_comp).getLocationRef();
 					mLoc = mLoc==null ? "" : mLoc;
-					%>
-						<li><input type="checkbox" name="<%=location.getName() %>" value="<%=date%>" <%= mLoc.equals(location.getPath() ) ? "CHECKED" : ""%> /><%=fmtDate.format(date) %></li>
+					
+					
+					if( date.after( new java.util.Date()) ){
+						%>
+							<li><input type="checkbox" name="<%=location.getName() %>" value="<%=date%>" <%= mLoc.equals(location.getPath() ) ? "CHECKED" : ""%> /><%=fmtDate.format(date) %></li>
 						
 						
-					<% 
+						<% 
+					
+					
+					}else{
+						
+						%><li> <%= mLoc.equals(location.getPath() ) ? "YES" : ""%> <del><%=fmtDate.format(date) %></del></li> <% 
+					}
 				}
 			  
 				%>

@@ -13,7 +13,7 @@ ApiConfig apiConfig =null;
 	   System.err.println("APICONFIG: "+ apiConfig.getAccessToken() +" User: "+ apiConfig.getUserId() +" URL: "+ apiConfig.getInstanceUrl() );
 	   out.println("<!-- APICONFIG: "+ apiConfig.getAccessToken() +" User: "+ apiConfig.getUserId() +" URL: "+ apiConfig.getInstanceUrl() +" -->");
 	
-	
+		
 	}else{
 		
 		out.println("loging first");
@@ -39,9 +39,9 @@ if( user ==null){
 		//user.setId( apiConfig.getUserId());
 	}
 	
-	
+	user.setApiConfig(apiConfig);
 	session.putValue("VTK_user", user);
-
+	
 }
 %>
 </head>

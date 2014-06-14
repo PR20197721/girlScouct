@@ -27,31 +27,18 @@ Activity activity = (Activity) _comp;
 <h1>Activity</h1>
 Activity: <%= activity.getName()%>
 
-<!-- TODO: change js name later -->
-<input type="button" value="delete this activity" onclick="rmCustActivity12('<%=activity.getPath()%>')"/>
 
+<%if( activity.getDate().after( new java.util.Date())){ %>
+<input type="button" value="delete this activity" onclick="rmCustActivity12('<%=activity.getPath()%>')"/>
+<%} %>
 
 <br/><br/>Date: <%=fmtDate.format(activity.getDate()) %>
 <br/><br/>Time: <%=fmtHr.format(activity.getDate()) %> - <%= fmtHr.format(activity.getEndDate()) %> 
-<br/><br/>Age range:
+<br/><br/>Age range: <%= user.getApiConfig().getUser().getAgeLevel()%>
 <br/><br/>Location: 
 <%= activity.getLocationName() %>
 <%=activity.getLocationAddress()%>
 
-<%
- //TODO depricated all if  
-if( activity.getLocationRef()!=null && user.getYearPlan().getLocations()!=null )
-	for(int k=0;k<user.getYearPlan().getLocations().size();k++){
-		if( user.getYearPlan().getLocations().get(k).getPath().equals( activity.getLocationRef() ) )
-			%>
-				<br/><%=user.getYearPlan().getLocations().get(k).getName() %>
-				<br/><%=user.getYearPlan().getLocations().get(k).getAddress() %>
-				<%=user.getYearPlan().getLocations().get(k).getCity() %>
-				<%=user.getYearPlan().getLocations().get(k).getState() %>
-				<%=user.getYearPlan().getLocations().get(k).getZip() %>
-			<% 
-	}
-%>
 
 <br/><br/>Cost:
 
