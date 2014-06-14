@@ -16,8 +16,9 @@ org.girlscouts.vtk.models.user.User user= (org.girlscouts.vtk.models.user.User) 
 <script>
 $(function() {
 	
-	$( "#calStartDt" ).datepicker();
-    // PROD $( "#calStartDt" ).datepicker({minDate: 0});
+	//dev $( "#calStartDt" ).datepicker();
+    // PROD
+    $( "#calStartDt" ).datepicker({minDate: 0});
    
   });
 </script>
