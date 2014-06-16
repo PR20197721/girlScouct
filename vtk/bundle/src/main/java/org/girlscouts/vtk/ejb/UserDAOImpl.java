@@ -206,14 +206,25 @@ public class UserDAOImpl implements UserDAO{
 						oldPlan.getSchedule().setDates( oldPlan.getSchedule().getDates().substring(0, oldPlan.getSchedule().getDates().indexOf(""+date)  ));
 						
 						System.err.println("AFter: "+ oldPlan.getSchedule().getDates() );
+				
 						
-						for(int i=count;i<oldPlan.getMeetingEvents().size();i++){
 						
-							System.err.println("Removing meeting "+ (count) +" : "+ oldPlan.getMeetingEvents().size());
+						//TODO re write
+						java.util.List<MeetingE> toBeRm= new java.util.ArrayList();
+						for(int i=count;i<oldPlan.getMeetingEvents().size();i++)
+							toBeRm.add(oldPlan.getMeetingEvents().get(i));
 							
-							oldPlan.getMeetingEvents().remove(count);
-							//if( (count+1) > oldPlan.getMeetingEvents().size() ) break;
-						}
+						
+						for(int i=0;i<toBeRm.size();i++)
+							oldPlan.getMeetingEvents().remove(toBeRm.get(i));
+						
+						
+						
+						
+						
+						
+						
+						
 						break;
 					}else if(  new java.util.Date().before( new java.util.Date(date) )){
 						
