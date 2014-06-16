@@ -35,18 +35,20 @@
 			</ul>
 <%} %>
 <%if( user.getYearPlan()==null ){ %>
-			<p>To start planning your year, select a Year Plan</p>
-			<a href="javascript:void(0)" id="plan_hlp_hrf">help</a>
+			<p>To start planning your year, select a Year Plan
+			<a href="javascript:void(0)" id="plan_hlp_hrf"><img align="right" src="/etc/designs/girlscouts-usa-green/images/help-icon.png"/></a>
+			</p>
 <%}%>
 			<div class="sectionHeader">YEAR PLAN LIBRARY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <% if(user.getYearPlan()!=null){%>
 				<a href="javascript:void(0)" onclick="yesPlan()">reveal</a>
 <%} %>
 			</div>
+
 <% if(user.getYearPlan()!=null){%>
-			<div id="div2" style="display:none;">
+			<div id="yearPlanSelection" style="display:none;">
 <%}else{ %>
-			<div id="div2" >
+			<div id="yearPlanSelection" >
 <%} 
 	java.util.Iterator<YearPlan> yearPlans = yearPlanDAO.getAllYearPlans(apiConfig.getUser().getAgeLevel()).listIterator();
 	while (yearPlans.hasNext()) {
@@ -56,6 +58,7 @@
 					<input type="submit" name="" value="<%=yearPlan.getName()%>" onclick="x('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>')" />
 					<%=yearPlan.getDesc()%>-<%=yearPlan.getId()%>
 				</div>
+				<hr/>
 <%} %>
 			</div>
 			<div id="div1" style="display:<%=(user.getYearPlan()!=null) ? "block" : "none" %>">

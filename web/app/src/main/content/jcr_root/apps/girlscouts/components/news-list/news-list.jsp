@@ -52,10 +52,10 @@
     
     if(properties.containsKey("isonhomepage") && properties.get("isonhomepage").equals("on")){%>
     	  <cq:include script="feature-news.jsp"/>
-    <%}
-    
-    if(!list.isEmpty()){
+    <%}else{
     	%><cq:include script="list-news.jsp"/>
-    <%}
+    	
+  <%   }
+    
    
 %>
