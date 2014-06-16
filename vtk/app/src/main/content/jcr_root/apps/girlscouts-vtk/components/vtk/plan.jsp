@@ -1,84 +1,21 @@
-
- <%@ page import="org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
-<%
-
-
-HttpSession session = request.getSession();
-ApiConfig apiConfig =null;
-	if( session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName())!=null ){
-	   apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig)session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
-		
-	   System.err.println("APICONFIG: "+ apiConfig.getAccessToken() +" User: "+ apiConfig.getUserId() +" URL: "+ apiConfig.getInstanceUrl() );
-	   out.println("<!-- APICONFIG: "+ apiConfig.getAccessToken() +" User: "+ apiConfig.getUserId() +" URL: "+ apiConfig.getInstanceUrl() +" -->");
-	
-		
-	}else{
-		
-		out.println("loging first");
-		return;
-	}
-
-
-
-YearPlanDAO yearPlanDAO = sling.getService(YearPlanDAO.class);
-UserDAO userDAO = sling.getService(UserDAO.class);
-
-//HttpSession session = request.getSession();
-
-User user= (User)session.getValue("VTK_user");
-if( user ==null){
-	//user= userDAO.getUser( request.getParameter("userId"));
-	user= userDAO.getUser( apiConfig.getUserId() );
-	
-	//first time - new user
-	if( user==null ){
-//System.err.println("User is null.Setting new "+ apiConfig.getUserId());		
-		user = new User(apiConfig.getUserId());
-		//user.setId( apiConfig.getUserId());
-	}
-	
-	user.setApiConfig(apiConfig);
-	session.putValue("VTK_user", user);
-	
-}
-%>
-</head>
-<body>
-
-
+<%@include file="include/session.jsp"%>
 <div id="errInfo" title="tmp"> </div>
 <div id="newActivity" title="New Activity"> </div>
 <div id="newLocationCal" title="New Location & Calendar"> </div>
 <div style="background-color:#FFF;">
-                
-  
-               
-<dl class="tabs" data-tab >
-  <dd ><a href="#panel2-1">My Troup</a></dd>
-  <dd class="active">Year Plan</dd>
-  
-  
-  <dd>
-  <%if( user.getYearPlan()!=null ){ %>
-  	<a href="/content/girlscouts-vtk/en/vtk.planView.html" >Meeting Plan</a>
-  <%}else{%> <a href="#">Meeting Plan</a> <%} %>
-  </dd>
-  
-  
-  
-  <dd><a href="/content/girlscouts-vtk/en/vtk.resource.html">Resources</a></dd>
-  <dd><a href="#panel2-5">Community</a></dd>
-</dl>
+<%!
+	String activeTab = "plan";
+	boolean showVtkNav = true;
+%>
+<%@include file="include/vtk-nav.jsp"%>
 <div class="tabs-content">
   <div class="content" id="panel2-1">
     <p>First panel content goes here...
    
     <a href="javascript:void(0)" onclick="x()">test</a>
-    
-    
-    
     </p>
   </div>
   <div class="content active" id="panel2-2">
@@ -99,6 +36,8 @@ if( user ==null){
 </ul>
 <%} %>
 
+                                                <p>To start planning your year, select a Year Plan</p>
+                                                <a href="javascript:void(0)" id="plan_hlp_hrf">help</a>
   <div class="sectionHeader">YEAR PLAN LIBRARY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   	<% if(user.getYearPlan()!=null){%><a href="javascript:void(0)" onclick="yesPlan()">reveal</a><%} %>
   </div>
@@ -106,15 +45,7 @@ if( user ==null){
   	<div id="div2" style="display:none;">
   <%}else{ %>
   	<div id="div2" >
-  <%} %>
-
-
-						<br /> <br />To start planning your year, select a Year Plan
-						<a href="javascript:void(0)" id="plan_hlp_hrf">help</a>
-						<div style="background-color: gray; height: 20px; color: #FFF;">
-							Year Plan Library</div>
-
-						<%
+  <%} 
 
 							java.util.Iterator<YearPlan> yearPlans = yearPlanDAO
 									.getAllYearPlans(apiConfig.getUser().getAgeLevel())
@@ -150,9 +81,6 @@ if( user ==null){
      
     </p>
   </div>
-  
-    
- 
   <div class="content" id="panel2-3">
     <p>Third panel content goes here...</p>
   </div>

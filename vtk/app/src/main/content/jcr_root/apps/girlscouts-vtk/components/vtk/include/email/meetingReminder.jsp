@@ -1,8 +1,5 @@
 
 <%@page import="org.girlscouts.vtk.auth.models.ApiConfig" %>
-<%
-ApiConfig apiConfig= (ApiConfig)session.getAttribute(ApiConfig.class.getName());
-%>
 
 <%=apiConfig.getUserId() %>--
 <%=apiConfig.getAccessToken() %>
