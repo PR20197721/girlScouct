@@ -31,7 +31,7 @@
   String eventGrandParent = currentPage.getParent().getParent().getPath();
   String eventLeftNavRoot = currentSite.get("leftNavRoot", String.class);
   String eventDisplUnder = currentSite.get("eventPath", String.class);
-  
+  boolean includeUL=false;
   String insertAfter="";
  if(eventGrandParent.equalsIgnoreCase(currentSite.get("eventPath", String.class))){
      String eventPath = eventLeftNavRoot.substring(0,eventLeftNavRoot.lastIndexOf("/"));
@@ -50,6 +50,7 @@
 	 levelDepth++;
 	 String name;
 	 String path;
+	
 	 
 	 if(iterPage.hasNext())
 	    {
@@ -57,7 +58,9 @@
 		   {
 	         menuBuilder.append("<ul class=\"side-nav\" style=\"padding:0px\">");
 	        } else{
-	            menuBuilder.append("<ul>");
+	        	
+	        	     menuBuilder.append("<ul>");
+	        	     
 	       }
 	 while(iterPage.hasNext())
 	     {
@@ -100,6 +103,8 @@
                                menuBuilder.append("</li>");
                             }    
                        }
+	    	    		
+	    	    		
 	    	    	}
 	    	    	
                   
@@ -116,20 +121,20 @@
                          menuBuilder.append("<a href=").append(page.getPath()+".html").append(">").append(page.getTitle()).append("</a>");
                          //menuBuilder.append("</li>");
                          
-                         menuBuilder.append("<li class=\"active\">");
+                         menuBuilder.append("<ul><li class=\"active\">");
                          menuBuilder.append("<a href=").append(currPath+".html").append(">").append(currTitle).append("</a>");
-                         menuBuilder.append("</li>");
+                         menuBuilder.append("</li></ul>");
                      }
                 	 else
                 	 {
-                    	if(showCurrent.equals("false"))
+                    	if(showCurrent.equals("false") && !page.isHideInNav())
                     	 {
                     	     menuBuilder.append("<li>");
                     	     menuBuilder.append("<a href=").append(page.getPath()+".html").append(">").append(page.getTitle()).append("</a>");
                     	     menuBuilder.append("</li>");
                     	}
                 	 }
-                   
+                   //includeUL=true;
                 }
     
 	     
