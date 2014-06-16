@@ -11,7 +11,7 @@ User user= (User) session.getValue("VTK_user");
 
 java.util.List <org.joda.time.DateTime> sched = new java.util.ArrayList<org.joda.time.DateTime>();
 
-if( user.getYearPlan().getSchedule()==null ) {out.println("No schedule"); return; }
+//if( user.getYearPlan().getSchedule()==null ) {out.println("No schedule"); return; }
 
 String str =  user.getYearPlan().getSchedule().getDates();
 java.util.StringTokenizer t= new java.util.StringTokenizer( str, ",");

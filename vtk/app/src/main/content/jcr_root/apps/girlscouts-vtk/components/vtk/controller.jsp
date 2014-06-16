@@ -9,6 +9,9 @@
 
 //System.err.println("controller");
 
+
+
+
 	HttpSession session = request.getSession();
 
 	ActivityDAO activityDAO = sling.getService(ActivityDAO.class);
@@ -19,6 +22,12 @@
 	MeetingUtil meetingUtil = sling.getService(MeetingUtil.class);
 	EmailUtil emailUtil = sling.getService(EmailUtil.class);
 //System.err.println("controller");
+
+
+
+
+
+
 if( request.getParameter("isMeetingCngAjax") !=null){
 	
 	//System.err.println("contr : meeting rearg");

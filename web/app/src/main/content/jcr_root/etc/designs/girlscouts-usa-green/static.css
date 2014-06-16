@@ -694,10 +694,11 @@ li#sub-active > ul > ul >li > ul > li {
 #right-canvas-menu-bottom li {
     text-indent:19px;
   }
-  
+
 .side-nav li.active > ul > ul > li.active{
   text-indent:12px;
 }
+
 
 .lineHeight{
  line-height:1.5;
@@ -715,3 +716,18 @@ li#sub-active > ul > ul >li > ul > li {
     background-position:left center;
     padding-left:25px;  
 }
+
+#mainContent ul {
+	list-style: disc;
+}
+
+div.image.center img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div.image.center small {
+	text-align: center;
+}
+
