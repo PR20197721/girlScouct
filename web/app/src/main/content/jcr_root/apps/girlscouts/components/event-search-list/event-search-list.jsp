@@ -6,6 +6,8 @@
 <% 
 DateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.S");
 fromFormat.setCalendar(Calendar.getInstance(TimeZone.getTimeZone("GMT")));
+DateFormat dateFormat = new SimpleDateFormat("EEE MMM d yyyy");
+DateFormat timeFormat = new SimpleDateFormat("h:mm a");
 DateFormat toFormat = new SimpleDateFormat("EEE dd MMM yyyy");
 SearchResultsInfo srchInfo = (SearchResultsInfo)request.getAttribute("eventresults");
 if(null==srchInfo) {
@@ -32,7 +34,7 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
     {
 		Node node =  resourceResolver.getResource(result).adaptTo(Node.class);
 		Node propNode = node.getNode("jcr:content/data");
-		String fromdate = propNode.getProperty("start").getString();
+		Date startDate = propNode.getProperty("start").getDate().getTime();
 		String title = propNode.getProperty("../jcr:title").getString();
 		String href = result+".html";
 		String time = "";
@@ -44,24 +46,42 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 		cal1.setTime(today);
 		cal1.add(Calendar.DAY_OF_MONTH, +61);
 		Date after60days = cal1.getTime();
-		if(propNode.hasProperty("time"))
-		{
-		   time = propNode.getProperty("time").getString();	
-		}
+		
+		String startDateStr = dateFormat.format(startDate);
+	    String startTimeStr = timeFormat.format(startDate);
+	    String dateStr = startDateStr + ", " +startTimeStr;
+		
+		
 		if(propNode.hasProperty("locationLabel")){
 			locationLabel=propNode.getProperty("locationLabel").getString();
 		}
 		if(propNode.hasProperty("end")){
-			todate = propNode.getProperty("end").getString();
+			Date endDate = propNode.getProperty("end").getDate().getTime();
+			Calendar cal2 = Calendar.getInstance();
+	        Calendar cal3 = Calendar.getInstance();
+	        cal2.setTime(startDate);
+	        cal3.setTime(endDate);
+	        boolean sameDay = cal2.get(Calendar.YEAR) == cal3.get(Calendar.YEAR) &&
+	                          cal2.get(Calendar.DAY_OF_YEAR) == cal3.get(Calendar.DAY_OF_YEAR);
+	        String endDateStr = dateFormat.format(endDate);
+	        String endTimeStr = timeFormat.format(endDate);
+	        if (!sameDay) {
+	            dateStr += " - " + endDateStr +", " + endTimeStr;
+	            
+	        }else{
+	            dateStr += " - " + endTimeStr;
+	            
+	        }
+	    	todate = propNode.getProperty("end").getString();
 			tdt = fromFormat.parse(todate);
 		}
 		String details = propNode.getProperty("details").getString();
-		Date fdt = fromFormat.parse(fromdate);
+		//Date fdt = fromFormat.parse(startDate);
 		Calendar cal = Calendar.getInstance();
-		cal.setTime(fdt);
+		cal.setTime(startDate);
 		int month = cal.get(Calendar.MONTH);
 	
-		if(fdt.after(today) && fdt.before(after60days))
+		if(startDate.after(today) && startDate.before(after60days))
 		{
 			if(tempMonth!=month)
 			  {
@@ -108,12 +128,12 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
          
          </div>
         <div class="row">
-             <div class="small-24 large-24 medium-24 columns">
-                 <b>Date :</b> <%=toFormat.format(fdt)%> <%if(propNode.hasProperty("end")) {%> to <%=toFormat.format(tdt) %> <%}%>
+             <div class="small-24 large-24 medium-24 columns lineHeight">
+                 <b>Date :</b> <%=dateStr%>
            </div>
         </div>
           <div class="row">
-              <div class="small-24 large-24 medium-24 columns">
+              <div class="small-24 large-24 medium-24 columns lineHeight">
                 <%if(!locationLabel.isEmpty()){ %>
                     <div class="locationLabel">
                       <b>Location: </b><%=locationLabel %>

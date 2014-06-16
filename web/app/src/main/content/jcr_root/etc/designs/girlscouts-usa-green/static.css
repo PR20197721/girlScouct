@@ -700,6 +700,24 @@ li#sub-active > ul > ul >li > ul > li {
   text-indent:12px;
 }
 
+
+.lineHeight{
+ line-height:1.5;
+}
+
+
+.register a{
+    background: url('images/small-green-arrow-right.png') no-repeat  0px 0px;
+    background-position:right center;
+    padding-right:10px;  
+}
+
+#calendar a{
+    background: url('images/calendar-icon.png') no-repeat  0px 0px;
+    background-position:left center;
+    padding-left:25px;  
+}
+
 #mainContent ul {
 	list-style: disc;
 }
