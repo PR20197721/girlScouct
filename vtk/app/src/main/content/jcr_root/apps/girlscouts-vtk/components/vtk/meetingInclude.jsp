@@ -14,7 +14,7 @@
 
     java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
 	
-    if( sched==null || sched.size()<=0){out.println("No sched!!??!!");return; }
+    //if( sched==null || sched.size()<=0){out.println("No sched!!??!!");return; }
 
 
     %>
