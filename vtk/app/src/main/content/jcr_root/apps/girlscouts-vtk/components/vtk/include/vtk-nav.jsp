@@ -12,7 +12,7 @@
 <%if( user.getYearPlan()!=null ){ %>
 		<a href="/content/girlscouts-vtk/en/vtk.planView.html">Meeting Plan</a>
 <%}else{%>
-		<a href="#">Meeting Plan</a>
+		<a href="#" onclick="alert('Please select a year plan')">Meeting Plan</a>
 <%} %>
 	</dd>
 <% } %>

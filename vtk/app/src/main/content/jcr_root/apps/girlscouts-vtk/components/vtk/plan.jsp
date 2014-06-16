@@ -38,9 +38,11 @@
 </li>
 </ul>
 <%} %>
+<%if( user.getYearPlan()==null ){ %>
 
                                                 <p>To start planning your year, select a Year Plan</p>
                                                 <a href="javascript:void(0)" id="plan_hlp_hrf">help</a>
+<%}%>
   <div class="sectionHeader">YEAR PLAN LIBRARY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   	<% if(user.getYearPlan()!=null){%><a href="javascript:void(0)" onclick="yesPlan()">reveal</a><%} %>
   </div>
@@ -79,10 +81,6 @@
   <% } %>
   
   </div>
-  
-     
-     
-    </p>
   </div>
   <div class="content" id="panel2-3">
     <p>Third panel content goes here...</p>
@@ -95,7 +93,7 @@
   </div>
 </div>
 
-<br/></br>
+<br/>
 
     
 
