@@ -14,7 +14,7 @@ import org.girlscouts.vtk.models.user.User;
 import org.girlscouts.vtk.salesforce.Campaign;
 import org.girlscouts.vtk.salesforce.Contact;
 import org.girlscouts.vtk.salesforce.Email;
-import org.girlscouts.vtk.salesforce.Users;
+import org.girlscouts.vtk.salesforce.deprUsers;
 import org.girlscouts.vtk.salesforce.tester3;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,8 +40,8 @@ public class EmailUtil {
 		//all emails to send this reminder
 		java.util.List to= new java.util.ArrayList();
 		
-		String campaignId = "701Z0000000WZA7";
-		
+		//String campaignId = "701Z0000000WZA7";
+		/*
 		if( emr.getEmailToGirlParent()!=null ){
 			//TODO get girl/parent emails
 			java.util.List <Contact>  contacts = new tester3().getGirstEmails(apiConfig, campaignId, "XXX");
@@ -56,7 +56,7 @@ public class EmailUtil {
 			for(int i=0;i<contacts.size();i++)
 				emailTo.add( contacts.get(i).getEmail());
 		}
-		
+		*/
 		//Users salesForceUser = new tester3().getUserInfo(apiConfig);	 //TODO store and pull 
 		//emr.setFrom(salesForceUser.getEmail());
 		
