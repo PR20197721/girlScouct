@@ -41,7 +41,7 @@
 <%}%>
 			<div class="sectionHeader">YEAR PLAN LIBRARY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <% if(user.getYearPlan()!=null){%>
-				<a href="javascript:void(0)" onclick="yesPlan()">reveal</a>
+				<a href="javascript:void(0)" onclick="yesPlan()" id="showHideReveal">reveal</a>
 <%} %>
 			</div>
 
@@ -61,7 +61,7 @@
 				<hr/>
 <%} %>
 			</div>
-			<div id="div1" style="display:<%=(user.getYearPlan()!=null) ? "block" : "none" %>">
+			<div id="yearPlanMeetings" style="display:<%=(user.getYearPlan()!=null) ? "block" : "none" %>">
 <% if(user.getYearPlan()!=null){%>
 				<script>$(document).ready(function(){loadMeetings();});</script>
 <% } %>

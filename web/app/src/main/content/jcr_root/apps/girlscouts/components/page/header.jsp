@@ -16,21 +16,20 @@
 <!--<![endif]-->
         <!--PAGE STRUCTURE: HEADER-->
         <div id="header" class="row">
-            <div class="large-4 medium-5 small-24 columns">
+            <div class="large-5 medium-5 small-24 columns">
                 <cq:include path="<%= headerPath + "/logo" %>" resourceType="girlscouts/components/logo" />
                 <%-- TODO: Mike Z. This is an empty <div> that fixes the green box on Chrome. Temp solution. --%>
                 <cq:include path="<%= headerPath + "/placeholder" %>" resourceType="girlscouts/components/placeholder" />
             </div>    
-            <div class="large-20 medium-19 hide-for-small columns topMessage">
+            <div class="large-19 medium-19 hide-for-small columns topMessage">
                 <% setCssClasses("columns", request); %>
                
                    <cq:include path="<%= headerPath + "/eyebrow-nav" %>" resourceType="girlscouts/components/eyebrow-navigation" />
                  
                 <div class="row">
-                    <div class="large-17 medium-17 columns">&nbsp;</div>
-                    <% setCssClasses("large-17 medium-17 columns", request); %>
+                    <% setCssClasses("large-18 medium-18 columns", request); %>
                     <cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
-                    <% setCssClasses("large-7 medium-7 small-24 columns searchBar", request); %>
+                    <% setCssClasses("large-6 medium-6 small-24 columns searchBar", request); %>
                     <cq:include path="<%= headerPath + "/search-box" %>" resourceType="girlscouts/components/search-box" />
                 </div>
                 <div class="row emptyrow"></div>

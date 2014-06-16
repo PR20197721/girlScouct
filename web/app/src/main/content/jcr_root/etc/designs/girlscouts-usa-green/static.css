@@ -105,7 +105,7 @@ a:hover.menuHighlight {
 }
 #header span {
     color: #FAA61A;
-    font-size: 1.25em;
+    font-size: 1.0em;
     font-weight: bold;
 }
 #header a {
@@ -153,7 +153,7 @@ a:hover.menuHighlight {
     background-color: #009447;
 }
 #headerBar>div{
-    padding: 3px 100px 0px 10px;
+    padding: 3px 110px 0px 10px;
 }
 
 #headerBar ul.inline-list {
@@ -193,7 +193,7 @@ a:hover.menuHighlight {
     padding: 0px;
 }
 #main .mainRight {
-    padding: 5px;
+    padding: 0px;
 }
 
 /* LEFT CONTENT */
@@ -230,6 +230,7 @@ a:hover.menuHighlight {
 .breadcrumbs {
     background-color: #fff;
     border: 0px;
+    padding: .5625rem 1.250rem;
 }
 .breadcrumbs a.current {
     color: #00ae58;
@@ -289,7 +290,7 @@ a:hover.menuHighlight {
     
 }
 .home-section img {
-    margin-right:40px;
+    margin-right:29px;
 }
 .home-section h2 a {
     font-size: 0.85em;
@@ -589,7 +590,7 @@ td.fc-header-left{
 }
 
 #header .searchField {
-  height:28px;
+  height:21px;
   width:100%;
 }
 
@@ -731,3 +732,6 @@ div.image.center small {
 	text-align: center;
 }
 
+.rightBodyLeft {
+    padding: 0 1.250em;
+}
