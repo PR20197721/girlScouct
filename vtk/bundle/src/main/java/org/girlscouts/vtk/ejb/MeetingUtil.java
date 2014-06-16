@@ -32,9 +32,9 @@ public class MeetingUtil {
 	
 	public java.util.List<MeetingE> updateMeetingPos(java.util.List<MeetingE> orgMeetings, java.util.List <Integer> newPoss){
 		
-
+	  java.util.List<MeetingE> newMeeting = new java.util.ArrayList<MeetingE>();//orgMeetings.size());
+	  try{
 		
-		java.util.List<MeetingE> newMeeting = new java.util.ArrayList<MeetingE>();//orgMeetings.size());
 		for(int i=0;i<orgMeetings.size();i++) newMeeting.add(orgMeetings.get(i)); //TODO BAD
 		
 		for(int i=0;i<orgMeetings.size();i++){
@@ -45,7 +45,8 @@ public class MeetingUtil {
 			newMeeting.set(newpos,  meeting);
 			
 		}
-		
+	  }catch(Exception e){ System.err.println("ERROR : MeetingUtil.updateMeetingPos");newMeeting= orgMeetings; e.printStackTrace();}
+	  
 		return newMeeting;
 	}
 	
@@ -66,8 +67,9 @@ public class MeetingUtil {
 	
 	public java.util.Map getYearPlanSched(YearPlan plan){
 		
-		java.util.Map <java.util.Date,  YearPlanComponent> sched = 
-				new java.util.TreeMap<java.util.Date,YearPlanComponent>();
+		java.util.Map <java.util.Date,  YearPlanComponent> sched = null;
+		try{
+			sched=new java.util.TreeMap<java.util.Date,YearPlanComponent>();
 		
 		
 		List <Activity> activities = plan.getActivities();
@@ -116,7 +118,7 @@ public class MeetingUtil {
 		}
 	}
 		
-		
+		}catch(Exception e){e.printStackTrace(); return null;}
 		
 		
 		
