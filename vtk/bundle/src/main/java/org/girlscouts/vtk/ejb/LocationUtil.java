@@ -52,7 +52,7 @@ public class LocationUtil {
 		Location newLoc =  locations.get(locations.size()-1) ;
 		System.err.println("New loc path: "+ newLoc.getPath());
 		
-		
+		//location.setPath("/content/girlscouts-vtk/users/005Z00000025nQWIAY/yearPlan/locations/"+location.getName());
 		
 		plan.setLocations(locations);
 		

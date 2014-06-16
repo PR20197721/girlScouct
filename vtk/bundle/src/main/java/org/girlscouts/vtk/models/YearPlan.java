@@ -15,7 +15,7 @@ public class YearPlan {
 	@Collection private java.util.List <MeetingE> meetingEvents;
 	@Collection private java.util.List <Activity> activities;
 	@Bean private Cal schedule;
-	@Collection private java.util.List <Location> locations;
+	@Collection	private java.util.List <Location> locations;
 	
 	//cal settings cache
 	@Field private Long calStartDate;
