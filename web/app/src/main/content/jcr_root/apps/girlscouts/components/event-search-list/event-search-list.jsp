@@ -93,7 +93,7 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 		      
 		    <div class="row">
 		       <div class="small-4 medium-4 large-4 column" style="padding:10px 0px 10px 15px">
-		            <%=monthName %>  <%=yr %>
+		           <b> <%=monthName.toUpperCase() %>  <%=yr %></b>
 		       </div>
 		       <div class="small-20 large-20 medium-20 column" style="padding:0px 0px 2px 0px">
 		         <div id="hrStyle">
@@ -143,7 +143,9 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
            </div>
           <div class="row">
               <div class="small-24 large-24 medium-24 columns">
-                 <p><%=details%></p>
+                <%if(propNode.hasProperty("srchdisp")){ %>
+                 <p><%=propNode.getProperty("srchdisp").getString()%></p>
+                 <%} %>
             </div>
           </div> 
        </div>
