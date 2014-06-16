@@ -1,12 +1,14 @@
 
 
-<%@ page session="false" import="com.day.cq.wcm.api.Page" import="org.apache.commons.lang3.StringEscapeUtils" import="com.day.cq.dam.commons.util.DateParser" import="java.text.SimpleDateFormat" import="java.text.Format"%>
+<%@ page session="false"%>
+
+<%@page import="java.util.Date,java.text.DateFormat,com.day.cq.wcm.api.Page,org.apache.commons.lang3.StringEscapeUtils,com.day.cq.dam.commons.util.DateParser, java.text.SimpleDateFormat,java.text.Format"%>
 <%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/girlscouts/components/global.jsp" %>
 <%
     
     
     Page listItem = (Page)request.getAttribute("listitem");
-    
     Node node = listItem.getContentResource().adaptTo(Node.class);
     node.setProperty("isFeature", true);
     node.save();
@@ -16,32 +18,59 @@
     String height="";
     String src="";
     String paragraph="";
-    String date = node.getProperty("date").getString();
-    if(node.hasNode("text")){
-         paragraph = node.getNode("text").getProperty("text").getString();
+    String title = "";
+    String date = "";
+    String imgTitle="";
+    String description= "";
+    
+    if(node.hasProperty("jcr:title")){
+         title = node.getProperty("jcr:title").getString();
     }
-    if(node.hasNode("image")){
-    	if(node.getNode("image").hasProperty("alt"))
-    	  alt = node.getNode("image").getProperty("alt").getString();
-    	if(node.getNode("image").hasProperty("width"))
-    	   width = node.getNode("image").getProperty("width").getString();
-    	if(node.getNode("image").hasProperty("height"))
-    		height = node.getNode("image").getProperty("height").getString();
-    	if(node.getNode("image").hasProperty("fileReference"))
-            src = node.getNode("image").getProperty("fileReference").getString();
+    
+    if(node.hasProperty("description")){
+    	description = node.getProperty("description").getString();
     	
     }
-   
+    
+    
+    src = node.hasProperty("middle/par/text/image/fileReference") ? node.getProperty("middle/par/text/image/fileReference").getString() : "";
+    alt = node.hasProperty("middle/par/text/image/alt") ? node.getProperty("middle/par/text/image/alt").getString():"";
+    imgTitle = node.hasProperty("middle/par/text/image/title") ? node.getProperty("middle/par/text/image/title").getString():"";
+    
+    
+    if(node.hasProperty("middle/par/text/image/width")){
+    	width = node.getProperty("middle/par/text/image/width").getString();
+    	
+    }
+    if(node.hasProperty("middle/par/text/image/height")){
+        height = node.getProperty("middle/par/text/image/height").getString();
+        
+    }
+    
+    DateFormat inFormatter = new SimpleDateFormat("MM/dd/yy");
     Format formatter = new SimpleDateFormat("dd MMM yyyy");
+   
+    if(node.hasProperty("date")){
+        
+    	String dateString = node.getProperty("date").getString();
+        Date newsDate = inFormatter.parse(dateString);
+        date = formatter.format(newsDate);
+    }
     
     
   
 %><li>
+    <p> Features</p>
     <p>
-       Features <a href="<%= listItem.getPath() %>.html" title="<%= StringEscapeUtils.escapeHtml4(node.getNode("title").getProperty("jcr:title").getString()) %>"
-           onclick="CQ_Analytics.record({event: 'listItemClicked', values: { listItemPath: '<%= listItem.getPath() %>' }, collect:  false, options: { obj: this }, componentPath: '<%=resource.getResourceType()%>'})"><%= StringEscapeUtils.escapeHtml4(node.getNode("title").getProperty("jcr:title").getString()) %></a>
-         <br/> <%=formatter.format(DateParser.parseDate(date)) %>
+        <a href="<%= listItem.getPath() %>.html"><%= title %></a>
+         <br/> <%=date %>
     </p>
-    <img src="<%=src%>" alt="<%=alt%>" height="100" width="100"/>
-    <%=paragraph %>
+    <%if(!src.isEmpty()){ %>
+          <%= displayRendition(resourceResolver, src, "cq5dam.web.120.80") %>
+    <%} %>
+    <p>
+    <%if(!description.isEmpty()){ %>
+       <%=description %>
+    <%}%>
+   </p> 
 </li>

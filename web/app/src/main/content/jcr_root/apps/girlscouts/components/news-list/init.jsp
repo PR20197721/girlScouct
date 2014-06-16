@@ -3,7 +3,7 @@
 <%
     
 List list = new List(slingRequest, new PageFilter());
-
+System.out.println("LIST" +list.size()) ;
 request.setAttribute("list", list);
 
 if (WCMMode.fromRequest(request) == WCMMode.EDIT) {

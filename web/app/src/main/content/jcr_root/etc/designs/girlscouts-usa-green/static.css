@@ -694,3 +694,8 @@ li#sub-active > ul > ul >li > ul > li {
 #right-canvas-menu-bottom li {
     text-indent:19px;
   }
+  
+.side-nav li.active > ul > ul > li.active{
+  text-indent:12px;
+}
+  
