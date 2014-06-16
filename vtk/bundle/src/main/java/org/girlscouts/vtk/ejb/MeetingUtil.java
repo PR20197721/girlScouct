@@ -272,7 +272,14 @@ public class MeetingUtil {
 		
 		MeetingE meeting = new MeetingE();
 		meeting.setRefId(newMeetingPath);
-		meeting.setId( user.getYearPlan().getMeetingEvents().size()+3 );
+		
+		int maxMeetEId=0;
+		for(int i=0;i<user.getYearPlan().getMeetingEvents().size();i++)
+			if( maxMeetEId< user.getYearPlan().getMeetingEvents().get(i).getId() )
+				maxMeetEId= user.getYearPlan().getMeetingEvents().get(i).getId();
+		meeting.setId( maxMeetEId+1);
+		
+		
 		
 		user.getYearPlan().getMeetingEvents().add(meeting);
 		
