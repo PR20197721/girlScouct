@@ -14,9 +14,16 @@
   String path = currentPage.getAbsoluteParent(2).getPath();
   Map <String, String> queryMap = new HashMap<String, String>();
   queryMap.put("type", "cq:Page");
-  queryMap.put("path", path+"/news");
-  queryMap.put("boolproperty","jcr:content/isFeature");
-  queryMap.put("boolproperty.value","false");
+ // queryMap.put("path", path+"/news");
+  
+ queryMap.put("path", currentPage.getPath());
+ 
+ System.out.println("currentPage" +currentPage.getPath());
+ queryMap.put("1_boolproperty","jcr:content/hideInNav");
+  queryMap.put("1_boolproperty.value","false");
+  queryMap.put("2_boolproperty","jcr:content/isFeature");
+  queryMap.put("2_boolproperty.value","false");
+  
   queryMap.put("orderby","@jcr:content/date");
   queryMap.put("orderby.sort","desc");
   String start = request.getParameter("start");
@@ -44,6 +51,15 @@
   
   SearchResult results = query.getResult();
   java.util.List <Hit> resultsHits = results.getHits();
+  
+  System.out.println("How many hits" +resultsHits.size());
+  
+  for(Hit hit :resultsHits){
+	  System.out.println("What is the page Names" +hit.getTitle());
+	  
+  }
+  
+  
   request.setAttribute("results", results);
   request.setAttribute("start", start);
   

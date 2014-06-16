@@ -1,47 +1,73 @@
-<%@ page import="com.day.cq.wcm.api.WCMMode,com.day.cq.wcm.foundation.List,
+<%@ page import="com.day.cq.wcm.api.WCMMode,com.day.cq.wcm.foundation.List,java.text.DateFormat,
                    com.day.cq.wcm.api.components.DropTarget,com.day.cq.search.Query,com.day.cq.search.result.SearchResult,com.day.cq.search.result.Hit,
                    java.util.Map,java.util.HashMap,com.day.cq.search.QueryBuilder,com.day.cq.search.PredicateGroup,java.util.Arrays,java.util.HashSet,java.util.ArrayList,
                    java.util.Iterator,java.text.SimpleDateFormat,java.util.Date, java.text.Format,com.day.cq.dam.commons.util.DateParser"%>
 
 <%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/girlscouts/components/global.jsp"%>
 <%
   SearchResult results = (SearchResult)request.getAttribute("results");
   java.util.List <Hit> resultsHits = results.getHits();
   Format formatter = new SimpleDateFormat("dd MMM yyyy");
-  List list = (List)request.getAttribute("list"); 
+  List  list = (List)request.getAttribute("list"); 
   String start = (String) request.getAttribute("start");
-  
+  String title = "";
+  String description="";
+  String text="";
+  String imgPath="";
+  DateFormat inFormatter = new SimpleDateFormat("MM/dd/yy");
+  String date="";
+  String external_url = "";
   for(Hit hit:resultsHits)
       {
 	  Node content = hit.getNode(); 
-	  if(content.hasNode("jcr:content/title")){%>
-	           <p><a href="<%=hit.getPath()+".html" %>"><%=content.getNode("jcr:content/title").getProperty("jcr:title").getString()%></a>
-	               <%  if(content.getNode("jcr:content").hasProperty("date"))
-	            		{
-	            	       String contentDt = content.getNode("jcr:content").getProperty("date").getString();
-	            	   %>
-	               <br/> <%=formatter.format(DateParser.parseDate(contentDt)) %>
-	               <%} %>
-	           </p> 
-        <% }%>
+	  Node contentNode = content.getNode("jcr:content");
+	  title = contentNode.hasProperty("jcr:title")?contentNode.getProperty("jcr:title").getString():"";
+	  external_url = contentNode.hasProperty("external-url")?contentNode.getProperty("external-url").getString():"";
+	  if(!external_url.isEmpty()){
+		%>  
+		  <p><a href="<%=external_url%>"><%=title%></a></p>
+	   <%}else
+	   {
+	 	
+      	 date = contentNode.hasProperty("date")?contentNode.getProperty("date").getString():"";
+         if(!date.isEmpty())
+         {
+    	  String dateString = contentNode.getProperty("date").getString();
+          Date newsDate = inFormatter.parse(dateString);
+          date = formatter.format(newsDate);
+          }
+      	  text = contentNode.hasProperty("middle/par/text/text")? contentNode.getProperty("middle/par/text/text").getString():"";
+      	  imgPath = contentNode.hasProperty("middle/par/text/image/fileReference")?contentNode.getProperty("middle/par/text/image/fileReference").getString():"";
+   		 %>
+      	   <p><a href="<%=hit.getPath()+".html" %>"><%=title%></a>
+             <br/>
+               <%if(!date.isEmpty()){ %> 
+               <%=date%>
+               <%} %>  
+	        </p> 
+         <% 
+	         if(!imgPath.isEmpty())
+           {%> 
+               <%= displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80") %>
+           <% }%>
+	       <%if(!text.isEmpty()){
+	        %>	  
+		      <p><%=text %></p>
+	        <%}
 	  
-	  <% 
-	     if(content.hasNode("jcr:content/image"))
-      {%> 
-         <img src="<%=content.getNode("jcr:content/image").getProperty("fileReference").getString()%>" height="100" width="100" alt="<%if(content.getNode("jcr:content/image").hasProperty("alt")){%><%=content.getNode("jcr:content/image").getProperty("fileReference").getValue()%><%}%>"/>
-      <% }%>
-	  <%if(content.hasNode("jcr:content/text")){
-	%>	  
-		  <p><%=content.getNode("jcr:content/text").getProperty("text").getString() %></p>
-	  <%}
-	  
+            }
       }
 
 %>
     
 <div id="pagination">
      <% 
-         long totalResults = results.getTotalMatches() + list.size();
+     
+        long totalResults = results.getTotalMatches();
+         if(list.size()>0){
+        	 totalResults += list.size();
+         }
          long numberofPage = totalResults/10;
          if(numberofPage>1)
          {
@@ -84,15 +110,19 @@
          		   }
          	    }  
          
-         Iterator<Page> itemslist = list.getPages();
-         while(itemslist.hasNext()){
-        	 Page pg = itemslist.next();
-        	 if(pg.getProperties().containsKey("isFeature")){
-        		 Node node = pg.getContentResource().adaptTo(Node.class);
-        		 node.setProperty("isFeature", false);
-        		 node.save();
+         
+         
+         if(list.size()>0){
+        	   Iterator<Page> itemslist = list.getPages();
+        	   while(itemslist.hasNext()){
+        		   Page pg = itemslist.next();
+        		   if(pg.getProperties().containsKey("isFeature")){
+        			    Node node = pg.getContentResource().adaptTo(Node.class);
+        			    node.setProperty("isFeature", false);
+        			    node.save();
         	 }
          }
+         } 
      %>
 
 
