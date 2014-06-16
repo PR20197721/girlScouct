@@ -72,7 +72,7 @@
                             features="*"/>
                         <edit
                             jcr:primaryType="nt:unstructured"
-                            features="*"/>
+                            features="[paste-plaintext,paste-wordhtml]"/>
                         <findreplace
                             jcr:primaryType="nt:unstructured"
                             features="*"/>

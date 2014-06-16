@@ -67,9 +67,6 @@
                         <misctools
                             jcr:primaryType="nt:unstructured"
                             features="*"/>
-                        <edit
-                            jcr:primaryType="nt:unstructured"
-                            features="*"/>
                         <findreplace
                             jcr:primaryType="nt:unstructured"
                             features="*"/>
@@ -137,6 +134,9 @@
                         <undo
                             jcr:primaryType="nt:unstructured"
                             features="*"/>
+                        <edit
+                            jcr:primaryType="nt:unstructured"
+                            features="[paste-plaintext,paste-wordhtml]"/>
                     </rtePlugins>
                     <specialCharsConfig jcr:primaryType="nt:unstructured">
                         <chars jcr:primaryType="nt:unstructured">
