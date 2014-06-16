@@ -3,46 +3,20 @@
     <%@ page import="org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*, org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
-
-
-
-
-<%
-	HttpSession session = request.getSession();
-
-	MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
-
-	String meetingPath = request.getParameter("mpath");
-	if( meetingPath==null || meetingPath.equals("null") || meetingPath.equals("")) meetingPath=null;
-
-	java.util.List< Meeting> meetings=  meetingDAO.search();
-
-
-
-java.util.List<String> myMeetingIds= new java.util.ArrayList();
-	User user= (User)session.getValue("VTK_user");
-	java.util.List<MeetingE> myMeetings = user.getYearPlan().getMeetingEvents();
-	for(int i=0;i< myMeetings.size();i++){
-		
-		String meetingId = myMeetings.get(i).getRefId();
-		meetingId= meetingId.substring(meetingId.lastIndexOf("/") +1).trim().toLowerCase();
-		myMeetingIds.add( meetingId );
-		
-		
-		
-	}
-
+<%@include file="include/session.jsp"%>
+<%!
+	boolean showVtkNav = true;
+        String activeTab = "resource";
 %>
+<%
+        String meetingPath = request.getParameter("mpath");
+        if( meetingPath==null || meetingPath.equals("null") || meetingPath.equals("")) meetingPath=null;
 
-
-<%if(meetingPath ==null){ %>
-<dl class="tabs" data-tab >
-  <dd ><a href="#panel2-1">My Troup</a></dd>
-  <dd ><a href="/content/girlscouts-vtk/en/vtk.html?ageLevel=brownie">Year Plan</a></dd>
-  <dd ><a href="/content/girlscouts-vtk/en/vtk.planView.html">Meeting Plan</a></dd>
-  <dd class="active">Resources</dd>
-  <dd><a href="#panel2-5">Community</a></dd>
-</dl>
+        if(meetingPath != null){
+                showVtkNav =  false;
+        }
+%>
+<%@include file="include/vtk-nav.jsp"%>
 <div class="tabs-content">
     <div class="content" id="panel2-1"></div>
     <div class="content" id="panel2-2"></div>
@@ -50,8 +24,18 @@ java.util.List<String> myMeetingIds= new java.util.ArrayList();
     <div class="content" id="panel2-4"></div>
     <div class="content" id="panel2-5"></div>
 </div>
-<%} %>
+<%
+	MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
+	java.util.List< Meeting> meetings=  meetingDAO.search();
+	java.util.List<String> myMeetingIds= new java.util.ArrayList();
+	java.util.List<MeetingE> myMeetings = user.getYearPlan().getMeetingEvents();
+	for(int i=0;i< myMeetings.size();i++){
+		String meetingId = myMeetings.get(i).getRefId();
+		meetingId= meetingId.substring(meetingId.lastIndexOf("/") +1).trim().toLowerCase();
+		myMeetingIds.add( meetingId );
+	}
 
+%>
 
 <script>
 function cngMeeting(mPath){
