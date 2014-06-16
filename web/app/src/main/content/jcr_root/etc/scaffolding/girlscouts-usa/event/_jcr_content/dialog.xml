@@ -98,6 +98,11 @@
                     fieldLabel="Color"
                     name="./jcr:content/data/color"
                     xtyle="colorfield"/>
+                <register
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Registration"
+                    name="./jcr:content/data/register"
+                    xtype="pathfield"/>
             </items>
         </tab1>
         <tab4
