@@ -23,8 +23,8 @@
 	String currentPath = currentPage.getPath() + ".html";
    
 	// date and time
-    DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy");
-	DateFormat timeFormat = new SimpleDateFormat("hh:mm a");
+    DateFormat dateFormat = new SimpleDateFormat("EEE MMM d yyyy");
+	DateFormat timeFormat = new SimpleDateFormat("h:mm a");
     DateFormat calendarFormat = new SimpleDateFormat("M-yyyy");
 	Date startDate = properties.get("start", Date.class); 
 	
@@ -39,9 +39,15 @@
     int year = calendar.get(Calendar.YEAR);
     String combineMonthYear = month+"-"+year;
     String calendarUrl = currentSite.get("calendarPath",String.class)+".html/"+combineMonthYear; 
-    String dateStr = startDateStr;
+   
     String time = startTimeStr;
 	Date endDate = properties.get("end", Date.class); 
+	
+	String register = properties.get("register", String.class);
+	
+	//Start Time : startTimeStr var called time
+	
+	String dateStr = startDateStr + ", " +startTimeStr;
 
 	if (endDate != null) {
 	    Calendar cal1 = Calendar.getInstance();
@@ -53,10 +59,16 @@
 		String endDateStr = dateFormat.format(endDate);
 		String endTimeStr = timeFormat.format(endDate);
 		if (!sameDay) {
-	    	dateStr += " to " + endDateStr;
-		} 
-	    time += " to " + endTimeStr;
+	    	dateStr += " - " + endDateStr +", " + endTimeStr;
+		    
+		}else{
+			dateStr += " - " + endTimeStr;
+			
+		}
+	       
 	}
+	
+	
 	Map<String,List<String>> tags= new HashMap<String,List<String>>() ;
 	if(currentNode.getParent().hasProperty("cq:tags")){
 		
@@ -97,11 +109,13 @@
 
 <!-- TODO: fix the h2 color in CSS -->
 <div class="row">
-   <div class="large-17 medium-17 columns">
-        <h2 style="color: green;"><%= title %></h2>
+   <div class="small-14 large-14 medium-14 columns">
+        <h2><%= title %></h2>
    </div>
-   <div class="medium-7 columns small-24">
+   <div class="small-10 large-10 medium-10 columns">
+      <div id="calendar">
         <a href="<%=calendarUrl%>">View event on calendar</a>
+      </div>  
    </div>
 
 </div>
@@ -118,62 +132,100 @@
 	%>
 </p>
 </div>
- <div>
-   <div class="inner">
-       <b>Time:</b> <%= time %><br/>
-       <b>Date:</b> <%= dateStr %> <br/>
-       <% if (!locationLabel.isEmpty()) { %>
-            <b>Location:</b> <%= locationLabel %>
-        <% } %>
-        <% if(!address.isEmpty()){ %>
-        
-            <a href="/content/girlscouts-usa/en/map.html?address=<%=address%>">Directions</a>
-  
-        <%} %>
+ <div class="row">
+   <div class="small-12 large-12 medium-12 columns">
+       <div class="row">
+         <div class="small-8 large-8 medium-8 columns lineHeight">
+             <b>Date:</b> 
+            
+         </div>
+         <div class="small-16 large-16 medium-16 columns lineHeight">
+            <%= dateStr %>
+         </div>
+       </div>
+       
+       <div class="row">
+         <div class="small-8 large-8 medium-8 columns lineHeight">
+             <b>location:</b> 
+            
+         </div>
+         <div class="small-16 large-16 medium-16 columns lineHeight">
+           <%= locationLabel %> 
+         </div>
+       </div>
+       
     </div>
-   <div class="inner">
-      <%
+    <div class="row">
+     <div class="small-12 large-12 medium-12 columns">
+        
+        <%
          Iterator<String> str = tags.keySet().iterator();
          while(str.hasNext()){
-        	 String categoryTitle = str.next();
-        	 
+             String categoryTitle = str.next();
+             
         %>
-          <b> <%=categoryTitle %>: </b>
-        <%	 
-        	Iterator<String> tagValue = tags.get(categoryTitle).iterator();
+         <div class="row">
+         <div class="small-10 large-10 medium-10 columns lineHeight">
+                  <b> <%=categoryTitle %>: </b>
+         </div>
+        <%   
+            Iterator<String> tagValue = tags.get(categoryTitle).iterator();
+            %>
+              <div class="small-14 large-14 medium-14 columns lineHeight"> 
+            
+           <%  
            while(tagValue.hasNext()){
-        	%>   
-        	   <%=tagValue.next()%><% if(tagValue.hasNext()){ %>,<%} %>   
+            %> 
+            
+               <%=tagValue.next()%><% if(tagValue.hasNext()){ %>,<%} %> 
+                 
           <% }%>
-            <br/>
+            </div>
+          </div>
+          <div class="row">
+              <div class="small-24 large-24 medium-24 columns">&nbsp;</div>
+          </div>  
           <%
-        	 
-         }
+          }
       
       %>
-       
-       <%if(!region.isEmpty()){ %>
-           <b>Region: </b><%=region %>
-       
-       <%} %>
-      
-        
-        
+        <div class="row">
+           <div class="small-10 large-10 medium-10 columns">
+            <%if(!region.isEmpty()){ %>
+                 <b>Region: </b>
+             <%} %>
+           </div>
+            <div class="small-14 large-14 medium-14 columns"> 
+                <%=region %>
+            </div>
+          
+         </div>
+       </div>
+     </div>
     </div>
- </div>
-<div>
+    
+    
+<div class="row">
+  <div class="small-16 large-16 medium-16 columns">
+     &nbsp;
+  </div>
+   <div class="small-8 large-8 medium-8 columns">
+     <%if(register!=null && !register.isEmpty()){%>
+        <div class="register">
+    	 <a href="<%=genLink(resourceResolver, register)%>">Register for this event</a>
+    	</div>   
+     <%} %>
+  </div>
+</div>    
+<div class="row">
+   <div class="small-24 large-24 medium-24 columns">&nbsp;</div>
+</div>  
+   
+<div class="row">
+  <div class="small-24 large-24 medium-24 columns">
    <%=details %>
+  </div>
+</div>      
+    
+  
 
-</div>   
-
-
-<style>
-.inner{
-    float:left; 
-    width:50%;
-    height:75px;
-    margin:1px auto;
-    padding:10px,5px,0,0;
-}
-
-</style>

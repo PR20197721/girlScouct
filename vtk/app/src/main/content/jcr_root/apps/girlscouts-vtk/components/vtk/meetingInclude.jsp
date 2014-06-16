@@ -3,27 +3,14 @@
     <%@ page import="org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
-  
-
-    <%   
-    HttpSession session = request.getSession();
-    User user  = (User) session.getValue("VTK_user");
-
-
-
-
+<%@include file="include/session.jsp"%>
+<%   
     java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
-	
-    //if( sched==null || sched.size()<=0){out.println("No sched!!??!!");return; }
-
-
-    %>
-    
+//    if( sched==null || sched.size()<=0){out.println("No sched!!??!!");return; }
+%>
 <p>Drag and drop to reorder meetings</p>
 <ul id="sortable123" >
-
 <% 
-
 int meetingCount=0;
 java.util.Iterator itr = sched.keySet().iterator();
 while( itr.hasNext() ){

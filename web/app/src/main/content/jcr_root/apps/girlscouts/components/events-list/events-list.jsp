@@ -25,8 +25,12 @@
 	}
 	DateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.S");
 	fromFormat.setCalendar(Calendar.getInstance(TimeZone.getTimeZone("GMT")));
-	DateFormat dateFormat = new SimpleDateFormat("EEE dd MMM yyyy");
-	DateFormat timeFormat = new SimpleDateFormat("hh:mm a");
+	DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+	DateFormat timeFormat = new SimpleDateFormat("h:mm a");
+	
+	DateFormat calendarFormat = new SimpleDateFormat("M-yyyy");
+	
+	
 	List<String> results = srchInfo.getResults();
 	int eventcounts = 0;
 	String key = "";
@@ -41,6 +45,10 @@
 	String iconImg = properties.get("fileReference", String.class);
 	String eventsLink = properties.get("urltolink", "") + ".html";
 	String featureTitle = properties.get("featuretitle", "UPCOMING EVENTS");
+	Date startDate = null; 
+      
+    String startDateStr = "";
+    String startTimeStr = ""; 
 %>
 <div class="small-24 medium-24 large-24 columns">
 	<div class="row">
@@ -86,20 +94,34 @@
          String locationLabel = "";
          if(fdt.equals(today) || fdt.after(today)){
         	 
-        	 time = timeFormat.format(propNode.getProperty("start").getDate().getTime());
-        	 
+        	 startDate = propNode.getProperty("start").getDate().getTime(); 
+        	 startDateStr = dateFormat.format(startDate);
+             startTimeStr = timeFormat.format(startDate);
+             String dateStr = startDateStr;
+        	 time = startTimeStr;
+             
         	 if(propNode.hasProperty("locationLabel")){
                  locationLabel=propNode.getProperty("locationLabel").getString();
              }
-             if(propNode.hasProperty("end")){
-                 //toDate = dateFormat.format(propNode.getProperty("end").getDate());
-                 tdt = fromFormat.parse(propNode.getProperty("end").getString());
-                 toDate = dateFormat.format(tdt);
-                 time+= " to " + timeFormat.format(propNode.getProperty("end").getDate().getTime());
-             }
+        	 
+        	 if (propNode.hasProperty("end"))
+        	   {
+        		    Date endDate = propNode.getProperty("end").getDate().getTime();
+        	        Calendar cal2 = Calendar.getInstance();
+        	        Calendar cal3 = Calendar.getInstance();
+        	        cal2.setTime(startDate);
+        	        cal3.setTime(endDate);
+        	        boolean sameDay = cal2.get(Calendar.YEAR) == cal3.get(Calendar.YEAR) &&
+        	                          cal2.get(Calendar.DAY_OF_YEAR) == cal3.get(Calendar.DAY_OF_YEAR);
+        	        String endDateStr = dateFormat.format(endDate);
+        	        String endTimeStr = timeFormat.format(endDate);
+        	        if (!sameDay) {
+        	            dateStr += " to " + endDateStr;
+        	        }
+        	        time+= " to " +endTimeStr;
+        	           
+        	    }
              
-             String fromDate = dateFormat.format(fdt);
-            
              boolean hasImage = false;
              String fileReference = null;
              count++;
@@ -114,7 +136,8 @@
             </div>
             <div class="small-24 medium-12 large-16 columns">
                 <h3><a href="<%= href %>"><%= title %></a></h3>
-                <p>Date: <%= fromDate %> <% if (!toDate.isEmpty()) { %> to <%= toDate %> <% } %> </p>
+                <p>Time: <%=time %></p>
+                <p>Date: <%= dateStr %> </p>
                 <p>Location: <%= locationLabel %></p>
             </div>
         </div>

@@ -3,7 +3,7 @@
         			
         			
         			var url = '/content/girlscouts-vtk/controllers/vtk.meetingInclude.html';
-        			 $("#div1").load(url);
+        			 $("#yearPlanMeetings").load(url);
         			 
         			 
         			 
@@ -158,19 +158,15 @@
         }
         
         function yesPlan(){
-        	
-        	
-        	if( document.getElementById('div1').style.display=='none' ){
-        		
-        		document.getElementById('div1').style.display='block';
-        		document.getElementById('div2').style.display='none';	
+        	if( document.getElementById('yearPlanMeetings').style.display=='none' ){
+        		document.getElementById('yearPlanMeetings').style.display='block';
+        		document.getElementById('yearPlanSelection').style.display='none';	
+                        document.getElementById('showHideReveal').innerHTML='reveal';
         	}else{
-        		
-        		document.getElementById('div2').style.display='block';
-        		document.getElementById('div1').style.display='none';
+        		document.getElementById('yearPlanMeetings').style.display='none';
+                        document.getElementById('yearPlanSelection').style.display='block';
+                        document.getElementById('showHideReveal').innerHTML='hide';
         	}
-        	
-        	
         }
         
         function addLocation(){
