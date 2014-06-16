@@ -347,7 +347,7 @@
   	 
   	 
   	 $.ajax({
-	      url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
+	      url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand='+Date.now(),
 	      type: 'POST',
 	      data: { 
 	    	  newCustActivity:true,
@@ -357,7 +357,8 @@
 	 			newCustActivity_endTime:newCustActivity_endTime ,
 	 			newCustActivityLocName: newCustActivityLocName ,
 	 			newCustActivityLocAddr: newCustActivityLocAddr ,
-	 			newCustActivity_txt: newCustActivity_txt
+	 			newCustActivity_txt: newCustActivity_txt,
+	 			a:Date.now()
 	      },
 	      success: function(result) {
 	    	  location.reload();

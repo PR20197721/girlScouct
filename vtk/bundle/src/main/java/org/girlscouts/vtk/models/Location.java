@@ -7,7 +7,8 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 public class Location {
 
 	    @Field(path=true) String path;
-		@Field private String address, state, city, zip, name;
+		@Field private String address, state, city, zip;
+		@Field(id=true) private String name;
 		@Field private String locatinName, locationAddress;
 		
 		public Location(){}
@@ -40,7 +41,9 @@ public class Location {
 		}
 
 		public void setPath(String path) {
+			System.err.println("Setting path: "+ path+" : "+address+" : "+name);
 			this.path = path;
+			
 			
 		}
 

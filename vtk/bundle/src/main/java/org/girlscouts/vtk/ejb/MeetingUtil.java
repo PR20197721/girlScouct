@@ -83,13 +83,13 @@ public class MeetingUtil {
 		
 	java.util.List <MeetingE> meetingEs = plan.getMeetingEvents();
 	
-	/*
+	
 	Comparator<MeetingE> comp = new BeanComparator("id");
     Collections.sort(meetingEs, comp);
     for (MeetingE person : meetingEs) {
       System.out.println("Sorted: "+person.getId());
     }
-	*/
+	
 	
 	
 	if( plan.getSchedule() !=null ){
