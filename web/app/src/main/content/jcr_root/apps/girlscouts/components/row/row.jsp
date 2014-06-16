@@ -47,7 +47,7 @@
 	
 	for (int i = 0; i < maxColumnsNum; i++) {
 	    String parPath = "./par-" + Integer.toString(i);
-	    setCssClasses("large-" + largeCss + " medium-" + mediumCss + " small-" + smallCss, request);
-	    %><cq:include path="<%= parPath %>" resourceType="girlscouts/components/styled-parsys" /><%
+	    setCssClasses("columns large-" + largeCss + " medium-" + mediumCss + " small-" + smallCss, request);
+	    %><cq:include path="<%= parPath %>" resourceType="foundation/components/parsys" /><%
 	}
 %>
