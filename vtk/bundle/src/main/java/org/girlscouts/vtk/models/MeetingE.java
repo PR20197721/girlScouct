@@ -17,7 +17,18 @@ public class MeetingE extends YearPlanComponent{
 	
 	@Field private String cancelled;
 	
+	@Field private Integer id;
 	
+	
+	
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
 	public String getCancelled() {
 		return cancelled;

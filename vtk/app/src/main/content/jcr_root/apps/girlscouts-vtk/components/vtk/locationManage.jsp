@@ -3,21 +3,12 @@
 
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
-  
-  
-  
-  
-  
-  
-
-
-<dl class="tabs" data-tab >
-  <dd ><a href="#panel2-1">My Troup</a></dd>
-  <dd ><a href="/content/girlscouts-vtk/en/vtk.html?ageLevel=brownie">Year Plan</a></dd>
-  <dd class="active"><a href="/content/girlscouts-vtk/en/vtk.planView.html">Meeting Plan</a></dd>
-  <dd ><a href="#panel2-4">Resources</a></dd>
-  <dd><a href="#panel2-5">Community</a></dd>
-</dl>
+<%@include file="include/session.jsp"%>
+<%!
+        String activeTab = "community";
+        boolean showVtkNav = true;
+%>
+<%@include file="include/vtk-nav.jsp"%>
 <div class="tabs-content">
     <div class="content" id="panel2-1"></div>
     <div class="content" id="panel2-2"></div>
@@ -26,15 +17,9 @@
     <div class="content" id="panel2-5"></div>
 </div>
 
-
-
-
 <div id="locMsg1"></div>
 <div>
 <%
-HttpSession session = request.getSession();
-
-User user= (User)session.getValue("VTK_user");
 java.util.List <Location> locations = user.getYearPlan().getLocations();
 if( locations==null || locations.size()<=0){ out.println("No locations");return;}
 
@@ -51,6 +36,7 @@ for(int i=0;i<locations.size();i++){
 			<a href="javascript:void(0)" onclick="applyLocToAllMeetings('<%=location.getPath()%>')">Apply to All meetings</a>
 			<div style="padding:30px; background-color:gray;">
 				<% 
+			  if( user.getYearPlan().getSchedule()!=null){	
 				java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
 				java.util.Iterator itr=  sched.keySet().iterator();
 				while( itr.hasNext()){
@@ -62,14 +48,25 @@ for(int i=0;i<locations.size();i++){
 					
 					String mLoc = ((MeetingE)_comp).getLocationRef();
 					mLoc = mLoc==null ? "" : mLoc;
-					%>
-						<li><input type="checkbox" name="<%=location.getName() %>" value="<%=date%>" <%= mLoc.equals(location.getPath() ) ? "CHECKED" : ""%> /><%=fmtDate.format(date) %></li>
+					
+					
+					if( date.after( new java.util.Date()) ){
+						%>
+							<li><input type="checkbox" name="<%=location.getName() %>" value="<%=date%>" <%= mLoc.equals(location.getPath() ) ? "CHECKED" : ""%> /><%=fmtDate.format(date) %></li>
 						
 						
-					<% 
+						<% 
+					
+					
+					}else{
+						
+						%><li> <%= mLoc.equals(location.getPath() ) ? "YES" : ""%> <del><%=fmtDate.format(date) %></del></li> <% 
+					}
 				}
+			  
 				%>
 				<input type="button" value="assign locations" onclick="updLocations('<%=location.getPath()%>', '<%=location.getName()%>')"/>
+			<%} %>
 			</div>
 		</div>
 	<%}%>

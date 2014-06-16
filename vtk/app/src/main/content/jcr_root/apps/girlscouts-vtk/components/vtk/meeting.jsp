@@ -9,7 +9,7 @@
 	   HttpSession session = request.getSession();
 	   User user= (User)session.getValue("VTK_user");
 	   %>
-       <a href="/content/girlscouts-vtk/en/vtk.plan.html?ageLevel=brownie">Back to Plan</a>
+       <a href="/content/girlscouts-vtk/en/vtk.plan.html">Back to Plan</a>
        <div id="errInfo"></div>
        
        <%

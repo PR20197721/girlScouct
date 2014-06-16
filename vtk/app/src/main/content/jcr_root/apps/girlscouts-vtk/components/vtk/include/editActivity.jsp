@@ -7,9 +7,12 @@
 <div>
 <select onchange="durEditActiv(this.options[this.selectedIndex].value, '<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">
 
-<option value="<%=_activity.getDuration()%> %>" SELECTED><%=_activity.getDuration()%></option>
-<option value="10">10</option>
-<option value="5">5</option>
+
+<option value="5"  <%= (_activity.getDuration()==5)  ? "SELECTED" : "" %>>5</option>
+<option value="10" <%= (_activity.getDuration()==10) ? "SELECTED" : "" %>>10</option>
+<option value="20" <%= (_activity.getDuration()==20) ? "SELECTED" : "" %>>20</option>
+<option value="30" <%= (_activity.getDuration()==30) ? "SELECTED" : "" %>>30</option>
+
 </select>
 </div>
 

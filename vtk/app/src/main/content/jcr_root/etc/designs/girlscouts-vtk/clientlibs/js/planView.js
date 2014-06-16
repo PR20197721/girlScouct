@@ -3,20 +3,23 @@ function rmCustActivity12(x){
 	
 	
 	//$( "#editAgenda" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?rmCustActivity="+x);
-	
+	//alert("REMOVING ACTIV");
 	$.ajax({
-	      url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
+		  cache: false,
+	      url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand=' + Date.now(),
 	      type: 'POST',
 	      data: { 
 	    	  rmCustActivity:x,
 	    	  a:Date.now()
 	      },
+	      
 	      success: function(result) {
 	          
 	      }
 	  });
 	
-	//6/4/document.location="planView.jsp";
+	//alert("REMOVED ACTIV")
+	
 	document.location="/content/girlscouts-vtk/en/vtk.plan.html";
 }
 

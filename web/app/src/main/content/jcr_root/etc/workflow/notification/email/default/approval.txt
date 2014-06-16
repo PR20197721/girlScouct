@@ -4,6 +4,7 @@ Hi ${initiator.id},
 <br>
 Your page ${host.prefix}${payload.path}.html has been approved and published.
 <br>
+<br>
 Comments:
 <br>
 ${comment}

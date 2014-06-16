@@ -30,17 +30,17 @@ public class tester3 {
 		
 		
 		ApiConfig apiConfig = new ApiConfig();
-		apiConfig.setAccessToken("00DZ000000MheRX!ARwAQE.8R_8Mtv.Jc1.DI2Z5YALXiX5n2Xdr.1zSspa3uGh5oXwe8Lh9GUvHdWXO6NYV2Ux3B9xf0X1Av8XwHMKy_Ze_2BB9" );
-		apiConfig.setInstanceUrl("https://cs11.salesforce.com");
+		apiConfig.setAccessToken("00D1100000Bufib!ARQAQFyfzTBTvMuaPEx3pNUxcJmWr9s9AYOCoKk4xx9SnaAQRSv5hGlr.Q2Q.oHfXNi8DRBn.r6yQOBjdBKbjEvGBY3cBAe_" );
+		apiConfig.setInstanceUrl("https://cs18.salesforce.com");
 		//apiConfig.setUserId("005Z00000025MoMIAU");
-		apiConfig.setUserId("003Z000000j8I4j");//003G000001ZRqxVIAT");//701Z0000000WZA7");//005Z00000025ybG");// debra go
+		apiConfig.setUserId("00511000001Ym5bAAC");//003G000001ZRqxVIAT");//701Z0000000WZA7");//005Z00000025ybG");// debra go
 		//apiConfig.setUserId("005Z00000025nQWIAY");
 		
 		
 		
 	tester3 me= new tester3();
-	
-	me.showContacts(apiConfig, "003Z000000j8I4j") ;
+	me.getUserInfo(apiConfig);
+	//me.showContacts(apiConfig, "005Z00000025nQWIAY") ;
 	
 	if(true)return;
 	

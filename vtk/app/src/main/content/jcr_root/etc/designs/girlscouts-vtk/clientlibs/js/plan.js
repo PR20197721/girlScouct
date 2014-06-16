@@ -52,7 +52,8 @@
         		       var liTags = document.getElementById ("sortable123").getElementsByTagName ("li");
         		       for (var i = 0; i < liTags.length; i++) {
         		    
-        		    	   toRet+=  liTags[i].value +"," ; 
+        		    	   if( liTags[i].value !=0)
+        		    		   toRet+=  liTags[i].value +"," ; 
         		       }
         		       return toRet.substring(0, toRet.length-1);
         		   }
@@ -258,6 +259,24 @@
         			 if (levels[i].checked)
         				_level+= levels[i].value +",";
         		 }
+        		 
+        		 
+        		 $.ajax({
+        		      url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
+        		      type: 'POST',
+        		      data: { 
+        		    	         buildSched:true,
+        		    	         calStartDt:calStartDt ,
+        		        		 calAP:calAP,
+        		        		 calFreq:z,
+        		        		 calTime:calTime,
+        		        		 exclDt:_level
+        		      },
+        		      success: function(result) {
+        		    	  location.reload();
+        		      }
+        		  });
+        		 /*
         		 var urlParam = 'calStartDt='+ calStartDt +
         		 "&calAP="+calAP+
         		 "&calFreq="+z+
@@ -275,6 +294,7 @@
         	   	  
         	   	  
         	   	});
+        	   	*/
           }
           
           

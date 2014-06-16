@@ -108,17 +108,7 @@ public class UserDAOImpl implements UserDAO{
 			 plan.setRefId( yearPlanPath );
 			 plan.setMeetingEvents( meetingDAO.getAllEventMeetings_byPath( yearPlanPath ));
 			
-			 //System.out.println("**** "+ plan.getMeetingEvents().size() );
-			 
-			 //List<YearPlan> yearPlans = user.getYearPlans();
-			 //yearPlans.add( plan);
-//System.err.println("*************************** Update user: " + plan.getMeetingEvents().get(0).getRefId());			 
-			 
-			 /* 5/27
-			 user.setYearPlan(plan); 
-			 ocm.update(user);
-			 ocm.save();
-			 */
+			
 			 
 			
 			}catch(Exception e){e.printStackTrace();}
@@ -167,12 +157,10 @@ public class UserDAOImpl implements UserDAO{
 		YearPlan newYearPlan = addYearPlan(user, yearPlanPath);
 	try{
 		
-		/*
-		for(int i=0;i<newYearPlan.getMeetingEvents().size();i++)
-			System.err.println("NYDDDd :"+newYearPlan.getMeetingEvents().get(i));
-		*/
 		
-		if( oldPlan==null || oldPlan.getMeetingEvents()==null || oldPlan.getMeetingEvents().size()<=0){ //new user new plan, first time
+		
+		if( oldPlan==null || oldPlan.getMeetingEvents()==null || oldPlan.getMeetingEvents().size()<=0 || 
+				oldPlan.getSchedule()==null || oldPlan.getSchedule().getDates().equals("")){ //new user new plan, first time
 			
 			user.setYearPlan(newYearPlan);
 			
@@ -186,16 +174,21 @@ public class UserDAOImpl implements UserDAO{
 				java.util.StringTokenizer t= new java.util.StringTokenizer( oldDates, ",");
 				
 				//if number of dates less then new meetings 
-				if( t.countTokens() < newYearPlan.getMeetingEvents().size() )
+				if(  t.countTokens() < newYearPlan.getMeetingEvents().size() )
 				{
 					int countDates = t.countTokens();
 					System.err.println("b4 adding dates " +oldDates);
 					
-					long lastDate = 0;
-					while( t.hasMoreElements()) lastDate= Long.parseLong(t.nextToken());
+					long lastDate = 0, meetingTimeDiff=99999;
+					while( t.hasMoreElements()){ 
+						long diff = lastDate;
+						lastDate= Long.parseLong(t.nextToken());
+						if(diff!=0)
+								meetingTimeDiff = lastDate- diff;
+						}
 					
 					for(int z=countDates;z<newYearPlan.getMeetingEvents().size();z++ )
-							oldDates+= (lastDate+99999)+",";
+							oldDates+= (lastDate+meetingTimeDiff)+",";
 					System.err.println("b4 after dates " +oldDates);
 					oldPlan.getSchedule().setDates(oldDates);
 					t= new java.util.StringTokenizer( oldDates, ",");
@@ -225,12 +218,12 @@ public class UserDAOImpl implements UserDAO{
 					}else if(  new java.util.Date().before( new java.util.Date(date) )){
 						
 						System.err.println( "Subst old new  :"+new java.util.Date(date));
-						//java.util.List <MeetingE> newMeetings = newYearPlan.getMeetingEvents();
 						
 						if( count>= oldPlan.getMeetingEvents().size()) // oldPlan has less meetings than new -add
 							oldPlan.getMeetingEvents().add(newYearPlan.getMeetingEvents().get(count ));
 						else //replace meeting refs
 							oldPlan.getMeetingEvents().get(count).setRefId(  newYearPlan.getMeetingEvents().get(count ).getRefId() );
+						
 						oldPlan.getMeetingEvents().get(count).setCancelled("false");
 					
 					}
@@ -256,4 +249,55 @@ public class UserDAOImpl implements UserDAO{
 		
 	}
 
-}
+
+
+/*
+public void selectYearPlan(User user, String yearPlanPath){
+	
+
+	
+	YearPlan oldPlan = user.getYearPlan();
+	YearPlan newYearPlan = addYearPlan(user, yearPlanPath);
+	
+	if( oldPlan==null || oldPlan.getMeetingEvents()==null || oldPlan.getMeetingEvents().size()<=0 || 
+			oldPlan.getSchedule()==null || oldPlan.getSchedule().getDates().equals("")){ //new user new plan, first time
+		user.setYearPlan(newYearPlan);
+		updateUser(user);
+		return;
+	}
+	
+	
+	
+	
+		java.util.List <MeetingE> oldMeetings = oldPlan.getMeetingEvents();
+		java.util.List <MeetingE> newMeetings = newYearPlan.getMeetingEvents();
+	
+		int maxMeetingCount = oldMeetings.size();
+		if( newMeetings.size()> maxMeetingCount) maxMeetingCount= newMeetings.size();
+		
+		int countLockedMeetings = doCountLockedMeetins( oldPlan.getSchedule().getDates() ); //first n past meetings
+		
+		for(int i=countLockedMeetings;i<maxMeetingCount;i++){
+				
+				if( oldMeetings.size()>i && newMeetins.size()>i ){ //replace meeting @i
+					copyMeeting( oldMeetings, newMeetings, i );
+					setCancelled("false");
+				
+				}else if( oldMeetings.size() > newMeetings.size() ){ //remove meeting @i - downsize
+					removeMeeting( oldMeetings, i);
+					removeDates(i);
+				
+				}else if( oldMeetings.size() < newMeetings.size() ){ //add new meeting @i 
+					insertMeeting( newMeetings, oldMeetings, i);
+					insertDates(i);
+				}
+				
+			
+		}
+	
+		user.getYearPlan().setActivities(null);			
+		updateUser(user);
+	
+ }
+ */
+}//ednclass

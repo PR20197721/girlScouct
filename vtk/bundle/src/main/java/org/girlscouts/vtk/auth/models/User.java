@@ -4,7 +4,17 @@ public class User {
 
     private String name, email, phone, mobilePhone, assistantPhone, homePhone;
     
-    public void setName(String name){this.name=name;}
+    //tmp
+    private String ageLevel="brownie";
+    
+    
+    public String getAgeLevel() {
+		return ageLevel;
+	}
+	public void setAgeLevel(String ageLevel) {
+		this.ageLevel = ageLevel;
+	}
+	public void setName(String name){this.name=name;}
     public String getName(){return name;}
     
     public String getEmail() {

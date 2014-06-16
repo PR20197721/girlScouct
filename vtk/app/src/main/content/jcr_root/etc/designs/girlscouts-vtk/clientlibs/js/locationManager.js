@@ -53,7 +53,8 @@ function rmLocation(locationName){
 		 				a:Date.now()
 	   	      },
 	   	      success: function(result) {
-	   	    	document.location="/content/girlscouts-vtk/en/vtk.locationManage.html";
+	   	    	//document.location="/content/girlscouts-vtk/en/vtk.locationManage.html";
+	   	    	document.location="/content/girlscouts-vtk/en/vtk.plan.html";
 	   	      }
 	   	  });
 		

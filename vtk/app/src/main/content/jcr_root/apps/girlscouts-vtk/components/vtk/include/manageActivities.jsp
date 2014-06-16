@@ -1,7 +1,7 @@
 <div style="background-color:gray; color:#fff;">Manage Activities</div>
 
 <%
-org.girlscouts.vtk.models.user.User user= (org.girlscouts.vtk.models.user.User) session.getValue("VTK_user");
+//org.girlscouts.vtk.models.user.User user= (org.girlscouts.vtk.models.user.User) session.getValue("VTK_user");
 if( user.getYearPlan().getActivities()!=null && user.getYearPlan().getActivities().size()>0){
 	for(int t=0;t<user.getYearPlan().getActivities().size(); t++){
 		

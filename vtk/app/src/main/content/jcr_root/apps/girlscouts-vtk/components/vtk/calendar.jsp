@@ -34,6 +34,7 @@ while( t.hasMoreElements())
 <%!
    
 org.joda.time.format.DateTimeFormatter fmt = org.joda.time.format.DateTimeFormat.forPattern("MMM d, yyyy HH:mm a");
+org.joda.time.format.DateTimeFormatter fmt1 = org.joda.time.format.DateTimeFormat.forPattern("MMM d, yyyy hh:mm a");
 
 java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("dd/MM/yyyy hh:mm");
 java.text.SimpleDateFormat dateFormat1 = new java.text.SimpleDateFormat("MMM dd, yyyy");
