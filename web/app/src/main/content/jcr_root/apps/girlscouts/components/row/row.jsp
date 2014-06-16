@@ -26,94 +26,28 @@
 %><%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <%
+	final int COLUMNS_PER_ROW = 24;	
+
 	String cssClasses = properties.get("cssClasses", "");
 
-    ParagraphSystem parSys = ParagraphSystem.create(resource, slingRequest);
-    String newType = resource.getResourceType() + "/new";
-    
-    boolean hasColumns = false;
-    for (Paragraph par: parSys.paragraphs()) {
-        if (editContext != null) {
-            editContext.setAttribute("currentResource", par);
-        }
-        switch (par.getType()) {
-            case START:
-                if (hasColumns) {
-                    // close in case missing END
-                    %></div></div><%
-                }
-                if (editContext != null) {
-                    // draw 'edit' bar
-                    Set<String> addedClasses = new HashSet<String>();
-                    addedClasses.add("section");
-                    addedClasses.add("colctrl-start");
-                    IncludeOptions.getOptions(request, true).getCssClassNames().addAll(addedClasses);
-                    setCssClasses(cssClasses, request);
-                    %><sling:include resource="<%= par %>"/><%
-                }
-                // open outer div
-                %><div class="parsys_column <%= par.getBaseCssClass()%>"><%
-                // open column div
-                %><div class="parsys_column <%= par.getCssClass() %>"><%
-                hasColumns = true;
-                break;
-            case BREAK:
-                if (editContext != null) {
-                    // draw 'new' bar
-                    IncludeOptions.getOptions(request, true).getCssClassNames().add("section");
-                    setCssClasses(cssClasses, request);
-                    %><sling:include resource="<%= par %>" resourceType="<%= newType %>"/><%
-                }
-                // open next column div
-                %></div><div class="parsys_column <%= par.getCssClass() %>"><%
-                break;
-            case END:
-                if (editContext != null) {
-                    // draw new bar
-                    IncludeOptions.getOptions(request, true).getCssClassNames().add("section");
-                    setCssClasses(cssClasses, request);
-                    %><sling:include resource="<%= par %>" resourceType="<%= newType %>"/><%
-                }
-                if (hasColumns) {
-                    // close divs and clear floating
-                    %></div></div><div style="clear:both"></div><%
-                    hasColumns = false;
-                }
-                if (editContext != null && WCMMode.fromRequest(request) == WCMMode.EDIT) {
-                    // draw 'end' bar
-                    IncludeOptions.getOptions(request, true).getCssClassNames().add("section");
-                    setCssClasses(cssClasses, request);
-                    %><sling:include resource="<%= par %>"/><%
-                }
-                break;
-            case NORMAL:
-                // include 'normal' paragraph
-                IncludeOptions.getOptions(request, true).getCssClassNames().add("section");
-
-                // draw anchor if needed
-                if (currentStyle.get("drawAnchors", false)) {
-                    String path = par.getPath();
-                	path = path.substring(path.indexOf(JcrConstants.JCR_CONTENT)
-                            + JcrConstants.JCR_CONTENT.length() + 1);
-                	String anchorID = path.replace("/", "_").replace(":", "_");
-                    %><a name="<%= anchorID %>" style="visibility:hidden"></a><%
-                }
-                setCssClasses(cssClasses, request);
-                %><sling:include resource="<%= par %>"/><%
-                break;
-        }
-    }
-    if (hasColumns) {
-        // close divs in case END missing. and clear floating
-        %></div></div><%
-    }
-    // Fix for issue under foundation framework: the "new" bar misbehaves
-    %><div style="clear:both"></div><%
-    if (editContext != null) {
-        editContext.setAttribute("currentResource", null);
-        // draw 'new' bar
-        IncludeOptions.getOptions(request, true).getCssClassNames().add("section");
-        setCssClasses(cssClasses, request);
-        %><cq:include path="*" resourceType="<%= newType %>"/><%
-    }
+	String largeColumns = properties.get("largeColumns", "4");
+	String mediumColumns = properties.get("mediumColumns", "2");
+	String smallColumns = properties.get("smallColumns", "1");
+	
+	// Do not need to catch NumberFormatException because it is guaranteed by the "numberfield" widget
+	int largeColumnsNum = Integer.parseInt(largeColumns);
+	int mediumColumnsNum = Integer.parseInt(mediumColumns);
+	int smallColumnsNum = Integer.parseInt(smallColumns);
+	
+	String largeCss = Integer.toString(COLUMNS_PER_ROW / largeColumnsNum);
+	String mediumCss = Integer.toString(COLUMNS_PER_ROW / mediumColumnsNum);
+	String smallCss = Integer.toString(COLUMNS_PER_ROW / smallColumnsNum);
+	
+	int maxColumnsNum = Math.max(largeColumnsNum, Math.max(mediumColumnsNum, smallColumnsNum));
+	
+	for (int i = 0; i < maxColumnsNum; i++) {
+	    String parPath = "./par-" + Integer.toString(i);
+	    setCssClasses("columns large-" + largeCss + " medium-" + mediumCss + " small-" + smallCss, request);
+	    %><cq:include path="<%= parPath %>" resourceType="foundation/components/parsys" /><%
+	}
 %>
