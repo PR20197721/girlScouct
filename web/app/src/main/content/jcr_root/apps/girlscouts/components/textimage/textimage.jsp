@@ -59,3 +59,8 @@
                : "";
     %><cq:text property="text" tagClass="text" escapeXml="true" placeholder="<%= placeholder %>"/><div
         class="clear"></div>
+
+	<%-- fix CQ "new" bar misbehave --%>
+	<% if (WCMMode.fromRequest(request) == WCMMode.EDIT) { %>
+		<div style="clear:both"></div>
+	<% } %>
