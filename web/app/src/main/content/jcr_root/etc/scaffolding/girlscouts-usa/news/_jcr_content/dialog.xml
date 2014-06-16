@@ -83,6 +83,10 @@
                     fieldLabel="Short Description"
                     name="./jcr:content/description"
                     xtype="textfield"/>
+                <Copy_x0020_of_x0020_title
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="External News URL"
+                    name="./jcr:content/external-url"/>
             </items>
         </tab1>
         <tab2
