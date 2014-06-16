@@ -10,6 +10,9 @@
 	String activeTab = "plan";
 	boolean showVtkNav = true;
 %>
+<%
+	YearPlanDAO yearPlanDAO = sling.getService(YearPlanDAO.class);
+%>
 <%@include file="include/vtk-nav.jsp"%>
 <div class="tabs-content">
   <div class="content" id="panel2-1">

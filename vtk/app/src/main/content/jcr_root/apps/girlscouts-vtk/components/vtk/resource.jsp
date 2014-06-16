@@ -5,6 +5,7 @@
 <%!
         String activeTab = "resource";
         boolean showVtkNav = true;
+
 %>
 <%@include file="include/vtk-nav.jsp"%>
 <div class="tabs-content">
