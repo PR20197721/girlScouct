@@ -116,9 +116,9 @@
                          menuBuilder.append("<a href=").append(page.getPath()+".html").append(">").append(page.getTitle()).append("</a>");
                          //menuBuilder.append("</li>");
                          
-                         menuBuilder.append("<ul><li class=\"active\">");
+                         menuBuilder.append("<li class=\"active\">");
                          menuBuilder.append("<a href=").append(currPath+".html").append(">").append(currTitle).append("</a>");
-                         menuBuilder.append("</li></ul>");
+                         menuBuilder.append("</li>");
                      }
                 	 else
                 	 {

@@ -18,7 +18,7 @@
   
  queryMap.put("path", currentPage.getPath());
  
- System.out.println("currentPage" +currentPage.getPath());
+ 
  queryMap.put("1_boolproperty","jcr:content/hideInNav");
   queryMap.put("1_boolproperty.value","false");
   queryMap.put("2_boolproperty","jcr:content/isFeature");
@@ -52,12 +52,6 @@
   SearchResult results = query.getResult();
   java.util.List <Hit> resultsHits = results.getHits();
   
-  System.out.println("How many hits" +resultsHits.size());
-  
-  for(Hit hit :resultsHits){
-	  System.out.println("What is the page Names" +hit.getTitle());
-	  
-  }
   
   
   request.setAttribute("results", results);
