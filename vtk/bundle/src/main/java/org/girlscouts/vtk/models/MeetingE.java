@@ -17,8 +17,10 @@ public class MeetingE extends YearPlanComponent{
 	
 	@Field private String cancelled;
 	
-	@Field private Integer id;
+	@Field (id=true)
+    private Integer id;
 	
+	 
 	
 	
 
