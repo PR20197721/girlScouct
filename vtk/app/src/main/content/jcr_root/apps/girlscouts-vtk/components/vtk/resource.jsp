@@ -8,6 +8,22 @@
 
 %>
 <%@include file="include/vtk-nav.jsp"%>
+
+
+
+<link rel="stylesheet" type="text/css" href="css/jquery.autocomplete.css" />
+	<script src="http://www.google.com/jsapi"></script>  
+	<script>  
+		google.load("jquery", "1");
+	</script>
+	<script src="js/jquery.autocomplete.js"></script>  
+	<style>
+		input {
+			font-size: 120%;
+		}
+	</style>
+	
+	
 <div class="tabs-content">
     <div class="content" id="panel2-1"></div>
     <div class="content" id="panel2-2"></div>
@@ -34,4 +50,9 @@ $('#rsc_hlp_href').click(function()
     $('#rsc_hlp').dialog();
     return false;
 });
+
+
+
+$("#search_resource").autocomplete("/content/girlscouts-vtk/controllers/vtk.getdata.html");
+
 </script>

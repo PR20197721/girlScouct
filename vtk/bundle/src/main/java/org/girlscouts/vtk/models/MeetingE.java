@@ -7,7 +7,10 @@ import org.girlscouts.vtk.dao.YearPlanComponentType;
 @Node
 public class MeetingE extends YearPlanComponent{
 
-	public MeetingE(){super.setType(YearPlanComponentType.MEETING);}
+	public MeetingE(){
+		this.uid= "M"+new java.util.Date().getTime();
+		super.setType(YearPlanComponentType.MEETING);
+		}
 	
 	@Field(path=true) String path;
 	@Field private String refId; //path to meetingInfo template
@@ -17,12 +20,25 @@ public class MeetingE extends YearPlanComponent{
 	
 	@Field private String cancelled;
 	
-	@Field (id=true)
+	@Field 
     private Integer id;
 	
+	 @Field(id=true) String uid;
+	 
+	 
 	 
 	
 	
+
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
+		if(uid==null)
+			this.uid= "M"+new java.util.Date().getTime()+"_"+ Math.random();
+	}
 
 	public Integer getId() {
 		return id;

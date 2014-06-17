@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.girlscouts.vtk.auth.*;
 import org.girlscouts.vtk.auth.models.ApiConfig;
+import org.girlscouts.vtk.auth.models.User;
 public class tester3 {
 
 
@@ -30,7 +31,7 @@ public class tester3 {
 		
 		
 		ApiConfig apiConfig = new ApiConfig();
-		apiConfig.setAccessToken("00D1100000Bufib!ARQAQFyfzTBTvMuaPEx3pNUxcJmWr9s9AYOCoKk4xx9SnaAQRSv5hGlr.Q2Q.oHfXNi8DRBn.r6yQOBjdBKbjEvGBY3cBAe_" );
+		apiConfig.setAccessToken("00D1100000Bufib!ARQAQPtoikqZZIS7JRo6t0KJwSaOMKUSrsN6a_uczZs.9rpVx.Td8u2G4o0Ee86VmXc6HiaEYAn_Ni_Po6txvm17SrpmB9kf" );
 		apiConfig.setInstanceUrl("https://cs18.salesforce.com");
 		//apiConfig.setUserId("005Z00000025MoMIAU");
 		apiConfig.setUserId("00511000001Ym5bAAC");//003G000001ZRqxVIAT");//701Z0000000WZA7");//005Z00000025ybG");// debra go
@@ -39,26 +40,27 @@ public class tester3 {
 		
 		
 	tester3 me= new tester3();
-	me.getUserInfo(apiConfig);
-	//me.showContacts(apiConfig, "005Z00000025nQWIAY") ;
+	// me.getUserInfo(apiConfig);
+	
+	me.showContacts(apiConfig, "0031100000SEtG5AAL") ;
 	
 	if(true)return;
 	
 	
-	
+	/*
 	//to get all campaignIds for contactId. Each CampaignMember
 	java.util.List<String>  campaignIds = me.getCampaignIds(apiConfig); 
 	for(int i=0;i<campaignIds.size();i++){
 		System.err.println( "CampID: "+ campaignIds.get(i));
 	
-		/*
+		
 		if( i==0 ){
 			me.getCampaign(apiConfig, "701Z0000000WZA7");
 			me.getGirstEmails(apiConfig, "701Z0000000WZA7", "Volunteer");
 		}
-		*/
+		
 	}
-	
+	*/
 	
 	
 	
@@ -87,8 +89,8 @@ public class tester3 {
 		
 		
 // ***  Send bulk Email to salesForice
-		
-		org.girlscouts.vtk.salesforce.Users user =  new tester3().getUserInfo(apiConfig);
+		/*
+		org.girlscouts.vtk.salesforce.deprUsers user =  new tester3().getUserInfo(apiConfig);
 		
 		Email email = new Email();
 		email.setFrom(user.getEmail());
@@ -97,7 +99,7 @@ public class tester3 {
 		email.setTxtEmail("hello from team leader");
 		email.setParentId("500Z0000007Szyg");
 		String confId =new tester3().doEmail(apiConfig, email);
-		
+		*/
 		
 // *** end  Send bulk Email to salesForice		
 		
@@ -331,9 +333,9 @@ public class tester3 {
 	
 	
 	
-	public Users getUserInfo(ApiConfig config){
+	public User getUserInfo(ApiConfig config){
 		
-	Users user = new Users();
+	User user = new User();
 			java.util.List accounts = new java.util.ArrayList();
 		try{
 			
@@ -346,7 +348,7 @@ public class tester3 {
 		NameValuePair[] params = new NameValuePair[1];
 
 		params[0] = new NameValuePair("q",
-				"SELECT ID,name,email from User where id='"+config.getUserId()+ "' limit 1");
+				"SELECT name,email, ContactId from User where id='"+config.getUserId()+ "' limit 1");
 		get.setQueryString(params);
 
 		try {
@@ -369,6 +371,8 @@ public class tester3 {
 						
 						user.setName(results.getJSONObject(i).getString("Name"));
 						user.setEmail(results.getJSONObject(i).getString("Email"));
+						user.setContactId(results.getJSONObject(i).getString("ContactId"));
+						
 					}	
 					
 				} catch (JSONException e) {
@@ -741,7 +745,7 @@ public java.util.Map <String, String> getContactEmailList(ApiConfig apiConfig){
 
 
 //get all campaignIds for loggedin user
-public java.util.List<String> getCampaignIds(ApiConfig apiConfig){
+public java.util.List<String> getCampaignIds(ApiConfig apiConfig, String contactId){
 	
 	
 	System.err.println("UserId: "+ apiConfig.getUserId());
@@ -776,7 +780,7 @@ public java.util.List<String> getCampaignIds(ApiConfig apiConfig){
 		
 		params[0] = new NameValuePair("q",
 				"SELECT   CampaignId from " +
-				" campaignMember where contactId='"+apiConfig.getUserId()+"'");
+				" campaignMember where contactId='"+contactId+"'");
 		
 		
 		
@@ -843,8 +847,8 @@ System.err.println( "REsults: "+results.toString());
 
 
 
-
 public Campaign getCampaign(ApiConfig apiConfig, String campaignId){
+
 	
 	
 	//System.err.println("UserId: "+ apiConfig.getUserId());
@@ -867,8 +871,15 @@ public Campaign getCampaign(ApiConfig apiConfig, String campaignId){
 		*/
 		System.err.println("Apiconfg "+ apiConfig.getAccessToken());
 		//TEST
-		params[0] = new NameValuePair("q",
-				"SELECT Job_Code__c, id, IsActive, Description,name from campaign where id='"+campaignId+"'");// and contactId='"+apiConfig.getUserId() +"'");
+		
+		
+		
+			
+			System.err.println(" No Campaign : "+campaignId );
+			params[0] = new NameValuePair("q",
+				"SELECT Job_Code__c, id, ParentId  from campaign where id='"+campaignId+"'");// and contactId='"+apiConfig.getUserId() +"'");
+		
+		
 		
 		///services/data/v20.0/sobjects/Campaign/701G0000000tONiIAM
 		
@@ -896,15 +907,17 @@ public Campaign getCampaign(ApiConfig apiConfig, String campaignId){
 System.err.println( "REsults: "+results.toString());
 					for (int i = 0; i < results.length(); i++) {
 	System.err.println( "CAmpaing: "+
-			results.getJSONObject(i).getBoolean("IsActive") +" :" +
-			results.getJSONObject(i).get("Description").toString() +" : "+
-			results.getJSONObject(i).get("Name").toString() +" : "+
+			
 			results.getJSONObject(i).get("Job_Code__c").toString() +" : "
 			);		
 	
 	
 						campaign.setId(results.getJSONObject(i).getString("Id"));
-								if(i>3)return campaign;
+						try{ campaign.setJobCode(results.getJSONObject(i).getString("Job_Code__c"));}catch(Exception e22){e22.printStackTrace();}
+						try{ campaign.setParentCampaignId(results.getJSONObject(i).getString("ParentId")); }catch(Exception e4){e4.printStackTrace();}
+					
+						
+								//if(i>3)return campaign;
 					}
 					
 				} catch (JSONException e) {
@@ -922,6 +935,96 @@ System.err.println( "REsults: "+results.toString());
 	
 }
 
+
+
+//troop id
+public Campaign getCampaign1(ApiConfig apiConfig, String campaignId){
+
+	
+	
+	//System.err.println("UserId: "+ apiConfig.getUserId());
+	    GetMethod get =null;
+		Campaign campaign = new Campaign();
+		try{
+			
+		HttpClient httpclient = new HttpClient();
+		get= new GetMethod(apiConfig.getInstanceUrl()
+				+ "/services/data/v20.0/query");
+
+		get.setRequestHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
+
+		NameValuePair[] params = new NameValuePair[1];
+		
+		/*THIS IS GOOD AND TO BE USED
+		params[0] = new NameValuePair("q",
+				"SELECT CampaignMemberRecordTypeId,name,ownerid,id from " +
+				" campaign where ownerId='"+apiConfig.getUserId()+"'");
+		*/
+		System.err.println("Apiconfg "+ apiConfig.getAccessToken());
+		//TEST
+		
+		
+		
+			
+			System.err.println(" No Campaign : "+campaignId );
+			params[0] = new NameValuePair("q",
+				"SELECT Job_Code__c, id, ParentId  from campaign where id='"+campaignId+"'");// and contactId='"+apiConfig.getUserId() +"'");
+		
+		
+		
+		///services/data/v20.0/sobjects/Campaign/701G0000000tONiIAM
+		
+		get.setQueryString(params);
+
+		try {
+			httpclient.executeMethod(get);
+			
+			
+			System.err.println("RespCode "+ get.getResponseBodyAsString());
+			JSONObject _response = new JSONObject(
+					new JSONTokener(new InputStreamReader(
+							get.getResponseBodyAsStream())));
+			System.err.println( _response.toString());
+			
+			if (get.getStatusCode() == HttpStatus.SC_OK) {
+				
+				try {
+					JSONObject response = new JSONObject(
+							new JSONTokener(new InputStreamReader(
+									get.getResponseBodyAsStream())));
+					
+
+					JSONArray results = response.getJSONArray("records");
+System.err.println( "REsults: "+results.toString());
+					for (int i = 0; i < results.length(); i++) {
+	System.err.println( "CAmpaing: "+
+			
+			results.getJSONObject(i).get("Job_Code__c").toString() +" : "
+			);		
+	
+	
+						campaign.setId(results.getJSONObject(i).getString("Id"));
+						try{ campaign.setJobCode(results.getJSONObject(i).getString("Job_Code__c"));}catch(Exception e22){e22.printStackTrace();}
+						try{ campaign.setParentCampaignId(results.getJSONObject(i).getString("ParentId")); }catch(Exception e4){e4.printStackTrace();}
+					
+						
+								//if(i>3)return campaign;
+					}
+					
+				} catch (JSONException e) {
+					e.printStackTrace();
+					
+				}
+			}
+		} finally {
+			get.releaseConnection();
+		}
+		}catch(Exception ex){ex.printStackTrace();}
+		return campaign;
+	
+	
+	
+}
 
 
 
