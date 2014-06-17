@@ -2,13 +2,23 @@ package org.girlscouts.vtk.auth.models;
 
 public class User {
 
-    private String name, email, phone, mobilePhone, assistantPhone, homePhone;
+    private String name, email, phone, mobilePhone, assistantPhone, homePhone,
+    	contactId;
     
     //tmp
     private String ageLevel="brownie";
     
     
-    public String getAgeLevel() {
+    
+    
+    
+    public String getContactId() {
+		return contactId;
+	}
+	public void setContactId(String contactId) {
+		this.contactId = contactId;
+	}
+	public String getAgeLevel() {
 		return ageLevel;
 	}
 	public void setAgeLevel(String ageLevel) {

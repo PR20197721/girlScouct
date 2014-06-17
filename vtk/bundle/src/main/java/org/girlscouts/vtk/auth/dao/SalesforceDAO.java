@@ -42,7 +42,7 @@ public class SalesforceDAO {
         params[0] = new NameValuePair("q", "SELECT ID,name,email, phone, mobilephone, homephone,otherPhone, AssistantPhone from User where id='" 
                     + config.getUserId() + "' limit 1");
         */
-        params[0] = new NameValuePair("q", "SELECT ID,name,email, phone, mobilephone  from User where id='" 
+        params[0] = new NameValuePair("q", "SELECT ID,name,email, phone, mobilephone, ContactId  from User where id='" 
                 + config.getUserId() + "' limit 1");
         
         
@@ -66,7 +66,8 @@ public class SalesforceDAO {
                     int current = results.length() - 1;
                     try{
                     user.setName(results.getJSONObject(current).getString("Name"));
-                    user.setEmail(results.getJSONObject(current).getString("Email"));
+                  //  user.setEmail(results.getJSONObject(current).getString("Email"));
+                    user.setContactId(results.getJSONObject(current).getString("ContactId"));
                     //user.setPhone(results.getJSONObject(current).getString("Phone"));
                     //user.setHomePhone(results.getJSONObject(current).getString("HomePhone"));
                    // user.setMobilePhone(results.getJSONObject(current).getString("MobilePhone"));
