@@ -135,8 +135,7 @@ public class CustomSendEmailProcess implements WorkflowProcess {
 
 						Map propertyMap = getPropertyMap(workflowData,
 								workflow, item, jcrSession, resolver);
-						log.error("#*&@^#*&##*($&@#"
-								+ propertyMap.entrySet().toString());
+
 						StrSubstitutor sub = new StrSubstitutor(propertyMap);
 
 						message = sub.replace(unrefinedMessage);
@@ -207,7 +206,7 @@ public class CustomSendEmailProcess implements WorkflowProcess {
 
 		} catch (Exception e) {
 
-			log.error(e.getMessage());
+			log.error(e.toString());
 		}
 
 		return map;
@@ -243,7 +242,7 @@ public class CustomSendEmailProcess implements WorkflowProcess {
 		return hostPrefix;
 	}
 
-	private String getComment(Workflow flow, Session session) {
+	private String getComment(Workflow flow, Session session) throws Exception {
 		String comment = null;
 		try {
 
@@ -265,6 +264,7 @@ public class CustomSendEmailProcess implements WorkflowProcess {
 			if (comment == null || comment.equals("")) {
 				comment = "";
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
