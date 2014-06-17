@@ -1,23 +1,15 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@page import="java.util.Iterator,org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
-<%
-	HttpSession session = request.getSession();
-%>
-
+<%@include file="include/session.jsp"%>
+<div id="newLocationModal">
 <script>
-
-            
 $(function() {
-	
 	$( "#newCustActivity_date" ).datepicker({minDate: 0});
-   
   });
 </script>   
-          
- <form>
+<form>
  	<div style="background-color:gray; color:#fff;">Create a Custom Activity</div>
 	<div id="newCustActivity_err" style="color:red;"></div>
 	Name of Activity <font color="red">*</font> <input type="text" id="newCustActivity_name" value="" style="width:200px;"/>
@@ -66,3 +58,4 @@ $(function() {
  
  
  </form>
+</div>

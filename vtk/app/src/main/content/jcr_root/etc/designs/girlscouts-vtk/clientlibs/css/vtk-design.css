@@ -38,3 +38,11 @@ dl.tabs dd.active {
 #yearPlanSelection hr {
 	margin: 0px;
 }
+#newLocationCal {
+	background-color:#fff;
+	padding: 2rem;
+}
+#newLocationModal {
+        background-color:#fff;
+        padding: 2rem;
+}
