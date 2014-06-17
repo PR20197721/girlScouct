@@ -7,7 +7,7 @@
     description="No Description"
     title="Girl Scouts Authoring Approval Workflow">
     <metaData
-        cq:lastModified="{Long}1402675741436"
+        cq:lastModified="{Long}1403011092859"
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"/>
     <nodes jcr:primaryType="nt:unstructured">
@@ -32,8 +32,8 @@
             type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
-                PROCESS="com.day.cq.wcm.workflow.process.ActivatePageProcess"
-                PROCESS_ARGS="agent:preview-review"
+                PROCESS="/etc/workflow/scripts/girlscouts/flush_page_sp1.ecma"
+                PROCESS_ARGS="agent:publishpeview"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node2>
         <node3
@@ -86,7 +86,7 @@
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.wcm.workflow.process.ActivatePageProcess"
-                PROCESS_ARGS="agent:publish1"
+                PROCESS_ARGS="agent:publish1useast1"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node9>
         <node10
@@ -96,7 +96,7 @@
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="com.day.cq.wcm.workflow.process.ActivatePageProcess"
-                PROCESS_ARGS="agent:publish2"
+                PROCESS_ARGS="agent:publish2useast1"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node10>
         <node11

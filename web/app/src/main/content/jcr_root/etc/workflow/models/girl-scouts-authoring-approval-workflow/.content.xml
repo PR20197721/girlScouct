@@ -3,7 +3,7 @@
     jcr:primaryType="cq:Page">
     <jcr:content
         cq:designPath="/etc/designs/default"
-        cq:lastModified="{Date}2014-06-13T12:09:00.112-04:00"
+        cq:lastModified="{Date}2014-06-17T09:18:08.668-04:00"
         cq:lastModifiedBy="admin"
         cq:lastReplicated="{Date}2014-06-11T17:05:45.519-04:00"
         cq:lastReplicatedBy="admin"
@@ -34,15 +34,15 @@
             <process_0
                 jcr:created="{Date}2014-06-11T16:26:58.133-04:00"
                 jcr:createdBy="hanke"
-                jcr:lastModified="{Date}2014-06-13T12:04:32.757-04:00"
+                jcr:lastModified="{Date}2014-06-16T11:20:12.353-04:00"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Publish to Preview"
                 sling:resourceType="cq/workflow/components/model/process">
                 <metaData
                     jcr:primaryType="nt:unstructured"
-                    PROCESS="com.day.cq.wcm.workflow.process.ActivatePageProcess"
-                    PROCESS_ARGS="agent:preview-review"
+                    PROCESS="/etc/workflow/scripts/girlscouts/flush_page_sp1.ecma"
+                    PROCESS_ARGS="agent:publishpeview"
                     PROCESS_AUTO_ADVANCE="true"/>
             </process_0>
             <customgroupemailproc
@@ -100,7 +100,7 @@
                             <process
                                 jcr:created="{Date}2014-06-13T12:06:56.521-04:00"
                                 jcr:createdBy="admin"
-                                jcr:lastModified="{Date}2014-06-13T12:07:23.650-04:00"
+                                jcr:lastModified="{Date}2014-06-16T11:20:34.982-04:00"
                                 jcr:lastModifiedBy="admin"
                                 jcr:primaryType="nt:unstructured"
                                 jcr:title="Approve and Activate Page"
@@ -108,7 +108,7 @@
                                 <metaData
                                     jcr:primaryType="nt:unstructured"
                                     PROCESS="com.day.cq.wcm.workflow.process.ActivatePageProcess"
-                                    PROCESS_ARGS="agent:publish1"
+                                    PROCESS_ARGS="agent:publish1useast1"
                                     PROCESS_AUTO_ADVANCE="true"/>
                             </process>
                         </_x0031_>
@@ -118,7 +118,7 @@
                             <process
                                 jcr:created="{Date}2014-06-13T12:06:58.363-04:00"
                                 jcr:createdBy="admin"
-                                jcr:lastModified="{Date}2014-06-13T12:07:41.646-04:00"
+                                jcr:lastModified="{Date}2014-06-17T09:18:08.666-04:00"
                                 jcr:lastModifiedBy="admin"
                                 jcr:primaryType="nt:unstructured"
                                 jcr:title="Approve and Activate Page"
@@ -126,7 +126,7 @@
                                 <metaData
                                     jcr:primaryType="nt:unstructured"
                                     PROCESS="com.day.cq.wcm.workflow.process.ActivatePageProcess"
-                                    PROCESS_ARGS="agent:publish2"
+                                    PROCESS_ARGS="agent:publish2useast1"
                                     PROCESS_AUTO_ADVANCE="true"/>
                             </process>
                         </_x0032_>
