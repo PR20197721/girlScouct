@@ -95,18 +95,31 @@ public class MeetingUtil {
 	
 	
 	if( plan.getSchedule() !=null ){
+		
+		
 		String calMeeting= plan.getSchedule().getDates();
 		StringTokenizer t= new StringTokenizer( calMeeting, ",");
 		int count=0;
 		while( t.hasMoreElements()){
 			
 			try{
-				System.err.println( "MeetingUtil :" +t.countTokens() +" : "+ count +" : "+ (meetingEs==null) +" : "+(sched==null) );
-				//if( meetingEs.size()<=count) continue; //dates more then meetings. on delete maybe?
 				sched.put( new java.util.Date( Long.parseLong( (t.nextToken() ) ) ) , meetingEs.get(count));
 			}catch(Exception e){e.printStackTrace();}
 			count++;
+			
 		}
+		
+		
+		
+		int counter=0;
+		java.util.Iterator itr = sched.keySet().iterator();
+		while( itr.hasNext()){
+			sched.put( (java.util.Date)itr.next(), meetingEs.get(counter) );
+			counter++;
+		}
+		
+		
+		
 	}else{ //no dates: create 1976
 		Calendar tmp= java.util.Calendar.getInstance();
 		tmp.setTime(new java.util.Date("1/1/1976"));

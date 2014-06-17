@@ -1,10 +1,13 @@
 package org.girlscouts.vtk.ejb;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.jcr.Session;
 
+import org.apache.commons.beanutils.BeanComparator;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
@@ -70,6 +73,21 @@ public class UserDAOImpl implements UserDAO{
 	        user = (User) ocm.getObject("/content/girlscouts-vtk/users/"+ userId);
 	      
 	        
+	        
+	        for(int i=0;i<user.getYearPlan().getMeetingEvents().size();i++)
+	        	System.err.println("-- "+ user.getYearPlan().getMeetingEvents().get(i).getId());
+	        
+	        if( user!=null){
+	        	
+	        	System.err.println("Sorting meetings pull");
+	        	Comparator<MeetingE> comp = new BeanComparator("id");
+	        	Collections.sort( user.getYearPlan().getMeetingEvents(), comp);
+	        }
+	        
+	        for(int i=0;i<user.getYearPlan().getMeetingEvents().size();i++)
+	        	System.err.println("-- "+ user.getYearPlan().getMeetingEvents().get(i).getId());
+	        
+	        
 	        System.err.println("User: "+ (user==null));
 			
 			}catch(Exception e){e.printStackTrace();}
@@ -134,6 +152,11 @@ public class UserDAOImpl implements UserDAO{
 			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
 		System.err.println("User update: "+ user.getPath() );
 			
+		
+		
+		Comparator<MeetingE> comp = new BeanComparator("id");
+	    Collections.sort( user.getYearPlan().getMeetingEvents(), comp);
+		
 			if( session.itemExists( user.getPath() )){
 				System.err.println( "User updated");
 				ocm.update(user);

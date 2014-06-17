@@ -6,14 +6,19 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 @Node
 public class Location {
 
+	
+		
+	
 	    @Field(path=true) String path;
 		@Field private String address, state, city, zip;
-		@Field(id=true) private String name;
+		@Field private String name;
 		@Field private String locatinName, locationAddress;
+		@Field(id=true) private String uid;
 		
-		public Location(){}
+		public Location(){this.uid= "L"+new java.util.Date().getTime();}
 		public Location( String name, String address, String city, String state, String zip ){
 		
+			this.uid= "L"+new java.util.Date().getTime();
 			this.name= name;
 			this.address=address;
 			this.state= state;
@@ -24,6 +29,14 @@ public class Location {
 		
 		
 		
+		public String getUid() {
+			return uid;
+		}
+		public void setUid(String uid) {
+			this.uid = uid;
+			if(uid==null)
+				this.uid= "L"+new java.util.Date().getTime()+"_"+ Math.random();
+		}
 		public String getLocatinName() {
 			return locatinName;
 		}

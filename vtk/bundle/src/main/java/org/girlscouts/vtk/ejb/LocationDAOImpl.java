@@ -57,7 +57,7 @@ public class LocationDAOImpl implements LocationDAO{
 			List<Location> locations = plan.getLocations();
 			for(int i=0;i<locations.size();i++){
 				Location location = locations.get(i);
-				if( location.getName().equals(locationName)){
+				if( location.getUid().equals(locationName)){
 					
 					ocm.remove(location);
 					ocm.save();
