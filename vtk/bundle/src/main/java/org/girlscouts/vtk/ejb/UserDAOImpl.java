@@ -254,7 +254,22 @@ public class UserDAOImpl implements UserDAO{
 		}catch(Exception ew){ew.printStackTrace();}
 	}
 		//remove all custom activitites
-		user.getYearPlan().setActivities(null);
+		//user.getYearPlan().setActivities(null);
+	
+	
+	
+	//remove all PAST custom activitites
+	if( user.getYearPlan().getActivities() !=null ){
+		java.util.List<Activity> activityToRm= new java.util.ArrayList();
+		for(int i=0;i< user.getYearPlan().getActivities().size();i++ )
+			if( new java.util.Date().before( user.getYearPlan().getActivities().get(i).getDate() ) )
+				activityToRm.add( user.getYearPlan().getActivities().get(i) );
+		
+		System.err.println("REM ACTIV: "+ activityToRm.size() );
+		
+		for(int i=0;i<activityToRm.size();i++)
+			user.getYearPlan().getActivities().remove(activityToRm.get(i));
+	}//end if
 		
 		updateUser(user);
 		

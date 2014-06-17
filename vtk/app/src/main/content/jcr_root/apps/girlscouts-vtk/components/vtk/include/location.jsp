@@ -17,5 +17,12 @@
 	
 	<br/><br/>
 	<br/><a href="javascript:void(0)" onclick="addLocation()">add</a>
-	|| <a href="/content/girlscouts-vtk/en/vtk.locationManage.html">Manage Locations</a>
+	|| <a href="javascript:void(0)" onclick="showLocationManager()">Manage Locations</a>
+</div>
+
+
+
+<div id="locList">
+
+
 </div>

@@ -44,8 +44,8 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 				new Activity( 
 			request.getParameter("newCustActivity_name"), 
 			request.getParameter("newCustActivity_txt"),
-			dateFormat5.parse(request.getParameter("newCustActivity_date") +" "+request.getParameter("newCustActivity_startTime")), 
-			dateFormat5.parse(request.getParameter("newCustActivity_date") +" "+request.getParameter("newCustActivity_endTime")), 
+			dateFormat4.parse(request.getParameter("newCustActivity_date") +" "+request.getParameter("newCustActivity_startTime") +" " +request.getParameter("newCustActivity_startTime_AP")), 
+			dateFormat4.parse(request.getParameter("newCustActivity_date") +" "+request.getParameter("newCustActivity_endTime") +" "+ request.getParameter("newCustActivity_endTime_AP")), 
 			request.getParameter("newCustActivityLocName"), request.getParameter("newCustActivityLocAddr"))
 				);
 	
@@ -178,7 +178,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 
 
 <%!
-   java.text.SimpleDateFormat dateFormat5 = new java.text.SimpleDateFormat("MM/dd/yyyy hh:mm");
+   //java.text.SimpleDateFormat dateFormat5 = new java.text.SimpleDateFormat("MM/dd/yyyy hh:mm");
    java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat("MM/dd/yyyy hh:mm a");
   
    
