@@ -1,7 +1,10 @@
 package org.girlscouts.vtk.ejb;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.StringTokenizer;
 
+import org.apache.commons.beanutils.BeanComparator;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
@@ -192,6 +195,12 @@ public class CalendarUtil {
 
 			plan.setSchedule(calendar);
 			user.setYearPlan(plan);
+			
+			
+			//sort
+			
+			Comparator<MeetingE> comp = new BeanComparator("id");
+		    Collections.sort( user.getYearPlan().getMeetingEvents(), comp);
 			
 			userDAO.updateUser(user);
 		}

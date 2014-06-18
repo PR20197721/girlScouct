@@ -26,7 +26,7 @@ for(int i=0;i<locations.size();i++){
 			<br/>City: <%=location.getCity() %>
 			<br/>State: <%=location.getState() %>
 			<br/>Zip: <%=location.getZip() %>
-			<a href="javascript:void(0)" onclick="rmLocation('<%=location.getName()%>'); ">remove</a> ||
+			<a href="javascript:void(0)" onclick="rmLocation('<%=location.getUid()%>'); ">remove</a> ||
 			<a href="javascript:void(0)" onclick="applyLocToAllMeetings('<%=location.getPath()%>')">Apply to All meetings</a>
 			<div style="padding:30px; background-color:gray;">
 				<% 
