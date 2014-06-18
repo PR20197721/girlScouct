@@ -172,19 +172,14 @@
         function addLocation(){
        	 
        	 var  name = document.getElementById("loc_name").value;
+         if( $.trim(name) =='' ){alert("Please fill 'Location Name' field"); return false;}
+       		       
+       		         
        	 var  address = document.getElementById("loc_address").value;
        	 var  city = document.getElementById("loc_city").value;
        	 var  state = document.getElementById("loc_state").value;
        	 var  zip = document.getElementById("loc_zip").value;
-       	 /*
-       	 var urlParam = "&name="+ name+
-       	 				"&address="+address+
-       	 				"&city="+city+
-       	 				"&state="+state+
-       	 				"&zip="+zip;
-       	 
-       	 $("#locMsg").load("/content/girlscouts-vtk/controllers/vtk.controller.html?addLocation=true"+ urlParam);
-       	*/
+       	
        	 
        	 
        	 
@@ -201,11 +196,12 @@
 	 				a:Date.now()
    	      },
    	      success: function(result) {
-   	    	document.location="/content/girlscouts-vtk/en/vtk.locationManage.html";
+   	    	//document.location="/content/girlscouts-vtk/en/vtk.locationManage.html";
+   	    	$("#locList").load("/content/girlscouts-vtk/en/vtk.locationManage.html?rand="+Date.now());
    	      }
    	  });
        	
-       	 
+       	
        	 
        }
         
@@ -272,25 +268,7 @@
         		    	  location.reload();
         		      }
         		  });
-        		 /*
-        		 var urlParam = 'calStartDt='+ calStartDt +
-        		 "&calAP="+calAP+
-        		 "&calFreq="+z+
-        		 "&calTime="+calTime+
-        		 "&exclDt="+_level;
-        		 			
-        		 $( "#calView" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?buildSched=true&"+urlParam, function( response, status, xhr ) {
-        	   	  if ( status != "error" ) {
-        	   		  
-        	   		location.reload();
-        	   	  }else{
-        	   		  
-        	   		  location.reload();
-        	   	  }
-        	   	  
-        	   	  
-        	   	});
-        	   	*/
+        		
           }
           
           
@@ -330,17 +308,9 @@
   	
   	 var newCustActivityLocName = document.getElementById("newCustActivity_locName").value;
   	var newCustActivityLocAddr = document.getElementById("newCustActivity_locAddr").value;
-  	/*
-  	 var urlParam = 'newCustActivity_name='+ newCustActivity_name +'&' +
-  	 			'newCustActivity_date='+ newCustActivity_date +'&'+
-  	 			'newCustActivity_startTime='+ newCustActivity_startTime +'&'+
-  	 			'newCustActivity_endTime='+ newCustActivity_endTime +'&'+
-  	 			'newCustActivityLocName='+ newCustActivityLocName +'&'+
-  	 			'newCustActivityLocAddr='+ newCustActivityLocAddr +'&'+
-  	 			'newCustActivity_txt='+ newCustActivity_txt ;
-  	 			
-  	 */
-  	 
+  	
+  	var newCustActivity_startTime_AP = document.getElementById("newCustActivity_startTime_AP").value;
+  	var newCustActivity_endTime_AP = document.getElementById("newCustActivity_endTime_AP").value;
   	 
   	 $.ajax({
 	      url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand='+Date.now(),
@@ -354,6 +324,8 @@
 	 			newCustActivityLocName: newCustActivityLocName ,
 	 			newCustActivityLocAddr: newCustActivityLocAddr ,
 	 			newCustActivity_txt: newCustActivity_txt,
+	 			newCustActivity_startTime_AP:newCustActivity_startTime_AP,
+	 			newCustActivity_endTime_AP:newCustActivity_endTime_AP,
 	 			a:Date.now()
 	      },
 	      success: function(result) {

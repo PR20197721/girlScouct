@@ -6,6 +6,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.jcr.Node;
@@ -36,6 +37,7 @@ import com.day.cq.mailer.MessageGateway;
 import com.day.cq.mailer.MessageGatewayService;
 import com.day.cq.workflow.WorkflowException;
 import com.day.cq.workflow.WorkflowSession;
+import com.day.cq.workflow.exec.HistoryItem;
 import com.day.cq.workflow.exec.WorkItem;
 import com.day.cq.workflow.exec.Workflow;
 import com.day.cq.workflow.exec.WorkflowData;
@@ -120,6 +122,9 @@ public class CustomSendEmailProcess implements WorkflowProcess {
 					}
 
 					// Dissect the email template
+					// HistoryItem histItem = (HistoryItem) resolver
+					// .adaptTo(HistoryItem.class);
+					// histItem.getComment();
 					String firstLine = emailTemplate.substring(0,
 							emailTemplate.indexOf('\n'));
 					String unrefinedMessage = emailTemplate
@@ -134,9 +139,8 @@ public class CustomSendEmailProcess implements WorkflowProcess {
 						String message = "";
 
 						Map propertyMap = getPropertyMap(workflowData,
-								workflow, item, jcrSession, resolver);
-						log.error("#*&@^#*&##*($&@#"
-								+ propertyMap.entrySet().toString());
+								workflow, item, session, resolver);
+
 						StrSubstitutor sub = new StrSubstitutor(propertyMap);
 
 						message = sub.replace(unrefinedMessage);
@@ -188,7 +192,7 @@ public class CustomSendEmailProcess implements WorkflowProcess {
 	}
 
 	private Map getPropertyMap(WorkflowData data, Workflow flow, WorkItem item,
-			Session session, ResourceResolver resolver) {
+			WorkflowSession session, ResourceResolver resolver) {
 
 		Map map = new HashMap();
 
@@ -207,7 +211,7 @@ public class CustomSendEmailProcess implements WorkflowProcess {
 
 		} catch (Exception e) {
 
-			log.error(e.getMessage());
+			log.error(e.toString());
 		}
 
 		return map;
@@ -243,28 +247,25 @@ public class CustomSendEmailProcess implements WorkflowProcess {
 		return hostPrefix;
 	}
 
-	private String getComment(Workflow flow, Session session) {
+	private String getComment(Workflow flow, WorkflowSession session)
+			throws Exception {
 		String comment = null;
 		try {
 
-			String commentPath = flow.getId();
-			Node content1 = session.getNode(commentPath + "/history");
-			NodeIterator iter = content1.getNodes();
-			iter.nextNode();
-			iter.nextNode();
-			iter.nextNode();
-			iter.nextNode();
-			iter.nextNode();
-			iter.nextNode();
-			iter.nextNode();
-			iter.nextNode();
-			Node content2 = iter.nextNode();
-			content2 = session.getNode(content2.getPath()
-					+ "/workItem/metaData/");
-			comment = content2.getProperty("comment").getValue().getString();
+			List<HistoryItem> histList = new ArrayList<HistoryItem>();
+			histList = session.getHistory(flow);
+			for (int i = 1; i < histList.size(); i++) {
+				if (histList.get(i).getComment().equals("") || 
+						histList.get(i).getComment() == null) {
+				}
+				 else {
+					comment = histList.get(i).getComment();
+				}
+			}
 			if (comment == null || comment.equals("")) {
 				comment = "";
 			}
+			log.error("HISTITEM " + comment);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -5,7 +5,8 @@
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 <%   
-    java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
+    
+java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
 //    if( sched==null || sched.size()<=0){out.println("No sched!!??!!");return; }
 %>
 <p>Drag and drop to reorder meetings</p>

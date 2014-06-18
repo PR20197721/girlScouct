@@ -1,29 +1,25 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@page import="java.util.Iterator,org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
-<%
-	HttpSession session = request.getSession();
-%>
-
+<%@include file="include/session.jsp"%>
+<div id="newLocationModal">
 <script>
-
-            
 $(function() {
-	
 	$( "#newCustActivity_date" ).datepicker({minDate: 0});
-   
   });
 </script>   
-          
- <form>
+<form>
  	<div style="background-color:gray; color:#fff;">Create a Custom Activity</div>
 	<div id="newCustActivity_err" style="color:red;"></div>
 	Name of Activity <font color="red">*</font> <input type="text" id="newCustActivity_name" value="" style="width:200px;"/>
 	<br/>Date: ex:05/07/2014<input type="text"  id="newCustActivity_date"  style="width:160px;"/>
 	<br/>Start Time: ex: 18:15<input type="text" id="newCustActivity_startTime" value="<%=org.girlscouts.vtk.models.api.VTKConfig.CALENDAR_START_TIME_HOUR+":"+org.girlscouts.vtk.models.api.VTKConfig.CALENDAR_START_TIME_MIN %>" style="width:100px;" />
+		<select id="newCustActivity_startTime_AP">
+		<option value="am">am</option>
+		<option value="pm">pm</option></select>
 	<br/>End Time: ex: 09:10<input type="text" id="newCustActivity_endTime" value="<%=org.girlscouts.vtk.models.api.VTKConfig.CALENDAR_END_TIME_HOUR+":"+org.girlscouts.vtk.models.api.VTKConfig.CALENDAR_END_TIME_MIN %>"  style="width:100px;"/>
+		<select id="newCustActivity_endTime_AP"><option value="am">am</option><option value="pm">pm</option></select>
 	<br/>Location Name <input type="text" id="newCustActivity_locName" value="" style="width:100px;"/>
 	<br/>Location Address <input type="text" id="newCustActivity_locAddr" value="" style="width:100px;"/>	
 	<br/><textarea id="newCustActivity_txt" rows="4" cols="5"  style="width:300px;"></textarea>
@@ -66,3 +62,4 @@ $(function() {
  
  
  </form>
+</div>

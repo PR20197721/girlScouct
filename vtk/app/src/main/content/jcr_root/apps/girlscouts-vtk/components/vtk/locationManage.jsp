@@ -9,13 +9,7 @@
         boolean showVtkNav = true;
 %>
 <%@include file="include/vtk-nav.jsp"%>
-<div class="tabs-content">
-    <div class="content" id="panel2-1"></div>
-    <div class="content" id="panel2-2"></div>
-    <div class="content" id="panel2-3"></div>
-    <div class="content" id="panel2-4"></div>
-    <div class="content" id="panel2-5"></div>
-</div>
+
 
 <div id="locMsg1"></div>
 <div>
@@ -32,7 +26,7 @@ for(int i=0;i<locations.size();i++){
 			<br/>City: <%=location.getCity() %>
 			<br/>State: <%=location.getState() %>
 			<br/>Zip: <%=location.getZip() %>
-			<a href="javascript:void(0)" onclick="rmLocation('<%=location.getName()%>'); location.reload();">remove</a> ||
+			<a href="javascript:void(0)" onclick="rmLocation('<%=location.getUid()%>'); ">remove</a> ||
 			<a href="javascript:void(0)" onclick="applyLocToAllMeetings('<%=location.getPath()%>')">Apply to All meetings</a>
 			<div style="padding:30px; background-color:gray;">
 				<% 

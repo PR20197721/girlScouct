@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.jcr.Session;
+import javax.jcr.Value;
+import javax.jcr.query.Row;
+import javax.jcr.query.RowIterator;
 
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
@@ -25,6 +28,7 @@ import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.user.User;
 //import javax.jcr.query.Query;
 //import javax.jcr.query.QueryManager;
+import javax.jcr.*;
 
 @Component
 @Service(value=MeetingDAO.class)
@@ -364,6 +368,45 @@ public List< Meeting> search(){
 	
 }
 
+
+
+public java.util.List<String> doSpellCheck(String word) throws Exception{
+	
+	
+	java.util.List<String> suggest= new java.util.ArrayList();
+
+	
+
+	javax.jcr.query.QueryManager qm = (javax.jcr.query.QueryManager)session.getWorkspace().getQueryManager();
+	
+
+    javax.jcr.query.Query query = qm.createQuery("SELECT rep:spellcheck() FROM nt:base WHERE jcr:path = '/content/dam/' AND SPELLCHECK('"+ word +"')",  javax.jcr.query.Query.SQL);
+   RowIterator rows = query.execute().getRows();
+   // the above query will always return the root node no matter what string we check
+   Row r = rows.nextRow();
+   // get the result of the spell checking
+   
+   
+   Value v = r.getValue("rep:spellcheck()");
+   if (v == null) {
+       // no suggestion returned, the spelling is correct or the spell checker
+       // does not know how to correct it.
+   } else {
+       String suggestion = v.getString();
+       suggest.add( suggestion);
+       System.err.println(suggestion);
+   }
+   
+   
+   
+   Value values[] = r.getValues();
+   for(int i=0;i< values.length;i++){
+	   System.err.println( values[i].getString());
+	   suggest.add(values[i].getString());
+   }
+   
+return suggest;
+}
 
 
 

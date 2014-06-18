@@ -38,7 +38,7 @@ public class ParseXls1 {
         FormulaEvaluator evaluator = workbook.getCreationHelper()
                 .createFormulaEvaluator();
 
-        Sheet sheet = workbook.getSheet("Metadata file");
+        Sheet sheet = workbook.getSheetAt(0);
         int i = 1;
         while (true) {
             i++;
