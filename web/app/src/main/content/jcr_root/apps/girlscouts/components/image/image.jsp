@@ -17,11 +17,15 @@
 
 --%><%@ page import="com.day.cq.commons.Doctype,
     com.day.cq.wcm.api.components.DropTarget,
-    com.day.cq.wcm.foundation.Image, com.day.cq.wcm.foundation.Placeholder" %><%
+    com.day.cq.wcm.foundation.Image, com.day.cq.wcm.foundation.Placeholder,org.girlscouts.web.components.ImageTitle" %><%
 %><%@include file="/libs/foundation/global.jsp"%><%
-    Image image = new Image(resource);
-    image.setIsInUITouchMode(Placeholder.isAuthoringUIModeTouch(slingRequest));
 
+    //ImageTitle imageTitle = new ImageTitle(resource);
+    
+    ImageTitle image = new ImageTitle(resource);
+    image.setIsInUITouchMode(Placeholder.isAuthoringUIModeTouch(slingRequest));
+    
+    
     //drop target css class = dd prefix + name of the drop target in the edit config
     image.addCssClass(DropTarget.CSS_CLASS_PREFIX + "image");
     image.loadStyleData(currentStyle);
