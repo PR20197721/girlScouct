@@ -148,7 +148,7 @@ for(int i=2;i<sheet.getLastRowNum();i++){
         Sheet sheet = workbook.getSheetAt(1);
 
         for(int i=2;i<sheet.getLastRowNum();i++){
-        	String fileName = getCellVal( evaluator, sheet, "A"+i );
+        	String fileName = getCellVal( evaluator, sheet, "A"+i ).trim();
         	if( fileName==null || fileName.length()<1) break;
         	String type = getCellVal( evaluator, sheet, "B"+i );
         	String destination = getCellVal( evaluator, sheet, "C"+i );
@@ -319,7 +319,7 @@ if( metaDatas.get("description")!=null )
 	entity.addPart( "./jcr:content/metadata/dc:description", new StringBody( (String)metaDatas.get("description"), "text/plain",
 			Charset.forName( "UTF-8" )));
 
-entity.addPart( "./jcr:content/metadata/cq:tags", new StringBody( "girlscouts-vtk:asset/"+(String)metaDatas.get("tags"), "text/plain",
+entity.addPart( "./jcr:content/metadata/cq:tags", new StringBody( "girlscouts-vtk:asset/"+((String)metaDatas.get("tags")).trim().replaceAll(" ", "-"), "text/plain",
 Charset.forName( "UTF-8" )));
 	    
 

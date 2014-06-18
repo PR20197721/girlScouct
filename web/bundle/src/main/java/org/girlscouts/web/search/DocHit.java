@@ -37,7 +37,6 @@ public final class DocHit {
 
     public String getExcerpt() throws RepositoryException {
         String excerpt = this.hit.getExcerpt();
-        log.error("#### orig excerpt:" + excerpt);
         
         Matcher queryMatcher = STRONG_PATTERN.matcher(excerpt);
         String queryString = null;

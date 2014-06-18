@@ -7,7 +7,7 @@
     description="No Description"
     title="Girl Scouts Authoring Approval Workflow">
     <metaData
-        cq:lastModified="{Long}1403011092859"
+        cq:lastModified="{Long}1403103127593"
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"/>
     <nodes jcr:primaryType="nt:unstructured">
@@ -33,7 +33,7 @@
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="/etc/workflow/scripts/girlscouts/flush_page_sp1.ecma"
-                PROCESS_ARGS="agent:publishpeview"
+                PROCESS_ARGS="agent:publishpreview"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node2>
         <node3
@@ -81,7 +81,7 @@
         </node8>
         <node9
             jcr:primaryType="cq:WorkflowNode"
-            title="Approve and Activate Page"
+            title="Approve and Activate Page on Publish1"
             type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
@@ -91,16 +91,6 @@
         </node9>
         <node10
             jcr:primaryType="cq:WorkflowNode"
-            title="Approve and Activate Page"
-            type="PROCESS">
-            <metaData
-                jcr:primaryType="nt:unstructured"
-                PROCESS="com.day.cq.wcm.workflow.process.ActivatePageProcess"
-                PROCESS_ARGS="agent:publish2useast1"
-                PROCESS_AUTO_ADVANCE="true"/>
-        </node10>
-        <node11
-            jcr:primaryType="cq:WorkflowNode"
             description="Sends an email based on an email template"
             title="Send Email to Initiator"
             type="PROCESS">
@@ -109,6 +99,16 @@
                 PROCESS="org.girlscouts.cq.workflow.CustomSendEmailProcess"
                 PROCESS_AUTO_ADVANCE="true"
                 templatePath="/etc/workflow/notification/email/default/approval.txt"/>
+        </node10>
+        <node11
+            jcr:primaryType="cq:WorkflowNode"
+            title="Publish2"
+            type="PROCESS">
+            <metaData
+                jcr:primaryType="nt:unstructured"
+                PROCESS="com.day.cq.wcm.workflow.process.ActivatePageProcess"
+                PROCESS_ARGS="agent:publish2useast1"
+                PROCESS_AUTO_ADVANCE="true"/>
         </node11>
         <node12
             jcr:primaryType="cq:WorkflowNode"
@@ -194,38 +194,38 @@
             to="node9">
             <metaData jcr:primaryType="nt:unstructured"/>
         </node7_x0023_node9>
-        <node9_x0023_node8
+        <node9_x0023_node10
             jcr:primaryType="cq:WorkflowTransition"
             from="node9"
-            to="node8">
-            <metaData jcr:primaryType="nt:unstructured"/>
-        </node9_x0023_node8>
-        <node7_x0023_node10
-            jcr:primaryType="cq:WorkflowTransition"
-            from="node7"
             rule=""
             to="node10">
             <metaData jcr:primaryType="nt:unstructured"/>
-        </node7_x0023_node10>
+        </node9_x0023_node10>
         <node10_x0023_node8
             jcr:primaryType="cq:WorkflowTransition"
             from="node10"
             to="node8">
             <metaData jcr:primaryType="nt:unstructured"/>
         </node10_x0023_node8>
-        <node8_x0023_node11
+        <node7_x0023_node11
             jcr:primaryType="cq:WorkflowTransition"
-            from="node8"
+            from="node7"
             rule=""
             to="node11">
             <metaData jcr:primaryType="nt:unstructured"/>
-        </node8_x0023_node11>
-        <node11_x0023_node6
+        </node7_x0023_node11>
+        <node11_x0023_node8
             jcr:primaryType="cq:WorkflowTransition"
             from="node11"
+            to="node8">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node11_x0023_node8>
+        <node8_x0023_node6
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node8"
             to="node6">
             <metaData jcr:primaryType="nt:unstructured"/>
-        </node11_x0023_node6>
+        </node8_x0023_node6>
         <node5_x0023_node12
             jcr:primaryType="cq:WorkflowTransition"
             from="node5"
