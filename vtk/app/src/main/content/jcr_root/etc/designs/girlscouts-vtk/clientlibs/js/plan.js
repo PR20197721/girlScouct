@@ -197,7 +197,7 @@
    	      },
    	      success: function(result) {
    	    	//document.location="/content/girlscouts-vtk/en/vtk.locationManage.html";
-   	    	$("#locList").load("/content/girlscouts-vtk/en/vtk.locationManage.html?rand="+Date.now());
+   	    	loadLocMng();
    	      }
    	  });
        	
@@ -265,7 +265,8 @@
         		        		 exclDt:_level
         		      },
         		      success: function(result) {
-        		    	  location.reload();
+        		    	 // location.reload();
+        		    	 loadCalMng();
         		      }
         		  });
         		
@@ -382,4 +383,14 @@
    });
    
    
-          
+   function loadLocMng(){
+	   $("#locList").load("/content/girlscouts-vtk/controllers/vtk.locationManage.html?rand="+Date.now());
+   }       
+   function loadCalMng(){
+   		$("#calMng").load("/content/girlscouts-vtk/controllers/vtk.calendar.html?rand="+Date.now());
+   }
+   
+   function manageCalElem(elem ){
+	   $("#calMng").load("/content/girlscouts-vtk/controllers/vtk.calendarElem.html?elem="+ elem + "&rand="+Date.now());
+	   
+   }

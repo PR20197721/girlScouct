@@ -1,3 +1,6 @@
+
+
+
 <dl class="tabs" data-tab >
 	<dd ><a href="#panel2-1">My Troup</a></dd>
 <% if ("plan".equals(activeTab)) { %>

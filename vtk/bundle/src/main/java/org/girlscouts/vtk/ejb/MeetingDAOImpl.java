@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.jcr.Session;
 import javax.jcr.Value;
+import javax.jcr.query.QueryResult;
 import javax.jcr.query.Row;
 import javax.jcr.query.RowIterator;
 
@@ -407,6 +408,26 @@ public java.util.List<String> doSpellCheck(String word) throws Exception{
    
 return suggest;
 }
+
+
+public List<String> getData(String query) {
+	  
+	System.err.println("SEarch q: "+ query);
+	List<String> matched = new ArrayList<String>();
+	try{
+		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
+		javax.jcr.query.Query q = qm.createQuery("select jcr:path, excerpt(.) from nt:resource    where jcr:path like '/content/dam/%' and  contains(., '"+ query +"')", javax.jcr.query.Query.SQL); 
+   QueryResult result = q.execute();
+   for (RowIterator it = result.getRows(); it.hasNext(); ) {
+       Row r = it.nextRow();
+       Value excerpt = r.getValue("rep:excerpt(.)");
+       
+       matched.add(excerpt.getString());
+       System.err.println( "SEarch: "+excerpt.getString());
+   }
+	}catch(Exception e){e.printStackTrace();}
+   return matched;
+	}
 
 
 

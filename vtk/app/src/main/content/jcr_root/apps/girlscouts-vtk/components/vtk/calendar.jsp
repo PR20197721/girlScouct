@@ -4,20 +4,14 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 
+<a href="/content/girlscouts-vtk/en/vtk.html">Return to Plan</a>
+
 <%
+
 HttpSession session = request.getSession();
-
 User user= (User) session.getValue("VTK_user");
-
-java.util.List <org.joda.time.DateTime> sched = new java.util.ArrayList<org.joda.time.DateTime>();
-
-//if( user.getYearPlan().getSchedule()==null ) {out.println("No schedule"); return; }
-
-String str =  user.getYearPlan().getSchedule().getDates();
-java.util.StringTokenizer t= new java.util.StringTokenizer( str, ",");
-while( t.hasMoreElements())
-		sched.add( new org.joda.time.DateTime( Long.parseLong( t.nextToken() ) ) );
-
+MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
+java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
 
 %>       
   
@@ -25,29 +19,52 @@ while( t.hasMoreElements())
        <div id="locMsg"></div>
        
        <% 
-       for(int i=0;i<sched.size();i++){
-			%><%@include file="include/manageCalendar.jsp" %><% 
-	   }
-       %>
+     
+    	  int i=0;
+    	  java.util.Iterator itr= sched.keySet().iterator();
+    	  while( itr.hasNext() ){
+    		  
+    	  	i++;
+			java.util.Date date = (java.util.Date)itr.next();
+			MeetingE meeting = (MeetingE)sched.get(date);
+		
+%>
+
+
+<div >
+
+   <table>
+   	<tr>
+   	<td>
+   		<% if( date.after(new java.util.Date() )){ %>
+   			<a href="javascript:void(0)" onclick="manageCalElem('<%=date.getTime()%>')">IMG</a>
+   		<% }else{ %>
+   			IMG
+   		<% } %>
+   		
+   	<td><%=i %>
+   	<td><%= dateFormat0.format( date ) %>
+   	<td>
+   	
+   	
+   	<%=   	meetingDAO.getMeeting(  meeting.getRefId() ).getName() %>
+   </table>
+	
+	
+</div>
+	   <% }%>
+       
 
 
 <%!
-   
-org.joda.time.format.DateTimeFormatter fmt = org.joda.time.format.DateTimeFormat.forPattern("MMM d, yyyy HH:mm a");
-org.joda.time.format.DateTimeFormatter fmt1 = org.joda.time.format.DateTimeFormat.forPattern("MMM d, yyyy hh:mm a");
-
-java.text.SimpleDateFormat dateFormat = new java.text.SimpleDateFormat("dd/MM/yyyy hh:mm");
-java.text.SimpleDateFormat dateFormat1 = new java.text.SimpleDateFormat("MMM dd, yyyy");
-java.text.SimpleDateFormat dateFormat2 = new java.text.SimpleDateFormat("hh:mm");
-java.text.SimpleDateFormat dateFormat3 = new java.text.SimpleDateFormat("dd/MM/yyyy hh:mm a");
-java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat("MM/dd/yyyy hh:mm a");
+java.text.SimpleDateFormat dateFormat0 = new java.text.SimpleDateFormat("MMM dd, yyyy hh:mm a");
 
 
-
+/*
 org.joda.time.format.DateTimeFormatter fmtDate = org.joda.time.format.DateTimeFormat.forPattern("MM/d/yyyy");
 org.joda.time.format.DateTimeFormatter fmtHr = org.joda.time.format.DateTimeFormat.forPattern("HH:mm");
 org.joda.time.format.DateTimeFormatter fmtHr1 = org.joda.time.format.DateTimeFormat.forPattern("hh:mm");
-
+*/
 %>
       
        

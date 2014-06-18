@@ -80,5 +80,5 @@ function rmLocation(locationName){
 	
 	function showLocationManager(){
 		
-		$("#locList").load("/content/girlscouts-vtk/en/vtk.locationManage.html?rand="+Date.now());
+		$("#locList").load("/content/girlscouts-vtk/controllers/vtk.locationManage.html?rand="+Date.now());
 	}
