@@ -272,10 +272,10 @@ a:hover.menuHighlight {
     background-color:#f7f7f6;
 }
 .home-section {
-    padding: 10px;
+    padding: 15px 0px;
 }
 .home-section.hero-banner {
-    padding: 0px 0px 10px 0px;
+    padding: 0px 0px 15px 0px;
 }
 .home-section .feature-icon {
     display: inline-block;
@@ -284,13 +284,13 @@ a:hover.menuHighlight {
 }
 .home-section .feature-title {
     display: inline-block;
+    text-indent: 30px;
 }
-.home-section h2 {
-    margin: 0px;
-    
+.home-section .content {
+    padding: 0px 5px 0px 12px;
 }
-.home-section img {
-    margin-right:29px;
+.home-section .content .columns {
+    padding: 10px;
 }
 .home-section h2 a {
     font-size: 0.85em;
@@ -302,7 +302,14 @@ a:hover.menuHighlight {
     font-size: 1.2em;
 }
 .feature-shortstory .content {
-    margin: 20px 20px 20px 10px;
+    margin: 10px 13px 20px 12px;
+    padding: 0px;
+}
+.events-list .content {
+    margin: 20px 38px 20px 30px;
+}
+.news-list .content {
+    margin: 10px 30px 20px 12px;
 }
 
 .events-list p {
@@ -310,9 +317,6 @@ a:hover.menuHighlight {
     margin-bottom: 0.2rem;
 }
 
-.events-list .content, .news-list .content {
-    margin: 20px 20px 20px 100px;
-}
 .debug {
     border: 1px solid red;
 }
