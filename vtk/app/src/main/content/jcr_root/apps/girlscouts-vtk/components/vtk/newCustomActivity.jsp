@@ -15,7 +15,11 @@ $(function() {
 	Name of Activity <font color="red">*</font> <input type="text" id="newCustActivity_name" value="" style="width:200px;"/>
 	<br/>Date: ex:05/07/2014<input type="text"  id="newCustActivity_date"  style="width:160px;"/>
 	<br/>Start Time: ex: 18:15<input type="text" id="newCustActivity_startTime" value="<%=org.girlscouts.vtk.models.api.VTKConfig.CALENDAR_START_TIME_HOUR+":"+org.girlscouts.vtk.models.api.VTKConfig.CALENDAR_START_TIME_MIN %>" style="width:100px;" />
+		<select id="newCustActivity_startTime_AP">
+		<option value="am">am</option>
+		<option value="pm">pm</option></select>
 	<br/>End Time: ex: 09:10<input type="text" id="newCustActivity_endTime" value="<%=org.girlscouts.vtk.models.api.VTKConfig.CALENDAR_END_TIME_HOUR+":"+org.girlscouts.vtk.models.api.VTKConfig.CALENDAR_END_TIME_MIN %>"  style="width:100px;"/>
+		<select id="newCustActivity_endTime_AP"><option value="am">am</option><option value="pm">pm</option></select>
 	<br/>Location Name <input type="text" id="newCustActivity_locName" value="" style="width:100px;"/>
 	<br/>Location Address <input type="text" id="newCustActivity_locAddr" value="" style="width:100px;"/>	
 	<br/><textarea id="newCustActivity_txt" rows="4" cols="5"  style="width:300px;"></textarea>

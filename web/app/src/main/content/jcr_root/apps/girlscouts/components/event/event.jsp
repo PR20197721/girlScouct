@@ -110,12 +110,15 @@
 <!-- TODO: fix the h2 color in CSS -->
 <div class="row">
    <div class="small-14 large-14 medium-14 columns">
-        <h2><%= title %></h2>
+      &nbsp;
    </div>
    <div class="small-10 large-10 medium-10 columns">
       <div id="calendar">
         <a href="<%=calendarUrl%>">View event on calendar</a>
       </div>  
+   </div>
+   <div class="small-24 large-24 medium-24 columns">
+        <h2><%= title %></h2>
    </div>
 
 </div>

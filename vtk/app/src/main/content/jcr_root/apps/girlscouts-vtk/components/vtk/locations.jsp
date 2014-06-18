@@ -29,16 +29,16 @@ $(function() {
 Start Date<input type="text" id="calStartDt" value="<%=user.getYearPlan().getCalStartDate()==null ? "" : dateFormat4.format(new java.util.Date(user.getYearPlan().getCalStartDate())) %>" />
 Time<input type="text" id="calTime" value="<%=user.getYearPlan().getCalStartDate()==null ? (org.girlscouts.vtk.models.api.VTKConfig.CALENDAR_START_TIME_HOUR+":"+org.girlscouts.vtk.models.api.VTKConfig.CALENDAR_START_TIME_MIN) : dateFormat44.format(new java.util.Date(user.getYearPlan().getCalStartDate())) %>"/>
 		<select id="calAP">
-<% String AM = "am";
+<% String AM = "AM";
 	if( user.getYearPlan().getCalStartDate() !=null ){
 		AM = dateFormat41.format(new java.util.Date(user.getYearPlan().getCalStartDate()));
 	} 
 	%>
 
-			<option value="pm" <%=AM.equals("pm") ? " SELECTED" : "" %>>pm</option>
-			<option value="am" <%=AM.equals("am") ? " SELECTED" : "" %>>am</option></select>
+			<option value="pm" <%=AM.equals("PM") ? " SELECTED" : "" %>>pm</option>
+			<option value="am" <%=AM.equals("AM") ? " SELECTED" : "" %>>am</option></select>
 
-Frequency:
+Frequency: 
 		<select id="calFreq">
 			<option value="weekly" <%= user.getYearPlan().getCalFreq().equals("weekly") ? " SELECTED" : "" %>>weekly</option>
 			<option value="biweekly"  <%= user.getYearPlan().getCalFreq().equals("biweekly") ? " SELECTED" : "" %>>biweekly</option>

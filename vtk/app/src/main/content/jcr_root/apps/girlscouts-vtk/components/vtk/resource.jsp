@@ -36,10 +36,63 @@
 <div id="rsc_hlp" style="display:none;"><h1>Resources Help:</h1><ul><li>asdf</li><li>asdf</li><li>asdf</li></ul></div>
 
 <br/><b>Search for Resources</b>
-<input type="text" id="search_resource"/>
+<input type="text" id="search_resource" />
 
 
 <br/><b>Browse Resources by Category</b>
+
+
+<ul>
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+
+	<li></li>
+	<li></li>
+	<li></li>
+	<li></li>
+</ul>
+
+
+
+
+	<%@ page import="java.util.*, org.apache.sling.api.resource.*, org.apache.sling.jcr.api .*,java.lang.ref.*, com.day.cq.tagging.*, com.day.cq.tagging.*, org.apache.jackrabbit.commons.JcrUtils, org.apache.sling.api.resource.*"%>
+
+	<cq:defineObjects/>
+<%
+
+TagManager tagManager = (TagManager)resourceResolver.adaptTo(TagManager.class);
+
+String myTag = "pr*";
+
+//RangeIterator<Resource> ri = tagManager.find(myTag);
+//out.println("Size: "+ ri.getSize());
+
+
+
+        
+        
+        
+        
+
+	com.day.cq.tagging.TagManager.FindResults x = tagManager.findByTitle(myTag);
+	System.err.println( "TAGGGGGG : "+(x==null) );
+	java.util.Iterator r = x.resources ;
+	System.err.println("TAG next: "+r.hasNext());
+	
+	while( r.hasNext() ){
+		Resource res = (Resource) r.next();
+	    %><li> <a href="<%=res.getPath().replace("/jcr:content/metadata", "")%>"> <%=res.getName()%></a></li><%
+
+	  }
+
+%>
 
 
 
