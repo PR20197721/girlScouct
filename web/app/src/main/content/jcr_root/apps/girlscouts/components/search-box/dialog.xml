@@ -29,6 +29,12 @@
                                 value="globalLanding"/>
                         </options>
                     </site-search>
+                    <placeholder-text
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="(PlaceHolder Text)"
+                        fieldLabel="Placeholder Text"
+                        name="./placeholder-text"
+                        xtype="textfield"/>
                 </items>
             </tab1>
             <tab2
