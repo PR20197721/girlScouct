@@ -1,13 +1,12 @@
 <%@page import="com.day.cq.tagging.TagManager,
                 com.day.cq.tagging.Tag,
                 java.util.Iterator,
-                java.util.Map,
-                java.util.HashMap" %>
+                org.apache.commons.lang3.StringEscapeUtils" %>
 <%@include file="/libs/foundation/global.jsp" %>
 Debug: q = <%= (String)request.getParameter("q") %>
 
 <%
-	String currentPath = currentPage.getPath() + ".html";
+	String currentPath = "#";
 %>
 <div>Search For Resources</div>
 <form>
@@ -41,7 +40,7 @@ try {
 				Iterator<Tag> minorIter = currentMajor.listChildren();
 				while (minorIter.hasNext()) {
 				    Tag currentMinor = minorIter.next();
-				    String link = currentPath + "?" + currentMinor.getPath();
+				    String link = "?category=" + StringEscapeUtils.escapeHtml4(currentMinor.getTagID());
 				    String title = currentMinor.getTitle();
 				    String count = Long.toString(currentMinor.getCount());
 				    %><div><a href="<%= link %>"><%= title %> (<%= count %>)</a></div><%
@@ -51,5 +50,14 @@ try {
 	%></ul><%
 } catch (Exception e) {
 	log.error("Cannot get VTK asset categories: " + e.getMessage());
+}
+
+String category = (String)request.getParameter("category");
+if (category != null && !category.isEmpty()) {
+    try {
+       	 
+    } catch (Exception e) {
+		log.error("Cannot get VTK asset category: " + category + ". Message: "+ e.getMessage());
+    }
 }
 %>
