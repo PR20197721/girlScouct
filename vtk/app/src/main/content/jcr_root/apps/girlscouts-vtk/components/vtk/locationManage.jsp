@@ -8,7 +8,7 @@
         String activeTab = "community";
         boolean showVtkNav = true;
 %>
-<%@include file="include/vtk-nav.jsp"%>
+
 
 
 <div id="locMsg1"></div>

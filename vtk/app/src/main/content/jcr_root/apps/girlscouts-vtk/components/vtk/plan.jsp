@@ -63,7 +63,18 @@
 <%}else{ %>
 			<div id="yearPlanSelection" >
 <%} 
-	java.util.Iterator<YearPlan> yearPlans = yearPlanDAO.getAllYearPlans(apiConfig.getUser().getAgeLevel()).listIterator();
+
+
+String ageLevel=  user.getTroop().getGradeLevel();
+ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1);
+ageLevel=ageLevel.toLowerCase().trim();
+
+System.err.println("***" + ageLevel);
+
+java.util.Iterator<YearPlan> yearPlans = yearPlanDAO.getAllYearPlans(ageLevel).listIterator();
+
+
+	//java.util.Iterator<YearPlan> yearPlans = yearPlanDAO.getAllYearPlans(apiConfig.getUser().getAgeLevel()).listIterator();
 	while (yearPlans.hasNext()) {
 		YearPlan yearPlan = yearPlans.next();
 %>
