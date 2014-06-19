@@ -2,7 +2,7 @@
                 com.day.cq.tagging.Tag,
                 java.util.Iterator,
                 org.apache.commons.lang3.StringEscapeUtils,
-                org.apache.sling.api.resource.Resource" %>
+                org.girlscouts.web.search.DocHitBase" %>
 <%@include file="/libs/foundation/global.jsp" %>
 Debug: q = <%= (String)request.getParameter("q") %>
 
@@ -62,12 +62,12 @@ if (category != null && !category.isEmpty()) {
     	while (resIter.hasNext()) {
     	    Resource res= resIter.next();
     	    try {
-    		    String title = (String)res.getResourceMetadata().get("dc:title");
-    		    if (title == null || title.isEmpty()) {
-    		        title = res.getName();
-    		    }
-    		    String path = res.getPath();
-    		    %><div><a href="<%= path %>"><%= title %></a></div><%
+				DocHitBase hit = new DocHitBase(res.adaptTo(Node.class));
+				String icon = hit.getIcon();
+    		    String title = hit.getTitle();
+    		    String path = hit.getURL();
+    		    // TODO: icon not showing
+    		    %><div><%= icon %><a href="<%= path %>"><%= title %></a></div><%
     	    } catch (Exception eRes) {
     			log.error("Cannot get VTK asset: " + eRes.getMessage());
     	    }
@@ -76,4 +76,8 @@ if (category != null && !category.isEmpty()) {
     	log.error("Cannot get VTK asset category: " + category + ". Message: "+ eCat.getMessage());
     }
 }
+%>
+
+<%!
+	
 %>
