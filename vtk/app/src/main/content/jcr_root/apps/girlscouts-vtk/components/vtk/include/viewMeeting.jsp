@@ -14,14 +14,13 @@ Meeting<br/>
 <%if( meetingE.getCancelled()!=null && meetingE.getCancelled().equals("true")){%>
 <span style="color:#FFF; background-color:red;">CANCELLED</span>
 <% }%>
-
+<h1><%=meeting.getName() %></h2>
+<span class="tags"><%=meeting.getAidTags() %></span>
 <!--
-Meeting: <%=meeting.getId() %> - <b><%=meeting.getName() %>
+Meeting: <%=meeting.getId() %>
 -->
-<%=meeting.getBlurb() %>
-<br/>
+<p class="blurb"><%=meeting.getBlurb() %></p>
 <a href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=date.getTime()%>">View Meeting</a>
-<span style="background-color:gray; padding:2px;"><%=meeting.getAidTags() %></span>
 </div>
 <div class="large-4 columns">
 <img width="100" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/badge.png"/>

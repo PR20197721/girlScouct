@@ -54,7 +54,6 @@ public class StyleFilter implements javax.servlet.Filter {
 
         Resource resource = req.getResource();
         if (resource == null) {
-            log.warn("Cannot get resource from sling request.");
             return;
         }
 

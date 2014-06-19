@@ -176,6 +176,11 @@
             jcr:primaryType="nt:folder"
             mode="replace"
             root="/etc/workflow/scripts/girlscouts"
-            rules="[]"/>                         
+            rules="[]"/>
+           <f33
+            jcr:primaryType="sling:Folder"
+            mode="replace"
+            root="/etc/workflow/notification/email/default"
+            rules="[]"/>                           
     </filter>
 </jcr:root>
