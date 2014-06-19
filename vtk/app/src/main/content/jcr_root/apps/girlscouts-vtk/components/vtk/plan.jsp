@@ -13,6 +13,18 @@
 <%
 	YearPlanDAO yearPlanDAO = sling.getService(YearPlanDAO.class);
 %>
+<%=user.getId() %>
+<div id="troop" style="background-color:lightyellow">
+   <select id="reloginid" style="border:3px solid green; background-color:red;" onchange="relogin()">
+	<%
+		java.util.List<org.girlscouts.vtk.salesforce.Troop> troops = user.getApiConfig().getTroops();// org.girlscouts.vtk.salesforce.tester3().troopInfo(apiConfig, user.getApiConfig().getUser().getContactId() );
+		for(int i=0;i<troops.size();i++){
+				%> <option value="<%=troops.get(i).getTroopId() %>" <%= user.getTroop().getTroopId().equals(troops.get(i).getTroopId()) ? "SELECTED" : ""%>><b>Troop:</b><%= troops.get(i).getTroopName() %> &nbsp; >><b>GradeLevel:</b> <%= troops.get(i).getGradeLevel() %></a></option> <% 
+		}
+	%>
+	</select>
+</div>
+
 <%@include file="include/vtk-nav.jsp"%>
 	<div class="tabs-content">
 		<div class="content" id="panel2-1">

@@ -7,15 +7,16 @@
 <cq:defineObjects/>
 
 <%
-org.girlscouts.vtk.dao.MeetingDAO db = sling.getService(org.girlscouts.vtk.dao.MeetingDAO.class);
-	//Search db = new Search();
+	HttpSession session = request.getSession();
+	org.girlscouts.vtk.dao.MeetingDAO db = sling.getService(org.girlscouts.vtk.dao.MeetingDAO.class);
 
 	String query = request.getParameter("q");
 
-	List<String> countries = db.getData(query);	
-	Iterator<String> iterator = countries.iterator();
+	List<org.girlscouts.vtk.models.Search> countries = db.getData(query);
+	Iterator<org.girlscouts.vtk.models.Search> iterator = countries.iterator();
 	while(iterator.hasNext()) {
-		String country = (String)iterator.next();
-		out.println(country);
+		org.girlscouts.vtk.models.Search search = (org.girlscouts.vtk.models.Search) iterator.next();
+		session.putValue("search", countries);
 	}
 %>
+[<%=toRet %>{"label" : "alex"}]

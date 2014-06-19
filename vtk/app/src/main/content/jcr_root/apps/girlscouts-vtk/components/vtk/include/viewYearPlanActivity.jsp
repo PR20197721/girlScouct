@@ -34,7 +34,14 @@ Activity: <%= activity.getName()%>
 
 <br/><br/>Date: <%=fmtDate.format(activity.getDate()) %>
 <br/><br/>Time: <%=fmtHr.format(activity.getDate()) %> - <%= fmtHr.format(activity.getEndDate()) %> 
-<br/><br/>Age range: <%= user.getApiConfig().getUser().getAgeLevel()%>
+
+
+<%
+String ageLevel=  user.getTroop().getGradeLevel();
+ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1);
+ageLevel=ageLevel.toLowerCase().trim();
+%>
+<br/><br/>Age range: <%= ageLevel%>
 <br/><br/>Location: 
 <%= activity.getLocationName() %>
 <%=activity.getLocationAddress()%>
