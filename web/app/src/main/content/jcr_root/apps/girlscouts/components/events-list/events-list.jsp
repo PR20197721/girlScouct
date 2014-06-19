@@ -25,7 +25,7 @@
 	}
 	DateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.S");
 	fromFormat.setCalendar(Calendar.getInstance(TimeZone.getTimeZone("GMT")));
-	DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+	DateFormat dateFormat = new SimpleDateFormat("EEE MMM d yyyy");
 	DateFormat timeFormat = new SimpleDateFormat("h:mm a");
 	
 	DateFormat calendarFormat = new SimpleDateFormat("M-yyyy");
@@ -81,7 +81,11 @@
     // DateFormat timeFormat = new SimpleDateFormat("KK:mm a");
      
      for(String result: results){
+    	 
+    	 
     	 Node node = resourceResolver.getResource(result).adaptTo(Node.class);
+    	 
+    	 try{
     	 Node propNode = node.getNode("jcr:content/data");
          String fromdate = propNode.getProperty("start").getString();
          String title = propNode.getProperty("../jcr:title").getString();
@@ -116,9 +120,9 @@
         	        String endDateStr = dateFormat.format(endDate);
         	        String endTimeStr = timeFormat.format(endDate);
         	        if (!sameDay) {
-        	            dateStr += " to " + endDateStr;
+        	            dateStr += " - " + endDateStr;
         	        }
-        	        time+= " to " +endTimeStr;
+        	        time+= " - " +endTimeStr;
         	           
         	    }
              
@@ -147,6 +151,7 @@
       {
         	 break;
          }
+    	 }catch(Exception e){} 
      }
 %>
 </ul>
