@@ -165,7 +165,23 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	  
 	  emailUtil.sendMeetingReminder((User)session.getValue("VTK_user"), emr);
 	  
-	  
+}else if( request.getParameter("loginAs")!=null){ //troopId
+	if(request.getParameter("loginAs")==null || request.getParameter("loginAs").trim().equals("") ){System.err.println("loginAs invalid.abort");return;}
+	System.err.println("REgloginL: "+request.getParameter("loginAs"));
+	User curr_user = (User)session.getValue("VTK_user");
+	User new_user= userDAO.getUser( curr_user.getApiConfig().getUserId() +"_"+ request.getParameter("loginAs") );
+	if( new_user==null )
+		 new_user = new User(curr_user.getApiConfig().getUserId()+"_"+ request.getParameter("loginAs") );
+	
+	java.util.List <org.girlscouts.vtk.salesforce.Troop> troops = curr_user.getApiConfig().getTroops();
+	for(int i=0;i<troops.size();i++){
+			if( troops.get(i).getTroopId().equals( request.getParameter("loginAs"))){
+				new_user.setTroop(troops.get(i) );
+			}
+	}
+    new_user.setApiConfig(curr_user.getApiConfig());
+    session.putValue("VTK_user", new_user);
+	
 }else{
 	
 	//TODO throw ERROR CODE

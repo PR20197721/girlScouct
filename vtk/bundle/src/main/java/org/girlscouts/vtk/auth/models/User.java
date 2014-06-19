@@ -6,7 +6,7 @@ public class User {
     	contactId;
     
     //tmp
-    private String ageLevel="brownie";
+    //private String ageLevel="brownie";
     
     
     
@@ -18,12 +18,14 @@ public class User {
 	public void setContactId(String contactId) {
 		this.contactId = contactId;
 	}
+	/*
 	public String getAgeLevel() {
 		return ageLevel;
 	}
 	public void setAgeLevel(String ageLevel) {
 		this.ageLevel = ageLevel;
 	}
+	*/
 	public void setName(String name){this.name=name;}
     public String getName(){return name;}
     

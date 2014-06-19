@@ -1207,7 +1207,7 @@ System.err.println( "REsults: "+results.toString());
 	
    }
 
-/*
+
 
 public java.util.List <Troop>  troopInfo(ApiConfig apiConfig, String contactId){
 	
@@ -1263,13 +1263,24 @@ System.err.println( "REsults: "+results.toString());
 
 				for (int i = 0; i < results.length(); i++) {
 					
-					Troop troop = new Troop();
-					troop.setCouncilCode(results.getJSONObject(i).getString("Parent.Council_Code__c") ); //girls id 111
-					troop.setCouncilId(results.getJSONObject(i).getString("Parent.Account__c") );
+					System.err.println("_____ "+ results.get(i));
 					
-					troop.setGradeLevel(results.getJSONObject(i).getString("Parent.Program_Grade_Level__c") );
-					troop.setTroopId(results.getJSONObject(i).getString("parentid") );
-					troop.setTroopName(results.getJSONObject(i).getString("parentname") );
+					java.util.Iterator itr = results.getJSONObject(i).getJSONObject("Parent").keys();
+					while( itr.hasNext())
+						System.err.println("** "+ itr.next());
+					
+					Troop troop = new Troop();
+					try{
+						//System.err.println("++ "+results.getJSONObject(i).getJSONObject("Parent")..getString("Program_Grade_Level__c"));
+						
+						
+					troop.setCouncilCode( results.getJSONObject(i).getJSONObject("Parent").getInt("Council_Code__c") ); //girls id 111
+					troop.setCouncilId(results.getJSONObject(i).getJSONObject("Parent").getString("Account__c") );
+					
+					troop.setGradeLevel(results.getJSONObject(i).getJSONObject("Parent").getString("Program_Grade_Level__c") );
+					troop.setTroopId(results.getJSONObject(i).getString("ParentId"));
+					troop.setTroopName( results.getJSONObject(i).getJSONObject("Parent").getString("Name") );
+					}catch(Exception e){e.printStackTrace();}
 					troops.add(troop);
 					
 
@@ -1287,7 +1298,7 @@ System.err.println( "REsults: "+results.toString());
 			
 			return troops;
 }
-*/
+
 	
 }
 

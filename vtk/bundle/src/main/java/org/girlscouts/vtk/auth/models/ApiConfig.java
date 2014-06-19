@@ -1,16 +1,26 @@
 package org.girlscouts.vtk.auth.models;
 
+import org.girlscouts.vtk.salesforce.Troop;
+
 public class ApiConfig {
 
     private String accessToken, instanceUrl, tokenType, id,
     		refreshToken,
     		userId; /*userId should be moved out.User obj exists**/
     private org.girlscouts.vtk.auth.models.User user;
+    private java.util.List<Troop> troops;
     
     
     
-    
-    public String getRefreshToken() {
+    public java.util.List<Troop> getTroops() {
+		return troops;
+	}
+
+	public void setTroops(java.util.List<Troop> troops) {
+		this.troops = troops;
+	}
+
+	public String getRefreshToken() {
 		return refreshToken;
 	}
 
