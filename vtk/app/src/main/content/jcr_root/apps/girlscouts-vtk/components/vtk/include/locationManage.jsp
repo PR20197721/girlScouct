@@ -105,5 +105,5 @@ for(int i=0;i<locations.size();i++){
 
 
 <%!
-java.text.SimpleDateFormat fmtDate= new java.text.SimpleDateFormat("MM/dd/yyyy");
+//java.text.SimpleDateFormat fmtDate= new java.text.SimpleDateFormat("MM/dd/yyyy");
 %>

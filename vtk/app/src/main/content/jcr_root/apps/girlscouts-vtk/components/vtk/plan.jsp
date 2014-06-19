@@ -14,6 +14,11 @@
 	YearPlanDAO yearPlanDAO = sling.getService(YearPlanDAO.class);
 %>
 
+
+
+
+
+
 <%=user.getId() %>
 <div id="troop" style="background-color:lightyellow">
    <select id="reloginid" style="border:3px solid green; background-color:red;" onchange="relogin()">

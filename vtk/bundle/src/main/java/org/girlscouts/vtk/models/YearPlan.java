@@ -26,7 +26,6 @@ public class YearPlan {
 	
 	
 	
-	
 
 	public Long getCalStartDate() {
 		return calStartDate;

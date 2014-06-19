@@ -35,6 +35,10 @@ if( user ==null){
 
         user.setTroop( apiConfig.getTroops().get(0) );
         user.setApiConfig(apiConfig);
+        user.setSfTroopId( user.getTroop().getTroopId() );
+        user.setSfUserId( user.getApiConfig().getUserId() );
+        user.setSfTroopName( user.getTroop().getTroopName() ); 
+        
         session.putValue("VTK_user", user);
 }
 %>

@@ -1,5 +1,7 @@
 package org.girlscouts.vtk.models.user;
 
+import java.util.Calendar;
+
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Bean;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
@@ -14,6 +16,7 @@ public class User {
 	public User(String userId){
 		this.id=userId;
 		this.path= "/content/girlscouts-vtk/users/"+ userId;
+		
 	}
 	
 	//@Collection private java.util.List <YearPlan> yearPlans;
@@ -24,8 +27,36 @@ public class User {
 	private ApiConfig apiConfig;
 	private Troop troop;
 	
+	@Field private String sfUserId, sfTroopId, sfTroopName;
+	
+	@Field(jcrName="jcr:lastModified") private Calendar lastModified;
 	
 	
+	public Calendar getLastModified() {
+		return lastModified;
+	}
+	public void setLastModified(Calendar lastModified) {
+		this.lastModified = lastModified;
+		
+	}
+	public String getSfTroopName() {
+		return sfTroopName;
+	}
+	public void setSfTroopName(String sfTroopName) {
+		this.sfTroopName = sfTroopName;
+	}
+	public String getSfUserId() {
+		return sfUserId;
+	}
+	public void setSfUserId(String sfUserId) {
+		this.sfUserId = sfUserId;
+	}
+	public String getSfTroopId() {
+		return sfTroopId;
+	}
+	public void setSfTroopId(String sfTroopId) {
+		this.sfTroopId = sfTroopId;
+	}
 	public Troop getTroop() {
 		return troop;
 	}
