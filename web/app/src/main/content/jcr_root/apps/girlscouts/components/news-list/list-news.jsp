@@ -5,6 +5,7 @@
 
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
+
 <%
   SearchResult results = (SearchResult)request.getAttribute("results");
   java.util.List <Hit> resultsHits = results.getHits();
@@ -38,7 +39,10 @@
           date = formatter.format(newsDate);
           }
       	  text = contentNode.hasProperty("middle/par/text/text")? contentNode.getProperty("middle/par/text/text").getString():"";
-      	  imgPath = contentNode.hasProperty("middle/par/text/image/fileReference")?contentNode.getProperty("middle/par/text/image/fileReference").getString():"";
+      	 String[] string = text.split("\\s+");
+   	    
+      	  
+      	  // imgPath = contentNode.hasProperty("middle/par/text/image/fileReference")?contentNode.getProperty("middle/par/text/image/fileReference").getString():"";
    		 %>
       	   <p><a href="<%=hit.getPath()+".html" %>"><%=title%></a>
              <br/>
@@ -47,84 +51,15 @@
                <%} %>  
 	        </p> 
          <% 
-	         if(!imgPath.isEmpty())
-           {%> 
-               <%= displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80") %>
-           <% }%>
-	       <%if(!text.isEmpty()){
-	        %>	  
-		      <p><%=text %></p>
+	      if(!text.isEmpty()){
+	        %>
+	         <%=text %>
+
 	        <%}
 	  
             }
       }
 
 %>
-    
-<div id="pagination">
-     <% 
-     
-        long totalResults = results.getTotalMatches();
-         if(list.size()>0){
-        	 totalResults += list.size();
-         }
-         long numberofPage = totalResults/10;
-         if(numberofPage>1)
-         {
-        	   String pc="";
-        	   pc =  request.getParameter("pc");
-         	   int cPage = 1;
-         	   if(null==pc){
-        	 
-         		   }
-         	   else
-         	   {
-         		   cPage = Integer.parseInt(pc); 
-         	   }
-         	    
-         	   if(totalResults%10>0)
-         	   {
-         		  numberofPage++;
-         		}
-         	   int st = Integer.parseInt(start);
-         	   int counter = 0;
-         	   for(int i=1;i<numberofPage+1;i++){
-         		  long startCount = i*10;
-         		  long offst = counter*10;
-         		  long sta = startCount-list.size() -10 +1;
-         		  if(cPage==i){
-        	    
-               	 %>
-            		 <%=i %>
-        	    <%}else
-        	    	  {  
-        	    	   	 if(i==1)
-        	    	   	 {
-        	      %>
-                            <a href="<%=currentPage.getPath()%>.html?&pc=<%=i%>"><%=i %></a>
-        	           <% }else{
-        		            %> <a href="<%=currentPage.getPath()%>.html?offset=<%=offst%>&start=<%=sta%>&pc=<%=i%>"><%=i %></a>
-                    	<% }
-        	    	   }
-         		  counter++;
-         		   }
-         	    }  
-         
-         
-         
-         if(list.size()>0){
-        	   Iterator<Page> itemslist = list.getPages();
-        	   while(itemslist.hasNext()){
-        		   Page pg = itemslist.next();
-        		   if(pg.getProperties().containsKey("isFeature")){
-        			    Node node = pg.getContentResource().adaptTo(Node.class);
-        			    node.setProperty("isFeature", false);
-        			    node.save();
-        	 }
-         }
-         } 
-     %>
 
 
-
-</div>

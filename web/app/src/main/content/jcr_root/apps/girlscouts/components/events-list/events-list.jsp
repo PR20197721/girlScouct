@@ -19,13 +19,15 @@
 	SearchResultsInfo srchInfo = (SearchResultsInfo) request.getAttribute("eventresults");
 	if (null == srchInfo) {
 %>
+
+
 <cq:include script="/apps/girlscouts/components/event-search/event-search.jsp" />
 <%
 		srchInfo = (SearchResultsInfo) request.getAttribute("eventresults");
 	}
 	DateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.S");
 	fromFormat.setCalendar(Calendar.getInstance(TimeZone.getTimeZone("GMT")));
-	DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
+	DateFormat dateFormat = new SimpleDateFormat("EEE MMM d yyyy");
 	DateFormat timeFormat = new SimpleDateFormat("h:mm a");
 	
 	DateFormat calendarFormat = new SimpleDateFormat("M-yyyy");
@@ -81,7 +83,11 @@
     // DateFormat timeFormat = new SimpleDateFormat("KK:mm a");
      
      for(String result: results){
+    	 
+    	 
     	 Node node = resourceResolver.getResource(result).adaptTo(Node.class);
+    	 
+    	 try{
     	 Node propNode = node.getNode("jcr:content/data");
          String fromdate = propNode.getProperty("start").getString();
          String title = propNode.getProperty("../jcr:title").getString();
@@ -97,7 +103,7 @@
         	 startDate = propNode.getProperty("start").getDate().getTime(); 
         	 startDateStr = dateFormat.format(startDate);
              startTimeStr = timeFormat.format(startDate);
-             String dateStr = startDateStr;
+             String dateStr = startDateStr + ", " +startTimeStr;
         	 time = startTimeStr;
              
         	 if(propNode.hasProperty("locationLabel")){
@@ -116,9 +122,12 @@
         	        String endDateStr = dateFormat.format(endDate);
         	        String endTimeStr = timeFormat.format(endDate);
         	        if (!sameDay) {
-        	            dateStr += " to " + endDateStr;
-        	        }
-        	        time+= " to " +endTimeStr;
+			    	      dateStr += " - " + endDateStr +", " + endTimeStr;
+			    	   }else
+			    	   {
+			    		   dateStr += " - " + endTimeStr;
+          
+			    		}
         	           
         	    }
              
@@ -136,7 +145,6 @@
             </div>
             <div class="small-24 medium-12 large-16 columns">
                 <h3><a href="<%= href %>"><%= title %></a></h3>
-                <p>Time: <%=time %></p>
                 <p>Date: <%= dateStr %> </p>
                 <p>Location: <%= locationLabel %></p>
             </div>
@@ -147,6 +155,7 @@
       {
         	 break;
          }
+    	 }catch(Exception e){} 
      }
 %>
 </ul>

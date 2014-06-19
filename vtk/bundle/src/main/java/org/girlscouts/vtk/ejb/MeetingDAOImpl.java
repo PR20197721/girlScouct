@@ -412,12 +412,16 @@ return suggest;
 
 public List<org.girlscouts.vtk.models.Search> getData(String query) {
 	  
-	System.err.println("SEarch q: "+ query);
+	//System.err.println("SEarch q: "+ query);
 	List<org.girlscouts.vtk.models.Search> matched = new ArrayList<org.girlscouts.vtk.models.Search>();
+	
 	try{
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
 		javax.jcr.query.Query q = qm.createQuery("select jcr:path, excerpt(.) from nt:resource    where jcr:path like '/content/dam/%' and  contains(., '"+ query +"~')", javax.jcr.query.Query.SQL); 
    QueryResult result = q.execute();
+   
+ 
+   
    for (RowIterator it = result.getRows(); it.hasNext(); ) {
        Row r = it.nextRow();
        Value excerpt = r.getValue("rep:excerpt(.)");

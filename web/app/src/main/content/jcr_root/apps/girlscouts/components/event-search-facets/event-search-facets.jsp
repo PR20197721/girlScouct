@@ -24,12 +24,14 @@
     List<String> sresults = srchResults.getResults();
     for(String result: sresults){
         Node node =  resourceResolver.getResource(result).adaptTo(Node.class);
-        Node propNode = node.getNode("jcr:content/data");
-        if(propNode.hasProperty("region"))
-        {
-            regions.add(propNode.getProperty("region").getString());
+        try{
+            Node propNode = node.getNode("jcr:content/data");
+            if(propNode.hasProperty("region"))
+                {
+                  regions.add(propNode.getProperty("region").getString());
             
-        }
+                 }
+        }catch(Exception e){}
     }  
     List<String> sortList = new ArrayList<String>(regions);
     Collections.sort(sortList);
@@ -136,10 +138,15 @@
 </form>
 <%}if(null==eventSuffix){%>
 <div class="row">
-     <div class="twoColumn">
+    <div class="small-24 large-24 medium-24 columns">&nbsp;</div>
+
+</div>
+
+<div class="row">
+     <div class="small-12 large-12 medium-12 columns">
          <cq:include path="search-box" resourceType="girlscouts/components/search-box" />
      </div>
-     <div class="twoColumn topPadding">
+     <div class="small-12 large-12 medium-12 columns">
         <span id="advSearch">
            <a href="<%=currentPage.getPath()%>.html/advanced">Advanced Search</a>
        </span>

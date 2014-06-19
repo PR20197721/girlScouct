@@ -8,9 +8,7 @@
 
 
 <%
-  List list = (List)request.getAttribute("list"); 
   HashSet<String>set = new HashSet<String>(); 
-  String offset = request.getParameter("offset");
   String path = currentPage.getAbsoluteParent(2).getPath();
   Map <String, String> queryMap = new HashMap<String, String>();
   queryMap.put("type", "cq:Page");
@@ -26,36 +24,15 @@
   
   queryMap.put("orderby","@jcr:content/date");
   queryMap.put("orderby.sort","desc");
-  String start = request.getParameter("start");
-  if(start!=null && !start.isEmpty()){
-     start = Integer.toString(10 - list.size()); 
-  }
-  else
-  {
-      queryMap.put("p.limit", "10");      
-  }
-  if(offset!=null && !offset.isEmpty())
-  {
-      queryMap.put("p.offset",offset);
-  }else{
-      queryMap.put("p.offset", "0");
-  }
+  queryMap.put("p.limit", "-1");
   
   QueryBuilder queryBuilder = sling.getService(QueryBuilder.class);
   Query query = queryBuilder.createQuery(PredicateGroup.create(queryMap), slingRequest.getResourceResolver().adaptTo(Session.class));
   
-  if(start!=null && !start.isEmpty()){
-      query.setStart(Long.parseLong(start));
-  }
- 
-  
+   
   SearchResult results = query.getResult();
   java.util.List <Hit> resultsHits = results.getHits();
-  
-  
-  
   request.setAttribute("results", results);
-  request.setAttribute("start", start);
   
   
   
