@@ -1206,6 +1206,88 @@ System.err.println( "REsults: "+results.toString());
 		return campaignIds;
 	
    }
+
+/*
+
+public java.util.List <Troop>  troopInfo(ApiConfig apiConfig, String contactId){
+	
+	
+	
+			
+	GetMethod get =null;
+	   
+    java.util.List <Troop> troops = new java.util.ArrayList();
+    
+	
+	try{
+		
+	HttpClient httpclient = new HttpClient();
+	get= new GetMethod(apiConfig.getInstanceUrl()
+			+ "/services/data/v20.0/query");
+
+	get.setRequestHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
+
+	NameValuePair[] params = new NameValuePair[1];
+	
+
+	
+		params[0] = new NameValuePair("q",
+				"SELECT parentid,parent.name,parent.program_grade_level__c, parent.council_code__c, parent.account__c FROM campaign " +
+						"WHERE id IN (SELECT campaignid from campaignmember where  contactid='"+ contactId +"' )  AND job_code__c = 'DP'");
+
+	
+	
+	
+	get.setQueryString(params);
+
+	try {
+		httpclient.executeMethod(get);
+		
+		
+		System.err.println("RespCode "+ get.getResponseBodyAsString());
+		JSONObject _response = new JSONObject(
+				new JSONTokener(new InputStreamReader(
+						get.getResponseBodyAsStream())));
+		System.err.println( _response.toString());
+		
+		if (get.getStatusCode() == HttpStatus.SC_OK) {
+			
+			try {
+				JSONObject response = new JSONObject(
+						new JSONTokener(new InputStreamReader(
+								get.getResponseBodyAsStream())));
+				
+
+				JSONArray results = response.getJSONArray("records");
+System.err.println( "REsults: "+results.toString());
+
+				for (int i = 0; i < results.length(); i++) {
+					
+					Troop troop = new Troop();
+					troop.setCouncilCode(results.getJSONObject(i).getString("Parent.Council_Code__c") ); //girls id 111
+					troop.setCouncilId(results.getJSONObject(i).getString("Parent.Account__c") );
+					
+					troop.setGradeLevel(results.getJSONObject(i).getString("Parent.Program_Grade_Level__c") );
+					troop.setTroopId(results.getJSONObject(i).getString("parentid") );
+					troop.setTroopName(results.getJSONObject(i).getString("parentname") );
+					troops.add(troop);
+					
+
+				}
+			
+			} catch (JSONException e) {
+				e.printStackTrace();
+				
+			}
+		}
+	} finally {
+		get.releaseConnection();
+	}
+	}catch(Exception ex){ex.printStackTrace();}			
+			
+			return troops;
+}
+*/
 	
 }
 
