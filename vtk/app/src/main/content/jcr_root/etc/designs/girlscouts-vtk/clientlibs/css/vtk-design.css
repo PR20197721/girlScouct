@@ -59,3 +59,21 @@ dl.tabs dd.active {
     background-color: #060;
     text-align: center;
 }
+#yearPlanMeetings li {
+    background-color:#fff;
+}
+#yearPlanMeetings h1 {
+    font-size:1rem;
+    font-weight: bold;
+    line-height: 0.6rem;
+}
+#yearPlanMeetings .tags {
+    font-size:0.5rem;
+}
+
+#yearPlanMeetings p {
+    line-height: 1rem;
+    margin: 0;
+    font-size:1rem;
+}
+

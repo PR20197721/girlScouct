@@ -13,12 +13,6 @@
 <%
 	YearPlanDAO yearPlanDAO = sling.getService(YearPlanDAO.class);
 %>
-
-
-
-
-
-
 <%=user.getId() %>
 <div id="troop" style="background-color:lightyellow">
    <select id="reloginid" style="border:3px solid green; background-color:red;" onchange="relogin()">
@@ -69,13 +63,7 @@
 <%}else{ %>
 			<div id="yearPlanSelection" >
 <%} 
-	String ageLevel=  user.getTroop().getGradeLevel();
-	ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1);
-	ageLevel=ageLevel.toLowerCase().trim();
-	
-	System.err.println("***" + ageLevel);
-	
-	java.util.Iterator<YearPlan> yearPlans = yearPlanDAO.getAllYearPlans(ageLevel).listIterator();
+	java.util.Iterator<YearPlan> yearPlans = yearPlanDAO.getAllYearPlans(apiConfig.getUser().getAgeLevel()).listIterator();
 	while (yearPlans.hasNext()) {
 		YearPlan yearPlan = yearPlans.next();
 %>

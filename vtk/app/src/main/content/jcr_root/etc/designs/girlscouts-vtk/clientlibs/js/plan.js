@@ -394,21 +394,3 @@
 	   $("#calMng").load("/content/girlscouts-vtk/controllers/vtk.calendarElem.html?elem="+ elem + "&rand="+Date.now());
 	   
    }
-   
-   function relogin(){
-	   
-	   var elem = document.getElementById("reloginid").value;
-	   $.ajax({
-		      url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand='+Date.now(),
-		      type: 'POST',
-		      data: { 
-		    	  loginAs:elem,
-		    	  
-		 			a:Date.now()
-		      },
-		      success: function(result) {
-		    	  document.location="/content/girlscouts-vtk/en/vtk.plan.html";
-		      }
-		  });
-		  
-   }

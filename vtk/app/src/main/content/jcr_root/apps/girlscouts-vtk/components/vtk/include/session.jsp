@@ -26,14 +26,13 @@ UserDAO userDAO = sling.getService(UserDAO.class);
 User user= (User)session.getValue("VTK_user");
 if( user ==null){
         //user= userDAO.getUser( request.getParameter("userId"));
-        user= userDAO.getUser( apiConfig.getUserId() +"_"+ apiConfig.getTroops().get(0).getTroopId());
+        user= userDAO.getUser( apiConfig.getUserId() );
 
         //first time - new user
         if( user==null ){
-                user = new User(apiConfig.getUserId()+"_"+ apiConfig.getTroops().get(0).getTroopId());
+                user = new User(apiConfig.getUserId());
         }
 
-        user.setTroop( apiConfig.getTroops().get(0) );
         user.setApiConfig(apiConfig);
         user.setSfTroopId( user.getTroop().getTroopId() );
         user.setSfUserId( user.getApiConfig().getUserId() );
