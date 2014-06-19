@@ -36,8 +36,8 @@
 	<script type="text/javascript">
 		var resizeWindow = function(){
 		   var currentMainHeight = $('#main').height();
-		   var targetMainHeight = $(this).height() - $("#header").height() - $("#headerBar").height() - $("#footer").height() - 50;
-		   if (targetMainHeight > 1.2 * currentMainHeight) {
+		   var targetMainHeight = $(this).height() - $("#header").height() - $("#headerBar").height() - $("#footer").height() - 15;
+		   if (targetMainHeight > 1 * currentMainHeight) {
 		      $('#main').height(targetMainHeight);
 		   }
 		};
