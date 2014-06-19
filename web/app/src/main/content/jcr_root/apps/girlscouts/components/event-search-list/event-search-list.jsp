@@ -92,7 +92,9 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 	    	    String yr = new SimpleDateFormat("yyyy").format(d);
 		        tempMonth = month;
 		      %>
-		      
+		    <div class="row">
+		         <div class="small-24 large-24 medium-24 columns">&nbsp;</div>
+		    </div>   
 		    <div class="row">
 		       <div class="small-6 medium-6 large-6 column" style="padding:10px 0px 10px 15px">
 		           <b> <%=monthName.toUpperCase() %>  <%=yr %></b>
