@@ -319,7 +319,9 @@ if( metaDatas.get("description")!=null )
 	entity.addPart( "./jcr:content/metadata/dc:description", new StringBody( (String)metaDatas.get("description"), "text/plain",
 			Charset.forName( "UTF-8" )));
 
-entity.addPart( "./jcr:content/metadata/cq:tags", new StringBody( "girlscouts-vtk:asset/"+((String)metaDatas.get("tags")).trim().replaceAll(" ", "-"), "text/plain",
+entity.addPart( "./jcr:content/metadata/cq:tags", new StringBody( "girlscouts-vtk:tag/"+((String)metaDatas.get("tags")).trim().toLowerCase().replaceAll(" ", "-"), "text/plain",
+Charset.forName( "UTF-8" )));
+entity.addPart( "./jcr:content/metadata/cq:tags", new StringBody( "girlscouts-vtk:category/"+((String)metaDatas.get("category")).trim().toLowerCase().replaceAll(" ", "-"), "text/plain",
 Charset.forName( "UTF-8" )));
 	    
 
@@ -349,7 +351,7 @@ if ((String)metaDatas.get("tags")!=null )
 	
 	private void createEtcTag( String tag )throws Exception{
 		
-		String dir = "/etc/tags/girlscouts-vtk/asset/";
+		String dir = "/etc/tags/girlscouts-vtk/tag/";
 		System.err.println( "Dir: "+dir);
 		
 		        javax.jcr.Repository repository = JcrUtils.getRepository("http://localhost:4502/crx/server/");
