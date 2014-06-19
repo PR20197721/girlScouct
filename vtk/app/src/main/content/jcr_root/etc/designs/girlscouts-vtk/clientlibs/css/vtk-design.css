@@ -46,3 +46,16 @@ dl.tabs dd.active {
         background-color:#fff;
         padding: 2rem;
 }
+#yearPlanSelection {
+	line-height: 1.5rem;
+}
+#yearPlanSelection .columns{
+	padding: 1rem;
+}
+.planSquare {
+	width: 100px;
+    height: 100px;
+    color: #fff;
+    background-color: #060;
+    text-align: center;
+}
