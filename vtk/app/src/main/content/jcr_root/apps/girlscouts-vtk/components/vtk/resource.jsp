@@ -1,7 +1,7 @@
 <%@page import="com.day.cq.tagging.TagManager,
                 com.day.cq.tagging.Tag,
                 java.util.Iterator,
-                org.apache.commons.lang3.StringEscapeUtils,
+                java.net.URLEncoder,
                 org.girlscouts.web.search.DocHitBase" %>
 <%@include file="/libs/foundation/global.jsp" %>
 Debug: q = <%= (String)request.getParameter("q") %>
@@ -42,7 +42,7 @@ try {
     			Iterator<Tag> minorIter = currentMajor.listChildren();
     			while (minorIter.hasNext()) {
     			    Tag currentMinor = minorIter.next();
-    			    String link = "?category=" + StringEscapeUtils.escapeHtml4(currentMinor.getTagID());
+    			    String link = "?category=" + URLEncoder.encode(currentMinor.getTagID());
     			    String title = currentMinor.getTitle();
     			    String count = Long.toString(currentMinor.getCount());
     			    %><div><a href="<%= link %>"><%= title %> (<%= count %>)</a></div><%
