@@ -15,38 +15,40 @@ Debug: q = <%= (String)request.getParameter("q") %>
     <input type="submit" value="Search"/>
 </form> 
 
-<div>Browse Resources by Category</div>
+<p>Browse Resources by Category</p>
 
 <%
 try {
-	log.error("HERE");
 	final String CATEGORY_ROOT_TAG = "girlscouts-vtk:category";
 	final TagManager manager = resourceResolver.adaptTo(TagManager.class);
 	final Tag categoryRootTag = manager.resolve(CATEGORY_ROOT_TAG);
 	Iterator<Tag> majorIter = categoryRootTag.listChildren();
 	int majorCount = 0;
 	while (majorIter.hasNext()) {
+	    majorIter.next();
 		majorCount++; 
 	}
 	
 	majorIter = categoryRootTag.listChildren();
 %>
 	
-	<div class="small-block-grid-<%= majorCount %>">
+	<ul class="small-block-grid-<%= majorCount %>">
 <% 
 		while (majorIter.hasNext()) { 
 		    Tag currentMajor = majorIter.next();
-			%><div><%= currentMajor.getTitle() %></div><%
-			
-			Iterator<Tag> minorIter = currentMajor.listChildren();
-			while (minorIter.hasNext()) {
-			    Tag currentMinor = minorIter.next();
-			    String link = currentPath + "?" + currentMinor.getPath();
-			    %><div><a href="<%= link %>"><%= currentMinor.getTitle() %></a></div><%
-			}
+			%><li><% 
+				%><div><%= currentMajor.getTitle() %></div><%
+				Iterator<Tag> minorIter = currentMajor.listChildren();
+				while (minorIter.hasNext()) {
+				    Tag currentMinor = minorIter.next();
+				    String link = currentPath + "?" + currentMinor.getPath();
+				    String title = currentMinor.getTitle();
+				    String count = Long.toString(currentMinor.getCount());
+				    %><div><a href="<%= link %>"><%= title %> (<%= count %>)</a></div><%
+				}
+			%></li><%
 		} 
-	log.error("THERE");
-	%></div><%
+	%></ul><%
 } catch (Exception e) {
 	log.error("Cannot get VTK asset categories: " + e.getMessage());
 }
