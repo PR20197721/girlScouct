@@ -19,6 +19,8 @@
 	SearchResultsInfo srchInfo = (SearchResultsInfo) request.getAttribute("eventresults");
 	if (null == srchInfo) {
 %>
+
+
 <cq:include script="/apps/girlscouts/components/event-search/event-search.jsp" />
 <%
 		srchInfo = (SearchResultsInfo) request.getAttribute("eventresults");
@@ -101,7 +103,7 @@
         	 startDate = propNode.getProperty("start").getDate().getTime(); 
         	 startDateStr = dateFormat.format(startDate);
              startTimeStr = timeFormat.format(startDate);
-             String dateStr = startDateStr;
+             String dateStr = startDateStr + ", " +startTimeStr;
         	 time = startTimeStr;
              
         	 if(propNode.hasProperty("locationLabel")){
@@ -120,9 +122,12 @@
         	        String endDateStr = dateFormat.format(endDate);
         	        String endTimeStr = timeFormat.format(endDate);
         	        if (!sameDay) {
-        	            dateStr += " - " + endDateStr;
-        	        }
-        	        time+= " - " +endTimeStr;
+			    	      dateStr += " - " + endDateStr +", " + endTimeStr;
+			    	   }else
+			    	   {
+			    		   dateStr += " - " + endTimeStr;
+          
+			    		}
         	           
         	    }
              
@@ -140,7 +145,6 @@
             </div>
             <div class="small-24 medium-12 large-16 columns">
                 <h3><a href="<%= href %>"><%= title %></a></h3>
-                <p>Time: <%=time %></p>
                 <p>Date: <%= dateStr %> </p>
                 <p>Location: <%= locationLabel %></p>
             </div>
