@@ -167,6 +167,15 @@
             mode="replace"
             root="/etc/workflow/models/dam/update_asset"
             rules="[]"/>
-                                 
+           <f31
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/workflow/models/girl-scouts-authoring-approval-workflow"
+            rules="[]"/>
+           <f32
+            jcr:primaryType="nt:folder"
+            mode="replace"
+            root="/etc/workflow/scripts/girlscouts"
+            rules="[]"/>                         
     </filter>
 </jcr:root>

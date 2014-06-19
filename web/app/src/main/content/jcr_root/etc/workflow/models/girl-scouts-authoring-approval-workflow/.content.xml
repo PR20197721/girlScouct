@@ -3,7 +3,7 @@
     jcr:primaryType="cq:Page">
     <jcr:content
         cq:designPath="/etc/designs/default"
-        cq:lastModified="{Date}2014-06-18T10:52:04.634-04:00"
+        cq:lastModified="{Date}2014-06-19T09:48:15.325-04:00"
         cq:lastModifiedBy="admin"
         cq:lastReplicated="{Date}2014-06-11T17:05:45.519-04:00"
         cq:lastReplicatedBy="admin"
@@ -21,8 +21,9 @@
             <process
                 jcr:created="{Date}2014-06-11T16:25:05.196-04:00"
                 jcr:createdBy="hanke"
-                jcr:lastModified="{Date}2014-06-11T16:26:05.762-04:00"
-                jcr:lastModifiedBy="hanke"
+                jcr:description="Locks the current payload"
+                jcr:lastModified="{Date}2014-06-19T09:45:08.427-04:00"
+                jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Lock Page"
                 sling:resourceType="cq/workflow/components/model/process">
@@ -34,7 +35,8 @@
             <process_0
                 jcr:created="{Date}2014-06-11T16:26:58.133-04:00"
                 jcr:createdBy="hanke"
-                jcr:lastModified="{Date}2014-06-18T10:50:59.303-04:00"
+                jcr:description="Publishes page to publishpreview instance for viewing."
+                jcr:lastModified="{Date}2014-06-19T09:45:40.441-04:00"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Publish to Preview"
@@ -48,8 +50,8 @@
             <customgroupemailproc
                 jcr:created="{Date}2014-06-11T16:30:00.431-04:00"
                 jcr:createdBy="hanke"
-                jcr:description="Sends an email based on an email template"
-                jcr:lastModified="{Date}2014-06-13T12:09:00.109-04:00"
+                jcr:description="Sends an email back to the reviewers group to check page."
+                jcr:lastModified="{Date}2014-06-19T09:46:04.300-04:00"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Send Email to Reviewers"
@@ -65,8 +67,8 @@
             <dynamic_participant
                 jcr:created="{Date}2014-06-11T16:30:07.421-04:00"
                 jcr:createdBy="hanke"
-                jcr:lastModified="{Date}2014-06-12T15:03:37.127-04:00"
-                jcr:lastModifiedBy="reviewer-1"
+                jcr:lastModified="{Date}2014-06-19T09:46:09.232-04:00"
+                jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Check Page"
                 sling:resourceType="cq/workflow/components/model/dynamic_participant">
@@ -100,7 +102,8 @@
                             <process
                                 jcr:created="{Date}2014-06-13T12:06:56.521-04:00"
                                 jcr:createdBy="admin"
-                                jcr:lastModified="{Date}2014-06-18T10:52:04.629-04:00"
+                                jcr:description="Activates the page on Publish1"
+                                jcr:lastModified="{Date}2014-06-19T09:47:30.911-04:00"
                                 jcr:lastModifiedBy="admin"
                                 jcr:primaryType="nt:unstructured"
                                 jcr:title="Approve and Activate Page on Publish1"
@@ -114,8 +117,8 @@
                             <customsendemailproce
                                 jcr:created="{Date}2014-06-17T22:48:04.051-04:00"
                                 jcr:createdBy="admin"
-                                jcr:description="Sends an email based on an email template"
-                                jcr:lastModified="{Date}2014-06-17T22:48:19.083-04:00"
+                                jcr:description="Sends an approval email back to the individual who initiated the workflow."
+                                jcr:lastModified="{Date}2014-06-19T09:48:05.518-04:00"
                                 jcr:lastModifiedBy="admin"
                                 jcr:primaryType="nt:unstructured"
                                 jcr:title="Send Email to Initiator"
@@ -135,7 +138,8 @@
                             <process
                                 jcr:created="{Date}2014-06-13T12:06:58.363-04:00"
                                 jcr:createdBy="admin"
-                                jcr:lastModified="{Date}2014-06-18T10:51:46.724-04:00"
+                                jcr:description="Activates the page on Publish2"
+                                jcr:lastModified="{Date}2014-06-19T09:47:40.696-04:00"
                                 jcr:lastModifiedBy="admin"
                                 jcr:primaryType="nt:unstructured"
                                 jcr:title="Publish2"
@@ -155,7 +159,8 @@
                     <process
                         jcr:created="{Date}2014-06-13T12:08:03.600-04:00"
                         jcr:createdBy="admin"
-                        jcr:lastModified="{Date}2014-06-13T12:08:16.701-04:00"
+                        jcr:description="Reject page and does not publish to either publishing instances."
+                        jcr:lastModified="{Date}2014-06-19T09:46:40.674-04:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         jcr:title="Reject Page"
@@ -168,8 +173,8 @@
                     <customsendemailproce
                         jcr:created="{Date}2014-06-13T12:08:22.776-04:00"
                         jcr:createdBy="admin"
-                        jcr:description="Sends an email based on an email template"
-                        jcr:lastModified="{Date}2014-06-13T12:08:37.981-04:00"
+                        jcr:description="Sends a rejection email back to the individual who initiated the workflow."
+                        jcr:lastModified="{Date}2014-06-19T09:47:14.964-04:00"
                         jcr:lastModifiedBy="admin"
                         jcr:primaryType="nt:unstructured"
                         jcr:title="Send Email to Initiator"
@@ -187,8 +192,9 @@
             <process_1
                 jcr:created="{Date}2014-06-11T16:33:20.537-04:00"
                 jcr:createdBy="hanke"
-                jcr:lastModified="{Date}2014-06-11T16:33:47.391-04:00"
-                jcr:lastModifiedBy="hanke"
+                jcr:description="Unlocks the payload"
+                jcr:lastModified="{Date}2014-06-19T09:48:15.323-04:00"
+                jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Unlock Page"
                 sling:resourceType="cq/workflow/components/model/process">

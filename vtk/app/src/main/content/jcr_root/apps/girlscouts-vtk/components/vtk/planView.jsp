@@ -33,9 +33,7 @@ if( currInd>0 )
 	prevDate = ((java.util.Date)dates.get(currInd-1)).getTime();
 
 YearPlanComponent _comp= sched.get(searchDate);
-
 %>
-       
        <h1>Year Plan Sched</h1>
        <div id="planMsg"></div>
       <% 
@@ -56,18 +54,4 @@ YearPlanComponent _comp= sched.get(searchDate);
            					break;
        				}       			
        %>
-       
        <div id="editAgenda"></div>
-     
-       
-       <%!
-       java.text.SimpleDateFormat fmtDate= new java.text.SimpleDateFormat("MM/dd/yyyy");
-       java.text.SimpleDateFormat fmtHr= new java.text.SimpleDateFormat(" hh:mm a");
-       java.text.SimpleDateFormat fmt= new java.text.SimpleDateFormat("MMM dd  hh:mm a");
-       java.text.SimpleDateFormat fmtX= new java.text.SimpleDateFormat("d");
-
-	
-		 java.text.SimpleDateFormat dateFormat55 = new java.text.SimpleDateFormat("EEE MMM dd,yyyy hh:mm a");
-		 
-		 
-       %>

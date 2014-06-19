@@ -1,3 +1,11 @@
+<%!
+java.text.SimpleDateFormat fmtDate= new java.text.SimpleDateFormat("MM/dd/yyyy");
+java.text.SimpleDateFormat fmtHr= new java.text.SimpleDateFormat(" hh:mm a");
+java.text.SimpleDateFormat fmt= new java.text.SimpleDateFormat("MMM dd  hh:mm a");
+java.text.SimpleDateFormat fmtX= new java.text.SimpleDateFormat("d");
+java.text.SimpleDateFormat dateFormat55 = new java.text.SimpleDateFormat("EEE MMM dd,yyyy hh:mm a");
+java.text.SimpleDateFormat df = new java.text.SimpleDateFormat("MMM dd yyyy hh:mm a");
+%>
 <%
 HttpSession session = request.getSession();
 org.girlscouts.vtk.auth.models.ApiConfig apiConfig =null;

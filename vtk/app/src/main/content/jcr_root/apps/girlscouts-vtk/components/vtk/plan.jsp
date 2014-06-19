@@ -45,13 +45,14 @@
 				<li>
 					<a href="javascript:void(0)" onclick="newActivity()">Add Activity</a>
 				</li>
+				<li><a href="javascript:void(0)" id="plan_hlp_hrf"><img align="right" src="/etc/designs/girlscouts-usa-green/images/help-icon.png"/></a></li>
 			</ul>
 <%} %>
+                        <p>
 <%if( user.getYearPlan()==null ){ %>
-			<p>To start planning your year, select a Year Plan
-			<a href="javascript:void(0)" id="plan_hlp_hrf"><img align="right" src="/etc/designs/girlscouts-usa-green/images/help-icon.png"/></a>
-			</p>
+			To start planning your year, select a Year Plan
 <%}%>
+                        </p>
 			<div class="sectionHeader">YEAR PLAN LIBRARY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <% if(user.getYearPlan()!=null){%>
 				<a href="javascript:void(0)" onclick="yesPlan()" id="showHideReveal">reveal</a>
@@ -73,9 +74,9 @@
 	while (yearPlans.hasNext()) {
 		YearPlan yearPlan = yearPlans.next();
 %>
-				<div>
-					<input type="submit" name="" value="<%=yearPlan.getName()%>" onclick="x('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>')" />
-					<%=yearPlan.getDesc()%>-<%=yearPlan.getId()%>
+				<div class="row">
+					<div class="large-8 columns"><input type="submit" name="" value="<%=yearPlan.getName()%>" onclick="x('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>')" /></div>
+					<div class="large-16 columns"><%=yearPlan.getDesc()%>-<%=yearPlan.getId()%></div>
 				</div>
 				<hr/>
 <%} %>

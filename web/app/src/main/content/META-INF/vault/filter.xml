@@ -30,5 +30,7 @@
     <filter root="/etc/workflow/models/dam/gs_update_asset_small_hero"/>
     <filter root="/etc/workflow/models/dam/gs_update_asset_small_logo"/>
     <filter root="/etc/workflow/models/dam/update_asset"/>
+    <filter root="/etc/workflow/models/girl-scouts-authoring-approval-workflow"/>
+    <filter root="/etc/workflow/scripts/girlscouts"/>
     <filter root="/etc/tracker"/>
 </workspaceFilter>

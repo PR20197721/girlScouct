@@ -7,7 +7,7 @@
     description="No Description"
     title="Girl Scouts Authoring Approval Workflow">
     <metaData
-        cq:lastModified="{Long}1403103127593"
+        cq:lastModified="{Long}1403185699854"
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"/>
     <nodes jcr:primaryType="nt:unstructured">
@@ -19,6 +19,7 @@
         </node0>
         <node1
             jcr:primaryType="cq:WorkflowNode"
+            description="Locks the current payload"
             title="Lock Page"
             type="PROCESS">
             <metaData
@@ -28,6 +29,7 @@
         </node1>
         <node2
             jcr:primaryType="cq:WorkflowNode"
+            description="Publishes page to publishpreview instance for viewing."
             title="Publish to Preview"
             type="PROCESS">
             <metaData
@@ -38,7 +40,7 @@
         </node2>
         <node3
             jcr:primaryType="cq:WorkflowNode"
-            description="Sends an email based on an email template"
+            description="Sends an email back to the reviewers group to check page."
             title="Send Email to Reviewers"
             type="PROCESS">
             <metaData
@@ -81,6 +83,7 @@
         </node8>
         <node9
             jcr:primaryType="cq:WorkflowNode"
+            description="Activates the page on Publish1"
             title="Approve and Activate Page on Publish1"
             type="PROCESS">
             <metaData
@@ -91,7 +94,7 @@
         </node9>
         <node10
             jcr:primaryType="cq:WorkflowNode"
-            description="Sends an email based on an email template"
+            description="Sends an approval email back to the individual who initiated the workflow."
             title="Send Email to Initiator"
             type="PROCESS">
             <metaData
@@ -102,6 +105,7 @@
         </node10>
         <node11
             jcr:primaryType="cq:WorkflowNode"
+            description="Activates the page on Publish2"
             title="Publish2"
             type="PROCESS">
             <metaData
@@ -112,6 +116,7 @@
         </node11>
         <node12
             jcr:primaryType="cq:WorkflowNode"
+            description="Reject page and does not publish to either publishing instances."
             title="Reject Page"
             type="PROCESS">
             <metaData
@@ -121,7 +126,7 @@
         </node12>
         <node13
             jcr:primaryType="cq:WorkflowNode"
-            description="Sends an email based on an email template"
+            description="Sends a rejection email back to the individual who initiated the workflow."
             title="Send Email to Initiator"
             type="PROCESS">
             <metaData
@@ -132,6 +137,7 @@
         </node13>
         <node14
             jcr:primaryType="cq:WorkflowNode"
+            description="Unlocks the payload"
             title="Unlock Page"
             type="PROCESS">
             <metaData
