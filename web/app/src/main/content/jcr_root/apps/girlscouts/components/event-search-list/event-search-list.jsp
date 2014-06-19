@@ -33,45 +33,47 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
     for(String result: results)
     {
 		Node node =  resourceResolver.getResource(result).adaptTo(Node.class);
-		Node propNode = node.getNode("jcr:content/data");
-		Date startDate = propNode.getProperty("start").getDate().getTime();
-		String title = propNode.getProperty("../jcr:title").getString();
-		String href = result+".html";
-		String time = "";
-		String todate="";
-		Date tdt = null;
-		String locationLabel = "";
-		Date today = new Date();
-		Calendar cal1 = Calendar.getInstance();
-		cal1.setTime(today);
-		cal1.add(Calendar.DAY_OF_MONTH, +61);
-		Date after60days = cal1.getTime();
+		try
+		{
+			  Node propNode = node.getNode("jcr:content/data");
+			  Date startDate = propNode.getProperty("start").getDate().getTime();
+			  String title = propNode.getProperty("../jcr:title").getString();
+			  String href = result+".html";
+			  String time = "";
+			  String todate="";
+			  Date tdt = null;
+			  String locationLabel = "";
+			  Date today = new Date();
+			  Calendar cal1 = Calendar.getInstance();
+			  cal1.setTime(today);
+			  cal1.add(Calendar.DAY_OF_MONTH, +61);
+			  Date after60days = cal1.getTime();
 		
-		String startDateStr = dateFormat.format(startDate);
-	    String startTimeStr = timeFormat.format(startDate);
-	    String dateStr = startDateStr + ", " +startTimeStr;
+			  String startDateStr = dateFormat.format(startDate);
+			  String startTimeStr = timeFormat.format(startDate);
+			  String dateStr = startDateStr + ", " +startTimeStr;
 		
 		
-		if(propNode.hasProperty("locationLabel")){
-			locationLabel=propNode.getProperty("locationLabel").getString();
-		}
-		if(propNode.hasProperty("end")){
-			Date endDate = propNode.getProperty("end").getDate().getTime();
-			Calendar cal2 = Calendar.getInstance();
-	        Calendar cal3 = Calendar.getInstance();
-	        cal2.setTime(startDate);
-	        cal3.setTime(endDate);
-	        boolean sameDay = cal2.get(Calendar.YEAR) == cal3.get(Calendar.YEAR) &&
+			  if(propNode.hasProperty("locationLabel")){
+				    locationLabel=propNode.getProperty("locationLabel").getString();
+				    }
+			  if(propNode.hasProperty("end")){
+				  	Date endDate = propNode.getProperty("end").getDate().getTime();
+				   	Calendar cal2 = Calendar.getInstance();
+				    Calendar cal3 = Calendar.getInstance();
+				     cal2.setTime(startDate);
+				      cal3.setTime(endDate);
+				      boolean sameDay = cal2.get(Calendar.YEAR) == cal3.get(Calendar.YEAR) &&
 	                          cal2.get(Calendar.DAY_OF_YEAR) == cal3.get(Calendar.DAY_OF_YEAR);
-	        String endDateStr = dateFormat.format(endDate);
-	        String endTimeStr = timeFormat.format(endDate);
-	        if (!sameDay) {
-	            dateStr += " - " + endDateStr +", " + endTimeStr;
+				      String endDateStr = dateFormat.format(endDate);
+				      String endTimeStr = timeFormat.format(endDate);
+				      if (!sameDay) {
+				    	      dateStr += " - " + endDateStr +", " + endTimeStr;
+				    	   }else
+				    	   {
+				    		   dateStr += " - " + endTimeStr;
 	            
-	        }else{
-	            dateStr += " - " + endTimeStr;
-	            
-	        }
+				    		}
 	    	todate = propNode.getProperty("end").getString();
 			tdt = fromFormat.parse(todate);
 		}
@@ -90,12 +92,14 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 	    	    String yr = new SimpleDateFormat("yyyy").format(d);
 		        tempMonth = month;
 		      %>
-		      
 		    <div class="row">
-		       <div class="small-4 medium-4 large-4 column" style="padding:10px 0px 10px 15px">
+		         <div class="small-24 large-24 medium-24 columns">&nbsp;</div>
+		    </div>   
+		    <div class="row">
+		       <div class="small-6 medium-6 large-6 column" style="padding:10px 0px 10px 15px">
 		           <b> <%=monthName.toUpperCase() %>  <%=yr %></b>
 		       </div>
-		       <div class="small-20 large-20 medium-20 column" style="padding:0px 0px 2px 0px">
+		       <div class="small-18 large-18 medium-18 column" style="padding:0px 0px 2px 0px">
 		         <div id="hrStyle">
 		          <hr/>
 		         </div>
@@ -129,7 +133,7 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
          </div>
         <div class="row">
              <div class="small-24 large-24 medium-24 columns lineHeight">
-                 <b>Date :</b> <%=dateStr%>
+                 <b>Date: </b> <%=dateStr%>
            </div>
         </div>
           <div class="row">
@@ -154,10 +158,12 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
     
 <%
    }//if
- }//else
+   }catch(Exception e){}
+ }//for
 %>
 
 <%
-}//for
+ 
+}//else
 %>
 
