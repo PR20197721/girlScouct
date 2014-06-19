@@ -309,6 +309,7 @@ Charset.forName( "UTF-8" )));
 
 entity.addPart( "./jcr:content/renditions/original@TypeHint", new StringBody( "nt:file", "text/plain", Charset.forName( "UTF-8" )));
 entity.addPart( "./jcr:content/metadata/jcr:primaryType", new StringBody( "nt:unstructured", "text/plain",Charset.forName( "UTF-8" )));
+entity.addPart( "./jcr:content/metadata/jcr:mixinTypes", new StringBody( "cq:Taggable", "text/plain",Charset.forName( "UTF-8" )));
 
 entity.addPart( "./jcr:content/renditions/jcr:primaryType", new StringBody( "nt:folder", "text/plain",Charset.forName( "UTF-8" )));
 
