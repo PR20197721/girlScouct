@@ -15,6 +15,12 @@ public class DocHitBase {
     }
 
     public String getTitle() throws RepositoryException {
+        if (node.hasProperty("dc:title")) {
+            return node.getProperty("dc:title").getString();
+        }
+        if (node.hasProperty("jcr:title")) {
+            return node.getProperty("jcr:title").getString();
+        }
         return getPageOrAsset().getName();
     }
 
