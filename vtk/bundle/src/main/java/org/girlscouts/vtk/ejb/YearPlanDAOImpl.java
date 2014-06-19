@@ -72,7 +72,7 @@ public class YearPlanDAOImpl implements YearPlanDAO{
       yearPlans = ( List <YearPlan>)  ocm.getObjects(query);
        // List<Object> o = (List<Object>) ocm.getObjects(query);
         // System.err.println("tes: "+ (o ==null) +" : "+o.size() +" : "+(o.get(0)==null)  );
-         System.err.println( "Fopund YEARPL: "+( yearPlans.size() ) +" : "+ yearPlans.get(0).getName()  );
+        // System.err.println( "Fopund YEARPL: "+( yearPlans.size() ) +" : "+ yearPlans.get(0).getName()  );
 		
 		
         

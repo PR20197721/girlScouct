@@ -74,18 +74,13 @@ public class UserDAOImpl implements UserDAO{
 	      
 	        
 	        
-	        for(int i=0;i<user.getYearPlan().getMeetingEvents().size();i++)
-	        	System.err.println("-- "+ user.getYearPlan().getMeetingEvents().get(i).getId());
-	        
-	        if( user!=null){
+	       
+	        if( user!=null && user.getYearPlan().getMeetingEvents()!=null){
 	        	
 	        	System.err.println("Sorting meetings pull");
 	        	Comparator<MeetingE> comp = new BeanComparator("id");
 	        	Collections.sort( user.getYearPlan().getMeetingEvents(), comp);
 	        }
-	        
-	        for(int i=0;i<user.getYearPlan().getMeetingEvents().size();i++)
-	        	System.err.println("-- "+ user.getYearPlan().getMeetingEvents().get(i).getId());
 	        
 	        
 	        System.err.println("User: "+ (user==null));
@@ -299,7 +294,23 @@ public class UserDAOImpl implements UserDAO{
 	}
 
 
-
+public void rmUser(User user){
+	   try{
+			
+				List<Class> classes = new ArrayList<Class>();	
+				classes.add(User.class); 
+				classes.add(YearPlan.class); 
+				classes.add(MeetingE.class); 
+				classes.add(Location.class);
+				classes.add(Cal.class);
+				classes.add(Activity.class);
+				
+				Mapper mapper = new AnnotationMapperImpl(classes);
+				ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
+				ocm.remove(user);
+				ocm.save();
+	   }catch(Exception e){e.printStackTrace();}
+}
 /*
 public void selectYearPlan(User user, String yearPlanPath){
 	

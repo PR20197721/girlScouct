@@ -3,9 +3,9 @@ package org.girlscouts.vtk.salesforce;
 public class Troop {
 
 	
-	private String troopId, troopName, gradeLevel, councilCode, councilId;
+	private String troopId, troopName, gradeLevel,  councilId;
 
-	
+	private int councilCode;
 	
 	
 	
@@ -33,11 +33,13 @@ public class Troop {
 		this.gradeLevel = gradeLevel;
 	}
 
-	public String getCouncilCode() {
+	
+
+	public int getCouncilCode() {
 		return councilCode;
 	}
 
-	public void setCouncilCode(String councilCode) {
+	public void setCouncilCode(int councilCode) {
 		this.councilCode = councilCode;
 	}
 

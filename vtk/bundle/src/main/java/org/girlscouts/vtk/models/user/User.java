@@ -5,6 +5,7 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.models.YearPlan;
+import org.girlscouts.vtk.salesforce.Troop;
 
 @Node
 public class User {
@@ -21,9 +22,16 @@ public class User {
 	@Bean YearPlan yearPlan;
 	
 	private ApiConfig apiConfig;
+	private Troop troop;
 	
 	
 	
+	public Troop getTroop() {
+		return troop;
+	}
+	public void setTroop(Troop troop) {
+		this.troop = troop;
+	}
 	public ApiConfig getApiConfig() {
 		return apiConfig;
 	}

@@ -19,5 +19,5 @@ public interface MeetingDAO {
 	public Meeting createCustomMeeting(User user, MeetingE meetingEvent, Meeting meeting);
 	public Meeting addActivity(Meeting meeting, Activity activity);
 	List<Meeting> search();
-	public List<String> getData(String query);
+	public List<org.girlscouts.vtk.models.Search> getData(String query);
 }
