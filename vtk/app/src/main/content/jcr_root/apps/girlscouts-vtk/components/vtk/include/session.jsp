@@ -40,12 +40,12 @@ if( user ==null){
 	
         //user= userDAO.getUser( request.getParameter("userId"));
         user= userDAO.getUser( apiConfig.getUserId() +"_"+ apiConfig.getTroops().get(0).getTroopId());
-        
+        System.err.println(5);
         //first time - new user
         if( user==null ){
                 user = new User(apiConfig.getUserId()+"_"+ apiConfig.getTroops().get(0).getTroopId());
         }
-        
+        System.err.println(6);
         user.setApiConfig(apiConfig);
         
         user.setTroop( apiConfig.getTroops().get(0) );
