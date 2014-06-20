@@ -24,10 +24,12 @@ java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().get
     	  java.util.Iterator itr= sched.keySet().iterator();
     	  while( itr.hasNext() ){
     		  
-    	  	i++;
+    		//  i++;	
 			java.util.Date date = (java.util.Date)itr.next();
+			YearPlanComponent _comp= sched.get(date);
+			if(_comp.getType() != YearPlanComponentType.MEETING) continue;
 			MeetingE meeting = (MeetingE)sched.get(date);
-		
+			i++;
 %>
 
 

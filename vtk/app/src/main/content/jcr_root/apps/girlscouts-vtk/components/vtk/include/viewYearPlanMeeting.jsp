@@ -53,7 +53,7 @@ java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  meetingInfo.ge
 		
 		if( user.getYearPlan().getLocations().get(k).getPath().equals( meeting.getLocationRef() ) ){
 			%>
-				<br/><%=user.getYearPlan().getLocations().get(k).getPath()%><%=user.getYearPlan().getLocations().get(k).getName() %>
+				<br/><%=user.getYearPlan().getLocations().get(k).getName() %>
 				<br/><%=user.getYearPlan().getLocations().get(k).getAddress() %>
 				<%=user.getYearPlan().getLocations().get(k).getCity() %>
 				<%=user.getYearPlan().getLocations().get(k).getState() %>
@@ -131,9 +131,14 @@ while( t.hasMoreElements()){
 
 	  }
 }
-%>
+
 	
- 
+    java.util.List<Asset> assets = meeting.getAssets();
+	for(int i=0;i<assets.size();i++)
+			out.println( assets.get(i).getPath() );
+	
+	
+	%>	
  
  <div style="background-color:gray; color:#fff;">Meeting Agenda</div>
  <a href="javascript:void(0)" onclick="revertAgenda('<%=meeting.getPath()%>')">Revert to Original Agenda</a>

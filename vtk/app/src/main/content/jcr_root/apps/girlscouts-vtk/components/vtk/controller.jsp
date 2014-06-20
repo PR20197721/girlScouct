@@ -189,6 +189,15 @@ System.err.println("(**** "+ request.getParameter("loginAs"));
     new_user.setSfTroopName( new_user.getTroop().getTroopName() );  
     session.putValue("VTK_user", new_user);
 	
+    
+}else if( request.getParameter("addAsset")!=null){
+	
+	Asset asset = new Asset();
+	asset.add( request.getParameter("addAsset") );
+	
+	//TODO 
+	new MeetingDAOImpl().addAsset( (User)session.getValue("VTK_user") ,  request.getParameter("meetingUid"),   asset);
+	
 }else{
 	
 	//TODO throw ERROR CODE

@@ -37,12 +37,16 @@ if( user ==null){
 	System.err.println( (apiConfig.getTroops() ==null) );
 	System.err.println( (apiConfig.getTroops().get(0)==null ) );
 	System.err.println( apiConfig.getTroops().get(0).getTroopId()==null );
-	
-	
+	System.err.println("----test: "+apiConfig.getUserId() );
+	System.err.println("test: "+apiConfig.getUserId() +"_"+ apiConfig.getTroops().get(0).getTroopId());
 	System.err.println(44);
+	
         //user= userDAO.getUser( request.getParameter("userId"));
         user= userDAO.getUser( apiConfig.getUserId() +"_"+ apiConfig.getTroops().get(0).getTroopId());
         System.err.println(5);
+        
+        
+        
         //first time - new user
         if( user==null ){
                 user = new User(apiConfig.getUserId()+"_"+ apiConfig.getTroops().get(0).getTroopId());

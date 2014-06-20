@@ -64,16 +64,9 @@ public class UserDAOImpl implements UserDAO{
 		
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(User.class);
-			
-	      
-	        //-filter.setScope(  "/content/girlscouts-vtk/users/5");//+userId);
-	        //Query query = queryManager.createQuery(filter);
-	        
-	        
+		
 	        user = (User) ocm.getObject("/content/girlscouts-vtk/users/"+ userId);
 	      
-	        
-	        
 	       
 	        if( user!=null && user.getYearPlan().getMeetingEvents()!=null){
 	        	

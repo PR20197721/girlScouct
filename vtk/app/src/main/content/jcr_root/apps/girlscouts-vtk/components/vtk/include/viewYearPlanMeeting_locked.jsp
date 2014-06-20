@@ -47,7 +47,7 @@ java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  meetingInfo.ge
 		
 		if( user.getYearPlan().getLocations().get(k).getPath().equals( meeting.getLocationRef() ) ){
 			%>
-				<br/><%=user.getYearPlan().getLocations().get(k).getPath()%><%=user.getYearPlan().getLocations().get(k).getName() %>
+				<br/><%=user.getYearPlan().getLocations().get(k).getName() %>
 				<br/><%=user.getYearPlan().getLocations().get(k).getAddress() %>
 				<%=user.getYearPlan().getLocations().get(k).getCity() %>
 				<%=user.getYearPlan().getLocations().get(k).getState() %>
