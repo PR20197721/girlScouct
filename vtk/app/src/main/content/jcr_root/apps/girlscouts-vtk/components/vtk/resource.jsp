@@ -10,19 +10,21 @@ Debug: q = <%= (String)request.getParameter("q") %>
 	final String RESOURCE_SEARCH_PROMPT = "type in a search word or term here";
 %>
 
+<%-- search box --%>
 <div>Search For Resources</div>
 <form method="get">
 	<input type="text" name="q" placeholder="<%=RESOURCE_SEARCH_PROMPT%>" class="searchField" />
 </form>
 
+<%-- categories --%>
 <p>Browse Resources by Category</p>
 
 <%
+final PageManager manager = (PageManager)resourceResolver.adaptTo(PageManager.class);
 try {
     // TODO: this field should come from Salesforce
 	final String ROOT_PAGE_PATH = "/content/girlscouts-usa/en/resources";
 
-	final PageManager manager = (PageManager)resourceResolver.adaptTo(PageManager.class);
 	final Page rootPage = manager.getPage(ROOT_PAGE_PATH);
 	
 	Iterator<Page> majorIter = rootPage.listChildren();
@@ -47,7 +49,8 @@ try {
 				minorIter = currentMajor.listChildren();
 				while (minorIter.hasNext()) {
 				    Page currentMinor = minorIter.next();
-				    String link = "?" + currentMinor.getPath();
+				    // TODO: encode URL
+				    String link = "?category=" + currentMinor.getPath();
 				    String title = currentMinor.getTitle();
 				    int minorCount = countAllChildren(currentMinor) - 1;
 				    %><div><a href="<%= link %>"><%= title %> (<%= minorCount %>)</a></div><%
@@ -58,6 +61,16 @@ try {
 } catch (Exception e) {
 	log.error("Cannot get VTK meeting aid categories: " + e.getMessage());
 }
+%>
+
+<%-- display aids --%>
+<%
+	String categoryParam = (String)request.getParameter("category");
+	Page categoryPage = manager.getPage(categoryParam);
+	
+	if (categoryPage != null) {
+		%><div><%= categoryPage.getTitle() %></div><%
+	}
 %>
 
 <%!
