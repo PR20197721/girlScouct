@@ -1,55 +1,78 @@
-<%@page import="com.day.cq.tagging.TagManager,
-                com.day.cq.tagging.Tag,
-                java.util.Iterator,
+<%@page import="java.util.Iterator,
                 java.util.Map,
-                java.util.HashMap" %>
+                java.util.Queue,
+                com.day.cq.wcm.api.PageManager,
+                com.day.cq.wcm.api.Page" %>
 <%@include file="/libs/foundation/global.jsp" %>
 Debug: q = <%= (String)request.getParameter("q") %>
 
 <%
-	String currentPath = currentPage.getPath() + ".html";
+	final String RESOURCE_SEARCH_PROMPT = "type in a search word or term here";
 %>
+
 <div>Search For Resources</div>
-<form>
-    <input type="text" name="q"/>
-    <input type="submit" value="Search"/>
-</form> 
+<form method="get">
+	<input type="text" name="q" placeholder="<%=RESOURCE_SEARCH_PROMPT%>" class="searchField" />
+</form>
 
 <p>Browse Resources by Category</p>
 
 <%
 try {
-	final String CATEGORY_ROOT_TAG = "girlscouts-vtk:category";
-	final TagManager manager = resourceResolver.adaptTo(TagManager.class);
-	final Tag categoryRootTag = manager.resolve(CATEGORY_ROOT_TAG);
-	Iterator<Tag> majorIter = categoryRootTag.listChildren();
+    // TODO: this field should come from Salesforce
+	final String ROOT_PAGE_PATH = "/content/girlscouts-usa/en/resources";
+
+	final PageManager manager = (PageManager)resourceResolver.adaptTo(PageManager.class);
+	final Page rootPage = manager.getPage(ROOT_PAGE_PATH);
+	
+	Iterator<Page> majorIter = rootPage.listChildren();
+
 	int majorCount = 0;
 	while (majorIter.hasNext()) {
 	    majorIter.next();
 		majorCount++; 
 	}
 	
-	majorIter = categoryRootTag.listChildren();
+	majorIter = rootPage.listChildren();
 %>
 	
 	<ul class="small-block-grid-<%= majorCount %>">
 <% 
 		while (majorIter.hasNext()) { 
-		    Tag currentMajor = majorIter.next();
+		    Page currentMajor = majorIter.next();
 			%><li><% 
 				%><div><%= currentMajor.getTitle() %></div><%
-				Iterator<Tag> minorIter = currentMajor.listChildren();
+				Iterator<Page> minorIter = currentMajor.listChildren();
+
+				minorIter = currentMajor.listChildren();
 				while (minorIter.hasNext()) {
-				    Tag currentMinor = minorIter.next();
-				    String link = currentPath + "?" + currentMinor.getPath();
+				    Page currentMinor = minorIter.next();
+				    String link = "?" + currentMinor.getPath();
 				    String title = currentMinor.getTitle();
-				    String count = Long.toString(currentMinor.getCount());
-				    %><div><a href="<%= link %>"><%= title %> (<%= count %>)</a></div><%
+				    int minorCount = countAllChildren(currentMinor) - 1;
+				    %><div><a href="<%= link %>"><%= title %> (<%= minorCount %>)</a></div><%
 				}
 			%></li><%
 		} 
 	%></ul><%
 } catch (Exception e) {
-	log.error("Cannot get VTK asset categories: " + e.getMessage());
+	log.error("Cannot get VTK meeting aid categories: " + e.getMessage());
 }
+%>
+
+<%!
+	private int countAllChildren(Page page) {
+		// TODO: Need an effecient way.
+		if (page == null) {
+		    return 0;
+		}
+
+		int count = 1;
+		Iterator<Page> iter = page.listChildren();
+		while (iter.hasNext()) {
+		    Page currentPage = iter.next();
+		    count += countAllChildren(currentPage);
+		}
+		return count;
+	}
 %>
