@@ -1,164 +1,103 @@
-<%@page import="java.util.Iterator,
-                java.util.HashSet,java.util.Set,
-                java.util.Arrays,
-                org.slf4j.Logger,org.slf4j.LoggerFactory,
-                javax.jcr.Node" %>
-
+<%@page import="java.util.Iterator, java.util.HashSet,java.util.Set, java.util.Arrays, org.slf4j.Logger,org.slf4j.LoggerFactory, javax.jcr.Node" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
-
 <cq:includeClientLib categories="apps.girlscouts" />
 <cq:defineObjects />
-
 <%
-  // GET THE STRUCTURE FROM THE CURRENTPATH
-  
-  String curPath = currentPage.getPath();
-  String curTitle = currentPage.getTitle();
-  int levelDepth = 0;
-  StringBuilder menuBuilder = new StringBuilder();
-  // from this path get to the parent
-  String gs_us_path = currentPage.getAbsoluteParent(2).getPath();
-  String rootPath = currentPage.getPath().substring(gs_us_path.length()+1, curPath.length());  
-  String navigationRoot = currentPage.getAbsoluteParent(3).getPath();
-  String showCurrent = "false";
-  
- // What is the navigationRoot
-  boolean levelFlag = true;
-  Iterator<Page> iterPage = resourceResolver.getResource(navigationRoot).adaptTo(Page.class).listChildren();
- 
- // Handling events
-  String eventGrandParent = currentPage.getParent().getParent().getPath();
-  String eventLeftNavRoot = currentSite.get("leftNavRoot", String.class);
-  String eventDisplUnder = currentSite.get("eventPath", String.class);
-  boolean includeUL=false;
-  String insertAfter="";
- if(eventGrandParent.equalsIgnoreCase(currentSite.get("eventPath", String.class))){
-     String eventPath = eventLeftNavRoot.substring(0,eventLeftNavRoot.lastIndexOf("/"));
-     //System.out.println("What is the eventPath" +eventPath);
-     iterPage = resourceResolver.getResource(eventPath).adaptTo(Page.class).listChildren();
-  
- }
- buildMenu(iterPage, rootPath, gs_us_path, menuBuilder, levelDepth,"",levelFlag,eventLeftNavRoot, curPath, curTitle, eventDisplUnder, showCurrent);
- 
- 
- %>
- <%=menuBuilder %>
- <%!
- 
- public StringBuilder buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_path,StringBuilder menuBuilder,int levelDepth,String ndePath, boolean levelFlag,String eventLeftNavRoot,String currPath, String currTitle, String eventDispUnder, String showCurrent) throws RepositoryException{
-	 levelDepth++;
-	 String name;
-	 String path;
-	
-	 
-	 if(iterPage.hasNext())
-	    {
-		   if (levelDepth == 1) 
-		   {
-	         menuBuilder.append("<ul class=\"side-nav\" style=\"padding:0px\">");
-	        } else{
-	        	
-	        	     menuBuilder.append("<ul>");
-	        	     
-	       }
-	 while(iterPage.hasNext())
-	     {
-    	 	    Page page = iterPage.next();
-    	 	    name = page.getName();
-    	 	    path = page.getPath();
-    	 	    
-    	 	
-	    	    int dept = page.getDepth();
-	    	    String nodePath = page.getPath().substring(gs_us_path.length()+1, page.getPath().length());
-	    	    showCurrent = page.getParent().getProperties().get("showCurrent","false");
-	    	    if(rootPath.startsWith(nodePath))
-                {
-                	
-	    	    	if(!page.isHideInNav())
-	    	    	{
-	    	    	
-	    	    		if(rootPath.equalsIgnoreCase(nodePath) && showCurrent.equals("false")){
-                			menuBuilder.append("<li class=\"active\">");
-                        	menuBuilder.append("<a href=").append(page.getPath()+".html").append(">").append(page.getTitle()).append("</a>");
-                    	 }
-	    	    		
-                		else
-	    	           	{
-                				
-                           if(levelFlag && page.listChildren().hasNext()){
-                        	   menuBuilder.append("<li class=\"active\">");
-                               menuBuilder.append("<a href=").append(page.getPath()+".html").append(">").append(page.getTitle()).append("</a>");
-                               levelFlag=false;
-                            }else
-                            {  	
-                               if(rootPath.equals(nodePath)){
-                            	   menuBuilder.append("<li class=\"active\">");
-                               }
-                               else{
-                            	   menuBuilder.append("<li>");
-                               }
-                               
-                               menuBuilder.append("<a href=").append(page.getPath()+".html").append(">").append(page.getTitle()).append("</a>");
-                               menuBuilder.append("</li>");
-                            }    
-                       }
-	    	    		
-	    	    		
-	    	    	}
-	    	    	
-                  
-                   if(page.listChildren().hasNext())
-                     {
-                	     buildMenu(page.listChildren(), rootPath,gs_us_path, menuBuilder, levelDepth,nodePath, levelFlag,eventLeftNavRoot,currPath, currTitle, eventDispUnder, showCurrent );           
-	                 }
-                }
-                else
-                   {
-                	 if(page.getPath().indexOf(eventLeftNavRoot)==0 && currPath.indexOf(eventDispUnder)==0)
-                	 {
-                		 menuBuilder.append("<li class=\"active\">");
-                         menuBuilder.append("<a href=").append(page.getPath()+".html").append(">").append(page.getTitle()).append("</a>");
-                         //menuBuilder.append("</li>");
-                         
-                         menuBuilder.append("<ul><li class=\"active\">");
-                         menuBuilder.append("<a href=").append(currPath+".html").append(">").append(currTitle).append("</a>");
-                         menuBuilder.append("</li></ul>");
-                     }
-                	 else
-                	 {
-                    	if(showCurrent.equals("false") && !page.isHideInNav())
-                    	 {
-                    	     menuBuilder.append("<li>");
-                    	     menuBuilder.append("<a href=").append(page.getPath()+".html").append(">").append(page.getTitle()).append("</a>");
-                    	     menuBuilder.append("</li>");
-                    	}
-                	 }
-                   //includeUL=true;
-                }
-    
-	     
-    	 	   
-    	 if(levelDepth==1)
-            { 
-                  menuBuilder.append("<li class=\"divider\">").append("</li>");
-                 
-              }
-	  }
-	 
-    menuBuilder.append("</li>");
+	// GET THE STRUCTURE FROM THE CURRENTPATH
+	String curPath = currentPage.getPath();
+	String curTitle = currentPage.getTitle();
+	int levelDepth = 0;
+	StringBuilder menuBuilder = new StringBuilder();
+	// from this path get to the parent
+	String gs_us_path = currentPage.getAbsoluteParent(2).getPath();
+	String rootPath = currentPage.getPath().substring(gs_us_path.length()+1, curPath.length());  
+	String navigationRoot = currentPage.getAbsoluteParent(3).getPath();
+	String showCurrent = "false";
+
+	// What is the navigationRoot
+	boolean levelFlag = true;
+	Iterator<Page> iterPage = resourceResolver.getResource(navigationRoot).adaptTo(Page.class).listChildren();
+
+	// Handling events
+	String eventGrandParent = currentPage.getParent().getParent().getPath();
+	String eventLeftNavRoot = currentSite.get("leftNavRoot", String.class);
+	String eventDisplUnder = currentSite.get("eventPath", String.class);
+	boolean includeUL=false;
+	String insertAfter="";
+	if(eventGrandParent.equalsIgnoreCase(currentSite.get("eventPath", String.class))){
+		String eventPath = eventLeftNavRoot.substring(0,eventLeftNavRoot.lastIndexOf("/"));
+		//System.out.println("What is the eventPath" +eventPath);
+		iterPage = resourceResolver.getResource(eventPath).adaptTo(Page.class).listChildren();
 	}
-	
-     menuBuilder.append("</ul>");
-     return menuBuilder;
-     
- }
- 
- 
- //
- 
-  
+	buildMenu(iterPage, rootPath, gs_us_path, menuBuilder, levelDepth,"",levelFlag,eventLeftNavRoot, curPath, curTitle, eventDisplUnder, showCurrent);
+%><%=menuBuilder %>
+<%!
+public StringBuilder buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_path,StringBuilder menuBuilder,int levelDepth,String ndePath, boolean levelFlag,String eventLeftNavRoot,String currPath, String currTitle, String eventDispUnder, String showCurrent) throws RepositoryException{
+	levelDepth++;
+	String name;
+	String path;
+	if(iterPage.hasNext()) {
+		if (levelDepth == 1) {
+			menuBuilder.append("<ul class=\"side-nav\" style=\"padding:0px\">");
+		} else{
+			menuBuilder.append("<ul>");
+		}
+		while(iterPage.hasNext()) {
+			Page page = iterPage.next();
+			name = page.getName();
+			path = page.getPath();
+			int dept = page.getDepth();
+			String nodePath = page.getPath().substring(gs_us_path.length()+1, page.getPath().length());
+			showCurrent = page.getParent().getProperties().get("showCurrent","false");
+			if(rootPath.startsWith(nodePath)) {
+				if(!page.isHideInNav()) {
+					if(rootPath.equalsIgnoreCase(nodePath) && showCurrent.equals("false")){
+						menuBuilder.append("<li class=\"active\">");
+						menuBuilder.append("<a href=").append(page.getPath()+".html").append(">").append(page.getTitle()).append("</a>");
+					} else {
+						if(levelFlag && page.listChildren().hasNext()){
+							menuBuilder.append("<li class=\"active\">");
+							menuBuilder.append("<a href=").append(page.getPath()+".html").append(">").append(page.getTitle()).append("</a>");
+							levelFlag=false;
+						}else {
+							if(rootPath.equals(nodePath)){
+								menuBuilder.append("<li class=\"active\">");
+							} else{
+								menuBuilder.append("<li>");
+							}
+							menuBuilder.append("<a href=").append(page.getPath()+".html").append(">").append(page.getTitle()).append("</a>");
+							menuBuilder.append("</li>");
+						}    
+					}
+				}
+				if(page.listChildren().hasNext()) {
+					buildMenu(page.listChildren(), rootPath,gs_us_path, menuBuilder, levelDepth,nodePath, levelFlag,eventLeftNavRoot,currPath, currTitle, eventDispUnder, showCurrent );           
+				}
+			} else {
+				if(page.getPath().indexOf(eventLeftNavRoot)==0 && currPath.indexOf(eventDispUnder)==0) {
+					menuBuilder.append("<li class=\"active\">");
+					menuBuilder.append("<a href=").append(page.getPath()+".html").append(">").append(page.getTitle()).append("</a>");
+					menuBuilder.append("<ul><li class=\"active\">");
+					menuBuilder.append("<a href=").append(currPath+".html").append(">").append(currTitle).append("</a>");
+					menuBuilder.append("</li></ul>");
+				} else {
+					if(showCurrent.equals("false") && !page.isHideInNav()) {
+						menuBuilder.append("<li>");
+						menuBuilder.append("<a href=").append(page.getPath()+".html").append(">").append(page.getTitle()).append("</a>");
+						menuBuilder.append("</li>");
+					}
+				}
+			}
+			if(levelDepth==1) { 
+				menuBuilder.append("<li class=\"divider\">").append("</li>");
+			}
+		}
+		menuBuilder.append("</li>");
+	}
 
-
+	menuBuilder.append("</ul>");
+	return menuBuilder;
+}
 %>
 
