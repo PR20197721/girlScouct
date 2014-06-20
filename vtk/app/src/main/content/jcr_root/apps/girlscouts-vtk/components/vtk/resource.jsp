@@ -4,7 +4,6 @@
                 com.day.cq.wcm.api.PageManager,
                 com.day.cq.wcm.api.Page" %>
 <%@include file="/libs/foundation/global.jsp" %>
-Debug: q = <%= (String)request.getParameter("q") %>
 
 <%
 	final String RESOURCE_SEARCH_PROMPT = "type in a search word or term here";
