@@ -70,6 +70,15 @@ try {
 	
 	if (categoryPage != null) {
 		%><div><%= categoryPage.getTitle() %></div><%
+		%><ul><%
+			StringBuilder builder = new StringBuilder();
+			Iterator<Page> resIter = categoryPage.listChildren();
+			while (resIter.hasNext()) {
+			    Page resPage = resIter.next();
+				displayAllChildren(resPage, builder);
+			}
+			%><%= builder.toString() %><%
+		%></ul><%
 	}
 %>
 
@@ -87,5 +96,20 @@ try {
 		    count += countAllChildren(currentPage);
 		}
 		return count;
+	}
+
+	private void displayAllChildren(Page rootPage, StringBuilder builder) {
+	    builder.append("<li>");
+	    builder.append("<a href=\"").append(rootPage.getPath()).append(".html\">");
+	    builder.append(rootPage.getTitle());
+	    builder.append("</a>");
+	    Iterator<Page> iter = rootPage.listChildren();
+	    while (iter.hasNext()) {
+	        Page childPage = iter.next();
+		    builder.append("<ul>");
+		    displayAllChildren(childPage, builder);
+		    builder.append("</ul>");
+	    }
+	    builder.append("</li>");
 	}
 %>
