@@ -1,83 +1,115 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" import="org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*, org.girlscouts.vtk.ejb.*" %>
+<%@page import="java.util.Iterator,
+                java.util.Map,
+                java.util.Queue,
+                com.day.cq.wcm.api.PageManager,
+                com.day.cq.wcm.api.Page" %>
 <%@include file="/libs/foundation/global.jsp" %>
-<cq:defineObjects/>
-<%@include file="include/session.jsp"%>
-<%!
-        String activeTab = "resource";
-        boolean showVtkNav = true;
+Debug: q = <%= (String)request.getParameter("q") %>
 
+<%
+	final String RESOURCE_SEARCH_PROMPT = "type in a search word or term here";
 %>
-<%@include file="include/vtk-nav.jsp"%>
 
+<%-- search box --%>
+<div>Search For Resources</div>
+<form method="get">
+	<input type="text" name="q" placeholder="<%=RESOURCE_SEARCH_PROMPT%>" class="searchField" />
+</form>
 
-<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-  <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-  <link rel="stylesheet" href="/resources/demos/style.css">
-  <style>
-  .ui-autocomplete-loading {
-    background: white url('images/ui-anim_basic_16x16.gif') right center no-repeat;
-  }
-  </style>
-  <script>
-  $(function() {
-    var cache = {};
-    $( "#birds" ).autocomplete({
-      minLength: 2,
-      
-      source: function( request, response ) {
-        var term = request.term;
-        console.log(term)
-        if ( term in cache ) {
-          var x = response( cache[ term ] );
-          console.log("x: "+x);
-          return;
-        }
- 
-        $.getJSON( "/content/girlscouts-vtk/controllers/vtk.getdata.html?q="+term, request, 
-        		function( data, status, xhr ) {
-         		 	cache[ term ] = data;
-         		 	var y =response( data );
-          			console.log("y: "+data.label);
-       			 })
-       			 .done(function( json ) {
-       				$("#caca").load("/content/girlscouts-vtk/controllers/vtk.searchR.html?rand="+Date.now());
-    				console.log( "JSON Data: " + json );
-    				//$( "div.caca" ).html("searching...");
-    				$(jQuery.parseJSON(JSON.stringify(json))).each(function() {  
-    				    var ID = this.label;
-    				   // var TITLE = this.Title;
-    				    console.log( "--- "+ID );
-    				    //$( "#caca" ).append("<li>"+ID+"</li>");
-    				});
-    				
-    				
-    				
-  }				)			;
-     	 }
-    	});
-  });
-  
-  
-  
-  </script>
+<%-- categories --%>
+<p>Browse Resources by Category</p>
 
+<%
+final PageManager manager = (PageManager)resourceResolver.adaptTo(PageManager.class);
+try {
+    // TODO: this field should come from Salesforce
+	final String ROOT_PAGE_PATH = "/content/girlscouts-usa/en/resources";
 
+	final Page rootPage = manager.getPage(ROOT_PAGE_PATH);
+	
+	Iterator<Page> majorIter = rootPage.listChildren();
 
+	int majorCount = 0;
+	while (majorIter.hasNext()) {
+	    majorIter.next();
+		majorCount++; 
+	}
+	
+	majorIter = rootPage.listChildren();
+%>
+	
+	<ul class="small-block-grid-<%= majorCount %>">
+<% 
+		while (majorIter.hasNext()) { 
+		    Page currentMajor = majorIter.next();
+			%><li><% 
+				%><div><%= currentMajor.getTitle() %></div><%
+				Iterator<Page> minorIter = currentMajor.listChildren();
 
+				minorIter = currentMajor.listChildren();
+				while (minorIter.hasNext()) {
+				    Page currentMinor = minorIter.next();
+				    // TODO: encode URL
+				    String link = "?category=" + currentMinor.getPath();
+				    String title = currentMinor.getTitle();
+				    int minorCount = countAllChildren(currentMinor) - 1;
+				    %><div><a href="<%= link %>"><%= title %> (<%= minorCount %>)</a></div><%
+				}
+			%></li><%
+		} 
+	%></ul><%
+} catch (Exception e) {
+	log.error("Cannot get VTK meeting aid categories: " + e.getMessage());
+}
+%>
 
+<%-- display aids --%>
+<%
+	String categoryParam = (String)request.getParameter("category");
+	Page categoryPage = manager.getPage(categoryParam);
+	
+	if (categoryPage != null) {
+		%><div><%= categoryPage.getTitle() %></div><%
+		%><ul><%
+			StringBuilder builder = new StringBuilder();
+			Iterator<Page> resIter = categoryPage.listChildren();
+			while (resIter.hasNext()) {
+			    Page resPage = resIter.next();
+				displayAllChildren(resPage, builder);
+			}
+			%><%= builder.toString() %><%
+		%></ul><%
+	}
+%>
 
+<%!
+	private int countAllChildren(Page page) {
+		// TODO: Need an effecient way.
+		if (page == null) {
+		    return 0;
+		}
 
+		int count = 1;
+		Iterator<Page> iter = page.listChildren();
+		while (iter.hasNext()) {
+		    Page currentPage = iter.next();
+		    count += countAllChildren(currentPage);
+		}
+		return count;
+	}
 
-
-
-
-<div class="ui-widget">
-  <label for="birds">Birds: </label>
-  <input id="birds">
-</div>
-
-<div id="caca">
-Hellow
-</div>
-
+	private void displayAllChildren(Page rootPage, StringBuilder builder) {
+	    builder.append("<li>");
+	    builder.append("<a href=\"").append(rootPage.getPath()).append(".html\">");
+	    builder.append(rootPage.getTitle());
+	    builder.append("</a>");
+	    Iterator<Page> iter = rootPage.listChildren();
+	    while (iter.hasNext()) {
+	        Page childPage = iter.next();
+		    builder.append("<ul>");
+		    displayAllChildren(childPage, builder);
+		    builder.append("</ul>");
+	    }
+	    builder.append("</li>");
+	}
+%>
