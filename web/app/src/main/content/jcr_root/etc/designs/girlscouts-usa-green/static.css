@@ -743,3 +743,9 @@ div.textimage.image_right div.image {
     float: right !important;
     margin: 0 0 8px 8px !important;
 }
+
+/* no padding or margin for grid system */
+.grid-system.nopadding li, .grid-system.nopadding div.image {
+    margin-bottom: 0;
+    padding: 0;
+}
