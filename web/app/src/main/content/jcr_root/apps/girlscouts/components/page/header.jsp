@@ -7,8 +7,8 @@
     int depth = currentPage.getDepth();
     request.setAttribute("headerPath", headerPath);
 %>
-  
- 
+
+
 
         <!-- Modern Browser -->
 <!--[if gt IE 8]><!-->
@@ -20,12 +20,12 @@
                 <cq:include path="<%= headerPath + "/logo" %>" resourceType="girlscouts/components/logo" />
                 <%-- TODO: Mike Z. This is an empty <div> that fixes the green box on Chrome. Temp solution. --%>
                 <cq:include path="<%= headerPath + "/placeholder" %>" resourceType="girlscouts/components/placeholder" />
-            </div>    
+            </div>
             <div class="large-19 medium-19 hide-for-small columns topMessage">
                 <% setCssClasses("columns", request); %>
-               
+
                    <cq:include path="<%= headerPath + "/eyebrow-nav" %>" resourceType="girlscouts/components/eyebrow-navigation" />
-                 
+
                 <div class="row">
                     <% setCssClasses("large-18 medium-18 columns", request); %>
                     <cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
@@ -47,13 +47,12 @@
         </div>
 <!--PAGE STRUCTURE: HEADER BAR-->
 <div id="headerBar" class="row">
-<% setCssClasses("large-24 medium-24 small-24 columns", request); %>
+<div class="large-5 medium-5 hide-for-small columns">&nbsp;</div>
+<% setCssClasses("large-19 medium-19 small-24 columns", request); %>
     <cq:include path="<%= headerPath + "/global-nav" %>" resourceType="girlscouts/components/global-navigation" />
-       
-    
 </div>
 
-<!-- SMALL SCREEN CANVAS should be after the global navigation is loaded,since global navigation won't be 
+<!-- SMALL SCREEN CANVAS should be after the global navigation is loaded,since global navigation won't be
   authorable-->
 
 <cq:include script="small-screen-menus"/>
@@ -62,4 +61,3 @@
 <iframe src="https://cs11.salesforce.com/secur/logout.jsp?display=touch" style="display:none;"></iframe>
 <div>You are successfuly loged out.......</div>
 <%}//edn if %>
-

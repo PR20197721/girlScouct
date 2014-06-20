@@ -153,15 +153,12 @@ a:hover.menuHighlight {
     background-color: #009447;
 }
 #headerBar>div{
-    padding: 3px 110px 0px 10px;
+    padding: 3px 110px 0px 20px;
 }
 
 #headerBar ul.inline-list {
     margin: 0px;
     padding: 0px;
-}
-#headerBar ul {
-    float: right;
 }
 #headerBar li {
     margin: 0px;
@@ -235,6 +232,7 @@ a:hover.menuHighlight {
 .breadcrumbs a.current {
     color: #00ae58;
 }
+
 /* SIDE NAV */
 #main .side-nav *{
     color: #333333;
@@ -637,6 +635,7 @@ ul.side-nav, li#sub-active ul, li#sub-active > ul > li > ul > li{
   margin:0px;
 }
 
+/*
 .side-nav li {
     text-indent:30px;
   }
@@ -646,7 +645,7 @@ ul.side-nav, li#sub-active ul, li#sub-active > ul > li > ul > li{
     }    
     
 .side-nav li ul li {
-    text-indent:10px;
+    text-indent:8px;
    }  
 
 .side-nav li ul li ul li {
@@ -654,7 +653,7 @@ ul.side-nav, li#sub-active ul, li#sub-active > ul > li > ul > li{
    } 
 
 .side-nav ul ul li {
-    text-indent:60px;
+    text-indent:25px;
    }  
    
 .side-nav ul ul ul li {
@@ -672,6 +671,7 @@ li#sub-active > ul > ul >li > ul > li {
 .side-nav li {
     text-indent:10px;
     }  
+*/
 
 #right-canvas-menu-bottom > ul{
    padding:0px;
