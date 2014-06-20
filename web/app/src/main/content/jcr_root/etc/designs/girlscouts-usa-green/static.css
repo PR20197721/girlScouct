@@ -739,3 +739,8 @@ div.image.center small {
 .rightBodyLeft {
     padding: 0 1.250em;
 }
+
+div.textimage.image_right div.image {
+    float: right !important;
+    margin: 0 0 8px 8px !important;
+}
