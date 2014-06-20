@@ -22,6 +22,12 @@ if( session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName(
 	return;
 }
 
+
+if( apiConfig.getTroops()==null || apiConfig.getTroops().size()<=0 ){
+	out.println("<span class='error'>Sorry, this user is not part of a GirlScouts' SalesForce campaign. Please ask your council admin for access.</span>");
+	return;
+}
+
 UserDAO userDAO = sling.getService(UserDAO.class);
 User user= (User)session.getValue("VTK_user");
 if( user ==null){
