@@ -1,9 +1,8 @@
-
 <%@page import="java.util.Iterator"%>
 <%@ page import="org.girlscouts.vtk.models.user.*,org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
-
+<!-- apps/girlscouts-vtk/components/vtk/calendarElem.jsp -->
 <a href="/content/girlscouts-vtk/en/vtk.html">Return to Plan</a>
 <%
 

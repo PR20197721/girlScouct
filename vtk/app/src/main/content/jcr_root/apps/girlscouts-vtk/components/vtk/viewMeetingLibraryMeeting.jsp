@@ -2,6 +2,8 @@
     pageEncoding="ISO-8859-1"%>
     <%@ page import="org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*, org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
+<!-- apps/girlscouts-vtk/components/vtk/viewMeetingLibraryMeeting.jsp -->
+
 <cq:defineObjects/>
 
 <%

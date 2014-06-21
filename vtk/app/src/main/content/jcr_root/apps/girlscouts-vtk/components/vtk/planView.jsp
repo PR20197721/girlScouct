@@ -1,8 +1,9 @@
 <%@page import="java.util.Iterator,org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
-
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
+<!-- <!-- apps/girlscouts-vtk/components/vtk/planView.jsp -->
+
 <%!
         String activeTab = "planView";
         boolean showVtkNav = true;
