@@ -3,8 +3,6 @@
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 <div id="errInfo" title="tmp"> </div>
-<div id="newActivity" title="New Activity"> </div>
-<div id="newLocationCal" title="New Location & Calendar"> </div>
 <div style="background-color:#FFF;">
 <%!
 	String activeTab = "plan";
@@ -12,18 +10,28 @@
 %>
 <%
 	YearPlanDAO yearPlanDAO = sling.getService(YearPlanDAO.class);
+	java.util.List<org.girlscouts.vtk.salesforce.Troop> troops = user.getApiConfig().getTroops();
+	if (troops.size() > 1) {
 %>
-<%=user.getId() %>
-<div id="troop" style="background-color:lightyellow">
-   <select id="reloginid" style="border:3px solid green; background-color:red;" onchange="relogin()">
-	<%
-		java.util.List<org.girlscouts.vtk.salesforce.Troop> troops = user.getApiConfig().getTroops();// org.girlscouts.vtk.salesforce.tester3().troopInfo(apiConfig, user.getApiConfig().getUser().getContactId() );
+<div id="troop" class="row">
+	<div class="large-12 troopPrompt columns">
+		Current troop profile:
+	</div>
+	<div class="large-12 troopSelect columns">
+		<select id="reloginid" onchange="relogin()">
+<%
 		for(int i=0;i<troops.size();i++){
-				%> <option value="<%=troops.get(i).getTroopId() %>" <%= user.getTroop().getTroopId().equals(troops.get(i).getTroopId()) ? "SELECTED" : ""%>><b>Troop:</b><%= troops.get(i).getTroopName() %> &nbsp; >><b>GradeLevel:</b> <%= troops.get(i).getGradeLevel() %></a></option> <% 
+%> 
+			<option value="<%=troops.get(i).getTroopId() %>" <%= user.getTroop().getTroopId().equals(troops.get(i).getTroopId()) ? "SELECTED" : ""%>><%= troops.get(i).getTroopName() %> : <%= troops.get(i).getGradeLevel() %></option> 
+<% 
 		}
-	%>
-	</select>
+%>
+		</select>
+	</div>
 </div>
+<%
+	}
+%>
 
 <%@include file="include/vtk-nav.jsp"%>
 	<div class="tabs-content">
@@ -104,3 +112,5 @@ java.util.Iterator<YearPlan> yearPlans = yearPlanDAO.getAllYearPlans(ageLevel).l
 	<br/>
 	<div id="plan_hlp" style="display:none;"><h1>Year Plan Help:</h1><ul><li>asdf></li><li>asdf></li><li>asdf></li></ul></div>
 </div>
+<div id="newActivity" title="New Activity"> </div>
+<div id="newLocationCal" title="New Location & Calendar"> </div>

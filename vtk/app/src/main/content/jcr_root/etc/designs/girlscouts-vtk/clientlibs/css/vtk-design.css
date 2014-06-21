@@ -54,26 +54,37 @@ dl.tabs dd.active {
 }
 .planSquare {
 	width: 100px;
-    height: 100px;
-    color: #fff;
-    background-color: #060;
-    text-align: center;
+	height: 100px;
+	color: #fff;
+	background-color: #060;
+	text-align: center;
 }
 #yearPlanMeetings li {
-    background-color:#fff;
+	background-color:#fff;
 }
 #yearPlanMeetings h1 {
-    font-size:1rem;
-    font-weight: bold;
-    line-height: 0.6rem;
+	font-size:1rem;
+	font-weight: bold;
+	line-height: 0.6rem;
 }
 #yearPlanMeetings .tags {
-    font-size:0.5rem;
+	font-size:0.5rem;
 }
 
 #yearPlanMeetings p {
-    line-height: 1rem;
-    margin: 0;
-    font-size:1rem;
+	line-height: 1rem;
+	margin: 0;
+	font-size:1rem;
 }
-
+#troop {
+	padding:10px;
+}
+#troop .troopPrompt {
+	text-align: right;
+}
+#troop .troopSelect{
+	line-height:0.6rem;
+}
+#troop select{
+	height:2.5rem;
+}
