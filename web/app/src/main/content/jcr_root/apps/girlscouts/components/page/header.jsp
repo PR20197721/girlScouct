@@ -2,17 +2,13 @@
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <!-- apps/girlscouts/components/page/header.jsp -->
 <%
-    String headerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
-    String designPath = currentDesign == null ? "/" : currentDesign.getPath();
-    int depth = currentPage.getDepth();
-    request.setAttribute("headerPath", headerPath);
+	String headerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
+	String designPath = currentDesign == null ? "/" : currentDesign.getPath();
+	int depth = currentPage.getDepth();
+	request.setAttribute("headerPath", headerPath);
 %>
-
-
-
-        <!-- Modern Browser -->
+<!-- Modern Browser -->
 <!--[if gt IE 8]><!-->
-
 <!--<![endif]-->
         <!--PAGE STRUCTURE: HEADER-->
         <div id="header" class="row">
@@ -47,16 +43,14 @@
         </div>
 <!--PAGE STRUCTURE: HEADER BAR-->
 <div id="headerBar" class="row">
-<div class="large-5 medium-5 hide-for-small columns">&nbsp;</div>
-<% setCssClasses("large-19 medium-19 small-24 columns", request); %>
-    <cq:include path="<%= headerPath + "/global-nav" %>" resourceType="girlscouts/components/global-navigation" />
+	<div class="large-5 medium-5 hide-for-small columns">&nbsp;</div>
+	<% setCssClasses("large-19 medium-19 small-24 columns", request); %>
+	<cq:include path="<%= headerPath + "/global-nav" %>" resourceType="girlscouts/components/global-navigation" />
 </div>
 
-<!-- SMALL SCREEN CANVAS should be after the global navigation is loaded,since global navigation won't be
-  authorable-->
+<!-- SMALL SCREEN CANVAS should be after the global navigation is loaded,since global navigation won't be authorable-->
 
 <cq:include script="small-screen-menus"/>
-
 <%if( false) {//request.getParameter("isSignOutSalesForce")!=null){ %>
 <iframe src="https://cs11.salesforce.com/secur/logout.jsp?display=touch" style="display:none;"></iframe>
 <div>You are successfuly loged out.......</div>
