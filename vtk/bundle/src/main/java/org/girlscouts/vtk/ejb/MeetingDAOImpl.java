@@ -39,9 +39,6 @@ public class MeetingDAOImpl implements MeetingDAO {
 
    private Session session;
    
-   @Reference
-   private UserDAO userDAO; 
-   
     @Reference
     private SessionPool pool;
     
@@ -441,22 +438,5 @@ public List<org.girlscouts.vtk.models.Search> getData(String query) {
 	}catch(Exception e){e.printStackTrace();}
    return matched;
 	}
-
-
-
-public void addAsset(User user, String meetingUid,  Asset asset){
-	
-	java.util.List<MeetingE> meetings = user.getYearPlan().getMeetingEvents();
-	for(int i=0;i<meetings.size();i++)
-			if( meetings.get(i).getUid().equals( meetingUid))
-				meetings.get(i).getAssets().add( asset );
-				
-	userDAO.updateUser(user);
-	
-}
-
-
-
-
 
 }//edn class
