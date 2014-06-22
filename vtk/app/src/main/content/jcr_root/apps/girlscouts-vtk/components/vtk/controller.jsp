@@ -192,11 +192,11 @@ System.err.println("(**** "+ request.getParameter("loginAs"));
     
 }else if( request.getParameter("addAsset")!=null){
 	
-	Asset asset = new Asset();
-	asset.add( request.getParameter("addAsset") );
+	Asset asset = new Asset(request.getParameter("addAsset"));
+//	asset.add( request.getParameter("addAsset") );
 	
 	//TODO 
-	new MeetingDAOImpl().addAsset( (User)session.getValue("VTK_user") ,  request.getParameter("meetingUid"),   asset);
+	new UserDAOImpl().addAsset( (User)session.getValue("VTK_user") ,  request.getParameter("meetingUid"),   asset);
 	
 }else{
 	

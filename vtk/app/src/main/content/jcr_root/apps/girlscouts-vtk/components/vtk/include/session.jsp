@@ -31,22 +31,27 @@ if( apiConfig.getTroops()==null || apiConfig.getTroops().size()<=0 ){
 
 UserDAO userDAO = sling.getService(UserDAO.class);
 User user= (User)session.getValue("VTK_user");
+
 if( user ==null){
+	System.err.println( "-chk: "+  (apiConfig==null) +" : ");
+	System.err.println( (apiConfig.getTroops() ==null) );
+	System.err.println( (apiConfig.getTroops().get(0)==null ) );
+	System.err.println( apiConfig.getTroops().get(0).getTroopId()==null );
+	System.err.println("----test: "+apiConfig.getUserId() );
+	System.err.println("test: "+apiConfig.getUserId() +"_"+ apiConfig.getTroops().get(0).getTroopId());
+
+        //user= userDAO.getUser( request.getParameter("userId"));
+        user= userDAO.getUser( apiConfig.getUserId() +"_"+ apiConfig.getTroops().get(0).getTroopId());
+  
         //first time - new user
         if( user==null ){
                 user = new User(apiConfig.getUserId()+"_"+ apiConfig.getTroops().get(0).getTroopId());
         }
-        System.err.println(6);
         user.setApiConfig(apiConfig);
-        
         user.setTroop( apiConfig.getTroops().get(0) );
-        
         user.setSfTroopId( user.getTroop().getTroopId() );
-        
         user.setSfUserId( user.getApiConfig().getUserId() );
-       
         user.setSfTroopName( user.getTroop().getTroopName() ); 
-       
         session.putValue("VTK_user", user);
        
 }

@@ -1,5 +1,4 @@
-
-
+<!-- apps/girlscouts-vtk/components/vtk/include/location.jsp -->
 <h1>Location</h1><div style="background-color:gray; color:#fff;">Manage Locations</div>
 <p>Add, delete or edit locations to assign to your meetings</p>
 <div>
@@ -21,8 +20,6 @@
 </div>
 
 
-
 <div id="locList">
-
 
 </div>

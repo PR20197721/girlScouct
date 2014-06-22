@@ -26,6 +26,7 @@ import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.YearPlan;
+import org.girlscouts.vtk.models.Asset;
 import org.girlscouts.vtk.models.user.User;
 
 @Component
@@ -353,4 +354,15 @@ public void selectYearPlan(User user, String yearPlanPath){
 	
  }
  */
+
+public void addAsset(User user, String meetingUid,  Asset asset){
+
+        java.util.List<MeetingE> meetings = user.getYearPlan().getMeetingEvents();
+        for(int i=0;i<meetings.size();i++)
+                        if( meetings.get(i).getUid().equals( meetingUid))
+                                meetings.get(i).getAssets().add( asset );
+
+        updateUser(user);
+
+}
 }//ednclass
