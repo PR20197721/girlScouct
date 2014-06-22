@@ -4,26 +4,11 @@
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 <!-- apps/girlscouts-vtk/components/vtk/locations.jsp  -->
-<%
-
-java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat("MM/dd/yyyy");
-java.text.SimpleDateFormat dateFormat41 = new java.text.SimpleDateFormat("a");
-java.text.SimpleDateFormat dateFormat42 = new java.text.SimpleDateFormat("hh");
-java.text.SimpleDateFormat dateFormat43 = new java.text.SimpleDateFormat("mm");
-java.text.SimpleDateFormat dateFormat44 = new java.text.SimpleDateFormat("hh:mm");
-
-
-%>
 <script>
 $(function() {
-	
-	//dev $( "#calStartDt" ).datepicker();
-    // PROD
-    $( "#calStartDt" ).datepicker({minDate: 0});
-   
-  });
+	$( "#calStartDt" ).datepicker({minDate: 0});
+});
 </script>
-
 <h1>Specify Dates and Locations</h1>
 <div style="background-color:gray; color:#fff;">Manage Calendar</div>
 <div id="calMng">
@@ -33,7 +18,6 @@ $(function() {
 		LOADING CALENDAR.....<script>loadCalMng()</script>
 	<%} %>
 </div>
-
 <%@include file="include/location.jsp" %>
 <br/><br/>
 <%@include file="include/manageActivities.jsp" %>

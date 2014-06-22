@@ -18,8 +18,4 @@
 	<br/><a href="javascript:void(0)" onclick="addLocation()">add</a>
 	|| <a href="javascript:void(0)" onclick="showLocationManager()">Manage Locations</a>
 </div>
-
-
-<div id="locList">
-
-</div>
+<div id="locList"></div>

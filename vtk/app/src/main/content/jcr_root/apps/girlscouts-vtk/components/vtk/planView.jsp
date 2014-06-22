@@ -3,7 +3,6 @@
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 <!-- <!-- apps/girlscouts-vtk/components/vtk/planView.jsp -->
-
 <%!
         String activeTab = "planView";
         boolean showVtkNav = true;

@@ -1,14 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-    <%@ page import="org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" import="org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 <%   
-java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
+	java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
 %>
 <p>Drag and drop to reorder meetings</p>
-<ul id="sortable123" >
+<ul id="sortable123">
 <% 
 int meetingCount=0;
 java.util.Iterator itr = sched.keySet().iterator();
@@ -35,17 +33,13 @@ while( itr.hasNext() ){
 	#sortable123 li { margin: 0 5px 5px 5px; padding: 3px; width: 90%; }
 </style>
 <script>
-  $(function() {
-    $( "#sortable123" ).sortable({
-      		
-    	items: "li:not(.ui-state-disabled)",
-    
-    
-    	  update:  function (event, ui) {
-	        	doUpdMeeting()
-	        }
-    });
- 
-    $( "#sortable123 li" ).disableSelection();
-  });
+	$(function() {
+		$( "#sortable123" ).sortable({
+			items: "li:not(.ui-state-disabled)",
+			update:  function (event, ui) {
+				doUpdMeeting()
+			}
+		});
+		$( "#sortable123 li" ).disableSelection();
+	});
 </script>

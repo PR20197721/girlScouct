@@ -1,10 +1,17 @@
 <%!
 java.text.SimpleDateFormat fmtDate= new java.text.SimpleDateFormat("MM/dd/yyyy");
 java.text.SimpleDateFormat fmtHr= new java.text.SimpleDateFormat(" hh:mm a");
+java.text.SimpleDateFormat fmtHr1 = new java.text.SimpleDateFormat("hh:mm");
 java.text.SimpleDateFormat fmt= new java.text.SimpleDateFormat("MMM dd  hh:mm a");
 java.text.SimpleDateFormat fmtX= new java.text.SimpleDateFormat("d");
 java.text.SimpleDateFormat dateFormat55 = new java.text.SimpleDateFormat("EEE MMM dd,yyyy hh:mm a");
 java.text.SimpleDateFormat df = new java.text.SimpleDateFormat("MMM dd yyyy hh:mm a");
+java.text.SimpleDateFormat fmtAP = new java.text.SimpleDateFormat("a");
+java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat("MM/dd/yyyy");
+java.text.SimpleDateFormat dateFormat41 = new java.text.SimpleDateFormat("a");
+java.text.SimpleDateFormat dateFormat42 = new java.text.SimpleDateFormat("hh");
+java.text.SimpleDateFormat dateFormat43 = new java.text.SimpleDateFormat("mm");
+java.text.SimpleDateFormat dateFormat44 = new java.text.SimpleDateFormat("hh:mm");
 %>
 <%
 HttpSession session = request.getSession();
@@ -38,6 +45,5 @@ if( user ==null){
         user.setSfUserId( user.getApiConfig().getUserId() );
         user.setSfTroopName( user.getTroop().getTroopName() ); 
         session.putValue("VTK_user", user);
-       
 }
 %>

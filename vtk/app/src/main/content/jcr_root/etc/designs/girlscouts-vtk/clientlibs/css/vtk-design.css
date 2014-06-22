@@ -41,6 +41,7 @@ dl.tabs dd.active {
 #newLocationCal {
 	background-color:#fff;
 	padding: 2rem;
+	border: 2px solid grey;
 }
 #newLocationModal {
         background-color:#fff;
@@ -56,11 +57,24 @@ dl.tabs dd.active {
 	width: 100px;
 	height: 100px;
 	color: #fff;
-	background-color: #060;
+	background-color: #008f50;
 	text-align: center;
+}
+li.activity .planSquare {
+        width: 100px;
+        height: 100px;
+        color: #fff;
+        background-color: #0096ff;
+        text-align: center;
 }
 #yearPlanMeetings li {
 	background-color:#fff;
+}
+#yearPlanMeetings li.ui-state-disabled {
+	background-color:#ccc;
+}
+#yearPlanMeetings li.activity {
+        background-color:#ddeeff;
 }
 #yearPlanMeetings h1 {
 	font-size:1rem;
@@ -87,4 +101,14 @@ dl.tabs dd.active {
 }
 #troop select{
 	height:2.5rem;
+}
+.modalWrap {
+	background-color: #ffffff;
+	padding: 10px;
+	border:2px solid #99FF99;
+}
+.ui-widget-overlay {
+   background-color: #003300;
+   opacity: .30;
+   filter: Alpha(Opacity=30);
 }
