@@ -9,3 +9,4 @@ calendar/jquery-ui-min.js
 calendar/calendar-display.js
 #calendar/moment.js
 login.js
+readmore.js
