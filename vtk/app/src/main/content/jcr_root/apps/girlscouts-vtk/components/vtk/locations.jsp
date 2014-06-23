@@ -4,7 +4,9 @@
 <%@include file="include/session.jsp"%>
 <!-- apps/girlscouts-vtk/components/vtk/locations.jsp  -->
 <h2>Specify Dates and Locations</h2>
-<a class="closeText" href="#" onclick="$('#gsModal').dialog('close')">Return to Plan</a>
+<!--  <a class="closeText" href="#" onclick="$('#gsModal').dialog('close')">Return to Plan</a> -->
+<a href="/content/girlscouts-vtk/en/vtk.html?rand=<%= new java.util.Date().getTime()%>">Return to Plan</a>
+
 <div class="sectionBar">Manage Calendar</div>
 <div id="calMng">
 	<%if( user.getYearPlan().getSchedule() ==null ){ %>

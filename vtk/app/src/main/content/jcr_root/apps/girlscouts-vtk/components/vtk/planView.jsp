@@ -17,7 +17,17 @@
 	if( request.getParameter("elem") !=null ) {
 		searchDate = new java.util.Date( Long.parseLong(  request.getParameter("elem")  ) );	
 	} else {
-		searchDate = (java.util.Date) sched.keySet().iterator().next();
+		//-searchDate = (java.util.Date) sched.keySet().iterator().next();
+		
+		//move to first future meeting
+		java.util.Iterator itr = sched.keySet().iterator();
+		while( itr.hasNext() ){
+			searchDate= (java.util.Date)itr.next();
+			if( searchDate.after( new java.util.Date() ) )
+				break;
+			
+		}
+			
 	}
 
 	int currInd =dates.indexOf(searchDate);

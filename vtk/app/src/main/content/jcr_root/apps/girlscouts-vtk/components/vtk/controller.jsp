@@ -192,7 +192,7 @@ System.err.println("(**** "+ request.getParameter("loginAs"));
     
 }else if( request.getParameter("addAsset")!=null){
 	
-	Asset asset = new Asset(request.getParameter("addAsset"));
+	org.girlscouts.vtk.models.Asset asset = new org.girlscouts.vtk.models.Asset(request.getParameter("addAsset"));
 //	asset.add( request.getParameter("addAsset") );
 	
 	//TODO 

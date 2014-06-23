@@ -60,7 +60,9 @@ function addExistActivity(activityId){
 }
 
 function newLocCal(){
+	
 	loadModalPage('/content/girlscouts-vtk/controllers/vtk.locations.html');
+	
 }
 
 function loadModalPage(link) {
