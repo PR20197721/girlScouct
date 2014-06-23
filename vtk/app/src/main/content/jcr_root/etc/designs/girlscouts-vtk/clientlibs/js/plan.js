@@ -69,13 +69,12 @@ function loadModalPage(link) {
                         var msg = "Sorry but there was an error: ";
                         $( "#error" ).html( msg + xhr.status + " " + xhr.statusText );
                 }else{
-                        $(function() {
-                                $( "#gsModal" ).dialog({
-                                        width:800,
-                                        modal:true,
-                                        dialogClass:"modalWrap"
-                                });
-                        });
+			$( "#gsModal" ).dialog({
+				width:920,
+				modal:true,
+				dialogClass:"modalWrap"
+			});
+			$(".ui-dialog-titlebar").hide();
                 }
         });
 }
@@ -84,11 +83,11 @@ function yesPlan(){
 	if( document.getElementById('yearPlanMeetings').style.display=='none' ){
 		document.getElementById('yearPlanMeetings').style.display='block';
 		document.getElementById('yearPlanSelection').style.display='none';	
-		document.getElementById('showHideReveal').innerHTML='reveal';
+		document.getElementById('showHideReveal').innerHTML='reveal <span class="arrowDirection">&#9660;</span>';
 	}else{
 		document.getElementById('yearPlanMeetings').style.display='none';
 		document.getElementById('yearPlanSelection').style.display='block';
-		document.getElementById('showHideReveal').innerHTML='hide';
+		document.getElementById('showHideReveal').innerHTML='hide <span class="arrowDirection">&#9650;</span>';
 	}
 }
 
@@ -162,6 +161,7 @@ function buildSched(){
 		},
 		success: function(result) {
 			loadCalMng();
+		//	location.reload();
 		}
 	});
 }

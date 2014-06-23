@@ -22,7 +22,7 @@ if( meeting != null && meeting.getCancelled()!=null && meeting.getCancelled().eq
 	isCancelMeeting=true;
 }
 %>       
-<h1>Manage Calendar</h1>
+<h1>F3 Manage Calendar</h1>
 <%=   	meetingDAO.getMeeting(  meeting.getRefId() ).getName() %>
 <div id="locMsg"></div>
 <div  style="padding:40px; background-color:gray; border:1px solid red;">
