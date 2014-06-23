@@ -99,7 +99,10 @@ try {
 
 	private void displayAllChildren(Page rootPage, StringBuilder builder) {
 	    builder.append("<li>");
-	    builder.append("<a href=\"").append(rootPage.getPath()).append(".html\">");
+	    String path = rootPage.getPath() + ".plain.html";
+	    builder.append("<a href=\"javascript:void(0)\" onclick=\"displayHtmlResource('");
+	    builder.append(path);
+	    builder.append("')\">");
 	    builder.append(rootPage.getTitle());
 	    builder.append("</a>");
 	    Iterator<Page> iter = rootPage.listChildren();
