@@ -3,8 +3,11 @@
                 java.util.Map,
                 java.util.HashMap,
                 javax.jcr.Session,
+                org.apache.sling.api.resource.ResourceResolver,
+                org.apache.sling.api.resource.Resource,
                 com.day.cq.wcm.api.PageManager,
                 com.day.cq.wcm.api.Page,
+                com.day.cq.dam.api.Asset,
                 com.day.cq.search.PredicateGroup,
                 com.day.cq.search.Query,
                 com.day.cq.search.QueryBuilder,
@@ -20,11 +23,13 @@
 %>
 
 <%-- search box --%>
+<!-- TODO: implement search
 <div>Search For Resources</div>
 <form method="get">
 	<input type="text" name="q" placeholder="<%=RESOURCE_SEARCH_PROMPT%>"
 		class="searchField" />
 </form>
+-->
 
 <%-- categories --%>
 <p>Browse Resources by Category</p>
@@ -92,23 +97,22 @@ try {
 <%
 	String categoryParam = (String)request.getParameter("category");
 	Page categoryPage = manager.getPage(categoryParam);
-	
+
 	if (categoryPage != null) {
-		%><div><%= categoryPage.getTitle() %></div>
-<%
-		%><ul>
-	<%
+	    if (categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_AIDS)) {
+		    %><%= displayAidAssets(MEETING_AID_PATH, resourceResolver) %><%
+	    } else {
+		    %><div><%= categoryPage.getTitle() %></div><%
+		    %><ul><% 
 			StringBuilder builder = new StringBuilder();
 			Iterator<Page> resIter = categoryPage.listChildren();
 			while (resIter.hasNext()) {
 			    Page resPage = resIter.next();
 				displayAllChildren(resPage, builder);
-			}
-			%><%= builder.toString() %>
-	<%
-		%>
-</ul>
-<%
+		    }
+			%><%= builder.toString() %><%
+			%></ul><%
+	    }
 	}
 %>
 
@@ -156,6 +160,31 @@ try {
 	    
 	    SearchResult result = query.getResult();
 	    return result.getTotalMatches();
+	}
+	
+	private String displayAidAssets(String path, ResourceResolver rr) {
+	    StringBuilder builder = new StringBuilder("<ul>");
+        Resource root = rr.resolve(path);
+        if (root != null) {
+            Iterator<Resource> iter = root.listChildren();
+            while (iter.hasNext()) {
+                Asset asset = iter.next().adaptTo(Asset.class);
+                if (asset != null) {
+                    // TODO: check importer. Use dc:title
+                    //String title = asset.getMetadataValue("jcr:title");
+                    String title = asset.getName();
+
+                	builder.append("<li>");
+                	builder.append("<a href=\"");
+                	builder.append(asset.getPath());
+                	builder.append("\">");
+                	builder.append(title);
+                	builder.append("</a></li>");
+                }
+            }
+        }
+        builder.append("</ul>");
+        return builder.toString();
 	}
 	
 	/*
