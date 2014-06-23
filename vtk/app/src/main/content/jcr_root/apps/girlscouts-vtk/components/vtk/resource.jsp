@@ -11,7 +11,9 @@
                 com.day.cq.search.PredicateGroup,
                 com.day.cq.search.Query,
                 com.day.cq.search.QueryBuilder,
-                com.day.cq.search.result.SearchResult"%>
+                com.day.cq.search.result.SearchResult,
+                org.girlscouts.vtk.dao.*,
+                org.girlscouts.vtk.models.user.*"%>
 <%@include file="/libs/foundation/global.jsp"%>
 
 <%
@@ -21,6 +23,14 @@
 
 	final QueryBuilder queryBuilder = sling.getService(QueryBuilder.class);
 %>
+
+<%@include file="include/session.jsp"%>
+<%-- VTK tab --%>
+<%!
+    String activeTab = "resource";
+    boolean showVtkNav = true;
+%>
+<%@include file="include/vtk-nav.jsp"%>
 
 <%-- search box --%>
 <!-- TODO: implement search
@@ -171,7 +181,13 @@ try {
                 Asset asset = iter.next().adaptTo(Asset.class);
                 if (asset != null) {
                     // TODO: check importer. Use dc:title
-                    //String title = asset.getMetadataValue("jcr:title");
+                    Map<String, Object> map = asset.getMetadata();
+                    /*
+                    for (String key : map.keySet()) {
+                        builder.append(key).append(",");
+                    }
+                    */
+                    //String title = asset.getMetadataValue("dc:title");
                     String title = asset.getName();
 
                 	builder.append("<li>");
