@@ -25,6 +25,29 @@
             <artifactId>girlscouts-vtk-bundle</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.day.cq.wcm</groupId>
+            <artifactId>cq-wcm-api</artifactId>
+            <version>5.6.6</version>
+            <scope>provided</scope>
+        </dependency>
+        <!--
+        Mike Z. Temp disable. I am receiving an error:
+        Access denied.  ReasonPhrase:Forbidden: body content-type denied.
+        Probably our company internet issue.
+        <dependency>
+            <groupId>com.day.cq.dam</groupId>
+            <artifactId>cq-dam-api</artifactId>
+            <version>5.6.6</version>
+            <scope>provided</scope>
+        </dependency>
+        -->
+        <dependency>
+            <groupId>com.day.cq</groupId>
+            <artifactId>cq-search</artifactId>
+            <version>5.6.4</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
     <build>
         <resources>
