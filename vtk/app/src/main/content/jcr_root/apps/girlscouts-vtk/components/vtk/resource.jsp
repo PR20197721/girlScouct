@@ -149,7 +149,8 @@ try {
 	private long countAidAssets(String path, QueryBuilder builder, Session session) {
 	    Map<String, String> map = new HashMap<String, String>();
 	    map.put("path", path);
-	    map.put("p.limit", "0");
+	    map.put("type", "dam:Asset");
+	    map.put("p.limit", "1");
 	    PredicateGroup predicate = PredicateGroup.create(map);
 	    Query query = builder.createQuery(predicate, session);
 	    
