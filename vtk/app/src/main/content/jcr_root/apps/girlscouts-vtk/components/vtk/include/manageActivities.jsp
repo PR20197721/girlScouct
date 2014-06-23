@@ -1,4 +1,4 @@
-<div style="background-color:gray; color:#fff;">Manage Activities</div>
+<div class="sectionBar">Manage Activities</div>
 <%
 if( user.getYearPlan().getActivities()!=null && user.getYearPlan().getActivities().size()>0){
 %>
@@ -7,15 +7,15 @@ if( user.getYearPlan().getActivities()!=null && user.getYearPlan().getActivities
 	for(int t=0;t<user.getYearPlan().getActivities().size(); t++){
 %>
 	<li>
-	<%=user.getYearPlan().getActivities().get(t).getDate() %>
-	<b><%=user.getYearPlan().getActivities().get(t).getName() %></b>
-	<a href="javascript:void(0)" onclick="rmCustActivity('<%=user.getYearPlan().getActivities().get(t).getPath()%>')">Remove</a>
+		<%=user.getYearPlan().getActivities().get(t).getDate() %>
+		<b><%=user.getYearPlan().getActivities().get(t).getName() %></b>
+		<a href="javascript:void(0)" onclick="rmCustActivity('<%=user.getYearPlan().getActivities().get(t).getPath()%>')">Remove</a>
 	</li>
 <%
 	}
 %>
 </ul>
-`<%
+<%
 } else {
 %>
 	No activities.
