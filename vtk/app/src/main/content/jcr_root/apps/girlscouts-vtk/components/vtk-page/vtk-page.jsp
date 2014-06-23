@@ -41,10 +41,7 @@ try{
                     com.day.cq.wcm.foundation.ELEvaluator" %><%
 %><%@taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0" %><%
 %><cq:defineObjects/>
-
-
 <%
-
     // read the redirect target from the 'page properties' and perform the
     // redirect if WCM is disabled.
     String location = properties.get("redirectTarget", "");
