@@ -34,12 +34,16 @@
 	String language = siteRoot.substring(siteRoot.lastIndexOf("/") + 1);
 %>
 	<script type="text/javascript">
+		var fixVerticalSizing = true;
+
 		var resizeWindow = function(){
-		   var currentMainHeight = $('#main').height();
-		   var targetMainHeight = $(this).height() - $("#header").height() - $("#headerBar").height() - $("#footer").height() - 15;
-		   if (targetMainHeight > 1 * currentMainHeight) {
-		      $('#main').height(targetMainHeight);
-		   }
+			if(fixVerticalSizing) {
+				var currentMainHeight = $('#main').height();
+				var targetMainHeight = $(this).height() - $("#header").height() - $("#headerBar").height() - $("#footer").height() - 15;
+				if (targetMainHeight > 1 * currentMainHeight) {
+					$('#main').height(targetMainHeight);
+				}
+			}
 		};
 		window.onload = resizeWindow;
 		$(window).resize(resizeWindow);
