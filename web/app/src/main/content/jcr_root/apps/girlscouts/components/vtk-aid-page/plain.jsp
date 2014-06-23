@@ -1,2 +1,2 @@
 <%@include file="/libs/foundation/global.jsp"%>
-<%= properties.get("data", "") %>
+<cq:include path="./data" resourceType="girlscouts/components/text" />
