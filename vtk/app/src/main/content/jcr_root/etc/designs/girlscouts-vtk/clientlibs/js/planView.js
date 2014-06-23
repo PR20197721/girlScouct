@@ -83,7 +83,11 @@ function repositionActivity(meetingPath){
 
 function editAgenda(x){
 	$(function() {
-		$( "#"+x ).dialog({width:800});
+                $( "#"+x ).dialog({
+                        width:920,
+                        modal:true,
+                        dialogClass:"modalWrap"
+                });
 	});
 }
 
