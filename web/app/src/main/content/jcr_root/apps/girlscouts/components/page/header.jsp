@@ -29,15 +29,24 @@
 						<div class="row emptyrow"></div>
 					</div>
 					<div class="show-for-small small-24 columns topMessage alt">
-						<div class="row">
+						<div class="row vtk-login">
 							<% setCssClasses("small-18 columns", request); %>
 							<cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
-							<div class="small-3 columns">
+							<div class="small-6 columns">
 							   	<a class="search-icon"><img src="<%= designPath %>/images/magnifyer-small.png" width="21" height="21"/></a>
-							
 								<a class="right-off-canvas-toggle menu-icon"><img src="<%= designPath %>/images/hamburger.png" width="22" height="28"/></a>
 							</div>
 						</div>
+						<div class="row hide srch-box">
+							<% setCssClasses("small-22 columns", request); %>
+								<cq:include path="<%= headerPath + "/search-box" %>" resourceType="girlscouts/components/search-box" />
+							<div class="small-2 columns">
+								<a class="right-off-canvas-toggle menu-icon"><img src="<%= designPath %>/images/hamburger.png" width="22" height="28"/></a>
+							</div>
+						</div>
+						
+						
+						
 					</div>
 				</div>
 <!--PAGE STRUCTURE: HEADER BAR-->
@@ -49,3 +58,6 @@
 
 <!-- SMALL SCREEN CANVAS should be after the global navigation is loaded,since global navigation won't be authorable-->
 				<cq:include script="small-screen-menus"/>
+				
+				
+				
