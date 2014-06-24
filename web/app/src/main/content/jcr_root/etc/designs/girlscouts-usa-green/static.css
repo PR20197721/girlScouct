@@ -750,3 +750,24 @@ div.textimage.image_right div.image {
     margin-bottom: 0;
     padding: 0;
 }
+
+
+/* added change for the search small menu */
+#header .topMessage.alt {
+	height: 30px;
+}
+
+#header > div.show-for-small.small-24.columns.topMessage.alt > .row.srch-box {
+	line-height: 30px;
+}
+.srch-box form{
+  margin:8px 0 0;
+}
+.srch-box form input[type="text"]{
+  margin:0;
+}
+
+#header > .show-for-small.topMessage.alt > .srch-box > .small-2.columns {
+	padding: 0;
+}
+
