@@ -59,7 +59,6 @@ public class StyleFilter implements javax.servlet.Filter {
 
         ValueMap properties = resource.adaptTo(ValueMap.class);
         if (properties == null) {
-            log.warn("Cannot get properties: " + resource.getPath());
             return;
         }
 
