@@ -28,7 +28,6 @@
 					/**** Check to see if the current folder hideInNav is not set to true, if it's set ********** 
 					***** set to true, we don't display is but look to the next node, this is necessary to highlighting the**** 
 					***** special form condition.******/
-					System.out.println("rootPath" +rootPath + "notePath" +nodePath);
 					
 					if (!page.isHideInNav()) {
 						if (rootPath.equalsIgnoreCase(nodePath) && showCurrent.equals("false")) {
@@ -136,3 +135,4 @@
  
  %>
  <%=menuBuilder %>
+git 
