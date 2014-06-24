@@ -636,43 +636,44 @@ ul.side-nav, li#sub-active ul, li#sub-active > ul > li > ul > li{
   margin:0px;
 }
 
-/*
-.side-nav li {
+/* Hamburger Menu Change Start*/
+
+#right-canvas-menu .side-nav li {
     text-indent:30px;
   }
     
-.side-nav ul li ul li {
+#right-canvas-menu .side-nav ul li ul li {
     text-indent:0px;
     }    
     
-.side-nav li ul li {
+#right-canvas-menu .side-nav li ul li {
     text-indent:8px;
    }  
 
-.side-nav li ul li ul li {
+#right-canvas-menu .side-nav li ul li ul li {
     text-indent:60px;
    } 
 
-.side-nav ul ul li {
+#right-canvas-menu .side-nav ul ul li {
     text-indent:25px;
    }  
    
-.side-nav ul ul ul li {
+#right-canvas-menu .side-nav ul ul ul li {
     text-indent:70px;
    }    
    
 
-.side-nav li ul li ul li {
+#right-canvas-menu .side-nav li ul li ul li {
     text-indent:30px;
    } 
    
-li#sub-active > ul > ul >li > ul > li {
+#right-canvas-menu li#sub-active > ul > ul >li > ul > li {
   text-indent:80px;
 }       
-.side-nav li {
+#right-canvas-menu .side-nav li {
     text-indent:10px;
     }  
-*/
+/* Hamburger Menu changes end */
 
 #right-canvas-menu-bottom > ul{
    padding:0px;
@@ -749,3 +750,24 @@ div.textimage.image_right div.image {
     margin-bottom: 0;
     padding: 0;
 }
+
+
+/* added change for the search small menu */
+#header .topMessage.alt {
+	height: 30px;
+}
+
+#header > div.show-for-small.small-24.columns.topMessage.alt > .row.srch-box {
+	line-height: 30px;
+}
+.srch-box form{
+  margin:8px 0 0;
+}
+.srch-box form input[type="text"]{
+  margin:0;
+}
+
+#header > .show-for-small.topMessage.alt > .srch-box > .small-2.columns {
+	padding: 0;
+}
+

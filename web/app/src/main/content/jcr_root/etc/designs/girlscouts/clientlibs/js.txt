@@ -10,3 +10,4 @@ calendar/calendar-display.js
 #calendar/moment.js
 login.js
 readmore.js
+misc.js
