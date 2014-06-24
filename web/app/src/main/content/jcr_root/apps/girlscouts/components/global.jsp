@@ -111,3 +111,9 @@ public String displayRendition(ResourceResolver rr, String imagePath, String ren
         return returnImage.toString();
 }
 %>
+<%!
+	public String createHref(Page page) {
+		String href = "<a href=" + page.getPath() + ".html" + ">"
+				+ page.getTitle() + "</a>";
+		return href;
+}%>
