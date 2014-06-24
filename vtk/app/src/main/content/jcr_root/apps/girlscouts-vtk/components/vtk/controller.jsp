@@ -168,10 +168,13 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 }else if( request.getParameter("loginAs")!=null){ //troopId
 	if(request.getParameter("loginAs")==null || request.getParameter("loginAs").trim().equals("") ){System.err.println("loginAs invalid.abort");return;}
 	
+
+
+System.err.println("(**** "+ request.getParameter("loginAs"));
 	User curr_user = (User)session.getValue("VTK_user");
 	User new_user= userDAO.getUser( curr_user.getApiConfig().getUserId() +"_"+ request.getParameter("loginAs") );
 	if( new_user==null )
-		 new_user = new User(curr_user.getApiConfig().getUserId()+"_"+ request.getParameter("loginAs") );
+		 new_user = new User(curr_user.getApiConfig().getUserId()+"_"+  request.getParameter("loginAs") );
 	
 	java.util.List <org.girlscouts.vtk.salesforce.Troop> troops = curr_user.getApiConfig().getTroops();
 	for(int i=0;i<troops.size();i++){
@@ -179,11 +182,21 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 				new_user.setTroop(troops.get(i) );
 			}
 	}
+	
     new_user.setApiConfig(curr_user.getApiConfig());
     new_user.setSfTroopId( new_user.getTroop().getTroopId() );
     new_user.setSfUserId( new_user.getApiConfig().getUserId() );
     new_user.setSfTroopName( new_user.getTroop().getTroopName() );  
     session.putValue("VTK_user", new_user);
+	
+    
+}else if( request.getParameter("addAsset")!=null){
+	
+	org.girlscouts.vtk.models.Asset asset = new org.girlscouts.vtk.models.Asset(request.getParameter("addAsset"));
+//	asset.add( request.getParameter("addAsset") );
+	
+	//TODO 
+	new UserDAOImpl().addAsset( (User)session.getValue("VTK_user") ,  request.getParameter("meetingUid"),   asset);
 	
 }else{
 	

@@ -6,3 +6,4 @@ locationManager.js
 meeting.js
 plan.js
 planView.js
+resources.js

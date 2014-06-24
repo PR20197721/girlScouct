@@ -1,14 +1,9 @@
-<%@page import="java.util.Iterator,
-                java.util.HashSet,java.util.Set,
-                java.util.Arrays,
-                org.slf4j.Logger,org.slf4j.LoggerFactory,
-                javax.jcr.Node" %>
-
+<%@page import="java.util.Iterator, java.util.HashSet,java.util.Set, java.util.Arrays, org.slf4j.Logger,org.slf4j.LoggerFactory, javax.jcr.Node" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
-
 <cq:includeClientLib categories="apps.girlscouts" />
 <cq:defineObjects />
+
 
 <%!public void buildMenu(Iterator<Page> iterPage, String rootPath,
 			String gs_us_path, StringBuilder menuBuilder, int levelDepth,

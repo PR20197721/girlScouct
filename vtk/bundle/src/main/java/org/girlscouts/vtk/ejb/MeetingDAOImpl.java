@@ -21,7 +21,9 @@ import org.apache.jackrabbit.ocm.query.Filter;
 import org.apache.jackrabbit.ocm.query.Query;
 import org.apache.jackrabbit.ocm.query.QueryManager;
 import org.girlscouts.vtk.dao.MeetingDAO;
+import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.models.Activity;
+import org.girlscouts.vtk.models.Asset;
 import org.girlscouts.vtk.models.JcrCollectionHoldString;
 import org.girlscouts.vtk.models.JcrNode;
 import org.girlscouts.vtk.models.Meeting;
@@ -36,7 +38,7 @@ import javax.jcr.*;
 public class MeetingDAOImpl implements MeetingDAO {
 
    private Session session;
-    
+   
     @Reference
     private SessionPool pool;
     
@@ -417,7 +419,7 @@ public List<org.girlscouts.vtk.models.Search> getData(String query) {
 	
 	try{
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
-		javax.jcr.query.Query q = qm.createQuery("select jcr:path, excerpt(.) from nt:resource    where jcr:path like '/content/dam/%' and  contains(., '"+ query +"~')", javax.jcr.query.Query.SQL); 
+		javax.jcr.query.Query q = qm.createQuery("select jcr:path, excerpt(.) from nt:resource    where jcr:path like '/content/dam/%' and  contains(., '"+ query +"~0.8')", javax.jcr.query.Query.SQL); 
    QueryResult result = q.execute();
    
  
@@ -436,7 +438,5 @@ public List<org.girlscouts.vtk.models.Search> getData(String query) {
 	}catch(Exception e){e.printStackTrace();}
    return matched;
 	}
-
-
 
 }//edn class

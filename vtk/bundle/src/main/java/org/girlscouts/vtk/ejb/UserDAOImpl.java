@@ -26,6 +26,7 @@ import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.YearPlan;
+import org.girlscouts.vtk.models.Asset;
 import org.girlscouts.vtk.models.user.User;
 
 @Component
@@ -64,16 +65,9 @@ public class UserDAOImpl implements UserDAO{
 		
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(User.class);
-			
-	      
-	        //-filter.setScope(  "/content/girlscouts-vtk/users/5");//+userId);
-	        //Query query = queryManager.createQuery(filter);
-	        
-	        
+		
 	        user = (User) ocm.getObject("/content/girlscouts-vtk/users/"+ userId);
 	      
-	        
-	        
 	       
 	        if( user!=null && user.getYearPlan().getMeetingEvents()!=null){
 	        	
@@ -360,4 +354,15 @@ public void selectYearPlan(User user, String yearPlanPath){
 	
  }
  */
+
+public void addAsset(User user, String meetingUid,  Asset asset){
+
+        java.util.List<MeetingE> meetings = user.getYearPlan().getMeetingEvents();
+        for(int i=0;i<meetings.size();i++)
+                        if( meetings.get(i).getUid().equals( meetingUid))
+                                meetings.get(i).getAssets().add( asset );
+
+        updateUser(user);
+
+}
 }//ednclass

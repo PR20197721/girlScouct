@@ -5,8 +5,9 @@
 <cq:includeClientLib categories="apps.girlscouts" />
 <cq:defineObjects/>
 <%
-   String REGIONS = "/content/girlscouts-usa/en/locations";
-   String YEARS="/content/girlscouts-usa/en/events";
+   // TODO: Still need these?
+   String REGIONS = currentPage.getAbsoluteParent(2).getPath() + "/locations";
+   String YEARS = currentPage.getAbsoluteParent(2).getPath() + "/events";
    long RESULTS_PER_PAGE = 10;
    
    String path = currentSite.get("eventPath",String.class);

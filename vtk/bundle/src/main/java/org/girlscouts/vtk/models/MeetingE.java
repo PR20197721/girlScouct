@@ -1,5 +1,6 @@
 package org.girlscouts.vtk.models;
 
+import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
@@ -20,15 +21,21 @@ public class MeetingE extends YearPlanComponent{
 	
 	@Field private String cancelled;
 	
-	@Field 
-    private Integer id;
+	@Field private Integer id;
 	
-	 @Field(id=true) String uid;
+	@Field(id=true) String uid;
 	 
-	 
-	 
+	@Collection java.util.List<Asset> assets;
 	
-	
+	 
+
+	public java.util.List<Asset> getAssets() {
+		return assets;
+	}
+
+	public void setAssets(java.util.List<Asset> assets) {
+		this.assets = assets;
+	}
 
 	public String getUid() {
 		return uid;

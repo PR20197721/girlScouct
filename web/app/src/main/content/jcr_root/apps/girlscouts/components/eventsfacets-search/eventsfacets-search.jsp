@@ -10,9 +10,10 @@
 <%
 
 
-   String COUNTS = "/content/girlscouts-usa/en/events/tag-counts";
-   String REGIONS = "/content/girlscouts-usa/en/locations";
-   String YEARS="/content/girlscouts-usa/en/events";
+   // TODO: do we still need these?
+   String COUNTS = currentPage.getAbsoluteParent(2).getPath() + "/events/tag-counts";
+   String REGIONS = currentPage.getAbsoluteParent(2).getPath() + "/locations";
+   String YEARS=currentPage.getAbsoluteParent(2).getPath() + "/events";
    long RESULTS_PER_PAGE = 10;
    
    

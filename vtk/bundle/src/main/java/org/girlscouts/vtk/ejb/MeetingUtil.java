@@ -74,13 +74,13 @@ public class MeetingUtil {
 		
 		List <Activity> activities = plan.getActivities();
 		
-
+/*
 		if( activities!=null)
 		  for(int i=0;i<activities.size();i++){
 
 			sched.put(activities.get(i).getDate(), activities.get(i));
 		  }
-		
+	*/	
 		
 		
 	java.util.List <MeetingE> meetingEs = plan.getMeetingEvents();
@@ -120,6 +120,14 @@ public class MeetingUtil {
 		
 		
 		
+		
+		
+		
+		
+		
+		
+		
+		
 	}else{ //no dates: create 1976
 		Calendar tmp= java.util.Calendar.getInstance();
 		tmp.setTime(new java.util.Date("1/1/1976"));
@@ -130,6 +138,15 @@ public class MeetingUtil {
 			tmp.add( java.util.Calendar.DATE, 1);
 		}
 	}
+	
+	
+	
+	if( activities!=null)
+		  for(int i=0;i<activities.size();i++){
+
+			sched.put(activities.get(i).getDate(), activities.get(i));
+		  }
+	
 		
 		}catch(Exception e){e.printStackTrace(); return null;}
 		

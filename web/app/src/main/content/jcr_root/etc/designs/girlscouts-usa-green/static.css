@@ -153,15 +153,12 @@ a:hover.menuHighlight {
     background-color: #009447;
 }
 #headerBar>div{
-    padding: 3px 110px 0px 10px;
+    padding: 3px 110px 0px 20px;
 }
 
 #headerBar ul.inline-list {
     margin: 0px;
     padding: 0px;
-}
-#headerBar ul {
-    float: right;
 }
 #headerBar li {
     margin: 0px;
@@ -235,6 +232,7 @@ a:hover.menuHighlight {
 .breadcrumbs a.current {
     color: #00ae58;
 }
+
 /* SIDE NAV */
 #main .side-nav *{
     color: #333333;
@@ -254,9 +252,10 @@ a:hover.menuHighlight {
     padding: 0px;
     background: none; 
 }
-#main .side-nav .active>a {
+#main .side-nav .active>a, #main .side-nav .isOpen>a {
     font-weight: bold;
 }
+
 #main .side-nav>li>a{
     font-weight: bold;
 }
@@ -637,6 +636,7 @@ ul.side-nav, li#sub-active ul, li#sub-active > ul > li > ul > li{
   margin:0px;
 }
 
+/*
 .side-nav li {
     text-indent:30px;
   }
@@ -646,7 +646,7 @@ ul.side-nav, li#sub-active ul, li#sub-active > ul > li > ul > li{
     }    
     
 .side-nav li ul li {
-    text-indent:10px;
+    text-indent:8px;
    }  
 
 .side-nav li ul li ul li {
@@ -654,7 +654,7 @@ ul.side-nav, li#sub-active ul, li#sub-active > ul > li > ul > li{
    } 
 
 .side-nav ul ul li {
-    text-indent:60px;
+    text-indent:25px;
    }  
    
 .side-nav ul ul ul li {
@@ -672,6 +672,7 @@ li#sub-active > ul > ul >li > ul > li {
 .side-nav li {
     text-indent:10px;
     }  
+*/
 
 #right-canvas-menu-bottom > ul{
    padding:0px;
@@ -698,12 +699,10 @@ li#sub-active > ul > ul >li > ul > li {
 
 #right-canvas-menu-bottom li {
     text-indent:19px;
-  }
-
-.side-nav li.active > ul > ul > li.active{
-  text-indent:12px;
 }
-
+.side-nav li.active > ul > ul > li{
+    text-indent:12px;
+}
 
 .lineHeight{
  line-height:1.5;
@@ -738,4 +737,15 @@ div.image.center small {
 
 .rightBodyLeft {
     padding: 0 1.250em;
+}
+
+div.textimage.image_right div.image {
+    float: right !important;
+    margin: 0 0 8px 8px !important;
+}
+
+/* no padding or margin for grid system */
+.grid-system.nopadding li, .grid-system.nopadding div.image {
+    margin-bottom: 0;
+    padding: 0;
 }
