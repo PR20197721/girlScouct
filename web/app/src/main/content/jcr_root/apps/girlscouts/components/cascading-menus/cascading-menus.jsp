@@ -93,13 +93,7 @@
 		//return menuBuilder;
 
 	}
-
-	// Create the HREF 
-	public String createHref(Page page) {
-		String href = "<a href=" + page.getPath() + ".html" + ">"
-				+ page.getTitle() + "</a>";
-		return href;
-	}%>
+%>
 
 <%
   // GET THE STRUCTURE FROM THE CURRENTPATH
