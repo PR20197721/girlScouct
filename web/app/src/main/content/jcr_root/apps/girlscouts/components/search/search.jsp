@@ -35,8 +35,8 @@ pageContext.setAttribute("escapedQueryForAttr", escapedQueryForAttr);
 
    Map mapPath = new HashMap();
    mapPath.put("group.p.or","true");
-   // TODO: Mike Z. relative path
-   mapPath.put("group.1_path","/content/girlscouts-usa/en");
+   mapPath.put("group.1_path", currentPage.getAbsoluteParent(2).getPath());
+   // TODO: Make this configurable
    mapPath.put("group.2_path", "/content/dam/girlscouts-shared/en/documents");
  
    
