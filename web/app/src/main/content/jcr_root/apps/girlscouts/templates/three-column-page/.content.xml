@@ -3,7 +3,7 @@
     jcr:description="A page with three columns -- the default Girl Scout page construction."
     jcr:primaryType="cq:Template"
     jcr:title="Three Column Page"
-    allowedPaths="[/content/girlscouts.*]"
+    allowedPaths="[/content(/.*)?]"
     ranking="{Long}10">
     <jcr:content
         jcr:primaryType="cq:PageContent"
