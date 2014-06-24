@@ -636,43 +636,44 @@ ul.side-nav, li#sub-active ul, li#sub-active > ul > li > ul > li{
   margin:0px;
 }
 
-/*
-.side-nav li {
+/* Hamburger Menu Change Start*/
+
+#right-canvas-menu .side-nav li {
     text-indent:30px;
   }
     
-.side-nav ul li ul li {
+#right-canvas-menu .side-nav ul li ul li {
     text-indent:0px;
     }    
     
-.side-nav li ul li {
+#right-canvas-menu .side-nav li ul li {
     text-indent:8px;
    }  
 
-.side-nav li ul li ul li {
+#right-canvas-menu .side-nav li ul li ul li {
     text-indent:60px;
    } 
 
-.side-nav ul ul li {
+#right-canvas-menu .side-nav ul ul li {
     text-indent:25px;
    }  
    
-.side-nav ul ul ul li {
+#right-canvas-menu .side-nav ul ul ul li {
     text-indent:70px;
    }    
    
 
-.side-nav li ul li ul li {
+#right-canvas-menu .side-nav li ul li ul li {
     text-indent:30px;
    } 
    
-li#sub-active > ul > ul >li > ul > li {
+#right-canvas-menu li#sub-active > ul > ul >li > ul > li {
   text-indent:80px;
 }       
-.side-nav li {
+#right-canvas-menu .side-nav li {
     text-indent:10px;
     }  
-*/
+/* Hamburger Menu changes end */
 
 #right-canvas-menu-bottom > ul{
    padding:0px;
