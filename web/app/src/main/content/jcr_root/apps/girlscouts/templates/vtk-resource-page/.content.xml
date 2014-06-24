@@ -3,7 +3,7 @@
     jcr:description="A page that serves as a Volunteer Toolkit resource."
     jcr:primaryType="cq:Template"
     jcr:title="VTK Resource Page"
-    allowedPaths="[/content/girlscouts.*]"
+    allowedPaths="[/content(/.*)?]"
     ranking="{Long}15">
     <jcr:content
         jcr:primaryType="cq:PageContent"
