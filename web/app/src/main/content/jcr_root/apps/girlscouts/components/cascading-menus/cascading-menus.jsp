@@ -3,101 +3,129 @@
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 <cq:includeClientLib categories="apps.girlscouts" />
 <cq:defineObjects />
-<%
-	// GET THE STRUCTURE FROM THE CURRENTPATH
-	String curPath = currentPage.getPath();
-	String curTitle = currentPage.getTitle();
-	int levelDepth = 0;
-	StringBuilder menuBuilder = new StringBuilder();
-	// from this path get to the parent
-	String gs_us_path = currentPage.getAbsoluteParent(2).getPath();
-	String rootPath = currentPage.getPath().substring(gs_us_path.length()+1, curPath.length());  
-	String navigationRoot = currentPage.getAbsoluteParent(3).getPath();
-	String showCurrent = "false";
 
-	// What is the navigationRoot
-	boolean levelFlag = true;
-	Iterator<Page> iterPage = resourceResolver.getResource(navigationRoot).adaptTo(Page.class).listChildren();
 
-	// Handling events
-	String eventGrandParent = currentPage.getParent().getParent().getPath();
-	String eventLeftNavRoot = currentSite.get("leftNavRoot", String.class);
-	String eventDisplUnder = currentSite.get("eventPath", String.class);
-	boolean includeUL=false;
-	String insertAfter="";
-	if(eventGrandParent.equalsIgnoreCase(currentSite.get("eventPath", String.class))){
-		String eventPath = eventLeftNavRoot.substring(0,eventLeftNavRoot.lastIndexOf("/"));
-		//System.out.println("What is the eventPath" +eventPath);
-		iterPage = resourceResolver.getResource(eventPath).adaptTo(Page.class).listChildren();
-	}
-	buildMenu(iterPage, rootPath, gs_us_path, menuBuilder, levelDepth,"",levelFlag,eventLeftNavRoot, curPath, curTitle, eventDisplUnder, showCurrent);
-%><%=menuBuilder %>
-<%!
-public StringBuilder buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_path,StringBuilder menuBuilder,int levelDepth,String ndePath, boolean levelFlag,String eventLeftNavRoot,String currPath, String currTitle, String eventDispUnder, String showCurrent) throws RepositoryException{
-	levelDepth++;
-	String name;
-	String path;
-	if(iterPage.hasNext()) {
-		if (levelDepth == 1) {
-			menuBuilder.append("<ul class=\"side-nav\" style=\"padding:0px\">");
-		} else{
-			menuBuilder.append("<ul>");
-		}
-		while(iterPage.hasNext()) {
-			Page page = iterPage.next();
-			name = page.getName();
-			path = page.getPath();
-			int dept = page.getDepth();
-			String nodePath = page.getPath().substring(gs_us_path.length()+1, page.getPath().length());
-			showCurrent = page.getParent().getProperties().get("showCurrent","false");
-			if(rootPath.startsWith(nodePath)) {
-				if(!page.isHideInNav()) {
-					if(rootPath.equalsIgnoreCase(nodePath) && showCurrent.equals("false")){
-						menuBuilder.append("<li class=\"active\">");
-						menuBuilder.append("<a href=").append(page.getPath()+".html").append(">").append(page.getTitle()).append("</a>");
-					} else {
-						if(levelFlag && page.listChildren().hasNext()){
-							menuBuilder.append("<li class=\"active\">");
-							menuBuilder.append("<a href=").append(page.getPath()+".html").append(">").append(page.getTitle()).append("</a>");
-							levelFlag=false;
-						}else {
-							if(rootPath.equals(nodePath)){
-								menuBuilder.append("<li class=\"active\">");
-							} else{
-								menuBuilder.append("<li>");
-							}
-							menuBuilder.append("<a href=").append(page.getPath()+".html").append(">").append(page.getTitle()).append("</a>");
-							menuBuilder.append("</li>");
-						}    
-					}
-				}
-				if(page.listChildren().hasNext()) {
-					buildMenu(page.listChildren(), rootPath,gs_us_path, menuBuilder, levelDepth,nodePath, levelFlag,eventLeftNavRoot,currPath, currTitle, eventDispUnder, showCurrent );           
-				}
+<%!public void buildMenu(Iterator<Page> iterPage, String rootPath,
+			String gs_us_path, StringBuilder menuBuilder, int levelDepth,
+			String ndePath, boolean levelFlag, String eventLeftNavRoot,
+			String currPath, String currTitle, String eventDispUnder,
+			String showCurrent) throws RepositoryException {
+		levelDepth++;
+		if (iterPage.hasNext()) {
+			if (levelDepth == 1) {
+				menuBuilder.append("<ul class=\"side-nav\" style=\"padding:0px\">");
 			} else {
-				if(page.getPath().indexOf(eventLeftNavRoot)==0 && currPath.indexOf(eventDispUnder)==0) {
-					menuBuilder.append("<li class=\"active\">");
-					menuBuilder.append("<a href=").append(page.getPath()+".html").append(">").append(page.getTitle()).append("</a>");
-					menuBuilder.append("<ul><li class=\"active\">");
-					menuBuilder.append("<a href=").append(currPath+".html").append(">").append(currTitle).append("</a>");
-					menuBuilder.append("</li></ul>");
+				menuBuilder.append("<ul>");
+			}
+			while (iterPage.hasNext()) {
+				Page page = iterPage.next();
+				int dept = page.getDepth();
+				String nodePath = page.getPath().substring(gs_us_path.length() + 1, page.getPath().length());
+				showCurrent = page.getParent().getProperties().get("showCurrent", "false");
+				
+				// Check to see if the current path startsWith the node which we are traversing
+				if (rootPath.startsWith(nodePath)) {
+					/**** Check to see if the current folder hideInNav is not set to true, if it's set ********** 
+					***** set to true, we don't display is but look to the next node, this is necessary to highlighting the**** 
+					***** special form condition.******/
+					
+					if (!page.isHideInNav()) {
+						if (rootPath.equalsIgnoreCase(nodePath) && showCurrent.equals("false")) {
+							menuBuilder.append("<li class=\"active\">");
+							menuBuilder.append(createHref(page));
+						} else {
+							if (levelFlag && page.listChildren().hasNext()) {
+								menuBuilder.append("<li class=\"active\">");
+								menuBuilder.append(createHref(page));
+								levelFlag = false;
+							} else {
+								if (rootPath.equals(nodePath)) {
+									menuBuilder.append("<li class=\"active\">");
+								} else {
+									menuBuilder.append("<li>");
+								}
+								menuBuilder.append(createHref(page));
+								//menuBuilder.append("</li>");
+							}
+						}
+					}
+					Iterator<Page> p = page.listChildren();
+					if (p.hasNext()) {
+						buildMenu(p, rootPath, gs_us_path, menuBuilder,
+								levelDepth, nodePath, levelFlag,
+								eventLeftNavRoot, currPath, currTitle,
+								eventDispUnder, showCurrent);
+					}
 				} else {
-					if(showCurrent.equals("false") && !page.isHideInNav()) {
-						menuBuilder.append("<li>");
-						menuBuilder.append("<a href=").append(page.getPath()+".html").append(">").append(page.getTitle()).append("</a>");
-						menuBuilder.append("</li>");
+					/*** Below if eventLeftNavRoot is to handle a special case for events. Events is create at separate location
+					 ***  and when event is click event name need to be displayed in the left navigation
+					*/
+					if (page.getPath().indexOf(eventLeftNavRoot) == 0 && currPath.indexOf(eventDispUnder) == 0) {
+						menuBuilder.append("<li class=\"active\">");
+						menuBuilder.append(createHref(page));
+						//menuBuilder.append("</li>");
+
+						menuBuilder.append("<ul><li class=\"active\">");
+						menuBuilder.append("<a href=")
+								.append(currPath + ".html").append(">")
+								.append(currTitle).append("</a>");
+						menuBuilder.append("</li></ul>");
+					} else {
+						/*****This showCurrent is for the highligting form *******
+						 **** Top folder under which forms resides has a property "showCurrent = true" *****
+						 ***** which we are using to display the form it form is in the URL path and parent of it is set ****
+						 ***** to "true" else we are not displaying that content *******/
+						if (showCurrent.equals("false") && !page.isHideInNav()) {
+							menuBuilder.append("<li>");
+							menuBuilder.append(createHref(page));
+							//menuBuilder.append("</li>");
+						}
 					}
 				}
+				if (levelDepth == 1) {
+					menuBuilder.append("<li class=\"divider\">")
+							.append("</li>");
+				}
 			}
-			if(levelDepth==1) { 
-				menuBuilder.append("<li class=\"divider\">").append("</li>");
-			}
+			menuBuilder.append("</li>");
 		}
-		menuBuilder.append("</li>");
-	}
+		menuBuilder.append("</ul>");
+		//return menuBuilder;
 
-	menuBuilder.append("</ul>");
-	return menuBuilder;
-}
+	}
 %>
 
+<%
+  // GET THE STRUCTURE FROM THE CURRENTPATH
+  
+  String curPath = currentPage.getPath();
+  String curTitle = currentPage.getTitle();
+  int levelDepth = 0;
+  StringBuilder menuBuilder = new StringBuilder();
+  // from this path get to the parent
+  String gs_us_path = currentPage.getAbsoluteParent(2).getPath();
+  String rootPath = currentPage.getPath().substring(gs_us_path.length()+1, curPath.length());  
+  String navigationRoot = currentPage.getAbsoluteParent(3).getPath();
+  String showCurrent = "false";
+  
+ // What is the navigationRoot
+  boolean levelFlag = true;
+  Iterator<Page> iterPage = resourceResolver.getResource(navigationRoot).adaptTo(Page.class).listChildren();
+ 
+ // Handling events
+  String eventGrandParent = currentPage.getParent().getParent().getPath();
+  String eventLeftNavRoot = currentSite.get("leftNavRoot", String.class);
+  String eventDisplUnder = currentSite.get("eventPath", String.class);
+  boolean includeUL=false;
+  String insertAfter="";
+ if(eventGrandParent.equalsIgnoreCase(currentSite.get("eventPath", String.class))){
+     String eventPath = eventLeftNavRoot.substring(0,eventLeftNavRoot.lastIndexOf("/"));
+     //System.out.println("What is the eventPath" +eventPath);
+     iterPage = resourceResolver.getResource(eventPath).adaptTo(Page.class).listChildren();
+  
+ }
+ buildMenu(iterPage, rootPath, gs_us_path, menuBuilder, levelDepth,"",levelFlag,eventLeftNavRoot, curPath, curTitle, eventDisplUnder, showCurrent);
+ 
+ 
+ %>
+ <%=menuBuilder %>
