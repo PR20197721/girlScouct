@@ -1,10 +1,22 @@
 <%@include file="/libs/foundation/global.jsp"%>
+<%@page import="com.day.cq.wcm.api.WCMMode" %>
+
+
 <!-- apps/girlscouts/components/feature-shortstory/main.jsp -->
 <%
 	String designPath = currentDesign.getPath();
 	String title = properties.get("title","");
 	String linkTitle = properties.get("pathfield","");
-	String featureIcon = properties.get("featureiconimage", "");
+	String featureIcon = properties.get("./featureiconimage/fileReference", "");
+	System.out.println("featureIcon" +featureIcon);
+%>
+
+<%if ((title.isEmpty()) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
+    %>
+    <div style="text-align:center; height:300px;"> 
+           <p style="text-align: center"> Click to Edit the Component</p>
+    </div>
+   <% }else{
 %>
 <div class="small-24 medium-24 large-24 columns">
 	<div class="row">
@@ -31,9 +43,10 @@
 		<% if (properties.get("imageOnLeft", "off").equals("on")) { %>
 		<cq:include script="image.jsp" />
 		<cq:include script="text.jsp" />
-		<% } else { %>
-		<cq:include script="text.jsp" />
+		<% } else {%>
+		 <cq:include script="text.jsp" />
 		<cq:include script="image.jsp" />
 		<% } %>
 	</div>
 </div>
+<%}%>
