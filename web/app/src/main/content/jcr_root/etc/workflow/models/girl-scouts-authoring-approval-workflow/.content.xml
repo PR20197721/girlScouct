@@ -3,8 +3,8 @@
     jcr:primaryType="cq:Page">
     <jcr:content
         cq:designPath="/etc/designs/default"
-        cq:lastModified="{Date}2014-06-19T09:48:15.325-04:00"
-        cq:lastModifiedBy="admin"
+        cq:lastModified="{Date}2014-06-25T11:31:40.643-04:00"
+        cq:lastModifiedBy="reviewer-1"
         cq:lastReplicated="{Date}2014-06-11T17:05:45.519-04:00"
         cq:lastReplicatedBy="admin"
         cq:lastReplicationAction="Activate"
@@ -67,10 +67,10 @@
             <dynamic_participant
                 jcr:created="{Date}2014-06-11T16:30:07.421-04:00"
                 jcr:createdBy="hanke"
-                jcr:lastModified="{Date}2014-06-19T09:46:09.232-04:00"
-                jcr:lastModifiedBy="admin"
+                jcr:lastModified="{Date}2014-06-25T11:31:40.640-04:00"
+                jcr:lastModifiedBy="reviewer-1"
                 jcr:primaryType="nt:unstructured"
-                jcr:title="Check Page"
+                jcr:title="Approve or Reject Page"
                 sling:resourceType="cq/workflow/components/model/dynamic_participant">
                 <metaData
                     jcr:primaryType="nt:unstructured"
