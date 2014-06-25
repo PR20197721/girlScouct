@@ -1,68 +1,101 @@
-function displaySlideShow(timer, editflag) {
-    var jcarousel = $('.jcarousel');
-    carouselIn = jcarousel
-            .on('jcarousel:reload jcarousel:create', function () {
-                jcarousel.jcarousel('items').width(jcarousel.innerWidth());
-            }).jcarousel({
-                wrap: 'circular',
-                transitions: Modernizr.csstransitions ? {
-                    transforms:   Modernizr.csstransforms,
-                    transforms3d: Modernizr.csstransforms3d,
-                    easing:       'ease'
-                } : false
-            });
-    if(editflag=='true'){
-    	carouselIn.jcarouselAutoscroll({
-    		autostart:false
-    	});
-    }else{
-    	carouselIn.jcarouselAutoscroll({
-             interval: timer,
-             target: '+=1'
-             
-         });
-    	
-    }
+$(function() {
+	
+	  //set variable size based upon window viewport size
+	  var largerSize = 686; //desktop and larger size
+	  var smallerSize = 599; //mobile max size
+	  var mobileMin = 477; //mobile min anomaly size
+	  var tinySize = 288; //super small size just in case
+	  var containerHeight = 0;
 
-     $('.jcarousel-control-prev')
-            .on('jcarouselcontrol:active', function() {
-                $(this).removeClass('inactive');
-            })
-            .on('jcarouselcontrol:inactive', function() {
-                $(this).addClass('inactive');
-            })
-            .jcarouselControl({
-                target: '-=1'
-            });
+	  //function that assigns variable based on viewport size
+	  function assignment() {
+	    var viewportWidth = ($(window).width() + 15);
+	    switch(true) {
+	      case (viewportWidth < tinySize):
+	        containerHeight = '400px';
+	        break;
+	      case (viewportWidth < mobileMin):
+	        containerHeight = '360px';
+	        break;
+	      case (viewportWidth < smallerSize):
+	        containerHeight = '350px';
+	        break;
+	      case (viewportWidth > largerSize):
+	        containerHeight = '325px';
+	        break;
+	      default:
+	        containerHeight = '300px';
+	        break;
+	    }
+	  };
 
-    $('.jcarousel-control-next')
-            .on('jcarouselcontrol:active', function() {
-                $(this).removeClass('inactive');
-            })
-            .on('jcarouselcontrol:inactive', function() {
-                $(this).addClass('inactive');
-            })
-            .on('click', function(e) {
-                e.preventDefault();
-            })
-            .jcarouselControl({
-                target: '+=1'
-            });
+	  //assign variables on window load
+	  $(document).ready(function() {
+	    assignment();
+	  });
 
-    $('.jcarousel-pagination')
-            .on('jcarouselpagination:active', 'a', function() {
-                $(this).addClass('active');
-            })
-            .on('jcarouselpagination:inactive', 'a', function() {
-                $(this).removeClass('active');
-            })
-            .on('click', function(e) {
-                e.preventDefault();
-            })
-            .jcarouselPagination({
-                item: function(page) {
-                    return '<a href="#' + page + '">' + page + '</a>';
-                }
-            });
+	  //assign variable on window resize
+	  $(window).resize(function() {
+	    assignment();
+	  });
+
+
+	  //necessary for view-b
+	  $(document).on("click", "#SUP1", function(){
+	    //look for class to apply code to, if found open and flip arrow 180 degrees
+	    if ($(this).hasClass("toggled-off"))
+	      $(this).animate({"height": containerHeight}).removeClass("toggled-off").addClass("toggled-on"),
+	      $('#SUP1 #rotate-img').css('-webkit-transform','none'),
+	      $('#SUP1 #rotate-img').css('transform','none'),
+	      $('#SUP1 #rotate-img').css('-ms-transform','none');
+	    else
+	      //close panel and return arrow to 0 degrees
+	      $(this).animate({"height": "125px"}).removeClass("toggled-on").addClass("toggled-off"),
+	      $('#SUP1 #rotate-img').css('-webkit-transform','rotate(180deg)'),
+	      $('#SUP1 #rotate-img').css('transform','rotate(180deg)'),
+	      $('#SUP1 #rotate-img').css('-ms-transform','rotate(180deg)');
+	  });
+
+	  //slide right panel up on click event and rotate arrow image
+	  $(document).on("click", "#SUP2", function(){
+	    //look for class to apply code to, if found open and flip arrow 180 degrees
+	    if ($(this).hasClass("toggled-off"))
+	      $(this).animate({"height": containerHeight}).removeClass("toggled-off").addClass("toggled-on"),
+	      $('#SUP2 #rotate-img').css('-webkit-transform','none'),
+	      $('#SUP2 #rotate-img').css('transform','none'),
+	      $('#SUP2 #rotate-img').css('-ms-transform','none');
+	    else
+	      //close panel and return arrow to 0 degrees
+	      $(this).animate({"height": "125px"}).removeClass("toggled-on").addClass("toggled-off"),
+	      $('#SUP2 #rotate-img').css('-webkit-transform','rotate(180deg)'),
+	      $('#SUP2 #rotate-img').css('transform','rotate(180deg)'),
+	      $('#SUP2 #rotate-img').css('-ms-transform','rotate(180deg)');
+	  });
+
+	  //script to disable the hover/active state of the carousel buttons on click
+	  $(document).on("click", ".slick-prev, .slick-next", function(){
+	    $(this).blur();
+	  });
+
+
+});
+
+function setTimer(timer,play){
+	//alert("Hello I am here relaxing" +autoplay +timer);
+	var pboolean = play =='true';
+	var playspeed = parseInt(timer);
+	$('.meow').slick({
+	    autoplay: pboolean,
+	    autoplaySpeed: playspeed,
+	    arrows: true,
+	    dots: true,
+	    fade: true,
+	    infinite: true,
+	    slidesToShow: 1,
+	    slidesToScroll: 1,
+	  });
+	
+	
 }
 
+    
