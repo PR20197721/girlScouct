@@ -181,7 +181,6 @@ public class CustomGroupEmailProcess implements WorkflowProcess {
 								}
 								email.setTo(emailRecipients);
 								email.setHtmlMsg(message);
-
 								messageGateway.send(email);
 
 							} else {
@@ -191,8 +190,9 @@ public class CustomGroupEmailProcess implements WorkflowProcess {
 						} catch (EmailException e) {
 
 							e.printStackTrace();
+						} catch (Exception e) {
+							e.printStackTrace();
 						}
-
 					} else {
 						log.error("Email template is invalid first line does not inlcude To:");
 					}
@@ -222,7 +222,7 @@ public class CustomGroupEmailProcess implements WorkflowProcess {
 					flow.getMetaDataMap().get("startComment", String.class));
 			map.put("workflow.title",
 					flow.getMetaDataMap().get("workflowTitle", String.class));
-			
+
 		} catch (Exception e) {
 
 			log.error(e.getMessage());
