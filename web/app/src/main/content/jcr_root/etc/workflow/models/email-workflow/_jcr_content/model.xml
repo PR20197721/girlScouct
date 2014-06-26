@@ -7,9 +7,10 @@
     description="No Description"
     title="Email Workflow">
     <metaData
-        cq:lastModified="{Long}1396038667415"
-        cq:lastModifiedBy="admin"
-        jcr:primaryType="nt:unstructured"/>
+        cq:lastModified="{Long}1403798850291"
+        cq:lastModifiedBy="reviewer-1"
+        jcr:primaryType="nt:unstructured"
+        tags="system"/>
     <nodes jcr:primaryType="nt:unstructured">
         <node0
             jcr:primaryType="cq:WorkflowNode"
