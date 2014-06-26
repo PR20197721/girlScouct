@@ -4,6 +4,27 @@
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <%
 String cssClasses = properties.get("cssClasses", "");
+
+ //Spring Board First 
+ request.setAttribute("FsbDesc", properties.get("firstsbdesc","")); 
+ request.setAttribute("FsbTitle",properties.get("firstsbtitle","")); 
+ request.setAttribute("FsbButton", properties.get("firstsbbutton",""));
+ request.setAttribute("FsbUrl", properties.get("firstsburl",""));
+ 
+ //Spring Board Second
+/*  String SsbDesc = properties.get("secondsbdesc","");
+ String SsbTitle = properties.get("secondsbtitle","");
+ String SsbUrl = properties.get("secondsburl","");
+ String SsbButton = properties.get("secondsbbutton",""); */
+ 
+ request.setAttribute("SsbDesc", properties.get("secondsbdesc","")); 
+ request.setAttribute("SsbTitle",properties.get("secondsbtitle","")); 
+ request.setAttribute("SsbUrl", properties.get("secondsburl",""));
+ request.setAttribute("SsbButton", properties.get("secondsbbutton",""));
+
+
+
+
 %>
 <%!
   int timer = 0;

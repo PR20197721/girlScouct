@@ -5,19 +5,19 @@
  // Design 
 	String designPath = currentDesign.getPath();
    //Spring Board First 
-    String FsbDesc = properties.get("firstsbdesc","");
-    String FsbTitle = properties.get("firstsbtitle","");
-    String FsbUrl = properties.get("firstsburl","");
-    String FsbButton = properties.get("firstsbbutton","");
+    String FsbDesc = (String)request.getAttribute("FsbDesc");
+    String FsbTitle = (String)request.getAttribute("FsbTitle");
+    String FsbUrl = (String)request.getAttribute("FsbUrl");
+    String FsbButton = (String)request.getAttribute("FsbButton");
     
     if(!FsbUrl.isEmpty())
         FsbUrl = genLink(resourceResolver, FsbUrl);
     
     //Spring Board Second
-    String SsbDesc = properties.get("secondsbdesc","");
-    String SsbTitle = properties.get("secondsbtitle","");
-    String SsbUrl = properties.get("secondsburl","");
-    String SsbButton = properties.get("secondsbbutton","");
+    String SsbDesc = (String)request.getAttribute("SsbDesc");
+    String SsbTitle = (String)request.getAttribute("SsbTitle");
+    String SsbUrl = (String)request.getAttribute("SsbUrl");
+    String SsbButton = (String)request.getAttribute("SsbButton");
     if(!SsbUrl.isEmpty()){
     	SsbUrl = genLink(resourceResolver, SsbUrl);
     	}
