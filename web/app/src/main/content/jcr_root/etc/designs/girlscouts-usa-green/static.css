@@ -776,3 +776,7 @@ div.textimage.image_right div.image {
     width: 20px;
     height: 14px;
 }
+
+.breadcrumbCurrent {
+    font-size: 0.6875rem;
+}
