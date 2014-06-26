@@ -201,6 +201,11 @@
             jcr:primaryType="cq:Page"
             mode="replace"
             root="/etc/workflow/models/request_for_deactivation"
-            rules="[]"/>              
+            rules="[]"/> 
+           <f37
+            jcr:primaryType="rep:AuthorizableFolder"
+            mode="replace"
+            root="/home/groups/girlscouts-usa"
+            rules="[]"/>   
     </filter>
 </jcr:root>

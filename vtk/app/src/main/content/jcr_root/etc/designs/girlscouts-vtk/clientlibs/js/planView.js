@@ -132,29 +132,85 @@ function revertAgenda(mid) {
 	});
 }
 
-function sendMeetingReminderEmail(mid){
+function previewMeetingReminderEmail(mid){
+	
+	
+	
 	var email_to_gp = document.getElementById("email_to_gp").value;
 	var email_to_sf = document.getElementById("email_to_sf").value;
 	var email_to_tv = document.getElementById("email_to_tv").value;
 	var email_cc = document.getElementById("email_to_cc").value;
 	var email_subj = document.getElementById("email_subj").value;
 	var email_htm = document.getElementById("email_htm").value; 
-
+	
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
 		type: 'POST',
 		data: { 
-			sendMeetingReminderEmail: true,
+			previewMeetingReminderEmail: true,
 			mid: mid,
 			email_to_gp :email_to_gp,
 			email_to_sf:email_to_sf,
 			email_to_tv:email_to_tv,
 			email_cc:email_cc,
 			email_subj:email_subj,
+			mid:mid,
 			email_htm: email_htm
 		},
 		success: function(result) {
-			console.log(result);
+			//console.log(result);
+			document.location="/content/girlscouts-vtk/en/vtk.include.email.meetingReminder_preview.html";
+		}
+	});
+	return;
+}
+
+function addAidToEmail(aidUrl, mid){
+	
+	var email_to_gp = document.getElementById("email_to_gp").value;
+	var email_to_sf = document.getElementById("email_to_sf").value;
+	var email_to_tv = document.getElementById("email_to_tv").value;
+	var email_cc = document.getElementById("email_to_cc").value;
+	var email_subj = document.getElementById("email_subj").value;
+	var email_htm = document.getElementById("email_htm").value; 
+	
+	$.ajax({
+		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
+		type: 'POST',
+		data: { 
+			previewMeetingReminderEmail: true,
+			mid: mid,
+			email_to_gp :email_to_gp,
+			email_to_sf:email_to_sf,
+			email_to_tv:email_to_tv,
+			email_cc:email_cc,
+			email_subj:email_subj,
+			mid:mid,
+			addAid:aidUrl,
+			email_htm: email_htm
+		},
+		success: function(result) {
+			//console.log(result);
+			location.reload();
+			//document.location="/content/girlscouts-vtk/en/vtk.include.email.meetingReminder_preview.html";
+		}
+	});
+	return;
+	
+}
+
+function sendMeetingReminderEmail(){
+	$.ajax({
+		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
+		type: 'POST',
+		data: { 
+			sendMeetingReminderEmail: true,
+			
+		},
+		success: function(result) {
+			
+			document.location="/content/girlscouts-vtk/en/vtk.html";
+			
 		}
 	});
 	return;

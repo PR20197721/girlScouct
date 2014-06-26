@@ -115,6 +115,45 @@
             <version>[0,)</version>
         </dependency>
         -->
+   
+   
+       <!--  
+        <dependency>
+	<groupId>com.day.commons.osgi.wrapper</groupId>
+	<artifactId>com.day.commons.osgi.wrapper.commons-email</artifactId>
+	<version>1.2.0-0002</version>
+	<scope>provided</scope>
+</dependency>
+-->
+	
+      
+
+<dependency>
+	<groupId>com.day.cq</groupId>
+	<artifactId>cq-mailer</artifactId>
+	<version>5.6.4</version>
+	<scope>provided</scope>
+</dependency>
+
+
+
+
+<dependency>
+	<groupId>com.day.commons.osgi.wrapper</groupId>
+	<artifactId>com.day.commons.osgi.wrapper.commons-email</artifactId>
+	<version>1.2.0-0002</version>
+	<scope>provided</scope>
+</dependency>
+
+
+<dependency>
+	<groupId>javax.mail</groupId>
+	<artifactId>mail</artifactId>
+	<version>1.5.0-b01</version>
+	<scope>provided</scope>
+</dependency>
+
+
     </dependencies>
 
     <!-- ====================================================================== -->

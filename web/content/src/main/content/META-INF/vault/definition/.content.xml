@@ -47,5 +47,10 @@
             mode="merge"
             root="/home/users/girlscouts"
             rules="[]"/>
+        <f6
+            jcr:primaryType="rep:AuthorizableFolder"
+            mode="merge"
+            root="/home/groups/girlscouts-usa"
+            rules="[]"/>
     </filter>
 </jcr:root>

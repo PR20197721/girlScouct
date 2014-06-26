@@ -1,9 +1,16 @@
 package org.girlscouts.vtk.ejb;
 
+import org.girlscouts.vtk.models.Asset;
+
 public class EmailMeetingReminder {
 
 	private String to, from, cc, bcc, html, subj,
-		emailToGirlParent, emailToSelf, emailToTroopVolunteer;
+		emailToGirlParent, emailToSelf, emailToTroopVolunteer,
+		meetingId;
+	
+	private java.util.List<Asset> assets;
+	
+	
 	
 	public EmailMeetingReminder(String to, String from , String cc, String subj, String html){
 		this.to= to;
@@ -16,6 +23,38 @@ public class EmailMeetingReminder {
 	
 	
 	
+
+	public java.util.List<Asset> getAssets() {
+		return assets;
+	}
+
+
+
+
+
+	public void setAssets(java.util.List<Asset> assets) {
+		this.assets = assets;
+	}
+
+
+
+
+
+	public String getMeetingId() {
+		return meetingId;
+	}
+
+
+
+
+
+	public void setMeetingId(String meetingId) {
+		this.meetingId = meetingId;
+	}
+
+
+
+
 
 	public String getSubj() {
 		return subj;

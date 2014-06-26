@@ -24,7 +24,7 @@
 <%
 		}
 %>
-	<%= xssAPI.filterHTML(delim) %><a class="current" href="#"><%= xssAPI.encodeForHTML(currentPage.getTitle()) %></a>
+	<%= xssAPI.filterHTML(delim) %><span class="breadcrumbCurrent"><%= xssAPI.encodeForHTML(currentPage.getTitle()) %>
 <%
 	}else {
 		Page trail = null;
@@ -65,7 +65,7 @@
 			    title = trail.getName();
 			}
 %>
-<%= xssAPI.filterHTML(delim) %><a class="current" href="#"><%= xssAPI.encodeForHTML(title) %></a>
+<span class="breadcrumbCurrent"><%= xssAPI.filterHTML(delim) %><%= xssAPI.encodeForHTML(title) %></span>
 <%
 			if (trailStr.length() > 0) {
 			    %><%= xssAPI.filterHTML(trailStr) %><%

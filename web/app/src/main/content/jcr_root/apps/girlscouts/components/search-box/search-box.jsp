@@ -21,7 +21,7 @@ if ((null==searchAction) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
 
 
 <form action="<%=action%>.html" method="get">
-	<input type="text" name="q" placeholder="<%=placeholderText %>" class="searchField" style="height:21px;" />
+	<input type="text" name="q" placeholder="<%=placeholderText %>" class="searchField" />
 </form>
 
 <%}%>
