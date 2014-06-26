@@ -4,8 +4,8 @@
 
 <%
 
-System.err.println("test1");
-MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
+
+	MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
 	MeetingE meeting = (MeetingE) _comp;
 	Meeting meetingInfo = meetingDAO.getMeeting(  meeting.getRefId() );
 	java.util.List <Activity> _activities = meetingInfo.getActivities();
@@ -15,7 +15,7 @@ MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
 	boolean isLocked=false;
 	if(searchDate.before( new java.util.Date() )) isLocked= true;
 	
-	System.err.println("test");
+	//System.err.println("test");
 	
 %>
 
@@ -120,7 +120,6 @@ MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
 <div class="sectionHeader">Meeting Aids</div>
 <%
 	String aidTags = meetingInfo.getAidTags();
-System.err.println("AidTags: "+ aidTags);
 	aidTags= aidTags==null ? "" : aidTags.trim().toLowerCase();
 %>
 <p>AidTags:<%=aidTags %></p>
@@ -241,7 +240,7 @@ System.err.println("AidTags: "+ aidTags);
 
 <div id="meetingLibraryView">
 <% if( user.getYearPlan().getSchedule()!=null ) { %>
-	<div class="tmp" id="popup" style="background-color:#EEEEEE;">
+	<div class="tmp" id="popup123" style="background-color:#EEEEEE;">
 		<%@include file="email/meetingReminder.jsp" %>
 	</div>
 <%} %>
