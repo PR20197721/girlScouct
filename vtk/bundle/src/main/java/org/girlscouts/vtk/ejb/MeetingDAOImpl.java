@@ -425,7 +425,7 @@ public List<org.girlscouts.vtk.models.Search> getData(String query) {
 		//GOOD FULL SEARCHjavax.jcr.query.Query q = qm.createQuery("select jcr:path, excerpt(.) from nt:resource  where jcr:path like '/content/dam/%' and  contains(., '"+ query +"~')", javax.jcr.query.Query.SQL); 
 		
 		//AID search
-		javax.jcr.query.Query q = qm.createQuery("select dc:description,dc:format from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/aid/%' and contains(*, '"+query+"') order by jcr:score desc",  javax.jcr.query.Query.SQL);
+		javax.jcr.query.Query q = qm.createQuery("select dc:description,dc:format from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/aid/%' and contains(*, '"+query+"~') order by jcr:score desc",  javax.jcr.query.Query.SQL);
 		
 		 		
 		QueryResult result = q.execute();
