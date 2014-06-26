@@ -186,6 +186,21 @@
             jcr:primaryType="cq:Page"
             mode="replace"
             root="/etc/workflow/models/girl-scouts-preview-workflow"
-            rules="[]"/>                   
+            rules="[]"/>
+           <f35
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/workflow/models/publish_example"
+            rules="[]"/>
+           <f36
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/workflow/models/request_for_activation"
+            rules="[]"/>                  
+           <f36
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/workflow/models/request_for_deactivation"
+            rules="[]"/>              
     </filter>
 </jcr:root>
