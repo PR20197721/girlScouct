@@ -7,7 +7,7 @@
     description="No Description"
     title="Girl Scouts Preview Workflow">
     <metaData
-        cq:lastModified="{Long}1403801934955"
+        cq:lastModified="{Long}1403802420315"
         cq:lastModifiedBy="reviewer-1"
         jcr:primaryType="nt:unstructured"/>
     <nodes jcr:primaryType="nt:unstructured">
@@ -24,6 +24,7 @@
             <metaData
                 jcr:primaryType="nt:unstructured"
                 PROCESS="/etc/workflow/scripts/girlscouts/flush_page_sp1.ecma"
+                PROCESS_ARGS="agent:publishpreview"
                 PROCESS_AUTO_ADVANCE="true"/>
         </node1>
         <node2

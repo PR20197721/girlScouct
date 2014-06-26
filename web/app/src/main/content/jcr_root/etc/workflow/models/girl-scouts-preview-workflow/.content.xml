@@ -3,7 +3,7 @@
     jcr:primaryType="cq:Page">
     <jcr:content
         cq:designPath="/etc/designs/default"
-        cq:lastModified="{Date}2014-06-26T12:58:53.352-04:00"
+        cq:lastModified="{Date}2014-06-26T13:06:59.477-04:00"
         cq:lastModifiedBy="reviewer-1"
         cq:template="/libs/cq/workflow/templates/model"
         jcr:primaryType="cq:PageContent"
@@ -15,7 +15,7 @@
             <process
                 jcr:created="{Date}2014-06-26T12:58:11.201-04:00"
                 jcr:createdBy="reviewer-1"
-                jcr:lastModified="{Date}2014-06-26T12:58:53.349-04:00"
+                jcr:lastModified="{Date}2014-06-26T13:06:59.474-04:00"
                 jcr:lastModifiedBy="reviewer-1"
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Publish Page to Preview"
@@ -23,6 +23,7 @@
                 <metaData
                     jcr:primaryType="nt:unstructured"
                     PROCESS="/etc/workflow/scripts/girlscouts/flush_page_sp1.ecma"
+                    PROCESS_ARGS="agent:publishpreview"
                     PROCESS_AUTO_ADVANCE="true"/>
             </process>
         </flow>
