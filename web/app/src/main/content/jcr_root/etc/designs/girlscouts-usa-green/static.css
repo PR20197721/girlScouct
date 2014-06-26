@@ -771,3 +771,8 @@ div.textimage.image_right div.image {
 	padding: 0;
 }
 
+.emailicon {
+    background: url('images/envelope.png') no-repeat;
+    width: 20px;
+    height: 14px;
+}

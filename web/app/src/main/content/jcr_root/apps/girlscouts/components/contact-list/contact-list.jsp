@@ -43,8 +43,8 @@ while (teamIter.hasNext()) {
 		String title = props.get("title", "");
 		String phone = props.get("phone", "");
 		String email = props.get("email", "");
-		
-		%><tr><td><%=name%></td><td><%=title%></td><td><%=phone%></td><td><%=email%></td><%
+
+        %><tr><td><%=name%></td><td><%=title%></td><td><%=phone%></td><td><a href="mailto:<%=email%>"><div class="emailicon">&nbsp;</div></a></td><%
     }
     %></tr></tbody></table></div><%
 }
