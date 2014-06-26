@@ -31,6 +31,7 @@
      border-left: none;
      border-right-style: dashed;
      border-top: none;
+     width:100%
    }
 
    /* slideup panel on right side */
@@ -38,6 +39,7 @@
      border-left-style: dashed;
      border-right: none;
      border-top: none;
+     width:100%;
    }
 
    /* big text inside slideup panel */
