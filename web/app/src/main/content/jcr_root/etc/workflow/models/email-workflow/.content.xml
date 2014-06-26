@@ -3,8 +3,9 @@
     jcr:primaryType="cq:Page">
     <jcr:content
         cq:designPath="/etc/designs/default"
-        cq:lastModified="{Date}2014-03-28T16:31:04.328-04:00"
-        cq:lastModifiedBy="admin"
+        cq:lastModified="{Date}2014-06-26T12:07:27.479-04:00"
+        cq:lastModifiedBy="reviewer-1"
+        cq:tags="[workflow:system]"
         cq:template="/libs/cq/workflow/templates/model"
         jcr:primaryType="cq:PageContent"
         jcr:title="Email Workflow"
@@ -76,5 +77,10 @@
             </sendemailprocess_0>
         </flow>
         <model/>
+        <image
+            jcr:lastModified="{Date}2014-06-26T12:07:27.476-04:00"
+            jcr:lastModifiedBy="reviewer-1"
+            jcr:primaryType="nt:unstructured"
+            imageRotate="0"/>
     </jcr:content>
 </jcr:root>
