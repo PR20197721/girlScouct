@@ -23,6 +23,7 @@ import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.models.User;
 import org.girlscouts.vtk.impl.helpers.ConfigListener;
 import org.girlscouts.vtk.impl.helpers.ConfigManager;
+import org.girlscouts.vtk.salesforce.Troop;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -69,7 +70,10 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
     @Override
     protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) {
         String action = request.getParameter(ACTION);
-        if (action == null) {
+ 
+//if(true){ autoLogin(request, response); return; }      
+ 
+     if (action == null) {
             salesforceCallback(request, response);
         } else if (action.equals(SIGNIN)) {
             signIn(request, response);
@@ -306,5 +310,39 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
   		return isSucc;
   	}
     
+  
+  private void autoLogin(SlingHttpServletRequest request, SlingHttpServletResponse response) {
+      HttpSession session = request.getSession();
+      
+      
+      
+      ApiConfig config = new ApiConfig();
+      config.setId("test");
+      config.setAccessToken("test");
+      config.setInstanceUrl("etst");
+      config.setUserId("caca");
+      config.setUser(new User() );
+      
+      java.util.List <Troop > troops= new java.util.ArrayList();
+      Troop troop = new Troop();
+      troop.setCouncilCode(1);
+      troop.setGradeLevel("1-Brownie");
+      troop.setTroopId("caca");
+      troop.setTroopName("test");
+      
+      troops.add(troop);
+      config.setTroops(troops);
+      
+      session.setAttribute(ApiConfig.class.getName(), config);
+      
+      
+      
+      
+      String redirectUrl;
+      
+      
+      //redirect(response, "http://localhost:4503/content/girlscouts-vtk/en/vtk.html");
+  }
+  
     
 }

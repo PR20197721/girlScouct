@@ -94,8 +94,8 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	
 }else if( request.getParameter("updSched") !=null ){
 	
-	System.err.println("updSched");
-	System.err.println("UpdCal: "+request.getParameter("date") +" " + request.getParameter("time") +" " + request.getParameter("ap"));
+	//System.err.println("updSched");
+	//System.err.println("UpdCal: "+request.getParameter("date") +" " + request.getParameter("time") +" " + request.getParameter("ap"));
 	
 	
 	calendarUtil.updateSched((User)session.getValue("VTK_user"), request.getParameter("meetingPath"), 
@@ -143,7 +143,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	
 }else if( request.getParameter("sendMeetingReminderEmail") !=null ){
 	  
-	System.err.println("EMAILINGGGGGGG");
+	//System.err.println("EMAILINGGGGGGG");
 	
 	  String email_to_gp =request.getParameter("email_to_gp");
 	  String email_to_sf =request.getParameter("email_to_sf");
@@ -170,7 +170,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	
 
 
-System.err.println("(**** "+ request.getParameter("loginAs"));
+//System.err.println("(**** "+ request.getParameter("loginAs"));
 	User curr_user = (User)session.getValue("VTK_user");
 	User new_user= userDAO.getUser( curr_user.getApiConfig().getUserId() +"_"+ request.getParameter("loginAs") );
 	if( new_user==null )
@@ -198,8 +198,22 @@ System.err.println("(**** "+ request.getParameter("loginAs"));
 	//TODO 
 	new UserDAOImpl().addAsset( (User)session.getValue("VTK_user") ,  request.getParameter("meetingUid"),   asset);
 	
-}else{
 	
+}else if( request.getParameter("testAB")!=null){
+	System.err.println("TESTAB...");
+	userDAO.updateUser((User)session.getValue("VTK_user"));
+	out.println("test");
+	
+}else if( request.getParameter("addAids")!=null){
+	
+	meetingUtil.addAids((User)session.getValue("VTK_user"), request.getParameter("addAids"), request.getParameter("meetingId"));
+
+}else if( request.getParameter("rmAsset")!=null){
+	
+	meetingUtil.rmAsset((User)session.getValue("VTK_user"), request.getParameter("rmAsset"), request.getParameter("meetingId"));
+
+
+}else{
 	//TODO throw ERROR CODE
 	
 }

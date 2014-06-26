@@ -20,4 +20,5 @@ public interface MeetingDAO {
 	public Meeting addActivity(Meeting meeting, Activity activity);
 	List<Meeting> search();
 	public List<org.girlscouts.vtk.models.Search> getData(String query);
+	public List<org.girlscouts.vtk.models.Search> getAidTag(String tags, String meetingName);
 }

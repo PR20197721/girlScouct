@@ -14,8 +14,14 @@ for(int i=0;i<searchs.size();i++){
 	%>
 	
 		<div style="padding-top:10px;">
-			<div><a style="color:green" href="<%=search.getPath() %>"><%=search.getPath() %></a></div>
+			<div>
+			<span style="background-color:red;"><%=search.getType()%> </span>
+			<span style="background-color:orange;"><%=search.getDesc() %></span>
+			
+			<a style="color:green" href="<%=search.getPath() %>"><%=search.getPath() %></a></div>
 			<div style="background-color:#efefef;"><%=search.getContent() %></div>
+			
+			<input type="button" value="Add" onclick="applyAids('<%=search.getPath()%>')"/>
 		</div>
 	<%
 	

@@ -16,8 +16,16 @@ java.text.SimpleDateFormat dateFormat0 = new java.text.SimpleDateFormat("MMM dd,
 
 %>
 <%
+//System.err.println(111);
 HttpSession session = request.getSession();
+
+boolean isTest = false;
+if( isTest )
+	autoLogin(session);
+	
+
 org.girlscouts.vtk.auth.models.ApiConfig apiConfig =null;
+
 if( session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName())!=null ){
 	apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig)session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
 	out.println("<!-- APICONFIG: "+ apiConfig.getAccessToken() +" User: "+ apiConfig.getUserId() +" URL: "+ apiConfig.getInstanceUrl() +" -->");
@@ -35,8 +43,11 @@ UserDAO userDAO = sling.getService(UserDAO.class);
 User user= (User)session.getValue("VTK_user");
 
 if( user ==null){
+	
         user= userDAO.getUser( apiConfig.getUserId() +"_"+ apiConfig.getTroops().get(0).getTroopId());
-  
+  		if( isTest )
+        	user= userDAO.getUser("00511000001Ym5bAAC_70111000000FiwpAAC");
+  			
         //first time - new user
         if( user==null ){
                 user = new User(apiConfig.getUserId()+"_"+ apiConfig.getTroops().get(0).getTroopId());
@@ -47,5 +58,33 @@ if( user ==null){
         user.setSfUserId( user.getApiConfig().getUserId() );
         user.setSfTroopName( user.getTroop().getTroopName() ); 
         session.putValue("VTK_user", user);
+}
+%>
+
+<%!
+
+public void autoLogin(HttpSession session){
+	
+
+	org.girlscouts.vtk.auth.models.ApiConfig config = new org.girlscouts.vtk.auth.models.ApiConfig();
+    config.setId("test");
+    config.setAccessToken("test");
+    config.setInstanceUrl("etst");
+    config.setUserId("caca");
+    config.setUser(new org.girlscouts.vtk.auth.models.User() );
+    
+    java.util.List <org.girlscouts.vtk.salesforce.Troop > troops= new java.util.ArrayList();
+    org.girlscouts.vtk.salesforce.Troop troop = new org.girlscouts.vtk.salesforce.Troop();
+    troop.setCouncilCode(1);
+    troop.setGradeLevel("1-Brownie");
+    troop.setTroopId("caca");
+    troop.setTroopName("test");
+    
+    troops.add(troop);
+    config.setTroops(troops);
+    
+    session.setAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName(), config);
+    
+	
 }
 %>

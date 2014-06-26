@@ -58,6 +58,7 @@ public class UserDAOImpl implements UserDAO{
 			classes.add(MeetingE.class);
 			classes.add(Activity.class);
 			classes.add(Location.class);
+			classes.add(Asset.class);
 			classes.add(Cal.class);
 			
 			Mapper mapper = new AnnotationMapperImpl(classes);
@@ -136,6 +137,7 @@ public class UserDAOImpl implements UserDAO{
 			classes.add(Location.class);
 			classes.add(Cal.class);
 			classes.add(Activity.class);
+			classes.add(Asset.class);
 			
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
@@ -298,6 +300,7 @@ public void rmUser(User user){
 				classes.add(Location.class);
 				classes.add(Cal.class);
 				classes.add(Activity.class);
+				classes.add(Asset.class);
 				
 				Mapper mapper = new AnnotationMapperImpl(classes);
 				ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	

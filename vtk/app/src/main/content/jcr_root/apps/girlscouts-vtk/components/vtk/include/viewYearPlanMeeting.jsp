@@ -1,12 +1,26 @@
 <%@ page import="java.util.*, org.apache.sling.api.resource.*, org.apache.sling.jcr.api .*,java.lang.ref.*, com.day.cq.tagging.*, com.day.cq.tagging.*, org.apache.jackrabbit.commons.JcrUtils, org.apache.sling.api.resource.*"%>
 <cq:defineObjects/>
+
+
 <%
-	MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
+
+System.err.println("test1");
+MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
 	MeetingE meeting = (MeetingE) _comp;
 	Meeting meetingInfo = meetingDAO.getMeeting(  meeting.getRefId() );
 	java.util.List <Activity> _activities = meetingInfo.getActivities();
 	java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  meetingInfo.getMeetingInfo();
+	
+	
+	boolean isLocked=false;
+	if(searchDate.before( new java.util.Date() )) isLocked= true;
+	
+	System.err.println("test");
+	
 %>
+
+
+
 <br/>
 <div class="caca row meetingDetailHeader">
 	<div class="small-2 columns previous">
@@ -51,8 +65,8 @@
 	}
 %>
 	</div>
-        <div class="small-4 columns">
-		<a id="viewMeetingButton" href="#">change this meeting</a>
+        <div class="small-4 columns ">
+		<a id="viewMeetingButton" href="#" class="mLocked">change this meeting</a>
 		<img width="100" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/badge.png"/>
 	</div>
 </div>
@@ -106,33 +120,34 @@
 <div class="sectionHeader">Meeting Aids</div>
 <%
 	String aidTags = meetingInfo.getAidTags();
+System.err.println("AidTags: "+ aidTags);
 	aidTags= aidTags==null ? "" : aidTags.trim().toLowerCase();
 %>
 <p>AidTags:<%=aidTags %></p>
 <%
-	TagManager tagManager = (TagManager)resourceResolver.adaptTo(TagManager.class);
-	java.util.StringTokenizer t= new java.util.StringTokenizer( aidTags, ",");
-	while( t.hasMoreElements()){
-		com.day.cq.tagging.TagManager.FindResults x = tagManager.findByTitle(t.nextToken());
-		java.util.Iterator r = x.resources ;
-		while( r.hasNext() ){
-			Resource res = (Resource) r.next();
-%>
-	<li> <a href="<%=res.getPath().replace("/jcr:content/metadata", "")%>"> <%=res.getName()%></a></li>
-<%
-		  }
+
+	
+	
+	out.println(meetingInfo.getId() );
+	List<org.girlscouts.vtk.models.Search> _aidTags =  meetingDAO.getAidTag( meetingInfo.getAidTags(), meetingInfo.getId());
+	for(int i=0;i<_aidTags.size();i++){
+		%><li> <%=_aidTags.get(i).getType()%> <a href="<%=_aidTags.get(i).getPath()%>"><%=_aidTags.get(i).getDesc()%></a> </li><% 
 	}
+	
 	java.util.List<Asset> assets = meeting.getAssets();
-	if (assets != null) {
-		for(int i=0;i<assets.size();i++) {
-%>
-			<%=assets.get(i).getPath() %>
-<%
-		}
-	}
+	if( assets!=null)
+	 for(int i=0;i< assets.size(); i++){
+		%><li style="background-color:lightblue;"><%=assets.get(i).getType()%>: <a href="<%=assets.get(i).getRefId() %>"><%=assets.get(i).getRefId() %></a></li><a href="javascript:void(0)" onclick="rmAsset('<%=meeting.getUid()%>', '<%=assets.get(i).getUid()%>')" style="background-color:red;">remove</a><% 
+	 }
+	
+	
+	
 %>
 <div class="sectionHeader">Meeting Agenda</div>
-<a href="javascript:void(0)" onclick="revertAgenda('<%=meeting.getPath()%>')">Revert to Original Agenda</a>
+
+	<a href="javascript:void(0)" onclick="revertAgenda('<%=meeting.getPath()%>')"  class="mLocked">Revert to Original Agenda</a>
+
+
 <p>Select an item to view details, edit duration, or delete. Drag and drop items to reorder them.</p>
 <ul id="sortable" >
 <%
@@ -146,7 +161,15 @@
 		<table>
 			<tr>
 				<td><%if( user.getYearPlan().getSchedule()!=null ){ out.println(fmtHr.format(activSched.getTime())); }%></td>
-				<td><a href="javascript:void(0)" onclick="editAgenda('<%=ii %>')"><%=_activity.getName() %></a></td>
+				<td>
+				
+					<%if( !isLocked) {%>
+						<a href="javascript:void(0)"  class="mLocked" onclick="editAgenda('<%=ii %>')"><%=_activity.getName() %></a>
+					<%}else{ %>
+						<%=_activity.getName() %>
+					<%} %>
+					
+				</td>
 				<td><%=_activity.getDuration() %></td>
 			</tr>
 		</table>
@@ -179,7 +202,7 @@
 <%
 	}
 %>
-<input type="button" name="" value="Add Agenda Items" onclick="addCustAgenda()"/>
+<input type="button" name="" value="Add Agenda Items" onclick="addCustAgenda()"  class="mLocked"/>
 <div id="newMeetingAgenda" style="display:none;">
 <% if( user.getYearPlan().getSchedule() !=null){ %>
        <h1>Add New Agenda Item</h1> 
@@ -207,19 +230,40 @@
 
 <br/><br/>
  
+
+
+<%if( !isLocked ){ %>
+
+<style>
+.mLocked{ }
+.mLocked a{  }
+</style>
+
 <div id="meetingLibraryView">
-
-
 <% if( user.getYearPlan().getSchedule()!=null ) { %>
 	<div class="tmp" id="popup" style="background-color:#EEEEEE;">
-<%@include file="email/meetingReminder.jsp" %>
+		<%@include file="email/meetingReminder.jsp" %>
 	</div>
 <%} %>
 </div>
-<script>
-	$("#sortable").sortable({
+
+
+
+	<script>
+		$("#sortable").sortable({
 		update:  function (event, ui) {
 			repositionActivity('<%=meeting.getRefId()%>');
 		}
-	});
-</script>
+		});
+	</script>
+	<%@include file="../include/manageCommunications.jsp" %>
+<%}else{ %>	
+	
+	
+	<style>
+.mLocked{ display:none;}
+.mLocked a{ display:none; }
+</style>
+
+
+<% }//ednelse %>

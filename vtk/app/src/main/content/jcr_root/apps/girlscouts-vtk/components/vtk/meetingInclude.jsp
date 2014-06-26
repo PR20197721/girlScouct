@@ -8,11 +8,15 @@
 <p>Drag and drop to reorder meetings</p>
 <ul id="sortable123">
 <% 
+
+
+System.err.println(1);
 int meetingCount=0;
 java.util.Iterator itr = sched.keySet().iterator();
 while( itr.hasNext() ){
 	java.util.Date date = (java.util.Date) itr.next();
 	YearPlanComponent _comp= sched.get(date);
+	System.err.println(2);
 	switch( _comp.getType() ){
 		case ACTIVITY :
 			Activity activity = (Activity) _comp;
@@ -24,7 +28,10 @@ while( itr.hasNext() ){
 			MeetingE meetingE =(MeetingE)_comp;
 			%>  <%@include file="include/viewMeeting.jsp" %>    <% 
 			break;
-	}       	
+	} 
+	
+	
+	System.err.println(3);
 }
 %>
 </ul>

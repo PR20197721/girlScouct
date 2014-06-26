@@ -28,3 +28,20 @@ function createCustAgendaItem(mPath, time){
 		document.location="/content/girlscouts-vtk/en/vtk.planView.html?mid="+ mPath;
 	});
 }
+
+function rmAsset(meetingId, assetId){
+	
+	$.ajax({
+		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
+		type: 'POST',
+		data: { 
+			
+			rmAsset:assetId,
+			meetingId:meetingId,
+			a:Date.now()
+		}
+	}).done(function( html ) {
+		location.reload();
+	});
+	
+}

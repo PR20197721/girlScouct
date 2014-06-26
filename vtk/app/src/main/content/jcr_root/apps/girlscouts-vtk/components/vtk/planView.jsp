@@ -9,6 +9,9 @@
 %>
 <%@include file="include/vtk-nav.jsp"%>
 <%
+
+System.err.println("Planview...");
+
 	java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
 	if( sched==null || (sched.size()==0)){out.println( "No Cal set up"); return;}
 	java.util.List<java.util.Date> dates =new java.util.ArrayList<java.util.Date>(sched.keySet());
@@ -46,14 +49,9 @@
        					break;
        					
        					case MEETING :
-       						if(!searchDate.before( new java.util.Date() )){
-           						  %>  
-           						  <%@include file="include/viewYearPlanMeeting.jsp" %>  
-           						  <%@include file="include/manageCommunications.jsp" %>
-           						  <% 
-       						}else{
-       							%>  <%@include file="include/viewYearPlanMeeting_locked.jsp" %>    <% 
-       						}
+       						
+       						%><%@include file="include/viewYearPlanMeeting.jsp" %><% 
+       						
            					break;
        				}       			
        %>

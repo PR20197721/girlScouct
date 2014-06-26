@@ -83,7 +83,9 @@ Hello Girl Scout Families,
 <br/><br/>Aid(s) Included:
 
 <%
-t= new java.util.StringTokenizer( aidTags, ",");
+
+/*
+t= new java.util.StringTokenizer( aidTags, ";");
 while( t.hasMoreElements()){
 	
 	com.day.cq.tagging.TagManager.FindResults x = tagManager.findByTitle(t.nextToken());
@@ -93,6 +95,11 @@ while( t.hasMoreElements()){
 	    %><li> <a href="<%=res.getPath().replace("/jcr:content/metadata", "")%>"> <%=res.getName()%></a></li><%
 
 	  }
+}
+*/
+
+for(int i=0;i<_aidTags.size();i++){
+	%><li><a href="<%=_aidTags.get(i).getPath()%>">aid tag</a> </li><% 
 }
 %>
 

@@ -32,17 +32,116 @@
 %>
 <%@include file="include/vtk-nav.jsp"%>
 
-<%-- search box --%>
-<!-- TODO: implement search
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <style>
+  .ui-autocomplete-loading {
+    background: white url('images/ui-anim_basic_16x16.gif') right center no-repeat;
+  }
+  </style>
+  <script>
+  $(function() {
+    var cache = {};
+    $( "#birds" ).autocomplete({
+      minLength: 3,
+      minChar: 3,
+      source: function( request, response ) {
+        var term = request.term;
+        //console.log(term)
+        $("#searchResults").html("");
+        /*
+        if ( term in cache ) {
+          var x = response( cache[ term ] );
+          //console.log("x: "+x);
+          return;
+        }
+        */
+ 
+        $.getJSON( "/content/girlscouts-vtk/controllers/vtk.getdata.html?q="+term, request, 
+        		function( data, status, xhr ) {
+         		 	//cache[ term ] = data;
+         		 	//var y =response( data );
+         		 	//console.log(1)
+         		 	
+          			
+       			 })
+       			 .done(function( json ) {
+       				
+       				$("#searchResults").load("/content/girlscouts-vtk/controllers/vtk.searchR.html?rand="+Date.now());
+    				//console.log( "JSON Data: " + json );
+    				//$( "div.caca" ).html("searching...");
+    				$(jQuery.parseJSON(JSON.stringify(json))).each(function() {  
+    				    var ID = this.label;
+    				   // var TITLE = this.Title;
+    				    //console.log( "--- "+ID );
+    				    //$( "#caca" ).append("<li>"+ID+"</li>");
+    				});
+    				
+    				
+    				
+  }				)			;
+     	 }
+    	});
+  });
+  
+  
+  
+  function applyAids(aid){
+	  
+	 		var link = "/content/girlscouts-vtk/controllers/vtk.asset.html?aidId="+ aid;
+	        $( "#schedModal" ).load(link, function( response, status, xhr ) {
+	                if ( status == "error" ) {
+	                        var msg = "Sorry but there was an error: ";
+	                        $( "#error" ).html( msg + xhr.status + " " + xhr.statusText );
+	                }else{
+				$( "#schedModal" ).dialog({
+					width:920,
+					modal:true,
+					dialogClass:"modalWrap"
+				});
+				$(".ui-dialog-titlebar").hide();
+	                }
+	        });
+	
+  }
+  
+  
+  
+  </script>
+
+
+
+
+<div id="schedModal"></div>
+
 <div>Search For Resources</div>
-<form method="get">
-	<input type="text" name="q" placeholder="<%=RESOURCE_SEARCH_PROMPT%>"
+
+  <div class="ui-widget">
+	<input type="text" id="birds" name="q" placeholder="<%=RESOURCE_SEARCH_PROMPT%>"
 		class="searchField" />
-</form>
--->
+		</div>
+
+<div id="searchResults"></div>
 
 <%-- categories --%>
 <p>Browse Resources by Category</p>
+
 
 <%
 final PageManager manager = (PageManager)resourceResolver.adaptTo(PageManager.class);

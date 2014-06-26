@@ -10,13 +10,19 @@ public class Asset {
 	public Asset(String path){ this.path= path; this.uid = "A"+new java.util.Date().getTime() + "_" + Math.random(); }
 	
 	
-	@Field private String type;
+	@Field private String type, refId;
 	@Field (path=true) private String path;
 	@Field (id=true) private String uid;
 	
 	
 	
 
+	public String getRefId() {
+		return refId;
+	}
+	public void setRefId(String refId) {
+		this.refId = refId;
+	}
 	public String getUid() {
 		return uid;
 	}

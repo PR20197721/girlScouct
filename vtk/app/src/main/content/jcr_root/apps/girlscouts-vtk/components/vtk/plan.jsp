@@ -9,6 +9,9 @@
 	boolean showVtkNav = true;
 %>
 <%
+
+//System.err.println("VTKKKKK");
+
 	YearPlanDAO yearPlanDAO = sling.getService(YearPlanDAO.class);
 	java.util.List<org.girlscouts.vtk.salesforce.Troop> troops = user.getApiConfig().getTroops();
 	if (troops.size() > 1) {
@@ -83,3 +86,6 @@ while (yearPlans.hasNext()) {
 <% } %>
 		</div>
 	</div>
+
+	
+	

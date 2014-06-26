@@ -383,8 +383,11 @@ public java.util.List<String> doSpellCheck(String word) throws Exception{
 	javax.jcr.query.QueryManager qm = (javax.jcr.query.QueryManager)session.getWorkspace().getQueryManager();
 	
 
-    javax.jcr.query.Query query = qm.createQuery("SELECT rep:spellcheck() FROM nt:base WHERE jcr:path = '/content/dam/' AND SPELLCHECK('"+ word +"')",  javax.jcr.query.Query.SQL);
-   RowIterator rows = query.execute().getRows();
+     javax.jcr.query.Query query = qm.createQuery("SELECT rep:spellcheck() FROM nt:base WHERE jcr:path = '/content/dam/' AND SPELLCHECK('"+ word +"')",  javax.jcr.query.Query.SQL);
+   
+	
+	
+	RowIterator rows = query.execute().getRows();
    // the above query will always return the root node no matter what string we check
    Row r = rows.nextRow();
    // get the result of the spell checking
@@ -419,8 +422,13 @@ public List<org.girlscouts.vtk.models.Search> getData(String query) {
 	
 	try{
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
-		javax.jcr.query.Query q = qm.createQuery("select jcr:path, excerpt(.) from nt:resource    where jcr:path like '/content/dam/%' and  contains(., '"+ query +"~0.8')", javax.jcr.query.Query.SQL); 
-   QueryResult result = q.execute();
+		//GOOD FULL SEARCHjavax.jcr.query.Query q = qm.createQuery("select jcr:path, excerpt(.) from nt:resource  where jcr:path like '/content/dam/%' and  contains(., '"+ query +"~')", javax.jcr.query.Query.SQL); 
+		
+		//AID search
+		javax.jcr.query.Query q = qm.createQuery("select dc:description,dc:format from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/aid/%' and contains(*, '"+query+"') order by jcr:score desc",  javax.jcr.query.Query.SQL);
+		
+		 		
+		QueryResult result = q.execute();
    
  
    
@@ -428,12 +436,145 @@ public List<org.girlscouts.vtk.models.Search> getData(String query) {
        Row r = it.nextRow();
        Value excerpt = r.getValue("rep:excerpt(.)");
        
+       String path = r.getValue("jcr:path").getString();
+       if( path.contains("/jcr:content") ) path= path.substring(0, (path.indexOf("/jcr:content") ));
+       System.err.println( "PATH :"+path );
+    	
+       
+       
        org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();
-       search.setPath(r.getPath());
+       search.setPath(path);
        search.setContent(excerpt.getString());
+       search.setDesc( r.getValue("dc:description").getString() );
+       try{ search.setType(r.getValue("dc:format").getString()); }catch(Exception e){System.err.println("No Fmt");}
        
        matched.add(search);
       // System.err.println( "SEarch: "+excerpt.getString());
+   }
+	}catch(Exception e){e.printStackTrace();}
+   return matched;
+	}
+
+
+
+
+public List<org.girlscouts.vtk.models.Search> getAidTag(String tags, String meetingName) {
+	  
+	
+	List<org.girlscouts.vtk.models.Search> matched = new ArrayList<org.girlscouts.vtk.models.Search>();
+	
+	try{
+		
+		String sql_tag="";
+		java.util.StringTokenizer t= new java.util.StringTokenizer( tags, ";");
+		while( t.hasMoreElements()){
+			
+			String tag = t.nextToken();
+			sql_tag += "cq:tags like '%"+ tag +"%'"; //" contains(., '"+ tag +"')";
+			
+			if( t.hasMoreElements())
+				sql_tag +=" or ";
+		}
+		
+		
+		String sql="";//select * from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/aid/%'  and ( "+ sql_tag  +" ) ";
+		//sql="select * from nt:base where jcr:primaryType='dam:Asset' and jcr:path like '/content/dam/girlscouts-vtk/global/aid/%' and ( "+ sql_tag  +" ) order by jcr:score desc";
+		
+		sql="select * from nt:base where jcr:primaryType='dam:Asset' and jcr:path like '/content/dam/girlscouts-vtk/global/aid/%' and" +
+				" ("+ sql_tag +") order by jcr:score desc";
+		
+		sql="select dc:description,dc:format from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/aid/%'  and ( "+ sql_tag+" )";
+		System.err.println( sql);
+		
+		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
+		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
+   		
+		 		
+		QueryResult result = q.execute();
+   
+ 
+   
+   for (RowIterator it = result.getRows(); it.hasNext(); ) {
+       Row r = it.nextRow();
+       System.err.println( "PARAM: "+r.getValue("dc:format").getString() +" : "+ r.getValue("dc:description").getString());
+       Value excerpt = r.getValue("jcr:path");
+       
+       String path = excerpt.getString();
+       if( path.contains("/jcr:content") ) path= path.substring(0, (path.indexOf("/jcr:content") ));
+       System.err.println( "PATH :"+path );
+    	
+       
+       org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();
+       search.setPath(path);
+       search.setContent(excerpt.getString());
+       search.setDesc( r.getValue("dc:description").getString() );
+       search.setType(r.getValue("dc:format").getString());
+       matched.add(search);
+      
+   }
+   
+   
+   List<org.girlscouts.vtk.models.Search> matched_local= getAidTag_local(tags,meetingName) ;
+   matched.addAll(matched_local);
+   
+   
+   
+	}catch(Exception e){e.printStackTrace();}
+   return matched;
+	}
+
+
+public List<org.girlscouts.vtk.models.Search> getAidTag_local(String tags, String meetingName) {
+	  
+	
+	List<org.girlscouts.vtk.models.Search> matched = new ArrayList<org.girlscouts.vtk.models.Search>();
+	
+	try{
+		
+		String sql_tag="";
+		java.util.StringTokenizer t= new java.util.StringTokenizer( tags, ";");
+		while( t.hasMoreElements()){
+			
+			String tag = t.nextToken();
+			sql_tag += " contains(., '"+ tag +"')";
+			
+			if( t.hasMoreElements())
+				sql_tag +=" or ";
+		}
+		
+		
+		String sql="select dc:description,dc:format from nt:unstructured" +
+           		"   where   jcr:path like '/content/dam/girlscouts-vtk/local/aid/Meetings/"+meetingName+"/%' ";
+		
+		
+		sql="select dc:description,dc:format from nt:base where  jcr:primaryType= 'dam:Asset' and jcr:path like '/content/dam/girlscouts-vtk/local/aid/Meetings/"+meetingName+"/%' ";
+		
+		sql="select dc:description,dc:format  from nt:unstructured where  jcr:path like '/content/dam/girlscouts-vtk/local/aid/Meetings/"+meetingName+"/%' and jcr:mixinTypes='cq:Taggable'";
+		System.err.println( sql);
+		
+		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
+		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
+   		
+		 		
+		QueryResult result = q.execute();
+   
+ 
+   
+   for (RowIterator it = result.getRows(); it.hasNext(); ) {
+       Row r = it.nextRow();
+       Value excerpt = r.getValue("jcr:path");
+       
+       String path = excerpt.getString();
+       if( path.contains("/jcr:content") ) path= path.substring(0, (path.indexOf("/jcr:content") ));
+       System.err.println( "PATH :"+path );
+    		   
+       org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();
+       search.setPath(path);
+       search.setContent(excerpt.getString());
+       try{search.setDesc( r.getValue("dc:description").getString() );}catch(Exception e){}
+       try{search.setType(r.getValue("dc:format").getString());}catch(Exception e){}
+       matched.add(search);
+      
    }
 	}catch(Exception e){e.printStackTrace();}
    return matched;
