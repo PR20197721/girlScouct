@@ -1,31 +1,30 @@
 
 <%@page import="org.girlscouts.vtk.auth.models.ApiConfig" %>
-
+<!--
 <%=apiConfig.getUserId() %>--
 <%=apiConfig.getAccessToken() %>
-
-<br/>Reminder Meeting#  <%=currInd %> <%= dateFormat55.format(searchDate) %>
-	
-
-<br/>Sent: XXX
-
-
-<div style="background-color:gray">Address List</div>
+-->
+<h4>Reminder Meeting#<%=currInd %> <%= dateFormat55.format(searchDate) %></h4>
+<br/>
+<p>Sent: TBD</p>
+<div class="sectionHeader">Address List</div>
+<form>
 
 <input type="checkbox" id="email_to_gp" checked/>Girls /Parents
 <input type="checkbox" id="email_to_sf" checked/>Self
 <input type="checkbox" id="email_to_tv"/>Troop Volunteers
 
 
-<br/>Enter your own:<input type="text" id="email_to_cc" value="<%=user.getSendingEmail()==null ? "" : user.getSendingEmail().getCc()%>"/>
+<h4>Enter your own:</h4>
+<input type="text" id="email_to_cc" value="<%=user.getSendingEmail()==null ? "" : user.getSendingEmail().getCc()%>"/>
+<div class="sectionHeader">Compose Email</div>
 
-<div style="background-color:gray">Compose Email</div>
+<h4>Subject:</h4> <input type="text" id="email_subj" value="Reminder <%=user.getTroop().getGradeLevel()  %>  Meeting# <%=currInd %> <%= dateFormat55.format(searchDate) %>"/>
 
-<br/>Subject: <input type="text" id="email_subj" value="Reminder <%=user.getTroop().getGradeLevel()  %>  Meeting# <%=currInd %> <%= dateFormat55.format(searchDate) %>"/>
+<div>Formatting Tool Placeholder</div>
 
-<div>XXX widget fmt</div>
-
-  <textarea id="email_htm" rows="25" cols="25"> 
+<h4>Message</h4>
+<textarea id="email_htm" rows="25" cols="25"> 
 
 Hello Girl Scout Families,
 <br/><br/>Here are the details of our next meeting:
@@ -35,7 +34,8 @@ Hello Girl Scout Families,
 		<th>Date:</th><td><%= dateFormat55.format(searchDate) %></td>
 	</tr>
 	<tr>
-		<th>Location:</th><td>
+		<th>Location:</th>
+		<td>
 		
 		<%
 
@@ -57,14 +57,11 @@ Hello Girl Scout Families,
 		
 		
 		</td>
-		</tr>
-		<tr>
+	</tr>
+	<tr>
 		<th>Topic:</th><td><%= meetingInfo.getName() %></td>
-		</tr>
 	</tr>
 </table>
-
-
 
 <%=meetingInfoItems.get("overview").getStr() %>
 
@@ -79,17 +76,14 @@ Hello Girl Scout Families,
 <br/><br/><%=apiConfig.getUser().getName() %>
 <br/>Troop <%=user.getTroop().getTroopName() %>
 
-
-
-
-
 <br/><br/>Form(s) Required:
-XXX
- </textarea> 
+</textarea> 
 
+<br/>
 <div>
-	Aid(s) Included:
-	<%
+	<h4>Aid(s) Included:</h4>
+	<ul>
+<%
 	EmailMeetingReminder emr = user.getSendingEmail();
 	if( emr!=null ){
 		java.util.List<Asset> eAssets = emr.getAssets();
@@ -99,22 +93,16 @@ XXX
 			}
 	}
 	%>
-
+	</ul>
 </div>
 
-
 <br/><br/><input type="button" value="Preview" onclick="previewMeetingReminderEmail('<%=meeting.getPath()%>','<%=meeting.getUid()%>')"/>
-
-
-
+</form>
+<br/>
 <div id="imal">
-	
-	
 	<div id="imalHdr">Include Meeting Aid Link:</div>
 	<div id="imalBd">
-	
 		<table>
-		
 			<tr>
 				<th>&nbsp;</th>
 				<th>Add to Email</th>
