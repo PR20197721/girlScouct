@@ -141,9 +141,9 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	
 	meetingUtil.reverAgenda((User)session.getValue("VTK_user"),  request.getParameter("mid") );
 	
-}else if( request.getParameter("sendMeetingReminderEmail") !=null ){
+}else if( request.getParameter("sendMeetingReminderEmail_SF") !=null ){ //view SalesForce
 	  
-	//System.err.println("EMAILINGGGGGGG");
+	  //System.err.println("EMAILINGGGGGGG");
 	
 	  String email_to_gp =request.getParameter("email_to_gp");
 	  String email_to_sf =request.getParameter("email_to_sf");
@@ -213,6 +213,91 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	meetingUtil.rmAsset((User)session.getValue("VTK_user"), request.getParameter("rmAsset"), request.getParameter("meetingId"));
 
 
+	
+}else if( request.getParameter("previewMeetingReminderEmail") !=null ){
+	  
+	  String email_to_gp =request.getParameter("email_to_gp");
+	  String email_to_sf =request.getParameter("email_to_sf");
+	  String email_to_tv =request.getParameter("email_to_tv");
+	  String cc = request.getParameter("email_cc");
+	  String subj = request.getParameter("email_subj");
+	  String html = request.getParameter("email_htm"); 
+	  String meetingId= request.getParameter("mid");
+	 
+	  EmailMeetingReminder emr=null;
+	  
+	  
+	  User user = (User)session.getValue("VTK_user");
+	  if( user.getSendingEmail() !=null ){
+		  emr= user.getSendingEmail();
+		  emr.setCc(cc);
+		  emr.setSubj(subj);
+		  emr.setHtml(html);
+	  }else{
+	  	  emr = new EmailMeetingReminder(null, null, cc, subj, html);
+	  }
+	 
+	  
+	  emr.setEmailToGirlParent(email_to_gp);
+	  emr.setEmailToSelf(email_to_sf);
+	  emr.setEmailToTroopVolunteer(email_to_tv);
+	  emr.setMeetingId(meetingId);
+	  
+	  String addAid= request.getParameter("addAid");
+	  String rmAid=  request.getParameter("rmAid");
+	 
+	  System.err.println("--- "+ addAid +" : "+ rmAid);
+	  
+	  java.util.List<Asset> aids = emr.getAssets();
+	  if( addAid!=null ){
+		  aids= aids==null ? new java.util.ArrayList<Asset>() : aids;
+		  Asset aid = new Asset();
+		  aid.setRefId(addAid);
+		  aids.add( aid );
+		  emr.setAssets(aids);
+	  }
+	  
+	  if( rmAid!=null){
+		  for(int i=0;i<aids.size();i++)
+			  if( aids.get(i).getRefId().equals( rmAid))
+		  		aids.remove(i);
+	  }
+		  
+	  user.setSendingEmail(emr);
+}else if( request.getParameter("sendMeetingReminderEmail") !=null ){ //view smpt
+  
+	  EmailMeetingReminder emr=null;
+	  
+	  User user = (User)session.getValue("VTK_user");
+	  if( user.getSendingEmail() !=null )
+		  emr= user.getSendingEmail();
+	 
+	  if( emr.getCc()==null || emr.getCc().equals(""))
+	 	 emr.setCc("ayakobovich@northpointdigital.com");
+	 
+	  
+	  String html = emr.getHtml();
+		html+="<br/>Aids Included:";
+			
+			
+			if( emr!=null ){
+				java.util.List<Asset> eAssets = emr.getAssets();
+				if( eAssets!=null)
+					for(int i=0;i<eAssets.size();i++){
+						html += "<br/><a href=\""+eAssets.get(i).getRefId()+"\">"+eAssets.get(i).getRefId()+ "</a>";
+					}
+			}
+	  emr.setHtml( html);
+	  org.girlscouts.vtk.ejb.Emailer emailer = sling.getService(org.girlscouts.vtk.ejb.Emailer.class);
+	  emailer.test(emr);
+	  
+	  
+	  //TODO LOG JCR
+	  
+	  //REMOVE EMR
+	  emr=null;
+	  user.setSendingEmail(null);
+		  
 }else{
 	//TODO throw ERROR CODE
 	
