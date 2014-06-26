@@ -244,11 +244,12 @@ try {
 	private void displayAllChildren(Page rootPage, StringBuilder builder) {
 	    builder.append("<li>");
 	    String path = rootPage.getPath() + ".plain.html";
-	    builder.append("<a href=\"javascript:void(0)\" onclick=\"displayHtmlResource('");
-	    builder.append(path);
-	    builder.append("')\">");
+	    // TODO: Get the link back once the dialog is styled
+	    //builder.append("<a href=\"javascript:void(0)\" onclick=\"displayHtmlResource('");
+	    //builder.append(path);
+	    //builder.append("')\">");
 	    builder.append(rootPage.getTitle());
-	    builder.append("</a>");
+	    //builder.append("</a>");
 	    Iterator<Page> iter = rootPage.listChildren();
 	    while (iter.hasNext()) {
 	        Page childPage = iter.next();
@@ -281,11 +282,6 @@ try {
                 if (asset != null) {
                     // TODO: check importer. Use dc:title
                     Map<String, Object> map = asset.getMetadata();
-                    /*
-                    for (String key : map.keySet()) {
-                        builder.append(key).append(",");
-                    }
-                    */
                     //String title = asset.getMetadataValue("dc:title");
                     String title = asset.getName();
 

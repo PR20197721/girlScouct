@@ -1,11 +1,12 @@
 #base=js
 
 main.js
-jcarousel.js
-slideshow.js
 calendar/jquery.qtip.js
 calendar/calendar.js
 calendar/jquery-ui-min.js
 calendar/calendar-display.js
-#calendar/moment.js
 login.js
+readmore.js
+misc.js
+slick/slick.min.js
+slideshow.js

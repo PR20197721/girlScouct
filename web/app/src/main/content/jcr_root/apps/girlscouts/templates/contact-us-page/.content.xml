@@ -3,7 +3,7 @@
     jcr:description="A page with the contact us form."
     jcr:primaryType="cq:Template"
     jcr:title="Contact Us"
-    allowedPaths="[/content/girlscouts.*]"
+    allowedPaths="[/content(/.*)?]"
     ranking="{Long}20">
     <content jcr:primaryType="nt:unstructured">
         <middle jcr:primaryType="nt:unstructured">

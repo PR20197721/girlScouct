@@ -29,7 +29,6 @@
             && WCMMode.fromRequest(request) == WCMMode.EDIT
             && resource instanceof Paragraph) {
         Paragraph par = (Paragraph) resource;
-        System.out.println("This is the colctrl.jsp");
 
 
         switch (par.getType()) {

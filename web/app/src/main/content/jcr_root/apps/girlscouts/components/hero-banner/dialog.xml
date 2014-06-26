@@ -57,7 +57,7 @@
                     <slideshow-timer
                         jcr:primaryType="cq:Widget"
                         fieldDescription="(Provide time in millisecond.Default (6000ms))"
-                        fieldLabel="TIme Interval"
+                        fieldLabel="Time Interval"
                         imageLabel="Image"
                         name="./slideshowtimer"
                         xtype="textfield"/>
@@ -70,6 +70,10 @@
                         type="select"
                         xtype="selection">
                         <options jcr:primaryType="cq:WidgetCollection">
+                            <none
+                                jcr:primaryType="nt:unstructured"
+                                text="None"
+                                value="none"/>
                             <right
                                 jcr:primaryType="nt:unstructured"
                                 text="Right"

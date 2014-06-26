@@ -178,6 +178,8 @@ public class CustomSendEmailProcess implements WorkflowProcess {
 							} catch (EmailException e) {
 
 								e.printStackTrace();
+							} catch (Exception e) {
+								e.printStackTrace();
 							}
 						}
 					} else {
@@ -255,10 +257,9 @@ public class CustomSendEmailProcess implements WorkflowProcess {
 			List<HistoryItem> histList = new ArrayList<HistoryItem>();
 			histList = session.getHistory(flow);
 			for (int i = 1; i < histList.size(); i++) {
-				if (histList.get(i).getComment().equals("") || 
-						histList.get(i).getComment() == null) {
-				}
-				 else {
+				if (histList.get(i).getComment().equals("")
+						|| histList.get(i).getComment() == null) {
+				} else {
 					comment = histList.get(i).getComment();
 				}
 			}

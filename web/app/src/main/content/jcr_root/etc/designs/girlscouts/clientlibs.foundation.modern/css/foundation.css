@@ -2332,7 +2332,7 @@ meta.foundation-mq-topbar {
     .breadcrumbs > *:before {
       content: ">";
       color: #00ae58;
-      margin: 0 0.75rem;
+      margin: 0 0.2rem;
       position: relative;
       top: 1px; }
     .breadcrumbs > *:first-child:before {

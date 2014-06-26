@@ -1,39 +1,30 @@
 <%
-
 Activity activity = (Activity) _comp;
 %>
-<div style=" background-color:#FFF;">
-
-<div style="float:left; width:100px; height:100px;background-color:blue; color:#fff;">
-	
-	
-	<%
-	System.err.println( "tatat: "+ searchDate );
-	if( prevDate!=0 ){ %>
-		<a href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=prevDate%>"> << PREV </a>
-	<%} %>
-	
-	<br/><%=fmt.format(searchDate) %>
-	
-	
-	<%if( nextDate!=0 ){ %>
-		<br/><a href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=nextDate%>">NEXT>></a>
-	<%} %>
-	
-	
-
-</div>
-
-<h1>Activity</h1>
-Activity: <%= activity.getName()%>
-
-
-<%if( activity.getDate().after( new java.util.Date())){ %>
-<input type="button" value="delete this activity" onclick="rmCustActivity12('<%=activity.getPath()%>')"/>
+<br/>
+<div class="caca row meetingDetailHeader">
+        <div class="small-2 columns previous">
+<%if( prevDate!=0 ){ %>
+                <a class="direction" href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=prevDate%>"><img width="40" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/previous.png"/></a>
 <%} %>
+        </div>
+        <div class="small-4 columns">
+                <div class="planSquare">
+        <%if( user.getYearPlan().getSchedule()!=null ) {%>
+                        <%=fmt.format(searchDate) %>
+        <%}else{ out.println( fmtX.format(searchDate) ); } %>
+                </div>
+        </div>
+        <div class="small-2 columns next">
+<%if( nextDate!=0 ){ %>
+                <a class="direction" href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=nextDate%>"><img width="40" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/next.png"/></a>
+<%} %>
+        </div>
+        <div class="small-12 columns">
+                <h1>Activity: <%= activity.getName() %></h1>
 
 <br/><br/>Date: <%=fmtDate.format(activity.getDate()) %>
-<br/><br/>Time: <%=fmtHr.format(activity.getDate()) %> - <%= fmtHr.format(activity.getEndDate()) %> 
+<br/><br/>Time: <%=fmtHr.format(activity.getDate()) %> - <%= fmtHr.format(activity.getEndDate()) %>
 
 
 <%
@@ -42,7 +33,7 @@ ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1);
 ageLevel=ageLevel.toLowerCase().trim();
 %>
 <br/><br/>Age range: <%= ageLevel%>
-<br/><br/>Location: 
+<br/><br/>Location:
 <%= activity.getLocationName() %>
 <%=activity.getLocationAddress()%>
 
@@ -50,3 +41,12 @@ ageLevel=ageLevel.toLowerCase().trim();
 <br/><br/>Cost:
 
 <div style="background-color:#efefef"><%=activity.getContent()%></div>
+
+        </div>
+        <div class="small-4 columns">
+<%if( activity.getDate().after( new java.util.Date())){ %>
+<input type="button" value="delete this activity" onclick="rmCustActivity12('<%=activity.getPath()%>')"/>
+<%} %>
+        </div>
+</div>
+
