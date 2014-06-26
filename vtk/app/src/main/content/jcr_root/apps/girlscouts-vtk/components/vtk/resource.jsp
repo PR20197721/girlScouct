@@ -147,7 +147,7 @@
 final PageManager manager = (PageManager)resourceResolver.adaptTo(PageManager.class);
 try {
     // TODO: this field should come from Salesforce
-	final String ROOT_PAGE_PATH = "/content/girlscouts-usa/en/resources";
+	final String ROOT_PAGE_PATH = "/content/gateway/en/resources";
 
 	final Page rootPage = manager.getPage(ROOT_PAGE_PATH);
 	
@@ -302,7 +302,7 @@ try {
 	private Map<String, String> buildQueryMap(String... paths) {
 	    Map<String, String> mapPath = new HashMap<String, String>();
 	    mapPath.put("group.p.or","true");
-	    mapPath.put("group.1_path","/content/girlscouts-usa/en");
+	    mapPath.put("group.1_path","/content/gateway/en");
 	    mapPath.put("group.2_path", "/content/dam/girlscouts-shared/en/documents");
 	  
 	    
