@@ -24,7 +24,7 @@
 <%
 		}
 %>
-	<%= xssAPI.filterHTML(delim) %><a class="current" href="#"><%= xssAPI.encodeForHTML(currentPage.getTitle()) %></a>
+	<%= xssAPI.filterHTML(delim) %><span class="breadcrumbCurrent"><%= xssAPI.encodeForHTML(currentPage.getTitle()) %>
 <%
 	}else {
 		Page trail = null;
