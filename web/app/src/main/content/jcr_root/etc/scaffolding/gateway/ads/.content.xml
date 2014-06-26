@@ -4,7 +4,7 @@
     <jcr:content
         cq:lastModified="{Date}2014-04-30T11:18:03.571-04:00"
         cq:lastModifiedBy="admin"
-        cq:targetPath="/content/girlscouts-usa/en/ads"
+        cq:targetPath="/content/gateway/en/ads"
         cq:targetTemplate="/apps/girlscouts/templates/ad-page"
         cq:template="/libs/wcm/scaffolding/templates/scaffolding"
         jcr:description="Girl Scouts Ad Scaffolding"
