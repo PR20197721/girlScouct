@@ -181,6 +181,11 @@
             jcr:primaryType="sling:Folder"
             mode="replace"
             root="/etc/workflow/notification/email/default"
-            rules="[]"/>                           
+            rules="[]"/>        
+           <f34
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/workflow/models/girl-scouts-preview-workflow"
+            rules="[]"/>                   
     </filter>
 </jcr:root>
