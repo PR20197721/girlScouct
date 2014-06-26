@@ -85,7 +85,7 @@ public class CustomGroupEmailProcess implements WorkflowProcess {
 					workflowData.getPayload().toString()).adaptTo(Page.class);
 
 			String councilGroup = page.getAbsoluteParent(1).getName();
-			councilGroup = councilGroup + "-reviewers";
+			String reviewerGroup = councilGroup + "-reviewers";
 
 			try {
 				Session jcrSession = session.getSession();
@@ -159,7 +159,8 @@ public class CustomGroupEmailProcess implements WorkflowProcess {
 								try {
 									int missingEmails = 0;
 									List<String> emails = getGroupEmails(
-											resolver, councilGroup);
+											resolver, reviewerGroup,
+											councilGroup);
 
 									for (int i = 0; i < emails.size(); i++) {
 										if (emails.get(i) != null) {
@@ -209,7 +210,9 @@ public class CustomGroupEmailProcess implements WorkflowProcess {
 		Map map = new HashMap();
 
 		try {
-			map.put("host.prefix", getHostPrefix(resolver));
+			map.put("preview.prefix", getPreviewPrefix(resolver));
+			map.put("publish.prefix", getPublishPrefix(resolver));
+			map.put("author.prefix", getAuthorPrefix(resolver));
 			map.put("model.title", flow.getWorkflowModel().getTitle());
 			map.put("model.description", flow.getWorkflowModel()
 					.getDescription());
@@ -232,17 +235,23 @@ public class CustomGroupEmailProcess implements WorkflowProcess {
 	}
 
 	private List<String> getGroupEmails(ResourceResolver resolver,
-			String councilGroup) {
+			String reviewerGroup, String councilGroup) {
 		List<String> emailAddresses = new ArrayList<String>();
 		try {
 			UserManager manager = (UserManager) resolver
 					.adaptTo(UserManager.class);
-			Group group = (Group) manager
-					.findByHome("/home/groups/girlscouts-usa/" + councilGroup);
-			Iterator<Authorizable> iter = group.members();
-			while (iter.hasNext()) {
-				User user = (User) iter.next();
-				emailAddresses.add(user.getProperty("profile/email"));
+			Group group = (Group) manager.findByHome("/home/groups/"
+					+ councilGroup + "/" + reviewerGroup);
+			log.error("/home/groups/" + councilGroup + "/" + reviewerGroup);
+			if (group == null) {
+				log.error("Reviewer group does not exist under correct naming conventions."
+						+ " Cannot send emails to reviewers");
+			} else {
+				Iterator<Authorizable> iter = group.members();
+				while (iter.hasNext()) {
+					User user = (User) iter.next();
+					emailAddresses.add(user.getProperty("profile/email"));
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -250,11 +259,39 @@ public class CustomGroupEmailProcess implements WorkflowProcess {
 		return emailAddresses;
 	}
 
-	private String getHostPrefix(ResourceResolver resolver) {
+	private String getPreviewPrefix(ResourceResolver resolver) {
 		String hostPrefix = null;
 		Externalizer externalizer = (Externalizer) resolver
 				.adaptTo(Externalizer.class);
-		String externalizerHost = externalizer.externalLink(resolver, "local",
+		String externalizerHost = externalizer.externalLink(resolver,
+				"preview", "");
+		if ((externalizerHost != null) && (externalizerHost.endsWith("/"))) {
+			hostPrefix = externalizerHost.substring(0,
+					externalizerHost.length() - 1);
+
+		}
+		return hostPrefix;
+	}
+
+	private String getPublishPrefix(ResourceResolver resolver) {
+		String hostPrefix = null;
+		Externalizer externalizer = (Externalizer) resolver
+				.adaptTo(Externalizer.class);
+		String externalizerHost = externalizer.externalLink(resolver,
+				"publish", "");
+		if ((externalizerHost != null) && (externalizerHost.endsWith("/"))) {
+			hostPrefix = externalizerHost.substring(0,
+					externalizerHost.length() - 1);
+
+		}
+		return hostPrefix;
+	}
+
+	private String getAuthorPrefix(ResourceResolver resolver) {
+		String hostPrefix = null;
+		Externalizer externalizer = (Externalizer) resolver
+				.adaptTo(Externalizer.class);
+		String externalizerHost = externalizer.externalLink(resolver, "author",
 				"");
 		if ((externalizerHost != null) && (externalizerHost.endsWith("/"))) {
 			hostPrefix = externalizerHost.substring(0,

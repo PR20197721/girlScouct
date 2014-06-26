@@ -31,7 +31,12 @@
     <filter root="/etc/workflow/models/dam/gs_update_asset_small_logo"/>
     <filter root="/etc/workflow/models/dam/update_asset"/>
     <filter root="/etc/workflow/models/girl-scouts-authoring-approval-workflow"/>
+    <filter root="/etc/workflow/models/girl-scouts-preview-workflow"/>
+    <filter root="/etc/workflow/models/publish_example"/>
+    <filter root="/etc/workflow/models/request_for_activation"/>
+    <filter root="/etc/workflow/models/request_for_deactivation"/>
     <filter root="/etc/workflow/scripts/girlscouts"/>
     <filter root="/etc/workflow/notification/email/default"/>
+    <filter root="/home/groups/girlscouts-usa"/>
     <filter root="/etc/tracker"/>
 </workspaceFilter>

@@ -2,15 +2,14 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:isCheckedOut="{Boolean}false"
     jcr:primaryType="cq:WorkflowModel"
-    jcr:uuid="c6059923-d2f9-42d6-8a4e-548d31dc59e6"
+    jcr:uuid="73beb9d7-0e6b-4873-9b86-af3d8d25bdf1"
     sling:resourceType="cq/workflow/components/model"
     description="No Description"
-    title="Email Workflow">
+    title="Girl Scouts Preview Workflow">
     <metaData
-        cq:lastModified="{Long}1403798850291"
+        cq:lastModified="{Long}1403802420315"
         cq:lastModifiedBy="reviewer-1"
-        jcr:primaryType="nt:unstructured"
-        tags="system"/>
+        jcr:primaryType="nt:unstructured"/>
     <nodes jcr:primaryType="nt:unstructured">
         <node0
             jcr:primaryType="cq:WorkflowNode"
@@ -20,14 +19,13 @@
         </node0>
         <node1
             jcr:primaryType="cq:WorkflowNode"
-            description="Sends an email based on an email template"
-            title="Send Email"
+            title="Publish Page to Preview"
             type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
-                PROCESS="org.girlscouts.cq.workflow.CustomProcessStep"
-                PROCESS_AUTO_ADVANCE="true"
-                templatePath="/apps/girlscouts/components/contact_us_form/email-template.txt"/>
+                PROCESS="/etc/workflow/scripts/girlscouts/flush_page_sp1.ecma"
+                PROCESS_ARGS="agent:publishpreview"
+                PROCESS_AUTO_ADVANCE="true"/>
         </node1>
         <node2
             jcr:primaryType="cq:WorkflowNode"

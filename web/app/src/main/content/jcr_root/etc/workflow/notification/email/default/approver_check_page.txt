@@ -9,6 +9,6 @@ Info: ${comment}
 <br>
 
 Please approve or reject the following page authored by ${initiator.id}: <br>
-${host.prefix}${payload.path}.html<br><br>
+${preview.prefix}${payload.path}.html<br><br>
 
 

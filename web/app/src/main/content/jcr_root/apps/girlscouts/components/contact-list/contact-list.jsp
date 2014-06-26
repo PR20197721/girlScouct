@@ -28,7 +28,6 @@ try {
     return;
 }
 
-%><hr/><%
 Iterator<Page> teamIter = contactRoot.listChildren();
 while (teamIter.hasNext()) {
     Page currentTeam = teamIter.next();
