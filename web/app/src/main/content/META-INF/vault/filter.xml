@@ -7,9 +7,9 @@
     <filter root="/etc/data-import"/>
     <filter root="/etc/designs/girlscouts"/>
     <filter root="/etc/designs/girlscouts-usa-green"/>
-    <filter root="/etc/designs/girlscouts-prototype"/>
+    <filter root="/etc/designs/girlscouts-usa"/>
     <filter root="/etc/designs/girlscouts-usa-blue"/>
-    <filter root="/etc/scaffolding/girlscouts-usa"/>
+    <filter root="/etc/scaffolding/girlscouts-prototype"/>
     <filter root="/etc/workflow/models/email-workflow"/>
     <filter root="/etc/workflow/launcher/config/create_asset_event"/> 
     <filter root="/etc/workflow/launcher/config/gs_create_asset_large_hero"/>
