@@ -57,17 +57,17 @@
             mode="replace"
             root="/etc/designs/girlscouts-usa-blue"
             rules="[]"/>
-	    <f8
+        <f8
             jcr:primaryType="cq:Page"
             mode="replace"
             root="/etc/workflow/models/email-workflow"
             rules="[]"/>
-	    <f9
+        <f9
             jcr:primaryType="cq:Page"
             mode="replace"
-            root="/etc/scaffolding/girlscouts-usa"
+            root="/etc/scaffolding/girlscouts-prototype"
             rules="[]"/>
-	    <f10
+	<f10
             jcr:primaryType="cq:Page"
             mode="replace"
             root="/etc/tracker"
@@ -207,5 +207,10 @@
             mode="replace"
             root="/home/groups/girlscouts-usa"
             rules="[]"/>   
+        <f38
+            jcr:primaryType="nt:unstructured"
+            mode="replace"
+            root="/etc/designs/girlscouts-gateway"
+            rules="[]"/>
     </filter>
 </jcr:root>

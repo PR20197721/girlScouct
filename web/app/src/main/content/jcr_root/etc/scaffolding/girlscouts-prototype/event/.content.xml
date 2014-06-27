@@ -4,12 +4,12 @@
     <jcr:content
         cq:lastModified="{Date}2009-04-01T12:27:34.647+02:00"
         cq:lastModifiedBy="admin"
-        cq:targetPath="/content/gateway/en/contacts"
-        cq:targetTemplate="/apps/girlscouts/templates/contact-page"
-        jcr:description="Girl Scouts Contact Scaffolding"
+        cq:targetPath="/content/girlscouts-prototype/en/events"
+        cq:targetTemplate="/apps/girlscouts/templates/event-page"
+        jcr:description="Girl Scouts Events Scaffolding"
         jcr:primaryType="cq:PageContent"
-        jcr:title="Contact"
-        sling:resourceType="girlscouts/wcm/components/contact-scaffolding">
+        jcr:title="Events"
+        sling:resourceType="girlscouts/wcm/components/event-scaffolding">
         <dialog/>
     </jcr:content>
 </jcr:root>
