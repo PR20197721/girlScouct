@@ -233,6 +233,9 @@ a:hover.menuHighlight {
     color: #00ae58;
 }
 
+
+
+
 /* SIDE NAV */
 #main .side-nav *{
     color: #333333;
@@ -242,7 +245,7 @@ a:hover.menuHighlight {
     list-style: none;
 }
 #main .side-nav li{
-    padding: 5px 5px 5px 15px;
+    padding: 5px 3px 5px 15px;
 }
 #main .side-nav li a:hover {
     background-color: #B0B0B0;
@@ -262,14 +265,14 @@ a:hover.menuHighlight {
 #main .side-nav>li>li a{
     font-weight: normal;
 }
+
 #main .side-nav>li {
-    background: url('images/orange-vertical.png') repeat-y  0px 0px; 
-    background-color:#F1F1EF    ;
+   background-color:#F1F1EF    ;
 }
 #main .side-nav>li.active {
-    background: url('images/orange-yellow-vertical.png') repeat-y  0px 0px; 
     background-color:#f7f7f6;
 }
+
 .home-section {
     padding: 15px 0px;
 }
@@ -555,18 +558,18 @@ td.fc-header-left{
     font-weight: normal;
 }
 #right-canvas-menu .side-nav>li {
-    background: url('images/orange-vertical.png') repeat-y  0px 0px; 
+    /*background: url('images/orange-vertical.png') repeat-y  0px 0px;*/ 
     
      
 }
 #right-canvas-menu .side-nav>li.active {
-    background: url('images/orange-yellow-vertical.png') repeat-y  0px 0px;
+    /*background: url('images/orange-yellow-vertical.png') repeat-y  0px 0px;*/
     padding :0px 0px 0px 10px; 
   
 }
 
 #right-canvas-menu .side-nav>li#sub-active {
-    background: url('images/orange-yellow-vertical.png') repeat-y  0px 0px; 
+    /*background: url('images/orange-yellow-vertical.png') repeat-y  0px 0px; */
   
 }
 #right-canvas-menu .side-nav ul#submenu  {
@@ -596,6 +599,7 @@ td.fc-header-left{
   height:21px;
   width:100%;
 }
+
 
 #headerBar ul li.active {
     background: url('images/white-up-arrow.png') no-repeat  60px 0px;
