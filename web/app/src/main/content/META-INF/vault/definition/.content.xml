@@ -65,7 +65,7 @@
         <f9
             jcr:primaryType="cq:Page"
             mode="replace"
-            root="/etc/scaffolding/girlscouts-usa"
+            root="/etc/scaffolding/girlscouts-prototype"
             rules="[]"/>
 	<f10
             jcr:primaryType="cq:Page"
