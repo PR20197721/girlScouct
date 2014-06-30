@@ -16,9 +16,11 @@ final String AD_ATTR = "apps.girlscouts.components.ad-list-page.currentAd";
 String[] selectors = slingRequest.getRequestPathInfo().getSelectors();
 
 int adCount = DEFAULT_AD_COUNT;
-if (selectors.length >= 2) {
+if (selectors.length != 0) {
+	String adCountStr;
+    adCountStr = selectors.length == 1 ? selectors[0] : selectors[1];
     try {
-        adCount = Integer.parseInt(selectors[1]);
+        adCount = Integer.parseInt(adCountStr);
     } catch (NumberFormatException e) {}
 }
 
