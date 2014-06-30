@@ -4,7 +4,7 @@
 <%=apiConfig.getUserId() %>--
 <%=apiConfig.getAccessToken() %>
 
-<br/>Reminder Meeting#  <%=currInd %> <%= dateFormat55.format(searchDate) %>
+<br/>Reminder Meeting#  <%=(currInd +1)%> <%= dateFormat55.format(searchDate) %>
 	
 
 <br/>Sent: XXX
@@ -21,11 +21,18 @@
 
 <div style="background-color:gray">Compose Email</div>
 
-<br/>Subject: <input type="text" id="email_subj" value="Reminder <%=user.getTroop().getGradeLevel()  %>  Meeting# <%=currInd %> <%= dateFormat55.format(searchDate) %>"/>
+<br/>Subject: <input type="text" id="email_subj" value="Reminder <%=user.getTroop().getGradeLevel()  %>  Meeting# <%=(currInd +1)%> <%= dateFormat55.format(searchDate) %>"/>
 
-<div>XXX widget fmt</div>
+<div style="background-color:yellow;">
 
-  <textarea id="email_htm" rows="25" cols="25"> 
+
+
+
+
+
+</div>
+
+  <textarea id="email_htm" name="textarea" class="jqte-test" rows="25" cols="25"> 
 
 Hello Girl Scout Families,
 <br/><br/>Here are the details of our next meeting:
@@ -135,7 +142,17 @@ XXX
 
 
 
-
+<script>
+	$('.jqte-test').jqte();
+	
+	// settings of status
+	var jqteStatus = true;
+	$(".status").click(function()
+	{
+		jqteStatus = jqteStatus ? false : true;
+		$('.jqte-test').jqte({"status" : jqteStatus})
+	});
+</script>
 
 
 

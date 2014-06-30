@@ -44,16 +44,28 @@ User user= (User)session.getValue("VTK_user");
 
 if( user ==null){
 	
-        user= userDAO.getUser( apiConfig.getUserId() +"_"+ apiConfig.getTroops().get(0).getTroopId());
-  		if( isTest )
-        	user= userDAO.getUser("00511000001Ym5bAAC_70111000000FiwpAAC");
+        //user= userDAO.getUser( apiConfig.getUserId() +"_"+ apiConfig.getTroops().get(0).getTroopId());
+        user= userDAO.getUser( "/vtk/"+apiConfig.getTroops().get(0).getCouncilCode()+
+        		"/"+apiConfig.getTroops().get(0).getTroopName()+
+        		"/users/"+ apiConfig.getUserId() +"_"+ apiConfig.getTroops().get(0).getTroopId());
+        
   			
         //first time - new user
         if( user==null ){
-                user = new User(apiConfig.getUserId()+"_"+ apiConfig.getTroops().get(0).getTroopId());
+                //user = new User(apiConfig.getUserId()+"_"+ apiConfig.getTroops().get(0).getTroopId());
+               user = new User( "/vtk/"+apiConfig.getTroops().get(0).getCouncilCode()+
+        		"/"+apiConfig.getTroops().get(0).getTroopName()+"/users/",
+        		 apiConfig.getUserId() +"_"+ apiConfig.getTroops().get(0).getTroopId() );
         }
         user.setApiConfig(apiConfig);
-        user.setTroop( apiConfig.getTroops().get(0) );
+        
+        
+        org.girlscouts.vtk.salesforce.Troop caca= apiConfig.getTroops().get(0);
+        caca.setGradeLevel("1-Brownie");
+        user.setTroop(caca);
+        //user.setTroop( apiConfig.getTroops().get(0) );
+        
+        
         user.setSfTroopId( user.getTroop().getTroopId() );
         user.setSfUserId( user.getApiConfig().getUserId() );
         user.setSfTroopName( user.getTroop().getTroopName() ); 

@@ -30,6 +30,9 @@
 	java.util.List<String> myMeetingIds= new java.util.ArrayList();
 	java.util.List<MeetingE> myMeetings = user.getYearPlan().getMeetingEvents();
 	for(int i=0;i< myMeetings.size();i++){
+		
+		if( myMeetings.get(i).getCancelled()!=null && myMeetings.get(i).getCancelled().equals("true")) continue;
+		
 		String meetingId = myMeetings.get(i).getRefId();
 		meetingId= meetingId.substring(meetingId.lastIndexOf("/") +1).trim().toLowerCase();
 		myMeetingIds.add( meetingId );

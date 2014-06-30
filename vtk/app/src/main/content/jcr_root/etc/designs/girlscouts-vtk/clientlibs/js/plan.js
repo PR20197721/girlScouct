@@ -3,9 +3,16 @@ function loadMeetings(){
 	$("#yearPlanMeetings").load(url);
 }	
 
-function x(planId, planPath){
+function x(planId, planPath, confirmMsg, planName){
+	
+	
+	
+	if( confirmMsg!=null && confirmMsg!='')
+		if( !confirm(confirmMsg) ) return;
+			
+	
 	$.ajax({
-		url: "/content/girlscouts-vtk/controllers/vtk.controller.html?addYearPlanUser="+planPath,
+		url: "/content/girlscouts-vtk/controllers/vtk.controller.html?addYearPlanUser="+planPath+"&addYearPlanName="+ planName,
 		cache: false
 	}).done(function( html ) {
 		loadMeetings();
@@ -162,8 +169,9 @@ function buildSched(){
 			exclDt:_level
 		},
 		success: function(result) {
-			loadCalMng();
+			//-loadCalMng();
 		//	location.reload();
+			location.reload();
 		}
 	});
 }

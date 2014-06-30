@@ -10,7 +10,7 @@ public class YearPlan {
 
 	public YearPlan(){calFreq="biweekly";}
 	
-	@Field private String name, desc, id, refId;
+	@Field private String name, desc, id, refId, altered;
 	@Field(path=true) String path;
 	@Collection private java.util.List <MeetingE> meetingEvents;
 	@Collection private java.util.List <Activity> activities;
@@ -26,6 +26,16 @@ public class YearPlan {
 	
 	
 	
+
+	
+
+	public String getAltered() {
+		return altered;
+	}
+
+	public void setAltered(String altered) {
+		this.altered = altered;
+	}
 
 	public Long getCalStartDate() {
 		return calStartDate;

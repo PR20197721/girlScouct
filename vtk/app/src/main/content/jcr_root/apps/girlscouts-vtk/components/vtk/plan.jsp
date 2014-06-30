@@ -70,12 +70,24 @@ ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1);
 ageLevel=ageLevel.toLowerCase().trim();
 java.util.Iterator<YearPlan> yearPlans = yearPlanDAO.getAllYearPlans(ageLevel).listIterator();
 
+
+String confMsg="";
+if( user.getYearPlan()!=null ){
+	if( (user.getYearPlan().getAltered()!=null && !user.getYearPlan().getAltered().equals("")) &&
+			( isDtMeetings(user.getYearPlan().getSchedule(), 0) || user.getYearPlan().getSchedule()==null ) )
+		{confMsg ="Are You Sure? You will lose customizations that you have made";}
+	else if( isDtMeetings(user.getYearPlan().getSchedule(), 1))
+		{confMsg ="Are You Sure? This will modify plans on /after [date]. Any customization for meeting(s) will be lost."; }
+}
+
+
+
 while (yearPlans.hasNext()) {
 	YearPlan yearPlan = yearPlans.next();
 %>
 			<div class="row">
-				<div class="large-8 columns"><input type="submit" name="" value="<%=yearPlan.getName()%>" onclick="x('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>')" /></div>
-				<div class="large-16 columns"><%=yearPlan.getDesc()%>-<%=yearPlan.getId()%></div>
+				<div class="large-8 columns"><input type="submit" name="" value="<%=yearPlan.getName()%>" onclick="x('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg %>', '<%=yearPlan.getName()%>')" /></div>
+				<div class="large-16 columns"><%=yearPlan.getDesc()%></div>
 			</div>
 			<hr/>
 <%} %>
@@ -87,5 +99,27 @@ while (yearPlans.hasNext()) {
 		</div>
 	</div>
 
+	<%!
 	
+
+public boolean isDtMeetings(Cal cal, int x){
+	
+	if( cal==null || cal.getDates()==null) return false;
+	String dates= cal.getDates();
+	
+	java.util.StringTokenizer t= new java.util.StringTokenizer(dates, ",");
+	if( x==0 ){
+		while( t.hasMoreElements() )
+			if( new java.util.Date().before( new java.util.Date(Long.parseLong(t.nextToken())) ) )
+				return true;
+		
+	}else{
+		while( t.hasMoreElements() )
+			if( new java.util.Date().after( new java.util.Date(Long.parseLong(t.nextToken())) ) )
+				return true;
+		
+	}
+	return false;
+}
+	%>
 	

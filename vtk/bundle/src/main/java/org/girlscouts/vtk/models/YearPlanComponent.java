@@ -6,6 +6,18 @@ public class YearPlanComponent {
 
 	private java.util.Date date;
 	private  YearPlanComponentType type;
+	private String uid;
+	
+	
+	
+	
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
 
 	public java.util.Date getDate() {
 		return date;

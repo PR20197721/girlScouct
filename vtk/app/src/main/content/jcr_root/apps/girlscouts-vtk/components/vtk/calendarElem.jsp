@@ -26,7 +26,7 @@ if( meeting != null && meeting.getCancelled()!=null && meeting.getCancelled().eq
 <%=   	meetingDAO.getMeeting(  meeting.getRefId() ).getName() %>
 <div id="locMsg"></div>
 <div  style="padding:40px; background-color:gray; border:1px solid red;">
-	Change Date: <input type="text" value="<%= fmtDate.format(date) %>" id="cngDate0" onclick="dtPicker('cngDate0')" />
+	Change Date: <input type="text" value="<%= fmtDate.format(date) %>" id="cngDate0"  />
 	Change Time: <input tyle="text" id="cngTime0" value="<%= fmtHr1.format(date) %>"/>
 	<select id="cngAP0">
 		<option value="pm" <%= AP.equals("PM") ? "SELECTED" : "" %>>pm</option> 
@@ -36,3 +36,9 @@ if( meeting != null && meeting.getCancelled()!=null && meeting.getCancelled().eq
 	<input type="button" value="save" onclick="updSched1('0','<%=meeting.getPath()%>','<%=date.getTime()%>')"/>
 	<input type="button" value="cancel" onclick="loadCalMng()"/>
 </div>
+
+<script>
+$(function() {
+    $( "#cngDate0" ).datepicker({minDate: 0});
+  });
+  </script>

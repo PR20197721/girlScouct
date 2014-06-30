@@ -119,4 +119,37 @@ public class YearPlanDAOImpl implements YearPlanDAO{
 			System.err.println("done");
 		}catch(Exception e){e.printStackTrace();}
 	}
+	
+	
+	
+	
+	
+		public YearPlan getYearPlan(String path) {
+			YearPlan yearPlan =null;
+			try{
+			List<Class> classes = new ArrayList<Class>();	
+			classes.add(YearPlan.class); 
+			classes.add(Meeting.class); 
+			classes.add(Cal.class);
+			
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
+		
+			
+	
+			QueryManager queryManager = ocm.getQueryManager();
+			Filter filter = queryManager.createFilter(YearPlan.class);
+			
+		
+			
+			
+	        Query query = queryManager.createQuery(filter);
+	        
+	   yearPlan =(YearPlan)  ocm.getObject(path);
+	       
+	        
+			}catch(Exception e){e.printStackTrace();}
+			return yearPlan;
+		}
+			
 }

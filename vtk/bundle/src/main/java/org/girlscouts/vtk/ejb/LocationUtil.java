@@ -44,22 +44,28 @@ public class LocationUtil {
 	  
 		YearPlan plan = user.getYearPlan();
 		java.util.List <Location> locations = plan.getLocations();
-		if(locations==null) locations= new java.util.ArrayList<Location>();
 		
-		System.err.println("Check new loc Path: " +location.getPath() );
+		
+		boolean isFirst =false;
+		if(locations==null){ locations= new java.util.ArrayList<Location>();  }
+		if( locations.size()<=0) isFirst=true;
+		
 		locations.add( location );
 		
 		Location newLoc =  locations.get(locations.size()-1) ;
-		System.err.println("New loc path: "+ newLoc.getPath());
-		
-		//location.setPath("/content/girlscouts-vtk/users/005Z00000025nQWIAY/yearPlan/locations/"+location.getName());
 		
 		plan.setLocations(locations);
 		
 		
 		user.setYearPlan(plan);
-		
+		plan.setAltered("true");
 		userDAO.updateUser(user);
+		
+		
+		
+				
+				
+				
 		
   }
   public void changeLocation(User user, String dates, String locationRef){

@@ -21,4 +21,5 @@ public interface MeetingDAO {
 	List<Meeting> search();
 	public List<org.girlscouts.vtk.models.Search> getData(String query);
 	public List<org.girlscouts.vtk.models.Search> getAidTag(String tags, String meetingName);
+	public List<org.girlscouts.vtk.models.Search> getAidTag_custasset(String uid);
 }

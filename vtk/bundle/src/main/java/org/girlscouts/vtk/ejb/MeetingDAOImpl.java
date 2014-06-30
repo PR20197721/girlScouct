@@ -425,7 +425,7 @@ public List<org.girlscouts.vtk.models.Search> getData(String query) {
 		//GOOD FULL SEARCHjavax.jcr.query.Query q = qm.createQuery("select jcr:path, excerpt(.) from nt:resource  where jcr:path like '/content/dam/%' and  contains(., '"+ query +"~')", javax.jcr.query.Query.SQL); 
 		
 		//AID search
-		javax.jcr.query.Query q = qm.createQuery("select dc:description,dc:format from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/aid/%' and contains(*, '"+query+"') order by jcr:score desc",  javax.jcr.query.Query.SQL);
+		javax.jcr.query.Query q = qm.createQuery("select dc:description,dc:format from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/aid/%' and contains(*, '"+query+"~') order by jcr:score desc",  javax.jcr.query.Query.SQL);
 		
 		 		
 		QueryResult result = q.execute();
@@ -574,6 +574,47 @@ public List<org.girlscouts.vtk.models.Search> getAidTag_local(String tags, Strin
        try{search.setDesc( r.getValue("dc:description").getString() );}catch(Exception e){}
        try{search.setType(r.getValue("dc:format").getString());}catch(Exception e){}
        matched.add(search);
+      
+   }
+	}catch(Exception e){e.printStackTrace();}
+   return matched;
+	}
+
+
+
+
+
+public List<org.girlscouts.vtk.models.Search> getAidTag_custasset(String uid) {
+	  
+	
+	List<org.girlscouts.vtk.models.Search> matched = new ArrayList<org.girlscouts.vtk.models.Search>();
+	
+	try{
+		
+		
+		
+		String sql= "select jcr:path from nt:base where jcr:path like '/vtk/111/troop-1a/assets/%' and refId='"+ uid +"'";
+		
+		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
+		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
+   		
+		 		
+		QueryResult result = q.execute();
+   
+ 
+   
+   for (RowIterator it = result.getRows(); it.hasNext(); ) {
+       Row r = it.nextRow();
+       Value excerpt = r.getValue("jcr:path");
+       
+       String path = excerpt.getString() +"/custasset";
+      // if( path.contains("/jcr:content") ) path= path.substring(0, (path.indexOf("/jcr:content") ));
+       //System.err.println( "PATH :"+path );
+    		   
+       org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();
+       search.setPath(path);
+       //search.setContent(excerpt.getString());
+        matched.add(search);
       
    }
 	}catch(Exception e){e.printStackTrace();}

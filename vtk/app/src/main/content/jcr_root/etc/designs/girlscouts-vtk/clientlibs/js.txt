@@ -7,3 +7,5 @@ meeting.js
 plan.js
 planView.js
 resources.js
+jquery-te-1.4.0.min.js
+camera.js

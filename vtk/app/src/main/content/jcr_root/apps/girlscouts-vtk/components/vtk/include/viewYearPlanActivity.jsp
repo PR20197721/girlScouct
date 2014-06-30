@@ -1,4 +1,5 @@
 <%
+
 Activity activity = (Activity) _comp;
 %>
 <br/>
@@ -48,5 +49,52 @@ ageLevel=ageLevel.toLowerCase().trim();
 <input type="button" value="delete this activity" onclick="rmCustActivity12('<%=activity.getPath()%>')"/>
 <%} %>
         </div>
+        
+        
+        
+        <div id="assets">
+        
+        <ul>
+      <% 
+	java.util.List<Asset> aassets = activity.getAssets();
+	if( aassets!=null)
+	 for(int i=0;i< aassets.size(); i++){
+		%><li style="background-color:lightblue;"><%=aassets.get(i).getType()%>: <a href="<%=aassets.get(i).getRefId() %>"><%=aassets.get(i).getRefId() %></a></li><a href="javascript:void(0)" onclick="rmAsset('<%=activity.getUid()%>', '<%=aassets.get(i).getUid()%>')" style="background-color:red;">remove</a><% 
+	 }
+	%>
+	</ul>
+        
+        </div>
+        
+        
+        
+        <div>
+        	<h4>Upload File</h4>
+        	<!--  <form action="/content/dam/girlscouts-vtk/troopLibrary/<%=user.getTroop().getTroopName() %>/" method="post"
+                        enctype="multipart/form-data">
+                       
+                        
+                        // user prefs
+                        // /vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/<%=user.getId() %>
+                         -->
+       <form action="/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets/" method="post"
+                        enctype="multipart/form-data">
+                       
+                        <input type="hidden" name="refId" value="<%=activity.getUid()%>"/>
+               <input type="hidden" name="owner" value="<%=user.getId()%>"/>
+               <input type="hidden" name="createTime" value="<%=new java.util.Date()%>"/>         
+<input type="file" name="custasset" size="50" />
+<br />
+<input type="submit" value="Upload File" />
+</form>
+        </div>
+        
+        <% 
+        List<org.girlscouts.vtk.models.Search>  _custassets = sling.getService(MeetingDAO.class).getAidTag_custasset(activity.getUid());
+	for(int i=0;i<_custassets.size();i++){
+		%> <div style="background-color:yellow;">custasset:<a href="<%=_custassets.get(i).getPath() %>"><%=_custassets.get(i).getPath() %></a></div><%
+	}
+        %>
+        
 </div>
 

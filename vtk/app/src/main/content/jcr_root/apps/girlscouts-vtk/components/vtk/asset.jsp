@@ -24,28 +24,61 @@ function assignAid(aidId, meetingId){
 		//document.location="/content/girlscouts-vtk/en/vtk.resource.html";
 		applyAids(aidId);
 }
+
 </script>
+
+
+
+<a href="javascript:void(0)"  onclick="xClose()" class=".ui-widget-overlay" >CLOSE</a>
 <%
 
 	String aidId= request.getParameter("aidId");
 
 	java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
 	if( sched==null || (sched.size()==0)){out.println( "No Cal set up"); return;}
-	
+	MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
 	
 	
 	java.util.Iterator itr= sched.keySet().iterator();
 	while( itr.hasNext() ){
 		java.util.Date dt= (java.util.Date) itr.next();
-		MeetingE meeting = (MeetingE) sched.get(dt);
+		//MeetingE meeting = (MeetingE) sched.get(dt);
+		YearPlanComponent _comp= sched.get(dt);
 		
-		java.util.List<Asset> assets = meeting.getAssets();
+		
+		String displayName ="";
+		
+		java.util.List<Asset> assets = null;
+		switch( _comp.getType() ){
+			case ACTIVITY :
+				displayName=((Activity)_comp).getName();
+				assets =  ((Activity)_comp).getAssets();
+				break;
+			
+			case MEETING :
+				
+				
+				Meeting meetingInfo =meetingDAO.getMeeting( ((MeetingE) _comp).getRefId() );
+				displayName=meetingInfo.getName();
+				assets =  ((MeetingE) _comp).getAssets(); 
+				break;
+		}    
+		
+		
+		
 		if( assets!=null )
 			for(int i=0;i<assets.size();i++){
 				
 				if( assets.get(i).getRefId().equals(aidId ) )
 					{out.println("SELECTED");}
 			}
-		%><li> <a href="javascript:void(0)" onclick="assignAid('<%=aidId %>', '<%=meeting.getUid()%>')"><%= dt %></a></li><%
+		%>
+			<br/>
+			<a href="javascript:void(0)" onclick="assignAid('<%=aidId %>', '<%=_comp.getUid()%>')"><%= dt %></a>
+			|| 
+			<%=_comp.getType() %> || <span style="background-color:orange;"><%=displayName%> </span>
+			--- <%=_comp.getUid()%>
+			
+		<%
 	}
 %>

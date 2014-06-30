@@ -110,7 +110,7 @@ function durEditActiv(duration, activPath, meetingPath){
 		data: '', // Send value of the clicked button
 		dataType: 'html', // Choosing a JSON datatype
 		success: function (data) { 
-			location.reload();
+			//location.reload();
 		},
 		error: function (data) { 
 
@@ -214,4 +214,14 @@ function sendMeetingReminderEmail(){
 		}
 	});
 	return;
+}
+
+
+
+function openClose(div){
+	if( document.getElementById(div).style.display=='none' )
+		document.getElementById(div).style.display='block';
+	else
+		document.getElementById(div).style.display='none';
+	
 }

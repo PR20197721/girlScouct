@@ -3,6 +3,8 @@ $(function() {
     $( "#calStartDt" ).datepicker({minDate: 0});
   });
   
+
+
   
 function updSched1(i, meetingPath, currDt){
 	
