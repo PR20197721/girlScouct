@@ -18,7 +18,7 @@ if (rootPath.isEmpty()) {
 <%
 if (rootPath.isEmpty()) {
     if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
-		%>Contacts List: path not configured.<%
+		%>Advertisement: path not configured.<%
     }
     return;
 }
@@ -33,22 +33,24 @@ else {
     adCount = Integer.parseInt(tempAdCount);
 }
 Page adRoot = resourceResolver.resolve(rootPath).adaptTo(Page.class);
-Iterator<Page> Iter = adRoot.listChildren();
-
-while(Iter.hasNext() && adCount > 0) {
-    adCount--;
-    Page currentAd = Iter.next();
-    String adName = currentAd.getProperties().get("jcr:title", "");
-    String path = currentAd.getPath();
-    String adLink = currentAd.getProperties().get("link", "");
-    if (adLink != null && adLink != ""){
-    adLink = adLink + ".html";
-    }
-    else {
-    adLink = path + ".html";	
-    }
-    %>
-<a href="<%=adLink%>"><cq:include path= "<%=path +"/jcr:content/image"%>" resourceType="foundation/components/image" /></a>
+if (adRoot != null) {
+	Iterator<Page> Iter = adRoot.listChildren();
+	
+	while(Iter.hasNext() && adCount > 0) {
+	    adCount--;
+	    Page currentAd = Iter.next();
+	    String adName = currentAd.getProperties().get("jcr:title", "");
+	    String path = currentAd.getPath();
+	    String adLink = currentAd.getProperties().get("link", "");
+	    if (adLink != null && adLink != ""){
+	    adLink = adLink + ".html";
+	    }
+	    else {
+	    adLink = path + ".html";	
+	    }
+	    %>
+	<a href="<%=adLink%>"><cq:include path= "<%=path +"/jcr:content/image"%>" resourceType="foundation/components/image" /></a>
 <%
+    }
 }
-	%>
+%>
