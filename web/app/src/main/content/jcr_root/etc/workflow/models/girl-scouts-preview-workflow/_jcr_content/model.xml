@@ -7,7 +7,7 @@
     description="No Description"
     title="Girl Scouts Preview Workflow">
     <metaData
-        cq:lastModified="{Long}1403802420315"
+        cq:lastModified="{Long}1404155207912"
         cq:lastModifiedBy="reviewer-1"
         jcr:primaryType="nt:unstructured"/>
     <nodes jcr:primaryType="nt:unstructured">
@@ -19,6 +19,15 @@
         </node0>
         <node1
             jcr:primaryType="cq:WorkflowNode"
+            title="Push Assets to Preview"
+            type="PROCESS">
+            <metaData
+                jcr:primaryType="nt:unstructured"
+                PROCESS="org.girlscouts.cq.workflow.AssetPreviewActivateProcess"
+                PROCESS_AUTO_ADVANCE="true"/>
+        </node1>
+        <node2
+            jcr:primaryType="cq:WorkflowNode"
             title="Publish Page to Preview"
             type="PROCESS">
             <metaData
@@ -26,13 +35,13 @@
                 PROCESS="/etc/workflow/scripts/girlscouts/flush_page_sp1.ecma"
                 PROCESS_ARGS="agent:publishpreview"
                 PROCESS_AUTO_ADVANCE="true"/>
-        </node1>
-        <node2
+        </node2>
+        <node3
             jcr:primaryType="cq:WorkflowNode"
             title="End"
             type="END">
             <metaData jcr:primaryType="nt:unstructured"/>
-        </node2>
+        </node3>
     </nodes>
     <transitions jcr:primaryType="nt:unstructured">
         <node0_x0023_node1
@@ -45,8 +54,15 @@
         <node1_x0023_node2
             jcr:primaryType="cq:WorkflowTransition"
             from="node1"
+            rule=""
             to="node2">
             <metaData jcr:primaryType="nt:unstructured"/>
         </node1_x0023_node2>
+        <node2_x0023_node3
+            jcr:primaryType="cq:WorkflowTransition"
+            from="node2"
+            to="node3">
+            <metaData jcr:primaryType="nt:unstructured"/>
+        </node2_x0023_node3>
     </transitions>
 </jcr:root>
