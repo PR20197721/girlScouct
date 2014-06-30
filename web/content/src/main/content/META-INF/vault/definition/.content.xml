@@ -50,7 +50,7 @@
         <f6
             jcr:primaryType="rep:AuthorizableFolder"
             mode="merge"
-            root="/home/groups/girlscouts-usa"
+            root="/home/groups/girlscouts-usa/girlscouts-usa-reviewers"
             rules="[]"/>
     </filter>
 </jcr:root>
