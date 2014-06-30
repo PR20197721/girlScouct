@@ -1,4 +1,4 @@
-To:
+To: ${initiator.email}
 
 The ${model.title} workflow has been successfully completed. 
 <br>
