@@ -111,7 +111,9 @@ li.activity .planSquare {
 	line-height:0.6rem;
 }
 #troop select{
-	height:2.5rem;
+	height:2rem;
+	font-size: 1em;
+	padding: 2px;
 }
 .modalWrap {
 	background-color: #ffffff;
@@ -176,3 +178,27 @@ a.direction {
 	font-size: 1em;
         color: #008f50;
 }
+
+#searchByCharField {
+	padding: 2px;
+	font-size:0.8em;
+	height: 2.0em;
+}
+
+.searchResultsItem {
+	padding: 10px;
+        display: inline-block;
+	border: 1px solid #eeeeee;
+	width: 100%;
+	margin: 5px;
+}
+.searchResultsItem .docType{
+        display: inline-block;
+	text-align: left;
+}
+.searchResultsItem h2 {
+        display: inline-block;
+}
+
+
+

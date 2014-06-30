@@ -1,13 +1,12 @@
 package org.girlscouts.vtk.impl.servlets;
 
+import java.io.DataOutputStream;
+import java.net.URL;
 import java.util.Dictionary;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
@@ -24,14 +23,8 @@ import org.girlscouts.vtk.auth.models.User;
 import org.girlscouts.vtk.impl.helpers.ConfigListener;
 import org.girlscouts.vtk.impl.helpers.ConfigManager;
 import org.girlscouts.vtk.salesforce.Troop;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.*;
-import java.net.*;
 
 @Component(
     label="Girl Scouts VTK Salesforce Authentication Servlet",
@@ -138,7 +131,8 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
         String referer = request.getHeader("referer");
        
         
-        referer="/content/girlscouts-usa/en.html";
+        // TODO: do not hardcode it!
+        referer="/content/gateway/en.html";
       
         referer= referer.contains("?") ? (referer = referer +"&isSignOutSalesForce=true") : 
         	(referer = referer +"?isSignOutSalesForce=true") ;

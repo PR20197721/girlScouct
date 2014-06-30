@@ -22,6 +22,11 @@
 <%
 	String currentPath = currentPage.getPath() + ".html";
    
+    // Defining a hashMap for the Program Level - Level and Categories -> Category
+    Map<String,String> map = new HashMap<String,String>();
+    map.put("Program Level", "Level");
+    map.put("Categories", "Category");		
+    
 	// date and time
     DateFormat dateFormat = new SimpleDateFormat("EEE MMM d yyyy");
 	DateFormat timeFormat = new SimpleDateFormat("h:mm a");
@@ -71,12 +76,9 @@
 	
 	Map<String,List<String>> tags= new HashMap<String,List<String>>() ;
 	if(currentNode.getParent().hasProperty("cq:tags")){
-		
-		
 		ValueMap jcrProps = resourceResolver.getResource(currentNode.getParent().getPath()).adaptTo(ValueMap.class);
 		String[] cqTags = jcrProps.get("cq:tags", String[].class);
 	    TagManager tagManager = resourceResolver.adaptTo(TagManager.class);
-
 	    for(String str:cqTags)
 	    {
 	    	
@@ -122,19 +124,22 @@
    </div>
 
 </div>
-
-<div>
-<p>	
-	<%  
-		try {
-		    String imgPath = resource.getPath() + "/image";
-%>
-<%= displayRendition(resourceResolver, imgPath, "cq5dam.web.520.520") %>
+<%  
+	try {
+	    String imgPath = resource.getPath() + "/image";
+	    Node imgNode = resourceResolver.getResource(imgPath).adaptTo(Node.class);
+	   
+	    if( imgNode.hasProperty("fileReference")){
+	%>   <div>
+			<p>	
+			<%= displayRendition(resourceResolver, imgPath, "cq5dam.web.520.520") %>
+			</p>
+		</div>	
 <%
-		} catch (Exception e) {}
+		    }
+	} catch (Exception e) {}
 	%>
-</p>
-</div>
+
  <div class="row">
    <div class="small-12 large-12 medium-12 columns">
        <div class="row">
@@ -149,7 +154,7 @@
        
        <div class="row">
          <div class="small-8 large-8 medium-8 columns lineHeight">
-             <b>location:</b> 
+             <b>Locations:</b> 
             
          </div>
          <div class="small-16 large-16 medium-16 columns lineHeight">
@@ -168,13 +173,13 @@
              
         %>
          <div class="row">
-         <div class="small-10 large-10 medium-10 columns lineHeight">
-                  <b> <%=categoryTitle %>: </b>
+         <div class="small-8 large-8 medium-8 columns lineHeight">
+                  <b> <%=map.get(categoryTitle)%>: </b>
          </div>
         <%   
             Iterator<String> tagValue = tags.get(categoryTitle).iterator();
             %>
-              <div class="small-14 large-14 medium-14 columns lineHeight"> 
+              <div class="small-16 large-16 medium-16 columns lineHeight"> 
             
            <%  
            while(tagValue.hasNext()){

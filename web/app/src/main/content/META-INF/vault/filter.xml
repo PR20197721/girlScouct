@@ -3,12 +3,16 @@
     <filter root="/apps/girlscouts"/>
     <filter root="/etc/map.author"/>
     <filter root="/etc/map.publish"/>
+    <filter root="/etc/map.publish.dev"/>
+    <filter root="/etc/map.publish.stage"/>
+    <filter root="/etc/map.publish.prod"/>
     <filter root="/etc/data-importers"/>
     <filter root="/etc/data-import"/>
     <filter root="/etc/designs/girlscouts"/>
     <filter root="/etc/designs/girlscouts-usa-green"/>
+    <filter root="/etc/designs/girlscouts-usa"/>
     <filter root="/etc/designs/girlscouts-usa-blue"/>
-    <filter root="/etc/scaffolding/girlscouts-usa"/>
+    <filter root="/etc/scaffolding/girlscouts-prototype"/>
     <filter root="/etc/workflow/models/email-workflow"/>
     <filter root="/etc/workflow/launcher/config/create_asset_event"/> 
     <filter root="/etc/workflow/launcher/config/gs_create_asset_large_hero"/>
@@ -37,6 +41,5 @@
     <filter root="/etc/workflow/models/request_for_deactivation"/>
     <filter root="/etc/workflow/scripts/girlscouts"/>
     <filter root="/etc/workflow/notification/email/default"/>
-    <filter root="/home/groups/girlscouts-usa"/>
     <filter root="/etc/tracker"/>
 </workspaceFilter>

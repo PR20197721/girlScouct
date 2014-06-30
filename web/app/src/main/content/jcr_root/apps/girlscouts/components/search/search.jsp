@@ -85,7 +85,7 @@ List<Hit> hits = result.getHits();
       <fmt:param value="${escapedQuery}"/>
     </fmt:message>
  <%} else{ %>
-    <%=properties.get("resultPagesText","Results For")%> "${escapedQuery}"
+    <%=properties.get("resultPagesText","Results for")%> "${escapedQuery}"
   <br/>
 <%
     for(Hit hit: hits)
