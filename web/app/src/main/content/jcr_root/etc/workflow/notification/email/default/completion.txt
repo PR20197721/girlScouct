@@ -1,0 +1,7 @@
+To:
+
+The ${model.title} workflow has been successfully completed. 
+<br>
+<br>
+The page at ${author.prefix}${payload.path}.html has been unlocked.
+
