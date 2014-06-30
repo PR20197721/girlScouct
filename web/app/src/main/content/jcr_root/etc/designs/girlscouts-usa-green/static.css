@@ -242,22 +242,80 @@ a:hover.menuHighlight {
     list-style: none;
 }
 #main .side-nav li{
-    padding: 5px 5px 5px 15px;
+    padding: 15px 5px 15px 15px;
+}
+
+/* Left-Nav MG Changes */
+
+#main .side-nav a{
+	padding:15px 0px 15px 10px;
+	
+	
+}
+#main .side-nav>li{
+	text-indent:10px;
+	margin:0px;
+	padding:0px 0px 0px 10px;
+}
+
+#main .side-nav li.active ul li{
+	margin:0px;
+	padding:0px;
+	
+}
+#main .side-nav ul, ul > li {
+	margin:0px;
+	padding:0px;
+	
+}
+#main .side-nav li.active > ul li a:hover{
+    background: url('images/small-green-arrow-right.png') no-repeat  0px 0px;
+    background-position:right 10px; 
+	background-color:#B0B0B0;
+	
 }
 #main .side-nav li a:hover {
+    background: url('images/small-green-arrow-right.png') no-repeat  0px 0px;
+    background-position:right 18px; 
     background-color: #B0B0B0;
 }
+
+#main .side-nav > li>ul>li{
+	text-indent:15px;
+	margin:0px;
+	padding:0px 0px 0px 10px;
+}
+
+#main .side-nav > li>ul>li>ul>li{
+	text-indent:20px;
+	margin:0px;
+	padding:0px 0px 0px 10px;
+}
+
+#main .side-nav > li>ul>li>ul>li>ul>li{
+	text-indent:25px;
+	margin:0px;
+	padding:0px 0px 0px 10px;
+}
+
+#main .side-nav > li.active{
+	/*text-indent:15px;*/
+	margin:0px;
+	padding:0px 0px 0px 10px;
+}
+
 #main .side-nav li.divider {
     margin: 0px;
     padding: 0px;
     background: none; 
 }
-#main .side-nav .active>a, #main .side-nav .isOpen>a {
+/*#main .side-nav .active>a, #main .side-nav .isOpen>a {
     font-weight: bold;
 }
-
+*/
 #main .side-nav>li>a{
     font-weight: bold;
+   
 }
 #main .side-nav>li>li a{
     font-weight: normal;
@@ -270,6 +328,22 @@ a:hover.menuHighlight {
     background: url('images/orange-yellow-vertical.png') repeat-y  0px 0px; 
     background-color:#f7f7f6;
 }
+
+#main .side-nav li.active  li.active > a{
+    background: url('images/small-green-arrow-right.png') no-repeat  0px 0px;
+    background-position:right 10px; 
+    background-color:#B0B0B0; 
+}
+
+#main .side-nav li.active ul li a{
+	padding:5px 0px 10px 15px;
+}
+
+#main .side-nav li.active li.active > a
+{
+	color:#ffffff;
+}
+
 .home-section {
     padding: 15px 0px;
 }
@@ -613,10 +687,10 @@ td.fc-header-left{
     background-position:center;
 }
 
-#leftContent li.active ul li.active{
+/*#leftContent li.active ul li.active{
     background: url('images/small-green-arrow-right.png') no-repeat  0px 0px;
     background-position:right 9px;  
-}
+}*/
 
 #hrStyle >hr{
   border-color:#9C9C9C;
