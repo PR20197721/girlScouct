@@ -33,11 +33,12 @@ else {
     adCount = Integer.parseInt(tempAdCount);
 }
 
-// For now, there is only one strategy, FIFO, which is the default;
-String loadPath = rootPath + "." + adCount + ".html";
-%>
-<script type="text/javascript">
-	$('.advertisement').load('<%= loadPath %>');
-</script>
-<%
-%>
+Page adRoot = resourceResolver.resolve(rootPath).adaptTo(Page.class);
+if (adRoot != null) {
+	// For now, there is only one strategy, FIFO, which is the default;
+	String loadPath = rootPath + "." + adCount + ".html";
+	%>
+	<script type="text/javascript">
+		$('.advertisement').load('<%= loadPath %>');
+	</script>
+<% } %>
