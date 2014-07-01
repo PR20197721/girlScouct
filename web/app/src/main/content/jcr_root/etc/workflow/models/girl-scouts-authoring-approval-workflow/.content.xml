@@ -3,8 +3,8 @@
     jcr:primaryType="cq:Page">
     <jcr:content
         cq:designPath="/etc/designs/default"
-        cq:lastModified="{Date}2014-06-30T14:29:27.913-04:00"
-        cq:lastModifiedBy="reviewer-1"
+        cq:lastModified="{Date}2014-07-01T15:51:21.808-04:00"
+        cq:lastModifiedBy="admin"
         cq:lastReplicated="{Date}2014-06-11T17:05:45.519-04:00"
         cq:lastReplicatedBy="admin"
         cq:lastReplicationAction="Activate"
@@ -143,6 +143,14 @@
                                     PROCESS_ARGS="agent:publish1useast1"
                                     PROCESS_AUTO_ADVANCE="true"/>
                             </process>
+                            <process_0
+                                jcr:created="{Date}2014-07-01T15:51:21.806-04:00"
+                                jcr:createdBy="admin"
+                                jcr:lastModified="{Date}2014-07-01T15:51:21.806-04:00"
+                                jcr:lastModifiedBy="admin"
+                                jcr:primaryType="nt:unstructured"
+                                jcr:title="Double click to enter title."
+                                sling:resourceType="cq/workflow/components/model/process"/>
                             <customsendemailproce
                                 jcr:created="{Date}2014-06-17T22:48:04.051-04:00"
                                 jcr:createdBy="admin"
