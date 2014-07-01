@@ -38,7 +38,9 @@
 							</div>
 						</div>
 						<div class="row hide srch-box">
-							<% setCssClasses("small-22 columns", request); %>
+						    <%setCssClasses("small-6 columns", request); %>
+						    <cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
+							<% setCssClasses("small-16 columns", request); %>
 								<cq:include path="<%= headerPath + "/search-box" %>" resourceType="girlscouts/components/search-box" />
 							<div class="small-2 columns">
 								<a class="right-off-canvas-toggle menu-icon"><img src="<%= designPath %>/images/hamburger.png" width="22" height="28"/></a>
