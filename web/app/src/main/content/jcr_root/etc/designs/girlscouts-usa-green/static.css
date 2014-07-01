@@ -269,15 +269,11 @@ a:hover.menuHighlight {
 	
 }
 #main .side-nav li.active > ul li a:hover{
-    background: url('images/small-green-arrow-right.png') no-repeat  0px 0px;
-    background-position:right 10px; 
-	background-color:#B0B0B0;
+   background-color:#C0C0C0;
 	
 }
 #main .side-nav li a:hover {
-    background: url('images/small-green-arrow-right.png') no-repeat  0px 0px;
-    background-position:right 18px; 
-    background-color: #B0B0B0;
+    background-color: #C0C0C0;
 }
 
 #main .side-nav > li>ul>li{
@@ -330,9 +326,7 @@ a:hover.menuHighlight {
 }
 
 #main .side-nav li.active  li.active > a{
-    background: url('images/small-green-arrow-right.png') no-repeat  0px 0px;
-    background-position:right 10px; 
-    background-color:#B0B0B0; 
+   background-color:#B0B0B0; 
 }
 
 #main .side-nav li.active ul li a{
