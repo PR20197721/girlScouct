@@ -853,3 +853,6 @@ input.searchField{
     height: 21px;
 }
 
+.noLeftPadding{
+ padding-right:0px;
+} 
