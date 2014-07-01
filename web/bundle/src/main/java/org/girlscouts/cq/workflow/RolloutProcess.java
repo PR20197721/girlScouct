@@ -7,11 +7,13 @@ import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 
 import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
+import org.osgi.framework.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,6 +34,12 @@ import com.day.cq.workflow.metadata.MetaDataMap;
 @Component
 @Service
 public class RolloutProcess implements WorkflowProcess {
+	@Property(value = "Roll out a page if it is the source page of a live copy, and then activate both the source and target pages.")
+	static final String DESCRIPTION = Constants.SERVICE_DESCRIPTION;
+	@Property(value = "Girl Scouts")
+	static final String VENDOR = Constants.SERVICE_VENDOR;
+	@Property(value = "Girl Scouts Roll out Process")
+	static final String LABEL = "process.label";
     private static Logger log = LoggerFactory.getLogger(RolloutProcess.class);
     
     @Reference
@@ -39,6 +47,9 @@ public class RolloutProcess implements WorkflowProcess {
 
     @Reference
     private Replicator replicator;
+    
+    @Reference
+    private LiveRelationshipManager relationManager;
     
 	@Reference
 	private ResourceResolverFactory resourceResolverFactory;
@@ -56,18 +67,18 @@ public class RolloutProcess implements WorkflowProcess {
         } catch (Exception e) {
             log.error(e.getMessage());
         }
-        LiveRelationshipManager relationManager = (LiveRelationshipManager)resourceResolver.adaptTo(LiveRelationshipManager.class);
-        String path = item.getWorkflowData().getPayloadType();
-        
-        Resource srcRes = resourceResolver.resolve(path);
+
+        String srcPath = item.getWorkflowData().getPayload().toString();
+
+        Resource srcRes = resourceResolver.resolve(srcPath);
         Page srcPage = (Page)srcRes.adaptTo(Page.class);
         
         if (srcPage == null) {
-            log.error("Resource is not a page. Quit. " + path);
+            log.error("Resource is not a page. Quit. " + srcPath);
         }
         
         if (!relationManager.isSource(srcRes)) {
-            log.debug("Not a live copy source page. Quit. " + path);
+            log.debug("Not a live copy source page. Quit. " + srcPath);
         }
 
         try {
@@ -80,6 +91,7 @@ public class RolloutProcess implements WorkflowProcess {
                 if (targetPath.endsWith("/jcr:content")) {
                     targetPath = targetPath.substring(0, targetPath.lastIndexOf('/'));
                 }
+                replicator.replicate(session, ReplicationActionType.ACTIVATE, srcPath);
                 replicator.replicate(session, ReplicationActionType.ACTIVATE, targetPath);
             }
         } catch (WCMException e) {
