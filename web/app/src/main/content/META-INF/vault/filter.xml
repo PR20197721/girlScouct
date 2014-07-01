@@ -36,6 +36,7 @@
     <filter root="/etc/workflow/models/dam/update_asset"/>
     <filter root="/etc/workflow/models/girl-scouts-authoring-approval-workflow"/>
     <filter root="/etc/workflow/models/girl-scouts-preview-workflow"/>
+    <filter root="/etc/workflow/models/girl-scouts-roll-out-workflow"/>
     <filter root="/etc/workflow/models/publish_example"/>
     <filter root="/etc/workflow/models/request_for_activation"/>
     <filter root="/etc/workflow/models/request_for_deactivation"/>
