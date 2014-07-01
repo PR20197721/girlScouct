@@ -227,5 +227,10 @@
             mode="replace"
             root="/etc/designs/girlscouts-gateway"
             rules="[]"/>
+        <f42
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/workflow/models/girl-scouts-roll-out-workflow"
+            rules="[]"/>
     </filter>
 </jcr:root>
