@@ -82,10 +82,10 @@
 						}
 					}
 				}
-				if (levelDepth == 1) {
+				/*if (levelDepth == 1) {
 					menuBuilder.append("<li class=\"divider\">")
 							.append("</li>");
-				}
+				}*/
 			}
 			menuBuilder.append("</li>");
 		}
