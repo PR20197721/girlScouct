@@ -580,4 +580,45 @@ public List<org.girlscouts.vtk.models.Search> getAidTag_local(String tags, Strin
    return matched;
 	}
 
+
+
+
+
+public List<org.girlscouts.vtk.models.Search> getAidTag_custasset(String uid) {
+	  
+	
+	List<org.girlscouts.vtk.models.Search> matched = new ArrayList<org.girlscouts.vtk.models.Search>();
+	
+	try{
+		
+		
+		
+		String sql= "select jcr:path from nt:base where jcr:path like '/vtk/111/troop-1a/assets/%' and refId='"+ uid +"'";
+		
+		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
+		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
+   		
+		 		
+		QueryResult result = q.execute();
+   
+ 
+   
+   for (RowIterator it = result.getRows(); it.hasNext(); ) {
+       Row r = it.nextRow();
+       Value excerpt = r.getValue("jcr:path");
+       
+       String path = excerpt.getString() +"/custasset";
+      // if( path.contains("/jcr:content") ) path= path.substring(0, (path.indexOf("/jcr:content") ));
+       //System.err.println( "PATH :"+path );
+    		   
+       org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();
+       search.setPath(path);
+       //search.setContent(excerpt.getString());
+        matched.add(search);
+      
+   }
+	}catch(Exception e){e.printStackTrace();}
+   return matched;
+	}
+
 }//edn class

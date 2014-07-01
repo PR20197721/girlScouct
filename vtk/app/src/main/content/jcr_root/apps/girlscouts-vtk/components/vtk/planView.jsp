@@ -10,7 +10,7 @@
 <%@include file="include/vtk-nav.jsp"%>
 <%
 
-System.err.println("Planview...");
+
 
 	java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
 	if( sched==null || (sched.size()==0)){out.println( "No Cal set up"); return;}
@@ -20,16 +20,19 @@ System.err.println("Planview...");
 	if( request.getParameter("elem") !=null ) {
 		searchDate = new java.util.Date( Long.parseLong(  request.getParameter("elem")  ) );	
 	} else {
-		//-searchDate = (java.util.Date) sched.keySet().iterator().next();
 		
-		//move to first future meeting
-		java.util.Iterator itr = sched.keySet().iterator();
-		while( itr.hasNext() ){
+		if( user.getYearPlan().getSchedule()==null)
+			searchDate = (java.util.Date) sched.keySet().iterator().next();
+		else{
+			
+		  java.util.Iterator itr = sched.keySet().iterator();
+		  while( itr.hasNext() ){
 			searchDate= (java.util.Date)itr.next();
 			if( searchDate.after( new java.util.Date() ) )
 				break;
 			
-		}
+		  }
+	    }
 			
 	}
 
@@ -40,7 +43,8 @@ System.err.println("Planview...");
 		prevDate = ((java.util.Date)dates.get(currInd-1)).getTime();
 
 	YearPlanComponent _comp= sched.get(searchDate);
-%>
+	
+%> 
        <div id="planMsg"></div>
       <% 
        				switch( _comp.getType() ){
@@ -51,7 +55,7 @@ System.err.println("Planview...");
        					case MEETING :
        						
        						%><%@include file="include/viewYearPlanMeeting.jsp" %><% 
-       						
+       								
            					break;
        				}       			
        %>

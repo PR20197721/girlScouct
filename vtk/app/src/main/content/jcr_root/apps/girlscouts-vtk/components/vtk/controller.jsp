@@ -63,16 +63,32 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	
 }else if( request.getParameter("addYearPlanUser") !=null ){
 	
-	userDAO.selectYearPlan(  (User) session.getValue("VTK_user"), request.getParameter("addYearPlanUser"));
+	userDAO.selectYearPlan(  (User) session.getValue("VTK_user"), request.getParameter("addYearPlanUser"),
+			request.getParameter("addYearPlanName"));
 	
 	
 }else if( request.getParameter("addLocation") !=null ){
 	
-	locationUtil.setLocation((User) session.getValue("VTK_user"), 
+	
+	
+		
+	    locationUtil.setLocation((User) session.getValue("VTK_user"), 
 			 new Location(request.getParameter("name"),
 						request.getParameter("address"), request.getParameter("city"), 
 						request.getParameter("state"), request.getParameter("zip") ));
 	
+	    
+	    User user = (User) session.getValue("VTK_user");
+	    System.err.println("LOCSSSS :"+ user.getYearPlan().getLocations().size());
+		   
+	    if( user.getYearPlan().getLocations().size()==1 ){
+			
+		    locationUtil.setLocationAllMeetings((User) session.getValue("VTK_user"), 
+				user.getYearPlan().getLocations().get(0).getPath());
+		}
+	
+	    
+	    
 }else if( request.getParameter("rmLocation") !=null ){
 
 	locationDAO.removeLocation((User) session.getValue("VTK_user"), request.getParameter("rmLocation"));
@@ -172,9 +188,20 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 
 //System.err.println("(**** "+ request.getParameter("loginAs"));
 	User curr_user = (User)session.getValue("VTK_user");
-	User new_user= userDAO.getUser( curr_user.getApiConfig().getUserId() +"_"+ request.getParameter("loginAs") );
-	if( new_user==null )
-		 new_user = new User(curr_user.getApiConfig().getUserId()+"_"+  request.getParameter("loginAs") );
+	User new_user= userDAO.getUser( //curr_user.getApiConfig().getUserId() +"_"+ request.getParameter("loginAs") );
+			"/vtk/"+curr_user.getTroop().getCouncilCode()+
+    		"/"+curr_user.getTroop().getTroopName()+"/users/"+
+		curr_user.getApiConfig().getUserId()+"_"+  request.getParameter("loginAs") );
+
+	if( new_user==null ){
+		 //new_user = new User(curr_user.getApiConfig().getUserId()+"_"+  request.getParameter("loginAs") );
+		new_user = new User(
+				 "/vtk/"+curr_user.getTroop().getCouncilCode()+
+	        		"/"+curr_user.getTroop().getTroopName()+"/users/",
+				curr_user.getApiConfig().getUserId()+"_"+  request.getParameter("loginAs") );
+	}
+	
+	
 	
 	java.util.List <org.girlscouts.vtk.salesforce.Troop> troops = curr_user.getApiConfig().getTroops();
 	for(int i=0;i<troops.size();i++){
@@ -195,7 +222,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	org.girlscouts.vtk.models.Asset asset = new org.girlscouts.vtk.models.Asset(request.getParameter("addAsset"));
 //	asset.add( request.getParameter("addAsset") );
 	
-	//TODO 
+	//System.err.println("*** "+request.getParameter("meetingUid") );
 	new UserDAOImpl().addAsset( (User)session.getValue("VTK_user") ,  request.getParameter("meetingUid"),   asset);
 	
 	
@@ -205,7 +232,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	out.println("test");
 	
 }else if( request.getParameter("addAids")!=null){
-	
+	//System.err.println("*** "+request.getParameter("meetingId") );
 	meetingUtil.addAids((User)session.getValue("VTK_user"), request.getParameter("addAids"), request.getParameter("meetingId"));
 
 }else if( request.getParameter("rmAsset")!=null){

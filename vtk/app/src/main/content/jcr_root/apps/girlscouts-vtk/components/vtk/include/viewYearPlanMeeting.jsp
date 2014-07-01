@@ -30,6 +30,9 @@
 	</div>
         <div class="small-4 columns">
 		<div class="planSquare">
+		
+		
+		#<%=(currInd+1 )%>
 	<%if( user.getYearPlan().getSchedule()!=null ) {%>
 			<%=fmt.format(searchDate) %>
 	<%}else{ out.println( fmtX.format(searchDate) ); } %>
@@ -78,8 +81,8 @@
         <div class="small-1 columns">&nbsp;</div>
 </div>
 <div class="row meetingDetailDescription">
-        <div class="small-8 columns"><a id="overviewButton" href="#">overview</a></div>
-        <div class="small-8 columns"><a id="activityPlanButton" href="#">activity plan</a></div>
+        <div class="small-8 columns"><a id="overviewButtonX" href="javascript:void(0)" onclick="openClose('m_overview')">overview</a></div>
+        <div class="small-8 columns"><a id="activityPlanButtonX" href="javascript:void(0)" onclick="openClose('m_activities')">activity plan</a></div>
         <div class="small-8 columns"><!--a id="materialsListButton" href="#">materials list</a--></div>
 </div>
 <div class="row meetingDetailDescription">
@@ -139,9 +142,85 @@
 		%><li style="background-color:lightblue;"><%=assets.get(i).getType()%>: <a href="<%=assets.get(i).getRefId() %>"><%=assets.get(i).getRefId() %></a></li><a href="javascript:void(0)" onclick="rmAsset('<%=meeting.getUid()%>', '<%=assets.get(i).getUid()%>')" style="background-color:red;">remove</a><% 
 	 }
 	
-	
+	List<org.girlscouts.vtk.models.Search> custassets = meetingDAO.getAidTag_custasset(meeting.getUid());
+	for(int i=0;i<custassets.size();i++){
+		%> <div style="background-color:yellow;">custasset:<a href="<%=custassets.get(i).getPath() %>"><%=custassets.get(i).getPath() %></a></div><%
+	}
 	
 %>
+
+       <div style="background-color:orange;">
+        	<h4>Upload File</h4>
+        	
+              <form action="/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets/" method="post"
+                        enctype="multipart/form-data">
+                       
+               <input type="hidden" name="refId" value="<%=meeting.getUid()%>"/>      
+               <input type="hidden" name="owner" value="<%=user.getId()%>"/>
+               <input type="hidden" name="createTime" value="<%=new java.util.Date()%>"/>         
+			   <input type="file" name="custasset" size="50" />
+               <br />
+                <input type="submit" value="Upload File" />
+         </form>
+         
+         
+         <div style="background-color:red">CAMERA
+         
+         <div id="example" style="height:300px;"></div>
+			<div id="gallery" style=""></div>
+			
+			
+        <script> 
+         container = document.getElementById( "example" );
+         gallery = document.getElementById( "gallery" );
+
+         myPhotobooth = new Photobooth( container );
+
+         myPhotobooth.onImage = function( dataUrl ){
+         	var myImage = document.createElement( "img" );
+         	myImage.src = dataUrl;
+         	gallery.appendChild( myImage );
+         	
+         		
+         	var x =$.ajax({ // ajax call starts
+         		url: '/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets/', // JQuery loads serverside.php
+         		
+         		data: {
+         			"./jcr:data":myImage.src,
+         			"./jcr:mimeType":"image/png"
+         			
+         		},
+         		
+         		type: 'POST',
+         		success: function (data) { 
+         		},
+         		error: function (data) { 
+         		}
+         	});
+         	
+         };
+         
+         
+         
+         
+        </script>
+        
+           
+        
+        
+        
+        
+         </div>
+        </div>
+        
+        
+        
+        
+        
+        
+        
+        
+        
 <div class="sectionHeader">Meeting Agenda</div>
 
 	<a href="javascript:void(0)" onclick="revertAgenda('<%=meeting.getPath()%>')"  class="mLocked">Revert to Original Agenda</a>

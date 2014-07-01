@@ -1,30 +1,38 @@
 
 <%@page import="org.girlscouts.vtk.auth.models.ApiConfig" %>
-<!--
+
 <%=apiConfig.getUserId() %>--
 <%=apiConfig.getAccessToken() %>
--->
-<h4>Reminder Meeting#<%=currInd %> <%= dateFormat55.format(searchDate) %></h4>
-<br/>
-<p>Sent: TBD</p>
-<div class="sectionHeader">Address List</div>
-<form>
+
+<br/>Reminder Meeting#  <%=(currInd +1)%> <%= dateFormat55.format(searchDate) %>
+	
+
+<br/>Sent: XXX
+
+
+<div style="background-color:gray">Address List</div>
 
 <input type="checkbox" id="email_to_gp" checked/>Girls /Parents
 <input type="checkbox" id="email_to_sf" checked/>Self
 <input type="checkbox" id="email_to_tv"/>Troop Volunteers
 
 
-<h4>Enter your own:</h4>
-<input type="text" id="email_to_cc" value="<%=user.getSendingEmail()==null ? "" : user.getSendingEmail().getCc()%>"/>
-<div class="sectionHeader">Compose Email</div>
+<br/>Enter your own:<input type="text" id="email_to_cc" value="<%=user.getSendingEmail()==null ? "" : user.getSendingEmail().getCc()%>"/>
 
-<h4>Subject:</h4> <input type="text" id="email_subj" value="Reminder <%=user.getTroop().getGradeLevel()  %>  Meeting# <%=currInd %> <%= dateFormat55.format(searchDate) %>"/>
+<div style="background-color:gray">Compose Email</div>
 
-<div>Formatting Tool Placeholder</div>
+<br/>Subject: <input type="text" id="email_subj" value="Reminder <%=user.getTroop().getGradeLevel()  %>  Meeting# <%=(currInd +1)%> <%= dateFormat55.format(searchDate) %>"/>
 
-<h4>Message</h4>
-<textarea id="email_htm" rows="25" cols="25"> 
+<div style="background-color:yellow;">
+
+
+
+
+
+
+</div>
+
+  <textarea id="email_htm" name="textarea" class="jqte-test" rows="25" cols="25"> 
 
 Hello Girl Scout Families,
 <br/><br/>Here are the details of our next meeting:
@@ -34,8 +42,7 @@ Hello Girl Scout Families,
 		<th>Date:</th><td><%= dateFormat55.format(searchDate) %></td>
 	</tr>
 	<tr>
-		<th>Location:</th>
-		<td>
+		<th>Location:</th><td>
 		
 		<%
 
@@ -57,11 +64,14 @@ Hello Girl Scout Families,
 		
 		
 		</td>
-	</tr>
-	<tr>
+		</tr>
+		<tr>
 		<th>Topic:</th><td><%= meetingInfo.getName() %></td>
+		</tr>
 	</tr>
 </table>
+
+
 
 <%=meetingInfoItems.get("overview").getStr() %>
 
@@ -76,14 +86,17 @@ Hello Girl Scout Families,
 <br/><br/><%=apiConfig.getUser().getName() %>
 <br/>Troop <%=user.getTroop().getTroopName() %>
 
-<br/><br/>Form(s) Required:
-</textarea> 
 
-<br/>
+
+
+
+<br/><br/>Form(s) Required:
+XXX
+ </textarea> 
+
 <div>
-	<h4>Aid(s) Included:</h4>
-	<ul>
-<%
+	Aid(s) Included:
+	<%
 	EmailMeetingReminder emr = user.getSendingEmail();
 	if( emr!=null ){
 		java.util.List<Asset> eAssets = emr.getAssets();
@@ -93,16 +106,22 @@ Hello Girl Scout Families,
 			}
 	}
 	%>
-	</ul>
+
 </div>
 
+
 <br/><br/><input type="button" value="Preview" onclick="previewMeetingReminderEmail('<%=meeting.getPath()%>','<%=meeting.getUid()%>')"/>
-</form>
-<br/>
+
+
+
 <div id="imal">
+	
+	
 	<div id="imalHdr">Include Meeting Aid Link:</div>
 	<div id="imalBd">
+	
 		<table>
+		
 			<tr>
 				<th>&nbsp;</th>
 				<th>Add to Email</th>
@@ -123,7 +142,17 @@ Hello Girl Scout Families,
 
 
 
-
+<script>
+	$('.jqte-test').jqte();
+	
+	// settings of status
+	var jqteStatus = true;
+	$(".status").click(function()
+	{
+		jqteStatus = jqteStatus ? false : true;
+		$('.jqte-test').jqte({"status" : jqteStatus})
+	});
+</script>
 
 
 

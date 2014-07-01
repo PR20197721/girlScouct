@@ -14,10 +14,10 @@ import org.girlscouts.vtk.salesforce.Troop;
 public class User {
 
 	public User(){}
-	public User(String userId){
+	public User(String path, String userId){
 		this.id=userId;
-		this.path= "/content/girlscouts-vtk/users/"+ userId;
-		
+		//this.path= "/content/girlscouts-vtk/users/"+ userId;
+		this.path= path + userId;
 	}
 	
 	//@Collection private java.util.List <YearPlan> yearPlans;

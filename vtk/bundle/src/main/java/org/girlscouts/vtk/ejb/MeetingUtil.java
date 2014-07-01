@@ -184,6 +184,7 @@ public class MeetingUtil {
 		plan.setMeetingEvents(rearangedMeetings);
 	
 		user.setYearPlan(plan);
+		plan.setAltered("true");
 		userDAO.updateUser(user);
 		
 		
@@ -217,6 +218,7 @@ public class MeetingUtil {
 				
 			}
 		}
+		user.getYearPlan().setAltered("true");
 		userDAO.updateUser(user);
 	}
 	
@@ -249,7 +251,7 @@ public class MeetingUtil {
 			}
 		}
 		
-		
+		user.getYearPlan().setAltered("true");
 		userDAO.updateUser(user);
 	}
 
@@ -334,6 +336,7 @@ public class MeetingUtil {
 			
 			
 		}
+		user.getYearPlan().setAltered("true");
 		userDAO.updateUser(user);
 	
 	}
@@ -382,6 +385,7 @@ public class MeetingUtil {
 						activity.setDuration(duration);
 						System.err.println("Changing duration to "+ duration);
 						meetingDAO.createCustomMeeting(user, meeting, meetingInfo);
+						user.getYearPlan().setAltered("true");
 						userDAO.updateUser(user);
 						return;
 						
@@ -439,12 +443,34 @@ public class MeetingUtil {
 				assets= assets ==null ? new java.util.ArrayList() : assets;
 				assets.add( asset );
 				meeting.setAssets( assets );
+				user.getYearPlan().setAltered("true");
 				userDAO.updateUser(user);
 				return;
 			}
 		}
 		
 		
+		
+		
+		java.util.List<Activity> activities = user.getYearPlan().getActivities();
+		for(int i=0;i<activities.size();i++){
+			Activity activity = activities.get(i);
+			if( activity.getUid().equals( meetingId)){
+				
+				Asset asset = new Asset();
+				asset.setRefId(aidId);
+				asset.setType("aids");
+				
+				
+				java.util.List<Asset> assets= activity.getAssets();
+				assets= assets ==null ? new java.util.ArrayList() : assets;
+				assets.add( asset );
+				activity.setAssets( assets );
+				user.getYearPlan().setAltered("true");
+				userDAO.updateUser(user);
+				return;
+			}
+		}
 		
 	}
 	
@@ -469,6 +495,31 @@ public class MeetingUtil {
 						assets.remove(y);
 					}
 				}
+				user.getYearPlan().setAltered("true");
+				userDAO.updateUser(user);
+				return;
+			}
+		}
+		
+		
+		
+		java.util.List<Activity> activities = user.getYearPlan().getActivities();
+		for(int i=0;i<activities.size();i++){
+			Activity activity = activities.get(i);
+			if( activity.getUid().equals( meetingId)){
+				
+				java.util.List<Asset> assets= activity.getAssets();
+				
+				
+				for(int y=0;y<assets.size();y++){
+					
+					if( assets.get(y).getUid().equals( aidId)) {
+						//System.err.println("REmo ass: "+ aidId);
+						assets.remove(y);
+					}
+				}
+				
+				user.getYearPlan().setAltered("true");
 				userDAO.updateUser(user);
 				return;
 			}

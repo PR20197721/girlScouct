@@ -9,7 +9,8 @@
 
 <!-- TODO -->
 <!-- <cq:includeClientLib categories="apps.girlscouts-vtk" /> -->
-<link rel="stylesheet" href="/etc/designs/girlscouts-vtk/clientlibs/css/vtk-design.css" type="text/css">
+<!-- <link rel="stylesheet" href="/etc/designs/girlscouts-vtk/clientlibs/css/vtk-design.css" type="text/css"> -->
+<link rel="stylesheet" href="/etc/designs/girlscouts-vtk/clientlibs.css" type="text/css">
 <script src="/etc/designs/girlscouts-vtk/clientlibs.js"></script>
 <script>
 	fixVerticalSizing = false;
