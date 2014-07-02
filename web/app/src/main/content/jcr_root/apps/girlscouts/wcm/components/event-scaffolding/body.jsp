@@ -342,8 +342,7 @@ properties of this scaffolding.
         myForm.render("dlg");
         myForm.loadContent("<%=contentPath%>");
         // hack: register ourselves as dialog, so that the DD from the contentfinder works
-        CQ.WCM.registerDialog("<%=dlgPath%>
-	", myForm);
+        CQ.WCM.registerDialog("<%=dlgPath%>", myForm);
 
 				myForm.fireEvent("activate", myForm);
 				myForm.getForm().findField(0).focus();
