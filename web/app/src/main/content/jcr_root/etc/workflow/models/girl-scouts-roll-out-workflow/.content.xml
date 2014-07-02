@@ -3,7 +3,7 @@
     jcr:primaryType="cq:Page">
     <jcr:content
         cq:designPath="/etc/designs/default"
-        cq:lastModified="{Date}2014-07-01T15:34:28.809-04:00"
+        cq:lastModified="{Date}2014-07-02T13:25:27.733-04:00"
         cq:lastModifiedBy="admin"
         cq:template="/libs/cq/workflow/templates/model"
         jcr:description="Roll out the national content to the council site and activate both the source and the target page."
@@ -17,7 +17,7 @@
                 jcr:created="{Date}2014-07-01T14:31:35.992-04:00"
                 jcr:createdBy="admin"
                 jcr:description="Roll out the source page and activate both the source and the target page."
-                jcr:lastModified="{Date}2014-07-01T15:34:28.807-04:00"
+                jcr:lastModified="{Date}2014-07-01T15:48:10.350-04:00"
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 jcr:title="Roll Out and Activate"
@@ -27,6 +27,35 @@
                     PROCESS="org.girlscouts.cq.workflow.RolloutProcess"
                     PROCESS_AUTO_ADVANCE="true"/>
             </process>
+            <process_0
+                jcr:created="{Date}2014-07-02T13:22:22.592-04:00"
+                jcr:createdBy="admin"
+                jcr:lastModified="{Date}2014-07-02T13:24:16.856-04:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Activate Assets"
+                sling:resourceType="cq/workflow/components/model/process">
+                <metaData
+                    jcr:primaryType="nt:unstructured"
+                    PROCESS="org.girlscouts.cq.workflow.AssetPublishActivateProcess"
+                    PROCESS_AUTO_ADVANCE="true"/>
+            </process_0>
+            <activateresourceproc
+                jcr:created="{Date}2014-07-02T13:16:00.995-04:00"
+                jcr:createdBy="admin"
+                jcr:description="A process to activate a page"
+                jcr:lastModified="{Date}2014-07-02T13:25:27.731-04:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Activate Page"
+                sling:resourceType="wcm/workflow/components/workflow/activateresourceprocess"
+                PROCESS="com.day.cq.wcm.workflow.process.ActivatePageProcess"
+                PROCESS_AUTO_ADVANCE="true">
+                <metaData
+                    jcr:primaryType="nt:unstructured"
+                    PROCESS="com.day.cq.wcm.workflow.process.ActivatePageProcess"
+                    PROCESS_AUTO_ADVANCE="true"/>
+            </activateresourceproc>
         </flow>
         <model/>
         <image

@@ -7,7 +7,7 @@
     description="No Description"
     title="Girl Scouts Authoring Approval Workflow">
     <metaData
-        cq:lastModified="{Long}1404244287125"
+        cq:lastModified="{Long}1404321958748"
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"
         tags="system,wcm"/>
@@ -115,9 +115,13 @@
         </node11>
         <node12
             jcr:primaryType="cq:WorkflowNode"
-            title="Double click to enter title."
+            description="Roll out the source page and activate the target page."
+            title="Roll Out and Activate"
             type="PROCESS">
-            <metaData jcr:primaryType="nt:unstructured"/>
+            <metaData
+                jcr:primaryType="nt:unstructured"
+                PROCESS="org.girlscouts.cq.workflow.RolloutProcess"
+                PROCESS_AUTO_ADVANCE="true"/>
         </node12>
         <node13
             jcr:primaryType="cq:WorkflowNode"

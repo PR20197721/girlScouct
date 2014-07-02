@@ -3,7 +3,7 @@
     jcr:primaryType="cq:Page">
     <jcr:content
         cq:designPath="/etc/designs/default"
-        cq:lastModified="{Date}2014-07-01T15:51:21.808-04:00"
+        cq:lastModified="{Date}2014-07-02T13:25:52.344-04:00"
         cq:lastModifiedBy="admin"
         cq:lastReplicated="{Date}2014-06-11T17:05:45.519-04:00"
         cq:lastReplicatedBy="admin"
@@ -146,11 +146,17 @@
                             <process_0
                                 jcr:created="{Date}2014-07-01T15:51:21.806-04:00"
                                 jcr:createdBy="admin"
-                                jcr:lastModified="{Date}2014-07-01T15:51:21.806-04:00"
+                                jcr:description="Roll out the source page and activate the target page."
+                                jcr:lastModified="{Date}2014-07-02T13:25:52.340-04:00"
                                 jcr:lastModifiedBy="admin"
                                 jcr:primaryType="nt:unstructured"
-                                jcr:title="Double click to enter title."
-                                sling:resourceType="cq/workflow/components/model/process"/>
+                                jcr:title="Roll Out and Activate"
+                                sling:resourceType="cq/workflow/components/model/process">
+                                <metaData
+                                    jcr:primaryType="nt:unstructured"
+                                    PROCESS="org.girlscouts.cq.workflow.RolloutProcess"
+                                    PROCESS_AUTO_ADVANCE="true"/>
+                            </process_0>
                             <customsendemailproce
                                 jcr:created="{Date}2014-06-17T22:48:04.051-04:00"
                                 jcr:createdBy="admin"

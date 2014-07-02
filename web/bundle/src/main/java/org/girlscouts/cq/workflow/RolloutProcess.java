@@ -34,7 +34,7 @@ import com.day.cq.workflow.metadata.MetaDataMap;
 @Component
 @Service
 public class RolloutProcess implements WorkflowProcess {
-	@Property(value = "Roll out a page if it is the source page of a live copy, and then activate both the source and target pages.")
+	@Property(value = "Roll out a page if it is the source page of a live copy, and then activate target pages.")
 	static final String DESCRIPTION = Constants.SERVICE_DESCRIPTION;
 	@Property(value = "Girl Scouts")
 	static final String VENDOR = Constants.SERVICE_VENDOR;
@@ -91,7 +91,6 @@ public class RolloutProcess implements WorkflowProcess {
                 if (targetPath.endsWith("/jcr:content")) {
                     targetPath = targetPath.substring(0, targetPath.lastIndexOf('/'));
                 }
-                replicator.replicate(session, ReplicationActionType.ACTIVATE, srcPath);
                 replicator.replicate(session, ReplicationActionType.ACTIVATE, targetPath);
             }
         } catch (WCMException e) {
