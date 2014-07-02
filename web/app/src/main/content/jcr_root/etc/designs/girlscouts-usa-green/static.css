@@ -821,6 +821,14 @@ div.textimage.nowrap div.text p {
     padding: 0;
 }
 
+.textimage.nopadding div.text p {
+    margin-bottom: 0;
+    padding: 0;
+}
+
+.textimage.nowrap div.image img {
+	display: inline-block;
+}
 
 /* added change for the search small menu */
 #header .topMessage.alt {
