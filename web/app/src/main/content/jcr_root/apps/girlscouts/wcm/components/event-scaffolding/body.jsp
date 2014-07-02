@@ -15,13 +15,17 @@
 
   Displays and provides editing of scaffoldings
 
---%><%@include file="/libs/foundation/global.jsp"%><%
-%><%@ page import="com.day.cq.wcm.api.WCMMode,
+--%><%@include file="/libs/foundation/global.jsp"%>
+<%
+%><%@ page
+	import="com.day.cq.wcm.api.WCMMode,
 	com.day.cq.commons.jcr.JcrUtil,
 	javax.jcr.Session,
-	java.util.Calendar" %><%
+	java.util.Calendar"%>
+<%
 %><body>
-    <script src="/libs/cq/ui/resources/cq-ui.js" type="text/javascript"></script><%
+	<script src="/libs/cq/ui/resources/cq-ui.js" type="text/javascript"></script>
+	<%
         String contentPath = properties.get("cq:targetPath", "");
         String dlgPath = resource.getPath() + "/dialog";
         String templatePath = properties.get("cq:targetTemplate", "");
@@ -34,34 +38,52 @@
             isUpdate = true;
         }
     %>
-    contentPath = <%= contentPath %>
-    scaffoldPath = <%= scaffoldPath %>
+	contentPath =
+	<%= contentPath %>
+	scaffoldPath =
+	<%= scaffoldPath %>
 
-    <h1><%= currentPage.getTitle() %></h1><%
+	<h1><%= currentPage.getTitle() %></h1>
+	<%
     if (!isUpdate) {
         if (WCMMode.fromRequest(request) == WCMMode.DESIGN) {
-            %>You can edit this form using the <a target="_new" href="<%= dlgPath %>.html">dialog editor</a><br></body><%
+            %>You can edit this form using the
+	<a target="_new" href="<%= dlgPath %>.html">dialog editor</a>
+	<br>
+</body>
+<%
             return;
         }
         String descr = properties.get("jcr:description", "");
         if (descr.length() > 0) {
-            %><em><%= descr %></em><br><br><%
+            %><em><%= descr %></em>
+<br>
+<br>
+<%
         }
         if (scaffoldPath.equals("/etc/scaffolding")) {
-            %></body><%
+            %></body>
+<%
             return;
         }
         if (contentPath.length() == 0 || templatePath.length() == 0) {
-            %>Please define the target path and a template in the page properties of this scaffolding.<br></body><%
+            %>Please define the target path and a template in the page
+properties of this scaffolding.
+<br>
+</body>
+<%
             return;
         } else {
-            %>Create pages below <a href="<%= contentPath %>.html"><%= contentPath %></a><ul id="linklist"></ul><%
+            %>Create pages below
+<a href="<%= contentPath %>.html"><%= contentPath %></a>
+<ul id="linklist"></ul>
+<%
         }
     }
     %><br>
 
 <div id="CQ">
-    <div id="dlg"></div>
+	<div id="dlg"></div>
 </div>
 
 <script type="text/javascript">
@@ -265,6 +287,11 @@
                 // Customize code to add year
                 ****************************************/
 				var dateField = frm.findField("./jcr:content/data/start");
+                var month = dateField.getValue().getFullYear();
+                var startDate = dateField.getValue();
+                var endDateField = frm.findField("./jcr:content/data/end");
+                var endDate = endDateField.getValue();
+
                 var year;
                 if (dateField.getValue()) {
                 	year = dateField.getValue().getFullYear();	
@@ -275,7 +302,7 @@
                 girlscouts.functions.createPath(destDir, 'cq:Page');
 
                 frm.url = destDir + '/*';
-                
+
                 var action = new CQ.form.SlingSubmitAction(frm, {
                     params: params,
                     success: function(frm, resp) {
@@ -283,7 +310,7 @@
                         if (isUpdate) {
                             //CQ.Ext.Msg.alert("Success", "Updated " + contentPath);
                             CQ.Util.reload(CQ.WCM.getContentWindow(), CQ.HTTP.externalize(contentPath + ".html"));
-                        } else {
+                        } else if(startDate < endDate){
                             //CQ.Ext.Msg.alert("Success", "Created page " + contentPath);
                             var title = contentPath;
                             var html = "<li><a href='"+ CQ.HTTP.externalize(contentPath + ".html")+"'>"+title+"</a></li>";
@@ -292,9 +319,18 @@
                             window.scrollTo(0,0);
                             frm.findField(0).focus();
                         }
-                    }
+
+            }
                 });
+                if(startDate < endDate){
                 frm.doAction(action);
+                }
+                else{
+                    CQ.Ext.Msg.alert("Error", "The Event End Date: " + endDate + " cannot be before Event Start Date: " + startDate);
+                   frm.reset();
+                   window.scrollTo(0,0);
+                   frm.findField(0).focus();
+                }
             }
         });
         var url = CQ.HTTP.externalize("<%= dlgPath %>.infinity.json");
@@ -302,15 +338,16 @@
         if (data) {
             var ct = CQ.utils.Util.formatData(data);
             myForm.processExternalDialog(ct);
-        }
+            }
         myForm.render("dlg");
         myForm.loadContent("<%= contentPath %>");
-        // hack: register ourselves as dialog, so that the DD from the contentfinder works
-        CQ.WCM.registerDialog("<%= dlgPath %>", myForm);
+        //hack: register ourselves as dialog, so that the DD from the contentfinder works
+        CQ.WCM.registerDialog("<%= dlgPath %>
+	", myForm);
 
-        myForm.fireEvent("activate", myForm);
-        myForm.getForm().findField(0).focus();
-        window.scrollTo(0,0);
-    });
+				myForm.fireEvent("activate", myForm);
+				myForm.getForm().findField(0).focus();
+				window.scrollTo(0, 0);
+			});
 </script>
 </body>
