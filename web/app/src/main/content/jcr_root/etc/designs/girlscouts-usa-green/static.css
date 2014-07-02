@@ -811,6 +811,10 @@ div.textimage.image_right div.image {
     margin: 0 0 8px 8px !important;
 }
 
+div.textimage.nowrap div.text p {
+	overflow: hidden;
+}
+
 /* no padding or margin for grid system */
 .grid-system.nopadding li, .grid-system.nopadding div.image {
     margin-bottom: 0;
