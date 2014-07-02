@@ -4,6 +4,8 @@ import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.felix.scr.annotations.Activate;
+import org.apache.felix.scr.annotations.Reference;
 import org.girlscouts.vtk.helpers.CouncilMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +15,14 @@ public class CouncilMapperImpl implements CouncilMapper, ConfigListener {
     private String defaultBranch;
     private Map<String, String> councilMap;
 
+    @Reference
+    ConfigManager configManager;
+    
+    @Activate
+    public void init() {
+        configManager.register(this);
+    }
+    
     @SuppressWarnings("rawtypes")
     public void updateConfig(Dictionary configs) {
         defaultBranch = (String)configs.get("defaultBranch");        
@@ -29,7 +39,11 @@ public class CouncilMapperImpl implements CouncilMapper, ConfigListener {
     }
 
     public String getCouncilBranch(String id) {
-        return null;
+        String councilBranch = councilMap.get(id);
+        if (councilBranch == null) {
+            councilBranch = defaultBranch; 
+        }
+        return councilBranch;
     }
 
 }
