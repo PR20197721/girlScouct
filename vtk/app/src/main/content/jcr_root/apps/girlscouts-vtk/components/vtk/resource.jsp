@@ -111,6 +111,15 @@
     	});
   });
   
+  $(document).ready(function(){
+	  $(document).ajaxStart(function(){
+	    $("#wait").css("display","block");
+	  });
+	  $(document).ajaxComplete(function(){
+	    $("#wait").css("display","none");
+	  });
+	  
+	});
  
   
   function applyAids(aid){
@@ -146,6 +155,7 @@
   </script>
 
 
+<div id="wait" style="display:none;width:69px;height:89px;border:1px solid black;position:absolute;top:50%;left:50%;padding:2px;"><img src='http://www.w3schools.com/Jquery/demo_wait.gif' width="64" height="64" /><br>Loading..</div>
 
 
 <div id="schedModal"></div>

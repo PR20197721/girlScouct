@@ -6,17 +6,26 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 @Node
 public class Asset {
 
-	public Asset(){ this.uid = "A"+new java.util.Date().getTime() + "_" + Math.random(); }
-	public Asset(String path){ this.path= path; this.uid = "A"+new java.util.Date().getTime() + "_" + Math.random(); }
+	public Asset(){ this.uid = "A"+new java.util.Date().getTime() + "_" + Math.random(); this.isCachable=false;}
+	public Asset(String path){ this.path= path; this.uid = "A"+new java.util.Date().getTime() + "_" + Math.random(); this.isCachable=false;}
 	
 	
 	@Field private String type, refId;
 	@Field (path=true) private String path;
 	@Field (id=true) private String uid;
+	@Field Boolean isCachable;
 	
 	
 	
 
+	
+	
+	public Boolean getIsCachable() {
+		return isCachable;
+	}
+	public void setIsCachable(Boolean isCachable) {
+		this.isCachable = isCachable;
+	}
 	public String getRefId() {
 		return refId;
 	}

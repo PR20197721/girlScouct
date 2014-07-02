@@ -4,9 +4,14 @@
 <%@include file="include/session.jsp"%>
 <%   
 	java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
+	
+	//add milestones only on this page
+	for(int i=0;i<user.getYearPlan().getMilestones().size();i++)
+		sched.put( user.getYearPlan().getMilestones().get(i).getDate(), user.getYearPlan().getMilestones().get(i) );
+
 %>
-<div><%=user.getYearPlan().getName() %></div>
-<p>Drag and drop to reorder meetings</p>
+<center><b><%=user.getYearPlan().getName() %></b></center>
+<br/><p>Drag and drop to reorder meetings</p>
 <ul id="sortable123">
 <% 
 
@@ -28,6 +33,10 @@ while( itr.hasNext() ){
 			meetingCount++;
 			MeetingE meetingE =(MeetingE)_comp;
 			%>  <%@include file="include/viewMeeting.jsp" %>    <% 
+			break;
+		case MILESTONE :
+			Milestone milestone = (Milestone) _comp;
+			%>  <%@include file="include/viewMilestone.jsp" %>    <% 
 			break;
 	} 
 	

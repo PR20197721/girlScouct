@@ -13,9 +13,9 @@
 	
 	
 	boolean isLocked=false;
-	if(searchDate.before( new java.util.Date() )) isLocked= true;
+	if(searchDate.before( new java.util.Date() ) && user.getYearPlan().getSchedule()!=null ) isLocked= true;
 	
-	//System.err.println("test");
+	
 	
 %>
 
@@ -128,9 +128,70 @@
 <p>AidTags:<%=aidTags %></p>
 <%
 
+
+
+
+
+
+
+//List<org.girlscouts.vtk.models.Search> _aidTags =  meetingDAO.getAids( meetingInfo.getAidTags(), meetingInfo.getId(), "");
+List<Asset> _aidTags = meeting.getAssets();
+
+
+
+
+java.util.Date sysAssetLastLoad = new java.util.Date("1/1/1976");// sling.getService(DataImportTimestamper.class).getTimestamp(); //SYSTEM QUERY
+if(meeting.getLastAssetUpdate()==null || meeting.getLastAssetUpdate().before(sysAssetLastLoad) ){
+	out.println("FRESH");
+	
+	_aidTags = _aidTags ==null ? new java.util.ArrayList() : _aidTags;
 	
 	
-	out.println(meetingInfo.getId() );
+	
+	//rm cachables
+	java.util.List aidToRm= new java.util.ArrayList();
+	for(int i=0;i<_aidTags.size();i++){
+		if( _aidTags.get(i).getIsCachable() )
+			aidToRm.add( _aidTags.get(i));
+	}
+	
+	for(int i=0;i<aidToRm.size();i++)
+		_aidTags.remove( aidToRm.get(i));
+	
+	
+	//query cachables
+	 java.util.List __aidTags =  meetingDAO.getAids( meetingInfo.getAidTags()+";promise", meetingInfo.getId(), meeting.getUid());
+	
+	
+	//merge lists
+	_aidTags.addAll( __aidTags );
+	
+	
+	meeting.setLastAssetUpdate( new java.util.Date() );
+	meeting.setAssets( _aidTags);
+	userDAO.updateUser(user);
+	
+}
+
+
+if( _aidTags!=null )
+ for(int i=0;i<_aidTags.size();i++){
+	%><li> <%=_aidTags.get(i).getType()%> <a href="<%=_aidTags.get(i).getRefId()%>"><%=_aidTags.get(i).getRefId()%></a> </li><% 
+ }
+
+
+
+
+
+
+
+
+
+
+
+
+	out.println(meetingInfo.getId() +" : " + meeting.getUid() );
+	/*
 	List<org.girlscouts.vtk.models.Search> _aidTags =  meetingDAO.getAidTag( meetingInfo.getAidTags(), meetingInfo.getId());
 	for(int i=0;i<_aidTags.size();i++){
 		%><li> <%=_aidTags.get(i).getType()%> <a href="<%=_aidTags.get(i).getPath()%>"><%=_aidTags.get(i).getDesc()%></a> </li><% 
@@ -146,24 +207,27 @@
 	for(int i=0;i<custassets.size();i++){
 		%> <div style="background-color:yellow;">custasset:<a href="<%=custassets.get(i).getPath() %>"><%=custassets.get(i).getPath() %></a></div><%
 	}
-	
+	*/
 %>
-
+  
        <div style="background-color:orange;">
-        	<h4>Upload File</h4>
-        	
-              <form action="/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets/" method="post"
-                        enctype="multipart/form-data">
+        	<h4>Upload File**</h4>
+        		<%String assetId = new java.util.Date().getTime() +"_"+ Math.random(); %>
+    
+   
+  
+              <form action="/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets/<%=assetId %>" method="post"
+                       onsubmit="return bindAssetToYPC( '/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets/<%=assetId %>/custasset', '<%=meeting.getUid() %>' )"   enctype="multipart/form-data">
                        
-               <input type="hidden" name="refId" value="<%=meeting.getUid()%>"/>      
+               <input type="hidden" name="id" value="<%=assetId%>"/>      
                <input type="hidden" name="owner" value="<%=user.getId()%>"/>
                <input type="hidden" name="createTime" value="<%=new java.util.Date()%>"/>         
 			   <input type="file" name="custasset" size="50" />
                <br />
                 <input type="submit" value="Upload File" />
          </form>
-         
-         
+        </div>
+     <!--    
          <div style="background-color:red">CAMERA
          
          <div id="example" style="height:300px;"></div>
@@ -211,8 +275,8 @@
         
         
          </div>
-        </div>
-        
+       
+        -->
         
         
         
@@ -282,7 +346,7 @@
 %>
 <input type="button" name="" value="Add Agenda Items" onclick="addCustAgenda()"  class="mLocked"/>
 <div id="newMeetingAgenda" style="display:none;">
-<% if( user.getYearPlan().getSchedule() !=null){ %>
+<% if(true){// user.getYearPlan().getSchedule() !=null){ %>
        <h1>Add New Agenda Item</h1> 
 	
 	Enter Agenda Item Name:<br/>

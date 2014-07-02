@@ -14,7 +14,7 @@ public class Activity extends YearPlanComponent{
 		}
 	
 	public Activity(String name, String content, java.util.Date date, java.util.Date endDate,
-			String locationName, String locationAddress){
+			String locationName, String locationAddress, double cost){
 		this.name= name;
 		this.content= content;
 		this.date= date;
@@ -23,6 +23,7 @@ public class Activity extends YearPlanComponent{
 		this.locationAddress = locationAddress;
 		super.setType(YearPlanComponentType.ACTIVITY);
 		this.uid= "A"+new java.util.Date().getTime();
+		this.cost= cost;
 	}
 	
 	@Field(path=true) String path;
@@ -37,13 +38,21 @@ public class Activity extends YearPlanComponent{
 	@Field private String locationRef;//depricated
 	@Collection java.util.List<Asset> assets;
 	@Field(id=true) String uid;
+	@Field Double cost;
+
 	
 	
 	
 	
-	
-	
-	
+
+	public Double getCost() {
+		return cost;
+	}
+
+	public void setCost(Double cost) {
+		this.cost = cost;
+	}
+
 	public String getUid() {
 		if(uid==null)
 			this.uid= "A"+new java.util.Date().getTime()+"_"+ Math.random();

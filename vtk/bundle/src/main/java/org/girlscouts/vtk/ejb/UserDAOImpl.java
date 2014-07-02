@@ -27,6 +27,7 @@ import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.JcrNode;
 import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.MeetingE;
+import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.Asset;
 import org.girlscouts.vtk.models.user.User;
@@ -62,6 +63,7 @@ public class UserDAOImpl implements UserDAO{
 			classes.add(Location.class);
 			classes.add(Asset.class);
 			classes.add(Cal.class);
+			classes.add(Milestone.class);
 			
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
@@ -77,15 +79,35 @@ public class UserDAOImpl implements UserDAO{
 	       
 	        if( user!=null && user.getYearPlan().getMeetingEvents()!=null){
 	        	
-	        	System.err.println("Sorting meetings pull");
+	        	//System.err.println("Sorting meetings pull");
 	        	Comparator<MeetingE> comp = new BeanComparator("id");
 	        	Collections.sort( user.getYearPlan().getMeetingEvents(), comp);
 	        }
 	        
 	        
-	        System.err.println("User: "+ (user==null));
+	       // System.err.println("User: "+ (user==null));
 			
-			}catch(Exception e){e.printStackTrace();}
+	        
+	        
+	        /*
+	        if( user.getYearPlan().getLastAssetUpdate() == null ||
+	        		(user.getYearPlan().getLastAssetUpdate().before( new java.util.Date() ) && user.getYearPlan().getAssets()!=null &&  user.getYearPlan().getAssets().size()>0 ) ){
+	        	
+	        	java.util.List<Asset> assetsToRm = new java.util.ArrayList();
+	        	
+	        	
+	        	java.util.Iterator itr = user.get
+	        		if( user.getYearPlan().getAssets().get(i).iisCachable() )
+	        			assetsToRm.add( user.getYearPlan().getAssets().get(i) );
+	        	
+	        	for(int i=0;i< assetsToRm.size();i++)
+	        		user.getYearPlan().getAssets().remove(assetsToRm.get(i));
+	        	
+	        	updateUser(user);
+	        	
+	        }
+	        */
+		}catch(Exception e){e.printStackTrace();}
 		
 		
 
@@ -112,7 +134,7 @@ public class UserDAOImpl implements UserDAO{
 			classes.add(YearPlan.class); 
 			classes.add(MeetingE.class); 
 			classes.add(Cal.class);
-			
+			classes.add(Milestone.class);
 			
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
@@ -144,6 +166,7 @@ public class UserDAOImpl implements UserDAO{
 			classes.add(Activity.class);
 			classes.add(Asset.class);
 			classes.add(JcrNode.class);
+			classes.add(Milestone.class);
 			
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
@@ -153,7 +176,10 @@ public class UserDAOImpl implements UserDAO{
 		
 		Comparator<MeetingE> comp = new BeanComparator("id");
 	    Collections.sort( user.getYearPlan().getMeetingEvents(), comp);
-		
+	    
+	    
+	    
+		System.err.println("CHECKING JCR: " +ocm.objectExists( user.getPath()) );
 			if( session.itemExists( user.getPath() )){
 				System.err.println( "User updated");
 				ocm.update(user);
@@ -328,6 +354,7 @@ public void rmUser(User user){
 				classes.add(Cal.class);
 				classes.add(Activity.class);
 				classes.add(Asset.class);
+				classes.add(Milestone.class);
 				
 				Mapper mapper = new AnnotationMapperImpl(classes);
 				ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	

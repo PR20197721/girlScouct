@@ -1,17 +1,32 @@
 package org.girlscouts.vtk.ejb;
 
+import java.io.FileOutputStream;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.StringTokenizer;
+
+import net.fortuna.ical4j.data.CalendarOutputter;
+import net.fortuna.ical4j.model.Date;
+import net.fortuna.ical4j.model.Property;
+import net.fortuna.ical4j.model.component.VEvent;
+import net.fortuna.ical4j.model.parameter.Value;
+import net.fortuna.ical4j.model.property.CalScale;
+import net.fortuna.ical4j.model.property.ProdId;
+import net.fortuna.ical4j.model.property.Version;
+import net.fortuna.ical4j.util.UidGenerator;
 
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.girlscouts.vtk.dao.UserDAO;
+import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Cal;
+import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.YearPlan;
+import org.girlscouts.vtk.models.YearPlanComponent;
 import org.girlscouts.vtk.models.user.User;
 
 @Component
@@ -236,5 +251,7 @@ public class CalendarUtil {
 			userDAO.updateUser(user);
 			
 		}
+		
+		
 	
 }

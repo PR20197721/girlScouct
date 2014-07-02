@@ -1,15 +1,29 @@
 package org.girlscouts.vtk.ejb;
 
+import java.io.FileOutputStream;
+
+
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import javax.jcr.Session;
-import javax.jcr.Value;
+
 import javax.jcr.query.QueryResult;
 import javax.jcr.query.Row;
 import javax.jcr.query.RowIterator;
 
+
+import net.fortuna.ical4j.data.CalendarOutputter;
+import net.fortuna.ical4j.model.component.VEvent;
+import net.fortuna.ical4j.model.property.CalScale;
+import net.fortuna.ical4j.model.property.ProdId;
+import net.fortuna.ical4j.model.property.Version;
+import net.fortuna.ical4j.util.UidGenerator;
+
 import org.apache.felix.scr.annotations.Activate;
+
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
@@ -28,10 +42,12 @@ import org.girlscouts.vtk.models.JcrCollectionHoldString;
 import org.girlscouts.vtk.models.JcrNode;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
+import org.girlscouts.vtk.models.YearPlanComponent;
 import org.girlscouts.vtk.models.user.User;
-//import javax.jcr.query.Query;
-//import javax.jcr.query.QueryManager;
+
 import javax.jcr.*;
+
+
 
 @Component
 @Service(value=MeetingDAO.class)
@@ -457,11 +473,30 @@ public List<org.girlscouts.vtk.models.Search> getData(String query) {
 
 
 
+public java.util.List<Asset> getAids(String tags, 
+		String meetingName, String uids){
+	
+	java.util.List<Asset> container = new java.util.ArrayList();
+	
+	container.addAll( getAidTag_local( tags,  meetingName));
+	container.addAll( getAidTag( tags, meetingName) );
+	
+	/*
+	StringTokenizer t= new StringTokenizer( uids, ",");
+	while( t.hasMoreElements())
+		container.addAll( getAidTag_custasset(t.nextToken()) );
+	*/
+	
+	return container;
+}
 
-public List<org.girlscouts.vtk.models.Search> getAidTag(String tags, String meetingName) {
+
+
+
+private List<Asset> getAidTag(String tags, String meetingName) {
 	  
 	
-	List<org.girlscouts.vtk.models.Search> matched = new ArrayList<org.girlscouts.vtk.models.Search>();
+	List<Asset> matched = new ArrayList<Asset>();
 	
 	try{
 		
@@ -479,10 +514,10 @@ public List<org.girlscouts.vtk.models.Search> getAidTag(String tags, String meet
 		
 		String sql="";//select * from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/aid/%'  and ( "+ sql_tag  +" ) ";
 		//sql="select * from nt:base where jcr:primaryType='dam:Asset' and jcr:path like '/content/dam/girlscouts-vtk/global/aid/%' and ( "+ sql_tag  +" ) order by jcr:score desc";
-		
+		/*
 		sql="select * from nt:base where jcr:primaryType='dam:Asset' and jcr:path like '/content/dam/girlscouts-vtk/global/aid/%' and" +
 				" ("+ sql_tag +") order by jcr:score desc";
-		
+		*/
 		sql="select dc:description,dc:format from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/aid/%'  and ( "+ sql_tag+" )";
 		System.err.println( sql);
 		
@@ -496,25 +531,26 @@ public List<org.girlscouts.vtk.models.Search> getAidTag(String tags, String meet
    
    for (RowIterator it = result.getRows(); it.hasNext(); ) {
        Row r = it.nextRow();
-       System.err.println( "PARAM: "+r.getValue("dc:format").getString() +" : "+ r.getValue("dc:description").getString());
+       //System.err.println( "PARAM: "+r.getValue("dc:format").getString() +" : "+ r.getValue("dc:description").getString());
        Value excerpt = r.getValue("jcr:path");
        
        String path = excerpt.getString();
        if( path.contains("/jcr:content") ) path= path.substring(0, (path.indexOf("/jcr:content") ));
-       System.err.println( "PATH :"+path );
+      // System.err.println( "PATH :"+path );
     	
        
-       org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();
-       search.setPath(path);
-       search.setContent(excerpt.getString());
-       search.setDesc( r.getValue("dc:description").getString() );
-       search.setType(r.getValue("dc:format").getString());
+       Asset search = new Asset();
+       search.setRefId(path);
+       search.setIsCachable(true);
+       //search.setContent(excerpt.getString());
+       //search.setDesc( r.getValue("dc:description").getString() );
+       //search.setType(r.getValue("dc:format").getString());
        matched.add(search);
       
    }
    
    
-   List<org.girlscouts.vtk.models.Search> matched_local= getAidTag_local(tags,meetingName) ;
+   List<Asset> matched_local= getAidTag_local(tags,meetingName) ;
    matched.addAll(matched_local);
    
    
@@ -524,13 +560,13 @@ public List<org.girlscouts.vtk.models.Search> getAidTag(String tags, String meet
 	}
 
 
-public List<org.girlscouts.vtk.models.Search> getAidTag_local(String tags, String meetingName) {
+private List<Asset> getAidTag_local(String tags, String meetingName) {
 	  
 	
-	List<org.girlscouts.vtk.models.Search> matched = new ArrayList<org.girlscouts.vtk.models.Search>();
+	List<Asset> matched = new ArrayList<Asset>();
 	
 	try{
-		
+		/*
 		String sql_tag="";
 		java.util.StringTokenizer t= new java.util.StringTokenizer( tags, ";");
 		while( t.hasMoreElements()){
@@ -541,13 +577,13 @@ public List<org.girlscouts.vtk.models.Search> getAidTag_local(String tags, Strin
 			if( t.hasMoreElements())
 				sql_tag +=" or ";
 		}
-		
+		*/
 		
 		String sql="select dc:description,dc:format from nt:unstructured" +
            		"   where   jcr:path like '/content/dam/girlscouts-vtk/local/aid/Meetings/"+meetingName+"/%' ";
 		
 		
-		sql="select dc:description,dc:format from nt:base where  jcr:primaryType= 'dam:Asset' and jcr:path like '/content/dam/girlscouts-vtk/local/aid/Meetings/"+meetingName+"/%' ";
+		//sql="select dc:description,dc:format from nt:base where  jcr:primaryType= 'dam:Asset' and jcr:path like '/content/dam/girlscouts-vtk/local/aid/Meetings/"+meetingName+"/%' ";
 		
 		sql="select dc:description,dc:format  from nt:unstructured where  jcr:path like '/content/dam/girlscouts-vtk/local/aid/Meetings/"+meetingName+"/%' and jcr:mixinTypes='cq:Taggable'";
 		System.err.println( sql);
@@ -566,13 +602,14 @@ public List<org.girlscouts.vtk.models.Search> getAidTag_local(String tags, Strin
        
        String path = excerpt.getString();
        if( path.contains("/jcr:content") ) path= path.substring(0, (path.indexOf("/jcr:content") ));
-       System.err.println( "PATH :"+path );
+       //System.err.println( "PATH :"+path );
     		   
-       org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();
-       search.setPath(path);
-       search.setContent(excerpt.getString());
-       try{search.setDesc( r.getValue("dc:description").getString() );}catch(Exception e){}
-       try{search.setType(r.getValue("dc:format").getString());}catch(Exception e){}
+       Asset search = new Asset();
+       search.setRefId(path);
+       search.setIsCachable(true);
+       //search.setContent(excerpt.getString());
+       //try{search.setDesc( r.getValue("dc:description").getString() );}catch(Exception e){}
+      // try{search.setType(r.getValue("dc:format").getString());}catch(Exception e){}
        matched.add(search);
       
    }
@@ -584,10 +621,10 @@ public List<org.girlscouts.vtk.models.Search> getAidTag_local(String tags, Strin
 
 
 
-public List<org.girlscouts.vtk.models.Search> getAidTag_custasset(String uid) {
+private List<Asset> getAidTag_custasset(String uid) {
 	  
 	
-	List<org.girlscouts.vtk.models.Search> matched = new ArrayList<org.girlscouts.vtk.models.Search>();
+	List<Asset> matched = new ArrayList<Asset>();
 	
 	try{
 		
@@ -611,8 +648,9 @@ public List<org.girlscouts.vtk.models.Search> getAidTag_custasset(String uid) {
       // if( path.contains("/jcr:content") ) path= path.substring(0, (path.indexOf("/jcr:content") ));
        //System.err.println( "PATH :"+path );
     		   
-       org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();
-       search.setPath(path);
+       Asset search = new Asset();
+       search.setRefId(path);
+       search.setIsCachable(true);
        //search.setContent(excerpt.getString());
         matched.add(search);
       
@@ -620,5 +658,81 @@ public List<org.girlscouts.vtk.models.Search> getAidTag_custasset(String uid) {
 	}catch(Exception e){e.printStackTrace();}
    return matched;
 	}
+
+
+
+public net.fortuna.ical4j.model.Calendar yearPlanCal(User user )throws Exception{
+	 
+	 java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
+		
+	  String calFile = "/Users/akobovich/mycalendar.ics";
+	  
+	 
+ 
+ //Creating a new calendar
+ net.fortuna.ical4j.model.Calendar calendar = new net.fortuna.ical4j.model.Calendar();
+ calendar.getProperties().add(new ProdId("-//Ben Fortuna//iCal4j 1.0//EN"));
+ calendar.getProperties().add(Version.VERSION_2_0);
+ calendar.getProperties().add(CalScale.GREGORIAN);
+ 
+	  
+	  
+	  
+	  java.util.Iterator itr = sched.keySet().iterator();
+	  while( itr.hasNext() ){
+		  java.util.Date dt= (java.util.Date) itr.next();
+		  YearPlanComponent _comp= (YearPlanComponent) sched.get(dt);
+		  
+		  Calendar cal = java.util.Calendar.getInstance();
+		  cal.setTime(dt);
+		  
+		  String desc= "";
+		  
+		  switch( _comp.getType() ){
+				case ACTIVITY :
+					desc = ((Activity) _comp).getName();
+					break;
+				
+				case MEETING :
+					Meeting meetingInfo =  getMeeting(  ((MeetingE) _comp).getRefId() );
+					desc = meetingInfo.getName();		
+					break;
+			}       	
+		  
+		  
+		
+	  
+	  
+	  //Creating an event
+	  //java.util.Calendar cal = java.util.Calendar.getInstance();
+	  //cal.set(java.util.Calendar.MONTH, java.util.Calendar.DECEMBER);
+	  //cal.set(java.util.Calendar.DAY_OF_MONTH, 25);
+
+	  VEvent christmas = new VEvent(new net.fortuna.ical4j.model.Date(cal.getTime()), desc);
+	  
+	  // initialise as an all-day event..
+	  //christmas.getProperties().getProperty(net.fortuna.ical4j.model.Property.DTSTART).getParameters().add(net.fortuna.ical4j.model.parameter.Value.DATE);
+	  
+	  UidGenerator uidGenerator = new UidGenerator("1");
+	  christmas.getProperties().add(uidGenerator.generateUid());
+
+	  calendar.getComponents().add(christmas);
+	  
+	  
+	  
+	  
+	  //Saving an iCalendar file
+	  FileOutputStream fout = new FileOutputStream(calFile);
+
+	  CalendarOutputter outputter = new CalendarOutputter();
+	  outputter.setValidating(false);
+	  outputter.output(calendar, fout);
+	  
+	  
+	  
+	 
+	  }//end while
+	  return calendar;
+}
 
 }//edn class

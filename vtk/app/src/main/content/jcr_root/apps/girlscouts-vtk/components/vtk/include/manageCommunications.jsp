@@ -13,7 +13,7 @@
 		<td>View</td>
 	</tr>
 	<tr>
-		<td>Upload Photo</td>
+		<td><a href="javascript:void(0)" onclick="doPic()">Upload Photo</a></td>
 		<td>(none)</td>
 	</tr>
 	<tr>
@@ -22,3 +22,24 @@
 	</tr>
 </table>
 
+
+<div id="picModal"></div>
+<script>
+
+function doPic(){
+	link='/content/girlscouts-vtk/controllers/vtk.uploadPhoto.html?refId=<%=_comp.getUid()%>';
+    $( "#picModal" ).load(link, function( response, status, xhr ) {
+        if ( status == "error" ) {
+                var msg = "Sorry but there was an error: ";
+                $( "#error" ).html( msg + xhr.status + " " + xhr.statusText );
+        }else{
+	$( "#picModal" ).dialog({
+		width:920,
+		modal:true,
+		dialogClass:"modalWrap"
+	});
+	$(".ui-dialog-titlebar").hide();
+        }
+});
+}
+</script>

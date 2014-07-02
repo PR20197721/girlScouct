@@ -42,6 +42,9 @@ $(function() {
 			<textarea id="newCustActivity_txt" rows="4" cols="5"  style="width:300px;"></textarea>
                 </div>
                 <div class="small-8 columns">
+                
+                
+              <div style="background-color:red;">Cost: <input type="text" id="newCustActivity_cost" value=""/></div>
 			<input type="button" value="Add Activity" id="newCustActivity" onclick="createNewCustActivity()"/>
                 </div>
         </div>

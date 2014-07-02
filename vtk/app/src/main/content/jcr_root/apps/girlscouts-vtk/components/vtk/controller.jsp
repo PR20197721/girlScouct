@@ -38,6 +38,8 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	
 }else if( request.getParameter("newCustActivity") !=null ){
 	
+	double cost=0.00;
+	try{cost= Double.parseDouble(request.getParameter("newCustActivity_cost") );}catch(Exception e){e.printStackTrace();}
 	
 		activityDAO.createActivity(
 				(User) session.getValue("VTK_user"),
@@ -46,7 +48,8 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 			request.getParameter("newCustActivity_txt"),
 			dateFormat4.parse(request.getParameter("newCustActivity_date") +" "+request.getParameter("newCustActivity_startTime") +" " +request.getParameter("newCustActivity_startTime_AP")), 
 			dateFormat4.parse(request.getParameter("newCustActivity_date") +" "+request.getParameter("newCustActivity_endTime") +" "+ request.getParameter("newCustActivity_endTime_AP")), 
-			request.getParameter("newCustActivityLocName"), request.getParameter("newCustActivityLocAddr"))
+			request.getParameter("newCustActivityLocName"), request.getParameter("newCustActivityLocAddr"),
+			cost )
 				);
 	
 	
@@ -325,6 +328,83 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	  emr=null;
 	  user.setSendingEmail(null);
 		  
+	  
+	  
+}else if( request.getParameter("bindAssetToYPC") !=null ){
+	
+	String assetId = request.getParameter("bindAssetToYPC");
+	String ypcId = request.getParameter("ypcId");
+	System.err.println("*** "+ assetId +" : "+ ypcId);
+	User user = (User)session.getValue("VTK_user");
+	java.util.List<MeetingE> meetings = user.getYearPlan().getMeetingEvents();
+	for(int i=0;i<meetings.size();i++){
+		if( meetings.get(i).getUid().equals( ypcId)){
+			
+			
+			System.err.println("Found meetin");
+			Asset asset = new Asset();
+			asset.setIsCachable(false);
+			asset.setRefId(assetId);
+			
+			java.util.List<Asset> assets = meetings.get(i).getAssets();
+			assets = assets ==null ? new java.util.ArrayList() : assets;
+			
+			assets.add(asset);
+			
+			meetings.get(i).setAssets(assets);
+			
+			userDAO.updateUser(user);
+			return;
+		}
+	}
+	
+	java.util.List<Activity> activities = user.getYearPlan().getActivities();
+	for(int i=0;i<activities.size();i++){
+		if( activities.get(i).getUid().equals( ypcId)){
+			
+			Asset asset = new Asset();
+			asset.setIsCachable(false);
+			asset.setRefId(assetId);
+			
+			java.util.List<Asset> assets = activities.get(i).getAssets();
+			assets = assets ==null ? new java.util.ArrayList() : assets;
+			
+			assets.add(asset);
+			
+			activities.get(i).setAssets(assets);
+			
+			userDAO.updateUser(user);
+			return;
+		}
+	}
+	
+	
+	
+	
+	
+}else if( request.getParameter("editCustActivity") !=null ){
+	
+	User user = (User) session.getValue("VTK_user");
+	java.util.List<Activity> activities= user.getYearPlan().getActivities();
+	Activity activity= null; 
+	for(int i=0;i<activities.size();i++)
+		if(activities.get(i).getUid().equals(request.getParameter("editCustActivity")) )
+		{activity = activities.get(i); break;}
+	
+	double cost=0.00;
+	try{cost= Double.parseDouble(request.getParameter("newCustActivity_cost") );}catch(Exception e){e.printStackTrace();}
+	
+	activity.setCost(cost);
+	activity.setContent(request.getParameter("newCustActivity_txt"));
+	activity.setDate( dateFormat4.parse(request.getParameter("newCustActivity_date") +" "+request.getParameter("newCustActivity_startTime") +" " +request.getParameter("newCustActivity_startTime_AP") ));
+	activity.setEndDate(dateFormat4.parse(request.getParameter("newCustActivity_date") +" "+request.getParameter("newCustActivity_endTime") +" "+ request.getParameter("newCustActivity_endTime_AP")));
+	activity.setName(request.getParameter("newCustActivity_name"));
+	activity.setLocationName(request.getParameter("newCustActivityLocName"));
+	activity.setLocationAddress(request.getParameter("newCustActivityLocAddr"));
+	
+	userDAO.updateUser(user);
+	
+
 }else{
 	//TODO throw ERROR CODE
 	

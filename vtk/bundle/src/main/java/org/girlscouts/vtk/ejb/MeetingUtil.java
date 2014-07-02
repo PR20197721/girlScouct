@@ -212,7 +212,8 @@ public class MeetingUtil {
 				meetingDAO.addActivity( meeting,  activity);
 				
 				Cal cal = user.getYearPlan().getSchedule();
-				cal.addDate( startTime.getTime() );
+				if( cal!=null )
+					cal.addDate( startTime.getTime() );
 				
 
 				

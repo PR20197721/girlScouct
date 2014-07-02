@@ -3,6 +3,7 @@ package org.girlscouts.vtk.dao;
 import java.util.List;
 
 import org.girlscouts.vtk.models.Activity;
+import org.girlscouts.vtk.models.Asset;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.user.User;
@@ -20,6 +21,13 @@ public interface MeetingDAO {
 	public Meeting addActivity(Meeting meeting, Activity activity);
 	List<Meeting> search();
 	public List<org.girlscouts.vtk.models.Search> getData(String query);
-	public List<org.girlscouts.vtk.models.Search> getAidTag(String tags, String meetingName);
-	public List<org.girlscouts.vtk.models.Search> getAidTag_custasset(String uid);
+	//public List<org.girlscouts.vtk.models.Search> getAidTag(String tags, String meetingName);
+	//public List<org.girlscouts.vtk.models.Search> getAidTag_custasset(String uid);
+	public java.util.List<Asset> getAids(String tags, 
+			String meetingName, String uids);
+	
+	
+	
+	public net.fortuna.ical4j.model.Calendar yearPlanCal(User user )throws Exception;
+
 }

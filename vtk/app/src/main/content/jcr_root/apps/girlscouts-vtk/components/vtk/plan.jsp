@@ -50,6 +50,13 @@
 			<a href="javascript:void(0)" onclick="newActivity()">Add Activity</a>
 		</li>
 		<li><a href="javascript:void(0)" id="plan_hlp_hrf"><img align="right" src="/etc/designs/girlscouts-usa-green/images/help-icon.png"/></a></li>
+		
+		
+		<%if(user.getYearPlan().getSchedule()!=null){ %>
+			<li><a href="/content/girlscouts-vtk/controllers/vtk.calendarSynch.html">Calendar Synch</a></li>
+		<%} %>
+		
+		
 	</ul>
 <%} %>
 <%if( user.getYearPlan()==null ){ %>

@@ -127,12 +127,16 @@ XXX
 				<th>Add to Email</th>
 			</tr>
 			
-			<%for(int i=0;i<_aidTags.size();i++){%>
+			<%
+			/*
+			for(int i=0;i<_aidTags.size();i++){%>
 			 <tr>
 				<td><%= _aidTags.get(i).getDesc() %></td>
 				<td><a href="javascript:void(0)" onclick="addAidToEmail('<%=_aidTags.get(i).getPath()%>','<%=meeting.getUid() %>')" class="addAidToEmail"> + </a></td>
 			 </tr>
-			 <%} %>
+			 <%}
+			
+			*/%>
 		</table>
 	</div>
 

@@ -197,7 +197,8 @@ function createNewCustActivity(){
 	var newCustActivityLocAddr = document.getElementById("newCustActivity_locAddr").value;
 	var newCustActivity_startTime_AP = document.getElementById("newCustActivity_startTime_AP").value;
 	var newCustActivity_endTime_AP = document.getElementById("newCustActivity_endTime_AP").value;
-
+	var newCustActivity_cost = document.getElementById("newCustActivity_cost").value;
+	
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand='+Date.now(),
 		type: 'POST',
@@ -212,6 +213,45 @@ function createNewCustActivity(){
 			newCustActivity_txt: newCustActivity_txt,
 			newCustActivity_startTime_AP:newCustActivity_startTime_AP,
 			newCustActivity_endTime_AP:newCustActivity_endTime_AP,
+			newCustActivity_cost:newCustActivity_cost,
+			a:Date.now()
+		},
+		success: function(result) {
+			location.reload();
+		}
+	});
+}
+
+
+function editNewCustActivity(activityUid){
+	var newCustActivity_name = document.getElementById("newCustActivity_name").value;
+	if( $.trim(newCustActivity_name) =='' ){alert("Please fill 'Name' field"); return false;}
+	var newCustActivity_date = document.getElementById("newCustActivity_date").value;
+	var newCustActivity_startTime = document.getElementById("newCustActivity_startTime").value;
+	var newCustActivity_endTime = document.getElementById("newCustActivity_endTime").value;
+	var newCustActivity_txt = document.getElementById("newCustActivity_txt").value;
+	var newCustActivityLocName = document.getElementById("newCustActivity_locName").value;
+	var newCustActivityLocAddr = document.getElementById("newCustActivity_locAddr").value;
+	var newCustActivity_startTime_AP = document.getElementById("newCustActivity_startTime_AP").value;
+	var newCustActivity_endTime_AP = document.getElementById("newCustActivity_endTime_AP").value;
+	var newCustActivity_cost = document.getElementById("newCustActivity_cost").value;
+	
+	$.ajax({
+		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand='+Date.now(),
+		type: 'POST',
+		data: { 
+			editCustActivity:activityUid,
+			newCustActivity_name:newCustActivity_name ,
+			newCustActivity_date:newCustActivity_date ,
+			newCustActivity_startTime: newCustActivity_startTime ,
+			newCustActivity_endTime:newCustActivity_endTime ,
+			newCustActivityLocName: newCustActivityLocName ,
+			newCustActivityLocAddr: newCustActivityLocAddr ,
+			newCustActivity_txt: newCustActivity_txt,
+			newCustActivity_startTime_AP:newCustActivity_startTime_AP,
+			newCustActivity_endTime_AP:newCustActivity_endTime_AP,
+			newCustActivity_cost:newCustActivity_cost,
+			
 			a:Date.now()
 		},
 		success: function(result) {
@@ -279,4 +319,21 @@ function relogin(){
 			document.location="/content/girlscouts-vtk/en/vtk.plan.html";
 		}
 	});
+}
+
+
+function bindAssetToYPC(assetId, ypcId){
+	  $.ajax({
+			url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand='+Date.now(),
+			type: 'POST',
+			data: { 
+				bindAssetToYPC:assetId,
+				ypcId:ypcId,
+				a:Date.now()
+			},
+			success: function(result) {
+				
+			}
+		});
+	
 }
