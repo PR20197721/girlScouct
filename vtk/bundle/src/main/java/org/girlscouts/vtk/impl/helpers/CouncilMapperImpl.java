@@ -5,11 +5,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.felix.scr.annotations.Activate;
+import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
+import org.apache.felix.scr.annotations.Service;
 import org.girlscouts.vtk.helpers.CouncilMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Component
+@Service
 public class CouncilMapperImpl implements CouncilMapper, ConfigListener {
     private static final Logger log = LoggerFactory.getLogger(CouncilMapperImpl.class);
     private String defaultBranch;
