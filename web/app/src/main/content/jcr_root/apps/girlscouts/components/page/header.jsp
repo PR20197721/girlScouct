@@ -18,7 +18,7 @@
 						<cq:include path="<%= headerPath + "/placeholder" %>" resourceType="girlscouts/components/placeholder" />
 					</div>
 					<div class="large-19 medium-19 hide-for-small columns topMessage">
-						<% setCssClasses("columns", request); %>
+						 <%setCssClasses("columns noLeftPadding" , request); %>
 						<cq:include path="<%= headerPath + "/eyebrow-nav" %>" resourceType="girlscouts/components/eyebrow-navigation" />
 						<div class="row">
 							<% setCssClasses("large-18 medium-18 columns", request); %>
@@ -38,7 +38,9 @@
 							</div>
 						</div>
 						<div class="row hide srch-box">
-							<% setCssClasses("small-22 columns", request); %>
+						    <%setCssClasses("small-6 columns", request); %>
+						    <cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
+							<% setCssClasses("small-16 columns", request); %>
 								<cq:include path="<%= headerPath + "/search-box" %>" resourceType="girlscouts/components/search-box" />
 							<div class="small-2 columns">
 								<a class="right-off-canvas-toggle menu-icon"><img src="<%= designPath %>/images/hamburger.png" width="22" height="28"/></a>
@@ -58,6 +60,4 @@
 
 <!-- SMALL SCREEN CANVAS should be after the global navigation is loaded,since global navigation won't be authorable-->
 				<cq:include script="small-screen-menus"/>
-				
-				
-				
+	

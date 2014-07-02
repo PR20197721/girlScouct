@@ -206,7 +206,8 @@ a:hover.menuHighlight {
 /* RIGHT CONTENT */
 #rightContent {
     text-align: center;
-    padding-right: 0px;
+    padding-right: 20px;
+    padding-left:0px;
 }
 
 /***********************************/
@@ -269,15 +270,11 @@ a:hover.menuHighlight {
 	
 }
 #main .side-nav li.active > ul li a:hover{
-    background: url('images/small-green-arrow-right.png') no-repeat  0px 0px;
-    background-position:right 10px; 
-	background-color:#B0B0B0;
+   background-color:#C0C0C0;
 	
 }
 #main .side-nav li a:hover {
-    background: url('images/small-green-arrow-right.png') no-repeat  0px 0px;
-    background-position:right 18px; 
-    background-color: #B0B0B0;
+    background-color: #C0C0C0;
 }
 
 #main .side-nav > li>ul>li{
@@ -330,9 +327,7 @@ a:hover.menuHighlight {
 }
 
 #main .side-nav li.active  li.active > a{
-    background: url('images/small-green-arrow-right.png') no-repeat  0px 0px;
-    background-position:right 10px; 
-    background-color:#B0B0B0; 
+   background-color:#B0B0B0; 
 }
 
 #main .side-nav li.active ul li a{
@@ -816,6 +811,10 @@ div.textimage.image_right div.image {
     margin: 0 0 8px 8px !important;
 }
 
+div.textimage.nowrap div.text p {
+	overflow: hidden;
+}
+
 /* no padding or margin for grid system */
 .grid-system.nopadding li, .grid-system.nopadding div.image {
     margin-bottom: 0;
@@ -858,3 +857,6 @@ input.searchField{
     height: 21px;
 }
 
+.noLeftPadding{
+ padding-right:0px;
+} 

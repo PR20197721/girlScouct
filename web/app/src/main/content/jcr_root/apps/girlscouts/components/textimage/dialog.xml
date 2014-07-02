@@ -221,9 +221,6 @@
                     xtype="hidden"/>
             </items>
         </tab3>
-        <tab4
-            jcr:primaryType="cq:Widget"
-            xtype="componentstyles"/>
         <styles
             jcr:primaryType="cq:Widget"
             title="Styles"
