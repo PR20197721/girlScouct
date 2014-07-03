@@ -16,8 +16,8 @@ import org.slf4j.LoggerFactory;
 @Service
 public class CouncilMapperImpl implements CouncilMapper, ConfigListener {
     private static final Logger log = LoggerFactory.getLogger(CouncilMapperImpl.class);
-    private String defaultBranch;
-    private Map<String, String> councilMap;
+    private Record defaultRecord;
+    private Map<String, Record> councilMap;
 
     @Reference
     ConfigManager configManager;
@@ -27,27 +27,79 @@ public class CouncilMapperImpl implements CouncilMapper, ConfigListener {
         configManager.register(this);
     }
     
+    private static class Record {
+        private String branch;
+        private String url;
+
+        Record(String branch, String url) {
+            this.branch = branch;
+            this.url = url;
+        }
+        
+        String getBranch() {
+            return branch;
+        }
+        
+        String getUrl() {
+            return url;
+        }
+    }
+    
     @SuppressWarnings("rawtypes")
     public void updateConfig(Dictionary configs) {
-        defaultBranch = (String)configs.get("defaultBranch");        
-        String[] mappings = (String[])configs.get("councilMapping");
-        councilMap = new HashMap<String, String>();
-        for (int i = 0; i < mappings.length; i++) {
-            String[] configRecord = mappings[i].split(":");
-            if (configRecord.length >= 2) {
-                councilMap.put(configRecord[0], configRecord[1]);
+        String defaultMapping = (String)configs.get("defaultMapping");        
+        if (defaultMapping != null) {
+            String[] mappingCols = defaultMapping.split("::");
+            if (mappingCols.length >= 2) {
+                defaultRecord = new Record(mappingCols[0], mappingCols[1]);
             } else {
-                log.error("Malformatted council mapping record: " + mappings[i]);
+                log.error("Malformatted default mapping: " + defaultMapping);
             }
+        } else {
+            log.error("Default mapping is null.");
         }
+
+        String[] mappings = (String[])configs.get("councilMapping");
+        councilMap = new HashMap<String, Record>();
+        if (mappings != null) {
+            for (int i = 0; i < mappings.length; i++) {
+                String[] configRecord = mappings[i].split("::");
+                if (configRecord.length >= 3) {
+                    councilMap.put(configRecord[0], new Record(configRecord[1], configRecord[2]));
+                } else {
+                    log.error("Malformatted council mapping record: " + mappings[i]);
+                }
+            }
+        } else {
+            log.warn("No mappings set");
+        }
+    }
+
+    private Record getCouncilRecord(String id) {
+        Record record = null;
+        if (id != null) {
+            record = councilMap.get(id);
+        }
+        if (record == null) {
+            record = defaultRecord;
+        }
+        return record;
     }
 
     public String getCouncilBranch(String id) {
-        String councilBranch = councilMap.get(id);
-        if (councilBranch == null) {
-            councilBranch = defaultBranch; 
-        }
-        return councilBranch;
+        return "/content/" + getCouncilRecord(id).getBranch();
     }
 
+    public String getCouncilBranch() {
+        return getCouncilBranch(null);
+    }
+    
+    public String getCouncilUrl(String id) {
+        return getCouncilRecord(id).getUrl();
+    }
+
+    public String getCouncilUrl() {
+        return getCouncilUrl(null);
+    }
+    
 }

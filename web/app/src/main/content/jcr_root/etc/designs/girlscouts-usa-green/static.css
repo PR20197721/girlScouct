@@ -153,7 +153,7 @@ a:hover.menuHighlight {
     background-color: #009447;
 }
 #headerBar>div{
-    padding: 3px 110px 0px 20px;
+    padding: 3px 10px 0px 20px;
 }
 
 #headerBar ul.inline-list {
@@ -806,6 +806,12 @@ div.image.center small {
     padding: 0 1.250em;
 }
 
+/* no padding or margin for grid system */
+.grid-system.nopadding li, .grid-system.nopadding div.image {
+    margin-bottom: 0;
+    padding: 0;
+}
+
 div.textimage.image_right div.image {
     float: right !important;
     margin: 0 0 8px 8px !important;
@@ -815,12 +821,14 @@ div.textimage.nowrap div.text p {
 	overflow: hidden;
 }
 
-/* no padding or margin for grid system */
-.grid-system.nopadding li, .grid-system.nopadding div.image {
+.textimage.nopadding div.text p {
     margin-bottom: 0;
     padding: 0;
 }
 
+.textimage.nowrap div.image img {
+	display: inline-block;
+}
 
 /* added change for the search small menu */
 #header .topMessage.alt {
