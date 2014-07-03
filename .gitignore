@@ -30,3 +30,7 @@
 /web/app/bin/
 
 /vtk/app/bin/
+
+/vtk/ical4j-wrapper/target
+
+/vtk/ical4j-wrapper/bin
