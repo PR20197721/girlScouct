@@ -20,6 +20,7 @@ import org.girlscouts.vtk.auth.dao.SalesforceDAO;
 import org.girlscouts.vtk.auth.dao.SalesforceDAOFactory;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.models.User;
+import org.girlscouts.vtk.helpers.CouncilMapper;
 import org.girlscouts.vtk.impl.helpers.ConfigListener;
 import org.girlscouts.vtk.impl.helpers.ConfigManager;
 import org.girlscouts.vtk.salesforce.Troop;
@@ -59,6 +60,9 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
     
     @Reference
     private SalesforceDAOFactory salesforceDAOFactory;
+    
+    @Reference
+    private CouncilMapper councilMapper;
     
     @Override
     protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) {
@@ -121,23 +125,26 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
     		try{ isLogoutWeb = logoutWeb(apiConfig); }catch(Exception e){e.printStackTrace();}
     	}//edn if
     	
-    	apiConfig=null;
     	
     	
     	//HttpSession session = request.getSession();
         session.invalidate();
         session=null;
         
-        String referer = request.getHeader("referer");
+        String redirectUrl;
+        try {
+            String councilId = Integer.toString(apiConfig.getTroops().get(0).getCouncilCode());
+            redirectUrl = councilMapper.getCouncilUrl(councilId);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            redirectUrl = councilMapper.getCouncilUrl();
+        }
        
-        
-        // TODO: do not hardcode it!
-        referer="/content/gateway/en.html";
-      
-        referer= referer.contains("?") ? (referer = referer +"&isSignOutSalesForce=true") : 
-        	(referer = referer +"?isSignOutSalesForce=true") ;
+    	apiConfig=null;
+
+        redirectUrl= redirectUrl.contains("?") ? (redirectUrl = redirectUrl +"&isSignOutSalesForce=true") : 
+        	(redirectUrl = redirectUrl +"?isSignOutSalesForce=true") ;
        
-        redirect(response, referer);
+        redirect(response, redirectUrl);
     }
     
     private void salesforceCallback(SlingHttpServletRequest request, SlingHttpServletResponse response) {
