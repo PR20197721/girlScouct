@@ -39,7 +39,7 @@ ageLevel=ageLevel.toLowerCase().trim();
 <%=activity.getLocationAddress()%>
 
 
-<br/><br/>Cost:<%=activity.getCost() %>
+<br/><br/>Cost:<%=fmtCurr.format(activity.getCost()) %>
 
 <div style="background-color:#efefef"><%=activity.getContent()%></div>
 
@@ -54,8 +54,8 @@ ageLevel=ageLevel.toLowerCase().trim();
         
         
         
-        
-       <div style="background-color:lightblue;">
+         
+       <div style="background-color:lightblue; ">
         	<h4>Upload File**</h4>
         		<%String aassetId = new java.util.Date().getTime() +"_"+ Math.random(); %>
     

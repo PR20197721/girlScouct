@@ -14,8 +14,8 @@ function rmCustActivity12(x){
 	document.location="/content/girlscouts-vtk/en/vtk.plan.html";
 }
 
-function viewMeetingLibrary(meetingPath){
-	$( "#meetingLibraryView" ).load( "/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath="+meetingPath,function( html ) {
+function viewMeetingLibrary(meetingPath,x){
+	$( "#meetingLibraryView" ).load( "/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath="+meetingPath+"&xx="+x,function( html ) {
 		$(function() {
                         $( "#meetingLibraryView" ).dialog({
                                 width:920,

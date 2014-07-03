@@ -110,7 +110,7 @@
 <script>
 	$(function() {
 		$( "#viewMeetingButton" ).button().click(function( event ) {
-			viewMeetingLibrary('<%=meeting.getPath()%>');
+			viewMeetingLibrary('<%=meeting.getPath()%>', '<%=searchDate.getTime()%>');
 		});
                 $( "#overviewButton" ).button().click(function( event ) {
 			showIt('m_overview');
@@ -140,7 +140,9 @@ List<Asset> _aidTags = meeting.getAssets();
 
 
 
-java.util.Date sysAssetLastLoad = new java.util.Date("1/1/1976");// sling.getService(DataImportTimestamper.class).getTimestamp(); //SYSTEM QUERY
+java.util.Date sysAssetLastLoad =  sling.getService(org.girlscouts.vtk.helpers.DataImportTimestamper.class).getTimestamp(); //SYSTEM QUERY
+
+out.println("GlobalFileUpdate "+ sysAssetLastLoad);
 if(meeting.getLastAssetUpdate()==null || meeting.getLastAssetUpdate().before(sysAssetLastLoad) ){
 	out.println("FRESH");
 	
@@ -227,57 +229,7 @@ if( _aidTags!=null )
                 <input type="submit" value="Upload File" />
          </form>
         </div>
-     <!--    
-         <div style="background-color:red">CAMERA
-         
-         <div id="example" style="height:300px;"></div>
-			<div id="gallery" style=""></div>
-			
-			
-        <script> 
-         container = document.getElementById( "example" );
-         gallery = document.getElementById( "gallery" );
-
-         myPhotobooth = new Photobooth( container );
-
-         myPhotobooth.onImage = function( dataUrl ){
-         	var myImage = document.createElement( "img" );
-         	myImage.src = dataUrl;
-         	gallery.appendChild( myImage );
-         	
-         		
-         	var x =$.ajax({ // ajax call starts
-         		url: '/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets/', // JQuery loads serverside.php
-         		
-         		data: {
-         			"./jcr:data":myImage.src,
-         			"./jcr:mimeType":"image/png"
-         			
-         		},
-         		
-         		type: 'POST',
-         		success: function (data) { 
-         		},
-         		error: function (data) { 
-         		}
-         	});
-         	
-         };
-         
-         
-         
-         
-        </script>
-        
-           
-        
-        
-        
-        
-         </div>
-       
-        -->
-        
+    
         
         
         
@@ -382,7 +334,7 @@ if( _aidTags!=null )
 </style>
 
 <div id="meetingLibraryView">
-<% if( user.getYearPlan().getSchedule()!=null ) { %>
+<% if( false) {//user.getYearPlan().getSchedule()!=null ) { %>
 	<div class="tmp" id="popup123" style="background-color:#EEEEEE;">
 		<%@include file="email/meetingReminder.jsp" %>
 	</div>

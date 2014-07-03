@@ -190,6 +190,12 @@ function createNewCustActivity(){
 	var newCustActivity_name = document.getElementById("newCustActivity_name").value;
 	if( $.trim(newCustActivity_name) =='' ){alert("Please fill 'Name' field"); return false;}
 	var newCustActivity_date = document.getElementById("newCustActivity_date").value;
+	
+	var aDate = new Date(newCustActivity_date);
+
+	if( !Date.parse(aDate) ||  aDate < new Date() )
+		{alert( "Invalid start date. Date must be after todays date." ); return false;}
+	
 	var newCustActivity_startTime = document.getElementById("newCustActivity_startTime").value;
 	var newCustActivity_endTime = document.getElementById("newCustActivity_endTime").value;
 	var newCustActivity_txt = document.getElementById("newCustActivity_txt").value;

@@ -13,6 +13,7 @@ java.text.SimpleDateFormat dateFormat42 = new java.text.SimpleDateFormat("hh");
 java.text.SimpleDateFormat dateFormat43 = new java.text.SimpleDateFormat("mm");
 java.text.SimpleDateFormat dateFormat44 = new java.text.SimpleDateFormat("hh:mm");
 java.text.SimpleDateFormat dateFormat0 = new java.text.SimpleDateFormat("MMM dd, yyyy hh:mm a");
+java.text.NumberFormat fmtCurr = java.text.NumberFormat.getCurrencyInstance();
 
 %>
 <%
@@ -60,10 +61,11 @@ if( user ==null){
         user.setApiConfig(apiConfig);
         
         
-        org.girlscouts.vtk.salesforce.Troop caca= apiConfig.getTroops().get(0);
-        caca.setGradeLevel("1-Brownie");
-        user.setTroop(caca);
-        //user.setTroop( apiConfig.getTroops().get(0) );
+       // org.girlscouts.vtk.salesforce.Troop caca= apiConfig.getTroops().get(0);
+       // caca.setGradeLevel("1-Brownie");
+       // user.setTroop(caca);
+       
+        user.setTroop( apiConfig.getTroops().get(0) );
         
         
         user.setSfTroopId( user.getTroop().getTroopId() );

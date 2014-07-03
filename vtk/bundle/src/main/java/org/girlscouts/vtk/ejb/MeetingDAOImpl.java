@@ -665,7 +665,7 @@ public net.fortuna.ical4j.model.Calendar yearPlanCal(User user )throws Exception
 	 
 	 java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
 		
-	  String calFile = "/Users/akobovich/mycalendar.ics";
+	  //String calFile = "/Users/akobovich/mycalendar.ics";
 	  
 	 
  
@@ -720,14 +720,14 @@ public net.fortuna.ical4j.model.Calendar yearPlanCal(User user )throws Exception
 	  
 	  
 	  
-	  
+	  /*
 	  //Saving an iCalendar file
 	  FileOutputStream fout = new FileOutputStream(calFile);
 
 	  CalendarOutputter outputter = new CalendarOutputter();
 	  outputter.setValidating(false);
 	  outputter.output(calendar, fout);
-	  
+	  */
 	  
 	  
 	 

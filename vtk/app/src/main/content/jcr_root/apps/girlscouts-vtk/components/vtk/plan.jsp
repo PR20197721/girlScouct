@@ -11,6 +11,7 @@
 <%
 
 //System.err.println("VTKKKKK");
+//out.println(user.getPath() +" *** "+user.getId());
 
 	YearPlanDAO yearPlanDAO = sling.getService(YearPlanDAO.class);
 	java.util.List<org.girlscouts.vtk.salesforce.Troop> troops = user.getApiConfig().getTroops();

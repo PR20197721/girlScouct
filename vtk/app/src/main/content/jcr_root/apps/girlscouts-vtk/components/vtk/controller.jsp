@@ -39,7 +39,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 }else if( request.getParameter("newCustActivity") !=null ){
 	
 	double cost=0.00;
-	try{cost= Double.parseDouble(request.getParameter("newCustActivity_cost") );}catch(Exception e){e.printStackTrace();}
+	try{cost= Double.parseDouble(request.getParameter("newCustActivity_cost").replace(",","") );}catch(Exception e){e.printStackTrace();}
 	
 		activityDAO.createActivity(
 				(User) session.getValue("VTK_user"),
@@ -187,31 +187,39 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 }else if( request.getParameter("loginAs")!=null){ //troopId
 	if(request.getParameter("loginAs")==null || request.getParameter("loginAs").trim().equals("") ){System.err.println("loginAs invalid.abort");return;}
 	
-
-
-//System.err.println("(**** "+ request.getParameter("loginAs"));
 	User curr_user = (User)session.getValue("VTK_user");
-	User new_user= userDAO.getUser( //curr_user.getApiConfig().getUserId() +"_"+ request.getParameter("loginAs") );
-			"/vtk/"+curr_user.getTroop().getCouncilCode()+
-    		"/"+curr_user.getTroop().getTroopName()+"/users/"+
+	
+	java.util.List<org.girlscouts.vtk.salesforce.Troop> troops = curr_user.getApiConfig().getTroops();
+	org.girlscouts.vtk.salesforce.Troop newTroop = null;
+	for(int i=0;i<troops.size();i++)
+		if( troops.get(i).getTroopId().equals(request.getParameter("loginAs")))
+			newTroop= troops.get(i);
+	
+	User new_user= userDAO.getUser( 
+			"/vtk/"+newTroop.getCouncilCode()+
+    		"/"+newTroop.getTroopName()+"/users/"+
 		curr_user.getApiConfig().getUserId()+"_"+  request.getParameter("loginAs") );
 
 	if( new_user==null ){
-		 //new_user = new User(curr_user.getApiConfig().getUserId()+"_"+  request.getParameter("loginAs") );
+		
 		new_user = new User(
-				 "/vtk/"+curr_user.getTroop().getCouncilCode()+
-	        		"/"+curr_user.getTroop().getTroopName()+"/users/",
+				 "/vtk/"+newTroop.getCouncilCode()+
+	        		"/"+newTroop.getTroopName()+"/users/",
 				curr_user.getApiConfig().getUserId()+"_"+  request.getParameter("loginAs") );
 	}
 	
 	
-	
+	/*
 	java.util.List <org.girlscouts.vtk.salesforce.Troop> troops = curr_user.getApiConfig().getTroops();
 	for(int i=0;i<troops.size();i++){
 			if( troops.get(i).getTroopId().equals( request.getParameter("loginAs"))){
 				new_user.setTroop(troops.get(i) );
 			}
 	}
+	*/
+	new_user.setTroop(newTroop );
+	
+	
 	
     new_user.setApiConfig(curr_user.getApiConfig());
     new_user.setSfTroopId( new_user.getTroop().getTroopId() );
