@@ -133,7 +133,7 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
         
         String redirectUrl;
         try {
-            String councilId = apiConfig.getTroops().get(0).getCouncilId();
+            String councilId = Integer.toString(apiConfig.getTroops().get(0).getCouncilCode());
             redirectUrl = councilMapper.getCouncilUrl(councilId);
         } catch (ArrayIndexOutOfBoundsException e) {
             redirectUrl = councilMapper.getCouncilUrl();
