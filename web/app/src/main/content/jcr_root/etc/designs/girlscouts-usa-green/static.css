@@ -688,6 +688,11 @@ td.fc-header-left{
 	padding-left: 20px;
 }
 
+#header .small-search-hamburger {
+	float:right;
+	padding-right:5px;
+}
+
 #footer div.footer-navigation{
     padding:10px 0 10px 20px;
     background: url('images/small-trefoil.png') no-repeat;
