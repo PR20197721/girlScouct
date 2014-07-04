@@ -162,7 +162,10 @@ a:hover.menuHighlight {
 }
 #headerBar li {
     margin: 0px;
-    padding: 0px 8px 4px 0;
+    padding: 0px 20px 4px 0;
+}
+#headerBar li:last-child {
+    padding-right: 0;
 }
 #headerBar li:hover {
    /* background-color:#063;*/
