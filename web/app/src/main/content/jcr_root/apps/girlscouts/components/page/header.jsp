@@ -33,8 +33,10 @@
 							<% setCssClasses("small-18 columns", request); %>
 							<cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
 							<div class="small-6 columns">
-							   	<a class="search-icon"><img src="<%= designPath %>/images/magnifyer-small.png" width="21" height="21"/></a>
-								<a class="right-off-canvas-toggle menu-icon"><img src="<%= designPath %>/images/hamburger.png" width="22" height="28"/></a>
+								<div class="small-search-hamburger">
+							   		<a class="search-icon"><img src="<%= designPath %>/images/magnifyer-small.png" width="21" height="21"/></a>
+									<a class="right-off-canvas-toggle menu-icon"><img src="<%= designPath %>/images/hamburger.png" width="22" height="28"/></a>
+								</div>
 							</div>
 						</div>
 						<div class="row hide srch-box">
@@ -52,7 +54,7 @@
 					</div>
 				</div>
 <!--PAGE STRUCTURE: HEADER BAR-->
-<div id="headerBar" class="row">
+<div id="headerBar" class="row hide-for-small">
 				<div class="large-5 medium-5 hide-for-small columns">&nbsp;</div>
 					<% setCssClasses("large-19 medium-19 small-24 columns", request); %>
 					<cq:include path="<%= headerPath + "/global-nav" %>" resourceType="girlscouts/components/global-navigation" />
