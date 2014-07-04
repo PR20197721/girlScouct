@@ -673,9 +673,14 @@ td.fc-header-left{
     background: url('images/white-up-arrow.png') no-repeat  60px 0px;
     background-position:center bottom;  
 }
+#header div.login {
+	margin-top: 2px;
+}
 
-#header .signin{
+#header a.signin{
    color:#FFF;
+   font-size:0.875rem;
+   font-weight:bold;
 }
 
 
