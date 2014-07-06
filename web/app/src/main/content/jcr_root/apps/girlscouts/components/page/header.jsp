@@ -30,9 +30,9 @@
 					</div>
 					<div class="show-for-small small-24 columns topMessage alt">
 						<div class="row vtk-login">
-							<% setCssClasses("small-18 columns", request); %>
+							<% setCssClasses("small-12 columns", request); %>
 							<cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
-							<div class="small-6 columns">
+							<div class="small-12 columns">
 								<div class="small-search-hamburger">
 							   		<a class="search-icon"><img src="<%= designPath %>/images/magnifyer-small.png" width="21" height="21"/></a>
 									<a class="right-off-canvas-toggle menu-icon"><img src="<%= designPath %>/images/hamburger.png" width="22" height="28"/></a>
