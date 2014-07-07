@@ -427,7 +427,7 @@ public class MeetingUtil {
 	}
 	
 	
-	public void addAids(User user, String aidId, String meetingId){
+	public void addAids(User user, String aidId, String meetingId, String assetName){
 		
 		
 		java.util.List<MeetingE> meetings = user.getYearPlan().getMeetingEvents();
@@ -438,7 +438,7 @@ public class MeetingUtil {
 				Asset asset = new Asset();
 				asset.setRefId(aidId);
 				asset.setType("aids");
-				
+				asset.setDescription(assetName);
 				
 				java.util.List<Asset> assets= meeting.getAssets();
 				assets= assets ==null ? new java.util.ArrayList() : assets;

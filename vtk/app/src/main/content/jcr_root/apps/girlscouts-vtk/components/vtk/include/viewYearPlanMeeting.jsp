@@ -217,12 +217,20 @@ if( _aidTags!=null )
         		<%String assetId = new java.util.Date().getTime() +"_"+ Math.random(); %>
     
    
-  
+  <!--  
               <form action="/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets/<%=assetId %>" method="post"
-                       onsubmit="return bindAssetToYPC( '/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets/<%=assetId %>/custasset', '<%=meeting.getUid() %>' )"   enctype="multipart/form-data">
-                       
+                       onsubmit="return bindAssetToYPC( '/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets/<%=assetId %>', '<%=meeting.getUid() %>' )"   enctype="multipart/form-data">
+        -->
+        
+        
+        
+              <form action="/content/girlscouts-vtk/controllers/auth.asset.html" method="post"  
+              			onsubmit="return bindAssetToYPC( '/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets/<%=assetId %>', '<%=meeting.getUid() %>' )"  enctype="multipart/form-data">
+              
+                       <input type="hidden" name="loc" value="/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets"/>
               Asset Name: <input type="text" id="assetDesc" name="assetDesc" value="" />
-               <input type="hidden" name="id" value="<%=assetId%>"/>      
+               <input type="hidden" name="id" value="<%=assetId%>"/>     
+                <input type="hidden" name="me" value="<%=searchDate.getTime()%>"/>      
                <input type="hidden" name="owner" value="<%=user.getId()%>"/>
                <input type="hidden" name="createTime" value="<%=new java.util.Date()%>"/>         
 			   <input type="file" id="custasset" name="custasset" size="50" />

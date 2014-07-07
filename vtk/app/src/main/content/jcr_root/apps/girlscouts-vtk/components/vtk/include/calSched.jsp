@@ -24,6 +24,7 @@
 			<select id="calFreq">
 				<option value="weekly" <%= user.getYearPlan().getCalFreq().equals("weekly") ? " SELECTED" : "" %>>weekly</option>
 				<option value="biweekly"  <%= user.getYearPlan().getCalFreq().equals("biweekly") ? " SELECTED" : "" %>>biweekly</option>
+				<option value="monthly"  <%= user.getYearPlan().getCalFreq().equals("monthly") ? " SELECTED" : "" %>>monthly</option>
 			</select>
 		</div>
 	</div>

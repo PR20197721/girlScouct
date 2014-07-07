@@ -6,7 +6,7 @@
 
 
 
-function assignAid(aidId, meetingId){
+function assignAid(aidId, meetingId, assetName){
 	  
 	  $.ajax({
 			cache: false,
@@ -15,6 +15,7 @@ function assignAid(aidId, meetingId){
 			data: { 
 				addAids:aidId,
 				meetingId: meetingId,
+				assetName:assetName,
 				a:Date.now()
 			},
 			success: function(result) {
@@ -33,6 +34,7 @@ function assignAid(aidId, meetingId){
 <%
 
 	String aidId= request.getParameter("aidId");
+//System.err.println("ADDDDIDDIDI: "+ aidId+ " : " + request.getParameter("aidName"));
 
 	java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
 	if( sched==null || (sched.size()==0)){out.println( "No Cal set up"); return;}
@@ -70,14 +72,13 @@ function assignAid(aidId, meetingId){
 			for(int i=0;i<assets.size();i++){
 				
 				if( assets.get(i).getRefId().equals(aidId ) )
-					{out.println("SELECTED");}
+					{out.println("<br/>SELECTED");}
 			}
 		%>
 			<br/>
-			<a href="javascript:void(0)" onclick="assignAid('<%=aidId %>', '<%=_comp.getUid()%>')"><%= dt %></a>
-			|| 
-			<%=_comp.getType() %> || <span style="background-color:orange;"><%=displayName%> </span>
-			--- <%=_comp.getUid()%>
+			<a href="javascript:void(0)" onclick="assignAid('<%=aidId %>', '<%=_comp.getUid()%>', '<%=request.getParameter("aidName")%>')"><span style="background-color:orange;"><%=displayName%> </span></a>
+			
+			<%=_comp.getType() %> 
 			
 		<%
 	}
