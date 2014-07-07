@@ -30,6 +30,7 @@
 	final String RESOURCE_SEARCH_PROMPT = "type in a search word or term here";
 	final String MEETING_AID_PATH = "/content/dam/girlscouts-vtk/global/aid";
 	final String TYPE_MEETING_AIDS = "meeting-aids";
+	final String TYPE_MEETING_OVERVIEWS = "meeting-overviews";
 
 	final QueryBuilder queryBuilder = sling.getService(QueryBuilder.class);
 %>
@@ -224,6 +225,8 @@ try {
 				                queryBuilder,
 				                resourceResolver.adaptTo(Session.class)
 				        );
+				     } else if (currentMinor.getProperties().get("type", "").equals(TYPE_MEETING_OVERVIEWS)) {
+				        minorCount = user.getYearPlan().getMeetingEvents().size();
 				     } else {
 				    	minorCount = countAllChildren(currentMinor) - 1;
 				     } 
@@ -251,6 +254,8 @@ try {
 	if (categoryPage != null) {
 	    if (categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_AIDS)) {
 		    %><%= displayAidAssets(MEETING_AID_PATH, resourceResolver) %><%
+	    } else if (categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_OVERVIEWS)) {
+		    %><%= displayMeetingOverviews(user, resourceResolver) %><%
 	    } else {
 		    %><div><%= categoryPage.getTitle() %></div><%
 		    %><ul><% 
