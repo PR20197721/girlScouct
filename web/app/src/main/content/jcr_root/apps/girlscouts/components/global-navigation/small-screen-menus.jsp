@@ -120,7 +120,8 @@ for (int i = 0; i < links.length; i++){
 				}
 			}catch(Exception e){}
         
-        if(!path.isEmpty() && !path.equalsIgnoreCase("#"))
+        if(!path.isEmpty() && !path.equalsIgnoreCase("#") && 
+                path.indexOf(currentPage.getAbsoluteParent(2).getPath()) == 0) // Mike's fix of VTK.
 			{
 				startingPoint = menuPath.substring(currentPage.getAbsoluteParent(2).getPath().length()+1,menuPath.length());
 				if(startingPoint.indexOf("/")>0)
