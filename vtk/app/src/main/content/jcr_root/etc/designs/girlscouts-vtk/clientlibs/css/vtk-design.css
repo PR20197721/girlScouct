@@ -108,7 +108,7 @@ li.activity .planSquare {
 	text-align: right;
 }
 #troop .troopSelect{
-	line-height:0.6rem;
+	line-height:1.0rem;
 }
 #troop select{
 	height:2rem;
