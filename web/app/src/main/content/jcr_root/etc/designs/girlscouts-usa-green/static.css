@@ -162,10 +162,7 @@ a:hover.menuHighlight {
 }
 #headerBar li {
     margin: 0px;
-    padding: 0px 20px 4px 0;
-}
-#headerBar li:last-child {
-    padding-right: 0;
+    padding: 0px 8px 4px 0;
 }
 #headerBar li:hover {
    /* background-color:#063;*/
@@ -673,25 +670,11 @@ td.fc-header-left{
     background: url('images/white-up-arrow.png') no-repeat  60px 0px;
     background-position:center bottom;  
 }
-#header div.login {
-	margin-top: 2px;
-}
 
-#header a.signin{
+#header .signin{
    color:#FFF;
-   font-size:0.875rem;
-   font-weight:bold;
 }
 
-#header .vtk-login .login {
-	padding-top: 5px;
-	padding-left: 20px;
-}
-
-#header .small-search-hamburger {
-	float:right;
-	padding-right:5px;
-}
 
 #footer div.footer-navigation{
     padding:10px 0 10px 20px;
@@ -885,3 +868,8 @@ input.searchField{
 .noLeftPadding{
  padding-right:0px;
 } 
+
+div#rightContent.small-24 div.advertisement a{
+	display: inline-block;
+
+}
