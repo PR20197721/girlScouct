@@ -68,7 +68,9 @@
 					*/
 					if (page.getPath().indexOf(eventLeftNavRoot) == 0 && currPath.indexOf(eventDispUnder) == 0) {
 						menuBuilder.append("<li class=\"active\">");
+						menuBuilder.append("<div>");
 						menuBuilder.append(createHref(page));
+						menuBuilder.append("</div>");
 						//menuBuilder.append("</li>");
 
 						menuBuilder.append("<ul><li class=\"active\">");
