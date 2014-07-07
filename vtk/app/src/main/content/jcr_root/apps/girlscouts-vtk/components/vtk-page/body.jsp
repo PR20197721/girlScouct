@@ -9,22 +9,22 @@
 	Page newCurrentPage = null;
 	Design newCurrentDesign = null;
 
+	String councilId = null;
 	if (apiConfig != null) {
-	    String councilId = null;
 	    if (apiConfig.getTroops().size() > 0) {
 	        councilId = Integer.toString(apiConfig.getTroops().get(0).getCouncilCode());
 	    }
-	   	String branch = mapper.getCouncilBranch(councilId);
-	   	// TODO: language
-	   	branch += "/en";
-	   	newCurrentPage = (Page)resourceResolver.resolve(branch).adaptTo(Page.class);
-	   	
-	   	// Get design
- 	   	String designPath = newCurrentPage.getProperties().get("cq:designPath", "");
-	   	if (!designPath.isEmpty()) {
-	   	    newCurrentDesign = (Design)resourceResolver.resolve(designPath).adaptTo(Design.class);
-	   	}
 	}
+   	String branch = mapper.getCouncilBranch(councilId);
+   	// TODO: language
+   	branch += "/en";
+   	newCurrentPage = (Page)resourceResolver.resolve(branch).adaptTo(Page.class);
+   	
+   	// Get design
+	   	String designPath = newCurrentPage.getProperties().get("cq:designPath", "");
+   	if (!designPath.isEmpty()) {
+   	    newCurrentDesign = (Design)resourceResolver.resolve(designPath).adaptTo(Design.class);
+   	}
 %>
 	<body>
 		<div class="off-canvas-wrap">
