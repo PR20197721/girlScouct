@@ -1,5 +1,6 @@
 <%
 try{	
+	
 	HttpSession session = request.getSession();
 	org.girlscouts.vtk.auth.models.ApiConfig apiConfig=
 			(org.girlscouts.vtk.auth.models.ApiConfig)
@@ -10,6 +11,7 @@ try{
 		return;
 		
 	}
+
 }catch(Exception e){e.printStackTrace();}
 %>
 

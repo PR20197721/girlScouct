@@ -543,7 +543,7 @@ private List<Asset> getAidTag(String tags, String meetingName) {
        search.setRefId(path);
        search.setIsCachable(true);
        //search.setContent(excerpt.getString());
-       //search.setDesc( r.getValue("dc:description").getString() );
+       search.setDescription( r.getValue("dc:description").getString() );
        //search.setType(r.getValue("dc:format").getString());
        matched.add(search);
       
@@ -608,7 +608,7 @@ private List<Asset> getAidTag_local(String tags, String meetingName) {
        search.setRefId(path);
        search.setIsCachable(true);
        //search.setContent(excerpt.getString());
-       //try{search.setDesc( r.getValue("dc:description").getString() );}catch(Exception e){}
+      try{search.setDescription( r.getValue("dc:description").getString() );}catch(Exception e){}
       // try{search.setType(r.getValue("dc:format").getString());}catch(Exception e){}
        matched.add(search);
       

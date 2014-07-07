@@ -10,7 +10,7 @@ public class Asset {
 	public Asset(String path){ this.path= path; this.uid = "A"+new java.util.Date().getTime() + "_" + Math.random(); this.isCachable=false;}
 	
 	
-	@Field private String type, refId;
+	@Field private String type, refId, description;
 	@Field (path=true) private String path;
 	@Field (id=true) private String uid;
 	@Field Boolean isCachable;
@@ -20,6 +20,12 @@ public class Asset {
 
 	
 	
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
 	public Boolean getIsCachable() {
 		return isCachable;
 	}

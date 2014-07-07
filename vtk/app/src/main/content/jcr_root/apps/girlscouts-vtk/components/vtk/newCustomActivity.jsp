@@ -179,11 +179,11 @@ $('#newCustActivity').click(function() {
 			Date: ex:05/07/2014<input type="text"  id="newCustActivity_date" name="newCustActivity_date" style="width:160px;"/>
                 </div>  
                 <div class="small-6 columns">
-			Start Time: ex: 18:15
+			Start Time
 			<input type="text" id="newCustActivity_startTime" name="newCustActivity_startTime" value="<%=org.girlscouts.vtk.models.api.VTKConfig.CALENDAR_START_TIME_HOUR+":"+org.girlscouts.vtk.models.api.VTKConfig.CALENDAR_START_TIME_MIN %>" style="width:100px;" required />
 			<select id="newCustActivity_startTime_AP"> <option value="am">am</option> <option value="pm">pm</option></select> </div>  
                 <div class="small-6 columns">
-			End Time: ex: 09:10<input type="text" id="newCustActivity_endTime" name="newCustActivity_endTime" value="<%=org.girlscouts.vtk.models.api.VTKConfig.CALENDAR_END_TIME_HOUR+":"+org.girlscouts.vtk.models.api.VTKConfig.CALENDAR_END_TIME_MIN %>"  style="width:100px;" required/>
+			End Time<input type="text" id="newCustActivity_endTime" name="newCustActivity_endTime" value="<%=org.girlscouts.vtk.models.api.VTKConfig.CALENDAR_END_TIME_HOUR+":"+org.girlscouts.vtk.models.api.VTKConfig.CALENDAR_END_TIME_MIN %>"  style="width:100px;" required/>
 			<select id="newCustActivity_endTime_AP"><option value="am">am</option><option value="pm">pm</option></select>
                 </div> 
 	</div>

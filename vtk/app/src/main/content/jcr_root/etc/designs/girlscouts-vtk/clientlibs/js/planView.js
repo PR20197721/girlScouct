@@ -43,6 +43,7 @@ function addCustAgenda(){
 <!-- TODO: change js name -->
 function createCustAgendaItem1(mid, time, mPath){
 	var newCustAgendaName = document.getElementById("newCustAgendaName").value;
+	if( $.trim(newCustAgendaName)==''){alert("Please fill agenda name"); return false;}
 	var newCustAgendaDuration= document.getElementById("newCustAgendaDuration").value;
 	var createCustAgendaTxt = document.getElementById("newCustAgendaTxt").value;
 	var urlPath =mPath +"&duration="+newCustAgendaDuration+"&name="+ newCustAgendaName+"&startTime="+time+"&txt="+createCustAgendaTxt ;

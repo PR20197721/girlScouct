@@ -342,17 +342,19 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	
 	String assetId = request.getParameter("bindAssetToYPC");
 	String ypcId = request.getParameter("ypcId");
-	System.err.println("*** "+ assetId +" : "+ ypcId);
+	String assetDesc = request.getParameter("assetDesc");
+	System.err.println("*** "+ assetId +" : "+ ypcId +" : "+ assetDesc);
 	User user = (User)session.getValue("VTK_user");
 	java.util.List<MeetingE> meetings = user.getYearPlan().getMeetingEvents();
 	for(int i=0;i<meetings.size();i++){
 		if( meetings.get(i).getUid().equals( ypcId)){
 			
 			
-			System.err.println("Found meetin");
+			//System.err.println("Found meetin");
 			Asset asset = new Asset();
 			asset.setIsCachable(false);
 			asset.setRefId(assetId);
+			asset.setDescription(assetDesc);
 			
 			java.util.List<Asset> assets = meetings.get(i).getAssets();
 			assets = assets ==null ? new java.util.ArrayList() : assets;

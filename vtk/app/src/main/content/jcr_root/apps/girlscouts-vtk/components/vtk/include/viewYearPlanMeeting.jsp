@@ -178,7 +178,7 @@ if(meeting.getLastAssetUpdate()==null || meeting.getLastAssetUpdate().before(sys
 
 if( _aidTags!=null )
  for(int i=0;i<_aidTags.size();i++){
-	%><li> <%=_aidTags.get(i).getType()%> <a href="<%=_aidTags.get(i).getRefId()%>"><%=_aidTags.get(i).getRefId()%></a> </li><% 
+	%><li> <a href="<%=_aidTags.get(i).getRefId()%>"><%=_aidTags.get(i).getDescription()%></a> </li><% 
  }
 
 
@@ -192,7 +192,7 @@ if( _aidTags!=null )
 
 
 
-	out.println(meetingInfo.getId() +" : " + meeting.getUid() );
+	//out.println(meetingInfo.getId() +" : " + meeting.getUid() );
 	/*
 	List<org.girlscouts.vtk.models.Search> _aidTags =  meetingDAO.getAidTag( meetingInfo.getAidTags(), meetingInfo.getId());
 	for(int i=0;i<_aidTags.size();i++){
@@ -221,10 +221,11 @@ if( _aidTags!=null )
               <form action="/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets/<%=assetId %>" method="post"
                        onsubmit="return bindAssetToYPC( '/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets/<%=assetId %>/custasset', '<%=meeting.getUid() %>' )"   enctype="multipart/form-data">
                        
+              Asset Name: <input type="text" id="assetDesc" name="assetDesc" value="" />
                <input type="hidden" name="id" value="<%=assetId%>"/>      
                <input type="hidden" name="owner" value="<%=user.getId()%>"/>
                <input type="hidden" name="createTime" value="<%=new java.util.Date()%>"/>         
-			   <input type="file" name="custasset" size="50" />
+			   <input type="file" id="custasset" name="custasset" size="50" />
                <br />
                 <input type="submit" value="Upload File" />
          </form>

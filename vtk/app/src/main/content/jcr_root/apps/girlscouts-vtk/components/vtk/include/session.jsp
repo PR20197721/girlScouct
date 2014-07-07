@@ -17,8 +17,16 @@ java.text.NumberFormat fmtCurr = java.text.NumberFormat.getCurrencyInstance();
 
 %>
 <%
-//System.err.println(111);
+
 HttpSession session = request.getSession();
+
+
+
+int timeout = session.getMaxInactiveInterval();
+//out.println( "***** " + timeout + " : "+ session.getId() );
+response.setHeader("Refresh", timeout + "; URL = /content/girlscouts-vtk/en/vtk.logout.html");
+
+
 
 boolean isTest = false;
 if( isTest )
@@ -60,11 +68,11 @@ if( user ==null){
         }
         user.setApiConfig(apiConfig);
         
-        
-       // org.girlscouts.vtk.salesforce.Troop caca= apiConfig.getTroops().get(0);
-       // caca.setGradeLevel("1-Brownie");
-       // user.setTroop(caca);
-       
+       if(isTest){ 
+        org.girlscouts.vtk.salesforce.Troop caca= apiConfig.getTroops().get(0);
+        caca.setGradeLevel("1-Brownie");
+        user.setTroop(caca);
+       }else
         user.setTroop( apiConfig.getTroops().get(0) );
         
         
