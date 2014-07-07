@@ -2,6 +2,16 @@
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <!-- apps/girlscouts/components/page/header.jsp -->
 <%
+	// Force currentPage and currentDesign from request
+	Page newCurrentPage = (Page)request.getAttribute("newCurrentPage");
+	Design newCurrentDesign= (Design)request.getAttribute("newCurrentDesign");
+	if (newCurrentPage != null) {
+	    currentPage = newCurrentPage;
+	}
+	if (newCurrentPage != null) {
+	    currentDesign = newCurrentDesign;
+	}
+	
 	String headerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
 	String designPath = currentDesign == null ? "/" : currentDesign.getPath();
 	int depth = currentPage.getDepth();
