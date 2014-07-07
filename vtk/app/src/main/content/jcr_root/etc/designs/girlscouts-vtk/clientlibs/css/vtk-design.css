@@ -200,5 +200,14 @@ a.direction {
         display: inline-block;
 }
 
+#resourceSearchField {
+	padding:0 0.5rem;
+}
 
+#searchResults ul{
+	margin: 1.1rem; 
+}
 
+.ui-autocomplete-loading {
+	background: white url('images/ui-anim_basic_16x16.gif') right center no-repeat !important;
+}
