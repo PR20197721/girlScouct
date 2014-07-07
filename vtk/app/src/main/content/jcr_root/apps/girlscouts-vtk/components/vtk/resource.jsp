@@ -21,7 +21,9 @@
                 com.day.cq.search.QueryBuilder,
                 com.day.cq.search.result.SearchResult,
                 org.girlscouts.vtk.dao.*,
-                org.girlscouts.vtk.models.user.*"%>
+                org.girlscouts.vtk.models.user.*,
+                org.girlscouts.vtk.auth.models.ApiConfig,
+                org.girlscouts.vtk.helpers.CouncilMapper"%>
 <%@include file="/libs/foundation/global.jsp"%>
 
 <%
@@ -176,10 +178,19 @@
 <%
 final PageManager manager = (PageManager)resourceResolver.adaptTo(PageManager.class);
 try {
-    // TODO: this field should come from Salesforce
-	final String ROOT_PAGE_PATH = "/content/gateway/en/resources";
+	final String RESOURCES_PATH = "resources";
+	String councilId = null;
+	if (apiConfig != null) {
+	    if (apiConfig.getTroops().size() > 0) {
+	        councilId = Integer.toString(apiConfig.getTroops().get(0).getCouncilCode());
+	    }
+	}
+	CouncilMapper mapper = sling.getService(CouncilMapper.class);
+	String branch = mapper.getCouncilBranch(councilId);
 
-	final Page rootPage = manager.getPage(ROOT_PAGE_PATH);
+	// TODO: language?
+	String resourceRootPath = branch + "/en/" + RESOURCES_PATH;
+	final Page rootPage = manager.getPage(resourceRootPath);
 	
 	Iterator<Page> majorIter = rootPage.listChildren();
 
