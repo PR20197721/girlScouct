@@ -66,12 +66,17 @@
 			
 			String imgPath = contentNode.hasProperty("middle/par/text/image/fileReference") ? contentNode.getProperty("middle/par/text/image/fileReference").getString() : "";
 %>
+
+   
     	<li>
     		<div class="row">
-    			<div class="small-24 medium-8 large-6 columns">
-    				<img src="<%= imgPath %>" width="483" height="305" />
+    			<div class="small-24 medium-8 large-4 columns">
+    			<%if(!imgPath.isEmpty()){ %>
+          				<%= displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80") %>
+    				<%} %>
+    				
     			</div>
-    			<div class="small-24 medium-16 large-18 columns">
+    			<div class="small-24 medium-16 large-20 columns">
     				<h3>
     					<a href="<%= newsLink %>"><%= newsTitle %></a>
     				</h3>

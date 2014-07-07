@@ -32,11 +32,15 @@
 					if (!page.isHideInNav()) {
 						if (rootPath.equalsIgnoreCase(nodePath) && showCurrent.equals("false")) {
 							menuBuilder.append("<li class=\"active\">");
+							menuBuilder.append("<div>");
 							menuBuilder.append(createHref(page));
+							menuBuilder.append("</div>");
 						} else {
 							if (levelFlag && page.listChildren().hasNext()) {
 								menuBuilder.append("<li class=\"active\">");
+								menuBuilder.append("<div>");
 								menuBuilder.append(createHref(page));
+								menuBuilder.append("</div>");
 								levelFlag = false;
 							} else {
 								if (rootPath.equals(nodePath)) {
@@ -44,7 +48,9 @@
 								} else {
 									menuBuilder.append("<li>");
 								}
+								menuBuilder.append("<div>");
 								menuBuilder.append(createHref(page));
+								menuBuilder.append("</div>");
 								//menuBuilder.append("</li>");
 							}
 						}
@@ -62,13 +68,15 @@
 					*/
 					if (page.getPath().indexOf(eventLeftNavRoot) == 0 && currPath.indexOf(eventDispUnder) == 0) {
 						menuBuilder.append("<li class=\"active\">");
+						menuBuilder.append("<div>");
 						menuBuilder.append(createHref(page));
+						menuBuilder.append("</div>");
 						//menuBuilder.append("</li>");
 
 						menuBuilder.append("<ul><li class=\"active\">");
-						menuBuilder.append("<a href=")
+						menuBuilder.append("<div><a href=")
 								.append(currPath + ".html").append(">")
-								.append(currTitle).append("</a>");
+								.append(currTitle).append("</a></div>");
 						menuBuilder.append("</li></ul>");
 					} else {
 						/*****This showCurrent is for the highligting form *******
@@ -77,7 +85,9 @@
 						 ***** to "true" else we are not displaying that content *******/
 						if (showCurrent.equals("false") && !page.isHideInNav()) {
 							menuBuilder.append("<li>");
+							menuBuilder.append("<div>");
 							menuBuilder.append(createHref(page));
+							menuBuilder.append("</div>");
 							//menuBuilder.append("</li>");
 						}
 					}
