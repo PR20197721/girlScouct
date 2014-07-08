@@ -65,7 +65,7 @@
 		<div class="medium-8 show-for-medium columns">&nbsp;</div>
 		<div class="small-24 medium-12 hide-for-large  hide-for-xlarge hide-for-xxlarge columns">
 			<div class="feature-icon">
-				<img src="<%= designPath %>/images/arrow-down.png" width="30" height="30"/>
+				<img src="<%= iconImg %>" width="50" height="50"/>
 			</div>
 			<div class="feature-title">
 				<h2><a href="<%= eventsLink %>"><%= featureTitle %></a></h2>

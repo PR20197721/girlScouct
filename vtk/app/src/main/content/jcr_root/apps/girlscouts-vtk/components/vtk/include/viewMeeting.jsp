@@ -7,6 +7,7 @@
 	<div  class="row">
 		<div class="large-4 columns">
 			<div class="planSquare">
+				
 				Meeting<br/>
 				#<%= meetingCount %> <%= user.getYearPlan().getSchedule()==null ? "" : df.format(date) %>
 			</div>
@@ -24,7 +25,7 @@ if( meetingE.getCancelled()!=null && meetingE.getCancelled().equals("true")){%>
 			<span class="tags"><%=meeting.getAidTags() %></span>
 		
 			<p class="blurb"><%=meeting.getBlurb() %></p>
-			<a href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=date.getTime()%>">View Meeting</a>
+			<a href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=date.getTime()%>" style="color:#008f50;">View Meeting</a>
 		</div>
 		<div class="large-4 columns">
 			<img width="100" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/badge.png"/>

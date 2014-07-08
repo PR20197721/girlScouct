@@ -72,7 +72,7 @@ function newLocCal(){
 	
 }
 
-function loadModalPage(link) {
+function loadModalPage(link, showTitle) {
         $( "#gsModal" ).load(link, function( response, status, xhr ) {
                 if ( status == "error" ) {
                         var msg = "Sorry but there was an error: ";
@@ -83,7 +83,9 @@ function loadModalPage(link) {
 				modal:true,
 				dialogClass:"modalWrap"
 			});
-			$(".ui-dialog-titlebar").hide();
+			if (!showTitle) {
+				$(".ui-dialog-titlebar").hide();
+			}
                 }
         });
 }

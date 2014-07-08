@@ -211,3 +211,13 @@ a.direction {
 .ui-autocomplete-loading {
 	background: white url('images/ui-anim_basic_16x16.gif') right center no-repeat !important;
 }
+
+.printer {
+	background: url('images/printer.png') no-repeat;
+	width: 30px;
+	height: 30px;	
+}
+
+.printer.right {
+	float: right;	
+}
