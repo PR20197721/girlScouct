@@ -845,7 +845,12 @@ input.searchField{
  padding-right:0px;
 } 
 
-div#rightContent.small-24 div.advertisement a{
-	display: inline-block;
 
+@media only screen and (max-width: 40em) {
+	div#rightContent div.advertisement a{
+		display: inline-block;
+	}
+	div#rightContent {
+		padding-right: 0px;
+	}
 }
