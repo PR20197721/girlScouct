@@ -257,7 +257,7 @@ try {
 	    if (categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_AIDS)) {
 		    %><%= displayAidAssets(MEETING_AID_PATH, resourceResolver) %><%
 	    } else if (categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_OVERVIEWS)) {
-		    %><%= displayMeetingOverviews(user, resourceResolver) %><%
+		    %><%-- <%= displayMeetingOverviews(user, resourceResolver) --%><%
 	    } else {
 		    %><div><%= categoryPage.getTitle() %></div><%
 		    %><ul><% 
@@ -291,7 +291,7 @@ try {
 
 	private void displayAllChildren(Page rootPage, StringBuilder builder) {
 	    builder.append("<li>");
-	    String path = rootPage.getPath() + ".plain.html";
+	    String path = rootPage.getPath();
 	    // TODO: Get the link back once the dialog is styled
 	    builder.append("<a href=\"javascript:void(0)\" onclick=\"displayWebResource('");
 	    builder.append(path);
