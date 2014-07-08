@@ -291,11 +291,11 @@ try {
 	    builder.append("<li>");
 	    String path = rootPage.getPath() + ".plain.html";
 	    // TODO: Get the link back once the dialog is styled
-	    //builder.append("<a href=\"javascript:void(0)\" onclick=\"displayHtmlResource('");
-	    //builder.append(path);
-	    //builder.append("')\">");
+	    builder.append("<a href=\"javascript:void(0)\" onclick=\"displayWebResource('");
+	    builder.append(path);
+	    builder.append("')\">");
 	    builder.append(rootPage.getTitle());
-	    //builder.append("</a>");
+	    builder.append("</a>");
 	    Iterator<Page> iter = rootPage.listChildren();
 	    while (iter.hasNext()) {
 	        Page childPage = iter.next();
