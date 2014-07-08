@@ -40,6 +40,13 @@ java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().get
    	
    	
    	<%=   	meetingDAO.getMeeting(  meeting.getRefId() ).getName() %>
+   	
+   	
+   	<%if( meeting.getCancelled()!=null && meeting.getCancelled().equals("true")){%>
+   		<span style="background-color:red;">Canceled</span>
+   		<%} %>
+   		
+   		
    </table>
 	
 	

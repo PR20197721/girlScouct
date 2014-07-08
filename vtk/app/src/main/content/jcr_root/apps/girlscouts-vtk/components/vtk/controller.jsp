@@ -244,7 +244,8 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	
 }else if( request.getParameter("addAids")!=null){
 	//System.err.println("*** "+request.getParameter("meetingId") );
-	meetingUtil.addAids((User)session.getValue("VTK_user"), request.getParameter("addAids"), request.getParameter("meetingId"));
+	meetingUtil.addAids((User)session.getValue("VTK_user"), request.getParameter("addAids"), request.getParameter("meetingId"),
+				request.getParameter("assetName") );
 
 }else if( request.getParameter("rmAsset")!=null){
 	
