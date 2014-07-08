@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 <%@page
 	import="java.util.Iterator,
                 java.util.Map,
@@ -23,6 +15,8 @@
                 org.girlscouts.vtk.dao.*,
                 org.girlscouts.vtk.models.user.*,
                 org.girlscouts.vtk.auth.models.ApiConfig,
+                org.girlscouts.vtk.models.MeetingE,
+                org.girlscouts.vtk.models.Meeting,
                 org.girlscouts.vtk.helpers.CouncilMapper"%>
 <%@include file="/libs/foundation/global.jsp"%>
 
@@ -257,7 +251,7 @@ try {
 	    if (categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_AIDS)) {
 		    %><%= displayAidAssets(MEETING_AID_PATH, resourceResolver) %><%
 	    } else if (categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_OVERVIEWS)) {
-		    %><%-- <%= displayMeetingOverviews(user, resourceResolver) --%><%
+		    %><%= displayMeetingOverviews(user, resourceResolver)%><%
 	    } else {
 		    %><div><%= categoryPage.getTitle() %></div><%
 		    %><ul><% 
@@ -293,7 +287,7 @@ try {
 	    builder.append("<li>");
 	    String path = rootPage.getPath();
 	    // TODO: Get the link back once the dialog is styled
-	    builder.append("<a href=\"javascript:void(0)\" onclick=\"displayWebResource('");
+	    builder.append("<a href=\"javascript:void(0)\" onclick=\"displayResource('web', '");
 	    builder.append(path);
 	    builder.append("')\">");
 	    builder.append(rootPage.getTitle());
@@ -341,14 +335,24 @@ try {
                 	builder.append("</a>");
                 	builder.append("<input type=\"button\" value=\"Add to Meeting\" onclick=\"applyAids('"+asset.getPath()+"', '' )\" />");
                 	builder.append("</li>");
-                	
-                	
-                	
-            		
-            	
                 }
             }
         }
+        builder.append("</ul>");
+        return builder.toString();
+	}
+	
+	private String displayMeetingOverviews(User user, ResourceResolver rr) {
+	    StringBuilder builder = new StringBuilder("<ul>");
+	    for (MeetingE meetingE : user.getYearPlan().getMeetingEvents()) {
+	        Meeting meeting = meetingE.getMeetingInfo();
+		    builder.append("<a href=\"javascript:void(0)\" onclick=\"displayResource('overview', '");
+		    //builder.append(meeting.getPath());
+		    builder.append("')\">");
+		    //builder.append(meeting.getName());
+		    builder.append("</a>");
+	    }
+
         builder.append("</ul>");
         return builder.toString();
 	}
