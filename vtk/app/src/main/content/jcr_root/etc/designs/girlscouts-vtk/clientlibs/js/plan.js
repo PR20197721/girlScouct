@@ -92,11 +92,13 @@ function yesPlan(){
 	if( document.getElementById('yearPlanMeetings').style.display=='none' ){
 		document.getElementById('yearPlanMeetings').style.display='block';
 		document.getElementById('yearPlanSelection').style.display='none';	
-		document.getElementById('showHideReveal').innerHTML='reveal <span class="arrowDirection">&#9660;</span>';
+		document.getElementById('showHideReveal').innerHTML='reveal';
+                document.getElementById('arrowDirection').innerHTML='&#9660;';
 	}else{
 		document.getElementById('yearPlanMeetings').style.display='none';
 		document.getElementById('yearPlanSelection').style.display='block';
-		document.getElementById('showHideReveal').innerHTML='hide <span class="arrowDirection">&#9650;</span>';
+		document.getElementById('showHideReveal').innerHTML='hide';
+                document.getElementById('arrowDirection').innerHTML='&#9650;';
 	}
 }
 
