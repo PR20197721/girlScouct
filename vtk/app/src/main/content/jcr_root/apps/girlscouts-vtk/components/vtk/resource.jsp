@@ -17,6 +17,7 @@
                 org.girlscouts.vtk.auth.models.ApiConfig,
                 org.girlscouts.vtk.models.MeetingE,
                 org.girlscouts.vtk.models.Meeting,
+                org.girlscouts.vtk.dao.MeetingDAO,
                 org.girlscouts.vtk.helpers.CouncilMapper"%>
 <%@include file="/libs/foundation/global.jsp"%>
 
@@ -27,6 +28,7 @@
 	final String TYPE_MEETING_OVERVIEWS = "meeting-overviews";
 
 	final QueryBuilder queryBuilder = sling.getService(QueryBuilder.class);
+	final MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
 %>
 
 <%@include file="include/session.jsp"%>
@@ -251,7 +253,7 @@ try {
 	    if (categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_AIDS)) {
 		    %><%= displayAidAssets(MEETING_AID_PATH, resourceResolver) %><%
 	    } else if (categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_OVERVIEWS)) {
-		    %><%= displayMeetingOverviews(user, resourceResolver)%><%
+		    %><%= displayMeetingOverviews(user, resourceResolver, meetingDAO)%><%
 	    } else {
 		    %><div><%= categoryPage.getTitle() %></div><%
 		    %><ul><% 
@@ -342,15 +344,15 @@ try {
         return builder.toString();
 	}
 	
-	private String displayMeetingOverviews(User user, ResourceResolver rr) {
+	private String displayMeetingOverviews(User user, ResourceResolver rr, MeetingDAO meetingDAO) {
 	    StringBuilder builder = new StringBuilder("<ul>");
 	    for (MeetingE meetingE : user.getYearPlan().getMeetingEvents()) {
-	        Meeting meeting = meetingE.getMeetingInfo();
-		    builder.append("<a href=\"javascript:void(0)\" onclick=\"displayResource('overview', '");
-		    //builder.append(meeting.getPath());
+	        Meeting meeting = meetingDAO.getMeeting(meetingE.getRefId());
+		    builder.append("<li><a href=\"javascript:void(0)\" onclick=\"displayResource('overview', '");
+		    builder.append(meeting.getPath());
 		    builder.append("')\">");
-		    //builder.append(meeting.getName());
-		    builder.append("</a>");
+		    builder.append(meeting.getName());
+		    builder.append("</a></li>");
 	    }
 
         builder.append("</ul>");
