@@ -163,7 +163,7 @@ if(meeting.getLastAssetUpdate()==null || meeting.getLastAssetUpdate().before(sys
 	
 	
 	//query cachables
-	 java.util.List __aidTags =  meetingDAO.getAids( meetingInfo.getAidTags()+";promise", meetingInfo.getId(), meeting.getUid());
+	 java.util.List __aidTags =  meetingDAO.getAids( meetingInfo.getAidTags(), meetingInfo.getId(), meeting.getUid());
 	
 	
 	//merge lists

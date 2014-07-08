@@ -267,3 +267,4 @@ $('#newCustActivity').click(function() {
  
 	</form>
 </div>
+

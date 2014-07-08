@@ -461,7 +461,7 @@ public List<org.girlscouts.vtk.models.Search> getData(String query) {
        org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();
        search.setPath(path);
        search.setContent(excerpt.getString());
-       search.setDesc( r.getValue("dc:description").getString() );
+       try{search.setDesc( r.getValue("dc:description").getString() );}catch(Exception e){e.printStackTrace();}
        try{ search.setType(r.getValue("dc:format").getString()); }catch(Exception e){System.err.println("No Fmt");}
        
        matched.add(search);
