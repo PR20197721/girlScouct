@@ -28,17 +28,17 @@
 			</div>	
 			<div class="feature-title">
 				<h2>
-					<a <%= featureLink %>"><%= featureTitle %></a>
+					<a href="<%= featureLink %>"><%= featureTitle %></a>
 				</h2>
 			</div>
 		</div>
 		<div class="medium-8 show-for-medium columns">&nbsp;</div>
-        <div class="small-24 medium-12 hide-for-large  hide-for-xlarge hide-for-xxlarge columns">
+        <div class="small-24 medium-12 hide-for-large hide-for-xlarge hide-for-xxlarge columns">
             <div class="feature-icon">
-                <img src="<%= designPath %>/images/arrow-down.png" width="30" height="30"/>
+                <img src="<%= featureIcon %>" width="50" height="50">
             </div>
             <div class="feature-title">
-                <h2><a <%= featureLink %>"><%= featureTitle %></a></h2>
+                <h2><a href="<%= featureLink %>"><%= featureTitle %></a></h2>
             </div>
         </div>
         <div class="medium-4 show-for-medium columns">&nbsp;</div>
