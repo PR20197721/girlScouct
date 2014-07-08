@@ -13,7 +13,7 @@
 
 
 	java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
-	if( sched==null || (sched.size()==0)){out.println( "No Cal set up"); return;}
+	if( sched==null || (sched.size()==0)){out.println( "You must first select a year plan."); return;}
 	java.util.List<java.util.Date> dates =new java.util.ArrayList<java.util.Date>(sched.keySet());
 	long nextDate=0, prevDate=0;
 	java.util.Date searchDate=null;
