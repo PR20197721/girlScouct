@@ -17,21 +17,34 @@
     DateFormat timeFormat = new SimpleDateFormat("h:mm a");
   
     String end ="";
+    String location="";
+    String detail="";
     
     DateFormat dateFt = new SimpleDateFormat("MMM d, yyyy");
         String jsonEvents="";
         for(String path: eventsPath){
         	String color = "#00AE58";
+        	
+        
          try
          {   Node node =   resourceResolver.getResource(path).adaptTo(Node.class);
              Node propNode = node.getNode("jcr:content/data");
              JSONObject obj = new JSONObject();
              String title = propNode.getProperty("../jcr:title").getString();
-             String detail = propNode.getProperty("srchdisp").getString();
              
-            
              
-             String location = propNode.getProperty("locationLabel").getString();   
+             detail = "";
+             location="";
+             if(propNode.hasProperty("srchdisp")){
+            	 detail = propNode.getProperty("srchdisp").getString();
+            	 
+             }
+             if(propNode.hasProperty("locationLabel")){
+            	 location = propNode.getProperty("locationLabel").getString();
+            	 
+             }
+             
+             //String location = propNode.getProperty("locationLabel").getString();   
              Calendar startDt = propNode.getProperty("start").getDate();
              //Calendar endDt = propNode.getProperty("end").getDate();
              
@@ -78,6 +91,9 @@
             	 
              }
              String url = path+".html";
+             
+            
+             
              obj.put("title", title);
              obj.put("displayDate", dateStr);
              obj.put("location",location);
@@ -89,7 +105,6 @@
              obj.put("path", url);
              eventList.add(obj); 
          }catch(Exception e){
-         
          }
         }
         try{
