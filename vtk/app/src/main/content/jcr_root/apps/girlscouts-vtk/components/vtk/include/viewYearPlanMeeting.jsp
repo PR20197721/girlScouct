@@ -69,7 +69,8 @@
 %>
 	</div>
         <div class="small-4 columns ">
-		<a id="viewMeetingButton" href="#" class="mLocked">change this meeting</a>
+		<!--  <a id="viewMeetingButton" href="#" class="mLocked">change this meeting</a> -->
+		 <a id="viewMeetingButton" href="/content/girlscouts-vtk/en/vtk.meetingLibrary.html?mpath=<%=meeting.getPath()%>&xx=<%=searchDate.getTime()%>" class="mLocked">change this meeting</a>
 		<img width="100" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/badge.png"/>
 	</div>
 </div>
@@ -81,8 +82,8 @@
         <div class="small-1 columns">&nbsp;</div>
 </div>
 <div class="row meetingDetailDescription">
-        <div class="small-8 columns"><a id="overviewButtonX" href="javascript:void(0)" onclick="openClose('m_overview')">overview</a></div>
-        <div class="small-8 columns"><a id="activityPlanButtonX" href="javascript:void(0)" onclick="openClose('m_activities')">activity plan</a></div>
+        <div class="small-8 columns"><a id="overviewButtonX" href="javascript:void(0)" onclick="openClose1('m_overview', 'm_activities')">overview</a></div>
+        <div class="small-8 columns"><a id="activityPlanButtonX" href="javascript:void(0)" onclick="openClose1('m_activities', 'm_overview' )">activity plan</a></div>
         <div class="small-8 columns"><!--a id="materialsListButton" href="#">materials list</a--></div>
 </div>
 <div class="row meetingDetailDescription">

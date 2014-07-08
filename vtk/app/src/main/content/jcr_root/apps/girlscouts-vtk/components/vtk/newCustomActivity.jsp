@@ -168,6 +168,9 @@ $('#newCustActivity').click(function() {
 </style>
 			
 			
+			
+			
+			
 <form class="cmxform" id="signupForm">
 	
 	<h2>Add an Activity</h2>

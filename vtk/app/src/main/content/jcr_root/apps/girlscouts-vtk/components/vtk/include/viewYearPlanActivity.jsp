@@ -113,10 +113,169 @@ if( a_aidTags!=null )
      
      
 
+
+
+
+
+
+
+<script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.js"></script>
+<script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.extensions.js"></script>
+<script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask_custom_extensions.js"></script>
+<script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.date.extensions.js"></script>
+
+<script src="/etc/designs/girlscouts-vtk/clientlibs/js/alex.js"></script>
+
+
+<script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.datepicker.validation.js"></script>
+<script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.validate.js"></script>
+<link rel="stylesheet" href="/etc/designs/girlscouts-vtk/clientlibs/css/alex/screenX.css">
+
+<script>
+$(function() {
+	$( "#newCustActivity_date" ).datepicker({minDate: 0});
+  });
+  
+  
+jQuery(function($){
+	
+	
+	 	
+	    
+	    
+	$("#newCustActivity_date").inputmask("mm/dd/yyyy", {});
+	
+	$('#newCustActivity_date').datepicker({minDate: 0});
+	
+	$("#newCustActivity_startTime").inputmask("h:s", {});
+	$("#newCustActivity_endTime").inputmask("h:s", {});
+	$("#newCustActivity_cost").maskMoney();
+	});
+	
+
+
+
+
+$.validator.addMethod('time', function(value, element, param) {
+    return value == '' || value.match(/^([01][0-9]|2[0-3]):[0-5][0-9]$/);
+}, 'Enter a valid time: hh:mm');
+
+$.validator.addMethod('currency', function(value, element, regexp) {
+    var re = /^\d{1,9}(\.\d{1,2})?$/;
+    return this.optional(element) || re.test(value);
+}, '');
+
+
+$().ready(function() {
+	
+ 		
+	$("#signupForm").validate({	
+		rules: {
+			
+			newCustActivity_name: {
+				required: true,
+				minlength: 2
+			},
+			newCustActivity_startTime:{
+				required:true,
+				minlength: 5,
+				time: true
+			},
+			newCustActivity_endTime:{
+				required:true,
+				minlength: 5,
+				time: true
+			},
+			newCustActivity_cost:{
+				//required:true,
+				//minlength: 4,
+				//currency:true
+			},
+			newCustActivity_date:{
+				required:true,
+				minlength:8,
+				date:true
+			}
+			
+		},
+		messages: {
+			newCustActivity_name: {
+				required: "Please enter a Name",
+				minlength: "Your Name must consist of at least 2 characters"
+			},
+			newCustActivity_startTime:{
+				required: "Please enter a Start time",
+				minlength: "Valid format HH:mm"
+			},
+			newCustActivity_endTime:{
+				required: "Please enter a End time",
+				minlength: "Valid format HH:mm"
+			},
+			newCustActivity_cost:{
+				//required: "Please enter a valid amount. Default 0.00",
+				//minlength: "Valid format 0.00"
+			},
+			newCustActivity_date:{
+				required: "Please enter valid start date",
+				minlength: "Valid format MM/dd/yyyy"
+			}
+		}
+	});
+
+ 
+});
+
+	function caca(){
+		
+		
+	    if ($('#signupForm').valid()) {
+	    	if(!timeDiff()){ return false;}
+	    	editNewCustActivity('<%=activity.getUid()%>');
+	    }
+	    else {
+	        alert("Invalid.Fix it");
+	    }
+		
+		
+	}
+	
+$('#newCustActivity1').click(function() {
+	
+    if ($('#signupForm').valid()) {
+    	if(!timeDiff()){ return false;}
+    	editNewCustActivity('<%=activity.getUid()%>');
+    }
+    else {
+        alert("Invalid.Fix it");
+    }
+});
+	
+	
+	function timeDiff(){
+		var date= document.getElementById("newCustActivity_date").value;
+		var startTime = document.getElementById("newCustActivity_startTime").value;
+		var endTime = document.getElementById("newCustActivity_endTime").value;
+		var newCustActivity_startTime_AP = document.getElementById("newCustActivity_startTime_AP").value;
+		var newCustActivity_endTime_AP = document.getElementById("newCustActivity_endTime_AP").value;
+		
+		
+		if(!Date.parse( new Date( date +" " + startTime +" "+newCustActivity_startTime_AP) )) {alert("Invalid Start Date,time. 12hr format: "+date +" " + startTime +" "+newCustActivity_startTime_AP);return false;}
+		if(!Date.parse( new Date( date +" " + endTime +" "+newCustActivity_endTime_AP) )) {alert("Invalid End Date,time. 12hr format: "+date +" " + endTime +" "+newCustActivity_endTime_AP);return false;}
+		
+		
+			
+		if( (new Date(date +" "+ startTime+ " "+newCustActivity_startTime_AP) - new Date( date +" " + endTime +" "+newCustActivity_endTime_AP) ) >=0 )
+			{alert("StartTime after/equal EndTime"); return false;}
+		else 
+			return true;
+		
+	}
+</script>  
+
 <a href="javascript:void(0)" onclick="openClose('editCustActiv')">EDIT ACTIVITY</a>
 <div id="editCustActiv" style=" display:none;">
 
-<form>
+<form class="cmxform" id="signupForm">
 	
 	<h2>Edit Activity</h2>
 	<a class="closeText" href="#" onclick="$('#editCustActiv').dialog('close')">Return to Plan</a>
@@ -124,13 +283,13 @@ if( a_aidTags!=null )
 	<div id="newCustActivity_err" style="color:red;"></div>
         <div class="row">
                 <div class="small-6 columns">
-			<font color="red">*</font> <input type="text" id="newCustActivity_name" value="<%=activity.getName() %>" style="width:200px;" placeholder="Name of Activity"/>
+			<font color="red">*</font> <input type="text" name="newCustActivity_name" id="newCustActivity_name" value="<%=activity.getName() %>" style="width:200px;" placeholder="Name of Activity"/>
 		</div>
                 <div class="small-6 columns">
-			Date: ex:05/07/2014<input type="text"  id="newCustActivity_date" value="<%=fmtDate.format(activity.getDate()) %>" style="width:160px;"/>
+			Date: ex:05/07/2014<input type="text" name="newCustActivity_date" id="newCustActivity_date" value="<%=fmtDate.format(activity.getDate()) %>" style="width:160px;"/>
                 </div>  
                 <div class="small-6 columns">
-			Start Time: ex: 18:15<input type="text" id="newCustActivity_startTime" value="<%= fmtHr1.format(activity.getDate())%>" style="width:100px;" />
+			Start Time: ex: 18:15<input type="text" name="newCustActivity_startTime" id="newCustActivity_startTime" value="<%= fmtHr1.format(activity.getDate())%>" style="width:100px;" />
 			<select id="newCustActivity_startTime_AP">
 			 
 			 <option value="am" <%=  dateFormat41.format(activity.getDate()).toUpperCase().trim().equals("AM") ? "SELECTED" : "" %>>am</option>
@@ -158,8 +317,10 @@ if( a_aidTags!=null )
                 <div class="small-8 columns">
                 
                 
-              <div style="background-color:red;">Cost: <input type="text" id="newCustActivity_cost" value="<%=activity.getCost()%>"/></div>
-			<input type="button" value="Save" id="newCustActivity" onclick="editNewCustActivity('<%=activity.getUid()%>')"/>
+              <div style="background-color:red;">Cost: <input type="text" name="newCustActivity_cost"  id="newCustActivity_cost" value="<%=activity.getCost()%>"/></div>
+			<input type="button" value="Save" id="newCustActivity1" onclick="caca()"/>
+			  
+             
                 </div>
         </div>
 	 </form>

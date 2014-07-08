@@ -226,3 +226,15 @@ function openClose(div){
 		document.getElementById(div).style.display='none';
 	
 }
+
+
+
+function openClose1(div1, div2){
+	if( document.getElementById(div1).style.display=='none' ){
+		document.getElementById(div1).style.display='block';
+		document.getElementById(div2).style.display='none';	
+	}else {
+		document.getElementById(div1).style.display='none';
+		document.getElementById(div2).style.display='none';	
+	}
+}
