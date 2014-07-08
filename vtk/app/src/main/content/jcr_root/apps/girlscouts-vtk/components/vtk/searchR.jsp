@@ -74,7 +74,7 @@ if (searchResults == null || searchResults.size() < 1) {
 %>
 	<li class="searchResultsItem">
 		<span class="docType"><img width="30" height="30" src="<%=docTypeImage%>"/></span>
-		<h2> <a class="searchResultPath" href="<%=search.getPath() %>"><%=search.getDesc() %></a> </h2>
+		<h2><a class="searchResultPath" href="<%=search.getPath() %>" target="_blank"><%=search.getDesc() %></a> </h2>
 		<p><%=search.getContent() %></p>
 		<input type="button" value="Add to Meeting" onclick="applyAids('<%=search.getPath()%>', '<%=search.getDesc() %>')"/>
 	</li>
