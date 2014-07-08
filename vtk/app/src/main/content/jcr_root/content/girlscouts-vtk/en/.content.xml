@@ -100,4 +100,7 @@
         </header>
     </jcr:content>
     <vtk/>
+    <resources
+        jcr:primaryType="nt:unstructured"
+        sling:resourceType="girlscouts-vtk/components/vtk-resource-page"/>
 </jcr:root>
