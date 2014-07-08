@@ -7,6 +7,7 @@
 	<div  class="row">
 		<div class="large-4 columns">
 			<div class="planSquare">
+				<%=meetingE.getId() %>** <%=meeting.getId() %>**
 				Meeting<br/>
 				#<%= meetingCount %> <%= user.getYearPlan().getSchedule()==null ? "" : df.format(date) %>
 			</div>

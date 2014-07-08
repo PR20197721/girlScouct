@@ -211,19 +211,11 @@ if( _aidTags!=null )
 	}
 	*/
 %>
-  
+    <!-- GOOD : moved to manageAssets 
        <div style="background-color:orange;">
         	<h4>Upload File**</h4>
         		<%String assetId = new java.util.Date().getTime() +"_"+ Math.random(); %>
     
-   
-  <!--  
-              <form action="/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets/<%=assetId %>" method="post"
-                       onsubmit="return bindAssetToYPC( '/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets/<%=assetId %>', '<%=meeting.getUid() %>' )"   enctype="multipart/form-data">
-        -->
-        
-        
-        
               <form action="/content/girlscouts-vtk/controllers/auth.asset.html" method="post"  
               			onsubmit="return bindAssetToYPC( '/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets/<%=assetId %>', '<%=meeting.getUid() %>' )"  enctype="multipart/form-data">
               
@@ -237,9 +229,10 @@ if( _aidTags!=null )
                <br />
                 <input type="submit" value="Upload File" />
          </form>
+      
         </div>
     
-        
+        -->
         
         
         

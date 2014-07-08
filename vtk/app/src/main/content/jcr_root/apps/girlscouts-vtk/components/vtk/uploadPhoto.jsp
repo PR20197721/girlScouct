@@ -11,7 +11,7 @@ String id= new java.util.Date().getTime() +"_" + Math.random();
 
   <div style="background-color:orange;">
         	<h4>Upload File</h4>
-        	
+        	<!--  
               <form action="/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets/" method="post"
                       onsubmit="bindAssetToYPC('<%=id %>', '<%=request.getParameter("refId") %>')"  enctype="multipart/form-data">
                 
@@ -19,6 +19,21 @@ String id= new java.util.Date().getTime() +"_" + Math.random();
                <input type="hidden" name="owner" value="<%=user.getId()%>"/>
                <input type="hidden" name="createTime" value="<%=new java.util.Date()%>"/>         
 			   <input type="file" name="custasset" size="50" />
+               <br />
+                <input type="submit" value="Upload File" />
+         </form>
+         -->
+         <%String assetId = new java.util.Date().getTime() +"_"+ Math.random(); %>
+          <form action="/content/girlscouts-vtk/controllers/auth.asset.html" method="post"  
+              			onsubmit="return bindAssetToYPC( '/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets/<%=assetId %>', '<%=request.getParameter("refId")%>' )"  enctype="multipart/form-data">
+              
+                       <input type="hidden" name="loc" value="/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets"/>
+              Asset Name: <input type="text" id="assetDesc" name="assetDesc" value="" />
+               <input type="hidden" name="id" value="<%=assetId %>"/>     
+                <input type="hidden" name="me" value="<%=request.getParameter("myId")%>"/>      
+               <input type="hidden" name="owner" value="<%=user.getId()%>"/>
+               <input type="hidden" name="createTime" value="<%=new java.util.Date()%>"/>         
+			   <input type="file" id="custasset" name="custasset" size="50" />
                <br />
                 <input type="submit" value="Upload File" />
          </form>
@@ -76,12 +91,20 @@ String id= new java.util.Date().getTime() +"_" + Math.random();
          
          function bindAssetToYPC(assetId, ypcId){
         	 
+        	 var assetDesc = document.getElementById("assetDesc").value;
+        	 var custasset = document.getElementById("custasset").value;
+        	 
+        	 if( $.trim(custasset)=='' ){alert('Please select file to upload');return false;}
+        	 if( $.trim(assetDesc)=='' ){alert('Please enter name of asset');return false;}
+        	 
+        	 
         	 $.ajax({
         			url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand='+Date.now(),
         			type: 'POST',
         			data: { 
         				bindAssetToYPC:assetId,
         				ypcId:ypcId,
+        				assetDesc:assetDesc,
         				a:Date.now()
         			},
         			success: function(result) {

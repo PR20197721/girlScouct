@@ -4,11 +4,15 @@ Activity activity = (Activity) _comp;
 %>
 <br/>
 <div class="caca row meetingDetailHeader">
+        
+        
         <div class="small-2 columns previous">
 <%if( prevDate!=0 ){ %>
                 <a class="direction" href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=prevDate%>"><img width="40" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/previous.png"/></a>
 <%} %>
         </div>
+        
+        
         <div class="small-4 columns">
                 <div class="planSquare">
         <%if( user.getYearPlan().getSchedule()!=null ) {%>
@@ -16,11 +20,17 @@ Activity activity = (Activity) _comp;
         <%}else{ out.println( fmtX.format(searchDate) ); } %>
                 </div>
         </div>
+        
+        
+        
         <div class="small-2 columns next">
 <%if( nextDate!=0 ){ %>
                 <a class="direction" href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=nextDate%>"><img width="40" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/next.png"/></a>
 <%} %>
         </div>
+        
+        
+        
         <div class="small-12 columns">
                 <h1>Activity: <%= activity.getName() %></h1>
 
@@ -44,6 +54,8 @@ ageLevel=ageLevel.toLowerCase().trim();
 <div style="background-color:#efefef"><%=activity.getContent()%></div>
 
         </div>
+        
+        
         <div class="small-4 columns">
 <%if( activity.getDate().after( new java.util.Date())){ %>
 <input type="button" value="delete this activity" onclick="rmCustActivity12('<%=activity.getPath()%>')"/>
@@ -54,8 +66,8 @@ ageLevel=ageLevel.toLowerCase().trim();
         
         
         
-         
-       <div style="background-color:lightblue; ">
+         <!--  
+       <div style="background-color:lightblue; display:none;">
         	<h4>Upload File**</h4>
         		<%String aassetId = new java.util.Date().getTime() +"_"+ Math.random(); %>
     
@@ -72,21 +84,9 @@ ageLevel=ageLevel.toLowerCase().trim();
                 <input type="submit" value="Upload File" />
          </form>
         </div>
+        -->
         
-        
-        
-     
-     <ul style="background-color:red;">
-     <% 
-     List<Asset> a_aidTags = activity.getAssets();
-
-if( a_aidTags!=null )
- for(int i=0;i<a_aidTags.size();i++){
-	%><li> <%=a_aidTags.get(i).getType()%> <a href="<%=a_aidTags.get(i).getRefId()%>"><%=a_aidTags.get(i).getRefId()%></a> </li><% 
- }
-     %>
-     </ul>
-     
+    
      
      
      
@@ -95,8 +95,26 @@ if( a_aidTags!=null )
         
 </div>
 
+
+    
+     <div style="background-color:#efefef;">
+     <ul>
+     <% 
+     List<Asset> a_aidTags = activity.getAssets();
+
+if( a_aidTags!=null )
+ for(int i=0;i<a_aidTags.size();i++){
+	%><li>  <a href="<%=a_aidTags.get(i).getRefId()%>"><%=a_aidTags.get(i).getDescription()%></a> </li><% 
+ }
+     %>
+     </ul>
+     </div>
+     
+     
+     
+
 <a href="javascript:void(0)" onclick="openClose('editCustActiv')">EDIT ACTIVITY</a>
-<div id="editCustActiv" style="background-color:pink; display:none;">
+<div id="editCustActiv" style=" display:none;">
 
 <form>
 	
@@ -141,9 +159,11 @@ if( a_aidTags!=null )
                 
                 
               <div style="background-color:red;">Cost: <input type="text" id="newCustActivity_cost" value="<%=activity.getCost()%>"/></div>
-			<input type="button" value="Edit Activity" id="newCustActivity" onclick="editNewCustActivity('<%=activity.getUid()%>')"/>
+			<input type="button" value="Save" id="newCustActivity" onclick="editNewCustActivity('<%=activity.getUid()%>')"/>
                 </div>
         </div>
 	 </form>
 
 </div>
+
+<%@include file="../include/manageCommunications.jsp" %>

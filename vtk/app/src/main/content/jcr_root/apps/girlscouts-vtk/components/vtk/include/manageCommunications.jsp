@@ -27,7 +27,7 @@
 <script>
 
 function doPic(){
-	link='/content/girlscouts-vtk/controllers/vtk.uploadPhoto.html?refId=<%=_comp.getUid()%>';
+	link='/content/girlscouts-vtk/controllers/vtk.uploadPhoto.html?refId=<%=_comp.getUid()%>&myId=<%=searchDate.getTime()%>';
     $( "#picModal" ).load(link, function( response, status, xhr ) {
         if ( status == "error" ) {
                 var msg = "Sorry but there was an error: ";
