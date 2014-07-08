@@ -13,9 +13,15 @@
 		<td>View</td>
 	</tr>
 	<tr>
-		<td><a href="javascript:void(0)" onclick="doPic()">Upload Photo</a></td>
+		<td><a href="javascript:void(0)" onclick="doPic(0)">Upload Photo</a></td>
 		<td>(none)</td>
 	</tr>
+	
+	<tr>
+		<td><a href="javascript:void(0)" onclick="doPic(1)">Upload File</a></td>
+		<td>(none)</td>
+	</tr>
+	
 	<tr>
 		<td>Edit/Send Activity Recap Email</td>
 		<td>(not sent)</td>
@@ -26,8 +32,8 @@
 <div id="picModal"></div>
 <script>
 
-function doPic(){
-	link='/content/girlscouts-vtk/controllers/vtk.uploadPhoto.html?refId=<%=_comp.getUid()%>&myId=<%=searchDate.getTime()%>';
+function doPic(isFile){
+	link='/content/girlscouts-vtk/controllers/vtk.uploadPhoto.html?isFile='+isFile+'&refId=<%=_comp.getUid()%>&myId=<%=searchDate.getTime()%>';
     $( "#picModal" ).load(link, function( response, status, xhr ) {
         if ( status == "error" ) {
                 var msg = "Sorry but there was an error: ";

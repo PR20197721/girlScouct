@@ -5,24 +5,14 @@
 <%
 
 String id= new java.util.Date().getTime() +"_" + Math.random();
-
+int isFile=0;
+try{ isFile = Integer.parseInt( request.getParameter("isFile") ); }catch(Exception e){e.printStackTrace();}
 %>
 <a href="javascript:void(0)" onclick="location.reload()">CLOSE</a>
 
-  <div style="background-color:orange;">
+  <div style="background-color:orange; <%if(isFile==0){%> display:none; <% } %>">
         	<h4>Upload File</h4>
-        	<!--  
-              <form action="/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets/" method="post"
-                      onsubmit="bindAssetToYPC('<%=id %>', '<%=request.getParameter("refId") %>')"  enctype="multipart/form-data">
-                
-               <input type="hidden" name="id" value="<%=id%>"/>                 
-               <input type="hidden" name="owner" value="<%=user.getId()%>"/>
-               <input type="hidden" name="createTime" value="<%=new java.util.Date()%>"/>         
-			   <input type="file" name="custasset" size="50" />
-               <br />
-                <input type="submit" value="Upload File" />
-         </form>
-         -->
+        	
          <%String assetId = new java.util.Date().getTime() +"_"+ Math.random(); %>
           <form action="/content/girlscouts-vtk/controllers/auth.asset.html" method="post"  
               			onsubmit="return bindAssetToYPC( '/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets/<%=assetId %>', '<%=request.getParameter("refId")%>' )"  enctype="multipart/form-data">
@@ -37,9 +27,15 @@ String id= new java.util.Date().getTime() +"_" + Math.random();
                <br />
                 <input type="submit" value="Upload File" />
          </form>
-</div>
+   </div>
  
- <div style="background-color:red">CAMERA
+ 
+ 
+ 
+ 
+ 
+ <% if(isFile==0){%> 
+    <div style="background-color:red; ">CAMERA
          
          <div id="example" style="height:300px;"></div>
 			<div id="gallery" style=""></div>
@@ -86,6 +82,7 @@ String id= new java.util.Date().getTime() +"_" + Math.random();
         
         
          </div>
+  <%} %>
          
          <script>
          
