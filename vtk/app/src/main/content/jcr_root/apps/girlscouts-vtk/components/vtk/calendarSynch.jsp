@@ -14,9 +14,15 @@ response.setContentType("text/calendar");
 <%
 MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
 net.fortuna.ical4j.model.Calendar calendar = meetingDAO.yearPlanCal(user );
-//out.println(calendar==null);
 
-//java.io.FileOutputStream fout = new java.io.FileOutputStream("mycalendar.ics");
+
+
+
+/*
+java.io.FileOutputStream fout = new java.io.FileOutputStream("mycalendar.ics");
+CalendarOutputter outputter = new CalendarOutputter();
+outputter.output(calendar, fout);
+*/
 
 ServletOutputStream fout = response.getOutputStream();
 net.fortuna.ical4j.data.CalendarOutputter outputter = new net.fortuna.ical4j.data.CalendarOutputter();
