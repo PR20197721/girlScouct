@@ -441,7 +441,7 @@ public List<org.girlscouts.vtk.models.Search> getData(String query) {
 		//GOOD FULL SEARCHjavax.jcr.query.Query q = qm.createQuery("select jcr:path, excerpt(.) from nt:resource  where jcr:path like '/content/dam/%' and  contains(., '"+ query +"~')", javax.jcr.query.Query.SQL); 
 		
 		//AID search
-		javax.jcr.query.Query q = qm.createQuery("select dc:description,dc:format from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/aid/%' and contains(*, '"+query+"~') order by jcr:score desc",  javax.jcr.query.Query.SQL);
+		javax.jcr.query.Query q = qm.createQuery("select dc:title,dc:format from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/aid/%' and contains(*, '"+query+"~') order by jcr:score desc",  javax.jcr.query.Query.SQL);
 		
 		 		
 		QueryResult result = q.execute();
@@ -461,7 +461,7 @@ public List<org.girlscouts.vtk.models.Search> getData(String query) {
        org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();
        search.setPath(path);
        search.setContent(excerpt.getString());
-       try{search.setDesc( r.getValue("dc:description").getString() );}catch(Exception e){e.printStackTrace();}
+       try{search.setDesc( r.getValue("dc:title").getString() );}catch(Exception e){e.printStackTrace();}
        try{ search.setType(r.getValue("dc:format").getString()); }catch(Exception e){System.err.println("No Fmt");}
        
        matched.add(search);
