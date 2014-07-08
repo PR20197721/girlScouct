@@ -32,7 +32,7 @@ if (searchResults == null || searchResults.size() < 1) {
 				docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-pdf.png";
 			} else if (docType.indexOf("indesign") != -1) {
 				docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-indesign.png";
-			} else if (docType.indexOf("html") != -1) {
+			} else if (docType.indexOf("htm") != -1) {
 				docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-html.png";
 			} else if (docType.indexOf("excel") != -1) {
 				docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-excel.png";
@@ -76,7 +76,7 @@ if (searchResults == null || searchResults.size() < 1) {
 		<span class="docType"><img width="30" height="30" src="<%=docTypeImage%>"/></span>
 		<h2> <a class="searchResultPath" href="<%=search.getPath() %>"><%=search.getDesc() %></a> </h2>
 		<p><%=search.getContent() %></p>
-		<input type="button" value="Add to Meeting" onclick="applyAids('<%=search.getPath()%>', '<%=search.getDesc() %>' )"/>
+		<input type="button" value="Add to Meeting" onclick="applyAids('<%=search.getPath()%>', '<%=search.getDesc() %>')"/>
 	</li>
 <%
 	}
