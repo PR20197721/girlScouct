@@ -3,5 +3,5 @@
     jcr:description="A page that displays a VTK resource"
     jcr:primaryType="cq:Component"
     jcr:title="VTK Resource Page"
-    sling:resourceSuperType="girlscouts/components/three-column-page"
+    sling:resourceSuperType="foundation/components/page"
     componentGroup=".hidden"/>
