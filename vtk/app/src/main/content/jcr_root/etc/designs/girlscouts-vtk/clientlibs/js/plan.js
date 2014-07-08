@@ -72,7 +72,7 @@ function newLocCal(){
 	
 }
 
-function loadModalPage(link) {
+function loadModalPage(link, showTitle) {
         $( "#gsModal" ).load(link, function( response, status, xhr ) {
                 if ( status == "error" ) {
                         var msg = "Sorry but there was an error: ";
@@ -83,7 +83,9 @@ function loadModalPage(link) {
 				modal:true,
 				dialogClass:"modalWrap"
 			});
-			$(".ui-dialog-titlebar").hide();
+			if (!showTitle) {
+				$(".ui-dialog-titlebar").hide();
+			}
                 }
         });
 }
@@ -92,11 +94,13 @@ function yesPlan(){
 	if( document.getElementById('yearPlanMeetings').style.display=='none' ){
 		document.getElementById('yearPlanMeetings').style.display='block';
 		document.getElementById('yearPlanSelection').style.display='none';	
-		document.getElementById('showHideReveal').innerHTML='reveal <span class="arrowDirection">&#9660;</span>';
+		document.getElementById('showHideReveal').innerHTML='reveal';
+                document.getElementById('arrowDirection').innerHTML='&#9660;';
 	}else{
 		document.getElementById('yearPlanMeetings').style.display='none';
 		document.getElementById('yearPlanSelection').style.display='block';
-		document.getElementById('showHideReveal').innerHTML='hide <span class="arrowDirection">&#9650;</span>';
+		document.getElementById('showHideReveal').innerHTML='hide';
+                document.getElementById('arrowDirection').innerHTML='&#9650;';
 	}
 }
 
