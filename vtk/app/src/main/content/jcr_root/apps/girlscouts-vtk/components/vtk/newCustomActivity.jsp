@@ -17,7 +17,7 @@
 
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.datepicker.validation.js"></script>
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.validate.js"></script>
-<link rel="stylesheet" href="/etc/designs/girlscouts-vtk/clientlibs/css/alex/screen.css">
+<link rel="stylesheet" href="/etc/designs/girlscouts-vtk/clientlibs/css/alex/screenX.css">
 
 <script>
 $(function() {
@@ -155,7 +155,17 @@ $('#newCustActivity').click(function() {
 	}
 </script>  
 
+<style>
 
+
+
+.ui-datepicker .ui-datepicker-prev,
+.ui-datepicker .ui-datepicker-next {
+	
+	border:5px solid #000;
+}
+
+</style>
 			
 			
 <form class="cmxform" id="signupForm">
