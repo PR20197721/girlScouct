@@ -376,6 +376,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 			Asset asset = new Asset();
 			asset.setIsCachable(false);
 			asset.setRefId(assetId);
+			asset.setDescription(assetDesc);
 			
 			java.util.List<Asset> assets = activities.get(i).getAssets();
 			assets = assets ==null ? new java.util.ArrayList() : assets;

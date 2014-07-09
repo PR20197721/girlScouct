@@ -231,7 +231,7 @@ $('#newCustActivity').click(function() {
 	 
 	 
 	 <form>
-        <div class="sectionBar">Add activity from the Council Calendar<</div>
+        <div class="sectionBar">Add activity from the Council Calendar</div>
 	 <p>Find Activity by:</p>
  <input type="text" value="" id="existActivSFind"/>
  <br/>Month and Year

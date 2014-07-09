@@ -410,7 +410,12 @@ public class MeetingUtil {
 				  meeting =user.getYearPlan().getMeetingEvents().get(i);
 		 
 		 String[] split = meeting.getRefId().split("/");
-		 String file= split[7];
+		 
+		 String file= split[ ( split.length -1 )];
+		 //System.err.println("Spilt: "+ file );
+		 
+		 //System.err.println("** "+ split.length   );
+		 
 		 file= file.substring(0, file.indexOf("_"));
 		 
 		 java.util.List< Meeting> __meetings=  meetingDAO.search();
