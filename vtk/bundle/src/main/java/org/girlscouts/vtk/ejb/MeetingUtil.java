@@ -13,6 +13,7 @@ import org.apache.felix.scr.annotations.Service;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.models.Activity;
+import org.girlscouts.vtk.models.Asset;
 import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
@@ -183,6 +184,7 @@ public class MeetingUtil {
 		plan.setMeetingEvents(rearangedMeetings);
 	
 		user.setYearPlan(plan);
+		plan.setAltered("true");
 		userDAO.updateUser(user);
 		
 		
@@ -210,12 +212,14 @@ public class MeetingUtil {
 				meetingDAO.addActivity( meeting,  activity);
 				
 				Cal cal = user.getYearPlan().getSchedule();
-				cal.addDate( startTime.getTime() );
+				if( cal!=null )
+					cal.addDate( startTime.getTime() );
 				
 
 				
 			}
 		}
+		user.getYearPlan().setAltered("true");
 		userDAO.updateUser(user);
 	}
 	
@@ -248,7 +252,7 @@ public class MeetingUtil {
 			}
 		}
 		
-		
+		user.getYearPlan().setAltered("true");
 		userDAO.updateUser(user);
 	}
 
@@ -333,6 +337,7 @@ public class MeetingUtil {
 			
 			
 		}
+		user.getYearPlan().setAltered("true");
 		userDAO.updateUser(user);
 	
 	}
@@ -381,6 +386,7 @@ public class MeetingUtil {
 						activity.setDuration(duration);
 						System.err.println("Changing duration to "+ duration);
 						meetingDAO.createCustomMeeting(user, meeting, meetingInfo);
+						user.getYearPlan().setAltered("true");
 						userDAO.updateUser(user);
 						return;
 						
@@ -417,6 +423,108 @@ public class MeetingUtil {
 		 }
 		 
 		 
+		
+	}
+	
+	
+	public void addAids(User user, String aidId, String meetingId, String assetName){
+		
+		
+		java.util.List<MeetingE> meetings = user.getYearPlan().getMeetingEvents();
+		for(int i=0;i<meetings.size();i++){
+			MeetingE meeting = meetings.get(i);
+			if( meeting.getUid().equals( meetingId)){
+				
+				Asset asset = new Asset();
+				asset.setRefId(aidId);
+				asset.setType("aids");
+				asset.setDescription(assetName);
+				
+				java.util.List<Asset> assets= meeting.getAssets();
+				assets= assets ==null ? new java.util.ArrayList() : assets;
+				assets.add( asset );
+				meeting.setAssets( assets );
+				user.getYearPlan().setAltered("true");
+				userDAO.updateUser(user);
+				return;
+			}
+		}
+		
+		
+		
+		
+		java.util.List<Activity> activities = user.getYearPlan().getActivities();
+		for(int i=0;i<activities.size();i++){
+			Activity activity = activities.get(i);
+			if( activity.getUid().equals( meetingId)){
+				
+				Asset asset = new Asset();
+				asset.setRefId(aidId);
+				asset.setType("aids");
+				
+				
+				java.util.List<Asset> assets= activity.getAssets();
+				assets= assets ==null ? new java.util.ArrayList() : assets;
+				assets.add( asset );
+				activity.setAssets( assets );
+				user.getYearPlan().setAltered("true");
+				userDAO.updateUser(user);
+				return;
+			}
+		}
+		
+	}
+	
+	
+	public void rmAsset(User user, String aidId, String meetingId){
+		
+		
+		java.util.List<MeetingE> meetings = user.getYearPlan().getMeetingEvents();
+		for(int i=0;i<meetings.size();i++){
+			MeetingE meeting = meetings.get(i);
+			if( meeting.getUid().equals( meetingId)){
+				
+				
+				
+				java.util.List<Asset> assets= meeting.getAssets();
+				
+				
+				for(int y=0;y<assets.size();y++){
+					
+					if( assets.get(y).getUid().equals( aidId)) {
+						System.err.println("REmo ass: "+ aidId);
+						assets.remove(y);
+					}
+				}
+				user.getYearPlan().setAltered("true");
+				userDAO.updateUser(user);
+				return;
+			}
+		}
+		
+		
+		
+		java.util.List<Activity> activities = user.getYearPlan().getActivities();
+		for(int i=0;i<activities.size();i++){
+			Activity activity = activities.get(i);
+			if( activity.getUid().equals( meetingId)){
+				
+				java.util.List<Asset> assets= activity.getAssets();
+				
+				
+				for(int y=0;y<assets.size();y++){
+					
+					if( assets.get(y).getUid().equals( aidId)) {
+						//System.err.println("REmo ass: "+ aidId);
+						assets.remove(y);
+					}
+				}
+				
+				user.getYearPlan().setAltered("true");
+				userDAO.updateUser(user);
+				return;
+			}
+		}
 		
 	}
 }

@@ -1,15 +1,24 @@
 <%
 try{	
+	
+	System.err.println(1);
 	HttpSession session = request.getSession();
+	System.err.println( (session==null ));
+	
 	org.girlscouts.vtk.auth.models.ApiConfig apiConfig=
 			(org.girlscouts.vtk.auth.models.ApiConfig)
 				session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName());
+	
+	System.err.println( (apiConfig==null) );
+	
 	if( apiConfig==null ){
-
+System.err.println("redirecting");
 		response.sendRedirect("/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signin");
 		return;
 		
 	}
+	System.err.println("done");
+
 }catch(Exception e){e.printStackTrace();}
 %>
 
@@ -41,10 +50,7 @@ try{
                     com.day.cq.wcm.foundation.ELEvaluator" %><%
 %><%@taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0" %><%
 %><cq:defineObjects/>
-
-
 <%
-
     // read the redirect target from the 'page properties' and perform the
     // redirect if WCM is disabled.
     String location = properties.get("redirectTarget", "");

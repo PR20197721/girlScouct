@@ -5,15 +5,10 @@
 <cq:includeClientLib categories="apps.girlscouts" />
 <cq:defineObjects/>
 <%
-   String REGIONS = "/content/girlscouts-usa/en/locations";
-   String YEARS="/content/girlscouts-usa/en/events";
+   
    long RESULTS_PER_PAGE = 10;
    
    String path = currentSite.get("eventPath",String.class);
-  
-   
-   List<String> regions = new ArrayList<String>();
-   List<String> years = new ArrayList<String>();
   
    QueryBuilder queryBuilder = sling.getService(QueryBuilder.class);
    
@@ -38,15 +33,7 @@
 
    List<String> results = searchResultsInfo.getResults();
    long hitCounts = searchResultsInfo.getHitCounts();
-   Iterator<Page> pages= resourceResolver.getResource(REGIONS).adaptTo(Page.class).listChildren();
-   while(pages.hasNext()){
-       regions.add(pages.next().getTitle());
-   }
-   Iterator<Page> yrs= resourceResolver.getResource(YEARS).adaptTo(Page.class).listChildren();
-   while(yrs.hasNext()){
-       years.add(yrs.next().getTitle());
-   }
-
+   
    request.setAttribute("searchResults", searchResults);
    request.setAttribute("facetsAndTags", facetsAndTags);
    request.setAttribute("eventresults", searchQuery.getSearchResultsInfo());

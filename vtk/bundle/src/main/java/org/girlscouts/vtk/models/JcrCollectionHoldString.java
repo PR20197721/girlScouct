@@ -5,7 +5,7 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
 @Node
-public class JcrCollectionHoldString {
+public class JcrCollectionHoldString implements Comparable{
 
 	public JcrCollectionHoldString(){}
 	public JcrCollectionHoldString(String str) {this.str=str;}
@@ -18,6 +18,10 @@ public class JcrCollectionHoldString {
 
 	public void setStr(String str) {
 		this.str = str;
+	}
+	public int compareTo(Object o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 	
 }

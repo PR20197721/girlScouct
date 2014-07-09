@@ -4,15 +4,27 @@
 <%@include file="include/session.jsp"%>
 <%   
 	java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
+	
+
+	//add milestones only on this page
+	for(int i=0;i<user.getYearPlan().getMilestones().size();i++)
+		sched.put( user.getYearPlan().getMilestones().get(i).getDate(), user.getYearPlan().getMilestones().get(i) );
+
+
 %>
-<p>Drag and drop to reorder meetings</p>
+<center><b><%=user.getYearPlan().getName() %></b></center>
+<br/><p>Drag and drop to reorder meetings</p>
 <ul id="sortable123">
 <% 
+
+
+
 int meetingCount=0;
 java.util.Iterator itr = sched.keySet().iterator();
 while( itr.hasNext() ){
 	java.util.Date date = (java.util.Date) itr.next();
 	YearPlanComponent _comp= sched.get(date);
+	
 	switch( _comp.getType() ){
 		case ACTIVITY :
 			Activity activity = (Activity) _comp;
@@ -24,14 +36,17 @@ while( itr.hasNext() ){
 			MeetingE meetingE =(MeetingE)_comp;
 			%>  <%@include file="include/viewMeeting.jsp" %>    <% 
 			break;
-	}       	
+		case MILESTONE :
+			Milestone milestone = (Milestone) _comp;
+			%>  <%@include file="include/viewMilestone.jsp" %>    <% 
+			break;
+	} 
+	
+	
+	
 }
 %>
 </ul>
-<style>
-	#sortable123{ list-style-type: none; margin: 0; padding: 0; zoom: 1; }
-	#sortable123 li { margin: 0 5px 5px 5px; padding: 3px; width: 90%; }
-</style>
 <script>
 	$(function() {
 		$( "#sortable123" ).sortable({

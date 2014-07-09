@@ -26,8 +26,23 @@ public class MeetingE extends YearPlanComponent{
 	@Field(id=true) String uid;
 	 
 	@Collection java.util.List<Asset> assets;
+	@Field java.util.Date lastAssetUpdate;
 	
-	 
+
+	
+	
+	
+	
+	
+	
+
+	public java.util.Date getLastAssetUpdate() {
+		return lastAssetUpdate;
+	}
+
+	public void setLastAssetUpdate(java.util.Date lastAssetUpdate) {
+		this.lastAssetUpdate = lastAssetUpdate;
+	}
 
 	public java.util.List<Asset> getAssets() {
 		return assets;

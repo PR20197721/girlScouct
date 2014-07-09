@@ -67,8 +67,19 @@ li.activity .planSquare {
         background-color: #0096ff;
         text-align: center;
 }
-#yearPlanMeetings li {
+#yearPlanMeetings ul{
+        list-style-type: none;
+	margin: 1.1rem;
+}
+#yearPlanMeetings  li {
+        margin: 5px;
+        padding: 5px;
+        width: 100%;
 	background-color:#fff;
+	border-bottom: 1px solid grey;
+}
+#yearPlanMeetings  li > div {
+	padding: 5px;
 }
 #yearPlanMeetings li.ui-state-disabled {
 	background-color:#ccc;
@@ -97,10 +108,12 @@ li.activity .planSquare {
 	text-align: right;
 }
 #troop .troopSelect{
-	line-height:0.6rem;
+	line-height:1.0rem;
 }
 #troop select{
-	height:2.5rem;
+	height:2rem;
+	font-size: 1em;
+	padding: 2px;
 }
 .modalWrap {
 	background-color: #ffffff;
@@ -108,7 +121,103 @@ li.activity .planSquare {
 	border:2px solid #99FF99;
 }
 .ui-widget-overlay {
-   background-color: #003300;
-   opacity: .30;
-   filter: Alpha(Opacity=30);
+	background-color: #003300;
+	opacity: .30;
+	filter: Alpha(Opacity=30);
+}
+
+.sectionBar {
+        font-size:1.3rem;
+        font-weight: bold;
+	background-color: #ebebeb;
+	padding: 10px;
+
+}
+.setupCalendar div.columns{
+	display: inline-block;
+	white-space: nowrap;
+	position: relative;
+
+}
+.setupCalendar .date img {
+        display: inline-block;
+	padding: 3px;
+}
+#calStartDt {
+	width: 140px;
+        display: inline-block;
+}
+#ui-datepicker-div {
+	background-color: #eeeeee;
+	padding: 10px;
+}
+.ui-dialog-buttonpane {
+	position: absolute;
+	top: 0px;
+}
+#gsModal>h2{
+        display: inline-block;
+}
+
+#gsModal a.closeText  {
+        display: inline-block;
+	float:right;
+}
+
+#newMeetingAgenda {
+	background-color: #ffffff;
+	padding: 10px;
+	border: 1px solid grey;
+}
+a.direction {
+	font-size: 4rem;
+	font-family: "Arial";
+	color: #008f50;
+}
+.arrowDirection {
+	font-size: 1em;
+        color: #008f50;
+}
+
+#searchByCharField {
+	padding: 2px;
+	font-size:0.8em;
+	height: 2.0em;
+}
+
+.searchResultsItem {
+	padding: 10px;
+        display: inline-block;
+	border: 1px solid #eeeeee;
+	width: 100%;
+	margin: 5px;
+}
+.searchResultsItem .docType{
+        display: inline-block;
+	text-align: left;
+}
+.searchResultsItem h2 {
+        display: inline-block;
+}
+
+#resourceSearchField {
+	padding:0 0.5rem;
+}
+
+#searchResults ul{
+	margin: 1.1rem; 
+}
+
+.ui-autocomplete-loading {
+	background: white url('images/ui-anim_basic_16x16.gif') right center no-repeat !important;
+}
+
+.printer {
+	background: url('images/printer.png') no-repeat;
+	width: 30px;
+	height: 30px;	
+}
+
+.printer.right {
+	float: right;	
 }

@@ -16,6 +16,11 @@
 	List<org.girlscouts.vtk.models.Search> countries = db.getData(query);
 	
 	
+	if( countries.size()<=0  ){
+		session.putValue("search", countries); 
+
+		return;
+		}
 	
 	Iterator<org.girlscouts.vtk.models.Search> iterator = countries.iterator();
 	while(iterator.hasNext()) {

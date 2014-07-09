@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import javax.jcr.Session;
 
@@ -23,8 +24,10 @@ import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Cal;
+import org.girlscouts.vtk.models.JcrNode;
 import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.MeetingE;
+import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.Asset;
 import org.girlscouts.vtk.models.user.User;
@@ -58,7 +61,9 @@ public class UserDAOImpl implements UserDAO{
 			classes.add(MeetingE.class);
 			classes.add(Activity.class);
 			classes.add(Location.class);
+			classes.add(Asset.class);
 			classes.add(Cal.class);
+			classes.add(Milestone.class);
 			
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
@@ -66,20 +71,43 @@ public class UserDAOImpl implements UserDAO{
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(User.class);
 		
-	        user = (User) ocm.getObject("/content/girlscouts-vtk/users/"+ userId);
-	      
+	        // GOOD user = (User) ocm.getObject("/content/girlscouts-vtk/users/"+ userId);
+			
+			//6/27/14
+	        user = (User) ocm.getObject(userId);
+		      
 	       
 	        if( user!=null && user.getYearPlan().getMeetingEvents()!=null){
 	        	
-	        	System.err.println("Sorting meetings pull");
+	        	//System.err.println("Sorting meetings pull");
 	        	Comparator<MeetingE> comp = new BeanComparator("id");
 	        	Collections.sort( user.getYearPlan().getMeetingEvents(), comp);
 	        }
 	        
 	        
-	        System.err.println("User: "+ (user==null));
+	       // System.err.println("User: "+ (user==null));
 			
-			}catch(Exception e){e.printStackTrace();}
+	        
+	        
+	        /*
+	        if( user.getYearPlan().getLastAssetUpdate() == null ||
+	        		(user.getYearPlan().getLastAssetUpdate().before( new java.util.Date() ) && user.getYearPlan().getAssets()!=null &&  user.getYearPlan().getAssets().size()>0 ) ){
+	        	
+	        	java.util.List<Asset> assetsToRm = new java.util.ArrayList();
+	        	
+	        	
+	        	java.util.Iterator itr = user.get
+	        		if( user.getYearPlan().getAssets().get(i).iisCachable() )
+	        			assetsToRm.add( user.getYearPlan().getAssets().get(i) );
+	        	
+	        	for(int i=0;i< assetsToRm.size();i++)
+	        		user.getYearPlan().getAssets().remove(assetsToRm.get(i));
+	        	
+	        	updateUser(user);
+	        	
+	        }
+	        */
+		}catch(Exception e){e.printStackTrace();}
 		
 		
 
@@ -106,7 +134,7 @@ public class UserDAOImpl implements UserDAO{
 			classes.add(YearPlan.class); 
 			classes.add(MeetingE.class); 
 			classes.add(Cal.class);
-			
+			classes.add(Milestone.class);
 			
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
@@ -115,7 +143,11 @@ public class UserDAOImpl implements UserDAO{
 			 plan.setRefId( yearPlanPath );
 			 plan.setMeetingEvents( meetingDAO.getAllEventMeetings_byPath( yearPlanPath ));
 			
-			
+			 
+			 //7/7/14
+			 Comparator<MeetingE> comp = new BeanComparator("id");
+			 Collections.sort( plan.getMeetingEvents(), comp);
+			    
 			 
 			
 			}catch(Exception e){e.printStackTrace();}
@@ -136,6 +168,9 @@ public class UserDAOImpl implements UserDAO{
 			classes.add(Location.class);
 			classes.add(Cal.class);
 			classes.add(Activity.class);
+			classes.add(Asset.class);
+			classes.add(JcrNode.class);
+			classes.add(Milestone.class);
 			
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
@@ -145,11 +180,27 @@ public class UserDAOImpl implements UserDAO{
 		
 		Comparator<MeetingE> comp = new BeanComparator("id");
 	    Collections.sort( user.getYearPlan().getMeetingEvents(), comp);
-		
+	    
+	    
+	    
+		System.err.println("CHECKING JCR: " +ocm.objectExists( user.getPath()) );
 			if( session.itemExists( user.getPath() )){
 				System.err.println( "User updated");
 				ocm.update(user);
 			}else{
+				
+				String path = "";
+				StringTokenizer t= new StringTokenizer(("/"+user.getPath()).replace( "/"+user.getId(), ""), "/" );
+				while(t.hasMoreElements()){
+					String node = t.nextToken();
+					path += "/"+node ;
+					
+					if( !session.itemExists( path ))
+						ocm.insert( new JcrNode( path ) );
+					
+				}
+				//ocm.insert( new JcrNode( user.getPath().replace( "/"+user.getId(), "") ) );
+				
 				System.err.println( "User created/insert");
 				ocm.insert(user);
 			}
@@ -161,7 +212,7 @@ public class UserDAOImpl implements UserDAO{
 	}
 	
 	
-	public void selectYearPlan(User user, String yearPlanPath){
+	public void selectYearPlan(User user, String yearPlanPath, String planName){
 		
 
 				
@@ -169,6 +220,14 @@ public class UserDAOImpl implements UserDAO{
 		YearPlan newYearPlan = addYearPlan(user, yearPlanPath);
 	try{
 		
+		/*
+		if( oldPlan==null || oldPlan.getName()==null || oldPlan.getName().equals("") ){
+			YearPlan plan = new YearPlanDAOImpl().getYearPlan(yearPlanPath);
+			if( plan!=null)
+				newYearPlan.setName(plan.getName());
+		}
+		*/
+		newYearPlan.setName(planName);
 		
 		
 		if( oldPlan==null || oldPlan.getMeetingEvents()==null || oldPlan.getMeetingEvents().size()<=0 || 
@@ -298,6 +357,8 @@ public void rmUser(User user){
 				classes.add(Location.class);
 				classes.add(Cal.class);
 				classes.add(Activity.class);
+				classes.add(Asset.class);
+				classes.add(Milestone.class);
 				
 				Mapper mapper = new AnnotationMapperImpl(classes);
 				ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
@@ -362,6 +423,14 @@ public void addAsset(User user, String meetingUid,  Asset asset){
                         if( meetings.get(i).getUid().equals( meetingUid))
                                 meetings.get(i).getAssets().add( asset );
 
+        
+        /* ???
+        java.util.List <Activity> activities = user.getYearPlan().getActivities();
+        for(int i=0;i<activities.size();i++)
+            if( activities.get(i).getUid().equals( meetingUid))
+                   activities.get(i).getAssets().add( asset );
+		*/
+        
         updateUser(user);
 
 }

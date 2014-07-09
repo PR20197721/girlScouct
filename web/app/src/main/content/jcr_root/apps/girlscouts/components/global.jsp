@@ -33,7 +33,7 @@ public void setHtmlTag(String tag, HttpServletRequest request) {
 
 public String genLink(ResourceResolver rr, String link) {
     // This is a Page resource but yet not end with ".html": append ".html"
-    if (rr.resolve(link).getResourceType().equals("cq:Page") && !link.endsWith(".html")) {
+    if (rr.resolve(link).getResourceType().equals("cq:Page") && !link.contains(".html")) {
         return link + ".html";
     // Well, do nothing
     } else {
@@ -111,3 +111,9 @@ public String displayRendition(ResourceResolver rr, String imagePath, String ren
         return returnImage.toString();
 }
 %>
+<%!
+	public String createHref(Page page) {
+		String href = "<a href=" + page.getPath() + ".html" + ">"
+				+ page.getTitle() + "</a>";
+		return href;
+}%>

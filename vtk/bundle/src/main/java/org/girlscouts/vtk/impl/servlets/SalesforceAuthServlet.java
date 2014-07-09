@@ -1,13 +1,12 @@
 package org.girlscouts.vtk.impl.servlets;
 
+import java.io.DataOutputStream;
+import java.net.URL;
 import java.util.Dictionary;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
@@ -21,16 +20,12 @@ import org.girlscouts.vtk.auth.dao.SalesforceDAO;
 import org.girlscouts.vtk.auth.dao.SalesforceDAOFactory;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.models.User;
+import org.girlscouts.vtk.helpers.CouncilMapper;
 import org.girlscouts.vtk.impl.helpers.ConfigListener;
 import org.girlscouts.vtk.impl.helpers.ConfigManager;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
+import org.girlscouts.vtk.salesforce.Troop;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.*;
-import java.net.*;
 
 @Component(
     label="Girl Scouts VTK Salesforce Authentication Servlet",
@@ -66,10 +61,16 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
     @Reference
     private SalesforceDAOFactory salesforceDAOFactory;
     
+    @Reference
+    private CouncilMapper councilMapper;
+    
     @Override
     protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) {
         String action = request.getParameter(ACTION);
-        if (action == null) {
+ 
+//if(true){ autoLogin(request, response); return; }      
+ 
+     if (action == null) {
             salesforceCallback(request, response);
         } else if (action.equals(SIGNIN)) {
             signIn(request, response);
@@ -124,22 +125,26 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
     		try{ isLogoutWeb = logoutWeb(apiConfig); }catch(Exception e){e.printStackTrace();}
     	}//edn if
     	
-    	apiConfig=null;
     	
     	
     	//HttpSession session = request.getSession();
         session.invalidate();
         session=null;
         
-        String referer = request.getHeader("referer");
+        String redirectUrl;
+        try {
+            String councilId = Integer.toString(apiConfig.getTroops().get(0).getCouncilCode());
+            redirectUrl = councilMapper.getCouncilUrl(councilId);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            redirectUrl = councilMapper.getCouncilUrl();
+        }
        
-        
-        referer="/content/girlscouts-usa/en.html";
-      
-        referer= referer.contains("?") ? (referer = referer +"&isSignOutSalesForce=true") : 
-        	(referer = referer +"?isSignOutSalesForce=true") ;
+    	apiConfig=null;
+
+        redirectUrl= redirectUrl.contains("?") ? (redirectUrl = redirectUrl +"&isSignOutSalesForce=true") : 
+        	(redirectUrl = redirectUrl +"?isSignOutSalesForce=true") ;
        
-        redirect(response, referer);
+        redirect(response, redirectUrl);
     }
     
     private void salesforceCallback(SlingHttpServletRequest request, SlingHttpServletResponse response) {
@@ -306,5 +311,39 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
   		return isSucc;
   	}
     
+  
+  private void autoLogin(SlingHttpServletRequest request, SlingHttpServletResponse response) {
+      HttpSession session = request.getSession();
+      
+      
+      
+      ApiConfig config = new ApiConfig();
+      config.setId("test");
+      config.setAccessToken("test");
+      config.setInstanceUrl("etst");
+      config.setUserId("caca");
+      config.setUser(new User() );
+      
+      java.util.List <Troop > troops= new java.util.ArrayList();
+      Troop troop = new Troop();
+      troop.setCouncilCode(1);
+      troop.setGradeLevel("1-Brownie");
+      troop.setTroopId("caca");
+      troop.setTroopName("test");
+      
+      troops.add(troop);
+      config.setTroops(troops);
+      
+      session.setAttribute(ApiConfig.class.getName(), config);
+      
+      
+      
+      
+      String redirectUrl;
+      
+      
+      //redirect(response, "http://localhost:4503/content/girlscouts-vtk/en/vtk.html");
+  }
+  
     
 }

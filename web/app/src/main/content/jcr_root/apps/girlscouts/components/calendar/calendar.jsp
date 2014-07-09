@@ -17,30 +17,73 @@
     DateFormat timeFormat = new SimpleDateFormat("h:mm a");
   
     String end ="";
+    String location="";
+    String detail="";
     
     DateFormat dateFt = new SimpleDateFormat("MMM d, yyyy");
         String jsonEvents="";
         for(String path: eventsPath){
         	String color = "#00AE58";
+        	
+        
          try
          {   Node node =   resourceResolver.getResource(path).adaptTo(Node.class);
              Node propNode = node.getNode("jcr:content/data");
              JSONObject obj = new JSONObject();
              String title = propNode.getProperty("../jcr:title").getString();
-             String detail = propNode.getProperty("details").getString();
              
+             
+             detail = "";
+             location="";
+             if(propNode.hasProperty("srchdisp")){
+            	 detail = propNode.getProperty("srchdisp").getString();
+            	 
+             }
+             if(propNode.hasProperty("locationLabel")){
+            	 location = propNode.getProperty("locationLabel").getString();
+            	 
+             }
+             
+             //String location = propNode.getProperty("locationLabel").getString();   
              Calendar startDt = propNode.getProperty("start").getDate();
              //Calendar endDt = propNode.getProperty("end").getDate();
+             
+             //Start is need for the calendar to display right event on Calendar
              String start = dateFt.format(startDt.getTime());
              String time = timeFormat.format(propNode.getProperty("start").getDate().getTime());
-             //String end = dateFormat.format(endDt.getTime());
              
+             
+             
+             String dateInCalendar = dateFormat.format(startDt.getTime());
+             String startTimeStr = timeFormat.format(propNode.getProperty("start").getDate().getTime());
+             
+             String dateStr = dateInCalendar + ", " +startTimeStr;
+              
              if(propNode.hasProperty("end")){
-            	 String endTimeStr = timeFormat.format(propNode.getProperty("end").getDate().getTime());
-                 time += " to " + endTimeStr;
+            	
+            	 
                  Calendar endDt = propNode.getProperty("end").getDate();
-                 end = dateFormat.format(endDt.getTime());
-             }
+                 //End is need for the calendar to display right end date of an event on Calendar
+                 end = dateFt.format(endDt.getTime());
+                
+                 
+                Calendar cal1 = Calendar.getInstance();
+          	    Calendar cal2 = Calendar.getInstance();
+          	    Calendar endDate = propNode.getProperty("end").getDate();
+          	    cal1.setTime(startDt.getTime());
+          	    cal2.setTime(endDate.getTime());
+          	    boolean sameDay = cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+          	                      cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
+          		String endDateStr = dateFormat.format(endDt.getTime());
+          		String endTimeStr = timeFormat.format(propNode.getProperty("end").getDate().getTime());
+          		if (!sameDay) {
+          	    	dateStr += " - " + endDateStr +", " + endTimeStr;
+          		    
+          		}else{
+          			dateStr += " - " + endTimeStr;
+          			
+          		}
+              }
              
             
              if(propNode.hasProperty("color")){
@@ -48,20 +91,20 @@
             	 
              }
              String url = path+".html";
-             obj.put("title", title);
              
+            
+             
+             obj.put("title", title);
+             obj.put("displayDate", dateStr);
+             obj.put("location",location);
              obj.put("color",color);
              obj.put("description", detail);
              obj.put("start",start);
              if(!end.isEmpty())
                 obj.put("end", end);
              obj.put("path", url);
-            
-              obj.put("time", time);
              eventList.add(obj); 
          }catch(Exception e){
-            
-         
          }
         }
         try{

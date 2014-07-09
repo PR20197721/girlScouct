@@ -2,6 +2,16 @@
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <!-- apps/girlscouts/components/page/header.jsp -->
 <%
+	// Force currentPage and currentDesign from request
+	Page newCurrentPage = (Page)request.getAttribute("newCurrentPage");
+	Design newCurrentDesign= (Design)request.getAttribute("newCurrentDesign");
+	if (newCurrentPage != null) {
+	    currentPage = newCurrentPage;
+	}
+	if (newCurrentPage != null) {
+	    currentDesign = newCurrentDesign;
+	}
+	
 	String headerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
 	String designPath = currentDesign == null ? "/" : currentDesign.getPath();
 	int depth = currentPage.getDepth();
@@ -18,7 +28,7 @@
 						<cq:include path="<%= headerPath + "/placeholder" %>" resourceType="girlscouts/components/placeholder" />
 					</div>
 					<div class="large-19 medium-19 hide-for-small columns topMessage">
-						<% setCssClasses("columns", request); %>
+						 <%setCssClasses("columns noLeftPadding" , request); %>
 						<cq:include path="<%= headerPath + "/eyebrow-nav" %>" resourceType="girlscouts/components/eyebrow-navigation" />
 						<div class="row">
 							<% setCssClasses("large-18 medium-18 columns", request); %>
@@ -29,18 +39,32 @@
 						<div class="row emptyrow"></div>
 					</div>
 					<div class="show-for-small small-24 columns topMessage alt">
-						<div class="row">
-							<% setCssClasses("small-18 columns", request); %>
+						<div class="row vtk-login">
+							<% setCssClasses("small-12 columns", request); %>
 							<cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
-							<div class="small-6 columns">
-								<a class="right-off-canvas-toggle menu-icon"><img src="<%= designPath %>/images/magnifyer-small.png" width="21" height="21"/></a>
+							<div class="small-12 columns">
+								<div class="small-search-hamburger">
+							   		<a class="search-icon"><img src="<%= designPath %>/images/magnifyer-small.png" width="21" height="21"/></a>
+									<a class="right-off-canvas-toggle menu-icon"><img src="<%= designPath %>/images/hamburger.png" width="22" height="28"/></a>
+								</div>
+							</div>
+						</div>
+						<div class="row hide srch-box">
+						    <%setCssClasses("small-6 columns", request); %>
+						    <cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
+							<% setCssClasses("small-16 columns", request); %>
+								<cq:include path="<%= headerPath + "/search-box" %>" resourceType="girlscouts/components/search-box" />
+							<div class="small-2 columns">
 								<a class="right-off-canvas-toggle menu-icon"><img src="<%= designPath %>/images/hamburger.png" width="22" height="28"/></a>
 							</div>
 						</div>
+						
+						
+						
 					</div>
 				</div>
 <!--PAGE STRUCTURE: HEADER BAR-->
-<div id="headerBar" class="row">
+<div id="headerBar" class="row hide-for-small">
 				<div class="large-5 medium-5 hide-for-small columns">&nbsp;</div>
 					<% setCssClasses("large-19 medium-19 small-24 columns", request); %>
 					<cq:include path="<%= headerPath + "/global-nav" %>" resourceType="girlscouts/components/global-navigation" />
@@ -48,3 +72,4 @@
 
 <!-- SMALL SCREEN CANVAS should be after the global navigation is loaded,since global navigation won't be authorable-->
 				<cq:include script="small-screen-menus"/>
+	

@@ -1,7 +1,3 @@
-
-
-
-
 <% 
 java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  meetingInfo.getMeetingInfo();
 java.util.List <Activity> activities = meetingInfo.getActivities();

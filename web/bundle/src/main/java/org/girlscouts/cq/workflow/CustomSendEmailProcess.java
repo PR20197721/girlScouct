@@ -178,6 +178,8 @@ public class CustomSendEmailProcess implements WorkflowProcess {
 							} catch (EmailException e) {
 
 								e.printStackTrace();
+							} catch (Exception e) {
+								e.printStackTrace();
 							}
 						}
 					} else {
@@ -197,7 +199,9 @@ public class CustomSendEmailProcess implements WorkflowProcess {
 		Map map = new HashMap();
 
 		try {
-			map.put("host.prefix", getHostPrefix(resolver));
+			map.put("preview.prefix", getPreviewPrefix(resolver));
+			map.put("publish.prefix", getPublishPrefix(resolver));
+			map.put("author.prefix", getAuthorPrefix(resolver));
 			map.put("model.title", flow.getWorkflowModel().getTitle());
 			map.put("model.description", flow.getWorkflowModel()
 					.getDescription());
@@ -233,11 +237,37 @@ public class CustomSendEmailProcess implements WorkflowProcess {
 		return initiatorEmail;
 	}
 
-	private String getHostPrefix(ResourceResolver resolver) {
+	private String getPreviewPrefix(ResourceResolver resolver) {
 		String hostPrefix = null;
 		Externalizer externalizer = (Externalizer) resolver
 				.adaptTo(Externalizer.class);
-		String externalizerHost = externalizer.externalLink(resolver, "local",
+		String externalizerHost = externalizer.externalLink(resolver, "preview",
+				"");
+		if ((externalizerHost != null) && (externalizerHost.endsWith("/"))) {
+			hostPrefix = externalizerHost.substring(0,
+					externalizerHost.length() - 1);
+
+		}
+		return hostPrefix;
+	}
+	private String getPublishPrefix(ResourceResolver resolver) {
+		String hostPrefix = null;
+		Externalizer externalizer = (Externalizer) resolver
+				.adaptTo(Externalizer.class);
+		String externalizerHost = externalizer.externalLink(resolver, "publish",
+				"");
+		if ((externalizerHost != null) && (externalizerHost.endsWith("/"))) {
+			hostPrefix = externalizerHost.substring(0,
+					externalizerHost.length() - 1);
+
+		}
+		return hostPrefix;
+	}
+	private String getAuthorPrefix(ResourceResolver resolver) {
+		String hostPrefix = null;
+		Externalizer externalizer = (Externalizer) resolver
+				.adaptTo(Externalizer.class);
+		String externalizerHost = externalizer.externalLink(resolver, "author",
 				"");
 		if ((externalizerHost != null) && (externalizerHost.endsWith("/"))) {
 			hostPrefix = externalizerHost.substring(0,
@@ -255,10 +285,9 @@ public class CustomSendEmailProcess implements WorkflowProcess {
 			List<HistoryItem> histList = new ArrayList<HistoryItem>();
 			histList = session.getHistory(flow);
 			for (int i = 1; i < histList.size(); i++) {
-				if (histList.get(i).getComment().equals("") || 
-						histList.get(i).getComment() == null) {
-				}
-				 else {
+				if (histList.get(i).getComment().equals("")
+						|| histList.get(i).getComment() == null) {
+				} else {
 					comment = histList.get(i).getComment();
 				}
 			}

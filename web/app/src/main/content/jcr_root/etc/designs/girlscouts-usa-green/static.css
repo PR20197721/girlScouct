@@ -21,19 +21,19 @@ Font : Open Sans
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 300;
-  src: local('Open Sans Light'), local('OpenSans-Light'), url('open-sans-light.woff') format('woff');
+  src: local('Open Sans Light'), local('OpenSans-Light'), url('../girlscouts/open-sans-light.woff') format('woff');
 }
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
-  src: local('Open Sans'), local('OpenSans'), url('open-sans.woff') format('woff');
+  src: local('Open Sans'), local('OpenSans'), url('../girlscouts/open-sans.woff') format('woff');
 }
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 700;
-  src: local('Open Sans Bold'), local('OpenSans-Bold'), url('open-sans-bold.woff') format('woff');
+  src: local('Open Sans Bold'), local('OpenSans-Bold'), url('../girlscouts/open-sans-bold.woff') format('woff');
 }
 -->
 html {
@@ -153,7 +153,7 @@ a:hover.menuHighlight {
     background-color: #009447;
 }
 #headerBar>div{
-    padding: 3px 110px 0px 20px;
+    padding: 3px 10px 0px 20px;
 }
 
 #headerBar ul.inline-list {
@@ -162,7 +162,10 @@ a:hover.menuHighlight {
 }
 #headerBar li {
     margin: 0px;
-    padding: 0px 8px 4px 0;
+    padding: 0px 20px 4px 0;
+}
+#headerBar li:last-child {
+    padding-right: 0;
 }
 #headerBar li:hover {
    /* background-color:#063;*/
@@ -206,7 +209,8 @@ a:hover.menuHighlight {
 /* RIGHT CONTENT */
 #rightContent {
     text-align: center;
-    padding-right: 0px;
+    padding-right: 20px;
+    padding-left:0px;
 }
 
 /***********************************/
@@ -241,35 +245,62 @@ a:hover.menuHighlight {
 #main ul {
     list-style: none;
 }
-#main .side-nav li{
-    padding: 5px 3px 5px 15px;
-}
-#main .side-nav li a:hover {
-    background-color: #B0B0B0;
-}
-#main .side-nav li.divider {
-    margin: 0px;
-    padding: 0px;
-    background: none; 
-}
-#main .side-nav .active>a, #main .side-nav .isOpen>a {
-    font-weight: bold;
-}
 
-#main .side-nav>li>a{
-    font-weight: bold;
-}
-#main .side-nav>li>li a{
-    font-weight: normal;
-}
-#main .side-nav>li {
+/* Left-Nav MG Changes */
+#main .side-nav > li {
     background: url('images/orange-vertical.png') repeat-y  0px 0px; 
     background-color:#F1F1EF    ;
 }
-#main .side-nav>li.active {
+#main .side-nav > li.active {
     background: url('images/orange-yellow-vertical.png') repeat-y  0px 0px; 
     background-color:#f7f7f6;
 }
+#main .side-nav li div {
+	padding: 10px 0px 10px 10px;
+	margin-left: 10px;
+
+}
+#main ul.side-nav, .side-nav ul {
+        padding: 0px;
+        margin: 0px;
+}
+#main .side-nav li {
+	list-style:none;
+}
+
+#main .side-nav li li div{
+        padding-left: 20px;
+}
+#main .side-nav li li li div{
+        padding-left: 30px;
+}
+#main .side-nav li li li li div{
+        padding-left: 200px;
+}
+#main .side-nav li li li li li div{
+        padding-left: 250px;
+}
+
+#main .side-nav > li > div > a{
+    font-weight: bold;
+   
+}
+
+
+#main .side-nav li.active  li.active > div{
+   background-color:#B0B0B0; 
+   
+}
+
+#main .side-nav li.active li.active > div > a
+{
+	color:#ffffff;
+}
+
+#main .side-nav li div:hover{
+	background-color:#C0C0C0;
+}
+
 .home-section {
     padding: 15px 0px;
 }
@@ -283,7 +314,7 @@ a:hover.menuHighlight {
 }
 .home-section .feature-title {
     display: inline-block;
-    text-indent: 30px;
+    text-indent: 20px;
 }
 .home-section .content {
     padding: 0px 5px 0px 12px;
@@ -601,11 +632,25 @@ td.fc-header-left{
     background: url('images/white-up-arrow.png') no-repeat  60px 0px;
     background-position:center bottom;  
 }
-
-#header .signin{
-   color:#FFF;
+#header div.login {
+	margin-top: 2px;
 }
 
+#header a.signin{
+   color:#FFF;
+   font-size:0.875rem;
+   font-weight:bold;
+}
+
+#header .vtk-login .login {
+	padding-top: 5px;
+	padding-left: 20px;
+}
+
+#header .small-search-hamburger {
+	float:right;
+	padding-right:5px;
+}
 
 #footer div.footer-navigation{
     padding:10px 0 10px 20px;
@@ -613,10 +658,10 @@ td.fc-header-left{
     background-position:center;
 }
 
-#leftContent li.active ul li.active{
+/*#leftContent li.active ul li.active{
     background: url('images/small-green-arrow-right.png') no-repeat  0px 0px;
     background-position:right 9px;  
-}
+}*/
 
 #hrStyle >hr{
   border-color:#9C9C9C;
@@ -636,43 +681,44 @@ ul.side-nav, li#sub-active ul, li#sub-active > ul > li > ul > li{
   margin:0px;
 }
 
-/*
-.side-nav li {
+/* Hamburger Menu Change Start*/
+
+#right-canvas-menu .side-nav li {
     text-indent:30px;
   }
     
-.side-nav ul li ul li {
+#right-canvas-menu .side-nav ul li ul li {
     text-indent:0px;
     }    
     
-.side-nav li ul li {
+#right-canvas-menu .side-nav li ul li {
     text-indent:8px;
    }  
 
-.side-nav li ul li ul li {
+#right-canvas-menu .side-nav li ul li ul li {
     text-indent:60px;
    } 
 
-.side-nav ul ul li {
+#right-canvas-menu .side-nav ul ul li {
     text-indent:25px;
    }  
    
-.side-nav ul ul ul li {
+#right-canvas-menu .side-nav ul ul ul li {
     text-indent:70px;
    }    
    
 
-.side-nav li ul li ul li {
+#right-canvas-menu .side-nav li ul li ul li {
     text-indent:30px;
    } 
    
-li#sub-active > ul > ul >li > ul > li {
+#right-canvas-menu li#sub-active > ul > ul >li > ul > li {
   text-indent:80px;
 }       
-.side-nav li {
+#right-canvas-menu .side-nav li {
     text-indent:10px;
     }  
-*/
+/* Hamburger Menu changes end */
 
 #right-canvas-menu-bottom > ul{
    padding:0px;
@@ -699,9 +745,6 @@ li#sub-active > ul > ul >li > ul > li {
 
 #right-canvas-menu-bottom li {
     text-indent:19px;
-}
-.side-nav li.active > ul > ul > li{
-    text-indent:12px;
 }
 
 .lineHeight{
@@ -739,13 +782,75 @@ div.image.center small {
     padding: 0 1.250em;
 }
 
+/* no padding or margin for grid system */
+.grid-system.nopadding li, .grid-system.nopadding div.image {
+    margin-bottom: 0;
+    padding: 0;
+}
+
 div.textimage.image_right div.image {
     float: right !important;
     margin: 0 0 8px 8px !important;
 }
 
-/* no padding or margin for grid system */
-.grid-system.nopadding li, .grid-system.nopadding div.image {
+div.textimage.nowrap div.text p {
+	overflow: hidden;
+}
+
+.textimage.nopadding div.text p {
     margin-bottom: 0;
     padding: 0;
+}
+
+.textimage.nowrap div.image img {
+	display: inline-block;
+}
+
+/* added change for the search small menu */
+#header .topMessage.alt {
+	height: 30px;
+}
+
+#header > div.show-for-small.small-24.columns.topMessage.alt > .row.srch-box {
+	line-height: 30px;
+}
+.srch-box form{
+  margin:8px 0 0;
+}
+.srch-box form input[type="text"]{
+  margin:0;
+}
+
+#header > .show-for-small.topMessage.alt > .srch-box > .small-2.columns {
+	padding: 0;
+}
+
+.emailicon {
+    background: url('images/envelope.png') no-repeat;
+    width: 20px;
+    height: 14px;
+}
+
+.breadcrumbCurrent {
+    font-size: 0.6875rem;
+}
+
+input.searchField{
+    font-size: 0.8rem;
+    padding: 0.1rem;
+    height: 21px;
+}
+
+.noLeftPadding{
+ padding-right:0px;
+} 
+
+
+@media only screen and (max-width: 40em) {
+	div#rightContent div.advertisement a{
+		display: inline-block;
+	}
+	div#rightContent {
+		padding-right: 0px;
+	}
 }

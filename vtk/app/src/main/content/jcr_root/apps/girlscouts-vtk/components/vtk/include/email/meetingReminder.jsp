@@ -4,7 +4,7 @@
 <%=apiConfig.getUserId() %>--
 <%=apiConfig.getAccessToken() %>
 
-<br/>Reminder Meeting#  <%=(currInd+1) %> <%= dateFormat55.format(searchDate) %>
+<br/>Reminder Meeting#  <%=(currInd +1)%> <%= dateFormat55.format(searchDate) %>
 	
 
 <br/>Sent: XXX
@@ -17,15 +17,22 @@
 <input type="checkbox" id="email_to_tv"/>Troop Volunteers
 
 
-<br/>Enter your own:<input type="text" id="email_to_cc" value="<%=apiConfig.getUser().getEmail()%>"/>
+<br/>Enter your own:<input type="text" id="email_to_cc" value="<%=user.getSendingEmail()==null ? "" : user.getSendingEmail().getCc()%>"/>
 
 <div style="background-color:gray">Compose Email</div>
 
-<br/>Subject: <input type="text" id="email_subj" value="Reminder XXX  Meeting# <%=(currInd+1) %> <%= dateFormat55.format(searchDate) %>"/>
+<br/>Subject: <input type="text" id="email_subj" value="Reminder <%=user.getTroop().getGradeLevel()  %>  Meeting# <%=(currInd +1)%> <%= dateFormat55.format(searchDate) %>"/>
 
-<div>XXX widget fmt</div>
+<div style="background-color:yellow;">
 
-  <textarea id="email_htm" rows="25" cols="25"> 
+
+
+
+
+
+</div>
+
+  <textarea id="email_htm" name="textarea" class="jqte-test" rows="25" cols="25"> 
 
 Hello Girl Scout Families,
 <br/><br/>Here are the details of our next meeting:
@@ -74,50 +81,82 @@ Hello Girl Scout Families,
 <%=apiConfig.getUser().getHomePhone() %>
 <%=apiConfig.getUser().getAssistantPhone() %>
 
-<br/><br/>Thank you for supporting your XXX,
+<br/><br/>Thank you for supporting your <%=user.getTroop().getGradeLevel() %>,
 
 <br/><br/><%=apiConfig.getUser().getName() %>
-<br/>Troop XXX
+<br/>Troop <%=user.getTroop().getTroopName() %>
 
 
-<br/><br/>Aid(s) Included:
 
-<%
-t= new java.util.StringTokenizer( aidTags, ",");
-while( t.hasMoreElements()){
-	
-	com.day.cq.tagging.TagManager.FindResults x = tagManager.findByTitle(t.nextToken());
-	java.util.Iterator r = x.resources ;
-	while( r.hasNext() ){
-		Resource res = (Resource) r.next();
-	    %><li> <a href="<%=res.getPath().replace("/jcr:content/metadata", "")%>"> <%=res.getName()%></a></li><%
-
-	  }
-}
-%>
 
 
 <br/><br/>Form(s) Required:
 XXX
  </textarea> 
 
+<div>
+	Aid(s) Included:
+	<%
+	EmailMeetingReminder emr = user.getSendingEmail();
+	if( emr!=null ){
+		java.util.List<Asset> eAssets = emr.getAssets();
+		if( eAssets!=null)
+			for(int i=0;i<eAssets.size();i++){
+				%><li><%=eAssets.get(i).getRefId() %></li><% 
+			}
+	}
+	%>
 
-<br/><br/><input type="button" value="Send" onclick="sendMeetingReminderEmail('<%=meeting.getPath()%>')"/>
+</div>
+
+
+<br/><br/><input type="button" value="Preview" onclick="previewMeetingReminderEmail('<%=meeting.getPath()%>','<%=meeting.getUid()%>')"/>
 
 
 
+<div id="imal">
+	
+	
+	<div id="imalHdr">Include Meeting Aid Link:</div>
+	<div id="imalBd">
+	
+		<table>
+		
+			<tr>
+				<th>&nbsp;</th>
+				<th>Add to Email</th>
+			</tr>
+			
+			<%
+			/*
+			for(int i=0;i<_aidTags.size();i++){%>
+			 <tr>
+				<td><%= _aidTags.get(i).getDesc() %></td>
+				<td><a href="javascript:void(0)" onclick="addAidToEmail('<%=_aidTags.get(i).getPath()%>','<%=meeting.getUid() %>')" class="addAidToEmail"> + </a></td>
+			 </tr>
+			 <%}
+			
+			*/%>
+		</table>
+	</div>
 
-<% 
-/*
-	ApiConfig apiConfig= (ApiConfig)session.getAttribute(ApiConfig.class.getName());
-	out.println( ">>>>>>>>>>>>>>>>>>>    " + (apiConfig==null) );
-	out.println(apiConfig.getUserId());
-	*/
-%>
+
+	
+</div>
 
 
 
-
+<script>
+	$('.jqte-test').jqte();
+	
+	// settings of status
+	var jqteStatus = true;
+	$(".status").click(function()
+	{
+		jqteStatus = jqteStatus ? false : true;
+		$('.jqte-test').jqte({"status" : jqteStatus})
+	});
+</script>
 
 
 

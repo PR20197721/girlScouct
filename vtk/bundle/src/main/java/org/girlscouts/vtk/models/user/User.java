@@ -6,6 +6,7 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Bean;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.girlscouts.vtk.auth.models.ApiConfig;
+import org.girlscouts.vtk.ejb.EmailMeetingReminder;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.salesforce.Troop;
 
@@ -13,10 +14,10 @@ import org.girlscouts.vtk.salesforce.Troop;
 public class User {
 
 	public User(){}
-	public User(String userId){
+	public User(String path, String userId){
 		this.id=userId;
-		this.path= "/content/girlscouts-vtk/users/"+ userId;
-		
+		//this.path= "/content/girlscouts-vtk/users/"+ userId;
+		this.path= path + userId;
 	}
 	
 	//@Collection private java.util.List <YearPlan> yearPlans;
@@ -31,7 +32,22 @@ public class User {
 	
 	@Field(jcrName="jcr:lastModified") private Calendar lastModified;
 	
+	//tmp
+	private EmailMeetingReminder sendingEmail;
 	
+	
+	
+	
+	
+	
+	
+	
+	public EmailMeetingReminder getSendingEmail() {
+		return sendingEmail;
+	}
+	public void setSendingEmail(EmailMeetingReminder sendingEmail) {
+		this.sendingEmail = sendingEmail;
+	}
 	public Calendar getLastModified() {
 		return lastModified;
 	}
