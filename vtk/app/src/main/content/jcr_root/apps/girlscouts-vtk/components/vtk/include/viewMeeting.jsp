@@ -1,12 +1,19 @@
 <% 
 	MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
 	Meeting meeting = meetingDAO.getMeeting(meetingE.getRefId());
+	boolean isCanceled =false;
+	 if (meetingE.getCancelled()!=null && meetingE.getCancelled().equals("true") )
+		 isCanceled=true;
 	
-%>
+	
+	%>
+
+
 <li  class="meeting <%=( user.getYearPlan().getSchedule()==null || new java.util.Date().before(date)) ? "ui-state-default" : "ui-state-default ui-state-disabled"%>" value="<%=meetingCount%>">
 	<div  class="row">
 		<div class="large-4 columns">
-			<div class="planSquare">
+			<div class="planSquare" <%=isCanceled ?  "style='background-image: url(http://www.starryeyedcats.com/red%20cross%20website.png); background-size: 100px 100px;'" : "" %>>
+
 				
 				Meeting<br/>
 				#<%= meetingCount %> <%= user.getYearPlan().getSchedule()==null ? "" : df.format(date) %>
