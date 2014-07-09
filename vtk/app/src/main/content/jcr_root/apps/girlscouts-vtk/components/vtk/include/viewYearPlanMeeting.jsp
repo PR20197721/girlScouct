@@ -179,7 +179,11 @@ if(meeting.getLastAssetUpdate()==null || meeting.getLastAssetUpdate().before(sys
 
 if( _aidTags!=null )
  for(int i=0;i<_aidTags.size();i++){
-	%><li> <a href="<%=_aidTags.get(i).getRefId()%>"  target="_blank"><%=_aidTags.get(i).getDescription()%></a> </li><% 
+	%><li>
+	<!--  POP NEW WINDOW  <a href="<%=_aidTags.get(i).getRefId()%>"  target="_blank"><%=_aidTags.get(i).getDescription()%></a> -->
+	 <a href="#modal" id="<%=_aidTags.get(i).getUid() %>" onclick="x12('<%=_aidTags.get(i).getRefId()%>', '<%=_aidTags.get(i).getDescription()%>', '<%=_aidTags.get(i).getUid() %>')"><%=_aidTags.get(i).getDescription()%></a>
+	
+	 </li><% 
  }
 
 

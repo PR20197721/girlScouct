@@ -2,6 +2,13 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
+
+
+
+
+
+
+
 <%   
 	java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
 	
@@ -58,3 +65,6 @@ while( itr.hasNext() ){
 		$( "#sortable123 li" ).disableSelection();
 	});
 </script>
+
+
+

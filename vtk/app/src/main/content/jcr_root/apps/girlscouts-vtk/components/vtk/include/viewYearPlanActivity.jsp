@@ -104,7 +104,14 @@ ageLevel=ageLevel.toLowerCase().trim();
 
 if( a_aidTags!=null )
  for(int i=0;i<a_aidTags.size();i++){
-	%><li>  <a href="<%=a_aidTags.get(i).getRefId()%>"  target="_blank"><%=a_aidTags.get(i).getDescription()%></a> </li><% 
+	%><li>  
+	
+	
+	<!--  new window <a href="<%=a_aidTags.get(i).getRefId()%>"  target="_blank"><%=a_aidTags.get(i).getDescription()%></a> -->
+	<a href="#modal" id="<%=a_aidTags.get(i).getUid() %>" onclick="x12('<%=a_aidTags.get(i).getRefId()%>', '<%=a_aidTags.get(i).getDescription()%>', '<%=a_aidTags.get(i).getUid() %>')"><%=a_aidTags.get(i).getDescription()%></a>
+	
+	
+	</li><% 
  }
      %>
      </ul>
@@ -328,3 +335,6 @@ $('#newCustActivity1').click(function() {
 </div>
 
 <%@include file="../include/manageCommunications.jsp" %>
+
+
+    
