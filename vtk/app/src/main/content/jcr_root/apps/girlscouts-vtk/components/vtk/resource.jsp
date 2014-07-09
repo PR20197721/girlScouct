@@ -286,33 +286,4 @@ try {
 	    } catch (Exception e) {}
 	    return "";
 	}
-	
-	/*
-	private Map<String, String> buildQueryMap(String... paths) {
-	    Map<String, String> mapPath = new HashMap<String, String>();
-	    mapPath.put("group.p.or","true");
-	    mapPath.put("group.1_path","/content/gateway/en");
-	    mapPath.put("group.2_path", "/content/dam/girlscouts-shared/en/documents");
-	  
-	    
-	    PredicateGroup predicatePath =PredicateGroup.create(mapPath);
-	    
-	    Map mapFullText<String, String> = new HashMap<String, String>();
-	    
-	    mapFullText.put("group.p.or","true");
-	    mapFullText.put("group.1_fulltext", q);
-	    mapFullText.put("group.1_fulltext.relPath", "jcr:content");
-	    mapFullText.put("group.2_fulltext", q);
-	    mapFullText.put("group.2_fulltext.relPath", "jcr:content/@jcr:title");
-	    mapFullText.put("group.3_fulltext", q);
-	    mapFullText.put("group.3_fulltext.relPath", "jcr:content/@jcr:description");
-	    
-	    PredicateGroup predicateFullText = PredicateGroup.create(mapFullText);
-	    
-	    Map masterMap<String, String>  = new HashMap()<String, String>;
-	    masterMap.put("type","nt:hierarchyNode" );
-	    masterMap.put("boolproperty","jcr:content/hideInNav");
-	    masterMap.put("boolproperty.value","false");
-	}
-	*/
 %>
