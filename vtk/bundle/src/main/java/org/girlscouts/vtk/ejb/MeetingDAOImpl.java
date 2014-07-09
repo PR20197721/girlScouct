@@ -291,7 +291,7 @@ public Meeting createCustomMeeting(User user, MeetingE meetingEvent, Meeting mee
 		classes.add(Activity.class);
 		classes.add(JcrCollectionHoldString.class);
 		classes.add(JcrNode.class);
-		
+		classes.add( Asset.class);
 		Mapper mapper = new AnnotationMapperImpl(classes);
 		ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
 

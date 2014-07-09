@@ -14,6 +14,8 @@ java.text.SimpleDateFormat dateFormat43 = new java.text.SimpleDateFormat("mm");
 java.text.SimpleDateFormat dateFormat44 = new java.text.SimpleDateFormat("hh:mm");
 java.text.SimpleDateFormat dateFormat0 = new java.text.SimpleDateFormat("MMM dd, yyyy hh:mm a");
 java.text.NumberFormat fmtCurr = java.text.NumberFormat.getCurrencyInstance();
+java.text.DecimalFormat decFormat = new java.text.DecimalFormat("#.00");
+
 
 %>
 <%

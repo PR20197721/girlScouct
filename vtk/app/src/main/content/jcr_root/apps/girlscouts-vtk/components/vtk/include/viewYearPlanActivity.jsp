@@ -104,7 +104,7 @@ ageLevel=ageLevel.toLowerCase().trim();
 
 if( a_aidTags!=null )
  for(int i=0;i<a_aidTags.size();i++){
-	%><li>  <a href="<%=a_aidTags.get(i).getRefId()%>"><%=a_aidTags.get(i).getDescription()%></a> </li><% 
+	%><li>  <a href="<%=a_aidTags.get(i).getRefId()%>"  target="_blank"><%=a_aidTags.get(i).getDescription()%></a> </li><% 
  }
      %>
      </ul>
@@ -149,7 +149,7 @@ jQuery(function($){
 	
 	$("#newCustActivity_startTime").inputmask("h:s", {});
 	$("#newCustActivity_endTime").inputmask("h:s", {});
-	$("#newCustActivity_cost").maskMoney();
+	$("#newCustActivity_cost").maskMoney({thousands:''});
 	});
 	
 
@@ -187,9 +187,9 @@ $().ready(function() {
 				time: true
 			},
 			newCustActivity_cost:{
-				//required:true,
-				//minlength: 4,
-				//currency:true
+				required:false,
+				minlength: 4,
+				currency:true
 			},
 			newCustActivity_date:{
 				required:true,
@@ -212,8 +212,8 @@ $().ready(function() {
 				minlength: "Valid format HH:mm"
 			},
 			newCustActivity_cost:{
-				//required: "Please enter a valid amount. Default 0.00",
-				//minlength: "Valid format 0.00"
+				required: "Please enter a valid amount. Default 0.00",
+				minlength: "Valid format 0.00"
 			},
 			newCustActivity_date:{
 				required: "Please enter valid start date",
@@ -278,7 +278,7 @@ $('#newCustActivity1').click(function() {
 <form class="cmxform" id="signupForm">
 	
 	<h2>Edit Activity</h2>
-	<a class="closeText" href="#" onclick="$('#editCustActiv').dialog('close')">Return to Plan</a>
+	<!--  <a class="closeText" href="#" onclick="$('#editCustActiv').dialog('close')">Return to Plan</a> -->
 	<div class="sectionBar">Edit Custom Activity</div>
 	<div id="newCustActivity_err" style="color:red;"></div>
         <div class="row">
@@ -317,7 +317,7 @@ $('#newCustActivity1').click(function() {
                 <div class="small-8 columns">
                 
                 
-              <div style="background-color:red;">Cost: <input type="text" name="newCustActivity_cost"  id="newCustActivity_cost" value="<%=activity.getCost()%>"/></div>
+              <div style="background-color:red;">Cost: <input type="text" name="newCustActivity_cost"  id="newCustActivity_cost" value="<%=decFormat.format(activity.getCost())%>"/></div>
 			<input type="button" value="Save" id="newCustActivity1" onclick="caca()"/>
 			  
              
