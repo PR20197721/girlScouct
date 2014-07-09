@@ -25,10 +25,11 @@
 <% 
 
 
-
-int meetingCount=0;
-java.util.Iterator itr = sched.keySet().iterator();
-while( itr.hasNext() ){
+if( user.getYearPlan().getSchedule()!=null ){ //sched exists
+	
+ int meetingCount=0;
+ java.util.Iterator itr = sched.keySet().iterator();
+ while( itr.hasNext() ){
 	java.util.Date date = (java.util.Date) itr.next();
 	YearPlanComponent _comp= sched.get(date);
 	
@@ -47,11 +48,54 @@ while( itr.hasNext() ){
 			Milestone milestone = (Milestone) _comp;
 			%>  <%@include file="include/viewMilestone.jsp" %>    <% 
 			break;
-	} 
+	} 	
+ }
+}else{ //no sched
+	
+	
+	int meetingCount=0;
+
+	//display activities
+	java.util.Iterator itr = sched.keySet().iterator();
+	 while( itr.hasNext() ){
+		java.util.Date date = (java.util.Date) itr.next();
+		YearPlanComponent _comp= sched.get(date);
+		
+		switch( _comp.getType() ){
+			case ACTIVITY :
+				Activity activity = (Activity) _comp;
+				%>  <%@include file="include/viewActivity.jsp" %>    <% 
+				break;
+
+			
+		} 	
+	 }
+	 
+	 //displ others
+	 itr = sched.keySet().iterator();
+	 while( itr.hasNext() ){
+			java.util.Date date = (java.util.Date) itr.next();
+			YearPlanComponent _comp= sched.get(date);
+			
+			switch( _comp.getType() ){
+			case MEETING :
+				meetingCount++;
+				MeetingE meetingE =(MeetingE)_comp;
+				%>  <%@include file="include/viewMeeting.jsp" %>    <% 
+				break;
+			case MILESTONE :
+				Milestone milestone = (Milestone) _comp;
+				%>  <%@include file="include/viewMilestone.jsp" %>    <% 
+				break;
+				
+			} 	
+		 }
 	
 	
 	
 }
+
+
 %>
 </ul>
 <script>
