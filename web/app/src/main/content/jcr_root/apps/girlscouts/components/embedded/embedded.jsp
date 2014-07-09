@@ -15,6 +15,6 @@
         // if (iframe) {
         //     this.element.setHeight(this.element.getHeight() + iframe.getHeight());
         // }
-        %><div><%= html %></div><%
+        %><div class="embed-container"><%= html %></div><%
     }
 %>
