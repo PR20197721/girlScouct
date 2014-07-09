@@ -16,8 +16,11 @@ import javax.jcr.query.RowIterator;
 
 
 import net.fortuna.ical4j.data.CalendarOutputter;
+import net.fortuna.ical4j.model.DateTime;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.CalScale;
+import net.fortuna.ical4j.model.property.Description;
+import net.fortuna.ical4j.model.property.DtEnd;
 import net.fortuna.ical4j.model.property.ProdId;
 import net.fortuna.ical4j.model.property.Version;
 import net.fortuna.ical4j.util.UidGenerator;
@@ -44,6 +47,7 @@ import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.YearPlanComponent;
 import org.girlscouts.vtk.models.user.User;
+
 
 import javax.jcr.*;
 
@@ -661,6 +665,7 @@ private List<Asset> getAidTag_custasset(String uid) {
 
 
 
+@SuppressWarnings("unchecked")
 public net.fortuna.ical4j.model.Calendar yearPlanCal(User user )throws Exception{
 	 
 	 java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
@@ -680,6 +685,9 @@ public net.fortuna.ical4j.model.Calendar yearPlanCal(User user )throws Exception
 	  
 	  java.util.Iterator itr = sched.keySet().iterator();
 	  while( itr.hasNext() ){
+		  
+		  
+		  
 		  java.util.Date dt= (java.util.Date) itr.next();
 		  YearPlanComponent _comp= (YearPlanComponent) sched.get(dt);
 		  
@@ -702,7 +710,7 @@ public net.fortuna.ical4j.model.Calendar yearPlanCal(User user )throws Exception
 		  
 		
 	  
-	  
+	  /*
 	  //Creating an event
 	  //java.util.Calendar cal = java.util.Calendar.getInstance();
 	  //cal.set(java.util.Calendar.MONTH, java.util.Calendar.DECEMBER);
@@ -717,17 +725,28 @@ public net.fortuna.ical4j.model.Calendar yearPlanCal(User user )throws Exception
 	  christmas.getProperties().add(uidGenerator.generateUid());
 
 	  calendar.getComponents().add(christmas);
-	  
-	  
-	  
-	  /*
-	  //Saving an iCalendar file
-	  FileOutputStream fout = new FileOutputStream(calFile);
-
-	  CalendarOutputter outputter = new CalendarOutputter();
-	  outputter.setValidating(false);
-	  outputter.output(calendar, fout);
 	  */
+	  
+	  
+	  final List events = new ArrayList();
+		/*
+	  for (Iterator i = minutesList.iterator(); i.hasNext();) {
+			final TimeSheetEntry entry = (TimeSheetEntry) i.next();
+			*/
+			
+			
+			final VEvent event = new VEvent(new DateTime(cal.getTime()), desc);
+			//event.getProperties().add(new DtEnd(new DateTime(entry.getEndTime())));
+			event.getProperties().add(new Description(desc));
+			
+			UidGenerator uidGenerator = new UidGenerator("1");
+			event.getProperties().add(uidGenerator.generateUid());
+System.err.println("CAL: "+ cal.getTime() +" : "+ desc );
+			events.add(event);
+			
+			
+		//}
+		calendar.getComponents().addAll(events);
 	  
 	  
 	 

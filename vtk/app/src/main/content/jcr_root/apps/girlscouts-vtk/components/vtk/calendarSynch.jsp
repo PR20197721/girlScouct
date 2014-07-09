@@ -1,8 +1,10 @@
 
 <%@page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+
+<% 
 response.setHeader ("Content-Disposition", "attachment;filename=\"mycalendar.ics\"");
 response.setContentType("text/calendar");
-
+%>
 <%@page import="java.util.Iterator,org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
