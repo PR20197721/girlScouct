@@ -24,9 +24,13 @@ public class EventsSrch
 	private SlingHttpServletRequest slingRequest;
 	private QueryBuilder queryBuilder;
 	private HashMap<String,List<FacetsInfo>> facetAndTags = new HashMap<String,List<FacetsInfo>>();
-
+	
+	// ReFractrating the code to accomdate Form & Documents
+	private static String FACETS_PATH = "/etc/tags/girlscouts";
+	
+	
 	private static String EVENTS_PROP="jcr:content/cq:tags";
-	private static String PATH_1 = "/content/girlscouts-usa/en/events/";
+	//private static String PATH_1 = "/content/girlscouts-usa/en/events/";
 	private Map<String, ArrayList<String>> facetsQryBuilder = new HashMap<String, ArrayList<String>>();
 	
 	
@@ -63,7 +67,7 @@ public class EventsSrch
 	
 	private void createFacets() throws RepositoryException{
 		FacetBuilder facetBuilder = new FacetBuilderImpl();
-		facetAndTags = facetBuilder.getFacets(slingRequest, queryBuilder);
+		facetAndTags = facetBuilder.getFacets(slingRequest, queryBuilder, FACETS_PATH );
 		}
 	
 	

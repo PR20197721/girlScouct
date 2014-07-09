@@ -9,6 +9,8 @@ import java.util.Map;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
@@ -27,15 +29,17 @@ import com.day.cq.search.facets.Facet;
 import com.day.cq.search.result.Hit;
 import com.day.cq.search.result.SearchResult;
 
+@Component
+@Service
 public class FacetBuilderImpl implements FacetBuilder{
 	
 	private Map<String, String> queryBuilder = new HashMap<String, String>();
 	private PredicateGroup predicateGroup = new PredicateGroup();
-	private static String FACETS_PATH = "/etc/tags/girlscouts"; 
+	//private static String FACETS_PATH = "/etc/tags/girlscouts"; 
 	private HashMap<String,List<FacetsInfo>> facets = new HashMap<String, List<FacetsInfo>>();
 	private static Logger log = LoggerFactory.getLogger(FacetBuilderImpl.class);
 	
-	private void buildFacets(SlingHttpServletRequest slingRequest,QueryBuilder builder){
+	private void buildFacets(SlingHttpServletRequest slingRequest,QueryBuilder builder, String FACETS_PATH){
 		
 		log.debug("Building Facets ");
 		
@@ -66,9 +70,9 @@ public class FacetBuilderImpl implements FacetBuilder{
 	}
 
 
-	public HashMap<String, List<FacetsInfo>> getFacets(SlingHttpServletRequest slingRequest,QueryBuilder builder) {
+	public HashMap<String, List<FacetsInfo>> getFacets(SlingHttpServletRequest slingRequest,QueryBuilder builder, String FACETS_P ) {
 	
-		buildFacets(slingRequest,builder);
+		buildFacets(slingRequest,builder,FACETS_P);
 		return facets;
 	}
 	
