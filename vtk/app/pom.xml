@@ -27,6 +27,11 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>girlscouts-vtk-api-bundle</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>ical4j-wrapper</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -85,6 +90,11 @@
                         </embedded>
                         <embedded>
                             <groupId>${project.groupId}</groupId>
+                            <artifactId>girlscouts-vtk-api-bundle</artifactId>
+                            <target>/apps/girlscouts-vtk/install</target>
+                        </embedded>
+                        <embedded>
+                            <groupId>${project.groupId}</groupId>
                             <artifactId>ical4j-wrapper</artifactId>
                             <target>/apps/girlscouts-vtk/install</target>
                         </embedded>
@@ -95,6 +105,35 @@
         </plugins>
     </build>
     <profiles>
+        <profile>
+            <id>noApi</id>
+                <build>
+                    <plugins>
+                        <plugin>
+                            <groupId>com.day.jcr.vault</groupId>
+                            <artifactId>content-package-maven-plugin</artifactId>
+                            <extensions>true</extensions>
+                            <configuration>
+                                <group>Girl Scouts</group>
+                                <filterSource>src/main/content/META-INF/vault/filter.xml</filterSource>
+                                <embeddeds>
+                                    <embedded>
+                                        <groupId>${project.groupId}</groupId>
+                                        <artifactId>girlscouts-vtk-bundle</artifactId>
+                                        <target>/apps/girlscouts-vtk/install</target>
+                                    </embedded>
+                                    <embedded>
+                                        <groupId>${project.groupId}</groupId>
+                                        <artifactId>ical4j-wrapper</artifactId>
+                                        <target>/apps/girlscouts-vtk/install</target>
+                                    </embedded>
+                                </embeddeds>
+                                <targetURL>http://${crx.host}:${crx.port}/crx/packmgr/service.jsp</targetURL>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </build>
+        </profile>
         <profile>
             <id>autoInstallPackage</id>
             <build>

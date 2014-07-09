@@ -81,7 +81,7 @@ public class CouncilMapperImpl implements CouncilMapper, ConfigListener {
     
     public String getCouncilUrl(String id) {
         String branch = getCouncilBranch(id);
-        String url = resourceResolver.map(branch);
+        String url = resourceResolver.map(branch + "/");
         return url;
     }
 

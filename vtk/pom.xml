@@ -242,6 +242,7 @@
     </profiles>
   <modules>
     <module>bundle</module>
+    <module>api-bundle</module>
     <module>ical4j-wrapper</module>
     <module>app</module>
   </modules>

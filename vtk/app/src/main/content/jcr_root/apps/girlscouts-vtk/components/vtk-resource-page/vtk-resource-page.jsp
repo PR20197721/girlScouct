@@ -1,7 +1,7 @@
 <%@page import="com.day.cq.commons.PathInfo" %>
 <%@include file="/libs/foundation/global.jsp"%>
 
-<div class="printer right"/>
+<!-- <div class="printer right"/> -->
 <%
 	final String TYPE_OVERVIEW = "overview";
 	final String TYPE_WEB = "web";
