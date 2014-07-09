@@ -145,7 +145,11 @@ try {
 				                resourceResolver.adaptTo(Session.class)
 				        );
 				     } else if (currentMinor.getProperties().get("type", "").equals(TYPE_MEETING_OVERVIEWS)) {
-				        minorCount = user.getYearPlan().getMeetingEvents().size();
+				        try {
+				        	minorCount = user.getYearPlan().getMeetingEvents().size();
+				        } catch (Exception e) {
+				            minorCount = 0;
+				        }
 				     } else {
 				    	minorCount = countAllChildren(currentMinor) - 1;
 				     } 
@@ -266,18 +270,21 @@ try {
 	}
 	
 	private String displayMeetingOverviews(User user, ResourceResolver rr, MeetingDAO meetingDAO) {
-	    StringBuilder builder = new StringBuilder("<ul>");
-	    for (MeetingE meetingE : user.getYearPlan().getMeetingEvents()) {
-	        Meeting meeting = meetingDAO.getMeeting(meetingE.getRefId());
-		    builder.append("<li><a href=\"javascript:void(0)\" onclick=\"displayResource('overview', '");
-		    builder.append(meeting.getPath());
-		    builder.append("')\">");
-		    builder.append(meeting.getName());
-		    builder.append("</a></li>");
-	    }
-
-        builder.append("</ul>");
-        return builder.toString();
+	    try {
+		    StringBuilder builder = new StringBuilder("<ul>");
+		    for (MeetingE meetingE : user.getYearPlan().getMeetingEvents()) {
+		        Meeting meeting = meetingDAO.getMeeting(meetingE.getRefId());
+			    builder.append("<li><a href=\"javascript:void(0)\" onclick=\"displayResource('overview', '");
+			    builder.append(meeting.getPath());
+			    builder.append("')\">");
+			    builder.append(meeting.getName());
+			    builder.append("</a></li>");
+		    }
+	
+	        builder.append("</ul>");
+	        return builder.toString();
+	    } catch (Exception e) {}
+	    return "";
 	}
 	
 	/*
