@@ -14,10 +14,10 @@ Activity activity = (Activity) _comp;
         
         
         <div class="small-4 columns">
-                <div class="planSquare">
+                <div class="planSquare" style="background-color:#0096ff;">
         <%if( user.getYearPlan().getSchedule()!=null ) {%>
                         <%=fmt.format(searchDate) %>
-        <%}else{ out.println( fmtX.format(searchDate) ); } %>
+        <%}else{ /*out.println( fmtX.format(searchDate) ); */ } %>
                 </div>
         </div>
         

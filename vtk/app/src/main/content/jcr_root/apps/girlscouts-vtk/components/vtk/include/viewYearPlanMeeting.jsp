@@ -35,7 +35,7 @@
 		#<%=(currInd+1 )%>
 	<%if( user.getYearPlan().getSchedule()!=null ) {%>
 			<%=fmt.format(searchDate) %>
-	<%}else{ out.println( fmtX.format(searchDate) ); } %>
+	<%}else{ /*out.println( fmtX.format(searchDate) );*/ } %>
 		</div>
 	</div>
         <div class="small-2 columns next">
