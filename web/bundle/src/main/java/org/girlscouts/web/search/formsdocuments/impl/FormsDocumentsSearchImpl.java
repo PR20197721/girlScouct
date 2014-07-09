@@ -1,13 +1,15 @@
 package org.girlscouts.web.search.formsdocuments.impl;
 
 
+import java.util.HashMap;
+import java.util.List;
+
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.SlingHttpServletRequest;
-import org.girlscouts.web.events.search.EventsSrch;
 import org.girlscouts.web.events.search.FacetBuilder;
-import org.girlscouts.web.events.search.impl.FacetBuilderImpl;
+import org.girlscouts.web.events.search.FacetsInfo;
 import org.girlscouts.web.search.formsdocuments.FormsDocumentsSearch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,14 +23,15 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 	@Reference
 	FacetBuilder facetBuilder;
 	
-	private static Logger log = LoggerFactory.getLogger(EventsSrch.class);
+	private static Logger log = LoggerFactory.getLogger(FormsDocumentsSearchImpl.class);
 	private SlingHttpServletRequest slingRequest;
 	private QueryBuilder queryBuilder;
 	
 	//Default path if not provided in the JSP.
-	private String FACETS_PATH = "/etc/tags/girlscouts/forms_documents";
+	private String FACETS_PATH = "/etc/tags/girlscouts";
 	
 	public FormsDocumentsSearchImpl(){}
+	
 	// I need the slingRequest, queryBuilder and Facet_path;
 	public FormsDocumentsSearchImpl(SlingHttpServletRequest slingRequest,QueryBuilder builder, String facetsPath){
 		this.slingRequest = slingRequest;
@@ -41,9 +44,22 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 		
 	}
 	
+	
+	public void documentSearch(){
+		
+		
+	}
+	
 	// create the Facets
 	public void createFacet(){
-		facetBuilder.getFacets(slingRequest, queryBuilder, FACETS_PATH);
+		HashMap<String, List<FacetsInfo>> facets = facetBuilder.getFacets(slingRequest, queryBuilder, FACETS_PATH);
+		
+	}
+
+	public void test() {
+		
+		System.out.println("This worked as necessary");
+		// TODO Auto-generated method stub
 		
 	}
 	

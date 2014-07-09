@@ -15,14 +15,14 @@ if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMM
 	    	
 	    	
 	        String[] values = links[i].split("\\|\\|\\|");
-	    	System.out.println("What is the value in this" +values[0] + "Second Value" +values[1] +"Third Value");
+	        System.out.println("What is the length " +values.length);
+	    	System.out.println("What is the value in this" +values[0] + "Second Value" +values[1] +"----Third Value");
 	    	
 	    	
 	    	
 	        String label = values[0];
-	        String externalLink = values[1];
-	        
-	        String internalLink = values.length > 1 ? values[2] : "";
+	        String externalLink = values.length>=2? values[1] : "" ;
+	        String internalLink = values.length>=3 ? values[2] : "";
 	        if(!externalLink.isEmpty()){
 	        	path = externalLink;
 	        	
