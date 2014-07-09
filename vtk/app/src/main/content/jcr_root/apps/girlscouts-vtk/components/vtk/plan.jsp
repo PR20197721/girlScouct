@@ -8,10 +8,21 @@
 	String activeTab = "plan";
 	boolean showVtkNav = true;
 %>
+
+
+
+
+<link href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/css/base/jquery.ui.all.css" rel="stylesheet">
+    <link href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.2/css/lightness/jquery-ui-1.10.2.custom.min.css" rel="stylesheet">
+    
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.2/jquery.ui.touch-punch.min.js"></script>
+
+
 <%
 
 //System.err.println("VTKKKKK");
 //out.println(user.getPath() +" *** "+user.getId());
+
 
 	YearPlanDAO yearPlanDAO = sling.getService(YearPlanDAO.class);
 	java.util.List<org.girlscouts.vtk.salesforce.Troop> troops = user.getApiConfig().getTroops();
