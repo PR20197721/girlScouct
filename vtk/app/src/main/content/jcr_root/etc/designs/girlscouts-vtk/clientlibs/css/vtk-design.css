@@ -59,24 +59,77 @@ dl.tabs dd.active {
 	color: #fff;
 	background-color: #008f50;
 	text-align: center;
+	font-weight:bold;
 }
-li.activity .planSquare {
+.activity .planSquare {
+        background-color: #0096ff;
+}
+
+.planSquare .count {
+        width: 25px;
+        height: 25px;
+        position: absolute;
+        float: left;
+        margin-left: -10px;
+        margin-top: -10px;
+        background: #ebebeb;
+        color:#797979;
+        border: 1px solid #9b9b9b;
+        z-index:100;
+	font-size: 0.8rem;
+}
+.planSquare .date {
+        top: 5px;
+}
+.planSquare .date .month {
+        font-size: 1.1rem;
+        line-height: 2rem;
+}
+.planSquare .date .day {
+        font-size: 1.8rem;
+        line-height: 2rem;
+}
+.planSquare .date .time {
+        font-size: 1rem;
+        line-height: 0.9rem;
+}
+
+.planSquare .activity .cal {
+        padding-top: 15px;
+}
+
+.planSquare .cancelled {
         width: 100px;
         height: 100px;
-        color: #fff;
-        background-color: #0096ff;
-        text-align: center;
+        border: 1px solid pink;
+        position: absolute;
+        opacity: 0.5;
+        color: red;
+        font-size: 120px;
+        font-family: Arial;
+        z-index: 50;
 }
+.planSquare .cancelled .cross {
+        margin-top: -45px;
+}
+
+
 #yearPlanMeetings ul{
         list-style-type: none;
 	margin: 1.1rem;
 }
-#yearPlanMeetings  li {
+#yearPlanMeetings li {
         margin: 5px;
         padding: 5px;
         width: 100%;
-	background-color:#fff;
-	border-bottom: 1px solid grey;
+	border-top: 0;
+        border-bottom: 1px solid grey;
+        border-left: 0;
+        border-right: 0;
+	background: #ffffff;
+}
+#yearPlanMeetings  li a{
+        font-weight: bold;
 }
 #yearPlanMeetings  li > div {
 	padding: 5px;
@@ -84,8 +137,10 @@ li.activity .planSquare {
 #yearPlanMeetings li.ui-state-disabled {
 	background-color:#ccc;
 }
-#yearPlanMeetings li.activity {
-        background-color:#ddeeff;
+#yearPlanMeetings li.activity.ui-state-disabled {
+	opacity: 1.00;
+        border-bottom: 1px solid grey;
+        background: #daeffe;
 }
 #yearPlanMeetings h1 {
 	font-size:1rem;

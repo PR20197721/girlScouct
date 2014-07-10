@@ -179,7 +179,11 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	  emr.setEmailToTroopVolunteer(email_to_tv);
 	  
 	  User user = (User)session.getValue("VTK_user");
+try {
 	  user.setApiConfig((org.girlscouts.vtk.auth.models.ApiConfig)session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
+} catch (ClassCastException cce) {
+	session.invalidate();
+}
 	  
 	  
 	  emailUtil.sendMeetingReminder((User)session.getValue("VTK_user"), emr);

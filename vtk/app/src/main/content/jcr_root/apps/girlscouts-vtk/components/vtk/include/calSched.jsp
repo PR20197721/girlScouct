@@ -4,15 +4,15 @@
 	<div class="row">
 		<div class="small-3 columns">Start Date:</div>
 		<div class="small-6 columns date">
-			<input type="text" id="calStartDt" value="<%=user.getYearPlan().getCalStartDate()==null ? "" : dateFormat4.format(new java.util.Date(user.getYearPlan().getCalStartDate())) %>" />
+			<input type="text" id="calStartDt" value="<%=user.getYearPlan().getCalStartDate()==null ? "" : FORMAT_MMddYYYY.format(new java.util.Date(user.getYearPlan().getCalStartDate())) %>" />
 		</div>
-		<div class="small-5 columns"><input type="text" id="calTime" value="<%=user.getYearPlan().getCalStartDate()==null ? (org.girlscouts.vtk.models.api.VTKConfig.CALENDAR_START_TIME_HOUR+":"+org.girlscouts.vtk.models.api.VTKConfig.CALENDAR_START_TIME_MIN) : dateFormat44.format(new java.util.Date(user.getYearPlan().getCalStartDate())) %>"/></div>
+		<div class="small-5 columns"><input type="text" id="calTime" value="<%=user.getYearPlan().getCalStartDate()==null ? (org.girlscouts.vtk.models.api.VTKConfig.CALENDAR_START_TIME_HOUR+":"+org.girlscouts.vtk.models.api.VTKConfig.CALENDAR_START_TIME_MIN) : FORMAT_hhmm.format(new java.util.Date(user.getYearPlan().getCalStartDate())) %>"/></div>
 		<div class="small-3 columns">
 			<select id="calAP">
 <%
 	String AM = "PM";
 	if( user.getYearPlan().getCalStartDate() !=null ){
-		AM = dateFormat41.format(new java.util.Date(user.getYearPlan().getCalStartDate()));
+		AM = FORMAT_AMPM.format(new java.util.Date(user.getYearPlan().getCalStartDate()));
 	} 
 %>
 				<option value="pm" <%=AM.equals("PM") ? " SELECTED" : "" %>>pm</option>

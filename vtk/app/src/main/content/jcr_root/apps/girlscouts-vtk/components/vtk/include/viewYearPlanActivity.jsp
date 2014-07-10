@@ -16,8 +16,8 @@ Activity activity = (Activity) _comp;
         <div class="small-4 columns">
                 <div class="planSquare" style="background-color:#0096ff;">
         <%if( user.getYearPlan().getSchedule()!=null ) {%>
-                        <%=fmt.format(searchDate) %>
-        <%}else{ /*out.println( fmtX.format(searchDate) ); */ } %>
+                        <%=FORMAT_MMM_dd_hhmm_AMPM.format(searchDate) %>
+        <%}%>
                 </div>
         </div>
         
@@ -34,8 +34,8 @@ Activity activity = (Activity) _comp;
         <div class="small-12 columns">
                 <h1>Activity: <%= activity.getName() %></h1>
 
-<br/><br/>Date: <%=fmtDate.format(activity.getDate()) %>
-<br/><br/>Time: <%=fmtHr.format(activity.getDate()) %> - <%= fmtHr.format(activity.getEndDate()) %>
+<br/><br/>Date: <%=FORMAT_MMddYYYY.format(activity.getDate()) %>
+<br/><br/>Time: <%=FORMAT_hhmm_AMPM.format(activity.getDate()) %> - <%= FORMAT_hhmm_AMPM.format(activity.getEndDate()) %>
 
 
 <%
@@ -49,7 +49,7 @@ ageLevel=ageLevel.toLowerCase().trim();
 <%=activity.getLocationAddress()%>
 
 
-<br/><br/>Cost:<%=fmtCurr.format(activity.getCost()) %>
+<br/><br/>Cost:<%=FORMAT_CURRENCY.format(activity.getCost()) %>
 
 <div style="background-color:#efefef"><%=activity.getContent()%></div>
 
@@ -293,20 +293,20 @@ $('#newCustActivity1').click(function() {
 			<font color="red">*</font> <input type="text" name="newCustActivity_name" id="newCustActivity_name" value="<%=activity.getName() %>" style="width:200px;" placeholder="Name of Activity"/>
 		</div>
                 <div class="small-6 columns">
-			Date: ex:05/07/2014<input type="text" name="newCustActivity_date" id="newCustActivity_date" value="<%=fmtDate.format(activity.getDate()) %>" style="width:160px;"/>
+			Date: ex:05/07/2014<input type="text" name="newCustActivity_date" id="newCustActivity_date" value="<%=FORMAT_MMddYYYY.format(activity.getDate()) %>" style="width:160px;"/>
                 </div>  
                 <div class="small-6 columns">
-			Start Time: ex: 18:15<input type="text" name="newCustActivity_startTime" id="newCustActivity_startTime" value="<%= fmtHr1.format(activity.getDate())%>" style="width:100px;" />
+			Start Time: ex: 18:15<input type="text" name="newCustActivity_startTime" id="newCustActivity_startTime" value="<%= FORMAT_hhmm_AMPM.format(activity.getDate())%>" style="width:100px;" />
 			<select id="newCustActivity_startTime_AP">
 			 
-			 <option value="am" <%=  dateFormat41.format(activity.getDate()).toUpperCase().trim().equals("AM") ? "SELECTED" : "" %>>am</option>
-			<option value="pm" <%=  dateFormat41.format(activity.getDate()).toUpperCase().trim().equals("PM") ? "SELECTED" : "" %>>pm</option>
+			 <option value="am" <%=  FORMAT_AMPM.format(activity.getDate()).toUpperCase().trim().equals("AM") ? "SELECTED" : "" %>>am</option>
+			<option value="pm" <%=  FORMAT_AMPM.format(activity.getDate()).toUpperCase().trim().equals("PM") ? "SELECTED" : "" %>>pm</option>
 			 </select> </div>  
                 <div class="small-6 columns">
-			End Time: ex: 09:10<input type="text" id="newCustActivity_endTime" value="<%=fmtHr1.format(activity.getEndDate()) %>"  style="width:100px;"/>
+			End Time: ex: 09:10<input type="text" id="newCustActivity_endTime" value="<%=FORMAT_hhmm_AMPM.format(activity.getEndDate()) %>"  style="width:100px;"/>
 			<select id="newCustActivity_endTime_AP">
-			<option value="am" <%=  dateFormat41.format(activity.getEndDate()).toUpperCase().trim().equals("AM") ? "SELECTED" : "" %>>am</option>
-			<option value="pm" <%=  dateFormat41.format(activity.getEndDate()).toUpperCase().trim().equals("PM") ? "SELECTED" : "" %>>pm</option></select>
+			<option value="am" <%=  FORMAT_AMPM.format(activity.getEndDate()).toUpperCase().trim().equals("AM") ? "SELECTED" : "" %>>am</option>
+			<option value="pm" <%=  FORMAT_AMPM.format(activity.getEndDate()).toUpperCase().trim().equals("PM") ? "SELECTED" : "" %>>pm</option></select>
                 </div> 
 	</div>
         <div class="row">
@@ -324,7 +324,7 @@ $('#newCustActivity1').click(function() {
                 <div class="small-8 columns">
                 
                 
-              <div style="background-color:red;">Cost: <input type="text" name="newCustActivity_cost"  id="newCustActivity_cost" value="<%=decFormat.format(activity.getCost())%>"/></div>
+              <div style="background-color:red;">Cost: <input type="text" name="newCustActivity_cost"  id="newCustActivity_cost" value="<%=FORMAT_COST_CENTS.format(activity.getCost())%>"/></div>
 			<input type="button" value="Save" id="newCustActivity1" onclick="caca()"/>
 			  
              

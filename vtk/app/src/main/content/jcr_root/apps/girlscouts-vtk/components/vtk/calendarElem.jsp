@@ -16,7 +16,7 @@ String elem = request.getParameter("elem");
 java.util.Date date = new java.util.Date( Long.parseLong(elem));
 MeetingE meeting = (MeetingE)sched.get(date);
 String AP = "AM";
-if( fmtAP.format(date).toUpperCase().equals("PM")){
+if( FORMAT_AMPM.format(date).toUpperCase().equals("PM")){
 	AP="PM";
 }
 
@@ -29,8 +29,8 @@ if( meeting != null && meeting.getCancelled()!=null && meeting.getCancelled().eq
 <%=   	meetingDAO.getMeeting(  meeting.getRefId() ).getName() %>
 <div id="locMsg"></div>
 <div  style="padding:40px; background-color:gray; border:1px solid red;">
-	Change Date: <input type="text" value="<%= fmtDate.format(date) %>" id="cngDate0"  />
-	Change Time: <input tyle="text" id="cngTime0" value="<%= fmtHr1.format(date) %>"/>
+	Change Date: <input type="text" value="<%= FORMAT_MMddYYYY.format(date) %>" id="cngDate0"  />
+	Change Time: <input tyle="text" id="cngTime0" value="<%= FORMAT_hhmm.format(date) %>"/>
 	<select id="cngAP0">
 		<option value="pm" <%= AP.equals("PM") ? "SELECTED" : "" %>>pm</option> 
 		<option value="am" <%= AP.equals("AM") ? "SELECTED" : "" %>>am</option>
