@@ -2,6 +2,10 @@
 	MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
 	Meeting meeting = meetingDAO.getMeeting(meetingE.getRefId());
 	boolean isCanceled =false;
+	boolean calendarNotSet = false;
+	if (user.getYearPlan().getSchedule() == null) {
+		calendarNotSet = true;
+	}
 	if (meetingE.getCancelled()!=null && meetingE.getCancelled().equals("true") ) {
 		 isCanceled=true;
 	}
@@ -12,6 +16,15 @@
 	<div  class="row">
 		<div class="large-4 columns">
 			<div class="planSquare">
+<%
+	if (calendarNotSet) {
+%>
+                                <div class="date">
+                                        <div class="cal"><span class="month">Meeting<br/></span><span class="day"><%= meetingCount %><br/></span></div>
+                                </div>
+<%
+	} else {
+%>
 				<div class="count"><%= meetingCount %></div>
 <%
 		if (isCanceled) {
@@ -21,14 +34,11 @@
 		}
 %>
 				<div class="date">
-<%
-	if (user.getYearPlan().getSchedule()!=null) {
-%>
                                         <div class="cal"><span class="month"><%= FORMAT_MONTH.format(date)%><br/></span><span class="day"><%= FORMAT_DAY_OF_MONTH.format(date)%><br/></span><span class="time"><%= FORMAT_hhmm_AMPM.format(date)%></span></div>
+				</div>
 <%
 	}
 %>
-				</div>
 			</div>
 		</div>
 		<div class="large-16 columns">
