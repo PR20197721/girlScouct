@@ -1,5 +1,6 @@
 <%@ page session="false" %>
-<%@page import="com.day.cq.wcm.api.WCMMode"%>
+<%@page import="com.day.cq.wcm.api.WCMMode,
+				org.girlscouts.vtk.helpers.ConfigManager"%>
 <%@include file="/libs/foundation/global.jsp" %>
 <!-- apps/girlscouts/components/page/headlibs.jsp -->
 <cq:includeClientLib categories="cq.foundation-main"/><%
@@ -26,10 +27,12 @@
 <!-- Begin: login logic -->
 <%
 	// TODO: read from OSGI
-	String helloUrl = "/content/girlscouts-vtk/controllers/hello.hello.js";
+	ConfigManager configManager = sling.getService(ConfigManager.class);
 
-	String signInUrl = "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signin";
-	String signOutUrl = "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signout";
+	String helloUrl = configManager.getConfig("helloUrl");
+	String callbackUrl = configManager.getConfig("callbackUrl");
+	String signInUrl = callbackUrl + "?action=signin";
+	String signOutUrl = callbackUrl + "?action=signout";
 	String siteRoot = currentPage.getAbsoluteParent(2).getPath();
 	String language = siteRoot.substring(siteRoot.lastIndexOf("/") + 1);
 %>
