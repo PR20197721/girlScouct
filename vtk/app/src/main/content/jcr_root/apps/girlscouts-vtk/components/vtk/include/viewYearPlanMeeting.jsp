@@ -119,9 +119,9 @@
         <div class="small-1 columns">&nbsp;</div>
 </div>
 <script>
-/*
+
 	$(function() {
-		
+		/*
 		$( "#viewMeetingButton" ).button().click(function( event ) {
 			viewMeetingLibrary('<%=meeting.getPath()%>', '<%=searchDate.getTime()%>');
 		});
