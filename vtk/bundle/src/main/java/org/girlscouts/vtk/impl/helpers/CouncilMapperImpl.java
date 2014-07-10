@@ -12,6 +12,7 @@ import org.apache.sling.api.resource.LoginException;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.girlscouts.vtk.helpers.ConfigListener;
+import org.girlscouts.vtk.helpers.ConfigManager;
 import org.girlscouts.vtk.helpers.CouncilMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +27,7 @@ public class CouncilMapperImpl implements CouncilMapper, ConfigListener {
     private ResourceResolver resourceResolver;
 
     @Reference
-    private ConfigManagerImpl configManager;
+    private ConfigManager configManager;
 
     @Reference
     private ResourceResolverFactory resourceResolverFactory;
