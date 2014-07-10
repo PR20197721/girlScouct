@@ -26,7 +26,6 @@
 
 <!-- Begin: login logic -->
 <%
-	// TODO: read from OSGI
 	ConfigManager configManager = sling.getService(ConfigManager.class);
 
 	String helloUrl = configManager.getConfig("helloUrl");
