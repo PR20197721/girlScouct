@@ -150,8 +150,8 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
     private void salesforceCallback(SlingHttpServletRequest request, SlingHttpServletResponse response) {
         HttpSession session = request.getSession();
         if ((ApiConfig)session.getAttribute(ApiConfig.class.getName()) != null) {
-            log.error("In Salesforce callback but the ApiConfig already exists. Quit.");
-            return;
+            log.error("In Salesforce callback but the ApiConfig already exists. Redirect.");
+            redirect(response, targetUrl);
         }
         
         String code = request.getParameter(CODE);
