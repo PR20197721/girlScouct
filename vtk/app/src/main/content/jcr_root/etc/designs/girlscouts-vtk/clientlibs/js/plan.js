@@ -353,3 +353,9 @@ function bindAssetToYPC(assetId, ypcId){
 		});
 	
 }
+
+
+function doMeetingLib(){
+	
+	loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html');
+}

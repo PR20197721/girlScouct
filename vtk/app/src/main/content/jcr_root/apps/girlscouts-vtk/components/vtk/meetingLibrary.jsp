@@ -16,6 +16,7 @@
                 showVtkNav =  false;
         }
 %>
+
 <%@include file="include/vtk-nav.jsp"%>
 <div class="tabs-content">
     <div class="content" id="panel2-1"></div>
@@ -24,6 +25,7 @@
     <div class="content" id="panel2-4"></div>
     <div class="content" id="panel2-5"></div>
 </div>
+
 <%
 	YearPlanDAO yearPlanDAO = sling.getService(YearPlanDAO.class);
 	MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
@@ -45,7 +47,7 @@
 		YearPlan yearPlan = yearPlans.next();
 		
 		
-		System.err.println("SAME? "+ find.trim().equals(yearPlan.getName().trim())+" : " +yearPlan.getName() +" find: "+ find);
+		//System.err.println("SAME? "+ find.trim().equals(yearPlan.getName().trim())+" : " +yearPlan.getName() +" find: "+ find);
 			
 		if( find.equals(yearPlan.getName().trim()) ){
 			

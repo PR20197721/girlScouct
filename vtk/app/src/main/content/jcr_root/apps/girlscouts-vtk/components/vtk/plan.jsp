@@ -55,7 +55,8 @@
 		</li>
 		<li>|</li>
 		<li>
-			<a href="/content/girlscouts-vtk/en/vtk.meetingLibrary.html" >Add Meeting</a>
+			 <a href="/content/girlscouts-vtk/en/vtk.meetingLibrary.html" >Add Meeting</a>
+			<!--  <a href="javascript:void(0)" onclick="doMeetingLib()">Add Meeting</a> -->
 		</li>
 		<li>|</li>
 		<li>
@@ -65,7 +66,7 @@
 		
 		
 		<%if(user.getYearPlan().getSchedule()!=null){ %>
-			<li><a href="/content/girlscouts-vtk/en/cal.ics">Calendar Synch</a></li>
+			<li><a onclick="self.location = '/content/girlscouts-vtk/en/cal.ics'">Calendar Synch</a></li>
 		<%} %>
 		
 		
