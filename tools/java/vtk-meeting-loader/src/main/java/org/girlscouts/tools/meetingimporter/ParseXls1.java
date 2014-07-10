@@ -23,8 +23,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.util.CellReference;
-import org.girlscouts.tools.meetingimporter.models.Activity;
-import org.girlscouts.tools.meetingimporter.models.Meeting;
+import org.girlscouts.vtk.models.Activity;
+import org.girlscouts.vtk.models.JcrCollectionHoldString;
+import org.girlscouts.vtk.models.Meeting;
 
 public class ParseXls1 {
 
@@ -32,7 +33,7 @@ public class ParseXls1 {
         ParseXls1 me = new ParseXls1();
 
         FileInputStream fis = new FileInputStream(
-                "/Users/mike/Desktop/brownie/yearplan.xlsx");
+                "/Users/mike/Desktop/brownie/metadata.xlsx");
         Workbook workbook = WorkbookFactory.create(fis);
 
         FormulaEvaluator evaluator = workbook.getCreationHelper()
@@ -79,7 +80,7 @@ public class ParseXls1 {
             TraverseFind docx = new TraverseFind();
 
             java.util.Map<String, String> meetings = docx
-                    .getMeetingInfo("/Users/mike/Desktop/brownie/"
+                    .getMeetingInfo("/Users/mike/Desktop/brownie/meetings/"
                             + meetingId.toUpperCase() + ".docx");
 
             Meeting docxMeeting = null;
@@ -116,7 +117,7 @@ public class ParseXls1 {
 
                 meeting.setActivities(chngActivities);
 
-                java.util.Map<String, CollectionHoldString> _meetings = new java.util.TreeMap<String, CollectionHoldString>();
+                java.util.Map<String, JcrCollectionHoldString> _meetings = new java.util.TreeMap<String, JcrCollectionHoldString>();
 
                 java.util.Iterator itr = meetings.keySet().iterator();
                 while (itr.hasNext()) {
@@ -125,7 +126,7 @@ public class ParseXls1 {
 
                     _meetings.put(
                             titleWithoutTags,
-                            new CollectionHoldString(docx.fmtStr(meetings
+                            new JcrCollectionHoldString(docx.fmtStr(meetings
                                     .get(title))));
                 }
 
@@ -160,7 +161,7 @@ public class ParseXls1 {
         List<Class> classes = new ArrayList<Class>();
         classes.add(Meeting.class);
         classes.add(Activity.class);
-        classes.add(CollectionHoldString.class);
+        classes.add(JcrCollectionHoldString.class);
 
         Mapper mapper = new AnnotationMapperImpl(classes);
         ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
@@ -180,8 +181,7 @@ public class ParseXls1 {
         if (session.itemExists(meeting.getPath()))
             ocm.update(meeting);
         else {
-            Node isExist = JcrUtils.getOrCreateUniqueByPath(path,
-                    "nt:unstructured", session);
+            Node isExist = JcrUtils.getOrCreateByPath(path, "nt:unstructured", session);
             ocm.insert(meeting);
         }
         ocm.save();
