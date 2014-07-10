@@ -182,8 +182,24 @@ a:hover.menuHighlight {
     font-weight: normal;
     margin: 0px 10px 0px 0px;
 }
-
-
+#mobile-nav-footer {
+    background-color: #009447;
+    padding: 0px 0px;
+}
+#mobile-nav-footer a {
+    font-size: 0.875em;
+    font-weight: normal;
+    margin: 0px 10px 0px 0px;
+}
+#mobile-nav-footer div.footer-navigation {
+padding: 10px 0 10px 20px;
+background: url('images/small-trefoil.png') no-repeat;
+background-position: center;
+}
+#mobile-footer{
+    background-color: #00ae58;
+    padding-top: 15px;
+}
 /* MAIN */
 #main {
     background-color:#ffffff;
