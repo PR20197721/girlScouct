@@ -9,6 +9,7 @@ import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Modified;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
+import org.apache.felix.scr.annotations.Service;
 import org.girlscouts.vtk.helpers.ConfigListener;
 import org.girlscouts.vtk.helpers.ConfigManager;
 import org.osgi.service.component.ComponentContext;
@@ -19,6 +20,7 @@ import org.osgi.service.component.ComponentContext;
     metatype=true, 
     immediate=true
 )
+@Service
 @Properties ({
     @Property(name="OAuthUrl", label="OAuth URL", description="URL to Salesforce OAuth endpoint."),
     @Property(name="clientId", label="Client ID", description="Salesforce Client ID"),
