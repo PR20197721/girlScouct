@@ -15,7 +15,10 @@
 		LOADING CALENDAR.....<script>loadCalMng()</script>
 	<%} %>
 </div>
-        <%if( user.getYearPlan().getSchedule() !=null ){ %>
+
+
+
+        <%if(true){//user.getYearPlan().getSchedule() !=null ){ %>
 <%@include file="include/location.jsp" %>
 <br/><br/>
 <%@include file="include/manageActivities.jsp" %>
