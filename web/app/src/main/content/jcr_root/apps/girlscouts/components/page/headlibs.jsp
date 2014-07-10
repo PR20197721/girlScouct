@@ -51,7 +51,7 @@
 		$(window).resize(resizeWindow);
 		$(document).ready(function() {
 			girlscouts.components.login.init('<%= language %>', '<%= signInUrl %>', '<%= signOutUrl %>');
-			var name = $.cookie('girl-scout-name');
+			var name = $.cookie('girl-scout-name', {path: '/'});
 			if (name) {
 				girlscouts.components.login.sayHello('signedin', name);	
 			} else {

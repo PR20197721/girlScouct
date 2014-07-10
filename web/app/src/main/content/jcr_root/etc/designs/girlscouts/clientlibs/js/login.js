@@ -17,7 +17,7 @@ girlscouts.components.login = {
     },
     
     signOut: function() {
-    	$.removeCookie('girl-scout-name');
+    	$.removeCookie('girl-scout-name', {path: '/'});
     	window.location.replace(this.signOutUrl);
     },
 
