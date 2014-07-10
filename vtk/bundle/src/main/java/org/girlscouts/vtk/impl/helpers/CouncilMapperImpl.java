@@ -44,7 +44,7 @@ public class CouncilMapperImpl implements CouncilMapper, ConfigListener {
     
     @SuppressWarnings("rawtypes")
     public void updateConfig(Dictionary configs) {
-        defaultBranch = (String)configs.get("defaultMapping");        
+        defaultBranch = (String)configs.get("defaultBranch");        
         if (defaultBranch == null) {
             defaultBranch = DEFAULT_BRANCH;
             log.error("Default mapping is null. Use /content/girlscouts-usa");
