@@ -23,6 +23,7 @@ import org.osgi.service.component.ComponentContext;
     @Property(name="OAuthUrl", label="OAuth URL", description="URL to Salesforce OAuth endpoint."),
     @Property(name="clientId", label="Client ID", description="Salesforce Client ID"),
     @Property(name="clientSecret", label="Client Secret", description="Salesforce Client Secret"),
+    @Property(name="helloUrl", label="Hello URL", description="URL of the controller that checks if the user is signed in and say hello."),
     @Property(name="callbackUrl", label="Redirect URL", description="Callback URI that Salesforce redirects to after authentication. Usually it is our controller."),
     @Property(name="targetUrl", label="Target URL", description="Redirect to this URL if authentication succeeds. Usually it is VTK homepage."),
     @Property(name="councilMapping", cardinality=Integer.MAX_VALUE, label="Council Branch Mapping", description="Defines mappings between a council ID and a content branch. Format: council id::content branch. e.g. 12::gateway"),
