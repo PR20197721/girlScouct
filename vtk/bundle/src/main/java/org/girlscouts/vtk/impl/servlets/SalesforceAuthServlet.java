@@ -116,34 +116,37 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
     	
     	HttpSession session = request.getSession();
     	ApiConfig apiConfig = (ApiConfig) session.getAttribute(ApiConfig.class.getName());
+
+        String redirectUrl = null;
     	if( apiConfig!=null){
     		try{ isLogoutApi = logoutApi(apiConfig, false); }catch(Exception e){e.printStackTrace();}
-    		
     		
     		try{ logoutApi(apiConfig, true); }catch(Exception e){e.printStackTrace();}
     		
     		try{ isLogoutWeb = logoutWeb(apiConfig); }catch(Exception e){e.printStackTrace();}
-    	}//edn if
-    	
-    	
-    	
-    	//HttpSession session = request.getSession();
+
+            try {
+                String councilId = Integer.toString(apiConfig.getTroops().get(0).getCouncilCode());
+                redirectUrl = councilMapper.getCouncilUrl(councilId);
+            } catch (ArrayIndexOutOfBoundsException e) {}
+    	} 
+
+    	if (redirectUrl == null) {
+    	    redirectUrl = councilMapper.getCouncilUrl();
+    	} else {
+    	    // TODO: language?
+    	    redirectUrl += "en.html";
+    	}
+
         session.invalidate();
         session=null;
-        
-        String redirectUrl;
-        try {
-            String councilId = Integer.toString(apiConfig.getTroops().get(0).getCouncilCode());
-            redirectUrl = councilMapper.getCouncilUrl(councilId);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            redirectUrl = councilMapper.getCouncilUrl();
-        }
        
     	apiConfig=null;
 
         redirectUrl= redirectUrl.contains("?") ? (redirectUrl = redirectUrl +"&isSignOutSalesForce=true") : 
         	(redirectUrl = redirectUrl +"?isSignOutSalesForce=true") ;
        
+        log.info("######### redirectUrl: " + redirectUrl);
         redirect(response, redirectUrl);
     }
     
