@@ -6,8 +6,8 @@ import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
-import org.girlscouts.vtk.impl.helpers.ConfigListener;
-import org.girlscouts.vtk.impl.helpers.ConfigManager;
+import org.girlscouts.vtk.helpers.ConfigListener;
+import org.girlscouts.vtk.impl.helpers.ConfigManagerImpl;
 
 @Component(
         label="Girl Scouts VTK Salesforce DAO Factory",
@@ -20,7 +20,7 @@ import org.girlscouts.vtk.impl.helpers.ConfigManager;
 )
 public class SalesforceDAOFactory implements ConfigListener {
     @Reference
-    ConfigManager configManager;
+    ConfigManagerImpl configManager;
     
     private String clientId;
     private String clientSecret;

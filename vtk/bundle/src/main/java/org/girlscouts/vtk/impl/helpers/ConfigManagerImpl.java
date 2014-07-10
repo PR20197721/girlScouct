@@ -9,7 +9,8 @@ import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Modified;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
-import org.apache.felix.scr.annotations.Service;
+import org.girlscouts.vtk.helpers.ConfigListener;
+import org.girlscouts.vtk.helpers.ConfigManager;
 import org.osgi.service.component.ComponentContext;
 
 @Component(
@@ -17,9 +18,6 @@ import org.osgi.service.component.ComponentContext;
     description="All Girl Scouts VTK Configurations go here",
     metatype=true, 
     immediate=true
-)
-@Service (
-    value=ConfigManager.class
 )
 @Properties ({
     @Property(name="OAuthUrl", label="OAuth URL", description="URL to Salesforce OAuth endpoint."),
@@ -30,8 +28,7 @@ import org.osgi.service.component.ComponentContext;
     @Property(name="councilMapping", cardinality=Integer.MAX_VALUE, label="Council Branch Mapping", description="Defines mappings between a council ID and a content branch. Format: council id::content branch. e.g. 12::gateway"),
     @Property(name="defaultBranch", label="Default Branch", description="Default branch if council mapping not found. e.g. girlscouts-usa")
 })
-    
-public class ConfigManager {
+public class ConfigManagerImpl implements ConfigManager {
     private List<ConfigListener> listeners;
     private ComponentContext context;
     
@@ -44,6 +41,12 @@ public class ConfigManager {
     public void register(ConfigListener listener) {
         listeners.add(listener);
         listener.updateConfig(context.getProperties());
+    }
+    
+    public String getConfig(String key) {
+        @SuppressWarnings("rawtypes")
+        Dictionary configs = context.getProperties();
+        return (String)configs.get(key);
     }
     
     @Modified
