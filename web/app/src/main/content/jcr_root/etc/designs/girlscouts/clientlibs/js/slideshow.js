@@ -88,7 +88,7 @@ function setTimer(timer,play){
 	    autoplay: pboolean,
 	    autoplaySpeed: playspeed,
 	    arrows: true,
-	    dots: true,
+	    dots: false,
 	    fade: true,
 	    infinite: true,
 	    slidesToShow: 1,
