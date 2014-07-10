@@ -31,10 +31,10 @@
 			<div class="inner-wrap">
 				<%
 					// Override currentPage and currentDesign according to councilId
-					if (false){ //newCurrentPage != null) {
+					if (newCurrentPage != null) {
 						request.setAttribute("newCurrentPage", newCurrentPage);
 					}
-					if (false) {//newCurrentDesign != null) {
+					if (newCurrentDesign != null) {
 						request.setAttribute("newCurrentDesign", newCurrentDesign);
 					}
 				%>
