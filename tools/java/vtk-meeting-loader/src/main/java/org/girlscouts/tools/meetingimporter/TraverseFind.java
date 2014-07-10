@@ -12,8 +12,8 @@ import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.xwpf.usermodel.XWPFDocument;
 import org.apache.poi.xwpf.usermodel.XWPFParagraph;
 import org.apache.poi.xwpf.usermodel.XWPFRun;
-import org.girlscouts.tools.meetingimporter.models.Activity;
-import org.girlscouts.tools.meetingimporter.models.Meeting;
+import org.girlscouts.vtk.models.Activity;
+import org.girlscouts.vtk.models.Meeting;
 
 public class TraverseFind {
 

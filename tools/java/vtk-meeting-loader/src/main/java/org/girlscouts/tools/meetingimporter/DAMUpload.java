@@ -36,12 +36,12 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.util.CellReference;
 import org.apache.sling.api.resource.Resource;
-import org.girlscouts.tools.meetingimporter.models.Meeting;
 /*
 import org.apache.poi.ss.*;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.*;
 */
+import org.girlscouts.vtk.models.Meeting;
 
 public class DAMUpload {
 	
@@ -56,7 +56,7 @@ public class DAMUpload {
 	
 	private void parseMeetingPlan() throws Exception{
 		
-		 FileInputStream fis = new FileInputStream("/Users/mike/Desktop/brownie/yearplan.xlsx");
+		 FileInputStream fis = new FileInputStream("/Users/mike/Desktop/brownie/metadata.xlsx");
          Workbook workbook = WorkbookFactory.create(fis);
          
          FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
@@ -141,7 +141,7 @@ for(int i=2;i<sheet.getLastRowNum();i++){
 	// 1 row header(s)
 	private void parseAssetLoad() throws Exception{
 		
-		FileInputStream fis = new FileInputStream("/Users/mike/Desktop/brownie/yearplan.xlsx");
+		FileInputStream fis = new FileInputStream("/Users/mike/Desktop/brownie/metadata.xlsx");
         Workbook workbook = WorkbookFactory.create(fis);
         
         FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
@@ -180,7 +180,7 @@ for(int i=2;i<sheet.getLastRowNum();i++){
         	try{ 
         	    String[] destinations = destination.split("\n");
         	    for (int j = 0; j < destinations.length; j++) {
-        	        damUpload("/Users/mike/Desktop/brownie/", fileName, metaDatas, destinations[j], type);
+        	        damUpload("/Users/mike/Desktop/brownie/assets/", fileName, metaDatas, destinations[j], type);
         	    }
         	}catch(Exception e){e.printStackTrace();}
         	
@@ -313,7 +313,7 @@ entity.addPart( "./jcr:content/metadata/jcr:mixinTypes", new StringBody( "cq:Tag
 
 entity.addPart( "./jcr:content/renditions/jcr:primaryType", new StringBody( "nt:folder", "text/plain",Charset.forName( "UTF-8" )));
 
-entity.addPart( "./jcr:content/metadata/dc:title", new StringBody( (String)metaDatas.get("name"), "text/plain",
+entity.addPart( "./jcr:content/metadata/dc:title", new StringBody( ((String)metaDatas.get("name")).trim(), "text/plain",
 Charset.forName( "UTF-8" )));
 
 if( metaDatas.get("description")!=null )
