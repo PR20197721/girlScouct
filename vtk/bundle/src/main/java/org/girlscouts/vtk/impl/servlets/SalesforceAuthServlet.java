@@ -21,8 +21,8 @@ import org.girlscouts.vtk.auth.dao.SalesforceDAOFactory;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.models.User;
 import org.girlscouts.vtk.helpers.ConfigListener;
+import org.girlscouts.vtk.helpers.ConfigManager;
 import org.girlscouts.vtk.helpers.CouncilMapper;
-import org.girlscouts.vtk.impl.helpers.ConfigManagerImpl;
 import org.girlscouts.vtk.salesforce.Troop;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,7 +56,7 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
     private String targetUrl;
     
     @Reference
-    private ConfigManagerImpl configManager;
+    private ConfigManager configManager;
     
     @Reference
     private SalesforceDAOFactory salesforceDAOFactory;
