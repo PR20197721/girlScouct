@@ -855,7 +855,7 @@ input.searchField{
 	}
 }
 
-.embed-container {
+.video-container {
 	position:relative;
 	padding-bottom:56.25%;
 	padding-top:30px;
@@ -863,7 +863,7 @@ input.searchField{
 	overflow:hidden;
 }
 
-.embed-container iframe{
+.video-container iframe{
 	position:absolute;
 	top:0;
 	left:0;
