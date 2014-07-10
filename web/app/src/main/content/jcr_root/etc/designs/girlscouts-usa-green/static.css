@@ -153,7 +153,7 @@ a:hover.menuHighlight {
     background-color: #009447;
 }
 #headerBar>div{
-    padding: 3px 10px 0px 20px;
+    padding: 3px 10px 0px 10px;
 }
 
 #headerBar ul.inline-list {
@@ -162,7 +162,7 @@ a:hover.menuHighlight {
 }
 #headerBar li {
     margin: 0px;
-    padding: 0px 20px 4px 0;
+    padding: 0px 10px 4px 10px;
 }
 #headerBar li:last-child {
     padding-right: 0;
