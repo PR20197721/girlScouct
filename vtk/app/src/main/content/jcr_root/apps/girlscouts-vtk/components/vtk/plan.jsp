@@ -66,7 +66,7 @@
 		
 		
 		<%if(user.getYearPlan().getSchedule()!=null){ %>
-			<li><a href="/content/girlscouts-vtk/en/cal.ics">Calendar Synch</a></li>
+			<li><a onclick="self.location = '/content/girlscouts-vtk/en/cal.ics'">Calendar Synch</a></li>
 		<%} %>
 		
 		
