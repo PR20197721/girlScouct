@@ -138,7 +138,11 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
     	    redirectUrl += "en.html";
     	}
 
-        session.invalidate();
+    	try {
+    	    session.invalidate();
+    	} catch (IllegalStateException e) {
+    	    // Catch request sent twice
+    	}
         session=null;
        
     	apiConfig=null;
