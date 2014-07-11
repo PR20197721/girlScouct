@@ -18,7 +18,7 @@
 
 
 
-        <%if(true){//user.getYearPlan().getSchedule() !=null ){ %>
+        <%if(user.getYearPlan().getSchedule() !=null ){ %>
 <%@include file="include/location.jsp" %>
 <br/><br/>
 <%@include file="include/manageActivities.jsp" %>
