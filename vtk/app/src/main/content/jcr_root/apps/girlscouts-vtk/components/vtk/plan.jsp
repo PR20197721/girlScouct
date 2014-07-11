@@ -73,8 +73,14 @@
 		
 	</ul>
 <%} %>
+
+
+
 <%if( user.getYearPlan()==null ){ %>
 	<p>To start planning your year, select a Year Plan</p>
+	<ul>
+		<li><a href="javascript:void(0)" id="plan_calendarhlp_hrf" onclick="x12('plan_calendarhlp_hrf')"><img align="right" src="/etc/designs/girlscouts-usa-green/images/help-icon.png"/></a></li>
+	</ul>
 <%}%>
 	<div class="sectionHeader">YEAR PLAN LIBRARY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <% if(user.getYearPlan()!=null){%>
@@ -195,7 +201,7 @@ function x12( id){
 </script>
               
              
-<%if(user.getYearPlan().getSchedule()!=null){ %>
+<%if(user.getYearPlan()!=null && user.getYearPlan().getSchedule()!=null){ %>
              
        <div id="helpSched" style="display: none;" class="modal-example-content">
         <div class="modal-example-header" >
