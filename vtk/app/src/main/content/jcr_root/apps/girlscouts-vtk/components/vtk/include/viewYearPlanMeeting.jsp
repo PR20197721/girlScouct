@@ -156,9 +156,9 @@ List<Asset> _aidTags = meeting.getAssets();
 
 java.util.Date sysAssetLastLoad =  sling.getService(org.girlscouts.vtk.helpers.DataImportTimestamper.class).getTimestamp(); //SYSTEM QUERY
 
-out.println("GlobalFileUpdate "+ sysAssetLastLoad);
+//out.println("GlobalFileUpdate "+ sysAssetLastLoad);
 if(meeting.getLastAssetUpdate()==null || meeting.getLastAssetUpdate().before(sysAssetLastLoad) ){
-	out.println("FRESH");
+	//out.println("FRESH");
 	
 	_aidTags = _aidTags ==null ? new java.util.ArrayList() : _aidTags;
 	

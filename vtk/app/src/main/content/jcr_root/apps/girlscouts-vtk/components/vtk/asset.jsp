@@ -3,7 +3,7 @@
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 <script>
-function assignAid(aidId, meetingId, assetName){
+function assignAid(aidId, meetingId, assetName, assetDesc){
 	  
 	  $.ajax({
 			cache: false,
@@ -13,6 +13,7 @@ function assignAid(aidId, meetingId, assetName){
 				addAids:aidId,
 				meetingId: meetingId,
 				assetName:assetName,
+				assetDesc:assetDesc,
 				a:Date.now()
 			},
 			success: function(result) {
@@ -32,7 +33,9 @@ function assignAid(aidId, meetingId, assetName){
 <%
 	} else {
 %>
+<div>Adding: <b><%=request.getParameter("aidName")%></b></div>
 <span class="instruction">Please select the meeting(s) where you would like to add this resource:</span>
+
 <br/>
 <ul>
 <%
