@@ -50,9 +50,8 @@ if( meetingE.getCancelled()!=null && meetingE.getCancelled().equals("true")){%>
 
 %>
 			<h1><%=meeting.getName() %></h1>
-		
-			<span class="tags"><%=meeting.getAidTags() %></span>
-		
+			<p class="tags"><%=meeting.getAidTags() %></p>
+			<br/>
 			<p class="blurb"><%=meeting.getBlurb() %></p>
 			<a href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=date.getTime()%>" style="color:#008f50;">View Meeting</a>
 		</div>

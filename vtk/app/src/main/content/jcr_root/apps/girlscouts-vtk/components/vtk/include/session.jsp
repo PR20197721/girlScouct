@@ -5,7 +5,8 @@ java.text.SimpleDateFormat FORMAT_hhmm = new java.text.SimpleDateFormat("hh:mm")
 
 java.text.SimpleDateFormat FORMAT_AMPM = new java.text.SimpleDateFormat("a");
 java.text.SimpleDateFormat FORMAT_MONTH = new java.text.SimpleDateFormat("MMM");
-java.text.SimpleDateFormat FORMAT_DAY_OF_MONTH = new java.text.SimpleDateFormat("dd");
+java.text.SimpleDateFormat FORMAT_DAY_OF_MONTH = new java.text.SimpleDateFormat("d");
+java.text.SimpleDateFormat FORMAT_MONTH_DAY = new java.text.SimpleDateFormat("MMM d");
 
 
 java.text.SimpleDateFormat FORMAT_MMM_dd_hhmm_AMPM= new java.text.SimpleDateFormat("MMM dd hh:mm a");

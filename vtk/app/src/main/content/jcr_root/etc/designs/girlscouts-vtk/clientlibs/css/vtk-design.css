@@ -145,16 +145,39 @@ dl.tabs dd.active {
 #yearPlanMeetings h1 {
 	font-size:1rem;
 	font-weight: bold;
-	line-height: 0.6rem;
+	line-height: 1rem;
+	margin: 0px;
 }
 #yearPlanMeetings .tags {
-	font-size:0.5rem;
+	font-size:0.75rem;
+	line-height: 1rem;
 }
 
 #yearPlanMeetings p {
 	line-height: 1rem;
 	margin: 0;
 	font-size:1rem;
+}
+#yearPlanMeetings li.milestone.ui-state-disabled {
+        opacity: 1.00;
+        border: 0px;
+        background: #c0c0c0;
+	color: #ffffff;
+	font-weight: bold;
+	margin: 0px;
+	padding: 0px;
+}
+li.milestone {
+	text-transform: uppercase;
+	text-align: center;
+	padding: 3px;
+	margin: 0px;
+}
+li.milestone .listLabel {
+	background-color: #797979;
+}
+li.milestone .listBody {
+
 }
 #troop {
 	padding:10px;
