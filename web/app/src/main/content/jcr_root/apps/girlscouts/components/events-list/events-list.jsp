@@ -145,8 +145,15 @@
             <div class="small-24 medium-12 large-8 columns">
             <%
             	String imgPath = node.getPath() + "/jcr:content/data/image";
-%>
+String rendition = displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80");
+
+             %><%
+                 if(rendition.equals("<img />"))
+             {%>
+<img src="/content/dam/all_icons/32/calendar_32.png/jcr:content/renditions/cq5dam.web.120.80.png">
+                <%} else { %>
 <%= displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80")%>
+                <% } %>
             </div>
             <div class="small-24 medium-12 large-16 columns">
                 <h3><a href="<%= href %>"><%= title %></a></h3>
