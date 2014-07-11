@@ -35,7 +35,7 @@ java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().get
    		<% } %>
    		
    	<td><%=i %>
-   	<td><%= dateFormat0.format( date ) %>
+   	<td><%= FORMAT_CALENDAR_DATE.format( date ) %>
    	<td>
    	
    	

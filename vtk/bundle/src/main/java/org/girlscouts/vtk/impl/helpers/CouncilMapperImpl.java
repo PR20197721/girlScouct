@@ -11,6 +11,8 @@ import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.resource.LoginException;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
+import org.girlscouts.vtk.helpers.ConfigListener;
+import org.girlscouts.vtk.helpers.ConfigManager;
 import org.girlscouts.vtk.helpers.CouncilMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +44,7 @@ public class CouncilMapperImpl implements CouncilMapper, ConfigListener {
     
     @SuppressWarnings("rawtypes")
     public void updateConfig(Dictionary configs) {
-        defaultBranch = (String)configs.get("defaultMapping");        
+        defaultBranch = (String)configs.get("defaultBranch");        
         if (defaultBranch == null) {
             defaultBranch = DEFAULT_BRANCH;
             log.error("Default mapping is null. Use /content/girlscouts-usa");

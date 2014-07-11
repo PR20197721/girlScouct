@@ -21,8 +21,6 @@
 			{confMsg ="Are You Sure? This will modify plans on /after [date]. Any customization for meeting(s) will be lost.";confMsg+=isDtMeetings(user.getYearPlan().getSchedule(), 0); }
 	}
 	
-	out.println(confMsg +" asdf");
-
 	YearPlanDAO yearPlanDAO = sling.getService(YearPlanDAO.class);
 
 	java.util.Iterator <YearPlan>yearPlans =yearPlanDAO.getAllYearPlans( request.getParameter("ageLevel")).listIterator();

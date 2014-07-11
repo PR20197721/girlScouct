@@ -1,20 +1,23 @@
 <%!
-java.text.SimpleDateFormat fmtDate= new java.text.SimpleDateFormat("MM/dd/yyyy");
-java.text.SimpleDateFormat fmtHr= new java.text.SimpleDateFormat(" hh:mm a");
-java.text.SimpleDateFormat fmtHr1 = new java.text.SimpleDateFormat("hh:mm");
-java.text.SimpleDateFormat fmt= new java.text.SimpleDateFormat("MMM dd  hh:mm a");
-java.text.SimpleDateFormat fmtX= new java.text.SimpleDateFormat("d");
-java.text.SimpleDateFormat dateFormat55 = new java.text.SimpleDateFormat("EEE MMM dd,yyyy hh:mm a");
-java.text.SimpleDateFormat df = new java.text.SimpleDateFormat("MMM dd yyyy hh:mm a");
-java.text.SimpleDateFormat fmtAP = new java.text.SimpleDateFormat("a");
-java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat("MM/dd/yyyy");
-java.text.SimpleDateFormat dateFormat41 = new java.text.SimpleDateFormat("a");
-java.text.SimpleDateFormat dateFormat42 = new java.text.SimpleDateFormat("hh");
-java.text.SimpleDateFormat dateFormat43 = new java.text.SimpleDateFormat("mm");
-java.text.SimpleDateFormat dateFormat44 = new java.text.SimpleDateFormat("hh:mm");
-java.text.SimpleDateFormat dateFormat0 = new java.text.SimpleDateFormat("MMM dd, yyyy hh:mm a");
-java.text.NumberFormat fmtCurr = java.text.NumberFormat.getCurrencyInstance();
-java.text.DecimalFormat decFormat = new java.text.DecimalFormat("#.00");
+java.text.SimpleDateFormat FORMAT_MMddYYYY = new java.text.SimpleDateFormat("MM/dd/yyyy");
+java.text.SimpleDateFormat FORMAT_hhmm_AMPM = new java.text.SimpleDateFormat("hh:mm a");
+java.text.SimpleDateFormat FORMAT_hhmm = new java.text.SimpleDateFormat("hh:mm");
+
+java.text.SimpleDateFormat FORMAT_AMPM = new java.text.SimpleDateFormat("a");
+java.text.SimpleDateFormat FORMAT_MONTH = new java.text.SimpleDateFormat("MMM");
+java.text.SimpleDateFormat FORMAT_DAY_OF_MONTH = new java.text.SimpleDateFormat("d");
+java.text.SimpleDateFormat FORMAT_MONTH_DAY = new java.text.SimpleDateFormat("MMM d");
+
+
+java.text.SimpleDateFormat FORMAT_MMM_dd_hhmm_AMPM= new java.text.SimpleDateFormat("MMM dd hh:mm a");
+java.text.SimpleDateFormat FORMAT_MEETING_REMINDER = new java.text.SimpleDateFormat("EEE MMM dd,yyyy hh:mm a");
+
+java.text.SimpleDateFormat FORMAT_MMM_dd_yyyy_hhmm_AMPM = new java.text.SimpleDateFormat("MMM dd yyyy hh:mm a");
+
+java.text.SimpleDateFormat FORMAT_CALENDAR_DATE = new java.text.SimpleDateFormat("MMM dd, yyyy hh:mm a");
+
+java.text.NumberFormat FORMAT_CURRENCY = java.text.NumberFormat.getCurrencyInstance();
+java.text.DecimalFormat FORMAT_COST_CENTS = new java.text.DecimalFormat("#.00");
 
 
 %>
@@ -36,7 +39,7 @@ if( isTest )
 	
 
 org.girlscouts.vtk.auth.models.ApiConfig apiConfig =null;
-
+try {
 if( session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName())!=null ){
 	apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig)session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
 	out.println("<!-- APICONFIG: "+ apiConfig.getAccessToken() +" User: "+ apiConfig.getUserId() +" URL: "+ apiConfig.getInstanceUrl() +" -->");
@@ -44,7 +47,12 @@ if( session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName(
 	out.println("Your session has timed out.  Please login.");
 	return;
 }
-
+} catch (ClassCastException cce) {
+	session.invalidate();
+	log.error("ApiConfig class cast exception -- probably due to restart.  Logging out user.");
+        out.println("Your session has timed out.  Please login.");
+	return;
+}
 if( apiConfig.getTroops()==null || apiConfig.getTroops().size()<=0 ){
 	out.println("<span class='error'>Sorry, this user is not part of a valid GirlScouts' campaign. Please ask your council admin for SalesForce access.</span>");
 	return;

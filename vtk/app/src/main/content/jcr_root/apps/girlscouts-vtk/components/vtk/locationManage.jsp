@@ -44,7 +44,7 @@ for(int i=0;i<locations.size();i++){
                         mLoc = mLoc==null ? "" : mLoc;
                         if( date.after( new java.util.Date()) ){
 %>
-				<li><input type="checkbox" name="<%=location.getName() %>" value="<%=date%>" <%= mLoc.equals(location.getPath() ) ? "CHECKED" : ""%> /><%=fmtDate.format(date) %>
+				<li><input type="checkbox" name="<%=location.getName() %>" value="<%=date%>" <%= mLoc.equals(location.getPath() ) ? "CHECKED" : ""%> /><%=FORMAT_MMddYYYY.format(date) %>
 				
 				
 				<%if( ((MeetingE)_comp).getCancelled()!=null && ((MeetingE)_comp).getCancelled().equals("true")){%>
@@ -56,7 +56,7 @@ for(int i=0;i<locations.size();i++){
 <% 
                         }else{
 %>
-				<li><%= mLoc.equals(location.getPath() ) ? "YES" : ""%> <del><%=fmtDate.format(date) %></del></li>
+				<li><%= mLoc.equals(location.getPath() ) ? "YES" : ""%> <del><%=FORMAT_MMddYYYY.format(date) %></del></li>
 <% 
                         }
                 }

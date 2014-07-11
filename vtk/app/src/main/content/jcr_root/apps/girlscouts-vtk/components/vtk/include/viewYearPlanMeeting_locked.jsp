@@ -17,8 +17,8 @@
         <div class="small-4 columns">
 		<div class="planSquare">
 	<%if( user.getYearPlan().getSchedule()!=null ) {%>
-			<%=fmt.format(searchDate) %>
-	<%}else{ out.println( fmtX.format(searchDate) ); } %>
+			<%=FORMAT_MMM_dd_hhmm_AMPM.format(searchDate) %>
+	<%}%>
 		</div>
 	</div>
         <div class="small-2 columns next">
@@ -140,7 +140,7 @@
 	<li value="<%=(ii+1)%>">
 		<table>
 			<tr>
-				<td><%if( user.getYearPlan().getSchedule()!=null ){ out.println(fmtHr.format(activSched.getTime())); }%></td>
+				<td><%if( user.getYearPlan().getSchedule()!=null ){ out.println(FORMAT_hhmm_AMPM.format(activSched.getTime())); }%></td>
 				<td><%=_activity.getName() %></td>
 				<td><%=_activity.getDuration() %></td>
 			</tr>

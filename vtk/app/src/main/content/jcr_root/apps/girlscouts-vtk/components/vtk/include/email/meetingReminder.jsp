@@ -4,7 +4,7 @@
 <%=apiConfig.getUserId() %>--
 <%=apiConfig.getAccessToken() %>
 
-<br/>Reminder Meeting#  <%=(currInd +1)%> <%= dateFormat55.format(searchDate) %>
+<br/>Reminder Meeting#  <%=(currInd +1)%> <%= FORMAT_MEETING_REMINDER.format(searchDate) %>
 	
 
 <br/>Sent: XXX
@@ -21,7 +21,7 @@
 
 <div style="background-color:gray">Compose Email</div>
 
-<br/>Subject: <input type="text" id="email_subj" value="Reminder <%=user.getTroop().getGradeLevel()  %>  Meeting# <%=(currInd +1)%> <%= dateFormat55.format(searchDate) %>"/>
+<br/>Subject: <input type="text" id="email_subj" value="Reminder <%=user.getTroop().getGradeLevel()  %>  Meeting# <%=(currInd +1)%> <%= FORMAT_MEETING_REMINDER.format(searchDate) %>"/>
 
 <div style="background-color:yellow;">
 
@@ -39,7 +39,7 @@ Hello Girl Scout Families,
 
 <table>
 	<tr>
-		<th>Date:</th><td><%= dateFormat55.format(searchDate) %></td>
+		<th>Date:</th><td><%= FORMAT_MEETING_REMINDER.format(searchDate) %></td>
 	</tr>
 	<tr>
 		<th>Location:</th><td>

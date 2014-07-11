@@ -1,6 +1,10 @@
-<div id="mstn" style="background-color:orange; margin:20px;">
-
-
-	<div id="mstndt"><%=  df.format(milestone.getDate()) %></div>
-	<div id="mstnbrb"><%=milestone.getBlurb() %></div>
-</div>
+<li class="ui-state-default ui-state-disabled milestone">
+        <div  class="row">
+                <div class="large-4 columns listLabel">
+                        <%=  FORMAT_MONTH_DAY.format(milestone.getDate()) %>
+                </div>
+                <div class="large-20 columns listBody">
+                        <%=milestone.getBlurb() %>
+                </div>
+        </div>
+</li>

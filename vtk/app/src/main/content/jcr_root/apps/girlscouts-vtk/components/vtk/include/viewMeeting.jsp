@@ -2,21 +2,43 @@
 	MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
 	Meeting meeting = meetingDAO.getMeeting(meetingE.getRefId());
 	boolean isCanceled =false;
-	 if (meetingE.getCancelled()!=null && meetingE.getCancelled().equals("true") )
+	boolean calendarNotSet = false;
+	if (user.getYearPlan().getSchedule() == null) {
+		calendarNotSet = true;
+	}
+	if (meetingE.getCancelled()!=null && meetingE.getCancelled().equals("true") ) {
 		 isCanceled=true;
-	
-	
-	%>
+	}
+%>
 
 
 <li  class="meeting <%=( user.getYearPlan().getSchedule()==null || new java.util.Date().before(date)) ? "ui-state-default" : "ui-state-default ui-state-disabled"%>" value="<%=meetingCount%>">
 	<div  class="row">
 		<div class="large-4 columns">
-			<div class="planSquare" <%=isCanceled ?  "style='background-image: url(http://www.starryeyedcats.com/red%20cross%20website.png); background-size: 100px 100px;'" : "" %>>
-
-				
-				Meeting<br/>
-				#<%= meetingCount %> <%= user.getYearPlan().getSchedule()==null ? "" : df.format(date) %>
+			<div class="planSquare">
+<%
+	if (calendarNotSet) {
+%>
+                                <div class="date">
+                                        <div class="cal"><span class="month">Meeting<br/></span><span class="day"><%= meetingCount %><br/></span></div>
+                                </div>
+<%
+	} else {
+%>
+				<div class="count"><%= meetingCount %></div>
+<%
+		if (isCanceled) {
+%>
+				<div class="cancelled"><div class="cross">X</div></div>
+<%
+		}
+%>
+				<div class="date">
+                                        <div class="cal"><span class="month"><%= FORMAT_MONTH.format(date)%><br/></span><span class="day"><%= FORMAT_DAY_OF_MONTH.format(date)%><br/></span><span class="time"><%= FORMAT_hhmm_AMPM.format(date)%></span></div>
+				</div>
+<%
+	}
+%>
 			</div>
 		</div>
 		<div class="large-16 columns">
@@ -28,9 +50,8 @@ if( meetingE.getCancelled()!=null && meetingE.getCancelled().equals("true")){%>
 
 %>
 			<h1><%=meeting.getName() %></h1>
-		
-			<span class="tags"><%=meeting.getAidTags() %></span>
-		
+			<p class="tags"><%=meeting.getAidTags() %></p>
+			<br/>
 			<p class="blurb"><%=meeting.getBlurb() %></p>
 			<a href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=date.getTime()%>" style="color:#008f50;">View Meeting</a>
 		</div>
