@@ -359,3 +359,10 @@ function doMeetingLib(){
 	
 	loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html');
 }
+
+function doHelp(isSched){
+	if( isSched )
+		loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html');
+	else
+		loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html');
+}

@@ -62,13 +62,13 @@
 		<li>
 			<a href="javascript:void(0)" onclick="newActivity()">Add Activity</a>
 		</li>
-		<li><a href="javascript:void(0)" id="plan_calendarhlp_hrf"><img align="right" src="/etc/designs/girlscouts-usa-green/images/help-icon.png"/></a></li>
+		<li><a href="javascript:void(0)" id="plan_calendarhlp_hrf" onclick="x12('plan_calendarhlp_hrf')"><img align="right" src="/etc/designs/girlscouts-usa-green/images/help-icon.png"/></a></li>
 		
 		
 		<%if(user.getYearPlan().getSchedule()!=null){ %>
 			<li><a onclick="self.location = '/content/girlscouts-vtk/en/cal.ics'">Calendar Synch</a></li>
+			
 		<%} %>
-		
 		
 		
 	</ul>
@@ -144,3 +144,83 @@ public boolean isDtMeetings(Cal cal, int x){
 }
 	%>
 	
+	
+	
+	
+       
+<script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.custombox.js"></script>
+<link rel="stylesheet" href="/etc/designs/girlscouts-vtk/clientlibs/css/alex/jquery.custombox.css">
+<style>
+
+.modal-example-content {
+    width: 600px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    background-color: #FFF;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+    outline: 0 none;
+}
+.modal-example-header {
+    border-bottom: 1px solid #E5E5E5;
+    padding: 15px;
+}
+.modal-example-body p,
+.modal-example-header h4 {
+    margin: 0;
+}
+.modal-example-body {
+    padding: 20px;
+}
+</style>
+
+
+
+
+ 
+<script>
+function x12( id){
+	
+	//var y = document.getElementById('cntx');
+	//y.innerHtml= xx;
+	
+	 $.fn.custombox( document.getElementById(id),{
+			 	effect:'newspaper',
+	 			url:'#helpSched'
+		});
+	
+	// document.getElementById('xyz').innerHTML=ttl;
+	 
+}
+
+</script>
+              
+             
+<%if(user.getYearPlan().getSchedule()!=null){ %>
+             
+       <div id="helpSched" style="display: none;" class="modal-example-content">
+        <div class="modal-example-header" >
+            <span id="xyz"></span><button type="button" class="close" onclick="$.fn.custombox('close');">&times;</button>
+            Help With Sched
+        </div>
+        <div class="modal-example-body" id="cntx" >
+            <p>
+            Help asdfasdfasdf
+            	
+            </p>
+        </div>
+    </div>
+<% }else{ %>
+ 	<div id="helpSched" style="display: none;" class="modal-example-content">
+        <div class="modal-example-header" >
+            <span id="xyz"></span><button type="button" class="close" onclick="$.fn.custombox('close');">&times;</button>
+            Help No Sched
+        </div>
+        <div class="modal-example-body" id="cntx" >
+            <p>
+            Help asdfasdfasdf
+            	
+            </p>
+        </div>
+    </div>
+
+<% }%>
