@@ -10,7 +10,8 @@ String rootPath = currentPage.getAbsoluteParent(2).getPath();
 String eventLeftNavRoot = currentSite.get("leftNavRoot", String.class);
 String eventPath = currentSite.get("eventPath", String.class);
 String contentResourceType="";
- 
+Design newCurrentDesign= (Design)request.getAttribute("newCurrentDesign");
+String designPath = currentDesign == null ? "/" : currentDesign.getPath(); 
 for (int i = 0; i < links.length; i++) {
 	String[] values = links[i].split("\\|\\|\\|");
 	String label = values[0];
@@ -71,3 +72,6 @@ for (int i = 0; i < links.length; i++) {
 	}
 }
 %>
+<li>
+<a class="show-for-medium right-off-canvas-toggle menu-icon"><img src="<%= designPath %>/images/hamburger.png" width="19" height="28"></a>
+</li>
