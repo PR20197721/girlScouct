@@ -51,6 +51,9 @@
 		$(window).resize(resizeWindow);
 		$(document).ready(function() {
 			girlscouts.components.login.init('<%= language %>', '<%= signInUrl %>', '<%= signOutUrl %>');
+			if (window.location.href.indexOf('isSignOutSalesForce') != -1) {
+				$.removeCookie('girl-scout-name');
+			}
 			var name = $.cookie('girl-scout-name');
 			if (name) {
 				girlscouts.components.login.sayHello('signedin', name);	
