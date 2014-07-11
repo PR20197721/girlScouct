@@ -326,6 +326,7 @@ $('#newCustActivity1').click(function() {
                 
               <div style="background-color:red;">Cost: <input type="text" name="newCustActivity_cost"  id="newCustActivity_cost" value="<%=decFormat.format(activity.getCost())%>"/></div>
 			<input type="button" value="Save" id="newCustActivity1" onclick="caca()"/>
+			<input type="button" value="Cancel" onclick="openClose('editCustActiv')"/>
 			  
              
                 </div>
