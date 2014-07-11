@@ -310,7 +310,7 @@ properties of this scaffolding.
                         if (isUpdate) {
                             //CQ.Ext.Msg.alert("Success", "Updated " + contentPath);
                             CQ.Util.reload(CQ.WCM.getContentWindow(), CQ.HTTP.externalize(contentPath + ".html"));
-                        } else if(startDate < endDate){
+                        } else if((startDate < endDate) | endDate == ""){
                             //CQ.Ext.Msg.alert("Success", "Created page " + contentPath);
                             var title = contentPath;
                             var html = "<li><a href='"+ CQ.HTTP.externalize(contentPath + ".html")+"'>"+title+"</a></li>";
@@ -322,7 +322,7 @@ properties of this scaffolding.
 
             }
                 });
-                if(startDate < endDate){
+                if((startDate < endDate) | endDate == ""){
                 frm.doAction(action);
                 }
                 else{
