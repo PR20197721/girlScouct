@@ -2,23 +2,69 @@
 	padding: 1.5em;
 }
 
-dl.tabs {
-	border-bottom: 3px solid #999;
+.tabs {
 	padding-left:1.5em;
+	border-bottom: 1px solid grey;
 }
 
-dl.tabs dd {
-	border: 1px solid #99CC99;
+.tabs .label {
+	padding: 10px 30px;
+        float: left;
+
+	font-size: 1rem;
+	font-weight: bold;
+
+        /* Default colors */
+        color: #424b4b;
+        background: #d6d6d6;
+	border-top: 1px solid #b3b3b3;
+	border-right: 1px solid #b3b3b3;
+	border-left: 1px solid #b3b3b3;
+
+        /* Only round the top corners */
+        -webkit-border-top-left-radius: 15px;
+        -webkit-border-top-right-radius: 15px;
+        -moz-border-radius-topleft: 15px;
+        -moz-border-radius-topright: 15px;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+}
+.tabs .active {
+        /* Default colors */
+        color: #424b4b;
+        background: #ffffff;
 }
 
-dl.tabs dd.active {
-	padding: 1rem 2rem;
+.tabs li { 
+	/* Makes a horizontal row */
+	float: left; 
+
+	/* So the psueudo elements can be abs. positioned inside */
+	position: relative; 
+}
+.tabs a { 
+	/* Make them block level and only as wide as they need */
+	text-decoration: none;
+}
+.tabs .active {
+	/* Highest, active tab is on top */
+	z-index: 57;
+}
+.tabs .active .label { 
+	/* Colors when tab is active */
+	background: white; 
+	color: #424b4b; 
 }
 
+#vtkSubNav {
+	padding-top:10px;
+	width: 100%;
+}
 #vtkSubNav li {
 	display: inline;
 	list-style-type: none;
 	padding-right: 20px;
+	font-weight: bold;
 }
 
 .sectionHeader {
@@ -26,6 +72,7 @@ dl.tabs dd.active {
 	background-color:#ccc;
 	padding: 1.0em;
 	text-align: center;
+	margin-bottom: 10px;
 }
 
 #yearPlanSelection {
@@ -140,13 +187,32 @@ dl.tabs dd.active {
 #yearPlanMeetings li.activity.ui-state-disabled {
 	opacity: 1.00;
         border-bottom: 1px solid grey;
+        background: #ffffff;
+}
+#yearPlanMeetings .planMain {
+        padding: 5px 10px;
+}
+#yearPlanMeetings .planMain .alert{
+	color: #ff0000;
+}
+#yearPlanMeetings li.activity.ui-state-disabled .planMain {
         background: #daeffe;
 }
+
 #yearPlanMeetings h1 {
-	font-size:1rem;
+	font-size:1.4rem;
 	font-weight: bold;
-	line-height: 1rem;
-	margin: 0px;
+	line-height: 1.3rem;
+	text-align: center;
+}
+#yearPlanMeetings h2 {
+        font-size:1rem;
+        font-weight: bold;
+        line-height: 1rem;
+        margin: 0px;
+}
+#yearPlanMeetings a {
+	color:#008f50;
 }
 #yearPlanMeetings .tags {
 	font-size:0.75rem;
@@ -184,6 +250,8 @@ li.milestone .listBody {
 }
 #troop .troopPrompt {
 	text-align: right;
+	font-style: italic;
+	padding-top: 8px;
 }
 #troop .troopSelect{
 	line-height:1.0rem;
@@ -299,3 +367,4 @@ a.direction {
 .printer.right {
 	float: right;	
 }
+
