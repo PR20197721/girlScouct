@@ -20,9 +20,9 @@ import org.girlscouts.vtk.auth.dao.SalesforceDAO;
 import org.girlscouts.vtk.auth.dao.SalesforceDAOFactory;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.models.User;
+import org.girlscouts.vtk.helpers.ConfigListener;
+import org.girlscouts.vtk.helpers.ConfigManager;
 import org.girlscouts.vtk.helpers.CouncilMapper;
-import org.girlscouts.vtk.impl.helpers.ConfigListener;
-import org.girlscouts.vtk.impl.helpers.ConfigManager;
 import org.girlscouts.vtk.salesforce.Troop;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -116,28 +116,34 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
     	
     	HttpSession session = request.getSession();
     	ApiConfig apiConfig = (ApiConfig) session.getAttribute(ApiConfig.class.getName());
+
+        String redirectUrl = null;
     	if( apiConfig!=null){
     		try{ isLogoutApi = logoutApi(apiConfig, false); }catch(Exception e){e.printStackTrace();}
-    		
     		
     		try{ logoutApi(apiConfig, true); }catch(Exception e){e.printStackTrace();}
     		
     		try{ isLogoutWeb = logoutWeb(apiConfig); }catch(Exception e){e.printStackTrace();}
-    	}//edn if
-    	
-    	
-    	
-    	//HttpSession session = request.getSession();
-        session.invalidate();
+
+            try {
+                String councilId = Integer.toString(apiConfig.getTroops().get(0).getCouncilCode());
+                redirectUrl = councilMapper.getCouncilUrl(councilId);
+            } catch (ArrayIndexOutOfBoundsException e) {}
+    	} 
+
+    	if (redirectUrl == null) {
+    	    redirectUrl = councilMapper.getCouncilUrl();
+    	} else {
+    	    // TODO: language?
+    	    redirectUrl += "en.html";
+    	}
+
+    	try {
+    	    session.invalidate();
+    	} catch (IllegalStateException e) {
+    	    // Catch request sent twice
+    	}
         session=null;
-        
-        String redirectUrl;
-        try {
-            String councilId = Integer.toString(apiConfig.getTroops().get(0).getCouncilCode());
-            redirectUrl = councilMapper.getCouncilUrl(councilId);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            redirectUrl = councilMapper.getCouncilUrl();
-        }
        
     	apiConfig=null;
 
@@ -150,8 +156,8 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
     private void salesforceCallback(SlingHttpServletRequest request, SlingHttpServletResponse response) {
         HttpSession session = request.getSession();
         if ((ApiConfig)session.getAttribute(ApiConfig.class.getName()) != null) {
-            log.error("In Salesforce callback but the ApiConfig already exists. Quit.");
-            return;
+            log.error("In Salesforce callback but the ApiConfig already exists. Redirect.");
+            redirect(response, targetUrl);
         }
         
         String code = request.getParameter(CODE);
