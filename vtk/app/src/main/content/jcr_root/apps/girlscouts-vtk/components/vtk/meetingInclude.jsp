@@ -19,7 +19,7 @@
 
 
 %>
-<center><b><%=user.getYearPlan().getName() %></b></center>
+<h1><%=user.getYearPlan().getName() %></h1>
 <br/><p>Drag and drop to reorder meetings</p>
 <ul id="sortable123">
 <% 

@@ -1,29 +1,29 @@
-<dl class="tabs" data-tab>
-	<dd><a href="#panel2-1">My Troup</a></dd>
+<ul class="tabs group">
+	<li><a href="#panel2-1" class="label">My Troop</a></li>
 <% if ("plan".equals(activeTab)) { %>
-	<dd class="active">Year Plan</dd>
+	<li class="active"><span class="label">Year Plan</span></li>
 <% } else { %>
-	<dd ><a href="/content/girlscouts-vtk/en/vtk.html">Year Plan</a></dd>
+	<li ><a href="/content/girlscouts-vtk/en/vtk.html" class="label">Year Plan</a></li>
 <% } %>
 <% if ("planView".equals(activeTab)) { %>
-        <dd class="active">MeetingPlan</dd>
+        <li class="active label">MeetingPlan</li>
 <% } else { %>
-	<dd>
+	<li>
 <%if( user.getYearPlan()!=null ){ %>
-		<a href="/content/girlscouts-vtk/en/vtk.planView.html">Meeting Plan</a>
+		<a href="/content/girlscouts-vtk/en/vtk.planView.html" class="label">Meeting Plan</a>
 <%}else{%>
-		<a href="#" onclick="alert('Please select a year plan')">Meeting Plan</a>
+		<a href="#" onclick="alert('Please select a year plan')" class="label">Meeting Plan</a>
 <%} %>
-	</dd>
+	</li>
 <% } %>
 <% if ("resource".equals(activeTab)) { %>
-        <dd class="active">Resources</dd>
+        <li class="active label">Resources</li>
 <% } else { %>
-	<dd><a href="/content/girlscouts-vtk/en/vtk.resource.html">Resources</a></dd>
+	<li><a href="/content/girlscouts-vtk/en/vtk.resource.html" class="label">Resources</a></li>
 <% } %>
 <% if ("community".equals(activeTab)) { %>
-	<dd class="active">Community</dd>
+	<li class="active label">Community</li>
 <% } else { %>
-	<dd><a href="#panel2-5">Community</a></dd>
+	<li><a href="#panel2-5" class="label">Community</a></li>
 <% } %>
-</dl>
+</ul>

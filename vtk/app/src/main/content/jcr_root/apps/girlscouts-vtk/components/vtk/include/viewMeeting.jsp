@@ -19,9 +19,9 @@
 <%
 	if (calendarNotSet) {
 %>
-                                <div class="date">
-                                        <div class="cal"><span class="month">Meeting<br/></span><span class="day"><%= meetingCount %><br/></span></div>
-                                </div>
+				<div class="date">
+					<div class="cal"><span class="month">Meeting<br/></span><span class="day"><%= meetingCount %><br/></span></div>
+				</div>
 <%
 	} else {
 %>
@@ -34,7 +34,7 @@
 		}
 %>
 				<div class="date">
-                                        <div class="cal"><span class="month"><%= FORMAT_MONTH.format(date)%><br/></span><span class="day"><%= FORMAT_DAY_OF_MONTH.format(date)%><br/></span><span class="time"><%= FORMAT_hhmm_AMPM.format(date)%></span></div>
+					<div class="cal"><span class="month"><%= FORMAT_MONTH.format(date)%><br/></span><span class="day"><%= FORMAT_DAY_OF_MONTH.format(date)%><br/></span><span class="time"><%= FORMAT_hhmm_AMPM.format(date)%></span></div>
 				</div>
 <%
 	}
@@ -42,18 +42,20 @@
 			</div>
 		</div>
 		<div class="large-16 columns">
+			<div class="planMain">
+				<h2>
 <%
-
 if( meetingE.getCancelled()!=null && meetingE.getCancelled().equals("true")){%>
-			<span style="color:#FFF; background-color:red;">CANCELLED</span>
+				<span class="alert">(Cancelled)</span>
 <% }
 
 %>
-			<h1><%=meeting.getName() %></h1>
-			<p class="tags"><%=meeting.getAidTags() %></p>
-			<br/>
-			<p class="blurb"><%=meeting.getBlurb() %></p>
-			<a href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=date.getTime()%>" style="color:#008f50;">View Meeting</a>
+				<%=meeting.getName() %></h2>
+				<p class="tags"><%=meeting.getAidTags() %></p>
+				<br/>
+				<p class="blurb"><%=meeting.getBlurb() %></p>
+				<a href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=date.getTime()%>">View Meeting</a>
+			</div>
 		</div>
 		<div class="large-4 columns">
 			<img width="100" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/badge.png"/>

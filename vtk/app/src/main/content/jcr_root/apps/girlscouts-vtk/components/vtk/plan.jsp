@@ -8,22 +8,8 @@
 	String activeTab = "plan";
 	boolean showVtkNav = true;
 %>
-
-
-
-<!--  
-<link href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/css/base/jquery.ui.all.css" rel="stylesheet">
-    <link href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.2/css/lightness/jquery-ui-1.10.2.custom.min.css" rel="stylesheet">
-    -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.2/jquery.ui.touch-punch.min.js"></script>
-
-
+<script src="http://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.2/jquery.ui.touch-punch.min.js"></script>
 <%
-
-//System.err.println("VTKKKKK");
-//out.println(user.getPath() +" *** "+user.getId());
-
-
 	YearPlanDAO yearPlanDAO = sling.getService(YearPlanDAO.class);
 	java.util.List<org.girlscouts.vtk.salesforce.Troop> troops = user.getApiConfig().getTroops();
 	if (troops.size() > 1) {
@@ -62,25 +48,28 @@
 		<li>
 			<a href="javascript:void(0)" onclick="newActivity()">Add Activity</a>
 		</li>
-		<li><a href="javascript:void(0)" id="plan_calendarhlp_hrf" onclick="x12('plan_calendarhlp_hrf')"><img align="right" src="/etc/designs/girlscouts-usa-green/images/help-icon.png"/></a></li>
-		
-		
+                <li class="icons">
 		<%if(user.getYearPlan().getSchedule()!=null){ %>
-			<li><a onclick="self.location = '/content/girlscouts-vtk/en/cal.ics'">Calendar Synch</a></li>
-			
-		<%} %>
-		
-		
+			<a onclick="self.location = '/content/girlscouts-vtk/en/cal.ics'"><img alt="Calendar Download" src="/etc/designs/girlscouts-vtk/images/calendar-download.png" width="39" height="20" border="0" align="right"/></a>
+                <%} %>
+<!--
+			<a href="javascript:void(0)" id="plan_calendarhlp_hrf" onclick="x12('plan_calendarhlp_hrf')"><img align="right" src="/etc/designs/girlscouts-usa-green/images/help-icon.png"/></a>
+-->
+		</li>
 	</ul>
 <%} %>
 
-
-
 <%if( user.getYearPlan()==null ){ %>
+	<br/>
 	<p>To start planning your year, select a Year Plan</p>
+<!--
 	<ul>
-		<li><a href="javascript:void(0)" id="plan_calendarhlp_hrf" onclick="x12('plan_calendarhlp_hrf')"><img align="right" src="/etc/designs/girlscouts-usa-green/images/help-icon.png"/></a></li>
+		<li>
+			<a href="javascript:void(0)" id="plan_calendarhlp_hrf" onclick="x12('plan_calendarhlp_hrf')">
+			<img align="right" src="/etc/designs/girlscouts-usa-green/images/help-icon.png"/></a>
+		</li>
 	</ul>
+-->
 <%}%>
 	<div class="sectionHeader">YEAR PLAN LIBRARY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <% if(user.getYearPlan()!=null){%>
