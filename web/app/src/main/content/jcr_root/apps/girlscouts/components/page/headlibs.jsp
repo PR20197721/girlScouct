@@ -51,7 +51,8 @@
 		$(window).resize(resizeWindow);
 		$(document).ready(function() {
 			girlscouts.components.login.init('<%= language %>', '<%= signInUrl %>', '<%= signOutUrl %>');
-			if (window.location.href.indexOf('isSignOutSalesForce') != -1) {
+			<%-- TODO: Create a new servlet for redirect so this param will not show in browser --%>
+			if (window.location.href.indexOf('isSignOutSalesForce=true') != -1) {
 				$.removeCookie('girl-scout-name');
 			}
 			var name = $.cookie('girl-scout-name');
