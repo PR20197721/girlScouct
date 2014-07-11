@@ -150,7 +150,6 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
         redirectUrl= redirectUrl.contains("?") ? (redirectUrl = redirectUrl +"&isSignOutSalesForce=true") : 
         	(redirectUrl = redirectUrl +"?isSignOutSalesForce=true") ;
        
-        log.info("######### redirectUrl: " + redirectUrl);
         redirect(response, redirectUrl);
     }
     
