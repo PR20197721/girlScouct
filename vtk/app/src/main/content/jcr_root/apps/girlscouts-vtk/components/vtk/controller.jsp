@@ -347,7 +347,7 @@ try {
 	
 	String assetId = request.getParameter("bindAssetToYPC");
 	String ypcId = request.getParameter("ypcId");
-	String assetDesc = request.getParameter("assetDesc");
+	String assetDesc = java.net.URLDecoder.decode(request.getParameter("assetDesc"));
 	System.err.println("*** "+ assetId +" : "+ ypcId +" : "+ assetDesc);
 	User user = (User)session.getValue("VTK_user");
 	java.util.List<MeetingE> meetings = user.getYearPlan().getMeetingEvents();

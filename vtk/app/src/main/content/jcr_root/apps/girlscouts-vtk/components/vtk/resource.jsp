@@ -62,8 +62,8 @@
 		});
 	});
 
-	function applyAids(aid){
-		var link = "/content/girlscouts-vtk/controllers/vtk.asset.html?aidId="+ aid;
+	function applyAids(aid, aidDesc){
+		var link = "/content/girlscouts-vtk/controllers/vtk.asset.html?aidId="+ aid+ "&aidName="+encodeURI(aidDesc);
 		$( "#schedModal" ).load(link, function( response, status, xhr ) {
 			if ( status == "error" ) {
 				var msg = "Sorry but there was an error: ";
@@ -260,7 +260,7 @@ try {
                 	builder.append("\">");
                 	builder.append(title);
                 	builder.append("</a>");
-                	builder.append("<input type=\"button\" value=\"Add to Meeting\" onclick=\"applyAids('"+asset.getPath()+"', '' )\" />");
+                	builder.append("<input type=\"button\" value=\"Add to Meeting\" onclick=\"applyAids('"+asset.getPath()+"', '"+title+"' )\" />");
                 	builder.append("</li>");
                 }
             }
