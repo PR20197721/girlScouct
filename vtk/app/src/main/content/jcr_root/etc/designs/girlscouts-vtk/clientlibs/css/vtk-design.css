@@ -264,10 +264,10 @@ li.milestone .listBody {
 .modalWrap {
 	background-color: #ffffff;
 	padding: 10px;
-	border:2px solid #99FF99;
+	border:4px solid #eeeeee;
 }
 .ui-widget-overlay {
-	background-color: #003300;
+	background: #000000;
 	opacity: .30;
 	filter: Alpha(Opacity=30);
 }
