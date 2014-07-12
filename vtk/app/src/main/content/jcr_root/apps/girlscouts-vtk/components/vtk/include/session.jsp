@@ -25,8 +25,6 @@ java.text.DecimalFormat FORMAT_COST_CENTS = new java.text.DecimalFormat("#.00");
 
 HttpSession session = request.getSession();
 
-
-
 int timeout = session.getMaxInactiveInterval();
 //out.println( "***** " + timeout + " : "+ session.getId() );
 response.setHeader("Refresh", timeout + "; URL = /content/girlscouts-vtk/en/vtk.logout.html");

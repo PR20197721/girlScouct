@@ -1,5 +1,4 @@
-<%@ page import="java.util.*, org.apache.sling.api.resource.*, org.apache.sling.jcr.api .*,java.lang.ref.*, com.day.cq.tagging.*, com.day.cq.tagging.*, org.apache.jackrabbit.commons.JcrUtils, org.apache.sling.api.resource.*"%>
-<cq:defineObjects/>
+<!-- apps/girlscouts-vtk/components/vtk/include/viewYearPlanMeeting_locked.jsp -->
 <%
 	MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
 	MeetingE meeting = (MeetingE) _comp;

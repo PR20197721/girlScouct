@@ -8,7 +8,6 @@
 	String activeTab = "plan";
 	boolean showVtkNav = true;
 %>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.2/jquery.ui.touch-punch.min.js"></script>
 <%
 	YearPlanDAO yearPlanDAO = sling.getService(YearPlanDAO.class);
 	java.util.List<org.girlscouts.vtk.salesforce.Troop> troops = user.getApiConfig().getTroops();
@@ -143,8 +142,6 @@ public boolean isDtMeetings(Cal cal, int x){
 	
 	
        
-<script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.custombox.js"></script>
-<link rel="stylesheet" href="/etc/designs/girlscouts-vtk/clientlibs/css/alex/jquery.custombox.css">
 <style>
 
 .modal-example-content {

@@ -36,7 +36,6 @@
     boolean showVtkNav = true;
 %>
 <%@include file="include/vtk-nav.jsp"%>
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
 <script>
 	$(function() {
 		var cache = {};
