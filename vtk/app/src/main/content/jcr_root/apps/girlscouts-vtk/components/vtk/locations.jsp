@@ -9,18 +9,26 @@
 
 <div class="sectionBar">Manage Calendar</div>
 <div id="calMng">
-	<%if( user.getYearPlan().getSchedule() ==null ){ %>
-		<%@include file="include/calSched.jsp" %>
-	<%}else{%>
-		LOADING CALENDAR.....<script>loadCalMng()</script>
-	<%} %>
-</div>
-
-
-
-        <%if(true){//user.getYearPlan().getSchedule() !=null ){ %>
+<%
+	if (user.getYearPlan() != null) {
+		if( user.getYearPlan().getSchedule() ==null ){ 
+%>
+<%@include file="include/calSched.jsp" %>
+<%
+		}else{
+%>
+			LOADING CALENDAR.....<script>loadCalMng()</script>
+<%
+		}
+%>
 <%@include file="include/location.jsp" %>
 <br/><br/>
 <%@include file="include/manageActivities.jsp" %>
-        <%} %>
-
+<%
+	} else {
+%>
+	<span class="error">This year plan has no meetings.<br/> Please select a different year plan.</span>
+<%
+	}
+%>
+</div>

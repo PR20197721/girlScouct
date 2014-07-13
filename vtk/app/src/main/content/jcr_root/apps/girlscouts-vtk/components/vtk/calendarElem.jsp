@@ -3,12 +3,8 @@
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 <!-- apps/girlscouts-vtk/components/vtk/calendarElem.jsp -->
-
-
-
 <a href="/content/girlscouts-vtk/en/vtk.html?rand=<%= new java.util.Date().getTime()%>">Return to Plan</a>
 <%
-MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
 java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
 
 String elem = request.getParameter("elem");
