@@ -1,17 +1,9 @@
-<%@page import="java.util.Calendar"%>
 <%@page import="org.joda.time.LocalDate"%>
-<%@ page import="org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.ejb.*, org.girlscouts.vtk.dao.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 <%
-	ActivityDAO activityDAO = sling.getService(ActivityDAO.class);
-	LocationDAO locationDAO = sling.getService(LocationDAO.class);
-	CalendarUtil calendarUtil = sling.getService(CalendarUtil.class);
-	LocationUtil locationUtil = sling.getService(LocationUtil.class);
-	MeetingUtil meetingUtil = sling.getService(MeetingUtil.class);
-	EmailUtil emailUtil = sling.getService(EmailUtil.class);
-
 if( request.getParameter("isMeetingCngAjax") !=null){
 	
 	//System.err.println("contr : meeting rearg");
@@ -157,7 +149,9 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 }else if( request.getParameter("loginAs")!=null){ //troopId
 	if(request.getParameter("loginAs")==null || request.getParameter("loginAs").trim().equals("") ){System.err.println("loginAs invalid.abort");return;}
 	
-	java.util.List<org.girlscouts.vtk.salesforce.Troop> troops = user.getApiConfig().getTroops();
+	troops = user.getApiConfig().getTroops();
+	session.setAttribute("USER_TROOP_LIST", troops);
+
 	org.girlscouts.vtk.salesforce.Troop newTroop = null;
 	for(int i=0;i<troops.size();i++)
 		if( troops.get(i).getTroopId().equals(request.getParameter("loginAs")))
@@ -183,7 +177,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
     new_user.setSfTroopId( new_user.getTroop().getTroopId() );
     new_user.setSfUserId( new_user.getApiConfig().getUserId() );
     new_user.setSfTroopName( new_user.getTroop().getTroopName() );  
-    session.putValue("VTK_user", new_user);
+    session.setAttribute("VTK_user", new_user);
 }else if( request.getParameter("addAsset")!=null){
 	
 	org.girlscouts.vtk.models.Asset asset = new org.girlscouts.vtk.models.Asset(request.getParameter("addAsset"));

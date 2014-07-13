@@ -1,4 +1,4 @@
-<%@page import="java.util.Iterator,org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
@@ -39,7 +39,6 @@ function assignAid(aidId, meetingId, assetName, assetDesc){
 <br/>
 <ul>
 <%
-		MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
 		java.util.Iterator itr= sched.keySet().iterator();
 		while( itr.hasNext() ){
 			java.util.Date dt= (java.util.Date) itr.next();
@@ -84,7 +83,3 @@ function assignAid(aidId, meetingId, assetName, assetDesc){
 	}
 %>
 </ul>
-<br/><hr/><br/>
-<center>
-<a href="javascript:void(0)"  onclick="xClose()" class=".ui-widget-overlay" >CLOSE</a>
-</center>

@@ -1,4 +1,4 @@
-<%@ page import="org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
@@ -9,28 +9,26 @@
 	boolean showVtkNav = true;
 %>
 <%
-	YearPlanDAO yearPlanDAO = sling.getService(YearPlanDAO.class);
-	java.util.List<org.girlscouts.vtk.salesforce.Troop> troops = user.getApiConfig().getTroops();
-	if (troops.size() > 1) {
+        if (troops != null && troops.size() > 1) {
 %>
 <div id="troop" class="row">
-	<div class="large-12 troopPrompt columns">
-		Current troop profile:
-	</div>
-	<div class="large-12 troopSelect columns">
-		<select id="reloginid" onchange="relogin()">
+        <div class="large-12 troopPrompt columns">
+                Current troop profile:
+        </div>
+        <div class="large-12 troopSelect columns">
+                <select id="reloginid" onchange="relogin()">
 <%
-		for(int i=0;i<troops.size();i++){
-%> 
-			<option value="<%=troops.get(i).getTroopId() %>" <%= user.getTroop().getTroopId().equals(troops.get(i).getTroopId()) ? "SELECTED" : ""%>><%= troops.get(i).getTroopName() %> : <%= troops.get(i).getGradeLevel() %></option> 
-<% 
-		}
+                for(int i=0;i<troops.size();i++){
 %>
-		</select>
-	</div>
+                        <option value="<%=troops.get(i).getTroopId() %>" <%= user.getTroop().getTroopId().equals(troops.get(i).getTroopId()) ? "SELECTED" : ""%>><%= troops.get(i).getTroopName() %> : <%= troops.get(i).getGradeLevel() %></option>
+<%
+                }
+%>
+                </select>
+        </div>
 </div>
 <%
-	}
+        }
 %>
 <%@include file="include/vtk-nav.jsp"%>
 <% if( user.getYearPlan()!=null){ %> 
@@ -57,7 +55,6 @@
 		</li>
 	</ul>
 <%} %>
-
 <%if( user.getYearPlan()==null ){ %>
 	<br/>
 	<p>To start planning your year, select a Year Plan</p>
@@ -83,8 +80,6 @@
 String ageLevel=  user.getTroop().getGradeLevel();
 ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1);
 ageLevel=ageLevel.toLowerCase().trim();
-java.util.Iterator<YearPlan> yearPlans = yearPlanDAO.getAllYearPlans(ageLevel).listIterator();
-
 
 String confMsg="";
 if( user.getYearPlan()!=null ){
@@ -96,7 +91,7 @@ if( user.getYearPlan()!=null ){
 }
 
 
-
+java.util.Iterator<YearPlan> yearPlans = yearPlanDAO.getAllYearPlans(ageLevel).listIterator();
 while (yearPlans.hasNext()) {
 	YearPlan yearPlan = yearPlans.next();
 %>

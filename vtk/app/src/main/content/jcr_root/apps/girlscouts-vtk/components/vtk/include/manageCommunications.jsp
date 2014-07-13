@@ -33,23 +33,8 @@
 </table>
 
 
-<div id="picModal"></div>
 <script>
-
 function doPic(isFile){
-	link='/content/girlscouts-vtk/controllers/vtk.uploadPhoto.html?isFile='+isFile+'&refId=<%=_comp.getUid()%>&myId=<%=searchDate.getTime()%>';
-    $( "#picModal" ).load(link, function( response, status, xhr ) {
-        if ( status == "error" ) {
-                var msg = "Sorry but there was an error: ";
-                $( "#error" ).html( msg + xhr.status + " " + xhr.statusText );
-        }else{
-	$( "#picModal" ).dialog({
-		width:920,
-		modal:true,
-		dialogClass:"modalWrap"
-	});
-	$(".ui-dialog-titlebar").hide();
-        }
-});
+        loadModalPage('/content/girlscouts-vtk/controllers/vtk.uploadPhoto.html?isFile='+isFile+'&refId=<%=_comp.getUid()%>&myId=<%=searchDate.getTime()%>');
 }
 </script>

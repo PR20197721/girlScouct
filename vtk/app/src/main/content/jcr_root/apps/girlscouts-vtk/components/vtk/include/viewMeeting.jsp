@@ -1,5 +1,4 @@
 <% 
-	MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
 	Meeting meeting = meetingDAO.getMeeting(meetingE.getRefId());
 	boolean isCanceled =false;
 	boolean calendarNotSet = false;

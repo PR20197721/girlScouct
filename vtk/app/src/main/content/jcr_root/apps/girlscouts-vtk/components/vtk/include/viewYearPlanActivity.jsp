@@ -137,7 +137,9 @@ if( a_aidTags!=null )
 
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.datepicker.validation.js"></script>
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.validate.js"></script>
+<!--
 <link rel="stylesheet" href="/etc/designs/girlscouts-vtk/clientlibs/css/alex/screen.css">
+-->
 
 <script>
 $(function() {
@@ -286,7 +288,6 @@ $('#newCustActivity1').click(function() {
 <form class="cmxform" id="signupForm">
 	
 	<h2>Edit Activity</h2>
-	<!--  <a class="closeText" href="#" onclick="$('#editCustActiv').dialog('close')">Return to Plan</a> -->
 	<div class="sectionBar">Edit Custom Activity</div>
 	<div id="newCustActivity_err" style="color:red;"></div>
         <div class="row">

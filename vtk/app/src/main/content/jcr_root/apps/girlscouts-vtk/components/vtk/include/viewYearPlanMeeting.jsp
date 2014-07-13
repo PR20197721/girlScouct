@@ -1,6 +1,5 @@
 <!-- apps/girlscouts-vtk/components/vtk/include/viewYearPlanMeeting.jsp -->
 <%
-	MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
 	MeetingE meeting = (MeetingE) _comp;
 	Meeting meetingInfo = meetingDAO.getMeeting(  meeting.getRefId() );
 	java.util.List <Activity> _activities = meetingInfo.getActivities();
@@ -125,17 +124,7 @@
 <p>AidTags:<%=aidTags %></p>
 <%
 
-
-
-
-
-
-
-//List<org.girlscouts.vtk.models.Search> _aidTags =  meetingDAO.getAids( meetingInfo.getAidTags(), meetingInfo.getId(), "");
 List<Asset> _aidTags = meeting.getAssets();
-
-
-
 
 java.util.Date sysAssetLastLoad =  sling.getService(org.girlscouts.vtk.helpers.DataImportTimestamper.class).getTimestamp(); //SYSTEM QUERY
 
@@ -161,7 +150,6 @@ if(meeting.getLastAssetUpdate()==null || meeting.getLastAssetUpdate().before(sys
 	//query cachables
 	 java.util.List __aidTags =  meetingDAO.getAids( meetingInfo.getAidTags(), meetingInfo.getId(), meeting.getUid());
 	
-	
 	//merge lists
 	_aidTags.addAll( __aidTags );
 	
@@ -169,7 +157,6 @@ if(meeting.getLastAssetUpdate()==null || meeting.getLastAssetUpdate().before(sys
 	meeting.setLastAssetUpdate( new java.util.Date() );
 	meeting.setAssets( _aidTags);
 	userDAO.updateUser(user);
-	
 }
 
 

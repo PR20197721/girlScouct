@@ -1,11 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<%@page import="java.util.Iterator,org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
-<div id="newLocationModal" class="row">
-<div class="large-24 columns">
-
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.extensions.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.custom.extensions.js"></script>
@@ -18,7 +15,9 @@
 
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.datepicker.validation.js"></script>
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.validate.js"></script>
+<!--
 <link rel="stylesheet" href="/etc/designs/girlscouts-vtk/clientlibs/css/alex/screen.css">
+-->
 
 <script>
 $(function() {
@@ -228,6 +227,3 @@ border:5px solid #000;
 
 
 </form>
-</div>
-
-</div>

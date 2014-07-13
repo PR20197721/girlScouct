@@ -8,7 +8,7 @@
 }
 
 .tabs .label {
-	padding: 10px 30px;
+	padding: 10px 18px;
         float: left;
 
 	font-size: 1rem;
@@ -63,8 +63,11 @@
 #vtkSubNav li {
 	display: inline;
 	list-style-type: none;
-	padding-right: 20px;
+	padding-right: 10px;
 	font-weight: bold;
+}
+#vtkSubNav .icons img{
+	margin-right:15px;
 }
 
 .sectionHeader {
@@ -367,4 +370,7 @@ a.direction {
 .printer.right {
 	float: right;	
 }
-
+.tip {
+        font-style: italic;
+	color: #00ae58;
+}
