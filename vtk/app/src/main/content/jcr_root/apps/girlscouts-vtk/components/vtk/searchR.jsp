@@ -15,7 +15,7 @@ if (searchResults == null || searchResults.size() < 1) {
 } else {
 	for(int i=0;i<searchResults.size();i++){
 		org.girlscouts.vtk.models.Search search = searchResults.get(i);
-		String docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-unknown.png";
+		String docTypeImage = null;
 		try {
 
 			String regexStr = "\\.([a-z]*)$";
@@ -50,27 +50,28 @@ if (searchResults == null || searchResults.size() < 1) {
 					docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-photoshop.png";
 				} else if (docType.indexOf("text") != -1) {
 					docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-text.png";
-				} else {
-					// match by name
-					if (extension.equals("pdf")) {
-						docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-pdf.png";
-					} else if (extension.indexOf("ind") != -1) {
-						docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-indesign.png";
-					} else if (extension.indexOf("htm") != -1) {
-						docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-html.png";
-					} else if (extension.indexOf("xls") != -1) {
-						docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-excel.png";
-					} else if (extension.equals("ai")) {
-						docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-illustrator.png";
-					} else if (extension.indexOf("ppt") != -1) {
-						docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-powerpoint.png";
-					} else if (extension.indexOf("doc") != -1) {
-						docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-word.png";
-					} else if (extension.equals("psd")) {
-						docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-photoshop.png";
-					} else if (extension.equals("txt")) {
-						docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-text.png";
-					}
+				}
+			}
+			if (docTypeImage == null) {
+				// match by name
+				if (extension.equals("pdf")) {
+					docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-pdf.png";
+				} else if (extension.indexOf("ind") != -1) {
+					docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-indesign.png";
+				} else if (extension.indexOf("htm") != -1) {
+					docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-html.png";
+				} else if (extension.indexOf("xls") != -1) {
+					docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-excel.png";
+				} else if (extension.equals("ai")) {
+					docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-illustrator.png";
+				} else if (extension.indexOf("ppt") != -1) {
+					docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-powerpoint.png";
+				} else if (extension.indexOf("doc") != -1) {
+					docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-word.png";
+				} else if (extension.equals("psd")) {
+					docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-photoshop.png";
+				} else if (extension.equals("txt")) {
+					docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-text.png";
 				}
 			}
 		} catch (Exception e) {
@@ -79,6 +80,9 @@ if (searchResults == null || searchResults.size() < 1) {
 		String description = "Untitled";
 		if (search.getDesc() != null) {
 			description = java.net.URLEncoder.encode(search.getDesc());
+		}
+		if (docTypeImage == null) {
+			docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-unknown.png";
 		}
 		
 %>
