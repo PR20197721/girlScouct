@@ -301,7 +301,8 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	}
 	
 	java.util.List<Activity> activities = user.getYearPlan().getActivities();
-	for(int i=0;i<activities.size();i++){
+	if( activities!=null)
+	 for(int i=0;i<activities.size();i++){
 		if( activities.get(i).getUid().equals( ypcId)){
 			
 			Asset asset = new Asset();

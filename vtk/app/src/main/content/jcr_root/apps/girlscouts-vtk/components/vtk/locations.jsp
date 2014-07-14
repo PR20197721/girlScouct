@@ -63,10 +63,30 @@
 			</div>
                 </div>
                 <div id="manageLocationSection">
+<%
+                if( user.getYearPlan().getSchedule() ==null ){
+%>
+			Please first select your calendar start date to set meeting locations.
+<%
+		} else {
+%>
 <%@include file="include/location.jsp" %>
+<%
+		}
+%>
                 </div>
                 <div id="manageActivitySection">
+<%
+                if( user.getYearPlan().getSchedule() ==null ){
+%>
+                        Please first select your calendar start date to set meeting activities.
+<%
+                } else {
+%>
 <%@include file="include/manageActivities.jsp" %>
+<%
+                }
+%>
 		</div>
 <%
         } else {

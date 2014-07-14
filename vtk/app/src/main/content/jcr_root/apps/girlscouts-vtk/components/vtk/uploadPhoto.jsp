@@ -11,9 +11,15 @@ try{ isFile = Integer.parseInt( request.getParameter("isFile") ); }catch(Excepti
 <a href="javascript:void(0)" onclick="location.reload()">CLOSE</a>
 
   <div style="background-color:orange; <%if(isFile==0){%> display:none; <% } %>">
+  
+  
+  
         	<h4>Upload File</h4>
         	
-         <%String assetId = new java.util.Date().getTime() +"_"+ Math.random(); %>
+        	<%String assetId = new java.util.Date().getTime() +"_"+ Math.random(); %>
+        	
+        	
+        
           <form action="/content/girlscouts-vtk/controllers/auth.asset.html" method="post"  
               			onsubmit="return bindAssetToYPC( '/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets/<%=assetId %>', '<%=request.getParameter("refId")%>' )"  enctype="multipart/form-data">
               
@@ -27,8 +33,15 @@ try{ isFile = Integer.parseInt( request.getParameter("isFile") ); }catch(Excepti
                <br />
                 <input type="submit" value="Upload File" />
          </form>
+       
+        
+       <a href="/content/girlscouts-vtk/en/vtk.test2.html?refId=<%=request.getParameter("refId")%>&myId=<%=request.getParameter("myId")%>">dropbox</a>
+        
+        
+        
+         
    </div>
- 
+   
  
  
  
@@ -36,7 +49,8 @@ try{ isFile = Integer.parseInt( request.getParameter("isFile") ); }catch(Excepti
  
  <% if(isFile==0){%> 
     <div style="background-color:red; ">CAMERA
-         
+          
+          
          <div id="example" style="height:300px;"></div>
 			<div id="gallery" style=""></div>
 			
@@ -53,27 +67,69 @@ try{ isFile = Integer.parseInt( request.getParameter("isFile") ); }catch(Excepti
          	gallery.appendChild( myImage );
          	
          		
+         	console.log(toDataUrl(myImage));
+         	
+         	var gg= toDataUrl(myImage);
+         	//var blob = dataURItoBlob(gg);
+         	//var fd = new FormData(document.forms[0]);
+         	
+         	
+         	  var fd = new FormData();
+         	  fd.append("file", gg);
+         	    
+         
+         	    
          	var x =$.ajax({ // ajax call starts
-         		url: '/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets/', // JQuery loads serverside.php
+         	
+         		url: '/content/girlscouts-vtk/controllers/auth.asset.html', // JQuery loads serverside
          		
          		data: {
-         			"./jcr:data":myImage.src,
-         			"./jcr:mimeType":"image/png"
+         			"custasset":fd,
+         			"loc": "/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets",
+         			"id":"<%=assetId %>",
+         			"me":"<%=request.getParameter("myId")%>",
+         			"assetDesc": "TODO",
+         			"owner":"<%=user.getId()%>"
          			
          		},
          		
          		type: 'POST',
+         		
+         		async: false,
+         	    cache: false,
+         	    contentType: false,
+         	    processData: false,
+         	    
          		success: function (data) { 
+         			
          		},
-         		error: function (data) { 
+         		error: function (data) {
+         			
          		}
          	});
          	
          };
          
+         function toDataUrl( source )
+         {
+             var canvas = document.createElement( "canvas" );
+             canvas.width = source.videoWidth || source.width;
+             canvas.height = source.videoHeight || source.height;
+             canvas.getContext( "2d" ).drawImage( source, 0, 0 );
+             return canvas.toDataURL();
+         };
          
+         function saveDataUrl( fileName, dataUrl )
+         {
+             var dataString = dataUrl.split( "," )[ 1 ];
+             var buffer = new Buffer( dataString, 'base64');
+             var extension = dataUrl.match(/\/(.*)\;/)[ 1 ];
+             var fs = require( "fs" );
+             var fullFileName = fileName + "." + extension;
+             fs.writeFileSync( fullFileName, buffer, "binary" );
+         }
          
-         
+        
         </script>
         
            
