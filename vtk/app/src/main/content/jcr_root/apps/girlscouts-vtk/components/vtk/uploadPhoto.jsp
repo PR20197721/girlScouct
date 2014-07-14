@@ -11,9 +11,15 @@ try{ isFile = Integer.parseInt( request.getParameter("isFile") ); }catch(Excepti
 <a href="javascript:void(0)" onclick="location.reload()">CLOSE</a>
 
   <div style="background-color:orange; <%if(isFile==0){%> display:none; <% } %>">
+  
+  
+  
         	<h4>Upload File</h4>
         	
-         <%String assetId = new java.util.Date().getTime() +"_"+ Math.random(); %>
+        	<%String assetId = new java.util.Date().getTime() +"_"+ Math.random(); %>
+        	
+        	
+        
           <form action="/content/girlscouts-vtk/controllers/auth.asset.html" method="post"  
               			onsubmit="return bindAssetToYPC( '/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets/<%=assetId %>', '<%=request.getParameter("refId")%>' )"  enctype="multipart/form-data">
               
@@ -27,8 +33,15 @@ try{ isFile = Integer.parseInt( request.getParameter("isFile") ); }catch(Excepti
                <br />
                 <input type="submit" value="Upload File" />
          </form>
+       
+        
+       <a href="/content/girlscouts-vtk/en/vtk.test2.html?refId=<%=request.getParameter("refId")%>&myId=<%=request.getParameter("myId")%>">dropbox</a>
+        
+        
+        
+         
    </div>
- 
+   
  
  
  

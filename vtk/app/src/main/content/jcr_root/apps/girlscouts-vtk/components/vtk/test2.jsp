@@ -1,4 +1,7 @@
-
+ <%@page import="java.util.Iterator,org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@include file="/libs/foundation/global.jsp" %>
+<cq:defineObjects/>
+<%@include file="include/session.jsp"%>
 
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/dropzone.js"></script>
 
@@ -403,39 +406,70 @@
 }
 
 </style>
-<script>
 
-//Dropzone class:
-var myDropzone = new Dropzone("div#myId", { url: "/file/post"});
-/*
-//"myAwesomeDropzone" is the camelized version of the HTML element's ID
+<%String assetId = new java.util.Date().getTime() +"_"+ Math.random(); %>
+      
+<script>
+         
+         function bindAssetToYPC(assetId, ypcId){
+        	
+        	 var assetDesc = document.getElementById("assetDesc").value;
+        	 //var custasset = document.getElementById("file").value;
+        	 
+        	 ///if( $.trim(custasset)=='' ){alert('Please select file to upload');return false;}
+        	 if( $.trim(assetDesc)=='' ){alert('Please enter name of asset');return false;}
+        	 
+        	 
+        	 $.ajax({
+        			url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand='+Date.now(),
+        			type: 'POST',
+        			data: { 
+        				bindAssetToYPC:assetId,
+        				ypcId:ypcId,
+        				assetDesc:assetDesc,
+        				a:Date.now()
+        			},
+        			success: function(result) {
+        				
+        			}
+        		});
+        	 document.getElementById("my-awesome-dropzone").submit();
+         }
+       
+// good $("div#myId").dropzone({ url: "/file/post" });
+
 Dropzone.options.myAwesomeDropzone = {
-  paramName: "custasset", // The name that will be used to transfer the file
+		
+		alert(1);
+  paramName: "file", // The name that will be used to transfer the file
   maxFilesize: 2, // MB
   accept: function(file, done) {
+	  alert(2)
     if (file.name == "justinbieber.jpg") {
       done("Naha, you don't.");
     }
     else { done(); }
   }
 };
-*/
 
+
+		
 </script>
-<div style="background-color:yellow; border:2px solid green;" > 
-  <form method="post" enctype="multipart/form-data" 
-      class="dropzone" action="/content/girlscouts-vtk/controllers/auth.asset.html"
+<div id="myId"> 
+<form 
+      class="dropzone"
+      action="/content/girlscouts-vtk/controllers/auth.asset.html" method="post"
+      onsubmit="return bindAssetToYPC( '/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets/<%=assetId %>', '<%=request.getParameter("refId")%>' )" 
       id="my-awesome-dropzone">
       
       
-      
-       <input type="hidden" name="loc" value="/vtk/111/troop-3a/assets"/>
+        	<input type="hidden" name="loc" value="/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets"/>
               Asset Name: <input type="text" id="assetDesc" name="assetDesc" value="" />
-               <input type="hidden" name="id" value="123"/>     
-                <input type="hidden" name="me" value="123"/>      
-               <input type="hidden" name="owner" value="123"/>
-               <input type="hidden" name="createTime" value="123"/> 
-      <!--  <input type="submit" name="" value="submit" /> -->
-      
+               <input type="hidden" name="id" value="<%=assetId %>"/>     
+                <input type="hidden" name="me" value="<%=request.getParameter("myId")%>"/>      
+               <input type="hidden" name="owner" value="<%=user.getId()%>"/>
+               <input type="hidden" name="createTime" value="<%=new java.util.Date()%>"/>  
+                <br />
+                <input type="button" value="Upload File" onclick="bindAssetToYPC( '/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets/<%=assetId %>', '<%=request.getParameter("refId")%>' )" /> 
       </form>
       </div> 
