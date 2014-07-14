@@ -63,7 +63,7 @@
         <div class="small-4 columns ">
 		  <!--  <a id="viewMeetingButton" href="#" class="mLocked">change this meeting</a>  -->
 		 <!--  <a id="viewMeetingButton" href="/content/girlscouts-vtk/en/vtk.meetingLibrary.html?mpath=<%=meeting.getPath()%>&xx=<%=searchDate.getTime()%>" class="mLocked">change this meeting</a> -->	
-		<a href="javascript:void(0)" class="mLocked" onclick="mm('/content/girlscouts-vtk/en/vtk.meetingLibrary.html?mpath=<%=meeting.getPath()%>&xx=<%=searchDate.getTime()%>')">change this meeting</a>
+		<a href="javascript:void(0)" class="mLocked" onclick="mm('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=meeting.getPath()%>&xx=<%=searchDate.getTime()%>')">change this meeting</a>
 	
 	
 		<img width="100" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/badge.png"/>
