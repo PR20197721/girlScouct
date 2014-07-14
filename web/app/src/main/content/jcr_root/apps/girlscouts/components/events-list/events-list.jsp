@@ -145,15 +145,13 @@
             <div class="small-24 medium-12 large-8 columns">
             <%
             	String imgPath = node.getPath() + "/jcr:content/data/image";
-String rendition = displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80");
-
+String iconPath = node.hasProperty("jcr:content/data/image/fileReference") ? node.getProperty("jcr:content/data/image/fileReference").getString() : "";
              %><%
-                 if(rendition.equals("<img />"))
-             {%>
-<img src="/content/dam/all_icons/32/calendar_32.png/jcr:content/renditions/cq5dam.web.120.80.png">
-                <%} else { %>
-<%= displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80")%>
-                <% } %>
+if(!iconPath.isEmpty()){ %>
+          				<%= displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80") %>
+                    <%} else if(iconPath.isEmpty()) { %>
+<img src="/content/dam/all_icons/icons_64/calendar_64.png/jcr:content/renditions/cq5dam.web.120.80.png">
+                    <% } %>
             </div>
             <div class="small-24 medium-12 large-16 columns">
                 <h3><a href="<%= href %>"><%= title %></a></h3>
