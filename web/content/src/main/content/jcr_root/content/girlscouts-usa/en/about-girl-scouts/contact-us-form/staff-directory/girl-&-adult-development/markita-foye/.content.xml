@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Markita Foye"
+        email="name@council.org"
+        hideInNav="{Boolean}true"
+        phone="345-567-8901"
+        team="Girl &amp; Adult Development"
+        title="CDM - District 3"/>
+</jcr:root>

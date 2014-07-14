@@ -42,26 +42,26 @@
         </tab1>
         <featureiconimage
             jcr:primaryType="cq:Widget"
-            cropParameter="./imageCrop"
+            cropParameter="./featureiconimage/imageCrop"
             ddGroups="[media]"
-            fileNameParameter="./fileName"
-            fileReferenceParameter="./featureiconimage"
-            mapParameter="./imageMap"
-            name="./file"
-            requestSuffix=".img.png"
-            rotateParameter="./imageRotate"
+            fileNameParameter="./featureiconimage/fileName"
+            fileReferenceParameter="./featureiconimage/fileReference"
+            mapParameter="./featureiconimage/imageMap"
+            name="./featureiconimage/file"
+            requestSuffix="/featureiconimage.img.png"
+            rotateParameter="./featureiconimage/imageRotate"
             title="Feature Icon Image"
             xtype="html5smartimage"/>
         <image
             jcr:primaryType="cq:Widget"
-            cropParameter="./imageCrop"
+            cropParameter="./image/imageCrop"
             ddGroups="[media]"
-            fileNameParameter="./fileName"
-            fileReferenceParameter="./fileReference"
-            mapParameter="./imageMap"
-            name="./file"
-            requestSuffix=".img.png"
-            rotateParameter="./imageRotate"
+            fileNameParameter="./image/fileName"
+            fileReferenceParameter="./image/fileReference"
+            mapParameter="./image/imageMap"
+            name="./image/file"
+            requestSuffix="/image.img.png"
+            rotateParameter="./image/imageRotate"
             title="Image"
             xtype="html5smartimage"/>
         <advanced
@@ -86,6 +86,18 @@
                     heightParameter="./height"
                     widthParameter="./width"
                     xtype="sizefield"/>
+                <resType
+                    jcr:primaryType="cq:Widget"
+                    ignoreData="{Boolean}true"
+                    name="./image/sling:resourceType"
+                    value="girlscouts/components/image"
+                    xtype="hidden"/>
+                <featureiconType
+                    jcr:primaryType="cq:Widget"
+                    ignoreData="{Boolean}true"
+                    name="./featureiconimage/sling:resourceType"
+                    value="foundation/components/image"
+                    xtype="hidden"/>
             </items>
         </advanced>
     </items>

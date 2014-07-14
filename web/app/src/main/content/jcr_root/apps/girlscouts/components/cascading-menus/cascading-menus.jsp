@@ -1,78 +1,141 @@
-<%@page import="java.util.Iterator,java.util.HashSet,java.util.Set, java.util.Arrays" %>
-
+<%@page import="java.util.Iterator, java.util.HashSet,java.util.Set, java.util.Arrays, org.slf4j.Logger,org.slf4j.LoggerFactory, javax.jcr.Node" %>
 <%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/girlscouts/components/global.jsp" %>
 <cq:includeClientLib categories="apps.girlscouts" />
 <cq:defineObjects />
 
+
+<%!public void buildMenu(Iterator<Page> iterPage, String rootPath,
+			String gs_us_path, StringBuilder menuBuilder, int levelDepth,
+			String ndePath, boolean levelFlag, String eventLeftNavRoot,
+			String currPath, String currTitle, String eventDispUnder,
+			String showCurrent) throws RepositoryException {
+		levelDepth++;
+		if (iterPage.hasNext()) {
+			if (levelDepth == 1) {
+				menuBuilder.append("<ul class=\"side-nav\" style=\"padding:0px\">");
+			} else {
+				menuBuilder.append("<ul>");
+			}
+			while (iterPage.hasNext()) {
+				Page page = iterPage.next();
+				int dept = page.getDepth();
+				String nodePath = page.getPath().substring(gs_us_path.length() + 1, page.getPath().length());
+				showCurrent = page.getParent().getProperties().get("showCurrent", "false");
+				
+				// Check to see if the current path startsWith the node which we are traversing
+				if (rootPath.startsWith(nodePath)) {
+					/**** Check to see if the current folder hideInNav is not set to true, if it's set ********** 
+					***** set to true, we don't display is but look to the next node, this is necessary to highlighting the**** 
+					***** special form condition.******/
+					
+					if (!page.isHideInNav()) {
+						if (rootPath.equalsIgnoreCase(nodePath) && showCurrent.equals("false")) {
+							menuBuilder.append("<li class=\"active\">");
+							menuBuilder.append("<div>");
+							menuBuilder.append(createHref(page));
+							menuBuilder.append("</div>");
+						} else {
+							if (levelFlag && page.listChildren().hasNext()) {
+								menuBuilder.append("<li class=\"active\">");
+								menuBuilder.append("<div>");
+								menuBuilder.append(createHref(page));
+								menuBuilder.append("</div>");
+								levelFlag = false;
+							} else {
+								if (rootPath.equals(nodePath)) {
+									menuBuilder.append("<li class=\"active\">");
+								} else {
+									menuBuilder.append("<li>");
+								}
+								menuBuilder.append("<div>");
+								menuBuilder.append(createHref(page));
+								menuBuilder.append("</div>");
+								//menuBuilder.append("</li>");
+							}
+						}
+					}
+					Iterator<Page> p = page.listChildren();
+					if (p.hasNext()) {
+						buildMenu(p, rootPath, gs_us_path, menuBuilder,
+								levelDepth, nodePath, levelFlag,
+								eventLeftNavRoot, currPath, currTitle,
+								eventDispUnder, showCurrent);
+					}
+				} else {
+					/*** Below if eventLeftNavRoot is to handle a special case for events. Events is create at separate location
+					 ***  and when event is click event name need to be displayed in the left navigation
+					*/
+					if (page.getPath().indexOf(eventLeftNavRoot) == 0 && currPath.indexOf(eventDispUnder) == 0) {
+						menuBuilder.append("<li class=\"active\">");
+						menuBuilder.append("<div>");
+						menuBuilder.append(createHref(page));
+						menuBuilder.append("</div>");
+						//menuBuilder.append("</li>");
+
+						menuBuilder.append("<ul><li class=\"active\">");
+						menuBuilder.append("<div><a href=")
+								.append(currPath + ".html").append(">")
+								.append(currTitle).append("</a></div>");
+						menuBuilder.append("</li></ul>");
+					} else {
+						/*****This showCurrent is for the highligting form *******
+						 **** Top folder under which forms resides has a property "showCurrent = true" *****
+						 ***** which we are using to display the form it form is in the URL path and parent of it is set ****
+						 ***** to "true" else we are not displaying that content *******/
+						if (showCurrent.equals("false") && !page.isHideInNav()) {
+							menuBuilder.append("<li>");
+							menuBuilder.append("<div>");
+							menuBuilder.append(createHref(page));
+							menuBuilder.append("</div>");
+							//menuBuilder.append("</li>");
+						}
+					}
+				}
+				/*if (levelDepth == 1) {
+					menuBuilder.append("<li class=\"divider\">")
+							.append("</li>");
+				}*/
+			}
+			menuBuilder.append("</li>");
+		}
+		menuBuilder.append("</ul>");
+		//return menuBuilder;
+
+	}
+%>
+
 <%
-  Iterator<Page> menuLevel1;
-  String navigation="";
-  Set<String> navigationPath;
-  String currPath = currentPage.getPath();
-  if(currPath.equalsIgnoreCase(currentPage.getAbsoluteParent(2).getPath()))
-  {
-	 // So I am the root, Check for the children
-	 menuLevel1 = currentPage.listChildren();
-	 navigationPath = new HashSet<String>(Arrays.asList(navigation.split("/")));
-	 
-  }else{
-	  navigation = currentPage.getPath().substring(currentPage.getAbsoluteParent(2).getPath().length()+1,currentPage.getPath().length());
-	  navigationPath = new HashSet<String>(Arrays.asList(navigation.split("/")));
-	  menuLevel1 = currentPage.getAbsoluteParent(3).listChildren();
-  }
-  StringBuilder menuBuilder = new StringBuilder();
-  int levelDepth = 0;
+  // GET THE STRUCTURE FROM THE CURRENTPATH
   
-  buildMenu(menuLevel1,navigationPath,menuBuilder,levelDepth);
+  String curPath = currentPage.getPath();
+  String curTitle = currentPage.getTitle();
+  int levelDepth = 0;
+  StringBuilder menuBuilder = new StringBuilder();
+  // from this path get to the parent
+  String gs_us_path = currentPage.getAbsoluteParent(2).getPath();
+  String rootPath = currentPage.getPath().substring(gs_us_path.length()+1, curPath.length());  
+  String navigationRoot = currentPage.getAbsoluteParent(3).getPath();
+  String showCurrent = "false";
+  
+ // What is the navigationRoot
+  boolean levelFlag = true;
+  Iterator<Page> iterPage = resourceResolver.getResource(navigationRoot).adaptTo(Page.class).listChildren();
+ 
+ // Handling events
+  String eventGrandParent = currentPage.getParent().getParent().getPath();
+  String eventLeftNavRoot = currentSite.get("leftNavRoot", String.class);
+  String eventDisplUnder = currentSite.get("eventPath", String.class);
+  boolean includeUL=false;
+  String insertAfter="";
+ if(eventGrandParent.equalsIgnoreCase(currentSite.get("eventPath", String.class))){
+     String eventPath = eventLeftNavRoot.substring(0,eventLeftNavRoot.lastIndexOf("/"));
+     //System.out.println("What is the eventPath" +eventPath);
+     iterPage = resourceResolver.getResource(eventPath).adaptTo(Page.class).listChildren();
+  
+ }
+ buildMenu(iterPage, rootPath, gs_us_path, menuBuilder, levelDepth,"",levelFlag,eventLeftNavRoot, curPath, curTitle, eventDisplUnder, showCurrent);
+ 
  
  %>
-
-<%=menuBuilder %>
-<%!
-  public StringBuilder buildMenu(Iterator<Page>menuLevel1, Set<String> navigationPath, StringBuilder menuBuilder, int levelDepth){
-    levelDepth++;
-    
-    if(menuLevel1.hasNext())
-    {
-	 if (levelDepth == 1) {
-		 
-	        menuBuilder.append("<ul class=\"side-nav\" style=\"padding:0px\">");
-	 } else {
-      menuBuilder.append("<ul>");
-	 }
-     while(menuLevel1.hasNext())
-     {
-         
-          Page level1 = menuLevel1.next();
-          if(!level1.isHideInNav())
-          { 
-        	 if(navigationPath.contains(level1.getName()) )
-           	   {
-                menuBuilder.append("<li class=\"active\">");
-                } else {
-              menuBuilder.append("<li>");
-          }
-              
-          menuBuilder.append("<a href=")
-	          .append(level1.getPath()+".html")
-	          .append(">")
-	          .append(level1.getTitle())
-	          .append("</a>");
-          
-          }
-          if(navigationPath.contains(level1.getName()) && !level1.isHideInNav() && level1.listChildren().hasNext() && levelDepth < 3){
-              buildMenu(level1.listChildren(),navigationPath,menuBuilder,levelDepth);
-          }
-          menuBuilder.append("</li>");
-          if (levelDepth == 1) {
-        	menuBuilder.append("<li class=\"divider\"></li>");
-          }
-        }  
-      }
-      
-      menuBuilder.append("</ul>"); 
-      
-    return menuBuilder;
- }
-
-%>
+ <%=menuBuilder %>

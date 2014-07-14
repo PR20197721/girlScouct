@@ -1,11 +1,13 @@
-<%@ page import="com.day.cq.tagging.TagManager,java.util.ArrayList,java.util.HashSet,java.text.DateFormat,java.text.SimpleDateFormat,java.util.Date, java.util.Locale,java.util.Map,java.util.Iterator,java.util.HashMap,java.util.List,java.util.Set,com.day.cq.search.result.SearchResult, java.util.ResourceBundle,com.day.cq.search.QueryBuilder,javax.jcr.PropertyIterator,org.girlscouts.web.events.search.SearchResultsInfo, com.day.cq.i18n.I18n,org.apache.sling.api.resource.ResourceResolver,org.girlscouts.web.events.search.EventsSrch,org.girlscouts.web.events.search.FacetsInfo,java.util.Calendar,java.util.TimeZone" %>
+<%@ page import="com.day.cq.tagging.TagManager,com.day.cq.dam.api.Asset,java.util.ArrayList,java.util.HashSet,java.text.DateFormat,java.text.SimpleDateFormat,java.util.Date, java.util.Locale,java.util.Map,java.util.Iterator,java.util.HashMap,java.util.List,java.util.Set,com.day.cq.search.result.SearchResult, java.util.ResourceBundle,com.day.cq.search.QueryBuilder,javax.jcr.PropertyIterator,org.girlscouts.web.events.search.SearchResultsInfo, com.day.cq.i18n.I18n,org.apache.sling.api.resource.ResourceResolver,org.girlscouts.web.events.search.EventsSrch,org.girlscouts.web.events.search.FacetsInfo,java.util.Calendar,java.util.TimeZone" %>
 <%@include file="/libs/foundation/global.jsp"%>
-<!-- apps/girlscouts/components/event-search-list/event-search-list.jsp -->
+<%@include file="/apps/girlscouts/components/global.jsp"%>
 <cq:includeClientLib categories="apps.girlscouts" />
 <cq:defineObjects/>
 <% 
 DateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.S");
 fromFormat.setCalendar(Calendar.getInstance(TimeZone.getTimeZone("GMT")));
+DateFormat dateFormat = new SimpleDateFormat("EEE MMM d yyyy");
+DateFormat timeFormat = new SimpleDateFormat("h:mm a");
 DateFormat toFormat = new SimpleDateFormat("EEE dd MMM yyyy");
 SearchResultsInfo srchInfo = (SearchResultsInfo)request.getAttribute("eventresults");
 if(null==srchInfo) {
@@ -24,58 +26,144 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 <%   
 } else{
 %> 
-<h3>Event Search Results: <%=hitCounts%></h3>
-<hr/>
+
 <%
-	for(String result: results){
+
+    int tempMonth =0;
+    for(String result: results)
+    {
 		Node node =  resourceResolver.getResource(result).adaptTo(Node.class);
-		Node propNode = node.getNode("jcr:content/data");
-		String title = propNode.getProperty("../jcr:title").getString();
-		String href = result+".html";
-		String fromdate = propNode.getProperty("start").getString();
-		String todate="";
-		Date tdt = null;
-		if(propNode.hasProperty("end")){
-			todate = propNode.getProperty("end").getString();
+		try
+		{
+			  Node propNode = node.getNode("jcr:content/data");
+			  Date startDate = propNode.getProperty("start").getDate().getTime();
+			  String title = propNode.getProperty("../jcr:title").getString();
+			  String href = result+".html";
+			  String time = "";
+			  String todate="";
+			  Date tdt = null;
+			  String locationLabel = "";
+			  Date today = new Date();
+			  Calendar cal1 = Calendar.getInstance();
+			  cal1.setTime(today);
+			  cal1.add(Calendar.DAY_OF_MONTH, +61);
+			  Date after60days = cal1.getTime();
+		
+			  String startDateStr = dateFormat.format(startDate);
+			  String startTimeStr = timeFormat.format(startDate);
+			  String dateStr = startDateStr + ", " +startTimeStr;
+		
+		
+			  if(propNode.hasProperty("locationLabel")){
+				    locationLabel=propNode.getProperty("locationLabel").getString();
+				    }
+			  if(propNode.hasProperty("end")){
+				  	Date endDate = propNode.getProperty("end").getDate().getTime();
+				   	Calendar cal2 = Calendar.getInstance();
+				    Calendar cal3 = Calendar.getInstance();
+				     cal2.setTime(startDate);
+				      cal3.setTime(endDate);
+				      boolean sameDay = cal2.get(Calendar.YEAR) == cal3.get(Calendar.YEAR) &&
+	                          cal2.get(Calendar.DAY_OF_YEAR) == cal3.get(Calendar.DAY_OF_YEAR);
+				      String endDateStr = dateFormat.format(endDate);
+				      String endTimeStr = timeFormat.format(endDate);
+				      if (!sameDay) {
+				    	      dateStr += " - " + endDateStr +", " + endTimeStr;
+				    	   }else
+				    	   {
+				    		   dateStr += " - " + endTimeStr;
+	            
+				    		}
+	    	todate = propNode.getProperty("end").getString();
 			tdt = fromFormat.parse(todate);
 		}
-		String details = propNode.getProperty("srchdisp").getString();
-		Date fdt = fromFormat.parse(fromdate);
+		String details = propNode.getProperty("details").getString();
+		//Date fdt = fromFormat.parse(startDate);
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(startDate);
+		int month = cal.get(Calendar.MONTH);
+	
+		if(startDate.after(today) && startDate.before(after60days))
+		{
+			if(tempMonth!=month)
+			  {
+				Date d = new Date(cal.getTimeInMillis());
+		        String monthName = new SimpleDateFormat("MMMM").format(d);
+	    	    String yr = new SimpleDateFormat("yyyy").format(d);
+		        tempMonth = month;
+		      %>
+		    <div class="row">
+		         <div class="small-24 large-24 medium-24 columns">&nbsp;</div>
+		    </div>   
+		    <div class="row">
+		       <div class="small-6 medium-6 large-6 column" style="padding:10px 0px 10px 15px">
+		           <b> <%=monthName.toUpperCase() %>  <%=yr %></b>
+		       </div>
+		       <div class="small-18 large-18 medium-18 column" style="padding:0px 0px 2px 0px">
+		         <div id="hrStyle">
+		          <hr/>
+		         </div>
+		       </div>
+		       <div class="row">
+		         <div class="small-24 medium-24 large-24 columns">
+		           &nbsp;
+		         </div>
+		       </div>
+		    </div>   
+        <% } %>
 
+    <div class=row>
+      <div class="small-4 medium-4 large-4 columns">
+           <div id="paddingTop"> 
+              	<%
+              		String imgPath = propNode.getPath() + "/image";
 %>
-<div>
-	<h4><a href="<%=href%>"><%=title %></a></h4>
-	<p><%=details%></p>
-	<p>Date : <%=toFormat.format(fdt)%> <%if(propNode.hasProperty("end")) {%> to <%=toFormat.format(tdt) %> <%}%></p>   
-        <hr/>
-</div>    
+<%= displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80") %>
 <%
-		}
-%>
-<div id="pagination">
+              	%>
+             </div>  
+     </div>
+      
+       <div class="small-20 large-20 medium-20 columns" style="padding-left:0px">
+         <div class="row">
+           <div class="small-24 large-24 medium-24 columns">
+               <h4><a href="<%=href%>"><%=title %></a></h4>
+           </div>
+         
+         </div>
+        <div class="row">
+             <div class="small-24 large-24 medium-24 columns lineHeight">
+                 <b>Date: </b> <%=dateStr%>
+           </div>
+        </div>
+          <div class="row">
+              <div class="small-24 large-24 medium-24 columns lineHeight">
+                <%if(!locationLabel.isEmpty()){ %>
+                    <div class="locationLabel">
+                      <b>Location: </b><%=locationLabel %>
+                  </div>
+                <%} %>
+                </div>
+           </div>
+          <div class="row">
+              <div class="small-24 large-24 medium-24 columns">
+                <%if(propNode.hasProperty("srchdisp")){ %>
+                 <p><%=propNode.getProperty("srchdisp").getString()%></p>
+                 <%} %>
+            </div>
+          </div> 
+       </div>
+    </div> 
+  
+    
 <%
-		if(searchResults.getResultPages().size() > 1) { 
-			for(int i=0;i<searchResults.getResultPages().size(); i++) {
-			long offst = i*10;
-			if(searchResults.getResultPages().get(i).isCurrentPage()){
+   }//if
+   }catch(Exception e){}
+ }//for
 %>
-	<%=i+1 %>
+
 <%
-			} else {
-				if(q!=null){
+ 
+}//else
 %>
-	<a x-cq-linkchecker="skip" href="<%=currentPage.getPath()%>.html?q=<%=q%>&offset=<%=offst%>"><%=i+1%></a>
-<%
-				}else{
-%>
-	<a x-cq-linkchecker="skip" href="<%=currentPage.getPath()%>.html?offset=<%=offst%>"><%=i+1%></a>
-<%
-				}
-			}
-		}
-	}  
-%>
-</div>
-<%
-}
-%>
+

@@ -1,28 +1,39 @@
-
-<%@ page import="com.day.cq.tagging.TagManager,java.util.ArrayList,java.util.HashSet,java.text.DateFormat,java.text.SimpleDateFormat,java.util.Date, java.util.Locale,java.util.Arrays,java.util.Iterator,java.util.List,java.util.Set,com.day.cq.search.result.SearchResult, java.util.ResourceBundle,com.day.cq.search.QueryBuilder,javax.jcr.PropertyIterator,org.girlscouts.web.events.search.SearchResultsInfo, com.day.cq.i18n.I18n,org.apache.sling.api.resource.ResourceResolver,org.girlscouts.web.events.search.EventsSrch,org.girlscouts.web.events.search.FacetsInfo,java.util.Calendar,java.util.TimeZone"%>
+<%@ page import="com.day.cq.tagging.TagManager,java.util.ArrayList,
+            java.util.HashSet,java.text.DateFormat,
+            java.text.SimpleDateFormat,java.util.Date,
+            java.util.Locale,java.util.Arrays,
+            java.util.Iterator,java.util.List,
+            java.util.Set,com.day.cq.search.result.SearchResult,
+            java.util.ResourceBundle,com.day.cq.search.QueryBuilder,
+            javax.jcr.PropertyIterator,org.girlscouts.web.events.search.SearchResultsInfo,
+            com.day.cq.i18n.I18n,org.apache.sling.api.resource.ResourceResolver,
+            org.girlscouts.web.events.search.EventsSrch,org.girlscouts.web.events.search.FacetsInfo,java.util.Calendar,java.util.TimeZone,com.day.cq.dam.api.Asset"%>
 
 <%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/girlscouts/components/global.jsp"%>
 <!-- apps/girlscouts/components/events-list/events-list.jsp -->
 <cq:includeClientLib categories="apps.girlscouts" />
 <cq:defineObjects />
-
-
-
 
 <%
 	SearchResultsInfo srchInfo = (SearchResultsInfo) request.getAttribute("eventresults");
 	if (null == srchInfo) {
 %>
+
+
 <cq:include script="/apps/girlscouts/components/event-search/event-search.jsp" />
 <%
 		srchInfo = (SearchResultsInfo) request.getAttribute("eventresults");
 	}
 	DateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.S");
 	fromFormat.setCalendar(Calendar.getInstance(TimeZone.getTimeZone("GMT")));
-	DateFormat dateFormat = new SimpleDateFormat("EEE dd MMM yyyy");
-	DateFormat timeFormat = new SimpleDateFormat("KK:mm a");
+	DateFormat dateFormat = new SimpleDateFormat("EEE MMM d yyyy");
+	DateFormat timeFormat = new SimpleDateFormat("h:mm a");
+	
+	DateFormat calendarFormat = new SimpleDateFormat("M-yyyy");
+	
+	
 	List<String> results = srchInfo.getResults();
-
 	int eventcounts = 0;
 	String key = "";
 	String value = "";
@@ -32,11 +43,14 @@
 			eventcounts = results.size();
 		}
 	}
-
 	String designPath = currentDesign.getPath();
 	String iconImg = properties.get("fileReference", String.class);
 	String eventsLink = properties.get("urltolink", "") + ".html";
 	String featureTitle = properties.get("featuretitle", "UPCOMING EVENTS");
+	Date startDate = null; 
+      
+    String startDateStr = "";
+    String startTimeStr = ""; 
 %>
 <div class="small-24 medium-24 large-24 columns">
 	<div class="row">
@@ -51,7 +65,7 @@
 		<div class="medium-8 show-for-medium columns">&nbsp;</div>
 		<div class="small-24 medium-12 hide-for-large  hide-for-xlarge hide-for-xxlarge columns">
 			<div class="feature-icon">
-				<img src="<%= designPath %>/images/arrow-down.png" width="30" height="30"/>
+				<img src="<%= iconImg %>" width="50" height="50"/>
 			</div>
 			<div class="feature-title">
 				<h2><a href="<%= eventsLink %>"><%= featureTitle %></a></h2>
@@ -60,46 +74,100 @@
 		<div class="medium-4 show-for-medium columns">&nbsp;</div>
 	</div>
 </div>
-<ul class="small-block-grid-1 medium-block-grid-1  large-block-grid-2 content">
+<ul class="small-block-grid-1 medium-block-grid-1  large-block-grid-2 content" style="
+    padding-right: 12px;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding-left: 12px;
+">
 <%
-	for (int i = 0; i < eventcounts; i++) {
-		value = results.get(i);
-		Node node = resourceResolver.getResource(value).adaptTo( Node.class);
-		String eventUrl = node.getPath() + ".html";
-		Node propNode = node.getNode("jcr:content/data");
-		String title = propNode.getProperty("../jcr:title").getString();
-		String href = value + ".html";
-		String fromdate = propNode.getProperty("start").getString();
-		String todate = "";
-		Date tdt = null;
-		if (propNode.hasProperty("end")) {
-			todate = propNode.getProperty("end").getString();
-			tdt = fromFormat.parse(todate);
-		}
-		String location = resourceResolver.getResource(propNode.getProperty("location").getString()).adaptTo(Page.class).getTitle();
+     Date today = new Date();
+     Calendar cal1 = Calendar.getInstance();
+     cal1.setTime(today);
+     int count = 0;
+    // DateFormat timeFormat = new SimpleDateFormat("KK:mm a");
+     
+     for(String result: results){
+    	 
+    	 
+    	 Node node = resourceResolver.getResource(result).adaptTo(Node.class);
+    	 
+    	 try{
+    	 Node propNode = node.getNode("jcr:content/data");
+         String fromdate = propNode.getProperty("start").getString();
+         String title = propNode.getProperty("../jcr:title").getString();
+         Date fdt = fromFormat.parse(fromdate);
+         String href = result+".html";
+         String time = "";
+         String todate="";
+         String toDate="";
+         Date tdt = null;
+         String locationLabel = "";
+         if(fdt.equals(today) || fdt.after(today)){
+        	 
+        	 startDate = propNode.getProperty("start").getDate().getTime(); 
+        	 startDateStr = dateFormat.format(startDate);
+             startTimeStr = timeFormat.format(startDate);
+             String dateStr = startDateStr + ", " +startTimeStr;
+        	 time = startTimeStr;
+             
+        	 if(propNode.hasProperty("locationLabel")){
+                 locationLabel=propNode.getProperty("locationLabel").getString();
+             }
+        	 
+        	 if (propNode.hasProperty("end"))
+        	   {
+        		    Date endDate = propNode.getProperty("end").getDate().getTime();
+        	        Calendar cal2 = Calendar.getInstance();
+        	        Calendar cal3 = Calendar.getInstance();
+        	        cal2.setTime(startDate);
+        	        cal3.setTime(endDate);
+        	        boolean sameDay = cal2.get(Calendar.YEAR) == cal3.get(Calendar.YEAR) &&
+        	                          cal2.get(Calendar.DAY_OF_YEAR) == cal3.get(Calendar.DAY_OF_YEAR);
+        	        String endDateStr = dateFormat.format(endDate);
+        	        String endTimeStr = timeFormat.format(endDate);
+        	        if (!sameDay) {
+			    	      dateStr += " - " + endDateStr +", " + endTimeStr;
+			    	   }else
+			    	   {
+			    		   dateStr += " - " + endTimeStr;
+          
+			    		}
+        	           
+        	    }
+             
+             boolean hasImage = false;
+             String fileReference = null;
+             count++;
+           %> 
+     <li>
+        <div class="row">
+            <div class="small-24 medium-12 large-8 columns">
+            <%
+            	String imgPath = node.getPath() + "/jcr:content/data/image";
+String rendition = displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80");
 
-		Date fdt = fromFormat.parse(fromdate);
-
-		String eventTime = timeFormat.format(fdt);
-		if (propNode.hasProperty("end")) {
-			eventTime = eventTime + " to " + timeFormat.format(fdt);
-		}
-		String fromDate = dateFormat.format(fdt);
-		String toDate = dateFormat.format(tdt);
-		String eventImg = propNode.getProperty("image/fileReference").getString();
+             %><%
+                 if(rendition.equals("<img />"))
+             {%>
+<img src="/content/dam/all_icons/32/calendar_32.png/jcr:content/renditions/cq5dam.web.120.80.png">
+                <%} else { %>
+<%= displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80")%>
+                <% } %>
+            </div>
+            <div class="small-24 medium-12 large-16 columns">
+                <h3><a href="<%= href %>"><%= title %></a></h3>
+                <p>Date: <%= dateStr %> </p>
+                <p>Location: <%= locationLabel %></p>
+            </div>
+        </div>
+    </li>   
+     <%}
+      if(eventcounts==count)
+      {
+        	 break;
+         }
+    	 }catch(Exception e){} 
+     }
 %>
-	<li>
-		<div class="row">
-			<div class="small-24 medium-12 large-8 columns">
-				<img src="<%= eventImg %>" width="483" height="305" />
-			</div>
-			<div class="small-24 medium-12 large-16 columns">
-				<h3><a href="<%= eventUrl %>"><%= title %></a></h3>
-				<p>Time: <%= eventTime %></p>
-				<p>Date: <%= fromDate %> <% if (!toDate.isEmpty()) { %> to <%= toDate %> <% } %> </p>
-				<p>Location: <%= location %></p>
-			</div>
-		</div>
-	</li>		
-<% } %>
 </ul>

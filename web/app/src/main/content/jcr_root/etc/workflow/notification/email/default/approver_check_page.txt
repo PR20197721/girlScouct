@@ -1,0 +1,16 @@
+To:
+
+Label: ${workflow.title}
+<br>
+<br>
+
+Info: ${comment}
+<br>
+<br>
+
+Approve or reject the following page authored by ${initiator.id}: <br>
+${preview.prefix}${payload.path}.html<br><br>
+
+
+The page at ${author.prefix}${payload.path}.html will be locked <br>
+until the workflow is approved or rejected.

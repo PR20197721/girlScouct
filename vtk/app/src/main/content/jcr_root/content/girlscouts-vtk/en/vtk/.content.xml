@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:designPath="/etc/designs/girlscouts-usa-green"
+        cq:lastModified="{Date}2014-05-26T18:57:32.390-04:00"
+        cq:lastModifiedBy="admin"
+        cq:lastReplicated="{Date}2014-05-20T17:11:30.393-04:00"
+        cq:lastReplicatedBy="hkimm"
+        cq:lastReplicationAction="Activate"
+        cq:template="/apps/girlscouts/templates/page"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Girl Scouts USA English"
+        jcr:uuid="3d4b6198-8c4b-4655-8a49-5fdc9b660758"
+        sling:resourceType="girlscouts-vtk/components/vtk-page"
+        adsPath="/content/gateway/en/ads"
+        calendarPath="/content/gateway/en/event-activities/calendar0"
+        eventLanding="/content/gateway/en/event-activities/events-list"
+        eventPath="/content/gateway/en/events"
+        globalLanding="/content/gateway/en/site-search"
+        leftNavRoot="/content/gateway/en/event-activities/events-list"
+        locationsPath="/content/gateway/en/locations"
+        newsPath="/content/gateway/en/news">
+        <footer jcr:primaryType="nt:unstructured">
+            <par
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/parsys"/>
+            <nav
+                jcr:lastModified="{Date}2014-04-01T13:29:54.802-04:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="girlscouts/components/navigation-bar"
+                links="[Privacy Policy|||#|||,Terms and Conditions|||#|||]"
+                type="eyebrow-nav-cell"/>
+        </footer>
+        <header jcr:primaryType="nt:unstructured">
+            <par
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="foundation/components/parsys"/>
+            <eyebrow-nav
+                jcr:lastModified="{Date}2014-05-23T10:26:36.024-04:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="girlscouts/components/eyebrow-navigation"
+                links="[About Our Council|||#|||,Shop|||#|||,Forms|||#|||,Calendar|||/content/gateway/en/event-activities/event-calendar|||,Contact|||/content/gateway/en/about-girl-scouts/contact-us-form|||||||||,Espanol|||/content/gateway/es|||]"/>
+            <global-nav
+                jcr:lastModified="{Date}2014-05-26T18:57:32.378-04:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="girlscouts/components/global-navigation"
+                links="[ABOUT GIRL SCOUTS|||/content/gateway/en/about-girl-scouts||||||About|||,EVENTS|||/content/gateway/en/event-activities||||||Activities|||,CAMP|||/content/gateway/en/camps||||||Camp|||,COOKIES|||/content/gateway/en/cookies||||||Cookies|||,FOR  VOLUNTEERS|||/content/gateway/en/for-volunteers||||||Volunteers|||,My GS|||http://www.google.com|||menuHighlight|||My GS|||]"/>
+            <logo
+                jcr:lastModified="{Date}2014-04-21T16:50:17.522-04:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="girlscouts/components/logo"
+                alt="Home"
+                hamburgerFileReference="/content/dam/girlscouts-shared/en/design/hamburger.png"
+                hamburgerHeight="28"
+                hamburgerImageRotate="0"
+                hamburgerWidth="22"
+                linkURL="/content/gateway/en"
+                regularFileReference="/content/dam/girlscouts-shared/en/design/gateway-logo.png"
+                regularHeight="73"
+                regularImageRotate="0"
+                regularWidth="183"
+                smallFileReference="/content/dam/girlscouts-shared/en/design/gateway-logo-small.png"
+                smallHeight="51"
+                smallImageRotate="0"
+                smallWidth="293">
+                <regular
+                    jcr:lastModified="{Date}2014-04-21T16:50:17.522-04:00"
+                    jcr:lastModifiedBy="admin"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/image"
+                    fileReference="/content/dam/girlscouts-shared/en/design/gateway-logo.png"/>
+                <small
+                    jcr:lastModified="{Date}2014-04-21T16:50:17.522-04:00"
+                    jcr:lastModifiedBy="admin"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/image"
+                    fileReference="/content/dam/girlscouts-shared/en/design/gateway-logo-small.png"/>
+                <hamburger
+                    jcr:lastModified="{Date}2014-04-21T16:50:17.522-04:00"
+                    jcr:lastModifiedBy="admin"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/image"
+                    fileReference="/content/dam/girlscouts-shared/en/design/hamburger.png"/>
+            </logo>
+            <search-box
+                jcr:lastModified="{Date}2014-05-08T15:22:14.499-04:00"
+                jcr:lastModifiedBy="admin"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="girlscouts/components/search-box"
+                searchAction="globalLanding"
+                searchIn="/content/gateway/en/site-search"
+                srchaction="/content/gateway/en/site-search"/>
+        </header>
+    </jcr:content>
+</jcr:root>

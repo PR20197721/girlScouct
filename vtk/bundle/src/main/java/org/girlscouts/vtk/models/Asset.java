@@ -1,30 +1,64 @@
 package org.girlscouts.vtk.models;
 
-/**
- * Asset reference in the DAM.
- * It can be either shared asset or troop leader customize asset.
- * 
- * @author mike
- *
- */
-public interface Asset {
-    /**
-     * Whether this is custom asset
-     * 
-     * @return <code>true</code> if this asset is created by troop leader and
-     *         should be deleted from DAM if this reference is deleted.
-     *         <code>false</code> if this asset is shared
-     */
-    boolean isCustom();
+import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
+import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
-    /**
-     * @return the path in the JCR
-     */
-    String getPath();
-    
-    /**
-     * Remove the actual content in DAM if it is custom asset
-     * Callback when this asset is removed from a meeting instance.
-     */
-    void discard();
+@Node
+public class Asset {
+
+	public Asset(){ this.uid = "A"+new java.util.Date().getTime() + "_" + Math.random(); this.isCachable=false;}
+	public Asset(String path){ this.path= path; this.uid = "A"+new java.util.Date().getTime() + "_" + Math.random(); this.isCachable=false;}
+	
+	
+	@Field private String type, refId, description;
+	@Field (path=true) private String path;
+	@Field (id=true) private String uid;
+	@Field Boolean isCachable;
+	
+	
+	
+
+	
+	
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public Boolean getIsCachable() {
+		return isCachable;
+	}
+	public void setIsCachable(Boolean isCachable) {
+		this.isCachable = isCachable;
+	}
+	public String getRefId() {
+		return refId;
+	}
+	public void setRefId(String refId) {
+		this.refId = refId;
+	}
+	public String getUid() {
+		return uid;
+	}
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public String getPath() {
+		return path;
+	}
+	public void setPath(String path) {
+		this.path = path;
+	}
+	
+	
+	
+	
+	
 }

@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
-        cq:lastModified="{Date}2014-04-01T10:33:57.292-04:00"
-        cq:lastModifiedBy="admin"
-        cq:lastReplicated="{Date}2014-03-12T17:33:08.138-04:00"
-        cq:lastReplicatedBy="admin"
+        cq:lastModified="{Date}2014-05-20T10:57:18.188-04:00"
+        cq:lastModifiedBy="hkimm"
+        cq:lastReplicated="{Date}2014-05-20T15:03:23.101-04:00"
+        cq:lastReplicatedBy="mzou"
         cq:lastReplicationAction="Activate"
-        cq:template="/apps/girlscouts/templates/page"
+        cq:template="/apps/girlscouts/templates/three-column-page"
         jcr:isCheckedOut="{Boolean}true"
         jcr:mixinTypes="[mix:versionable]"
         jcr:primaryType="cq:PageContent"
         jcr:title="Our Programs"
-        jcr:uuid="fd77ecc4-fcb3-4e67-9cf1-ec9a84330469"
-        sling:resourceType="girlscouts/components/three-column-page">
-        <content jcr:primaryType="nt:unstructured"/>
-    </jcr:content>
+        jcr:uuid="3bb2017b-d567-4830-94ff-3be5b2d0c706"
+        sling:resourceType="girlscouts/components/three-column-page"/>
+    <grade-levels/>
+    <ways-to-participate/>
+    <journeys/>
     <badges/>
     <highest-awards/>
     <cookies/>

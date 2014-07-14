@@ -1,0 +1,16 @@
+To: ${initiator.email}
+
+Hi ${initiator.id},
+<br>
+Your page on ${author.prefix}${payload.path}.html has been approved and published to
+<br>
+<br>
+${publish.prefix}${payload.path}.html
+<br>
+<br>
+Comments:
+<br>
+${comment}
+<br>
+Regards,
+Your local friendly CQ5 Admin

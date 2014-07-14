@@ -1,0 +1,13 @@
+To: ${initiator.email}
+
+Hi ${initiator.id},
+<br>
+Your page on ${author.prefix}${payload.path}.html has been rejected.
+<br>
+<br>
+Comments:
+<br>
+${comment}
+<br>
+Regards,
+Your local friendly CQ5 Admin

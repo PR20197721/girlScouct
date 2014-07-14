@@ -46,7 +46,7 @@ girlscouts.components.LinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
         });
         this.add(this.hiddenField);
 
-        this.add(new CQ.Ext.form.Label({text: "Label"}));
+        this.add(new CQ.Ext.form.Label({text: "Large Label"}));
         this.labelField = new CQ.Ext.form.TextField({
             listeners: {
                 change: {
@@ -56,6 +56,28 @@ girlscouts.components.LinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
             }
         });
         this.add(this.labelField);
+        
+        this.add(new CQ.Ext.form.Label({text: "Medium Label"}));
+        this.mediumLabel = new CQ.Ext.form.TextField({
+            listeners: {
+                change: {
+                    scope:this,
+                    fn:this.updateHidden
+                }
+            }
+        });
+        this.add(this.mediumLabel);
+        
+        this.add(new CQ.Ext.form.Label({text: "Small Label"}));
+        this.smallLabel = new CQ.Ext.form.TextField({
+            listeners: {
+                change: {
+                    scope:this,
+                    fn:this.updateHidden
+                }
+            }
+        });
+        this.add(this.smallLabel);
 
         this.add(new CQ.Ext.form.Label({text: "Path"}));
         this.pathField = new CQ.form.PathField({
@@ -91,6 +113,8 @@ girlscouts.components.LinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
         this.labelField.setValue(parts[0]);
         this.pathField.setValue(parts[1]);
 		this.classField.setValue(parts[2]);
+		this.mediumLabel.setValue(parts[3]);
+		this.smallLabel.setValue(parts[4]); 
         this.hiddenField.setValue(value);
     },
 
@@ -103,7 +127,9 @@ girlscouts.components.LinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
     getRawValue: function() {
         return this.labelField.getValue() + "|||" 
         	+ this.pathField.getValue() + "|||"
-            + this.classField.getValue();
+            + this.classField.getValue() + "|||"
+            + this.mediumLabel.getValue() + "|||"
+            + this.smallLabel.getValue();
     },
 
     // private

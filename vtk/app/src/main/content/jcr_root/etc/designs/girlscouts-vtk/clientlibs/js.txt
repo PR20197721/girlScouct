@@ -1,0 +1,13 @@
+#base=js
+
+jquery-ui.min.js
+jquery.dialogOptions.js
+jquery.ui.touch-punch.min.js
+jquery.custombox.js 
+calendar.js
+locationManager.js
+meeting.js
+plan.js
+planView.js
+resources.js
+camera.js

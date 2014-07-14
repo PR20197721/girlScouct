@@ -1,27 +1,40 @@
 package org.girlscouts.vtk.models;
 
-import java.util.Date;
+import org.girlscouts.vtk.dao.YearPlanComponentType;
 
-/**
- * A year plan component builds up a year plan instance.
- * It can be a {@link Meeting}, an {@link Activity} or a {@link Milestone}.
- * This interface might be used to merge lists of different components
- * and sort them by date.
- * 
- * @author mike
- *
- */
-public interface YearPlanComponent {
-    /**
-     * @return the component type.
-     * @see {@link YearPlanComponentType}
-     */
-    YearPlanComponentType getType();
+public class YearPlanComponent {
 
-    /**
-     * @return the <b>start</b> date.
-     *         <code>null</code> if not set.
-     */
-    Date getDate();
-    void setDate(Date date);
+	private java.util.Date date;
+	private  YearPlanComponentType type;
+	private String uid;
+	
+	
+	
+	
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
+
+	public java.util.Date getDate() {
+		return date;
+	}
+
+	public void setDate(java.util.Date date) {
+		this.date = date;
+	}
+
+	public YearPlanComponentType getType() {
+		return type;
+	}
+
+	public void setType(YearPlanComponentType type) {
+		this.type = type;
+	}
+	
+	
+	
 }

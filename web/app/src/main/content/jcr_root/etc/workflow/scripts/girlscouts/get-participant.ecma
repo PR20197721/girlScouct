@@ -1,0 +1,12 @@
+function getParticipant() {
+    var workflowData = workItem.getWorkflowData();
+    if (workflowData.getPayloadType() == "JCR_PATH") { 
+        var path = workflowData.getPayload().toString();
+        var node = workflowSession.getSession().getItem(path);
+        path = node.getAncestor(2).getName();
+        path = path + "-reviewers";
+        log.error(path);
+            return  path;
+        } 
+    }
+

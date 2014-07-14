@@ -35,42 +35,202 @@
         <f3
             jcr:primaryType="nt:unstructured"
             mode="replace"
-            root="/etc/data-import"
+            root="/etc/map.publish.dev"
             rules="[]"/>
         <f4
             jcr:primaryType="nt:unstructured"
             mode="replace"
-            root="/etc/data-importers"
+            root="/etc/map.publish.stage"
             rules="[]"/>
         <f5
             jcr:primaryType="nt:unstructured"
             mode="replace"
-            root="/etc/designs/girlscouts"
+            root="/etc/map.publish.prod"
             rules="[]"/>
         <f6
             jcr:primaryType="nt:unstructured"
             mode="replace"
-            root="/etc/designs/girlscouts-usa-green"
+            root="/etc/data-import"
             rules="[]"/>
         <f7
             jcr:primaryType="nt:unstructured"
             mode="replace"
+            root="/etc/data-importers"
+            rules="[]"/>
+        <f8
+            jcr:primaryType="nt:unstructured"
+            mode="replace"
+            root="/etc/designs/girlscouts"
+            rules="[]"/>
+        <f9
+            jcr:primaryType="nt:unstructured"
+            mode="replace"
+            root="/etc/designs/girlscouts-usa-green"
+            rules="[]"/>
+        <f10
+            jcr:primaryType="nt:unstructured"
+            mode="replace"
             root="/etc/designs/girlscouts-usa-blue"
             rules="[]"/>
-	    <f8
+        <f11
             jcr:primaryType="cq:Page"
             mode="replace"
             root="/etc/workflow/models/email-workflow"
             rules="[]"/>
-	    <f9
+        <f12
             jcr:primaryType="cq:Page"
             mode="replace"
-            root="/etc/scaffolding/girlscouts-usa"
+            root="/etc/scaffolding/girlscouts-prototype"
             rules="[]"/>
-	    <f10
+	     <f13
             jcr:primaryType="cq:Page"
             mode="replace"
             root="/etc/tracker"
+            rules="[]"/>
+         <f14
+            jcr:primaryType="cq:WorkflowLauncher"
+            mode="replace"
+            root="/etc/workflow/launcher/config/gs_create_asset_large_hero"
+            rules="[]"/>
+          <f15
+            jcr:primaryType="cq:WorkflowLauncher"
+            mode="replace"
+            root="/etc/workflow/launcher/config/gs_create_asset_large_logo"
+            rules="[]"/>
+          <f16
+            jcr:primaryType="cq:WorkflowLauncher"
+            mode="replace"
+            root="/etc/workflow/launcher/config/gs_create_asset_medium_logo"
+            rules="[]"/> 
+          <f17
+            jcr:primaryType="cq:WorkflowLauncher"
+            mode="replace"
+            root="/etc/workflow/launcher/config/gs_create_asset_medium_hero"
+            rules="[]"/> 
+          <f18
+            jcr:primaryType="cq:WorkflowLauncher"
+            mode="replace"
+            root="/etc/workflow/launcher/config/gs_create_asset_small_logo"
+            rules="[]"/> 
+          <f19
+            jcr:primaryType="cq:WorkflowLauncher"
+            mode="replace"
+            root="/etc/workflow/launcher/config/gs_create_asset_small_hero"
+            rules="[]"/>
+          <f20
+            jcr:primaryType="cq:WorkflowLauncher"
+            mode="replace"
+            root="/etc/workflow/launcher/config/gs_modify_asset_large_hero"
+            rules="[]"/>
+          <f21
+            jcr:primaryType="cq:WorkflowLauncher"
+            mode="replace"
+            root="/etc/workflow/launcher/config/gs_modify_asset_large_logo"
+            rules="[]"/>
+          <f22
+            jcr:primaryType="cq:WorkflowLauncher"
+            mode="replace"
+            root="/etc/workflow/launcher/config/gs_modify_asset_medium_logo"
+            rules="[]"/> 
+          <f23
+            jcr:primaryType="cq:WorkflowLauncher"
+            mode="replace"
+            root="/etc/workflow/launcher/config/gs_modify_asset_medium_hero"
+            rules="[]"/> 
+          <f24
+            jcr:primaryType="cq:WorkflowLauncher"
+            mode="replace"
+            root="/etc/workflow/launcher/config/gs_modify_asset_small_logo"
+            rules="[]"/> 
+          <f25
+            jcr:primaryType="cq:WorkflowLauncher"
+            mode="replace"
+            root="/etc/workflow/launcher/config/gs_modify_asset_small_hero"
+            rules="[]"/> 
+           <f26
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/workflow/models/dam/gs_update_asset_large_hero"
+            rules="[]"/>
+          <f27
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/workflow/models/dam/gs_update_asset_large_logo"
+            rules="[]"/>  
+         <f28
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/workflow/models/dam/gs_update_asset_medium_hero"
+            rules="[]"/>   
+         <f29
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/workflow/models/dam/gs_update_asset_medium_logo"
+            rules="[]"/> 
+         <f30
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/workflow/models/dam/gs_update_small_hero"
+            rules="[]"/>
+          <f31
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/workflow/models/dam/gs_update_small_logo"
+            rules="[]"/> 
+           <f32
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/workflow/models/dam/update_asset"
+            rules="[]"/>
+           <f33
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/workflow/models/girl-scouts-authoring-approval-workflow"
+            rules="[]"/>
+           <f34
+            jcr:primaryType="nt:folder"
+            mode="replace"
+            root="/etc/workflow/scripts/girlscouts"
+            rules="[]"/>
+           <f35
+            jcr:primaryType="sling:Folder"
+            mode="replace"
+            root="/etc/workflow/notification/email/default"
+            rules="[]"/>        
+           <f36
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/workflow/models/girl-scouts-preview-workflow"
+            rules="[]"/>
+           <f37
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/workflow/models/publish_example"
+            rules="[]"/>
+           <f38
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/workflow/models/request_for_activation"
+            rules="[]"/>                  
+           <f39
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/workflow/models/request_for_deactivation"
+            rules="[]"/> 
+           <f40
+            jcr:primaryType="rep:AuthorizableFolder"
+            mode="replace"
+            root="/home/groups/girlscouts-usa"
+            rules="[]"/>   
+        <f41
+            jcr:primaryType="nt:unstructured"
+            mode="replace"
+            root="/etc/designs/girlscouts-gateway"
+            rules="[]"/>
+        <f42
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/workflow/models/girl-scouts-roll-out-workflow"
             rules="[]"/>
     </filter>
 </jcr:root>

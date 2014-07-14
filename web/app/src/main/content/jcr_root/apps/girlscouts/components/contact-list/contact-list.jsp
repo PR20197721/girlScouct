@@ -5,7 +5,6 @@ org.apache.sling.api.resource.ValueMap" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@page session="false" %>
 <cq:defineObjects/>
-<hr/>
 <%
 String rootPath = properties.get("path", "");
 if (rootPath.isEmpty()) {
@@ -15,7 +14,20 @@ if (rootPath.isEmpty()) {
     return;
 }
 
-Page contactRoot = resourceResolver.resolve(rootPath).adaptTo(Page.class);
+boolean pathGood = false;
+Page contactRoot;
+try {
+	contactRoot = resourceResolver.resolve(rootPath).adaptTo(Page.class);
+	if (contactRoot == null) {
+	    throw new NullPointerException();
+	}
+} catch (Exception e) {
+    if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
+		%>Contacts List: path not configured correctly.<%
+    }
+    return;
+}
+
 Iterator<Page> teamIter = contactRoot.listChildren();
 while (teamIter.hasNext()) {
     Page currentTeam = teamIter.next();
@@ -30,8 +42,8 @@ while (teamIter.hasNext()) {
 		String title = props.get("title", "");
 		String phone = props.get("phone", "");
 		String email = props.get("email", "");
-		
-		%><tr><td><%=name%></td><td><%=title%></td><td><%=phone%></td><td><%=email%></td><%
+
+        %><tr><td><%=name%></td><td><%=title%></td><td><%=phone%></td><td><a href="mailto:<%=email%>"><div class="emailicon">&nbsp;</div></a></td><%
     }
     %></tr></tbody></table></div><%
 }

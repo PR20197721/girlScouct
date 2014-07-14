@@ -7,8 +7,20 @@ if [ -z $VERSION ]; then
     VERSION=`sed '10q;d' pom.xml | sed 's/.*<version>\(.*\)<\/version>/\1/'`
 fi
 
-curl -u admin:admin -F file=@"$HOME/.m2/repository/org/girlscouts/web/girlscouts-app/$VERSION/girlscouts-app-$VERSION.zip" -F name="girlscouts-app" -F force=true -F install=true http://localhost:4502/crx/packmgr/service.jsp
-curl -u admin:admin -F file=@"$HOME/.m2/repository/org/girlscouts/web/girlscouts-content/$VERSION/girlscouts-content-$VERSION.zip" -F name="girlscouts-content" -F force=true -F install=true http://localhost:4502/crx/packmgr/service.jsp
+SERVER_LIST=(localhost)
+PORT_LIST=(4502 4503 4505 4506)
 
-curl -u admin:admin -F file=@"$HOME/.m2/repository/org/girlscouts/web/girlscouts-app/$VERSION/girlscouts-app-$VERSION.zip" -F name="girlscouts-app" -F force=true -F install=true http://localhost:4503/crx/packmgr/service.jsp
-curl -u admin:admin -F file=@"$HOME/.m2/repository/org/girlscouts/web/girlscouts-content/$VERSION/girlscouts-content-$VERSION.zip" -F name="girlscouts-content" -F force=true -F install=true http://localhost:4503/crx/packmgr/service.jsp
+for server in ${SERVER_LIST[@]}; do
+	echo "Trying server $server"
+	for port in ${PORT_LIST[@]}; do
+		echo "Trying server $server:$port..."
+		/usr/bin/nc -z $server $port
+		if [ $? -ne 0 ]; then
+			echo "Server $server:$port is down. Skipping..."
+		else
+			curl -u admin:admin -F file=@"$HOME/.m2/repository/org/girlscouts/web/girlscouts-app/$VERSION/girlscouts-app-$VERSION.zip" -F name="girlscouts-app" -F force=true -F install=true http://$server:$port/crx/packmgr/service.jsp
+# temporarily no longer using this bootstrap data
+#			curl -u admin:admin -F file=@"$HOME/.m2/repository/org/girlscouts/web/girlscouts-content/$VERSION/girlscouts-content-$VERSION.zip" -F name="girlscouts-content" -F force=true -F install=true http://$server:$port/crx/packmgr/service.jsp
+		fi
+	done
+done

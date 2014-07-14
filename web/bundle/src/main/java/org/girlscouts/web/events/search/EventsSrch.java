@@ -78,12 +78,15 @@ public class EventsSrch
 
 		searchQuery.put("type", "cq:Page");
 		searchQuery.put("path",path);
-		searchQuery.put("boolproperty","jcr:content/hideInNav");
-		searchQuery.put("boolproperty.value","false");
+		searchQuery.put("2_boolproperty","jcr:content/hideInNav");
+		searchQuery.put("2_boolproperty.value","false");
 		searchQuery.put(++propertyCounter+"_property",EVENTS_PROP);
+		searchQuery.put("p.limit", "-1");
+		searchQuery.put("orderby","@jcr:content/data/start");
+		searchQuery.put("orderby.sort", "asc");
+
 		
-		//Check if the query is null
-		System.out.println("Query Parameter" +q);
+		log.debug("Query Parameter : " +q);
 		
 		if(tags!=null){
 			addToDefaultQuery(searchQuery,tags);

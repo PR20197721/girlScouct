@@ -54,13 +54,11 @@ public class StyleFilter implements javax.servlet.Filter {
 
         Resource resource = req.getResource();
         if (resource == null) {
-            log.warn("Cannot get resource from sling request.");
             return;
         }
 
         ValueMap properties = resource.adaptTo(ValueMap.class);
         if (properties == null) {
-            log.warn("Cannot get properties: " + resource.getPath());
             return;
         }
 

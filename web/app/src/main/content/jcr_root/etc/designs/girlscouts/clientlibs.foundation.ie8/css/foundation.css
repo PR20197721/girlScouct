@@ -19,8 +19,8 @@ meta.foundation-mq-medium {
   width: 40.063em; }
 
 meta.foundation-mq-large {
-  font-family: "/only screen and (min-width:64.063em)/";
-  width: 64.063em; }
+  font-family: "/only screen and (min-width:60.063em)/";
+  width: 60.063em; }
 
 meta.foundation-mq-xlarge {
   font-family: "/only screen and (min-width:90.063em)/";
@@ -54,7 +54,7 @@ body {
   color: #222222;
   padding: 0;
   margin: 0;
-  font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+  font-family: "Open Sans", Arial, sans-serif;
   font-weight: normal;
   font-style: normal;
   line-height: 1;
@@ -117,7 +117,7 @@ select {
   margin-right: auto;
   margin-top: 0;
   margin-bottom: 0;
-  max-width: 88em;
+  max-width: 60em;
   *zoom: 1; }
   .row:before, .row:after {
     content: " ";
@@ -1248,7 +1248,7 @@ select {
     right: 95.83333%;
     left: auto; } /* } */
 /*
-@media only screen and (min-width: 64.063em) {
+@media only screen and (min-width: 60.063em) {
 */ 
   .column.large-centered,
   .columns.large-centered {
@@ -2055,7 +2055,7 @@ meta.foundation-mq-topbar {
     color: white;
     padding: 12px 0 12px 0;
     padding-left: 15px;
-    font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+    font-family: "Open Sans", Arial, sans-serif;
     font-size: 0.8125em;
     font-weight: normal;
     text-transform: none;
@@ -2347,9 +2347,9 @@ meta.foundation-mq-topbar {
         color: #999999;
         cursor: default; }
     .breadcrumbs > *:before {
-      content: "/";
-      color: #aaaaaa;
-      margin: 0 0.75em;
+      content: ">";
+      color: #00ae58;
+      margin: 0 0.2rem;
       position: relative;
       top: 1px; }
     .breadcrumbs > *:first-child:before {
@@ -2426,7 +2426,7 @@ button, .button {
   border-style: solid;
   border-width: 0px;
   cursor: pointer;
-  font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+  font-family: "Open Sans", Arial, sans-serif;
   font-weight: normal;
   line-height: normal;
   margin: 0 0 1.25em;
@@ -2834,7 +2834,7 @@ button, .button {
     color: #eeeeee;
     font-weight: normal;
     font-size: 1em;
-    font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif; }
+    font-family: "Open Sans", Arial, sans-serif; }
   .pricing-table .price {
     background-color: #f6f6f6;
     padding: 0.9375em 1.25em;
@@ -2842,7 +2842,7 @@ button, .button {
     color: #333333;
     font-weight: normal;
     font-size: 2em;
-    font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif; }
+    font-family: "Open Sans", Arial, sans-serif; }
   .pricing-table .description {
     background-color: white;
     padding: 0.9375em;
@@ -3219,7 +3219,7 @@ button, .button {
       background: #efefef;
       color: #222222;
       padding: 1em 2em;
-      font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+      font-family: "Open Sans", Arial, sans-serif;
       font-size: 1em; }
       .tabs dd > a:hover {
         background: #e1e1e1; }
@@ -3331,7 +3331,7 @@ ul.pagination {
   padding: 0.875em 0;
   list-style-type: none;
   list-style-position: inside;
-  font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif; }
+  font-family: "Open Sans", Arial, sans-serif; }
   .side-nav li {
     margin: 0 0 0.4375em 0;
     font-size: 0.875em; }
@@ -3343,7 +3343,7 @@ ul.pagination {
     .side-nav li.active > a:first-child:not(.button) {
       color: #10ff82;
       font-weight: normal;
-      font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif; }
+      font-family: "Open Sans", Arial, sans-serif; }
     .side-nav li.divider {
       border-top: 1px solid;
       height: 0;
@@ -3369,7 +3369,7 @@ ul.pagination {
       color: #222222;
       padding: 1em;
       display: block;
-      font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+      font-family: "Open Sans", Arial, sans-serif;
       font-size: 1em; }
       .accordion dd > a:hover {
         background: #e3e3e3; }
@@ -3448,7 +3448,7 @@ ul.pagination {
   .medium-text-justify {
     text-align: justify !important; } /*} */
 /*
-@media only screen and (min-width: 64.063em) and (max-width: 90em) {
+@media only screen and (min-width: 60.063em) and (max-width: 90em) {
 */
   .large-only-text-left {
     text-align: left !important; }
@@ -3462,7 +3462,7 @@ ul.pagination {
   .large-only-text-justify {
     text-align: justify !important; } /* } */
 /*
-@media only screen and (min-width: 64.063em) {
+@media only screen and (min-width: 60.063em) {
 */
   .large-text-left {
     text-align: left !important; }
@@ -3594,7 +3594,7 @@ ul.pagination {
   .medium-text-justify {
     text-align: justify !important; } /* } */
 /*
-@media only screen and (min-width: 64.063em) and (max-width: 90em) {
+@media only screen and (min-width: 60.063em) and (max-width: 90em) {
 */
   .large-only-text-left {
     text-align: left !important; }
@@ -3608,7 +3608,7 @@ ul.pagination {
   .large-only-text-justify {
     text-align: justify !important; } /* } */
 /*
-@media only screen and (min-width: 64.063em) {
+@media only screen and (min-width: 60.063em) {
 */
   .large-text-left {
     text-align: left !important; }
@@ -3723,7 +3723,7 @@ p {
 
 /* Default header styles */
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+  font-family: "Open Sans", Arial, sans-serif;
   font-weight: normal;
   font-style: normal;
   color: white;
@@ -4435,7 +4435,7 @@ dialog[open] {
     display: inline;
     margin-left: 1em;
     margin-bottom: 0.625em;
-    font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+    font-family: "Open Sans", Arial, sans-serif;
     font-weight: normal;
     font-size: 0.875em;
     color: #999999; }
@@ -4622,7 +4622,7 @@ dialog[open] {
       right: auto; } /* } */
 .label {
   font-weight: normal;
-  font-family: "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif;
+  font-family: "Open Sans", Arial, sans-serif;
   text-align: center;
   text-decoration: none;
   line-height: 1;
@@ -4719,7 +4719,7 @@ dialog[open] {
   .medium-text-justify {
     text-align: justify !important; } /* } */
 /*
-@media only screen and (min-width: 64.063em) and (max-width: 90em) {
+@media only screen and (min-width: 60.063em) and (max-width: 90em) {
 */
   .large-only-text-left {
     text-align: left !important; }
@@ -4733,7 +4733,7 @@ dialog[open] {
   .large-only-text-justify {
     text-align: justify !important; } /* } */
 /*
-@media only screen and (min-width: 64.063em) {
+@media only screen and (min-width: 60.063em) {
 */
   .large-text-left {
     text-align: left !important; }
@@ -6374,7 +6374,7 @@ label.error {
       padding-left: 1.71875em;
       padding-right: 0em; } /* } */
 /*
-@media only screen and (min-width: 64.063em) {
+@media only screen and (min-width: 60.063em) {
 */
   .large-block-grid-1 > li {
     width: 100%;
@@ -6791,7 +6791,7 @@ kbd {
     display: table-cell !important; } /* } */
 /* large displays */
 /*
-@media only screen and (min-width: 64.063em) {
+@media only screen and (min-width: 60.063em) {
 */
   .hide-for-small-only, .show-for-small-up, .hide-for-small, .hide-for-small-down, .hide-for-medium-only, .show-for-medium-up, .hide-for-medium, .hide-for-medium-down, .show-for-large-only, .show-for-large-up, .show-for-large, .show-for-large-down, .hide-for-xlarge-only, .hide-for-xlarge-up, .hide-for-xlarge, .show-for-xlarge-down, .hide-for-xxlarge-only, .hide-for-xxlarge-up, .hide-for-xxlarge, .show-for-xxlarge-down {
     display: inherit !important; }

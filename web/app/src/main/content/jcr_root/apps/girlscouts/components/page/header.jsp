@@ -2,68 +2,74 @@
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <!-- apps/girlscouts/components/page/header.jsp -->
 <%
+	// Force currentPage and currentDesign from request
+	Page newCurrentPage = (Page)request.getAttribute("newCurrentPage");
+	Design newCurrentDesign= (Design)request.getAttribute("newCurrentDesign");
+	if (newCurrentPage != null) {
+	    currentPage = newCurrentPage;
+	}
+	if (newCurrentPage != null) {
+	    currentDesign = newCurrentDesign;
+	}
+	
 	String headerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
 	String designPath = currentDesign == null ? "/" : currentDesign.getPath();
+	int depth = currentPage.getDepth();
+	request.setAttribute("headerPath", headerPath);
 %>
-		<!-- Modern Browser -->
+<!-- Modern Browser -->
 <!--[if gt IE 8]><!-->
-		<aside class="right-off-canvas-menu">
-			<ul class="off-canvas-list">
-				<li><label class="first">Foundation</label></li>
-				<li><a href="index.html">Home</a></li>
-			</ul>
-			<hr>
-			<ul class="off-canvas-list">
-				<li><label class="first">Learn</label></li>
-				<li><a href="learn/features.html">Features</a></li>
-				<li><a href="learn/faq.html">FAQ</a></li>
-			</ul>
-			<hr>
-			<ul class="off-canvas-list">
-				<li><label>Develop</label></li>
-				<li><a href="templates.html">Add-ons</a></li>
-				<li><a href="docs">Docs</a></li>
-			</ul>
-			<hr>
-			<div class="zurb-links">
-				<ul class="top">
-					<li><a href="http://zurb.com/about">About</a></li>
-					<li><a href="http://zurb.com/blog">Blog</a></li>
-					<li><a href="http://zurb.com/contact">Contact</a></li>
-				</ul>
-			</div>
-		</aside>
 <!--<![endif]-->
-		<!--PAGE STRUCTURE: HEADER-->
-		<div id="header" class="row">
-			<div class="large-4 medium-5 small-24 columns">
-<cq:include path="<%= headerPath + "/logo" %>" resourceType="girlscouts/components/logo" />
-			</div>    
-			<div class="large-20 medium-19 hide-for-small columns topMessage">
-<% setCssClasses("columns", request); %>
-<cq:include path="<%= headerPath + "/eyebrow-nav" %>" resourceType="girlscouts/components/eyebrow-navigation" />
-				<div class="row">
-					<div class="large-17 medium-17 columns">
-						<span>Hello Sandy.</span> <a x-cq-linkchecker="skip" href="/signout" class="signout">SIGN OUT</a>
+<!--PAGE STRUCTURE: HEADER-->
+				<div id="header" class="row">
+					<div class="large-5 medium-5 small-24 columns">
+						<cq:include path="<%= headerPath + "/logo" %>" resourceType="girlscouts/components/logo" />
+						<%-- TODO: Mike Z. This is an empty <div> that fixes the green box on Chrome. Temp solution. --%>
+						<cq:include path="<%= headerPath + "/placeholder" %>" resourceType="girlscouts/components/placeholder" />
 					</div>
-<% setCssClasses("large-7 medium-7 small-24 columns searchBar", request); %>
-<cq:include path="<%= headerPath + "/search-box" %>" resourceType="girlscouts/components/search-box" />
+					<div class="large-19 medium-19 hide-for-small columns topMessage">
+						 <%setCssClasses("columns noLeftPadding" , request); %>
+						<cq:include path="<%= headerPath + "/eyebrow-nav" %>" resourceType="girlscouts/components/eyebrow-navigation" />
+						<div class="row">
+							<% setCssClasses("large-18 medium-18 columns", request); %>
+							<cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
+							<% setCssClasses("large-6 medium-6 small-24 columns searchBar", request); %>
+							<cq:include path="<%= headerPath + "/search-box" %>" resourceType="girlscouts/components/search-box" />
+						</div>
+						<div class="row emptyrow"></div>
+					</div>
+					<div class="show-for-small small-24 columns topMessage alt">
+						<div class="row vtk-login">
+							<% setCssClasses("small-12 columns", request); %>
+							<cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
+							<div class="small-12 columns">
+								<div class="small-search-hamburger">
+							   		<a class="search-icon"><img src="<%= designPath %>/images/magnifyer-small.png" width="21" height="21"/></a>
+									<a class="right-off-canvas-toggle menu-icon"><img src="<%= designPath %>/images/hamburger.png" width="22" height="28"/></a>
+								</div>
+							</div>
+						</div>
+						<div class="row hide srch-box">
+						    <%setCssClasses("small-6 columns", request); %>
+						    <cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
+							<% setCssClasses("small-16 columns", request); %>
+								<cq:include path="<%= headerPath + "/search-box" %>" resourceType="girlscouts/components/search-box" />
+							<div class="small-2 columns">
+								<a class="right-off-canvas-toggle menu-icon"><img src="<%= designPath %>/images/hamburger.png" width="22" height="28"/></a>
+							</div>
+						</div>
+						
+						
+						
+					</div>
 				</div>
-			</div>
-			<div class="show-for-small small-24 columns topMessage alt">
-				<div class="row">
-					<div class="small-18 columns">
-						<span>Hello Sandy.</span> <a x-cq-linkchecker="skip" href="/signout" class="signout">SIGN OUT</a>
-					</div>
-					<div class="small-6 columns">
-						<a class="right-off-canvas-toggle menu-icon"><img src="<%= designPath %>/images/magnifyer-small.png" width="21" height="21"/></a>
-						<a class="right-off-canvas-toggle menu-icon"><img src="<%= designPath %>/images/hamburger.png" width="22" height="28"/></a>
-					</div>
-				</div>
-			</div>
-		</div>
 <!--PAGE STRUCTURE: HEADER BAR-->
-		<div id="headerBar" class="row">
-<% setCssClasses("large-24 medium-24 hide-for-small columns", request); %>
-<cq:include path="<%= headerPath + "/global-nav" %>" resourceType="girlscouts/components/global-navigation" />
-		</div>
+<div id="headerBar" class="row hide-for-small">
+				<div class="large-5 medium-5 hide-for-small columns">&nbsp;</div>
+					<% setCssClasses("large-19 medium-19 small-24 columns", request); %>
+					<cq:include path="<%= headerPath + "/global-nav" %>" resourceType="girlscouts/components/global-navigation" />
+				</div>
+
+<!-- SMALL SCREEN CANVAS should be after the global navigation is loaded,since global navigation won't be authorable-->
+				<cq:include script="small-screen-menus"/>
+	

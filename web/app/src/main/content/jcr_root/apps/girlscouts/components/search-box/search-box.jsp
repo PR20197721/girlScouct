@@ -3,6 +3,9 @@
 <%@page import="com.day.cq.wcm.api.WCMMode" %>
 <%
 
+String placeholderText = properties.get("placeholder-text","");
+
+
 String searchAction = properties.get("searchAction", null);
 String action="";
 if ((null==searchAction) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
@@ -18,7 +21,7 @@ if ((null==searchAction) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
 
 
 <form action="<%=action%>.html" method="get">
-	<input type="text" name="q" class="searchField" />
+	<input type="text" name="q" placeholder="<%=placeholderText %>" class="searchField" />
 </form>
 
 <%}%>

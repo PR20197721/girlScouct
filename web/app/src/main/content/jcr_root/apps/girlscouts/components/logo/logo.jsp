@@ -11,8 +11,9 @@
 	String smallWidth = properties.get("small/width", "38");
 	String smallHeight = properties.get("small/height", "38");
 	String smallImage = properties.get("small/fileReference", "");
+	Boolean noLink = (Boolean) request.getAttribute("noLink");
+//String linkAttribute = (String) request.getAttribute("links");
 %>
-
 <!-- Artifact Browser -->
 <!--[if lt IE 9]>
 	<nav class="logoLarge">
@@ -21,7 +22,16 @@
 <![endif]-->
 <!-- Modern Browser -->
 <!--[if gt IE 8]><!-->
-<nav class="hide-for-small logoLarge">
+<% if(noLink = true && noLink != null){
+    %>
+<nav class="show-for-small mobileFooterLogo">
+	<center>
+			<img src="<%= regularImage %>"<%= alt %> width="<%= regularWidth %>" height="<%= regularHeight %>" />
+	</center>
+</nav>
+<% } else {
+%>
+<nav class="hide-for-small logoLarge logoLargePadding">
 	<% if (!linkURL.isEmpty()) { %> <a href="<%= linkURL %>"> <% } %>
 		<img src="<%= regularImage %>"<%= alt %> width="<%= regularWidth %>" height="<%= regularHeight %>" />
 	<% if (!linkURL.isEmpty()) { %> </a> <% } %>
@@ -33,4 +43,5 @@
 		<% if (!linkURL.isEmpty()) { %> </a> <% } %>
 	</center>
 </nav>
+<% } %>
 <!--<![endif]-->

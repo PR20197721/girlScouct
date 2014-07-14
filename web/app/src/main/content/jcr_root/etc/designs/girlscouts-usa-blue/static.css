@@ -148,6 +148,7 @@ a:hover.menuHighlight {
 
 /* RIGHT CONTENT */
 #rightContent {
+    padding-right: 5px;
     text-align: center;
 }
 

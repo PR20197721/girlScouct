@@ -30,7 +30,7 @@
     {
        
     	inlineCSS = properties.get("inlinecss", String.class);
-    	System.out.println(properties.get("inlinecss",String.class));
+    	
     }
     String newType = resource.getResourceType() + "/new";
     
@@ -39,7 +39,7 @@
         if (editContext != null) {
             editContext.setAttribute("currentResource", par);
         }
-        System.out.println(par.getType());
+       
         switch (par.getType()) {
             case START:
                 if (hasColumns) {

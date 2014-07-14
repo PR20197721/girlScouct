@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-05-21T07:54:18.380-04:00"
+        cq:lastModifiedBy="kstavisky"
+        cq:lastReplicated="{Date}2014-05-21T07:54:23.833-04:00"
+        cq:lastReplicatedBy="kstavisky"
+        cq:lastReplicationAction="Activate"
+        cq:template="/apps/girlscouts/templates/three-column-page"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Ways to Volunteer"
+        jcr:uuid="1a7dcf9d-19dc-4d5c-b4f0-657002685043"
+        sling:resourceType="girlscouts/components/three-column-page">
+        <content jcr:primaryType="nt:unstructured">
+            <middle jcr:primaryType="nt:unstructured">
+                <par
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/parsys">
+                    <title
+                        jcr:created="{Date}2014-05-21T07:26:38.265-04:00"
+                        jcr:createdBy="kstavisky"
+                        jcr:lastModified="{Date}2014-05-21T07:26:38.265-04:00"
+                        jcr:lastModifiedBy="kstavisky"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="foundation/components/title"/>
+                    <text
+                        jcr:created="{Date}2014-05-21T07:24:55.751-04:00"
+                        jcr:createdBy="kstavisky"
+                        jcr:lastModified="{Date}2014-05-21T07:26:25.426-04:00"
+                        jcr:lastModifiedBy="kstavisky"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="foundation/components/text"
+                        text="&lt;p>Be the troop leader that supports her every week—the one that watches her smile get bigger as she grows more confident. Mentor a Cookie Professional during Girl Scout cookie season so she can earn enough to reach the goals she and her troop set. Or work with other adults to provide the kind of behind-the-scenes support that makes it possible for her to make amazing new memories at Girl Scouts.&lt;/p>&#xa;&lt;p>Whether you can give a few hours, a few weeks, or a few months, volunteering with Girl Scouts is flexible and fun.&lt;/p>&#xa;"
+                        textIsRich="true"/>
+                    <title_0
+                        jcr:created="{Date}2014-05-21T07:32:57.743-04:00"
+                        jcr:createdBy="kstavisky"
+                        jcr:lastModified="{Date}2014-05-21T07:33:52.551-04:00"
+                        jcr:lastModifiedBy="kstavisky"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Volunteer Roles"
+                        sling:resourceType="foundation/components/title"
+                        type="large"/>
+                    <text_0
+                        jcr:created="{Date}2014-05-21T07:28:11.458-04:00"
+                        jcr:createdBy="kstavisky"
+                        jcr:lastModified="{Date}2014-05-21T07:53:35.478-04:00"
+                        jcr:lastModifiedBy="kstavisky"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="foundation/components/text"
+                        text="&lt;p>·&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Troop Leader/Co-Leader&lt;/p>&#xa;&lt;p style=&quot;margin-left: 40px;&quot;>Work with a group of girls and mentor them as they make new friends and develop connections that will last a lifetime. &lt;b>Volunteer Now&amp;gt;&amp;gt;&lt;/b>&lt;/p>&#xa;&lt;p>·&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Troop Family and Friends&lt;/p>&#xa;&lt;p style=&quot;margin-left: 40px;&quot;>Assist with driving, activity planning, snacks, money management, or other tasks necessary to keep the troop running oh-so-smoothly from week to week. &lt;b>Volunteer Now&amp;gt;&amp;gt;&amp;nbsp;&lt;/b>&lt;/p>&#xa;&lt;p>·&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Cookie Volunteers&lt;/p>&#xa;&lt;p style=&quot;margin-left: 40px;&quot;>Coordinate the annual cookie sale at the troop level. Set up cookie booths, manage inventory and money, and then watch the girls light up when they earn the rewards for being the best cookie sellers ever! &lt;b>Volunteer Now&amp;gt;&amp;gt;&amp;nbsp;&lt;/b>&lt;/p>&#xa;&lt;p>·&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Service Unit Volunteers&lt;/p>&#xa;&lt;p style=&quot;margin-left: 40px;&quot;>Mentor adult volunteers as they work with Girl Scouts to create memories they will never forget. &lt;b>Volunteer Now&amp;gt;&amp;gt;&amp;nbsp;&lt;/b>&lt;/p>&#xa;&lt;p>·&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Camp/Seasonal Volunteers&lt;/p>&#xa;&lt;p style=&quot;margin-left: 40px;&quot;>Help the girls explore nature and find the fun outdoors. &lt;b>Volunteer Now&amp;gt;&amp;gt;&lt;/b>&lt;/p>&#xa;&lt;p>·&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Other&lt;/p>&#xa;&lt;p style=&quot;margin-left: 40px;&quot;>What are you good at? Apply your professional skills to support us in an area of need.&amp;nbsp;&lt;/p>&#xa;"
+                        textIsRich="true"/>
+                    <title_1
+                        jcr:created="{Date}2014-05-21T07:34:16.165-04:00"
+                        jcr:createdBy="kstavisky"
+                        jcr:lastModified="{Date}2014-05-21T07:34:27.073-04:00"
+                        jcr:lastModifiedBy="kstavisky"
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="How You Become a Volunteer"
+                        sling:resourceType="foundation/components/title"
+                        type="large"/>
+                    <text_1
+                        jcr:created="{Date}2014-05-21T07:34:44.177-04:00"
+                        jcr:createdBy="kstavisky"
+                        jcr:lastModified="{Date}2014-05-21T07:54:18.378-04:00"
+                        jcr:lastModifiedBy="kstavisky"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="foundation/components/text"
+                        text="&lt;p>1.&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Sign up&lt;/p>&#xa;&lt;p style=&quot;margin-left: 40px;&quot;>Tell us about yourself. Submit a form [link] that lets us know who you are and what you’re interested in doing.&lt;/p>&#xa;&lt;p>2.&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Become a member&lt;/p>&#xa;&lt;p style=&quot;margin-left: 40px;&quot;>Pay the membership fee.&lt;/p>&#xa;&lt;p>3.&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Complete a background check&lt;/p>&#xa;&lt;p style=&quot;margin-left: 40px;&quot;>Since most Girl Scout volunteers work with girls, each must complete a background check.&lt;/p>&#xa;&lt;p>4.&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; Attend volunteer training&lt;/p>&#xa;&lt;p style=&quot;margin-left: 40px;&quot;>Complete the training required by your council.&lt;/p>&#xa;&lt;p>&amp;nbsp;&lt;/p>&#xa;"
+                        textIsRich="true"/>
+                </par>
+            </middle>
+            <left jcr:primaryType="nt:unstructured">
+                <par
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="foundation/components/parsys"/>
+            </left>
+        </content>
+    </jcr:content>
+    <volunteer-with-girls/>
+    <volunteer-with-adults/>
+</jcr:root>

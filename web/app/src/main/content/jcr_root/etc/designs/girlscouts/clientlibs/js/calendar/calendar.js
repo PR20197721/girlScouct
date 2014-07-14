@@ -640,7 +640,8 @@
         }
 
         function Y(t) {
-            t.attr("unselectable", "on").css("MozUserSelect", "none").bind("selectstart.ui", function () {
+            
+        	t.attr("unselectable", "on").css("MozUserSelect", "none").bind("selectstart.ui", function () {
                 return !1
             })
         }
@@ -2163,11 +2164,21 @@
                 monthNamesShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
                 dayNames: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
                 dayNamesShort: ["S", "M", "T", "W", "Th", "F", "S"],
-                buttonText: {
+               /* buttonText: {
                     prev: "<span class='fc-text-arrow'>&lsaquo;</span>",
                     next: "<span class='fc-text-arrow'>&rsaquo;</span>",
                     prevYear: "<span class='fc-text-arrow'>&laquo;</span>",
                     nextYear: "<span class='fc-text-arrow'>&raquo;</span>",
+                    today: "today",
+                    month: "month",
+                    week: "week",
+                    day: "day"
+                },*/
+                buttonText: {
+                    prev: "<span class='fcl-text-arrow'></span>",
+                    next: "<span class='fcr-text-arrow'></span>",
+                    prevYear: "<span class='fc-text-arrow'></span>",
+                    nextYear: "<span class='fc-text-arrow'></span>",
                     today: "today",
                     month: "month",
                     week: "week",

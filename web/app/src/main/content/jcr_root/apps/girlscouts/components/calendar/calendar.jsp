@@ -11,31 +11,98 @@
   
   private String getJsonEvents(List<String> eventsPath, ResourceResolver resourceResolver){    
     List<JSONObject> eventList = new ArrayList<JSONObject>();
-    DateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy");
+    
+    
+    DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy");
+    DateFormat timeFormat = new SimpleDateFormat("h:mm a");
+  
+    String end ="";
+    String location="";
+    String detail="";
+    
+    DateFormat dateFt = new SimpleDateFormat("MMM d, yyyy");
         String jsonEvents="";
         for(String path: eventsPath){
+        	String color = "#00AE58";
+        	
         
          try
          {   Node node =   resourceResolver.getResource(path).adaptTo(Node.class);
              Node propNode = node.getNode("jcr:content/data");
              JSONObject obj = new JSONObject();
              String title = propNode.getProperty("../jcr:title").getString();
-             String detail = propNode.getProperty("details").getString();
-             String time =  propNode.getProperty("time").getString();
-             Calendar startDt = propNode.getProperty("start").getDate();
-             Calendar endDt = propNode.getProperty("end").getDate();
-             String start = dateFormat.format(startDt.getTime());
              
-             String end = dateFormat.format(endDt.getTime());
+             
+             detail = "";
+             location="";
+             if(propNode.hasProperty("srchdisp")){
+            	 detail = propNode.getProperty("srchdisp").getString();
+            	 
+             }
+             if(propNode.hasProperty("locationLabel")){
+            	 location = propNode.getProperty("locationLabel").getString();
+            	 
+             }
+             
+             //String location = propNode.getProperty("locationLabel").getString();   
+             Calendar startDt = propNode.getProperty("start").getDate();
+             //Calendar endDt = propNode.getProperty("end").getDate();
+             
+             //Start is need for the calendar to display right event on Calendar
+             String start = dateFt.format(startDt.getTime());
+             String time = timeFormat.format(propNode.getProperty("start").getDate().getTime());
+             
+             
+             
+             String dateInCalendar = dateFormat.format(startDt.getTime());
+             String startTimeStr = timeFormat.format(propNode.getProperty("start").getDate().getTime());
+             
+             String dateStr = dateInCalendar + ", " +startTimeStr;
+              
+             if(propNode.hasProperty("end")){
+            	
+            	 
+                 Calendar endDt = propNode.getProperty("end").getDate();
+                 //End is need for the calendar to display right end date of an event on Calendar
+                 end = dateFt.format(endDt.getTime());
+                
+                 
+                Calendar cal1 = Calendar.getInstance();
+          	    Calendar cal2 = Calendar.getInstance();
+          	    Calendar endDate = propNode.getProperty("end").getDate();
+          	    cal1.setTime(startDt.getTime());
+          	    cal2.setTime(endDate.getTime());
+          	    boolean sameDay = cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+          	                      cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
+          		String endDateStr = dateFormat.format(endDt.getTime());
+          		String endTimeStr = timeFormat.format(propNode.getProperty("end").getDate().getTime());
+          		if (!sameDay) {
+          	    	dateStr += " - " + endDateStr +", " + endTimeStr;
+          		    
+          		}else{
+          			dateStr += " - " + endTimeStr;
+          			
+          		}
+              }
+             
+            
+             if(propNode.hasProperty("color")){
+            	 color = propNode.getProperty("color").getString();
+            	 
+             }
              String url = path+".html";
+             
+            
+             
              obj.put("title", title);
-             obj.put("color","blue");
+             obj.put("displayDate", dateStr);
+             obj.put("location",location);
+             obj.put("color",color);
              obj.put("description", detail);
              obj.put("start",start);
-             obj.put("end", end);
+             if(!end.isEmpty())
+                obj.put("end", end);
              obj.put("path", url);
-            
-             obj.put("time", time);
              eventList.add(obj); 
          }catch(Exception e){
          }
@@ -45,7 +112,7 @@
             jsonEvents = eventArray.toString();
            
            }catch(Exception je){
-               System.out.println("Exception" +je.getStackTrace());
+               
            }  
      return jsonEvents;
 }
@@ -59,7 +126,7 @@
    {
 	String temp = eventSuffix.substring(eventSuffix.indexOf("/")+1, eventSuffix.length());
 	String[] my = temp.split("-");
-	month = my[0];
+	month = String.valueOf(Integer.parseInt(my[0])-1);
 	year = my[1];
    }
 
