@@ -14,12 +14,11 @@
 		<td>Edit/Send Activity Reminder Email </td>
 		<td>View</td>
 	</tr>
-	-->
 	<tr>
 		<td><a href="javascript:void(0)" onclick="doPic(0)">Upload Photo</a></td>
 		<td></td>
 	</tr>
-	
+-->	
 	<tr>
 		<td><a href="javascript:void(0)" onclick="doPic(1)">Upload File</a></td>
 		<td></td>
