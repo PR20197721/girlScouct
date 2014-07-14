@@ -3,7 +3,6 @@
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 <!-- apps/girlscouts-vtk/components/vtk/calendarElem.jsp -->
-<a href="/content/girlscouts-vtk/en/vtk.html?rand=<%= new java.util.Date().getTime()%>">Return to Plan</a>
 <%
 java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
 
@@ -20,10 +19,9 @@ if( meeting != null && meeting.getCancelled()!=null && meeting.getCancelled().eq
 	isCancelMeeting=true;
 }
 %>       
-<h1>F3 Manage Calendar</h1>
 <%=   	meetingDAO.getMeeting(  meeting.getRefId() ).getName() %>
 <div id="locMsg"></div>
-<div  style="padding:40px; background-color:gray; border:1px solid red;">
+<div  style="padding:40px;">
 	Change Date: <input type="text" value="<%= FORMAT_MMddYYYY.format(date) %>" id="cngDate0"  />
 	Change Time: <input tyle="text" id="cngTime0" value="<%= FORMAT_hhmm.format(date) %>"/>
 	<select id="cngAP0">
@@ -39,4 +37,4 @@ if( meeting != null && meeting.getCancelled()!=null && meeting.getCancelled().eq
 $(function() {
     $( "#cngDate0" ).datepicker({minDate: 0});
   });
-  </script>
+</script>

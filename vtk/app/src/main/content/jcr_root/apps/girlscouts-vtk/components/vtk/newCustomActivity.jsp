@@ -3,6 +3,7 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
+
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.extensions.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.custom.extensions.js"></script>
@@ -15,10 +16,6 @@
 
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.datepicker.validation.js"></script>
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.validate.js"></script>
-<!--
-<link rel="stylesheet" href="/etc/designs/girlscouts-vtk/clientlibs/css/alex/screen.css">
--->
-
 <script>
 $(function() {
 		$( "#newCustActivity_date" ).datepicker({minDate: 0});
@@ -151,46 +148,82 @@ border:5px solid #000;
 </style>
 
 
+<div class="row modalHeader">
+<%
+        boolean isWarning=false;
+        String instruction = "Add an Activity";
+        if (isWarning) {
+%>
+        <div class="small-2 columns">
+                <div class="warning"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/warning-small.png" width="20" height="20" align="left"/></div>
+        </div>
+        <div class="small-20 columns">
+<%
+        } else {
+%>
+        <div class="small-22 columns">
+<%
+        }
+%>
+                <span class="instruction"><%= instruction %></span>
 
-
+        </div>
+        <div class="small-2 columns">
+                <a class="right" href="#" onclick="$('#gsModal').dialog('close')"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/close-small.png" width="20" height="20" border="0" align="right"></a>
+        </div>
+</div>
+<div class="row modalNav">
+        <div id="createActivityTab" class="small-12 columns active">
+                <a href="#" onclick="toggleSection('create')">Create Activity</a>
+        </div>
+        <div id="pickActivityTab" class="small-12 columns">
+                <a href="#" onclick="toggleSection('pick')">Pick Activity</a>
+        </div>
+</div>
+<div class="row modalBody">
+        <div class="small-24 columns">
+                <div id="createActivitySection">
 <form class="cmxform" id="signupForm">
 
-<h2>Add an Activity</h2>
-<a class="closeText" href="#" onclick="$('#gsModal').dialog('close')">Return to Plan</a>
 <div class="sectionBar">Create a Custom Activity</div>
 <div id="newCustActivity_err" style="color:red;"></div>
 
 
 
 <div class="row">
-	<div class="small-6 columns">
-		<font color="red">*</font><input type="text" name="newCustActivity_name" id="newCustActivity_name" value="" placeholder="Name of Activity" />
-	</div>
-	<div class="small-6 columns"> Date: ex:05/07/2014<input type="text"  id="newCustActivity_date" name="newCustActivity_date" /> </div>  
-	<div class="small-6 columns">
-		Start Time
-		<input type="text" id="newCustActivity_startTime" name="newCustActivity_startTime" value="<%=org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_HOUR+":"+org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_MIN %>" required />
-		<select id="newCustActivity_startTime_AP"> <option value="am">am</option> <option value="pm">pm</option></select> </div>  
-		<div class="small-6 columns">
-		End Time<input type="text" id="newCustActivity_endTime" name="newCustActivity_endTime" value="<%=org.girlscouts.vtk.models.VTKConfig.CALENDAR_END_TIME_HOUR+":"+org.girlscouts.vtk.models.VTKConfig.CALENDAR_END_TIME_MIN %>"  required/>
-		<select id="newCustActivity_endTime_AP"><option value="am">am</option><option value="pm">pm</option></select>
-	</div> 
+        <div class="small-6 columns">
+                <font color="red">*</font><input type="text" name="newCustActivity_name" id="newCustActivity_name" value="" placeholder="Name of Activity" />
+        </div>
+        <div class="small-6 columns"> Date: ex:05/07/2014<input type="text"  id="newCustActivity_date" name="newCustActivity_date" /> </div>
+        <div class="small-6 columns">
+                Start Time
+                <input type="text" id="newCustActivity_startTime" name="newCustActivity_startTime" value="<%=org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_HOUR+":"+org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_MIN %>" required />
+                <select id="newCustActivity_startTime_AP"> <option value="am">am</option> <option value="pm">pm</option></select> </div>
+                <div class="small-6 columns">
+                End Time<input type="text" id="newCustActivity_endTime" name="newCustActivity_endTime" value="<%=org.girlscouts.vtk.models.VTKConfig.CALENDAR_END_TIME_HOUR+":"+org.girlscouts.vtk.models.VTKConfig.CALENDAR_END_TIME_MIN %>"  required/>
+                <select id="newCustActivity_endTime_AP"><option value="am">am</option><option value="pm">pm</option></select>
+        </div>
 </div>
 
 <div class="row">
-	<div class="small-12 columns"> Location Name <input type="text" id="newCustActivity_locName" value="" /> </div>
-	<div class="small-12 columns"> Location Address <input type="text" id="newCustActivity_locAddr" value="" /> </div>
+        <div class="small-12 columns"> Location Name <input type="text" id="newCustActivity_locName" value="" /> </div>
+        <div class="small-12 columns"> Location Address <input type="text" id="newCustActivity_locAddr" value="" /> </div>
 </div>
 <div class="row">
-	<div class="small-16 columns"> <textarea id="newCustActivity_txt" rows="4" cols="5" ></textarea> </div> <div class="small-8 columns">
-	<div style="background-color:red;">Cost: <input type="text" id="newCustActivity_cost" value=""/></div>
-	<input type="button" value="Add Activity" id="newCustActivity" />
+        <div class="small-24 columns"> Description <textarea id="newCustActivity_txt" rows="4" cols="5" ></textarea> </div>
+</div>
+<div class="row">
+        <div class="small-12 columns">
+                Cost <input type="text" id="newCustActivity_cost" value=""/>
 	</div>
+        <div class="small-12 columns">
+                <input type="button" value="Add Activity" id="newCustActivity" />
+        </div>
 </div>
 </form>
 
-
-
+                </div>
+                <div id="pickActiviySection">
 <form>
 <div class="sectionBar">Add activity from the Council Calendar</div>
 <p>Find Activity by:</p>
@@ -198,7 +231,7 @@ border:5px solid #000;
 <br/>Month and Year
 <select id="existActivSMon"><option value="01">Jan</option> <option value="02">Feb</option></select>
 <select id="existActivSYr"><option value="2014">2014</option> <option value="2015">2015</option></select>
-<br/>Date Range 
+<br/>Date Range
 <input type="text" id="existActivSDtFrom" />
 <input type="text"  id="existActivSDtTo"  />
 
@@ -227,3 +260,22 @@ border:5px solid #000;
 
 
 </form>
+                </div>
+        </div>
+</div>
+
+<script>
+        function toggleSection(section) {
+                $("#createActivityTab").removeClass("active");
+                $("#pickActivityTab").removeClass("active");
+                $("#createActivitySection").hide();
+                $("#pickActiviySection").hide();
+                if (section == "pick") {
+                        $("#pickActivityTab").addClass("active");
+                        $("#pickActiviySection").show();
+                } else if (section == "create")  {
+                        $("#createActivityTab").addClass("active");
+                        $("#createActivitySection").show();
+                }
+        }
+</script>

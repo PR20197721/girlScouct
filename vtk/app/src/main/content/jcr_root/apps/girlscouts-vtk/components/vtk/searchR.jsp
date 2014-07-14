@@ -79,7 +79,7 @@ if (searchResults == null || searchResults.size() < 1) {
 		}
 		String description = "Untitled";
 		if (search.getDesc() != null) {
-			description = java.net.URLEncoder.encode(search.getDesc());
+			description = search.getDesc();
 		}
 		if (docTypeImage == null) {
 			docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-unknown.png";
@@ -90,7 +90,7 @@ if (searchResults == null || searchResults.size() < 1) {
 		<span class="docType"><img width="30" height="30" src="<%=docTypeImage%>"/></span>
 		<h2><a class="searchResultPath" href="<%=search.getPath() %>" target="_blank"><%= description %></a> </h2>
 		<p><%=search.getContent() %></p>
-		<input type="button" value="Add to Meeting" onclick="applyAids('<%=search.getPath()%>', '<%= description %>')"/>
+		<input type="button" value="Add to Meeting" onclick="applyAids('<%=search.getPath()%>', '<%= java.net.URLEncoder.encode(description) %>')"/>
 	</li>
 <%
 	}

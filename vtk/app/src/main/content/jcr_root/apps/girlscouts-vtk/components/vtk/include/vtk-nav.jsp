@@ -28,7 +28,7 @@
 			<li ><a href="/content/girlscouts-vtk/en/vtk.html" class="label">Year Plan</a></li>
 		<% } %>
 		<% if ("planView".equals(activeTab)) { %>
-			<li class="active label">MeetingPlan</li>
+			<li class="active"><span class="label">MeetingPlan</span></li>
 		<% } else { %>
 			<li>
 		<%if( user.getYearPlan()!=null ){ %>
@@ -39,7 +39,7 @@
 			</li>
 		<% } %>
 		<% if ("resource".equals(activeTab)) { %>
-			<li class="active label">Resources</li>
+			<li class="active"><span class="label">Resources</span></li>
 		<% } else { %>
 			<li><a href="/content/girlscouts-vtk/en/vtk.resource.html" class="label">Resources</a></li>
 		<% } %>

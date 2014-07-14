@@ -10,14 +10,13 @@ ul.tabs {
         float: left;
 
 	font-size: 1em;
-	font-weight: bold;
 
         /* Default colors */
-        color: #424b4b;
-        background: #d6d6d6;
-	border-top: 1px solid #b3b3b3;
-	border-right: 1px solid #b3b3b3;
-	border-left: 1px solid #b3b3b3;
+        color: #c1ead4;
+        background: #009447;
+	border-top: 1px solid #CCCCCC;
+	border-right: 1px solid #CCCCCC;
+	border-left: 1px solid #CCCCCC;
 
         /* Only round the top corners */
         -webkit-border-top-left-radius: 15px;
@@ -26,11 +25,6 @@ ul.tabs {
         -moz-border-radius-topright: 15px;
         border-top-left-radius: 15px;
         border-top-right-radius: 15px;
-}
-.tabs .active {
-        /* Default colors */
-        color: #424b4b;
-        background: #ffffff;
 }
 
 .tabs li { 
@@ -50,8 +44,8 @@ ul.tabs {
 }
 .tabs .active .label { 
 	/* Colors when tab is active */
-	background: white; 
-	color: #424b4b; 
+	background: #efefef; 
+	color: #00ae58; 
 }
 .centered-table {
 	display: table;   /* Allow the centering to work */
@@ -61,7 +55,7 @@ ul.tabs {
 	width: 100%;
 }
 .underline {
-        border-bottom: 1px solid #b3b3b3;
+        border-bottom: 1px solid #CCCCCC;
 }
 
 #vtkSubNav {
@@ -310,6 +304,9 @@ li.milestone .listBody {
 	position: absolute;
 	top: 0px;
 }
+#gsModal {
+	padding: 0;
+}
 #gsModal>h2{
         display: inline-block;
 }
@@ -386,6 +383,7 @@ img.align-left { float:left; margin: 0; }
 
 #vtk-main-menu-button {
 	margin: 0px;
+        color: #c1ead4;
 }
 #vtk-main-menu {
 	display: none;
@@ -398,10 +396,6 @@ img.align-left { float:left; margin: 0; }
 }
 #vtk-main-menu a {
 	color: #ffffff;
-}
-#vtk-main-menu a.off {
-	text-decoration: none;
-	color: #999999;
 }
 #vtk-main-menu li{
 	padding-left: 15px;
@@ -416,6 +410,66 @@ img.align-left { float:left; margin: 0; }
 
 .smallBadge img{
 	max-width: 70px;
+}
+
+.modalInstruction {
+	font-size: 1em;
+}
+.resourceList li {
+	float: left;
+	width: 50%;
+	font-size:0.8em;
+}
+.resourceList li a{
+	color: #00ae58;
+}
+.resourceList li.checked a{
+	color: #cccccc;
+}
+
+.modalHeader {
+	font-size: 0.9em;
+	line-height: 2em;
+	text-align: center;
+	width: 90%;
+}
+.modalBody > div {
+	padding: 10px;
+}
+#manageCalendarSection {
+	display: block;
+}
+#manageLocationSection {
+	display: none;
+}
+#manageActivitySection {
+	display: none;
+}
+#createActivitySection {
+	display: block;
+}
+#pickActiviySection {
+	display: none;
+}
+
+.modalNav > div {
+        background: #efefef;
+	border: 1px solid #cccccc;
+	padding:10px;
+	text-align: center;
+	font-weight: 1.2em;
+}
+.modalNav > div a {
+        color: #00ae58;
+}
+.modalNav > div.active {
+        background: #009447;
+}
+.modalNav > div.active a {
+        color: #c1ead4;
+}
+#calMng table {
+	margin-bottom: 10px;
 }
 
 @media only screen and (max-width: 40em) {
@@ -446,3 +500,4 @@ img.align-left { float:left; margin: 0; }
 		margin-top: -30px;
 	}
 }
+

@@ -7,15 +7,17 @@
         String activeTab = "community";
         boolean showVtkNav = true;
 %>
-<div id="locMsg1"></div>
-<div class="locationListing">
-        <div class="row">
 <%
 java.util.List <Location> locations = user.getYearPlan().getLocations();
 if( locations==null || locations.size()<=0){
 	out.println("No locations");
 	return;
 }
+%>
+<div id="locMsg1"></div>
+<div class="locationListing">
+        <div class="row">
+<%
 for(int i=0;i<locations.size();i++){
 	Location location = locations.get(i);
 %>

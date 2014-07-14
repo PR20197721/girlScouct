@@ -19,17 +19,14 @@ java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().get
 			MeetingE meeting = (MeetingE)sched.get(date);
 			i++;
 %>
-
-
-<div >
-
-   <table>
+<div>
+   <table cellpadding="0" cellspacing="0" border="0" width="90%" align="center">
    	<tr>
    	<td>
    		<% if( date.after(new java.util.Date() )){ %>
-   			<a href="javascript:void(0)" onclick="manageCalElem('<%=date.getTime()%>')">IMG</a>
+   			<a href="javascript:void(0)" onclick="manageCalElem('<%=date.getTime()%>')"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/calendar-pick.png" alt="Calender" width="22" height="22"/></a>
    		<% }else{ %>
-   			IMG
+			<img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/calendar-pick-past.png" alt="Calender Expired" width="22" height="22"/>
    		<% } %>
    		
    	<td><%=i %>
@@ -41,8 +38,8 @@ java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().get
    	
    	
    	<%if( meeting.getCancelled()!=null && meeting.getCancelled().equals("true")){%>
-   		<span style="background-color:red;">Canceled</span>
-   		<%} %>
+   		<span style="color:red;"><i>Canceled</i></span>
+	<%} %>
    		
    		
    </table>

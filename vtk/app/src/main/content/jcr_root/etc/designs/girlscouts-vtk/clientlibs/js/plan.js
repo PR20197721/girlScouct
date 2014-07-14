@@ -76,11 +76,14 @@ function loadModalPage(link, showTitle, title) {
                         var msg = "Sorry but there was an error: ";
                         $( "#error" ).html( msg + xhr.status + " " + xhr.statusText );
                 }else{
+			var wWidth = $(window).width();
+			var dWidth = wWidth * 0.85; //this will make the dialog 80% of the
 			$( "#gsModal" ).dialog({
-				width:"auto",
+				width:dWidth,
 				height:"auto",
 				modal:true,
 				dialogClass:"modalWrap",
+				position: ['center',20],
 				show:375,
 				"open": function() {
 					if (!showTitle) {

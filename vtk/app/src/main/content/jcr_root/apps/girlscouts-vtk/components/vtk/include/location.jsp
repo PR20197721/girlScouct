@@ -1,5 +1,6 @@
 <!-- apps/girlscouts-vtk/components/vtk/include/location.jsp -->
 <div class="sectionBar">Manage Locations</div>
+<br/>
 <div class="setupCalendar">
 	<p>Add, delete or edit locations to assign to your meetings</p>
         <form>
