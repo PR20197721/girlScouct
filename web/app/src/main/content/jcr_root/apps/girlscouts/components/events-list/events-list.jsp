@@ -150,7 +150,7 @@ String rendition = displayRendition(resourceResolver, imgPath, "cq5dam.web.120.8
              %><%
                  if(rendition.equals("<img />"))
              {%>
-<img src="/content/dam/all_icons/32/calendar_32.png/jcr:content/renditions/cq5dam.web.120.80.png">
+<img src="/content/dam/all_icons/icons_64/calendar_64.png/jcr:content/renditions/cq5dam.web.120.80.png">
                 <%} else { %>
 <%= displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80")%>
                 <% } %>
