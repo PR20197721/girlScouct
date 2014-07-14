@@ -1,4 +1,5 @@
 <div class="sectionBar">Manage Activities</div>
+<br/>
 <%
 if( user.getYearPlan().getActivities()!=null && user.getYearPlan().getActivities().size()>0){
 %>

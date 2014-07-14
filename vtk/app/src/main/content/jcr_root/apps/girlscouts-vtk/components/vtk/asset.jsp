@@ -1,9 +1,9 @@
-<%@page import="java.util.Iterator,org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 <script>
-function assignAid(aidId, meetingId, assetName){
+function assignAid(aidId, meetingId, assetName, assetDesc){
 	  
 	  $.ajax({
 			cache: false,
@@ -13,37 +13,62 @@ function assignAid(aidId, meetingId, assetName){
 				addAids:aidId,
 				meetingId: meetingId,
 				assetName:assetName,
+				assetDesc:assetDesc,
 				a:Date.now()
 			},
 			success: function(result) {
 
 			}
 		});
-		//document.location="/content/girlscouts-vtk/en/vtk.resource.html";
-		applyAids(aidId);
+		applyAids(aidId, assetName);
 }
 </script>
+<div class="row modalHeader">
 <%
 	String aidId= request.getParameter("aidId");
 	java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
-	if( sched==null || (sched.size()==0)){
+	boolean isWarning=false;
+	String instruction = null;
+	if( sched==null || (sched.size()==0)) {
+		isWarning = true;
+		instruction = "You must first select a year plan before adding resources.";
+	} else {
+		instruction = "Add &quot;<b>" + request.getParameter("aidName") + "</b>&quot; to Meeting(s)";
+	}
+	if (isWarning) {
 %>
-<span class="instruction">You must first select a year plan before adding resources.</span>
+        <div class="small-2 columns">
+		<div class="warning"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/warning-small.png" width="20" height="20" align="left"/></div>
+	</div>
+        <div class="small-20 columns">
 <%
 	} else {
 %>
-<span class="instruction">Please select the meeting(s) where you would like to add this resource:</span>
-<br/>
-<ul>
+        <div class="small-22 columns">
 <%
-		MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
+        }
+%>
+                <span class="instruction"><%= instruction %></span>
+
+	</div>
+	<div class="small-2 columns">
+		<a class="right" onclick="$('#gsModal').dialog('close')" href="#"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/close-small.png" width="20" height="20" border="0" align="right"></a>
+	</div>
+</div>
+<%
+	if (sched != null && sched.size() > 0) {
+%>
+<div class="row modalBody">
+	<div class="small-24 columns">
+		<ul class="resourceList">
+<%
 		java.util.Iterator itr= sched.keySet().iterator();
 		while( itr.hasNext() ){
 			java.util.Date dt= (java.util.Date) itr.next();
 			YearPlanComponent _comp= sched.get(dt);
 			String displayName ="";
 			java.util.List<Asset> assets = null;
-			switch( _comp.getType() ){
+			switch( _comp.getType()){
 				case ACTIVITY :
 					displayName=((Activity)_comp).getName();
 					assets =  ((Activity)_comp).getAssets();
@@ -62,26 +87,20 @@ function assignAid(aidId, meetingId, assetName){
 					}
 				}
 			}
-%>
-			<li class="_comp.getType().toLowerCase()">
-<%
 			if (meetingIsSelected) {
 %>
-				<%=displayName%> (added)
+			<li class="checked"><%=displayName%> (<img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/checked-small.png" width="20" height="20"/> added)</li>
 <%
 			} else {
 %>
-                                <a href="javascript:void(0)" onclick="assignAid('<%=aidId %>', '<%=_comp.getUid()%>', '<%=request.getParameter("aidName")%>')"><%=displayName%></a>
+			<li><a href="javascript:void(0)" onclick="assignAid('<%=aidId %>', '<%=_comp.getUid()%>', '<%=request.getParameter("aidName")%>')"><%=displayName%></a></li>
 <%
                         }
-%>
-			</li>
-<%
 		}
+%>
+		</ul>
+	</div>
+</div>
+<%
 	}
 %>
-</ul>
-<br/><hr/><br/>
-<center>
-<a href="javascript:void(0)"  onclick="xClose()" class=".ui-widget-overlay" >CLOSE</a>
-</center>

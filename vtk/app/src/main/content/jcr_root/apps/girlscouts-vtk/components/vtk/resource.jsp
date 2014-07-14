@@ -1,7 +1,4 @@
-<%@page
-	import="java.util.Iterator,
-                java.util.Map,
-                java.util.HashMap,
+<%@page import="
                 javax.jcr.Session,
                 org.apache.sling.api.resource.ResourceResolver,
                 org.apache.sling.api.resource.Resource,
@@ -12,13 +9,8 @@
                 com.day.cq.search.Query,
                 com.day.cq.search.QueryBuilder,
                 com.day.cq.search.result.SearchResult,
-                org.girlscouts.vtk.dao.*,
-                org.girlscouts.vtk.models.user.*,
-                org.girlscouts.vtk.auth.models.ApiConfig,
-                org.girlscouts.vtk.models.MeetingE,
-                org.girlscouts.vtk.models.Meeting,
-                org.girlscouts.vtk.dao.MeetingDAO,
                 org.girlscouts.vtk.helpers.CouncilMapper"%>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%
 	final String RESOURCE_SEARCH_PROMPT = "type in a search word or term here";
@@ -27,7 +19,6 @@
 	final String TYPE_MEETING_OVERVIEWS = "meeting-overviews";
 
 	final QueryBuilder queryBuilder = sling.getService(QueryBuilder.class);
-	final MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
 %>
 <%@include file="include/session.jsp"%>
 <%-- VTK tab --%>
@@ -36,7 +27,6 @@
     boolean showVtkNav = true;
 %>
 <%@include file="include/vtk-nav.jsp"%>
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
 <script>
 	$(function() {
 		var cache = {};
@@ -62,29 +52,11 @@
 		});
 	});
 
-	function applyAids(aid){
-		var link = "/content/girlscouts-vtk/controllers/vtk.asset.html?aidId="+ aid;
-		$( "#schedModal" ).load(link, function( response, status, xhr ) {
-			if ( status == "error" ) {
-				var msg = "Sorry but there was an error: ";
-				$( "#error" ).html( msg + xhr.status + " " + xhr.statusText );
-			}else{
-				$( "#schedModal" ).dialog({
-					width:920,
-					modal:true,
-					dialogClass:"modalWrap"
-				});
-				$(".ui-dialog-titlebar").hide();
-			}
-		});
-	}
-
-	function xClose() {
-		$("#schedModal").dialog( "close" );
+	function applyAids(aid, aidDesc){
+		var link = "/content/girlscouts-vtk/controllers/vtk.asset.html?aidId="+ aid+ "&aidName="+encodeURI(aidDesc);
+		loadModalPage(link, false);
 	}
 </script>
-
-<div id="schedModal"></div>
 
 <h1>Search For Resources</h1>
 <div class="ui-widget">
@@ -260,7 +232,7 @@ try {
                 	builder.append("\">");
                 	builder.append(title);
                 	builder.append("</a>");
-                	builder.append("<input type=\"button\" value=\"Add to Meeting\" onclick=\"applyAids('"+asset.getPath()+"', '' )\" />");
+                	builder.append("<input type=\"button\" value=\"Add to Meeting\" onclick=\"applyAids('"+asset.getPath()+"', '"+title+"' )\" />");
                 	builder.append("</li>");
                 }
             }

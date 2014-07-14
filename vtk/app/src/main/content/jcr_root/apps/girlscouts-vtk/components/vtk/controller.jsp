@@ -1,38 +1,13 @@
-
-<%@page import="java.util.Calendar"%>
 <%@page import="org.joda.time.LocalDate"%>
-<%@ page import="org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.ejb.*, org.girlscouts.vtk.dao.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
-
+<%@include file="include/session.jsp"%>
 <%
-
-//System.err.println("controller");
-
-
-
-
-	HttpSession session = request.getSession();
-
-	ActivityDAO activityDAO = sling.getService(ActivityDAO.class);
-	UserDAO userDAO = sling.getService(UserDAO.class);
-	LocationDAO locationDAO = sling.getService(LocationDAO.class);
-	CalendarUtil calendarUtil = sling.getService(CalendarUtil.class);
-	LocationUtil locationUtil = sling.getService(LocationUtil.class);
-	MeetingUtil meetingUtil = sling.getService(MeetingUtil.class);
-	EmailUtil emailUtil = sling.getService(EmailUtil.class);
-//System.err.println("controller");
-
-
-
-
-
-
 if( request.getParameter("isMeetingCngAjax") !=null){
 	
 	//System.err.println("contr : meeting rearg");
-	meetingUtil.changeMeetingPositions( (User) session.getValue("VTK_user"),
-			request.getParameter("isMeetingCngAjax") );
+	meetingUtil.changeMeetingPositions( user, request.getParameter("isMeetingCngAjax") );
 	
 	
 	
@@ -41,9 +16,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	double cost=0.00;
 	try{cost= Double.parseDouble(request.getParameter("newCustActivity_cost").replace(",","") );}catch(Exception e){e.printStackTrace();}
 	
-		activityDAO.createActivity(
-				(User) session.getValue("VTK_user"),
-				new Activity( 
+		activityDAO.createActivity(user, new Activity( 
 			request.getParameter("newCustActivity_name"), 
 			request.getParameter("newCustActivity_txt"),
 			dateFormat4.parse(request.getParameter("newCustActivity_date") +" "+request.getParameter("newCustActivity_startTime") +" " +request.getParameter("newCustActivity_startTime_AP")), 
@@ -53,12 +26,10 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 				);
 	
 	
-	
-	
 }else if( request.getParameter("buildSched") !=null ){
 
 	try{
-	calendarUtil.createSched((User) session.getValue("VTK_user"), 
+	calendarUtil.createSched(user, 
 			request.getParameter("calFreq"), 
 			new org.joda.time.DateTime(dateFormat4.parse(request.getParameter("calStartDt") +" "+ request.getParameter("calTime") +
 					" "+ request.getParameter("calAP"))), request.getParameter("exclDt"));
@@ -66,7 +37,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	
 }else if( request.getParameter("addYearPlanUser") !=null ){
 	
-	userDAO.selectYearPlan(  (User) session.getValue("VTK_user"), request.getParameter("addYearPlanUser"),
+	userDAO.selectYearPlan(  user, request.getParameter("addYearPlanUser"),
 			request.getParameter("addYearPlanName"));
 	
 	
@@ -75,32 +46,28 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	
 	
 		
-	    locationUtil.setLocation((User) session.getValue("VTK_user"), 
+	    locationUtil.setLocation(user, 
 			 new Location(request.getParameter("name"),
 						request.getParameter("address"), request.getParameter("city"), 
 						request.getParameter("state"), request.getParameter("zip") ));
 	
 	    
-	    User user = (User) session.getValue("VTK_user");
-	    System.err.println("LOCSSSS :"+ user.getYearPlan().getLocations().size());
-		   
 	    if( user.getYearPlan().getLocations().size()==1 ){
 			
-		    locationUtil.setLocationAllMeetings((User) session.getValue("VTK_user"), 
-				user.getYearPlan().getLocations().get(0).getPath());
+		    locationUtil.setLocationAllMeetings(user, user.getYearPlan().getLocations().get(0).getPath());
 		}
 	
 	    
 	    
 }else if( request.getParameter("rmLocation") !=null ){
 
-	locationDAO.removeLocation((User) session.getValue("VTK_user"), request.getParameter("rmLocation"));
+	locationDAO.removeLocation(user, request.getParameter("rmLocation"));
 	
 	
 	
 }else if( request.getParameter("newCustAgendaName") !=null ){
 
-	meetingUtil.createCustomAgenda((User) session.getValue("VTK_user"), 
+	meetingUtil.createCustomAgenda(user, 
 			request.getParameter("name"), request.getParameter("newCustAgendaName"), 
 			Integer.parseInt(request.getParameter("duration")), Long.parseLong( request.getParameter("startTime") ), request.getParameter("txt") );
 	
@@ -108,7 +75,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	
 }else if( request.getParameter("setLocationToAllMeetings") !=null ){
 	
-	locationUtil.setLocationAllMeetings((User) session.getValue("VTK_user"), 
+	locationUtil.setLocationAllMeetings(user, 
 			request.getParameter("setLocationToAllMeetings") );
 	
 }else if( request.getParameter("updSched") !=null ){
@@ -117,7 +84,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	//System.err.println("UpdCal: "+request.getParameter("date") +" " + request.getParameter("time") +" " + request.getParameter("ap"));
 	
 	
-	calendarUtil.updateSched((User)session.getValue("VTK_user"), request.getParameter("meetingPath"), 
+	calendarUtil.updateSched(user, request.getParameter("meetingPath"), 
 			request.getParameter("time"), request.getParameter("date"), request.getParameter("ap"), 
 			request.getParameter("isCancelledMeeting"), Long.parseLong( request.getParameter("currDt") ));
 	
@@ -126,39 +93,39 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 }else if( request.getParameter("rmCustActivity") !=null ){
 	
 	
-	meetingUtil.rmCustomActivity ((User)session.getValue("VTK_user"), request.getParameter("rmCustActivity") );
+	meetingUtil.rmCustomActivity (user, request.getParameter("rmCustActivity") );
 	 
 	 
 	
 }else if( request.getParameter("chnLocation") !=null ){
 	
-	locationUtil.changeLocation((User)session.getValue("VTK_user"), request.getParameter("chnLocation"), request.getParameter("newLocPath"));
+	locationUtil.changeLocation(user, request.getParameter("chnLocation"), request.getParameter("newLocPath"));
 	
 	
 }else if( request.getParameter("cngMeeting") !=null ){ //change Meeting
 	
-	meetingUtil.swapMeetings((User)session.getValue("VTK_user"), request.getParameter("fromPath"), request.getParameter("toPath"));
+	meetingUtil.swapMeetings(user, request.getParameter("fromPath"), request.getParameter("toPath"));
 
 }else if( request.getParameter("addMeeting") !=null ){ //add Meeting
 	
-	meetingUtil.addMeetings((User)session.getValue("VTK_user"),  request.getParameter("toPath"));
+	meetingUtil.addMeetings(user,  request.getParameter("toPath"));
 
 
 }else if( request.getParameter("isActivityCngAjax") !=null ){ //activity shuffle
 	
-	meetingUtil.rearrangeActivity( (User)session.getValue("VTK_user"), request.getParameter("mid"), request.getParameter("isActivityCngAjax"));
+	meetingUtil.rearrangeActivity( user, request.getParameter("mid"), request.getParameter("isActivityCngAjax"));
 
 }else if( request.getParameter("rmAgenda") !=null ){
 
-	meetingUtil.rmAgenda((User)session.getValue("VTK_user"), request.getParameter("rmAgenda") , request.getParameter("mid")  );
+	meetingUtil.rmAgenda(user, request.getParameter("rmAgenda") , request.getParameter("mid")  );
 	
 }else if( request.getParameter("editAgendaDuration") !=null ){
-	meetingUtil.editAgendaDuration((User)session.getValue("VTK_user"), Integer.parseInt(request.getParameter("editAgendaDuration")), 
+	meetingUtil.editAgendaDuration(user, Integer.parseInt(request.getParameter("editAgendaDuration")), 
 			request.getParameter("aid"),
 			request.getParameter("mid"));
 }else if( request.getParameter("revertAgenda") !=null ){
 	
-	meetingUtil.reverAgenda((User)session.getValue("VTK_user"),  request.getParameter("mid") );
+	meetingUtil.reverAgenda(user,  request.getParameter("mid") );
 	
 }else if( request.getParameter("sendMeetingReminderEmail_SF") !=null ){ //view SalesForce
 	  
@@ -177,23 +144,14 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	  emr.setEmailToGirlParent(email_to_gp);
 	  emr.setEmailToSelf(email_to_sf);
 	  emr.setEmailToTroopVolunteer(email_to_tv);
-	  
-	  User user = (User)session.getValue("VTK_user");
-try {
-	  user.setApiConfig((org.girlscouts.vtk.auth.models.ApiConfig)session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
-} catch (ClassCastException cce) {
-	session.invalidate();
-}
-	  
-	  
-	  emailUtil.sendMeetingReminder((User)session.getValue("VTK_user"), emr);
+	  emailUtil.sendMeetingReminder(user, emr);
 	  
 }else if( request.getParameter("loginAs")!=null){ //troopId
 	if(request.getParameter("loginAs")==null || request.getParameter("loginAs").trim().equals("") ){System.err.println("loginAs invalid.abort");return;}
 	
-	User curr_user = (User)session.getValue("VTK_user");
-	
-	java.util.List<org.girlscouts.vtk.salesforce.Troop> troops = curr_user.getApiConfig().getTroops();
+	troops = user.getApiConfig().getTroops();
+	session.setAttribute("USER_TROOP_LIST", troops);
+
 	org.girlscouts.vtk.salesforce.Troop newTroop = null;
 	for(int i=0;i<troops.size();i++)
 		if( troops.get(i).getTroopId().equals(request.getParameter("loginAs")))
@@ -202,63 +160,39 @@ try {
 	User new_user= userDAO.getUser( 
 			"/vtk/"+newTroop.getCouncilCode()+
     		"/"+newTroop.getTroopName()+"/users/"+
-		curr_user.getApiConfig().getUserId()+"_"+  request.getParameter("loginAs") );
+		user.getApiConfig().getUserId()+"_"+  request.getParameter("loginAs") );
 
 	if( new_user==null ){
 		
 		new_user = new User(
 				 "/vtk/"+newTroop.getCouncilCode()+
 	        		"/"+newTroop.getTroopName()+"/users/",
-				curr_user.getApiConfig().getUserId()+"_"+  request.getParameter("loginAs") );
+				user.getApiConfig().getUserId()+"_"+  request.getParameter("loginAs") );
 	}
 	
-	
-	/*
-	java.util.List <org.girlscouts.vtk.salesforce.Troop> troops = curr_user.getApiConfig().getTroops();
-	for(int i=0;i<troops.size();i++){
-			if( troops.get(i).getTroopId().equals( request.getParameter("loginAs"))){
-				new_user.setTroop(troops.get(i) );
-			}
-	}
-	*/
 	new_user.setTroop(newTroop );
 	
 	
-	
-    new_user.setApiConfig(curr_user.getApiConfig());
+    new_user.setApiConfig(user.getApiConfig());
     new_user.setSfTroopId( new_user.getTroop().getTroopId() );
     new_user.setSfUserId( new_user.getApiConfig().getUserId() );
     new_user.setSfTroopName( new_user.getTroop().getTroopName() );  
-    session.putValue("VTK_user", new_user);
-	
-    
+    session.setAttribute("VTK_user", new_user);
 }else if( request.getParameter("addAsset")!=null){
 	
 	org.girlscouts.vtk.models.Asset asset = new org.girlscouts.vtk.models.Asset(request.getParameter("addAsset"));
-//	asset.add( request.getParameter("addAsset") );
 	
 	//System.err.println("*** "+request.getParameter("meetingUid") );
-	new UserDAOImpl().addAsset( (User)session.getValue("VTK_user") ,  request.getParameter("meetingUid"),   asset);
+	new UserDAOImpl().addAsset( user ,  request.getParameter("meetingUid"),   asset);
 	
 	
 }else if( request.getParameter("testAB")!=null){
-	System.err.println("TESTAB...");
-	userDAO.updateUser((User)session.getValue("VTK_user"));
-	out.println("test");
-	
+	userDAO.updateUser(user);
 }else if( request.getParameter("addAids")!=null){
-	//System.err.println("*** "+request.getParameter("meetingId") );
-	meetingUtil.addAids((User)session.getValue("VTK_user"), request.getParameter("addAids"), request.getParameter("meetingId"),
-				request.getParameter("assetName") );
-
+	meetingUtil.addAids(user, request.getParameter("addAids"), request.getParameter("meetingId"), request.getParameter("assetName") );
 }else if( request.getParameter("rmAsset")!=null){
-	
-	meetingUtil.rmAsset((User)session.getValue("VTK_user"), request.getParameter("rmAsset"), request.getParameter("meetingId"));
-
-
-	
+	meetingUtil.rmAsset(user, request.getParameter("rmAsset"), request.getParameter("meetingId"));
 }else if( request.getParameter("previewMeetingReminderEmail") !=null ){
-	  
 	  String email_to_gp =request.getParameter("email_to_gp");
 	  String email_to_sf =request.getParameter("email_to_sf");
 	  String email_to_tv =request.getParameter("email_to_tv");
@@ -266,11 +200,7 @@ try {
 	  String subj = request.getParameter("email_subj");
 	  String html = request.getParameter("email_htm"); 
 	  String meetingId= request.getParameter("mid");
-	 
 	  EmailMeetingReminder emr=null;
-	  
-	  
-	  User user = (User)session.getValue("VTK_user");
 	  if( user.getSendingEmail() !=null ){
 		  emr= user.getSendingEmail();
 		  emr.setCc(cc);
@@ -310,8 +240,6 @@ try {
 }else if( request.getParameter("sendMeetingReminderEmail") !=null ){ //view smpt
   
 	  EmailMeetingReminder emr=null;
-	  
-	  User user = (User)session.getValue("VTK_user");
 	  if( user.getSendingEmail() !=null )
 		  emr= user.getSendingEmail();
 	 
@@ -347,9 +275,8 @@ try {
 	
 	String assetId = request.getParameter("bindAssetToYPC");
 	String ypcId = request.getParameter("ypcId");
-	String assetDesc = request.getParameter("assetDesc");
+	String assetDesc = java.net.URLDecoder.decode(request.getParameter("assetDesc"));
 	System.err.println("*** "+ assetId +" : "+ ypcId +" : "+ assetDesc);
-	User user = (User)session.getValue("VTK_user");
 	java.util.List<MeetingE> meetings = user.getYearPlan().getMeetingEvents();
 	for(int i=0;i<meetings.size();i++){
 		if( meetings.get(i).getUid().equals( ypcId)){
@@ -400,7 +327,6 @@ try {
 	
 }else if( request.getParameter("editCustActivity") !=null ){
 	
-	User user = (User) session.getValue("VTK_user");
 	java.util.List<Activity> activities= user.getYearPlan().getActivities();
 	Activity activity= null; 
 	for(int i=0;i<activities.size();i++)

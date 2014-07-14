@@ -25,8 +25,8 @@ girlscouts.components.login = {
 	    // TODO: Add language
 	    var html;
 	    if (state === 'signedin') {
-		    html = '<span>' + 'Hello ' + name + 
-		    ' <a href="javascript:void(0)" onclick="girlscouts.components.login.signOut();" class="signout">SIGN OUT</a></span>';
+		    html = '<span>' + 'Hello&nbsp;' + name.replace(" ","&nbsp;") + 
+		    '&nbsp;<a href="javascript:void(0)" onclick="girlscouts.components.login.signOut();" class="signout">SIGN&nbsp;OUT</a></span>';
 	    } else if (state === 'signedout') {
 		    html = '<span><a href="' + this.signInUrl + '" class="signin">' + 'SIGN IN' + '</a></span>';
     	}

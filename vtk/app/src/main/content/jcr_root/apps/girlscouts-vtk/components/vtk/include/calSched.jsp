@@ -6,7 +6,7 @@
 		<div class="small-6 columns date">
 			<input type="text" id="calStartDt" value="<%=user.getYearPlan().getCalStartDate()==null ? "" : FORMAT_MMddYYYY.format(new java.util.Date(user.getYearPlan().getCalStartDate())) %>" />
 		</div>
-		<div class="small-5 columns"><input type="text" id="calTime" value="<%=user.getYearPlan().getCalStartDate()==null ? (org.girlscouts.vtk.models.api.VTKConfig.CALENDAR_START_TIME_HOUR+":"+org.girlscouts.vtk.models.api.VTKConfig.CALENDAR_START_TIME_MIN) : FORMAT_hhmm.format(new java.util.Date(user.getYearPlan().getCalStartDate())) %>"/></div>
+		<div class="small-5 columns"><input type="text" id="calTime" value="<%=user.getYearPlan().getCalStartDate()==null ? (org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_HOUR+":"+org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_MIN) : FORMAT_hhmm.format(new java.util.Date(user.getYearPlan().getCalStartDate())) %>"/></div>
 		<div class="small-3 columns">
 			<select id="calAP">
 <%
