@@ -44,7 +44,7 @@
 				</li>
 				<li>|</li>
 				<li>
-					<a href="javascript:void(0)" onclick="newActivity()">Add Activity</a>
+					<a href="javascript:void(0)" onclick="newActivity()">Add Activityy</a>
 				</li>
 			</ul>
 		</div>
