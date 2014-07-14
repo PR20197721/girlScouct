@@ -71,10 +71,11 @@
     	<li>
     		<div class="row">
     			<div class="small-24 medium-8 large-4 columns">
-    			<%if(!imgPath.isEmpty()){ %>
+    			<% if(!imgPath.isEmpty()){ %>
           				<%= displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80") %>
-    				<%} %>
-    				
+                    <%} else if(imgPath.isEmpty()) { %>
+<img src="/content/dam/all_icons/icons_64/globe_64.png">
+                    <% } %>
     			</div>
     			<div class="small-24 medium-16 large-20 columns">
     				<h3>
