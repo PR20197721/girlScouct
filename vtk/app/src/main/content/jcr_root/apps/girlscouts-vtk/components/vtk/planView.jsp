@@ -1,4 +1,4 @@
-<%@page import="java.util.Iterator,org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
@@ -69,10 +69,7 @@
        
        
        
-<script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.custombox.js"></script>
-<link rel="stylesheet" href="/etc/designs/girlscouts-vtk/clientlibs/css/alex/jquery.custombox.css">
 <style>
-
 .modal-example-content {
     width: 600px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);

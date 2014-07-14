@@ -1,21 +1,5 @@
-<%@ page import="java.util.*, org.apache.sling.api.resource.*, org.apache.sling.jcr.api .*,java.lang.ref.*, com.day.cq.tagging.*, com.day.cq.tagging.*, org.apache.jackrabbit.commons.JcrUtils, org.apache.sling.api.resource.*"%>
-<cq:defineObjects/>
-
-<!--  
-<script src="https://raw.github.com/furf/jquery-ui-touch-punch/master/jquery.ui.touch-punch.min.js"></script>
-<script>$('#widget').draggable();</script>
-
- <link href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/css/base/jquery.ui.all.css" rel="stylesheet">
-    <link href="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.2/css/lightness/jquery-ui-1.10.2.custom.min.css" rel="stylesheet">
-  
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-   -->
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.2/jquery.ui.touch-punch.min.js"></script>
-
+<!-- apps/girlscouts-vtk/components/vtk/include/viewYearPlanMeeting.jsp -->
 <%
-
-	MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
 	MeetingE meeting = (MeetingE) _comp;
 	Meeting meetingInfo = meetingDAO.getMeeting(  meeting.getRefId() );
 	java.util.List <Activity> _activities = meetingInfo.getActivities();
@@ -28,8 +12,6 @@
 	
 	
 %>
-
-
 
 <br/>
 <div class="caca row meetingDetailHeader">
@@ -142,17 +124,7 @@
 <p>AidTags:<%=aidTags %></p>
 <%
 
-
-
-
-
-
-
-//List<org.girlscouts.vtk.models.Search> _aidTags =  meetingDAO.getAids( meetingInfo.getAidTags(), meetingInfo.getId(), "");
 List<Asset> _aidTags = meeting.getAssets();
-
-
-
 
 java.util.Date sysAssetLastLoad =  sling.getService(org.girlscouts.vtk.helpers.DataImportTimestamper.class).getTimestamp(); //SYSTEM QUERY
 
@@ -178,7 +150,6 @@ if(meeting.getLastAssetUpdate()==null || meeting.getLastAssetUpdate().before(sys
 	//query cachables
 	 java.util.List __aidTags =  meetingDAO.getAids( meetingInfo.getAidTags(), meetingInfo.getId(), meeting.getUid());
 	
-	
 	//merge lists
 	_aidTags.addAll( __aidTags );
 	
@@ -186,7 +157,6 @@ if(meeting.getLastAssetUpdate()==null || meeting.getLastAssetUpdate().before(sys
 	meeting.setLastAssetUpdate( new java.util.Date() );
 	meeting.setAssets( _aidTags);
 	userDAO.updateUser(user);
-	
 }
 
 

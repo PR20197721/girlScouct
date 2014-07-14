@@ -1,4 +1,4 @@
-<%@ page import="org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
@@ -7,69 +7,91 @@
 <%!
 	String activeTab = "plan";
 	boolean showVtkNav = true;
-%>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.2/jquery.ui.touch-punch.min.js"></script>
-<%
-	YearPlanDAO yearPlanDAO = sling.getService(YearPlanDAO.class);
-	java.util.List<org.girlscouts.vtk.salesforce.Troop> troops = user.getApiConfig().getTroops();
-	if (troops.size() > 1) {
-%>
-<div id="troop" class="row">
-	<div class="large-12 troopPrompt columns">
-		Current troop profile:
-	</div>
-	<div class="large-12 troopSelect columns">
-		<select id="reloginid" onchange="relogin()">
-<%
-		for(int i=0;i<troops.size();i++){
-%> 
-			<option value="<%=troops.get(i).getTroopId() %>" <%= user.getTroop().getTroopId().equals(troops.get(i).getTroopId()) ? "SELECTED" : ""%>><%= troops.get(i).getTroopName() %> : <%= troops.get(i).getGradeLevel() %></option> 
-<% 
+
+	public boolean isDtMeetings(Cal cal, int x){
+
+		if( cal==null || cal.getDates()==null) return false;
+		String dates= cal.getDates();
+
+		java.util.StringTokenizer t= new java.util.StringTokenizer(dates, ",");
+		if( x==0 ){
+			while( t.hasMoreElements() )
+				if( new java.util.Date().before( new java.util.Date(Long.parseLong(t.nextToken())) ) )
+					return true;
+
+		}else{
+			while( t.hasMoreElements() )
+				if( new java.util.Date().after( new java.util.Date(Long.parseLong(t.nextToken())) ) )
+					return true;
+
 		}
-%>
-		</select>
-	</div>
-</div>
-<%
+		return false;
 	}
 %>
 <%@include file="include/vtk-nav.jsp"%>
 <% if( user.getYearPlan()!=null){ %> 
-	<ul id="vtkSubNav">
-		<li>
-			<a href="javascript:void(0)" onclick="newLocCal()">Specify Meeting Dates and Locations</a>
-		</li>
-		<li>|</li>
-		<li>
-			 <a href="/content/girlscouts-vtk/en/vtk.meetingLibrary.html" >Add Meeting</a>
-			<!--  <a href="javascript:void(0)" onclick="doMeetingLib()">Add Meeting</a> -->
-		</li>
-		<li>|</li>
-		<li>
-			<a href="javascript:void(0)" onclick="newActivity()">Add Activity</a>
-		</li>
-                <li class="icons">
+<div class="row hide-for-small">
+	<div class="large-22 medium-22 small-20 columns">
+		<div class="centered-table">
+			<ul id="vtkSubNav">
+				<li>
+					<a href="javascript:void(0)" onclick="newLocCal()">Specify Meeting Dates and Locations</a>
+				</li>
+				<li>|</li>
+				<li>
+					 <a href="/content/girlscouts-vtk/en/vtk.meetingLibrary.html" >Add Meeting</a>
+					<!--  <a href="javascript:void(0)" onclick="doMeetingLib()">Add Meeting</a> -->
+				</li>
+				<li>|</li>
+				<li>
+					<a href="javascript:void(0)" onclick="newActivity()">Add Activity</a>
+				</li>
+			</ul>
+		</div>
+<!--
+		<div class="show-for-small">
+			<script>
+				function smallAction(act) {
+					if (act == null || act === "") {
+						return;
+					} else {
+						if (act.indexOf("/") > -1) {
+							window.location.href = act;
+						} else {
+							eval(act + "()");
+						}
+					}
+				}
+			</script>
+			<select id="vtkSubNavSmall" onChange="smallAction(this.options[selectedIndex].value)">
+				<option value="" selected="selected">Select an action</option>
+				<option value="newLocCal">Specify Meeting Dates and Locations</option>
+                                <option value="/content/girlscouts-vtk/en/vtk.meetingLibrary.html">Add Meeting</option>
+                                <option value="newActivity">Add Activity</option>
+                        </select>
+		</div>
+-->
+	</div>
+	<div class="large-2 medium-2 small-4 columns">
+		<div class="icons">
 		<%if(user.getYearPlan().getSchedule()!=null){ %>
-			<a onclick="self.location = '/content/girlscouts-vtk/en/cal.ics'"><img alt="Calendar Download" src="/etc/designs/girlscouts-vtk/images/calendar-download.png" width="39" height="20" border="0" align="right"/></a>
+			<a onclick="self.location = '/content/girlscouts-vtk/en/cal.ics'"><img alt="Calendar Download" src="/etc/designs/girlscouts-vtk/images/calendar-download.png" width="39" height="20" border="0" class="align-right"/></a>
                 <%} %>
 <!--
-			<a href="javascript:void(0)" id="plan_calendarhlp_hrf" onclick="x12('plan_calendarhlp_hrf')"><img align="right" src="/etc/designs/girlscouts-usa-green/images/help-icon.png"/></a>
+			<a href="javascript:void(0)" id="plan_calendarhlp_hrf" onclick="x12('plan_calendarhlp_hrf')"><img src="/etc/designs/girlscouts-usa-green/images/help-icon.png" class="align-right"/></a>
 -->
-		</li>
-	</ul>
+		</div>
+	</div>
+</div>
 <%} %>
-
 <%if( user.getYearPlan()==null ){ %>
-	<br/>
-	<p>To start planning your year, select a Year Plan</p>
+	<div class="instructions">
+		<p>To start planning your year, select a Year Plan</p>
 <!--
-	<ul>
-		<li>
-			<a href="javascript:void(0)" id="plan_calendarhlp_hrf" onclick="x12('plan_calendarhlp_hrf')">
-			<img align="right" src="/etc/designs/girlscouts-usa-green/images/help-icon.png"/></a>
-		</li>
-	</ul>
+		<a href="javascript:void(0)" id="plan_calendarhlp_hrf" onclick="x12('plan_calendarhlp_hrf')">
+		<img align="right" src="/etc/designs/girlscouts-usa-green/images/help-icon.png"/></a>
 -->
+	</div>
 <%}%>
 	<div class="sectionHeader">YEAR PLAN LIBRARY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <% if(user.getYearPlan()!=null){%>
@@ -84,8 +106,6 @@
 String ageLevel=  user.getTroop().getGradeLevel();
 ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1);
 ageLevel=ageLevel.toLowerCase().trim();
-java.util.Iterator<YearPlan> yearPlans = yearPlanDAO.getAllYearPlans(ageLevel).listIterator();
-
 
 String confMsg="";
 if( user.getYearPlan()!=null ){
@@ -97,7 +117,7 @@ if( user.getYearPlan()!=null ){
 }
 
 
-
+java.util.Iterator<YearPlan> yearPlans = yearPlanDAO.getAllYearPlans(ageLevel).listIterator();
 while (yearPlans.hasNext()) {
 	YearPlan yearPlan = yearPlans.next();
 %>
@@ -114,108 +134,3 @@ while (yearPlans.hasNext()) {
 <% } %>
 		</div>
 	</div>
-
-	<%!
-	
-
-public boolean isDtMeetings(Cal cal, int x){
-	
-	if( cal==null || cal.getDates()==null) return false;
-	String dates= cal.getDates();
-	
-	java.util.StringTokenizer t= new java.util.StringTokenizer(dates, ",");
-	if( x==0 ){
-		while( t.hasMoreElements() )
-			if( new java.util.Date().before( new java.util.Date(Long.parseLong(t.nextToken())) ) )
-				return true;
-		
-	}else{
-		while( t.hasMoreElements() )
-			if( new java.util.Date().after( new java.util.Date(Long.parseLong(t.nextToken())) ) )
-				return true;
-		
-	}
-	return false;
-}
-	%>
-	
-	
-	
-	
-       
-<script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.custombox.js"></script>
-<link rel="stylesheet" href="/etc/designs/girlscouts-vtk/clientlibs/css/alex/jquery.custombox.css">
-<style>
-
-.modal-example-content {
-    width: 600px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-    background-color: #FFF;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    border-radius: 6px;
-    outline: 0 none;
-}
-.modal-example-header {
-    border-bottom: 1px solid #E5E5E5;
-    padding: 15px;
-}
-.modal-example-body p,
-.modal-example-header h4 {
-    margin: 0;
-}
-.modal-example-body {
-    padding: 20px;
-}
-</style>
-
-
-
-
- 
-<script>
-function x12( id){
-	
-	//var y = document.getElementById('cntx');
-	//y.innerHtml= xx;
-	
-	 $.fn.custombox( document.getElementById(id),{
-			 	effect:'newspaper',
-	 			url:'#helpSched'
-		});
-	
-	// document.getElementById('xyz').innerHTML=ttl;
-	 
-}
-
-</script>
-              
-             
-<%if(user.getYearPlan()!=null && user.getYearPlan().getSchedule()!=null){ %>
-             
-       <div id="helpSched" style="display: none;" class="modal-example-content">
-        <div class="modal-example-header" >
-            <span id="xyz"></span><button type="button" class="close" onclick="$.fn.custombox('close');">&times;</button>
-            Help With Sched
-        </div>
-        <div class="modal-example-body" id="cntx" >
-            <p>
-            Help asdfasdfasdf
-            	
-            </p>
-        </div>
-    </div>
-<% }else{ %>
- 	<div id="helpSched" style="display: none;" class="modal-example-content">
-        <div class="modal-example-header" >
-            <span id="xyz"></span><button type="button" class="close" onclick="$.fn.custombox('close');">&times;</button>
-            Help No Sched
-        </div>
-        <div class="modal-example-body" id="cntx" >
-            <p>
-            Help asdfasdfasdf
-            	
-            </p>
-        </div>
-    </div>
-
-<% }%>

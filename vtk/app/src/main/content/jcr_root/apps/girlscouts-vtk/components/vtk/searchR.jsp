@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" import="org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*, org.girlscouts.vtk.ejb.*, java.util.regex.*, java.text.*" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" import="java.util.regex.*, java.text.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
@@ -14,7 +15,7 @@ if (searchResults == null || searchResults.size() < 1) {
 } else {
 	for(int i=0;i<searchResults.size();i++){
 		org.girlscouts.vtk.models.Search search = searchResults.get(i);
-		String docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-unknown.png";
+		String docTypeImage = null;
 		try {
 
 			String regexStr = "\\.([a-z]*)$";
@@ -24,29 +25,34 @@ if (searchResults == null || searchResults.size() < 1) {
 			if (matcher.find()) {
 				extension = matcher.group(1).toLowerCase();
 			}
-			String docType = search.getType().toLowerCase();
+			String docType = null;
+			if (search.getType() != null) {
+				docType = search.getType().toLowerCase();
+			}
 
-
-			// match by type
-			if (docType.indexOf("pdf") != -1) {
-				docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-pdf.png";
-			} else if (docType.indexOf("indesign") != -1) {
-				docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-indesign.png";
-			} else if (docType.indexOf("htm") != -1) {
-				docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-html.png";
-			} else if (docType.indexOf("excel") != -1) {
-				docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-excel.png";
-			} else if (docType.indexOf("illustrator") != -1) {
-				docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-illustrator.png";
-			} else if (docType.indexOf("powerpoint") != -1) {
-				docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-powerpoint.png";
-			} else if (docType.indexOf("word") != -1) {
-				docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-word.png";
-			} else if (docType.indexOf("photoshop") != -1) {
-				docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-photoshop.png";
-			} else if (docType.indexOf("text") != -1) {
-				docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-text.png";
-			} else {
+			if (docType != null) {
+				// match by type
+				if (docType.indexOf("pdf") != -1) {
+					docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-pdf.png";
+				} else if (docType.indexOf("indesign") != -1) {
+					docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-indesign.png";
+				} else if (docType.indexOf("htm") != -1) {
+					docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-html.png";
+				} else if (docType.indexOf("excel") != -1) {
+					docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-excel.png";
+				} else if (docType.indexOf("illustrator") != -1) {
+					docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-illustrator.png";
+				} else if (docType.indexOf("powerpoint") != -1) {
+					docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-powerpoint.png";
+				} else if (docType.indexOf("word") != -1) {
+					docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-word.png";
+				} else if (docType.indexOf("photoshop") != -1) {
+					docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-photoshop.png";
+				} else if (docType.indexOf("text") != -1) {
+					docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-text.png";
+				}
+			}
+			if (docTypeImage == null) {
 				// match by name
 				if (extension.equals("pdf")) {
 					docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-pdf.png";
@@ -71,13 +77,20 @@ if (searchResults == null || searchResults.size() < 1) {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		String description = "Untitled";
+		if (search.getDesc() != null) {
+			description = search.getDesc();
+		}
+		if (docTypeImage == null) {
+			docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-unknown.png";
+		}
+		
 %>
 	<li class="searchResultsItem">
 		<span class="docType"><img width="30" height="30" src="<%=docTypeImage%>"/></span>
-		<h2><a class="searchResultPath" href="<%=search.getPath() %>" target="_blank"><%=search.getDesc() %></a> </h2>
+		<h2><a class="searchResultPath" href="<%=search.getPath() %>" target="_blank"><%= description %></a> </h2>
 		<p><%=search.getContent() %></p>
-
-		<input type="button" value="Add to Meeting" onclick="applyAids('<%=search.getPath()%>', '<%=java.net.URLEncoder.encode(search.getDesc()) %>')"/>
+		<input type="button" value="Add to Meeting" onclick="applyAids('<%=search.getPath()%>', '<%= java.net.URLEncoder.encode(description) %>')"/>
 	</li>
 <%
 	}

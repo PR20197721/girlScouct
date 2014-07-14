@@ -457,19 +457,25 @@ public List<org.girlscouts.vtk.models.Search> getData(String query) {
        Value excerpt = r.getValue("rep:excerpt(.)");
        
        String path = r.getValue("jcr:path").getString();
-       if( path.contains("/jcr:content") ) path= path.substring(0, (path.indexOf("/jcr:content") ));
-       System.err.println( "PATH :"+path );
-    	
-       
-       
+       if (path != null ) {
+       if(path.contains("/jcr:content") ) {
+    	   path= path.substring(0, (path.indexOf("/jcr:content") ));
+       }
        org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();
        search.setPath(path);
-       search.setContent(excerpt.getString());
-       try{search.setDesc( r.getValue("dc:title").getString() );}catch(Exception e){e.printStackTrace();}
-       try{ search.setType(r.getValue("dc:format").getString()); }catch(Exception e){System.err.println("No Fmt");}
-       
+       if (excerpt != null){
+    	   search.setContent(excerpt.getString());
+       }
+       Value title = r.getValue("dc:title");
+       if (title != null) {
+    	   search.setDesc(title.getString() );
+       }
+       Value format = r.getValue("dc:format");
+       if (format != null) {
+    	   search.setType(format.getString());
+       }
        matched.add(search);
-      // System.err.println( "SEarch: "+excerpt.getString());
+       }
    }
 	}catch(Exception e){e.printStackTrace();}
    return matched;

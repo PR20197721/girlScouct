@@ -1,25 +1,22 @@
 .vtk {
-	padding: 1.5em;
+	padding: .25em;
 }
 
-.tabs {
-	padding-left:1.5em;
-	border-bottom: 1px solid grey;
+ul.tabs {
+	margin: 0px;
 }
-
 .tabs .label {
-	padding: 10px 30px;
+	padding: 10px 18px;
         float: left;
 
-	font-size: 1rem;
-	font-weight: bold;
+	font-size: 1em;
 
         /* Default colors */
-        color: #424b4b;
-        background: #d6d6d6;
-	border-top: 1px solid #b3b3b3;
-	border-right: 1px solid #b3b3b3;
-	border-left: 1px solid #b3b3b3;
+        color: #c1ead4;
+        background: #009447;
+	border-top: 1px solid #CCCCCC;
+	border-right: 1px solid #CCCCCC;
+	border-left: 1px solid #CCCCCC;
 
         /* Only round the top corners */
         -webkit-border-top-left-radius: 15px;
@@ -28,11 +25,6 @@
         -moz-border-radius-topright: 15px;
         border-top-left-radius: 15px;
         border-top-right-radius: 15px;
-}
-.tabs .active {
-        /* Default colors */
-        color: #424b4b;
-        background: #ffffff;
 }
 
 .tabs li { 
@@ -52,8 +44,18 @@
 }
 .tabs .active .label { 
 	/* Colors when tab is active */
-	background: white; 
-	color: #424b4b; 
+	background: #efefef; 
+	color: #00ae58; 
+}
+.centered-table {
+	display: table;   /* Allow the centering to work */
+	margin: 0 auto;
+}
+.full-width-wrapper {
+	width: 100%;
+}
+.underline {
+        border-bottom: 1px solid #CCCCCC;
 }
 
 #vtkSubNav {
@@ -63,10 +65,15 @@
 #vtkSubNav li {
 	display: inline;
 	list-style-type: none;
-	padding-right: 20px;
+	padding-right: 10px;
 	font-weight: bold;
 }
-
+.icons {
+        padding-top: 10px;
+}
+.icons img{
+	margin-right:14px;
+}
 .sectionHeader {
 	color:#000;
 	background-color:#ccc;
@@ -79,7 +86,7 @@
 	border: 1px solid #cccccc;
 }
 #yearPlanSelection input[type="submit"] {
-	margin: 0.5rem;
+	margin: 0.5em;
 	padding: 0 40px; height: 40px; width: 250px; vertical-align: middle;
 }
 #yearPlanSelection hr {
@@ -87,18 +94,18 @@
 }
 #newLocationCal {
 	background-color:#fff;
-	padding: 2rem;
+	padding: 2em;
 	border: 2px solid grey;
 }
 #newLocationModal {
         background-color:#fff;
-        padding: 2rem;
+        padding: 2em;
 }
 #yearPlanSelection {
-	line-height: 1.5rem;
+	line-height: 1.5em;
 }
 #yearPlanSelection .columns{
-	padding: 1rem;
+	padding: 1em;
 }
 .planSquare {
 	width: 100px;
@@ -123,24 +130,22 @@
         color:#797979;
         border: 1px solid #9b9b9b;
         z-index:100;
-	font-size: 0.8rem;
+	font-size: 0.8em;
 }
 .planSquare .date {
         top: 5px;
 }
 .planSquare .date .month {
-        font-size: 1.1rem;
-        line-height: 2rem;
+        font-size: 1em;
+        line-height: 1.6em;
 }
 .planSquare .date .day {
-        font-size: 1.8rem;
-        line-height: 2rem;
+        font-size: 1.8em;
+	line-height: 1.6em;
 }
 .planSquare .date .time {
-        font-size: 1rem;
-        line-height: 0.9rem;
+        font-size: 1em;
 }
-
 .planSquare .activity .cal {
         padding-top: 15px;
 }
@@ -160,10 +165,9 @@
         margin-top: -45px;
 }
 
-
 #yearPlanMeetings ul{
         list-style-type: none;
-	margin: 1.1rem;
+	margin: 1.1em;
 }
 #yearPlanMeetings li {
         margin: 5px;
@@ -200,29 +204,29 @@
 }
 
 #yearPlanMeetings h1 {
-	font-size:1.4rem;
+	font-size:1.4em;
 	font-weight: bold;
-	line-height: 1.3rem;
+	line-height: 1.3em;
 	text-align: center;
 }
 #yearPlanMeetings h2 {
-        font-size:1rem;
+        font-size:1em;
         font-weight: bold;
-        line-height: 1rem;
-        margin: 0px;
+        line-height: 1em;
+        margin: 0 0 5px 0;
 }
 #yearPlanMeetings a {
 	color:#008f50;
 }
 #yearPlanMeetings .tags {
-	font-size:0.75rem;
-	line-height: 1rem;
+	font-size:0.75em;
+	line-height: 1em;
 }
 
 #yearPlanMeetings p {
-	line-height: 1rem;
+	line-height: 1em;
 	margin: 0;
-	font-size:1rem;
+	font-size:1em;
 }
 #yearPlanMeetings li.milestone.ui-state-disabled {
         opacity: 1.00;
@@ -246,34 +250,33 @@ li.milestone .listBody {
 
 }
 #troop {
-	padding:10px;
+	padding-bottom:8px;
+	margin: 0px -10px;
 }
 #troop .troopPrompt {
 	text-align: right;
 	font-style: italic;
-	padding-top: 8px;
-}
-#troop .troopSelect{
-	line-height:1.0rem;
+	padding-top: 5px;
+	font-size:0.75em;
 }
 #troop select{
-	height:2rem;
-	font-size: 1em;
-	padding: 2px;
+	height:2em;
+	padding: 1px;
+	width: auto;
 }
 .modalWrap {
 	background-color: #ffffff;
 	padding: 10px;
-	border:2px solid #99FF99;
+	border:4px solid #eeeeee;
 }
 .ui-widget-overlay {
-	background-color: #003300;
+	background: #000000;
 	opacity: .30;
 	filter: Alpha(Opacity=30);
 }
 
 .sectionBar {
-        font-size:1.3rem;
+        font-size:1.3em;
         font-weight: bold;
 	background-color: #ebebeb;
 	padding: 10px;
@@ -301,6 +304,9 @@ li.milestone .listBody {
 	position: absolute;
 	top: 0px;
 }
+#gsModal {
+	padding: 0;
+}
 #gsModal>h2{
         display: inline-block;
 }
@@ -316,7 +322,7 @@ li.milestone .listBody {
 	border: 1px solid grey;
 }
 a.direction {
-	font-size: 4rem;
+	font-size: 4em;
 	font-family: "Arial";
 	color: #008f50;
 }
@@ -347,11 +353,11 @@ a.direction {
 }
 
 #resourceSearchField {
-	padding:0 0.5rem;
+	padding:0 0.5em;
 }
 
 #searchResults ul{
-	margin: 1.1rem; 
+	margin: 1.1em; 
 }
 
 .ui-autocomplete-loading {
@@ -366,5 +372,132 @@ a.direction {
 
 .printer.right {
 	float: right;	
+}
+.tip {
+        font-style: italic;
+	color: #00ae58;
+}
+
+img.align-right { float:right; margin: 0; }
+img.align-left { float:left; margin: 0; }
+
+#vtk-main-menu-button {
+	margin: 0px;
+        color: #c1ead4;
+}
+#vtk-main-menu {
+	display: none;
+	color: #ffffff;
+	margin: 0px;
+	background-color: #009447;
+	width:100%;
+	padding: 10px;
+	font-size:1.3em;
+}
+#vtk-main-menu a {
+	color: #ffffff;
+}
+#vtk-main-menu li{
+	padding-left: 15px;
+}
+#vtk-main-menu li.active {
+	background: url(images/white-right-arrow.png) left 10px no-repeat;
+	border: 2px solid #00a850;
+}
+#vtk-main-menu li.active>a {
+        color: #faa61a;
+}
+
+.smallBadge img{
+	max-width: 70px;
+}
+
+.modalInstruction {
+	font-size: 1em;
+}
+.resourceList li {
+	float: left;
+	width: 50%;
+	font-size:0.8em;
+}
+.resourceList li a{
+	color: #00ae58;
+}
+.resourceList li.checked a{
+	color: #cccccc;
+}
+
+.modalHeader {
+	font-size: 0.9em;
+	line-height: 2em;
+	text-align: center;
+	width: 90%;
+}
+.modalBody > div {
+	padding: 10px;
+}
+#manageCalendarSection {
+	display: block;
+}
+#manageLocationSection {
+	display: none;
+}
+#manageActivitySection {
+	display: none;
+}
+#createActivitySection {
+	display: block;
+}
+#pickActiviySection {
+	display: none;
+}
+
+.modalNav > div {
+        background: #efefef;
+	border: 1px solid #cccccc;
+	padding:10px;
+	text-align: center;
+	font-weight: 1.2em;
+}
+.modalNav > div a {
+        color: #00ae58;
+}
+.modalNav > div.active {
+        background: #009447;
+}
+.modalNav > div.active a {
+        color: #c1ead4;
+}
+#calMng table {
+	margin-bottom: 10px;
+}
+
+@media only screen and (max-width: 40em) {
+        .planSquare {
+                width: 70px;
+                height: 70px;
+        }
+
+        .planSquare .count {
+                width: 20px;
+                height: 20px;
+                margin-left: -8px;
+                margin-top: -8px;
+                font-size: 0.7em;
+        }
+        .planSquare .date {
+                top: 4px;
+        }
+        .planSquare .activity .cal {
+                padding-top: 12px;
+        }
+        .planSquare .cancelled {
+                width: 70px;
+                height: 70px;
+                font-size: 80px;
+        }
+	.planSquare .cancelled .cross {
+		margin-top: -30px;
+	}
 }
 

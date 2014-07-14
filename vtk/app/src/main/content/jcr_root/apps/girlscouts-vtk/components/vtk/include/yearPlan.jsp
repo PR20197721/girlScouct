@@ -1,8 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-    <%@ page import="org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*, org.girlscouts.vtk.ejb.*" %>
-
-
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page import="org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*, org.girlscouts.vtk.ejb.*" %>
 
 <br/><br/>To Start choose plan
 <div style="background-color:gray; height:20px; color:#FFF;">
@@ -21,8 +18,6 @@
 			{confMsg ="Are You Sure? This will modify plans on /after [date]. Any customization for meeting(s) will be lost.";confMsg+=isDtMeetings(user.getYearPlan().getSchedule(), 0); }
 	}
 	
-	YearPlanDAO yearPlanDAO = sling.getService(YearPlanDAO.class);
-
 	java.util.Iterator <YearPlan>yearPlans =yearPlanDAO.getAllYearPlans( request.getParameter("ageLevel")).listIterator();
 
 	while(yearPlans.hasNext()){

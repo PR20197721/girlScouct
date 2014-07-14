@@ -1,18 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-    <%@ page import="org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*, org.girlscouts.vtk.ejb.*" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <!-- apps/girlscouts-vtk/components/vtk/viewMeetingLibraryMeeting.jsp -->
-
 <cq:defineObjects/>
-
+<%@include file="include/session.jsp"%>
 <%
-	HttpSession session = request.getSession();
-
-	MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
-
-	String orgMeetingPath = request.getParameter("rpath");
-    if( orgMeetingPath==null || orgMeetingPath.equals("null") || orgMeetingPath.equals("")) orgMeetingPath=null;
+String orgMeetingPath = request.getParameter("rpath");
+if( orgMeetingPath==null || orgMeetingPath.equals("null") || orgMeetingPath.equals("")) orgMeetingPath=null;
 	String meetingPath = request.getParameter("mpath");
 	Meeting meeting = meetingDAO.getMeeting(meetingPath);
 	if( meeting==null ){ out.println("Meeting not found");return;}

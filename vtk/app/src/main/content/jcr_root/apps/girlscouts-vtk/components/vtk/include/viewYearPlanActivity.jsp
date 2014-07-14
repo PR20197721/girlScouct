@@ -1,5 +1,5 @@
+<!-- apps/girlscouts-vtk/components/vtk/include/viewYearPlanActivity.jsp -->
 <%
-
 Activity activity = (Activity) _comp;
 %>
 <br/>
@@ -128,15 +128,18 @@ if( a_aidTags!=null )
 
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.extensions.js"></script>
-<script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask_custom_extensions.js"></script>
+<script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.custom.extensions.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.date.extensions.js"></script>
 
-<script src="/etc/designs/girlscouts-vtk/clientlibs/js/alex.js"></script>
-
+<script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.maskedinput.js"></script>
+<script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
+<script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.maskMoney.js"></script>
 
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.datepicker.validation.js"></script>
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.validate.js"></script>
-<link rel="stylesheet" href="/etc/designs/girlscouts-vtk/clientlibs/css/alex/screenX.css">
+<!--
+<link rel="stylesheet" href="/etc/designs/girlscouts-vtk/clientlibs/css/alex/screen.css">
+-->
 
 <script>
 $(function() {
@@ -285,7 +288,6 @@ $('#newCustActivity1').click(function() {
 <form class="cmxform" id="signupForm">
 	
 	<h2>Edit Activity</h2>
-	<!--  <a class="closeText" href="#" onclick="$('#editCustActiv').dialog('close')">Return to Plan</a> -->
 	<div class="sectionBar">Edit Custom Activity</div>
 	<div id="newCustActivity_err" style="color:red;"></div>
         <div class="row">
