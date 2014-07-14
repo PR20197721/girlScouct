@@ -5,7 +5,7 @@
 <%@include file="include/session.jsp"%>
 <%!
 	boolean showVtkNav = true;
-        String activeTab = "resource";
+       String activeTab = "resource";
 %>
 <%
         String meetingPath = request.getParameter("mpath");
@@ -15,15 +15,6 @@
                 showVtkNav =  false;
         }
 %>
-
-<%@include file="include/vtk-nav.jsp"%>
-<div class="tabs-content">
-    <div class="content" id="panel2-1"></div>
-    <div class="content" id="panel2-2"></div>
-    <div class="content" id="panel2-3"></div>
-    <div class="content" id="panel2-4"></div>
-    <div class="content" id="panel2-5"></div>
-</div>
 
 <%
 	//java.util.List< Meeting> meetings=  meetingDAO.search();
@@ -66,7 +57,9 @@
 			
 			%><br/>
 			
-			 <a href="/content/girlscouts-vtk/en/vtk.meetingLibrary.html<%=url%>"><%=yearPlan.getName()%></a> <% 
+			 <!--  <a href="/content/girlscouts-vtk/en/vtk.meetingLibrary.html<%=url%>"><%=yearPlan.getName()%></a> -->
+			  <a onclick="mm('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html<%=url%>')"><%=yearPlan.getName()%></a>
+			 <% 
 					if( yearPlan.getName().trim().equals(user.getYearPlan().getName().trim() ) ){%> CURRENT<% }
 		}
 	}
@@ -109,6 +102,10 @@ function cngMeeting(mPath){
 				 <%}%>
 	  });
 }
+	
+	
+
+
 </script>
 <div id="cngMeet"></div>
 <hr/>

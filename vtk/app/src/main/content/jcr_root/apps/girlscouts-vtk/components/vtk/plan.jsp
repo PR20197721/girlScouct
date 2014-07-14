@@ -39,8 +39,8 @@
 				</li>
 				<li>|</li>
 				<li>
-					 <a href="/content/girlscouts-vtk/en/vtk.meetingLibrary.html" >Add Meeting</a>
-					<!--  <a href="javascript:void(0)" onclick="doMeetingLib()">Add Meeting</a> -->
+					<!-- <a href="/content/girlscouts-vtk/en/vtk.meetingLibrary.html" >Add Meeting</a> -->
+					 <a href="javascript:void(0)" onclick="doMeetingLib()">Add Meeting</a> 
 				</li>
 				<li>|</li>
 				<li>

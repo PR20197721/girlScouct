@@ -366,9 +366,18 @@ function bindAssetToYPC(assetId, ypcId){
 
 
 function doMeetingLib(){
-	loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html');
+	
+		loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html');
+	
 }
 
 function doHelp(isSched){
 	loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html');
+}
+
+
+function mm(x){
+	
+	$( "#gsModal" ).load(x);
+	
 }

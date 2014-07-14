@@ -248,6 +248,7 @@ public class MeetingUtil {
 			if( meeting.getPath().equals( fromPath ) ){
 			
 				meeting.setRefId(toPath);
+				meeting.setAssets(null);
 				
 			}
 		}

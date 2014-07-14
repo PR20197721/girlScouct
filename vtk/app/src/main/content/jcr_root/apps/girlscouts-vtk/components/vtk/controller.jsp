@@ -187,7 +187,13 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	
 	
 }else if( request.getParameter("testAB")!=null){
-	userDAO.updateUser(user);
+	
+	//userDAO.updateUser(user);
+	//getMeeting(girlscouts-vtk/yearPlanTemplates/yearplan2014/brownie/yearPlan1/meetings/meeting1");
+	meetingDAO.getMeeting("/content/girlscouts-vtk/meetings/myyearplan/brownie/B14OG01");
+
+
+
 }else if( request.getParameter("addAids")!=null){
 	meetingUtil.addAids(user, request.getParameter("addAids"), request.getParameter("meetingId"), request.getParameter("assetName") );
 }else if( request.getParameter("rmAsset")!=null){
