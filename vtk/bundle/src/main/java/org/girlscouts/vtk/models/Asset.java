@@ -2,6 +2,7 @@ package org.girlscouts.vtk.models;
 
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
+import org.girlscouts.vtk.dao.AssetComponentType;
 
 @Node
 public class Asset {
@@ -44,12 +45,24 @@ public class Asset {
 	public void setUid(String uid) {
 		this.uid = uid;
 	}
+	
+	
+	
+	
 	public String getType() {
 		return type;
 	}
 	public void setType(String type) {
 		this.type = type;
 	}
+	
+	public AssetComponentType getType(boolean nothing){ return AssetComponentType.valueOf(this.getType());}
+	public void setType(AssetComponentType act){ setType( act.toString() );}
+	
+	
+	
+	
+	
 	public String getPath() {
 		return path;
 	}

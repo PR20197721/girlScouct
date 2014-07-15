@@ -37,6 +37,7 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
 import org.apache.jackrabbit.ocm.query.Filter;
 import org.apache.jackrabbit.ocm.query.Query;
 import org.apache.jackrabbit.ocm.query.QueryManager;
+import org.girlscouts.vtk.dao.AssetComponentType;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.models.Activity;
@@ -551,6 +552,7 @@ private List<Asset> getAidTag(String tags, String meetingName) {
        
        Asset search = new Asset();
        search.setRefId(path);
+       search.setType(AssetComponentType.AID);
        search.setIsCachable(true);
        //search.setContent(excerpt.getString());
        search.setDescription( r.getValue("dc:description").getString() );
@@ -616,6 +618,7 @@ private List<Asset> getAidTag_local(String tags, String meetingName) {
     		   
        Asset search = new Asset();
        search.setRefId(path);
+       search.setType(AssetComponentType.AID);
        search.setIsCachable(true);
        //search.setContent(excerpt.getString());
       try{search.setDescription( r.getValue("dc:description").getString() );}catch(Exception e){}
@@ -747,7 +750,7 @@ public net.fortuna.ical4j.model.Calendar yearPlanCal(User user )throws Exception
 			
 			UidGenerator uidGenerator = new UidGenerator("1");
 			event.getProperties().add(uidGenerator.generateUid());
-System.err.println("CAL: "+ cal.getTime() +" : "+ desc );
+//System.err.println("CAL: "+ cal.getTime() +" : "+ desc );
 			events.add(event);
 			
 			
@@ -823,6 +826,7 @@ private List<Asset> getResource_global(String tags, String meetingName) {
        Asset search = new Asset();
        search.setRefId(path);
        search.setIsCachable(true);
+       search.setType(AssetComponentType.RESOURCE);
        search.setDescription( r.getValue("dc:description").getString() );
        matched.add(search);
       
@@ -874,6 +878,7 @@ private List<Asset> getResource_local(String tags, String meetingName) {
        Asset search = new Asset();
        search.setRefId(path);
        search.setIsCachable(true);
+       search.setType(AssetComponentType.RESOURCE);
        //search.setContent(excerpt.getString());
       try{search.setDescription( r.getValue("dc:description").getString() );}catch(Exception e){}
       // try{search.setType(r.getValue("dc:format").getString());}catch(Exception e){}
