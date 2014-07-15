@@ -10,7 +10,6 @@ import org.apache.sling.api.SlingHttpServletRequest;
 import com.day.cq.search.QueryBuilder;
 
 public interface FacetBuilder{
-	HashMap<String, List<FacetsInfo>> getFacets(
-			SlingHttpServletRequest slingRequest, QueryBuilder queryBuilder, String FACETS_PATH);	
+	HashMap<String, List<FacetsInfo>> getFacets(SlingHttpServletRequest slingRequest, QueryBuilder queryBuilder, String FACETS_PATH);	
 
 }

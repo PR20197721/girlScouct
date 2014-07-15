@@ -376,7 +376,7 @@ table, tr:first-child  {
 .item{
     float:left; 
     width:33.3333%;
-    background:#EBEBEB;
+    background:#F3F3F3;
     padding:0 15px 0 0;
 }
 .twoColumn{
@@ -404,7 +404,7 @@ input#date{
     border-right:2px solid rgb(191, 194, 194);
 }
 .programLevel{
-    background:#EBEBEB;
+    background:#F3F3F3;
 }
 .anActivity{
    height:40px;
@@ -831,4 +831,18 @@ input.searchField{
 div#rightContent.small-24 div.advertisement a{
 	display: inline-block;
 
+}
+
+.option-top {
+    background: url('images/option-top-green-arrow.png') no-repeat;
+    width:130px;
+    height:20px;
+  
+}
+
+.option-down {
+    background: url('images/option-down-green-arrow.png') no-repeat;
+    width:130px;
+    height:20px;
+  
 }

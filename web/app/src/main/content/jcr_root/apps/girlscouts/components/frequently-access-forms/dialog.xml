@@ -24,19 +24,18 @@
                     </multi>
                 </items>
             </first>
-            <styles
+            <title
                 jcr:primaryType="cq:Widget"
-                title="Styles"
+                title="Title"
                 xtype="panel">
                 <items jcr:primaryType="cq:WidgetCollection">
-                    <additional-css
+                    <freq-title
                         jcr:primaryType="cq:Widget"
-                        fieldDescription="Separated by space. CSS tags will be added to the surrounding div tag when the component is being included."
-                        fieldLabel="Additional CSS"
-                        name="./additionalCss"
+                        fieldLabel="Title"
+                        name="./freq-title"
                         xtype="textfield"/>
                 </items>
-            </styles>
+            </title>
         </items>
     </items>
 </jcr:root>

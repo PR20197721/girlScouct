@@ -9,11 +9,15 @@ import java.util.Map;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 
+import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.resource.ResourceResolverFactory;
+import org.apache.xmlbeans.xml.stream.ReferenceResolver;
 import org.girlscouts.web.events.search.EventsSrch;
 import org.girlscouts.web.events.search.FacetBuilder;
 import org.girlscouts.web.events.search.FacetsInfo;
@@ -29,17 +33,29 @@ import com.day.cq.search.facets.Facet;
 import com.day.cq.search.result.Hit;
 import com.day.cq.search.result.SearchResult;
 
+
 @Component
 @Service
 public class FacetBuilderImpl implements FacetBuilder{
 	
+	/*@Reference
+	private ResourceResolverFactory resourceResolverFactory;
+	
+	private ResourceResolver resourceResolver;
+	*/
 	private Map<String, String> queryBuilder = new HashMap<String, String>();
 	private PredicateGroup predicateGroup = new PredicateGroup();
 	//private static String FACETS_PATH = "/etc/tags/girlscouts"; 
 	private HashMap<String,List<FacetsInfo>> facets = new HashMap<String, List<FacetsInfo>>();
 	private static Logger log = LoggerFactory.getLogger(FacetBuilderImpl.class);
 	
-	private void buildFacets(SlingHttpServletRequest slingRequest,QueryBuilder builder, String FACETS_PATH){
+	/*@Activate
+	private void activate() {
+		// TODO: Mike Z. Administrative RR might be too powerful.
+		resourceResolver = resourceResolverFactory.getAdministrativeResourceResolver(null);
+	}
+	*/
+	private void buildFacets(SlingHttpServletRequest slingRequest, QueryBuilder queryBuilder, String FACETS_PATH){
 		
 		log.debug("Building Facets ");
 		
@@ -70,9 +86,9 @@ public class FacetBuilderImpl implements FacetBuilder{
 	}
 
 
-	public HashMap<String, List<FacetsInfo>> getFacets(SlingHttpServletRequest slingRequest,QueryBuilder builder, String FACETS_P ) {
+	public HashMap<String, List<FacetsInfo>> getFacets(SlingHttpServletRequest slingRequest, QueryBuilder queryBuilder, String FACETS_PATH ) {
 	
-		buildFacets(slingRequest,builder,FACETS_P);
+		buildFacets(slingRequest,queryBuilder, FACETS_PATH);
 		return facets;
 	}
 	

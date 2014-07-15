@@ -11,12 +11,13 @@ import java.util.Map;
 import javax.jcr.RepositoryException;
 
 import org.apache.sling.api.SlingHttpServletRequest;
-import org.girlscouts.web.events.search.impl.EventResultsImpl;
 import org.girlscouts.web.events.search.impl.FacetBuilderImpl;
+import org.girlscouts.web.search.utils.SearchUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.day.cq.search.QueryBuilder;
+import com.day.cq.search.result.Hit;
 
 public class EventsSrch  
 {
@@ -32,7 +33,6 @@ public class EventsSrch
 	private static String EVENTS_PROP="jcr:content/cq:tags";
 	//private static String PATH_1 = "/content/girlscouts-usa/en/events/";
 	private Map<String, ArrayList<String>> facetsQryBuilder = new HashMap<String, ArrayList<String>>();
-	
 	
  	private SearchResultsInfo searchResultsInfo;
  	int propertyCounter = 0;
@@ -51,7 +51,8 @@ public class EventsSrch
 		{
 			createFacets();
 			eventResults(q,offset,month,year,startdtRange,enddtRange,region,tags,path);
-			combineSearchTagsCounts();
+			searchResultsInfo = SearchUtils.combineSearchTagsCounts(searchResultsInfo,facetAndTags);
+			
 		} catch (RepositoryException e)
 		{
 			log.error("Error Generated in the search() of EventSrch Class");
@@ -72,8 +73,9 @@ public class EventsSrch
 	
 	
 	private void eventResults(String q,String offset,String month,String year, String startdtRange, String enddtRange,String region,String[] tags, String path) throws RepositoryException{
-		EventResults eventResults = new EventResultsImpl();
 
+		List<String> relts = new ArrayList<String>(); 
+		searchResultsInfo = new SearchResultsInfo();
 		
 		if(q!=null && !q.isEmpty()){
 			log.info("Search Query Term [" +q +"]");
@@ -111,8 +113,18 @@ public class EventsSrch
 		
 		//performContentSearch(searchQuery);
 		log.debug("SearchQuery  ["   +searchQuery  +"]");
-		searchResultsInfo = eventResults.performContentSearch(searchQuery,slingRequest,this.queryBuilder,offset);
+		
+		List<Hit> hits = SearchUtils.performContentSearch(searchQuery,slingRequest,this.queryBuilder,offset,searchResultsInfo);
+		for(int i=0;i<hits.size();i++){
+			Hit ht = hits.get(i);
+			String pth = ht.getNode().isNodeType("cq:Page")?ht.getPath():ht.getPath();
+			relts.add(pth);
+			}
+				
+		searchResultsInfo.setResults(relts);
+		
 		Iterator searchIterator = searchResultsInfo.getFacetsWithCount().keySet().iterator();
+		
 		while(searchIterator.hasNext())
 		{
 			String key = (String)searchIterator.next();
@@ -120,7 +132,6 @@ public class EventsSrch
 			Iterator search= Categoriestags.keySet().iterator();
 			while(search.hasNext()){
 				String key1 =(String) search.next();
-				log.debug("tags key [ " +key1 +" ] Counts [" +Categoriestags.get(key1) +"]");
 			}
 		}
 		
@@ -205,38 +216,7 @@ public class EventsSrch
 		
 	}
 	
-	public void combineSearchTagsCounts()
-	{
-		
-		if(searchResultsInfo.getFacetsWithCount().isEmpty())
-		{
-			return;
-		}
-		
-		Iterator <String> everyThingFacets = this.facetAndTags.keySet().iterator();
-		Map<String, Map<String, Long>> facetsWithCounts = searchResultsInfo.getFacetsWithCount();
-		while(everyThingFacets.hasNext())
-		{
-			String facetName = everyThingFacets.next();
-			List <FacetsInfo> facetInfo = facetAndTags.get(facetName);
-			log.debug("Facets Name ["+facetsWithCounts.toString() +"]");
-			if(facetsWithCounts.containsKey(facetName))
-			{
-				Map<String, Long> fwc = facetsWithCounts.get(facetName);
-				for(int i=0;i<facetInfo.size();i++)
-				{
-					if(fwc.containsKey(facetInfo.get(i).getFacetsTitle()))
-					{
-						facetInfo.get(i).setChecked(true);						
-						facetInfo.get(i).setCount(fwc.get(facetInfo.get(i).getFacetsTitle()));
-						
-						
-					}
-				}
-			}
-			
-		}
-	}
+	
 	
 
 }
