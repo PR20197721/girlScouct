@@ -77,7 +77,7 @@ public class VtkNodeListener implements Constants {
             }
 
             for (int i = 0; i < MONITOR_PATHS.length; i++) {
-                manager.addEventListener(this.listener, PROPERTY_UPDATE,
+                manager.addEventListener(this.listener, PROPERTY_UPDATE | Event.NODE_REMOVED,
                         MONITOR_PATHS[i], true, null, types, false);
             }
         } else {
