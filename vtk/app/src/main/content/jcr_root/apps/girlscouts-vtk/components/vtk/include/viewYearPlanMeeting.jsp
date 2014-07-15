@@ -61,8 +61,11 @@
 %>
 	</div>
         <div class="small-4 columns ">
-		<!--  <a id="viewMeetingButton" href="#" class="mLocked">change this meeting</a> -->
-		 <a id="viewMeetingButton" href="/content/girlscouts-vtk/en/vtk.meetingLibrary.html?mpath=<%=meeting.getPath()%>&xx=<%=searchDate.getTime()%>" class="mLocked">change this meeting</a>
+		  <!--  <a id="viewMeetingButton" href="#" class="mLocked">change this meeting</a>  -->
+		 <!--  <a id="viewMeetingButton" href="/content/girlscouts-vtk/en/vtk.meetingLibrary.html?mpath=<%=meeting.getPath()%>&xx=<%=searchDate.getTime()%>" class="mLocked">change this meeting</a> -->	
+		<a href="javascript:void(0)" class="mLocked" onclick="mm('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=meeting.getPath()%>&xx=<%=searchDate.getTime()%>')">change this meeting</a>
+	
+	
 		<img width="100" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/badge.png"/>
 	</div>
 </div>
@@ -82,10 +85,11 @@
         <div class="small-1 columns">&nbsp;</div>
         <div class="small-22 columns">
 		<div id="m_overview" style="display:none;">
-			<h3>Overview:</h3><%=meetingInfoItems.get("overview").getStr() %>
+			 <h3>Overview:</h3><%=meetingInfoItems.get("overview").getStr() %> 
 		</div>
 		<div id="m_activities"  style="display:none;">
 <%
+
 	java.util.Iterator itr1=  meetingInfoItems.keySet().iterator(); 
 	while( itr1.hasNext()){
 		String name= (String) itr1.next();
@@ -95,6 +99,7 @@
 			<h3><%=name %></h3><%=meetingInfoItems.get(name).getStr() %>
 <%
 	}
+
 %>
 		</div>
         </div>
@@ -164,7 +169,7 @@ if( _aidTags!=null )
  for(int i=0;i<_aidTags.size();i++){
 	%><li>
 	<!--  POP NEW WINDOW  <a href="<%=_aidTags.get(i).getRefId()%>"  target="_blank"><%=_aidTags.get(i).getDescription()%></a> -->
-	 <a href="#modal" id="<%=_aidTags.get(i).getUid() %>" onclick="x12('<%=_aidTags.get(i).getRefId()%>', '<%=_aidTags.get(i).getDescription()%>', '<%=_aidTags.get(i).getUid() %>')"><%=_aidTags.get(i).getDescription()%></a>
+	 <a href="#modal" id="<%=_aidTags.get(i).getUid() %>" onclick="x12('<%=_aidTags.get(i).getRefId()%>', '<%=java.net.URLEncoder.encode(_aidTags.get(i).getDescription())%>', '<%=_aidTags.get(i).getUid() %>')"><%=_aidTags.get(i).getDescription()%></a>
 	
 	 </li><% 
  }

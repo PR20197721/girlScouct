@@ -17,7 +17,7 @@ java.text.SimpleDateFormat FORMAT_MMM_dd_yyyy_hhmm_AMPM = new java.text.SimpleDa
 java.text.SimpleDateFormat FORMAT_CALENDAR_DATE = new java.text.SimpleDateFormat("MMM dd, yyyy hh:mm a");
 
 java.text.NumberFormat FORMAT_CURRENCY = java.text.NumberFormat.getCurrencyInstance();
-java.text.DecimalFormat FORMAT_COST_CENTS = new java.text.DecimalFormat("#.00");
+java.text.DecimalFormat FORMAT_COST_CENTS = new java.text.DecimalFormat("#0.00");
 
 public void autoLogin(HttpSession session){
         org.girlscouts.vtk.auth.models.ApiConfig config = new org.girlscouts.vtk.auth.models.ApiConfig();

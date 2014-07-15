@@ -248,6 +248,7 @@ public class MeetingUtil {
 			if( meeting.getPath().equals( fromPath ) ){
 			
 				meeting.setRefId(toPath);
+				meeting.setAssets(null);
 				
 			}
 		}
@@ -483,20 +484,23 @@ public class MeetingUtil {
 	
 	public void rmAsset(User user, String aidId, String meetingId){
 		
-		
+		System.err.println( "mUtil.rmAdset: " +aidId +" : "+ meetingId);
 		java.util.List<MeetingE> meetings = user.getYearPlan().getMeetingEvents();
 		for(int i=0;i<meetings.size();i++){
 			MeetingE meeting = meetings.get(i);
+			
+			System.err.println( meeting.getUid() +" :" + meetingId);
 			if( meeting.getUid().equals( meetingId)){
 				
 				
 				
 				java.util.List<Asset> assets= meeting.getAssets();
-				
+				System.err.println("Asset size: "+ assets.size() );
 				
 				for(int y=0;y<assets.size();y++){
 					
-					if( assets.get(y).getUid().equals( aidId)) {
+					System.err.println("chk: "+ assets.get(y).getUid() +" : "+aidId);
+					if( assets.get(y).getRefId().equals( aidId)) {
 						System.err.println("REmo ass: "+ aidId);
 						assets.remove(y);
 					}
@@ -531,5 +535,12 @@ public class MeetingUtil {
 			}
 		}
 		
+	}
+	
+	
+	public java.util.List<MeetingE> sortById(java.util.List<MeetingE> meetings){
+		Comparator<MeetingE> comp = new org.apache.commons.beanutils.BeanComparator("id");
+		Collections.sort( meetings, comp);
+		return meetings;
 	}
 }
