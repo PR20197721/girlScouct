@@ -15,7 +15,12 @@
 
 // This is the path where the documents will reside
 
-String path = "/content/dam/girlscouts-shared/en/documents";
+
+String path = properties.get("./srchLocation", "");
+
+if(path.isEmpty()){  
+  path = "/content/dam/girlscouts-shared/en/documents";
+}
 FormsDocumentsSearch formsDocuImpl = sling.getService(FormsDocumentsSearch.class);
 
 QueryBuilder queryBuilder = sling.getService(QueryBuilder.class);

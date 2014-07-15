@@ -6,9 +6,18 @@
         jcr:primaryType="cq:Widget"
         xtype="tabpanel">
         <items jcr:primaryType="cq:WidgetCollection">
-            <tab1
-                jcr:primaryType="cq:Panel"
-                title="Tab 1"/>
+            <srch-location
+                jcr:primaryType="cq:Widget"
+                title="Title"
+                xtype="panel">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <srch-location
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Search Location"
+                        name="./srchLocation"
+                        xtype="pathfield"/>
+                </items>
+            </srch-location>
         </items>
     </items>
 </jcr:root>
