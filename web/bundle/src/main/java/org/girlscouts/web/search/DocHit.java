@@ -16,6 +16,8 @@ public final class DocHit extends DocHitBase {
     private final Hit hit;
     private static final Pattern STRONG_PATTERN = Pattern.compile("<strong>.*?</strong>");
     private static final Pattern STRIP_STRONG_PATTERN = Pattern.compile("</?strong>");
+    private static final String MSWORD = "application/msword";
+    private static final String APPL_VND = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
     private static final Pattern[] EXCERPT_PATTERNS = {
         Pattern.compile("<.*?>"),
         Pattern.compile("<.*?$"),
@@ -50,6 +52,14 @@ public final class DocHit extends DocHitBase {
 
         if (queryString != null) {
             excerpt = excerpt.replaceAll(queryString, "<strong>" + queryString + "</strong>");
+        }
+        
+        if(excerpt.indexOf(MSWORD) >0){
+        	excerpt = excerpt.replaceAll(MSWORD," ");
+        }
+        
+        if(excerpt.indexOf(APPL_VND) >0){
+        	excerpt = excerpt.replaceAll(APPL_VND," ");
         }
         return excerpt;
     }
