@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.day.cq.search.result.Hit;
 import com.day.cq.search.result.SearchResult;
 
 public class SearchResultsInfo {
@@ -13,6 +14,7 @@ public class SearchResultsInfo {
 	private Map<String,ArrayList<String>> facts;
 	private long hitCounts ;
 	private SearchResult searchResults;
+	private List<Hit> hits;
 	
 	public SearchResultsInfo(){
 		results = new ArrayList<String>();
@@ -67,7 +69,14 @@ public class SearchResultsInfo {
 		return searchResults;
 	}
 	
+	public void setResultsHits(List<Hit> hts){
+		this.hits = hts;
+		
+	}
 	
+	public List<Hit> getResultsHits(){
+		return hits;
+	}
 	
 
 }

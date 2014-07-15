@@ -103,8 +103,7 @@ function x12(xx, ttl, id){
 	
 	 $.fn.custombox( document.getElementById(id) );
 	
-	 document.getElementById('xyz').innerHTML=ttl;
-	 
+	 document.getElementById('xyz').innerHTML= ttl;
 }
 
 </script>
