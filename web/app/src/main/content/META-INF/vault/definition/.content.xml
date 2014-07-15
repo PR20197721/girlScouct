@@ -232,5 +232,26 @@
             mode="replace"
             root="/etc/workflow/models/girl-scouts-roll-out-workflow"
             rules="[]"/>
+        <f43
+            jcr:primaryType="cq:WorkflowLauncher"
+            mode="replace"
+            root="/etc/workflow/launcher/config/parse_word_doc_create"
+            rules="[]"/>  
+        <f44
+            jcr:primaryType="cq:WorkflowLauncher"
+            mode="replace"
+            root="/etc/workflow/launcher/config/parse_word_doc_mod"
+            rules="[]"/> 
+        <f45
+            jcr:primaryType="cq:WorkflowLauncher"
+            mode="replace"
+            root="/etc/workflow/launcher/config/parse_word_docx_create"
+            rules="[]"/>  
+        <f46
+            jcr:primaryType="cq:WorkflowLauncher"
+            mode="replace"
+            root="/etc/workflow/launcher/config/parse_word_docx_mod"
+            rules="[]"/>              
+            
     </filter>
 </jcr:root>

@@ -130,7 +130,7 @@
   String insertAfter="";
  if(eventGrandParent.equalsIgnoreCase(currentSite.get("eventPath", String.class))){
      String eventPath = eventLeftNavRoot.substring(0,eventLeftNavRoot.lastIndexOf("/"));
-     //System.out.println("What is the eventPath" +eventPath);
+     
      iterPage = resourceResolver.getResource(eventPath).adaptTo(Page.class).listChildren();
   
  }

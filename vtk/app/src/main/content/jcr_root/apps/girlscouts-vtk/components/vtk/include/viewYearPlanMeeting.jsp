@@ -152,11 +152,20 @@ if(meeting.getLastAssetUpdate()==null || meeting.getLastAssetUpdate().before(sys
 		_aidTags.remove( aidToRm.get(i));
 	
 	
-	//query cachables
+	//query aids cachables
 	 java.util.List __aidTags =  meetingDAO.getAids( meetingInfo.getAidTags(), meetingInfo.getId(), meeting.getUid());
 	
-	//merge lists
+	//merge lists aids
 	_aidTags.addAll( __aidTags );
+	
+	
+	
+	//query resources cachables
+	java.util.List __resources =  meetingDAO.getResources( meetingInfo.getResources(), meetingInfo.getId(), meeting.getUid());
+		
+	//merge lists resources
+	_aidTags.addAll( __resources );
+	
 	
 	
 	meeting.setLastAssetUpdate( new java.util.Date() );
@@ -169,14 +178,10 @@ if( _aidTags!=null )
  for(int i=0;i<_aidTags.size();i++){
 	%><li>
 	<!--  POP NEW WINDOW  <a href="<%=_aidTags.get(i).getRefId()%>"  target="_blank"><%=_aidTags.get(i).getDescription()%></a> -->
-	 <a href="#modal" id="<%=_aidTags.get(i).getUid() %>" onclick="x12('<%=_aidTags.get(i).getRefId()%>', '<%=java.net.URLEncoder.encode(_aidTags.get(i).getDescription())%>', '<%=_aidTags.get(i).getUid() %>')"><%=_aidTags.get(i).getDescription()%></a>
+	 <%=_aidTags.get(i).getType() %> :: <a href="#modal" id="<%=_aidTags.get(i).getUid() %>" onclick="x12('<%=_aidTags.get(i).getRefId()%>', '<%=java.net.URLEncoder.encode(_aidTags.get(i).getDescription())%>', '<%=_aidTags.get(i).getUid() %>')"><%=_aidTags.get(i).getDescription()%></a>
 	
 	 </li><% 
  }
-
-
-
-
 
 
 
