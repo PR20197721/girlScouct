@@ -206,27 +206,27 @@ ul.tabs {
         background: #daeffe;
 }
 
-#yearPlanMeetings h1 {
+#yearPlanMeetings h1, .yearPlanMeetings h1 {
 	font-size:1.4em;
 	font-weight: bold;
 	line-height: 1.3em;
 	text-align: center;
 }
-#yearPlanMeetings h2 {
+#yearPlanMeetings h2, .yearPlanMeetings h2 {
         font-size:1em;
         font-weight: bold;
         line-height: 1em;
         margin: 0 0 5px 0;
 }
-#yearPlanMeetings a {
+#yearPlanMeetings a, .yearPlanMeetings a{
 	color:#008f50;
 }
-#yearPlanMeetings .tags {
+#yearPlanMeetings .tags, .yearPlanMeetings .tags {
 	font-size:0.75em;
 	line-height: 1em;
 }
 
-#yearPlanMeetings p {
+#yearPlanMeetings p, .yearPlanMeetings p{
 	line-height: 1em;
 	margin: 0;
 	font-size:1em;
@@ -495,7 +495,7 @@ img.align-left { float:left; margin: 0; }
 .modifyCalendarDate select.ampm{
         width: 50px;
 }
-table.yearMeetingList tr:first-child {
+.yearMeetingList tr:first-child {
 	border: 0px;
 }
 table.yearMeetingList tr:hover {
@@ -503,6 +503,9 @@ table.yearMeetingList tr:hover {
 }
 .manageCalendarTab {
 	height: 50px;
+}
+table.meetingSelect, .meetingSelect tr:first-child {
+	border: 0px;
 }
 
 @media only screen and (max-width: 40em) {

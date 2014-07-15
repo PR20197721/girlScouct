@@ -109,24 +109,26 @@ function cngMeeting(mPath){
 </script>
 <div class="row modalBody">
 <div id="cngMeet"></div>
-<table cellpadding="5" cellspacing="0" border="0" width="100%">
+<table cellpadding="5" cellspacing="0" border="0" width="100%" class="meetingSelect">
 <%
 	for(int i=0;i<meetings.size();i++){
 		Meeting meeting = meetings.get(i);
 %>
 	<tr>
 		<td>
+			<div class="yearPlanMeetings">
 			<h2><%=meeting.getName()%></h2>
-			<h6> <%=meeting.getAidTags() %></h6>
-			<p><%=meeting.getBlurb() %><p>
+			<p class="tags"> <%=meeting.getAidTags() %></p>
+			<p class="blurb"><%=meeting.getBlurb() %><p>
+			<br/>
                         <%  if( !myMeetingIds.contains( meeting.getId().trim().toLowerCase()) ){ %>
                                 <a href="#" onclick="cngMeeting('<%=meeting.getPath()%>')">Select Meeting</a>
                         <% }else{%>
                                 <i>Included in Year Plan</i>
                         <% }%>
 		</td>
-		<td width="120">
-			<img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/badge.png" width="100" height="100" border="0"/>
+		<td width="10%">
+			<img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/badge.png" width="100" height="100" border="0" class="hide-for-small"/>
 		</td>
 	</tr>
 <% 
