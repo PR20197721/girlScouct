@@ -22,6 +22,29 @@ function assignAid(aidId, meetingId, assetName, assetDesc){
 		});
 		applyAids(aidId, assetName);
 }
+
+
+function rmAid(aidId, meetingId, assetName, assetDesc){
+	  
+	  $.ajax({
+			cache: false,
+			url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand=' + Date.now(),
+			type: 'POST',
+			data: { 
+				rmAsset:aidId,
+				meetingId: meetingId,
+				assetName:assetName,
+				assetDesc:assetDesc,
+				a:Date.now()
+			},
+			success: function(result) {
+
+			}
+		});
+	applyAids(aidId, assetName);
+}
+
+
 </script>
 <div class="row modalHeader">
 <%
@@ -89,7 +112,10 @@ function assignAid(aidId, meetingId, assetName, assetDesc){
 			}
 			if (meetingIsSelected) {
 %>
-			<li class="checked"><%=displayName%> (<img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/checked-small.png" width="20" height="20"/> added)</li>
+			<li class="checked">
+				<%=displayName%> (<img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/checked-small.png" width="20" height="20"/> added)
+				<a href="javascript:void(0)" onclick="rmAid('<%=aidId %>', '<%=_comp.getUid()%>', '<%=request.getParameter("aidName")%>')">remove</a>
+			</li>
 <%
 			} else {
 %>
