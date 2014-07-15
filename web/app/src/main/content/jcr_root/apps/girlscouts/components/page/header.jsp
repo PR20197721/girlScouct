@@ -64,10 +64,15 @@
 					</div>
 				</div>
 <!--PAGE STRUCTURE: HEADER BAR-->
-<div id="headerBar" class="row hide-for-small">
-				<div class="large-5 medium-5 hide-for-small columns">&nbsp;</div>
-					<% setCssClasses("large-19 medium-19 small-24 columns", request); %>
+<div id="headerBar" class="row collapse hide-for-small">
+
+					<% setCssClasses("large-push-5 large-19 medium-22 small-24 columns", request); %>
 					<cq:include path="<%= headerPath + "/global-nav" %>" resourceType="girlscouts/components/global-navigation" />
+				                                <div class="small-search-hamburger medium-1 columns" style="
+    float: right;
+">
+<a class="show-for-medium right-off-canvas-toggle menu-icon"><img src="/etc/designs/girlscouts-usa-green/images/hamburger.png" width="19" height="28"></a>
+</div>
 				</div>
 
 <!-- SMALL SCREEN CANVAS should be after the global navigation is loaded,since global navigation won't be authorable-->
