@@ -501,6 +501,9 @@ table.yearMeetingList tr:first-child {
 table.yearMeetingList tr:hover {
 	background:#bde4ca;
 }
+.manageCalendarTab {
+	height: 50px;
+}
 
 @media only screen and (max-width: 40em) {
         .planSquare {
