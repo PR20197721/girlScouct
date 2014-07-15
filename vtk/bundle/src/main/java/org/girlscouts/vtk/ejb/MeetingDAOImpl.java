@@ -760,4 +760,129 @@ System.err.println("CAL: "+ cal.getTime() +" : "+ desc );
 	  return calendar;
 }
 
+
+
+
+
+//resources
+
+public java.util.List<Asset> getResources(String tags, 
+		String meetingName, String uids){
+	
+	java.util.List<Asset> container = new java.util.ArrayList();
+	
+	container.addAll( getResource_local( tags,  meetingName));
+	container.addAll( getResource_global( tags, meetingName) );
+	
+	
+	return container;
+}
+
+
+
+
+private List<Asset> getResource_global(String tags, String meetingName) {
+	  
+	
+	List<Asset> matched = new ArrayList<Asset>();
+	
+	try{
+		
+		String sql_tag="";
+		java.util.StringTokenizer t= new java.util.StringTokenizer( tags, ";");
+		while( t.hasMoreElements()){
+			
+			String tag = t.nextToken();
+			sql_tag += "cq:tags like '%"+ tag +"%'"; 
+			
+			if( t.hasMoreElements())
+				sql_tag +=" or ";
+		}
+		
+		
+		String sql="";
+		
+		sql="select dc:description,dc:format from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/resource/%'  and ( "+ sql_tag+" )";
+		System.err.println( sql);
+		
+		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
+		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
+   		
+		 		
+		QueryResult result = q.execute();
+   
+ 
+   
+   for (RowIterator it = result.getRows(); it.hasNext(); ) {
+       Row r = it.nextRow();
+       Value excerpt = r.getValue("jcr:path");
+       
+       String path = excerpt.getString();
+       if( path.contains("/jcr:content") ) path= path.substring(0, (path.indexOf("/jcr:content") ));
+
+       Asset search = new Asset();
+       search.setRefId(path);
+       search.setIsCachable(true);
+       search.setDescription( r.getValue("dc:description").getString() );
+       matched.add(search);
+      
+   }
+   
+   
+   List<Asset> matched_local= getAidTag_local(tags,meetingName) ;
+   matched.addAll(matched_local);
+   
+   
+   
+	}catch(Exception e){e.printStackTrace();}
+   return matched;
+	}
+
+
+private List<Asset> getResource_local(String tags, String meetingName) {
+	  
+	
+	List<Asset> matched = new ArrayList<Asset>();
+	
+	try{
+	
+		
+		String sql="select dc:description,dc:format from nt:unstructured" +
+           		"   where   jcr:path like '/content/dam/girlscouts-vtk/local/resource/Meetings/"+meetingName+"/%' ";
+		
+		
+		
+		sql="select dc:description,dc:format  from nt:unstructured where  jcr:path like '/content/dam/girlscouts-vtk/local/resource/Meetings/"+meetingName+"/%' and jcr:mixinTypes='cq:Taggable'";
+		System.err.println( sql);
+		
+		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
+		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
+   		
+		 		
+		QueryResult result = q.execute();
+   
+ 
+   
+   for (RowIterator it = result.getRows(); it.hasNext(); ) {
+       Row r = it.nextRow();
+       Value excerpt = r.getValue("jcr:path");
+       
+       String path = excerpt.getString();
+       if( path.contains("/jcr:content") ) path= path.substring(0, (path.indexOf("/jcr:content") ));
+       //System.err.println( "PATH :"+path );
+    		   
+       Asset search = new Asset();
+       search.setRefId(path);
+       search.setIsCachable(true);
+       //search.setContent(excerpt.getString());
+      try{search.setDescription( r.getValue("dc:description").getString() );}catch(Exception e){}
+      // try{search.setType(r.getValue("dc:format").getString());}catch(Exception e){}
+       matched.add(search);
+      
+   }
+	}catch(Exception e){e.printStackTrace();}
+   return matched;
+	}
+
+
 }//edn class

@@ -29,5 +29,6 @@ public interface MeetingDAO {
 	
 	
 	public net.fortuna.ical4j.model.Calendar yearPlanCal(User user )throws Exception;
-
+	public java.util.List<Asset> getResources(String tags, 
+			String meetingName, String uids);
 }
