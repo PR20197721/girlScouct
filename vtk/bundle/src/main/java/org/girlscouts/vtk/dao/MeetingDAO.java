@@ -6,6 +6,7 @@ import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Asset;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
+import org.girlscouts.vtk.models.SearchTag;
 import org.girlscouts.vtk.models.user.User;
 
 public interface MeetingDAO {
@@ -31,4 +32,6 @@ public interface MeetingDAO {
 	public net.fortuna.ical4j.model.Calendar yearPlanCal(User user )throws Exception;
 	public java.util.List<Asset> getResources(String tags, 
 			String meetingName, String uids);
+	
+	public SearchTag searchA();
 }
