@@ -18,12 +18,6 @@
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.validate.js"></script>
 <script>
 $(function() {
-		$( "#newCustActivity_date" ).datepicker({minDate: 0});
-		});
-
-
-jQuery(function($){
-
 		$("#newCustActivity_date").inputmask("mm/dd/yyyy", {});
 
 		$('#newCustActivity_date').datepicker({minDate: 0});
@@ -31,7 +25,7 @@ jQuery(function($){
 		$("#newCustActivity_startTime").inputmask("h:s", {});
 		$("#newCustActivity_endTime").inputmask("h:s", {});
 		$("#newCustActivity_cost").maskMoney();
-		});
+});
 
 $.validator.addMethod('time', function(value, element, param) {
 		return value == '' || value.match(/^([01][0-9]|2[0-3]):[0-5][0-9]$/);
@@ -190,27 +184,29 @@ border:5px solid #000;
         <div class="small-24 medium-5 large-4 columns"><label for="newCustActivity_name" ACCESSKEY="n">Activity Name</label></div>
         <div class="small-24 medium-7 large-8 columns"><input type="text" name="newCustActivity_name" id="newCustActivity_name" value=""/></div>
         <div class="small-24 medium-5 large-4 columns"><label for="newCustActivity_date" ACCESSKEY="d">Date</label></div>
-        <div class="small-24 medium-7 large-8 columns"><input type="text" id="newCustActivity_date" name="newCustActivity_date" placeholder="dd/mm/YYYY"/></div>
+        <div class="small-24 medium-7 large-8 columns">
+		<input type="text" id="newCustActivity_date" name="newCustActivity_date" placeholder="mm/dd/yyyy" class="date calendarField"/>
+	</div>
 </div>
 <div class="row">
 	<div class="small-24 medium-5 large-4 columns"><label for="newCustActivity_startTime" ACCESSKEY="1">Start Time</label></div>
 	<div class="small-16 medium-4 large-4 columns">
-		<input type="text" id="newCustActivity_startTime" name="newCustActivity_startTime" value="<%=org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_HOUR+":"+org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_MIN %>" required />
+		<input type="text" id="newCustActivity_startTime" name="newCustActivity_startTime" value="<%=org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_HOUR+":"+org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_MIN %>" required class="time" />
 	</div>
         <div class="small-8 medium-3 large-4 columns">
-                <select id="newCustActivity_startTime_AP">
+                <select id="newCustActivity_startTime_AP" class="ampm">
+                        <option value="pm">PM</option>
 			<option value="am">AM</option>
-			<option value="pm">PM</option>
 		</select>
 	</div>
 	<div class="small-24 medium-5 large-4 columns"><label for="newCustActivity_endTime" ACCESSKEY="2">End Time</label></div>
 	<div class="small-16 medium-4 large-4 columns">
-		<input type="text" id="newCustActivity_endTime" name="newCustActivity_endTime" value="<%=org.girlscouts.vtk.models.VTKConfig.CALENDAR_END_TIME_HOUR+":"+org.girlscouts.vtk.models.VTKConfig.CALENDAR_END_TIME_MIN %>"  required/>
+		<input type="text" id="newCustActivity_endTime" name="newCustActivity_endTime" value="<%=org.girlscouts.vtk.models.VTKConfig.CALENDAR_END_TIME_HOUR+":"+org.girlscouts.vtk.models.VTKConfig.CALENDAR_END_TIME_MIN %>"  required class="time"/>
 	</div>
         <div class="small-8 medium-3 large-4 columns">
-                <select id="newCustActivity_endTime_AP">
+                <select id="newCustActivity_endTime_AP" class="ampm">
+                        <option value="pm">PM</option>
 			<option value="am">AM</option>
-			<option value="pm">PM</option>
 		</select>
 	</div>
 </div>

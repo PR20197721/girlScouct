@@ -9,10 +9,13 @@
 	boolean isLocked=false;
 	if(searchDate.before( new java.util.Date() ) && user.getYearPlan().getSchedule()!=null ) isLocked= true;
 	
+        boolean isCanceled =false;
+        if( meeting.getCancelled()!=null && meeting.getCancelled().equals("true")){
+		isCanceled  = true;
+	}
 	
 	
 %>
-
 <br/>
 <div class="caca row meetingDetailHeader">
 	<div class="small-2 columns previous">
@@ -22,12 +25,16 @@
 	</div>
         <div class="small-4 columns">
 		<div class="planSquare">
-		
-		
-		#<%=(currInd+1 )%>
-	<%if( user.getYearPlan().getSchedule()!=null ) {%>
-			<%=FORMAT_MMM_dd_hhmm_AMPM.format(searchDate) %>
-	<%}%>
+<%
+                if (isCanceled) {
+%>
+                                <div class="cancelled"><div class="cross">X</div></div>
+<%
+                }
+%>
+                                <div class="date">
+                                        <div class="cal"><span class="month"><%= FORMAT_MONTH.format(searchDate)%><br/></span><span class="day"><%= FORMAT_DAY_OF_MONTH.format(searchDate)%><br/></span><span class="time hide-for-small"><%= FORMAT_hhmm_AMPM.format(searchDate)%></span></div>
+                                </div>
 		</div>
 	</div>
         <div class="small-2 columns next">
