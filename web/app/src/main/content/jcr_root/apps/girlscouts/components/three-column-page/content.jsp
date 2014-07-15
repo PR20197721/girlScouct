@@ -3,7 +3,7 @@
 <!--PAGE STRUCTURE: MAIN-->
 <div id="main" class="row">
 	<!--PAGE STRUCTURE: LEFT CONTENT-->
-	<div class="large-5 medium-5 hide-for-small columns mainLeft">
+	<div class="large-5 hide-for-medium hide-for-small columns mainLeft">
 		<div id="leftContent">
 			<cq:include script="left.jsp" />
 		</div>

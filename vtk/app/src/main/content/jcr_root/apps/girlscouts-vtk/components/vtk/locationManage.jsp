@@ -1,4 +1,4 @@
-<%@ page import="org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
@@ -7,15 +7,17 @@
         String activeTab = "community";
         boolean showVtkNav = true;
 %>
-<div id="locMsg1"></div>
-<div class="locationListing">
-        <div class="row">
 <%
 java.util.List <Location> locations = user.getYearPlan().getLocations();
 if( locations==null || locations.size()<=0){
 	out.println("No locations");
 	return;
 }
+%>
+<div id="locMsg1"></div>
+<div class="locationListing">
+        <div class="row">
+<%
 for(int i=0;i<locations.size();i++){
 	Location location = locations.get(i);
 %>
@@ -44,11 +46,19 @@ for(int i=0;i<locations.size();i++){
                         mLoc = mLoc==null ? "" : mLoc;
                         if( date.after( new java.util.Date()) ){
 %>
-				<li><input type="checkbox" name="<%=location.getName() %>" value="<%=date%>" <%= mLoc.equals(location.getPath() ) ? "CHECKED" : ""%> /><%=fmtDate.format(date) %></li>
+				<li><input type="checkbox" name="<%=location.getName() %>" value="<%=date%>" <%= mLoc.equals(location.getPath() ) ? "CHECKED" : ""%> /><%=FORMAT_MMddYYYY.format(date) %>
+				
+				
+				<%if( ((MeetingE)_comp).getCancelled()!=null && ((MeetingE)_comp).getCancelled().equals("true")){%>
+   					<span style="background-color:red;">Canceled</span>
+   				<%} %>
+				
+				
+				</li>
 <% 
                         }else{
 %>
-				<li><%= mLoc.equals(location.getPath() ) ? "YES" : ""%> <del><%=fmtDate.format(date) %></del></li>
+				<li><%= mLoc.equals(location.getPath() ) ? "YES" : ""%> <del><%=FORMAT_MMddYYYY.format(date) %></del></li>
 <% 
                         }
                 }

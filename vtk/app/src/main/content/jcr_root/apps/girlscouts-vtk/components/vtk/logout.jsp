@@ -1,6 +1,6 @@
 <%
 	HttpSession httpSession = request.getSession();
-httpSession.invalidate();
+	httpSession.invalidate();
 %>
 
 <div id="error">

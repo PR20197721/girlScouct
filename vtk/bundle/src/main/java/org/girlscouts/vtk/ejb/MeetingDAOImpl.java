@@ -16,8 +16,11 @@ import javax.jcr.query.RowIterator;
 
 
 import net.fortuna.ical4j.data.CalendarOutputter;
+import net.fortuna.ical4j.model.DateTime;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.CalScale;
+import net.fortuna.ical4j.model.property.Description;
+import net.fortuna.ical4j.model.property.DtEnd;
 import net.fortuna.ical4j.model.property.ProdId;
 import net.fortuna.ical4j.model.property.Version;
 import net.fortuna.ical4j.util.UidGenerator;
@@ -44,6 +47,7 @@ import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.YearPlanComponent;
 import org.girlscouts.vtk.models.user.User;
+
 
 import javax.jcr.*;
 
@@ -291,7 +295,7 @@ public Meeting createCustomMeeting(User user, MeetingE meetingEvent, Meeting mee
 		classes.add(Activity.class);
 		classes.add(JcrCollectionHoldString.class);
 		classes.add(JcrNode.class);
-		
+		classes.add( Asset.class);
 		Mapper mapper = new AnnotationMapperImpl(classes);
 		ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
 
@@ -441,7 +445,7 @@ public List<org.girlscouts.vtk.models.Search> getData(String query) {
 		//GOOD FULL SEARCHjavax.jcr.query.Query q = qm.createQuery("select jcr:path, excerpt(.) from nt:resource  where jcr:path like '/content/dam/%' and  contains(., '"+ query +"~')", javax.jcr.query.Query.SQL); 
 		
 		//AID search
-		javax.jcr.query.Query q = qm.createQuery("select dc:description,dc:format from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/aid/%' and contains(*, '"+query+"~') order by jcr:score desc",  javax.jcr.query.Query.SQL);
+		javax.jcr.query.Query q = qm.createQuery("select dc:title,dc:format from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/aid/%' and contains(*, '"+query+"~') order by jcr:score desc",  javax.jcr.query.Query.SQL);
 		
 		 		
 		QueryResult result = q.execute();
@@ -453,19 +457,25 @@ public List<org.girlscouts.vtk.models.Search> getData(String query) {
        Value excerpt = r.getValue("rep:excerpt(.)");
        
        String path = r.getValue("jcr:path").getString();
-       if( path.contains("/jcr:content") ) path= path.substring(0, (path.indexOf("/jcr:content") ));
-       System.err.println( "PATH :"+path );
-    	
-       
-       
+       if (path != null ) {
+       if(path.contains("/jcr:content") ) {
+    	   path= path.substring(0, (path.indexOf("/jcr:content") ));
+       }
        org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();
        search.setPath(path);
-       search.setContent(excerpt.getString());
-       search.setDesc( r.getValue("dc:description").getString() );
-       try{ search.setType(r.getValue("dc:format").getString()); }catch(Exception e){System.err.println("No Fmt");}
-       
+       if (excerpt != null){
+    	   search.setContent(excerpt.getString());
+       }
+       Value title = r.getValue("dc:title");
+       if (title != null) {
+    	   search.setDesc(title.getString() );
+       }
+       Value format = r.getValue("dc:format");
+       if (format != null) {
+    	   search.setType(format.getString());
+       }
        matched.add(search);
-      // System.err.println( "SEarch: "+excerpt.getString());
+       }
    }
 	}catch(Exception e){e.printStackTrace();}
    return matched;
@@ -661,6 +671,7 @@ private List<Asset> getAidTag_custasset(String uid) {
 
 
 
+@SuppressWarnings("unchecked")
 public net.fortuna.ical4j.model.Calendar yearPlanCal(User user )throws Exception{
 	 
 	 java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
@@ -680,6 +691,9 @@ public net.fortuna.ical4j.model.Calendar yearPlanCal(User user )throws Exception
 	  
 	  java.util.Iterator itr = sched.keySet().iterator();
 	  while( itr.hasNext() ){
+		  
+		  
+		  
 		  java.util.Date dt= (java.util.Date) itr.next();
 		  YearPlanComponent _comp= (YearPlanComponent) sched.get(dt);
 		  
@@ -702,7 +716,7 @@ public net.fortuna.ical4j.model.Calendar yearPlanCal(User user )throws Exception
 		  
 		
 	  
-	  
+	  /*
 	  //Creating an event
 	  //java.util.Calendar cal = java.util.Calendar.getInstance();
 	  //cal.set(java.util.Calendar.MONTH, java.util.Calendar.DECEMBER);
@@ -717,22 +731,158 @@ public net.fortuna.ical4j.model.Calendar yearPlanCal(User user )throws Exception
 	  christmas.getProperties().add(uidGenerator.generateUid());
 
 	  calendar.getComponents().add(christmas);
-	  
-	  
-	  
-	  /*
-	  //Saving an iCalendar file
-	  FileOutputStream fout = new FileOutputStream(calFile);
-
-	  CalendarOutputter outputter = new CalendarOutputter();
-	  outputter.setValidating(false);
-	  outputter.output(calendar, fout);
 	  */
+	  
+	  
+	  final List events = new ArrayList();
+		/*
+	  for (Iterator i = minutesList.iterator(); i.hasNext();) {
+			final TimeSheetEntry entry = (TimeSheetEntry) i.next();
+			*/
+			
+			
+			final VEvent event = new VEvent(new DateTime(cal.getTime()), desc);
+			//event.getProperties().add(new DtEnd(new DateTime(entry.getEndTime())));
+			event.getProperties().add(new Description(desc));
+			
+			UidGenerator uidGenerator = new UidGenerator("1");
+			event.getProperties().add(uidGenerator.generateUid());
+System.err.println("CAL: "+ cal.getTime() +" : "+ desc );
+			events.add(event);
+			
+			
+		//}
+		calendar.getComponents().addAll(events);
 	  
 	  
 	 
 	  }//end while
 	  return calendar;
 }
+
+
+
+
+
+//resources
+
+public java.util.List<Asset> getResources(String tags, 
+		String meetingName, String uids){
+	
+	java.util.List<Asset> container = new java.util.ArrayList();
+	
+	container.addAll( getResource_local( tags,  meetingName));
+	container.addAll( getResource_global( tags, meetingName) );
+	
+	
+	return container;
+}
+
+
+
+
+private List<Asset> getResource_global(String tags, String meetingName) {
+	  
+	
+	List<Asset> matched = new ArrayList<Asset>();
+	
+	try{
+		
+		String sql_tag="";
+		java.util.StringTokenizer t= new java.util.StringTokenizer( tags, ";");
+		while( t.hasMoreElements()){
+			
+			String tag = t.nextToken();
+			sql_tag += "cq:tags like '%"+ tag +"%'"; 
+			
+			if( t.hasMoreElements())
+				sql_tag +=" or ";
+		}
+		
+		
+		String sql="";
+		
+		sql="select dc:description,dc:format from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/resource/%'  and ( "+ sql_tag+" )";
+		System.err.println( sql);
+		
+		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
+		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
+   		
+		 		
+		QueryResult result = q.execute();
+   
+ 
+   
+   for (RowIterator it = result.getRows(); it.hasNext(); ) {
+       Row r = it.nextRow();
+       Value excerpt = r.getValue("jcr:path");
+       
+       String path = excerpt.getString();
+       if( path.contains("/jcr:content") ) path= path.substring(0, (path.indexOf("/jcr:content") ));
+
+       Asset search = new Asset();
+       search.setRefId(path);
+       search.setIsCachable(true);
+       search.setDescription( r.getValue("dc:description").getString() );
+       matched.add(search);
+      
+   }
+   
+   
+   List<Asset> matched_local= getAidTag_local(tags,meetingName) ;
+   matched.addAll(matched_local);
+   
+   
+   
+	}catch(Exception e){e.printStackTrace();}
+   return matched;
+	}
+
+
+private List<Asset> getResource_local(String tags, String meetingName) {
+	  
+	
+	List<Asset> matched = new ArrayList<Asset>();
+	
+	try{
+	
+		
+		String sql="select dc:description,dc:format from nt:unstructured" +
+           		"   where   jcr:path like '/content/dam/girlscouts-vtk/local/resource/Meetings/"+meetingName+"/%' ";
+		
+		
+		
+		sql="select dc:description,dc:format  from nt:unstructured where  jcr:path like '/content/dam/girlscouts-vtk/local/resource/Meetings/"+meetingName+"/%' and jcr:mixinTypes='cq:Taggable'";
+		System.err.println( sql);
+		
+		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
+		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
+   		
+		 		
+		QueryResult result = q.execute();
+   
+ 
+   
+   for (RowIterator it = result.getRows(); it.hasNext(); ) {
+       Row r = it.nextRow();
+       Value excerpt = r.getValue("jcr:path");
+       
+       String path = excerpt.getString();
+       if( path.contains("/jcr:content") ) path= path.substring(0, (path.indexOf("/jcr:content") ));
+       //System.err.println( "PATH :"+path );
+    		   
+       Asset search = new Asset();
+       search.setRefId(path);
+       search.setIsCachable(true);
+       //search.setContent(excerpt.getString());
+      try{search.setDescription( r.getValue("dc:description").getString() );}catch(Exception e){}
+      // try{search.setType(r.getValue("dc:format").getString());}catch(Exception e){}
+       matched.add(search);
+      
+   }
+	}catch(Exception e){e.printStackTrace();}
+   return matched;
+	}
+
 
 }//edn class

@@ -4,8 +4,10 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <!-- apps/girlscouts/components/page/body.jsp -->
 <%
+        HttpSession session = request.getSession(true);
+
 	CouncilMapper mapper = sling.getService(CouncilMapper.class);
-	ApiConfig apiConfig = (ApiConfig)request.getSession(true).getAttribute(ApiConfig.class.getName());
+	ApiConfig apiConfig = (ApiConfig)session.getAttribute(ApiConfig.class.getName());
 	Page newCurrentPage = null;
 	Design newCurrentDesign = null;
 

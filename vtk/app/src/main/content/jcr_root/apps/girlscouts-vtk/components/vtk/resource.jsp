@@ -1,15 +1,4 @@
-
-
-
-
-
-
-
-
-<%@page
-	import="java.util.Iterator,
-                java.util.Map,
-                java.util.HashMap,
+<%@page import="
                 javax.jcr.Session,
                 org.apache.sling.api.resource.ResourceResolver,
                 org.apache.sling.api.resource.Resource,
@@ -20,18 +9,17 @@
                 com.day.cq.search.Query,
                 com.day.cq.search.QueryBuilder,
                 com.day.cq.search.result.SearchResult,
-                org.girlscouts.vtk.dao.*,
-                org.girlscouts.vtk.models.user.*"%>
+                org.girlscouts.vtk.helpers.CouncilMapper"%>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp"%>
-
 <%
 	final String RESOURCE_SEARCH_PROMPT = "type in a search word or term here";
 	final String MEETING_AID_PATH = "/content/dam/girlscouts-vtk/global/aid";
 	final String TYPE_MEETING_AIDS = "meeting-aids";
+	final String TYPE_MEETING_OVERVIEWS = "meeting-overviews";
 
 	final QueryBuilder queryBuilder = sling.getService(QueryBuilder.class);
 %>
-
 <%@include file="include/session.jsp"%>
 <%-- VTK tab --%>
 <%!
@@ -39,147 +27,62 @@
     boolean showVtkNav = true;
 %>
 <%@include file="include/vtk-nav.jsp"%>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-  <!--  
-  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-  <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-  -->
-  
-  
-  <link rel="stylesheet" href="/resources/demos/style.css">
-  <style>
-  .ui-autocomplete-loading {
-    background: white url('images/ui-anim_basic_16x16.gif') right center no-repeat;
-  }
-  </style>
-  <script>
-  $(function() {
-    var cache = {};
-    $( "#birds" ).autocomplete({
-      minLength: 3,
-      minChar: 3,
-      source: function( request, response ) {
-        var term = request.term;
-        //console.log(term)
-        $("#searchResults").html("");
-        /*
-        if ( term in cache ) {
-          var x = response( cache[ term ] );
-          //console.log("x: "+x);
-          return;
-        }
-        */
- 
-        $.getJSON( "/content/girlscouts-vtk/controllers/vtk.getdata.html?q="+term, request, 
-        		function( data, status, xhr ) {
-         		 	//cache[ term ] = data;
-         		 	//var y =response( data );
-         		 	//console.log(1)
-         		 	
-          			
-       			 })
-       			 .done(function( json ) {
-       				
-       				$("#searchResults").load("/content/girlscouts-vtk/controllers/vtk.searchR.html?rand="+Date.now());
-    				//console.log( "JSON Data: " + json );
-    				//$( "div.caca" ).html("searching...");
-    				$(jQuery.parseJSON(JSON.stringify(json))).each(function() {  
-    				    var ID = this.label;
-    				   // var TITLE = this.Title;
-    				    //console.log( "--- "+ID );
-    				    //$( "#caca" ).append("<li>"+ID+"</li>");
-    				});
-    				
-    				
-    				
-  }				)			;
-     	 }
-    	});
-  });
-  
-  $(document).ready(function(){
-	  $(document).ajaxStart(function(){
-	    $("#wait").css("display","block");
-	  });
-	  $(document).ajaxComplete(function(){
-	    $("#wait").css("display","none");
-	  });
-	  
-	});
- 
-  
-  function applyAids(aid){
-	  
-	 		var link = "/content/girlscouts-vtk/controllers/vtk.asset.html?aidId="+ aid;
-	        $( "#schedModal" ).load(link, function( response, status, xhr ) {
-	                if ( status == "error" ) {
-	                        var msg = "Sorry but there was an error: ";
-	                        $( "#error" ).html( msg + xhr.status + " " + xhr.statusText );
-	                }else{
-				$( "#schedModal" ).dialog({
-					width:920,
-					modal:true,
-					dialogClass:"modalWrap"
+<script>
+	$(function() {
+		var cache = {};
+		$( "#resourceSearchField" ).autocomplete({
+			minLength: 3,
+			minChar: 3,
+			source: function( request, response ) {
+				var term = request.term;
+				$("#searchResults").html("");
+				$("#resourceSearchField" ).addClass('ui-autocomplete-loading');
+				$.getJSON( 
+					"/content/girlscouts-vtk/controllers/vtk.getdata.html?q="+term,
+					request, function() {
+                                                $( "#resourceSearchField" ).removeClass('ui-autocomplete-loading');
+					}
+				).done(function() {
+					$("#searchResults").load("/content/girlscouts-vtk/controllers/vtk.searchR.html?rand="+Date.now());
+				}).fail(function() {
+                                        $("#searchResults").load("/content/girlscouts-vtk/controllers/vtk.searchR.html?rand="+Date.now());
+					$( "#resourceSearchField" ).removeClass('ui-autocomplete-loading');
 				});
-				$(".ui-dialog-titlebar").hide();
-	                }
-	        });
-	
-  }
-  
-  
-	  function xClose() {
-		 
-		    $("#schedModal").dialog( "close" );
-		}
+			}
+		});
+	});
 
-	  
-	 
-  
-  
- 
-  </script>
+	function applyAids(aid, aidDesc){
+		var link = "/content/girlscouts-vtk/controllers/vtk.asset.html?aidId="+ aid+ "&aidName="+encodeURI(aidDesc);
+		loadModalPage(link, false);
+	}
+</script>
 
-
-<div id="wait" style="display:none;width:69px;height:89px;border:1px solid black;position:absolute;top:50%;left:50%;padding:2px;"><img src='http://www.w3schools.com/Jquery/demo_wait.gif' width="64" height="64" /><br>Loading..</div>
-
-
-<div id="schedModal"></div>
-
-<div>Search For Resources</div>
-
-  <div class="ui-widget">
-	<input type="text" id="birds" name="q" placeholder="<%=RESOURCE_SEARCH_PROMPT%>"
-		class="searchField" />
-		</div>
-
+<h1>Search For Resources</h1>
+<div class="ui-widget">
+	<input type="text" id="resourceSearchField" name="q" placeholder="<%=RESOURCE_SEARCH_PROMPT%>" class="vtkSearchField" />
+</div>
 <div id="searchResults"></div>
 
 <%-- categories --%>
-<p>Browse Resources by Category</p>
-
+<h1>Browse Resources by Category</h1>
 
 <%
 final PageManager manager = (PageManager)resourceResolver.adaptTo(PageManager.class);
 try {
-    // TODO: this field should come from Salesforce
-	final String ROOT_PAGE_PATH = "/content/gateway/en/resources";
+	final String RESOURCES_PATH = "resources";
+	String councilId = null;
+	if (apiConfig != null) {
+	    if (apiConfig.getTroops().size() > 0) {
+	        councilId = Integer.toString(apiConfig.getTroops().get(0).getCouncilCode());
+	    }
+	}
+	CouncilMapper mapper = sling.getService(CouncilMapper.class);
+	String branch = mapper.getCouncilBranch(councilId);
 
-	final Page rootPage = manager.getPage(ROOT_PAGE_PATH);
+	// TODO: language?
+	String resourceRootPath = branch + "/en/" + RESOURCES_PATH;
+	final Page rootPage = manager.getPage(resourceRootPath);
 	
 	Iterator<Page> majorIter = rootPage.listChildren();
 
@@ -213,6 +116,12 @@ try {
 				                queryBuilder,
 				                resourceResolver.adaptTo(Session.class)
 				        );
+				     } else if (currentMinor.getProperties().get("type", "").equals(TYPE_MEETING_OVERVIEWS)) {
+				        try {
+				        	minorCount = user.getYearPlan().getMeetingEvents().size();
+				        } catch (Exception e) {
+				            minorCount = 0;
+				        }
 				     } else {
 				    	minorCount = countAllChildren(currentMinor) - 1;
 				     } 
@@ -240,6 +149,8 @@ try {
 	if (categoryPage != null) {
 	    if (categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_AIDS)) {
 		    %><%= displayAidAssets(MEETING_AID_PATH, resourceResolver) %><%
+	    } else if (categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_OVERVIEWS)) {
+		    %><%= displayMeetingOverviews(user, resourceResolver, meetingDAO)%><%
 	    } else {
 		    %><div><%= categoryPage.getTitle() %></div><%
 		    %><ul><% 
@@ -273,13 +184,13 @@ try {
 
 	private void displayAllChildren(Page rootPage, StringBuilder builder) {
 	    builder.append("<li>");
-	    String path = rootPage.getPath() + ".plain.html";
+	    String path = rootPage.getPath();
 	    // TODO: Get the link back once the dialog is styled
-	    //builder.append("<a href=\"javascript:void(0)\" onclick=\"displayHtmlResource('");
-	    //builder.append(path);
-	    //builder.append("')\">");
+	    builder.append("<a href=\"javascript:void(0)\" onclick=\"displayResource('web', '");
+	    builder.append(path);
+	    builder.append("')\">");
 	    builder.append(rootPage.getTitle());
-	    //builder.append("</a>");
+	    builder.append("</a>");
 	    Iterator<Page> iter = rootPage.listChildren();
 	    while (iter.hasNext()) {
 	        Page childPage = iter.next();
@@ -320,7 +231,9 @@ try {
                 	builder.append(asset.getPath());
                 	builder.append("\">");
                 	builder.append(title);
-                	builder.append("</a></li>");
+                	builder.append("</a>");
+                	builder.append("<input type=\"button\" value=\"Add to Meeting\" onclick=\"applyAids('"+asset.getPath()+"', '"+title+"' )\" />");
+                	builder.append("</li>");
                 }
             }
         }
@@ -328,32 +241,21 @@ try {
         return builder.toString();
 	}
 	
-	/*
-	private Map<String, String> buildQueryMap(String... paths) {
-	    Map<String, String> mapPath = new HashMap<String, String>();
-	    mapPath.put("group.p.or","true");
-	    mapPath.put("group.1_path","/content/gateway/en");
-	    mapPath.put("group.2_path", "/content/dam/girlscouts-shared/en/documents");
-	  
-	    
-	    PredicateGroup predicatePath =PredicateGroup.create(mapPath);
-	    
-	    Map mapFullText<String, String> = new HashMap<String, String>();
-	    
-	    mapFullText.put("group.p.or","true");
-	    mapFullText.put("group.1_fulltext", q);
-	    mapFullText.put("group.1_fulltext.relPath", "jcr:content");
-	    mapFullText.put("group.2_fulltext", q);
-	    mapFullText.put("group.2_fulltext.relPath", "jcr:content/@jcr:title");
-	    mapFullText.put("group.3_fulltext", q);
-	    mapFullText.put("group.3_fulltext.relPath", "jcr:content/@jcr:description");
-	    
-	    PredicateGroup predicateFullText = PredicateGroup.create(mapFullText);
-	    
-	    Map masterMap<String, String>  = new HashMap()<String, String>;
-	    masterMap.put("type","nt:hierarchyNode" );
-	    masterMap.put("boolproperty","jcr:content/hideInNav");
-	    masterMap.put("boolproperty.value","false");
+	private String displayMeetingOverviews(User user, ResourceResolver rr, MeetingDAO meetingDAO) {
+	    try {
+		    StringBuilder builder = new StringBuilder("<ul>");
+		    for (MeetingE meetingE : user.getYearPlan().getMeetingEvents()) {
+		        Meeting meeting = meetingDAO.getMeeting(meetingE.getRefId());
+			    builder.append("<li><a href=\"javascript:void(0)\" onclick=\"displayResource('overview', '");
+			    builder.append(meeting.getPath());
+			    builder.append("')\">");
+			    builder.append(meeting.getName());
+			    builder.append("</a></li>");
+		    }
+	
+	        builder.append("</ul>");
+	        return builder.toString();
+	    } catch (Exception e) {}
+	    return "";
 	}
-	*/
 %>

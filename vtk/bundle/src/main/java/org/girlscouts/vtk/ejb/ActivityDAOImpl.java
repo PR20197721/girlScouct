@@ -22,6 +22,7 @@ import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.JcrCollectionHoldString;
 import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.MeetingE;
+import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.user.User;
 
@@ -51,6 +52,7 @@ public class ActivityDAOImpl implements ActivityDAO{
 			classes.add(Cal.class);
 			classes.add(Location.class);
 			classes.add(Asset.class);
+			classes.add(Milestone.class);
 			
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	

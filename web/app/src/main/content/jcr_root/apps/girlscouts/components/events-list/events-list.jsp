@@ -65,7 +65,7 @@
 		<div class="medium-8 show-for-medium columns">&nbsp;</div>
 		<div class="small-24 medium-12 hide-for-large  hide-for-xlarge hide-for-xxlarge columns">
 			<div class="feature-icon">
-				<img src="<%= designPath %>/images/arrow-down.png" width="30" height="30"/>
+				<img src="<%= iconImg %>" width="50" height="50"/>
 			</div>
 			<div class="feature-title">
 				<h2><a href="<%= eventsLink %>"><%= featureTitle %></a></h2>
@@ -145,8 +145,13 @@
             <div class="small-24 medium-12 large-8 columns">
             <%
             	String imgPath = node.getPath() + "/jcr:content/data/image";
-%>
-<%= displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80")%>
+String iconPath = node.hasProperty("jcr:content/data/image/fileReference") ? node.getProperty("jcr:content/data/image/fileReference").getString() : "";
+             %><%
+if(!iconPath.isEmpty()){ %>
+          				<%= displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80") %>
+                    <%} else if(iconPath.isEmpty()) { %>
+<img src="/content/dam/all_icons/icons_64/calendar_64.png/jcr:content/renditions/cq5dam.web.120.80.png">
+                    <% } %>
             </div>
             <div class="small-24 medium-12 large-16 columns">
                 <h3><a href="<%= href %>"><%= title %></a></h3>

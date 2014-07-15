@@ -28,17 +28,17 @@
 			</div>	
 			<div class="feature-title">
 				<h2>
-					<a <%= featureLink %>"><%= featureTitle %></a>
+					<a href="<%= featureLink %>"><%= featureTitle %></a>
 				</h2>
 			</div>
 		</div>
 		<div class="medium-8 show-for-medium columns">&nbsp;</div>
-        <div class="small-24 medium-12 hide-for-large  hide-for-xlarge hide-for-xxlarge columns">
+        <div class="small-24 medium-12 hide-for-large hide-for-xlarge hide-for-xxlarge columns">
             <div class="feature-icon">
-                <img src="<%= designPath %>/images/arrow-down.png" width="30" height="30"/>
+                <img src="<%= featureIcon %>" width="50" height="50">
             </div>
             <div class="feature-title">
-                <h2><a <%= featureLink %>"><%= featureTitle %></a></h2>
+                <h2><a href="<%= featureLink %>"><%= featureTitle %></a></h2>
             </div>
         </div>
         <div class="medium-4 show-for-medium columns">&nbsp;</div>
@@ -71,10 +71,11 @@
     	<li>
     		<div class="row">
     			<div class="small-24 medium-8 large-4 columns">
-    			<%if(!imgPath.isEmpty()){ %>
+    			<% if(!imgPath.isEmpty()){ %>
           				<%= displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80") %>
-    				<%} %>
-    				
+                    <%} else if(imgPath.isEmpty()) { %>
+<img src="/content/dam/all_icons/icons_64/globe_64.png">
+                    <% } %>
     			</div>
     			<div class="small-24 medium-16 large-20 columns">
     				<h3>

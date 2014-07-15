@@ -1,19 +1,12 @@
-<%@page import="java.util.Calendar"%>
-<%@ page import="org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
-
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
+<%@include file="include/session.jsp"%>
 
-
-	   <%
-	   HttpSession session = request.getSession();
-	   User user= (User)session.getValue("VTK_user");
-	   %>
        <a href="/content/girlscouts-vtk/en/vtk.plan.html">Back to Plan</a>
        <div id="errInfo"></div>
        
        <%
-			MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
 
        		String meetingPath = request.getParameter("mid");
        		java.util.List <MeetingE> meetings= user.getYearPlan().getMeetingEvents();
@@ -41,8 +34,4 @@
        		
        			if( calT !=null){ calT.nextToken(); }
        		}
-       %>
-       
-       <%!
-       java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat("MM/dd/yyyy hh:mm a");
        %>

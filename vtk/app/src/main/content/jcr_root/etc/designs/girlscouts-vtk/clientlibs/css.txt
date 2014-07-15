@@ -1,6 +1,6 @@
 #base=css
 
 jquery-ui.css
-vtk-design.css
 jquery-te-1.4.0.css
-demo.css
+jquery.custombox.css
+vtk-design.css

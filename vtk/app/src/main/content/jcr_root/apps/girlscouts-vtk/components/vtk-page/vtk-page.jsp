@@ -1,16 +1,31 @@
 <%
 try{	
 	
+	
 	HttpSession session = request.getSession();
-	org.girlscouts.vtk.auth.models.ApiConfig apiConfig=
-			(org.girlscouts.vtk.auth.models.ApiConfig)
+	
+	org.girlscouts.vtk.auth.models.ApiConfig apiConfig= null;
+	try{
+		
+	
+		apiConfig=	(org.girlscouts.vtk.auth.models.ApiConfig)
 				session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName());
+    } catch (ClassCastException exc) { 
+    	
+    	session.invalidate();
+    	apiConfig=null; 
+    	
+    }
+	
+	
+	
 	if( apiConfig==null ){
 
 		response.sendRedirect("/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signin");
 		return;
 		
 	}
+	
 
 }catch(Exception e){e.printStackTrace();}
 %>

@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" import="org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*, org.girlscouts.vtk.ejb.*" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
@@ -592,7 +593,7 @@ body {
 <a href="javascript:void(0)" id="rsc_hlp_href">help</a>
 <div id="rsc_hlp" style="display:none;"><h1>Resources Help:</h1><ul><li>asdf</li><li>asdf</li><li>asdf</li></ul></div>
 
-<br/><b>Search for Resources</b>
+<h1>Search for Resources</h1>
 <input type="text" id="search_resource" name="search_resource"/>
 
 

@@ -52,7 +52,7 @@ public class HelloServlet extends SlingSafeMethodsServlet {
     }
     
     private void sayHello(PrintWriter out, String name) {
-        out.println("$.cookie('girl-scout-name', '" + name + "');");
+        out.println("$.cookie('girl-scout-name', '" + name + "', {path: '/'});");
         out.println("girlscouts.components.login.sayHello('signedin', '" + name + "');");
     }
 }

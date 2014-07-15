@@ -143,7 +143,11 @@ public class UserDAOImpl implements UserDAO{
 			 plan.setRefId( yearPlanPath );
 			 plan.setMeetingEvents( meetingDAO.getAllEventMeetings_byPath( yearPlanPath ));
 			
-			
+			 
+			 //7/7/14
+			 Comparator<MeetingE> comp = new BeanComparator("id");
+			 Collections.sort( plan.getMeetingEvents(), comp);
+			    
 			 
 			
 			}catch(Exception e){e.printStackTrace();}
