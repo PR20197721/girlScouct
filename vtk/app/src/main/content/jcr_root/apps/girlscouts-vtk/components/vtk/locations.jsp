@@ -10,22 +10,22 @@
         String instruction = "Specify Dates and Locations";
         if (isWarning) {
 %>
-        <div class="small-2 columns">                
+        <div class="small-4 medium-2 large-2 columns">                
                 <div class="warning"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/warning-small.png" width="20" height="20" align="left
 "/></div>
         </div>
-        <div class="small-20 columns">
+        <div class="small-16 medium-20 large-20 columns">
 <%
         } else {
 %>
-        <div class="small-22 columns">
+        <div class="small-20 medium-22 large-22 columns">
 <%
         }
 %>
                 <span class="instruction"><%= instruction %></span>
 
         </div>
-        <div class="small-2 columns">
+        <div class="small-4 medium-2 large-2 columns">
 		<a class="right" href="/content/girlscouts-vtk/en/vtk.html?rand=<%= new java.util.Date().getTime()%>"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/close-small.png" width="20" height="20" border="0" align="right"></a>
         </div>
 </div>
@@ -41,7 +41,7 @@
         </div>
 </div>
 <div class="row modalBody">
-        <div class="small-24 columns">
+        <div class="small-24 medium-24 large-24 columns">
 <%
         if (user.getYearPlan() != null) {
 %>

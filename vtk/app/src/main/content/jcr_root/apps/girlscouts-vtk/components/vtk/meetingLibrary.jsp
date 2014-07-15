@@ -44,11 +44,19 @@
 			
 			java.util.List<MeetingE> meetingEs = meetingDAO.getAllEventMeetings_byPath( yearPlan.getPath() +"/meetings/" );
 			
+			//sort by meeting# mike jira
+			meetingEs= meetingUtil.sortById(meetingEs);
+			
 			//System.err.println("Size me: "+ meetingEs.size());
 			meetings = new java.util.ArrayList();
 			for(int i=0;i<meetingEs.size();i++){
 				meetings.add(  meetingDAO.getMeeting(  meetingEs.get(i).getRefId() ) );
 			}
+			
+			
+			
+			
+			
 		}else{
 			String url ="?ypname="+java.net.URLEncoder.encode(yearPlan.getName());
 			url+= request.getParameter("xx")==null ? "" : "&xx="+java.net.URLEncoder.encode(request.getParameter("xx"))  ;
@@ -114,10 +122,16 @@ function cngMeeting(mPath){
 <p>Browse meetings, and select them to review the details</p>
 <div>
 <%
+
+
+
+   
+    
+    
 	for(int i=0;i<meetings.size();i++){
 		Meeting meeting = meetings.get(i);
 		%> <div style="border:1px solid #000;">
-			<div>#<%=i+1 %></div>
+			<div>#<%=(i+1) %></div>
 			<div><%=meeting.getName()%></div>
 			<%=meeting.getBlurb() %>
 
