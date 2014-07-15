@@ -87,7 +87,6 @@ function loadModalPage(link, showTitle, title) {
 				width:dWidth,
 				modal:true,
 				dialogClass:"modalWrap",
-				position: ['center','center'],
 				show:375,
 				"open": function() {
 					if (!showTitle) {

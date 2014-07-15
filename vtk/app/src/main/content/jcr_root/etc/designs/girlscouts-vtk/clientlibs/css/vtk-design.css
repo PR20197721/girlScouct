@@ -5,6 +5,9 @@
 ul.tabs {
 	margin: 0px;
 }
+.alert{
+        color: #ff0000;
+}
 .tabs .label {
 	padding: 10px 18px;
         float: left;
@@ -484,6 +487,19 @@ img.align-left { float:left; margin: 0; }
 }
 #calMng table {
 	margin-bottom: 10px;
+}
+
+.modifyCalendarDate input.time, .modifyCalendarDate input.date{
+	width: 150px;
+}
+.modifyCalendarDate select.ampm{
+        width: 50px;
+}
+table.yearMeetingList tr:first-child {
+	border: 0px;
+}
+table.yearMeetingList tr:hover {
+	background:#bde4ca;
 }
 
 @media only screen and (max-width: 40em) {
