@@ -46,6 +46,7 @@ import org.girlscouts.vtk.models.JcrCollectionHoldString;
 import org.girlscouts.vtk.models.JcrNode;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
+import org.girlscouts.vtk.models.SearchTag;
 import org.girlscouts.vtk.models.YearPlanComponent;
 import org.girlscouts.vtk.models.user.User;
 
@@ -889,5 +890,33 @@ private List<Asset> getResource_local(String tags, String meetingName) {
    return matched;
 	}
 
+public SearchTag searchA(){
+	SearchTag tags = new SearchTag();
+	try{
+		
+		java.util.List categories = new java.util.ArrayList();
+		java.util.List levels = new java.util.ArrayList();
+		
+		String sql="select jcr:title from nt:base where jcr:path like '/etc/tags/girlscouts/%'";
+		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
+		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
+			
+		QueryResult result = q.execute();
+		System.err.println("SEAch1: "+ (result.getRows().getSize()) );
+		 for (RowIterator it = result.getRows(); it.hasNext(); ) {
+		       Row r = it.nextRow();
+		       System.err.println("Search path : "+ r.getPath());
+		       if( r.getPath().startsWith("/etc/tags/girlscouts/categories") )
+		    	   categories.add( r.getValue("jcr:title").getString() );
+		       else if( r.getPath().startsWith("/etc/tags/girlscouts/program-level") )
+		    	   levels.add( r.getValue("jcr:title").getString() );
+		 }
+		
+		 tags.setCategories( categories );
+		 tags.setLevels( levels );
+		 
+	}catch(Exception e){e.printStackTrace();}
 
+	return tags;
+}
 }//edn class
