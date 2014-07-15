@@ -1,13 +1,15 @@
 package org.girlscouts.vtk.replication;
 
+import java.util.Set;
+
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.Value;
-import javax.jcr.observation.Event;
 import javax.jcr.observation.EventIterator;
 import javax.jcr.observation.EventListener;
 
+import org.girlscouts.vtk.replication.NodePathCollector.NodeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,24 +29,15 @@ public class AuthorVtkNodeListener implements EventListener, Constants {
     }
 
     public void onEvent(EventIterator iter) {
-        while (iter.hasNext()) {
+        Set<NodeEvent> events = NodePathCollector.getPaths(iter);
+
+        for (NodeEvent event : events) {
             try {
-                Event event = iter.nextEvent();
-                String path = event.getPath();
+                String path = event.path;
                 
                 //TODO: Remove later
                 log.error("Event logged: " + path);
                 
-                int type = event.getType();
-                if (type == Event.PROPERTY_ADDED || type == Event.PROPERTY_CHANGED || type == Event.PROPERTY_REMOVED) {
-                    String property = path.substring(path.lastIndexOf('/') + 1);
-                    if (property.indexOf("jcr") == 0 || property.indexOf("cq") == 0 || property.equals(FROM_PUBLISHER_PROPERTY)) {
-                        log.debug("This is CQ property or \"fromPublisher\", ignore");
-                        continue;
-                    }
-                    path = path.substring(0, path.lastIndexOf('/'));
-                }
-                log.error("##################### path = " + path);
                 Node node = session.getNode(path);
                 String fromPublisher = node.getProperty(Constants.FROM_PUBLISHER_PROPERTY).getString();
 

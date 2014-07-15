@@ -1,12 +1,15 @@
 package org.girlscouts.vtk.replication;
 
+import java.util.Set;
+
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
-import javax.jcr.observation.Event;
+import javax.jcr.Value;
 import javax.jcr.observation.EventIterator;
 import javax.jcr.observation.EventListener;
 
+import org.girlscouts.vtk.replication.NodePathCollector.NodeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,33 +34,21 @@ public class PublishVtkNodeListener implements EventListener, Constants {
     }
 
     public void onEvent(EventIterator iter) {
-        log.error("##################### IN EVENT");
-        int i = 0;
-        while (iter.hasNext()) {
-            log.error("############ i = " + Integer.toString(i++));
+        Set<NodeEvent> events = NodePathCollector.getPaths(iter);
+        
+        for (NodeEvent event : events) {
             try {
-                Event event = iter.nextEvent();
-                String path = event.getPath();
-                int type = event.getType();
+                String path = event.path;
                 
-                log.error("##################### path = " + path);
-                if (type == Event.PROPERTY_ADDED || type == Event.PROPERTY_CHANGED || type == Event.PROPERTY_REMOVED) {
-                    String property = path.substring(path.lastIndexOf('/') + 1);
-                    if (property.indexOf("jcr") == 0 || property.indexOf("cq") == 0 || property.equals(FROM_PUBLISHER_PROPERTY)) {
-                        log.error("@@@@@@@@@@This is CQ property, ignore");
-                        log.debug("This is CQ property, ignore");
-                        continue;
-                    }
-                    path = path.substring(0, path.lastIndexOf('/'));
-                }
-
                 Node node = session.getNode(path);
                 if (node.hasProperty(FROM_PUBLISHER_PROPERTY)) {
                     log.debug("Found \"fromPublisher\" property. This node comes from another publisher. Ignore.");
+                    node.setProperty(FROM_PUBLISHER_PROPERTY, (Value)null);
                     continue;
                 }
+
                 node.setProperty(Constants.FROM_PUBLISHER_PROPERTY, this.publishId);
-                if (event.getType() == Event.NODE_REMOVED) {
+                if (event.type == NodeEvent.REMOVE) {
                     node.setProperty(Constants.NODE_REMOVED_PROPERTY, true);
                 }
                 replicator.replicate(session, ReplicationActionType.ACTIVATE, path, opts);
@@ -68,5 +59,4 @@ public class PublishVtkNodeListener implements EventListener, Constants {
             }
         }
     }
-
 }
