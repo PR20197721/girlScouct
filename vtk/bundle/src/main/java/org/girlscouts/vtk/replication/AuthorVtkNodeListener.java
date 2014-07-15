@@ -38,15 +38,15 @@ public class AuthorVtkNodeListener implements EventListener, Constants {
                 int type = event.getType();
                 if (type == Event.PROPERTY_ADDED || type == Event.PROPERTY_CHANGED || type == Event.PROPERTY_REMOVED) {
                     String property = path.substring(path.lastIndexOf('/') + 1);
-                    if (property.indexOf("jcr") == 0 || property.indexOf("cq") == 0) {
-                        log.debug("This is CQ property, ignore");
+                    if (property.indexOf("jcr") == 0 || property.indexOf("cq") == 0 || property.equals(FROM_PUBLISHER_PROPERTY)) {
+                        log.debug("This is CQ property or \"fromPublisher\", ignore");
                         continue;
                     }
                     path = path.substring(0, path.lastIndexOf('/'));
                 }
+                log.error("##################### path = " + path);
                 Node node = session.getNode(path);
                 String fromPublisher = node.getProperty(Constants.FROM_PUBLISHER_PROPERTY).getString();
-                node.setProperty(Constants.FROM_PUBLISHER_PROPERTY, (Value)null);
 
                 boolean isRemove = false;
                 if (node.hasProperty(Constants.NODE_REMOVED_PROPERTY)) {

@@ -31,12 +31,29 @@ public class PublishVtkNodeListener implements EventListener, Constants {
     }
 
     public void onEvent(EventIterator iter) {
+        log.error("##################### IN EVENT");
         while (iter.hasNext()) {
             try {
                 Event event = iter.nextEvent();
                 String path = event.getPath();
+                int type = event.getType();
                 
+                log.error("##################### path = " + path);
+                if (type == Event.PROPERTY_ADDED || type == Event.PROPERTY_CHANGED || type == Event.PROPERTY_REMOVED) {
+                    String property = path.substring(path.lastIndexOf('/') + 1);
+                    if (property.indexOf("jcr") == 0 || property.indexOf("cq") == 0 || property.equals(FROM_PUBLISHER_PROPERTY)) {
+                        log.error("@@@@@@@@@@This is CQ property, ignore");
+                        log.debug("This is CQ property, ignore");
+                        continue;
+                    }
+                    path = path.substring(0, path.lastIndexOf('/'));
+                }
+
                 Node node = session.getNode(path);
+                if (node.hasProperty(FROM_PUBLISHER_PROPERTY)) {
+                    log.debug("Found \"fromPublisher\" property. This node comes from another publisher. Ignore.");
+                    continue;
+                }
                 node.setProperty(Constants.FROM_PUBLISHER_PROPERTY, this.publishId);
                 if (event.getType() == Event.NODE_REMOVED) {
                     node.setProperty(Constants.NODE_REMOVED_PROPERTY, true);

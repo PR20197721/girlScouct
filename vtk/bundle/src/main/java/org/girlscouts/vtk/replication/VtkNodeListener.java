@@ -69,7 +69,7 @@ public class VtkNodeListener implements Constants {
             if (mode.equals("author")) {
                 this.listener = new AuthorVtkNodeListener(session, replicator);
             } else {
-                String publishId = (String)dict.get("publisherId");
+                String publishId = (String)dict.get(Constants.FROM_PUBLISHER_PROPERTY);
                 if (publishId == null) {
                     publishId = "publish";
                 }
