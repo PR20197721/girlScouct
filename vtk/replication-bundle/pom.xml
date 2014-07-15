@@ -15,9 +15,9 @@
     <!-- P R O J E C T D E S C R I P T I O N -->
     <!-- ====================================================================== -->
 
-    <artifactId>girlscouts-vtk-api-bundle</artifactId>
+    <artifactId>girlscouts-vtk-replication-bundle</artifactId>
     <packaging>bundle</packaging>
-    <name>Girl Scouts Volunteer Toolkit API Bundle</name>
+    <name>Girl Scouts Volunteer Toolkit Replication Bundle</name>
 
     <dependencies>
         <dependency>
@@ -62,59 +62,11 @@
         </dependency>
 
         <dependency>
-            <groupId>com.day.commons.osgi.wrapper</groupId>
-            <artifactId>com.day.commons.osgi.wrapper.commons-httpclient</artifactId>
-            <version>3.1.0.018</version>
+            <groupId>com.adobe.granite</groupId>
+            <artifactId>com.adobe.granite.replication.core</artifactId>
+            <version>5.12.2</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>com.adobe.granite.bundles</groupId>
-            <artifactId>json</artifactId>
-            <version>20090211_1</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.sling</groupId>
-            <artifactId>org.apache.sling.api</artifactId>
-            <version>2.4.3-R1488084</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.jackrabbit</groupId>
-            <artifactId>jackrabbit-jcr-commons</artifactId>
-            <version>2.6.2</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.day.commons.osgi.wrapper</groupId>
-            <artifactId>com.day.commons.osgi.wrapper.joda-time</artifactId>
-            <version>1.6-0002</version>
-            <scope>provided</scope>
-        </dependency>
-        <!-- This package is not included in CQ5.6.1 by default -->
-        <dependency>
-            <groupId>org.apache.jackrabbit</groupId>
-            <artifactId>jackrabbit-ocm</artifactId>
-            <version>1.5.3</version>
-        </dependency>
-        <!--
-        <dependency>
-            <groupId>cglib</groupId>
-            <artifactId>cglib</artifactId>
-            <version>[0,)</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-beanutils</groupId>
-            <artifactId>commons-beanutils</artifactId>
-            <version>[0,)</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-digester</groupId>
-            <artifactId>commons-digester</artifactId>
-            <version>[0,)</version>
-        </dependency>
-        -->
     </dependencies>
 
     <!-- ====================================================================== -->
@@ -140,21 +92,8 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Bundle-SymbolicName>org.girlscouts.vtk.girlscouts-vtk-api-bundle</Bundle-SymbolicName>
+                        <Bundle-SymbolicName>org.girlscouts.vtk.girlscouts-vtk-replication-bundle</Bundle-SymbolicName>
                         <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
-                        <!-- Mike Z.: It is safe not to import these packages. Ref: -->
-                        <!-- http://svn.apache.org/repos/asf/sling/tags/org.apache.sling.jcr.ocm-2.0.4-incubator/pom.xml -->
-                        <Import-Package>
-                            !org.apache.tools.ant,
-                            !org.apache.tools.ant.types,
-                            !org.objectweb.asm,
-                            !org.objectweb.asm.attrs,
-                            !org.objectweb.asm.util,
-                            !org.codehaus.aspectwerkz.hook,
-                            *
-                        </Import-Package>
-                        <!-- Recursively embed dependency jars -->
-                        <Embed-Transitive>true</Embed-Transitive>
                     </instructions>
                 </configuration>
             </plugin>

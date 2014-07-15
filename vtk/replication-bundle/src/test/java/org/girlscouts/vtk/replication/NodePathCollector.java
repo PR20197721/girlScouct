@@ -1,5 +1,6 @@
 package org.girlscouts.vtk.replication;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -9,8 +10,6 @@ import javax.jcr.observation.EventIterator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import edu.emory.mathcs.backport.java.util.Arrays;
 
 public class NodePathCollector {
     private static Logger log = LoggerFactory.getLogger(NodePathCollector.class);
