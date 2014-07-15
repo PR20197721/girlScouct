@@ -187,13 +187,13 @@ border:5px solid #000;
 <div class="sectionBar">Create a Custom Activity</div>
 <div id="newCustActivity_err" style="color:red;"></div>
 <div class="row">
-        <div class="small-24 medium-5 large-4 columns"><label for="newCustActivity_name" ACCESSKEY=n>Activity Name</label></div>
+        <div class="small-24 medium-5 large-4 columns"><label for="newCustActivity_name" ACCESSKEY="n">Activity Name</label></div>
         <div class="small-24 medium-7 large-8 columns"><input type="text" name="newCustActivity_name" id="newCustActivity_name" value=""/></div>
-        <div class="small-24 medium-5 large-4 columns"><label for="newCustActivity_date" ACCESSKEY=d>Date</label></div>
+        <div class="small-24 medium-5 large-4 columns"><label for="newCustActivity_date" ACCESSKEY="d">Date</label></div>
         <div class="small-24 medium-7 large-8 columns"><input type="text" id="newCustActivity_date" name="newCustActivity_date" placeholder="dd/mm/YYYY"/></div>
 </div>
 <div class="row">
-	<div class="small-24 medium-5 large-4 columns"><label for="newCustActivity_startTime" ACCESSKEY=1>Start Time</label></div>
+	<div class="small-24 medium-5 large-4 columns"><label for="newCustActivity_startTime" ACCESSKEY="1">Start Time</label></div>
 	<div class="small-16 medium-4 large-4 columns">
 		<input type="text" id="newCustActivity_startTime" name="newCustActivity_startTime" value="<%=org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_HOUR+":"+org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_MIN %>" required />
 	</div>
@@ -203,7 +203,7 @@ border:5px solid #000;
 			<option value="pm">PM</option>
 		</select>
 	</div>
-	<div class="small-24 medium-5 large-4 columns"><label for="newCustActivity_endTime" ACCESSKEY=2>End Time</label></div>
+	<div class="small-24 medium-5 large-4 columns"><label for="newCustActivity_endTime" ACCESSKEY="2">End Time</label></div>
 	<div class="small-16 medium-4 large-4 columns">
 		<input type="text" id="newCustActivity_endTime" name="newCustActivity_endTime" value="<%=org.girlscouts.vtk.models.VTKConfig.CALENDAR_END_TIME_HOUR+":"+org.girlscouts.vtk.models.VTKConfig.CALENDAR_END_TIME_MIN %>"  required/>
 	</div>
@@ -215,18 +215,18 @@ border:5px solid #000;
 	</div>
 </div>
 <div class="row">
-        <div class="small-24 medium-6 large-4 columns"><label for="newCustActivity_locName" ACCESSKEY=l>Location Name</label></div>
+        <div class="small-24 medium-6 large-4 columns"><label for="newCustActivity_locName" ACCESSKEY="l">Location Name</label></div>
         <div class="small-24 medium-6 large-8 columns"><input type="text" id="newCustActivity_locName" value="" /></div>
-        <div class="small-24 medium-6 large-4 columns"><label for="newCustActivity_locAddr" ACCESSKEY=a>Location Address</label></div>
+        <div class="small-24 medium-6 large-4 columns"><label for="newCustActivity_locAddr" ACCESSKEY="a">Location Address</label></div>
         <div class="small-24 medium-6 large-8 columns"><input type="text" id="newCustActivity_locAddr" value="" /></div>
 </div>
 <div class="row">
-        <div class="small-24 medium-5 large-4 columns"><label for="newCustActivity_cost" ACCESSKEY=c>Cost</label></div>
+        <div class="small-24 medium-5 large-4 columns"><label for="newCustActivity_cost" ACCESSKEY="c">Cost</label></div>
         <div class="small-24 medium-7 large-8 columns"><input type="text" id="newCustActivity_cost" value=""/></div>
         <div class="hide-for-small medium-12 large-12 columns">&nbsp;</div>
 </div>
 <div class="row">
-        <div class="small-24 medium-5 large-4 columns"><label for="newCustActivity_txt" ACCESSKEY=t>Description</label></div>
+        <div class="small-24 medium-5 large-4 columns"><label for="newCustActivity_txt" ACCESSKEY="t">Description</label></div>
         <div class="small-24 medium-19 large-20 columns"><textarea id="newCustActivity_txt" rows="4" cols="5" ></textarea></div>
 </div>
 <br/><br/><input type="button" value="Add Activity" id="newCustActivity" />
@@ -237,11 +237,11 @@ border:5px solid #000;
 <form>
 <div class="sectionBar">Add activity from the Council Calendar</div>
 <div class="row">
-        <div class="small-24 medium-6 large-6 columns"><label for="existActivSFind" ACCESSKEY=f>Find Activity by</label></div>
+        <div class="small-24 medium-6 large-6 columns"><label for="existActivSFind" ACCESSKEY="f">Find Activity by</label></div>
         <div class="small-24 medium-18 large-18 columns"><input type="text" id="existActivSFind" value="" /></div>
 </div>
 <div class="row">
-        <div class="small-12 medium-6 large-6 columns"><label for="existActivSMon" ACCESSKEY=m>Month and Year</label></div>
+        <div class="small-12 medium-6 large-6 columns"><label for="existActivSMon" ACCESSKEY="m">Month and Year</label></div>
         <div class="small-6 medium-6 large-6 columns">
 		<select id="existActivSMon">
 			<option value="01">Jan</option>
@@ -267,13 +267,13 @@ border:5px solid #000;
 	<div class="hide-for-small medium-6 large-6 columns">&nbsp;</div>
 </div>
 <div class="row">
-        <div class="small-12 medium-6 large-6 columns"><label for="existActivSDtFrom" ACCESSKEY=r>Date Range</label></div>
+        <div class="small-12 medium-6 large-6 columns"><label for="existActivSDtFrom" ACCESSKEY="r">Date Range</label></div>
         <div class="small-6 medium-6 large-6 columns"><input type="text" id="existActivSDtFrom" /></div>
         <div class="small-6 medium-6 large-6 columns"><input type="text" id="existActivSDtTo" /></div>
         <div class="hide-for-small medium-6 large-6 columns">&nbsp;</div>
 </div>
 <div class="row">
-        <div class="small-24 medium-8 large-6 columns"><label for="existActivSReg" ACCESSKEY=g>Region</label></div>
+        <div class="small-24 medium-8 large-6 columns"><label for="existActivSReg" ACCESSKEY="g">Region</label></div>
         <div class="small-24 medium-16 large-18 columns">
 		<select id="existActivSReg">
 			<option value="region1">Region1</option>
@@ -281,7 +281,7 @@ border:5px solid #000;
 	</div>
 </div>
 <div class="row">
-        <div class="small-24 medium-8 large-6 columns"><label for="existActivSLevl" ACCESSKEY=p>Program Level</label></div>
+        <div class="small-24 medium-8 large-6 columns"><label for="existActivSLevl" ACCESSKEY="p">Program Level</label></div>
         <div class="small-24 medium-16 large-18 columns">
 		<input type="checkbox" value="1" name="existActivSLevl"/>1
 		<input type="checkbox" value="2" name="existActivSLevl"/>2
@@ -292,7 +292,7 @@ border:5px solid #000;
         </div>  
 </div>
 <div class="row">
-        <div class="small-24 medium-8 large-6 columns"><label for="existActivSCat" ACCESSKEY=i>Categories</label></div>
+        <div class="small-24 medium-8 large-6 columns"><label for="existActivSCat" ACCESSKEY="i">Categories</label></div>
         <div class="small-24 medium-16 large-18 columns">
 		<input type="checkbox" value="1" name="existActivSCat"/>1
 		<input type="checkbox" value="2" name="existActivSCat"/>2
