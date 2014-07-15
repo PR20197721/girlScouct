@@ -32,7 +32,9 @@ public class PublishVtkNodeListener implements EventListener, Constants {
 
     public void onEvent(EventIterator iter) {
         log.error("##################### IN EVENT");
+        int i = 0;
         while (iter.hasNext()) {
+            log.error("############ i = " + Integer.toString(i++));
             try {
                 Event event = iter.nextEvent();
                 String path = event.getPath();
