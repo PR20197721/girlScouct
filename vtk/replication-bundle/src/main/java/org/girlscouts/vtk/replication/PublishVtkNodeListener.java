@@ -42,7 +42,7 @@ public class PublishVtkNodeListener implements EventListener, Constants {
                 
                 Node node = session.getNode(path);
                 if (node.hasProperty(FROM_PUBLISHER_PROPERTY)) {
-                    log.debug("Found \"fromPublisher\" property. This node comes from another publisher. Ignore.");
+                    log.error("Found \"fromPublisher\" property. Ignore.");
                     node.setProperty(FROM_PUBLISHER_PROPERTY, (Value)null);
                     session.save();
                     continue;
@@ -52,7 +52,12 @@ public class PublishVtkNodeListener implements EventListener, Constants {
                 if (event.type == NodeEvent.REMOVE) {
                     node.setProperty(Constants.NODE_REMOVED_PROPERTY, true);
                 }
+                session.save();
                 replicator.replicate(session, ReplicationActionType.ACTIVATE, path, opts);
+                
+                // Remove the fromPublisher property after replication
+                node.setProperty(Constants.FROM_PUBLISHER_PROPERTY, (Value)null);
+                session.save();
                 //////////////////////////
                 log.error("##### Replicated this node: " + path);
             } catch (RepositoryException e) {

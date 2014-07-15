@@ -32,11 +32,14 @@ public class NodeEventCollector {
     public static Set<NodeEvent> getEvents(EventIterator iter) {
         Set<NodeEvent> nodes = new HashSet<NodeEvent>();
         
+        int i = 0;
         while (iter.hasNext()) {
             Event event = iter.nextEvent();
             try {
                 int type = event.getType();
                 String path = event.getPath();
+                //////////////////////////////////////
+                log.error("i = " + Integer.toString(i++) + "#### event path = " + path);
 
                 // If this event is about node property change
                 if ((type & PROPERTY_UPDATE) != 0) { 
