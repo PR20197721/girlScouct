@@ -85,10 +85,9 @@ function loadModalPage(link, showTitle, title) {
 			}
 			var modalObj = $( "#gsModal" ).dialog({
 				width:dWidth,
-				height:dHeight,
 				modal:true,
 				dialogClass:"modalWrap",
-				position: ['center',20],
+				position: ['center','center'],
 				show:375,
 				"open": function() {
 					if (!showTitle) {
@@ -96,11 +95,11 @@ function loadModalPage(link, showTitle, title) {
 					} else {
 						$("span.ui-dialog-title").html(title); 
 					}
-					$("body").css({ overflow: 'hidden' });
+					//$("body").css({ overflow: 'hidden' });
 					// $(this).css({border: '1px solid red'});
 				},
 				"close": function() {
-					$("body").css({ overflow: 'inherit' });
+					//$("body").css({ overflow: 'inherit' });
 				}
 			});
                 }

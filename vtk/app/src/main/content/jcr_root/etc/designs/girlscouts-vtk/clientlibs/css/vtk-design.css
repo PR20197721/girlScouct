@@ -307,8 +307,6 @@ li.milestone .listBody {
 #gsModal {
 	padding: 0;
 	font-size: 0.85em;
-	overflow-x: hidden;
-	overflow-y: auto;
 }
 #gsModal>h2{
         display: inline-block;
