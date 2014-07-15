@@ -152,11 +152,20 @@ if(meeting.getLastAssetUpdate()==null || meeting.getLastAssetUpdate().before(sys
 		_aidTags.remove( aidToRm.get(i));
 	
 	
-	//query cachables
+	//query aids cachables
 	 java.util.List __aidTags =  meetingDAO.getAids( meetingInfo.getAidTags(), meetingInfo.getId(), meeting.getUid());
 	
-	//merge lists
+	//merge lists aids
 	_aidTags.addAll( __aidTags );
+	
+	
+	
+	//query resources cachables
+	java.util.List __resources =  meetingDAO.getResources( meetingInfo.getResources(), meetingInfo.getId(), meeting.getUid());
+		
+	//merge lists resources
+	_aidTags.addAll( __resources );
+	
 	
 	
 	meeting.setLastAssetUpdate( new java.util.Date() );
@@ -180,8 +189,12 @@ if( _aidTags!=null )
 
 
 
+String resources = meetingInfo.getResources();
+resources= resources==null ? "" : resources.trim().toLowerCase();
+%>
+<p>Resources:<%=resources %></p>
 
-
+<%
 
 
 
