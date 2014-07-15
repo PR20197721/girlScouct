@@ -52,6 +52,8 @@ public class PublishVtkNodeListener implements EventListener, Constants {
                     node.setProperty(Constants.NODE_REMOVED_PROPERTY, true);
                 }
                 replicator.replicate(session, ReplicationActionType.ACTIVATE, path, opts);
+                //////////////////////////
+                log.error("##### Replicated this node: " + path);
             } catch (RepositoryException e) {
                 log.error("Repository Exception. Event not handled.");
             } catch (ReplicationException e) {

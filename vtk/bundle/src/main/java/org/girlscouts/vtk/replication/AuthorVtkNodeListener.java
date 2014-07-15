@@ -55,6 +55,7 @@ public class AuthorVtkNodeListener implements EventListener, Constants {
                     replicator.replicate(session, ReplicationActionType.DEACTIVATE, path, opts);
                 } else {
                     replicator.replicate(session, ReplicationActionType.ACTIVATE, path, opts);
+                    log.error("##### Replicated this node: " + path);
                 }
             } catch (RepositoryException e) {
                 log.error("Repository Exception. Event not handled.");
