@@ -15,6 +15,7 @@ public class AgentIdExcludeFilter implements AgentFilter {
     }
 
     public boolean isIncluded(Agent agent) {
-        return !ids.contains(agent.getId());
+        return AgentFilter.DEFAULT.isIncluded(agent) && // Skip special agents like reverse and outbox.
+                !ids.contains(agent.getId());
     }
 }

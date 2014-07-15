@@ -31,6 +31,8 @@ public class PublishVtkNodeListener implements EventListener, Constants {
         this.publishId = publishId;
         opts = new ReplicationOptions();
         opts.setFilter(new OutboxAgentFilter());
+        opts.setSuppressStatusUpdate(true);
+        opts.setSuppressVersions(true);
     }
 
     public void onEvent(EventIterator iter) {

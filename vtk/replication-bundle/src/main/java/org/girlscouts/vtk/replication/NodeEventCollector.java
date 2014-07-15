@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 public class NodeEventCollector {
     private static Logger log = LoggerFactory.getLogger(NodeEventCollector.class);
     private static int PROPERTY_UPDATE = Event.PROPERTY_ADDED | Event.PROPERTY_CHANGED | Event.PROPERTY_REMOVED;
-    private static String[] _IGNORED_NAMESPACES = new String[] {"cq", "jcr", Constants.FROM_PUBLISHER_PROPERTY};
+    private static String[] _IGNORED_NAMESPACES = new String[] {Constants.FROM_PUBLISHER_PROPERTY};
     private static Set<String> IGNORED_NAMESPACES = new HashSet<String>(Arrays.asList(_IGNORED_NAMESPACES));
   
     public static class NodeEvent {
@@ -27,6 +27,21 @@ public class NodeEventCollector {
             this.path = path;
             this.type = type;
         }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (!(obj instanceof NodeEvent)) {
+                return false;
+            }
+            NodeEvent other = (NodeEvent)obj;
+            return this.path.equals(other.path) && this.type == other.type;
+        }
+
+        @Override
+        public int hashCode() {
+            return (path + Integer.toString(type)).hashCode();
+        }
+        
     }
 
     public static Set<NodeEvent> getEvents(EventIterator iter) {

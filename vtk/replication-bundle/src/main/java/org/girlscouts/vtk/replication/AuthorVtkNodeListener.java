@@ -48,10 +48,12 @@ public class AuthorVtkNodeListener implements EventListener, Constants {
                     session.save();
                 }
                 
-                // This should not take long, but might be a bottleneck.
                 ReplicationOptions opts = new ReplicationOptions();
                 opts.setFilter(new AgentIdExcludeFilter(fromPublisher));
+                opts.setSuppressStatusUpdate(true);
+                opts.setSuppressVersions(true);
                     
+                // This should not take long, but might be a bottleneck.
                 if (isRemove) {
                     replicator.replicate(session, ReplicationActionType.DEACTIVATE, path, opts);
                 } else {
