@@ -9,7 +9,7 @@ import javax.jcr.Value;
 import javax.jcr.observation.EventIterator;
 import javax.jcr.observation.EventListener;
 
-import org.girlscouts.vtk.replication.NodePathCollector.NodeEvent;
+import org.girlscouts.vtk.replication.NodeEventCollector.NodeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +29,7 @@ public class AuthorVtkNodeListener implements EventListener, Constants {
     }
 
     public void onEvent(EventIterator iter) {
-        Set<NodeEvent> events = NodePathCollector.getPaths(iter);
+        Set<NodeEvent> events = NodeEventCollector.getEvents(iter);
 
         for (NodeEvent event : events) {
             try {
@@ -45,6 +45,7 @@ public class AuthorVtkNodeListener implements EventListener, Constants {
                 if (node.hasProperty(Constants.NODE_REMOVED_PROPERTY)) {
                     isRemove = node.getProperty(Constants.NODE_REMOVED_PROPERTY).getBoolean();
                     node.setProperty(Constants.NODE_REMOVED_PROPERTY, (Value)null);
+                    session.save();
                 }
                 
                 // This should not take long, but might be a bottleneck.
@@ -55,6 +56,7 @@ public class AuthorVtkNodeListener implements EventListener, Constants {
                     replicator.replicate(session, ReplicationActionType.DEACTIVATE, path, opts);
                 } else {
                     replicator.replicate(session, ReplicationActionType.ACTIVATE, path, opts);
+                    //////////////////////////////////////
                     log.error("##### Replicated this node: " + path);
                 }
             } catch (RepositoryException e) {

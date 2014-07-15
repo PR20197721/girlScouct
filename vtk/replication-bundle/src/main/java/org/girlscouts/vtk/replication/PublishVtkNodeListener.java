@@ -9,7 +9,7 @@ import javax.jcr.Value;
 import javax.jcr.observation.EventIterator;
 import javax.jcr.observation.EventListener;
 
-import org.girlscouts.vtk.replication.NodePathCollector.NodeEvent;
+import org.girlscouts.vtk.replication.NodeEventCollector.NodeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +34,7 @@ public class PublishVtkNodeListener implements EventListener, Constants {
     }
 
     public void onEvent(EventIterator iter) {
-        Set<NodeEvent> events = NodePathCollector.getPaths(iter);
+        Set<NodeEvent> events = NodeEventCollector.getEvents(iter);
         
         for (NodeEvent event : events) {
             try {
@@ -44,6 +44,7 @@ public class PublishVtkNodeListener implements EventListener, Constants {
                 if (node.hasProperty(FROM_PUBLISHER_PROPERTY)) {
                     log.debug("Found \"fromPublisher\" property. This node comes from another publisher. Ignore.");
                     node.setProperty(FROM_PUBLISHER_PROPERTY, (Value)null);
+                    session.save();
                     continue;
                 }
 

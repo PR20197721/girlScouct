@@ -11,8 +11,8 @@ import javax.jcr.observation.EventIterator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class NodePathCollector {
-    private static Logger log = LoggerFactory.getLogger(NodePathCollector.class);
+public class NodeEventCollector {
+    private static Logger log = LoggerFactory.getLogger(NodeEventCollector.class);
     private static int PROPERTY_UPDATE = Event.PROPERTY_ADDED | Event.PROPERTY_CHANGED | Event.PROPERTY_REMOVED;
     private static String[] _IGNORED_NAMESPACES = new String[] {"cq", "jcr", Constants.FROM_PUBLISHER_PROPERTY};
     private static Set<String> IGNORED_NAMESPACES = new HashSet<String>(Arrays.asList(_IGNORED_NAMESPACES));
@@ -29,7 +29,7 @@ public class NodePathCollector {
         }
     }
 
-    public static Set<NodeEvent> getPaths(EventIterator iter) {
+    public static Set<NodeEvent> getEvents(EventIterator iter) {
         Set<NodeEvent> nodes = new HashSet<NodeEvent>();
         
         while (iter.hasNext()) {
