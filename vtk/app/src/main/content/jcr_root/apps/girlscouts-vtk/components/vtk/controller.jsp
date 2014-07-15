@@ -195,7 +195,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 
 
 }else if( request.getParameter("addAids")!=null){
-	meetingUtil.addAids(user, request.getParameter("addAids"), request.getParameter("meetingId"), request.getParameter("assetName") );
+	meetingUtil.addAids(user, request.getParameter("addAids"), request.getParameter("meetingId"), java.net.URLDecoder.decode(request.getParameter("assetName") ) );
 }else if( request.getParameter("rmAsset")!=null){
 	meetingUtil.rmAsset(user, request.getParameter("rmAsset"), request.getParameter("meetingId"));
 }else if( request.getParameter("previewMeetingReminderEmail") !=null ){

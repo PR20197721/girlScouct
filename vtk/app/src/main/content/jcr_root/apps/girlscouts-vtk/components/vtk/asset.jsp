@@ -33,7 +33,7 @@ function assignAid(aidId, meetingId, assetName, assetDesc){
 		isWarning = true;
 		instruction = "You must first select a year plan before adding resources.";
 	} else {
-		instruction = "Add &quot;<b>" + request.getParameter("aidName") + "</b>&quot; to Meeting(s)";
+		instruction = "Add &quot;<b>" + java.net.URLDecoder.decode(request.getParameter("aidName")) + "</b>&quot; to Meeting(s)";
 	}
 	if (isWarning) {
 %>
