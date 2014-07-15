@@ -59,7 +59,7 @@ function reloadMeeting(){
 }
 
 function newActivity(){
-        loadModalPage('/content/girlscouts-vtk/controllers/vtk.newCustomActivity.html');
+        loadModalPage('/content/girlscouts-vtk/controllers/vtk.newCustomActivity.html', false);
 }
 
 function addExistActivity(activityId){
@@ -67,7 +67,7 @@ function addExistActivity(activityId){
 }
 
 function newLocCal(){
-	loadModalPage('/content/girlscouts-vtk/controllers/vtk.locations.html');
+	loadModalPage('/content/girlscouts-vtk/controllers/vtk.locations.html', false);
 }
 
 function loadModalPage(link, showTitle, title) {
@@ -77,10 +77,15 @@ function loadModalPage(link, showTitle, title) {
                         $( "#error" ).html( msg + xhr.status + " " + xhr.statusText );
                 }else{
 			var wWidth = $(window).width();
-			var dWidth = wWidth * 0.85; //this will make the dialog 80% of the
-			$( "#gsModal" ).dialog({
+			var wHeight = $(window).height();
+			var dWidth = wWidth * 0.95; //this will make the dialog 80% of the
+			var dHeight = wHeight *0.97;
+			if (dWidth >960) {
+				dWidth = 960; // max-width: 60em;
+			}
+			var modalObj = $( "#gsModal" ).dialog({
 				width:dWidth,
-				height:"auto",
+				height:dHeight,
 				modal:true,
 				dialogClass:"modalWrap",
 				position: ['center',20],
@@ -91,9 +96,11 @@ function loadModalPage(link, showTitle, title) {
 					} else {
 						$("span.ui-dialog-title").html(title); 
 					}
+					$("body").css({ overflow: 'hidden' });
+					// $(this).css({border: '1px solid red'});
 				},
 				"close": function() {
-					// do nothing
+					$("body").css({ overflow: 'inherit' });
 				}
 			});
                 }
@@ -366,9 +373,9 @@ function bindAssetToYPC(assetId, ypcId){
 
 
 function doMeetingLib(){
-	loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html');
+	loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html', false);
 }
 
 function doHelp(isSched){
-	loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html');
+	loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html', false);
 }
