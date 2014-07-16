@@ -15,9 +15,13 @@ Activity activity = (Activity) _comp;
         
         <div class="small-4 columns">
                 <div class="planSquare" style="background-color:#0096ff;">
+			<div class="date">
         <%if( user.getYearPlan().getSchedule()!=null ) {%>
-                        <%=FORMAT_MMM_dd_hhmm_AMPM.format(searchDate) %>
+				<div class="cal"><span class="month"><%= FORMAT_MONTH.format(activity.getDate())%><br/></span><span class="day"><%= FORMAT_DAY_OF_MONTH.format(activity.getDate())%></span></div>
+        <%} else {%>
+                                <div class="cal"><span class="month">Activity<br/></span><span class="day hide-for-small"><%=meetingCount%></span></div>
         <%}%>
+			</div>
                 </div>
         </div>
         

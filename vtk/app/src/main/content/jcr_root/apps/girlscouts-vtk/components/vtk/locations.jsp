@@ -56,9 +56,6 @@
                 }else{
 %>
 <%@include file="include/calList.jsp" %>
-<!--
-                        LOADING CALENDAR.....<script>loadCalMng()</script>
--->
 <%
                 }
 %>
