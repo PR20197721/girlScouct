@@ -91,19 +91,29 @@
         <div class="small-1 columns">&nbsp;</div>
 </div>
 <div class="row meetingDetailDescription">
+<!--  org div
         <div class="small-8 columns"><a id="overviewButtonX" href="javascript:void(0)" onclick="openClose1('m_overview', 'm_activities')">overview</a></div>
         <div class="small-8 columns"><a id="activityPlanButtonX" href="javascript:void(0)" onclick="openClose1('m_activities', 'm_overview' )">activity plan</a></div>
+      -->
+      
+        <div class="small-8 columns"><a id="overviewButtonX" href="javascript:void(0)" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isOverview=true', true, 'Overview')">overview</a></div>
+        <div class="small-8 columns"><a id="activityPlanButtonX" href="javascript:void(0)" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isActivity=true', true, 'Activity')">activity plan</a></div>
+        
+      
+      
+      
+      
         <div class="small-8 columns"><!--a id="materialsListButton" href="#">materials list</a--></div>
 </div>
 <div class="row meetingDetailDescription">
         <div class="small-1 columns">&nbsp;</div>
         <div class="small-22 columns">
 		<div id="m_overview" style="display:none;">
-			 <h3>Overview:</h3><%=meetingInfoItems.get("overview").getStr() %> 
+			 <!--  <h3>Overview:</h3><%=meetingInfoItems.get("overview").getStr() %> -->
 		</div>
 		<div id="m_activities"  style="display:none;">
 <%
-
+/*
 	java.util.Iterator itr1=  meetingInfoItems.keySet().iterator(); 
 	while( itr1.hasNext()){
 		String name= (String) itr1.next();
@@ -113,7 +123,7 @@
 			<h3><%=name %></h3><%=meetingInfoItems.get(name).getStr() %>
 <%
 	}
-
+*/
 %>
 		</div>
         </div>
