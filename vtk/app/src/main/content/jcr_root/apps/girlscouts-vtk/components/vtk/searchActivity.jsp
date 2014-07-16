@@ -8,13 +8,18 @@ for(int i=0;i<activities.size();i++){
 		%>
 		
 		<div style="border: 3px solid red;"> 
+		--<%=activities.get(i).getPath() %>--
 			<%=activities.get(i).getName()%>
 			<br/>Start: <%=activities.get(i).getDate() %>
 			<br/>End <%=activities.get(i).getEndDate() %>
 			<br/>Location:<%=activities.get(i).getLocationAddress() %>
 			<p> <%=activities.get(i).getContent() %> </p>
+			<%if(activities.get(i).getDate()==null){ %>
+				Can't Add: Missing start date
+			<%}else{ %>
+				<input type="button" value="Add" onclick="addActiv('<%=activities.get(i).getUid()%>')"/>
+			<%} %>
 			
-			<input type="button" value="Add" onclick="addActiv('<%=activities.get(i).getUid()%>')"/>
 			<div id="cust_activ_<%=activities.get(i).getUid()%>"></div>
 		</div> 
 		
