@@ -283,7 +283,8 @@ if( _aidTags!=null )
 				<td>
 				
 					<%if( !isLocked) {%>
-						<a href="javascript:void(0)"  class="mLocked" onclick="editAgenda('<%=ii %>')"><%=_activity.getName() %></a>
+						<!--  <a href="javascript:void(0)"  class="mLocked" onclick="editAgenda('<%=ii %>')"><%=_activity.getName() %></a> -->
+						<a href="javascript:void(0)"  class="mLocked" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isAgenda=<%=ii %>', true, 'Agenda')"><%=_activity.getName() %></a>
 					<%}else{ %>
 						<%=_activity.getName() %>
 					<%} %>
@@ -314,10 +315,11 @@ if( _aidTags!=null )
 	</tr>
 </table>
 <%
-	for(int ii=0;ii< _activities.size();ii++){ 
+	if(false)
+	 for(int ii=0;ii< _activities.size();ii++){ 
 		Activity _activity = _activities.get(ii);
 %>
-<%@include file="editActivity.jsp" %> 
+		<%@include file="editActivity.jsp" %> 
 <%
 	}
 %>
