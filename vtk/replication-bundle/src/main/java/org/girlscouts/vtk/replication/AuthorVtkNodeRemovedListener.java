@@ -31,8 +31,7 @@ public class AuthorVtkNodeRemovedListener implements EventListener {
         for (String path : paths) {
             try {
                 String realPath = path.substring(Constants.NODE_GRAVEYARD_ROOT.length());
-                Node node;
-                node = session.getNode(path);
+                Node node = session.getNode(path);
                 String fromPublisher = node.getProperty(Constants.FROM_PUBLISHER_PROPERTY).getString();
     
                 ReplicationOptions opts = new ReplicationOptions();
@@ -40,7 +39,7 @@ public class AuthorVtkNodeRemovedListener implements EventListener {
                 opts.setSuppressStatusUpdate(true);
                 opts.setSuppressVersions(true);
                 ////////////////////////
-                log.error("#####@@@@@ DEACTIVATED node " + path);
+                log.error("#####@@@@@ DEACTIVATED node ?????" + path);
                 replicator.replicate(session, ReplicationActionType.DEACTIVATE, realPath, opts);
                 
                 node.remove();
