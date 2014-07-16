@@ -1018,6 +1018,7 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 		
 		
 		
+		
 		if( keywrd!=null && !keywrd.trim().equals("") && !isTag )
 			sql+=" and contains(*, '"+ keywrd+"') ";
 		
@@ -1027,6 +1028,23 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 		sql+= sqlTags;
 		sql+= sqlCat;
 		
+		/*
+		sql="select parent.* from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child,parent) where" +
+				" parent.[jcr:path] LIKE '/content/gateway/en/events/2014/%' and"+
+				" child.Region='test' and  (contains(parent.*, '"+ keywrd+"') or contains(child.*, '"+ keywrd+"')  )";
+		
+		
+		sql="select parent.* from [nt:unstructured] as parent INNER JOIN [nt:unstructured] as child ON ISCHILDNODE(child,parent) where" +
+				" parent.[jcr:path] LIKE '/content/gateway/en/events/2014/%'";
+				//and"+
+				//"    (contains(parent.*, '"+ keywrd+"') or contains(child.*, '"+ keywrd+"')  )";
+		
+		sql="SELECT * FROM [nt:unstructured] WHERE [jcr:path] = '/content/gateway/en/events/2014/wilderness_first_aid'";
+		
+		
+		sql="SELECT * FROM [nt:unstructured] as x WHERE (PATH() LIKE '/content/gateway/en/events/2014/wilderness_first_aid%')";
+		sql="SELECT * FROM [nt:base] WHERE PATH() LIKE '/content/gateway/en/events/2014/wilderness_first_aid%'";
+		*/
 		System.err.println( sql );
 		
 		
@@ -1040,13 +1058,15 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 		System.err.println("SEAch main: "+ (result.getRows().getSize()) );
 		 for (RowIterator it = result.getRows(); it.hasNext(); ) {
 		       Row r = it.nextRow();
+		       System.err.println( r.getPath() );
+		       
 		       
 		        Activity activity = new Activity();
 				activity.setUid("A"+ new java.util.Date().getTime() +"_"+ Math.random());
 		        if( !isTag){
 		        	activity.setContent(r.getValue("details").getString());
 		        	activity.setDate(r.getValue("start").getDate().getTime());
-		        	try{ activity.setEndDate(r.getValue("end").getDate().getTime()); }catch(Exception e){e.printStackTrace();}
+		        	try{ activity.setEndDate(r.getValue("end").getDate().getTime()); }catch(Exception e){}
 		        	activity.setLocationName(r.getValue("locationLabel").getString());
 		        	activity.setName(r.getValue("srchdisp").getString());
 		        }else{
@@ -1067,7 +1087,7 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 		 		        isFound=true;
 		 		        activity.setContent(r1.getValue("details").getString());
 			        	activity.setDate(r1.getValue("start").getDate().getTime());
-			        	try{activity.setEndDate(r1.getValue("end").getDate().getTime());}catch(Exception e){e.printStackTrace();}
+			        	try{activity.setEndDate(r1.getValue("end").getDate().getTime());}catch(Exception e){}
 			        	activity.setLocationName(r1.getValue("locationLabel").getString());
 			        	activity.setName(r1.getValue("srchdisp").getString());
 		        	}

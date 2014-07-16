@@ -230,11 +230,21 @@ border:5px solid #000;
 
                 </div>
                 <div id="pickActiviySection">
-<form>
+<form id="schFrm">
 <div class="sectionBar">Add activity from the Council Calendar</div>
+
+<%
+
+SearchTag search = meetingDAO.searchA();
+java.util.Map<String, String> levels = search.getLevels();
+java.util.Map<String, String> categories =search.getCategories();
+java.util.Map<String, String> region =search.getRegion();
+
+%>
+
 <div class="row">
         <div class="small-24 medium-6 large-6 columns"><label for="existActivSFind" ACCESSKEY="f">Find Activity by</label></div>
-        <div class="small-24 medium-18 large-18 columns"><input type="text" id="existActivSFind" value="" /></div>
+        <div class="small-24 medium-18 large-18 columns"><input type="text" id="sch_keyword" value="" /></div>
 </div>
 <div class="row">
         <div class="small-12 medium-6 large-6 columns"><label for="existActivSMon" ACCESSKEY="m">Month and Year</label></div>
@@ -269,37 +279,53 @@ border:5px solid #000;
         <div class="hide-for-small medium-6 large-6 columns">&nbsp;</div>
 </div>
 <div class="row">
+
+<br/>From Date<input type="text" id="sch_startDate"  value=""/>
+<br/>To Date<input type="text" id="sch_endDate"  value=""/>
+
         <div class="small-24 medium-8 large-6 columns"><label for="existActivSReg" ACCESSKEY="g">Region</label></div>
         <div class="small-24 medium-16 large-18 columns">
-		<select id="existActivSReg">
-			<option value="region1">Region1</option>
+		<select id="sch_region">
+		
+			<option value="">Select Region</option>
+<% java.util.Iterator itr2= region.keySet().iterator();
+
+	while( itr2.hasNext() ){
+		String str=(String) itr2.next();
+%>
+	<option value="<%= str %>"><%= str %></option>
+<% } %>
+
+	
 		</select>
 	</div>
 </div>
 <div class="row">
         <div class="small-24 medium-8 large-6 columns"><label for="existActivSLevl" ACCESSKEY="p">Program Level</label></div>
         <div class="small-24 medium-16 large-18 columns">
-		<input type="checkbox" value="1" name="existActivSLevl"/>1
-		<input type="checkbox" value="2" name="existActivSLevl"/>2
-		<input type="checkbox" value="3" name="existActivSLevl"/>3
-		<input type="checkbox" value="4" name="existActivSLevl"/>4
-		<input type="checkbox" value="5" name="existActivSLevl"/>5
-		<input type="checkbox" value="6" name="existActivSLevl"/>6
+		<% java.util.Iterator itr1= levels.keySet().iterator();
+while( itr1.hasNext() ){
+String str=(String) itr1.next();
+%>
+	<%= str %><input type="checkbox" name="sch_lvl" value="<%= str %>"/>
+<% } %>
+
         </div>  
 </div>
 <div class="row">
         <div class="small-24 medium-8 large-6 columns"><label for="existActivSCat" ACCESSKEY="i">Categories</label></div>
         <div class="small-24 medium-16 large-18 columns">
-		<input type="checkbox" value="1" name="existActivSCat"/>1
-		<input type="checkbox" value="2" name="existActivSCat"/>2
-		<input type="checkbox" value="3" name="existActivSCat"/>3
-		<input type="checkbox" value="4" name="existActivSCat"/>4
-		<input type="checkbox" value="5" name="existActivSCat"/>5
-		<input type="checkbox" value="6" name="existActivSCat"/>6
+		<% java.util.Iterator itr= categories.keySet().iterator();
+
+	while( itr.hasNext() ){
+		String str=(String) itr.next();
+%>
+	<%= str %><input type="checkbox" name="sch_cats" value="<%= str %>"/>
+<% } %>
         </div>
 </div>
 
-<br/><input type="button" value="View Activity" onclick="searchActivity()" />
+<br/><input type="button" value="View Activity" onclick='src11()' />
 
 <div id="listExistActivity"></div>
 
@@ -324,3 +350,71 @@ border:5px solid #000;
                 }
         }
 </script>
+
+
+
+
+<script>
+
+$('#sch_startDate').datepicker({minDate: 0});
+$('#sch_endDate').datepicker({minDate: 0});
+
+function checkAll(x) {
+	
+		var container ="";
+	   var arrMarkMail = document.getElementsByName(x);
+	   for (var i = 0; i < arrMarkMail.length; i++) {
+	     if(arrMarkMail[i].checked)
+	    	 container += arrMarkMail[i].value +"|";
+	   }
+	   return container;
+	   
+	}
+	
+	
+	
+function src11(){
+	
+	var  keywrd = $.trim(document.getElementById("sch_keyword").value);
+	if( keywrd.length>0 && keywrd.length<3  ){alert("Min 3 character search for keyword: "+ keywrd);return false;}
+	
+	var lvl=  $.trim(checkAll('sch_lvl'));
+	var cat=  $.trim(checkAll('sch_cats'));
+	var startDate = $.trim(document.getElementById("sch_startDate").value);
+	var endDate = $.trim(document.getElementById("sch_endDate").value);
+	var region = $.trim(document.getElementById("sch_region").value);
+	
+	if( startDate != '' && endDate=='' )
+		{alert('Missing end date');return false; }
+	if( startDate =='' && endDate!='' )
+		{alert('Missing start date');return false;}
+	
+	if( keywrd=='' && lvl=='' && cat =='' && startDate=='' && endDate=='' && region=='' ){
+		alert("Please select search criteria.");
+		return false;
+	}
+	
+	$.ajax({
+		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
+		type: 'POST',
+		data: { 
+			srch:true,
+			keywrd:keywrd,
+			lvl:lvl,
+			cat:cat,
+			startDate:startDate,
+			endDate:endDate,
+			region:region,
+			a:Date.now()
+		},
+		success: function(result) {
+			$("#srch_reslts").load('/content/girlscouts-vtk/controllers/vtk.searchActivity.html');
+		}
+	});
+	
+}
+</script>
+
+
+
+<div style="background-color:yellow" id="srch_reslts"></div>

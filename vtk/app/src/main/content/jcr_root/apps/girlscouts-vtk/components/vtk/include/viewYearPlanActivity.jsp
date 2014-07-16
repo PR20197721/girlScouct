@@ -303,14 +303,14 @@ $('#newCustActivity1').click(function() {
 			Date: ex:05/07/2014<input type="text" name="newCustActivity_date" id="newCustActivity_date" value="<%=FORMAT_MMddYYYY.format(activity.getDate()) %>" style="width:160px;"/>
                 </div>  
                 <div class="small-6 columns">
-			Start Time: ex: 18:15<input type="text" name="newCustActivity_startTime" id="newCustActivity_startTime" value="<%= FORMAT_hhmm_AMPM.format(activity.getDate())%>" style="width:100px;" />
+			Start Time: <input type="text" name="newCustActivity_startTime" id="newCustActivity_startTime" value="<%= FORMAT_hhmm_AMPM.format(activity.getDate())%>" style="width:100px;" />
 			<select id="newCustActivity_startTime_AP">
 			 
 			 <option value="am" <%=  FORMAT_AMPM.format(activity.getDate()).toUpperCase().trim().equals("AM") ? "SELECTED" : "" %>>am</option>
 			<option value="pm" <%=  FORMAT_AMPM.format(activity.getDate()).toUpperCase().trim().equals("PM") ? "SELECTED" : "" %>>pm</option>
 			 </select> </div>  
                 <div class="small-6 columns">
-			End Time: ex: 09:10<input type="text" id="newCustActivity_endTime" value="<%=FORMAT_hhmm_AMPM.format(activity.getEndDate()) %>"  style="width:100px;"/>
+			End Time: <input type="text" id="newCustActivity_endTime" value="<%=FORMAT_hhmm_AMPM.format(activity.getEndDate()) %>"  style="width:100px;"/>
 			<select id="newCustActivity_endTime_AP">
 			<option value="am" <%=  FORMAT_AMPM.format(activity.getEndDate()).toUpperCase().trim().equals("AM") ? "SELECTED" : "" %>>am</option>
 			<option value="pm" <%=  FORMAT_AMPM.format(activity.getEndDate()).toUpperCase().trim().equals("PM") ? "SELECTED" : "" %>>pm</option></select>
