@@ -14,6 +14,15 @@ java.util.Map<String, String> categories =search.getCategories();
 %>
 <form id="schFrm">
 <input type="text" id="sch_keyword" value=""/>
+
+
+<fieldset>
+
+<br/>From Date<input type="text" id="sch_startDate"  value=""/>
+<br/>To Date<input type="text" id="sch_endDate"  value=""/>
+</fieldset>
+
+
 <h2>Categories</h2>
 <% java.util.Iterator itr= categories.keySet().iterator();
 
@@ -38,7 +47,8 @@ String str=(String) itr1.next();
 
 <script>
 
-
+$('#sch_startDate').datepicker({minDate: 0});
+$('#sch_endDate').datepicker({minDate: 0});
 
 function checkAll(x) {
 	
@@ -59,7 +69,8 @@ function src11(){
 	var  keywrd = document.getElementById("sch_keyword").value;
 	var lvl=  checkAll('sch_lvl');
 	var cat=  checkAll('sch_cats');
-	
+	var startDate = document.getElementById("sch_startDate").value;
+	var endDate = document.getElementById("sch_endDate").value;
 	
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
@@ -68,6 +79,8 @@ function src11(){
 			srch:true,
 			keywrd:keywrd,
 			tags:lvl+"|"+ cat,
+			startDate:startDate,
+			endDate:endDate,
 			a:Date.now()
 		},
 		success: function(result) {
