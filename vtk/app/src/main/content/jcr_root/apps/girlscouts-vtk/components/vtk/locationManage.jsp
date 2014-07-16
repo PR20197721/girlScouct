@@ -31,7 +31,7 @@ for(int i=0;i<locations.size();i++){
                 <div class="small-20 columns">
 			<a href="javascript:void(0)" onclick="applyLocToAllMeetings('<%=location.getPath()%>')">Apply to All meetings</a>
 			<br/>
-			<div style="padding:30px; background-color:gray;">
+			<div class="locationList">
 <% 
         if( user.getYearPlan().getSchedule()!=null){    
                 java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
@@ -50,7 +50,7 @@ for(int i=0;i<locations.size();i++){
 				
 				
 				<%if( ((MeetingE)_comp).getCancelled()!=null && ((MeetingE)_comp).getCancelled().equals("true")){%>
-   					<span style="background-color:red;">Canceled</span>
+					<span class="alert">(Cancelled)</span>
    				<%} %>
 				
 				

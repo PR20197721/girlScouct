@@ -69,7 +69,7 @@
 <%
 	if( meeting.getCancelled()!=null && meeting.getCancelled().equals("true")){
 %>
-		<div style="color:#FFF; background-color:red;">CANCELLED</div>
+		<span class="alert">(Cancelled)</span>
 <%
 	}
 %>

@@ -61,6 +61,4 @@
         class="clear"></div>
 
 	<%-- fix CQ "new" bar misbehave --%>
-	<% if (WCMMode.fromRequest(request) == WCMMode.EDIT) { %>
-		<div style="clear:both"></div>
-	<% } %>
+	<div style="clear:both"></div>
