@@ -11,6 +11,7 @@ public class Activity extends YearPlanComponent{
 	public Activity(){
 		this.uid= "A"+new java.util.Date().getTime();
 		super.setType(YearPlanComponentType.ACTIVITY);
+		this.cost=0.00;
 		}
 	
 	public Activity(String name, String content, java.util.Date date, java.util.Date endDate,
