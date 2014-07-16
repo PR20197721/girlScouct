@@ -39,6 +39,8 @@ public class AuthorVtkNodeRemovedListener implements EventListener {
                 opts.setFilter(new AgentIdExcludeFilter(fromPublisher));
                 opts.setSuppressStatusUpdate(true);
                 opts.setSuppressVersions(true);
+                ////////////////////////
+                log.error("#####@@@@@ DEACTIVATED node " + path);
                 replicator.replicate(session, ReplicationActionType.DEACTIVATE, realPath, opts);
                 
                 node.remove();

@@ -70,6 +70,13 @@ public class VtkNodeListener implements Constants {
             if (mode.equals("author")) {
                 this.nodeUpdatedListener = new AuthorVtkNodeListener(session, replicator);
                 this.nodeRemovedListener = new AuthorVtkNodeRemovedListener(session, replicator);
+                for (int i = 0; i < MONITOR_PATHS.length; i++) {
+                    manager.addEventListener(this.nodeUpdatedListener, PROPERTY_UPDATE,
+                            MONITOR_PATHS[i], true, null, types, false);
+                }
+                // Author should listen to the grave yard for node removal.
+                manager.addEventListener(this.nodeRemovedListener, Event.NODE_ADDED,
+                        Constants.NODE_GRAVEYARD_ROOT, true, null, types, false);
             } else {
                 String publishId = (String)dict.get(Constants.FROM_PUBLISHER_PROPERTY);
                 if (publishId == null) {
@@ -77,14 +84,14 @@ public class VtkNodeListener implements Constants {
                 }
                 this.nodeUpdatedListener = new PublishVtkNodeListener(session, replicator, publishId);
                 this.nodeRemovedListener = new PublishVtkNodeRemovedListener(session, replicator, publishId);
+                for (int i = 0; i < MONITOR_PATHS.length; i++) {
+                    manager.addEventListener(this.nodeUpdatedListener, PROPERTY_UPDATE,
+                            MONITOR_PATHS[i], true, null, types, false);
+                    manager.addEventListener(this.nodeRemovedListener, Event.NODE_REMOVED,
+                            MONITOR_PATHS[i], true, null, types, false);
+                }
             }
 
-            for (int i = 0; i < MONITOR_PATHS.length; i++) {
-                manager.addEventListener(this.nodeUpdatedListener, PROPERTY_UPDATE,
-                        MONITOR_PATHS[i], true, null, types, false);
-                manager.addEventListener(this.nodeRemovedListener, Event.NODE_REMOVED,
-                        MONITOR_PATHS[i], true, null, types, false);
-            }
         } else {
             log.error("Listeners not added.");
         }

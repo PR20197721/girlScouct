@@ -44,7 +44,7 @@ public class PublishVtkNodeRemovedListener implements EventListener {
                 Node node = JcrUtil.createPath(destPath, "nt:unstructured", "nt:unstructured", session, false);
                 node.setProperty(Constants.FROM_PUBLISHER_PROPERTY, this.publishId);
                 session.save();
-                replicator.replicate(session, ReplicationActionType.ACTIVATE, path, opts);
+                replicator.replicate(session, ReplicationActionType.ACTIVATE, destPath, opts);
                 
                 node.remove();
                 session.save();

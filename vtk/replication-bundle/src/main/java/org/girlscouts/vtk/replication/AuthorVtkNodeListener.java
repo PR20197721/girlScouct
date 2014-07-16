@@ -32,6 +32,10 @@ public class AuthorVtkNodeListener implements EventListener, Constants {
         for (String path : paths) {
             try {
                 Node node = session.getNode(path);
+                if (!node.hasProperty(Constants.FROM_PUBLISHER_PROPERTY)) {
+                    // This node is not from publishers. False alarm.
+                    continue;
+                }
                 String fromPublisher = node.getProperty(Constants.FROM_PUBLISHER_PROPERTY).getString();
 
                 ReplicationOptions opts = new ReplicationOptions();
@@ -39,6 +43,8 @@ public class AuthorVtkNodeListener implements EventListener, Constants {
                 opts.setSuppressStatusUpdate(true);
                 opts.setSuppressVersions(true);
                     
+                ////////////////////
+                log.error("######@@@@@ Replicated node " + path);
                 replicator.replicate(session, ReplicationActionType.ACTIVATE, path, opts);
             } catch (RepositoryException e) {
                 log.error("Repository Exception. Event not handled.");
