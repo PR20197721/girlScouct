@@ -357,12 +357,16 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 }else if( request.getParameter("srch") !=null ){
    try{
 	   
-	   java.util.Date startDate = request.getParameter("startDate") ==null ? null : new java.util.Date(request.getParameter("startDate"));
-	   java.util.Date endDate = request.getParameter("endDate") ==null ? null : new java.util.Date(request.getParameter("endDate"));
+	   java.util.Date startDate = null, endDate= null;
+	   if(request.getParameter("startDate") ==null && !request.getParameter("startDate").equals(""))
+		   startDate = new java.util.Date(request.getParameter("startDate"));
+	   if(request.getParameter("endDate") ==null && !request.getParameter("endDate").equals(""))
+	   		endDate = new java.util.Date(request.getParameter("endDate"));
 
 	   java.util.List activities= meetingDAO.searchA1( user,  request.getParameter("tags"),  
 			request.getParameter("keywrd"),
-			startDate, endDate
+			startDate, endDate,
+			request.getParameter("region")
 			);
 	session.putValue("vtk_search_activity", activities);
    }catch(Exception e){e.printStackTrace();}

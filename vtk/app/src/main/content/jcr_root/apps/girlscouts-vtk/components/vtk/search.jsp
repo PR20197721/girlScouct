@@ -10,6 +10,7 @@
 SearchTag search = meetingDAO.searchA();
 java.util.Map<String, String> levels = search.getLevels();
 java.util.Map<String, String> categories =search.getCategories();
+java.util.Map<String, String> region =search.getRegion();
 
 %>
 <form id="schFrm">
@@ -17,6 +18,19 @@ java.util.Map<String, String> categories =search.getCategories();
 
 
 <fieldset>
+<select id="sch_region">
+<option value="">Select Region</option>
+<% java.util.Iterator itr2= region.keySet().iterator();
+
+	while( itr2.hasNext() ){
+		String str=(String) itr2.next();
+%>
+	<option value="<%= str %>"><%= str %></option>
+<% } %>
+
+	
+</select>
+
 
 <br/>From Date<input type="text" id="sch_startDate"  value=""/>
 <br/>To Date<input type="text" id="sch_endDate"  value=""/>
@@ -71,6 +85,7 @@ function src11(){
 	var cat=  checkAll('sch_cats');
 	var startDate = document.getElementById("sch_startDate").value;
 	var endDate = document.getElementById("sch_endDate").value;
+	var region = document.getElementById("sch_region").value;
 	
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
@@ -81,6 +96,7 @@ function src11(){
 			tags:lvl+"|"+ cat,
 			startDate:startDate,
 			endDate:endDate,
+			region:region,
 			a:Date.now()
 		},
 		success: function(result) {
