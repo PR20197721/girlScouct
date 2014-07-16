@@ -167,12 +167,10 @@ border:5px solid #000;
         </div>
 </div>
 <div class="row modalNav">
-        <div id="createActivityTab" class="small-12 columns active">
-                <a href="#" onclick="toggleSection('create')">Create Activity</a>
-        </div>
-        <div id="pickActivityTab" class="small-12 columns">
-                <a href="#" onclick="toggleSection('pick')">Pick Activity</a>
-        </div>
+        <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-2 specifyDates">
+                <li class="active manageCalendarTab"><a href="#" onclick="toggleSection('create')">Create Activity</a></li>
+                <li class="manageCalendarTab"><a href="#" onclick="toggleSection('pick')">Pick Activity</a></li>
+        </ul>
 </div>
 <div class="row modalBody">
         <div class="small-24 columns">

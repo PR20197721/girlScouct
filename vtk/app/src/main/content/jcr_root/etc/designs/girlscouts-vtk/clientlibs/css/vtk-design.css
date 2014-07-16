@@ -138,6 +138,9 @@ ul.tabs {
         z-index:100;
 	font-size: 0.8em;
 }
+.meetingDetailHeader .planSquare .count {
+	padding-top: 2px;
+}
 .planSquare .date {
         top: 5px;
 }
@@ -170,6 +173,19 @@ ul.tabs {
 .planSquare .cancelled .cross {
         margin-top: -45px;
 }
+table.planSquareWrapper tr:first-child {
+        border:0 !important;
+}
+table.planSquareWrapper {
+	width: 150px;
+	border:0 !important;
+	margin:5px;
+	padding:0;
+}
+table.planSquareWrapper td{
+	text-align: center;
+}
+
 .meetingDetailHeader .planSquare .cancelled .cross {
         margin-top: -10px;
 }
@@ -512,6 +528,9 @@ table.yearMeetingList tr:hover {
 .manageCalendarTab {
 	height: 3.4em !important;
 	line-height: 1;
+}
+.specifyDates .manageCalendarTab {
+        height: 2.4em !important;
 }
 .manageCalendarTab.double {
 	line-height: 2;

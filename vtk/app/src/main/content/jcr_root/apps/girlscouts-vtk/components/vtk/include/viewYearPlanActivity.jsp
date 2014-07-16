@@ -6,31 +6,30 @@ Activity activity = (Activity) _comp;
 <div class="caca row meetingDetailHeader">
         
         
-        <div class="small-2 columns previous">
+        <div class="small-8 medium-7 large-6 columns">
+                <table class="planSquareWrapper">
+                        <tr>
 <%if( prevDate!=0 ){ %>
-                <a class="direction" href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=prevDate%>"><img width="40" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/previous.png"/></a>
+                		<td><a class="direction" href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=prevDate%>"><img width="20" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/previous.png"/></a></td>
 <%} %>
-        </div>
-        
-        
-        <div class="small-4 columns">
-                <div class="planSquare" style="background-color:#0096ff;">
-			<div class="date">
+                                <td>
+					<div class="planSquare" style="background-color:#0096ff;">
+						<div class="date">
         <%if( user.getYearPlan().getSchedule()!=null ) {%>
-				<div class="cal"><span class="month"><%= FORMAT_MONTH.format(activity.getDate())%><br/></span><span class="day"><%= FORMAT_DAY_OF_MONTH.format(activity.getDate())%></span></div>
+							<div class="cal"><span class="month"><%= FORMAT_MONTH.format(activity.getDate())%><br/></span><span class="day"><%= FORMAT_DAY_OF_MONTH.format(activity.getDate())%></span></div>
         <%} else {%>
-                                <div class="cal"><span class="month">Activity<br/></span><span class="day hide-for-small"><%=meetingCount%></span></div>
+							<div class="cal"><span class="month">Activity<br/></span><span class="day hide-for-small"><%=meetingCount%></span></div>
         <%}%>
-			</div>
-                </div>
-        </div>
-        
-        
-        
-        <div class="small-2 columns next">
+						</div>
+					</div>
+				</td>
 <%if( nextDate!=0 ){ %>
-                <a class="direction" href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=nextDate%>"><img width="40" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/next.png"/></a>
+				<td>
+                <a class="direction" href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=nextDate%>"><img width="20" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/next.png"/></a>
+				</td>
 <%} %>
+			</tr>
+		</table>
         </div>
         
         
