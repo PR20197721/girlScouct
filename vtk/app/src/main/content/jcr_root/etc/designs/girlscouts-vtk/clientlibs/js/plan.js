@@ -94,11 +94,11 @@ function loadModalPage(link, showTitle, title) {
 					} else {
 						$("span.ui-dialog-title").html(title); 
 					}
-					//$("body").css({ overflow: 'hidden' });
+					$("body").css({ overflow: 'hidden' });
 					// $(this).css({border: '1px solid red'});
 				},
 				"close": function() {
-					//$("body").css({ overflow: 'inherit' });
+					$("body").css({ overflow: 'inherit' });
 				}
 			});
                 }

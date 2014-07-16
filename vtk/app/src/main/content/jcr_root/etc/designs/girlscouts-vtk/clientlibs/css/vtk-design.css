@@ -8,6 +8,9 @@ ul.tabs {
 .alert{
         color: #ff0000;
 }
+.hidden {
+	visibility: hidden;
+}
 .tabs .label {
 	padding: 10px 18px;
         float: left;
@@ -472,20 +475,22 @@ img.align-left { float:left; margin: 0; }
 	display: none;
 }
 
-.modalNav > div {
+.modalNav ul {
         background: #efefef;
+}
+.modalNav li {
 	border: 1px solid #cccccc;
 	padding:10px;
 	text-align: center;
 	font-weight: 1.2em;
 }
-.modalNav > div a {
+.modalNav li a {
         color: #00ae58;
 }
-.modalNav > div.active {
+.modalNav li.active {
         background: #009447;
 }
-.modalNav > div.active a {
+.modalNav li.active a {
         color: #c1ead4;
 }
 #calMng table {
@@ -505,7 +510,11 @@ table.yearMeetingList tr:hover {
 	background:#bde4ca;
 }
 .manageCalendarTab {
-	height: 50px;
+	height: 3.4em !important;
+	line-height: 1;
+}
+.manageCalendarTab.double {
+	line-height: 2;
 }
 table.meetingSelect, .meetingSelect tr:first-child {
 	border: 0px;
@@ -515,6 +524,9 @@ table.meetingSelect, .meetingSelect tr:first-child {
         background: white url('/etc/designs/girlscouts-vtk/clientlibs/css/images/calendar-pick.png') right center no-repeat !important;
 }
 
+.locationList {
+	padding: 10px;
+}
 @media only screen and (max-width: 40em) {
         .planSquare {
                 width: 70px;

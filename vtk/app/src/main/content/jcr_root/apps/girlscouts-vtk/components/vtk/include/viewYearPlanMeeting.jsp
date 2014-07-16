@@ -75,8 +75,6 @@
 %>
 	</div>
         <div class="small-4 columns ">
-		  <!--  <a id="viewMeetingButton" href="#" class="mLocked">change this meeting</a>  -->
-		 <!--  <a id="viewMeetingButton" href="/content/girlscouts-vtk/en/vtk.meetingLibrary.html?mpath=<%=meeting.getPath()%>&xx=<%=searchDate.getTime()%>" class="mLocked">change this meeting</a> -->	
 		<a href="javascript:void(0)" class="mLocked" onclick="mm('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=meeting.getPath()%>&xx=<%=searchDate.getTime()%>')">change this meeting</a>
 	
 	
@@ -200,9 +198,12 @@ if(meeting.getLastAssetUpdate()==null || meeting.getLastAssetUpdate().before(sys
 
 if( _aidTags!=null )
  for(int i=0;i<_aidTags.size();i++){
+	String aidTagDescription = "No description.";
+	if (_aidTags.get(i).getDescription() != null) {
+		aidTagDescription = java.net.URLEncoder.encode(_aidTags.get(i).getDescription());
+	}
 	%><li>
-	<!--  POP NEW WINDOW  <a href="<%=_aidTags.get(i).getRefId()%>"  target="_blank"><%=_aidTags.get(i).getDescription()%></a> -->
-	 <%=_aidTags.get(i).getType() %> :: <a href="#modal" id="<%=_aidTags.get(i).getUid() %>" onclick="x12('<%=_aidTags.get(i).getRefId()%>', '<%=java.net.URLEncoder.encode(_aidTags.get(i).getDescription())%>', '<%=_aidTags.get(i).getUid() %>')"><%=_aidTags.get(i).getDescription()%></a>
+	 <%=_aidTags.get(i).getType() %> :: <a href="#modal" id="<%=_aidTags.get(i).getUid() %>" onclick="x12('<%=_aidTags.get(i).getRefId()%>', '<%=aidTagDescription%>', '<%=_aidTags.get(i).getUid() %>')"><%=aidTagDescription %></a>
 	
 	 </li><% 
  }
@@ -347,8 +348,6 @@ if( _aidTags!=null )
 </div>
 
 <br/><br/>
- 
-
 
 <%if( !isLocked ){ %>
 
@@ -374,7 +373,7 @@ if( _aidTags!=null )
 		}
 		});
 	</script>
-	<%@include file="../include/manageCommunications.jsp" %>
+	<%--@include file="../include/manageCommunications.jsp" --%>
 <%}else{ %>	
 	
 	
@@ -384,4 +383,4 @@ if( _aidTags!=null )
 </style>
 
 
-<% }//ednelse %>
+<% } %>

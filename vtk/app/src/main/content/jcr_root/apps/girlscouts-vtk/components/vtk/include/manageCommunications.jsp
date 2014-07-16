@@ -1,4 +1,3 @@
-<!--
 <div class="sectionHeader">Manage Communications</div>
 <table>
 	<tr>
@@ -34,4 +33,3 @@ function doPic(isFile){
         loadModalPage('/content/girlscouts-vtk/controllers/vtk.uploadPhoto.html?isFile='+isFile+'&refId=<%=_comp.getUid()%>&myId=<%=searchDate.getTime()%>');
 }
 </script>
--->
