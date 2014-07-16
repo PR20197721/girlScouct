@@ -3,11 +3,19 @@ package org.girlscouts.vtk.models;
 public class SearchTag {
 
 	
-	private java.util.Map <String, String> categories, levels;
+	private java.util.Map <String, String> categories, levels, region;
 	private String searchKeyword;
 	
 	
 	
+	public java.util.Map<String, String> getRegion() {
+		return region;
+	}
+
+	public void setRegion(java.util.Map<String, String> region) {
+		this.region = region;
+	}
+
 	public String getSearchKeyword() {
 		return searchKeyword;
 	}

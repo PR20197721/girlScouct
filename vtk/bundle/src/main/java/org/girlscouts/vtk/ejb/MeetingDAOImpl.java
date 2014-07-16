@@ -948,6 +948,7 @@ public SearchTag searchA(){
 		
 		 tags.setCategories( categories );
 		 tags.setLevels( levels );
+		 tags.setRegion( searchRegion() );
 		 
 	}catch(Exception e){e.printStackTrace();}
 
@@ -955,35 +956,55 @@ public SearchTag searchA(){
 }
 
 
-public java.util.List<Activity> searchA1(User user, String tags, String keywrd){
+public java.util.List<Activity> searchA1(User user, String tags, String keywrd,
+		java.util.Date startDate, java.util.Date endDate, String region){
 	
 	java.util.List<Activity> toRet= new java.util.ArrayList();
 			
 	try{
+		
+		boolean isTag=false;
+		
 		String sqlTags="";
 		System.err.println("tags: "+ tags);
+		if( tags.equals("|")) tags="";
+		
 		StringTokenizer t= new StringTokenizer( tags, "|");
 		while( t.hasMoreElements()){
 			sqlTags+=" contains(cq:tags, '"+ t.nextToken() +"') ";
 			if( t.hasMoreElements() )
 				sqlTags+=" or ";
+			isTag=true;
+		}
+		if( isTag)
+			sqlTags+=" and ("+ sqlTags +" ) ";
+		
+		String regionSql="";
+		if( region !=null && !region.trim().equals("")) {
+			regionSql += " and LOWER(Region) ='"+ region +"'";
+			isTag=true;
 		}
 		
 		String path = "/content/gateway/en/events/2014/%";
-		if( sqlTags.trim().equals(""))
+		if( isTag )
 			path= path +"/data";
 		else
 			path= path +"/jcr:content";
 		
 		String sql="select start, jcr:title, details, end,locationLabel,srchdisp  from nt:base where jcr:path like '"+ path +"' " ;
 		
-		if( !sqlTags.equals(""))
-			sql+=" and ("+ sqlTags +" ) ";
+		
 		
 		if( keywrd!=null && !keywrd.trim().equals(""))
 			sql+=" and contains(*, '"+ keywrd+"') ";
 		
+		
+		sql+= regionSql;
+		sql+= sqlTags;
+		
 		System.err.println( sql );
+		
+		
 		
 		
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
@@ -994,19 +1015,32 @@ public java.util.List<Activity> searchA1(User user, String tags, String keywrd){
 		System.err.println("SEAch main: "+ (result.getRows().getSize()) );
 		 for (RowIterator it = result.getRows(); it.hasNext(); ) {
 		       Row r = it.nextRow();
-		   //  Node data =  r.getNode("data");
+		     //  Node data =  r.getNode("data");
 		    //   System.err.println("ddddd: "+ (data==null ));
 		       
 		        Activity activity = new Activity();
 				activity.setUid("A"+ new java.util.Date().getTime() +"_"+ Math.random());
-		        if( sqlTags.trim().equals("")){
+		        if( isTag){
 		        	activity.setContent(r.getValue("details").getString());
 		        	activity.setDate(r.getValue("start").getDate().getTime());
-		        	activity.setEndDate(r.getValue("end").getDate().getTime());
-		        	activity.setLocationAddress(r.getValue("locationLabel").getString());
+		        	try{ activity.setEndDate(r.getValue("end").getDate().getTime()); }catch(Exception e){e.printStackTrace();}
+		        	activity.setLocationName(r.getValue("locationLabel").getString());
 		        	activity.setName(r.getValue("srchdisp").getString());
 		        }else{
 		        	activity.setName(r.getValue("jcr:title").getString());
+		        	
+		        	String sql1 = "select start, jcr:title, details, end,locationLabel,srchdisp  from nt:base where jcr:path ='"+ r.getValue("jcr:path").getString() +"/data'";
+		        	q = qm.createQuery(sql1, javax.jcr.query.Query.SQL); 
+		        	QueryResult result1 = q.execute();
+		        	for (RowIterator it1 = result1.getRows(); it1.hasNext(); ) {
+		 		       Row r1 = it1.nextRow();
+		 		       
+		 		        activity.setContent(r1.getValue("details").getString());
+			        	activity.setDate(r1.getValue("start").getDate().getTime());
+			        	activity.setEndDate(r1.getValue("end").getDate().getTime());
+			        	activity.setLocationName(r1.getValue("locationLabel").getString());
+			        	activity.setName(r1.getValue("srchdisp").getString());
+		        	}
 		        }
 				activity.setType(YearPlanComponentType.ACTIVITY);
 				activity.setId("ACT"+i);
@@ -1019,5 +1053,37 @@ public java.util.List<Activity> searchA1(User user, String tags, String keywrd){
 	}catch(Exception e){e.printStackTrace();}
 	return toRet;
 }
+
+
+
+public java.util.Map<String, String> searchRegion(){
+	java.util.Map<String, String> container = new java.util.TreeMap();
+	try{
+		
+		java.util.Map<String, String> categories = new java.util.TreeMap();
+		java.util.Map<String, String> levels = new java.util.TreeMap();
+		
+		String sql="select Region from nt:base where jcr:path like '/content/gateway/en/events/2014/%' and Region is not null";
+		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
+		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
+			
+		QueryResult result = q.execute();
+		
+		 for (RowIterator it = result.getRows(); it.hasNext(); ) {
+		       Row r = it.nextRow();
+		       String elem= r.getValue("Region").getString() ;
+		       elem= elem.trim().toLowerCase();
+		       
+		       if( !container.containsKey(elem) )
+		    	  container.put( elem, null);
+		 }
+		
+		
+		 
+	}catch(Exception e){e.printStackTrace();}
+
+	return container;
+}
+
 
 }//edn class
