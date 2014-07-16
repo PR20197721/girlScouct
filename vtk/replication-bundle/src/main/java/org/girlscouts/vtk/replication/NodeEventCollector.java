@@ -17,47 +17,19 @@ public class NodeEventCollector {
     private static String[] _IGNORED_NAMESPACES = new String[] {Constants.FROM_PUBLISHER_PROPERTY};
     private static Set<String> IGNORED_NAMESPACES = new HashSet<String>(Arrays.asList(_IGNORED_NAMESPACES));
   
-    public static class NodeEvent {
-        public static int UPDATE = 0;
-        public static int REMOVE = 1;
-        
-        public String path;
-        public int type;
-        public NodeEvent(String path, int type) {
-            this.path = path;
-            this.type = type;
-        }
-
-        @Override
-        public boolean equals(Object obj) {
-            if (!(obj instanceof NodeEvent)) {
-                return false;
-            }
-            NodeEvent other = (NodeEvent)obj;
-            return this.path.equals(other.path) && this.type == other.type;
-        }
-
-        @Override
-        public int hashCode() {
-            return (path + Integer.toString(type)).hashCode();
-        }
-        
-    }
-
-    public static Set<NodeEvent> getEvents(EventIterator iter) {
-        Set<NodeEvent> nodes = new HashSet<NodeEvent>();
+    public static Set<String> getEvents(EventIterator iter) {
+        Set<String> nodes = new HashSet<String>();
         
         int i = 0;
         while (iter.hasNext()) {
             Event event = iter.nextEvent();
             try {
-                int type = event.getType();
                 String path = event.getPath();
                 //////////////////////////////////////
                 log.error("i = " + Integer.toString(i++) + "#### event path = " + path);
 
                 // If this event is about node property change
-                if ((type & PROPERTY_UPDATE) != 0) { 
+                if ((event.getType() & PROPERTY_UPDATE) != 0) { 
                     String property = path.substring(path.lastIndexOf('/') + 1);
                     String namespace = property.split(":")[0];
                     if (IGNORED_NAMESPACES.contains(namespace)) {
@@ -66,7 +38,7 @@ public class NodeEventCollector {
                     }
                     path = path.substring(0, path.lastIndexOf('/'));
                 }
-                nodes.add(new NodeEvent(path, type == Event.NODE_REMOVED ? NodeEvent.REMOVE : NodeEvent.UPDATE));
+                nodes.add(path);
             } catch (RepositoryException e) {
                 log.warn("Cannot get path of a VTK node event.");
             }

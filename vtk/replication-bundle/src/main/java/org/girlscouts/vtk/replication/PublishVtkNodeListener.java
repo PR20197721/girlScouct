@@ -9,7 +9,6 @@ import javax.jcr.Value;
 import javax.jcr.observation.EventIterator;
 import javax.jcr.observation.EventListener;
 
-import org.girlscouts.vtk.replication.NodeEventCollector.NodeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,12 +35,10 @@ public class PublishVtkNodeListener implements EventListener, Constants {
     }
 
     public void onEvent(EventIterator iter) {
-        Set<NodeEvent> events = NodeEventCollector.getEvents(iter);
+        Set<String> paths = NodeEventCollector.getEvents(iter);
         
-        for (NodeEvent event : events) {
+        for (String path: paths) {
             try {
-                String path = event.path;
-                
                 Node node = session.getNode(path);
                 if (node.hasProperty(FROM_PUBLISHER_PROPERTY)) {
                     log.error("Found \"fromPublisher\" property. Ignore.");
@@ -51,9 +48,6 @@ public class PublishVtkNodeListener implements EventListener, Constants {
                 }
 
                 node.setProperty(Constants.FROM_PUBLISHER_PROPERTY, this.publishId);
-                if (event.type == NodeEvent.REMOVE) {
-                    node.setProperty(Constants.NODE_REMOVED_PROPERTY, true);
-                }
                 session.save();
                 replicator.replicate(session, ReplicationActionType.ACTIVATE, path, opts);
                 
