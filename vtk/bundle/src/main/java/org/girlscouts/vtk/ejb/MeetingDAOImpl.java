@@ -956,7 +956,7 @@ public SearchTag searchA(){
 }
 
 
-public java.util.List<Activity> searchA1(User user, String tags, String keywrd,
+public java.util.List<Activity> searchA1(User user, String tags, String cat, String keywrd,
 		java.util.Date startDate, java.util.Date endDate, String region){
 	
 	java.util.List<Activity> toRet= new java.util.ArrayList();
@@ -965,8 +965,10 @@ public java.util.List<Activity> searchA1(User user, String tags, String keywrd,
 		
 		boolean isTag=false;
 		
+		
+		//TAGS= LVL
 		String sqlTags="";
-		System.err.println("tags: "+ tags);
+		System.err.println("lvl: "+ tags);
 		if( tags.equals("|")) tags="";
 		
 		StringTokenizer t= new StringTokenizer( tags, "|");
@@ -977,16 +979,37 @@ public java.util.List<Activity> searchA1(User user, String tags, String keywrd,
 			isTag=true;
 		}
 		if( isTag)
-			sqlTags+=" and ("+ sqlTags +" ) ";
+			sqlTags=" and ("+ sqlTags +" ) ";
+		//END LVL
+		
+		
+		//cat
+		String sqlCat="";
+		System.err.println("cat: "+ cat);
+		if( cat.equals("|")) cat="";
+		
+	    t= new StringTokenizer( cat, "|");
+		while( t.hasMoreElements()){
+			sqlCat+=" contains(cq:tags, '"+ t.nextToken() +"') ";
+			if( t.hasMoreElements() )
+				sqlCat+=" or ";
+			isTag=true;
+		}
+		if( !sqlCat.equals("" ))
+			sqlCat=" and ("+ sqlCat +" ) ";
+		//end cat
+		
+		
+		
 		
 		String regionSql="";
 		if( region !=null && !region.trim().equals("")) {
 			regionSql += " and LOWER(Region) ='"+ region +"'";
-			isTag=true;
+			//isTag=true;
 		}
 		
 		String path = "/content/gateway/en/events/2014/%";
-		if( isTag )
+		if( !isTag )
 			path= path +"/data";
 		else
 			path= path +"/jcr:content";
@@ -995,12 +1018,14 @@ public java.util.List<Activity> searchA1(User user, String tags, String keywrd,
 		
 		
 		
-		if( keywrd!=null && !keywrd.trim().equals(""))
+		if( keywrd!=null && !keywrd.trim().equals("") && !isTag )
 			sql+=" and contains(*, '"+ keywrd+"') ";
 		
+		if( !isTag )
+			sql+= regionSql;
 		
-		sql+= regionSql;
 		sql+= sqlTags;
+		sql+= sqlCat;
 		
 		System.err.println( sql );
 		
@@ -1015,12 +1040,10 @@ public java.util.List<Activity> searchA1(User user, String tags, String keywrd,
 		System.err.println("SEAch main: "+ (result.getRows().getSize()) );
 		 for (RowIterator it = result.getRows(); it.hasNext(); ) {
 		       Row r = it.nextRow();
-		     //  Node data =  r.getNode("data");
-		    //   System.err.println("ddddd: "+ (data==null ));
 		       
 		        Activity activity = new Activity();
 				activity.setUid("A"+ new java.util.Date().getTime() +"_"+ Math.random());
-		        if( isTag){
+		        if( !isTag){
 		        	activity.setContent(r.getValue("details").getString());
 		        	activity.setDate(r.getValue("start").getDate().getTime());
 		        	try{ activity.setEndDate(r.getValue("end").getDate().getTime()); }catch(Exception e){e.printStackTrace();}
@@ -1029,23 +1052,49 @@ public java.util.List<Activity> searchA1(User user, String tags, String keywrd,
 		        }else{
 		        	activity.setName(r.getValue("jcr:title").getString());
 		        	
-		        	String sql1 = "select start, jcr:title, details, end,locationLabel,srchdisp  from nt:base where jcr:path ='"+ r.getValue("jcr:path").getString() +"/data'";
+		        	String sql1 = "select start, jcr:title, details, end,locationLabel,srchdisp  from nt:base where jcr:path ='"+ r.getValue("jcr:path").getString() +"/data' "+regionSql ;
+		        	if( keywrd!=null && !keywrd.trim().equals(""))
+		    			sql1+=" and contains(*, '"+ keywrd+"') ";
+		        	System.err.println("SQL1: "+sql1);
+		        	
 		        	q = qm.createQuery(sql1, javax.jcr.query.Query.SQL); 
 		        	QueryResult result1 = q.execute();
+		        	
+		        	boolean isFound=false;	
 		        	for (RowIterator it1 = result1.getRows(); it1.hasNext(); ) {
 		 		       Row r1 = it1.nextRow();
 		 		       
+		 		        isFound=true;
 		 		        activity.setContent(r1.getValue("details").getString());
 			        	activity.setDate(r1.getValue("start").getDate().getTime());
-			        	activity.setEndDate(r1.getValue("end").getDate().getTime());
+			        	try{activity.setEndDate(r1.getValue("end").getDate().getTime());}catch(Exception e){e.printStackTrace();}
 			        	activity.setLocationName(r1.getValue("locationLabel").getString());
 			        	activity.setName(r1.getValue("srchdisp").getString());
 		        	}
+		        	if( !isFound ){ System.err.println("exiting.."); continue;  }
 		        }
 				activity.setType(YearPlanComponentType.ACTIVITY);
 				activity.setId("ACT"+i);
-				
 				activity.setPath( r.getPath() );
+				
+				
+				//filter by dates
+				
+				//System.err.println( startDate +" : "+ endDate);
+				//System.err.println(activity.getDate() +" : "+ activity.getEndDate() );
+				//System.err.println(activity.getDate().after(startDate )  ) ;
+				if( startDate!=null && endDate!=null && 
+						 
+					      (
+					    		  ( activity.getDate()!=null && activity.getDate().before(startDate ) ) ||
+							(activity.getEndDate()!=null && activity.getEndDate().after(endDate))
+							))
+							{ 
+								System.err.println("Filter byDate: "+ startDate +" : "+ activity.getDate() +" :: "+ endDate +": "+ activity.getEndDate());
+								continue;
+								}
+				
+				
 				toRet.add( activity); 
 				i++;
 		 }

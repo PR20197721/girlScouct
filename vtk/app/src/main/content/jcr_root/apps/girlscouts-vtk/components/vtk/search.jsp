@@ -80,12 +80,24 @@ function checkAll(x) {
 	
 function src11(){
 	
-	var  keywrd = document.getElementById("sch_keyword").value;
-	var lvl=  checkAll('sch_lvl');
-	var cat=  checkAll('sch_cats');
-	var startDate = document.getElementById("sch_startDate").value;
-	var endDate = document.getElementById("sch_endDate").value;
-	var region = document.getElementById("sch_region").value;
+	var  keywrd = $.trim(document.getElementById("sch_keyword").value);
+	if( keywrd.length>0 && keywrd.length<3  ){alert("Min 3 character search for keyword: "+ keywrd);return false;}
+	
+	var lvl=  $.trim(checkAll('sch_lvl'));
+	var cat=  $.trim(checkAll('sch_cats'));
+	var startDate = $.trim(document.getElementById("sch_startDate").value);
+	var endDate = $.trim(document.getElementById("sch_endDate").value);
+	var region = $.trim(document.getElementById("sch_region").value);
+	
+	if( startDate != '' && endDate=='' )
+		{alert('Missing end date');return false; }
+	if( startDate =='' && endDate!='' )
+		{alert('Missing start date');return false;}
+	
+	if( keywrd=='' && lvl=='' && cat =='' && startDate=='' && endDate=='' && region=='' ){
+		alert("Please select search criteria.");
+		return false;
+	}
 	
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
@@ -93,7 +105,8 @@ function src11(){
 		data: { 
 			srch:true,
 			keywrd:keywrd,
-			tags:lvl+"|"+ cat,
+			lvl:lvl,
+			cat:cat,
 			startDate:startDate,
 			endDate:endDate,
 			region:region,
