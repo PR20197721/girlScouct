@@ -34,4 +34,5 @@ public interface MeetingDAO {
 			String meetingName, String uids);
 	
 	public SearchTag searchA();
+	public java.util.List<Activity> searchA1(User user, String tags, String keywrd);
 }
