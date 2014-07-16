@@ -24,10 +24,9 @@ if( meeting != null && meeting.getCancelled()!=null && meeting.getCancelled().eq
 <div class="modifyCalendarDate">
 <form>
 	<label for"cngDate0">Change Date</label>
-	<br/><input type="text" value="<%= FORMAT_MMddYYYY.format(date) %>" id="cngDate0"  name="cngDate0" class="date"/>
-
+	<br/><input type="text" value="<%= FORMAT_MMddYYYY.format(date) %>" id="cngDate0"  name="cngDate0" class="date calendarField"/>
 	<br/><label for"cngTime0">Change Time</label>
-	<br/><input tyle="text" id="cngTime0" value="<%= FORMAT_hhmm.format(date) %>" name="cngDate0" class="date"/>
+	<br/><input type="text" id="cngTime0" value="<%= FORMAT_hhmm.format(date) %>" name="cngDate0" class="date"/>
 	<select id="cngAP0" name="cngAP0" class="ampm">
 		<option value="pm" <%= AP.equals("PM") ? "SELECTED" : "" %>>PM</option> 
 		<option value="am" <%= AP.equals("AM") ? "SELECTED" : "" %>>AM</option>

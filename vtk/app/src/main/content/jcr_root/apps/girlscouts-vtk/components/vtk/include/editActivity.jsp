@@ -1,4 +1,4 @@
-<div id="<%=ii %>" style="display:none;">
+<div id="<%=ii %>" style="display:block;">
 
 <a href="javascript:void(0)" onclick="location.reload();">CLOSE ME</a>
 

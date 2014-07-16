@@ -9,33 +9,49 @@
 	boolean isLocked=false;
 	if(searchDate.before( new java.util.Date() ) && user.getYearPlan().getSchedule()!=null ) isLocked= true;
 	
-	
-	
+        boolean isCanceled =false;
+        if( meeting.getCancelled()!=null && meeting.getCancelled().equals("true")){
+		isCanceled  = true;
+	}
 %>
-
 <br/>
-<div class="caca row meetingDetailHeader">
-	<div class="small-2 columns previous">
+<div class="row meetingDetailHeader">
+	<div class="small-8 medium-7 large-6 columns">
+		<table class="planSquareWrapper">
+			<tr>
 <%if( prevDate!=0 ){ %>
-		<a class="direction" href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=prevDate%>"><img width="40" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/previous.png"/></a>
+				<td><a class="direction" href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=prevDate%>"><img width="20" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/previous.png"/></a></td>
 <%} %>
-	</div>
-        <div class="small-4 columns">
+				<td>
 		<div class="planSquare">
-		
-		
-		#<%=(currInd+1 )%>
-	<%if( user.getYearPlan().getSchedule()!=null ) {%>
-			<%=FORMAT_MMM_dd_hhmm_AMPM.format(searchDate) %>
-	<%}%>
+<%
+		if( user.getYearPlan().getSchedule()!=null ) {
+%>
+			<div class="count"><%= meetingCount %></div>
+<%
+		}
+                if (isCanceled) {
+%>
+			<div class="cancelled"><div class="cross">X</div></div>
+<%
+                }
+%>
+			<div class="date">
+        <%if( user.getYearPlan().getSchedule()!=null ) {%>
+				<div class="cal"><span class="month"><%= FORMAT_MONTH.format(searchDate)%><br/></span><span class="day"><%= FORMAT_DAY_OF_MONTH.format(searchDate)%><br/></span><span class="time hide-for-small"><%= FORMAT_hhmm_AMPM.format(searchDate)%></span></div>
+        <%} else {%>
+                                <div class="cal"><span class="month">Meeting<br/></span><span class="day hide-for-small"><%=meetingCount%></span></div>
+        <%}%>
+			</div>
 		</div>
-	</div>
-        <div class="small-2 columns next">
+				</td>
 <%if( nextDate!=0 ){ %>
-		<a class="direction" href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=nextDate%>"><img width="40" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/next.png"/></a>
+				<td><a class="direction" href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=nextDate%>"><img width="20" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/next.png"/></a></td>
 <%} %>
+			</tr>
+		</table>
 	</div>
-        <div class="small-12 columns">
+        <div class="small-16 medium-12 large-14 columns">
 		<h1>Meeting: <%= meetingInfo.getName() %></h1>
 		<%= meetingInfo.getAidTags() %>
 		<p>Location:
@@ -55,14 +71,12 @@
 <%
 	if( meeting.getCancelled()!=null && meeting.getCancelled().equals("true")){
 %>
-		<div style="color:#FFF; background-color:red;">CANCELLED</div>
+		<span class="alert">(Cancelled)</span>
 <%
 	}
 %>
 	</div>
-        <div class="small-4 columns ">
-		  <!--  <a id="viewMeetingButton" href="#" class="mLocked">change this meeting</a>  -->
-		 <!--  <a id="viewMeetingButton" href="/content/girlscouts-vtk/en/vtk.meetingLibrary.html?mpath=<%=meeting.getPath()%>&xx=<%=searchDate.getTime()%>" class="mLocked">change this meeting</a> -->	
+        <div class="hide-for-small medium-5 large-4 columns ">
 		<a href="javascript:void(0)" class="mLocked" onclick="mm('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=meeting.getPath()%>&xx=<%=searchDate.getTime()%>')">change this meeting</a>
 	
 	
@@ -77,19 +91,29 @@
         <div class="small-1 columns">&nbsp;</div>
 </div>
 <div class="row meetingDetailDescription">
+<!--  org div
         <div class="small-8 columns"><a id="overviewButtonX" href="javascript:void(0)" onclick="openClose1('m_overview', 'm_activities')">overview</a></div>
         <div class="small-8 columns"><a id="activityPlanButtonX" href="javascript:void(0)" onclick="openClose1('m_activities', 'm_overview' )">activity plan</a></div>
+      -->
+      
+        <div class="small-8 columns"><a id="overviewButtonX" href="javascript:void(0)" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isOverview=true', true, 'Overview')">overview</a></div>
+        <div class="small-8 columns"><a id="activityPlanButtonX" href="javascript:void(0)" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isActivity=true', true, 'Activity')">activity plan</a></div>
+        
+      
+      
+      
+      
         <div class="small-8 columns"><!--a id="materialsListButton" href="#">materials list</a--></div>
 </div>
 <div class="row meetingDetailDescription">
         <div class="small-1 columns">&nbsp;</div>
         <div class="small-22 columns">
 		<div id="m_overview" style="display:none;">
-			 <h3>Overview:</h3><%=meetingInfoItems.get("overview").getStr() %> 
+			 <!--  <h3>Overview:</h3><%=meetingInfoItems.get("overview").getStr() %> -->
 		</div>
 		<div id="m_activities"  style="display:none;">
 <%
-
+/*
 	java.util.Iterator itr1=  meetingInfoItems.keySet().iterator(); 
 	while( itr1.hasNext()){
 		String name= (String) itr1.next();
@@ -99,7 +123,7 @@
 			<h3><%=name %></h3><%=meetingInfoItems.get(name).getStr() %>
 <%
 	}
-
+*/
 %>
 		</div>
         </div>
@@ -176,9 +200,12 @@ if(meeting.getLastAssetUpdate()==null || meeting.getLastAssetUpdate().before(sys
 
 if( _aidTags!=null )
  for(int i=0;i<_aidTags.size();i++){
+	String aidTagDescription = "No description.";
+	if (_aidTags.get(i).getDescription() != null) {
+		aidTagDescription = java.net.URLEncoder.encode(_aidTags.get(i).getDescription());
+	}
 	%><li>
-	<!--  POP NEW WINDOW  <a href="<%=_aidTags.get(i).getRefId()%>"  target="_blank"><%=_aidTags.get(i).getDescription()%></a> -->
-	 <%=_aidTags.get(i).getType() %> :: <a href="#modal" id="<%=_aidTags.get(i).getUid() %>" onclick="x12('<%=_aidTags.get(i).getRefId()%>', '<%=java.net.URLEncoder.encode(_aidTags.get(i).getDescription())%>', '<%=_aidTags.get(i).getUid() %>')"><%=_aidTags.get(i).getDescription()%></a>
+	 <%=_aidTags.get(i).getType() %> :: <a href="#modal" id="<%=_aidTags.get(i).getUid() %>" onclick="x12('<%=_aidTags.get(i).getRefId()%>', '<%=aidTagDescription%>', '<%=_aidTags.get(i).getUid() %>')"><%=aidTagDescription %></a>
 	
 	 </li><% 
  }
@@ -258,7 +285,8 @@ if( _aidTags!=null )
 				<td>
 				
 					<%if( !isLocked) {%>
-						<a href="javascript:void(0)"  class="mLocked" onclick="editAgenda('<%=ii %>')"><%=_activity.getName() %></a>
+						<!--  <a href="javascript:void(0)"  class="mLocked" onclick="editAgenda('<%=ii %>')"><%=_activity.getName() %></a> -->
+						<a href="javascript:void(0)"  class="mLocked" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isAgenda=<%=ii %>', true, 'Agenda')"><%=_activity.getName() %></a>
 					<%}else{ %>
 						<%=_activity.getName() %>
 					<%} %>
@@ -289,10 +317,11 @@ if( _aidTags!=null )
 	</tr>
 </table>
 <%
-	for(int ii=0;ii< _activities.size();ii++){ 
+	if(false)
+	 for(int ii=0;ii< _activities.size();ii++){ 
 		Activity _activity = _activities.get(ii);
 %>
-<%@include file="editActivity.jsp" %> 
+		<%@include file="editActivity.jsp" %> 
 <%
 	}
 %>
@@ -323,8 +352,6 @@ if( _aidTags!=null )
 </div>
 
 <br/><br/>
- 
-
 
 <%if( !isLocked ){ %>
 
@@ -350,7 +377,7 @@ if( _aidTags!=null )
 		}
 		});
 	</script>
-	<%@include file="../include/manageCommunications.jsp" %>
+	<%--@include file="../include/manageCommunications.jsp" --%>
 <%}else{ %>	
 	
 	
@@ -360,4 +387,4 @@ if( _aidTags!=null )
 </style>
 
 
-<% }//ednelse %>
+<% } %>

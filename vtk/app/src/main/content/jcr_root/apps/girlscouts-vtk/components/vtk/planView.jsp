@@ -37,6 +37,8 @@
 	}
 
 	int currInd =dates.indexOf(searchDate);
+        int meetingCount = currInd+1;
+
 	if( dates.size()-1 > currInd )
 		nextDate = ((java.util.Date)dates.get(currInd+1)).getTime();
 	if( currInd>0 )
@@ -53,22 +55,11 @@
        					break;
        					
        					case MEETING :
-       						
        						%><%@include file="include/viewYearPlanMeeting.jsp" %><% 
-       								
            					break;
        				}       			
        %>
        <div id="editAgenda"></div>
-
-       
-       
-       
-       
-       
-       
-       
-       
 <style>
 .modal-example-content {
     width: 600px;
@@ -91,10 +82,6 @@
 }
 </style>
 
-
-
-
- 
 <script>
 function x12(xx, ttl, id){
 	
@@ -107,20 +94,11 @@ function x12(xx, ttl, id){
 }
 
 </script>
-              
-             
-             
-             
-             <div id="modal" style="display: none;" class="modal-example-content">
-        <div class="modal-example-header" >
-            <span id="xyz"></span><button type="button" class="close" onclick="$.fn.custombox('close');">&times;</button>
-            
-        </div>
-        <div class="modal-example-body" >
-            <p>
-            
-            	<iframe id="ifr" height="500" width="550" src=""></iframe>
-            </p>
-        </div>
-    </div>
-       
+<div id="modal" style="display: none;" class="modal-example-content">
+	<div class="modal-example-header" >
+		<span id="xyz"></span><button type="button" class="close" onclick="$.fn.custombox('close');">&times;</button>
+	</div>
+	<div class="modal-example-body" >
+		<p><iframe id="ifr" height="500" width="550" src=""></iframe></p>
+	</div>
+</div>

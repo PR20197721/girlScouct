@@ -6,27 +6,30 @@ Activity activity = (Activity) _comp;
 <div class="caca row meetingDetailHeader">
         
         
-        <div class="small-2 columns previous">
+        <div class="small-8 medium-7 large-6 columns">
+                <table class="planSquareWrapper">
+                        <tr>
 <%if( prevDate!=0 ){ %>
-                <a class="direction" href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=prevDate%>"><img width="40" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/previous.png"/></a>
+                		<td><a class="direction" href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=prevDate%>"><img width="20" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/previous.png"/></a></td>
 <%} %>
-        </div>
-        
-        
-        <div class="small-4 columns">
-                <div class="planSquare" style="background-color:#0096ff;">
+                                <td>
+					<div class="planSquare" style="background-color:#0096ff;">
+						<div class="date">
         <%if( user.getYearPlan().getSchedule()!=null ) {%>
-                        <%=FORMAT_MMM_dd_hhmm_AMPM.format(searchDate) %>
+							<div class="cal"><span class="month"><%= FORMAT_MONTH.format(activity.getDate())%><br/></span><span class="day"><%= FORMAT_DAY_OF_MONTH.format(activity.getDate())%></span></div>
+        <%} else {%>
+							<div class="cal"><span class="month">Activity<br/></span><span class="day hide-for-small"><%=meetingCount%></span></div>
         <%}%>
-                </div>
-        </div>
-        
-        
-        
-        <div class="small-2 columns next">
+						</div>
+					</div>
+				</td>
 <%if( nextDate!=0 ){ %>
-                <a class="direction" href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=nextDate%>"><img width="40" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/next.png"/></a>
+				<td>
+                <a class="direction" href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=nextDate%>"><img width="20" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/next.png"/></a>
+				</td>
 <%} %>
+			</tr>
+		</table>
         </div>
         
         
@@ -104,11 +107,12 @@ ageLevel=ageLevel.toLowerCase().trim();
 
 if( a_aidTags!=null )
  for(int i=0;i<a_aidTags.size();i++){
+        String aidTagDescription = "No description.";
+        if (a_aidTags.get(i).getDescription() != null) {
+                aidTagDescription = java.net.URLEncoder.encode(a_aidTags.get(i).getDescription());
+        }
 	%><li>  
-	
-	
-	<!--  new window <a href="<%=a_aidTags.get(i).getRefId()%>"  target="_blank"><%=a_aidTags.get(i).getDescription()%></a> -->
-	<a href="#modal" id="<%=a_aidTags.get(i).getUid() %>" onclick="x12('<%=a_aidTags.get(i).getRefId()%>', '<%=a_aidTags.get(i).getDescription()%>', '<%=a_aidTags.get(i).getUid() %>')"><%=a_aidTags.get(i).getDescription()%></a>
+	<a href="#modal" id="<%=a_aidTags.get(i).getUid() %>" onclick="x12('<%=a_aidTags.get(i).getRefId()%>', '<%=aidTagDescription%>', '<%=a_aidTags.get(i).getUid() %>')"><%=aidTagDescription%></a>
 	
 	
 	</li><% 
@@ -337,7 +341,7 @@ $('#newCustActivity1').click(function() {
 
 </div>
 
-<%@include file="../include/manageCommunications.jsp" %>
+<%--@include file="../include/manageCommunications.jsp" --%>
 
 
     

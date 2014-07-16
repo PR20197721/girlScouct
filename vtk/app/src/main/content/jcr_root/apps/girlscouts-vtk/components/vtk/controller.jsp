@@ -354,7 +354,37 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	
 	userDAO.updateUser(user);
 	
+}else if( request.getParameter("srch") !=null ){
+   try{
+	   
+	   java.util.Date startDate = null, endDate= null;
+	   if(request.getParameter("startDate") !=null && !request.getParameter("startDate").equals(""))
+		   startDate = new java.util.Date(request.getParameter("startDate"));
+	   if(request.getParameter("endDate") !=null && !request.getParameter("endDate").equals(""))
+	   		endDate = new java.util.Date(request.getParameter("endDate"));
 
+	   java.util.List activities= meetingDAO.searchA1( user,  request.getParameter("lvl"), request.getParameter("cat") ,
+			request.getParameter("keywrd"),
+			startDate, endDate,
+			request.getParameter("region")
+			);
+	session.putValue("vtk_search_activity", activities);
+   }catch(Exception e){e.printStackTrace();}
+   
+}else if( request.getParameter("newCustActivityBean") !=null ){
+	
+	
+	java.util.List <org.girlscouts.vtk.models.Activity> activities =  (java.util.List <org.girlscouts.vtk.models.Activity>)session.getValue("vtk_search_activity");
+	for(int i=0;i<activities.size();i++){
+		
+		if( activities.get(i).getUid().equals( request.getParameter("newCustActivityBean") )){
+			//System.err.println("** "+ request.getParameter("newCustActivityBean") +": " +activities.get(i).getUid() +" : "+(user==null ));
+			activityDAO.createActivity(user, activities.get(i) );
+			break;
+		}
+		
+	}
+	
 }else{
 	//TODO throw ERROR CODE
 	
