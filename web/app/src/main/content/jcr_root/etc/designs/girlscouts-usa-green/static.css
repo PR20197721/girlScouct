@@ -557,8 +557,13 @@ td.fc-header-left{
 
 #right-canvas-menu a{
     color: #ddd;
-    padding: 10px 0px 0px 10px;
+    padding: 10px 0px 0px 5px;
     text-transform:capitalize;
+}
+#right-canvas-menu .side-nav li div {
+	padding: 0px 0px 0px 10px;
+	margin-left: 10px;
+
 }
 
 
@@ -568,17 +573,10 @@ td.fc-header-left{
 .right-off-canvas-menu ul {
     list-style: none;
 }
-.right-off-canvas-menu li{
-    padding: 8px 0px 0px 5px;
-}
+
 #right-canvas-menu-bottom {
     border-top: 1px solid #464646; 
 }
-
-.right-off-canvas-menu .side-nav li a:hover {
-    color: #ffffff;
-}
-
 .right-off-canvas-menu .side-nav li.active>a{
   color: #ffffff;
 }
@@ -693,48 +691,31 @@ td.fc-header-left{
      background-color:#B0B0B0;
  }
 
-ul.side-nav, li#sub-active ul, li#sub-active > ul > li > ul > li{
-  padding:0px;
-  margin:0px;
-}
 
 /* Hamburger Menu Change Start*/
+#right-canvas-menu #side-active ul {
+        padding: 0px;
+        margin: 0px;
+}
 
-#right-canvas-menu .side-nav li {
-    text-indent:30px;
-  }
+#right-canvas-menu .side-nav #sub-active ul li a{
+	padding-left:15px;
+}
+
+#right-canvas-menu .side-nav li.active > div{
+   background-color:#B0B0B0; 
+   
+}
+
+#right-canvas-menu .side-nav #sub-active ul li ul li ul li a {
+	padding-left: 35px;
+}
+
+#right-canvas-menu .side-nav #sub-active ul li ul li a {
+	padding-left: 25px;
+}
+
     
-#right-canvas-menu .side-nav ul li ul li {
-    text-indent:0px;
-    }    
-    
-#right-canvas-menu .side-nav li ul li {
-    text-indent:8px;
-   }  
-
-#right-canvas-menu .side-nav li ul li ul li {
-    text-indent:60px;
-   } 
-
-#right-canvas-menu .side-nav ul ul li {
-    text-indent:25px;
-   }  
-   
-#right-canvas-menu .side-nav ul ul ul li {
-    text-indent:70px;
-   }    
-   
-
-#right-canvas-menu .side-nav li ul li ul li {
-    text-indent:30px;
-   } 
-   
-#right-canvas-menu li#sub-active > ul > ul >li > ul > li {
-  text-indent:80px;
-}       
-#right-canvas-menu .side-nav li {
-    text-indent:10px;
-    }  
 /* Hamburger Menu changes end */
 
 #right-canvas-menu-bottom > ul{
@@ -753,7 +734,7 @@ ul.side-nav, li#sub-active ul, li#sub-active > ul > li > ul > li{
 }
 
 #right-canvas-menu-bottom li{
-    padding: 8px 0px 0px 5px;
+   padding: 8px 0px 0px 5px;
 }
 
 #right-canvas-menu-bottom > ul > li >a{
