@@ -16,35 +16,39 @@ import com.day.cq.replication.ReplicationException;
 import com.day.cq.replication.ReplicationOptions;
 import com.day.cq.replication.Replicator;
 
-public class AuthorVtkNodeListener implements EventListener, Constants {
-    private static final Logger log = LoggerFactory.getLogger(AuthorVtkNodeListener.class);
+public class AuthorVtkNodeRemovedListener implements EventListener {
+    private static final Logger log = LoggerFactory.getLogger(AuthorVtkNodeRemovedListener.class);
     private Session session;
     private Replicator replicator;
     
-    public AuthorVtkNodeListener(Session session, Replicator replicator) {
+    public AuthorVtkNodeRemovedListener(Session session, Replicator replicator) {
         this.session = session;
         this.replicator = replicator;
     }
-
     public void onEvent(EventIterator iter) {
         Set<String> paths = NodeEventCollector.getEvents(iter);
-
+        
         for (String path : paths) {
             try {
-                Node node = session.getNode(path);
+                String realPath = path.substring(Constants.NODE_GRAVEYARD_ROOT.length());
+                Node node;
+                node = session.getNode(path);
                 String fromPublisher = node.getProperty(Constants.FROM_PUBLISHER_PROPERTY).getString();
-
+    
                 ReplicationOptions opts = new ReplicationOptions();
                 opts.setFilter(new AgentIdExcludeFilter(fromPublisher));
                 opts.setSuppressStatusUpdate(true);
                 opts.setSuppressVersions(true);
-                    
-                replicator.replicate(session, ReplicationActionType.ACTIVATE, path, opts);
+                replicator.replicate(session, ReplicationActionType.DEACTIVATE, realPath, opts);
+                
+                node.remove();
+                session.save();
             } catch (RepositoryException e) {
-                log.error("Repository Exception. Event not handled.");
+                log.error("Repository exception on event of removing the node: " + path);
             } catch (ReplicationException e) {
-                log.error("Replication Exception. Event not handled.");
+                log.error("Replication exception on event of removing the node: " + path);
             }
         }
     }
+
 }

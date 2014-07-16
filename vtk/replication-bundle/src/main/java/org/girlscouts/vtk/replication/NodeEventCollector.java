@@ -29,15 +29,13 @@ public class NodeEventCollector {
                 log.error("i = " + Integer.toString(i++) + "#### event path = " + path);
 
                 // If this event is about node property change
-                if ((event.getType() & PROPERTY_UPDATE) != 0) { 
-                    String property = path.substring(path.lastIndexOf('/') + 1);
-                    String namespace = property.split(":")[0];
-                    if (IGNORED_NAMESPACES.contains(namespace)) {
-                        log.debug("This property is ignored. " + property);
-                        continue;
-                    }
-                    path = path.substring(0, path.lastIndexOf('/'));
+                String property = path.substring(path.lastIndexOf('/') + 1);
+                String namespace = property.split(":")[0];
+                if (IGNORED_NAMESPACES.contains(namespace)) {
+                    log.debug("This property is ignored. " + property);
+                    continue;
                 }
+                path = path.substring(0, path.lastIndexOf('/'));
                 nodes.add(path);
             } catch (RepositoryException e) {
                 log.warn("Cannot get path of a VTK node event.");

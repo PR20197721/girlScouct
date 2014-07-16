@@ -6,7 +6,6 @@ import javax.jcr.Repository;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.observation.Event;
-import javax.jcr.observation.EventIterator;
 import javax.jcr.observation.EventListener;
 import javax.jcr.observation.ObservationManager;
 
@@ -45,10 +44,12 @@ public class VtkNodeListener implements Constants {
 
     private Session session;
     private ObservationManager manager;
-    private EventListener listener;
+    private EventListener nodeUpdatedListener;
+    private EventListener nodeRemovedListener;
     
     @Activate
     protected void activate(ComponentContext context) throws Exception {
+        @SuppressWarnings("rawtypes")
         final Dictionary dict = context.getProperties();
         String mode = (String)dict.get(Constants.MODE_PROPERTY);
         if (mode == null) {
@@ -67,17 +68,21 @@ public class VtkNodeListener implements Constants {
             final String[] types = { Constants.PRIMARY_TYPE };
 
             if (mode.equals("author")) {
-                this.listener = new AuthorVtkNodeListener(session, replicator);
+                this.nodeUpdatedListener = new AuthorVtkNodeListener(session, replicator);
+                this.nodeRemovedListener = new AuthorVtkNodeRemovedListener(session, replicator);
             } else {
                 String publishId = (String)dict.get(Constants.FROM_PUBLISHER_PROPERTY);
                 if (publishId == null) {
                     publishId = "publish";
                 }
-                this.listener = new PublishVtkNodeListener(session, replicator, publishId);
+                this.nodeUpdatedListener = new PublishVtkNodeListener(session, replicator, publishId);
+                this.nodeRemovedListener = new PublishVtkNodeRemovedListener(session, replicator, publishId);
             }
 
             for (int i = 0; i < MONITOR_PATHS.length; i++) {
-                manager.addEventListener(this.listener, PROPERTY_UPDATE | Event.NODE_REMOVED,
+                manager.addEventListener(this.nodeUpdatedListener, PROPERTY_UPDATE,
+                        MONITOR_PATHS[i], true, null, types, false);
+                manager.addEventListener(this.nodeRemovedListener, Event.NODE_REMOVED,
                         MONITOR_PATHS[i], true, null, types, false);
             }
         } else {
@@ -89,7 +94,8 @@ public class VtkNodeListener implements Constants {
     protected void deactivate(ComponentContext componentContext) {
         if (manager != null) {
             try {
-                manager.removeEventListener(this.listener);
+                manager.removeEventListener(this.nodeRemovedListener);
+                manager.removeEventListener(this.nodeUpdatedListener);
             } catch (RepositoryException e) {
                 log.error("Error deactivating listeners");
             }
@@ -99,9 +105,4 @@ public class VtkNodeListener implements Constants {
             session = null;
         }
     }
-
-    public void onEvent(EventIterator iter) {
-        listener.onEvent(iter);
-    }
-
 }
