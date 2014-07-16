@@ -72,6 +72,3 @@ for (int i = 0; i < links.length; i++) {
 	}
 }
 %>
-<li>
-<a class="show-for-medium right-off-canvas-toggle menu-icon"><img src="<%= designPath %>/images/hamburger.png" width="19" height="28"></a>
-</li>

@@ -5,6 +5,9 @@
 ul.tabs {
 	margin: 0px;
 }
+.alert{
+        color: #ff0000;
+}
 .tabs .label {
 	padding: 10px 18px;
         float: left;
@@ -164,6 +167,9 @@ ul.tabs {
 .planSquare .cancelled .cross {
         margin-top: -45px;
 }
+.meetingDetailHeader .planSquare .cancelled .cross {
+        margin-top: -10px;
+}
 
 #yearPlanMeetings ul{
         list-style-type: none;
@@ -203,27 +209,27 @@ ul.tabs {
         background: #daeffe;
 }
 
-#yearPlanMeetings h1 {
+#yearPlanMeetings h1, .yearPlanMeetings h1 {
 	font-size:1.4em;
 	font-weight: bold;
 	line-height: 1.3em;
 	text-align: center;
 }
-#yearPlanMeetings h2 {
+#yearPlanMeetings h2, .yearPlanMeetings h2 {
         font-size:1em;
         font-weight: bold;
         line-height: 1em;
         margin: 0 0 5px 0;
 }
-#yearPlanMeetings a {
+#yearPlanMeetings a, .yearPlanMeetings a{
 	color:#008f50;
 }
-#yearPlanMeetings .tags {
+#yearPlanMeetings .tags, .yearPlanMeetings .tags {
 	font-size:0.75em;
 	line-height: 1em;
 }
 
-#yearPlanMeetings p {
+#yearPlanMeetings p, .yearPlanMeetings p{
 	line-height: 1em;
 	margin: 0;
 	font-size:1em;
@@ -484,6 +490,29 @@ img.align-left { float:left; margin: 0; }
 }
 #calMng table {
 	margin-bottom: 10px;
+}
+
+.modifyCalendarDate input.time, .modifyCalendarDate input.date, #createActivitySection input.time, #createActivitySection input.date {
+	max-width: 150px !important;
+}
+.modifyCalendarDate select.ampm{
+        max-width: 50px;
+}
+.yearMeetingList tr:first-child {
+	border: 0px;
+}
+table.yearMeetingList tr:hover {
+	background:#bde4ca;
+}
+.manageCalendarTab {
+	height: 50px;
+}
+table.meetingSelect, .meetingSelect tr:first-child {
+	border: 0px;
+}
+.calendarField {
+	max-width: 150px;
+        background: white url('/etc/designs/girlscouts-vtk/clientlibs/css/images/calendar-pick.png') right center no-repeat !important;
 }
 
 @media only screen and (max-width: 40em) {

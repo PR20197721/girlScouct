@@ -40,12 +40,14 @@ import org.apache.jackrabbit.ocm.query.QueryManager;
 import org.girlscouts.vtk.dao.AssetComponentType;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.UserDAO;
+import org.girlscouts.vtk.dao.YearPlanComponentType;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Asset;
 import org.girlscouts.vtk.models.JcrCollectionHoldString;
 import org.girlscouts.vtk.models.JcrNode;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
+import org.girlscouts.vtk.models.SearchTag;
 import org.girlscouts.vtk.models.YearPlanComponent;
 import org.girlscouts.vtk.models.user.User;
 
@@ -888,6 +890,134 @@ private List<Asset> getResource_local(String tags, String meetingName) {
 	}catch(Exception e){e.printStackTrace();}
    return matched;
 	}
+/*
+public SearchTag searchA(){
+	SearchTag tags = new SearchTag();
+	try{
+		
+		java.util.List categories = new java.util.ArrayList();
+		java.util.List levels = new java.util.ArrayList();
+		
+		String sql="select jcr:title from nt:base where jcr:path like '/etc/tags/girlscouts/%'";
+		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
+		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
+			
+		QueryResult result = q.execute();
+		System.err.println("SEAch1: "+ (result.getRows().getSize()) );
+		 for (RowIterator it = result.getRows(); it.hasNext(); ) {
+		       Row r = it.nextRow();
+		       System.err.println("Search path : "+ r.getPath());
+		       if( r.getPath().startsWith("/etc/tags/girlscouts/categories") )
+		    	   categories.add( r.getValue("jcr:title").getString() );
+		       else if( r.getPath().startsWith("/etc/tags/girlscouts/program-level") )
+		    	   levels.add( r.getValue("jcr:title").getString() );
+		 }
+		
+		 tags.setCategories( categories );
+		 tags.setLevels( levels );
+		 
+	}catch(Exception e){e.printStackTrace();}
 
+	return tags;
+}
+*/
+
+
+
+public SearchTag searchA(){
+	SearchTag tags = new SearchTag();
+	try{
+		
+		java.util.Map<String, String> categories = new java.util.TreeMap();
+		java.util.Map<String, String> levels = new java.util.TreeMap();
+		
+		String sql="select jcr:title from nt:base where jcr:path like '/etc/tags/girlscouts/%'";
+		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
+		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
+			
+		QueryResult result = q.execute();
+		System.err.println("SEAch1: "+ (result.getRows().getSize()) );
+		 for (RowIterator it = result.getRows(); it.hasNext(); ) {
+		       Row r = it.nextRow();
+		       System.err.println("Search path : "+ r.getPath());
+		       if( r.getPath().startsWith("/etc/tags/girlscouts/categories") )
+		    	   categories.put( r.getValue("jcr:title").getString(),null );
+		       else if( r.getPath().startsWith("/etc/tags/girlscouts/program-level") )
+		    	   levels.put( r.getValue("jcr:title").getString(), null );
+		 }
+		
+		 tags.setCategories( categories );
+		 tags.setLevels( levels );
+		 
+	}catch(Exception e){e.printStackTrace();}
+
+	return tags;
+}
+
+
+public java.util.List<Activity> searchA1(User user, String tags, String keywrd){
+	
+	java.util.List<Activity> toRet= new java.util.ArrayList();
+			
+	try{
+		String sqlTags="";
+		System.err.println("tags: "+ tags);
+		StringTokenizer t= new StringTokenizer( tags, "|");
+		while( t.hasMoreElements()){
+			sqlTags+=" contains(cq:tags, '"+ t.nextToken() +"') ";
+			if( t.hasMoreElements() )
+				sqlTags+=" or ";
+		}
+		
+		String path = "/content/gateway/en/events/2014/%";
+		if( sqlTags.trim().equals(""))
+			path= path +"/data";
+		else
+			path= path +"/jcr:content";
+		
+		String sql="select start, jcr:title, details, end,locationLabel,srchdisp  from nt:base where jcr:path like '"+ path +"' " ;
+		
+		if( !sqlTags.equals(""))
+			sql+=" and ("+ sqlTags +" ) ";
+		
+		if( keywrd!=null && !keywrd.trim().equals(""))
+			sql+=" and contains(*, '"+ keywrd+"') ";
+		
+		System.err.println( sql );
+		
+		
+		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
+		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
+			
+		int i=0;
+		QueryResult result = q.execute();
+		System.err.println("SEAch main: "+ (result.getRows().getSize()) );
+		 for (RowIterator it = result.getRows(); it.hasNext(); ) {
+		       Row r = it.nextRow();
+		   //  Node data =  r.getNode("data");
+		    //   System.err.println("ddddd: "+ (data==null ));
+		       
+		        Activity activity = new Activity();
+				activity.setUid("A"+ new java.util.Date().getTime() +"_"+ Math.random());
+		        if( sqlTags.trim().equals("")){
+		        	activity.setContent(r.getValue("details").getString());
+		        	activity.setDate(r.getValue("start").getDate().getTime());
+		        	activity.setEndDate(r.getValue("end").getDate().getTime());
+		        	activity.setLocationAddress(r.getValue("locationLabel").getString());
+		        	activity.setName(r.getValue("srchdisp").getString());
+		        }else{
+		        	activity.setName(r.getValue("jcr:title").getString());
+		        }
+				activity.setType(YearPlanComponentType.ACTIVITY);
+				activity.setId("ACT"+i);
+				
+				activity.setPath( r.getPath() );
+				toRet.add( activity); 
+				i++;
+		 }
+		 
+	}catch(Exception e){e.printStackTrace();}
+	return toRet;
+}
 
 }//edn class

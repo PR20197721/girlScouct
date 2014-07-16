@@ -14,12 +14,23 @@
 <%} %>
 	</div>
         <div class="small-4 columns">
-		<div class="planSquare">
-	<%if( user.getYearPlan().getSchedule()!=null ) {%>
-			<%=FORMAT_MMM_dd_hhmm_AMPM.format(searchDate) %>
-	<%}%>
-		</div>
-	</div>
+                <div class="planSquare">
+<%
+                if (isCanceled) {
+%>
+			<div class="cancelled"><div class="cross">X</div></div>
+<%
+                }
+%>
+			<div class="date">
+        <%if( user.getYearPlan().getSchedule()!=null ) {%>
+				<div class="cal"><span class="month"><%= FORMAT_MONTH.format(searchDate)%><br/></span><span class="day"><%= FORMAT_DAY_OF_MONTH.format(searchDate)%><br/></span><span class="time hide-for-small"><%= FORMAT_hhmm_AMPM.format(searchDate)%></span></div>
+        <%} else {%>
+                                <div class="cal"><span class="month">Meeting<br/></span><span class="day hide-for-small"><%=meetingCount%></span></div>
+        <%}%>
+			</div>
+                </div>
+        </div>
         <div class="small-2 columns next">
 <%if( nextDate!=0 ){ %>
 		<a class="direction" href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=nextDate%>"><img width="40" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/next.png"/></a>

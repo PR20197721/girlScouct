@@ -37,6 +37,8 @@
 	}
 
 	int currInd =dates.indexOf(searchDate);
+        int meetingCount = currInd+1;
+
 	if( dates.size()-1 > currInd )
 		nextDate = ((java.util.Date)dates.get(currInd+1)).getTime();
 	if( currInd>0 )
