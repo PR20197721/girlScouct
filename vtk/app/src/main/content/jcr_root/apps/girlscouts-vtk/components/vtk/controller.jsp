@@ -354,7 +354,25 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	
 	userDAO.updateUser(user);
 	
+}else if( request.getParameter("srch") !=null ){
+	
+	java.util.List activities= meetingDAO.searchA1( user,  request.getParameter("tags"),  request.getParameter("keywrd"));
+	session.putValue("vtk_search_activity", activities);
 
+}else if( request.getParameter("newCustActivityBean") !=null ){
+	
+	
+	java.util.List <org.girlscouts.vtk.models.Activity> activities =  (java.util.List <org.girlscouts.vtk.models.Activity>)session.getValue("vtk_search_activity");
+	for(int i=0;i<activities.size();i++){
+		
+		if( activities.get(i).getUid().equals( request.getParameter("newCustActivityBean") )){
+			System.err.println("** "+ request.getParameter("newCustActivityBean") +": " +activities.get(i).getUid() +" : "+(user==null ));
+			activityDAO.createActivity(user, activities.get(i) );
+			break;
+		}
+		
+	}
+	
 }else{
 	//TODO throw ERROR CODE
 	
