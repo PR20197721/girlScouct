@@ -75,7 +75,7 @@ a:hover {
 
 a.menu {
     color: #C1EAD4;
-    font-size: 1.042em;
+    font-size: 1em;
     font-weight: "bold";
 }
 a:hover.menu {
@@ -121,9 +121,9 @@ a:hover.menuHighlight {
 #header a:hover.signout {
     color: #c00;
 }
-#header nav.logoSmall {
+/*#header nav.logoSmall {
     min-width:330px;
-}
+}*/
 #header ul {
     float: right;
 }
@@ -153,25 +153,31 @@ a:hover.menuHighlight {
     background-color: #009447;
 }
 #headerBar>div{
-    padding: 3px 13.5px 0px 10px;
+    /*padding: 3px 10px 0px 10px;*/
 }
 
 #headerBar ul.inline-list {
-    margin: 0px;
-    padding: 0px;
+    margin: 0 auto;
+    /*padding: 0px;*/
 }
 #headerBar li {
-    margin: 0px;
-    padding: 0px 10px 4px 10px;
+    margin: 0 20px 0 0;
+    padding: 0;
+    /*padding: 0px 10px 4px 10px;*/
 }
 #headerBar li:last-child {
     padding-right: 0;
-    float: right;
+    /*float: right;*/
 }
 #headerBar li:hover {
    /* background-color:#063;*/
 }
-
+#headerBar .global-navigation {
+padding-left: 20px;
+}
+#headerBar ul.inline-list li{
+	line-height:31px;
+}
 
 /* FOOTER */
 #footer {
@@ -200,6 +206,7 @@ background-position: center;
 #mobile-footer{
     background-color: #00ae58;
     padding-top: 15px;
+    padding-bottom: 15px;
 }
 /* MAIN */
 #main {
@@ -906,4 +913,5 @@ input.searchField{
 ul.inline-list.eyebrow-fontsize{
 margin-bottom: 5px;
 }
+
 

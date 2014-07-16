@@ -47,16 +47,15 @@
 %>
                 <div id="manageCalendarSection">
                         <div class="sectionBar">Manage Calendar</div>
-			<br/>
 			<div id="calMng">
 <%
-                if( user.getYearPlan().getSchedule() !=null ){
+                if( user.getYearPlan().getSchedule() == null ){
 %>
 <%@include file="include/calSched.jsp" %>
 <%
                 }else{
 %>
-                        LOADING CALENDAR.....<script>loadCalMng()</script>
+<%@include file="include/calList.jsp" %>
 <%
                 }
 %>
@@ -64,7 +63,7 @@
                 </div>
                 <div id="manageLocationSection">
 <%
-                if( user.getYearPlan().getSchedule() ==null ){
+                if( user.getYearPlan().getSchedule() == null ){
 %>
 			Please first select your calendar start date to set meeting locations.
 <%
@@ -77,7 +76,7 @@
                 </div>
                 <div id="manageActivitySection">
 <%
-                if( user.getYearPlan().getSchedule() ==null ){
+                if( user.getYearPlan().getSchedule() == null ){
 %>
                         Please first select your calendar start date to set meeting activities.
 <%
