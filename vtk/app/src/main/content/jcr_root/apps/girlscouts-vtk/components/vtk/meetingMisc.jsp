@@ -40,5 +40,20 @@
 	}
 
 %>
+<%}else if( request.getParameter("isAgenda")!=null ){
+
+
+	//java.util.List <Activity> _activities = meetingInfo.getActivities();
+	for(int ii=0;ii< _activities.size();ii++){ 
+		Activity _activity = _activities.get(ii);
+		if( ii == Integer.parseInt( request.getParameter("isAgenda")  ) ){
+			
+			%>
+			<%@include file="include/editActivity.jsp" %> 
+			<%
+			
+			break;
+		}
+	}
 	
-<%}%>
+ }%>

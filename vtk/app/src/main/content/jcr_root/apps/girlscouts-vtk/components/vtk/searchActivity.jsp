@@ -8,7 +8,7 @@ for(int i=0;i<activities.size();i++){
 		%>
 		
 		<div style="border: 3px solid red;"> 
-		--<%=activities.get(i).getPath() %>--
+		
 			<%=activities.get(i).getName()%>
 			<br/>Start: <%=activities.get(i).getDate() %>
 			<br/>End <%=activities.get(i).getEndDate() %>
