@@ -3,7 +3,9 @@
                    com.day.cq.wcm.foundation.List,
                    java.util.Iterator"%><%
 %><%@include file="/libs/foundation/global.jsp"%>
-  <cq:include script="news-search.jsp"/>
+<cq:include script="init.jsp"/> 
+
+<cq:include script="news-search.jsp"/>
     <%
      if(properties.containsKey("isonhomepage") && properties.get("isonhomepage").equals("on")){%>
     	  <cq:include script="feature-news.jsp"/>
