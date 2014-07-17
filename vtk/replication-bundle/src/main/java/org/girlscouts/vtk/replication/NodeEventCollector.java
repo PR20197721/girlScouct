@@ -2,6 +2,7 @@ package org.girlscouts.vtk.replication;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.jcr.RepositoryException;
@@ -16,15 +17,43 @@ public class NodeEventCollector {
     private static int PROPERTY_UPDATE = Event.PROPERTY_ADDED | Event.PROPERTY_CHANGED | Event.PROPERTY_REMOVED;
     private static String[] _IGNORED_NAMESPACES = new String[] {Constants.FROM_PUBLISHER_PROPERTY};
     private static Set<String> IGNORED_NAMESPACES = new HashSet<String>(Arrays.asList(_IGNORED_NAMESPACES));
+    
+    public static class NodeEvent {
+        private String path;
+        private int type;
+        
+        public NodeEvent(String path, int type) {
+            this.path = path;
+            this.type = type;
+        }
+        public String getPath() {
+            return path;
+        }
+        
+        public int getType() {
+            return type;
+        }
+        @Override
+        public boolean equals(Object obj) {
+            return (obj instanceof NodeEvent) && (((NodeEvent)obj).path == this.path);
+        }
+
+        @Override
+        public int hashCode() {
+            // Only look at the path, ignore the type
+            return path.hashCode();
+        }
+    }
   
-    public static Set<String> getEvents(EventIterator iter) {
-        Set<String> nodes = new HashSet<String>();
+    public static Set<NodeEvent> getEvents(EventIterator iter) {
+        Set<NodeEvent> nodes = new LinkedHashSet<NodeEvent>();
         
         int i = 0;
         while (iter.hasNext()) {
             Event event = iter.nextEvent();
             try {
                 String path = event.getPath();
+                int type = event.getType();
                 //////////////////////////////////////
                 log.error("i = " + Integer.toString(i++) + "#### event path = " + path + "### event type = " + event.getType());
 
@@ -38,7 +67,7 @@ public class NodeEventCollector {
                     }
                     path = path.substring(0, path.lastIndexOf('/'));
                 }
-                nodes.add(path);
+                nodes.add(new NodeEvent(path, type));
             } catch (RepositoryException e) {
                 log.warn("Cannot get path of a VTK node event.");
             }
