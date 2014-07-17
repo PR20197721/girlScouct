@@ -68,8 +68,8 @@ a:hover {
     }
 }
 @media only screen and (min-width: 40.063em) and (max-width: 59.938em) {
-    html {
-        font-size: 100%
+    #headerBar li{
+        font-size: 90%
     }
 }
 
