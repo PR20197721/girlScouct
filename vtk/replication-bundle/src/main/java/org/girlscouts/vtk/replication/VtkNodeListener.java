@@ -32,8 +32,6 @@ import com.day.cq.replication.Replicator;
 })
 public class VtkNodeListener {
     private static final String[] MONITOR_PATHS = { Constants.ROOT_PATH };
-    private static final int PROPERTY_UPDATE = Event.PROPERTY_ADDED
-            | Event.PROPERTY_CHANGED | Event.PROPERTY_REMOVED;
     private static final Logger log = LoggerFactory
             .getLogger(VtkNodeListener.class);
 
@@ -74,7 +72,7 @@ public class VtkNodeListener {
             if (mode.equals("author")) {
                 this.listener = new AuthorVtkNodeListener(session, replicator);
                 // On author, listen to update events only, on replication root
-                manager.addEventListener(this.listener, PROPERTY_UPDATE,
+                manager.addEventListener(this.listener, Constants.PROPERTY_UPDATE,
                         Constants.NODE_REPLICATION_ROOT, true, null, types, false);
             } else {
                 String publishId = (String)dict.get(Constants.FROM_PUBLISHER_PROPERTY);
@@ -84,7 +82,7 @@ public class VtkNodeListener {
                 this.listener = new PublishVtkNodeListener(session, replicator, publishId);
                 // On publish, listen to every interested path, both update and remove
                 for (int i = 0; i < MONITOR_PATHS.length; i++) {
-                    manager.addEventListener(this.listener, PROPERTY_UPDATE | Event.NODE_REMOVED,
+                    manager.addEventListener(this.listener, Constants.PROPERTY_UPDATE | Event.NODE_REMOVED,
                             MONITOR_PATHS[i], true, null, types, false);
                 }
                 
