@@ -2,7 +2,7 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <%
-   String href=(String)request.getAttribute("imgPath");
+   String href=(String)request.getAttribute("href");
    String iconPath = (String)request.getAttribute("iconPath");
    String dateStr = (String)request.getAttribute("dateStr");
    String locationLabel = (String)request.getAttribute("locationLabel");
