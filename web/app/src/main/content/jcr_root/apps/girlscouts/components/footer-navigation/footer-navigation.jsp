@@ -13,7 +13,7 @@ if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMM
         String path = values.length >= 2 ? values[1] : "";
         path = genLink(resourceResolver, path);
         String clazz = values.length >= 3 ? " "+ values[2] : "";
-		%><a class="menu<%= clazz %>" href="<%= path %>"><%= label %></a><%
+		%><a class="small-12 columns text-center menu<%= clazz %>" href="<%= path %>"><%= label %></a><%
     }
 }
 %>
