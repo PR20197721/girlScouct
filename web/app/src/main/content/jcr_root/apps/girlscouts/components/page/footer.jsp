@@ -12,7 +12,7 @@ String logoPath = currentPage.getAbsoluteParent(2).getContentResource().getPath(
 					<% setCssClasses("large-24 medium-24 small-24 column", request); %>
 					<cq:include path="<%= footerPath + "/nav"%>" resourceType="girlscouts/components/footer-navigation"/>
 				</div>
-<div id="mobile-nav-footer" class="row show-for-small">
+<div id="mobile-nav-footer" class="row collapse show-for-small">
 					<cq:include path="<%= footerPath + "/nav"%>" resourceType="girlscouts/components/footer-navigation"/>
 </div> 
 
