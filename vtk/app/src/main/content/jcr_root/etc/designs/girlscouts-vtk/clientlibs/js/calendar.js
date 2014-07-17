@@ -12,7 +12,7 @@ function updSched1(i, meetingPath, currDt){
 	var time = document.getElementById("cngTime"+i).value;
 	var ap = document.getElementById("cngAP"+i).value;
 	var isCancelled = document.getElementById("isCancellMeeting"+i).checked;
-
+//alert(date+" : "+ time +" : "+ ap +" : "+ isCancelled);
 	
 	
 	 $.ajax({
@@ -29,9 +29,11 @@ function updSched1(i, meetingPath, currDt){
 				a:Date.now()
 	      },
 	      success: function(result) {
-	    	  
+	    	  //alert("Done");
+	    	  document.location="/content/girlscouts-vtk/en/vtk.plan.html";
 	      }
 	  });
+	 //document.location="/content/girlscouts-vtk/en/vtk.plan.html";
+	 //alert("over");
 	
-	document.location="/content/girlscouts-vtk/en/vtk.plan.html";
 }

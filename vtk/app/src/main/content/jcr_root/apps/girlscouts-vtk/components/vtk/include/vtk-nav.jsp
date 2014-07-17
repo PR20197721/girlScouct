@@ -1,5 +1,10 @@
 <%
         if (troops != null && troops.size() > 1) {
+        	
+        	Cookie cookie = new Cookie("vtk_prefTroop", user.getTroop().getGradeLevel());
+        	cookie.setMaxAge(-1); 
+        	response.addCookie(cookie);
+
 %>
 <div id="troop" class="row">
         <div class="large-24 troopPrompt columns">
