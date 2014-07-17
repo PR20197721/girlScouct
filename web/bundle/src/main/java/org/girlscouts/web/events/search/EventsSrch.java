@@ -112,7 +112,7 @@ public class EventsSrch
 		}
 		
 		//performContentSearch(searchQuery);
-		log.debug("SearchQuery  ["   +searchQuery  +"]");
+		System.out.println("SearchQuery ------------------------------> ["   +searchQuery  +"]");
 		
 		List<Hit> hits = SearchUtils.performContentSearch(searchQuery,slingRequest,this.queryBuilder,offset,searchResultsInfo);
 		for(int i=0;i<hits.size();i++){
