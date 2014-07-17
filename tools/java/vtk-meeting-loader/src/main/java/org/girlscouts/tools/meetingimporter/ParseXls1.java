@@ -124,10 +124,18 @@ public class ParseXls1 {
                     String title = (String) itr.next();
                     String titleWithoutTags = title.replaceAll("<.*?>", "");
 
+                    /************ MZ ***********/
+                    String value = docx.fmtStr(meetings.get(title));
+                    if (titleWithoutTags.equals("meeting short description") ||
+                            titleWithoutTags.equals("meeting id")) {
+                        value = Formatter.stripTags(value);
+                    } else {
+                        value = Formatter.format(value);
+                    }
+                    /************ MZ end ***********/
                     _meetings.put(
                             titleWithoutTags,
-                            new JcrCollectionHoldString(Formatter.format(docx.fmtStr(meetings
-                                    .get(title)))));
+                            new JcrCollectionHoldString(value));
                 }
 
                 meeting.setMeetingInfo(_meetings);

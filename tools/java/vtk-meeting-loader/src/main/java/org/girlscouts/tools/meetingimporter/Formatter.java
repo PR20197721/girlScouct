@@ -10,6 +10,10 @@ public class Formatter {
         System.out.println(Formatter.format(src));
     }
     
+    public static String stripTags(String src) {
+        return src.replaceAll("<.*?>", "");
+    }
+    
     public static String format(String src) {
         String dst = src;
         
