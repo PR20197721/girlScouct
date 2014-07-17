@@ -33,7 +33,7 @@ while (teamIter.hasNext()) {
     Page currentTeam = teamIter.next();
     String teamName = currentTeam.getProperties().get("jcr:title", "");
     %><div id="contactsList"><h2><%= teamName %><h2/><%
-	%><table><tbody><tr><th>Name</th><th>Title</th><th>Phone</th><th>Email</th></tr><%
+    %><table><tbody><tr><th class="name">Name</th><th class="title">Title</th><th class="phone">Phone</th><th class="email">Email</th></tr><%
     Iterator<Page> contactIter = currentTeam.listChildren();
     while (contactIter.hasNext()) {
 		Page currentContact = contactIter.next();

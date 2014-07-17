@@ -895,4 +895,18 @@ ul.inline-list.eyebrow-fontsize{
 margin-bottom: 5px;
 }
 
+.contact-list th.name {
+	width: 25%
+}
 
+.contact-list th.title {
+	width: 40%
+}
+
+.contact-list th.phone {
+	width: 30%
+}
+
+.contact-list th.email {
+	width: 5%
+}
