@@ -324,6 +324,15 @@ background-position: center;
 	background-color:#DCDCDC;
 }
 
+#main .side-nav li.active.current > div {
+background-color: #B0B0B0;
+}
+
+#main .side-nav li.active.current > div > a
+{
+	color:#ffffff;
+	font-weight:normal;
+}
 .home-section {
     padding: 15px 0px;
 }
@@ -914,3 +923,6 @@ div.wrapper .row:nth-child(2) {
 /* background-color: red; */
 padding: 5px 0;
 }
+
+
+
