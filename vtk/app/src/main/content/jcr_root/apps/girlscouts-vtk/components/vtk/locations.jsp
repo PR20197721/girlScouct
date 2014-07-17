@@ -31,9 +31,9 @@
 </div>
 <div class="row modalNav">
         <ul class="small-block-grid-1 medium-block-grid-3 large-block-grid-3 specifyDates">
-		<li class="active manageCalendarTab"><a href="#" onclick="toggleSection('calendar')">Calendar</a></li>
-                <li class="manageCalendarTab"><a href="#" onclick="toggleSection('location')">Location</a></li>
-                <li class="manageCalendarTab"><a href="#" onclick="toggleSection('activity')">Activities</a></li>
+		<li id="manageCalendarTab" class="active manageCalendarTab"><a href="#" onclick="toggleSection('calendar')">Calendar</a></li>
+                <li id="manageLocationTab" class="manageCalendarTab"><a href="#" onclick="toggleSection('location')">Location</a></li>
+                <li id="manageActivityTab" class="manageCalendarTab"><a href="#" onclick="toggleSection('activity')">Activities</a></li>
 	</ul>
 </div>
 <div class="row modalBody">

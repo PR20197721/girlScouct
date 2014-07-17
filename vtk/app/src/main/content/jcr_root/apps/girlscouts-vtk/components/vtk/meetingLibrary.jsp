@@ -64,7 +64,7 @@
 <div class="row modalNav">
 <%
 	int MAX_TAB_COUNT = 4;
-	int MAX_CHARS_PER_LINE = 33;
+	int MAX_CHARS_PER_LINE = 22;
 	int missingTabCount = MAX_TAB_COUNT  - yearPlanList.size() % MAX_TAB_COUNT;
 	if (missingTabCount == MAX_TAB_COUNT) {
 		missingTabCount = 0;
@@ -104,7 +104,7 @@
                         url+= request.getParameter("mpath")==null ? "" : "&mpath="+java.net.URLEncoder.encode(request.getParameter("mpath"));
 %>
 	<li class="manageCalendarTab <%= lineHeightCss %>">
-                <a href="#" onclick="mm('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html<%=url%>')"><%=yearPlan.getName()%></a><%= showLineBreak %>
+                <a href="#" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html<%=url%>', false, null, true)"><%=yearPlan.getName()%></a><%= showLineBreak %>
         </li>
 <%
                 }

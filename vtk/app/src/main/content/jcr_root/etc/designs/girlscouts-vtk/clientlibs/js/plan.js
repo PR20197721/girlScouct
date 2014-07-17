@@ -59,7 +59,7 @@ function reloadMeeting(){
 }
 
 function newActivity(){
-        loadModalPage('/content/girlscouts-vtk/controllers/vtk.newCustomActivity.html', false);
+        loadModalPage('/content/girlscouts-vtk/controllers/vtk.newCustomActivity.html', false, "", true);
 }
 
 function addExistActivity(activityId){
@@ -70,7 +70,14 @@ function newLocCal(){
 	loadModalPage('/content/girlscouts-vtk/controllers/vtk.locations.html', false);
 }
 
-function loadModalPage(link, showTitle, title) {
+function resetModalPage() {
+        $("#gsModal").css({overflow: 'inherit'});
+	$("span.ui-dialog-title").html("");
+        $(".ui-dialog-titlebar").show();
+}
+
+function loadModalPage(link, showTitle, title, fullPageScroll) {
+	resetModalPage();
         $( "#gsModal" ).load(link, function( response, status, xhr ) {
                 if ( status == "error" ) {
                         var msg = "Sorry but there was an error: ";
@@ -83,24 +90,45 @@ function loadModalPage(link, showTitle, title) {
 			if (dWidth >960) {
 				dWidth = 960; // max-width: 60em;
 			}
-			var modalObj = $( "#gsModal" ).dialog({
-				width:dWidth,
-				modal:true,
-				dialogClass:"modalWrap",
-				show:375,
-				"open": function() {
-					if (!showTitle) {
-						$(".ui-dialog-titlebar").hide();
-					} else {
-						$("span.ui-dialog-title").html(title); 
+			if (fullPageScroll) {
+                                $( "#gsModal" ).dialog({
+                                        width:dWidth,
+                                        modal:true,
+					height:dHeight,
+                                        dialogClass:"modalWrap",
+                                        show:375,
+                                        "open": function() {
+                                                if (!showTitle) {
+                                                        $(".ui-dialog-titlebar").hide();
+                                                } else {
+                                                        $("span.ui-dialog-title").html(title);
+                                                }
+                                                $("body").css({ overflow: 'hidden' });
+                                                $(this).css({overflow: 'scroll'});
+                                        },
+                                        "close": function() {
+                                                $("body").css({ overflow: 'inherit' });
+                                        }
+                                });
+			} else {
+				$( "#gsModal" ).dialog({
+					width:dWidth,
+					modal:true,
+					dialogClass:"modalWrap",
+					show:375,
+					"open": function() {
+						if (!showTitle) {
+							$(".ui-dialog-titlebar").hide();
+						} else {
+							$("span.ui-dialog-title").html(title); 
+						}
+						$("body").css({ overflow: 'hidden' });
+					},
+					"close": function() {
+						$("body").css({ overflow: 'inherit' });
 					}
-					$("body").css({ overflow: 'hidden' });
-					// $(this).css({border: '1px solid red'});
-				},
-				"close": function() {
-					$("body").css({ overflow: 'inherit' });
-				}
-			});
+				});
+			}
                 }
         });
 }
@@ -375,7 +403,6 @@ function bindAssetToYPC(assetId, ypcId){
 
 function doMeetingLib(){
 	loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html', false);
-	loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html');
 }
 
 function doHelp(isSched){

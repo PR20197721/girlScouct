@@ -177,7 +177,7 @@ table.planSquareWrapper tr:first-child {
         border:0 !important;
 }
 table.planSquareWrapper {
-	width: 150px;
+	width: 200px;
 	border:0 !important;
 	margin:5px;
 	padding:0;
@@ -187,7 +187,7 @@ table.planSquareWrapper td{
 }
 
 .meetingDetailHeader .planSquare .cancelled .cross {
-        margin-top: -10px;
+        margin-top: 42px;
 }
 
 #yearPlanMeetings ul{
@@ -362,13 +362,15 @@ a.direction {
 	font-size:0.8em;
 	height: 2.0em;
 }
-
 .searchResultsItem {
 	padding: 10px;
         display: inline-block;
 	border: 1px solid #eeeeee;
 	width: 100%;
 	margin: 5px;
+}
+.searchResultsItem a{
+	color:  #00ae58 !important;
 }
 .searchResultsItem .docType{
         display: inline-block;
@@ -546,6 +548,14 @@ table.meetingSelect, .meetingSelect tr:first-child {
 .locationList {
 	padding: 10px;
 }
+
+ul.formCheckboxes {
+    list-style-type: none;
+}
+ul.formCheckboxes li {
+	font-size: 0.75em;
+	white-space:nowrap;
+}
 @media only screen and (max-width: 40em) {
         .planSquare {
                 width: 70px;
@@ -573,6 +583,9 @@ table.meetingSelect, .meetingSelect tr:first-child {
 	.planSquare .cancelled .cross {
 		margin-top: -30px;
 	}
+	.meetingDetailHeader .planSquare .cancelled .cross {
+                margin-top: 25px;
+        }
 	.doubleList li {
 		float: left;
 		width: 100%;
