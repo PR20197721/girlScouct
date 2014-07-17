@@ -196,10 +196,9 @@ padding-left: 20px;
 #mobile-nav-footer a {
     font-size: 0.875em;
     font-weight: normal;
-    margin: 0px 10px 0px 0px;
+    margin: 10px 0;
 }
 #mobile-nav-footer div.footer-navigation {
-padding: 10px 0 10px 20px;
 background: url('images/small-trefoil.png') no-repeat;
 background-position: center;
 }
