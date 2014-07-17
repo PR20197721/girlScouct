@@ -5,6 +5,7 @@
                    
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
+<%@include file="newsHelper.jsp"%>
 
 
 
@@ -24,55 +25,65 @@
   String external_url = "";
   int strP = 0;
   
-  
-for(Hit hit:resultsHits){
-	Node content = hit.getNode(); 
-	Node contentNode = content.getNode("jcr:content");
-	title = contentNode.hasProperty("jcr:title")?contentNode.getProperty("jcr:title").getString():"";
-	external_url = contentNode.hasProperty("external-url")?contentNode.getProperty("external-url").getString():"";
-	if(!external_url.isEmpty()){
-		%>  
-		<div class="row">
-		 	<div class="small-24 large-24 medium-24 columns">
-			  <p><a href="<%=external_url%>"><%=title%></a></p>
-		  	</div>
-		</div>  
-		<%}else{
-		date = contentNode.hasProperty("date")?contentNode.getProperty("date").getString():"";
-         	if(!date.isEmpty()){
-    	 	 String dateString = contentNode.getProperty("date").getString();
-         	 Date newsDate = inFormatter.parse(dateString);
-         	 date = formatter.format(newsDate);
-         	 }
-		text = contentNode.hasProperty("middle/par/text/text")? contentNode.getProperty("middle/par/text/text").getString():"";
-        String[] string = text.split("\\s+");
-		StringBuilder sb_show = new StringBuilder();
-		StringBuilder sb_hidden = new StringBuilder();
-      	 %>
-      	<div class="row"> 
-     	 	<div class="small-24 large-24 medium-24 columns">
-      			<a href="<%=hit.getPath()+".html" %>"><%=title%></a>
-       		 </div>
-       		<div class="small-24 large-24 medium-24 columns">
-			<%if(!date.isEmpty()){ %> 
-                <%=date%>
-       		 </div> 
-           	<%}%> 
-       		<div class="small-24 large-24 medium-24 columns">       	
-		     <%if(!text.isEmpty()){
-       		 %>
-       			<article>
-	      			<%=text %>
-	    		</article>
-			<%}%>
-			</div>  
-	    </div>
-	    <div class="row">
-	      <div class="small-24 large-24 medium-24 columns">&nbsp;</div>
-	    </div>
+ %>
+<%  
+ if (!list.isEmpty()){
+	   	%>
+	   	<div class="row">
+	   	   <div class="small-24 large-24 medium-24 columns">
+	   	      <h5>Featured News</h5>
+	   	   </div>
+	   	</div>  
+	   	
+	   	
+		<%
+	    	Iterator<Page> items = list.getPages();
+	    	String listItemClass = null;
+	    	while (items.hasNext()){
+	            String newsLink = "";	
+	        	Page item = (Page)items.next();
+	    		Node node = item.getContentResource().adaptTo(Node.class);
+	    		
+	    		title = getTitle(node);
+	            date = getDate(node);
+				text = getText(node);			
+				external_url=genLink(resourceResolver,getExternalUrl(node));
+				request.setAttribute("path",item.getPath());
+				request.setAttribute("title",title);
+				request.setAttribute("date",date);
+				request.setAttribute("text",text);
+				request.setAttribute("external_url",external_url);
+				
+			%>
+           <%}%>
+	       <cq:include script="news-list-render.jsp"/>  
 	    
-      <% } //else
-      }
+	<%}%>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ <%
+  for(Hit hit:resultsHits)
+  {
+  	Node content = hit.getNode(); 
+	Node contentNode = content.getNode("jcr:content");
+	title=getTitle(contentNode);
+	date=getDate(contentNode);
+	external_url=genLink(resourceResolver,getExternalUrl(contentNode));
+	text = getText(contentNode);
+	request.setAttribute("path",hit.getPath());
+	request.setAttribute("title",title);
+	request.setAttribute("date",date);
+	request.setAttribute("text",text);
+	request.setAttribute("external_url",external_url);
+	%>
+	<cq:include script="news-list-render.jsp"/>
+	
+   <%}
 
 %>
 
