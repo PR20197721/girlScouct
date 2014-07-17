@@ -70,7 +70,7 @@
 		missingTabCount = 0;
 	}
 	int liveTabsLarge = MAX_TAB_COUNT - missingTabCount;
-	int liveTabsMedium = 3;
+	int liveTabsMedium = 2;
 	if (liveTabsLarge  < liveTabsMedium) {
 		liveTabsMedium = liveTabsLarge;
 	}
