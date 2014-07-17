@@ -163,14 +163,17 @@ if(meeting.getLastAssetUpdate()==null || meeting.getLastAssetUpdate().before(sys
 if( _aidTags!=null )
  for(int i=0;i<_aidTags.size();i++){
         org.girlscouts.vtk.models.Asset asset = _aidTags.get(i);
-	String aidTagDescription = "No description.";
-	if (asset.getDescription() != null) {
-                aidTagDescription = _aidTags.get(i).getDescription();
+	String aidTitle = "Untitled";
+	String aidDescription = "No description.";
+	if (asset.getTitle() != null) {
+                aidTitle = asset.getTitle();
 	}
+        if (asset.getDescription() != null) {
+                aidDescription = asset.getDescription();
+        }
 %>
 	<li>
-		 <a href="<%=asset.getRefId()%>" target="_blank"><%=asset.getPath()%></a>
-		<p class="description"><%=aidTagDescription %></p>
+		<a href="<%=asset.getRefId()%>" target="_blank"><%=aidTitle %></a> - <%=aidDescription %>
 	 </li>
 <% 
  }
