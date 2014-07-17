@@ -248,8 +248,7 @@ public class TraverseFind {
                     System.err.println("@@@@@@@@@@@@@@@!!!!!SECONDLEVEL!!!!!  " + fileLoc);
                 }
                 
-                int currentLevel;
-                // Not Bullet
+                int currentLevel = -1;
                 if (Par.getNumID() == null) {
                     currentLevel = -1;
                 } else {
@@ -257,11 +256,10 @@ public class TraverseFind {
                 }
                 
                 if (currentLevel > level) {
-                    txt = txt.substring(0, txt.length() - "</li>".length());
                     txt += "<ul>";
                     level = currentLevel;
                 } else if (currentLevel < level) {
-                    txt += "</ul></li>";
+                    txt += "</ul>";
                     level = currentLevel;
                 }
                 /**********MZ END**********/
