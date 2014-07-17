@@ -12,6 +12,8 @@
 
 
 <li  class="meeting <%=( user.getYearPlan().getSchedule()==null || new java.util.Date().before(date)) ? "ui-state-default" : "ui-state-default ui-state-disabled"%>" value="<%=meetingCount%>">
+	
+	<div class="myheader" style="float:left;"><img src="/etc/designs/girlscouts-usa-green/images/hamburger.png" border="0"/></div>
 	<div  class="row">
                 <div class="large-4 medium-5 small-7 columns">
 			<div class="planSquare">
