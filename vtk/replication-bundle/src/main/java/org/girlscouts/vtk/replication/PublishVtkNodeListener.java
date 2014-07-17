@@ -6,7 +6,6 @@ import javax.jcr.Node;
 import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
-import javax.jcr.Value;
 import javax.jcr.observation.EventIterator;
 import javax.jcr.observation.EventListener;
 
@@ -58,7 +57,7 @@ public class PublishVtkNodeListener implements EventListener, Runnable {
                     destNode = JcrUtil.createPath(destPath, "nt:unstructured", "nt:unstructured", session, false);
                     destNode.setProperty(Constants.NODE_REMOVED_PROPERTY, true);
                 }
-                destNode.setProperty(Constants.FROM_PUBLISHER_PROPERTY, (Value)null);
+                destNode.setProperty(Constants.FROM_PUBLISHER_PROPERTY, publishId);
                 session.save();
             } catch (RepositoryException e) {
                 log.error("Repository Exception. Event not handled.");
@@ -72,6 +71,8 @@ public class PublishVtkNodeListener implements EventListener, Runnable {
             while (iter.hasNext()) {
                 Node node = iter.nextNode();
                 replicator.replicate(session, ReplicationActionType.ACTIVATE, node.getPath(), opts);
+                node.remove();
+                session.save();
             }
         } catch (RepositoryException e) {
             log.error("Repository Exception while replicating nodes.");
