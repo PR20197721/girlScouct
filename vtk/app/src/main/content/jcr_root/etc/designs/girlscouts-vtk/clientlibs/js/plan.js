@@ -70,7 +70,14 @@ function newLocCal(){
 	loadModalPage('/content/girlscouts-vtk/controllers/vtk.locations.html', false);
 }
 
+function resetModalPage() {
+        $("#gsModal").css({overflow: 'inherit'});
+	$("span.ui-dialog-title").html("");
+        $(".ui-dialog-titlebar").show();
+}
+
 function loadModalPage(link, showTitle, title, fullPageScroll) {
+	resetModalPage();
         $( "#gsModal" ).load(link, function( response, status, xhr ) {
                 if ( status == "error" ) {
                         var msg = "Sorry but there was an error: ";
@@ -84,7 +91,7 @@ function loadModalPage(link, showTitle, title, fullPageScroll) {
 				dWidth = 960; // max-width: 60em;
 			}
 			if (fullPageScroll) {
-                                var modalObj = $( "#gsModal" ).dialog({
+                                $( "#gsModal" ).dialog({
                                         width:dWidth,
                                         modal:true,
 					height:dHeight,
@@ -104,7 +111,7 @@ function loadModalPage(link, showTitle, title, fullPageScroll) {
                                         }
                                 });
 			} else {
-				var modalObj = $( "#gsModal" ).dialog({
+				$( "#gsModal" ).dialog({
 					width:dWidth,
 					modal:true,
 					dialogClass:"modalWrap",
@@ -116,7 +123,6 @@ function loadModalPage(link, showTitle, title, fullPageScroll) {
 							$("span.ui-dialog-title").html(title); 
 						}
 						$("body").css({ overflow: 'hidden' });
-						// $(this).css({border: '1px solid red'});
 					},
 					"close": function() {
 						$("body").css({ overflow: 'inherit' });
