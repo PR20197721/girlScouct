@@ -38,6 +38,25 @@
 	exlDates= exlDates==null ? "" : exlDates;
 %>
 	<ul class="doubleList">
+	
+	
+	
+	
+	
+	<%
+	UserGlobConfig ubConf =userDAO.getUserGlobConfig();
+	//out.println("TEST: "+ (ubConf==null) );
+
+	out.println("VacationDates: "+ ubConf.getVacationDates() );
+	
+	/*** SAVE API
+		ubConf.setVacationDates("|09/07/2014|10/12/2014|");
+		userDAO.updateUserGlobConfig();
+		*/
+	%>
+	
+	
+	
 		<li><label><input type="checkbox" name="exclDt" value="09/07/2014" <%=("".equals(exlDates) || exlDates.contains("09/07/2014")) ? "CHECKED" : ""  %>/>09/07/2014 (Labor Day)</label></li>
 		<li><label><input type="checkbox" name="exclDt" value="10/12/2014" <%=("".equals(exlDates) || exlDates.contains("10/12/2014")) ? "CHECKED" : ""  %>/>10/12/2014 (Columbus Day)</label></li>
                 <li><label><input type="checkbox" name="exclDt" value="11/11/2014" <%=("".equals(exlDates) || exlDates.contains("11/11/2014")) ? "CHECKED" : ""  %>/>11/11/2014 (Veteran's Day Day)</label></li>
