@@ -64,7 +64,7 @@
 <div class="row modalNav">
 <%
 	int MAX_TAB_COUNT = 4;
-	int MAX_CHARS_PER_LINE = 33;
+	int MAX_CHARS_PER_LINE = 22;
 	int missingTabCount = MAX_TAB_COUNT  - yearPlanList.size() % MAX_TAB_COUNT;
 	if (missingTabCount == MAX_TAB_COUNT) {
 		missingTabCount = 0;
