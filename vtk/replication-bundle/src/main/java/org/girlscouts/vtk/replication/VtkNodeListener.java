@@ -16,6 +16,7 @@ import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
+import org.apache.sling.commons.scheduler.Scheduler;
 import org.apache.sling.jcr.api.SlingRepository;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
@@ -29,7 +30,7 @@ import com.day.cq.replication.Replicator;
     @Property(name=Constants.MODE_PROPERTY, description="author/publish"),
     @Property(name=Constants.FROM_PUBLISHER_PROPERTY, description="This publisher ID")
 })
-public class VtkNodeListener implements Constants {
+public class VtkNodeListener {
     private static final String[] MONITOR_PATHS = { Constants.ROOT_PATH };
     private static final int PROPERTY_UPDATE = Event.PROPERTY_ADDED
             | Event.PROPERTY_CHANGED | Event.PROPERTY_REMOVED;
@@ -41,11 +42,14 @@ public class VtkNodeListener implements Constants {
     
     @Reference
     private Replicator replicator;
+    
+    @Reference
+    private Scheduler scheduler;
+    private boolean isScheduled = false;
 
     private Session session;
     private ObservationManager manager;
-    private EventListener nodeUpdatedListener;
-    private EventListener nodeRemovedListener;
+    private EventListener listener;
     
     @Activate
     protected void activate(ComponentContext context) throws Exception {
@@ -68,30 +72,25 @@ public class VtkNodeListener implements Constants {
             final String[] types = { Constants.PRIMARY_TYPE };
 
             if (mode.equals("author")) {
-                this.nodeUpdatedListener = new AuthorVtkNodeListener(session, replicator);
-                this.nodeRemovedListener = new AuthorVtkNodeRemovedListener(session, replicator);
-                for (int i = 0; i < MONITOR_PATHS.length; i++) {
-                    manager.addEventListener(this.nodeUpdatedListener, PROPERTY_UPDATE,
-                            MONITOR_PATHS[i], true, null, types, false);
-                }
-                // Author should listen to the grave yard for node removal.
-                manager.addEventListener(this.nodeRemovedListener, Event.NODE_ADDED,
-                        Constants.NODE_GRAVEYARD_ROOT, true, null, types, false);
+                this.listener = new AuthorVtkNodeListener(session, replicator);
+                // On author, listen to update events only, on replication root
+                manager.addEventListener(this.listener, PROPERTY_UPDATE,
+                        Constants.NODE_REPLICATION_ROOT, true, null, types, false);
             } else {
                 String publishId = (String)dict.get(Constants.FROM_PUBLISHER_PROPERTY);
                 if (publishId == null) {
                     publishId = "publish";
                 }
-                this.nodeUpdatedListener = new PublishVtkNodeListener(session, replicator, publishId);
-                this.nodeRemovedListener = new PublishVtkNodeRemovedListener(session, replicator, publishId);
+                this.listener = new PublishVtkNodeListener(session, replicator, publishId);
+                // On publish, listen to every interested path, both update and remove
                 for (int i = 0; i < MONITOR_PATHS.length; i++) {
-                    manager.addEventListener(this.nodeUpdatedListener, PROPERTY_UPDATE,
-                            MONITOR_PATHS[i], true, null, types, false);
-                    manager.addEventListener(this.nodeRemovedListener, Event.NODE_REMOVED,
+                    manager.addEventListener(this.listener, PROPERTY_UPDATE | Event.NODE_REMOVED,
                             MONITOR_PATHS[i], true, null, types, false);
                 }
+                
+                // TODO: make interval configurable
+                scheduler.addPeriodicJob(Constants.JOB_NAME, this.listener, null, 60L, true);
             }
-
         } else {
             log.error("Listeners not added.");
         }
@@ -99,14 +98,21 @@ public class VtkNodeListener implements Constants {
 
     @Deactivate
     protected void deactivate(ComponentContext componentContext) {
+        // Unregister the listeners
         if (manager != null) {
             try {
-                manager.removeEventListener(this.nodeRemovedListener);
-                manager.removeEventListener(this.nodeUpdatedListener);
+                manager.removeEventListener(this.listener);
             } catch (RepositoryException e) {
                 log.error("Error deactivating listeners");
             }
         }
+
+        // Cancel the queue job on publish
+        if (scheduler != null && isScheduled) {
+            scheduler.removeJob(Constants.JOB_NAME);
+            isScheduled = false;
+        }
+        
         if (session != null) {
             session.logout();
             session = null;

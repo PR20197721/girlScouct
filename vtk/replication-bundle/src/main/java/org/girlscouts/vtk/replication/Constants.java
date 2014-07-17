@@ -10,4 +10,5 @@ public interface Constants {
     static String MODE_PROPERTY = "org.girlscouts.vtk.replication.mode";
     static int EVENT_UPDATE = 0;
     static int EVENT_REMOVE = 1;
+    static String JOB_NAME = "Publish VTK Node Job";
 }
