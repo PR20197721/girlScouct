@@ -230,6 +230,7 @@ public class TraverseFind {
             java.util.List<XWPFParagraph> parags = hdoc.getParagraphs();
 
             String txt = "";
+            int level = -1;
             for (int p = 0; p < parags.size(); p++) {
                 XWPFParagraph Par = parags.get(p);
 
@@ -242,12 +243,32 @@ public class TraverseFind {
                             + new TraverseFind().frmFont(Par.getRuns().get(0)
                                     .getFontFamily()) + ";\">";
 
+                /**********MZ**********/
                 if (Par.getNumIlvl() != null && Par.getNumIlvl().intValue() >= 1) {
                     System.err.println("@@@@@@@@@@@@@@@!!!!!SECONDLEVEL!!!!!  " + fileLoc);
                 }
                 
-                if (Par.getNumID() != null)
+                int currentLevel;
+                // Not Bullet
+                if (Par.getNumID() == null) {
+                    currentLevel = -1;
+                } else {
+                    currentLevel = Par.getNumIlvl().intValue();
+                }
+                
+                if (currentLevel > level) {
+                    txt = txt.substring(0, txt.length() - "</li>".length());
+                    txt += "<ul>";
+                    level = currentLevel;
+                } else if (currentLevel < level) {
+                    txt += "</ul></li>";
+                    level = currentLevel;
+                }
+                /**********MZ END**********/
+
+                if (Par.getNumID() != null) {
                     txt += "<li>";
+                }
 
                 java.util.List<XWPFRun> runs = Par.getRuns();
                 for (int y = 0; y < runs.size(); y++) {
