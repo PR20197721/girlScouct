@@ -19,7 +19,6 @@
 <script>
 $(function() {
 		$("#newCustActivity_date").inputmask("mm/dd/yyyy", {});
-
 		$('#newCustActivity_date').datepicker({minDate: 0});
 
 		$("#newCustActivity_startTime").inputmask("h:s", {});
@@ -87,7 +86,7 @@ required: "Please enter a valid amount. Default 0.00",
 		     },
 newCustActivity_date:{
 required: "Please enter valid start date",
-	  minlength: "Valid format MM/dd/yyyy"
+	  minlength: "Valid format mm/dd/yyyy"
 		     }
 	  }
 });
@@ -167,12 +166,10 @@ border:5px solid #000;
         </div>
 </div>
 <div class="row modalNav">
-        <div id="createActivityTab" class="small-12 columns active">
-                <a href="#" onclick="toggleSection('create')">Create Activity</a>
-        </div>
-        <div id="pickActivityTab" class="small-12 columns">
-                <a href="#" onclick="toggleSection('pick')">Pick Activity</a>
-        </div>
+        <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-2 specifyDates">
+                <li id="createActivityTab" class="active manageCalendarTab"><a href="#" onclick="toggleSection('create')">Custom Activity</a></li>
+                <li id="pickActivityTab" class="manageCalendarTab"><a href="#" onclick="toggleSection('pick')">Council Activity</a></li>
+        </ul>
 </div>
 <div class="row modalBody">
         <div class="small-24 columns">
@@ -230,80 +227,80 @@ border:5px solid #000;
 
                 </div>
                 <div id="pickActiviySection">
-<form>
+<form id="schFrm">
 <div class="sectionBar">Add activity from the Council Calendar</div>
+
+<%
+
+SearchTag search = meetingDAO.searchA();
+java.util.Map<String, String> levels = search.getLevels();
+java.util.Map<String, String> categories =search.getCategories();
+java.util.Map<String, String> region =search.getRegion();
+
+%>
+<form>
 <div class="row">
-        <div class="small-24 medium-6 large-6 columns"><label for="existActivSFind" ACCESSKEY="f">Find Activity by</label></div>
-        <div class="small-24 medium-18 large-18 columns"><input type="text" id="existActivSFind" value="" /></div>
+        <div class="small-24 medium-6 large-6 columns"><label for="sch_keyword" ACCESSKEY="f">Find Activity by</label></div>
+        <div class="small-24 medium-18 large-18 columns"><input type="text" id="sch_keyword" value="" onKeyPress="return submitenter(this,event)"/></div>
 </div>
 <div class="row">
-        <div class="small-12 medium-6 large-6 columns"><label for="existActivSMon" ACCESSKEY="m">Month and Year</label></div>
-        <div class="small-6 medium-6 large-6 columns">
-		<select id="existActivSMon">
-			<option value="01">Jan</option>
-			<option value="02">Feb</option>
-                        <option value="03">Mar</option>
-                        <option value="04">Apr</option>
-                        <option value="05">May</option>
-                        <option value="06">Jun</option>
-                        <option value="07">Jul</option>
-                        <option value="08">Aug</option>
-                        <option value="09">Sep</option>
-                        <option value="10">Oct</option>
-                        <option value="11">Nov</option>
-                        <option value="12">Dec</option>
-		</select>
-	</div>
-        <div class="small-6 medium-6 large-6 columns">
-		<select id="existActivSYr">
-			<option value="2014">2014</option>
-			<option value="2015">2015</option>
-		</select>
-        </div>  
-	<div class="hide-for-small medium-6 large-6 columns">&nbsp;</div>
-</div>
-<div class="row">
-        <div class="small-12 medium-6 large-6 columns"><label for="existActivSDtFrom" ACCESSKEY="r">Date Range</label></div>
-        <div class="small-6 medium-6 large-6 columns"><input type="text" id="existActivSDtFrom" /></div>
-        <div class="small-6 medium-6 large-6 columns"><input type="text" id="existActivSDtTo" /></div>
+        <div class="small-12 medium-6 large-6 columns"><label for="sch_startDate" ACCESSKEY="r">Date Range</label></div>
+        <div class="small-6 medium-6 large-6 columns"><input type="text" id="sch_startDate"  value="" class="date calendarField"/></div>
+        <div class="small-6 medium-6 large-6 columns"><input type="text" id="sch_endDate"  value="" class="date calendarField"/></div>
         <div class="hide-for-small medium-6 large-6 columns">&nbsp;</div>
 </div>
 <div class="row">
-        <div class="small-24 medium-8 large-6 columns"><label for="existActivSReg" ACCESSKEY="g">Region</label></div>
+        <div class="small-24 medium-8 large-6 columns"><label for="sch_region" ACCESSKEY="g">Region</label></div>
         <div class="small-24 medium-16 large-18 columns">
-		<select id="existActivSReg">
-			<option value="region1">Region1</option>
+		<select id="sch_region">
+			<option value="">Select Region</option>
+<% java.util.Iterator itr2= region.keySet().iterator();
+	while( itr2.hasNext() ){
+		String str=(String) itr2.next();
+%>
+	<option value="<%= str %>"><%= str %></option>
+<% } %>
 		</select>
 	</div>
 </div>
+<br/>
 <div class="row">
-        <div class="small-24 medium-8 large-6 columns"><label for="existActivSLevl" ACCESSKEY="p">Program Level</label></div>
+        <div class="small-24 medium-8 large-6 columns"><label for="sch_lvl" ACCESSKEY="p">Program Level</label></div>
         <div class="small-24 medium-16 large-18 columns">
-		<input type="checkbox" value="1" name="existActivSLevl"/>1
-		<input type="checkbox" value="2" name="existActivSLevl"/>2
-		<input type="checkbox" value="3" name="existActivSLevl"/>3
-		<input type="checkbox" value="4" name="existActivSLevl"/>4
-		<input type="checkbox" value="5" name="existActivSLevl"/>5
-		<input type="checkbox" value="6" name="existActivSLevl"/>6
+        <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-3 formCheckboxes">
+
+		<% java.util.Iterator itr1= levels.keySet().iterator();
+int i=0;
+while( itr1.hasNext() ){
+i++;
+String str=(String) itr1.next();
+%>
+	<li><input type="checkbox" name="sch_lvl" id="sch_lvl_<%=i %>" value="<%= str %>"/>&nbsp;<label for="sch_lvl_<%=i %>"><%= str %></label></li>
+<% } %>
+	</ul>
         </div>  
 </div>
+<br/>
 <div class="row">
-        <div class="small-24 medium-8 large-6 columns"><label for="existActivSCat" ACCESSKEY="i">Categories</label></div>
+        <div class="small-24 medium-8 large-6 columns"><label for="sch_cats" ACCESSKEY="i">Categories</label></div>
         <div class="small-24 medium-16 large-18 columns">
-		<input type="checkbox" value="1" name="existActivSCat"/>1
-		<input type="checkbox" value="2" name="existActivSCat"/>2
-		<input type="checkbox" value="3" name="existActivSCat"/>3
-		<input type="checkbox" value="4" name="existActivSCat"/>4
-		<input type="checkbox" value="5" name="existActivSCat"/>5
-		<input type="checkbox" value="6" name="existActivSCat"/>6
+        <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-3 formCheckboxes">
+		<% java.util.Iterator itr= categories.keySet().iterator();
+i=0;
+	while( itr.hasNext() ){
+i++;
+		String str=(String) itr.next();
+%>
+        <li><input type="checkbox" name="sch_cats" id="sch_cats_<%=i %>" value="<%= str %>"/>&nbsp;<label for="sch_cats_<%=i %>"><%= str %></label></li>
+<% } %>
+	<ul>
         </div>
 </div>
 
-<br/><input type="button" value="View Activity" onclick="searchActivity()" />
+<br/><input type="button" value="View Activities" onclick='src11()' />
+</form>
 
-<div id="listExistActivity"></div>
-
-
+<div id="searchResults"></div>
 </form>
                 </div>
         </div>
@@ -323,4 +320,79 @@ border:5px solid #000;
                         $("#createActivitySection").show();
                 }
         }
+function submitenter(myfield,e) {
+	var keycode;
+	if (window.event) {
+		keycode = window.event.keyCode;
+	} else if (e) {
+		keycode = e.which;
+	} else {
+		return true;
+	}
+
+	if (keycode == 13) {
+		src11();
+		return false;
+	} else {
+		return true;
+	}
+}
+
+$('#sch_startDate').datepicker({minDate: 0});
+$('#sch_endDate').datepicker({minDate: 0});
+
+function checkAll(x) {
+	
+		var container ="";
+	   var arrMarkMail = document.getElementsByName(x);
+	   for (var i = 0; i < arrMarkMail.length; i++) {
+	     if(arrMarkMail[i].checked)
+	    	 container += arrMarkMail[i].value +"|";
+	   }
+	   return container;
+	   
+	}
+	
+	
+	
+function src11(){
+	
+	var  keywrd = $.trim(document.getElementById("sch_keyword").value);
+	if( keywrd.length>0 && keywrd.length<3  ){alert("Min 3 character search for keyword: "+ keywrd);return false;}
+	
+	var lvl=  $.trim(checkAll('sch_lvl'));
+	var cat=  $.trim(checkAll('sch_cats'));
+	var startDate = $.trim(document.getElementById("sch_startDate").value);
+	var endDate = $.trim(document.getElementById("sch_endDate").value);
+	var region = $.trim(document.getElementById("sch_region").value);
+	
+	if( startDate != '' && endDate=='' )
+		{alert('Missing end date');return false; }
+	if( startDate =='' && endDate!='' )
+		{alert('Missing start date');return false;}
+	
+	if( keywrd=='' && lvl=='' && cat =='' && startDate=='' && endDate=='' && region=='' ){
+		alert("Please select search criteria.");
+		return false;
+	}
+	
+	$.ajax({
+		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
+		type: 'POST',
+		data: { 
+			srch:true,
+			keywrd:keywrd,
+			lvl:lvl,
+			cat:cat,
+			startDate:startDate,
+			endDate:endDate,
+			region:region,
+			a:Date.now()
+		},
+		success: function(result) {
+			$("#searchResults").load('/content/girlscouts-vtk/controllers/vtk.searchActivity.html');
+		}
+	});
+	
+}
 </script>

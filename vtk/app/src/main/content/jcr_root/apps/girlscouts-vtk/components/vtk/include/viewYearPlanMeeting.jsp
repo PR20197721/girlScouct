@@ -15,13 +15,14 @@
 	}
 %>
 <br/>
-<div class="caca row meetingDetailHeader">
-	<div class="small-2 columns previous">
+<div class="row meetingDetailHeader">
+	<div class="small-12 medium-8 large-7 columns">
+		<table class="planSquareWrapper">
+			<tr>
 <%if( prevDate!=0 ){ %>
-		<a class="direction" href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=prevDate%>"><img width="40" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/previous.png"/></a>
+				<td><a class="direction" href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=prevDate%>"><img width="20" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/previous.png"/></a></td>
 <%} %>
-	</div>
-        <div class="small-4 columns">
+				<td>
 		<div class="planSquare">
 <%
 		if( user.getYearPlan().getSchedule()!=null ) {
@@ -43,13 +44,14 @@
         <%}%>
 			</div>
 		</div>
-	</div>
-        <div class="small-2 columns next">
+				</td>
 <%if( nextDate!=0 ){ %>
-		<a class="direction" href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=nextDate%>"><img width="40" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/next.png"/></a>
+				<td><a class="direction" href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=nextDate%>"><img width="20" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/next.png"/></a></td>
 <%} %>
+			</tr>
+		</table>
 	</div>
-        <div class="small-12 columns">
+        <div class="small-12 medium-11 large-13 columns">
 		<h1>Meeting: <%= meetingInfo.getName() %></h1>
 		<%= meetingInfo.getAidTags() %>
 		<p>Location:
@@ -74,9 +76,7 @@
 	}
 %>
 	</div>
-        <div class="small-4 columns ">
-		  <!--  <a id="viewMeetingButton" href="#" class="mLocked">change this meeting</a>  -->
-		 <!--  <a id="viewMeetingButton" href="/content/girlscouts-vtk/en/vtk.meetingLibrary.html?mpath=<%=meeting.getPath()%>&xx=<%=searchDate.getTime()%>" class="mLocked">change this meeting</a> -->	
+        <div class="hide-for-small medium-5 large-4 columns ">
 		<a href="javascript:void(0)" class="mLocked" onclick="mm('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=meeting.getPath()%>&xx=<%=searchDate.getTime()%>')">change this meeting</a>
 	
 	
@@ -91,19 +91,29 @@
         <div class="small-1 columns">&nbsp;</div>
 </div>
 <div class="row meetingDetailDescription">
+<!--  org div
         <div class="small-8 columns"><a id="overviewButtonX" href="javascript:void(0)" onclick="openClose1('m_overview', 'm_activities')">overview</a></div>
         <div class="small-8 columns"><a id="activityPlanButtonX" href="javascript:void(0)" onclick="openClose1('m_activities', 'm_overview' )">activity plan</a></div>
+      -->
+      
+        <div class="small-8 columns"><a id="overviewButtonX" href="javascript:void(0)" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isOverview=true', true, 'Overview')">overview</a></div>
+        <div class="small-8 columns"><a id="activityPlanButtonX" href="javascript:void(0)" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isActivity=true', true, 'Activity')">activity plan</a></div>
+        
+      
+      
+      
+      
         <div class="small-8 columns"><!--a id="materialsListButton" href="#">materials list</a--></div>
 </div>
 <div class="row meetingDetailDescription">
         <div class="small-1 columns">&nbsp;</div>
         <div class="small-22 columns">
 		<div id="m_overview" style="display:none;">
-			 <h3>Overview:</h3><%=meetingInfoItems.get("overview").getStr() %> 
+			 <!--  <h3>Overview:</h3><%=meetingInfoItems.get("overview").getStr() %> -->
 		</div>
 		<div id="m_activities"  style="display:none;">
 <%
-
+/*
 	java.util.Iterator itr1=  meetingInfoItems.keySet().iterator(); 
 	while( itr1.hasNext()){
 		String name= (String) itr1.next();
@@ -113,7 +123,7 @@
 			<h3><%=name %></h3><%=meetingInfoItems.get(name).getStr() %>
 <%
 	}
-
+*/
 %>
 		</div>
         </div>
@@ -190,21 +200,15 @@ if(meeting.getLastAssetUpdate()==null || meeting.getLastAssetUpdate().before(sys
 
 if( _aidTags!=null )
  for(int i=0;i<_aidTags.size();i++){
+	String aidTagDescription = "No description.";
+	if (_aidTags.get(i).getDescription() != null) {
+		aidTagDescription = java.net.URLEncoder.encode(_aidTags.get(i).getDescription());
+	}
 	%><li>
-	<!--  POP NEW WINDOW  <a href="<%=_aidTags.get(i).getRefId()%>"  target="_blank"><%=_aidTags.get(i).getDescription()%></a> -->
-	 <%=_aidTags.get(i).getType() %> :: <a href="#modal" id="<%=_aidTags.get(i).getUid() %>" onclick="x12('<%=_aidTags.get(i).getRefId()%>', '<%=java.net.URLEncoder.encode(_aidTags.get(i).getDescription())%>', '<%=_aidTags.get(i).getUid() %>')"><%=_aidTags.get(i).getDescription()%></a>
+	 <%=_aidTags.get(i).getType() %> :: <a href="<%=_aidTags.get(i).getRefId()%>" target="_blank"><%=aidTagDescription %></a>
 	
 	 </li><% 
  }
-
-
-
-
-
-
-
-
-	//out.println(meetingInfo.getId() +" : " + meeting.getUid() );
 	/*
 	List<org.girlscouts.vtk.models.Search> _aidTags =  meetingDAO.getAidTag( meetingInfo.getAidTags(), meetingInfo.getId());
 	for(int i=0;i<_aidTags.size();i++){
@@ -223,34 +227,6 @@ if( _aidTags!=null )
 	}
 	*/
 %>
-    <!-- GOOD : moved to manageAssets 
-       <div style="background-color:orange;">
-        	<h4>Upload File**</h4>
-        		<%String assetId = new java.util.Date().getTime() +"_"+ Math.random(); %>
-    
-              <form action="/content/girlscouts-vtk/controllers/auth.asset.html" method="post"  
-              			onsubmit="return bindAssetToYPC( '/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets/<%=assetId %>', '<%=meeting.getUid() %>' )"  enctype="multipart/form-data">
-              
-                       <input type="hidden" name="loc" value="/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets"/>
-              Asset Name: <input type="text" id="assetDesc" name="assetDesc" value="" />
-               <input type="hidden" name="id" value="<%=assetId%>"/>     
-                <input type="hidden" name="me" value="<%=searchDate.getTime()%>"/>      
-               <input type="hidden" name="owner" value="<%=user.getId()%>"/>
-               <input type="hidden" name="createTime" value="<%=new java.util.Date()%>"/>         
-			   <input type="file" id="custasset" name="custasset" size="50" />
-               <br />
-                <input type="submit" value="Upload File" />
-         </form>
-      
-        </div>
-    
-        -->
-        
-        
-        
-        
-        
-        
 <div class="sectionHeader">Meeting Agenda</div>
 
 	<a href="javascript:void(0)" onclick="revertAgenda('<%=meeting.getPath()%>')"  class="mLocked">Revert to Original Agenda</a>
@@ -272,7 +248,8 @@ if( _aidTags!=null )
 				<td>
 				
 					<%if( !isLocked) {%>
-						<a href="javascript:void(0)"  class="mLocked" onclick="editAgenda('<%=ii %>')"><%=_activity.getName() %></a>
+						<!--  <a href="javascript:void(0)"  class="mLocked" onclick="editAgenda('<%=ii %>')"><%=_activity.getName() %></a> -->
+						<a href="javascript:void(0)"  class="mLocked" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isAgenda=<%=ii %>', true, 'Agenda')"><%=_activity.getName() %></a>
 					<%}else{ %>
 						<%=_activity.getName() %>
 					<%} %>
@@ -303,10 +280,11 @@ if( _aidTags!=null )
 	</tr>
 </table>
 <%
-	for(int ii=0;ii< _activities.size();ii++){ 
+	if(false)
+	 for(int ii=0;ii< _activities.size();ii++){ 
 		Activity _activity = _activities.get(ii);
 %>
-<%@include file="editActivity.jsp" %> 
+		<%@include file="editActivity.jsp" %> 
 <%
 	}
 %>
@@ -337,8 +315,6 @@ if( _aidTags!=null )
 </div>
 
 <br/><br/>
- 
-
 
 <%if( !isLocked ){ %>
 
@@ -364,7 +340,7 @@ if( _aidTags!=null )
 		}
 		});
 	</script>
-	<%@include file="../include/manageCommunications.jsp" %>
+	<%--@include file="../include/manageCommunications.jsp" --%>
 <%}else{ %>	
 	
 	
@@ -374,4 +350,4 @@ if( _aidTags!=null )
 </style>
 
 
-<% }//ednelse %>
+<% } %>

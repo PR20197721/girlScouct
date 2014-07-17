@@ -10,10 +10,33 @@
 SearchTag search = meetingDAO.searchA();
 java.util.Map<String, String> levels = search.getLevels();
 java.util.Map<String, String> categories =search.getCategories();
+java.util.Map<String, String> region =search.getRegion();
 
 %>
 <form id="schFrm">
 <input type="text" id="sch_keyword" value=""/>
+
+
+<fieldset>
+<select id="sch_region">
+<option value="">Select Region</option>
+<% java.util.Iterator itr2= region.keySet().iterator();
+
+	while( itr2.hasNext() ){
+		String str=(String) itr2.next();
+%>
+	<option value="<%= str %>"><%= str %></option>
+<% } %>
+
+	
+</select>
+
+
+<br/>From Date<input type="text" id="sch_startDate"  value=""/>
+<br/>To Date<input type="text" id="sch_endDate"  value=""/>
+</fieldset>
+
+
 <h2>Categories</h2>
 <% java.util.Iterator itr= categories.keySet().iterator();
 
@@ -38,7 +61,8 @@ String str=(String) itr1.next();
 
 <script>
 
-
+$('#sch_startDate').datepicker({minDate: 0});
+$('#sch_endDate').datepicker({minDate: 0});
 
 function checkAll(x) {
 	
@@ -56,10 +80,24 @@ function checkAll(x) {
 	
 function src11(){
 	
-	var  keywrd = document.getElementById("sch_keyword").value;
-	var lvl=  checkAll('sch_lvl');
-	var cat=  checkAll('sch_cats');
+	var  keywrd = $.trim(document.getElementById("sch_keyword").value);
+	if( keywrd.length>0 && keywrd.length<3  ){alert("Min 3 character search for keyword: "+ keywrd);return false;}
 	
+	var lvl=  $.trim(checkAll('sch_lvl'));
+	var cat=  $.trim(checkAll('sch_cats'));
+	var startDate = $.trim(document.getElementById("sch_startDate").value);
+	var endDate = $.trim(document.getElementById("sch_endDate").value);
+	var region = $.trim(document.getElementById("sch_region").value);
+	
+	if( startDate != '' && endDate=='' )
+		{alert('Missing end date');return false; }
+	if( startDate =='' && endDate!='' )
+		{alert('Missing start date');return false;}
+	
+	if( keywrd=='' && lvl=='' && cat =='' && startDate=='' && endDate=='' && region=='' ){
+		alert("Please select search criteria.");
+		return false;
+	}
 	
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
@@ -67,7 +105,11 @@ function src11(){
 		data: { 
 			srch:true,
 			keywrd:keywrd,
-			tags:lvl+"|"+ cat,
+			lvl:lvl,
+			cat:cat,
+			startDate:startDate,
+			endDate:endDate,
+			region:region,
 			a:Date.now()
 		},
 		success: function(result) {

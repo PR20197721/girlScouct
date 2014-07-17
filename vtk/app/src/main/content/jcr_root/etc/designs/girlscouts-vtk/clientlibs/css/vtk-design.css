@@ -8,6 +8,9 @@ ul.tabs {
 .alert{
         color: #ff0000;
 }
+.hidden {
+	visibility: hidden;
+}
 .tabs .label {
 	padding: 10px 18px;
         float: left;
@@ -135,6 +138,9 @@ ul.tabs {
         z-index:100;
 	font-size: 0.8em;
 }
+.meetingDetailHeader .planSquare .count {
+	padding-top: 2px;
+}
 .planSquare .date {
         top: 5px;
 }
@@ -167,8 +173,21 @@ ul.tabs {
 .planSquare .cancelled .cross {
         margin-top: -45px;
 }
+table.planSquareWrapper tr:first-child {
+        border:0 !important;
+}
+table.planSquareWrapper {
+	width: 200px;
+	border:0 !important;
+	margin:5px;
+	padding:0;
+}
+table.planSquareWrapper td{
+	text-align: center;
+}
+
 .meetingDetailHeader .planSquare .cancelled .cross {
-        margin-top: -10px;
+        margin-top: 42px;
 }
 
 #yearPlanMeetings ul{
@@ -343,13 +362,15 @@ a.direction {
 	font-size:0.8em;
 	height: 2.0em;
 }
-
 .searchResultsItem {
 	padding: 10px;
         display: inline-block;
 	border: 1px solid #eeeeee;
 	width: 100%;
 	margin: 5px;
+}
+.searchResultsItem a{
+	color:  #00ae58 !important;
 }
 .searchResultsItem .docType{
         display: inline-block;
@@ -472,20 +493,22 @@ img.align-left { float:left; margin: 0; }
 	display: none;
 }
 
-.modalNav > div {
+.modalNav ul {
         background: #efefef;
+}
+.modalNav li {
 	border: 1px solid #cccccc;
 	padding:10px;
 	text-align: center;
 	font-weight: 1.2em;
 }
-.modalNav > div a {
+.modalNav li a {
         color: #00ae58;
 }
-.modalNav > div.active {
+.modalNav li.active {
         background: #009447;
 }
-.modalNav > div.active a {
+.modalNav li.active a {
         color: #c1ead4;
 }
 #calMng table {
@@ -505,7 +528,14 @@ table.yearMeetingList tr:hover {
 	background:#bde4ca;
 }
 .manageCalendarTab {
-	height: 50px;
+	height: 3.4em !important;
+	line-height: 1;
+}
+.specifyDates .manageCalendarTab {
+        height: 2.4em !important;
+}
+.manageCalendarTab.double {
+	line-height: 2;
 }
 table.meetingSelect, .meetingSelect tr:first-child {
 	border: 0px;
@@ -515,6 +545,17 @@ table.meetingSelect, .meetingSelect tr:first-child {
         background: white url('/etc/designs/girlscouts-vtk/clientlibs/css/images/calendar-pick.png') right center no-repeat !important;
 }
 
+.locationList {
+	padding: 10px;
+}
+
+ul.formCheckboxes {
+    list-style-type: none;
+}
+ul.formCheckboxes li {
+	font-size: 0.75em;
+	white-space:nowrap;
+}
 @media only screen and (max-width: 40em) {
         .planSquare {
                 width: 70px;
@@ -542,6 +583,9 @@ table.meetingSelect, .meetingSelect tr:first-child {
 	.planSquare .cancelled .cross {
 		margin-top: -30px;
 	}
+	.meetingDetailHeader .planSquare .cancelled .cross {
+                margin-top: 25px;
+        }
 	.doubleList li {
 		float: left;
 		width: 100%;

@@ -22,6 +22,11 @@
 	ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1).toLowerCase().trim();
 
         java.util.Iterator<YearPlan> yearPlans =  yearPlanDAO.getAllYearPlans(ageLevel).listIterator();
+	List<YearPlan> yearPlanList = new ArrayList<YearPlan>();
+        while (yearPlans.hasNext()) {
+		yearPlanList.add(yearPlans.next());
+	}
+	
 
         String find= request.getParameter("ypname");
         if( find==null || find.trim().equals("")){find = user.getYearPlan().getName();}
@@ -50,18 +55,41 @@
 
         </div>
         <div class="small-4 medium-2 large-2 columns">
+<!--
 		<a class="right" href="<%= meetingPath==null ? "/content/girlscouts-vtk/en/vtk.plan.html" : "/content/girlscouts-vtk/en/vtk.planView.html"%>"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/close-small.png" width="20" height="20" border="0" align="right"></a>
+-->
+		<a class"right" href="#" onclick="$('#gsModal').dialog('close')"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/close-small.png" width="20" height="20" border="0" align="right"></a>
         </div>
 </div>
 <div class="row modalNav">
 <%
-        while (yearPlans.hasNext()) {
-                YearPlan yearPlan = yearPlans.next();
+	int MAX_TAB_COUNT = 4;
+	int MAX_CHARS_PER_LINE = 22;
+	int missingTabCount = MAX_TAB_COUNT  - yearPlanList.size() % MAX_TAB_COUNT;
+	if (missingTabCount == MAX_TAB_COUNT) {
+		missingTabCount = 0;
+	}
+	int liveTabsLarge = MAX_TAB_COUNT - missingTabCount;
+	int liveTabsMedium = 3;
+	if (liveTabsLarge  < liveTabsMedium) {
+		liveTabsMedium = liveTabsLarge;
+	}
+%>
+        <ul class="small-block-grid-1 medium-block-grid-<%= liveTabsMedium %> large-block-grid-<%= liveTabsLarge %>">
+<%
+
+	for (YearPlan yearPlan : yearPlanList) {
+		String showLineBreak = "";
+		String lineHeightCss = "";
+		if(yearPlan.getName().length() <= MAX_CHARS_PER_LINE) {
+			showLineBreak = "<br/>";
+			lineHeightCss = "double";
+		}
                 if( find.equals(yearPlan.getName().trim()) ){
 %>
-        <div class="small-24 medium-12 large-6 columns active manageCalendarTab">
-                <a href="#"><%=yearPlan.getName()%></a>
-        </div>
+	<li class="active manageCalendarTab <%= lineHeightCss %>">
+                <a href="#"><%=yearPlan.getName()%></a><%= showLineBreak %>
+        </li>
 <%
                         java.util.List<MeetingE> meetingEs = meetingDAO.getAllEventMeetings_byPath( yearPlan.getPath() +"/meetings/" );
                         meetingEs= meetingUtil.sortById(meetingEs);
@@ -75,12 +103,13 @@
                         url+= request.getParameter("xx")==null ? "" : "&xx="+java.net.URLEncoder.encode(request.getParameter("xx"))  ;
                         url+= request.getParameter("mpath")==null ? "" : "&mpath="+java.net.URLEncoder.encode(request.getParameter("mpath"));
 %>
-        <div class="small-24 medium-12 large-6 columns manageCalendarTab">
-                <a href="#" onclick="mm('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html<%=url%>')"><%=yearPlan.getName()%></a>
-        </div>
+	<li class="manageCalendarTab <%= lineHeightCss %>">
+                <a href="#" onclick="mm('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html<%=url%>')"><%=yearPlan.getName()%></a><%= showLineBreak %>
+        </li>
 <%
                 }
         }
+
         java.util.List<String> myMeetingIds= new java.util.ArrayList();
         java.util.List<MeetingE> myMeetings = user.getYearPlan().getMeetingEvents();
 

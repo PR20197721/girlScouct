@@ -60,7 +60,7 @@
 							<a href="javascript:void(0)" onclick="newLocCal()">Specify Meeting Dates and Locations</a>
 						</li>
 						<li>
-							 <a href="/content/girlscouts-vtk/en/vtk.meetingLibrary.html" >Add Meeting</a>
+							 <a href="#" onclick="doMeetingLib()">Add Meeting</a>
 						</li>
 						<li>
 							<a href="javascript:void(0)" onclick="newActivity()">Add Activity</a>

@@ -30,15 +30,11 @@
         </div>
 </div>
 <div class="row modalNav">
-        <div id="manageCalendarTab" class="small-8 columns active">
-		<a href="#" onclick="toggleSection('calendar')">Calendar</a>
-        </div>
-        <div id="manageLocationTab" class="small-8 columns">
-                <a href="#" onclick="toggleSection('location')">Location</a>
-        </div>
-        <div id="manageActivityTab" class="small-8 columns">
-                <a href="#" onclick="toggleSection('activity')">Activities</a>
-        </div>
+        <ul class="small-block-grid-1 medium-block-grid-3 large-block-grid-3 specifyDates">
+		<li id="manageCalendarTab" class="active manageCalendarTab"><a href="#" onclick="toggleSection('calendar')">Calendar</a></li>
+                <li id="manageLocationTab" class="manageCalendarTab"><a href="#" onclick="toggleSection('location')">Location</a></li>
+                <li id="manageActivityTab" class="manageCalendarTab"><a href="#" onclick="toggleSection('activity')">Activities</a></li>
+	</ul>
 </div>
 <div class="row modalBody">
         <div class="small-24 medium-24 large-24 columns">

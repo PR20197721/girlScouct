@@ -1,28 +1,26 @@
-
 <%
-
 java.util.List <org.girlscouts.vtk.models.Activity> activities =  (java.util.List <org.girlscouts.vtk.models.Activity>)session.getValue("vtk_search_activity");
-	
-%><h2>Found <%=activities.size()%> Activites </h2><% 
+%><h2 class="searchResult">Found <%=activities.size()%> Activites </h2>
+<ul>
+<% 
 for(int i=0;i<activities.size();i++){
-		%>
-		
-		<div style="border: 3px solid red;"> 
+%>
+		<li class="searchResultsItem" > 
 			<%=activities.get(i).getName()%>
 			<br/>Start: <%=activities.get(i).getDate() %>
 			<br/>End <%=activities.get(i).getEndDate() %>
 			<br/>Location:<%=activities.get(i).getLocationAddress() %>
 			<p> <%=activities.get(i).getContent() %> </p>
-			
-			<input type="button" value="Add" onclick="addActiv('<%=activities.get(i).getUid()%>')"/>
+			<%if(activities.get(i).getDate()==null){ %>
+				<i>Unable to add this item due to missing start date.</i>
+			<%}else{ %>
+				<a href="#" onclick="addActiv('<%=activities.get(i).getUid()%>')">Select Activity</a>
+			<%} %>
 			<div id="cust_activ_<%=activities.get(i).getUid()%>"></div>
-		</div> 
-		
-		<%
+		</li> 
+<%
 	}
 %>
-
-
 <script>
 function addActiv(id){
 
