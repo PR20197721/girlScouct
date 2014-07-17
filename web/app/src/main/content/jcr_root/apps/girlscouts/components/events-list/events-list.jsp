@@ -36,7 +36,7 @@
 	DateFormat calendarFormat = new SimpleDateFormat("M-yyyy");
 	java.util.List<String> results = srchInfo.getResults();
 	
-	System.out.println("#########################List" +results.size());
+	
 	
 	
 	int eventcounts = 0;
@@ -104,6 +104,7 @@
 		
 		while (items.hasNext()){
 			Page item = (Page)items.next();
+			href=item.getPath()+".html";
 			Node node = item.getContentResource().adaptTo(Node.class);
 			try{
 				Node propNode = node.getNode("data");
