@@ -178,6 +178,10 @@ if( request.getParameter("isMeetingCngAjax") !=null){
     new_user.setSfUserId( new_user.getApiConfig().getUserId() );
     new_user.setSfTroopName( new_user.getTroop().getTroopName() );  
     session.setAttribute("VTK_user", new_user);
+    
+    
+   
+	
 }else if( request.getParameter("addAsset")!=null){
 	
 	org.girlscouts.vtk.models.Asset asset = new org.girlscouts.vtk.models.Asset(request.getParameter("addAsset"));
