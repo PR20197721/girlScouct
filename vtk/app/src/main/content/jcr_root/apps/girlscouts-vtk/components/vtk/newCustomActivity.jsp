@@ -16,6 +16,7 @@
 
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.datepicker.validation.js"></script>
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.validate.js"></script>
+
 <script>
 $(function() {
 		$("#newCustActivity_date").inputmask("mm/dd/yyyy", {});

@@ -28,6 +28,7 @@ import org.girlscouts.vtk.models.JcrNode;
 import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Milestone;
+import org.girlscouts.vtk.models.UserGlobConfig;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.Asset;
 import org.girlscouts.vtk.models.user.User;
@@ -43,6 +44,8 @@ public class UserDAOImpl implements UserDAO{
     
     @Reference
     private MeetingDAO meetingDAO;
+    
+    private static UserGlobConfig userGlobConfig;
     
     @Activate
     void activate() {
@@ -434,4 +437,67 @@ public void addAsset(User user, String meetingUid,  Asset asset){
         updateUser(user);
 
 }
+
+
+
+
+	public UserGlobConfig getUserGlobConfig(){ 
+		
+		if( userGlobConfig ==null )
+			loadUserGlobConfig();
+		
+		return userGlobConfig ;
+	}
+	
+	
+	
+
+	public void loadUserGlobConfig() {
+		
+		userGlobConfig = new UserGlobConfig();
+		
+		try{
+			List<Class> classes = new ArrayList<Class>();	
+			classes.add(UserGlobConfig.class); 
+				
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
+		
+			QueryManager queryManager = ocm.getQueryManager();
+			Filter filter = queryManager.createFilter(UserGlobConfig.class);
+		
+			userGlobConfig = (UserGlobConfig) ocm.getObject("/vtk/global-settings");
+		     
+		}catch(Exception e){e.printStackTrace();}
+		
+		
+	}
+	
+	
+	
+	public void updateUserGlobConfig() {
+		
+		 try{
+				
+				List<Class> classes = new ArrayList<Class>();	
+				classes.add(UserGlobConfig.class);
+				
+				Mapper mapper = new AnnotationMapperImpl(classes);
+				ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
+			
+				if( session.itemExists( userGlobConfig.getPath() )){
+					
+					ocm.update(userGlobConfig);
+				}else{
+					
+					ocm.insert(userGlobConfig);
+				}
+				 ocm.save();
+				 
+				
+				}catch(Exception e){e.printStackTrace();}
+			
+	}
+	
+
 }//ednclass
