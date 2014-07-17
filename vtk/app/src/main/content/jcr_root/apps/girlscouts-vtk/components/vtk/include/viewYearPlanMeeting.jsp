@@ -287,6 +287,8 @@ if( _aidTags!=null )
 
 	<script>
 		$("#sortable").sortable({
+			  
+		
 		update:  function (event, ui) {
 			repositionActivity('<%=meeting.getRefId()%>');
 		}

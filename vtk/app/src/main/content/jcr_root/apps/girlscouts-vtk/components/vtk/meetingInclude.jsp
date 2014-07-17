@@ -95,11 +95,23 @@ if( user.getYearPlan().getSchedule()!=null ){ //sched exists
 	$(function() {
 		$( "#sortable123" ).sortable({
 			items: "li:not(.ui-state-disabled)",
+			delay:150,
+			cursor: "move" ,
+			distance: 5,
+			opacity: 0.5 ,
+			scroll: true,
+			scrollSensitivity: 10 ,
+			tolerance: "intersect" ,
+			handle: ".myheader",
+			
 			update:  function (event, ui) {
 				doUpdMeeting()
 			}
 		});
+		
+		
 		$( "#sortable123 li" ).disableSelection();
+		 
 	});
 </script>
 

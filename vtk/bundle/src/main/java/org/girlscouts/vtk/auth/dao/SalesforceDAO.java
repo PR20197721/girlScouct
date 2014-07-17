@@ -43,7 +43,7 @@ public class SalesforceDAO {
         params[0] = new NameValuePair("q", "SELECT ID,name,email, phone, mobilephone, homephone,otherPhone, AssistantPhone from User where id='" 
                     + config.getUserId() + "' limit 1");
         */
-        params[0] = new NameValuePair("q", "SELECT ID,name,email, phone, mobilephone, ContactId  from User where id='" 
+        params[0] = new NameValuePair("q", "SELECT ID,name,email, phone, mobilephone, ContactId, FirstName  from User where id='" 
                 + config.getUserId() + "' limit 1");
         
         
@@ -60,13 +60,15 @@ public class SalesforceDAO {
                                           new InputStreamReader(
                                           get.getResponseBodyAsStream())));
                     log.debug("Query response: " + response.toString(2));
-    
+//System.err.println("caca123 "+ get.getResponseBodyAsString());
                     JSONArray results = response.getJSONArray("records");
     
                     // Always use the last record
                     int current = results.length() - 1;
                     try{
-                    user.setName(results.getJSONObject(current).getString("Name"));
+                  //  user.setName(results.getJSONObject(current).getString("Name"));
+             user.setName(results.getJSONObject(current).getString("FirstName"));       
+                    
                   //  user.setEmail(results.getJSONObject(current).getString("Email"));
                     user.setContactId(results.getJSONObject(current).getString("ContactId"));
                     //user.setPhone(results.getJSONObject(current).getString("Phone"));
