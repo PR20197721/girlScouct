@@ -89,52 +89,20 @@
         <div class="small-1 columns">&nbsp;</div>
 </div>
 <div class="row meetingDetailDescription">
-<!--  org div
-        <div class="small-8 columns"><a id="overviewButtonX" href="javascript:void(0)" onclick="openClose1('m_overview', 'm_activities')">overview</a></div>
-        <div class="small-8 columns"><a id="activityPlanButtonX" href="javascript:void(0)" onclick="openClose1('m_activities', 'm_overview' )">activity plan</a></div>
-      -->
-      
         <div class="small-8 columns"><a id="overviewButtonX" href="javascript:void(0)" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isOverview=true', true, 'Overview')">overview</a></div>
         <div class="small-8 columns"><a id="activityPlanButtonX" href="javascript:void(0)" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isActivity=true', true, 'Activity')">activity plan</a></div>
-        
-      
-      
-      
-      
         <div class="small-8 columns"><!--a id="materialsListButton" href="#">materials list</a--></div>
 </div>
 <div class="row meetingDetailDescription">
         <div class="small-1 columns">&nbsp;</div>
         <div class="small-22 columns">
-		<div id="m_overview" style="display:none;">
-			 <!--  <h3>Overview:</h3><%=meetingInfoItems.get("overview").getStr() %> -->
-		</div>
-		<div id="m_activities"  style="display:none;">
-<%
-/*
-	java.util.Iterator itr1=  meetingInfoItems.keySet().iterator(); 
-	while( itr1.hasNext()){
-		String name= (String) itr1.next();
-		if( name.trim().toLowerCase().equals("overview")) continue;
-		if( name.trim().toLowerCase().equals("meeting id")) continue;
-%>
-			<h3><%=name %></h3><%=meetingInfoItems.get(name).getStr() %>
-<%
-	}
-*/
-%>
-		</div>
+		<div id="m_overview" style="display:none;"></div>
+		<div id="m_activities"  style="display:none;"></div>
         </div>
         <div class="small-1 columns">&nbsp;</div>
 </div>
 <script>
-
 	$(function() {
-		/*
-		$( "#viewMeetingButton" ).button().click(function( event ) {
-			viewMeetingLibrary('<%=meeting.getPath()%>', '<%=searchDate.getTime()%>');
-		});
-		*/
                 $( "#overviewButton" ).button().click(function( event ) {
 			showIt('m_overview');
                 });
@@ -143,25 +111,26 @@
                 });
 	});
 </script>
-<div class="sectionHeader">Meeting Aids</div>
+<div class="sectionHeader meetingAids">Meeting Aids</div>
 <%
 	String aidTags = meetingInfo.getAidTags();
-	aidTags= aidTags==null ? "" : aidTags.trim().toLowerCase();
+	aidTags = (aidTags==null || "".equals(aidTags.trim())) ? "No tags." : aidTags.trim().toLowerCase();
 %>
-<p>AidTags:<%=aidTags %></p>
+<p class="subSection">Tags: <i><%=aidTags %></i></p>
+<%
+        List<Asset> _aidTags = meeting.getAssets();
+	if (_aidTags  == null || _aidTags.size() == 0) {
+%>
+	<p class="subSection">No meetings aids found.</p>
+<%
+	} else {
+%>
+<ul>
 <%
 
-List<Asset> _aidTags = meeting.getAssets();
-
 java.util.Date sysAssetLastLoad =  sling.getService(org.girlscouts.vtk.helpers.DataImportTimestamper.class).getTimestamp(); //SYSTEM QUERY
-
-//out.println("GlobalFileUpdate "+ sysAssetLastLoad);
 if(meeting.getLastAssetUpdate()==null || meeting.getLastAssetUpdate().before(sysAssetLastLoad) ){
-	//out.println("FRESH");
-	
 	_aidTags = _aidTags ==null ? new java.util.ArrayList() : _aidTags;
-	
-	
 	
 	//rm cachables
 	java.util.List aidToRm= new java.util.ArrayList();
@@ -173,22 +142,17 @@ if(meeting.getLastAssetUpdate()==null || meeting.getLastAssetUpdate().before(sys
 	for(int i=0;i<aidToRm.size();i++)
 		_aidTags.remove( aidToRm.get(i));
 	
-	
 	//query aids cachables
 	 java.util.List __aidTags =  meetingDAO.getAids( meetingInfo.getAidTags(), meetingInfo.getId(), meeting.getUid());
 	
 	//merge lists aids
 	_aidTags.addAll( __aidTags );
 	
-	
-	
 	//query resources cachables
 	java.util.List __resources =  meetingDAO.getResources( meetingInfo.getResources(), meetingInfo.getId(), meeting.getUid());
 		
 	//merge lists resources
 	_aidTags.addAll( __resources );
-	
-	
 	
 	meeting.setLastAssetUpdate( new java.util.Date() );
 	meeting.setAssets( _aidTags);
@@ -198,32 +162,22 @@ if(meeting.getLastAssetUpdate()==null || meeting.getLastAssetUpdate().before(sys
 
 if( _aidTags!=null )
  for(int i=0;i<_aidTags.size();i++){
+        org.girlscouts.vtk.models.Asset asset = _aidTags.get(i);
 	String aidTagDescription = "No description.";
-	if (_aidTags.get(i).getDescription() != null) {
-		aidTagDescription = java.net.URLEncoder.encode(_aidTags.get(i).getDescription());
+	if (asset.getDescription() != null) {
+                aidTagDescription = _aidTags.get(i).getDescription();
 	}
-	%><li>
-	 <%=_aidTags.get(i).getType() %> :: <a href="<%=_aidTags.get(i).getRefId()%>" target="_blank"><%=aidTagDescription %></a>
-	
-	 </li><% 
+%>
+	<li>
+		 <a href="<%=asset.getRefId()%>" target="_blank"><%=asset.getPath()%></a>
+		<p class="description"><%=aidTagDescription %></p>
+	 </li>
+<% 
  }
-	/*
-	List<org.girlscouts.vtk.models.Search> _aidTags =  meetingDAO.getAidTag( meetingInfo.getAidTags(), meetingInfo.getId());
-	for(int i=0;i<_aidTags.size();i++){
-		%><li> <%=_aidTags.get(i).getType()%> <a href="<%=_aidTags.get(i).getPath()%>"><%=_aidTags.get(i).getDesc()%></a> </li><% 
+%>
+</ul>
+<%
 	}
-	
-	java.util.List<Asset> assets = meeting.getAssets();
-	if( assets!=null)
-	 for(int i=0;i< assets.size(); i++){
-		%><li style="background-color:lightblue;"><%=assets.get(i).getType()%>: <a href="<%=assets.get(i).getRefId() %>"><%=assets.get(i).getRefId() %></a></li><a href="javascript:void(0)" onclick="rmAsset('<%=meeting.getUid()%>', '<%=assets.get(i).getUid()%>')" style="background-color:red;">remove</a><% 
-	 }
-	
-	List<org.girlscouts.vtk.models.Search> custassets = meetingDAO.getAidTag_custasset(meeting.getUid());
-	for(int i=0;i<custassets.size();i++){
-		%> <div style="background-color:yellow;">custasset:<a href="<%=custassets.get(i).getPath() %>"><%=custassets.get(i).getPath() %></a></div><%
-	}
-	*/
 %>
 <div class="sectionHeader">Meeting Agenda</div>
 

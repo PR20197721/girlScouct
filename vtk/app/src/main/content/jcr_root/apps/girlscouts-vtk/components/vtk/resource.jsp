@@ -54,7 +54,7 @@
 
 	function applyAids(aid, aidDesc){
 		var link = "/content/girlscouts-vtk/controllers/vtk.asset.html?aidId="+ aid+ "&aidName="+encodeURI(aidDesc);
-		loadModalPage(link, false);
+		loadModalPage(link, false, null);
 	}
 </script>
 

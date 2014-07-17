@@ -58,7 +58,7 @@
 <!--
 		<a class="right" href="<%= meetingPath==null ? "/content/girlscouts-vtk/en/vtk.plan.html" : "/content/girlscouts-vtk/en/vtk.planView.html"%>"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/close-small.png" width="20" height="20" border="0" align="right"></a>
 -->
-		<a class"right" href="#" onclick="$('#gsModal').dialog('close')"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/close-small.png" width="20" height="20" border="0" align="right"></a>
+		<a class"right" href="#" onclick="closeModalPage()"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/close-small.png" width="20" height="20" border="0" align="right"></a>
         </div>
 </div>
 <div class="row modalNav">

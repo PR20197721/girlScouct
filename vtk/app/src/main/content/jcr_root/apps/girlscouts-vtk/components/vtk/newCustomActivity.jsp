@@ -162,7 +162,7 @@ border:5px solid #000;
 
         </div>
         <div class="small-4 medium-2 large-2 columns">
-                <a class="right" href="#" onclick="$('#gsModal').dialog('close')"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/close-small.png" width="20" height="20" border="0" align="right"></a>
+                <a class="right" href="#" onclick="closeModalPage()"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/close-small.png" width="20" height="20" border="0" align="right"></a>
         </div>
 </div>
 <div class="row modalNav">
