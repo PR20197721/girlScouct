@@ -31,7 +31,7 @@
 					
 					if (!page.isHideInNav()) {
 						if (rootPath.equalsIgnoreCase(nodePath) && showCurrent.equals("false")) {
-							menuBuilder.append("<li class=\"active\">");
+							menuBuilder.append("<li class=\"active current\">");
 							menuBuilder.append("<div>");
 							menuBuilder.append(createHref(page));
 							menuBuilder.append("</div>");
