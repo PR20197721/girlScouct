@@ -910,3 +910,8 @@ margin-bottom: 5px;
 .contact-list th.email {
 	width: 5%
 }
+
+div.wrapper .row:nth-child(2) {
+/* background-color: red; */
+padding: 5px 0;
+}

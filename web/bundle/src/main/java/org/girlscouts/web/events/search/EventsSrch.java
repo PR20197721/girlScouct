@@ -86,6 +86,8 @@ public class EventsSrch
 		searchQuery.put("path",path);
 		searchQuery.put("2_boolproperty","jcr:content/hideInNav");
 		searchQuery.put("2_boolproperty.value","false");
+		searchQuery.put("3_boolproperty","jcr:content/isFeature");
+		searchQuery.put("3_boolproperty.value","false");
 		searchQuery.put(++propertyCounter+"_property",EVENTS_PROP);
 		searchQuery.put("p.limit", "-1");
 		searchQuery.put("orderby","@jcr:content/data/start");
