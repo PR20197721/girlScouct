@@ -11,7 +11,15 @@ public class Asset {
 	public Asset(String path){ this.path= path; this.uid = "A"+new java.util.Date().getTime() + "_" + Math.random(); this.isCachable=false;}
 	
 	
-	@Field private String type, refId, description;
+	@Field private String type, refId, description, title;
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+
 	@Field (path=true) private String path;
 	@Field (id=true) private String uid;
 	@Field Boolean isCachable;
