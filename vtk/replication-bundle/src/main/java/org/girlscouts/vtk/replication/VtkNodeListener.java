@@ -15,7 +15,6 @@ import org.apache.felix.scr.annotations.Deactivate;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Reference;
-import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.commons.scheduler.Scheduler;
 import org.apache.sling.jcr.api.SlingRepository;
 import org.osgi.service.component.ComponentContext;
@@ -25,7 +24,6 @@ import org.slf4j.LoggerFactory;
 import com.day.cq.replication.Replicator;
 
 @Component(metatype=true, immediate=true)
-@Service
 @Properties ({
     @Property(name=Constants.MODE_PROPERTY, description="author/publish"),
     @Property(name=Constants.FROM_PUBLISHER_PROPERTY, description="This publisher ID")

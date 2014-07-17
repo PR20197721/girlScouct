@@ -8,6 +8,7 @@ import javax.jcr.Session;
 import javax.jcr.observation.EventIterator;
 import javax.jcr.observation.EventListener;
 
+import org.girlscouts.vtk.replication.NodeEventCollector.NodeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,15 +28,13 @@ public class AuthorVtkNodeListener implements EventListener, Constants {
     }
 
     public void onEvent(EventIterator iter) {
-        Set<String> paths = NodeEventCollector.getEvents(iter);
+        Set<NodeEvent> events = NodeEventCollector.getEvents(iter);
 
-        for (String path : paths) {
+        for (NodeEvent event : events) {
             try {
+                String path = event.getPath();
                 Node node = session.getNode(path);
-                if (!node.hasProperty(Constants.FROM_PUBLISHER_PROPERTY)) {
-                    // This node is not from publishers. False alarm.
-                    continue;
-                }
+
                 String fromPublisher = node.getProperty(Constants.FROM_PUBLISHER_PROPERTY).getString();
 
                 ReplicationOptions opts = new ReplicationOptions();
@@ -43,9 +42,18 @@ public class AuthorVtkNodeListener implements EventListener, Constants {
                 opts.setSuppressStatusUpdate(true);
                 opts.setSuppressVersions(true);
                     
-                ////////////////////
-                log.error("######@@@@@ Replicated node " + path);
-                replicator.replicate(session, ReplicationActionType.ACTIVATE, path, opts);
+                // Node removal. Use replicate delete.
+                if (node.hasProperty(Constants.NODE_REMOVED_PROPERTY)) {
+                    ////////////////////////
+                    log.error("###@@@ reverse replicated: " + path);
+                    replicator.replicate(session, ReplicationActionType.DEACTIVATE, path, opts);
+                } else {
+                    ////////////////////////
+                    log.error("###@@@ replicated: " + path);
+                    replicator.replicate(session, ReplicationActionType.ACTIVATE, path, opts);
+                }
+                node.remove();
+                session.save();
             } catch (RepositoryException e) {
                 log.error("Repository Exception. Event not handled.");
             } catch (ReplicationException e) {
