@@ -20,6 +20,9 @@ public class Formatter {
         // Empty bold
         dst = dst.replaceAll("<b>(\\s*?)</b>", "$1");
         dst = dst.replaceAll("</b><b>", "");
+        // Empty italics 
+        dst = dst.replaceAll("<i>(\\s*?)</i>", "$1");
+        dst = dst.replaceAll("</i><i>", "");
         // Empty paragraphs
         dst = dst.replaceAll("<p>\\s*?</p>", "");
         // Extra <p> around <li>
