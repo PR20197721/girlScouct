@@ -234,6 +234,7 @@ public class TraverseFind {
             for (int p = 0; p < parags.size(); p++) {
                 XWPFParagraph Par = parags.get(p);
 
+                /*
                 if (true)// Par.getRuns().size() ==0 )
                     txt += "<p>";
                 else
@@ -242,6 +243,7 @@ public class TraverseFind {
                             + "; font: "
                             + new TraverseFind().frmFont(Par.getRuns().get(0)
                                     .getFontFamily()) + ";\">";
+                */
 
                 /**********MZ**********/
                 if (Par.getNumIlvl() != null && Par.getNumIlvl().intValue() >= 1) {
@@ -256,11 +258,19 @@ public class TraverseFind {
                 }
                 
                 if (currentLevel > level) {
+                    if (currentLevel >= 1) {
+                        txt = txt.substring(0, txt.length() - "</li>".length());
+                    }
                     txt += "<ul>";
                     level = currentLevel;
                 } else if (currentLevel < level) {
                     txt += "</ul>";
+                    if (currentLevel >= 0) {
+                        txt += "</li>";
+                    }
                     level = currentLevel;
+                } else {
+                    txt += "<p>";
                 }
                 /**********MZ END**********/
 
@@ -287,9 +297,11 @@ public class TraverseFind {
                         txt += str;
 
                 }// edn of
-                if (Par.getNumID() != null)
+                if (Par.getNumID() != null) {
                     txt += "</li>";
-                txt += "</p>";
+                } else {
+                    txt += "</p>";
+                }
 
             }
 
