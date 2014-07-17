@@ -109,6 +109,7 @@ public class ParseXls1 {
                     if (desc.endsWith("<p>"))
                         desc = desc.substring(0, desc.lastIndexOf("<p>"));
 
+                    desc = Formatter.format(desc);
                     activity.setActivityDescription(desc);
                     chngActivities.add(activity);
                     count++;
@@ -125,8 +126,8 @@ public class ParseXls1 {
 
                     _meetings.put(
                             titleWithoutTags,
-                            new JcrCollectionHoldString(docx.fmtStr(meetings
-                                    .get(title))));
+                            new JcrCollectionHoldString(Formatter.format(docx.fmtStr(meetings
+                                    .get(title)))));
                 }
 
                 meeting.setMeetingInfo(_meetings);

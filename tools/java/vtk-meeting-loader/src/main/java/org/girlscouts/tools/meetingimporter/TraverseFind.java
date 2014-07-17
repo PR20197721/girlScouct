@@ -242,6 +242,10 @@ public class TraverseFind {
                             + new TraverseFind().frmFont(Par.getRuns().get(0)
                                     .getFontFamily()) + ";\">";
 
+                if (Par.getNumIlvl() != null && Par.getNumIlvl().intValue() >= 1) {
+                    System.err.println("@@@@@@@@@@@@@@@!!!!!SECONDLEVEL!!!!!  " + fileLoc);
+                }
+                
                 if (Par.getNumID() != null)
                     txt += "<li>";
 
