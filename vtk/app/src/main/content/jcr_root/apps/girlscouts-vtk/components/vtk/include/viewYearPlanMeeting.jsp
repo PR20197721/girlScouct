@@ -16,11 +16,11 @@
 %>
 <br/>
 <div class="row meetingDetailHeader">
-	<div class="small-8 medium-7 large-6 columns">
+	<div class="small-12 medium-8 large-7 columns">
 		<table class="planSquareWrapper">
 			<tr>
 <%if( prevDate!=0 ){ %>
-				<td><a class="direction" href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=prevDate%>"><img width="20" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/previous.png"/></a></td>
+				<td><a class="direction" href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=prevDate%>"><img width="20" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/previous.png"/></a></td>
 <%} %>
 				<td>
 		<div class="planSquare">
@@ -46,12 +46,12 @@
 		</div>
 				</td>
 <%if( nextDate!=0 ){ %>
-				<td><a class="direction" href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=nextDate%>"><img width="20" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/next.png"/></a></td>
+				<td><a class="direction" href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=nextDate%>"><img width="20" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/next.png"/></a></td>
 <%} %>
 			</tr>
 		</table>
 	</div>
-        <div class="small-16 medium-12 large-14 columns">
+        <div class="small-12 medium-11 large-13 columns">
 		<h1>Meeting: <%= meetingInfo.getName() %></h1>
 		<%= meetingInfo.getAidTags() %>
 		<p>Location:
