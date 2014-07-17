@@ -5,7 +5,7 @@
 <%
 String[] links = properties.get("links", String[].class);
 Boolean centerLinks = (Boolean) request.getAttribute("centerLinks");
-
+int[] sizes = {9, 15};
 if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
 	%>##### Footer Navigation #####<%
 } else {
@@ -20,7 +20,7 @@ if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMM
             %>
 <a class="menu<%= clazz %>" href="<%= path %>"><%= label %></a><%
     }
-        else{ %> <a class="small-12 columns text-center menu<%= clazz %>" href="<%= path %>"><%= label %></a>
+        else{ %> <a class="small-<%= sizes[i] %> columns text-center menu<%= clazz %>" href="<%= path %>"><%= label %></a>
 				<%
 		}
 	}
