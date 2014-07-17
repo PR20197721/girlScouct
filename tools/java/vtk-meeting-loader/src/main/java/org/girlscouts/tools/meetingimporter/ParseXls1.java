@@ -28,6 +28,9 @@ import org.girlscouts.vtk.models.JcrCollectionHoldString;
 import org.girlscouts.vtk.models.Meeting;
 
 public class ParseXls1 {
+    private String format(String src) {
+        String dst = src.replaceAll("<p>.*?</p>", arg1)
+    }
 
     public static void main(String[] args) throws Exception {
         ParseXls1 me = new ParseXls1();
