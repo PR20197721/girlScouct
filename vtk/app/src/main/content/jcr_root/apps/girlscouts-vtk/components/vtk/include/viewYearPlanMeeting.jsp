@@ -205,19 +205,10 @@ if( _aidTags!=null )
 		aidTagDescription = java.net.URLEncoder.encode(_aidTags.get(i).getDescription());
 	}
 	%><li>
-	 <%=_aidTags.get(i).getType() %> :: <a href="#modal" id="<%=_aidTags.get(i).getUid() %>" onclick="x12('<%=_aidTags.get(i).getRefId()%>', '<%=aidTagDescription%>', '<%=_aidTags.get(i).getUid() %>')"><%=aidTagDescription %></a>
+	 <%=_aidTags.get(i).getType() %> :: <a href="<%=_aidTags.get(i).getRefId()%>" target="_blank"><%=aidTagDescription %></a>
 	
 	 </li><% 
  }
-
-
-
-
-
-
-
-
-	//out.println(meetingInfo.getId() +" : " + meeting.getUid() );
 	/*
 	List<org.girlscouts.vtk.models.Search> _aidTags =  meetingDAO.getAidTag( meetingInfo.getAidTags(), meetingInfo.getId());
 	for(int i=0;i<_aidTags.size();i++){
@@ -236,34 +227,6 @@ if( _aidTags!=null )
 	}
 	*/
 %>
-    <!-- GOOD : moved to manageAssets 
-       <div style="background-color:orange;">
-        	<h4>Upload File**</h4>
-        		<%String assetId = new java.util.Date().getTime() +"_"+ Math.random(); %>
-    
-              <form action="/content/girlscouts-vtk/controllers/auth.asset.html" method="post"  
-              			onsubmit="return bindAssetToYPC( '/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets/<%=assetId %>', '<%=meeting.getUid() %>' )"  enctype="multipart/form-data">
-              
-                       <input type="hidden" name="loc" value="/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets"/>
-              Asset Name: <input type="text" id="assetDesc" name="assetDesc" value="" />
-               <input type="hidden" name="id" value="<%=assetId%>"/>     
-                <input type="hidden" name="me" value="<%=searchDate.getTime()%>"/>      
-               <input type="hidden" name="owner" value="<%=user.getId()%>"/>
-               <input type="hidden" name="createTime" value="<%=new java.util.Date()%>"/>         
-			   <input type="file" id="custasset" name="custasset" size="50" />
-               <br />
-                <input type="submit" value="Upload File" />
-         </form>
-      
-        </div>
-    
-        -->
-        
-        
-        
-        
-        
-        
 <div class="sectionHeader">Meeting Agenda</div>
 
 	<a href="javascript:void(0)" onclick="revertAgenda('<%=meeting.getPath()%>')"  class="mLocked">Revert to Original Agenda</a>

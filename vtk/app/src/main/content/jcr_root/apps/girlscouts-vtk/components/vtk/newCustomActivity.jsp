@@ -267,25 +267,33 @@ java.util.Map<String, String> region =search.getRegion();
 <div class="row">
         <div class="small-24 medium-8 large-6 columns"><label for="sch_lvl" ACCESSKEY="p">Program Level</label></div>
         <div class="small-24 medium-16 large-18 columns">
+        <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-3 formCheckboxes">
+
 		<% java.util.Iterator itr1= levels.keySet().iterator();
+int i=0;
 while( itr1.hasNext() ){
+i++;
 String str=(String) itr1.next();
 %>
-	<%= str %><input type="checkbox" name="sch_lvl" value="<%= str %>"/>
+	<li><input type="checkbox" name="sch_lvl" id="sch_lvl_<%=i %>" value="<%= str %>"/>&nbsp;<label for="sch_lvl_<%=i %>"><%= str %></label></li>
 <% } %>
-
+	</ul>
         </div>  
 </div>
 <br/>
 <div class="row">
         <div class="small-24 medium-8 large-6 columns"><label for="sch_cats" ACCESSKEY="i">Categories</label></div>
         <div class="small-24 medium-16 large-18 columns">
+        <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-3 formCheckboxes">
 		<% java.util.Iterator itr= categories.keySet().iterator();
+i=0;
 	while( itr.hasNext() ){
+i++;
 		String str=(String) itr.next();
 %>
-	<%= str %><input type="checkbox" name="sch_cats" value="<%= str %>"/>
+        <li><input type="checkbox" name="sch_cats" id="sch_cats_<%=i %>" value="<%= str %>"/>&nbsp;<label for="sch_cats_<%=i %>"><%= str %></label></li>
 <% } %>
+	<ul>
         </div>
 </div>
 

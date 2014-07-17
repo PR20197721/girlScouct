@@ -548,6 +548,14 @@ table.meetingSelect, .meetingSelect tr:first-child {
 .locationList {
 	padding: 10px;
 }
+
+ul.formCheckboxes {
+    list-style-type: none;
+}
+ul.formCheckboxes li {
+	font-size: 0.75em;
+	white-space:nowrap;
+}
 @media only screen and (max-width: 40em) {
         .planSquare {
                 width: 70px;
