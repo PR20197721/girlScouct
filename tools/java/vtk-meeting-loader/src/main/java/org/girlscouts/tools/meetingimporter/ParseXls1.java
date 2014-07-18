@@ -59,14 +59,14 @@ public class ParseXls1 {
             String agenda = me.getCellVal(evaluator, sheet, "H" + i);
 
             Meeting meeting = new Meeting();
-            meeting.setId(meetingId);
-            meeting.setName(meetingName);
-            meeting.setBlurb(meetingBlurb);
-            meeting.setLevel(level);
-            meeting.setCat(cat);
-            meeting.setAidTags(aids_tags);
-            meeting.setAgenda(agenda);
-            meeting.setResources(resource_tags);
+            meeting.setId(meetingId.trim());
+            meeting.setName(meetingName.trim());
+            meeting.setBlurb(meetingBlurb.trim());
+            meeting.setLevel(level.trim());
+            meeting.setCat(cat.trim());
+            meeting.setAidTags(aids_tags.trim());
+            meeting.setAgenda(agenda.trim());
+            meeting.setResources(resource_tags.trim());
 
             String meetingPath = "/content/girlscouts-vtk/meetings/2014/"
                     + level + "/" + meetingId;
