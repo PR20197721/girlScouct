@@ -521,9 +521,6 @@ img.align-left { float:left; margin: 0; }
 .modifyCalendarDate select.ampm{
         max-width: 50px;
 }
-.yearMeetingList tr:first-child {
-	border: 0px;
-}
 table.yearMeetingList tr:hover {
 	background:#bde4ca;
 }
@@ -537,8 +534,15 @@ table.yearMeetingList tr:hover {
 .manageCalendarTab.double {
 	line-height: 2;
 }
-table.meetingSelect, .meetingSelect tr:first-child {
-	border: 0px;
+table.meetingSelect, .meetingSelect tr:first-child, .yearMeetingList tr:first-child {
+	border: 0;
+}
+table.plain tr:first-child {
+	border: 0;
+}
+#sortable table {
+	border: 1px solid #eeeeee;
+	margin: 0 0 0.5rem 0;
 }
 .calendarField {
 	max-width: 150px;
@@ -555,6 +559,10 @@ ul.formCheckboxes {
 ul.formCheckboxes li {
 	font-size: 0.75em;
 	white-space:nowrap;
+}
+.touchscrollWrapper {
+	margin-top: 12px;
+	padding:0;
 }
 @media only screen and (max-width: 40em) {
         .planSquare {

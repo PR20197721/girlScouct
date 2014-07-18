@@ -45,7 +45,7 @@
         <div class="medium-4 show-for-medium columns">&nbsp;</div>
 	</div>
 
-	<ul class="news-info">
+	<ul class="news-block">
 
 <%
 // Feature news when select but author on the home page

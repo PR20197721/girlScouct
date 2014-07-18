@@ -3,6 +3,16 @@
 <!-- apps/girlscouts/components/page/footer.jsp -->
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <%
+// Force currentPage and currentDesign from request
+Page newCurrentPage = (Page)request.getAttribute("newCurrentPage");
+Design newCurrentDesign= (Design)request.getAttribute("newCurrentDesign");
+if (newCurrentPage != null) {
+    currentPage = newCurrentPage;
+}
+if (newCurrentDesign != null) {
+    currentDesign = newCurrentDesign;
+}
+
 	String footerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/footer";
 String logoPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
 
