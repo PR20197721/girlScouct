@@ -135,7 +135,7 @@ for(int i=2;i<sheet.getLastRowNum();i++){
             if(value!=null)
             toRet = value.getStringValue() ;
          }
-         return toRet;
+         return toRet.trim();
 	}
 	
 	// 1 row header(s)
@@ -288,7 +288,7 @@ for(int i=2;i<sheet.getLastRowNum();i++){
 	    if( destination.toLowerCase().trim().contains("/global") )
 	    	httppost = new HttpPost( "http://localhost:4502/content/dam/girlscouts-vtk/global/"+ type.toLowerCase().trim() +"/"+java.net.URLEncoder.encode(uploadFileName));
 	    else
-	    	httppost = new HttpPost( "http://localhost:4502/content/dam/girlscouts-vtk/local/"+ type.toLowerCase().trim() +""+ destination+"/"+java.net.URLEncoder.encode(uploadFileName));
+	    	httppost = new HttpPost( "http://localhost:4502/content/dam/girlscouts-vtk/local/"+ type.toLowerCase().trim() +""+ destination.toLowerCase().trim() +"/"+java.net.URLEncoder.encode(uploadFileName));
 	    
 	    String basic_auth = new String(Base64.encodeBase64(( "admin:admin" ).getBytes()));
 	    httppost.addHeader("Authorization", "Basic " + basic_auth);
@@ -320,10 +320,14 @@ if( metaDatas.get("description")!=null )
 	entity.addPart( "./jcr:content/metadata/dc:description", new StringBody( (String)metaDatas.get("description"), "text/plain",
 			Charset.forName( "UTF-8" )));
 
-entity.addPart( "./jcr:content/metadata/cq:tags", new StringBody( "girlscouts-vtk:tag/"+((String)metaDatas.get("tags")).trim().toLowerCase().replaceAll(" ", "-"), "text/plain",
-Charset.forName( "UTF-8" )));
-entity.addPart( "./jcr:content/metadata/cq:tags", new StringBody( "girlscouts-vtk:category/"+((String)metaDatas.get("category")).trim().toLowerCase().replaceAll(" ", "-"), "text/plain",
-Charset.forName( "UTF-8" )));
+if (((String)metaDatas.get("tags")).isEmpty()) {
+    entity.addPart( "./jcr:content/metadata/cq:tags", new StringBody( "girlscouts-vtk:tag/"+((String)metaDatas.get("tags")).trim().toLowerCase().replaceAll(" ", "-"), "text/plain",
+    Charset.forName( "UTF-8" )));
+}
+if (((String)metaDatas.get("category")).isEmpty()) {
+    entity.addPart( "./jcr:content/metadata/cq:tags", new StringBody( "girlscouts-vtk:category/"+((String)metaDatas.get("category")).trim().toLowerCase().replaceAll(" ", "-"), "text/plain",
+    Charset.forName( "UTF-8" )));
+}
 	    
 
 

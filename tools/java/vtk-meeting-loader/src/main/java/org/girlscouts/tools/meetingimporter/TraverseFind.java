@@ -230,9 +230,11 @@ public class TraverseFind {
             java.util.List<XWPFParagraph> parags = hdoc.getParagraphs();
 
             String txt = "";
+            int level = -1;
             for (int p = 0; p < parags.size(); p++) {
                 XWPFParagraph Par = parags.get(p);
 
+                /*
                 if (true)// Par.getRuns().size() ==0 )
                     txt += "<p>";
                 else
@@ -241,9 +243,43 @@ public class TraverseFind {
                             + "; font: "
                             + new TraverseFind().frmFont(Par.getRuns().get(0)
                                     .getFontFamily()) + ";\">";
+                */
 
-                if (Par.getNumID() != null)
+                /**********MZ**********/
+                if (Par.getNumIlvl() != null && Par.getNumIlvl().intValue() >= 1) {
+                    System.err.println("@@@@@@@@@@@@@@@!!!!!SECONDLEVEL!!!!!  " + fileLoc);
+                }
+                
+                int currentLevel = -1;
+                if (Par.getNumID() == null) {
+                    currentLevel = -1;
+                } else {
+                    currentLevel = Par.getNumIlvl().intValue();
+                }
+                
+                if (currentLevel > level) {
+                    if (currentLevel >= 1) {
+                        txt = txt.substring(0, txt.length() - "</li>".length());
+                    }
+                    txt += "<ul>";
+                    level = currentLevel;
+                } else if (currentLevel < level) {
+                    for (int i = level - 1; i >= currentLevel; i--) {
+                        txt += "</ul>";
+                        if (i >= 0) {
+                            txt += "</li>";
+                        }
+                    }
+                    level = currentLevel;
+                }
+
+                /**********MZ END**********/
+
+                if (Par.getNumID() != null) {
                     txt += "<li>";
+                } else {
+                    txt += "<p>";
+                }
 
                 java.util.List<XWPFRun> runs = Par.getRuns();
                 for (int y = 0; y < runs.size(); y++) {
@@ -264,9 +300,11 @@ public class TraverseFind {
                         txt += str;
 
                 }// edn of
-                if (Par.getNumID() != null)
+                if (Par.getNumID() != null) {
                     txt += "</li>";
-                txt += "</p>";
+                } else {
+                    txt += "</p>";
+                }
 
             }
 
