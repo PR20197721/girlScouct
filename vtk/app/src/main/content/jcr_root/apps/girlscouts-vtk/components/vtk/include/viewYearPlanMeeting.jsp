@@ -203,6 +203,8 @@ if( _aidTags!=null )
 				<td>
 				
 					<%if( !isLocked) {%>
+					<div class="myheader" style="float:left;"><img src="/etc/designs/girlscouts-usa-green/images/hamburger.png" border="0"/></div>
+	
 						<!--  <a href="javascript:void(0)"  class="mLocked" onclick="editAgenda('<%=ii %>')"><%=_activity.getName() %></a> -->
 						<a href="javascript:void(0)"  class="mLocked" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isAgenda=<%=ii %>', true, 'Agenda')"><%=_activity.getName() %></a>
 					<%}else{ %>
@@ -290,8 +292,15 @@ if( _aidTags!=null )
 
 	<script>
 		$("#sortable").sortable({
-			  
-		
+			delay:150,
+			cursor: "move" ,
+			distance: 5,
+			opacity: 0.5 ,
+			scroll: true,
+			scrollSensitivity: 10 ,
+			tolerance: "intersect" ,
+			handle: ".myheader",
+			
 		update:  function (event, ui) {
 			repositionActivity('<%=meeting.getRefId()%>');
 		}
