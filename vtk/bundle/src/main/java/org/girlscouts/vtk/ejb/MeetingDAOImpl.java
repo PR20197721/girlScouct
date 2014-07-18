@@ -5,6 +5,9 @@ import java.io.FileOutputStream;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+//import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -25,6 +28,7 @@ import net.fortuna.ical4j.model.property.ProdId;
 import net.fortuna.ical4j.model.property.Version;
 import net.fortuna.ical4j.util.UidGenerator;
 
+import org.apache.commons.beanutils.BeanComparator;
 import org.apache.felix.scr.annotations.Activate;
 
 import org.apache.felix.scr.annotations.Component;
@@ -1169,7 +1173,9 @@ public java.util.List<Meeting> getAllMeetings(String gradeLevel){
         Query query = queryManager.createQuery(filter);
          meetings = (List<Meeting> ) ocm.getObjects(query);
       
-        
+         Comparator<Meeting> comp = new BeanComparator("position");
+ 	    Collections.sort( meetings, comp);
+ 		
 		
 		}catch(Exception e){e.printStackTrace();}
 	
