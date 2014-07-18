@@ -158,7 +158,7 @@ public class ParseXls1 {
         System.out.println("beginning doJcr");
         // Connection
         javax.jcr.Repository repository = JcrUtils
-                .getRepository("http://localhost:4502/crx/server/");
+                .getRepository("http://localhost:4503/crx/server/");
 
         // Workspace Login
         SimpleCredentials creds = new SimpleCredentials("admin",
