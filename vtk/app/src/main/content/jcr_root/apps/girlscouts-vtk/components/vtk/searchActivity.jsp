@@ -14,7 +14,7 @@ for(int i=0;i<activities.size();i++){
 			<%if(activities.get(i).getDate()==null){ %>
 				<i>Unable to add this item due to missing start date.</i>
 			<%}else{ %>
-				<a href="#" onclick="addActiv('<%=activities.get(i).getUid()%>')">Select Activity</a>
+				<a href="#" onclick="addActiv3('<%=activities.get(i).getUid()%>')">Select Activity</a>
 			<%} %>
 			<div id="cust_activ_<%=activities.get(i).getUid()%>"></div>
 		</li> 
@@ -22,7 +22,7 @@ for(int i=0;i<activities.size();i++){
 	}
 %>
 <script>
-function addActiv(id){
+function addActiv3(id){
 
 	
 	$.ajax({
@@ -34,7 +34,8 @@ function addActiv(id){
 			a:Date.now()
 		},
 		success: function(result) {
-			document.getElementById("cust_activ_"+id).innerHTML='Added';
+			//document.getElementById("cust_activ_"+id).innerHTML='Added';
+			location.reload();
 		}
 	});
 }

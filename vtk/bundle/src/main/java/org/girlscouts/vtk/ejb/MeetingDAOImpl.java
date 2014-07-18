@@ -1170,8 +1170,6 @@ public java.util.List<Meeting> getAllMeetings(String gradeLevel){
          meetings = (List<Meeting> ) ocm.getObjects(query);
       
         
-        
-		//System.err.println("Meetings: "+ meetings.size());
 		
 		}catch(Exception e){e.printStackTrace();}
 	

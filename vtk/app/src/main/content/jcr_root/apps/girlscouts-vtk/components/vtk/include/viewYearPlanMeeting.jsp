@@ -62,8 +62,6 @@
 		
 		
 		
-		<a href="/content/girlscouts-vtk/controllers/vtk.map.html?address=broadway">ex: broadway</a>
-		   
 		
 		
 <%
@@ -71,7 +69,8 @@
 		for(int k=0;k<user.getYearPlan().getLocations().size();k++){
 			if( user.getYearPlan().getLocations().get(k).getPath().equals( meeting.getLocationRef() ) ){
 				%>
-					<%=user.getYearPlan().getLocations().get(k).getName() %> - <%=user.getYearPlan().getLocations().get(k).getAddress() %>
+					<%=user.getYearPlan().getLocations().get(k).getName() %> - 
+					<a href="/content/girlscouts-vtk/controllers/vtk.map.html?address=<%= user.getYearPlan().getLocations().get(k).getAddress()%>" target="_blank"><%=user.getYearPlan().getLocations().get(k).getAddress() %></a>
 				<%
 			}
 		}

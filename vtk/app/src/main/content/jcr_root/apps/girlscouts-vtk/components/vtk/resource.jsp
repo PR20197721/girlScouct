@@ -233,12 +233,19 @@ try {
                     Map<String, Object> map = asset.getMetadata();
                     //String title = asset.getMetadataValue("dc:title");
                     String title = asset.getName();
-
+                    
+                    /*
+                    String caca="";
+                    java.util.Iterator itr = map.entrySet().iterator();
+                    while( itr.hasNext() )
+                    	caca+= itr.next() +" : " + map.get( );
+                    */
+                    
                 	builder.append("<li>");
                 	builder.append("<a href=\"");
                 	builder.append(asset.getPath());
                 	builder.append("\">");
-                	builder.append(title);
+                	builder.append(title );
                 	builder.append("</a>");
                 	builder.append("<input type=\"button\" value=\"Add to Meeting\" onclick=\"applyAids('"+asset.getPath()+"', '"+title+"' )\" />");
                 	builder.append("</li>");

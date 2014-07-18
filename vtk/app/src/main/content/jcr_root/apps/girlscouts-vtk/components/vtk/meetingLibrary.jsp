@@ -23,18 +23,6 @@
 		ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1).toLowerCase().trim();
 		java.util.List<Meeting> meetings =meetingDAO.getAllMeetings(ageLevel);
 		
-		/*
-        java.util.Iterator<YearPlan> yearPlans =  yearPlanDAO.getAllYearPlans(ageLevel).listIterator();
-	List<YearPlan> yearPlanList = new ArrayList<YearPlan>();
-        while (yearPlans.hasNext()) {
-			yearPlanList.add(yearPlans.next());
-		}
-	
-
-        String find= request.getParameter("ypname");
-        if( find==null || find.trim().equals("")){find = user.getYearPlan().getName();}
-        find= find.trim();
-        */
         String find="";
 
 %>
@@ -110,14 +98,14 @@ function cngMeeting(mPath){
 	<tr>
 		<td>
 			<div class="yearPlanMeetings">
-			<h2><%=meeting.getName()%> </h2>
+			<h2><%=meeting.getName()%> ** <%=meeting.getId() %> </h2>
 			<p class="tags"> <%=meeting.getAidTags() %></p>
 			<p class="blurb"><%=meeting.getBlurb() %><p>
 			<br/>
                         <%  if( !myMeetingIds.contains( meeting.getId().trim().toLowerCase()) ){ %>
                                 <a href="#" onclick="cngMeeting('<%=meeting.getPath()%>')">Select Meeting</a>
                         <% }else{%>
-                                <i>Included in Year Plan</i>
+                               <span style="background-color:red;"> <i>Included in Year Plan</i></span>
                         <% }%>
 		</td>
 		<td width="10%">

@@ -49,7 +49,7 @@ ageLevel=ageLevel.toLowerCase().trim();
 <br/><br/>Age range: <%= ageLevel%>
 <br/><br/>Location:
 <%= activity.getLocationName() %>
-<%=activity.getLocationAddress()%>
+<a href="/content/girlscouts-vtk/controllers/vtk.map.html?address=<%=activity.getLocationAddress()%>" target="_blank"><%=activity.getLocationAddress()%></a>
 
 
 <br/><br/>Cost:<%=FORMAT_CURRENCY.format(activity.getCost()) %>
