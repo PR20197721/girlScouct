@@ -68,7 +68,7 @@
     cal1.setTime(today);
 %>
 
-<div class="small-24 medium-24 large-24 columns">
+<div class="small-24 medium-24 large-24 columns events-section">
 	<div class="row">
 		<div class="hide-for-small hide-for-medium large-24 columns">
 			<div class="feature-icon">
@@ -90,11 +90,11 @@
 		<div class="medium-4 show-for-medium columns">&nbsp;</div>
 	</div>
 </div>
-<ul class="small-block-grid-1 medium-block-grid-1  large-block-grid-2 content" style="
-    padding-right: 12px;
+<ul class="small-block-grid-1 medium-block-grid-1  large-block-grid-2 content events-block" style="
+   /* padding-right: 12px;
     margin-left: 20px;
     margin-right: 20px;
-    padding-left: 12px;
+    padding-left: 12px; */
 ">
 <%
 	com.day.cq.wcm.foundation.List elist= (com.day.cq.wcm.foundation.List)request.getAttribute("elist");
