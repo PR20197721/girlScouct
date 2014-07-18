@@ -16,7 +16,7 @@ if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMM
         path = genLink(resourceResolver, path);
         String clazz = values.length >= 3 ? " "+ values[2] : "";
 		%><%
-            if(centerLinks == false && centerLinks != null){
+            if(centerLinks != null && centerLinks == false){
             %>
 <a class="menu<%= clazz %>" href="<%= path %>"><%= label %></a><%
     }
