@@ -287,7 +287,8 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	String assetId = request.getParameter("bindAssetToYPC");
 	String ypcId = request.getParameter("ypcId");
 	String assetDesc = java.net.URLDecoder.decode(request.getParameter("assetDesc"));
-	System.err.println("*** "+ assetId +" : "+ ypcId +" : "+ assetDesc);
+	String assetTitle = java.net.URLDecoder.decode(request.getParameter("assetTitle"));
+	System.err.println("*** "+ assetId +" : "+ ypcId +" : "+ assetDesc+" : "+ assetTitle);
 	java.util.List<MeetingE> meetings = user.getYearPlan().getMeetingEvents();
 	for(int i=0;i<meetings.size();i++){
 		if( meetings.get(i).getUid().equals( ypcId)){
@@ -298,6 +299,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 			asset.setIsCachable(false);
 			asset.setRefId(assetId);
 			asset.setDescription(assetDesc);
+			asset.setTitle(assetTitle);
 			
 			java.util.List<Asset> assets = meetings.get(i).getAssets();
 			assets = assets ==null ? new java.util.ArrayList() : assets;
@@ -320,6 +322,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 			asset.setIsCachable(false);
 			asset.setRefId(assetId);
 			asset.setDescription(assetDesc);
+			asset.setTitle(assetTitle);
 			
 			java.util.List<Asset> assets = activities.get(i).getAssets();
 			assets = assets ==null ? new java.util.ArrayList() : assets;

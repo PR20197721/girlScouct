@@ -24,7 +24,9 @@ try{ isFile = Integer.parseInt( request.getParameter("isFile") ); }catch(Excepti
               			onsubmit="return bindAssetToYPC( '/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets/<%=assetId %>', '<%=request.getParameter("refId")%>' )"  enctype="multipart/form-data">
               
                        <input type="hidden" name="loc" value="/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets"/>
-              Asset Name: <input type="text" id="assetDesc" name="assetDesc" value="" />
+             
+               Asset Title: <input type="text" id="assetTitle" name="assetTitle" value="" />
+                Asset Description: <input type="text" id="assetDesc" name="assetDesc" value="" />
                <input type="hidden" name="id" value="<%=assetId %>"/>     
                 <input type="hidden" name="me" value="<%=request.getParameter("myId")%>"/>      
                <input type="hidden" name="owner" value="<%=user.getId()%>"/>
@@ -144,11 +146,13 @@ try{ isFile = Integer.parseInt( request.getParameter("isFile") ); }catch(Excepti
          
          function bindAssetToYPC(assetId, ypcId){
         	 
+        	 var assetTitle = document.getElementById("assetTitle").value;
         	 var assetDesc = document.getElementById("assetDesc").value;
         	 var custasset = document.getElementById("custasset").value;
         	 
         	 if( $.trim(custasset)=='' ){alert('Please select file to upload');return false;}
-        	 if( $.trim(assetDesc)=='' ){alert('Please enter name of asset');return false;}
+        	 if( $.trim(assetDesc)=='' ){alert('Please enter description of asset');return false;}
+        	 if( $.trim(assetTitle)=='' ){alert('Please enter title of asset');return false;}
         	 
         	 
         	 $.ajax({
@@ -158,6 +162,7 @@ try{ isFile = Integer.parseInt( request.getParameter("isFile") ); }catch(Excepti
         				bindAssetToYPC:assetId,
         				ypcId:ypcId,
         				assetDesc:assetDesc,
+        				assetTitle:assetTitle,
         				a:Date.now()
         			},
         			success: function(result) {
