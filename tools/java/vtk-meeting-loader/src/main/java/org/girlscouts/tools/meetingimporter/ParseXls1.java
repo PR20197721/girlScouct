@@ -40,13 +40,23 @@ public class ParseXls1 {
 
         Sheet sheet = workbook.getSheetAt(0);
         int i = 1;
+        char levelInitial = '-';
+        int position = 0;
         while (true) {
             i++;
 
             String meetingId = me.getCellVal(evaluator, sheet, "A" + i);
+            
             if (meetingId == null || meetingId.equals("")) {
                 System.err.println("xls record# : " + i);
                 break;
+            }
+            
+            if (meetingId.charAt(0) != levelInitial) {
+                position = 1;
+                levelInitial = meetingId.charAt(0);
+            } else {
+                position++;
             }
 
             //String meetingTitle = me.getCellVal(evaluator, sheet, "B" + i);
@@ -67,6 +77,7 @@ public class ParseXls1 {
             meeting.setAidTags(aids_tags.trim());
             meeting.setAgenda(agenda.trim());
             meeting.setResources(resource_tags.trim());
+            meeting.setPosition(position);
 
             String meetingPath = "/content/girlscouts-vtk/meetings/2014/"
                     + level + "/" + meetingId;

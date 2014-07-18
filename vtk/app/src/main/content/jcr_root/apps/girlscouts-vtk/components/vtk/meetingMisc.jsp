@@ -18,56 +18,14 @@
 	Meeting meetingInfo = meetingDAO.getMeeting(  meeting.getRefId() );
 	java.util.List <Activity> _activities = meetingInfo.getActivities();
 	java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  meetingInfo.getMeetingInfo();
-
-%>
-
+%> 
 
 <%if( request.getParameter("isOverview")!=null ){%>
-	<h3>Overview:</h3><%=meetingInfoItems.get("overview").getStr() %> 
+	<%=meetingInfoItems.get("overview").getStr() %> 
 <%}else if( request.getParameter("isActivity")!=null ){%>
-	
-	
-	<%
-
-	java.util.Iterator itr1=  meetingInfoItems.keySet().iterator(); 
-	while( itr1.hasNext()){
-		String name= (String) itr1.next();
-		if( name.trim().toLowerCase().equals("overview")) continue;
-		if( name.trim().toLowerCase().equals("materials")) continue;
-		if( name.trim().toLowerCase().equals("meeting id")) continue;
-%>
-			<h3><%=name %></h3><%=meetingInfoItems.get(name).getStr() %>
-<%
-	
-}
-%>
-
-
-
+	<%=meetingInfoItems.get("detailed activity plan").getStr() %> 
 <%}else if( request.getParameter("isMaterials")!=null ){%>
-	
-	
-	<%
-
-	java.util.Iterator itr1=  meetingInfoItems.keySet().iterator(); 
-	while( itr1.hasNext()){
-		String name= (String) itr1.next();
-		
-		if( name.trim().toLowerCase().equals("materials")){
-		
-%>
-			<h3><%=name %></h3><%=meetingInfoItems.get(name).getStr() %>
-<%
-	}
-	}
-%>
-
-
-
-
-
-
-
+	<%=meetingInfoItems.get("materials").getStr() %> 
 <%}else if( request.getParameter("isAgenda")!=null ){
 
 
