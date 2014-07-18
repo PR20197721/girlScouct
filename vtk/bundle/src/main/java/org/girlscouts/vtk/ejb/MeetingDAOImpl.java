@@ -156,24 +156,12 @@ public java.util.List<MeetingE> getAllEventMeetings_byPath(String yearPlanPath){
 	return meetings;
 }
 
-
+/*
 	public java.util.List<Meeting> getAllMeetings(String yearPlanId){
 		
 		java.util.List<Meeting> meetings =null; //new java.util.ArrayList();
 		
-/*
-		meetings= new java.util.ArrayList();
-		for(int i=0;i<15;i++){
-			
-			Meeting meeting = new Meeting();
-			meeting.setId(""+(i+1));
-			meeting.setName("meeting name"+ (i+1));
-		
-			meetings.add(meeting);
-			
-		}
-		if(true) return meetings;
-	*/	
+	
 		
 		try{
 			List<Class> classes = new ArrayList<Class>();	
@@ -205,20 +193,14 @@ public java.util.List<MeetingE> getAllEventMeetings_byPath(String yearPlanPath){
 		
 		
 		
-		/*
-		for(int i=1;i<15;i++){
-			
-			Meeting meeting = new Meeting();
-			meeting.setId(""+(i+1));
-			meeting.setName("meeting name"+ (i+1));
 		
-			meetings.add(meeting);
-			
-		}
-		*/
 		return meetings;
 	
 	}
+	*/
+	
+	
+	
 	
 	
 public Meeting getMeeting(String path){
@@ -1158,5 +1140,48 @@ public java.util.Map<String, String> searchRegion(){
 	return container;
 }
 
+
+
+
+public java.util.List<Meeting> getAllMeetings(String gradeLevel){
+	
+	java.util.List<Meeting> meetings =null; //new java.util.ArrayList();
+	
+
+	
+	try{
+		List<Class> classes = new ArrayList<Class>();	
+		classes.add(Meeting.class); 
+		classes.add(Activity.class);
+		classes.add(JcrCollectionHoldString.class);
+		
+		Mapper mapper = new AnnotationMapperImpl(classes);
+		ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
+	
+	
+		
+		QueryManager queryManager = ocm.getQueryManager();
+		Filter filter = queryManager.createFilter(Meeting.class);
+		
+       // filter.setScope(  "/content/girlscouts-vtk/meetings/");
+        filter.setScope(  "/content/girlscouts-vtk/meetings/myyearplan/"+gradeLevel+"/");
+       
+        Query query = queryManager.createQuery(filter);
+         meetings = (List<Meeting> ) ocm.getObjects(query);
+      
+        
+        
+		//System.err.println("Meetings: "+ meetings.size());
+		
+		}catch(Exception e){e.printStackTrace();}
+	
+	
+	
+	
+	
+	
+	return meetings;
+
+}
 
 }//edn class
