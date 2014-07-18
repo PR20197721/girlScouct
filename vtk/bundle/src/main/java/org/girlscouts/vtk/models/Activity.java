@@ -9,7 +9,7 @@ import org.girlscouts.vtk.dao.YearPlanComponentType;
 public class Activity extends YearPlanComponent{
 
 	public Activity(){
-		this.uid= "A"+new java.util.Date().getTime();
+		this.uid= "A"+new java.util.Date().getTime()+ "_"+ Math.random();
 		super.setType(YearPlanComponentType.ACTIVITY);
 		this.cost=0.00;
 		}
@@ -23,7 +23,7 @@ public class Activity extends YearPlanComponent{
 		this.locationName= locationName;
 		this.locationAddress = locationAddress;
 		super.setType(YearPlanComponentType.ACTIVITY);
-		this.uid= "A"+new java.util.Date().getTime();
+		this.uid= "A"+new java.util.Date().getTime() + "_"+ Math.random();
 		this.cost= cost;
 	}
 	
