@@ -288,10 +288,15 @@ for(int i=2;i<sheet.getLastRowNum();i++){
 	    if( destination.toLowerCase().trim().contains("/global") ) {
 	    	httppost = new HttpPost( "http://localhost:4503/content/dam/girlscouts-vtk/global/"+ type.toLowerCase().trim() +"/"+java.net.URLEncoder.encode(uploadFileName));
 	    } else {
+	        destination = destination.trim();
+	        String[] destinationParts = destination.split("/");
+	        if (destinationParts.length == 3) {
+	            destination = "/" + destinationParts[1].toLowerCase() + "/" + destinationParts[2].toUpperCase();
+	        }
 	        if (type.toLowerCase().trim().equals("icon")) {
-	            httppost = new HttpPost( "http://localhost:4503/content/dam/girlscouts-vtk/local/"+ type.toLowerCase().trim() +""+ destination.toUpperCase().trim() +".png");
+	            httppost = new HttpPost( "http://localhost:4503/content/dam/girlscouts-vtk/local/"+ type.toLowerCase().trim() +""+ destination +".png");
 	        } else {
-	            httppost = new HttpPost( "http://localhost:4503/content/dam/girlscouts-vtk/local/"+ type.toLowerCase().trim() +""+ destination.toUpperCase().trim() +"/"+java.net.URLEncoder.encode(uploadFileName));
+	            httppost = new HttpPost( "http://localhost:4503/content/dam/girlscouts-vtk/local/"+ type.toLowerCase().trim() +""+ destination +"/"+java.net.URLEncoder.encode(uploadFileName));
 	        }
 	    }
 	    

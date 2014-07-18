@@ -54,8 +54,8 @@ public class ParseXls1 {
             String level = me.getCellVal(evaluator, sheet, "C" + i);
             String meetingBlurb = me.getCellVal(evaluator, sheet, "D" + i);
             String cat = me.getCellVal(evaluator, sheet, "E" + i);
-            String aids_tags = me.getCellVal(evaluator, sheet, "F" + i);
-            String resource_tags = me.getCellVal(evaluator, sheet, "G" + i);
+            String aids_tags = me.getCellVal(evaluator, sheet, "F" + i).replaceAll("\\s+?", ";");
+            String resource_tags = me.getCellVal(evaluator, sheet, "G" + i).replaceAll("\\s+?", ";");
             String agenda = me.getCellVal(evaluator, sheet, "H" + i);
 
             Meeting meeting = new Meeting();
@@ -212,7 +212,7 @@ public class ParseXls1 {
             if (value != null)
                 toRet = value.getStringValue();
         }
-        return toRet;
+        return toRet.trim();
     }
 
 }
