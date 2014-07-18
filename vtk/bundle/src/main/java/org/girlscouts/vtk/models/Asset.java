@@ -12,12 +12,7 @@ public class Asset {
 	
 	
 	@Field private String type, refId, description, title;
-	public String getTitle() {
-		return title;
-	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
+	
 
 
 	@Field (path=true) private String path;
@@ -29,6 +24,12 @@ public class Asset {
 
 	
 	
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
+	}
 	public String getDescription() {
 		return description;
 	}
