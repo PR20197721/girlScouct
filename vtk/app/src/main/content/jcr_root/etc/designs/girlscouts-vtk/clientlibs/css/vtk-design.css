@@ -565,7 +565,7 @@ ul.formCheckboxes li {
 	padding:0;
 }
 
-
+.signout{z-index:99;}
 .searchResultsItem a{ display:none;}
 .searchResultsItem a.reserved{ display:block;}
 
