@@ -61,7 +61,14 @@ if( meetingE.getCancelled()!=null && meetingE.getCancelled().equals("true")){%>
 			</div>
 		</div>
 		<div class="large-4 medium-5 hide-for-small columns">
-			<img width="100" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/badge.png"/>
+			<%String img= "";
+				try{ img= meetingE.getRefId().substring( meetingE.getRefId().lastIndexOf("/")+1).toUpperCase(); }catch(Exception e){e.printStackTrace();}
+			
+				%>
+			<img width="100" height="100" src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png"/>
+			
+			
+			
 		</div>
 	</div>
 </li>

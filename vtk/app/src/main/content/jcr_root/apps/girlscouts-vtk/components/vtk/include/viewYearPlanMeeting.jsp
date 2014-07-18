@@ -78,7 +78,13 @@
 	</div>
         <div class="hide-for-small medium-5 large-4 columns ">
 		<a href="javascript:void(0)" class="mLocked" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=meeting.getPath()%>&xx=<%=searchDate.getTime()%>', false, null, true)">change this meeting</a>
-		<img width="100" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/badge.png"/>
+		
+		<%String img= "";
+				try{ img= meeting.getRefId().substring( meeting.getRefId().lastIndexOf("/")+1).toUpperCase(); }catch(Exception e){e.printStackTrace();}
+			
+				%>
+			<img width="100" height="100" src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png"/>
+		
 	</div>
 </div>
 <div class="row meetingDetailDescription">
