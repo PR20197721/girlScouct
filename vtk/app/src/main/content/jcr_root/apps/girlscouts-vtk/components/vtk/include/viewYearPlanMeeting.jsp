@@ -144,7 +144,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
 <div class="row meetingDetailDescription">
         <div class="small-8 columns"><a id="overviewButtonX" href="javascript:void(0)" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isOverview=true', true, 'Overview')">overview</a></div>
         <div class="small-8 columns"><a id="activityPlanButtonX" href="javascript:void(0)" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isActivity=true', true, 'Activity')">activity plan</a></div>
-        <div class="small-8 columns"><!--a id="materialsListButton" href="#">materials list</a--></div>
+        <div class="small-8 columns"><a id="materialsListButton" href="javascript:void(0)" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isMaterials=true', true, 'Materials')">materials list</a></div>
 </div>
 <div class="row meetingDetailDescription">
         <div class="small-1 columns">&nbsp;</div>

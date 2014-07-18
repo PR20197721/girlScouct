@@ -33,13 +33,41 @@
 	while( itr1.hasNext()){
 		String name= (String) itr1.next();
 		if( name.trim().toLowerCase().equals("overview")) continue;
+		if( name.trim().toLowerCase().equals("materials")) continue;
 		if( name.trim().toLowerCase().equals("meeting id")) continue;
 %>
 			<h3><%=name %></h3><%=meetingInfoItems.get(name).getStr() %>
 <%
-	}
-
+	
+}
 %>
+
+
+
+<%}else if( request.getParameter("isMaterials")!=null ){%>
+	
+	
+	<%
+
+	java.util.Iterator itr1=  meetingInfoItems.keySet().iterator(); 
+	while( itr1.hasNext()){
+		String name= (String) itr1.next();
+		
+		if( name.trim().toLowerCase().equals("materials")){
+		
+%>
+			<h3><%=name %></h3><%=meetingInfoItems.get(name).getStr() %>
+<%
+	}
+	}
+%>
+
+
+
+
+
+
+
 <%}else if( request.getParameter("isAgenda")!=null ){
 
 
