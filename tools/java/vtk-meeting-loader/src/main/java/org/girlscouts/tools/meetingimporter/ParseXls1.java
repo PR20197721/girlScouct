@@ -79,8 +79,9 @@ public class ParseXls1 {
             TraverseFind docx = new TraverseFind();
 
             java.util.Map<String, String> meetings = docx
-                    .getMeetingInfo("/Users/mike/Desktop/brownie/meetings/"
-                            + meetingId.toUpperCase() + ".docx");
+                    .getMeetingInfo("/Users/mike/Desktop/brownie/meetings/" + meetingId.toUpperCase() + ".docx");
+            
+            System.err.println("###########@@@@@@ meetingId = " + meetingId);
 
             Meeting docxMeeting = null;
             try {

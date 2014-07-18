@@ -75,7 +75,7 @@ function rmAid(aidId, meetingId, assetName, assetDesc){
 		<hr/>
 	</div>
 	<div class="small-4 medium-2 large-2 columns">
-		<a class="right" onclick="$('#gsModal').dialog('close')" href="#"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/close-small.png" width="20" height="20" border="0" align="right"></a>
+		<a class="right" onclick="closeModalPage()" href="#"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/close-small.png" width="20" height="20" border="0" align="right"></a>
 	</div>
 </div>
 <%
@@ -83,7 +83,7 @@ function rmAid(aidId, meetingId, assetName, assetDesc){
 %>
 <div class="row modalBody">
 	<div class="small-24 medium-24 large-24 columns">
-		<ul class="doubleList">
+		<ul>
 <%
 		java.util.Iterator itr= sched.keySet().iterator();
 		while( itr.hasNext() ){
@@ -91,10 +91,12 @@ function rmAid(aidId, meetingId, assetName, assetDesc){
 			YearPlanComponent _comp= sched.get(dt);
 			String displayName ="";
 			java.util.List<Asset> assets = null;
+			boolean isActivity = false;
 			switch( _comp.getType()){
 				case ACTIVITY :
 					displayName=((Activity)_comp).getName();
 					assets =  ((Activity)_comp).getAssets();
+					isActivity = true;
 					break;
 				case MEETING :
 					Meeting meetingInfo =meetingDAO.getMeeting( ((MeetingE) _comp).getRefId() );
@@ -110,7 +112,7 @@ function rmAid(aidId, meetingId, assetName, assetDesc){
 					}
 				}
 			}
-			if (meetingIsSelected) {
+			if (meetingIsSelected && !isActivity) {
 %>
 			<li class="checked">
 				<%=displayName%> (<img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/checked-small.png" width="20" height="20"/> added)
