@@ -122,7 +122,12 @@ while (yearPlans.hasNext()) {
 	YearPlan yearPlan = yearPlans.next();
 %>
 			<div class="row">
-				<div class="large-8 columns"><input type="submit" name="" value="<%=yearPlan.getName()%>" onclick="x('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg %>', '<%=yearPlan.getName()%>')" /></div>
+				<div class="large-8 columns">
+					<div style=" background-color:#efefef; padding:10px; margin-left:10px; text-align:center; ">
+						<a href="javascript:void(0)" onclick="x('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg %>', '<%=yearPlan.getName()%>')"><%=yearPlan.getName()%></a>
+					</div>
+				<!--  <input type="submit" name="" value="<%=yearPlan.getName()%>" onclick="x('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg %>', '<%=yearPlan.getName()%>')" /> -->
+				</div>
 				<div class="large-16 columns"><%=yearPlan.getDesc()%></div>
 			</div>
 			<hr/>

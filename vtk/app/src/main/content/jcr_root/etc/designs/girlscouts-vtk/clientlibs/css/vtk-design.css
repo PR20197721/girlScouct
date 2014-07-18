@@ -564,6 +564,11 @@ ul.formCheckboxes li {
 	margin-top: 12px;
 	padding:0;
 }
+
+
+.searchResultsItem a{ display:none;}
+.searchResultsItem a.reserved{ display:block;}
+
 @media only screen and (max-width: 40em) {
         .planSquare {
                 width: 70px;
