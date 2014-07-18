@@ -285,10 +285,15 @@ for(int i=2;i<sheet.getLastRowNum();i++){
 
 	    
 	    HttpPost httppost = null;
-	    if( destination.toLowerCase().trim().contains("/global") )
+	    if( destination.toLowerCase().trim().contains("/global") ) {
 	    	httppost = new HttpPost( "http://localhost:4502/content/dam/girlscouts-vtk/global/"+ type.toLowerCase().trim() +"/"+java.net.URLEncoder.encode(uploadFileName));
-	    else
-	    	httppost = new HttpPost( "http://localhost:4502/content/dam/girlscouts-vtk/local/"+ type.toLowerCase().trim() +""+ destination.toLowerCase().trim() +"/"+java.net.URLEncoder.encode(uploadFileName));
+	    } else {
+	        if (type.toLowerCase().trim().equals("icon")) {
+	            httppost = new HttpPost( "http://localhost:4502/content/dam/girlscouts-vtk/local/"+ type.toLowerCase().trim() +""+ destination.toUpperCase().trim() +".png");
+	        } else {
+	            httppost = new HttpPost( "http://localhost:4502/content/dam/girlscouts-vtk/local/"+ type.toLowerCase().trim() +""+ destination.toUpperCase().trim() +"/"+java.net.URLEncoder.encode(uploadFileName));
+	        }
+	    }
 	    
 	    String basic_auth = new String(Base64.encodeBase64(( "admin:admin" ).getBytes()));
 	    httppost.addHeader("Authorization", "Basic " + basic_auth);
