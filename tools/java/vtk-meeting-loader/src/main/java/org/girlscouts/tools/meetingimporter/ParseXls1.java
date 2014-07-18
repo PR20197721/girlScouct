@@ -28,7 +28,6 @@ import org.girlscouts.vtk.models.JcrCollectionHoldString;
 import org.girlscouts.vtk.models.Meeting;
 
 public class ParseXls1 {
-
     public static void main(String[] args) throws Exception {
         ParseXls1 me = new ParseXls1();
 
@@ -60,14 +59,14 @@ public class ParseXls1 {
             String agenda = me.getCellVal(evaluator, sheet, "H" + i);
 
             Meeting meeting = new Meeting();
-            meeting.setId(meetingId);
-            meeting.setName(meetingName);
-            meeting.setBlurb(meetingBlurb);
-            meeting.setLevel(level);
-            meeting.setCat(cat);
-            meeting.setAidTags(aids_tags);
-            meeting.setAgenda(agenda);
-            meeting.setResources(resource_tags);
+            meeting.setId(meetingId.trim());
+            meeting.setName(meetingName.trim());
+            meeting.setBlurb(meetingBlurb.trim());
+            meeting.setLevel(level.trim());
+            meeting.setCat(cat.trim());
+            meeting.setAidTags(aids_tags.trim());
+            meeting.setAgenda(agenda.trim());
+            meeting.setResources(resource_tags.trim());
 
             String meetingPath = "/content/girlscouts-vtk/meetings/2014/"
                     + level + "/" + meetingId;
@@ -111,6 +110,7 @@ public class ParseXls1 {
                     if (desc.endsWith("<p>"))
                         desc = desc.substring(0, desc.lastIndexOf("<p>"));
 
+                    desc = Formatter.format(desc);
                     activity.setActivityDescription(desc);
                     chngActivities.add(activity);
                     count++;
@@ -125,10 +125,18 @@ public class ParseXls1 {
                     String title = (String) itr.next();
                     String titleWithoutTags = title.replaceAll("<.*?>", "");
 
+                    /************ MZ ***********/
+                    String value = docx.fmtStr(meetings.get(title));
+                    if (titleWithoutTags.equals("meeting short description") ||
+                            titleWithoutTags.equals("meeting id")) {
+                        value = Formatter.stripTags(value);
+                    } else {
+                        value = Formatter.format(value);
+                    }
+                    /************ MZ end ***********/
                     _meetings.put(
                             titleWithoutTags,
-                            new JcrCollectionHoldString(docx.fmtStr(meetings
-                                    .get(title))));
+                            new JcrCollectionHoldString(value));
                 }
 
                 meeting.setMeetingInfo(_meetings);
