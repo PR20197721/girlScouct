@@ -45,9 +45,9 @@
 	
 	<%
 	UserGlobConfig ubConf =userDAO.getUserGlobConfig();
-	//out.println("TEST: "+ (ubConf==null) );
+	
 
-	out.println("VacationDates: "+ ubConf.getVacationDates() );
+	//out.println("VacationDates: "+ ubConf.getVacationDates() );
 	
 	/*** SAVE API
 		ubConf.setVacationDates("|09/07/2014|10/12/2014|");
