@@ -1090,6 +1090,8 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 				activity.setType(YearPlanComponentType.ACTIVITY);
 				activity.setId("ACT"+i);
 				activity.setPath( r.getPath() );
+			
+				
 				
 				
 				//filter by dates
