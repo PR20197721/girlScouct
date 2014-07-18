@@ -264,18 +264,21 @@ public class TraverseFind {
                     txt += "<ul>";
                     level = currentLevel;
                 } else if (currentLevel < level) {
-                    txt += "</ul>";
-                    if (currentLevel >= 0) {
-                        txt += "</li>";
+                    for (int i = level - 1; i >= currentLevel; i--) {
+                        txt += "</ul>";
+                        if (i >= 0) {
+                            txt += "</li>";
+                        }
                     }
                     level = currentLevel;
-                } else {
-                    txt += "<p>";
                 }
+
                 /**********MZ END**********/
 
                 if (Par.getNumID() != null) {
                     txt += "<li>";
+                } else {
+                    txt += "<p>";
                 }
 
                 java.util.List<XWPFRun> runs = Par.getRuns();
