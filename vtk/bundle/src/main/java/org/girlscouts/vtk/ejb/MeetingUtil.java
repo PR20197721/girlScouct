@@ -441,10 +441,13 @@ public class MeetingUtil {
 			MeetingE meeting = meetings.get(i);
 			if( meeting.getUid().equals( meetingId)){
 				
+				Asset dbAsset = meetingDAO.getAsset(aidId+"/") ;
+				
 				Asset asset = new Asset();
 				asset.setRefId(aidId);
 				asset.setType("aids");
-				asset.setDescription(assetName);
+				asset.setTitle(assetName);
+				asset.setDescription(dbAsset.getDescription());
 				
 				java.util.List<Asset> assets= meeting.getAssets();
 				assets= assets ==null ? new java.util.ArrayList() : assets;

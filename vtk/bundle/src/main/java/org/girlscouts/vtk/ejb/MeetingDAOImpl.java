@@ -47,11 +47,15 @@ import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Asset;
+import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.JcrCollectionHoldString;
 import org.girlscouts.vtk.models.JcrNode;
+import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
+import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.SearchTag;
+import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
 import org.girlscouts.vtk.models.user.User;
 
@@ -823,9 +827,9 @@ private List<Asset> getResource_global(String tags, String meetingName) {
       
    }
    
-   
-   List<Asset> matched_local= getAidTag_local(tags,meetingName) ;
-   matched.addAll(matched_local);
+ 
+	   List<Asset> matched_local= getAidTag_local(tags,meetingName) ;
+	   matched.addAll(matched_local);
    
    
    
@@ -1187,5 +1191,93 @@ public java.util.List<Meeting> getAllMeetings(String gradeLevel){
 	return meetings;
 
 }
+
+
+
+
+public  List<Asset> getAllResources(String _path) {
+	  
+	
+	List<Asset> matched = new ArrayList<Asset>();
+	
+	try{
+		
+		
+		String sql="";
+		
+		sql="select dc:description,dc:format, dc:title from nt:unstructured where jcr:path like '"+ _path +"%' and cq:tags is not null";
+		System.err.println( sql);
+		
+		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
+		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
+   		
+		 		
+		QueryResult result = q.execute();
+   
+ 
+   
+   for (RowIterator it = result.getRows(); it.hasNext(); ) {
+       Row r = it.nextRow();
+       Value excerpt = r.getValue("jcr:path");
+       
+       String path = excerpt.getString();
+       if( path.contains("/jcr:content") ) path= path.substring(0, (path.indexOf("/jcr:content") ));
+
+       Asset search = new Asset();
+       search.setRefId(path);
+       search.setIsCachable(true);
+       search.setType(AssetComponentType.RESOURCE);
+       try{ search.setDescription( r.getValue("dc:description").getString() );}catch(Exception e){}
+       try{ search.setTitle( r.getValue("dc:title").getString() );}catch(Exception e){}
+       matched.add(search);
+      
+   }
+   
+   
+	}catch(Exception e){e.printStackTrace();}
+   return matched;
+	}
+
+public  Asset getAsset(String _path) {
+	  
+	Asset search=null;
+	
+try{
+		
+		
+		String sql="";
+		
+		sql="select dc:description,dc:format, dc:title from nt:unstructured where jcr:path like '"+ _path +"%' and cq:tags is not null";
+		System.err.println( sql);
+		
+		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
+		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
+   		
+		 		
+		QueryResult result = q.execute();
+   
+ 
+   
+   for (RowIterator it = result.getRows(); it.hasNext(); ) {
+       Row r = it.nextRow();
+       Value excerpt = r.getValue("jcr:path");
+       
+       String path = excerpt.getString();
+       if( path.contains("/jcr:content") ) path= path.substring(0, (path.indexOf("/jcr:content") ));
+
+        search = new Asset();
+       search.setRefId(path);
+       search.setIsCachable(true);
+       search.setType(AssetComponentType.RESOURCE);
+       try{ search.setDescription( r.getValue("dc:description").getString() );}catch(Exception e){}
+       try{ search.setTitle( r.getValue("dc:title").getString() );}catch(Exception e){}
+       
+      
+   }
+}catch(Exception e){e.printStackTrace();}
+return search;
+}
+
+
 
 }//edn class

@@ -37,4 +37,8 @@ public interface MeetingDAO {
 	public java.util.List<Activity> searchA1(User user, String lvl, String cat, String keywrd,
 			java.util.Date startDate, java.util.Date endDate, String region);
 	public java.util.Map<String, String> searchRegion(); //pull distinct regions
+	
+	
+	public  List<Asset> getAllResources(String path) ;
+	public  Asset getAsset(String _path);
 }
