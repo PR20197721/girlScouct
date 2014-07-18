@@ -8,7 +8,7 @@
 	if (newCurrentPage != null) {
 	    currentPage = newCurrentPage;
 	}
-	if (newCurrentPage != null) {
+	if (newCurrentDesign != null) {
 	    currentDesign = newCurrentDesign;
 	}
 	

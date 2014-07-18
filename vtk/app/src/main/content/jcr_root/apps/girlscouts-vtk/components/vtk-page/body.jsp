@@ -50,7 +50,23 @@
 					}
 				%>
 				<cq:include script="content.jsp"/>
+				<%
+					if (newCurrentPage != null) {
+						request.setAttribute("newCurrentPage", newCurrentPage);
+					}
+					if (newCurrentDesign != null) {
+						request.setAttribute("newCurrentDesign", newCurrentDesign);
+					}
+				%>
 				<cq:include script="footer.jsp"/>
+				<%
+					if (newCurrentPage != null) {
+					    request.removeAttribute("newCurrentPage");
+					}
+					if (newCurrentDesign != null) {
+					    request.removeAttribute("newCurrentDesign");
+					}
+				%>
 			</div>
 		</div>
 		<div id="gsModal"></div>

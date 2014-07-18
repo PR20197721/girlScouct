@@ -101,14 +101,14 @@ function cngMeeting(mPath){
 	<tr>
 		<td>
 			<div class="yearPlanMeetings">
-			<h2><%=meeting.getName()%>( <%=meeting.getId() %> )</h2>
+			<h2><%=meeting.getName()%>( <%=meeting.getId() %> ) </h2>
 			<p class="tags"> <%=meeting.getAidTags() %></p>
 			<p class="blurb"><%=meeting.getBlurb() %><p>
 			<br/>
                         <%  if( !myMeetingIds.contains( meeting.getId().trim().toLowerCase()) ){ %>
                                 <a href="#" onclick="cngMeeting('<%=meeting.getPath()%>')">Select Meeting</a>
                         <% }else{%>
-                               <span style="background-color:red;"> <i>Included in Year Plan</i></span>
+                                <i>Included in Year Plan</i>
                         <% }%>
 		</td>
 		<td width="10%">
