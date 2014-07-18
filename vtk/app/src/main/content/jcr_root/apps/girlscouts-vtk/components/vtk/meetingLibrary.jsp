@@ -23,6 +23,9 @@
 		ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1).toLowerCase().trim();
 		java.util.List<Meeting> meetings =meetingDAO.getAllMeetings(ageLevel);
 		
+		
+		
+		
         String find="";
 
 %>
@@ -98,7 +101,7 @@ function cngMeeting(mPath){
 	<tr>
 		<td>
 			<div class="yearPlanMeetings">
-			<h2><%=meeting.getName()%> ** <%=meeting.getId() %> </h2>
+			<h2><%=meeting.getName()%>( <%=meeting.getId() %> )</h2>
 			<p class="tags"> <%=meeting.getAidTags() %></p>
 			<p class="blurb"><%=meeting.getBlurb() %><p>
 			<br/>
