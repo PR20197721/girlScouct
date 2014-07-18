@@ -21,7 +21,7 @@
 	    count = resultsHits.size();
     }
 %>
-<div class="small-24 medium-24 large-24 columns">
+<div class="small-24 medium-24 large-24 columns news-section">
 	<div class="row">
 		<div class="hide-for-small hide-for-medium large-24 columns">
 			<div class="feature-icon">
@@ -44,8 +44,8 @@
         </div>
         <div class="medium-4 show-for-medium columns">&nbsp;</div>
 	</div>
-	
-	<ul class="small-block-grid-1 content">
+
+	<ul class="news-info">
 
 <%
 // Feature news when select but author on the home page
