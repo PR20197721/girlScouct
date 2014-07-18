@@ -42,27 +42,6 @@ public class Formatter {
         dst = doc.body().html();
         dst = Jsoup.clean(dst, Whitelist.relaxed());
 
-        // Add <ul>
-        String[] lines = dst.split(System.getProperty("line.separator"));
-        boolean inUl = false;
-        for (int i = 0; i < lines.length; i++) {
-            if (!inUl && lines[i].startsWith("<li>")) {
-                lines[i] = "<ul>\n" + lines[i];
-                inUl = true;
-            } 
-
-            if (inUl && (i == lines.length - 1 || !lines[i+1].startsWith("<li>"))) {
-                lines[i] = lines[i] + "\n</ul>";
-                inUl = false;
-            }
-        }
-        
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < lines.length; i++) {
-            builder.append(lines[i]).append('\n');
-        }
-        dst = builder.toString();
-
         // mdash
         dst = dst.replaceAll("—", "&mdash;");
         return dst;
