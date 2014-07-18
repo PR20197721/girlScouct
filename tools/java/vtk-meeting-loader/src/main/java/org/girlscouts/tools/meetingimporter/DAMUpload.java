@@ -288,7 +288,7 @@ for(int i=2;i<sheet.getLastRowNum();i++){
 	    if( destination.toLowerCase().trim().contains("/global") )
 	    	httppost = new HttpPost( "http://localhost:4502/content/dam/girlscouts-vtk/global/"+ type.toLowerCase().trim() +"/"+java.net.URLEncoder.encode(uploadFileName));
 	    else
-	    	httppost = new HttpPost( "http://localhost:4502/content/dam/girlscouts-vtk/local/"+ type.toLowerCase().trim() +""+ destination+"/"+java.net.URLEncoder.encode(uploadFileName));
+	    	httppost = new HttpPost( "http://localhost:4502/content/dam/girlscouts-vtk/local/"+ type.toLowerCase().trim() +""+ destination.toLowerCase().trim() +"/"+java.net.URLEncoder.encode(uploadFileName));
 	    
 	    String basic_auth = new String(Base64.encodeBase64(( "admin:admin" ).getBytes()));
 	    httppost.addHeader("Authorization", "Basic " + basic_auth);
