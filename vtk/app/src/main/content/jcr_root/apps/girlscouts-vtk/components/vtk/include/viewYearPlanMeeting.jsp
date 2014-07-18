@@ -112,25 +112,24 @@
 	});
 </script>
 <div class="sectionHeader meetingAids">Meeting Aids</div>
+
+
+
 <%
 	String aidTags = meetingInfo.getAidTags();
 	aidTags = (aidTags==null || "".equals(aidTags.trim())) ? "No tags." : aidTags.trim().toLowerCase();
 %>
 <p class="subSection">Tags: <i><%=aidTags %></i></p>
 <%
-        List<Asset> _aidTags = meeting.getAssets();
-	if (_aidTags  == null || _aidTags.size() == 0) {
-%>
-	<p class="subSection">No meetings aids found.</p>
-<%
-	} else {
-%>
-<ul>
-<%
+List<Asset> _aidTags = meeting.getAssets();
 
 java.util.Date sysAssetLastLoad =  sling.getService(org.girlscouts.vtk.helpers.DataImportTimestamper.class).getTimestamp(); //SYSTEM QUERY
 if(meeting.getLastAssetUpdate()==null || meeting.getLastAssetUpdate().before(sysAssetLastLoad) ){
 	_aidTags = _aidTags ==null ? new java.util.ArrayList() : _aidTags;
+	
+	
+	
+	
 	
 	//rm cachables
 	java.util.List aidToRm= new java.util.ArrayList();
@@ -159,6 +158,14 @@ if(meeting.getLastAssetUpdate()==null || meeting.getLastAssetUpdate().before(sys
 	userDAO.updateUser(user);
 }
 
+	if ( _aidTags  == null || _aidTags.size() == 0) {
+%>
+	<p class="subSection">No meetings aids found.</p>
+<%
+	} else {
+%>
+<ul>
+<%
 
 if( _aidTags!=null )
  for(int i=0;i<_aidTags.size();i++){
@@ -173,7 +180,7 @@ if( _aidTags!=null )
         }
 %>
 	<li>
-		<a href="<%=asset.getRefId()%>" target="_blank"><%=aidTitle %></a> - <%=aidDescription %>
+		 <a href="<%=asset.getRefId()%>" target="_blank"><%=aidTitle %></a> - <%=aidDescription %>
 	 </li>
 <% 
  }

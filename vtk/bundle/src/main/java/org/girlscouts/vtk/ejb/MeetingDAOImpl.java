@@ -531,7 +531,7 @@ private List<Asset> getAidTag(String tags, String meetingName) {
 		sql="select * from nt:base where jcr:primaryType='dam:Asset' and jcr:path like '/content/dam/girlscouts-vtk/global/aid/%' and" +
 				" ("+ sql_tag +") order by jcr:score desc";
 		*/
-		sql="select dc:description,dc:format from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/aid/%'  and ( "+ sql_tag+" )";
+		sql="select dc:description,dc:format, dc:title from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/aid/%'  and ( "+ sql_tag+" )";
 		System.err.println( sql);
 		
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
@@ -557,8 +557,9 @@ private List<Asset> getAidTag(String tags, String meetingName) {
        search.setType(AssetComponentType.AID);
        search.setIsCachable(true);
        //search.setContent(excerpt.getString());
-       search.setDescription( r.getValue("dc:description").getString() );
+       try{ search.setDescription( r.getValue("dc:description").getString() );}catch(Exception e){e.printStackTrace();}
        //search.setType(r.getValue("dc:format").getString());
+       try{ search.setTitle( r.getValue("dc:title").getString() );}catch(Exception e){}
        matched.add(search);
       
    }
@@ -599,7 +600,7 @@ private List<Asset> getAidTag_local(String tags, String meetingName) {
 		
 		//sql="select dc:description,dc:format from nt:base where  jcr:primaryType= 'dam:Asset' and jcr:path like '/content/dam/girlscouts-vtk/local/aid/Meetings/"+meetingName+"/%' ";
 		
-		sql="select dc:description,dc:format  from nt:unstructured where  jcr:path like '/content/dam/girlscouts-vtk/local/aid/Meetings/"+meetingName+"/%' and jcr:mixinTypes='cq:Taggable'";
+		sql="select dc:description,dc:format, dc:title  from nt:unstructured where  jcr:path like '/content/dam/girlscouts-vtk/local/aid/Meetings/"+meetingName+"/%' and jcr:mixinTypes='cq:Taggable'";
 		System.err.println( sql);
 		
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
@@ -625,6 +626,7 @@ private List<Asset> getAidTag_local(String tags, String meetingName) {
        //search.setContent(excerpt.getString());
       try{search.setDescription( r.getValue("dc:description").getString() );}catch(Exception e){}
       // try{search.setType(r.getValue("dc:format").getString());}catch(Exception e){}
+      try{ search.setTitle( r.getValue("dc:title").getString() );}catch(Exception e){}
        matched.add(search);
       
    }
@@ -807,7 +809,7 @@ private List<Asset> getResource_global(String tags, String meetingName) {
 		
 		String sql="";
 		
-		sql="select dc:description,dc:format from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/resource/%'  and ( "+ sql_tag+" )";
+		sql="select dc:description,dc:format, dc:title from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/resource/%'  and ( "+ sql_tag+" )";
 		System.err.println( sql);
 		
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
@@ -829,7 +831,8 @@ private List<Asset> getResource_global(String tags, String meetingName) {
        search.setRefId(path);
        search.setIsCachable(true);
        search.setType(AssetComponentType.RESOURCE);
-       search.setDescription( r.getValue("dc:description").getString() );
+       try{ search.setDescription( r.getValue("dc:description").getString() );}catch(Exception e){}
+       try{ search.setTitle( r.getValue("dc:title").getString() );}catch(Exception e){}
        matched.add(search);
       
    }
@@ -858,7 +861,7 @@ private List<Asset> getResource_local(String tags, String meetingName) {
 		
 		
 		
-		sql="select dc:description,dc:format  from nt:unstructured where  jcr:path like '/content/dam/girlscouts-vtk/local/resource/Meetings/"+meetingName+"/%' and jcr:mixinTypes='cq:Taggable'";
+		sql="select dc:description,dc:format, dc:title  from nt:unstructured where  jcr:path like '/content/dam/girlscouts-vtk/local/resource/Meetings/"+meetingName+"/%' and jcr:mixinTypes='cq:Taggable'";
 		System.err.println( sql);
 		
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
@@ -883,6 +886,7 @@ private List<Asset> getResource_local(String tags, String meetingName) {
        search.setType(AssetComponentType.RESOURCE);
        //search.setContent(excerpt.getString());
       try{search.setDescription( r.getValue("dc:description").getString() );}catch(Exception e){}
+      try{search.setTitle( r.getValue("dc:title").getString() );}catch(Exception e){}
       // try{search.setType(r.getValue("dc:format").getString());}catch(Exception e){}
        matched.add(search);
       
