@@ -22,7 +22,7 @@
 <![endif]-->
 <!-- Modern Browser -->
 <!--[if gt IE 8]><!-->
-<% if(noLink = true && noLink != null){
+<% if(noLink != null && noLink == true){
     %>
 <nav class="show-for-small mobileFooterLogo">
 	<center>
