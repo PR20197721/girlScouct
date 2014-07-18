@@ -1,4 +1,6 @@
 <!-- apps/girlscouts-vtk/components/vtk/include/viewYearPlanMeeting.jsp -->
+
+
 <%
 	MeetingE meeting = (MeetingE) _comp;
 	Meeting meetingInfo = meetingDAO.getMeeting(  meeting.getRefId() );
@@ -55,6 +57,51 @@
 		<h1>Meeting: <%= meetingInfo.getName() %></h1>
 		<%= meetingInfo.getAidTags() %>
 		<p>Location:
+		
+		
+		
+		
+		
+		    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+   
+   
+   
+    <script>
+var geocoder;
+var map;
+function initialize() {
+  geocoder = new google.maps.Geocoder();
+  var latlng = new google.maps.LatLng(-34.397, 150.644);
+  var mapOptions = {
+    zoom: 8,
+    center: latlng
+  }
+  map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+}
+
+function codeAddress() {
+  var address = "<%=request.getParameter("address")%>";
+  geocoder.geocode( { 'address': address}, function(results, status) {
+    if (status == google.maps.GeocoderStatus.OK) {
+      map.setCenter(results[0].geometry.location);
+      var marker = new google.maps.Marker({
+          map: map,
+          position: results[0].geometry.location
+      });
+    } else {
+      alert('Geocode was not successful for the following reason: ' + status);
+    }
+  });
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
+		
+		<a href="/content/girlscouts-vtk/controllers/vtk.map.html?address=broadway">ex: broadway</a>
+		   
+		
+		
 <%
 	if( meeting.getLocationRef()!=null && user.getYearPlan().getLocations()!=null ) {
 		for(int k=0;k<user.getYearPlan().getLocations().size();k++){
@@ -78,7 +125,13 @@
 	</div>
         <div class="hide-for-small medium-5 large-4 columns ">
 		<a href="javascript:void(0)" class="mLocked" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=meeting.getPath()%>&xx=<%=searchDate.getTime()%>', false, null, true)">change this meeting</a>
-		<img width="100" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/badge.png"/>
+		
+		<%String img= "";
+				try{ img= meeting.getRefId().substring( meeting.getRefId().lastIndexOf("/")+1).toUpperCase(); }catch(Exception e){e.printStackTrace();}
+			
+				%>
+			<img width="100" height="100" src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png"/>
+		
 	</div>
 </div>
 <div class="row meetingDetailDescription">
@@ -112,25 +165,24 @@
 	});
 </script>
 <div class="sectionHeader meetingAids">Meeting Aids</div>
+
+
+
 <%
 	String aidTags = meetingInfo.getAidTags();
 	aidTags = (aidTags==null || "".equals(aidTags.trim())) ? "No tags." : aidTags.trim().toLowerCase();
 %>
 <p class="subSection">Tags: <i><%=aidTags %></i></p>
 <%
-        List<Asset> _aidTags = meeting.getAssets();
-	if (_aidTags  == null || _aidTags.size() == 0) {
-%>
-	<p class="subSection">No meetings aids found.</p>
-<%
-	} else {
-%>
-<ul>
-<%
+List<Asset> _aidTags = meeting.getAssets();
 
 java.util.Date sysAssetLastLoad =  sling.getService(org.girlscouts.vtk.helpers.DataImportTimestamper.class).getTimestamp(); //SYSTEM QUERY
 if(meeting.getLastAssetUpdate()==null || meeting.getLastAssetUpdate().before(sysAssetLastLoad) ){
 	_aidTags = _aidTags ==null ? new java.util.ArrayList() : _aidTags;
+	
+	
+	
+	
 	
 	//rm cachables
 	java.util.List aidToRm= new java.util.ArrayList();
@@ -159,6 +211,14 @@ if(meeting.getLastAssetUpdate()==null || meeting.getLastAssetUpdate().before(sys
 	userDAO.updateUser(user);
 }
 
+	if ( _aidTags  == null || _aidTags.size() == 0) {
+%>
+	<p class="subSection">No meetings aids found.</p>
+<%
+	} else {
+%>
+<ul>
+<%
 
 if( _aidTags!=null )
  for(int i=0;i<_aidTags.size();i++){
@@ -173,7 +233,7 @@ if( _aidTags!=null )
         }
 %>
 	<li>
-		<a href="<%=asset.getRefId()%>" target="_blank"><%=aidTitle %></a> - <%=aidDescription %>
+		 <a href="<%=asset.getRefId()%>" target="_blank"><%=aidTitle %></a> - <%=aidDescription %>
 	 </li>
 <% 
  }
@@ -203,6 +263,8 @@ if( _aidTags!=null )
 				<td>
 				
 					<%if( !isLocked) {%>
+					<div class="myheader" style="float:left;"><img src="/etc/designs/girlscouts-usa-green/images/hamburger.png" border="0"/></div>
+	
 						<!--  <a href="javascript:void(0)"  class="mLocked" onclick="editAgenda('<%=ii %>')"><%=_activity.getName() %></a> -->
 						<a href="javascript:void(0)"  class="mLocked" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isAgenda=<%=ii %>', true, 'Agenda')"><%=_activity.getName() %></a>
 					<%}else{ %>
@@ -290,8 +352,15 @@ if( _aidTags!=null )
 
 	<script>
 		$("#sortable").sortable({
-			  
-		
+			delay:150,
+			cursor: "move" ,
+			distance: 5,
+			opacity: 0.5 ,
+			scroll: true,
+			scrollSensitivity: 10 ,
+			tolerance: "intersect" ,
+			handle: ".myheader",
+			
 		update:  function (event, ui) {
 			repositionActivity('<%=meeting.getRefId()%>');
 		}
