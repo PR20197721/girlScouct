@@ -220,14 +220,24 @@ if( _aidTags!=null )
 		Activity _activity = _activities.get(ii);
 %>
 	<li value="<%=(ii+1)%>">
-		<table>
+		<table class="plain">
 			<tr>
-				<td><%if( user.getYearPlan().getSchedule()!=null ){ out.println(FORMAT_hhmm_AMPM.format(activSched.getTime())); }%></td>
+<%
+	if( !isLocked) {
+%>
+
+				<td><img class="touchscroll" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/touchscroll-small.png" width="21" height="34"></td>
+<%
+		if( user.getYearPlan().getSchedule()!=null ){ 
+%>
+				<td><%=FORMAT_hhmm_AMPM.format(activSched.getTime()) %></td>   
+<%
+		}
+	}
+%>
 				<td>
 				
 					<%if( !isLocked) {%>
-					<div class="myheader" style="float:left;"><img src="/etc/designs/girlscouts-usa-green/images/hamburger.png" border="0"/></div>
-	
 						<!--  <a href="javascript:void(0)"  class="mLocked" onclick="editAgenda('<%=ii %>')"><%=_activity.getName() %></a> -->
 						<a href="javascript:void(0)"  class="mLocked" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isAgenda=<%=ii %>', true, 'Agenda')"><%=_activity.getName() %></a>
 					<%}else{ %>
@@ -246,17 +256,9 @@ if( _aidTags!=null )
 	}
 %>
 </ul>
-<table>
+<table class="plain">
 	<tr>
-		<td></td>
-		<td><b>End</b></td>
-		<td>
-			<b> 
-				<%int min= duration%60;%>
-				<%=duration /60 >0 ? duration /60 +"hr" : ""%>
-				<%= min<10 ? "0"+min : min%>min 	
-			</b>
-		</td>
+		<td width="1000" align="right><b>End <%int min= duration%60;%> <%=duration /60 >0 ? duration /60 +"hr" : ""%> <%= min<10 ? "0"+min : min%>min</b></td>
 	</tr>
 </table>
 <%
@@ -310,10 +312,14 @@ if( _aidTags!=null )
 	</div>
 <%} %>
 </div>
-
-
-
 	<script>
+		var scrollTarget = "";
+		if (Modernizr.touch) {
+			// touch device
+			scrollTarget = ".touchscroll";
+		} else {
+                        $(".touchscroll").hide();
+		}
 		$("#sortable").sortable({
 			delay:150,
 			cursor: "move" ,
@@ -322,8 +328,7 @@ if( _aidTags!=null )
 			scroll: true,
 			scrollSensitivity: 10 ,
 			tolerance: "intersect" ,
-			handle: ".myheader",
-			
+			handle: scrollTarget,
 		update:  function (event, ui) {
 			repositionActivity('<%=meeting.getRefId()%>');
 		}

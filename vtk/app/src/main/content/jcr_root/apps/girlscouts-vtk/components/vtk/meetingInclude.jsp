@@ -16,10 +16,7 @@
 <br/><p>Drag and drop to reorder meetings</p>
 <ul id="sortable123">
 <% 
-
-
 if( user.getYearPlan().getSchedule()!=null ){ //sched exists
-	
  int meetingCount=0;
  java.util.Iterator itr = sched.keySet().iterator();
  while( itr.hasNext() ){
@@ -93,25 +90,28 @@ if( user.getYearPlan().getSchedule()!=null ){ //sched exists
 </ul>
 <script>
 	$(function() {
-		$( "#sortable123" ).sortable({
-			items: "li:not(.ui-state-disabled)",
-			delay:150,
-			cursor: "move" ,
-			distance: 5,
-			opacity: 0.5 ,
-			scroll: true,
-			scrollSensitivity: 10 ,
-			tolerance: "intersect" ,
-			handle: ".myheader",
-			
+                var scrollTarget = "";
+                if (Modernizr.touch) {
+                        // touch device
+                        scrollTarget = ".touchscroll";
+                } else {
+                        $(".touchscroll").hide();
+                }
+                $("#sortable123").sortable({
+                        items: "li:not(.ui-state-disabled)",
+                        delay:150,
+                        cursor: "move" ,
+                        distance: 5,
+                        opacity: 0.5 ,
+                        scroll: true,
+                        scrollSensitivity: 10 ,
+                        tolerance: "intersect" ,
+                        handle: scrollTarget,
 			update:  function (event, ui) {
-				doUpdMeeting()
+				doUpdMeeting();
 			}
-		});
-		
-		
-		$( "#sortable123 li" ).disableSelection();
-		 
+                });
+                $( "#sortable123 li" ).disableSelection();
 	});
 </script>
 
