@@ -244,8 +244,20 @@ try {
 	private String displayMeetingOverviews(User user, ResourceResolver rr, MeetingDAO meetingDAO) {
 	    try {
 		    StringBuilder builder = new StringBuilder("<ul>");
-		    for (MeetingE meetingE : user.getYearPlan().getMeetingEvents()) {
-		        Meeting meeting = meetingDAO.getMeeting(meetingE.getRefId());
+		    String level = user.getTroop().getGradeLevel().toLowerCase();
+		    // The field in SF is 1-Brownie, we need brownie
+		    if (level.contains("-")) {
+		        level = level.split("-")[1];
+		    }
+		    
+		    // TODO: Move this to a constant? Or we need a DAO to get all meetings of a certain level.
+		    final String MEETING_ROOT = "/content/girlscouts-vtk/meetings/myyearplan";
+		    String levelMeetingsRootPath = MEETING_ROOT + "/" + level;
+		    Resource levelMeetingsRoot = rr.resolve(levelMeetingsRootPath);
+		    Iterator<Resource> iter = levelMeetingsRoot.listChildren();
+		    while (iter.hasNext()) {
+		        Resource resource = iter.next();
+		        Meeting meeting = meetingDAO.getMeeting(resource.getPath());
 			    builder.append("<li><a href=\"javascript:void(0)\" onclick=\"displayResource('overview', '");
 			    builder.append(meeting.getPath());
 			    builder.append("')\">");
