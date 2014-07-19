@@ -57,15 +57,13 @@
 				            menuBuilder.append("<div>");
 				            menuBuilder.append(createHref(page));
 				            menuBuilder.append("</div>");
-				            //i
-				            //menuBuilder.append("</li>");
+				            menuBuilder.append("</li>");
 				     }
 				    Iterator<Page> p = page.listChildren(); 
 				    if(p.hasNext()){
 				           buildMenu(p, rootPath,gs_us_path, menuBuilder, levelDepth,nodePath, levelFlag,eventLeftNavRoot,currPath, currTitle, eventDispUnder);           
 					}
-				 }
-				 else{
+				 } else{
 					// CHECKING FOR THE EVENT SPECIAL CASE 
 					if(page.getPath().indexOf(eventLeftNavRoot)==0 && currPath.indexOf(eventDispUnder)==0){
 					    menuBuilder.append("<li>");
@@ -79,20 +77,19 @@
 					    menuBuilder.append("<a href=").append(currPath+".html").append(">").append(currTitle).append("</a>");
 					    menuBuilder.append("</div>");
 					    menuBuilder.append("</li></ul>");
-					}else
-					{
+					}else {
 					   menuBuilder.append("<li>");
 					   menuBuilder.append("<div>");
 					   menuBuilder.append("<a href=").append(createHref(page));
 					   menuBuilder.append("</div>");
-					   //i
-					   //menuBuilder.append("</li>");
+					   menuBuilder.append("</li>");
 					}
 				}
 			
 			 }// end of if
       }//while
-     menuBuilder.append("</li>");
+     menuBuilder.append("");
+
   }
      menuBuilder.append("</ul>"); 
     // return menuBuilder;
@@ -162,7 +159,7 @@ for (int i = 0; i < links.length; i++){
         	  if(currPath.startsWith(eventPath) && eventLeftNavRoot.startsWith(menuPath)){%>
          		  <li id="sub-active">
               	   <div><a href="<%= path %>"><%= sLabel %></a></div>
-          		<%
+<%
              	 if(eventGrandParent.equalsIgnoreCase(currentSite.get("eventPath", String.class))){
                    eventPath = eventLeftNavRoot.substring(0,eventLeftNavRoot.lastIndexOf("/"));
                    iterPage = resourceResolver.getResource(eventPath).adaptTo(Page.class).listChildren();
@@ -183,9 +180,11 @@ for (int i = 0; i < links.length; i++){
              	   %>
             		 <li id="sub-active">
           		  <%}  
+if (!"".equals(sLabel)) {
                %>
             	 <div><a href="<%= path %>"><%= sLabel %></a></div>
-           		 <% 
+<% 
+}
               		 if(currPath.indexOf(menuPath)==0 || (!eventPath.isEmpty() && menuPath.equals(eventPath))){
                 		 buildMenu(iterPage, rootPath, gs_us_path, menuBuilder, levelDepth,"",levelFlag,eventLeftNavRoot, currPath, currTitle, eventDisplUnder);
                		 }

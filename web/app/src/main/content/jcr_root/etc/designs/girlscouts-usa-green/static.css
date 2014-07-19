@@ -312,7 +312,7 @@ background-position: center;
 
 /* BREADCRUMBS */
 .breadcrumbs {
-    background-color: #fff;
+    background-color: #ffffff;
     border: 0px;
     padding: .5625rem 1.250rem;
 }
@@ -634,6 +634,9 @@ td.fc-header-left{
     color: #ddd;
     padding: 10px 0px 0px 5px;
     text-transform:capitalize;
+}
+#right-canvas-menu a.homepage{
+    margin-left: 20px;
 }
 #right-canvas-menu .side-nav li div {
 	padding: 0px 0px 0px 10px;
