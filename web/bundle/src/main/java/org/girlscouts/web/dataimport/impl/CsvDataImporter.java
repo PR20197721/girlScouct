@@ -290,7 +290,7 @@ public class CsvDataImporter implements DataImporter {
 		}
 	    }
 	    
-	    Node node = JcrUtil.createPath(path, primaryType, session);
+	    Node node = JcrUtil.createUniquePath(path, primaryType, session);
 	    if (primaryType.equals("cq:Page")) {
 		node = node.addNode("jcr:content", "cq:PageContent");
 	    }
