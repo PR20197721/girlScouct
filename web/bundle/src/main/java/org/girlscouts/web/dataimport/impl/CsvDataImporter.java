@@ -267,7 +267,10 @@ public class CsvDataImporter implements DataImporter {
 	    throws GirlScoutsException {
 	try {
 	    // Substitute colon. In JCR, it means namespace.
+	    // TODO: use some library here.
 	    path = path.replaceAll(":", "%3A");
+	    path = path.replaceAll("\\'", "%27");
+
 	    // Create parent node first
 	    String parentPath = path.substring(0, path.lastIndexOf('/'));
 	    if (rr.resolve(parentPath).adaptTo(Node.class) == null) {
