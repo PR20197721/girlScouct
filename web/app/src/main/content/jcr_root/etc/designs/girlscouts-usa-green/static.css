@@ -443,18 +443,18 @@ background-color: #B0B0B0;
     border: 1px solid red;
 }
 #contactsList h2{
-    color: #414141;
+    
     font-size: 1.2em;
 }
 #contactsList th {
     color: #ffffff;
 }
 #contactsList tr:first-child {
-    background-color: #00ae58;
+    /*background-color: #00ae58;*/
 }
 table, tr:first-child  {
      border-collapse:collapse;
-     border: 1px solid black; 
+     /*border: 1px solid black;*/ 
 }
 #contactsList table {
      width:100%;
@@ -963,20 +963,20 @@ ul.inline-list.eyebrow-fontsize{
 margin-bottom: 5px;
 }
 
-.contact-list th.name {
-	width: 25%
+#contactsList td.name{
+	width: 25%;
 }
 
-.contact-list th.title {
-	width: 40%
+#contactsList td.title{
+	width: 40%;
 }
 
-.contact-list th.phone {
-	width: 30%
+#contactsList td.phone{
+	width: 30%;
 }
 
-.contact-list th.email {
-	width: 5%
+#contactsList td.email{
+	width: 5%;
 }
 
 div.wrapper .row:nth-child(2) {
