@@ -75,6 +75,10 @@
                             fieldLabel="Event Left Nav Root"
                             name="./leftNavRoot"
                             xtype="dynamicPathField"/>
+                        <google-analytics-id
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Google Analytics ID "
+                            name="./googleAnalyticsId"/>
                     </items>
                 </girl-scouts>
             </items>
