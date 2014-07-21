@@ -1,7 +1,7 @@
+<%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/girlscouts/components/global.jsp"%>
+<%@page session="false" %>
 <%
-%><%@include file="/libs/foundation/global.jsp"%><%
-%><%@page session="false" %><%
-%><%
 String id = currentSite.get("googleAnalyticsId", "");
 if (!id.isEmpty()) {
 %>
