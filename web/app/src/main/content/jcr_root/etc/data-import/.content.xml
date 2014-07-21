@@ -11,12 +11,33 @@
                         jcr:primaryType="nt:unstructured"
                         name="jcr:title"
                         type="string"/>
-                    <description
+                    <start
+                        jcr:primaryType="nt:unstructured"
+                        type="date(MM/dd/yyyy h:mma)"/>
+                    <end
+                        jcr:primaryType="nt:unstructured"
+                        type="date(MM/dd/yyyy h:mma)"/>
+                    <region
                         jcr:primaryType="nt:unstructured"
                         type="string"/>
-                    <date
+                    <locationLabel
                         jcr:primaryType="nt:unstructured"
-                        type="date(yyyy-MM-dd HH:mm)"/>
+                        type="string"/>
+                    <address
+                        jcr:primaryType="nt:unstructured"
+                        type="string"/>
+                    <details
+                        jcr:primaryType="nt:unstructured"
+                        type="string"/>
+                    <srchdisp
+                        jcr:primaryType="nt:unstructured"
+                        type="string"/>
+                    <color
+                        jcr:primaryType="nt:unstructured"
+                        type="string"/>
+                    <register
+                        jcr:primaryType="nt:unstructured"
+                        type="string"/>
                 </fields>
                 <nameGen
                     jcr:primaryType="nt:unstructured"
