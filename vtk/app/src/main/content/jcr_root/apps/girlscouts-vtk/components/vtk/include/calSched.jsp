@@ -68,7 +68,10 @@
                 <li><label><input type="checkbox" name="exclDt" value="05/25/2015" <%=("".equals(exlDates) || exlDates.contains("02/25/2015")) ? "CHECKED" : ""  %>/>05/25/2015 (Memorial Day)</label></li>
                 <li><label><input type="checkbox" name="exclDt" value="07/04/2015" <%=("".equals(exlDates) || exlDates.contains("07/04/2015")) ? "CHECKED" : ""  %>/>07/04/2015 (Independence Day)</label></li>
 	</ul>
-	<br/><input type="button" value="create calendar" onclick="buildSched()"/>
+	<br/>
+	<div class="linkButtonWrapper">
+		<input type="button" value="create calendar" onclick="buildSched()" class="button linkButton"/>
+	</div>
 	</form>
 </div>
 <div id="calView"></div>

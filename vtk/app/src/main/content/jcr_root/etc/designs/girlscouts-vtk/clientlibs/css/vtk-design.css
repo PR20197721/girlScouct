@@ -371,6 +371,7 @@ a.direction {
 }
 .searchResultsItem a{
 	color:  #00ae58 !important;
+	
 }
 .searchResultsItem .docType{
         display: inline-block;
@@ -379,7 +380,13 @@ a.direction {
 .searchResultsItem h2 {
         display: inline-block;
 }
-
+.searchResultsItem table {
+	margin: 0;
+	border: 0;
+}
+.searchResultsItem tr:first-child {
+	border: 0;
+}
 #resourceSearchField {
 	padding:0 0.5em;
 }
@@ -568,6 +575,59 @@ ul.formCheckboxes li {
 .signout{z-index:99;}
 .searchResultsItem a{ display:none;}
 .searchResultsItem a.reserved{ display:block;}
+.linkButtonWrapper {
+	text-align: center;
+	padding: 0;
+}
+.linkButtonWrapper img {
+	margin: auto;
+}
+.button {
+	background: #00a850;
+	cursor: pointer;
+}
+.button.linkButton {
+	border: 1px solid #00a850;
+	background: #ffffff;
+	color: #00a850;
+	font-size: 0.9em;
+	border-radius: 6px;
+	padding: 0.8em;
+}
+.meetingDetailDescription .button.linkButton , .meetingDetailHeader .button.linkButton {
+	padding: 0;
+}
+
+
+
+.searchResultsItem1 {
+	padding: 10px;
+        display: inline-block;
+	border: 1px solid #eeeeee;
+	width: 100%;
+	margin: 5px;
+}
+.searchResultsItem1 a{
+	color:  #00ae58 !important;
+	
+}
+.searchResultsItem1 .docType{
+        display: inline-block;
+	text-align: left;
+}
+.searchResultsItem1 h2 {
+        display: inline-block;
+}
+.searchResultsItem1 table {
+	margin: 0;
+	border: 0;
+}
+.searchResultsItem1 tr:first-child {
+	border: 0;
+}
+
+
+
 
 @media only screen and (max-width: 40em) {
         .planSquare {

@@ -86,7 +86,7 @@
 		<div class="medium-4 show-for-medium columns">&nbsp;</div>
 	</div>
 </div>
-<ul class="small-block-grid-1 medium-block-grid-1  large-block-grid-2 content events-block" style="
+<ul class="small-block-grid-1 medium-block-grid-2  large-block-grid-2 content events-block" style="
    /* padding-right: 12px;
     margin-left: 20px;
     margin-right: 20px;

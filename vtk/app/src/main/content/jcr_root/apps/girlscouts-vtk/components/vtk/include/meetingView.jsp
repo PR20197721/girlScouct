@@ -160,7 +160,9 @@ function showIt(x){
 	 + (<%= meetingDate.getTime()%>)
 	
 	<br/><br/>
-	<input type="button" value="save" onclick="createCustAgendaItem('<%=meetingPath%>', '<%=meetingDate.getTime().getTime()%>')"/>
+	<div class="linkButtonWrapper">
+	<input type="button" value="save" onclick="createCustAgendaItem('<%=meetingPath%>', '<%=meetingDate.getTime().getTime()%>')" class="button linkButton"/>
+	</div>
      <%}else{ out.println("VIEW MODE"); } %>
        </div>
        
