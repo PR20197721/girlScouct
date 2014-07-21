@@ -161,13 +161,23 @@ try {
 		    	
 		   java.util.List<org.girlscouts.vtk.models.Asset> gresources = meetingDAO.getAllResources(MEETING_AID_PATH+"/"); 
 		 
-		    %><table><tr><th colspan="2">Meeting Aids</th></tr><% 
+		    %><table width="90%" align="center"><tr><th colspan="3">Meeting Aids</th></tr><% 
 		    for(int i=0;i<gresources.size();i++){
 			org.girlscouts.vtk.models.Asset a = gresources.get(i);
-		   	%>
+			String assetImage = org.girlscouts.vtk.utils.GSUtils.getDocTypeImageFromString(a.getDocType());
+%>
 		   	<tr>
-		   		<td><a href="<%=a.getRefId() %>" target="_blank"><%= a.getTitle() %></a> </td>
-		   		<td><input type="button" value="Add to Meeting" onclick="applyAids('<%=a.getRefId()%>', '<%=a.getTitle()%>' )" /></td>
+				<td width="30">
+<%
+			if (assetImage != null) {
+%>	
+					<img src="<%= assetImage %>" width="40" height="40" border="0"/>
+<%
+			}
+%>
+				</td>
+		   		<td><a class="previewItem" href="<%=a.getRefId() %>" target="_blank"><%= a.getTitle() %></a> </td>
+		   		<td width="40"><input type="button" value="Add to Meeting" onclick="applyAids('<%=a.getRefId()%>', '<%=a.getTitle()%>' )" class="button linkButton"/></td>
 			</tr>
 		   	<%
 		   }

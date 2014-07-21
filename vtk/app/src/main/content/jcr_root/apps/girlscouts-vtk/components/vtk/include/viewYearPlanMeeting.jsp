@@ -53,32 +53,27 @@
 			</tr>
 		</table>
 	</div>
-        <div class="small-12 medium-11 large-13 columns">
+        <div class="small-12 medium-10 large-12 columns">
 		<h1>Meeting: <%= meetingInfo.getName() %></h1>
 		<%= meetingInfo.getAidTags() %>
-		<p>Location:
-		
-		
-		
-		
-		
-		
-		
 <%
+	Location loc = null;
 	if( meeting.getLocationRef()!=null && user.getYearPlan().getLocations()!=null ) {
 		for(int k=0;k<user.getYearPlan().getLocations().size();k++){
 			if( user.getYearPlan().getLocations().get(k).getPath().equals( meeting.getLocationRef() ) ){
-				%>
-					<%=user.getYearPlan().getLocations().get(k).getName() %> - 
-					<a href="/content/girlscouts-vtk/controllers/vtk.map.html?address=<%= user.getYearPlan().getLocations().get(k).getAddress()%>" target="_blank"><%=user.getYearPlan().getLocations().get(k).getAddress() %></a>
-				<%
+				loc = user.getYearPlan().getLocations().get(k);
 			}
 		}
 	}
-
+	if (loc != null) {
 %>
-		</p>
+			<p>Location: <%=loc.getName() %> - <a href="/content/girlscouts-vtk/controllers/vtk.map.html?address=<%= loc.getAddress()%>" target="_blank"><%=loc.getAddress() %></a></p>
 <%
+	} else {
+%>
+			<i>No location specified.</i>
+<%
+	}
 	if( meeting.getCancelled()!=null && meeting.getCancelled().equals("true")){
 %>
 		<span class="alert">(Cancelled)</span>
@@ -86,28 +81,40 @@
 	}
 %>
 	</div>
-        <div class="hide-for-small medium-5 large-4 columns ">
-		<a href="javascript:void(0)" class="mLocked" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=meeting.getPath()%>&xx=<%=searchDate.getTime()%>', false, null, true)">change this meeting</a>
-		
-		<%String img= "";
-				try{ img= meeting.getRefId().substring( meeting.getRefId().lastIndexOf("/")+1).toUpperCase(); }catch(Exception e){e.printStackTrace();}
-			
-				%>
-			<img width="100" height="100" src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png"/>
-		
+        <div class="small-24 medium-6 large-5 columns linkButtonWrapper">
+		<a href="javascript:void(0)" class="mLocked button linkButton" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=meeting.getPath()%>&xx=<%=searchDate.getTime()%>', false, null, true)">replace this meeting</a>
+		<br/>
+<%
+	String img= "";
+	try{
+		img= meeting.getRefId().substring( meeting.getRefId().lastIndexOf("/")+1).toUpperCase(); 
+%>
+		<img class="hide-for-small" width="100" height="100" src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png"/>
+<%
+	}catch(Exception e){
+		// no image
+%>
+		<i>No image available.</i>
+<%
+	}
+%>
 	</div>
 </div>
 <div class="row meetingDetailDescription">
 	<div class="small-1 columns">&nbsp;</div>
         <div class="small-22 columns">
-                <p><%=meetingInfo.getBlurb() %></p>
+                <p>
+             
+               
+               <%=meetingInfoItems.get("meeting short description").getStr() %>
+                </p>
 	</div>
         <div class="small-1 columns">&nbsp;</div>
 </div>
-<div class="row meetingDetailDescription">
-        <div class="small-8 columns"><a id="overviewButtonX" href="javascript:void(0)" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isOverview=true', true, 'Overview')">overview</a></div>
-        <div class="small-8 columns"><a id="activityPlanButtonX" href="javascript:void(0)" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isActivity=true', true, 'Activity')">activity plan</a></div>
-        <div class="small-8 columns"><a id="materialsListButton" href="javascript:void(0)" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isMaterials=true', true, 'Materials')">materials list</a></div>
+<div class="row meetingDetailDescription linkButtonWrapper">
+        <div class="small-8 columns"><a class="button linkButton" id="overviewButtonX" href="javascript:void(0)" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isOverview=true', true, 'Overview')">overview</a></div>
+        <div class="small-8 columns"><a class="button linkButton" id="activityPlanButtonX" href="javascript:void(0)" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isActivity=true', true, 'Activity')">activity plan</a></div>
+        <div class="small-8 columns"><a class="button linkButton" id="materialsListButton" href="javascript:void(0)" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isMaterials=true', true, 'Materials')">materials list</a></div>
 </div>
 <div class="row meetingDetailDescription">
         <div class="small-1 columns">&nbsp;</div>
@@ -256,11 +263,15 @@ if( _aidTags!=null )
 	}
 %>
 </ul>
+
 <table class="plain">
 	<tr>
-		<td width="1000" align="right><b>End <%int min= duration%60;%> <%=duration /60 >0 ? duration /60 +"hr" : ""%> <%= min<10 ? "0"+min : min%>min</b></td>
+		<td width="1000" align="left">
+			<b>End <%int min= duration%60;%> <%=duration /60 >0 ? duration /60 +"hr" : ""%> <%= min<10 ? "0"+min : min%>min</b>
+		</td>
 	</tr>
 </table>
+
 <%
 	if(false)
 	 for(int ii=0;ii< _activities.size();ii++){ 
@@ -269,8 +280,10 @@ if( _aidTags!=null )
 		<%@include file="editActivity.jsp" %> 
 <%
 	}
+	
 %>
-<input type="button" name="" value="Add Agenda Items" onclick="addCustAgenda()"  class="mLocked"/>
+
+<input type="button" name="" value="Add Agenda Items" onclick="addCustAgenda()"  class="mLocked button linkButton"/>
 <div id="newMeetingAgenda" style="display:none;">
 <% if(true){// user.getYearPlan().getSchedule() !=null){ %>
        <h1>Add New Agenda Item</h1> 
@@ -333,6 +346,13 @@ if( _aidTags!=null )
 			repositionActivity('<%=meeting.getRefId()%>');
 		}
 		});
+
+
+$(function() {
+	$( ".button" ).button().click(function( event ) {
+		event.preventDefault();
+	});
+});
 	</script>
 	<%--@include file="../include/manageCommunications.jsp" --%>
 <%}else{ %>	

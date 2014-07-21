@@ -15,13 +15,18 @@
 
 
 
-	java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
+	java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan(), false);
 	if( sched==null || (sched.size()==0)){out.println( "You must first select a year plan."); return;}
 	java.util.List<java.util.Date> dates =new java.util.ArrayList<java.util.Date>(sched.keySet());
 	long nextDate=0, prevDate=0;
-	java.util.Date searchDate=null;
+	java.util.Date searchDate= null;
+
+
+	
 	if( request.getParameter("elem") !=null ) {
 		searchDate = new java.util.Date( Long.parseLong(  request.getParameter("elem")  ) );	
+	}else if( session.getValue("VTK_planView_memoPos") !=null ){
+			searchDate= new java.util.Date( (Long)session.getValue("VTK_planView_memoPos")  );
 	} else {
 		
 		if( user.getYearPlan().getSchedule()==null)
@@ -47,6 +52,9 @@
 	if( currInd>0 )
 		prevDate = ((java.util.Date)dates.get(currInd-1)).getTime();
 
+	
+	session.putValue("VTK_planView_memoPos", searchDate.getTime());
+	
 	YearPlanComponent _comp= sched.get(searchDate);
 	
 %> 

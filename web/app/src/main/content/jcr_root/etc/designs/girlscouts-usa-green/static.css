@@ -485,11 +485,9 @@ input#date{
     /*width:120px;*/
     /*float:left;*/
     /* margin-right: 15px;*/
-    width:140px;  
+   /* width:140px;*/  
 }
-#title{
-  padding:3px;
-}
+
 .baseDiv{
     float:left; 
     width:100%;
@@ -997,6 +995,45 @@ div.wrapper .row:nth-child(2) {
 padding: 5px 0;
 }
 
+.categoriesList li{
+	padding-bottom:0px;
+	padding-right:0px;
+}
+
+#form .event-region .dropdown select
+{  
+  
+   -webkit-appearance: none;        
+   -moz-appearance: none; 	
+   width: 139px;
+   height:25px;
+   display: inline-block;
+   padding: 4px 3px 5px 5px;
+   outline: none;
+   font-size:0.8rem;
+   border: 1px solid #C8BFC4;
+   box-shadow: inset 1px 1px 2px #ddd8dc;
+   background: url('images/select-dropdown-arrow.png') no-repeat;        
+   background-position: 117px;
+   background-size:20px; 
+   text-indent: 0.01px;
+   text-overflow:'';  
+            
+  
+
+ }
+
+#form .event-activity input[type=text]
+ { height:25px; }
+
+#form .title{
+  padding:4px 0px 7px 0px;
+  font-size:15px;
+  font-weight:bold;
+  
+}
 
 
-
+.featureStoriesHeader.columns {
+	margin: 0 -3.75em;
+}

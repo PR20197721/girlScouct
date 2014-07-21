@@ -17,14 +17,6 @@ if (searchResults == null || searchResults.size() < 1) {
 		org.girlscouts.vtk.models.Search search = searchResults.get(i);
 		String docTypeImage = null;
 		try {
-
-			String regexStr = "\\.([a-z]*)$";
-			Pattern pattern = Pattern.compile(regexStr, Pattern.CASE_INSENSITIVE);
-			Matcher matcher = pattern.matcher(search.getPath());
-			String extension = "";
-			if (matcher.find()) {
-				extension = matcher.group(1).toLowerCase();
-			}
 			String docType = null;
 			if (search.getType() != null) {
 				docType = search.getType().toLowerCase();
@@ -54,25 +46,7 @@ if (searchResults == null || searchResults.size() < 1) {
 			}
 			if (docTypeImage == null) {
 				// match by name
-				if (extension.equals("pdf")) {
-					docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-pdf.png";
-				} else if (extension.indexOf("ind") != -1) {
-					docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-indesign.png";
-				} else if (extension.indexOf("htm") != -1) {
-					docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-html.png";
-				} else if (extension.indexOf("xls") != -1) {
-					docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-excel.png";
-				} else if (extension.equals("ai")) {
-					docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-illustrator.png";
-				} else if (extension.indexOf("ppt") != -1) {
-					docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-powerpoint.png";
-				} else if (extension.indexOf("doc") != -1) {
-					docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-word.png";
-				} else if (extension.equals("psd")) {
-					docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-photoshop.png";
-				} else if (extension.equals("txt")) {
-					docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-text.png";
-				}
+				docTypeImage= org.girlscouts.vtk.utils.GSUtils.getDocTypeImageFromString(search.getPath());
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -86,11 +60,16 @@ if (searchResults == null || searchResults.size() < 1) {
 		}
 		
 %>
-	<li class="searchResultsItem">
-		<span class="docType"><img width="30" height="30" src="<%=docTypeImage%>"/></span>
-		<h2><a class="searchResultPath" href="<%=search.getPath() %>" target="_blank"><%= description %></a> </h2>
+	<li class="searchResultsItem1">
+		<table width="100%">
+			<tr>
+				<td width="34"><span class="docType"><img width="30" height="30" src="<%=docTypeImage%>"/></span></td>
+				<td><h2><a class="searchResultPath" href="<%=search.getPath() %>" target="_blank"><%= description %></a></h2>
 		<p><%=search.getContent() %></p>
-		<input type="button" value="Add to Meeting" onclick="applyAids('<%=search.getPath()%>', '<%= java.net.URLEncoder.encode(description) %>')"/>
+				</td>
+				<td width="40"><input type="button" value="Add to Meeting" onclick="applyAids('<%=search.getPath()%>', '<%= java.net.URLEncoder.encode(description) %>')" class="button linkButton"/><td/>
+			</tr>
+		</table>
 	</li>
 <%
 	}
