@@ -86,7 +86,7 @@ if (searchResults == null || searchResults.size() < 1) {
 		}
 		
 %>
-	<li class="searchResultsItem">
+	<li class="searchResultsItem1">
 		<table width="100%">
 			<tr>
 				<td width="34"><span class="docType"><img width="30" height="30" src="<%=docTypeImage%>"/></span></td>
