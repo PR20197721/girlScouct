@@ -100,7 +100,11 @@
 <div class="row meetingDetailDescription">
 	<div class="small-1 columns">&nbsp;</div>
         <div class="small-22 columns">
-                <p><%=meetingInfo.getBlurb() %></p>
+                <p>
+             
+               
+               <%=meetingInfoItems.get("meeting short description").getStr() %>
+                </p>
 	</div>
         <div class="small-1 columns">&nbsp;</div>
 </div>

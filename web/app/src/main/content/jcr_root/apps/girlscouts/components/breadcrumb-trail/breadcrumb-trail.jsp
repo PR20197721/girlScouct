@@ -1,5 +1,16 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
+<%!
+	int MAX_TITLE = 58;
+	public String trimTitle(String str) {
+                String ret = str;
+                int titleLength = ret.length();
+                if (ret.length() > MAX_TITLE) {
+                        ret = ret.substring(0,MAX_TITLE) + "...";
+                }
+		return ret;
+	}
+%>
 <nav class="breadcrumbs">
 <%
 	Resource resrc = resource.getResourceResolver().getResource(currentPage.getPath() +"/jcr:content");
@@ -23,8 +34,9 @@
 	<%= xssAPI.filterHTML(delim) %><a href="<%= xssAPI.getValidHref(parentNode.getPath()+".html") %>"><%= xssAPI.encodeForHTML(title) %></a>
 <%
 		}
+		String displayTitle = trimTitle(currentPage.getTitle());
 %>
-	<%= xssAPI.filterHTML(delim) %><span class="breadcrumbCurrent"><%= xssAPI.encodeForHTML(currentPage.getTitle()) %>
+	<%= xssAPI.filterHTML(delim) %><span class="breadcrumbCurrent"><%= xssAPI.encodeForHTML(displayTitle) %></span>
 <%
 	}else {
 		Page trail = null;
@@ -64,8 +76,9 @@
 			if (title == null || title.equals("")) {
 			    title = trail.getName();
 			}
+			String displayTitle = trimTitle(title);
 %>
-<span class="breadcrumbCurrent"><%= xssAPI.filterHTML(delim) %><%= xssAPI.encodeForHTML(title) %></span>
+<span class="breadcrumbCurrent"><%= xssAPI.filterHTML(delim) %><%= xssAPI.encodeForHTML(displayTitle) %></span>
 <%
 			if (trailStr.length() > 0) {
 			    %><%= xssAPI.filterHTML(trailStr) %><%

@@ -163,16 +163,15 @@ try {
 		 
 		    %><table><tr><th colspan="2">Meeting Aids</th></tr><% 
 		    for(int i=0;i<gresources.size();i++){
+			org.girlscouts.vtk.models.Asset a = gresources.get(i);
 		   	%>
 		   	<tr>
-		   		<td><%=gresources.get(i).getTitle() %></td>
-		   		<td><input type="button" value="Add to Meeting" onclick="applyAids('<%=gresources.get(i).getRefId()%>', '<%=gresources.get(i).getTitle()%>' )" />
-		   		</td>
-		   		</tr>
+		   		<td><a href="<%=a.getRefId() %>" target="_blank"><%= a.getTitle() %></a> </td>
+		   		<td><input type="button" value="Add to Meeting" onclick="applyAids('<%=a.getRefId()%>', '<%=a.getTitle()%>' )" /></td>
+			</tr>
 		   	<%
 		   }
 		    %></table><%
-		    	
 	    } else if (categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_OVERVIEWS)) {
 		    %><%= displayMeetingOverviews(user, resourceResolver, meetingDAO)%><%
 	    } else {
@@ -238,6 +237,7 @@ try {
 	    return result.getTotalMatches();
 	}
 	
+/*
 	private String displayAidAssets(String path, ResourceResolver rr) {
 	    StringBuilder builder = new StringBuilder("<ul>");
 	    System.err.println("PATH /: " + path);
@@ -260,8 +260,6 @@ try {
                     java.util.Iterator itr = map.entrySet().iterator();
                     while( itr.hasNext() )
                     	caca+= itr.next() +" : " + map.get( );
-                    */
-                    
                 	builder.append("<li>");
                 	builder.append("<a href=\"");
                 	builder.append(asset.getPath());
@@ -276,6 +274,7 @@ try {
         builder.append("</ul>");
         return builder.toString();
 	}
+*/
 	
 	private String getMeetingsRootPath(User user) {
 		String level = user.getTroop().getGradeLevel().toLowerCase();
