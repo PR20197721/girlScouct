@@ -19,10 +19,10 @@ $(function() {
 	    	containerHeight = '390px';
 	        break;
 	      case (viewportWidth < smallerSize):
-	        containerHeight = '350px';
+	        containerHeight = '375px';
 	        break;
 	      case (viewportWidth > largerSize):
-	        containerHeight = '325px';
+	        containerHeight = '350px';
 	        break;
 	      default:
 	        containerHeight = '300px';
