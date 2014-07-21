@@ -13,30 +13,39 @@
                         type="string"/>
                     <start
                         jcr:primaryType="nt:unstructured"
-                        type="date(MM/dd/yyyy h:mma)"/>
+                        name="data/start"
+                        type="date(yyyy/MM/dd h:mma)"/>
                     <end
                         jcr:primaryType="nt:unstructured"
-                        type="date(MM/dd/yyyy h:mma)"/>
+                        name="data/end"
+                        type="date(yyyy/MM/dd h:mma)"/>
                     <region
                         jcr:primaryType="nt:unstructured"
+                        name="data/region"
                         type="string"/>
                     <locationLabel
                         jcr:primaryType="nt:unstructured"
+                        name="data/locationLabel"
                         type="string"/>
                     <address
                         jcr:primaryType="nt:unstructured"
+                        name="data/address"
                         type="string"/>
                     <details
                         jcr:primaryType="nt:unstructured"
+                        name="data/details"
                         type="string"/>
                     <srchdisp
                         jcr:primaryType="nt:unstructured"
+                        name="data/srchdisp"
                         type="string"/>
                     <color
                         jcr:primaryType="nt:unstructured"
+                        name="data/color"
                         type="string"/>
                     <register
                         jcr:primaryType="nt:unstructured"
+                        name="data/register"
                         type="string"/>
                 </fields>
                 <nameGen
