@@ -16,7 +16,7 @@ $(function() {
 	        break;
 	      case (viewportWidth < mobileMin):
 	        // TODO: find a more efficient way to resolve screensize 
-	    	containerHeight = '380px';
+	    	containerHeight = '390px';
 	        break;
 	      case (viewportWidth < smallerSize):
 	        containerHeight = '350px';
