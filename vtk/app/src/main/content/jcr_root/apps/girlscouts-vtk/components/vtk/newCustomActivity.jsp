@@ -223,7 +223,10 @@ border:5px solid #000;
         <div class="small-24 medium-5 large-4 columns"><label for="newCustActivity_txt" ACCESSKEY="t">Description</label></div>
         <div class="small-24 medium-19 large-20 columns"><textarea id="newCustActivity_txt" rows="4" cols="5" ></textarea></div>
 </div>
-<br/><br/><input type="button" value="Add Activity" id="newCustActivity" />
+<br/><br/>
+<div class="linkButtonWrapper">
+	<input type="button" value="Add Activity" id="newCustActivity" class="button linkButton"/>
+</div>
 </form>
 
                 </div>
@@ -297,8 +300,10 @@ i++;
 	<ul>
         </div>
 </div>
-
-<br/><input type="button" value="View Activities" onclick='src11()' />
+<br/>
+<div class="linkButtonWrapper">
+	<input type="button" value="View Activities" onclick='src11()' class="button linkButton"/>
+</div>
 </form>
 
 <div id="searchResults"></div>

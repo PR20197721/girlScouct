@@ -106,7 +106,7 @@ function cngMeeting(mPath){
 			<p class="blurb"><%=meeting.getBlurb() %><p>
 			<br/>
                         <%  if( !myMeetingIds.contains( meeting.getId().trim().toLowerCase()) ){ %>
-                                <a href="#" onclick="cngMeeting('<%=meeting.getPath()%>')">Select Meeting</a>
+                                <a href="#" onclick="cngMeeting('<%=meeting.getPath()%>')" class="button linkButton">Select Meeting</a>
                         <% }else{%>
                                 <i>Included in Year Plan</i>
                         <% }%>

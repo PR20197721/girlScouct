@@ -36,8 +36,8 @@ if( meeting != null && meeting.getCancelled()!=null && meeting.getCancelled().eq
         <input type="checkbox" id="isCancellMeeting0" name="isCancellMeeting0" <%=isCancelMeeting == true ? "CHECKED" : "" %>/>&nbsp;<label for"isCancellMeeting0">Cancel Meeting</label>
 	<br/>
 	<hr/>
-	<input type="button" value="save" onclick="updSched1('0','<%=meeting.getPath()%>','<%=date.getTime()%>')"/>
-	<input type="button" value="cancel" onclick="loadCalMng()"/>
+	<input type="button" value="save" onclick="updSched1('0','<%=meeting.getPath()%>','<%=date.getTime()%>')" class="button linkButton"/>
+	<input type="button" value="cancel" onclick="loadCalMng()" class="button linkButton"/>
 </form>
 </div>
 <script>

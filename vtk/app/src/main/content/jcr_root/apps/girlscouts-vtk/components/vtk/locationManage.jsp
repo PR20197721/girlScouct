@@ -22,14 +22,14 @@ for(int i=0;i<locations.size();i++){
 	Location location = locations.get(i);
 %>
         <div class="row">
-		<div class="small-4 columns">&mdash; <a href="javascript:void(0)" onclick="rmLocation('<%=location.getUid()%>'); ">Remove</a></div>
+		<div class="small-4 columns"><a href="javascript:void(0)" onclick="rmLocation('<%=location.getUid()%>'); " class="button linkButton">-&nbsp;Remove</a></div>
                 <div class="small-10 columns"><%=location.getName() %></div>
                 <div class="small-10 columns"><%=location.getAddress() %></div>
 	</div>
         <div class="row">
                 <div class="small-4 columns">&nbsp;</div>
                 <div class="small-20 columns">
-			<a href="javascript:void(0)" onclick="applyLocToAllMeetings('<%=location.getPath()%>')">Apply to All meetings</a>
+			<a href="javascript:void(0)" onclick="applyLocToAllMeetings('<%=location.getPath()%>')" class="button linkButton">Apply to all meetings</a>
 			<br/>
 			<div class="locationList">
 <% 
@@ -63,7 +63,9 @@ for(int i=0;i<locations.size();i++){
                         }
                 }
 %>
-				<input type="button" value="assign locations" onclick="updLocations('<%=location.getPath()%>', '<%=location.getName()%>')"/>
+				<div class="linkButton Wrapper">
+					<input type="button" value="assign locations" onclick="updLocations('<%=location.getPath()%>', '<%=location.getName()%>')" class="button linkButton"/>
+				</div>
 <%
         }
 %>

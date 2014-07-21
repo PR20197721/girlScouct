@@ -283,7 +283,7 @@ if( _aidTags!=null )
 	
 %>
 
-<input type="button" name="" value="Add Agenda Items" onclick="addCustAgenda()"  class="mLocked"/>
+<input type="button" name="" value="Add Agenda Items" onclick="addCustAgenda()"  class="mLocked button linkButton"/>
 <div id="newMeetingAgenda" style="display:none;">
 <% if(true){// user.getYearPlan().getSchedule() !=null){ %>
        <h1>Add New Agenda Item</h1> 
