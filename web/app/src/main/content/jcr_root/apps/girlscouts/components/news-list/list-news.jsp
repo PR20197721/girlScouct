@@ -1,4 +1,4 @@
-<%@ page import="com.day.cq.wcm.api.WCMMode,com.day.cq.wcm.foundation.List,java.text.DateFormat,
+<%@ page import="com.day.cq.wcm.api.WCMMode,com.day.cq.wcm.foundation.List,java.text.DateFormat,java.util.Set,
                    com.day.cq.wcm.api.components.DropTarget,com.day.cq.search.Query,com.day.cq.search.result.SearchResult,com.day.cq.search.result.Hit,
                    java.util.Map,java.util.HashMap,com.day.cq.search.QueryBuilder,com.day.cq.search.PredicateGroup,java.util.Arrays,java.util.HashSet,java.util.ArrayList,
                    java.util.Iterator,java.text.SimpleDateFormat,java.util.Date, java.text.Format,com.day.cq.dam.commons.util.DateParser"%>
@@ -24,6 +24,7 @@
   String str = "";
   String external_url = "";
   int strP = 0;
+  Set<String> featureNews = (HashSet)request.getAttribute("featureNews");
   
  %>
 <%  
@@ -80,10 +81,12 @@
 	request.setAttribute("date",date);
 	request.setAttribute("text",text);
 	request.setAttribute("external_url",external_url);
+	if(!featureNews.contains(hit.getPath)){
 	%>
 	<cq:include script="news-list-render.jsp"/>
 	
-   <%}
+	<%}
+  }
 
 %>
 

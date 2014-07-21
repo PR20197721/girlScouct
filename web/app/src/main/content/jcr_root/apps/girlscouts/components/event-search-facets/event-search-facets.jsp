@@ -160,12 +160,3 @@
 </div>
 <%}%>
 
-<style>
-.categoriesList li{
-padding-bottom:0px;
-padding-right:0px;
-}
-
-
-</style>
-
