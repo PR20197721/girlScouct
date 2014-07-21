@@ -256,11 +256,15 @@ if( _aidTags!=null )
 	}
 %>
 </ul>
+
 <table class="plain">
 	<tr>
-		<td width="1000" align="right><b>End <%int min= duration%60;%> <%=duration /60 >0 ? duration /60 +"hr" : ""%> <%= min<10 ? "0"+min : min%>min</b></td>
+		<td width="1000" align="left">
+			<b>End <%int min= duration%60;%> <%=duration /60 >0 ? duration /60 +"hr" : ""%> <%= min<10 ? "0"+min : min%>min</b>
+		</td>
 	</tr>
 </table>
+
 <%
 	if(false)
 	 for(int ii=0;ii< _activities.size();ii++){ 
@@ -269,7 +273,9 @@ if( _aidTags!=null )
 		<%@include file="editActivity.jsp" %> 
 <%
 	}
+	
 %>
+
 <input type="button" name="" value="Add Agenda Items" onclick="addCustAgenda()"  class="mLocked"/>
 <div id="newMeetingAgenda" style="display:none;">
 <% if(true){// user.getYearPlan().getSchedule() !=null){ %>

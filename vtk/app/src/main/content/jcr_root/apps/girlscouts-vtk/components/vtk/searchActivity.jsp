@@ -14,10 +14,11 @@ java.util.List <org.girlscouts.vtk.models.Activity> activities =  (java.util.Lis
 
 
 
-for(int i=0;i<activities.size();i++){
+ for(int i=0;i<activities.size();i++){
 	
 	boolean isExists=false;
-	for(int y=0;y<user.getYearPlan().getActivities().size();y++)
+	if( user.getYearPlan().getActivities() !=null)
+	 for(int y=0;y<user.getYearPlan().getActivities().size();y++)
 		if( user.getYearPlan().getActivities().get(y).getName().equals( activities.get(i).getName() )  ) 
 			{isExists=true; break;}
 				

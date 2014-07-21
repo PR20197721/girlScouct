@@ -19,7 +19,14 @@
    String eventPath = currentSite.get("eventPath", String.class);
    String gs_us_path = currentPage.getAbsoluteParent(2).getPath();
    String rootPath = currentPage.getPath().substring(gs_us_path.length()+1, currPath.length()); 
-   String eventGrandParent = currentPage.getParent().getParent().getPath();
+   
+   // MANU: fix this code!!!
+   String eventGrandParent = null;
+   try {
+	   eventGrandParent = currentPage.getParent().getParent().getPath();
+   } catch (Exception e) {}
+
+     
    String eventLeftNavRoot = currentSite.get("leftNavRoot", String.class);
    String eventDisplUnder = currentSite.get("eventPath", String.class);
    boolean levelFlag = true;
