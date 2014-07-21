@@ -323,6 +323,11 @@ public class CsvDataImporter implements DataImporter {
 
     private String executeJavaScript(String nameScript, String... value)
 	    throws GirlScoutsException {
+    // Escape apostrophe
+    for (int i = 0; i < value.length; i++) {
+        value[i] = value[i].replaceAll("\\'", "\\\\'");
+    }
+
 	StringBuilder sb = new StringBuilder();
 	for (int i = 0; i < value.length - 1; i++) {
 	    sb.append("'").append(value[i]).append("',");
