@@ -87,10 +87,15 @@ if (searchResults == null || searchResults.size() < 1) {
 		
 %>
 	<li class="searchResultsItem">
-		<span class="docType"><img width="30" height="30" src="<%=docTypeImage%>"/></span>
-		<h2><a class="searchResultPath" href="<%=search.getPath() %>" target="_blank"><%= description %></a> </h2>
+		<table width="100%">
+			<tr>
+				<td width="34"><span class="docType"><img width="30" height="30" src="<%=docTypeImage%>"/></span></td>
+				<td><h2><a class="searchResultPath" href="<%=search.getPath() %>" target="_blank"><%= description %></a></h2>
 		<p><%=search.getContent() %></p>
-		<input type="button" value="Add to Meeting" onclick="applyAids('<%=search.getPath()%>', '<%= java.net.URLEncoder.encode(description) %>')"/>
+				</td>
+				<td width="40"><input type="button" value="Add to Meeting" onclick="applyAids('<%=search.getPath()%>', '<%= java.net.URLEncoder.encode(description) %>')" class="button linkButton"/><td/>
+			</tr>
+		</table>
 	</li>
 <%
 	}
