@@ -966,20 +966,30 @@ ul.inline-list.eyebrow-fontsize{
 margin-bottom: 5px;
 }
 
-#contactsList td.name{
+.contact-list td.name{
 	width: 25%;
 }
 
-#contactsList td.title{
+.contact-list td.title{
 	width: 40%;
 }
 
-#contactsList td.phone{
+.contact-list td.phone{
 	width: 30%;
 }
 
-#contactsList td.email{
+.contact-list td.email{
 	width: 5%;
+}
+
+.contact-list table tr:nth-of-type(even){
+	background: white;
+}
+
+.contact-list table{
+	background: white;
+	margin-bottom: 1.25rem;
+	border: none;
 }
 
 div.wrapper .row:nth-child(2) {
