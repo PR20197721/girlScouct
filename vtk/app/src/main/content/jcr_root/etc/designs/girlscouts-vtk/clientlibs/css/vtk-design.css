@@ -1,7 +1,9 @@
 .vtk {
 	padding: .25em;
 }
-
+.row .row {
+	margin: 0;
+}
 ul.tabs {
 	margin: 0px;
 }
@@ -177,11 +179,18 @@ table.planSquareWrapper tr:first-child {
         border:0 !important;
 }
 table.planSquareWrapper {
-	width: 200px;
 	border:0 !important;
 	margin:5px;
 	padding:0;
+	margin: auto;
 }
+.planSquareLeft, .planSquareRight{
+	width: 40px;
+}
+.planSquareMiddle {
+	width: 100px;
+}
+
 table.planSquareWrapper td{
 	text-align: center;
 }
