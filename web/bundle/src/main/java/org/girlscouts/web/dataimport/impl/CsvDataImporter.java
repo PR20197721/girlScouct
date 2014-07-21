@@ -349,7 +349,7 @@ public class CsvDataImporter implements DataImporter {
 		    "Too Few columns. There should be " + fields.size() + " columns");
 	}
 	List<Object> result = new ArrayList<Object>();
-	for (int i = 0; i < cols.length; i++) {
+	for (int i = 0; i < fields.size(); i++) {
 	    String type = fields.get(i)[1];
 	    String script = fields.get(i)[2];
 	    String value = cols[i];
