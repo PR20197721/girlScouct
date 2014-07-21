@@ -35,10 +35,6 @@
 	
 	DateFormat calendarFormat = new SimpleDateFormat("M-yyyy");
 	java.util.List<String> results = srchInfo.getResults();
-	
-	
-	
-	
 	int eventcounts = 0;
 	String key = "";
 	String value = "";
@@ -98,10 +94,13 @@
 ">
 <%
 	com.day.cq.wcm.foundation.List elist= (com.day.cq.wcm.foundation.List)request.getAttribute("elist");
+    Set<String> featureEvents =(HashSet) request.getAttribute("featureEvents");
+    
 
-	if (elist.isEmpty()){
-	    %><h3>No Upcoming Events</h3><%
-	} else {
+
+	if (!elist.isEmpty()){
+	   
+	
 		Iterator<Page> items = elist.getPages();
 		
 		while (items.hasNext()){
@@ -150,6 +149,8 @@
     
      int count = 0;
      for(String result: results){
+    	
+    	 
     	 Node node = resourceResolver.getResource(result).adaptTo(Node.class);
     	 try{
 			Node propNode = node.getNode("jcr:content/data");
@@ -188,17 +189,20 @@
              imgPath = node.getPath()+"/jcr:content/data/image";
             
              iconPath=node.hasProperty("jcr:content/data/image/fileReference") ? node.getProperty("jcr:content/data/image/fileReference").getString() : "";
-             count++;
+            
              request.setAttribute("href", href);
              request.setAttribute("title", title);
              request.setAttribute("dateStr", dateStr);
              request.setAttribute("locationLabel", locationLabel);
              request.setAttribute("iconPath", iconPath);
              request.setAttribute("imgPath", imgPath);
-               
+             if(!featureEvents.contains(result)){   
+            	 count++;
            %> 
-          <cq:include script="event-render.jsp"/>
-     <%}
+          		<cq:include script="event-render.jsp"/>
+     <%
+     		}
+        }
       if(eventcounts==count)
       {
         	 break;
@@ -207,23 +211,7 @@
      }
 %>
 </ul>
-<%
 
-
-if (!elist.isEmpty()){
-	   Iterator<Page> itemslist = elist.getPages();
-	   while(itemslist.hasNext()){
-		   Page pg = itemslist.next();
-		   if(pg.getProperties().containsKey("isFeature")){
-			    Node node = pg.getContentResource().adaptTo(Node.class);
-			    node.setProperty("isFeature", false);
-			    node.save();
-			 }
-		}
-}  
-
-
-%>
 
 <%!
 public static String getDateTime(Date startDate, Date endDate,DateFormat dateFormat,DateFormat timeFormat,String dateStr){
