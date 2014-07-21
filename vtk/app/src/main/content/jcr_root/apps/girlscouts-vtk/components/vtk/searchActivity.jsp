@@ -1,9 +1,26 @@
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@include file="/libs/foundation/global.jsp" %>
+<cq:defineObjects/>
+<%@include file="include/session.jsp"%>
+
 <%
 java.util.List <org.girlscouts.vtk.models.Activity> activities =  (java.util.List <org.girlscouts.vtk.models.Activity>)session.getValue("vtk_search_activity");
 %><h2 class="searchResult">Found <%=activities.size()%> Activites </h2>
 <ul>
+
+
+
 <% 
+
+
+
 for(int i=0;i<activities.size();i++){
+	
+	boolean isExists=false;
+	for(int y=0;y<user.getYearPlan().getActivities().size();y++)
+		if( user.getYearPlan().getActivities().get(y).getName().equals( activities.get(i).getName() )  ) 
+			{isExists=true; break;}
+				
 %>
 		<li class="searchResultsItem" > 
 			<%=activities.get(i).getName()%>
@@ -13,9 +30,13 @@ for(int i=0;i<activities.size();i++){
 			<p> <%=activities.get(i).getContent() %> </p>
 			<%if(activities.get(i).getDate()==null){ %>
 				<i>Unable to add this item due to missing start date.</i>
+			<% }else if( isExists ){ %>
+					<i>This Activity is currently is already selected </i>
 			<%}else{ %>
-				<a href="#" onclick="addActiv3('<%=activities.get(i).getUid()%>')">Select Activity</a>
+				<a href="#" class="reserved" onclick="addActiv3('<%=activities.get(i).getUid()%>')">Select Activity</a>
 			<%} %>
+			
+			
 			<div id="cust_activ_<%=activities.get(i).getUid()%>"></div>
 		</li> 
 <%

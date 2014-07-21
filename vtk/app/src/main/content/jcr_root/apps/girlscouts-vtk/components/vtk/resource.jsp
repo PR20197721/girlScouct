@@ -53,6 +53,7 @@
 	});
 
 	function applyAids(aid, aidDesc){
+		
 		var link = "/content/girlscouts-vtk/controllers/vtk.asset.html?aidId="+ aid+ "&aidName="+encodeURI(aidDesc);
 		loadModalPage(link, false, null);
 	}
@@ -156,7 +157,21 @@ try {
 
 	if (categoryPage != null) {
 	    if (categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_AIDS)) {
-		    %><%= displayAidAssets(MEETING_AID_PATH, resourceResolver) %><%
+		  
+		    	
+		   java.util.List<org.girlscouts.vtk.models.Asset> gresources = meetingDAO.getAllResources(MEETING_AID_PATH+"/"); 
+		 
+		    %><table><tr><th colspan="2">Meeting Aids</th></tr><% 
+		    for(int i=0;i<gresources.size();i++){
+			org.girlscouts.vtk.models.Asset a = gresources.get(i);
+		   	%>
+		   	<tr>
+		   		<td><a href="<%=a.getRefId() %>" target="_blank"><%= a.getTitle() %></a> </td>
+		   		<td><input type="button" value="Add to Meeting" onclick="applyAids('<%=a.getRefId()%>', '<%=a.getTitle()%>' )" /></td>
+			</tr>
+		   	<%
+		   }
+		    %></table><%
 	    } else if (categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_OVERVIEWS)) {
 		    %><%= displayMeetingOverviews(user, resourceResolver, meetingDAO)%><%
 	    } else {
@@ -171,6 +186,7 @@ try {
 			%><%= builder.toString() %><%
 			%></ul><%
 	    }
+	    %></tr><% 
 	}
 %>
 
@@ -221,8 +237,10 @@ try {
 	    return result.getTotalMatches();
 	}
 	
+/*
 	private String displayAidAssets(String path, ResourceResolver rr) {
 	    StringBuilder builder = new StringBuilder("<ul>");
+	    System.err.println("PATH /: " + path);
         Resource root = rr.resolve(path);
         if (root != null) {
             Iterator<Resource> iter = root.listChildren();
@@ -234,13 +252,14 @@ try {
                     //String title = asset.getMetadataValue("dc:title");
                     String title = asset.getName();
                     
+                    System.err.println("&&& *** *" + asset.getMetadataValue("dc:title") + " : "+ asset.getLastModified()  );
+                    
+                    System.err.println("___ "+ asset.getPath());
                     /*
                     String caca="";
                     java.util.Iterator itr = map.entrySet().iterator();
                     while( itr.hasNext() )
                     	caca+= itr.next() +" : " + map.get( );
-                    */
-                    
                 	builder.append("<li>");
                 	builder.append("<a href=\"");
                 	builder.append(asset.getPath());
@@ -255,6 +274,7 @@ try {
         builder.append("</ul>");
         return builder.toString();
 	}
+*/
 	
 	private String getMeetingsRootPath(User user) {
 		String level = user.getTroop().getGradeLevel().toLowerCase();

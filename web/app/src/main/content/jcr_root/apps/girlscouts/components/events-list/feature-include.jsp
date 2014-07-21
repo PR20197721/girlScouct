@@ -14,9 +14,10 @@ if (!list.isEmpty()){
 	while (items.hasNext()){
 		Page item = (Page)items.next();
 		System.out.println("Items...." +item.getPath());
-		Node node = item.getContentResource().adaptTo(Node.class);
-		node.setProperty("isFeature", true);
-	    node.save();
+		// TODO: Manu please fix!
+		//Node node = item.getContentResource().adaptTo(Node.class);
+		//node.setProperty("isFeature", true);
+	    //node.save();
 	   }
 	    
 }

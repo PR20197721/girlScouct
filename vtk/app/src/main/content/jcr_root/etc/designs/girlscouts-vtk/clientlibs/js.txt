@@ -10,4 +10,3 @@ meeting.js
 plan.js
 planView.js
 resources.js
-camera.js

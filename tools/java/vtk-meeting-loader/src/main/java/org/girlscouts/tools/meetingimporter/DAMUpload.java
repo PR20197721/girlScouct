@@ -147,7 +147,8 @@ for(int i=2;i<sheet.getLastRowNum();i++){
         FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
         Sheet sheet = workbook.getSheetAt(1);
 
-        for(int i=2;i<sheet.getLastRowNum();i++){
+        System.out.println(sheet.getLastRowNum());
+        for(int i=2;i<=sheet.getLastRowNum()+1;i++){
         	String fileName = getCellVal( evaluator, sheet, "A"+i ).trim();
         	if( fileName==null || fileName.length()<1) break;
         	String type = getCellVal( evaluator, sheet, "B"+i );

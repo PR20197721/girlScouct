@@ -99,7 +99,9 @@
 <%
 	com.day.cq.wcm.foundation.List elist= (com.day.cq.wcm.foundation.List)request.getAttribute("elist");
 
-	if (!elist.isEmpty()){
+	if (elist.isEmpty()){
+	    %><h3>No Upcoming Events</h3><%
+	} else {
 		Iterator<Page> items = elist.getPages();
 		
 		while (items.hasNext()){
