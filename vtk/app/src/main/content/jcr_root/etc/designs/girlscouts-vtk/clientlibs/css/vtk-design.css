@@ -568,7 +568,28 @@ ul.formCheckboxes li {
 .signout{z-index:99;}
 .searchResultsItem a{ display:none;}
 .searchResultsItem a.reserved{ display:block;}
-
+.linkButtonWrapper {
+	text-align: center;
+	padding: 0;
+}
+.linkButtonWrapper img {
+	margin: auto;
+}
+.button {
+	background: #00a850;
+	cursor: pointer;
+}
+.button.linkButton {
+	border: 1px solid #00a850;
+	background: #ffffff;
+	color: #00a850;
+	font-size: 0.9em;
+	border-radius: 6px;
+	padding: 0.8em;
+}
+.meetingDetailDescription .button.linkButton {
+	padding: 0;
+}
 @media only screen and (max-width: 40em) {
         .planSquare {
                 width: 70px;
