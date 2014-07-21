@@ -11,7 +11,7 @@ public class Asset {
 	public Asset(String path){ this.path= path; this.uid = "A"+new java.util.Date().getTime() + "_" + Math.random(); this.isCachable=false;}
 	
 	
-	@Field private String type, refId, description, title;
+	@Field private String type, refId, description, title, docType;
 	
 
 
@@ -24,6 +24,12 @@ public class Asset {
 
 	
 	
+	public String getDocType() {
+		return docType;
+	}
+	public void setDocType(String docType) {
+		this.docType = docType;
+	}
 	public String getTitle() {
 		return title;
 	}

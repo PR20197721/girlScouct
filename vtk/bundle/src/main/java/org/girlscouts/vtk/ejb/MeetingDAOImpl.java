@@ -1225,11 +1225,13 @@ public  List<Asset> getAllResources(String _path) {
 		
 		String sql="";
 		
-		sql="select dc:description,dc:format, dc:title from nt:unstructured where jcr:path like '"+ _path +"%' and cq:tags is not null";
+		sql="select [dc:description], [dc:format], [dc:title], [jcr:mimeType], [jcr:path] " +
+				" from [nt:unstructured] as parent where " +
+				" (isdescendantnode (parent, ["+ _path +"])) and [cq:tags] is not null";
 		System.err.println( sql);
 		
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
-		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
+		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.JCR_SQL2); 
    		
 		 		
 		QueryResult result = q.execute();
@@ -1238,17 +1240,29 @@ public  List<Asset> getAllResources(String _path) {
    
    for (RowIterator it = result.getRows(); it.hasNext(); ) {
        Row r = it.nextRow();
-       Value excerpt = r.getValue("jcr:path");
+      // Value excerpt = r.getValue("jcr:path");
        
-       String path = excerpt.getString();
-       if( path.contains("/jcr:content") ) path= path.substring(0, (path.indexOf("/jcr:content") ));
+       //String path = excerpt.getString();
+       //if( path.contains("/jcr:content") ) path= path.substring(0, (path.indexOf("/jcr:content") ));
 
+       //System.err.println("** "+ r.getValue("jcr:path").getString() + " : "+ r.getPath());
+      
+       
        Asset search = new Asset();
-       search.setRefId(path);
+       search.setRefId(r.getPath());
        search.setIsCachable(true);
        search.setType(AssetComponentType.RESOURCE);
        try{ search.setDescription( r.getValue("dc:description").getString() );}catch(Exception e){}
        try{ search.setTitle( r.getValue("dc:title").getString() );}catch(Exception e){}
+       
+       //search.setDocType( r.getValue("jcr:mimeType").getString() );
+       try{
+    	   String t= r.getPath().substring( r.getPath().indexOf(".") );
+    	   t= t.substring(1, t.indexOf("/"));
+    	   search.setDocType( t );
+       }catch(Exception e){e.printStackTrace();}
+       
+       
        matched.add(search);
       
    }
@@ -1268,6 +1282,10 @@ try{
 		String sql="";
 		
 		sql="select dc:description,dc:format, dc:title from nt:unstructured where jcr:path like '"+ _path +"%' and cq:tags is not null";
+		/*
+		sql="select dc:description,dc:format, dc:title from nt:unstructured where (isdescendantnode (parent, ["+ _path +"])) " +
+				" and [cq:tags] is not null";
+		*/
 		System.err.println( sql);
 		
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
