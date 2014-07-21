@@ -81,7 +81,7 @@
 	request.setAttribute("date",date);
 	request.setAttribute("text",text);
 	request.setAttribute("external_url",external_url);
-	if(!featureNews.contains(hit.getPath)){
+	if(!featureNews.contains(hit.getPath())){
 	%>
 	<cq:include script="news-list-render.jsp"/>
 	
