@@ -1037,3 +1037,7 @@ padding: 5px 0;
 .featureStoriesHeader.columns {
 	margin: 0 -3.75em;
 }
+
+form#contact-us textarea {
+    width: 100%;
+}
