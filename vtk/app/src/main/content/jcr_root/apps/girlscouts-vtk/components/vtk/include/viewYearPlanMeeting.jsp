@@ -18,13 +18,13 @@
 %>
 <br/>
 <div class="row meetingDetailHeader">
-	<div class="small-12 medium-8 large-7 columns">
+	<div class="small-24 medium-8 large-7 columns">
 		<table class="planSquareWrapper">
 			<tr>
 <%if( prevDate!=0 ){ %>
-				<td><a class="direction" href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=prevDate%>"><img width="20" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/previous.png"/></a></td>
+				<td class="planSquareLeft"><a class="direction" href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=prevDate%>"><img width="20" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/previous.png"/></a></td>
 <%} %>
-				<td>
+				<td class="planSquareMiddle">
 		<div class="planSquare">
 <%
 		if( user.getYearPlan().getSchedule()!=null ) {
@@ -48,12 +48,12 @@
 		</div>
 				</td>
 <%if( nextDate!=0 ){ %>
-				<td><a class="direction" href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=nextDate%>"><img width="20" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/next.png"/></a></td>
+				<td class="planSquareRight"><a class="direction" href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=nextDate%>"><img width="20" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/next.png"/></a></td>
 <%} %>
 			</tr>
 		</table>
 	</div>
-        <div class="small-12 medium-10 large-12 columns">
+        <div class="small-24 medium-10 large-12 columns">
 		<h1>Meeting: <%= meetingInfo.getName() %></h1>
 		<%= meetingInfo.getAidTags() %>
 <%

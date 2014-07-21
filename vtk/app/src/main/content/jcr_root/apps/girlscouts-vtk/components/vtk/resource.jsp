@@ -95,7 +95,7 @@ try {
 	majorIter = rootPage.listChildren();
 %>
 
-<ul class="small-block-grid-<%= majorCount %>">
+<ul class="small-block-grid-1 medium-block-grid-<%= majorCount %> large-block-grid-<%= majorCount %>">
 	<% 
 		while (majorIter.hasNext()) { 
 		    Page currentMajor = majorIter.next();
