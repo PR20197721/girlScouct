@@ -348,10 +348,6 @@ public class CsvDataImporter implements DataImporter {
 	    throw new GirlScoutsException(null,
 		    "Too Few columns. There should be " + fields.size() + " columns");
 	}
-	if (cols.length > fields.size()) {
-	    throw new GirlScoutsException(null,
-		    "Too many columns. There should be " + fields.size() + " columns");
-	}
 	List<Object> result = new ArrayList<Object>();
 	for (int i = 0; i < cols.length; i++) {
 	    String type = fields.get(i)[1];
