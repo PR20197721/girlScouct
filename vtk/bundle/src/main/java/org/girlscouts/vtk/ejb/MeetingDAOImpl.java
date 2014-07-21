@@ -1009,7 +1009,7 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 			path= path +"/jcr:content";
 		
 		String sql="select start, jcr:title, details, end,locationLabel,srchdisp  from nt:base where jcr:path like '"+ path +"' " ;
-		
+		//-sql= "select * from [nt:base] as p where  (isdescendantnode (p, [/content/gateway/en/events/2014])) " ;
 		
 		
 		
@@ -1039,6 +1039,9 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 		sql="SELECT * FROM [nt:unstructured] as x WHERE (PATH() LIKE '/content/gateway/en/events/2014/wilderness_first_aid%')";
 		sql="SELECT * FROM [nt:base] WHERE PATH() LIKE '/content/gateway/en/events/2014/wilderness_first_aid%'";
 		*/
+		
+		//sql= "select * from [nt:base] as p where  (isdescendantnode (p, ["+ path +"]))  and contains(p.*, 'aid') ";
+		
 		System.err.println( sql );
 		
 		
@@ -1049,7 +1052,7 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 			
 		int i=0;
 		QueryResult result = q.execute();
-		System.err.println("SEAch main: "+ (result.getRows().getSize()) );
+		//System.err.println("SEAch main: "+ (result.getRows().getSize()) );
 		 for (RowIterator it = result.getRows(); it.hasNext(); ) {
 		       Row r = it.nextRow();
 		       System.err.println( r.getPath() );
@@ -1090,7 +1093,11 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 				activity.setType(YearPlanComponentType.ACTIVITY);
 				activity.setId("ACT"+i);
 				activity.setPath( r.getPath() );
-			
+				
+				//patch
+			if( activity.getDate()!=null && activity.getEndDate()==null){
+				activity.setEndDate(activity.getDate());
+			}
 				
 				
 				

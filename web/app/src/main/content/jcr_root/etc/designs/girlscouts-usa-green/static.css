@@ -997,6 +997,8 @@ div.wrapper .row:nth-child(2) {
 padding: 5px 0;
 }
 
-
-
+.categoriesList li{
+padding-bottom:0px;
+padding-right:0px;
+}
 

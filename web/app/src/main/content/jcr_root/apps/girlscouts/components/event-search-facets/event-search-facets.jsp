@@ -11,6 +11,8 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <cq:includeClientLib categories="apps.girlscouts" />
 <cq:defineObjects/>
+
+
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <%  
     HashMap<String,List<FacetsInfo>> facetsAndTags = (HashMap<String, List<FacetsInfo>>) request.getAttribute("facetsAndTags");
@@ -81,7 +83,7 @@
 <div class="baseDiv programLevel">
   <div class="item">
     <div id="title"> By Keyword </div>
-      <input type="text" name="q" placeholder="Keywords"/>
+      <input type="text" name="q" placeholder="Keywords" class="searchField"/>
   </div>
   <div class="item"> 
     <div id="title"> Region  </div>
@@ -105,32 +107,36 @@
 </div>
 <div class="baseDiv programLevel small-8 large-8 medium-8 columns" >
    <div id="title"> By Program  </div>
+    <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-2 categoriesList">
         <%
          List programLevel = facetsAndTags.get("program-level");
         for(int pi=0; pi<programLevel.size(); pi++){
             FacetsInfo programLevelList = (FacetsInfo)programLevel.get(pi);
-            %>      
+            %> 
+            <li>     
                 <input type="checkbox"  id="<%=programLevelList.getFacetsTagId()%>" value="<%=programLevelList.getFacetsTagId()%>" name="tags" <%if(set.contains(programLevelList.getFacetsTagId())){ %>checked <%} %>/>
                 <label for="<%=programLevelList.getFacetsTitle() %>"><%=programLevelList.getFacetsTitle()%></label>
+            </li>
             <%
            }
         %>
+	</ul>        
 </div>
 <div class="baseDiv programLevel small-8 large-8 medium-8 columns" >
-   <div id="title">
-  Categories </div>
+	<div id="title">Categories </div>
+	<ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-2 categoriesList">
 <%
     // Get the categories
-    List categoriesList = facetsAndTags.get("categories");
-    for(int i=0;i<categoriesList.size();i++) {
-        FacetsInfo facetsTags = (FacetsInfo)categoriesList.get(i);
+	List<FacetsInfo> facetsInfoList = facetsAndTags.get("categories");
+	for (FacetsInfo facetsInfo: facetsInfoList) {
 %>
-        <input type="checkbox" id="<%=facetsTags.getFacetsTagId()%>" value="<%=facetsTags.getFacetsTagId()%>" name="tags" <%if(set.contains(facetsTags.getFacetsTagId())){ %>checked <%} %>/>
-        <label for="<%=facetsTags.getFacetsTitle() %>"><%=facetsTags.getFacetsTitle()%></label>
-        
+    	<li>
+    		<input type="checkbox" id="<%=facetsInfo.getFacetsTagId()%>" value="<%=facetsInfo.getFacetsTagId()%>" name="tags" <%if(set.contains(facetsInfo.getFacetsTagId())){ %>checked <%} %>/>&nbsp;<label for="<%=facetsInfo.getFacetsTitle() %>"><%=facetsInfo.getFacetsTitle()%></label>
+    	</li>
 <%
-    }
+	}
 %>
+	</ul>
 </div>
 <div class="baseDiv programLevel">
   <input type="submit" value="Search" id="sub" class="form-btn pull-right">
@@ -153,5 +159,4 @@
      </div>
 </div>
 <%}%>
-
 

@@ -1,4 +1,4 @@
-<%@ page import="java.text.DateFormat,com.day.cq.wcm.api.WCMMode,com.day.cq.wcm.foundation.List, com.day.cq.wcm.api.components.DropTarget,com.day.cq.search.Query,com.day.cq.search.result.SearchResult,com.day.cq.search.result.Hit, java.util.Map,java.util.HashMap,com.day.cq.search.QueryBuilder,com.day.cq.search.PredicateGroup,java.util.Arrays,java.util.HashSet,java.util.ArrayList, java.util.Iterator,java.text.SimpleDateFormat,java.util.Date, java.text.Format,com.day.cq.dam.commons.util.DateParser"%>
+<%@ page import="java.text.DateFormat,com.day.cq.wcm.api.WCMMode,com.day.cq.wcm.foundation.List, com.day.cq.wcm.api.components.DropTarget,com.day.cq.search.Query,com.day.cq.search.result.SearchResult,com.day.cq.search.result.Hit, java.util.Map,java.util.HashMap,com.day.cq.search.QueryBuilder,com.day.cq.search.PredicateGroup,java.util.Arrays,java.util.HashSet,java.util.ArrayList, java.util.Iterator,java.text.SimpleDateFormat,java.util.Date, java.text.Format,com.day.cq.dam.commons.util.DateParser,java.util.Set"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <%@include file="newsHelper.jsp" %>
@@ -17,9 +17,11 @@
 	Format formatter = new SimpleDateFormat("dd MMM yyyy");
 	 
 	Integer count =  Integer.parseInt(properties.get("count",String.class));
+	Set<String> featureNews = (HashSet)request.getAttribute("featureNews"); 
 	if(count > resultsHits.size()){
-	    count = resultsHits.size();
+		count = resultsHits.size();
     }
+	
 %>
 <div class="small-24 medium-24 large-24 columns news-section">
 	<div class="row">
@@ -50,6 +52,9 @@
 <%
 // Feature news when select but author on the home page
 	List list = (List)request.getAttribute("list");
+    
+   
+    
 	if (!list.isEmpty()){
    	%>
 	<%
@@ -81,10 +86,15 @@
 }
 %>
 <%
-	    for(int i=0;i<count;i++) {
-         String newsLink = null;
-       
-			Node resultNode = resultsHits.get(i).getNode();
+        //int i=0;
+
+        int newsCount = 0;
+        for(int i=0;i<resultsHits.size(); i++)
+	    {
+        	
+        	try{
+        	String newsLink = null;
+       		Node resultNode = resultsHits.get(i).getNode();
 			newsLink = getPath(resultNode);
 			
 			Node contentNode = resultNode.getNode("jcr:content");
@@ -103,9 +113,18 @@
 			request.setAttribute("newsDesc", newsDesc);
 			request.setAttribute("newsLink", newsLink);
 			request.setAttribute("external_url",external_url);
+			if(!featureNews.contains(resultNode.getPath())){
+				newsCount++;
 %>
  			<cq:include script="feature-render.jsp"/>
-<%} %>
+			<%} 
+			 if(newsCount==count)
+		      {
+		        	 break;
+		      }
+	    }catch(Exception e){}
+	 } 	
+%>
 	</ul>
 </div>
 
