@@ -19,14 +19,14 @@ import com.day.cq.replication.ReplicationException;
 import com.day.cq.replication.ReplicationOptions;
 import com.day.cq.replication.Replicator;
 
-public class PublishVtkNodeListener implements EventListener, Runnable {
-    private static final Logger log = LoggerFactory.getLogger(PublishVtkNodeListener.class);
+public class NodeListener implements EventListener, Runnable {
+    private static final Logger log = LoggerFactory.getLogger(NodeListener.class);
     private Session session;
     private Replicator replicator;
     private String publishId;
     private ReplicationOptions opts;
     
-    public PublishVtkNodeListener(Session session, Replicator replicator, String publishId) {
+    public NodeListener(Session session, Replicator replicator, String publishId) {
         this.session = session;
         this.replicator = replicator;
         this.publishId = publishId;

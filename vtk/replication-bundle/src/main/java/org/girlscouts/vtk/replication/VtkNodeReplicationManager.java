@@ -21,11 +21,10 @@ import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.day.cq.replication.Replicator;
-
 @Component(metatype=true, immediate=true)
 @Properties ({
-    @Property(name=Constants.REPLICATION_INTERVAL_PROP, longValue = Constants.REPLICATION_INTERVAL, description="Replication Interval, in seconds."),
+    @Property(name=Constants.REPLICATION_INTERVAL_PROPERTY, longValue = Constants.REPLICATION_INTERVAL, description="Replication Interval, in seconds."),
+    @Property(name=Constants.SIBLING_SERVERS_PROPERTY, description="Sibling servers, separated by space. Node changes will be replicated to these servers")
 })
 public class VtkNodeReplicationManager {
     private static final String[] MONITOR_PATHS = { Constants.ROOT_PATH };
@@ -36,59 +35,52 @@ public class VtkNodeReplicationManager {
     private SlingRepository repository;
     
     @Reference
-    private Replicator replicator;
-    
-    @Reference
     private Scheduler scheduler;
     private boolean isScheduled = false;
 
     private Session session;
     private ObservationManager manager;
     private EventListener listener;
+    private Replicator replicator;
+
+    private String[] siblings;
     
     @Activate
     protected void activate(ComponentContext context) throws Exception {
         @SuppressWarnings("rawtypes")
         final Dictionary dict = context.getProperties();
-        String mode = (String)dict.get(Constants.MODE_PROPERTY);
-        if (mode == null) {
-            log.error("Cannot find run mode. Quit");
+        String siblingStr = (String)dict.get(Constants.SIBLING_SERVERS_PROPERTY);
+        if (siblingStr == null) {
+            log.error("No siblings. Nowhere to replicate. Quit");
             return;
         }
-        if (!mode.equals("author") && !mode.equals("publish")) {
-            log.error("Wrong run mode: " + mode + ". Quit");
-            return;
-        }
-
+        siblings = siblingStr.split(" ");
+        long replicationInterval = (Long)dict.get(Constants.REPLICATION_INTERVAL_PROPERTY);
+        
+        // Login repository
         session = repository.loginAdministrative(null);
+        // Setup the Replicator
+        replicator = new Replicator(session, siblings);
+
+        // Setup the listener
         if (repository.getDescriptor(Repository.OPTION_OBSERVATION_SUPPORTED)
                 .equals("true")) {
             manager = session.getWorkspace().getObservationManager();
             final String[] types = { Constants.PRIMARY_TYPE };
+            listener = new NodeListener(session, replicator);
 
-            if (mode.equals("author")) {
-                this.listener = new AuthorVtkNodeListener(session, replicator);
-                // On author, listen to update events only, on replication root
-                manager.addEventListener(this.listener, Constants.PROPERTY_UPDATE,
-                        Constants.NODE_REPLICATION_ROOT, true, null, types, false);
-            } else {
-                String publishId = (String)dict.get(Constants.FROM_PUBLISHER_PROPERTY);
-                if (publishId == null) {
-                    publishId = "publish";
-                }
-                this.listener = new PublishVtkNodeListener(session, replicator, publishId);
-                // On publish, listen to every interested path, both update and remove
-                for (int i = 0; i < MONITOR_PATHS.length; i++) {
-                    manager.addEventListener(this.listener, Constants.PROPERTY_UPDATE | Event.NODE_REMOVED,
-                            MONITOR_PATHS[i], true, null, types, false);
-                }
-                
-                // TODO: make interval configurable
-                scheduler.addPeriodicJob(Constants.JOB_NAME, this.listener, null, 60L, true);
+            for (int i = 0; i < MONITOR_PATHS.length; i++) {
+                manager.addEventListener(listener, Constants.PROPERTY_UPDATE | Event.NODE_REMOVED,
+                        MONITOR_PATHS[i], true, null, types, true);
             }
+            
+            // Setup the scheduler
+            scheduler.addPeriodicJob(Constants.JOB_NAME, replicator, null, replicationInterval, true);
+            isScheduled = true;
         } else {
             log.error("Listeners not added.");
         }
+        
     }
 
     @Deactivate
@@ -96,7 +88,7 @@ public class VtkNodeReplicationManager {
         // Unregister the listeners
         if (manager != null) {
             try {
-                manager.removeEventListener(this.listener);
+                manager.removeEventListener(listener);
             } catch (RepositoryException e) {
                 log.error("Error deactivating listeners");
             }
