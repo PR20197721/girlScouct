@@ -109,7 +109,7 @@ function toggleWhiteArrow() {
 	      <div class="dropdown">
 		      <span class="dropdown-moz">
 		     	<select name="regions" id="regions">
-		      		<option value="choose">Choose</option>
+		      		<option value="choose">Choose Region</option>
 		           		<%for(String str: sortList) {%>
 		             		   <option value="<%=str%>"><%=str%></option>
 		           		 <%} %>
@@ -162,7 +162,7 @@ function toggleWhiteArrow() {
 %>
 	</ul>
 </div>
-<div class="baseDiv programLevel">
+<div class="baseDiv programLevel small-8 large-8 medium-8 columns">
   <input type="submit" value="Search" id="sub" class="form-btn pull-right">
 </div>      
 </form>
