@@ -1049,3 +1049,16 @@ margin: 0 -1.25em;
 form#contact-us textarea {
     width: 100%;
 }
+
+.forms-documents-search label {
+	font-size: 0.8em;
+}
+
+.forms-documents-search #title {
+	padding-bottom: 10px;
+    font-size: 0.9em;
+}
+
+.forms-documents-search input.searchField {
+	text-indent: 8px;
+}
