@@ -166,7 +166,7 @@ try {
 			org.girlscouts.vtk.models.Asset a = gresources.get(i);
 		   	%>
 		   	<tr>
-		   		<td><%=a.getDocType()  %>** <a href="<%=a.getRefId() %>" target="_blank"><%= a.getTitle() %></a> </td>
+		   		<td> <%=a.getRefId()%> -- <%=a.getDocType()  %>** <a href="<%=a.getRefId() %>" target="_blank"><%= a.getTitle() %></a> </td>
 		   		<td><input type="button" value="Add to Meeting" onclick="applyAids('<%=a.getRefId()%>', '<%=a.getTitle()%>' )" class="button linkButton"/></td>
 			</tr>
 		   	<%

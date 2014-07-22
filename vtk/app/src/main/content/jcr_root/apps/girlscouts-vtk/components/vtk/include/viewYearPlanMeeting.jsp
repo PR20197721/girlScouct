@@ -54,7 +54,7 @@
 		</table>
 	</div>
         <div class="small-12 medium-10 large-12 columns">
-		<h1>Meeting: <%= meetingInfo.getName() %></h1>
+		<h1>Meeting: <%= meetingInfo.getName() %> -- -- <%=meetingInfo.getId()%> </h1>
 		<%= meetingInfo.getAidTags() %>
 <%
 	Location loc = null;
