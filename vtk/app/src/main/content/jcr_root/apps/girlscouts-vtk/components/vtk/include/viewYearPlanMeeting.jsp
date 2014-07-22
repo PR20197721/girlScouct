@@ -195,6 +195,7 @@ if(meeting.getLastAssetUpdate()==null || meeting.getLastAssetUpdate().before(sys
 if( _aidTags!=null )
  for(int i=0;i<_aidTags.size();i++){
         org.girlscouts.vtk.models.Asset asset = _aidTags.get(i);
+        if( asset.getType(false)!=  org.girlscouts.vtk.dao.AssetComponentType.AID ) continue;
 	String aidTitle = "Untitled";
 	String aidDescription = "No description.";
 	if (asset.getTitle() != null) {
@@ -205,7 +206,7 @@ if( _aidTags!=null )
         }
 %>
 	<li>
-		 <a href="<%=asset.getRefId()%>" target="_blank"><%=aidTitle %></a> - <%=aidDescription %>
+		<%=asset.getType() %> <a href="<%=asset.getRefId()%>" target="_blank"><%=aidTitle %></a> - <%=aidDescription %>
 	 </li>
 <% 
  }
@@ -214,6 +215,20 @@ if( _aidTags!=null )
 <%
 	}
 %>
+
+<div style="background-color:red;">
+<% 
+if( _aidTags!=null )
+ for(int i=0;i<_aidTags.size();i++){
+        org.girlscouts.vtk.models.Asset asset = _aidTags.get(i);
+        if( asset.getType(false)!=  org.girlscouts.vtk.dao.AssetComponentType.RESOURCE ) continue;
+        %><br/><%=asset.getType() %> <a href="<%=asset.getRefId()%>" target="_blank"><%=asset.getTitle() %></a> - <%=asset.getDescription() %> <% 
+ } %>
+</div>
+
+
+
+
 <div class="sectionHeader">Meeting Agenda</div>
 
 	<a href="javascript:void(0)" onclick="revertAgenda('<%=meeting.getPath()%>')"  class="mLocked">Revert to Original Agenda</a>

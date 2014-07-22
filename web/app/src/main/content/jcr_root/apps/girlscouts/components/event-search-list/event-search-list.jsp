@@ -129,14 +129,14 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
          </div>
         <div class="row">
              <div class="small-24 large-24 medium-24 columns lineHeight">
-                 <b>Date: </b> <%=dateStr%>
+                 <b>Date:  <%=dateStr%></b>
            </div>
         </div>
           <div class="row">
               <div class="small-24 large-24 medium-24 columns lineHeight">
                 <%if(!locationLabel.isEmpty()){ %>
                     <div class="locationLabel">
-                      <b>Location: </b><%=locationLabel %>
+                      <b>Location: <%=locationLabel %></b>
                   </div>
                 <%} %>
                 </div>
