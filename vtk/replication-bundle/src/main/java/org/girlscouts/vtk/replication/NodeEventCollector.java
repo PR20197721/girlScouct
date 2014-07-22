@@ -10,6 +10,11 @@ import javax.jcr.observation.EventIterator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * When a node gets updated, JCR reports a series of property add/update/remove events.
+ * But, we only have to know which nodes are touched.
+ * This class normalizes the events and returns the nodes that are updated into a set.
+ */
 public class NodeEventCollector {
     private static Logger log = LoggerFactory.getLogger(NodeEventCollector.class);
     private static int PROPERTY_UPDATE = Event.PROPERTY_ADDED | Event.PROPERTY_CHANGED | Event.PROPERTY_REMOVED;
