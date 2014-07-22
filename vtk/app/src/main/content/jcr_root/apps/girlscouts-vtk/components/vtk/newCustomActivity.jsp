@@ -22,8 +22,16 @@
 
 function doChkSubmitValid(){
 	
-	var x= document.getElementById("newCustActivity_date").value;
-	var y =document.getElementById("newCustActivity_name").value;
+	//var x= document.getElementById("newCustActivity_date").value;
+	//var y =document.getElementById("newCustActivity_name").value;
+	
+	if ($('#signupForm').valid()) {
+		
+		if(!timeDiff()){ return false;}
+		
+		document.getElementById("newCustActivity").disabled=false;
+		}
+	/*
 	if( $.trim(x) == '' || $.trim(y) =='' ){
 		
 		document.getElementById("newCustActivity").disabled=true;
@@ -31,6 +39,7 @@ function doChkSubmitValid(){
 		
 		document.getElementById("newCustActivity").disabled=false;
 	}
+	*/
 		
 }
 
@@ -253,7 +262,7 @@ border:5px solid #000;
 <br/><br/>
 <div class="linkButtonWrapper">
 	 <!--   <input type="button" value="Add Activity" id="newCustActivity" class="button linkButton" disabled/> -->
-	    <input type="button" value="Add Activity" id="newCustActivity"  disabled/>
+	    <input type="button" value="Add Activity 1" id="newCustActivity"  disabled/>
 </div>
 </form>
 
