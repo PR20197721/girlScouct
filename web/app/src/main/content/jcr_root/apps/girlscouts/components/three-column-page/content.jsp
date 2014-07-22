@@ -9,10 +9,8 @@
 		</div>
 	</div>
 	<div class="large-19 medium-24 small-24 columns mainRight">
-		<div class="row">
-			<div class="large-24 medium-24 hide-for-small columns rightBodyTop">
-				<cq:include path="content/middle/breadcrumb" resourceType="girlscouts/components/breadcrumb-trail" />
-			</div>
+		<div class="breadcrumbWrapper">
+			<cq:include path="content/middle/breadcrumb" resourceType="girlscouts/components/breadcrumb-trail" />
 		</div>
 		<div>
 			<div class="large-18 medium-18 small-24 columns rightBodyLeft">

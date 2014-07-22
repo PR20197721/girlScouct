@@ -247,7 +247,7 @@ $().ready(function() {
 	    	editNewCustActivity('<%=activity.getUid()%>');
 	    }
 	    else {
-	        alert("Invalid.Fix it");
+                alert("The form has one or more errors.  Please update the form and try again.");
 	    }
 		
 		

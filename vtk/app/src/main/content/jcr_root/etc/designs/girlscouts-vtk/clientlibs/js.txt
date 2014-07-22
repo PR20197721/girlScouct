@@ -10,3 +10,4 @@ meeting.js
 plan.js
 planView.js
 resources.js
+vtk-global.js

@@ -7,8 +7,7 @@
 
 %>
 <div id="troop" class="row">
-        <div class="small-24 medium-24 large-24 troopPrompt columns">
-                Current troop profile:
+        <div class="small-24 medium-24 large-24 troopPrompt columns">Current troop profile:
                 <select id="reloginid" onchange="relogin()">
 <%
                 for(int i=0;i<troops.size();i++){
