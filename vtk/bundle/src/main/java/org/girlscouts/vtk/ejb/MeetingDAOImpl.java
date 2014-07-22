@@ -479,11 +479,12 @@ public List<org.girlscouts.vtk.models.Search> getData(String _query) {
    for (Hit hit : result.getHits()) {
        try {
 		String path = hit.getPath();
-		System.err.println( "\n\n__________"+ path +" : "+hit.getExcerpt() +" :" + hit.getTitle());
+		//System.err.println( "\n\n__________"+ path +" : "+hit.getExcerpt() +" :" + hit.getTitle());
 		
+		if( !path.endsWith("original")) continue;
 		
 		Node caca = hit.getNode().getParent().getParent().getNode("metadata");
-		System.err.println(caca.getPath() );//+" : "+ caca.getProperty("jcr:mimeType"));
+		//System.err.println(caca.getPath() );//+" : "+ caca.getProperty("jcr:mimeType"));
 		
 		
 		   org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();
