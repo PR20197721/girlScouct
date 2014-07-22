@@ -43,6 +43,9 @@ body {
     background-color: #6b6b6b;
     font-family: "Open Sans", Arial, sans-serif;
 }
+#mainContent h1 {
+    margin: 0.2em 0 0.4em 0;
+}
 h1, h2, h3, h4, h5, h6 {
     color: #000000;
 }
@@ -314,7 +317,12 @@ background-position: center;
 .breadcrumbs {
     background-color: #ffffff;
     border: 0px;
-    padding: .5625rem 1.250rem;
+    padding: .5625rem 1.250rem 0.5625rem 0;
+    margin: 0;
+    line-height: 1em;
+}
+.breadcrumbWrapper {
+    margin: 0 0 0 1.4rem;
 }
 .breadcrumbs a.current {
     color: #00ae58;
@@ -1127,7 +1135,7 @@ form#contact-us textarea {
         display: table;   /* Allow the centering to work */
         margin: 0 auto;
 }
-#advancedSearch {
+.advancedSearch {
 	display: none;
 }
 .toggleDisplay {
