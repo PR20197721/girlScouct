@@ -1037,6 +1037,15 @@ padding: 5px 0;
 	margin: 0 -1.25em;
 }
 
+.featureNewsHeader.columns {
+	
+margin: 0 -1.25em;
+}
+
+.featureEventsHeader.columns{
+	margin: 0 -1.25em;
+}
+
 form#contact-us textarea {
     width: 100%;
 }

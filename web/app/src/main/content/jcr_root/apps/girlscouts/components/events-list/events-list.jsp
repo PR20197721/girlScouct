@@ -66,7 +66,7 @@
 
 <div class="small-24 medium-24 large-24 columns events-section">
 	<div class="row">
-		<div class="hide-for-small hide-for-medium large-24 columns">
+		<div class="hide-for-small hide-for-medium large-24 columns featureEventsHeader">
 			<div class="feature-icon">
 				<img src="<%= iconImg %>" width="50" height="50"/>
 			</div>
