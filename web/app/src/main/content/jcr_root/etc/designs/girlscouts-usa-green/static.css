@@ -1110,3 +1110,8 @@ form#contact-us textarea {
 }
 .findActivityButton {
 }
+
+.event-page .lineHeight{
+	line-height:1.5em;
+	font-size:1rem;
+}

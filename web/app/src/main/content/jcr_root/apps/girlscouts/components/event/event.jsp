@@ -143,6 +143,7 @@
 	%>
 
  <div class="row">
+ <div class="event-page">
    <div class="small-12 large-12 medium-12 columns">
        <div class="row">
          <div class="small-8 large-8 medium-8 columns lineHeight">
@@ -213,6 +214,7 @@
        </div>
      </div>
     </div>
+ </div>   
     
     
 <div class="row">
