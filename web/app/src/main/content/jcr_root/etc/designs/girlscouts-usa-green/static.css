@@ -489,7 +489,6 @@ input#date{
 }
 
 .baseDiv{
-    float:left; 
     width:100%;
     padding:10px;
     border-bottom:2px solid rgb(191, 194, 194);
@@ -1002,28 +1001,27 @@ padding: 5px 0;
 }
 
 #form .event-region .dropdown select {
-	    -webkit-appearance: none;
-    -moz-appearance: window;
-       width: 139px;
-   height:25px;
-   display: inline-block;
-   padding: 4px 3px 5px 5px;
-   outline: none;
-   font-size:0.8rem;
-   background-image: url('images/select-dropdown-arrow.png');     
-   background-repeat: no-repeat;
-   background-position: right center;
- }
+	-webkit-appearance: none;
+	-moz-appearance: window;
+	width: 120px;
+	height:25px;
+	display: inline-block;
+	padding: 4px 3px 5px 5px;
+	outline: none;
+	font-size:0.8rem;
+	background-image: url('images/select-dropdown-arrow.png');     
+	background-repeat: no-repeat;
+	background-position: right center;
+}
 
 @-moz-document url-prefix() {
-.dropdown-moz{
-   background-image: url('images/select-dropdown-arrow.png');        
-      background-repeat: no-repeat;
-
-     background-position: right center;
-     padding-right: 20px;
-     border: 1px solid red;
-  }
+	.dropdown-moz{
+		background: #ffffff url('images/select-dropdown-arrow.png')no-repeat right center;
+		padding-right: 20px;
+		border: 1px solid #cccccc;
+		top: 0px;
+		float: left;
+	}
 } 
 
 
