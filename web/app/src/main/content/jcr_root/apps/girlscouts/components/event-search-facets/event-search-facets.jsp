@@ -94,17 +94,16 @@ function toggleWhiteArrow() {
    			<div class="title"><span class="activity-color">Find an Activity</span></div>
    		</div>
    </div>
-   
 </div>
 
 <div id="events-display">
 <form action="<%=formAction%><%=eventSuffix %>" method="get" id="form">
-	<div class="baseDiv programLevel row collapse">
-	<div class="large-7 columns">
+<div class="baseDiv programLevel row collapse">
+	<div class="small-24 medium-7 large-7 columns">
 		<div class="title"> By Keyword </div>
 		<input type="text" name="q" placeholder="Keywords" class="searchField" style="width:140px;height:25px;" />
 	</div>
-	<div class="large-7 event-region columns"> 
+	<div class="small-24 medium-7 large-7 event-region columns"> 
 	    <div class="title"> Region  </div>
 	      <div class="dropdown">
 		      <span class="dropdown-moz">
@@ -117,19 +116,19 @@ function toggleWhiteArrow() {
 		     </span>	
 	     </div>	
 	</div>
-	<div class="large-10 columns">
-	    <div class="title"> By Date  </div>
+	<div class="small-24 medium-10 large-10 columns">
+	    <div class="title">By Date</div>
 	    	<div class="row event-activity collapse">
 	      		<div class="large-12 columns">
-	        		<input type="text" name="startdtRange" <%if((enddtRange!=null && !enddtRange.isEmpty()) && (startdtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="From Today"/>
+	        		<input type="text" name="startdtRange" class="searchField" <%if((enddtRange!=null && !enddtRange.isEmpty()) && (startdtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="From Today"/>
 	      		</div>
 	       		<div class="large-11 columns">  
-	       			<input type="text" name="enddtRange" <%if((startdtRange!=null && !startdtRange.isEmpty()) && (enddtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="To"/>
+	       			<input type="text" name="enddtRange" class="searchField" <%if((startdtRange!=null && !startdtRange.isEmpty()) && (enddtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="To"/>
 	    		</div>
 	    </div>
 	</div>
 </div>	
-<div class="baseDiv programLevel small-8 large-8 medium-8 columns" >
+<div class="baseDiv programLevel" >
    <div class="title"> By Program Level </div>
     <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-2 categoriesList">
         <%
@@ -146,7 +145,7 @@ function toggleWhiteArrow() {
         %>
 	</ul>        
 </div>
-<div class="baseDiv programLevel small-8 large-8 medium-8 columns" >
+<div class="baseDiv programLevel" >
 	<div class="title">By Category </div>
 	<ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-2 categoriesList">
 <%
@@ -162,14 +161,15 @@ function toggleWhiteArrow() {
 %>
 	</ul>
 </div>
-<div class="baseDiv programLevel">
-  <input type="submit" value="Search" id="sub" class="form-btn pull-right">
-</div>      
+<div class="baseDiv programLevel class="findActivityButton"">
+  <input type="submit" value="Search" id="sub" class="form-btn"/>
+</div>
 </form>
+</div>
+
 <%}if(null==eventSuffix){%>
 <div class="row">
     <div class="small-24 large-24 medium-24 columns">&nbsp;</div>
-
 </div>
 
 <div class="row">
@@ -183,4 +183,3 @@ function toggleWhiteArrow() {
      </div>
 </div>
 <%}%>
-</div>
