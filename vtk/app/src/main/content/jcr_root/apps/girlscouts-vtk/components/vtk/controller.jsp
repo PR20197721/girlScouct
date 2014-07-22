@@ -43,9 +43,13 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	
 }else if( request.getParameter("addLocation") !=null ){
 	
-	
-	
+	boolean isLoc=false;
+	if( user.getYearPlan().getLocations()!=null && request.getParameter("name")!=null )
+	 for(int i=0;i< user.getYearPlan().getLocations().size();i++)
+		if( user.getYearPlan().getLocations().get(i).getName().equals(request.getParameter("name")) )
+			isLoc=true;
 		
+	if( !isLoc)
 	    locationUtil.setLocation(user, 
 			 new Location(request.getParameter("name"),
 						request.getParameter("address"), request.getParameter("city"), 

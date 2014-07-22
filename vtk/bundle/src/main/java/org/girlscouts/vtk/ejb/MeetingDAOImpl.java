@@ -438,26 +438,31 @@ public List<org.girlscouts.vtk.models.Search> getData(String query) {
 		//javax.jcr.query.Query q = qm.createQuery("select jcr:path, excerpt(.) from nt:resource  where jcr:path like '/content/dam/%' and  contains(., '"+ query +"~')", javax.jcr.query.Query.SQL); 
 	
 		
-		String sql="select * from nt:base where jcr:path like '/content/dam/girlscouts-vtk/global/aid/%' and contains(*, 'girl') and jcr:primaryType='dam:Asset'";
+		//String sql="select * from nt:base where jcr:path like '/content/dam/girlscouts-vtk/global/aid/%' and contains(*, 'girl') and jcr:primaryType='dam:Asset'";
 	
 		//String sql= "select child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp 
 		//from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where 
 		//(isdescendantnode (parent, [/content/gateway/en/events/2014])) and child.start is not null and parent.[jcr:title] is not null " ;
 		
 		
-		String sql ="select child.[dc:title], child.[dc:format], parent.[jcr:path] , child.[dc:description] from [nt:unstructured] as parent INNER JOIN [nt:unstructured] as child on ISCHILDNODE(child, parent) where " +
-				"(isdescendantnode (parent, [/content/dam/girlscouts-vtk/global/aid])) and child.[dc:title] is not null and  contains(parent., '"+ query +"~')" ;
-		
+		//String sql ="select child.[dc:title], child.[dc:format], parent.[jcr:path] , child.[dc:description] " +
+		String sql="select parent.*, child.* , child.[dc:title], child.[dc:description] , child.[dc:format]"+
+				" from [nt:base] as parent INNER JOIN [nt:base] as child on ISCHILDNODE(child, parent) where " +
+				"(isdescendantnode (parent, [/content/dam/girlscouts-vtk/global/aid]))  " +
+				" and ( contains(child.*, '"+ query +"~' ))" ;
+		System.err.println( sql );
 		//AID search
 		javax.jcr.query.Query q = qm.createQuery(sql,  javax.jcr.query.Query.JCR_SQL2);
 		
-		javax.jcr.query.Query q = qm.createQuery(sql,  javax.jcr.query.Query.SQL);
+		
 		QueryResult result = q.execute();
    
+		String str[] = result.getColumnNames();
+		for(int i=0;i<str.length; i++)
+			System.err.println( str[i] );
 		
 		
-		//System.err.println( "Fpoundl "+ result.getRows().getSize() );
-		
+	
 		
 		 for (RowIterator it = result.getRows(); it.hasNext(); ) {
 		       Row r = it.nextRow();
@@ -467,43 +472,16 @@ public List<org.girlscouts.vtk.models.Search> getData(String query) {
 		       
 		       org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();
 		    
-		       search.setPath( r.getValue("parent.jcr:path").getString() );
-		      // search.setPath(r.getPath());
+		       System.err.println("PATH: "+  r.getPath() );
+		       
+		      // search.setPath( r.getValue("parent.jcr:path").getString() );
+		       search.setPath("test");
 		       search.setDesc( r.getValue("child.dc:title").getString()  );
 		       search.setType( r.getValue("child.dc:format").getString()  );
 		       search.setContent(  r.getValue("child.dc:description").getString());
 		       matched.add(search);
 		 }
 		
-		
-System.err.println("SEARCH RES: "+result.getRows().getSize() );
-   
-   for (RowIterator it = result.getRows(); it.hasNext(); ) {
-       Row r = it.nextRow();
-       Value excerpt = r.getValue("rep:excerpt(.)");
-       
-       String path = r.getValue("jcr:path").getString();
-       if (path != null ) {
-       if(path.contains("/jcr:content") ) {
-    	   path= path.substring(0, (path.indexOf("/jcr:content") ));
-       }
-       org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();
-       search.setPath(path);
-       if (excerpt != null){
-    	   search.setContent(excerpt.getString());
-       }
-       Value title = r.getValue("dc:title");
-       if (title != null) {
-    	   search.setDesc(title.getString() );
-    	   
-       }
-       Value format = r.getValue("dc:format");
-       if (format != null) {
-    	   search.setType(format.getString());
-       }
-       matched.add(search);
-       }
-   }
    
 	}catch(Exception e){e.printStackTrace();}
    return matched;
@@ -556,6 +534,7 @@ public List<org.girlscouts.vtk.models.Search> getData(String query) {
 	}catch(Exception e){e.printStackTrace();}
    return matched;
 	}
+	
 
 
 
@@ -590,9 +569,11 @@ private List<Asset> getAidTag(String tags, String meetingName) {
 	
 	try{
 		
+		/* getAids ????
 		   List<Asset> matched_local= getAidTag_local(tags,meetingName) ;
 		   matched.addAll(matched_local);
-		   
+		  */
+		
 		if( tags==null || tags.trim().equals("")) return matched;
 		
 		String sql_tag="";
@@ -878,6 +859,13 @@ private List<Asset> getResource_global(String tags, String meetingName) {
 	
 	try{
 		
+		/* getResources ???
+		 List<Asset> matched_local= getAidTag_local(tags,meetingName) ;
+		   matched.addAll(matched_local);
+	   */
+		   
+		  if( tags==null || tags.equals("")) return matched;
+		
 		String sql_tag="";
 		java.util.StringTokenizer t= new java.util.StringTokenizer( tags, ";");
 		while( t.hasMoreElements()){
@@ -924,9 +912,7 @@ private List<Asset> getResource_global(String tags, String meetingName) {
    }
    
  
-	   List<Asset> matched_local= getAidTag_local(tags,meetingName) ;
-	   matched.addAll(matched_local);
-   
+	  
    
    
 	}catch(Exception e){e.printStackTrace();}

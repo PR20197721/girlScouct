@@ -753,7 +753,7 @@ td.fc-header-left{
     background-position:right 9px;  
 }*/
 
-#hrStyle >hr{
+.hrStyle >hr{
   border-color:#9C9C9C;
   border-width:1px 0px 0px 0px;
 }
@@ -1109,4 +1109,9 @@ form#contact-us textarea {
 	text-indent: 8px;
 }
 .findActivityButton {
+}
+
+.event-page .lineHeight{
+	line-height:1.5em;
+	font-size:1rem;
 }

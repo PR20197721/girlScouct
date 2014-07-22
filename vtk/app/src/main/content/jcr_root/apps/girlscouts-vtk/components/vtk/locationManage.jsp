@@ -16,21 +16,19 @@ if( locations==null || locations.size()<=0){
 %>
 <div id="locMsg1"></div>
 <div class="locationListing">
-        <div class="row">
 <%
 for(int i=0;i<locations.size();i++){
 	Location location = locations.get(i);
 %>
+	<div class="locationResultElement">
         <div class="row">
 		<div class="small-4 columns"><a href="javascript:void(0)" onclick="rmLocation('<%=location.getUid()%>'); " class="button linkButton">-&nbsp;Remove</a></div>
-                <div class="small-10 columns"><%=location.getName() %></div>
+                <div class="small-10 columns"><h2><%=location.getName() %></h2></div>
                 <div class="small-10 columns"><%=location.getAddress() %></div>
 	</div>
         <div class="row">
                 <div class="small-4 columns">&nbsp;</div>
                 <div class="small-20 columns">
-			<a href="javascript:void(0)" onclick="applyLocToAllMeetings('<%=location.getPath()%>')" class="button linkButton">Apply to all meetings</a>
-			<br/>
 			<div class="locationList">
 <% 
         if( user.getYearPlan().getSchedule()!=null){    
@@ -64,13 +62,16 @@ for(int i=0;i<locations.size();i++){
                 }
 %>
 				<div class="linkButton Wrapper">
-					<input type="button" value="assign locations" onclick="updLocations('<%=location.getPath()%>', '<%=location.getName()%>')" class="button linkButton"/>
+					<a href="#" onclick="updLocations('<%=location.getPath()%>', '<%=location.getName()%>')" class="button linkButton">Assign to checked locations</a>
+					<a href="#" onclick="applyLocToAllMeetings('<%=location.getPath()%>')" class="button linkButton">Apply to all meetings</a>
+
 				</div>
 <%
         }
 %>
 			</div>
 		</div>
+	</div>
 	</div>
 <%
 }
