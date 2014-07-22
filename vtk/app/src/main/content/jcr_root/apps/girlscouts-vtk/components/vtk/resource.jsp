@@ -95,7 +95,7 @@ try {
 	majorIter = rootPage.listChildren();
 %>
 
-<ul class="small-block-grid-1 medium-block-grid-<%= majorCount %> large-block-grid-<%= majorCount %>">
+<ul class="small-block-grid-1 medium-block-grid-<%= majorCount %> large-block-grid-<%= majorCount %> browseResources">
 	<% 
 		while (majorIter.hasNext()) { 
 		    Page currentMajor = majorIter.next();
@@ -161,13 +161,14 @@ try {
 		    	
 		   java.util.List<org.girlscouts.vtk.models.Asset> gresources = meetingDAO.getAllResources(MEETING_AID_PATH+"/"); 
 		 
-		    %><table width="90%" align="center"><tr><th colspan="3">Meeting Aids</th></tr><% 
+		    %><table width="90%" align="center" class="browseMeetingAids"><tr><th colspan="3">Meeting Aids</th></tr><% 
 		    for(int i=0;i<gresources.size();i++){
 			org.girlscouts.vtk.models.Asset a = gresources.get(i);
 			String assetImage = org.girlscouts.vtk.utils.GSUtils.getDocTypeImageFromString(a.getDocType());
 %>
 		   	<tr>
-				<td width="30">
+
+				<td width="40">
 <%
 			if (assetImage != null) {
 %>	
@@ -178,6 +179,7 @@ try {
 				</td>
 		   		<td><a class="previewItem" href="<%=a.getRefId() %>" target="_blank"><%= a.getTitle() %></a> </td>
 		   		<td width="40"><input type="button" value="Add to Meeting" onclick="applyAids('<%=a.getRefId()%>', '<%=a.getTitle()%>' )" class="button linkButton"/></td>
+
 			</tr>
 		   	<%
 		   }

@@ -427,6 +427,88 @@ public java.util.List<String> doSpellCheck(String word) throws Exception{
 return suggest;
 }
 
+/*
+public List<org.girlscouts.vtk.models.Search> getData(String query) {
+	  
+	//System.err.println("SEarch q: "+ query);
+	List<org.girlscouts.vtk.models.Search> matched = new ArrayList<org.girlscouts.vtk.models.Search>();
+	
+	try{
+		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
+		//javax.jcr.query.Query q = qm.createQuery("select jcr:path, excerpt(.) from nt:resource  where jcr:path like '/content/dam/%' and  contains(., '"+ query +"~')", javax.jcr.query.Query.SQL); 
+	
+		
+		String sql="select * from nt:base where jcr:path like '/content/dam/girlscouts-vtk/global/aid/%' and contains(*, 'girl') and jcr:primaryType='dam:Asset'";
+	
+		//String sql= "select child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp 
+		//from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where 
+		//(isdescendantnode (parent, [/content/gateway/en/events/2014])) and child.start is not null and parent.[jcr:title] is not null " ;
+		
+		
+		String sql ="select child.[dc:title], child.[dc:format], parent.[jcr:path] , child.[dc:description] from [nt:unstructured] as parent INNER JOIN [nt:unstructured] as child on ISCHILDNODE(child, parent) where " +
+				"(isdescendantnode (parent, [/content/dam/girlscouts-vtk/global/aid])) and child.[dc:title] is not null and  contains(parent., '"+ query +"~')" ;
+		
+		//AID search
+		javax.jcr.query.Query q = qm.createQuery(sql,  javax.jcr.query.Query.JCR_SQL2);
+		
+		javax.jcr.query.Query q = qm.createQuery(sql,  javax.jcr.query.Query.SQL);
+		QueryResult result = q.execute();
+   
+		
+		
+		//System.err.println( "Fpoundl "+ result.getRows().getSize() );
+		
+		
+		 for (RowIterator it = result.getRows(); it.hasNext(); ) {
+		       Row r = it.nextRow();
+		       
+		      // System.err.println( r.getValue("parent.jcr:path").getString() );
+		      // System.err.println("TATA: "+ r.getValue("excerpt(.)").getString()  );
+		       
+		       org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();
+		    
+		       search.setPath( r.getValue("parent.jcr:path").getString() );
+		      // search.setPath(r.getPath());
+		       search.setDesc( r.getValue("child.dc:title").getString()  );
+		       search.setType( r.getValue("child.dc:format").getString()  );
+		       search.setContent(  r.getValue("child.dc:description").getString());
+		       matched.add(search);
+		 }
+		
+		
+System.err.println("SEARCH RES: "+result.getRows().getSize() );
+   
+   for (RowIterator it = result.getRows(); it.hasNext(); ) {
+       Row r = it.nextRow();
+       Value excerpt = r.getValue("rep:excerpt(.)");
+       
+       String path = r.getValue("jcr:path").getString();
+       if (path != null ) {
+       if(path.contains("/jcr:content") ) {
+    	   path= path.substring(0, (path.indexOf("/jcr:content") ));
+       }
+       org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();
+       search.setPath(path);
+       if (excerpt != null){
+    	   search.setContent(excerpt.getString());
+       }
+       Value title = r.getValue("dc:title");
+       if (title != null) {
+    	   search.setDesc(title.getString() );
+    	   
+       }
+       Value format = r.getValue("dc:format");
+       if (format != null) {
+    	   search.setType(format.getString());
+       }
+       matched.add(search);
+       }
+   }
+   
+	}catch(Exception e){e.printStackTrace();}
+   return matched;
+	}
+*/
 
 public List<org.girlscouts.vtk.models.Search> getData(String query) {
 	  
@@ -477,6 +559,10 @@ public List<org.girlscouts.vtk.models.Search> getData(String query) {
 
 
 
+
+
+
+
 public java.util.List<Asset> getAids(String tags, 
 		String meetingName, String uids){
 	
@@ -504,6 +590,11 @@ private List<Asset> getAidTag(String tags, String meetingName) {
 	
 	try{
 		
+		   List<Asset> matched_local= getAidTag_local(tags,meetingName) ;
+		   matched.addAll(matched_local);
+		   
+		if( tags==null || tags.trim().equals("")) return matched;
+		
 		String sql_tag="";
 		java.util.StringTokenizer t= new java.util.StringTokenizer( tags, ";");
 		while( t.hasMoreElements()){
@@ -522,7 +613,10 @@ private List<Asset> getAidTag(String tags, String meetingName) {
 		sql="select * from nt:base where jcr:primaryType='dam:Asset' and jcr:path like '/content/dam/girlscouts-vtk/global/aid/%' and" +
 				" ("+ sql_tag +") order by jcr:score desc";
 		*/
-		sql="select dc:description,dc:format, dc:title from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/aid/%'  and ( "+ sql_tag+" )";
+		sql="select dc:description,dc:format, dc:title from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/aid/%'";
+		if( !sql_tag.equals(""))
+			sql+=   " and ( "+ sql_tag+" )";
+		
 		System.err.println( sql);
 		
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
@@ -548,7 +642,7 @@ private List<Asset> getAidTag(String tags, String meetingName) {
        search.setType(AssetComponentType.AID);
        search.setIsCachable(true);
        //search.setContent(excerpt.getString());
-       try{ search.setDescription( r.getValue("dc:description").getString() );}catch(Exception e){e.printStackTrace();}
+       try{ search.setDescription( r.getValue("dc:description").getString() );}catch(Exception e){System.err.println("Global Aid Description missing");}
        //search.setType(r.getValue("dc:format").getString());
        try{ search.setTitle( r.getValue("dc:title").getString() );}catch(Exception e){}
        matched.add(search);
@@ -556,9 +650,7 @@ private List<Asset> getAidTag(String tags, String meetingName) {
    }
    
    
-   List<Asset> matched_local= getAidTag_local(tags,meetingName) ;
-   matched.addAll(matched_local);
-   
+
    
    
 	}catch(Exception e){e.printStackTrace();}
@@ -591,7 +683,7 @@ private List<Asset> getAidTag_local(String tags, String meetingName) {
 		
 		//sql="select dc:description,dc:format from nt:base where  jcr:primaryType= 'dam:Asset' and jcr:path like '/content/dam/girlscouts-vtk/local/aid/Meetings/"+meetingName+"/%' ";
 		
-		sql="select dc:description,dc:format, dc:title  from nt:unstructured where  jcr:path like '/content/dam/girlscouts-vtk/local/aid/Meetings/"+meetingName+"/%' and jcr:mixinTypes='cq:Taggable'";
+		sql="select dc:description,dc:format, dc:title  from nt:unstructured where  jcr:path like '/content/dam/girlscouts-vtk/local/aid/meetings/"+meetingName+"/%' and jcr:mixinTypes='cq:Taggable'";
 		System.err.println( sql);
 		
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
@@ -800,7 +892,10 @@ private List<Asset> getResource_global(String tags, String meetingName) {
 		
 		String sql="";
 		
-		sql="select dc:description,dc:format, dc:title from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/resource/%'  and ( "+ sql_tag+" )";
+		sql="select dc:description,dc:format, dc:title from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/resource/%'  ";
+		if(!sql_tag.equals(""))
+			sql+=" and ( "+ sql_tag+" )";
+		
 		System.err.println( sql);
 		
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
@@ -848,11 +943,11 @@ private List<Asset> getResource_local(String tags, String meetingName) {
 	
 		
 		String sql="select dc:description,dc:format from nt:unstructured" +
-           		"   where   jcr:path like '/content/dam/girlscouts-vtk/local/resource/Meetings/"+meetingName+"/%' ";
+           		"   where   jcr:path like '/content/dam/girlscouts-vtk/local/resource/meetings/"+meetingName+"/%' ";
 		
 		
 		
-		sql="select dc:description,dc:format, dc:title  from nt:unstructured where  jcr:path like '/content/dam/girlscouts-vtk/local/resource/Meetings/"+meetingName+"/%' and jcr:mixinTypes='cq:Taggable'";
+		sql="select dc:description,dc:format, dc:title  from nt:unstructured where  jcr:path like '/content/dam/girlscouts-vtk/local/resource/meetings/"+meetingName+"/%' and jcr:mixinTypes='cq:Taggable'";
 		System.err.println( sql);
 		
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
@@ -1249,7 +1344,7 @@ public  List<Asset> getAllResources(String _path) {
       
        
        Asset search = new Asset();
-       search.setRefId(r.getPath());
+       search.setRefId(r.getPath().replace("/jcr:content/metadata", ""));
        search.setIsCachable(true);
        search.setType(AssetComponentType.RESOURCE);
        try{ search.setDescription( r.getValue("dc:description").getString() );}catch(Exception e){}
@@ -1278,8 +1373,11 @@ public  Asset getAsset(String _path) {
 	
 try{
 		
-		
+		System.err.println("getAsset: "+ _path );
 		String sql="";
+		
+		if( _path!=null && _path.contains("metadata/") )
+			_path = _path.replace( "metadata/", "");
 		
 		sql="select dc:description,dc:format, dc:title from nt:unstructured where jcr:path like '"+ _path +"%' and cq:tags is not null";
 		/*
@@ -1295,7 +1393,7 @@ try{
 		QueryResult result = q.execute();
    
  
-   
+   System.err.println("test: "+ result.getRows().getSize());
    for (RowIterator it = result.getRows(); it.hasNext(); ) {
        Row r = it.nextRow();
        Value excerpt = r.getValue("jcr:path");

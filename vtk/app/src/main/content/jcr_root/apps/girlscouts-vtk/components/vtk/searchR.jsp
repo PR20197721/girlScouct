@@ -63,7 +63,7 @@ if (searchResults == null || searchResults.size() < 1) {
 	<li class="searchResultsItem1">
 		<table width="100%">
 			<tr>
-				<td width="34"><span class="docType"><img width="30" height="30" src="<%=docTypeImage%>"/></span></td>
+				<td width="34"><span class="docType"><img width="40" height="40" src="<%=docTypeImage%>"/></span></td>
 				<td><h2><a class="searchResultPath" href="<%=search.getPath() %>" target="_blank"><%= description %></a></h2>
 		<p><%=search.getContent() %></p>
 				</td>
