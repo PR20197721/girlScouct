@@ -25,7 +25,7 @@
 %>
 <div class="small-24 medium-24 large-24 columns news-section">
 	<div class="row">
-		<div class="hide-for-small hide-for-medium large-24 columns">
+		<div class="hide-for-small hide-for-medium large-24 columns featureNewsHeader">
 			<div class="feature-icon">
 				<img src="<%= featureIcon %>" width="50" height="50">
 			</div>	
