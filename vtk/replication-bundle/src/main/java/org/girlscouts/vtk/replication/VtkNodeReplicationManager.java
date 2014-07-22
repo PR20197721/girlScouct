@@ -25,13 +25,12 @@ import com.day.cq.replication.Replicator;
 
 @Component(metatype=true, immediate=true)
 @Properties ({
-    @Property(name=Constants.MODE_PROPERTY, description="author/publish"),
-    @Property(name=Constants.FROM_PUBLISHER_PROPERTY, description="This publisher ID")
+    @Property(name=Constants.REPLICATION_INTERVAL_PROP, longValue = Constants.REPLICATION_INTERVAL, description="Replication Interval, in seconds."),
 })
-public class VtkNodeListener {
+public class VtkNodeReplicationManager {
     private static final String[] MONITOR_PATHS = { Constants.ROOT_PATH };
     private static final Logger log = LoggerFactory
-            .getLogger(VtkNodeListener.class);
+            .getLogger(VtkNodeReplicationManager.class);
 
     @Reference
     private SlingRepository repository;
