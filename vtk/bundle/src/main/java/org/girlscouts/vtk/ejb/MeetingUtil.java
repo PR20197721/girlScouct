@@ -496,6 +496,23 @@ public class MeetingUtil {
 				
 				java.util.List<Asset> assets= meeting.getAssets();
 				assets= assets ==null ? new java.util.ArrayList() : assets;
+				
+				
+				
+				
+				
+				boolean isAsset= false;
+				for(int y=0;y<assets.size();y++)
+					if( assets.get(y).getRefId().equals( aidId ))
+						isAsset=true;
+				
+				
+				if( isAsset )
+					{System.err.println("Dp asset : "+ aidId);return;}
+				
+				
+				
+				
 				assets.add( asset );
 				meeting.setAssets( assets );
 				user.getYearPlan().setAltered("true");
