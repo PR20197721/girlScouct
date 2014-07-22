@@ -88,7 +88,7 @@ function toggleWhiteArrow() {
 <div class="baseDiv anActivity small-24 large-24 medium-24 columns">
    <div class="row collapse">
         <div class="small-1 large-1 medium-1 columns">
-        	<div><a href="#" onclick="toggleWhiteArrow()"><img id="whiteArrowImg" src="/etc/designs/girlscouts-usa-green/images/white-down-arrow.png" width ="25" height="25"/></a></div>
+        	<div><a href="#" onclick="toggleWhiteArrow()"><img id="whiteArrowImg" src="/etc/designs/girlscouts-usa-green/images/white-down-arrow.png" width ="10" height="15"/></a></div>
         </div>
     	 <div class="small-23 large-23 medium-23 columns">
    			<div class="title"><span class="activity-color">Find an Activity</span></div>
@@ -161,12 +161,9 @@ function toggleWhiteArrow() {
 %>
 	</ul>
 </div>
-<div class="baseDiv programLevel">
-  <div class="row">
-    <div class="small-24 large-24 medium-24 columns">
-    	<input type="submit" value="Search" id="sub" class="form-btn pull-right"/>
-    </div>
-  </div>
+<div class="searchButtonRow baseDiv programLevel">
+    	<input type="submit" value="Search" id="sub" class="form-btn advancedSearchButton"/>
+</div>
   
 </div>
 
