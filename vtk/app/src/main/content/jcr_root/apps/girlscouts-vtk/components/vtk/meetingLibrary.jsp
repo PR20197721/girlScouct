@@ -101,7 +101,7 @@ function cngMeeting(mPath){
 	<tr>
 		<td>
 			<div class="yearPlanMeetings">
-			<h2><%=meeting.getName()%> </h2>
+			<h2><%=meeting.getName()%>  </h2>
 			<p class="tags"> <%=meeting.getAidTags() %></p>
 			<p class="blurb"><%=meeting.getBlurb() %><p>
 			<br/>
