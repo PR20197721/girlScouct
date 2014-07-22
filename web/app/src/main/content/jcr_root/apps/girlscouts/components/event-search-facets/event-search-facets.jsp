@@ -161,8 +161,8 @@ function toggleWhiteArrow() {
 %>
 	</ul>
 </div>
-<div class="baseDiv programLevel class="findActivityButton"">
-  <input type="submit" value="Search" id="sub" class="form-btn"/>
+<div class="baseDiv programLevel">
+  <input type="submit" value="Search" id="sub" class="form-btn pull-right"/>
 </div>
 </form>
 </div>
