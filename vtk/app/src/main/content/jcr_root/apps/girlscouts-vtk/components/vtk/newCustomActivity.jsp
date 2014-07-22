@@ -17,7 +17,23 @@
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.datepicker.validation.js"></script>
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.validate.js"></script>
 
+
 <script>
+
+function doChkSubmitValid(){
+	
+	var x= document.getElementById("newCustActivity_date").value;
+	var y =document.getElementById("newCustActivity_name").value;
+	if( $.trim(x) == '' || $.trim(y) =='' ){
+		
+		document.getElementById("newCustActivity").disabled=true;
+	}else{
+		
+		document.getElementById("newCustActivity").disabled=false;
+	}
+		
+}
+
 $(function() {
 		$("#newCustActivity_date").inputmask("mm/dd/yyyy", {});
 		$('#newCustActivity_date').datepicker({minDate: 0});
@@ -191,10 +207,10 @@ border:5px solid #000;
 <div class="errorMsg error"></div>
 <div class="row">
         <div class="small-24 medium-5 large-4 columns"><label for="newCustActivity_name" ACCESSKEY="n">Activity Name</label></div>
-        <div class="small-24 medium-7 large-8 columns"><input type="text" name="newCustActivity_name" id="newCustActivity_name" value=""/></div>
+        <div class="small-24 medium-7 large-8 columns"><input type="text" name="newCustActivity_name" id="newCustActivity_name" value="" onchange="doChkSubmitValid()"/></div>
         <div class="small-24 medium-5 large-4 columns"><label for="newCustActivity_date" ACCESSKEY="d">Date</label></div>
         <div class="small-24 medium-7 large-8 columns">
-		<input type="text" id="newCustActivity_date" name="newCustActivity_date" placeholder="mm/dd/yyyy" class="date calendarField"/>
+		<input type="text" id="newCustActivity_date" name="newCustActivity_date" placeholder="mm/dd/yyyy" class="date calendarField" onchange="doChkSubmitValid()"/>
 	</div>
 </div>
 <div class="row">
@@ -236,7 +252,8 @@ border:5px solid #000;
 </div>
 <br/><br/>
 <div class="linkButtonWrapper">
-	<input type="button" value="Add Activity" id="newCustActivity" class="button linkButton"/>
+	 <!--   <input type="button" value="Add Activity" id="newCustActivity" class="button linkButton" disabled/> -->
+	    <input type="button" value="Add Activity" id="newCustActivity"  disabled/>
 </div>
 </form>
 
