@@ -25,7 +25,6 @@ girlscouts.components.LinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
     labelField: null,
 	pathField: null,
     classField: null,
-    openInNewWindowField: null,
     
     constructor: function(config) {
         config = config || { };
@@ -95,10 +94,6 @@ girlscouts.components.LinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
         });
         this.add(this.pathField);
 
-        this.add(new CQ.Ext.form.Label({text: "New Window"}));
-        this.openInNewWindowField = new CQ.Ext.form.Checkbox();
-        this.add(this.openInNewWindowField);
-
         this.add(new CQ.Ext.form.Label({text: "Class"}));
         this.classField = new CQ.Ext.form.TextField({
             listeners: {
@@ -120,7 +115,6 @@ girlscouts.components.LinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
 		this.classField.setValue(parts[2]);
 		this.mediumLabel.setValue(parts[3]);
 		this.smallLabel.setValue(parts[4]); 
-		this.openInNewWindowField.setValue(parts[5]); 
         this.hiddenField.setValue(value);
     },
 
@@ -135,8 +129,7 @@ girlscouts.components.LinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
         	+ this.pathField.getValue() + "|||"
             + this.classField.getValue() + "|||"
             + this.mediumLabel.getValue() + "|||"
-            + this.smallLabel.getValue() + "|||"
-            + this.openInNewWindowField.getValue();
+            + this.smallLabel.getValue();
     },
 
     // private
