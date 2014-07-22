@@ -66,7 +66,7 @@
 
        
                 for(int i=0;i< myMeetings.size();i++){
-                        if( myMeetings.get(i).getCancelled()!=null && myMeetings.get(i).getCancelled().equals("true")) continue;
+                        // ADD CANCELED MEETINGS if( myMeetings.get(i).getCancelled()!=null && myMeetings.get(i).getCancelled().equals("true")) continue;
                         String meetingId = myMeetings.get(i).getRefId();
                         meetingId= meetingId.substring(meetingId.lastIndexOf("/") +1).trim().toLowerCase();
                         myMeetingIds.add( meetingId );
