@@ -45,10 +45,13 @@ if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMM
 }
 
 %>
+<%-- Please move this to static.css --%>
 <style>
 .checkbox-grid span {
     display: block;
     float: left;
     width: 50%;
+    font-size: 0.9em;
+    padding: 10px 0 0 0; 
 }
 </style>	

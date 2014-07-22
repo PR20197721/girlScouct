@@ -25,10 +25,28 @@ if (selectors.length != 0) {
 }
 
 Iterator<Page> iter = currentPage.listChildren();
+Boolean oddAdCount = false;
 while(iter.hasNext() && adCount > 0) {
+	if (adCount%2 == 1){
+		oddAdCount = true;
+    }
+    else if(adCount%2 == 0){
+        oddAdCount = false;
+    }
     adCount--;
     Page currentAd = iter.next();
     request.setAttribute(AD_ATTR, currentAd);
-    %><cq:include script="display-ad.jsp"/><%
+    %>
+<div class="hide-for-small">
+<cq:include script="display-ad.jsp"/>
+</div>
+<div class="show-for-small">
+<div class="small-12 columns">
+<% request.setAttribute(AD_ATTR, currentAd); %>
+<cq:include script="display-ad.jsp"/>
+</div>
+</div>
+
+<%
 }
 %>

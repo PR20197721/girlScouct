@@ -30,7 +30,8 @@
 %>
 <%@include file="include/vtk-nav.jsp"%>
 <% if( user.getYearPlan()!=null){ %> 
-<div class="row hide-for-small">
+<div class="hide-for-small">
+<div class="row">
 	<div class="large-22 medium-22 small-20 columns">
 		<div class="centered-table">
 			<ul id="vtkSubNav">
@@ -39,7 +40,6 @@
 				</li>
 				<li>|</li>
 				<li>
-					<!-- <a href="/content/girlscouts-vtk/en/vtk.meetingLibrary.html" >Add Meeting</a> -->
 					 <a href="javascript:void(0)" onclick="doMeetingLib()">Add Meeting</a> 
 				</li>
 				<li>|</li>
@@ -48,49 +48,20 @@
 				</li>
 			</ul>
 		</div>
-<!--
-		<div class="show-for-small">
-			<script>
-				function smallAction(act) {
-					if (act == null || act === "") {
-						return;
-					} else {
-						if (act.indexOf("/") > -1) {
-							window.location.href = act;
-						} else {
-							eval(act + "()");
-						}
-					}
-				}
-			</script>
-			<select id="vtkSubNavSmall" onChange="smallAction(this.options[selectedIndex].value)">
-				<option value="" selected="selected">Select an action</option>
-				<option value="newLocCal">Specify Meeting Dates and Locations</option>
-                                <option value="/content/girlscouts-vtk/en/vtk.meetingLibrary.html">Add Meeting</option>
-                                <option value="newActivity">Add Activity</option>
-                        </select>
-		</div>
--->
 	</div>
 	<div class="large-2 medium-2 small-4 columns">
 		<div class="icons">
 		<%if(user.getYearPlan().getSchedule()!=null){ %>
 			<a onclick="self.location = '/content/girlscouts-vtk/en/cal.ics'"><img alt="Calendar Download" src="/etc/designs/girlscouts-vtk/images/calendar-download.png" width="39" height="20" border="0" class="align-right"/></a>
                 <%} %>
-<!--
-			<a href="javascript:void(0)" id="plan_calendarhlp_hrf" onclick="x12('plan_calendarhlp_hrf')"><img src="/etc/designs/girlscouts-usa-green/images/help-icon.png" class="align-right"/></a>
--->
 		</div>
 	</div>
+</div>
 </div>
 <%} %>
 <%if( user.getYearPlan()==null ){ %>
 	<div class="instructions">
 		<p>To start planning your year, select a Year Plan</p>
-<!--
-		<a href="javascript:void(0)" id="plan_calendarhlp_hrf" onclick="x12('plan_calendarhlp_hrf')">
-		<img align="right" src="/etc/designs/girlscouts-usa-green/images/help-icon.png"/></a>
--->
 	</div>
 <%}%>
 	<div class="sectionHeader">YEAR PLAN LIBRARY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
