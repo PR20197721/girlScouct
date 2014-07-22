@@ -160,11 +160,12 @@ public class CalendarUtil {
 		//public java.util.List <org.joda.time.LocalDate> exclWeek( java.util.Date date){
 		public java.util.List <org.joda.time.DateTime> exclWeek( org.joda.time.DateTime date){
 			
-	//System.err.println("Excluding weekof "+ date );
+	System.err.println("Excluding weekof "+ date );
 	
 			java.util.List<org.joda.time.DateTime> exclDates = new java.util.ArrayList();
 			
 			org.joda.time.DateTime now = new org.joda.time.DateTime(date);
+			/*
 			exclDates.add( now.withDayOfWeek(org.joda.time.DateTimeConstants.MONDAY) );
 			exclDates.add( now.withDayOfWeek(org.joda.time.DateTimeConstants.TUESDAY) );
 			exclDates.add( now.withDayOfWeek(org.joda.time.DateTimeConstants.WEDNESDAY) );
@@ -172,7 +173,18 @@ public class CalendarUtil {
 			exclDates.add( now.withDayOfWeek(org.joda.time.DateTimeConstants.FRIDAY) );
 			exclDates.add( now.withDayOfWeek(org.joda.time.DateTimeConstants.SATURDAY) );
 			exclDates.add( now.withDayOfWeek(org.joda.time.DateTimeConstants.SUNDAY) );
-
+*/
+			
+			
+			java.util.Calendar cal = now.toGregorianCalendar();
+			cal.set(java.util.Calendar.DAY_OF_WEEK, java.util.Calendar.SUNDAY);
+			for(int i=0;i<7;i++){
+				
+				
+				System.err.println( "*** "+cal.getFirstDayOfWeek()  +" : "+ cal.getTime());
+				exclDates.add(  new org.joda.time.DateTime(cal.getTimeInMillis()) );
+				cal.add(java.util.Calendar.DATE, 1);
+			}
 		
 			
 			return exclDates;

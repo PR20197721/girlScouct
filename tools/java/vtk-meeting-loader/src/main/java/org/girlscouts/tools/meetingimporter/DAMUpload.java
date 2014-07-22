@@ -96,7 +96,7 @@ for(int i=2;i<sheet.getLastRowNum();i++){
 		 
 		if(true) return;
 	       // Connection
-	        javax.jcr.Repository repository = JcrUtils.getRepository("http://localhost:4502/crx/server/");
+	        javax.jcr.Repository repository = JcrUtils.getRepository("http://localhost:4503/crx/server/");
 	        
 	        //Workspace Login
 	        SimpleCredentials creds = new SimpleCredentials("admin", "admin".toCharArray());
@@ -135,7 +135,7 @@ for(int i=2;i<sheet.getLastRowNum();i++){
             if(value!=null)
             toRet = value.getStringValue() ;
          }
-         return toRet;
+         return toRet.trim();
 	}
 	
 	// 1 row header(s)
@@ -147,7 +147,8 @@ for(int i=2;i<sheet.getLastRowNum();i++){
         FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
         Sheet sheet = workbook.getSheetAt(1);
 
-        for(int i=2;i<sheet.getLastRowNum();i++){
+        System.out.println(sheet.getLastRowNum());
+        for(int i=2;i<=sheet.getLastRowNum()+1;i++){
         	String fileName = getCellVal( evaluator, sheet, "A"+i ).trim();
         	if( fileName==null || fileName.length()<1) break;
         	String type = getCellVal( evaluator, sheet, "B"+i );
@@ -193,7 +194,7 @@ for(int i=2;i<sheet.getLastRowNum();i++){
 		
 		System.err.println( "___ "+fileName );
 		
-		String url="http://localhost:4502/content/dam/girlscouts-vtk/global/*";
+		String url="http://localhost:4503/content/dam/girlscouts-vtk/global/*";
 		
 		HttpClient client = new DefaultHttpClient();
 		//client.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
@@ -243,7 +244,7 @@ for(int i=2;i<sheet.getLastRowNum();i++){
 	public void storeResource( Resource resource ) throws Exception{
 		 
 	
-	        javax.jcr.Repository repository = JcrUtils.getRepository("http://localhost:4502/crx/server/");
+	        javax.jcr.Repository repository = JcrUtils.getRepository("http://localhost:4503/crx/server/");
 	        
 	        //Workspace Login
 	        SimpleCredentials creds = new SimpleCredentials("admin", "admin".toCharArray());
@@ -285,10 +286,20 @@ for(int i=2;i<sheet.getLastRowNum();i++){
 
 	    
 	    HttpPost httppost = null;
-	    if( destination.toLowerCase().trim().contains("/global") )
-	    	httppost = new HttpPost( "http://localhost:4502/content/dam/girlscouts-vtk/global/"+ type.toLowerCase().trim() +"/"+java.net.URLEncoder.encode(uploadFileName));
-	    else
-	    	httppost = new HttpPost( "http://localhost:4502/content/dam/girlscouts-vtk/local/"+ type.toLowerCase().trim() +""+ destination+"/"+java.net.URLEncoder.encode(uploadFileName));
+	    if( destination.toLowerCase().trim().contains("/global") ) {
+	    	httppost = new HttpPost( "http://localhost:4503/content/dam/girlscouts-vtk/global/"+ type.toLowerCase().trim() +"/"+java.net.URLEncoder.encode(uploadFileName));
+	    } else {
+	        destination = destination.trim();
+	        String[] destinationParts = destination.split("/");
+	        if (destinationParts.length == 3) {
+	            destination = "/" + destinationParts[1].toLowerCase() + "/" + destinationParts[2].toUpperCase();
+	        }
+	        if (type.toLowerCase().trim().equals("icon")) {
+	            httppost = new HttpPost( "http://localhost:4503/content/dam/girlscouts-vtk/local/"+ type.toLowerCase().trim() +""+ destination +".png");
+	        } else {
+	            httppost = new HttpPost( "http://localhost:4503/content/dam/girlscouts-vtk/local/"+ type.toLowerCase().trim() +""+ destination +"/"+java.net.URLEncoder.encode(uploadFileName));
+	        }
+	    }
 	    
 	    String basic_auth = new String(Base64.encodeBase64(( "admin:admin" ).getBytes()));
 	    httppost.addHeader("Authorization", "Basic " + basic_auth);
@@ -320,10 +331,14 @@ if( metaDatas.get("description")!=null )
 	entity.addPart( "./jcr:content/metadata/dc:description", new StringBody( (String)metaDatas.get("description"), "text/plain",
 			Charset.forName( "UTF-8" )));
 
-entity.addPart( "./jcr:content/metadata/cq:tags", new StringBody( "girlscouts-vtk:tag/"+((String)metaDatas.get("tags")).trim().toLowerCase().replaceAll(" ", "-"), "text/plain",
-Charset.forName( "UTF-8" )));
-entity.addPart( "./jcr:content/metadata/cq:tags", new StringBody( "girlscouts-vtk:category/"+((String)metaDatas.get("category")).trim().toLowerCase().replaceAll(" ", "-"), "text/plain",
-Charset.forName( "UTF-8" )));
+if (!((String)metaDatas.get("tags")).isEmpty()) {
+    entity.addPart( "./jcr:content/metadata/cq:tags", new StringBody( "girlscouts-vtk:tag/"+((String)metaDatas.get("tags")).trim().toLowerCase().replaceAll(" ", "-"), "text/plain",
+    Charset.forName( "UTF-8" )));
+}
+if (!((String)metaDatas.get("category")).isEmpty()) {
+    entity.addPart( "./jcr:content/metadata/cq:tags", new StringBody( "girlscouts-vtk:category/"+((String)metaDatas.get("category")).trim().toLowerCase().replaceAll(" ", "-"), "text/plain",
+    Charset.forName( "UTF-8" )));
+}
 	    
 
 
@@ -355,7 +370,7 @@ if ((String)metaDatas.get("tags")!=null )
 		String dir = "/etc/tags/girlscouts-vtk/tag/";
 		System.err.println( "Dir: "+dir);
 		
-		        javax.jcr.Repository repository = JcrUtils.getRepository("http://localhost:4502/crx/server/");
+		        javax.jcr.Repository repository = JcrUtils.getRepository("http://localhost:4503/crx/server/");
 		        
 		        //Workspace Login
 		        SimpleCredentials creds = new SimpleCredentials("admin", "admin".toCharArray());

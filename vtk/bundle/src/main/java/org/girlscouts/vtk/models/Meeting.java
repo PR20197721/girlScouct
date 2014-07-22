@@ -15,7 +15,7 @@ public class Meeting extends YearPlanComponent {
 	@Field private String id, name;
 	@Field private String  level, blurb, cat;
 	@Field private String aidTags,resources, agenda;
-
+	@Field private Integer position;
 	
 	@Collection private java.util.List <Activity> activities;
 	
@@ -23,6 +23,16 @@ public class Meeting extends YearPlanComponent {
     @Collection private java.util.Map<String, JcrCollectionHoldString> meetingInfo;
 	
    
+
+
+public Integer getPosition() {
+		return position;
+	}
+
+
+	public void setPosition(Integer position) {
+		this.position = position;
+	}
 
 
 public java.util.Map<String, JcrCollectionHoldString> getMeetingInfo() {

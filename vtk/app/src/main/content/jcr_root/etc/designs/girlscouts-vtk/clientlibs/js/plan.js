@@ -59,7 +59,7 @@ function reloadMeeting(){
 }
 
 function newActivity(){
-        loadModalPage('/content/girlscouts-vtk/controllers/vtk.newCustomActivity.html');
+        loadModalPage('/content/girlscouts-vtk/controllers/vtk.newCustomActivity.html', false, "", true);
 }
 
 function addExistActivity(activityId){
@@ -67,35 +67,75 @@ function addExistActivity(activityId){
 }
 
 function newLocCal(){
-	loadModalPage('/content/girlscouts-vtk/controllers/vtk.locations.html');
+	loadModalPage('/content/girlscouts-vtk/controllers/vtk.locations.html', false);
 }
 
-function loadModalPage(link, showTitle, title) {
+function closeModalPage() {
+        try {
+                $("#gsModal").dialog( "close");
+        } catch (e) {
+                console.log(e);
+        }
+}
+function resetModalPage() {
+        $("#gsModal").css({overflow: 'inherit'});
+}
+
+function loadModalPage(link, showTitle, title, fullPageScroll) {
+	resetModalPage();
         $( "#gsModal" ).load(link, function( response, status, xhr ) {
                 if ( status == "error" ) {
                         var msg = "Sorry but there was an error: ";
                         $( "#error" ).html( msg + xhr.status + " " + xhr.statusText );
                 }else{
 			var wWidth = $(window).width();
-			var dWidth = wWidth * 0.85; //this will make the dialog 80% of the
-			$( "#gsModal" ).dialog({
-				width:dWidth,
-				height:"auto",
-				modal:true,
-				dialogClass:"modalWrap",
-				position: ['center',20],
-				show:375,
-				"open": function() {
-					if (!showTitle) {
-						$(".ui-dialog-titlebar").hide();
-					} else {
-						$("span.ui-dialog-title").html(title); 
+			var wHeight = $(window).height();
+			var dWidth = wWidth * 0.95; //this will make the dialog 80% of the
+			var dHeight = wHeight *0.97;
+			if (dWidth >960) {
+				dWidth = 960; // max-width: 60em;
+			}
+			if (fullPageScroll) {
+                                $( "#gsModal" ).dialog({
+                                        width:dWidth,
+                                        modal:true,
+					height:dHeight,
+                                        dialogClass:"modalWrap",
+                                        show:375,
+                                        "open": function() {
+                                                if (!showTitle) {
+                                                        $(".ui-dialog-titlebar").hide();
+                                                } else {
+                                                        $("span.ui-dialog-title").html(title);
+                                                        $(".ui-dialog-titlebar").show();
+                                                }
+                                                $("body").css({ overflow: 'hidden' });
+                                                $(this).css({overflow: 'scroll'});
+                                        },
+                                        "close": function() {
+                                                $("body").css({ overflow: 'inherit' });
+                                        }
+                                });
+			} else {
+				$( "#gsModal" ).dialog({
+					width:dWidth,
+					modal:true,
+					dialogClass:"modalWrap",
+					show:375,
+					"open": function() {
+						if (!showTitle) {
+							$(".ui-dialog-titlebar").hide();
+						} else {
+							$("span.ui-dialog-title").html(title); 
+							$(".ui-dialog-titlebar").show();
+						}
+						$("body").css({ overflow: 'hidden' });
+					},
+					"close": function() {
+						$("body").css({ overflow: 'inherit' });
 					}
-				},
-				"close": function() {
-					// do nothing
-				}
-			});
+				});
+			}
                 }
         });
 }
@@ -115,8 +155,12 @@ function yesPlan(){
 }
 
 function addLocation(){
+	showError(null, "#locationEdit .errorMsg");
 	var  name = document.getElementById("loc_name").value;
-	if( $.trim(name) =='' ){alert("Please fill 'Location Name' field"); return false;}
+	if( $.trim(name) =='' ){
+		showError("Please enter a location", "#locationEdit .errorMsg");
+		return false;
+	}
 	var  address = document.getElementById("loc_address").value;
 	var  city = document.getElementById("loc_city").value;
 	var  state = document.getElementById("loc_state").value;
@@ -135,6 +179,7 @@ function addLocation(){
 		},
 		success: function(result) {
 			loadLocMng();
+			$("#addLocationForm").trigger("reset");
 		}
 	});
 }
@@ -275,7 +320,10 @@ function editNewCustActivity(activityUid){
 			a:Date.now()
 		},
 		success: function(result) {
-			location.reload();
+			//location.reload();
+			//var x= new Date(newCustActivity_date + " "+ newCustActivity_startTime +" "+newCustActivity_startTime_AP);
+			//alert(x);
+			self.location="/content/girlscouts-vtk/en/vtk.planView.html?elem="+new Date(newCustActivity_date + " "+ newCustActivity_startTime +" "+newCustActivity_startTime_AP).getTime(); 
 		}
 	});
 }
@@ -366,9 +414,9 @@ function bindAssetToYPC(assetId, ypcId){
 
 
 function doMeetingLib(){
-	loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html');
+	loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html', false);
 }
 
 function doHelp(isSched){
-	loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html');
+	loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html', false);
 }

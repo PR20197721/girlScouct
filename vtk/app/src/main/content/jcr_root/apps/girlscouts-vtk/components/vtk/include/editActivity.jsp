@@ -1,6 +1,4 @@
-<div id="<%=ii %>" style="display:none;">
-
-<a href="javascript:void(0)" onclick="location.reload();">CLOSE ME</a>
+<div id="<%=ii %>" style="display:block;">
 
 	<br/>
 	<select onchange="durEditActiv(this.options[this.selectedIndex].value, '<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">

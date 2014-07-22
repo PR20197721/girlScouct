@@ -1,6 +1,7 @@
-<%@ page import="java.text.DateFormat,com.day.cq.wcm.api.WCMMode,com.day.cq.wcm.foundation.List, com.day.cq.wcm.api.components.DropTarget,com.day.cq.search.Query,com.day.cq.search.result.SearchResult,com.day.cq.search.result.Hit, java.util.Map,java.util.HashMap,com.day.cq.search.QueryBuilder,com.day.cq.search.PredicateGroup,java.util.Arrays,java.util.HashSet,java.util.ArrayList, java.util.Iterator,java.text.SimpleDateFormat,java.util.Date, java.text.Format,com.day.cq.dam.commons.util.DateParser"%>
+<%@ page import="java.text.DateFormat,com.day.cq.wcm.api.WCMMode,com.day.cq.wcm.foundation.List, com.day.cq.wcm.api.components.DropTarget,com.day.cq.search.Query,com.day.cq.search.result.SearchResult,com.day.cq.search.result.Hit, java.util.Map,java.util.HashMap,com.day.cq.search.QueryBuilder,com.day.cq.search.PredicateGroup,java.util.Arrays,java.util.HashSet,java.util.ArrayList, java.util.Iterator,java.text.SimpleDateFormat,java.util.Date, java.text.Format,com.day.cq.dam.commons.util.DateParser,java.util.Set"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
+<%@include file="newsHelper.jsp" %>
 <%
 	String designPath = currentDesign.getPath();
 	String featureIcon = properties.get("fileReference", "");
@@ -16,13 +17,15 @@
 	Format formatter = new SimpleDateFormat("dd MMM yyyy");
 	 
 	Integer count =  Integer.parseInt(properties.get("count",String.class));
+	Set<String> featureNews = (HashSet)request.getAttribute("featureNews"); 
 	if(count > resultsHits.size()){
-	    count = resultsHits.size();
+		count = resultsHits.size();
     }
+	
 %>
-<div class="small-24 medium-24 large-24 columns">
+<div class="small-24 medium-24 large-24 columns news-section">
 	<div class="row">
-		<div class="hide-for-small hide-for-medium large-24 columns">
+		<div class="hide-for-small hide-for-medium large-24 columns featureNewsHeader">
 			<div class="feature-icon">
 				<img src="<%= featureIcon %>" width="50" height="50">
 			</div>	
@@ -33,7 +36,7 @@
 			</div>
 		</div>
 		<div class="medium-8 show-for-medium columns">&nbsp;</div>
-        <div class="small-24 medium-12 hide-for-large hide-for-xlarge hide-for-xxlarge columns">
+        <div class="small-24 medium-24 hide-for-large hide-for-xlarge hide-for-xxlarge columns">
             <div class="feature-icon">
                 <img src="<%= featureIcon %>" width="50" height="50">
             </div>
@@ -43,53 +46,86 @@
         </div>
         <div class="medium-4 show-for-medium columns">&nbsp;</div>
 	</div>
-	
-	<ul class="small-block-grid-1 content">
+
+	<ul class="news-block">
+
 <%
-	    for(int i=0;i<count;i++) {
-                String newsLink = null;
-                try {
-			Node resultNode = resultsHits.get(i).getNode();
-			newsLink = resultNode.getPath() + ".html";
+// Feature news when select but author on the home page
+	List list = (List)request.getAttribute("list");
+    
+   
+    
+	if (!list.isEmpty()){
+   	%>
+	<%
+    	Iterator<Page> items = list.getPages();
+    	String listItemClass = null;
+    	while (items.hasNext()){
+            String newsLink = "";	
+        	Page item = (Page)items.next();
+    		Node node = item.getContentResource().adaptTo(Node.class);
+    		newsLink = genLink(resourceResolver,item.getPath());
+    		//Node contentNode = node.getNode("jcr:content");
+    		String newsTitle = getTitle(node);
+            
+			String newsDateStr = getDate(node);
+			String external_url = getExternalUrl(node);
+			String newsDesc = getDesc(node);			
+			String imgPath = getImgPath(node);
+			request.setAttribute("newsTitle", newsTitle);
+			request.setAttribute("newsDateStr", newsDateStr);
+			request.setAttribute("imgPath", imgPath);
+			request.setAttribute("newsDesc", newsDesc);
+			request.setAttribute("newsLink", newsLink);
+			request.setAttribute("external_url",external_url);
+    		
+    		
+        %><cq:include script="feature-render.jsp"/><%
+    }
+    
+}
+%>
+<%
+        //int i=0;
+
+        int newsCount = 0;
+        for(int i=0;i<resultsHits.size(); i++)
+	    {
+        	
+        	try{
+        	String newsLink = null;
+       		Node resultNode = resultsHits.get(i).getNode();
+			newsLink = getPath(resultNode);
 			
 			Node contentNode = resultNode.getNode("jcr:content");
-			String newsTitle = contentNode.hasProperty("jcr:title") ? contentNode.getProperty("jcr:title").getString() : "";
-
-			String newsDateStr = "";
-			if (contentNode.hasProperty("date")) {
-				String dateString = contentNode.getProperty("date").getString();
-				Date newsDate = inFormatter.parse(dateString);
-				newsDateStr = formatter.format(newsDate);
-			}
+			String newsTitle = getTitle(contentNode);
+             
+			String newsDateStr = getDate(contentNode);
 			
-			String newsDesc = contentNode.hasProperty("description") ? contentNode.getProperty("description").getString() : "";
+			String newsDesc = getDesc(contentNode);			
+			String imgPath = getImgPath(contentNode);
+			String external_url = getExternalUrl(contentNode);
 			
-			String imgPath = contentNode.hasProperty("middle/par/text/image/fileReference") ? contentNode.getProperty("middle/par/text/image/fileReference").getString() : "";
+			
+			request.setAttribute("newsTitle", newsTitle);
+			request.setAttribute("newsDateStr", newsDateStr);
+			request.setAttribute("imgPath", imgPath);
+			request.setAttribute("newsDesc", newsDesc);
+			request.setAttribute("newsLink", newsLink);
+			request.setAttribute("external_url",external_url);
+			if(!featureNews.contains(resultNode.getPath())){
+				newsCount++;
 %>
-
-   
-    	<li>
-    		<div class="row">
-    			<div class="small-24 medium-8 large-4 columns">
-    			<%if(!imgPath.isEmpty()){ %>
-          				<%= displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80") %>
-    				<%} %>
-    				
-    			</div>
-    			<div class="small-24 medium-16 large-20 columns">
-    				<h3>
-    					<a href="<%= newsLink %>"><%= newsTitle %></a>
-    				</h3>
-    				<p><%= newsDateStr %></p>
-    				<p><%= newsDesc %></p>
-    			</div>
-    		</div>
-    	</li>
-<%
-                } catch (java.text.ParseException pe) {
-			log.error(">>>>>>> News Item (" + newsLink + ") has an unparseable date.");
-		}
-           }
+ 			<cq:include script="feature-render.jsp"/>
+			<%} 
+			 if(newsCount==count)
+		      {
+		        	 break;
+		      }
+	    }catch(Exception e){}
+	 } 	
 %>
 	</ul>
 </div>
+
+

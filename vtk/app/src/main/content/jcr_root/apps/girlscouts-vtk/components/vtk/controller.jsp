@@ -43,9 +43,13 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	
 }else if( request.getParameter("addLocation") !=null ){
 	
-	
-	
+	boolean isLoc=false;
+	if( user.getYearPlan().getLocations()!=null && request.getParameter("name")!=null )
+	 for(int i=0;i< user.getYearPlan().getLocations().size();i++)
+		if( user.getYearPlan().getLocations().get(i).getName().equals(request.getParameter("name")) )
+			isLoc=true;
 		
+	if( !isLoc)
 	    locationUtil.setLocation(user, 
 			 new Location(request.getParameter("name"),
 						request.getParameter("address"), request.getParameter("city"), 
@@ -178,6 +182,10 @@ if( request.getParameter("isMeetingCngAjax") !=null){
     new_user.setSfUserId( new_user.getApiConfig().getUserId() );
     new_user.setSfTroopName( new_user.getTroop().getTroopName() );  
     session.setAttribute("VTK_user", new_user);
+    
+    
+   
+	
 }else if( request.getParameter("addAsset")!=null){
 	
 	org.girlscouts.vtk.models.Asset asset = new org.girlscouts.vtk.models.Asset(request.getParameter("addAsset"));
@@ -187,10 +195,17 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	
 	
 }else if( request.getParameter("testAB")!=null){
-	userDAO.updateUser(user);
+	
+	//userDAO.updateUser(user);
+	//getMeeting(girlscouts-vtk/yearPlanTemplates/yearplan2014/brownie/yearPlan1/meetings/meeting1");
+	meetingDAO.getMeeting("/content/girlscouts-vtk/meetings/myyearplan/brownie/B14OG01");
+
+
+
 }else if( request.getParameter("addAids")!=null){
-	meetingUtil.addAids(user, request.getParameter("addAids"), request.getParameter("meetingId"), request.getParameter("assetName") );
+	meetingUtil.addAids(user, request.getParameter("addAids"), request.getParameter("meetingId"), java.net.URLDecoder.decode(request.getParameter("assetName") ) );
 }else if( request.getParameter("rmAsset")!=null){
+	System.err.println(123);
 	meetingUtil.rmAsset(user, request.getParameter("rmAsset"), request.getParameter("meetingId"));
 }else if( request.getParameter("previewMeetingReminderEmail") !=null ){
 	  String email_to_gp =request.getParameter("email_to_gp");
@@ -276,7 +291,8 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	String assetId = request.getParameter("bindAssetToYPC");
 	String ypcId = request.getParameter("ypcId");
 	String assetDesc = java.net.URLDecoder.decode(request.getParameter("assetDesc"));
-	System.err.println("*** "+ assetId +" : "+ ypcId +" : "+ assetDesc);
+	String assetTitle = java.net.URLDecoder.decode(request.getParameter("assetTitle"));
+	System.err.println("*** "+ assetId +" : "+ ypcId +" : "+ assetDesc+" : "+ assetTitle);
 	java.util.List<MeetingE> meetings = user.getYearPlan().getMeetingEvents();
 	for(int i=0;i<meetings.size();i++){
 		if( meetings.get(i).getUid().equals( ypcId)){
@@ -287,6 +303,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 			asset.setIsCachable(false);
 			asset.setRefId(assetId);
 			asset.setDescription(assetDesc);
+			asset.setTitle(assetTitle);
 			
 			java.util.List<Asset> assets = meetings.get(i).getAssets();
 			assets = assets ==null ? new java.util.ArrayList() : assets;
@@ -309,6 +326,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 			asset.setIsCachable(false);
 			asset.setRefId(assetId);
 			asset.setDescription(assetDesc);
+			asset.setTitle(assetTitle);
 			
 			java.util.List<Asset> assets = activities.get(i).getAssets();
 			assets = assets ==null ? new java.util.ArrayList() : assets;
@@ -347,7 +365,37 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	
 	userDAO.updateUser(user);
 	
+}else if( request.getParameter("srch") !=null ){
+   try{
+	   
+	   java.util.Date startDate = null, endDate= null;
+	   if(request.getParameter("startDate") !=null && !request.getParameter("startDate").equals(""))
+		   startDate = new java.util.Date(request.getParameter("startDate"));
+	   if(request.getParameter("endDate") !=null && !request.getParameter("endDate").equals(""))
+	   		endDate = new java.util.Date(request.getParameter("endDate"));
 
+	   java.util.List activities= meetingDAO.searchA1( user,  request.getParameter("lvl"), request.getParameter("cat") ,
+			request.getParameter("keywrd"),
+			startDate, endDate,
+			request.getParameter("region")
+			);
+	session.putValue("vtk_search_activity", activities);
+   }catch(Exception e){e.printStackTrace();}
+   
+}else if( request.getParameter("newCustActivityBean") !=null ){
+	
+	
+	java.util.List <org.girlscouts.vtk.models.Activity> activities =  (java.util.List <org.girlscouts.vtk.models.Activity>)session.getValue("vtk_search_activity");
+	for(int i=0;i<activities.size();i++){
+		
+		if( activities.get(i).getUid().equals( request.getParameter("newCustActivityBean") )){
+			//System.err.println("** "+ request.getParameter("newCustActivityBean") +": " +activities.get(i).getUid() +" : "+(user==null ));
+			activityDAO.createActivity(user, activities.get(i) );
+			break;
+		}
+		
+	}
+	
 }else{
 	//TODO throw ERROR CODE
 	

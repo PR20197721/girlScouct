@@ -3,6 +3,7 @@ package org.girlscouts.vtk.ejb;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -17,6 +18,7 @@ import org.girlscouts.vtk.models.Asset;
 import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
+import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
 import org.girlscouts.vtk.models.user.User;
@@ -65,6 +67,56 @@ public class MeetingUtil {
 	}
 	
 	
+	public java.util.Map getYearPlanSched(YearPlan plan,boolean meetingPlanSpecialSort){
+	
+		if( plan.getSchedule()!=null || plan.getActivities()==null || plan.getActivities().size()<=0 )
+			return getYearPlanSched( plan );
+		
+		
+		//if no sched and activ -> activ on top
+		java.util.Map orgSched = getYearPlanSched( plan );
+		java.util.Map container  = new LinkedHashMap();
+		java.util.Iterator itr= orgSched.keySet().iterator();
+		while( itr.hasNext() ){
+			java.util.Date date = (java.util.Date) itr.next();
+			YearPlanComponent _comp= (YearPlanComponent)orgSched.get(date);
+			
+			switch( _comp.getType() ){
+				case ACTIVITY :
+					Activity activity = (Activity) _comp;
+					container.put(date,  activity);
+					break;
+
+				
+			} 	
+	    }
+		
+		
+		
+		//now set meetings & etc
+		itr= orgSched.keySet().iterator();
+		while( itr.hasNext() ){
+			java.util.Date date = (java.util.Date) itr.next();
+			YearPlanComponent _comp= (YearPlanComponent) orgSched.get(date);
+			
+			switch( _comp.getType() ){
+			case MEETING :
+				
+				MeetingE meetingE =(MeetingE)_comp;
+				container.put(date, meetingE);
+				break;
+			case MILESTONE :
+				Milestone milestone = (Milestone) _comp;
+				container.put(date, milestone);
+				break;
+				
+			} 		
+	    }
+		
+		return container;
+		
+	}
+	
 	
 	public java.util.Map getYearPlanSched(YearPlan plan){
 		
@@ -75,23 +127,16 @@ public class MeetingUtil {
 		
 		List <Activity> activities = plan.getActivities();
 		
-/*
-		if( activities!=null)
-		  for(int i=0;i<activities.size();i++){
 
-			sched.put(activities.get(i).getDate(), activities.get(i));
-		  }
-	*/	
-		
 		
 	java.util.List <MeetingE> meetingEs = plan.getMeetingEvents();
 	
 	
 	Comparator<MeetingE> comp = new BeanComparator("id");
     Collections.sort(meetingEs, comp);
-    for (MeetingE person : meetingEs) {
-      System.out.println("Sorted: "+person.getId());
-    }
+   // for (MeetingE person : meetingEs) {
+   //   System.out.println("Sorted: "+person.getId());
+   // }
 	
 	
 	
@@ -248,6 +293,7 @@ public class MeetingUtil {
 			if( meeting.getPath().equals( fromPath ) ){
 			
 				meeting.setRefId(toPath);
+				meeting.setAssets(null);
 				
 			}
 		}
@@ -440,13 +486,33 @@ public class MeetingUtil {
 			MeetingE meeting = meetings.get(i);
 			if( meeting.getUid().equals( meetingId)){
 				
+				Asset dbAsset = meetingDAO.getAsset(aidId+"/") ;
+				
 				Asset asset = new Asset();
 				asset.setRefId(aidId);
 				asset.setType("aids");
-				asset.setDescription(assetName);
+				asset.setTitle(assetName);
+				asset.setDescription(dbAsset.getDescription());
 				
 				java.util.List<Asset> assets= meeting.getAssets();
 				assets= assets ==null ? new java.util.ArrayList() : assets;
+				
+				
+				
+				
+				
+				boolean isAsset= false;
+				for(int y=0;y<assets.size();y++)
+					if( assets.get(y).getRefId().equals( aidId ))
+						isAsset=true;
+				
+				
+				if( isAsset )
+					{System.err.println("Dp asset : "+ aidId);return;}
+				
+				
+				
+				
 				assets.add( asset );
 				meeting.setAssets( assets );
 				user.getYearPlan().setAltered("true");
@@ -483,20 +549,23 @@ public class MeetingUtil {
 	
 	public void rmAsset(User user, String aidId, String meetingId){
 		
-		
+		System.err.println( "mUtil.rmAdset: " +aidId +" : "+ meetingId);
 		java.util.List<MeetingE> meetings = user.getYearPlan().getMeetingEvents();
 		for(int i=0;i<meetings.size();i++){
 			MeetingE meeting = meetings.get(i);
+			
+			System.err.println( meeting.getUid() +" :" + meetingId);
 			if( meeting.getUid().equals( meetingId)){
 				
 				
 				
 				java.util.List<Asset> assets= meeting.getAssets();
-				
+				System.err.println("Asset size: "+ assets.size() );
 				
 				for(int y=0;y<assets.size();y++){
 					
-					if( assets.get(y).getUid().equals( aidId)) {
+					System.err.println("chk: "+ assets.get(y).getUid() +" : "+aidId);
+					if( assets.get(y).getRefId().equals( aidId)) {
 						System.err.println("REmo ass: "+ aidId);
 						assets.remove(y);
 					}
@@ -531,5 +600,12 @@ public class MeetingUtil {
 			}
 		}
 		
+	}
+	
+	
+	public java.util.List<MeetingE> sortById(java.util.List<MeetingE> meetings){
+		Comparator<MeetingE> comp = new org.apache.commons.beanutils.BeanComparator("id");
+		Collections.sort( meetings, comp);
+		return meetings;
 	}
 }

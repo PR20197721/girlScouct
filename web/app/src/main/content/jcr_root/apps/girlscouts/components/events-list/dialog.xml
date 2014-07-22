@@ -7,6 +7,30 @@
         jcr:primaryType="cq:Widget"
         xtype="tabpanel">
         <items jcr:primaryType="cq:WidgetCollection">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <static
+                    jcr:primaryType="cq:Widget"
+                    title="Select Events"
+                    xtype="panel">
+                    <listeners
+                        jcr:primaryType="nt:unstructured"
+                        render="function() { this.findParentByType('tabpanel').hideTabStripItem(3); }"/>
+                    <items jcr:primaryType="cq:WidgetCollection">
+                        <pages
+                            jcr:primaryType="cq:Widget"
+                            fieldDescription="Click the '+' to add a new page"
+                            fieldLabel="Pages"
+                            name="./pages"
+                            xtype="multifield">
+                            <fieldConfig
+                                jcr:primaryType="cq:Widget"
+                                relativePath="/events"
+                                width="155"
+                                xtype="pathfield"/>
+                        </pages>
+                    </items>
+                </static>
+            </items>
             <tab1
                 jcr:primaryType="cq:Panel"
                 title="Feature Events Mode">

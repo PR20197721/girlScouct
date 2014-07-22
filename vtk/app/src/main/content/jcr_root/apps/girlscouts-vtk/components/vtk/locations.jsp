@@ -10,53 +10,48 @@
         String instruction = "Specify Dates and Locations";
         if (isWarning) {
 %>
-        <div class="small-2 columns">                
+        <div class="small-4 medium-2 large-2 columns">                
                 <div class="warning"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/warning-small.png" width="20" height="20" align="left
 "/></div>
         </div>
-        <div class="small-20 columns">
+        <div class="small-16 medium-20 large-20 columns">
 <%
         } else {
 %>
-        <div class="small-22 columns">
+        <div class="small-20 medium-22 large-22 columns">
 <%
         }
 %>
                 <span class="instruction"><%= instruction %></span>
 
         </div>
-        <div class="small-2 columns">
+        <div class="small-4 medium-2 large-2 columns">
 		<a class="right" href="/content/girlscouts-vtk/en/vtk.html?rand=<%= new java.util.Date().getTime()%>"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/close-small.png" width="20" height="20" border="0" align="right"></a>
         </div>
 </div>
 <div class="row modalNav">
-        <div id="manageCalendarTab" class="small-8 columns active">
-		<a href="#" onclick="toggleSection('calendar')">Calendar</a>
-        </div>
-        <div id="manageLocationTab" class="small-8 columns">
-                <a href="#" onclick="toggleSection('location')">Location</a>
-        </div>
-        <div id="manageActivityTab" class="small-8 columns">
-                <a href="#" onclick="toggleSection('activity')">Activities</a>
-        </div>
+        <ul class="small-block-grid-1 medium-block-grid-3 large-block-grid-3 specifyDates">
+		<li id="manageCalendarTab" class="active manageCalendarTab"><a href="#" onclick="toggleSection('calendar')">Calendar</a></li>
+                <li id="manageLocationTab" class="manageCalendarTab"><a href="#" onclick="toggleSection('location')">Location</a></li>
+                <li id="manageActivityTab" class="manageCalendarTab"><a href="#" onclick="toggleSection('activity')">Activities</a></li>
+	</ul>
 </div>
 <div class="row modalBody">
-        <div class="small-24 columns">
+        <div class="small-24 medium-24 large-24 columns">
 <%
         if (user.getYearPlan() != null) {
 %>
                 <div id="manageCalendarSection">
                         <div class="sectionBar">Manage Calendar</div>
-			<br/>
 			<div id="calMng">
 <%
-                if( user.getYearPlan().getSchedule() ==null ){
+                if( user.getYearPlan().getSchedule() == null ){
 %>
 <%@include file="include/calSched.jsp" %>
 <%
                 }else{
 %>
-                        LOADING CALENDAR.....<script>loadCalMng()</script>
+<%@include file="include/calList.jsp" %>
 <%
                 }
 %>
@@ -64,7 +59,7 @@
                 </div>
                 <div id="manageLocationSection">
 <%
-                if( user.getYearPlan().getSchedule() ==null ){
+                if( user.getYearPlan().getSchedule() == null ){
 %>
 			Please first select your calendar start date to set meeting locations.
 <%
@@ -77,7 +72,7 @@
                 </div>
                 <div id="manageActivitySection">
 <%
-                if( user.getYearPlan().getSchedule() ==null ){
+                if( user.getYearPlan().getSchedule() == null ){
 %>
                         Please first select your calendar start date to set meeting activities.
 <%

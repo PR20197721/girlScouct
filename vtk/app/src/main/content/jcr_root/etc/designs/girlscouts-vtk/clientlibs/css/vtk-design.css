@@ -1,9 +1,30 @@
 .vtk {
 	padding: .25em;
 }
-
+.ui-dialog {
+	background: #ffffff;
+}
+.ui-state-default {
+    color: #333333;
+}
+.ui-widget-header  {
+	background: #008f50;
+	color: #ffffff;
+	border: 1px solid #CCCCCC;
+}
 ul.tabs {
 	margin: 0px;
+}
+.alert{
+        color: #ff0000;
+}
+.errorMsg{
+	display: none;
+	color: #c60f13;
+	margin: 1em;
+}
+.hidden {
+	visibility: hidden;
 }
 .tabs .label {
 	padding: 10px 18px;
@@ -132,6 +153,9 @@ ul.tabs {
         z-index:100;
 	font-size: 0.8em;
 }
+.meetingDetailHeader .planSquare .count {
+	padding-top: 2px;
+}
 .planSquare .date {
         top: 5px;
 }
@@ -163,6 +187,29 @@ ul.tabs {
 }
 .planSquare .cancelled .cross {
         margin-top: -45px;
+}
+table.planSquareWrapper tr:first-child {
+        border:0 !important;
+}
+table.planSquareWrapper {
+	border:0 !important;
+	margin:5px;
+	padding:0;
+	margin: auto;
+}
+.planSquareLeft, .planSquareRight{
+	width: 40px;
+}
+.planSquareMiddle {
+	width: 100px;
+}
+
+table.planSquareWrapper td{
+	text-align: center;
+}
+
+.meetingDetailHeader .planSquare .cancelled .cross {
+        margin-top: 42px;
 }
 
 #yearPlanMeetings ul{
@@ -203,27 +250,27 @@ ul.tabs {
         background: #daeffe;
 }
 
-#yearPlanMeetings h1 {
+#yearPlanMeetings h1, .yearPlanMeetings h1 {
 	font-size:1.4em;
 	font-weight: bold;
 	line-height: 1.3em;
 	text-align: center;
 }
-#yearPlanMeetings h2 {
+#yearPlanMeetings h2, .yearPlanMeetings h2 {
         font-size:1em;
         font-weight: bold;
         line-height: 1em;
         margin: 0 0 5px 0;
 }
-#yearPlanMeetings a {
+#yearPlanMeetings a, .yearPlanMeetings a{
 	color:#008f50;
 }
-#yearPlanMeetings .tags {
+#yearPlanMeetings .tags, .yearPlanMeetings .tags {
 	font-size:0.75em;
 	line-height: 1em;
 }
 
-#yearPlanMeetings p {
+#yearPlanMeetings p, .yearPlanMeetings p{
 	line-height: 1em;
 	margin: 0;
 	font-size:1em;
@@ -266,8 +313,8 @@ li.milestone .listBody {
 }
 .modalWrap {
 	background-color: #ffffff;
-	padding: 10px;
-	border:4px solid #eeeeee;
+	padding: 8px;
+	border:3px solid #eeeeee;
 }
 .ui-widget-overlay {
 	background: #000000;
@@ -276,11 +323,11 @@ li.milestone .listBody {
 }
 
 .sectionBar {
-        font-size:1.3em;
+        font-size:1.1em;
         font-weight: bold;
 	background-color: #ebebeb;
-	padding: 10px;
-
+	padding: 8px;
+	margin: 0 0 1em 0;
 }
 .setupCalendar div.columns{
 	display: inline-block;
@@ -306,6 +353,8 @@ li.milestone .listBody {
 }
 #gsModal {
 	padding: 0;
+	font-size: 0.85em;
+	background: #ffffff;
 }
 #gsModal>h2{
         display: inline-block;
@@ -336,13 +385,20 @@ a.direction {
 	font-size:0.8em;
 	height: 2.0em;
 }
-
+h2.searchResults {
+	font-size: 1.2em;
+	font-weight: bold;
+}
 .searchResultsItem {
 	padding: 10px;
         display: inline-block;
 	border: 1px solid #eeeeee;
 	width: 100%;
 	margin: 5px;
+}
+.searchResultsItem a{
+	color:  #00ae58 !important;
+	
 }
 .searchResultsItem .docType{
         display: inline-block;
@@ -351,7 +407,13 @@ a.direction {
 .searchResultsItem h2 {
         display: inline-block;
 }
-
+.searchResultsItem table {
+	margin: 0;
+	border: 0;
+}
+.searchResultsItem tr:first-child {
+	border: 0;
+}
 #resourceSearchField {
 	padding:0 0.5em;
 }
@@ -415,27 +477,40 @@ img.align-left { float:left; margin: 0; }
 .modalInstruction {
 	font-size: 1em;
 }
-.resourceList li {
+.doubleList li {
 	float: left;
 	width: 50%;
 	font-size:0.8em;
 }
-.resourceList li a{
+.doubleList li a{
 	color: #00ae58;
 }
-.resourceList li.checked a{
+.doubleList li.checked a{
 	color: #cccccc;
 }
 
 .modalHeader {
-	font-size: 0.9em;
-	line-height: 2em;
-	text-align: center;
-	width: 90%;
+	font-size: 1.1em;
+	font-weigth: bold;
+	text-align: left;
+	padding-bottom: 10px;
 }
 .modalBody > div {
-	padding: 10px;
+	padding: 15px;
 }
+.modalBody input[type="text"],.modalBody input[type="password"],.modalBody input[type="date"],.modalBody input[type="datetime"],.modalBody input[type="datetime-local"],.modalBody input[type="month"],.modalBody input[type="week"],.modalBody input[type="email"],.modalBody input[type="number"],.modalBody input[type="search"],.modalBody input[type="tel"],.modalBody input[type="time"],.modalBody input[type="url"],.modalBody textarea {
+	font-size:0.9em !important;
+}
+.modalBody select {
+        font-size:0.8em !important;
+        padding: 0.5rem 0;
+}
+
+
+.modayBody label {
+	font-size: 0.8em;
+}
+
 #manageCalendarSection {
 	display: block;
 }
@@ -452,26 +527,165 @@ img.align-left { float:left; margin: 0; }
 	display: none;
 }
 
-.modalNav > div {
+.modalNav ul {
         background: #efefef;
+}
+.modalNav li {
 	border: 1px solid #cccccc;
 	padding:10px;
 	text-align: center;
 	font-weight: 1.2em;
 }
-.modalNav > div a {
+.modalNav li a {
         color: #00ae58;
 }
-.modalNav > div.active {
+.modalNav li.active {
         background: #009447;
 }
-.modalNav > div.active a {
+.modalNav li.active a {
         color: #c1ead4;
 }
 #calMng table {
 	margin-bottom: 10px;
 }
 
+.modifyCalendarDate input.time, .modifyCalendarDate input.date, #createActivitySection input.time, #createActivitySection input.date {
+	max-width: 150px !important;
+}
+.modifyCalendarDate select.ampm{
+        max-width: 50px;
+}
+table.yearMeetingList tr:hover {
+	background:#bde4ca;
+}
+.manageCalendarTab {
+	height: 3.4em !important;
+	line-height: 1;
+}
+.specifyDates .manageCalendarTab {
+        height: 2.4em !important;
+}
+.manageCalendarTab.double {
+	line-height: 2;
+}
+table.meetingSelect, .meetingSelect tr:first-child, .yearMeetingList tr:first-child {
+	border: 0;
+}
+table.plain tr:first-child {
+	border: 0;
+}
+#sortable table {
+	border: 1px solid #eeeeee;
+	margin: 0 0 0.5rem 0;
+}
+.calendarField {
+	max-width: 150px;
+        background: white url('/etc/designs/girlscouts-vtk/clientlibs/css/images/calendar-pick.png') right center no-repeat !important;
+}
+
+.locationList {
+	padding: 10px;
+}
+
+ul.formCheckboxes {
+    list-style-type: none;
+}
+ul.formCheckboxes li {
+	font-size: 0.75em;
+	white-space:nowrap;
+}
+.touchscrollWrapper {
+	margin-top: 12px;
+	padding:0;
+}
+
+.signout{z-index:99;}
+.searchResultsItem a{ display:none;}
+.searchResultsItem a.reserved{ display:block;}
+.linkButtonWrapper {
+	text-align: center;
+	padding: 0;
+}
+.linkButtonWrapper img {
+	margin: auto;
+}
+.button {
+	background: #00a850;
+	cursor: pointer;
+}
+.button.linkButton {
+	border: 1px solid #00a850;
+	background: #ffffff;
+	color: #00a850;
+	font-size: 0.9em;
+	border-radius: 6px;
+	padding: 0.8em;
+}
+.meetingDetailDescription .button.linkButton , .meetingDetailHeader .button.linkButton {
+	padding: 0;
+}
+
+
+
+.searchResultsItem1 {
+	padding: 10px;
+        display: inline-block;
+	border: 1px solid #eeeeee;
+	width: 100%;
+	margin: 5px;
+}
+.searchResultsItem1 a{
+	color:  #00ae58 !important;
+	
+}
+.searchResultsItem1 .docType{
+        display: inline-block;
+	text-align: left;
+}
+.searchResultsItem1 h2 {
+        display: inline-block;
+}
+.searchResultsItem1 table {
+	margin: 0;
+	border: 0;
+}
+.searchResultsItem1 tr:first-child {
+	border: 0;
+}
+
+
+/* CSS: (StyleSheet) */
+
+#imgPreviewWithStyles {
+    background: #222;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    padding: 15px;
+    z-index: 999;
+    border: none;
+}
+
+.docType img, .browseMeetingAids img{
+        max-width: 40px;
+	width: 40px;
+}
+
+.locationResultElement {
+	border: 1px solid #eeeeee;
+	margin: 0 0 1em 0;
+	padding: 1em;
+}
+
+.ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next {
+    border: 1px solid #eeeeee !important;
+}
+
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    color: #00ae58;
+}
+
+/*
 @media only screen and (max-width: 40em) {
         .planSquare {
                 width: 70px;
@@ -499,5 +713,13 @@ img.align-left { float:left; margin: 0; }
 	.planSquare .cancelled .cross {
 		margin-top: -30px;
 	}
+	.meetingDetailHeader .planSquare .cancelled .cross {
+                margin-top: 25px;
+        }
+	.doubleList li {
+		float: left;
+		width: 100%;
+	}
 }
 
+*/

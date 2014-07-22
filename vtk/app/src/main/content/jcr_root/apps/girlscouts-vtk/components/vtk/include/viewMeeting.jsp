@@ -41,7 +41,7 @@
 			</div>
 			<div class="show-for-small smallBadge"><img width="100" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/badge.png"/></div>
 		</div>
-                <div class="large-16 medium-14 small-17 columns">
+                <div class="large-15 medium-12 small-14 columns">
 			<div class="planMain">
 				<h2>
 <%
@@ -50,7 +50,8 @@ if( meetingE.getCancelled()!=null && meetingE.getCancelled().equals("true")){%>
 <% }
 
 %>
-				<%=meeting.getName() %></h2>
+				<%=meeting.getName() %> </h2>
+				<p><small><%=meeting.getCat()%></small></p>
 				<p class="tags"><%=meeting.getAidTags() %></p>
 				<p class="show-for-small"><%= FORMAT_hhmm_AMPM.format(date)%></p>
 				<br/>
@@ -59,11 +60,14 @@ if( meetingE.getCancelled()!=null && meetingE.getCancelled().equals("true")){%>
 			</div>
 		</div>
 		<div class="large-4 medium-5 hide-for-small columns">
-			<img width="100" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/badge.png"/>
+			<%String img= "";
+				try{ img= meetingE.getRefId().substring( meetingE.getRefId().lastIndexOf("/")+1).toUpperCase(); }catch(Exception e){e.printStackTrace();}
+			
+				%>
+			<img width="100" height="100" src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png"/>
 		</div>
+                <div class="large-1 medium-2 small-3 columns touchscrollWrapper">
+                        <img class="touchscroll" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/touchscroll.png" border="0" width="21" height="62"/>
+                </div>
 	</div>
 </li>
-
-    	
-
-

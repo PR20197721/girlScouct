@@ -3,10 +3,6 @@
 <!-- apps/girlscouts/components/news/content.jsp -->
 <div id="main">
 	<div class="row">
-		<div class="large-24 medium-24 hide-for-small columns rightBodyTop">
-			<nav class="breadcrumbs">
-			</nav>
-		</div>
 		<div class="large-24 medium-24 small-24 columns">
 			<div id="mainContent">
 <cq:include script="/libs/foundation/components/title/title.jsp"/>
@@ -23,7 +19,6 @@
 				<br/>
 <cq:include path="middle/par/text/image" resourceType="foundation/components/image" />
 <cq:include path="middle/par/text" resourceType="foundation/components/text"/>
-
 			</div>
 		</div>
 	</div>

@@ -8,7 +8,7 @@
 	if (newCurrentPage != null) {
 	    currentPage = newCurrentPage;
 	}
-	if (newCurrentPage != null) {
+	if (newCurrentDesign != null) {
 	    currentDesign = newCurrentDesign;
 	}
 	
@@ -44,7 +44,7 @@
 							<cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
 							<div class="small-12 columns">
 								<div class="small-search-hamburger">
-							   		<a class="search-icon"><img src="<%= designPath %>/images/magnifyer-small.png" width="21" height="21"/></a>
+							   		<a class="search-icon"><img src="<%= designPath %>/images/search_white.png" width="21" height="21"/></a>
 									<a class="right-off-canvas-toggle menu-icon"><img src="<%= designPath %>/images/hamburger.png" width="22" height="28"/></a>
 								</div>
 							</div>
@@ -64,10 +64,13 @@
 					</div>
 				</div>
 <!--PAGE STRUCTURE: HEADER BAR-->
-<div id="headerBar" class="row hide-for-small">
-				<div class="large-5 medium-5 hide-for-small columns">&nbsp;</div>
-					<% setCssClasses("large-19 medium-19 small-24 columns", request); %>
+<div id="headerBar" class="row collapse hide-for-small">
+
+					<% setCssClasses("large-push-5 large-19 medium-23 small-24 columns", request); %>
 					<cq:include path="<%= headerPath + "/global-nav" %>" resourceType="girlscouts/components/global-navigation" />
+					<div class="small-search-hamburger show-for-medium medium-1 columns">
+						<a class="show-for-medium right-off-canvas-toggle menu-icon"><img src="/etc/designs/girlscouts-usa-green/images/hamburger.png" width="19" height="28"></a>
+					</div>
 				</div>
 
 <!-- SMALL SCREEN CANVAS should be after the global navigation is loaded,since global navigation won't be authorable-->

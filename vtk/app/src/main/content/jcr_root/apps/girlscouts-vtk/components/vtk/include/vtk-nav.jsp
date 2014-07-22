@@ -1,9 +1,13 @@
 <%
         if (troops != null && troops.size() > 1) {
+        	
+        	Cookie cookie = new Cookie("vtk_prefTroop", user.getTroop().getGradeLevel());
+        	cookie.setMaxAge(-1); 
+        	response.addCookie(cookie);
+
 %>
 <div id="troop" class="row">
-        <div class="large-24 troopPrompt columns">
-                Current troop profile:
+        <div class="small-24 medium-24 large-24 troopPrompt columns">Current troop profile:
                 <select id="reloginid" onchange="relogin()">
 <%
                 for(int i=0;i<troops.size();i++){
@@ -57,13 +61,13 @@
 					<a href="#">Year Plan</a>
 					<ul class="dropdown">
 						<li>
-							<a href="javascript:void(0)" onclick="newLocCal()">Specify Meeting Dates and Locations</a>
+							<a href="#" onclick="newLocCal()">Specify Meeting Dates and Locations</a>
 						</li>
 						<li>
-							 <a href="/content/girlscouts-vtk/en/vtk.meetingLibrary.html" >Add Meeting</a>
+							 <a href="#" onclick="doMeetingLib()">Add Meeting</a>
 						</li>
 						<li>
-							<a href="javascript:void(0)" onclick="newActivity()">Add Activity</a>
+							<a href="#" onclick="newActivity()">Add Activity</a>
 						</li>
 						<li>
 							<a onclick="self.location = '/content/girlscouts-vtk/en/cal.ics'">Download Calendar</a>

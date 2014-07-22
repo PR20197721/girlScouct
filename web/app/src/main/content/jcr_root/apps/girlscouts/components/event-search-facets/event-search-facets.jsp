@@ -11,6 +11,8 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <cq:includeClientLib categories="apps.girlscouts" />
 <cq:defineObjects/>
+
+
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <%  
     HashMap<String,List<FacetsInfo>> facetsAndTags = (HashMap<String, List<FacetsInfo>>) request.getAttribute("facetsAndTags");
@@ -73,73 +75,101 @@
 %>
 <% if(null!=eventSuffix){ %>
 
+<script>
+function toggleWhiteArrow() {
+	$('#events-display').toggle();
+	if ($('#whiteArrowImg').attr('src') == "/etc/designs/girlscouts-usa-green/images/white-right-arrow.png") {
+		$('#whiteArrowImg').attr('src', "/etc/designs/girlscouts-usa-green/images/white-down-arrow.png");
+	} else {
+		$('#whiteArrowImg').attr('src', "/etc/designs/girlscouts-usa-green/images/white-right-arrow.png");
+	}
+}
+</script>
 <div class="baseDiv anActivity small-24 large-24 medium-24 columns">
-   <div id="title">Find an Activity</div>
+   <div class="row collapse">
+        <div class="small-1 large-1 medium-1 columns">
+        	<div><a href="#" onclick="toggleWhiteArrow()"><img id="whiteArrowImg" src="/etc/designs/girlscouts-usa-green/images/white-down-arrow.png" width ="25" height="25"/></a></div>
+        </div>
+    	 <div class="small-23 large-23 medium-23 columns">
+   			<div class="title"><span class="activity-color">Find an Activity</span></div>
+   		</div>
+   </div>
 </div>
 
+<div id="events-display">
 <form action="<%=formAction%><%=eventSuffix %>" method="get" id="form">
-<div class="baseDiv programLevel">
-  <div class="item">
-    <div id="title"> By Keyword </div>
-      <input type="text" name="q" placeholder="Keywords"/>
-  </div>
-  <div class="item"> 
-    <div id="title"> Region  </div>
-      <select name="regions" id="regions">
-        <option value="choose">Choose</option>
-            <%for(String str: sortList) {%>
-                <option value="<%=str%>"><%=str%></option>
-            <%} %>
-      </select>
-  </div>
-  <div class="item withoutPadding">
-    <div id="title"> By Date  </div>
-      <div class="inputField">
-        <input id="date" type="text" name="startdtRange" <%if((enddtRange!=null && !enddtRange.isEmpty()) && (startdtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="From Today"/>
-      </div>
-       <div class="inputField withoutPadding">  
-        <input type="text" id="date" name="enddtRange" <%if((startdtRange!=null && !startdtRange.isEmpty()) && (enddtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="To"/>
-    </div>
-  </div>
-
-</div>
-<div class="baseDiv programLevel small-8 large-8 medium-8 columns" >
-   <div id="title"> By Program  </div>
+<div class="baseDiv programLevel row collapse">
+	<div class="small-24 medium-7 large-7 columns">
+		<div class="title"> By Keyword </div>
+		<input type="text" name="q" placeholder="Keywords" class="searchField" style="width:140px;height:25px;" />
+	</div>
+	<div class="small-24 medium-7 large-7 event-region columns"> 
+	    <div class="title"> Region  </div>
+	      <div class="dropdown">
+		      <span class="dropdown-moz">
+		     	<select name="regions" id="regions">
+		      		<option value="choose">Choose Region</option>
+		           		<%for(String str: sortList) {%>
+		             		   <option value="<%=str%>"><%=str%></option>
+		           		 <%} %>
+		     	</select>
+		     </span>	
+	     </div>	
+	</div>
+	<div class="small-24 medium-10 large-10 columns">
+	    <div class="title">By Date</div>
+	    	<div class="row event-activity collapse">
+	      		<div class="large-12 columns">
+	        		<input type="text" name="startdtRange" class="searchField" <%if((enddtRange!=null && !enddtRange.isEmpty()) && (startdtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="From Today"/>
+	      		</div>
+	       		<div class="large-11 columns">  
+	       			<input type="text" name="enddtRange" class="searchField" <%if((startdtRange!=null && !startdtRange.isEmpty()) && (enddtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="To"/>
+	    		</div>
+	    </div>
+	</div>
+</div>	
+<div class="baseDiv programLevel" >
+   <div class="title"> By Program Level </div>
+    <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-2 categoriesList">
         <%
          List programLevel = facetsAndTags.get("program-level");
         for(int pi=0; pi<programLevel.size(); pi++){
             FacetsInfo programLevelList = (FacetsInfo)programLevel.get(pi);
-            %>      
+            %> 
+            <li>     
                 <input type="checkbox"  id="<%=programLevelList.getFacetsTagId()%>" value="<%=programLevelList.getFacetsTagId()%>" name="tags" <%if(set.contains(programLevelList.getFacetsTagId())){ %>checked <%} %>/>
                 <label for="<%=programLevelList.getFacetsTitle() %>"><%=programLevelList.getFacetsTitle()%></label>
+            </li>
             <%
            }
         %>
+	</ul>        
 </div>
-<div class="baseDiv programLevel small-8 large-8 medium-8 columns" >
-   <div id="title">
-  Categories </div>
+<div class="baseDiv programLevel" >
+	<div class="title">By Category </div>
+	<ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-2 categoriesList">
 <%
     // Get the categories
-    List categoriesList = facetsAndTags.get("categories");
-    for(int i=0;i<categoriesList.size();i++) {
-        FacetsInfo facetsTags = (FacetsInfo)categoriesList.get(i);
+	List<FacetsInfo> facetsInfoList = facetsAndTags.get("categories");
+	for (FacetsInfo facetsInfo: facetsInfoList) {
 %>
-        <input type="checkbox" id="<%=facetsTags.getFacetsTagId()%>" value="<%=facetsTags.getFacetsTagId()%>" name="tags" <%if(set.contains(facetsTags.getFacetsTagId())){ %>checked <%} %>/>
-        <label for="<%=facetsTags.getFacetsTitle() %>"><%=facetsTags.getFacetsTitle()%></label>
-        
+    	<li>
+    		<input type="checkbox" id="<%=facetsInfo.getFacetsTagId()%>" value="<%=facetsInfo.getFacetsTagId()%>" name="tags" <%if(set.contains(facetsInfo.getFacetsTagId())){ %>checked <%} %>/>&nbsp;<label for="<%=facetsInfo.getFacetsTitle() %>"><%=facetsInfo.getFacetsTitle()%></label>
+    	</li>
 <%
-    }
+	}
 %>
+	</ul>
 </div>
-<div class="baseDiv programLevel">
-  <input type="submit" value="Search" id="sub" class="form-btn pull-right">
-</div>      
+<div class="baseDiv programLevel class="findActivityButton"">
+  <input type="submit" value="Search" id="sub" class="form-btn"/>
+</div>
 </form>
+</div>
+
 <%}if(null==eventSuffix){%>
 <div class="row">
     <div class="small-24 large-24 medium-24 columns">&nbsp;</div>
-
 </div>
 
 <div class="row">
@@ -153,5 +183,3 @@
      </div>
 </div>
 <%}%>
-
-

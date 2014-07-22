@@ -11,17 +11,47 @@
                         jcr:primaryType="nt:unstructured"
                         name="jcr:title"
                         type="string"/>
-                    <description
+                    <start
                         jcr:primaryType="nt:unstructured"
+                        name="data/start"
+                        type="date(yyyy/MM/dd h:mma)"/>
+                    <end
+                        jcr:primaryType="nt:unstructured"
+                        name="data/end"
+                        type="date(yyyy/MM/dd h:mma)"/>
+                    <region
+                        jcr:primaryType="nt:unstructured"
+                        name="data/region"
                         type="string"/>
-                    <date
+                    <locationLabel
                         jcr:primaryType="nt:unstructured"
-                        type="date(yyyy-MM-dd HH:mm)"/>
+                        name="data/locationLabel"
+                        type="string"/>
+                    <address
+                        jcr:primaryType="nt:unstructured"
+                        name="data/address"
+                        type="string"/>
+                    <details
+                        jcr:primaryType="nt:unstructured"
+                        name="data/details"
+                        type="string"/>
+                    <srchdisp
+                        jcr:primaryType="nt:unstructured"
+                        name="data/srchdisp"
+                        type="string"/>
+                    <color
+                        jcr:primaryType="nt:unstructured"
+                        name="data/color"
+                        type="string"/>
+                    <register
+                        jcr:primaryType="nt:unstructured"
+                        name="data/register"
+                        type="string"/>
                 </fields>
                 <nameGen
                     jcr:primaryType="nt:unstructured"
                     script="function(title, date) {return date.substring(0, 4) + '/' + title.toLowerCase().replace(/ /g, '-'); }"
-                    scriptFields="title,date"/>
+                    scriptFields="title,start"/>
                 <defaultFields jcr:primaryType="nt:unstructured">
                     <sling:resourceType
                         jcr:primaryType="nt:unstructured"

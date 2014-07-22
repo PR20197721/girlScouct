@@ -53,8 +53,9 @@
 	});
 
 	function applyAids(aid, aidDesc){
+		
 		var link = "/content/girlscouts-vtk/controllers/vtk.asset.html?aidId="+ aid+ "&aidName="+encodeURI(aidDesc);
-		loadModalPage(link, false);
+		loadModalPage(link, false, null);
 	}
 </script>
 
@@ -94,7 +95,7 @@ try {
 	majorIter = rootPage.listChildren();
 %>
 
-<ul class="small-block-grid-<%= majorCount %>">
+<ul class="small-block-grid-1 medium-block-grid-<%= majorCount %> large-block-grid-<%= majorCount %> browseResources">
 	<% 
 		while (majorIter.hasNext()) { 
 		    Page currentMajor = majorIter.next();
@@ -118,7 +119,15 @@ try {
 				        );
 				     } else if (currentMinor.getProperties().get("type", "").equals(TYPE_MEETING_OVERVIEWS)) {
 				        try {
-				        	minorCount = user.getYearPlan().getMeetingEvents().size();
+				            String rootPath = getMeetingsRootPath(user);
+				            Resource rootRes = resourceResolver.resolve(rootPath);
+				            Iterator<Resource> resIter = rootRes.listChildren();
+				            int resCount = 0;
+				            while (resIter.hasNext()) {
+				                resCount++;
+				                resIter.next();
+				            }
+				            minorCount = resCount;
 				        } catch (Exception e) {
 				            minorCount = 0;
 				        }
@@ -148,7 +157,33 @@ try {
 
 	if (categoryPage != null) {
 	    if (categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_AIDS)) {
-		    %><%= displayAidAssets(MEETING_AID_PATH, resourceResolver) %><%
+		  
+		    	
+		   java.util.List<org.girlscouts.vtk.models.Asset> gresources = meetingDAO.getAllResources(MEETING_AID_PATH+"/"); 
+		 
+		    %><table width="90%" align="center" class="browseMeetingAids"><tr><th colspan="3">Meeting Aids</th></tr><% 
+		    for(int i=0;i<gresources.size();i++){
+			org.girlscouts.vtk.models.Asset a = gresources.get(i);
+			String assetImage = org.girlscouts.vtk.utils.GSUtils.getDocTypeImageFromString(a.getDocType());
+%>
+		   	<tr>
+
+				<td width="40">
+<%
+			if (assetImage != null) {
+%>	
+					<img src="<%= assetImage %>" width="40" height="40" border="0"/>
+<%
+			}
+%>
+				</td>
+		   		<td><a class="previewItem" href="<%=a.getRefId() %>" target="_blank"><%= a.getTitle() %></a> </td>
+		   		<td width="40"><input type="button" value="Add to Meeting" onclick="applyAids('<%=a.getRefId()%>', '<%=a.getTitle()%>' )" class="button linkButton"/></td>
+
+			</tr>
+		   	<%
+		   }
+		    %></table><%
 	    } else if (categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_OVERVIEWS)) {
 		    %><%= displayMeetingOverviews(user, resourceResolver, meetingDAO)%><%
 	    } else {
@@ -163,6 +198,7 @@ try {
 			%><%= builder.toString() %><%
 			%></ul><%
 	    }
+	    %></tr><% 
 	}
 %>
 
@@ -213,8 +249,10 @@ try {
 	    return result.getTotalMatches();
 	}
 	
+/*
 	private String displayAidAssets(String path, ResourceResolver rr) {
 	    StringBuilder builder = new StringBuilder("<ul>");
+	    System.err.println("PATH /: " + path);
         Resource root = rr.resolve(path);
         if (root != null) {
             Iterator<Resource> iter = root.listChildren();
@@ -225,12 +263,20 @@ try {
                     Map<String, Object> map = asset.getMetadata();
                     //String title = asset.getMetadataValue("dc:title");
                     String title = asset.getName();
-
+                    
+                    System.err.println("&&& *** *" + asset.getMetadataValue("dc:title") + " : "+ asset.getLastModified()  );
+                    
+                    System.err.println("___ "+ asset.getPath());
+                    /*
+                    String caca="";
+                    java.util.Iterator itr = map.entrySet().iterator();
+                    while( itr.hasNext() )
+                    	caca+= itr.next() +" : " + map.get( );
                 	builder.append("<li>");
                 	builder.append("<a href=\"");
                 	builder.append(asset.getPath());
                 	builder.append("\">");
-                	builder.append(title);
+                	builder.append(title );
                 	builder.append("</a>");
                 	builder.append("<input type=\"button\" value=\"Add to Meeting\" onclick=\"applyAids('"+asset.getPath()+"', '"+title+"' )\" />");
                 	builder.append("</li>");
@@ -240,12 +286,31 @@ try {
         builder.append("</ul>");
         return builder.toString();
 	}
+*/
+	
+	private String getMeetingsRootPath(User user) {
+		String level = user.getTroop().getGradeLevel().toLowerCase();
+	    // The field in SF is 1-Brownie, we need brownie
+	    if (level.contains("-")) {
+	        level = level.split("-")[1];
+	    }
+	    
+	    // TODO: Move this to a constant? Or we need a DAO to get all meetings of a certain level.
+	    final String MEETING_ROOT = "/content/girlscouts-vtk/meetings/myyearplan";
+	    String levelMeetingsRootPath = MEETING_ROOT + "/" + level;    
+	    
+	    return levelMeetingsRootPath;
+	}
 	
 	private String displayMeetingOverviews(User user, ResourceResolver rr, MeetingDAO meetingDAO) {
 	    try {
 		    StringBuilder builder = new StringBuilder("<ul>");
-		    for (MeetingE meetingE : user.getYearPlan().getMeetingEvents()) {
-		        Meeting meeting = meetingDAO.getMeeting(meetingE.getRefId());
+		    String levelMeetingsRootPath = getMeetingsRootPath(user);
+		    Resource levelMeetingsRoot = rr.resolve(levelMeetingsRootPath);
+		    Iterator<Resource> iter = levelMeetingsRoot.listChildren();
+		    while (iter.hasNext()) {
+		        Resource resource = iter.next();
+		        Meeting meeting = meetingDAO.getMeeting(resource.getPath());
 			    builder.append("<li><a href=\"javascript:void(0)\" onclick=\"displayResource('overview', '");
 			    builder.append(meeting.getPath());
 			    builder.append("')\">");

@@ -28,7 +28,6 @@ import org.girlscouts.vtk.models.JcrCollectionHoldString;
 import org.girlscouts.vtk.models.Meeting;
 
 public class ParseXls1 {
-
     public static void main(String[] args) throws Exception {
         ParseXls1 me = new ParseXls1();
 
@@ -41,13 +40,23 @@ public class ParseXls1 {
 
         Sheet sheet = workbook.getSheetAt(0);
         int i = 1;
+        char levelInitial = '-';
+        int position = 0;
         while (true) {
             i++;
 
             String meetingId = me.getCellVal(evaluator, sheet, "A" + i);
+            
             if (meetingId == null || meetingId.equals("")) {
                 System.err.println("xls record# : " + i);
                 break;
+            }
+            
+            if (meetingId.charAt(0) != levelInitial) {
+                position = 1;
+                levelInitial = meetingId.charAt(0);
+            } else {
+                position++;
             }
 
             //String meetingTitle = me.getCellVal(evaluator, sheet, "B" + i);
@@ -55,19 +64,20 @@ public class ParseXls1 {
             String level = me.getCellVal(evaluator, sheet, "C" + i);
             String meetingBlurb = me.getCellVal(evaluator, sheet, "D" + i);
             String cat = me.getCellVal(evaluator, sheet, "E" + i);
-            String aids_tags = me.getCellVal(evaluator, sheet, "F" + i);
-            String resource_tags = me.getCellVal(evaluator, sheet, "G" + i);
+            String aids_tags = me.getCellVal(evaluator, sheet, "F" + i).replaceAll("\\s+?", ";");
+            String resource_tags = me.getCellVal(evaluator, sheet, "G" + i).replaceAll("\\s+?", ";");
             String agenda = me.getCellVal(evaluator, sheet, "H" + i);
 
             Meeting meeting = new Meeting();
-            meeting.setId(meetingId);
-            meeting.setName(meetingName);
-            meeting.setBlurb(meetingBlurb);
-            meeting.setLevel(level);
-            meeting.setCat(cat);
-            meeting.setAidTags(aids_tags);
-            meeting.setAgenda(agenda);
-            meeting.setResources(resource_tags);
+            meeting.setId(meetingId.trim());
+            meeting.setName(meetingName.trim());
+            meeting.setBlurb(meetingBlurb.trim());
+            meeting.setLevel(level.trim());
+            meeting.setCat(cat.trim());
+            meeting.setAidTags(aids_tags.trim());
+            meeting.setAgenda(agenda.trim());
+            meeting.setResources(resource_tags.trim());
+            meeting.setPosition(position);
 
             String meetingPath = "/content/girlscouts-vtk/meetings/2014/"
                     + level + "/" + meetingId;
@@ -80,8 +90,9 @@ public class ParseXls1 {
             TraverseFind docx = new TraverseFind();
 
             java.util.Map<String, String> meetings = docx
-                    .getMeetingInfo("/Users/mike/Desktop/brownie/meetings/"
-                            + meetingId.toUpperCase() + ".docx");
+                    .getMeetingInfo("/Users/mike/Desktop/brownie/meetings/" + meetingId.toUpperCase() + ".docx");
+            
+            System.err.println("###########@@@@@@ meetingId = " + meetingId);
 
             Meeting docxMeeting = null;
             try {
@@ -110,6 +121,7 @@ public class ParseXls1 {
                     if (desc.endsWith("<p>"))
                         desc = desc.substring(0, desc.lastIndexOf("<p>"));
 
+                    desc = Formatter.format(desc);
                     activity.setActivityDescription(desc);
                     chngActivities.add(activity);
                     count++;
@@ -124,10 +136,18 @@ public class ParseXls1 {
                     String title = (String) itr.next();
                     String titleWithoutTags = title.replaceAll("<.*?>", "");
 
+                    /************ MZ ***********/
+                    String value = docx.fmtStr(meetings.get(title));
+                    if (titleWithoutTags.equals("meeting short description") ||
+                            titleWithoutTags.equals("meeting id")) {
+                        value = Formatter.stripTags(value);
+                    } else {
+                        value = Formatter.format(value);
+                    }
+                    /************ MZ end ***********/
                     _meetings.put(
                             titleWithoutTags,
-                            new JcrCollectionHoldString(docx.fmtStr(meetings
-                                    .get(title))));
+                            new JcrCollectionHoldString(value));
                 }
 
                 meeting.setMeetingInfo(_meetings);
@@ -149,7 +169,7 @@ public class ParseXls1 {
         System.out.println("beginning doJcr");
         // Connection
         javax.jcr.Repository repository = JcrUtils
-                .getRepository("http://localhost:4502/crx/server/");
+                .getRepository("http://localhost:4503/crx/server/");
 
         // Workspace Login
         SimpleCredentials creds = new SimpleCredentials("admin",
@@ -203,7 +223,7 @@ public class ParseXls1 {
             if (value != null)
                 toRet = value.getStringValue();
         }
-        return toRet;
+        return toRet.trim();
     }
 
 }

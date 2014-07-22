@@ -2,6 +2,8 @@
 
 main.js
 link-widget.js
+simplified-link-widget.js
 dynamic-pathfield.js
 SpecialCharsDialog.js
 InsertHtml.js
+frequently-access-form.js

@@ -16,22 +16,16 @@
 
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.datepicker.validation.js"></script>
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.validate.js"></script>
+
 <script>
 $(function() {
-		$( "#newCustActivity_date" ).datepicker({minDate: 0});
-		});
-
-
-jQuery(function($){
-
 		$("#newCustActivity_date").inputmask("mm/dd/yyyy", {});
-
 		$('#newCustActivity_date').datepicker({minDate: 0});
 
 		$("#newCustActivity_startTime").inputmask("h:s", {});
 		$("#newCustActivity_endTime").inputmask("h:s", {});
 		$("#newCustActivity_cost").maskMoney();
-		});
+});
 
 $.validator.addMethod('time', function(value, element, param) {
 		return value == '' || value.match(/^([01][0-9]|2[0-3]):[0-5][0-9]$/);
@@ -93,7 +87,7 @@ required: "Please enter a valid amount. Default 0.00",
 		     },
 newCustActivity_date:{
 required: "Please enter valid start date",
-	  minlength: "Valid format MM/dd/yyyy"
+	  minlength: "Valid format mm/dd/yyyy"
 		     }
 	  }
 });
@@ -109,7 +103,7 @@ $('#newCustActivity').click(function() {
 		createNewCustActivity();
 		}
 		else {
-		alert("Invalid.Fix it");
+			showError("The form has one or more errors.  Please update and try again.", "#createActivitySection .errorMsg");
 		}
 		});
 
@@ -122,15 +116,26 @@ function timeDiff(){
 	var newCustActivity_endTime_AP = document.getElementById("newCustActivity_endTime_AP").value;
 
 
-	if(!Date.parse( new Date( date +" " + startTime +" "+newCustActivity_startTime_AP) )) {alert("Invalid Start Date,time. 12hr format: "+date +" " + startTime +" "+newCustActivity_startTime_AP);return false;}
-	if(!Date.parse( new Date( date +" " + endTime +" "+newCustActivity_endTime_AP) )) {alert("Invalid End Date,time. 12hr format: "+date +" " + endTime +" "+newCustActivity_endTime_AP);return false;}
+	if(!Date.parse( new Date( date +" " + startTime +" "+newCustActivity_startTime_AP) )) {
+		var thisMsg = "Invalid Start Date,time. 12hr format: "+date +" " + startTime +" "+newCustActivity_startTime_AP;
+		showError(thisMsg, "#pickActivitySection .errorMsg");
+		return false;
+	}
+	if(!Date.parse( new Date( date +" " + endTime +" "+newCustActivity_endTime_AP) )) {
+		var thisMsg = "Invalid End Date,time. 12hr format: "+date +" " + endTime +" "+newCustActivity_endTime_AP;
+                showError(thisMsg, "#pickActivitySection .errorMsg");
+		return false;
+	}
 
 
 
-	if( (new Date(date +" "+ startTime+ " "+newCustActivity_startTime_AP) - new Date( date +" " + endTime +" "+newCustActivity_endTime_AP) ) >=0 )
-	{alert("StartTime after/equal EndTime"); return false;}
-	else 
+	if( (new Date(date +" "+ startTime+ " "+newCustActivity_startTime_AP) - new Date( date +" " + endTime +" "+newCustActivity_endTime_AP) ) >=0 ) {
+		var thisMsg = "StartTime after/equal EndTime";
+                showError(thisMsg, "#pickActivitySection .errorMsg");
+		return false;
+	} else {
 		return true;
+	}
 
 }
 </script>  
@@ -154,111 +159,165 @@ border:5px solid #000;
         String instruction = "Add an Activity";
         if (isWarning) {
 %>
-        <div class="small-2 columns">
+        <div class="small-4 medium-2 large-2 columns">
                 <div class="warning"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/warning-small.png" width="20" height="20" align="left"/></div>
         </div>
-        <div class="small-20 columns">
+        <div class="small-16 medium-20 large-20 columns">
 <%
         } else {
 %>
-        <div class="small-22 columns">
+        <div class="small-20 medium-22 large-22 columns">
 <%
         }
 %>
                 <span class="instruction"><%= instruction %></span>
 
         </div>
-        <div class="small-2 columns">
-                <a class="right" href="#" onclick="$('#gsModal').dialog('close')"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/close-small.png" width="20" height="20" border="0" align="right"></a>
+        <div class="small-4 medium-2 large-2 columns">
+                <a class="right" href="#" onclick="closeModalPage()"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/close-small.png" width="20" height="20" border="0" align="right"></a>
         </div>
 </div>
 <div class="row modalNav">
-        <div id="createActivityTab" class="small-12 columns active">
-                <a href="#" onclick="toggleSection('create')">Create Activity</a>
-        </div>
-        <div id="pickActivityTab" class="small-12 columns">
-                <a href="#" onclick="toggleSection('pick')">Pick Activity</a>
-        </div>
+        <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-2 specifyDates">
+                <li id="createActivityTab" class="active manageCalendarTab"><a href="#" onclick="toggleSection('create')">Custom Activity</a></li>
+                <li id="pickActivityTab" class="manageCalendarTab"><a href="#" onclick="toggleSection('pick')">Council Activity</a></li>
+        </ul>
 </div>
 <div class="row modalBody">
         <div class="small-24 columns">
                 <div id="createActivitySection">
 <form class="cmxform" id="signupForm">
-
 <div class="sectionBar">Create a Custom Activity</div>
-<div id="newCustActivity_err" style="color:red;"></div>
-
-
-
+<div class="errorMsg error"></div>
 <div class="row">
-        <div class="small-6 columns">
-                <font color="red">*</font><input type="text" name="newCustActivity_name" id="newCustActivity_name" value="" placeholder="Name of Activity" />
-        </div>
-        <div class="small-6 columns"> Date: ex:05/07/2014<input type="text"  id="newCustActivity_date" name="newCustActivity_date" /> </div>
-        <div class="small-6 columns">
-                Start Time
-                <input type="text" id="newCustActivity_startTime" name="newCustActivity_startTime" value="<%=org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_HOUR+":"+org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_MIN %>" required />
-                <select id="newCustActivity_startTime_AP"> <option value="am">am</option> <option value="pm">pm</option></select> </div>
-                <div class="small-6 columns">
-                End Time<input type="text" id="newCustActivity_endTime" name="newCustActivity_endTime" value="<%=org.girlscouts.vtk.models.VTKConfig.CALENDAR_END_TIME_HOUR+":"+org.girlscouts.vtk.models.VTKConfig.CALENDAR_END_TIME_MIN %>"  required/>
-                <select id="newCustActivity_endTime_AP"><option value="am">am</option><option value="pm">pm</option></select>
-        </div>
-</div>
-
-<div class="row">
-        <div class="small-12 columns"> Location Name <input type="text" id="newCustActivity_locName" value="" /> </div>
-        <div class="small-12 columns"> Location Address <input type="text" id="newCustActivity_locAddr" value="" /> </div>
-</div>
-<div class="row">
-        <div class="small-24 columns"> Description <textarea id="newCustActivity_txt" rows="4" cols="5" ></textarea> </div>
-</div>
-<div class="row">
-        <div class="small-12 columns">
-                Cost <input type="text" id="newCustActivity_cost" value=""/>
+        <div class="small-24 medium-5 large-4 columns"><label for="newCustActivity_name" ACCESSKEY="n">Activity Name</label></div>
+        <div class="small-24 medium-7 large-8 columns"><input type="text" name="newCustActivity_name" id="newCustActivity_name" value=""/></div>
+        <div class="small-24 medium-5 large-4 columns"><label for="newCustActivity_date" ACCESSKEY="d">Date</label></div>
+        <div class="small-24 medium-7 large-8 columns">
+		<input type="text" id="newCustActivity_date" name="newCustActivity_date" placeholder="mm/dd/yyyy" class="date calendarField"/>
 	</div>
-        <div class="small-12 columns">
-                <input type="button" value="Add Activity" id="newCustActivity" />
-        </div>
+</div>
+<div class="row">
+	<div class="small-24 medium-5 large-4 columns"><label for="newCustActivity_startTime" ACCESSKEY="1">Start Time</label></div>
+	<div class="small-16 medium-4 large-4 columns">
+		<input type="text" id="newCustActivity_startTime" name="newCustActivity_startTime" value="<%=org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_HOUR+":"+org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_MIN %>" required class="time" />
+	</div>
+        <div class="small-8 medium-3 large-4 columns">
+                <select id="newCustActivity_startTime_AP" class="ampm">
+                        <option value="pm">PM</option>
+			<option value="am">AM</option>
+		</select>
+	</div>
+	<div class="small-24 medium-5 large-4 columns"><label for="newCustActivity_endTime" ACCESSKEY="2">End Time</label></div>
+	<div class="small-16 medium-4 large-4 columns">
+		<input type="text" id="newCustActivity_endTime" name="newCustActivity_endTime" value="<%=org.girlscouts.vtk.models.VTKConfig.CALENDAR_END_TIME_HOUR+":"+org.girlscouts.vtk.models.VTKConfig.CALENDAR_END_TIME_MIN %>"  required class="time"/>
+	</div>
+        <div class="small-8 medium-3 large-4 columns">
+                <select id="newCustActivity_endTime_AP" class="ampm">
+                        <option value="pm">PM</option>
+			<option value="am">AM</option>
+		</select>
+	</div>
+</div>
+<div class="row">
+        <div class="small-24 medium-6 large-4 columns"><label for="newCustActivity_locName" ACCESSKEY="l">Location Name</label></div>
+        <div class="small-24 medium-6 large-8 columns"><input type="text" id="newCustActivity_locName" value="" /></div>
+        <div class="small-24 medium-6 large-4 columns"><label for="newCustActivity_locAddr" ACCESSKEY="a">Location Address</label></div>
+        <div class="small-24 medium-6 large-8 columns"><input type="text" id="newCustActivity_locAddr" value="" /></div>
+</div>
+<div class="row">
+        <div class="small-24 medium-5 large-4 columns"><label for="newCustActivity_cost" ACCESSKEY="c">Cost</label></div>
+        <div class="small-24 medium-7 large-8 columns"><input type="text" id="newCustActivity_cost" value=""/></div>
+        <div class="hide-for-small medium-12 large-12 columns">&nbsp;</div>
+</div>
+<div class="row">
+        <div class="small-24 medium-5 large-4 columns"><label for="newCustActivity_txt" ACCESSKEY="t">Description</label></div>
+        <div class="small-24 medium-19 large-20 columns"><textarea id="newCustActivity_txt" rows="4" cols="5" ></textarea></div>
+</div>
+<br/><br/>
+<div class="linkButtonWrapper">
+	<input type="button" value="Add Activity" id="newCustActivity" class="button linkButton"/>
 </div>
 </form>
 
                 </div>
-                <div id="pickActiviySection">
-<form>
+                <div id="pickActivitySection">
+<form id="schFrm">
 <div class="sectionBar">Add activity from the Council Calendar</div>
-<p>Find Activity by:</p>
-<input type="text" value="" id="existActivSFind"/>
-<br/>Month and Year
-<select id="existActivSMon"><option value="01">Jan</option> <option value="02">Feb</option></select>
-<select id="existActivSYr"><option value="2014">2014</option> <option value="2015">2015</option></select>
-<br/>Date Range
-<input type="text" id="existActivSDtFrom" />
-<input type="text"  id="existActivSDtTo"  />
+<div class="errorMsg error"></div>
+<%
 
-<br/>Region
-<select id="existActivSReg"><option value="region1">Region1</select>
+SearchTag search = meetingDAO.searchA();
+java.util.Map<String, String> levels = search.getLevels();
+java.util.Map<String, String> categories =search.getCategories();
+java.util.Map<String, String> region =search.getRegion();
 
-<br/>Program Level
-<input type="checkbox" value="1" name="existActivSLevl"/>1
-<input type="checkbox" value="2" name="existActivSLevl"/>2
-<input type="checkbox" value="3" name="existActivSLevl"/>3
-<input type="checkbox" value="4" name="existActivSLevl"/>4
-<input type="checkbox" value="5" name="existActivSLevl"/>5
-<input type="checkbox" value="6" name="existActivSLevl"/>6
+%>
+<form>
+<div class="row">
+        <div class="small-24 medium-6 large-6 columns"><label for="sch_keyword" ACCESSKEY="f">Find Activity by</label></div>
+        <div class="small-24 medium-18 large-18 columns"><input type="text" id="sch_keyword" value="" onKeyPress="return submitenter(this,event)"/></div>
+</div>
+<div class="row">
+        <div class="small-12 medium-6 large-6 columns"><label for="sch_startDate" ACCESSKEY="r">Date Range</label></div>
+        <div class="small-6 medium-6 large-6 columns"><input type="text" id="sch_startDate"  value="" class="date calendarField"/></div>
+        <div class="small-6 medium-6 large-6 columns"><input type="text" id="sch_endDate"  value="" class="date calendarField"/></div>
+        <div class="hide-for-small medium-6 large-6 columns">&nbsp;</div>
+</div>
+<div class="row">
+        <div class="small-24 medium-8 large-6 columns"><label for="sch_region" ACCESSKEY="g">Region</label></div>
+        <div class="small-24 medium-16 large-18 columns">
+		<select id="sch_region">
+			<option value="">Select Region</option>
+<% java.util.Iterator itr2= region.keySet().iterator();
+	while( itr2.hasNext() ){
+		String str=(String) itr2.next();
+%>
+	<option value="<%= str %>"><%= str %></option>
+<% } %>
+		</select>
+	</div>
+</div>
+<br/>
+<div class="row">
+        <div class="small-24 medium-8 large-6 columns"><label for="sch_lvl" ACCESSKEY="p">Program Level</label></div>
+        <div class="small-24 medium-16 large-18 columns">
+        <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-3 formCheckboxes">
 
-<br/>Categories
-<input type="checkbox" value="1" name="existActivSCat"/>1
-<input type="checkbox" value="2" name="existActivSCat"/>2
-<input type="checkbox" value="3" name="existActivSCat"/>3
-<input type="checkbox" value="4" name="existActivSCat"/>4
-<input type="checkbox" value="5" name="existActivSCat"/>5
-<input type="checkbox" value="6" name="existActivSCat"/>6
+		<% java.util.Iterator itr1= levels.keySet().iterator();
+int i=0;
+while( itr1.hasNext() ){
+i++;
+String str=(String) itr1.next();
+%>
+	<li><input type="checkbox" name="sch_lvl" id="sch_lvl_<%=i %>" value="<%= str %>"/>&nbsp;<label for="sch_lvl_<%=i %>"><%= str %></label></li>
+<% } %>
+	</ul>
+        </div>  
+</div>
+<br/>
+<div class="row">
+        <div class="small-24 medium-8 large-6 columns"><label for="sch_cats" ACCESSKEY="i">Categories</label></div>
+        <div class="small-24 medium-16 large-18 columns">
+        <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-3 formCheckboxes">
+		<% java.util.Iterator itr= categories.keySet().iterator();
+i=0;
+	while( itr.hasNext() ){
+i++;
+		String str=(String) itr.next();
+%>
+        <li><input type="checkbox" name="sch_cats" id="sch_cats_<%=i %>" value="<%= str %>"/>&nbsp;<label for="sch_cats_<%=i %>"><%= str %></label></li>
+<% } %>
+	<ul>
+        </div>
+</div>
+<br/>
+<div class="linkButtonWrapper">
+	<input type="button" value="View Activities" onclick='searchActivities()' class="button linkButton"/>
+</div>
+</form>
 
-<br/><input type="button" value="View Activity" onclick="searchActivity()" />
-
-<div id="listExistActivity"></div>
-
-
+<div id="searchResults"></div>
 </form>
                 </div>
         </div>
@@ -269,13 +328,99 @@ border:5px solid #000;
                 $("#createActivityTab").removeClass("active");
                 $("#pickActivityTab").removeClass("active");
                 $("#createActivitySection").hide();
-                $("#pickActiviySection").hide();
+                $("#pickActivitySection").hide();
                 if (section == "pick") {
                         $("#pickActivityTab").addClass("active");
-                        $("#pickActiviySection").show();
+                        $("#pickActivitySection").show();
                 } else if (section == "create")  {
                         $("#createActivityTab").addClass("active");
                         $("#createActivitySection").show();
                 }
         }
+function submitenter(myfield,e) {
+	var keycode;
+	if (window.event) {
+		keycode = window.event.keyCode;
+	} else if (e) {
+		keycode = e.which;
+	} else {
+		return true;
+	}
+
+	if (keycode == 13) {
+		searchActivities();
+		return false;
+	} else {
+		return true;
+	}
+}
+
+$('#sch_startDate').datepicker({minDate: 0});
+$('#sch_endDate').datepicker({minDate: 0});
+
+function checkAll(x) {
+	
+		var container ="";
+	   var arrMarkMail = document.getElementsByName(x);
+	   for (var i = 0; i < arrMarkMail.length; i++) {
+	     if(arrMarkMail[i].checked)
+	    	 container += arrMarkMail[i].value +"|";
+	   }
+	   return container;
+	   
+	}
+	
+	
+	
+function searchActivities(){
+	showError(null, "#pickActivitySection .errorMsg");
+	var  keywrd = $.trim(document.getElementById("sch_keyword").value);
+	if( keywrd.length>0 && keywrd.length<3  ){
+		var thisMsg = "Min 3 character search for keyword: "+ keywrd;
+                showError(thisMsg, "#pickActivitySection .errorMsg");
+		return false;
+	}
+	
+	var lvl=  $.trim(checkAll('sch_lvl'));
+	var cat=  $.trim(checkAll('sch_cats'));
+	var startDate = $.trim(document.getElementById("sch_startDate").value);
+	var endDate = $.trim(document.getElementById("sch_endDate").value);
+	var region = $.trim(document.getElementById("sch_region").value);
+	
+	if( startDate != '' && endDate=='' ) {
+		var thisMsg = 'Missing end date';
+                showError(thisMsg, "#pickActivitySection .errorMsg");
+		return false; 
+	}
+	if( startDate =='' && endDate!='' ) {
+		var thisMsg = 'Missing start date';
+                showError(thisMsg, "#pickActivitySection .errorMsg");
+		return false;
+	}
+	
+	if( keywrd=='' && lvl=='' && cat =='' && startDate=='' && endDate=='' && region=='' ){
+		var thisMsg = "Please select search criteria.";
+                showError(thisMsg, "#pickActivitySection .errorMsg");
+		return false;
+	}
+	
+	$.ajax({
+		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
+		type: 'POST',
+		data: { 
+			srch:true,
+			keywrd:keywrd,
+			lvl:lvl,
+			cat:cat,
+			startDate:startDate,
+			endDate:endDate,
+			region:region,
+			a:Date.now()
+		},
+		success: function(result) {
+			$("#searchResults").load('/content/girlscouts-vtk/controllers/vtk.searchActivity.html');
+		}
+	});
+	
+}
 </script>

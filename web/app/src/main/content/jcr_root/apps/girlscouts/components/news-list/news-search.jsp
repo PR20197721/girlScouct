@@ -4,20 +4,25 @@
                    java.util.Iterator,java.text.SimpleDateFormat,java.util.Date, java.text.Format,com.day.cq.dam.commons.util.DateParser"%>
 
 <%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/girlscouts/components/global.jsp" %>
 
 
 
 <%
   HashSet<String>set = new HashSet<String>(); 
   String path = currentPage.getAbsoluteParent(2).getPath();
+ 
   Map <String, String> queryMap = new HashMap<String, String>();
   queryMap.put("type", "cq:Page");
- // queryMap.put("path", path+"/news");
+  String newsPath = currentSite.get("newsPath", "");
+  if(newsPath.isEmpty()){
+	  newsPath = "/content/gateway/en/about-our-council/news";
+  }
+  queryMap.put("path", newsPath);
   
- queryMap.put("path", currentPage.getPath());
  
- 
- queryMap.put("1_boolproperty","jcr:content/hideInNav");
+  
+  queryMap.put("1_boolproperty","jcr:content/hideInNav");
   queryMap.put("1_boolproperty.value","false");
   queryMap.put("2_boolproperty","jcr:content/isFeature");
   queryMap.put("2_boolproperty.value","false");
@@ -35,7 +40,18 @@
   request.setAttribute("results", results);
   
   
-  
+  List  list = (List)request.getAttribute("list"); 
+  if (!list.isEmpty()){
+	   Iterator<Page> itemslist = list.getPages();
+	   while(itemslist.hasNext()){
+		   Page pg = itemslist.next();
+		   if(pg.getProperties().containsKey("isFeature")){
+			    Node node = pg.getContentResource().adaptTo(Node.class);
+			    node.setProperty("isFeature", false);
+			    node.save();
+			 }
+		}
+  }  
   %>
   
   

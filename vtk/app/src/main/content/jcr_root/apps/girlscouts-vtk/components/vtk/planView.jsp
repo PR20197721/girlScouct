@@ -8,17 +8,25 @@
         boolean showVtkNav = true;
 %>
 <%@include file="include/vtk-nav.jsp"%>
+
+
+
 <%
 
 
 
-	java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
+	java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan(), false);
 	if( sched==null || (sched.size()==0)){out.println( "You must first select a year plan."); return;}
 	java.util.List<java.util.Date> dates =new java.util.ArrayList<java.util.Date>(sched.keySet());
 	long nextDate=0, prevDate=0;
-	java.util.Date searchDate=null;
+	java.util.Date searchDate= null;
+
+
+	
 	if( request.getParameter("elem") !=null ) {
 		searchDate = new java.util.Date( Long.parseLong(  request.getParameter("elem")  ) );	
+	}else if( session.getValue("VTK_planView_memoPos") !=null ){
+			searchDate= new java.util.Date( (Long)session.getValue("VTK_planView_memoPos")  );
 	} else {
 		
 		if( user.getYearPlan().getSchedule()==null)
@@ -37,11 +45,16 @@
 	}
 
 	int currInd =dates.indexOf(searchDate);
+        int meetingCount = currInd+1;
+
 	if( dates.size()-1 > currInd )
 		nextDate = ((java.util.Date)dates.get(currInd+1)).getTime();
 	if( currInd>0 )
 		prevDate = ((java.util.Date)dates.get(currInd-1)).getTime();
 
+	
+	session.putValue("VTK_planView_memoPos", searchDate.getTime());
+	
 	YearPlanComponent _comp= sched.get(searchDate);
 	
 %> 
@@ -53,22 +66,11 @@
        					break;
        					
        					case MEETING :
-       						
        						%><%@include file="include/viewYearPlanMeeting.jsp" %><% 
-       								
            					break;
        				}       			
        %>
        <div id="editAgenda"></div>
-
-       
-       
-       
-       
-       
-       
-       
-       
 <style>
 .modal-example-content {
     width: 600px;
@@ -91,10 +93,6 @@
 }
 </style>
 
-
-
-
- 
 <script>
 function x12(xx, ttl, id){
 	
@@ -103,25 +101,15 @@ function x12(xx, ttl, id){
 	
 	 $.fn.custombox( document.getElementById(id) );
 	
-	 document.getElementById('xyz').innerHTML=ttl;
-	 
+	 document.getElementById('xyz').innerHTML= ttl;
 }
 
 </script>
-              
-             
-             
-             
-             <div id="modal" style="display: none;" class="modal-example-content">
-        <div class="modal-example-header" >
-            <span id="xyz"></span><button type="button" class="close" onclick="$.fn.custombox('close');">&times;</button>
-            
-        </div>
-        <div class="modal-example-body" >
-            <p>
-            
-            	<iframe id="ifr" height="500" width="550" src=""></iframe>
-            </p>
-        </div>
-    </div>
-       
+<div id="modal" style="display: none;" class="modal-example-content">
+	<div class="modal-example-header" >
+		<span id="xyz"></span><button type="button" class="close" onclick="$.fn.custombox('close');">&times;</button>
+	</div>
+	<div class="modal-example-body" >
+		<p><iframe id="ifr" height="500" width="550" src=""></iframe></p>
+	</div>
+</div>

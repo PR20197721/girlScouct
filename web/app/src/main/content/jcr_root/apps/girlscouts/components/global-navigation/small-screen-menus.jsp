@@ -19,7 +19,14 @@
    String eventPath = currentSite.get("eventPath", String.class);
    String gs_us_path = currentPage.getAbsoluteParent(2).getPath();
    String rootPath = currentPage.getPath().substring(gs_us_path.length()+1, currPath.length()); 
-   String eventGrandParent = currentPage.getParent().getParent().getPath();
+   
+// TODO: Manu: please fix
+   String eventGrandParent = null;
+   try {
+       eventGrandParent = currentPage.getParent().getParent().getPath();
+   } catch (Exception e) {}
+     
+   
    String eventLeftNavRoot = currentSite.get("leftNavRoot", String.class);
    String eventDisplUnder = currentSite.get("eventPath", String.class);
    boolean levelFlag = true;
@@ -42,12 +49,17 @@
 					 // CHECK IF CURRENTLY WE ARE ON THE PAGE ELSE DONT HIGHLIGHT
 				     if(rootPath.equalsIgnoreCase(nodePath) ){
 				             menuBuilder.append("<li class=\"active\">");
+				             menuBuilder.append("<div>");
 				             menuBuilder.append(createHref(page));
+				             menuBuilder.append("</div>");
 				             //menuBuilder.append("</li>");
 				     }else{
 				            menuBuilder.append("<li>");
+				            menuBuilder.append("<div>");
 				            menuBuilder.append(createHref(page));
-				            menuBuilder.append("</li>");
+				            menuBuilder.append("</div>");
+				            //i
+				            //menuBuilder.append("</li>");
 				     }
 				    Iterator<Page> p = page.listChildren(); 
 				    if(p.hasNext()){
@@ -58,17 +70,24 @@
 					// CHECKING FOR THE EVENT SPECIAL CASE 
 					if(page.getPath().indexOf(eventLeftNavRoot)==0 && currPath.indexOf(eventDispUnder)==0){
 					    menuBuilder.append("<li>");
+					    menuBuilder.append("<div>");
 					    menuBuilder.append("<a href=").append(createHref(page));
+					    menuBuilder.append("</div>");
 					    //menuBuilder.append("</li>");
 					    
 					    menuBuilder.append("<ul><li class=\"active\">");
+					    menuBuilder.append("<div>");
 					    menuBuilder.append("<a href=").append(currPath+".html").append(">").append(currTitle).append("</a>");
+					    menuBuilder.append("</div>");
 					    menuBuilder.append("</li></ul>");
 					}else
 					{
 					   menuBuilder.append("<li>");
+					   menuBuilder.append("<div>");
 					   menuBuilder.append("<a href=").append(createHref(page));
-					   menuBuilder.append("</li>");
+					   menuBuilder.append("</div>");
+					   //i
+					   //menuBuilder.append("</li>");
 					}
 				}
 			
@@ -143,7 +162,7 @@ for (int i = 0; i < links.length; i++){
         		  //This if to handle the special case for the events
         	  if(currPath.startsWith(eventPath) && eventLeftNavRoot.startsWith(menuPath)){%>
          		  <li id="sub-active">
-              	  <a href="<%= path %>"><%= sLabel %></a>
+              	   <div><a href="<%= path %>"><%= sLabel %></a></div>
           		<%
              	 if(eventGrandParent.equalsIgnoreCase(currentSite.get("eventPath", String.class))){
                    eventPath = eventLeftNavRoot.substring(0,eventLeftNavRoot.lastIndexOf("/"));
@@ -166,7 +185,7 @@ for (int i = 0; i < links.length; i++){
             		 <li id="sub-active">
           		  <%}  
                %>
-            	 <a href="<%= path %>"><%= sLabel %></a>
+            	 <div><a href="<%= path %>"><%= sLabel %></a></div>
            		 <% 
               		 if(currPath.indexOf(menuPath)==0 || (!eventPath.isEmpty() && menuPath.equals(eventPath))){
                 		 buildMenu(iterPage, rootPath, gs_us_path, menuBuilder, levelDepth,"",levelFlag,eventLeftNavRoot, currPath, currTitle, eventDisplUnder);
@@ -179,12 +198,12 @@ for (int i = 0; i < links.length; i++){
          		 else{
          		  %>
             		 <li>
-             		 <a href="<%= path %>"><%= sLabel %></a>
+             		 <div><a href="<%= path %>"><%= sLabel %></a></div>
             	<%}
       		  }
       		 // Else to handle rest of the menu items 
      		 else{%>
-         	  <li><a href="<%= path %>"><%= sLabel %></a>
+         	  <div><li><a href="<%= path %>"><%= sLabel %></a></div>
         <% }
       }%>  
         </li> 

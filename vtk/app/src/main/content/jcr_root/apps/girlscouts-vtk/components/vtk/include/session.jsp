@@ -17,7 +17,7 @@ java.text.SimpleDateFormat FORMAT_MMM_dd_yyyy_hhmm_AMPM = new java.text.SimpleDa
 java.text.SimpleDateFormat FORMAT_CALENDAR_DATE = new java.text.SimpleDateFormat("MMM dd, yyyy hh:mm a");
 
 java.text.NumberFormat FORMAT_CURRENCY = java.text.NumberFormat.getCurrencyInstance();
-java.text.DecimalFormat FORMAT_COST_CENTS = new java.text.DecimalFormat("#.00");
+java.text.DecimalFormat FORMAT_COST_CENTS = new java.text.DecimalFormat("#0.00");
 
 public void autoLogin(HttpSession session){
         org.girlscouts.vtk.auth.models.ApiConfig config = new org.girlscouts.vtk.auth.models.ApiConfig();
@@ -83,30 +83,62 @@ if( apiConfig.getTroops()==null || apiConfig.getTroops().size()<=0 ){
 // Set user for session
 User user= (User)session.getValue("VTK_user");
 if( user ==null){
-        user= userDAO.getUser( "/vtk/"+apiConfig.getTroops().get(0).getCouncilCode()+
-        		"/"+apiConfig.getTroops().get(0).getTroopName()+
-        		"/users/"+ apiConfig.getUserId() +"_"+ apiConfig.getTroops().get(0).getTroopId());
+	
+	org.girlscouts.vtk.salesforce.Troop prefTroop = apiConfig.getTroops().get(0);
+		  
+		
+		   
+		   Cookie[] cookies = request.getCookies();
+		   if( cookies != null ){
+		      tata:for (int i = 0; i < cookies.length; i++){
+		         if( cookies[i].getName().equals("vtk_prefTroop")){
+		    	 	
+		        	 
+		        	 for(int ii=0;ii< apiConfig.getTroops().size(); ii++)
+		        		 if( apiConfig.getTroops().get(ii).getGradeLevel().equals( cookies[i].getValue( ) ) ){
+		        			 prefTroop= apiConfig.getTroops().get(ii); 
+		        			 System.err.println( "Pref Troop: "+ cookies[i].getValue( ) );
+		        			 break tata;
+		        		 }
+		        	 
+		         }
+		        
+		      }
+		  }
+		
+		
+		
+		
+	
+        user= userDAO.getUser( "/vtk/"+prefTroop.getCouncilCode()+
+        		"/"+prefTroop.getTroopName()+
+        		"/users/"+ apiConfig.getUserId() +"_"+ prefTroop.getTroopId());
         
   			
         //first time - new user
         if( user==null ){
                 //user = new User(apiConfig.getUserId()+"_"+ apiConfig.getTroops().get(0).getTroopId());
-               user = new User( "/vtk/"+apiConfig.getTroops().get(0).getCouncilCode()+
-        		"/"+apiConfig.getTroops().get(0).getTroopName()+"/users/",
-        		 apiConfig.getUserId() +"_"+ apiConfig.getTroops().get(0).getTroopId() );
+               user = new User( "/vtk/"+prefTroop.getCouncilCode()+
+        		"/"+prefTroop.getTroopName()+"/users/",
+        		 apiConfig.getUserId() +"_"+ prefTroop.getTroopId() );
         }
         user.setApiConfig(apiConfig);
         
        if(isTest){ 
-		org.girlscouts.vtk.salesforce.Troop caca= apiConfig.getTroops().get(0);
+		org.girlscouts.vtk.salesforce.Troop caca= prefTroop;
 		caca.setGradeLevel("1-Brownie");
 		user.setTroop(caca);
        }else
-		user.setTroop( apiConfig.getTroops().get(0) );
+		user.setTroop( prefTroop );
+       
 		user.setSfTroopId( user.getTroop().getTroopId() );
 		user.setSfUserId( user.getApiConfig().getUserId() );
 		user.setSfTroopName( user.getTroop().getTroopName() ); 
 		session.setAttribute("VTK_user", user);
+       
+		
+		
+		
 }
 
 
@@ -118,3 +150,10 @@ if (session.getAttribute("USER_TROOP_LIST") == null) {
 	session.setAttribute("USER_TROOP_LIST", troops);
 }
 %>
+
+
+
+
+
+
+
