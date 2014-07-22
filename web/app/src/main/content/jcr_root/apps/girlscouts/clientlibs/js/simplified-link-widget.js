@@ -22,7 +22,7 @@
 /**
  * Customize Link widget that does not have medium and small label options
  */
-girlscouts.components.LinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
+girlscouts.components.SimplifiedLinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
 
     hiddenField: null,
     labelField: null,
@@ -38,7 +38,7 @@ girlscouts.components.LinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
             "columns":2
         };
         config = CQ.Util.applyDefaults(config, defaults);
-        girlscouts.components.LinkWidget.superclass.constructor.call(this, config);
+        girlscouts.components.SimplifiedLinkWidget.superclass.constructor.call(this, config);
     },
 
     // overriding CQ.Ext.Component#initComponent
@@ -77,7 +77,14 @@ girlscouts.components.LinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
         this.add(this.pathField);
 
         this.add(new CQ.Ext.form.Label({text: "New Window"}));
-        this.openInNewWindowField = new CQ.Ext.form.Checkbox();
+        this.openInNewWindowField = new CQ.Ext.form.Checkbox({
+            listeners: {
+                change: {
+                    scope:this,
+                    fn:this.updateHidden
+                }
+            }
+        });
         this.add(this.openInNewWindowField);
 
         this.add(new CQ.Ext.form.Label({text: "Class"}));
@@ -112,7 +119,7 @@ girlscouts.components.LinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
         return this.labelField.getValue() + "|||" 
         	+ this.pathField.getValue() + "|||"
             + this.classField.getValue() + "|||"
-            + this.openInNewWindowField.getValue();
+            + (this.openInNewWindowField.getValue() ? 'true' : 'false');
     },
 
     // private
@@ -123,4 +130,4 @@ girlscouts.components.LinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
 });
 
 // register xtype
-CQ.Ext.reg('simplifiedcustomlink', girlscouts.components.LinkWidget);
+CQ.Ext.reg('simplifiedcustomlink', girlscouts.components.SimplifiedLinkWidget);
