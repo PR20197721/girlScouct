@@ -1,5 +1,5 @@
 function rmLocation(locationName){
-
+        showError(null, "#locationEdit .errorMsg");
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
 		type: 'POST',
