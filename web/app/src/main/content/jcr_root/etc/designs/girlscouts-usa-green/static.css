@@ -491,9 +491,13 @@ input#date{
 .baseDiv{
     width:100%;
     padding:10px;
-    border-bottom:1px solid rgb(191, 194, 194);
-    border-left:1px solid rgb(191, 194, 194);
-    border-right:1px solid rgb(191, 194, 194);
+    border-left: 1px solid rgb(191, 194, 194);
+    border-right: 1px solid rgb(191, 194, 194);
+    border-bottom: 1px solid rgb(191, 194, 194);
+}
+
+.baseDiv:first-child {
+    border-top: 1px solid  rgb(191, 194, 194);
 }
 .programLevel{
     background:#F3F3F3;
@@ -1109,4 +1113,41 @@ form#contact-us textarea {
 	text-indent: 8px;
 }
 .findActivityButton {
+}
+.formsSearchOptions li {
+	padding-bottom: 0;
+	white-space:nowrap;
+}
+.checkbox-grid li {
+    display: block;
+    float: left;
+    width: 50%;
+}
+.centered-table {
+        display: table;   /* Allow the centering to work */
+        margin: 0 auto;
+}
+#advancedSearch {
+	display: none;
+}
+.toggleDisplay {
+	text-align: center;
+}
+.searchButtonRow {
+	text-align: right;
+}
+.advancedSearchButton {
+	padding: 0 !important;
+}
+.expandable {
+	min-height: 460px;
+}
+.formsAndDocuments {
+	height:40px  !important;
+	width:350px !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
+}
+#searchBox {
+	text-align: center;
 }
