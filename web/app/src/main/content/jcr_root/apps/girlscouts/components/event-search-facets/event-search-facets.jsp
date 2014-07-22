@@ -88,7 +88,7 @@ function toggleWhiteArrow() {
 <div class="baseDiv anActivity small-24 large-24 medium-24 columns">
    <div class="row collapse">
         <div class="small-1 large-1 medium-1 columns">
-        	<div><a href="#" onclick="toggleWhiteArrow()"><img id="whiteArrowImg" src="/etc/designs/girlscouts-usa-green/images/white-down-arrow.png" width ="25" height="25"/></a></div>
+        	<div><a href="#" onclick="toggleWhiteArrow()"><img id="whiteArrowImg" src="/etc/designs/girlscouts-usa-green/images/white-down-arrow.png" width ="10" height="15"/></a></div>
         </div>
     	 <div class="small-23 large-23 medium-23 columns">
    			<div class="title"><span class="activity-color">Find an Activity</span></div>
@@ -99,34 +99,34 @@ function toggleWhiteArrow() {
 <div id="events-display">
 <form action="<%=formAction%><%=eventSuffix %>" method="get" id="form">
 <div class="baseDiv programLevel row collapse">
-	<div class="small-24 medium-7 large-7 columns">
-		<div class="title"> By Keyword </div>
-		<input type="text" name="q" placeholder="Keywords" class="searchField" style="width:140px;height:25px;" />
-	</div>
-	<div class="small-24 medium-7 large-7 event-region columns"> 
-	    <div class="title"> Region  </div>
-	      <div class="dropdown">
-		      <span class="dropdown-moz">
-		     	<select name="regions" id="regions">
-		      		<option value="choose">Choose Region</option>
-		           		<%for(String str: sortList) {%>
-		             		   <option value="<%=str%>"><%=str%></option>
-		           		 <%} %>
-		     	</select>
-		     </span>	
-	     </div>	
-	</div>
-	<div class="small-24 medium-10 large-10 columns">
-	    <div class="title">By Date</div>
-	    	<div class="row event-activity collapse">
-	      		<div class="large-12 columns">
-	        		<input type="text" name="startdtRange" class="searchField" <%if((enddtRange!=null && !enddtRange.isEmpty()) && (startdtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="From Today"/>
-	      		</div>
-	       		<div class="large-11 columns">  
-	       			<input type="text" name="enddtRange" class="searchField" <%if((startdtRange!=null && !startdtRange.isEmpty()) && (enddtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="To"/>
-	    		</div>
-	    </div>
-	</div>
+   <div class="small-24 medium-7 large-7 columns">
+			<div class="title"> By Keyword </div>
+			<input type="text" name="q" placeholder="Keywords" class="searchField" style="width:140px;height:25px;" />
+		</div>
+		<div class="small-24 medium-7 large-7 event-region columns"> 
+		    <div class="title"> Region  </div>
+		      <div class="dropdown">
+			      <span class="dropdown-moz">
+			     	<select name="regions" id="regions">
+			      		<option value="choose">Choose Region</option>
+			           		<%for(String str: sortList) {%>
+			             		   <option value="<%=str%>"><%=str%></option>
+			           		 <%} %>
+			     	</select>
+			     </span>	
+		     </div>	
+		</div>
+		<div class="small-24 medium-10 large-10 columns">
+		    <div class="title">By Date</div>
+		    	<div class="row event-activity collapse">
+		      		<div class="large-12 columns">
+		        		<input type="text" name="startdtRange" class="searchField" <%if((enddtRange!=null && !enddtRange.isEmpty()) && (startdtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="From Today"/>
+		      		</div>
+		       		<div class="large-11 columns">  
+		       			<input type="text" name="enddtRange" class="searchField" <%if((startdtRange!=null && !startdtRange.isEmpty()) && (enddtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="To"/>
+		    		</div>
+		    </div>
+		</div>
 </div>	
 <div class="baseDiv programLevel" >
    <div class="title"> By Program Level </div>
@@ -161,9 +161,12 @@ function toggleWhiteArrow() {
 %>
 	</ul>
 </div>
-<div class="baseDiv programLevel class="findActivityButton"">
-  <input type="submit" value="Search" id="sub" class="form-btn"/>
+<div class="searchButtonRow baseDiv programLevel">
+    	<input type="submit" value="Search" id="sub" class="form-btn advancedSearchButton"/>
 </div>
+  
+</div>
+
 </form>
 </div>
 

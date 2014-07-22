@@ -151,7 +151,7 @@
             
          </div>
          <div class="small-16 large-16 medium-16 columns lineHeight">
-            <%= dateStr %>
+           <b><%= dateStr %></b>
          </div>
        </div>
        
@@ -161,7 +161,7 @@
             
          </div>
          <div class="small-16 large-16 medium-16 columns lineHeight">
-           <%= locationLabel %> 
+           <b><%= locationLabel %></b> 
          </div>
        </div>
        
@@ -207,7 +207,7 @@
              <%} %>
            </div>
             <div class="small-14 large-14 medium-14 columns"> 
-                <%=region %>
+                <b><%=region %></b>
             </div>
           
          </div>
