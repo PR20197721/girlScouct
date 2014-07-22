@@ -966,11 +966,11 @@ margin-bottom: 5px;
 }
 
 .contact-list td.name{
-	width: 25%;
+	width: 40%;
 }
 
 .contact-list td.title{
-	width: 40%;
+	width: 25%;
 }
 
 .contact-list td.phone{
@@ -1075,4 +1075,33 @@ padding: 5px 0;
 .activity-color{
   color:#ffffff;
   margin:5px;
+}
+
+.featureStoriesHeader.columns {
+	margin: 0 -1.25em;
+}
+
+.featureNewsHeader.columns {
+	margin: 0 -1.25em;
+}
+
+.featureEventsHeader.columns{
+	margin: 0 -1.25em;
+}
+
+form#contact-us textarea {
+    width: 100%;
+}
+
+.forms-documents-search label {
+	font-size: 0.8em;
+}
+
+.forms-documents-search #title {
+	padding-bottom: 10px;
+    font-size: 0.9em;
+}
+
+.forms-documents-search input.searchField {
+	text-indent: 8px;
 }

@@ -266,6 +266,11 @@ public class CsvDataImporter implements DataImporter {
     private void saveNode(String path, List<Object> values)
 	    throws GirlScoutsException {
 	try {
+	    // Remove special chars. In JCR, it means namespace.
+	    // TODO: use some library here.
+	    path = path.replaceAll(":", "");
+	    path = path.replaceAll("\\'", "");
+
 	    // Create parent node first
 	    String parentPath = path.substring(0, path.lastIndexOf('/'));
 	    if (rr.resolve(parentPath).adaptTo(Node.class) == null) {
@@ -288,7 +293,7 @@ public class CsvDataImporter implements DataImporter {
 		}
 	    }
 	    
-	    Node node = JcrUtil.createPath(path, primaryType, session);
+	    Node node = JcrUtil.createUniquePath(path, primaryType, session);
 	    if (primaryType.equals("cq:Page")) {
 		node = node.addNode("jcr:content", "cq:PageContent");
 	    }
@@ -321,6 +326,11 @@ public class CsvDataImporter implements DataImporter {
 
     private String executeJavaScript(String nameScript, String... value)
 	    throws GirlScoutsException {
+    // Escape apostrophe
+    for (int i = 0; i < value.length; i++) {
+        value[i] = value[i].replaceAll("\\'", "\\\\'");
+    }
+
 	StringBuilder sb = new StringBuilder();
 	for (int i = 0; i < value.length - 1; i++) {
 	    sb.append("'").append(value[i]).append("',");
@@ -348,12 +358,8 @@ public class CsvDataImporter implements DataImporter {
 	    throw new GirlScoutsException(null,
 		    "Too Few columns. There should be " + fields.size() + " columns");
 	}
-	if (cols.length > fields.size()) {
-	    throw new GirlScoutsException(null,
-		    "Too many columns. There should be " + fields.size() + " columns");
-	}
 	List<Object> result = new ArrayList<Object>();
-	for (int i = 0; i < cols.length; i++) {
+	for (int i = 0; i < fields.size(); i++) {
 	    String type = fields.get(i)[1];
 	    String script = fields.get(i)[2];
 	    String value = cols[i];

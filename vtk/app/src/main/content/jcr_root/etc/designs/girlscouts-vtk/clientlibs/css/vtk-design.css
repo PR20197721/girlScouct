@@ -1,7 +1,17 @@
 .vtk {
 	padding: .25em;
 }
-
+.ui-dialog {
+	background: #ffffff;
+}
+.ui-state-default {
+    color: #333333;
+}
+.ui-widget-header  {
+	background: #008f50;
+	color: #ffffff;
+	border: 1px solid #CCCCCC;
+}
 ul.tabs {
 	margin: 0px;
 }
@@ -177,11 +187,18 @@ table.planSquareWrapper tr:first-child {
         border:0 !important;
 }
 table.planSquareWrapper {
-	width: 200px;
 	border:0 !important;
 	margin:5px;
 	padding:0;
+	margin: auto;
 }
+.planSquareLeft, .planSquareRight{
+	width: 40px;
+}
+.planSquareMiddle {
+	width: 100px;
+}
+
 table.planSquareWrapper td{
 	text-align: center;
 }
@@ -332,6 +349,7 @@ li.milestone .listBody {
 #gsModal {
 	padding: 0;
 	font-size: 0.85em;
+	background: #ffffff;
 }
 #gsModal>h2{
         display: inline-block;
@@ -627,8 +645,23 @@ ul.formCheckboxes li {
 }
 
 
+/* CSS: (StyleSheet) */
 
+#imgPreviewWithStyles {
+    background: #222;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    padding: 15px;
+    z-index: 999;
+    border: none;
+}
 
+.docType img, .browseMeetingAids img{
+        max-width: 40px;
+	width: 40px;
+}
+
+/*
 @media only screen and (max-width: 40em) {
         .planSquare {
                 width: 70px;
@@ -665,3 +698,4 @@ ul.formCheckboxes li {
 	}
 }
 
+*/

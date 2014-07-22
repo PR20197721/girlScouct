@@ -7,20 +7,25 @@ import org.girlscouts.vtk.dao.AssetComponentType;
 @Node
 public class Asset {
 
+
+
+
+
+
 	public Asset(){ this.uid = "A"+new java.util.Date().getTime() + "_" + Math.random(); this.isCachable=false;}
 	public Asset(String path){ this.path= path; this.uid = "A"+new java.util.Date().getTime() + "_" + Math.random(); this.isCachable=false;}
 	
 	
-	@Field private String type, refId, description, title, docType;
+	@Field private String type, description, title, docType, refId;
 	
 
 
 	@Field (path=true) private String path;
-	@Field (id=true) private String uid;
+	//@Field  private String uid;
 	@Field Boolean isCachable;
 	
-	
-	
+	@Field (id=true) private String  uid;
+	//@Field (id=true) private String refId;
 
 	
 	
