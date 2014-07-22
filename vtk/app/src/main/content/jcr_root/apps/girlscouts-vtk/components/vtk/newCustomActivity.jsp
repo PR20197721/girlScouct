@@ -103,7 +103,7 @@ $('#newCustActivity').click(function() {
 		createNewCustActivity();
 		}
 		else {
-		alert("Invalid.Fix it");
+			showError("The form has one or more errors.  Please update and try again.", "#createActivitySection .errorMsg");
 		}
 		});
 
@@ -116,15 +116,26 @@ function timeDiff(){
 	var newCustActivity_endTime_AP = document.getElementById("newCustActivity_endTime_AP").value;
 
 
-	if(!Date.parse( new Date( date +" " + startTime +" "+newCustActivity_startTime_AP) )) {alert("Invalid Start Date,time. 12hr format: "+date +" " + startTime +" "+newCustActivity_startTime_AP);return false;}
-	if(!Date.parse( new Date( date +" " + endTime +" "+newCustActivity_endTime_AP) )) {alert("Invalid End Date,time. 12hr format: "+date +" " + endTime +" "+newCustActivity_endTime_AP);return false;}
+	if(!Date.parse( new Date( date +" " + startTime +" "+newCustActivity_startTime_AP) )) {
+		var thisMsg = "Invalid Start Date,time. 12hr format: "+date +" " + startTime +" "+newCustActivity_startTime_AP;
+		showError(thisMsg, "#pickActivitySection .errorMsg");
+		return false;
+	}
+	if(!Date.parse( new Date( date +" " + endTime +" "+newCustActivity_endTime_AP) )) {
+		var thisMsg = "Invalid End Date,time. 12hr format: "+date +" " + endTime +" "+newCustActivity_endTime_AP;
+                showError(thisMsg, "#pickActivitySection .errorMsg");
+		return false;
+	}
 
 
 
-	if( (new Date(date +" "+ startTime+ " "+newCustActivity_startTime_AP) - new Date( date +" " + endTime +" "+newCustActivity_endTime_AP) ) >=0 )
-	{alert("StartTime after/equal EndTime"); return false;}
-	else 
+	if( (new Date(date +" "+ startTime+ " "+newCustActivity_startTime_AP) - new Date( date +" " + endTime +" "+newCustActivity_endTime_AP) ) >=0 ) {
+		var thisMsg = "StartTime after/equal EndTime";
+                showError(thisMsg, "#pickActivitySection .errorMsg");
+		return false;
+	} else {
 		return true;
+	}
 
 }
 </script>  
@@ -177,7 +188,7 @@ border:5px solid #000;
                 <div id="createActivitySection">
 <form class="cmxform" id="signupForm">
 <div class="sectionBar">Create a Custom Activity</div>
-<div id="newCustActivity_err" style="color:red;"></div>
+<div class="errorMsg error"></div>
 <div class="row">
         <div class="small-24 medium-5 large-4 columns"><label for="newCustActivity_name" ACCESSKEY="n">Activity Name</label></div>
         <div class="small-24 medium-7 large-8 columns"><input type="text" name="newCustActivity_name" id="newCustActivity_name" value=""/></div>
@@ -230,10 +241,10 @@ border:5px solid #000;
 </form>
 
                 </div>
-                <div id="pickActiviySection">
+                <div id="pickActivitySection">
 <form id="schFrm">
 <div class="sectionBar">Add activity from the Council Calendar</div>
-
+<div class="errorMsg error"></div>
 <%
 
 SearchTag search = meetingDAO.searchA();
@@ -302,7 +313,7 @@ i++;
 </div>
 <br/>
 <div class="linkButtonWrapper">
-	<input type="button" value="View Activities" onclick='src11()' class="button linkButton"/>
+	<input type="button" value="View Activities" onclick='searchActivities()' class="button linkButton"/>
 </div>
 </form>
 
@@ -317,10 +328,10 @@ i++;
                 $("#createActivityTab").removeClass("active");
                 $("#pickActivityTab").removeClass("active");
                 $("#createActivitySection").hide();
-                $("#pickActiviySection").hide();
+                $("#pickActivitySection").hide();
                 if (section == "pick") {
                         $("#pickActivityTab").addClass("active");
-                        $("#pickActiviySection").show();
+                        $("#pickActivitySection").show();
                 } else if (section == "create")  {
                         $("#createActivityTab").addClass("active");
                         $("#createActivitySection").show();
@@ -337,7 +348,7 @@ function submitenter(myfield,e) {
 	}
 
 	if (keycode == 13) {
-		src11();
+		searchActivities();
 		return false;
 	} else {
 		return true;
@@ -361,10 +372,14 @@ function checkAll(x) {
 	
 	
 	
-function src11(){
-	
+function searchActivities(){
+	showError(null, "#pickActivitySection .errorMsg");
 	var  keywrd = $.trim(document.getElementById("sch_keyword").value);
-	if( keywrd.length>0 && keywrd.length<3  ){alert("Min 3 character search for keyword: "+ keywrd);return false;}
+	if( keywrd.length>0 && keywrd.length<3  ){
+		var thisMsg = "Min 3 character search for keyword: "+ keywrd;
+                showError(thisMsg, "#pickActivitySection .errorMsg");
+		return false;
+	}
 	
 	var lvl=  $.trim(checkAll('sch_lvl'));
 	var cat=  $.trim(checkAll('sch_cats'));
@@ -372,13 +387,20 @@ function src11(){
 	var endDate = $.trim(document.getElementById("sch_endDate").value);
 	var region = $.trim(document.getElementById("sch_region").value);
 	
-	if( startDate != '' && endDate=='' )
-		{alert('Missing end date');return false; }
-	if( startDate =='' && endDate!='' )
-		{alert('Missing start date');return false;}
+	if( startDate != '' && endDate=='' ) {
+		var thisMsg = 'Missing end date';
+                showError(thisMsg, "#pickActivitySection .errorMsg");
+		return false; 
+	}
+	if( startDate =='' && endDate!='' ) {
+		var thisMsg = 'Missing start date';
+                showError(thisMsg, "#pickActivitySection .errorMsg");
+		return false;
+	}
 	
 	if( keywrd=='' && lvl=='' && cat =='' && startDate=='' && endDate=='' && region=='' ){
-		alert("Please select search criteria.");
+		var thisMsg = "Please select search criteria.";
+                showError(thisMsg, "#pickActivitySection .errorMsg");
 		return false;
 	}
 	
