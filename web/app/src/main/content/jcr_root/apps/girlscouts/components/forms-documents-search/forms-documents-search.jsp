@@ -59,11 +59,11 @@ if(param!=null && !param.isEmpty()){
 		</div>
 <script>
 	function toggleOption() {
-		if ($("#optionIndicatorId").attr("src") == "/etc/designs/girlscouts-usa-green/images/green-up-arrow.png") {
-			$(".optionIndicator").attr("src", "/etc/designs/girlscouts-usa-green/images/green-down-arrow.png");
+		if ($("#optionIndicatorId").attr("src") == "/etc/designs/girlscouts-usa-green/images/green-down-arrow.png") {
+			$(".optionIndicator").attr("src", "/etc/designs/girlscouts-usa-green/images/green-up-arrow.png");
 			$(".advancedSearch").hide();
 		} else {
-                        $(".optionIndicator").attr("src", "/etc/designs/girlscouts-usa-green/images/green-up-arrow.png");
+                        $(".optionIndicator").attr("src", "/etc/designs/girlscouts-usa-green/images/green-down-arrow.png");
                         $(".advancedSearch").show();
 		}
 	}
@@ -78,7 +78,7 @@ if(param!=null && !param.isEmpty()){
 	});
 </script>
 		<div class="baseDiv toggleDisplay">
-			<a href="#" onclick="toggleOption()"><img id="optionIndicatorId" class="optionIndicator" src="/etc/designs/girlscouts-usa-green/images/green-down-arrow.png" width="15" height="20">&nbsp;Options&nbsp;<img class="optionIndicator" src="/etc/designs/girlscouts-usa-green/images/green-down-arrow.png" width="15" height="20"></a>
+			<a href="#" onclick="toggleOption()"><img id="optionIndicatorId" class="optionIndicator" src="/etc/designs/girlscouts-usa-green/images/green-up-arrow.png" width="15" height="20">&nbsp;Options&nbsp;<img class="optionIndicator" src="/etc/designs/girlscouts-usa-green/images/green-up-arrow.png" width="15" height="20"></a>
 		</div>
 		<div class="options formsSearchOptions baseDiv advancedSearch">
 			<div id="title">Categories</div>
@@ -97,6 +97,7 @@ for(int pi=0; pi<fdocs.size(); pi++){
 
 			</ul>
 		</div>
+		
 		<div class="searchButtonRow baseDiv advancedSearch">
 			<input type="submit" value="Search" class="form-btn advancedSearchButton"/>
 		</div>
