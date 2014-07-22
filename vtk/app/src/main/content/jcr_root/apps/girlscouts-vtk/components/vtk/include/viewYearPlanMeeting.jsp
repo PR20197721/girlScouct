@@ -305,7 +305,9 @@ if( _aidTags!=null )
 	
 	<br/>Description:<textarea id="newCustAgendaTxt"></textarea>
 	<br/><br/>
-	<input type="button" value="save" onclick="createCustAgendaItem1('<%=searchDate.getTime()%>', '<%=activSched.getTime().getTime()%>', '<%=meeting.getPath()%>')"/>
+	<div class="linkButtonWrapper">
+		<input type="button" value="save" onclick="createCustAgendaItem1('<%=searchDate.getTime()%>', '<%=activSched.getTime().getTime()%>', '<%=meeting.getPath()%>')" class="button linkButton"/>
+	</div>
 <%}else{ out.println("VIEW MODE"); } %>
 </div>
 
