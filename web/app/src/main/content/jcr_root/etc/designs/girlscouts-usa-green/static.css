@@ -965,11 +965,11 @@ margin-bottom: 5px;
 }
 
 .contact-list td.name{
-	width: 25%;
+	width: 40%;
 }
 
 .contact-list td.title{
-	width: 40%;
+	width: 25%;
 }
 
 .contact-list td.phone{
@@ -1034,6 +1034,15 @@ padding: 5px 0;
 }
 
 .featureStoriesHeader.columns {
+	margin: 0 -1.25em;
+}
+
+.featureNewsHeader.columns {
+	
+margin: 0 -1.25em;
+}
+
+.featureEventsHeader.columns{
 	margin: 0 -1.25em;
 }
 
