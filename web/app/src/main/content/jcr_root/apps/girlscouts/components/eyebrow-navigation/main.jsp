@@ -16,13 +16,13 @@
         String path = values.length >= 2 ? values[1] : "";
         path = genLink(resourceResolver, path);
         String clazz = values.length >= 3 ? "class=\""+ values[2] + "\"": "";
+        String newWindow = values.length >= 4 && values[3].equalsIgnoreCase("true") ?
+                " target=\"_blank\"" : "";
         if(currPath.equals(menuPath)){%>
-            <li class="active"><a href="<%= path %>"><%= label %></a></li>
-        <%}else{
-        %>
-        <li><a href="<%= path %>"><%= label %></a></li>
-        <% }
-    }
-    
-    %>
+            <li class="active">
+        <%}else{ %>
+        	<li>
+        <% } %>
+		<a href="<%= path %>"<%= newWindow %>><%= label %></a></li>
+    <% } %>
 
