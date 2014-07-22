@@ -5,7 +5,8 @@
 <%
 String[] links = properties.get("links", String[].class);
 Boolean centerLinks = (Boolean) request.getAttribute("centerLinks");
-int[] sizes = {9, 15};
+//TODO: Find a way to have the links center dynamically
+int[] sizes = {12, 12};
 if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
 	%>##### Footer Navigation #####<%
 } else {
