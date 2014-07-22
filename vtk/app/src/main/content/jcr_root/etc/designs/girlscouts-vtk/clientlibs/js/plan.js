@@ -155,8 +155,12 @@ function yesPlan(){
 }
 
 function addLocation(){
+	showError(null, "#locationEdit .errorMsg");
 	var  name = document.getElementById("loc_name").value;
-	if( $.trim(name) =='' ){alert("Please fill 'Location Name' field"); return false;}
+	if( $.trim(name) =='' ){
+		showError("Please enter a location", "#locationEdit .errorMsg");
+		return false;
+	}
 	var  address = document.getElementById("loc_address").value;
 	var  city = document.getElementById("loc_city").value;
 	var  state = document.getElementById("loc_state").value;
@@ -175,6 +179,7 @@ function addLocation(){
 		},
 		success: function(result) {
 			loadLocMng();
+			$("#addLocationForm").trigger("reset");
 		}
 	});
 }

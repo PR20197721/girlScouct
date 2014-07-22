@@ -43,6 +43,9 @@ body {
     background-color: #6b6b6b;
     font-family: "Open Sans", Arial, sans-serif;
 }
+#mainContent h1 {
+    margin: 0.2em 0 0.4em 0;
+}
 h1, h2, h3, h4, h5, h6 {
     color: #000000;
 }
@@ -314,7 +317,12 @@ background-position: center;
 .breadcrumbs {
     background-color: #ffffff;
     border: 0px;
-    padding: .5625rem 1.250rem;
+    padding: .5625rem 1.250rem 0.5625rem 0;
+    margin: 0;
+    line-height: 1em;
+}
+.breadcrumbWrapper {
+    margin: 0 0 0 1.4rem;
 }
 .breadcrumbs a.current {
     color: #00ae58;
@@ -491,9 +499,13 @@ input#date{
 .baseDiv{
     width:100%;
     padding:10px;
-    border-bottom:1px solid rgb(191, 194, 194);
-    border-left:1px solid rgb(191, 194, 194);
-    border-right:1px solid rgb(191, 194, 194);
+    border-left: 1px solid rgb(191, 194, 194);
+    border-right: 1px solid rgb(191, 194, 194);
+    border-bottom: 1px solid rgb(191, 194, 194);
+}
+
+.baseDiv:first-child {
+    border-top: 1px solid  rgb(191, 194, 194);
 }
 .programLevel{
     background:#F3F3F3;
@@ -753,7 +765,7 @@ td.fc-header-left{
     background-position:right 9px;  
 }*/
 
-#hrStyle >hr{
+.hrStyle >hr{
   border-color:#9C9C9C;
   border-width:1px 0px 0px 0px;
 }
@@ -1109,4 +1121,45 @@ form#contact-us textarea {
 	text-indent: 8px;
 }
 .findActivityButton {
+}
+.formsSearchOptions li {
+	padding-bottom: 0;
+	white-space:nowrap;
+}
+.checkbox-grid li {
+    display: block;
+    float: left;
+    width: 50%;
+}
+.centered-table {
+        display: table;   /* Allow the centering to work */
+        margin: 0 auto;
+}
+.advancedSearch {
+	display: none;
+}
+.toggleDisplay {
+	text-align: center;
+}
+.searchButtonRow {
+	text-align: right;
+}
+.advancedSearchButton {
+	padding: 0 !important;
+}
+.expandable {
+	min-height: 460px;
+}
+.formsAndDocuments {
+	height:40px  !important;
+	width:350px !important;
+	margin-left: auto !important;
+	margin-right: auto !important;
+}
+#searchBox {
+	text-align: center;
+
+.event-page .lineHeight{
+	line-height:1.5em;
+	font-size:1rem;
 }
