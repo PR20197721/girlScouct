@@ -1,7 +1,5 @@
 <div id="<%=ii %>" style="display:block;">
 
-<a href="javascript:void(0)" onclick="location.reload();">CLOSE ME</a>
-
 	<br/>
 	<select onchange="durEditActiv(this.options[this.selectedIndex].value, '<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">
 		<option value="5"  <%= (_activity.getDuration()==5)  ? "SELECTED" : "" %>>5</option>

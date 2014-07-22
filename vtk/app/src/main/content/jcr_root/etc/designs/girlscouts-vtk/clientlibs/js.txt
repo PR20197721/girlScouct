@@ -1,6 +1,6 @@
 #base=js
 
-jquery-ui.min.js
+jquery-ui.js
 jquery.dialogOptions.js
 jquery.ui.touch-punch.min.js
 jquery.custombox.js 

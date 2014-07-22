@@ -7,7 +7,7 @@
 
 %>
 <div id="troop" class="row">
-        <div class="large-24 troopPrompt columns">
+        <div class="small-24 medium-24 large-24 troopPrompt columns">
                 Current troop profile:
                 <select id="reloginid" onchange="relogin()">
 <%
@@ -62,13 +62,13 @@
 					<a href="#">Year Plan</a>
 					<ul class="dropdown">
 						<li>
-							<a href="javascript:void(0)" onclick="newLocCal()">Specify Meeting Dates and Locations</a>
+							<a href="#" onclick="newLocCal()">Specify Meeting Dates and Locations</a>
 						</li>
 						<li>
 							 <a href="#" onclick="doMeetingLib()">Add Meeting</a>
 						</li>
 						<li>
-							<a href="javascript:void(0)" onclick="newActivity()">Add Activity</a>
+							<a href="#" onclick="newActivity()">Add Activity</a>
 						</li>
 						<li>
 							<a onclick="self.location = '/content/girlscouts-vtk/en/cal.ics'">Download Calendar</a>
