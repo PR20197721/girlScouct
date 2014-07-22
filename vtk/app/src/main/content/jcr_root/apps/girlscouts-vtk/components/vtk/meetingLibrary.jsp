@@ -102,7 +102,7 @@ function cngMeeting(mPath){
 		<td>
 			<div class="yearPlanMeetings">
 			<h2><%=meeting.getName()%>  </h2>
-			<p class="tags"> <%=meeting.getAidTags() %></p>
+			<!--  <p class="tags"> <%=meeting.getAidTags() %></p> -->
 			<p class="blurb"><%=meeting.getBlurb() %><p>
 			<br/>
                         <%  if( !myMeetingIds.contains( meeting.getId().trim().toLowerCase()) ){ %>
