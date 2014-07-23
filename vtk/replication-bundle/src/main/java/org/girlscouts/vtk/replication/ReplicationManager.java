@@ -25,10 +25,10 @@ import com.day.cq.replication.Replicator;
     @Property(name=Constants.REPLICATION_INTERVAL_PROPERTY, longValue = Constants.REPLICATION_INTERVAL, description="Replication Interval, in seconds."),
     @Property(name=Constants.SIBLING_SERVERS_PROPERTY, description="Sibling servers, separated by space. Node changes will be replicated to these servers")
 })
-public class VtkNodeReplicationManager {
+public class ReplicationManager {
     private static final String[] MONITOR_PATHS = { Constants.ROOT_PATH };
     private static final Logger log = LoggerFactory
-            .getLogger(VtkNodeReplicationManager.class);
+            .getLogger(ReplicationManager.class);
 
     @Reference
     private SlingRepository repository;
