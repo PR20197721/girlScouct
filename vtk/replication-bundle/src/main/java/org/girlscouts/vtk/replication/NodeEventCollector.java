@@ -68,7 +68,7 @@ public class NodeEventCollector {
                 }
 
                 if (nodeEventType != -1) {
-                    nodes.add(new NodeEvent(path, type));
+                    nodes.add(new NodeEvent(path, nodeEventType));
                 }
             } catch (RepositoryException e) {
                 log.warn("Cannot get path of a VTK node event.");
