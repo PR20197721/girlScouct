@@ -1,7 +1,5 @@
 package org.girlscouts.vtk.replication;
 
-import java.util.Dictionary;
-
 import javax.jcr.Repository;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
@@ -15,11 +13,12 @@ import org.apache.felix.scr.annotations.Deactivate;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Reference;
-import org.apache.sling.commons.scheduler.Scheduler;
 import org.apache.sling.jcr.api.SlingRepository;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.day.cq.replication.Replicator;
 
 @Component(metatype=true, immediate=true)
 @Properties ({
@@ -35,32 +34,16 @@ public class VtkNodeReplicationManager {
     private SlingRepository repository;
     
     @Reference
-    private Scheduler scheduler;
-    private boolean isScheduled = false;
+    private Replicator replicator;
 
     private Session session;
     private ObservationManager manager;
     private EventListener listener;
-    private Replicator replicator;
 
-    private String[] siblings;
-    
     @Activate
     protected void activate(ComponentContext context) throws Exception {
-        @SuppressWarnings("rawtypes")
-        final Dictionary dict = context.getProperties();
-        String siblingStr = (String)dict.get(Constants.SIBLING_SERVERS_PROPERTY);
-        if (siblingStr == null) {
-            log.error("No siblings. Nowhere to replicate. Quit");
-            return;
-        }
-        siblings = siblingStr.split(" ");
-        long replicationInterval = (Long)dict.get(Constants.REPLICATION_INTERVAL_PROPERTY);
-        
         // Login repository
         session = repository.loginAdministrative(null);
-        // Setup the Replicator
-        replicator = new Replicator(session, siblings);
 
         // Setup the listener
         if (repository.getDescriptor(Repository.OPTION_OBSERVATION_SUPPORTED)
@@ -73,10 +56,6 @@ public class VtkNodeReplicationManager {
                 manager.addEventListener(listener, Constants.PROPERTY_UPDATE | Event.NODE_REMOVED,
                         MONITOR_PATHS[i], true, null, types, true);
             }
-            
-            // Setup the scheduler
-            scheduler.addPeriodicJob(Constants.JOB_NAME, replicator, null, replicationInterval, true);
-            isScheduled = true;
         } else {
             log.error("Listeners not added.");
         }
@@ -94,12 +73,6 @@ public class VtkNodeReplicationManager {
             }
         }
 
-        // Cancel the queue job on publish
-        if (scheduler != null && isScheduled) {
-            scheduler.removeJob(Constants.JOB_NAME);
-            isScheduled = false;
-        }
-        
         if (session != null) {
             session.logout();
             session = null;
