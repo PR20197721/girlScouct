@@ -219,4 +219,59 @@ public class ReplicationServlet extends SlingAllMethodsServlet {
         if (this.receiver == paramReplicationReceiver)
             this.receiver = null;
     }
+    
+    
+    public final class LimitInputStream extends FilterInputStream
+    {
+      private long available;
+    
+      public ReplicationServlet$LimitInputStream(ReplicationServlet paramReplicationServlet, InputStream in, long limit)
+      {
+        super(in);
+        this.available = limit;
+      }
+    
+      public int available() throws IOException
+      {
+        return (int)Math.min(this.in.available(), this.available);
+      }
+    
+      public int read() throws IOException
+      {
+        if (this.available == 0L) {
+          return -1;
+        }
+    
+        int result = this.in.read();
+        if (result != -1) {
+          this.available -= 1L;
+        }
+        return result;
+      }
+    
+      public int read(byte[] b, int off, int len)
+        throws IOException
+      {
+        if (this.available == 0L) {
+          return -1;
+        }
+    
+        int readLen = (int)Math.min(len, this.available);
+        int result = this.in.read(b, off, readLen);
+        if (result != -1) {
+          this.available -= result;
+        }
+        return result;
+      }
+    
+      public void close()
+        throws IOException
+      {
+      }
+    }
+
+    /* Location:           /Users/mike/Desktop/super.jar
+     * Qualified Name:     classes.com.day.cq.replication.impl.servlets.ReplicationServlet.LimitInputStream
+     * JD-Core Version:    0.6.2
+     */
 }
