@@ -148,41 +148,37 @@
 <%
     
      int count = 0;
-     for(String result: results){
-    	
-    	 
-    	 Node node = resourceResolver.getResource(result).adaptTo(Node.class);
-    	 try{
-			Node propNode = node.getNode("jcr:content/data");
- 		 	String fromdate = propNode.getProperty("start").getString();
-  			title = propNode.getProperty("../jcr:title").getString();
-  			Date fdt = fromFormat.parse(fromdate);
- 			href = result+".html";
-  			String time = "";
-  			String todate="";
- 		    String toDate="";
-			dateStr="";
-			imgPath="";
-			iconPath="";  		 
-			Date tdt = null;
-  			locationLabel = "";
-         	if(fdt.equals(today) || fdt.after(today)){
-        	 startDate = propNode.getProperty("start").getDate().getTime(); 
-        	 startDateStr = dateFormat.format(startDate);
-             startTimeStr = timeFormat.format(startDate);
-             dateStr = startDateStr + ", " +startTimeStr;
-        	 time = startTimeStr;
-             
-        	 if(propNode.hasProperty("locationLabel")){
+if(eventcounts>0){
+  for(String result: results){
+	Node node = resourceResolver.getResource(result).adaptTo(Node.class);
+    try{
+		Node propNode = node.getNode("jcr:content/data");
+ 	 	String fromdate = propNode.getProperty("start").getString();
+  		title = propNode.getProperty("../jcr:title").getString();
+		Date fdt = fromFormat.parse(fromdate);
+		href = result+".html";
+		String time = "";
+		String todate="";
+    	String toDate="";
+		dateStr="";
+		imgPath="";
+		iconPath="";  		 
+		Date tdt = null;
+		locationLabel = "";
+      	if(fdt.equals(today) || fdt.after(today)){
+			startDate = propNode.getProperty("start").getDate().getTime(); 
+     	 	startDateStr = dateFormat.format(startDate);
+          	startTimeStr = timeFormat.format(startDate);
+          	dateStr = startDateStr + ", " +startTimeStr;
+     	 	time = startTimeStr;
+            if(propNode.hasProperty("locationLabel")){
                  locationLabel=propNode.getProperty("locationLabel").getString();
              }
-        	 
-        	 if (propNode.hasProperty("end"))
-        	   {
-        		    Date endDate = propNode.getProperty("end").getDate().getTime();
-        		    dateStr = getDateTime(startDate,endDate,dateFormat,timeFormat,dateStr);
+        	if (propNode.hasProperty("end")){
+        		 Date endDate = propNode.getProperty("end").getDate().getTime();
+        		 dateStr = getDateTime(startDate,endDate,dateFormat,timeFormat,dateStr);
         		    
-        	    }
+        	 }
              
              boolean hasImage = false;
              String fileReference = null;
@@ -209,6 +205,7 @@
          }
     	 }catch(Exception e){} 
      }
+ }  
 %>
 </ul>
 
