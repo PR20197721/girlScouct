@@ -8,12 +8,14 @@
         boolean showVtkNav = true;
 %>
 <%@include file="include/vtk-nav.jsp"%>
-
-
-
 <%
-
-
+        if( user.getYearPlan()!=null){
+                // split resource panel
+%>
+<div id="panelWrapper" class="row">
+        <div id="panelLeft" class="small-24 medium-24 large-18 columns">
+<%
+        }
 
 	java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan(), false);
 	if( sched==null || (sched.size()==0)){out.println( "You must first select a year plan."); return;}
@@ -54,8 +56,54 @@
 
 	
 	session.putValue("VTK_planView_memoPos", searchDate.getTime());
-	
-	YearPlanComponent _comp= sched.get(searchDate);
+        YearPlanComponent _comp= sched.get(searchDate);
+        MeetingE meeting = (MeetingE) _comp;
+        Meeting meetingInfo = meetingDAO.getMeeting(  meeting.getRefId() );
+        java.util.List <Activity> _activities = meetingInfo.getActivities();
+        java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  meetingInfo.getMeetingInfo();
+
+
+        boolean isLocked=false;
+        if(searchDate.before( new java.util.Date() ) && user.getYearPlan().getSchedule()!=null ) isLocked= true;
+
+        boolean isCanceled =false;
+        if( meeting.getCancelled()!=null && meeting.getCancelled().equals("true")){
+                isCanceled  = true;
+        }
+
+        List<Asset> _aidTags = meeting.getAssets();
+
+        java.util.Date sysAssetLastLoad =  sling.getService(org.girlscouts.vtk.helpers.DataImportTimestamper.class).getTimestamp(); //SYSTEM QUERY
+        if(meeting.getLastAssetUpdate()==null || meeting.getLastAssetUpdate().before(sysAssetLastLoad) ){
+                _aidTags = _aidTags ==null ? new java.util.ArrayList() : _aidTags;
+
+                //rm cachables
+                java.util.List aidToRm= new java.util.ArrayList();
+                for(int i=0;i<_aidTags.size();i++){
+                        if( _aidTags.get(i).getIsCachable() )
+                                aidToRm.add( _aidTags.get(i));
+                }
+
+                for(int i=0;i<aidToRm.size();i++)
+                        _aidTags.remove( aidToRm.get(i));
+
+                //query aids cachables
+                 java.util.List __aidTags =  meetingDAO.getAids( meetingInfo.getAidTags(), meetingInfo.getId(), meeting.getUid());
+
+                //merge lists aids
+                _aidTags.addAll( __aidTags );
+
+                //query resources cachables
+                java.util.List __resources =  meetingDAO.getResources( meetingInfo.getResources(), meetingInfo.getId(), meeting.getUid());
+
+                //merge lists resources
+                _aidTags.addAll( __resources );
+
+                meeting.setLastAssetUpdate( new java.util.Date() );
+                meeting.setAssets( _aidTags);
+                userDAO.updateUser(user);
+        }
+
 	
 %> 
        <div id="planMsg"></div>
@@ -70,6 +118,40 @@
            					break;
        				}       			
        %>
+<%
+        if( user.getYearPlan()!=null){
+%>
+        </div>
+        <div id="panelRight" class="small-24 medium-24 large-6 columns">
+                <h2 id="resourceListing">Resources:</h2>
+		<br/>
+		<ul>
+<%
+int planMeetingResourceCount = 0;
+
+if( _aidTags!=null ) {
+	for(int i=0;i<_aidTags.size();i++){
+		org.girlscouts.vtk.models.Asset asset = _aidTags.get(i);
+		if( asset.getType(false)!=  org.girlscouts.vtk.dao.AssetComponentType.RESOURCE ) continue;
+			planMeetingResourceCount++;
+%>
+			<li>- <a href="<%=asset.getRefId()%>" target="_blank"><%=asset.getTitle() %></a></li> 
+<%
+	}
+}
+		if (planMeetingResourceCount ==0) {
+%>
+			<li>No resources</li>
+<%
+		}
+%>
+		</ul>
+
+        </div>
+</div>
+<%
+        }
+%>
        <div id="editAgenda"></div>
 <style>
 .modal-example-content {
@@ -105,11 +187,3 @@ function x12(xx, ttl, id){
 }
 
 </script>
-<div id="modal" style="display: none;" class="modal-example-content">
-	<div class="modal-example-header" >
-		<span id="xyz"></span><button type="button" class="close" onclick="$.fn.custombox('close');">&times;</button>
-	</div>
-	<div class="modal-example-body" >
-		<p><iframe id="ifr" height="500" width="550" src=""></iframe></p>
-	</div>
-</div>

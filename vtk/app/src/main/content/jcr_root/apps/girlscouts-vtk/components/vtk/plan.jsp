@@ -122,8 +122,8 @@ while (yearPlans.hasNext()) {
 %>
 	</div>
         <div id="panelRight" class="small-24 medium-24 large-6 columns">
-		<b>Featured Resources:</b>
-
+		<h2 id="resourceListing">Featured Resources:</h2>
+		<br/>
 		<p><i>Coming Soon...</i></p>
 	</div>
 </div>
