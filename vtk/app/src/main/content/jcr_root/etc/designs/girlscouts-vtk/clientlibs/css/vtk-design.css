@@ -705,6 +705,11 @@ ul.formCheckboxes li {
 	padding-bottom: 1em;
 }
 
+
+:focus {
+outline: 0;
+}
+
 /*
 @media only screen and (max-width: 40em) {
         .planSquare {

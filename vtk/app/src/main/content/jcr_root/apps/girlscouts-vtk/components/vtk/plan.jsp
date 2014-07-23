@@ -123,8 +123,18 @@ while (yearPlans.hasNext()) {
 	</div>
         <div id="panelRight" class="small-24 medium-24 large-6 columns">
 		<h2 id="resourceListing">Featured Resources:</h2>
-		<br/>
-		<p><i>Coming Soon...</i></p>
+	
+		<p><ul>
+		
+			<%
+				java.util.List <Asset> assets = meetingDAO.getGlobalResources( user.getYearPlan().getResources());
+				for(int i=0;i<assets.size();i++){
+					Asset asset = assets.get(i);
+					%><li>- <a href="<%=asset.getRefId()%>" target="_blank"><%=asset.getTitle() %></a></li> <% 
+				}
+			
+			%>
+		</ul></p>
 	</div>
 </div>
 <%
