@@ -8,7 +8,7 @@
 	String title = properties.get("title","");
 	String linkTitle = properties.get("pathfield","");
 	String featureIcon = properties.get("./featureiconimage/fileReference", "");
-	System.out.println("featureIcon" +featureIcon);
+	
 %>
 
 <%if ((title.isEmpty()) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
