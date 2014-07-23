@@ -33,8 +33,9 @@ if (request.getParameterValues("tags") != null) {
 	}
 	param+=param!=null?tagParams:tagParams.replaceFirst("&", " ").trim();
 } 
-
-formsDocuImpl.executeSearch(slingRequest, queryBuilder, q, path, tags);
+try{
+	formsDocuImpl.executeSearch(slingRequest, queryBuilder, q, path, tags);
+}catch(Exception e){}
 Map<String,List<FacetsInfo>> facetsAndTags = formsDocuImpl.getFacets();
 List<Hit> hits = formsDocuImpl.getSearchResultsInfo().getResultsHits();
 String suffix = slingRequest.getRequestPathInfo().getSuffix();
@@ -106,6 +107,7 @@ for(int pi=0; pi<fdocs.size(); pi++){
 <% if((q!=null && !q.isEmpty()) ||  (request.getParameterValues("tags") != null)){ %>
 <div class="search">
 <%
+try{
 	for(Hit hit: hits) {
 		DocHit docHit = new DocHit(hit);
 		String pth = docHit.getURL();
@@ -125,6 +127,7 @@ for(int pi=0; pi<fdocs.size(); pi++){
 		<br/>
 <%
 	}
+}catch(Exception e){}	
 %>
 </div>
 <%}%>
