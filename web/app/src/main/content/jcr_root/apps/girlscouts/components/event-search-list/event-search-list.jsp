@@ -26,6 +26,7 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 <%   
 } else{
 %> 
+    
 	<div id="eventListWrapper">
 <%
 	int tempMonth =0;
@@ -93,6 +94,7 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 			<div class="rightCol horizontalRule">&nbsp;</div>
 		</div>
 		<br/>
+		<br/>
 <%
 					}
 %>
@@ -116,6 +118,7 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 
 			</div>
 		</div>
+		<div class="eventsList bottomPadding"></div>
 <%
 				}
 			} catch(Exception e){
