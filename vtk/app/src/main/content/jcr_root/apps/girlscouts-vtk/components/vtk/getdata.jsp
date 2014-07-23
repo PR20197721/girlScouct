@@ -8,7 +8,7 @@
 
 	
 	
-	List<org.girlscouts.vtk.models.Search> countries = meetingDAO.getData(query);
+	List<org.girlscouts.vtk.models.Search> countries = meetingDAO.getData(user, query);
 	if( countries.size()<=0  ){
 		session.setAttribute("search", countries); 
 

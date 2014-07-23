@@ -83,6 +83,9 @@ public class MeetingDAOImpl implements MeetingDAO {
     @Reference
     private QueryBuilder qBuilder;
     
+    @Reference
+    org.girlscouts.vtk.helpers.CouncilMapper councilMapper;
+    
     @Activate
     void activate() {
         this.session = pool.getSession();
@@ -438,9 +441,26 @@ return suggest;
 }
 
 
-public List<org.girlscouts.vtk.models.Search> getData(String _query) {
+public List<org.girlscouts.vtk.models.Search> getData(User user, String _query) {
 	
 
+	
+	final String RESOURCES_PATH = "resources";
+	String councilId = null;
+	if (user.getTroop() != null) {
+	    
+	        councilId = Integer.toString(user.getTroop().getCouncilCode());
+	    
+	}
+	//CouncilMapper mapper = sling.getService(CouncilMapper.class);
+	String branch = councilMapper.getCouncilBranch(councilId);
+
+	// TODO: language?
+	String resourceRootPath = branch + "/en/" + RESOURCES_PATH;
+	System.err.println("OR PATH : "+ resourceRootPath);
+	
+	
+	
 	List<org.girlscouts.vtk.models.Search> matched = new ArrayList<org.girlscouts.vtk.models.Search>();
 
 		
@@ -448,20 +468,29 @@ public List<org.girlscouts.vtk.models.Search> getData(String _query) {
     // create query description as hash map (simplest way, same as form post)
     java.util.Map<String, String> map = new java.util.HashMap<String, String>();
    
-// create query description as hash map (simplest way, same as form post)
-    map.put("path", "/content/dam/girlscouts-vtk/global/aid");
+    // create query description as hash map (simplest way, same as form post)
+   // map.put("path", "/content/dam/girlscouts-vtk/global/aid");
    // map.put("type", "nt:unstructured");
     map.put("fulltext", _query);
    
-    // map.put("group.p.and", "true"); // combine this group with OR
-//map.put("group.1_relPath","metadata");
-//map.put(key, value);
+    map.put("group.p.or", "true"); // combine this group with OR
+    map.put("group.1_path",resourceRootPath);
+    /*
+    map.put("group.1_property", "jcr:primaryType");
+    map.put("property.operation", "equals");
+    map.put("property.value", );
+    	*/	
+    //map.put("group.1_type", "Name");
+    
+    map.put("group.2_path", "/content/dam/girlscouts-vtk/global/aid");
+    
+    //map.put(key, value);
      
      
-     //map.put("group.1_fulltext", fulltextSearchTerm);
- // map.put("group.1_fulltext.relPath", "jcr:content");
-   // map.put("group.2_fulltext", fulltextSearchTerm);
-   // map.put("group.2_fulltext.relPath", "jcr:content/@cq:tags");
+    //map.put("group.1_fulltext", fulltextSearchTerm);
+    // map.put("group.1_fulltext.relPath", "jcr:content");
+    // map.put("group.2_fulltext", fulltextSearchTerm);
+    // map.put("group.2_fulltext.relPath", "jcr:content/@cq:tags");
   
     // can be done in map or with Query methods
     map.put("p.offset", "0"); // same as query.setStart(0) below
@@ -481,25 +510,20 @@ public List<org.girlscouts.vtk.models.Search> getData(String _query) {
 		String path = hit.getPath();
 		//System.err.println( "\n\n__________"+ path +" : "+hit.getExcerpt() +" :" + hit.getTitle());
 		
-		if( !path.endsWith("original")) continue;
 		
-		Node caca = hit.getNode().getParent().getParent().getNode("metadata");
-		//System.err.println(caca.getPath() );//+" : "+ caca.getProperty("jcr:mimeType"));
+		System.err.println( path );
+		  if( !path.endsWith("original")) continue;
 		
-		
-		   org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();
-		   
-		   
-		   String p= caca.getPath();
-		   p= p.substring(0, p.indexOf("/jcr:content/") );
-		   
-		   
-	       search.setPath(p);
-	       search.setDesc( caca.getProperty("dc:title").getString() );
-	       //search.setType( hit.getNode().getProperty("jcr:mimeType").getString()   );
-	       search.setContent(  hit.getExcerpt() );
-	       //search.setType(caca.getProperty("jcr:mimeType").getString());
-	       matched.add(search);
+		  Node caca = hit.getNode().getParent().getParent().getNode("metadata");
+		  org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();
+		  String p= caca.getPath();
+		  p= p.substring(0, p.indexOf("/jcr:content/") );
+		  search.setPath(p);
+	      search.setDesc( caca.getProperty("dc:title").getString() );
+	      //search.setType( hit.getNode().getProperty("jcr:mimeType").getString()   );
+	      search.setContent(  hit.getExcerpt() );
+	      //search.setType(caca.getProperty("jcr:mimeType").getString());
+	      matched.add(search);
 		
 	} catch (RepositoryException e) {
 		// TODO Auto-generated catch block
@@ -1191,7 +1215,7 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 	java.util.List<Activity> toRet= new java.util.ArrayList();
 			
 	try{
-		
+		/*
 		final String RESOURCES_PATH = "resources";
 		String councilId = null;
 		if (user.getTroop() != null) {
@@ -1199,12 +1223,12 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 		        councilId = Integer.toString(user.getTroop().getCouncilCode());
 		    
 		}
-		CouncilMapper mapper = sling.getService(CouncilMapper.class);
-		String branch = mapper.getCouncilBranch(councilId);
+		//CouncilMapper mapper = sling.getService(CouncilMapper.class);
+		String branch = councilMapper.getCouncilBranch(councilId);
 
 		// TODO: language?
 		String resourceRootPath = branch + "/en/" + RESOURCES_PATH;
-		
+		*/
 		
 		
 		boolean isTag=false;
@@ -1259,7 +1283,11 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 			path= path +"/jcr:content";
 		
 		//- org SQL String sql="select start, jcr:title, details, end,locationLabel,srchdisp  from nt:base where jcr:path like '"+ path +"' " ;
+		
 		String sql= "select child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, [/content/gateway/en/events/2014])) and child.start is not null and parent.[jcr:title] is not null " ;
+		//String sql= "select child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, ["+ resourceRootPath +"])) and child.start is not null and parent.[jcr:title] is not null " ;
+		
+		
 		
 		//SELECT parent.* FROM [cq:PageContent] AS parent INNER JOIN [nt:base] as child ON ISCHILDNODE(parent) WHERE ISDESCENDANTNODE(parent, [/content/grocerystore/food/])"
 		
