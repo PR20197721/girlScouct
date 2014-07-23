@@ -1,21 +1,4 @@
 <!-- apps/girlscouts-vtk/components/vtk/include/viewYearPlanMeeting.jsp -->
-
-
-<%
-	MeetingE meeting = (MeetingE) _comp;
-	Meeting meetingInfo = meetingDAO.getMeeting(  meeting.getRefId() );
-	java.util.List <Activity> _activities = meetingInfo.getActivities();
-	java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  meetingInfo.getMeetingInfo();
-	
-	
-	boolean isLocked=false;
-	if(searchDate.before( new java.util.Date() ) && user.getYearPlan().getSchedule()!=null ) isLocked= true;
-	
-        boolean isCanceled =false;
-        if( meeting.getCancelled()!=null && meeting.getCancelled().equals("true")){
-		isCanceled  = true;
-	}
-%>
 <br/>
 <div class="row meetingDetailHeader">
 	<div class="small-24 medium-8 large-7 columns">
@@ -137,52 +120,12 @@
 	});
 </script>
 <div class="sectionHeader meetingAids">Meeting Aids</div>
-
-
-
 <%
 	String aidTags = meetingInfo.getAidTags();
 	aidTags = (aidTags==null || "".equals(aidTags.trim())) ? "No tags." : aidTags.trim().toLowerCase();
 %>
 <p class="subSection">Tags: <i><%=aidTags %></i></p>
 <%
-List<Asset> _aidTags = meeting.getAssets();
-
-java.util.Date sysAssetLastLoad =  sling.getService(org.girlscouts.vtk.helpers.DataImportTimestamper.class).getTimestamp(); //SYSTEM QUERY
-if(meeting.getLastAssetUpdate()==null || meeting.getLastAssetUpdate().before(sysAssetLastLoad) ){
-	_aidTags = _aidTags ==null ? new java.util.ArrayList() : _aidTags;
-	
-	
-	
-	
-	
-	//rm cachables
-	java.util.List aidToRm= new java.util.ArrayList();
-	for(int i=0;i<_aidTags.size();i++){
-		if( _aidTags.get(i).getIsCachable() )
-			aidToRm.add( _aidTags.get(i));
-	}
-	
-	for(int i=0;i<aidToRm.size();i++)
-		_aidTags.remove( aidToRm.get(i));
-	
-	//query aids cachables
-	 java.util.List __aidTags =  meetingDAO.getAids( meetingInfo.getAidTags(), meetingInfo.getId(), meeting.getUid());
-	
-	//merge lists aids
-	_aidTags.addAll( __aidTags );
-	
-	//query resources cachables
-	java.util.List __resources =  meetingDAO.getResources( meetingInfo.getResources(), meetingInfo.getId(), meeting.getUid());
-		
-	//merge lists resources
-	_aidTags.addAll( __resources );
-	
-	meeting.setLastAssetUpdate( new java.util.Date() );
-	meeting.setAssets( _aidTags);
-	userDAO.updateUser(user);
-}
-
 	if ( _aidTags  == null || _aidTags.size() == 0) {
 %>
 	<p class="subSection">No meetings aids found.</p>
@@ -205,9 +148,7 @@ if( _aidTags!=null )
                 aidDescription = asset.getDescription();
         }
 %>
-	<li>
-		<%=asset.getType() %> <a href="<%=asset.getRefId()%>" target="_blank"><%=aidTitle %></a> - <%=aidDescription %>
-	 </li>
+	<li><a href="<%=asset.getRefId()%>" target="_blank"><%=aidTitle %></a> - <%=aidDescription %></li>
 <% 
  }
 %>
@@ -215,18 +156,6 @@ if( _aidTags!=null )
 <%
 	}
 %>
-
-<div style="background-color:red; display:none;">
-<% 
-if( _aidTags!=null )
- for(int i=0;i<_aidTags.size();i++){
-        org.girlscouts.vtk.models.Asset asset = _aidTags.get(i);
-        if( asset.getType(false)!=  org.girlscouts.vtk.dao.AssetComponentType.RESOURCE ) continue;
-        %><br/><%=asset.getType() %> <a href="<%=asset.getRefId()%>" target="_blank"><%=asset.getTitle() %></a> - <%=asset.getDescription() %> <% 
- } %>
-</div>
-
-
 
 
 <div class="sectionHeader">Meeting Agenda</div>

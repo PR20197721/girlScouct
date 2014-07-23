@@ -1204,6 +1204,7 @@ form#contact-us textarea {
 }
 .eventsList .rightCol {
        width: 100%;
+       padding-left: 140px;
 }
 .horizontalRule {
        background: url('images/horizontal-stripe.png') repeat-x center center;

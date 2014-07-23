@@ -685,6 +685,26 @@ ul.formCheckboxes li {
     color: #00ae58;
 }
 
+#panelWrapper {
+	margin: auto;
+	clear: both;
+}
+
+#panelLeft {
+}
+
+#resourceListing {
+	margin: 1em 0;
+	font-size: 1em;
+	font-weight: bold;
+}
+#panelRight  ul {
+	margin-left: 0;
+}
+#panelRight  li {
+	padding-bottom: 1em;
+}
+
 /*
 @media only screen and (max-width: 40em) {
         .planSquare {
@@ -723,3 +743,4 @@ ul.formCheckboxes li {
 }
 
 */
+
