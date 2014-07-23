@@ -188,7 +188,7 @@
            while(tagValue.hasNext()){
             %> 
             
-               <%=tagValue.next()%><% if(tagValue.hasNext()){ %>,<%} %> 
+               <b><%=tagValue.next()%><% if(tagValue.hasNext()){ %>,<%} %></b> 
                  
           <% }%>
             </div>
