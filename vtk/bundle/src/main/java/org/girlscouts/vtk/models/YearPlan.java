@@ -37,7 +37,7 @@ public class YearPlan {
 		calFreq="biweekly";
 		}
 	
-	@Field private String name, desc, id, refId, altered;
+	@Field private String name, desc, id, refId, altered, resources;
 	@Field(path=true) String path;
 	@Collection private java.util.List <MeetingE> meetingEvents;
 	@Collection private java.util.List <Activity> activities;
@@ -53,6 +53,14 @@ public class YearPlan {
 	
 	
 	
+
+	public String getResources() {
+		return resources;
+	}
+
+	public void setResources(String resources) {
+		this.resources = resources;
+	}
 
 	public java.util.List<Milestone> getMilestones() {
 		return milestones;

@@ -1617,4 +1617,58 @@ return search;
 
 
 
+
+
+public java.util.List<Asset> getGlobalResources( String resourceTags){
+	java.util.List<Asset> toRet= new java.util.ArrayList();
+	if( resourceTags==null || resourceTags.equals("")) return toRet;
+	try{
+		
+		
+		java.util.Map<String, String> map = new java.util.HashMap<String, String>();
+		   
+		StringTokenizer t= new StringTokenizer( resourceTags, ";");
+	     map.put("fulltext", t.nextToken());
+	   
+	    
+	     map.put("path", "/content/dam/girlscouts-vtk/global/resource");
+	     
+	     
+	    map.put("p.offset", "0"); // same as query.setStart(0) below
+	    map.put("p.limit", "100"); // same as query.setHitsPerPage(20) below
+	    
+	    
+	    
+	    com.day.cq.search.Query query = qBuilder.createQuery(PredicateGroup.create(map), session);
+	
+	    query.setStart(0);
+	    query.setHitsPerPage(100);
+	               
+	   SearchResult result = query.getResult();
+	   
+	   System.err.println("Res: "+ result.getHits().size() +" : "+ result.getExecutionTimeMillis() +" : "+resourceTags);
+	   for (Hit hit : result.getHits()) {
+	       try {
+			String path = hit.getPath();
+			if(! path.endsWith("metadata") ) continue;
+		System.err.println( "\n\n__________"+ path +" :" + hit.getTitle());
+	      
+			Asset asset = new Asset();
+			asset.setType(AssetComponentType.RESOURCE.toString());
+			asset.setTitle(new DocHit(hit).getTitle());
+			asset.setIsCachable(true);
+			asset.setRefId(new DocHit(hit).getURL());
+			
+			toRet.add(asset);
+	       
+	       }catch(Exception e){e.printStackTrace();}
+	   }
+		
+	}catch(Exception e){e.printStackTrace();}
+	
+	
+	return toRet;
+}
+
+
 }//edn class
