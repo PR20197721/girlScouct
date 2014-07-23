@@ -14,6 +14,7 @@ function assignAid(aidId, meetingId, assetName, assetDesc){
 				meetingId: meetingId,
 				assetName:assetName,
 				assetDesc:assetDesc,
+				assetType:'<%=request.getParameter("aType")%>',
 				a:Date.now()
 			},
 			success: function(result) {
@@ -121,7 +122,10 @@ function rmAid(aidId, meetingId, assetName, assetDesc){
 <%
 			} else {
 %>
+
 			<li><a href="javascript:void(0)" onclick="assignAid('<%=aidId %>', '<%=_comp.getUid()%>', '<%=request.getParameter("aidName")%>')"><%=displayName%></a></li>
+		
+
 <%
                         }
 		}

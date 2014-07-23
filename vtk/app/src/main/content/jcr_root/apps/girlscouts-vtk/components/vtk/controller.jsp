@@ -204,7 +204,13 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 
 
 }else if( request.getParameter("addAids")!=null){
-	meetingUtil.addAids(user, request.getParameter("addAids"), request.getParameter("meetingId"), java.net.URLDecoder.decode(request.getParameter("assetName") ) );
+	
+	if( request.getParameter("assetType").equals("AID"))
+		meetingUtil.addAids(user, request.getParameter("addAids"), request.getParameter("meetingId"), java.net.URLDecoder.decode(request.getParameter("assetName") ) );
+	else
+		meetingUtil.addResource(user, request.getParameter("addAids"), request.getParameter("meetingId"), java.net.URLDecoder.decode(request.getParameter("assetName") ) );
+	
+
 }else if( request.getParameter("rmAsset")!=null){
 	System.err.println(123);
 	meetingUtil.rmAsset(user, request.getParameter("rmAsset"), request.getParameter("meetingId"));
@@ -397,6 +403,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 		
 	}
 	
+
 }else{
 	//TODO throw ERROR CODE
 	

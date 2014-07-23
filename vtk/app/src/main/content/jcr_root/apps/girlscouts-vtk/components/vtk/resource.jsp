@@ -52,9 +52,10 @@
 		});
 	});
 
-	function applyAids(aid, aidDesc){
+	function applyAids(aid, aidDesc){ applyAids(aid,aidDesc, "AID"); }
+	function applyAids(aid, aidDesc, assetType){
 		
-		var link = "/content/girlscouts-vtk/controllers/vtk.asset.html?aidId="+ aid+ "&aidName="+encodeURI(aidDesc);
+		var link = "/content/girlscouts-vtk/controllers/vtk.asset.html?aidId="+ aid+ "&aidName="+encodeURI(aidDesc)+"&aType="+ assetType;
 		loadModalPage(link, false, null);
 	}
 </script>

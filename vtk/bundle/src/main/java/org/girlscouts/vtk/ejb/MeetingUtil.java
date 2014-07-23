@@ -493,7 +493,8 @@ public class MeetingUtil {
 				asset.setRefId(aidId);
 				asset.setType(AssetComponentType.AID.toString());
 				asset.setTitle(assetName);
-				asset.setDescription(dbAsset.getDescription());
+				if( dbAsset !=null )
+		     		asset.setDescription(dbAsset.getDescription());
 				
 				java.util.List<Asset> assets= meeting.getAssets();
 				assets= assets ==null ? new java.util.ArrayList() : assets;
@@ -547,6 +548,75 @@ public class MeetingUtil {
 		
 	}
 	
+	
+	
+	public void addResource(User user, String aidId, String meetingId, String assetName){
+		
+		
+		java.util.List<MeetingE> meetings = user.getYearPlan().getMeetingEvents();
+		for(int i=0;i<meetings.size();i++){
+			MeetingE meeting = meetings.get(i);
+			if( meeting.getUid().equals( meetingId)){
+				
+				
+				
+				Asset asset = new Asset();
+				asset.setRefId(aidId);
+				asset.setType(AssetComponentType.RESOURCE.toString());
+				asset.setTitle(assetName);
+				
+				
+				java.util.List<Asset> assets= meeting.getAssets();
+				assets= assets ==null ? new java.util.ArrayList() : assets;
+				
+				
+				
+				
+				
+				boolean isAsset= false;
+				for(int y=0;y<assets.size();y++)
+					if( assets.get(y).getRefId().equals( aidId ))
+						isAsset=true;
+				
+				
+				if( isAsset )
+					{System.err.println("Dp asset : "+ aidId);return;}
+				
+				
+				
+				
+				assets.add( asset );
+				meeting.setAssets( assets );
+				user.getYearPlan().setAltered("true");
+				userDAO.updateUser(user);
+				return;
+			}
+		}
+		
+		
+		
+		
+		java.util.List<Activity> activities = user.getYearPlan().getActivities();
+		for(int i=0;i<activities.size();i++){
+			Activity activity = activities.get(i);
+			if( activity.getUid().equals( meetingId)){
+				
+				Asset asset = new Asset();
+				asset.setRefId(aidId);
+				asset.setType(AssetComponentType.RESOURCE.toString());
+				
+				
+				java.util.List<Asset> assets= activity.getAssets();
+				assets= assets ==null ? new java.util.ArrayList() : assets;
+				assets.add( asset );
+				activity.setAssets( assets );
+				user.getYearPlan().setAltered("true");
+				userDAO.updateUser(user);
+				return;
+			}
+		}
+		
+	}
 	
 	public void rmAsset(User user, String aidId, String meetingId){
 		
