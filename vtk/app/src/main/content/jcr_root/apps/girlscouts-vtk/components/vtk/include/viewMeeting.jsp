@@ -13,8 +13,8 @@
 
 <li  class="meeting <%=( user.getYearPlan().getSchedule()==null || new java.util.Date().before(date)) ? "ui-state-default" : "ui-state-default ui-state-disabled"%>" value="<%=meetingCount%>">
 	<div  class="row">
-                <div class="large-4 medium-5 small-7 columns">
-			<div class="planSquare">
+                <div class="large-4 medium-5 small-24 columns">
+			<div class="planSquare centered-table">
 <%
 	if (calendarNotSet) {
 %>
@@ -39,9 +39,22 @@
 	}
 %>
 			</div>
-			<div class="show-for-small smallBadge"><img width="100" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/badge.png"/></div>
+			<div class="centered-table">
+				<div class="show-for-small smallBadge">
+<%
+	String img= "";
+	try{
+		img= meetingE.getRefId().substring( meetingE.getRefId().lastIndexOf("/")+1).toUpperCase();
+	}catch(Exception e){
+		e.printStackTrace();
+	}
+%>
+					<br/>
+					<img width="100" height="100" src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png"/>
+				</div>
+			</div>
 		</div>
-                <div class="large-15 medium-12 small-14 columns">
+                <div class="large-15 medium-12 small-24 columns">
 			<div class="planMain">
 				<h2>
 <%
@@ -60,10 +73,6 @@ if( meetingE.getCancelled()!=null && meetingE.getCancelled().equals("true")){%>
 			</div>
 		</div>
 		<div class="large-4 medium-5 hide-for-small columns">
-			<%String img= "";
-				try{ img= meetingE.getRefId().substring( meetingE.getRefId().lastIndexOf("/")+1).toUpperCase(); }catch(Exception e){e.printStackTrace();}
-			
-				%>
 			<img width="100" height="100" src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png"/>
 		</div>
                 <div class="large-1 medium-2 small-3 columns touchscrollWrapper">
