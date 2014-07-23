@@ -21,8 +21,8 @@
      </div>
       <div class="small-16 medium-16 large-16 columns events-data">
          <h3><a href="<%= href %>"><%= title %></a></h3>
-         <p>Date: <%= dateStr %> </p>
-         <p>Location: <%= locationLabel %></p>
+         <p><b>Date: <%= dateStr %></b> </p>
+         <p><b>Location: <%= locationLabel %></b></p>
       </div>
    </div>
 </li>  

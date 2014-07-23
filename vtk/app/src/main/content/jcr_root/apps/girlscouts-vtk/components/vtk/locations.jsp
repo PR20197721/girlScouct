@@ -59,7 +59,7 @@
                 </div>
                 <div id="manageLocationSection">
 <%
-                if( user.getYearPlan().getSchedule() == null ){
+                if( false) {//user.getYearPlan().getSchedule() == null ){
 %>
 			Please first select your calendar start date to set meeting locations.
 <%
@@ -72,7 +72,7 @@
                 </div>
                 <div id="manageActivitySection">
 <%
-                if( user.getYearPlan().getSchedule() == null ){
+                if( false) {// user.getYearPlan().getSchedule() == null ){
 %>
                         Please first select your calendar start date to set meeting activities.
 <%

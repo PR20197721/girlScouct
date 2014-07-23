@@ -11,6 +11,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 
 import javax.jcr.query.QueryResult;
@@ -59,8 +60,14 @@ import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
 import org.girlscouts.vtk.models.user.User;
 
+import com.day.cq.search.PredicateGroup;
+import com.day.cq.search.result.Hit;
+import com.day.cq.search.result.SearchResult;
+
+import com.day.cq.search.QueryBuilder;
 
 import javax.jcr.*;
+
 
 
 
@@ -72,6 +79,9 @@ public class MeetingDAOImpl implements MeetingDAO {
    
     @Reference
     private SessionPool pool;
+    
+    @Reference
+    private QueryBuilder qBuilder;
     
     @Activate
     void activate() {
@@ -427,8 +437,109 @@ public java.util.List<String> doSpellCheck(String word) throws Exception{
 return suggest;
 }
 
-/*
-public List<org.girlscouts.vtk.models.Search> getData(String query) {
+
+public List<org.girlscouts.vtk.models.Search> getData(String _query) {
+	
+
+	List<org.girlscouts.vtk.models.Search> matched = new ArrayList<org.girlscouts.vtk.models.Search>();
+
+		
+                   
+    // create query description as hash map (simplest way, same as form post)
+    java.util.Map<String, String> map = new java.util.HashMap<String, String>();
+   
+// create query description as hash map (simplest way, same as form post)
+    map.put("path", "/content/dam/girlscouts-vtk/global/aid");
+   // map.put("type", "nt:unstructured");
+    map.put("fulltext", _query);
+   
+    // map.put("group.p.and", "true"); // combine this group with OR
+//map.put("group.1_relPath","metadata");
+//map.put(key, value);
+     
+     
+     //map.put("group.1_fulltext", fulltextSearchTerm);
+ // map.put("group.1_fulltext.relPath", "jcr:content");
+   // map.put("group.2_fulltext", fulltextSearchTerm);
+   // map.put("group.2_fulltext.relPath", "jcr:content/@cq:tags");
+  
+    // can be done in map or with Query methods
+    map.put("p.offset", "0"); // same as query.setStart(0) below
+    map.put("p.limit", "20"); // same as query.setHitsPerPage(20) below
+                     
+    
+    
+    com.day.cq.search.Query query = qBuilder.createQuery(PredicateGroup.create(map), session);
+    query.setStart(0);
+    query.setHitsPerPage(20);
+               
+   SearchResult result = query.getResult();
+   
+   System.err.println("Res: "+ result.getHits().size() +" : "+ result.getExecutionTimeMillis() +" : "+ _query);
+   for (Hit hit : result.getHits()) {
+       try {
+		String path = hit.getPath();
+		//System.err.println( "\n\n__________"+ path +" : "+hit.getExcerpt() +" :" + hit.getTitle());
+		
+		if( !path.endsWith("original")) continue;
+		
+		Node caca = hit.getNode().getParent().getParent().getNode("metadata");
+		//System.err.println(caca.getPath() );//+" : "+ caca.getProperty("jcr:mimeType"));
+		
+		
+		   org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();
+		   
+		   
+		   String p= caca.getPath();
+		   p= p.substring(0, p.indexOf("/jcr:content/") );
+		   
+		   
+	       search.setPath(p);
+	       search.setDesc( caca.getProperty("dc:title").getString() );
+	       //search.setType( hit.getNode().getProperty("jcr:mimeType").getString()   );
+	       search.setContent(  hit.getExcerpt() );
+	       //search.setType(caca.getProperty("jcr:mimeType").getString());
+	       matched.add(search);
+		
+	} catch (RepositoryException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+   }
+   
+   
+  /*
+    // paging metadata
+    int hitsPerPage = result.getHits().size(); // 20 (set above) or lower
+    long totalMatches = result.getTotalMatches();
+    long offset = result.getStartIndex();
+    long numberOfPages = totalMatches / 20;
+                  
+    //Place the results in XML to return to client
+    DocumentBuilderFactory factory =     DocumentBuilderFactory.newInstance();
+    DocumentBuilder builder = factory.newDocumentBuilder();
+    Document doc = builder.newDocument();
+                               
+    //Start building the XML to pass back to the AEM client
+    Element root = doc.createElement( "results" );
+    doc.appendChild( root );
+                  
+    // iterating over the results
+    for (Hit hit : result.getHits()) {
+       String path = hit.getPath();
+  
+      //Create a result element
+      Element resultel = doc.createElement( "result" );
+      root.appendChild( resultel );
+                      
+      Element pathel = doc.createElement( "path" );
+      pathel.appendChild( doc.createTextNode(path ) );
+      resultel.appendChild( pathel );
+    }
+    */
+    return matched;
+}
+public List<org.girlscouts.vtk.models.Search> getDataSQL2(String query) {
 	  
 	//System.err.println("SEarch q: "+ query);
 	List<org.girlscouts.vtk.models.Search> matched = new ArrayList<org.girlscouts.vtk.models.Search>();
@@ -446,10 +557,21 @@ public List<org.girlscouts.vtk.models.Search> getData(String query) {
 		
 		
 		//String sql ="select child.[dc:title], child.[dc:format], parent.[jcr:path] , child.[dc:description] " +
-		String sql="select parent.*, child.* , child.[dc:title], child.[dc:description] , child.[dc:format]"+
-				" from [nt:base] as parent INNER JOIN [nt:base] as child on ISCHILDNODE(child, parent) where " +
+		
+		String sql="select parent.*, child.* , child.[dc:title], child.[dc:description] , " +
+				"	child.[dc:format], parent.name, parent.[jcr:path], child.name, child.[jcr:path], parent.[jcr:uuid]," +
+				"  child3.*, child3.[jcr:uuid], child3.[jcr:mimeType], child3.[excerpt(.)] "+		
+				" from [nt:base] as parent " +
+				" INNER JOIN [nt:base] as child on ISCHILDNODE(child, parent) " +
+				" INNER JOIN [nt:resource] as child3 on ISDESCENDANTNODE(child3, parent)  " +
+				" where " +
 				"(isdescendantnode (parent, [/content/dam/girlscouts-vtk/global/aid]))  " +
-				" and ( contains(child.*, '"+ query +"~' ))" ;
+		
+				" and child.[dc:title] is not null "+
+				" and (  contains(child3.*, '"+ query +"~' )) "+
+				" and child3.[jcr:uuid] is not null ";
+		
+		
 		System.err.println( sql );
 		//AID search
 		javax.jcr.query.Query q = qm.createQuery(sql,  javax.jcr.query.Query.JCR_SQL2);
@@ -461,24 +583,55 @@ public List<org.girlscouts.vtk.models.Search> getData(String query) {
 		for(int i=0;i<str.length; i++)
 			System.err.println( str[i] );
 		
-		
 	
 		
 		 for (RowIterator it = result.getRows(); it.hasNext(); ) {
 		       Row r = it.nextRow();
+		       /*
+		       System.err.println(r.getValue("parent.jcr:primaryType").getString() +" : "+
+		    		   r.getValue("child.jcr:primaryType").getString() + " : "+
+		    		   r.getValue("child1.jcr:primaryType").getString() +" : "+
+		    		   r.getValue("child2.jcr:primaryType").getString() +" : "+
+		    		   r.getValue("child3.jcr:primaryType").getString() +" : "
+		    		   
+		    		   );
+		       */
 		       
-		      // System.err.println( r.getValue("parent.jcr:path").getString() );
-		      // System.err.println("TATA: "+ r.getValue("excerpt(.)").getString()  );
 		       
+		       
+		       try{  System.err.println( r.getValue("rep:excerpt(.)").getString() ); }catch(Exception e){e.printStackTrace();}
+		      try{ System.err.println(r.getNode().getName()); }catch(Exception e){}
+		      try{  System.err.println("TESTPATH: "+r.getPath("parent.name") ); }catch(Exception e){}
+		      try{ System.err.println("*"+ r.getValue("parent.name").getString());}catch(Exception e){}
+		       try{ System.err.println( r.getValue("parent.jcr:path").getString() );}catch(Exception e){}
+		       try{ System.err.println("*"+ r.getValue("child.name").getString());}catch(Exception e){}
+		       try{ System.err.println( r.getValue("child.jcr:path").getString() );}catch(Exception e){}
+		       try{ System.err.println("*"+ r.getPath("parent.name"));}catch(Exception e){}
+		       try{ System.err.println("<"+ r.getPath("parent.jcr:path") );}catch(Exception e){}
+		       try{ System.err.println("*"+ r.getPath("child.name"));}catch(Exception e){}
+		       try{ System.err.println( ">"+ r.getPath("child.jcr:path") );}catch(Exception e){}
+		       try{ System.err.println( ">"+ r.getValue("child.dc:title").getString() );}catch(Exception e){}
+		       
+		    	try{ System.err.println( ">"+ r.getValue("child3.jcr:uuid").getString() );}catch(Exception e){}
+		    	
+		    	try{ System.err.println( ">"+ r.getValue("child3.excerpt(.)").getString() );}catch(Exception e){}
+		       // System.err.println("TATA: "+ r.getValue("excerpt(.)").getString()  );
+		       
+		    	
+		    	
+		    	
+		    	
+		    	
 		       org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();
 		    
-		       System.err.println("PATH: "+  r.getPath() );
+		      // System.err.println("PATH: "+  r.getPath() );
 		       
 		      // search.setPath( r.getValue("parent.jcr:path").getString() );
 		       search.setPath("test");
 		       search.setDesc( r.getValue("child.dc:title").getString()  );
 		       search.setType( r.getValue("child.dc:format").getString()  );
 		       search.setContent(  r.getValue("child.dc:description").getString());
+		       search.setType(r.getValue("child3.jcr:mimeType").getString());
 		       matched.add(search);
 		 }
 		
@@ -486,7 +639,7 @@ public List<org.girlscouts.vtk.models.Search> getData(String query) {
 	}catch(Exception e){e.printStackTrace();}
    return matched;
 	}
-*/
+/*
 
 public List<org.girlscouts.vtk.models.Search> getData(String query) {
 	  
@@ -534,7 +687,7 @@ public List<org.girlscouts.vtk.models.Search> getData(String query) {
 	}catch(Exception e){e.printStackTrace();}
    return matched;
 	}
-	
+	*/
 
 
 

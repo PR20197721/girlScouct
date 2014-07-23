@@ -66,7 +66,7 @@
 
        
                 for(int i=0;i< myMeetings.size();i++){
-                        if( myMeetings.get(i).getCancelled()!=null && myMeetings.get(i).getCancelled().equals("true")) continue;
+                        // ADD CANCELED MEETINGS if( myMeetings.get(i).getCancelled()!=null && myMeetings.get(i).getCancelled().equals("true")) continue;
                         String meetingId = myMeetings.get(i).getRefId();
                         meetingId= meetingId.substring(meetingId.lastIndexOf("/") +1).trim().toLowerCase();
                         myMeetingIds.add( meetingId );
@@ -101,8 +101,8 @@ function cngMeeting(mPath){
 	<tr>
 		<td>
 			<div class="yearPlanMeetings">
-			<h2><%=meeting.getName()%>( <%=meeting.getId() %> ) </h2>
-			<p class="tags"> <%=meeting.getAidTags() %></p>
+			<h2><%=meeting.getName()%>  </h2>
+			<!--  <p class="tags"> <%=meeting.getAidTags() %></p> -->
 			<p class="blurb"><%=meeting.getBlurb() %><p>
 			<br/>
                         <%  if( !myMeetingIds.contains( meeting.getId().trim().toLowerCase()) ){ %>

@@ -402,7 +402,7 @@ background-color: #B0B0B0;
 #main .side-nav li.active.current > div > a
 {
 	color:#ffffff;
-	font-weight:normal;
+	font-weight:bold;
 }
 .home-section {
     padding: 15px 0px;
@@ -546,7 +546,8 @@ input.form-btn, a.form-btn {
     color: #FFFFFF;
     font-size: 14px;
     letter-spacing: 1px;
-    line-height: 34px;
+    /*line-height: 34px;*/
+    height:43px;
     margin: 0;
     padding: 9px 0;
     text-transform: uppercase;
@@ -837,7 +838,7 @@ td.fc-header-left{
 
 .lineHeight{
  line-height:1.5;
- font-size:0.8em;
+ font-size:1.0rem;
 }
 
 
@@ -1018,8 +1019,9 @@ padding: 5px 0;
 #form .event-region .dropdown select {
 	-webkit-appearance: none;
 	-moz-appearance: window;
-	width: 120px;
+	width: 140px;
 	height:25px;
+	color:grey;
 	display: inline-block;
 	padding: 4px 3px 5px 5px;
 	outline: none;
@@ -1066,6 +1068,7 @@ padding: 5px 0;
 
 .events-lists .event-title h6{
  margin-bottom: -0.1em;
+ 
 }
 .event-table{
   height:50px;
@@ -1092,7 +1095,7 @@ padding: 5px 0;
 
 .activity-color{
   color:#ffffff;
-  margin:5px;
+  
 }
 
 .featureStoriesHeader.columns {
@@ -1159,12 +1162,13 @@ form#contact-us textarea {
 	margin-left: auto !important;
 	margin-right: auto !important;
 }
-
+#searchBox {
+	text-align: center;
+}
 .event-page .lineHeight{
 	line-height:1.5em;
 	font-size:1rem;
 }
-
 
 /* events search list */
 .events-list .content {
@@ -1203,4 +1207,16 @@ form#contact-us textarea {
 }
 .horizontalRule {
        background: url('images/horizontal-stripe.png') repeat-x center center;
+}
+.checkbox-grid span {
+    display: block;
+    float: left;
+    width: 50%;
+    font-size: 0.9em;
+    padding: 10px 0 0 0; 
+}
+
+.searchBox-Calendar{
+   padding-top:18px;
+   margin-left:100px;	
 }

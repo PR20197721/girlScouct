@@ -10,7 +10,7 @@
 <%
 java.util.List <Location> locations = user.getYearPlan().getLocations();
 if( locations==null || locations.size()<=0){
-	out.println("No locations");
+	out.println("Applies to "+user.getYearPlan().getMeetingEvents().size()+" of "+user.getYearPlan().getMeetingEvents().size()+" meetings");
 	return;
 }
 %>
