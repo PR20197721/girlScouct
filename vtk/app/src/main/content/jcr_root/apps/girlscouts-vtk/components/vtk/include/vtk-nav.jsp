@@ -25,7 +25,11 @@
 <div class="hide-for-small full-width-wrapper underline">
 	<div class="centered-table">
 		<ul class="tabs group">
-			<li><a href="#" class="label off">My Troop</a></li>
+		<% if ("myTroop".equals(activeTab)) { %>
+				<li class="active"><span class="label">My Troop</span></li>
+		<% } else { %>
+		<li><a href="/content/girlscouts-vtk/en/vtk.myTroop.html" class="label">My Troop</a></li>
+		<% } %>
 		<% if ("plan".equals(activeTab)) { %>
 			<li class="active"><span class="label">Year Plan</span></li>
 		<% } else { %>
@@ -47,7 +51,11 @@
 		<% } else { %>
 			<li><a href="/content/girlscouts-vtk/en/vtk.resource.html" class="label">Resources</a></li>
 		<% } %>
-		<li><a href="#" class="label off">Community</a></li>
+		<% if ("finances".equals(activeTab)) { %>
+				<li class="active"><span class="label">Finances</span></li>
+		<% } else { %>
+		<li><a href="/content/girlscouts-vtk/en/vtk.finances.html" class="label">Finances</a></li>
+		<% } %>
 		</ul>
 	</div>
 </div>
