@@ -11,6 +11,7 @@ import org.apache.commons.beanutils.BeanComparator;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
+import org.girlscouts.vtk.dao.AssetComponentType;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.models.Activity;
@@ -490,7 +491,7 @@ public class MeetingUtil {
 				
 				Asset asset = new Asset();
 				asset.setRefId(aidId);
-				asset.setType("aids");
+				asset.setType(AssetComponentType.AID.toString());
 				asset.setTitle(assetName);
 				asset.setDescription(dbAsset.getDescription());
 				
