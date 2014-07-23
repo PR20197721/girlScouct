@@ -178,7 +178,9 @@ function addLocation(){
 			a:Date.now()
 		},
 		success: function(result) {
+			if($.trim(result)!=''){ alert( $.trim(result) ) ;}
 			loadLocMng();
+			//document.getElementById("err").innerHtml=result;
 			$("#addLocationForm").trigger("reset");
 		}
 	});

@@ -490,7 +490,7 @@ public class MeetingUtil {
 				
 				Asset asset = new Asset();
 				asset.setRefId(aidId);
-				asset.setType("aids");
+				asset.setType("AID");
 				asset.setTitle(assetName);
 				asset.setDescription(dbAsset.getDescription());
 				
@@ -531,7 +531,7 @@ public class MeetingUtil {
 				
 				Asset asset = new Asset();
 				asset.setRefId(aidId);
-				asset.setType("aids");
+				asset.setType("AID");
 				
 				
 				java.util.List<Asset> assets= activity.getAssets();
