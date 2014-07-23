@@ -29,37 +29,45 @@
 	}
 %>
 <%@include file="include/vtk-nav.jsp"%>
+<%
+	if( user.getYearPlan()!=null){
+		// split resource panel
+%>
+<div id="panelWrapper" class="row">
+	<div id="panelLeft" class="small-24 medium-24 large-18 columns">
+<%
+	}
+%>
 <% if( user.getYearPlan()!=null){ %> 
 <div class="hide-for-small">
-<div class="row">
-	<div class="large-22 medium-22 small-20 columns">
-		<div class="centered-table">
-			<ul id="vtkSubNav">
-				<li>
-					<a href="javascript:void(0)" onclick="newLocCal()">Specify Meeting Dates and Locations</a>
-				</li>
-				<li>|</li>
-				<li>
-					 <a href="javascript:void(0)" onclick="doMeetingLib()">Add Meeting</a> 
-				</li>
-				<li>|</li>
-				<li>
-					<a href="javascript:void(0)" onclick="newActivity()">Add Activity</a>
-				</li>
-			</ul>
+	<div class="row">
+		<div class="large-22 medium-22 small-20 columns">
+			<div class="centered-table">
+				<ul id="vtkSubNav">
+					<li>
+						<a href="javascript:void(0)" onclick="newLocCal()">Specify Meeting Dates and Locations</a>
+					</li>
+					<li>|</li>
+					<li>
+						 <a href="javascript:void(0)" onclick="doMeetingLib()">Add Meeting</a> 
+					</li>
+					<li>|</li>
+					<li>
+						<a href="javascript:void(0)" onclick="newActivity()">Add Activity</a>
+					</li>
+				</ul>
+			</div>
 		</div>
-	</div>
-	<div class="large-2 medium-2 small-4 columns">
-		<div class="icons">
-		<%if(user.getYearPlan().getSchedule()!=null){ %>
-			<a onclick="self.location = '/content/girlscouts-vtk/en/cal.ics'"><img alt="Calendar Download" src="/etc/designs/girlscouts-vtk/images/calendar-download.png" width="39" height="20" border="0" class="align-right"/></a>
-                <%} %>
+		<div class="large-2 medium-2 small-4 columns">
+			<div class="icons">
+			<%if(user.getYearPlan().getSchedule()!=null){ %>
+				<a onclick="self.location = '/content/girlscouts-vtk/en/cal.ics'"><img alt="Calendar Download" src="/etc/designs/girlscouts-vtk/images/calendar-download.png" width="39" height="20" border="0" class="align-right"/></a>
+			<%} %>
+			</div>
 		</div>
 	</div>
 </div>
-</div>
-<%} %>
-<%if( user.getYearPlan()==null ){ %>
+<% } else { %>
 	<div class="instructions">
 		<p>To start planning your year, select a Year Plan</p>
 	</div>
@@ -92,21 +100,34 @@ java.util.Iterator<YearPlan> yearPlans = yearPlanDAO.getAllYearPlans(ageLevel).l
 while (yearPlans.hasNext()) {
 	YearPlan yearPlan = yearPlans.next();
 %>
-			<div class="row">
-				<div class="large-8 columns">
-					<div style=" background-color:#efefef; padding:10px; margin-left:10px; text-align:center; ">
+		<div class="row">
+			<div class="large-8 columns">
+				<div style=" background-color:#efefef; padding:10px; margin-left:10px; text-align:center; ">
 						<a href="javascript:void(0)" onclick="x('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg %>', '<%=yearPlan.getName()%>')"><%=yearPlan.getName()%></a>
-					</div>
-				<!--  <input type="submit" name="" value="<%=yearPlan.getName()%>" onclick="x('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg %>', '<%=yearPlan.getName()%>')" /> -->
 				</div>
-				<div class="large-16 columns"><%=yearPlan.getDesc()%></div>
+				<!--  <input type="submit" name="" value="<%=yearPlan.getName()%>" onclick="x('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg %>', '<%=yearPlan.getName()%>')" /> -->
 			</div>
+			<div class="large-16 columns"><%=yearPlan.getDesc()%></div>
+		</div>
 			<hr/>
 <%} %>
-		</div>
-		<div id="yearPlanMeetings" style="display:<%=(user.getYearPlan()!=null) ? "block" : "none" %>">
+	</div>
+	<div id="yearPlanMeetings" style="display:<%=(user.getYearPlan()!=null) ? "block" : "none" %>">
 <% if(user.getYearPlan()!=null){%>
 		<script>$(document).ready(function(){loadMeetings();});</script>
 <% } %>
-		</div>
 	</div>
+<%
+        if( user.getYearPlan()!=null){ 
+%>
+	</div>
+        <div id="panelRight" class="small-24 medium-24 large-6 columns">
+		<b>Featured Resources:</b>
+
+		<p><i>Coming Soon...</i></p>
+	</div>
+</div>
+<%
+        }
+%>
+</div>

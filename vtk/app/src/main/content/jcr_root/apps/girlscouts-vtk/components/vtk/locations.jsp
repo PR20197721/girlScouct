@@ -65,6 +65,7 @@
 <%
 		} else {
 %>
+		
 <%@include file="include/location.jsp" %>
 <%
 		}

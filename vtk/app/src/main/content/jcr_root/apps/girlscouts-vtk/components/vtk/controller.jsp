@@ -47,7 +47,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	if( user.getYearPlan().getLocations()!=null && request.getParameter("name")!=null )
 	 for(int i=0;i< user.getYearPlan().getLocations().size();i++)
 		if( user.getYearPlan().getLocations().get(i).getName().equals(request.getParameter("name")) )
-			isLoc=true;
+			{isLoc=true; System.err.println("dp");out.println("Location already exists");}
 		
 	if( !isLoc)
 	    locationUtil.setLocation(user, 
@@ -61,6 +61,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 		    locationUtil.setLocationAllMeetings(user, user.getYearPlan().getLocations().get(0).getPath());
 		}
 	
+	    
 	    
 	    
 }else if( request.getParameter("rmLocation") !=null ){
@@ -183,7 +184,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
     new_user.setSfTroopName( new_user.getTroop().getTroopName() );  
     session.setAttribute("VTK_user", new_user);
     
-    
+    session.putValue("VTK_planView_memoPos", null);
    
 	
 }else if( request.getParameter("addAsset")!=null){

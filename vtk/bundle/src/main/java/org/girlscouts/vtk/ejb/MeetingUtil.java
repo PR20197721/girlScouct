@@ -532,7 +532,7 @@ public class MeetingUtil {
 				
 				Asset asset = new Asset();
 				asset.setRefId(aidId);
-				asset.setType("aids");
+				asset.setType("AID");
 				
 				
 				java.util.List<Asset> assets= activity.getAssets();

@@ -1251,7 +1251,7 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 
 
 		
-		if( keywrd!=null && !keywrd.trim().equals("") && !isTag )
+		if( keywrd!=null && !keywrd.trim().equals("") )//&& !isTag )
 			sql+=" and contains(child.*, '"+ keywrd+"') ";
 		
 		if( !isTag )

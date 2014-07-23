@@ -14,6 +14,7 @@ if( locations==null || locations.size()<=0){
 	return;
 }
 %>
+
 <div id="locMsg1"></div>
 <div class="locationListing">
 <%
