@@ -5,9 +5,6 @@
 
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
-
-
-
 <%
   HashSet<String>set = new HashSet<String>(); 
   String path = currentPage.getAbsoluteParent(2).getPath();
