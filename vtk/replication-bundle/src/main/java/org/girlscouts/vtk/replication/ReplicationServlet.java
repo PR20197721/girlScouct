@@ -1,5 +1,6 @@
 package org.girlscouts.vtk.replication;
 
+import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -34,11 +35,9 @@ import com.day.cq.replication.ReplicationActionType;
 import com.day.cq.replication.ReplicationException;
 import com.day.cq.replication.ReplicationReceiver;
 
-
-
 @Component(metatype = false)
-@Service({Servlet.class})
-@Property(name = "sling.servlet.paths", value = {"/bin/receive"})
+@Service({ Servlet.class })
+@Property(name = "sling.servlet.paths", value = { "/bin/receive" })
 public class ReplicationServlet extends SlingAllMethodsServlet {
     private final Logger logger;
     private static final String NO_INSTALL = "noinstall";
@@ -56,14 +55,17 @@ public class ReplicationServlet extends SlingAllMethodsServlet {
     }
 
     @Override
-    protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response)
-        throws ServletException, IOException {
+    protected void doPost(SlingHttpServletRequest request,
+            SlingHttpServletResponse response) throws ServletException,
+            IOException {
         response.setContentType("text/plain");
         response.setCharacterEncoding("utf-8");
         try {
-            ReplicationActionType actionType = ReplicationActionType.fromName(request.getHeader("Action"));
+            ReplicationActionType actionType = ReplicationActionType
+                    .fromName(request.getHeader("Action"));
             if (actionType == null) {
-                throw new ReplicationException("Illegal action: " + request.getHeader("Action"));
+                throw new ReplicationException("Illegal action: "
+                        + request.getHeader("Action"));
             }
 
             String path = request.getHeader("Path");
@@ -74,12 +76,15 @@ public class ReplicationServlet extends SlingAllMethodsServlet {
 
             long start = System.currentTimeMillis();
             if ("true".equals(request.getParameter("sink"))) {
-                this.logger.info("Sinking replication {} of {}", actionType, path);
+                this.logger.info("Sinking replication {} of {}", actionType,
+                        path);
                 InputStream in = request.getInputStream();
-                IOUtils.copy( in , new NullOutputStream());
-                response.getWriter().print("ReplicationAction " + actionType + " ok.");
+                IOUtils.copy(in, new NullOutputStream());
+                response.getWriter().print(
+                        "ReplicationAction " + actionType + " ok.");
             } else {
-                Session session = request.getResourceResolver().adaptTo(Session.class);
+                Session session = request.getResourceResolver().adaptTo(
+                        Session.class);
                 String noInstall = request.getParameter("noinstall");
                 boolean install = true;
 
@@ -87,9 +92,9 @@ public class ReplicationServlet extends SlingAllMethodsServlet {
                     try {
                         install = !Boolean.valueOf(noInstall).booleanValue();
                     } catch (Exception e) {
-                        this.logger.warn("Problem parsing {} parameter value : {}", new Object[] {
-                            "noinstall", noInstall
-                        });
+                        this.logger.warn(
+                                "Problem parsing {} parameter value : {}",
+                                new Object[] { "noinstall", noInstall });
                     }
 
                 }
@@ -98,11 +103,13 @@ public class ReplicationServlet extends SlingAllMethodsServlet {
                 boolean binaryLess = false;
                 if ((binaryLessValue != null) && (!"".equals(binaryLessValue))) {
                     try {
-                        binaryLess = Boolean.valueOf(binaryLessValue).booleanValue();
+                        binaryLess = Boolean.valueOf(binaryLessValue)
+                                .booleanValue();
                     } catch (Exception e) {
-                        this.logger.warn("Problem parsing {} parameter value : {}", new Object[] {
-                            "binaryless", Boolean.valueOf(binaryLess)
-                        });
+                        this.logger.warn(
+                                "Problem parsing {} parameter value : {}",
+                                new Object[] { "binaryless",
+                                        Boolean.valueOf(binaryLess) });
                     }
                 }
 
@@ -115,16 +122,20 @@ public class ReplicationServlet extends SlingAllMethodsServlet {
 
                     byte[] lengthBytes = new byte[8];
                     is.read(lengthBytes);
-                    long pathInfoSize = ByteBuffer.wrap(lengthBytes).order(ByteOrder.BIG_ENDIAN).getLong();
+                    long pathInfoSize = ByteBuffer.wrap(lengthBytes)
+                            .order(ByteOrder.BIG_ENDIAN).getLong();
                     byte[] pathInfoBytes = new byte[(int) pathInfoSize];
                     is.read(pathInfoBytes);
 
-                    String[] paths = new String(pathInfoBytes, "UTF-8").split(":");
-                    this.logger.debug("Received batch replication {}", Arrays.toString(paths));
+                    String[] paths = new String(pathInfoBytes, "UTF-8")
+                            .split(":");
+                    this.logger.debug("Received batch replication {}",
+                            Arrays.toString(paths));
                     int index = 0;
                     while (index < paths.length) {
                         String p = decode(paths[index]);
-                        ReplicationActionType rType = ReplicationActionType.fromName(paths[(index + 1)]);
+                        ReplicationActionType rType = ReplicationActionType
+                                .fromName(paths[(index + 1)]);
                         if (index > 0) {
                             sb.append(", ");
                         }
@@ -136,28 +147,37 @@ public class ReplicationServlet extends SlingAllMethodsServlet {
 
                         byte[] bytes = new byte[8];
                         is.read(bytes);
-                        long size = ByteBuffer.wrap(bytes).order(ByteOrder.BIG_ENDIAN).getLong();
+                        long size = ByteBuffer.wrap(bytes)
+                                .order(ByteOrder.BIG_ENDIAN).getLong();
 
-                        this.logger.info("Processing replication: {}:{}, size: {}", new Object[] {
-                            rType, p, Long.valueOf(size)
-                        });
-                        ReplicationAction action = new ReplicationAction(rType, p);
-                        this.receiver.receive(session, action, new ReplicationServlet.LimitInputStream(this, is, size), size, out, install, binaryLess);
+                        this.logger.info(
+                                "Processing replication: {}:{}, size: {}",
+                                new Object[] { rType, p, Long.valueOf(size) });
+                        ReplicationAction action = new ReplicationAction(rType,
+                                p);
+                        this.receiver.receive(session, action,
+                                new ReplicationServlet.LimitInputStream(this,
+                                        is, size), size, out, install,
+                                binaryLess);
                     }
 
                     IOUtils.closeQuietly(is);
                     path = sb.toString();
                 } else {
-                    ReplicationAction action = new ReplicationAction(actionType, path);
-                    this.receiver.receive(session, action, is, request.getContentLength(), out, install, binaryLess);
+                    ReplicationAction action = new ReplicationAction(
+                            actionType, path);
+                    this.receiver.receive(session, action, is,
+                            request.getContentLength(), out, install,
+                            binaryLess);
                 }
 
             }
 
             long end = System.currentTimeMillis();
-            this.logger.info("Processed replication action in {}ms: {} of {}", new Object[] {
-                Long.valueOf(end - start), actionType, path
-            });
+            this.logger
+                    .info("Processed replication action in {}ms: {} of {}",
+                            new Object[] { Long.valueOf(end - start),
+                                    actionType, path });
         } catch (Exception e) {
             response.setStatus(400);
             this.logger.error("Error during replication: " + e.getMessage(), e);
@@ -166,10 +186,12 @@ public class ReplicationServlet extends SlingAllMethodsServlet {
     }
 
     @Override
-    protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response)
-        throws ServletException, IOException {
+    protected void doGet(SlingHttpServletRequest request,
+            SlingHttpServletResponse response) throws ServletException,
+            IOException {
 
-        ReplicationActionType action = ReplicationActionType.fromName(request.getHeader("Action"));
+        ReplicationActionType action = ReplicationActionType.fromName(request
+                .getHeader("Action"));
         if (action == ReplicationActionType.TEST) {
             response.setStatus(200);
             response.setContentType("text/plain");
@@ -187,18 +209,22 @@ public class ReplicationServlet extends SlingAllMethodsServlet {
         }
         response.setContentType("application/octet-stream");
         try {
-            Session session = request.getResourceResolver().adaptTo(Session.class);
-            this.outboxManager.fetch(session, timeline, response.getOutputStream());
+            Session session = request.getResourceResolver().adaptTo(
+                    Session.class);
+            this.outboxManager.fetch(session, timeline,
+                    response.getOutputStream());
         } catch (ReplicationException e) {
             response.setStatus(400);
-            this.logger.error("Error while fetching outbox: " + e.getMessage(), e);
+            this.logger.error("Error while fetching outbox: " + e.getMessage(),
+                    e);
         }
     }
 
     private String decode(String value) {
         try {
             return URLDecoder.decode(value, "UTF-8");
-        } catch (UnsupportedEncodingException uee) {}
+        } catch (UnsupportedEncodingException uee) {
+        }
         return value;
     }
 
@@ -219,59 +245,46 @@ public class ReplicationServlet extends SlingAllMethodsServlet {
         if (this.receiver == paramReplicationReceiver)
             this.receiver = null;
     }
-    
-    
-    public final class LimitInputStream extends FilterInputStream
-    {
-      private long available;
-    
-      public ReplicationServlet$LimitInputStream(ReplicationServlet paramReplicationServlet, InputStream in, long limit)
-      {
-        super(in);
-        this.available = limit;
-      }
-    
-      public int available() throws IOException
-      {
-        return (int)Math.min(this.in.available(), this.available);
-      }
-    
-      public int read() throws IOException
-      {
-        if (this.available == 0L) {
-          return -1;
-        }
-    
-        int result = this.in.read();
-        if (result != -1) {
-          this.available -= 1L;
-        }
-        return result;
-      }
-    
-      public int read(byte[] b, int off, int len)
-        throws IOException
-      {
-        if (this.available == 0L) {
-          return -1;
-        }
-    
-        int readLen = (int)Math.min(len, this.available);
-        int result = this.in.read(b, off, readLen);
-        if (result != -1) {
-          this.available -= result;
-        }
-        return result;
-      }
-    
-      public void close()
-        throws IOException
-      {
-      }
-    }
 
-    /* Location:           /Users/mike/Desktop/super.jar
-     * Qualified Name:     classes.com.day.cq.replication.impl.servlets.ReplicationServlet.LimitInputStream
-     * JD-Core Version:    0.6.2
-     */
+    public final class LimitInputStream extends FilterInputStream {
+        private long available;
+
+        public LimitInputStream(ReplicationServlet paramReplicationServlet,
+                InputStream in, long limit) {
+            super(in);
+            this.available = limit;
+        }
+
+        public int available() throws IOException {
+            return (int) Math.min(this.in.available(), this.available);
+        }
+
+        public int read() throws IOException {
+            if (this.available == 0L) {
+                return -1;
+            }
+
+            int result = this.in.read();
+            if (result != -1) {
+                this.available -= 1L;
+            }
+            return result;
+        }
+
+        public int read(byte[] b, int off, int len) throws IOException {
+            if (this.available == 0L) {
+                return -1;
+            }
+
+            int readLen = (int) Math.min(len, this.available);
+            int result = this.in.read(b, off, readLen);
+            if (result != -1) {
+                this.available -= result;
+            }
+            return result;
+        }
+
+        public void close() throws IOException {
+        }
+    }
 }
