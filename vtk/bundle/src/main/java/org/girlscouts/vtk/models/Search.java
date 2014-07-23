@@ -1,8 +1,24 @@
 package org.girlscouts.vtk.models;
 
+import org.girlscouts.vtk.dao.AssetComponentType;
+
 public class Search {
 
 	private String path, content, type, desc;
+	private AssetComponentType assetType;
+
+	
+	
+	
+	
+	
+	public AssetComponentType getAssetType() {
+		return assetType;
+	}
+
+	public void setAssetType(AssetComponentType assetType) {
+		this.assetType = assetType;
+	}
 
 	public String getPath() {
 		return path;
