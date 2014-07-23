@@ -473,16 +473,18 @@ public List<org.girlscouts.vtk.models.Search> getData(User user, String _query) 
    // map.put("type", "nt:unstructured");
     map.put("fulltext", _query);
    
-    map.put("group.p.or", "true"); // combine this group with OR
-    map.put("group.1_path",resourceRootPath);
-    /*
-    map.put("group.1_property", "jcr:primaryType");
-    map.put("property.operation", "equals");
-    map.put("property.value", );
-    	*/	
+    
+     map.put("group.2_path", "/content/dam/girlscouts-vtk/global/aid");
+     map.put("group.1_path",resourceRootPath);
+     map.put("group.p.or", "true"); // combine this group with OR
+     
+    //map.put("group.1_property", "jcr:primaryType");
+    //map.put("group.1_property.equals", "true");
+    //map.put("group.1_property.value", "cq:PageContent");
+    
     //map.put("group.1_type", "Name");
     
-    map.put("group.2_path", "/content/dam/girlscouts-vtk/global/aid");
+    
     
     //map.put(key, value);
      
@@ -512,6 +514,18 @@ public List<org.girlscouts.vtk.models.Search> getData(User user, String _query) 
 		
 		
 		System.err.println( path );
+		if( path.contains(resourceRootPath ) && path.endsWith("jcr:content") ){
+			  Node caca = hit.getNode();
+			  org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();
+			  //String p= caca.getPath();
+			  //p= p.substring(0, p.indexOf("/jcr:content/") );
+			  search.setPath(path);
+		      search.setDesc( caca.getProperty("jcr:title").getString() );
+		      //search.setType( hit.getNode().getProperty("jcr:mimeType").getString()   );
+		      search.setContent(  hit.getExcerpt() );
+		      //search.setType(caca.getProperty("jcr:mimeType").getString());
+		      matched.add(search);
+		}else{
 		  if( !path.endsWith("original")) continue;
 		
 		  Node caca = hit.getNode().getParent().getParent().getNode("metadata");
@@ -524,6 +538,7 @@ public List<org.girlscouts.vtk.models.Search> getData(User user, String _query) 
 	      search.setContent(  hit.getExcerpt() );
 	      //search.setType(caca.getProperty("jcr:mimeType").getString());
 	      matched.add(search);
+		}
 		
 	} catch (RepositoryException e) {
 		// TODO Auto-generated catch block
