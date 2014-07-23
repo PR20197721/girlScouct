@@ -1192,6 +1192,21 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 			
 	try{
 		
+		final String RESOURCES_PATH = "resources";
+		String councilId = null;
+		if (user.getTroop() != null) {
+		    
+		        councilId = Integer.toString(user.getTroop().getCouncilCode());
+		    
+		}
+		CouncilMapper mapper = sling.getService(CouncilMapper.class);
+		String branch = mapper.getCouncilBranch(councilId);
+
+		// TODO: language?
+		String resourceRootPath = branch + "/en/" + RESOURCES_PATH;
+		
+		
+		
 		boolean isTag=false;
 		
 		

@@ -216,7 +216,7 @@ if( _aidTags!=null )
 	}
 %>
 
-<div style="background-color:red;">
+<div style="background-color:red; display:none;">
 <% 
 if( _aidTags!=null )
  for(int i=0;i<_aidTags.size();i++){
