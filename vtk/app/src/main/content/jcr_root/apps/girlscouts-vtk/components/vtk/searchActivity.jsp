@@ -22,7 +22,7 @@ java.util.List <org.girlscouts.vtk.models.Activity> activities =  (java.util.Lis
 			<%=activities.get(i).getName()%>
 			<br/>Start: <%=activities.get(i).getDate() %>
 			<br/>End <%=activities.get(i).getEndDate() %>
-			<br/>Location:<%=activities.get(i).getLocationAddress() %>
+			<br/>Location:<%=activities.get(i).getLocationAddress()==null ? "Currently no location" : activities.get(i).getLocationAddress() %>
 			<p> <%=activities.get(i).getContent() %> </p>
 			<%if(activities.get(i).getDate()==null){ %>
 				<i>Unable to add this item due to missing start date.</i>
