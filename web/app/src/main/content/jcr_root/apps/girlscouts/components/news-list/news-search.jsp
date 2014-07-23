@@ -5,9 +5,6 @@
 
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
-
-
-
 <%
   HashSet<String>set = new HashSet<String>(); 
   String path = currentPage.getAbsoluteParent(2).getPath();
@@ -19,14 +16,8 @@
 	  newsPath = "/content/gateway/en/about-our-council/news";
   }
   queryMap.put("path", newsPath);
-  
- 
-  
   queryMap.put("1_boolproperty","jcr:content/hideInNav");
   queryMap.put("1_boolproperty.value","false");
-  queryMap.put("2_boolproperty","jcr:content/isFeature");
-  queryMap.put("2_boolproperty.value","false");
-  
   queryMap.put("orderby","@jcr:content/date");
   queryMap.put("orderby.sort","desc");
   queryMap.put("p.limit", "-1");
@@ -38,20 +29,7 @@
   SearchResult results = query.getResult();
   java.util.List <Hit> resultsHits = results.getHits();
   request.setAttribute("results", results);
-  
-  
-  List  list = (List)request.getAttribute("list"); 
-  if (!list.isEmpty()){
-	   Iterator<Page> itemslist = list.getPages();
-	   while(itemslist.hasNext()){
-		   Page pg = itemslist.next();
-		   if(pg.getProperties().containsKey("isFeature")){
-			    Node node = pg.getContentResource().adaptTo(Node.class);
-			    node.setProperty("isFeature", false);
-			    node.save();
-			 }
-		}
-  }  
+ 
   %>
   
   

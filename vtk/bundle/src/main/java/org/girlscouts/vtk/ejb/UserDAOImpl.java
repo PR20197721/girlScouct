@@ -121,7 +121,7 @@ public class UserDAOImpl implements UserDAO{
 	
 	
 	public YearPlan addYearPlan( User user, String yearPlanPath ){
-		
+		String x=yearPlanPath;
 		 YearPlan plan =null;
 		try{
 			
@@ -141,8 +141,16 @@ public class UserDAOImpl implements UserDAO{
 			
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
+			QueryManager queryManager = ocm.getQueryManager();
 			
-			 plan = new YearPlan();
+			Filter filter = queryManager.createFilter(YearPlan.class);
+			 
+			 
+				System.err.println("getting yearplan : "+ x);
+				plan = (YearPlan) ocm.getObject(x);
+			
+				
+			// plan = new YearPlan();
 			 plan.setRefId( yearPlanPath );
 			 plan.setMeetingEvents( meetingDAO.getAllEventMeetings_byPath( yearPlanPath ));
 			
