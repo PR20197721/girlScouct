@@ -15,4 +15,5 @@ public interface Constants {
     long REPLICATION_INTERVAL = 60L;
     String SIBLING_SERVERS_PROPERTY = "siblingServers";
     String SERVLET_ENDPOINT = "/etc/vtk/replication";
+    String VTK_AGENT_PREFIX = "vtk-";
 }
