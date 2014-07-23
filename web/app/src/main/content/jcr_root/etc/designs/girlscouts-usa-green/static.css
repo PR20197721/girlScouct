@@ -369,10 +369,10 @@ background-position: center;
         padding-left: 30px;
 }
 #main .side-nav li li li li div{
-        padding-left: 200px;
+        padding-left: 40px;
 }
 #main .side-nav li li li li li div{
-        padding-left: 250px;
+        padding-left: 50px;
 }
 
 #main .side-nav > li > div > a{
@@ -1232,7 +1232,7 @@ form#contact-us textarea {
 }
 
 div#eventListWrapper{
-	margin-top:1em;
+	margin-top:2em;
 }
 
 
