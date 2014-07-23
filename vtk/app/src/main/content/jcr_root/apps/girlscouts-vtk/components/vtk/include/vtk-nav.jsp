@@ -23,6 +23,7 @@
         }
 %>
 <div class="hide-for-small full-width-wrapper underline">
+
 <%
 	if ( user.getYearPlan()!=null ){ 
 %>
@@ -31,32 +32,40 @@
 <%
 	}
 %>
-			<div class="centered-table">
-				<ul class="tabs group">
-					<li><a href="#" class="label off">My Troop</a></li>
-				<% if ("plan".equals(activeTab)) { %>
-					<li class="active"><span class="label">Year Plan</span></li>
-				<% } else { %>
-					<li ><a href="/content/girlscouts-vtk/en/vtk.html" class="label">Year Plan</a></li>
-				<% } %>
-				<% if ("planView".equals(activeTab)) { %>
-					<li class="active"><span class="label">MeetingPlan</span></li>
-				<% } else { %>
-					<li>
-				<%if( user.getYearPlan()!=null ){ %>
-						<a href="/content/girlscouts-vtk/en/vtk.planView.html" class="label">Meeting Plan</a>
-				<%}else{%>
-						<a href="#" onclick="alert('Please select a year plan')" class="label">Meeting Plan</a>
-				<%} %>
-					</li>
-				<% } %>
-				<% if ("resource".equals(activeTab)) { %>
-					<li class="active"><span class="label">Resources</span></li>
-				<% } else { %>
-					<li><a href="/content/girlscouts-vtk/en/vtk.resource.html" class="label">Resources</a></li>
-				<% } %>
-				<li><a href="#" class="label off">Community</a></li>
-				</ul>
+	<div class="centered-table">
+		<ul class="tabs group">
+		<% if ("myTroop".equals(activeTab)) { %>
+				<li class="active"><span class="label">My Troop</span></li>
+		<% } else { %>
+		<li><a href="/content/girlscouts-vtk/en/vtk.myTroop.html" class="label">My Troop</a></li>
+		<% } %>
+		<% if ("plan".equals(activeTab)) { %>
+			<li class="active"><span class="label">Year Plan</span></li>
+		<% } else { %>
+			<li ><a href="/content/girlscouts-vtk/en/vtk.html" class="label">Year Plan</a></li>
+		<% } %>
+		<% if ("planView".equals(activeTab)) { %>
+			<li class="active"><span class="label">MeetingPlan</span></li>
+		<% } else { %>
+			<li>
+		<%if( user.getYearPlan()!=null ){ %>
+				<a href="/content/girlscouts-vtk/en/vtk.planView.html" class="label">Meeting Plan</a>
+		<%}else{%>
+				<a href="#" onclick="alert('Please select a year plan')" class="label">Meeting Plan</a>
+		<%} %>
+			</li>
+		<% } %>
+		<% if ("resource".equals(activeTab)) { %>
+			<li class="active"><span class="label">Resources</span></li>
+		<% } else { %>
+			<li><a href="/content/girlscouts-vtk/en/vtk.resource.html" class="label">Resources</a></li>
+		<% } %>
+		<% if ("finances".equals(activeTab)) { %>
+				<li class="active"><span class="label">Finances</span></li>
+		<% } else { %>
+		<li><a href="/content/girlscouts-vtk/en/vtk.finances.html" class="label">Finances</a></li>
+		<% } %>
+		</ul>
 			</div>
 <%
         if ( user.getYearPlan()!=null ){ 
