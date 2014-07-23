@@ -38,20 +38,7 @@
   SearchResult results = query.getResult();
   java.util.List <Hit> resultsHits = results.getHits();
   request.setAttribute("results", results);
-  
-  
-  List  list = (List)request.getAttribute("list"); 
-  if (!list.isEmpty()){
-	   Iterator<Page> itemslist = list.getPages();
-	   while(itemslist.hasNext()){
-		   Page pg = itemslist.next();
-		   if(pg.getProperties().containsKey("isFeature")){
-			    Node node = pg.getContentResource().adaptTo(Node.class);
-			    node.setProperty("isFeature", false);
-			    node.save();
-			 }
-		}
-  }  
+ 
   %>
   
   
