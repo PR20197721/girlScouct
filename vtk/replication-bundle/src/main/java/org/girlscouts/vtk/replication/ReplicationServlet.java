@@ -37,7 +37,7 @@ import com.day.cq.replication.ReplicationReceiver;
 
 @Component(metatype = false)
 @Service({ Servlet.class })
-@Property(name = "sling.servlet.paths", value = { "/bin/receive" })
+@Property(name = "sling.servlet.paths", value = { "/bin/vtk-receive" })
 public class ReplicationServlet extends SlingAllMethodsServlet {
     private final Logger logger;
     private static final String NO_INSTALL = "noinstall";
