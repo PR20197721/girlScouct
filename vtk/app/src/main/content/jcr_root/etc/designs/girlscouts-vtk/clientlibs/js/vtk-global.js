@@ -12,3 +12,4 @@ function showError(msg, msgId) {
 		$(targetNode).hide();
 	}
 }
+

@@ -54,8 +54,6 @@ public class YearPlan {
 	
 	
 
-
-
 	public java.util.List<Milestone> getMilestones() {
 		return milestones;
 	}
