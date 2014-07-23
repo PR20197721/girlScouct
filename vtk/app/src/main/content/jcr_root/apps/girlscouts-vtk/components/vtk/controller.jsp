@@ -184,7 +184,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
     new_user.setSfTroopName( new_user.getTroop().getTroopName() );  
     session.setAttribute("VTK_user", new_user);
     
-    
+    session.putValue("VTK_planView_memoPos", null);
    
 	
 }else if( request.getParameter("addAsset")!=null){
