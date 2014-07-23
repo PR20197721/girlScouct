@@ -59,7 +59,7 @@ public class ReplicationManager {
             listener = new NodeListener(session, replicator);
 
             for (int i = 0; i < MONITOR_PATHS.length; i++) {
-                manager.addEventListener(listener, Constants.PROPERTY_UPDATE | Event.NODE_REMOVED,
+                manager.addEventListener(listener, Constants.PROPERTY_UPDATE | Event.NODE_REMOVED | Event.NODE_MOVED,
                         MONITOR_PATHS[i], true, null, types, true);
             }
         } else {

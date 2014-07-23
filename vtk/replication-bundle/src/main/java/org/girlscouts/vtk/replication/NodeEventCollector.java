@@ -61,6 +61,8 @@ public class NodeEventCollector {
                     nodeEventType = Constants.EVENT_UPDATE;
                     // If this event is about node property change
                     path = path.substring(0, path.lastIndexOf('/'));
+                } else if (type == Event.NODE_MOVED){
+                    nodeEventType = Constants.EVENT_UPDATE;
                 } else if (type == Event.NODE_REMOVED) {
                     nodeEventType = Constants.EVENT_REMOVE;
                 } else {
