@@ -17,6 +17,7 @@ import javax.servlet.ServletException;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.io.output.NullOutputStream;
+import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Reference;
@@ -43,15 +44,25 @@ public class ReplicationServlet extends SlingAllMethodsServlet {
     private static final String NO_INSTALL = "noinstall";
     private static final String PN_TIMELINE = "timeline";
     private static final String PN_SINK = "sink";
+    
+    private Session session;
 
     @Reference
     protected OutboxManager outboxManager;
 
     @Reference
     protected ReplicationReceiver receiver;
+    
+    @Reference
+    protected ReplicationManager replicationManager;
 
     public ReplicationServlet() {
         this.logger = LoggerFactory.getLogger(getClass());
+    }
+    
+    @Activate
+    protected void activete() {
+        this.session = replicationManager.getSession();
     }
 
     @Override
@@ -83,8 +94,6 @@ public class ReplicationServlet extends SlingAllMethodsServlet {
                 response.getWriter().print(
                         "ReplicationAction " + actionType + " ok.");
             } else {
-                Session session = request.getResourceResolver().adaptTo(
-                        Session.class);
                 String noInstall = request.getParameter("noinstall");
                 boolean install = true;
 
@@ -209,8 +218,6 @@ public class ReplicationServlet extends SlingAllMethodsServlet {
         }
         response.setContentType("application/octet-stream");
         try {
-            Session session = request.getResourceResolver().adaptTo(
-                    Session.class);
             this.outboxManager.fetch(session, timeline,
                     response.getOutputStream());
         } catch (ReplicationException e) {

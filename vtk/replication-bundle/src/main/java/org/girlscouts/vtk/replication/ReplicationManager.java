@@ -13,6 +13,7 @@ import org.apache.felix.scr.annotations.Deactivate;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Reference;
+import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.jcr.api.SlingRepository;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
@@ -21,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import com.day.cq.replication.Replicator;
 
 @Component(metatype=true, immediate=true)
+@Service(value=ReplicationManager.class)
 @Properties ({
     @Property(name=Constants.REPLICATION_INTERVAL_PROPERTY, longValue = Constants.REPLICATION_INTERVAL, description="Replication Interval, in seconds."),
     @Property(name=Constants.SIBLING_SERVERS_PROPERTY, description="Sibling servers, separated by space. Node changes will be replicated to these servers")
@@ -39,6 +41,10 @@ public class ReplicationManager {
     private Session session;
     private ObservationManager manager;
     private EventListener listener;
+
+    public Session getSession() {
+        return this.session;
+    }
 
     @Activate
     protected void activate(ComponentContext context) throws Exception {
