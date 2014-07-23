@@ -399,7 +399,7 @@ background-color: #B0B0B0;
 #main .side-nav li.active.current > div > a
 {
 	color:#ffffff;
-	font-weight:normal;
+	font-weight:bold;
 }
 .home-section {
     padding: 15px 0px;
