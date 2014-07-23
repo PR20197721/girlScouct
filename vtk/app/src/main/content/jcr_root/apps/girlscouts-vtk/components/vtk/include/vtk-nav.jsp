@@ -63,7 +63,11 @@
 			<a href="#" id="vtk-main-menu-button" onclick="$('#vtk-main-menu').toggle()" class="large button expand">Menu</a>
 			<br/>
 			<ul id="vtk-main-menu">
-				<li><a href="#" class="off">My Troop</a></li>
+			<% if ("myTroop".equals(activeTab)) { %>
+				<li class="active"><a href="#">My Troop</a></li>
+			<% } else { %>
+				<li><a href="/content/girlscouts-vtk/en/vtk.myTroop.html">My Troop</a></li>
+			<% } %>
 			<% if ("plan".equals(activeTab)) { %>
 				<li class="active has-dropdown">
 					<a href="#">Year Plan</a>
@@ -101,7 +105,11 @@
 			<% } else { %>
 				<li><a href="/content/girlscouts-vtk/en/vtk.resource.html">Resources</a></li>
 			<% } %>
-				<li><a href="#" class="off">Community</a></li>
+			<% if ("finances".equals(activeTab)) { %>
+				<li class="active"><a href="#">Finances</a></li>
+			<% } else { %>
+				<li><a href="/content/girlscouts-vtk/en/vtk.finances.html">Finances</a></li>
+			<% } %>
 			</ul>
 </div>
 <!--
