@@ -23,33 +23,51 @@
         }
 %>
 <div class="hide-for-small full-width-wrapper underline">
-	<div class="centered-table">
-		<ul class="tabs group">
-			<li><a href="#" class="label off">My Troop</a></li>
-		<% if ("plan".equals(activeTab)) { %>
-			<li class="active"><span class="label">Year Plan</span></li>
-		<% } else { %>
-			<li ><a href="/content/girlscouts-vtk/en/vtk.html" class="label">Year Plan</a></li>
-		<% } %>
-		<% if ("planView".equals(activeTab)) { %>
-			<li class="active"><span class="label">MeetingPlan</span></li>
-		<% } else { %>
-			<li>
-		<%if( user.getYearPlan()!=null ){ %>
-				<a href="/content/girlscouts-vtk/en/vtk.planView.html" class="label">Meeting Plan</a>
-		<%}else{%>
-				<a href="#" onclick="alert('Please select a year plan')" class="label">Meeting Plan</a>
-		<%} %>
-			</li>
-		<% } %>
-		<% if ("resource".equals(activeTab)) { %>
-			<li class="active"><span class="label">Resources</span></li>
-		<% } else { %>
-			<li><a href="/content/girlscouts-vtk/en/vtk.resource.html" class="label">Resources</a></li>
-		<% } %>
-		<li><a href="#" class="label off">Community</a></li>
-		</ul>
+<%
+	if ( user.getYearPlan()!=null ){ 
+%>
+	<div class="row">
+		<div class="small-24 medium-24 large-18 columns">
+<%
+	}
+%>
+			<div class="centered-table">
+				<ul class="tabs group">
+					<li><a href="#" class="label off">My Troop</a></li>
+				<% if ("plan".equals(activeTab)) { %>
+					<li class="active"><span class="label">Year Plan</span></li>
+				<% } else { %>
+					<li ><a href="/content/girlscouts-vtk/en/vtk.html" class="label">Year Plan</a></li>
+				<% } %>
+				<% if ("planView".equals(activeTab)) { %>
+					<li class="active"><span class="label">MeetingPlan</span></li>
+				<% } else { %>
+					<li>
+				<%if( user.getYearPlan()!=null ){ %>
+						<a href="/content/girlscouts-vtk/en/vtk.planView.html" class="label">Meeting Plan</a>
+				<%}else{%>
+						<a href="#" onclick="alert('Please select a year plan')" class="label">Meeting Plan</a>
+				<%} %>
+					</li>
+				<% } %>
+				<% if ("resource".equals(activeTab)) { %>
+					<li class="active"><span class="label">Resources</span></li>
+				<% } else { %>
+					<li><a href="/content/girlscouts-vtk/en/vtk.resource.html" class="label">Resources</a></li>
+				<% } %>
+				<li><a href="#" class="label off">Community</a></li>
+				</ul>
+			</div>
+<%
+        if ( user.getYearPlan()!=null ){ 
+%>
+			</div>
+			<div class="show-for-large large-6 columns">&nbsp;</div>
+		</div>
 	</div>
+<%
+        }
+%>
 </div>
 <div class="show-for-small">
 			<a href="#" id="vtk-main-menu-button" onclick="$('#vtk-main-menu').toggle()" class="large button expand">Menu</a>
@@ -96,44 +114,3 @@
 				<li><a href="#" class="off">Community</a></li>
 			</ul>
 </div>
-<!--
-	<a href="#" class="item off">
-		<img src="/content/dam/girlscouts-shared/images/logo/small/gateway-logo-small.png" />
-		<label>My Troop</label>
-	</a>
-        <a href="/content/girlscouts-vtk/en/vtk.html" class="item">
-	<% if ("plan".equals(activeTab)) { %>
-		<img src="/content/dam/girlscouts-shared/images/logo/small/gateway-logo-small.png" />
-		<label>Year Plan</label>
-	<% } else { %>
-		<img src="/content/dam/girlscouts-shared/images/logo/small/gateway-logo-small.png" />
-		<label>Year Plan</label>
-	<% } %>
-	</a>
-	<%if( user.getYearPlan()!=null ){ %>
-		<a href="/content/girlscouts-vtk/en/vtk.planView.html" class="item">
-	<%}else{%>
-		<a href="#" onclick="alert('Please select a year plan')" class="item">
-	<%} %>
-	<% if ("planView".equals(activeTab)) { %>
-		<img src="/content/dam/girlscouts-shared/images/logo/small/gateway-logo-small.png" />
-		<label>Meeting</label>
-	<% } else { %>
-		<img src="/content/dam/girlscouts-shared/images/logo/small/gateway-logo-small.png" />
-		<label>Meeting</label>
-	<% } %>
-	</a>
-	<a href="/content/girlscouts-vtk/en/vtk.resource.html" class="item">
-	<% if ("resource".equals(activeTab)) { %>
-		<img src="/content/dam/girlscouts-shared/images/logo/small/gateway-logo-small.png" />
-		<label>Resources</label>
-	<% } else { %>
-		<img src="/content/dam/girlscouts-shared/images/logo/small/gateway-logo-small.png" />
-		<label>Resources</label>
-	<% } %>
-	</a>
-        <a href="#" class="item off">
-                <img src="/content/dam/girlscouts-shared/images/logo/small/gateway-logo-small.png" />
-		<label>Community</label>
-	</a>
--->
