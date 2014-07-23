@@ -71,6 +71,10 @@ newCustActivity_name: {
 required: true,
 minlength: 2
 },
+newCustActivity_locName:{
+	required: true,
+	minlength: 2
+},
 newCustActivity_startTime:{
 required:true,
 minlength: 5,
@@ -98,6 +102,10 @@ newCustActivity_name: {
 required: "Please enter a Name",
 	  minlength: "Your Name must consist of at least 2 characters"
 		      },
+newCustActivity_locName: {
+		    	  required: "Please enter a Location Name",
+		    	  	  minlength: "Your Name must consist of at least 2 characters"
+		    	  		      },
 newCustActivity_startTime:{
 required: "Please enter a Start time",
 	  minlength: "Valid format HH:mm"
@@ -139,8 +147,15 @@ function timeDiff(){
 	var endTime = document.getElementById("newCustActivity_endTime").value;
 	var newCustActivity_startTime_AP = document.getElementById("newCustActivity_startTime_AP").value;
 	var newCustActivity_endTime_AP = document.getElementById("newCustActivity_endTime_AP").value;
+	var locName= document.getElementById("newCustActivity_locName").value;
 
-
+	if( $.trim(locName) == '' ){
+		var thisMsg="Missing Location Name";
+		showError(thisMsg, "#pickActivitySection .errorMsg");
+		return false;
+	}
+		
+	
 	if(!Date.parse( new Date( date +" " + startTime +" "+newCustActivity_startTime_AP) )) {
 		var thisMsg = "Invalid Start Date,time. 12hr format: "+date +" " + startTime +" "+newCustActivity_startTime_AP;
 		showError(thisMsg, "#pickActivitySection .errorMsg");
@@ -246,7 +261,7 @@ border:5px solid #000;
 </div>
 <div class="row">
         <div class="small-24 medium-6 large-4 columns"><label for="newCustActivity_locName" ACCESSKEY="l">Location Name</label></div>
-        <div class="small-24 medium-6 large-8 columns"><input type="text" id="newCustActivity_locName" value="" /></div>
+        <div class="small-24 medium-6 large-8 columns"><input type="text" name="newCustActivity_locName" id="newCustActivity_locName" value="" onchange="doChkSubmitValid()"/></div>
         <div class="small-24 medium-6 large-4 columns"><label for="newCustActivity_locAddr" ACCESSKEY="a">Location Address</label></div>
         <div class="small-24 medium-6 large-8 columns"><input type="text" id="newCustActivity_locAddr" value="" /></div>
 </div>

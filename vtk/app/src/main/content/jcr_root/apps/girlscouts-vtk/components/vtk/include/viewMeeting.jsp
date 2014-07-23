@@ -52,7 +52,7 @@ if( meetingE.getCancelled()!=null && meetingE.getCancelled().equals("true")){%>
 %>
 				<%=meeting.getName() %> </h2>
 				<p><small><%=meeting.getCat()%></small></p>
-				<!--  <p class="tags"><%=meeting.getAidTags() %></p> -->
+				 <p class="tags"><%=meeting.getAidTags() %></p> 
 				<p class="show-for-small"><%= FORMAT_hhmm_AMPM.format(date)%></p>
 				<br/>
 				<p class="blurb"><%=meeting.getBlurb() %></p>
