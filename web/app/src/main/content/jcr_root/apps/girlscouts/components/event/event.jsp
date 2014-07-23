@@ -188,7 +188,7 @@
            while(tagValue.hasNext()){
             %> 
             
-               <%=tagValue.next()%><% if(tagValue.hasNext()){ %>,<%} %> 
+               <b><%=tagValue.next()%><% if(tagValue.hasNext()){ %>,<%} %></b> 
                  
           <% }%>
             </div>
@@ -218,13 +218,13 @@
     
     
 <div class="row">
-  <div class="small-16 large-16 medium-16 columns">
+  <div class="small-15 large-15 medium-15 columns">
      &nbsp;
   </div>
-   <div class="small-8 large-8 medium-8 columns">
+   <div class="small-9 large-9 medium-9 columns">
      <%if(register!=null && !register.isEmpty()){%>
         <div class="register">
-    	 <a href="<%=genLink(resourceResolver, register)%>">Register for this event</a>
+    	 	<a href="<%=genLink(resourceResolver, register)%>">Register for this event</a>
     	</div>   
      <%} %>
   </div>

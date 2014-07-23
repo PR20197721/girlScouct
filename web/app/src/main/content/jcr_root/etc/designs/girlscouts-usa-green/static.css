@@ -52,6 +52,9 @@ h1, h2, h3, h4, h5, h6 {
 .error {
     color: red;
 }
+.bold {
+	font-weight: bold;
+}
 a {
     color: #00ae58;
 }
@@ -399,7 +402,7 @@ background-color: #B0B0B0;
 #main .side-nav li.active.current > div > a
 {
 	color:#ffffff;
-	font-weight:normal;
+	font-weight:bold;
 }
 .home-section {
     padding: 15px 0px;
@@ -1167,10 +1170,53 @@ form#contact-us textarea {
 	font-size:1rem;
 }
 
+/* events search list */
+.events-list .content {
+        margin: 20px 38px 20px 30px;
+}
+.events-list p {
+    line-height:100%;
+        margin-bottom: 0.2rem;
+}
+.events-lists{
+        margin-bottom:40px;
+}
+.events-lists .event-title h6{
+	margin-bottom: -0.1em;
+}
+
+.eventsList {
+	clear: both;
+}
+.eventsList p, .eventsList b {
+	line-height: 1em;
+}
+.eventsList h6 {
+	line-height: 0.9em;
+}
+.eventsList.eventSection .leftCol{
+	margin-bottom: 2em;
+}
+.eventsList .leftCol {
+       float: left;
+       background: #ffffff;
+       width: 140px;
+}
+.eventsList .rightCol {
+       width: 100%;
+}
+.horizontalRule {
+       background: url('images/horizontal-stripe.png') repeat-x center center;
+}
 .checkbox-grid span {
     display: block;
     float: left;
     width: 50%;
     font-size: 0.9em;
     padding: 10px 0 0 0; 
+}
+
+.searchBox-Calendar{
+   padding-top:18px;
+   margin-left:100px;	
 }
