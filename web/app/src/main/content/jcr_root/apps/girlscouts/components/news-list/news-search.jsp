@@ -24,9 +24,6 @@
   
   queryMap.put("1_boolproperty","jcr:content/hideInNav");
   queryMap.put("1_boolproperty.value","false");
-  queryMap.put("2_boolproperty","jcr:content/isFeature");
-  queryMap.put("2_boolproperty.value","false");
-  
   queryMap.put("orderby","@jcr:content/date");
   queryMap.put("orderby.sort","desc");
   queryMap.put("p.limit", "-1");
