@@ -56,11 +56,20 @@ public class NodeEventCollector {
                 String path = event.getPath();
                 int type = event.getType();
 
-                // If this event is about node property change
-                if ((event.getType() & PROPERTY_UPDATE) != 0) {
+                int nodeEventType = -1;
+                if ((type & PROPERTY_UPDATE) != 0) {
+                    nodeEventType = Constants.EVENT_UPDATE;
+                    // If this event is about node property change
                     path = path.substring(0, path.lastIndexOf('/'));
+                } else if (type == Event.NODE_REMOVED) {
+                    nodeEventType = Constants.EVENT_REMOVE;
+                } else {
+                    log.warn("Event type " + Integer.toString(type) + " not supported. Discard. " + path);
                 }
-                nodes.add(new NodeEvent(path, type));
+
+                if (nodeEventType != -1) {
+                    nodes.add(new NodeEvent(path, type));
+                }
             } catch (RepositoryException e) {
                 log.warn("Cannot get path of a VTK node event.");
             }
