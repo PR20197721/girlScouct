@@ -19,9 +19,6 @@
 	  newsPath = "/content/gateway/en/about-our-council/news";
   }
   queryMap.put("path", newsPath);
-  
- 
-  
   queryMap.put("1_boolproperty","jcr:content/hideInNav");
   queryMap.put("1_boolproperty.value","false");
   queryMap.put("orderby","@jcr:content/date");
