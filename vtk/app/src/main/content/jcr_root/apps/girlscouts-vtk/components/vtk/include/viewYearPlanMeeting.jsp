@@ -192,7 +192,7 @@ if( _aidTags!=null )
 				
 					<%if( !isLocked) {%>
 						<!--  <a href="javascript:void(0)"  class="mLocked" onclick="editAgenda('<%=ii %>')"><%=_activity.getName() %></a> -->
-						<a href="javascript:void(0)"  class="mLocked" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isAgenda=<%=ii %>', true, 'Agenda')"><%=_activity.getName() %></a>
+						<a href="javascript:void(0)"  class="mLocked" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isAgenda=<%=ii %>', false, 'Agenda')"><%=_activity.getName() %></a>
 					<%}else{ %>
 						<%=_activity.getName() %>
 					<%} %>
