@@ -3,16 +3,14 @@
 Activity activity = (Activity) _comp;
 %>
 <br/>
-<div class="caca row meetingDetailHeader">
-        
-        
-        <div class="small-8 medium-7 large-6 columns">
+<div class="row meetingDetailHeader">
+        <div class="small-24 medium-8 large-7 columns">
                 <table class="planSquareWrapper">
                         <tr>
 <%if( prevDate!=0 ){ %>
-                		<td><a class="direction" href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=prevDate%>"><img width="20" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/previous.png"/></a></td>
+                		<td class="planSquareLeft"><a class="direction" href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=prevDate%>"><img width="20" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/previous.png"/></a></td>
 <%} %>
-                                <td>
+                                <td class="planSquareMiddle">
 					<div class="planSquare" style="background-color:#0096ff;">
 						<div class="date">
         <%if( user.getYearPlan().getSchedule()!=null ) {%>
@@ -24,8 +22,7 @@ Activity activity = (Activity) _comp;
 					</div>
 				</td>
 <%if( nextDate!=0 ){ %>
-				<td>
-                <a class="direction" href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=nextDate%>"><img width="20" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/next.png"/></a>
+				<td class="planSquareRight"><a class="direction" href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=nextDate%>"><img width="20" height="100" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/next.png"/></a>
 				</td>
 <%} %>
 			</tr>
@@ -34,7 +31,7 @@ Activity activity = (Activity) _comp;
         
         
         
-        <div class="small-12 columns">
+        <div class="small-24 medium-10 large-12 columns">
                 <h1>Activity: <%= activity.getName() %></h1>
 
 <br/><br/>Date: <%=FORMAT_MMddYYYY.format(activity.getDate()) %>
@@ -57,13 +54,13 @@ ageLevel=ageLevel.toLowerCase().trim();
 <div style="background-color:#efefef"><%=activity.getContent()%></div>
 
         </div>
-        
-        
-        <div class="small-4 columns">
+        <div class="small-24 medium-6 large-5 columns linkButtonWrapper">
 <%if( activity.getDate().after( new java.util.Date())){ %>
-<input type="button" value="delete this activity" onclick="rmCustActivity12('<%=activity.getPath()%>')"/>
+		<a href="#" class="button linkButton" onclick="rmCustActivity12('<%=activity.getPath()%>')">delete this activity</a>
 <%} %>
-        </div>
+		<a href="#" class="button linkButton" onclick="openClose('editCustActiv')">edit activity</a>
+                <br/>
+        </div>        
         
         
         
@@ -239,9 +236,7 @@ $().ready(function() {
  
 });
 
-	function caca(){
-		
-		
+	function saveActivity(){
 	    if ($('#signupForm').valid()) {
 	    	if(!timeDiff()){ return false;}
 	    	editNewCustActivity('<%=activity.getUid()%>');
@@ -285,10 +280,7 @@ $('#newCustActivity1').click(function() {
 		
 	}
 </script>  
-
-<a href="javascript:void(0)" onclick="openClose('editCustActiv')">EDIT ACTIVITY</a>
 <div id="editCustActiv" style=" display:none;">
-
 <form class="cmxform" id="signupForm">
 	
 	<h2>Edit Activity</h2>
@@ -331,7 +323,7 @@ $('#newCustActivity1').click(function() {
                 
                 
               <div style="background-color:red;">Cost: <input type="text" name="newCustActivity_cost"  id="newCustActivity_cost" value="<%=FORMAT_COST_CENTS.format(activity.getCost())%>"/></div>
-			<input type="button" value="Save" id="newCustActivity1" onclick="caca()"/>
+			<input type="button" value="Save" id="newCustActivity1" onclick="saveActivity()"/>
 			<input type="button" value="Cancel" onclick="openClose('editCustActiv')"/>
 			  
              
