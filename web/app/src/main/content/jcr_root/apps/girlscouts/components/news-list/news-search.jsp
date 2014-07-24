@@ -24,8 +24,6 @@
   
   QueryBuilder queryBuilder = sling.getService(QueryBuilder.class);
   Query query = queryBuilder.createQuery(PredicateGroup.create(queryMap), slingRequest.getResourceResolver().adaptTo(Session.class));
-  
-   
   SearchResult results = query.getResult();
   java.util.List <Hit> resultsHits = results.getHits();
   request.setAttribute("results", results);

@@ -21,15 +21,16 @@
  }
  
  public String getDate(Node nNode){
-	 DateFormat inFormatter = new SimpleDateFormat("MM/dd/yy");
-     Format formatter = new SimpleDateFormat("dd MMM yyyy");	  
+	 //DateFormat inFormatter = new SimpleDateFormat("MM/dd/yy");
+     //Format formatter = new SimpleDateFormat("dd MMM yyyy");
+     DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
  
 	 String newsDateStr ="";
  	 try{
 	 	if (nNode.hasProperty("date")) {
-			String dateString = nNode.getProperty("date").getString();
-			Date newsDate = inFormatter.parse(dateString);
-			newsDateStr = formatter.format(newsDate);
+			Date dateString = nNode.getProperty("date").getDate().getTime();
+			newsDateStr = dateFormat.format(dateString);
+			//newsDateStr = formatter.format(newsDate);
 		}
  	 }catch(Exception e){return "";}	
     return newsDateStr;
