@@ -147,7 +147,7 @@ for(int i=2;i<sheet.getLastRowNum();i++){
         FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
         Sheet sheet = workbook.getSheetAt(1);
 
-        System.out.println(sheet.getLastRowNum());
+        //System.out.println(sheet.getLastRowNum());
         for(int i=2;i<=sheet.getLastRowNum()+1;i++){
         	String fileName = getCellVal( evaluator, sheet, "A"+i ).trim();
         	if( fileName==null || fileName.length()<1) break;
@@ -179,7 +179,7 @@ for(int i=2;i<sheet.getLastRowNum();i++){
             */
         	
         	try{ 
-        	    String[] destinations = destination.split("\n");
+        	    String[] destinations = destination.replaceAll("\\s+", "\n").split("\n");
         	    for (int j = 0; j < destinations.length; j++) {
         	        damUpload("/Users/mike/Desktop/brownie/assets/", fileName, metaDatas, destinations[j], type);
         	    }
@@ -368,7 +368,7 @@ if ((String)metaDatas.get("tags")!=null )
 	private void createEtcTag( String tag )throws Exception{
 		
 		String dir = "/etc/tags/girlscouts-vtk/tag/";
-		System.err.println( "Dir: "+dir);
+		//System.err.println( "Dir: "+dir);
 		
 		        javax.jcr.Repository repository = JcrUtils.getRepository("http://localhost:4503/crx/server/");
 		        
