@@ -59,6 +59,10 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	    if( user.getYearPlan().getLocations().size()==1 ){
 			
 		    locationUtil.setLocationAllMeetings(user, user.getYearPlan().getLocations().get(0).getPath());
+		}else if( !isLoc ){
+			
+			locationUtil.setLocationAllEmpty( user,request.getParameter("name") );
+			
 		}
 	
 	    

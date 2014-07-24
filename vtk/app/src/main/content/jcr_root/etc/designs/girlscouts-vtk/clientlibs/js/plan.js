@@ -422,3 +422,9 @@ function doMeetingLib(){
 function doHelp(isSched){
 	loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html', false);
 }
+
+
+function doEditActivity(x){
+	alert(x)
+	 $( "#"+x ).dialog();
+}

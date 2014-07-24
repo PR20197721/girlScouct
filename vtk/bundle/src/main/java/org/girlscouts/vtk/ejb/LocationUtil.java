@@ -123,4 +123,36 @@ public class LocationUtil {
 		
 	  
   }
+  
+  
+  
+  
+  
+	public void setLocationAllEmpty( User user, String locationName ){
+		
+		YearPlan plan= user.getYearPlan();
+		
+		
+		Location location = null;
+		for(int i=0;i<user.getYearPlan().getLocations().size();i++)
+			if( user.getYearPlan().getLocations().get(i).getName().equals( locationName) )
+				{location= user.getYearPlan().getLocations().get(i); break;}
+		
+				
+		
+		List <MeetingE> meetings = plan.getMeetingEvents();
+		
+		if( location!=null)
+		 for(int i=0;i<meetings.size();i++){
+			
+			MeetingE meeting = meetings.get(i);
+			if( meeting.getLocationRef()==null || meeting.getLocationRef().equals(""))
+				meeting.setLocationRef(location.getPath());
+			
+		}
+		
+		
+		userDAO.updateUser(user);
+		
+	}
 }

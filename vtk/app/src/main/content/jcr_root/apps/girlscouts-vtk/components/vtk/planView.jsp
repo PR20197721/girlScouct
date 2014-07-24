@@ -23,8 +23,6 @@
 	long nextDate=0, prevDate=0;
 	java.util.Date searchDate= null;
 
-
-	
 	if( request.getParameter("elem") !=null ) {
 		searchDate = new java.util.Date( Long.parseLong(  request.getParameter("elem")  ) );	
 	}else if( session.getValue("VTK_planView_memoPos") !=null ){
@@ -53,72 +51,72 @@
 		nextDate = ((java.util.Date)dates.get(currInd+1)).getTime();
 	if( currInd>0 )
 		prevDate = ((java.util.Date)dates.get(currInd-1)).getTime();
-
 	
 	session.putValue("VTK_planView_memoPos", searchDate.getTime());
         YearPlanComponent _comp= sched.get(searchDate);
-        MeetingE meeting = (MeetingE) _comp;
-        Meeting meetingInfo = meetingDAO.getMeeting(  meeting.getRefId() );
-        java.util.List <Activity> _activities = meetingInfo.getActivities();
-        java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  meetingInfo.getMeetingInfo();
 
 
-        boolean isLocked=false;
-        if(searchDate.before( new java.util.Date() ) && user.getYearPlan().getSchedule()!=null ) isLocked= true;
+        MeetingE meeting = null;
+	List<Asset> _aidTags = null;
+	Meeting meetingInfo = null;
 
-        boolean isCanceled =false;
-        if( meeting.getCancelled()!=null && meeting.getCancelled().equals("true")){
-                isCanceled  = true;
-        }
-
-        List<Asset> _aidTags = meeting.getAssets();
-
-        java.util.Date sysAssetLastLoad =  sling.getService(org.girlscouts.vtk.helpers.DataImportTimestamper.class).getTimestamp(); //SYSTEM QUERY
-        if(meeting.getLastAssetUpdate()==null || meeting.getLastAssetUpdate().before(sysAssetLastLoad) ){
-                _aidTags = _aidTags ==null ? new java.util.ArrayList() : _aidTags;
-
-                //rm cachables
-                java.util.List aidToRm= new java.util.ArrayList();
-                for(int i=0;i<_aidTags.size();i++){
-                        if( _aidTags.get(i).getIsCachable() )
-                                aidToRm.add( _aidTags.get(i));
-                }
-
-                for(int i=0;i<aidToRm.size();i++)
-                        _aidTags.remove( aidToRm.get(i));
-
-                //query aids cachables
-                 java.util.List __aidTags =  meetingDAO.getAids( meetingInfo.getAidTags(), meetingInfo.getId(), meeting.getUid());
-
-                //merge lists aids
-                _aidTags.addAll( __aidTags );
-
-                //query resources cachables
-                java.util.List __resources =  meetingDAO.getResources( meetingInfo.getResources(), meetingInfo.getId(), meeting.getUid());
-
-                //merge lists resources
-                _aidTags.addAll( __resources );
-
-                meeting.setLastAssetUpdate( new java.util.Date() );
-                meeting.setAssets( _aidTags);
-                userDAO.updateUser(user);
-        }
-
-	
-%> 
+%>
        <div id="planMsg"></div>
-      <% 
-       				switch( _comp.getType() ){
-       					case ACTIVITY :
-       					%>  <%@include file="include/viewYearPlanActivity.jsp" %>    <% 
-       					break;
-       					
-       					case MEETING :
-       						%><%@include file="include/viewYearPlanMeeting.jsp" %><% 
-           					break;
-       				}       			
-       %>
 <%
+	try {
+	if ( _comp.getType() == YearPlanComponentType.MEETING) {
+		meeting = (MeetingE) _comp;
+		meetingInfo = meetingDAO.getMeeting(  meeting.getRefId() );
+		java.util.List <Activity> _activities = meetingInfo.getActivities();
+		java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  meetingInfo.getMeetingInfo();
+
+		boolean isLocked=false;
+		if(searchDate.before( new java.util.Date() ) && user.getYearPlan().getSchedule()!=null ) isLocked= true;
+
+		boolean isCanceled =false;
+		if( meeting.getCancelled()!=null && meeting.getCancelled().equals("true")){
+			isCanceled  = true;
+		}
+
+		_aidTags = meeting.getAssets();
+
+		java.util.Date sysAssetLastLoad =  sling.getService(org.girlscouts.vtk.helpers.DataImportTimestamper.class).getTimestamp(); //SYSTEM QUERY
+		if(meeting.getLastAssetUpdate()==null || meeting.getLastAssetUpdate().before(sysAssetLastLoad) ){
+
+			_aidTags = _aidTags ==null ? new java.util.ArrayList() : _aidTags;
+
+			//rm cachables
+			java.util.List aidToRm= new java.util.ArrayList();
+			for(int i=0;i<_aidTags.size();i++){
+				if( _aidTags.get(i).getIsCachable() )
+					aidToRm.add( _aidTags.get(i));
+			}
+
+			for(int i=0;i<aidToRm.size();i++)
+				_aidTags.remove( aidToRm.get(i));
+
+			//query aids cachables
+			 java.util.List __aidTags =  meetingDAO.getAids( meetingInfo.getAidTags(), meetingInfo.getId(), meeting.getUid());
+
+			//merge lists aids
+			_aidTags.addAll( __aidTags );
+
+			//query resources cachables
+			java.util.List __resources =  meetingDAO.getResources( meetingInfo.getResources(), meetingInfo.getId(), meeting.getUid());
+
+			//merge lists resources
+			_aidTags.addAll( __resources );
+
+			meeting.setLastAssetUpdate( new java.util.Date() );
+			meeting.setAssets( _aidTags);
+		}
+%><%@include file="include/viewYearPlanMeeting.jsp" %><%
+	} else {
+%><%@include file="include/viewYearPlanActivity.jsp" %><%
+	}
+	} catch (NullPointerException npe) {
+		npe.printStackTrace();
+	}
         if( user.getYearPlan()!=null){
 %>
         </div>
@@ -141,7 +139,7 @@ if( _aidTags!=null ) {
 }
 		if (planMeetingResourceCount ==0) {
 %>
-			<li>No resources</li>
+			<li><i>No resources</i></li>
 <%
 		}
 %>

@@ -67,7 +67,31 @@ public class YearPlan {
 	}
 
 	public void setMilestones(java.util.List<Milestone> milestones) {
-		this.milestones = milestones;
+		//-this.milestones = milestones;
+		
+milestones = new java.util.ArrayList();
+		
+		Milestone m= new Milestone();
+		m.setBlurb("Cookie Sales Start");
+		m.setDate( new java.util.Date("12/07/2014") );
+		milestones.add(m);
+		
+
+		m= new Milestone();
+		m.setBlurb("Troops re-register");
+		m.setDate( new java.util.Date("09/30/2014") );
+		milestones.add(m);
+		
+		
+
+		m= new Milestone();
+		m.setBlurb("Cookie Sales End");
+		m.setDate( new java.util.Date("03/29/2015") );
+		milestones.add(m);
+		
+		
+		this.milestones= milestones;
+		calFreq="biweekly"; //todo rm
 	}
 
 	public String getAltered() {
@@ -174,4 +198,8 @@ public class YearPlan {
 	public void setDesc(String desc) {
 		this.desc = desc;
 	}
+	
+	
+	
+	
 }
