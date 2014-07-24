@@ -1354,6 +1354,8 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 		        	
 		        	activity.setContent(r.getValue("child.details").getString());
 		        	activity.setDate(r.getValue("child.start").getDate().getTime());
+		        	if( activity.getDate().before(new java.util.Date())) continue;
+		        	
 		        	try{ activity.setEndDate(r.getValue("child.end").getDate().getTime()); }catch(Exception e){}
 		        	activity.setLocationName(r.getValue("child.locationLabel").getString());
 		        	activity.setName(r.getValue("child.srchdisp").getString());

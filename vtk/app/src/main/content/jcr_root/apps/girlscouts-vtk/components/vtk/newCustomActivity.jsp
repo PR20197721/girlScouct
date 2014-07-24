@@ -230,15 +230,15 @@ border:5px solid #000;
 <div class="sectionBar">Create a Custom Activity</div>
 <div class="errorMsg error"></div>
 <div class="row">
-        <div class="small-24 medium-5 large-4 columns"><label for="newCustActivity_name" ACCESSKEY="n">Activity Name</label></div>
+        <div class="small-24 medium-5 large-4 columns"><span style="color:red;">*</span><label for="newCustActivity_name" ACCESSKEY="n">Activity Name</label></div>
         <div class="small-24 medium-7 large-8 columns"><input type="text" name="newCustActivity_name" id="newCustActivity_name" value="" onchange="doChkSubmitValid()"/></div>
-        <div class="small-24 medium-5 large-4 columns"><label for="newCustActivity_date" ACCESSKEY="d">Date</label></div>
+        <div class="small-24 medium-5 large-4 columns"><span style="color:red;">*</span><label for="newCustActivity_date" ACCESSKEY="d">Date</label></div>
         <div class="small-24 medium-7 large-8 columns">
 		<input type="text" id="newCustActivity_date" name="newCustActivity_date" placeholder="mm/dd/yyyy" class="date calendarField" onchange="doChkSubmitValid()"/>
 	</div>
 </div>
 <div class="row">
-	<div class="small-24 medium-5 large-4 columns"><label for="newCustActivity_startTime" ACCESSKEY="1">Start Time</label></div>
+	<div class="small-24 medium-5 large-4 columns"><span style="color:red;">*</span><label for="newCustActivity_startTime" ACCESSKEY="1">Start Time</label></div>
 	<div class="small-16 medium-4 large-4 columns">
 		<input type="text" id="newCustActivity_startTime" name="newCustActivity_startTime" value="<%=org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_HOUR+":"+org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_MIN %>" required class="time" />
 	</div>
@@ -248,7 +248,7 @@ border:5px solid #000;
 			<option value="am">AM</option>
 		</select>
 	</div>
-	<div class="small-24 medium-5 large-4 columns"><label for="newCustActivity_endTime" ACCESSKEY="2">End Time</label></div>
+	<div class="small-24 medium-5 large-4 columns"><span style="color:red;">*</span><label for="newCustActivity_endTime" ACCESSKEY="2">End Time</label></div>
 	<div class="small-16 medium-4 large-4 columns">
 		<input type="text" id="newCustActivity_endTime" name="newCustActivity_endTime" value="<%=org.girlscouts.vtk.models.VTKConfig.CALENDAR_END_TIME_HOUR+":"+org.girlscouts.vtk.models.VTKConfig.CALENDAR_END_TIME_MIN %>"  required class="time"/>
 	</div>
@@ -260,7 +260,7 @@ border:5px solid #000;
 	</div>
 </div>
 <div class="row">
-        <div class="small-24 medium-6 large-4 columns"><label for="newCustActivity_locName" ACCESSKEY="l">Location Name</label></div>
+        <div class="small-24 medium-6 large-4 columns"><span style="color:red;">*</span><label for="newCustActivity_locName" ACCESSKEY="l">Location Name</label></div>
         <div class="small-24 medium-6 large-8 columns"><input type="text" name="newCustActivity_locName" id="newCustActivity_locName" value="" onchange="doChkSubmitValid()"/></div>
         <div class="small-24 medium-6 large-4 columns"><label for="newCustActivity_locAddr" ACCESSKEY="a">Location Address</label></div>
         <div class="small-24 medium-6 large-8 columns"><input type="text" id="newCustActivity_locAddr" value="" /></div>
