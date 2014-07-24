@@ -66,13 +66,12 @@
 		<li><a href="/content/girlscouts-vtk/en/vtk.finances.html" class="label">Finances</a></li>
 		<% } %>
 		</ul>
-			</div>
+	</div>
 <%
         if ( user.getYearPlan()!=null ){ 
 %>
-			</div>
-			<div class="show-for-large large-6 columns">&nbsp;</div>
 		</div>
+		<div class="show-for-large large-6 columns">&nbsp;</div>
 	</div>
 <%
         }

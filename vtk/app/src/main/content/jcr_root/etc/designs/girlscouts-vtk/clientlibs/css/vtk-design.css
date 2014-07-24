@@ -199,6 +199,7 @@ table.planSquareWrapper {
 }
 .planSquareLeft, .planSquareRight{
 	width: 40px;
+	padding: 0;
 }
 .planSquareMiddle {
 	width: 100px;
@@ -621,10 +622,6 @@ ul.formCheckboxes li {
 	border-radius: 6px;
 	font-weight: bold;
 }
-.meetingDetailDescription .button.linkButton , .meetingDetailHeader .button.linkButton {
-}
-
-
 
 .searchResultsItem1 {
 	padding: 10px;
