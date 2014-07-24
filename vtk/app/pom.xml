@@ -27,7 +27,7 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>girlscouts-vtk-api-bundle</artifactId>
+            <artifactId>girlscouts-vtk-replication-bundle</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -90,7 +90,7 @@
                         </embedded>
                         <embedded>
                             <groupId>${project.groupId}</groupId>
-                            <artifactId>girlscouts-vtk-api-bundle</artifactId>
+                            <artifactId>girlscouts-vtk-replication-bundle</artifactId>
                             <target>/apps/girlscouts-vtk/install</target>
                         </embedded>
                         <embedded>
@@ -120,6 +120,11 @@
                                     <embedded>
                                         <groupId>${project.groupId}</groupId>
                                         <artifactId>girlscouts-vtk-bundle</artifactId>
+                                        <target>/apps/girlscouts-vtk/install</target>
+                                    </embedded>
+                                    <embedded>
+                                        <groupId>${project.groupId}</groupId>
+                                        <artifactId>girlscouts-vtk-replication-bundle</artifactId>
                                         <target>/apps/girlscouts-vtk/install</target>
                                     </embedded>
                                     <embedded>
