@@ -201,9 +201,9 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	
 }else if( request.getParameter("testAB")!=null){
 	
-	//userDAO.updateUser(user);
+	userDAO.updateUser(user);
 	//getMeeting(girlscouts-vtk/yearPlanTemplates/yearplan2014/brownie/yearPlan1/meetings/meeting1");
-	meetingDAO.getMeeting("/content/girlscouts-vtk/meetings/myyearplan/brownie/B14OG01");
+	//meetingDAO.getMeeting("/content/girlscouts-vtk/meetings/myyearplan/brownie/B14OG01");
 
 
 
