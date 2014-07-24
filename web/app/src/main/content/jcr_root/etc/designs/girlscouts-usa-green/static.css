@@ -1028,9 +1028,9 @@ padding: 5px 0;
 	height:25px;
 	color:grey;
 	display: inline-block;
-	padding: 4px 3px 5px 5px;
+	padding: 6px 3px 6px 5px;
 	outline: none;
-	font-size:0.8rem;
+	font-size:0.7rem;
 	background-image: url('images/select-dropdown-arrow.png');     
 	background-repeat: no-repeat;
 	background-position: right center;
@@ -1039,10 +1039,10 @@ padding: 5px 0;
 @-moz-document url-prefix() {
 	.dropdown-moz{
 		background: #ffffff url('images/select-dropdown-arrow.png')no-repeat right center;
-		padding-right: 20px;
+		/*padding-right: 20px;*/
 		border: 1px solid #cccccc;
 		top: 0px;
-		float: left;
+		/*float: left;*/
 	}
 } 
 
