@@ -161,7 +161,7 @@
             
          </div>
          <div class="small-16 large-16 medium-16 columns lineHeight">
-           <b><%= locationLabel %></b> <a href="javascript:void(0)" onclick="showMap('<%=locationLabel%>')">Map</a> 
+           <b><%= locationLabel %></b> <%if(address!=null && !address.isEmpty()){%><a href="javascript:void(0)" onclick="showMap('<%=address%>')">Map</a><%} %> 
          </div>
        </div>
        
