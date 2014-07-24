@@ -15,8 +15,9 @@
                 <date
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Date"
+                    hideTime="{Boolean}true"
                     name="./jcr:content/date"
-                    xtype="datefield"/>
+                    xtype="datetime"/>
                 <text
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Text"
