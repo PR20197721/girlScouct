@@ -124,7 +124,7 @@
 	String aidTags = meetingInfo.getAidTags();
 	aidTags = (aidTags==null || "".equals(aidTags.trim())) ? "No tags." : aidTags.trim().toLowerCase();
 %>
-<p class="subSection">Tags: <i><%=aidTags %></i></p>
+<p class="subSection" style="display:none;">Tags: <i><%=aidTags %></i></p>
 <%
 	if ( _aidTags  == null || _aidTags.size() == 0) {
 %>
