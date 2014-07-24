@@ -123,4 +123,25 @@ public class LocationUtil {
 		
 	  
   }
+  
+  
+  
+  
+  
+	public void setLocationAllEmpty( User user, String locationPath ){
+		
+		YearPlan plan= user.getYearPlan();
+		List <MeetingE> meetings = plan.getMeetingEvents();
+		for(int i=0;i<meetings.size();i++){
+			
+			MeetingE meeting = meetings.get(i);
+			if( meeting.getLocationRef()==null || meeting.getLocationRef().equals(""))
+				meeting.setLocationRef(locationPath);
+			
+		}
+		
+		
+		userDAO.updateUser(user);
+		
+	}
 }
