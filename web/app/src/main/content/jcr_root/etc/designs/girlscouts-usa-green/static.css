@@ -985,12 +985,12 @@ div#contactsList{
 }
 
 .contact-list td.name{
-	width: 40%;
+	width: 30%;
 	padding-left: 0px;
 }
 
 .contact-list td.title{
-	width: 30%;
+	width: 40%;
 }
 
 .contact-list td.phone{
