@@ -30,10 +30,13 @@
             mode="replace"
             root="/etc/designs/girlscouts-vtk"
             rules="[]"/>
+        <!-- Mike Z. Don't deploy the vtk-publish once it is setup. -->
+        <!--
         <f4
             jcr:primaryType="cq:Page"
             mode="replace"
             root="/etc/replication/agents.publish/vtk-publish"
             rules="[]"/>
+         -->
     </filter>
 </jcr:root>
