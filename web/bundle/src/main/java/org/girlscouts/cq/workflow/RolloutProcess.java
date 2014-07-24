@@ -75,10 +75,12 @@ public class RolloutProcess implements WorkflowProcess {
         
         if (srcPage == null) {
             log.error("Resource is not a page. Quit. " + srcPath);
+            return;
         }
         
         if (!relationManager.isSource(srcRes)) {
-            log.debug("Not a live copy source page. Quit. " + srcPath);
+            log.error("Not a live copy source page. Quit. " + srcPath);
+            return;
         }
 
         try {
