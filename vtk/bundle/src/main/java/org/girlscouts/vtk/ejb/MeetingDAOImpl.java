@@ -1,8 +1,5 @@
 package org.girlscouts.vtk.ejb;
 
-import java.io.FileOutputStream;
-
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -11,27 +8,24 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
-
+import javax.jcr.Value;
 import javax.jcr.query.QueryResult;
 import javax.jcr.query.Row;
 import javax.jcr.query.RowIterator;
 
-
-import net.fortuna.ical4j.data.CalendarOutputter;
 import net.fortuna.ical4j.model.DateTime;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.CalScale;
 import net.fortuna.ical4j.model.property.Description;
-import net.fortuna.ical4j.model.property.DtEnd;
 import net.fortuna.ical4j.model.property.ProdId;
 import net.fortuna.ical4j.model.property.Version;
 import net.fortuna.ical4j.util.UidGenerator;
 
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.felix.scr.annotations.Activate;
-
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
@@ -44,30 +38,22 @@ import org.apache.jackrabbit.ocm.query.Query;
 import org.apache.jackrabbit.ocm.query.QueryManager;
 import org.girlscouts.vtk.dao.AssetComponentType;
 import org.girlscouts.vtk.dao.MeetingDAO;
-import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Asset;
-import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.JcrCollectionHoldString;
 import org.girlscouts.vtk.models.JcrNode;
-import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
-import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.SearchTag;
-import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
 import org.girlscouts.vtk.models.user.User;
 import org.girlscouts.web.search.DocHit;
 
 import com.day.cq.search.PredicateGroup;
+import com.day.cq.search.QueryBuilder;
 import com.day.cq.search.result.Hit;
 import com.day.cq.search.result.SearchResult;
-
-import com.day.cq.search.QueryBuilder;
-
-import javax.jcr.*;
 
 
 
@@ -1234,20 +1220,6 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 	java.util.List<Activity> toRet= new java.util.ArrayList();
 			
 	try{
-		/*
-		final String RESOURCES_PATH = "resources";
-		String councilId = null;
-		if (user.getTroop() != null) {
-		    
-		        councilId = Integer.toString(user.getTroop().getCouncilCode());
-		    
-		}
-		//CouncilMapper mapper = sling.getService(CouncilMapper.class);
-		String branch = councilMapper.getCouncilBranch(councilId);
-
-		// TODO: language?
-		String resourceRootPath = branch + "/en/" + RESOURCES_PATH;
-		*/
 		
 		
 		boolean isTag=false;
@@ -1303,7 +1275,21 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 		
 		//- org SQL String sql="select start, jcr:title, details, end,locationLabel,srchdisp  from nt:base where jcr:path like '"+ path +"' " ;
 		
-		String sql= "select child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, [/content/gateway/en/events/2014])) and child.start is not null and parent.[jcr:title] is not null " ;
+		String councilId = null;
+		if (user.getTroop() != null) {
+		        councilId = Integer.toString(user.getTroop().getCouncilCode());
+		}
+		String branch = councilMapper.getCouncilBranch(councilId);
+		// TODO: language?
+		branch += "/en";
+		String eventPath = "";
+		try {
+		    eventPath = session.getProperty(branch + "/jcr:content/eventPath").getString();
+		} catch (Exception e) {}
+
+		String sql= "select child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, [" + eventPath + "])) and child.start is not null and parent.[jcr:title] is not null " ;
+		// This is Alex's CACA. Alex: please cleanup your shit!
+		//String sql= "select child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, [/content/gateway/en/events/2014])) and child.start is not null and parent.[jcr:title] is not null " ;
 		//String sql= "select child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, ["+ resourceRootPath +"])) and child.start is not null and parent.[jcr:title] is not null " ;
 		
 		

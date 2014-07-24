@@ -25,7 +25,7 @@
         <%if( user.getYearPlan().getSchedule()!=null ) {%>
 				<div class="cal"><span class="month"><%= FORMAT_MONTH.format(searchDate)%><br/></span><span class="day"><%= FORMAT_DAY_OF_MONTH.format(searchDate)%><br/></span><span class="time hide-for-small"><%= FORMAT_hhmm_AMPM.format(searchDate)%></span></div>
         <%} else {%>
-                                <div class="cal"><span class="month">Meeting<br/></span><span class="day hide-for-small"><%=meetingCount%></span></div>
+                                <div class="cal"><span class="month">Meeting<br/></span><span class="day"><%=meetingCount%></span></div>
         <%}%>
 			</div>
 		</div>
@@ -56,7 +56,7 @@
 <%
 	} else {
 %>
-			<i>No location specified.</i>
+			<p><i>No location specified.</i></p>
 <%
 	}
 	if( meeting.getCancelled()!=null && meeting.getCancelled().equals("true")){
@@ -67,14 +67,14 @@
 %>
 	</div>
         <div class="small-24 medium-6 large-5 columns linkButtonWrapper">
-		<a href="javascript:void(0)" class="mLocked button linkButton" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=meeting.getPath()%>&xx=<%=searchDate.getTime()%>', false, null, true)">replace this meeting</a>
+		<a href="#" class="mLocked button linkButton" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=meeting.getPath()%>&xx=<%=searchDate.getTime()%>', false, null, true)">replace this meeting</a>
 		<br/>
 <%
 	String img= "";
 	try{
 		img= meeting.getRefId().substring( meeting.getRefId().lastIndexOf("/")+1).toUpperCase(); 
 %>
-		<img class="hide-for-small" width="100" height="100" src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png"/>
+		<img  width="100" height="100" src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png" align="center"/>
 <%
 	}catch(Exception e){
 		// no image
