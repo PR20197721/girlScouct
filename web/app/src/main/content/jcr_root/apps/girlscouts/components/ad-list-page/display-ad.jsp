@@ -1,4 +1,5 @@
 <%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/girlscouts/components/global.jsp"%>
 
 <%
 final String AD_ATTR = "apps.girlscouts.components.ad-list-page.currentAd";
@@ -8,9 +9,9 @@ if (currentAd != null) {
 	String path = currentAd.getPath();
 	String adLink = currentAd.getProperties().get("link", "");
 	if (adLink != null && !adLink.isEmpty()) {
-		adLink = adLink + ".html";
+		adLink = genLink(resourceResolver, adLink);
 	} else {
-		adLink = path + ".html";	
+		adLink = genLink(resourceResolver, path);	
 	}
 %>
 	<a href="<%=adLink%>"><cq:include path= "<%=path +"/jcr:content/image"%>" resourceType="girlscouts/components/image" /></a>
