@@ -16,7 +16,7 @@ Activity activity = (Activity) _comp;
         <%if( user.getYearPlan().getSchedule()!=null ) {%>
 							<div class="cal"><span class="month"><%= FORMAT_MONTH.format(activity.getDate())%><br/></span><span class="day"><%= FORMAT_DAY_OF_MONTH.format(activity.getDate())%></span></div>
         <%} else {%>
-							<div class="cal"><span class="month">Activity<br/></span><span class="day hide-for-small"><%=meetingCount%></span></div>
+							<div class="cal"><span class="month">Activity<br/></span><span class="day"><%=meetingCount%></span></div>
         <%}%>
 						</div>
 					</div>
@@ -50,6 +50,7 @@ ageLevel=ageLevel.toLowerCase().trim();
 
 
 <br/><br/>Cost:<%=FORMAT_CURRENCY.format(activity.getCost()) %>
+<br/><br/>
 
 <div style="background-color:#efefef"><%=activity.getContent()%></div>
 
@@ -58,12 +59,7 @@ ageLevel=ageLevel.toLowerCase().trim();
 <%if( activity.getDate().after( new java.util.Date())){ %>
 		<a href="#" class="button linkButton" onclick="rmCustActivity12('<%=activity.getPath()%>')">delete this activity</a>
 <%} %>
-		<!-- a href="#" class="button linkButton" onclick="openClose('editCustActiv')">edit activity</a --> 
-          
           <a href="#" class="button linkButton" onclick="doEditActivity('editCustActiv')">edit activity</a>
-        
-          
-          
                 <br/>
         </div>        
         
@@ -287,25 +283,24 @@ $('#newCustActivity1').click(function() {
 </script>  
 <div id="editCustActiv" style=" display:none;">
 <form class="cmxform" id="signupForm">
-	
-	<h2>Edit Activity</h2>
 	<div class="sectionBar">Edit Custom Activity</div>
 	<div id="newCustActivity_err" style="color:red;"></div>
         <div class="row">
-                <div class="small-6 columns">
-			<font color="red">*</font> <input type="text" name="newCustActivity_name" id="newCustActivity_name" value="<%=activity.getName() %>" style="width:200px;" placeholder="Name of Activity"/>
+                <div class="large-6 medium-12 small-24 columns">
+			<font color="red">*</font> <input type="text" name="newCustActivity_name" id="newCustActivity_name" value="<%=activity.getName() %>" placeholder="Name of Activity"/>
 		</div>
-                <div class="small-6 columns">
+                <div class="large-6 medium-12 small-24 columns">
 			Date: ex:05/07/2014<input type="text" name="newCustActivity_date" id="newCustActivity_date" value="<%=FORMAT_MMddYYYY.format(activity.getDate()) %>" style="width:160px;"/>
                 </div>  
-                <div class="small-6 columns">
+                <div class="large-6 medium-12 small-24 columns">
 			Start Time: <input type="text" name="newCustActivity_startTime" id="newCustActivity_startTime" value="<%= FORMAT_hhmm_AMPM.format(activity.getDate())%>" style="width:100px;" />
 			<select id="newCustActivity_startTime_AP">
 			 
 			 <option value="am" <%=  FORMAT_AMPM.format(activity.getDate()).toUpperCase().trim().equals("AM") ? "SELECTED" : "" %>>am</option>
 			<option value="pm" <%=  FORMAT_AMPM.format(activity.getDate()).toUpperCase().trim().equals("PM") ? "SELECTED" : "" %>>pm</option>
-			 </select> </div>  
-                <div class="small-6 columns">
+			 </select>
+		</div>  
+                <div class="large-6 medium-12 small-24 columns">
 			End Time: <input type="text" id="newCustActivity_endTime" value="<%=FORMAT_hhmm_AMPM.format(activity.getEndDate()) %>"  style="width:100px;"/>
 			<select id="newCustActivity_endTime_AP">
 			<option value="am" <%=  FORMAT_AMPM.format(activity.getEndDate()).toUpperCase().trim().equals("AM") ? "SELECTED" : "" %>>am</option>
@@ -313,31 +308,29 @@ $('#newCustActivity1').click(function() {
                 </div> 
 	</div>
         <div class="row">
-                <div class="small-12 columns">
+                <div class="small-24 medium-12 large-12 columns">
 			Location Name <input type="text" id="newCustActivity_locName" value="<%=activity.getLocationName() %>" style="width:100px;"/>
 		</div>
-                <div class="small-12 columns">
+                <div class="small-24 medium-12 large-12 columns">
 			Location Address <input type="text" id="newCustActivity_locAddr" value="<%=activity.getLocationAddress() %>" style="width:100px;"/>
                 </div>
 	</div>
         <div class="row">
-                <div class="small-16 columns">
+                <div class="small-24 medium-12 large-12 columns">
+			Cost: <input type="text" name="newCustActivity_cost"  id="newCustActivity_cost" value="<%=FORMAT_COST_CENTS.format(activity.getCost())%>"/>
+                </div>
+                <div class="large-12 medium-12 small-24 columns">
 			<textarea id="newCustActivity_txt" rows="4" cols="5" " style="width:300px;"><%=activity.getContent() %></textarea>
                 </div>
-                <div class="small-8 columns">
-                
-                
-              <div style="background-color:red;">Cost: <input type="text" name="newCustActivity_cost"  id="newCustActivity_cost" value="<%=FORMAT_COST_CENTS.format(activity.getCost())%>"/></div>
-			<input type="button" value="Save" id="newCustActivity1" onclick="saveActivity()"/>
-			<input type="button" value="Cancel" onclick="openClose('editCustActiv')"/>
-			  
-             
+	</div>
+        <div class="row">
+                <div class="small-24 large-24 medium-24 columns centered-table">
+			<input class="button linkButton" type="button" value="Save" id="newCustActivity1" onclick="saveActivity()"/>
+			<input class="button linkButton" type="button" value="Cancel" onclick="openClose('editCustActiv')"/>
                 </div>
         </div>
 	 </form>
-
 </div>
-
 <%--@include file="../include/manageCommunications.jsp" --%>
 
 

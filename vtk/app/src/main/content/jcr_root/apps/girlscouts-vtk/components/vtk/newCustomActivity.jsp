@@ -13,7 +13,6 @@
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.maskMoney.js"></script>
 
-
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.datepicker.validation.js"></script>
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.validate.js"></script>
 
@@ -224,11 +223,12 @@ border:5px solid #000;
         </ul>
 </div>
 <div class="row modalBody">
-        <div class="small-24 columns">
+        <div class="small-24 medium-24 large-24 columns">
                 <div id="createActivitySection">
 <form class="cmxform" id="signupForm">
 <div class="sectionBar">Create a Custom Activity</div>
 <div class="errorMsg error"></div>
+
 <div class="row">
         <div class="small-24 medium-5 large-4 columns"><span style="color:red;">*</span><label for="newCustActivity_name" ACCESSKEY="n">Activity Name</label></div>
         <div class="small-24 medium-7 large-8 columns"><input type="text" name="newCustActivity_name" id="newCustActivity_name" value="" onchange="doChkSubmitValid()"/></div>
@@ -276,8 +276,7 @@ border:5px solid #000;
 </div>
 <br/><br/>
 <div class="linkButtonWrapper">
-	 <!--   <input type="button" value="Add Activity" id="newCustActivity" class="button linkButton" disabled/> -->
-	    <input type="button" value="Add Activity 1" id="newCustActivity"  disabled/>
+	    <input class="button linkButton" type="button" value="Add Activity" id="newCustActivity"  disabled/>
 </div>
 </form>
 
