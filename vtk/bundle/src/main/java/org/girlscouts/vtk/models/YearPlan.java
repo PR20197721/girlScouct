@@ -37,7 +37,7 @@ public class YearPlan {
 		calFreq="biweekly";
 		}
 	
-	@Field private String name, desc, id, refId, altered;
+	@Field private String name, desc, id, refId, altered, resources;
 	@Field(path=true) String path;
 	@Collection private java.util.List <MeetingE> meetingEvents;
 	@Collection private java.util.List <Activity> activities;
@@ -54,12 +54,44 @@ public class YearPlan {
 	
 	
 
+	public String getResources() {
+		return resources;
+	}
+
+	public void setResources(String resources) {
+		this.resources = resources;
+	}
+
 	public java.util.List<Milestone> getMilestones() {
 		return milestones;
 	}
 
 	public void setMilestones(java.util.List<Milestone> milestones) {
-		this.milestones = milestones;
+		//-this.milestones = milestones;
+		
+milestones = new java.util.ArrayList();
+		
+		Milestone m= new Milestone();
+		m.setBlurb("Cookie Sales Start");
+		m.setDate( new java.util.Date("12/07/2014") );
+		milestones.add(m);
+		
+
+		m= new Milestone();
+		m.setBlurb("Troops re-register");
+		m.setDate( new java.util.Date("09/30/2014") );
+		milestones.add(m);
+		
+		
+
+		m= new Milestone();
+		m.setBlurb("Cookie Sales End");
+		m.setDate( new java.util.Date("03/29/2015") );
+		milestones.add(m);
+		
+		
+		this.milestones= milestones;
+		
 	}
 
 	public String getAltered() {
@@ -166,4 +198,8 @@ public class YearPlan {
 	public void setDesc(String desc) {
 		this.desc = desc;
 	}
+	
+	
+	
+	
 }

@@ -74,7 +74,7 @@
 <%}%>
 	<div class="sectionHeader">YEAR PLAN LIBRARY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <% if(user.getYearPlan()!=null){%>
-		<a href="javascript:void(0)" onclick="yesPlan()" id="showHideReveal">reveal</a> <span id="arrowDirection" class="arrowDirection">&#9660;</span>
+		<a href="#" onclick="yesPlan()" id="showHideReveal">reveal</a>&nbsp;<span id="arrowDirection" class="arrowDirection">&#9660;</span>
 <%} %>
 	</div>
 <% if(user.getYearPlan()!=null){%>
@@ -124,7 +124,21 @@ while (yearPlans.hasNext()) {
         <div id="panelRight" class="small-24 medium-24 large-6 columns">
 		<h2 id="resourceListing">Featured Resources:</h2>
 		<br/>
-		<p><i>Coming Soon...</i></p>
+		<ul>
+		
+			<%
+				java.util.List <Asset> assets = meetingDAO.getGlobalResources( user.getYearPlan().getResources());
+				for(int i=0;i<assets.size();i++){
+					Asset asset = assets.get(i);
+					%><li>- <a href="<%=asset.getRefId()%>" target="_blank"><%=asset.getTitle() %></a></li> <% 
+				}
+				if (assets.size() ==0) {
+%>
+                        <li><i>No resources</i></li>
+<%
+				}
+			%>
+		</ul>
 	</div>
 </div>
 <%
