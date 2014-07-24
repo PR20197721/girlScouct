@@ -1626,9 +1626,17 @@ public java.util.List<Asset> getGlobalResources( String resourceTags){
 		
 		
 		java.util.Map<String, String> map = new java.util.HashMap<String, String>();
-		   
+		map.put("group.p.or", "true"); 
+		
+		
+		resourceTags+=";"; //if 1 tag no delim
 		StringTokenizer t= new StringTokenizer( resourceTags, ";");
-	     map.put("fulltext", t.nextToken());
+		
+		int i=1;
+	   while(t.hasMoreElements()){
+		map.put("group."+i+"_fulltext", t.nextToken());
+		i++;
+	   }
 	   
 	    
 	     map.put("path", "/content/dam/girlscouts-vtk/global/resource");
@@ -1640,6 +1648,7 @@ public java.util.List<Asset> getGlobalResources( String resourceTags){
 	    
 	    
 	    com.day.cq.search.Query query = qBuilder.createQuery(PredicateGroup.create(map), session);
+	    
 	
 	    query.setStart(0);
 	    query.setHitsPerPage(100);
