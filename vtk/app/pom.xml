@@ -124,6 +124,11 @@
                                     </embedded>
                                     <embedded>
                                         <groupId>${project.groupId}</groupId>
+                                        <artifactId>girlscouts-vtk-replication-bundle</artifactId>
+                                        <target>/apps/girlscouts-vtk/install</target>
+                                    </embedded>
+                                    <embedded>
+                                        <groupId>${project.groupId}</groupId>
                                         <artifactId>ical4j-wrapper</artifactId>
                                         <target>/apps/girlscouts-vtk/install</target>
                                     </embedded>
