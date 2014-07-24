@@ -91,7 +91,7 @@ milestones = new java.util.ArrayList();
 		
 		
 		this.milestones= milestones;
-		
+		calFreq="biweekly"; //todo rm
 	}
 
 	public String getAltered() {

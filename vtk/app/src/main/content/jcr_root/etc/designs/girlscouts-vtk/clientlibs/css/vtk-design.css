@@ -619,10 +619,10 @@ ul.formCheckboxes li {
 	color: #00a850;
 	font-size: 0.9em;
 	border-radius: 6px;
-	padding: 0.8em;
+	padding: 0.4em;
+	font-weight: bold;
 }
 .meetingDetailDescription .button.linkButton , .meetingDetailHeader .button.linkButton {
-	padding: 0;
 }
 
 

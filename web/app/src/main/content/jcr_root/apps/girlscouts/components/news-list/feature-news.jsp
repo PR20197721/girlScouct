@@ -1,4 +1,4 @@
-<%@ page import="java.text.DateFormat,com.day.cq.wcm.api.WCMMode,com.day.cq.wcm.foundation.List, com.day.cq.wcm.api.components.DropTarget,com.day.cq.search.Query,com.day.cq.search.result.SearchResult,com.day.cq.search.result.Hit, java.util.Map,java.util.HashMap,com.day.cq.search.QueryBuilder,com.day.cq.search.PredicateGroup,java.util.Arrays,java.util.HashSet,java.util.ArrayList, java.util.Iterator,java.text.SimpleDateFormat,java.util.Date, java.text.Format,com.day.cq.dam.commons.util.DateParser,java.util.Set"%>
+<%@ page import="java.text.DateFormat,com.day.cq.wcm.api.WCMMode,com.day.cq.wcm.foundation.List, com.day.cq.wcm.api.components.DropTarget,com.day.cq.search.Query,com.day.cq.search.result.SearchResult,com.day.cq.search.result.Hit, java.util.Map,java.util.HashMap,com.day.cq.search.QueryBuilder,com.day.cq.search.PredicateGroup,java.util.Arrays,java.util.HashSet,java.util.ArrayList, java.util.Iterator,java.text.SimpleDateFormat,java.util.Date, java.text.Format,com.day.cq.dam.commons.util.DateParser,java.util.Set,java.text.DateFormat"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <%@include file="newsHelper.jsp" %>
@@ -13,9 +13,7 @@
 
     SearchResult results = (SearchResult)request.getAttribute("results");
     java.util.List <Hit> resultsHits = results.getHits();
-	DateFormat inFormatter = new SimpleDateFormat("MM/dd/yy");
-	Format formatter = new SimpleDateFormat("dd MMM yyyy");
-	 
+	
 	Integer count =  Integer.parseInt(properties.get("count",String.class));
 	Set<String> featureNews = (HashSet)request.getAttribute("featureNews"); 
 	if(count > resultsHits.size()){
