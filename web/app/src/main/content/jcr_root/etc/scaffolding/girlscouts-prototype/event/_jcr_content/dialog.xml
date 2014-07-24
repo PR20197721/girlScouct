@@ -31,7 +31,7 @@
                     xtype="textfield"/>
                 <locationLabel
                     jcr:primaryType="cq:Widget"
-                    fieldLabel="Location Label"
+                    fieldLabel="Location Name"
                     name="./jcr:content/data/locationLabel"
                     xtype="textfield"/>
                 <address

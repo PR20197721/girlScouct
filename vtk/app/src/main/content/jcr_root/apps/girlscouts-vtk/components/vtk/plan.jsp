@@ -4,6 +4,9 @@
 <%@include file="include/session.jsp"%>
 <div id="errInfo" title="tmp"></div>
 <div id="planBody">
+
+
+
 <%!
 	String activeTab = "plan";
 	boolean showVtkNav = true;
