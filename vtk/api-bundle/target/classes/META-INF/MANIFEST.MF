@@ -1,0 +1,32 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1405448591402
+Build-Jdk: 1.6.0_65
+Built-By: mgarg
+Bundle-ClassPath: .,jackrabbit-ocm-1.5.3.jar,commons-digester-1.7.jar,co
+ mmons-logging-1.0.jar,xml-apis-1.0.b2.jar,commons-collections-3.1.jar,c
+ ommons-lang-2.1.jar,cglib-2.1_3.jar,asm-1.5.3.jar,commons-beanutils-1.7
+ .0.jar
+Bundle-Description: Maven Multimodule project for Girl Scouts Volunteer 
+ Toolkit.
+Bundle-ManifestVersion: 2
+Bundle-Name: Girl Scouts Volunteer Toolkit API Bundle
+Bundle-SymbolicName: org.girlscouts.vtk.girlscouts-vtk-api-bundle
+Bundle-Version: 1.0.0.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Embed-Dependency: *;scope=compile|runtime
+Embed-Transitive: true
+Embedded-Artifacts: jackrabbit-ocm-1.5.3.jar;g="org.apache.jackrabbit";a
+ ="jackrabbit-ocm";v="1.5.3",commons-digester-1.7.jar;g="commons-digeste
+ r";a="commons-digester";v="1.7",commons-logging-1.0.jar;g="commons-logg
+ ing";a="commons-logging";v="1.0",xml-apis-1.0.b2.jar;g="xml-apis";a="xm
+ l-apis";v="1.0.b2",commons-collections-3.1.jar;g="commons-collections";
+ a="commons-collections";v="3.1",commons-lang-2.1.jar;g="commons-lang";a
+ ="commons-lang";v="2.1",cglib-2.1_3.jar;g="cglib";a="cglib";v="2.1_3",a
+ sm-1.5.3.jar;g="asm";a="asm";v="1.5.3",commons-beanutils-1.7.0.jar;g="c
+ ommons-beanutils";a="commons-beanutils";v="1.7.0"
+Ignore-Package: org.objectweb.asm.util,org.objectweb.asm.attrs,org.apach
+ e.tools.ant.types,org.codehaus.aspectwerkz.hook,org.apache.tools.ant
+Import-Package: javax.jcr;version="[2.0,3)",javax.jcr.lock;version="[2.0
+ ,3)",javax.jcr.nodetype;version="[2.0,3)",javax.jcr.query;version="[2.0
+ ,3)",javax.jcr.version;version="[2.0,3)",org.apache.log4j
+Tool: Bnd-1.50.0
