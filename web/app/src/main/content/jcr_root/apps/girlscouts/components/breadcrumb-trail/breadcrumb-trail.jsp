@@ -21,8 +21,10 @@
 	String title="";
 
 	// TO DO Move Hard Code into a variable this in the properties file
-	if(resrc.isResourceType("girlscouts/components/event-page")){
-		String breadcrumb = currentSite.get("leftNavRoot", String.class);
+	if(resrc.isResourceType("girlscouts/components/event-page") || resrc.isResourceType("girlscouts/components/news-page")){
+		String breadcrumb = currentSite.get("leftNavRoot", String.class);;
+		if(resrc.isResourceType("girlscouts/components/news-page"))
+			breadcrumb = currentSite.get("newsPath",String.class);
 		String absolutePath = currentPage.getAbsoluteParent(2).getPath();
 		String[] actualPaths = breadcrumb.substring(absolutePath.length()+1, breadcrumb.length()).split("/");
 
