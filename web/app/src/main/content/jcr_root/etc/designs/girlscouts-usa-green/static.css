@@ -980,16 +980,21 @@ ul.inline-list.eyebrow-fontsize{
 margin-bottom: 5px;
 }
 
+div#contactsList{
+	padding-top: 10px;
+}
+
 .contact-list td.name{
 	width: 40%;
+	padding-left: 0px;
 }
 
 .contact-list td.title{
-	width: 25%;
+	width: 30%;
 }
 
 .contact-list td.phone{
-	width: 30%;
+	width: 25%;
 }
 
 .contact-list td.email{
