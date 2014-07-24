@@ -4,6 +4,8 @@
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 
+
+<a href="javascript:void(0)" onclick="this.print();">Print</a>
 <% 
 	MeetingE meeting = null;
 	java.util.List<MeetingE> meetings = user.getYearPlan().getMeetingEvents();
