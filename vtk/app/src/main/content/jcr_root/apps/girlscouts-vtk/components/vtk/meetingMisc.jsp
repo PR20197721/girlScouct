@@ -5,7 +5,7 @@
 <%@include file="include/session.jsp"%>
 
 
-<a href="javascript:void(0)" onclick="this.print();">Print</a>
+<a href="javascript:void(0)" onclick="window.print();">Print</a>
 <% 
 	MeetingE meeting = null;
 	java.util.List<MeetingE> meetings = user.getYearPlan().getMeetingEvents();
