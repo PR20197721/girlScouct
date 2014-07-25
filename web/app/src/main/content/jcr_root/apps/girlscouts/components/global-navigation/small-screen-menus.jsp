@@ -6,7 +6,6 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 <!-- apps/girlscouts/components/global-navigation/global-navigation.jsp -->
-
 <%
 
    String currPath = currentPage.getPath();  
@@ -19,14 +18,13 @@
    String eventPath = currentSite.get("eventPath", String.class);
    String gs_us_path = currentPage.getAbsoluteParent(2).getPath();
    String rootPath = currentPage.getPath().substring(gs_us_path.length()+1, currPath.length()); 
-   
-// TODO: Manu: please fix
+
+   // TODO: Manu: please fix
    String eventGrandParent = null;
    try {
        eventGrandParent = currentPage.getParent().getParent().getPath();
    } catch (Exception e) {}
-     
-   
+
    String eventLeftNavRoot = currentSite.get("leftNavRoot", String.class);
    String eventDisplUnder = currentSite.get("eventPath", String.class);
    boolean levelFlag = true;
@@ -58,15 +56,13 @@
 				            menuBuilder.append("<div>");
 				            menuBuilder.append(createHref(page));
 				            menuBuilder.append("</div>");
-				            //i
-				            //menuBuilder.append("</li>");
+				            menuBuilder.append("</li>");
 				     }
 				    Iterator<Page> p = page.listChildren(); 
 				    if(p.hasNext()){
 				           buildMenu(p, rootPath,gs_us_path, menuBuilder, levelDepth,nodePath, levelFlag,eventLeftNavRoot,currPath, currTitle, eventDispUnder);           
 					}
-				 }
-				 else{
+				 } else{
 					// CHECKING FOR THE EVENT SPECIAL CASE 
 					if(page.getPath().indexOf(eventLeftNavRoot)==0 && currPath.indexOf(eventDispUnder)==0){
 					    menuBuilder.append("<li>");
@@ -80,20 +76,19 @@
 					    menuBuilder.append("<a href=").append(currPath+".html").append(">").append(currTitle).append("</a>");
 					    menuBuilder.append("</div>");
 					    menuBuilder.append("</li></ul>");
-					}else
-					{
+					}else {
 					   menuBuilder.append("<li>");
 					   menuBuilder.append("<div>");
 					   menuBuilder.append("<a href=").append(createHref(page));
 					   menuBuilder.append("</div>");
-					   //i
-					   //menuBuilder.append("</li>");
+					   menuBuilder.append("</li>");
 					}
 				}
 			
 			 }// end of if
       }//while
-     menuBuilder.append("</li>");
+     menuBuilder.append("");
+
   }
      menuBuilder.append("</ul>"); 
     // return menuBuilder;
@@ -163,7 +158,7 @@ for (int i = 0; i < links.length; i++){
         	  if(currPath.startsWith(eventPath) && eventLeftNavRoot.startsWith(menuPath)){%>
          		  <li id="sub-active">
               	   <div><a href="<%= path %>"><%= sLabel %></a></div>
-          		<%
+<%
              	 if(eventGrandParent.equalsIgnoreCase(currentSite.get("eventPath", String.class))){
                    eventPath = eventLeftNavRoot.substring(0,eventLeftNavRoot.lastIndexOf("/"));
                    iterPage = resourceResolver.getResource(eventPath).adaptTo(Page.class).listChildren();
@@ -184,9 +179,11 @@ for (int i = 0; i < links.length; i++){
              	   %>
             		 <li id="sub-active">
           		  <%}  
+if (!"".equals(sLabel)) {
                %>
             	 <div><a href="<%= path %>"><%= sLabel %></a></div>
-           		 <% 
+<% 
+}
               		 if(currPath.indexOf(menuPath)==0 || (!eventPath.isEmpty() && menuPath.equals(eventPath))){
                 		 buildMenu(iterPage, rootPath, gs_us_path, menuBuilder, levelDepth,"",levelFlag,eventLeftNavRoot, currPath, currTitle, eventDisplUnder);
                		 }

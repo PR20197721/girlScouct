@@ -724,6 +724,10 @@ td.fc-header-left{
  padding:1.35px 0 0 1.35px
 }
 
+.logoLarge, .logoSmall, .mobileFooterLogo {
+	text-align:center;
+}
+
 .eyebrow-fontsize>li a{
  font-size:0.875rem;
 

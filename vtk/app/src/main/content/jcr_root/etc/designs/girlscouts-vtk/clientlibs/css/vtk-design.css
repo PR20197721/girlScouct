@@ -1,6 +1,11 @@
 .vtk {
 	padding: .25em;
 }
+#main {
+	margin: 0 auto;
+	max-width:60em;
+	padding: 0 0.9375em;
+}
 .ui-dialog {
 	background: #ffffff;
 }

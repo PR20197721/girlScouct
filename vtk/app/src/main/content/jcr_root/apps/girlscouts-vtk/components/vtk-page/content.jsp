@@ -9,15 +9,14 @@
 
 <!-- TODO -->
 <!-- <cq:includeClientLib categories="apps.girlscouts-vtk" /> -->
-<link rel="stylesheet" href="/etc/designs/girlscouts-vtk/clientlibs.css" type="text/css">
-<script src="/etc/designs/girlscouts-vtk/clientlibs.js"></script>
+<link rel="stylesheet" href="/etc/designs/girlscouts-vtk/clientlibs.css" type="text/css" media="screen">
+<script type="text/javascript"src="/etc/designs/girlscouts-vtk/clientlibs.js"></script>
+
 <script>
 	fixVerticalSizing = false;
 </script>
 <!--PAGE STRUCTURE: MAIN-->
-<div id="main" class="row">
-	<div class="large-24 medium-24 small-24 columns">
-		<cq:include path="vtk" resourceType="girlscouts-vtk/components/vtk" />
-	</div>
+<div id="main">
+	<cq:include path="vtk" resourceType="girlscouts-vtk/components/vtk" />
 </div>
 
