@@ -9,5 +9,4 @@
 			</div>
 		</div>
 		<div id="gsModal"></div>
-        <cq:include script="google-analytics.jsp" />
 	</body>
