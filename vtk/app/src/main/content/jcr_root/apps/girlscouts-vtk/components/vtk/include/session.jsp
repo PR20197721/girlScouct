@@ -55,8 +55,9 @@ final UserDAO userDAO = sling.getService(UserDAO.class);
 final MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
 
 HttpSession session = request.getSession();
-//out.print(session.getId());
+
 int timeout = session.getMaxInactiveInterval();
+//out.print(session.getId()+" : " + timeout);
 response.setHeader("Refresh", timeout + "; URL = /content/girlscouts-vtk/en/vtk.logout.html");
 boolean isTest = false;
 if( isTest ) {
