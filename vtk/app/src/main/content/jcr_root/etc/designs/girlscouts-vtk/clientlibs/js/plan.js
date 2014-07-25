@@ -123,7 +123,7 @@ function loadModal(divSelector, showTitle, title, fullPageScroll) {
 				$(this).css({overflow: 'scroll'});
 			},
 			"close": function() {
-				alert(1)
+				
 				$("body").css({ overflow: 'inherit' });
 			}
 		});
