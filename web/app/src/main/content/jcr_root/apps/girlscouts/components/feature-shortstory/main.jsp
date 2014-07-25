@@ -20,7 +20,7 @@
 %>
 <div class="small-24 medium-24 large-24 columns">
 	<div class="row">
-		<div class="hide-for-small hide-for-medium large-24 columns featureStoriesHeader">
+		<div class="hide-for-small hide-for-medium large-24 columns featureHeader">
 			<div class="feature-icon">
 				<img src="<%= featureIcon %>" width="50" height="50" />
 			</div>
@@ -28,8 +28,7 @@
 				<h2><a href="<%= linkTitle %>"><%= title %></a></h2>
 			</div>
 		</div>
-		<div class="medium-8 show-for-medium columns">&nbsp;</div>
-		<div class="small-24 medium-24 hide-for-large  hide-for-xlarge hide-for-xxlarge columns">
+		<div class="small-24 medium-24 hide-for-large  hide-for-xlarge hide-for-xxlarge columns featureSmallHeader">
 			<div class="feature-icon">
 				<img src="<%= featureIcon %>" width="50" height="50" />
 			</div>
@@ -37,7 +36,6 @@
 				<h2><a href="<%= linkTitle %>"><%= title %></a></h2>
 			</div>
 		</div>
-		<div class="medium-4 show-for-medium columns">&nbsp;</div>
 	</div>
 	<div class="row content">
 		<% if (properties.get("imageOnLeft", "off").equals("on")) { %>

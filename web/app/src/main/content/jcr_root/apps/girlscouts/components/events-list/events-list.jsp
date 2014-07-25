@@ -66,7 +66,7 @@
 
 <div class="small-24 medium-24 large-24 columns events-section">
 	<div class="row">
-		<div class="hide-for-small hide-for-medium large-24 columns featureEventsHeader">
+		<div class="hide-for-small hide-for-medium large-24 columns featureHeader">
 			<div class="feature-icon">
 				<img src="<%= iconImg %>" width="50" height="50"/>
 			</div>
@@ -74,8 +74,7 @@
 				<h2><a href="<%= eventsLink %>"><%= featureTitle %></a></h2>
 			</div>
 		</div>
-		<div class="medium-8 show-for-medium columns">&nbsp;</div>
-		<div class="small-24 medium-24 hide-for-large  hide-for-xlarge hide-for-xxlarge columns">
+		<div class="small-24 medium-24 hide-for-large  hide-for-xlarge hide-for-xxlarge columns featureSmallHeader">
 			<div class="feature-icon">
 				<img src="<%= iconImg %>" width="50" height="50"/>
 			</div>
@@ -83,15 +82,8 @@
 				<h2><a href="<%= eventsLink %>"><%= featureTitle %></a></h2>
 			</div>
 		</div>
-		<div class="medium-4 show-for-medium columns">&nbsp;</div>
 	</div>
-</div>
-<ul class="small-block-grid-1 medium-block-grid-2  large-block-grid-2 content events-block" style="
-   /* padding-right: 12px;
-    margin-left: 20px;
-    margin-right: 20px;
-    padding-left: 12px; */
-">
+<ul class="small-block-grid-1 medium-block-grid-2  large-block-grid-2 content events-block">
 <%
 	com.day.cq.wcm.foundation.List elist= (com.day.cq.wcm.foundation.List)request.getAttribute("elist");
     Set<String> featureEvents =(HashSet) request.getAttribute("featureEvents");
@@ -208,6 +200,7 @@ if(eventcounts>0){
  }  
 %>
 </ul>
+</div>
 
 
 <%!
