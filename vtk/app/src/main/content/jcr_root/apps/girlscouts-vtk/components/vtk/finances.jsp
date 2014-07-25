@@ -7,10 +7,10 @@
         boolean showVtkNav = true;
 %>
 <%@include file="include/vtk-nav.jsp"%>
-<p>
+<br/>
 <h3>Coming in future releases:</h3> 
-<ul>
-<li>- Create and manage your troop's financial report</li>
-<li>- Share with council personnel and with troop parents</li>
-</ul>
-</p>
+	<ul>
+		<li>- Create and manage your troop's financial report</li>
+		<li>- Share with council personnel and with troop parents</li>
+	</ul>
+<br/>

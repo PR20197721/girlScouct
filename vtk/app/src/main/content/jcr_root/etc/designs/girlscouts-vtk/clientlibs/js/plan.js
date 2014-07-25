@@ -88,59 +88,64 @@ function loadModalPage(link, showTitle, title, fullPageScroll) {
                         var msg = "Sorry but there was an error: ";
                         $( "#error" ).html( msg + xhr.status + " " + xhr.statusText );
                 }else{
-			var wWidth = $(window).width();
-			var wHeight = $(window).height();
-			var dWidth = wWidth * 0.95; //this will make the dialog 80% of the
-			var dHeight = wHeight *0.97;
-			if (dWidth >960) {
-				dWidth = 960; // max-width: 60em;
-			}
-			if (fullPageScroll) {
-                                $( "#gsModal" ).dialog({
-                                        width:dWidth,
-                                        modal:true,
-					height:dHeight,
-                                        dialogClass:"modalWrap",
-                                        show:375,
-                                        "open": function() {
-                                                if (!showTitle) {
-                                                        $(".ui-dialog-titlebar").hide();
-                                                } else {
-                                                        $("span.ui-dialog-title").html(title);
-                                                        $(".ui-dialog-titlebar").show();
-                                                }
-                                                $("body").css({ overflow: 'hidden' });
-                                                $(this).css({overflow: 'scroll'});
-                                        },
-                                        "close": function() {
-                                             
-                                        	$("body").css({ overflow: 'inherit' });
-                                        }
-                                });
-			} else {
-				$( "#gsModal" ).dialog({
-					width:dWidth,
-					modal:true,
-					dialogClass:"modalWrap",
-					show:375,
-					"open": function() {
-						if (!showTitle) {
-							$(".ui-dialog-titlebar").hide();
-						} else {
-							$("span.ui-dialog-title").html(title); 
-							$(".ui-dialog-titlebar").show();
-						}
-						$("body").css({ overflow: 'hidden' });
-					},
-					"close": function() {
-						 
-						$("body").css({ overflow: 'inherit' });
-						  
+					if (fullPageScroll) {
+						loadModal("#gsModal", showTitle, title, true);
+					} else {
+						loadModal("#gsModal", showTitle, title, false);
 					}
-				});
-			}
                 }
         });
+}
+
+function loadModal(divSelector, showTitle, title, fullPageScroll) {
+	var wWidth = $(window).width();
+	var wHeight = $(window).height();
+	var dWidth = wWidth * 0.95; //this will make the dialog 80% of the
+	var dHeight = wHeight *0.97;
+	if (dWidth >960) {
+		dWidth = 960; // max-width: 60em;
+	}
+	if (fullPageScroll) {
+		$( divSelector ).dialog({
+			width:dWidth,
+			modal:true,
+			height:dHeight,
+			dialogClass:"modalWrap",
+			show:375,
+			"open": function() {
+				if (!showTitle) {
+					$(".ui-dialog-titlebar").hide();
+				} else {
+					$("span.ui-dialog-title").html(title);
+					$(".ui-dialog-titlebar").show();
+				}
+				$("body").css({ overflow: 'hidden' });
+				$(this).css({overflow: 'scroll'});
+			},
+			"close": function() {
+				$("body").css({ overflow: 'inherit' });
+			}
+		});
+	} else {
+		$( divSelector ).dialog({
+			width:dWidth,
+			modal:true,
+			dialogClass:"modalWrap",
+			show:375,
+			"open": function() {
+				if (!showTitle) {
+					$(".ui-dialog-titlebar").hide();
+				} else {
+					$("span.ui-dialog-title").html(title);
+					$(".ui-dialog-titlebar").show();
+				}
+				$("body").css({ overflow: 'hidden' });
+			},
+			"close": function() {
+				$("body").css({ overflow: 'inherit' });
+			}
+		});
+	}
 }
 
 function yesPlan(){
@@ -428,49 +433,10 @@ function doHelp(isSched){
 
 
 function doEditActivity(x){
-	//alert(x)
-	 $( "#"+x ).dialog();
+	loadModal( "#"+x, true, "Edit Activity", false);
 }
 
-/*
-function printDiv111(divID) {
-            //Get the HTML of div
-            var divElements = document.getElementById(divID).innerHTML;
-            //Get the HTML of whole page
-            var oldPage = document.body.innerHTML;
-
-            //Reset the page's HTML with div's HTML only
-            document.body.innerHTML = 
-              "<html><head><title></title></head><body>" + 
-              divElements + "</body>";
-
-            //Print Page
-            window.print();
-
-            //Restore orignal HTML
-            document.body.innerHTML = oldPage;
-
-          
-        }
-
-function printDiv222(selector) {
-	
-	
-    var $print = $(selector)
-        .clone()
-        .addClass('print')
-        .prependTo('body');
-
-    //window.print() stops JS execution
-    window.print();
-
-    //Remove div once printed
-    $print.remove();
-}
-*/
-
-function printDiv(x)
-{
+function printDiv(x) {
 	   
         var divToPrint = document.getElementById(x);
         var popupWin = window.open('', '_blank', 'width=300,height=300');

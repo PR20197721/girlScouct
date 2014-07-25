@@ -95,7 +95,7 @@ public class TraverseFind {
                 // TODO: Mike Z. What's going on here
                 //meeting.setMeetingInfo(getMeetingInfo);
 
-                System.err.println("**********  " + container.get("overview"));
+                //System.err.println("**********  " + container.get("overview"));
                 /*
                  * //** write to JSON file new test.TestJson().toJson(meeting);
                  * 
@@ -185,7 +185,7 @@ public class TraverseFind {
         java.util.Iterator _itr = _container.keySet().iterator();
         while (_itr.hasNext()) {
             String title = (String) _itr.next();
-            System.err.println("--- " + title);
+            //System.err.println("--- " + title);
             // MEETING populate
             if (title.trim().toLowerCase().replaceAll("<.*?>", "").equals("detailed activity plan"))
                 meeting = new TraverseFind().processMeeting((String) _container
@@ -201,7 +201,7 @@ public class TraverseFind {
         java.util.Iterator _itr = _container.keySet().iterator();
         while (_itr.hasNext()) {
             String title = (String) _itr.next();
-            System.err.println("Titles: " + title);
+            //System.err.println("Titles: " + title);
             new TraverseFind().breakup1((String) _container.get(title),
                     "\\[(.*?)\\]]");
 
@@ -247,7 +247,7 @@ public class TraverseFind {
 
                 /**********MZ**********/
                 if (Par.getNumIlvl() != null && Par.getNumIlvl().intValue() >= 1) {
-                    System.err.println("@@@@@@@@@@@@@@@!!!!!SECONDLEVEL!!!!!  " + fileLoc);
+                    //System.err.println("@@@@@@@@@@@@@@@!!!!!SECONDLEVEL!!!!!  " + fileLoc);
                 }
                 
                 int currentLevel = -1;
@@ -518,17 +518,16 @@ public class TraverseFind {
         String str = "[[Activity|1|&#x201d;As Girls Arrive&#x201d;]]";
         Pattern p = Pattern.compile(pattern);
         Matcher m = p.matcher(str);
-        System.err.println(str);
+        //System.err.println(str);
 
         while (m.find()) {
             int count = m.groupCount();
-            System.err.println(count);
+            //System.err.println(count);
             for (int i = 0; i <= m.groupCount(); i++) {
-                System.err.println("*** * " + m.group(i));
+                //System.err.println("*** * " + m.group(i));
             }
         }
-        System.err.println(str.replaceAll("\\[Activity\\|(.*?)\\|(.*?)\\]]",
-                "test"));
+        //System.err.println(str.replaceAll("\\[Activity\\|(.*?)\\|(.*?)\\]]", "test"));
 
     }
 
@@ -542,7 +541,7 @@ public class TraverseFind {
 
         // String activityName="";
         while (m.find()) {
-            System.err.println(m.group(0) + " ::: " + m.group(2));
+            //System.err.println(m.group(0) + " ::: " + m.group(2));
             // activityName =m.group(2);
             str = str.replace(m.group(0),
                     "Activity " + m.group(1) + " : " + m.group(2));

@@ -31,12 +31,11 @@
 						 <%setCssClasses("columns noLeftPadding" , request); %>
 						<cq:include path="<%= headerPath + "/eyebrow-nav" %>" resourceType="girlscouts/components/eyebrow-navigation" />
 						<div class="row">
-							<% setCssClasses("large-18 medium-18 columns", request); %>
+							<% setCssClasses("large-18 medium-18 small-24 columns", request); %>
 							<cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
 							<% setCssClasses("large-6 medium-6 small-24 columns searchBar", request); %>
 							<cq:include path="<%= headerPath + "/search-box" %>" resourceType="girlscouts/components/search-box" />
 						</div>
-						<div class="row emptyrow"></div>
 					</div>
 					<div class="show-for-small small-24 columns topMessage alt">
 						<div class="row vtk-login">

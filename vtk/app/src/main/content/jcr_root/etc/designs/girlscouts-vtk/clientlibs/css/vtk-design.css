@@ -199,6 +199,7 @@ table.planSquareWrapper {
 }
 .planSquareLeft, .planSquareRight{
 	width: 40px;
+	padding: 0;
 }
 .planSquareMiddle {
 	width: 100px;
@@ -523,7 +524,7 @@ img.align-left { float:left; margin: 0; }
 #createActivitySection {
 	display: block;
 }
-#pickActiviySection {
+#pickActivitySection {
 	display: none;
 }
 
@@ -619,13 +620,8 @@ ul.formCheckboxes li {
 	color: #00a850;
 	font-size: 0.9em;
 	border-radius: 6px;
-	padding: 0.4em;
 	font-weight: bold;
 }
-.meetingDetailDescription .button.linkButton , .meetingDetailHeader .button.linkButton {
-}
-
-
 
 .searchResultsItem1 {
 	padding: 10px;

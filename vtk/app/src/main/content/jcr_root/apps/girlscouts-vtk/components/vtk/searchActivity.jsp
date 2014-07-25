@@ -29,7 +29,7 @@ java.util.List <org.girlscouts.vtk.models.Activity> activities =  (java.util.Lis
 			<% }else if( isExists ){ %>
 					<i>This Activity is currently is already selected </i>
 			<%}else{ %>
-				<a href="#" class="reserved" onclick="addActiv3('<%=activities.get(i).getUid()%>')">Select Activity</a>
+				<a href="#" class="reserved button linkButton" onclick="addActiv3('<%=activities.get(i).getUid()%>')">Select Activity</a>
 			<%} %>
 			<div id="cust_activ_<%=activities.get(i).getUid()%>"></div>
 		</li> 
