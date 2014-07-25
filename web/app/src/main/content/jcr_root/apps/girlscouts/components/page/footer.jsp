@@ -39,3 +39,5 @@ request.setAttribute("noLink", true);
     <cq:include path="<%= logoPath + "/logo"%>" resourceType="girlscouts/components/logo" />
 
 </div> 
+
+<cq:include script="google-analytics.jsp" />
