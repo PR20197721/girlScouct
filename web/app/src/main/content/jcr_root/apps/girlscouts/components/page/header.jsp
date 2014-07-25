@@ -36,6 +36,7 @@
 							<% setCssClasses("large-6 medium-6 small-24 columns searchBar", request); %>
 							<cq:include path="<%= headerPath + "/search-box" %>" resourceType="girlscouts/components/search-box" />
 						</div>
+						<div class="emptyrow">&nbsp;</div>
 					</div>
 					<div class="show-for-small small-24 columns topMessage alt">
 						<div class="row vtk-login">
@@ -74,4 +75,3 @@
 
 <!-- SMALL SCREEN CANVAS should be after the global navigation is loaded,since global navigation won't be authorable-->
 				<cq:include script="small-screen-menus"/>
-	
