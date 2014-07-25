@@ -400,7 +400,6 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	for(int i=0;i<activities.size();i++){
 		
 		if( activities.get(i).getUid().equals( request.getParameter("newCustActivityBean") )){
-			//System.err.println("** "+ request.getParameter("newCustActivityBean") +": " +activities.get(i).getUid() +" : "+(user==null ));
 			activityDAO.createActivity(user, activities.get(i) );
 			break;
 		}

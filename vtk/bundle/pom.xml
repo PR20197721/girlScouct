@@ -215,6 +215,47 @@
 	<version>5.6.4</version>
 	<scope>provided</scope>
 </dependency>
+
+
+
+
+
+
+<dependency>
+    <groupId>com.cognifide.slice</groupId>
+    <artifactId>slice-core-api</artifactId>
+    <version>4.0.0</version>
+</dependency>
+<dependency>
+    <groupId>com.cognifide.slice</groupId>
+    <artifactId>slice-core</artifactId>
+    <version>4.0.0</version>
+</dependency>
+<dependency>
+    <groupId>com.cognifide.slice</groupId>
+    <artifactId>slice-mapper</artifactId>
+    <version>4.0.0</version>
+</dependency>
+<dependency>
+    <groupId>com.cognifide.slice</groupId>
+    <artifactId>slice-mapper-api</artifactId>
+    <version>4.0.0</version>
+</dependency>
+
+<!--  
+<dependency>
+    <groupId>com.cognifide.slice-addon</groupId>
+    <artifactId>slice-cq56</artifactId>
+    <version>1.0.1</version>
+</dependency>
+<dependency>
+    <groupId>com.cognifide.slice-addon</groupId>
+    <artifactId>slice-cq56-taglib</artifactId>
+    <version>1.0.1</version>
+</dependency>
+-->
+
+
     </dependencies>
 
     <!-- ====================================================================== -->
@@ -251,6 +292,7 @@
                             !org.objectweb.asm.attrs,
                             !org.objectweb.asm.util,
                             !org.codehaus.aspectwerkz.hook,
+                            !com.google.inject.internal.asm.util,
                             *
                         </Import-Package>
                         <!--  

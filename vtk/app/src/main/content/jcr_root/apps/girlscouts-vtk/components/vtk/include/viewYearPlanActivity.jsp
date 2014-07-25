@@ -60,8 +60,9 @@ ageLevel=ageLevel.toLowerCase().trim();
 <%} %>
 		<!-- a href="#" class="button linkButton" onclick="openClose('editCustActiv')">edit activity</a --> 
           
-          <a href="#" class="button linkButton" onclick="doEditActivity('editCustActiv')">edit activity</a>
-        
+          <%if(activity.getIsEditable() ){ %>
+         	 <a href="#" class="button linkButton" onclick="doEditActivity('editCustActiv')">edit activity</a>
+          <%} %>
           
           
                 <br/>

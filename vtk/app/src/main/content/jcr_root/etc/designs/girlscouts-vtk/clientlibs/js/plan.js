@@ -113,7 +113,8 @@ function loadModalPage(link, showTitle, title, fullPageScroll) {
                                                 $(this).css({overflow: 'scroll'});
                                         },
                                         "close": function() {
-                                                $("body").css({ overflow: 'inherit' });
+                                             
+                                        	$("body").css({ overflow: 'inherit' });
                                         }
                                 });
 			} else {
@@ -132,7 +133,9 @@ function loadModalPage(link, showTitle, title, fullPageScroll) {
 						$("body").css({ overflow: 'hidden' });
 					},
 					"close": function() {
+						 
 						$("body").css({ overflow: 'inherit' });
+						  
 					}
 				});
 			}
@@ -429,8 +432,8 @@ function doEditActivity(x){
 	 $( "#"+x ).dialog();
 }
 
-
-function printDiv(divID) {
+/*
+function printDiv111(divID) {
             //Get the HTML of div
             var divElements = document.getElementById(divID).innerHTML;
             //Get the HTML of whole page
@@ -449,3 +452,30 @@ function printDiv(divID) {
 
           
         }
+
+function printDiv222(selector) {
+	
+	
+    var $print = $(selector)
+        .clone()
+        .addClass('print')
+        .prependTo('body');
+
+    //window.print() stops JS execution
+    window.print();
+
+    //Remove div once printed
+    $print.remove();
+}
+*/
+
+function printDiv(x)
+{
+	   
+        var divToPrint = document.getElementById(x);
+        var popupWin = window.open('', '_blank', 'width=300,height=300');
+        popupWin.document.open();
+        popupWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</html>');
+         popupWin.document.close();
+             	
+}

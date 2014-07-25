@@ -1394,7 +1394,7 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 				activity.setEndDate(activity.getDate());
 			}
 				
-				
+				activity.setIsEditable(false);
 				
 				//filter by dates
 				
