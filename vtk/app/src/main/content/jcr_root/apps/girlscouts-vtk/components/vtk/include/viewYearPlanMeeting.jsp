@@ -40,7 +40,7 @@
         <div class="small-24 medium-10 large-12 columns">
 		<h1>Meeting: <%= meetingInfo.getName() %> </h1>
 
-		<%= meetingInfo.getAidTags() %>
+		<!--  <%= meetingInfo.getAidTags() %> -->
 <%
 	Location loc = null;
 	if( meeting.getLocationRef()!=null && user.getYearPlan().getLocations()!=null ) {
