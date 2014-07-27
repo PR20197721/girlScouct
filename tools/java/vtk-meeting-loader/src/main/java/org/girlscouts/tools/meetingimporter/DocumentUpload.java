@@ -56,9 +56,8 @@ public class DocumentUpload {
 	
 	public void doJcr(Meeting meeting) throws Exception{
 		 
-		if(true) return;
 	       // Connection
-	        javax.jcr.Repository repository = JcrUtils.getRepository("http://localhost:4503/crx/server/");
+	        javax.jcr.Repository repository = JcrUtils.getRepository("http://localhost:4502/crx/server/");
 	        
 	        //Workspace Login
 	        SimpleCredentials creds = new SimpleCredentials("admin", "admin".toCharArray());
@@ -103,11 +102,11 @@ public class DocumentUpload {
 	// 1 row header(s)
 	private void parseDocuments() throws Exception{
 		
-		FileInputStream fis = new FileInputStream("/Users/mike/Desktop/meetings/meetings.xlsx");
+		FileInputStream fis = new FileInputStream("/Users/mike/Desktop/documents/documents.xlsx");
         Workbook workbook = WorkbookFactory.create(fis);
         
         FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
-        Sheet sheet = workbook.getSheetAt(1);
+        Sheet sheet = workbook.getSheetAt(0);
 
         //System.out.println(sheet.getLastRowNum());
         for(int i=2;i<=sheet.getLastRowNum()+1;i++){
@@ -135,7 +134,7 @@ public class DocumentUpload {
             */
         	
         	try{ 
-        	    documentUpload("/Users/mike/Desktop/meetings/", fileName, metaDatas);
+        	    documentUpload("/Users/mike/Desktop/documents/documents/", fileName, metaDatas);
         	}catch(Exception e){e.printStackTrace();}
         	
         }
@@ -145,7 +144,7 @@ public class DocumentUpload {
 	public void storeResource( Resource resource ) throws Exception{
 		 
 	
-	        javax.jcr.Repository repository = JcrUtils.getRepository("http://localhost:4503/crx/server/");
+	        javax.jcr.Repository repository = JcrUtils.getRepository("http://localhost:4502/crx/server/");
 	        
 	        //Workspace Login
 	        SimpleCredentials creds = new SimpleCredentials("admin", "admin".toCharArray());
@@ -174,7 +173,10 @@ public class DocumentUpload {
 	
 	private void documentUpload(String path, String fileName, java.util.Map metaDatas) {
 		
-	
+	    if (fileName.startsWith("/")) {
+	        System.err.println("HTML form, skip " + fileName);
+	        return;
+	    }
 		
 		try{
 		    
@@ -185,7 +187,7 @@ public class DocumentUpload {
 			
 	    httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
 
-	    HttpPost httppost = new HttpPost( "http://localhost:4503/content/dam/gateway/en/documents/" + fileName);
+	    HttpPost httppost = new HttpPost( "http://localhost:4502/content/dam/gateway/en/documents/" + fileName);
 	    
 	    String basic_auth = new String(Base64.encodeBase64(( "admin:admin" ).getBytes()));
 	    httppost.addHeader("Authorization", "Basic " + basic_auth);
@@ -254,7 +256,7 @@ if ((String)metaDatas.get("tags")!=null )
 		String dir = "/etc/tags/girlscouts/forms_documents/";
 		//System.err.println( "Dir: "+dir);
 		
-		        javax.jcr.Repository repository = JcrUtils.getRepository("http://localhost:4503/crx/server/");
+		        javax.jcr.Repository repository = JcrUtils.getRepository("http://localhost:4502/crx/server/");
 		        
 		        //Workspace Login
 		        SimpleCredentials creds = new SimpleCredentials("admin", "admin".toCharArray());
