@@ -55,7 +55,7 @@
                     <category
                         jcr:primaryType="nt:unstructured"
                         name="cq:Tags"
-                        script="function(tag) {return &quot;girlscouts:categoryl/&quot; + tag;}"
+                        script="function(tag) {return &quot;girlscouts:category/&quot; + tag;}"
                         type="string[]"/>
                 </fields>
                 <nameGen
