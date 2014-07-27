@@ -28,19 +28,23 @@
 					/**** Check to see if the current folder hideInNav is not set to true, if it's set ********** 
 					***** set to true, we don't display is but look to the next node, this is necessary to highlighting the**** 
 					***** special form condition.******/
-					
+
+					// This string buffer properly closes dangling li elements
+					StringBuffer remainderStrings = new StringBuffer();
 					if (!page.isHideInNav()) {
 						if (rootPath.equalsIgnoreCase(nodePath) && showCurrent.equals("false")) {
 							menuBuilder.append("<li class=\"active current\">");
 							menuBuilder.append("<div>");
 							menuBuilder.append(createHref(page));
 							menuBuilder.append("</div>");
+							remainderStrings.append("</li>");
 						} else {
 							if (levelFlag && page.listChildren().hasNext()) {
 								menuBuilder.append("<li class=\"active\">");
 								menuBuilder.append("<div>");
 								menuBuilder.append(createHref(page));
 								menuBuilder.append("</div>");
+								remainderStrings.append("</li>");
 								levelFlag = false;
 							} else {
 								if (rootPath.equals(nodePath)) {
@@ -51,7 +55,7 @@
 								menuBuilder.append("<div>");
 								menuBuilder.append(createHref(page));
 								menuBuilder.append("</div>");
-								//menuBuilder.append("</li>");
+								remainderStrings.append("</li>");
 							}
 						}
 					}
@@ -62,6 +66,7 @@
 								eventLeftNavRoot, currPath, currTitle,
 								eventDispUnder, showCurrent);
 					}
+					menuBuilder.append(remainderStrings.toString());
 				} else {
 					/*** Below if eventLeftNavRoot is to handle a special case for events. Events is create at separate location
 					 ***  and when event is click event name need to be displayed in the left navigation
@@ -71,13 +76,14 @@
 						menuBuilder.append("<div>");
 						menuBuilder.append(createHref(page));
 						menuBuilder.append("</div>");
-						//menuBuilder.append("</li>");
 
 						menuBuilder.append("<ul><li class=\"active\">");
 						menuBuilder.append("<div><a href=")
 								.append(currPath + ".html").append(">")
 								.append(currTitle).append("</a></div>");
 						menuBuilder.append("</li></ul>");
+                                                menuBuilder.append("</li>");
+
 					} else {
 						/*****This showCurrent is for the highligting form *******
 						 **** Top folder under which forms resides has a property "showCurrent = true" *****
@@ -88,16 +94,11 @@
 							menuBuilder.append("<div>");
 							menuBuilder.append(createHref(page));
 							menuBuilder.append("</div>");
-							//menuBuilder.append("</li>");
+							menuBuilder.append("</li>");
 						}
 					}
 				}
-				/*if (levelDepth == 1) {
-					menuBuilder.append("<li class=\"divider\">")
-							.append("</li>");
-				}*/
 			}
-			menuBuilder.append("</li>");
 		}
 		menuBuilder.append("</ul>");
 		//return menuBuilder;

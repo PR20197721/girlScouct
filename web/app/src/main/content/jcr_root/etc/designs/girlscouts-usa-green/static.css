@@ -1240,3 +1240,9 @@ div#eventListWrapper{
 	padding: 0;
 	margin: 0;
 }
+
+#smallFooterLinks li {
+	padding: 5px;;
+	font-size: 0.9em;
+	text-align: center;
+}
