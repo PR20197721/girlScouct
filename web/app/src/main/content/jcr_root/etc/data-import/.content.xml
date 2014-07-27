@@ -49,12 +49,12 @@
                         type="string"/>
                     <program-level
                         jcr:primaryType="nt:unstructured"
-                        name="cq:Tags"
+                        name="cq:tags"
                         script="function(value) {var tags = value.split(','); for (var i = 0; i &lt; tags.length; i++) {tags[i] = 'girlscouts:program-level/' + tags[i]} return tags.join(',');}"
                         type="string[]"/>
                     <category
                         jcr:primaryType="nt:unstructured"
-                        name="cq:Tags"
+                        name="cq:tags"
                         script="function(tag) {return &quot;girlscouts:category/&quot; + tag;}"
                         type="string[]"/>
                 </fields>
