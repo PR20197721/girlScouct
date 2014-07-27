@@ -48,50 +48,12 @@ public class DocumentUpload {
 	public static void main(String[] args) throws Exception {
 		DocumentUpload me = new DocumentUpload();
 		//me.parseMeetingPlan();
-		me.parseAssetLoad();
+		me.parseDocuments();
 		
 		//me.damUpload("asdf");
 		//me.createEtcTag("test");
 	}
 	
-	private void parseMeetingPlan() throws Exception{
-		
-		 FileInputStream fis = new FileInputStream("/Users/mike/Desktop/brownie/metadata.xlsx");
-         Workbook workbook = WorkbookFactory.create(fis);
-         
-         FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
-
-         Sheet sheet = workbook.getSheetAt(1);//workbook.getSheet("Meeting Plan data model");
-         //System.err.println("-->>- "+ (sheet==null));
-for(int i=2;i<sheet.getLastRowNum();i++){
-        String meetingId = getCellVal( evaluator, sheet, "A"+i );
-        if( meetingId==null || meetingId.trim().equals(""))
-        	break;
-        
-        //String meetingTitle =getCellVal( evaluator, sheet, "B"+i );
-        String meetingName =getCellVal( evaluator, sheet, "B"+i );
-        String level = getCellVal( evaluator, sheet, "C"+i );
-        //String meetingName= getCellVal( evaluator, sheet, "D"+i );
-        String meetingBlurb= getCellVal( evaluator, sheet, "D"+i );
-        String cat= getCellVal( evaluator, sheet, "E"+i );
-        String aids_tags= getCellVal( evaluator, sheet, "F"+i );
-        String resource_tags= getCellVal( evaluator, sheet, "G"+i );
-        String agenda=  getCellVal( evaluator, sheet, "H"+i );
-        
-        
-        Meeting meeting = new Meeting();
-        meeting.setId(meetingId);
-        meeting.setName(meetingName);
-        
-        
-        System.err.println( meetingName);
-        try{ doJcr(meeting); }catch(Exception e){e.printStackTrace();}
-}
-
-	}
-
-	
-
 	public void doJcr(Meeting meeting) throws Exception{
 		 
 		if(true) return;
@@ -139,9 +101,9 @@ for(int i=2;i<sheet.getLastRowNum();i++){
 	}
 	
 	// 1 row header(s)
-	private void parseAssetLoad() throws Exception{
+	private void parseDocuments() throws Exception{
 		
-		FileInputStream fis = new FileInputStream("/Users/mike/Desktop/brownie/metadata.xlsx");
+		FileInputStream fis = new FileInputStream("/Users/mike/Desktop/meetings/meetings.xlsx");
         Workbook workbook = WorkbookFactory.create(fis);
         
         FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
@@ -151,17 +113,11 @@ for(int i=2;i<sheet.getLastRowNum();i++){
         for(int i=2;i<=sheet.getLastRowNum()+1;i++){
         	String fileName = getCellVal( evaluator, sheet, "A"+i ).trim();
         	if( fileName==null || fileName.length()<1) break;
-        	String type = getCellVal( evaluator, sheet, "B"+i );
-        	String destination = getCellVal( evaluator, sheet, "C"+i );
-        	String meetingId = destination.substring( destination.lastIndexOf("/")+1);
-        	
         	java.util.Map metaDatas = new java.util.TreeMap();
-        	metaDatas.put("name", getCellVal(evaluator, sheet, "D" + i));
-        	metaDatas.put("tags", getCellVal(evaluator, sheet, "E" + i));
-        	metaDatas.put("description", getCellVal(evaluator, sheet, "F" + i));
-        	metaDatas.put("category", getCellVal(evaluator, sheet, "G" + i));
-        	metaDatas.put("duration", getCellVal(evaluator, sheet, "H" + i));
-
+        	metaDatas.put("name", getCellVal(evaluator, sheet, "B" + i));
+        	metaDatas.put("tags", getCellVal(evaluator, sheet, "C" + i));
+        	metaDatas.put("category", getCellVal(evaluator, sheet, "D" + i));
+        	metaDatas.put("description", getCellVal(evaluator, sheet, "E" + i));
 
         	/*
         	if( metaData.contains("\n") ){
@@ -179,68 +135,13 @@ for(int i=2;i<sheet.getLastRowNum();i++){
             */
         	
         	try{ 
-        	    String[] destinations = destination.replaceAll("\\s+", "\n").split("\n");
-        	    for (int j = 0; j < destinations.length; j++) {
-        	        damUpload("/Users/mike/Desktop/brownie/assets/", fileName, metaDatas, destinations[j], type);
-        	    }
+        	    documentUpload("/Users/mike/Desktop/meetings/", fileName, metaDatas);
         	}catch(Exception e){e.printStackTrace();}
         	
         }
 
 	}
 	
-	/*
-	public void create(String fileName)throws Exception{
-		
-		System.err.println( "___ "+fileName );
-		
-		String url="http://localhost:4503/content/dam/girlscouts-vtk/global/*";
-		
-		HttpClient client = new DefaultHttpClient();
-		//client.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
-		 
-		HttpPost        post   = new HttpPost( url );
-		
-		post.addHeader("Content-type", "multipart/form-data"); 
-		MultipartEntity entity = new MultipartEntity( );//HttpMultipartMode.BROWSER_COMPATIBLE );
-		 
-		// For File parameters
-		entity.addPart( "./jcr:content/renditions/original", new FileBody((( File ) new File(fileName) ),
-				"application/octect-stream" ));
-		 
-		// For usual String parameters
-		entity.addPart( "./jcr:primaryType", new StringBody( "dam:Asset", "text/plain",
-		                                           Charset.forName( "UTF-8" )));
-		
-		entity.addPart( "./jcr:content/jcr:primaryType", new StringBody( "dam:AssetContent", "text/plain",
-                Charset.forName( "UTF-8" )));
-		
-		entity.addPart( "./jcr:content/renditions/original@TypeHint", new StringBody( "nt:file", "text/plain",
-                Charset.forName( "UTF-8" )));
-		
-		entity.addPart( "./jcr:content/metadata/jcr:primaryType", new StringBody( "nt:unstructured", "text/plain",
-                Charset.forName( "UTF-8" )));
-		
-		entity.addPart( "./jcr:content/metadata/dc:title", new StringBody( "tester", "text/plain",
-                Charset.forName( "UTF-8" )));
-		 
-		post.setEntity( entity );
-		 
-		
-		HttpResponse response = client.execute(post) ;
-		// Here we go!
-		//String response = EntityUtils.toString( client.execute( post ).getEntity(), "UTF-8" );
-		 
-		System.err.println( "+++ "+response.toString());
-		
-		
-		client.getConnectionManager().shutdown();
-		
-		
-		
-		
-	}
-	*/
 	public void storeResource( Resource resource ) throws Exception{
 		 
 	
@@ -271,7 +172,7 @@ for(int i=2;i<sheet.getLastRowNum();i++){
 	        
 	}
 	
-	private void damUpload(String path, String fileName, java.util.Map metaDatas, String destination, String type) {
+	private void documentUpload(String path, String fileName, java.util.Map metaDatas) {
 		
 	
 		
@@ -284,33 +185,16 @@ for(int i=2;i<sheet.getLastRowNum();i++){
 			
 	    httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
 
-	    
-	    HttpPost httppost = null;
-	    if( destination.toLowerCase().trim().contains("/global") ) {
-	    	httppost = new HttpPost( "http://localhost:4503/content/dam/girlscouts-vtk/global/"+ type.toLowerCase().trim() +"/"+java.net.URLEncoder.encode(uploadFileName));
-	    } else {
-	        destination = destination.trim();
-	        String[] destinationParts = destination.split("/");
-	        if (destinationParts.length == 3) {
-	            destination = "/" + destinationParts[1].toLowerCase() + "/" + destinationParts[2].toUpperCase();
-	        }
-	        if (type.toLowerCase().trim().equals("icon")) {
-	            httppost = new HttpPost( "http://localhost:4503/content/dam/girlscouts-vtk/local/"+ type.toLowerCase().trim() +""+ destination +".png");
-	        } else {
-	            httppost = new HttpPost( "http://localhost:4503/content/dam/girlscouts-vtk/local/"+ type.toLowerCase().trim() +""+ destination +"/"+java.net.URLEncoder.encode(uploadFileName));
-	        }
-	    }
+	    HttpPost httppost = new HttpPost( "http://localhost:4503/content/dam/gateway/en/documents/" + fileName);
 	    
 	    String basic_auth = new String(Base64.encodeBase64(( "admin:admin" ).getBytes()));
 	    httppost.addHeader("Authorization", "Basic " + basic_auth);
 
-	    
 	    File file = new File(path+ fileName);
 
 	    MultipartEntity entity = new MultipartEntity();
 	    ContentBody cbFile = new FileBody(file);//, "image/jpeg");
 	    entity.addPart("./jcr:content/renditions/original", cbFile);
-
 
 	    entity.addPart( "./jcr:primaryType", new StringBody( "dam:Asset", "text/plain",
                 Charset.forName( "UTF-8" )));
@@ -332,11 +216,11 @@ if( metaDatas.get("description")!=null )
 			Charset.forName( "UTF-8" )));
 
 if (!((String)metaDatas.get("tags")).isEmpty()) {
-    entity.addPart( "./jcr:content/metadata/cq:tags", new StringBody( "girlscouts-vtk:tag/"+((String)metaDatas.get("tags")).trim().toLowerCase().replaceAll(" ", "-"), "text/plain",
+    entity.addPart( "./jcr:content/metadata/cq:tags", new StringBody( "girlscouts:forms_documents/"+((String)metaDatas.get("tags")).trim().toLowerCase().replaceAll(" ", "-"), "text/plain",
     Charset.forName( "UTF-8" )));
 }
 if (!((String)metaDatas.get("category")).isEmpty()) {
-    entity.addPart( "./jcr:content/metadata/cq:tags", new StringBody( "girlscouts-vtk:category/"+((String)metaDatas.get("category")).trim().toLowerCase().replaceAll(" ", "-"), "text/plain",
+    entity.addPart( "./jcr:content/metadata/cq:tags", new StringBody( "girlscouts:forms_documents/"+((String)metaDatas.get("category")).trim().toLowerCase().replaceAll(" ", "-"), "text/plain",
     Charset.forName( "UTF-8" )));
 }
 	    
@@ -367,7 +251,7 @@ if ((String)metaDatas.get("tags")!=null )
 	
 	private void createEtcTag( String tag )throws Exception{
 		
-		String dir = "/etc/tags/girlscouts-vtk/tag/";
+		String dir = "/etc/tags/girlscouts/forms_documents/";
 		//System.err.println( "Dir: "+dir);
 		
 		        javax.jcr.Repository repository = JcrUtils.getRepository("http://localhost:4503/crx/server/");
