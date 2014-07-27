@@ -16,6 +16,7 @@ import javax.jcr.Node;
 import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
+import javax.jcr.Value;
 
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
@@ -412,7 +413,18 @@ public class CsvDataImporter implements DataImporter {
 	    } else if (type.indexOf("date") == 0) {
 		node.setProperty(key, (Calendar) value);
 	    } else if (type.equals("string[]")) {
-		node.setProperty(key, ((String)value).split(","));
+	    List<String> strings = new ArrayList<String>();
+	    if (node.hasProperty(key)) {
+	        Value[] values = node.getProperty(key).getValues();
+	        for (Value singleValue : values) {
+	            strings.add(singleValue.getString());
+	        }
+	    }
+        String[] stringsToAdd = ((String)value).split(",");
+        for (int i = 0; i < stringsToAdd.length; i++) {
+            strings.add(stringsToAdd[i]);
+        }
+		node.setProperty(key, strings.toArray(new String[strings.size()]));
 	    }
 	} catch (RepositoryException e) {
 	    throw new GirlScoutsException(e,
