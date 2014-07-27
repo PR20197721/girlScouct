@@ -55,7 +55,7 @@
                     <category
                         jcr:primaryType="nt:unstructured"
                         name="cq:tags"
-                        script="function(tag) {return tag == null ? &quot;&quot; : &quot;girlscouts:category/&quot; + tag.replace(/s+/g, &quot;-&quot;).toLowerCase();}"
+                        script="function(tag) {return &quot;girlscouts:category/&quot; + tag.replace(/ /g, &quot;-&quot;).toLowerCase();}"
                         type="string[]"/>
                 </fields>
                 <nameGen
