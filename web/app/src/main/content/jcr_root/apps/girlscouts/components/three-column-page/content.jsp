@@ -15,7 +15,7 @@
 		<div class="breadcrumbWrapper">
 			<cq:include path="content/middle/breadcrumb" resourceType="girlscouts/components/breadcrumb-trail" />
 		</div>
-		<div>
+		<div class="row mainRightBottom">
 			<div class="large-18 medium-18 small-24 columns rightBodyLeft">
 				<!--PAGE STRUCTURE: MIDDLE CONTENT START-->
 				<cq:include script="middle.jsp" />

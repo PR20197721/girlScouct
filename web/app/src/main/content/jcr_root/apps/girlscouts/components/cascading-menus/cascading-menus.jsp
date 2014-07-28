@@ -100,9 +100,7 @@
 				}
 			}
 		}
-		menuBuilder.append("</ul>");
-		//return menuBuilder;
-
+                menuBuilder.append("</ul>");
 	}
 %>
 

@@ -37,14 +37,15 @@ Font : Open Sans
 }
 -->
 html {
-    font-size: 16px;
+	font-size: 16px;
 }
 body {
-    background-color: #6b6b6b;
-    font-family: "Open Sans", Arial, sans-serif;
+	background-color: #6b6b6b;
+	font-family: "Open Sans", Arial, sans-serif;
 }
 #mainContent h1 {
-    margin: 0.2em 0 0.4em 0;
+	margin: 0.2em 0 0.4em 0;
+	color: #000000;
 }
 h1, h2, h3, h4, h5, h6 {
 	color: #000000;
@@ -158,14 +159,12 @@ a:hover {
 a.menu {
     color: #C1EAD4;
     font-size: 1em;
-    font-weight: "bold";
 }
 a:hover.menu {
     color: #ffffff;
 }
 a.menuHighlight {
     color: #FFC057;
-    font-weight: "bold";
 }
 a:hover.menuHighlight {
    color: #fc3;
@@ -335,6 +334,7 @@ background-position: center;
 /* BREADCRUMBS */
 .breadcrumbs {
     background-color: #ffffff;
+    color: #000000;
     border: 0px;
     padding: .5625rem 1.250rem 0.5625rem 0;
     margin: 0;
@@ -1028,7 +1028,6 @@ padding: 5px 0;
 #form .event-region .dropdown select {
 	-webkit-appearance: none;
 	-moz-appearance: window;
-	appearance:none;
 	text-indent:0.01px;
 	text-overflow:'';
 	background: url('images/select-dropdown-arrow.png') no-repeat right center;     
@@ -1049,10 +1048,8 @@ padding: 5px 0;
 	.dropdown-moz{
 	   -webkit-appearance: none;
 	   background: #ffffff url('images/select-dropdown-arrow.png') no-repeat right center;
-		/*padding-right: 20px;*/
 		border: 1px solid #cccccc;
 		top: 0px;
-		/*float: left;*/
 	}
 } 
 
@@ -1325,4 +1322,8 @@ ul.searchResultsList article p{
 }
 .logoContainer {
 	padding-right: 0 !important;
+}
+
+.mainRightBottom {
+	margin: 0 !important;
 }
