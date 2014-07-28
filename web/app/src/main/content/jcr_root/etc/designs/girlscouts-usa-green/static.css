@@ -863,13 +863,6 @@ td.fc-header-left{
  font-size:1.0rem;
 }
 
-
-.register a{
-    background: url('images/small-green-arrow-right.png') no-repeat  0px 0px;
-    background-position:right center;
-    padding-right:10px;  
-}
-
 #calendar a{
     background: url('images/calendar-icon.png') no-repeat  0px 0px;
     background-position:left center;
@@ -1320,6 +1313,13 @@ ul.searchResultsList article p{
 	text-align: left;
 	margin-top: 1em;
 }
+
+.eventDetailsRegisterLink a{
+    background: url('images/small-green-arrow-right.png') no-repeat  0px 0px;
+    background-position:right center;
+    padding-right:10px;  
+}
+
 .eventsListItem .columns {
 	padding: 20px 10px !important;
 }

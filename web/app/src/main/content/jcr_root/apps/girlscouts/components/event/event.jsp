@@ -167,20 +167,36 @@ try {
 	</div>
         <div class="small-24 medium-12 large-12 columns">
                 <div class="row">
-                        <div class="small-8 medium-8 large-8 columns">
-<b>Categories:</b>
-                        </div>
-                        <div class="small-16 medium-16 large-16 columns">
-<b>Category</b>
-                        </div>
+             	<%
+                 	Iterator<String> str = tags.keySet().iterator();
+                	 while(str.hasNext()){
+                     String categoryTitle = str.next();
+               	%>
+               		<div class="small-8 medium-8 large-8 columns">
+ 						<b> <%=map.get(categoryTitle)%>: </b>
+               		</div>
+          	    <% 
+               		  Iterator<String> tagValue = tags.get(categoryTitle).iterator();
+            	%>
+                    <div class="small-16 medium-16 large-16 columns">
+				<%
+						while(tagValue.hasNext()){
+           		 %> 
+	            	<b> <%=tagValue.next()%><% if(tagValue.hasNext()){ %>,<%} %> </b>
+                 
+          		<% }%>
+                  </div>
+                  <%} %>
                 </div>
                 <div class="row">
-                        <div class="small-8 medium-8 large-8 columns">
-<b>Regions:</b>
-                        </div>
-                        <div class="small-16 medium-16 large-16 columns">
-<b>Region</b>
-                        </div>
+                     <div class="small-8 medium-8 large-8 columns">
+ 						<%if(!region.isEmpty()){ %>
+                			<b>Region: </b>
+            			<%} %>
+                     </div>
+                     <div class="small-16 medium-16 large-16 columns">
+							<b><%=region %></b>
+                     </div>
                 </div>
         </div>
 </div>
@@ -198,7 +214,9 @@ try {
    <%=details %>
   </div>
 </div>      
-    
+<div class="row">
+   <div class="small-24 large-24 medium-24 columns">&nbsp;</div>
+</div>
   
 <script>
 function showMap(address){
