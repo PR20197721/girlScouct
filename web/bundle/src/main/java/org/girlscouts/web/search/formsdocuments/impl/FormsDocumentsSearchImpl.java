@@ -4,19 +4,15 @@ package org.girlscouts.web.search.formsdocuments.impl;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.jcr.Node;
-import javax.jcr.PropertyIterator;
+import javax.jcr.Property;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.Value;
-import javax.jcr.query.QueryResult;
-import javax.jcr.query.Row;
-import javax.jcr.query.RowIterator;
 
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
@@ -26,18 +22,11 @@ import org.girlscouts.web.events.search.FacetBuilder;
 import org.girlscouts.web.events.search.FacetsInfo;
 import org.girlscouts.web.events.search.SearchResultsInfo;
 import org.girlscouts.web.search.DocHit;
-
 import org.girlscouts.web.search.formsdocuments.FormsDocumentsSearch;
 import org.girlscouts.web.search.utils.SearchUtils;
-
-import com.day.cq.tagging.Tag;
-import com.day.cq.tagging.TagManager;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.adobe.granite.testing.client.security.Group;
-import com.day.cq.search.Predicate;
 import com.day.cq.search.PredicateGroup;
 import com.day.cq.search.Query;
 import com.day.cq.search.QueryBuilder;
@@ -45,6 +34,8 @@ import com.day.cq.search.facets.Bucket;
 import com.day.cq.search.facets.Facet;
 import com.day.cq.search.result.Hit;
 import com.day.cq.search.result.SearchResult;
+import com.day.cq.tagging.Tag;
+import com.day.cq.tagging.TagManager;
 
 @Component
 @Service
@@ -258,7 +249,13 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 			DocHit docHit = new DocHit(hit);
 			Node node = slingRequest.getResourceResolver().getResource(docHit.getURL()+"/jcr:content/metadata").adaptTo(Node.class);
 			if(node.hasProperty("cq:tags")){
-				Value[] value = node.getProperty("cq:tags").getValues();
+			    Property tagProp = node.getProperty("cq:tags");
+			    Value[] value = null;
+			    if (!tagProp.isMultiple()) {
+			        value = new Value[]{node.getProperty("cq:tags").getValue()};
+			    } else {
+			        value = node.getProperty("cq:tags").getValues();
+			    }
 				for(Value val : value){
 					valueString = val.getString();
 					if(facetsCounts.containsKey(valueString)){
