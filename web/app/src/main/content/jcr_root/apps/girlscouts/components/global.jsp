@@ -73,6 +73,8 @@ public String displayRendition(ResourceResolver rr, String imagePath, String ren
 		String alt = properties.get("alt", "");
 		if (!alt.isEmpty()) {
 		    alt = "alt=\"" + alt + "\" ";
+		} else {
+			alt=" alt=\"image description unavailable\" ";
 		}
 		String title = properties.get("jcr:title", "");
 		if (!title.isEmpty()) {
@@ -105,7 +107,8 @@ public String displayRendition(ResourceResolver rr, String imagePath, String ren
 		returnImage.append(height);
 		returnImage.append(src);
 	} catch (Exception e) {
-	    log.error("Cannot include an image rendition: " + imagePath + "|" + renditionStr);
+		log.error("Cannot include an image rendition: " + imagePath + "|" + renditionStr);
+		return "";
 	}
 	returnImage.append("/>");
         return returnImage.toString();

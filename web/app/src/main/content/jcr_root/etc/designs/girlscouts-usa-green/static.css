@@ -420,7 +420,8 @@ background-color: #B0B0B0;
 }
 .home-section .feature-title {
     display: inline-block;
-    text-indent: 20px;
+    /*text-indent: 20px;*/
+    padding:0 0 0 20px;
 }
 .home-section .content {
 	padding: 0;
@@ -910,7 +911,7 @@ div.textimage.nowrap div.text p {
 	line-height: 30px;
 }
 .srch-box form{
-  margin:8px 0 0;
+  margin: 5px 0 0 0;
 }
 .srch-box form input[type="text"]{
   margin:0;
@@ -931,9 +932,8 @@ div.textimage.nowrap div.text p {
 }
 
 input.searchField{
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     padding: 0.1rem;
-    height: 21px;
 }
 
 .noLeftPadding{
@@ -1242,7 +1242,7 @@ div#eventListWrapper{
 	margin-top:2em;
 }
 
-<<<<<<< HEAD
+
 .styled-select select {
     background: url('http://prod.girlscouts-gateway.org/etc/designs/girlscouts-usa-green/images/select-dropdown-arrow.png') no-repeat 116px;
     border: medium none;
@@ -1268,7 +1268,7 @@ div#eventListWrapper{
 .styled-select select {
     /*width: 144px;*/
     width:152px
-=======
+}
 .home-section .content ul, .home-section .content li {
 	padding: 0;
 	margin: 0;
@@ -1290,5 +1290,5 @@ ul.searchResultsList li h2 a{
 }
 ul.searchResultsList article p{
 	line-height: 1.2em;
->>>>>>> dev
+
 }

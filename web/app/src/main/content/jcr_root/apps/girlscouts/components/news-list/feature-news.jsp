@@ -5,7 +5,7 @@
 <%
 	String designPath = currentDesign.getPath();
 	String featureIcon = properties.get("fileReference", "");
-	String featureTitle = properties.get("title", "");
+	String featureTitle = properties.get("featuretitle", "");
 	String featureLink = properties.get("urltolink", "");
 	if (!featureLink.isEmpty()) {
 	    featureLink = "href=\"" + genLink(resourceResolver, featureLink) + "\" ";
@@ -25,7 +25,7 @@
 	<div class="row">
 		<div class="large-24 columns featureHeader">
 			<div class="feature-icon">
-				<img src="<%= featureIcon %>" width="50" height="50">
+				<img src="<%= featureIcon %>" width="50" height="50" alt="feature icon"/>
 			</div>	
 			<div class="feature-title">
 				<h2>
@@ -35,7 +35,7 @@
 		</div>
 		<div class="small-24 medium-24 hide-for-large hide-for-xlarge hide-for-xxlarge columns featureSmallHeader">
 		    <div class="feature-icon">
-			<img src="<%= featureIcon %>" width="50" height="50">
+			<img src="<%= featureIcon %>" width="50" height="50" alt="feature icon"/>
 		    </div>
 		    <div class="feature-title">
 			<h2><a href="<%= featureLink %>"><%= featureTitle %></a></h2>

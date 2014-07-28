@@ -16,7 +16,7 @@
 			if(!iconPath.isEmpty()){ %>
           		<%= displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80") %>
              <%} else if(iconPath.isEmpty()) { %>
-					<img src="/content/dam/all_icons/icons_64/events_icon.jpg">
+					<img src="/content/dam/all_icons/icons_64/events_icon.jpg" alt="events icon"/>
              <% } %>
      </div>
       <div class="small-16 medium-16 large-16 columns events-data">
