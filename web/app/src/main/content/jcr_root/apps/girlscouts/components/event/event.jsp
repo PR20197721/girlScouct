@@ -184,7 +184,6 @@ try {
                 </div>
         </div>
 </div>
-
      <%if(register!=null && !register.isEmpty()){%>
         <div class="eventDetailsRegisterLink"> 
     	 	<a href="<%=genLink(resourceResolver, register)%>">Register for this event</a>
