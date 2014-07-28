@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 
 import org.slf4j.Logger;
@@ -13,6 +14,9 @@ import com.day.cq.search.result.Hit;
 
 public final class DocHit extends DocHitBase {
     private static final Logger log = LoggerFactory.getLogger(DocHit.class);
+    private static final String JCR_TITLE_PROPERTY = "jcr:content/jcr:title";
+    private static final String DC_TITLE_PROPERTY = "jcr:content/metadata/dc:title";
+    
     private final Hit hit;
     private static final Pattern STRONG_PATTERN = Pattern.compile("<strong>.*?</strong>");
     private static final Pattern STRIP_STRONG_PATTERN = Pattern.compile("</?strong>");
@@ -33,6 +37,17 @@ public final class DocHit extends DocHitBase {
         String excerpt = (String) this.hit.getExcerpts().get("jcr:title");
         if (excerpt != null) {
             return excerpt;
+        }
+        Node node = getPageOrAsset();
+        try {
+            String primaryType = node.getPrimaryNodeType().getName();
+            if (primaryType.equals("cq:Page") && node.hasProperty(JCR_TITLE_PROPERTY)) {
+                return node.getProperty(JCR_TITLE_PROPERTY).getString();
+            } else if (primaryType.equals("dam:Asset") && node.hasProperty(DC_TITLE_PROPERTY)) {
+                return node.getProperty(DC_TITLE_PROPERTY).getString();
+            }
+        } catch (Exception e) {
+            log.info("Cannot get the title. Use node name instead.");
         }
         return getPageOrAsset().getName();
     }
