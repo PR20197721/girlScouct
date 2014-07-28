@@ -5,7 +5,10 @@ package org.girlscouts.tools.meetingimporter;
  * When you upload to the authoring, for some assets,
  * the "update asset" workflow will try to create "dc:title"
  * as String[] instead of String. 
- * DO DOUBLE CHECK! 
+ * 
+ * SOLUTION: load the asset twice
+ * In the first round, load all the binaries.
+ * In the second round, correct the metadata.
 **************************************************************/
 
 import java.io.File;
@@ -52,10 +55,13 @@ import org.apache.poi.ss.util.*;
 import org.girlscouts.vtk.models.Meeting;
 
 public class DocumentUpload {
+    private int round = 1;
 	
 	public static void main(String[] args) throws Exception {
 		DocumentUpload me = new DocumentUpload();
 		//me.parseMeetingPlan();
+		me.parseDocuments();
+		me.round++;
 		me.parseDocuments();
 		
 		//me.damUpload("asdf");
@@ -213,7 +219,9 @@ public class DocumentUpload {
 
 	    MultipartEntity entity = new MultipartEntity();
 	    ContentBody cbFile = new FileBody(file);//, "image/jpeg");
-	    entity.addPart("./jcr:content/renditions/original", cbFile);
+	    if (round == 1) {
+	        entity.addPart("./jcr:content/renditions/original", cbFile);
+	    }
 
 	    entity.addPart( "./jcr:primaryType", new StringBody( "dam:Asset", "text/plain",
                 Charset.forName( "UTF-8" )));
@@ -221,7 +229,9 @@ public class DocumentUpload {
 entity.addPart( "./jcr:content/jcr:primaryType", new StringBody( "dam:AssetContent", "text/plain",
 Charset.forName( "UTF-8" )));
 
-entity.addPart( "./jcr:content/renditions/original@TypeHint", new StringBody( "nt:file", "text/plain", Charset.forName( "UTF-8" )));
+if (round == 1) {
+    entity.addPart( "./jcr:content/renditions/original@TypeHint", new StringBody( "nt:file", "text/plain", Charset.forName( "UTF-8" )));
+}
 entity.addPart( "./jcr:content/metadata/jcr:primaryType", new StringBody( "nt:unstructured", "text/plain",Charset.forName( "UTF-8" )));
 entity.addPart( "./jcr:content/metadata/jcr:mixinTypes", new StringBody( "cq:Taggable", "text/plain",Charset.forName( "UTF-8" )));
 
