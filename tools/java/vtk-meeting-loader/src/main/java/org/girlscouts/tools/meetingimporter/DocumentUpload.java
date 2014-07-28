@@ -210,8 +210,8 @@ entity.addPart( "./jcr:content/metadata/jcr:mixinTypes", new StringBody( "cq:Tag
 
 entity.addPart( "./jcr:content/renditions/jcr:primaryType", new StringBody( "nt:folder", "text/plain",Charset.forName( "UTF-8" )));
 
-entity.addPart( "./jcr:content/metadata/dc:title", new StringBody( ((String)metaDatas.get("name")).trim(), "text/plain",
-Charset.forName( "UTF-8" )));
+entity.addPart( "./jcr:content/metadata/dc:title", new StringBody( ((String)metaDatas.get("name")).trim(), "text/plain", Charset.forName( "UTF-8" )));
+entity.addPart( "./jcr:content/metadata/jcr:title", new StringBody( ((String)metaDatas.get("name")).trim(), "text/plain", Charset.forName( "UTF-8" )));
 
 if( metaDatas.get("description")!=null )
 	entity.addPart( "./jcr:content/metadata/dc:description", new StringBody( (String)metaDatas.get("description"), "text/plain",
