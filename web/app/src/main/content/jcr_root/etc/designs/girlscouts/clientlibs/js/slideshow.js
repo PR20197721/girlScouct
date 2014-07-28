@@ -46,15 +46,15 @@ $(function() {
 	    //look for class to apply code to, if found open and flip arrow 180 degrees
 	    if ($(this).hasClass("toggled-off"))
 	      $(this).animate({"height": containerHeight}).removeClass("toggled-off").addClass("toggled-on"),
-	      $('#SUP1 #rotate-img').css('-webkit-transform','none'),
-	      $('#SUP1 #rotate-img').css('transform','none'),
-	      $('#SUP1 #rotate-img').css('-ms-transform','none');
+	      $('#SUP1 .rotate-img').css('-webkit-transform','none'),
+	      $('#SUP1 .rotate-img').css('transform','none'),
+	      $('#SUP1 .rotate-img').css('-ms-transform','none');
 	    else
 	      //close panel and return arrow to 0 degrees
 	      $(this).animate({"height": "125px"}).removeClass("toggled-on").addClass("toggled-off"),
-	      $('#SUP1 #rotate-img').css('-webkit-transform','rotate(180deg)'),
-	      $('#SUP1 #rotate-img').css('transform','rotate(180deg)'),
-	      $('#SUP1 #rotate-img').css('-ms-transform','rotate(180deg)');
+	      $('#SUP1 .rotate-img').css('-webkit-transform','rotate(180deg)'),
+	      $('#SUP1 .rotate-img').css('transform','rotate(180deg)'),
+	      $('#SUP1 .rotate-img').css('-ms-transform','rotate(180deg)');
 	  });
 
 	  //slide right panel up on click event and rotate arrow image
@@ -62,15 +62,15 @@ $(function() {
 	    //look for class to apply code to, if found open and flip arrow 180 degrees
 	    if ($(this).hasClass("toggled-off"))
 	      $(this).animate({"height": containerHeight}).removeClass("toggled-off").addClass("toggled-on"),
-	      $('#SUP2 #rotate-img').css('-webkit-transform','none'),
-	      $('#SUP2 #rotate-img').css('transform','none'),
-	      $('#SUP2 #rotate-img').css('-ms-transform','none');
+	      $('#SUP2 .rotate-img').css('-webkit-transform','none'),
+	      $('#SUP2 .rotate-img').css('transform','none'),
+	      $('#SUP2 .rotate-img').css('-ms-transform','none');
 	    else
 	      //close panel and return arrow to 0 degrees
 	      $(this).animate({"height": "125px"}).removeClass("toggled-on").addClass("toggled-off"),
-	      $('#SUP2 #rotate-img').css('-webkit-transform','rotate(180deg)'),
-	      $('#SUP2 #rotate-img').css('transform','rotate(180deg)'),
-	      $('#SUP2 #rotate-img').css('-ms-transform','rotate(180deg)');
+	      $('#SUP2 .rotate-img').css('-webkit-transform','rotate(180deg)'),
+	      $('#SUP2 .rotate-img').css('transform','rotate(180deg)'),
+	      $('#SUP2 .rotate-img').css('-ms-transform','rotate(180deg)');
 	  });
 
 	  //script to disable the hover/active state of the carousel buttons on click
