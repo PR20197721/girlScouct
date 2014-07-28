@@ -96,6 +96,11 @@ public class DocumentUpload {
             if(value!=null)
             toRet = value.getStringValue() ;
          }
+         
+         // Skip mdash
+         // TODO: use some library to skip all of them
+         toRet = toRet.replaceAll("—", "&mdash;");
+         
          return toRet.trim();
 	}
 	
@@ -193,6 +198,10 @@ public class DocumentUpload {
 	    httppost.addHeader("Authorization", "Basic " + basic_auth);
 
 	    File file = new File(path+ fileName);
+	    if (!file.exists()) {
+	        System.err.println("File not exist: " + file.getPath());
+	        return;
+	    }
 
 	    MultipartEntity entity = new MultipartEntity();
 	    ContentBody cbFile = new FileBody(file);//, "image/jpeg");
@@ -218,18 +227,18 @@ if( metaDatas.get("description")!=null )
 			Charset.forName( "UTF-8" )));
 
 if (!((String)metaDatas.get("tags")).isEmpty()) {
-    entity.addPart( "./jcr:content/metadata/cq:tags", new StringBody( "girlscouts:forms_documents/"+((String)metaDatas.get("tags")).trim().toLowerCase().replaceAll(" ", "-"), "text/plain",
+    entity.addPart( "./jcr:content/metadata/cq:tags", new StringBody( "girlscouts:forms_documents/"+((String)metaDatas.get("tags")).trim().toLowerCase().replaceAll(" ", "-").replaceAll(",", ""), "text/plain",
     Charset.forName( "UTF-8" )));
 }
 if (!((String)metaDatas.get("category")).isEmpty()) {
-    entity.addPart( "./jcr:content/metadata/cq:tags", new StringBody( "girlscouts:forms_documents/"+((String)metaDatas.get("category")).trim().toLowerCase().replaceAll(" ", "-"), "text/plain",
+    entity.addPart( "./jcr:content/metadata/cq:tags", new StringBody( "girlscouts:forms_documents/"+((String)metaDatas.get("category")).trim().toLowerCase().replaceAll(" ", "-").replaceAll(",", ""), "text/plain",
     Charset.forName( "UTF-8" )));
 }
 	    
 
 
-if ((String)metaDatas.get("tags")!=null )
-    createEtcTag((String)metaDatas.get("tags"));
+if ((String)metaDatas.get("category")!=null )
+    createEtcTag((String)metaDatas.get("category"));
 	    
 	    httppost.setEntity(entity);
 	    System.out.println("executing request " + httppost.getRequestLine());
@@ -265,17 +274,16 @@ if ((String)metaDatas.get("tags")!=null )
 		        Node root = session.getRootNode();
 		        
 		        
-		        if( !session.nodeExists(dir+tag.toLowerCase().trim().replace(" ", "-")) ){
+		        if( !session.nodeExists(dir+tag.toLowerCase().trim().replace(" ", "-").replaceAll(",", "")) ){
 		        	
 		        	Node assets = session.getNode(dir);
 		        	
 		        	//create tag
-		        	Node resNode = assets.addNode (tag.toLowerCase().trim().replace(" ", "-"));
+		        	Node resNode = assets.addNode (tag.toLowerCase().trim().replace(" ", "-").replaceAll(",", ""));
 		        	resNode.setProperty("jcr:title", tag);
 		        	
 		        	session.save();
 		        }        
-		
 	}
 	
 }
