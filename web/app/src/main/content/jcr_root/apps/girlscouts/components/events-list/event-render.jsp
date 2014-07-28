@@ -5,11 +5,14 @@
    String href=(String)request.getAttribute("href");
    String iconPath = (String)request.getAttribute("iconPath");
    String dateStr = (String)request.getAttribute("dateStr");
+   if (dateStr != null) {
+            dateStr =  dateStr.replaceAll(":00","").replaceAll(" ([AP]M)", "&nbsp;$1");
+   }
    String locationLabel = (String)request.getAttribute("locationLabel");
    String imgPath = (String)request.getAttribute("imgPath");
    String title = (String)request.getAttribute("title");
 %>
- <li>
+ <li class="eventsListItem">
    <div class="row">
      <div class="small-8 medium-8 large-8 columns events-image">
          <%
@@ -20,16 +23,9 @@
              <% } %>
      </div>
       <div class="small-16 medium-16 large-16 columns events-data">
-         <h3><a href="<%= href %>"><%= title %></a></h3>
-         <p><b>Date: <%= dateStr %></b> </p>
-         <p><b>Location: <%= locationLabel %></b></p>
+         <p><a href="<%= href %>"><%= title %></a></p>
+         <p>Date: <%= dateStr %></p>
+         <p>Location: <%= locationLabel %></p>
       </div>
    </div>
 </li>  
-
-
-
-
-
-
-

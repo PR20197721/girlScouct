@@ -109,6 +109,7 @@
 				startDate = propNode.getProperty("start").getDate().getTime(); 
        			startDateStr = dateFormat.format(startDate);
             	startTimeStr = timeFormat.format(startDate);
+
             	dateStr = startDateStr + ", " +startTimeStr;
             	
             	imgPath = node.getPath()+"/data/image";

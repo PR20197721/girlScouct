@@ -27,12 +27,12 @@ $(document).onload(function(){
 </script>
 <!--PAGE STRUCTURE: HEADER-->
 				<div id="header" class="row">
-					<div class="large-5 medium-5 small-24 columns">
+					<div class="large-5 medium-12 small-24 columns logoContainer">
 						<cq:include path="<%= headerPath + "/logo" %>" resourceType="girlscouts/components/logo" />
 						<%-- TODO: Mike Z. This is an empty <div> that fixes the green box on Chrome. Temp solution. --%>
 						<cq:include path="<%= headerPath + "/placeholder" %>" resourceType="girlscouts/components/placeholder" />
 					</div>
-					<div class="large-19 medium-19 hide-for-small columns topMessage">
+					<div class="large-19 medium-12 hide-for-small columns topMessage">
 						 <%setCssClasses("columns noLeftPadding" , request); %>
 						<cq:include path="<%= headerPath + "/eyebrow-nav" %>" resourceType="girlscouts/components/eyebrow-navigation" />
 						<div class="row">

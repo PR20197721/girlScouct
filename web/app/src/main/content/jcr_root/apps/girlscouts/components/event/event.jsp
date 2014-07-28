@@ -84,6 +84,7 @@
 	    	
 	    	Tag tag  = tagManager.resolve(str);
 	    	
+try {
 	    	if(tags.containsKey(tag.getParent().getTitle()))
 	    	{
 	    		tags.get(tag.getParent().getTitle()).add(tag.getTitle());
@@ -92,6 +93,9 @@
 	    		temp.add(tag.getTitle());
 	    		tags.put(tag.getParent().getTitle(),temp);
 	    	}
+} catch (Exception e) {
+	e.printStackTrace();
+}
 	    }
 	}
     // content
@@ -142,93 +146,50 @@
 	} catch (Exception e) {}
 	%>
 
- <div class="row">
- <div class="event-page">
-   <div class="small-12 large-12 medium-12 columns">
-       <div class="row">
-         <div class="small-8 large-8 medium-8 columns lineHeight">
-             <b>Date:</b> 
-            
-         </div>
-         <div class="small-16 large-16 medium-16 columns lineHeight">
+ <div class="row eventListDetail">
+	<div class="small-24 medium-12 large-12 columns">
+		<div class="row">
+			<div class="small-8 medium-8 large-8 columns">
+             <b>Date:</b>
+			</div>
+                        <div class="small-16 medium-16 large-16 columns">
            <b><%= dateStr %></b>
-         </div>
-       </div>
-       
-       <div class="row">
-         <div class="small-8 large-8 medium-8 columns lineHeight">
-             <b>Locations:</b> 
-            
-         </div>
-         <div class="small-16 large-16 medium-16 columns lineHeight">
-           <b><%= locationLabel %></b> <%if(address!=null && !address.isEmpty()){%><a href="javascript:void(0)" onclick="showMap('<%=address%>')">Map</a><%} %> 
-         </div>
-       </div>
-       
-    </div>
-    <div class="row">
-     <div class="small-12 large-12 medium-12 columns">
-        
-        <%
-         Iterator<String> str = tags.keySet().iterator();
-         while(str.hasNext()){
-             String categoryTitle = str.next();
-             
-        %>
-         <div class="row">
-         <div class="small-8 large-8 medium-8 columns lineHeight">
-                  <b> <%=map.get(categoryTitle)%>: </b>
-         </div>
-        <%   
-            Iterator<String> tagValue = tags.get(categoryTitle).iterator();
-            %>
-              <div class="small-16 large-16 medium-16 columns lineHeight"> 
-            
-           <%  
-           while(tagValue.hasNext()){
-            %> 
-            
-               <b><%=tagValue.next()%><% if(tagValue.hasNext()){ %>,<%} %></b> 
-                 
-          <% }%>
-            </div>
-          </div>
-          <div class="row">
-              <div class="small-24 large-24 medium-24 columns">&nbsp;</div>
-          </div>  
-          <%
-          }
-      
-      %>
-        <div class="row">
-           <div class="small-10 large-10 medium-10 columns">
-            <%if(!region.isEmpty()){ %>
-                 <b>Region: </b>
-             <%} %>
-           </div>
-            <div class="small-14 large-14 medium-14 columns"> 
-                <b><%=region %></b>
-            </div>
-          
-         </div>
-       </div>
-     </div>
-    </div>
- </div>   
-    
-    
-<div class="row">
-  <div class="small-15 large-15 medium-15 columns">
-     &nbsp;
-  </div>
-   <div class="small-9 large-9 medium-9 columns">
+                        </div>
+		</div>
+                <div class="row">
+                        <div class="small-8 medium-8 large-8 columns">
+             <b>Locations:</b>
+                        </div>
+                        <div class="small-16 medium-16 large-16 columns">
+           <b><%= locationLabel %></b> <%if(address!=null && !address.isEmpty()){%><a href="javascript:void(0)" onclick="showMap('<%=address%>')">Map</a><%} %>
+                        </div>
+                </div>
+	</div>
+        <div class="small-24 medium-12 large-12 columns">
+                <div class="row">
+                        <div class="small-8 medium-8 large-8 columns">
+<b>Categories:</b>
+                        </div>
+                        <div class="small-16 medium-16 large-16 columns">
+<b>Category</b>
+                        </div>
+                </div>
+                <div class="row">
+                        <div class="small-8 medium-8 large-8 columns">
+<b>Regions:</b>
+                        </div>
+                        <div class="small-16 medium-16 large-16 columns">
+<b>Region</b>
+                        </div>
+                </div>
+        </div>
+</div>
+
      <%if(register!=null && !register.isEmpty()){%>
-        <div class="register">
+        <div class="eventDetailsRegisterLink"> 
     	 	<a href="<%=genLink(resourceResolver, register)%>">Register for this event</a>
     	</div>   
      <%} %>
-  </div>
-</div>    
 <div class="row">
    <div class="small-24 large-24 medium-24 columns">&nbsp;</div>
 </div>  

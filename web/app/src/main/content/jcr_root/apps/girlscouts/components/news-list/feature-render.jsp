@@ -21,14 +21,14 @@ String external_url=(String)request.getAttribute("external_url");
 	
 	</div>
    	<div class="small-16 medium-20 large-20 columns news-data">
-   	   <h3>
+   	   <p>
    	   	 <%if(!external_url.isEmpty()){ %>
-   	   	 	<a href="<%= external_url %>" target="_blank"><%= newsTitle %></a>
+   	   	 	 <a href="<%= external_url %>" target="_blank"><%= newsTitle %></a>
    	   	 <%}else{%>
    	   		 <a href="<%= newsLink %>"><%= newsTitle %></a>
    	   	 <%} %>
-   	   </h3>
-   	  	<p><%= newsDateStr %></p>
+   	   </p>
+			<p><%= newsDateStr %></p>
   			<p><%=newsDesc%></p>
    	</div>
 </div>
