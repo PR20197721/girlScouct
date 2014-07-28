@@ -88,10 +88,11 @@ List<Hit> hits = result.getHits();
     <%=properties.get("resultPagesText","Results for")%> "${escapedQuery}"
   <br/>
 <%
-
+int xx=0;
     for(Hit hit: hits)
 {
-    
+    	xx++;
+    	out.println("#" + xx);
          DocHit docHit = new DocHit(hit);
          String path = docHit.getURL();
 
