@@ -1,5 +1,13 @@
 package org.girlscouts.tools.meetingimporter;
 
+/*************************************************************
+ * IMPORTANT: There is a known issue for this uploader.
+ * When you upload to the authoring, for some assets,
+ * the "update asset" workflow will try to create "dc:title"
+ * as String[] instead of String. 
+ * DO DOUBLE CHECK! 
+**************************************************************/
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.nio.charset.Charset;
