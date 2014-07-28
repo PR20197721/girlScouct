@@ -20,14 +20,19 @@
 <!-- Modern Browser -->
 <!--[if gt IE 8]><!-->
 <!--<![endif]-->
+<script>
+$(document).onload(function(){
+	$(document.body).css("display", "none");
+});
+</script>
 <!--PAGE STRUCTURE: HEADER-->
 				<div id="header" class="row">
-					<div class="large-5 medium-5 small-24 columns">
+					<div class="large-5 medium-12 small-24 columns logoContainer">
 						<cq:include path="<%= headerPath + "/logo" %>" resourceType="girlscouts/components/logo" />
 						<%-- TODO: Mike Z. This is an empty <div> that fixes the green box on Chrome. Temp solution. --%>
 						<cq:include path="<%= headerPath + "/placeholder" %>" resourceType="girlscouts/components/placeholder" />
 					</div>
-					<div class="large-19 medium-19 hide-for-small columns topMessage">
+					<div class="large-19 medium-12 hide-for-small columns topMessage">
 						 <%setCssClasses("columns noLeftPadding" , request); %>
 						<cq:include path="<%= headerPath + "/eyebrow-nav" %>" resourceType="girlscouts/components/eyebrow-navigation" />
 						<div class="row">
@@ -44,18 +49,16 @@
 							<cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
 							<div class="small-12 columns">
 								<div class="small-search-hamburger">
-							   		<a class="search-icon"><img src="<%= designPath %>/images/search_white.png" width="21" height="21"/></a>
-									<a class="right-off-canvas-toggle menu-icon"><img src="<%= designPath %>/images/hamburger.png" width="22" height="28"/></a>
+							   		<a class="search-icon"><img src="<%= designPath %>/images/search_white.png" width="21" height="21" alt="search icon"/></a>
+									<a class="right-off-canvas-toggle menu-icon"><img src="<%= designPath %>/images/hamburger.png" width="22" height="28" alt="toggle hamburger side menu icon"/></a>
 								</div>
 							</div>
 						</div>
 						<div class="row hide srch-box">
-						    <%setCssClasses("small-6 columns", request); %>
-						    <cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
-							<% setCssClasses("small-16 columns", request); %>
+							<% setCssClasses("small-20 columns hide srch-box", request); %>
 								<cq:include path="<%= headerPath + "/search-box" %>" resourceType="girlscouts/components/search-box" />
-							<div class="small-2 columns">
-								<a class="right-off-canvas-toggle menu-icon"><img src="<%= designPath %>/images/hamburger.png" width="22" height="28"/></a>
+							<div class="small-4 columns">
+								<a class="right-off-canvas-toggle menu-icon"><img src="<%= designPath %>/images/hamburger.png" width="22" height="28" alt="right side menu hamburger icon"/></a>
 							</div>
 						</div>
 						
@@ -69,7 +72,7 @@
 					<% setCssClasses("large-push-5 large-19 medium-23 small-24 columns", request); %>
 					<cq:include path="<%= headerPath + "/global-nav" %>" resourceType="girlscouts/components/global-navigation" />
 					<div class="small-search-hamburger show-for-medium medium-1 columns">
-						<a class="show-for-medium right-off-canvas-toggle menu-icon"><img src="/etc/designs/girlscouts-usa-green/images/hamburger.png" width="19" height="28"></a>
+						<a class="show-for-medium right-off-canvas-toggle menu-icon"><img src="/etc/designs/girlscouts-usa-green/images/hamburger.png" width="19" height="28" alt="side menu icon"></a>
 					</div>
 				</div>
 

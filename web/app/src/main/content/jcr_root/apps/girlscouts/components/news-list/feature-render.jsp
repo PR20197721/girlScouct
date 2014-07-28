@@ -16,19 +16,19 @@ String external_url=(String)request.getAttribute("external_url");
 		<% if(!imgPath.isEmpty()){ %>
         				<%= displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80") %>
                   <%} else if(imgPath.isEmpty()) { %>
-                      <img src="/content/dam/all_icons/icons_64/news_icon.jpg">
+                      <img src="/content/dam/all_icons/icons_64/news_icon.jpg" alt="news icon"/>
           <% } %>
 	
 	</div>
    	<div class="small-16 medium-20 large-20 columns news-data">
-   	   <h3>
+   	   <p>
    	   	 <%if(!external_url.isEmpty()){ %>
-   	   	 	<a href="<%= external_url %>" target="_blank"><%= newsTitle %></a>
+   	   	 	 <a href="<%= external_url %>" target="_blank"><%= newsTitle %></a>
    	   	 <%}else{%>
    	   		 <a href="<%= newsLink %>"><%= newsTitle %></a>
    	   	 <%} %>
-   	   </h3>
-   	  	<p><%= newsDateStr %></p>
+   	   </p>
+			<p><%= newsDateStr %></p>
   			<p><%=newsDesc%></p>
    	</div>
 </div>

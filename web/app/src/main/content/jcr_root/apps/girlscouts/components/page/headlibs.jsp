@@ -7,8 +7,6 @@
 %><cq:include script="/libs/cq/cloudserviceconfigs/components/servicelibs/servicelibs.jsp"/>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-
 <!-- Begin: Include Girl Scout clientlibs -->
 <!-- Artifact Browser -->
 <!--[if lt IE 9]>
@@ -42,7 +40,7 @@
 			if(fixVerticalSizing) {
 				var currentMainHeight = $('#main').height();
 				var targetMainHeight = $(this).height() - $("#header").height() - $("#headerBar").height() - $("#footer").height() - 15;
-				if (targetMainHeight > 1 * currentMainHeight) {
+				if (targetMainHeight > 1.1 * currentMainHeight) {
 					$('#main').height(targetMainHeight);
 				}
 			}

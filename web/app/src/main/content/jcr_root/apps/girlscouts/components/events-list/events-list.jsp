@@ -68,7 +68,7 @@
 	<div class="row">
 		<div class="hide-for-small hide-for-medium large-24 columns featureHeader">
 			<div class="feature-icon">
-				<img src="<%= iconImg %>" width="50" height="50"/>
+				<img src="<%= iconImg %>" width="50" height="50" alt="feature icon"/>
 			</div>
 			<div class="feature-title">
 				<h2><a href="<%= eventsLink %>"><%= featureTitle %></a></h2>
@@ -76,7 +76,7 @@
 		</div>
 		<div class="small-24 medium-24 hide-for-large  hide-for-xlarge hide-for-xxlarge columns featureSmallHeader">
 			<div class="feature-icon">
-				<img src="<%= iconImg %>" width="50" height="50"/>
+				<img src="<%= iconImg %>" width="50" height="50" alt="feature icon"/>
 			</div>
 			<div class="feature-title">
 				<h2><a href="<%= eventsLink %>"><%= featureTitle %></a></h2>
@@ -109,6 +109,7 @@
 				startDate = propNode.getProperty("start").getDate().getTime(); 
        			startDateStr = dateFormat.format(startDate);
             	startTimeStr = timeFormat.format(startDate);
+
             	dateStr = startDateStr + ", " +startTimeStr;
             	
             	imgPath = node.getPath()+"/data/image";

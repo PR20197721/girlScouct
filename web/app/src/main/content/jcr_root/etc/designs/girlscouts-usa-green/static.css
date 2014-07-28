@@ -47,7 +47,8 @@ body {
     margin: 0.2em 0 0.4em 0;
 }
 h1, h2, h3, h4, h5, h6 {
-    color: #000000;
+	color: #000000;
+	line-height: 1.2em;
 }
 .error {
     color: red;
@@ -104,6 +105,10 @@ a:hover {
 		padding: 0px 15px 0px 15px;
 		margin-bottom: 15px;
 	}
+
+	.home-section .content .columns .events-data {
+		padding: 10px;
+	}
 	.events-data > h3 a{
 		margin: 0;
 		font-size: 1rem;
@@ -134,6 +139,14 @@ a:hover {
         div#rightContent {
                 padding-right: 0px;
         }
+	.featureSmallHeader.columns {
+		display:inline-block;
+		padding: 0 !important;
+		margin: 0 6px !important;
+	}
+	.home-section .feature-title {
+		padding: 0 !important;
+	}
 }
 @media only screen and (min-width: 40.063em) and (max-width: 59.938em) {
     #headerBar li{
@@ -420,7 +433,8 @@ background-color: #B0B0B0;
 }
 .home-section .feature-title {
     display: inline-block;
-    text-indent: 20px;
+    /*text-indent: 20px;*/
+    padding:0 0 0 20px;
 }
 .home-section .content {
 	padding: 0;
@@ -725,8 +739,11 @@ td.fc-header-left{
  padding:1.35px 0 0 1.35px
 }
 
-.logoLarge, .logoSmall, .mobileFooterLogo {
+.logoSmall, .mobileFooterLogo {
 	text-align:center;
+}
+.logoLarge {
+	text-align: left;
 }
 
 .eyebrow-fontsize>li a{
@@ -910,7 +927,7 @@ div.textimage.nowrap div.text p {
 	line-height: 30px;
 }
 .srch-box form{
-  margin:8px 0 0;
+  margin: 5px 0 0 0;
 }
 .srch-box form input[type="text"]{
   margin:0;
@@ -931,9 +948,8 @@ div.textimage.nowrap div.text p {
 }
 
 input.searchField{
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     padding: 0.1rem;
-    height: 21px;
 }
 
 .noLeftPadding{
@@ -1019,6 +1035,13 @@ padding: 5px 0;
 #form .event-region .dropdown select {
 	-webkit-appearance: none;
 	-moz-appearance: window;
+	appearance:none;
+	text-indent:0.01px;
+	text-overflow:'';
+	background: url('images/select-dropdown-arrow.png') no-repeat right center;     
+	/*background-repeat: no-repeat;
+	background-position: right center;
+	*/
 	width: 140px;
 	height:25px;
 	color:grey;
@@ -1026,14 +1049,13 @@ padding: 5px 0;
 	padding: 6px 3px 6px 5px;
 	outline: none;
 	font-size:0.7rem;
-	background-image: url('images/select-dropdown-arrow.png');     
-	background-repeat: no-repeat;
-	background-position: right center;
+	
 }
 
 @-moz-document url-prefix() {
 	.dropdown-moz{
-		background: #ffffff url('images/select-dropdown-arrow.png')no-repeat right center;
+	   -webkit-appearance: none;
+	   background: #ffffff url('images/select-dropdown-arrow.png') no-repeat right center;
 		/*padding-right: 20px;*/
 		border: 1px solid #cccccc;
 		top: 0px;
@@ -1155,7 +1177,7 @@ form#contact-us textarea {
         margin-bottom:40px;
 }
 .events-list p {
-	line-height:100%;
+	line-height:1.2em;
         margin-bottom: 0.2rem;
 }
 .events-list ul, events-list li {
@@ -1236,7 +1258,71 @@ div#eventListWrapper{
 	margin-top:2em;
 }
 
+
+.styled-select select {
+    background: url('http://prod.girlscouts-gateway.org/etc/designs/girlscouts-usa-green/images/select-dropdown-arrow.png') no-repeat 116px;
+    border: medium none;
+    height: 23px;
+    padding: 5px 0 5px 5px;
+    font-size:0.7em;
+    color:#989898;
+    background-color:#ffffff;
+    
+    
+}
+.styled-select, .styled-select select {
+    /*width: 129px;*/
+    width:138px;
+}
+.styled-select {
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    overflow: hidden;
+    position: relative;
+}
+
+.styled-select select {
+    /*width: 144px;*/
+    width:152px
+}
 .home-section .content ul, .home-section .content li {
 	padding: 0;
 	margin: 0;
+}
+
+#smallFooterLinks li {
+	padding: 5px;;
+	font-size: 0.9em;
+	text-align: center;
+}
+ul.searchResultsList li {
+	list-style-type:none;
+}
+ul.searchResultsList li h2 {
+        line-height: 0.5em;
+}
+ul.searchResultsList li h2 a{
+	font-size: 1.2rem;
+}
+ul.searchResultsList article p{
+	line-height: 1.2em;
+
+}
+.news-data p {
+	margin-bottom: 0;
+}
+
+.eventListDetail {
+	padding: 0;
+	line-height: 1.5em;
+}
+.eventDetailsRegisterLink {
+	text-align: left;
+	margin-top: 1em;
+}
+.eventsListItem .columns {
+	padding: 20px 10px !important;
+}
+.logoContainer {
+	padding-right: 0 !important;
 }

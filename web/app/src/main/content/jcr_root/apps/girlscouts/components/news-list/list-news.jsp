@@ -1,7 +1,7 @@
 <%@ page import="com.day.cq.wcm.api.WCMMode,com.day.cq.wcm.foundation.List,java.text.DateFormat,java.util.Set,
                    com.day.cq.wcm.api.components.DropTarget,com.day.cq.search.Query,com.day.cq.search.result.SearchResult,com.day.cq.search.result.Hit,
                    java.util.Map,java.util.HashMap,com.day.cq.search.QueryBuilder,com.day.cq.search.PredicateGroup,java.util.Arrays,java.util.HashSet,java.util.ArrayList,
-                   java.util.Iterator,java.text.SimpleDateFormat,java.util.Date, java.text.Format,com.day.cq.dam.commons.util.DateParser"%>
+                   java.util.Iterator,java.text.SimpleDateFormat,java.util.Date, java.text.Format,com.day.cq.dam.commons.util.DateParser, org.jsoup.*"%>
                    
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
@@ -93,16 +93,23 @@
 
 <style>
 .readmore-js-toggle{
- padding-bottom:20px;
+	padding-bottom:20px;
 }
 </style>
 
 <script>
-$('article').readmore({
-	  speed: 75,
-	  maxHeight: 100
-	});
+$(".searchResultsList article").readmore({
+	speed: 75,
+	maxHeight: 117,
+	heightMargin: 16,
+	moreLink: '<a href="#">Read more</a>',
+	lessLink: '<a href="#">Close</a>',
+	embedCSS: true,
+	sectionCSS: 'display: block; width: 100%;',
+	expandedClass: 'readmore-js-expanded',
+	collapsedClass: 'readmore-js-collapsed'
 
+});
 </script>
 
 

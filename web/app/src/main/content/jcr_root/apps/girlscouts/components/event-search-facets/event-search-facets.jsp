@@ -105,16 +105,14 @@ function toggleWhiteArrow() {
 		</div>
 		<div class="small-24 medium-7 large-7 event-region columns"> 
 		    <div class="title"> Region  </div>
-		      <div class="dropdown">
-			      <span class="dropdown-moz">
-			     	<select name="regions" id="regions">
+		      <div class="styled-select">
+			      <select name="regions" id="regions">
 			      		<option value="choose">Choose Region</option>
 			           		<%for(String str: sortList) {%>
 			             		   <option value="<%=str%>"><%=str%></option>
 			           		 <%} %>
 			     	</select>
-			     </span>	
-		     </div>	
+			     </div>	
 		</div>
 		<div class="small-24 medium-10 large-10 columns">
 		    <div class="title">By Date</div>
