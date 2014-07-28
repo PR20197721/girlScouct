@@ -1242,7 +1242,7 @@ div#eventListWrapper{
 	margin-top:2em;
 }
 
-<<<<<<< HEAD
+
 .styled-select select {
     background: url('http://prod.girlscouts-gateway.org/etc/designs/girlscouts-usa-green/images/select-dropdown-arrow.png') no-repeat 116px;
     border: medium none;
@@ -1268,7 +1268,7 @@ div#eventListWrapper{
 .styled-select select {
     /*width: 144px;*/
     width:152px
-=======
+}
 .home-section .content ul, .home-section .content li {
 	padding: 0;
 	margin: 0;
@@ -1290,5 +1290,5 @@ ul.searchResultsList li h2 a{
 }
 ul.searchResultsList article p{
 	line-height: 1.2em;
->>>>>>> dev
+
 }
