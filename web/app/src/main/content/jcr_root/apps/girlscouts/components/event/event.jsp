@@ -201,12 +201,12 @@
       
       %>
         <div class="row">
-           <div class="small-10 large-10 medium-10 columns">
+           <div class="small-8 large-8 medium-8 columns">
             <%if(!region.isEmpty()){ %>
                  <b>Region: </b>
              <%} %>
            </div>
-            <div class="small-14 large-14 medium-14 columns"> 
+            <div class="small-16 large-16 medium-16 columns"> 
                 <b><%=region %></b>
             </div>
           
