@@ -1024,6 +1024,13 @@ padding: 5px 0;
 #form .event-region .dropdown select {
 	-webkit-appearance: none;
 	-moz-appearance: window;
+	appearance:none;
+	text-indent:0.01px;
+	text-overflow:'';
+	background: url('images/select-dropdown-arrow.png') no-repeat right center;     
+	/*background-repeat: no-repeat;
+	background-position: right center;
+	*/
 	width: 140px;
 	height:25px;
 	color:grey;
@@ -1031,14 +1038,13 @@ padding: 5px 0;
 	padding: 6px 3px 6px 5px;
 	outline: none;
 	font-size:0.7rem;
-	background-image: url('images/select-dropdown-arrow.png');     
-	background-repeat: no-repeat;
-	background-position: right center;
+	
 }
 
 @-moz-document url-prefix() {
 	.dropdown-moz{
-		background: #ffffff url('images/select-dropdown-arrow.png')no-repeat right center;
+	   -webkit-appearance: none;
+	   background: #ffffff url('images/select-dropdown-arrow.png') no-repeat right center;
 		/*padding-right: 20px;*/
 		border: 1px solid #cccccc;
 		top: 0px;
@@ -1240,4 +1246,29 @@ div#eventListWrapper{
 	margin-top:2em;
 }
 
+.styled-select select {
+    background: url('http://prod.girlscouts-gateway.org/etc/designs/girlscouts-usa-green/images/select-dropdown-arrow.png') no-repeat 116px;
+    border: medium none;
+    height: 23px;
+    padding: 5px 0 5px 5px;
+    font-size:0.7em;
+    color:#989898;
+    background-color:#ffffff;
+    
+    
+}
+.styled-select, .styled-select select {
+    /*width: 129px;*/
+    width:138px;
+}
+.styled-select {
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    overflow: hidden;
+    position: relative;
+}
 
+.styled-select select {
+    /*width: 144px;*/
+    width:152px
+}
