@@ -5,7 +5,7 @@
 <%
 	String designPath = currentDesign.getPath();
 	String featureIcon = properties.get("fileReference", "");
-	String featureTitle = properties.get("title", "");
+	String featureTitle = properties.get("featuretitle", "");
 	String featureLink = properties.get("urltolink", "");
 	if (!featureLink.isEmpty()) {
 	    featureLink = "href=\"" + genLink(resourceResolver, featureLink) + "\" ";
