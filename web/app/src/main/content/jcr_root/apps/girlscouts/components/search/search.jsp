@@ -20,7 +20,6 @@ final ResourceBundle resourceBundle = slingRequest.getResourceBundle(pageLocale)
     QueryBuilder queryBuilder = sling.getService(QueryBuilder.class);
 String q = request.getParameter("q");
 //Map<String, String> query = new HashMap<String, String>();
-String documentLocation = "/content/dam/girlscouts-shared/en/documents";
 String searchIn = (String) properties.get("searchIn");
 if (null==searchIn)
 {
@@ -33,45 +32,54 @@ final String escapedQueryForAttr = xssAPI.encodeForHTMLAttr(q != null ? q : "");
 pageContext.setAttribute("escapedQuery", escapedQuery);
 pageContext.setAttribute("escapedQueryForAttr", escapedQueryForAttr);
 
-   Map mapPath = new HashMap();
-   mapPath.put("group.p.or","true");
-   mapPath.put("group.1_path", currentPage.getAbsoluteParent(2).getPath());
-   // TODO: Make this configurable
-   mapPath.put("group.2_path", "/content/dam/girlscouts-shared/en/documents");
- 
-   
-   PredicateGroup predicatePath =PredicateGroup.create(mapPath);
-   
-   Map mapFullText = new HashMap();
-   
-    mapFullText.put("group.p.or","true");
-    mapFullText.put("group.1_fulltext", q);
-    mapFullText.put("group.1_fulltext.relPath", "jcr:content");
-    mapFullText.put("group.2_fulltext", q);
-    mapFullText.put("group.2_fulltext.relPath", "jcr:content/@jcr:title");
-    mapFullText.put("group.3_fulltext", q);
-    mapFullText.put("group.3_fulltext.relPath", "jcr:content/@jcr:description");
-   
+int pos = 0;
+if( request.getParameter("pos")!=null ){
+	try{ pos= Integer.parseInt(request.getParameter("pos")); }catch(Exception e){e.printStackTrace();}
+}
 
-   PredicateGroup predicateFullText = PredicateGroup.create(mapFullText);
-   
-   
-   Map masterMap  = new HashMap();
-   masterMap.put("type","nt:hierarchyNode" );
-   masterMap.put("boolproperty","jcr:content/hideInNav");
-   masterMap.put("boolproperty.value","false");
-   masterMap.put("p.limit","-1");
-   
-   PredicateGroup master = PredicateGroup.create(masterMap);
- 
-   master.add(predicatePath);
-   master.add(predicateFullText);
-		
-Query query = queryBuilder.createQuery(master,slingRequest.getResourceResolver().adaptTo(Session.class));
+
+Map mapFullText = new HashMap();
+mapFullText.put("fulltext", q);
+
+
+mapFullText.put("group.1_path", currentPage.getAbsoluteParent(2).getPath());
+mapFullText.put("group.2_path", "/content/dam/girlscouts-shared/en/documents");
+mapFullText.put("group.p.or","true");
+PredicateGroup predicateFullText = PredicateGroup.create(mapFullText);
+System.err.println("***SQL: "+predicateFullText.toString());
+Query query = queryBuilder.createQuery(predicateFullText, slingRequest.getResourceResolver().adaptTo(Session.class));
+query.setStart(pos);
+query.setHitsPerPage(10);
 query.setExcerpt(true);
- SearchResult result = query.getResult();
- 
+SearchResult result = query.getResult();
 List<Hit> hits = result.getHits();
+System.err.println("TESt123: "+ hits.size() +" : "+result.getExecutionTimeMillis()  );
+Map unq= new java.util.TreeMap();
+for(Hit hit: hits)
+{
+	try{
+		if(hit.getPath().contains("textimage_")) 
+		continue;
+		DocHit docHit = new DocHit(hit);
+    	String path = docHit.getURL();
+  		String obj[] =(String[])unq.get( docHit.getURL() );
+		if( obj ==null ){
+			obj = new String[3];
+			obj[0]= docHit.getURL();
+			obj[1]= docHit.getTitle();
+			try{
+				obj[2]= hit.getExcerpt();
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+	}else{
+		
+	}
+		unq.put( docHit.getURL() , obj);
+	}catch(Exception e){}
+}
+int xx=pos;
+java.util.Iterator itr= unq.keySet().iterator();
 
 %>
 <center>
@@ -89,14 +97,12 @@ List<Hit> hits = result.getHits();
   <br/>
 <%
 
-    for(Hit hit: hits)
+    while(itr.hasNext())
 {
-    
-         DocHit docHit = new DocHit(hit);
-         String path = docHit.getURL();
-
-int idx = path.lastIndexOf('.');
-String extension = idx >= 0 ? path.substring(idx + 1) : "";
+    	String u=(String) itr.next();
+    	String obj[] = (String[]) unq.get(u);
+		int idx = obj[0].indexOf('.');
+		String extension = idx >= 0 ? obj[0].substring(idx + 1) : "";
 %>
 <br/>
 <%
@@ -105,13 +111,20 @@ if(!extension.isEmpty() && !extension.equals("html")){
 
             <span class="icon type_<%=extension%>"><img src="/etc/designs/default/0.gif" alt="*"></span>
      <%} %>
-<a href="<%=path%>"><%=docHit.getTitle() %></a>
-       <div><%=docHit.getExcerpt()%></div>
+<a href="<%=obj[0] %>" data-geo=""><%=obj[1]%></a>
+       <div><%=obj[2]%></div>
        <br/>
    <%}
 }
    
 %>
+<%if( hits.size()> 9 ){ %>
+<br/><br/>
+<a href="/content/gateway/en/site-search.html?q=girls&pos=<%= ( (pos-10)<0 ) ? 0 : (pos-10)%>">PREV</a> ||
+ <a href="/content/gateway/en/site-search.html?q=girls&pos=<%= (pos+10)%>">NEXT</a>
+<br/><br/>
+<%} %>
+
 <script>
 jQuery('#searchForm').bind('submit', function(event)
 {
