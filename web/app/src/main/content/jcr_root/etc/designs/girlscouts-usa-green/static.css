@@ -910,7 +910,7 @@ div.textimage.nowrap div.text p {
 	line-height: 30px;
 }
 .srch-box form{
-  margin:8px 0 0;
+  margin: 5px 0 0 0;
 }
 .srch-box form input[type="text"]{
   margin:0;
@@ -931,9 +931,8 @@ div.textimage.nowrap div.text p {
 }
 
 input.searchField{
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     padding: 0.1rem;
-    height: 21px;
 }
 
 .noLeftPadding{

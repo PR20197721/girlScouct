@@ -52,7 +52,7 @@
    }
 
    /* rotate arrow image inside slideup panels */
-   .view-b #rotate-img {
+   .view-b .rotate-img {
      transform: rotate(180deg);
      -ms-transform: rotate(180deg);
      -webkit-transform: rotate(180deg);
