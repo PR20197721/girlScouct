@@ -123,7 +123,17 @@ try{
 		}
 %>
 		<a href="<%=pth%>"><%=docHit.getTitle() %></a>
+<%
+		if (q != null && !q.isEmpty()) {
+%>
 		<div><%=docHit.getExcerpt()%></div>
+<%
+		} else {
+%>
+		<div><%= docHit.getDescription() %></div>
+<%
+		}
+%>
 		<br/>
 <%
 	}

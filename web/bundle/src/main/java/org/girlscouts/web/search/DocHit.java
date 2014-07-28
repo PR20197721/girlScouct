@@ -16,6 +16,7 @@ public final class DocHit extends DocHitBase {
     private static final Logger log = LoggerFactory.getLogger(DocHit.class);
     private static final String JCR_TITLE_PROPERTY = "jcr:content/jcr:title";
     private static final String DC_TITLE_PROPERTY = "jcr:content/metadata/dc:title";
+    private static final String DC_DESCRIPTION_PROPERTY = "jcr:content/metadata/dc:description";
     
     private final Hit hit;
     private static final Pattern STRONG_PATTERN = Pattern.compile("<strong>.*?</strong>");
@@ -77,6 +78,18 @@ public final class DocHit extends DocHitBase {
         	excerpt = excerpt.replaceAll(APPL_VND," ");
         }
         return excerpt;
+    }
+    
+    public String getDescription() {
+        try {
+            Node pageOrAssetNode = getPageOrAsset();
+            if (pageOrAssetNode.hasProperty(DC_DESCRIPTION_PROPERTY)) {
+                return pageOrAssetNode.getProperty(DC_DESCRIPTION_PROPERTY).getString();
+            }
+        } catch (Exception e) {
+            log.info("Cannot get description. Return empty string.");
+        }
+        return "";
     }
 
     public Map getProperties() throws RepositoryException {
