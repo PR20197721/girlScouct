@@ -1246,3 +1246,15 @@ div#eventListWrapper{
 	font-size: 0.9em;
 	text-align: center;
 }
+ul.searchResultsList li {
+	list-style-type:none;
+}
+ul.searchResultsList li h2 {
+        line-height: 0.5em;
+}
+ul.searchResultsList li h2 a{
+	font-size: 1.2rem;
+}
+ul.searchResultsList article p{
+	line-height: 1.2em;
+}
