@@ -2,11 +2,8 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
-<div id="errInfo" title="tmp"></div>
+<div id="errInfo"></div>
 <div id="planBody">
-
-
-
 <%!
 	String activeTab = "plan";
 	boolean showVtkNav = true;

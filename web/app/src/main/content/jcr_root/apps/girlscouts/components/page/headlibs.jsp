@@ -42,7 +42,7 @@
 			if(fixVerticalSizing) {
 				var currentMainHeight = $('#main').height();
 				var targetMainHeight = $(this).height() - $("#header").height() - $("#headerBar").height() - $("#footer").height() - 15;
-				if (targetMainHeight > 1 * currentMainHeight) {
+				if (targetMainHeight > 1.1 * currentMainHeight) {
 					$('#main').height(targetMainHeight);
 				}
 			}

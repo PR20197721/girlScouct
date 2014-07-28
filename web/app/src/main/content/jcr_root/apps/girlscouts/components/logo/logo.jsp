@@ -25,23 +25,19 @@
 <% if(noLink != null && noLink == true){
     %>
 <nav class="show-for-small mobileFooterLogo">
-	<center>
-			<img src="<%= regularImage %>"<%= alt %> width="<%= regularWidth %>" height="<%= regularHeight %>" />
-	</center>
+	<img src="<%= regularImage %>"<%= alt %> width="<%= regularWidth %>" height="<%= regularHeight %>" />
 </nav>
 <% } else {
 %>
 <nav class="hide-for-small logoLarge logoLargePadding">
-	<% if (!linkURL.isEmpty()) { %> <a href="<%= linkURL %>"> <% } %>
-		<img src="<%= regularImage %>"<%= alt %> width="<%= regularWidth %>" height="<%= regularHeight %>" />
-	<% if (!linkURL.isEmpty()) { %> </a> <% } %>
+<% if (!linkURL.isEmpty()) { %> <a href="<%= linkURL %>"> <% } %>
+	<img src="<%= regularImage %>"<%= alt %> width="<%= regularWidth %>" height="<%= regularHeight %>" />
+<% if (!linkURL.isEmpty()) { %> </a> <% } %>
 </nav>
 <nav class="show-for-small logoSmall">
-	<center>
-		<% if (!linkURL.isEmpty()) { %> <a href="<%= linkURL %>"> <% } %>
-			<img src="<%= smallImage %>"<%= alt %> width="<%= smallWidth %>" height="<%= smallHeight %>" />
-		<% if (!linkURL.isEmpty()) { %> </a> <% } %>
-	</center>
+<% if (!linkURL.isEmpty()) { %> <a href="<%= linkURL %>"> <% } %>
+	<img src="<%= smallImage %>"<%= alt %> width="<%= smallWidth %>" height="<%= smallHeight %>" />
+<% if (!linkURL.isEmpty()) { %> </a> <% } %>
 </nav>
 <% } %>
 <!--<![endif]-->

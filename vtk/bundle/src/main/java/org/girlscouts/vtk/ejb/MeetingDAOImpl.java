@@ -1300,7 +1300,7 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 
 		
 		if( keywrd!=null && !keywrd.trim().equals("") )//&& !isTag )
-			sql+=" and contains(child.*, '"+ keywrd+"') ";
+			sql+=" and (contains(child.*, '"+ keywrd+"') or contains(parent.*, '"+ keywrd+"')  )";
 		
 		if( !isTag )
 			sql+= regionSql;
@@ -1394,7 +1394,7 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 				activity.setEndDate(activity.getDate());
 			}
 				
-				
+				activity.setIsEditable(false);
 				
 				//filter by dates
 				

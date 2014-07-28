@@ -62,75 +62,78 @@ a:hover {
     color: green;
 }
 @media only screen and (min-width: 40.063em) {
-    body {
-/* 
-        min-width:740px;
- */
-    }
     .news-image{
-padding: 10px;
-}
-.news-data{
 	padding: 10px;
-}
+    }
+    .news-data{
+	padding: 10px;
+    }
 }
 @media only screen and (max-width: 40em) {
-    html {
-        font-size: 100%
-    }
-.news-section{
-        padding: 0;
-    }
-.events-section{
-	padding: 0;
-}
-
-.news-image{
-	padding-left: 0px;
-	padding-right: 0px;
-}
-.events-image{
-	padding-left: 0px;
-	padding-right: 0px;
-}
-.news-block{
-        margin: 0;
-    }
-.small-block-grid-1.content.events-block {
-margin: 0;
-padding: 0;
-}
-.small-8.medium-12.large-8.columns.events-image{
-	padding: 0;
-}
-.small-16.medium-12.large-16.columns.events-data {
-padding: 0px 15px 0px 15px;
-margin-bottom: 15px;
-}
-.events-data > h3 a{
-	margin: 0;
-	font-size: 1rem;
-}
-.events-data > p:last-child{
-	margin: 0;
-} 
-.events-data > p:nth-of-type(1) {
-	margin: 10px 0;
-}
-.news-data{
-	margin-bottom: 15px;
-}
-/* TODO: apply font size change to link titles with or without links*/
-.news-data > h3 a{
-	margin: 0;
-	font-size: 1rem;
-} 
-.news-data > p:last-child{
-	margin: 0;
-}
-.news-data > p:nth-of-type(1) {
-margin: 10px 0;
-}
+	html {
+		font-size: 100%
+	}
+	.news-section{
+		padding: 0;
+	}
+	.news-section ul {
+		padding: 0;
+	}
+	.events-section{
+		padding: 0;
+	}
+	.news-image{
+		padding-left: 0px;
+		padding-right: 0px;
+	}
+	.events-image{
+		padding-left: 0px;
+		padding-right: 0px;
+	}
+	.news-block{
+		margin: 0;
+	}
+	.small-block-grid-1.content.events-block {
+		margin: 0;
+		padding: 0;
+	}
+	.small-8.medium-12.large-8.columns.events-image{
+		padding: 0;
+	}
+	.small-16.medium-12.large-16.columns.events-data {
+		padding: 0px 15px 0px 15px;
+		margin-bottom: 15px;
+	}
+	.events-data > h3 a{
+		margin: 0;
+		font-size: 1rem;
+	}
+	.events-data > p:last-child{
+		margin: 0;
+	} 
+	.events-data > p:nth-of-type(1) {
+		margin: 10px 0;
+	}
+	.news-data{
+		margin-bottom: 15px;
+	}
+	/* TODO: apply font size change to link titles with or without links*/
+	.news-data > h3 a{
+		margin: 0;
+		font-size: 1rem;
+	} 
+	.news-data > p:last-child{
+		margin: 0;
+	}
+	.news-data > p:nth-of-type(1) {
+		margin: 10px 0;
+	}
+        div#rightContent div.advertisement a{
+                display: inline-block;
+        }
+        div#rightContent {
+                padding-right: 0px;
+        }
 }
 @media only screen and (min-width: 40.063em) and (max-width: 59.938em) {
     #headerBar li{
@@ -420,10 +423,23 @@ background-color: #B0B0B0;
     text-indent: 20px;
 }
 .home-section .content {
-    padding: 0px 5px 0px 12px;
+	padding: 0;
+	border: 0;
+/* keep this for homepage layout 
+	border: 1px solid yellow;
+*/
+}
+.home-section .columns {
+	padding: 0 20px;
+/* keep this for homepage layout 
+	border: 1px solid orange;
+*/
 }
 .home-section .content .columns {
-    padding: 10px;
+	padding: 20px;
+/* keep this for homepage layout 
+	border: 1px solid green;
+*/
 }
 .home-section h2 a {
     font-size: 0.85em;
@@ -433,21 +449,6 @@ background-color: #B0B0B0;
 .home-section h3 {
     color: #00ae58;
     font-size: 1.2em;
-}
-.feature-shortstory .content {
-    margin: 10px 13px 20px 12px;
-    padding: 0px;
-}
-.events-list .content {
-    margin: 20px 38px 20px 30px;
-}
-.news-list .content {
-    margin: 10px 30px 20px 15px;
-}
-
-.events-list p {
-    line-height:100%;
-    margin-bottom: 0.2rem;
 }
 
 .debug {
@@ -724,6 +725,10 @@ td.fc-header-left{
  padding:1.35px 0 0 1.35px
 }
 
+.logoLarge, .logoSmall, .mobileFooterLogo {
+	text-align:center;
+}
+
 .eyebrow-fontsize>li a{
  font-size:0.875rem;
 
@@ -932,18 +937,8 @@ input.searchField{
 }
 
 .noLeftPadding{
- padding-right:0px;
+	padding-right:0px;
 } 
-
-
-@media only screen and (max-width: 40em) {
-	div#rightContent div.advertisement a{
-		display: inline-block;
-	}
-	div#rightContent {
-		padding-right: 0px;
-	}
-}
 
 .video-container {
 	position:relative;
@@ -1069,22 +1064,6 @@ padding: 5px 0;
   
 }
 
-.events-lists{
-  margin-bottom:40px;
-}
-.event-table table {border: none;}
-.event-table table td{
- padding:0px;
-}
-
-.events-lists .event-title h6{
- margin-bottom: -0.1em;
- 
-}
-.event-table{
-  height:50px;
-}
-
 .white-arrow-down{
 
    background: url('images/white-arrow-down.png') no-repeat;
@@ -1109,16 +1088,12 @@ padding: 5px 0;
   
 }
 
-.featureStoriesHeader.columns {
-	margin: 0 -1.25em;
+.featureHeader.columns {
+	margin: 0 -1.6em;
 }
 
-.featureNewsHeader.columns {
-	margin: 0 -1.25em;
-}
-
-.featureEventsHeader.columns{
-	margin: 0 -1.25em;
+.featureSmallHeader.columns{
+	margin: 0 1.6em;
 }
 
 form#contact-us textarea {
@@ -1182,18 +1157,39 @@ form#contact-us textarea {
 }
 
 /* events search list */
-.events-list .content {
-        margin: 20px 38px 20px 30px;
-}
-.events-list p {
-    line-height:100%;
-        margin-bottom: 0.2rem;
-}
 .events-lists{
         margin-bottom:40px;
 }
+.events-list p {
+	line-height:100%;
+        margin-bottom: 0.2rem;
+}
+.events-list ul, events-list li {
+	margin: 0;
+}
+.events-list .content {
+/*
+        margin: 20px 38px 20px 30px;
+*/
+}
 .events-lists .event-title h6{
 	margin-bottom: -0.1em;
+}
+
+.event-table{
+        height:50px;
+}
+.event-table table {
+        border: none;
+}
+.event-table table td{
+        padding:0px;
+}
+
+.news-list .content {
+/*
+    margin: 10px 30px 20px 15px;
+*/
 }
 
 .eventsList {
@@ -1246,6 +1242,7 @@ div#eventListWrapper{
 	margin-top:2em;
 }
 
+<<<<<<< HEAD
 .styled-select select {
     background: url('http://prod.girlscouts-gateway.org/etc/designs/girlscouts-usa-green/images/select-dropdown-arrow.png') no-repeat 116px;
     border: medium none;
@@ -1271,4 +1268,27 @@ div#eventListWrapper{
 .styled-select select {
     /*width: 144px;*/
     width:152px
+=======
+.home-section .content ul, .home-section .content li {
+	padding: 0;
+	margin: 0;
+}
+
+#smallFooterLinks li {
+	padding: 5px;;
+	font-size: 0.9em;
+	text-align: center;
+}
+ul.searchResultsList li {
+	list-style-type:none;
+}
+ul.searchResultsList li h2 {
+        line-height: 0.5em;
+}
+ul.searchResultsList li h2 a{
+	font-size: 1.2rem;
+}
+ul.searchResultsList article p{
+	line-height: 1.2em;
+>>>>>>> dev
 }

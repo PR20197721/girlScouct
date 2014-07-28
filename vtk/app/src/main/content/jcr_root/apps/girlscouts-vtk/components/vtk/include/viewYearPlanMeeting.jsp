@@ -40,7 +40,7 @@
         <div class="small-24 medium-10 large-12 columns">
 		<h1>Meeting: <%= meetingInfo.getName() %> </h1>
 
-		<%= meetingInfo.getAidTags() %>
+		<!--  <%= meetingInfo.getAidTags() %> -->
 <%
 	Location loc = null;
 	if( meeting.getLocationRef()!=null && user.getYearPlan().getLocations()!=null ) {
@@ -229,7 +229,13 @@ if( _aidTags!=null )
 	
 %>
 
-<input type="button" name="" value="Add Agenda Items" onclick="addCustAgenda()"  class="mLocked button linkButton"/>
+  <!--  
+	<input type="button" name="" value="Add Agenda Items" onclick="addCustAgenda()"  class="mLocked button linkButton"/>
+-->
+    
+<a href="javascript:void(0)" onclick="loadModal('#newMeetingAgenda', true, 'Agenda', false);">Add Agenda Items</a>
+
+
 <div id="newMeetingAgenda" style="display:none;">
 <% if(true){// user.getYearPlan().getSchedule() !=null){ %>
        <h1>Add New Agenda Item</h1> 

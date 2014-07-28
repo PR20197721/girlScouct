@@ -59,7 +59,14 @@ ageLevel=ageLevel.toLowerCase().trim();
 <%if( activity.getDate().after( new java.util.Date())){ %>
 		<a href="#" class="button linkButton" onclick="rmCustActivity12('<%=activity.getPath()%>')">delete this activity</a>
 <%} %>
-          <a href="#" class="button linkButton" onclick="doEditActivity('editCustActiv')">edit activity</a>
+
+		<!-- a href="#" class="button linkButton" onclick="openClose('editCustActiv')">edit activity</a --> 
+          
+          <%if(activity.getIsEditable() ){ %>
+         	 <a href="#" class="button linkButton" onclick="doEditActivity('editCustActiv')">edit activity</a>
+          <%} %>
+          
+
                 <br/>
         </div>        
         

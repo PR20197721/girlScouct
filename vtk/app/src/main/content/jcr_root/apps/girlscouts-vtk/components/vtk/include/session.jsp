@@ -1,3 +1,5 @@
+
+
 <%!
 java.text.SimpleDateFormat FORMAT_MMddYYYY = new java.text.SimpleDateFormat("MM/dd/yyyy");
 java.text.SimpleDateFormat FORMAT_hhmm_AMPM = new java.text.SimpleDateFormat("hh:mm a");
@@ -53,7 +55,9 @@ final UserDAO userDAO = sling.getService(UserDAO.class);
 final MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
 
 HttpSession session = request.getSession();
+
 int timeout = session.getMaxInactiveInterval();
+//out.print(session.getId()+" : " + timeout);
 response.setHeader("Refresh", timeout + "; URL = /content/girlscouts-vtk/en/vtk.logout.html");
 boolean isTest = false;
 if( isTest ) {

@@ -23,7 +23,7 @@
 %>
 <div class="small-24 medium-24 large-24 columns news-section">
 	<div class="row">
-		<div class="hide-for-small hide-for-medium large-24 columns featureNewsHeader">
+		<div class="show-for-large large-24 columns featureHeader">
 			<div class="feature-icon">
 				<img src="<%= featureIcon %>" width="50" height="50">
 			</div>	
@@ -33,19 +33,17 @@
 				</h2>
 			</div>
 		</div>
-		<div class="medium-8 show-for-medium columns">&nbsp;</div>
-        <div class="small-24 medium-24 hide-for-large hide-for-xlarge hide-for-xxlarge columns">
-            <div class="feature-icon">
-                <img src="<%= featureIcon %>" width="50" height="50">
-            </div>
-            <div class="feature-title">
-                <h2><a href="<%= featureLink %>"><%= featureTitle %></a></h2>
-            </div>
-        </div>
-        <div class="medium-4 show-for-medium columns">&nbsp;</div>
+		<div class="small-24 medium-24 hide-for-large hide-for-xlarge hide-for-xxlarge columns featureSmallHeader">
+		    <div class="feature-icon">
+			<img src="<%= featureIcon %>" width="50" height="50">
+		    </div>
+		    <div class="feature-title">
+			<h2><a href="<%= featureLink %>"><%= featureTitle %></a></h2>
+		    </div>
+		</div>
 	</div>
-
-	<ul class="news-block">
+        <div class="content">
+			<ul class="news-block">
 
 <%
 // Feature news when select but author on the home page
@@ -123,7 +121,6 @@
 	    }catch(Exception e){}
 	 } 	
 %>
-	</ul>
+			</ul>
+	</div>
 </div>
-
-

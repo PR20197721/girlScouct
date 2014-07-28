@@ -12,6 +12,7 @@ public class Activity extends YearPlanComponent{
 		this.uid= "A"+new java.util.Date().getTime()+ "_"+ Math.random();
 		super.setType(YearPlanComponentType.ACTIVITY);
 		this.cost=0.00;
+		this.isEditable=true;
 		}
 	
 	public Activity(String name, String content, java.util.Date date, java.util.Date endDate,
@@ -25,6 +26,7 @@ public class Activity extends YearPlanComponent{
 		super.setType(YearPlanComponentType.ACTIVITY);
 		this.uid= "A"+new java.util.Date().getTime() + "_"+ Math.random();
 		this.cost= cost;
+		this.isEditable=true;
 	}
 	
 	@Field(path=true) String path;
@@ -40,11 +42,19 @@ public class Activity extends YearPlanComponent{
 	@Collection java.util.List<Asset> assets;
 	@Field(id=true) String uid;
 	@Field Double cost;
+	@Field Boolean isEditable;
+	
+	
+	
+	
 
-	
-	
-	
-	
+	public Boolean getIsEditable() {
+		return isEditable;
+	}
+
+	public void setIsEditable(Boolean isEditable) {
+		this.isEditable = isEditable;
+	}
 
 	public Double getCost() {
 		return cost;

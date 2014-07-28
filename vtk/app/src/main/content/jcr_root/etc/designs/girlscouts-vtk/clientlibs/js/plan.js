@@ -88,11 +88,11 @@ function loadModalPage(link, showTitle, title, fullPageScroll) {
                         var msg = "Sorry but there was an error: ";
                         $( "#error" ).html( msg + xhr.status + " " + xhr.statusText );
                 }else{
-			if (fullPageScroll) {
-				loadModal("#gsModal", showTitle, title, true);
-			} else {
-                                loadModal("#gsModal", showTitle, title, false);
-			}
+					if (fullPageScroll) {
+						loadModal("#gsModal", showTitle, title, true);
+					} else {
+						loadModal("#gsModal", showTitle, title, false);
+					}
                 }
         });
 }
@@ -123,6 +123,7 @@ function loadModal(divSelector, showTitle, title, fullPageScroll) {
 				$(this).css({overflow: 'scroll'});
 			},
 			"close": function() {
+				
 				$("body").css({ overflow: 'inherit' });
 			}
 		});
@@ -436,23 +437,12 @@ function doEditActivity(x){
 	loadModal( "#"+x, true, "Edit Activity", false);
 }
 
-
-function printDiv(divID) {
-            //Get the HTML of div
-            var divElements = document.getElementById(divID).innerHTML;
-            //Get the HTML of whole page
-            var oldPage = document.body.innerHTML;
-
-            //Reset the page's HTML with div's HTML only
-            document.body.innerHTML = 
-              "<html><head><title></title></head><body>" + 
-              divElements + "</body>";
-
-            //Print Page
-            window.print();
-
-            //Restore orignal HTML
-            document.body.innerHTML = oldPage;
-
-          
-        }
+function printDiv(x) {
+	   
+        var divToPrint = document.getElementById(x);
+        var popupWin = window.open('', '_blank', 'width=300,height=300');
+        popupWin.document.open();
+        popupWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</html>');
+         popupWin.document.close();
+             	
+}

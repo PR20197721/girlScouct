@@ -1,6 +1,4 @@
-<%@ page
-    import="java.util.Arrays,
-    java.util.List,java.util.Iterator"%>
+<%@ page import="java.util.Arrays, java.util.List,java.util.Iterator"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <% 
