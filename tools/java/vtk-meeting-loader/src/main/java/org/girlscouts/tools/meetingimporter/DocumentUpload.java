@@ -1,5 +1,16 @@
 package org.girlscouts.tools.meetingimporter;
 
+/*************************************************************
+ * IMPORTANT: There is a known issue for this uploader.
+ * When you upload to the authoring, for some assets,
+ * the "update asset" workflow will try to create "dc:title"
+ * as String[] instead of String. 
+ * 
+ * SOLUTION: load the asset twice
+ * In the first round, load all the binaries.
+ * In the second round, correct the metadata.
+**************************************************************/
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.nio.charset.Charset;
@@ -44,11 +55,15 @@ import org.apache.poi.ss.util.*;
 import org.girlscouts.vtk.models.Meeting;
 
 public class DocumentUpload {
+    private int round = 2;
 	
 	public static void main(String[] args) throws Exception {
 		DocumentUpload me = new DocumentUpload();
 		//me.parseMeetingPlan();
-		me.parseDocuments();
+		for (; me.round <= 2; me.round++) {
+		    me.parseDocuments();
+		    me.round++;
+		}
 		
 		//me.damUpload("asdf");
 		//me.createEtcTag("test");
@@ -96,6 +111,11 @@ public class DocumentUpload {
             if(value!=null)
             toRet = value.getStringValue() ;
          }
+         
+         // Skip mdash
+         // TODO: use some library to skip all of them
+         toRet = toRet.replaceAll("—", "&mdash;");
+         
          return toRet.trim();
 	}
 	
@@ -193,10 +213,16 @@ public class DocumentUpload {
 	    httppost.addHeader("Authorization", "Basic " + basic_auth);
 
 	    File file = new File(path+ fileName);
+	    if (!file.exists()) {
+	        System.err.println("File not exist: " + file.getPath());
+	        return;
+	    }
 
 	    MultipartEntity entity = new MultipartEntity();
 	    ContentBody cbFile = new FileBody(file);//, "image/jpeg");
-	    entity.addPart("./jcr:content/renditions/original", cbFile);
+	    if (round == 1) {
+	        entity.addPart("./jcr:content/renditions/original", cbFile);
+	    }
 
 	    entity.addPart( "./jcr:primaryType", new StringBody( "dam:Asset", "text/plain",
                 Charset.forName( "UTF-8" )));
@@ -204,32 +230,34 @@ public class DocumentUpload {
 entity.addPart( "./jcr:content/jcr:primaryType", new StringBody( "dam:AssetContent", "text/plain",
 Charset.forName( "UTF-8" )));
 
-entity.addPart( "./jcr:content/renditions/original@TypeHint", new StringBody( "nt:file", "text/plain", Charset.forName( "UTF-8" )));
+if (round == 1) {
+    entity.addPart( "./jcr:content/renditions/original@TypeHint", new StringBody( "nt:file", "text/plain", Charset.forName( "UTF-8" )));
+}
 entity.addPart( "./jcr:content/metadata/jcr:primaryType", new StringBody( "nt:unstructured", "text/plain",Charset.forName( "UTF-8" )));
 entity.addPart( "./jcr:content/metadata/jcr:mixinTypes", new StringBody( "cq:Taggable", "text/plain",Charset.forName( "UTF-8" )));
 
 entity.addPart( "./jcr:content/renditions/jcr:primaryType", new StringBody( "nt:folder", "text/plain",Charset.forName( "UTF-8" )));
 
-entity.addPart( "./jcr:content/metadata/dc:title", new StringBody( ((String)metaDatas.get("name")).trim(), "text/plain",
-Charset.forName( "UTF-8" )));
+entity.addPart( "./jcr:content/metadata/dc:title", new StringBody( ((String)metaDatas.get("name")).trim(), "text/plain", Charset.forName( "UTF-8" )));
+entity.addPart( "./jcr:content/metadata/jcr:title", new StringBody( ((String)metaDatas.get("name")).trim(), "text/plain", Charset.forName( "UTF-8" )));
 
 if( metaDatas.get("description")!=null )
 	entity.addPart( "./jcr:content/metadata/dc:description", new StringBody( (String)metaDatas.get("description"), "text/plain",
 			Charset.forName( "UTF-8" )));
 
 if (!((String)metaDatas.get("tags")).isEmpty()) {
-    entity.addPart( "./jcr:content/metadata/cq:tags", new StringBody( "girlscouts:forms_documents/"+((String)metaDatas.get("tags")).trim().toLowerCase().replaceAll(" ", "-"), "text/plain",
+    entity.addPart( "./jcr:content/metadata/cq:tags", new StringBody( "girlscouts:forms_documents/"+((String)metaDatas.get("tags")).trim().toLowerCase().replaceAll(" ", "-").replaceAll(",", "").replaceAll("/", ""), "text/plain",
     Charset.forName( "UTF-8" )));
 }
 if (!((String)metaDatas.get("category")).isEmpty()) {
-    entity.addPart( "./jcr:content/metadata/cq:tags", new StringBody( "girlscouts:forms_documents/"+((String)metaDatas.get("category")).trim().toLowerCase().replaceAll(" ", "-"), "text/plain",
+    entity.addPart( "./jcr:content/metadata/cq:tags", new StringBody( "girlscouts:forms_documents/"+((String)metaDatas.get("category")).trim().toLowerCase().replaceAll(" ", "-").replaceAll(",", "").replaceAll("/", ""), "text/plain",
     Charset.forName( "UTF-8" )));
 }
 	    
 
 
-if ((String)metaDatas.get("tags")!=null )
-    createEtcTag((String)metaDatas.get("tags"));
+if ((String)metaDatas.get("category")!=null )
+    createEtcTag((String)metaDatas.get("category"));
 	    
 	    httppost.setEntity(entity);
 	    System.out.println("executing request " + httppost.getRequestLine());
@@ -265,17 +293,16 @@ if ((String)metaDatas.get("tags")!=null )
 		        Node root = session.getRootNode();
 		        
 		        
-		        if( !session.nodeExists(dir+tag.toLowerCase().trim().replace(" ", "-")) ){
+		        if( !session.nodeExists(dir+tag.toLowerCase().trim().replace(" ", "-").replaceAll(",", "").replaceAll("/", "")) ){
 		        	
 		        	Node assets = session.getNode(dir);
 		        	
 		        	//create tag
-		        	Node resNode = assets.addNode (tag.toLowerCase().trim().replace(" ", "-"));
+		        	Node resNode = assets.addNode (tag.toLowerCase().trim().replace(" ", "-").replaceAll(",", "").replaceAll("/", ""));
 		        	resNode.setProperty("jcr:title", tag);
 		        	
 		        	session.save();
 		        }        
-		
 	}
 	
 }
