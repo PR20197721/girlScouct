@@ -71,6 +71,9 @@
 	<div class="instructions">
 		<p>To start planning your year, select a Year Plan</p>
 	</div>
+	<script>
+		fixVerticalSizing = true;
+	</script>
 <%}%>
 	<div class="sectionHeader">YEAR PLAN LIBRARY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <% if(user.getYearPlan()!=null){%>
