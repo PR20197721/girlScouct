@@ -784,8 +784,10 @@ td.fc-header-left{
 
 #footer div.footer-navigation{
     padding:10px 0 10px 20px;
+/* temporarily removed because it is being covered by footer links
     background: url('images/small-trefoil.png') no-repeat;
     background-position:center;
+*/
 }
 
 /*#leftContent li.active ul li.active{
