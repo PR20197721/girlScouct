@@ -28,6 +28,7 @@
 %>
 <%@include file="include/vtk-nav.jsp"%>
 <script>
+	fixVerticalSizing = true;
 	$(function() {
 		var cache = {};
 		$( "#resourceSearchField" ).autocomplete({

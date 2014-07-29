@@ -9,14 +9,15 @@ function calendarDisplay(month,year,jsonEvents){
 		m = month;
 		y = year;
 	}
-	
+	var isiOS = navigator.userAgent.match(/(iPad)|(iPhone OS)/i) != null;
     var tooltip = $('<div/>').qtip({
-        id: 'fullcalendar',
+    	id: 'fullcalendar',
         prerender: true,
         content: {
-            text: ' '
+            text: 'Does this show up on click '
             
         },
+        
         position: {
             my: 'bottom center',
             at: 'top center',
@@ -30,8 +31,8 @@ function calendarDisplay(month,year,jsonEvents){
                 y:5
             }
         },
-        show: false,
-        hide: false,
+        show:{event: 'touchstart'}, // Show on mouse over by default
+        hide: {event: 'focus unfocus touchstart'},
         style: {
            classes:'qtip-light',
            width:500,
