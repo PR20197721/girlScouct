@@ -1368,3 +1368,15 @@ ul.searchResultsList article p{
 .eyebrow-navigation {
 	padding-left: 0;
 }
+
+#ui-datepicker-div {
+        background-color: #eeeeee;
+        padding: 10px;
+	border: 1px solid #959595;
+}
+.ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next {
+	border: 1px solid #eeeeee !important;
+}
+.ui-datepicker-header .ui-datepicker-title {
+	float: right;
+}
