@@ -55,14 +55,15 @@ import org.apache.poi.ss.util.*;
 import org.girlscouts.vtk.models.Meeting;
 
 public class DocumentUpload {
-    private int round = 1;
+    private int round = 2;
 	
 	public static void main(String[] args) throws Exception {
 		DocumentUpload me = new DocumentUpload();
 		//me.parseMeetingPlan();
-		me.parseDocuments();
-		me.round++;
-		me.parseDocuments();
+		for (; me.round <= 2; me.round++) {
+		    me.parseDocuments();
+		    me.round++;
+		}
 		
 		//me.damUpload("asdf");
 		//me.createEtcTag("test");
@@ -245,11 +246,11 @@ if( metaDatas.get("description")!=null )
 			Charset.forName( "UTF-8" )));
 
 if (!((String)metaDatas.get("tags")).isEmpty()) {
-    entity.addPart( "./jcr:content/metadata/cq:tags", new StringBody( "girlscouts:forms_documents/"+((String)metaDatas.get("tags")).trim().toLowerCase().replaceAll(" ", "-").replaceAll(",", ""), "text/plain",
+    entity.addPart( "./jcr:content/metadata/cq:tags", new StringBody( "girlscouts:forms_documents/"+((String)metaDatas.get("tags")).trim().toLowerCase().replaceAll(" ", "-").replaceAll(",", "").replaceAll("/", ""), "text/plain",
     Charset.forName( "UTF-8" )));
 }
 if (!((String)metaDatas.get("category")).isEmpty()) {
-    entity.addPart( "./jcr:content/metadata/cq:tags", new StringBody( "girlscouts:forms_documents/"+((String)metaDatas.get("category")).trim().toLowerCase().replaceAll(" ", "-").replaceAll(",", ""), "text/plain",
+    entity.addPart( "./jcr:content/metadata/cq:tags", new StringBody( "girlscouts:forms_documents/"+((String)metaDatas.get("category")).trim().toLowerCase().replaceAll(" ", "-").replaceAll(",", "").replaceAll("/", ""), "text/plain",
     Charset.forName( "UTF-8" )));
 }
 	    
@@ -292,12 +293,12 @@ if ((String)metaDatas.get("category")!=null )
 		        Node root = session.getRootNode();
 		        
 		        
-		        if( !session.nodeExists(dir+tag.toLowerCase().trim().replace(" ", "-").replaceAll(",", "")) ){
+		        if( !session.nodeExists(dir+tag.toLowerCase().trim().replace(" ", "-").replaceAll(",", "").replaceAll("/", "")) ){
 		        	
 		        	Node assets = session.getNode(dir);
 		        	
 		        	//create tag
-		        	Node resNode = assets.addNode (tag.toLowerCase().trim().replace(" ", "-").replaceAll(",", ""));
+		        	Node resNode = assets.addNode (tag.toLowerCase().trim().replace(" ", "-").replaceAll(",", "").replaceAll("/", ""));
 		        	resNode.setProperty("jcr:title", tag);
 		        	
 		        	session.save();
