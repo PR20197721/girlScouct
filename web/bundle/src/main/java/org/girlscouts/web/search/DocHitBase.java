@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 public class DocHitBase {
     private static final Logger log = LoggerFactory.getLogger(DocHitBase.class);
     private final Node node;
+    private Node pageOrAssetNode = null;
 
     public DocHitBase(Node node) {
         this.node = node;
@@ -69,10 +70,15 @@ public class DocHitBase {
     }
 
     protected Node getPageOrAsset() throws RepositoryException {
+        if (this.pageOrAssetNode != null) {
+            return this.pageOrAssetNode;
+        }
+
         Node n = this.node;
         while ((!isPageOrAsset(n)) && (n.getName().length() > 0)) {
             n = n.getParent();
         }
+        this.pageOrAssetNode = n;
         return n;
     }
 }
