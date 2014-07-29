@@ -31,8 +31,8 @@ function calendarDisplay(month,year,jsonEvents){
                 y:5
             }
         },
-        show:{event: 'tap'}, // Show on mouse over by default
-        hide: {event: 'focus unfocus tap'},
+        show:false, // Show on mouse over by default
+        hide: false,
         style: {
            classes:'qtip-light',
            width:500,
