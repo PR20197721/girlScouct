@@ -90,24 +90,19 @@ public class DocumentUpload {
 	    	ocm.insert(meeting);
 	    	ocm.save();
 	    	
-	    	System.err.println("doneee");
-	        
 	}
 
 	
 	private String getCellVal(FormulaEvaluator evaluator, Sheet sheet, String field){
 		
-		//System.err.println("test: "+ field);
 		String toRet="";
 		 CellReference ref = new CellReference(field);
 		 
-		 //System.err.println( (ref==null) +" : "+ (sheet==null));
          Row r = sheet.getRow(ref.getRow());
          if (r != null) {
             Cell c = r.getCell(ref.getCol());
             CellValue value = evaluator.evaluate( c ) ;
             
-            //System.out.println(  value.getStringValue() ) ;
             if(value!=null)
             toRet = value.getStringValue() ;
          }
@@ -128,7 +123,6 @@ public class DocumentUpload {
         FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
         Sheet sheet = workbook.getSheetAt(0);
 
-        //System.out.println(sheet.getLastRowNum());
         for(int i=2;i<=sheet.getLastRowNum()+1;i++){
         	String fileName = getCellVal( evaluator, sheet, "A"+i ).trim();
         	if( fileName==null || fileName.length()<1) break;
@@ -194,7 +188,6 @@ public class DocumentUpload {
 	private void documentUpload(String path, String fileName, java.util.Map metaDatas) {
 		
 	    if (fileName.startsWith("/")) {
-	        System.err.println("HTML form, skip " + fileName);
 	        return;
 	    }
 		
@@ -214,7 +207,6 @@ public class DocumentUpload {
 
 	    File file = new File(path+ fileName);
 	    if (!file.exists()) {
-	        System.err.println("File not exist: " + file.getPath());
 	        return;
 	    }
 
@@ -260,16 +252,9 @@ if ((String)metaDatas.get("category")!=null )
     createEtcTag((String)metaDatas.get("category"));
 	    
 	    httppost.setEntity(entity);
-	    System.out.println("executing request " + httppost.getRequestLine());
 	    HttpResponse response = httpclient.execute(httppost);
 	    HttpEntity resEntity = response.getEntity();
 
-	    System.out.println(response.getStatusLine());
-	    /*
-	    if (resEntity != null) {
-	      System.out.println(EntityUtils.toString(resEntity));
-	    }
-	    */
 	    if (resEntity != null) {
 	      resEntity.consumeContent();
 	    }
@@ -282,7 +267,6 @@ if ((String)metaDatas.get("category")!=null )
 	private void createEtcTag( String tag )throws Exception{
 		
 		String dir = "/etc/tags/girlscouts/forms_documents/";
-		//System.err.println( "Dir: "+dir);
 		
 		        javax.jcr.Repository repository = JcrUtils.getRepository("http://localhost:4502/crx/server/");
 		        

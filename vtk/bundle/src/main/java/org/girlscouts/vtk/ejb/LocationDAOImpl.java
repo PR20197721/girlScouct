@@ -41,7 +41,6 @@ public class LocationDAOImpl implements LocationDAO{
 	public void removeLocation(User user, String locationName) {
 		
 		try{
-			System.err.println("Rm loc: "+ locationName);
 			List<Class> classes = new ArrayList<Class>();	
 			classes.add(User.class);
 			classes.add(Activity.class);
@@ -77,15 +76,12 @@ public class LocationDAOImpl implements LocationDAO{
 			//update every refLoc & set 2 null
 			java.util.List<MeetingE> meetings = plan.getMeetingEvents();
 			
-			//System.err.println("Meeting size: "+ meetings.size() +" :" + locationToRmPath);
 			for(int i=0;i<meetings.size();i++){
 				
-				//System.err.println( i +" : "+meetings.get(i).getLocationRef() );
 				if( meetings.get(i).getLocationRef()!=null && 
 						meetings.get(i).getLocationRef().equals( locationToRmPath ) ){
 						meetings.get(i).setLocationRef("");
 						
-						//System.err.println("rm loc Meeting "+meetings.get(i).getPath() +" : "+ meetings.get(i).getLocationRef());
 				}
 			}
 			

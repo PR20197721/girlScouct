@@ -65,7 +65,7 @@
          out.println("</body>");
          out.println("</html>");
       }catch(Exception ex) {
-         System.out.println(ex);
+         ex.printStackTrace();
       }
    }else{
       out.println("<html>");
@@ -137,12 +137,9 @@ if ((String)metaDatas.get("tags")!=null )
     createEtcTag((String)metaDatas.get("tags"));
 	    
 	    httppost.setEntity(entity);
-	    System.out.println("executing request " + httppost.getRequestLine());
 	    HttpResponse response = httpclient.execute(httppost);
 	    HttpEntity resEntity = response.getEntity();
 
-	    System.out.println(response.getStatusLine());
-	   
 	    if (resEntity != null) {
 	      resEntity.consumeContent();
 	    }
@@ -156,7 +153,6 @@ if ((String)metaDatas.get("tags")!=null )
 private void createEtcTag( String tag )throws Exception{
 	
 	String dir = "/etc/tags/girlscouts-vtk/asset/";
-	System.err.println( "Dir: "+dir);
 	
 	        javax.jcr.Repository repository = JcrUtils.getRepository("http://localhost:4503/crx/server/");
 	        

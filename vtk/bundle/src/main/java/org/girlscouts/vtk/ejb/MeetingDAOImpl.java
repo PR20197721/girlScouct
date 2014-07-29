@@ -109,14 +109,8 @@ public java.util.List<MeetingE> getAllEventMeetings(String yearPlanId){
 	      
 	        Query query = queryManager.createQuery(filter);
 	        
-	        
-	        //System.err.println( "test: "+ocm.getObjects(query).size());
-	        
 	         meetings = (List<MeetingE> ) ocm.getObjects(query);
 	      
-	        
-	        
-			//System.err.println("MeetingEvents: "+ meetings.size());
 			
 			}catch(Exception e){e.printStackTrace();}
 		
@@ -153,11 +147,7 @@ public java.util.List<MeetingE> getAllEventMeetings_byPath(String yearPlanPath){
         
         
          meetings = (List<MeetingE> ) ocm.getObjects(query);
-      
         
-        
-		//System.err.println("MeetingEvents by path: "+ meetings.size() +" : "+ yearPlanPath);
-		
 		}catch(Exception e){e.printStackTrace();}
 	
 	
@@ -193,8 +183,6 @@ public java.util.List<MeetingE> getAllEventMeetings_byPath(String yearPlanPath){
 	      
 	        
 	        
-			//System.err.println("Meetings: "+ meetings.size());
-			
 			}catch(Exception e){e.printStackTrace();}
 		
 		
@@ -231,8 +219,6 @@ public Meeting getMeeting(String path){
 	
 			meeting = (Meeting)ocm.getObject(path);
 	        
-			//System.err.println("Meeting: "+ ( meeting==null) );
-			
 			}catch(Exception e){e.printStackTrace();}
 		
 		
@@ -297,7 +283,6 @@ public Meeting createCustomMeeting(User user, MeetingE meetingEvent, Meeting mee
 	
 		//String newPath = meetingEvent.getPath()+"/"+meeting.getId()+"_"+Math.random();
 		String newPath = user.getPath()+"/lib/meetings/"+meeting.getId()+"_"+Math.random();
-		System.err.println("New Custom Meet path : "+ newPath );
 		
 		if( !session.itemExists(user.getPath()+"/lib/meetings/") ){
 			ocm.insert( new JcrNode(user.getPath()+"/lib") );
@@ -372,11 +357,7 @@ public List< Meeting> search(){
         
         
         meetings = (List<Meeting> ) ocm.getObjects(query);
-      
         
-        
-		System.err.println("Meeting search: "+ meetings.size());
-		
 		}catch(Exception e){e.printStackTrace();}
 	
 	return meetings;
@@ -413,14 +394,12 @@ public java.util.List<String> doSpellCheck(String word) throws Exception{
    } else {
        String suggestion = v.getString();
        suggest.add( suggestion);
-       System.err.println(suggestion);
    }
    
    
    
    Value values[] = r.getValues();
    for(int i=0;i< values.length;i++){
-	   System.err.println( values[i].getString());
 	   suggest.add(values[i].getString());
    }
    
@@ -444,7 +423,7 @@ public List<org.girlscouts.vtk.models.Search> getData(User user, String _query) 
 
 	// TODO: language?
 	String resourceRootPath = branch + "/en/" + RESOURCES_PATH;
-	System.err.println("OR PATH : "+ resourceRootPath);
+	System.out.println("OR PATH : "+ resourceRootPath);
 	
 	
 	
@@ -493,14 +472,10 @@ public List<org.girlscouts.vtk.models.Search> getData(User user, String _query) 
                
    SearchResult result = query.getResult();
    
-   System.err.println("Res: "+ result.getHits().size() +" : "+ result.getExecutionTimeMillis() +" : "+ _query);
    for (Hit hit : result.getHits()) {
        try {
 		String path = hit.getPath();
-		//System.err.println( "\n\n__________"+ path +" : "+hit.getExcerpt() +" :" + hit.getTitle());
 		
-		
-		System.err.println( path );
 		if( path.contains(resourceRootPath ) && path.endsWith("jcr:content") ){
 			  Node caca = hit.getNode();
 			  org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();
@@ -570,7 +545,6 @@ public List<org.girlscouts.vtk.models.Search> getData(User user, String _query) 
 }
 public List<org.girlscouts.vtk.models.Search> getDataSQL2(String query) {
 	  
-	//System.err.println("SEarch q: "+ query);
 	List<org.girlscouts.vtk.models.Search> matched = new ArrayList<org.girlscouts.vtk.models.Search>();
 	
 	try{
@@ -601,7 +575,6 @@ public List<org.girlscouts.vtk.models.Search> getDataSQL2(String query) {
 				" and child3.[jcr:uuid] is not null ";
 		
 		
-		System.err.println( sql );
 		//AID search
 		javax.jcr.query.Query q = qm.createQuery(sql,  javax.jcr.query.Query.JCR_SQL2);
 		
@@ -609,53 +582,13 @@ public List<org.girlscouts.vtk.models.Search> getDataSQL2(String query) {
 		QueryResult result = q.execute();
    
 		String str[] = result.getColumnNames();
-		for(int i=0;i<str.length; i++)
-			System.err.println( str[i] );
-		
 	
 		
 		 for (RowIterator it = result.getRows(); it.hasNext(); ) {
 		       Row r = it.nextRow();
-		       /*
-		       System.err.println(r.getValue("parent.jcr:primaryType").getString() +" : "+
-		    		   r.getValue("child.jcr:primaryType").getString() + " : "+
-		    		   r.getValue("child1.jcr:primaryType").getString() +" : "+
-		    		   r.getValue("child2.jcr:primaryType").getString() +" : "+
-		    		   r.getValue("child3.jcr:primaryType").getString() +" : "
-		    		   
-		    		   );
-		       */
 		       
-		       
-		       
-		       try{  System.err.println( r.getValue("rep:excerpt(.)").getString() ); }catch(Exception e){e.printStackTrace();}
-		      try{ System.err.println(r.getNode().getName()); }catch(Exception e){}
-		      try{  System.err.println("TESTPATH: "+r.getPath("parent.name") ); }catch(Exception e){}
-		      try{ System.err.println("*"+ r.getValue("parent.name").getString());}catch(Exception e){}
-		       try{ System.err.println( r.getValue("parent.jcr:path").getString() );}catch(Exception e){}
-		       try{ System.err.println("*"+ r.getValue("child.name").getString());}catch(Exception e){}
-		       try{ System.err.println( r.getValue("child.jcr:path").getString() );}catch(Exception e){}
-		       try{ System.err.println("*"+ r.getPath("parent.name"));}catch(Exception e){}
-		       try{ System.err.println("<"+ r.getPath("parent.jcr:path") );}catch(Exception e){}
-		       try{ System.err.println("*"+ r.getPath("child.name"));}catch(Exception e){}
-		       try{ System.err.println( ">"+ r.getPath("child.jcr:path") );}catch(Exception e){}
-		       try{ System.err.println( ">"+ r.getValue("child.dc:title").getString() );}catch(Exception e){}
-		       
-		    	try{ System.err.println( ">"+ r.getValue("child3.jcr:uuid").getString() );}catch(Exception e){}
-		    	
-		    	try{ System.err.println( ">"+ r.getValue("child3.excerpt(.)").getString() );}catch(Exception e){}
-		       // System.err.println("TATA: "+ r.getValue("excerpt(.)").getString()  );
-		       
-		    	
-		    	
-		    	
-		    	
-		    	
 		       org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();
 		    
-		      // System.err.println("PATH: "+  r.getPath() );
-		       
-		      // search.setPath( r.getValue("parent.jcr:path").getString() );
 		       search.setPath("test");
 		       search.setDesc( r.getValue("child.dc:title").getString()  );
 		       search.setType( r.getValue("child.dc:format").getString()  );
@@ -671,8 +604,6 @@ public List<org.girlscouts.vtk.models.Search> getDataSQL2(String query) {
 /*
 
 public List<org.girlscouts.vtk.models.Search> getData(String query) {
-	  
-	//System.err.println("SEarch q: "+ query);
 	List<org.girlscouts.vtk.models.Search> matched = new ArrayList<org.girlscouts.vtk.models.Search>();
 	
 	try{
@@ -780,8 +711,6 @@ private List<Asset> getAidTag(String tags, String meetingName) {
 		if( !sql_tag.equals(""))
 			sql+=   " and ( "+ sql_tag+" )";
 		
-		System.err.println( sql);
-		
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
    		
@@ -792,12 +721,10 @@ private List<Asset> getAidTag(String tags, String meetingName) {
    
    for (RowIterator it = result.getRows(); it.hasNext(); ) {
        Row r = it.nextRow();
-       //System.err.println( "PARAM: "+r.getValue("dc:format").getString() +" : "+ r.getValue("dc:description").getString());
        Value excerpt = r.getValue("jcr:path");
        
        String path = excerpt.getString();
        if( path.contains("/jcr:content") ) path= path.substring(0, (path.indexOf("/jcr:content") ));
-      // System.err.println( "PATH :"+path );
     	
        
        Asset search = new Asset();
@@ -847,7 +774,6 @@ private List<Asset> getAidTag_local(String tags, String meetingName) {
 		//sql="select dc:description,dc:format from nt:base where  jcr:primaryType= 'dam:Asset' and jcr:path like '/content/dam/girlscouts-vtk/local/aid/Meetings/"+meetingName+"/%' ";
 		
 		sql="select dc:description,dc:format, dc:title  from nt:unstructured where  jcr:path like '/content/dam/girlscouts-vtk/local/aid/meetings/"+meetingName+"/%' and jcr:mixinTypes='cq:Taggable'";
-		System.err.println( sql);
 		
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
@@ -863,7 +789,6 @@ private List<Asset> getAidTag_local(String tags, String meetingName) {
        
        String path = excerpt.getString();
        if( path.contains("/jcr:content") ) path= path.substring(0, (path.indexOf("/jcr:content") ));
-       //System.err.println( "PATH :"+path );
     		   
        Asset search = new Asset();
        search.setRefId(path);
@@ -908,8 +833,6 @@ private List<Asset> getAidTag_custasset(String uid) {
        Value excerpt = r.getValue("jcr:path");
        
        String path = excerpt.getString() +"/custasset";
-      // if( path.contains("/jcr:content") ) path= path.substring(0, (path.indexOf("/jcr:content") ));
-       //System.err.println( "PATH :"+path );
     		   
        Asset search = new Asset();
        search.setRefId(path);
@@ -1000,7 +923,6 @@ public net.fortuna.ical4j.model.Calendar yearPlanCal(User user )throws Exception
 			
 			UidGenerator uidGenerator = new UidGenerator("1");
 			event.getProperties().add(uidGenerator.generateUid());
-//System.err.println("CAL: "+ cal.getTime() +" : "+ desc );
 			events.add(event);
 			
 			
@@ -1066,7 +988,6 @@ private List<Asset> getResource_global(String tags, String meetingName) {
 		if(!sql_tag.equals(""))
 			sql+=" and ( "+ sql_tag+" )";
 		
-		System.err.println( sql);
 		
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
@@ -1116,7 +1037,6 @@ private List<Asset> getResource_local(String tags, String meetingName) {
 		
 		
 		sql="select dc:description,dc:format, dc:title  from nt:unstructured where  jcr:path like '/content/dam/girlscouts-vtk/local/resource/meetings/"+meetingName+"/%' and jcr:mixinTypes='cq:Taggable'";
-		System.err.println( sql);
 		
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
@@ -1132,7 +1052,6 @@ private List<Asset> getResource_local(String tags, String meetingName) {
        
        String path = excerpt.getString();
        if( path.contains("/jcr:content") ) path= path.substring(0, (path.indexOf("/jcr:content") ));
-       //System.err.println( "PATH :"+path );
     		   
        Asset search = new Asset();
        search.setRefId(path);
@@ -1161,10 +1080,8 @@ public SearchTag searchA(){
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
 			
 		QueryResult result = q.execute();
-		System.err.println("SEAch1: "+ (result.getRows().getSize()) );
 		 for (RowIterator it = result.getRows(); it.hasNext(); ) {
 		       Row r = it.nextRow();
-		       System.err.println("Search path : "+ r.getPath());
 		       if( r.getPath().startsWith("/etc/tags/girlscouts/categories") )
 		    	   categories.add( r.getValue("jcr:title").getString() );
 		       else if( r.getPath().startsWith("/etc/tags/girlscouts/program-level") )
@@ -1194,10 +1111,8 @@ public SearchTag searchA(){
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
 			
 		QueryResult result = q.execute();
-		System.err.println("SEAch1: "+ (result.getRows().getSize()) );
 		 for (RowIterator it = result.getRows(); it.hasNext(); ) {
 		       Row r = it.nextRow();
-		       System.err.println("Search path : "+ r.getPath());
 		       if( r.getPath().startsWith("/etc/tags/girlscouts/categories") )
 		    	   categories.put( r.getValue("jcr:title").getString(),null );
 		       else if( r.getPath().startsWith("/etc/tags/girlscouts/program-level") )
@@ -1227,7 +1142,6 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 		
 		//TAGS= LVL
 		String sqlTags="";
-		System.err.println("lvl: "+ tags);
 		if( tags.equals("|")) tags="";
 		
 		StringTokenizer t= new StringTokenizer( tags, "|");
@@ -1244,7 +1158,6 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 		
 		//cat
 		String sqlCat="";
-		System.err.println("cat: "+ cat);
 		if( cat.equals("|")) cat="";
 		
 	    t= new StringTokenizer( cat, "|");
@@ -1328,25 +1241,14 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 		
 		//sql= "select * from [nt:base] as p where  (isdescendantnode (p, ["+ path +"]))  and contains(p.*, 'aid') ";
 		
-		System.err.println( sql );
-		
-		
-		
 		
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.JCR_SQL2); 
 			
 		int i=0;
 		QueryResult result = q.execute();
-	//System.err.println("SEAch main: "+ (result.getRows().getSize()) );
 		 for (RowIterator it = result.getRows(); it.hasNext(); ) {
 		       Row r = it.nextRow();
-		      // System.err.println( r.getPath() );
-		       /*
-		       Value  values[] = r.getValues();
-		       for(int x=0;x<values.length;x++)
-		    	   System.err.println( "*** "+ values[x].getString());
-		       */
 		       
 		        Activity activity = new Activity();
 				activity.setUid("A"+ new java.util.Date().getTime() +"_"+ Math.random());
@@ -1367,7 +1269,6 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 		        	String sql1 = "select start, jcr:title, details, end,locationLabel,srchdisp  from nt:base where jcr:path ='"+ r.getValue("jcr:path").getString() +"/data' "+regionSql ;
 		        	if( keywrd!=null && !keywrd.trim().equals(""))
 		    			sql1+=" and contains(*, '"+ keywrd+"') ";
-		        	System.err.println("SQL1: "+sql1);
 		        	
 		        	q = qm.createQuery(sql1, javax.jcr.query.Query.SQL); 
 		        	QueryResult result1 = q.execute();
@@ -1396,11 +1297,6 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 				
 				activity.setIsEditable(false);
 				
-				//filter by dates
-				
-				//System.err.println( startDate +" : "+ endDate);
-				//System.err.println(activity.getDate() +" : "+ activity.getEndDate() );
-				//System.err.println(activity.getDate().after(startDate )  ) ;
 				if( startDate!=null && endDate!=null && 
 						 
 					      (
@@ -1408,7 +1304,6 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 							(activity.getEndDate()!=null && activity.getEndDate().after(endDate))
 							))
 							{ 
-								System.err.println("Filter byDate: "+ startDate +" : "+ activity.getDate() +" :: "+ endDate +": "+ activity.getEndDate());
 								continue;
 								}
 				
@@ -1512,7 +1407,6 @@ public  List<Asset> getAllResources(String _path) {
 		sql="select [dc:description], [dc:format], [dc:title], [jcr:mimeType], [jcr:path] " +
 				" from [nt:unstructured] as parent where " +
 				" (isdescendantnode (parent, ["+ _path +"])) and [cq:tags] is not null";
-		System.err.println( sql);
 		
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.JCR_SQL2); 
@@ -1524,13 +1418,6 @@ public  List<Asset> getAllResources(String _path) {
    
    for (RowIterator it = result.getRows(); it.hasNext(); ) {
        Row r = it.nextRow();
-      // Value excerpt = r.getValue("jcr:path");
-       
-       //String path = excerpt.getString();
-       //if( path.contains("/jcr:content") ) path= path.substring(0, (path.indexOf("/jcr:content") ));
-
-       //System.err.println("** "+ r.getValue("jcr:path").getString() + " : "+ r.getPath());
-      
        
        Asset search = new Asset();
        search.setRefId(r.getPath().replace("/jcr:content/metadata", ""));
@@ -1562,18 +1449,12 @@ public  Asset getAsset(String _path) {
 	
 try{
 		
-		System.err.println("getAsset: "+ _path );
 		String sql="";
 		
 		if( _path!=null && _path.contains("metadata/") )
 			_path = _path.replace( "metadata/", "");
 		
 		sql="select dc:description,dc:format, dc:title from nt:unstructured where jcr:path like '"+ _path +"%' and cq:tags is not null";
-		/*
-		sql="select dc:description,dc:format, dc:title from nt:unstructured where (isdescendantnode (parent, ["+ _path +"])) " +
-				" and [cq:tags] is not null";
-		*/
-		System.err.println( sql);
 		
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
@@ -1581,8 +1462,6 @@ try{
 		 		
 		QueryResult result = q.execute();
    
- 
-   System.err.println("test: "+ result.getRows().getSize());
    for (RowIterator it = result.getRows(); it.hasNext(); ) {
        Row r = it.nextRow();
        Value excerpt = r.getValue("jcr:path");
@@ -1643,12 +1522,10 @@ public java.util.List<Asset> getGlobalResources( String resourceTags){
 	               
 	   SearchResult result = query.getResult();
 	   
-	   System.err.println("Res: "+ result.getHits().size() +" : "+ result.getExecutionTimeMillis() +" : "+resourceTags);
 	   for (Hit hit : result.getHits()) {
 	       try {
 			String path = hit.getPath();
 			if(! path.endsWith("metadata") ) continue;
-		System.err.println( "\n\n__________"+ path +" :" + hit.getTitle());
 	      
 			Asset asset = new Asset();
 			asset.setType(AssetComponentType.RESOURCE.toString());

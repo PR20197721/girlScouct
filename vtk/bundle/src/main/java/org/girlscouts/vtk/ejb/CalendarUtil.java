@@ -92,12 +92,6 @@ public class CalendarUtil {
 			org.joda.time.DateTime date = new org.joda.time.DateTime(startDate);
 			sched.add(_startDate);
 			
-			
-			for(int i=0;i<exclDates.size();i++)
-				System.err.println("EXLDATES "+ exclDates.get(i));
-			
-			
-		
 			int addedDates =1;
 			
 			if( existingSched!=null ){
@@ -126,10 +120,6 @@ public class CalendarUtil {
 	                
 	            }
 				
-			
-			
-				
-	            System.err.println( "__ do add date to sched: "+ date);
 				if (!exclDates.contains( date ) ){
 					
 					java.util.Calendar tmp = java.util.Calendar.getInstance();
@@ -139,7 +129,6 @@ public class CalendarUtil {
 					//date= new org.joda.time.DateTime(tmp.getTimeInMillis());
 					
 					sched.add(new org.joda.time.DateTime(tmp.getTimeInMillis()));
-					System.err.println("Adding: "+ new org.joda.time.DateTime(tmp.getTimeInMillis()));
 					addedDates++;
 					
 					if( addedDates >= numOfMeetings) return sched;
@@ -160,8 +149,6 @@ public class CalendarUtil {
 		//public java.util.List <org.joda.time.LocalDate> exclWeek( java.util.Date date){
 		public java.util.List <org.joda.time.DateTime> exclWeek( org.joda.time.DateTime date){
 			
-	System.err.println("Excluding weekof "+ date );
-	
 			java.util.List<org.joda.time.DateTime> exclDates = new java.util.ArrayList();
 			
 			org.joda.time.DateTime now = new org.joda.time.DateTime(date);
@@ -179,9 +166,6 @@ public class CalendarUtil {
 			java.util.Calendar cal = now.toGregorianCalendar();
 			cal.set(java.util.Calendar.DAY_OF_WEEK, java.util.Calendar.SUNDAY);
 			for(int i=0;i<7;i++){
-				
-				
-				System.err.println( "*** "+cal.getFirstDayOfWeek()  +" : "+ cal.getTime());
 				exclDates.add(  new org.joda.time.DateTime(cal.getTimeInMillis()) );
 				cal.add(java.util.Calendar.DATE, 1);
 			}
@@ -198,19 +182,13 @@ public class CalendarUtil {
 			java.util.List <org.joda.time.DateTime>exclDt= new java.util.ArrayList<org.joda.time.DateTime>();
 			java.util.StringTokenizer t= new java.util.StringTokenizer( exclDate, ",");
 			while( t.hasMoreElements() ){
-				
 				exclDt.add( new org.joda.time.DateTime( new java.util.Date(t.nextToken()) ));
-				
-				//System.err.println("CreateSChed: "+ exclDt.get(exclDt.size()-1));
 			}
 			
 			String existSched = user.getYearPlan().getSchedule()== null ? "" : user.getYearPlan().getSchedule().getDates();
 			
 			java.util.List <org.joda.time.DateTime> sched = new CalendarUtil().genSched( p, freq, exclDt,  user.getYearPlan().getMeetingEvents().size(),
 					existSched);
-
-	//System.err.println( "SChed: "+ sched.size() );
-			
 			YearPlan plan = user.getYearPlan();
 			plan.setCalFreq(freq);
 			plan.setCalStartDate( p.getMillis() );
@@ -244,8 +222,6 @@ public class CalendarUtil {
 			
 			java.util.Date newDate = null;
 			try{ newDate =dateFormat4.parse( date +" "+time + " "+ap); }catch(Exception e){e.printStackTrace();}
-			
-			System.err.println("Replacing with: "+ newDate);
 			
 			String sched = cal.getDates();
 			sched = sched.replace(""+currDate, newDate.getTime()+"");

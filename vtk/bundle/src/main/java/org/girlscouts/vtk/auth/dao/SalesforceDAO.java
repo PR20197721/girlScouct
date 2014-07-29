@@ -60,7 +60,6 @@ public class SalesforceDAO {
                                           new InputStreamReader(
                                           get.getResponseBodyAsStream())));
                     log.debug("Query response: " + response.toString(2));
-//System.err.println("caca123 "+ get.getResponseBodyAsString());
                     JSONArray results = response.getJSONArray("records");
     
                     // Always use the last record
@@ -183,11 +182,11 @@ public java.util.List <Troop>  troopInfo(ApiConfig apiConfig, String contactId){
 		httpclient.executeMethod(get);
 		
 		
-		System.err.println("RespCode "+ get.getResponseBodyAsString());
+		System.out.println("RespCode "+ get.getResponseBodyAsString());
 		JSONObject _response = new JSONObject(
 				new JSONTokener(new InputStreamReader(
 						get.getResponseBodyAsStream())));
-		System.err.println( _response.toString());
+		System.out.println( _response.toString());
 		
 		if (get.getStatusCode() == HttpStatus.SC_OK) {
 			
@@ -198,31 +197,27 @@ public java.util.List <Troop>  troopInfo(ApiConfig apiConfig, String contactId){
 				
 
 				JSONArray results = response.getJSONArray("records");
-System.err.println( "REsults: "+results.toString());
 
 				for (int i = 0; i < results.length(); i++) {
 					
-					System.err.println("_____ "+ results.get(i));
+					System.out.println("_____ "+ results.get(i));
 					
 					java.util.Iterator itr = results.getJSONObject(i).getJSONObject("Parent").keys();
 					while( itr.hasNext())
-						System.err.println("** "+ itr.next());
+						System.out.println("** "+ itr.next());
 					
 					Troop troop = new Troop();
 					try{
-						//System.err.println("++ "+results.getJSONObject(i).getJSONObject("Parent")..getString("Program_Grade_Level__c"));
+						troop.setCouncilCode( results.getJSONObject(i).getJSONObject("Parent").getInt("Council_Code__c") ); //girls id 111
+						troop.setCouncilId(results.getJSONObject(i).getJSONObject("Parent").getString("Account__c") );
 						
-						
-					troop.setCouncilCode( results.getJSONObject(i).getJSONObject("Parent").getInt("Council_Code__c") ); //girls id 111
-					troop.setCouncilId(results.getJSONObject(i).getJSONObject("Parent").getString("Account__c") );
-					
-					troop.setGradeLevel(results.getJSONObject(i).getJSONObject("Parent").getString("Program_Grade_Level__c") );
-					troop.setTroopId(results.getJSONObject(i).getString("ParentId"));
-					troop.setTroopName( results.getJSONObject(i).getJSONObject("Parent").getString("Name") );
-					}catch(Exception e){e.printStackTrace();}
+						troop.setGradeLevel(results.getJSONObject(i).getJSONObject("Parent").getString("Program_Grade_Level__c") );
+						troop.setTroopId(results.getJSONObject(i).getString("ParentId"));
+						troop.setTroopName( results.getJSONObject(i).getJSONObject("Parent").getString("Name") );
+					}catch(Exception e){
+						e.printStackTrace();
+					}
 					troops.add(troop);
-					
-
 				}
 			
 			} catch (JSONException e) {

@@ -71,23 +71,6 @@ public class EmailUtil {
 			_to+= emailTo.get(i);
 		emr.setTo(_to);
 		
-		//emr.setFrom(user.getApiConfig().getUser().getEmail() );
-		
-		System.err.println(apiConfig.getAccessToken());
-		
-		System.err.println("From: "+ emr.getFrom());
-		System.err.println("Subj: "+ emr.getSubj());
-		System.err.println("To: "+ emr.getTo());
-		System.err.println("CC: "+ emr.getCc());
-		System.err.println("Html : "+ emr.getHtml());
-		
-		System.err.println("Sending emails via salesforce.... " );
-		
-		//new SalesforceDAO().getUserInfo(apiConfig);
-		//new SalesforceDAO().getContactEmailList(apiConfig);
-	
-
-		
 		//TODO send email via salesforce
 		Email email = new Email();
 		email.setFrom(emr.getFrom());
@@ -96,7 +79,6 @@ public class EmailUtil {
 		email.setTxtEmail(emr.getHtml());
 		email.setParentId("500Z0000007Szyg");
 		String confId =new tester3().sendEmail(apiConfig, email);
-		System.err.println("Email conf :"+ confId);
 		
 	}
 	

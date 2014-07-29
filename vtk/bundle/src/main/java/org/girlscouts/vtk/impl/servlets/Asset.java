@@ -99,16 +99,11 @@ import com.day.cq.commons.jcr.JcrUtil;
 		    
 		    @Override
 		     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServerException, IOException {
-		       
-		    	
-		    	System.err.println("Asset servlet");
 		    	
 		    	  ResourceResolver resourceResolver = null;
-		      try
-		      {
+		      try {
 		      final boolean isMultipart = org.apache.commons.fileupload.servlet.ServletFileUpload.isMultipartContent(request);
 		
-		  System.err.println("IsMultpart :"+isMultipart );    
 		      PrintWriter out = null;
 		      
 		        out = response.getWriter();
@@ -146,7 +141,6 @@ import com.day.cq.commons.jcr.JcrUtil;
 		      
 		      response.sendRedirect( "/content/girlscouts-vtk/en/vtk.planView.html?elem="+ request.getParameter("me"));
 	
-		    System.err.println("dne asset");
 		    }
 		    
 		    
