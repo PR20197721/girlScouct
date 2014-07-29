@@ -49,7 +49,7 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 				Date today = new Date();
 				Calendar cal1 = Calendar.getInstance();
 				cal1.setTime(today);
-				cal1.add(Calendar.DAY_OF_MONTH, +360);
+				cal1.add(Calendar.DAY_OF_MONTH, +365);
 				Date after60days = cal1.getTime();
 
 				String startDateStr = dateFormat.format(startDate);
