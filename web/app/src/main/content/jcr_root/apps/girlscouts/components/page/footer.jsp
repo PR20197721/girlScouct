@@ -36,3 +36,16 @@ String logoPath = currentPage.getAbsoluteParent(2).getContentResource().getPath(
 					<cq:include path="<%= logoPath + "/logo"%>" resourceType="girlscouts/components/logo" />
 				</div> 
 <cq:include script="google-analytics.jsp" />
+<script type="text/javascript">
+	var resizeWindow = function(){
+		if(fixVerticalSizing) {
+			var currentMainHeight = $('#main').height();
+			var targetMainHeight = $(this).height() - $("#header").height() - $("#headerBar").height() - $("#footer").height() - 15;
+			if (targetMainHeight > 1.1 * currentMainHeight) {
+				$('#main').height(targetMainHeight);
+			}
+		}
+	};
+	window.onload = resizeWindow;
+	$(window).resize(resizeWindow);
+</script>
