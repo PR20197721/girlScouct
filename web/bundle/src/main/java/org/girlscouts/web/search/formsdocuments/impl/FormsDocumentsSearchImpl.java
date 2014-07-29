@@ -95,12 +95,12 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 
 
 		searchQuery.put("1_property","jcr:content/metadata/cq:tags");
+		searchQuery.put("p.limit","-1");		
 		if(q!=null && !q.isEmpty()){
 
 			log.info("Search Query Term [" +q +"]");
 			searchQuery.put("fulltext", q);
 			searchQuery.put("fulltext.relPath", "jcr:content");
-			searchQuery.put("p.limit","-1");		
 			searchTermHits = performContentSearch(searchQuery,slingRequest,this.queryBuilder,null,searchResultsInfo,q);
 			searchResultsInfo.setResultsHits(searchTermHits);
 
