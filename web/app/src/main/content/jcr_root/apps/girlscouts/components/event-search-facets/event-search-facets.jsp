@@ -163,7 +163,7 @@ function toggleWhiteArrow() {
     	<input type="submit" value="Search" id="sub" class="form-btn advancedSearchButton"/>
 </div>
   
-</div>
+
 
 </form>
 </div>
