@@ -53,31 +53,24 @@ query.setHitsPerPage(10);
 query.setExcerpt(true);
 SearchResult result = query.getResult();
 List<Hit> hits = result.getHits();
-Map unq= new java.util.TreeMap();
+Set<String> processedResults = new HashSet<String>();
+List<DocHit> hitDisplay = new ArrayList<DocHit>();
 for(Hit hit: hits) {
 	try{
 		if(hit.getPath().contains("textimage_"))  {
 			continue;
 		}
-
-		DocHit docHit = new DocHit(hit);
-		String path = docHit.getURL();
-  		String obj[] =(String[])unq.get( docHit.getURL() );
-		if( obj ==null ){
-			obj = new String[3];
-			obj[0]= docHit.getURL();
-			obj[1]= docHit.getTitle();
-			obj[2]= docHit.getExcerpt();
-		} else {
-
+		DocHit thisHit = new DocHit(hit);
+		String thisHitUrl = thisHit.getURL();
+		if(!processedResults.contains(thisHitUrl)){
+			processedResults.add(thisHitUrl);
+			hitDisplay.add(thisHit);
 		}
-		unq.put( docHit.getURL() , obj);
 	}catch(Exception e){
 		e.printStackTrace();
 	}
 }
 int xx=pos;
-java.util.Iterator itr= unq.keySet().iterator();
 %>
 <center>
      <form action="${currentPage.path}.html" id="searchForm">
@@ -85,7 +78,7 @@ java.util.Iterator itr= unq.keySet().iterator();
      </form>
 </center>
 <br/>
-<%if(hits.isEmpty()){ %>
+<%if(hitDisplay.isEmpty()){ %>
     <fmt:message key="noResultsText">
       <fmt:param value="${escapedQuery}"/>
     </fmt:message>
@@ -93,27 +86,18 @@ java.util.Iterator itr= unq.keySet().iterator();
     <%=properties.get("resultPagesText","Results for")%> "${escapedQuery}"
   <br/>
 <%
-
-    while(itr.hasNext())
-{
-    	String u=(String) itr.next();
-    	String obj[] = (String[]) unq.get(u);
-		int idx = obj[0].indexOf('.');
-		String extension = idx >= 0 ? obj[0].substring(idx + 1) : "";
-%>
-<br/>
-<%
-if(!extension.isEmpty() && !extension.equals("html")){
-%>
-
-            <span class="icon type_<%=extension%>"><img src="/etc/designs/default/0.gif" alt="*"></span>
-     <%} %>
-<a href="<%=obj[0] %>" data-geo=""><%=obj[1]%></a>
-       <div><%=obj[2]%></div>
-       <br/>
-   <%}
 }
-   
+
+for (DocHit hitItem: hitDisplay) {
+	String extension = hitItem.getExtension();
+%>
+	<br/>
+<% if(!extension.isEmpty() && !extension.equals("html")){ %><span class="icon type_<%=extension%>"><img src="/etc/designs/default/0.gif" alt="*"></span><%} %>
+	<a href="<%=hitItem.getURL() %>"><%=hitItem.getTitle()%></a>
+       <div><%=hitItem.getExcerpt()%></div>
+       <br/>
+<%
+}
 %>
 <%if( hits.size()> 9 ){ %>
 <br/><br/>

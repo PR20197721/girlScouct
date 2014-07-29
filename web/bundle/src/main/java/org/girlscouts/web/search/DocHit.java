@@ -39,8 +39,10 @@ public final class DocHit extends DocHitBase {
 
     public String getExcerpt() throws RepositoryException {
         String excerpt = this.hit.getExcerpt();
-        
-        Matcher queryMatcher = STRONG_PATTERN.matcher(excerpt);
+       	if(excerpt == null) { 
+		return "";
+	}
+	Matcher queryMatcher = STRONG_PATTERN.matcher(excerpt);
         String queryString = null;
         if (queryMatcher.find()) {
             queryString = STRIP_STRONG_PATTERN.matcher(queryMatcher.group()).replaceAll("");
