@@ -10,3 +10,7 @@ readmore.js
 misc.js
 slick/slick.min.js
 slideshow.js
+calendar/toe.js
+calendar/toe.min.js
+calendar/toe.zepto.js
+calendar/toe.zepto.min.js
