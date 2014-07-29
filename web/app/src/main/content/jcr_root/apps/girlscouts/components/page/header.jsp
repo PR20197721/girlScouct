@@ -20,11 +20,6 @@
 <!-- Modern Browser -->
 <!--[if gt IE 8]><!-->
 <!--<![endif]-->
-<script>
-$(document).onload(function(){
-	$(document.body).css("display", "none");
-});
-</script>
 <!--PAGE STRUCTURE: HEADER-->
 				<div id="header" class="row">
 					<div class="large-5 medium-12 small-24 columns logoContainer">

@@ -34,19 +34,8 @@
 	String language = siteRoot.substring(siteRoot.lastIndexOf("/") + 1);
 %>
 	<script type="text/javascript">
-		var fixVerticalSizing = true;
+                var fixVerticalSizing = true;
 
-		var resizeWindow = function(){
-			if(fixVerticalSizing) {
-				var currentMainHeight = $('#main').height();
-				var targetMainHeight = $(this).height() - $("#header").height() - $("#headerBar").height() - $("#footer").height() - 15;
-				if (targetMainHeight > 1.1 * currentMainHeight) {
-					$('#main').height(targetMainHeight);
-				}
-			}
-		};
-		window.onload = resizeWindow;
-		$(window).resize(resizeWindow);
 		$(document).ready(function() {
 			girlscouts.components.login.init('<%= language %>', '<%= signInUrl %>', '<%= signOutUrl %>');
 			<%-- TODO: Create a new servlet for redirect so this param will not show in browser --%>

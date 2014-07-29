@@ -8,6 +8,9 @@
         boolean showVtkNav = true;
 %>
 <%@include file="include/vtk-nav.jsp"%>
+<script>
+        fixVerticalSizing = true;
+</script>
 <div id="vtkBody">
 	<br/>
 	<h3>Coming in future releases:</h3> 

@@ -1327,3 +1327,7 @@ ul.searchResultsList article p{
 .mainRightBottom {
 	margin: 0 !important;
 }
+.calTitle>h6 {
+	font-size: 0.7rem !important;
+	margin: 0 !important;
+}
