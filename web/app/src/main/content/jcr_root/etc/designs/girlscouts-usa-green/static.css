@@ -280,8 +280,10 @@ padding-left: 20px;
     margin: 10px 0;
 }
 #mobile-nav-footer div.footer-navigation {
-background: url('images/small-trefoil.png') no-repeat;
-background-position: center;
+/* temporarily removed because it is being covered by footer links
+	background: url('images/small-trefoil.png') no-repeat;
+	background-position: center;
+*/
 }
 #mobile-footer{
     background-color: #00ae58;
