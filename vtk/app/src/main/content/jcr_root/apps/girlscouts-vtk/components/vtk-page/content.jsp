@@ -13,7 +13,7 @@
 <script type="text/javascript"src="/etc/designs/girlscouts-vtk/clientlibs.js"></script>
 
 <script>
-	fixVerticalSizing = true;
+	fixVerticalSizing = false;
 </script>
 <!--PAGE STRUCTURE: MAIN-->
 <div id="main">

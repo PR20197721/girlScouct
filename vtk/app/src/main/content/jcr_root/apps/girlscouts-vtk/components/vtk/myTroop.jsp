@@ -17,3 +17,6 @@
 	<li>- Gain access to the troop leadership community</li>
 </ul>
 <br/>
+<script>
+	fixVerticalSizing = true;
+</script>
