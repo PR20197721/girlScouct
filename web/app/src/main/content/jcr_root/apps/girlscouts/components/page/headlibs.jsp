@@ -34,6 +34,7 @@
 	String language = siteRoot.substring(siteRoot.lastIndexOf("/") + 1);
 %>
 	<script type="text/javascript">
+		var fixVerticalSizing = true; // hook to override resizing (e.g. inside vtk-page.jsp)
 		var resizeWindow = function(){
 			var fixVerticalSizing = true; // just a toggle for debugging
 			if(fixVerticalSizing) {

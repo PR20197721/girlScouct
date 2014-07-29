@@ -9,11 +9,11 @@
 
 <!-- TODO -->
 <!-- <cq:includeClientLib categories="apps.girlscouts-vtk" /> -->
-<link rel="stylesheet" href="/etc/designs/girlscouts-vtk/clientlibs.css" type="text/css" media="screen">
+<link rel="stylesheet" href="/etc/designs/girlscouts-vtk/clientlibs.css" type="text/css" media="screen"/>
 <script type="text/javascript"src="/etc/designs/girlscouts-vtk/clientlibs.js"></script>
 
 <script>
-	fixVerticalSizing = false;
+	fixVerticalSizing = true;
 </script>
 <!--PAGE STRUCTURE: MAIN-->
 <div id="main">
