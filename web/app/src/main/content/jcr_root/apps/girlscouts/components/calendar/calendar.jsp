@@ -146,18 +146,13 @@ String jsonEvents = getJsonEvents(srchInfo.getResults(),resourceResolver);
 <script>
 $(document).ready(function(){
 	calendarDisplay(<%=month%>,<%=year%>,<%=jsonEvents%>);
-	var plat = navigator.platform; 
+
+	// iOS touch fix
+	var plat = navigator.platform;
 	if( plat.indexOf("iPad") != -1 || plat.indexOf("iPhone") != -1 || plat.indexOf("iPod") != -1 ) {
-		$(".fc-event-start").bind('touchend', function() {
+		$(".fc-event-title").bind('touchend', function() {
 			$(this).click();
 		});
 	}
 }); 
 </script>
-
-
-
-
-
-
-
