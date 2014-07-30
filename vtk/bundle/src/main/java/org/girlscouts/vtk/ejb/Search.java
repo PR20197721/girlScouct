@@ -94,7 +94,6 @@ public class Search implements SearchDAO {
         Value excerpt = r.getValue("rep:excerpt(.)");
         
         matched.add(excerpt.getString());
-        System.err.println( excerpt.getString());
     }
 	}catch(Exception e){e.printStackTrace();}
     return matched;

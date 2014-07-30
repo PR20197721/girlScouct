@@ -65,8 +65,6 @@ public class YearPlanDAOImpl implements YearPlanDAO{
 		//----filter.setScope(  "/content/girlscouts-vtk/yearPlans/yearplan"+year+"/"+ageLevel+"/");
 		filter.setScope("/content/girlscouts-vtk/yearPlanTemplates/yearplan"+year+"/"+ageLevel+"/");
 		
-		System.err.println( "SCope: "+filter.getScope());
-		
         Query query = queryManager.createQuery(filter);
         
       yearPlans = ( List <YearPlan>)  ocm.getObjects(query);
@@ -115,8 +113,6 @@ public class YearPlanDAOImpl implements YearPlanDAO{
 			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
 			ocm.insert(plan);
 			ocm.save();
-			
-			System.err.println("done");
 		}catch(Exception e){e.printStackTrace();}
 	}
 	

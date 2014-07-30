@@ -54,10 +54,7 @@ public class Location {
 		}
 
 		public void setPath(String path) {
-			System.err.println("Setting path: "+ path+" : "+address+" : "+name);
 			this.path = path;
-			
-			
 		}
 
 		public String getAddress() {

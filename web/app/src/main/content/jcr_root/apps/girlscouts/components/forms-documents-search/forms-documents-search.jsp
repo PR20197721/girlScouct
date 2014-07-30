@@ -125,9 +125,16 @@ try{
 		<a href="<%=pth%>"><%=docHit.getTitle() %></a>
 <%
 		if (q != null && !q.isEmpty()) {
+			String description = docHit.getDescription();
+			if (description != null && !"".equals(description)) {
 %>
-		<div><%=docHit.getExcerpt()%></div>
+		<div><%= docHit.getDescription() %></div>
 <%
+			} else {
+%>
+                <div><%=docHit.getExcerpt()%></div>
+<%
+			}
 		} else {
 %>
 		<div><%= docHit.getDescription() %></div>

@@ -5,12 +5,7 @@
 <%@include file="include/session.jsp"%>
 <%
 if( request.getParameter("isMeetingCngAjax") !=null){
-	
-	//System.err.println("contr : meeting rearg");
 	meetingUtil.changeMeetingPositions( user, request.getParameter("isMeetingCngAjax") );
-	
-	
-	
 }else if( request.getParameter("newCustActivity") !=null ){
 	
 	double cost=0.00;
@@ -46,8 +41,10 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	boolean isLoc=false;
 	if( user.getYearPlan().getLocations()!=null && request.getParameter("name")!=null )
 	 for(int i=0;i< user.getYearPlan().getLocations().size();i++)
-		if( user.getYearPlan().getLocations().get(i).getName().equals(request.getParameter("name")) )
-			{isLoc=true; System.err.println("dp");out.println("Location already exists");}
+		if( user.getYearPlan().getLocations().get(i).getName().equals(request.getParameter("name")) ) {
+			isLoc=true;
+			out.println("Location already exists");
+		}
 		
 	if( !isLoc)
 	    locationUtil.setLocation(user, 
@@ -89,15 +86,9 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	
 }else if( request.getParameter("updSched") !=null ){
 	
-	//System.err.println("updSched");
-	//System.err.println("UpdCal: "+request.getParameter("date") +" " + request.getParameter("time") +" " + request.getParameter("ap"));
-	
-	
 	calendarUtil.updateSched(user, request.getParameter("meetingPath"), 
 			request.getParameter("time"), request.getParameter("date"), request.getParameter("ap"), 
 			request.getParameter("isCancelledMeeting"), Long.parseLong( request.getParameter("currDt") ));
-	
-	
 	
 }else if( request.getParameter("rmCustActivity") !=null ){
 	
@@ -137,8 +128,6 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	meetingUtil.reverAgenda(user,  request.getParameter("mid") );
 	
 }else if( request.getParameter("sendMeetingReminderEmail_SF") !=null ){ //view SalesForce
-	  
-	  //System.err.println("EMAILINGGGGGGG");
 	
 	  String email_to_gp =request.getParameter("email_to_gp");
 	  String email_to_sf =request.getParameter("email_to_sf");
@@ -147,7 +136,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	  String subj = request.getParameter("email_subj");
 	  String html = request.getParameter("email_htm"); 
 	  
-	  System.err.println("contrHTML: "+ html);
+	  System.out.println("contrHTML: "+ html);
 	  
 	  EmailMeetingReminder emr = new EmailMeetingReminder(null, null, cc, subj, html);
 	  emr.setEmailToGirlParent(email_to_gp);
@@ -156,7 +145,10 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	  emailUtil.sendMeetingReminder(user, emr);
 	  
 }else if( request.getParameter("loginAs")!=null){ //troopId
-	if(request.getParameter("loginAs")==null || request.getParameter("loginAs").trim().equals("") ){System.err.println("loginAs invalid.abort");return;}
+	if(request.getParameter("loginAs")==null || request.getParameter("loginAs").trim().equals("") ){
+		System.err.println("loginAs invalid.abort");
+		return;
+	}
 	
 	troops = user.getApiConfig().getTroops();
 	session.setAttribute("USER_TROOP_LIST", troops);
@@ -195,7 +187,6 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	
 	org.girlscouts.vtk.models.Asset asset = new org.girlscouts.vtk.models.Asset(request.getParameter("addAsset"));
 	
-	//System.err.println("*** "+request.getParameter("meetingUid") );
 	new UserDAOImpl().addAsset( user ,  request.getParameter("meetingUid"),   asset);
 	
 	
@@ -216,7 +207,6 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	
 
 }else if( request.getParameter("rmAsset")!=null){
-	System.err.println(123);
 	meetingUtil.rmAsset(user, request.getParameter("rmAsset"), request.getParameter("meetingId"));
 }else if( request.getParameter("previewMeetingReminderEmail") !=null ){
 	  String email_to_gp =request.getParameter("email_to_gp");
@@ -244,8 +234,6 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	  
 	  String addAid= request.getParameter("addAid");
 	  String rmAid=  request.getParameter("rmAid");
-	 
-	  System.err.println("--- "+ addAid +" : "+ rmAid);
 	  
 	  java.util.List<Asset> aids = emr.getAssets();
 	  if( addAid!=null ){
@@ -303,13 +291,9 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	String ypcId = request.getParameter("ypcId");
 	String assetDesc = java.net.URLDecoder.decode(request.getParameter("assetDesc"));
 	String assetTitle = java.net.URLDecoder.decode(request.getParameter("assetTitle"));
-	System.err.println("*** "+ assetId +" : "+ ypcId +" : "+ assetDesc+" : "+ assetTitle);
 	java.util.List<MeetingE> meetings = user.getYearPlan().getMeetingEvents();
 	for(int i=0;i<meetings.size();i++){
 		if( meetings.get(i).getUid().equals( ypcId)){
-			
-			
-			//System.err.println("Found meetin");
 			Asset asset = new Asset();
 			asset.setIsCachable(false);
 			asset.setRefId(assetId);

@@ -212,9 +212,9 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
   		con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
   		String urlParameters = "token="+ apiConfig.getAccessToken();
   		if( isRefreshToken){
-  			System.err.println("Revoke refresh token "+ apiConfig.getRefreshToken()); urlParameters = "token="+ apiConfig.getRefreshToken();}
+  			System.out.println("Revoke refresh token "+ apiConfig.getRefreshToken()); urlParameters = "token="+ apiConfig.getRefreshToken();}
   		else
-  			System.err.println("REvoke token "+ apiConfig.getAccessToken());
+  			System.out.println("Revoke token "+ apiConfig.getAccessToken());
   		
   		
   		
@@ -227,7 +227,7 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
    
   		int responseCode = con.getResponseCode();
   		
-  		System.err.println("resp code: "+ responseCode +" : "+ con.getResponseMessage() );
+  		System.out.println("resp code: "+ responseCode +" : "+ con.getResponseMessage() );
   		
   		if( responseCode==200)
   			isSucc=true;

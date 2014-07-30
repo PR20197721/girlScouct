@@ -101,7 +101,6 @@ if( user ==null){
 		        	 for(int ii=0;ii< apiConfig.getTroops().size(); ii++)
 		        		 if( apiConfig.getTroops().get(ii).getGradeLevel().equals( cookies[i].getValue( ) ) ){
 		        			 prefTroop= apiConfig.getTroops().get(ii); 
-		        			 System.err.println( "Pref Troop: "+ cookies[i].getValue( ) );
 		        			 break tata;
 		        		 }
 		        	 

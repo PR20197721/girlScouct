@@ -48,7 +48,6 @@ public class ParseXls1 {
             String meetingId = me.getCellVal(evaluator, sheet, "A" + i);
             
             if (meetingId == null || meetingId.equals("")) {
-                //System.err.println("xls record# : " + i);
                 break;
             }
             
@@ -92,8 +91,6 @@ public class ParseXls1 {
             java.util.Map<String, String> meetings = docx
                     .getMeetingInfo("/Users/mike/Desktop/brownie/meetings/" + meetingId.toUpperCase() + ".docx");
             
-            System.out.println("###########@@@@@@ meetingId = " + meetingId);
-
             Meeting docxMeeting = null;
             try {
                 docxMeeting = docx.getMeeting(meetings);
@@ -166,7 +163,6 @@ public class ParseXls1 {
 
     // Meeting
     public void doJcr(Meeting meeting) throws Exception {
-        //System.out.println("beginning doJcr");
         // Connection
         javax.jcr.Repository repository = JcrUtils
                 .getRepository("http://localhost:4503/crx/server/");
@@ -188,7 +184,6 @@ public class ParseXls1 {
 
         String path = meeting.getPath().substring(0,
                 meeting.getPath().lastIndexOf("/"));
-        //System.err.println(" PAthL: " + path);
 
         /*
          * Node node = root.getNode(path); System.err.println((node==null)
@@ -205,8 +200,6 @@ public class ParseXls1 {
             ocm.insert(meeting);
         }
         ocm.save();
-
-        // System.err.println("doneee 1");
 
     }
 

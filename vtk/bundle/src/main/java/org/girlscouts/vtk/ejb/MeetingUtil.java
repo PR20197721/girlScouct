@@ -312,7 +312,6 @@ public class MeetingUtil {
 			newPoss.add( Integer.parseInt( t.nextToken() ));
 		
 		
-		System.err.println( "rearrangeActivity "+ meetingPath +" : "+ newPoss);
 		Meeting meetingInfo = meetingDAO.getMeeting(  meetingPath );
 		java.util.List<Activity>orgActivities = meetingInfo.getActivities();
 		java.util.List<Activity> newActivity = new java.util.ArrayList<Activity>();
@@ -322,10 +321,6 @@ public class MeetingUtil {
 			Activity activity = orgActivities.get(i);
 			int newpos = newPoss.indexOf(i+1) ;
 			
-			
-	System.err.println(" NewPos: "+ newpos +" :" + (i+1));
-	
-	
 			newActivity.set(newpos,  activity);
 		}
 		
@@ -344,7 +339,6 @@ public class MeetingUtil {
 		
 		for(int i=0;i<meetings.size();i++){
 			if( meetings.get(i).getRefId().equals( meetingPath)){
-				System.err.println("getMeet" + meetingPath +" : "+ meetings.get(i).getRefId());
 				return meetings.get(i);
 			}
 		}
@@ -431,7 +425,6 @@ public class MeetingUtil {
 						
 						Activity activity = activities.get(y);
 						activity.setDuration(duration);
-						System.err.println("Changing duration to "+ duration);
 						meetingDAO.createCustomMeeting(user, meeting, meetingInfo);
 						user.getYearPlan().setAltered("true");
 						userDAO.updateUser(user);
@@ -459,9 +452,6 @@ public class MeetingUtil {
 		 String[] split = meeting.getRefId().split("/");
 		 
 		 String file= split[ ( split.length -1 )];
-		 //System.err.println("Spilt: "+ file );
-		 
-		 //System.err.println("** "+ split.length   );
 		 
 		 file= file.substring(0, file.indexOf("_"));
 		 
@@ -509,8 +499,9 @@ public class MeetingUtil {
 						isAsset=true;
 				
 				
-				if( isAsset )
-					{System.err.println("Dp asset : "+ aidId);return;}
+				if( isAsset ) {
+					return;
+				}
 				
 				
 				
@@ -579,8 +570,9 @@ public class MeetingUtil {
 						isAsset=true;
 				
 				
-				if( isAsset )
-					{System.err.println("Dp asset : "+ aidId);return;}
+				if( isAsset ) {
+					return;
+				}
 				
 				
 				
@@ -619,25 +611,15 @@ public class MeetingUtil {
 	}
 	
 	public void rmAsset(User user, String aidId, String meetingId){
-		
-		System.err.println( "mUtil.rmAdset: " +aidId +" : "+ meetingId);
 		java.util.List<MeetingE> meetings = user.getYearPlan().getMeetingEvents();
 		for(int i=0;i<meetings.size();i++){
 			MeetingE meeting = meetings.get(i);
-			
-			System.err.println( meeting.getUid() +" :" + meetingId);
 			if( meeting.getUid().equals( meetingId)){
 				
-				
-				
 				java.util.List<Asset> assets= meeting.getAssets();
-				System.err.println("Asset size: "+ assets.size() );
 				
 				for(int y=0;y<assets.size();y++){
-					
-					System.err.println("chk: "+ assets.get(y).getUid() +" : "+aidId);
 					if( assets.get(y).getRefId().equals( aidId)) {
-						System.err.println("REmo ass: "+ aidId);
 						assets.remove(y);
 					}
 				}
@@ -660,7 +642,6 @@ public class MeetingUtil {
 				for(int y=0;y<assets.size();y++){
 					
 					if( assets.get(y).getUid().equals( aidId)) {
-						//System.err.println("REmo ass: "+ aidId);
 						assets.remove(y);
 					}
 				}

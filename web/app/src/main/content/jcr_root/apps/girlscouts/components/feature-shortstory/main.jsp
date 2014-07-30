@@ -29,12 +29,14 @@
 			</div>
 		</div>
 		<div class="small-24 medium-24 hide-for-large  hide-for-xlarge hide-for-xxlarge columns featureSmallHeader">
-			<div class="feature-icon">
-				<img src="<%= featureIcon %>" width="50" height="50" alt="feature icon"/>
-			</div>
-			<div class="feature-title">
-				<h2><a href="<%= linkTitle %>"><%= title %></a></h2>
-			</div>
+			<table width="100%">
+				<tbody>
+					<tr>
+						<td valign="top" width="50"><img src="<%= featureIcon %>" width="50" height="50" alt="feature icon"/></td>
+						<td valign="top"><h2><a href="<%= linkTitle %>"><%= title %></a></h2></td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	</div>
 	<div class="row content">

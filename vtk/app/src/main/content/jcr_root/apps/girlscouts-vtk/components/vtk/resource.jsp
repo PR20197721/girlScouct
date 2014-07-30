@@ -251,45 +251,6 @@ try {
 	    return result.getTotalMatches();
 	}
 	
-/*
-	private String displayAidAssets(String path, ResourceResolver rr) {
-	    StringBuilder builder = new StringBuilder("<ul>");
-	    System.err.println("PATH /: " + path);
-        Resource root = rr.resolve(path);
-        if (root != null) {
-            Iterator<Resource> iter = root.listChildren();
-            while (iter.hasNext()) {
-                Asset asset = iter.next().adaptTo(Asset.class);
-                if (asset != null) {
-                    // TODO: check importer. Use dc:title
-                    Map<String, Object> map = asset.getMetadata();
-                    //String title = asset.getMetadataValue("dc:title");
-                    String title = asset.getName();
-                    
-                    System.err.println("&&& *** *" + asset.getMetadataValue("dc:title") + " : "+ asset.getLastModified()  );
-                    
-                    System.err.println("___ "+ asset.getPath());
-                    /*
-                    String caca="";
-                    java.util.Iterator itr = map.entrySet().iterator();
-                    while( itr.hasNext() )
-                    	caca+= itr.next() +" : " + map.get( );
-                	builder.append("<li>");
-                	builder.append("<a href=\"");
-                	builder.append(asset.getPath());
-                	builder.append("\">");
-                	builder.append(title );
-                	builder.append("</a>");
-                	builder.append("<input type=\"button\" value=\"Add to Meeting\" onclick=\"applyAids('"+asset.getPath()+"', '"+title+"' )\" />");
-                	builder.append("</li>");
-                }
-            }
-        }
-        builder.append("</ul>");
-        return builder.toString();
-	}
-*/
-	
 	private String getMeetingsRootPath(User user) {
 		String level = user.getTroop().getGradeLevel().toLowerCase();
 	    // The field in SF is 1-Brownie, we need brownie

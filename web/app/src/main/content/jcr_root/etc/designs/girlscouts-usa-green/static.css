@@ -144,18 +144,23 @@ a:hover {
 		display:inline-block;
 		padding: 0 !important;
 		margin: 0 6px !important;
+		display: inline-block;
 	}
 	.home-section .feature-title {
 		padding: 0 !important;
 	}
 }
 @media only screen and (min-width: 40.063em) and (max-width: 59.938em) {
-    #headerBar li{
-        font-size: 90%
-    }
-
+	#headerBar li{
+		font-size: 90%
+	}
 }
-
+@media only screen and (max-width: 59.938em) {
+        .featureSmallHeader h2 a {
+                font-size: 1.96588rem !important;
+		line-height: 1.4em;
+        }
+}
 a.menu {
     color: #C1EAD4;
     font-size: 1em;
@@ -170,8 +175,11 @@ a:hover.menuHighlight {
    color: #fc3;
 }
 
+.inline-list > li:first-child {
+	margin-left: 0;	
+}
 .inline-list > li.active>a{
-  color: #ffffff;
+	color: #ffffff;
 }
 
 /***********************************/
@@ -280,8 +288,10 @@ padding-left: 20px;
     margin: 10px 0;
 }
 #mobile-nav-footer div.footer-navigation {
-background: url('images/small-trefoil.png') no-repeat;
-background-position: center;
+/* temporarily removed because it is being covered by footer links
+	background: url('images/small-trefoil.png') no-repeat;
+	background-position: center;
+*/
 }
 #mobile-footer{
     background-color: #00ae58;
@@ -427,14 +437,28 @@ background-color: #B0B0B0;
     padding: 0px 0px 15px 0px;
 }
 .home-section .feature-icon {
-    display: inline-block;
-    position: relative;
-    top: -10px;
+	display: inline-block;
+	position: relative;
+	top: -10px;
+/*
+	width: 64px;
+	border: 1px solid red;
+	float: left;
+*/
+/* inkoo temp */
 }
 .home-section .feature-title {
     display: inline-block;
     /*text-indent: 20px;*/
     padding:0 0 0 20px;
+/*
+    margin-left: auto;
+    margin-right: 0;
+	float: right;
+	border: 1px solid yellow;
+	margin-top: 0;
+*/
+/* inkoo temp *?
 }
 .home-section .content {
 	padding: 0;
@@ -782,8 +806,10 @@ td.fc-header-left{
 
 #footer div.footer-navigation{
     padding:10px 0 10px 20px;
+/* temporarily removed because it is being covered by footer links
     background: url('images/small-trefoil.png') no-repeat;
     background-position:center;
+*/
 }
 
 /*#leftContent li.active ul li.active{
@@ -981,7 +1007,7 @@ input.searchField{
 }
 
 ul.inline-list.eyebrow-fontsize{
-margin-bottom: 5px;
+	margin-bottom: 5px;
 }
 
 div#contactsList{
@@ -1330,4 +1356,27 @@ ul.searchResultsList article p{
 .calTitle>h6 {
 	font-size: 0.7rem !important;
 	margin: 0 !important;
+}
+.featureSmallHeader table, .featureSmallHeader table td, .featureSmallHeader h2{
+	padding:0;
+	margin:0;
+	border:0;
+}
+.featureSmallHeader h2 {
+	padding-left: 10px;
+}
+.eyebrow-navigation {
+	padding-left: 0;
+}
+
+#ui-datepicker-div {
+        background-color: #eeeeee;
+        padding: 10px;
+	border: 1px solid #959595;
+}
+.ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next {
+	border: 1px solid #eeeeee !important;
+}
+.ui-datepicker-header .ui-datepicker-title {
+	float: right;
 }

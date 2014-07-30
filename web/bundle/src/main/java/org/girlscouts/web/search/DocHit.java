@@ -91,6 +91,7 @@ public final class DocHit extends DocHitBase {
         } catch (Exception e) {
             log.info("Cannot get description. Return empty string.");
         }
+
         return "";
     }
 

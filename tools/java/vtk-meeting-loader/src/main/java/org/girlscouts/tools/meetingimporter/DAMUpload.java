@@ -62,7 +62,6 @@ public class DAMUpload {
          FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
 
          Sheet sheet = workbook.getSheetAt(1);//workbook.getSheet("Meeting Plan data model");
-         //System.err.println("-->>- "+ (sheet==null));
 for(int i=2;i<sheet.getLastRowNum();i++){
         String meetingId = getCellVal( evaluator, sheet, "A"+i );
         if( meetingId==null || meetingId.trim().equals(""))
@@ -84,7 +83,6 @@ for(int i=2;i<sheet.getLastRowNum();i++){
         meeting.setName(meetingName);
         
         
-        System.err.println( meetingName);
         try{ doJcr(meeting); }catch(Exception e){e.printStackTrace();}
 }
 
@@ -114,24 +112,20 @@ for(int i=2;i<sheet.getLastRowNum();i++){
 	    	ocm.insert(meeting);
 	    	ocm.save();
 	    	
-	    	System.err.println("doneee");
 	        
 	}
 
 	
 	private String getCellVal(FormulaEvaluator evaluator, Sheet sheet, String field){
 		
-		//System.err.println("test: "+ field);
 		String toRet="";
 		 CellReference ref = new CellReference(field);
 		 
-		 //System.err.println( (ref==null) +" : "+ (sheet==null));
          Row r = sheet.getRow(ref.getRow());
          if (r != null) {
             Cell c = r.getCell(ref.getCol());
             CellValue value = evaluator.evaluate( c ) ;
             
-            //System.out.println(  value.getStringValue() ) ;
             if(value!=null)
             toRet = value.getStringValue() ;
          }
@@ -147,7 +141,6 @@ for(int i=2;i<sheet.getLastRowNum();i++){
         FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
         Sheet sheet = workbook.getSheetAt(1);
 
-        //System.out.println(sheet.getLastRowNum());
         for(int i=2;i<=sheet.getLastRowNum()+1;i++){
         	String fileName = getCellVal( evaluator, sheet, "A"+i ).trim();
         	if( fileName==null || fileName.length()<1) break;
@@ -192,7 +185,6 @@ for(int i=2;i<sheet.getLastRowNum();i++){
 	/*
 	public void create(String fileName)throws Exception{
 		
-		System.err.println( "___ "+fileName );
 		
 		String url="http://localhost:4503/content/dam/girlscouts-vtk/global/*";
 		
@@ -228,11 +220,6 @@ for(int i=2;i<sheet.getLastRowNum();i++){
 		 
 		
 		HttpResponse response = client.execute(post) ;
-		// Here we go!
-		//String response = EntityUtils.toString( client.execute( post ).getEntity(), "UTF-8" );
-		 
-		System.err.println( "+++ "+response.toString());
-		
 		
 		client.getConnectionManager().shutdown();
 		
@@ -346,16 +333,9 @@ if ((String)metaDatas.get("tags")!=null )
     createEtcTag((String)metaDatas.get("tags"));
 	    
 	    httppost.setEntity(entity);
-	    System.out.println("executing request " + httppost.getRequestLine());
 	    HttpResponse response = httpclient.execute(httppost);
 	    HttpEntity resEntity = response.getEntity();
 
-	    System.out.println(response.getStatusLine());
-	    /*
-	    if (resEntity != null) {
-	      System.out.println(EntityUtils.toString(resEntity));
-	    }
-	    */
 	    if (resEntity != null) {
 	      resEntity.consumeContent();
 	    }
@@ -368,7 +348,6 @@ if ((String)metaDatas.get("tags")!=null )
 	private void createEtcTag( String tag )throws Exception{
 		
 		String dir = "/etc/tags/girlscouts-vtk/tag/";
-		//System.err.println( "Dir: "+dir);
 		
 		        javax.jcr.Repository repository = JcrUtils.getRepository("http://localhost:4503/crx/server/");
 		        
