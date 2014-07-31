@@ -18,21 +18,21 @@ import com.day.cq.wcm.msm.api.LiveRelationship;
 
 @Component(metatype=false)
 @Service
-public class GirlScoutsReferenceUpdateActionFactory implements LiveActionFactory<LiveAction> {
+public class GirlScoutsReferencesUpdateActionFactory implements LiveActionFactory<LiveAction> {
 
     @Property(name="liveActionName")
-    private static final String[] LIVE_ACTION_NAME = { GirlScoutsReferenceUpdateActionFactory.GirlScoutsReferenceUpdateAction.class.getSimpleName(), "gsReferencesUpdate" };
+    private static final String[] LIVE_ACTION_NAME = { GirlScoutsReferencesUpdateActionFactory.GirlScoutsReferencesUpdateAction.class.getSimpleName(), "gsReferencesUpdate" };
 
     public LiveAction createAction(Resource resource) throws WCMException {
         System.err.println("Resource path = " + resource.getPath());
-        return new GirlScoutsReferenceUpdateAction();
+        return new GirlScoutsReferencesUpdateAction();
     }
 
     public String createsAction() {
         return LIVE_ACTION_NAME[0];
     }
     
-    public static class GirlScoutsReferenceUpdateAction implements LiveAction {
+    public static class GirlScoutsReferencesUpdateAction implements LiveAction {
         // Level 1 branch. e.g. /content/girlscouts-template
         private static final int BRANCH_LEVEL = 1;
 
@@ -57,7 +57,7 @@ public class GirlScoutsReferenceUpdateActionFactory implements LiveActionFactory
         }
         
         public String getName() {
-            return GirlScoutsReferenceUpdateActionFactory.LIVE_ACTION_NAME[0];
+            return GirlScoutsReferencesUpdateActionFactory.LIVE_ACTION_NAME[0];
         } 
         
         private String getBranch(String path) throws WCMException {
