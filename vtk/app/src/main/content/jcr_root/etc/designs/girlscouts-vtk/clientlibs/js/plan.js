@@ -81,23 +81,19 @@ function resetModalPage() {
         $("#gsModal").css({overflow: 'inherit'});
 }
 
-function loadModalPage(link, showTitle, title, fullPageScroll) {
+function loadModalPage(link, showTitle, title, fullPageScroll, print) {
 	resetModalPage();
         $( "#gsModal" ).load(link, function( response, status, xhr ) {
                 if ( status == "error" ) {
                         var msg = "Sorry but there was an error: ";
                         $( "#error" ).html( msg + xhr.status + " " + xhr.statusText );
                 }else{
-					if (fullPageScroll) {
-						loadModal("#gsModal", showTitle, title, true);
-					} else {
-						loadModal("#gsModal", showTitle, title, false);
-					}
+			loadModal("#gsModal", showTitle, title, fullPageScroll, print);
                 }
         });
 }
 
-function loadModal(divSelector, showTitle, title, fullPageScroll) {
+function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 	var wWidth = $(window).width();
 	var wHeight = $(window).height();
 	var dWidth = wWidth * 0.95; //this will make the dialog 80% of the
@@ -105,8 +101,12 @@ function loadModal(divSelector, showTitle, title, fullPageScroll) {
 	if (dWidth >960) {
 		dWidth = 960; // max-width: 60em;
 	}
+	var dialog = null;
+	if (print) {
+		title += "<span class=\"printIcon\"><a href=\"#\" onclick=\"printDiv('gsModal')\"><img src=\"/etc/designs/girlscouts-vtk/clientlibs/css/images/print-icon.png\" width=\"22\" height=\"22\" alt=\"print icon\"/></a></span>";
+	}
 	if (fullPageScroll) {
-		$( divSelector ).dialog({
+		dialog = $( divSelector ).dialog({
 			width:dWidth,
 			modal:true,
 			height:dHeight,
@@ -128,7 +128,7 @@ function loadModal(divSelector, showTitle, title, fullPageScroll) {
 			}
 		});
 	} else {
-		$( divSelector ).dialog({
+		dialog = $( divSelector ).dialog({
 			width:dWidth,
 			modal:true,
 			dialogClass:"modalWrap",
@@ -438,11 +438,9 @@ function doEditActivity(x){
 }
 
 function printDiv(x) {
-	   
         var divToPrint = document.getElementById(x);
         var popupWin = window.open('', '_blank', 'width=300,height=300');
         popupWin.document.open();
         popupWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</html>');
-         popupWin.document.close();
-             	
+        popupWin.document.close();
 }

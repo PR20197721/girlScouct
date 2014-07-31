@@ -97,9 +97,9 @@
         <div class="small-1 columns">&nbsp;</div>
 </div>
 <div class="row meetingDetailDescription linkButtonWrapper">
-        <div class="small-8 columns"><a class="button linkButton" id="overviewButtonX" href="javascript:void(0)" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isOverview=true', true, 'Overview')">overview</a></div>
-        <div class="small-8 columns"><a class="button linkButton" id="activityPlanButtonX" href="javascript:void(0)" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isActivity=true', true, 'Activity')">activity plan</a></div>
-        <div class="small-8 columns"><a class="button linkButton" id="materialsListButton" href="javascript:void(0)" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isMaterials=true', true, 'Materials')">materials list</a></div>
+        <div class="small-8 columns"><a class="button linkButton" id="overviewButtonX" href="javascript:void(0)" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isOverview=true', true, 'Overview', false, true)">overview</a></div>
+        <div class="small-8 columns"><a class="button linkButton" id="activityPlanButtonX" href="javascript:void(0)" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isActivity=true', true, 'Activity', false, true)">activity plan</a></div>
+        <div class="small-8 columns"><a class="button linkButton" id="materialsListButton" href="javascript:void(0)" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isMaterials=true', true, 'Materials', false, true)">materials list</a></div>
 </div>
 <div class="row meetingDetailDescription">
         <div class="small-1 columns">&nbsp;</div>
