@@ -50,33 +50,44 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 	HashMap<String, List<FacetsInfo>> facets;
 
 	//TODO: Default path if not provided in the JSP.
-	private String FACETS_PATH = "/etc/tags/girlscouts";
+	private static String FACETS_PATH = "/etc/tags/girlscouts";
+	private String COUNCIL_SPE_PATH="/etc/tags/";
+	
 	private SearchResultsInfo searchResultsInfo;
 
 	private Map<String, ArrayList<String>> facetsQryBuilder = new HashMap<String, ArrayList<String>>();
 	public FormsDocumentsSearchImpl(){}
 
-	private HashMap<String, List<FacetsInfo>> createFacet(SlingHttpServletRequest slingRequest, QueryBuilder queryBuilder){
+	private HashMap<String, List<FacetsInfo>> createFacet(SlingHttpServletRequest slingRequest, QueryBuilder queryBuilder,String councilSpPath){
 		HashMap<String, List<FacetsInfo>> fts = null;
 		try{
-			fts = facetBuilder.getFacets(slingRequest, queryBuilder, FACETS_PATH);
+			log.debug("councilSpPath  [" +councilSpPath +"]");
+			fts = facetBuilder.getFacets(slingRequest, queryBuilder, councilSpPath);
 
 		}catch(Exception e){
 			//TODO: Handle this null condition. So Page shouldn't explode.
 			log.info("Facets Tag do not exists: Please create Tags"+e.getMessage());
-			return null;
+			throw null;
 		}
 		return fts;
 	}
 
-	public void executeSearch(SlingHttpServletRequest slingRequest, QueryBuilder queryBuilder, String q, String path,String[] tags){
+	public void executeSearch(SlingHttpServletRequest slingRequest, QueryBuilder queryBuilder, String q, String path,String[] tags,String councilSpName){
 		//TODO : HANDLE NULL FOR THIS REQUEST
 		this.queryBuilder = queryBuilder;
 		this.slingRequest = slingRequest;
-		this.facets = createFacet(slingRequest, queryBuilder);
+		String councilSpPath = "";
+		if(!councilSpName.isEmpty() && councilSpName!=null){
+			councilSpPath=COUNCIL_SPE_PATH+councilSpName;
+			try{
+				this.facets = createFacet(slingRequest,queryBuilder,councilSpPath);
+			}catch(Exception e){
+				log.error("Facets [" +COUNCIL_SPE_PATH +"] does not exists fall-back to default" );
+				this.facets = createFacet(slingRequest,queryBuilder,FACETS_PATH);
+			}
+		}
 		try{
 			documentsSearch(path,q,tags,this.facets);
-
 		}catch(RepositoryException re){}
 
 	}

@@ -9,6 +9,13 @@ String path = properties.get("./srchLocation", "");
 if(path.isEmpty()){  
 	path = "/content/dam/girlscouts-shared/en/documents";
 }
+
+// We need to pass a parameter for the tagging.
+// if we don't have a tagging parameter which matches the council specific : We will use the default : etc/tags/girlscouts
+
+//Let build the tagging
+String councilSpeName = currentPage.getAbsoluteParent(1).getName();
+
 FormsDocumentsSearch formsDocuImpl = sling.getService(FormsDocumentsSearch.class);
 QueryBuilder queryBuilder = sling.getService(QueryBuilder.class);
 String q = request.getParameter("q");
@@ -34,7 +41,7 @@ if (request.getParameterValues("tags") != null) {
 	param+=param!=null?tagParams:tagParams.replaceFirst("&", " ").trim();
 } 
 try{
-	formsDocuImpl.executeSearch(slingRequest, queryBuilder, q, path, tags);
+	formsDocuImpl.executeSearch(slingRequest, queryBuilder, q, path, tags, councilSpeName);
 }catch(Exception e){}
 Map<String,List<FacetsInfo>> facetsAndTags = formsDocuImpl.getFacets();
 List<Hit> hits = formsDocuImpl.getSearchResultsInfo().getResultsHits();
