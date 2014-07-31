@@ -20,16 +20,16 @@ import com.day.cq.wcm.msm.api.LiveRelationship;
 @Service
 public class GirlScoutsReferenceUpdateActionFactory implements LiveActionFactory<LiveAction> {
 
-    @Property(value=GirlScoutsReferenceUpdateActionFactory.actionname)
-    private static final String actionname = "GSReferencesUpdate";
+    @Property(name="liveActionName")
+    private static final String[] LIVE_ACTION_NAME = { GirlScoutsReferenceUpdateActionFactory.GirlScoutsReferenceUpdateAction.class.getSimpleName(), "gsReferencesUpdate" };
 
     public LiveAction createAction(Resource resource) throws WCMException {
         System.err.println("Resource path = " + resource.getPath());
-        return null;
+        return new GirlScoutsReferenceUpdateAction();
     }
 
     public String createsAction() {
-        return actionname;
+        return LIVE_ACTION_NAME[0];
     }
     
     public static class GirlScoutsReferenceUpdateAction implements LiveAction {
@@ -57,7 +57,7 @@ public class GirlScoutsReferenceUpdateActionFactory implements LiveActionFactory
         }
         
         public String getName() {
-            return GirlScoutsReferenceUpdateActionFactory.actionname;
+            return GirlScoutsReferenceUpdateActionFactory.LIVE_ACTION_NAME[0];
         } 
         
         private String getBranch(String path) throws WCMException {
