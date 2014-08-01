@@ -256,6 +256,7 @@
             jcr:primaryType="cq:Page"
             mode="replace"
             root="/etc/msm/rolloutconfigs/gsdefault"
-            rules="[]"/>            
+            rules="[]"/>              
+            
     </filter>
-</jcr:rooe>
+</jcr:root>
