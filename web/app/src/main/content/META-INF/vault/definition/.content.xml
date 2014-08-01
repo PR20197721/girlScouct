@@ -252,6 +252,10 @@
             mode="replace"
             root="/etc/workflow/launcher/config/parse_word_docx_mod"
             rules="[]"/>              
-            
+        <f47
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/msm/rolloutconfigs/gsdefault"
+            rules="[]"/>            
     </filter>
-</jcr:root>
+</jcr:rooe>
