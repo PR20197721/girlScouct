@@ -29,7 +29,7 @@ import com.day.cq.tagging.TagManager;
 public class SearchUtils {
 	private static Logger log = LoggerFactory.getLogger(SearchUtils.class);
 	
-	public static SearchResultsInfo combineSearchTagsCounts(SearchResultsInfo searchResultsInfo,HashMap<String,List<FacetsInfo>> facetAndTags)
+	public static SearchResultsInfo combineSearchTagsCounts(SearchResultsInfo searchResultsInfo,Map<String,List<FacetsInfo>> facetAndTags)
 	{
 		if(searchResultsInfo.getFacetsWithCount().isEmpty())
 		{

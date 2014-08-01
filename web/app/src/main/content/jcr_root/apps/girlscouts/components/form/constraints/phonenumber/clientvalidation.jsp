@@ -22,8 +22,7 @@
                   org.apache.sling.scripting.jsp.util.JspSlingHttpServletResponseWrapper"%>
 <%@taglib prefix="sling" uri="http://sling.apache.org/taglibs/sling/1.0" %><%
 %><sling:defineObjects/><%
-    System.out.println("To confirm we do reach here");
-    final String regexp = "/([\\d][\.-])+/";
+    final String regexp = "/(^[\\d]{3}[\\d\\.-]*)/";
     final FieldDescription desc = FieldHelper.getConstraintFieldDescription(slingRequest);
     FieldHelper.writeClientRegexpText(slingRequest, new JspSlingHttpServletResponseWrapper(pageContext), desc, regexp);
 %>
