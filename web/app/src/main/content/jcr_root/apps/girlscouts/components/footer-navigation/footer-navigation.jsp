@@ -40,6 +40,8 @@ if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMM
 }
 %>
 </div>
+<%--
 <div class="footerMiscellaneous">
 	<cq:include path="miscellaneous" resourceType="girlscouts/components/styled-parsys" />
 </div>
+--%>
