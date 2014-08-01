@@ -80,7 +80,7 @@ public class GirlScoutsReferencesUpdateActionFactory implements LiveActionFactor
                         }
                         if (!property.isMultiple()) {
                             // Single value
-                            if (property.getType() == PropertyType.STRING) {
+                            if (checkPropertyType(property.getType())) {
                                 String stringValue = property.getString();
                                 stringValue = replaceBranch(stringValue, sourceBranch, targetBranch);
                                 if (stringValue != null) {
@@ -91,7 +91,7 @@ public class GirlScoutsReferencesUpdateActionFactory implements LiveActionFactor
                             // Multiple values
                             Value[] values = property.getValues();
                             if (values.length > 0 && 
-                                    values[0].getType() == PropertyType.STRING) { // Values are of the same type.
+                                    checkPropertyType(values[0].getType())) { // Values are of the same type.
                                 String[] stringValues = new String[values.length];
                                 boolean replacedFlag = false;
                                 for (int i = 0; i < values.length; i++) {
@@ -144,6 +144,10 @@ public class GirlScoutsReferencesUpdateActionFactory implements LiveActionFactor
             }
         }
         
+        private boolean checkPropertyType(int type) {
+            return type == PropertyType.STRING || type == PropertyType.NAME;
+        }
+
         private String replaceBranch(String value, String sourceBranch, String targetBranch) {
             String regex = "\\Q" + sourceBranch + "\\E";
             if (value.indexOf(sourceBranch) != -1) {
