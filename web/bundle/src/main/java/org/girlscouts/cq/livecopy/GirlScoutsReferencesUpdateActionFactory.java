@@ -1,5 +1,8 @@
 package org.girlscouts.cq.livecopy;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import javax.jcr.Node;
 import javax.jcr.Property;
 import javax.jcr.PropertyIterator;
@@ -150,18 +153,14 @@ public class GirlScoutsReferencesUpdateActionFactory implements LiveActionFactor
             }
         }
         
+        private static final Pattern BRANCH_PATTERN = Pattern.compile("^(/content/[^/]+)/?");
         private String getBranch(String path) throws WCMException {
-            String[] parts = path.substring(1).split("/"); // Skip the root slash
-            // test cases '/', '/foo/bar/bar', '/foo' ==> '', [foo,bar,bar], [foo]
-            if (parts.length < BRANCH_LEVEL + 1) {
+            Matcher matcher = BRANCH_PATTERN.matcher(path);
+            if (matcher.find()) {
+                return matcher.group();
+            } else {
                 throw new WCMException("Cannot get level " + BRANCH_LEVEL + " branch: " + path);
             }
-            
-            StringBuilder branchBuilder = new StringBuilder();
-            for (int i = 0; i < BRANCH_LEVEL + 1; i++) { // fail, foo/bar, fail
-                branchBuilder.append("/").append(parts[i]);
-            }
-            return branchBuilder.toString();
         }
 
         public String getName() {
