@@ -212,6 +212,12 @@
 	<scope>provided</scope>
 </dependency>
         <!-- END STATS -->
+        <dependency>
+            <groupId>com.day.cq.wcm</groupId>
+            <artifactId>cq-msm-api</artifactId>
+            <version>5.6.2</version>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <!-- ====================================================================== -->
