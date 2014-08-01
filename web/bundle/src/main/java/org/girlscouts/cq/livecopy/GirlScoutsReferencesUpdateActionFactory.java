@@ -114,10 +114,7 @@ public class GirlScoutsReferencesUpdateActionFactory implements LiveActionFactor
                         // Save the live sync error in the node
                         String error = "";
                         if (targetNode.hasProperty(LIVE_SYNC_ERROR_PROPERTY)) {
-                            error = targetNode.getProperty(LIVE_SYNC_ERROR_PROPERTY).getString();
-                        }
-                        if (!error.isEmpty()) {
-                            error += ",";
+                            error = targetNode.getProperty(LIVE_SYNC_ERROR_PROPERTY).getString() + ",";
                         }
                         error += property.getName();
                         targetNode.setProperty(LIVE_SYNC_ERROR_PROPERTY, error);
@@ -140,6 +137,7 @@ public class GirlScoutsReferencesUpdateActionFactory implements LiveActionFactor
                     } 
                 }
             } catch (RepositoryException e) {
+                log.error("Repository Exception: source node = " + source + " target node = " + target);
                 throw new WCMException(e.getMessage(), e);
             }
         }
