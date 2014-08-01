@@ -5,6 +5,7 @@ import javax.jcr.Property;
 import javax.jcr.PropertyIterator;
 import javax.jcr.PropertyType;
 import javax.jcr.RepositoryException;
+import javax.jcr.Session;
 import javax.jcr.Value;
 
 import org.apache.felix.scr.annotations.Component;
@@ -13,6 +14,8 @@ import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.commons.json.JSONException;
 import org.apache.sling.commons.json.io.JSONWriter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.day.cq.wcm.api.WCMException;
 import com.day.cq.wcm.msm.api.ActionConfig;
@@ -27,7 +30,7 @@ public class GirlScoutsReferencesUpdateActionFactory implements LiveActionFactor
 
     @org.apache.felix.scr.annotations.Property(name="liveActionName")
     private static final String[] LIVE_ACTION_NAME = { GirlScoutsReferencesUpdateActionFactory.GirlScoutsReferencesUpdateAction.class.getSimpleName(), "gsReferencesUpdate" };
-
+    
     public LiveAction createAction(Resource resource) throws WCMException {
         return new GirlScoutsReferencesUpdateAction();
     }
@@ -37,8 +40,10 @@ public class GirlScoutsReferencesUpdateActionFactory implements LiveActionFactor
     }
     
     public static class GirlScoutsReferencesUpdateAction implements LiveAction {
+        private static Logger log = LoggerFactory.getLogger(GirlScoutsReferencesUpdateAction.class);
         // Level 1 branch. e.g. /content/girlscouts-template
         private static final int BRANCH_LEVEL = 1;
+        private static final String LIVE_SYNC_ERROR_PROPERTY = "gslivesyncerror";
         
         public void execute(Resource source, Resource target,
                 LiveRelationship relation, boolean autosave, boolean isResetRollout)
@@ -46,10 +51,10 @@ public class GirlScoutsReferencesUpdateActionFactory implements LiveActionFactor
             Node sourceNode = (Node)source.adaptTo(Node.class);
             Node targetNode = (Node)target.adaptTo(Node.class);
             if (sourceNode == null) {
-                throw new WCMException("Cannot access node: " + source);
+                throw new WCMException("Cannot access source node: " + source);
             }
             if (targetNode == null) {
-                throw new WCMException("Cannot access node: " + target);
+                throw new WCMException("Cannot access target node: " + target);
             }
             
             String sourcePath = source.getPath();
@@ -57,48 +62,79 @@ public class GirlScoutsReferencesUpdateActionFactory implements LiveActionFactor
             String sourceBranch = getBranch(sourcePath);
             String targetBranch = getBranch(targetPath);
             
-            PropertyIterator iter;
             try {
-                iter = targetNode.getProperties();
+                PropertyIterator iter = targetNode.getProperties();
+                Property property = null;
                 while (iter.hasNext()) {
-                    Property property = iter.nextProperty();
-                    String propertyName = property.getName();
-                    if (propertyName.startsWith("jcr:") || 
-                            propertyName.startsWith("cq:") ||
-                            propertyName.startsWith("sling:")) {
-                        // Skip CQ properties
-                        continue;
-                    }
-                    if (!property.isMultiple()) {
-                        if (property.getType() == PropertyType.STRING) {
-                            String stringValue = property.getString();
-                            stringValue = replaceBranch(stringValue, sourceBranch, targetBranch);
-                            if (stringValue != null) {
-                                targetNode.setProperty(property.getName(), stringValue);
-                            } 
+                    try { // Try and catch property exception. We want to do our best.
+                        property = iter.nextProperty();
+                        String propertyName = property.getName();
+                        if (propertyName.startsWith("jcr:") || 
+                                propertyName.startsWith("cq:") ||
+                                propertyName.startsWith("sling:")) {
+                            // Skip CQ properties
+                            continue;
                         }
-                    } else {
-                        Value[] values = property.getValues();
-                        if (values.length > 0 && 
-                                values[0].getType() == PropertyType.STRING) { // Values are of the same type.
-                            String[] stringValues = new String[values.length];
-                            boolean replacedFlag = false;
-                            for (int i = 0; i < values.length; i++) {
-                                Value value = values[i];
-                                String stringValue = value.getString();
-                                String newStringValue = replaceBranch(stringValue, sourceBranch, targetBranch);
-                                if (newStringValue != null) {
-                                    stringValues[i] = newStringValue;
-                                    replacedFlag = true;
-                                } else {
-                                    stringValues[i] = stringValue;
+                        if (!property.isMultiple()) {
+                            // Single value
+                            if (property.getType() == PropertyType.STRING) {
+                                String stringValue = property.getString();
+                                stringValue = replaceBranch(stringValue, sourceBranch, targetBranch);
+                                if (stringValue != null) {
+                                    targetNode.setProperty(property.getName(), stringValue);
+                                } 
+                            }
+                        } else {
+                            // Multiple values
+                            Value[] values = property.getValues();
+                            if (values.length > 0 && 
+                                    values[0].getType() == PropertyType.STRING) { // Values are of the same type.
+                                String[] stringValues = new String[values.length];
+                                boolean replacedFlag = false;
+                                for (int i = 0; i < values.length; i++) {
+                                    Value value = values[i];
+                                    String stringValue = value.getString();
+                                    String newStringValue = replaceBranch(stringValue, sourceBranch, targetBranch);
+                                    if (newStringValue != null) {
+                                        stringValues[i] = newStringValue;
+                                        replacedFlag = true;
+                                    } else {
+                                        stringValues[i] = stringValue;
+                                    }
+                                }
+                                if (replacedFlag) {
+                                    targetNode.setProperty(property.getName(), stringValues);
                                 }
                             }
-                            if (replacedFlag) {
-                                targetNode.setProperty(property.getName(), stringValues);
-                            }
                         }
+                    } catch (RepositoryException e) {
+                        // Save the live sync error in the node
+                        String error = "";
+                        if (targetNode.hasProperty(LIVE_SYNC_ERROR_PROPERTY)) {
+                            error = targetNode.getProperty(LIVE_SYNC_ERROR_PROPERTY).getString();
+                        }
+                        if (!error.isEmpty()) {
+                            error += ",";
+                        }
+                        error += property.getName();
+                        targetNode.setProperty(LIVE_SYNC_ERROR_PROPERTY, error);
+                        
+                        log.error("Live Sync error: Girl Scouts References Update Action: node = " + targetNode.getPath() + " property = " + property.getName());
                     }
+                }
+                
+                Session session = targetNode.getSession();
+                if (autosave) {
+                    try {
+                        session.save();
+                    } catch (Exception e) {
+                        try {
+                            session.refresh(true);
+                        } catch (RepositoryException e1) {
+                            log.error("Cannot refresh the session.");
+                        }
+                        log.error("Cannot save the session.");
+                    } 
                 }
             } catch (RepositoryException e) {
                 throw new WCMException(e.getMessage(), e);
@@ -115,17 +151,14 @@ public class GirlScoutsReferencesUpdateActionFactory implements LiveActionFactor
         }
         
         private String getBranch(String path) throws WCMException {
-            if (!path.startsWith("/")) {
-                throw new WCMException("Not absolute path: " + path);
-            }
-            
             String[] parts = path.substring(1).split("/"); // Skip the root slash
+            // test cases '/', '/foo/bar/bar', '/foo' ==> '', [foo,bar,bar], [foo]
             if (parts.length < BRANCH_LEVEL + 1) {
                 throw new WCMException("Cannot get level " + BRANCH_LEVEL + " branch: " + path);
             }
             
             StringBuilder branchBuilder = new StringBuilder();
-            for (int i = 0; i < BRANCH_LEVEL + 1; i++) {
+            for (int i = 0; i < BRANCH_LEVEL + 1; i++) { // fail, foo/bar, fail
                 branchBuilder.append("/").append(parts[i]);
             }
             return branchBuilder.toString();
