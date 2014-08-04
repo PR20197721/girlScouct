@@ -10,11 +10,15 @@ if(path.isEmpty()){
 	path = "/content/dam/girlscouts-shared/en/documents";
 }
 
-// We need to pass a parameter for the tagging.
-// if we don't have a tagging parameter which matches the council specific : We will use the default : etc/tags/girlscouts
+String formDocumentContentPath = properties.get("./form-document-path","");
+if(formDocumentContentPath.isEmpty()){
+	formDocumentContentPath = "/content/gateway/en/about-our-council/forms-documents";
+	
+}
 
-//Let build the tagging
-String councilSpeName = currentPage.getAbsoluteParent(1).getName();
+String councilSpecificTagPath = currentPage.getAbsoluteParent(1).getName();
+System.out.println("What is the councilSpecificPath " +councilSpecificTagPath);
+
 
 FormsDocumentsSearch formsDocuImpl = sling.getService(FormsDocumentsSearch.class);
 QueryBuilder queryBuilder = sling.getService(QueryBuilder.class);
@@ -41,7 +45,7 @@ if (request.getParameterValues("tags") != null) {
 	param+=param!=null?tagParams:tagParams.replaceFirst("&", " ").trim();
 } 
 try{
-	formsDocuImpl.executeSearch(slingRequest, queryBuilder, q, path, tags, councilSpeName);
+	formsDocuImpl.executeSearch(slingRequest, queryBuilder, q, path, tags, councilSpecificTagPath,formDocumentContentPath);
 }catch(Exception e){}
 Map<String,List<FacetsInfo>> facetsAndTags = formsDocuImpl.getFacets();
 List<Hit> hits = formsDocuImpl.getSearchResultsInfo().getResultsHits();

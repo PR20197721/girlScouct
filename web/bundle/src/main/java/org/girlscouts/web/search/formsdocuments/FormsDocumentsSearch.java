@@ -12,6 +12,6 @@ import com.day.cq.search.QueryBuilder;
 public interface FormsDocumentsSearch {
 	public Map<String, List<FacetsInfo>> getFacets();
 	public SearchResultsInfo getSearchResultsInfo();
-	public void executeSearch(SlingHttpServletRequest slingRequest, QueryBuilder queryBuilder, String q, String path,String[] tags,String councilSpName);
+	public void executeSearch(SlingHttpServletRequest slingRequest, QueryBuilder queryBuilder, String q, String path,String[] tags,String councilSpName,String formDocumentContentPath);
 
 }

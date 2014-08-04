@@ -4,9 +4,11 @@ package org.girlscouts.web.search.formsdocuments.impl;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.jcr.Node;
 import javax.jcr.Property;
@@ -27,6 +29,7 @@ import org.girlscouts.web.search.utils.SearchUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.adobe.granite.testing.client.security.Group;
 import com.day.cq.search.PredicateGroup;
 import com.day.cq.search.Query;
 import com.day.cq.search.QueryBuilder;
@@ -53,6 +56,8 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 
 	private Map<String, List<FacetsInfo>> facets;
 	private SearchResultsInfo searchResultsInfo;
+	
+	private final String FORM_DOC_CATEGORY = "forms_documents";
 
 	public FormsDocumentsSearchImpl(){}
 
@@ -68,8 +73,8 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 		}
 		return fts;
 	}
-
-	public void executeSearch(SlingHttpServletRequest slingRequest, QueryBuilder queryBuilder, String q, String path,String[] checkedTags,String councilSpecificPath){
+	
+	public void executeSearch(SlingHttpServletRequest slingRequest, QueryBuilder queryBuilder, String q, String path,String[] checkedTags,String councilSpecificPath, String formDocumentContentPath){
 		this.queryBuilder = queryBuilder;
 		this.slingRequest = slingRequest;
 		String councilSpPath = "";
@@ -83,78 +88,169 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 			}
 		}
 		try{
-			documentsSearch(path,q,checkedTags);
+			documentsSearch(path,q,checkedTags,formDocumentContentPath);
 		}catch(RepositoryException re){}
 
 	}
 
-	private void documentsSearch(String path,String q, String[] tags) throws RepositoryException{
+	private void documentsSearch(String path,String q, String[] tags,String formDocumentContentPath) throws RepositoryException{
 		LinkedHashMap<String, String> searchQuery = new LinkedHashMap<String, String>();
 
 		List<String> relts = new ArrayList<String>(); 
 		List<Hit> hits = new ArrayList<Hit>();
 		List<Hit> searchTermHits = new ArrayList<Hit>();
 		List<Hit> tagHits = new ArrayList<Hit>();
-		this.searchResultsInfo = new SearchResultsInfo();
+		searchResultsInfo = new SearchResultsInfo();
+		
+		
 		Map<String,String> pth1 = new HashMap<String, String>();
+		Map<String,String> mapPath = new HashMap <String,String>();
+		Map<String,String> mapFullText = new HashMap<String,String>();
+		Map<String,String> checkedTagMap = new HashMap<String,String>();
+		Map<String,String> mapContentDoc = new HashMap <String,String>();
+		
+		
+		/*searchQuery.put("path", path);
 		searchQuery.put("type","nt:hierarchyNode");
-		searchQuery.put("path",path);
-
-
-		searchQuery.put("1_property","jcr:content/metadata/cq:tags");
-		searchQuery.put("p.limit","-1");		
-		if(q!=null && !q.isEmpty()){
-
+		searchQuery.put("p.limit","-1");
+		*/
+		
+		searchQuery.put("group.p.or","true");
+		searchQuery.put("group.1_path", formDocumentContentPath);
+		searchQuery.put("group.1_type","cq:Page");
+		searchQuery.put("group.2_path", path);
+		searchQuery.put("group.2_type","nt:hierarchyNode");
+		searchQuery.put("p.limit","-1");
+		
+		
+		
+		/*mapPath.put("group.1_group.type", "cq:Page");
+		mapPath.put("group.1_group.path", formDocumentContentPath);
+		mapPath.put("p.limit","-1");
+		*/
+		
+		
+		Map<String,String> masterMap  = new HashMap<String,String>();
+		PredicateGroup master = PredicateGroup.create(masterMap); 
+		
+		
+		
+		
+		if(q!=null && !q.isEmpty())
+		{
 			log.info("Search Query Term [" +q +"]");
-			searchQuery.put("fulltext", q);
-			searchQuery.put("fulltext.relPath", "jcr:content");
-			searchTermHits = performContentSearch(searchQuery,null,q);
-			this.searchResultsInfo.setResultsHits(searchTermHits);
-
+			mapFullText.put("group.p.or","true" );
+			mapFullText.put("group.1_fulltext", q);
+			mapFullText.put("group.1_fulltext.relPath", "@jcr:content");
+			mapFullText.put("group.2_fulltext", q);
+			mapFullText.put("group.2_fulltext.relPath", "@jcr:content/metadata/dc:title");
+			mapFullText.put("group.3_fulltext", q);
+			mapFullText.put("group.3_fulltext.relPath", "@jcr:content/metadata/dc:description");
+			PredicateGroup predicateFullText = PredicateGroup.create(mapFullText);
+			master.add(predicateFullText);
+			
 		}
-
-		if(tags!=null){
-			addToDefaultQuery(searchQuery,tags);
-			tagHits = performContentSearch(searchQuery,null,q);
-			searchResultsInfo.setResultsHits(tagHits);	
-
+		if(tags.length > 0){
+			checkedTagMap = addToDefaultQuery(tags);
+			PredicateGroup predicateCheckedTags = PredicateGroup.create(checkedTagMap);
+			master.add(predicateCheckedTags);
 		}
-		if((q!=null && !q.isEmpty()) && (tags!=null && tags.length>0)){
-			// Now combine 2 different hits;
-			searchResultsInfo.setResultsHits(combineHits(searchTermHits, tags));	
-		}
-		searchResultsInfo = SearchUtils.combineSearchTagsCounts(searchResultsInfo,this.facets);
+		//searchTermHits = performContentSearch(master,q);
+		//this.searchResultsInfo.setResultsHits(searchTermHits);
+		//this.searchResultsInfo = combineSearchTagsCounts();
+		
+		//searchQuery.put("group.p.or", "true")
+		
+		searchTermHits = performContentSearch(searchQuery,q);
+		this.searchResultsInfo.setResultsHits(searchTermHits);
+		this.searchResultsInfo = combineSearchTagsCounts();
+		
 	}
-
-	private List<Hit> combineHits(List<Hit> searchTermHits, String[] tags) throws RepositoryException{
-		String valueString="";
-		HashSet<Hit> hitSet = new HashSet<Hit>();
-		HashSet<String> set = new HashSet<String>();
-		for (String words : tags){
-			set.add(words);
+	
+	private SearchResultsInfo combineSearchTagsCounts() throws RepositoryException
+	{
+		
+		System.out.println("What is going on ..............");
+		
+		
+		Iterator <String> everyThingFacets=null;
+		List<FacetsInfo> facetsInfo = null;
+		try{
+			 facetsInfo = this.facets.get(FORM_DOC_CATEGORY);
+		}catch(Exception e){
+			log.error("Exception Caught" +e.getMessage());
 		}
-		for(Hit hit:searchTermHits){	
+		List<Hit> searchTermHits = this.searchResultsInfo.getResultsHits();
+		Set<String> set = new HashSet<String>();
+		
+		//Adding Tag to the set.
+		for(FacetsInfo info : facetsInfo){
+			set.add(info.getFacetsTagId());
+		}
+		
+		// Duplicate Documents containing the same path are return when performing a set due to different renditions.
+		// So put the hit in to the uni TreeMap to remove duplicates.
+		Map<String, DocHit> unq= new java.util.TreeMap<String,DocHit>();
+		for(Hit hit:searchTermHits)
+		{
 			DocHit docHit = new DocHit(hit);
-			Node node = this.slingRequest.getResourceResolver().getResource(docHit.getURL()+"/jcr:content/metadata").adaptTo(Node.class);
-			if(node.hasProperty("cq:tags")){
-				Value[] value = node.getProperty("cq:tags").getValues();
-				for(Value val : value){
-					valueString = val.getString();
-					if(set.contains(valueString)){
-						hitSet.add(hit);
-					}
-				}
-
+			System.out.println(docHit.getURL());
+			if(!unq.containsKey(docHit.getURL())){
+				unq.put(docHit.getURL(), docHit);
 			}
 		}
-		List<Hit> htArray = new ArrayList<Hit>(hitSet); 
-		return htArray;
-	}	
-
-	private void addToDefaultQuery(Map<String, String> searchQuery,String[] tags) throws RepositoryException{
-
-		searchQuery.put("1_property","jcr:content/metadata/cq:tags");
-		searchQuery.put("1_property.or","true");
+		
+		System.out.println("What is the Unique lenght of the treeMap" +unq.size());
+		
+		Iterator<String> uniIterator = unq.keySet().iterator();
+		Map<String,Long> facetWithCount = new HashMap<String, Long>();
+		while(uniIterator.hasNext()){
+			Node node = null;
+			String valueString="";
+			Value[] value = null;
+			try{
+				// Get the path of the hits
+				String cPath = unq.get(uniIterator.next()).getURL();
+				//System.out.println("What is the path" +cPath);
+				node = this.slingRequest.getResourceResolver().getResource(cPath+"/jcr:content").adaptTo(Node.class);
+				if(node.hasNode("metadata")){
+					node = node.getNode("metadata");
+					
+				}
+				if(node.hasProperty("cq:tags")){
+					// We need to check for the multiple properties.
+					Property tagProps = node.getProperty("cq:tags");
+					if(tagProps.isMultiple()){
+						value = tagProps.getValues();
+					}else{
+						value = new Value[]{tagProps.getValue()};
+					}
+					for(Value val:value){
+						valueString = val.getString();
+						if(facetWithCount.containsKey(valueString)){
+							facetWithCount.put(valueString, facetWithCount.get(valueString)+1);
+						}else{
+							facetWithCount.put(valueString, new Long(1));
+						}
+					}
+				}
+			}catch(Exception e){
+				log.info("System.out.println" +e.getMessage());
+			}
+		}
+		for(FacetsInfo info : facetsInfo){
+			if(facetWithCount.containsKey(info.getFacetsTagId())){   
+				info.setChecked(true);						
+				info.setCount(facetWithCount.get(info.getFacetsTagId()));
+			}
+		}
+		return this.searchResultsInfo;	
+	}
+	private Map<String,String> addToDefaultQuery(String[] tags) throws RepositoryException{
+		
+		Map<String,String> tagSearch = new HashMap<String,String>();
+		tagSearch.put("1_property","jcr:content/metadata/cq:tags");
+		tagSearch.put("1_property.or","true");
 		Map<String, ArrayList<String>> facetsQryBuilder = new HashMap<String, ArrayList<String>>();
 		int propertyCounter = 1;
 		for(String s:tags)
@@ -177,13 +273,11 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 
 			for(String tagPath:tagsPath){
 				log.info("TagPath   ["+tagPath +"]");
-				searchQuery.put(propertyCounter+"_property."+count+++"_value", tagPath);
+				tagSearch.put(propertyCounter+"_property."+count+++"_value", tagPath);
 			}
 
 		}
-
-
-
+		return tagSearch;
 	}
 
 	public Map<String, List<FacetsInfo>> getFacets(){
@@ -193,84 +287,23 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 		return searchResultsInfo;
 	}
 
-	private List<Hit> performContentSearch(Map<String, String> map, String offset,String q) throws RepositoryException {
-		List<String> Sresults = new ArrayList<String>();		
-		PredicateGroup predicateGroup = PredicateGroup.create(map);
-		Query query = this.queryBuilder.createQuery(predicateGroup,this.slingRequest.getResourceResolver().adaptTo(Session.class));
+	private List<Hit> performContentSearch(LinkedHashMap<String, String> searchQuery,String q) throws RepositoryException{
+		
+		PredicateGroup predicateGroup = PredicateGroup.create(searchQuery);
+		Query query = this.queryBuilder.createQuery(predicateGroup,slingRequest.getResourceResolver().adaptTo(Session.class));
 		query.setExcerpt(true);
-
-		if(offset!=null){
-			query.setStart(Long.parseLong(offset));
-		}
+		System.out.println("***SQL:******* "+searchQuery.toString());
 		SearchResult searchResults=null;
 		try{
 			searchResults = query.getResult();
-		}catch(Exception e)
-		{
+		}catch(Exception e){
 			log.error("Error Generated performContentSearch" +e.getStackTrace());
 		}
 		this.searchResultsInfo.setSearchResults(searchResults);
 		java.util.List<Hit> hits = searchResults.getHits();
-		Map<String, Facet> facets = searchResults.getFacets();
-		log.info("# of page displayed" +searchResults.getResultPages().size());
-		log.info("This is the facets  [" +facets.toString() +"]"  + " TotalHitMatches [" +searchResults.getTotalMatches() +"]");
-		this.searchResultsInfo.setHitCounts(searchResults.getTotalMatches());
-		if(!facets.containsKey("1_property") && (q!=null && !q.isEmpty()))
-		{
-			// When Only q term is search it doesn't return the property and facets to get the 
-			//Facets and count we are using this method
-			getFacetsForSearchTerm(hits);
-		}else{
-			for(String key:facets.keySet())
-			{
-				Facet fat = facets.get(key);
-				log.info("Key Name  [" +key +" ]   Count[" +fat.getBuckets().size() +"]");
-				if(fat.getContainsHit() && key.equals("1_property")){
-					for(Bucket bucket: fat.getBuckets()){
-						populateFacets(bucket.getValue(), bucket.getCount());
-
-					}
-				}	
-
-			}
-
-		}
-
+		System.out.println("What is the hit size" +hits.size());
 		return hits;
 	}
-
-	private void getFacetsForSearchTerm(java.util.List<Hit> hits) throws RepositoryException{
-
-		String valueString;
-		Map<String,Long> facetsCounts = new HashMap<String,Long>();
-		for(Hit hit:hits){
-			DocHit docHit = new DocHit(hit);
-			Node node = this.slingRequest.getResourceResolver().getResource(docHit.getURL()+"/jcr:content/metadata").adaptTo(Node.class);
-			if(node.hasProperty("cq:tags")){
-			    Property tagProp = node.getProperty("cq:tags");
-			    Value[] value = null;
-			    if (!tagProp.isMultiple()) {
-			        value = new Value[]{node.getProperty("cq:tags").getValue()};
-			    } else {
-			        value = node.getProperty("cq:tags").getValues();
-			    }
-				for(Value val : value){
-					valueString = val.getString();
-					if(facetsCounts.containsKey(valueString)){
-						Long count = facetsCounts.get(valueString);
-						facetsCounts.put(valueString, count++);
-					}else{
-						facetsCounts.put(valueString,(long) 1);
-					}
-				}
-				for(Map.Entry<String, Long> entry: facetsCounts.entrySet()){
-					populateFacets(entry.getKey().toString(), entry.getValue());
-				}
-			}
-		}
-
-	}
-
 
 	private void populateFacets(String bucketValue,Long counts){
 		TagManager tagMgr = this.slingRequest.getResourceResolver().adaptTo(TagManager.class);

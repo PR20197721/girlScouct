@@ -16,6 +16,11 @@
                         fieldLabel="Search Location"
                         name="./srchLocation"
                         xtype="pathfield"/>
+                    <form-document-path
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Form &amp; Document Content Location"
+                        name="./form-document-path"
+                        xtype="pathfield"/>
                 </items>
             </srch-location>
         </items>
