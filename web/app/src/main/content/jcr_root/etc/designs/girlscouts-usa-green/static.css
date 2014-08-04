@@ -1403,8 +1403,21 @@ ul.searchResultsList article p{
 .fc-header-title h2 {
 	font-size: 1.5rem;
 }
-
 .fc-header td {
 	white-space: nowrap;
 	vertical-align: text-top;
 }
+
+/*Overriding the CSS Styling for slick dots*/
+.view-b #SUP1.panel {
+	z-index: 900;
+}
+.view-b #SUP2.panel {
+	z-index: 900;
+}
+.view-b .meow .slick-prev {
+	z-index: 900;
+}
+.view-b .meow .slick-next {
+	z-index: 900;
+}   
