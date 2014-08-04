@@ -1370,8 +1370,8 @@ ul.searchResultsList article p{
 }
 
 #ui-datepicker-div {
-        background-color: #eeeeee;
-        padding: 10px;
+	background-color: #eeeeee;
+	padding: 10px;
 	border: 1px solid #959595;
 }
 .ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next {
@@ -1379,4 +1379,13 @@ ul.searchResultsList article p{
 }
 .ui-datepicker-header .ui-datepicker-title {
 	float: right;
+}
+
+.fc-header-title h2 {
+	font-size: 1.5rem;
+}
+
+.fc-header td {
+	white-space: nowrap;
+	vertical-align: text-top;
 }
