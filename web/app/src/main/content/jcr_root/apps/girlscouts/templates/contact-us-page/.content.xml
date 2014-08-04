@@ -71,7 +71,7 @@
                     jcr:title="Phone"
                     sling:resourceSuperType="foundation/components/form/defaults/field"
                     sling:resourceType="foundation/components/form/text"
-                    constraintType="foundation/components/form/constraints/numeric"
+                    constraintType="apps/girlscouts/components/form/constraints/phonenumber"
                     name="phone"/>
                 <text_1
                     jcr:created="{Date}2014-03-18T11:08:25.089-04:00"
