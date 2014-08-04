@@ -7,7 +7,8 @@
                 com.day.cq.wcm.foundation.forms.ValidationInfo"%><%
 %><%@taglib prefix="sling" uri="http://sling.apache.org/taglibs/sling/1.0" %><%
 %><sling:defineObjects/><%
-	final Pattern p = Pattern.compile("(^[\\d]{3}[\\.-]?[\\d){3}[\\.-]?[\\d]{4}");
+	// Validated formate 212.212.2122 or 212-212-2122
+	final Pattern p = Pattern.compile("(^[\\d]{3}[\\.-]?[\\d]{3}[\\.-]?[\\d]{4})");
 	final FieldDescription desc = FieldHelper.getConstraintFieldDescription(slingRequest);
 	final String[] values = request.getParameterValues(desc.getName());
 	if ( values != null ) {
