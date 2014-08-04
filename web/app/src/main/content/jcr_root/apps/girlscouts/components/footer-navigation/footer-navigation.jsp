@@ -1,6 +1,7 @@
 <%@ page import="com.day.cq.wcm.api.WCMMode" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
+<div class="footerLinks">
 <%
 String[] links = properties.get("links", String[].class);
 Boolean centerLinks = (Boolean) request.getAttribute("centerLinks");
@@ -38,3 +39,9 @@ if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMM
 	}
 }
 %>
+</div>
+<%--
+<div class="footerMiscellaneous">
+	<cq:include path="miscellaneous" resourceType="girlscouts/components/styled-parsys" />
+</div>
+--%>

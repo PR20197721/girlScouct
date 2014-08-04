@@ -298,6 +298,25 @@ padding-left: 20px;
     padding-top: 15px;
     padding-bottom: 15px;
 }
+.footerLinks {
+}
+.footerMiscellaneous {
+	position: absolute;
+	bottom: 4px;
+	right: 0;
+}
+@media only screen and (max-width: 40em) {
+	.footerMiscellaneous {
+		text-align: center;
+		clear: both;
+		position: relative;
+	}
+}
+.social-media-icons p{
+	margin: 0;
+}
+
+
 /* MAIN */
 #main {
     background-color:#ffffff;

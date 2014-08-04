@@ -47,4 +47,5 @@
     <filter root="/etc/workflow/scripts/girlscouts"/>
     <filter root="/etc/workflow/notification/email/default"/>
     <filter root="/etc/tracker"/>
+    <filter root="/etc/msm/rolloutconfigs/gsdefault"/>
 </workspaceFilter>
