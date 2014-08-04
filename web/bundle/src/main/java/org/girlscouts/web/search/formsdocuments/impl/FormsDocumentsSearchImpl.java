@@ -30,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.adobe.granite.testing.client.security.Group;
+import com.day.cq.search.Predicate;
 import com.day.cq.search.PredicateGroup;
 import com.day.cq.search.Query;
 import com.day.cq.search.QueryBuilder;
@@ -94,7 +95,7 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 	}
 
 	private void documentsSearch(String path,String q, String[] tags,String formDocumentContentPath) throws RepositoryException{
-		LinkedHashMap<String, String> searchQuery = new LinkedHashMap<String, String>();
+		Map<String, String> searchQuery = new LinkedHashMap<String, String>();
 
 		List<String> relts = new ArrayList<String>(); 
 		List<Hit> hits = new ArrayList<Hit>();
@@ -104,37 +105,63 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 		
 		
 		Map<String,String> pth1 = new HashMap<String, String>();
-		Map<String,String> mapPath = new HashMap <String,String>();
+		
 		Map<String,String> mapFullText = new HashMap<String,String>();
 		Map<String,String> checkedTagMap = new HashMap<String,String>();
-		Map<String,String> mapContentDoc = new HashMap <String,String>();
 		
 		
-		/*searchQuery.put("path", path);
-		searchQuery.put("type","nt:hierarchyNode");
-		searchQuery.put("p.limit","-1");
-		*/
-		
-		searchQuery.put("group.p.or","true");
-		searchQuery.put("group.1_path", formDocumentContentPath);
-		searchQuery.put("group.1_type","cq:Page");
-		searchQuery.put("group.2_path", path);
-		searchQuery.put("group.2_type","nt:hierarchyNode");
-		searchQuery.put("p.limit","-1");
-		
-		
-		
-		/*mapPath.put("group.1_group.type", "cq:Page");
+		Map<String,String> mapPath = new HashMap <String,String>();
+		//mapPath.put("group.path", path);
+		//mapPath.put("group.type", "nt:hierarchyNode");
+		mapPath.put("group.p.or","true");
 		mapPath.put("group.1_group.path", formDocumentContentPath);
-		mapPath.put("p.limit","-1");
-		*/
+		mapPath.put("group.1_group.type", "cq:Page");
+		mapPath.put("group.2_group.path",path);
+		mapPath.put("group.2_group.type", "nt:hierarchyNode");
 		
+		
+		
+		PredicateGroup predicatePath =PredicateGroup.create(mapPath);
+		
+		Map<String,String> mapContentDoc = new HashMap <String,String>();
+		mapContentDoc.put("group.p.or", "true");
+		mapContentDoc.put("group.path",formDocumentContentPath);
+		mapContentDoc.put("group.type", "cq:Page");
+		
+		PredicateGroup predicateDocs =PredicateGroup.create(mapContentDoc);
 		
 		Map<String,String> masterMap  = new HashMap<String,String>();
+		
+		masterMap.put("p.limit", "true");
+		
 		PredicateGroup master = PredicateGroup.create(masterMap); 
+		master.setAllRequired(false);
+		master.add(predicatePath);
+		//master.add(predicateDocs);
 		
+		PredicateGroup test = new PredicateGroup();
+		test.add(new Predicate("docPath","path").set("path","/content/gateway/en/about-our-council/forms-documents"));
+		test.add(new Predicate("docType","type").set("type","cq:Page"));
+		test.add(new Predicate("pdfPath","path").set("path","/content/dam/gateway/en/documents"));
+		test.add(new Predicate("pdfType","type").set("type","nt:hierarchyNode"));
 		
-		
+		//We need to search twice as the search is considerably slow when added PDF and Document path to the search 
+		// Search Query
+		if(q.isEmpty() && tags.length==0){
+			
+			Map<String, String> docMap = new LinkedHashMap<String, String>();
+			docMap.put("path", formDocumentContentPath);
+			docMap.put("type", "cq:Page");
+			docMap.put("p.limit","-1");
+			List<Hit> doc = performContentSearch(docMap,null);
+			Map<String, String> pdfMap = new LinkedHashMap<String, String>();
+			docMap.put("path", path);
+			docMap.put("type", "nt:hierarchyNode");
+			docMap.put("p.limit","-1");
+			doc.add(performContentSearch(docMap,null));
+			
+			
+		}
 		
 		if(q!=null && !q.isEmpty())
 		{
@@ -155,11 +182,7 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 			PredicateGroup predicateCheckedTags = PredicateGroup.create(checkedTagMap);
 			master.add(predicateCheckedTags);
 		}
-		//searchTermHits = performContentSearch(master,q);
-		//this.searchResultsInfo.setResultsHits(searchTermHits);
-		//this.searchResultsInfo = combineSearchTagsCounts();
 		
-		//searchQuery.put("group.p.or", "true")
 		
 		searchTermHits = performContentSearch(searchQuery,q);
 		this.searchResultsInfo.setResultsHits(searchTermHits);
@@ -193,8 +216,9 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 		Map<String, DocHit> unq= new java.util.TreeMap<String,DocHit>();
 		for(Hit hit:searchTermHits)
 		{
+			System.out.println("Hit" +hit.getPath());
 			DocHit docHit = new DocHit(hit);
-			System.out.println(docHit.getURL());
+			//System.out.println(docHit.getURL());
 			if(!unq.containsKey(docHit.getURL())){
 				unq.put(docHit.getURL(), docHit);
 			}
@@ -287,12 +311,12 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 		return searchResultsInfo;
 	}
 
-	private List<Hit> performContentSearch(LinkedHashMap<String, String> searchQuery,String q) throws RepositoryException{
+	private List<Hit> performContentSearch(Map<String, String> docMap,String q) throws RepositoryException{
 		
-		PredicateGroup predicateGroup = PredicateGroup.create(searchQuery);
+		PredicateGroup predicateGroup = PredicateGroup.create(docMap);
 		Query query = this.queryBuilder.createQuery(predicateGroup,slingRequest.getResourceResolver().adaptTo(Session.class));
 		query.setExcerpt(true);
-		System.out.println("***SQL:******* "+searchQuery.toString());
+		System.out.println("***SQL:******* "+docMap.toString());
 		SearchResult searchResults=null;
 		try{
 			searchResults = query.getResult();

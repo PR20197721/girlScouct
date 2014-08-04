@@ -1,4 +1,4 @@
-<%@ page import="org.girlscouts.web.search.formsdocuments.FormsDocumentsSearch, com.day.cq.search.QueryBuilder,java.util.Map,java.util.List,org.girlscouts.web.events.search.SearchResultsInfo, org.girlscouts.web.events.search.FacetsInfo,com.day.cq.search.result.Hit, org.girlscouts.web.search.DocHit,java.util.HashSet"%> 
+<%@ page import="org.girlscouts.web.search.formsdocuments.FormsDocumentsSearch, com.day.cq.search.QueryBuilder,java.util.Map,java.util.List,org.girlscouts.web.events.search.SearchResultsInfo, org.girlscouts.web.events.search.FacetsInfo,com.day.cq.search.result.Hit, org.girlscouts.web.search.DocHit,java.util.HashSet,java.util.*"%> 
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <cq:includeClientLib categories="apps.girlscouts" />
@@ -13,38 +13,42 @@ if(path.isEmpty()){
 String formDocumentContentPath = properties.get("./form-document-path","");
 if(formDocumentContentPath.isEmpty()){
 	formDocumentContentPath = "/content/gateway/en/about-our-council/forms-documents";
-	
 }
-
-String councilSpecificTagPath = currentPage.getAbsoluteParent(1).getName();
-System.out.println("What is the councilSpecificPath " +councilSpecificTagPath);
-
 
 FormsDocumentsSearch formsDocuImpl = sling.getService(FormsDocumentsSearch.class);
 QueryBuilder queryBuilder = sling.getService(QueryBuilder.class);
 String q = request.getParameter("q");
 String param ="";
+
+// xss escaped query string
 final String escapedQueryForAttr = xssAPI.encodeForHTMLAttr(q != null ? q : "");
-if(q!=null && !q.isEmpty()){
+/*if(q!=null && !q.isEmpty()){
 	//Add Parameter to option
 	param="q="+escapedQueryForAttr;
-}
+}*/
+
+// user selected tags
 String[] tags = new String[]{};
 
-HashSet<String> set = new HashSet<String>();
+Set<String> set = new HashSet<String>();
 boolean thisIsAdvanced = false;
 if (request.getParameterValues("tags") != null) {
 	thisIsAdvanced = true;
 	tags = request.getParameterValues("tags");
 	String tagParams="";
-	set = new HashSet<String>();
 	for (String words : tags){
 		set.add(words);
-		tagParams+="&tags="+words;
+//		tagParams+="&tags="+words;
 	}
-	param+=param!=null?tagParams:tagParams.replaceFirst("&", " ").trim();
-} 
+	/*if (param != null) {
+		param += tagParams;
+	} else {
+		param += tagParams.replaceFirst("&", " ").trim();
+	}*/
+//	param+=param!=null?tagParams:tagParams.replaceFirst("&", " ").trim();
+}
 try{
+	String councilSpecificTagPath = currentPage.getAbsoluteParent(1).getName();
 	formsDocuImpl.executeSearch(slingRequest, queryBuilder, q, path, tags, councilSpecificTagPath,formDocumentContentPath);
 }catch(Exception e){}
 Map<String,List<FacetsInfo>> facetsAndTags = formsDocuImpl.getFacets();
@@ -55,13 +59,7 @@ if (suffix != null) {
 }
 String formAction = currentPage.getPath()+".html";
 String placeHolder = "Keyword Search";
-String advanceLink = currentPage.getPath()+".html"+"/advance";
-String link = currentPage.getPath()+".html";
-
-if(param!=null && !param.isEmpty()){
-	link+="?"+param;
-}
-
+//String advanceLink = currentPage.getPath()+".html"+"/advance";
 %>
 <div class="expandable">
 <div class="programLevel">
