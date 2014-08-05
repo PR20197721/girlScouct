@@ -297,6 +297,7 @@ public Meeting createCustomMeeting(User user, MeetingE meetingEvent, Meeting mee
 	
 		//String newPath = meetingEvent.getPath()+"/"+meeting.getId()+"_"+Math.random();
 		String newPath = user.getPath()+"/lib/meetings/"+meeting.getId()+"_"+Math.random();
+		//String newPath = user.getPath()+"/lib/meetings/"+meetingEvent.getUid()+"-"+Math.random();
 		System.err.println("New Custom Meet path : "+ newPath );
 		
 		if( !session.itemExists(user.getPath()+"/lib/meetings/") ){
@@ -512,7 +513,10 @@ public List<org.girlscouts.vtk.models.Search> getData(User user, String _query) 
 		      //search.setType( hit.getNode().getProperty("jcr:mimeType").getString()   );
 		      search.setContent(  hit.getExcerpt() );
 		      //search.setType(caca.getProperty("jcr:mimeType").getString());
-		      search.setAssetType(AssetComponentType.AID);
+		    
+		      // 081514 search.setAssetType(AssetComponentType.AID);
+		      search.setAssetType(AssetComponentType.RESOURCE);
+		      
 		      matched.add(search);
 		}else{
 		  if( !path.endsWith("original")) continue;

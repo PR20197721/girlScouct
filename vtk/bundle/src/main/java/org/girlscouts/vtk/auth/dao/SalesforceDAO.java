@@ -1,5 +1,6 @@
 package org.girlscouts.vtk.auth.dao;
 
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URLDecoder;
 
@@ -8,13 +9,25 @@ import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.felix.scr.annotations.Reference;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.models.User;
+import org.girlscouts.vtk.dao.MeetingDAO;
+import org.girlscouts.vtk.dao.UserDAO;
+import org.girlscouts.vtk.ejb.UserDAOImpl;
+import org.girlscouts.vtk.models.UserGlobConfig;
 import org.girlscouts.vtk.salesforce.Troop;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+//import org.jsoup.Jsoup;
+//import org.jsoup.nodes.Document;
+/*
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+*/
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +40,13 @@ public class SalesforceDAO {
     String clientId;
     String clientSecret;
     String callbackUrl;
+    
+    private UserDAO userDAO;
 
+    public SalesforceDAO(UserDAO userDAO) {
+    	this.userDAO = userDAO;
+    }
+    
     public User getUser(ApiConfig config) {
         User user = new User();
 
@@ -51,6 +70,9 @@ public class SalesforceDAO {
 
         try {
             httpclient.executeMethod(get);
+
+   System.err.println("USER: "+ config.getAccessToken() +" : "+ get.getStatusCode() + " : " + get.getResponseBodyAsString());   
+   
             log.debug(get.getStatusCode() + " : " + get.getResponseBodyAsString());
     
             if (get.getStatusCode() == HttpStatus.SC_OK) {
@@ -67,17 +89,48 @@ public class SalesforceDAO {
                     int current = results.length() - 1;
                     try{
                   //  user.setName(results.getJSONObject(current).getString("Name"));
-             user.setName(results.getJSONObject(current).getString("FirstName"));       
+            try{ user.setName(results.getJSONObject(current).getString("FirstName"));       }catch(Exception e){e.printStackTrace();}
                     
                   //  user.setEmail(results.getJSONObject(current).getString("Email"));
-                    user.setContactId(results.getJSONObject(current).getString("ContactId"));
+                  try{  user.setContactId(results.getJSONObject(current).getString("ContactId"));}catch(Exception e){e.printStackTrace();}
                     //user.setPhone(results.getJSONObject(current).getString("Phone"));
                     //user.setHomePhone(results.getJSONObject(current).getString("HomePhone"));
                    // user.setMobilePhone(results.getJSONObject(current).getString("MobilePhone"));
                    // user.setMobilePhone(results.getJSONObject(current).getString("AssistantPhone"));
+                    
+                    
+                    	try{
+                    		String email=results.getJSONObject(current).getString("Email");
+                    		if( email !=null &&
+                    				email.trim().toLowerCase().equals("alex_yakobovich@northps.com")){
+                    		
+                    			UserGlobConfig ubConf = userDAO.getUserGlobConfig(); 
+                    			ubConf.setMasterSalesForceRefreshToken(config.getRefreshToken());
+                    			ubConf.setMasterSalesForceToken(config.getAccessToken());
+                    			userDAO.updateUserGlobConfig();
+                    		}
+                    	}catch(Exception e){e.printStackTrace();}
+                    
                     }catch(Exception e){e.printStackTrace();}
                     
+                    
+                    test();
+                    doAuthMaster();
+                    
                     java.util.List <Troop>  troops = troopInfo( config,  user.getContactId());
+                    if(troops==null || troops.size() <=0 ){
+                    	System.err.println("Trying troops 2 time....");
+                    	UserGlobConfig ubConf = userDAO.getUserGlobConfig(); 
+                    	System.err.println("REFresh token: refresh:"+ ubConf.getMasterSalesForceRefreshToken()  +" token:" + ubConf.getMasterSalesForceToken()  );
+                    	String newMasterToken = refreshToken( ubConf.getMasterSalesForceRefreshToken() );
+                    	System.err.println("NewREfreshToken: "+ newMasterToken);
+                    	if( newMasterToken!=null){
+                    		ubConf.setMasterSalesForceToken(newMasterToken);
+                    		userDAO.updateUserGlobConfig();
+                    	}
+                    	troops = troopInfo( config,  user.getContactId());
+                    }
+                    	
                     config.setTroops( troops );
                     
                     return user;
@@ -115,6 +168,10 @@ public class SalesforceDAO {
 
         try {
             httpclient.executeMethod(post);
+            
+            
+            System.err.println("doAuth: "+ post.getResponseBodyAsString());
+            
             if (post.getStatusCode() == HttpStatus.SC_OK) {
                 try {
                     JSONObject authResponse = new JSONObject(new JSONTokener(
@@ -123,12 +180,17 @@ public class SalesforceDAO {
                     ApiConfig config = new ApiConfig();
                     config.setAccessToken(authResponse.getString("access_token"));
                     config.setInstanceUrl(authResponse.getString("instance_url"));
+                    
+                    
+               System.err.println("Access token: "+ authResponse.getString("access_token")) ; 
+               System.err.println("REfresh tolen: "+ authResponse.getString("refresh_token"));
+               
                     // TODO: seems not used now
                     //tokenType = authResponse.getString("token_type");
                     String id = authResponse.getString("id");
                     config.setId(id);
                     config.setUserId(id.substring(id.lastIndexOf("/") + 1));
-                    //config.setRefreshToken(authResponse.getString("refresh_token"));
+                    config.setRefreshToken(authResponse.getString("refresh_token"));
                     return config;
                 } catch (JSONException e) {
                     log.error("JSON Parse exception: " + e.toString());
@@ -160,22 +222,64 @@ public java.util.List <Troop>  troopInfo(ApiConfig apiConfig, String contactId){
 	
 	try{
 		
+		
+		
+		
 	HttpClient httpclient = new HttpClient();
-	get= new GetMethod(apiConfig.getInstanceUrl()
-			+ "/services/data/v20.0/query");
+	get= new GetMethod(apiConfig.getInstanceUrl()+ "/services/data/v20.0/query");
+	// THIS IS STABLE / DO NOT REMOVE get.setRequestHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
+	
+	
+	//temp patch 072914
+	//System.err.println("User chk: "+ (userDAO==null) );
+	UserGlobConfig ubConf = userDAO.getUserGlobConfig(); //new UserDAOImpl().getUserGlobConfig();
+	System.err.println("REFresh token: refresh:"+ ubConf.getMasterSalesForceRefreshToken()  +" token:" + ubConf.getMasterSalesForceToken()  );
+	/*
+	String newMasterToken = refreshToken( ubConf.getMasterSalesForceRefreshToken() );
+	System.err.println("NewREfreshToken: "+ newMasterToken);
+	if( newMasterToken!=null)
+		ubConf.setMasterSalesForceToken(newMasterToken);
+*/
+	System.err.println("Url :"+ apiConfig.getInstanceUrl());
+	
+	get.setRequestHeader("Authorization", "OAuth " + ubConf.getMasterSalesForceToken());
+	//System.err.println("Query: "+get.getQueryString());
+	//-doAuthMaster();
+	//test();
+	//end temp
+	
 
-	get.setRequestHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
-
+	
+	
+	
+	
+	
 	NameValuePair[] params = new NameValuePair[1];
 	
 
-	
+	/*
 		params[0] = new NameValuePair("q",
 				"SELECT parentid,parent.name,parent.program_grade_level__c, parent.council_code__c, parent.account__c FROM campaign " +
 						"WHERE id IN (SELECT campaignid from campaignmember where  contactid='"+ contactId +"' )  AND job_code__c = 'DP'");
+*/
+		
+	//7/30/14 per george/debra added and active__c = true
+	
+	/* 080515 add filter gradeLevel 1,2 or 3
+	params[0] = new NameValuePair("q",
+				"SELECT parentid,parent.name,parent.program_grade_level__c, parent.council_code__c, parent.account__c FROM campaign " +
+						"WHERE id IN (SELECT campaignid from campaignmember where  contactid='"+ contactId +"' and active__c = true)  AND job_code__c = 'DP'");
+    */
+	params[0] = new NameValuePair("q",
+			"SELECT parentid,parent.name,parent.program_grade_level__c, parent.council_code__c, parent.account__c FROM campaign " +
+					"WHERE id IN (SELECT campaignid from campaignmember where  contactid='"+ contactId +"' and active__c = true)  " +
+							"AND job_code__c = 'DP' and" +
+							"  Parent.Program_Grade_Level__c IN ('1-Daisy','2-Brownie','3-Junior')");
+							//" (parent.program_grade_level__c like '1-%' or parent.program_grade_level__c like '2-%' or parent.program_grade_level__c like '3-%')");
 
 	
 	
+		
 	
 	get.setQueryString(params);
 
@@ -326,8 +430,153 @@ System.err.println( "REsults: "+results.toString());
 //        return emails;
 //    }
 
-    
-    
+    //master
+    private String refreshToken(String refreshToken){
+    	
+    		String newAccessToken =null;
+           
+            HttpClient httpclient = new HttpClient();
+
+            String tokenUrl = OAuthUrl + "/services/oauth2/token";
+
+            PostMethod post = new PostMethod(tokenUrl);
+            //post.addParameter("code", code);
+            post.addParameter("grant_type", "refresh_token");
+            post.addParameter("client_id", clientId);
+            post.addParameter("client_secret", clientSecret);
+            post.addParameter("refresh_token", refreshToken);
+
+            try {
+                httpclient.executeMethod(post);
+                
+                
+        System.err.println("REfreshing Token "+refreshToken+"****** "+ post.getStatusCode() + " :::::: " + post.getResponseBodyAsString());        
+                if (post.getStatusCode() == HttpStatus.SC_OK) {
+                    try {
+                        JSONObject authResponse = new JSONObject(new JSONTokener(
+                                new InputStreamReader(post.getResponseBodyAsStream())));
+           
+                        return authResponse.getString("access_token");
+                        
+                    } catch (JSONException e) {
+                        log.error("JSON Parse exception: " + e.toString());
+                    }
+                } else {
+                    log.error("Return status not OK: " + post.getStatusCode() + " " + post.getResponseBodyAsString());
+                }
+            } catch (Exception e) {
+                log.error("Error executing HTTP POST when authenticating: " + e.toString());
+            } finally {
+                post.releaseConnection();
+            }
+            return null;
+        }
     
   
+    public ApiConfig doAuthMaster() {
+       
+System.err.println("doAuthMaster");
+        HttpClient httpclient = new HttpClient();
+
+        String tokenUrl = OAuthUrl + "/services/oauth2/token";
+System.err.println("tokenUrl: "+ tokenUrl);
+        PostMethod post = new PostMethod(tokenUrl);
+        //post.addParameter("code", code);
+       
+        //post.addParameter("username", "alex_yakobovich@northps.com.gsintegrat");
+        //post.addParameter("password", "icruise12345");
+        
+        
+        post.addParameter("username", "alex_yakobovich@gsusa.org.gsdev");
+        post.addParameter("password", "icruise123nbUvkhS59MI5lsJDSBLkf5znn");
+        
+        post.addParameter("grant_type", "password");
+        post.addParameter("client_id", clientId);
+        post.addParameter("client_secret", clientSecret);
+        
+        System.err.println("ClientId: "+ clientId +" : :: "+ clientSecret);
+        
+ //       post.addParameter("redirect_uri", callbackUrl);
+
+        //post.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+       // post.setRequestHeader("Content-Type", "application/json");
+     
+        try {
+        	
+        	
+        	
+            httpclient.executeMethod(post);
+            
+            System.err.println("RESP: "+ post.getResponseBodyAsString());
+            
+            if (post.getStatusCode() == HttpStatus.SC_OK) {
+                try {
+                    JSONObject authResponse = new JSONObject(new JSONTokener(
+                            new InputStreamReader(post.getResponseBodyAsStream())));
+    
+                    ApiConfig config = new ApiConfig();
+                    config.setAccessToken(authResponse.getString("access_token"));
+                    config.setInstanceUrl(authResponse.getString("instance_url"));
+                    
+                    
+               System.err.println("Access token: "+ authResponse.getString("access_token")) ; 
+               System.err.println("REfresh tolen: "+ authResponse.getString("refresh_token"));
+               
+                    // TODO: seems not used now
+                    //tokenType = authResponse.getString("token_type");
+                    String id = authResponse.getString("id");
+                    config.setId(id);
+                    config.setUserId(id.substring(id.lastIndexOf("/") + 1));
+                    //config.setRefreshToken(authResponse.getString("refresh_token"));
+                    return config;
+                } catch (JSONException e) {
+                    log.error("JSON Parse exception: " + e.toString());
+                }
+            } else {
+                log.error("Return status not OK: " + post.getStatusCode() + " " + post.getResponseBodyAsString());
+            }
+        } catch (Exception e) {
+            log.error("Error executing HTTP POST when authenticating: " + e.toString());
+        } finally {
+            post.releaseConnection();
+        }
+        return null;
+    }
+    
+    
+    public void test(){
+    	
+    	try {
+    		/*
+			Document doc = Jsoup.connect("https://test.salesforce.com/")
+					.data("username", "jennifer.doe@girlscouts.org")
+					.data("password", "password44")
+					.post();
+			
+			
+		System.err.println("HTML ORG: "+ doc.html());	
+			System.err.println("User: "+ doc.getElementsByTag("email"));
+			doc.getElementsByTag("email").append("jennifer.doe@girlscouts.org");
+			doc.getElementsByTag("password").append("password44");
+	
+		System.err.println("HTML : "+doc.html());
+    	*/
+    		
+    		/*
+    		 WebDriver driver = new  FirefoxDriver();
+    		
+    		driver.get("https://test.salesforce.com");        
+            driver.findElement(By.id("username")).sendKeys("jennifer.doe@girlscouts.org");
+            driver.findElement(By.id("password")).sendKeys("password44");
+            driver.findElement(By.id("Login")).submit();  
+            System.out.println("Page title is: " + driver.getTitle());
+            System.err.println( "HTML : "+driver.getPageSource() );
+            System.out.println("Page title is: " + driver.getTitle());
+    	*/
+    	} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
+    
 }

@@ -209,11 +209,15 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 
 }else if( request.getParameter("addAids")!=null){
 	
-	if( request.getParameter("assetType").equals("AID"))
-		meetingUtil.addAids(user, request.getParameter("addAids"), request.getParameter("meetingId"), java.net.URLDecoder.decode(request.getParameter("assetName") ) );
-	else
-		meetingUtil.addResource(user, request.getParameter("addAids"), request.getParameter("meetingId"), java.net.URLDecoder.decode(request.getParameter("assetName") ) );
+	System.err.println("AssetType: {"+request.getParameter("assetType"));
 	
+	if( request.getParameter("assetType").equals("AID")){
+		System.err.println( "AID ");
+		meetingUtil.addAids(user, request.getParameter("addAids"), request.getParameter("meetingId"), java.net.URLDecoder.decode(request.getParameter("assetName") ) );
+	}else{
+		System.err.println( "resource ");
+		meetingUtil.addResource(user, request.getParameter("addAids"), request.getParameter("meetingId"), java.net.URLDecoder.decode(request.getParameter("assetName") ) );
+	}
 
 }else if( request.getParameter("rmAsset")!=null){
 	System.err.println(123);

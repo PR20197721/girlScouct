@@ -52,9 +52,9 @@
 		});
 	});
 
-	function applyAids(aid, aidDesc){ applyAids(aid,aidDesc, "AID"); }
+	//function applyAids(aid, aidDesc){  applyAids(aid,aidDesc, '<%=AssetComponentType.AID%>'); }
 	function applyAids(aid, aidDesc, assetType){
-		
+		if( assetType==null || assetType==''){assetType= '<%=AssetComponentType.AID%>'; }
 		var link = "/content/girlscouts-vtk/controllers/vtk.asset.html?aidId="+ aid+ "&aidName="+encodeURI(aidDesc)+"&aType="+ assetType;
 		loadModalPage(link, false, null);
 	}
@@ -179,7 +179,7 @@ try {
 %>
 				</td>
 		   		<td><a class="previewItem" href="<%=a.getRefId() %>" target="_blank"><%= a.getTitle() %></a> </td>
-		   		<td width="40"><input type="button" value="Add to Meeting" onclick="applyAids('<%=a.getRefId()%>', '<%=a.getTitle()%>' )" class="button linkButton"/></td>
+		   		<td width="40"><input type="button" value="Add to Meeting" onclick="applyAids('<%=a.getRefId()%>', '<%=a.getTitle()%>', '<%=AssetComponentType.AID%>' )" class="button linkButton"/></td>
 
 			</tr>
 		   	<%

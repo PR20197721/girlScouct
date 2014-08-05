@@ -52,10 +52,12 @@
             <groupId>javax.jcr</groupId>
             <artifactId>jcr</artifactId>
         </dependency>
+   
         <dependency>
             <groupId>org.apache.sling</groupId>
             <artifactId>org.apache.sling.api</artifactId>
         </dependency>
+       
         <dependency>
             <groupId>org.apache.sling</groupId>
             <artifactId>org.apache.sling.jcr.api</artifactId>
@@ -219,7 +221,7 @@
 
 
 
-
+<!-- 
 
 <dependency>
     <groupId>com.cognifide.slice</groupId>
@@ -242,7 +244,7 @@
     <version>4.0.0</version>
 </dependency>
 
-<!--  
+
 <dependency>
     <groupId>com.cognifide.slice-addon</groupId>
     <artifactId>slice-cq56</artifactId>
@@ -253,10 +255,69 @@
     <artifactId>slice-cq56-taglib</artifactId>
     <version>1.0.1</version>
 </dependency>
+
+
+-->
+
+  <!-- 
+<dependency>
+	<groupId>org.apache.sling</groupId>
+	<artifactId>org.apache.sling.scripting.java</artifactId>
+	<version>2.0.6</version>
+	<scope>provided</scope>
+</dependency>
+-->
+
+<!-- 
+<dependency>
+	<groupId>com.day.cq.wcm</groupId>
+	<artifactId>cq-wcm-api</artifactId>
+	<version>5.6.6</version>
+	<scope>provided</scope>
+</dependency>
 -->
 
 
+<!-- 
+<dependency>
+  <groupId>org.jsoup</groupId>
+  <artifactId>jsoup</artifactId>
+  <version>1.7.3</version>
+</dependency>
+-->
+
+ <!-- 
+<dependency>
+        <groupId>org.seleniumhq.selenium</groupId>
+        <artifactId>selenium-java</artifactId>
+        <version>2.42.2</version>
+    </dependency>  
+-->
+
     </dependencies>
+
+
+
+
+<repositories>
+    <repository>
+        <id>adobe-public-releases</id>
+        <name>Adobe Public Repository</name>
+        <url>http://repo.adobe.com/nexus/content/groups/public</url>
+        <releases>
+            <enabled>true</enabled>
+            <updatePolicy>never</updatePolicy>
+        </releases>
+        <snapshots>
+            <enabled>false</enabled>
+        </snapshots>
+    </repository>
+    <repository>
+        <id>com.springsource.repository.bundles.external</id>
+        <name>SpringSource Enterprise Bundle Repository - SpringSource Bundle Releases</name>
+        <url>http://repository.springsource.com/maven/bundles/external/</url>
+    </repository>
+</repositories>
 
     <!-- ====================================================================== -->
     <!-- B U I L D D E F I N I T I O N -->
@@ -307,6 +368,11 @@
 							net.fortuna.ical4j.util
                         </Export-Package>
                         -->
+                        
+            <!--  <Export-Package>org.alex.app.core*;version="${project.version}"</Export-Package> -->
+           <Bundle-Activator>org.alex.app.core.Activator</Bundle-Activator> 
+           
+                        
                         <!-- Recursively embed dependency jars -->
                         <Embed-Transitive>true</Embed-Transitive>
                     </instructions>

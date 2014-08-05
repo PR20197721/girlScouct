@@ -452,7 +452,7 @@ public void addAsset(User user, String meetingUid,  Asset asset){
 
 	public UserGlobConfig getUserGlobConfig(){ 
 		
-		if( userGlobConfig ==null )
+		if( true) //userGlobConfig ==null )
 			loadUserGlobConfig();
 		
 		return userGlobConfig ;
@@ -476,6 +476,11 @@ public void addAsset(User user, String meetingUid,  Asset asset){
 			Filter filter = queryManager.createFilter(UserGlobConfig.class);
 		
 			userGlobConfig = (UserGlobConfig) ocm.getObject("/vtk/global-settings");
+			
+			
+			System.err.println("test : "+ (userGlobConfig==null) );
+			
+			System.err.println("test : "+ (userGlobConfig.getVacationDates() +" : " + userGlobConfig.getVacationDates()) );
 		     
 		}catch(Exception e){e.printStackTrace();}
 		

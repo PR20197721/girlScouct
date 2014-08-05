@@ -90,7 +90,7 @@ public class CalendarUtil {
 			
 			
 			org.joda.time.DateTime date = new org.joda.time.DateTime(startDate);
-			sched.add(_startDate);
+			//-sched.add(_startDate);
 			
 			
 			for(int i=0;i<exclDates.size();i++)
@@ -115,16 +115,7 @@ public class CalendarUtil {
 			//for(int i=1;i<numOfMeetings;i++){
 			for(int i=1;i<100;i++){
 				
-	            if (freq.equals("weekly")){
-	                date= date.plusWeeks(1); 
-	                
-	            } else if (freq.equals("monthly")) {
-	                date= date.plusMonths(1); 
-	                
-	            } else if (freq.equals("biweekly")) {
-	            	date= date.plusWeeks(2);
-	                
-	            }
+	         
 				
 			
 			
@@ -145,6 +136,21 @@ public class CalendarUtil {
 					if( addedDates >= numOfMeetings) return sched;
 					
 				}
+				
+				
+				   if (freq.equals("weekly")){
+		                date= date.plusWeeks(1); 
+		                
+		            } else if (freq.equals("monthly")) {
+		                date= date.plusMonths(1); 
+		                
+		            } else if (freq.equals("biweekly")) {
+		            	date= date.plusWeeks(2);
+		                
+		            }
+				
+				
+				
 				    
 				
 			}

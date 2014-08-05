@@ -29,7 +29,21 @@
         String find="";
 
 %>
+				
 <div class="row modalHeader">
+				
+				 <div class="small-20 medium-5 large-6 columns">
+				 	Meeting Library
+				 	</div>
+					<div class="hide-for-small medium-17 large-16 columns"> hint: meeting overviews are available under resources</div>
+ 					<div class="small-4 medium-2 large-2 columns">
+						<a class"right" href="#" onclick="closeModalPage()"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/close-small.png" width="20" height="20" border="0" align="right"></a>
+        			</div>
+					<div class="show-for-small small-24 columns"> hint: meeting overviews are available under resources</div>
+
+</div>
+<div class="row modalHeader">
+
 <%
         boolean isWarning=false;
         String instruction = "Select a meeting to add to your Year Plan";
@@ -39,24 +53,20 @@
                 <div class="warning"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/warning-small.png" width="20" height="20" align="left
 "/></div>
         </div>
-        <div class="small-16 medium-20 large-20 columns">
+        <div class="small-20 medium-22 large-22 columns">
 <%
         } else {
 %>
-        <div class="small-20 medium-22 large-22 columns">
+        <div class="small-24 medium-24 large-24 columns">
 <%
         }
 %>
+
+				
                 <span class="instruction"><%= instruction %></span>
+               
 
         </div>
-        <div class="small-4 medium-2 large-2 columns">
-<!--
-		<a class="right" href="<%= meetingPath==null ? "/content/girlscouts-vtk/en/vtk.plan.html" : "/content/girlscouts-vtk/en/vtk.planView.html"%>"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/close-small.png" width="20" height="20" border="0" align="right"></a>
--->
-		<a class"right" href="#" onclick="closeModalPage()"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/close-small.png" width="20" height="20" border="0" align="right"></a>
-        </div>
-</div>
 
 
 <% 
