@@ -128,7 +128,7 @@
 <%
 	if ( _aidTags  == null || _aidTags.size() == 0) {
 %>
-	<p class="subSection">No meetings aids found.</p>
+	<!--  p class="subSection" >No meetings aids found.</p -->
 <%
 	} else {
 %>
