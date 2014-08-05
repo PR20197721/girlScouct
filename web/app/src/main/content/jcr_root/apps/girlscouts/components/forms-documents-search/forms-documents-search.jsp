@@ -22,10 +22,6 @@ String param ="";
 
 // xss escaped query string
 final String escapedQueryForAttr = xssAPI.encodeForHTMLAttr(q != null ? q : "");
-/*if(q!=null && !q.isEmpty()){
-	//Add Parameter to option
-	param="q="+escapedQueryForAttr;
-}*/
 
 // user selected tags
 String[] tags = new String[]{};
@@ -38,18 +34,13 @@ if (request.getParameterValues("tags") != null) {
 	String tagParams="";
 	for (String words : tags){
 		set.add(words);
-//		tagParams+="&tags="+words;
 	}
-	/*if (param != null) {
-		param += tagParams;
-	} else {
-		param += tagParams.replaceFirst("&", " ").trim();
-	}*/
-//	param+=param!=null?tagParams:tagParams.replaceFirst("&", " ").trim();
+	
 }
 try{
-	String councilSpecificTagPath = currentPage.getAbsoluteParent(1).getName();
-	formsDocuImpl.executeSearch(slingRequest, queryBuilder, q, path, tags, councilSpecificTagPath,formDocumentContentPath);
+	
+	System.out.println(currentPage.getAbsoluteParent(1).getName());
+	formsDocuImpl.executeSearch(slingRequest, queryBuilder, q, path, tags, currentPage.getAbsoluteParent(1).getName(),formDocumentContentPath);
 }catch(Exception e){}
 Map<String,List<FacetsInfo>> facetsAndTags = formsDocuImpl.getFacets();
 List<Hit> hits = formsDocuImpl.getSearchResultsInfo().getResultsHits();
@@ -59,7 +50,7 @@ if (suffix != null) {
 }
 String formAction = currentPage.getPath()+".html";
 String placeHolder = "Keyword Search";
-//String advanceLink = currentPage.getPath()+".html"+"/advance";
+
 %>
 <div class="expandable">
 <div class="programLevel">
@@ -94,15 +85,20 @@ String placeHolder = "Keyword Search";
 			<div id="title">Categories</div>
 			<ul class="checkbox-grid small-block-grid-1 medium-block-grid-1 large-block-grid-2">
 <%
+
+
 List fdocs = facetsAndTags.get("forms_documents");
-for(int pi=0; pi<fdocs.size(); pi++){
-	FacetsInfo fdocLevelList = (FacetsInfo)fdocs.get(pi);
+// Here if we don't have forms_document page shouldn't blow-up
+try {
+	for(int pi=0; pi<fdocs.size(); pi++){
+		FacetsInfo fdocLevelList = (FacetsInfo)fdocs.get(pi);
 %>  
-				<li>
-					<input type="checkbox" id="<%=fdocLevelList.getFacetsTagId()%>" value="<%=fdocLevelList.getFacetsTagId()%>" name="tags" <%if(set.contains(fdocLevelList.getFacetsTagId())){ %>checked <%} %>/>
-					<label for="<%=fdocLevelList.getFacetsTagId() %>"><%=fdocLevelList.getFacetsTitle()%> (<%=fdocLevelList.getCounts()%>)</label>
-				</li> 
+			<li>
+				<input type="checkbox" id="<%=fdocLevelList.getFacetsTagId()%>" value="<%=fdocLevelList.getFacetsTagId()%>" name="tags" <%if(set.contains(fdocLevelList.getFacetsTagId())){ %>checked <%} %>/>
+				<label for="<%=fdocLevelList.getFacetsTagId() %>"><%=fdocLevelList.getFacetsTitle()%> (<%=fdocLevelList.getCounts()%>)</label>
+			</li> 
 <%	}
+}catch(Exception e){}
 %>
 
 			</ul>

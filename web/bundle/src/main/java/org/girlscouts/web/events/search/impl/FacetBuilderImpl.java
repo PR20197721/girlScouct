@@ -43,7 +43,7 @@ public class FacetBuilderImpl implements FacetBuilder{
 		TagManager tagMgr = resourceResolver.adaptTo(TagManager.class);
 		Resource tagResource = resourceResolver.getResource(FACETS_PATH);
 		if (tagResource == null) {
-			log.error("The repository requires " + FACETS_PATH + " to function properly to support tagging.");
+			System.out.println("The repository requires " + FACETS_PATH + " to function properly to support tagging.");
 //			throw new IllegalArgumentException("The facet path " + FACETS_PATH + " does not exit.");
 			return null;
 		}
