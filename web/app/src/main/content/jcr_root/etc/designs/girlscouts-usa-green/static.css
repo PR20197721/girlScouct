@@ -298,6 +298,25 @@ padding-left: 20px;
     padding-top: 15px;
     padding-bottom: 15px;
 }
+.footerLinks {
+}
+.footerMiscellaneous {
+	position: absolute;
+	bottom: 4px;
+	right: 0;
+}
+@media only screen and (max-width: 40em) {
+	.footerMiscellaneous {
+		text-align: center;
+		clear: both;
+		position: relative;
+	}
+}
+.social-media-icons p{
+	margin: 0;
+}
+
+
 /* MAIN */
 #main {
     background-color:#ffffff;
@@ -1370,8 +1389,8 @@ ul.searchResultsList article p{
 }
 
 #ui-datepicker-div {
-        background-color: #eeeeee;
-        padding: 10px;
+	background-color: #eeeeee;
+	padding: 10px;
 	border: 1px solid #959595;
 }
 .ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next {
@@ -1380,3 +1399,24 @@ ul.searchResultsList article p{
 .ui-datepicker-header .ui-datepicker-title {
 	float: right;
 }
+
+.fc-header-title h2 {
+	font-size: 1.5rem;
+}
+.fc-header td {
+	vertical-align: text-top;
+}
+
+/*Overriding the CSS Styling for slick dots*/
+.view-b #SUP1.panel {
+	z-index: 900;
+}
+.view-b #SUP2.panel {
+	z-index: 900;
+}
+.view-b .meow .slick-prev {
+	z-index: 900;
+}
+.view-b .meow .slick-next {
+	z-index: 900;
+}   
