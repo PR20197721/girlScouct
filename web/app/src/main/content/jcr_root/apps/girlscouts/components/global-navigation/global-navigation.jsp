@@ -44,8 +44,8 @@ for (int i = 0; i < links.length; i++) {
 	String activeStatus = "";
 	if(!currPath.equals(rootPath) && (
 		(currPath.startsWith(eventPath) && eventLeftNavRoot.startsWith(menuPath))
-		|| menuPath.indexOf(currPath) == 0)
-		|| currPath.startsWith(menuPath)
+		|| menuPath.indexOf(currPath) == 0
+		|| currPath.startsWith(menuPath))
 	) {
 		activeStatus = "active";
 	}
