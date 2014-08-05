@@ -20,7 +20,7 @@ while( itr.hasNext() ){
 <% }else{ %>
 	<tr>
 <% } %>
-		<td width="40">
+		<td width="26">
 <% if( date.after(new java.util.Date() )){ %>
 			<a href="#" onclick="manageCalElem('<%=date.getTime()%>')">
 				<img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/calendar-pick.png" alt="Calender" width="22" height="22"/>
@@ -29,7 +29,7 @@ while( itr.hasNext() ){
                         <img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/calendar-pick-past.png" alt="Calender Expired" width="22" height="22"/>
 <% } %>
 		</td>
-		<td width="10"><%=currentMeeting %></td>
+		<td width="5"><%=currentMeeting %></td>
 		<td><%= FORMAT_CALENDAR_DATE.format( date ) %></td>
 		<td><%= meetingDAO.getMeeting(  meeting.getRefId() ).getName() %>
 			<%if( meeting.getCancelled()!=null && meeting.getCancelled().equals("true")){%>

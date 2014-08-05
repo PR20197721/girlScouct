@@ -19,17 +19,16 @@ java.util.List <org.girlscouts.vtk.models.Activity> activities =  (java.util.Lis
 		}
 %>
 		<li class="searchResultsItem" > 
-			<%=activities.get(i).getName()%>
-			<br/>Start: <%=activities.get(i).getDate() %>
-			<br/>End <%=activities.get(i).getEndDate() %>
-			<br/>Location:<%=activities.get(i).getLocationAddress()==null ? "Currently no location" : activities.get(i).getLocationAddress() %>
-			<p> <%=activities.get(i).getContent() %> </p>
+			<p class="activityName"><%=activities.get(i).getName()%></p>
+			<p class="activityDate">Date: <%=activities.get(i).getDate() %> - <%=activities.get(i).getEndDate() %></p>
+			<p class="activityLocation">Location:<%=activities.get(i).getLocationAddress()==null ? "Currently no location" : activities.get(i).getLocationAddress() %></p>
+			<p class="activityContent"> <%=activities.get(i).getContent() %> </p>
 			<%if(activities.get(i).getDate()==null){ %>
-				<i>Unable to add this item due to missing start date.</i>
+				<i class="activityDisabled">Unable to add this item due to missing start date.</i>
 			<% }else if( isExists ){ %>
-					<i>This Activity is currently is already selected </i>
+				<i class="activityDisabled">This Activity is currently is already selected </i>
 			<%}else{ %>
-				<a href="#" class="reserved button linkButton" onclick="addActiv3('<%=activities.get(i).getUid()%>')">Select Activity</a>
+				<a href="#" class="reserved" onclick="addActiv3('<%=activities.get(i).getUid()%>')">Select Activity</a>
 			<%} %>
 			<div id="cust_activ_<%=activities.get(i).getUid()%>"></div>
 		</li> 

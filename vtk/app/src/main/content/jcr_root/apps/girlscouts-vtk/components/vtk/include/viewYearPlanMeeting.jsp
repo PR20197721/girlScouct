@@ -97,9 +97,9 @@
         <div class="small-1 columns">&nbsp;</div>
 </div>
 <div class="row meetingDetailDescription linkButtonWrapper">
-        <div class="small-8 columns"><a class="button linkButton" id="overviewButtonX" href="javascript:void(0)" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isOverview=true', true, 'Overview', false, true)">overview</a></div>
-        <div class="small-8 columns"><a class="button linkButton" id="activityPlanButtonX" href="javascript:void(0)" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isActivity=true', true, 'Activity', false, true)">activity plan</a></div>
-        <div class="small-8 columns"><a class="button linkButton" id="materialsListButton" href="javascript:void(0)" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isMaterials=true', true, 'Materials', false, true)">materials list</a></div>
+        <div class="small-8 columns"><a class="button linkButton tight" id="overviewButtonX" href="javascript:void(0)" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isOverview=true', true, 'Overview', false, true)">overview</a></div>
+        <div class="small-8 columns"><a class="button linkButton tight" id="activityPlanButtonX" href="javascript:void(0)" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isActivity=true', true, 'Activity', false, true)">activity plan</a></div>
+        <div class="small-8 columns"><a class="button linkButton tight" id="materialsListButton" href="javascript:void(0)" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isMaterials=true', true, 'Materials', false, true)">materials list</a></div>
 </div>
 <div class="row meetingDetailDescription">
         <div class="small-1 columns">&nbsp;</div>
@@ -173,17 +173,17 @@ if( _aidTags!=null )
 		Activity _activity = _activities.get(ii);
 %>
 	<li value="<%=(ii+1)%>">
-		<table class="plain">
+		<table class="plain agendaItem" width="100%">
 			<tr>
 <%
 	if( !isLocked) {
 %>
 
-				<td><img class="touchscroll" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/touchscroll-small.png" width="21" height="34"></td>
+				<td class="agendaScroll"><img class="touchscroll" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/touchscroll-small.png" width="21" height="34"></td>
 <%
 		if( user.getYearPlan().getSchedule()!=null ){ 
 %>
-				<td><%=FORMAT_hhmm_AMPM.format(activSched.getTime()) %></td>   
+				<td class="agendaTime"><%=FORMAT_hhmm_AMPM.format(activSched.getTime()) %></td>   
 <%
 		}
 	}
@@ -191,14 +191,13 @@ if( _aidTags!=null )
 				<td>
 				
 					<%if( !isLocked) {%>
-						<!--  <a href="javascript:void(0)"  class="mLocked" onclick="editAgenda('<%=ii %>')"><%=_activity.getName() %></a> -->
 						<a href="javascript:void(0)"  class="mLocked" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isAgenda=<%=ii %>', false, 'Agenda')"><%=_activity.getName() %></a>
 					<%}else{ %>
 						<%=_activity.getName() %>
 					<%} %>
 					
 				</td>
-				<td><%=_activity.getDuration() %></td>
+				<td class="agendaDuration"><%=_activity.getDuration() %></td>
 			</tr>
 		</table>
 	</li>
@@ -284,8 +283,6 @@ if( _aidTags!=null )
 		if (Modernizr.touch) {
 			// touch device
 			scrollTarget = ".touchscroll";
-		} else {
-                        $(".touchscroll").hide();
 		}
 		$("#sortable").sortable({
 			delay:150,

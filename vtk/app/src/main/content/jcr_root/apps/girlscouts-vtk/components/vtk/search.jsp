@@ -3,8 +3,6 @@
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 
-
-
 <%
 
 SearchTag search = meetingDAO.searchA();
@@ -120,6 +118,4 @@ function src11(){
 }
 </script>
 
-
-
-<div style="background-color:yellow" id="srch_reslts"></div>
+<div id="srch_reslts"></div>

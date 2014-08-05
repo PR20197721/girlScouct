@@ -71,8 +71,9 @@ if (searchResults == null || searchResults.size() < 1) {
 				<%if(search.getAssetType().AID == AssetComponentType.AID){ %>
 					<input type="button" value="Add to Meeting" onclick="applyAids('<%=search.getPath()%>', '<%= java.net.URLEncoder.encode(description) %>')" class="button linkButton"/>
 				<%}else{ %>
+<!--
 					<input type="button" value="Add to Meeting" onclick="applyResource('<%=search.getPath()%>', '<%= java.net.URLEncoder.encode(description) %>')" class="button linkButton"/>
-			
+-->
 				<%} %>
 				<td/>
 			</tr>

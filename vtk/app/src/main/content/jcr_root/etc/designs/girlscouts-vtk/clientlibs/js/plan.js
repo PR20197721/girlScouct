@@ -67,7 +67,7 @@ function addExistActivity(activityId){
 }
 
 function newLocCal(){
-	loadModalPage('/content/girlscouts-vtk/controllers/vtk.locations.html', false);
+	loadModalPage('/content/girlscouts-vtk/controllers/vtk.locations.html', false, null, true);
 }
 
 function closeModalPage() {
@@ -188,7 +188,7 @@ function addLocation(){
 		},
 		success: function(result) {
 			if($.trim(result)!=''){ alert( $.trim(result) ) ;}
-			loadLocMng();
+			 loadLocMng();
 			//document.getElementById("err").innerHtml=result;
 			$("#addLocationForm").trigger("reset");
 		}

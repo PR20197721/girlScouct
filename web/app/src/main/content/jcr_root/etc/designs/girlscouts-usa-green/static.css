@@ -178,7 +178,7 @@ a:hover.menuHighlight {
 .inline-list > li:first-child {
 	margin-left: 0;	
 }
-.inline-list > li.active>a{
+.inline-list > li.active>a {
 	color: #ffffff;
 }
 
@@ -210,9 +210,6 @@ a:hover.menuHighlight {
 #header a:hover.signout {
     color: #c00;
 }
-/*#header nav.logoSmall {
-    min-width:330px;
-}*/
 #header ul {
     float: right;
 }
@@ -247,12 +244,10 @@ a:hover.menuHighlight {
 
 #headerBar ul.inline-list {
     margin: 0 auto;
-    /*padding: 0px;*/
 }
 #headerBar li {
     margin: 0 20px 0 0;
     padding: 0;
-    /*padding: 0px 10px 4px 10px;*/
 }
 #headerBar li:last-child {
     padding-right: 0;
@@ -362,9 +357,9 @@ padding-left: 20px;
 
 /* BREADCRUMBS */
 .breadcrumbs {
-    background-color: #ffffff;
+    background-color: #ffff00; 
     color: #000000;
-    border: 0px;
+    border: 0;
     padding: .5625rem 1.250rem 0.5625rem 0;
     margin: 0;
     line-height: 1em;
@@ -384,7 +379,6 @@ padding-left: 20px;
 #main ul {
     list-style: none;
 }
-
 /* Left-Nav MG Changes */
 #main .side-nav > li {
     background: url('images/orange-vertical.png') repeat-y  0px 0px; 

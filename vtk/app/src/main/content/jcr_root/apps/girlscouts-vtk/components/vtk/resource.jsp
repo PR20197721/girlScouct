@@ -28,7 +28,7 @@
 %>
 <%@include file="include/vtk-nav.jsp"%>
 <script>
-	fixVerticalSizing = true;
+	fixVerticalSizing = false;
 	$(function() {
 		var cache = {};
 		$( "#resourceSearchField" ).autocomplete({
@@ -200,10 +200,9 @@ try {
 			%><%= builder.toString() %><%
 			%></ul><%
 	    }
-	    %></tr><% 
 	}
 %>
-
+<br/><br/>
 <%!
 	private long countAllChildren(Page page) {
 		// TODO: Need an effecient way.

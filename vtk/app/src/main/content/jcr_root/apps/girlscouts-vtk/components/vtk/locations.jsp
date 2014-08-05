@@ -3,6 +3,26 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
+<script>
+        function toggleSection(section) {
+                $("#manageCalendarTab").removeClass("active");
+                $("#manageLocationTab").removeClass("active");
+                $("#manageActivityTab").removeClass("active");
+                $("#manageCalendarSection").hide();
+                $("#manageLocationSection").hide();
+                $("#manageActivitySection").hide();
+                if (section == "calendar") {
+                        $("#manageCalendarTab").addClass("active");
+                        $("#manageCalendarSection").show();
+                } else if (section == "location")  {
+                        $("#manageLocationTab").addClass("active");
+                        $("#manageLocationSection").show();
+                } else if (section == "activity") {
+                        $("#manageActivityTab").addClass("active");
+                        $("#manageActivitySection").show();
+                }
+        }
+</script>
 <!-- apps/girlscouts-vtk/components/vtk/locations.jsp  -->
 <div class="row modalHeader">
 <%
@@ -65,7 +85,6 @@
 <%
 		} else {
 %>
-		
 <%@include file="include/location.jsp" %>
 <%
 		}
@@ -93,23 +112,3 @@
 %>
         </div>
 </div>
-<script>
-	function toggleSection(section) {
-                $("#manageCalendarTab").removeClass("active");
-                $("#manageLocationTab").removeClass("active");
-                $("#manageActivityTab").removeClass("active");
-                $("#manageCalendarSection").hide();
-                $("#manageLocationSection").hide();
-                $("#manageActivitySection").hide();
-		if (section == "calendar") {
-			$("#manageCalendarTab").addClass("active");
-			$("#manageCalendarSection").show();
-		} else if (section == "location")  {
-                        $("#manageLocationTab").addClass("active");
-			$("#manageLocationSection").show();
-		} else if (section == "activity") {
-                        $("#manageActivityTab").addClass("active");
-			$("#manageActivitySection").show();
-		}
-	}
-</script>

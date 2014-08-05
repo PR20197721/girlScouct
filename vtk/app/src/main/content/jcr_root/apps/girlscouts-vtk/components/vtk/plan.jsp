@@ -40,25 +40,25 @@
 %>
 <% if( user.getYearPlan()!=null){ %> 
 <div class="hide-for-small">
-	<div class="row">
-		<div class="large-22 medium-22 small-20 columns">
+	<div class="row subNavRow">
+		<div class="large-22 medium-22 small-20 columns subNavColumn">
 			<div class="centered-table">
 				<ul id="vtkSubNav">
 					<li>
-						<a href="javascript:void(0)" onclick="newLocCal()">Specify Meeting Dates and Locations</a>
+						<a href="javascript:void(0)" onclick="newLocCal()">Meeting&nbsp;Dates&nbsp;and&nbsp;Locations</a>
 					</li>
 					<li>|</li>
 					<li>
-						 <a href="javascript:void(0)" onclick="doMeetingLib()">Add Meeting</a> 
+						 <a href="javascript:void(0)" onclick="doMeetingLib()">Add&nbsp;Meeting</a> 
 					</li>
 					<li>|</li>
 					<li>
-						<a href="javascript:void(0)" onclick="newActivity()">Add Activity</a>
+						<a href="javascript:void(0)" onclick="newActivity()">Add&nbsp;Activity</a>
 					</li>
 				</ul>
 			</div>
 		</div>
-		<div class="large-2 medium-2 small-4 columns">
+		<div class="large-2 medium-2 small-4 columns calendarDownload">
 			<div class="icons">
 			<%if(user.getYearPlan().getSchedule()!=null){ %>
 				<a onclick="self.location = '/content/girlscouts-vtk/en/cal.ics'"><img alt="Calendar Download" src="/etc/designs/girlscouts-vtk/images/calendar-download.png" width="39" height="20" border="0" class="align-right"/></a>

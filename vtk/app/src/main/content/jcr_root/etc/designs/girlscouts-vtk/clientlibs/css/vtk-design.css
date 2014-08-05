@@ -32,7 +32,7 @@ ul.tabs {
 	visibility: hidden;
 }
 .tabs .label {
-	padding: 10px 18px;
+	padding: 10px 14px;
         float: left;
 
 	font-size: 1em;
@@ -577,8 +577,14 @@ table.yearMeetingList tr:hover {
 table.meetingSelect, .meetingSelect tr:first-child, .yearMeetingList tr:first-child {
 	border: 0;
 }
+.yearMeetingList td{
+	padding: 3px;
+}
 table.plain tr:first-child {
 	border: 0;
+}
+ul.ui-sortable {
+	margin: 0;
 }
 #sortable table {
 	border: 1px solid #eeeeee;
@@ -604,6 +610,9 @@ ul.formCheckboxes li {
 	margin-top: 12px;
 	padding:0;
 }
+img.touchscroll {
+	min-width: 21px;
+}
 
 .signout{z-index:99;}
 .searchResultsItem a{ display:none;}
@@ -626,6 +635,10 @@ ul.formCheckboxes li {
 	font-size: 0.9em;
 	border-radius: 6px;
 	font-weight: bold;
+	padding: 0.4rem;
+}
+.button.linkButton.tight {
+	padding: 0;
 }
 
 .searchResultsItem1 {
@@ -706,51 +719,61 @@ ul.formCheckboxes li {
 	padding-bottom: 1em;
 }
 
-
 :focus {
-outline: 0;
+	outline: 0;
 }
-
-/*
-@media only screen and (max-width: 40em) {
-        .planSquare {
-                width: 70px;
-                height: 70px;
-        }
-
-        .planSquare .count {
-                width: 20px;
-                height: 20px;
-                margin-left: -8px;
-                margin-top: -8px;
-                font-size: 0.7em;
-        }
-        .planSquare .date {
-                top: 4px;
-        }
-        .planSquare .activity .cal {
-                padding-top: 12px;
-        }
-        .planSquare .cancelled {
-                width: 70px;
-                height: 70px;
-                font-size: 80px;
-        }
-	.planSquare .cancelled .cross {
-		margin-top: -30px;
-	}
-	.meetingDetailHeader .planSquare .cancelled .cross {
-                margin-top: 25px;
-        }
-	.doubleList li {
-		float: left;
-		width: 100%;
-	}
-}
-
-*/
-
 
 .printIcon {
-    margin-left: 1em;
+	margin-left: 1em;
+}
+.locationListing h2{
+	font-size: 1.4em;
+	text-align: center;
+}
+.locationList del {
+	margin-bottom: 1em;
+}
+.subNavColumn {
+	padding: 0;
+}
+.subNavRow {
+
+}
+.calendarDownload {
+	padding: 0;
+}
+
+@media only screen and (max-width: 40em) {
+	.locationListing h2{
+		font-size: 1.4em;
+		text-align: left;
+	}
+}
+table.agendaItem td{
+	padding: 6px 3px;
+}
+table.agendaItem td.agendaScroll{
+	width: 32px;
+	min-width: 32px;
+}
+table.agendaItem td.agendaTime{
+	width: 82px;
+	min-width: 82px;
+}
+table.agendaItem td.agendaDuration{
+	width: 50px;
+	min-width: 50px;
+}
+
+li.searchResultsItem p.activityName, li.searchResultsItem a {
+	font-weight: bold;
+	color: #00a850;
+}
+li.searchResultsItem p.activityLocation, li.searchResultsItem p.activityDate {
+	font-weight: bold;
+	line-height: 0.2em;
+}
+li.searchResultsItem .activityDisabled {
+        text-decoration: italics;
+	color: #CCCCCC;
 }

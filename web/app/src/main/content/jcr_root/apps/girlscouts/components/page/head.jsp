@@ -30,25 +30,43 @@
         favIcon = null;
     }
 %><head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8"<%=xs%>>
-    <meta name="keywords" content="<%= xssAPI.encodeForHTMLAttr(WCMUtils.getKeywords(currentPage, false)) %>"<%=xs%>>
-    <meta name="description" content="<%= xssAPI.encodeForHTMLAttr(properties.get("jcr:description", "")) %>"<%=xs%>>
-    <cq:include script="headlibs.jsp"/>
-    <cq:include script="/libs/wcm/core/components/init/init.jsp"/>
-    <cq:include script="stats.jsp"/>
-    <% if (favIcon != null) { %>
-    <link rel="icon" type="image/vnd.microsoft.icon" href="<%= xssAPI.getValidHref(favIcon) %>"<%=xs%>>
-    <link rel="shortcut icon" type="image/vnd.microsoft.icon" href="<%= xssAPI.getValidHref(favIcon) %>"<%=xs%>>
-    <% } %>
-    <% 
-		String title = "";
-		try {
+<%
+	String pageCategory = "DEFAULT";
+	Object pageCategoryObject = request.getAttribute("PAGE_CATEGORY");
+	if (pageCategoryObject != null) {
+		pageCategory = (String) pageCategoryObject;
+	}
+%>
+	<!-- page category = <%= pageCategory%> -->
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8"<%=xs%>>
+	<meta name="keywords" content="<%= xssAPI.encodeForHTMLAttr(WCMUtils.getKeywords(currentPage, false)) %>"<%=xs%>>
+	<meta name="description" content="<%= xssAPI.encodeForHTMLAttr(properties.get("jcr:description", "")) %>"<%=xs%>>
+	<cq:include script="headlibs.jsp"/>
+	<cq:include script="/libs/wcm/core/components/init/init.jsp"/>
+	<cq:include script="stats.jsp"/>
+<% 
+	if (favIcon != null) {
+%>
+	<link rel="icon" type="image/vnd.microsoft.icon" href="<%= xssAPI.getValidHref(favIcon) %>"<%=xs%>>
+	<link rel="shortcut icon" type="image/vnd.microsoft.icon" href="<%= xssAPI.getValidHref(favIcon) %>"<%=xs%>>
+<%
+	}
+	String title = "";
+	try {
         	title = currentPage.getContentResource().adaptTo(ValueMap.class).get("seoTitle", "");
     		if (title.isEmpty()) {
     			title = currentPage.getTitle() == null ? currentPage.getName() : currentPage.getTitle();
-    		}
+		}
         } catch (Exception e) {}
     	title = xssAPI.encodeForHTML(title);
-    %>
+
+	if ("VTK".equals(pageCategory)) {
+%>
+	<link rel="stylesheet" href="/etc/designs/girlscouts-vtk/clientlibs.css" type="text/css" media="screen"/>
+	<script type="text/javascript"src="/etc/designs/girlscouts-vtk/clientlibs.js"></script>
+<%
+	}
+
+%>
     <title><%= title %></title>
 </head>
