@@ -316,7 +316,7 @@ try {
 			    builder.append(meeting.getPath());
 			    builder.append("')\">");
 			    builder.append(meeting.getName());
-			    builder.append("</a></li>");
+			    builder.append("</a> - "+ meeting.getBlurb()+"</li>");
 		    }
 	
 	        builder.append("</ul>");
