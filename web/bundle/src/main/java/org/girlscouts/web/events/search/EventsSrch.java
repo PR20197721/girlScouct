@@ -24,7 +24,7 @@ public class EventsSrch
 	private static Logger log = LoggerFactory.getLogger(EventsSrch.class);
 	private SlingHttpServletRequest slingRequest;
 	private QueryBuilder queryBuilder;
-	private HashMap<String,List<FacetsInfo>> facetAndTags = new HashMap<String,List<FacetsInfo>>();
+	private Map<String,List<FacetsInfo>> facetAndTags = new HashMap<String,List<FacetsInfo>>();
 	
 	// ReFractrating the code to accomdate Form & Documents
 	private static String FACETS_PATH = "/etc/tags/girlscouts";
@@ -61,7 +61,7 @@ public class EventsSrch
 	}
 	
 	
-	public HashMap<String,List<FacetsInfo>> getFacets()
+	public Map<String,List<FacetsInfo>> getFacets()
 	{
 		return facetAndTags;
 	}
@@ -75,7 +75,7 @@ public class EventsSrch
 	private void eventResults(String q,String offset,String month,String year, String startdtRange, String enddtRange,String region,String[] tags, String path) throws RepositoryException{
 
 		List<String> relts = new ArrayList<String>(); 
-		searchResultsInfo = new SearchResultsInfo();
+		this.searchResultsInfo = new SearchResultsInfo();
 		
 		if(q!=null && !q.isEmpty()){
 			log.info("Search Query Term [" +q +"]");
