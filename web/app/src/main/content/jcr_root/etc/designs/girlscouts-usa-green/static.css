@@ -357,7 +357,6 @@ padding-left: 20px;
 
 /* BREADCRUMBS */
 .breadcrumbs {
-    background-color: #ffff00; 
     color: #000000;
     border: 0;
     padding: .5625rem 1.250rem 0.5625rem 0;
@@ -453,25 +452,10 @@ background-color: #B0B0B0;
 	display: inline-block;
 	position: relative;
 	top: -10px;
-/*
-	width: 64px;
-	border: 1px solid red;
-	float: left;
-*/
-/* inkoo temp */
 }
 .home-section .feature-title {
     display: inline-block;
-    /*text-indent: 20px;*/
     padding:0 0 0 20px;
-/*
-    margin-left: auto;
-    margin-right: 0;
-	float: right;
-	border: 1px solid yellow;
-	margin-top: 0;
-*/
-/* inkoo temp *?
 }
 .home-section .content {
 	padding: 0;
