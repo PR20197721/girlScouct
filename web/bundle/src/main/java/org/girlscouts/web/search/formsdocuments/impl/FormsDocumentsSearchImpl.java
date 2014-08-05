@@ -4,9 +4,11 @@ package org.girlscouts.web.search.formsdocuments.impl;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.jcr.Node;
 import javax.jcr.Property;
@@ -27,6 +29,8 @@ import org.girlscouts.web.search.utils.SearchUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.adobe.granite.testing.client.security.Group;
+import com.day.cq.search.Predicate;
 import com.day.cq.search.PredicateGroup;
 import com.day.cq.search.Query;
 import com.day.cq.search.QueryBuilder;
@@ -40,249 +44,225 @@ import com.day.cq.tagging.TagManager;
 @Component
 @Service
 public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
-
 	@Reference
 	FacetBuilder facetBuilder;
 
 	private static Logger log = LoggerFactory.getLogger(FormsDocumentsSearchImpl.class);
+	private static String FACETS_PATH = "/etc/tags/girlscouts";
+
+	private final String COUNCIL_SPE_PATH = "/etc/tags/";
+
 	private SlingHttpServletRequest slingRequest;
 	private QueryBuilder queryBuilder;
-	HashMap<String, List<FacetsInfo>> facets;
 
-	//TODO: Default path if not provided in the JSP.
-	private String FACETS_PATH = "/etc/tags/girlscouts";
+	private Map<String, List<FacetsInfo>> facets;
 	private SearchResultsInfo searchResultsInfo;
+	
+	private final String FORM_DOC_CATEGORY = "forms_documents";
 
-	private Map<String, ArrayList<String>> facetsQryBuilder = new HashMap<String, ArrayList<String>>();
 	public FormsDocumentsSearchImpl(){}
 
-	private HashMap<String, List<FacetsInfo>> createFacet(SlingHttpServletRequest slingRequest, QueryBuilder queryBuilder){
-		HashMap<String, List<FacetsInfo>> fts = null;
-		try{
-			fts = facetBuilder.getFacets(slingRequest, queryBuilder, FACETS_PATH);
-
-		}catch(Exception e){
-			//TODO: Handle this null condition. So Page shouldn't explode.
-			log.info("Facets Tag do not exists: Please create Tags"+e.getMessage());
-			return null;
-		}
+	private Map<String, List<FacetsInfo>> loadFacets(String councilSpPath){
+		Map<String, List<FacetsInfo>> fts = null;
+		log.info("councilSpPath  [" +councilSpPath +"]");
+			fts = facetBuilder.getFacets(this.slingRequest, this.queryBuilder, councilSpPath);
+			if(fts==null){
+				throw null;
+			}
 		return fts;
 	}
-
-	public void executeSearch(SlingHttpServletRequest slingRequest, QueryBuilder queryBuilder, String q, String path,String[] tags){
-		//TODO : HANDLE NULL FOR THIS REQUEST
+	
+	public void executeSearch(SlingHttpServletRequest slingRequest, QueryBuilder queryBuilder, String q, String path,String[] checkedTags,String councilSpecificPath, String formDocumentContentPath){
 		this.queryBuilder = queryBuilder;
 		this.slingRequest = slingRequest;
-		this.facets = createFacet(slingRequest, queryBuilder);
+		
+		if(!councilSpecificPath.isEmpty() && councilSpecificPath!=null){
+			String councilSpPath=COUNCIL_SPE_PATH+councilSpecificPath;
+			try{
+				this.facets = loadFacets(councilSpPath);
+			}catch(Exception e){
+				log.error("Facets [" +COUNCIL_SPE_PATH +"] does not exists fall-back to default" );
+				this.facets = loadFacets(FACETS_PATH);
+			}
+		}
 		try{
-			documentsSearch(path,q,tags,this.facets);
-
+			documentsSearch(path,q,checkedTags,formDocumentContentPath);
 		}catch(RepositoryException re){}
 
 	}
 
-	private void documentsSearch(String path,String q, String[] tags, HashMap<String, List<FacetsInfo>> facets2) throws RepositoryException{
-		LinkedHashMap<String, String> searchQuery = new LinkedHashMap<String, String>();
+	private void documentsSearch(String path,String q, String[] tags,String formDocumentContentPath) throws RepositoryException{
 
-		List<String> relts = new ArrayList<String>(); 
-		List<Hit> hits = new ArrayList<Hit>();
-		List<Hit> searchTermHits = new ArrayList<Hit>();
-		List<Hit> tagHits = new ArrayList<Hit>();
+		
 		searchResultsInfo = new SearchResultsInfo();
-		Map<String,String> pth1 = new HashMap<String, String>();
-		searchQuery.put("type","nt:hierarchyNode");
-		searchQuery.put("path",path);
-
-
-		searchQuery.put("1_property","jcr:content/metadata/cq:tags");
-		searchQuery.put("p.limit","-1");		
-		if(q!=null && !q.isEmpty()){
-
+		
+		Map<String,String> mapPath = new HashMap <String,String>();
+		
+		mapPath.put("group.p.or","true");
+		mapPath.put("group.1_group.path", formDocumentContentPath);
+		mapPath.put("group.2_group.path",path);
+		
+		PredicateGroup predicatePath =PredicateGroup.create(mapPath);
+		
+		Map<String,String> mapContentDoc = new HashMap <String,String>();
+		mapContentDoc.put("group.p.or","true");
+		mapContentDoc.put("group.1_group.type", "cq:Page");
+		if((q!=null && !q.isEmpty()) || tags.length>0) {
+			mapContentDoc.put("group.2_group.type", "nt:hierarchyNode");
+		}else{
+			mapContentDoc.put("group.2_group.type", "dam:AssetContent");
+		}
+		PredicateGroup predicateDocs =PredicateGroup.create(mapContentDoc);
+		
+		Map<String,String> masterMap  = new HashMap<String,String>();
+		masterMap.put("p.limit", "-1");
+		
+		
+		PredicateGroup master = PredicateGroup.create(masterMap); 
+		master.add(predicatePath);
+		master.add(predicateDocs);
+		
+		if(q!=null && !q.isEmpty()) {
 			log.info("Search Query Term [" +q +"]");
-			searchQuery.put("fulltext", q);
-			searchQuery.put("fulltext.relPath", "jcr:content");
-			searchTermHits = performContentSearch(searchQuery,slingRequest,this.queryBuilder,null,searchResultsInfo,q);
-			searchResultsInfo.setResultsHits(searchTermHits);
-
+			Map<String,String> mapFullText = new HashMap<String,String>();
+			mapFullText.put("group.p.or","true" );
+			mapFullText.put("group.1_fulltext", q);
+			mapFullText.put("group.1_fulltext.relPath", "@jcr:content/jcr:title"); // search cq:tags
+			mapFullText.put("group.2_fulltext", q);
+			mapFullText.put("group.2_fulltext.relPath", "@jcr:content/metadata/dc:title"); // search title
+			mapFullText.put("group.3_fulltext", q);
+			mapFullText.put("group.3_fulltext.relPath", "@jcr:content/metadata/dc:description"); // search description
+			PredicateGroup predicateFullText = PredicateGroup.create(mapFullText);
+			master.add(predicateFullText);
+			
 		}
-
-		if(tags!=null){
-			addToDefaultQuery(searchQuery,tags);
-			tagHits = performContentSearch(searchQuery,slingRequest,this.queryBuilder,null,searchResultsInfo,q);
-			searchResultsInfo.setResultsHits(tagHits);	
-
+		if(tags.length > 0) {
+			Map<String,String> checkedTagMap = new HashMap<String,String>();
+			checkedTagMap = addToDefaultQuery(tags);
+			PredicateGroup predicateCheckedTags = PredicateGroup.create(checkedTagMap);
+			predicateCheckedTags.setAllRequired(false);
+			master.add(predicateCheckedTags);
 		}
-		if((q!=null && !q.isEmpty()) && (tags!=null && tags.length>0)){
-			// Now combine 2 different hits;
-			searchResultsInfo.setResultsHits(combineHits(searchTermHits, tags));	
-		}
-		searchResultsInfo = SearchUtils.combineSearchTagsCounts(searchResultsInfo,facets2);
+		
+		master.setAllRequired(true);
+		List<Hit> searchTermHits = new ArrayList<Hit>();
+		searchTermHits = performContentSearch(master,q);
+		this.searchResultsInfo.setResultsHits(searchTermHits);
+		this.searchResultsInfo = combineSearchTagsCounts();
+		
 	}
-
-	private List<Hit> combineHits(List<Hit> searchTermHits, String[] tags) throws RepositoryException{
-		String valueString="";
-		HashSet<Hit> hitSet = new HashSet<Hit>();
-		HashSet<String> set = new HashSet<String>();
-		for (String words : tags){
-			set.add(words);
-
+	
+	private SearchResultsInfo combineSearchTagsCounts() throws RepositoryException
+	{
+		
+		//Iterator <String> everyThingFacets=null;
+		List<FacetsInfo> facetsInfo = null;
+		try{
+			 facetsInfo = this.facets.get(FORM_DOC_CATEGORY);
+		}catch(Exception e){
+			log.error("No Forms and Documents Tags Found in the /etc/tags/" +e.getMessage());
 		}
-		for(Hit hit:searchTermHits){	
+		List<Hit> searchTermHits = this.searchResultsInfo.getResultsHits();
+		
+		
+		// Duplicate Documents containing the same path are return when performing a search due to different renditions.
+		// So put the hit in to the uni TreeMap to remove duplicates.
+
+		Map<String, DocHit> unq= new java.util.TreeMap<String,DocHit>();
+		for(Hit hit:searchTermHits)  {
+			//System.out.println("Hit" +hit.getPath());
 			DocHit docHit = new DocHit(hit);
-			Node node = slingRequest.getResourceResolver().getResource(docHit.getURL()+"/jcr:content/metadata").adaptTo(Node.class);
-			if(node.hasProperty("cq:tags")){
-				Value[] value = node.getProperty("cq:tags").getValues();
-				for(Value val : value){
-					valueString = val.getString();
-					if(set.contains(valueString)){
-						hitSet.add(hit);
+			if(!unq.containsKey(docHit.getURL())){
+				unq.put(docHit.getURL(), docHit);
+			}
+		}
+		Iterator<String> uniIterator = unq.keySet().iterator();
+		Map<String,Long> facetWithCount = new HashMap<String, Long>();
+		while(uniIterator.hasNext()) {
+			try{
+				// Get the path of the hits
+				String cPath = unq.get(uniIterator.next()).getURL();
+				Node node = this.slingRequest.getResourceResolver().getResource(cPath+"/jcr:content").adaptTo(Node.class);
+				// This is specific to the PDF and other DOC types, Since HTML document has cq:tags on the JCR:CONTENT, but not pdf and docx
+				if(node.hasNode("metadata")){
+					node = node.getNode("metadata");
+					
+				}
+				if(node.hasProperty("cq:tags")){
+					// We need to check for the multiple properties.
+					Property tagProps = node.getProperty("cq:tags");
+					Value[] value = null;
+
+					if(tagProps.isMultiple()){
+						value = tagProps.getValues();
+					}else{
+						value = new Value[]{tagProps.getValue()};
+					}
+					for(Value val:value){
+						String valueString = val.getString();
+						if(facetWithCount.containsKey(valueString)){
+							facetWithCount.put(valueString, facetWithCount.get(valueString).longValue()+1L);
+						}else{
+							facetWithCount.put(valueString, new Long(1L));
+						}
 					}
 				}
-
+			}catch(Exception e){
+				log.info("No Metadata found on the content" +e.getMessage());
 			}
 		}
-		List<Hit> htArray = new ArrayList<Hit>(hitSet); 
-		return htArray;
-
-	}	
-
-	private void addToDefaultQuery(Map<String, String> searchQuery,String[] tags) throws RepositoryException{
-
-		searchQuery.put("1_property","jcr:content/metadata/cq:tags");
-		searchQuery.put("1_property.or","true");
-		Map<String, ArrayList<String>> facetsQryBuilder = new HashMap<String, ArrayList<String>>();
+		
+		//Populating the count for the search results.
+		for(FacetsInfo info : facetsInfo){
+			if(facetWithCount.containsKey(info.getFacetsTagId())){   
+				info.setCount(facetWithCount.get(info.getFacetsTagId()));
+			}
+		}
+		return this.searchResultsInfo;	
+	}
+	private Map<String,String> addToDefaultQuery(String[] tags) throws RepositoryException{
+		
+		Map<String,String> tagSearch = new HashMap<String,String>();
+		tagSearch.put("1_property","jcr:content/metadata/cq:tags");
+		tagSearch.put("1_property.or","true");
+		tagSearch.put("2_property", "jcr:content/cq:tags");
+		tagSearch.put("2_property.or", "true");
 		int propertyCounter = 1;
-		for(String s:tags)
-		{
-			String temp = s.replaceAll("%3A", ":").replaceAll("%2F", "/");
-			String key = temp.substring(temp.indexOf(":")+1,temp.length());
-			String category = key.substring(0,key.indexOf("/"));
-			if(facetsQryBuilder.containsKey(category)){
-				facetsQryBuilder.get(category).add(temp);
-			}else{
-				ArrayList<String> value = new ArrayList<String>();
-				value.add(s);
-				facetsQryBuilder.put(category, value);
+		int count = 0;
+		for(String tagPath:tags) {
+				count++;
+				log.info("Tag :::   ["+tagPath +"]");
+				tagSearch.put("1_property." + count + "_value", tagPath);
+				tagSearch.put("2_property." + count + "_value", tagPath);
 			}
-		}
-		Object[] categories = facetsQryBuilder.keySet().toArray();
-		int count = 1;
-		for(int i=0;i<categories.length;i++){
-			ArrayList<String> tagsPath = facetsQryBuilder.get(categories[i].toString());
-
-			for(String tagPath:tagsPath){
-				log.info("TagPath   ["+tagPath +"]");
-				searchQuery.put(propertyCounter+"_property."+count+++"_value", tagPath);
-			}
-
-		}
-
-
-
-	}
-	public HashMap<String, List<FacetsInfo>> getFacets(){
-		return facets;
+		return tagSearch;
 	}
 
+	public Map<String, List<FacetsInfo>> getFacets(){
+		return this.facets;
+	}
 	public SearchResultsInfo getSearchResultsInfo(){
 		return searchResultsInfo;
-
-	}
-	public void test() {
-
 	}
 
-
-	public List<Hit> performContentSearch(Map<String, String> map, SlingHttpServletRequest slingRequest, QueryBuilder builder,String offset,SearchResultsInfo sResults,String q) throws RepositoryException
-	{
-		//SearchResultsInfo sResults; sResults = new SearchResultsInfo();
-		List<String> Sresults = new ArrayList<String>();		
-		PredicateGroup predicateGroup = PredicateGroup.create(map);
-		Query query = builder.createQuery(predicateGroup,slingRequest.getResourceResolver().adaptTo(Session.class));
+	private List<Hit> performContentSearch(PredicateGroup master,String q) throws RepositoryException{
+		
+		//PredicateGroup predicateGroup = PredicateGroup.create(master);
+		Query query = this.queryBuilder.createQuery(master,slingRequest.getResourceResolver().adaptTo(Session.class));
 		query.setExcerpt(true);
-
-		if(offset!=null){
-			query.setStart(Long.parseLong(offset));
-		}
+		log.info("***SQL:*******[ "+master.toString() +"]");
 		SearchResult searchResults=null;
 		try{
 			searchResults = query.getResult();
-		}catch(Exception e)
-		{
+		}catch(Exception e){
 			log.error("Error Generated performContentSearch" +e.getStackTrace());
 		}
-		sResults.setSearchResults(searchResults);
+		this.searchResultsInfo.setSearchResults(searchResults);
 		java.util.List<Hit> hits = searchResults.getHits();
-		Map<String, Facet> facets = searchResults.getFacets();
-		log.info("# of page displayed" +searchResults.getResultPages().size());
-		log.info("This is the facets  [" +facets.toString() +"]"  + " TotalHitMatches [" +searchResults.getTotalMatches() +"]");
-		sResults.setHitCounts(searchResults.getTotalMatches());
-		if(!facets.containsKey("1_property") && (q!=null && !q.isEmpty()))
-		{
-			// When Only q term is search it doesn't return the property and facets to get the 
-			//Facets and count we are using this method
-			getFacetsForSearchTerm(sResults,hits);
-		}else{
-			for(String key:facets.keySet())
-			{
-				Facet fat = facets.get(key);
-				log.info("Key Name  [" +key +" ]   Count[" +fat.getBuckets().size() +"]");
-				if(fat.getContainsHit() && key.equals("1_property")){
-					for(Bucket bucket: fat.getBuckets()){
-						populateFacets(bucket.getValue(), bucket.getCount(), sResults);
-
-					}
-				}	
-
-			}
-
-		}
-
+		
 		return hits;
 	}
 
-	public void getFacetsForSearchTerm(SearchResultsInfo sResults, java.util.List<Hit> hits) throws RepositoryException{
-
-		String valueString;
-		Map<String,Long> facetsCounts = new HashMap<String,Long>();
-		for(Hit hit:hits){
-			DocHit docHit = new DocHit(hit);
-			Node node = slingRequest.getResourceResolver().getResource(docHit.getURL()+"/jcr:content/metadata").adaptTo(Node.class);
-			if(node.hasProperty("cq:tags")){
-			    Property tagProp = node.getProperty("cq:tags");
-			    Value[] value = null;
-			    if (!tagProp.isMultiple()) {
-			        value = new Value[]{node.getProperty("cq:tags").getValue()};
-			    } else {
-			        value = node.getProperty("cq:tags").getValues();
-			    }
-				for(Value val : value){
-					valueString = val.getString();
-					if(facetsCounts.containsKey(valueString)){
-						Long count = facetsCounts.get(valueString);
-						facetsCounts.put(valueString, count++);
-					}else{
-						facetsCounts.put(valueString,(long) 1);
-					}
-				}
-				for(Map.Entry<String, Long> entry: facetsCounts.entrySet()){
-					populateFacets(entry.getKey().toString(), entry.getValue(), sResults);
-				}
-			}
-		}
-
-	}
-
-
-	public void populateFacets(String bucketValue,Long counts, SearchResultsInfo sResults){
-		TagManager tagMgr = slingRequest.getResourceResolver().adaptTo(TagManager.class);
-		Tag tag = tagMgr.resolve(bucketValue);
-		if (tag != null){
-			sResults.createFacetsWithTag(tag.getParent().getName(),tag.getTitle(), counts);
-		} else {
-			log.error(">>>>> Unable to resolve tag " + bucketValue);
-		}
-	}
-
+	
 }
 

@@ -15,7 +15,7 @@
 
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <%  
-    HashMap<String,List<FacetsInfo>> facetsAndTags = (HashMap<String, List<FacetsInfo>>) request.getAttribute("facetsAndTags");
+    Map<String,List<FacetsInfo>> facetsAndTags = (HashMap<String, List<FacetsInfo>>) request.getAttribute("facetsAndTags");
     if(null==facetsAndTags) {
 %>
 <cq:include path="content/left/par/event-search" resourceType="girlscouts/components/event-search" />
