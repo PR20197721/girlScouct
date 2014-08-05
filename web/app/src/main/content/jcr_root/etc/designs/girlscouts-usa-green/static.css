@@ -357,6 +357,7 @@ padding-left: 20px;
 
 /* BREADCRUMBS */
 .breadcrumbs {
+    background: #ffffff;
     color: #000000;
     border: 0;
     padding: .5625rem 1.250rem 0.5625rem 0;
