@@ -64,7 +64,7 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 
 	private Map<String, List<FacetsInfo>> loadFacets(String councilSpPath){
 		Map<String, List<FacetsInfo>> fts = null;
-		System.out.println("councilSpPath  [" +councilSpPath +"]");
+		log.info("councilSpPath  [" +councilSpPath +"]");
 			fts = facetBuilder.getFacets(this.slingRequest, this.queryBuilder, councilSpPath);
 			if(fts==null){
 				throw null;
@@ -81,7 +81,7 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 			try{
 				this.facets = loadFacets(councilSpPath);
 			}catch(Exception e){
-				System.out.println("Facets [" +COUNCIL_SPE_PATH +"] does not exists fall-back to default" );
+				log.error("Facets [" +COUNCIL_SPE_PATH +"] does not exists fall-back to default" );
 				this.facets = loadFacets(FACETS_PATH);
 			}
 		}

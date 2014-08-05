@@ -38,8 +38,6 @@ if (request.getParameterValues("tags") != null) {
 	
 }
 try{
-	
-	System.out.println(currentPage.getAbsoluteParent(1).getName());
 	formsDocuImpl.executeSearch(slingRequest, queryBuilder, q, path, tags, currentPage.getAbsoluteParent(1).getName(),formDocumentContentPath);
 }catch(Exception e){}
 Map<String,List<FacetsInfo>> facetsAndTags = formsDocuImpl.getFacets();
