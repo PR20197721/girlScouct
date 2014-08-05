@@ -1398,3 +1398,9 @@ ul.searchResultsList article p{
 .view-b .meow .slick-next {
 	z-index: 900;
 }   
+
+/*Overriding the CSS Styling for slick slider*/
+.slick-slider { 
+	-ms-touch-action: pan-y; 
+	touch-action: pan-y;
+}
