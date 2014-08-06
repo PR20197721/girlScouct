@@ -4,11 +4,9 @@
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 <!-- apps/girlscouts-vtk/components/vtk/meetingLibrary.jsp  -->
-<%!
-        boolean showVtkNav = true;
-       String activeTab = "resource";
-%>
 <%
+        boolean showVtkNav = true;
+	String activeTab = "resource";
         String meetingPath = request.getParameter("mpath");
         if( meetingPath==null || meetingPath.equals("null") || meetingPath.equals("")) {
 		meetingPath=null;

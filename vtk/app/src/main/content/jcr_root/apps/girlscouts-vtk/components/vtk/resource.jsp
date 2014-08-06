@@ -22,7 +22,7 @@
 %>
 <%@include file="include/session.jsp"%>
 <%-- VTK tab --%>
-<%!
+<%
     String activeTab = "resource";
     boolean showVtkNav = true;
 %>

@@ -3,16 +3,15 @@
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 <!-- apps/girlscouts-vtk/components/vtk/locationManage.jsp -->
-<%!
+<%
         String activeTab = "community";
         boolean showVtkNav = true;
-%>
-<%
-java.util.List <Location> locations = user.getYearPlan().getLocations();
-if( locations==null || locations.size()<=0){
-	out.println("Applies to "+user.getYearPlan().getMeetingEvents().size()+" of "+user.getYearPlan().getMeetingEvents().size()+" meetings");
-	return;
-}
+
+	java.util.List <Location> locations = user.getYearPlan().getLocations();
+	if( locations==null || locations.size()<=0){
+		out.println("Applies to "+user.getYearPlan().getMeetingEvents().size()+" of "+user.getYearPlan().getMeetingEvents().size()+" meetings");
+		return;
+	}
 %>
 
 <div id="locMsg1"></div>

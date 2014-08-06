@@ -2,7 +2,7 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
-<%!
+<%
         String activeTab = "myTroop";
         boolean showVtkNav = true;
 %>
