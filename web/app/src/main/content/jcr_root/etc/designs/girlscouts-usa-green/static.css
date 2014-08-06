@@ -257,7 +257,7 @@ a:hover.menuHighlight {
    /* background-color:#063;*/
 }
 #headerBar .global-navigation {
-padding-left: 20px;
+	padding-left: 20px;
 }
 #headerBar ul.inline-list li{
 	line-height:31px;

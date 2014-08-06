@@ -3,7 +3,7 @@
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 <div id="errInfo"></div>
-<%!
+<%
         String activeTab = "finances";
         boolean showVtkNav = true;
 %>

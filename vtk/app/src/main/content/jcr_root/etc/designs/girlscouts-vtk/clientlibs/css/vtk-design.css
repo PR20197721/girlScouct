@@ -496,10 +496,21 @@ img.align-left { float:left; margin: 0; }
 }
 
 .modalHeader {
-	font-size: 1.1em;
-	font-weigth: bold;
+	font-size: 1em;
 	text-align: left;
 	padding-bottom: 10px;
+	margin-left: -5px;
+}
+.modalHeader h2{
+	font-size: 1em;
+	font-weight: bold;
+}
+.modalHeader .hint {
+	color: #666666;
+}
+.modalHeader .instruction {
+	color: #666666;
+	font-size: 0.9em;
 }
 .modalBody > div {
 	padding: 15px;
@@ -511,10 +522,11 @@ img.align-left { float:left; margin: 0; }
         font-size:0.8em !important;
         padding: 0.5rem 0;
 }
-
-
-.modayBody label {
+.modalBody label {
 	font-size: 0.8em;
+}
+.modalBody tr {
+	border-top: 1 px solid #333333;
 }
 
 #manageCalendarSection {
@@ -574,8 +586,17 @@ table.yearMeetingList tr:hover {
 .manageCalendarTab.double {
 	line-height: 2;
 }
+table.meetingSelect {
+	padding: 5px 0 5px 5px;
+	border:0;
+	margin: auto;
+	width: 90%;
+}
 table.meetingSelect, .meetingSelect tr:first-child, .yearMeetingList tr:first-child {
 	border: 0;
+}
+table.meetingSelect tr, table.meetingSelect tr:first-child {
+	border-top: 1px solid #999999;
 }
 .yearMeetingList td{
 	padding: 3px;
@@ -747,6 +768,10 @@ img.touchscroll {
 	.locationListing h2{
 		font-size: 1.4em;
 		text-align: left;
+	}
+	table.meetingSelect img {
+		width: 70px;
+		height: 70px;
 	}
 }
 table.agendaItem td{
