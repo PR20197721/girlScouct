@@ -34,7 +34,15 @@ public class HelloServlet extends SlingSafeMethodsServlet {
                 sayPleaseSignIn(out);
             } else {
                 // TODO: Users may be lazy loaded. May refactor later.
-                User user = (User)session.getAttribute(User.class.getName());
+                
+            	
+            	//080614 User user = (User)session.getAttribute(User.class.getName());
+            	User user=null;
+            	try{
+            		user = (User)session.getAttribute(User.class.getName());
+            	}catch(Exception e){}
+            	
+            	
                 if (user == null) {
                     sayPleaseSignIn(out);
                 } else {
