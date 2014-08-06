@@ -151,9 +151,9 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	//getMeeting(girlscouts-vtk/yearPlanTemplates/yearplan2014/brownie/yearPlan1/meetings/meeting1");
 	//meetingDAO.getMeeting("/content/girlscouts-vtk/meetings/myyearplan/brownie/B14OG01");
 }else if( request.getParameter("addAids")!=null){
-	if( request.getParameter("assetType").equals("AID")) {
+	if( request.getParameter("assetType").equals("AID")){
 		meetingUtil.addAids(user, request.getParameter("addAids"), request.getParameter("meetingId"), java.net.URLDecoder.decode(request.getParameter("assetName") ) );
-	} else {
+	}else{
 		meetingUtil.addResource(user, request.getParameter("addAids"), request.getParameter("meetingId"), java.net.URLDecoder.decode(request.getParameter("assetName") ) );
 	}
 }else if( request.getParameter("rmAsset")!=null){

@@ -10,11 +10,8 @@ java.util.Map,java.util.HashMap,java.util.List, java.util.regex.*, java.text.*" 
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:setContentBundle source="page" />
 
-<script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.jscroll.min.js"></script>
-  <div class="scroll" data-ui="jscroll-default" >
-<%
 
-System.err.println("search: ");
+<%
 final Locale pageLocale = currentPage.getLanguage(true);
 final ResourceBundle resourceBundle = slingRequest.getResourceBundle(pageLocale);
 
@@ -39,8 +36,8 @@ int pos = 0;
 if( request.getParameter("pos")!=null ){
 	try{ pos= Integer.parseInt(request.getParameter("pos")); }catch(Exception e){e.printStackTrace();}
 }
+System.err.println("POs: "+ pos +" : "+ request.getParameter("pos"));
 
-/*
 
    Map mapPath = new HashMap();
    mapPath.put("group.p.or","true");
@@ -85,7 +82,7 @@ if (matcher.find()) {
 		
 Query query = queryBuilder.createQuery(master,slingRequest.getResourceResolver().adaptTo(Session.class));
 query.setExcerpt(true);
-*/
+
 query.setStart(pos);
 query.setHitsPerPage(10);
 
@@ -93,24 +90,9 @@ query.setHitsPerPage(10);
  
 List<Hit> hits = result.getHits();
 
-if( pos==0 ){
 %>
-<center>
-     <form action="${currentPage.path}.html" id="searchForm">
-        <input type="text" name="q" value="${escapedQueryForAttr}" class="searchField" />
-     </form>
-</center>
-<br/>
-<%} %>
 
 
-<%if(hits.isEmpty()){ %>
-    <fmt:message key="noResultsText">
-      <fmt:param value="${escapedQuery}"/>
-    </fmt:message>
- <%} else {%>
-    <%if(pos==0){%><%=properties.get("resultPagesText","Results for")%> "${escapedQuery}" <%} %>
-  <br/>
 <%
 
     for(Hit hit: hits)
@@ -133,30 +115,9 @@ if(!extension.isEmpty() && !extension.equals("html")){
        <div><%=docHit.getExcerpt()%></div>
        <br/>
    <%}
-}
+
    
-%>
-<script>
-jQuery('#searchForm').bind('submit', function(event)
-{
-if (jQuery.trim(jQuery(this).find('input[name="q"]').val()) === '')
-{
-event.preventDefault();
-}
-});
-</script>
-
-<% if( hits.size()>9){%>
- <a href="/content/gateway/en/site-search.simple.html?q=<%=escapedQuery%>&pos=<%=(pos+10)%>">next</a>
+if( hits.size()>9){%>
+ <a href="/content/gateway/en/site-search.simple.html?q=<%=escapedQuery%>&pos=<%= (pos+10)%>">next</a>
 <%} %>
-</div>
 
-
-<script>
-
-
-$('.scroll').jscroll({
-    loadingHtml: ''
-      	
-});
-</script>

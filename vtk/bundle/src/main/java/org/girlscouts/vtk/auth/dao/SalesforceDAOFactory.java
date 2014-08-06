@@ -6,6 +6,7 @@ import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
+import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.helpers.ConfigListener;
 import org.girlscouts.vtk.helpers.ConfigManager;
 
@@ -21,6 +22,9 @@ import org.girlscouts.vtk.helpers.ConfigManager;
 public class SalesforceDAOFactory implements ConfigListener {
     @Reference
     ConfigManager configManager;
+    
+    @Reference
+    UserDAO userDAO;
     
     private String clientId;
     private String clientSecret;
@@ -41,7 +45,7 @@ public class SalesforceDAOFactory implements ConfigListener {
     }
     
     public SalesforceDAO getInstance() {
-        SalesforceDAO dao = new SalesforceDAO();
+        SalesforceDAO dao = new SalesforceDAO(userDAO);
         dao.clientId = clientId;
         dao.clientSecret = clientSecret;
         dao.OAuthUrl = OAuthUrl;

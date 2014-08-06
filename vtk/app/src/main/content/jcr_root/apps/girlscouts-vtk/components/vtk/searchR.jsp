@@ -68,8 +68,8 @@ if (searchResults == null || searchResults.size() < 1) {
 		<p><%=search.getContent() %></p>
 				</td>
 				<td width="40">
-				<%if(search.getAssetType().AID == AssetComponentType.AID){ %>
-					<input type="button" value="Add to Meeting" onclick="applyAids('<%=search.getPath()%>', '<%= java.net.URLEncoder.encode(description) %>')" class="button linkButton"/>
+				<%if(search.getAssetType().equals(AssetComponentType.AID)){ %>
+					 <input type="button" value="Add to Meeting" onclick="applyAids('<%=search.getPath()%>', '<%= java.net.URLEncoder.encode(description) %>','<%=AssetComponentType.AID %>')" class="button linkButton"/>
 				<%}else{ %>
 <!--
 					<input type="button" value="Add to Meeting" onclick="applyResource('<%=search.getPath()%>', '<%= java.net.URLEncoder.encode(description) %>')" class="button linkButton"/>

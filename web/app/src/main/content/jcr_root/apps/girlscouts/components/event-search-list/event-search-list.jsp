@@ -82,7 +82,8 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(startDate);
 				int month = cal.get(Calendar.MONTH);
-				if(startDate.after(today) && startDate.before(after60days)) {
+				//if(startDate.after(today) && startDate.before(after60days)) {
+					if(startDate.after(today) ) {
 					if(tempMonth!=month) {
 						Date d = new Date(cal.getTimeInMillis());
 						String monthName = new SimpleDateFormat("MMMM").format(d);

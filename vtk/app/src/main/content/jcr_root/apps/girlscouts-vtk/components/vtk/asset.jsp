@@ -21,7 +21,7 @@ function assignAid(aidId, meetingId, assetName, assetDesc){
 
 			}
 		});
-		applyAids(aidId, assetName);
+		applyAids(aidId, assetName, '<%=request.getParameter("aType")%>');
 }
 
 

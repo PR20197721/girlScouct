@@ -295,6 +295,7 @@ public class MeetingUtil {
 			
 				meeting.setRefId(toPath);
 				meeting.setAssets(null);
+				meeting.setLastAssetUpdate(null); //auto load assets for new meeting
 				
 			}
 		}
@@ -451,13 +452,27 @@ public class MeetingUtil {
 		 
 		 String[] split = meeting.getRefId().split("/");
 		 
+		 		 
 		 String file= split[ ( split.length -1 )];
 		 
 		 file= file.substring(0, file.indexOf("_"));
+		// file= file.substring(0, file.indexOf("-"));
+		 System.err.println("REvert agenda: "+ file);
 		 
-		 java.util.List< Meeting> __meetings=  meetingDAO.search();
+		 //080514 gradeLvel browen  ** java.util.List< Meeting> __meetings=  meetingDAO.search();
+		
+		 
+		 String ageLevel=  user.getTroop().getGradeLevel();
+		 try{
+			 ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1).toLowerCase().trim();
+		 }catch(Exception e){e.printStackTrace();}
+		 
+		 java.util.List< Meeting> __meetings=  meetingDAO.getAllMeetings(ageLevel);
+		 
 		 for(int i=0;i<__meetings.size();i++){
 				Meeting __meeting = __meetings.get(i);
+				System.err.println("*** "+ __meeting.getPath() );
+				
 				if( __meeting.getPath().endsWith(file) ){
 						swapMeetings(user, meetingPath, __meeting.getPath());
 						return;

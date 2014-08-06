@@ -118,10 +118,10 @@ function toggleWhiteArrow() {
 		    <div class="title">By Date</div>
 		    	<div class="row event-activity collapse">
 		      		<div class="large-12 columns">
-		        		<input type="text" id="startdtRange" name="startdtRange" class="searchField" <%if((enddtRange!=null && !enddtRange.isEmpty()) && (startdtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="From Today"/>
+		        		<input type="text" name="startdtRange" id="startdtRange" class="searchField" <%if((enddtRange!=null && !enddtRange.isEmpty()) && (startdtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="From Today"/>
 		      		</div>
 		       		<div class="large-11 columns">  
-		       			<input type="text" id="enddtRange" name="enddtRange" class="searchField" <%if((startdtRange!=null && !startdtRange.isEmpty()) && (enddtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="To"/>
+		       			<input type="text" name="enddtRange" id="enddtRange" class="searchField" <%if((startdtRange!=null && !startdtRange.isEmpty()) && (enddtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="To"/>
 		    		</div>
 		    </div>
 		</div>
@@ -193,3 +193,11 @@ $(function() {
      </div>
 </div>
 <%}%>
+
+
+<script>
+$(function() {
+    $( "#startdtRange" ).datepicker({minDate: 0});
+    $( "#enddtRange" ).datepicker({minDate: 0});
+  });
+</script>
