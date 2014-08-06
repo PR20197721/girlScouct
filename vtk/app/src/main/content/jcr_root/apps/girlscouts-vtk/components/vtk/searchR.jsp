@@ -66,6 +66,7 @@ if (searchResults == null || searchResults.size() < 1) {
 				<td width="34"><span class="docType"><img width="40" height="40" src="<%=docTypeImage%>"/></span></td>
 				<td><h2><a class="searchResultPath" href="<%=search.getPath() %>" target="_blank"><%= description %></a></h2>
 		<p><%=search.getContent() %></p>
+		<p><%=search.getSubTitle() %></p>
 				</td>
 				<td width="40">
 				<%if(search.getAssetType().equals(AssetComponentType.AID)){ %>

@@ -36,6 +36,7 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
 import org.apache.jackrabbit.ocm.query.Filter;
 import org.apache.jackrabbit.ocm.query.Query;
 import org.apache.jackrabbit.ocm.query.QueryManager;
+import org.apache.sling.api.resource.ValueMap;
 import org.girlscouts.vtk.dao.AssetComponentType;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
@@ -480,15 +481,40 @@ public List<org.girlscouts.vtk.models.Search> getData(User user, String _query) 
        try {
 		String path = hit.getPath();
 		
+		System.err.println("________________  "+ path);
+		java.util.Map<String, String> caca = hit.getExcerpts();
+		java.util.Iterator itr =caca.keySet().iterator();
+		while( itr.hasNext()){
+			String str =(String) itr.next();
+			String str1 = caca.get(str);
+			
+			
+			System.err.println(" ** * "+ str +" :" + str1);
+		}
+			
+		
+		ValueMap vp =hit.getProperties();
+		itr = vp.keySet().iterator();
+		while( itr.hasNext()){
+			String str =(String) itr.next();
+			//String str1 = (String)vp.get(str);
+			
+			
+			System.err.println(" &&& "+ str +" :" + vp.get(str));
+		}
+		
+		
+		
 		
 		
 		
 		  DocHit dh= new DocHit(hit);
 		  org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();
-		  
+		
 		  search.setPath( dh.getURL() );
 		  search.setDesc( dh.getTitle() );
-		  search.setContent(dh.getExcerpt() );
+		  search.setContent(dh.getExcerpt()  );
+		  search.setSubTitle(dh.getDescription() );
 		  
 	      search.setAssetType(AssetComponentType.RESOURCE); 
 	      if(search.getPath().toLowerCase().contains("/aid/") )
