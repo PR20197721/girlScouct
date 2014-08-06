@@ -462,20 +462,58 @@ public List<org.girlscouts.vtk.models.Search> getData(User user, String _query) 
   
     // can be done in map or with Query methods
     map.put("p.offset", "0"); // same as query.setStart(0) below
-    map.put("p.limit", "20"); // same as query.setHitsPerPage(20) below
+    map.put("p.limit", "2000"); // same as query.setHitsPerPage(20) below
                      
     
     
     com.day.cq.search.Query query = qBuilder.createQuery(PredicateGroup.create(map), session);
-    query.setStart(0);
-    query.setHitsPerPage(20);
+    query.setExcerpt(true);
+   // query.setStart(0);
+   // query.setHitsPerPage(20);
                
+    java.util.Map<String, org.girlscouts.vtk.models.Search> unq= new java.util.TreeMap();
+    
+    
    SearchResult result = query.getResult();
    
    for (Hit hit : result.getHits()) {
        try {
 		String path = hit.getPath();
 		
+		
+		
+		
+		  DocHit dh= new DocHit(hit);
+		  org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();
+		  
+		  search.setPath( dh.getURL() );
+		  search.setDesc( dh.getTitle() );
+		  search.setContent(dh.getExcerpt() );
+		  
+	      search.setAssetType(AssetComponentType.RESOURCE); 
+	      if(search.getPath().toLowerCase().contains("/aid/") )
+	    	  search.setAssetType(AssetComponentType.AID); 
+	      
+	      
+	      if( unq.containsKey( search.getPath() ) ){
+	    	  
+	    	  if( search.getContent()!=null && !search.getContent().trim().equals("") ){
+	    		  org.girlscouts.vtk.models.Search _search = unq.get(search.getPath() );
+	    		  if( _search.getContent() ==null || _search.getContent().trim().equals(""))
+	    			  unq.put(search.getPath(), search);
+	    		  
+	    	  }
+	      }else
+	    	  unq.put(search.getPath(), search);
+	      
+	      //-matched.add(search);
+		
+		
+		
+		
+		
+		
+		/* 080614
 		if( path.contains(resourceRootPath ) && path.endsWith("jcr:content") ){
 			  Node caca = hit.getNode();
 			  org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();
@@ -507,12 +545,19 @@ public List<org.girlscouts.vtk.models.Search> getData(User user, String _query) 
 	      search.setAssetType(AssetComponentType.RESOURCE);
 	      matched.add(search);
 		}
+		*/
 		
 	} catch (RepositoryException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
    }
+   
+   
+  
+   java.util.Iterator itr= unq.keySet().iterator();
+   while( itr.hasNext())
+	   matched.add( unq.get( itr.next() ) );
    
    
   /*

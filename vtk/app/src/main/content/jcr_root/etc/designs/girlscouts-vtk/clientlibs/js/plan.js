@@ -31,15 +31,14 @@ function getNewMeetingSetup() {
 	for (var i = 0; i < liTags.length; i++) {
 		if( liTags[i].value !=0)
 			toRet+=  liTags[i].value +"," ; 
-		else
-			console.log( i+" : "+liTags[i].value )
+		
 	}
 	return toRet.substring(0, toRet.length-1);
 }
 
 function doUpdMeeting(){
 	var newVals = getNewMeetingSetup();
-	console.log(newVals)
+	
 	var x =$.ajax({ // ajax call starts
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?isMeetingCngAjax='+ newVals, // JQuery loads serverside.php
 		data: '', // Send value of the clicked button

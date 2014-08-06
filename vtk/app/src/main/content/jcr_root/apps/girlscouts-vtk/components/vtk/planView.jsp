@@ -137,11 +137,7 @@ if( _aidTags!=null ) {
 <%
 	}
 }
-		if (planMeetingResourceCount ==0) {
-%>
-			<li><i>No resources</i></li>
-<%
-		}
+	
 %>
 		</ul>
 

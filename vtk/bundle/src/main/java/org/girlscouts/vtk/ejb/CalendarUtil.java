@@ -92,7 +92,7 @@ public class CalendarUtil {
 			org.joda.time.DateTime date = new org.joda.time.DateTime(startDate);
 			//-sched.add(_startDate);
 			
-			int addedDates =1;
+			int addedDates =0;
 			
 			if( existingSched!=null ){
 			 java.util.StringTokenizer t= new java.util.StringTokenizer( existingSched , ",");
