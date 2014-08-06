@@ -4,7 +4,7 @@ import org.girlscouts.vtk.dao.AssetComponentType;
 
 public class Search {
 
-	private String path, content, type, desc;
+	private String path, content, type, desc, subTitle;
 	private AssetComponentType assetType;
 
 	
@@ -12,6 +12,14 @@ public class Search {
 	
 	
 	
+	public String getSubTitle() {
+		return subTitle;
+	}
+
+	public void setSubTitle(String subTitle) {
+		this.subTitle = subTitle;
+	}
+
 	public AssetComponentType getAssetType() {
 		return assetType;
 	}
