@@ -135,11 +135,7 @@ while (yearPlans.hasNext()) {
 					Asset asset = assets.get(i);
 					%><li>- <a href="<%=asset.getRefId()%>" target="_blank"><%=asset.getTitle() %></a></li> <% 
 				}
-				if (assets.size() ==0) {
-%>
-                        <li><i>No resources</i></li>
-<%
-				}
+				
 			%>
 		</ul>
 	</div>
