@@ -854,17 +854,27 @@ td.fc-header-left{
 
     
 /* Hamburger Menu changes end */
-
-#right-canvas-menu-bottom > ul{
-   padding:0px;
+#right-canvas-menu-bottom ul{
+  padding:0px;
   margin:0px;
 }
+
+#right-canvas-menu-bottom ul ul li{
+  padding:0px;
+  margin:0px;
+}
+
 #right-canvas-menu-bottom li 
  {
-    height:50px;
+  
     width:100%;
-   /* text-indent:-5px;*/
-    }
+  
+ }
+    
+#right-canvas-menu-bottom ul ul li.active ul li a 
+ {
+   padding-left:15px;
+    }    
     
 #right-canvas-menu-bottom > ul > li.active{
   background-color:#B0B0B0;
@@ -880,6 +890,7 @@ td.fc-header-left{
 
 #right-canvas-menu-bottom li {
     text-indent:19px;
+    height:50px;
 }
 
 .lineHeight{
