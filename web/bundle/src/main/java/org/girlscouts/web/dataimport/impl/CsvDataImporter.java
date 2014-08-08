@@ -304,9 +304,13 @@ public class CsvDataImporter implements DataImporter {
 	    }
 
 	    int i = 0;
-	    for (String[] field : fields) {
-		saveProperty(node, field[0], values.get(i), field[1]);
-		i++;
+	    try {
+		    for (String[] field : fields) {
+				saveProperty(node, field[0], values.get(i), field[1]);
+				i++;
+		    }
+	    } catch (Exception e) {
+	    	log.error("Skipping field for path " + path);
 	    }
 	} catch (RepositoryException e) {
 	    throw new GirlScoutsException(e, "Error while saving node: " + path);
@@ -328,8 +332,13 @@ public class CsvDataImporter implements DataImporter {
     private String executeJavaScript(String nameScript, String... value)
 	    throws GirlScoutsException {
     // Escape apostrophe
+
     for (int i = 0; i < value.length; i++) {
-        value[i] = value[i].replaceAll("\\'", "\\\\'");
+    	if (value[i] != null) {
+    		value[i] = value[i].replaceAll("\\'", "\\\\'");
+    	} else {
+		value[i] = "";
+	}
     }
 
 	StringBuilder sb = new StringBuilder();
@@ -376,22 +385,24 @@ public class CsvDataImporter implements DataImporter {
 		result.add(new Boolean(value.equalsIgnoreCase("true") ? true
 			: false));
 	    } else if (type.startsWith("date")) {
-		String formatStr = type.substring("date".length() + 1,
-			type.length() - 1);
-		if (formatStr.isEmpty()) {
-		    formatStr = CsvDataImporter.DEFAULT_DATE_FORMAT;
-		}
-		SimpleDateFormat sdf = new SimpleDateFormat(formatStr);
-		Date date;
-		try {
-		    date = sdf.parse(value);
-		} catch (ParseException e) {
-		    throw new GirlScoutsException(e, "Error parsing date \""
-			    + value + "\" using format \"" + formatStr + "\"");
-		}
-		Calendar cal = new GregorianCalendar();
-		cal.setTime(date);
-		result.add(cal);
+			String formatStr = type.substring("date".length() + 1,
+				type.length() - 1);
+			if (formatStr.isEmpty()) {
+			    formatStr = CsvDataImporter.DEFAULT_DATE_FORMAT;
+			}
+			SimpleDateFormat sdf = new SimpleDateFormat(formatStr);
+			Date date = null;
+			if (value != null) {
+				try {
+				    date = sdf.parse(value);
+				} catch (Exception e) {
+					throw new GirlScoutsException(e, "Error parsing date \""
+					    + value + "\" using format \"" + formatStr + "\"");
+				}
+				Calendar cal = new GregorianCalendar();
+				cal.setTime(date);
+				result.add(cal);
+			}
 	    }
 	}
 	return result;
@@ -411,7 +422,11 @@ public class CsvDataImporter implements DataImporter {
 	    } else if (type.equals("boolean")) {
 		node.setProperty(key, ((Boolean) value).booleanValue());
 	    } else if (type.indexOf("date") == 0) {
-		node.setProperty(key, (Calendar) value);
+	    	try {
+	    		node.setProperty(key, (Calendar) value);
+	    	} catch (ClassCastException cce) {
+	    		System.out.println("Unable to convert " + value + " to calendar object.");
+	    	}
 	    } else if (type.equals("string[]")) {
 	    List<String> strings = new ArrayList<String>();
 	    if (node.hasProperty(key)) {
