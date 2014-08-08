@@ -8,13 +8,15 @@
     jcr:primaryType="cq:Tag"
     jcr:title="Forms &amp; Documents"
     sling:resourceType="cq/tagging/components/tag">
-    <camping/>
-    <volunteer-resources/>
-    <registration/>
-    <trips-and-travel/>
+    <camp/>
+    <volunteers/>
+    <membership/>
     <awards-scholarships-and-grants/>
-    <financial/>
-    <publications/>
-    <facilities/>
+    <financial-management/>
     <cookiesproduct-sales/>
+    <safety/>
+    <badges-patches/>
+    <financial/>
+    <volunteer-resources/>
+    <activities/>
 </jcr:root>
