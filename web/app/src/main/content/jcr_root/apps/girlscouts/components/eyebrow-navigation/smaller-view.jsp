@@ -49,7 +49,7 @@ public void buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_pat
 					if(p.hasNext()){
 						buildMenu(p, rootPath,gs_us_path, menuBuilder, levelDepth,nodePath, levelFlag,currPath, currTitle);           
 					}
-					menuBuilder.append(remainderStrings.toString());
+					//menuBuilder.append(remainderStrings.toString());
 
 				} else{
 					
@@ -97,25 +97,26 @@ public void buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_pat
 		if((currtPath.indexOf(menuPath)==0) || (currtPath.startsWith(menuPath))){
 			//Check if the current Path has childrens'
 			if(currtPath.equals(menuPath)){
+				System.out.println("I am if statement");
 			%>
-				<li class="active"><a href="<%= path %>"<%= newWindow %>><%= label %></a></li>
+			   
+				<div><li class="active"><a href="<%= path %>"<%= newWindow %>><%= label %></a>
 			<%}else{%>
-				<li><a href="<%= path %>"<%= newWindow %>><%= label %></a></li>
+				<li><a href="<%= path %>"<%= newWindow %>><%= label %></a>
 			<%}%>
 			<% if(currtPath.indexOf(menuPath)==0){
 				System.out.println("what is the currPath" +currtPath + "menuPath" +menuPath);
 					buildMenu(iterPage, rootPath, gs_us_path, menuBuilder, levelDepth,"",levelFlag, currtPath, currTitle);
-			   %>	
-				<%=menuBuilder%>
-			<%} %>
-			
+			} %>
+			<%=menuBuilder%>
+			</li></div>
 		<%}else{
 			System.out.println("Path" +path);
 		%>
 		
 		<li><a href="<%= path %>"<%= newWindow %>><%= label %></a></li>
-	<%}
-	} %>
+	<%}%>
+	<%} %>
 
        
  </ul>
