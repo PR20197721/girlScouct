@@ -230,7 +230,7 @@ a:hover.menuHighlight {
     background-color: #009447;
 }
 .searchField {
-    background: url('images/search_green.png') no-repeat 0px 10px; 
+    background: url('/etc/designs/girlscouts-usa-green/images/search_green.png') no-repeat 0px 10px; 
     background-position: right; 
 }
 
@@ -284,7 +284,7 @@ a:hover.menuHighlight {
 }
 #mobile-nav-footer div.footer-navigation {
 /* temporarily removed because it is being covered by footer links
-	background: url('images/small-trefoil.png') no-repeat;
+	background: url('/etc/designs/girlscouts-usa-green/images/small-trefoil.png') no-repeat;
 	background-position: center;
 */
 }
@@ -381,11 +381,11 @@ a:hover.menuHighlight {
 }
 /* Left-Nav MG Changes */
 #main .side-nav > li {
-    background: url('images/orange-vertical.png') repeat-y  0px 0px; 
+    background: url('/etc/designs/girlscouts-usa-green/images/orange-vertical.png') repeat-y  0px 0px; 
     background-color:#F1F1EF    ;
 }
 #main .side-nav > li.active {
-    background: url('images/orange-yellow-vertical.png') repeat-y  0px 0px; 
+    background: url('/etc/designs/girlscouts-usa-green/images/orange-yellow-vertical.png') repeat-y  0px 0px; 
     background-color:#f7f7f6;
 }
 #main .side-nav li div {
@@ -560,7 +560,7 @@ input#date{
     padding-right:10px;
 }
 #advSearch{
-    background-image: url("images/search.png");
+    background-image: url("/etc/designs/girlscouts-usa-green/images/search.png");
     background-position: right center;
     background-repeat: no-repeat;
     padding:10px;
@@ -729,18 +729,18 @@ td.fc-header-left{
     font-weight: normal;
 }
 #right-canvas-menu .side-nav>li {
-    background: url('images/orange-vertical.png') repeat-y  0px 0px; 
+    background: url('/etc/designs/girlscouts-usa-green/images/orange-vertical.png') repeat-y  0px 0px; 
     
      
 }
 #right-canvas-menu .side-nav>li.active {
-    background: url('images/orange-yellow-vertical.png') repeat-y  0px 0px;
+    background: url('/etc/designs/girlscouts-usa-green/images/orange-yellow-vertical.png') repeat-y  0px 0px;
     padding :0px 0px 0px 10px; 
   
 }
 
 #right-canvas-menu .side-nav>li#sub-active {
-    background: url('images/orange-yellow-vertical.png') repeat-y  0px 0px; 
+    background: url('/etc/designs/girlscouts-usa-green/images/orange-yellow-vertical.png') repeat-y  0px 0px; 
   
 }
 #right-canvas-menu .side-nav ul#submenu  {
@@ -779,7 +779,7 @@ td.fc-header-left{
 }
 
 #headerBar ul li.active {
-    background: url('images/white-up-arrow.png') no-repeat  60px 0px;
+    background: url('/etc/designs/girlscouts-usa-green/images/white-up-arrow.png') no-repeat  60px 0px;
     background-position:center bottom;  
 }
 #header div.login {
@@ -805,13 +805,13 @@ td.fc-header-left{
 #footer div.footer-navigation{
     padding:10px 0 10px 20px;
 /* temporarily removed because it is being covered by footer links
-    background: url('images/small-trefoil.png') no-repeat;
+    background: url('/etc/designs/girlscouts-usa-green/images/small-trefoil.png') no-repeat;
     background-position:center;
 */
 }
 
 /*#leftContent li.active ul li.active{
-    background: url('images/small-green-arrow-right.png') no-repeat  0px 0px;
+    background: url('/etc/designs/girlscouts-usa-green/images/small-green-arrow-right.png') no-repeat  0px 0px;
     background-position:right 9px;  
 }*/
 
@@ -888,7 +888,7 @@ td.fc-header-left{
 }
 
 #calendar a{
-    background: url('images/calendar-icon.png') no-repeat  0px 0px;
+    background: url('/etc/designs/girlscouts-usa-green/images/calendar-icon.png') no-repeat  0px 0px;
     background-position:left center;
     padding-left:25px;  
 }
@@ -955,7 +955,7 @@ div.textimage.nowrap div.text p {
 }
 
 .emailicon {
-    background: url('images/envelope.png') no-repeat;
+    background: url('/etc/designs/girlscouts-usa-green/images/envelope.png') no-repeat;
     width: 20px;
     height: 14px;
 }
@@ -983,14 +983,14 @@ input.searchField{
 
 
 .option-top {
-    background: url('images/option-top-green-arrow.png') no-repeat;
+    background: url('/etc/designs/girlscouts-usa-green/images/option-top-green-arrow.png') no-repeat;
     width:130px;
     height:20px;
   
 }
 
 .option-down {
-    background: url('images/option-down-green-arrow.png') no-repeat;
+    background: url('/etc/designs/girlscouts-usa-green/images/option-down-green-arrow.png') no-repeat;
     width:130px;
     height:20px;
   
@@ -1054,7 +1054,7 @@ padding: 5px 0;
 	-moz-appearance: window;
 	text-indent:0.01px;
 	text-overflow:'';
-	background: url('images/select-dropdown-arrow.png') no-repeat right center;     
+	background: url('/etc/designs/girlscouts-usa-green/images/select-dropdown-arrow.png') no-repeat right center;     
 	/*background-repeat: no-repeat;
 	background-position: right center;
 	*/
@@ -1071,7 +1071,7 @@ padding: 5px 0;
 @-moz-document url-prefix() {
 	.dropdown-moz{
 	   -webkit-appearance: none;
-	   background: #ffffff url('images/select-dropdown-arrow.png') no-repeat right center;
+	   background: #ffffff url('/etc/designs/girlscouts-usa-green/images/select-dropdown-arrow.png') no-repeat right center;
 		border: 1px solid #cccccc;
 		top: 0px;
 	}
@@ -1096,7 +1096,7 @@ padding: 5px 0;
 
 .white-arrow-down{
 
-   background: url('images/white-arrow-down.png') no-repeat;
+   background: url('/etc/designs/girlscouts-usa-green/images/white-arrow-down.png') no-repeat;
    width:20px;
    height:20px;
    
@@ -1105,7 +1105,7 @@ padding: 5px 0;
 }
 .white-arrow-up{
 
-   background: url('images/white-arrow-up.png') no-repeat;
+   background: url('/etc/designs/girlscouts-usa-green/images/white-arrow-up.png') no-repeat;
    width:20px;
    height:20px;
    
@@ -1245,7 +1245,7 @@ form#contact-us textarea {
        padding-left: 140px;
 }
 .horizontalRule {
-       background: url('images/horizontal-stripe.png') repeat-x center center;
+       background: url('/etc/designs/girlscouts-usa-green/images/horizontal-stripe.png') repeat-x center center;
 }
 .checkbox-grid span {
     display: block;
@@ -1274,7 +1274,7 @@ div#eventListWrapper{
 
 
 .styled-select select {
-    background: url('http://prod.girlscouts-gateway.org/etc/designs/girlscouts-usa-green/images/select-dropdown-arrow.png') no-repeat 116px;
+    background: url('/etc/designs/girlscouts-usa-green/images/select-dropdown-arrow.png') no-repeat 116px;
     border: medium none;
     height: 23px;
     padding: 5px 0 5px 5px;
