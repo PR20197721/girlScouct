@@ -758,9 +758,17 @@ td.fc-header-left{
 }
 
 .logoLargePadding{
- padding:1.35px 0 0 1.35px
+ 	padding:0px;
+ 	margin:0px;
+ 	margin-bottom:15px;
+ 	width:208px;
+ 
 }
-
+#logoImg{
+	padding:0px;
+	margin:0px;
+}
+	
 .logoSmall, .mobileFooterLogo {
 	text-align:center;
 }

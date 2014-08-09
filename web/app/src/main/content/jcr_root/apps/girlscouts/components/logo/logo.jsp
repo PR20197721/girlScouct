@@ -17,7 +17,7 @@
 <!-- Artifact Browser -->
 <!--[if lt IE 9]>
 	<nav class="logoLarge">
-		<img src="<%= regularImage %>"<%= alt %> width="<%= regularWidth %>" height="<%= regularHeight %>" />
+		<img src="<%= regularImage %>"<%= alt %>/>
 	</nav>
 <![endif]-->
 <!-- Modern Browser -->
@@ -31,7 +31,7 @@
 %>
 <nav class="hide-for-small logoLarge logoLargePadding">
 <% if (!linkURL.isEmpty()) { %> <a href="<%= linkURL %>"> <% } %>
-	<img src="<%= regularImage %>"<%= alt %> width="<%= regularWidth %>" height="<%= regularHeight %>" />
+	<img src="<%= regularImage %>"<%= alt %> id="logoImg" />
 <% if (!linkURL.isEmpty()) { %> </a> <% } %>
 </nav>
 <nav class="show-for-small logoSmall">
