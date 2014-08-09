@@ -116,14 +116,17 @@ try{
 		String pth = docHit.getURL();
 		String title = docHit.getTitle();
 		String description = docHit.getDescription();
+		
 		// Temporary Hit fix for handling multiple description and title
-		if(title.indexOf(".pdf")>0 || title.indexOf(".doc")>0 || title.indexOf(".docx")>0  ){
-			Node node = resourceResolver.resolve(hit.getPath()).adaptTo(Node.class);
+		
+		Node node = resourceResolver.resolve(hit.getPath()).adaptTo(Node.class);
+		if(title.indexOf(".pdf")>0 || title.indexOf(".doc")>0 || title.indexOf(".docx")>0  ) {
 			if(node.hasNode("jcr:content/metadata")) {
 				Node metadata = node.getNode("jcr:content/metadata");
 				if(metadata.hasProperty("dc:title")){
 					if(metadata.getProperty("dc:title").isMultiple()) {
 						Value[] value = null;
+						
 						value = metadata.getProperty("dc:title").getValues();
 						if((!value[0].getString().isEmpty()) && (value[0].getString()!=null)) {
 							title = value[0].getString();
@@ -131,20 +134,25 @@ try{
 						}
 					}
 				}
-				if(metadata.hasProperty("dc:description")){
-					if(metadata.getProperty("dc:description").isMultiple()){
+			}
+		}
+		// Hotfix for description been multivalue- If description is empty we will try-to
+		//identify if dc:description is multivalued
+		
+		if("".equals(description)){
+			if(node.hasNode("jcr:content/metadata")) {
+				Node metadata = node.getNode("jcr:content/metadata");
+				if(metadata.hasProperty("dc:description")) {
+					if(metadata.getProperty("dc:description").isMultiple()) {
 						Value[] value = null;
 						value = metadata.getProperty("dc:description").getValues();
 						if((!value[0].getString().isEmpty()) && (value[0].getString()!=null)) {
 							description = value[0].getString();
-							
 						}
 					}
 				}
 			}
 		}
-		
-		
 	
 		int idx = pth.lastIndexOf('.');
 		String extension = idx >= 0 ? pth.substring(idx + 1) : "";
@@ -171,8 +179,9 @@ try{
 <%
 			}
 		} else {
+			
 %>
-		<div><%= docHit.getDescription() %></div>
+		<div><%= description %></div>
 <%
 		}
 %>
