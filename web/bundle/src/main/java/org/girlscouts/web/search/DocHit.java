@@ -6,6 +6,7 @@ import java.util.regex.Pattern;
 
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
+import javax.jcr.Value;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +46,12 @@ public final class DocHit extends DocHitBase {
             if (primaryType.equals("cq:Page") && node.hasProperty(JCR_TITLE_PROPERTY)) {
                 return node.getProperty(JCR_TITLE_PROPERTY).getString();
             } else if (primaryType.equals("dam:Asset") && node.hasProperty(DC_TITLE_PROPERTY)) {
+            		if(node.getProperty(DC_TITLE_PROPERTY).isMultiple()){
+            			Value[] value=node.getProperty(DC_TITLE_PROPERTY).getValues();
+            			if((!value[0].getString().isEmpty()) && (value[0].getString()!=null)) {
+							return(value[0].getString());
+						}
+            		}
                 return node.getProperty(DC_TITLE_PROPERTY).getString();
             }
         } catch (Exception e) {
@@ -86,6 +93,12 @@ public final class DocHit extends DocHitBase {
         try {
             Node pageOrAssetNode = getPageOrAsset();
             if (pageOrAssetNode.hasProperty(DC_DESCRIPTION_PROPERTY)) {
+            	if(pageOrAssetNode.getProperty(DC_DESCRIPTION_PROPERTY).isMultiple()){
+            		Value[] value = pageOrAssetNode.getProperty(DC_DESCRIPTION_PROPERTY).getValues();
+            		if((!value[0].getString().isEmpty()) && (value[0].getString()!=null)) {
+            			return(value[0].getString());
+					}
+            	}
                 return pageOrAssetNode.getProperty(DC_DESCRIPTION_PROPERTY).getString();
             }
         } catch (Exception e) {

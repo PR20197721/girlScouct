@@ -114,6 +114,46 @@ try{
 	for(Hit hit: hits) {
 		DocHit docHit = new DocHit(hit);
 		String pth = docHit.getURL();
+		String title = docHit.getTitle();
+		String description = docHit.getDescription();
+		
+		// Temporary Hit fix for handling multiple description and title
+		
+		Node node = resourceResolver.resolve(hit.getPath()).adaptTo(Node.class);
+		if(title.indexOf(".pdf")>0 || title.indexOf(".doc")>0 || title.indexOf(".docx")>0  ) {
+			if(node.hasNode("jcr:content/metadata")) {
+				Node metadata = node.getNode("jcr:content/metadata");
+				if(metadata.hasProperty("dc:title")){
+					if(metadata.getProperty("dc:title").isMultiple()) {
+						Value[] value = null;
+						
+						value = metadata.getProperty("dc:title").getValues();
+						if((!value[0].getString().isEmpty()) && (value[0].getString()!=null)) {
+							title = value[0].getString();
+							
+						}
+					}
+				}
+			}
+		}
+		// Hotfix for description been multivalue- If description is empty we will try-to
+		//identify if dc:description is multivalued
+		
+		if("".equals(description)){
+			if(node.hasNode("jcr:content/metadata")) {
+				Node metadata = node.getNode("jcr:content/metadata");
+				if(metadata.hasProperty("dc:description")) {
+					if(metadata.getProperty("dc:description").isMultiple()) {
+						Value[] value = null;
+						value = metadata.getProperty("dc:description").getValues();
+						if((!value[0].getString().isEmpty()) && (value[0].getString()!=null)) {
+							description = value[0].getString();
+						}
+					}
+				}
+			}
+		}
+	
 		int idx = pth.lastIndexOf('.');
 		String extension = idx >= 0 ? pth.substring(idx + 1) : "";
 %>
@@ -125,22 +165,23 @@ try{
 <%
 		}
 %>
-		<a href="<%=pth%>"><%=docHit.getTitle() %></a>
+		<a href="<%=pth%>"><%=title %></a>
 <%
 		if (q != null && !q.isEmpty()) {
-			String description = docHit.getDescription();
-			if (description != null && !"".equals(description)) {
+			String excerpt = docHit.getExcerpt();
+			if(excerpt!=null && !"".equals(excerpt)) {
 %>
-		<div><%= docHit.getDescription() %></div>
+				<div><%= excerpt %></div>
 <%
 			} else {
 %>
-                <div><%=docHit.getExcerpt()%></div>
+                <div><%=description%></div>
 <%
 			}
 		} else {
+			
 %>
-		<div><%= docHit.getDescription() %></div>
+		<div><%= description %></div>
 <%
 		}
 %>
