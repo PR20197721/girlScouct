@@ -54,7 +54,7 @@ public void buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_pat
 				} else{
 					
 						menuBuilder.append("<li>");
-						menuBuilder.append("<div style=\"background-color:red\">");
+						menuBuilder.append("<div>");
 						menuBuilder.append("<a href=").append(createHref(page));
 						menuBuilder.append("</div>");
 						menuBuilder.append("</li>");
@@ -100,24 +100,25 @@ public void buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_pat
 				System.out.println("I am if statement");
 			%>
 			   
-				<div><li class="active"><a href="<%= path %>"<%= newWindow %>><%= label %></a>
+				<li class="active"><div><a href="<%= path %>"<%= newWindow %>><%= label %></a></div>
 			<%}else{%>
-				<li><a href="<%= path %>"<%= newWindow %>><%= label %></a>
+				<li><div><a href="<%= path %>"<%= newWindow %>><%= label %></a></div>
 			<%}%>
 			<% if(currtPath.indexOf(menuPath)==0){
 				System.out.println("what is the currPath" +currtPath + "menuPath" +menuPath);
 					buildMenu(iterPage, rootPath, gs_us_path, menuBuilder, levelDepth,"",levelFlag, currtPath, currTitle);
 			} %>
 			<%=menuBuilder%>
-			</li></div>
+			
 		<%}else{
 			System.out.println("Path" +path);
 		%>
 		
-		<li><a href="<%= path %>"<%= newWindow %>><%= label %></a></li>
-	<%}%>
+		<li><div><a href="<%= path %>"<%= newWindow %>><%= label %></a></div>
+		<%}%>
+		</li>
 	<%} %>
-
+	
        
  </ul>
 </div> 

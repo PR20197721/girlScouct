@@ -863,14 +863,14 @@ td.fc-header-left{
     
 /* Hamburger Menu changes end */
 
-#right-canvas-menu-bottom > ul{
+/*#right-canvas-menu-bottom > ul{
    padding:0px;
   margin:0px;
 }
 #right-canvas-menu-bottom li 
  {
     width:100%;
-   /* text-indent:-5px;*/
+   
     }
     
 #right-canvas-menu-bottom > ul > li.active{
@@ -888,7 +888,7 @@ td.fc-header-left{
 #right-canvas-menu-bottom li {
     text-indent:19px;
 }
-
+*/
 .lineHeight{
  line-height:1.5;
  font-size:1.0rem;
@@ -1412,3 +1412,74 @@ ul.searchResultsList article p{
 	-ms-touch-action: pan-y; 
 	touch-action: pan-y;
 }
+
+/*Overriding bottom Small View*/
+
+#right-canvas-menu-bottom ul {
+        padding: 0px;
+        margin: 0px;
+}
+
+
+#right-canvas-menu-bottom  a{
+   padding:10px 0 0 5px;
+}
+
+#right-canvas-menu-bottom li{
+  text-indent:15px;
+}
+
+
+#right-canvas-menu-bottom ul li ul {
+ 	margin-left:0px;
+}
+
+#right-canvas-menu-bottom div{
+	height:50px;
+	border: 1px solid red;
+	
+}
+
+
+#right-canvas-menu-bottom ul li.active > div {
+	background: #b0b0b0;
+}
+
+
+#right-canvas-menu-bottom ul li ul li div a{
+	padding-left:15px;
+	
+}
+
+#right-canvas-menu-bottom ul li ul li ul li a{
+	padding-left:25px;
+	
+}
+
+#right-canvas-menu-bottom ul li ul li ul li ul li a{
+	padding-left:35px;
+	
+}
+
+/*#right-canvas-menu-bottom ul li ul {
+ 	margin-left:0px;
+}
+
+#right-canvas-menu-bottom li{
+ 	padding:0px;
+}
+#right-canvas-menu-bottom ul li ul li ul li a{
+	padding-left:35px;
+	color:blue;
+	
+}*/
+
+/*
+#right-canvas-menu-bottom li{
+ 	text-indent:14px;
+}
+
+#right-canvas-menu-bottom li{
+ 	padding:0px;
+}
+*/
