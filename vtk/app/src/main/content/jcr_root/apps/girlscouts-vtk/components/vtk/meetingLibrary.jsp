@@ -98,6 +98,7 @@ function cngMeeting(mPath){
 <%
 		try{
 			String img= meeting.getId().substring( meeting.getId().lastIndexOf("/")+1).toUpperCase();
+			if(img.contains("_") )img= img.substring(0, img.indexOf("_"));
 %>
 			<img width="100" height="100" src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png"/>
 <%

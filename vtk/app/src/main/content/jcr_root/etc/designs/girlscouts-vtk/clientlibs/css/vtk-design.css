@@ -796,7 +796,6 @@ li.searchResultsItem p.activityName, li.searchResultsItem a {
 }
 li.searchResultsItem p.activityLocation, li.searchResultsItem p.activityDate {
 	font-weight: bold;
-	line-height: 0.2em;
 }
 li.searchResultsItem .activityDisabled {
         text-decoration: italics;

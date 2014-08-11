@@ -70,9 +70,7 @@ public class SalesforceDAO {
 
         try {
             httpclient.executeMethod(get);
-
-   System.err.println("USER: "+ config.getAccessToken() +" : "+ get.getStatusCode() + " : " + get.getResponseBodyAsString());   
-   
+   		//System.err.println("USER: "+ config.getAccessToken() +" : "+ get.getStatusCode() + " : " + get.getResponseBodyAsString());   
             log.debug(get.getStatusCode() + " : " + get.getResponseBodyAsString());
     
             if (get.getStatusCode() == HttpStatus.SC_OK) {
@@ -117,7 +115,6 @@ public class SalesforceDAO {
                     doAuthMaster();
                     
                     java.util.List <Troop>  troops = troopInfo( config,  user.getContactId());
-/*
                     if(troops==null || troops.size() <=0 ){
                     	System.err.println("Trying troops 2 time....");
                     	UserGlobConfig ubConf = userDAO.getUserGlobConfig(); 
@@ -130,7 +127,6 @@ public class SalesforceDAO {
                     	}
                     	troops = troopInfo( config,  user.getContactId());
                     }
-*/                   	
                     config.setTroops( troops );
                     
                     return user;
@@ -237,15 +233,11 @@ public java.util.List <Troop>  troopInfo(ApiConfig apiConfig, String contactId){
 		
 	HttpClient httpclient = new HttpClient();
 	get= new GetMethod(apiConfig.getInstanceUrl()+ "/services/data/v20.0/query");
-	// THIS IS STABLE / DO NOT REMOVE 
-	get.setRequestHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
-/*
+	// THIS IS STABLE / DO NOT REMOVE get.setRequestHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
 	UserGlobConfig ubConf = userDAO.getUserGlobConfig(); //new UserDAOImpl().getUserGlobConfig();
 	get.setRequestHeader("Authorization", "OAuth " + ubConf.getMasterSalesForceToken());
-*/
 	
 	NameValuePair[] params = new NameValuePair[1];
-	
 
 	/*
 		params[0] = new NameValuePair("q",
