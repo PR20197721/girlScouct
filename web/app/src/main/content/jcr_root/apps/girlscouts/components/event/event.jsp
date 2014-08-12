@@ -220,6 +220,6 @@ try {
   
 <script>
 function showMap(address){
-	window.open('/content/gateway/en/map.html?address='+address);
+	window.open('/en/map.html?address='+address);
 }
 </script>
