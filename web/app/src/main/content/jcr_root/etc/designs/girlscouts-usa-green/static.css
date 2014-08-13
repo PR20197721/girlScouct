@@ -1414,72 +1414,48 @@ ul.searchResultsList article p{
 }
 
 /*Overriding bottom Small View*/
+#right-canvas-menu-bottom a{
+	color:#ddd;
+	padding:10px 0px 0px 5px;
+	
+}
+
+#right-canvas-menu-bottom li{
+    margin: 0px;
+}
 
 #right-canvas-menu-bottom ul {
+    list-style: none;
+}
+
+
+#right-canvas-menu-bottom .side-nav li div {
+	padding: 0px 0px 0px 20px;
+
+}
+
+
+#right-canvas-menu-bottom .side-active ul {
         padding: 0px;
         margin: 0px;
 }
 
-
-#right-canvas-menu-bottom  a{
-   padding:10px 0 0 5px;
-}
-
-#right-canvas-menu-bottom li{
-  text-indent:15px;
-}
-
-
-#right-canvas-menu-bottom ul li ul {
- 	margin-left:0px;
-}
-
-#right-canvas-menu-bottom div{
-	height:50px;
-	border: 1px solid red;
-	
-}
-
-
-#right-canvas-menu-bottom ul li.active > div {
-	background: #b0b0b0;
-}
-
-
-#right-canvas-menu-bottom ul li ul li div a{
+#right-canvas-menu-bottom .side-nav ul li a{
 	padding-left:15px;
-	
 }
 
-#right-canvas-menu-bottom ul li ul li ul li a{
-	padding-left:25px;
-	
+#right-canvas-menu-bottom .side-nav li.active > div{
+   background-color:#B0B0B0; 
+   
 }
 
-#right-canvas-menu-bottom ul li ul li ul li ul li a{
-	padding-left:35px;
-	
+#right-canvas-menu-bottom .side-nav ul li ul li ul li a {
+	padding-left: 35px;
 }
 
-/*#right-canvas-menu-bottom ul li ul {
- 	margin-left:0px;
+#right-canvas-menu-bottom .side-nav ul li ul li a {
+	padding-left: 25px;
 }
 
-#right-canvas-menu-bottom li{
- 	padding:0px;
-}
-#right-canvas-menu-bottom ul li ul li ul li a{
-	padding-left:35px;
-	color:blue;
-	
-}*/
 
-/*
-#right-canvas-menu-bottom li{
- 	text-indent:14px;
-}
 
-#right-canvas-menu-bottom li{
- 	padding:0px;
-}
-*/
