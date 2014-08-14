@@ -2,7 +2,6 @@ package org.girlscouts.web.dataimport.impl;
 
 import java.io.IOException;
 import java.io.Reader;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -327,7 +326,14 @@ public class CsvDataImporter implements DataImporter {
             for (int i = 0; i < scriptParams.length; i++) {
                 scriptParams[i] = cols[nameFieldIndexes[i]];
             }
-            return executeJavaScript(nameScript, scriptParams);
+            String name = executeJavaScript(nameScript, scriptParams);
+            
+            // Omit special characters and unnecessary dashes
+            name = name.replaceAll("[^a-zA-Z0-9\\-]", "")
+                    .replaceAll("-+", "-")
+                    .replaceAll("^-", "")
+                    .replaceAll("-$", "");
+            return name;
         }
     }
 
