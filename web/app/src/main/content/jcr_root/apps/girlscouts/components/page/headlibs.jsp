@@ -2,6 +2,7 @@
 <%@page import="com.day.cq.wcm.api.WCMMode,
 				org.girlscouts.vtk.helpers.ConfigManager"%>
 <%@include file="/libs/foundation/global.jsp" %>
+<%@include file="/apps/girlscouts/components/global.jsp"%>
 <!-- apps/girlscouts/components/page/headlibs.jsp -->
 <cq:includeClientLib categories="cq.foundation-main"/><%
 %><cq:include script="/libs/cq/cloudserviceconfigs/components/servicelibs/servicelibs.jsp"/>
@@ -32,6 +33,9 @@
 	String signOutUrl = callbackUrl + "?action=signout";
 	String siteRoot = currentPage.getAbsoluteParent(2).getPath();
 	String language = siteRoot.substring(siteRoot.lastIndexOf("/") + 1);
+	
+	String hideSignIn = currentSite.get("hideSignIn", "");
+	if (!hideSignIn.equalsIgnoreCase("true")) {
 %>
 	<script type="text/javascript">
                 var fixVerticalSizing = true;
@@ -51,3 +55,6 @@
 		});
 	</script>
 <!-- End: login logic -->
+<%
+	}
+%>
