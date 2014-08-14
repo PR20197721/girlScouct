@@ -29,6 +29,8 @@ public class EventsSrch
 	// ReFractrating the code to accomdate Form & Documents
 	private static String FACETS_PATH = "/etc/tags/girlscouts";
 	
+	private final String COUNCIL_SPE_PATH = "/etc/tags/";
+	
 	
 	private static String EVENTS_PROP="jcr:content/cq:tags";
 	//private static String PATH_1 = "/content/girlscouts-usa/en/events/";
@@ -45,11 +47,12 @@ public class EventsSrch
 		this.queryBuilder = builder;
 	}
 	
-	public void search(String q,String[] tags,String offset, String month,String year, String startdtRange, String enddtRange, String region,String path )
+	public void search(String q,String[] tags,String offset, String month,String year, String startdtRange, String enddtRange, String region,String path,String facetsPath )
 	{
 		try 
 		{
-			createFacets();
+			
+			createFacets(facetsPath);
 			eventResults(q,offset,month,year,startdtRange,enddtRange,region,tags,path);
 			searchResultsInfo = SearchUtils.combineSearchTagsCounts(searchResultsInfo,facetAndTags);
 			
@@ -66,10 +69,15 @@ public class EventsSrch
 		return facetAndTags;
 	}
 	
-	private void createFacets() throws RepositoryException{
+	private void createFacets(String facetPath) throws RepositoryException{
 		FacetBuilder facetBuilder = new FacetBuilderImpl();
-		facetAndTags = facetBuilder.getFacets(slingRequest, queryBuilder, FACETS_PATH );
+		if(facetPath!=null && !facetPath.isEmpty()){
+			facetAndTags = facetBuilder.getFacets(slingRequest, queryBuilder, COUNCIL_SPE_PATH+facetPath );
 		}
+		if(facetAndTags==null){
+			facetAndTags = facetBuilder.getFacets(slingRequest, queryBuilder, FACETS_PATH );
+		}
+	}
 	
 	
 	private void eventResults(String q,String offset,String month,String year, String startdtRange, String enddtRange,String region,String[] tags, String path) throws RepositoryException{
