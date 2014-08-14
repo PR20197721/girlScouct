@@ -78,9 +78,8 @@ public void buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_pat
  <% 
 	
 	String[] links = (String[])(request.getAttribute("links"));
-	
  	for (int i = 0; i < links.length; i++) {
-		String[] values = links[i].split("\\|\\|\\|");
+ 		String[] values = links[i].split("\\|\\|\\|");
 		String label = values[0];
 		String menuPath = values.length >= 2 ? values[1] : "";
 		String path = values.length >= 2 ? values[1] : "";
@@ -91,6 +90,8 @@ public void buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_pat
 		String clazz = values.length >= 3 ? "class=\""+ values[2] + "\"": "";
 		Page rootPage = null;
 		String newWindow = values.length >= 4 && values[3].equalsIgnoreCase("true") ?" target=\"_blank\"" : "";
+		String displayInHamburger = values.length >= 5 ? values[4]: "";
+		System.out.println("What is the value of the displayInHamburger" +displayInHamburger);
 		if(!path.isEmpty() && !path.equalsIgnoreCase("#") && path.indexOf(currentPage.getAbsoluteParent(2).getPath()) == 0) {
 			startingPoint = menuPath.substring(currentPage.getAbsoluteParent(2).getPath().length()+1,menuPath.length());
 			if(startingPoint.indexOf("/")>0) {
@@ -100,12 +101,12 @@ public void buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_pat
 			iterPage = rootPage.listChildren();
 			if(rootPage!=null && (currtPath.indexOf(menuPath)==0) || currtPath.startsWith(menuPath)){
 				path = rootPage.getPath()+".html";
-				//label = rootPage.getTitle();
+				label = rootPage.getTitle();
 			}
 		}
 		if((currtPath.indexOf(menuPath)==0) || (currtPath.startsWith(menuPath))){
 		%>
-		 <%if(rootPage.getPath().equals(currtPath)){
+		 <%if((rootPath!=null) && (rootPage.getPath().equals(currtPath))){
 		      %><li class="active">
 			<% } else{%>
 				<li>

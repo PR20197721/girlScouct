@@ -863,32 +863,6 @@ td.fc-header-left{
     
 /* Hamburger Menu changes end */
 
-/*#right-canvas-menu-bottom > ul{
-   padding:0px;
-  margin:0px;
-}
-#right-canvas-menu-bottom li 
- {
-    width:100%;
-   
-    }
-    
-#right-canvas-menu-bottom > ul > li.active{
-  background-color:#B0B0B0;
-}
-
-#right-canvas-menu-bottom li{
-   padding: 8px 0px 0px 5px;
-}
-
-#right-canvas-menu-bottom > ul > li >a{
-   padding:0px;
-}
-
-#right-canvas-menu-bottom li {
-    text-indent:19px;
-}
-*/
 .lineHeight{
  line-height:1.5;
  font-size:1.0rem;
@@ -1413,7 +1387,7 @@ ul.searchResultsList article p{
 	touch-action: pan-y;
 }
 
-/*Overriding bottom Small View*/
+/* Hamburger Menu changes end */
 #right-canvas-menu-bottom a{
 	color:#ddd;
 	padding:10px 0px 0px 5px;
