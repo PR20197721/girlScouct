@@ -200,7 +200,7 @@ public class DocumentUpload {
 			
 	    httpclient.getParams().setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
 
-	    HttpPost httppost = new HttpPost( "http://localhost:4502/content/dam/gateway/en/documents/" + fileName);
+	    HttpPost httppost = new HttpPost( "http://localhost:4502/content/dam/nc-coastal-pines-images-/forms-and-documents-/" + fileName);
 	    
 	    String basic_auth = new String(Base64.encodeBase64(( "admin:admin" ).getBytes()));
 	    httppost.addHeader("Authorization", "Basic " + basic_auth);
@@ -238,13 +238,23 @@ if( metaDatas.get("description")!=null )
 			Charset.forName( "UTF-8" )));
 
 if (!((String)metaDatas.get("tags")).isEmpty()) {
-    entity.addPart( "./jcr:content/metadata/cq:tags", new StringBody( "girlscouts:forms_documents/"+((String)metaDatas.get("tags")).trim().toLowerCase().replaceAll(" ", "-").replaceAll(",", "").replaceAll("/", ""), "text/plain",
-    Charset.forName( "UTF-8" )));
+    String[] tags = ((String)metaDatas.get("tags")).split(",");
+    for (String tag : tags) {
+        tag = tag.trim();
+        entity.addPart( "./jcr:content/metadata/cq:tags", new StringBody( "girlscoutsnccp:forms_documents/"+tag.trim().toLowerCase().replaceAll(" ", "-").replaceAll(",", "").replaceAll("/", ""), "text/plain",
+        Charset.forName( "UTF-8" )));
+    }
 }
 if (!((String)metaDatas.get("category")).isEmpty()) {
-    entity.addPart( "./jcr:content/metadata/cq:tags", new StringBody( "girlscouts:forms_documents/"+((String)metaDatas.get("category")).trim().toLowerCase().replaceAll(" ", "-").replaceAll(",", "").replaceAll("/", ""), "text/plain",
-    Charset.forName( "UTF-8" )));
+    String[] categories = ((String)metaDatas.get("category")).split(",");
+    for (String category : categories) {
+        category = category.trim();
+        entity.addPart( "./jcr:content/metadata/cq:tags", new StringBody( "girlscoutsnccp:forms_documents/"+category.trim().toLowerCase().replaceAll(" ", "-").replaceAll(",", "").replaceAll("/", ""), "text/plain",
+                Charset.forName( "UTF-8" )));
+    }
 }
+
+entity.addPart( "./jcr:content/metadata/cq:tags@TypeHint", new StringBody( "String[]", "text/plain", Charset.forName( "UTF-8" )));
 	    
 
 
@@ -264,9 +274,9 @@ if ((String)metaDatas.get("category")!=null )
 	}
 	
 	
-	private void createEtcTag( String tag )throws Exception{
+	private void createEtcTag( String tagStr )throws Exception{
 		
-		String dir = "/etc/tags/girlscouts/forms_documents/";
+		String dir = "/etc/tags/girlscoutsnccp/forms_documents/";
 		
 		        javax.jcr.Repository repository = JcrUtils.getRepository("http://localhost:4502/crx/server/");
 		        
@@ -276,17 +286,20 @@ if ((String)metaDatas.get("category")!=null )
 		        session = repository.login(creds, "crx.default");
 		        Node root = session.getRootNode();
 		        
-		        
-		        if( !session.nodeExists(dir+tag.toLowerCase().trim().replace(" ", "-").replaceAll(",", "").replaceAll("/", "")) ){
-		        	
-		        	Node assets = session.getNode(dir);
-		        	
-		        	//create tag
-		        	Node resNode = assets.addNode (tag.toLowerCase().trim().replace(" ", "-").replaceAll(",", "").replaceAll("/", ""));
-		        	resNode.setProperty("jcr:title", tag);
-		        	
-		        	session.save();
-		        }        
+		        String[] tags = tagStr.split(",");
+		        for (String tag :tags) {
+		            tag.trim();
+    		        if( !session.nodeExists(dir+tag.toLowerCase().trim().replace(" ", "-").replaceAll(",", "").replaceAll("/", "")) ){
+    		        	
+    		        	Node assets = session.getNode(dir);
+    		        	
+    		        	//create tag
+    		        	Node resNode = assets.addNode (tag.toLowerCase().trim().replace(" ", "-").replaceAll(",", "").replaceAll("/", ""));
+    		        	resNode.setProperty("jcr:title", tag);
+    		        	
+    		        	session.save();
+    		        }        
+		        }
 	}
 	
 }
