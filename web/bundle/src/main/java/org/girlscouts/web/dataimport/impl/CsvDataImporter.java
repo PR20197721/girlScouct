@@ -329,7 +329,7 @@ public class CsvDataImporter implements DataImporter {
             String name = executeJavaScript(nameScript, scriptParams);
             
             // Omit special characters and unnecessary dashes
-            name = name.replaceAll("[^a-zA-Z0-9\\-]", "")
+            name = name.replaceAll("[^a-zA-Z0-9\\-\\/]", "")
                     .replaceAll("-+", "-")
                     .replaceAll("^-", "")
                     .replaceAll("-$", "");
