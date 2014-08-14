@@ -51,6 +51,12 @@ public class GirlScoutsReferencesUpdateActionFactory implements LiveActionFactor
         public void execute(Resource source, Resource target,
                 LiveRelationship relation, boolean autosave, boolean isResetRollout)
                 throws WCMException {
+            if (source == null) {
+                throw new WCMException("Source is null");
+            }
+            if (target == null) {
+                throw new WCMException("Target is null");
+            }
             Node sourceNode = (Node)source.adaptTo(Node.class);
             Node targetNode = (Node)target.adaptTo(Node.class);
             if (sourceNode == null) {
