@@ -105,7 +105,7 @@
                         type="string"/>
                     <title
                         jcr:primaryType="nt:unstructured"
-                        name="whatever/whatever2/title"
+                        name="title"
                         type="string"/>
                     <phone
                         jcr:primaryType="nt:unstructured"
@@ -121,7 +121,12 @@
                     jcr:primaryType="nt:unstructured"
                     script="function(name, team) {return team.toLowerCase().replace(/ /g, '-') + '/' + name.toLowerCase().replace(/ /g, '-'); }"
                     scriptFields="name,team"/>
-                <defaultFields jcr:primaryType="nt:unstructured"/>
+                <defaultFields jcr:primaryType="nt:unstructured">
+                    <hideInNav
+                        jcr:primaryType="nt:unstructured"
+                        type="boolean"
+                        value="true"/>
+                </defaultFields>
                 <parent-fields jcr:primaryType="nt:unstructured">
                     <team
                         jcr:primaryType="nt:unstructured"
