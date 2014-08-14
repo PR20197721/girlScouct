@@ -20,7 +20,7 @@ java.util.List <org.girlscouts.vtk.models.Activity> activities =  (java.util.Lis
 %>
 		<li class="searchResultsItem" > 
 			<p class="activityName"><%=activities.get(i).getName()%></p>
-			<p class="activityDate">Date: <%=activities.get(i).getDate() %> - <%=activities.get(i).getEndDate() %></p>
+			<p class="activityDate">Date: <%=activities.get(i).getDate()==null? "" : FORMAT_MEETING_REMINDER.format(activities.get(i).getDate()) %> - <%=activities.get(i).getEndDate()==null ? "" : FORMAT_MEETING_REMINDER.format(activities.get(i).getEndDate()) %></p>
 			<p class="activityLocation">Location:<%=activities.get(i).getLocationAddress()==null ? "Currently no location" : activities.get(i).getLocationAddress() %></p>
 			<p class="activityContent"> <%=activities.get(i).getContent() %> </p>
 			<%if(activities.get(i).getDate()==null){ %>

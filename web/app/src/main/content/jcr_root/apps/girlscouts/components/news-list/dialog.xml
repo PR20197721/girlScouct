@@ -21,7 +21,6 @@
                     xtype="multifield">
                     <fieldConfig
                         jcr:primaryType="cq:Widget"
-                        relativePath="/about-our-council/news"
                         width="155"
                         xtype="dynamicPathField"/>
                 </pages>

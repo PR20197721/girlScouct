@@ -131,10 +131,10 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	}
 	User new_user= userDAO.getUser( 
 		"/vtk/"+newTroop.getCouncilCode()+
-    		"/"+newTroop.getTroopName()+"/users/"+
+    		"/"+newTroop.getTroopId()+"/users/"+
 		user.getApiConfig().getUserId()+"_"+  request.getParameter("loginAs") );
 	if( new_user==null ){
-		new_user = new User( "/vtk/"+newTroop.getCouncilCode()+ "/"+newTroop.getTroopName()+"/users/", user.getApiConfig().getUserId()+"_"+  request.getParameter("loginAs") );
+		new_user = new User( "/vtk/"+newTroop.getCouncilCode()+ "/"+newTroop.getTroopId()+"/users/", user.getApiConfig().getUserId()+"_"+  request.getParameter("loginAs") );
 	}
 	new_user.setTroop(newTroop );
 	new_user.setApiConfig(user.getApiConfig());

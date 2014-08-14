@@ -117,7 +117,6 @@ public class AssetPreviewActivateProcess implements WorkflowProcess {
 			options.setSuppressStatusUpdate(true);
 			replicator.replicate(jcrSession, activate.getReplicationType(),
 					asset.getPath(), options);
-			log.error("ASSET PATH " + asset.getPath());
 		} catch (Exception e) {
 			log.error(e.getMessage());
 		}

@@ -8,7 +8,8 @@
 	String featureTitle = properties.get("featuretitle", "");
 	String featureLink = properties.get("urltolink", "");
 	if (!featureLink.isEmpty()) {
-	    featureLink = genLink(resourceResolver, featureLink);
+		featureLink = genLink(resourceResolver, featureLink);
+
 	}
 
     SearchResult results = (SearchResult)request.getAttribute("results");

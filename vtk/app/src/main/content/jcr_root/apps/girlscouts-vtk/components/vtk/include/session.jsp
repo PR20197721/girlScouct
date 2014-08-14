@@ -112,7 +112,7 @@ if( user ==null){
 		
 	
         user= userDAO.getUser( "/vtk/"+prefTroop.getCouncilCode()+
-        		"/"+prefTroop.getTroopName()+
+        		"/"+prefTroop.getTroopId()+
         		"/users/"+ apiConfig.getUserId() +"_"+ prefTroop.getTroopId());
         
   			
@@ -120,7 +120,7 @@ if( user ==null){
         if( user==null ){
                 //user = new User(apiConfig.getUserId()+"_"+ apiConfig.getTroops().get(0).getTroopId());
                user = new User( "/vtk/"+prefTroop.getCouncilCode()+
-        		"/"+prefTroop.getTroopName()+"/users/",
+        		"/"+prefTroop.getTroopId()+"/users/",
         		 apiConfig.getUserId() +"_"+ prefTroop.getTroopId() );
         }
         user.setApiConfig(apiConfig);

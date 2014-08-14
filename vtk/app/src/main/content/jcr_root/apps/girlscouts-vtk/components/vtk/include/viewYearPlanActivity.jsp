@@ -81,8 +81,8 @@ ageLevel=ageLevel.toLowerCase().trim();
     
    
   
-              <form action="/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets/<%=aassetId %>" method="post"
-                       onsubmit="return bindAssetToYPC( '/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets/<%=aassetId %>/custasset', '<%=activity.getUid() %>' )"   enctype="multipart/form-data">
+              <form action="/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopId() %>/assets/<%=aassetId %>" method="post"
+                       onsubmit="return bindAssetToYPC( '/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopId() %>/assets/<%=aassetId %>/custasset', '<%=activity.getUid() %>' )"   enctype="multipart/form-data">
                        
                <input type="hidden" name="id" value="<%=aassetId%>"/>      
                <input type="hidden" name="owner" value="<%=user.getId()%>"/>
