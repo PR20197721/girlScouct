@@ -27,13 +27,13 @@
    } 
    String q = request.getParameter("q");
    String offset = request.getParameter("offset");
-   String region = request.getParameter("region");
+   String region = request.getParameter("regions");
    String month = request.getParameter("month");
    String startdtRange = request.getParameter("startdtRange");
    String enddtRange = request.getParameter("enddtRange");
    String year=request.getParameter("year");
   
-   searchQuery.search(q,tags,offset,month,year,startdtRange,enddtRange,region,path);
+   searchQuery.search(q,tags,offset,month,year,startdtRange,enddtRange,region,path,currentPage.getAbsoluteParent(1).getName());
    Map<String,List<FacetsInfo>> facetsAndTags =  searchQuery.getFacets();
    SearchResultsInfo searchResultsInfo = searchQuery.getSearchResultsInfo();
    SearchResult searchResults = searchResultsInfo.getSearchResults();
