@@ -257,6 +257,11 @@
             mode="replace"
             root="/etc/msm/rolloutconfigs/gsdefault"
             rules="[]"/>              
+        <f48
+            jcr:primaryType="nt:unstructured"
+            mode="replace"
+            root="/etc/designs/girlscoutsnccp"
+            rules="[]"/>
             
     </filter>
 </jcr:root>
