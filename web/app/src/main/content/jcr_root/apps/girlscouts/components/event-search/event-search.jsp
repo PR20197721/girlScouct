@@ -32,7 +32,7 @@
    String startdtRange = request.getParameter("startdtRange");
    String enddtRange = request.getParameter("enddtRange");
    String year=request.getParameter("year");
-   System.out.println(currentPage.getAbsoluteParent(1).getName());
+  
    searchQuery.search(q,tags,offset,month,year,startdtRange,enddtRange,region,path,currentPage.getAbsoluteParent(1).getName());
    Map<String,List<FacetsInfo>> facetsAndTags =  searchQuery.getFacets();
    SearchResultsInfo searchResultsInfo = searchQuery.getSearchResultsInfo();
