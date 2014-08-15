@@ -37,16 +37,6 @@
             mode="replace"
             root="/etc/map.publish.dev"
             rules="[]"/>
-        <f4
-            jcr:primaryType="nt:unstructured"
-            mode="replace"
-            root="/etc/map.publish.stage"
-            rules="[]"/>
-        <f5
-            jcr:primaryType="nt:unstructured"
-            mode="replace"
-            root="/etc/map.publish.prod"
-            rules="[]"/>
         <f6
             jcr:primaryType="nt:unstructured"
             mode="replace"

@@ -4,8 +4,6 @@
     <filter root="/etc/map.author"/>
     <filter root="/etc/map.publish"/>
     <filter root="/etc/map.publish.dev"/>
-    <filter root="/etc/map.publish.stage"/>
-    <filter root="/etc/map.publish.prod"/>
     <filter root="/etc/data-importers"/>
     <filter root="/etc/data-import"/>
     <filter root="/etc/designs/girlscouts"/>
