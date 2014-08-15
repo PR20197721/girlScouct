@@ -432,7 +432,7 @@ public class CsvDataImporter implements DataImporter {
             if (type.equals("string")) {
                 node.setProperty(key, (String) value);
             } else if (type.equals("boolean")) {
-                node.setProperty(key, ((Boolean) value).booleanValue());
+                node.setProperty(key, ((String) value).equalsIgnoreCase("true"));
             } else if (type.indexOf("date") == 0) {
                 try {
                     node.setProperty(key, (Calendar) value);
