@@ -15,12 +15,14 @@
     SearchResult results = (SearchResult)request.getAttribute("results");
     java.util.List <Hit> resultsHits = results.getHits();
 	
-	Integer count =  Integer.parseInt(properties.get("count",String.class));
+    int newscounts = 0;
 	Set<String> featureNews = (HashSet)request.getAttribute("featureNews"); 
-	if(count > resultsHits.size()){
-		count = resultsHits.size();
-    }
-	
+	if(properties.containsKey("count")){
+		 newscounts =  Integer.parseInt(properties.get("count",String.class));
+		if(newscounts > resultsHits.size()){
+			newscounts = resultsHits.size();
+		 }
+	}
 %>
 <div class="small-24 medium-24 large-24 columns news-section">
 	<div class="row">
@@ -85,42 +87,44 @@
 <%
         //int i=0;
 
-        int newsCount = 0;
-        for(int i=0;i<resultsHits.size(); i++)
-	    {
-        	
-        	try{
-        	String newsLink = null;
-       		Node resultNode = resultsHits.get(i).getNode();
-			newsLink = getPath(resultNode);
-			
-			Node contentNode = resultNode.getNode("jcr:content");
-			String newsTitle = getTitle(contentNode);
-             
-			String newsDateStr = getDate(contentNode);
-			
-			String newsDesc = getDesc(contentNode);			
-			String imgPath = getImgPath(contentNode);
-			String external_url = getExternalUrl(contentNode);
-			
-			
-			request.setAttribute("newsTitle", newsTitle);
-			request.setAttribute("newsDateStr", newsDateStr);
-			request.setAttribute("imgPath", imgPath);
-			request.setAttribute("newsDesc", newsDesc);
-			request.setAttribute("newsLink", newsLink);
-			request.setAttribute("external_url",external_url);
-			if(!featureNews.contains(resultNode.getPath())){
-				newsCount++;
-%>
- 			<cq:include script="feature-render.jsp"/>
-			<%} 
-			 if(newsCount==count)
-		      {
-		        	 break;
-		      }
-	    }catch(Exception e){}
-	 } 	
+        int ncount = 0;
+        if(newscounts > 0){
+			for(int i=0;i<resultsHits.size(); i++)
+		    {
+	        	
+	        	try{
+	        	String newsLink = null;
+	       		Node resultNode = resultsHits.get(i).getNode();
+				newsLink = getPath(resultNode);
+				
+				Node contentNode = resultNode.getNode("jcr:content");
+				String newsTitle = getTitle(contentNode);
+	             
+				String newsDateStr = getDate(contentNode);
+				
+				String newsDesc = getDesc(contentNode);			
+				String imgPath = getImgPath(contentNode);
+				String external_url = getExternalUrl(contentNode);
+				
+				
+				request.setAttribute("newsTitle", newsTitle);
+				request.setAttribute("newsDateStr", newsDateStr);
+				request.setAttribute("imgPath", imgPath);
+				request.setAttribute("newsDesc", newsDesc);
+				request.setAttribute("newsLink", newsLink);
+				request.setAttribute("external_url",external_url);
+				if(!featureNews.contains(resultNode.getPath())){
+					ncount++;
+	%>
+	 			<cq:include script="feature-render.jsp"/>
+				<%} 
+				 if(ncount==newscounts)
+			      {
+			        	 break;
+			      }
+		    }catch(Exception e){}
+		 } 
+        }
 %>
 			</ul>
 	</div>
