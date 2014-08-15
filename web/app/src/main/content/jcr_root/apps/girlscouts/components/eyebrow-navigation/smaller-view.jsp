@@ -91,7 +91,7 @@ public void buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_pat
 		Page rootPage = null;
 		String newWindow = values.length >= 4 && values[3].equalsIgnoreCase("true") ?" target=\"_blank\"" : "";
 		String displayInHamburger = values.length >= 5 ? values[4]: "";
-		System.out.println("What is the value of the displayInHamburger" +displayInHamburger);
+		
 		if(!path.isEmpty() && !path.equalsIgnoreCase("#") && path.indexOf(currentPage.getAbsoluteParent(2).getPath()) == 0) {
 			startingPoint = menuPath.substring(currentPage.getAbsoluteParent(2).getPath().length()+1,menuPath.length());
 			if(startingPoint.indexOf("/")>0) {
@@ -104,24 +104,35 @@ public void buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_pat
 				label = rootPage.getTitle();
 			}
 		}
-		if((currtPath.indexOf(menuPath)==0) || (currtPath.startsWith(menuPath))){
-		%>
-		 <%if((rootPath!=null) && (rootPage.getPath().equals(currtPath))){
-		      %><li class="active">
-			<% } else{%>
-				<li>
-		 	<%}%>
-		  	<div><a href="<%=path%>" <%= newWindow %>><%=label %></a></div>
-		  	<% if(currtPath.indexOf(menuPath)==0 || currtPath.startsWith(menuPath)){
-					buildMenu(iterPage, rootPath, gs_us_path, menuBuilder, levelDepth,"",levelFlag, currtPath, currTitle);
+		if(!displayInHamburger.equalsIgnoreCase("true")){
+			if((currtPath.indexOf(menuPath)==0) || (currtPath.startsWith(menuPath))){
 			%>
-			<%=menuBuilder%>
-			<%} %>
-		<%}else{%>
-			<li><div><a href="<%= path %>"<%= newWindow %>><%= label %></a></div>
-		<%}%>
-		</li>
-	<%}%>
+				<%if((rootPath!=null) && (rootPage.getPath().equals(currtPath))){
+		     		 %><li class="active">
+				<% } else{%>
+					<li>
+		 			<%}%>
+		  		<div><a href="<%=path%>" <%= newWindow %>><%=label %></a></div>
+		  		<% if(currtPath.indexOf(menuPath)==0 || currtPath.startsWith(menuPath)){
+					buildMenu(iterPage, rootPath, gs_us_path, menuBuilder, levelDepth,"",levelFlag, currtPath, currTitle);
+				%>
+				<%=menuBuilder%>
+				<%} %>
+			<%}else{%>
+				<li><div><a href="<%= path %>"<%= newWindow %>><%= label %></a></div>
+			<%}%>
+			</li>
+		<%}else{
+			if(currtPath.equals(menuPath)){%>
+				<li class="active">
+       		 <%}else{ %>
+        		<li>
+        	<% } %>
+			<div><a href="<%= path %>"<%= newWindow %>><%= label %></a></div></li>
+		<% } %>
+		<%} %>
+		
+	
  </ul>
 </div> 
    

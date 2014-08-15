@@ -88,7 +88,7 @@ girlscouts.components.SimplifiedLinkWidget = CQ.Ext.extend(CQ.form.CompositeFiel
         });
         this.add(this.openInNewWindowField);
         
-        this.add(new CQ.Ext.form.Label({text: "Navigation In Hamburger"}));
+        this.add(new CQ.Ext.form.Label({text: "Supress Sub-Menu In Hamburger"}));
         this.displayNavigationInMenuField = new CQ.Ext.form.Checkbox({
             listeners: {
                 change: {
