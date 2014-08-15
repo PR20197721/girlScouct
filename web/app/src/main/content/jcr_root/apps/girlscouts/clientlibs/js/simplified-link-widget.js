@@ -29,6 +29,7 @@ girlscouts.components.SimplifiedLinkWidget = CQ.Ext.extend(CQ.form.CompositeFiel
 	pathField: null,
     classField: null,
     openInNewWindowField: null,
+    displayNavigationInMenuField: null,
     
     constructor: function(config) {
         config = config || { };
@@ -86,6 +87,17 @@ girlscouts.components.SimplifiedLinkWidget = CQ.Ext.extend(CQ.form.CompositeFiel
             }
         });
         this.add(this.openInNewWindowField);
+        
+        this.add(new CQ.Ext.form.Label({text: "Supress Sub-Menu In Hamburger"}));
+        this.displayNavigationInMenuField = new CQ.Ext.form.Checkbox({
+            listeners: {
+                change: {
+                    scope:this,
+                    fn:this.updateHidden
+                }
+            }
+        });
+        this.add(this.displayNavigationInMenuField);
 
         this.add(new CQ.Ext.form.Label({text: "Class"}));
         this.classField = new CQ.Ext.form.TextField({
@@ -105,8 +117,9 @@ girlscouts.components.SimplifiedLinkWidget = CQ.Ext.extend(CQ.form.CompositeFiel
         this.labelField.setValue(parts[0]);
         this.pathField.setValue(parts[1]);
 		this.classField.setValue(parts[2]);
-		this.openInNewWindowField.setValue(parts[3]); 
-        this.hiddenField.setValue(value);
+		this.openInNewWindowField.setValue(parts[3]);
+		this.displayNavigationInMenuField.setValue(parts[4]);
+		this.hiddenField.setValue(value);
     },
 
     // overriding CQ.form.CompositeField#getValue
@@ -119,7 +132,9 @@ girlscouts.components.SimplifiedLinkWidget = CQ.Ext.extend(CQ.form.CompositeFiel
         return this.labelField.getValue() + "|||" 
         	+ this.pathField.getValue() + "|||"
             + this.classField.getValue() + "|||"
-            + (this.openInNewWindowField.getValue() ? 'true' : 'false');
+            + (this.openInNewWindowField.getValue() ? 'true' : 'false') + "|||"
+            + (this.displayNavigationInMenuField.getValue() ? 'true' : 'false');
+            
     },
 
     // private
