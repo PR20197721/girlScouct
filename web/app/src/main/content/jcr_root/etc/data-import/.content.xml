@@ -50,12 +50,12 @@
                     <program-level
                         jcr:primaryType="nt:unstructured"
                         name="cq:tags"
-                        script="function(value) {String.prototype.trim=function(){return this.replace(/^ +| +$/g, '');}; var tags = value.split(','); for (var i = 0; i &lt; tags.length; i++) {tags[i] = 'girlscouts:program-level/' + tags[i].trim().replace(/ +/g,'-').toLowerCase();} return tags.join(',');}"
+                        script="function(value) {String.prototype.trim=function(){return this.replace(/^ +| +$/g, '');}; var tags = value.split(','); for (var i = 0; i &lt; tags.length; i++) {tags[i] = 'girlscouts-prototype:program-level/' + tags[i].trim().replace(/ +/g,'-').toLowerCase();} return tags.join(',');}"
                         type="string[]"/>
                     <category
                         jcr:primaryType="nt:unstructured"
                         name="cq:tags"
-                        script="function(tag) {String.prototype.trim=function(){return this.replace(/^ +| +$/g, '');}; return &quot;girlscouts:category/&quot; + tag.trim().replace(/ /g, &quot;-&quot;).replace(/[^a-zA-Z-]/g, &quot;&quot;).replace(/-+/g, &quot;-&quot;).toLowerCase();}"
+                        script="function(tag) {String.prototype.trim=function(){return this.replace(/^ +| +$/g, '');}; return &quot;girlscouts-prototype:category/&quot; + tag.trim().replace(/ /g, &quot;-&quot;).replace(/[^a-zA-Z-]/g, &quot;&quot;).replace(/-+/g, &quot;-&quot;).toLowerCase();}"
                         type="string[]"/>
                 </fields>
                 <nameGen
