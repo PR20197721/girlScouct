@@ -122,7 +122,7 @@
                 </fields>
                 <nameGen
                     jcr:primaryType="nt:unstructured"
-                    script="function(name, team) {return team.toLowerCase().replace(/ /g, '-') + '/' + name.toLowerCase().replace(/ /g, '-'); }"
+                    script="function(name, team) {return team.toLowerCase().replace(/ /g, '-').replace(/\\//g, '') + '/' + name.toLowerCase().replace(/ /g, '-').replace(/\\//g, ''); }"
                     scriptFields="name,team"/>
                 <defaultFields jcr:primaryType="nt:unstructured">
                     <hideInNav
