@@ -18,7 +18,7 @@
     Map<String,List<FacetsInfo>> facetsAndTags = (HashMap<String, List<FacetsInfo>>) request.getAttribute("facetsAndTags");
     if(null==facetsAndTags) {
 %>
-<cq:include path="content/left/par/event-search" resourceType="girlscouts/components/event-search" />
+	<cq:include path="content/left/par/event-search" resourceType="girlscouts/components/event-search" />
 <%
     }
     Set <String> regions = new HashSet<String>();
@@ -97,71 +97,78 @@ function toggleWhiteArrow() {
 </div>
 
 <div id="events-display">
+
+
 <form action="<%=formAction%><%=eventSuffix %>" method="get" id="form">
-<div class="baseDiv programLevel row collapse">
-   <div class="small-24 medium-7 large-7 columns">
-			<div class="title"> By Keyword </div>
-			<input type="text" name="q" placeholder="Keywords" class="searchField" style="width:140px;height:25px;" />
-		</div>
-		<div class="small-24 medium-7 large-7 event-region columns"> 
-		    <div class="title"> Region  </div>
-		      <div class="styled-select">
-			      <select name="regions" id="regions">
-			      		<option value="choose">Choose Region</option>
-			           		<%for(String str: sortList) {%>
-			             		   <option value="<%=str%>"><%=str%></option>
-			           		 <%} %>
-			     	</select>
-			     </div>	
-		</div>
-		<div class="small-24 medium-10 large-10 columns">
-		    <div class="title">By Date</div>
-		    	<div class="row event-activity collapse">
-		      		<div class="large-12 columns">
-		        		<input type="text" name="startdtRange" id="startdtRange" class="searchField" <%if((enddtRange!=null && !enddtRange.isEmpty()) && (startdtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="From Today"/>
-		      		</div>
-		       		<div class="large-11 columns">  
-		       			<input type="text" name="enddtRange" id="enddtRange" class="searchField" <%if((startdtRange!=null && !startdtRange.isEmpty()) && (enddtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="To"/>
-		    		</div>
-		    </div>
-		</div>
-</div>	
-<div class="baseDiv programLevel" >
-   <div class="title"> By Program Level </div>
-    <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-2 categoriesList">
-        <%
-         List programLevel = facetsAndTags.get("program-level");
-        for(int pi=0; pi<programLevel.size(); pi++){
-            FacetsInfo programLevelList = (FacetsInfo)programLevel.get(pi);
-            %> 
-            <li>     
-                <input type="checkbox"  id="<%=programLevelList.getFacetsTagId()%>" value="<%=programLevelList.getFacetsTagId()%>" name="tags" <%if(set.contains(programLevelList.getFacetsTagId())){ %>checked <%} %>/>
-                <label for="<%=programLevelList.getFacetsTitle() %>"><%=programLevelList.getFacetsTitle()%></label>
-            </li>
-            <%
-           }
-        %>
-	</ul>        
-</div>
-<div class="baseDiv programLevel" >
-	<div class="title">By Category </div>
-	<ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-2 categoriesList">
-<%
-    // Get the categories
-	List<FacetsInfo> facetsInfoList = facetsAndTags.get("categories");
-	for (FacetsInfo facetsInfo: facetsInfoList) {
-%>
-    	<li>
-    		<input type="checkbox" id="<%=facetsInfo.getFacetsTagId()%>" value="<%=facetsInfo.getFacetsTagId()%>" name="tags" <%if(set.contains(facetsInfo.getFacetsTagId())){ %>checked <%} %>/>&nbsp;<label for="<%=facetsInfo.getFacetsTitle() %>"><%=facetsInfo.getFacetsTitle()%></label>
-    	</li>
-<%
-	}
-%>
-	</ul>
-</div>
-<div class="searchButtonRow baseDiv programLevel">
-    	<input type="submit" value="Search" id="sub" class="form-btn advancedSearchButton"/>
-</div>
+	<div class="baseDiv programLevel row collapse">
+	   <div class="small-24 medium-7 large-7 columns">
+				<div class="title"> By Keyword </div>
+				<input type="text" name="q" placeholder="Keywords" class="searchField" style="width:140px;height:25px;" />
+			</div>
+			<div class="small-24 medium-7 large-7 event-region columns"> 
+			    <div class="title"> Region  </div>
+			      <div class="styled-select">
+				      <select name="regions" id="regions">
+				      		<option value="choose">Choose Region</option>
+				           		<%for(String str: sortList) {%>
+				             		   <option value="<%=str%>"><%=str%></option>
+				           		 <%} %>
+				     	</select>
+				     </div>	
+			</div>
+			<div class="small-24 medium-10 large-10 columns">
+			    <div class="title">By Date</div>
+			    	<div class="row event-activity collapse">
+			      		<div class="large-12 columns">
+			        		<input type="text" name="startdtRange" id="startdtRange" class="searchField" <%if((enddtRange!=null && !enddtRange.isEmpty()) && (startdtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="From Today"/>
+			      		</div>
+			       		<div class="large-11 columns">  
+			       			<input type="text" name="enddtRange" id="enddtRange" class="searchField" <%if((startdtRange!=null && !startdtRange.isEmpty()) && (enddtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="To"/>
+			    		</div>
+			    </div>
+			</div>
+	</div>	
+	<div class="baseDiv programLevel" >
+	   <div class="title"> By Program Level </div>
+	    <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-2 categoriesList">
+	        <%
+	         List programLevel = facetsAndTags.get("program-level");
+	        try {
+		        for(int pi=0; pi<programLevel.size(); pi++){
+		            FacetsInfo programLevelList = (FacetsInfo)programLevel.get(pi);
+		            %> 
+		            <li>     
+		                <input type="checkbox"  id="<%=programLevelList.getFacetsTagId()%>" value="<%=programLevelList.getFacetsTagId()%>" name="tags" <%if(set.contains(programLevelList.getFacetsTagId())){ %>checked <%} %>/>
+		                <label for="<%=programLevelList.getFacetsTitle() %>"><%=programLevelList.getFacetsTitle()%></label>
+		            </li>
+		            <%
+		           }
+	        }catch(Exception e){}
+	        %>
+		</ul>        
+	</div>
+	<div class="baseDiv programLevel" >
+		<div class="title">By Category </div>
+		<ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-2 categoriesList">
+	<%
+	    // Get the categories
+		List<FacetsInfo> facetsInfoList = facetsAndTags.get("categories");
+		try{
+			for (FacetsInfo facetsInfo: facetsInfoList) {
+	%>
+	    	<li>
+	    		<input type="checkbox" id="<%=facetsInfo.getFacetsTagId()%>" value="<%=facetsInfo.getFacetsTagId()%>" name="tags" <%if(set.contains(facetsInfo.getFacetsTagId())){ %>checked <%} %>/>&nbsp;<label for="<%=facetsInfo.getFacetsTitle() %>"><%=facetsInfo.getFacetsTitle()%></label>
+	    	</li>
+	<%
+			}
+		}catch(Exception e){}
+		
+	%>
+		</ul>
+	</div>
+	<div class="searchButtonRow baseDiv programLevel">
+	    	<input type="submit" value="Search" id="sub" class="form-btn advancedSearchButton"/>
+	</div>
   
 
 
