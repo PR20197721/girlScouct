@@ -863,33 +863,6 @@ td.fc-header-left{
     
 /* Hamburger Menu changes end */
 
-#right-canvas-menu-bottom > ul{
-   padding:0px;
-  margin:0px;
-}
-#right-canvas-menu-bottom li 
- {
-    height:50px;
-    width:100%;
-   /* text-indent:-5px;*/
-    }
-    
-#right-canvas-menu-bottom > ul > li.active{
-  background-color:#B0B0B0;
-}
-
-#right-canvas-menu-bottom li{
-   padding: 8px 0px 0px 5px;
-}
-
-#right-canvas-menu-bottom > ul > li >a{
-   padding:0px;
-}
-
-#right-canvas-menu-bottom li {
-    text-indent:19px;
-}
-
 .lineHeight{
  line-height:1.5;
  font-size:1.0rem;
@@ -1413,3 +1386,50 @@ ul.searchResultsList article p{
 	-ms-touch-action: pan-y; 
 	touch-action: pan-y;
 }
+
+/* Hamburger Menu changes end */
+#right-canvas-menu-bottom a{
+	color:#ddd;
+	padding:10px 0px 0px 5px;
+	
+}
+
+#right-canvas-menu-bottom li{
+    margin: 0px;
+}
+
+#right-canvas-menu-bottom ul {
+    list-style: none;
+}
+
+
+#right-canvas-menu-bottom .side-nav li div {
+	padding: 0px 0px 0px 20px;
+
+}
+
+
+#right-canvas-menu-bottom .side-active ul {
+        padding: 0px;
+        margin: 0px;
+}
+
+#right-canvas-menu-bottom .side-nav ul li a{
+	padding-left:15px;
+}
+
+#right-canvas-menu-bottom .side-nav li.active > div{
+   background-color:#B0B0B0; 
+   
+}
+
+#right-canvas-menu-bottom .side-nav ul li ul li ul li a {
+	padding-left: 35px;
+}
+
+#right-canvas-menu-bottom .side-nav ul li ul li a {
+	padding-left: 25px;
+}
+
+
+
