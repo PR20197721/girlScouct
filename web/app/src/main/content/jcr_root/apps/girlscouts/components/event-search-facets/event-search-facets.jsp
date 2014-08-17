@@ -101,22 +101,11 @@ function toggleWhiteArrow() {
 
 <form action="<%=formAction%><%=eventSuffix %>" method="get" id="form">
 	<div class="baseDiv programLevel row collapse">
-	   <div class="small-24 medium-7 large-7 columns">
+	   <div class="small-24 medium-8 large-8 columns">
 				<div class="title"> By Keyword </div>
-				<input type="text" name="q" placeholder="Keywords" class="searchField" style="width:140px;height:25px;" />
+				<input type="text" name="q" placeholder="Keywords" class="searchField" style="width:200px;height:25px;" />
 			</div>
-			<div class="small-24 medium-7 large-7 event-region columns"> 
-			    <div class="title"> Region  </div>
-			      <div class="styled-select">
-				      <select name="regions" id="regions">
-				      		<option value="choose">Choose Region</option>
-				           		<%for(String str: sortList) {%>
-				             		   <option value="<%=str%>"><%=str%></option>
-				           		 <%} %>
-				     	</select>
-				     </div>	
-			</div>
-			<div class="small-24 medium-10 large-10 columns">
+			<div class="small-24 medium-14 large-14 columns">
 			    <div class="title">By Date</div>
 			    	<div class="row event-activity collapse">
 			      		<div class="large-12 columns">
