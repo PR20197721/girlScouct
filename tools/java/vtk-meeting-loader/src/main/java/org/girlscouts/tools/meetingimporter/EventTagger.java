@@ -25,6 +25,8 @@ public class EventTagger {
     
     private static String TAG_PROP = "cq:tags";
     private static String TITLE_PROP = "jcr:title";
+    private static String CATEGORY_TAG = "categories";
+    private static String DEFAULT_NAMESPACE = "girlscouts";
     
     private String taggingFile;
     private String eventBranch;
@@ -50,7 +52,10 @@ public class EventTagger {
                 throw new Exception("Error parsing tagging file on line: " + Integer.toString(lineCount));
             }
             String title = settings[0].trim();
-            String tag = settings[1].trim();
+            String tag = settings[1].trim().toLowerCase()
+                    .replaceAll(" ", "-")
+                    .replaceAll("[^a-zA-Z0-9\\-]", "")
+                    .replaceAll("\\-+", "-");
             
             if (tagMap.containsKey(title)) {
                 if (!tag.equals(tagMap.get(title))) {
@@ -68,12 +73,17 @@ public class EventTagger {
         
         NodeIterator iter = parentNode.getNodes();
         while (iter.hasNext()) {
-            Node node = iter.nextNode().getNode("jcr:content");
+            Node node = iter.nextNode();
+            if (node.getName().equals("jcr:content")) {
+                continue;
+            }
+
+            node = node.getNode("jcr:content");
             List<String> tags = new ArrayList<String>();
             if (node.hasProperty(TAG_PROP)) {
                 Value[] originalValues = node.getProperty(TAG_PROP).getValues();
                 for (Value value : originalValues) {
-                    tags.add(value.getString());
+                    tags.add(value.getString().replaceAll("^" + DEFAULT_NAMESPACE, tagPrefix));
                 }
             }
 
@@ -84,12 +94,14 @@ public class EventTagger {
                 continue;
             }
             
-            tagToAdd = tagPrefix + tagToAdd;
+            tagToAdd = tagPrefix + ":" + CATEGORY_TAG + "/" + tagToAdd;
             tags.add(tagToAdd);
             
             node.setProperty(TAG_PROP, tags.toArray(new String[tags.size()]));
+            System.out.println("Tag: " + tagToAdd + " applied to " + node.getPath());
         }
         session.save();
+        System.out.println("Session saved.");
     }
     
     private Session getSession() throws RepositoryException {
@@ -99,8 +111,12 @@ public class EventTagger {
         return session;
     }
 
-    public static void main(String[] args) {
-        
+    // Example Args
+    ///Users/mike/Desktop/taggings.txt /content/girlscoutsnccp/en/events-repository/2014 girlscoutsnccp
+    public static void main(String[] args) throws Exception {
+        EventTagger eventTagger = new EventTagger(args[0], args[1], args[2]);
+        eventTagger.readTagging();
+        eventTagger.applyTags();
     }
     
 }
