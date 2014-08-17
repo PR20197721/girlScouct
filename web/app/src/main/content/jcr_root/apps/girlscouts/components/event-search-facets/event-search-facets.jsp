@@ -101,21 +101,21 @@ function toggleWhiteArrow() {
 
 <form action="<%=formAction%><%=eventSuffix %>" method="get" id="form">
 	<div class="baseDiv programLevel row collapse">
-	   <div class="small-24 medium-8 large-8 columns">
+	   <div class="small-8 medium-8 large-8 columns">
 				<div class="title"> By Keyword </div>
-				<input type="text" name="q" placeholder="Keywords" class="searchField" style="width:200px;height:25px;" />
-			</div>
-			<div class="small-24 medium-14 large-14 columns">
-			    <div class="title">By Date</div>
-			    	<div class="row event-activity collapse">
-			      		<div class="large-12 columns">
+				<input type="text" name="q" placeholder="Keywords" class="searchField" style="height:25px;" />
+		</div>
+		<div class="small-15 medium-15 large-15 columns">
+			<div class="title">By Date</div>
+			   <div class="row event-activity collapse">
+			      		<div class="small-12 medium-12 large-12 columns">
 			        		<input type="text" name="startdtRange" id="startdtRange" class="searchField" <%if((enddtRange!=null && !enddtRange.isEmpty()) && (startdtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="From Today"/>
 			      		</div>
-			       		<div class="large-11 columns">  
+			       		<div class="small-11 medium-11 large-11 columns">  
 			       			<input type="text" name="enddtRange" id="enddtRange" class="searchField" <%if((startdtRange!=null && !startdtRange.isEmpty()) && (enddtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="To"/>
 			    		</div>
 			    </div>
-			</div>
+		</div>
 	</div>	
 	<div class="baseDiv programLevel" >
 	   <div class="title"> By Program Level </div>
