@@ -1,9 +1,11 @@
 package org.girlscouts.web.events.search;
+import java.net.URLDecoder;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -92,11 +94,9 @@ public class EventsSrch
 
 		searchQuery.put("type", "cq:Page");
 		searchQuery.put("path",path);
-		searchQuery.put("2_boolproperty","jcr:content/hideInNav");
-		searchQuery.put("2_boolproperty.value","false");
-		searchQuery.put("3_boolproperty","jcr:content/isFeature");
-		searchQuery.put("3_boolproperty.value","false");
-		searchQuery.put(++propertyCounter+"_property",EVENTS_PROP);
+		searchQuery.put("1_property",EVENTS_PROP);
+		searchQuery.put(++propertyCounter+"_boolproperty","jcr:content/hideInNav");
+		searchQuery.put(propertyCounter+"_boolproperty.value","false");
 		searchQuery.put("p.limit", "-1");
 		searchQuery.put("orderby","@jcr:content/data/start");
 		searchQuery.put("orderby.sort", "asc");
@@ -132,7 +132,7 @@ public class EventsSrch
 				
 		searchResultsInfo.setResults(relts);
 		
-		Iterator searchIterator = searchResultsInfo.getFacetsWithCount().keySet().iterator();
+		/*Iterator searchIterator = searchResultsInfo.getFacetsWithCount().keySet().iterator();
 		
 		while(searchIterator.hasNext())
 		{
@@ -142,7 +142,7 @@ public class EventsSrch
 			while(search.hasNext()){
 				String key1 =(String) search.next();
 			}
-		}
+		}*/
 		
 	}
 	
@@ -181,9 +181,9 @@ public class EventsSrch
 				}
 			}else{
 				int count = 1;
-				searchQuery.put(propertyCounter+"_property.or", "true");
+				searchQuery.put("1_property.or", "true");
 				for(String tagPath:tagsPath){
-					searchQuery.put(propertyCounter+"_property."+count+++"_value", tagPath);
+					searchQuery.put("1_property."+count+++"_value", tagPath);
 				}
 				
 				
@@ -216,12 +216,55 @@ public class EventsSrch
 	}
 	public void addDateRangeQuery(String lowerBound, String upperBound){
 		searchQuery.put("daterange.property","jcr:content/data/start" );
-		searchQuery.put("daterange.lowerBound",lowerBound);	
-		searchQuery.put("daterange.upperBound",upperBound);
+		if(!lowerBound.isEmpty()){
+			searchQuery.put("daterange.lowerBound",lowerBound);
+		}
+		if(!upperBound.isEmpty()){	
+			searchQuery.put("daterange.upperBound",upperBound);
+		}
 		
 	}
 	public void addDateRangesToQuery(String startdtRange, String enddtRange,Map<String, String> searchQuery){
-		addDateRangeQuery(startdtRange,enddtRange);
+		log.debug("startdtRange" +startdtRange  +"enddtRange" +enddtRange);
+		DateFormat parse = new SimpleDateFormat("MM-dd-yyyy");
+		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Date startRange = null;
+		Date endRange =null;
+		String strRange="";
+		String edRange="";
+		
+		
+		
+		try {
+			if(!startdtRange.isEmpty()){
+				String startDtDecoder = URLDecoder.decode(startdtRange,"UTF-8");
+				System.out.println("What is the decorder start date:::::" +startDtDecoder);
+				if(startdtRange.indexOf("%2F")>0){
+					startdtRange = startdtRange.replace("%2F", "-");
+				}else{
+					startdtRange = startdtRange.replaceAll("/", "-");
+				}
+				startRange = (Date)parse.parse(startdtRange);
+				strRange = formatter.format(startRange);
+				System.out.println(strRange);
+			}
+			if(!enddtRange.isEmpty()){
+				String endDtDecoder= URLDecoder.decode(enddtRange,"UTF-8");
+				System.out.println("What is the decorder start date:::::" +endDtDecoder);
+				if(enddtRange.indexOf("%2F")>0){
+					enddtRange = enddtRange.replace("%2F", "-");
+				}else{
+					enddtRange = enddtRange.replaceAll("/", "-");
+				}
+				endRange = (Date)parse.parse(enddtRange.replaceAll("%2F", "-"));
+				edRange = formatter.format(endRange);
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			log.error("Error" +e.getMessage());
+			
+		}
+		addDateRangeQuery(strRange,edRange);
 		
 	}
 	

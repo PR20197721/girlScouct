@@ -105,6 +105,17 @@ function toggleWhiteArrow() {
 				<div class="title"> By Keyword </div>
 				<input type="text" name="q" placeholder="Keywords" class="searchField" style="height:25px;" />
 		</div>
+		<div class="small-24 medium-7 large-7 event-region columns"> 
+		    <div class="title"> Region  </div>
+		      <div class="styled-select">
+			      <select name="regions" id="regions">
+			      		<option value="choose">Choose Region</option>
+			           		<%for(String str: sortList) {%>
+			             		   <option value="<%=str%>"><%=str%></option>
+			           		 <%} %>
+			     	</select>
+			     </div>	
+		</div>
 		<div class="small-15 medium-15 large-15 columns">
 			<div class="title">By Date</div>
 			   <div class="row event-activity collapse">

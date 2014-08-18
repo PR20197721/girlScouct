@@ -87,6 +87,8 @@ public class SearchUtils {
 		sResults.setSearchResults(searchResults);
 			
 		java.util.List<Hit> hits = searchResults.getHits();
+		System.out.println("How manu search results" +hits.size());
+		
 		Map<String, Facet> facets = searchResults.getFacets();
 		log.info("# of page displayed" +searchResults.getResultPages().size());
 		log.debug("This is the facets  [" +facets.toString() +"]"  + " TotalHitMatches [" +searchResults.getTotalMatches() +"]");
