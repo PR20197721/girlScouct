@@ -32,14 +32,11 @@ public class EventsSrch
 	private static String FACETS_PATH = "/etc/tags/girlscouts";
 	
 	private final String COUNCIL_SPE_PATH = "/etc/tags/";
-	
-	
 	private static String EVENTS_PROP="jcr:content/cq:tags";
-	//private static String PATH_1 = "/content/girlscouts-usa/en/events/";
 	private Map<String, ArrayList<String>> facetsQryBuilder = new HashMap<String, ArrayList<String>>();
 	
  	private SearchResultsInfo searchResultsInfo;
- 	int propertyCounter = 0;
+ 	int propertyCounter = 1;
  	LinkedHashMap<String, String> searchQuery = new LinkedHashMap<String, String>();
 	
 	// Which return the object of Facets as Well as the Results;
@@ -117,11 +114,9 @@ public class EventsSrch
 			addDateRangesToQuery(startdtRange, enddtRange,searchQuery);
 		}
 		
-		if(region!=null && !region.isEmpty()){
+		if(region!=null && !region.isEmpty() && !region.equals("choose")){
 			addRegionToQuery(region);
 		}
-		
-		//performContentSearch(searchQuery);
 		
 		List<Hit> hits = SearchUtils.performContentSearch(searchQuery,slingRequest,this.queryBuilder,offset,searchResultsInfo);
 		for(int i=0;i<hits.size();i++){
@@ -132,18 +127,6 @@ public class EventsSrch
 				
 		searchResultsInfo.setResults(relts);
 		
-		/*Iterator searchIterator = searchResultsInfo.getFacetsWithCount().keySet().iterator();
-		
-		while(searchIterator.hasNext())
-		{
-			String key = (String)searchIterator.next();
-			Map<String,Long> Categoriestags = searchResultsInfo.getFacetsWithCount().get(key);
-			Iterator search= Categoriestags.keySet().iterator();
-			while(search.hasNext()){
-				String key1 =(String) search.next();
-			}
-		}*/
-		
 	}
 	
 	public SearchResultsInfo getSearchResultsInfo(){
@@ -151,8 +134,7 @@ public class EventsSrch
 	}
 	
 	public void addToDefaultQuery(Map<String, String> searchQuery,String[] tags){
-		for(String s:tags)
-		{
+		for(String s:tags) {
 			String temp = s.replaceAll("%3A", ":").replaceAll("%2F", "/");
 			// categories/badge
 			String key = temp.substring(temp.indexOf(":")+1,temp.length());
@@ -180,15 +162,12 @@ public class EventsSrch
 					searchQuery.put("gsproperty."+count+++"_value", tagPath);
 				}
 			}else{
-				int count = 1;
-				searchQuery.put("1_property.or", "true");
-				for(String tagPath:tagsPath){
-					searchQuery.put("1_property."+count+++"_value", tagPath);
+					int count = 1;
+					searchQuery.put("1_property.or", "true");
+					for(String tagPath:tagsPath){
+						searchQuery.put("1_property."+count+++"_value", tagPath);
+					}
 				}
-				
-				
-			}
-			
 		}
 		
 	}
@@ -226,42 +205,27 @@ public class EventsSrch
 	}
 	public void addDateRangesToQuery(String startdtRange, String enddtRange,Map<String, String> searchQuery){
 		log.debug("startdtRange" +startdtRange  +"enddtRange" +enddtRange);
-		DateFormat parse = new SimpleDateFormat("MM-dd-yyyy");
+		//DateFormat parse = new SimpleDateFormat("MM-dd-yyyy");
+		DateFormat parse = new SimpleDateFormat("MM/dd/yyyy");
 		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Date startRange = null;
 		Date endRange =null;
 		String strRange="";
 		String edRange="";
-		
-		
-		
 		try {
 			if(!startdtRange.isEmpty()){
 				String startDtDecoder = URLDecoder.decode(startdtRange,"UTF-8");
-				System.out.println("What is the decorder start date:::::" +startDtDecoder);
-				if(startdtRange.indexOf("%2F")>0){
-					startdtRange = startdtRange.replace("%2F", "-");
-				}else{
-					startdtRange = startdtRange.replaceAll("/", "-");
-				}
-				startRange = (Date)parse.parse(startdtRange);
+				startRange = (Date)parse.parse(startDtDecoder);
 				strRange = formatter.format(startRange);
-				System.out.println(strRange);
 			}
 			if(!enddtRange.isEmpty()){
 				String endDtDecoder= URLDecoder.decode(enddtRange,"UTF-8");
-				System.out.println("What is the decorder start date:::::" +endDtDecoder);
-				if(enddtRange.indexOf("%2F")>0){
-					enddtRange = enddtRange.replace("%2F", "-");
-				}else{
-					enddtRange = enddtRange.replaceAll("/", "-");
-				}
-				endRange = (Date)parse.parse(enddtRange.replaceAll("%2F", "-"));
+				endRange = (Date)parse.parse(endDtDecoder);
 				edRange = formatter.format(endRange);
 			}
-		} catch (Exception e) {
+		}catch (Exception e) {
 			// TODO Auto-generated catch block
-			log.error("Error" +e.getMessage());
+			log.error("Error ::::::::::::::[" +e.getMessage() +"]");
 			
 		}
 		addDateRangeQuery(strRange,edRange);
