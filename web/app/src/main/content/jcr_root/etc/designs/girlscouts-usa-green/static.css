@@ -294,6 +294,21 @@ a:hover.menuHighlight {
     padding-bottom: 15px;
 }
 .footerLinks {
+	display: inline-block;
+    float: left;
+}
+.footerSocialMedia {
+    display: inline-block;
+    float: right;
+    padding-right: 20px;
+}
+.footerSocialMediaMobile {
+    display: table;
+    margin-left: auto;
+    margin-right: auto;
+}
+.footerSocialMediaMobile a img {
+    padding: 0 10px 10px 10px;
 }
 .footerMiscellaneous {
 	position: absolute;

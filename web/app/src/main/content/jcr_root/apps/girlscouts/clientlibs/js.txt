@@ -7,3 +7,4 @@ dynamic-pathfield.js
 SpecialCharsDialog.js
 InsertHtml.js
 frequently-access-form.js
+social-media-widget.js
