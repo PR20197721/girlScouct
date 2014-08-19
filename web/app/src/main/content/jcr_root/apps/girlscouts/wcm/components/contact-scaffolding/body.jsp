@@ -271,7 +271,7 @@
                 } else {
                 	team = "default";
                 }
-                var	teamNodeName = team.toLowerCase().replace(" ", "-");
+                var	teamNodeName = team.toLowerCase().replace(/ /g, "-");
                 var destDir = '<%= contentPath %>/' + teamNodeName;
                 girlscouts.functions.createPath(destDir, 'cq:Page', 'jcr:title|' + team);
 
