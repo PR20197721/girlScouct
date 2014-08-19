@@ -253,6 +253,7 @@ public class EventsSrch
 		region.put("orderby.sort", "asc");
 		Set<String> regions = new HashSet<String>();
 		//Set<String> vtkRegion = new HashSet<String>();
+		long startTime = System.nanoTime();
 		try {
 			List<Hit> hits = SearchUtils.performContentSearch(region,slingRequest,this.queryBuilder,"0",searchResultsInfo);
 			for(Hit hts : hits){
@@ -272,6 +273,9 @@ public class EventsSrch
 		} catch (RepositoryException e) {
 			e.printStackTrace();
 		}
+		long endTime = System.nanoTime();
+		long duration = (endTime - startTime);
+		log.debug("Time Take in Milliseconds #######################" +(endTime - startTime)/1000000);
 		
 		return regions;
 		
