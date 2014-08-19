@@ -70,7 +70,7 @@ public class SearchUtils {
 		//SearchResultsInfo sResults; sResults = new SearchResultsInfo();
 		List<String> Sresults = new ArrayList<String>();		
 		PredicateGroup predicateGroup = PredicateGroup.create(map);
-		System.out.println(predicateGroup.toString());
+		//System.out.println(predicateGroup.toString());
 		Query query = builder.createQuery(predicateGroup,slingRequest.getResourceResolver().adaptTo(Session.class));
 		query.setExcerpt(true);
 		
@@ -88,7 +88,6 @@ public class SearchUtils {
 		sResults.setSearchResults(searchResults);
 			
 		java.util.List<Hit> hits = searchResults.getHits();
-		System.out.println("How manu search results" +hits.size());
 		
 		Map<String, Facet> facets = searchResults.getFacets();
 		log.info("# of page displayed" +searchResults.getResultPages().size());

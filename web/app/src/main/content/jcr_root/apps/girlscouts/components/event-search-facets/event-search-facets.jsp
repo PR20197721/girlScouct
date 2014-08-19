@@ -24,6 +24,7 @@
     Set <String> regions = new HashSet<String>();
     SearchResultsInfo srchResults = (SearchResultsInfo)request.getAttribute("eventresults");
     List<String> sresults = srchResults.getResults();
+    Set<String> setOfRegions = srchResults.getRegion();
     for(String result: sresults){
         Node node =  resourceResolver.getResource(result).adaptTo(Node.class);
         try{
@@ -101,31 +102,31 @@ function toggleWhiteArrow() {
 
 <form action="<%=formAction%><%=eventSuffix %>" method="get" id="form">
 	<div class="baseDiv programLevel row collapse">
-	   <div class="small-8 medium-8 large-8 columns">
+	   <div class="small-24 medium-6 large-7 columns">
 				<div class="title"> By Keyword </div>
-				<input type="text" name="q" placeholder="Keywords" class="searchField" style="height:25px;" />
+				<input type="text" name="q" placeholder="Keywords" class="searchField" style="width:140px;height:25px;" />
 		</div>
-		<div class="small-24 medium-7 large-7 event-region columns"> 
-		    <div class="title"> Region  </div>
-		      <div class="styled-select">
-			      <select name="regions" id="regions">
-			      		<option value="choose">Choose Region</option>
-			           		<%for(String str: sortList) {%>
-			             		   <option value="<%=str%>"><%=str%></option>
-			           		 <%} %>
-			     	</select>
-			     </div>	
+		<div class="small-12 medium-6 large-6 event-region columns">
+			<div class="title"> Region </div>
+			<div class="styled-select">
+				<select name="regions" id="regions">
+					<option value="choose">Choose Region</option>
+					<%for(String str: setOfRegions) {%>
+						<option value="<%=str%>"><%=str%></option>
+					<%} %>
+				</select>
+			</div>	
 		</div>
-		<div class="small-15 medium-15 large-15 columns">
+		<div class="small-11 medium-12 large-10 columns">
 			<div class="title">By Date</div>
-			   <div class="row event-activity collapse">
-			      		<div class="small-12 medium-12 large-12 columns">
-			        		<input type="text" name="startdtRange" id="startdtRange" class="searchField" <%if((enddtRange!=null && !enddtRange.isEmpty()) && (startdtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="From Today"/>
-			      		</div>
-			       		<div class="small-11 medium-11 large-11 columns">  
-			       			<input type="text" name="enddtRange" id="enddtRange" class="searchField" <%if((startdtRange!=null && !startdtRange.isEmpty()) && (enddtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="To"/>
-			    		</div>
-			    </div>
+			<div class="row event-activity collapse">
+				<div class="small-12 medium-12 large-12 columns">
+					<input type="text" name="startdtRange" id="startdtRange" class="searchField" <%if((enddtRange!=null && !enddtRange.isEmpty()) && (startdtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="From Today"/>
+				</div>
+				<div class="small-11 medium-11 large-11 columns">
+					<input type="text" name="enddtRange" id="enddtRange" class="searchField" <%if((startdtRange!=null && !startdtRange.isEmpty()) && (enddtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="To"/>
+				</div>
+			</div>
 		</div>
 	</div>	
 	<div class="baseDiv programLevel" >
