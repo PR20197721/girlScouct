@@ -45,3 +45,26 @@ if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMM
 	<cq:include path="miscellaneous" resourceType="girlscouts/components/styled-parsys" />
 </div>
 --%>
+
+<%
+	String[] socialIcons = properties.get("socialIcons", String[].class);
+	if (socialIcons != null) {
+		if(centerLinks != null && centerLinks == false) {
+	    	%><div class="footerSocialMedia"><%
+		} else {
+		    %><div class="footerSocialMediaMobile"><%
+		}
+
+	    for (String settingStr : socialIcons) {
+	        String[] settings = settingStr.split("\\|\\|\\|");
+	        if (settings.length < 2) {
+	            continue;
+	        }
+	        String url = settings[0];
+	        String iconPath = settings[1];
+	        
+			%><a class="text-center" href="<%= url %>"><img src="<%= iconPath %>"/></a><%
+	    }
+	    %></div><%
+	}
+%>
