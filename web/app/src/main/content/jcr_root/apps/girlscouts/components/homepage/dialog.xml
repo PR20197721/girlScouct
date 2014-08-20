@@ -79,6 +79,11 @@
                             jcr:primaryType="cq:Widget"
                             fieldLabel="Google Analytics ID "
                             name="./googleAnalyticsId"/>
+                        <tracking
+                            jcr:primaryType="cq:Widget"
+                            fieldDescription="Put embedded HTML or JavaScript for tracking purposes here."
+                            fieldLabel="Tracking"
+                            name="./footerTracking"/>
                     </items>
                 </girl-scouts>
             </items>
