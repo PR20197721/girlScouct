@@ -24,7 +24,7 @@
     Set <String> regions = new HashSet<String>();
     SearchResultsInfo srchResults = (SearchResultsInfo)request.getAttribute("eventresults");
     List<String> sresults = srchResults.getResults();
-    Set<String> setOfRegions = srchResults.getRegion();
+    List<String> setOfRegions = srchResults.getRegion();
     for(String result: sresults){
         Node node =  resourceResolver.getResource(result).adaptTo(Node.class);
         try{

@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -53,7 +54,6 @@ public class EventsSrch
 	{
 		try 
 		{
-			
 			createFacets(facetsPath);
 			eventResults(q,offset,month,year,startdtRange,enddtRange,region,tags,path);
 			searchResultsInfo = SearchUtils.combineSearchTagsCounts(searchResultsInfo,facetAndTags);
@@ -88,7 +88,7 @@ public class EventsSrch
 		this.searchResultsInfo = new SearchResultsInfo();
 		
 		// Generate Regions
-		searchResultsInfo.setRegion(eventGeneration(path));
+		searchResultsInfo.setRegion(eventRegions(path));
 
 		if(q!=null && !q.isEmpty()){
 			log.info("Search Query Term [" +q +"]");
@@ -125,6 +125,7 @@ public class EventsSrch
 		}
 		
 		List<Hit> hits = SearchUtils.performContentSearch(searchQuery,slingRequest,this.queryBuilder,offset,searchResultsInfo);
+		
 		for(int i=0;i<hits.size();i++){
 			Hit ht = hits.get(i);
 			String pth = ht.getNode().isNodeType("cq:Page")?ht.getPath():ht.getPath();
@@ -219,35 +220,14 @@ public class EventsSrch
 		
 	}
 	
-	private Set<String> eventGeneration(String path){
-		
-		LinkedHashMap<String, String> region = new LinkedHashMap<String, String>();
+	private List<String> eventRegions(String path){
+		Map<String, String> region = new LinkedHashMap<String, String>();
 		Date today = new Date();
 		Calendar cal1 = Calendar.getInstance();
 		cal1.setTime(today);
-		
-		//Set today system date
-		Date startDt = cal1.getTime();
-		Calendar cal2 = Calendar.getInstance();
-		cal2.add(Calendar.DAY_OF_MONTH,+365);
-		
-		//Adding 365 days to the todays date
-		Date after365days = cal2.getTime();
-		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		region.put("type", "cq:Page");
 		region.put("path",path);
-
-		//Adding date as we always display 1 year events: So the region should be populated accordingly
-		region.put("daterange.property","jcr:content/data/start" );
-		region.put("daterange.lowerBound",formatter.format(startDt));
-		region.put("daterange.upperBound",formatter.format(after365days));
-		
-		region.put("1_property","@jcr:content/data/region");
-		region.put(++propertyCounter+"_boolproperty","jcr:content/hideInNav");
-		region.put(propertyCounter+"_boolproperty.value","false");
 		region.put("p.limit", "-1");
-		region.put("orderby","@jcr:content/data/region");
-		region.put("orderby.sort", "asc");
 		Set<String> regions = new HashSet<String>();
 		long startTime = System.nanoTime();
 		try {
@@ -258,22 +238,30 @@ public class EventsSrch
 					try{
 						Node propNode = node.getNode("jcr:content/data");
 						if(propNode.hasProperty("region")){
-							regions.add(propNode.getProperty("region").getString());
+							if(propNode.hasProperty("start")){
+								Date eventDate = propNode.getProperty("start").getDate().getTime();
+								if(eventDate.after(today)){
+									regions.add(propNode.getProperty("region").getString());
+								}
+							}
+							
 						}
 					}catch(Exception e){
-						log.error("Event Node doesn't contains jcr:content/data Node" +e.getMessage());
+						System.out.println("Event Node doesn't contains jcr:content/data Node" +e.getMessage());
 					}
 				}
 			}
 			
 		} catch (RepositoryException e) {
-			e.printStackTrace();
+			log.debug("jcr:content/data node not found" +e.getMessage());
 		}
+		List<String> list = new ArrayList<String>(regions);
+		Collections.sort(list);
 		long endTime = System.nanoTime();
 		long duration = (endTime - startTime);
-		log.debug("Time Take in Milliseconds #######################" +(endTime - startTime)/1000000);
 		
-		return regions;
+		log.debug("Time Take in Milliseconds --------------" +(endTime - startTime)/1000000);
+		return list;
 		
 	}
 	

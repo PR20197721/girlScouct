@@ -16,7 +16,7 @@ public class SearchResultsInfo {
 	private long hitCounts ;
 	private SearchResult searchResults;
 	private List<Hit> hits;
-	private Set<String> regions;
+	private List<String> regions;
 	
 	public SearchResultsInfo(){
 		results = new ArrayList<String>();
@@ -78,12 +78,12 @@ public class SearchResultsInfo {
 		return hits;
 	}
 	
-	public void setRegion(Set<String> regions){
+	public void setRegion(List<String> regions){
 		
 		this.regions = regions;
 	}
 	
-	public Set<String> getRegion(){
+	public List<String> getRegion(){
 		return this.regions;
 	}
 	
