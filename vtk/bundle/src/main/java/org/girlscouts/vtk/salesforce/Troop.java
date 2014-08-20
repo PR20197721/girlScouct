@@ -2,6 +2,17 @@ package org.girlscouts.vtk.salesforce;
 
 public class Troop {
 
+    private int type;
+
+    public Troop(){ this.type= 0; }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
 	
 	private String troopId, troopName, gradeLevel,  councilId;
 
