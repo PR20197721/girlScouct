@@ -247,7 +247,7 @@ public class EventsSrch
 							
 						}
 					}catch(Exception e){
-						System.out.println("Event Node doesn't contains jcr:content/data Node" +e.getMessage());
+						log.debug("Event Node doesn't contains jcr:content/data Node" +e.getMessage());
 					}
 				}
 			}
