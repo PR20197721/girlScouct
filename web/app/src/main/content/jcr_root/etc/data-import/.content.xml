@@ -55,7 +55,7 @@
                     <category
                         jcr:primaryType="nt:unstructured"
                         name="cq:tags"
-                        script="function(tag) {String.prototype.trim=function(){return this.replace(/^ +| +$/g, '');}; return &quot;girlscouts-prototype:category/&quot; + tag.trim().replace(/ /g, &quot;-&quot;).replace(/[^a-zA-Z-]/g, &quot;&quot;).replace(/-+/g, &quot;-&quot;).toLowerCase();}"
+                        script="function(tag) {String.prototype.trim=function(){return this.replace(/^ +| +$/g, '');}; return &quot;girlscouts-prototype:categories/&quot; + tag.trim().replace(/ /g, &quot;-&quot;).replace(/[^a-zA-Z0-9-]/g, &quot;&quot;).replace(/-+/g, &quot;-&quot;).toLowerCase();}"
                         type="string[]"/>
                 </fields>
                 <nameGen
