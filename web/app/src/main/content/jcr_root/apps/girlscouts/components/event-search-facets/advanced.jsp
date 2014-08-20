@@ -56,7 +56,10 @@
     String month = request.getParameter("month");
     String startdtRange = request.getParameter("startdtRange");
     String enddtRange = request.getParameter("enddtRange");
-
+    String region = "";
+    try{
+    	region = request.getParameter("regions");
+    }catch(Exception e){}
    
     ArrayList<String> years = new ArrayList<String>();
     Iterator<Page> yrs= resourceResolver.getResource(YEARS).adaptTo(Page.class).listChildren();
@@ -111,7 +114,7 @@ function toggleWhiteArrow() {
 				<select name="regions" id="regions">
 					<option value="choose">Choose Region</option>
 					<%for(String str: setOfRegions) {%>
-						<option value="<%=str%>"><%=str%></option>
+						<option value="<%=str%>" <%if(region!=null && region.equalsIgnoreCase(str)){%> selected <%} %>><%=str%></option>
 					<%} %>
 				</select>
 			</div>	
