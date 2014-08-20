@@ -331,11 +331,11 @@ public java.util.List <Troop>  troopInfo(ApiConfig apiConfig, String contactId){
 		httpclient.executeMethod(get);
 		
 		
-		System.out.println("RespCode "+ get.getResponseBodyAsString());
+		System.err.println("RespCode "+ get.getResponseBodyAsString());
 		JSONObject _response = new JSONObject(
 				new JSONTokener(new InputStreamReader(
 						get.getResponseBodyAsStream())));
-		System.out.println( _response.toString());
+		System.err.println( _response.toString());
 		
 		if (get.getStatusCode() == HttpStatus.SC_OK) {
 			
@@ -349,11 +349,11 @@ public java.util.List <Troop>  troopInfo(ApiConfig apiConfig, String contactId){
 
 				for (int i = 0; i < results.length(); i++) {
 					
-					System.out.println("_____ "+ results.get(i));
+					System.err.println("_____ "+ results.get(i));
 					
 					java.util.Iterator itr = results.getJSONObject(i).getJSONObject("Parent").keys();
 					while( itr.hasNext())
-						System.out.println("** "+ itr.next());
+						System.err.println("** "+ itr.next());
 					
 					Troop troop = new Troop();
 					try{
@@ -422,7 +422,7 @@ public java.util.List <Troop>  troopInfo(ApiConfig apiConfig, String contactId){
 //                        JSONObject response = new JSONObject(new JSONTokener(
 //                                new InputStreamReader(
 //                                        get.getResponseBodyAsStream())));
-//                        System.out.println("Query response: "
+//                        System.err.println("Query response: "
 //                                + response.toString(2));
 //
 //                        JSONArray results = response.getJSONArray("records");
@@ -449,13 +449,13 @@ public java.util.List <Troop>  troopInfo(ApiConfig apiConfig, String contactId){
 //                            }
 //
 //                            /*
-//                             * System.out.println(results.getJSONObject(i).getString
+//                             * System.err.println(results.getJSONObject(i).getString
 //                             * ("Id") + ", " +
 //                             * results.getJSONObject(i).getString("Name") +
 //                             * "\n");
 //                             */
 //                        }
-//                        System.out.println("\n");
+//                        System.err.println("\n");
 //                    } catch (JSONException e) {
 //                        e.printStackTrace();
 //
@@ -609,9 +609,9 @@ System.err.println("tokenUrl: "+ tokenUrl);
             driver.findElement(By.id("username")).sendKeys("jennifer.doe@girlscouts.org");
             driver.findElement(By.id("password")).sendKeys("password44");
             driver.findElement(By.id("Login")).submit();  
-            System.out.println("Page title is: " + driver.getTitle());
+            System.err.println("Page title is: " + driver.getTitle());
             System.err.println( "HTML : "+driver.getPageSource() );
-            System.out.println("Page title is: " + driver.getTitle());
+            System.err.println("Page title is: " + driver.getTitle());
     	*/
     	} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -758,7 +758,7 @@ System.err.println("tokenUrl: "+ tokenUrl);
 
         while( itr.hasNext())
 
-        System.out.println("** "+ itr.next());
+        System.err.println("** "+ itr.next());
 
         */
 
