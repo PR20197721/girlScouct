@@ -32,12 +32,11 @@ public class EventsSrch
 	private QueryBuilder queryBuilder;
 	private Map<String,List<FacetsInfo>> facetAndTags = new HashMap<String,List<FacetsInfo>>();
 	
-	// ReFractrating the code to accomdate Form & Documents
 	private static String FACETS_PATH = "/etc/tags/girlscouts";
 	
 	private final String COUNCIL_SPE_PATH = "/etc/tags/";
 	private static String EVENTS_PROP="jcr:content/cq:tags";
-	private Map<String, ArrayList<String>> facetsQryBuilder = new HashMap<String, ArrayList<String>>();
+	private Map<String, List<String>> facetsQryBuilder = new HashMap<String, List<String>>();
 	
  	private SearchResultsInfo searchResultsInfo;
  	int propertyCounter = 1;
@@ -150,26 +149,24 @@ public class EventsSrch
 				facetsQryBuilder.get(category).add(temp);
 			}else{
 				
-				ArrayList<String> value = new ArrayList<String>();
+				List<String> value = new ArrayList<String>();
 				value.add(s);
 				facetsQryBuilder.put(category, value);
 			}
 		}
 		Object[] categories = facetsQryBuilder.keySet().toArray();
-		
 		for(int i=0;i<categories.length;i++){
-			ArrayList<String> tagsPath = facetsQryBuilder.get(categories[i].toString());
+			List<String> tagsPath = facetsQryBuilder.get(categories[i].toString());
+			int count=1;
 			if(i>0)
 			{
 				
 				searchQuery.put("gsproperty", "jcr:content/cq:tags");
 				searchQuery.put("gsproperty.or", "true");
-				int count=1;
 				for(String tagPath:tagsPath ){
 					searchQuery.put("gsproperty."+count+++"_value", tagPath);
 				}
 			}else{
-					int count = 1;
 					searchQuery.put("1_property.or", "true");
 					for(String tagPath:tagsPath){
 						searchQuery.put("1_property."+count+++"_value", tagPath);
@@ -252,7 +249,6 @@ public class EventsSrch
 		region.put("orderby","@jcr:content/data/region");
 		region.put("orderby.sort", "asc");
 		Set<String> regions = new HashSet<String>();
-		//Set<String> vtkRegion = new HashSet<String>();
 		long startTime = System.nanoTime();
 		try {
 			List<Hit> hits = SearchUtils.performContentSearch(region,slingRequest,this.queryBuilder,"0",searchResultsInfo);
