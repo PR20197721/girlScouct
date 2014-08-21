@@ -156,6 +156,7 @@ try{
 	
 		int idx = pth.lastIndexOf('.');
 		String extension = idx >= 0 ? pth.substring(idx + 1) : "";
+		String newWindow = "";
 %>
 		<br/>
 <%
@@ -165,7 +166,7 @@ try{
 <%
 		}
 %>
-		<a href="<%=pth%>"><%=title %></a>
+		<a href="<%=pth%>" <%=newWindow %>><%=title %></a>
 <%
 		if (q != null && !q.isEmpty()) {
 			String excerpt = docHit.getExcerpt();
