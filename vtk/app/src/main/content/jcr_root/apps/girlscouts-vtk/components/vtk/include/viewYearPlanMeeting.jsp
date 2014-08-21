@@ -1,3 +1,104 @@
+
+
+<script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.jeditable.js" type="text/javascript" charset="utf-8"></script>
+
+<script type="text/javascript" charset="utf-8">
+
+$(function() {
+        
+  $(".editable_select").editable("<?php print $url ?>save.php", { 
+    indicator : '<img src="img/indicator.gif">',
+    data   : "{'Lorem ipsum':'Lorem ipsum','Ipsum dolor':'Ipsum dolor','Dolor sit':'Dolor sit'}",
+    type   : "select",
+    submit : "OK",
+    style  : "inherit",
+    submitdata : function() {
+      return {id : 2};
+    }
+  });
+  $(".editable_select_json").editable("<?php print $url ?>save.php", { 
+    indicator : '<img src="img/indicator.gif">',
+    loadurl : "<?php print $url ?>json.php",
+    type   : "select",
+    submit : "OK",
+    style  : "inherit"
+  });
+  $(".editable_textarea").editable("/content/girlscouts-vtk/controllers/vtk.controller.html", { 
+      indicator : "Saving....",
+      type   : 'textarea',
+      submitdata: { _method: "put" ,mid: "<%=meeting.getUid()%>"},
+      select : true,
+      submit : 'OK',
+      cancel : 'cancel',
+      cssclass : "editable",
+      
+      tooltip: "Click to edit...",
+      id   : 'editMeetingName',
+      name : 'newvalue'
+      
+  });
+  $(".editable_textile").editable("<?php print $url ?>save.php?renderer=textile", { 
+      indicator : "<img src='img/indicator.gif'>",
+      loadurl   : "<?php print $url ?>load.php",
+      type      : "textarea",
+      submit    : "OK",
+      cancel    : "Cancel",
+      tooltip   : "Click to edit..."
+  });
+  
+  $(".click").editable("<?php print $url ?>echo.php", { 
+      indicator : "<img src='img/indicator.gif'>",
+      tooltip   : "Click to edit...",
+      style  : "inherit"
+  });
+  $(".dblclick").editable("<?php print $url ?>echo.php", { 
+      indicator : "<img src='img/indicator.gif'>",
+      tooltip   : "Doubleclick to edit...",
+      event     : "dblclick",
+      style  : "inherit"
+  });
+  $(".mouseover").editable("<?php print $url ?>echo.php", { 
+      indicator : "<img src='img/indicator.gif'>",
+      tooltip   : "Move mouseover to edit...",
+      event     : "mouseover",
+      style  : "inherit"
+  });
+  
+  /* Should not cause error. */
+  $("#nosuch").editable("<?php print $url ?>echo.php", { 
+      indicator : "<img src='img/indicator.gif'>",
+      type   : 'textarea',
+      submit : 'OK'
+  });
+
+});
+</script>
+
+<style type="text/css">
+#sidebar {
+  width: 0px;
+}
+
+#content {
+  width: 770px;
+}
+
+.editable input[type=submit] {
+  color: #F00;
+  font-weight: bold;
+}
+.editable input[type=button] {
+  color: #0F0;
+  font-weight: bold;
+}
+
+</style>
+
+
+
+
+
+
 <!-- apps/girlscouts-vtk/components/vtk/include/viewYearPlanMeeting.jsp -->
 <br/>
 <div class="row meetingDetailHeader">
@@ -38,7 +139,9 @@
 	</div>
 
         <div class="small-24 medium-10 large-12 columns">
-		<h1>Meeting: <%= meetingInfo.getName() %> </h1>
+		<h1>Meeting: <!-- %= meetingInfo.getName() % -->
+		<span class="editable_textarea" id="editMeetingName"><%= meetingInfo.getName() %></span>
+		 </h1>
 
 		<!--  <%= meetingInfo.getAidTags() %> -->
 <%
@@ -72,7 +175,8 @@
 <%
 	String img= "";
 	try{
-		img= meeting.getRefId().substring( meeting.getRefId().lastIndexOf("/")+1).toUpperCase(); 
+		img= meeting.getRefId().substring( meeting.getRefId().lastIndexOf("/")+1).toUpperCase();
+		if(img.contains("_") )img= img.substring(0, img.indexOf("_"));
 %>
 		<img  width="100" height="100" src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png" align="center"/>
 <%
@@ -191,7 +295,7 @@ if( _aidTags!=null )
 				<td>
 				
 					<%if( !isLocked) {%>
-						<a href="javascript:void(0)"  class="mLocked" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isAgenda=<%=ii %>', false, 'Agenda')"><%=_activity.getName() %></a>
+						<a href="javascript:void(0)"  class="mLocked" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isAgenda=<%=ii %>', true, 'Agenda')"><%=_activity.getName() %></a>
 					<%}else{ %>
 						<%=_activity.getName() %>
 					<%} %>
@@ -252,7 +356,9 @@ if( _aidTags!=null )
 		<option value="30">30</option>
 	</select>
 	
+	<%if( activSched.getTime() !=null && activSched.getTime().after(new java.util.Date("1/1/2000") ) ){ %>
 	 + (<%= activSched.getTime()%>)
+	 <%} %>
 	
 	<br/>Description:<textarea id="newCustAgendaTxt"></textarea>
 	<br/><br/>
@@ -305,7 +411,7 @@ $(function() {
 	});
 });
 	</script>
-	<%--@include file="../include/manageCommunications.jsp" --%>
+	<%@include file="../include/manageCommunications.jsp" %>
 <%}else{ %>	
 	
 	

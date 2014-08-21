@@ -423,9 +423,15 @@ public void addAsset(User user, String meetingUid,  Asset asset){
 
 	public UserGlobConfig getUserGlobConfig(){ 
 		
-		if( true) //userGlobConfig ==null )
+		if( true){ //userGlobConfig ==null )
 			loadUserGlobConfig();
-		
+			
+			if( userGlobConfig ==null ){
+				
+				createUserGlobConfig();
+					loadUserGlobConfig();
+				}
+		}
 		return userGlobConfig ;
 	}
 	
@@ -451,14 +457,34 @@ public void addAsset(User user, String meetingUid,  Asset asset){
 			
 			System.err.println("test : "+ (userGlobConfig==null) );
 			
-			System.err.println("test : "+ (userGlobConfig.getVacationDates() +" : " + userGlobConfig.getVacationDates()) );
+			//System.err.println("test : "+ (userGlobConfig.getVacationDates() +" : " + userGlobConfig.getVacationDates()) );
 		     
 		}catch(Exception e){e.printStackTrace();}
 		
 		
 	}
 	
-	
+	public void createUserGlobConfig() {
+		
+		 try{
+				
+				List<Class> classes = new ArrayList<Class>();	
+				classes.add(UserGlobConfig.class);
+				
+				Mapper mapper = new AnnotationMapperImpl(classes);
+				ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
+			
+				
+				 UserGlobConfig userGlobConfig = new UserGlobConfig();
+				
+				 ocm.insert(userGlobConfig);
+			
+				 ocm.save();
+				 
+				
+				}catch(Exception e){e.printStackTrace();}
+			
+	}
 	
 	public void updateUserGlobConfig() {
 		

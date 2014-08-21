@@ -96,7 +96,8 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
     
     private void signIn(SlingHttpServletRequest request, SlingHttpServletResponse response) {
         HttpSession session = request.getSession();
-        ApiConfig config = (ApiConfig)session.getAttribute(ApiConfig.class.getName());
+        ApiConfig config = null;
+        try{ config= (ApiConfig)session.getAttribute(ApiConfig.class.getName());}catch(Exception e){}
         String redirectUrl;
         if (config == null || config.getId() == null) {
             redirectUrl = OAuthUrl 
@@ -128,7 +129,7 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
             try {
                 String councilId = Integer.toString(apiConfig.getTroops().get(0).getCouncilCode());
                 redirectUrl = councilMapper.getCouncilUrl(councilId);
-            } catch (ArrayIndexOutOfBoundsException e) {}
+            } catch (Exception e){} //(ArrayIndexOutOfBoundsException e) {}
     	} 
 
     	if (redirectUrl == null) {

@@ -19,11 +19,11 @@ try{ isFile = Integer.parseInt( request.getParameter("isFile") ); }catch(Excepti
         	<%String assetId = new java.util.Date().getTime() +"_"+ Math.random(); %>
         	
         	
-        
+        <%if(false){ %>
           <form action="/content/girlscouts-vtk/controllers/auth.asset.html" method="post"  
-              			onsubmit="return bindAssetToYPC( '/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets/<%=assetId %>', '<%=request.getParameter("refId")%>' )"  enctype="multipart/form-data">
+              			onsubmit="return bindAssetToYPC( '/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopId() %>/assets/<%=assetId %>', '<%=request.getParameter("refId")%>' )"  enctype="multipart/form-data">
               
-                       <input type="hidden" name="loc" value="/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets"/>
+                       <input type="hidden" name="loc" value="/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopId() %>/assets"/>
              
                Asset Title: <input type="text" id="assetTitle" name="assetTitle" value="" />
                 Asset Description: <input type="text" id="assetDesc" name="assetDesc" value="" />
@@ -31,11 +31,11 @@ try{ isFile = Integer.parseInt( request.getParameter("isFile") ); }catch(Excepti
                 <input type="hidden" name="me" value="<%=request.getParameter("myId")%>"/>      
                <input type="hidden" name="owner" value="<%=user.getId()%>"/>
                <input type="hidden" name="createTime" value="<%=new java.util.Date()%>"/>         
-			   <input type="file" id="custasset" name="custasset" size="50" />
+			   <input type="file" id="custasset1" name="custasset1" size="50" />
                <br />
                 <input type="submit" value="Upload File" />
          </form>
-       
+       <%} %>
         
        <a href="/content/girlscouts-vtk/en/vtk.test2.html?refId=<%=request.getParameter("refId")%>&myId=<%=request.getParameter("myId")%>">dropbox</a>
         
@@ -52,46 +52,230 @@ try{ isFile = Integer.parseInt( request.getParameter("isFile") ); }catch(Excepti
  <% if(isFile==0){%> 
     <div style="background-color:red; ">CAMERA
           
+          <input type="button" value="DESTROY" onclick="stopId()"/>
           
-         <div id="example" style="height:300px;"></div>
+         <div id="example" style="height:300px; width:300px"></div>
+         
+          <canvas id="myCanvas" width="578" height="200" style="border: 2px solid blue;"></canvas>
+         
+         <div id="upld" style="background-color:yellow; border:2px solid green;display:none;">
+         
+         Would you like to upload photo?
+         
+         <input type="button" value="RESET" onclick="container.style.display='inline';gallery.innerHTML=''; document.getElementById( 'upld').style.display='none'; "/>
+         </hr>
+         <br/>Asset NAme<input type="text" id="aName" value="" maxlength="10"/>
+           <br/>Asset Description<input type="text" id="aDesc" value=""  maxlength="10"/>
+           <input type="button" value="UPLOAD" onclick="xx12()"/>
+         </div>
 			<div id="gallery" style=""></div>
+			
+			
+			
+			
+			 <form action="/content/girlscouts-vtk/controllers/auth.asset.html" method="post"  
+              			onsubmit="return bindAssetToYPC( '/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopId() %>/assets/<%=assetId %>', '<%=request.getParameter("refId")%>' )"  enctype="multipart/form-data">
+              
+                       <input type="hidden" name="loc" value="/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopId() %>/assets"/>
+             
+               Asset Title: <input type="text" id="assetTitle" name="assetTitle" value="" />
+                Asset Description: <input type="text" id="assetDesc" name="assetDesc" value="" />
+               <input type="hidden" name="id" value="<%=assetId %>"/>     
+                <input type="hidden" name="me" value="<%=request.getParameter("myId")%>"/>      
+               <input type="hidden" name="owner" value="<%=user.getId()%>"/>
+               <input type="hidden" name="createTime" value="<%=new java.util.Date()%>"/>         
+			   <input type="hidden" id="custasset" name="custasset" value="" />
+               <br />
+                <input type="submit" value="Upload Img" />
+         </form>
+			
+			
 			
 			
         <script> 
          container = document.getElementById( "example" );
          gallery = document.getElementById( "gallery" );
-
+         var myImage;
+         
          myPhotobooth = new Photobooth( container );
 
          myPhotobooth.onImage = function( dataUrl ){
-         	var myImage = document.createElement( "img" );
+
+        	 //alert(1);
+        	 //container.style.display="none";
+         //}
+        //	 function test(){
+
+        	 myImage = document.createElement( "img" );
          	myImage.src = dataUrl;
          	gallery.appendChild( myImage );
          	
+         	container.style.display="none";
+         	document.getElementById( "upld" ).style.display="inline";
+         	
+         	
+         	loadCanvas( dataUrl );
+         
+         	var canvas = document.getElementById("myCanvas");
+         	var img    = canvas.toDataURL("image/png");
+         	//document.getElementById('canvasImg').src = dataURL;
+         	
+         	 document.getElementById('custasset').value = img;
+         	 
+         	 
+         	var data = img.replace('data:image/png;base64,', '');
+         
+         	/* good -dont rm
+         	$.ajax({
+         		type: "POST",
+         		url: "/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopId() %>/assets",
+         		contentType: false,
+         		processData: false,
+         		data: data,
+         		contentType: 'application/x-www-form-urlencoded',
+         		success: function (msg) {
+         			alert("Done!");
+         		},
+         		error: alert('No')
+         	});
+         	*/
+         	
+         	
+         	
+         	var jForm = new FormData();
+            jForm.append("aType", "AID");
+            //jForm.append("loc", "/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopId() %>/assets");
+            jForm.append("file", data);
+            $.ajax({
          		
-         	console.log(toDataUrl(myImage));
+             	type: "POST",         	
+             	url: '/content/girlscouts-vtk/controllers/auth.asset.html', // JQuery loads serverside
+             	contentType: false,
+         		processData: false,
+         		cache: false,
+         		data: jForm,
+         		
+         		contentType: 'multipart/form-data',
+         		success: function (msg) {
+         			alert("second44 OK");
+         		},
+         		error: alert('second44 No')
+             	});
+            
+            
+            
+            
+            
+            
+            /*
+         $.ajax({
+         		
+         	type: "POST",         	
+         	url: '/content/girlscouts-vtk/controllers/auth.asset.html', // JQuery loads serverside
+         	contentType: false,
+     		processData: false,
+     		
+     		data: {
+     			
+     			loc: "/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopId() %>/assets",
+     			id:"<%=assetId %>",
+     			me:"<%=request.getParameter("myId")%>",
+     			assetDesc: aDesc,
+     			aType: "AID",
+     			assetName : aName,
+     			data:data,
+     			owner:"<%=user.getId()%>"
+     			
+     		},
+     		contentType: 'application/x-www-form-urlencoded',
+     		contentType: 'multipart/x-www-form-urlencoded',
+     		success: function (msg) {
+     			alert("second OK");
+     		},
+     		error: alert('second No')
+         	});
+         	*/
+         	
+         	
+         	
+         	
+         	
+         	
+         	
+         	
+         	
+         	/*
+         	 
+         	$.ajax({
+       		  type: "POST",
+       		  url: "/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopId() %>/assets",
+       		
+       		contentType: false,
+       		
+       		contentType: 'application/x-www-form-urlencoded',
+       		  
+       		  data: { 
+       		     imgBase64: img
+       		  }
+       		}).done(function(o) {
+       		  console.log('saved'); 
+       		  // If you want the file to be visible in the browser 
+       		  // - please modify the callback in javascript. All you
+       		  // need is to return the url to the file, you just saved 
+       		  // and than put the image in your browser.
+       		});
+       */
+        }
+        
+        
+        function xx12(){
+         	alert("UPLOADINGGGG")
+         	
+         	
+         	 var aName= document.getElementById( "aName" );
+         	 var aDesc= document.getElementById( "aDesc" );
+         	 
+         	 if( $.trim(aName.value) =='' || $.trim(aDesc.value) =='' ){alert('Asset Name,Desc can not be blank'); return false;}
+         	//if( $.trim(aDesc.value) =='' ){alert('Asset Description can not be blank'); return false;}
+         	 
+         	
+         	console.log("::"+toDataUrl(myImage));
          	
          	var gg= toDataUrl(myImage);
          	//var blob = dataURItoBlob(gg);
          	//var fd = new FormData(document.forms[0]);
          	
          	
+         	
          	  var fd = new FormData();
          	  fd.append("file", gg);
          	    
+         alert(1);
          
+         var canvas = document.getElementById("myCanvas");
+         var img    = canvas.toDataURL("image/png");
+     
          	    
+      	 
+        
+      	
+      	
+      	 
+     
          	var x =$.ajax({ // ajax call starts
          	
          		url: '/content/girlscouts-vtk/controllers/auth.asset.html', // JQuery loads serverside
          		
          		data: {
-         			"custasset":fd,
-         			"loc": "/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopName() %>/assets",
-         			"id":"<%=assetId %>",
-         			"me":"<%=request.getParameter("myId")%>",
-         			"assetDesc": "TODO",
-         			"owner":"<%=user.getId()%>"
+         			custasset:fd,
+         			loc: "/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopId() %>/assets",
+         			id:"<%=assetId %>",
+         			me:"<%=request.getParameter("myId")%>",
+         			assetDesc: aDesc,
+         			aType: "AID",
+         			assetName : aName,
+         			data:img,
+         			owner:"<%=user.getId()%>"
          			
          		},
          		
@@ -103,12 +287,16 @@ try{ isFile = Integer.parseInt( request.getParameter("isFile") ); }catch(Excepti
          	    processData: false,
          	    
          		success: function (data) { 
-         			
+         			alert("GOOD")
          		},
          		error: function (data) {
-         			
+         			alert("NO")
          		}
          	});
+         	
+         	
+         	
+         	
          	
          };
          
@@ -131,7 +319,25 @@ try{ isFile = Integer.parseInt( request.getParameter("isFile") ); }catch(Excepti
              fs.writeFileSync( fullFileName, buffer, "binary" );
          }
          
-        
+         function stopId(){
+        	 
+        	 myPhotobooth.destroy();
+        	 location.reload(); 
+ 		}
+         
+         function loadCanvas(dataURL) {
+             var canvas = document.getElementById('myCanvas');
+             var context = canvas.getContext('2d');
+
+             // load image from data url
+             var imageObj = new Image();
+             imageObj.onload = function() {
+               context.drawImage(this, 0, 0);
+             };
+
+             imageObj.src = dataURL;
+           }
+         
         </script>
         
            
@@ -145,16 +351,22 @@ try{ isFile = Integer.parseInt( request.getParameter("isFile") ); }catch(Excepti
          <script>
          
          function bindAssetToYPC(assetId, ypcId){
+        	
+        	 var assetTitle = "tt"; //document.getElementById("assetTitle").value;
+        	 var assetDesc =  "rr"; //document.getElementById("assetDesc").value;
+        	/*
+        	 var custasset = document.getElementById("custasset1").value;
         	 
-        	 var assetTitle = document.getElementById("assetTitle").value;
-        	 var assetDesc = document.getElementById("assetDesc").value;
-        	 var custasset = document.getElementById("custasset").value;
-        	 
+        	
         	 if( $.trim(custasset)=='' ){alert('Please select file to upload');return false;}
         	 if( $.trim(assetDesc)=='' ){alert('Please enter description of asset');return false;}
         	 if( $.trim(assetTitle)=='' ){alert('Please enter title of asset');return false;}
+        	 */
         	 
         	 
+        	 
+         	
+        	
         	 $.ajax({
         			url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand='+Date.now(),
         			type: 'POST',
@@ -169,6 +381,7 @@ try{ isFile = Integer.parseInt( request.getParameter("isFile") ); }catch(Excepti
         				
         			}
         		});
+        	
         	 
          }
          </script>

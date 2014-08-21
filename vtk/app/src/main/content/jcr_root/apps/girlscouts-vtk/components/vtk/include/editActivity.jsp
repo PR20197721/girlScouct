@@ -1,7 +1,8 @@
-<div id="<%=ii %>" style="display:block;">
+
+<div id="<%=ii %>" style="display:block;" class="setupCalendar">
 
 	<br/>
-	<input type="button" onclick="location.reload();" value="Save and Back to meeting"/>
+	<input type="button" onclick="location.reload();" value="Save and Back to meeting" class="button linkButton" />
 	<select onchange="durEditActiv(this.options[this.selectedIndex].value, '<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">
 		<option value="5"  <%= (_activity.getDuration()==5)  ? "SELECTED" : "" %>>5</option>
 		<option value="10" <%= (_activity.getDuration()==10) ? "SELECTED" : "" %>>10</option>
@@ -11,6 +12,6 @@
 		<option value="30" <%= (_activity.getDuration()==30) ? "SELECTED" : "" %>>30</option>
 	</select>
 	Agenda Item: <%= _activity.getName() %>
-	<br/><a href="javascript:void(0)" onclick="rmAgenda('<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">Delete This Agenda Item</a>
+	<br/><a  class="mLocked button linkButton" href="javascript:void(0)" onclick="return rmAgenda('<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">Delete This Agenda Item</a>
 	<p><%=_activity.getActivityDescription()%></p>
 </div>

@@ -28,11 +28,20 @@ import org.girlscouts.vtk.models.JcrCollectionHoldString;
 import org.girlscouts.vtk.models.Meeting;
 
 public class ParseXls1 {
+	
+	static String rootPath="/Users/akobovich/Documents/VTK_Imports/VTK-ASSETS";
+	
     public static void main(String[] args) throws Exception {
         ParseXls1 me = new ParseXls1();
 
+        me.doPrep();
+        if(true)return;
+        
+        
         FileInputStream fis = new FileInputStream(
-                "/Users/mike/Desktop/brownie/metadata.xlsx");
+        		rootPath + "/metadata.xlsx");
+        		// "/Users/mike/Desktop/brownie/metadata.xlsx");
+        
         Workbook workbook = WorkbookFactory.create(fis);
 
         FormulaEvaluator evaluator = workbook.getCreationHelper()
@@ -89,7 +98,7 @@ public class ParseXls1 {
             TraverseFind docx = new TraverseFind();
 
             java.util.Map<String, String> meetings = docx
-                    .getMeetingInfo("/Users/mike/Desktop/brownie/meetings/" + meetingId.toUpperCase() + ".docx");
+                    .getMeetingInfo(rootPath+ "/meetings/" + meetingId.toUpperCase() + ".docx");
             
             Meeting docxMeeting = null;
             try {
@@ -219,4 +228,49 @@ public class ParseXls1 {
         return toRet.trim();
     }
 
+    
+    public void doPrep(){
+    	
+    	//java.util.Map<String, String> results = new java.util.TreeMap<String, String>();
+
+    	java.io.File[] files = new java.io.File(rootPath+ "/meetings/").listFiles();
+    	
+    	for (java.io.File file : files) {
+    	    if (file.isFile()) {
+    	    	String name =file.getName();  
+    	    	String fixedName =file.getName(); 
+    	    	if( name.contains("_")){
+    	    		String z= file.getName();
+    	    		z= z.replace(" ", "_");
+    	    		String x= z.substring(0, z.indexOf("_"));
+    	    		String y= z.substring( z.lastIndexOf("."));
+    	    		fixedName = x+y;
+    	    	}
+    	    	if( !fixedName.equals(name))
+    	    		renameFile( rootPath+ "/meetings/"+name, rootPath+ "/meetings/"+fixedName);
+    	    	
+    	    	
+    	    	System.err.println("\n"+ name + " : " + fixedName);
+    	      //  results.put(name, fixedName);
+    	    }
+    	}
+    	
+    	//System.err.println( results );
+    }
+    
+    private boolean renameFile(String oldFileName, String newFileName){
+    	
+    	java.io.File oldfile =new java.io.File(oldFileName);
+    	java.io.File newfile =new java.io.File(newFileName);
+ 
+		if(oldfile.renameTo(newfile)){
+			System.out.println("Rename succesful");
+			
+		}else{
+			System.out.println("Rename failed");
+			return false;
+		}
+		return true;
+    }
+    
 }

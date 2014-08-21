@@ -1,8 +1,10 @@
+<%@page import="org.codehaus.jackson.map.ObjectMapper"%>
 <%@page import="org.joda.time.LocalDate"%>
 <%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
+
 <%!
 	double convertObjectToDouble(Object o) {
 		Double parsedDouble = 0.00d;
@@ -131,10 +133,10 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	}
 	User new_user= userDAO.getUser( 
 		"/vtk/"+newTroop.getCouncilCode()+
-    		"/"+newTroop.getTroopName()+"/users/"+
+    		"/"+newTroop.getTroopId()+"/users/"+
 		user.getApiConfig().getUserId()+"_"+  request.getParameter("loginAs") );
 	if( new_user==null ){
-		new_user = new User( "/vtk/"+newTroop.getCouncilCode()+ "/"+newTroop.getTroopName()+"/users/", user.getApiConfig().getUserId()+"_"+  request.getParameter("loginAs") );
+		new_user = new User( "/vtk/"+newTroop.getCouncilCode()+ "/"+newTroop.getTroopId()+"/users/", user.getApiConfig().getUserId()+"_"+  request.getParameter("loginAs") );
 	}
 	new_user.setTroop(newTroop );
 	new_user.setApiConfig(user.getApiConfig());
@@ -320,6 +322,47 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 			break;
 		}
 	}
+	
+}else if( request.getParameter("editMeetingName") !=null ){
+	//out.println( request.getParameter("newvalue") );
+	//System.err.println("MID: "+request.getParameter("mid"));
+	
+	java.util.List<MeetingE> meetings= user.getYearPlan().getMeetingEvents();
+	for(MeetingE m: meetings){
+		if( m.getUid().equals( request.getParameter("mid") ))
+		{
+			
+			Meeting custM = m.getMeetingInfo();
+			custM.setName( request.getParameter("newvalue") );
+					
+			//create custom meeting
+			 meetingDAO.createCustomMeeting(user, m, custM);
+			
+			 out.println( request.getParameter("newvalue") );
+			
+			break;
+		}
+	}
+	
+}else if( request.getParameter("test") !=null ){
+	
+	//System.err.println( "TEST: "+request.getParameter("test") );
+	
+	ObjectMapper mapper = new ObjectMapper();
+	out.println(mapper.writeValueAsString(user));
+	
+	//System.err.println( "User json: "+mapper.writeValueAsString(user) );
+
+
+/*
+	out.print("["+ 
+	 "{"+
+	  "\"age\": 13, \"id\": \"motorola-defy-with-motoblur\", \"name\": \"Motorola DEFY\u2122 with MOTOBLUR\u2122\", \"snippet\": \"Are you ready for everything life throws your way?\""+	
+	 "}"+
+	"]");
+	*/		
+			  
+			  
 }else{
 	//TODO throw ERROR CODE
 }

@@ -77,7 +77,9 @@ try {
 	out.println("Your session has timed out.  Please login.");
 	return;
 }
-if( apiConfig.getTroops()==null || apiConfig.getTroops().size()<=0 ){
+if( apiConfig.getTroops()==null || apiConfig.getTroops().size()<=0 || 
+	( apiConfig.getTroops().get(0).getType()==1 )){
+	out.println("Council Code: "+apiConfig.getTroops().get(0).getCouncilCode() );
 	out.println("<span class='error'>Sorry, this user is not part of a valid GirlScouts' campaign. Please ask your council admin for SalesForce access.</span>");
 	return;
 }
@@ -112,7 +114,7 @@ if( user ==null){
 		
 	
         user= userDAO.getUser( "/vtk/"+prefTroop.getCouncilCode()+
-        		"/"+prefTroop.getTroopName()+
+        		"/"+prefTroop.getTroopId()+
         		"/users/"+ apiConfig.getUserId() +"_"+ prefTroop.getTroopId());
         
   			
@@ -120,7 +122,7 @@ if( user ==null){
         if( user==null ){
                 //user = new User(apiConfig.getUserId()+"_"+ apiConfig.getTroops().get(0).getTroopId());
                user = new User( "/vtk/"+prefTroop.getCouncilCode()+
-        		"/"+prefTroop.getTroopName()+"/users/",
+        		"/"+prefTroop.getTroopId()+"/users/",
         		 apiConfig.getUserId() +"_"+ prefTroop.getTroopId() );
         }
         user.setApiConfig(apiConfig);

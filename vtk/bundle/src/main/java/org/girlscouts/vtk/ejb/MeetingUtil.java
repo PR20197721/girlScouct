@@ -229,8 +229,9 @@ public class MeetingUtil {
 		YearPlan plan = user.getYearPlan();
 		plan.setMeetingEvents(rearangedMeetings);
 	
-		user.setYearPlan(plan);
 		plan.setAltered("true");
+		user.setYearPlan(plan);
+		
 		userDAO.updateUser(user);
 		
 		

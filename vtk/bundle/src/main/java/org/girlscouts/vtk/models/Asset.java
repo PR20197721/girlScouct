@@ -12,8 +12,18 @@ public class Asset {
 
 
 
-	public Asset(){ this.uid = "A"+new java.util.Date().getTime() + "_" + Math.random(); this.isCachable=false;}
-	public Asset(String path){ this.path= path; this.uid = "A"+new java.util.Date().getTime() + "_" + Math.random(); this.isCachable=false;}
+	public Asset(){ 
+		this.uid = "A"+new java.util.Date().getTime() + "_" + Math.random();
+		this.isCachable=false;
+		this.type="AID";
+		}
+	
+	public Asset(String path){ 
+		this.path= path;
+		this.uid = "A"+new java.util.Date().getTime() + "_" + Math.random();
+		this.isCachable=false;
+		this.type="AID";
+		}
 	
 	
 	@Field private String type, description, title, docType, refId;

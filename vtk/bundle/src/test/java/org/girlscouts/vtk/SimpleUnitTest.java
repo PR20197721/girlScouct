@@ -1,14 +1,14 @@
 package org.girlscouts.vtk;
 
-import static org.junit.Assert.*;
+//import static org.junit.Assert.*;
 
-import org.junit.Test;
+//import org.junit.Test;
 
 public class SimpleUnitTest {
 
-    @Test
+    //@Test
     public void someTest() {
-        assertTrue(true);
+    //    assertTrue(true);
     }
 
 }
