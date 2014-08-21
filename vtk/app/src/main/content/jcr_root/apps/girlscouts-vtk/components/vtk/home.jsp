@@ -163,10 +163,6 @@ style="border: none;">
 
 
 
-<script type="text/javascript">
-$('.advertisement').load('/content/girlscouts-template/en/ads.10.html');
-</script>
-
 </div>
 
 
