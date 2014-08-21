@@ -32,7 +32,7 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 	int tempMonth =0;
 	if (results == null || results.size() == 0) {
 %>
-	<p>No results for search.</p>
+	<p>No event search results for &quot;<i class="error"><%= q %></i>&quot;.</p>
 <%
 	} else {
 		for(String result: results) {

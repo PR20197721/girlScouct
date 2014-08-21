@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import com.day.cq.search.result.Hit;
 import com.day.cq.search.result.SearchResult;
@@ -16,14 +15,14 @@ public class SearchResultsInfo {
 	private long hitCounts ;
 	private SearchResult searchResults;
 	private List<Hit> hits;
-	private Set<String> regions;
 	
 	public SearchResultsInfo(){
 		results = new ArrayList<String>();
 		facetsWithCount = new HashMap<String,Map<String,Long>>();
 		facts = new HashMap<String,ArrayList<String>>();
+		
+		
 	}
-	
 	public void setResults(List<String>results){
 		this.results = results;
 	}
@@ -34,6 +33,7 @@ public class SearchResultsInfo {
 	
 	public void setHitCounts(long l){
 		this.hitCounts = l;
+		
 	}
 	
 	public long getHitCounts(){
@@ -76,15 +76,6 @@ public class SearchResultsInfo {
 	
 	public List<Hit> getResultsHits(){
 		return hits;
-	}
-	
-	public void setRegion(Set<String> regions){
-		
-		this.regions = regions;
-	}
-	
-	public Set<String> getRegion(){
-		return this.regions;
 	}
 	
 
