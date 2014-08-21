@@ -1,32 +1,21 @@
+
 <html>
 <head>
-<script src="//cdn.ckeditor.com/4.4.4/full/ckeditor.js"></script>
-
-
-<script>
-function initializeCKEditor() { 
-
-var customToolBar =
-    [
-        ['LocalSave','NewPage','-','Templates'],
-        ['Cut','Copy','Paste','PasteText','PasteFromWord','-', 'Scayt'],
-        ['Undo','Redo','-','SelectAll','RemoveFormat','-','About','Preview'],
-        ['Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', ...];
-
-    //Enable Spell as you Type 
-	CKEDITOR.config.scayt_autoStartup = true;
-    CKEDITOR.config.extraPlugins = 'localSave'; 
-    CKEDITOR.config.removePlugins = 'elementspath';
-    CKEDITOR.config.toolbar = customToolBar;
-    }
-    </script>
-
+	<title>Sample CKEditor Site</title>
+	<script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/ckeditor/ckeditor.js"></script>
 </head>
-
 <body>
-tset
-
+	<form method="post">
+		<p>
+			My Editor:<br />
+			<textarea id="editor1" name="editor1">&lt;p&gt;Initial value.&lt;/p&gt;</textarea>
+			<script type="text/javascript">
+				CKEDITOR.replace( 'editor1' );
+			</script>
+		</p>
+		<p>
+			<input type="submit" />
+		</p>
+	</form>
 </body>
-
-
 </html>
