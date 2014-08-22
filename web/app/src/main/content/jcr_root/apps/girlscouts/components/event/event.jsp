@@ -104,6 +104,7 @@ try {
    
    // address 
    String address = properties.get("address", "");
+   address = address.replaceAll("[\\n\\r]", " ");
 
     //Region
     String region = properties.get("region", "");
