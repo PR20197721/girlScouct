@@ -32,7 +32,7 @@ try {
 
 String councilId = Integer.toString(councilIdInt);
 CouncilMapper mapper = sling.getService(CouncilMapper.class);
-String branch = mapper.getCouncilUrl(councilId);
+String branch = mapper.getCouncilBranch(councilId);
 // language
 branch += "/en/jcr:content";
 
@@ -41,7 +41,10 @@ boolean isHideSignIn = valueMap.get("hideSignIn", "").equals("true");
 %>
 
 <!--
-<% out.print(councilId); %>
+<% 
+	out.print(councilId); 
+	System.err.println("### Council Id: " + councilId);
+%>
 -->
  
 <!-- apps/girlscouts/components/three-column-page/content.jsp -->
@@ -153,7 +156,7 @@ style="border: none;">
 <table border="0" cellpadding="0" cellspacing="0"
 style="border: none;">
 <tbody><tr><td>
-<a href="https://gsuat-gsmembers.cs11.force.com/members/"><img src="/etc/designs/girlscouts-vtk/images/btn_member_profile.jpg"/></a>
+<a href="https://gsmembers.force.com/members/"><img src="/etc/designs/girlscouts-vtk/images/btn_member_profile.jpg"/></a>
 </td>
 </tr><tr style="background-color: white;border: none;"><td>Do you want to change your member profile or contact details? Do you need to renew a membership? Go to the Girl Scout Member Community for access to your member profile.</td>
 </tr></tbody></table>
