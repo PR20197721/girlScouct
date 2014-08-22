@@ -44,15 +44,6 @@ public class SearchResultsInfo {
 		this.facetsWithCount = facets;
 	}
 	
-	public void createFacetsWithTag(String key, String value, Long count){
-		if(facetsWithCount.containsKey(key)){
-			 facetsWithCount.get(key).put(value, count);
-		}else{
-			facetsWithCount.put(key,new HashMap<String,Long>());
-			 facetsWithCount.get(key).put(value, count);
-		}
-	}
-	
 	public Map<String, ArrayList<String>> getFacts(){
 		return this.facts;
 	}
