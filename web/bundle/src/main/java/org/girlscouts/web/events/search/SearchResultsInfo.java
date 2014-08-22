@@ -16,7 +16,7 @@ public class SearchResultsInfo {
 	private long hitCounts ;
 	private SearchResult searchResults;
 	private List<Hit> hits;
-	private Set<String> regions;
+	private List<String> regions;
 	
 	public SearchResultsInfo(){
 		results = new ArrayList<String>();
@@ -44,15 +44,6 @@ public class SearchResultsInfo {
 		this.facetsWithCount = facets;
 	}
 	
-	public void createFacetsWithTag(String key, String value, Long count){
-		if(facetsWithCount.containsKey(key)){
-			 facetsWithCount.get(key).put(value, count);
-		}else{
-			facetsWithCount.put(key,new HashMap<String,Long>());
-			 facetsWithCount.get(key).put(value, count);
-		}
-	}
-	
 	public Map<String, ArrayList<String>> getFacts(){
 		return this.facts;
 	}
@@ -78,12 +69,12 @@ public class SearchResultsInfo {
 		return hits;
 	}
 	
-	public void setRegion(Set<String> regions){
+	public void setRegion(List<String> regions){
 		
 		this.regions = regions;
 	}
 	
-	public Set<String> getRegion(){
+	public List<String> getRegion(){
 		return this.regions;
 	}
 	

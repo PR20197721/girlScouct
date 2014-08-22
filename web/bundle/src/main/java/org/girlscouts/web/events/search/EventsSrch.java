@@ -4,7 +4,7 @@ import java.net.URLDecoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -32,12 +32,11 @@ public class EventsSrch
 	private QueryBuilder queryBuilder;
 	private Map<String,List<FacetsInfo>> facetAndTags = new HashMap<String,List<FacetsInfo>>();
 	
-	// ReFractrating the code to accomdate Form & Documents
 	private static String FACETS_PATH = "/etc/tags/girlscouts";
 	
 	private final String COUNCIL_SPE_PATH = "/etc/tags/";
 	private static String EVENTS_PROP="jcr:content/cq:tags";
-	private Map<String, ArrayList<String>> facetsQryBuilder = new HashMap<String, ArrayList<String>>();
+	
 	
  	private SearchResultsInfo searchResultsInfo;
  	int propertyCounter = 1;
@@ -52,23 +51,20 @@ public class EventsSrch
 	
 	public void search(String q,String[] tags,String offset, String month,String year, String startdtRange, String enddtRange, String region,String path,String facetsPath )
 	{
-		try 
-		{
-			
+		try {
 			createFacets(facetsPath);
 			eventResults(q,offset,month,year,startdtRange,enddtRange,region,tags,path);
-			searchResultsInfo = SearchUtils.combineSearchTagsCounts(searchResultsInfo,facetAndTags);
 			
-		} catch (RepositoryException e)
-		{
+			// Don't delete this code if in future client need count for the tagging just enable this functionality.
+			// searchResultsInfo = SearchUtils.combineSearchTagsCounts(searchResultsInfo,facetAndTags);
+			
+		} catch (RepositoryException e) {
 			log.error("Error Generated in the search() of EventSrch Class");
 			e.printStackTrace();
 		}
 	}
 	
-	
-	public Map<String,List<FacetsInfo>> getFacets()
-	{
+	public Map<String,List<FacetsInfo>> getFacets() {
 		return facetAndTags;
 	}
 	
@@ -85,36 +81,30 @@ public class EventsSrch
 	
 	private void eventResults(String q,String offset,String month,String year, String startdtRange, String enddtRange,String region,String[] tags, String path) throws RepositoryException{
 
-		List<String> relts = new ArrayList<String>(); 
+		
 		this.searchResultsInfo = new SearchResultsInfo();
 		
 		// Generate Regions
-		searchResultsInfo.setRegion(eventGeneration(path));
+		searchResultsInfo.setRegion(eventRegions(path));
 
 		if(q!=null && !q.isEmpty()){
 			log.info("Search Query Term [" +q +"]");
 			searchQuery.put("fulltext",q);
 		}
-
 		searchQuery.put("type", "cq:Page");
 		searchQuery.put("path",path);
 		searchQuery.put("1_property",EVENTS_PROP);
-		searchQuery.put(++propertyCounter+"_boolproperty","jcr:content/hideInNav");
-		searchQuery.put(propertyCounter+"_boolproperty.value","false");
 		searchQuery.put("p.limit", "-1");
 		searchQuery.put("orderby","@jcr:content/data/start");
 		searchQuery.put("orderby.sort", "asc");
-		
-		
 		log.debug("Query Parameter : " +q);
 		
-		if(tags!=null){
+		if(tags.length > 0) {
 			try{
 				addToDefaultQuery(searchQuery,tags);
 			}catch(Exception e){
 				log.error("Tagging could be parsed correctly");
 			}
-				// All search query to the map 
 		}
 		
 		if((startdtRange!=null  && !startdtRange.isEmpty()) && (enddtRange!=null && !enddtRange.isEmpty())){
@@ -125,15 +115,16 @@ public class EventsSrch
 			addRegionToQuery(region);
 		}
 		
-		List<Hit> hits = SearchUtils.performContentSearch(searchQuery,slingRequest,this.queryBuilder,offset,searchResultsInfo);
-		for(int i=0;i<hits.size();i++){
-			Hit ht = hits.get(i);
-			String pth = ht.getNode().isNodeType("cq:Page")?ht.getPath():ht.getPath();
-			relts.add(pth);
+		List<String> relts = new ArrayList<String>(); 
+		List<Hit>hits = SearchUtils.performContentSearch(searchQuery,slingRequest,this.queryBuilder);
+		if(hits!=null && !hits.isEmpty()){
+			for(int i=0;i<hits.size();i++){
+				Hit ht = hits.get(i);
+				String pth = ht.getNode().isNodeType("cq:Page")?ht.getPath():ht.getPath();
+				relts.add(pth);
 			}
-				
+		}		
 		searchResultsInfo.setResults(relts);
-		
 	}
 	
 	public SearchResultsInfo getSearchResultsInfo(){
@@ -141,6 +132,8 @@ public class EventsSrch
 	}
 	
 	private void addToDefaultQuery(Map<String, String> searchQuery,String[] tags) throws UnsupportedEncodingException{
+		
+		Map<String, List<String>> facetsQryBuilder = new HashMap<String, List<String>>();
 		for(String s:tags) {
 			String temp = URLDecoder.decode(s,"UTF-8");
 			// categories/badge
@@ -149,32 +142,27 @@ public class EventsSrch
 			if(facetsQryBuilder.containsKey(category)){
 				facetsQryBuilder.get(category).add(temp);
 			}else{
-				
-				ArrayList<String> value = new ArrayList<String>();
+				List<String> value = new ArrayList<String>();
 				value.add(s);
 				facetsQryBuilder.put(category, value);
 			}
 		}
 		Object[] categories = facetsQryBuilder.keySet().toArray();
-		
 		for(int i=0;i<categories.length;i++){
-			ArrayList<String> tagsPath = facetsQryBuilder.get(categories[i].toString());
-			if(i>0)
-			{
-				
+			List<String> tagsPath = facetsQryBuilder.get(categories[i].toString());
+			int count=1;
+			if(i>0){
 				searchQuery.put("gsproperty", "jcr:content/cq:tags");
 				searchQuery.put("gsproperty.or", "true");
-				int count=1;
-				for(String tagPath:tagsPath ){
+				for(String tagPath:tagsPath ) {
 					searchQuery.put("gsproperty."+count+++"_value", tagPath);
 				}
 			}else{
-					int count = 1;
 					searchQuery.put("1_property.or", "true");
-					for(String tagPath:tagsPath){
+					for(String tagPath:tagsPath) {
 						searchQuery.put("1_property."+count+++"_value", tagPath);
 					}
-				}
+			}
 		}
 		
 	}
@@ -204,12 +192,12 @@ public class EventsSrch
 		String strRange="";
 		String edRange="";
 		try {
-			if(!startdtRange.isEmpty()){
+			if(!startdtRange.isEmpty()) {
 				String startDtDecoder = URLDecoder.decode(startdtRange,"UTF-8");
 				startRange = (Date)parse.parse(startDtDecoder);
 				strRange = formatter.format(startRange);
 			}
-			if(!enddtRange.isEmpty()){
+			if(!enddtRange.isEmpty()) {
 				String endDtDecoder= URLDecoder.decode(enddtRange,"UTF-8");
 				endRange = (Date)parse.parse(endDtDecoder);
 				edRange = formatter.format(endRange);
@@ -222,58 +210,65 @@ public class EventsSrch
 		
 	}
 	
-	private Set<String> eventGeneration(String path){
+	private List<String> eventRegions(String path) {
+		Map<String, String> region = new LinkedHashMap<String, String>();
 		
-		LinkedHashMap<String, String> region = new LinkedHashMap<String, String>();
+		// As compare after() depends on the today which keeps on changing as it has a time format in it
+		// So we need to convert it into the date format yyyy-MM-dd so event and today return the same 
 		Date today = new Date();
-		Calendar cal1 = Calendar.getInstance();
-		cal1.setTime(today);
-		
-		//Set today system date
-		Date startDt = cal1.getTime();
-		Calendar cal2 = Calendar.getInstance();
-		cal2.add(Calendar.DAY_OF_MONTH,+365);
-		
-		//Adding 365 days to the todays date
-		Date after365days = cal2.getTime();
 		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		String startDateStr = formatter.format(today);
+		try{
+			today = formatter.parse(startDateStr);
+		}catch(Exception e){
+			System.out.println("couldn't parse the date");
+		}
 		region.put("type", "cq:Page");
 		region.put("path",path);
-
-		//Adding date as we always display 1 year events: So the region should be populated accordingly
-		region.put("daterange.property","jcr:content/data/start" );
-		region.put("daterange.lowerBound",formatter.format(startDt));
-		region.put("daterange.upperBound",formatter.format(after365days));
-		
-		region.put("1_property","@jcr:content/data/region");
-		region.put(++propertyCounter+"_boolproperty","jcr:content/hideInNav");
-		region.put(propertyCounter+"_boolproperty.value","false");
 		region.put("p.limit", "-1");
-		region.put("orderby","@jcr:content/data/region");
-		region.put("orderby.sort", "asc");
 		Set<String> regions = new HashSet<String>();
-		//Set<String> vtkRegion = new HashSet<String>();
+		long startTime = System.nanoTime();
+		Date eventDate = null;
+		String eventDt = "";
 		try {
-			List<Hit> hits = SearchUtils.performContentSearch(region,slingRequest,this.queryBuilder,"0",searchResultsInfo);
-			for(Hit hts : hits){
+			List<Hit> hits = SearchUtils.performContentSearch(region,slingRequest,this.queryBuilder);
+			for(Hit hts : hits) {
+				eventDate = null;
+				eventDt = "";
 				Node node = hts.getNode();
-				if(node.hasNode("jcr:content/data")){
-					try{
+				if(node.hasNode("jcr:content/data")) {
+					try {
 						Node propNode = node.getNode("jcr:content/data");
-						if(propNode.hasProperty("region")){
-							regions.add(propNode.getProperty("region").getString());
+						if(propNode.hasProperty("region")) {
+							if(propNode.hasProperty("start")) {
+								eventDate = propNode.getProperty("start").getDate().getTime();
+								eventDt = formatter.format(eventDate);
+								// As compare after() depends on the today which keeps on changing as it has a time format in it
+								// So we need to convert it into the date format yyyy-MM-dd so event and today return the same 
+								try{
+									eventDate = formatter.parse(eventDt);
+								}catch(Exception e){
+									log.error("couldn't parse the date");
+								}
+								//System.out.println("EventDate" +eventDate  +today);
+								if(eventDate.after(today) || eventDate.equals(today)) {
+									regions.add(propNode.getProperty("region").getString());
+								}
+							}
 						}
-					}catch(Exception e){
-						log.error("Event Node doesn't contains jcr:content/data Node" +e.getMessage());
+					}catch(Exception e) {
+						log.error("Event Node doesn't contains required jcr:content/data Node" +e.getMessage());
 					}
 				}
 			}
-			
-		} catch (RepositoryException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
+			log.error(" Problem Occured whne performing search" +e.getMessage());
 		}
-		
-		return regions;
+		List<String> list = new ArrayList<String>(regions);
+		Collections.sort(list);
+		long endTime = System.nanoTime();
+		log.debug("-------------Time Take in Milliseconds --------------" +(endTime - startTime)/1000000);
+		return list;
 		
 	}
 	
