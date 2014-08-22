@@ -1,16 +1,20 @@
 
+ <%
  
+ //HttpSession session = request.getSession();
  
- <!-- 
- 
- <a href="/content/girlscouts-vtk/en/vtk.html">go to VTK</a>
- 
- <br/><br/>
- 
- <a href="https://gsuat-gsmembers.cs11.force.com/members/">Community</a>
- 
- -->
- 
+org.girlscouts.vtk.auth.models.ApiConfig apiConfig =null;
+try{
+apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig)session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
+	}catch(Exception e){e.printStackTrace();}
+	
+	
+	
+	out.println(apiConfig==null);
+	out.println( apiConfig.getTroops().get(0).getCouncilCode());
+	%>
+	
+	
  
  
  

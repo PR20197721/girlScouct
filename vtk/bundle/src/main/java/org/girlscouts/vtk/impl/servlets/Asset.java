@@ -39,6 +39,7 @@ import javax.servlet.http.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.Charset;
 import java.rmi.ServerException;
 import java.util.Calendar;
 import java.util.Iterator;
@@ -56,6 +57,8 @@ import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.util.Streams;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.net.util.Base64;
 
 import org.apache.sling.api.resource.ResourceResolverFactory;
 
@@ -126,9 +129,73 @@ import com.day.cq.commons.jcr.JcrUtil;
 		        	final String k = pairs.getKey();
 		            final org.apache.sling.api.request.RequestParameter[] pArr = pairs.getValue();
 		            final org.apache.sling.api.request.RequestParameter param = pArr[0];
-		            final InputStream stream = param.getInputStream();
+		          final InputStream stream = param.getInputStream();
 		            if (param.isFormField()) {
-		              System.err.println("Form field " + k + " with value " + org.apache.commons.fileupload.util.Streams.asString(stream) + " detected.");
+		            	
+		            	String t=   org.apache.commons.fileupload.util.Streams.asString(stream);
+		              System.err.println("Form field " + k + " with value "+ t);//org.apache.commons.fileupload.util.Streams.asString(stream) + " detected.");
+		          
+		            
+		            if( k.equals("custasset") ){
+		            	
+		            	
+		            	
+		            	/*
+		            	 byte[] caca=null;
+		            	InputStream in = null;
+		                FileOutputStream fos = null;
+		                try {
+		                    HttpServletRequestWrapper wrappedRequest = new HttpServletRequestWrapper(request);
+		                    InputStream is = wrappedRequest.getInputStream();
+		                    java.io.StringWriter writer = new java.io.StringWriter();
+		                    IOUtils.copy(is, writer, "UTF-8");
+		                    String imageString = writer.toString();
+		                    imageString = imageString.substring("data:image/png;base64,"
+		                            .length());
+		                    byte[] contentData = imageString.getBytes();
+		                   caca = Base64.decodeBase64(contentData);
+		                   
+		                    String imgName = ReloadableProps
+		                            .getProperty("local.image.save.path")
+		                            + String.valueOf(System.currentTimeMillis()) + ".png";
+		                    fos = new FileOutputStream(imgName);
+		                    fos.write(decodedData);
+		                
+		               
+		                } catch (Exception e) {
+		                    e.printStackTrace();
+		                    String loggerMessage = "Upload image failed : ";
+		                    //CVAException.printException(loggerMessage + e.getMessage());
+		                } finally {
+		                    if (in != null) {
+		                        in.close();
+		                    }
+		                    if (fos != null) {
+		                        fos.close();
+		                    }
+		                }
+		            	*/
+		            	
+		            	System.err.println("test: "+ t );
+		            	//byte[] caca = t.getBytes(Charset.forName("UTF-8"));
+		            	
+		               // java.util.BASE64Decoder de=new BASE64Decoder();
+		             
+		               byte[] caca= Base64.decodeBase64(t);
+		System.err.println("BYTSIZE: "+caca.length);
+		               InputStream inn = new ByteArrayInputStream(caca);
+		                
+		
+		                resourceResolver = resolverFactory.getAdministrativeResourceResolver(null);            
+			              Session session = resourceResolver.adaptTo(Session.class);            
+			              reverseReplicateBinary(session, request.getParameter("loc"), request.getParameter("id"),            
+			                      inn,
+			                      request.getParameter("assetDesc"),  request.getParameter("owner") ,  request.getParameter("id")); 
+			          
+		                
+		            }
+		              
+		            
 		            } else {
 		              System.err.println("File field " + k + " with file name " + param.getFileName() + " detected.");
 		              
@@ -137,9 +204,10 @@ import com.day.cq.commons.jcr.JcrUtil;
 		              
 		              resourceResolver = resolverFactory.getAdministrativeResourceResolver(null);            
 		              Session session = resourceResolver.adaptTo(Session.class);            
-		              reverseReplicateBinary(session, request.getParameter("loc"), request.getParameter("id"),            
+		              /* reverseReplicateBinary(session, request.getParameter("loc"), request.getParameter("id"),            
 		                      stream,
 		                      request.getParameter("assetDesc"),  request.getParameter("owner") ,  request.getParameter("id")); 
+		          */
 		            }
 		          }
 		        }else{
@@ -164,11 +232,11 @@ import com.day.cq.commons.jcr.JcrUtil;
 			            } else {
 			              System.err.println("File field " + k + " with file name " + param.getFileName() + " detected.");
 			            
-		        	resourceResolver = resolverFactory.getAdministrativeResourceResolver(null);            
-		              Session session = resourceResolver.adaptTo(Session.class);            
-		              reverseReplicateBinary(session, request.getParameter("loc"), request.getParameter("id"),            
+			              resourceResolver = resolverFactory.getAdministrativeResourceResolver(null);            
+			              Session session = resourceResolver.adaptTo(Session.class);            
+			              reverseReplicateBinary(session, request.getParameter("loc"), request.getParameter("id"),            
 		                      stream,
-		                      request.getParameter("assetDesc"),  request.getParameter("owner") ,  request.getParameter("id")); 
+		                  request.getParameter("assetDesc"),  request.getParameter("owner") ,  request.getParameter("id")); 
 			            }
 			            }
 		        	
@@ -186,7 +254,7 @@ import com.day.cq.commons.jcr.JcrUtil;
 		      
 		      
 		      //response.sendRedirect( "/content/girlscouts-vtk/en/vtk.planView.html?elem="+ request.getParameter("me"));
-		      response.sendRedirect("http://localhost:4503/content/girlscouts-vtk/en/vtk.admin.previewImportMeeting.html?id="+ request.getParameter("id"));
+		      //-response.sendRedirect("http://localhost:4503/content/girlscouts-vtk/en/vtk.admin.previewImportMeeting.html?id="+ request.getParameter("id"));
 		    }
 		    
 		    
@@ -210,8 +278,10 @@ import com.day.cq.commons.jcr.JcrUtil;
 		           // file.setProperty("createTime", new java.util.Date()+"");
 		            
 		            
+		            
 		            Node resource = file.addNode("jcr:content", "nt:resource");        
 		            resource.setProperty("jcr:data", valueFactory.createBinary(is)); 
+		            resource.setProperty("jcr:mimeType", "application/octet-stream");
 		            
 		            session.save(); 
 		            //jcrContent.setProperty("cq:lastModified", Calendar.getInstance());        

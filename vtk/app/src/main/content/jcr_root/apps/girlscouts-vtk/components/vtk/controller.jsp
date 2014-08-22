@@ -363,6 +363,29 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	*/		
 			  
 			  
+	
+}else if( request.getParameter("editMtLogo") !=null ){
+	
+	System.err.println("EDITING MEETING LOGO...");
+	/*
+	java.util.List<MeetingE> meetings= user.getYearPlan().getMeetingEvents();
+	for(MeetingE m: meetings){
+		if( m.getUid().equals( request.getParameter("mid") ))
+		{
+			
+			Meeting custM = m.getMeetingInfo();
+			custM.setName( request.getParameter("newvalue") );
+					
+			//create custom meeting
+			 meetingDAO.createCustomMeeting(user, m, custM);
+			
+			 out.println( request.getParameter("newvalue") );
+			
+			break;
+		}
+	}
+	*/
+	
 }else{
 	//TODO throw ERROR CODE
 }

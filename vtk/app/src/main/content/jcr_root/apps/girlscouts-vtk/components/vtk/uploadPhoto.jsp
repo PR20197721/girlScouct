@@ -74,7 +74,7 @@ try{ isFile = Integer.parseInt( request.getParameter("isFile") ); }catch(Excepti
 			
 			
 			 <form action="/content/girlscouts-vtk/controllers/auth.asset.html" method="post"  
-              			onsubmit="return bindAssetToYPC( '/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopId() %>/assets/<%=assetId %>', '<%=request.getParameter("refId")%>' )"  enctype="multipart/form-data">
+              		id="frmImg"	name="frmImg" onsubmit="return bindAssetToYPC( '/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopId() %>/assets/<%=assetId %>', '<%=request.getParameter("refId")%>' )"  enctype="multipart/form-data">
               
                        <input type="hidden" name="loc" value="/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopId() %>/assets"/>
              
@@ -85,6 +85,7 @@ try{ isFile = Integer.parseInt( request.getParameter("isFile") ); }catch(Excepti
                <input type="hidden" name="owner" value="<%=user.getId()%>"/>
                <input type="hidden" name="createTime" value="<%=new java.util.Date()%>"/>         
 			   <input type="hidden" id="custasset" name="custasset" value="" />
+			   <input type="file" id="custasset1" name="custasset" value="" />
                <br />
                 <input type="submit" value="Upload Img" />
          </form>
@@ -120,7 +121,23 @@ try{ isFile = Integer.parseInt( request.getParameter("isFile") ); }catch(Excepti
          	var img    = canvas.toDataURL("image/png");
          	//document.getElementById('canvasImg').src = dataURL;
          	
-         	 document.getElementById('custasset').value = img;
+         	 document.getElementById('custasset').value = dataUrl.replace('data:image/png;base64,', '');//img.replace('data:image/png;base64,', '');
+         	
+         	 
+         	 
+         	 
+         	 //var dataURL = canvas.toDataURL('image/jpeg', 0.5);
+         	/*
+         	var blob = dataURItoBlob(img);
+         	var fd = new FormData(document.forms["frmImg"]);
+         	alert( "fd: "+fd);
+         	alert( "blob: "+ blob);
+         	fd.append("tatat", blob);
+         	fd.append("acaca", img.replace('data:image/png;base64,', ''), "asdfasd");
+         	*/
+         	
+         	
+         	 
          	 
          	 
          	var data = img.replace('data:image/png;base64,', '');
@@ -157,9 +174,9 @@ try{ isFile = Integer.parseInt( request.getParameter("isFile") ); }catch(Excepti
          		
          		contentType: 'multipart/form-data',
          		success: function (msg) {
-         			alert("second44 OK");
+         			alert("second441 OK");
          		},
-         		error: alert('second44 No')
+         		error: alert('second441 No')
              	});
             
             
@@ -384,4 +401,24 @@ try{ isFile = Integer.parseInt( request.getParameter("isFile") ); }catch(Excepti
         	
         	 
          }
+         
+         function dataURItoBlob(dataURI) {
+        	    // convert base64/URLEncoded data component to raw binary data held in a string
+        	    var byteString;
+        	    if (dataURI.split(',')[0].indexOf('base64') >= 0)
+        	        byteString = atob(dataURI.split(',')[1]);
+        	    else
+        	        byteString = unescape(dataURI.split(',')[1]);
+
+        	    // separate out the mime component
+        	    var mimeString = dataURI.split(',')[0].split(':')[1].split(';')[0]
+
+        	    // write the bytes of the string to a typed array
+        	    var ia = new Uint8Array(byteString.length);
+        	    for (var i = 0; i < byteString.length; i++) {
+        	        ia[i] = byteString.charCodeAt(i);
+        	    }
+
+        	    return new Blob([ia], {type:mimeString});
+        	}
          </script>
