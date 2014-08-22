@@ -49,9 +49,9 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 				Date today = new Date();
 				Calendar cal1 = Calendar.getInstance();
 				cal1.setTime(today);
-				cal1.add(Calendar.DAY_OF_MONTH, +365);
-				Date after60days = cal1.getTime();
-
+				cal1.add(Calendar.DAY_OF_MONTH, -1);
+				today = cal1.getTime();
+				
 				String startDateStr = dateFormat.format(startDate);
 				String startTimeStr = timeFormat.format(startDate);
 				String dateStr = startDateStr + ", " +startTimeStr;
@@ -82,8 +82,7 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(startDate);
 				int month = cal.get(Calendar.MONTH);
-				//if(startDate.after(today) && startDate.before(after60days)) {
-					if(startDate.after(today) ) {
+				if(startDate.after(today)) {
 					if(tempMonth!=month) {
 						Date d = new Date(cal.getTimeInMillis());
 						String monthName = new SimpleDateFormat("MMMM").format(d);

@@ -62,6 +62,8 @@
     Date today = new Date();
     Calendar cal1 = Calendar.getInstance();
     cal1.setTime(today);
+    cal1.add(Calendar.DAY_OF_MONTH, -1);
+	today = cal1.getTime();
 %>
 
 <div class="small-24 medium-24 large-24 columns events-section">
@@ -158,7 +160,7 @@ if(eventcounts>0){
 		iconPath="";  		 
 		Date tdt = null;
 		locationLabel = "";
-      	if(fdt.equals(today) || fdt.after(today)){
+      	if(fdt.after(today)){
 			startDate = propNode.getProperty("start").getDate().getTime(); 
      	 	startDateStr = dateFormat.format(startDate);
           	startTimeStr = timeFormat.format(startDate);
