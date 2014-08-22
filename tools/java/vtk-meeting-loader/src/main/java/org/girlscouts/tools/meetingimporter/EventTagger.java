@@ -89,13 +89,6 @@ public class EventTagger {
                 }
             }
             
-            if (tags.size() == 0) {
-                System.err.println("No tags: " + node.getPath());
-            }
-            if (true) {
-                continue;
-            }
-
             String title = node.getProperty(TITLE_PROP).getString();
             String tagsToAdd = tagMap.get(title);
             if (tagsToAdd == null) {
