@@ -140,7 +140,7 @@ public class EventTagger {
     public static void main(String[] args) throws Exception {
         EventTagger eventTagger = new EventTagger(args[0], args[1], args[2]);
         eventTagger.getSession();
-        //eventTagger.readTagging();
+        eventTagger.readTagging();
         eventTagger.applyTags();
     }
     
