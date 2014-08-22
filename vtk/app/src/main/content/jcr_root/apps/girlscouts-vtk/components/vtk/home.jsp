@@ -37,7 +37,7 @@ String branch = mapper.getCouncilBranch(councilId);
 branch += "/en/jcr:content";
 
 ValueMap valueMap = (ValueMap)resourceResolver.resolve(branch).adaptTo(ValueMap.class);
-boolean isHideSignIn = valueMap.get("hideSignIn", "").equals("true");
+boolean isHideSignIn = valueMap.get("hideVTKButton", "").equals("true");
 %>
 
 <!--
