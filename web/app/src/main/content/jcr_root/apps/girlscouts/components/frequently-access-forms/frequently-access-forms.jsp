@@ -27,7 +27,7 @@ if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMM
 	        String label = values[0];
 	        String externalLink = values.length>=2? values[1] : "" ;
 	        String internalLink = values.length>=3 ? values[2] : "";
-	        
+	        String newWindow = values.length >= 4 && values[3].equalsIgnoreCase("true") ? " target=\"_blank\"" : "";
 	        if(!externalLink.isEmpty()){
 	        	path = externalLink;
 	        }
@@ -35,7 +35,8 @@ if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMM
 	        	path = genLink(resourceResolver, internalLink);
 	        	
 	        }
-	      %><span><a href="<%= path %>"><%= label %></a></span><%
+	      %>
+	      <span><a href="<%= path %>" <%=newWindow%>><%= label %></a></span><%
 	    }%>
 	    </div>
 	   </div>
@@ -48,3 +49,4 @@ if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMM
 }
 
 %>
+

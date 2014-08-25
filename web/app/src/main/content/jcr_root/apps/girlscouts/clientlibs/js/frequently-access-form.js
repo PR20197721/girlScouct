@@ -24,6 +24,7 @@ girlscouts.components.FreqAccessForm = CQ.Ext.extend(CQ.form.CompositeField, {
     hiddenField: null,
     pdfTitle: null,
 	pathField: null,
+    openInNewWindowField: null,
     
     constructor: function(config) {
         config = config || { };
@@ -81,6 +82,17 @@ girlscouts.components.FreqAccessForm = CQ.Ext.extend(CQ.form.CompositeField, {
             } 
         });
         this.add(this.pathField);
+
+        this.add(new CQ.Ext.form.Label({text: "New Window"}));
+        this.openInNewWindowField = new CQ.Ext.form.Checkbox({
+            listeners: {
+                change: {
+                    scope:this,
+                    fn:this.updateHidden
+                }
+            }
+        });
+        this.add(this.openInNewWindowField);
     },
 
     // overriding CQ.form.CompositeField#setValue
@@ -89,6 +101,7 @@ girlscouts.components.FreqAccessForm = CQ.Ext.extend(CQ.form.CompositeField, {
         this.pdfTitle.setValue(parts[0]);
         this.externalLabel.setValue(parts[1]);
 		this.pathField.setValue(parts[2]);
+        this.openInNewWindowField.setValue(parts[3]);
 		this.hiddenField.setValue(value);
     },
 
@@ -102,8 +115,8 @@ girlscouts.components.FreqAccessForm = CQ.Ext.extend(CQ.form.CompositeField, {
         return this.pdfTitle.getValue() + "|||" 
              + this.externalLabel.getValue() + "|||"
         	 + this.pathField.getValue() + "|||"
-            
-            
+             +(this.openInNewWindowField.getValue() ? 'true' : 'false');
+         
     },
 
     // private

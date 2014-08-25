@@ -156,16 +156,18 @@ try{
 	
 		int idx = pth.lastIndexOf('.');
 		String extension = idx >= 0 ? pth.substring(idx + 1) : "";
+		String newWindow = "";
 %>
 		<br/>
 <%
 		if(!extension.isEmpty() && !extension.equals("html")){
+			newWindow = "target=_blank";
 %>
 		<span class="icon type_<%=extension%>"><img src="/etc/designs/default/0.gif" alt="*"></span>
 <%
 		}
 %>
-		<a href="<%=pth%>"><%=title %></a>
+		<a href="<%=pth%>" <%=newWindow %>><%=title %></a>
 <%
 		if (q != null && !q.isEmpty()) {
 			String excerpt = docHit.getExcerpt();
