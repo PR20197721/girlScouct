@@ -1,4 +1,4 @@
-
+<%@include file="../admin/toolbar.jsp"%>
 <%
 	if (troops != null && troops.size() > 1) {
 
@@ -7,6 +7,9 @@
 		cookie.setMaxAge(-1);
 		response.addCookie(cookie);
 %>
+
+
+
 <div id="troop" class="row">
 	<div class="small-24 medium-24 large-24 troopPrompt columns">
 		Current troop profile: <select id="reloginid" onchange="relogin()">

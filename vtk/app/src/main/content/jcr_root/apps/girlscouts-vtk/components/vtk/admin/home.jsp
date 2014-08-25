@@ -4,16 +4,17 @@
 <cq:defineObjects/>
 <%@include file="../include/session.jsp"%>
 
+<%@include file="../admin/toolbar.jsp"%>
 <h1>VTK Admin Tools</h1>
 <b>Welcome, admin</b>
 <br/><br/>
 <div style="background-color:#efefef;">
 
 
-<div class="grid-system nopadding section" style="padding:25px;">
+<div class="grid-system nopadding section" >
 <ul class="large-block-grid-2 medium-block-grid-2 small-block-grid-1 ">
 
-<li><div class="text parbase nopadding section">
+<li style="padding:25px;"><div class="text parbase nopadding section">
 <table border="0" cellpadding="0" cellspacing="0"
 style="border: none;">
 <tbody><tr><td>
@@ -29,18 +30,22 @@ Daisy, Brownie, or Junior troop leaders.</td>
 </div>
 </li>
 
-<!-- 2nd cmd
-<li><div class="text parbase nopadding section">
+
+<li style="padding:25px;"><div class="text parbase nopadding section">
 <table border="0" cellpadding="0" cellspacing="0"
 style="border: none;">
 <tbody><tr><td>
-<a href="https://gsuat-gsmembers.cs11.force.com/members/"><img src="/content/dam/buttons/btn_member_profile.jpg"/></a>
+<a href="/content/girlscouts-vtk/en/vtk.admin.previewImportMeeting.html">
+<input type="submit" value="Year Plan File Preview" />
+</a>
 </td>
-</tr><tr style="background-color: white;border: none;"><td>Do you want to change your member profile or contact details? Do you need to renew a membership? Go to the Girl Scout Member Community for access to your member profile.</td>
+</tr><tr style="background-color: white;border: none;"><td>
+Do you want to preview meeting file uploads?
+<br/>Upload file and preview.</td>
 </tr></tbody></table>
 </div>
 </li>
--->
+
 <div style="clear:both"></div>
 </ul></div>
 

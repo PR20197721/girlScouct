@@ -638,8 +638,6 @@ $(".ajaxupload").editable("http://www.appelsiini.net/projects/jeditable/php/uplo
 	<div class="small-1 columns">&nbsp;</div>
         <div class="small-22 columns">
                 <p>
-             
-               
                <%=meetingInfoItems.get("meeting short description").getStr() %>
                 </p>
 	</div>

@@ -5,6 +5,8 @@
 	li{  font-weight:normal; padding-left:40px;}
 
 </style>
+
+<%@include file="../admin/toolbar.jsp"%>
 <h1>Preview Import Files</h1>
 
 <%
