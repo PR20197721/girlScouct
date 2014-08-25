@@ -45,7 +45,7 @@
 	String img= "";
 	try{
 		img= meetingE.getRefId().substring( meetingE.getRefId().lastIndexOf("/")+1).toUpperCase();
-		if(img.contains("_") )img= img.substring(0, img.indexOf("_"));
+		//if(img.contains("_") )img= img.substring(0, img.indexOf("_"));
 	}catch(Exception e){
 		e.printStackTrace();
 	}

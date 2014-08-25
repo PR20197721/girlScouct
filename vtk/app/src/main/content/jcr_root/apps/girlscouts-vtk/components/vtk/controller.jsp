@@ -26,6 +26,16 @@
 	java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat("MM/dd/yyyy hh:mm a");
 %>
 <%
+
+System.err.println("CONTROOLER");
+Enumeration parameterList = request.getParameterNames();
+while( parameterList.hasMoreElements() )
+{
+  String sName = parameterList.nextElement().toString();
+  System.err.println("</br/>"+ sName);
+}
+
+
 if( request.getParameter("isMeetingCngAjax") !=null){
 	meetingUtil.changeMeetingPositions( user, request.getParameter("isMeetingCngAjax") );
 }else if( request.getParameter("newCustActivity") !=null ){

@@ -16,7 +16,6 @@
 <script type="text/javascript" src="http://www.appelsiini.net/projects/jeditable/js/jquery.autogrow.js"></script>
 <script type="text/javascript" src="http://www.appelsiini.net/projects/jeditable/js/jquery.charcounter.js"></script>
 <script type="text/javascript" src="http://www.appelsiini.net/projects/jeditable/js/date.js"></script>
-<script type="text/javascript" src="http://www.appelsiini.net/projects/jeditable/js/jquery.dimensions.js"></script>
 <script type="text/javascript" src="http://www.appelsiini.net/projects/jeditable/js/jquery.datePicker.js"></script>
 <script type="text/javascript" src="http://www.appelsiini.net/projects/jeditable/js/jquery.ajaxfileupload.js"></script>
 <script type="text/javascript" charset="utf-8">
@@ -68,7 +67,12 @@ $(document).ready(function() {
         submit    : 'OK',
         tooltip   : "Click to edit..."
     });
-    $(".ajaxupload").editable("/content/girlscouts-vtk/controllers/vtk.controller.html", { 
+    
+    
+    
+   
+    $(".ajaxupload").editable("/content/girlscouts-vtk/controllers/auth.asset.html?id=<%=(meeting.getRefId().substring( meeting.getRefId().lastIndexOf("/")+1).toUpperCase())%>", { 
+    //$(".ajaxupload").editable("/content/girlscouts-vtk/controllers/vtk.controller.html?id=<%=meeting.getUid()%>", {
         indicator : "<img src='img/indicator.gif'>",
         type      : 'ajaxupload',
         submit    : 'Upload',
@@ -76,9 +80,30 @@ $(document).ready(function() {
         tooltip   : "Click to upload...",
         
         id   : 'editMtLogo',
-        name : 'newvalue'
+        name : 'newvalue',
+        
+        onsubmit    : function(value, settings) {alert(1);},
+        "submitdata": function (value, settings) {
+           console.log(22);
+           alert(2);
+       },
+        callback : function(value, settings) {
+        
+        	
+        console.log(2);
+            console.log(this);
+            console.log(value);
+            console.log(settings);
+            alert(1);
+        }
     });
+   
 });
+    
+    
+    
+    
+    
 // ]]>
 </script>  
 
@@ -594,7 +619,7 @@ $(".ajaxupload").editable("http://www.appelsiini.net/projects/jeditable/php/uplo
 	String img= "";
 	try{
 		img= meeting.getRefId().substring( meeting.getRefId().lastIndexOf("/")+1).toUpperCase();
-		if(img.contains("_") )img= img.substring(0, img.indexOf("_"));
+		//if(img.contains("_") )img= img.substring(0, img.indexOf("_"));
 %>
   <span class="ajaxupload" id="editMtLogo">
 		<img  width="100" height="100" src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png" align="center"/>

@@ -123,7 +123,7 @@ import com.day.cq.commons.jcr.JcrUtil;
 		          System.err.println("33.1: "+ request.getParameter("aType"));
 		          for (final java.util.Map.Entry<String, org.apache.sling.api.request.RequestParameter[]> pairs : params.entrySet()) {
 		         
-		        	System.err.println("44");
+		        	System.err.println("4422");
 		        	
 		        	
 		        	final String k = pairs.getKey();
@@ -203,12 +203,26 @@ import com.day.cq.commons.jcr.JcrUtil;
 		              //org.apache.commons.net.io.Util.copyStream(stream, os);
 		              
 		              resourceResolver = resolverFactory.getAdministrativeResourceResolver(null);            
-		              Session session = resourceResolver.adaptTo(Session.class);            
-		              /* reverseReplicateBinary(session, request.getParameter("loc"), request.getParameter("id"),            
+		              Session session = resourceResolver.adaptTo(Session.class);  
+		              
+		              String loc =request.getParameter("loc");
+		              String name=request.getParameter("id");
+		              if( request.getParameter("newvalue")!=null){
+		            	  loc= "/content/dam/girlscouts-vtk/local/icon/meetings";
+		            	  name=name+".png";
+		            	  if( request.getParameter("newvalue")!=null){ 
+		            		  //out.println("<img src=\""+ loc +"/"+ name +"\"/>");
+		            		 // out.println("<script>location.reload();</script>");
+		            	   }
+		              }
+		              
+		              reverseReplicateBinary(session, loc, name,            
 		                      stream,
 		                      request.getParameter("assetDesc"),  request.getParameter("owner") ,  request.getParameter("id")); 
-		          */
+		          
 		            }
+		            
+		             
 		          }
 		        }else{
 		        	
@@ -218,7 +232,7 @@ import com.day.cq.commons.jcr.JcrUtil;
 			         
 		        	for (final java.util.Map.Entry<String, org.apache.sling.api.request.RequestParameter[]> pairs : params.entrySet()) {
 				         
-			        	System.err.println("44");
+			        	System.err.println("4466");
 			        	
 			        	
 			        	final String k = pairs.getKey();
@@ -269,7 +283,7 @@ import com.day.cq.commons.jcr.JcrUtil;
 		            System.err.println("TEST: "+ parentPath);
 		            
 		            Node page = JcrUtil.createPath(parentPath, "nt:unstructured", "nt:unstructured", session, true);
-		            System.err.println("___PAGE: "+ (page==null) +" : "+ (name==null) );
+		            System.err.println("___PAGE: "+ (page==null) +" : "+ (name==null) +" :" +name);
 		            //Node jcrContent = page.addNode("jcr:content", "cq:PageContent");        
 		            Node file = page.addNode(name, "nt:file");  
 		            //file.setProperty("owner", owner);
@@ -281,7 +295,7 @@ import com.day.cq.commons.jcr.JcrUtil;
 		            
 		            Node resource = file.addNode("jcr:content", "nt:resource");        
 		            resource.setProperty("jcr:data", valueFactory.createBinary(is)); 
-		            resource.setProperty("jcr:mimeType", "application/octet-stream");
+		           // resource.setProperty("jcr:mimeType", "application/octet-stream");
 		            
 		            session.save(); 
 		            //jcrContent.setProperty("cq:lastModified", Calendar.getInstance());        

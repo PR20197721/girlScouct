@@ -4,7 +4,7 @@
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 <div id="errInfo"></div>
-<div id="planBody">
+
 <%!
 	String activeTab = "plan";
 	boolean showVtkNav = true;
