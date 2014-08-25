@@ -13,7 +13,7 @@ if(centerLinks != null && centerLinks == false) {
 //TODO: Find a way to have the links center dynamically
 if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
 	%>##### Footer Navigation #####<%
-} else {
+} else if (links != null){
 	for (int i = 0; i < links.length; i++) {
 		String[] values = links[i].split("\\|\\|\\|");
 		String label = values[0];

@@ -6,7 +6,7 @@ request.setAttribute("links", links);
 if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
 	%>##### Eyebrow Navigation #####
 <%
-} else {
+} else if (links != null){
     %>
     
     <ul class="inline-list eyebrow-fontsize">
