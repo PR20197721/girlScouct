@@ -249,7 +249,11 @@ public class MeetingUtil {
 			MeetingE m= meetings.get(i);
 			if( m.getPath().equals(meetingPath)){
 				
-				Meeting meeting =meetingDAO.createCustomMeeting(user, m);
+				Meeting meeting =null;
+				if( m.getRefId().contains("_") )
+				 meeting =meetingDAO.updateCustomMeeting(user, m, null);
+				else
+				 meeting =meetingDAO.createCustomMeeting(user, m);
 				
 				Activity activity= new Activity();
 				activity.setName(name);
@@ -331,7 +335,10 @@ public class MeetingUtil {
 		
 		//create custom meeting
 		MeetingE meetingE= getMeeting(user.getYearPlan().getMeetingEvents(), meetingPath);
-		meetingDAO.createCustomMeeting(user, meetingE, meetingInfo);
+		if( meetingE.getRefId().contains("_"))
+			meetingDAO.updateCustomMeeting(user, meetingE, meetingInfo);
+		else
+			meetingDAO.createCustomMeeting(user, meetingE, meetingInfo);
 		
 	}
 	

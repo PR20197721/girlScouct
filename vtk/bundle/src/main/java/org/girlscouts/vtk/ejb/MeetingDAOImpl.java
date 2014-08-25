@@ -322,10 +322,10 @@ public Meeting updateCustomMeeting(User user, MeetingE meetingEvent, Meeting mee
 		Mapper mapper = new AnnotationMapperImpl(classes);
 		ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
 
-		/*
-		if( meeting==null ) return;
-		    //meeting = getMeeting(meetingEvent.getRefId());
-	*/
+	
+		if( meeting==null ) 
+		    meeting = getMeeting(meetingEvent.getRefId());
+	
 		
 		//String newPath = meetingEvent.getPath()+"/"+meeting.getId()+"_"+Math.random();
 		String newPath = meetingEvent.getRefId();// user.getPath()+"/lib/meetings/"+meeting.getId()+"_"+Math.random();

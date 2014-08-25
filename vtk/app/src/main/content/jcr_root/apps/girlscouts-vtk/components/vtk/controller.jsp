@@ -85,9 +85,11 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 }else if( request.getParameter("rmLocation") !=null ){
 	locationDAO.removeLocation(user, request.getParameter("rmLocation"));
 }else if( request.getParameter("newCustAgendaName") !=null ){
+	
 	meetingUtil.createCustomAgenda(user, 
 			request.getParameter("name"), request.getParameter("newCustAgendaName"), 
 			Integer.parseInt(request.getParameter("duration")), Long.parseLong( request.getParameter("startTime") ), request.getParameter("txt") );
+
 }else if( request.getParameter("setLocationToAllMeetings") !=null ){
 	locationUtil.setLocationAllMeetings(user, request.getParameter("setLocationToAllMeetings") );
 }else if( request.getParameter("updSched") !=null ){
