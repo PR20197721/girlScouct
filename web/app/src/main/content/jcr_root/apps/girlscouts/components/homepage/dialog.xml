@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Dialog"
     height="400"
     stateful="false"
@@ -84,6 +84,44 @@
                             fieldDescription="Put embedded HTML or JavaScript for tracking purposes here."
                             fieldLabel="Tracking"
                             name="./footerTracking"/>
+                        <hide-sign-in
+                            jcr:primaryType="cq:Widget"
+                            defaultValue="true"
+                            fieldDescription="Hide the &quot;sign in&quot; button on the top right of the page."
+                            fieldLabel="Hide Sign In"
+                            name="./hideSignIn"
+                            value="true"
+                            xtype="selection">
+                            <options jcr:primaryType="cq:WidgetCollection">
+                                <true
+                                    jcr:primaryType="nt:unstructured"
+                                    text="TRUE: the &quot;sign in&quot; button is hidden."
+                                    value="true"/>
+                                <false
+                                    jcr:primaryType="nt:unstructured"
+                                    text="FALSE: the &quot;sign in&quot; button is shown."
+                                    value="false"/>
+                            </options>
+                        </hide-sign-in>
+                        <hide-vtk-button
+                            jcr:primaryType="cq:Widget"
+                            defaultValue="false"
+                            fieldDescription="Hide the VTK button on the landing page."
+                            fieldLabel="Hide VTK Button"
+                            name="./hideVTKButton"
+                            value="false"
+                            xtype="selection">
+                            <options jcr:primaryType="cq:WidgetCollection">
+                                <true
+                                    jcr:primaryType="nt:unstructured"
+                                    text="TRUE: the VTK button is hidden."
+                                    value="true"/>
+                                <false
+                                    jcr:primaryType="nt:unstructured"
+                                    text="FALSE: the VTK button is shown."
+                                    value="false"/>
+                            </options>
+                        </hide-vtk-button>
                     </items>
                 </girl-scouts>
             </items>
