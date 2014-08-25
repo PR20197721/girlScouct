@@ -1,4 +1,5 @@
-<%@page import="org.girlscouts.vtk.helpers.CouncilMapper" %>
+<%@page import="org.girlscouts.vtk.helpers.ConfigManager,
+                org.girlscouts.vtk.helpers.CouncilMapper" %>
 <%@include file="/libs/foundation/global.jsp" %>
  
  
@@ -38,6 +39,13 @@ branch += "/en/jcr:content";
 
 ValueMap valueMap = (ValueMap)resourceResolver.resolve(branch).adaptTo(ValueMap.class);
 boolean isHideSignIn = valueMap.get("hideVTKButton", "").equals("true");
+
+// Get URL for community page
+ConfigManager configManager = (ConfigManager)sling.getService(ConfigManager.class);
+String communityUrl = "";
+if (configManager != null) {
+    communityUrl = configManager.getConfig("communityUrl");
+}
 %>
 
 <!--
@@ -156,7 +164,7 @@ style="border: none;">
 <table border="0" cellpadding="0" cellspacing="0"
 style="border: none;">
 <tbody><tr><td>
-<a href="https://gsmembers.force.com/members/"><img src="/etc/designs/girlscouts-vtk/images/btn_member_profile.jpg"/></a>
+<a href="<%= communityUrl %>"><img src="/etc/designs/girlscouts-vtk/images/btn_member_profile.jpg"/></a>
 </td>
 </tr><tr style="background-color: white;border: none;"><td>Do you want to change your member profile or contact details? Do you need to renew a membership? Go to the Girl Scout Member Community for access to your member profile.</td>
 </tr></tbody></table>
