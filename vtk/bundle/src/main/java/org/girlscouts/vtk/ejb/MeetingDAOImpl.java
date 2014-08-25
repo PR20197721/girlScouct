@@ -308,6 +308,51 @@ public Meeting createCustomMeeting(User user, MeetingE meetingEvent, Meeting mee
 }
 
 
+public Meeting updateCustomMeeting(User user, MeetingE meetingEvent, Meeting meeting){
+	
+	//Meeting meeting =null;
+	try{
+		List<Class> classes = new ArrayList<Class>();	
+		classes.add(MeetingE.class); 
+		classes.add(Meeting.class);
+		classes.add(Activity.class);
+		classes.add(JcrCollectionHoldString.class);
+		classes.add(JcrNode.class);
+		classes.add( Asset.class);
+		Mapper mapper = new AnnotationMapperImpl(classes);
+		ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
+
+		/*
+		if( meeting==null ) return;
+		    //meeting = getMeeting(meetingEvent.getRefId());
+	*/
+		
+		//String newPath = meetingEvent.getPath()+"/"+meeting.getId()+"_"+Math.random();
+		String newPath = meetingEvent.getRefId();// user.getPath()+"/lib/meetings/"+meeting.getId()+"_"+Math.random();
+		
+		if( !session.itemExists(user.getPath()+"/lib/meetings/") ){
+			ocm.insert( new JcrNode(user.getPath()+"/lib") );
+			ocm.insert( new JcrNode(user.getPath()+"/lib/meetings") );
+			ocm.save();
+		}
+	
+		
+	
+		
+		meetingEvent.setRefId(newPath);
+		meeting.setPath(newPath);
+		
+		ocm.update(meeting);
+		ocm.update(meetingEvent);
+		ocm.save();
+		
+	}catch(Exception e){e.printStackTrace();}
+	
+	return meeting;
+	
+}
+
+
 public Meeting addActivity(Meeting meeting, Activity activity){
 	
 	

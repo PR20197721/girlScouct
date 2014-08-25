@@ -199,7 +199,7 @@ $(function() {
       cssclass : "editable",
       onblur: 'ignore',
       tooltip: "Click to edit...",
-      id   : 'editMeetingName',
+      
       name : 'newvalue',
       
       ckeditor : {
@@ -616,13 +616,13 @@ $(".ajaxupload").editable("http://www.appelsiini.net/projects/jeditable/php/uplo
 		<a href="#" class="mLocked button linkButton" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=meeting.getPath()%>&xx=<%=searchDate.getTime()%>', false, null, true)">replace this meeting</a>
 		<br/>
 <%
-	String img= "";
+	String img= "", imgDefault="xx";
 	try{
 		img= meeting.getRefId().substring( meeting.getRefId().lastIndexOf("/")+1).toUpperCase();
-		//if(img.contains("_") )img= img.substring(0, img.indexOf("_"));
+	//	if(img.contains("_") ) img= img.substring(0, img.indexOf("_"));
 %>
   <span class="ajaxupload" id="editMtLogo">
-		<img  width="100" height="100" src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png" align="center"/>
+		<img  width="100" height="100" src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png" align="center" />
 </span>
 <%
 	}catch(Exception e){
@@ -637,9 +637,9 @@ $(".ajaxupload").editable("http://www.appelsiini.net/projects/jeditable/php/uplo
 <div class="row meetingDetailDescription">
 	<div class="small-1 columns">&nbsp;</div>
         <div class="small-22 columns">
-                <p>
+                <span class="editable_textarea" id="editMeetingDesc">
                <%=meetingInfoItems.get("meeting short description").getStr() %>
-                </p>
+                </span>
 	</div>
         <div class="small-1 columns">&nbsp;</div>
 </div>

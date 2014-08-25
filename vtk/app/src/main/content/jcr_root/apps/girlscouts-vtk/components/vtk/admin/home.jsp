@@ -5,6 +5,20 @@
 <%@include file="../include/session.jsp"%>
 
 <%@include file="../admin/toolbar.jsp"%>
+
+<script>
+
+function rmUser(){
+	$.ajax({
+		url: "/content/girlscouts-vtk/controllers/vtk.rmme.html",
+		cache: false
+	}).done(function( html ) {
+		location.reload();
+	});
+}
+</script>
+
+
 <h1>VTK Admin Tools</h1>
 <b>Welcome, admin</b>
 <br/><br/>
@@ -25,7 +39,16 @@ style="border: none;">
 </td>
 </tr><tr style="background-color: white;border: none;"><td>Go here to build you own action-packed year
  of activities. Share with 
-Daisy, Brownie, or Junior troop leaders.</td>
+Daisy, Brownie, or Junior troop leaders.
+</td></tr>
+<tr><td>
+<%if(user.getYearPlan()!=null && user.getYearPlan().getMeetingEvents()!=null && user.getYearPlan().getMeetingEvents().size()>0){%>
+	Existing Plans:<br/>
+	<a href="/content/girlscouts-vtk/en/vtk.admin.plan.html">::<%=user.getYearPlan().getName() %></a> <a href="javascript:void(0)" onclick="rmUser()" style="color:red;">remove</a>
+<%}%>
+</div>
+
+</td>
 </tr></tbody></table>
 </div>
 </li>

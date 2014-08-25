@@ -42,4 +42,6 @@ public interface MeetingDAO {
 	public  List<Asset> getAllResources(String path) ;
 	public  Asset getAsset(String _path);
 	public java.util.List<Asset> getGlobalResources( String resourceTags); // delim ';'
+	
+	public Meeting updateCustomMeeting(User user, MeetingE meetingEvent, Meeting meeting);
 }

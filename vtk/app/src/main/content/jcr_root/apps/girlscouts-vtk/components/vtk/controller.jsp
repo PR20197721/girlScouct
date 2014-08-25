@@ -27,12 +27,12 @@
 %>
 <%
 
-System.err.println("CONTROOLER");
+System.err.println("CONTROOLER "+ (request.getParameter("editMeetingName")==null ));
 Enumeration parameterList = request.getParameterNames();
 while( parameterList.hasMoreElements() )
 {
   String sName = parameterList.nextElement().toString();
-  System.err.println("</br/>"+ sName);
+  System.err.println("</br/>"+ sName +" :" + request.getParameter(sName));
 }
 
 
@@ -333,22 +333,54 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 		}
 	}
 	
-}else if( request.getParameter("editMeetingName") !=null ){
+}else if( request.getParameter("id") !=null ){
 	//out.println( request.getParameter("newvalue") );
-	//System.err.println("MID: "+request.getParameter("mid"));
+	System.err.println("MID: "+request.getParameter("mid"));
 	
 	java.util.List<MeetingE> meetings= user.getYearPlan().getMeetingEvents();
 	for(MeetingE m: meetings){
 		if( m.getUid().equals( request.getParameter("mid") ))
 		{
+		
 			
 			Meeting custM = m.getMeetingInfo();
-			custM.setName( request.getParameter("newvalue") );
-					
+			
+		
+			
+			
+			if( request.getParameter("id").equals("editMeetingName")){
+				custM.setName( request.getParameter("newvalue") );
+			}else if( request.getParameter("id").equals("editMeetingDesc")){
+				//custM.set( request.getParameter("newvalue") );
+				java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  custM.getMeetingInfo();
+				meetingInfoItems.put("meeting short description", new JcrCollectionHoldString(request.getParameter("newvalue")));
+			}else if( request.getParameter("id").equals("editMeetingOverview")){
+				java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  custM.getMeetingInfo();
+				meetingInfoItems.put("overview", new JcrCollectionHoldString(request.getParameter("newvalue")));
+			}else if( request.getParameter("id").equals("editMeetingActivity")){
+				java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  custM.getMeetingInfo();
+				meetingInfoItems.put("detailed activity plan", new JcrCollectionHoldString(request.getParameter("newvalue")));
+			}else if( request.getParameter("id").equals("editMeetingMaterials")){
+				java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  custM.getMeetingInfo();
+				meetingInfoItems.put("materials", new JcrCollectionHoldString(request.getParameter("newvalue")));
+			
+			}
+			
+			
+			try{
 			//create custom meeting
-			 meetingDAO.createCustomMeeting(user, m, custM);
+			System.err.println(0 +" :"  + m.getRefId());
+			
+			if( !m.getRefId().contains("_") )
+			    meetingDAO.createCustomMeeting(user, m, custM);
+			else{
+				System.err.println(1);
+				meetingDAO.updateCustomMeeting(user, m, custM);
+				System.err.println(2);
+			}
 			
 			 out.println( request.getParameter("newvalue") );
+			}catch(Exception e){e.printStackTrace();}
 			
 			break;
 		}

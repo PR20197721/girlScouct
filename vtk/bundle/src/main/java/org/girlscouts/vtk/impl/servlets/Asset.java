@@ -268,7 +268,14 @@ import com.day.cq.commons.jcr.JcrUtil;
 		      
 		      
 		      //response.sendRedirect( "/content/girlscouts-vtk/en/vtk.planView.html?elem="+ request.getParameter("me"));
-		      //-response.sendRedirect("http://localhost:4503/content/girlscouts-vtk/en/vtk.admin.previewImportMeeting.html?id="+ request.getParameter("id"));
+		    
+		      
+		      
+System.err.println("Pathddd:"+		      request.getParameter("loc"));
+			if( request.getParameter("loc")!=null && request.getParameter("loc").contains("/tmp/import/assets") )
+		      response.sendRedirect("http://localhost:4503/content/girlscouts-vtk/en/vtk.admin.previewImportMeeting.html?id="+ request.getParameter("id"));
+		 
+		    
 		    }
 		    
 		    
@@ -284,8 +291,27 @@ import com.day.cq.commons.jcr.JcrUtil;
 		            
 		            Node page = JcrUtil.createPath(parentPath, "nt:unstructured", "nt:unstructured", session, true);
 		            System.err.println("___PAGE: "+ (page==null) +" : "+ (name==null) +" :" +name);
-		            //Node jcrContent = page.addNode("jcr:content", "cq:PageContent");        
-		            Node file = page.addNode(name, "nt:file");  
+		            //Node jcrContent = page.addNode("jcr:content", "cq:PageContent");   
+		            
+		            
+		         //  System.err.println( "Isnode: "+page.isNodeType( name ) );
+		            
+		            
+		            Node file =null;
+		           if( page.hasNode(name) )
+		        	   file =page.getNode(name);
+		           else{
+		           
+		            
+		            	try{ 
+		            		file= page.addNode(name, "nt:file");  
+		            
+		            	}catch(javax.jcr.ItemExistsException ex){
+		            		file =page.getNode(name);
+		            	ex.printStackTrace();
+		            	}
+		           }
+		           
 		            //file.setProperty("owner", owner);
 		            //file.setProperty("description", desc);
 		            //file.setProperty("id", id);
@@ -293,7 +319,13 @@ import com.day.cq.commons.jcr.JcrUtil;
 		            
 		            
 		            
-		            Node resource = file.addNode("jcr:content", "nt:resource");        
+		            Node resource = null;
+		            if( file.hasNode("jcr:content")) {
+		            	resource = file.getNode("jcr:content") ;
+		            	resource.remove();
+		            }
+		            resource =file.addNode("jcr:content", "nt:resource");  
+		            
 		            resource.setProperty("jcr:data", valueFactory.createBinary(is)); 
 		           // resource.setProperty("jcr:mimeType", "application/octet-stream");
 		            

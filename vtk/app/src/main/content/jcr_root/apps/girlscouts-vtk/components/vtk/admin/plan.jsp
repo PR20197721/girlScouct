@@ -6,9 +6,17 @@
 
 <%
 
- //user= new User( );
 
-user= userDAO.getUser( "/vtk/1/caca/users/caca_caca");
+/*
+ //user= new User( );
+System.err.println( "Path :"+ (user.getPath() ));//.getPath());
+//if(true)return;
+User exist_user= userDAO.getUser( "/vtk/1/caca/users/caca_caca");
+if( exist_user ==null ){
+	//user.setPath("/vtk/1/caca/users/caca_caca");
+	session.setAttribute("VTK_user", user);
+}
+*/
 
 if( user.getYearPlan()==null ){
 	YearPlan plan = new YearPlan();
@@ -16,7 +24,7 @@ if( user.getYearPlan()==null ){
 	java.util.List  <MeetingE> meetings = new java.util.ArrayList  <MeetingE> ();
 	plan.setMeetingEvents( meetings );
 	user.setYearPlan( plan );
-	session.setAttribute("VTK_user", user);
+	//session.setAttribute("VTK_user", user);
 }
 
 %>
