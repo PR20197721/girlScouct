@@ -62,10 +62,12 @@ public class GirlScoutsReferencesUpdateActionFactory implements LiveActionFactor
             Node sourceNode = (Node)source.adaptTo(Node.class);
             Node targetNode = (Node)target.adaptTo(Node.class);
             if (sourceNode == null) {
-                throw new WCMException("Cannot access source node: " + source);
+                log.error("Cannot access source node: " + source + ". Quit.");
+                return;
             }
             if (targetNode == null) {
-                throw new WCMException("Cannot access target node: " + target);
+                log.error("Cannot access target node: " + target + ". Quit.");
+                return;
             }
             
             String sourcePath = source.getPath();
