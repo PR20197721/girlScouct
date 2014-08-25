@@ -116,8 +116,7 @@ girlscouts.components.FreqAccessForm = CQ.Ext.extend(CQ.form.CompositeField, {
              + this.externalLabel.getValue() + "|||"
         	 + this.pathField.getValue() + "|||"
              +(this.openInNewWindowField.getValue() ? 'true' : 'false');
-            
-            
+         
     },
 
     // private

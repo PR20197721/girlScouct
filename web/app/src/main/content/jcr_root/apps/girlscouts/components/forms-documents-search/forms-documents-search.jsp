@@ -161,6 +161,7 @@ try{
 		<br/>
 <%
 		if(!extension.isEmpty() && !extension.equals("html")){
+			newWindow = "target=_blank";
 %>
 		<span class="icon type_<%=extension%>"><img src="/etc/designs/default/0.gif" alt="*"></span>
 <%

@@ -28,7 +28,6 @@ if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMM
 	        String externalLink = values.length>=2? values[1] : "" ;
 	        String internalLink = values.length>=3 ? values[2] : "";
 	        String newWindow = values.length >= 4 && values[3].equalsIgnoreCase("true") ? " target=\"_blank\"" : "";
-	        System.out.println("What is the value of the newWindow" +newWindow);
 	        if(!externalLink.isEmpty()){
 	        	path = externalLink;
 	        }
