@@ -14,10 +14,7 @@ DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 String evtStartDt = formatter.format(today);
 try{
 	today = formatter.parse(evtStartDt);
-	System.out.println("today" +today);
-}catch(Exception e){
-	System.out.println("Exception today" +today);
-}
+}catch(Exception e){}
 
 
 SearchResultsInfo srchInfo = (SearchResultsInfo)request.getAttribute("eventresults");

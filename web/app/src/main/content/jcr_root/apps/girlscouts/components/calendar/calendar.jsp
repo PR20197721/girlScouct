@@ -14,21 +14,14 @@
     DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy");
     DateFormat timeFormat = new SimpleDateFormat("h:mm a");
     Date startDate = null; 
-    /*Date today = new Date();
-    Calendar cal = Calendar.getInstance();
-    cal.setTime(today);
-    cal.add(Calendar.DAY_OF_MONTH, -1);
-	today = cal.getTime();
-	*/
+    
 	Date today = new Date();
 	DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 	String evtStartDt = formatter.format(today);
 	try{
 		today = formatter.parse(evtStartDt);
-		System.out.println("today" +today);
-	}catch(Exception e){
-		System.out.println("Exception today" +today);
-	}
+		
+	}catch(Exception e){}
 	String end ="";
     String location="";
     String detail="";
