@@ -9,6 +9,17 @@ fromFormat.setCalendar(Calendar.getInstance(TimeZone.getTimeZone("GMT")));
 DateFormat dateFormat = new SimpleDateFormat("EEE MMM d yyyy");
 DateFormat timeFormat = new SimpleDateFormat("h:mm a");
 DateFormat toFormat = new SimpleDateFormat("EEE dd MMM yyyy");
+Date today = new Date();
+DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+String evtStartDt = formatter.format(today);
+try{
+	today = formatter.parse(evtStartDt);
+	System.out.println("today" +today);
+}catch(Exception e){
+	System.out.println("Exception today" +today);
+}
+
+
 SearchResultsInfo srchInfo = (SearchResultsInfo)request.getAttribute("eventresults");
 if(null==srchInfo) {
 %>
@@ -46,11 +57,6 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 				String todate="";
 				Date tdt = null;
 				String locationLabel = "";
-				Date today = new Date();
-				Calendar cal1 = Calendar.getInstance();
-				cal1.setTime(today);
-				cal1.add(Calendar.DAY_OF_MONTH, -1);
-				today = cal1.getTime();
 				
 				String startDateStr = dateFormat.format(startDate);
 				String startTimeStr = timeFormat.format(startDate);
@@ -82,7 +88,12 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(startDate);
 				int month = cal.get(Calendar.MONTH);
-				if(startDate.after(today)) {
+				String eventDt = formatter.format(startDate);
+				
+				try{
+					startDate = formatter.parse(eventDt);
+				}catch(Exception e){}
+				if(startDate.after(today) || startDate.equals(today)) {
 					if(tempMonth!=month) {
 						Date d = new Date(cal.getTimeInMillis());
 						String monthName = new SimpleDateFormat("MMMM").format(d);
