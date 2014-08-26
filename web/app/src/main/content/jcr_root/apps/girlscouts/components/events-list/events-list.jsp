@@ -38,7 +38,7 @@
 	String evtStartDt = formatter.format(today);
 	try{
 		today = formatter.parse(evtStartDt);
-		System.out.println("today----------->" +today);
+		
 	}catch(Exception e){}
 
 	
@@ -153,7 +153,7 @@
     
      int count = 0;
 if(eventcounts>0){
-  	System.out.println("#############################");
+  
 	for(String result: results){
 	Node node = resourceResolver.getResource(result).adaptTo(Node.class);
 	
@@ -162,10 +162,10 @@ if(eventcounts>0){
 		Node propNode = node.getNode("jcr:content/data");
 		if(propNode.hasProperty("end")){
 			fromdate = propNode.getProperty("end").getDate().getTime();
-			System.out.println("fromDate end" +fromdate);
+			
 		}else if(propNode.hasProperty("start")){
 			fromdate = propNode.getProperty("start").getDate().getTime();
-			System.out.println("fromDate start" +fromdate);
+			
 		}
  	 	
   		title = propNode.getProperty("../jcr:title").getString();
