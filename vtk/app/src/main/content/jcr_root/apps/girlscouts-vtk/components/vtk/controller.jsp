@@ -26,15 +26,15 @@
 	java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat("MM/dd/yyyy hh:mm a");
 %>
 <%
-
-System.err.println("CONTROOLER "+ (request.getParameter("editMeetingName")==null ));
+/*
+System.err.println("CONTROOLER ");
 Enumeration parameterList = request.getParameterNames();
 while( parameterList.hasMoreElements() )
 {
   String sName = parameterList.nextElement().toString();
   System.err.println("</br/>"+ sName +" :" + request.getParameter(sName));
 }
-
+*/
 
 if( request.getParameter("isMeetingCngAjax") !=null){
 	meetingUtil.changeMeetingPositions( user, request.getParameter("isMeetingCngAjax") );
@@ -429,7 +429,25 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 		}
 	}
 	*/
+}else if(request.getParameter("updateCouncilMilestones") !=null){
 	
+	
+	java.util.List<Milestone> milestones = user.getYearPlan().getMilestones();
+	for(int i=0;i<milestones.size();i++){
+		
+		Milestone m = milestones.get(i);
+		String blurb= request.getParameter("blurb" + (i+1));
+		String date = request.getParameter("date" + (i+1));
+		
+		//System.err.println("___ "+ i +" : "+blurb +" : "+ date);
+		m.setBlurb(blurb);
+		m.setDate( new java.util.Date(date) );
+		
+	}
+	response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
+	
+			
+			
 }else{
 	//TODO throw ERROR CODE
 }

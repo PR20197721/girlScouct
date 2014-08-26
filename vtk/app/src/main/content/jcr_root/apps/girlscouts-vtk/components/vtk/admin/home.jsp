@@ -69,6 +69,23 @@ Do you want to preview meeting file uploads?
 </div>
 </li>
 
+
+
+<li style="padding:25px;"><div class="text parbase nopadding section">
+<table border="0" cellpadding="0" cellspacing="0"
+style="border: none;">
+<tbody><tr><td>
+
+<a href="/content/girlscouts-vtk/en/vtk.admin.milestones.html" >
+<input type="submit" value="Milestones" />
+</a>
+</td>
+</tr><tr style="background-color: white;border: none;"><td>Go here to change milestones
+</td></tr>
+</tbody></table>
+</div>
+</li>
+
 <div style="clear:both"></div>
 </ul></div>
 
