@@ -30,6 +30,9 @@ import org.girlscouts.vtk.models.JcrCollectionHoldString;
 import org.girlscouts.vtk.models.Meeting;
 
 	public class ImportGSDocs {
+
+		private Session session; //jcr connect to repository
+		public ImportGSDocs(Session session){ this.session= session;}
 		
 		static String rootPath="/Users/akobovich/Documents/VTK_Imports/VTK-ASSETS";
 		
@@ -58,13 +61,15 @@ import org.girlscouts.vtk.models.Meeting;
 	    
 	    
 	  //  public Meeting getMeetings(String testFile) throws Exception {
-	    public java.util.Map<String, String> getMeetings(String testFile) throws Exception {
+	    public void getMeetings(String testFile) throws Exception {  getMeetings(testFile, null); }
+	    public void getMeetings(String testFile, String singleDocName) throws Exception {
+	    	/*
 	    	System.err.println("Fiule: "+ testFile);
 	    	//InputStream in = new java.net.URL("http://localhost:4503/tmp/import/assets/15_0.03358374794012875/jcr%3Acontent").openConnection().getInputStream();
 	    	java.util.Map<String, String> __meetings =  new TraverseFind().getMeetingInfo(testFile);
-	    System.err.println("Test: "+	__meetings==null);
+	    	System.err.println("Test: "+	__meetings==null);
 	    	if(true)return __meetings;
-	    	
+	    	*/
 	    	
 	    	/*
 	    	javax.jcr.Repository repository = JcrUtils.getRepository("http://localhost:4503/crx/server/");
@@ -85,10 +90,10 @@ import org.girlscouts.vtk.models.Meeting;
 	    			
 	    	*/
 	    	
-	    	ImportGSDocs me = new ImportGSDocs();
+	    	//ImportGSDocs me = new ImportGSDocs();
 	    	Meeting meeting=null;
 	    
-	        me.doHeal();
+	        doHeal();
 	        //if(true)return;
 	        
 	        
@@ -108,11 +113,18 @@ import org.girlscouts.vtk.models.Meeting;
 	        while (true) {
 	            i++;
 
-	            String meetingId = me.getCellVal(evaluator, sheet, "A" + i);
+	            String meetingId = getCellVal(evaluator, sheet, "A" + i);
+	           
+	           
 	            
 	            if (meetingId == null || meetingId.equals("")) {
 	                break;
 	            }
+	            
+	            
+	            if( singleDocName!=null && !meetingId.toUpperCase().trim().equals(singleDocName.toUpperCase().trim()) )
+	            	continue;
+	            
 	            
 	            if (meetingId.charAt(0) != levelInitial) {
 	                position = 1;
@@ -122,13 +134,13 @@ import org.girlscouts.vtk.models.Meeting;
 	            }
 
 	            //String meetingTitle = me.getCellVal(evaluator, sheet, "B" + i);
-	            String meetingName = me.getCellVal(evaluator, sheet, "B" + i);
-	            String level = me.getCellVal(evaluator, sheet, "C" + i);
-	            String meetingBlurb = me.getCellVal(evaluator, sheet, "D" + i);
-	            String cat = me.getCellVal(evaluator, sheet, "E" + i);
-	            String aids_tags = me.getCellVal(evaluator, sheet, "F" + i).replaceAll("\\s+?", ";");
-	            String resource_tags = me.getCellVal(evaluator, sheet, "G" + i).replaceAll("\\s+?", ";");
-	            String agenda = me.getCellVal(evaluator, sheet, "H" + i);
+	            String meetingName = getCellVal(evaluator, sheet, "B" + i);
+	            String level = getCellVal(evaluator, sheet, "C" + i);
+	            String meetingBlurb = getCellVal(evaluator, sheet, "D" + i);
+	            String cat = getCellVal(evaluator, sheet, "E" + i);
+	            String aids_tags = getCellVal(evaluator, sheet, "F" + i).replaceAll("\\s+?", ";");
+	            String resource_tags = getCellVal(evaluator, sheet, "G" + i).replaceAll("\\s+?", ";");
+	            String agenda = getCellVal(evaluator, sheet, "H" + i);
 
 	            meeting = new Meeting();
 	            meeting.setId(meetingId.trim());
@@ -148,6 +160,10 @@ import org.girlscouts.vtk.models.Meeting;
 	                    + level.toLowerCase() + "/" + meetingId;
 	            meeting.setPath(meetingPath);
 
+	            
+	            
+	            
+	            
 	            // ********* DOCX
 	            TraverseFind docx = new TraverseFind();
 
@@ -213,7 +229,7 @@ import org.girlscouts.vtk.models.Meeting;
 	                meeting.setMeetingInfo(_meetings);
 
 	                try {
-	                    me.doJcr(meeting);
+	                    doJcr(meeting);
 	                } catch (Exception e) {
 	                    e.printStackTrace();
 	                }
@@ -221,11 +237,12 @@ import org.girlscouts.vtk.models.Meeting;
 	            }
 
 	        }
-return null;//meeting;
+//return meeting;
 	    }
 
 	    // Meeting
 	    public void doJcr(Meeting meeting) throws Exception {
+	    	/*
 	        // Connection
 	        javax.jcr.Repository repository = JcrUtils
 	                .getRepository("http://localhost:4503/crx/server/");
@@ -234,7 +251,9 @@ return null;//meeting;
 	        SimpleCredentials creds = new SimpleCredentials("admin",
 	                "admin".toCharArray());
 	        Session session = null;
+	        
 	        session = repository.login(creds, "crx.default");
+	        */
 	        Node root = session.getRootNode();
 
 	        List<Class> classes = new ArrayList<Class>();
@@ -399,5 +418,6 @@ return null;//meeting;
 	    }
 
 	
+	    
 	
 }
