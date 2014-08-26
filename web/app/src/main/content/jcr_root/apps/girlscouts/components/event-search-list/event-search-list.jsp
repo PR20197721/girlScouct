@@ -9,6 +9,7 @@ fromFormat.setCalendar(Calendar.getInstance(TimeZone.getTimeZone("GMT")));
 DateFormat dateFormat = new SimpleDateFormat("EEE MMM d yyyy");
 DateFormat timeFormat = new SimpleDateFormat("h:mm a");
 DateFormat toFormat = new SimpleDateFormat("EEE dd MMM yyyy");
+
 Date today = new Date();
 DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 String evtStartDt = formatter.format(today);
@@ -37,17 +38,23 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
     
 	<div id="eventListWrapper">
 <%
-	int tempMonth =0;
+	int tempMonth =-1;
 	if (results == null || results.size() == 0) {
 %>
 	<p>No event search results for &quot;<i class="error"><%= q %></i>&quot;.</p>
 <%
 	} else {
 		for(String result: results) {
+			Date evntComparsion = null;
 			Node node =  resourceResolver.getResource(result).adaptTo(Node.class);
 			try {
 				Node propNode = node.getNode("jcr:content/data");
 				Date startDate = propNode.getProperty("start").getDate().getTime();
+				if(propNode.hasProperty("end")){
+					evntComparsion = propNode.getProperty("end").getDate().getTime();
+				}else if(propNode.hasProperty("start")){
+					evntComparsion = propNode.getProperty("start").getDate().getTime();
+				}
 				String title = propNode.getProperty("../jcr:title").getString();
 				String href = result+".html";
 				String time = "";
@@ -85,12 +92,13 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(startDate);
 				int month = cal.get(Calendar.MONTH);
-				String eventDt = formatter.format(startDate);
 				
 				try{
-					startDate = formatter.parse(eventDt);
+					String eventDt = formatter.format(evntComparsion);
+					evntComparsion = formatter.parse(eventDt);
 				}catch(Exception e){}
-				if(startDate.after(today) || startDate.equals(today)) {
+				if(evntComparsion.after(today) || evntComparsion.equals(today)) {
+					
 					if(tempMonth!=month) {
 						Date d = new Date(cal.getTimeInMillis());
 						String monthName = new SimpleDateFormat("MMMM").format(d);

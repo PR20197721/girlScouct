@@ -35,67 +35,70 @@
 			Node node =   resourceResolver.getResource(path).adaptTo(Node.class);
 			if(node.hasNode("jcr:content/data")) {
 				Node propNode = node.getNode("jcr:content/data");
-	            JSONObject obj = new JSONObject();
-	            if(propNode.hasProperty("start")){
-	            	eventDate = propNode.getProperty("start").getDate().getTime();
-	            	eventDt = formatter.format(eventDate);
-					try{
-						eventDate = formatter.parse(eventDt);
+				JSONObject obj = new JSONObject();
+				
+				if(propNode.hasProperty("end")){
+					eventDate = propNode.getProperty("end").getDate().getTime();
+				}else if(propNode.hasProperty("start")){
+					eventDate = propNode.getProperty("start").getDate().getTime();
+				}
+				try{
+					eventDt = formatter.format(eventDate);
+					eventDate = formatter.parse(eventDt);
+				}catch(Exception e){}
+				if(eventDate.after(today) || eventDate.equals(today)){
+					String title = propNode.getProperty("../jcr:title").getString();
+					detail = "";
+					location="";
+					if(propNode.hasProperty("srchdisp")){
+						 detail = propNode.getProperty("srchdisp").getString();
+					}
+					if(propNode.hasProperty("locationLabel")){
+						 location = propNode.getProperty("locationLabel").getString();
+	 				}
+					Calendar startDt = propNode.getProperty("start").getDate();
+	             //Start is need for the calendar to display right event on Calendar
+	             	String start = dateFt.format(startDt.getTime());
+	      			String time = timeFormat.format(propNode.getProperty("start").getDate().getTime());
+	             	String dateInCalendar = dateFormat.format(startDt.getTime());
+	             	String startTimeStr = timeFormat.format(propNode.getProperty("start").getDate().getTime());
+	             	String dateStr = dateInCalendar + ", " +startTimeStr;
+	              	if(propNode.hasProperty("end")){
+						Calendar endDt = propNode.getProperty("end").getDate();
+					     //End is need for the calendar to display right end date of an event on Calendar
+						end = dateFt.format(endDt.getTime());
+						Calendar cal1 = Calendar.getInstance();
+						Calendar cal2 = Calendar.getInstance();
+						Calendar endDate = propNode.getProperty("end").getDate();
+						cal1.setTime(startDt.getTime());
+						cal2.setTime(endDate.getTime());
+						boolean sameDay = cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+					                  cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
+						String endDateStr = dateFormat.format(endDt.getTime());
+						String endTimeStr = timeFormat.format(propNode.getProperty("end").getDate().getTime());
 						
-					}catch(Exception e){}
-					if(eventDate.after(today) || eventDate.equals(today)){
-						String title = propNode.getProperty("../jcr:title").getString();
-						detail = "";
-						location="";
-						if(propNode.hasProperty("srchdisp")){
-							 detail = propNode.getProperty("srchdisp").getString();
+						if (!sameDay) {
+					 	  	dateStr += " - " + endDateStr +", " + endTimeStr;
+						}else{
+							dateStr += " - " + endTimeStr;
 						}
-						if(propNode.hasProperty("locationLabel")){
-							 location = propNode.getProperty("locationLabel").getString();
-		 				}
-						Calendar startDt = propNode.getProperty("start").getDate();
-		             //Start is need for the calendar to display right event on Calendar
-		             	String start = dateFt.format(startDt.getTime());
-		      			String time = timeFormat.format(propNode.getProperty("start").getDate().getTime());
-		             	String dateInCalendar = dateFormat.format(startDt.getTime());
-		             	String startTimeStr = timeFormat.format(propNode.getProperty("start").getDate().getTime());
-		             	String dateStr = dateInCalendar + ", " +startTimeStr;
-		              	if(propNode.hasProperty("end")){
-							Calendar endDt = propNode.getProperty("end").getDate();
-						     //End is need for the calendar to display right end date of an event on Calendar
-							end = dateFt.format(endDt.getTime());
-							Calendar cal1 = Calendar.getInstance();
-							Calendar cal2 = Calendar.getInstance();
-							Calendar endDate = propNode.getProperty("end").getDate();
-							cal1.setTime(startDt.getTime());
-							cal2.setTime(endDate.getTime());
-							boolean sameDay = cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
-						                  cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
-							String endDateStr = dateFormat.format(endDt.getTime());
-							String endTimeStr = timeFormat.format(propNode.getProperty("end").getDate().getTime());
-							
-							if (!sameDay) {
-						 	  	dateStr += " - " + endDateStr +", " + endTimeStr;
-							}else{
-								dateStr += " - " + endTimeStr;
-							}
-		            	  }
-						if(propNode.hasProperty("color")){
-		            		 color = propNode.getProperty("color").getString();
-		            	}
-						String url = path+".html";
-						obj.put("title", title);
-						obj.put("displayDate", dateStr);
-						obj.put("location",location);
-						obj.put("color",color);
-						obj.put("description", detail);
-						obj.put("start",start);
-						if(!end.isEmpty())
-						  	obj.put("end", end);
-						obj.put("path", url);
-						eventList.add(obj);
-		            }
-	            }
+	            	  }
+					if(propNode.hasProperty("color")){
+	            		 color = propNode.getProperty("color").getString();
+	            	}
+					String url = path+".html";
+					obj.put("title", title);
+					obj.put("displayDate", dateStr);
+					obj.put("location",location);
+					obj.put("color",color);
+					obj.put("description", detail);
+					obj.put("start",start);
+					if(!end.isEmpty())
+					  	obj.put("end", end);
+					obj.put("path", url);
+					eventList.add(obj);
+		        }
+	            
 			}  
         }catch(Exception e){}
 	}
