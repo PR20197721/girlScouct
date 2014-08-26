@@ -221,7 +221,7 @@ public class EventsSrch
 		try{
 			today = formatter.parse(startDateStr);
 		}catch(Exception e){
-			System.out.println("couldn't parse the date");
+			
 		}
 		region.put("type", "cq:Page");
 		region.put("path",path);
