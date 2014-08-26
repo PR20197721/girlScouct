@@ -436,8 +436,8 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	for(int i=0;i<milestones.size();i++){
 		
 		Milestone m = milestones.get(i);
-		String blurb= request.getParameter("blurb" + (i+1));
-		String date = request.getParameter("date" + (i+1));
+		String blurb= request.getParameter("blurb" + i);
+		String date = request.getParameter("date" + i);
 		
 		//System.err.println("___ "+ i +" : "+blurb +" : "+ date);
 		m.setBlurb(blurb);
@@ -446,8 +446,33 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	}
 	response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
 	
+}else if(request.getParameter("createCouncilMilestones") !=null){
+	
+	java.util.List<Milestone> milestones = user.getYearPlan().getMilestones();
+	
+	Milestone m= new Milestone();
+	m.setBlurb(request.getParameter("blurb"));
+	m.setDate( new java.util.Date( request.getParameter("date")  ) );
+	milestones.add(m);
 			
-			
+	userDAO.updateUser(user);
+	response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
+	
+}else if(request.getParameter("removeCouncilMilestones") !=null){
+	
+	
+	java.util.List<Milestone> milestones = user.getYearPlan().getMilestones();
+	for(int i=0;i<milestones.size();i++){
+		
+		Milestone m = milestones.get(i);
+		if( m.getUid().equals(request.getParameter("removeCouncilMilestones")) ){
+			milestones.remove(m);
+			userDAO.updateUser(user);
+			response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
+			return;
+		}
+	}
+	
 }else{
 	//TODO throw ERROR CODE
 }
