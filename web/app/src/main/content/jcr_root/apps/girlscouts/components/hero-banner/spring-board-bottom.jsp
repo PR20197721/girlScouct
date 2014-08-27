@@ -9,6 +9,7 @@
     String FsbTitle = (String)request.getAttribute("FsbTitle");
     String FsbUrl = (String)request.getAttribute("FsbUrl");
     String FsbButton = (String)request.getAttribute("FsbButton");
+    String FsbNewWindow = ((String)request.getAttribute("FsbNewWindow")).equals("true")?"target=_blank":"";
     
     if(!FsbUrl.isEmpty())
         FsbUrl = genLink(resourceResolver, FsbUrl);
@@ -18,6 +19,8 @@
     String SsbTitle = (String)request.getAttribute("SsbTitle");
     String SsbUrl = (String)request.getAttribute("SsbUrl");
     String SsbButton = (String)request.getAttribute("SsbButton");
+    String SsbNewWindow = ((String)request.getAttribute("SsbNewWindow")).equals("true")?"target=_blank":"";
+    
     if(!SsbUrl.isEmpty()){
     	SsbUrl = genLink(resourceResolver, SsbUrl);
     	}
@@ -29,7 +32,7 @@
            <img class="rotate-img" src="<%= designPath %>/images/arrow-down.png" alt="springboard rotate image down"/>
             <h2><%=FsbTitle%></h2>
             <p><%=FsbDesc%></p>
-            <a href="<%=FsbUrl %>" class="button"><%=FsbButton%></a>
+            <a href="<%=FsbUrl %>" <%=FsbNewWindow %> class="button"><%=FsbButton%></a>
          </div>
       </div>
       <div class="large-12 medium-12 columns">
@@ -37,7 +40,7 @@
             <img class="rotate-img" src="<%= designPath %>/images/arrow-down.png" alt="springboard rotate image up" />
             <h2><%=SsbTitle%></h2>
             <p><%=SsbDesc%></p>
-            <a href="<%=SsbUrl %>" class="button"><%=SsbButton%></a>
+            <a href="<%=SsbUrl %>" <%=SsbNewWindow %> class="button"><%=SsbButton%></a>
           </div>
       </div>
 </div>

@@ -8,6 +8,7 @@
     String FsbTitle = (String)request.getAttribute("FsbTitle");
     String FsbUrl = (String)request.getAttribute("FsbUrl");
     String FsbButton = (String)request.getAttribute("FsbButton");
+    String FsbNewWindow = ((String)request.getAttribute("FsbNewWindow")).equals("true")?"target=_blank":"";
     
     if(!FsbUrl.isEmpty())
         FsbUrl = genLink(resourceResolver, FsbUrl);
@@ -17,6 +18,8 @@
     String SsbTitle = (String)request.getAttribute("SsbTitle");
     String SsbUrl = (String)request.getAttribute("SsbUrl");
     String SsbButton = (String)request.getAttribute("SsbButton");
+    String SsbNewWindow = ((String)request.getAttribute("SsbNewWindow")).equals("true")?"target=_blank":"";
+    
     if(!SsbUrl.isEmpty()){
     	SsbUrl = genLink(resourceResolver, SsbUrl);
     	}
@@ -34,7 +37,7 @@
       	 	<div class="row collapse">
         		<div class="columns">
           			<p><%=FsbDesc %></p>
-          			<p><a href="<%=FsbUrl%>" class="button"><%=FsbTitle%></a></p>
+          			<p><a href="<%=FsbUrl%>" <%=FsbNewWindow %> class="button"><%=FsbTitle%></a></p>
         		</div>
       		</div>
       	</div>
@@ -42,7 +45,7 @@
         	<div class="row collapse">
         		<div class="columns">
         			<p><%=SsbDesc %></p>
-        	  		<p><a href="<%=SsbUrl%>" class="button"><%=SsbTitle%></a></p>
+        	  		<p><a href="<%=SsbUrl%>" <%=SsbNewWindow%> class="button"><%=SsbTitle%></a></p>
           		</div>
         	</div>
      	 </div>

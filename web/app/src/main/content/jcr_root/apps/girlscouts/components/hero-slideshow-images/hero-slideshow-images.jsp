@@ -24,16 +24,16 @@ if ((null==imageNode) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
            <p style="text-align: center">Click edit above and select number of slides. Then click here to add images to slides.</p>
     </div>
    <% }
-   else{  
+else if(imageNode!=null){
 	Iterator<Resource> images = resource.listChildren();
-   	String alt = "";
-   	String linkUrl = "";
-   	if(imageNode.hasProperty("alt")){
-       alt = imageNode.getProperty("alt").getString();
-   		}
-   	if(imageNode.hasProperty("linkURL")){
-       linkUrl = imageNode.getProperty("linkURL").getString()+".html";
-   		}
+	String alt = "";
+	String linkUrl = "";
+	if(imageNode.hasProperty("alt")){
+			alt = imageNode.getProperty("alt").getString();
+	}
+	if(imageNode.hasProperty("linkURL")){
+			linkUrl = imageNode.getProperty("linkURL").getString()+".html";
+	}
 %>  
   
  <% 
