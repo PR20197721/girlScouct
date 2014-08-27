@@ -187,7 +187,7 @@ ageLevel=ageLevel.toLowerCase().trim();
 
 String confMsg="";
 if( user.getYearPlan()!=null ){
-	if( user.getYearPlan().getAltered()!=null && !user.getYearPlan().getAltered().equals("") ){
+	if( user.getYearPlan().getAltered()!=null && user.getYearPlan().getAltered().equals("true") ){
 		confMsg ="Are You Sure? You will lose customizations that you have made";
 	}
 			/*

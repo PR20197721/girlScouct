@@ -334,6 +334,7 @@ public class UserDAOImpl implements UserDAO{
 			user.getYearPlan().getActivities().remove(activityToRm.get(i));
 	}//end if
 		
+	    user.getYearPlan().setAltered("false");
 		user.getYearPlan().setName(planName);
 		updateUser(user);
 		

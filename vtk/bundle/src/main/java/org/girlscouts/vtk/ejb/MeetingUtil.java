@@ -340,6 +340,8 @@ public class MeetingUtil {
 		else
 			meetingDAO.createCustomMeeting(user, meetingE, meetingInfo);
 		
+		user.getYearPlan().setAltered("true");
+		userDAO.updateUser(user);
 	}
 	
 	
