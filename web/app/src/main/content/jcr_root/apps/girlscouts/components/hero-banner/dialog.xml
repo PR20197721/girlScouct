@@ -105,6 +105,14 @@
                         fieldLabel="Spring Board Url"
                         name="./firstsburl"
                         xtype="dynamicPathField"/>
+                    <first-sb-new-window
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="true"
+                        fieldLabel="New Window"
+                        inputValue="false"
+                        name="./firstsbnewwindow"
+                        type="checkbox"
+                        xtype="selection"/>
                     <first-sb-button-txt
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Spring Board Button"
@@ -131,6 +139,14 @@
                         fieldLabel="Spring Board Url"
                         name="./secondsburl"
                         xtype="dynamicPathField"/>
+                    <second-sb-new-window
+                        jcr:primaryType="cq:Widget"
+                        defaultValue="true"
+                        fieldLabel="New Window"
+                        inputValue="false"
+                        name="./secondsbnewwindow"
+                        type="checkbox"
+                        xtype="selection"/>
                     <second-sb-button-txt
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Spring Board Button"

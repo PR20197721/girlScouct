@@ -10,17 +10,16 @@ String cssClasses = properties.get("cssClasses", "");
  request.setAttribute("FsbTitle",properties.get("firstsbtitle","")); 
  request.setAttribute("FsbButton", properties.get("firstsbbutton",""));
  request.setAttribute("FsbUrl", properties.get("firstsburl",""));
+ request.setAttribute("FsbNewWindow", properties.get("firstsbnewwindow","false"));
  
- //Spring Board Second
-/*  String SsbDesc = properties.get("secondsbdesc","");
- String SsbTitle = properties.get("secondsbtitle","");
- String SsbUrl = properties.get("secondsburl","");
- String SsbButton = properties.get("secondsbbutton",""); */
+
  
  request.setAttribute("SsbDesc", properties.get("secondsbdesc","")); 
  request.setAttribute("SsbTitle",properties.get("secondsbtitle","")); 
  request.setAttribute("SsbUrl", properties.get("secondsburl",""));
  request.setAttribute("SsbButton", properties.get("secondsbbutton",""));
+ request.setAttribute("SsbNewWindow", properties.get("secondsbnewwindow","false"));
+ 
 
 
 
