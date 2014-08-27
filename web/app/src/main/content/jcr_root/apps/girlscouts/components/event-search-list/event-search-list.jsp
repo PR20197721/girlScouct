@@ -9,6 +9,15 @@ fromFormat.setCalendar(Calendar.getInstance(TimeZone.getTimeZone("GMT")));
 DateFormat dateFormat = new SimpleDateFormat("EEE MMM d yyyy");
 DateFormat timeFormat = new SimpleDateFormat("h:mm a");
 DateFormat toFormat = new SimpleDateFormat("EEE dd MMM yyyy");
+
+Date today = new Date();
+DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+String evtStartDt = formatter.format(today);
+try{
+	today = formatter.parse(evtStartDt);
+}catch(Exception e){}
+
+
 SearchResultsInfo srchInfo = (SearchResultsInfo)request.getAttribute("eventresults");
 if(null==srchInfo) {
 %>
@@ -29,28 +38,29 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
     
 	<div id="eventListWrapper">
 <%
-	int tempMonth =0;
+	int tempMonth =-1;
 	if (results == null || results.size() == 0) {
 %>
 	<p>No event search results for &quot;<i class="error"><%= q %></i>&quot;.</p>
 <%
 	} else {
 		for(String result: results) {
+			Date evntComparsion = null;
 			Node node =  resourceResolver.getResource(result).adaptTo(Node.class);
 			try {
 				Node propNode = node.getNode("jcr:content/data");
 				Date startDate = propNode.getProperty("start").getDate().getTime();
+				if(propNode.hasProperty("end")){
+					evntComparsion = propNode.getProperty("end").getDate().getTime();
+				}else if(propNode.hasProperty("start")){
+					evntComparsion = propNode.getProperty("start").getDate().getTime();
+				}
 				String title = propNode.getProperty("../jcr:title").getString();
 				String href = result+".html";
 				String time = "";
 				String todate="";
 				Date tdt = null;
 				String locationLabel = "";
-				Date today = new Date();
-				Calendar cal1 = Calendar.getInstance();
-				cal1.setTime(today);
-				cal1.add(Calendar.DAY_OF_MONTH, -1);
-				today = cal1.getTime();
 				
 				String startDateStr = dateFormat.format(startDate);
 				String startTimeStr = timeFormat.format(startDate);
@@ -82,7 +92,13 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(startDate);
 				int month = cal.get(Calendar.MONTH);
-				if(startDate.after(today)) {
+				
+				try{
+					String eventDt = formatter.format(evntComparsion);
+					evntComparsion = formatter.parse(eventDt);
+				}catch(Exception e){}
+				if(evntComparsion.after(today) || evntComparsion.equals(today)) {
+					
 					if(tempMonth!=month) {
 						Date d = new Date(cal.getTimeInMillis());
 						String monthName = new SimpleDateFormat("MMMM").format(d);

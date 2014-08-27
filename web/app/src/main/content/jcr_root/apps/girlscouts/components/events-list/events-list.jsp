@@ -33,6 +33,15 @@
 	DateFormat dateFormat = new SimpleDateFormat("EEE MMM d yyyy");
 	DateFormat timeFormat = new SimpleDateFormat("h:mm a");
 	
+	Date today = new Date();
+	DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+	String evtStartDt = formatter.format(today);
+	try{
+		today = formatter.parse(evtStartDt);
+		
+	}catch(Exception e){}
+
+	
 	DateFormat calendarFormat = new SimpleDateFormat("M-yyyy");
 	java.util.List<String> results = srchInfo.getResults();
 	int eventcounts = 0;
@@ -59,11 +68,11 @@
     String dateStr="";
     String locationLabel="";
     
-    Date today = new Date();
+    /*Date today = new Date();
     Calendar cal1 = Calendar.getInstance();
     cal1.setTime(today);
     cal1.add(Calendar.DAY_OF_MONTH, -1);
-	today = cal1.getTime();
+	today = cal1.getTime();*/
 %>
 
 <div class="small-24 medium-24 large-24 columns events-section">
@@ -144,13 +153,26 @@
     
      int count = 0;
 if(eventcounts>0){
-  for(String result: results){
+  
+	for(String result: results){
 	Node node = resourceResolver.getResource(result).adaptTo(Node.class);
+	
+	Date fromdate = null;
     try{
 		Node propNode = node.getNode("jcr:content/data");
- 	 	String fromdate = propNode.getProperty("start").getString();
+		if(propNode.hasProperty("end")){
+			fromdate = propNode.getProperty("end").getDate().getTime();
+			
+		}else if(propNode.hasProperty("start")){
+			fromdate = propNode.getProperty("start").getDate().getTime();
+			
+		}
+ 	 	
   		title = propNode.getProperty("../jcr:title").getString();
-		Date fdt = fromFormat.parse(fromdate);
+  		try{
+			String eventDt = formatter.format(fromdate);
+			fromdate = formatter.parse(eventDt);
+		}catch(Exception e){}
 		href = result+".html";
 		String time = "";
 		String todate="";
@@ -160,7 +182,7 @@ if(eventcounts>0){
 		iconPath="";  		 
 		Date tdt = null;
 		locationLabel = "";
-      	if(fdt.after(today)){
+      	if(fromdate.after(today) || fromdate.equals(today)){
 			startDate = propNode.getProperty("start").getDate().getTime(); 
      	 	startDateStr = dateFormat.format(startDate);
           	startTimeStr = timeFormat.format(startDate);

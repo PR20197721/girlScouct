@@ -159,7 +159,7 @@ try {
 		</div>
                 <div class="row">
                         <div class="small-8 medium-8 large-8 columns">
-             <b>Locations:</b>
+             <b>Location:</b>
                         </div>
                         <div class="small-16 medium-16 large-16 columns">
            <b><%= locationLabel %></b> <%if(address!=null && !address.isEmpty()){%><a href="javascript:void(0)" onclick="showMap('<%=address%>')">Map</a><%} %>

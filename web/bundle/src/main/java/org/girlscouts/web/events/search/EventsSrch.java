@@ -221,7 +221,7 @@ public class EventsSrch
 		try{
 			today = formatter.parse(startDateStr);
 		}catch(Exception e){
-			System.out.println("couldn't parse the date");
+			
 		}
 		region.put("type", "cq:Page");
 		region.put("path",path);
@@ -240,22 +240,26 @@ public class EventsSrch
 					try {
 						Node propNode = node.getNode("jcr:content/data");
 						if(propNode.hasProperty("region")) {
-							if(propNode.hasProperty("start")) {
+							if(propNode.hasProperty("end")){
+								eventDate = propNode.getProperty("end").getDate().getTime();
+							}
+							else if(propNode.hasProperty("start")) {
 								eventDate = propNode.getProperty("start").getDate().getTime();
-								eventDt = formatter.format(eventDate);
+							}
+							eventDt = formatter.format(eventDate);
 								// As compare after() depends on the today which keeps on changing as it has a time format in it
 								// So we need to convert it into the date format yyyy-MM-dd so event and today return the same 
-								try{
-									eventDate = formatter.parse(eventDt);
-								}catch(Exception e){
-									log.error("couldn't parse the date");
-								}
+							try{
+								eventDate = formatter.parse(eventDt);
+							}catch(Exception e){
+								log.error("couldn't parse the date");
+							}
 								//System.out.println("EventDate" +eventDate  +today);
-								if(eventDate.after(today) || eventDate.equals(today)) {
-									regions.add(propNode.getProperty("region").getString());
-								}
+							if(eventDate.after(today) || eventDate.equals(today)) {
+								regions.add(propNode.getProperty("region").getString());
 							}
 						}
+						
 					}catch(Exception e) {
 						log.error("Event Node doesn't contains required jcr:content/data Node" +e.getMessage());
 					}
