@@ -1,4 +1,4 @@
-<%@include file="../admin/toolbar.jsp"%>
+
 <%
 	if (troops != null && troops.size() > 1) {
 
@@ -126,11 +126,12 @@
 		}
 	%>
 </div>
+
 <div class="show-for-small hide-for-print">
 	<a href="#" id="vtk-main-menu-button"
 		onclick="$('#vtk-main-menu').toggle()" class="large button expand">Menu</a>
 	<br />
-	<ul id="vtk-main-menu">
+	<ul id="vtk-main-menu" class="hide-for-print">
 		<%
 			if ("myTroop".equals(activeTab)) {
 		%>
@@ -147,7 +148,7 @@
 			if ("plan".equals(activeTab)) {
 		%>
 		<li class="active has-dropdown"><a href="#">Year Plan</a>
-			<ul class="dropdown">
+			<ul class="dropdown hide-for-print">
 				<li><a href="#" onclick="newLocCal()">Specify Meeting Dates
 						and Locations</a></li>
 				<li><a href="#" onclick="doMeetingLib()">Add Meeting</a></li>

@@ -88,11 +88,86 @@
 	    
 	  a.show-for-large-up { display:none;}
 	 
-	 
+	 #header{display:none;}
+	 #headerBar{display:none;}
+#footer{display:none;}
+	.footerLinks{display:none;}
 	
+	.dontPrint{display:none;}
+	
+	#caca{
+	width: 100px;
+	height: 100px;
+	color: #fff;
+	background-color: #000;
+	text-align: center;
+	font-weight:bold;
+	border:1px solid #000;
+	}
+	
+	
+	
+	.meetingDetailHeader .planSquare .count {
+	padding-top: 2px;
+}
+.planSquare .date {
+        top: 5px;
+}
+.planSquare .date .month {
+        font-size: 1em;
+        line-height: 1.6em;
+}
+.planSquare .date .day {
+        font-size: 1.8em;
+	line-height: 1.6em;
+}
+.planSquare .date .time {
+        font-size: 1em;
+}
+.planSquare .activity .cal {
+        padding-top: 15px;
+}
+
+.planSquare .cancelled {
+        width: 100px;
+        height: 100px;
+        border: 1px solid pink;
+        position: absolute;
+        opacity: 0.5;
+        color: red;
+        font-size: 120px;
+        font-family: Arial;
+        z-index: 50;
+}
+
+
+
+.planSquare .cancelled .cross {
+        margin-top: -45px;
+}
+
+.planSquare .count {
+        width: 25px;
+        height: 25px;
+        position: absolute;
+        float: left;
+        /*margin-left: -10px;
+        margin-top: -10px;
+        */
+        background-color: #000; /*#ebebeb;*/
+        color: #fff; /*#797979;*/
+        border: 1px solid #9b9b9b;
+        z-index:100;
+	font-size: 0.8em;
+}
+.meetingDetailHeader .planSquare .count {
+	padding-top: 2px;
+}
+
+
  }
 	    
-	    
+	   
 	
 	
 	
@@ -139,7 +214,7 @@
 	<div class="row subNavRow">
 		<div class="large-22 medium-22 small-20 columns subNavColumn">
 			<div class="centered-table">
-				<ul id="vtkSubNav">
+				<ul id="vtkSubNav" class="hide-for-print">
 					<li>
 						<a href="javascript:void(0)" onclick="newLocCal()">Meeting&nbsp;Dates&nbsp;and&nbsp;Locations</a>
 					</li>
@@ -173,7 +248,7 @@
 <%}%>
 	<div class="sectionHeader">YEAR PLAN LIBRARY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <% if(user.getYearPlan()!=null){%>
-		<a href="#" onclick="yesPlan()" id="showHideReveal">reveal</a>&nbsp;<span id="arrowDirection" class="arrowDirection">&#9660;</span>
+		<a href="#" onclick="yesPlan()" id="showHideReveal" class="hide-for-print">reveal</a>&nbsp;<span id="arrowDirection" class="hide-for-print arrowDirection">&#9660;</span>
 <%} %>
 	</div>
 <% if(user.getYearPlan()!=null){%>

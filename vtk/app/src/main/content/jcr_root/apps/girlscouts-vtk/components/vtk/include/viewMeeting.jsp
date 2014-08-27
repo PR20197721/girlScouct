@@ -14,7 +14,7 @@
 <li  onclick='self.location="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=date.getTime()%>"' class="meeting <%=( user.getYearPlan().getSchedule()==null || new java.util.Date().before(date)) ? "ui-state-default" : "ui-state-default ui-state-disabled"%>" value="<%=meetingCount%>">
 	<div  class="row">
         <div class="large-4 medium-5 small-24 columns">
-			<div class="planSquare center ed-table">
+			<div class="planSquare center ed-table" id="caca">
 <%
 	if (calendarNotSet) {
 %>
@@ -33,7 +33,10 @@
 		}
 %>
 				<div class="date">
-					<div class="cal"><span class="month"><%= FORMAT_MONTH.format(date)%><br/></span><span class="day"><%= FORMAT_DAY_OF_MONTH.format(date)%><br/></span><span class="time hide-for-small"><%= FORMAT_hhmm_AMPM.format(date)%></span></div>
+					<div class="cal"><span class="month"><%= FORMAT_MONTH.format(date)%><br/></span>
+						<span class="day"><%= FORMAT_DAY_OF_MONTH.format(date)%><br/></span>
+						<!-- <span class="time hide-for-small"><%= FORMAT_hhmm_AMPM.format(date)%></span> -->
+					</div>
 				</div>
 <%
 	}
