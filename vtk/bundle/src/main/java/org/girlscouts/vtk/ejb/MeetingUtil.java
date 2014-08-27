@@ -229,7 +229,7 @@ public class MeetingUtil {
 		YearPlan plan = user.getYearPlan();
 		plan.setMeetingEvents(rearangedMeetings);
 	
-		plan.setAltered("true");
+		//plan.setAltered("true");
 		user.setYearPlan(plan);
 		
 		userDAO.updateUser(user);
@@ -531,7 +531,7 @@ public class MeetingUtil {
 				
 				assets.add( asset );
 				meeting.setAssets( assets );
-				user.getYearPlan().setAltered("true");
+				//user.getYearPlan().setAltered("true");
 				userDAO.updateUser(user);
 				return;
 			}
@@ -602,7 +602,7 @@ public class MeetingUtil {
 				
 				assets.add( asset );
 				meeting.setAssets( assets );
-				user.getYearPlan().setAltered("true");
+				//user.getYearPlan().setAltered("true");
 				userDAO.updateUser(user);
 				return;
 			}
@@ -625,7 +625,7 @@ public class MeetingUtil {
 				assets= assets ==null ? new java.util.ArrayList() : assets;
 				assets.add( asset );
 				activity.setAssets( assets );
-				user.getYearPlan().setAltered("true");
+				//user.getYearPlan().setAltered("true");
 				userDAO.updateUser(user);
 				return;
 			}
@@ -646,7 +646,7 @@ public class MeetingUtil {
 						assets.remove(y);
 					}
 				}
-				user.getYearPlan().setAltered("true");
+				//user.getYearPlan().setAltered("true");
 				userDAO.updateUser(user);
 				return;
 			}
@@ -669,7 +669,7 @@ public class MeetingUtil {
 					}
 				}
 				
-				user.getYearPlan().setAltered("true");
+				//user.getYearPlan().setAltered("true");
 				userDAO.updateUser(user);
 				return;
 			}

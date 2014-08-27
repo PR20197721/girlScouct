@@ -31,7 +31,7 @@
 <%
 	}
 %>
-<div class="hide-for-small full-width-wrapper underline">
+<div class="hide-for-small full-width-wrapper underline hide-for-print">
 
 	<%
 		if (user.getYearPlan() != null) {
@@ -41,6 +41,7 @@
 			<%
 				}
 			%>
+			
 			<div class="centered-table">
 				<ul class="tabs group">
 					<%
@@ -114,6 +115,7 @@
 					%>
 				</ul>
 			</div>
+			
 			<%
 				if (user.getYearPlan() != null) {
 			%>
@@ -124,7 +126,7 @@
 		}
 	%>
 </div>
-<div class="show-for-small">
+<div class="show-for-small hide-for-print">
 	<a href="#" id="vtk-main-menu-button"
 		onclick="$('#vtk-main-menu').toggle()" class="large button expand">Menu</a>
 	<br />

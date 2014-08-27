@@ -5,10 +5,104 @@
 <%@include file="include/session.jsp"%>
 <div id="errInfo"></div>
 
+<style>
+@media print {
+	  * {
+	    background: transparent !important;
+	    color: black !important;
+	    /* Black prints faster: h5bp.com/s */
+	    box-shadow: none !important;
+	    text-shadow: none !important; 
+	    
+	    
+	  }
+
+	  a,
+	  a:visited {
+		  
+	    text-decoration: underline; 
+	 content: ""; 
+	  
+	  }
+
+	  a[href]:after {
+		  
+	   content: " (" attr(href) ")"; 
+	  content: ""; 
+	   
+	  }
+
+	  abbr[title]:after {
+	    content: " --(" attr(title) ")";
+	  content: ""; 
+	   
+	  }
+
+	  .ir a:after,
+	  a[href^="javascript:"]:after,
+	  a[href^="#"]:after {
+	    content: ""; 
+	   
+	  }
+
+	  pre,
+	  blockquote {
+	    border: 1px solid #999999;
+	    page-break-inside: avoid; }
+
+	  thead {
+	    display: table-header-group;
+	    /* h5bp.com/t */ }
+
+	  tr,
+	  img {
+	    page-break-inside: avoid; }
+
+	  img {
+	    max-width: 100% !important; }
+
+	  @page {
+	    margin: 0.5cm; }
+
+	  p,
+	  h2,
+	  h3 {
+	    orphans: 3;
+	    widows: 3; }
+
+	  h2,
+	  h3 {
+	    page-break-after: avoid; }
+
+	  .hide-on-print {
+	    display: none !important; }
+
+	  .print-only {
+	    display: block !important; }
+
+	  .hide-for-print {
+	    display: none !important; }
+
+	  .show-for-print {
+	    display: inherit !important; } 
+	    
+	  a.show-for-large-up { display:none;}
+	 
+	 
+	
+ }
+	    
+	    
+	
+	
+	
+	
+</style>
+
 <%!
 	String activeTab = "plan";
 	boolean showVtkNav = true;
-
+/*
 	public boolean isDtMeetings(Cal cal, int x){
 
 		if( cal==null || cal.getDates()==null) return false;
@@ -28,6 +122,7 @@
 		}
 		return false;
 	}
+*/
 %>
 <%@include file="include/vtk-nav.jsp"%>
 <%
@@ -92,11 +187,16 @@ ageLevel=ageLevel.toLowerCase().trim();
 
 String confMsg="";
 if( user.getYearPlan()!=null ){
-	if( (user.getYearPlan().getAltered()!=null && !user.getYearPlan().getAltered().equals("")) &&
+	if( user.getYearPlan().getAltered()!=null && !user.getYearPlan().getAltered().equals("") ){
+		confMsg ="Are You Sure? You will lose customizations that you have made";
+	}
+			/*
+			if( ( user.getYearPlan().getAltered()!=null && !user.getYearPlan().getAltered().equals("") ))&&
 			( isDtMeetings(user.getYearPlan().getSchedule(), 0) || user.getYearPlan().getSchedule()==null ) )
 		{confMsg ="Are You Sure? You will lose customizations that you have made";}
 	else if( isDtMeetings(user.getYearPlan().getSchedule(), 1))
 		{confMsg ="Are You Sure? This will modify plans on /after [date]. Any customization for meeting(s) will be lost."; }
+*/
 }
 
 

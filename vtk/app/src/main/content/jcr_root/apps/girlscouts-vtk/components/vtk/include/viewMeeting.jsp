@@ -13,8 +13,8 @@
 
 <li  onclick='self.location="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=date.getTime()%>"' class="meeting <%=( user.getYearPlan().getSchedule()==null || new java.util.Date().before(date)) ? "ui-state-default" : "ui-state-default ui-state-disabled"%>" value="<%=meetingCount%>">
 	<div  class="row">
-                <div class="large-4 medium-5 small-24 columns">
-			<div class="planSquare centered-table">
+        <div class="large-4 medium-5 small-24 columns">
+			<div class="planSquare center ed-table">
 <%
 	if (calendarNotSet) {
 %>
@@ -39,7 +39,7 @@
 	}
 %>
 			</div>
-			<div class="centered-table">
+			<div class="centered-table" style="display:none;">
 				<div class="show-for-small smallBadge">
 <%
 	String img= "";
@@ -50,12 +50,12 @@
 		e.printStackTrace();
 	}
 %>
-					<br/>
+					 
 					<img width="100" height="100" src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png"/>
 				</div>
 			</div>
 		</div>
-                <div class="large-15 medium-12 small-24 columns">
+        <div class="large-15 medium-12 small-24 columns">
 			<div class="planMain">
 				<h2>
 <%
@@ -67,7 +67,7 @@ if( meetingE.getCancelled()!=null && meetingE.getCancelled().equals("true")){%>
 				<%=meeting.getName() %> </h2>
 				<p><small><%=meeting.getCat()%></small></p>
 				 <!--  p class="tags"><%=meeting.getAidTags() %></p --> 
-				<p class="show-for-small"><%= FORMAT_hhmm_AMPM.format(date)%></p>
+				<!-- <p class="show-for-small"><%= FORMAT_hhmm_AMPM.format(date)%></p> -->
 				<br/>
 				<p class="blurb"><%=meeting.getBlurb() %></p>
 				<a href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=date.getTime()%>">View Meeting</a>
@@ -76,8 +76,8 @@ if( meetingE.getCancelled()!=null && meetingE.getCancelled().equals("true")){%>
 		<div class="large-4 medium-5 hide-for-small columns">
 			<img width="100" height="100" src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png"/>
 		</div>
-                <div class="large-1 medium-2 small-3 columns touchscrollWrapper">
-                        <img class="touchscroll" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/touchscroll.png" border="0" width="21" height="62"/>
-                </div>
+        <div class="large-1 medium-2 small-24 columns touchscrollWrapper">
+            <img class="touchscroll" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/touchscroll.png" border="0" width="21" height="62"/>
+        </div>
 	</div>
 </li>

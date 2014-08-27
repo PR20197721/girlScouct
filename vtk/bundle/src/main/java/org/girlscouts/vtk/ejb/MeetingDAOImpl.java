@@ -42,6 +42,7 @@ import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Asset;
+import org.girlscouts.vtk.models.Council;
 import org.girlscouts.vtk.models.JcrCollectionHoldString;
 import org.girlscouts.vtk.models.JcrNode;
 import org.girlscouts.vtk.models.Meeting;
@@ -1662,6 +1663,8 @@ public java.util.List<Asset> getGlobalResources( String resourceTags){
 	
 	return toRet;
 }
+
+
 
 
 }//edn class
