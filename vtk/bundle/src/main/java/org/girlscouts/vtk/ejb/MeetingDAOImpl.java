@@ -2,6 +2,7 @@ package org.girlscouts.vtk.ejb;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Collections;
 //import java.util.Collections;
 import java.util.Comparator;
@@ -43,12 +44,16 @@ import org.girlscouts.vtk.dao.YearPlanComponentType;
 import org.girlscouts.vtk.helpers.CouncilMapper;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Asset;
+import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.Council;
 import org.girlscouts.vtk.models.JcrCollectionHoldString;
 import org.girlscouts.vtk.models.JcrNode;
+import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
+import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.SearchTag;
+import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
 import org.girlscouts.vtk.models.user.User;
 import org.girlscouts.web.search.DocHit;
@@ -1678,7 +1683,65 @@ public java.util.List<Asset> getGlobalResources( String resourceTags){
 	return toRet;
 }
 
+public Council getCouncil(String councilId){
+
+		Council council= null;
+		try{
+			
+			List<Class> classes = new ArrayList<Class>();	
+			classes.add(Council.class);
+			
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
+		
+			QueryManager queryManager = ocm.getQueryManager();
+			Filter filter = queryManager.createFilter(User.class);
+		
+	        council= (Council) ocm.getObject("/vtk/"+ councilId );
+		      
+		}catch(Exception e){e.printStackTrace();}
+		
+		return council;
+
+}
 
 
+public java.util.List<Milestone> getCouncilMilestones(String councilCode){
+
+	String councilStr = councilMapper.getCouncilBranch(councilCode);
+	councilStr = councilStr.replace("/content/","");
+	System.err.println("Counccccc: " +councilStr);
+	
+	
+	
+	java.util.List<Milestone> milestones = null;
+	try{
+		
+		List<Class> classes = new ArrayList<Class>();	
+		//classes.add(Council.class);
+		classes.add( Milestone.class);
+		
+		Mapper mapper = new AnnotationMapperImpl(classes);
+		ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
+	
+		QueryManager queryManager = ocm.getQueryManager();
+		Filter filter = queryManager.createFilter(Milestone.class);
+		//filter.setScope("/content/"+ councilStr +"/en/milestones/");
+		filter.setScope("/content/"+ councilStr +"//");
+		
+		
+		//System.err.println("SCope: /content/"+ councilStr +"/en/milestones/");
+		//milestones= (Milestone) ocm.getObjects("/content/"+ councilCode +"/en/milestones/" );
+		
+		Query query = queryManager.createQuery(filter);
+		milestones  =(java.util.List<Milestone>) ocm.getObjects(query);
+		//System.err.println( "Millllsss: "+ (result==null) );
+		//System.err.println( "Millllsssss: "+ (result.size()) );
+	      
+	}catch(Exception e){e.printStackTrace();}
+	
+	return milestones;
+
+}
 
 }//edn class

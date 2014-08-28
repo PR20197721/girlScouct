@@ -90,7 +90,7 @@
 	 
 	 #header{display:none;}
 	 #headerBar{display:none;}
-#footer{display:none;}
+	#footer{display:none;}
 	.footerLinks{display:none;}
 	
 	.dontPrint{display:none;}

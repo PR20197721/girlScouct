@@ -68,7 +68,7 @@ public class YearPlan {
 
 	public void setMilestones(java.util.List<Milestone> milestones) {
 		//-this.milestones = milestones;
-		
+		/*
 milestones = new java.util.ArrayList();
 		
 		Milestone m= new Milestone();
@@ -88,7 +88,7 @@ milestones = new java.util.ArrayList();
 		m.setBlurb("Cookie Sales End");
 		m.setDate( new java.util.Date("03/29/2015") );
 		milestones.add(m);
-		
+		*/
 		
 		this.milestones= milestones;
 		

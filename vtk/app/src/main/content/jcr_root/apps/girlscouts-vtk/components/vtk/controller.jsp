@@ -36,6 +36,10 @@ while( parameterList.hasMoreElements() )
 }
 */
 
+java.util.List<Milestone> ms =  meetingDAO.getCouncilMilestones("603");
+
+
+
 if( request.getParameter("isMeetingCngAjax") !=null){
 	meetingUtil.changeMeetingPositions( user, request.getParameter("isMeetingCngAjax") );
 }else if( request.getParameter("newCustActivity") !=null ){

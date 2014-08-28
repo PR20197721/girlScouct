@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Asset;
+import org.girlscouts.vtk.models.Council;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
+import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.SearchTag;
 import org.girlscouts.vtk.models.user.User;
 
@@ -44,4 +46,6 @@ public interface MeetingDAO {
 	public java.util.List<Asset> getGlobalResources( String resourceTags); // delim ';'
 	
 	public Meeting updateCustomMeeting(User user, MeetingE meetingEvent, Meeting meeting);
+	public Council getCouncil(String councilId);
+	public java.util.List<Milestone> getCouncilMilestones(String councilCode);
 }

@@ -57,7 +57,7 @@ HttpSession session = request.getSession();
 int timeout = session.getMaxInactiveInterval();
 //out.print(session.getId()+" : " + timeout);
 response.setHeader("Refresh", timeout + "; URL = /content/girlscouts-vtk/en/vtk.logout.html");
-boolean isTest = true;
+boolean isTest = false;
 if( isTest ) {
 	autoLogin(session);
 }
