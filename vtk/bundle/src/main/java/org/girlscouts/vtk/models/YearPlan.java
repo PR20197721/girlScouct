@@ -10,7 +10,7 @@ public class YearPlan {
 
 	public YearPlan(){
 		
-		
+		/*
 		java.util.List <Milestone> milestones = new java.util.ArrayList();
 		
 		Milestone m= new Milestone();
@@ -33,6 +33,7 @@ public class YearPlan {
 		
 		
 		this.milestones= milestones;
+		*/
 		
 		calFreq="biweekly";
 		}
@@ -47,11 +48,8 @@ public class YearPlan {
 	//cal settings cache
 	@Field private Long calStartDate;
 	@Field private String calFreq, calExclWeeksOf;
-	
-	@Collection private java.util.List <Milestone> milestones;
-	
-	
-	
+
+	/* @Collection */ private java.util.List <Milestone> milestones;
 	
 
 	public String getResources() {
@@ -62,6 +60,9 @@ public class YearPlan {
 		this.resources = resources;
 	}
 
+	
+	
+	
 	public java.util.List<Milestone> getMilestones() {
 		return milestones;
 	}
@@ -69,7 +70,7 @@ public class YearPlan {
 	public void setMilestones(java.util.List<Milestone> milestones) {
 		//-this.milestones = milestones;
 		/*
-milestones = new java.util.ArrayList();
+		milestones = new java.util.ArrayList();
 		
 		Milestone m= new Milestone();
 		m.setBlurb("Cookie Sales Start");
@@ -88,14 +89,16 @@ milestones = new java.util.ArrayList();
 		m.setBlurb("Cookie Sales End");
 		m.setDate( new java.util.Date("03/29/2015") );
 		milestones.add(m);
-		*/
 		
+*/		
 		this.milestones= milestones;
 		
 		calFreq="biweekly"; //todo rm
 	
 	}
 
+	
+	
 	public String getAltered() {
 		return altered;
 	}

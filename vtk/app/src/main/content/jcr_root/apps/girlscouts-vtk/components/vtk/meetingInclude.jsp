@@ -7,6 +7,13 @@
 <%   
 	java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
 	//add milestones only on this page
+	
+	try{
+		user.getYearPlan().setMilestones( meetingDAO.getCouncilMilestones( ""+user.getTroop().getCouncilCode() ) );
+	}catch(Exception e){e.printStackTrace();}
+	if( user.getYearPlan().getMilestones() ==null )
+		user.getYearPlan().setMilestones(new java.util.ArrayList() );
+			
 	for(int i=0;i<user.getYearPlan().getMilestones().size();i++)
 		sched.put( user.getYearPlan().getMilestones().get(i).getDate(), user.getYearPlan().getMilestones().get(i) );
 

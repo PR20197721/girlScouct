@@ -1735,8 +1735,8 @@ public java.util.List<Milestone> getCouncilMilestones(String councilCode){
 		
 		Query query = queryManager.createQuery(filter);
 		milestones  =(java.util.List<Milestone>) ocm.getObjects(query);
-		//System.err.println( "Millllsss: "+ (result==null) );
-		//System.err.println( "Millllsssss: "+ (result.size()) );
+		System.err.println( "Millllsss: "+ (milestones==null) );
+		System.err.println( "Millllsssss: "+ (milestones.size()) );
 	      
 	}catch(Exception e){e.printStackTrace();}
 	

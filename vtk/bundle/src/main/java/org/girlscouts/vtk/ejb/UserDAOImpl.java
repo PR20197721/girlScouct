@@ -75,9 +75,10 @@ public class UserDAOImpl implements UserDAO{
 		
 	        // GOOD user = (User) ocm.getObject("/content/girlscouts-vtk/users/"+ userId);
 			
-			//6/27/14
+			//6/27/14 
 	        user = (User) ocm.getObject(userId);
-		      
+	        
+	       
 	       
 	        if( user!=null && user.getYearPlan().getMeetingEvents()!=null){
 	        	
@@ -183,19 +184,7 @@ public class UserDAOImpl implements UserDAO{
 			//update milestones based on councilId
 			user.getYearPlan().setMilestones( meetingDAO.getCouncilMilestones( user.getTroop().getCouncilId() ) );
 			
-			/*
-		java.util.List<Milestone> _milestones =meetingDAO.getCouncilMilestones( user.getTroop().getCouncilId() ) ;
-		    for(int i=0;i< _milestones.size();i++)
-		    	System.err.println("** :"+ _milestones.get(i).getBlurb());
-		    	
-		YearPlan plan = 	user.getYearPlan();
-		plan.setMilestones(_milestones);
-		user.setYearPlan(plan);
 			
-	    java.util.List<Milestone> milestones = user.getYearPlan().getMilestones();
-	    for(int i=0;i<milestones.size();i++)
-	    	System.err.println("** :"+ milestones.get(i).getBlurb());
-	    */
 	    
 	    
 	    
