@@ -36,7 +36,7 @@ while( parameterList.hasMoreElements() )
 }
 */
 
-java.util.List<Milestone> ms =  meetingDAO.getCouncilMilestones("603");
+//java.util.List<Milestone> ms =  meetingDAO.getCouncilMilestones("603");
 
 
 
@@ -435,8 +435,10 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	*/
 }else if(request.getParameter("updateCouncilMilestones") !=null){
 	
+	String councilId= request.getParameter("cid");
 	
-	java.util.List<Milestone> milestones = user.getYearPlan().getMilestones();
+	//java.util.List<Milestone> milestones = user.getYearPlan().getMilestones();
+	java.util.List<Milestone> milestones = meetingDAO.getCouncilMilestones( councilId ) ;
 	for(int i=0;i<milestones.size();i++){
 		
 		Milestone m = milestones.get(i);
@@ -448,18 +450,24 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 		m.setDate( new java.util.Date(date) );
 		
 	}
+	
+	meetingDAO.saveCouncilMilestones(milestones);
 	response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
 	
 }else if(request.getParameter("createCouncilMilestones") !=null){
 	
-	java.util.List<Milestone> milestones = user.getYearPlan().getMilestones();
+	//java.util.List<Milestone> milestones = user.getYearPlan().getMilestones();
+		
+	String councilId= request.getParameter("cid");
+	java.util.List<Milestone> milestones = meetingDAO.getCouncilMilestones( councilId ) ;
 	
 	Milestone m= new Milestone();
 	m.setBlurb(request.getParameter("blurb"));
 	m.setDate( new java.util.Date( request.getParameter("date")  ) );
 	milestones.add(m);
 			
-	userDAO.updateUser(user);
+	//userDAO.updateUser(user);
+	
 	response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
 	
 }else if(request.getParameter("removeCouncilMilestones") !=null){

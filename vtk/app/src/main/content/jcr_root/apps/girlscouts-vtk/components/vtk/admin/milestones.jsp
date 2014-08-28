@@ -6,11 +6,25 @@
 <%@include file="../admin/toolbar.jsp"%>
 
 
+<%
+String councilId= request.getParameter("cid");
 
 
+%>
 
-<h1>Milestones</h1>
+
+<h1>Milestones council <%= councilId %></h1>
+
+<div style="border: 5px solid gray;">
+	<form action="/content/girlscouts-vtk/en/vtk.admin.milestones.html" method="get" >
+	Change council:
+	<input type="text" name="cid" value="<%=councilId%>"/>
+	<input type="submit" value="Change council"/>
+	</form>
+</div>
+
 <form action="/content/girlscouts-vtk/controllers/vtk.controller.html" method="POST" >
+<input type="hidden" name="cid" value="<%=councilId%>"/>
 <table>
 
 <tr>
@@ -22,7 +36,7 @@
 
 <%
 
-java.util.List<Milestone> milestones = user.getYearPlan().getMilestones();
+java.util.List<Milestone> milestones = meetingDAO.getCouncilMilestones(councilId ) ;//user.getYearPlan().getMilestones();
 for(int i=0;i<milestones.size();i++){
 
 %>
@@ -30,7 +44,10 @@ for(int i=0;i<milestones.size();i++){
 	<td><%= (i+1) %></td> 
 	<td><input type="text" id="date<%=i %>" name="date<%=i %>" value="<%=FORMAT_MMddYYYY.format(milestones.get(i).getDate())%>"/></td>
 	<td><input type="text" name="blurb<%=i %>" value="<%=milestones.get(i).getBlurb()%>"/></td>
-	<td><a href="/content/girlscouts-vtk/controllers/vtk.controller.html?removeCouncilMilestones=<%=milestones.get(i).getUid() %>" style="color:red;">remove</a></td>
+	<td>
+	<!-- 
+		<a href="/content/girlscouts-vtk/controllers/vtk.controller.html?removeCouncilMilestones=<%=milestones.get(i).getUid() %>" style="color:red;">remove</a></td>
+	-->
 </tr>
 	
 	<script>
@@ -60,7 +77,10 @@ for(int i=0;i<milestones.size();i++){
   
   });
   </script>
-<form action="/content/girlscouts-vtk/controllers/vtk.controller.html" method="POST" >
+  
+  
+<form action="/content/girlscouts-vtk/controllers/vtk.controller.html" method="POST" style="display:none;" >
+<input type="hidden" name="cid" value="<%=councilId%>"/>
 <a href="javascript:void(0)" onclick="document.getElementById('newMil').style.display='block'">create new </a>
 <div style="display:none;" id="newMil">
 <table>

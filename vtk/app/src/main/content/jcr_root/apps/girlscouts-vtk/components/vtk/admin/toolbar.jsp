@@ -70,8 +70,7 @@ $(document).ready(function() {
     
     
    
-    $(".ajaxupload").editable("/content/girlscouts-vtk/controllers/auth.asset.html?id=<%=(meeting.getRefId().substring( meeting.getRefId().lastIndexOf("/")+1).toUpperCase())%>", { 
-    //$(".ajaxupload").editable("/content/girlscouts-vtk/controllers/vtk.controller.html?id=<%=meeting.getUid()%>", {
+    $(".ajaxupload").editable("/content/girlscouts-vtk/controllers/auth.asset.html?id=(meeting.getRefId().substring( meeting.getRefId().lastIndexOf("/")+1).toUpperCase())", { 
         indicator : "<img src='img/indicator.gif'>",
         type      : 'ajaxupload',
         submit    : 'Upload',
@@ -191,7 +190,7 @@ $(function() {
   $(".editable_textarea").editable("/content/girlscouts-vtk/controllers/vtk.controller.html", { 
       indicator : "Saving....",
       type   : 'ckeditor',
-      submitdata: { _method: "put" ,mid: "<%=meeting.getUid()%>"},
+      submitdata: { _method: "put" ,mid: "meeting.getUid()"},
       select : true,
       submit : 'OK',
       cancel : 'cancel',

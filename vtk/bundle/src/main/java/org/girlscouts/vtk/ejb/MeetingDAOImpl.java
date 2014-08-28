@@ -1744,4 +1744,29 @@ public java.util.List<Milestone> getCouncilMilestones(String councilCode){
 
 }
 
+
+public void  saveCouncilMilestones(java.util.List<Milestone> milestones){
+
+	
+	
+	
+	try{
+		
+		List<Class> classes = new ArrayList<Class>();	
+		classes.add( Milestone.class);
+		
+		Mapper mapper = new AnnotationMapperImpl(classes);
+		ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
+	
+		for(int i=0;i<milestones.size();i++)
+			ocm.update(milestones.get(i)) ;
+		
+		ocm.save();
+		
+	}catch(Exception e){e.printStackTrace();}
+	
+
+
+}
+
 }//edn class

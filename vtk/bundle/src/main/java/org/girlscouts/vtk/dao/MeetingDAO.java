@@ -48,4 +48,5 @@ public interface MeetingDAO {
 	public Meeting updateCustomMeeting(User user, MeetingE meetingEvent, Meeting meeting);
 	public Council getCouncil(String councilId);
 	public java.util.List<Milestone> getCouncilMilestones(String councilCode);
+	public void  saveCouncilMilestones(java.util.List<Milestone> milestones);
 }
