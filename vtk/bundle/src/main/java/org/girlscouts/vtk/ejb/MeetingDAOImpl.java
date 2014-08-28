@@ -40,6 +40,7 @@ import org.apache.sling.api.resource.ValueMap;
 import org.girlscouts.vtk.dao.AssetComponentType;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
+import org.girlscouts.vtk.helpers.CouncilMapper;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Asset;
 import org.girlscouts.vtk.models.Council;
@@ -74,6 +75,11 @@ public class MeetingDAOImpl implements MeetingDAO {
     
     @Reference
     org.girlscouts.vtk.helpers.CouncilMapper councilMapper;
+    
+    /*
+    @Reference
+    private CouncilMapper councilMapper;
+    */
     
     @Activate
     void activate() {
@@ -1219,23 +1225,31 @@ public SearchTag searchA(){
 
 
 
-public SearchTag searchA(){
+public SearchTag searchA( String councilCode){
+	
+	
+	String councilStr = councilMapper.getCouncilBranch(councilCode);
+	councilStr = councilStr.replace("/content/","");
+	System.err.println("Counccccc: " +councilStr);
+	
+	
 	SearchTag tags = new SearchTag();
 	try{
 		
 		java.util.Map<String, String> categories = new java.util.TreeMap();
 		java.util.Map<String, String> levels = new java.util.TreeMap();
 		
-		String sql="select jcr:title from nt:base where jcr:path like '/etc/tags/girlscouts/%'";
+		//String sql="select jcr:title from nt:base where jcr:path like '/etc/tags/girlscouts/%'";
+		String sql="select jcr:title from nt:base where jcr:path like '/etc/tags/"+ councilStr +"/%'";
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
 			
 		QueryResult result = q.execute();
 		 for (RowIterator it = result.getRows(); it.hasNext(); ) {
 		       Row r = it.nextRow();
-		       if( r.getPath().startsWith("/etc/tags/girlscouts/categories") )
+		       if( r.getPath().startsWith("/etc/tags/"+ councilStr +"/categories") )
 		    	   categories.put( r.getValue("jcr:title").getString(),null );
-		       else if( r.getPath().startsWith("/etc/tags/girlscouts/program-level") )
+		       else if( r.getPath().startsWith("/etc/tags/"+ councilStr +"/program-level") )
 		    	   levels.put( r.getValue("jcr:title").getString(), null );
 		 }
 		
