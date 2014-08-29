@@ -157,7 +157,8 @@ function showIt(x){
 	<option value="30">30</option>
 	</select>
 	
-	 + (<%= meetingDate.getTime()%>)
+	+ (<%= meetingDate.getTime()%>)
+	
 	
 	<br/><br/>
 	<div class="linkButtonWrapper">

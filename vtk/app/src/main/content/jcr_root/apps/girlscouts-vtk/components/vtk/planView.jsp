@@ -67,6 +67,9 @@
 	if ( _comp.getType() == YearPlanComponentType.MEETING) {
 		meeting = (MeetingE) _comp;
 		meetingInfo = meetingDAO.getMeeting(  meeting.getRefId() );
+		
+		meeting.setMeetingInfo(meetingInfo);
+		
 		java.util.List <Activity> _activities = meetingInfo.getActivities();
 		java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  meetingInfo.getMeetingInfo();
 
@@ -130,7 +133,8 @@ int planMeetingResourceCount = 0;
 if( _aidTags!=null ) {
 	for(int i=0;i<_aidTags.size();i++){
 		org.girlscouts.vtk.models.Asset asset = _aidTags.get(i);
-		if( asset.getType(false)!=  org.girlscouts.vtk.dao.AssetComponentType.RESOURCE ) continue;
+		if( asset.getType()!=null )
+		 if( asset.getType(false)!=  org.girlscouts.vtk.dao.AssetComponentType.RESOURCE ) continue;
 			planMeetingResourceCount++;
 %>
 			<li>- <a href="<%=asset.getRefId()%>" target="_blank"><%=asset.getTitle() %></a></li> 

@@ -99,6 +99,7 @@ import com.day.cq.commons.jcr.JcrUtil;
 		    
 		    @Override
 		     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServerException, IOException {
+		    	System.err.println("00-1");
 		    	
 		    	  ResourceResolver resourceResolver = null;
 		      try {
@@ -107,17 +108,29 @@ import com.day.cq.commons.jcr.JcrUtil;
 		      PrintWriter out = null;
 		      
 		        out = response.getWriter();
+		        
+		        System.err.println("11");
+		        
 		        if (isMultipart) {
+		        	
+		        System.err.println("22");	
 		          final java.util.Map<String, org.apache.sling.api.request.RequestParameter[]> params = request.getRequestParameterMap();
+		          
+		          System.err.println("33 "+ params.entrySet().size() );
+		          System.err.println("33.1: "+ request.getParameter("aType"));
 		          for (final java.util.Map.Entry<String, org.apache.sling.api.request.RequestParameter[]> pairs : params.entrySet()) {
-		            final String k = pairs.getKey();
+		         
+		        	System.err.println("44");
+		        	
+		        	
+		        	final String k = pairs.getKey();
 		            final org.apache.sling.api.request.RequestParameter[] pArr = pairs.getValue();
 		            final org.apache.sling.api.request.RequestParameter param = pArr[0];
 		            final InputStream stream = param.getInputStream();
 		            if (param.isFormField()) {
-		              out.println("Form field " + k + " with value " + org.apache.commons.fileupload.util.Streams.asString(stream) + " detected.");
+		              System.err.println("Form field " + k + " with value " + org.apache.commons.fileupload.util.Streams.asString(stream) + " detected.");
 		            } else {
-		              out.println("File field " + k + " with file name " + param.getFileName() + " detected.");
+		              System.err.println("File field " + k + " with file name " + param.getFileName() + " detected.");
 		              
 		              //OutputStream os = new FileOutputStream("/vtk/");
 		              //org.apache.commons.net.io.Util.copyStream(stream, os);
@@ -130,7 +143,40 @@ import com.day.cq.commons.jcr.JcrUtil;
 		            }
 		          }
 		        }else{
-		        	out.println("Not multipart...");
+		        	
+		        	
+		        	
+		        	 final java.util.Map<String, org.apache.sling.api.request.RequestParameter[]> params = request.getRequestParameterMap();
+			         
+		        	for (final java.util.Map.Entry<String, org.apache.sling.api.request.RequestParameter[]> pairs : params.entrySet()) {
+				         
+			        	System.err.println("44");
+			        	
+			        	
+			        	final String k = pairs.getKey();
+			            final org.apache.sling.api.request.RequestParameter[] pArr = pairs.getValue();
+			        
+		        	System.err.println("Not multipart...");
+		        	 final org.apache.sling.api.request.RequestParameter param = pArr[0];
+		        	 final InputStream stream = param.getInputStream();
+		        	 if (param.isFormField()) {
+			              System.err.println("Form field " + k + " with value " + org.apache.commons.fileupload.util.Streams.asString(stream) + " detected.");
+			            } else {
+			              System.err.println("File field " + k + " with file name " + param.getFileName() + " detected.");
+			            
+		        	resourceResolver = resolverFactory.getAdministrativeResourceResolver(null);            
+		              Session session = resourceResolver.adaptTo(Session.class);            
+		              reverseReplicateBinary(session, request.getParameter("loc"), request.getParameter("id"),            
+		                      stream,
+		                      request.getParameter("assetDesc"),  request.getParameter("owner") ,  request.getParameter("id")); 
+			            }
+			            }
+		        	
+		        	
+		        	
+		        	
+		        	
+		              
 		        }
 		      }
 		      
@@ -139,8 +185,8 @@ import com.day.cq.commons.jcr.JcrUtil;
 		         }
 		      
 		      
-		      response.sendRedirect( "/content/girlscouts-vtk/en/vtk.planView.html?elem="+ request.getParameter("me"));
-	
+		      //response.sendRedirect( "/content/girlscouts-vtk/en/vtk.planView.html?elem="+ request.getParameter("me"));
+		      response.sendRedirect("http://localhost:4503/content/girlscouts-vtk/en/vtk.admin.previewImportMeeting.html?id="+ request.getParameter("id"));
 		    }
 		    
 		    
@@ -155,7 +201,7 @@ import com.day.cq.commons.jcr.JcrUtil;
 		            System.err.println("TEST: "+ parentPath);
 		            
 		            Node page = JcrUtil.createPath(parentPath, "nt:unstructured", "nt:unstructured", session, true);
-		            
+		            System.err.println("___PAGE: "+ (page==null) +" : "+ (name==null) );
 		            //Node jcrContent = page.addNode("jcr:content", "cq:PageContent");        
 		            Node file = page.addNode(name, "nt:file");  
 		            //file.setProperty("owner", owner);

@@ -97,9 +97,7 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
     private void signIn(SlingHttpServletRequest request, SlingHttpServletResponse response) {
         HttpSession session = request.getSession();
         ApiConfig config = null;
-        try {
-            config = (ApiConfig)session.getAttribute(ApiConfig.class.getName());
-        } catch (Exception e) {}
+        try{ config= (ApiConfig)session.getAttribute(ApiConfig.class.getName());}catch(Exception e){}
         String redirectUrl;
         if (config == null || config.getId() == null) {
             redirectUrl = OAuthUrl 
