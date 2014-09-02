@@ -229,7 +229,7 @@ public class MeetingUtil {
 		YearPlan plan = user.getYearPlan();
 		plan.setMeetingEvents(rearangedMeetings);
 	
-		plan.setAltered("true");
+		//plan.setAltered("true");
 		user.setYearPlan(plan);
 		
 		userDAO.updateUser(user);
@@ -249,7 +249,11 @@ public class MeetingUtil {
 			MeetingE m= meetings.get(i);
 			if( m.getPath().equals(meetingPath)){
 				
-				Meeting meeting =meetingDAO.createCustomMeeting(user, m);
+				Meeting meeting =null;
+				if( m.getRefId().contains("_") )
+				 meeting =meetingDAO.updateCustomMeeting(user, m, null);
+				else
+				 meeting =meetingDAO.createCustomMeeting(user, m);
 				
 				Activity activity= new Activity();
 				activity.setName(name);
@@ -331,8 +335,13 @@ public class MeetingUtil {
 		
 		//create custom meeting
 		MeetingE meetingE= getMeeting(user.getYearPlan().getMeetingEvents(), meetingPath);
-		meetingDAO.createCustomMeeting(user, meetingE, meetingInfo);
+		if( meetingE.getRefId().contains("_"))
+			meetingDAO.updateCustomMeeting(user, meetingE, meetingInfo);
+		else
+			meetingDAO.createCustomMeeting(user, meetingE, meetingInfo);
 		
+		user.getYearPlan().setAltered("true");
+		userDAO.updateUser(user);
 	}
 	
 	
@@ -524,7 +533,7 @@ public class MeetingUtil {
 				
 				assets.add( asset );
 				meeting.setAssets( assets );
-				user.getYearPlan().setAltered("true");
+				//user.getYearPlan().setAltered("true");
 				userDAO.updateUser(user);
 				return;
 			}
@@ -595,7 +604,7 @@ public class MeetingUtil {
 				
 				assets.add( asset );
 				meeting.setAssets( assets );
-				user.getYearPlan().setAltered("true");
+				//user.getYearPlan().setAltered("true");
 				userDAO.updateUser(user);
 				return;
 			}
@@ -618,7 +627,7 @@ public class MeetingUtil {
 				assets= assets ==null ? new java.util.ArrayList() : assets;
 				assets.add( asset );
 				activity.setAssets( assets );
-				user.getYearPlan().setAltered("true");
+				//user.getYearPlan().setAltered("true");
 				userDAO.updateUser(user);
 				return;
 			}
@@ -639,7 +648,7 @@ public class MeetingUtil {
 						assets.remove(y);
 					}
 				}
-				user.getYearPlan().setAltered("true");
+				//user.getYearPlan().setAltered("true");
 				userDAO.updateUser(user);
 				return;
 			}
@@ -662,7 +671,7 @@ public class MeetingUtil {
 					}
 				}
 				
-				user.getYearPlan().setAltered("true");
+				//user.getYearPlan().setAltered("true");
 				userDAO.updateUser(user);
 				return;
 			}

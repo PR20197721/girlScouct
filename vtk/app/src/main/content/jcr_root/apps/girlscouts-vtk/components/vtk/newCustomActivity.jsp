@@ -286,8 +286,7 @@ border:5px solid #000;
 <div class="sectionBar">Add activity from the Council Calendar</div>
 <div class="errorMsg error"></div>
 <%
-
-SearchTag search = meetingDAO.searchA();
+SearchTag search = meetingDAO.searchA(""+user.getTroop().getCouncilCode());
 java.util.Map<String, String> levels = search.getLevels();
 java.util.Map<String, String> categories =search.getCategories();
 java.util.Map<String, String> region =search.getRegion();

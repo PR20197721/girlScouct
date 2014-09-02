@@ -1,173 +1,5 @@
 
 
-<script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.jeditable.js" type="text/javascript" charset="utf-8"></script>
-<script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/ckeditor/ckeditor.js"></script>
-
-<script type="text/javascript" charset="utf-8">
-
-
-(function($) {
-	$.generateId = function() {
-		return arguments.callee.prefix + arguments.callee.count++;
-	};
-	$.generateId.prefix = 'jq$';
-	$.generateId.count = 0;
-
-	$.fn.generateId = function() {
-		return this.each(function() {
-			this.id = $.generateId();
-		});
-	};
-})(jQuery);
-
-
-(function($) {
-$.editable.addInputType('ckeditor', {
-    /* Use default textarea instead of writing code here again. */
-    //element : $.editable.types.textarea.element,
-    element : function(settings, original) {
-        /* Hide textarea to avoid flicker. */
-        var textarea = $('<textarea>').css("opacity", "0").generateId();
-        if (settings.rows) {
-            textarea.attr('rows', settings.rows);
-        } else {
-            textarea.height(settings.height);
-        }
-        if (settings.cols) {
-            textarea.attr('cols', settings.cols);
-        } else {
-            textarea.width(settings.width);
-        }
-        $(this).append(textarea);
-        return(textarea);
-    },
-    content : function(string, settings, original) { 
-        /* jWYSIWYG plugin uses .text() instead of .val()        */
-        /* For some reason it did not work work with generated   */
-        /* textareas so I am forcing the value here with .text() */
-        $('textarea', this).text(string);
-    },
-    plugin : function(settings, original) {
-        var self = this;
-        if (settings.ckeditor) {
-            setTimeout(function() { CKEDITOR.replace($('textarea', self).attr('id'), settings.ckeditor); }, 0);
-        } else {
-            setTimeout(function() { CKEDITOR.replace($('textarea', self).attr('id')); }, 0);
-        }
-    },
-    submit : function(settings, original) {
-        $('textarea', this).val(CKEDITOR.instances[$('textarea', this).attr('id')].getData());
-	CKEDITOR.instances[$('textarea', this).attr('id')].destroy();
-    }
-});
-})(jQuery);
-
-
-$(function() {
-        
-  $(".editable_select").editable("<?php print $url ?>save.php", { 
-    indicator : '<img src="img/indicator.gif">',
-    data   : "{'Lorem ipsum':'Lorem ipsum','Ipsum dolor':'Ipsum dolor','Dolor sit':'Dolor sit'}",
-    type   : "select",
-    submit : "OK",
-    style  : "inherit",
-    submitdata : function() {
-      return {id : 2};
-    }
-  });
-  $(".editable_select_json").editable("<?php print $url ?>save.php", { 
-    indicator : '<img src="img/indicator.gif">',
-    loadurl : "<?php print $url ?>json.php",
-    type   : "select",
-    submit : "OK",
-    style  : "inherit"
-  });
-  $(".editable_textarea").editable("/content/girlscouts-vtk/controllers/vtk.controller.html", { 
-      indicator : "Saving....",
-      type   : 'ckeditor',
-      submitdata: { _method: "put" ,mid: "<%=meeting.getUid()%>"},
-      select : true,
-      submit : 'OK',
-      cancel : 'cancel',
-      cssclass : "editable",
-      onblur: 'ignore',
-      tooltip: "Click to edit...",
-      id   : 'editMeetingName',
-      name : 'newvalue',
-      
-      ckeditor : {
-    	  toolbar:
-    	  [
-['Bold','Italic','Underline','Strike','-','Superscript','Format'],
-['NumberedList','BulletedList','-','Outdent','Indent','Blockquote'],
-['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
-['Link','Unlink']
-    	  ],
-    	  height: 260,
-    	  startupFocus: true
-    	  } 
-      
-      
-      
-  });
-  $(".editable_textile").editable("<?php print $url ?>save.php?renderer=textile", { 
-      indicator : "<img src='img/indicator.gif'>",
-      loadurl   : "<?php print $url ?>load.php",
-      type      : "textarea",
-      submit    : "OK",
-      cancel    : "Cancel",
-      tooltip   : "Click to edit..."
-  });
-  
-  $(".click").editable("<?php print $url ?>echo.php", { 
-      indicator : "<img src='img/indicator.gif'>",
-      tooltip   : "Click to edit...",
-      style  : "inherit"
-  });
-  $(".dblclick").editable("<?php print $url ?>echo.php", { 
-      indicator : "<img src='img/indicator.gif'>",
-      tooltip   : "Doubleclick to edit...",
-      event     : "dblclick",
-      style  : "inherit"
-  });
-  $(".mouseover").editable("<?php print $url ?>echo.php", { 
-      indicator : "<img src='img/indicator.gif'>",
-      tooltip   : "Move mouseover to edit...",
-      event     : "mouseover",
-      style  : "inherit"
-  });
-  
-  /* Should not cause error. */
-  $("#nosuch").editable("<?php print $url ?>echo.php", { 
-      indicator : "<img src='img/indicator.gif'>",
-      type   : 'textarea',
-      submit : 'OK'
-  });
-
-});
-</script>
-
-<style type="text/css">
-#sidebar {
-  width: 0px;
-}
-
-#content {
-  width: 770px;
-}
-
-.editable input[type=submit] {
-  color: #F00;
-  font-weight: bold;
-}
-.editable input[type=button] {
-  color: #0F0;
-  font-weight: bold;
-}
-
-</style>
-
-
 
 
 
@@ -216,7 +48,15 @@ $(function() {
 		<span class="editable_textarea" id="editMeetingName"><%= meetingInfo.getName() %></span>
 		 </h1>
 		 
-		 
+		
+
+
+
+
+
+
+
+
 				
 				
 
@@ -250,12 +90,14 @@ $(function() {
 		<a href="#" class="mLocked button linkButton" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=meeting.getPath()%>&xx=<%=searchDate.getTime()%>', false, null, true)">replace this meeting</a>
 		<br/>
 <%
-	String img= "";
+	String img= "", imgDefault="xx";
 	try{
 		img= meeting.getRefId().substring( meeting.getRefId().lastIndexOf("/")+1).toUpperCase();
-		if(img.contains("_") )img= img.substring(0, img.indexOf("_"));
+	//	if(img.contains("_") ) img= img.substring(0, img.indexOf("_"));
 %>
-		<img  width="100" height="100" src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png" align="center"/>
+  <span class="ajaxupload" id="editMtLogo">
+		<img  width="100" height="100" src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png" align="center" />
+</span>
 <%
 	}catch(Exception e){
 		// no image
@@ -269,11 +111,9 @@ $(function() {
 <div class="row meetingDetailDescription">
 	<div class="small-1 columns">&nbsp;</div>
         <div class="small-22 columns">
-                <p>
-             
-               
+                <span class="editable_textarea" id="editMeetingDesc">
                <%=meetingInfoItems.get("meeting short description").getStr() %>
-                </p>
+                </span>
 	</div>
         <div class="small-1 columns">&nbsp;</div>
 </div>

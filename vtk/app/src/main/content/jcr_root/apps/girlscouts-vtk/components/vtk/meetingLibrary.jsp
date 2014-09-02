@@ -52,6 +52,7 @@
 <% 
         java.util.List<String> myMeetingIds= new java.util.ArrayList();
         java.util.List<MeetingE> myMeetings = user.getYearPlan().getMeetingEvents();
+            
                 for(int i=0;i< myMeetings.size();i++){
                         // ADD CANCELED MEETINGS if( myMeetings.get(i).getCancelled()!=null && myMeetings.get(i).getCancelled().equals("true")) continue;
                         String meetingId = myMeetings.get(i).getRefId();
@@ -84,7 +85,7 @@ function cngMeeting(mPath){
 		<tr>
 			<td>
 				<div class="yearPlanMeetings">
-				<h2><%=meeting.getName()%></h2>
+				<h2><%=meeting.getName()%> ** (<%=meeting.getId()  %> --<%=meeting.getPath() %>)</h2>
 				<!--  <p class="tags"> <%=meeting.getAidTags() %></p> -->
 				<p class="blurb"><%=meeting.getBlurb() %><p>
 				<br/>

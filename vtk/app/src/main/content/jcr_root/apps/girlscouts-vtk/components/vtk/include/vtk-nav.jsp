@@ -7,6 +7,9 @@
 		cookie.setMaxAge(-1);
 		response.addCookie(cookie);
 %>
+
+
+
 <div id="troop" class="row">
 	<div class="small-24 medium-24 large-24 troopPrompt columns">
 		Current troop profile: <select id="reloginid" onchange="relogin()">
@@ -28,7 +31,7 @@
 <%
 	}
 %>
-<div class="hide-for-small full-width-wrapper underline">
+<div class="hide-for-small full-width-wrapper underline hide-for-print">
 
 	<%
 		if (user.getYearPlan() != null) {
@@ -38,6 +41,7 @@
 			<%
 				}
 			%>
+			
 			<div class="centered-table">
 				<ul class="tabs group">
 					<%
@@ -111,6 +115,7 @@
 					%>
 				</ul>
 			</div>
+			
 			<%
 				if (user.getYearPlan() != null) {
 			%>
@@ -121,11 +126,12 @@
 		}
 	%>
 </div>
-<div class="show-for-small">
+
+<div class="show-for-small hide-for-print">
 	<a href="#" id="vtk-main-menu-button"
 		onclick="$('#vtk-main-menu').toggle()" class="large button expand">Menu</a>
 	<br />
-	<ul id="vtk-main-menu">
+	<ul id="vtk-main-menu" class="hide-for-print">
 		<%
 			if ("myTroop".equals(activeTab)) {
 		%>
@@ -142,7 +148,7 @@
 			if ("plan".equals(activeTab)) {
 		%>
 		<li class="active has-dropdown"><a href="#">Year Plan</a>
-			<ul class="dropdown">
+			<ul class="dropdown hide-for-print">
 				<li><a href="#" onclick="newLocCal()">Specify Meeting Dates
 						and Locations</a></li>
 				<li><a href="#" onclick="doMeetingLib()">Add Meeting</a></li>

@@ -24,6 +24,7 @@ import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Cal;
+import org.girlscouts.vtk.models.Council;
 import org.girlscouts.vtk.models.JcrNode;
 import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.MeetingE;
@@ -74,9 +75,10 @@ public class UserDAOImpl implements UserDAO{
 		
 	        // GOOD user = (User) ocm.getObject("/content/girlscouts-vtk/users/"+ userId);
 			
-			//6/27/14
+			//6/27/14 
 	        user = (User) ocm.getObject(userId);
-		      
+	        
+	       
 	       
 	        if( user!=null && user.getYearPlan().getMeetingEvents()!=null){
 	        	
@@ -170,34 +172,49 @@ public class UserDAOImpl implements UserDAO{
 			classes.add(Asset.class);
 			classes.add(JcrNode.class);
 			classes.add(Milestone.class);
+			classes.add(Council.class);
 			
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
 		
-		Comparator<MeetingE> comp = new BeanComparator("id");
-	    Collections.sort( user.getYearPlan().getMeetingEvents(), comp);
+			Comparator<MeetingE> comp = new BeanComparator("id");
+			Collections.sort( user.getYearPlan().getMeetingEvents(), comp);
+	    
+	    
+			//update milestones based on councilId
+			user.getYearPlan().setMilestones( meetingDAO.getCouncilMilestones( user.getTroop().getCouncilId() ) );
+			
+			
 	    
 	    
 	    
-		System.out.println("CHECKING JCR: " +ocm.objectExists( user.getPath()) );
+			System.err.println("CHECKING JCR: " +ocm.objectExists( user.getPath()) );
+		
 			if( session.itemExists( user.getPath() )){
-				System.out.println( "User updated");
+				System.err.println( "User updated");
 				ocm.update(user);
 			}else{
+				System.err.println("cteating user");
 				
 				String path = "";
 				StringTokenizer t= new StringTokenizer(("/"+user.getPath()).replace( "/"+user.getId(), ""), "/" );
+				int i=0;
 				while(t.hasMoreElements()){
 					String node = t.nextToken();
 					path += "/"+node ;
-					
-					if( !session.itemExists( path ))
-						ocm.insert( new JcrNode( path ) );
-					
+				System.err.println( "user cr: "+path+":"+session.itemExists( path ) );	
+					if( !session.itemExists( path )){
+						if( i==1 ){
+							System.err.println(i +" : creating user");
+							ocm.insert( new Council( path ) );
+						}else
+							ocm.insert( new JcrNode( path ) );
+					}
+					i++;
 				}
 				//ocm.insert( new JcrNode( user.getPath().replace( "/"+user.getId(), "") ) );
 				
-				System.out.println( "User created/insert");
+				System.err.println( "User created/insert");
 				ocm.insert(user);
 			}
 			 ocm.save();
@@ -324,6 +341,7 @@ public class UserDAOImpl implements UserDAO{
 			user.getYearPlan().getActivities().remove(activityToRm.get(i));
 	}//end if
 		
+	    user.getYearPlan().setAltered("false");
 		user.getYearPlan().setName(planName);
 		updateUser(user);
 		

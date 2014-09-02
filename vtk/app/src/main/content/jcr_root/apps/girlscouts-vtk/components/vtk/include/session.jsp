@@ -127,13 +127,22 @@ if( user ==null){
         }
         user.setApiConfig(apiConfig);
         
+       
+		
+        
        if(isTest){ 
 		org.girlscouts.vtk.salesforce.Troop caca= prefTroop;
 		caca.setGradeLevel("1-Brownie");
 		user.setTroop(caca);
        }else
 		user.setTroop( prefTroop );
-       
+       /*
+       System.err.println("caca >> " + user.getTroop().getCouncilId() +" : "+ user.getTroop().getCouncilCode() );  
+       System.err.println(user.getYearPlan() ==null );
+       System.err.println( meetingDAO==null);
+       user.getYearPlan().setMilestones( meetingDAO.getCouncilMilestones( ""+user.getTroop().getCouncilCode() ) );
+	   System.err.println( user.getYearPlan().getMilestones() );	 
+       */
 		user.setSfTroopId( user.getTroop().getTroopId() );
 		user.setSfUserId( user.getApiConfig().getUserId() );
 		user.setSfTroopName( user.getTroop().getTroopName() ); 

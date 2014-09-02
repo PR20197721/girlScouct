@@ -58,7 +58,7 @@ public class LocationUtil {
 		
 		
 		user.setYearPlan(plan);
-		plan.setAltered("true");
+		//plan.setAltered("true");
 		userDAO.updateUser(user);
 		
 		

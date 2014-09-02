@@ -21,6 +21,7 @@ import org.apache.jackrabbit.ocm.query.QueryManager;
 import org.girlscouts.vtk.dao.YearPlanDAO;
 import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.Meeting;
+import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.YearPlan;
 //import javax.jcr.query.Query;
 //import javax.jcr.query.QueryManager;
@@ -121,12 +122,14 @@ public class YearPlanDAOImpl implements YearPlanDAO{
 	
 	
 		public YearPlan getYearPlan(String path) {
+			//System.err.println("YearPlanDAOImpl.getYearPlan");
 			YearPlan yearPlan =null;
 			try{
 			List<Class> classes = new ArrayList<Class>();	
 			classes.add(YearPlan.class); 
 			classes.add(Meeting.class); 
 			classes.add(Cal.class);
+			//classes.add(Milestone.class);
 			
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	

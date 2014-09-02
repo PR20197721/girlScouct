@@ -1,10 +1,31 @@
-<%@page import="org.girlscouts.vtk.utils.imports.ImportGSDocs;"%>
+<%@page import="org.girlscouts.vtk.utils.imports.ImportGSDocs"%>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@include file="/libs/foundation/global.jsp" %>
+<cq:defineObjects/>
+<%@include file="../include/session.jsp"%>
 <html>
 <body>
+<script>
+
+
+function importFile(mid){
+	$.ajax({
+		url: "/content/girlscouts-vtk/controllers/vtk.admin.importMeeting.html?mid="+mid,
+		cache: false
+	}).done(function( html ) {
+		//location.reload();
+		alert("Import file: "+ mid);
+	});
+}
+</script>
+
+
 <style>
 	li{  font-weight:normal; padding-left:40px;}
 
 </style>
+
+<%@include file="../admin/toolbar.jsp"%>
 <h1>Preview Import Files</h1>
 
 <%
@@ -23,6 +44,8 @@ String fileLoc= fileDir +"/"+ request.getParameter("id")+"/jcr:content";
                <br />
                <input type="submit" value="Upload File" />
          </form>
+         
+         
 </div>
 
 <%
@@ -84,8 +107,10 @@ if(true)return;
 */
 
 
+final org.apache.sling.jcr.api.SlingRepository repos = sling.getService(org.apache.sling.jcr.api.SlingRepository.class);
+javax.jcr.Session _session = repos.loginAdministrative(null);
+ImportGSDocs importer = new ImportGSDocs(_session);
 
-ImportGSDocs importer = new ImportGSDocs();
 /*
 org.girlscouts.vtk.models.Meeting meeting = importer.getMeetings(fileDir +"/"+ request.getParameter("id")+"/jcr:content");// fileDir+"/"+ fileId);
 if( meeting==null ){
@@ -113,23 +138,29 @@ System.err.println("cleaning file... "+ fileToRm );
 	//-doIt();
 }
 
+String mid=infos.get("meeting id").getStr();
+mid = mid.replaceAll("\\[\\[_(.*?)\\]\\]" ,"");
+mid = mid.replace("<b>","").replace("</b>", "").replace("<p>","").replace("</p>","").replace("<li>","").replace("</li>","");
+%>
+<div style="background-color:lightgray;">
 
+<!--  <a href="/content/girlscouts-vtk/en/vtk.admin.importMeeting.html?mid=<%=mid%>">Import file (<%=mid%>)</a> -->
 
+<a href="javascript:void(0)" onclick="importFile('<%=mid%>')">Import file (<%=mid%>)</a>
 
+         
+</div>
 
-
+<%
 
 java.util.Iterator itr = infos.keySet().iterator();
 int bgColor=9;
 while( itr.hasNext()){
 	
-	String name= (String)itr.next();
-	String txt = infos.get(name).getStr();
+			String name= (String)itr.next();
+			String txt = infos.get(name).getStr();
 
-	
-	
-	
-	txt = txt.replaceAll("\\[\\[_(.*?)\\]\\]" ,"");
+			txt = txt.replaceAll("\\[\\[_(.*?)\\]\\]" ,"");
 	
 			java.util.regex.Pattern p = java.util.regex.Pattern.compile("\\[\\[Activity(.*?)\\]\\]");
 			java.util.regex.Matcher m = p.matcher(txt);

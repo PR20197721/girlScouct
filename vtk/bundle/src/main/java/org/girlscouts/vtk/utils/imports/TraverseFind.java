@@ -211,7 +211,15 @@ public class TraverseFind {
         try {
 
         	
-        	fs = new java.net.URL("http://localhost:4503"+ fileLoc).openConnection().getInputStream();
+        	//TODO switch between http/desktop
+        	try{
+        		fs = new java.net.URL("http://localhost:4503"+ fileLoc).openConnection().getInputStream();
+        	}catch(Exception e){e.printStackTrace();}
+        	if( fs==null )
+        		fs= new FileInputStream(fileLoc);
+        	
+        	
+        	
            //- fs = new FileInputStream(fileLoc);
         	
             // fs = new FileInputStream("/Users/akobovich/Desktop/caca.docx");
@@ -367,20 +375,20 @@ public class TraverseFind {
         java.util.Map container = new java.util.LinkedHashMap();
         for (int i = 0; i < headers.size(); i++) {
 
-  System.err.println("****STR**"+pattern+"***** "+ str);      	
+  //System.err.println("****STR**"+pattern+"***** "+ str);      	
   str= str.trim();
             String from = headers.get(i);
             //from= from.replace("<b>","");
         	//from= from.replace("</b>","");
         	
-      System.err.println("####### from : "+ from);      
+     //System.err.println("####### from : "+ from);      
             
             if (i <= headers.size() && (i + 1) != headers.size()) {
                 String to = headers.get(i + 1);
              //   to= to.replace("<b>","");
             //	to= to.replace("</b>","");
                 
-System.err.println("#### to: "+ to );
+//System.err.println("#### to: "+ to );
                 int ind_start = 0;//str.indexOf(from);
                 if( str.contains("<p><b>[[Activity" +from ))
                 	ind_start = str.indexOf("<p><b>[[Activity" +from );
@@ -397,12 +405,12 @@ System.err.println("#### to: "+ to );
                 else if( str.contains("<p>[[" + (pattern.contains("_") ? "_" : "Activity") +to))
                 	ind_end = str.indexOf(to +"]")-5;
                 
- System.err.println( ind_start +" : "+ ind_end );           
+ //System.err.println( ind_start +" : "+ ind_end );           
                 String parg = str.substring(ind_start, ind_end);
 //System.err.println( ind_start +" : "+ ind_end );     
                 
                 str = str.substring(ind_end);
-System.err.println("???"+ pattern+"???? "+headers.get(i)+" *********** "+ parg);
+//System.err.println("???"+ pattern+"???? "+headers.get(i)+" *********** "+ parg);
                 container.put(headers.get(i).replace("<b>", "").replace("</b>", ""), parg);
                 
                 
@@ -413,10 +421,10 @@ System.err.println("???"+ pattern+"???? "+headers.get(i)+" *********** "+ parg);
 //System.err.println("???... "+ str);
         if (headers.size() == 0){
             container.put("", str);
-            System.err.println("??????? XXX *********** "+ str);
+            //System.err.println("??????? XXX *********** "+ str);
         }else{
             container.put(headers.get(headers.size() - 1).replace("<b>", "").replace("</b>", ""), str);
-            System.err.println("??????? "+  headers.get(headers.size() - 1)  +" *********** "+ str);
+            //System.err.println("??????? "+  headers.get(headers.size() - 1)  +" *********** "+ str);
         }
         
         

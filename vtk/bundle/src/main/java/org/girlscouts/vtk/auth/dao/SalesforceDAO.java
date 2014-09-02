@@ -130,7 +130,7 @@ public class SalesforceDAO {
                     doAuthMaster();
                     
                     java.util.List <Troop>  troops = troopInfo( config,  user.getContactId());
-/*
+
                     if(troops==null || troops.size() <=0 ){
                     	System.err.println("Trying troops 2 time....");
                     	UserGlobConfig ubConf = userDAO.getUserGlobConfig(); 
@@ -142,8 +142,7 @@ public class SalesforceDAO {
                     		userDAO.updateUserGlobConfig();
                     	}
                     	troops = troopInfo( config,  user.getContactId());
-                    }
-*/                   	
+                    }                 	
                     // 4test troops=null;
                     
                     //if no troops for the DP , get council code

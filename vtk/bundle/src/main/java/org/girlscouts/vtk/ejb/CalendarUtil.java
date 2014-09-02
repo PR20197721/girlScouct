@@ -238,8 +238,11 @@ public class CalendarUtil {
 			java.util.List<MeetingE>meetings = user.getYearPlan().getMeetingEvents();
 			for(int i=0;i<meetings.size();i++){
 				MeetingE meeting = meetings.get(i);
-				if( meeting.getPath().equals( meetingPath ) )
+				if( meeting.getPath().equals( meetingPath ) ){
 					meeting.setCancelled(isCancelledMeeting);
+					user.getYearPlan().setAltered("true");
+					
+				}
 			}
 			
 			userDAO.updateUser(user);

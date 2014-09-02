@@ -1,29 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
-<%@include file="/libs/foundation/global.jsp" %>
-<cq:defineObjects/>
-<%@include file="include/session.jsp"%>
 
-<% 
-	MeetingE meeting = null;
-	java.util.List<MeetingE> meetings = user.getYearPlan().getMeetingEvents();
-	for(int i=0;i<meetings.size();i++)
-		if( meetings.get(i).getUid().equals( request.getParameter("mid")) ) 
-		{
-			meeting= meetings.get(i);
-			break;
-		}
-
-    
-	Meeting meetingInfo = meetingDAO.getMeeting(  meeting.getRefId() );
-	java.util.List <Activity> _activities = meetingInfo.getActivities();
-	java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  meetingInfo.getMeetingInfo();
-%> 
-
-
-
-
-
+ <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.jeditable.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/ckeditor/ckeditor.js"></script>
 
 <script src="http://www.appelsiini.net/projects/jeditable/jquery.jeditable.js" type="text/javascript"></script>
@@ -94,8 +70,8 @@ $(document).ready(function() {
     
     
    
-    $(".ajaxupload").editable("/content/girlscouts-vtk/controllers/auth.asset.html?id=<%=(meeting.getRefId().substring( meeting.getRefId().lastIndexOf("/")+1).toUpperCase())%>", { 
-         indicator : "<img src='img/indicator.gif'>",
+    $(".ajaxupload").editable("/content/girlscouts-vtk/controllers/auth.asset.html?id=(meeting.getRefId().substring( meeting.getRefId().lastIndexOf("/")+1).toUpperCase())", { 
+        indicator : "<img src='img/indicator.gif'>",
         type      : 'ajaxupload',
         submit    : 'Upload',
         cancel    : 'Cancel',
@@ -214,7 +190,7 @@ $(function() {
   $(".editable_textarea").editable("/content/girlscouts-vtk/controllers/vtk.controller.html", { 
       indicator : "Saving....",
       type   : 'ckeditor',
-      submitdata: { _method: "put" ,mid: "<%=meeting.getUid()%>"},
+      submitdata: { _method: "put" ,mid: "meeting.getUid()"},
       select : true,
       submit : 'OK',
       cancel : 'cancel',
@@ -225,7 +201,13 @@ $(function() {
       name : 'newvalue',
       
       ckeditor : {
-    	 
+    	  toolbar:
+    	  [
+['Bold','Italic','Underline','Strike','-','Superscript','Format'],
+['NumberedList','BulletedList','-','Outdent','Indent','Blockquote'],
+['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
+['Link','Unlink']
+    	  ],
     	  height: 260,
     	  startupFocus: true
     	  } 
@@ -542,32 +524,21 @@ $(".ajaxupload").editable("http://www.appelsiini.net/projects/jeditable/php/uplo
 </style>
 
 
+ 
+ 
+ 
+<div>
+Admin Tool >> <a href="/content/girlscouts-vtk/en/vtk.admin.home.html">home</a> 
+</div>
 
 
+<div style="float:right;">
 
 
+<div class="addthis_sharing_toolbox"></div>
 
 
-<%if( request.getParameter("isOverview")!=null ){%>
-	<span class="editable_textarea" id="editMeetingOverview"><%=meetingInfoItems.get("overview").getStr() %></span>
-<%}else if( request.getParameter("isActivity")!=null ){%>
-	<span class="editable_textarea" id="editMeetingActivity"><%=meetingInfoItems.get("detailed activity plan").getStr() %> </span>
-<%}else if( request.getParameter("isMaterials")!=null ){%>
-	<span class="editable_textarea" id="editMeetingMaterials"><%=meetingInfoItems.get("materials").getStr() %></span> 
-<%}else if( request.getParameter("isAgenda")!=null ){
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-53fb53152142ec44"></script>
 
-
-	//java.util.List <Activity> _activities = meetingInfo.getActivities();
-	for(int ii=0;ii< _activities.size();ii++){ 
-		Activity _activity = _activities.get(ii);
-		if( ii == Integer.parseInt( request.getParameter("isAgenda")  ) ){
-			
-			%>
-			<%@include file="include/editActivity.jsp" %> 
-			<%
-			
-			break;
-		}
-	}
-	
- }%>
+</div>
+<div></div>
