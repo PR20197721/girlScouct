@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2014-08-29T13:13:05.513-04:00"
+        cq:lastModifiedBy="admin"
+        cq:targetPath="/content/gateway/en/milestones"
+        cq:targetTemplate="/apps/girlscouts/templates/milestone-page"
+        jcr:description="Example scaffolding that is used to create and update geometrixx news pages."
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Council Year Plan :: Milestones"
+        jcr:uuid="4bb6ddfc-9e50-4af9-b8d7-cac591208dd1"
+        sling:resourceType="girlscouts/wcm/components/manu-scaffolding">
+        <dialog/>
+    </jcr:content>
+</jcr:root>

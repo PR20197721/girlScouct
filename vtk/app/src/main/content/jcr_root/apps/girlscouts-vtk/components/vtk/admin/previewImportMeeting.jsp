@@ -3,6 +3,7 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="../include/session.jsp"%>
+
 <html>
 <body>
 <script>

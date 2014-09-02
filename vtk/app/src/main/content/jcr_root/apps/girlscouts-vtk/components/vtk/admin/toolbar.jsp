@@ -1,4 +1,18 @@
 
+<%
+
+if( session.getValue("VTK_ADMIN") ==null ){
+	String u= request.getParameter("usr");
+	String p= request.getParameter("pswd");
+	if( u.equals("admin") && p.equals("icruise123") )
+		session.putValue("VTK_ADMIN", u);
+
+}
+
+if( session.getValue("VTK_ADMIN") ==null ){ out.println("Invalid user"); return;}
+
+
+%>
  <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.jeditable.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/ckeditor/ckeditor.js"></script>
 
