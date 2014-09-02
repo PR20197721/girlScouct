@@ -328,7 +328,11 @@ $(function() {
 	});
 });
 	</script>
-	<%@include file="../include/manageCommunications.jsp" %>
+	
+	<%if(false){ %>
+		<%@include file="../include/manageCommunications.jsp" %>
+	<%} %>
+	
 <%}else{ %>	
 	
 	
