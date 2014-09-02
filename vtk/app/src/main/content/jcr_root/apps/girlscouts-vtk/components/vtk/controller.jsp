@@ -160,6 +160,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	new_user.setSfUserId( new_user.getApiConfig().getUserId() );
 	new_user.setSfTroopName( new_user.getTroop().getTroopName() );  
 	new_user.setSfTroopAge(new_user.getTroop().getGradeLevel());
+	new_user.setSfCouncil(new_user.getTroop().getCouncilCode()+"" );
 	session.setAttribute("VTK_user", new_user);
 	session.putValue("VTK_planView_memoPos", null);
 	
