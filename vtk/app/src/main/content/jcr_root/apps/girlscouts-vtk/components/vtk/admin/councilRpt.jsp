@@ -20,7 +20,7 @@
 var myapp = angular.module('myapp', ["highcharts-ng"]);
 
 myapp.controller('myctrl', function ($scope) {
-
+/*
     $scope.addPoints = function () {
         var seriesArray = $scope.chartConfig.series
         var rndIdx = Math.floor(Math.random() * seriesArray.length);
@@ -29,12 +29,15 @@ myapp.controller('myctrl', function ($scope) {
 
     $scope.addSeries = function () {
         var rnd = []
+      
         for (var i = 0; i < 10; i++) {
             rnd.push(Math.floor(Math.random() * 20) + 1)
         }
+       
         $scope.chartConfig.series.push({
             data: rnd
         })
+       
     }
 
     $scope.removeRandomSeries = function () {
@@ -46,7 +49,7 @@ myapp.controller('myctrl', function ($scope) {
     $scope.toggleLoading = function () {
         this.chartConfig.loading = !this.chartConfig.loading
     }
-
+*/
     $scope.chartConfig = {
         options: {
             chart: {
@@ -54,17 +57,40 @@ myapp.controller('myctrl', function ($scope) {
                 zoomType: 'x'
             }
         },
+       
+      
+        
         series: [{
-            data: [1,2,5,3]
+            name: 'Brownie',
+            data: [7, 6, 9, 14]
+        }, {
+            name: 'Daisy',
+            data: [2, 3, 5, 11]
+        }, {
+            name: 'Junior',
+            data: [9, 6, 5, 8]
+        }, {
+            name: 'Cadet',
+            data: [3, 4, 5, 8]
         }],
+        
         title: {
             text: ''
         },
-        xAxis: {currentMin: 0, currentMax: 10, minRange: 1},
+        xAxis: {
+            categories: ['603', '358', '111', '2222']
+        },
+        
         loading: false
     }
 
 });
+
+/*
+ * $http.get('datatest').success(function(data) {
+     $scope.data = data;
+ });
+ */
 </script>
 <div ng-app="myapp">
     <div ng-controller="myctrl">
@@ -81,6 +107,7 @@ myapp.controller('myctrl', function ($scope) {
 <%
 	java.util.List<User> users = userDAO.getUsers();
 	out.println("Total users: "+users.size());
+	
 	%><table><tr><th>Council</th><th>Age Group</th></tr><% 
 	for(User uu: users){
 		%>
@@ -91,3 +118,16 @@ myapp.controller('myctrl', function ($scope) {
   <% }%>
   </table>
 
+<%!
+
+	public java.util.Map parseData( java.util.List <User> users){
+	
+		java.util.Map container = new java.util.TreeMap();
+		for(int i=0;i<users.size();i++){
+			
+		}
+		return container;
+			
+	
+}
+%>
