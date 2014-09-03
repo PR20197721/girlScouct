@@ -351,8 +351,7 @@ import org.girlscouts.vtk.models.Meeting;
 	    	 // ********* DOCX
             TraverseFind docx = new TraverseFind();
 
-            java.util.Map<String, String> meetings = docx
-                    .getMeetingInfo(fileName);
+            java.util.Map<String, String> meetings = docx.getMeetingInfo(fileName);
            
            
             Meeting docxMeeting = null;
@@ -406,9 +405,29 @@ import org.girlscouts.vtk.models.Meeting;
                        // value = Formatter.format(value);
                     }
                    */
-                    _meetings.put(
-                            title,
-                            new JcrCollectionHoldString(value));
+                    
+                    //********* startfmt
+                    String txt = value;
+
+        			txt = txt.replaceAll("\\[\\[_(.*?)\\]\\]" ,"");
+        	
+        			java.util.regex.Pattern p = java.util.regex.Pattern.compile("\\[\\[Activity(.*?)\\]\\]");
+        			java.util.regex.Matcher m = p.matcher(txt);
+        		     while(m.find())
+        		      {
+        		        //out.println("**"+m.group()+"**");
+        		        String rpls="Activity ";
+        		        java.util.StringTokenizer t= new java.util.StringTokenizer(  m.group() ,"|");
+        		        t.nextToken();
+        		        rpls += t.nextToken() +" : ";
+        		        rpls += t.nextToken().replace("]]", "");
+        		        txt = txt.replace( m.group(), rpls );
+        		      }
+                    //********* end fmt
+                    
+                    
+        		   //  _meetings.put(title,new JcrCollectionHoldString(value));
+                    _meetings.put(title,new JcrCollectionHoldString(txt));
                 }
 
                 meeting.setMeetingInfo(_meetings);

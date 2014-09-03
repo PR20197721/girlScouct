@@ -17,6 +17,14 @@
                     fieldLabel="Date"
                     name="./jcr:content/date"
                     xtype="datefield"/>
+                <ocm-classname
+                    jcr:primaryType="cq:Widget"
+                    defaultValue="org.girlscouts.vtk.models.Milestone"
+                    fieldLabel="Milestone Blurb"
+                    hidden="{Boolean}true"
+                    name="./jcr:content/ocm_classname"
+                    originalValue="org.girlscouts.vtk.models.Milestone"
+                    xtype="textfield"/>
             </items>
         </tab1>
     </items>

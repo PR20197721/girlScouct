@@ -32,6 +32,7 @@ public void autoLogin(HttpSession session){
         troop.setCouncilCode(1);
         troop.setGradeLevel("1-Brownie");
         troop.setTroopId("caca");
+        troop.setCouncilId("123");
         troop.setTroopName("test");
         
 
@@ -148,6 +149,7 @@ if( user ==null){
 		user.setSfUserId( user.getApiConfig().getUserId() );
 		user.setSfTroopName( user.getTroop().getTroopName() ); 
 		user.setSfTroopAge( user.getTroop().getGradeLevel() );
+		user.setSfCouncil( user.getTroop().getCouncilCode()+"");
 		session.setAttribute("VTK_user", user);
        
 		

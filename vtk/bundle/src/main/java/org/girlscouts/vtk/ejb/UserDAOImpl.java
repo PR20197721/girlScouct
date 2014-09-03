@@ -528,5 +528,37 @@ public void addAsset(User user, String meetingUid,  Asset asset){
 			
 	}
 	
+	
+	public java.util.List getUsers(){
+		java.util.List<User> users=null;
+		try{
+			
+			List<Class> classes = new ArrayList<Class>();	
+			classes.add(User.class); 
+			classes.add(YearPlan.class); 
+			classes.add(MeetingE.class);
+			classes.add(Activity.class);
+			classes.add(Location.class);
+			classes.add(Asset.class);
+			classes.add(Cal.class);
+			classes.add(Milestone.class);
+			
+			
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
+		
+			QueryManager queryManager = ocm.getQueryManager();
+			Filter filter = queryManager.createFilter(User.class);
+			
+			filter.setScope("/vtk//");
+			
+				
+			Query query = queryManager.createQuery(filter);
+			users  =(java.util.List<User>) ocm.getObjects(query);
+			System.err.println( "users: "+ (users.size()) );
+		      
+		}catch(Exception e){e.printStackTrace();}
+		return users;
+	}
 
 }//ednclass

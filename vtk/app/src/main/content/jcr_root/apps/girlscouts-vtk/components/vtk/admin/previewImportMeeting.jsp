@@ -130,7 +130,7 @@ java.util.Map <String, org.girlscouts.vtk.models.JcrCollectionHoldString>infos  
 
 String fileToRm= fileDir +"/"+ request.getParameter("id");
 if( fileToRm!=null && !fileToRm.equals("") && fileToRm.startsWith("/tmp/")){
-System.err.println("cleaning file... "+ fileToRm );
+	System.err.println("cleaning file... "+ fileToRm );
 
 	//java io
 	//-importer.doClean(fileToRm);
@@ -160,7 +160,7 @@ while( itr.hasNext()){
 	
 			String name= (String)itr.next();
 			String txt = infos.get(name).getStr();
-
+/* in java
 			txt = txt.replaceAll("\\[\\[_(.*?)\\]\\]" ,"");
 	
 			java.util.regex.Pattern p = java.util.regex.Pattern.compile("\\[\\[Activity(.*?)\\]\\]");
@@ -176,7 +176,7 @@ while( itr.hasNext()){
 		        txt = txt.replace( m.group(), rpls );
 		      }
 		     
-		     
+		     */
 			
 	
 	%>
