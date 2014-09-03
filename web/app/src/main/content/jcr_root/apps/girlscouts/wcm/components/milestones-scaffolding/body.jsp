@@ -263,9 +263,9 @@
                 var destDir = '<%= contentPath %>' ;
 
                 girlscouts.functions.createPath(destDir, 'cq:Page');
-
-                frm.url = destDir + '/*';
-                
+                if(!isUpdate){
+                    frm.url = destDir + '/*';
+    }
                 var action = new CQ.form.SlingSubmitAction(frm, {
                     params: params,
                     success: function(frm, resp) {
