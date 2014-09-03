@@ -11,7 +11,7 @@
 <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
 <script src="https://rawgit.com/pablojim/highcharts-ng/master/src/highcharts-ng.js"></script>
 
-
+<%java.util.List<User> users = userDAO.getUsers(); %>
 
 <script>
 
@@ -60,25 +60,97 @@ myapp.controller('myctrl', function ($scope) {
        
       
         
-        series: [{
+        series: [
+                 
+                 
+        <%
+        
+        	java.util.Map <String, Map>container = parseData(users);
+        /*	java.util.Iterator itr= container.keySet().iterator();
+        	while( itr.hasNext() ){
+        		String lvl = (String) itr.next();
+        		%>{name: '<%=lvl%>',<%
+        		java.util.Map cnl = (java.util.Map) container.get(lvl);
+        		
+        		%>data: <%= doConv(cnl)%>},<%
+        		
+        	}
+        	*/
+        	
+        	out.println("{name: 'Brownie', data:[");
+        	java.util.Map <String, Integer>lvl = container.get("2-Brownie");
+        	if( lvl!=null)
+        	 for(int i=0;i< unqCouncil.size();i++){
+        		Integer x = lvl.get( unqCouncil.get(i)  );
+        		if( x == null)
+        			out.println("0,");
+        		else
+        			out.println(x+",");
+        		
+        	 }
+        	out.println("]},");
+        	
+        	
+        	
+        	out.println("{name: 'Daisy', data:[");
+        	lvl = container.get("1-Daisy");
+        	if( lvl!=null)
+        	  for(int i=0;i< unqCouncil.size();i++){
+        		Integer x = lvl.get( unqCouncil.get(i)  );
+        		if( x == null)
+        			out.println("0,");
+        		else
+        			out.println(x+",");
+        		
+        	  }
+        	 out.println("]},");
+        	 
+        	 
+        	 out.println("{name: 'Junior', data:[");
+         	lvl = container.get("3-Junior");
+         	if( lvl!=null)
+         	  for(int i=0;i< unqCouncil.size();i++){
+         		Integer x = lvl.get( unqCouncil.get(i)  );
+         		if( x == null)
+         			out.println("0,");
+         		else
+         			out.println(x+",");
+         		
+         	  }
+         	 out.println("]},");
+        	
+        	
+        	
+        %>         
+                 
+        
+        {
             name: 'Brownie',
-            data: [7, 6, 9, 14]
-        }, {
+            data: <%= doConv(parseData(users,"brownie"))%>
+        	
+        },
+        {
             name: 'Daisy',
             data: [2, 3, 5, 11]
-        }, {
+        }, 
+        {
             name: 'Junior',
             data: [9, 6, 5, 8]
-        }, {
+        }, 
+        {
             name: 'Cadet',
             data: [3, 4, 5, 8]
-        }],
+        }
+        
+        
+        
+        ],
         
         title: {
             text: ''
         },
         xAxis: {
-            categories: ['603', '358', '111', '2222']
+            categories: <%=unqCouncil%>
         },
         
         loading: false
@@ -86,11 +158,7 @@ myapp.controller('myctrl', function ($scope) {
 
 });
 
-/*
- * $http.get('datatest').success(function(data) {
-     $scope.data = data;
- });
- */
+
 </script>
 <div ng-app="myapp">
     <div ng-controller="myctrl">
@@ -105,7 +173,7 @@ myapp.controller('myctrl', function ($scope) {
 
 
 <%
-	java.util.List<User> users = userDAO.getUsers();
+	
 	out.println("Total users: "+users.size());
 	
 	%><table><tr><th>Council</th><th>Age Group</th></tr><% 
@@ -120,14 +188,66 @@ myapp.controller('myctrl', function ($scope) {
 
 <%!
 
-	public java.util.Map parseData( java.util.List <User> users){
+	public java.util.Map parseData( java.util.List <User> users, String age){
 	
-		java.util.Map container = new java.util.TreeMap();
+		
+		
+		java.util.Map <String, Integer>container = new java.util.TreeMap();
 		for(int i=0;i<users.size();i++){
+			
+			if( users.get(i).getSfTroopAge().toLowerCase().contains(age.toLowerCase()) ){
+				if( !container.containsKey(age)){
+					container.put(users.get(i).getSfCouncil(), 1);
+		
+				}else{
+					
+					container.put(users.get(i).getSfCouncil(), container.get(users.get(i).getSfCouncil()) +1);
+					
+				}
+				
+			}
 			
 		}
 		return container;
 			
+	}
+
+
+	public java.util.List doConv(java.util.Map map){
+		
+		java.util.List container = new java.util.ArrayList();
+		java.util.Iterator itr= map.keySet().iterator();
+		while( itr.hasNext())
+			container.add( map.get( itr.next() ) );
+		
+		return container;
+		
+	}
 	
-}
+	java.util.List unqCouncil;
+	
+	public java.util.Map parseData( java.util.List <User> users){
+		
+		 unqCouncil = new java.util.ArrayList();
+		java.util.Map<String, Map> main = new java.util.TreeMap<String, Map>();		
+		for(int i=0;i<users.size();i++){
+			
+			if( !unqCouncil.contains(users.get(i).getSfCouncil()) )
+				unqCouncil.add(users.get(i).getSfCouncil());
+			
+			java.util.Map <String, Integer> container = main.get( users.get(i).getSfTroopAge() );
+			if(container==null){				
+				container = new java.util.TreeMap<String, Integer>();
+				container.put(users.get(i).getSfCouncil(), 1);				
+			}else
+				container.put(users.get(i).getSfCouncil(), container.get(users.get(i).getSfCouncil()) +1);
+			
+			main.put(users.get(i).getSfTroopAge(), container);
+			
+			
+		}
+		return main;
+			
+	}
+
 %>
