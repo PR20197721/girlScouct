@@ -349,7 +349,7 @@ public Meeting updateCustomMeeting(User user, MeetingE meetingEvent, Meeting mee
 		}
 	
 		
-	
+	System.err.println("NewPath: "+ newPath +" : "+meetingEvent.getRefId());
 		
 		meetingEvent.setRefId(newPath);
 		meeting.setPath(newPath);

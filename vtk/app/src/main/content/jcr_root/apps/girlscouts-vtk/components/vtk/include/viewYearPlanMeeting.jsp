@@ -190,6 +190,12 @@ if( _aidTags!=null )
 	java.util.Calendar activSched= java.util.Calendar.getInstance();
 	activSched.setTime( searchDate);
 	int duration =0;
+	
+	try{
+		meetingUtil.sortActivity(_activities);
+	}catch(Exception e){e.printStackTrace();}
+	
+	
 	for(int ii=0;ii< _activities.size();ii++){
 		Activity _activity = _activities.get(ii);
 %>
@@ -200,7 +206,9 @@ if( _aidTags!=null )
 	if( !isLocked) {
 %>
 
-				<td class="agendaScroll"><img class="touchscroll" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/touchscroll-small.png" width="21" height="34"></td>
+				<td class="agendaScroll">
+				
+				<img class="touchscroll" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/touchscroll-small.png" width="21" height="34"></td>
 <%
 		if( user.getYearPlan().getSchedule()!=null ){ 
 %>

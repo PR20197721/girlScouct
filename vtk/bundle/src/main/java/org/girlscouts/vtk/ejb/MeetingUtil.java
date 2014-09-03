@@ -317,17 +317,21 @@ public class MeetingUtil {
 		while( t.hasMoreElements())
 			newPoss.add( Integer.parseInt( t.nextToken() ));
 		
+		//System.err.println("NewPos: "+ newPoss);
 		
 		Meeting meetingInfo = meetingDAO.getMeeting(  meetingPath );
 		java.util.List<Activity>orgActivities = meetingInfo.getActivities();
+		orgActivities= sortActivity(orgActivities);
 		java.util.List<Activity> newActivity = new java.util.ArrayList<Activity>();
 		for(int i=0;i<orgActivities.size();i++) newActivity.add(null);  
 		
 		for(int i=0;i<orgActivities.size();i++){
 			Activity activity = orgActivities.get(i);
 			int newpos = newPoss.indexOf(i+1) ;
-			
+			activity.setActivityNumber(newpos+1);
 			newActivity.set(newpos,  activity);
+			
+			//System.err.println( );
 		}
 		
 		//save activities to meeting
@@ -335,7 +339,7 @@ public class MeetingUtil {
 		
 		//create custom meeting
 		MeetingE meetingE= getMeeting(user.getYearPlan().getMeetingEvents(), meetingPath);
-		if( meetingE.getRefId().contains("_"))
+		if(meetingE.getRefId().contains("_"))
 			meetingDAO.updateCustomMeeting(user, meetingE, meetingInfo);
 		else
 			meetingDAO.createCustomMeeting(user, meetingE, meetingInfo);
@@ -684,5 +688,16 @@ public class MeetingUtil {
 		Comparator<MeetingE> comp = new org.apache.commons.beanutils.BeanComparator("id");
 		Collections.sort( meetings, comp);
 		return meetings;
+	}
+	
+	
+	public java.util.List<Activity> sortActivity(java.util.List<Activity> _activities) {
+		
+		try{
+			Comparator<Activity> comp = new org.apache.commons.beanutils.BeanComparator("activityNumber");
+			Collections.sort( _activities, comp);
+		}catch(Exception e){e.printStackTrace();}
+		return _activities;
+		
 	}
 }
