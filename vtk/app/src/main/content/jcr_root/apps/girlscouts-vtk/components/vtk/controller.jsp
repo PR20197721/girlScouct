@@ -110,6 +110,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	meetingUtil.addMeetings(user,  request.getParameter("toPath"));
 }else if( request.getParameter("isActivityCngAjax") !=null ){ //activity shuffle
 	meetingUtil.rearrangeActivity( user, request.getParameter("mid"), request.getParameter("isActivityCngAjax"));
+
 }else if( request.getParameter("rmAgenda") !=null ){
 	meetingUtil.rmAgenda(user, request.getParameter("rmAgenda") , request.getParameter("mid")  );
 }else if( request.getParameter("editAgendaDuration") !=null ){
