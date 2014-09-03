@@ -117,33 +117,11 @@ myapp.controller('myctrl', function ($scope) {
          			out.println(x+",");
          		
          	  }
-         	 out.println("]},");
+         	 out.println("]}");
         	
         	
         	
         %>         
-                 
-        
-        {
-            name: 'Brownie',
-            data: <%= doConv(parseData(users,"brownie"))%>
-        	
-        },
-        {
-            name: 'Daisy',
-            data: [2, 3, 5, 11]
-        }, 
-        {
-            name: 'Junior',
-            data: [9, 6, 5, 8]
-        }, 
-        {
-            name: 'Cadet',
-            data: [3, 4, 5, 8]
-        }
-        
-        
-        
         ],
         
         title: {
