@@ -249,25 +249,17 @@
                         "./jcr:content/cq:scaffolding": "<%= scaffoldPath %>"
                     };
                 }
-                var title = frm.findField("./jcr:content/jcr:title");
+                /****************************************
+                // Customize code for blurb 
+                ****************************************/
+                var title = frm.findField("./jcr:content/blurb");
                 if (title) {
                     var hint = title.getValue();
                     if (hint) {
                         params[":nameHint"] = hint;
                     }
                 }
-                
-                /****************************************
-                // Customize code to add year
-                ****************************************/
-                /*var dateField = frm.findField("./jcr:content/date");
-                alert("dateField" +dateField);
-                var year;
-                if (dateField.getValue()) {
-                	year = dateField.getValue().getFullYear();	
-                } else {
-                	year = new Date().getFullYear();
-                    }*/
+
                 var destDir = '<%= contentPath %>' ;
 
                 girlscouts.functions.createPath(destDir, 'cq:Page');
