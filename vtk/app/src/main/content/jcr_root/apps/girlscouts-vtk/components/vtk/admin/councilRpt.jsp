@@ -126,10 +126,6 @@ myapp.controller('myctrl', function ($scope) {
         	
         	
         %>         
-                 
-        
-        
-        
         ],
         
         title: {
