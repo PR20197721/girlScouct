@@ -162,9 +162,10 @@ import org.girlscouts.vtk.models.Meeting;
 
 	            
 	            
-	            
+	             meeting =doSingleFile(meeting.getPath(), meeting);
 	            
 	            // ********* DOCX
+	       /*     
 	            TraverseFind docx = new TraverseFind();
 
 	            java.util.Map<String, String> meetings = docx
@@ -235,10 +236,26 @@ import org.girlscouts.vtk.models.Meeting;
 	                }
 
 	            }
+	  */          
+	            
+	            
+	            try {
+                    doJcr(meeting);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
 	        }
 //return meeting;
 	    }
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
 
 	    // Meeting
 	    public void doJcr(Meeting meeting) throws Exception {
@@ -344,10 +361,14 @@ import org.girlscouts.vtk.models.Meeting;
 	    }
 	    
 
-	    
-	    public Meeting  doSingleFile(String fileName) throws Exception{
+	    //public Meeting  doSingleFile(String fileName) throws Exception{
+	    public Meeting  doSingleFile(String fileName) throws Exception { return doSingleFile( fileName, null);}
+	    public Meeting  doSingleFile(String fileName, Meeting meeting) throws Exception{ 
 	    	
-	    	Meeting meeting  = new Meeting();
+	    	System.err.println("FileLoc: " + fileName);
+	    	
+	    	//Meeting meeting  = meeting;
+	    	if( meeting ==null ) meeting = new Meeting();
 	    	 // ********* DOCX
             TraverseFind docx = new TraverseFind();
 
