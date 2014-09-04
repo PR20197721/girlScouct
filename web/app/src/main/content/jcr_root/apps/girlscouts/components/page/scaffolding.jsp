@@ -20,7 +20,9 @@
         org.apache.sling.api.resource.Resource,
         com.day.cq.wcm.api.components.IncludeOptions,
         com.day.cq.wcm.core.utils.ScaffoldingUtils" %><%
-%><%@taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0" %><%
+%><%@taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0" %>
+<%@include file="/libs/foundation/global.jsp"%>
+<%
 %><cq:defineObjects/><%
 
     // first check if the page has a scaffold specified
@@ -32,6 +34,7 @@
         Node root = scRoot == null ? null : scRoot.adaptTo(Node.class);
         if (root != null) {
             scaffoldPath = ScaffoldingUtils.findScaffoldByTemplate(root, pageProperties.get("cq:template", ""));
+            %><%= scaffoldPath %><%
             if (scaffoldPath == null) {
                 scaffoldPath = ScaffoldingUtils.findScaffoldByPath(root, currentPage.getPath());
             }
@@ -41,8 +44,12 @@
         // use default
         scaffoldPath = "/etc/scaffolding";
     }
+Page root = resourceResolver.resolve(scaffoldPath).adaptTo(Page.class);
     scaffoldPath+="/jcr:content.html";
+Node scaffoldingRoot = root.adaptTo(Node.class);
+scaffoldingRoot = scaffoldingRoot.getNode("jcr:content");
+String scaffoldResource = scaffoldingRoot.getProperty("sling:resourceType").getString();
     IncludeOptions.getOptions(request, true).forceSameContext(true);
-    %><cq:include resourceType="/apps/girlscouts/wcm/components/event-scaffolding" path="<%= scaffoldPath %>" /><%
+    %><cq:include resourceType="<%= scaffoldResource %>" path="<%= scaffoldPath %>" /><%
 
 %>
