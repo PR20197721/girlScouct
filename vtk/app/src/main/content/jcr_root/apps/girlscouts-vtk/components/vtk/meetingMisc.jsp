@@ -38,6 +38,10 @@
 
 
 	//java.util.List <Activity> _activities = meetingInfo.getActivities();
+	try{
+		meetingUtil.sortActivity(_activities);
+	}catch(Exception e){e.printStackTrace();}
+	
 	for(int ii=0;ii< _activities.size();ii++){ 
 		Activity _activity = _activities.get(ii);
 		if( ii == Integer.parseInt( request.getParameter("isAgenda")  ) ){
