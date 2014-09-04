@@ -489,6 +489,17 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 		}
 	}
 	
+}else if(request.getParameter("isAltered") !=null){
+	
+	
+	if( user.getYearPlan()!=null ){
+		if( user.getYearPlan().getAltered()!=null && user.getYearPlan().getAltered().equals("true") ){
+		
+			out.println("true");return;
+		}
+	}
+	out.println("false");return;
+	
 }else{
 	//TODO throw ERROR CODE
 }

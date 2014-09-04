@@ -6,9 +6,27 @@ function loadMeetings(){
 function x(planId, planPath, confirmMsg, planName){
 	
 	
+
 	
-	if( confirmMsg!=null && confirmMsg!='')
+	
+	
+	
+	if( confirmMsg!=null && confirmMsg!='' ){
 		if( !confirm(confirmMsg) ) return;
+    }else{
+    	
+    	$.ajax({
+    		url: "/content/girlscouts-vtk/controllers/vtk.controller.html?isAltered=chk",
+    		cache: false
+    	}).done(function( html ) {
+    		html= $.trim(html)
+    		
+    		if(html=='true')
+    			if( !confirm("Are You Sure? You will lose customizations that you have made") ) return;
+    	});
+    	
+    }
+		
 			
 	
 	$.ajax({
