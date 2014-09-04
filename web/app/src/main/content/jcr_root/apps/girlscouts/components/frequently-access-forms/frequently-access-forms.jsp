@@ -6,9 +6,9 @@
 
 <%
 String[] links = properties.get("links", String[].class);
-String freqTitle = properties.get("freq-title", String.class);
+String freqTitle = properties.get("freq-title","");
 String path = "";
-if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
+if ((freqTitle == null && links == null) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
 	%>##### Frequently Access Forms #####<%
 }else {%>
      <div class="row">
@@ -22,22 +22,25 @@ if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMM
 	   
 	  
 	<%
-	    for (int i = 0; i < links.length; i++) {
-	    	String[] values = links[i].split("\\|\\|\\|");
-	        String label = values[0];
-	        String externalLink = values.length>=2? values[1] : "" ;
-	        String internalLink = values.length>=3 ? values[2] : "";
-	        String newWindow = values.length >= 4 && values[3].equalsIgnoreCase("true") ? " target=\"_blank\"" : "";
-	        if(!externalLink.isEmpty()){
-	        	path = externalLink;
-	        }
-	        if(!internalLink.isEmpty()){
-	        	path = genLink(resourceResolver, internalLink);
-	        	
-	        }
-	      %>
-	      <span><a href="<%= path %>" <%=newWindow%>><%= label %></a></span><%
-	    }%>
+	
+	if(links!=null){
+		for (int i = 0; i < links.length; i++) {
+	 		String[] values = links[i].split("\\|\\|\\|");
+			String label = values[0];
+			String externalLink = values.length>=2? values[1] : "" ;
+			String internalLink = values.length>=3 ? values[2] : "";
+			String newWindow = values.length >= 4 && values[3].equalsIgnoreCase("true") ? " target=\"_blank\"" : "";
+			if(!externalLink.isEmpty()){
+				path = externalLink;
+			}
+			if(!internalLink.isEmpty()){
+				path = genLink(resourceResolver, internalLink);
+				
+			}
+		%>
+			<span><a href="<%= path %>" <%=newWindow%>><%= label %></a></span><%
+		}
+	}%>
 	    </div>
 	   </div>
 	 

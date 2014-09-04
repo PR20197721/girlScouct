@@ -76,61 +76,65 @@ public void buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_pat
 <div id="right-canvas-menu-bottom">
   <ul class="side-nav">
  <% 
-	
-	String[] links = (String[])(request.getAttribute("links"));
- 	for (int i = 0; i < links.length; i++) {
- 		String[] values = links[i].split("\\|\\|\\|");
-		String label = values[0];
-		String menuPath = values.length >= 2 ? values[1] : "";
-		String path = values.length >= 2 ? values[1] : "";
-		Iterator<Page> iterPage=null;
-		StringBuilder menuBuilder = new StringBuilder();
-		path = genLink(resourceResolver, path);
-		String startingPoint="";
-		String clazz = values.length >= 3 ? "class=\""+ values[2] + "\"": "";
-		Page rootPage = null;
-		String newWindow = values.length >= 4 && values[3].equalsIgnoreCase("true") ?" target=\"_blank\"" : "";
-		String displayInHamburger = values.length >= 5 ? values[4]: "";
-		
-		if(!path.isEmpty() && !path.equalsIgnoreCase("#") && path.indexOf(currentPage.getAbsoluteParent(2).getPath()) == 0) {
-			startingPoint = menuPath.substring(currentPage.getAbsoluteParent(2).getPath().length()+1,menuPath.length());
-			if(startingPoint.indexOf("/")>0) {
-				startingPoint = startingPoint.substring(0, startingPoint.indexOf("/"));
-			}
-			rootPage = resourceResolver.getResource(gs_us_path+"/"+startingPoint).adaptTo(Page.class);
-			iterPage = rootPage.listChildren();
-			if(rootPage!=null && (currtPath.indexOf(menuPath)==0) || currtPath.startsWith(menuPath)){
-				path = rootPage.getPath()+".html";
-				label = rootPage.getTitle();
-			}
-		}
-		if(!displayInHamburger.equalsIgnoreCase("true")){
-			if((currtPath.indexOf(menuPath)==0) || (currtPath.startsWith(menuPath))){
-			%>
-				<%if((rootPath!=null) && (rootPage.getPath().equals(currtPath))){
-		     		 %><li class="active">
-				<% } else{%>
-					<li>
-		 			<%}%>
-		  		<div><a href="<%=path%>" <%= newWindow %>><%=label %></a></div>
-		  		<% if(currtPath.indexOf(menuPath)==0 || currtPath.startsWith(menuPath)){
-					buildMenu(iterPage, rootPath, gs_us_path, menuBuilder, levelDepth,"",levelFlag, currtPath, currTitle);
-				%>
-				<%=menuBuilder%>
-				<%} %>
-			<%}else{%>
-				<li><div><a href="<%= path %>"<%= newWindow %>><%= label %></a></div>
-			<%}%>
-			</li>
-		<%}else{
-			if(currtPath.equals(menuPath)){%>
-				<li class="active">
-       		 <%}else{ %>
-        		<li>
-        	<% } %>
-			<div><a href="<%= path %>"<%= newWindow %>><%= label %></a></div></li>
-		<% } %>
-		<%} %>
+	if(link!=null){
+		String[] links = (String[])(request.getAttribute("links"));
+ 		for (int i = 0; i < links.length; i++) {
+ 			try{
+		 		String[] values = links[i].split("\\|\\|\\|");
+				String label = values[0];
+				String menuPath = values.length >= 2 ? values[1] : "";
+				String path = values.length >= 2 ? values[1] : "";
+				Iterator<Page> iterPage=null;
+				StringBuilder menuBuilder = new StringBuilder();
+				path = genLink(resourceResolver, path);
+				String startingPoint="";
+				String clazz = values.length >= 3 ? "class=\""+ values[2] + "\"": "";
+				Page rootPage = null;
+				String newWindow = values.length >= 4 && values[3].equalsIgnoreCase("true") ?" target=\"_blank\"" : "";
+				String displayInHamburger = values.length >= 5 ? values[4]: "";
+				
+				if(!path.isEmpty() && !path.equalsIgnoreCase("#") && path.indexOf(currentPage.getAbsoluteParent(2).getPath()) == 0) {
+					startingPoint = menuPath.substring(currentPage.getAbsoluteParent(2).getPath().length()+1,menuPath.length());
+					if(startingPoint.indexOf("/")>0) {
+						startingPoint = startingPoint.substring(0, startingPoint.indexOf("/"));
+					}
+					rootPage = resourceResolver.getResource(gs_us_path+"/"+startingPoint).adaptTo(Page.class);
+					iterPage = rootPage.listChildren();
+					if(rootPage!=null && (currtPath.indexOf(menuPath)==0) || currtPath.startsWith(menuPath)){
+						path = rootPage.getPath()+".html";
+						label = rootPage.getTitle();
+					}
+				}
+				if(!displayInHamburger.equalsIgnoreCase("true")){
+					if((currtPath.indexOf(menuPath)==0) || (currtPath.startsWith(menuPath))){
+					%>
+						<%if((rootPath!=null) && (rootPage.getPath().equals(currtPath))){
+				     		 %><li class="active">
+						<% } else{%>
+							<li>
+				 			<%}%>
+				  		<div><a href="<%=path%>" <%= newWindow %>><%=label %></a></div>
+				  		<% if(currtPath.indexOf(menuPath)==0 || currtPath.startsWith(menuPath)){
+							buildMenu(iterPage, rootPath, gs_us_path, menuBuilder, levelDepth,"",levelFlag, currtPath, currTitle);
+						%>
+						<%=menuBuilder%>
+						<%} %>
+					<%}else{%>
+						<li><div><a href="<%= path %>"<%= newWindow %>><%= label %></a></div>
+					<%}%>
+					</li>
+				<%}else{
+					if(currtPath.equals(menuPath)){%>
+						<li class="active">
+		       		 <%}else{ %>
+		        		<li>
+		        	<% } %>
+					<div><a href="<%= path %>"<%= newWindow %>><%= label %></a></div></li>
+				<% } %>
+				<%
+				}catch(Exception e){}
+ 			}
+ 		}%>
 		
 	
  </ul>
