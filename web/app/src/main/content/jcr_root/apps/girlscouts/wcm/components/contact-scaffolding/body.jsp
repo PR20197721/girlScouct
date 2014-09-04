@@ -274,9 +274,9 @@
                 var	teamNodeName = team.toLowerCase().replace(/ /g, "-");
                 var destDir = '<%= contentPath %>/' + teamNodeName;
                 girlscouts.functions.createPath(destDir, 'cq:Page', 'jcr:title|' + team);
-
+if(!isUpdate){
                 frm.url = destDir + '/*';
-                
+}
                 var action = new CQ.form.SlingSubmitAction(frm, {
                     params: params,
                     success: function(frm, resp) {

@@ -16,6 +16,8 @@
   Displays and provides editing of scaffoldings
 
 --%><%@include file="/libs/foundation/global.jsp"%>
+
+
 <%
 %><%@ page
 	import="com.day.cq.wcm.api.WCMMode,
@@ -26,6 +28,7 @@
 %><body>
 	<script src="/libs/cq/ui/resources/cq-ui.js" type="text/javascript"></script>
 	<%
+        try{
 		String contentPath = properties.get("cq:targetPath", "");
 		String dlgPath = resource.getPath() + "/dialog";
 		String templatePath = properties.get("cq:targetTemplate", "");
@@ -300,9 +303,9 @@ properties of this scaffolding.
                 }
                 var destDir = '<%=contentPath%>/' + year;
                 girlscouts.functions.createPath(destDir, 'cq:Page');
-
+                if(!isUpdate){
                 frm.url = destDir + '/*';
-                
+                }
                 var action = new CQ.form.SlingSubmitAction(frm, {
                     params: params,
                     success: function(frm, resp) {
@@ -348,5 +351,5 @@ properties of this scaffolding.
 				myForm.getForm().findField(0).focus();
 				window.scrollTo(0, 0);
 			});
-</script>
+</script><% } catch(Exception e) { e.printStackTrace();} %>
 </body>
