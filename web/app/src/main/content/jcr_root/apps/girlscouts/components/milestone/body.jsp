@@ -2,7 +2,7 @@
 
 <%
 String dateStr = properties.get("date", "");
-String title = properties.get("jcr:title", "");
+String title = properties.get("blurb", "");
 %>
 <h1>Milestone</h1>
 <p>Title: <%= title %></p>

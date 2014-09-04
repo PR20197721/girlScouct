@@ -11,19 +11,19 @@
                 <title
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Milestone Blurb"
-                    name="./jcr:content/jcr:title"/>
+                    name="./jcr:content/blurb"/>
                 <date
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Date"
+                    hideTime="{Boolean}true"
                     name="./jcr:content/date"
-                    xtype="datefield"/>
+                    xtype="datetime"/>
                 <ocm-classname
                     jcr:primaryType="cq:Widget"
-                    defaultValue="org.girlscouts.vtk.models.Milestone"
                     fieldLabel="Milestone Blurb"
                     hidden="{Boolean}true"
                     name="./jcr:content/ocm_classname"
-                    originalValue="org.girlscouts.vtk.models.Milestone"
+                    value="org.girlscouts.vtk.models.Milestone"
                     xtype="textfield"/>
             </items>
         </tab1>
