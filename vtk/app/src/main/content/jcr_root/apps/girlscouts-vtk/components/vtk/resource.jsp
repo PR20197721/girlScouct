@@ -20,6 +20,7 @@
 
 	final QueryBuilder queryBuilder = sling.getService(QueryBuilder.class);
 %>
+
 <%@include file="include/session.jsp"%>
 <%-- VTK tab --%>
 <%
