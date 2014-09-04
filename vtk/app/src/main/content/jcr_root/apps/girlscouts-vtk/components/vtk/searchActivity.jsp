@@ -7,6 +7,15 @@ java.util.List <org.girlscouts.vtk.models.Activity> activities =  (java.util.Lis
 %><h2 class="searchResults">Found <%=activities.size()%> Activities</h2>
 <ul>
 <% 
+
+if( activities!=null  ){
+	//sort activities
+	try{
+		meetingUtil.sortActivityByDate( activities);
+	}catch(Exception e){e.printStackTrace();}
+}
+
+
 	for(int i=0;i<activities.size();i++){
 		boolean isExists=false;
 		if( user.getYearPlan().getActivities() !=null) {
