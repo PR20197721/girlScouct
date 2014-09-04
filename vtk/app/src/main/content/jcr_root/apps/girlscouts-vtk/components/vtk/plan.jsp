@@ -165,6 +165,21 @@
 }
 
 
+ul, img {
+   page-break-inside: avoid;
+}
+
+img {
+   max-width: 100% !important;
+}
+
+h2, h3 {
+   page-break-after: avoid;
+}
+
+p {page-break-inside: avoid;}
+li {page-break-inside: avoid;}
+
  }
 	    
 	   
@@ -231,6 +246,7 @@
 		</div>
 		<div class="large-2 medium-2 small-4 columns calendarDownload">
 			<div class="icons">
+			<!-- <a onclick="javascript:void(0)" onclick="javascript:window.print()"><img alt="Print" src="/etc/designs/girlscouts-vtk/images/calendar-download.png" width="39" height="20" border="0" class="align-right"/>*</a> -->
 			<%if(user.getYearPlan().getSchedule()!=null){ %>
 				<a onclick="self.location = '/content/girlscouts-vtk/en/cal.ics'"><img alt="Calendar Download" src="/etc/designs/girlscouts-vtk/images/calendar-download.png" width="39" height="20" border="0" class="align-right"/></a>
 			<%} %>
