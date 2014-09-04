@@ -162,7 +162,8 @@ import org.girlscouts.vtk.models.Meeting;
 
 	            
 	            
-	             meeting =doSingleFile(meeting.getPath(), meeting);
+	             //meeting =doSingleFile(meeting.getPath(), meeting);
+	            meeting =doSingleFile(rootPath+ "/meetings/" + meetingId.toUpperCase() + ".docx", meeting);
 	            
 	            // ********* DOCX
 	       /*     
@@ -384,30 +385,61 @@ import org.girlscouts.vtk.models.Meeting;
             if (docxMeeting == null) {
                 System.err.println("Cannot parse meeting:" + fileName);
             } else {
-            	/*
+            	
+            	
+            	
+            	
+            	
+            	
+            if( meeting.getAgenda()!=null ){ //preview no xls	
                 List<Activity> chngActivities = new java.util.ArrayList();
-                Pattern p = Pattern.compile("\\[(.*?)\\^(.*?)\\^(.*?)\\]");
-                Matcher m = p.matcher(meeting.getAgenda());
+                Pattern _p = Pattern.compile("\\[(.*?)\\^(.*?)\\^(.*?)\\]");
+                Matcher _m = _p.matcher(meeting.getAgenda());
                 int count = 0;
-                while (m.find()) {
+                while (_m.find()) {
                     Activity activity = docxMeeting.getActivities().get(count);
-                     activity.setDuration(Integer.parseInt(m.group(3)));
+                    activity.setDuration(Integer.parseInt(_m.group(3)));
                    
-                    String desc = activity.getActivityDescription().replace(
-                            "[[Activity", "");
+                    String desc = activity.getActivityDescription();
+                    /*
+                    desc= desc.replace("[[Activity", "");
                     if (desc.endsWith("<p>"))
                         desc = desc.substring(0, desc.lastIndexOf("<p>"));
 
                     desc = Formatter.format(desc);
-                    activity.setActivityDescription(desc);
+                    */
+                    
+                    ////////// fmt
+                    String txt = desc;
+
+        			txt = txt.replaceAll("\\[\\[_(.*?)\\]\\]" ,"");
+        	
+        			java.util.regex.Pattern p = java.util.regex.Pattern.compile("\\[\\[Activity(.*?)\\]\\]");
+        			java.util.regex.Matcher m = p.matcher(txt);
+        		     while(m.find())
+        		      {
+        		        //out.println("**"+m.group()+"**");
+        		        String rpls="Activity ";
+        		        java.util.StringTokenizer t= new java.util.StringTokenizer(  m.group() ,"|");
+        		        t.nextToken();
+        		        rpls += t.nextToken() +" : ";
+        		        rpls += t.nextToken().replace("]]", "");
+        		        txt = txt.replace( m.group(), rpls );
+        		      }
+                    //////// end fmt
+                    
+                    
+                    activity.setActivityDescription(txt);
                     chngActivities.add(activity);
                     count++;
                     }
                     
-                
-
                 meeting.setActivities(chngActivities);
-                */
+            }
+                
+                
+                
+                
            
                 java.util.Map<String, JcrCollectionHoldString> _meetings = new java.util.TreeMap<String, JcrCollectionHoldString>();
 
