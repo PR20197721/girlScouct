@@ -700,4 +700,14 @@ public class MeetingUtil {
 		return _activities;
 		
 	}
+	
+	public java.util.List<Activity> sortActivityByDate(java.util.List<Activity> _activities) {
+		
+		try{
+			Comparator<Activity> comp = new org.apache.commons.beanutils.BeanComparator("date");
+			Collections.sort( _activities, comp);
+		}catch(Exception e){e.printStackTrace();}
+		return _activities;
+		
+	}
 }
