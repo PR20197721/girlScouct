@@ -7,11 +7,15 @@
 <%@include file="../admin/toolbar.jsp"%>
 <h1>Council Report</h1>
  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js"></script>
-<script src="http://code.highcharts.com/highcharts.js"></script>
-<link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+ <script src="http://code.highcharts.com/highcharts.js"></script>
 <script src="https://rawgit.com/pablojim/highcharts-ng/master/src/highcharts-ng.js"></script>
+<link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
 
-<%java.util.List<User> users = userDAO.getUsers(); %>
+
+<%java.util.List<User> users = userDAO.getUsers();
+users = doFix(users);
+%>
+
 
 <script>
 
@@ -117,30 +121,12 @@ myapp.controller('myctrl', function ($scope) {
          			out.println(x+",");
          		
          	  }
-         	 out.println("]},");
+         	 out.println("]}");
         	
         	
         	
         %>         
                  
-        
-        {
-            name: 'Brownie',
-            data: <%= doConv(parseData(users,"brownie"))%>
-        	
-        },
-        {
-            name: 'Daisy',
-            data: [2, 3, 5, 11]
-        }, 
-        {
-            name: 'Junior',
-            data: [9, 6, 5, 8]
-        }, 
-        {
-            name: 'Cadet',
-            data: [3, 4, 5, 8]
-        }
         
         
         
@@ -239,8 +225,12 @@ myapp.controller('myctrl', function ($scope) {
 			if(container==null){				
 				container = new java.util.TreeMap<String, Integer>();
 				container.put(users.get(i).getSfCouncil(), 1);				
-			}else
-				container.put(users.get(i).getSfCouncil(), container.get(users.get(i).getSfCouncil()) +1);
+			}else{
+				Integer curCount = container.get(users.get(i).getSfCouncil());
+				if( curCount==null) curCount=0;
+				//container.put(users.get(i).getSfCouncil(), container.get(users.get(i).getSfCouncil()) +1);
+				container.put(users.get(i).getSfCouncil(), (curCount +1));
+			}
 			
 			main.put(users.get(i).getSfTroopAge(), container);
 			
@@ -248,6 +238,32 @@ myapp.controller('myctrl', function ($scope) {
 		}
 		return main;
 			
+	}
+	
+	private java.util.List<User> doFix( java.util.List<User> users){
+		
+		for(int i=0;i< users.size();i++){
+		  try{
+			if( users.get(i).getSfTroopAge()==null ){
+				System.err.println("testss : "+ (users.get(i).getYearPlan()==null ));
+				String ref= users.get(i).getYearPlan().getMeetingEvents().get(0).getRefId();
+				System.err.println("REf: "+ ref);
+			System.err.println("test: "+ users.get(i).getRefId());	
+				String planId = ref.substring( ref.lastIndexOf("/") +1).toLowerCase();
+			System.err.println( "plaI: " +planId );
+				
+				if( planId.startsWith("d"))
+					users.get(i).setSfTroopAge("1-Daisy");
+				else if( planId.startsWith("b"))
+					users.get(i).setSfTroopAge("2-Brownie");
+				else if( planId.startsWith("j"))
+					users.get(i).setSfTroopAge("3-Junior");
+			}
+			System.err.println( users.get(i).getSfTroopAge() );
+		  }catch(Exception e){e.printStackTrace();}
+		}
+		
+		return users;
 	}
 
 %>
