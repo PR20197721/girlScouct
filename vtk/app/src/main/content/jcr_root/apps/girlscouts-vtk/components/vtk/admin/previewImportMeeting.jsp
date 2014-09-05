@@ -22,8 +22,12 @@ function importFile(mid){
 
 
 <style>
-	li{  font-weight:normal; padding-left:40px;}
-
+	<!-- li{  font-weight:normal; padding-left:40px;} 
+p {
+  margin-top: 0em;
+  margin-bottom: 0em;
+}
+-->
 </style>
 
 <%@include file="../admin/toolbar.jsp"%>
@@ -61,8 +65,7 @@ if( request.getParameter("id")==null){return;}
 
 
 
-/*
-
+if( false){
 
 try {
 	java.io.InputStream fs = new java.net.URL("http://localhost:4503"+ fileLoc).openConnection().getInputStream();
@@ -73,7 +76,7 @@ try {
     	org.apache.poi.xwpf.usermodel.XWPFParagraph Par = parags.get(p);
         
     	
-    	out.println("**** "+Par.getStyleID() +" : "+
+    	out.println("<br/>**** "+Par.getStyleID() +" : "+
     	Par.getStyle()+" : "+
         Par.getSpacingAfterLines()+" : "+
         Par.getSpacingBefore()+" : "+
@@ -82,9 +85,16 @@ try {
         Par.getIndentationRight()+" : "+
         Par.getIndentationHanging()+" :: "+
         Par.getIndentationLeft()+" : "+
-		Par.getIndentationFirstLine()  
+		Par.getIndentationFirstLine()  +" : "+
+		
+		Par.getIndentationFirstLine() + ": "+
+		Par.getAlignment().getValue() +": "+ Par.getNumID()
     			);
     	
+    	
+    
+    	
+    
     	if (Par.getNumID()!= null || 
     			(Par.getStyleID() !=null && Par.getStyleID().equals("C-Toolkitcopywbullets")))
     		out.println( "<hr/><li>"+Par.getParagraphText()+"</li>");
@@ -97,15 +107,17 @@ try {
                 for (int y = 0; y < runs.size(); y++) {
                 	org.apache.poi.xwpf.usermodel.XWPFRun run = runs.get(y);
                     String str = run.toString().toString();
-                    //out.println("<br/>** "+str);
+                   out.println("<br/>** "+str );//+" : "+run.getTextPosition()+" : "+run.getFontSize() + ": " +run.getFontFamily());
+                	//try{out.println(run.getCTR().getRPr().getRStyle().getVal());}catch(Exception e){}
                 }
+             
     }
 
    
 }catch(Exception e){e.printStackTrace();}
 if(true)return;
+}
 
-*/
 
 
 final org.apache.sling.jcr.api.SlingRepository repos = sling.getService(org.apache.sling.jcr.api.SlingRepository.class);

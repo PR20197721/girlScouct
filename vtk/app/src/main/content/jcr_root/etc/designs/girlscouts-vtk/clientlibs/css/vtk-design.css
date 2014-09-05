@@ -1,3 +1,7 @@
+
+
+
+
 .vtk {
 	padding: .25em;
 }
@@ -36,7 +40,7 @@ ul.tabs {
 	padding: 10px 14px;
         float: left;
 
-	/*font-size: .9em;*/
+	font-size: .9em;
 
         background: #009447;
 	border-top: 1px solid #CCCCCC;
@@ -72,6 +76,7 @@ ul.tabs {
 	/* Colors when tab is active */
 	background: #efefef; 
 	color: #00ae58; 
+	
 }
 .centered-table {
 	display: table;   /* Allow the centering to work */
@@ -559,6 +564,7 @@ img.align-left { float:left; margin: 0; }
 }
 .modalNav li.active {
         background: #009447;
+       
 }
 .modalNav li.active a {
         color: #c1ead4;
@@ -802,4 +808,15 @@ li.searchResultsItem .activityDisabled {
 	color: #CCCCCC;
 }
 
-#gsModal a{color:#008f50;}
+
+
+#gsModal  a{color:#008f50;}
+
+#gsModal .modalNav li.active a {
+        color: #c1ead4;
+}
+.tabs a:hover { 
+	/* Make them block level and only as wide as they need */
+	text-decoration: none;
+	color:#c1ead4;
+}
