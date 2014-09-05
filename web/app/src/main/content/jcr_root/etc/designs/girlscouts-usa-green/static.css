@@ -361,7 +361,7 @@ a:hover.menuHighlight {
 /***********************************/
 /* HERO */
 #heroBanner {
-    padding: 0px;
+    padding: 0px 0px 15px 0px;
 }
 #homeBlockGrid {
     background-color: #fff;
@@ -462,7 +462,7 @@ background-color: #B0B0B0;
     padding: 15px 0px;
 }
 .home-section.hero-banner {
-    padding: 0px 0px 15px 0px;
+    padding: 0px 0px 0px 0px;
 }
 .home-section .feature-icon {
 	display: inline-block;

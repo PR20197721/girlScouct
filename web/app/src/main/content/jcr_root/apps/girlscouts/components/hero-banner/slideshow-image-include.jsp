@@ -4,6 +4,7 @@
    int slideShowCount=0;
    //int timer = 0;
   
+  
 %>
 <%
 	slideShowCount = Integer.parseInt(properties.get("slideshowcount", "1"));

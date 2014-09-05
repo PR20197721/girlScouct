@@ -25,6 +25,8 @@ if ((null==imageNode) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
     </div>
    <% }
 else if(imageNode!=null){
+	String spplacement = (String)request.getAttribute("sbplacement");
+	
 	Iterator<Resource> images = resource.listChildren();
 	String alt = "";
 	String linkUrl = "";
@@ -54,9 +56,12 @@ else if(imageNode!=null){
              }
            %>
            <div>
-           <a href="<%=linkUrl%>">  
-				<%= displayRendition(resourceResolver, largePath, "cq5dam.web.960.420", "hide-for-small hide-for-medium", BREAKPOINT_MAX_LARGE) %>
-              </a>
+           <a href="<%=linkUrl%>">
+            <%if(spplacement!=null && spplacement.equalsIgnoreCase("right")){ %> 
+				<%= displayRendition(resourceResolver, largePath, "cq5dam.web.665.365", "hide-for-small hide-for-medium", BREAKPOINT_MAX_LARGE) %>
+             <%}else{%>
+            	 <%= displayRendition(resourceResolver, largePath, "cq5dam.web.960.420", "hide-for-small hide-for-medium", BREAKPOINT_MAX_LARGE) %>
+             <%} %> </a>
            </div>    
           <%
            }
