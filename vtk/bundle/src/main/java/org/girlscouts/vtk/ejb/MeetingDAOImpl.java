@@ -1258,6 +1258,16 @@ public SearchTag searchA( String councilCode){
 		    	   levels.put( r.getValue("jcr:title").getString(), null );
 		 }
 		
+		 if( categories!=null ){
+			 categories.remove("Categories");
+			 categories.remove("categories");
+		 }
+		 
+		 if(levels!=null){
+			 levels.remove("Program Level");
+			 levels.remove("program level");
+		 }
+		 
 		 tags.setCategories( categories );
 		 tags.setLevels( levels );
 		 tags.setRegion( searchRegion() );
