@@ -19,7 +19,7 @@ String cssClasses = properties.get("cssClasses", "");
  request.setAttribute("SsbUrl", properties.get("secondsburl",""));
  request.setAttribute("SsbButton", properties.get("secondsbbutton",""));
  request.setAttribute("SsbNewWindow", properties.get("secondsbnewwindow","false"));
- 
+ request.setAttribute("sbplacement",properties.get("spplacement",""));
 
 
 
@@ -40,6 +40,7 @@ if (WCMMode.fromRequest(request) == WCMMode.EDIT){
 <% 
    String sbplacement = properties.get("spplacement","");
    timer = Integer.parseInt(properties.get("slideshowtimer", "6000"));
+  
 %>
 <%
 	if(sbplacement.equals("right")){

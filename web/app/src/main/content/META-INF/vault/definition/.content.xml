@@ -252,6 +252,21 @@
             mode="replace"
             root="/etc/designs/girlscoutsnccp"
             rules="[]"/>
+        <f49
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/workflow/models/dam/gs_update_asset_sp_right_hero"
+            rules="[]"/>
+         <f50
+            jcr:primaryType="cq:WorkflowLauncher"
+            mode="replace"
+            root="/etc/workflow/launcher/config/gs_create_asset_sp_right_hero"
+            rules="[]"/> 
+         <f51
+            jcr:primaryType="cq:WorkflowLauncher"
+            mode="replace"
+            root="/etc/workflow/launcher/config/gs_modify_asset_sp_right_hero"
+            rules="[]"/>  
             
     </filter>
 </jcr:root>

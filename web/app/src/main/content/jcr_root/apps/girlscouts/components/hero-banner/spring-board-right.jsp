@@ -27,28 +27,36 @@
 
 <div class="view-c">
   <!-- hide-for-medium-down -->
- 	<div id="heroBanner" class="row collapse">
-    	<div class="large-18 medium-24 columns">
-    	   <div class="meow">
-    	 	  <cq:include script="slideshow-image-include.jsp"/> 
-    	   </div>
-       	</div>  
-		<div class="large-6 medium-11 columns">
-      	 	<div class="row collapse">
-        		<div class="columns">
-          			<p><%=FsbDesc %></p>
-          			<p><a href="<%=FsbUrl%>" <%=FsbNewWindow %> class="button"><%=FsbTitle%></a></p>
-        		</div>
-      		</div>
-      	</div>
-      	<div class="large-6 medium-11 columns">
-        	<div class="row collapse">
-        		<div class="columns">
-        			<p><%=SsbDesc %></p>
-        	  		<p><a href="<%=SsbUrl%>" <%=SsbNewWindow%> class="button"><%=SsbTitle%></a></p>
-          		</div>
-        	</div>
-     	 </div>
-      </div>
+ 	<div id="heroBanner" class="row rightBannerHeight collapse">
+		<div class="large-17 medium-24 small-24 columns">
+			<div class="meow">
+				<cq:include script="slideshow-image-include.jsp"/> 
+			</div>
+		</div>  
+		<div class="large-7 medium-12 small-24 columns spHeight">
+			<div class="row collapse">
+				<div class="columns">
+				 	<div class="call-desc">
+			 				<p><%=FsbDesc %></p>
+						</div>
+					 	<div class="button-position">
+							<p><a href="<%=FsbUrl%>" <%=FsbNewWindow %> class="button"><%=FsbTitle%></a></p>
+			  			</div>	
+					</div>
+			</div>
+		</div>
+		<div class="large-7 medium-12 small-24 columns spHeight">
+			<div class="row collapse">
+				<div class="columns">
+					<div class="call-desc">
+						<p><%=SsbDesc %></p>
+					</div>
+					<div class="button-position">			
+						<p><a href="<%=SsbUrl%>" <%=SsbNewWindow%> class="button"><%=SsbTitle%></a></p>
+					</div> 		
+				</div>
+			</div>
+		</div>
+	</div>
 </div><!-- end view-c -->
 

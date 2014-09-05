@@ -138,24 +138,9 @@
 
    } /* small only */
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
    /* padding around entire row containing all elements in #heroBanner */
    .view-c #heroBanner.row {
-     padding: 13px 15px;
+     padding: 15px 15px;
    }
 
    /* right side block styling in desktop (and for mobile and tablet views) */
@@ -205,18 +190,10 @@
      bottom: 0;
    }
 
-   /* previous button styling */
-   .view-c .meow .slick-prev {
-     left: 10px;
-   }
-
+  
    /* next button styling */
    .view-c .meow .slick-next {
      right: 10px;
-   }
-
-   /* slider dot formatting */
-   .view-c .meow .slick-dots li button {
    }
 
    /* slider dot formatting when active */
@@ -228,23 +205,107 @@
    .view-c .meow .slick-dots li button:before {
      font-size: 15px;
    }
+   
+   /*change added for right spring board*/
+   .view-c .rightBannerHeight{
+     height:365px;
+   }
+   
+   
+   
+   /* right side block styling in desktop (and for mobile and tablet views) */
+   .view-c .row .large-7.medium-12.columns > .row > .columns {
+     border: 1px solid lightgrey; 
+     padding: 10px; 
+     height:175px;
+   }
+   
+   .call-desc{
+   		height:95px;
+   		padding-bottom:10px;
+   }
 
+	.view-c #heroBanner .spHeight {
+	padding: 0 0 0 15px;
+	height: 182.5px;
+	margin: 0 0 5px 0;
+	}
+
+  .view-c #heroBanner .columns .button-position{
+  	height:60px;
+  	}
+
+  .view-c .slick-slider{
+    margin-bottom:0px;
+  }
+  
+  .view-c #heroBanner .row .columns .call-desc p{
+  	font-size:14px;
+  	line-height:1.3;
+  }
+  
    /* small to medium (0px - 959px) */
    @media all and (min-width: 0em) and (max-width: 59.9375em) {
-
      /* right side block styling in desktop (and for mobile and tablet views) */
      .view-c > .row > .large-6.medium-11.columns > .row > .columns {
        margin: 0;
      }
-
    }
 
-   /* medium only (600px - 959px) */
-   @media all and (min-width: 37.5em) and (max-width: 59.9375em) {
+   
+   /*Change for the add by manu for Right Spring Board*/
 
-   }
-
-   /* small only (0px - 599px) */
+/*  medium (600px - 959px) */
+    @media all and (min-width: 37.5em) and (max-width: 59.9375em) {
+		.view-c #heroBanner > div:nth-child(2){
+			padding: 0;
+		}
+	
+		.view-c #heroBanner .row .columns .call-desc p{
+			font-size:1em;
+			line-height:1.3;
+		}
+		
+		.view-c .slick-slider{
+   			 margin-bottom:15px;
+ 		 }
+ 		 
+ 		 .view-c #heroBanner .spHeight {
+ 		 	margin:0;
+ 		 }
+		
+	} /* small to medium */
+    
+    /* small only (0px - 599px) */
    @media all and (min-width: 0em) and (max-width: 37.4375em) {
+	.view-c #heroBanner .spHeight {
+		padding: 0;
+		} 
+	.view-c #heroBanner .row .columns .call-desc p{
+		font-size:1em;
+		line-height:1.6;
+		}
+	
+	.view-c .slick-slider{
+   		margin-bottom:15px;
+ 		}
+ 		 
+ 	.view-c #heroBanner div.spHeight:nth-child(3) {
+		margin: 0;
+		}
 
+ }	
+   
+ 
+    /* previous button styling */
+   .view-c .meow .slick-prev {
+     left: 10px;
    }
+   
+   .view-c .meow .slick-prev::before { 
+   		content: "\2190";
+    	-webkit-backface-visibility: hidden;
+		/*opacity: 1.90;*/
+	}
+   
+    
