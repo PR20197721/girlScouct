@@ -229,6 +229,7 @@ public class TraverseFind {
             
             
             java.util.List<XWPFParagraph> parags = hdoc.getParagraphs();
+         
 
             String txt = "";
             int level = -1;
@@ -240,10 +241,10 @@ public class TraverseFind {
             	
             	String _txt ="";
                 XWPFParagraph Par = parags.get(p);
-
+/*9/4/14
                 if( Par.getParagraphText() ==null || Par.getParagraphText().trim().equals("") )
                 	continue;
-
+*/
                boolean isLi= false, isP=true;
                if (Par.getNumID()!= null || 
            			(Par.getStyleID() !=null && Par.getStyleID().equals("C-Toolkitcopywbullets")))
@@ -261,7 +262,7 @@ public class TraverseFind {
                 
                if (isLi || Par.getNumID() != null) {
                   // _txt += "<p><li"+ (Par.getIndentationLeft() > 0 ? " style=\"padding-left:50px;\"" : "") +">";
-            	   _txt += "<p><li>";
+            	   _txt += /*"<p>*/"<li style=' padding-left:"+Par.getNumID()+"px;'>";
                    
                
                } else if(isP) {
@@ -283,7 +284,7 @@ public class TraverseFind {
                 
                 for (int y = 0; y < runs.size(); y++) {
                     XWPFRun run = runs.get(y);
-                   
+          
                     String str = run.toString().toString();
                     if( str==null ) continue;
 //System.err.println("\n\n\n****** "+ str);
@@ -304,7 +305,7 @@ public class TraverseFind {
                 
                 
                 if (isLi || Par.getNumID() != null) {
-                    _txt += "</li></p>";
+                    _txt += "</li>";//</p>";
                 } else if( isP) {
                     _txt += "</p>";
                 }

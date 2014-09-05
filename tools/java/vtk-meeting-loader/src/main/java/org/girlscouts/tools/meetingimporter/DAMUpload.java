@@ -293,6 +293,10 @@ for(int i=2;i<sheet.getLastRowNum();i++){
 
 	    
 	    File file = new File(path+ fileName);
+	    if (!file.exists()) {
+	        System.err.println(fileName + " NOT FOUND.");
+	        return;
+	    }
 
 	    MultipartEntity entity = new MultipartEntity();
 	    ContentBody cbFile = new FileBody(file);//, "image/jpeg");
@@ -342,6 +346,8 @@ if ((String)metaDatas.get("tags")!=null )
 
 	    httpclient.getConnectionManager().shutdown();
 		}catch(Exception e){e.printStackTrace();}
+		
+		System.out.println(fileName + " uploaded successfully.");
 	}
 	
 	
