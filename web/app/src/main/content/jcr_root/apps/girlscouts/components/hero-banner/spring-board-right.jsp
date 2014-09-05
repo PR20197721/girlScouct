@@ -27,13 +27,13 @@
 
 <div class="view-c">
   <!-- hide-for-medium-down -->
- 	<div id="heroBanner" class="row rightBannerHeight-test collapse">
+ 	<div id="heroBanner" class="row rightBannerHeight collapse">
 		<div class="large-17 medium-24 small-24 columns">
 			<div class="meow">
 				<cq:include script="slideshow-image-include.jsp"/> 
 			</div>
 		</div>  
-		<div class="large-7 medium-12 small-24 columns spHeight-test">
+		<div class="large-7 medium-12 small-24 columns spHeight">
 			<div class="row collapse">
 				<div class="columns">
 				 	<div class="call-desc">
@@ -45,7 +45,7 @@
 					</div>
 			</div>
 		</div>
-		<div class="large-7 medium-12 small-24 columns spHeight-test">
+		<div class="large-7 medium-12 small-24 columns spHeight">
 			<div class="row collapse">
 				<div class="columns">
 					<div class="call-desc">

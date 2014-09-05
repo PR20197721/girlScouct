@@ -141,7 +141,7 @@
                         xtype="dynamicPathField"/>
                     <second-sb-new-window
                         jcr:primaryType="cq:Widget"
-                        defaultValue="true"
+                        defaultValue="false"
                         fieldLabel="New Window"
                         inputValue="false"
                         name="./secondsbnewwindow"

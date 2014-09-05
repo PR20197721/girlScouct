@@ -190,12 +190,7 @@
      bottom: 0;
    }
 
-   /* previous button styling */
-   .view-c .meow .slick-prev {
-     left: 10px;
-     border:1px solid red;
-   }
-
+  
    /* next button styling */
    .view-c .meow .slick-next {
      right: 10px;
@@ -233,7 +228,7 @@
 	.view-c #heroBanner .spHeight {
 	padding: 0 0 0 15px;
 	height: 182.5px;
-	margin: 0 0 7.5px 0;
+	margin: 0 0 5px 0;
 	}
 
   .view-c #heroBanner .columns .button-position{
@@ -263,7 +258,7 @@
 /*  medium (600px - 959px) */
     @media all and (min-width: 37.5em) and (max-width: 59.9375em) {
 		.view-c #heroBanner > div:nth-child(2){
-			padding: 0 0 0 0;
+			padding: 0;
 		}
 	
 		.view-c #heroBanner .row .columns .call-desc p{
@@ -301,4 +296,16 @@
 
  }	
    
+ 
+    /* previous button styling */
+   .view-c .meow .slick-prev {
+     left: 10px;
+   }
    
+   .view-c .meow .slick-prev::before { 
+   		content: "\2190";
+    	-webkit-backface-visibility: hidden;
+		/*opacity: 1.90;*/
+	}
+   
+    
