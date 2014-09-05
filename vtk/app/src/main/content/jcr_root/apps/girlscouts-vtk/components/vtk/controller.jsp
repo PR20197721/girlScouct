@@ -1,8 +1,10 @@
+<%@page import="org.codehaus.jackson.map.ObjectMapper"%>
 <%@page import="org.joda.time.LocalDate"%>
 <%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
+
 <%!
 	double convertObjectToDouble(Object o) {
 		Double parsedDouble = 0.00d;
@@ -24,6 +26,20 @@
 	java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat("MM/dd/yyyy hh:mm a");
 %>
 <%
+/*
+System.err.println("CONTROOLER ");
+Enumeration parameterList = request.getParameterNames();
+while( parameterList.hasMoreElements() )
+{
+  String sName = parameterList.nextElement().toString();
+  System.err.println("</br/>"+ sName +" :" + request.getParameter(sName));
+}
+*/
+
+//java.util.List<Milestone> ms =  meetingDAO.getCouncilMilestones("603");
+
+
+
 if( request.getParameter("isMeetingCngAjax") !=null){
 	meetingUtil.changeMeetingPositions( user, request.getParameter("isMeetingCngAjax") );
 }else if( request.getParameter("newCustActivity") !=null ){
@@ -73,9 +89,11 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 }else if( request.getParameter("rmLocation") !=null ){
 	locationDAO.removeLocation(user, request.getParameter("rmLocation"));
 }else if( request.getParameter("newCustAgendaName") !=null ){
+	
 	meetingUtil.createCustomAgenda(user, 
 			request.getParameter("name"), request.getParameter("newCustAgendaName"), 
 			Integer.parseInt(request.getParameter("duration")), Long.parseLong( request.getParameter("startTime") ), request.getParameter("txt") );
+
 }else if( request.getParameter("setLocationToAllMeetings") !=null ){
 	locationUtil.setLocationAllMeetings(user, request.getParameter("setLocationToAllMeetings") );
 }else if( request.getParameter("updSched") !=null ){
@@ -92,6 +110,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	meetingUtil.addMeetings(user,  request.getParameter("toPath"));
 }else if( request.getParameter("isActivityCngAjax") !=null ){ //activity shuffle
 	meetingUtil.rearrangeActivity( user, request.getParameter("mid"), request.getParameter("isActivityCngAjax"));
+
 }else if( request.getParameter("rmAgenda") !=null ){
 	meetingUtil.rmAgenda(user, request.getParameter("rmAgenda") , request.getParameter("mid")  );
 }else if( request.getParameter("editAgendaDuration") !=null ){
@@ -141,8 +160,11 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	new_user.setSfTroopId( new_user.getTroop().getTroopId() );
 	new_user.setSfUserId( new_user.getApiConfig().getUserId() );
 	new_user.setSfTroopName( new_user.getTroop().getTroopName() );  
+	new_user.setSfTroopAge(new_user.getTroop().getGradeLevel());
+	new_user.setSfCouncil(new_user.getTroop().getCouncilCode()+"" );
 	session.setAttribute("VTK_user", new_user);
 	session.putValue("VTK_planView_memoPos", null);
+	
 }else if( request.getParameter("addAsset")!=null){
 	org.girlscouts.vtk.models.Asset asset = new org.girlscouts.vtk.models.Asset(request.getParameter("addAsset"));
 	new UserDAOImpl().addAsset( user ,  request.getParameter("meetingUid"),   asset);
@@ -320,6 +342,164 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 			break;
 		}
 	}
+	
+}else if( request.getParameter("id") !=null ){
+	//out.println( request.getParameter("newvalue") );
+	System.err.println("MID: "+request.getParameter("mid"));
+	
+	java.util.List<MeetingE> meetings= user.getYearPlan().getMeetingEvents();
+	for(MeetingE m: meetings){
+		if( m.getUid().equals( request.getParameter("mid") ))
+		{
+		
+			
+			Meeting custM = m.getMeetingInfo();
+			
+		
+			
+			
+			if( request.getParameter("id").equals("editMeetingName")){
+				custM.setName( request.getParameter("newvalue") );
+			}else if( request.getParameter("id").equals("editMeetingDesc")){
+				//custM.set( request.getParameter("newvalue") );
+				java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  custM.getMeetingInfo();
+				meetingInfoItems.put("meeting short description", new JcrCollectionHoldString(request.getParameter("newvalue")));
+			}else if( request.getParameter("id").equals("editMeetingOverview")){
+				java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  custM.getMeetingInfo();
+				meetingInfoItems.put("overview", new JcrCollectionHoldString(request.getParameter("newvalue")));
+			}else if( request.getParameter("id").equals("editMeetingActivity")){
+				java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  custM.getMeetingInfo();
+				meetingInfoItems.put("detailed activity plan", new JcrCollectionHoldString(request.getParameter("newvalue")));
+			}else if( request.getParameter("id").equals("editMeetingMaterials")){
+				java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  custM.getMeetingInfo();
+				meetingInfoItems.put("materials", new JcrCollectionHoldString(request.getParameter("newvalue")));
+			
+			}
+			
+			
+			try{
+			//create custom meeting
+			System.err.println(0 +" :"  + m.getRefId());
+			
+			if( !m.getRefId().contains("_") )
+			    meetingDAO.createCustomMeeting(user, m, custM);
+			else{
+				System.err.println(1);
+				meetingDAO.updateCustomMeeting(user, m, custM);
+				System.err.println(2);
+			}
+			
+			 out.println( request.getParameter("newvalue") );
+			}catch(Exception e){e.printStackTrace();}
+			
+			break;
+		}
+	}
+	
+}else if( request.getParameter("test") !=null ){
+	
+	//System.err.println( "TEST: "+request.getParameter("test") );
+	
+	ObjectMapper mapper = new ObjectMapper();
+	out.println(mapper.writeValueAsString(user));
+	
+	//System.err.println( "User json: "+mapper.writeValueAsString(user) );
+
+
+/*
+	out.print("["+ 
+	 "{"+
+	  "\"age\": 13, \"id\": \"motorola-defy-with-motoblur\", \"name\": \"Motorola DEFY\u2122 with MOTOBLUR\u2122\", \"snippet\": \"Are you ready for everything life throws your way?\""+	
+	 "}"+
+	"]");
+	*/		
+			  
+			  
+	
+}else if( request.getParameter("editMtLogo") !=null ){
+	
+	System.err.println("EDITING MEETING LOGO...");
+	/*
+	java.util.List<MeetingE> meetings= user.getYearPlan().getMeetingEvents();
+	for(MeetingE m: meetings){
+		if( m.getUid().equals( request.getParameter("mid") ))
+		{
+			
+			Meeting custM = m.getMeetingInfo();
+			custM.setName( request.getParameter("newvalue") );
+					
+			//create custom meeting
+			 meetingDAO.createCustomMeeting(user, m, custM);
+			
+			 out.println( request.getParameter("newvalue") );
+			
+			break;
+		}
+	}
+	*/
+}else if(request.getParameter("updateCouncilMilestones") !=null){
+	
+	String councilId= request.getParameter("cid");
+	
+	//java.util.List<Milestone> milestones = user.getYearPlan().getMilestones();
+	java.util.List<Milestone> milestones = meetingDAO.getCouncilMilestones( councilId ) ;
+	for(int i=0;i<milestones.size();i++){
+		
+		Milestone m = milestones.get(i);
+		String blurb= request.getParameter("blurb" + i);
+		String date = request.getParameter("date" + i);
+		
+		//System.err.println("___ "+ i +" : "+blurb +" : "+ date);
+		m.setBlurb(blurb);
+		m.setDate( new java.util.Date(date) );
+		
+	}
+	
+	meetingDAO.saveCouncilMilestones(milestones);
+	response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
+	
+}else if(request.getParameter("createCouncilMilestones") !=null){
+	
+	//java.util.List<Milestone> milestones = user.getYearPlan().getMilestones();
+		
+	String councilId= request.getParameter("cid");
+	java.util.List<Milestone> milestones = meetingDAO.getCouncilMilestones( councilId ) ;
+	
+	Milestone m= new Milestone();
+	m.setBlurb(request.getParameter("blurb"));
+	m.setDate( new java.util.Date( request.getParameter("date")  ) );
+	milestones.add(m);
+			
+	//userDAO.updateUser(user);
+	
+	response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
+	
+}else if(request.getParameter("removeCouncilMilestones") !=null){
+	
+	
+	java.util.List<Milestone> milestones = user.getYearPlan().getMilestones();
+	for(int i=0;i<milestones.size();i++){
+		
+		Milestone m = milestones.get(i);
+		if( m.getUid().equals(request.getParameter("removeCouncilMilestones")) ){
+			milestones.remove(m);
+			userDAO.updateUser(user);
+			response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
+			return;
+		}
+	}
+	
+}else if(request.getParameter("isAltered") !=null){
+	
+	
+	if( user.getYearPlan()!=null ){
+		if( user.getYearPlan().getAltered()!=null && user.getYearPlan().getAltered().equals("true") ){
+		
+			out.println("true");return;
+		}
+	}
+	out.println("false");return;
+	
 }else{
 	//TODO throw ERROR CODE
 }

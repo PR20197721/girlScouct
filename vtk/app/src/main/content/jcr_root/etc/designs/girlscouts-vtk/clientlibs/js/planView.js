@@ -93,6 +93,10 @@ function editAgenda(x){
 }
 
 function rmAgenda(id, mid){
+	
+	var isRm = confirm("Remove Agenda?");
+	if( !isRm ) return false;
+	
 	var x =$.ajax({ // ajax call starts
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rmAgenda='+id+'&mid='+mid, // JQuery loads serverside.php
 		data: '', // Send value of the clicked button

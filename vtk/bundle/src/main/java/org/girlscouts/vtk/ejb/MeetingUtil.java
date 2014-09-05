@@ -229,8 +229,9 @@ public class MeetingUtil {
 		YearPlan plan = user.getYearPlan();
 		plan.setMeetingEvents(rearangedMeetings);
 	
-		user.setYearPlan(plan);
 		plan.setAltered("true");
+		user.setYearPlan(plan);
+		
 		userDAO.updateUser(user);
 		
 		
@@ -248,7 +249,11 @@ public class MeetingUtil {
 			MeetingE m= meetings.get(i);
 			if( m.getPath().equals(meetingPath)){
 				
-				Meeting meeting =meetingDAO.createCustomMeeting(user, m);
+				Meeting meeting =null;
+				if( m.getRefId().contains("_") )
+				 meeting =meetingDAO.updateCustomMeeting(user, m, null);
+				else
+				 meeting =meetingDAO.createCustomMeeting(user, m);
 				
 				Activity activity= new Activity();
 				activity.setName(name);
@@ -312,17 +317,21 @@ public class MeetingUtil {
 		while( t.hasMoreElements())
 			newPoss.add( Integer.parseInt( t.nextToken() ));
 		
+		//System.err.println("NewPos: "+ newPoss);
 		
 		Meeting meetingInfo = meetingDAO.getMeeting(  meetingPath );
 		java.util.List<Activity>orgActivities = meetingInfo.getActivities();
+		orgActivities= sortActivity(orgActivities);
 		java.util.List<Activity> newActivity = new java.util.ArrayList<Activity>();
 		for(int i=0;i<orgActivities.size();i++) newActivity.add(null);  
 		
 		for(int i=0;i<orgActivities.size();i++){
 			Activity activity = orgActivities.get(i);
 			int newpos = newPoss.indexOf(i+1) ;
-			
+			activity.setActivityNumber(newpos+1);
 			newActivity.set(newpos,  activity);
+			
+			//System.err.println( );
 		}
 		
 		//save activities to meeting
@@ -330,8 +339,13 @@ public class MeetingUtil {
 		
 		//create custom meeting
 		MeetingE meetingE= getMeeting(user.getYearPlan().getMeetingEvents(), meetingPath);
-		meetingDAO.createCustomMeeting(user, meetingE, meetingInfo);
+		if(meetingE.getRefId().contains("_"))
+			meetingDAO.updateCustomMeeting(user, meetingE, meetingInfo);
+		else
+			meetingDAO.createCustomMeeting(user, meetingE, meetingInfo);
 		
+		user.getYearPlan().setAltered("true");
+		userDAO.updateUser(user);
 	}
 	
 	
@@ -523,7 +537,7 @@ public class MeetingUtil {
 				
 				assets.add( asset );
 				meeting.setAssets( assets );
-				user.getYearPlan().setAltered("true");
+				//user.getYearPlan().setAltered("true");
 				userDAO.updateUser(user);
 				return;
 			}
@@ -594,7 +608,7 @@ public class MeetingUtil {
 				
 				assets.add( asset );
 				meeting.setAssets( assets );
-				user.getYearPlan().setAltered("true");
+				//user.getYearPlan().setAltered("true");
 				userDAO.updateUser(user);
 				return;
 			}
@@ -617,7 +631,7 @@ public class MeetingUtil {
 				assets= assets ==null ? new java.util.ArrayList() : assets;
 				assets.add( asset );
 				activity.setAssets( assets );
-				user.getYearPlan().setAltered("true");
+				//user.getYearPlan().setAltered("true");
 				userDAO.updateUser(user);
 				return;
 			}
@@ -638,7 +652,7 @@ public class MeetingUtil {
 						assets.remove(y);
 					}
 				}
-				user.getYearPlan().setAltered("true");
+				//user.getYearPlan().setAltered("true");
 				userDAO.updateUser(user);
 				return;
 			}
@@ -661,7 +675,7 @@ public class MeetingUtil {
 					}
 				}
 				
-				user.getYearPlan().setAltered("true");
+				//user.getYearPlan().setAltered("true");
 				userDAO.updateUser(user);
 				return;
 			}
@@ -674,5 +688,26 @@ public class MeetingUtil {
 		Comparator<MeetingE> comp = new org.apache.commons.beanutils.BeanComparator("id");
 		Collections.sort( meetings, comp);
 		return meetings;
+	}
+	
+	
+	public java.util.List<Activity> sortActivity(java.util.List<Activity> _activities) {
+		
+		try{
+			Comparator<Activity> comp = new org.apache.commons.beanutils.BeanComparator("activityNumber");
+			Collections.sort( _activities, comp);
+		}catch(Exception e){e.printStackTrace();}
+		return _activities;
+		
+	}
+	
+	public java.util.List<Activity> sortActivityByDate(java.util.List<Activity> _activities) {
+		
+		try{
+			Comparator<Activity> comp = new org.apache.commons.beanutils.BeanComparator("date");
+			Collections.sort( _activities, comp);
+		}catch(Exception e){e.printStackTrace();}
+		return _activities;
+		
 	}
 }

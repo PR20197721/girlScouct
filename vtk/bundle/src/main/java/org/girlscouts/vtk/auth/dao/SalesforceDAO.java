@@ -1,5 +1,6 @@
 package org.girlscouts.vtk.auth.dao;
 
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URLDecoder;
 
@@ -9,9 +10,12 @@ import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.felix.scr.annotations.Reference;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.models.User;
+import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.UserDAO;
+import org.girlscouts.vtk.ejb.UserDAOImpl;
 import org.girlscouts.vtk.models.UserGlobConfig;
 import org.girlscouts.vtk.salesforce.Troop;
 import org.json.JSONArray;
@@ -66,25 +70,22 @@ public class SalesforceDAO {
         get.setQueryString(params);
 
         try {
-            System.err.println("________________getUser_________start_____________________________");
-
-            System.err.println( get.getRequestCharSet() );
-
-            Header headers[] =get.getRequestHeaders();
-
-            for( Header h : headers){
-
-            System.err.println("Headers: "+h.getName() +" : "+ h.getValue());
-
-            }
-
-            System.err.println(":::> " + get.getQueryString());
-
-            System.err.println(config.getInstanceUrl()+ "/services/data/v20.0/query");
-
-            System.err.println("___________________getUser________end___________________________");
+        	
+        	System.err.println("________________getUser_________start_____________________________");
+    		System.err.println( get.getRequestCharSet() );
+    		Header headers[] =get.getRequestHeaders();
+    		for( Header h : headers){
+    			System.err.println("Headers: "+h.getName() +" : "+ h.getValue());
+    		}
+    		System.err.println(":::> " + get.getQueryString());
+    		System.err.println(config.getInstanceUrl()+ "/services/data/v20.0/query");
+    		System.err.println("___________________getUser________end___________________________");
+    		
+        	
             httpclient.executeMethod(get);
-   		//System.err.println("USER: "+ config.getAccessToken() +" : "+ get.getStatusCode() + " : " + get.getResponseBodyAsString());   
+
+   System.err.println("USER: "+ config.getAccessToken() +" : "+ get.getStatusCode() + " : " + get.getResponseBodyAsString());   
+   
             log.debug(get.getStatusCode() + " : " + get.getResponseBodyAsString());
     
             if (get.getStatusCode() == HttpStatus.SC_OK) {
@@ -129,6 +130,7 @@ public class SalesforceDAO {
                     doAuthMaster();
                     
                     java.util.List <Troop>  troops = troopInfo( config,  user.getContactId());
+
                     if(troops==null || troops.size() <=0 ){
                     	System.err.println("Trying troops 2 time....");
                     	UserGlobConfig ubConf = userDAO.getUserGlobConfig(); 
@@ -140,9 +142,15 @@ public class SalesforceDAO {
                     		userDAO.updateUserGlobConfig();
                     	}
                     	troops = troopInfo( config,  user.getContactId());
-                    }
+                    }                 	
+                    // 4test troops=null;
+                    
+                    //if no troops for the DP , get council code
                     if( troops==null || troops.size()<=0 )
-                        troops = troopInfo1( config,  user.getContactId());
+                    	troops = troopInfo1( config,  user.getContactId());
+                    
+                    
+                    
                     config.setTroops( troops );
                     
                     return user;
@@ -177,37 +185,33 @@ public class SalesforceDAO {
         post.addParameter("client_id", clientId);
         post.addParameter("client_secret", clientSecret);
         post.addParameter("redirect_uri", callbackUrl);
-
+       // post.addParameter("scope", "full refresh_token");
+        
+     System.err.println(   post.getRequestCharSet() );
+     System.err.println( post.getRequestEntity().toString());
+        
         try {
-            System.err.println("________________doAuth_________start_____________________________");
-
-            System.err.println("code "+ code );
-
-                System.err.println("grant_type: authorization_code");
-
-                System.err.println("client_id: "+ clientId);
-
-                System.err.println("client_secret: "+ clientSecret);
-
-                System.err.println("redirect_uri "+ callbackUrl);
-
-                
-
-        System.err.println( post.getRequestCharSet() );
-
-        Header headers[] =post.getRequestHeaders();
-
-        for( Header h : headers){
-
-        System.err.println("Headers: "+h.getName() +" : "+ h.getValue());
-
-        }
-
-        System.err.println(":::> " + post.getQueryString());
-
-        System.err.println(OAuthUrl + "/services/oauth2/token");
-
-        System.err.println("___________________doAuth________end___________________________");
+        	
+        	
+        	
+        	System.err.println("________________doAuth_________start_____________________________");
+        	System.err.println("code "+ code );
+            System.err.println("grant_type: authorization_code");
+            System.err.println("client_id: "+ clientId);
+            System.err.println("client_secret: "+ clientSecret);
+            System.err.println("redirect_uri "+ callbackUrl);
+           // System.err.println("scope: full refresh_token");
+            
+    		System.err.println( post.getRequestCharSet() );
+    		Header headers[] =post.getRequestHeaders();
+    		for( Header h : headers){
+    			System.err.println("Headers: "+h.getName() +" : "+ h.getValue());
+    		}
+    		System.err.println(":::> " + post.getQueryString());
+    		System.err.println(OAuthUrl + "/services/oauth2/token");
+    		System.err.println("___________________doAuth________end___________________________");
+    		
+        	
             httpclient.executeMethod(post);
             
             
@@ -275,13 +279,18 @@ public java.util.List <Troop>  troopInfo(ApiConfig apiConfig, String contactId){
 		
 		
 		
+		
 	HttpClient httpclient = new HttpClient();
 	get= new GetMethod(apiConfig.getInstanceUrl()+ "/services/data/v20.0/query");
-	// THIS IS STABLE / DO NOT REMOVE get.setRequestHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
+	// THIS IS STABLE / DO NOT REMOVE 
+	//-get.setRequestHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
+
 	UserGlobConfig ubConf = userDAO.getUserGlobConfig(); //new UserDAOImpl().getUserGlobConfig();
 	get.setRequestHeader("Authorization", "OAuth " + ubConf.getMasterSalesForceToken());
+
 	
 	NameValuePair[] params = new NameValuePair[1];
+	
 
 	/*
 		params[0] = new NameValuePair("q",
@@ -310,28 +319,23 @@ public java.util.List <Troop>  troopInfo(ApiConfig apiConfig, String contactId){
 	get.setQueryString(params);
 
 	try {
-	    System.err.println("________________troopInfo_________start_____________________________");
-
-	    System.err.println( get.getRequestCharSet() );
-
-	    Header headers[] =get.getRequestHeaders();
-
-	    for( Header h : headers){
-
-	    System.err.println("Headers: "+h.getName() +" : "+ h.getValue());
-
-	    }
-
-	    System.err.println(":::> " + get.getQueryString());
-
-	    System.err.println(apiConfig.getInstanceUrl()+ "/services/data/v20.0/query");
-
-	    System.err.println("___________________troopInfo________end___________________________");
-
+		
+		
+		System.err.println("________________troopInfo_________start_____________________________");
+		System.err.println( get.getRequestCharSet() );
+		Header headers[] =get.getRequestHeaders();
+		for( Header h : headers){
+			System.err.println("Headers: "+h.getName() +" : "+ h.getValue());
+		}
+		System.err.println(":::> " + get.getQueryString());
+		System.err.println(apiConfig.getInstanceUrl()+ "/services/data/v20.0/query");
+		System.err.println("___________________troopInfo________end___________________________");
+		
+		
 		httpclient.executeMethod(get);
 		
 		
-		System.err.println("RespCode "+ get.getResponseBodyAsString());
+		System.err.println("troopInfo.RespCode "+ get.getResponseBodyAsString());
 		JSONObject _response = new JSONObject(
 				new JSONTokener(new InputStreamReader(
 						get.getResponseBodyAsStream())));
@@ -422,7 +426,7 @@ public java.util.List <Troop>  troopInfo(ApiConfig apiConfig, String contactId){
 //                        JSONObject response = new JSONObject(new JSONTokener(
 //                                new InputStreamReader(
 //                                        get.getResponseBodyAsStream())));
-//                        System.err.println("Query response: "
+//                        System.out.println("Query response: "
 //                                + response.toString(2));
 //
 //                        JSONArray results = response.getJSONArray("records");
@@ -449,13 +453,13 @@ public java.util.List <Troop>  troopInfo(ApiConfig apiConfig, String contactId){
 //                            }
 //
 //                            /*
-//                             * System.err.println(results.getJSONObject(i).getString
+//                             * System.out.println(results.getJSONObject(i).getString
 //                             * ("Id") + ", " +
 //                             * results.getJSONObject(i).getString("Name") +
 //                             * "\n");
 //                             */
 //                        }
-//                        System.err.println("\n");
+//                        System.out.println("\n");
 //                    } catch (JSONException e) {
 //                        e.printStackTrace();
 //
@@ -609,9 +613,9 @@ System.err.println("tokenUrl: "+ tokenUrl);
             driver.findElement(By.id("username")).sendKeys("jennifer.doe@girlscouts.org");
             driver.findElement(By.id("password")).sendKeys("password44");
             driver.findElement(By.id("Login")).submit();  
-            System.err.println("Page title is: " + driver.getTitle());
+            System.out.println("Page title is: " + driver.getTitle());
             System.err.println( "HTML : "+driver.getPageSource() );
-            System.err.println("Page title is: " + driver.getTitle());
+            System.out.println("Page title is: " + driver.getTitle());
     	*/
     	} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -619,205 +623,126 @@ System.err.println("tokenUrl: "+ tokenUrl);
 		}
     }
     
-    public java.util.List <Troop>  troopInfo1(ApiConfig apiConfig, String contactId){
+    
+    
+    
+
+public java.util.List <Troop>  troopInfo1(ApiConfig apiConfig, String contactId){
+	
+	
+	
+			
+	GetMethod get =null;
+	   
+    java.util.List <Troop> troops = new java.util.ArrayList();
+    
+	
+	try{
+		
+		
+		
+		
+	HttpClient httpclient = new HttpClient();
+	get= new GetMethod(apiConfig.getInstanceUrl()+ "/services/data/v20.0/query");
+	// THIS IS STABLE / DO NOT REMOVE 
+	//- get.setRequestHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
+
+	UserGlobConfig ubConf = userDAO.getUserGlobConfig(); //new UserDAOImpl().getUserGlobConfig();
+	get.setRequestHeader("Authorization", "OAuth " + ubConf.getMasterSalesForceToken());
+
+	
+	NameValuePair[] params = new NameValuePair[1];
+	
+
+/*
+	params[0] = new NameValuePair("q",
+			"SELECT parentid,parent.name,parent.program_grade_level__c, parent.council_code__c, parent.account__c FROM campaign " +
+					"WHERE id IN (SELECT campaignid from campaignmember where  contactid='"+ contactId +"' and active__c = true)  " );
+					
+						"AND job_code__c = 'DP' and" +
+							"  Parent.Program_Grade_Level__c IN ('1-Daisy','2-Brownie','3-Junior')");
+							//" (parent.program_grade_level__c like '1-%' or parent.program_grade_level__c like '2-%' or parent.program_grade_level__c like '3-%')");
+
+	*/
+	params[0] = new NameValuePair("q", "select Owner.council_code__c FROM Contact WHERE Id = '"+ contactId  +"'");
+		
+	
+	get.setQueryString(params);
+
+	try {
+		
+		
+		System.err.println("______________troopInfo1___________start_____________________________");
+		System.err.println( get.getRequestCharSet() );
+		Header headers[] =get.getRequestHeaders();
+		for( Header h : headers){
+			System.err.println("Headers: "+h.getName() +" : "+ h.getValue());
+		}
+		System.err.println(":::> " + get.getQueryString());
+		System.err.println(apiConfig.getInstanceUrl()+ "/services/data/v20.0/query");
+		System.err.println("______________troopInfo1_____________end___________________________");
+		
+		
+		httpclient.executeMethod(get);
+		
+		
+		System.err.println("troopInfo1.RespCode "+ get.getResponseBodyAsString());
+		JSONObject _response = new JSONObject(
+				new JSONTokener(new InputStreamReader(
+						get.getResponseBodyAsStream())));
+		System.err.println( _response.toString());
+		
+		if (get.getStatusCode() == HttpStatus.SC_OK) {
+			
+			try {
+				JSONObject response = new JSONObject(
+						new JSONTokener(new InputStreamReader(
+								get.getResponseBodyAsStream())));
+				
+
+				JSONArray results = response.getJSONArray("records");
+
+				for (int i = 0; i < results.length(); i++) {
+					
+					System.err.println("_____ "+ results.get(i));
+					
+					/*
+					java.util.Iterator itr = results.getJSONObject(i).getJSONObject("Parent").keys();
+					while( itr.hasNext())
+						System.out.println("** "+ itr.next());
+					*/
+					
+					Troop troop = new Troop();
+					try{
+						/*
+						troop.setCouncilCode( results.getJSONObject(i).getJSONObject("Parent").getInt("Council_Code__c") ); //girls id 111
+						troop.setCouncilId(results.getJSONObject(i).getJSONObject("Parent").getString("Account__c") );
+						
+						troop.setGradeLevel(results.getJSONObject(i).getJSONObject("Parent").getString("Program_Grade_Level__c") );
+						troop.setTroopId(results.getJSONObject(i).getString("ParentId"));
+						troop.setTroopName( results.getJSONObject(i).getJSONObject("Parent").getString("Name") );
+						*/
+						
+						troop.setCouncilCode( results.getJSONObject(i).getJSONObject("Owner").getInt("Council_Code__c") ); //girls id 111						
+						troop.setType(1);
+						
+					}catch(Exception e){
+						e.printStackTrace();
+					}
+					troops.add(troop);
+				}
+			
+			} catch (JSONException e) {
+				e.printStackTrace();
+				
+			}
+		}
+	} finally {
+		get.releaseConnection();
+	}
+	}catch(Exception ex){ex.printStackTrace();}			
+			
+			return troops;
+}
 
-
-
-
-
-        GetMethod get =null;
-
-           
-
-            java.util.List <Troop> troops = new java.util.ArrayList();
-
-            
-
-
-        try{
-
-
-
-
-
-        HttpClient httpclient = new HttpClient();
-
-        get= new GetMethod(apiConfig.getInstanceUrl()+ "/services/data/v20.0/query");
-
-        // THIS IS STABLE / DO NOT REMOVE 
-
-        //- get.setRequestHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
-
-
-
-        UserGlobConfig ubConf = userDAO.getUserGlobConfig(); //new UserDAOImpl().getUserGlobConfig();
-
-        get.setRequestHeader("Authorization", "OAuth " + ubConf.getMasterSalesForceToken());
-
-
-
-
-        NameValuePair[] params = new NameValuePair[1];
-
-
-
-
-        /*
-
-        params[0] = new NameValuePair("q",
-
-        "SELECT parentid,parent.name,parent.program_grade_level__c, parent.council_code__c, parent.account__c FROM campaign " +
-
-        "WHERE id IN (SELECT campaignid from campaignmember where  contactid='"+ contactId +"' and active__c = true)  " );
-
-
-        "AND job_code__c = 'DP' and" +
-
-        "  Parent.Program_Grade_Level__c IN ('1-Daisy','2-Brownie','3-Junior')");
-
-        //" (parent.program_grade_level__c like '1-%' or parent.program_grade_level__c like '2-%' or parent.program_grade_level__c like '3-%')");
-
-
-
-        */
-
-        params[0] = new NameValuePair("q", "select Owner.council_code__c FROM Contact WHERE Id = '"+ contactId  +"'");
-
-
-
-        get.setQueryString(params);
-
-
-
-        try {
-
-
-
-        System.err.println("______________troopInfo1___________start_____________________________");
-
-        System.err.println( get.getRequestCharSet() );
-
-        Header headers[] =get.getRequestHeaders();
-
-        for( Header h : headers){
-
-        System.err.println("Headers: "+h.getName() +" : "+ h.getValue());
-
-        }
-
-        System.err.println(":::> " + get.getQueryString());
-
-        System.err.println(apiConfig.getInstanceUrl()+ "/services/data/v20.0/query");
-
-        System.err.println("______________troopInfo1_____________end___________________________");
-
-
-
-        httpclient.executeMethod(get);
-
-
-
-        System.err.println("troopInfo1.RespCode "+ get.getResponseBodyAsString());
-
-        JSONObject _response = new JSONObject(
-
-        new JSONTokener(new InputStreamReader(
-
-        get.getResponseBodyAsStream())));
-
-        System.err.println( _response.toString());
-
-
-        if (get.getStatusCode() == HttpStatus.SC_OK) {
-
-
-        try {
-
-        JSONObject response = new JSONObject(
-
-        new JSONTokener(new InputStreamReader(
-
-        get.getResponseBodyAsStream())));
-
-
-
-
-        JSONArray results = response.getJSONArray("records");
-
-
-
-        for (int i = 0; i < results.length(); i++) {
-
-
-        System.err.println("_____ "+ results.get(i));
-
-
-        /*
-
-        java.util.Iterator itr = results.getJSONObject(i).getJSONObject("Parent").keys();
-
-        while( itr.hasNext())
-
-        System.err.println("** "+ itr.next());
-
-        */
-
-
-        Troop troop = new Troop();
-
-        try{
-
-        /*
-
-        troop.setCouncilCode( results.getJSONObject(i).getJSONObject("Parent").getInt("Council_Code__c") ); //girls id 111
-
-        troop.setCouncilId(results.getJSONObject(i).getJSONObject("Parent").getString("Account__c") );
-
-
-        troop.setGradeLevel(results.getJSONObject(i).getJSONObject("Parent").getString("Program_Grade_Level__c") );
-
-        troop.setTroopId(results.getJSONObject(i).getString("ParentId"));
-
-        troop.setTroopName( results.getJSONObject(i).getJSONObject("Parent").getString("Name") );
-
-        */
-
-
-        troop.setCouncilCode( results.getJSONObject(i).getJSONObject("Owner").getInt("Council_Code__c") ); //girls id 111
-
-        troop.setType(1);
-
-
-        }catch(Exception e){
-
-        e.printStackTrace();
-
-        }
-
-        troops.add(troop);
-
-        }
-
-
-        } catch (JSONException e) {
-
-        e.printStackTrace();
-
-
-        }
-
-        }
-
-        } finally {
-
-        get.releaseConnection();
-
-        }
-
-        }catch(Exception ex){ex.printStackTrace();}
-
-
-        return troops;
-
-        }
 }

@@ -70,6 +70,8 @@ public class ActivityDAOImpl implements ActivityDAO{
 			activities.add( activity );
 			plan.setActivities(activities);
 			
+			user.getYearPlan().setAltered("true");
+			
 			ocm.update(user);
 			ocm.save();
 	        

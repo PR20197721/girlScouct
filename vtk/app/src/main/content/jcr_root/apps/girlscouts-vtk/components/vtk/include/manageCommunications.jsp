@@ -1,3 +1,5 @@
+
+<script src="/etc/designs/girlscouts-vtk/clientlibs/js/camera.js"></script>
 <div class="sectionHeader">Manage Communications</div>
 <table>
 	<tr>

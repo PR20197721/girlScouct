@@ -7,6 +7,15 @@ java.util.List <org.girlscouts.vtk.models.Activity> activities =  (java.util.Lis
 %><h2 class="searchResults">Found <%=activities.size()%> Activities</h2>
 <ul>
 <% 
+
+if( activities!=null  ){
+	//sort activities
+	try{
+		meetingUtil.sortActivityByDate( activities);
+	}catch(Exception e){e.printStackTrace();}
+}
+
+
 	for(int i=0;i<activities.size();i++){
 		boolean isExists=false;
 		if( user.getYearPlan().getActivities() !=null) {
@@ -20,7 +29,8 @@ java.util.List <org.girlscouts.vtk.models.Activity> activities =  (java.util.Lis
 %>
 		<li class="searchResultsItem" > 
 			<p class="activityName"><%=activities.get(i).getName()%></p>
-			<p class="activityDate">Date: <%=activities.get(i).getDate()==null? "" : FORMAT_MEETING_REMINDER.format(activities.get(i).getDate()) %> - <%=activities.get(i).getEndDate()==null ? "" : FORMAT_MEETING_REMINDER.format(activities.get(i).getEndDate()) %></p>
+			<p class="activityDate">Date: <%=activities.get(i).getDate()==null? "" : FORMAT_MEETING_REMINDER.format(activities.get(i).getDate()) %> - 
+			<%=activities.get(i).getEndDate()==null ? "" : FORMAT_MEETING_REMINDER.format(activities.get(i).getEndDate()) %></p>
 			<p class="activityLocation">Location:<%=activities.get(i).getLocationAddress()==null ? "Currently no location" : activities.get(i).getLocationAddress() %></p>
 			<p class="activityContent"> <%=activities.get(i).getContent() %> </p>
 			<%if(activities.get(i).getDate()==null){ %>
@@ -51,3 +61,5 @@ function addActiv3(id){
 	});
 }
 </script>
+
+

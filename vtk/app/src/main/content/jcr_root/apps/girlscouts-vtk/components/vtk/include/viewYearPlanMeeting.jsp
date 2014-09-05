@@ -1,3 +1,9 @@
+
+
+
+
+
+
 <!-- apps/girlscouts-vtk/components/vtk/include/viewYearPlanMeeting.jsp -->
 <br/>
 <div class="row meetingDetailHeader">
@@ -38,7 +44,21 @@
 	</div>
 
         <div class="small-24 medium-10 large-12 columns">
-		<h1>Meeting: <%= meetingInfo.getName() %> </h1>
+		<h1>Meeting: <!-- %= meetingInfo.getName() % -->
+		<span class="editable_textarea" id="editMeetingName"><%= meetingInfo.getName() %></span>
+		 </h1>
+		 
+		
+
+
+
+
+
+
+
+
+				
+				
 
 		<!--  <%= meetingInfo.getAidTags() %> -->
 <%
@@ -70,14 +90,14 @@
 		<a href="#" class="mLocked button linkButton" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=meeting.getPath()%>&xx=<%=searchDate.getTime()%>', false, null, true)">replace this meeting</a>
 		<br/>
 <%
-	String img= "";
+	String img= "", imgDefault="xx";
 	try{
-		img= meeting.getRefId().substring( meeting.getRefId().lastIndexOf("/")+1).toUpperCase(); 
-		if(img.contains("_") ) {
-			img= img.substring(0, img.indexOf("_"));
-		}
+		img= meeting.getRefId().substring( meeting.getRefId().lastIndexOf("/")+1).toUpperCase();
+		if(img.contains("_") ) img= img.substring(0, img.indexOf("_"));
 %>
-		<img  width="100" height="100" src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png" align="center"/>
+  <span class="ajaxupload" id="editMtLogo">
+		<img  width="100" height="100" src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png" align="center" />
+</span>
 <%
 	}catch(Exception e){
 		// no image
@@ -91,11 +111,9 @@
 <div class="row meetingDetailDescription">
 	<div class="small-1 columns">&nbsp;</div>
         <div class="small-22 columns">
-                <p>
-             
-               
+                <span class="editable_textarea" id="editMeetingDesc">
                <%=meetingInfoItems.get("meeting short description").getStr() %>
-                </p>
+                </span>
 	</div>
         <div class="small-1 columns">&nbsp;</div>
 </div>
@@ -172,6 +190,12 @@ if( _aidTags!=null )
 	java.util.Calendar activSched= java.util.Calendar.getInstance();
 	activSched.setTime( searchDate);
 	int duration =0;
+	
+	try{
+		meetingUtil.sortActivity(_activities);
+	}catch(Exception e){e.printStackTrace();}
+	
+	
 	for(int ii=0;ii< _activities.size();ii++){
 		Activity _activity = _activities.get(ii);
 %>
@@ -182,7 +206,9 @@ if( _aidTags!=null )
 	if( !isLocked) {
 %>
 
-				<td class="agendaScroll"><img class="touchscroll" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/touchscroll-small.png" width="21" height="34"></td>
+				<td class="agendaScroll">
+				
+				<img class="touchscroll" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/touchscroll-small.png" width="21" height="34"></td>
 <%
 		if( user.getYearPlan().getSchedule()!=null ){ 
 %>
@@ -194,7 +220,7 @@ if( _aidTags!=null )
 				<td>
 				
 					<%if( !isLocked) {%>
-						<a href="javascript:void(0)"  class="mLocked" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isAgenda=<%=ii %>', false, 'Agenda')"><%=_activity.getName() %></a>
+						<a href="javascript:void(0)"  class="mLocked" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isAgenda=<%=ii %>', true, 'Agenda')"><%=_activity.getName() %></a>
 					<%}else{ %>
 						<%=_activity.getName() %>
 					<%} %>
@@ -255,7 +281,9 @@ if( _aidTags!=null )
 		<option value="30">30</option>
 	</select>
 	
+	<%if( activSched.getTime() !=null && activSched.getTime().after(new java.util.Date("1/1/2000") ) ){ %>
 	 + (<%= activSched.getTime()%>)
+	 <%} %>
 	
 	<br/>Description:<textarea id="newCustAgendaTxt"></textarea>
 	<br/><br/>
@@ -308,7 +336,11 @@ $(function() {
 	});
 });
 	</script>
-	<%--@include file="../include/manageCommunications.jsp" --%>
+	
+	<%if(false){ %>
+		<%@include file="../include/manageCommunications.jsp" %>
+	<%} %>
+	
 <%}else{ %>	
 	
 	

@@ -32,7 +32,9 @@ public void autoLogin(HttpSession session){
         troop.setCouncilCode(1);
         troop.setGradeLevel("1-Brownie");
         troop.setTroopId("caca");
+        troop.setCouncilId("123");
         troop.setTroopName("test");
+        
 
         troops.add(troop);
         config.setTroops(troops);
@@ -77,9 +79,9 @@ try {
 	out.println("Your session has timed out.  Please login.");
 	return;
 }
-//if( apiConfig.getTroops()==null || apiConfig.getTroops().size()<=0 ){
-    if( apiConfig.getTroops()==null || apiConfig.getTroops().size()<=0 || 
-		( apiConfig.getTroops().get(0).getType()==1 )){
+if( apiConfig.getTroops()==null || apiConfig.getTroops().size()<=0 || 
+	( apiConfig.getTroops().get(0).getType()==1 )){
+	out.println("Council Code: "+apiConfig.getTroops().get(0).getCouncilCode() );
 	out.println("<span class='error'>Sorry, this user is not part of a valid GirlScouts' campaign. Please ask your council admin for SalesForce access.</span>");
 	return;
 }
@@ -127,16 +129,27 @@ if( user ==null){
         }
         user.setApiConfig(apiConfig);
         
+       
+		
+        
        if(isTest){ 
 		org.girlscouts.vtk.salesforce.Troop caca= prefTroop;
 		caca.setGradeLevel("1-Brownie");
 		user.setTroop(caca);
        }else
 		user.setTroop( prefTroop );
-       
+       /*
+       System.err.println("caca >> " + user.getTroop().getCouncilId() +" : "+ user.getTroop().getCouncilCode() );  
+       System.err.println(user.getYearPlan() ==null );
+       System.err.println( meetingDAO==null);
+       user.getYearPlan().setMilestones( meetingDAO.getCouncilMilestones( ""+user.getTroop().getCouncilCode() ) );
+	   System.err.println( user.getYearPlan().getMilestones() );	 
+       */
 		user.setSfTroopId( user.getTroop().getTroopId() );
 		user.setSfUserId( user.getApiConfig().getUserId() );
 		user.setSfTroopName( user.getTroop().getTroopName() ); 
+		user.setSfTroopAge( user.getTroop().getGradeLevel() );
+		user.setSfCouncil( user.getTroop().getCouncilCode()+"");
 		session.setAttribute("VTK_user", user);
        
 		

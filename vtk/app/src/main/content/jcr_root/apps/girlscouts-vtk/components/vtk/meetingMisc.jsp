@@ -3,6 +3,7 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
+
 <% 
 	MeetingE meeting = null;
 	java.util.List<MeetingE> meetings = user.getYearPlan().getMeetingEvents();
@@ -19,16 +20,28 @@
 	java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  meetingInfo.getMeetingInfo();
 %> 
 
+
+
+
+
+
+
+
+
 <%if( request.getParameter("isOverview")!=null ){%>
-	<%=meetingInfoItems.get("overview").getStr() %> 
+	<span class="editable_textarea" id="editMeetingOverview"><%=meetingInfoItems.get("overview").getStr() %></span>
 <%}else if( request.getParameter("isActivity")!=null ){%>
-	<%=meetingInfoItems.get("detailed activity plan").getStr() %> 
+	<span class="editable_textarea" id="editMeetingActivity"><%=meetingInfoItems.get("detailed activity plan").getStr() %> </span>
 <%}else if( request.getParameter("isMaterials")!=null ){%>
-	<%=meetingInfoItems.get("materials").getStr() %> 
+	<span class="editable_textarea" id="editMeetingMaterials"><%=meetingInfoItems.get("materials").getStr() %></span> 
 <%}else if( request.getParameter("isAgenda")!=null ){
 
 
 	//java.util.List <Activity> _activities = meetingInfo.getActivities();
+	try{
+		meetingUtil.sortActivity(_activities);
+	}catch(Exception e){e.printStackTrace();}
+	
 	for(int ii=0;ii< _activities.size();ii++){ 
 		Activity _activity = _activities.get(ii);
 		if( ii == Integer.parseInt( request.getParameter("isAgenda")  ) ){

@@ -28,7 +28,7 @@ public class User {
 	private ApiConfig apiConfig;
 	private Troop troop;
 	
-	@Field private String sfUserId, sfTroopId, sfTroopName;
+	@Field private String sfUserId, sfTroopId, sfTroopName, sfTroopAge, sfCouncil;
 	
 	@Field(jcrName="jcr:lastModified") private Calendar lastModified;
 	
@@ -42,6 +42,18 @@ public class User {
 	
 	
 	
+	public String getSfCouncil() {
+		return sfCouncil;
+	}
+	public void setSfCouncil(String sfCouncil) {
+		this.sfCouncil = sfCouncil;
+	}
+	public String getSfTroopAge() {
+		return sfTroopAge;
+	}
+	public void setSfTroopAge(String sfTroopAge) {
+		this.sfTroopAge = sfTroopAge;
+	}
 	public EmailMeetingReminder getSendingEmail() {
 		return sendingEmail;
 	}
