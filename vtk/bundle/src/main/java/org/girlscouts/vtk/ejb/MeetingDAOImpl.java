@@ -1252,10 +1252,22 @@ public SearchTag searchA( String councilCode){
 		QueryResult result = q.execute();
 		 for (RowIterator it = result.getRows(); it.hasNext(); ) {
 		       Row r = it.nextRow();
-		       if( r.getPath().startsWith("/etc/tags/"+ councilStr +"/categories") )
-		    	   categories.put( r.getValue("jcr:title").getString(),null );
-		       else if( r.getPath().startsWith("/etc/tags/"+ councilStr +"/program-level") )
-		    	   levels.put( r.getValue("jcr:title").getString(), null );
+		       if( r.getPath().startsWith("/etc/tags/"+ councilStr +"/categories") ){
+		    	   String elem =  r.getValue("jcr:title").getString();
+		    	   if( elem!=null )
+		    		   elem = elem.toLowerCase().replace("_", "").replace("/", "");
+		    	   
+		    	   categories.put( elem,null );
+		    	   
+		       } else if( r.getPath().startsWith("/etc/tags/"+ councilStr +"/program-level") ){
+		    	   //levels.put( r.getValue("jcr:title").getString(), null );
+		    	   String elem = r.getValue("jcr:title").getString();
+		    	   if( elem!=null )
+		    		   elem = elem.toLowerCase().replace("_", "").replace("/", "");
+		    	   
+		    	   levels.put( elem, null );
+		    	   
+		       }
 		 }
 		
 		 if( categories!=null ){
@@ -1347,9 +1359,14 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 		String eventPath = "";
 		try {
 		    eventPath = session.getProperty(branch + "/jcr:content/eventPath").getString();
-		} catch (Exception e) {}
+		} catch (Exception e) {e.printStackTrace();}
+		
+		
+		System.err.println( "PPPPATH: "+ eventPath);
 
 		String sql= "select child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, [" + eventPath + "])) and child.start is not null and parent.[jcr:title] is not null " ;
+		
+		
 		// This is Alex's CACA. Alex: please cleanup your shit!
 		//String sql= "select child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, [/content/gateway/en/events/2014])) and child.start is not null and parent.[jcr:title] is not null " ;
 		//String sql= "select child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, ["+ resourceRootPath +"])) and child.start is not null and parent.[jcr:title] is not null " ;
@@ -1390,22 +1407,26 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 		
 		//sql= "select * from [nt:base] as p where  (isdescendantnode (p, ["+ path +"]))  and contains(p.*, 'aid') ";
 		
+		System.err.println( sql );
 		
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.JCR_SQL2); 
 			
 		int i=0;
 		QueryResult result = q.execute();
+		
+	//System.err.println("Size: "+	result.getRows().getSize());
+		
 		 for (RowIterator it = result.getRows(); it.hasNext(); ) {
 		       Row r = it.nextRow();
 		       
 		        Activity activity = new Activity();
 				activity.setUid("A"+ new java.util.Date().getTime() +"_"+ Math.random());
 		        if( true){//!isTag){
-		        	
+		  System.err.println( i );      	
 		        	activity.setContent(r.getValue("child.details").getString());
 		        	activity.setDate(r.getValue("child.start").getDate().getTime());
-		        	if( activity.getDate().before(new java.util.Date())) continue;
+		        	if( activity.getDate().before(new java.util.Date())) { System.err.println("PastDAte: "+ activity.getDate() );continue;}
 		        	
 		        	try{ activity.setEndDate(r.getValue("child.end").getDate().getTime()); }catch(Exception e){}
 		        	activity.setLocationName(r.getValue("child.locationLabel").getString());
@@ -1453,13 +1474,16 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 							(activity.getEndDate()!=null && activity.getEndDate().after(endDate))
 							))
 							{ 
-								continue;
+								System.err.println("Continue..."+i);continue;
 								}
 				
 				
 				toRet.add( activity); 
 				i++;
 		 }
+		 
+		 
+		 System.err.println("Total: "+ i);
 		 
 	}catch(Exception e){e.printStackTrace();}
 	return toRet;

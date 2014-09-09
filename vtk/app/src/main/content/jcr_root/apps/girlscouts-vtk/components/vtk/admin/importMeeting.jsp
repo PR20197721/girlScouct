@@ -11,7 +11,7 @@ javax.jcr.Session _session = repos.loginAdministrative(null);
 
 	String mid= request.getParameter("mid");
 	System.err.println("mid: "+mid);
-	new ImportGSDocs(_session).getMeetings("", mid);
+	new ImportGSDocs(_session).getMeetings( mid);
 
 
 System.err.println("done");
