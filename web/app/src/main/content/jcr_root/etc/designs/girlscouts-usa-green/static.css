@@ -1446,5 +1446,17 @@ ul.searchResultsList article p{
 	padding-left: 25px;
 }
 
+form .form_captcha_refresh{
+	color:white;
+}
+.form_captcha_refresh .form_button{
+	background-color:#00a850;
+	border:0 none;
+}
 
+.form_captcha_refresh .form_button:hover, .form_captcha_refresh .form_button:focus {
+background-color: #008000;
+box-shadow: none;
+cursor: pointer;
+}
 
