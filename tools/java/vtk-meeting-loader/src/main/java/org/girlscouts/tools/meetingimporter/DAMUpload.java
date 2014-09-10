@@ -369,8 +369,9 @@ if ((String)metaDatas.get("tags")!=null )
 		        	Node assets = session.getNode(dir);
 		        	
 		        	//create tag
-		        	Node resNode = assets.addNode (tag.toLowerCase().trim().replace(" ", "-"));
+		        	Node resNode = assets.addNode (tag.toLowerCase().trim().replace(" ", "-"), "cq:Tag");
 		        	resNode.setProperty("jcr:title", tag);
+		        	resNode.setProperty("sling:resourceType", "cq/tagging/components/tag");
 		        	
 		        	session.save();
 		        }        
