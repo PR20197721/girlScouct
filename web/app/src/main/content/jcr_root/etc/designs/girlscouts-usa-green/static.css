@@ -1452,6 +1452,9 @@ form .form_captcha_refresh{
 .form_captcha_refresh .form_button{
 	background-color:#00a850;
 	border:0 none;
+	font-size:0.8em;
+	padding:5px;
+	text-transform:uppercase;
 }
 
 .form_captcha_refresh .form_button:hover, .form_captcha_refresh .form_button:focus {
