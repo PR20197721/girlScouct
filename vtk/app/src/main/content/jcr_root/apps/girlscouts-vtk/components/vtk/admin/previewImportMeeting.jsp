@@ -4,6 +4,10 @@
 <cq:defineObjects/>
 <%@include file="../include/session.jsp"%>
 
+
+
+
+
 <html>
 <body>
 <script>
@@ -40,22 +44,87 @@ String fileLoc= fileDir +"/"+ request.getParameter("id")+"/jcr:content";
 //out.println(fileLoc);
 %>
 
-<div style="background-color:yellow;">
 
+
+
+
+<div style="background-color:orange;">
+<h2>Meeting uploader</h2>
+<form action="/content/girlscouts-vtk/en/vtk.admin.previewImportMeeting.html">
+<input type="hidden" name="runAll" value="true"/>
+
+	<div class="row">
+  <div class="small-24 medium-12 large-12 columns">
+  	____ directory 
+  </div>
+  <div class="small-24 medium-12 large-12 columns">
+  	<input type="text" name="mainDir" value="/Users/akobovich/Documents/VTK_Imports/VTK-ASSETS/" style="width:400px;"/>
+  </div>
+  </div>
+  
+  <div class="row">
+  <div class="small-24 medium-12 large-12 columns">
+  ________ XLS file
+  </div>
+  
+  <div class="small-24 medium-12 large-12 columns">
+  <input type="text" name="xlsFileName" value="metadata.xlsx" style="width:400px;"/>
+  </div>
+  </div>
+  
+  <div class="row">
+  <div class="small-24 medium-12 large-12 columns">
+  ________Meeting directory
+  </div>
+  <div class="small-24  medium-12 large-12 columns">
+    <input type="text" name="meetingDir" value="meetings" style="width:400px;"/>
+  </div>
+  </div>
+  
+  <div class="row">
+  <div class="small-24  medium-12 large-12 columns">
+  
+ 	 &nbsp;
+  </div>
+  <div class="small-24  medium-12 large-12 columns">
+  
+ 	 <input type="submit" value="Run meeting uploader"/>
+  </div>
+  </div>
+
+
+
+   <!-- 
+ <a href="/content/girlscouts-vtk/en/vtk.admin.previewImportMeeting.html?runAll=true">run full meeting(s) import</a>
+ -->
+ </form>
+</div>
+
+
+
+
+<div style="background-color:yellow;">
+		<h1>Upload Single file:</h1>
          <form action="/content/girlscouts-vtk/controllers/auth.asset.html" method="post"  enctype="multipart/form-data">
                <input type="hidden" name="loc" value="<%=fileDir%>"/>
                <input type="hidden" name="id" value="<%=fileId%>"/> 
                <input type="file" id="custasset" name="custasset" size="50" />
-               <br />
+               <br/>
                <input type="submit" value="Upload File" />
          </form>
          
+        
          
 </div>
 
+
 <%
+
+
+
 //out.println("--"+request.getParameter("id"));
-if( request.getParameter("id")==null){return;}
+if( request.getParameter("id")==null && 
+	request.getParameter("runAll")==null){return;}
 
 
 
@@ -123,6 +192,30 @@ if(true)return;
 final org.apache.sling.jcr.api.SlingRepository repos = sling.getService(org.apache.sling.jcr.api.SlingRepository.class);
 javax.jcr.Session _session = repos.loginAdministrative(null);
 ImportGSDocs importer = new ImportGSDocs(_session);
+
+if( request.getParameter("runAll")!=null ){
+	
+	String mainDir= request.getParameter("mainDir");
+	String xlsFileName= request.getParameter("xlsFileName");
+	String meetingDir= request.getParameter("meetingDir");
+	
+	out.println("<br/>Running parsers....");
+	ImportGSDocs igd =new ImportGSDocs(_session, mainDir, meetingDir, xlsFileName);
+	igd.getMeetings();
+	out.println(igd.getActivityLog());
+	out.println("<br/><br/>parser completed "+ new java.util.Date());
+	
+	return;
+}
+
+
+
+/*
+System.err.println("Unzipping "+ fileLoc+" : "+ fileDir);
+//importer.unzipFile(fileLoc, fileDir);
+importer.unzip(fileLoc, "destDirectory");
+*/
+
 
 /*
 org.girlscouts.vtk.models.Meeting meeting = importer.getMeetings(fileDir +"/"+ request.getParameter("id")+"/jcr:content");// fileDir+"/"+ fileId);
@@ -200,6 +293,29 @@ while( itr.hasNext()){
 	bgColor--;
 }
 
+
+
+
+/*
+//meeting infos
+java.util.Map activities = meeting.getMeetingInfo();
+java.util.Iterator itr1= activities.keySet().iterator();
+while( itr1.hasNext()){
+	
+	String name= (String)itr1.next();
+	out.println("<li>"+name);
+	
+}
+
+
+//meeting activities
+java.util.List <Activity>activ = meeting.getActivities();
+if( activ!=null)
+ for(int i=0;i<activ.size();i++){
+	Activity activity = activ.get(i);
+	out.println("<br>"+activity.getName()+": "+ activity.getActivityDescription());
+}
+*/
 %>
 </body>
 </html>
