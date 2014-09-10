@@ -1362,7 +1362,7 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 		} catch (Exception e) {e.printStackTrace();}
 		
 		
-		System.err.println( "PPPPATH: "+ eventPath);
+		//System.err.println( "PPPPATH: "+ eventPath);
 
 		String sql= "select child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, [" + eventPath + "])) and child.start is not null and parent.[jcr:title] is not null " ;
 		
@@ -1420,7 +1420,7 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 		        Activity activity = new Activity();
 				activity.setUid("A"+ new java.util.Date().getTime() +"_"+ Math.random());
 		        //if( true){//!isTag){
-		  System.err.println( i );      	
+		  //System.err.println( i );      	
 		        	activity.setContent(r.getValue("child.details").getString());
 		        	activity.setDate(r.getValue("child.start").getDate().getTime());
 		        	try{ activity.setEndDate(r.getValue("child.end").getDate().getTime()); }catch(Exception e){}
@@ -1429,7 +1429,7 @@ if( (activity.getDate().before(new java.util.Date()) && activity.getEndDate()==n
 		||
 	( activity.getEndDate()!=null && activity.getEndDate().before(new java.util.Date()))
 		){ 
-			System.err.println("PastDAte: "+ activity.getDate() +" : "+ activity.getEndDate() );
+			//System.err.println("PastDAte: "+ activity.getDate() +" : "+ activity.getEndDate() );
 			continue;
 	}
 		        	
@@ -1476,20 +1476,22 @@ if( (activity.getDate().before(new java.util.Date()) && activity.getEndDate()==n
 				
 				
 				
-				System.err.println("_________________________________________________");
-				System.err.println("Range: "+ startDate +" : "+ endDate);
-				System.err.println("ACtiv: "+ activity.getDate() +" : "+ activity.getEndDate());
+				//System.err.println("_________________________________________________");
+				//System.err.println("Range: "+ startDate +" : "+ endDate);
+				//System.err.println("ACtiv: "+ activity.getDate() +" : "+ activity.getEndDate());
 				
 				//System.err.println( startDate.after( activity.getDate() ) +" : " +startDate.before( activity.getEndDate()) );
 				//System.err.println( endDate.after( activity.getDate() ) +" : " +endDate.before( activity.getEndDate()) );
 		
-				
+				/*
 				System.err.println( activity.getDate().after( startDate ) +" : "+ activity.getDate().before(endDate) );
-				
-				System.err.println( activity.getEndDate().after( startDate ) +": " + activity.getEndDate().before(endDate) );
-				
+				System.err.println( activity.getEndDate().after( startDate ) +": " + activity.getEndDate().before(endDate) );				
 				System.err.println(activity.getEndDate().before(startDate) +" : "+ activity.getEndDate() +" : "+ startDate);
-				if(  activity.getEndDate().before(startDate) ||
+				*/
+				
+				if(  
+				  ( startDate.after(endDate) ) ||
+					 activity.getEndDate().before(startDate) ||
 						( 
 								( activity.getDate().before( startDate ) || activity.getDate().after( startDate ) )   && activity.getDate().after(endDate) 
 								) 
@@ -1501,7 +1503,7 @@ if( (activity.getDate().before(new java.util.Date()) && activity.getEndDate()==n
 						{ 
 					
 							
-							System.err.println("*************************Continue..."+i );
+							//System.err.println("*************************Continue..."+i );
 							continue;
 						}
 				
@@ -1527,7 +1529,7 @@ if( (activity.getDate().before(new java.util.Date()) && activity.getEndDate()==n
 		 }
 		 
 		 
-		 System.err.println("Total: "+ i);
+		 //System.err.println("Total: "+ i);
 		 
 	}catch(Exception e){e.printStackTrace();}
 	return toRet;
