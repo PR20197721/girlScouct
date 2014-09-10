@@ -4,6 +4,7 @@
 <cq:defineObjects/>
 <%@include file="../include/session.jsp"%>
 <%@include file="../admin/toolbar.jsp"%>
+
 <%
 final org.apache.sling.jcr.api.SlingRepository repos = sling.getService(org.apache.sling.jcr.api.SlingRepository.class);
 javax.jcr.Session _session = repos.loginAdministrative(null);
@@ -11,7 +12,7 @@ javax.jcr.Session _session = repos.loginAdministrative(null);
 
 	String mid= request.getParameter("mid");
 	System.err.println("mid: "+mid);
-	new ImportGSDocs(_session).getMeetings("", mid);
+	new ImportGSDocs(_session).getMeetings( mid);
 
 
 System.err.println("done");

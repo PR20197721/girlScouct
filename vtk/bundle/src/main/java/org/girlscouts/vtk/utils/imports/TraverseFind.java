@@ -214,11 +214,11 @@ public class TraverseFind {
         	//TODO switch between http/desktop
         	try{
         		fs = new java.net.URL("http://localhost:4503"+ fileLoc).openConnection().getInputStream();
-        	}catch(Exception e){e.printStackTrace();}
+        	}catch(Exception e){/*System.err.println("File not foundon http 4503 trying local: "+fileLoc);*/}
         	if( fs==null )
-        		fs= new FileInputStream(fileLoc);
+        		try{ fs= new FileInputStream(fileLoc); }catch(Exception e){/*System.err.println("File not foundon http 4503 trying local: "+fileLoc);*/}
         	
-        	
+        	if( fs==null ){System.err.println("File not found: "+ fileLoc);return null;}
         	
            //- fs = new FileInputStream(fileLoc);
         	
@@ -226,7 +226,7 @@ public class TraverseFind {
             XWPFDocument hdoc = new XWPFDocument(OPCPackage.open(fs));
 
             
-            
+            System.err.println("Processing file: "+ fileLoc);
             
             java.util.List<XWPFParagraph> parags = hdoc.getParagraphs();
          
@@ -341,8 +341,8 @@ public class TraverseFind {
         } finally {
             // document.close();
             try {
-
-                fs.close();
+            	if( fs!=null )
+            		fs.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -353,7 +353,7 @@ public class TraverseFind {
 
     public java.util.Map breakIt(String STR, String pattern) {
 
-    //System.err.println("________________ "+ STR);
+   // System.err.println("_________"+pattern+"_______ "+ STR);
     	
         String str = STR;
         Pattern p = Pattern.compile(pattern);
@@ -377,7 +377,7 @@ public class TraverseFind {
         for (int i = 0; i < headers.size(); i++) {
 
   //System.err.println("****STR**"+pattern+"***** "+ str);      	
-  str= str.trim();
+        	str= str.trim();
             String from = headers.get(i);
             //from= from.replace("<b>","");
         	//from= from.replace("</b>","");
@@ -402,9 +402,9 @@ public class TraverseFind {
                 int ind_end = 0; //str.indexOf(to + "]");
                 
                 if( str.contains("<p><b>[[" + (pattern.contains("_") ? "_" : "Activity") +to ))
-                	ind_end = str.indexOf(to+"]" )-9;
+                	ind_end = str.indexOf(to+"]" )-16;//9;
                 else if( str.contains("<p>[[" + (pattern.contains("_") ? "_" : "Activity") +to))
-                	ind_end = str.indexOf(to +"]")-5;
+                	ind_end = str.indexOf(to +"]")-9;//5;
                 
  //System.err.println( ind_start +" : "+ ind_end );           
                 String parg = str.substring(ind_start, ind_end);
@@ -416,10 +416,12 @@ public class TraverseFind {
                 
                 
 
-            }// edn oif
+            }// edn if
 
         }// edn for
-//System.err.println("???... "+ str);
+        
+//System.err.println("????" + pattern +"?????... "+ str);
+
         if (headers.size() == 0){
             container.put("", str);
             //System.err.println("??????? XXX *********** "+ str);
@@ -472,6 +474,7 @@ public class TraverseFind {
 
     public java.util.Map breakup1(String txt, String pattern) {
 
+  	
         java.util.Map _container = new java.util.LinkedHashMap();
         java.util.Map container = breakIt(txt, pattern);
         java.util.Iterator itr = container.keySet().iterator();
@@ -496,34 +499,44 @@ public class TraverseFind {
         String pattern = "\\[.*?Activity(.*?)\\]]"; 
         pattern = "\\[\\[Activity(.*?)\\]\\]";
         
-        
+ // System.err.println( "$$$$$$$$$$$ : "+ txt);      
         java.util.Map container = breakup1(txt, pattern);
+        
+        
+        
         java.util.List<Activity> activities = new java.util.ArrayList();
 
         java.util.Iterator itr = container.keySet().iterator();
         while (itr.hasNext()) {
 
             String title = (String) itr.next();
-            title = title.replace("[", "");
+  //System.err.println("******* "+ title);
+            
+          //-  title = title.replace("[", "");
             setActivityLog("Processing title: " + title);
             String str = (String) container.get(title);
             
-            title = title.replaceAll("<.*?>", "");
+           //- title = title.replaceAll("<.*?>", "");
             Activity activity = new Activity();
 
             // String g= str.substring(str.indexOf("<p>") );
             // g= g.replaceAll("\\[Activity\\|(.*?)\\|(.*?)\\]]", "hello");
 
-            activity.setActivityDescription(str.substring(str.indexOf("<p>")));
+           //System.err.println("STR ::: "+str);
+           activity.setActivityDescription(str);//.substring(str.indexOf("<p>")));
             // activity.setActivityDescription(g);
 
             StringTokenizer t = new StringTokenizer(title, "|");
 
             activity.setActivityNumber(Integer.parseInt(t.nextToken()));
-            activity.setName(t.nextToken().replace("&#x201d;", ""));
+           activity.setName(t.nextToken().replace("&#x201d;", ""));
+            
+          //  System.err.println("Adding activ: "+ activity.getName() +" num: " + activity.getActivityNumber() );
+            
             // GOOD activity.setDuration(Integer.parseInt( t.nextToken() ) );
 
-            java.util.Map subContainer = breakup1(str, "\\[(.*?)\\]]");
+           //- 9/7/14 java.util.Map subContainer = breakup1(str, "\\[(.*?)\\]]");
+            java.util.Map subContainer = breakup1(str, "\\[\\[(.*?)\\]]");
 
             java.util.Iterator subItr = subContainer.keySet().iterator();
             activities.add(activity);

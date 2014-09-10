@@ -102,7 +102,7 @@ import com.day.cq.commons.jcr.JcrUtil;
 		    
 		    @Override
 		     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServerException, IOException {
-		    	System.err.println("00-1");
+		    	//System.err.println("00-1");
 		    	
 		    	  ResourceResolver resourceResolver = null;
 		      try {
@@ -112,28 +112,28 @@ import com.day.cq.commons.jcr.JcrUtil;
 		      
 		        out = response.getWriter();
 		        
-		        System.err.println("11");
+		       // System.err.println("11");
 		        
 		        if (isMultipart) {
 		        	
-		        System.err.println("22");	
+		        //System.err.println("22");	
 		          final java.util.Map<String, org.apache.sling.api.request.RequestParameter[]> params = request.getRequestParameterMap();
 		          
-		          System.err.println("33 "+ params.entrySet().size() );
-		          System.err.println("33.1: "+ request.getParameter("aType"));
+		        //  System.err.println("33 "+ params.entrySet().size() );
+		        ///  System.err.println("33.1: "+ request.getParameter("aType"));
 		          for (final java.util.Map.Entry<String, org.apache.sling.api.request.RequestParameter[]> pairs : params.entrySet()) {
 		         
-		        	System.err.println("4422");
+		        	//System.err.println("4422");
 		        	
 		        	
 		        	final String k = pairs.getKey();
 		            final org.apache.sling.api.request.RequestParameter[] pArr = pairs.getValue();
 		            final org.apache.sling.api.request.RequestParameter param = pArr[0];
-		          final InputStream stream = param.getInputStream();
+		            final InputStream stream = param.getInputStream();
 		            if (param.isFormField()) {
 		            	
 		            	String t=   org.apache.commons.fileupload.util.Streams.asString(stream);
-		              System.err.println("Form field " + k + " with value "+ t);//org.apache.commons.fileupload.util.Streams.asString(stream) + " detected.");
+		             // System.err.println("Form field " + k + " with value "+ t);//org.apache.commons.fileupload.util.Streams.asString(stream) + " detected.");
 		          
 		            
 		            if( k.equals("custasset") ){
@@ -176,13 +176,13 @@ import com.day.cq.commons.jcr.JcrUtil;
 		                }
 		            	*/
 		            	
-		            	System.err.println("test: "+ t );
+		            //	System.err.println("test: "+ t );
 		            	//byte[] caca = t.getBytes(Charset.forName("UTF-8"));
 		            	
 		               // java.util.BASE64Decoder de=new BASE64Decoder();
 		             
 		               byte[] caca= Base64.decodeBase64(t);
-		System.err.println("BYTSIZE: "+caca.length);
+		//System.err.println("BYTSIZE: "+caca.length);
 		               InputStream inn = new ByteArrayInputStream(caca);
 		                
 		
@@ -197,7 +197,7 @@ import com.day.cq.commons.jcr.JcrUtil;
 		              
 		            
 		            } else {
-		              System.err.println("File field " + k + " with file name " + param.getFileName() + " detected.");
+		             // System.err.println("File field " + k + " with file name " + param.getFileName() + " detected.");
 		              
 		              //OutputStream os = new FileOutputStream("/vtk/");
 		              //org.apache.commons.net.io.Util.copyStream(stream, os);
@@ -232,19 +232,19 @@ import com.day.cq.commons.jcr.JcrUtil;
 			         
 		        	for (final java.util.Map.Entry<String, org.apache.sling.api.request.RequestParameter[]> pairs : params.entrySet()) {
 				         
-			        	System.err.println("4466");
+			        	//System.err.println("4466");
 			        	
 			        	
 			        	final String k = pairs.getKey();
 			            final org.apache.sling.api.request.RequestParameter[] pArr = pairs.getValue();
 			        
-		        	System.err.println("Not multipart...");
+		        	//System.err.println("Not multipart...");
 		        	 final org.apache.sling.api.request.RequestParameter param = pArr[0];
 		        	 final InputStream stream = param.getInputStream();
 		        	 if (param.isFormField()) {
-			              System.err.println("Form field " + k + " with value " + org.apache.commons.fileupload.util.Streams.asString(stream) + " detected.");
+			              //System.err.println("Form field " + k + " with value " + org.apache.commons.fileupload.util.Streams.asString(stream) + " detected.");
 			            } else {
-			              System.err.println("File field " + k + " with file name " + param.getFileName() + " detected.");
+			              //System.err.println("File field " + k + " with file name " + param.getFileName() + " detected.");
 			            
 			              resourceResolver = resolverFactory.getAdministrativeResourceResolver(null);            
 			              Session session = resourceResolver.adaptTo(Session.class);            
@@ -271,7 +271,7 @@ import com.day.cq.commons.jcr.JcrUtil;
 		    
 		      
 		      
-System.err.println("Pathddd:"+		      request.getParameter("loc"));
+//System.err.println("Pathddd:"+		      request.getParameter("loc"));
 			if( request.getParameter("loc")!=null && request.getParameter("loc").contains("/tmp/import/assets") )
 		      response.sendRedirect("http://localhost:4503/content/girlscouts-vtk/en/vtk.admin.previewImportMeeting.html?id="+ request.getParameter("id"));
 		 
@@ -287,10 +287,10 @@ System.err.println("Pathddd:"+		      request.getParameter("loc"));
 		         //  Node page = JcrUtils.getOrCreateUniqueByPath(parent, name, "cq:Page");
 		            //Node page = JcrUtil.createPath(parentPath, "nt:unstructured", session);
 		            
-		            System.err.println("TEST: "+ parentPath);
+		            //System.err.println("TEST: "+ parentPath);
 		            
 		            Node page = JcrUtil.createPath(parentPath, "nt:unstructured", "nt:unstructured", session, true);
-		            System.err.println("___PAGE: "+ (page==null) +" : "+ (name==null) +" :" +name);
+		           // System.err.println("___PAGE: "+ (page==null) +" : "+ (name==null) +" :" +name);
 		            //Node jcrContent = page.addNode("jcr:content", "cq:PageContent");   
 		            
 		            

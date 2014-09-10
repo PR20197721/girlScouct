@@ -1,5 +1,14 @@
 
 <%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="com.day.cq.wcm.foundation.Search,
+org.girlscouts.web.search.DocHit,
+com.day.cq.search.eval.JcrPropertyPredicateEvaluator,com.day.cq.search.eval.FulltextPredicateEvaluator,
+com.day.cq.tagging.TagManager,
+java.util.Locale,com.day.cq.search.QueryBuilder,javax.jcr.Node,
+java.util.ResourceBundle,com.day.cq.search.PredicateGroup,
+com.day.cq.search.Predicate,com.day.cq.search.result.Hit,
+com.day.cq.i18n.I18n,com.day.cq.search.Query,com.day.cq.search.result.SearchResult,
+java.util.Map,java.util.HashMap,java.util.List" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="../include/session.jsp"%>
@@ -11,53 +20,169 @@
 <script src="https://rawgit.com/pablojim/highcharts-ng/master/src/highcharts-ng.js"></script>
 <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
 
+<%
 
-<%java.util.List<User> users = userDAO.getUsers();
+java.util.Map<String, String> cTrans = new java.util.TreeMap();
+
+cTrans.put("597", "Girl Scouts of Northeast Texas"); 
+
+cTrans.put("477", "Girl Scouts of Minnesota and Wisconsin River Valleys, Inc.");
+
+cTrans.put("465", "Girl Scouts of Southeastern Michigan"); 
+
+cTrans.put("367", "Girl Scouts - North Carolina Coastal Pines, Inc.");
+
+cTrans.put("320", "Girl Scouts of West Central Florida, Inc.");
+
+cTrans.put("388", "Girl Scout Council of the Southern Appalachians, Inc.");
+
+cTrans.put("313", "Girl Scouts of Gateway Council, Inc.");
+
+
+
+
+		javax.jcr.Session s= (slingRequest.getResourceResolver().adaptTo(Session.class));
+		
+		
+		String sql="select  sfTroopAge,jcr:path, sfCouncil,excerpt(.) from nt:base where jcr:path like '/vtk/%' and contains(*, 'org.girlscouts.vtk.models.user.User ') ";
+		
+		
+		javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
+		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
+   		
+		int count=0 ;
+		
+		java.util.List unCouncil= new java.util.ArrayList();
+		//java.util.Map containeR= new java.util.HashMap();
+	
+		org.apache.commons.collections.MultiMap containeR= new org.apache.commons.collections.map.MultiValueMap();
+		
+		
+		
+		
+		
+		javax.jcr.query.QueryResult result = q.execute();
+		for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {
+			javax.jcr.query.Row r = it.nextRow();
+			String path = r.getValue("jcr:path").getString() ;
+			String sfCouncil = null, sfTroopAge=null;
+			try{ sfCouncil =r.getValue("sfCouncil").getString() ;}catch(Exception e){}
+			
+			if( sfCouncil ==null ){
+				StringTokenizer t= new StringTokenizer( path , "/");
+				t.nextToken();
+				sfCouncil = t.nextToken();
+			}
+			
+		    try{sfTroopAge= r.getValue("sfTroopAge").getString();}catch(Exception e){}
+		    
+		    
+		    if( sfTroopAge==null){
+		    	Node node = r.getNode().getNode("yearPlan/meetingEvents/").getNodes().nextNode();	
+		    	
+		    	//out.println("** "+ (node==null) );
+		    	String refId= node.getProperty("refId").getString();
+		    	String planId= refId.substring( refId.lastIndexOf("/") +1).toLowerCase();
+		    	
+		    	if( planId.startsWith("d"))
+		    		sfTroopAge=("1-Daisy");
+				else if( planId.startsWith("b"))
+					sfTroopAge=("2-Brownie");
+				else if( planId.startsWith("j"))
+					sfTroopAge=("3-Junior");
+		    	
+		    }
+		    
+		    
+		    if( !unCouncil.contains(sfCouncil) )
+		    	unCouncil.add(sfCouncil);
+		    
+  		   	containeR.put( sfCouncil,sfTroopAge );
+		    
+  		   	
+  		   	
+  		   	
+			//out.println("<br/>"+ sfCouncil +" : " +sfTroopAge );
+		       count++;
+		}
+		out.println("Total: "+count);
+		%>
+		<table>
+		<tr>
+		<th>Council</th>
+		<th>Brownie</th>
+		<th>Daisy</th>
+		<th>Junior</th>
+		</tr>
+<%
+		
+		for(int i=0;i<unCouncil.size();i++){
+			String council= (String)unCouncil.get(i);
+			
+			String councilId_str = cTrans.get(council);
+			
+			java.util.Map <String, Integer> xx= new java.util.TreeMap();
+			
+			java.util.Iterator itr= containeR.keySet().iterator();
+			while( itr.hasNext() ){
+				String _council= (String) itr.next();
+				java.util.List lvl= (java.util.List)containeR.get( council );
+				if( council.equals(_council) ){
+					//out.println("YEs --" + lvl);
+					for(int y=0;y<lvl.size();y++){
+						String l = (String) lvl.get(y);
+						if( xx.get(l)==null )
+							xx.put(l, 1);
+						else
+							xx.put(l,  xx.get(l) +1 );
+						
+					}
+					
+				}
+			}
+			
+			
+			
+			%>
+				<tr>
+				<td><%=councilId_str ==null ? council : councilId_str%></td>
+				<td><%= xx.get("3-Junior")%> </td>
+				<td><%= xx.get("2-Brownie")%></td>
+				<td><%= xx.get("1-Daisy")%></td>
+				</tr>
+			<%
+		}
+		out.println("</table>");
+		
+		if(true)return;
+
+
+
+
+
+
+
+
+java.util.List<User> users = userDAO.getUsers();
 users = doFix(users);
+
+
+
 %>
 
 
 <script>
 
 
-//See: https://github.com/pablojim/highcharts-ng
+
 var myapp = angular.module('myapp', ["highcharts-ng"]);
 
 myapp.controller('myctrl', function ($scope) {
-/*
-    $scope.addPoints = function () {
-        var seriesArray = $scope.chartConfig.series
-        var rndIdx = Math.floor(Math.random() * seriesArray.length);
-        seriesArray[rndIdx].data = seriesArray[rndIdx].data.concat([1, 10, 20])
-    };
 
-    $scope.addSeries = function () {
-        var rnd = []
-      
-        for (var i = 0; i < 10; i++) {
-            rnd.push(Math.floor(Math.random() * 20) + 1)
-        }
-       
-        $scope.chartConfig.series.push({
-            data: rnd
-        })
-       
-    }
-
-    $scope.removeRandomSeries = function () {
-        var seriesArray = $scope.chartConfig.series
-        var rndIdx = Math.floor(Math.random() * seriesArray.length);
-        seriesArray.splice(rndIdx, 1)
-    }
-
-    $scope.toggleLoading = function () {
-        this.chartConfig.loading = !this.chartConfig.loading
-    }
-*/
     $scope.chartConfig = {
         options: {
             chart: {
-                type: 'line',
+                type: 'chart',
                 zoomType: 'x'
             }
         },
@@ -70,16 +195,7 @@ myapp.controller('myctrl', function ($scope) {
         <%
         
         	java.util.Map <String, Map>container = parseData(users);
-        /*	java.util.Iterator itr= container.keySet().iterator();
-        	while( itr.hasNext() ){
-        		String lvl = (String) itr.next();
-        		%>{name: '<%=lvl%>',<%
-        		java.util.Map cnl = (java.util.Map) container.get(lvl);
-        		
-        		%>data: <%= doConv(cnl)%>},<%
-        		
-        	}
-        	*/
+      
         	
         	out.println("{name: 'Brownie', data:[");
         	java.util.Map <String, Integer>lvl = container.get("2-Brownie");
@@ -142,6 +258,7 @@ myapp.controller('myctrl', function ($scope) {
 
 
 </script>
+
 <div ng-app="myapp">
     <div ng-controller="myctrl">
        
@@ -152,13 +269,79 @@ myapp.controller('myctrl', function ($scope) {
 </div>
 
 
-
-
+<table>
+<tr>
+<th>Council</th>
+<th>Brownie</th>
+<th>Daisy</th>
+<th>Junior</th>
+</tr>
 <%
+/*
+
+java.util.Map<String, String> cTrans = new java.util.TreeMap();
+
+cTrans.put("597", "Girl Scouts of Northeast Texas"); 
+
+cTrans.put("477", "Girl Scouts of Minnesota and Wisconsin River Valleys, Inc.");
+
+cTrans.put("465", "Girl Scouts of Southeastern Michigan"); 
+
+cTrans.put("367", "Girl Scouts - North Carolina Coastal Pines, Inc.");
+
+cTrans.put("320", "Girl Scouts of West Central Florida, Inc.");
+
+cTrans.put("388", "Girl Scout Council of the Southern Appalachians, Inc.");
+
+cTrans.put("313", "Girl Scouts of Gateway Council, Inc.");
+
+*/
+
+
+
+	for(int i=0;i<unqCouncil.size();i++){
+		
+		String councilId= (String) unqCouncil.get(i);
+		String councilId_str = cTrans.get(councilId);
+		int das = 0, jun=0,brow=0;
+		for(int u=0;u< users.size();u++){
+			
+			 User uu= users.get(u);
+			
+			 if( uu.getSfCouncil().equals( councilId )){
+			 	if( uu.getSfTroopAge().toLowerCase().contains("brownie" ) )
+			 		brow ++;
+			 	else if( uu.getSfTroopAge().toLowerCase().contains("junior" ) )
+			 		jun++;
+			 	else if( uu.getSfTroopAge().toLowerCase().contains("daisy" ) )
+			 		das++;
+			 
+			 }
+			 
+	  	}//edn for
+	  	
+		 %>
+		 <tr>
+		 	<td><%=councilId_str ==null ? councilId : councilId_str%></td>
+		 	<td><%=brow %></td>
+		 	<td><%=das %></td>
+		 	<td><%=jun %></td>
+		 </tr>
+		 <%
+		 
+		 
+	}
 	
-	out.println("Total users: "+users.size());
-	
+ out.println("</table>");
+
+	  		
+	  			
+	  			
+	  			/*
+	out.println("Total users: "+users.size());	
 	%><table><tr><th>Council</th><th>Age Group</th></tr><% 
+	
+	
 	for(User uu: users){
 		%>
 		<tr>
@@ -167,8 +350,12 @@ myapp.controller('myctrl', function ($scope) {
 		</tr>
   <% }%>
   </table>
+  
+  <% */ %>
 
 <%!
+
+
 
 	public java.util.Map parseData( java.util.List <User> users, String age){
 	

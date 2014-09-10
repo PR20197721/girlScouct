@@ -28,13 +28,24 @@ import org.apache.poi.ss.util.CellReference;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.JcrCollectionHoldString;
 import org.girlscouts.vtk.models.Meeting;
+import java.util.zip.*;
 
 	public class ImportGSDocs {
 
 		private Session session; //jcr connect to repository
-		public ImportGSDocs(Session session){ this.session= session;}
+		private String rootPath="/Users/akobovich/Documents/VTK_Imports/VTK-ASSETS";
+		private String meetindDir=null;
+		private String xlsFile = "metadata.xlsx";
+		private String activityLog = "";
 		
-		static String rootPath="/Users/akobovich/Documents/VTK_Imports/VTK-ASSETS";
+		public ImportGSDocs(Session session){ this.session= session;}
+		public ImportGSDocs(Session session, String mainDir, String meetingDir, String xlsFileName){
+			this.session= session;
+			this.rootPath = mainDir;
+			this.xlsFile = xlsFileName;
+			this.meetindDir=meetingDir;
+		}
+		
 		
 		
 		
@@ -61,8 +72,15 @@ import org.girlscouts.vtk.models.Meeting;
 	    
 	    
 	  //  public Meeting getMeetings(String testFile) throws Exception {
-	    public void getMeetings(String testFile) throws Exception {  getMeetings(testFile, null); }
+	  /*
+		public void getMeetings(String testFile) throws Exception {  getMeetings(testFile, null); }
 	    public void getMeetings(String testFile, String singleDocName) throws Exception {
+	    */
+		
+		
+		public void getMeetings() throws Exception {  getMeetings(null); }
+	    public void getMeetings( String singleDocName) throws Exception {
+	 
 	    	/*
 	    	System.err.println("Fiule: "+ testFile);
 	    	//InputStream in = new java.net.URL("http://localhost:4503/tmp/import/assets/15_0.03358374794012875/jcr%3Acontent").openConnection().getInputStream();
@@ -98,9 +116,9 @@ import org.girlscouts.vtk.models.Meeting;
 	        
 	        
 	        FileInputStream fis = new FileInputStream(
-	        		rootPath + "/metadata.xlsx");
+	        		rootPath + "/"+ xlsFile);
 	        		// "/Users/mike/Desktop/brownie/metadata.xlsx");
-	        
+	        activityLog= activityLog.concat("<br/>Processing xls file...");
 	        Workbook workbook = WorkbookFactory.create(fis);
 
 	        FormulaEvaluator evaluator = workbook.getCreationHelper()
@@ -112,19 +130,19 @@ import org.girlscouts.vtk.models.Meeting;
 	        int position = 0;
 	        while (true) {
 	            i++;
-
+//System.err.println(i);
 	            String meetingId = getCellVal(evaluator, sheet, "A" + i);
 	           
-	           
+//System.err.println( "mid: "+meetingId );	           
 	            
 	            if (meetingId == null || meetingId.equals("")) {
-	                break;
+	                System.err.println("mid empty..exiting loop");break;
 	            }
 	            
 	            
 	            if( singleDocName!=null && !meetingId.toUpperCase().trim().equals(singleDocName.toUpperCase().trim()) )
 	            	continue;
-	            
+            
 	            
 	            if (meetingId.charAt(0) != levelInitial) {
 	                position = 1;
@@ -141,7 +159,7 @@ import org.girlscouts.vtk.models.Meeting;
 	            String aids_tags = getCellVal(evaluator, sheet, "F" + i).replaceAll("\\s+?", ";");
 	            String resource_tags = getCellVal(evaluator, sheet, "G" + i).replaceAll("\\s+?", ";");
 	            String agenda = getCellVal(evaluator, sheet, "H" + i);
-
+//System.err.println( "strAgendar: "+ agenda);
 	            meeting = new Meeting();
 	            meeting.setId(meetingId.trim());
 	            meeting.setName(meetingName.trim());
@@ -150,6 +168,10 @@ import org.girlscouts.vtk.models.Meeting;
 	            meeting.setCat(cat.trim());
 	            meeting.setAidTags(aids_tags.trim());
 	            meeting.setAgenda(agenda.trim());
+	            
+	//System.err.println( "agenda: "+ meeting.getAgenda() );    
+	
+	
 	            meeting.setResources(resource_tags.trim());
 	            meeting.setPosition(position);
 
@@ -161,9 +183,10 @@ import org.girlscouts.vtk.models.Meeting;
 	            meeting.setPath(meetingPath);
 
 	            
-	            
+	   // System.err.println("Processing: "+ meetingId.toUpperCase() ) ;       
 	             //meeting =doSingleFile(meeting.getPath(), meeting);
-	            meeting =doSingleFile(rootPath+ "/meetings/" + meetingId.toUpperCase() + ".docx", meeting);
+	            activityLog= activityLog.concat("<br/><br/>Processing "+meetingId.toUpperCase() + ".docx");
+	            meeting =doSingleFile(rootPath+ "/"+meetindDir+"/" + meetingId.toUpperCase() + ".docx", meeting);
 	            
 	            // ********* DOCX
 	       /*     
@@ -241,13 +264,30 @@ import org.girlscouts.vtk.models.Meeting;
 	            
 	            
 	            try {
-                    doJcr(meeting);
+                    //System.err.println("to jcr");
+	            	boolean isInDb=false;
+	            	if(meeting!=null){
+	            		
+	            		 isInDb= doJcr(meeting);
+	            		
+	            		
+	            	}
+	            	
+	            	if( isInDb )
+	            		activityLog= activityLog.concat("<br/>populating db...");
+	            	else
+	            		activityLog= activityLog.concat("<br/><font color='red'>Not processed</font>");
+	            	
+	            	
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
+	            
+	            
 	        }
 //return meeting;
+	        System.err.println("done");
 	    }
 	    
 	    
@@ -259,7 +299,9 @@ import org.girlscouts.vtk.models.Meeting;
 	    
 
 	    // Meeting
-	    public void doJcr(Meeting meeting) throws Exception {
+	    public boolean doJcr(Meeting meeting) throws Exception {
+	    	
+	    	boolean isSucc= false;
 	    	/*
 	        // Connection
 	        javax.jcr.Repository repository = JcrUtils
@@ -285,7 +327,8 @@ import org.girlscouts.vtk.models.Meeting;
 	        String path = meeting.getPath().substring(0,
 	                meeting.getPath().lastIndexOf("/"));
 
-	     
+//System.err.println("Path: "+ path );
+//System.err.println("Meeting path : "+ meeting.getPath() );
 
 	        // Node isExist = JcrUtils.getOrCreateUniqueByPath(path,
 	        // "nt:unstructured", session);
@@ -296,8 +339,10 @@ import org.girlscouts.vtk.models.Meeting;
 	            Node isExist = JcrUtils.getOrCreateByPath(path, "nt:unstructured", session);
 	            ocm.insert(meeting);
 	        }
+	        
 	        ocm.save();
-
+	        isSucc=true;
+	        return isSucc;
 	    }
 
 	    private String getCellVal(FormulaEvaluator evaluator, Sheet sheet,
@@ -374,11 +419,13 @@ import org.girlscouts.vtk.models.Meeting;
             TraverseFind docx = new TraverseFind();
 
             java.util.Map<String, String> meetings = docx.getMeetingInfo(fileName);
-           
+            if( meetings==null){System.err.println("Found error. file not processed "+ fileName); return null;}
            
             Meeting docxMeeting = null;
             try {
-                docxMeeting = docx.getMeeting(meetings);
+                
+            	docxMeeting = docx.getMeeting(meetings);
+                
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -389,18 +436,33 @@ import org.girlscouts.vtk.models.Meeting;
             	
             	
             	
+ 	
             	
-            	
-            if( meeting.getAgenda()!=null ){ //preview no xls	
+/*
+meeting.setAgenda("[1^As Girls Arrive^5]"+
+"[2^Opening Ceremony: Circle of Adventure^5]"+
+"[3^Introducing the Journey Awards^5]"+
+"[4^Team Passport^20]"+
+"[5^Games Around the Globe^15]"+
+"[6^Our Globe of Girls^15]                       [7^Story and Snack Time^20]                             [8^Closing Ceremony: A Great Place^5]");
+    */
+
+		if( meeting.getAgenda()!=null ){ //preview no xls	
+      	
                 List<Activity> chngActivities = new java.util.ArrayList();
                 Pattern _p = Pattern.compile("\\[(.*?)\\^(.*?)\\^(.*?)\\]");
                 Matcher _m = _p.matcher(meeting.getAgenda());
                 int count = 0;
                 while (_m.find()) {
+                	//System.err.println( "test: "+_m.group(3) );
+                	//System.err.println( "Activ size: "+docxMeeting.getActivities().size()  );
+                	
                     Activity activity = docxMeeting.getActivities().get(count);
+                    
                     activity.setDuration(Integer.parseInt(_m.group(3)));
-                   
+                    
                     String desc = activity.getActivityDescription();
+                    
                     /*
                     desc= desc.replace("[[Activity", "");
                     if (desc.endsWith("<p>"))
@@ -428,7 +490,7 @@ import org.girlscouts.vtk.models.Meeting;
         		      }
                     //////// end fmt
                     
-                    
+     //System.err.println("Activ: "+ activity.getActivityDescription());               
                     activity.setActivityDescription(txt);
                     chngActivities.add(activity);
                     count++;
@@ -491,5 +553,76 @@ import org.girlscouts.vtk.models.Meeting;
 
 	
 	    
-	
+	    
+	    
+	    public void unzip(String zipFilePath, String destDirectory) throws java.io.IOException {
+	    	
+	    	System.err.println("--" + zipFilePath);
+	    	
+	        java.io.File destDir = new java.io.File(destDirectory);
+	        if (!destDir.exists()) {
+	            destDir.mkdir();
+	        }
+	        ZipInputStream zipIn = new ZipInputStream(new FileInputStream(zipFilePath));
+	        ZipEntry entry = zipIn.getNextEntry();
+	        // iterates over entries in the zip file
+	        System.err.println(entry==null);
+	        
+	        while (entry != null) {
+	            String filePath = destDirectory + java.io.File.separator + entry.getName();
+	            if (!entry.isDirectory()) {
+	                // if the entry is a file, extracts it
+	            	
+	            	System.err.println(filePath);
+	            	
+	               // extractFile(zipIn, filePath);
+	            } else {
+	                // if the entry is a directory, make the directory
+	               // File dir = new File(filePath);
+	               // dir.mkdir();
+	            }
+	            zipIn.closeEntry();
+	            entry = zipIn.getNextEntry();
+	        }
+	        zipIn.close();
+	    }
+	    
+	    
+	    
+	    
+	    public void unzipFile1(String filePath, String dir){
+	         
+	        FileInputStream fis = null;
+	        java.util.zip.ZipInputStream zipIs = null;
+	        java.util.zip.ZipEntry zEntry = null;
+	        try {
+	            fis = new FileInputStream(filePath);
+	            zipIs = new java.util.zip.ZipInputStream(new java.io.BufferedInputStream(fis));
+	            while((zEntry = zipIs.getNextEntry()) != null){
+	                try{
+	                    byte[] tmp = new byte[4*1024];
+	                    java.io.FileOutputStream fos = null;
+	                    String opFilePath = dir+"/"+zEntry.getName();
+	                    System.out.println("Extracting file to "+opFilePath);
+	                    fos = new java.io.FileOutputStream(opFilePath);
+	                    int size = 0;
+	                    while((size = zipIs.read(tmp)) != -1){
+	                        fos.write(tmp, 0 , size);
+	                    }
+	                    fos.flush();
+	                    fos.close();
+	                } catch(Exception ex){
+	                     
+	                }
+	            }
+	            zipIs.close();
+	        } catch (java.io.FileNotFoundException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+	        } catch (java.io.IOException e) {
+	            // TODO Auto-generated catch block
+	            e.printStackTrace();
+	        }
+	    }
+	public String getActivityLog(){return this.activityLog;}
 }
