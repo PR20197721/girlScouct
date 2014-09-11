@@ -1307,7 +1307,8 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 		
 		StringTokenizer t= new StringTokenizer( tags, "|");
 		while( t.hasMoreElements()){
-			sqlTags+=" contains(parent.[cq:tags], '"+ t.nextToken() +"') ";
+			sqlTags+=" contains(parent.[cq:tags], 'program-level/"+ t.nextToken() +"') ";
+			//sqlTags+=" parent.[cq:tags] = '"+ t.nextToken() +"' ";
 			if( t.hasMoreElements() )
 				sqlTags+=" or ";
 			isTag=true;
@@ -1323,7 +1324,8 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 		
 	    t= new StringTokenizer( cat, "|");
 		while( t.hasMoreElements()){
-			sqlCat+=" contains(parent.[cq:tags], '"+ t.nextToken() +"') ";
+			sqlCat+=" contains(parent.[cq:tags], 'categories/"+ t.nextToken() +"') ";
+			//sqlCat+=" parent.[cq:tags]= 'gsnetx:categories/"+ t.nextToken() +"' ";
 			if( t.hasMoreElements() )
 				sqlCat+=" or ";
 			isTag=true;
@@ -1474,22 +1476,23 @@ if( (activity.getDate().before(new java.util.Date()) && activity.getEndDate()==n
 				activity.setIsEditable(false);
 				
 				
+				/*
 				
-				
-				//System.err.println("_________________________________________________");
-				//System.err.println("Range: "+ startDate +" : "+ endDate);
-				//System.err.println("ACtiv: "+ activity.getDate() +" : "+ activity.getEndDate());
+				System.err.println("_________________________________________________");
+				System.err.println("Range: "+ startDate +" : "+ endDate);
+				System.err.println("ACtiv: "+ activity.getDate() +" : "+ activity.getEndDate());
 				
 				//System.err.println( startDate.after( activity.getDate() ) +" : " +startDate.before( activity.getEndDate()) );
 				//System.err.println( endDate.after( activity.getDate() ) +" : " +endDate.before( activity.getEndDate()) );
 		
-				/*
+			
 				System.err.println( activity.getDate().after( startDate ) +" : "+ activity.getDate().before(endDate) );
 				System.err.println( activity.getEndDate().after( startDate ) +": " + activity.getEndDate().before(endDate) );				
 				System.err.println(activity.getEndDate().before(startDate) +" : "+ activity.getEndDate() +" : "+ startDate);
 				*/
 				
-				if(  
+				if( startDate!=null && endDate!=null)
+				 if(  
 				  ( startDate.after(endDate) ) ||
 					 activity.getEndDate().before(startDate) ||
 						( 
@@ -1503,7 +1506,7 @@ if( (activity.getDate().before(new java.util.Date()) && activity.getEndDate()==n
 						{ 
 					
 							
-							//System.err.println("*************************Continue..."+i );
+							System.err.println("*************************Continue..."+i );
 							continue;
 						}
 				
@@ -1529,7 +1532,7 @@ if( (activity.getDate().before(new java.util.Date()) && activity.getEndDate()==n
 		 }
 		 
 		 
-		 //System.err.println("Total: "+ i);
+		 System.err.println("Total: "+ i);
 		 
 	}catch(Exception e){e.printStackTrace();}
 	return toRet;

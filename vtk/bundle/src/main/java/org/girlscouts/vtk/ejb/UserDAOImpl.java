@@ -69,15 +69,17 @@ public class UserDAOImpl implements UserDAO{
 			
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
-		
+	
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(User.class);
-		
+			
 	        // GOOD user = (User) ocm.getObject("/content/girlscouts-vtk/users/"+ userId);
 			
 			//6/27/14 
+		System.err.println("GET_USER_OBJ********************");	
+			//-ocm.refresh(false);
 	        user = (User) ocm.getObject(userId);
-	        
+	      
 	       
 	       
 	        if( user!=null && user.getYearPlan().getMeetingEvents()!=null){
@@ -157,9 +159,9 @@ public class UserDAOImpl implements UserDAO{
 		
 	}
 	
-	public void updateUser(User user){
+	public boolean updateUser(User user){
 		
-		
+		boolean isUpdated= false;
          try{
 			
 			List<Class> classes = new ArrayList<Class>();	
@@ -218,10 +220,10 @@ public class UserDAOImpl implements UserDAO{
 				ocm.insert(user);
 			}
 			 ocm.save();
-			 
+			 isUpdated=true;
 			
 			}catch(Exception e){e.printStackTrace();}
-		
+		return isUpdated;
 	}
 	
 	

@@ -110,9 +110,10 @@ cTrans.put("313", "Girl Scouts of Gateway Council, Inc.");
 		<table>
 		<tr>
 		<th>Council</th>
+		<th>Junior</th>
 		<th>Brownie</th>
 		<th>Daisy</th>
-		<th>Junior</th>
+		
 		</tr>
 <%
 		
