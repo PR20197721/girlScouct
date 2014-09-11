@@ -1271,7 +1271,7 @@ public SearchTag searchA( String councilCode){
 		 }
 		
 		//if no tags found -> pull from default /etc/tags/girlscouts 9/11/14
-		 if( categories ==null && levels==null ){
+		 if( (categories ==null || categories.size()==0 ) && (levels==null || levels.size()==0) ){
 			 
 		  try{
 			  
@@ -1313,7 +1313,7 @@ public SearchTag searchA( String councilCode){
 
 public SearchTag getDefaultTags( ){
 	
-	
+	System.err.println("default tags..");
 	/*
 	String councilStr = councilMapper.getCouncilBranch(councilCode);
 	councilStr = councilStr.replace("/content/","");
