@@ -1940,4 +1940,30 @@ public void  saveCouncilMilestones(java.util.List<Milestone> milestones){
 
 }
 
+
+public boolean isCurrentUserId(User user, String sId){
+	
+	boolean isUser=false;
+	try{
+	String sql="select currentUser from nt:base where jcr:path = '"+ user.getPath() +"'";
+	javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
+	javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
+		
+	QueryResult result = q.execute();
+	 for (RowIterator it = result.getRows(); it.hasNext(); ) {
+	       Row r = it.nextRow();
+	       System.err.println(1);
+	       System.err.println(r.getValue("currentUser").getString());
+	       
+	       if( sId.equals( r.getValue("currentUser").getString() ) ){
+	    	   
+	    	   isUser=true;
+	    	   
+	       }
+	 }
+	}catch(Exception e){e.printStackTrace();}
+	return isUser;
+	
+}
+
 }//edn class

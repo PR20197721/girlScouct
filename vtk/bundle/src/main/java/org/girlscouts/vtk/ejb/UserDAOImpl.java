@@ -77,7 +77,7 @@ public class UserDAOImpl implements UserDAO{
 			
 			//6/27/14 
 		System.err.println("GET_USER_OBJ********************");	
-			//-ocm.refresh(false);
+			ocm.refresh(true);
 	        user = (User) ocm.getObject(userId);
 	      
 	       
@@ -223,7 +223,7 @@ public class UserDAOImpl implements UserDAO{
 				System.err.println( "User created/insert");
 				ocm.insert(user);
 			}
-double x= 100/0;
+
 			ocm.save();
 			user.setLastModified(java.util.Calendar.getInstance());
 			isUpdated=true;
@@ -572,4 +572,13 @@ public void addAsset(User user, String meetingUid,  Asset asset){
 		return users;
 	}
 
+	
+	
+	public void logout(User user){
+		
+		user.setCurrentUser(null);
+		updateUser( user );
+	}
+	
+	
 }//ednclass
