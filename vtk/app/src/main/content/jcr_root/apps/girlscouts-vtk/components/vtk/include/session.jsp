@@ -154,7 +154,6 @@ if( user ==null){
        
 		
 		
-		
 }
 
 
@@ -168,6 +167,16 @@ if (session.getAttribute("USER_TROOP_LIST") == null) {
 %>
 
 
+	<%if( user!=null && user.getLastModified()!=null) {
+			
+			if( user.getLastModified().getTime().equals( new java.util.Date("1/2/1976") ) ){
+				%>
+					<div style="color:#fff; background-color:red;">Warning: you last change was not saved.</div>
+				<%
+			}
+		}%>
+		
+	
 
 
 

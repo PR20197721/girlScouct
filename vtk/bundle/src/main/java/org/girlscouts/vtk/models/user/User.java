@@ -36,9 +36,8 @@ public class User {
 	private EmailMeetingReminder sendingEmail;
 	
 	
-	
-	
-	
+	//session id of current user
+	@Field private String currentUser;
 	
 	
 	
