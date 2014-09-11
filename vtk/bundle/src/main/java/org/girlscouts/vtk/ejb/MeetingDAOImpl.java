@@ -1271,7 +1271,7 @@ public SearchTag searchA( String councilCode){
 		 }
 		
 		//if no tags found -> pull from default /etc/tags/girlscouts 9/11/14
-		 if( true){//categories ==null && levels==null ){
+		 if( categories ==null && levels==null ){
 			 
 		  try{
 			  
