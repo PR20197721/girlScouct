@@ -85,12 +85,12 @@ switch_component('com.adobe.granite.workflow.core.launcher.WorkflowLauncherListe
 for branch in branches_auth:
     rcp(branch, 'auth');
 
-for branch in branches_pub:
-    rcp(branch, 'pub');
-    
 # Re-enable workflow launcher and listener
 switch_component('com.adobe.granite.workflow.core.launcher.WorkflowLauncherImpl', True);
 switch_component('com.adobe.granite.workflow.core.launcher.WorkflowLauncherListener', True);
 
+for branch in branches_pub:
+    rcp(branch, 'pub');
+    
 elapsed_time = time.time() - start_time
 print "All Done. Time elapsed: " + str(elapsed_time) + " seconds."
