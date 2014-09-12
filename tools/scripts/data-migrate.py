@@ -6,7 +6,9 @@
 # Migrate data from prod auth to stage auth 
 # and then replicate tree to stage pub
 
-import sys, os
+import sys, os, time
+
+start_time = time.time()
 
 all_conf = {
     'local' : {
@@ -42,11 +44,12 @@ all_conf = {
 }
 
 branches_auth=[
-    '/content/dam/girlscouts-vtk'
+    '/content'
 ]
 
 branches_pub=[
-    '/vtk'
+    '/vtk',
+    '/content'
 ]
 
 batch_size = 1024
@@ -81,7 +84,13 @@ switch_component('com.adobe.granite.workflow.core.launcher.WorkflowLauncherListe
 
 for branch in branches_auth:
     rcp(branch, 'auth');
+
+for branch in branches_pub:
+    rcp(branch, 'pub');
     
 # Re-enable workflow launcher and listener
 switch_component('com.adobe.granite.workflow.core.launcher.WorkflowLauncherImpl', True);
 switch_component('com.adobe.granite.workflow.core.launcher.WorkflowLauncherListener', True);
+
+elapsed_time = time.time() - start_time
+print "All Done. Time elapsed: " + str(elapsed_time) + " seconds."
