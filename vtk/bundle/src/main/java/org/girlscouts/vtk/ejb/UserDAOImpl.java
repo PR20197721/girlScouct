@@ -163,10 +163,35 @@ public class UserDAOImpl implements UserDAO{
 		
 		boolean isUpdated= false;
          try{
-			
+        	 
+        	 if( user==null || user.getYearPlan() ==null) { System.err.println("exiting updateUser"); return true; }
+	
+        	 /*
         	 java.util.Calendar cal = java.util.Calendar.getInstance();
         	 cal.setTime(new java.util.Date("1/2/1976"));
         	 user.setLastModified(cal);
+        	 */
+        	 user.setErrCode("111");
+        	 
+        	 //another user logged in
+        	 if( user!=null && user.getLastModified()!=null ){
+        		 /*
+        		 java.util.Calendar x= java.util.Calendar.getInstance();
+        		 x.add(java.util.Calendar.MINUTE, -2);
+        		 
+        		 System.err.println("Check: "+ x.getTime() +" MK: "+ user.getLastModified().getTime() +" :" +(user.getLastModified().after(x)) );
+        		 System.err.println("Check1 isCurrentUser: "+ meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) );
+        		 */
+        		 
+        				 if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){// && user.getLastModified().after(x) ){ 
+        			 
+        					 //cal.setTime(new java.util.Date("1/3/1976"));
+        					 //user.setLastModified(cal);
+        					 user.setErrCode("112");
+        					 return false;
+        				 }
+        	 }
+        	 
         	 
 			List<Class> classes = new ArrayList<Class>();	
 			classes.add(User.class); 
@@ -182,6 +207,7 @@ public class UserDAOImpl implements UserDAO{
 			
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
+		
 		
 			Comparator<MeetingE> comp = new BeanComparator("id");
 			Collections.sort( user.getYearPlan().getMeetingEvents(), comp);
@@ -208,7 +234,7 @@ public class UserDAOImpl implements UserDAO{
 				while(t.hasMoreElements()){
 					String node = t.nextToken();
 					path += "/"+node ;
-				System.err.println( "user cr: "+path+":"+session.itemExists( path ) );	
+					System.err.println( "user cr: "+path+":"+session.itemExists( path ) );	
 					if( !session.itemExists( path )){
 						if( i==1 ){
 							System.err.println(i +" : creating user");
@@ -223,13 +249,39 @@ public class UserDAOImpl implements UserDAO{
 				System.err.println( "User created/insert");
 				ocm.insert(user);
 			}
+System.err.println("Saving user info..."+ user.getPath() );
+System.err.println( "sessionId: "+ user.getCurrentUser() );
 
-			ocm.save();
-			user.setLastModified(java.util.Calendar.getInstance());
-			isUpdated=true;
-		
+			String old_errCode= user.getErrCode();
+			java.util.Calendar old_lastModified = user.getLastModified();
+			try{
+				user.setErrCode(null);
+				user.setLastModified(java.util.Calendar.getInstance());
+				ocm.update(user);
+				ocm.save();
+				
+			
+				isUpdated=true;
+				System.err.println("User info saved..." + user.getErrCode());	
+			}catch(Exception e){
+				e.printStackTrace();
+				
+				user.setLastModified(old_lastModified);
+				user.setErrCode(old_errCode);
+				
+				}
+			
+			
+			
 
-			}catch(Exception e){e.printStackTrace();}
+			}catch(Exception e){
+				
+			
+			 if( user!=null )
+				System.err.println("TEST: "+user.getId() +" : "+ user.getPath() );
+			 
+			 e.printStackTrace();
+			}
          
          	
 		return isUpdated;
@@ -575,6 +627,7 @@ public void addAsset(User user, String meetingUid,  Asset asset){
 	
 	
 	public void logout(User user){
+		if(user ==null) return;
 		
 		user.setCurrentUser(null);
 		updateUser( user );

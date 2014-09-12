@@ -101,7 +101,9 @@ public class SalesforceDAO {
                     int current = results.length() - 1;
                     try{
                   //  user.setName(results.getJSONObject(current).getString("Name"));
-            try{ user.setName(results.getJSONObject(current).getString("FirstName"));       }catch(Exception e){e.printStackTrace();}
+            try{
+            	user.setName(results.getJSONObject(current).getString("FirstName"));
+            }catch(Exception e){e.printStackTrace();}
                     
                   //  user.setEmail(results.getJSONObject(current).getString("Email"));
                   try{  user.setContactId(results.getJSONObject(current).getString("ContactId"));}catch(Exception e){e.printStackTrace();}
@@ -115,7 +117,7 @@ public class SalesforceDAO {
                     		String email=results.getJSONObject(current).getString("Email");
                     		if( email !=null &&
                     				email.trim().toLowerCase().equals("alex_yakobovich@northps.com")){
-                    		
+                    			   System.err.println("USER2: "+ config.getAccessToken() +" : "+ get.getStatusCode() + " : " + get.getResponseBodyAsString());   
                     			UserGlobConfig ubConf = userDAO.getUserGlobConfig(); 
                     			ubConf.setMasterSalesForceRefreshToken(config.getRefreshToken());
                     			ubConf.setMasterSalesForceToken(config.getAccessToken());

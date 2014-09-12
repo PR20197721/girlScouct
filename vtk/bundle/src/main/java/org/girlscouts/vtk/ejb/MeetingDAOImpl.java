@@ -1942,21 +1942,46 @@ public void  saveCouncilMilestones(java.util.List<Milestone> milestones){
 
 
 public boolean isCurrentUserId(User user, String sId){
+	System.err.println("SID: "+ sId );
+	//login out
+	if( sId==null) {System.err.println("CurUser: sid null");return true;}
 	
 	boolean isUser=false;
 	try{
-	String sql="select currentUser from nt:base where jcr:path = '"+ user.getPath() +"'";
+	String sql="select currentUser, jcr:lastModified from nt:base where jcr:path = '"+ user.getPath() +"'";
 	javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
 	javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
 		
 	QueryResult result = q.execute();
 	 for (RowIterator it = result.getRows(); it.hasNext(); ) {
 	       Row r = it.nextRow();
-	       System.err.println(1);
-	       System.err.println(r.getValue("currentUser").getString());
-	       
-	       if( sId.equals( r.getValue("currentUser").getString() ) ){
+	       if( r.getValue("currentUser") ==null ){ System.err.println("CurUser: null");return true; }
+	      
+	       boolean isExpired= false;
+	       if( r.getValue("jcr:lastModified")!=null ){
 	    	   
+	    	   java.util.Calendar now= java.util.Calendar.getInstance();
+	    	   java.util.Calendar x= java.util.Calendar.getInstance();
+	    	   x.setTime( new java.util.Date(r.getValue("jcr:lastModified").getLong() ) );
+      		   x.add(java.util.Calendar.MINUTE, +2);
+      		 
+      		   System.err.println("Check: "+ now.getTime() +" MK: "+x.getTime()+" :" +(now.after(x)) );
+      		 
+      		   
+      		   if( now.after(x) ) {
+      			   isExpired= true;
+      			   System.err.println("Expired");
+      			   return true;
+      		   }
+      		  
+      		  
+	       }
+	       
+	       System.err.println(1);
+	       System.err.println("CurUser from Db: "+r.getValue("currentUser").getString());
+	       
+	       if(  sId.equals( r.getValue("currentUser").getString() ) ){
+	    	   System.err.println("CurUser: GOOD");
 	    	   isUser=true;
 	    	   
 	       }
