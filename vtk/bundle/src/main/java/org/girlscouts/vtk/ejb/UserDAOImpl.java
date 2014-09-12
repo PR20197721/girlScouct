@@ -77,7 +77,7 @@ public class UserDAOImpl implements UserDAO{
 			
 			//6/27/14 
 		System.err.println("GET_USER_OBJ********************");	
-			//-ocm.refresh(false);
+			ocm.refresh(true);
 	        user = (User) ocm.getObject(userId);
 	      
 	       
@@ -164,6 +164,10 @@ public class UserDAOImpl implements UserDAO{
 		boolean isUpdated= false;
          try{
 			
+        	 java.util.Calendar cal = java.util.Calendar.getInstance();
+        	 cal.setTime(new java.util.Date("1/2/1976"));
+        	 user.setLastModified(cal);
+        	 
 			List<Class> classes = new ArrayList<Class>();	
 			classes.add(User.class); 
 			classes.add(YearPlan.class); 
@@ -189,7 +193,7 @@ public class UserDAOImpl implements UserDAO{
 			
 	    
 	    
-	    
+	   
 			System.err.println("CHECKING JCR: " +ocm.objectExists( user.getPath()) );
 		
 			if( session.itemExists( user.getPath() )){
@@ -219,10 +223,15 @@ public class UserDAOImpl implements UserDAO{
 				System.err.println( "User created/insert");
 				ocm.insert(user);
 			}
-			 ocm.save();
-			 isUpdated=true;
-			
+
+			ocm.save();
+			user.setLastModified(java.util.Calendar.getInstance());
+			isUpdated=true;
+		
+
 			}catch(Exception e){e.printStackTrace();}
+         
+         	
 		return isUpdated;
 	}
 	
@@ -563,4 +572,13 @@ public void addAsset(User user, String meetingUid,  Asset asset){
 		return users;
 	}
 
+	
+	
+	public void logout(User user){
+		
+		user.setCurrentUser(null);
+		updateUser( user );
+	}
+	
+	
 }//ednclass

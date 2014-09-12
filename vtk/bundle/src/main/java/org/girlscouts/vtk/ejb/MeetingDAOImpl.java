@@ -1235,7 +1235,7 @@ public SearchTag searchA( String councilCode){
 	
 	String councilStr = councilMapper.getCouncilBranch(councilCode);
 	councilStr = councilStr.replace("/content/","");
-	System.err.println("Counccccc: " +councilStr);
+	//System.err.println("Counccccc: " +councilStr);
 	
 	
 	SearchTag tags = new SearchTag();
@@ -1270,6 +1270,94 @@ public SearchTag searchA( String councilCode){
 		       }
 		 }
 		
+		//if no tags found -> pull from default /etc/tags/girlscouts 9/11/14
+		 if( (categories ==null || categories.size()==0 ) && (levels==null || levels.size()==0) ){
+			 
+		  try{
+			  
+			  return getDefaultTags();
+		 	}catch(Exception e){e.printStackTrace();}
+		 }
+		 
+		 
+		 
+		 
+		 if( categories!=null ){
+			 categories.remove("Categories");
+			 categories.remove("categories");
+		 }
+		 
+		 if(levels!=null){
+			 levels.remove("Program Level");
+			 levels.remove("program level");
+		 }
+		 
+		 tags.setCategories( categories );
+		 tags.setLevels( levels );
+		 tags.setRegion( searchRegion() );
+		 
+	}catch(Exception e){e.printStackTrace();}
+
+	return tags;
+}
+
+
+
+
+
+
+
+
+
+
+
+public SearchTag getDefaultTags( ){
+	
+	System.err.println("default tags..");
+	/*
+	String councilStr = councilMapper.getCouncilBranch(councilCode);
+	councilStr = councilStr.replace("/content/","");
+	//System.err.println("Counccccc: " +councilStr);
+	*/
+	String councilStr = "girlscouts";
+	SearchTag tags = new SearchTag();
+	try{
+		
+		java.util.Map<String, String> categories = new java.util.TreeMap();
+		java.util.Map<String, String> levels = new java.util.TreeMap();
+		
+		//String sql="select jcr:title from nt:base where jcr:path like '/etc/tags/girlscouts/%'";
+		String sql="select jcr:title from nt:base where jcr:path like '/etc/tags/"+ councilStr +"/%'";
+		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
+		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
+			
+		QueryResult result = q.execute();
+		 for (RowIterator it = result.getRows(); it.hasNext(); ) {
+		       Row r = it.nextRow();
+		       if( r.getPath().startsWith("/etc/tags/"+ councilStr +"/categories") ){
+		    	   String elem =  r.getValue("jcr:title").getString();
+		    	   if( elem!=null )
+		    		   elem = elem.toLowerCase().replace("_", "").replace("/", "");
+		    	   
+		    	   categories.put( elem,null );
+		    	   
+		       } else if( r.getPath().startsWith("/etc/tags/"+ councilStr +"/program-level") ){
+		    	   //levels.put( r.getValue("jcr:title").getString(), null );
+		    	   String elem = r.getValue("jcr:title").getString();
+		    	   if( elem!=null )
+		    		   elem = elem.toLowerCase().replace("_", "").replace("/", "");
+		    	   
+		    	   levels.put( elem, null );
+		    	   
+		       }
+		 }
+		
+		
+		
+		 
+		 
+		 
+		 
 		 if( categories!=null ){
 			 categories.remove("Categories");
 			 categories.remove("categories");
@@ -1850,6 +1938,32 @@ public void  saveCouncilMilestones(java.util.List<Milestone> milestones){
 	
 
 
+}
+
+
+public boolean isCurrentUserId(User user, String sId){
+	
+	boolean isUser=false;
+	try{
+	String sql="select currentUser from nt:base where jcr:path = '"+ user.getPath() +"'";
+	javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
+	javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
+		
+	QueryResult result = q.execute();
+	 for (RowIterator it = result.getRows(); it.hasNext(); ) {
+	       Row r = it.nextRow();
+	       System.err.println(1);
+	       System.err.println(r.getValue("currentUser").getString());
+	       
+	       if( sId.equals( r.getValue("currentUser").getString() ) ){
+	    	   
+	    	   isUser=true;
+	    	   
+	       }
+	 }
+	}catch(Exception e){e.printStackTrace();}
+	return isUser;
+	
 }
 
 }//edn class

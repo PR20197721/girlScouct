@@ -18,4 +18,5 @@ public interface UserDAO {
 	public UserGlobConfig getUserGlobConfig();
 	public void updateUserGlobConfig();
 	public java.util.List getUsers();
+	public void logout(User user);
 }

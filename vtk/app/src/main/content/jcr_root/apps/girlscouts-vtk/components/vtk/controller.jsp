@@ -26,6 +26,9 @@
 	java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat("MM/dd/yyyy hh:mm a");
 %>
 <%
+
+
+
 /*
 System.err.println("CONTROOLER ");
 Enumeration parameterList = request.getParameterNames();
@@ -38,7 +41,7 @@ while( parameterList.hasMoreElements() )
 
 //java.util.List<Milestone> ms =  meetingDAO.getCouncilMilestones("603");
 
-
+String vtkErr="";
 
 if( request.getParameter("isMeetingCngAjax") !=null){
 	meetingUtil.changeMeetingPositions( user, request.getParameter("isMeetingCngAjax") );
@@ -169,7 +172,13 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	org.girlscouts.vtk.models.Asset asset = new org.girlscouts.vtk.models.Asset(request.getParameter("addAsset"));
 	new UserDAOImpl().addAsset( user ,  request.getParameter("meetingUid"),   asset);
 }else if( request.getParameter("testAB")!=null){
-	userDAO.updateUser(user);
+	boolean isUsrUpd= userDAO.updateUser(user) ;
+	
+	if(!isUsrUpd)
+		vtkErr+= vtkErr.concat("Warning: You last change was not saved.");
+	
+	
+	
 	//getMeeting(girlscouts-vtk/yearPlanTemplates/yearplan2014/brownie/yearPlan1/meetings/meeting1");
 	//meetingDAO.getMeeting("/content/girlscouts-vtk/meetings/myyearplan/brownie/B14OG01");
 }else if( request.getParameter("addAids")!=null){
@@ -250,6 +259,8 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	emr=null;
 	user.setSendingEmail(null);
 }else if( request.getParameter("bindAssetToYPC") !=null ){
+	
+	
 	String assetId = request.getParameter("bindAssetToYPC");
 	String ypcId = request.getParameter("ypcId");
 	String assetDesc = java.net.URLDecoder.decode(request.getParameter("assetDesc"));
@@ -270,7 +281,12 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 			
 			meetings.get(i).setAssets(assets);
 			
-			userDAO.updateUser(user);
+			boolean isUsrUpd= userDAO.updateUser(user);
+			
+			if(!isUsrUpd)
+				vtkErr+= vtkErr.concat("Warning: You last change was not saved.");
+			
+			
 			return;
 		}
 	}
@@ -292,7 +308,10 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 				
 				activities.get(i).setAssets(assets);
 				
-				userDAO.updateUser(user);
+				boolean isUsrUpd = userDAO.updateUser(user);
+				if(!isUsrUpd)
+					vtkErr+= vtkErr.concat("Warning: You last change was not saved.");
+				
 				return;
 			}
 		}
@@ -314,7 +333,11 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	activity.setLocationName(request.getParameter("newCustActivityLocName"));
 	activity.setLocationAddress(request.getParameter("newCustActivityLocAddr"));
 	
-	userDAO.updateUser(user);
+	boolean isUsrUpd = userDAO.updateUser(user);
+	if(!isUsrUpd)
+		vtkErr+= vtkErr.concat("Warning: You last change was not saved.");
+	
+	
 }else if( request.getParameter("srch") !=null ){
 	try{
 		java.util.Date startDate = null, endDate= null;
@@ -483,7 +506,13 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 		Milestone m = milestones.get(i);
 		if( m.getUid().equals(request.getParameter("removeCouncilMilestones")) ){
 			milestones.remove(m);
-			userDAO.updateUser(user);
+			
+			
+			boolean isUsrUpd =userDAO.updateUser(user);
+			if(!isUsrUpd)
+				vtkErr+= vtkErr.concat("Warning: You last change was not saved.");
+			
+			
 			response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
 			return;
 		}
@@ -503,4 +532,10 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 }else{
 	//TODO throw ERROR CODE
 }
+
+
+
+
+
+
 %>

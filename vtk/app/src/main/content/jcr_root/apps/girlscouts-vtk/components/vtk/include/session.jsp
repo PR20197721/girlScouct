@@ -154,7 +154,38 @@ if( user ==null){
        
 		
 		
+		//System.err.println("** user: "+ user.getCurrentUser() +" : "+ session.getId() );
+		//out.println( session.getId() +" : "+ user.getCurrentUser() );
+		if( session!=null && user.getCurrentUser()!=null &&  !session.getId().equals( user.getCurrentUser() )){  
+
+			%>
+			<span class='error'>Warning: another user is logged in. To continue please relogin.</span>
+			<%
+			
+			return;
+		 }else{
+			 System.err.println("test");
+			 user.setCurrentUser( session.getId() );
+			 userDAO.updateUser(user);
+				
+		 }
+	
 		
+		
+}else{
+	
+	
+	//out.println(session.getId() +" : "+user.getCurrentUser());
+	if( !meetingDAO.isCurrentUserId(user, session.getId() )){  
+
+		%>
+		<span class='error'>Warning: another user is logged in. To continue please relogin.</span>
+		<%
+		
+		return;
+	 }
+	
+	
 }
 
 
@@ -168,8 +199,19 @@ if (session.getAttribute("USER_TROOP_LIST") == null) {
 %>
 
 
-
-
-
+	<%if( user!=null && user.getLastModified()!=null) {
+			
+			if( user.getLastModified().getTime().equals( new java.util.Date("1/2/1976") ) ){
+				%>
+					<div style="color:#fff; background-color:red;">Warning: you last change was not saved.</div>
+				<%
+			}
+		}
+	
+	
+	
+	%>
+	
+	
 
 
