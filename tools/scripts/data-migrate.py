@@ -38,8 +38,8 @@ all_conf = {
     'prod' : {
         'auth_url' : '54.84.115.158:4502',
         'pub_url' : '54.85.131.182:4503',
-        'username' : '####off',
-        'password' : '####off'
+        'username' : 'proddatamigrate',
+        'password' : 'v3swezaz'
     }
 }
 
