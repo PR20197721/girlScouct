@@ -57,7 +57,12 @@ def switch_component(name, switch):
     if switch:
         switch_str = "enable"
     os.system("curl -silent -u admin:" + dst_conf['admin_password'] + " --data 'action=" + switch_str + "' http://" + dst_conf['auth_url'] + "/system/console/components/" + name + "/" + name + " > /dev/null") # due to wierd Felix REST API, component has to be repeated twice.
-    print "###" + switch_str + "d component: " + name;
+    print "### " + switch_str + "d component: " + name;
+
+def rcp(branch, runmode):
+    "RCP data. Runmode can be auth/pub"
+    os.system("vlt rcp -b " + str(batch_size) + " -r -u -n http://" + src_conf['username'] + ":" + src_conf['password'] + "@" + src_conf[runmode + '_url'] + "/crx/-/jcr:root" + branch + " http://" + dst_conf["username"] + ":" + dst_conf["password"] + "@" + dst_conf[runmode + '_url'] + "/crx/-/jcr:root" + branch);
+    print "### Migrated branch: " + branch
 
 ####################
 # Main
@@ -75,7 +80,7 @@ switch_component('com.adobe.granite.workflow.core.launcher.WorkflowLauncherImpl'
 switch_component('com.adobe.granite.workflow.core.launcher.WorkflowLauncherListener', False);
 
 for branch in branches_auth:
-    os.system("vlt rcp -b " + str(batch_size) + " -r -u -n http://" + src_conf['username'] + ":" + src_conf['password'] + "@" + src_conf['auth_url'] + "/crx/-/jcr:root" + branch + " http://" + dst_conf["username"] + ":" + dst_conf["password"] + "@" + dst_conf["auth_url"] + "/crx/-/jcr:root" + branch);
+    rcp(branch, 'auth');
     
 # Re-enable workflow launcher and listener
 switch_component('com.adobe.granite.workflow.core.launcher.WorkflowLauncherImpl', True);
