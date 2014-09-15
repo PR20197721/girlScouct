@@ -747,4 +747,135 @@ public java.util.List <Troop>  troopInfo1(ApiConfig apiConfig, String contactId)
 			return troops;
 }
 
+
+
+public String getcaca3(ApiConfig config, String id ) {
+    User user = new User();
+
+    HttpClient httpclient = new HttpClient();
+    GetMethod get = new GetMethod(config.getInstanceUrl() + "/services/data/v20.0/query");
+
+    //-get.setRequestHeader("Authorization", "OAuth " + config.getAccessToken());
+    UserGlobConfig ubConf = userDAO.getUserGlobConfig(); 
+	get.setRequestHeader("Authorization", "OAuth " + ubConf.getMasterSalesForceToken());
+
+	
+	
+    // set the SOQL as a query param
+    NameValuePair[] params = new NameValuePair[1];
+
+    if( id==null) id= config.getUserId() ;
+   System.err.println("*"+config.getUserId());
+    params[0] = new NameValuePair("q", "SELECT ID,name,email, phone, mobilephone, ContactId, FirstName  from User where id='" 
+            + id + "' limit 1");
+    
+    
+    get.setQueryString(params);
+
+    try {
+    	
+    	System.err.println("________________getUser_________start_____________________________");
+		System.err.println( get.getRequestCharSet() );
+		Header headers[] =get.getRequestHeaders();
+		for( Header h : headers){
+			System.err.println("Headers: "+h.getName() +" : "+ h.getValue());
+		}
+		System.err.println(":::> " + get.getQueryString());
+		System.err.println(config.getInstanceUrl()+ "/services/data/v20.0/query");
+		System.err.println("___________________getUser________end___________________________");
+		
+    	
+        httpclient.executeMethod(get);
+
+        System.err.println("USER: "+ config.getAccessToken() +" : "+ get.getStatusCode() + " : " + get.getResponseBodyAsString());   
+        if( true ){return get.getStatusCode() + " : " + get.getResponseBodyAsString();}
+        log.debug(get.getStatusCode() + " : " + get.getResponseBodyAsString());
+
+        if (get.getStatusCode() == HttpStatus.SC_OK) {
+            try {
+                JSONObject response = new JSONObject(
+                                      new JSONTokener(
+                                      new InputStreamReader(
+                                      get.getResponseBodyAsStream())));
+                log.debug("Query response: " + response.toString(2));
+                JSONArray results = response.getJSONArray("records");
+
+                // Always use the last record
+                int current = results.length() - 1;
+                try{
+              //  user.setName(results.getJSONObject(current).getString("Name"));
+        try{
+        	user.setName(results.getJSONObject(current).getString("FirstName"));
+        }catch(Exception e){e.printStackTrace();}
+                
+              //  user.setEmail(results.getJSONObject(current).getString("Email"));
+              try{  user.setContactId(results.getJSONObject(current).getString("ContactId"));}catch(Exception e){e.printStackTrace();}
+                //user.setPhone(results.getJSONObject(current).getString("Phone"));
+                //user.setHomePhone(results.getJSONObject(current).getString("HomePhone"));
+               // user.setMobilePhone(results.getJSONObject(current).getString("MobilePhone"));
+               // user.setMobilePhone(results.getJSONObject(current).getString("AssistantPhone"));
+                
+                /*
+                	try{
+                		String email=results.getJSONObject(current).getString("Email");
+                		if( email !=null &&
+                				email.trim().toLowerCase().equals("alex_yakobovich@northps.com")){
+                			   System.err.println("USER2: "+ config.getAccessToken() +" : "+ get.getStatusCode() + " : " + get.getResponseBodyAsString());   
+                			UserGlobConfig ubConf = userDAO.getUserGlobConfig(); 
+                			ubConf.setMasterSalesForceRefreshToken(config.getRefreshToken());
+                			ubConf.setMasterSalesForceToken(config.getAccessToken());
+                			userDAO.updateUserGlobConfig();
+                		}
+                	}catch(Exception e){e.printStackTrace();}
+                */
+                }catch(Exception e){e.printStackTrace();}
+                
+                
+                test();
+                doAuthMaster();
+                
+                java.util.List <Troop>  troops = troopInfo( config,  user.getContactId());
+
+                
+                
+                
+                /*
+                if(troops==null || troops.size() <=0 ){
+                	System.err.println("Trying troops 2 time....");
+                	UserGlobConfig ubConf = userDAO.getUserGlobConfig(); 
+                	System.err.println("REFresh token: refresh:"+ ubConf.getMasterSalesForceRefreshToken()  +" token:" + ubConf.getMasterSalesForceToken()  );
+                	String newMasterToken = refreshToken( ubConf.getMasterSalesForceRefreshToken() );
+                	System.err.println("NewREfreshToken: "+ newMasterToken);
+                	if( newMasterToken!=null){
+                		ubConf.setMasterSalesForceToken(newMasterToken);
+                		userDAO.updateUserGlobConfig();
+                	}
+                	troops = troopInfo( config,  user.getContactId());
+                }                 	
+                // 4test troops=null;
+                */
+                
+                //if no troops for the DP , get council code
+                if( troops==null || troops.size()<=0 )
+                	troops = troopInfo1( config,  user.getContactId());
+                
+                
+                
+                config.setTroops( troops );
+                
+                return null; //user
+            } catch (JSONException e) {
+                log.error("JSON Parse exception: " + e.toString());
+            }
+        } else {
+            log.error("Return status not OK: " + get.getStatusCode() + " " + get.getResponseBodyAsString());
+        }
+    } catch (Exception e) {
+        log.error("Error executing HTTP GET when getting the user: " + e.toString());
+    } finally {
+        get.releaseConnection();
+    }
+    return null;
+}
+
 }
