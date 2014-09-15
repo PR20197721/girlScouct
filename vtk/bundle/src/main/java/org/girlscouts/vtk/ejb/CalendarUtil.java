@@ -20,6 +20,7 @@ import org.apache.commons.beanutils.BeanComparator;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
+import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Cal;
@@ -32,8 +33,12 @@ import org.girlscouts.vtk.models.user.User;
 @Component
 @Service(value=CalendarUtil.class)
 public class CalendarUtil {
-    @Reference
+    
+	@Reference
     UserDAO userDAO;
+    
+    @Reference
+    private MeetingDAO meetingDAO;
 
 	public void weeklyCal( java.util.Date startDate ){}
 		
@@ -184,6 +189,10 @@ public class CalendarUtil {
 		
 		public void createSched(User user, String freq, org.joda.time.DateTime p, String exclDate){
 		
+			if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+				 user.setErrCode("112");
+				 return;
+			 }
 			
 			java.util.List <org.joda.time.DateTime>exclDt= new java.util.ArrayList<org.joda.time.DateTime>();
 			java.util.StringTokenizer t= new java.util.StringTokenizer( exclDate, ",");
@@ -218,6 +227,11 @@ public class CalendarUtil {
 		
 		public void updateSched(User user, String meetingPath, String time, String date, String ap, 
 				String isCancelledMeeting, long currDate){
+			
+			if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+				 user.setErrCode("112");
+				 return;
+			 }
 			
 			java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat("MM/dd/yyyy hh:mm a");
 			

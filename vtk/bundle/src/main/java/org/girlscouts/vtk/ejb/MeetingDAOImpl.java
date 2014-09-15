@@ -281,6 +281,12 @@ public Meeting createCustomMeeting(User user, MeetingE meetingEvent, Meeting mee
 	
 	//Meeting meeting =null;
 	try{
+		
+		if( !isCurrentUserId(user, user.getCurrentUser() ) ){ //091514
+			 user.setErrCode("112");
+			 return null;
+		 }
+		
 		List<Class> classes = new ArrayList<Class>();	
 		classes.add(MeetingE.class); 
 		classes.add(Meeting.class);
@@ -324,6 +330,13 @@ public Meeting updateCustomMeeting(User user, MeetingE meetingEvent, Meeting mee
 	
 	//Meeting meeting =null;
 	try{
+		
+		if( !isCurrentUserId(user, user.getCurrentUser() ) ){ //091514
+			 user.setErrCode("112");
+			 return null;
+		 }
+		
+		
 		List<Class> classes = new ArrayList<Class>();	
 		classes.add(MeetingE.class); 
 		classes.add(Meeting.class);
@@ -365,7 +378,12 @@ public Meeting updateCustomMeeting(User user, MeetingE meetingEvent, Meeting mee
 }
 
 
-public Meeting addActivity(Meeting meeting, Activity activity){
+public Meeting addActivity(User user, Meeting meeting, Activity activity){
+	
+	if( !isCurrentUserId(user, user.getCurrentUser() ) ){ //091514
+		 user.setErrCode("112");
+		 return null;
+	 }
 	
 	
 	java.util.List <Activity> activities = meeting.getActivities();
@@ -1454,7 +1472,7 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 		
 		//System.err.println( "PPPPATH: "+ eventPath);
 
-		String sql= "select child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, [" + eventPath + "])) and child.start is not null and parent.[jcr:title] is not null " ;
+		String sql= "select parent.[jcr:uuid], child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, [" + eventPath + "])) and child.start is not null and parent.[jcr:title] is not null " ;
 		
 		
 		// This is Alex's CACA. Alex: please cleanup your shit!
@@ -1506,6 +1524,11 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 		
 		 for (RowIterator it = result.getRows(); it.hasNext(); ) {
 		       Row r = it.nextRow();
+		   //  System.err.println("PATH: "+  r.get);
+		       
+		       Value v[] =r.getValues();
+		       for(int g=0;g<v.length;g++)
+		    	   System.err.println( "*** * "+v[g].getString() );
 		       
 		        Activity activity = new Activity();
 				activity.setUid("A"+ new java.util.Date().getTime() +"_"+ Math.random());
@@ -1562,8 +1585,8 @@ if( (activity.getDate().before(new java.util.Date()) && activity.getEndDate()==n
 				}
 				
 				activity.setIsEditable(false);
-				
-				
+				try{ activity.setRefUid( r.getValue("parent.jcr:uuid").getString() ); }catch(Exception e){e.printStackTrace();}
+				 
 				/*
 				
 				System.err.println("_________________________________________________");
@@ -1942,6 +1965,9 @@ public void  saveCouncilMilestones(java.util.List<Milestone> milestones){
 
 
 public boolean isCurrentUserId(User user, String sId){
+	
+	
+	
 	System.err.println("SID: "+ sId );
 	//login out
 	if( sId==null) {System.err.println("CurUser: sid null");return true;}
@@ -1963,7 +1989,7 @@ public boolean isCurrentUserId(User user, String sId){
 	    	   java.util.Calendar now= java.util.Calendar.getInstance();
 	    	   java.util.Calendar x= java.util.Calendar.getInstance();
 	    	   x.setTime( new java.util.Date(r.getValue("jcr:lastModified").getLong() ) );
-      		   x.add(java.util.Calendar.MINUTE, +2);
+      		   x.add(java.util.Calendar.MINUTE, +10);
       		 
       		   System.err.println("Check: "+ now.getTime() +" MK: "+x.getTime()+" :" +(now.after(x)) );
       		 

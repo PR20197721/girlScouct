@@ -11,8 +11,8 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="../include/session.jsp"%>
-
-
+<%@include file="../admin/toolbar.jsp"%>
+<h1>UUID search</h1>
 <form action="/content/girlscouts-vtk/en/vtk.admin.ocm.html">
 <input type="text" value="" name="uuid"/>
 <input type="submit">

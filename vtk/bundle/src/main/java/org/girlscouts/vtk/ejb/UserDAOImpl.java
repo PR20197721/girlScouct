@@ -46,6 +46,8 @@ public class UserDAOImpl implements UserDAO{
     @Reference
     private MeetingDAO meetingDAO;
     
+    
+    
     private static UserGlobConfig userGlobConfig;
     
     @Activate
@@ -117,6 +119,13 @@ public class UserDAOImpl implements UserDAO{
 	
 	
 	public YearPlan addYearPlan( User user, String yearPlanPath ){
+		
+		
+		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+			 user.setErrCode("112");
+			 return null;
+		 }
+		
 		String x=yearPlanPath;
 		 YearPlan plan =null;
 		try{
@@ -214,7 +223,7 @@ public class UserDAOImpl implements UserDAO{
 	    
 	    
 			//update milestones based on councilId
-			user.getYearPlan().setMilestones( meetingDAO.getCouncilMilestones( user.getTroop().getCouncilId() ) );
+			//- Depricated: info pulled to display from scafolding user.getYearPlan().setMilestones( meetingDAO.getCouncilMilestones( user.getTroop().getCouncilId() ) );
 			
 			
 	    
@@ -225,6 +234,7 @@ public class UserDAOImpl implements UserDAO{
 			if( session.itemExists( user.getPath() )){
 				System.err.println( "User updated");
 				ocm.update(user);
+				
 			}else{
 				System.err.println("cteating user");
 				
@@ -290,7 +300,10 @@ System.err.println( "sessionId: "+ user.getCurrentUser() );
 	
 	public void selectYearPlan(User user, String yearPlanPath, String planName){
 		
-
+		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+			 user.setErrCode("112");
+			 return;
+		 }
 				
 		YearPlan oldPlan = user.getYearPlan();
 		YearPlan newYearPlan = addYearPlan(user, yearPlanPath);
@@ -482,6 +495,12 @@ public void selectYearPlan(User user, String yearPlanPath){
 
 public void addAsset(User user, String meetingUid,  Asset asset){
 
+	
+	if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+		 user.setErrCode("112");
+		 return;
+	 }
+	
         java.util.List<MeetingE> meetings = user.getYearPlan().getMeetingEvents();
         for(int i=0;i<meetings.size();i++)
                         if( meetings.get(i).getUid().equals( meetingUid))
@@ -628,9 +647,10 @@ public void addAsset(User user, String meetingUid,  Asset asset){
 	
 	public void logout(User user){
 		if(user ==null) return;
-		
-		user.setCurrentUser(null);
-		updateUser( user );
+		User tmp_user= getUser(user.getPath());
+		//tmp_user.setTroop(user.getTroop());
+		tmp_user.setCurrentUser(null);
+		updateUser( tmp_user );
 	}
 	
 	

@@ -14,6 +14,8 @@ import org.apache.jackrabbit.ocm.manager.impl.ObjectContentManagerImpl;
 import org.apache.jackrabbit.ocm.mapper.Mapper;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
 import org.girlscouts.vtk.dao.ActivityDAO;
+import org.girlscouts.vtk.dao.MeetingDAO;
+import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.ActivitySearch;
@@ -39,10 +41,22 @@ public class ActivityDAOImpl implements ActivityDAO{
     void activate() {
         this.session = pool.getSession();
     }
-
+    
+    @Reference
+    private UserDAO userDAO;
+    
+    @Reference
+    private MeetingDAO meetingDAO;
+    
 	public void createActivity(User user, Activity activity) {
 		
 		try{
+			
+			if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+				 user.setErrCode("112");
+				 return;
+			 }
+			
 			List<Class> classes = new ArrayList<Class>();	
 			classes.add(User.class);
 			classes.add(Activity.class);
@@ -72,9 +86,14 @@ public class ActivityDAOImpl implements ActivityDAO{
 			
 			user.getYearPlan().setAltered("true");
 			
+			
+			/* 091514
 			ocm.update(user);
 			ocm.save();
-	        
+	        */
+			userDAO.updateUser(user);
+			
+			
 			}catch(Exception e){e.printStackTrace();}
 		
 		
