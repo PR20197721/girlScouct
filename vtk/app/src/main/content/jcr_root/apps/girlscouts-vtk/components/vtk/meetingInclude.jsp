@@ -9,6 +9,13 @@
 	//add milestones only on this page
 	
 	try{
+		/*
+		System.err.println( user==null );
+		System.err.println( user.getYearPlan() ==null);
+		System.err.println(meetingDAO==null);
+		System.err.println( user.getTroop()==null);
+		*/
+		if( user.getYearPlan()!=null)
 		user.getYearPlan().setMilestones( meetingDAO.getCouncilMilestones( ""+user.getTroop().getCouncilCode() ) );
 	}catch(Exception e){e.printStackTrace();}
 	if( user.getYearPlan().getMilestones() ==null )

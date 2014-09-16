@@ -121,6 +121,7 @@ public class MeetingUtil {
 	
 	public java.util.Map getYearPlanSched(YearPlan plan){
 		
+		if( plan==null )return null;
 		java.util.Map <java.util.Date,  YearPlanComponent> sched = null;
 		try{
 			sched=new java.util.TreeMap<java.util.Date,YearPlanComponent>();

@@ -1030,7 +1030,9 @@ public net.fortuna.ical4j.model.Calendar yearPlanCal(User user )throws Exception
 		  switch( _comp.getType() ){
 				case ACTIVITY :
 					Activity a = ((Activity) _comp);
-					location= (a.getLocationAddress()==null ? "" : a.getLocationAddress().replace("\r", ""));
+					
+					location= (a.getLocationName()==null ? "" : a.getLocationName());
+					location += " "+(a.getLocationAddress()==null ? "" : a.getLocationAddress().replace("\r", ""));
 					desc = ((Activity) _comp).getName();
 					break;
 				
@@ -1991,8 +1993,10 @@ public boolean isCurrentUserId(User user, String sId){
 	javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
 		
 	QueryResult result = q.execute();
+	boolean isFound=false;
 	 for (RowIterator it = result.getRows(); it.hasNext(); ) {
-	       Row r = it.nextRow();
+	   isFound=true;
+		 Row r = it.nextRow();
 	       if( r.getValue("currentUser") ==null ){ System.err.println("CurUser: null");return true; }
 	      
 	       boolean isExpired= false;
@@ -2024,6 +2028,9 @@ public boolean isCurrentUserId(User user, String sId){
 	    	   
 	       }
 	 }
+	 
+	 if(!isFound) return true; //no rec in db. 1st time
+
 	}catch(Exception e){e.printStackTrace();}
 	return isUser;
 	
@@ -2032,20 +2039,26 @@ public boolean isCurrentUserId(User user, String sId){
 
 
 private String getLocation(User user, String locationId){
-	 
+	 //System.err.println("Loc: "+ locationId);
 	 String fmtLocation = "";
 	 if( locationId==null || user==null ) return fmtLocation;
 	 
 	 try{
 		 if( user!=null && user.getYearPlan()!=null && user.getYearPlan().getLocations()!=null)
-		  for(int i=0;i<user.getYearPlan().getLocations().size();i++)
-			 if( user.getYearPlan().getLocations().get(i).getUid().equals( locationId)){
-				 String lName=     user.getYearPlan().getLocations().get(i).getLocatinName();
-				 String lAddress = user.getYearPlan().getLocations().get(i).getLocationAddress();
+		  for(int i=0;i<user.getYearPlan().getLocations().size();i++){
+			
+			  //System.err.println(user.getYearPlan().getLocations().get(i).getPath().equals( locationId)+" :: "+ user.getYearPlan().getLocations().get(i).getPath() +" : "+ locationId);
+			  if( user.getYearPlan().getLocations().get(i).getPath().equals( locationId)){
+				 String lName=     user.getYearPlan().getLocations().get(i).getName();
+				 String lAddress = user.getYearPlan().getLocations().get(i).getAddress();
+				 //System.err.println(lName+" : "+ lAddress);
 				 fmtLocation = (lName==null ? "" : lName) +" " +
 						 (lAddress==null ? "" : lAddress);
-				
+				//System.err.println("** "+ fmtLocation);
+				break;
 			 }
+		  }
+			  
 	 }catch(Exception e){e.printStackTrace();}
 	 return fmtLocation;
 }
