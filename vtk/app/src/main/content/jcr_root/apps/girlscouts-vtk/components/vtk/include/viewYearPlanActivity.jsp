@@ -12,6 +12,12 @@ Activity activity = (Activity) _comp;
 <%} %>
                                 <td class="planSquareMiddle">
 					<div class="planSquare" style="background-color:#0096ff;">
+					
+					<% if (activity.getCancelled()!=null && activity.getCancelled().equals("true") )  {%>
+						<div class="cancelled"><div class="cross">X</div></div>
+					<%} %>
+					
+					
 						<div class="date">
         <%if( user.getYearPlan().getSchedule()!=null ) {%>
 							<div class="cal"><span class="month"><%= FORMAT_MONTH.format(activity.getDate())%><br/></span><span class="day"><%= FORMAT_DAY_OF_MONTH.format(activity.getDate())%></span></div>
@@ -48,6 +54,10 @@ ageLevel=ageLevel.toLowerCase().trim();
 <%= activity.getLocationName() %>
 <a href="/content/girlscouts-vtk/controllers/vtk.map.html?address=<%=activity.getLocationAddress()%>" target="_blank"><%=activity.getLocationAddress() ==null ? "" : activity.getLocationAddress()  %></a>
 
+
+<% if (activity.getCancelled()!=null && activity.getCancelled().equals("true") )  {%>
+		<span class="alert">(Cancelled)</span>
+<%}%>
 
 <br/><br/>Cost:<%=FORMAT_CURRENCY.format(activity.getCost()) %>
 <br/><br/>

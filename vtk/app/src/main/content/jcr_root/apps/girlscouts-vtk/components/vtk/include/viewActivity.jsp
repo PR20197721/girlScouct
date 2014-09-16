@@ -2,6 +2,11 @@
         <div  class="row">
                 <div class="large-4 medium-5 small-24 columns">
 			<div class="planSquare centered-table">
+				
+				<% if (activity.getCancelled()!=null && activity.getCancelled().equals("true") )  {%>
+					<div class="cancelled"><div class="cross">X</div></div>
+				<%}%>
+				
 				<div class="date">
 					<div class="cal"><span class="month"><%= FORMAT_MONTH.format(activity.getDate())%><br/></span><span class="day"><%= FORMAT_DAY_OF_MONTH.format(activity.getDate())%></span></div>
 				</div>

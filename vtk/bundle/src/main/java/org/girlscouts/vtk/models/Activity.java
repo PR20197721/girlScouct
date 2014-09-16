@@ -43,10 +43,18 @@ public class Activity extends YearPlanComponent{
 	@Field(id=true) String uid;
 	@Field Double cost;
 	@Field Boolean isEditable;
+	@Field private String cancelled;
 	
 	
 	
-	
+
+	public String getCancelled() {
+		return cancelled;
+	}
+
+	public void setCancelled(String cancelled) {
+		this.cancelled = cancelled;
+	}
 
 	public String getRefUid() {
 		return refUid;

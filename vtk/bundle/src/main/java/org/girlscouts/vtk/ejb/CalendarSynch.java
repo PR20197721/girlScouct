@@ -31,6 +31,7 @@ import net.fortuna.ical4j.model.ValidationException;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.parameter.Value;
 import net.fortuna.ical4j.model.property.CalScale;
+import net.fortuna.ical4j.model.property.Location;
 import net.fortuna.ical4j.model.property.ProdId;
 import net.fortuna.ical4j.model.property.Version;
 import net.fortuna.ical4j.util.UidGenerator;
@@ -122,16 +123,20 @@ import net.fortuna.ical4j.util.UidGenerator;
 			  Calendar cal = java.util.Calendar.getInstance();
 			  cal.setTime(dt);
 			  
-			  String desc= "";
+			  String desc= "", location="";
 			  
 			  switch( _comp.getType() ){
 					case ACTIVITY :
+						Activity a = ((Activity) _comp);
 						desc = ((Activity) _comp).getName();
+						location= a.getLocationName() ==null ? "" : a.getLocationName() +" "+
+								a.getLocationAddress() ==null ? "" : a.getLocationAddress();
 						break;
 					
 					case MEETING :
 						Meeting meetingInfo =  new MeetingDAOImpl().getMeeting(  ((MeetingE) _comp).getRefId() );
 						desc = meetingInfo.getName();		
+						location= getLocation( user, ((MeetingE) _comp).getLocationRef());
 						break;
 				}       	
 			  
@@ -146,8 +151,14 @@ import net.fortuna.ical4j.util.UidGenerator;
 
 		  VEvent christmas = new VEvent(new Date(cal.getTime()), desc);
 		  
+		  
+		  System.err.println("Location: "+ location);
+		  christmas.getProperties().add(new Location(location));
+		  
 		  // initialise as an all-day event..
 		  christmas.getProperties().getProperty(Property.DTSTART).getParameters().add(Value.DATE);
+		  christmas.getProperties().getProperty(Property.LOCATION).getParameters().add(Value.TEXT);
+		  
 		  
 		  UidGenerator uidGenerator = new UidGenerator("1");
 		  christmas.getProperties().add(uidGenerator.generateUid());
@@ -171,4 +182,20 @@ import net.fortuna.ical4j.util.UidGenerator;
 		  return calendar;
 	 }
 	 
+	 private String getLocation(User user, String locationId){
+		 
+		 String fmtLocation = "";
+		 try{
+			 if( user!=null && user.getYearPlan()!=null && user.getYearPlan().getLocations()!=null)
+			  for(int i=0;i<user.getYearPlan().getLocations().size();i++)
+				 if( user.getYearPlan().getLocations().get(i).getUid().equals( locationId)){
+					 String lName= user.getYearPlan().getLocations().get(i).getLocatinName();
+					 String lAddress = user.getYearPlan().getLocations().get(i).getLocationAddress();
+					 fmtLocation = (lName==null ? "" : lName) +" " +
+							 (lAddress==null ? "" : lAddress);
+					
+				 }
+		 }catch(Exception e){e.printStackTrace();}
+		 return fmtLocation;
+	 }
 }

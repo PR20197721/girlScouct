@@ -1025,16 +1025,19 @@ public net.fortuna.ical4j.model.Calendar yearPlanCal(User user )throws Exception
 		  Calendar cal = java.util.Calendar.getInstance();
 		  cal.setTime(dt);
 		  
-		  String desc= "";
+		  String desc= "", location="";
 		  
 		  switch( _comp.getType() ){
 				case ACTIVITY :
+					Activity a = ((Activity) _comp);
+					location= (a.getLocationAddress()==null ? "" : a.getLocationAddress().replace("\r", ""));
 					desc = ((Activity) _comp).getName();
 					break;
 				
 				case MEETING :
 					Meeting meetingInfo =  getMeeting(  ((MeetingE) _comp).getRefId() );
-					desc = meetingInfo.getName();		
+					desc = meetingInfo.getName();	
+					location= getLocation( user, ((MeetingE) _comp).getLocationRef());
 					break;
 			}       	
 		  
@@ -1069,6 +1072,11 @@ public net.fortuna.ical4j.model.Calendar yearPlanCal(User user )throws Exception
 			final VEvent event = new VEvent(new DateTime(cal.getTime()), desc);
 			//event.getProperties().add(new DtEnd(new DateTime(entry.getEndTime())));
 			event.getProperties().add(new Description(desc));
+			
+			System.err.println("Location: "+ location);
+			if( location!=null)
+				event.getProperties().add(new net.fortuna.ical4j.model.property.Location(location));
+			  
 			
 			UidGenerator uidGenerator = new UidGenerator("1");
 			event.getProperties().add(uidGenerator.generateUid());
@@ -1472,7 +1480,7 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 		
 		//System.err.println( "PPPPATH: "+ eventPath);
 
-		String sql= "select parent.[jcr:uuid], child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, [" + eventPath + "])) and child.start is not null and parent.[jcr:title] is not null " ;
+		String sql= "select child.address, parent.[jcr:uuid], child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, [" + eventPath + "])) and child.start is not null and parent.[jcr:title] is not null " ;
 		
 		
 		// This is Alex's CACA. Alex: please cleanup your shit!
@@ -1547,6 +1555,10 @@ if( (activity.getDate().before(new java.util.Date()) && activity.getEndDate()==n
 	}
 		        	
 		        	activity.setLocationName(r.getValue("child.locationLabel").getString());
+		        	try{
+		        		activity.setLocationAddress(r.getValue("child.address").getString());
+		        	}catch(Exception e){e.printStackTrace();}
+		        	
 		        	activity.setName(r.getValue("child.srchdisp").getString());
 		        	
 		        	activity.setName(r.getValue("parent.jcr:title").getString());
@@ -2017,4 +2029,24 @@ public boolean isCurrentUserId(User user, String sId){
 	
 }
 
+
+
+private String getLocation(User user, String locationId){
+	 
+	 String fmtLocation = "";
+	 if( locationId==null || user==null ) return fmtLocation;
+	 
+	 try{
+		 if( user!=null && user.getYearPlan()!=null && user.getYearPlan().getLocations()!=null)
+		  for(int i=0;i<user.getYearPlan().getLocations().size();i++)
+			 if( user.getYearPlan().getLocations().get(i).getUid().equals( locationId)){
+				 String lName=     user.getYearPlan().getLocations().get(i).getLocatinName();
+				 String lAddress = user.getYearPlan().getLocations().get(i).getLocationAddress();
+				 fmtLocation = (lName==null ? "" : lName) +" " +
+						 (lAddress==null ? "" : lAddress);
+				
+			 }
+	 }catch(Exception e){e.printStackTrace();}
+	 return fmtLocation;
+}
 }//edn class
