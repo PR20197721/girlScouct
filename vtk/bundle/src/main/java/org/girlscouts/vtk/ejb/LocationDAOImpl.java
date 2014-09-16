@@ -14,6 +14,8 @@ import org.apache.jackrabbit.ocm.manager.impl.ObjectContentManagerImpl;
 import org.apache.jackrabbit.ocm.mapper.Mapper;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
 import org.girlscouts.vtk.dao.LocationDAO;
+import org.girlscouts.vtk.dao.MeetingDAO;
+import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Asset;
 import org.girlscouts.vtk.models.Cal;
@@ -38,9 +40,24 @@ public class LocationDAOImpl implements LocationDAO{
         this.session = pool.getSession();
     }
 
+    @Reference
+    private UserDAO userDAO;
+    
+    @Reference
+    private MeetingDAO meetingDAO;
+    
 	public void removeLocation(User user, String locationName) {
 		
 		try{
+			
+			
+			if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+				 user.setErrCode("112");
+				 return;
+			 }
+			
+			
+			
 			List<Class> classes = new ArrayList<Class>();	
 			classes.add(User.class);
 			classes.add(Activity.class);
@@ -62,8 +79,10 @@ public class LocationDAOImpl implements LocationDAO{
 				Location location = locations.get(i);
 				if( location.getUid().equals(locationName)){
 					
+					
 					ocm.remove(location);
 					ocm.save();
+					
 					
 					locationToRmPath= location.getPath() ;
 					locations.remove(location);
@@ -85,9 +104,12 @@ public class LocationDAOImpl implements LocationDAO{
 				}
 			}
 			
+			/*091514
 			ocm.update(user);
 			ocm.save();
-	        
+	        */
+			userDAO.updateUser(user);
+			
 			}catch(Exception e){e.printStackTrace();}
 		
 		

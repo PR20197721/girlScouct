@@ -34,7 +34,7 @@ public class Activity extends YearPlanComponent{
 	@Field private int duration, activityNumber;
 	@Field private String materials, steps;
 	@Field private java.util.Date endDate, date;
-	@Field private String content, id;
+	@Field private String content, id, refUid;
 	
 	@Field private String locationName, locationAddress; 
 	
@@ -47,6 +47,14 @@ public class Activity extends YearPlanComponent{
 	
 	
 	
+
+	public String getRefUid() {
+		return refUid;
+	}
+
+	public void setRefUid(String refUid) {
+		this.refUid = refUid;
+	}
 
 	public Boolean getIsEditable() {
 		return isEditable;

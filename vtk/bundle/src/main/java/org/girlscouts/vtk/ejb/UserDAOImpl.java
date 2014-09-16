@@ -46,6 +46,8 @@ public class UserDAOImpl implements UserDAO{
     @Reference
     private MeetingDAO meetingDAO;
     
+    
+    
     private static UserGlobConfig userGlobConfig;
     
     @Activate
@@ -69,15 +71,17 @@ public class UserDAOImpl implements UserDAO{
 			
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
-		
+	
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(User.class);
-		
+			
 	        // GOOD user = (User) ocm.getObject("/content/girlscouts-vtk/users/"+ userId);
 			
 			//6/27/14 
+		System.err.println("GET_USER_OBJ********************");	
+			ocm.refresh(true);
 	        user = (User) ocm.getObject(userId);
-	        
+	      
 	       
 	       
 	        if( user!=null && user.getYearPlan().getMeetingEvents()!=null){
@@ -115,6 +119,13 @@ public class UserDAOImpl implements UserDAO{
 	
 	
 	public YearPlan addYearPlan( User user, String yearPlanPath ){
+		
+		
+		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+			 user.setErrCode("112");
+			 return null;
+		 }
+		
 		String x=yearPlanPath;
 		 YearPlan plan =null;
 		try{
@@ -157,11 +168,40 @@ public class UserDAOImpl implements UserDAO{
 		
 	}
 	
-	public void updateUser(User user){
+	public boolean updateUser(User user){
 		
-		
+		boolean isUpdated= false;
          try{
-			
+        	 
+        	 if( user==null || user.getYearPlan() ==null) { System.err.println("exiting updateUser"); return true; }
+	
+        	 /*
+        	 java.util.Calendar cal = java.util.Calendar.getInstance();
+        	 cal.setTime(new java.util.Date("1/2/1976"));
+        	 user.setLastModified(cal);
+        	 */
+        	 user.setErrCode("111");
+        	 
+        	 //another user logged in
+        	 if( user!=null && user.getLastModified()!=null ){
+        		 /*
+        		 java.util.Calendar x= java.util.Calendar.getInstance();
+        		 x.add(java.util.Calendar.MINUTE, -2);
+        		 
+        		 System.err.println("Check: "+ x.getTime() +" MK: "+ user.getLastModified().getTime() +" :" +(user.getLastModified().after(x)) );
+        		 System.err.println("Check1 isCurrentUser: "+ meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) );
+        		 */
+        		 
+        				 if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){// && user.getLastModified().after(x) ){ 
+        			 
+        					 //cal.setTime(new java.util.Date("1/3/1976"));
+        					 //user.setLastModified(cal);
+        					 user.setErrCode("112");
+        					 return false;
+        				 }
+        	 }
+        	 
+        	 
 			List<Class> classes = new ArrayList<Class>();	
 			classes.add(User.class); 
 			classes.add(YearPlan.class); 
@@ -177,22 +217,24 @@ public class UserDAOImpl implements UserDAO{
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
 		
+		
 			Comparator<MeetingE> comp = new BeanComparator("id");
 			Collections.sort( user.getYearPlan().getMeetingEvents(), comp);
 	    
 	    
 			//update milestones based on councilId
-			user.getYearPlan().setMilestones( meetingDAO.getCouncilMilestones( user.getTroop().getCouncilId() ) );
+			//- Depricated: info pulled to display from scafolding user.getYearPlan().setMilestones( meetingDAO.getCouncilMilestones( user.getTroop().getCouncilId() ) );
 			
 			
 	    
 	    
-	    
+	   
 			System.err.println("CHECKING JCR: " +ocm.objectExists( user.getPath()) );
 		
 			if( session.itemExists( user.getPath() )){
 				System.err.println( "User updated");
 				ocm.update(user);
+				
 			}else{
 				System.err.println("cteating user");
 				
@@ -202,7 +244,7 @@ public class UserDAOImpl implements UserDAO{
 				while(t.hasMoreElements()){
 					String node = t.nextToken();
 					path += "/"+node ;
-				System.err.println( "user cr: "+path+":"+session.itemExists( path ) );	
+					System.err.println( "user cr: "+path+":"+session.itemExists( path ) );	
 					if( !session.itemExists( path )){
 						if( i==1 ){
 							System.err.println(i +" : creating user");
@@ -217,17 +259,51 @@ public class UserDAOImpl implements UserDAO{
 				System.err.println( "User created/insert");
 				ocm.insert(user);
 			}
-			 ocm.save();
-			 
+System.err.println("Saving user info..."+ user.getPath() );
+System.err.println( "sessionId: "+ user.getCurrentUser() );
+
+			String old_errCode= user.getErrCode();
+			java.util.Calendar old_lastModified = user.getLastModified();
+			try{
+				user.setErrCode(null);
+				user.setLastModified(java.util.Calendar.getInstance());
+				ocm.update(user);
+				ocm.save();
+				
 			
-			}catch(Exception e){e.printStackTrace();}
-		
+				isUpdated=true;
+				System.err.println("User info saved..." + user.getErrCode());	
+			}catch(Exception e){
+				e.printStackTrace();
+				
+				user.setLastModified(old_lastModified);
+				user.setErrCode(old_errCode);
+				
+				}
+			
+			
+			
+
+			}catch(Exception e){
+				
+			
+			 if( user!=null )
+				System.err.println("TEST: "+user.getId() +" : "+ user.getPath() );
+			 
+			 e.printStackTrace();
+			}
+         
+         	
+		return isUpdated;
 	}
 	
 	
 	public void selectYearPlan(User user, String yearPlanPath, String planName){
 		
-
+		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+			 user.setErrCode("112");
+			 return;
+		 }
 				
 		YearPlan oldPlan = user.getYearPlan();
 		YearPlan newYearPlan = addYearPlan(user, yearPlanPath);
@@ -419,6 +495,12 @@ public void selectYearPlan(User user, String yearPlanPath){
 
 public void addAsset(User user, String meetingUid,  Asset asset){
 
+	
+	if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+		 user.setErrCode("112");
+		 return;
+	 }
+	
         java.util.List<MeetingE> meetings = user.getYearPlan().getMeetingEvents();
         for(int i=0;i<meetings.size();i++)
                         if( meetings.get(i).getUid().equals( meetingUid))
@@ -561,4 +643,15 @@ public void addAsset(User user, String meetingUid,  Asset asset){
 		return users;
 	}
 
+	
+	
+	public void logout(User user){
+		if(user ==null) return;
+		User tmp_user= getUser(user.getPath());
+		//tmp_user.setTroop(user.getTroop());
+		tmp_user.setCurrentUser(null);
+		updateUser( tmp_user );
+	}
+	
+	
 }//ednclass

@@ -281,6 +281,12 @@ public Meeting createCustomMeeting(User user, MeetingE meetingEvent, Meeting mee
 	
 	//Meeting meeting =null;
 	try{
+		
+		if( !isCurrentUserId(user, user.getCurrentUser() ) ){ //091514
+			 user.setErrCode("112");
+			 return null;
+		 }
+		
 		List<Class> classes = new ArrayList<Class>();	
 		classes.add(MeetingE.class); 
 		classes.add(Meeting.class);
@@ -324,6 +330,13 @@ public Meeting updateCustomMeeting(User user, MeetingE meetingEvent, Meeting mee
 	
 	//Meeting meeting =null;
 	try{
+		
+		if( !isCurrentUserId(user, user.getCurrentUser() ) ){ //091514
+			 user.setErrCode("112");
+			 return null;
+		 }
+		
+		
 		List<Class> classes = new ArrayList<Class>();	
 		classes.add(MeetingE.class); 
 		classes.add(Meeting.class);
@@ -365,7 +378,12 @@ public Meeting updateCustomMeeting(User user, MeetingE meetingEvent, Meeting mee
 }
 
 
-public Meeting addActivity(Meeting meeting, Activity activity){
+public Meeting addActivity(User user, Meeting meeting, Activity activity){
+	
+	if( !isCurrentUserId(user, user.getCurrentUser() ) ){ //091514
+		 user.setErrCode("112");
+		 return null;
+	 }
 	
 	
 	java.util.List <Activity> activities = meeting.getActivities();
@@ -1235,7 +1253,7 @@ public SearchTag searchA( String councilCode){
 	
 	String councilStr = councilMapper.getCouncilBranch(councilCode);
 	councilStr = councilStr.replace("/content/","");
-	System.err.println("Counccccc: " +councilStr);
+	//System.err.println("Counccccc: " +councilStr);
 	
 	
 	SearchTag tags = new SearchTag();
@@ -1270,6 +1288,94 @@ public SearchTag searchA( String councilCode){
 		       }
 		 }
 		
+		//if no tags found -> pull from default /etc/tags/girlscouts 9/11/14
+		 if( (categories ==null || categories.size()==0 ) && (levels==null || levels.size()==0) ){
+			 
+		  try{
+			  
+			  return getDefaultTags();
+		 	}catch(Exception e){e.printStackTrace();}
+		 }
+		 
+		 
+		 
+		 
+		 if( categories!=null ){
+			 categories.remove("Categories");
+			 categories.remove("categories");
+		 }
+		 
+		 if(levels!=null){
+			 levels.remove("Program Level");
+			 levels.remove("program level");
+		 }
+		 
+		 tags.setCategories( categories );
+		 tags.setLevels( levels );
+		 tags.setRegion( searchRegion() );
+		 
+	}catch(Exception e){e.printStackTrace();}
+
+	return tags;
+}
+
+
+
+
+
+
+
+
+
+
+
+public SearchTag getDefaultTags( ){
+	
+	System.err.println("default tags..");
+	/*
+	String councilStr = councilMapper.getCouncilBranch(councilCode);
+	councilStr = councilStr.replace("/content/","");
+	//System.err.println("Counccccc: " +councilStr);
+	*/
+	String councilStr = "girlscouts";
+	SearchTag tags = new SearchTag();
+	try{
+		
+		java.util.Map<String, String> categories = new java.util.TreeMap();
+		java.util.Map<String, String> levels = new java.util.TreeMap();
+		
+		//String sql="select jcr:title from nt:base where jcr:path like '/etc/tags/girlscouts/%'";
+		String sql="select jcr:title from nt:base where jcr:path like '/etc/tags/"+ councilStr +"/%'";
+		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
+		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
+			
+		QueryResult result = q.execute();
+		 for (RowIterator it = result.getRows(); it.hasNext(); ) {
+		       Row r = it.nextRow();
+		       if( r.getPath().startsWith("/etc/tags/"+ councilStr +"/categories") ){
+		    	   String elem =  r.getValue("jcr:title").getString();
+		    	   if( elem!=null )
+		    		   elem = elem.toLowerCase().replace("_", "").replace("/", "");
+		    	   
+		    	   categories.put( elem,null );
+		    	   
+		       } else if( r.getPath().startsWith("/etc/tags/"+ councilStr +"/program-level") ){
+		    	   //levels.put( r.getValue("jcr:title").getString(), null );
+		    	   String elem = r.getValue("jcr:title").getString();
+		    	   if( elem!=null )
+		    		   elem = elem.toLowerCase().replace("_", "").replace("/", "");
+		    	   
+		    	   levels.put( elem, null );
+		    	   
+		       }
+		 }
+		
+		
+		
+		 
+		 
+		 
+		 
 		 if( categories!=null ){
 			 categories.remove("Categories");
 			 categories.remove("categories");
@@ -1307,7 +1413,8 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 		
 		StringTokenizer t= new StringTokenizer( tags, "|");
 		while( t.hasMoreElements()){
-			sqlTags+=" contains(parent.[cq:tags], '"+ t.nextToken() +"') ";
+			sqlTags+=" contains(parent.[cq:tags], 'program-level/"+ t.nextToken() +"') ";
+			//sqlTags+=" parent.[cq:tags] = '"+ t.nextToken() +"' ";
 			if( t.hasMoreElements() )
 				sqlTags+=" or ";
 			isTag=true;
@@ -1323,7 +1430,8 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 		
 	    t= new StringTokenizer( cat, "|");
 		while( t.hasMoreElements()){
-			sqlCat+=" contains(parent.[cq:tags], '"+ t.nextToken() +"') ";
+			sqlCat+=" contains(parent.[cq:tags], 'categories/"+ t.nextToken() +"') ";
+			//sqlCat+=" parent.[cq:tags]= 'gsnetx:categories/"+ t.nextToken() +"' ";
 			if( t.hasMoreElements() )
 				sqlCat+=" or ";
 			isTag=true;
@@ -1364,7 +1472,7 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 		
 		//System.err.println( "PPPPATH: "+ eventPath);
 
-		String sql= "select child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, [" + eventPath + "])) and child.start is not null and parent.[jcr:title] is not null " ;
+		String sql= "select parent.[jcr:uuid], child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, [" + eventPath + "])) and child.start is not null and parent.[jcr:title] is not null " ;
 		
 		
 		// This is Alex's CACA. Alex: please cleanup your shit!
@@ -1416,6 +1524,11 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 		
 		 for (RowIterator it = result.getRows(); it.hasNext(); ) {
 		       Row r = it.nextRow();
+		   //  System.err.println("PATH: "+  r.get);
+		       
+		       Value v[] =r.getValues();
+		       for(int g=0;g<v.length;g++)
+		    	   System.err.println( "*** * "+v[g].getString() );
 		       
 		        Activity activity = new Activity();
 				activity.setUid("A"+ new java.util.Date().getTime() +"_"+ Math.random());
@@ -1472,24 +1585,25 @@ if( (activity.getDate().before(new java.util.Date()) && activity.getEndDate()==n
 				}
 				
 				activity.setIsEditable(false);
+				try{ activity.setRefUid( r.getValue("parent.jcr:uuid").getString() ); }catch(Exception e){e.printStackTrace();}
+				 
+				/*
 				
-				
-				
-				
-				//System.err.println("_________________________________________________");
-				//System.err.println("Range: "+ startDate +" : "+ endDate);
-				//System.err.println("ACtiv: "+ activity.getDate() +" : "+ activity.getEndDate());
+				System.err.println("_________________________________________________");
+				System.err.println("Range: "+ startDate +" : "+ endDate);
+				System.err.println("ACtiv: "+ activity.getDate() +" : "+ activity.getEndDate());
 				
 				//System.err.println( startDate.after( activity.getDate() ) +" : " +startDate.before( activity.getEndDate()) );
 				//System.err.println( endDate.after( activity.getDate() ) +" : " +endDate.before( activity.getEndDate()) );
 		
-				/*
+			
 				System.err.println( activity.getDate().after( startDate ) +" : "+ activity.getDate().before(endDate) );
 				System.err.println( activity.getEndDate().after( startDate ) +": " + activity.getEndDate().before(endDate) );				
 				System.err.println(activity.getEndDate().before(startDate) +" : "+ activity.getEndDate() +" : "+ startDate);
 				*/
 				
-				if(  
+				if( startDate!=null && endDate!=null)
+				 if(  
 				  ( startDate.after(endDate) ) ||
 					 activity.getEndDate().before(startDate) ||
 						( 
@@ -1503,7 +1617,7 @@ if( (activity.getDate().before(new java.util.Date()) && activity.getEndDate()==n
 						{ 
 					
 							
-							//System.err.println("*************************Continue..."+i );
+							System.err.println("*************************Continue..."+i );
 							continue;
 						}
 				
@@ -1529,7 +1643,7 @@ if( (activity.getDate().before(new java.util.Date()) && activity.getEndDate()==n
 		 }
 		 
 		 
-		 //System.err.println("Total: "+ i);
+		 System.err.println("Total: "+ i);
 		 
 	}catch(Exception e){e.printStackTrace();}
 	return toRet;
@@ -1847,6 +1961,60 @@ public void  saveCouncilMilestones(java.util.List<Milestone> milestones){
 	
 
 
+}
+
+
+public boolean isCurrentUserId(User user, String sId){
+	
+	
+	
+	System.err.println("SID: "+ sId );
+	//login out
+	if( sId==null) {System.err.println("CurUser: sid null");return true;}
+	
+	boolean isUser=false;
+	try{
+	String sql="select currentUser, jcr:lastModified from nt:base where jcr:path = '"+ user.getPath() +"'";
+	javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
+	javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
+		
+	QueryResult result = q.execute();
+	 for (RowIterator it = result.getRows(); it.hasNext(); ) {
+	       Row r = it.nextRow();
+	       if( r.getValue("currentUser") ==null ){ System.err.println("CurUser: null");return true; }
+	      
+	       boolean isExpired= false;
+	       if( r.getValue("jcr:lastModified")!=null ){
+	    	   
+	    	   java.util.Calendar now= java.util.Calendar.getInstance();
+	    	   java.util.Calendar x= java.util.Calendar.getInstance();
+	    	   x.setTime( new java.util.Date(r.getValue("jcr:lastModified").getLong() ) );
+      		   x.add(java.util.Calendar.MINUTE, +10);
+      		 
+      		   System.err.println("Check: "+ now.getTime() +" MK: "+x.getTime()+" :" +(now.after(x)) );
+      		 
+      		   
+      		   if( now.after(x) ) {
+      			   isExpired= true;
+      			   System.err.println("Expired");
+      			   return true;
+      		   }
+      		  
+      		  
+	       }
+	       
+	       System.err.println(1);
+	       System.err.println("CurUser from Db: "+r.getValue("currentUser").getString());
+	       
+	       if(  sId.equals( r.getValue("currentUser").getString() ) ){
+	    	   System.err.println("CurUser: GOOD");
+	    	   isUser=true;
+	    	   
+	       }
+	 }
+	}catch(Exception e){e.printStackTrace();}
+	return isUser;
+	
 }
 
 }//edn class

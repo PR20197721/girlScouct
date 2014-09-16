@@ -207,7 +207,10 @@ public class MeetingUtil {
 	
 	public void changeMeetingPositions(User user, String newPositions){
 		
-		
+		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+			 user.setErrCode("112");
+			 return;
+		 }
 		
 		java.util.List <Integer> newMeetingSetup= new java.util.ArrayList();
 		java.util.StringTokenizer t= new java.util.StringTokenizer( newPositions, ",");
@@ -240,6 +243,12 @@ public class MeetingUtil {
 	
 	public void createCustomAgenda(User user, String name, String meetingPath, int duration, long _startTime, String txt ){
 		
+		
+		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+			 user.setErrCode("112");
+			 return;
+		 }
+		
 		java.util.Calendar startTime =  Calendar.getInstance();
 		startTime.setTimeInMillis(  _startTime  );
 		
@@ -260,7 +269,7 @@ public class MeetingUtil {
 				activity.setDuration(duration);
 				activity.setActivityDescription(txt);
 			
-				meetingDAO.addActivity( meeting,  activity);
+				meetingDAO.addActivity(user, meeting,  activity);
 				
 				Cal cal = user.getYearPlan().getSchedule();
 				if( cal!=null )
@@ -276,6 +285,10 @@ public class MeetingUtil {
 	
 	public void rmCustomActivity (User user, String activityPath ){
 		
+		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+			 user.setErrCode("112");
+			 return;
+		 }
 		
 		java.util.List <Activity> activities = user.getYearPlan().getActivities();
 		for(int i=0;i<activities.size();i++){
@@ -291,6 +304,13 @@ public class MeetingUtil {
 	}
 	
 	public    void swapMeetings(User user, String fromPath, String toPath){
+		
+		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+			 user.setErrCode("112");
+			 return;
+		 }
+		
+		
 		
 		java.util.List<MeetingE> meetings = user.getYearPlan().getMeetingEvents();
 		for(int i=0;i<meetings.size();i++){
@@ -310,6 +330,13 @@ public class MeetingUtil {
 	}
 
 	public void rearrangeActivity(User user, String meetingPath, String _newPoss){
+		
+		
+		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+			 user.setErrCode("112");
+			 return;
+		 }
+		
 		
 		//TOREDO
 		java.util.List<Integer> newPoss = new java.util.ArrayList();
@@ -362,6 +389,11 @@ public class MeetingUtil {
 	
 	public void addMeetings(User user, String newMeetingPath){
 		
+		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+			 user.setErrCode("112");
+			 return;
+		 }
+		
 		MeetingE meeting = new MeetingE();
 		meeting.setRefId(newMeetingPath);
 		
@@ -401,6 +433,11 @@ public class MeetingUtil {
 	
 	public void rmAgenda(User user, String agendaPathToRm , String fromMeetingPath  ){
 		
+		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+			 user.setErrCode("112");
+			 return;
+		 }
+		
 		for(int i=0;i< user.getYearPlan().getMeetingEvents().size();i++){
 			
 			if( user.getYearPlan().getMeetingEvents().get(i).getPath().equals( fromMeetingPath)){
@@ -427,6 +464,13 @@ public class MeetingUtil {
 	
 	public void editAgendaDuration(User user, int duration, String activityPath, String meetingPath){
 	
+		
+		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+			 user.setErrCode("112");
+			 return;
+		 }
+		
+		
         for(int i=0;i< user.getYearPlan().getMeetingEvents().size();i++){
 			
 			if( user.getYearPlan().getMeetingEvents().get(i).getPath().equals( meetingPath)){
@@ -459,6 +503,13 @@ public class MeetingUtil {
 	
 	public  void reverAgenda(User user, String meetingPath){
 		 
+		
+		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+			 user.setErrCode("112");
+			 return;
+		 }
+		
+		
 		 MeetingE meeting= null;
 		 for(int i=0;i<user.getYearPlan().getMeetingEvents().size();i++)
 			 if( user.getYearPlan().getMeetingEvents().get(i).getPath().equals(meetingPath))
@@ -500,6 +551,10 @@ public class MeetingUtil {
 	
 	public void addAids(User user, String aidId, String meetingId, String assetName){
 		
+		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+			 user.setErrCode("112");
+			 return;
+		 }
 		
 		java.util.List<MeetingE> meetings = user.getYearPlan().getMeetingEvents();
 		for(int i=0;i<meetings.size();i++){
@@ -572,6 +627,10 @@ public class MeetingUtil {
 	
 	public void addResource(User user, String aidId, String meetingId, String assetName){
 		
+		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+			 user.setErrCode("112");
+			 return;
+		 }
 		
 		java.util.List<MeetingE> meetings = user.getYearPlan().getMeetingEvents();
 		for(int i=0;i<meetings.size();i++){
@@ -640,6 +699,13 @@ public class MeetingUtil {
 	}
 	
 	public void rmAsset(User user, String aidId, String meetingId){
+		
+		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+			 user.setErrCode("112");
+			 return;
+		 }
+		
+		
 		java.util.List<MeetingE> meetings = user.getYearPlan().getMeetingEvents();
 		for(int i=0;i<meetings.size();i++){
 			MeetingE meeting = meetings.get(i);

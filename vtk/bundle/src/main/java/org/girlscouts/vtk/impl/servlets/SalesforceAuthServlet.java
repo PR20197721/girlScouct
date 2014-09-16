@@ -20,6 +20,7 @@ import org.girlscouts.vtk.auth.dao.SalesforceDAO;
 import org.girlscouts.vtk.auth.dao.SalesforceDAOFactory;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.models.User;
+import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.helpers.ConfigListener;
 import org.girlscouts.vtk.helpers.ConfigManager;
 import org.girlscouts.vtk.helpers.CouncilMapper;
@@ -63,6 +64,9 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
     
     @Reference
     private CouncilMapper councilMapper;
+    
+    @Reference
+    private UserDAO userDAO;
     
     @Override
     protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) {
@@ -113,9 +117,23 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
 
     private void signOut(SlingHttpServletRequest request, SlingHttpServletResponse response) {
         
+    	
+    	
+    	
     	boolean isLogoutApi=false, isLogoutWeb=false;
     	
     	HttpSession session = request.getSession();
+    	
+    	
+    	
+    	try{
+    		userDAO.logout((org.girlscouts.vtk.models.user.User)session.getAttribute("VTK_user"));
+    				
+    		
+    	}catch(Exception e){e.printStackTrace();}
+    	
+    	
+    	
     	ApiConfig apiConfig = (ApiConfig) session.getAttribute(ApiConfig.class.getName());
 
         String redirectUrl = null;

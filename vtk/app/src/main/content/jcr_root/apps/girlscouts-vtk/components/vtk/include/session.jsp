@@ -44,6 +44,9 @@ public void autoLogin(HttpSession session){
 
 %>
 <%
+
+
+boolean isMultiUserFullBlock=true;
 final ActivityDAO activityDAO = sling.getService(ActivityDAO.class);
 final LocationDAO locationDAO = sling.getService(LocationDAO.class);
 final CalendarUtil calendarUtil = sling.getService(CalendarUtil.class);
@@ -154,7 +157,41 @@ if( user ==null){
        
 		
 		
+		//System.err.println("** user: "+ user.getCurrentUser() +" : "+ session.getId() );
+		//out.println( session.getId() +" : "+ user.getCurrentUser() );
+		if( session!=null && user.getCurrentUser()!=null &&  !session.getId().equals( user.getCurrentUser() )){  
+			/*
+			%>
+			<span class='error'>Warning: another user is currently logged into this account. To continue, please logout and login again.  (This will cause the other user to be logged out.)</span>
+			<%
+			
+			return;
+			*/
+		 }else{
+			 //System.err.println("test");
+			 user.setCurrentUser( session.getId() );
+			 if( isMultiUserFullBlock)
+			   if( user.getYearPlan()!=null)
+			 	 userDAO.updateUser(user);
+				
+		 }
+		user.setCurrentUser( session.getId() );
 		
+		
+}else{
+	
+	
+	//out.println(session.getId() +" : "+user.getCurrentUser());
+	if(false){//user.getYearPlan()!=null &&  !meetingDAO.isCurrentUserId(user, session.getId() )){  
+
+		%>
+		<span class='error'>Warning: another user is currently logged into this account. To continue, please logout and login again.  (This will cause the other user to be logged out.)</span>
+		<%
+		
+		return;
+	 }
+	
+	
 }
 
 
@@ -168,8 +205,41 @@ if (session.getAttribute("USER_TROOP_LIST") == null) {
 %>
 
 
-
-
-
+	<%
+	//out.println("ERR_CODE: "+ user.getErrCode() +": " + session.getId() );
+		//if( user!=null && user.getLastModified()!=null) {
+			
+			//if( user.getLastModified().getTime().equals( new java.util.Date("1/2/1976") ) ){
+			if( user.getErrCode()!=null && user.getErrCode().equals("111") ){
+				%>
+					<div style="color:#fff; background-color:red;">Warning: another user is currently logged into this account. To continue, please logout and login again.  (This will cause the other user to be logged out.) error 111-in db</div>
+				<%
+			}
+			
+			//if( user.getLastModified().getTime().equals( new java.util.Date("1/3/1976") ) ){
+			
+				
+				
+		if(  isMultiUserFullBlock && user!=null && !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) )
+		{
+			%><div style="color:#fff; background-color:red;">Warning: another user is currently logged into this account. To continue, please logout and login again.  (This will cause the other user to be logged out.) error 111.1-another user</div><% 
+			
+			return;
+		}
+		
+		
+		
+			if( user.getErrCode()!=null && user.getErrCode().equals("112") ){
+				%>
+					<div style="color:#fff; background-color:red;">Warning: another user is currently logged into this account. To continue, please logout and login again.  (This will cause the other user to be logged out.) error 112-another user</div>
+				<%
+			}
+		//}
+	
+	
+	
+	%>
+	
+	
 
 

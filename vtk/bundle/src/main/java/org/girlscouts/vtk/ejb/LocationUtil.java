@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
+import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Location;
@@ -18,8 +19,16 @@ import org.girlscouts.vtk.models.user.User;
 public class LocationUtil {
     @Reference
     UserDAO userDAO;
+    
+    @Reference
+    private MeetingDAO meetingDAO;
 
 	public void setLocationAllMeetings( User user, String locationPath ){
+		
+		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+			 user.setErrCode("112");
+			 return;
+		 }
 		
 		YearPlan plan= user.getYearPlan();
 		List <MeetingE> meetings = plan.getMeetingEvents();
@@ -41,6 +50,11 @@ public class LocationUtil {
 	}
   
   public void setLocation(User user, Location location){
+	  
+	  if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+			 user.setErrCode("112");
+			 return;
+		 }
 	  
 		YearPlan plan = user.getYearPlan();
 		java.util.List <Location> locations = plan.getLocations();
@@ -69,6 +83,11 @@ public class LocationUtil {
 		
   }
   public void changeLocation(User user, String dates, String locationRef){
+	  
+	  if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+			 user.setErrCode("112");
+			 return;
+		 }
 	  
 	  java.util.List <String> processedMeetings =new java.util.ArrayList();
 	 	
@@ -129,6 +148,11 @@ public class LocationUtil {
   
   
 	public void setLocationAllEmpty( User user, String locationName ){
+		
+		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+			 user.setErrCode("112");
+			 return;
+		 }
 		
 		YearPlan plan= user.getYearPlan();
 		

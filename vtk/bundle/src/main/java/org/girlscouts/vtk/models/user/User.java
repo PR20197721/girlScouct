@@ -36,12 +36,28 @@ public class User {
 	private EmailMeetingReminder sendingEmail;
 	
 	
+	//session id of current user
+	@Field private String currentUser;
+	
+	@Field private String errCode;
 	
 	
 	
 	
 	
 	
+	public String getErrCode() {
+		return errCode;
+	}
+	public void setErrCode(String errCode) {
+		this.errCode = errCode;
+	}
+	public String getCurrentUser() {
+		return currentUser;
+	}
+	public void setCurrentUser(String currentUser) {
+		this.currentUser = currentUser;
+	}
 	public String getSfCouncil() {
 		return sfCouncil;
 	}

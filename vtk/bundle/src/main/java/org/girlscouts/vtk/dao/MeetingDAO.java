@@ -21,7 +21,7 @@ public interface MeetingDAO {
 	public java.util.List<MeetingE> getAllUsersEventMeetings(User user, String yearPlanId);
 	public Meeting createCustomMeeting(User user, MeetingE meetingEvent);
 	public Meeting createCustomMeeting(User user, MeetingE meetingEvent, Meeting meeting);
-	public Meeting addActivity(Meeting meeting, Activity activity);
+	public Meeting addActivity(User user, Meeting meeting, Activity activity);
 	List<Meeting> search();
 	public List<org.girlscouts.vtk.models.Search> getData(User user, String query);
 	//public List<org.girlscouts.vtk.models.Search> getAidTag(String tags, String meetingName);
@@ -49,4 +49,5 @@ public interface MeetingDAO {
 	public Council getCouncil(String councilId);
 	public java.util.List<Milestone> getCouncilMilestones(String councilCode);
 	public void  saveCouncilMilestones(java.util.List<Milestone> milestones);
+	public boolean isCurrentUserId(User user, String sId);
 }
