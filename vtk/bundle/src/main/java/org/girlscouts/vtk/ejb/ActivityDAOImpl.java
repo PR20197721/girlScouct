@@ -3,7 +3,9 @@ package org.girlscouts.vtk.ejb;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.jcr.Node;
 import javax.jcr.Session;
+import javax.jcr.query.RowIterator;
 
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
@@ -13,6 +15,10 @@ import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
 import org.apache.jackrabbit.ocm.manager.impl.ObjectContentManagerImpl;
 import org.apache.jackrabbit.ocm.mapper.Mapper;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
+import org.apache.jackrabbit.ocm.query.Filter;
+import org.apache.jackrabbit.ocm.query.Query;
+import org.apache.jackrabbit.ocm.query.QueryManager;
+//import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.girlscouts.vtk.dao.ActivityDAO;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.UserDAO;
@@ -119,4 +125,61 @@ public class ActivityDAOImpl implements ActivityDAO{
 		
 	}
 
+
+
+public boolean isActivity( String uuid ){
+	
+	javax.jcr.Node node = null;
+	try{
+		node = session.getNodeByIdentifier(uuid);
+	}catch(Exception e){e.printStackTrace();}
+	
+	if( node!=null )
+		return true;
+	
+	return false;
+}
+
+public void updateActivitiesCancel( String uuid ){
+	
+	if( uuid ==null )return;
+	
+	try{
+		List<Class> classes = new ArrayList<Class>();	
+		classes.add(Activity.class); 
+		
+		
+		Mapper mapper = new AnnotationMapperImpl(classes);			
+		ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
+	
+		QueryManager queryManager = ocm.getQueryManager();
+		Filter filter = queryManager.createFilter(Activity.class);
+        filter.setScope(  "/vtk//");
+        filter.addEqualTo("refUid", uuid);
+      
+        Query query = queryManager.createQuery(filter);
+        java.util.List<Activity> activities = (List<Activity> ) ocm.getObjects(query);
+        
+     if( activities!=null)
+        System.err.println( "Found " +activities.size() +"  activities matching uuid "+ uuid);
+     else
+    	 System.err.println("No activities foudn for uuid "+ uuid);
+     
+     
+     	for(int i=0;i<activities.size();i++){
+     		Activity a= activities.get(i);
+     		if( a.getRefUid().equals(uuid) ){ //"if" just to double check
+     			a.setCancelled("true");
+     			ocm.update(a);
+     		}
+     	}
+     	
+     	ocm.save();
+     
+		}catch(Exception e){e.printStackTrace();}
+	
+	
+}
+	
+	
 }

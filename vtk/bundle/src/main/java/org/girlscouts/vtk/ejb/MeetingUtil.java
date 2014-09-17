@@ -1,5 +1,6 @@
 package org.girlscouts.vtk.ejb;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -11,6 +12,14 @@ import org.apache.commons.beanutils.BeanComparator;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
+import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
+import org.apache.jackrabbit.ocm.manager.impl.ObjectContentManagerImpl;
+import org.apache.jackrabbit.ocm.mapper.Mapper;
+import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
+import org.apache.jackrabbit.ocm.query.Filter;
+import org.apache.jackrabbit.ocm.query.Query;
+import org.apache.jackrabbit.ocm.query.QueryManager;
+import org.girlscouts.vtk.dao.ActivityDAO;
 import org.girlscouts.vtk.dao.AssetComponentType;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.UserDAO;
@@ -33,6 +42,9 @@ public class MeetingUtil {
     
     @Reference
     MeetingDAO meetingDAO;
+    
+    @Reference
+    ActivityDAO activityDAO;
 	
 	public java.util.List<MeetingE> updateMeetingPos(java.util.List<MeetingE> orgMeetings, java.util.List <Integer> newPoss){
 		
@@ -777,4 +789,32 @@ public class MeetingUtil {
 		return _activities;
 		
 	}
+	
+	
+
+
+public void checkCanceledActivity(User user){
+	
+	if( user==null || user.getYearPlan()==null || user.getYearPlan().getActivities() ==null ||
+			user.getYearPlan().getActivities().size()==0)
+		return;
+	
+	java.util.List<Activity> activities = user.getYearPlan().getActivities();
+	for(int i=0; i<activities.size();i++){
+		if( !(activities.get(i).getCancelled()!=null && activities.get(i).getCancelled().equals("true") ) )
+			System.err.println( (userDAO==null) );
+			System.err.println( (meetingDAO==null ));
+			System.err.println( (activityDAO==null ));
+			System.err.println((activities.get(i)==null ));
+			System.err.println(activities.get(i).getRefUid() ==null);
+			
+			if( activityDAO.isActivity( activities.get(i).getRefUid() ) ){
+				activities.get(i).setCancelled("true");
+				userDAO.updateUser(user);
+			}
+	}
+}
+
+
+
 }

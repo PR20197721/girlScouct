@@ -1269,6 +1269,8 @@ public SearchTag searchA( String councilCode){
 	SearchTag tags = new SearchTag();
 	try{
 		
+		java.util.Map<String, String> regionsMain = searchRegion(councilStr);
+		
 		java.util.Map<String, String> categories = new java.util.TreeMap();
 		java.util.Map<String, String> levels = new java.util.TreeMap();
 		
@@ -1302,8 +1304,11 @@ public SearchTag searchA( String councilCode){
 		 if( (categories ==null || categories.size()==0 ) && (levels==null || levels.size()==0) ){
 			 
 		  try{
-			  
-			  return getDefaultTags();
+			  SearchTag defaultTags = getDefaultTags();
+			  if( regionsMain!=null && regionsMain.size()>0 )
+				  	defaultTags.setRegion(regionsMain);
+			  return defaultTags;
+			  //return getDefaultTags();
 		 	}catch(Exception e){e.printStackTrace();}
 		 }
 		 
@@ -1322,7 +1327,7 @@ public SearchTag searchA( String councilCode){
 		 
 		 tags.setCategories( categories );
 		 tags.setLevels( levels );
-		 tags.setRegion( searchRegion() );
+		 tags.setRegion( searchRegion(councilStr) );
 		 
 	}catch(Exception e){e.printStackTrace();}
 
@@ -1398,7 +1403,7 @@ public SearchTag getDefaultTags( ){
 		 
 		 tags.setCategories( categories );
 		 tags.setLevels( levels );
-		 tags.setRegion( searchRegion() );
+		 tags.setRegion( searchRegion(councilStr) );
 		 
 	}catch(Exception e){e.printStackTrace();}
 
@@ -1406,7 +1411,7 @@ public SearchTag getDefaultTags( ){
 }
 
 
-public java.util.List<Activity> searchA1(User user, String tags, String cat, String keywrd,
+public java.util.List<Activity> searchA2(User user, String tags, String cat, String keywrd,
 		java.util.Date startDate, java.util.Date endDate, String region){
 	
 	java.util.List<Activity> toRet= new java.util.ArrayList();
@@ -1455,7 +1460,7 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 		
 		String regionSql="";
 		if( region !=null && !region.trim().equals("")) {
-			regionSql += " and LOWER(Region) ='"+ region +"'";
+			regionSql += " and LOWER(region) ='"+ region +"'";
 			//isTag=true;
 		}
 		
@@ -1665,14 +1670,19 @@ if( (activity.getDate().before(new java.util.Date()) && activity.getEndDate()==n
 
 
 
-public java.util.Map<String, String> searchRegion(){
+public java.util.Map<String, String> searchRegion( String councilStr){
 	java.util.Map<String, String> container = new java.util.TreeMap();
 	try{
+		
 		
 		java.util.Map<String, String> categories = new java.util.TreeMap();
 		java.util.Map<String, String> levels = new java.util.TreeMap();
 		
-		String sql="select Region from nt:base where jcr:path like '/content/gateway/en/events/2014/%' and Region is not null";
+		//String sql="select Region from nt:base where jcr:path like '/content/gateway/en/events/2014/%' and Region is not null";
+		//String sql="select jcr:title from nt:base where jcr:path like '/etc/tags/"+ councilStr +"/%' and Region is not null";
+		
+		String sql="select region from nt:base where jcr:path like '/content/"+councilStr+"/en/events-repository/%' and region is not null";
+		System.err.println( sql );
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
 			
@@ -1680,7 +1690,7 @@ public java.util.Map<String, String> searchRegion(){
 		
 		 for (RowIterator it = result.getRows(); it.hasNext(); ) {
 		       Row r = it.nextRow();
-		       String elem= r.getValue("Region").getString() ;
+		       String elem= r.getValue("region").getString() ;
 		       elem= elem.trim().toLowerCase();
 		       
 		       if( !container.containsKey(elem) )
@@ -2062,4 +2072,229 @@ private String getLocation(User user, String locationId){
 	 }catch(Exception e){e.printStackTrace();}
 	 return fmtLocation;
 }
+
+
+
+
+public java.util.List<Activity> searchA1(User user, String tags, String cat, String keywrd,
+		java.util.Date startDate, java.util.Date endDate, String region){
+	
+	java.util.List<Activity> toRet= new java.util.ArrayList();
+			
+	try{
+		
+		
+		boolean isTag=false;
+		
+		
+		//TAGS= LVL
+		String sqlTags="";
+		if( tags.equals("|")) tags="";
+		
+		StringTokenizer t= new StringTokenizer( tags, "|");
+		while( t.hasMoreElements()){
+			sqlTags+=" contains(parent.[cq:tags], 'program-level/"+ t.nextToken() +"') ";
+			//sqlTags+=" parent.[cq:tags] = '"+ t.nextToken() +"' ";
+			if( t.hasMoreElements() )
+				sqlTags+=" or ";
+			isTag=true;
+		}
+		if( isTag)
+			sqlTags=" and ("+ sqlTags +" ) ";
+		//END LVL
+		
+		
+		//cat
+		String sqlCat="";
+		if( cat.equals("|")) cat="";
+		
+	    t= new StringTokenizer( cat, "|");
+		while( t.hasMoreElements()){
+			sqlCat+=" contains(parent.[cq:tags], 'categories/"+ t.nextToken() +"') ";
+			//sqlCat+=" parent.[cq:tags]= 'gsnetx:categories/"+ t.nextToken() +"' ";
+			if( t.hasMoreElements() )
+				sqlCat+=" or ";
+			isTag=true;
+		}
+		if( !sqlCat.equals("" ))
+			sqlCat=" and ("+ sqlCat +" ) ";
+		//end cat
+		
+		
+		
+		
+		String regionSql="";
+		if( region !=null && !region.trim().equals("")) {
+			regionSql += " and LOWER(region) ='"+ region +"'";
+			//isTag=true;
+		}
+		
+		String path = "/content/gateway/en/events/2014/%";
+		if( !isTag )
+			path= path +"/data";
+		else
+			path= path +"/jcr:content";
+		
+		//- org SQL String sql="select start, jcr:title, details, end,locationLabel,srchdisp  from nt:base where jcr:path like '"+ path +"' " ;
+		
+		String councilId = null;
+		if (user.getTroop() != null) {
+		        councilId = Integer.toString(user.getTroop().getCouncilCode());
+		}
+		String branch = councilMapper.getCouncilBranch(councilId);
+		// TODO: language?
+		branch += "/en";
+		String eventPath = "";
+		try {
+		    eventPath = session.getProperty(branch + "/jcr:content/eventPath").getString();
+		} catch (Exception e) {e.printStackTrace();}
+		
+		
+		//System.err.println( "PPPPATH: "+ eventPath);
+
+		String sql= "select child.address, parent.[jcr:uuid], child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, [" + eventPath + "])) and child.start is not null and parent.[jcr:title] is not null " ;
+		
+		
+		// This is Alex's CACA. Alex: please cleanup your shit!
+		//String sql= "select child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, [/content/gateway/en/events/2014])) and child.start is not null and parent.[jcr:title] is not null " ;
+		//String sql= "select child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, ["+ resourceRootPath +"])) and child.start is not null and parent.[jcr:title] is not null " ;
+		//SELECT parent.* FROM [cq:PageContent] AS parent INNER JOIN [nt:base] as child ON ISCHILDNODE(parent) WHERE ISDESCENDANTNODE(parent, [/content/grocerystore/food/])"
+		
+
+
+		
+		if( keywrd!=null && !keywrd.trim().equals("") )//&& !isTag )
+			sql+=" and (contains(child.*, '"+ keywrd+"') or contains(parent.*, '"+ keywrd+"')  )";
+		
+		if( !isTag )
+			sql+= regionSql;
+		
+		sql+= sqlTags;
+		sql+= sqlCat;
+		
+		/*
+		sql="select parent.* from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child,parent) where" +
+				" parent.[jcr:path] LIKE '/content/gateway/en/events/2014/%' and"+
+				" child.Region='test' and  (contains(parent.*, '"+ keywrd+"') or contains(child.*, '"+ keywrd+"')  )";
+		
+		
+		sql="select parent.* from [nt:unstructured] as parent INNER JOIN [nt:unstructured] as child ON ISCHILDNODE(child,parent) where" +
+				" parent.[jcr:path] LIKE '/content/gateway/en/events/2014/%'";
+				//and"+
+				//"    (contains(parent.*, '"+ keywrd+"') or contains(child.*, '"+ keywrd+"')  )";
+		
+		sql="SELECT * FROM [nt:unstructured] WHERE [jcr:path] = '/content/gateway/en/events/2014/wilderness_first_aid'";
+		
+		
+		sql="SELECT * FROM [nt:unstructured] as x WHERE (PATH() LIKE '/content/gateway/en/events/2014/wilderness_first_aid%')";
+		sql="SELECT * FROM [nt:base] WHERE PATH() LIKE '/content/gateway/en/events/2014/wilderness_first_aid%'";
+		
+		
+		//sql= "select * from [nt:base] as p where  (isdescendantnode (p, ["+ path +"]))  and contains(p.*, 'aid') ";
+		*/
+		System.err.println( sql );
+		
+		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
+		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.JCR_SQL2); 
+			
+		int i=0;
+		QueryResult result = q.execute();
+		
+	//System.err.println("Size: "+	result.getRows().getSize());
+		
+		 for (RowIterator it = result.getRows(); it.hasNext(); ) {
+		       Row r = it.nextRow();
+		   //  System.err.println("PATH: "+  r.get);
+		       /*
+		       Value v[] =r.getValues();
+		       for(int g=0;g<v.length;g++)
+		    	   System.err.println( "*** * "+v[g].getString() );
+		       */
+		        Activity activity = new Activity();
+				activity.setUid("A"+ new java.util.Date().getTime() +"_"+ Math.random());
+		        //if( true){//!isTag){
+		  //System.err.println( i );      	
+		        	activity.setContent(r.getValue("child.details").getString());
+		        	activity.setDate(r.getValue("child.start").getDate().getTime());
+		        	try{ activity.setEndDate(r.getValue("child.end").getDate().getTime()); }catch(Exception e){}
+		        	
+if( (activity.getDate().before(new java.util.Date()) && activity.getEndDate()==null)
+		||
+	( activity.getEndDate()!=null && activity.getEndDate().before(new java.util.Date()))
+		){ 
+			//System.err.println("PastDAte: "+ activity.getDate() +" : "+ activity.getEndDate() );
+			continue;
+	}
+		        	
+		        	activity.setLocationName(r.getValue("child.locationLabel").getString());
+		        	try{
+		        		activity.setLocationAddress(r.getValue("child.address").getString());
+		        	}catch(Exception e){e.printStackTrace();}
+		        	
+		        	activity.setName(r.getValue("child.srchdisp").getString());
+		        	
+		        	activity.setName(r.getValue("parent.jcr:title").getString());
+		        	
+				activity.setType(YearPlanComponentType.ACTIVITY);
+				activity.setId("ACT"+i);
+				//activity.setPath( r.getPath() );
+				
+				//patch
+				if( activity.getDate()!=null && activity.getEndDate()==null){
+					activity.setEndDate(activity.getDate());
+				}
+				
+				activity.setIsEditable(false);
+				try{ activity.setRefUid( r.getValue("parent.jcr:uuid").getString() ); }catch(Exception e){e.printStackTrace();}
+				 
+			
+				/*
+				if( startDate!=null && endDate!=null)
+				 if(  
+				  ( startDate.after(endDate) ) ||
+					 activity.getEndDate().before(startDate) ||
+						( 
+								( activity.getDate().before( startDate ) || activity.getDate().after( startDate ) )   && activity.getDate().after(endDate) 
+								) 
+						||
+						( 
+								activity.getEndDate().before( startDate ) && (activity.getEndDate().after(endDate) || activity.getEndDate().after(endDate)) 
+								)
+						)
+						{ 
+					
+							
+							System.err.println("*************************Continue..."+i );
+							continue;
+						}
+				
+				
+				*/
+				
+				System.err.println("____________________");
+				System.err.println("Activ: "+ startDate+" >> "+activity.getDate() +" << "+ endDate );
+				System.err.println( activity.getDate().after(startDate )+" : "+activity.getDate().before(endDate ));
+				
+				if( startDate!=null && endDate!=null &&
+						activity.getDate()!=null && activity.getDate().after(startDate ) && activity.getDate().before(endDate )
+							)
+					System.err.println("good "+i);
+				else{
+					
+					System.err.println("Continue..."+i);
+					continue;
+					}
+				
+				
+				toRet.add( activity); 
+				i++;
+		 }
+		 
+		 
+		 System.err.println("Total: "+ i);
+		 
+	}catch(Exception e){e.printStackTrace();}
+	return toRet;
+}
+
 }//edn class

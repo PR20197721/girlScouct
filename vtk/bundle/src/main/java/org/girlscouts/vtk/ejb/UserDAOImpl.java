@@ -20,6 +20,7 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
 import org.apache.jackrabbit.ocm.query.Filter;
 import org.apache.jackrabbit.ocm.query.Query;
 import org.apache.jackrabbit.ocm.query.QueryManager;
+import org.girlscouts.vtk.dao.ActivityDAO;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.models.Activity;
@@ -46,9 +47,12 @@ public class UserDAOImpl implements UserDAO{
     @Reference
     private MeetingDAO meetingDAO;
     
-    
+   // @Reference
+   // private ActivityDAO activityDAO;
     
     private static UserGlobConfig userGlobConfig;
+    
+
     
     @Activate
     void activate() {
@@ -108,6 +112,14 @@ public class UserDAOImpl implements UserDAO{
 	        	
 	        }
 	        */
+	        
+	        
+	        //cancelled activity check	        
+	        if( user!=null && user.getYearPlan()!=null && user.getYearPlan().getActivities() !=null && user.getYearPlan().getActivities().size()>0){
+	        	//meetingUtil.checkCanceledActivity(user);
+	        }
+	        
+	        
 		}catch(Exception e){e.printStackTrace();}
 		
 		
@@ -649,6 +661,7 @@ public void addAsset(User user, String meetingUid,  Asset asset){
 		if(user ==null) return;
 		User tmp_user= getUser(user.getPath());
 		//tmp_user.setTroop(user.getTroop());
+		if( tmp_user ==null )return;
 		tmp_user.setCurrentUser(null);
 		updateUser( tmp_user );
 	}

@@ -165,8 +165,14 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	new_user.setSfTroopName( new_user.getTroop().getTroopName() );  
 	new_user.setSfTroopAge(new_user.getTroop().getGradeLevel());
 	new_user.setSfCouncil(new_user.getTroop().getCouncilCode()+"" );
+	
+	//logout multi user
+	userDAO.logout(user);
+	
 	session.setAttribute("VTK_user", new_user);
 	session.putValue("VTK_planView_memoPos", null);
+	new_user.setCurrentUser( session.getId() );
+	userDAO.updateUser(new_user);
 	
 }else if( request.getParameter("addAsset")!=null){
 	org.girlscouts.vtk.models.Asset asset = new org.girlscouts.vtk.models.Asset(request.getParameter("addAsset"));

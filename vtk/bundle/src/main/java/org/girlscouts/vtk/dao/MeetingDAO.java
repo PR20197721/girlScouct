@@ -38,7 +38,7 @@ public interface MeetingDAO {
 	public SearchTag searchA(String councilCode);
 	public java.util.List<Activity> searchA1(User user, String lvl, String cat, String keywrd,
 			java.util.Date startDate, java.util.Date endDate, String region);
-	public java.util.Map<String, String> searchRegion(); //pull distinct regions
+	//public java.util.Map<String, String> searchRegion(); //pull distinct regions
 	
 	
 	public  List<Asset> getAllResources(String path) ;
@@ -50,4 +50,5 @@ public interface MeetingDAO {
 	public java.util.List<Milestone> getCouncilMilestones(String councilCode);
 	public void  saveCouncilMilestones(java.util.List<Milestone> milestones);
 	public boolean isCurrentUserId(User user, String sId);
+	
 }
