@@ -2125,7 +2125,7 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 		
 		String regionSql="";
 		if( region !=null && !region.trim().equals("")) {
-			regionSql += " and LOWER(region) ='"+ region +"'";
+			regionSql += " and LOWER(child.region) ='"+ region +"'";
 			//isTag=true;
 		}
 		
@@ -2166,7 +2166,7 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 		if( keywrd!=null && !keywrd.trim().equals("") )//&& !isTag )
 			sql+=" and (contains(child.*, '"+ keywrd+"') or contains(parent.*, '"+ keywrd+"')  )";
 		
-		if( !isTag )
+		//091714 if( !isTag )
 			sql+= regionSql;
 		
 		sql+= sqlTags;
@@ -2270,13 +2270,14 @@ if( (activity.getDate().before(new java.util.Date()) && activity.getEndDate()==n
 				
 				
 				*/
-				
+				/*
 				System.err.println("____________________");
 				System.err.println("Activ: "+ startDate+" >> "+activity.getDate() +" << "+ endDate );
 				System.err.println( activity.getDate().after(startDate )+" : "+activity.getDate().before(endDate ));
+				*/
 				
-				if( startDate!=null && endDate!=null &&
-						activity.getDate()!=null && activity.getDate().after(startDate ) && activity.getDate().before(endDate )
+			if( startDate!=null && endDate!=null )
+				if(		activity.getDate()!=null && activity.getDate().after(startDate ) && activity.getDate().before(endDate )
 							)
 					System.err.println("good "+i);
 				else{

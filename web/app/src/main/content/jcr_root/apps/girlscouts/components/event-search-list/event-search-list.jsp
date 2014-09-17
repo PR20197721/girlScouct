@@ -4,6 +4,7 @@
 <cq:includeClientLib categories="apps.girlscouts" />
 <cq:defineObjects/>
 <% 
+int caca=0;
 DateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.S");
 fromFormat.setCalendar(Calendar.getInstance(TimeZone.getTimeZone("GMT")));
 DateFormat dateFormat = new SimpleDateFormat("EEE MMM d yyyy");
@@ -26,6 +27,8 @@ if(null==srchInfo) {
 }
 srchInfo =  (SearchResultsInfo)request.getAttribute("eventresults");
 List<String> results = srchInfo.getResults();
+
+System.err.println("###################################" +results.size());
 long hitCounts = srchInfo.getHitCounts();
 SearchResult searchResults = (SearchResult)request.getAttribute("searchResults");
 String q = request.getParameter("q");
@@ -123,7 +126,9 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 <%= displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80") %>
 			</div>
 			<div class="rightCol">
-				<h6><a class="bold" href="<%=href%>"><%=title %></a></h6>
+				<h6>
+				**<%= caca %>**<% caca=caca+1; %>
+				<a class="bold" href="<%=href%>"><%=title %></a></h6>
 				<p class="bold">Date: <%=dateStr%></p>
 <%if(!locationLabel.isEmpty()){ %>
 				<p class="bold">Location: <%=locationLabel %></p>
