@@ -116,7 +116,7 @@ public class UserDAOImpl implements UserDAO{
 	        
 	        //cancelled activity check	        
 	        if( user!=null && user.getYearPlan()!=null && user.getYearPlan().getActivities() !=null && user.getYearPlan().getActivities().size()>0){
-	        	//meetingUtil.checkCanceledActivity(user);
+	        	//activityDAO.checkCanceledActivity(user);
 	        }
 	        
 	        

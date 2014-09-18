@@ -153,6 +153,14 @@ if( user ==null){
 		user.setSfTroopName( user.getTroop().getTroopName() ); 
 		user.setSfTroopAge( user.getTroop().getGradeLevel() );
 		user.setSfCouncil( user.getTroop().getCouncilCode()+"");
+		
+		
+		
+		 //cancelled activity check 091814	        
+        if( user!=null && user.getYearPlan()!=null && user.getYearPlan().getActivities() !=null && user.getYearPlan().getActivities().size()>0){
+        	activityDAO.checkCanceledActivity(user);
+        }
+		
 		session.setAttribute("VTK_user", user);
        
 		

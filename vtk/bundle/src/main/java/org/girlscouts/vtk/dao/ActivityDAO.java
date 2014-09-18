@@ -10,6 +10,6 @@ public interface ActivityDAO {
 	public java.util.List<Activity> search(ActivitySearch search);
 	public void updateActivitiesCancel( String uuid );
 	public boolean isActivity( String uuid );
-	//public void checkCanceledActivity(User user);
+	public void checkCanceledActivity(User user);
 	
 }

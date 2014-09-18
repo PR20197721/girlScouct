@@ -793,28 +793,6 @@ public class MeetingUtil {
 	
 
 
-public void checkCanceledActivity(User user){
-	
-	if( user==null || user.getYearPlan()==null || user.getYearPlan().getActivities() ==null ||
-			user.getYearPlan().getActivities().size()==0)
-		return;
-	
-	java.util.List<Activity> activities = user.getYearPlan().getActivities();
-	for(int i=0; i<activities.size();i++){
-		if( !(activities.get(i).getCancelled()!=null && activities.get(i).getCancelled().equals("true") ) )
-			System.err.println( (userDAO==null) );
-			System.err.println( (meetingDAO==null ));
-			System.err.println( (activityDAO==null ));
-			System.err.println((activities.get(i)==null ));
-			System.err.println(activities.get(i).getRefUid() ==null);
-			
-			if( activityDAO.isActivity( activities.get(i).getRefUid() ) ){
-				activities.get(i).setCancelled("true");
-				userDAO.updateUser(user);
-			}
-	}
-}
-
 
 
 }

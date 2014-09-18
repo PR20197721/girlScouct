@@ -181,5 +181,24 @@ public void updateActivitiesCancel( String uuid ){
 	
 }
 	
+
+
+
+public void checkCanceledActivity(User user){
+	
+	if( user==null || user.getYearPlan()==null || user.getYearPlan().getActivities() ==null ||
+			user.getYearPlan().getActivities().size()==0)
+		return;
+	
+	java.util.List<Activity> activities = user.getYearPlan().getActivities();
+	for(int i=0; i<activities.size();i++){
+		if( !(activities.get(i).getCancelled()!=null && activities.get(i).getCancelled().equals("true") ) )
+			
+			if( isActivity( activities.get(i).getRefUid() ) ){
+				activities.get(i).setCancelled("true");
+				userDAO.updateUser(user);
+			}
+	}
+}
 	
 }
