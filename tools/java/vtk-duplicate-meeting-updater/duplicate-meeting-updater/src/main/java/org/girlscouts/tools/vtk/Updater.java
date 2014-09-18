@@ -5,7 +5,6 @@ import java.util.Map;
 
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
-import javax.jcr.PathNotFoundException;
 import javax.jcr.Repository;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
@@ -93,7 +92,7 @@ public class Updater
         this.session = session;
     }
     
-    private void updateMeetings() throws PathNotFoundException, RepositoryException {
+    private void updateMeetings() throws RepositoryException {
         Node vtkRootNode = session.getNode("/vtk");
         NodeIterator councilIter = vtkRootNode.getNodes();
         while (councilIter.hasNext()) {
@@ -103,7 +102,13 @@ public class Updater
                     continue;
                 }
                 
-                
+                NodeIterator troopIter = councilNode.getNodes();
+                while (troopIter.hasNext()) {
+                    NodeIterator userIter = troopIter.nextNode().getNode("users").getNodes();
+                    while (userIter.hasNext()) {
+                        
+                    }
+                }
             }
         }
     }
