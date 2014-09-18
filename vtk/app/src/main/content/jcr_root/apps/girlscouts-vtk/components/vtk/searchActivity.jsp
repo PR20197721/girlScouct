@@ -31,7 +31,15 @@ if( activities!=null  ){
 			<p class="activityName"><%=activities.get(i).getName()%></p>
 			<p class="activityDate">Date: <%=activities.get(i).getDate()==null? "" : FORMAT_MEETING_REMINDER.format(activities.get(i).getDate()) %> - 
 			<%=activities.get(i).getEndDate()==null ? "" : FORMAT_MEETING_REMINDER.format(activities.get(i).getEndDate()) %></p>
-			<p class="activityLocation">Location:<%=activities.get(i).getLocationAddress()==null ? "Currently no location" : activities.get(i).getLocationAddress() %></p>
+			<p class="activityLocation">Location:
+			    <%=activities.get(i).getLocationName()==null ? "" : activities.get(i).getLocationName() %>
+				<%=activities.get(i).getLocationAddress()==null ? "Currently no location" : activities.get(i).getLocationAddress() %>
+				
+				<%if(activities.get(i).getLocationAddress()==null || activities.get(i).getLocationAddress().trim().equals("") ){ %>
+					<input type="button" onclick="showMap('<%=activities.get(i).getLocationAddress().replace("\r","")%>')" value="Map"/>
+				<%} %>
+			
+			</p>
 			<p class="activityContent"> <%=activities.get(i).getContent() %> </p>
 			<%if(activities.get(i).getDate()==null){ %>
 				<i class="activityDisabled">Unable to add this item due to missing start date.</i>
@@ -60,6 +68,14 @@ function addActiv3(id){
 		}
 	});
 }
+
+
+
+function showMap(address){
+	
+    window.open('/en/map.html?address='+address);
+}
+
 </script>
 
 

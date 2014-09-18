@@ -68,7 +68,7 @@ import com.day.cq.search.result.SearchResult;
 
 @Component
 @Service(value=MeetingDAO.class)
-public class MeetingDAOImpl implements MeetingDAO {
+public class MeetingDAOImpl_fromStage  {
 
    private Session session;
    
@@ -1691,40 +1691,7 @@ public java.util.Map<String, String> searchRegion( String councilStr){
 		 for (RowIterator it = result.getRows(); it.hasNext(); ) {
 		       Row r = it.nextRow();
 		       String elem= r.getValue("region").getString() ;
-		      // elem= elem.trim().toLowerCase();
-		       elem  = elem.toLowerCase();
-		       
-		       try{
-
-		           
-
-		    	   	  java.util.Calendar startDate=null, endDate=null, now=null;
-
-		    	   	  now= java.util.Calendar.getInstance();
-
-		    	       
-
-		    	   	  try{startDate = r.getValue("start").getDate();}catch(Exception e){ System.err.println("searchRegion invalid startDate"); }
-
-		    	   	  try{endDate   = r.getValue("end").getDate();}catch(Exception e){ System.err.println("searchRegion invalid endDate"); }
-
-		    	       
-
-		    	   	  if( endDate!=null && endDate.before( now ) )
-
-		    	   	  continue;
-
-		    	   	  else if( endDate==null && startDate.before(now) )
-
-		    	   	  continue;
-
-		    	       
-
-		    	    }catch(Exception e){e.printStackTrace();}
-
-		    	       
-		       
-		       
+		       elem= elem.trim().toLowerCase();
 		       
 		       if( !container.containsKey(elem) )
 		    	  container.put( elem, null);
@@ -2309,10 +2276,7 @@ if( (activity.getDate().before(new java.util.Date()) && activity.getEndDate()==n
 				System.err.println( activity.getDate().after(startDate )+" : "+activity.getDate().before(endDate ));
 				*/
 				
-			if( startDate!=null && endDate!=null ){
-				startDate.setHours(0);
-				endDate.setHours(23);
-				
+			if( startDate!=null && endDate!=null )
 				if(		activity.getDate()!=null && activity.getDate().after(startDate ) && activity.getDate().before(endDate )
 							)
 					System.err.println("good "+i);
@@ -2321,7 +2285,7 @@ if( (activity.getDate().before(new java.util.Date()) && activity.getEndDate()==n
 					System.err.println("Continue..."+i);
 					continue;
 					}
-			}
+				
 				
 				toRet.add( activity); 
 				i++;

@@ -424,7 +424,7 @@ function searchActivities(){
 	var cat=  $.trim(checkAll('sch_cats'));
 	var startDate = $.trim(document.getElementById("sch_startDate").value);
 	var endDate = $.trim(document.getElementById("sch_endDate").value);
-	var region = $.trim(document.getElementById("sch_region").value);
+	var region = document.getElementById("sch_region").value;
 	
 	if( startDate != '' && endDate=='' ) {
 		var thisMsg = 'Missing end date';
