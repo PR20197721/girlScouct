@@ -2183,16 +2183,11 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 		} catch (Exception e) {e.printStackTrace();}
 		
 		
-		//System.err.println( "PPPPATH: "+ eventPath);
-
-		String sql= "select child.address, parent.[jcr:uuid], child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, [" + eventPath + "])) and child.start is not null and parent.[jcr:title] is not null " ;
+	
+		String sql= "select parent.[jcr:path], child.address, parent.[jcr:uuid], child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, [" + eventPath + "])) and child.start is not null and parent.[jcr:title] is not null " ;
 		
 		
-		// This is Alex's CACA. Alex: please cleanup your shit!
-		//String sql= "select child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, [/content/gateway/en/events/2014])) and child.start is not null and parent.[jcr:title] is not null " ;
-		//String sql= "select child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, ["+ resourceRootPath +"])) and child.start is not null and parent.[jcr:title] is not null " ;
-		//SELECT parent.* FROM [cq:PageContent] AS parent INNER JOIN [nt:base] as child ON ISCHILDNODE(parent) WHERE ISDESCENDANTNODE(parent, [/content/grocerystore/food/])"
-		
+	
 
 
 		
@@ -2205,26 +2200,7 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 		sql+= sqlTags;
 		sql+= sqlCat;
 		
-		/*
-		sql="select parent.* from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child,parent) where" +
-				" parent.[jcr:path] LIKE '/content/gateway/en/events/2014/%' and"+
-				" child.Region='test' and  (contains(parent.*, '"+ keywrd+"') or contains(child.*, '"+ keywrd+"')  )";
-		
-		
-		sql="select parent.* from [nt:unstructured] as parent INNER JOIN [nt:unstructured] as child ON ISCHILDNODE(child,parent) where" +
-				" parent.[jcr:path] LIKE '/content/gateway/en/events/2014/%'";
-				//and"+
-				//"    (contains(parent.*, '"+ keywrd+"') or contains(child.*, '"+ keywrd+"')  )";
-		
-		sql="SELECT * FROM [nt:unstructured] WHERE [jcr:path] = '/content/gateway/en/events/2014/wilderness_first_aid'";
-		
-		
-		sql="SELECT * FROM [nt:unstructured] as x WHERE (PATH() LIKE '/content/gateway/en/events/2014/wilderness_first_aid%')";
-		sql="SELECT * FROM [nt:base] WHERE PATH() LIKE '/content/gateway/en/events/2014/wilderness_first_aid%'";
-		
-		
-		//sql= "select * from [nt:base] as p where  (isdescendantnode (p, ["+ path +"]))  and contains(p.*, 'aid') ";
-		*/
+	
 		System.err.println( sql );
 		
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
@@ -2233,20 +2209,16 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 		int i=0;
 		QueryResult result = q.execute();
 		
-	//System.err.println("Size: "+	result.getRows().getSize());
 		
 		 for (RowIterator it = result.getRows(); it.hasNext(); ) {
 		       Row r = it.nextRow();
-		   //  System.err.println("PATH: "+  r.get);
-		       /*
+		       
 		       Value v[] =r.getValues();
-		       for(int g=0;g<v.length;g++)
-		    	   System.err.println( "*** * "+v[g].getString() );
-		       */
+		       
+		      
 		        Activity activity = new Activity();
 				activity.setUid("A"+ new java.util.Date().getTime() +"_"+ Math.random());
-		        //if( true){//!isTag){
-		  //System.err.println( i );      	
+		         	
 		        	activity.setContent(r.getValue("child.details").getString());
 		        	activity.setDate(r.getValue("child.start").getDate().getTime());
 		        	try{ activity.setEndDate(r.getValue("child.end").getDate().getTime()); }catch(Exception e){}
@@ -2255,7 +2227,7 @@ if( (activity.getDate().before(new java.util.Date()) && activity.getEndDate()==n
 		||
 	( activity.getEndDate()!=null && activity.getEndDate().before(new java.util.Date()))
 		){ 
-			//System.err.println("PastDAte: "+ activity.getDate() +" : "+ activity.getEndDate() );
+			
 			continue;
 	}
 		        	
@@ -2270,44 +2242,26 @@ if( (activity.getDate().before(new java.util.Date()) && activity.getEndDate()==n
 		        	
 				activity.setType(YearPlanComponentType.ACTIVITY);
 				activity.setId("ACT"+i);
-				//activity.setPath( r.getPath() );
+				
 				
 				//patch
 				if( activity.getDate()!=null && activity.getEndDate()==null){
 					activity.setEndDate(activity.getDate());
 				}
 				
+				
+				
 				activity.setIsEditable(false);
-				try{ activity.setRefUid( r.getValue("parent.jcr:uuid").getString() ); }catch(Exception e){e.printStackTrace();}
+				try{ 
+					//System.err.println( ">> "+r.getPath() );
+					//System.err.println( ">> "+r.getNode().getParent().getPath() );
+					
+					activity.setRefUid( r.getValue("parent.jcr:uuid").getString() ); 
+					
+				}catch(Exception e){e.printStackTrace();}
 				 
 			
-				/*
-				if( startDate!=null && endDate!=null)
-				 if(  
-				  ( startDate.after(endDate) ) ||
-					 activity.getEndDate().before(startDate) ||
-						( 
-								( activity.getDate().before( startDate ) || activity.getDate().after( startDate ) )   && activity.getDate().after(endDate) 
-								) 
-						||
-						( 
-								activity.getEndDate().before( startDate ) && (activity.getEndDate().after(endDate) || activity.getEndDate().after(endDate)) 
-								)
-						)
-						{ 
-					
-							
-							System.err.println("*************************Continue..."+i );
-							continue;
-						}
 				
-				
-				*/
-				/*
-				System.err.println("____________________");
-				System.err.println("Activ: "+ startDate+" >> "+activity.getDate() +" << "+ endDate );
-				System.err.println( activity.getDate().after(startDate )+" : "+activity.getDate().before(endDate ));
-				*/
 				
 			if( startDate!=null && endDate!=null ){
 				startDate.setHours(0);

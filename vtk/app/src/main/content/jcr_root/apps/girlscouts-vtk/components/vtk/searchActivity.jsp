@@ -44,7 +44,7 @@ if( activities!=null  ){
 			<%if(activities.get(i).getDate()==null){ %>
 				<i class="activityDisabled">Unable to add this item due to missing start date.</i>
 			<% }else if( isExists ){ %>
-				<i class="activityDisabled">This Activity is currently is already selected </i>
+				<i class="activityDisabled">This Activity has already been selected</i>
 			<%}else{ %>
 				<a href="#" class="reserved" onclick="addActiv3('<%=activities.get(i).getUid()%>')">Select Activity</a>
 			<%} %>

@@ -5,6 +5,9 @@ import java.util.List;
 
 import javax.jcr.Node;
 import javax.jcr.Session;
+import javax.jcr.Value;
+import javax.jcr.query.QueryResult;
+import javax.jcr.query.Row;
 import javax.jcr.query.RowIterator;
 
 import org.apache.felix.scr.annotations.Activate;
@@ -87,6 +90,14 @@ public class ActivityDAOImpl implements ActivityDAO{
 			if( activities ==null )
 					activities= new java.util.ArrayList<Activity>();
 			
+			//add refId path
+			String refId= null;
+			try{ 
+				refId= getPath( activity.getRefUid() ); 
+				if(refId!=null)
+					activity.setRefUid(refId);
+			}catch(Exception e1){e1.printStackTrace();}
+			
 			activities.add( activity );
 			plan.setActivities(activities);
 			
@@ -132,6 +143,7 @@ public boolean isActivity( String uuid ){
 	javax.jcr.Node node = null;
 	try{
 		node = session.getNodeByIdentifier(uuid);
+		
 	}catch(Exception e){System.err.println("isActivity:Activity not found");}
 	
 	if( node!=null )
@@ -198,13 +210,65 @@ public void checkCanceledActivity(User user){
 		
 		System.err.println(2.1);
 		if( !(activities.get(i).getCancelled()!=null && activities.get(i).getCancelled().equals("true") ) )		
-			if( !isActivity( activities.get(i).getRefUid() ) ){
+			if( !isActivityByPath( activities.get(i).getRefUid() ) ){
 	System.err.println(2.2);
 				activities.get(i).setCancelled("true");
 				userDAO.updateUser(user);
 			}
 	}
 	System.err.println(3);
+}
+
+private String getPath(String uuid){
+	
+	String path= null;
+	javax.jcr.Node node = null;
+	try{
+		node = session.getNodeByIdentifier(uuid);
+		if( node!=null )
+			path = node.getPath();
+	}catch(Exception e){System.err.println("isActivity:Activity not found");}
+	
+	
+	return path;
+}
+
+
+private boolean isActivityByPath(String path){
+	
+	boolean isActivity=true;
+try{
+		
+		System.err.println("Search activ Path : "+ path);
+		
+		String sql= "select jcr:path from nt:base where jcr:path = '"+path+"'";
+		
+		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
+		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
+   		
+		 		
+		QueryResult result = q.execute();
+   
+ 
+   boolean isFound= false;
+   for (RowIterator it = result.getRows(); it.hasNext(); ) {
+	   System.err.println(1);
+       Row r = it.nextRow();
+       Value excerpt = r.getValue("jcr:path");
+       System.err.println("P: "+excerpt.getString() );
+       if( excerpt.getString().equals(path)){
+    	   isActivity= true;
+    	   isFound=true;
+       }else 
+    	   isFound= false;
+       
+       System.err.println( "Fpind: "+ isFound);
+   }
+   if( !isFound ) isActivity= false;
+}catch(Exception e){e.printStackTrace();}
+
+System.err.println("REturn "+ isActivity);
+	return isActivity;
 }
 	
 }
