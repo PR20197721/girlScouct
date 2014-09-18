@@ -118,17 +118,18 @@ public class Updater
             NodeIterator troopIter = councilNode.getNodes();
             while (troopIter.hasNext()) {
                 try {
-                    NodeIterator userIter = troopIter.nextNode().getNode("users").getNodes();
+                    Node troopNode = troopIter.nextNode();
+                    NodeIterator userIter = troopNode.getNode("users").getNodes();
                     while (userIter.hasNext()) {
                         Node userNode = userIter.nextNode();
                         try {
                             updateUserMeetings(userNode);
                         } catch (RepositoryException re) {
-                            System.err.println("Cannot update meeting for " + userNode.getPath());
+                            System.err.println("ERROR: Cannot update meeting for " + userNode.getPath());
                         }
                     }
                 } catch (RepositoryException e) {
-                    System.err.println("Error loading troop: " + troopIter.nextNode().getPath());
+                    System.err.println("ERROR: loading troop: " + troopNode.getPath());
                 }
             }
         }
@@ -137,25 +138,27 @@ public class Updater
     }
     
     private void updateUserMeetings(Node userNode) throws PathNotFoundException, RepositoryException {
-        System.out.println("# " + allCount + " Evaluating user node: " + userNode.getPath());
         allCount++;
         Node allMeetingsNode = userNode.getNode("yearPlan/meetingEvents");
         NodeIterator meetingIter = allMeetingsNode.getNodes();
         while (meetingIter.hasNext()) {
             Node meetingNode = meetingIter.nextNode();
             String refId = meetingNode.getProperty(REF_ID_PROP).getString();
-            System.out.println(refId);
             for (String oldMeeting : MEETING_MAP.keySet()) {
                 if (refId.contains(oldMeeting)) {
                     String newMeeting = MEETING_MAP.get(oldMeeting);
+                    String oldRefId = refId;
                     refId = refId.replaceAll(oldMeeting, newMeeting);
                     meetingNode.setProperty(REF_ID_PROP, refId);
                     updatedCount++;
-                    System.out.println(meetingNode.getPath() + " : " + 
-                            oldMeeting + " => " + newMeeting);
+                    //System.out.println(meetingNode.getPath() + " : " + oldRefId + " => " + refId);
                     session.save();
                     break; // Only one mapping is possible
                 }
+            }
+            
+            if (!session.nodeExists(refId)) {
+                System.err.println("ERROR: " + meetingNode.getPath() + " : Path not found: " + refId);
             }
         }
     }
