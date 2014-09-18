@@ -73,7 +73,7 @@ function addActiv3(id){
 
 function showMap(address){
 	
-    window.open('/en/map.html?address='+address);
+	 window.open('/content/girlscouts-vtk/controllers/vtk.map.html?address='+address);
 }
 
 </script>

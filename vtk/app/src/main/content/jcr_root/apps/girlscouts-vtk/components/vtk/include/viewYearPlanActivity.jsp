@@ -66,7 +66,9 @@ ageLevel=ageLevel.toLowerCase().trim();
 
         </div>
         <div class="small-24 medium-6 large-5 columns linkButtonWrapper">
-<%if( activity.getDate().after( new java.util.Date())){ %>
+<%if( activity.getDate().after( new java.util.Date()) ||
+		(activity.getCancelled()!=null && activity.getCancelled().equals("true") ) 
+		){ %>
 		<a href="#" class="button linkButton" onclick="rmCustActivity12('<%=activity.getPath()%>')">delete this activity</a>
 <%} %>
 
