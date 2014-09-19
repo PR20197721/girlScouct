@@ -1681,7 +1681,7 @@ public java.util.Map<String, String> searchRegion( String councilStr){
 		//String sql="select Region from nt:base where jcr:path like '/content/gateway/en/events/2014/%' and Region is not null";
 		//String sql="select jcr:title from nt:base where jcr:path like '/etc/tags/"+ councilStr +"/%' and Region is not null";
 		
-		String sql="select region from nt:base where jcr:path like '/content/"+councilStr+"/en/events-repository/%' and region is not null";
+		String sql="select region, start, end from nt:base where jcr:path like '/content/"+councilStr+"/en/events-repository/%' and region is not null";
 		System.err.println( sql );
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
@@ -1702,9 +1702,16 @@ public java.util.Map<String, String> searchRegion( String councilStr){
 
 		    	   	  now= java.util.Calendar.getInstance();
 
+		    	       System.err.println("PT: "+ r.getPath());
 		    	       
 
-		    	   	  try{startDate = r.getValue("start").getDate();}catch(Exception e){ System.err.println("searchRegion invalid startDate"); }
+		    	   	  try{
+		    	   		  System.err.println( "STart : "+ (r.getValue("start")==null ));
+		    	   		  System.err.println( r.getValue("start").getString() );
+		    	   		 System.err.println( r.getValue("start").getString() ==null );
+		    	   		  startDate = r.getValue("start").getDate();
+		    	   		  
+		    	   	  }catch(Exception e){ e.printStackTrace();System.err.println("searchRegion invalid startDate"); }
 
 		    	   	  try{endDate   = r.getValue("end").getDate();}catch(Exception e){ System.err.println("searchRegion invalid endDate"); }
 
