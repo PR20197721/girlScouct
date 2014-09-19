@@ -116,9 +116,10 @@ public class Updater
             }
                 
             NodeIterator troopIter = councilNode.getNodes();
+            Node troopNode = null;
             while (troopIter.hasNext()) {
                 try {
-                    Node troopNode = troopIter.nextNode();
+                    troopNode = troopIter.nextNode();
                     NodeIterator userIter = troopNode.getNode("users").getNodes();
                     while (userIter.hasNext()) {
                         Node userNode = userIter.nextNode();
@@ -148,7 +149,8 @@ public class Updater
                 if (refId.contains(oldMeeting)) {
                     String newMeeting = MEETING_MAP.get(oldMeeting);
                     String oldRefId = refId;
-                    refId = refId.replaceAll(oldMeeting, newMeeting);
+                    refId = refId.replaceAll(oldMeeting + "$", newMeeting); 
+                    // There might be customized meetings like B14B01_xxxxxx, so we added a $
                     meetingNode.setProperty(REF_ID_PROP, refId);
                     updatedCount++;
                     //System.out.println(meetingNode.getPath() + " : " + oldRefId + " => " + refId);
