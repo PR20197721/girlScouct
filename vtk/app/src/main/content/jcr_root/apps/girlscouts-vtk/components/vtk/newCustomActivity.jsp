@@ -345,7 +345,7 @@ i=0;
 i++;
 		String str=(String) itr.next();
 %>
-        <li><input type="checkbox" name="sch_cats" id="sch_cats_<%=i %>" value="<%= str %>"/>&nbsp;<label for="sch_cats_<%=i %>"><%= str %></label></li>
+        <li><input type="checkbox" name="sch_cats" id="sch_cats_<%=i %>" value="<%= str %>"/>&nbsp;<label class="tty" for="sch_cats_<%=i %>"><%= str %></label></li>
 <% } %>
 	<ul>
         </div>
