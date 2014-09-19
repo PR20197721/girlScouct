@@ -153,7 +153,7 @@ public class Updater
                     // There might be customized meetings like B14B01_xxxxxx, so we added a $
                     meetingNode.setProperty(REF_ID_PROP, refId);
                     updatedCount++;
-                    //System.out.println(meetingNode.getPath() + " : " + oldRefId + " => " + refId);
+                    System.out.println(meetingNode.getPath() + " : " + oldRefId + " => " + refId);
                     session.save();
                     break; // Only one mapping is possible
                 }
