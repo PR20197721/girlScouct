@@ -1702,13 +1702,13 @@ public java.util.Map<String, String> searchRegion( String councilStr){
 
 		    	   	  now= java.util.Calendar.getInstance();
 
-		    	       System.err.println("PT: "+ r.getPath());
+		    	       //System.err.println("PT: "+ r.getPath());
 		    	       
 
 		    	   	  try{
-		    	   		  System.err.println( "STart : "+ (r.getValue("start")==null ));
-		    	   		  System.err.println( r.getValue("start").getString() );
-		    	   		 System.err.println( r.getValue("start").getString() ==null );
+		    	   		 // System.err.println( "STart : "+ (r.getValue("start")==null ));
+		    	   		 // System.err.println( r.getValue("start").getString() );
+		    	   		// System.err.println( r.getValue("start").getString() ==null );
 		    	   		  startDate = r.getValue("start").getDate();
 		    	   		  
 		    	   	  }catch(Exception e){ e.printStackTrace();System.err.println("searchRegion invalid startDate"); }
@@ -2191,7 +2191,7 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 		
 		
 	
-		String sql= "select parent.[jcr:path], child.address, parent.[jcr:uuid], child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, [" + eventPath + "])) and child.start is not null and parent.[jcr:title] is not null " ;
+		String sql= "select child.register, child.address, parent.[jcr:uuid], child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, [" + eventPath + "])) and child.start is not null and parent.[jcr:title] is not null " ;
 		
 		
 	
@@ -2243,12 +2243,10 @@ if( (activity.getDate().before(new java.util.Date()) && activity.getEndDate()==n
 		        		activity.setLocationAddress(r.getValue("child.address").getString());
 		        	}catch(Exception e){e.printStackTrace();}
 		        	
-		        	activity.setName(r.getValue("child.srchdisp").getString());
-		        	
+		        	activity.setName(r.getValue("child.srchdisp").getString());		        	
 		        	activity.setName(r.getValue("parent.jcr:title").getString());
-		        	
-				activity.setType(YearPlanComponentType.ACTIVITY);
-				activity.setId("ACT"+i);
+		        	activity.setType(YearPlanComponentType.ACTIVITY);
+		        	activity.setId("ACT"+i);
 				
 				
 				//patch
@@ -2260,14 +2258,16 @@ if( (activity.getDate().before(new java.util.Date()) && activity.getEndDate()==n
 				
 				activity.setIsEditable(false);
 				try{ 
-					//System.err.println( ">> "+r.getPath() );
-					//System.err.println( ">> "+r.getNode().getParent().getPath() );
 					
 					activity.setRefUid( r.getValue("parent.jcr:uuid").getString() ); 
 					
 				}catch(Exception e){e.printStackTrace();}
 				 
-			
+				
+				
+				try{ 					
+					activity.setRegisterUrl( r.getValue("child.register").getString() ); 					
+				}catch(Exception e){System.err.println("searchActivity no register url");}
 				
 				
 			if( startDate!=null && endDate!=null ){

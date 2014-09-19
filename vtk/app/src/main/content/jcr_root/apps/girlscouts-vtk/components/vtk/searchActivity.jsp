@@ -35,11 +35,22 @@ if( activities!=null  ){
 			    <%=activities.get(i).getLocationName()==null ? "" : activities.get(i).getLocationName() %>
 				<%=activities.get(i).getLocationAddress()==null ? "Currently no location" : activities.get(i).getLocationAddress() %>
 				
-				<%if(activities.get(i).getLocationAddress()==null || activities.get(i).getLocationAddress().trim().equals("") ){ %>
-					<input type="button" onclick="showMap('<%=activities.get(i).getLocationAddress().replace("\r","")%>')" value="Map"/>
+				<%if(activities.get(i).getLocationAddress()!=null && !activities.get(i).getLocationAddress().trim().equals("") ){ %>
+					<!-- <input type="button" onclick="showMap('<%=activities.get(i).getLocationAddress().replace("\r","")%>')" value="Map"/> -->
+					<a href="javascript:void(0)" class="reserved" onclick="showMap('<%=activities.get(i).getLocationAddress().replace("\r","")%>')" >Map</a>
+				
+				
 				<%} %>
 			
 			</p>
+			
+			<p>
+				<%if( activities.get(i).getRegisterUrl()  !=null && !activities.get(i).getRegisterUrl().equals("")){ %>
+					<a href="<%=activities.get(i).getRegisterUrl() %>" class="reserved" target="_blank">Register for this event</a>				
+				<%}%>
+				
+			</p>
+			
 			<p class="activityContent"> <%=activities.get(i).getContent() %> </p>
 			<%if(activities.get(i).getDate()==null){ %>
 				<i class="activityDisabled">Unable to add this item due to missing start date.</i>
