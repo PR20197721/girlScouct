@@ -102,8 +102,8 @@ import com.day.cq.commons.jcr.JcrUtil;
 		    
 		    @Override
 		     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServerException, IOException {
-		    	//System.err.println("00-1");
-		    	
+
+		System.err.println("Asset...");    	
 		    	  ResourceResolver resourceResolver = null;
 		      try {
 		      final boolean isMultipart = org.apache.commons.fileupload.servlet.ServletFileUpload.isMultipartContent(request);
@@ -111,21 +111,15 @@ import com.day.cq.commons.jcr.JcrUtil;
 		      PrintWriter out = null;
 		      
 		        out = response.getWriter();
-		        
-		       // System.err.println("11");
-		        
+
 		        if (isMultipart) {
 		        	
-		        //System.err.println("22");	
+
 		          final java.util.Map<String, org.apache.sling.api.request.RequestParameter[]> params = request.getRequestParameterMap();
 		          
-		        //  System.err.println("33 "+ params.entrySet().size() );
-		        ///  System.err.println("33.1: "+ request.getParameter("aType"));
 		          for (final java.util.Map.Entry<String, org.apache.sling.api.request.RequestParameter[]> pairs : params.entrySet()) {
 		         
-		        	//System.err.println("4422");
-		        	
-		        	
+		        
 		        	final String k = pairs.getKey();
 		            final org.apache.sling.api.request.RequestParameter[] pArr = pairs.getValue();
 		            final org.apache.sling.api.request.RequestParameter param = pArr[0];
@@ -133,56 +127,11 @@ import com.day.cq.commons.jcr.JcrUtil;
 		            if (param.isFormField()) {
 		            	
 		            	String t=   org.apache.commons.fileupload.util.Streams.asString(stream);
-		             // System.err.println("Form field " + k + " with value "+ t);//org.apache.commons.fileupload.util.Streams.asString(stream) + " detected.");
-		          
-		            
+
 		            if( k.equals("custasset") ){
-		            	
-		            	
-		            	
-		            	/*
-		            	 byte[] caca=null;
-		            	InputStream in = null;
-		                FileOutputStream fos = null;
-		                try {
-		                    HttpServletRequestWrapper wrappedRequest = new HttpServletRequestWrapper(request);
-		                    InputStream is = wrappedRequest.getInputStream();
-		                    java.io.StringWriter writer = new java.io.StringWriter();
-		                    IOUtils.copy(is, writer, "UTF-8");
-		                    String imageString = writer.toString();
-		                    imageString = imageString.substring("data:image/png;base64,"
-		                            .length());
-		                    byte[] contentData = imageString.getBytes();
-		                   caca = Base64.decodeBase64(contentData);
-		                   
-		                    String imgName = ReloadableProps
-		                            .getProperty("local.image.save.path")
-		                            + String.valueOf(System.currentTimeMillis()) + ".png";
-		                    fos = new FileOutputStream(imgName);
-		                    fos.write(decodedData);
-		                
-		               
-		                } catch (Exception e) {
-		                    e.printStackTrace();
-		                    String loggerMessage = "Upload image failed : ";
-		                    //CVAException.printException(loggerMessage + e.getMessage());
-		                } finally {
-		                    if (in != null) {
-		                        in.close();
-		                    }
-		                    if (fos != null) {
-		                        fos.close();
-		                    }
-		                }
-		            	*/
-		            	
-		            //	System.err.println("test: "+ t );
-		            	//byte[] caca = t.getBytes(Charset.forName("UTF-8"));
-		            	
-		               // java.util.BASE64Decoder de=new BASE64Decoder();
-		             
+		            
 		               byte[] caca= Base64.decodeBase64(t);
-		//System.err.println("BYTSIZE: "+caca.length);
+	
 		               InputStream inn = new ByteArrayInputStream(caca);
 		                
 		
@@ -197,11 +146,7 @@ import com.day.cq.commons.jcr.JcrUtil;
 		              
 		            
 		            } else {
-		             // System.err.println("File field " + k + " with file name " + param.getFileName() + " detected.");
-		              
-		              //OutputStream os = new FileOutputStream("/vtk/");
-		              //org.apache.commons.net.io.Util.copyStream(stream, os);
-		              
+		         
 		              resourceResolver = resolverFactory.getAdministrativeResourceResolver(null);            
 		              Session session = resourceResolver.adaptTo(Session.class);  
 		              
@@ -214,6 +159,11 @@ import com.day.cq.commons.jcr.JcrUtil;
 		            		  //out.println("<img src=\""+ loc +"/"+ name +"\"/>");
 		            		 // out.println("<script>location.reload();</script>");
 		            	   }
+		              }else if( request.getParameter("upldTroopPic")!=null){
+		System.err.println( "UPLDTRoopId "+ request.getParameter("troopId"))    ;        	  
+		            	  loc= "/content/dam/girlscouts-vtk/troops/"+ request.getParameter("troopId")+"/imgLib/troop_pic.png";
+		            	  name="troop_pic.png";
+		            	 
 		              }
 		              
 		              reverseReplicateBinary(session, loc, name,            
@@ -232,13 +182,13 @@ import com.day.cq.commons.jcr.JcrUtil;
 			         
 		        	for (final java.util.Map.Entry<String, org.apache.sling.api.request.RequestParameter[]> pairs : params.entrySet()) {
 				         
-			        	//System.err.println("4466");
+			      
 			        	
 			        	
 			        	final String k = pairs.getKey();
 			            final org.apache.sling.api.request.RequestParameter[] pArr = pairs.getValue();
 			        
-		        	//System.err.println("Not multipart...");
+		        	
 		        	 final org.apache.sling.api.request.RequestParameter param = pArr[0];
 		        	 final InputStream stream = param.getInputStream();
 		        	 if (param.isFormField()) {
@@ -267,35 +217,27 @@ import com.day.cq.commons.jcr.JcrUtil;
 		         }
 		      
 		      
-		      //response.sendRedirect( "/content/girlscouts-vtk/en/vtk.planView.html?elem="+ request.getParameter("me"));
-		    
+		     
 		      
+			if( request.getParameter("loc")!=null && request.getParameter("loc").contains("/tmp/import/assets") ){
 		      
-//System.err.println("Pathddd:"+		      request.getParameter("loc"));
-			if( request.getParameter("loc")!=null && request.getParameter("loc").contains("/tmp/import/assets") )
-		      response.sendRedirect("http://localhost:4503/content/girlscouts-vtk/en/vtk.admin.previewImportMeeting.html?id="+ request.getParameter("id"));
+				response.sendRedirect("http://localhost:4503/content/girlscouts-vtk/en/vtk.admin.previewImportMeeting.html?id="+ request.getParameter("id"));
 		 
 		    
+		    }else if( request.getParameter("upldTroopPic")!=null ){
+		    	response.sendRedirect("http://localhost:4503/content/girlscouts-vtk/en/vtk.admin.troopPhoto.html?troopId="+request.getParameter("troopId"));
 		    }
+		    
+}
 		    
 		    
 		    private void reverseReplicateBinary(Session session, String parentPath, String name, InputStream is,
 		    			String desc, String owner, String id)
 		            throws RepositoryException {        
 		            ValueFactory valueFactory = session.getValueFactory();        
-		            //Node parent = session.getNode(parentPath); 
-		         //  Node page = JcrUtils.getOrCreateUniqueByPath(parent, name, "cq:Page");
-		            //Node page = JcrUtil.createPath(parentPath, "nt:unstructured", session);
-		            
-		            //System.err.println("TEST: "+ parentPath);
-		            
+	System.err.println("Saving..." + parentPath +" : "+ name);	         
 		            Node page = JcrUtil.createPath(parentPath, "nt:unstructured", "nt:unstructured", session, true);
-		           // System.err.println("___PAGE: "+ (page==null) +" : "+ (name==null) +" :" +name);
-		            //Node jcrContent = page.addNode("jcr:content", "cq:PageContent");   
-		            
-		            
-		         //  System.err.println( "Isnode: "+page.isNodeType( name ) );
-		            
+		          
 		            
 		            Node file =null;
 		           if( page.hasNode(name) )
@@ -312,11 +254,7 @@ import com.day.cq.commons.jcr.JcrUtil;
 		            	}
 		           }
 		           
-		            //file.setProperty("owner", owner);
-		            //file.setProperty("description", desc);
-		            //file.setProperty("id", id);
-		           // file.setProperty("createTime", new java.util.Date()+"");
-		            
+		           
 		            
 		            
 		            Node resource = null;
@@ -327,12 +265,9 @@ import com.day.cq.commons.jcr.JcrUtil;
 		            resource =file.addNode("jcr:content", "nt:resource");  
 		            
 		            resource.setProperty("jcr:data", valueFactory.createBinary(is)); 
-		           // resource.setProperty("jcr:mimeType", "application/octet-stream");
 		            
 		            session.save(); 
-		            //jcrContent.setProperty("cq:lastModified", Calendar.getInstance());        
-		           // jcrContent.setProperty("cq:lastModifiedBy", session.getUserID());        
-		            //jcrContent.setProperty("cq:distribute", false);        
+		                  
 		            session.save();        
 		        }    
 		 

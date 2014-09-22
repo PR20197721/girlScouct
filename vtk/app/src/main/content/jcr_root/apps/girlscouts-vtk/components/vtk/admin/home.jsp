@@ -118,6 +118,23 @@ style="border: none;">
 </div>
 </li>
 
+
+
+<li style="padding:25px;"><div class="text parbase nopadding section">
+<table border="0" cellpadding="0" cellspacing="0"
+style="border: none;">
+<tbody><tr><td>
+
+<a href="/content/girlscouts-vtk/en/vtk.admin.troopPhoto.html" >change troop picture</a>
+</td>
+</tr><tr style="background-color: white;border: none;"><td>Change troop picture (GSWV-49)
+</td></tr>
+</tbody></table>
+</div>
+</li>
+
+
+
 <div style="clear:both"></div>
 </ul></div>
 
