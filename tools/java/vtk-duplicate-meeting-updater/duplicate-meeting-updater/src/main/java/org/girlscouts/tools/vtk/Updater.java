@@ -14,11 +14,17 @@ import javax.jcr.SimpleCredentials;
 import org.apache.jackrabbit.commons.JcrUtils;
 
 // Params: server username password
-// server example: http://localhostL4503/crx/server/
+// server example: http://localhost:4503/crx/server/
 public class Updater 
 {
     public static void main(String[] args)
     {
+        if (args.length < 3) {
+            System.out.println("VTK meeting updater");
+            System.out.println("Params: server username password");
+            System.out.println("Server example: http://localhost:4503/crx/server");
+            System.exit(-1);
+        }
         String server = args[0];
         String username = args[1];
         String password = args[2];
@@ -109,6 +115,7 @@ public class Updater
             for (String skipped : SKIPPED_NODES) {
                 if (skipped.equals(councilNode.getName())) {
                     isSkipped = true;
+                    break;
                 }
             }
             if (isSkipped) {
