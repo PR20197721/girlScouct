@@ -153,7 +153,7 @@ public class Updater
             Node meetingNode = meetingIter.nextNode();
             String refId = meetingNode.getProperty(REF_ID_PROP).getString();
             for (String oldMeeting : MEETING_MAP.keySet()) {
-                if (refId.contains(oldMeeting)) {
+                if (refId.endsWith(oldMeeting)) {
                     String newMeeting = MEETING_MAP.get(oldMeeting);
                     String oldRefId = refId;
                     refId = refId.replaceAll(oldMeeting + "$", newMeeting); 
