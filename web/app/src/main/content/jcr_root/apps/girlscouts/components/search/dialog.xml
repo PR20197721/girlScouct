@@ -18,14 +18,16 @@
                         xtype="textarea"/>
                     <searchIn
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Path to search in"
+                        fieldDescription="(Default Search location /content/&amp;lt;council&amp;gt;/en/)"
+                        fieldLabel="Path to search content"
                         name="./searchIn"
                         xtype="pathfield"/>
-                    <resultPagesText
+                    <docsrchpath
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Result pages label"
-                        name="./resultPagesText"
-                        xtype="textfield"/>
+                        fieldDescription="(Default /content/dam/&amp;lt;council&amp;gt;/en/documents)"
+                        fieldLabel="Path to search documents"
+                        name="./docusrchpath"
+                        xtype="pathfield"/>
                 </items>
             </tab1>
             <tab2
