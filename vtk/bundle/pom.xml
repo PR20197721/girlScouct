@@ -462,6 +462,14 @@
 
 <!-- end import dep -->
 
+
+<dependency>
+	<groupId>org.apache.servicemix.bundles</groupId>
+	<artifactId>org.apache.servicemix.bundles.shiro</artifactId>
+	<version>1.1.0_2</version>
+</dependency>
+
+
     </dependencies>
 
 
