@@ -85,7 +85,6 @@ List<Hit> hits = result.getHits();
     <%=properties.get("resultPagesText","Results for")%> "${escapedQuery}"
   <br/>
 <%
-
 	for(Hit hit: hits){
 		try{
 			DocHit docHit = new DocHit(hit);
@@ -98,21 +97,16 @@ List<Hit> hits = result.getHits();
 		if(!extension.isEmpty() && !extension.equals("html")){
 		%>
 			<span class="icon type_<%=extension%>"><img src="/etc/designs/default/0.gif" alt="*"></span>
-		<%} %>
+		<%}%>
 			<a href="<%=path%>"><%=docHit.getTitle() %></a>
 			<div>
-			<%try
-				{%>
-					<%=docHit.getExcerpt()%>
-				<%}catch(Exception e) {System.out.println("Error" +e.getMessage());}%>
-			
+				<%=docHit.getExcerpt()%>
 			</div>
 			<br/>
-		  <%}catch(Exception w){System.out.println("This is the error " +w.getStackTrace());}
-		}	
+		 <%}catch(Exception w){}
+	}	
 }
-	   
-	%>
+%>
 <script>
 jQuery('#searchForm').bind('submit', function(event){
 	if (jQuery.trim(jQuery(this).find('input[name="q"]').val()) === ''){
