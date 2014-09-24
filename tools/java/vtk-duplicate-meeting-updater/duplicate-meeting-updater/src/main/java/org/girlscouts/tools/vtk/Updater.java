@@ -14,11 +14,17 @@ import javax.jcr.SimpleCredentials;
 import org.apache.jackrabbit.commons.JcrUtils;
 
 // Params: server username password
-// server example: http://localhostL4503/crx/server/
+// server example: http://localhost:4503/crx/server/
 public class Updater 
 {
     public static void main(String[] args)
     {
+        if (args.length < 3) {
+            System.out.println("VTK meeting updater");
+            System.out.println("Params: server username password");
+            System.out.println("Server example: http://localhost:4503/crx/server");
+            System.exit(-1);
+        }
         String server = args[0];
         String username = args[1];
         String password = args[2];
@@ -48,10 +54,6 @@ public class Updater
         MEETING_MAP.put("B13WA13", "B14OG13");
         MEETING_MAP.put("B13WA14", "B14OG14");
         MEETING_MAP.put("B13WA15", "B14OG15");
-        MEETING_MAP.put("B14OG01", "B14B01");
-        MEETING_MAP.put("B14OG02", "B14B02");
-        MEETING_MAP.put("B14OG11", "B14B03");
-        MEETING_MAP.put("B14OG12", "B14B04");
         MEETING_MAP.put("B14WA16", "B14OG16");
         MEETING_MAP.put("B14WA17", "B14OG17");
         MEETING_MAP.put("B14WA18", "B14OG18");
@@ -59,8 +61,12 @@ public class Updater
         MEETING_MAP.put("B14WA20", "B14OG20");
         MEETING_MAP.put("B14WA21", "B14OG21");
         MEETING_MAP.put("B14WA22", "B14OG22");
+        MEETING_MAP.put("B14OG01", "B14B01");
+        MEETING_MAP.put("B14OG02", "B14B02");
+        MEETING_MAP.put("B14OG11", "B14B03");
+        MEETING_MAP.put("B14OG12", "B14B04");
         MEETING_MAP.put("J14GM01", "J14B01");
-        MEETING_MAP.put("J14MG02", "J14B02");
+        MEETING_MAP.put("J14GM02", "J14B02");
         MEETING_MAP.put("J14GM11", "J14B03");
         MEETING_MAP.put("J14GM12", "J14B04");
         MEETING_MAP.put("J14GM13", "J14B09");
@@ -70,11 +76,11 @@ public class Updater
         MEETING_MAP.put("J14YS02", "J14B02");
         MEETING_MAP.put("J14YS11", "J14B05");
         MEETING_MAP.put("J14YS12", "J14B06");
-        MEETING_MAP.put("J14B18", "J14GM16");
-        MEETING_MAP.put("J14B19", "J14GM17");
-        MEETING_MAP.put("J14B20", "J14GM18");
-        MEETING_MAP.put("J14B16", "J14GM19");
-        MEETING_MAP.put("J14B17", "J14GM20");
+        MEETING_MAP.put("J14GM16", "J14B18");
+        MEETING_MAP.put("J14GM17", "J14B19");
+        MEETING_MAP.put("J14GM18", "J14B20");
+        MEETING_MAP.put("J14GM19", "J14B16");
+        MEETING_MAP.put("J14GM20", "J14B17");
     }
     
     private String server;
@@ -109,6 +115,7 @@ public class Updater
             for (String skipped : SKIPPED_NODES) {
                 if (skipped.equals(councilNode.getName())) {
                     isSkipped = true;
+                    break;
                 }
             }
             if (isSkipped) {
@@ -146,7 +153,7 @@ public class Updater
             Node meetingNode = meetingIter.nextNode();
             String refId = meetingNode.getProperty(REF_ID_PROP).getString();
             for (String oldMeeting : MEETING_MAP.keySet()) {
-                if (refId.contains(oldMeeting)) {
+                if (refId.endsWith(oldMeeting)) {
                     String newMeeting = MEETING_MAP.get(oldMeeting);
                     String oldRefId = refId;
                     refId = refId.replaceAll(oldMeeting + "$", newMeeting); 
