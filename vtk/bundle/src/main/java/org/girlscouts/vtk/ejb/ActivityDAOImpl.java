@@ -199,24 +199,24 @@ public void updateActivitiesCancel( String uuid ){
 public void checkCanceledActivity(User user){
 	
 	
-	System.err.println(1);
+	//System.err.println(1);
 	if( user==null || user.getYearPlan()==null || user.getYearPlan().getActivities() ==null ||
 			user.getYearPlan().getActivities().size()==0)
 		return;
 	
-	System.err.println(2);
+	//System.err.println(2);
 	java.util.List<Activity> activities = user.getYearPlan().getActivities();
 	for(int i=0; i<activities.size();i++){
 		
-		System.err.println(2.1);
+		//System.err.println(2.1);
 		if( !(activities.get(i).getCancelled()!=null && activities.get(i).getCancelled().equals("true") ) )		
 			if( !isActivityByPath( activities.get(i).getRefUid() ) ){
-	System.err.println(2.2);
+	//System.err.println(2.2);
 				activities.get(i).setCancelled("true");
 				userDAO.updateUser(user);
 			}
 	}
-	System.err.println(3);
+	//System.err.println(3);
 }
 
 private String getPath(String uuid){

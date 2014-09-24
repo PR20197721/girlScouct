@@ -230,7 +230,9 @@ if (session.getAttribute("USER_TROOP_LIST") == null) {
 				//out.println(isMultiUserFullBlock +" : " + (user.getYearPlan()==null) +" :" + (!meetingDAO.isCurrentUserId(user, user.getCurrentUser() )) );
 		if(  isMultiUserFullBlock && user!=null && user.getYearPlan()!=null && !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) )
 		{
-			%><div style="color:#fff; background-color:red;">Warning: another user is currently logged into this account. To continue, please logout and login again.  (This will cause the other user to be logged out.) error 111.1-another user</div><% 
+			%><div style="color:#fff; background-color:red;">
+
+			Warning: another user is currently logged into this account. To continue, please logout and login again.  (This will cause the other user to be logged out.) error 111.1-another user</div><% 
 			
 			return;
 		}
