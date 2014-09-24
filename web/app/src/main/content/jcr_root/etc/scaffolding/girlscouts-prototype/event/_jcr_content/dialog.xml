@@ -18,7 +18,7 @@
                     allowBlank="{Boolean}false"
                     fieldLabel="Start Date"
                     name="./jcr:content/data/start"
-                    xtype="gsdatetime"/>
+                    xtype="datetime"/>
                 <end
                     jcr:primaryType="cq:Widget"
                     fieldLabel="End Date"

@@ -8,4 +8,3 @@ SpecialCharsDialog.js
 InsertHtml.js
 frequently-access-form.js
 social-media-widget.js
-Datetime.js
