@@ -10,7 +10,10 @@
 	com.day.cq.dam.api.Asset,
 	com.day.cq.dam.api.Rendition,
 	com.day.cq.wcm.api.Page,
-	com.day.cq.wcm.api.components.IncludeOptions" %>
+	com.day.cq.wcm.api.components.IncludeOptions,
+	java.util.Calendar,
+	java.util.Date,
+	java.text.DateFormat" %>
 <%
 Page homepage = currentPage.getAbsoluteParent(2);
 ValueMap currentSite = homepage.getContentResource().adaptTo(ValueMap.class);
@@ -121,3 +124,27 @@ public String displayRendition(ResourceResolver rr, String imagePath, String ren
 				+ page.getTitle() + "</a>";
 		return href;
 }%>
+
+
+<%!
+public static String getDateTime(Date startDate, Date endDate,DateFormat dateFormat,DateFormat timeFormat,String dateStr){
+	 Calendar cal2 = Calendar.getInstance();
+     Calendar cal3 = Calendar.getInstance();
+     cal2.setTime(startDate);
+     cal3.setTime(endDate);
+     boolean sameDay = cal2.get(Calendar.YEAR) == cal3.get(Calendar.YEAR) &&
+                       cal2.get(Calendar.DAY_OF_YEAR) == cal3.get(Calendar.DAY_OF_YEAR);
+     String endDateStr = dateFormat.format(endDate);
+     String endTimeStr = timeFormat.format(endDate);
+     if (!sameDay) {
+ 	      dateStr += " - " + endDateStr +", " + endTimeStr;
+ 	   }else
+ 	   {
+ 		   dateStr += " - " + endTimeStr;
+
+ 		}
+	return dateStr;
+}
+
+
+%>
