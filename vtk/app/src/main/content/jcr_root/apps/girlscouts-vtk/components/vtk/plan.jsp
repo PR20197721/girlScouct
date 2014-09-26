@@ -224,6 +224,10 @@ li {page-break-inside: avoid;}
 <%
 	}
 %>
+
+
+View activity:<%=userDAO.hasPermission(user.getTroop().getPermissionTokens(), org.girlscouts.vtk.auth.permission.Permission.PERMISSION_VIEW_ACTIVITY_ID) %>
+
 <% if( user.getYearPlan()!=null){ %> 
 <div class="hide-for-small">
 	<div class="row subNavRow">

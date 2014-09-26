@@ -46,7 +46,7 @@ public void autoLogin(HttpSession session){
 <%
 
 
-boolean isMultiUserFullBlock=true;
+boolean isMultiUserFullBlock=false;
 final ActivityDAO activityDAO = sling.getService(ActivityDAO.class);
 final LocationDAO locationDAO = sling.getService(LocationDAO.class);
 final CalendarUtil calendarUtil = sling.getService(CalendarUtil.class);

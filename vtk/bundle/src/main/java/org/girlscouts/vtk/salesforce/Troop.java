@@ -1,5 +1,7 @@
 package org.girlscouts.vtk.salesforce;
 
+import java.util.Set;
+
 public class Troop {
 
 	/**
@@ -12,9 +14,22 @@ public class Troop {
 	private String troopId, troopName, gradeLevel,  councilId;
 
 	private int councilCode, type;
+	private Set<Integer> permissionTokens;
 	
 	
 	
+	
+	
+
+
+	public Set<Integer> getPermissionTokens() {
+		return permissionTokens;
+	}
+
+	public void setPermissionTokens(Set<Integer> permissionTokens) {
+		this.permissionTokens = permissionTokens;
+	}
+
 	public int getType() {
 		return type;
 	}

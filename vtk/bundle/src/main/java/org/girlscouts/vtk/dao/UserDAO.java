@@ -1,5 +1,7 @@
 package org.girlscouts.vtk.dao;
 
+import java.util.Set;
+
 import org.girlscouts.vtk.models.UserGlobConfig;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.user.User;
@@ -19,4 +21,6 @@ public interface UserDAO {
 	public void updateUserGlobConfig();
 	public java.util.List getUsers();
 	public void logout(User user);
+	public  boolean hasPermission(Set<Integer> myPermissionTokens, int permissionId);
+	
 }

@@ -2,7 +2,7 @@
 
 <center>
 <h1>VTK Admin</h1>
-<form action="vtk.admin.home.html">
+<form action="vtk.admin.home.html" method="get">
 
 <table>
 <tr>

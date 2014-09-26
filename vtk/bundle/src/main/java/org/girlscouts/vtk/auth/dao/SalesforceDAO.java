@@ -13,6 +13,7 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.felix.scr.annotations.Reference;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.models.User;
+import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.ejb.UserDAOImpl;
@@ -369,6 +370,13 @@ public java.util.List <Troop>  troopInfo(ApiConfig apiConfig, String contactId){
 						troop.setGradeLevel(results.getJSONObject(i).getJSONObject("Parent").getString("Program_Grade_Level__c") );
 						troop.setTroopId(results.getJSONObject(i).getString("ParentId"));
 						troop.setTroopName( results.getJSONObject(i).getJSONObject("Parent").getString("Name") );
+						
+						
+						if( true ) //DP --> job_code__c = 'DP'
+							troop.setPermissionTokens(Permission.getPermissionTokens( Permission.GROUP_MEMBER_1G_PERMISSIONS ) );
+						else //GUEST
+							troop.setPermissionTokens(Permission.getPermissionTokens( Permission.GROUP_GUEST_PERMISSIONS ) );
+					
 					}catch(Exception e){
 						e.printStackTrace();
 					}

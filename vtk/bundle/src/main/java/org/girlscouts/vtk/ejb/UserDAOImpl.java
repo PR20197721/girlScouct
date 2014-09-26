@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import javax.jcr.Session;
@@ -277,6 +278,8 @@ System.err.println( "sessionId: "+ user.getCurrentUser() );
 			String old_errCode= user.getErrCode();
 			java.util.Calendar old_lastModified = user.getLastModified();
 			try{
+
+				
 				user.setErrCode(null);
 				user.setLastModified(java.util.Calendar.getInstance());
 				ocm.update(user);
@@ -666,5 +669,11 @@ public void addAsset(User user, String meetingUid,  Asset asset){
 		updateUser( tmp_user );
 	}
 	
+	public boolean hasPermission(Set<Integer> myPermissionTokens, int permissionId){
+		if( myPermissionTokens!=null && myPermissionTokens.contains(permissionId) )
+			return true;
+		
+		return false;
+	}
 	
 }//ednclass
