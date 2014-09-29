@@ -10,6 +10,7 @@ $(function() {
 	  //function that assigns variable based on viewport size
 	  function assignment() {
 	    var viewportWidth = ($(window).width() + 15);
+	    
 	    switch(true) {
 	      case (viewportWidth < tinySize):
 	        containerHeight = '400px';
@@ -39,7 +40,11 @@ $(function() {
 	  $(window).resize(function() {
 	    assignment();
 	  });
-
+	  
+	  $(window).resize(function () {
+		    $("#grid").height($("<container for grid>").height());
+		$(".slick-viewport").height($("#grid").height());
+		});
 
 	  //necessary for view-b
 	  $(document).on("click", "#SUP1", function(){
@@ -79,6 +84,14 @@ $(function() {
 	  });
 
 
+});
+
+$( window ).resize(function() {
+	
+	
+	alert("Slick View Port" +$(".slick-viewport").width());
+	alert($(".slick-slide").width());
+	
 });
 
 function setTimer(timer,play){
