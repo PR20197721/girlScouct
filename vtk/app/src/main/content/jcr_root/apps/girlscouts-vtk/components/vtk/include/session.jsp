@@ -1,3 +1,4 @@
+<%@page import="org.girlscouts.vtk.models.user.User"%>
 <%!
 java.text.SimpleDateFormat FORMAT_MMddYYYY = new java.text.SimpleDateFormat("MM/dd/yyyy");
 java.text.SimpleDateFormat FORMAT_hhmm_AMPM = new java.text.SimpleDateFormat("hh:mm a");
@@ -46,7 +47,7 @@ public void autoLogin(HttpSession session){
 <%
 
 
-boolean isMultiUserFullBlock=false;
+boolean isMultiUserFullBlock=true;
 final ActivityDAO activityDAO = sling.getService(ActivityDAO.class);
 final LocationDAO locationDAO = sling.getService(LocationDAO.class);
 final CalendarUtil calendarUtil = sling.getService(CalendarUtil.class);
@@ -90,7 +91,7 @@ if( apiConfig.getTroops()==null || apiConfig.getTroops().size()<=0 ||
 }
 
 // Set user for session
-User user= (User)session.getValue("VTK_user");
+org.girlscouts.vtk.models.user.User user= (org.girlscouts.vtk.models.user.User)session.getValue("VTK_user");
 if( user ==null){
 	
 	org.girlscouts.vtk.salesforce.Troop prefTroop = apiConfig.getTroops().get(0);
@@ -126,7 +127,7 @@ if( user ==null){
         //first time - new user
         if( user==null ){
                 //user = new User(apiConfig.getUserId()+"_"+ apiConfig.getTroops().get(0).getTroopId());
-               user = new User( "/vtk/"+prefTroop.getCouncilCode()+
+               user = new org.girlscouts.vtk.models.user.User( "/vtk/"+prefTroop.getCouncilCode()+
         		"/"+prefTroop.getTroopId()+"/users/",
         		 apiConfig.getUserId() +"_"+ prefTroop.getTroopId() );
         }
@@ -211,7 +212,7 @@ if (session.getAttribute("USER_TROOP_LIST") == null) {
 	session.setAttribute("USER_TROOP_LIST", troops);
 }
 %>
-
+<a href="/content/girlscouts-vtk/en/vtk.controller.html?resetCal=true">RESET CAL</a>
 
 	<%
 	//out.println("ERR_CODE: "+ user.getErrCode() +": " + session.getId() );

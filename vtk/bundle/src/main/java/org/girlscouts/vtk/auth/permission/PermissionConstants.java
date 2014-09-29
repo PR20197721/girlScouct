@@ -1,7 +1,7 @@
 package org.girlscouts.vtk.auth.permission;
 
 public class PermissionConstants {
-
+	
 	public static final int PERMISSION_LOGIN_ID = 0;
     public static final int PERMISSION_VIEW_YEARPLAN_ID = 10;
     
@@ -14,7 +14,9 @@ public class PermissionConstants {
     public static final int PERMISSION_VIEW_MEETING_ID =200;    
     
     public static final int PERMISSION_TERMINATE_ID = 1000; // max int for permissions
-    
+ 
+	
+	
 	
 	
     public static final int GROUP_ROOT = 0;

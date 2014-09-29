@@ -2055,7 +2055,7 @@ public boolean isCurrentUserId(User user, String sId){
 	    	   java.util.Calendar now= java.util.Calendar.getInstance();
 	    	   java.util.Calendar x= java.util.Calendar.getInstance();
 	    	   x.setTime( new java.util.Date(r.getValue("jcr:lastModified").getLong() ) );
-      		   x.add(java.util.Calendar.MINUTE, +10);
+      		   x.add(java.util.Calendar.MINUTE, +2);//10);
       		 
       		   System.err.println("Check: "+ now.getTime() +" MK: "+x.getTime()+" :" +(now.after(x)) );
       		 

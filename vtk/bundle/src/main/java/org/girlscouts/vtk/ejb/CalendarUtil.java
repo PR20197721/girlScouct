@@ -263,6 +263,10 @@ public class CalendarUtil {
 			
 		}
 		
-		
+		public void resetCal(User user){
+			
+			user.getYearPlan().setSchedule(null);
+			userDAO.updateUser(user);
+		}
 	
 }

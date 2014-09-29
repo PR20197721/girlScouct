@@ -535,6 +535,10 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	}
 	out.println("false");return;
 	
+}else if(request.getParameter("resetCal") !=null){
+
+	calendarUtil.resetCal(user);
+	out.println("Cal reset");
 }else{
 	//TODO throw ERROR CODE
 }
