@@ -16,9 +16,6 @@ if(!list.isEmpty()){
 	
 }
 request.setAttribute("featureEvents", featureEvents);
-request.setAttribute("elist", list);
-
-
 if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
 	%><cq:includeClientLib categories="apps.girlscouts.components.authoring"/><%
 }
