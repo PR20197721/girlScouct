@@ -92,7 +92,7 @@ if( apiConfig.getTroops()==null || apiConfig.getTroops().size()<=0 ||
 
 // Set user for session
 org.girlscouts.vtk.models.user.User user= (org.girlscouts.vtk.models.user.User)session.getValue("VTK_user");
-if( user ==null){
+if( user ==null || user.isRefresh() ){
 	
 	org.girlscouts.vtk.salesforce.Troop prefTroop = apiConfig.getTroops().get(0);
 		  
@@ -234,7 +234,7 @@ if (session.getAttribute("USER_TROOP_LIST") == null) {
 			%><div style="color:#fff; background-color:red;">
 
 			Warning: another user is currently logged into this account. To continue, please logout and login again.  (This will cause the other user to be logged out.) error 111.1-another user</div><% 
-			
+			user.setRefresh(true);
 			return;
 		}
 		
@@ -244,6 +244,7 @@ if (session.getAttribute("USER_TROOP_LIST") == null) {
 				%>
 					<div style="color:#fff; background-color:red;">Warning: another user is currently logged into this account. To continue, please logout and login again.  (This will cause the other user to be logged out.) error 112-another user</div>
 				<%
+				user.setRefresh(true);
 			}
 		//}
 	
