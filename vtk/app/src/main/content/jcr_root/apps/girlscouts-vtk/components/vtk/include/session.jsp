@@ -240,7 +240,7 @@ if (session.getAttribute("USER_TROOP_LIST") == null) {
 		
 		
 		
-			if( user.getErrCode()!=null && user.getErrCode().equals("112") ){
+		if( user.getErrCode()!=null && user.getErrCode().equals("112") ){
 				%>
 					<div style="color:#fff; background-color:red;">Warning: another user is currently logged into this account. To continue, please logout and login again.  (This will cause the other user to be logged out.) error 112-another user</div>
 				<%
