@@ -245,6 +245,7 @@ if (session.getAttribute("USER_TROOP_LIST") == null) {
 					<div style="color:#fff; background-color:red;">Warning: another user is currently logged into this account. To continue, please logout and login again.  (This will cause the other user to be logged out.) error 112-another user</div>
 				<%
 				user.setRefresh(true);
+				return;
 			}
 		//}
 	
