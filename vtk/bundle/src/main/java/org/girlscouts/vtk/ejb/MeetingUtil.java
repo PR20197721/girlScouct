@@ -447,7 +447,7 @@ public class MeetingUtil {
 	
 	public void rmAgenda(User user, String agendaPathToRm , String fromMeetingPath  ){
 		
-		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+		if( !meetingDAO.hasAccess(user, user.getCurrentUser() , Permission.PERMISSION_REMOVE_MEETING_ID) ){
 			 user.setErrCode("112");
 			 return;
 		 }
@@ -479,7 +479,7 @@ public class MeetingUtil {
 	public void editAgendaDuration(User user, int duration, String activityPath, String meetingPath){
 	
 		
-		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+		if( !meetingDAO.hasAccess(user, user.getCurrentUser() , Permission.PERMISSION_EDIT_MEETING_ID) ){
 			 user.setErrCode("112");
 			 return;
 		 }
@@ -518,7 +518,7 @@ public class MeetingUtil {
 	public  void reverAgenda(User user, String meetingPath){
 		 
 		
-		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+		if( !meetingDAO.hasAccess(user, user.getCurrentUser(), Permission.PERMISSION_REPLACE_MEETING_ID ) ){
 			 user.setErrCode("112");
 			 return;
 		 }
@@ -565,7 +565,7 @@ public class MeetingUtil {
 	
 	public void addAids(User user, String aidId, String meetingId, String assetName){
 		
-		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+		if( !meetingDAO.hasAccess(user, user.getCurrentUser() , Permission.PERMISSION_CREATE_MEETING_ID) ){
 			 user.setErrCode("112");
 			 return;
 		 }
@@ -641,7 +641,7 @@ public class MeetingUtil {
 	
 	public void addResource(User user, String aidId, String meetingId, String assetName){
 		
-		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+		if( !meetingDAO.hasAccess(user, user.getCurrentUser(), Permission.PERMISSION_CREATE_MEETING_ID ) ){
 			 user.setErrCode("112");
 			 return;
 		 }
@@ -714,7 +714,7 @@ public class MeetingUtil {
 	
 	public void rmAsset(User user, String aidId, String meetingId){
 		
-		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+		if( !meetingDAO.hasAccess(user, user.getCurrentUser(), Permission.PERMISSION_REMOVE_MEETING_ID ) ){
 			 user.setErrCode("112");
 			 return;
 		 }

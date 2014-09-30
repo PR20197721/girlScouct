@@ -1,14 +1,15 @@
 
 <%
-
+/*
 if( session.getValue("VTK_ADMIN") ==null ){
+	System.err.println("22");
 	String u= request.getParameter("usr");
 	String p= request.getParameter("pswd");
 	if( u.equals("admin") && p.equals("icruise123") )
 		session.putValue("VTK_ADMIN", u);
 
 }
-
+*/
 if( session.getValue("VTK_ADMIN") ==null ){ out.println("Invalid user"); return;}
 
 
