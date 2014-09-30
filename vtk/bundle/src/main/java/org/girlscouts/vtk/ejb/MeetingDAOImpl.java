@@ -776,7 +776,7 @@ public net.fortuna.ical4j.model.Calendar yearPlanCal(User user )throws Exception
 	 java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
 		
 	  //String calFile = "/Users/akobovich/mycalendar.ics";
-	  
+	  if( !this.hasPermission(user, Permission.PERMISSION_VIEW_MEETING_ID)) return null;
 	 
  
  //Creating a new calendar
@@ -826,7 +826,7 @@ public net.fortuna.ical4j.model.Calendar yearPlanCal(User user )throws Exception
 			//event.getProperties().add(new DtEnd(new DateTime(entry.getEndTime())));
 			event.getProperties().add(new Description(desc));
 			
-			System.err.println("Location: "+ location);
+			//System.err.println("Location: "+ location);
 			if( location!=null)
 				event.getProperties().add(new net.fortuna.ical4j.model.property.Location(location));
 			  
@@ -1202,15 +1202,10 @@ public java.util.List<Activity> searchA2(User user, String tags, String cat, Str
 		} catch (Exception e) {e.printStackTrace();}
 		
 		
-		//System.err.println( "PPPPATH: "+ eventPath);
-
+		
 		String sql= "select child.address, parent.[jcr:uuid], child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, [" + eventPath + "])) and child.start is not null and parent.[jcr:title] is not null " ;
 		
 		
-		// This is Alex's CACA. Alex: please cleanup your shit!
-		//String sql= "select child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, [/content/gateway/en/events/2014])) and child.start is not null and parent.[jcr:title] is not null " ;
-		//String sql= "select child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, ["+ resourceRootPath +"])) and child.start is not null and parent.[jcr:title] is not null " ;
-		//SELECT parent.* FROM [cq:PageContent] AS parent INNER JOIN [nt:base] as child ON ISCHILDNODE(parent) WHERE ISDESCENDANTNODE(parent, [/content/grocerystore/food/])"
 		
 
 
@@ -1224,26 +1219,7 @@ public java.util.List<Activity> searchA2(User user, String tags, String cat, Str
 		sql+= sqlTags;
 		sql+= sqlCat;
 		
-		/*
-		sql="select parent.* from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child,parent) where" +
-				" parent.[jcr:path] LIKE '/content/gateway/en/events/2014/%' and"+
-				" child.Region='test' and  (contains(parent.*, '"+ keywrd+"') or contains(child.*, '"+ keywrd+"')  )";
 		
-		
-		sql="select parent.* from [nt:unstructured] as parent INNER JOIN [nt:unstructured] as child ON ISCHILDNODE(child,parent) where" +
-				" parent.[jcr:path] LIKE '/content/gateway/en/events/2014/%'";
-				//and"+
-				//"    (contains(parent.*, '"+ keywrd+"') or contains(child.*, '"+ keywrd+"')  )";
-		
-		sql="SELECT * FROM [nt:unstructured] WHERE [jcr:path] = '/content/gateway/en/events/2014/wilderness_first_aid'";
-		
-		
-		sql="SELECT * FROM [nt:unstructured] as x WHERE (PATH() LIKE '/content/gateway/en/events/2014/wilderness_first_aid%')";
-		sql="SELECT * FROM [nt:base] WHERE PATH() LIKE '/content/gateway/en/events/2014/wilderness_first_aid%'";
-		
-		
-		//sql= "select * from [nt:base] as p where  (isdescendantnode (p, ["+ path +"]))  and contains(p.*, 'aid') ";
-		*/
 		System.err.println( sql );
 		
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
@@ -1286,31 +1262,7 @@ if( (activity.getDate().before(new java.util.Date()) && activity.getEndDate()==n
 		        	activity.setName(r.getValue("child.srchdisp").getString());
 		        	
 		        	activity.setName(r.getValue("parent.jcr:title").getString());
-		        	/*
-		        }else{
-		        	activity.setName(r.getValue("jcr:title").getString());
 		        	
-		        	String sql1 = "select start, jcr:title, details, end,locationLabel,srchdisp  from nt:base where jcr:path ='"+ r.getValue("jcr:path").getString() +"/data' "+regionSql ;
-		        	if( keywrd!=null && !keywrd.trim().equals(""))
-		    			sql1+=" and contains(*, '"+ keywrd+"') ";
-		        	
-		        	q = qm.createQuery(sql1, javax.jcr.query.Query.SQL); 
-		        	QueryResult result1 = q.execute();
-		        	
-		        	boolean isFound=false;	
-		        	for (RowIterator it1 = result1.getRows(); it1.hasNext(); ) {
-		 		       Row r1 = it1.nextRow();
-		 		       
-		 		        isFound=true;
-		 		        activity.setContent(r1.getValue("details").getString());
-			        	activity.setDate(r1.getValue("start").getDate().getTime());
-			        	try{activity.setEndDate(r1.getValue("end").getDate().getTime());}catch(Exception e){}
-			        	activity.setLocationName(r1.getValue("locationLabel").getString());
-			        	activity.setName(r1.getValue("srchdisp").getString());
-		        	}
-		        	if( !isFound ){ System.err.println("exiting.."); continue;  }
-		        }
-		        */
 				activity.setType(YearPlanComponentType.ACTIVITY);
 				activity.setId("ACT"+i);
 				//activity.setPath( r.getPath() );
@@ -1323,20 +1275,7 @@ if( (activity.getDate().before(new java.util.Date()) && activity.getEndDate()==n
 				activity.setIsEditable(false);
 				try{ activity.setRefUid( r.getValue("parent.jcr:uuid").getString() ); }catch(Exception e){e.printStackTrace();}
 				 
-				/*
 				
-				System.err.println("_________________________________________________");
-				System.err.println("Range: "+ startDate +" : "+ endDate);
-				System.err.println("ACtiv: "+ activity.getDate() +" : "+ activity.getEndDate());
-				
-				//System.err.println( startDate.after( activity.getDate() ) +" : " +startDate.before( activity.getEndDate()) );
-				//System.err.println( endDate.after( activity.getDate() ) +" : " +endDate.before( activity.getEndDate()) );
-		
-			
-				System.err.println( activity.getDate().after( startDate ) +" : "+ activity.getDate().before(endDate) );
-				System.err.println( activity.getEndDate().after( startDate ) +": " + activity.getEndDate().before(endDate) );				
-				System.err.println(activity.getEndDate().before(startDate) +" : "+ activity.getEndDate() +" : "+ startDate);
-				*/
 				
 				if( startDate!=null && endDate!=null)
 				 if(  
@@ -1353,7 +1292,7 @@ if( (activity.getDate().before(new java.util.Date()) && activity.getEndDate()==n
 						{ 
 					
 							
-							System.err.println("*************************Continue..."+i );
+							
 							continue;
 						}
 				
@@ -1361,25 +1300,14 @@ if( (activity.getDate().before(new java.util.Date()) && activity.getEndDate()==n
 				
 				
 				
-				/*
-				if( startDate!=null && endDate!=null && 
-						 
-					      (
-					    		  ( activity.getDate()!=null && activity.getDate().after(startDate ) ) ||
-					    		  (activity.getEndDate()!=null && activity.getEndDate().after(endDate))
-							))
-							{ 
-								System.err.println("Continue..."+i);
-									continue;
-								}
-				*/
+				
 				
 				toRet.add( activity); 
 				i++;
 		 }
 		 
 		 
-		 System.err.println("Total: "+ i);
+		
 		 
 	}catch(Exception e){e.printStackTrace();}
 	return toRet;
@@ -1685,7 +1613,7 @@ public java.util.List<Milestone> getCouncilMilestones(String councilCode){
 
 	String councilStr = councilMapper.getCouncilBranch(councilCode);
 	councilStr = councilStr.replace("/content/","");
-	System.err.println("Counccccc: " +councilStr);
+	//System.err.println("Counccccc: " +councilStr);
 	
 	
 	
@@ -1810,8 +1738,9 @@ private String getLocation(User user, String locationId){
 	
 	
 	 String fmtLocation = "";
-	 if( locationId==null || user==null ) return fmtLocation;
-	 
+	 if( locationId==null || user==null || !this.hasPermission(user, Permission.PERMISSION_VIEW_MEETING_ID) ) return fmtLocation;
+	
+		 
 	 try{
 		 if( user!=null && user.getYearPlan()!=null && user.getYearPlan().getLocations()!=null)
 		  for(int i=0;i<user.getYearPlan().getLocations().size();i++){
