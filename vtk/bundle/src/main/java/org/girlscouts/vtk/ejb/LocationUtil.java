@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
+import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.models.Activity;
@@ -25,7 +26,7 @@ public class LocationUtil {
 
 	public void setLocationAllMeetings( User user, String locationPath ){
 		
-		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+		if( !meetingDAO.hasAccess(user, user.getCurrentUser(), Permission.PERMISSION_EDIT_MEETING_ID ) ){
 			 user.setErrCode("112");
 			 return;
 		 }
@@ -51,7 +52,7 @@ public class LocationUtil {
   
   public void setLocation(User user, Location location){
 	  
-	  if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+	  if( !meetingDAO.hasAccess(user, user.getCurrentUser() , Permission.PERMISSION_EDIT_MEETING_ID) ){
 			 user.setErrCode("112");
 			 return;
 		 }
@@ -84,7 +85,7 @@ public class LocationUtil {
   }
   public void changeLocation(User user, String dates, String locationRef){
 	  
-	  if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+	  if( !meetingDAO.hasAccess(user, user.getCurrentUser() , Permission.PERMISSION_EDIT_MEETING_ID) ){
 			 user.setErrCode("112");
 			 return;
 		 }
@@ -149,7 +150,7 @@ public class LocationUtil {
   
 	public void setLocationAllEmpty( User user, String locationName ){
 		
-		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+		if( !meetingDAO.hasAccess(user, user.getCurrentUser(), Permission.PERMISSION_EDIT_MEETING_ID ) ){
 			 user.setErrCode("112");
 			 return;
 		 }

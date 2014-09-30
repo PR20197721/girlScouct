@@ -372,11 +372,27 @@ public java.util.List <Troop>  troopInfo(ApiConfig apiConfig, String contactId){
 						troop.setTroopName( results.getJSONObject(i).getJSONObject("Parent").getString("Name") );
 						
 						System.err.println("ETSTS: "+ org.girlscouts.vtk.auth.permission.RollType.DP );
+						
+						org.girlscouts.vtk.auth.permission.RollType rollType= org.girlscouts.vtk.auth.permission.RollType.valueOf("DP");
+						switch(rollType){
+							case DP:
+								troop.setPermissionTokens(Permission.getPermissionTokens( Permission.GROUP_MEMBER_1G_PERMISSIONS ) );
+								System.err.println("REGISTER ROLL DP");
+								break;
+							default:
+								System.err.println("REGISTER ROLL DEFAULT");
+								troop.setPermissionTokens(Permission.getPermissionTokens( Permission.GROUP_GUEST_PERMISSIONS ) );
+								break;
+						}
+						
+						
+						
+						/*
 						if( org.girlscouts.vtk.auth.permission.RollType.DP.equals("DP") ) //DP --> job_code__c = 'DP'
 							troop.setPermissionTokens(Permission.getPermissionTokens( Permission.GROUP_MEMBER_1G_PERMISSIONS ) );
 						else //GUEST
 							troop.setPermissionTokens(Permission.getPermissionTokens( Permission.GROUP_GUEST_PERMISSIONS ) );
-					
+					*/
 					}catch(Exception e){
 						e.printStackTrace();
 					}

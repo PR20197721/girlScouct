@@ -20,6 +20,7 @@ import org.apache.commons.beanutils.BeanComparator;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
+import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.models.Activity;
@@ -189,7 +190,7 @@ public class CalendarUtil {
 		
 		public void createSched(User user, String freq, org.joda.time.DateTime p, String exclDate){
 		
-			if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+			if( !meetingDAO.hasAccess(user, user.getCurrentUser(), Permission.PERMISSION_EDIT_MEETING_ID ) ){
 				 user.setErrCode("112");
 				 return;
 			 }
@@ -228,7 +229,7 @@ public class CalendarUtil {
 		public void updateSched(User user, String meetingPath, String time, String date, String ap, 
 				String isCancelledMeeting, long currDate){
 			
-			if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+			if( !meetingDAO.hasAccess(user, user.getCurrentUser(), Permission.PERMISSION_UPDATE_MEETING_ID ) ){
 				 user.setErrCode("112");
 				 return;
 			 }

@@ -27,13 +27,13 @@
 
 	  a[href]:after {
 		  
-	   content: " (" attr(href) ")"; 
+	   
 	  content: ""; 
 	   
 	  }
 
 	  abbr[title]:after {
-	    content: " --(" attr(title) ")";
+	    
 	  content: ""; 
 	   
 	  }

@@ -215,39 +215,30 @@ if (session.getAttribute("USER_TROOP_LIST") == null) {
 <a href="/content/girlscouts-vtk/en/vtk.controller.html?resetCal=true">RESET CAL</a>
 
 	<%
-	//out.println("ERR_CODE: "+ user.getErrCode() +": " + session.getId() );
-		//if( user!=null && user.getLastModified()!=null) {
-			
-			//if( user.getLastModified().getTime().equals( new java.util.Date("1/2/1976") ) ){
-			if( user.getErrCode()!=null && user.getErrCode().equals("111") ){
-				%>
-					<div style="color:#fff; background-color:red;">Warning: another user is currently logged into this account. To continue, please logout and login again.  (This will cause the other user to be logged out.) error 111-in db</div>
-				<%
+
+		if( user.getErrCode()!=null && user.getErrCode().equals("111") ){
+			%>
+				<div style="color:#fff; background-color:red;">Warning: another user is currently logged into this account or you have no permissions. To continue, please logout and login again.  (This will cause the other user to be logged out.) error 111-in db</div>
+			<%
 			}
 			
-			//if( user.getLastModified().getTime().equals( new java.util.Date("1/3/1976") ) ){
-			
-				
-				//out.println(isMultiUserFullBlock +" : " + (user.getYearPlan()==null) +" :" + (!meetingDAO.isCurrentUserId(user, user.getCurrentUser() )) );
 		if(  isMultiUserFullBlock && user!=null && user.getYearPlan()!=null && !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) )
 		{
 			%><div style="color:#fff; background-color:red;">
 
-			Warning: another user is currently logged into this account. To continue, please logout and login again.  (This will cause the other user to be logged out.) error 111.1-another user</div><% 
+			Warning: another user is currently logged into this account or you have no permissions. To continue, please logout and login again.  (This will cause the other user to be logged out.) error 111.1-another user</div><% 
 			user.setRefresh(true);
 			return;
-		}
-		
-		
+		    }
 		
 		if( user.getErrCode()!=null && user.getErrCode().equals("112") ){
 				%>
-					<div style="color:#fff; background-color:red;">Warning: another user is currently logged into this account. To continue, please logout and login again.  (This will cause the other user to be logged out.) error 112-another user</div>
+					<div style="color:#fff; background-color:red;">Warning: another user is currently logged into this account or you have no permissions. To continue, please logout and login again.  (This will cause the other user to be logged out.) error 112-another user</div>
 				<%
 				user.setRefresh(true);
 				return;
 			}
-		//}
+		
 	
 	
 	
