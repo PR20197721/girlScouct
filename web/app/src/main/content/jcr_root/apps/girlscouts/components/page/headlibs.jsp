@@ -35,11 +35,12 @@
 	String language = siteRoot.substring(siteRoot.lastIndexOf("/") + 1);
 	
 	String hideSignIn = currentSite.get("hideSignIn", "");
-	if (!hideSignIn.equalsIgnoreCase("true")) {
 %>
 	<script type="text/javascript">
-                var fixVerticalSizing = true;
-
+    	var fixVerticalSizing = true;
+<%
+    if (!hideSignIn.equalsIgnoreCase("true")) {
+%>
 		$(document).ready(function() {
 			girlscouts.components.login.init('<%= language %>', '<%= signInUrl %>', '<%= signOutUrl %>');
 			<%-- TODO: Create a new servlet for redirect so this param will not show in browser --%>
@@ -53,8 +54,8 @@
 				girlscouts.components.login.genCode('<%= helloUrl %>');
 			}
 		});
-	</script>
 <!-- End: login logic -->
 <%
 	}
 %>
+	</script>

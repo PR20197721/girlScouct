@@ -21,6 +21,6 @@ public interface UserDAO {
 	public void updateUserGlobConfig();
 	public java.util.List getUsers();
 	public void logout(User user);
-	public  boolean hasPermission(Set<Integer> myPermissionTokens, int permissionId);
+	
 	
 }

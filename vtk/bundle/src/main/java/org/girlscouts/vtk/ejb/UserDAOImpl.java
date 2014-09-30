@@ -197,13 +197,7 @@ public class UserDAOImpl implements UserDAO{
         	 
         	 //another user logged in
         	 if( user!=null && user.getLastModified()!=null ){
-        		 /*
-        		 java.util.Calendar x= java.util.Calendar.getInstance();
-        		 x.add(java.util.Calendar.MINUTE, -2);
-        		 
-        		 System.err.println("Check: "+ x.getTime() +" MK: "+ user.getLastModified().getTime() +" :" +(user.getLastModified().after(x)) );
-        		 System.err.println("Check1 isCurrentUser: "+ meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) );
-        		 */
+        		
         		 
         				 if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){// && user.getLastModified().after(x) ){ 
         			 
@@ -226,6 +220,7 @@ public class UserDAOImpl implements UserDAO{
 			classes.add(JcrNode.class);
 			classes.add(Milestone.class);
 			classes.add(Council.class);
+			classes.add(org.girlscouts.vtk.models.Troop.class);
 			
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
@@ -669,11 +664,12 @@ public void addAsset(User user, String meetingUid,  Asset asset){
 		updateUser( tmp_user );
 	}
 	
+	/*
 	public boolean hasPermission(Set<Integer> myPermissionTokens, int permissionId){
 		if( myPermissionTokens!=null && myPermissionTokens.contains(permissionId) )
 			return true;
 		
 		return false;
 	}
-	
+	*/
 }//ednclass

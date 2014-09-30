@@ -1,16 +1,49 @@
-
+<%@ page import="java.util.Date,
+				java.text.DateFormat,
+				java.text.SimpleDateFormat"%>
+				
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <%
-   String href=(String)request.getAttribute("href");
-   String iconPath = (String)request.getAttribute("iconPath");
-   String dateStr = (String)request.getAttribute("dateStr");
-   if (dateStr != null) {
-            dateStr =  dateStr.replaceAll(":00","").replaceAll(" ([AP]M)", "&nbsp;$1");
-   }
-   String locationLabel = (String)request.getAttribute("locationLabel");
-   String imgPath = (String)request.getAttribute("imgPath");
-   String title = (String)request.getAttribute("title");
+	Node propNode = (Node)request.getAttribute("propNode");
+	Node node = (Node)request.getAttribute("node");
+	Date startDate = null; 
+	String startDateStr = "";
+	String startTimeStr = "";
+	String time = "";
+	String locationLabel = "";
+	String imgPath="";
+	String iconPath="";
+	
+	DateFormat dateFormat = new SimpleDateFormat("EEE MMM d yyyy");
+	DateFormat timeFormat = new SimpleDateFormat("h:mm a");
+	
+	startDate = propNode.getProperty("start").getDate().getTime(); 
+	startDateStr = dateFormat.format(startDate);
+	startTimeStr = timeFormat.format(startDate);
+	String dateStr="";
+	dateStr = startDateStr + ", " +startTimeStr;
+	time = startTimeStr;
+	
+	if(propNode.hasProperty("locationLabel")){
+		locationLabel=propNode.getProperty("locationLabel").getString();
+	}
+	if (propNode.hasProperty("end")){
+		Date endDate = propNode.getProperty("end").getDate().getTime();
+		dateStr = getDateTime(startDate,endDate,dateFormat,timeFormat,dateStr);
+ 	}
+ 
+	boolean hasImage = false;
+	String fileReference = null;
+	imgPath = node.getPath()+"/jcr:content/data/image";
+	iconPath=node.hasProperty("jcr:content/data/image/fileReference") ? node.getProperty("jcr:content/data/image/fileReference").getString() : "";
+	
+	if (dateStr != null) {
+		dateStr =  dateStr.replaceAll(":00","").replaceAll(" ([AP]M)", "&nbsp;$1");
+	}
+	
+	String title = (String)request.getAttribute("title");
+	String href = (String)request.getAttribute("href");
 %>
  <li class="eventsListItem">
    <div class="row">

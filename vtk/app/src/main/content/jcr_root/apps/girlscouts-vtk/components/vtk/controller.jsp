@@ -535,6 +535,21 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	}
 	out.println("false");return;
 	
+}else if(request.getParameter("resetCal") !=null){
+
+	calendarUtil.resetCal(user);
+	out.println("Cal reset");
+}else if(request.getParameter("admin_login")!=null ){
+	
+	if( session.getValue("VTK_ADMIN") ==null ){
+		String u= request.getParameter("usr");
+		String p= request.getParameter("pswd");
+		if( u.equals("admin") && p.equals("icruise123") )
+			session.putValue("VTK_ADMIN", u);
+
+	}
+	response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.home.html");
+	
 }else{
 	//TODO throw ERROR CODE
 }

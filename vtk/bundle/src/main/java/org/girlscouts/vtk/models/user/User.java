@@ -41,11 +41,17 @@ public class User {
 	
 	@Field private String errCode;
 	
+	private boolean isRefresh; // reload yearPlan from DB. case: someone modified plan:lock
 	
 	
 	
 	
-	
+	public boolean isRefresh() {
+		return isRefresh;
+	}
+	public void setRefresh(boolean isRefresh) {
+		this.isRefresh = isRefresh;
+	}
 	public String getErrCode() {
 		return errCode;
 	}
