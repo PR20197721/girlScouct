@@ -119,13 +119,12 @@ CQ.form.DateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
     initComponent:function() {
         // call parent initComponent
         CQ.form.DateTime.superclass.initComponent.call(this);
-        alert("HEEeeeeeeeeeeeeeeeeeeeee");
-
-        // create DateField
+              // create DateField
         var dateConfig = CQ.Ext.apply({}, {
              id:this.id + '-date',
             format:this.dateFormat || CQ.Ext.form.DateField.prototype.format,
-            width: this.readOnly ? this.dateWidth - this.defaultTriggerWidth : this.dateWidth,
+           // width: this.readOnly ? this.dateWidth - this.defaultTriggerWidth : this.dateWidth,
+            width:100,
             selectOnFocus:this.selectOnFocus,
             allowBlank:this.allowBlank,
             hideTrigger: this.readOnly,
@@ -157,23 +156,21 @@ CQ.form.DateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
         delete(this.timeFormat);
 
         // create TimeField
-        var timeZoneConfig = CQ.Ext.apply({}, {
-             id:this.id + '-timezone',
-            format:CQ.Ext.form.TextField.prototype.format,
-            width: this.readOnly ? this.timeWidth - this.defaultTriggerWidth : this.timeWidth,
-            hideTrigger: this.readOnly,
-            minListWidth: this.timeWidth,
-            selectOnFocus:this.selectOnFocus,
-            allowBlank:this.allowBlank,
-            readOnly: this.readOnly,
-            listeners:{
-                 blur:{scope:this, fn:this.onBlur},
-                 focus:{scope:this, fn:this.onFocus}
-            }
-        }, this.timeZoneConfig);
-        this.tz = new CQ.Ext.form.TextField(timeZoneConfig);
+        var timeZoneConfig = CQ.Ext.apply({},new CQ.form.Selection({
+        	type:"select",
+        	cls:"customwidget-1",
+        	listeners:{
+        		selectionchanged:{
+        			scope:this,
+        			fn:this.updateHiddenTimeZones
+        		}
+        
+        	},options:"/etc/gstimezones/timezones"
+        	
+        	
+        }),this.timeZoneConfig);
+        this.tz = new CQ.form.Selection(timeZoneConfig);
         delete(this.timeZoneConfig);
-        alert("This is the message 2 after initiallizing the text");
         
         // relay events
         this.relayEvents(this.df, ['focus', 'specialkey', 'invalid', 'valid']);
@@ -443,10 +440,13 @@ CQ.form.DateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
      * underlying date and time fields.
      */
     checkIfChanged: function(skipUpdateValue) {
+    	  // alert("What is the value" +skipUpdateValue);
         if (!skipUpdateValue) {
             this.updateValue();
         }
         var v = this.getValue();
+    
+        
         // startValue is undefined if field wasn't focused yet
         if(this.startValue !== undefined && String(v) !== String(this.startValue)) {
             this.fireEvent("change", this, v, this.startValue);
@@ -508,6 +508,15 @@ CQ.form.DateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
     setTime:function(date) {
         this.tf.setValue(date);
     },
+    
+    setTimeZone:function(timezones){
+    	this.tz.html(timezones);
+    	
+    },
+    
+    
+    
+    
     /**
      * @private
      * Sets correct sizes of underlying DateField and TimeField
@@ -530,13 +539,13 @@ CQ.form.DateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
                 this.tz.el.up('td').setWidth(w);
             }
         } else {
-            this.df.setSize(w - this.timeWidth, h);
+            this.df.setSize(this.timeWidth, h);
             this.tf.setSize(this.timeWidth, h);
             this.tz.setSize(this.timeWidth, h);
             
 
             if(CQ.Ext.isIE) {
-                this.df.el.up('td').setWidth(w - this.timeWidth);
+                this.df.el.up('td').setWidth(this.timeWidth);
                 this.tf.el.up('td').setWidth(this.timeWidth);
                 this.tz.el.up('td').setWidth(this.timeWidth);
             }
@@ -638,6 +647,7 @@ CQ.form.DateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
 	 * Checks if the object is a date by not using instanceof
 	 */
 	isDate: function(obj) {
+		
         return (typeof(obj)!='undefined') && ((typeof obj.setDate === "function") && (typeof obj.setTime === "function")
 		       && (typeof obj.getFirstDateOfMonth === "function") && (typeof obj.getFirstDayOfMonth === "function"));
 	},
@@ -683,12 +693,31 @@ CQ.form.DateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
                     : '';
         }
     },
+    updateHiddenTimeZones:function(){
+    	//alert("I know you are going to trigger when ill update" +this.tz.getRawValue());
+    	//var val1 = this.getValue();
+        //alert(val1);
+    	
+    	
+    },
+    /**
+     * @private
+     * Updates the time part
+     */
+    updateTimeZone:function() {
+    	//alert("I am in the updateTimeZone");
+    	// Set the default value.
+    	
+    	
+    },
+    
     /**
      * @private Updates all of Date, Time and Hidden
      */
     updateValue:function() {
         this.updateDate();
         this.updateTime();
+        this.updateTimeZone();
         this.updateHidden();
     },
     /**
@@ -697,7 +726,6 @@ CQ.form.DateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
      */
     validate:function() {
         var valid = this.df.validate() && this.tf.validate();
-
         if(this.validator){
             var result = this.validator.call(this,this.getValue(),this);
             if(result!==true){
@@ -709,6 +737,8 @@ CQ.form.DateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
         
         return valid;
     },
+    
+    
     /**
      * Returns renderer suitable to render this field
      * @param {Object} Column model config

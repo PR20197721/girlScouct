@@ -86,16 +86,7 @@ $(function() {
 
 });
 
-$( window ).resize(function() {
-	
-	
-	alert("Slick View Port" +$(".slick-viewport").width());
-	alert($(".slick-slide").width());
-	
-});
-
 function setTimer(timer,play){
-	//alert("Hello I am here relaxing" +autoplay +timer);
 	var pboolean = play =='true';
 	var playspeed = parseInt(timer);
 	$('.meow').slick({
