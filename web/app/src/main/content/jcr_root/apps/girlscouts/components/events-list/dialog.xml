@@ -40,9 +40,10 @@
                         xtype="textfield"/>
                     <eventcounts
                         jcr:primaryType="cq:Widget"
+                        fieldDescription="(Please provide only numbers.)"
                         fieldLabel="Number of Events"
                         name="./eventcount"
-                        xtype="textfield"/>
+                        xtype="numberfield"/>
                     <url
                         jcr:primaryType="cq:Widget"
                         fieldDescription="(Provide the URL for the Title to be linked too)"
