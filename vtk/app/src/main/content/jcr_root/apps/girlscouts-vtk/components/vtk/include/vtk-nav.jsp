@@ -2,7 +2,7 @@
 <%
 	if (troops != null && troops.size() > 1) {
 
-		Cookie cookie = new Cookie("vtk_prefTroop", user.getTroop()
+		Cookie cookie = new Cookie("vtk_prefTroop", troop.getTroop()
 				.getGradeLevel());
 		cookie.setMaxAge(-1);
 		response.addCookie(cookie);
@@ -17,7 +17,7 @@
 				for (int i = 0; i < troops.size(); i++) {
 			%>
 			<option value="<%=troops.get(i).getTroopId()%>"
-				<%=user.getTroop().getTroopId()
+				<%=troop.getTroop().getTroopId()
 							.equals(troops.get(i).getTroopId()) ? "SELECTED"
 							: ""%>><%=troops.get(i).getTroopName()%>
 				:
@@ -34,7 +34,7 @@
 <div class="hide-for-small full-width-wrapper underline hide-for-print">
 
 	<%
-		if (user.getYearPlan() != null) {
+		if (troop.getYearPlan() != null) {
 	%>
 	<div class="row">
 		<div class="small-24 medium-24 large-18 columns">
@@ -77,7 +77,7 @@
 					%>
 					<li>
 						<%
-							if (user.getYearPlan() != null) {
+							if (troop.getYearPlan() != null) {
 						%> <a
 						href="/content/girlscouts-vtk/en/vtk.planView.html" class="label">Meeting
 							Plan</a> <%
@@ -117,7 +117,7 @@
 			</div>
 			
 			<%
-				if (user.getYearPlan() != null) {
+				if (troop.getYearPlan() != null) {
 			%>
 		</div>
 		<div class="show-for-large large-6 columns">&nbsp;</div>
@@ -173,7 +173,7 @@
 		%>
 		<li>
 			<%
-				if (user.getYearPlan() != null) {
+				if (troop.getYearPlan() != null) {
 			%> <a
 			href="/content/girlscouts-vtk/en/vtk.planView.html">Meeting Plan</a>
 			<%

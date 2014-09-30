@@ -1,5 +1,5 @@
 
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.troop.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
@@ -216,7 +216,7 @@ li {page-break-inside: avoid;}
 %>
 <%@include file="include/vtk-nav.jsp"%>
 <%
-	if( user.getYearPlan()!=null){
+	if( troop.getYearPlan()!=null){
 		// split resource panel
 %>
 <div id="panelWrapper" class="row">
@@ -226,9 +226,9 @@ li {page-break-inside: avoid;}
 %>
 
 
-View activity:<%=meetingDAO.hasPermission(user.getTroop().getPermissionTokens(), org.girlscouts.vtk.auth.permission.Permission.PERMISSION_VIEW_ACTIVITY_ID) %>
+View activity:<%=meetingDAO.hasPermission(troop.getTroop().getPermissionTokens(), org.girlscouts.vtk.auth.permission.Permission.PERMISSION_VIEW_ACTIVITY_ID) %>
 
-<% if( user.getYearPlan()!=null){ %> 
+<% if( troop.getYearPlan()!=null){ %> 
 <div class="hide-for-small">
 	<div class="row subNavRow">
 		<div class="large-22 medium-22 small-20 columns subNavColumn">
@@ -253,7 +253,7 @@ View activity:<%=meetingDAO.hasPermission(user.getTroop().getPermissionTokens(),
 			<div class="icons">
 			
 			  <!-- <a onclick="javascript:void(0)" onclick="javascript:window.print()"><img alt="Print" src="/etc/designs/girlscouts-vtk/images/calendar-download.png" width="39" height="20" border="0" class="align-right"/>*</a> -->
-			  <%if(user.getYearPlan().getSchedule()!=null){ %>
+			  <%if(troop.getYearPlan().getSchedule()!=null){ %>
 				<a onclick="self.location = '/content/girlscouts-vtk/en/cal.ics'"><img alt="Calendar Download" src="/etc/designs/girlscouts-vtk/images/calendar-download.png" width="39" height="20" border="0" class="align-right"/></a>
 			  <%} %>
 			
@@ -287,29 +287,29 @@ View activity:<%=meetingDAO.hasPermission(user.getTroop().getPermissionTokens(),
 	</script>
 <%}%>
 	<div class="sectionHeader">YEAR PLAN LIBRARY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<% if(user.getYearPlan()!=null){%>
+<% if(troop.getYearPlan()!=null){%>
 		<a href="#" onclick="yesPlan()" id="showHideReveal" class="hide-for-print">reveal</a>&nbsp;<span id="arrowDirection" class="hide-for-print arrowDirection">&#9660;</span>
 <%} %>
 	</div>
-<% if(user.getYearPlan()!=null){%>
+<% if(troop.getYearPlan()!=null){%>
 	<div id="yearPlanSelection" style="display:none;">
 <%}else{ %>
 	<div id="yearPlanSelection" >
 <%} 
-String ageLevel=  user.getTroop().getGradeLevel();
+String ageLevel=  troop.getTroop().getGradeLevel();
 ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1);
 ageLevel=ageLevel.toLowerCase().trim();
 
 String confMsg="";
-if( user.getYearPlan()!=null ){
-	if( user.getYearPlan().getAltered()!=null && user.getYearPlan().getAltered().equals("true") ){
+if( troop.getYearPlan()!=null ){
+	if( troop.getYearPlan().getAltered()!=null && troop.getYearPlan().getAltered().equals("true") ){
 		confMsg ="Are You Sure? You will lose customizations that you have made";
 	}
 			/*
-			if( ( user.getYearPlan().getAltered()!=null && !user.getYearPlan().getAltered().equals("") ))&&
-			( isDtMeetings(user.getYearPlan().getSchedule(), 0) || user.getYearPlan().getSchedule()==null ) )
+			if( ( troop.getYearPlan().getAltered()!=null && !troop.getYearPlan().getAltered().equals("") ))&&
+			( isDtMeetings(troop.getYearPlan().getSchedule(), 0) || troop.getYearPlan().getSchedule()==null ) )
 		{confMsg ="Are You Sure? You will lose customizations that you have made";}
-	else if( isDtMeetings(user.getYearPlan().getSchedule(), 1))
+	else if( isDtMeetings(troop.getYearPlan().getSchedule(), 1))
 		{confMsg ="Are You Sure? This will modify plans on /after [date]. Any customization for meeting(s) will be lost."; }
 */
 }
@@ -331,13 +331,13 @@ while (yearPlans.hasNext()) {
 			<hr/>
 <%} %>
 	</div>
-	<div id="yearPlanMeetings" style="display:<%=(user.getYearPlan()!=null) ? "block" : "none" %>">
-<% if(user.getYearPlan()!=null){%>
+	<div id="yearPlanMeetings" style="display:<%=(troop.getYearPlan()!=null) ? "block" : "none" %>">
+<% if(troop.getYearPlan()!=null){%>
 		<script>$(document).ready(function(){loadMeetings();});</script>
 <% } %>
 	</div>
 <%
-        if( user.getYearPlan()!=null){ 
+        if( troop.getYearPlan()!=null){ 
 %>
 	</div>
         <div id="panelRight" class="small-24 medium-24 large-6 columns">
@@ -346,7 +346,7 @@ while (yearPlans.hasNext()) {
 		<ul>
 		
 			<%
-				java.util.List <Asset> assets = meetingDAO.getGlobalResources( user.getYearPlan().getResources());
+				java.util.List <Asset> assets = meetingDAO.getGlobalResources( troop.getYearPlan().getResources());
 				for(int i=0;i<assets.size();i++){
 					Asset asset = assets.get(i);
 					%><li>- <a href="<%=asset.getRefId()%>" target="_blank"><%=asset.getTitle() %></a></li> <% 

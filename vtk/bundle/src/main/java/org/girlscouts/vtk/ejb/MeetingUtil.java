@@ -30,9 +30,9 @@ import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Milestone;
+import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
-import org.girlscouts.vtk.models.user.User;
 
 @Component
 @Service(MeetingUtil.class)
@@ -219,10 +219,10 @@ public class MeetingUtil {
 	
 	
 	
-	public void changeMeetingPositions(User user, String newPositions){
+	public void changeMeetingPositions(Troop troop, String newPositions){
 		
-		if( !meetingDAO.hasAccess(user, user.getCurrentUser(), Permission.PERMISSION_MOVE_MEETING_ID ) ){
-			 user.setErrCode("112");
+		if( !meetingDAO.hasAccess(troop, troop.getCurrentTroop(), Permission.PERMISSION_MOVE_MEETING_ID ) ){
+			 troop.setErrCode("112");
 			 return;
 		 }
 		
@@ -239,26 +239,26 @@ public class MeetingUtil {
 	
 		java.util.List<MeetingE> rearangedMeetings = null;
 		try{
-			rearangedMeetings=  updateMeetingPos( user.getYearPlan().getMeetingEvents(), newMeetingSetup);
+			rearangedMeetings=  updateMeetingPos( troop.getYearPlan().getMeetingEvents(), newMeetingSetup);
 		}catch(Exception e){e.printStackTrace();}
 				
 		
-		YearPlan plan = user.getYearPlan();
+		YearPlan plan = troop.getYearPlan();
 		plan.setMeetingEvents(rearangedMeetings);
 	
 		plan.setAltered("true");
-		user.setYearPlan(plan);
+		troop.setYearPlan(plan);
 		
-		userDAO.updateUser(user);
+		userDAO.updateUser(troop);
 		
 		
 	}
 	
 	
-	public void createCustomAgenda(User user, String name, String meetingPath, int duration, long _startTime, String txt ){
+	public void createCustomAgenda(Troop user, String name, String meetingPath, int duration, long _startTime, String txt ){
 		
 		
-		if( !meetingDAO.hasAccess(user, user.getCurrentUser(), Permission.PERMISSION_CREATE_MEETING_ID ) ){
+		if( !meetingDAO.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_CREATE_MEETING_ID ) ){
 			 user.setErrCode("112");
 			 return;
 		 }
@@ -297,9 +297,9 @@ public class MeetingUtil {
 		userDAO.updateUser(user);
 	}
 	
-	public void rmCustomActivity (User user, String activityPath ){
+	public void rmCustomActivity (Troop user, String activityPath ){
 		
-		if( !meetingDAO.hasAccess(user, user.getCurrentUser(), Permission.PERMISSION_REMOVE_MEETING_ID ) ){
+		if( !meetingDAO.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_REMOVE_MEETING_ID ) ){
 			 user.setErrCode("112");
 			 return;
 		 }
@@ -317,9 +317,9 @@ public class MeetingUtil {
 		
 	}
 	
-	public    void swapMeetings(User user, String fromPath, String toPath){
+	public    void swapMeetings(Troop user, String fromPath, String toPath){
 		
-		if( !meetingDAO.hasAccess(user, user.getCurrentUser()  ,Permission.PERMISSION_REPLACE_MEETING_ID)){
+		if( !meetingDAO.hasAccess(user, user.getCurrentTroop()  ,Permission.PERMISSION_REPLACE_MEETING_ID)){
 			 user.setErrCode("112");
 			 return;
 		 }
@@ -343,10 +343,10 @@ public class MeetingUtil {
 		userDAO.updateUser(user);
 	}
 
-	public void rearrangeActivity(User user, String meetingPath, String _newPoss){
+	public void rearrangeActivity(Troop user, String meetingPath, String _newPoss){
 		
 		
-		if( !meetingDAO.hasAccess(user, user.getCurrentUser(), Permission.PERMISSION_MOVE_MEETING_ID ) ){
+		if( !meetingDAO.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_MOVE_MEETING_ID ) ){
 			 user.setErrCode("112");
 			 return;
 		 }
@@ -401,9 +401,9 @@ public class MeetingUtil {
 		return null;
 	}
 	
-	public void addMeetings(User user, String newMeetingPath){
+	public void addMeetings(Troop user, String newMeetingPath){
 		
-		if( !meetingDAO.hasAccess(user, user.getCurrentUser(), Permission.PERMISSION_CREATE_MEETING_ID ) ){
+		if( !meetingDAO.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_CREATE_MEETING_ID ) ){
 			 user.setErrCode("112");
 			 return;
 		 }
@@ -445,9 +445,9 @@ public class MeetingUtil {
 	}
 	
 	
-	public void rmAgenda(User user, String agendaPathToRm , String fromMeetingPath  ){
+	public void rmAgenda(Troop user, String agendaPathToRm , String fromMeetingPath  ){
 		
-		if( !meetingDAO.hasAccess(user, user.getCurrentUser() , Permission.PERMISSION_REMOVE_MEETING_ID) ){
+		if( !meetingDAO.hasAccess(user, user.getCurrentTroop() , Permission.PERMISSION_REMOVE_MEETING_ID) ){
 			 user.setErrCode("112");
 			 return;
 		 }
@@ -476,10 +476,10 @@ public class MeetingUtil {
 		}
 	}
 	
-	public void editAgendaDuration(User user, int duration, String activityPath, String meetingPath){
+	public void editAgendaDuration(Troop user, int duration, String activityPath, String meetingPath){
 	
 		
-		if( !meetingDAO.hasAccess(user, user.getCurrentUser() , Permission.PERMISSION_EDIT_MEETING_ID) ){
+		if( !meetingDAO.hasAccess(user, user.getCurrentTroop() , Permission.PERMISSION_EDIT_MEETING_ID) ){
 			 user.setErrCode("112");
 			 return;
 		 }
@@ -515,10 +515,10 @@ public class MeetingUtil {
 	
 
 	
-	public  void reverAgenda(User user, String meetingPath){
+	public  void reverAgenda(Troop user, String meetingPath){
 		 
 		
-		if( !meetingDAO.hasAccess(user, user.getCurrentUser(), Permission.PERMISSION_REPLACE_MEETING_ID ) ){
+		if( !meetingDAO.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_REPLACE_MEETING_ID ) ){
 			 user.setErrCode("112");
 			 return;
 		 }
@@ -563,9 +563,9 @@ public class MeetingUtil {
 	}
 	
 	
-	public void addAids(User user, String aidId, String meetingId, String assetName){
+	public void addAids(Troop user, String aidId, String meetingId, String assetName){
 		
-		if( !meetingDAO.hasAccess(user, user.getCurrentUser() , Permission.PERMISSION_CREATE_MEETING_ID) ){
+		if( !meetingDAO.hasAccess(user, user.getCurrentTroop() , Permission.PERMISSION_CREATE_MEETING_ID) ){
 			 user.setErrCode("112");
 			 return;
 		 }
@@ -639,9 +639,9 @@ public class MeetingUtil {
 	
 	
 	
-	public void addResource(User user, String aidId, String meetingId, String assetName){
+	public void addResource(Troop user, String aidId, String meetingId, String assetName){
 		
-		if( !meetingDAO.hasAccess(user, user.getCurrentUser(), Permission.PERMISSION_CREATE_MEETING_ID ) ){
+		if( !meetingDAO.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_CREATE_MEETING_ID ) ){
 			 user.setErrCode("112");
 			 return;
 		 }
@@ -712,9 +712,9 @@ public class MeetingUtil {
 		
 	}
 	
-	public void rmAsset(User user, String aidId, String meetingId){
+	public void rmAsset(Troop user, String aidId, String meetingId){
 		
-		if( !meetingDAO.hasAccess(user, user.getCurrentUser(), Permission.PERMISSION_REMOVE_MEETING_ID ) ){
+		if( !meetingDAO.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_REMOVE_MEETING_ID ) ){
 			 user.setErrCode("112");
 			 return;
 		 }

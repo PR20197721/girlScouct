@@ -61,7 +61,7 @@ import org.apache.commons.fileupload.util.Streams;
 
 import org.apache.sling.api.resource.ResourceResolverFactory;
 //import org.girlscouts.vtk.auth.models.User;
-import org.girlscouts.vtk.models.user.User;
+import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.dao.MeetingDAO;
 
 import com.day.cq.commons.jcr.JcrUtil;
@@ -109,7 +109,7 @@ import com.day.cq.commons.jcr.JcrUtil;
 
 		 
 		 // MeetingDAO meetingDAO = resourceResolver.adaptTo(MeetingDAO.class);
-		  User user= (User) request.getSession().getValue("VTK_user");
+		  Troop user= (Troop) request.getSession().getValue("VTK_user");
 		  
 		 // System.err.println("Chk: "+ (meetingDAO==null)  +" : "+ (user==null) );
 		  

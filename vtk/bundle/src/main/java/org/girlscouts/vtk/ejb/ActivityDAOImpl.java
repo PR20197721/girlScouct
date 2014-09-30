@@ -35,8 +35,8 @@ import org.girlscouts.vtk.models.JcrCollectionHoldString;
 import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Milestone;
+import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.YearPlan;
-import org.girlscouts.vtk.models.user.User;
 
 @Component
 @Service(value=ActivityDAO.class)
@@ -58,17 +58,17 @@ public class ActivityDAOImpl implements ActivityDAO{
     @Reference
     private MeetingDAO meetingDAO;
     
-	public void createActivity(User user, Activity activity) {
+	public void createActivity(Troop user, Activity activity) {
 		
 		try{
 			
-			if( !meetingDAO.hasAccess(user, user.getCurrentUser() , Permission.PERMISSION_CREATE_ACTIVITY_ID) ){
+			if( !meetingDAO.hasAccess(user, user.getCurrentTroop() , Permission.PERMISSION_CREATE_ACTIVITY_ID) ){
 				 user.setErrCode("112");
 				 return;
 			 }
 			
 			List<Class> classes = new ArrayList<Class>();	
-			classes.add(User.class);
+			classes.add(Troop.class);
 			classes.add(Activity.class);
 			classes.add(JcrCollectionHoldString.class);
 			classes.add(YearPlan.class);
@@ -190,7 +190,7 @@ public void updateActivitiesCancel( String uuid ){
 
 
 
-public void checkCanceledActivity(User user){
+public void checkCanceledActivity(Troop user){
 	
 	if( user==null || user.getYearPlan()==null || user.getYearPlan().getActivities() ==null ||
 			user.getYearPlan().getActivities().size()==0)

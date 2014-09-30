@@ -55,9 +55,9 @@ import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.SearchTag;
+import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
-import org.girlscouts.vtk.models.user.User;
 import org.girlscouts.web.search.DocHit;
 
 import com.day.cq.search.PredicateGroup;
@@ -195,7 +195,7 @@ public Meeting getMeeting(String path){
 
 
 //get all event meetings for users plan
-public java.util.List<MeetingE> getAllUsersEventMeetings(User user, String yearPlanId){
+public java.util.List<MeetingE> getAllUsersEventMeetings(Troop user, String yearPlanId){
 	
 	//TOD yearPLanId ????
 	
@@ -228,13 +228,13 @@ public java.util.List<MeetingE> getAllUsersEventMeetings(User user, String yearP
 
 
 //get all event meetings for users plan
-public Meeting createCustomMeeting(User user, MeetingE meetingEvent){ return createCustomMeeting(user, meetingEvent, null); }
-public Meeting createCustomMeeting(User user, MeetingE meetingEvent, Meeting meeting){
+public Meeting createCustomMeeting(Troop user, MeetingE meetingEvent){ return createCustomMeeting(user, meetingEvent, null); }
+public Meeting createCustomMeeting(Troop user, MeetingE meetingEvent, Meeting meeting){
 	
 	//Meeting meeting =null;
 	try{
 		
-		if( !this.hasAccess(user, user.getCurrentUser() , PermissionConstants.PERMISSION_CREATE_MEETING_ID) ){ //091514
+		if( !this.hasAccess(user, user.getCurrentTroop() , PermissionConstants.PERMISSION_CREATE_MEETING_ID) ){ //091514
 			 user.setErrCode("112");
 			 return null;
 		 }
@@ -278,12 +278,12 @@ public Meeting createCustomMeeting(User user, MeetingE meetingEvent, Meeting mee
 }
 
 
-public Meeting updateCustomMeeting(User user, MeetingE meetingEvent, Meeting meeting){
+public Meeting updateCustomMeeting(Troop user, MeetingE meetingEvent, Meeting meeting){
 	
 	//Meeting meeting =null;
 	try{
 		
-		if( !hasAccess(user, user.getCurrentUser(), Permission.PERMISSION_UPDATE_MEETING_ID ) ){ 			
+		if( !hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_UPDATE_MEETING_ID ) ){ 			
 			 user.setErrCode("112");
 			 return null;
 		 }
@@ -326,9 +326,9 @@ public Meeting updateCustomMeeting(User user, MeetingE meetingEvent, Meeting mee
 }
 
 
-public Meeting addActivity(User user, Meeting meeting, Activity activity){
+public Meeting addActivity(Troop user, Meeting meeting, Activity activity){
 	
-	if( !hasAccess(user, user.getCurrentUser(), Permission.PERMISSION_CREATE_ACTIVITY_ID ) ){ 
+	if( !hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_CREATE_ACTIVITY_ID ) ){ 
 		 user.setErrCode("112");
 		 return null;
 	 }
@@ -431,7 +431,7 @@ return suggest;
 }
 
 
-public List<org.girlscouts.vtk.models.Search> getData(User user, String _query) {
+public List<org.girlscouts.vtk.models.Search> getData(Troop user, String _query) {
 	
 	List<org.girlscouts.vtk.models.Search> matched =null;
 	if(!hasPermission(user, Permission.PERMISSION_SEARCH_MEETING_ID)) return matched;
@@ -771,7 +771,7 @@ private List<Asset> getAidTag_custasset(String uid) {
 
 
 @SuppressWarnings("unchecked")
-public net.fortuna.ical4j.model.Calendar yearPlanCal(User user )throws Exception{
+public net.fortuna.ical4j.model.Calendar yearPlanCal(Troop user )throws Exception{
 	 
 	 java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
 		
@@ -1128,7 +1128,7 @@ public SearchTag getDefaultTags( ){
 }
 
 
-public java.util.List<Activity> searchA2(User user, String tags, String cat, String keywrd,
+public java.util.List<Activity> searchA2(Troop user, String tags, String cat, String keywrd,
 		java.util.Date startDate, java.util.Date endDate, String region){
 	
 	java.util.List<Activity> toRet= new java.util.ArrayList();
@@ -1598,7 +1598,7 @@ public Council getCouncil(String councilId){
 			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
 		
 			QueryManager queryManager = ocm.getQueryManager();
-			Filter filter = queryManager.createFilter(User.class);
+			Filter filter = queryManager.createFilter(Troop.class);
 		
 	        council= (Council) ocm.getObject("/vtk/"+ councilId );
 		      
@@ -1673,7 +1673,7 @@ public void  saveCouncilMilestones(java.util.List<Milestone> milestones){
 }
 
 
-public boolean isCurrentUserId(User user, String sId){
+public boolean isCurrentTroopId(Troop user, String sId){
 
 	
 	
@@ -1733,7 +1733,7 @@ public boolean isCurrentUserId(User user, String sId){
 
 
 
-private String getLocation(User user, String locationId){
+private String getLocation(Troop user, String locationId){
 	 
 	
 	
@@ -1764,7 +1764,7 @@ private String getLocation(User user, String locationId){
 
 
 
-public java.util.List<Activity> searchA1(User user, String tags, String cat, String keywrd,
+public java.util.List<Activity> searchA1(Troop user, String tags, String cat, String keywrd,
 		java.util.Date startDate, java.util.Date endDate, String region){
 	
 	java.util.List<Activity> toRet= new java.util.ArrayList();
@@ -1844,12 +1844,7 @@ public java.util.List<Activity> searchA1(User user, String tags, String cat, Str
 		
 	
 		String sql= "select child.register, child.address, parent.[jcr:uuid], child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, [" + eventPath + "])) and child.start is not null and parent.[jcr:title] is not null " ;
-		
-		
-	
 
-
-		
 		if( keywrd!=null && !keywrd.trim().equals("") )//&& !isTag )
 			sql+=" and (contains(child.*, '"+ keywrd+"') or contains(parent.*, '"+ keywrd+"')  )";
 		
@@ -1956,7 +1951,7 @@ public boolean hasPermission(java.util.Set<Integer> myPermissionTokens, int perm
 
 
 //check permission
-public boolean hasPermission(User user, int permissionId){
+public boolean hasPermission(Troop user, int permissionId){
 	if( !hasPermission(user.getTroop().getPermissionTokens(), permissionId) )
 		return false;
 	
@@ -1965,12 +1960,12 @@ return true;
 
 
 // hasPermission + currentUser 
-public boolean hasAccess(User user, String mySessionId, int permissionId){
+public boolean hasAccess(Troop user, String mySessionId, int permissionId){
 	
 	if( !hasPermission(user, permissionId) )
 		return false;
 	
-	if( !isCurrentUserId( user, mySessionId) )
+	if( !isCurrentTroopId( user, mySessionId) )
 		return false;
 	
 	return true;

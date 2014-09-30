@@ -7,24 +7,15 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
 @Node
 public class Council {
-
+	public Council(){}
 	public Council(String path){ 
 		this.path= path;
 		
-		for(int i=0;i<5;i++){
-			
-			if( troops==null ) troops= new java.util.ArrayList<Troop>();
-			Troop troop= new Troop();
-			troop.setsFTroopId("test");
-			troop.setsFTroopName("testName");
-			troop.setUid("CACA"+ new java.util.Date() );
-			//troop.setId("T"+ new java.util.Date().getTime()+"_"+ Math.random() );
-			troops.add( troop );
-		}
+		
 	}
 	
 	@Field(path=true) String path;
-	//@Collection	private java.util.List <Milestone> milestones;
+	
 	
 	
 	@Collection private java.util.List <Troop> troops;
@@ -49,15 +40,7 @@ public class Council {
 		this.path = path;
 	}
 
-	/*
-	public java.util.List<Milestone> getMilestones() {
-		return milestones;
-	}
-
-	public void setMilestones(java.util.List<Milestone> milestones) {
-		this.milestones = milestones;
-	}
-	*/
+	
 	
 	
 }

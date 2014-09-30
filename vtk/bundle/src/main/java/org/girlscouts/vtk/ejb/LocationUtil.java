@@ -11,9 +11,9 @@ import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.MeetingE;
+import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
-import org.girlscouts.vtk.models.user.User;
 
 @Component
 @Service(LocationUtil.class)
@@ -24,9 +24,9 @@ public class LocationUtil {
     @Reference
     private MeetingDAO meetingDAO;
 
-	public void setLocationAllMeetings( User user, String locationPath ){
+	public void setLocationAllMeetings( Troop user, String locationPath ){
 		
-		if( !meetingDAO.hasAccess(user, user.getCurrentUser(), Permission.PERMISSION_EDIT_MEETING_ID ) ){
+		if( !meetingDAO.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_EDIT_MEETING_ID ) ){
 			 user.setErrCode("112");
 			 return;
 		 }
@@ -45,14 +45,14 @@ public class LocationUtil {
 		
 	}
 	
-  public void setMeetingLocation( User user, MeetingE meeting, String locationPath ){
+  public void setMeetingLocation( Troop user, MeetingE meeting, String locationPath ){
 		
 		//TODO
 	}
   
-  public void setLocation(User user, Location location){
+  public void setLocation(Troop user, Location location){
 	  
-	  if( !meetingDAO.hasAccess(user, user.getCurrentUser() , Permission.PERMISSION_EDIT_MEETING_ID) ){
+	  if( !meetingDAO.hasAccess(user, user.getCurrentTroop() , Permission.PERMISSION_EDIT_MEETING_ID) ){
 			 user.setErrCode("112");
 			 return;
 		 }
@@ -83,9 +83,9 @@ public class LocationUtil {
 				
 		
   }
-  public void changeLocation(User user, String dates, String locationRef){
+  public void changeLocation(Troop user, String dates, String locationRef){
 	  
-	  if( !meetingDAO.hasAccess(user, user.getCurrentUser() , Permission.PERMISSION_EDIT_MEETING_ID) ){
+	  if( !meetingDAO.hasAccess(user, user.getCurrentTroop() , Permission.PERMISSION_EDIT_MEETING_ID) ){
 			 user.setErrCode("112");
 			 return;
 		 }
@@ -148,9 +148,9 @@ public class LocationUtil {
   
   
   
-	public void setLocationAllEmpty( User user, String locationName ){
+	public void setLocationAllEmpty( Troop user, String locationName ){
 		
-		if( !meetingDAO.hasAccess(user, user.getCurrentUser(), Permission.PERMISSION_EDIT_MEETING_ID ) ){
+		if( !meetingDAO.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_EDIT_MEETING_ID ) ){
 			 user.setErrCode("112");
 			 return;
 		 }

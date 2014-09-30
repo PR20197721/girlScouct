@@ -18,8 +18,8 @@ import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
+import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.YearPlanComponent;
-import org.girlscouts.vtk.models.user.User;
 
 	import net.fortuna.ical4j.data.CalendarBuilder;
 import net.fortuna.ical4j.data.CalendarOutputter;
@@ -98,7 +98,7 @@ import net.fortuna.ical4j.util.UidGenerator;
 	
 	 
 	 
-	 public net.fortuna.ical4j.model.Calendar yearPlanCal(User user )throws Exception{
+	 public net.fortuna.ical4j.model.Calendar yearPlanCal(Troop user )throws Exception{
 		 
 		 java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
 			
@@ -182,7 +182,7 @@ import net.fortuna.ical4j.util.UidGenerator;
 		  return calendar;
 	 }
 	 
-	 private String getLocation(User user, String locationId){
+	 private String getLocation(Troop user, String locationId){
 		 
 		 String fmtLocation = "";
 		 try{

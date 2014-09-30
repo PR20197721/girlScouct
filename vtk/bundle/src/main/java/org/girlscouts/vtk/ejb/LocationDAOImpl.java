@@ -24,8 +24,8 @@ import org.girlscouts.vtk.models.JcrCollectionHoldString;
 import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Milestone;
+import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.YearPlan;
-import org.girlscouts.vtk.models.user.User;
 
 @Component
 @Service(value=LocationDAO.class)
@@ -47,12 +47,12 @@ public class LocationDAOImpl implements LocationDAO{
     @Reference
     private MeetingDAO meetingDAO;
     
-	public void removeLocation(User user, String locationName) {
+	public void removeLocation(Troop user, String locationName) {
 		
 		try{
 			
 			
-			if( !meetingDAO.hasAccess(user, user.getCurrentUser(), Permission.PERMISSION_CANCEL_MEETING_ID ) ){
+			if( !meetingDAO.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_CANCEL_MEETING_ID ) ){
 				 user.setErrCode("112");
 				 return;
 			 }
@@ -60,7 +60,7 @@ public class LocationDAOImpl implements LocationDAO{
 			
 			
 			List<Class> classes = new ArrayList<Class>();	
-			classes.add(User.class);
+			classes.add(Troop.class);
 			classes.add(Activity.class);
 			classes.add(JcrCollectionHoldString.class);
 			classes.add(YearPlan.class);

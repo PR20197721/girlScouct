@@ -1,4 +1,4 @@
-<%@page import="org.girlscouts.vtk.models.user.User"%>
+<%@page import="org.girlscouts.vtk.models.Troop"%>
 <%!
 java.text.SimpleDateFormat FORMAT_MMddYYYY = new java.text.SimpleDateFormat("MM/dd/yyyy");
 java.text.SimpleDateFormat FORMAT_hhmm_AMPM = new java.text.SimpleDateFormat("hh:mm a");
@@ -55,8 +55,9 @@ final LocationUtil locationUtil = sling.getService(LocationUtil.class);
 final MeetingUtil meetingUtil = sling.getService(MeetingUtil.class);
 final EmailUtil emailUtil = sling.getService(EmailUtil.class);
 final YearPlanDAO yearPlanDAO = sling.getService(YearPlanDAO.class);
-final UserDAO userDAO = sling.getService(UserDAO.class);
+//final UserDAO userDAO = sling.getService(UserDAO.class);
 final MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
+final TroopDAO troopDAO = sling.getService(TroopDAO.class);
 
 HttpSession session = request.getSession();
 
@@ -91,8 +92,8 @@ if( apiConfig.getTroops()==null || apiConfig.getTroops().size()<=0 ||
 }
 
 // Set user for session
-org.girlscouts.vtk.models.user.User user= (org.girlscouts.vtk.models.user.User)session.getValue("VTK_user");
-if( user ==null || user.isRefresh() ){
+Troop troop= (Troop)session.getValue("VTK_user");
+if( troop ==null || troop.isRefresh() ){
 	
 	org.girlscouts.vtk.salesforce.Troop prefTroop = apiConfig.getTroops().get(0);
 		  
@@ -119,19 +120,22 @@ if( user ==null || user.isRefresh() ){
 		
 		
 	
-        user= userDAO.getUser( "/vtk/"+prefTroop.getCouncilCode()+
+        troop= troopDAO.getTroop( "/vtk/"+prefTroop.getCouncilCode()+
         		"/"+prefTroop.getTroopId()+
         		"/users/"+ apiConfig.getUserId() +"_"+ prefTroop.getTroopId());
         
   			
         //first time - new user
-        if( user==null ){
+        if( troop==null ){
+        	/*
                 //user = new User(apiConfig.getUserId()+"_"+ apiConfig.getTroops().get(0).getTroopId());
-               user = new org.girlscouts.vtk.models.user.User( "/vtk/"+prefTroop.getCouncilCode()+
-        		"/"+prefTroop.getTroopId()+"/users/",
+               troop = new Troop( "/vtk/"+prefTroop.getCouncilCode()+
+        		"/"+prefTroop.getTroopId(),
         		 apiConfig.getUserId() +"_"+ prefTroop.getTroopId() );
+               */
+               troop= troopDAO.createTroop( ""+prefTroop.getCouncilCode(), prefTroop.getTroopId() );
         }
-        user.setApiConfig(apiConfig);
+        troop.setApiConfig(apiConfig);
         
        
 		
@@ -139,58 +143,39 @@ if( user ==null || user.isRefresh() ){
        if(isTest){ 
 		org.girlscouts.vtk.salesforce.Troop caca= prefTroop;
 		caca.setGradeLevel("1-Brownie");
-		user.setTroop(caca);
+		troop.setTroop(caca);
        }else
-		user.setTroop( prefTroop );
-       /*
-       System.err.println("caca >> " + user.getTroop().getCouncilId() +" : "+ user.getTroop().getCouncilCode() );  
-       System.err.println(user.getYearPlan() ==null );
-       System.err.println( meetingDAO==null);
-       user.getYearPlan().setMilestones( meetingDAO.getCouncilMilestones( ""+user.getTroop().getCouncilCode() ) );
-	   System.err.println( user.getYearPlan().getMilestones() );	 
-       */
-		user.setSfTroopId( user.getTroop().getTroopId() );
-		user.setSfUserId( user.getApiConfig().getUserId() );
-		user.setSfTroopName( user.getTroop().getTroopName() ); 
-		user.setSfTroopAge( user.getTroop().getGradeLevel() );
-		user.setSfCouncil( user.getTroop().getCouncilCode()+"");
+		troop.setTroop( prefTroop );
+		troop.setSfTroopId( troop.getTroop().getTroopId() );
+		troop.setSfUserId( troop.getApiConfig().getUserId() );
+		troop.setSfTroopName( troop.getTroop().getTroopName() ); 
+		troop.setSfTroopAge( troop.getTroop().getGradeLevel() );
+		troop.setSfCouncil( troop.getTroop().getCouncilCode()+"");
 		
 		
 		
 		 //cancelled activity check 091814	        
-        if( user!=null && user.getYearPlan()!=null && user.getYearPlan().getActivities() !=null && user.getYearPlan().getActivities().size()>0){
-        	activityDAO.checkCanceledActivity(user);
+        if( troop!=null && troop.getYearPlan()!=null && troop.getYearPlan().getActivities() !=null && troop.getYearPlan().getActivities().size()>0){
+        	activityDAO.checkCanceledActivity(troop);
         }
 		
-		session.setAttribute("VTK_user", user);
-       
-		
-		
-		//System.err.println("** user: "+ user.getCurrentUser() +" : "+ session.getId() );
-		//out.println( session.getId() +" : "+ user.getCurrentUser() );
-		if( session!=null && user.getCurrentUser()!=null &&  !session.getId().equals( user.getCurrentUser() )){  
-			/*
-			%>
-			<span class='error'>Warning: another user is currently logged into this account. To continue, please logout and login again.  (This will cause the other user to be logged out.)</span>
-			<%
-			
-			return;
-			*/
+		session.setAttribute("VTK_user", troop);
+       if( session!=null && troop.getCurrentTroop()!=null &&  !session.getId().equals( troop.getCurrentTroop() )){  
+			;
 		 }else{
-			 //System.err.println("test");
-			 user.setCurrentUser( session.getId() );
+			 
+			 troop.setCurrentTroop( session.getId() );
 			 if( isMultiUserFullBlock)
-			   if( user.getYearPlan()!=null)
-			 	 userDAO.updateUser(user);
+			   if( troop.getYearPlan()!=null)
+			 	 troopDAO.updateTroop(troop);
 				
 		 }
-		user.setCurrentUser( session.getId() );
+		troop.setCurrentTroop( session.getId() );
 		
 		
 }else{
 	
 	
-	//out.println(session.getId() +" : "+user.getCurrentUser());
 	if(false){//user.getYearPlan()!=null &&  !meetingDAO.isCurrentUserId(user, session.getId() )){  
 
 		%>
@@ -208,7 +193,7 @@ if( user ==null || user.isRefresh() ){
 java.util.List<org.girlscouts.vtk.salesforce.Troop> troops = (java.util.List<org.girlscouts.vtk.salesforce.Troop>) session.getAttribute("USER_TROOP_LIST");
 
 if (session.getAttribute("USER_TROOP_LIST") == null) {
-	troops = user.getApiConfig().getTroops();
+	troops = troop.getApiConfig().getTroops();
 	session.setAttribute("USER_TROOP_LIST", troops);
 }
 %>
@@ -216,26 +201,26 @@ if (session.getAttribute("USER_TROOP_LIST") == null) {
 
 	<%
 
-		if( user.getErrCode()!=null && user.getErrCode().equals("111") ){
+		if( troop.getErrCode()!=null && troop.getErrCode().equals("111") ){
 			%>
 				<div style="color:#fff; background-color:red;">Warning: another user is currently logged into this account or you have no permissions. To continue, please logout and login again.  (This will cause the other user to be logged out.) error 111-in db</div>
 			<%
 			}
 			
-		if(  isMultiUserFullBlock && user!=null && user.getYearPlan()!=null && !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) )
+		if(  isMultiUserFullBlock && troop!=null && troop.getYearPlan()!=null && !meetingDAO.isCurrentTroopId(troop, troop.getCurrentTroop() ) )
 		{
 			%><div style="color:#fff; background-color:red;">
 
 			Warning: another user is currently logged into this account or you have no permissions. To continue, please logout and login again.  (This will cause the other user to be logged out.) error 111.1-another user</div><% 
-			user.setRefresh(true);
+			troop.setRefresh(true);
 			return;
 		    }
 		
-		if( user.getErrCode()!=null && user.getErrCode().equals("112") ){
+		if( troop.getErrCode()!=null && troop.getErrCode().equals("112") ){
 				%>
 					<div style="color:#fff; background-color:red;">Warning: another user is currently logged into this account or you have no permissions. To continue, please logout and login again.  (This will cause the other user to be logged out.) error 112-another user</div>
 				<%
-				user.setRefresh(true);
+				troop.setRefresh(true);
 				return;
 			}
 		

@@ -2,7 +2,7 @@
 	Meeting meeting = meetingDAO.getMeeting(meetingE.getRefId());
 	boolean isCanceled =false;
 	boolean calendarNotSet = false;
-	if (user.getYearPlan().getSchedule() == null) {
+	if (troop.getYearPlan().getSchedule() == null) {
 		calendarNotSet = true;
 	}
 	if (meetingE.getCancelled()!=null && meetingE.getCancelled().equals("true") ) {
@@ -11,7 +11,7 @@
 %>
 
 
-<li  onclick='self.location="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=date.getTime()%>"' class="meeting <%=( user.getYearPlan().getSchedule()==null || new java.util.Date().before(date)) ? "ui-state-default" : "ui-state-default ui-state-disabled"%>" value="<%=meetingCount%>">
+<li  onclick='self.location="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=date.getTime()%>"' class="meeting <%=( troop.getYearPlan().getSchedule()==null || new java.util.Date().before(date)) ? "ui-state-default" : "ui-state-default ui-state-disabled"%>" value="<%=meetingCount%>">
 	<div  class="row">
         <div class="large-4 medium-5 small-24 columns">
 			<div class="planSquare center ed-table" id="caca">

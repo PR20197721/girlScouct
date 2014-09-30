@@ -27,9 +27,9 @@ import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
+import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
-import org.girlscouts.vtk.models.user.User;
 
 @Component
 @Service(value=CalendarUtil.class)
@@ -188,9 +188,9 @@ public class CalendarUtil {
 		}
 		
 		
-		public void createSched(User user, String freq, org.joda.time.DateTime p, String exclDate){
+		public void createSched(Troop user, String freq, org.joda.time.DateTime p, String exclDate){
 		
-			if( !meetingDAO.hasAccess(user, user.getCurrentUser(), Permission.PERMISSION_EDIT_MEETING_ID ) ){
+			if( !meetingDAO.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_EDIT_MEETING_ID ) ){
 				 user.setErrCode("112");
 				 return;
 			 }
@@ -226,10 +226,10 @@ public class CalendarUtil {
 			userDAO.updateUser(user);
 		}
 		
-		public void updateSched(User user, String meetingPath, String time, String date, String ap, 
+		public void updateSched(Troop user, String meetingPath, String time, String date, String ap, 
 				String isCancelledMeeting, long currDate){
 			
-			if( !meetingDAO.hasAccess(user, user.getCurrentUser(), Permission.PERMISSION_UPDATE_MEETING_ID ) ){
+			if( !meetingDAO.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_UPDATE_MEETING_ID ) ){
 				 user.setErrCode("112");
 				 return;
 			 }
@@ -264,7 +264,7 @@ public class CalendarUtil {
 			
 		}
 		
-		public void resetCal(User user){
+		public void resetCal(Troop user){
 			
 			user.getYearPlan().setSchedule(null);
 			userDAO.updateUser(user);

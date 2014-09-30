@@ -31,10 +31,10 @@ import org.girlscouts.vtk.models.JcrNode;
 import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Milestone;
+import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.UserGlobConfig;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.Asset;
-import org.girlscouts.vtk.models.user.User;
 
 @Component
 @Service(value=UserDAO.class)
@@ -60,12 +60,12 @@ public class UserDAOImpl implements UserDAO{
         this.session = pool.getSession();
     }
     
-	public User getUser(String userId) {
+	public Troop getUser(String userId) {
 		
-		User user =null;
+		Troop user =null;
 		try{
 			List<Class> classes = new ArrayList<Class>();	
-			classes.add(User.class); 
+			classes.add(Troop.class); 
 			classes.add(YearPlan.class); 
 			classes.add(MeetingE.class);
 			classes.add(Activity.class);
@@ -78,14 +78,14 @@ public class UserDAOImpl implements UserDAO{
 			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
 	
 			QueryManager queryManager = ocm.getQueryManager();
-			Filter filter = queryManager.createFilter(User.class);
+			Filter filter = queryManager.createFilter(Troop.class);
 			
 	        // GOOD user = (User) ocm.getObject("/content/girlscouts-vtk/users/"+ userId);
 			
 			//6/27/14 
 		System.err.println("GET_USER_OBJ********************");	
 			ocm.refresh(true);
-	        user = (User) ocm.getObject(userId);
+	        user = (Troop) ocm.getObject(userId);
 	      
 	       
 	       
@@ -131,10 +131,10 @@ public class UserDAOImpl implements UserDAO{
 	}
 	
 	
-	public YearPlan addYearPlan( User user, String yearPlanPath ){
+	public YearPlan addYearPlan( Troop user, String yearPlanPath ){
 		
 		
-		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+		if( !meetingDAO.isCurrentTroopId(user, user.getCurrentTroop() ) ){
 			 user.setErrCode("112");
 			 return null;
 		 }
@@ -150,7 +150,7 @@ public class UserDAOImpl implements UserDAO{
 			yearPlanPath += "meetings/";
 			
 			List<Class> classes = new ArrayList<Class>();	
-			classes.add(User.class); 
+			classes.add(Troop.class); 
 			classes.add(YearPlan.class); 
 			classes.add(MeetingE.class); 
 			classes.add(Cal.class);
@@ -181,7 +181,7 @@ public class UserDAOImpl implements UserDAO{
 		
 	}
 	
-	public boolean updateUser(User user){
+	public boolean updateUser(Troop user){
 		
 		boolean isUpdated= false;
          try{
@@ -199,7 +199,7 @@ public class UserDAOImpl implements UserDAO{
         	 if( user!=null && user.getLastModified()!=null ){
         		
         		 
-        				 if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){// && user.getLastModified().after(x) ){ 
+        				 if( !meetingDAO.isCurrentTroopId(user, user.getCurrentTroop() ) ){// && user.getLastModified().after(x) ){ 
         			 
         					 //cal.setTime(new java.util.Date("1/3/1976"));
         					 //user.setLastModified(cal);
@@ -210,7 +210,7 @@ public class UserDAOImpl implements UserDAO{
         	 
         	 
 			List<Class> classes = new ArrayList<Class>();	
-			classes.add(User.class); 
+			classes.add(Troop.class); 
 			classes.add(YearPlan.class); 
 			classes.add(MeetingE.class); 
 			classes.add(Location.class);
@@ -267,8 +267,8 @@ public class UserDAOImpl implements UserDAO{
 				System.err.println( "User created/insert");
 				ocm.insert(user);
 			}
-System.err.println("Saving user info..."+ user.getPath() );
-System.err.println( "sessionId: "+ user.getCurrentUser() );
+//System.err.println("Saving user info..."+ user.getPath() );
+//System.err.println( "sessionId: "+ user.getCurrentTroop() );
 
 			String old_errCode= user.getErrCode();
 			java.util.Calendar old_lastModified = user.getLastModified();
@@ -308,9 +308,9 @@ System.err.println( "sessionId: "+ user.getCurrentUser() );
 	}
 	
 	
-	public void selectYearPlan(User user, String yearPlanPath, String planName){
+	public void selectYearPlan(Troop user, String yearPlanPath, String planName){
 		
-		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+		if( !meetingDAO.isCurrentTroopId(user, user.getCurrentTroop() ) ){
 			 user.setErrCode("112");
 			 return;
 		 }
@@ -434,11 +434,11 @@ System.err.println( "sessionId: "+ user.getCurrentUser() );
 	}
 
 
-public void rmUser(User user){
+public void rmUser(Troop user){
 	   try{
 			
 				List<Class> classes = new ArrayList<Class>();	
-				classes.add(User.class); 
+				classes.add(Troop.class); 
 				classes.add(YearPlan.class); 
 				classes.add(MeetingE.class); 
 				classes.add(Location.class);
@@ -503,10 +503,10 @@ public void selectYearPlan(User user, String yearPlanPath){
  }
  */
 
-public void addAsset(User user, String meetingUid,  Asset asset){
+public void addAsset(Troop user, String meetingUid,  Asset asset){
 
 	
-	if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+	if( !meetingDAO.isCurrentTroopId(user, user.getCurrentTroop() ) ){
 		 user.setErrCode("112");
 		 return;
 	 }
@@ -622,11 +622,11 @@ public void addAsset(User user, String meetingUid,  Asset asset){
 	
 	
 	public java.util.List getUsers(){
-		java.util.List<User> users=null;
+		java.util.List<Troop> users=null;
 		try{
 			
 			List<Class> classes = new ArrayList<Class>();	
-			classes.add(User.class); 
+			classes.add(Troop.class); 
 			classes.add(YearPlan.class); 
 			classes.add(MeetingE.class);
 			classes.add(Activity.class);
@@ -640,13 +640,13 @@ public void addAsset(User user, String meetingUid,  Asset asset){
 			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
 		
 			QueryManager queryManager = ocm.getQueryManager();
-			Filter filter = queryManager.createFilter(User.class);
+			Filter filter = queryManager.createFilter(Troop.class);
 			
 			filter.setScope("/vtk//");
 			
 				
 			Query query = queryManager.createQuery(filter);
-			users  =(java.util.List<User>) ocm.getObjects(query);
+			users  =(java.util.List<Troop>) ocm.getObjects(query);
 			System.err.println( "users: "+ (users.size()) );
 		      
 		}catch(Exception e){e.printStackTrace();}
@@ -655,12 +655,12 @@ public void addAsset(User user, String meetingUid,  Asset asset){
 
 	
 	
-	public void logout(User user){
+	public void logout(Troop user){
 		if(user ==null) return;
-		User tmp_user= getUser(user.getPath());
+		Troop tmp_user= getUser(user.getPath());
 		//tmp_user.setTroop(user.getTroop());
 		if( tmp_user ==null )return;
-		tmp_user.setCurrentUser(null);
+		tmp_user.setCurrentTroop(null);
 		updateUser( tmp_user );
 	}
 	
