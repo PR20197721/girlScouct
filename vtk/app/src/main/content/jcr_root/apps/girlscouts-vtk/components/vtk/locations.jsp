@@ -66,7 +66,7 @@
                         <div class="sectionBar">Manage Calendar</div>
 			<div id="calMng">
 <%
-                if( user.getYearPlan().getSchedule() == null ){
+                if( true){//user.getYearPlan().getSchedule() == null ){
 %>
 <%@include file="include/calSched.jsp" %>
 <%
