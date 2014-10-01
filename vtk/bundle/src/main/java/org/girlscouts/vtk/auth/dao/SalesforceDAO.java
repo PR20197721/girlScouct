@@ -376,7 +376,7 @@ public java.util.List <Troop>  troopInfo(ApiConfig apiConfig, String contactId){
 						org.girlscouts.vtk.auth.permission.RollType rollType= org.girlscouts.vtk.auth.permission.RollType.valueOf("DP");
 						switch(rollType){
 							case DP:
-								troop.setPermissionTokens(Permission.getPermissionTokens( Permission.GROUP_MEMBER_1G_PERMISSIONS ) );
+								troop.setPermissionTokens(Permission.getPermissionTokens( Permission.ROOT_PERMISSIONS ) );
 								System.err.println("REGISTER ROLL DP");
 								break;
 							default:

@@ -223,7 +223,7 @@ public class UserDAOImpl implements UserDAO{
 			classes.add(org.girlscouts.vtk.models.Troop.class);
 			
 			Mapper mapper = new AnnotationMapperImpl(classes);
-			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
+			ObjectContentManager ocm =  new ObjectContentManagerImpl(pool.getSession(), mapper);	
 		
 		
 			Comparator<MeetingE> comp = new BeanComparator("id");

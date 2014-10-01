@@ -10,8 +10,8 @@ public class Council {
 
 	public Council(String path){ 
 		this.path= path;
-		
-		for(int i=0;i<5;i++){
+		/*
+		for(int i=0;i<10000;i++){
 			
 			if( troops==null ) troops= new java.util.ArrayList<Troop>();
 			Troop troop= new Troop();
@@ -21,6 +21,7 @@ public class Council {
 			//troop.setId("T"+ new java.util.Date().getTime()+"_"+ Math.random() );
 			troops.add( troop );
 		}
+		*/
 	}
 	
 	@Field(path=true) String path;

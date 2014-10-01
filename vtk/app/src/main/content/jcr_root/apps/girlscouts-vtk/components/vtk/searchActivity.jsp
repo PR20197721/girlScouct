@@ -44,12 +44,7 @@ if( activities!=null  ){
 			
 			</p>
 			
-			<p>
-				<%if( activities.get(i).getRegisterUrl()  !=null && !activities.get(i).getRegisterUrl().equals("")){ %>
-					<a href="<%=activities.get(i).getRegisterUrl() %>" class="reserved" target="_blank">Register for this event</a>				
-				<%}%>
-				
-			</p>
+			
 			
 			<p class="activityContent"> <%=activities.get(i).getContent() %> </p>
 			<%if(activities.get(i).getDate()==null){ %>
