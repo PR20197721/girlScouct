@@ -40,8 +40,10 @@
                         xtype="textfield"/>
                     <eventcounts
                         jcr:primaryType="cq:Widget"
+                        allowNegative="{Boolean}false"
                         fieldDescription="(Please provide only numbers.)"
                         fieldLabel="Number of Events"
+                        maxValue="{Long}100"
                         name="./eventcount"
                         xtype="numberfield"/>
                     <url

@@ -49,10 +49,10 @@
 	String key = "";
 	String value = "";
 	if (properties.containsKey("eventcount")) {
-		eventcounts = Integer.parseInt(properties.get("eventcount",String.class));
-		if (eventcounts > results.size()) {
-			eventcounts = results.size();
-		}
+			eventcounts = Integer.parseInt(properties.get("eventcount",String.class));
+			if (eventcounts > results.size()) {
+				eventcounts = results.size();
+			}
 	}
 	String designPath = currentDesign.getPath();
 	String iconImg = properties.get("fileReference", String.class);
