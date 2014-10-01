@@ -636,6 +636,9 @@ CQ.form.DateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
             this.dateValue.setFullYear(d.getFullYear());
             this.dateValue.setMonth(d.getMonth());
             this.dateValue.setDate(d.getDate());
+            
+            
+            
         } else {
             this.dateValue = '';
             this.setTime('');
@@ -658,13 +661,23 @@ CQ.form.DateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
      */
     updateTime:function() {
         var t = this.tf.getValue();
+        //alert("What is the value of t" +t);
+        
+        
+        
+        //alert(this.isDate(t));
         if(t && !this.isDate(t)) {
             if(t == "now") {
                 t = new Date()
   	        } else {
+  	        	alert("t" +t);
+  	        	alert(this.tf.format);
                 t = Date.parseDate(t, this.tf.format);
             }
         }
+        alert("Now" +t);
+        
+        
         if(t && !this.df.getValue()) {
             this.initDateValue();
             this.setDate(this.dateValue);
@@ -673,6 +686,8 @@ CQ.form.DateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
 		    && (typeof this.dateValue.setMinutes === "function")
 		    && (typeof this.dateValue.setSeconds === "function")) {
             if(t) {
+            	
+            	alert("What is this dateValue" +t.getHours() + "t.getMinutes" +t.getMinutes() +"t.getSeconds()" +t.getSeconds());
                 this.dateValue.setHours(t.getHours());
                 this.dateValue.setMinutes(t.getMinutes());
                 this.dateValue.setSeconds(t.getSeconds());

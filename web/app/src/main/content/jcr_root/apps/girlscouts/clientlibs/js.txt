@@ -9,5 +9,4 @@ InsertHtml.js
 frequently-access-form.js
 social-media-widget.js
 Datetime.js
-moment-timezone.js
-moment-timezone-with-data-2010-2020.js
+
