@@ -1,5 +1,7 @@
 <%@page session="false" contentType="text/html; charset=utf-8" import="com.day.cq.commons.Doctype, com.day.cq.wcm.api.WCMMode, com.day.cq.wcm.foundation.ELEvaluator" %><%@taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0" %><cq:defineObjects/><%
-	HttpSession session = request.getSession();
+
+
+HttpSession session = request.getSession();
 	org.girlscouts.vtk.auth.models.ApiConfig apiConfig= null;
 	try{
 		apiConfig = (org.girlscouts.vtk.auth.models.ApiConfig)
@@ -30,12 +32,14 @@
 			// check for absolute path
 			final int protocolIndex = location.indexOf(":/");
 			final int queryIndex = location.indexOf('?');
-			final String redirectPath;
+			final String redirectPath;	
 			if ( protocolIndex > -1 && (queryIndex == -1 || queryIndex > protocolIndex) ) {
 				redirectPath = location;
 			} else {
 				redirectPath = slingRequest.getResourceResolver().map(request, location) + ".html";
 			}
+			
+			
 			response.sendRedirect(redirectPath);
 		} else {
 			response.sendError(HttpServletResponse.SC_NOT_FOUND);
@@ -46,6 +50,7 @@
 	if (currentDesign != null) {
 		currentDesign.getDoctype(currentStyle).toRequest(request);
 	}
+	
 	request.setAttribute("PAGE_CATEGORY", "VTK");
 %><%= Doctype.fromRequest(request).getDeclaration() %>
 <html <%= wcmModeIsPreview ? "class=\"preview\"" : ""%>>
