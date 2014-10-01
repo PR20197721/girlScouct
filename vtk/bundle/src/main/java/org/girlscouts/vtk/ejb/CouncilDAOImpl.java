@@ -117,6 +117,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 	
 	public void updateCouncil(Council council){
 		try {
+System.err.println("Update council");
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Council.class);
 			classes.add(YearPlan.class); 

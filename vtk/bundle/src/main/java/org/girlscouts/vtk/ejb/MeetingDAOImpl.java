@@ -1683,7 +1683,7 @@ public boolean isCurrentTroopId(Troop user, String sId){
 	
 	boolean isUser=false;
 	try{
-	String sql="select currentUser, jcr:lastModified from nt:base where jcr:path = '"+ user.getPath() +"'";
+	String sql="select currentTroop, jcr:lastModified from nt:base where jcr:path = '"+ user.getPath() +"' and currentTroop is not null";
 	javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
 	javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
 		
@@ -1692,7 +1692,7 @@ public boolean isCurrentTroopId(Troop user, String sId){
 	 for (RowIterator it = result.getRows(); it.hasNext(); ) {
 	   isFound=true;
 		 Row r = it.nextRow();
-	       if( r.getValue("currentUser") ==null ){ System.err.println("CurUser: null");return true; }
+	       if( r.getValue("currentTroop") ==null ){ System.err.println("CurUser: null");return true; }
 	      
 	       boolean isExpired= false;
 	       if( r.getValue("jcr:lastModified")!=null ){
@@ -1715,9 +1715,9 @@ public boolean isCurrentTroopId(Troop user, String sId){
 	       }
 	       
 	       System.err.println(1);
-	       System.err.println("CurUser from Db: "+r.getValue("currentUser").getString());
+	       System.err.println("CurUser from Db: "+r.getValue("currentTroop").getString());
 	       
-	       if(  sId.equals( r.getValue("currentUser").getString() ) ){
+	       if(  sId.equals( r.getValue("currentTroop").getString() ) ){
 	    	   System.err.println("CurUser: GOOD");
 	    	   isUser=true;
 	    	   

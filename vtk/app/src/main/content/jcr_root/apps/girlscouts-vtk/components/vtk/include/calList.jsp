@@ -1,5 +1,5 @@
 <%
-java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
+java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(troop.getYearPlan());
 %>
 <div id="locMsg"></div>
 <table cellpadding="5" cellspacing="0" class="yearMeetingList" width="100%">

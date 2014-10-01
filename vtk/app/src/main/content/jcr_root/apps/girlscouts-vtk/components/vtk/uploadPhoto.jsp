@@ -1,4 +1,4 @@
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig,  org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
@@ -21,15 +21,15 @@ try{ isFile = Integer.parseInt( request.getParameter("isFile") ); }catch(Excepti
         	
         <%if(false){ %>
           <form action="/content/girlscouts-vtk/controllers/auth.asset.html" method="post"  
-              			onsubmit="return bindAssetToYPC( '/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopId() %>/assets/<%=assetId %>', '<%=request.getParameter("refId")%>' )"  enctype="multipart/form-data">
+              			onsubmit="return bindAssetToYPC( '/vtk/<%=troop.getTroop().getCouncilCode()%>/<%=troop.getTroop().getTroopId() %>/assets/<%=assetId %>', '<%=request.getParameter("refId")%>' )"  enctype="multipart/form-data">
               
-                       <input type="hidden" name="loc" value="/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopId() %>/assets"/>
+                       <input type="hidden" name="loc" value="/vtk/<%=troop.getTroop().getCouncilCode()%>/<%=troop.getTroop().getTroopId() %>/assets"/>
              
                Asset Title: <input type="text" id="assetTitle" name="assetTitle" value="" />
                 Asset Description: <input type="text" id="assetDesc" name="assetDesc" value="" />
                <input type="hidden" name="id" value="<%=assetId %>"/>     
                 <input type="hidden" name="me" value="<%=request.getParameter("myId")%>"/>      
-               <input type="hidden" name="owner" value="<%=user.getId()%>"/>
+               <input type="hidden" name="owner" value="<%=troop.getId()%>"/>
                <input type="hidden" name="createTime" value="<%=new java.util.Date()%>"/>         
 			   <input type="file" id="custasset1" name="custasset1" size="50" />
                <br />
@@ -74,15 +74,15 @@ try{ isFile = Integer.parseInt( request.getParameter("isFile") ); }catch(Excepti
 			
 			
 			 <form action="/content/girlscouts-vtk/controllers/auth.asset.html" method="post"  
-              		id="frmImg"	name="frmImg" onsubmit="return bindAssetToYPC( '/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopId() %>/assets/<%=assetId %>', '<%=request.getParameter("refId")%>' )"  enctype="multipart/form-data">
+              		id="frmImg"	name="frmImg" onsubmit="return bindAssetToYPC( '/vtk/<%=troop.getTroop().getCouncilCode()%>/<%=troop.getTroop().getTroopId() %>/assets/<%=assetId %>', '<%=request.getParameter("refId")%>' )"  enctype="multipart/form-data">
               
-                       <input type="hidden" name="loc" value="/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopId() %>/assets"/>
+                       <input type="hidden" name="loc" value="/vtk/<%=troop.getTroop().getCouncilCode()%>/<%=troop.getTroop().getTroopId() %>/assets"/>
              
                Asset Title: <input type="text" id="assetTitle" name="assetTitle" value="" />
                 Asset Description: <input type="text" id="assetDesc" name="assetDesc" value="" />
                <input type="hidden" name="id" value="<%=assetId %>"/>     
                 <input type="hidden" name="me" value="<%=request.getParameter("myId")%>"/>      
-               <input type="hidden" name="owner" value="<%=user.getId()%>"/>
+               <input type="hidden" name="owner" value="<%=troop.getId()%>"/>
                <input type="hidden" name="createTime" value="<%=new java.util.Date()%>"/>         
 			   <input type="hidden" id="custasset" name="custasset" value="" />
 			   <input type="file" id="custasset1" name="custasset" value="" />
@@ -131,7 +131,7 @@ try{ isFile = Integer.parseInt( request.getParameter("isFile") ); }catch(Excepti
          	/* good -dont rm
          	$.ajax({
          		type: "POST",
-         		url: "/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopId() %>/assets",
+         		url: "/vtk/<%=troop.getTroop().getCouncilCode()%>/<%=troop.getTroop().getTroopId() %>/assets",
          		contentType: false,
          		processData: false,
          		data: data,
@@ -147,7 +147,7 @@ try{ isFile = Integer.parseInt( request.getParameter("isFile") ); }catch(Excepti
          	
          	var jForm = new FormData();
             jForm.append("aType", "AID");
-            //jForm.append("loc", "/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopId() %>/assets");
+            //jForm.append("loc", "/vtk/<%=troop.getTroop().getCouncilCode()%>/<%=troop.getTroop().getTroopId() %>/assets");
             jForm.append("file", data);
             $.ajax({
          		
@@ -180,14 +180,14 @@ try{ isFile = Integer.parseInt( request.getParameter("isFile") ); }catch(Excepti
      		
      		data: {
      			
-     			loc: "/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopId() %>/assets",
+     			loc: "/vtk/<%=troop.getTroop().getCouncilCode()%>/<%=troop.getTroop().getTroopId() %>/assets",
      			id:"<%=assetId %>",
      			me:"<%=request.getParameter("myId")%>",
      			assetDesc: aDesc,
      			aType: "AID",
      			assetName : aName,
      			data:data,
-     			owner:"<%=user.getId()%>"
+     			owner:"<%=troop.getId()%>"
      			
      		},
      		contentType: 'application/x-www-form-urlencoded',
@@ -211,7 +211,7 @@ try{ isFile = Integer.parseInt( request.getParameter("isFile") ); }catch(Excepti
          	 
          	$.ajax({
        		  type: "POST",
-       		  url: "/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopId() %>/assets",
+       		  url: "/vtk/<%=troop.getTroop().getCouncilCode()%>/<%=troop.getTroop().getTroopId() %>/assets",
        		
        		contentType: false,
        		
@@ -271,14 +271,14 @@ try{ isFile = Integer.parseInt( request.getParameter("isFile") ); }catch(Excepti
          		
          		data: {
          			custasset:fd,
-         			loc: "/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopId() %>/assets",
+         			loc: "/vtk/<%=troop.getTroop().getCouncilCode()%>/<%=troop.getTroop().getTroopId() %>/assets",
          			id:"<%=assetId %>",
          			me:"<%=request.getParameter("myId")%>",
          			assetDesc: aDesc,
          			aType: "AID",
          			assetName : aName,
          			data:img,
-         			owner:"<%=user.getId()%>"
+         			owner:"<%=troop.getId()%>"
          			
          		},
          		

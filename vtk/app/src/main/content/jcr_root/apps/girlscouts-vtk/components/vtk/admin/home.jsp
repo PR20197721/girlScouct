@@ -1,5 +1,5 @@
 
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig,  org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="../include/session.jsp"%>
@@ -42,9 +42,9 @@ style="border: none;">
 Daisy, Brownie, or Junior troop leaders.
 </td></tr>
 <tr><td>
-<%if(user.getYearPlan()!=null && user.getYearPlan().getMeetingEvents()!=null && user.getYearPlan().getMeetingEvents().size()>0){%>
+<%if(troop.getYearPlan()!=null && troop.getYearPlan().getMeetingEvents()!=null && troop.getYearPlan().getMeetingEvents().size()>0){%>
 	Existing Plans:<br/>
-	<a href="/content/girlscouts-vtk/en/vtk.admin.plan.html">::<%=user.getYearPlan().getName() %></a> <a href="javascript:void(0)" onclick="rmUser()" style="color:red;">remove</a>
+	<a href="/content/girlscouts-vtk/en/vtk.admin.plan.html">::<%=troop.getYearPlan().getName() %></a> <a href="javascript:void(0)" onclick="rmUser()" style="color:red;">remove</a>
 <%}%>
 </div>
 

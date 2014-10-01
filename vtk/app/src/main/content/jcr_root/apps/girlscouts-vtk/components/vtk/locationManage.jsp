@@ -1,4 +1,4 @@
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
@@ -8,9 +8,9 @@
         boolean showVtkNav = true;
 %>
 <%
-java.util.List <Location> locations = user.getYearPlan().getLocations();
+java.util.List <Location> locations = troop.getYearPlan().getLocations();
 if( locations==null || locations.size()<=0){
-	out.println("Applies to "+user.getYearPlan().getMeetingEvents().size()+" of "+user.getYearPlan().getMeetingEvents().size()+" meetings");
+	out.println("Applies to "+troop.getYearPlan().getMeetingEvents().size()+" of "+troop.getYearPlan().getMeetingEvents().size()+" meetings");
 	return;
 }
 %>
@@ -34,8 +34,8 @@ for(int i=0;i<locations.size();i++){
 			<div class="locationList">
 			<ul>
 <% 
-        if( user.getYearPlan().getSchedule()!=null){    
-                java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
+        if( troop.getYearPlan().getSchedule()!=null){    
+                java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(troop.getYearPlan());
                 java.util.Iterator itr=  sched.keySet().iterator();
                 while( itr.hasNext()){
                         java.util.Date date = (java.util.Date) itr.next();

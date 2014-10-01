@@ -1,4 +1,4 @@
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
@@ -18,9 +18,9 @@ if( activities!=null  ){
 
 	for(int i=0;i<activities.size();i++){
 		boolean isExists=false;
-		if( user.getYearPlan().getActivities() !=null) {
-			for(int y=0;y<user.getYearPlan().getActivities().size();y++) {
-				if( user.getYearPlan().getActivities().get(y).getName().equals( activities.get(i).getName())) {
+		if( troop.getYearPlan().getActivities() !=null) {
+			for(int y=0;y<troop.getYearPlan().getActivities().size();y++) {
+				if( troop.getYearPlan().getActivities().get(y).getName().equals( activities.get(i).getName())) {
 					isExists=true;
 					break;
 				}

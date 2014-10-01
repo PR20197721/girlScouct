@@ -1,4 +1,4 @@
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
@@ -9,7 +9,7 @@
 %>
 <%@include file="include/vtk-nav.jsp"%>
 <%
-        if( user.getYearPlan()!=null){
+        if( troop.getYearPlan()!=null){
                 // split resource panel
 %>
 <div id="panelWrapper" class="row">
@@ -17,7 +17,7 @@
 <%
         }
 
-	java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan(), false);
+	java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(troop.getYearPlan(), false);
 	if( sched==null || (sched.size()==0)){out.println( "You must first select a year plan."); return;}
 	java.util.List<java.util.Date> dates =new java.util.ArrayList<java.util.Date>(sched.keySet());
 	long nextDate=0, prevDate=0;
@@ -29,7 +29,7 @@
 			searchDate= new java.util.Date( (Long)session.getValue("VTK_planView_memoPos")  );
 	} else {
 		
-		if( user.getYearPlan().getSchedule()==null)
+		if( troop.getYearPlan().getSchedule()==null)
 			searchDate = (java.util.Date) sched.keySet().iterator().next();
 		else{
 			
@@ -74,7 +74,7 @@
 		java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  meetingInfo.getMeetingInfo();
 
 		boolean isLocked=false;
-		if(searchDate.before( new java.util.Date() ) && user.getYearPlan().getSchedule()!=null ) isLocked= true;
+		if(searchDate.before( new java.util.Date() ) && troop.getYearPlan().getSchedule()!=null ) isLocked= true;
 
 		boolean isCanceled =false;
 		if( meeting.getCancelled()!=null && meeting.getCancelled().equals("true")){
@@ -120,7 +120,7 @@
 	} catch (NullPointerException npe) {
 		npe.printStackTrace();
 	}
-        if( user.getYearPlan()!=null){
+        if( troop.getYearPlan()!=null){
 %>
         </div>
         <div id="panelRight" class="small-24 medium-24 large-6 columns">

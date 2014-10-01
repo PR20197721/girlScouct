@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
@@ -17,7 +17,7 @@
 
         java.util.List<Meeting> meetings =null;
 
-        String ageLevel=  user.getTroop().getGradeLevel();
+        String ageLevel=  troop.getTroop().getGradeLevel();
 	ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1).toLowerCase().trim();
 
         java.util.Iterator<YearPlan> yearPlans =  yearPlanDAO.getAllYearPlans(ageLevel).listIterator();
@@ -28,7 +28,7 @@
 	
 
         String find= request.getParameter("ypname");
-        if( find==null || find.trim().equals("")){find = user.getYearPlan().getName();}
+        if( find==null || find.trim().equals("")){find = troop.getYearPlan().getName();}
         find= find.trim();
 
 %>
@@ -110,9 +110,9 @@
         }
 
         java.util.List<String> myMeetingIds= new java.util.ArrayList();
-        java.util.List<MeetingE> myMeetings = user.getYearPlan().getMeetingEvents();
+        java.util.List<MeetingE> myMeetings = troop.getYearPlan().getMeetingEvents();
 
-        if( find.equals(user.getYearPlan().getName().trim() ) ) {
+        if( find.equals(troop.getYearPlan().getName().trim() ) ) {
                 for(int i=0;i< myMeetings.size();i++){
                         if( myMeetings.get(i).getCancelled()!=null && myMeetings.get(i).getCancelled().equals("true")) continue;
                         String meetingId = myMeetings.get(i).getRefId();

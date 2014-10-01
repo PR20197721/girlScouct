@@ -19,7 +19,7 @@ Activity activity = (Activity) _comp;
 					
 					
 						<div class="date">
-        <%if( user.getYearPlan().getSchedule()!=null ) {%>
+        <%if( troop.getYearPlan().getSchedule()!=null ) {%>
 							<div class="cal"><span class="month"><%= FORMAT_MONTH.format(activity.getDate())%><br/></span><span class="day"><%= FORMAT_DAY_OF_MONTH.format(activity.getDate())%></span></div>
         <%} else {%>
 							<div class="cal"><span class="month">Activity<br/></span><span class="day"><%=meetingCount%></span></div>
@@ -45,7 +45,7 @@ Activity activity = (Activity) _comp;
 
 
 <%
-String ageLevel=  user.getTroop().getGradeLevel();
+String ageLevel=  troop.getTroop().getGradeLevel();
 ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1);
 ageLevel=ageLevel.toLowerCase().trim();
 %>
@@ -100,11 +100,11 @@ ageLevel=ageLevel.toLowerCase().trim();
     
    
   
-              <form action="/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopId() %>/assets/<%=aassetId %>" method="post"
-                       onsubmit="return bindAssetToYPC( '/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopId() %>/assets/<%=aassetId %>/custasset', '<%=activity.getUid() %>' )"   enctype="multipart/form-data">
+              <form action="/vtk/<%=troop.getTroop().getCouncilCode()%>/<%=troop.getTroop().getTroopId() %>/assets/<%=aassetId %>" method="post"
+                       onsubmit="return bindAssetToYPC( '/vtk/<%=troop.getTroop().getCouncilCode()%>/<%=troop.getTroop().getTroopId() %>/assets/<%=aassetId %>/custasset', '<%=activity.getUid() %>' )"   enctype="multipart/form-data">
                        
                <input type="hidden" name="id" value="<%=aassetId%>"/>      
-               <input type="hidden" name="owner" value="<%=user.getId()%>"/>
+               <input type="hidden" name="owner" value="<%=troop.getId()%>"/>
                <input type="hidden" name="createTime" value="<%=new java.util.Date()%>"/>         
 			   <input type="file" name="custasset" size="50" />
                <br />

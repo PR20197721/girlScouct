@@ -10,7 +10,7 @@
                 com.day.cq.search.QueryBuilder,
                 com.day.cq.search.result.SearchResult,
                 org.girlscouts.vtk.helpers.CouncilMapper"%>
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp"%>
 <%
 	final String RESOURCE_SEARCH_PROMPT = "type in a search word or term here";
@@ -252,7 +252,7 @@ try {
 	}
 	
 	private String getMeetingsRootPath(User user) {
-		String level = user.getTroop().getGradeLevel().toLowerCase();
+		String level = troop.getTroop().getGradeLevel().toLowerCase();
 	    // The field in SF is 1-Brownie, we need brownie
 	    if (level.contains("-")) {
 	        level = level.split("-")[1];

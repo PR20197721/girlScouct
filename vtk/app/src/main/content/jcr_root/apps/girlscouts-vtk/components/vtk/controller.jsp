@@ -151,12 +151,20 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 			newTroop= troops.get(i);
 		}
 	}
+	
+	/*
 	Troop new_troop= troopDAO.getTroop( 
 		"/vtk/"+newTroop.getCouncilCode()+
     		"/"+newTroop.getTroopId()+"/troops/"+
 		troop.getApiConfig().getUserId()+"_"+  request.getParameter("loginAs") );
+	*/
+	Troop new_troop= troopDAO.getTroop(newTroop.getCouncilCode()+"",request.getParameter("loginAs") );
+	
+	
 	if( new_troop==null ){
-		new_troop = new Troop( "/vtk/"+newTroop.getCouncilCode()+ "/"+newTroop.getTroopId()+"/troops/", troop.getApiConfig().getUserId()+"_"+  request.getParameter("loginAs") );
+		//new_troop = new Troop( "/vtk/"+newTroop.getCouncilCode()+ "/"+newTroop.getTroopId()+"/troops/", troop.getApiConfig().getUserId()+"_"+  request.getParameter("loginAs") );
+		new_troop= troopDAO.createTroop(""+newTroop.getCouncilCode(), request.getParameter("loginAs"));
+	
 	}
 	new_troop.setTroop(newTroop );
 	new_troop.setApiConfig(troop.getApiConfig());
@@ -169,7 +177,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	//logout multi troop
 	troopDAO.logout(troop);
 	
-	session.setAttribute("VTK_troop", new_troop);
+	session.setAttribute("VTK_user", new_troop);
 	session.putValue("VTK_planView_memoPos", null);
 	new_troop.setCurrentTroop( session.getId() );
 	troopDAO.updateTroop(new_troop);

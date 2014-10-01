@@ -119,11 +119,12 @@ if( troop ==null || troop.isRefresh() ){
 		
 		
 		
-	
+	/*
         troop= troopDAO.getTroop( "/vtk/"+prefTroop.getCouncilCode()+
         		"/"+prefTroop.getTroopId()+
         		"/users/"+ apiConfig.getUserId() +"_"+ prefTroop.getTroopId());
-        
+      */
+       troop= troopDAO.getTroop(""+prefTroop.getCouncilCode(), prefTroop.getTroopId());
   			
         //first time - new user
         if( troop==null ){

@@ -4,16 +4,16 @@
 	<div class="row">
 		<div class="small-24 medium-4 large-4 columns"><label for="calStartDt" ACCESSKEY=d>Start Date:</label></div>
 		<div class="small-24 medium-8 large-8 columns date">
-			<input type="text" id="calStartDt" name="calStartDt" value="<%=user.getYearPlan().getCalStartDate()==null ? "" : FORMAT_MMddYYYY.format(new java.util.Date(user.getYearPlan().getCalStartDate())) %>" />
+			<input type="text" id="calStartDt" name="calStartDt" value="<%=troop.getYearPlan().getCalStartDate()==null ? "" : FORMAT_MMddYYYY.format(new java.util.Date(troop.getYearPlan().getCalStartDate())) %>" />
 		</div>
                 <div class="small-24 medium-4 large-4 columns"><label for="calTime" ACCESSKEY=t>Time:</label></div>
 		<div class="small-24 medium-8 large-8 columns">
-			<input type="text" id="calTime" value="<%=user.getYearPlan().getCalStartDate()==null ? (org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_HOUR+":"+org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_MIN) : FORMAT_hhmm.format(new java.util.Date(user.getYearPlan().getCalStartDate())) %>"/>
+			<input type="text" id="calTime" value="<%=troop.getYearPlan().getCalStartDate()==null ? (org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_HOUR+":"+org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_MIN) : FORMAT_hhmm.format(new java.util.Date(troop.getYearPlan().getCalStartDate())) %>"/>
 			<select id="calAP">
 <%
 	String AM = "PM";
-	if( user.getYearPlan().getCalStartDate() !=null ){
-		AM = FORMAT_AMPM.format(new java.util.Date(user.getYearPlan().getCalStartDate()));
+	if( troop.getYearPlan().getCalStartDate() !=null ){
+		AM = FORMAT_AMPM.format(new java.util.Date(troop.getYearPlan().getCalStartDate()));
 	} 
 %>
 				<option value="pm" <%=AM.equals("PM") ? " SELECTED" : "" %>>pm</option>
@@ -25,16 +25,16 @@
 		<div class="small-24 medium-4 large-4 columns"><label for="calFreq" ACCESSKEY=f>Frequency:</label></div>
 		<div class="small-24 medium-8 large-8 columns">
 			<select id="calFreq">
-				<option value="weekly" <%= user.getYearPlan().getCalFreq().equals("weekly") ? " SELECTED" : "" %>>weekly</option>
-				<option value="biweekly"  <%= user.getYearPlan().getCalFreq().equals("biweekly") ? " SELECTED" : "" %>>biweekly</option>
-				<option value="monthly"  <%= user.getYearPlan().getCalFreq().equals("monthly") ? " SELECTED" : "" %>>monthly</option>
+				<option value="weekly" <%= troop.getYearPlan().getCalFreq().equals("weekly") ? " SELECTED" : "" %>>weekly</option>
+				<option value="biweekly"  <%= troop.getYearPlan().getCalFreq().equals("biweekly") ? " SELECTED" : "" %>>biweekly</option>
+				<option value="monthly"  <%= troop.getYearPlan().getCalFreq().equals("monthly") ? " SELECTED" : "" %>>monthly</option>
 			</select>
 		</div>
 		<div class="hide-for-small medium-12 large-12">&nbsp;</div>
 	</div>
 	<p><label for="exclDt" ACCESSKEY=s>Do not schedule a meeting during the week of:</label></p>
 <%
-	String exlDates = user.getYearPlan().getCalExclWeeksOf();
+	String exlDates = troop.getYearPlan().getCalExclWeeksOf();
 	exlDates= exlDates==null ? "" : exlDates;
 %>
 	<ul class="doubleList">
@@ -44,7 +44,7 @@
 	
 	
 	<%
-	UserGlobConfig ubConf =userDAO.getUserGlobConfig();
+	UserGlobConfig ubConf =troopDAO.getUserGlobConfig();
 	
 
 	//out.println("VacationDates: "+ ubConf.getVacationDates() );

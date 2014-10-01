@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
@@ -60,13 +60,13 @@
 <div class="row modalBody">
         <div class="small-24 medium-24 large-24 columns">
 <%
-        if (user.getYearPlan() != null) {
+        if (troop.getYearPlan() != null) {
 %>
                 <div id="manageCalendarSection">
                         <div class="sectionBar">Manage Calendar</div>
 			<div id="calMng">
 <%
-                if( user.getYearPlan().getSchedule() == null ){
+                if( troop.getYearPlan().getSchedule() == null ){
 %>
 <%@include file="include/calSched.jsp" %>
 <%
@@ -80,7 +80,7 @@
                 </div>
                 <div id="manageLocationSection">
 <%
-                if( false) {//user.getYearPlan().getSchedule() == null ){
+                if( false) {//troop.getYearPlan().getSchedule() == null ){
 %>
 			Please first select your calendar start date to set meeting locations.
 <%
@@ -93,7 +93,7 @@
                 </div>
                 <div id="manageActivitySection">
 <%
-                if( false) {// user.getYearPlan().getSchedule() == null ){
+                if( false) {// troop.getYearPlan().getSchedule() == null ){
 %>
                         Please first select your calendar start date to set meeting activities.
 <%

@@ -61,7 +61,7 @@ public class TroopDAOImpl implements TroopDAO {
 		this.session = pool.getSession();
 	}
 
-	public Troop getTroop(String troopId) {
+	public Troop getTroop(String councilId, String troopId) {
 
 		Troop troop = null;
 		try {
@@ -83,7 +83,45 @@ public class TroopDAOImpl implements TroopDAO {
 			Filter filter = queryManager.createFilter(Troop.class);
 
 			ocm.refresh(true);
-			troop = (Troop) ocm.getObject(troopId);
+			troop = (Troop) ocm.getObject( "/vtk/"+ councilId +"/troops/"+ troopId);
+
+			if (troop != null  && troop.getYearPlan()!=null && troop.getYearPlan().getMeetingEvents() != null) {
+
+				Comparator<MeetingE> comp = new BeanComparator("id");
+				Collections.sort(troop.getYearPlan().getMeetingEvents(), comp);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return troop;
+	}
+	
+	
+	public Troop getTroop_byPath(String troopPath) {
+
+		Troop troop = null;
+		try {
+			List<Class> classes = new ArrayList<Class>();
+			classes.add(Troop.class);
+			classes.add(YearPlan.class);
+			classes.add(MeetingE.class);
+			classes.add(Activity.class);
+			classes.add(Location.class);
+			classes.add(Asset.class);
+			classes.add(Cal.class);
+			classes.add(Milestone.class);
+
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+					mapper);
+
+			QueryManager queryManager = ocm.getQueryManager();
+			Filter filter = queryManager.createFilter(Troop.class);
+
+			ocm.refresh(true);
+			troop = (Troop) ocm.getObject( troopPath);
 
 			if (troop != null && troop.getYearPlan().getMeetingEvents() != null) {
 
@@ -550,7 +588,7 @@ public class TroopDAOImpl implements TroopDAO {
 	public void logout(Troop troop) {
 		if (troop == null)
 			return;
-		Troop tmp_troop = getTroop(troop.getPath());
+		Troop tmp_troop = getTroop_byPath(troop.getPath());
 		if (tmp_troop == null)
 			return;
 		tmp_troop.setCurrentTroop(null);
@@ -559,7 +597,7 @@ public class TroopDAOImpl implements TroopDAO {
 
 	public Troop createTroop(String councilId, String troopId) {
 		Troop troop = null;
-		
+System.err.println("createTroop");		
 		//AUTH HERE
 
 		Council council = councilDAO.getOrCreateCouncil(councilId);
@@ -577,5 +615,7 @@ public class TroopDAOImpl implements TroopDAO {
 		councilDAO.updateCouncil(council);
 		return troop;
 	}
+	
+	
 }// ednclass
 

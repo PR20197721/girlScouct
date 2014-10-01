@@ -1,5 +1,5 @@
 
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@ page import="com.day.cq.wcm.foundation.Search,
 org.girlscouts.web.search.DocHit,
 com.day.cq.search.eval.JcrPropertyPredicateEvaluator,com.day.cq.search.eval.FulltextPredicateEvaluator,
@@ -44,7 +44,7 @@ cTrans.put("313", "Girl Scouts of Gateway Council, Inc.");
 		javax.jcr.Session s= (slingRequest.getResourceResolver().adaptTo(Session.class));
 		
 		
-		String sql="select  sfTroopAge,jcr:path, sfCouncil,excerpt(.) from nt:base where jcr:path like '/vtk/%' and contains(*, 'org.girlscouts.vtk.models.user.User ') ";
+		String sql="select  sfTroopAge,jcr:path, sfCouncil,excerpt(.) from nt:base where jcr:path like '/vtk/%' and contains(*, 'org.girlscouts.vtk.models.Troop ') ";
 		
 		
 		javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();

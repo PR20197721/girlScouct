@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
@@ -286,7 +286,7 @@ border:5px solid #000;
 <div class="sectionBar">Add activity from the Council Calendar</div>
 <div class="errorMsg error"></div>
 <%
-SearchTag search = meetingDAO.searchA(""+user.getTroop().getCouncilCode());
+SearchTag search = meetingDAO.searchA(""+troop.getTroop().getCouncilCode());
 java.util.Map<String, String> levels = search.getLevels();
 java.util.Map<String, String> categories =search.getCategories();
 java.util.Map<String, String> region =search.getRegion();
