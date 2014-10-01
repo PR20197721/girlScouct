@@ -28,7 +28,13 @@ public class Permission extends PermissionConstants {
     public static final Permission activity_create =  new Permission(PERMISSION_CREATE_ACTIVITY_ID, activity_edit);
     public static final Permission activity_rm     =  new Permission(PERMISSION_RM_ACTIVITY_ID, activity_edit);
     
+    /*** TROOP ***/
+    public static final Permission troop_view   = new Permission(PERMISSION_VIEW_TROOP_ID, login);
    
+    /*** FINANCE ***/
+    public static final Permission finance_view   = new Permission(PERMISSION_VIEW_FINANCE_ID, login);
+    
+    
 	
 	
 	

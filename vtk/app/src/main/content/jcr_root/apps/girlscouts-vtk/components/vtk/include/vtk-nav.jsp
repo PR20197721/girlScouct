@@ -45,14 +45,19 @@
 			<div class="centered-table">
 				<ul class="tabs group">
 					<%
-						if ("myTroop".equals(activeTab)) {
+					 if ("myTroop".equals(activeTab)) {
 					%>
 					<li class="active"><span class="label">My Troop</span></li>
 					<%
 						} else {
 					%>
-					<li><a href="/content/girlscouts-vtk/en/vtk.myTroop.html"
-						class="label">My Troop</a></li>
+					
+						<% if( hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID) ){ %>
+							<li><a href="/content/girlscouts-vtk/en/vtk.myTroop.html" class="label">My Troop</a></li>
+						<% }else{  %>
+							<li><span class="label">My Troop</span></li>
+						<% } %>	
+					</li>
 					<%
 						}
 					%>
@@ -63,8 +68,13 @@
 					<%
 						} else {
 					%>
-					<li><a href="/content/girlscouts-vtk/en/vtk.html"
-						class="label">Year Plan</a></li>
+					
+					<% if( hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID ) ){ %>
+							<li><a href="/content/girlscouts-vtk/en/vtk.html"
+								class="label">Year Plan</a></li>
+					<% }else{  %>
+							<li><span class="label">Year Plan</span></li>
+					<% } %>	
 					<%
 						}
 					%>
@@ -77,7 +87,7 @@
 					%>
 					<li>
 						<%
-							if (troop.getYearPlan() != null) {
+							if (troop.getYearPlan() != null && hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID) ) {
 						%> <a
 						href="/content/girlscouts-vtk/en/vtk.planView.html" class="label">Meeting
 							Plan</a> <%
@@ -108,8 +118,13 @@
 					<%
 						} else {
 					%>
-					<li><a href="/content/girlscouts-vtk/en/vtk.finances.html"
-						class="label">Finances</a></li>
+							<li>
+								<% if( hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){ %>
+									<a href="/content/girlscouts-vtk/en/vtk.finances.html" class="label">Finances</a>
+								<%}else{ %>
+									<span class="label">Finances</span>
+								<%} %>
+							</li>
 					<%
 						}
 					%>
@@ -139,8 +154,13 @@
 		<%
 			} else {
 		%>
-		<li><a href="/content/girlscouts-vtk/en/vtk.myTroop.html">My
-				Troop</a></li>
+			<li>
+				<% if( hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID) ){ %>
+					<a href="/content/girlscouts-vtk/en/vtk.myTroop.html">My Troop</a>
+				<%}else{ %>
+					<span class="label">My Troop</span>
+				<%} %>
+			</li>
 		<%
 			}
 		%>
@@ -160,26 +180,30 @@
 		<%
 			} else {
 		%>
-		<li><a href="/content/girlscouts-vtk/en/vtk.html">Year Plan</a></li>
+		<li>
+			<%if(hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID )){ %>
+				<a href="/content/girlscouts-vtk/en/vtk.html">Year Plan</a>
+			<%}else{ %>
+				<span class="label">Year Plan</span>
+			<%} %>
+		</li>
 		<%
 			}
 		%>
 		<%
 			if ("planView".equals(activeTab)) {
 		%>
-		<li class="active"><a href="#">Meeting Plan</a></li>
+			<li class="active"><a href="#">Meeting Plan</a></li>
 		<%
 			} else {
 		%>
 		<li>
 			<%
-				if (troop.getYearPlan() != null) {
-			%> <a
-			href="/content/girlscouts-vtk/en/vtk.planView.html">Meeting Plan</a>
+				if (troop.getYearPlan() != null && hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID) ) {
+			%> <a href="/content/girlscouts-vtk/en/vtk.planView.html">Meeting Plan</a>
 			<%
 				} else {
-			%> <a href="#" onclick="alert('Please select a year plan')">Meeting
-				Plan</a> <%
+			%> <a href="#" onclick="alert('Please select a year plan')">Meeting Plan</a> <%
  	}
  %>
 		</li>
@@ -204,7 +228,12 @@
 		<%
 			} else {
 		%>
-		<li><a href="/content/girlscouts-vtk/en/vtk.finances.html">Finances</a></li>
+		<li>
+			<% if( hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){ %>
+				<a href="/content/girlscouts-vtk/en/vtk.finances.html">Finances</a></li>
+			<%}else{ %>
+				<span class="label">Finances</span>
+			<%} %>	
 		<%
 			}
 		%>

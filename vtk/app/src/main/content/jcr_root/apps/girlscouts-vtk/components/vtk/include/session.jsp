@@ -1,4 +1,4 @@
-<%@page import="org.girlscouts.vtk.models.Troop"%>
+<%@page import="org.girlscouts.vtk.models.Troop, org.girlscouts.vtk.auth.permission.Permission"%>
 <%!
 java.text.SimpleDateFormat FORMAT_MMddYYYY = new java.text.SimpleDateFormat("MM/dd/yyyy");
 java.text.SimpleDateFormat FORMAT_hhmm_AMPM = new java.text.SimpleDateFormat("hh:mm a");
@@ -43,6 +43,17 @@ public void autoLogin(HttpSession session){
         session.setAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName(), config);
 }
 
+
+
+
+
+public boolean hasPermission(Troop troop, int permissionId){
+	java.util.Set<Integer> myPermissionTokens = troop.getTroop().getPermissionTokens();
+	if( myPermissionTokens!=null && myPermissionTokens.contains(permissionId) )
+		return true;
+	
+	return false;
+}
 %>
 <%
 

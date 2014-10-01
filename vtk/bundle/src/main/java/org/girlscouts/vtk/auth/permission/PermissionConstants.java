@@ -22,6 +22,10 @@ public class PermissionConstants {
     public static final int PERMISSION_UPDATE_MEETING_ID =280; //cust meeting
     public static final int PERMISSION_REMOVE_MEETING_ID =290; //cust meeting
     
+    
+    public static final int PERMISSION_VIEW_TROOP_ID =300;
+    public static final int PERMISSION_VIEW_FINANCE_ID =400;
+    
     public static final int PERMISSION_TERMINATE_ID = 1000; // max int for permissions
  
 	
@@ -74,7 +78,7 @@ public class PermissionConstants {
     public static final int GROUP_MEMBER_NO_TROOP = 14;
     public static final String GROUP_MEMBER_NO_TROOP_DISPLAY = "Member with no troop Associations";
     public static final int[] GROUP_MEMBER_NO_TROOP_PERMISSIONS = new int[] {
-       // XXX
+    	PERMISSION_LOGIN_ID
     };
     
     public static final int GROUP_MEMBER_TROOP = 15;

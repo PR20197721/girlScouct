@@ -122,7 +122,7 @@ try {
 				        );
 				     } else if (currentMinor.getProperties().get("type", "").equals(TYPE_MEETING_OVERVIEWS)) {
 				        try {
-				            String rootPath = getMeetingsRootPath(user);
+				            String rootPath = getMeetingsRootPath(troop);
 				            Resource rootRes = resourceResolver.resolve(rootPath);
 				            Iterator<Resource> resIter = rootRes.listChildren();
 				            int resCount = 0;
@@ -188,7 +188,7 @@ try {
 		   }
 		    %></table><%
 	    } else if (categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_OVERVIEWS)) {
-		    %><%= displayMeetingOverviews(user, resourceResolver, meetingDAO)%><%
+		    %><%= displayMeetingOverviews(troop, resourceResolver, meetingDAO)%><%
 	    } else {
 		    %><div><%= categoryPage.getTitle() %></div><%
 		    %><ul><% 
@@ -251,7 +251,7 @@ try {
 	    return result.getTotalMatches();
 	}
 	
-	private String getMeetingsRootPath(User user) {
+	private String getMeetingsRootPath(Troop troop) {
 		String level = troop.getTroop().getGradeLevel().toLowerCase();
 	    // The field in SF is 1-Brownie, we need brownie
 	    if (level.contains("-")) {
@@ -265,10 +265,10 @@ try {
 	    return levelMeetingsRootPath;
 	}
 	
-	private String displayMeetingOverviews(User user, ResourceResolver rr, MeetingDAO meetingDAO) {
+	private String displayMeetingOverviews(Troop troop, ResourceResolver rr, MeetingDAO meetingDAO) {
 	    try {
 		    StringBuilder builder = new StringBuilder("<ul>");
-		    String levelMeetingsRootPath = getMeetingsRootPath(user);
+		    String levelMeetingsRootPath = getMeetingsRootPath(troop);
 		    Resource levelMeetingsRoot = rr.resolve(levelMeetingsRootPath);
 		    Iterator<Resource> iter = levelMeetingsRoot.listChildren();
 		    while (iter.hasNext()) {

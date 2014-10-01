@@ -187,9 +187,6 @@ public void updateActivitiesCancel( String uuid ){
 	
 }
 	
-
-
-
 public void checkCanceledActivity(Troop user){
 	
 	if( user==null || user.getYearPlan()==null || user.getYearPlan().getActivities() ==null ||
@@ -197,15 +194,23 @@ public void checkCanceledActivity(Troop user){
 		return;
 	
 	
+	java.util.List<Activity> activity2Cancel= new java.util.ArrayList<Activity>();
+	
 	java.util.List<Activity> activities = user.getYearPlan().getActivities();
 	for(int i=0; i<activities.size();i++){
 		
 		if( !(activities.get(i).getCancelled()!=null && activities.get(i).getCancelled().equals("true") ) )		
 			if( !isActivityByPath( activities.get(i).getRefUid() ) ){
-				activities.get(i).setCancelled("true");
+				activities.get(i).setCancelled("true"); //org
+				activity2Cancel.add(activities.get(i));
 				userDAO.updateUser(user);
 			}
 	}
+	
+	
+	for(Activity a : activity2Cancel)
+		if( activities.contains(a) )
+			activities.remove(a);
 }
 
 private String getPath(String uuid){
