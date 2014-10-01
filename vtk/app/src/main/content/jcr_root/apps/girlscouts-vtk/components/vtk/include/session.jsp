@@ -198,7 +198,7 @@ if (session.getAttribute("USER_TROOP_LIST") == null) {
 	session.setAttribute("USER_TROOP_LIST", troops);
 }
 %>
-<a href="/content/girlscouts-vtk/en/vtk.controller.html?resetCal=true">RESET CAL</a>
+
 
 	<%
 

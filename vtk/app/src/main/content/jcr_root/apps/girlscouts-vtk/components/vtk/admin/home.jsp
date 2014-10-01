@@ -133,7 +133,8 @@ style="border: none;">
 </div>
 </li>
 
-
+<hr/>Use this within rec
+<a href="/content/girlscouts-vtk/en/vtk.controller.html?resetCal=true">RESET CAL</a>
 
 <div style="clear:both"></div>
 </ul></div>
