@@ -113,12 +113,41 @@ girlscouts.components.LocaleDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
     defaultTriggerWidth: 17,
 
     /**
+     * @cfg {String/Function} The Locale of the time (defaults to 'America/New_York')
+     */
+    locale: null,
+
+    /**
      * @private
      * creates DateField and TimeField and installs the necessary event handlers
      */
     initComponent:function() {
         // call parent initComponent
         girlscouts.components.LocaleDateTime.superclass.initComponent.call(this);
+        
+        // Setup locale
+        if (!this.locale) {
+        	this.locale = 'America/New_York';
+        } else if (typeof this.locale === 'function') {
+        	this.locale = eval('(' + this.locale + ')();');
+        } else if (this.locale === 'dynamic') {
+        	var url = window.location.pathname;
+        	var path = CQ.shared.HTTP.getPath(url);
+
+        	var slashPos = 0;
+        	var count = 3;
+        	while (count != 0) {
+        		var oldSlashPos = slashPos;
+        		slashPos = path.indexOf('/', slashPos + 1);
+        		if (slashPos == -1) {
+        			slashPos = oldSlashPos;
+        			break;
+        		};
+        		count--;
+        	}
+        	var parent = path.substr(0, slashPos);
+        	alert(parent);
+        }
 
         // create DateField
         var dateConfig = CQ.Ext.apply({}, {
