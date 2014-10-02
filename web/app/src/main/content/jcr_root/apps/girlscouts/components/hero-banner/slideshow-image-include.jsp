@@ -10,7 +10,7 @@
 <%
 	int slide_number = 1;
 	slideShowCount = Integer.parseInt(properties.get("slideshowcount", "1"));
-	System.out.println(resource.getPath());
+	
 	int number_of_children=0;
 	Iterator<Resource> images = resource.listChildren();
 	String imagePath = "";
