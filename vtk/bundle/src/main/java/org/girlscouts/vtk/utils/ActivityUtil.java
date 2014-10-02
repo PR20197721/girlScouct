@@ -9,18 +9,18 @@ import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Troop;
 
 @Component
-@Service(value=ActivityUtil.class)
+@Service(value = ActivityUtil.class)
 public class ActivityUtil {
-    
+
 	@Reference
 	TroopDAO troopDAO;
-	
+
 	@Reference
 	ActivityDAO activityDAO;
-    
-	public void createActivity(Troop user, Activity activity){
-		
-		activityDAO.createActivity( user,  activity);
+
+	public void createActivity(Troop user, Activity activity) {
+
+		activityDAO.createActivity(user, activity);
 		user.getYearPlan().setAltered("true");
 		troopDAO.updateTroop(user);
 	}
@@ -40,7 +40,8 @@ public class ActivityUtil {
 
 			if (!(activities.get(i).getCancelled() != null && activities.get(i)
 					.getCancelled().equals("true")))
-				if (! activityDAO.isActivityByPath(activities.get(i).getRefUid())) {
+				if (!activityDAO
+						.isActivityByPath(activities.get(i).getRefUid())) {
 					activities.get(i).setCancelled("true"); // org
 					activity2Cancel.add(activities.get(i));
 					troopDAO.updateTroop(user);
