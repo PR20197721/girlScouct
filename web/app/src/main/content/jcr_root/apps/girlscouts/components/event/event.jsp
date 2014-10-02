@@ -39,7 +39,7 @@
 	
 	String startDateStr = dateFormat.format(startDate);
 	String startTimeStr = timeFormat.format(startDate);
-	System.out.println("startTimeStr" +startTimeStr);
+	
 	
 	//Calendar Date and Month
 	
