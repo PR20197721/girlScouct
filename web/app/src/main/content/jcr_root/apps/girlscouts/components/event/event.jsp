@@ -11,6 +11,7 @@
 	java.util.List,
 	java.util.ArrayList,
 	java.util.Iterator,
+	java.util.TimeZone,
 	com.day.cq.tagging.TagManager,
 	com.day.cq.tagging.Tag,
 	com.day.cq.dam.api.Asset
@@ -25,16 +26,20 @@
     // Defining a hashMap for the Program Level - Level and Categories -> Category
     Map<String,String> map = new HashMap<String,String>();
     map.put("Program Level", "Level");
-    map.put("Categories", "Category");		
+    map.put("Categories", "Category");	
+    String locale =  currentSite.get("locale", "America/New_York");
+    TimeZone tZone = TimeZone.getTimeZone(locale);
     
 	// date and time
     DateFormat dateFormat = new SimpleDateFormat("EEE MMM d yyyy");
 	DateFormat timeFormat = new SimpleDateFormat("h:mm a");
+	timeFormat.setTimeZone(tZone);
     DateFormat calendarFormat = new SimpleDateFormat("M-yyyy");
 	Date startDate = properties.get("start", Date.class); 
 	
 	String startDateStr = dateFormat.format(startDate);
 	String startTimeStr = timeFormat.format(startDate);
+	System.out.println("startTimeStr" +startTimeStr);
 	
 	//Calendar Date and Month
 	
@@ -83,8 +88,7 @@
 	    {
 	    	
 	    	Tag tag  = tagManager.resolve(str);
-	    	
-try {
+		try {
 	    	if(tags.containsKey(tag.getParent().getTitle()))
 	    	{
 	    		tags.get(tag.getParent().getTitle()).add(tag.getTitle());

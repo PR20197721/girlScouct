@@ -1,6 +1,7 @@
 <%@ page import="java.util.Date,
 				java.text.DateFormat,
-				java.text.SimpleDateFormat"%>
+				java.text.SimpleDateFormat,
+				java.util.TimeZone"%>
 				
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
@@ -15,8 +16,14 @@
 	String imgPath="";
 	String iconPath="";
 	
+	
+	String locale =  currentSite.get("locale", "America/New_York");
+    TimeZone tZone = TimeZone.getTimeZone(locale);
+	
+	
 	DateFormat dateFormat = new SimpleDateFormat("EEE MMM d yyyy");
 	DateFormat timeFormat = new SimpleDateFormat("h:mm a");
+	timeFormat.setTimeZone(tZone);
 	
 	startDate = propNode.getProperty("start").getDate().getTime(); 
 	startDateStr = dateFormat.format(startDate);

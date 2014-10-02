@@ -31,11 +31,7 @@
 
 <%
 	
-	DateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.S");
-	fromFormat.setCalendar(Calendar.getInstance(TimeZone.getTimeZone("GMT")));
-	DateFormat dateFormat = new SimpleDateFormat("EEE MMM d yyyy");
-	DateFormat timeFormat = new SimpleDateFormat("h:mm a");
-
+	
 	Date today = new Date();
 	DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 	String evtStartDt = formatter.format(today);

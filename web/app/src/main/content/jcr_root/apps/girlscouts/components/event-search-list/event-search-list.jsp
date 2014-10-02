@@ -5,10 +5,14 @@
 <cq:defineObjects/>
 <% 
 
+
+String locale =  currentSite.get("locale", "America/New_York");
+TimeZone tZone = TimeZone.getTimeZone(locale);
 DateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.S");
 fromFormat.setCalendar(Calendar.getInstance(TimeZone.getTimeZone("GMT")));
 DateFormat dateFormat = new SimpleDateFormat("EEE MMM d yyyy");
 DateFormat timeFormat = new SimpleDateFormat("h:mm a");
+timeFormat.setTimeZone(tZone);
 DateFormat toFormat = new SimpleDateFormat("EEE dd MMM yyyy");
 
 Date today = new Date();
