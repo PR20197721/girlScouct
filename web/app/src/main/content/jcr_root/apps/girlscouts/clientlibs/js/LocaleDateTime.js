@@ -118,7 +118,7 @@ girlscouts.components.LocaleDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
      */
     initComponent:function() {
         // call parent initComponent
-        girlscouts.components.LocaleDatetime.superclass.initComponent.call(this);
+        girlscouts.components.LocaleDateTime.superclass.initComponent.call(this);
 
         // create DateField
         var dateConfig = CQ.Ext.apply({}, {
