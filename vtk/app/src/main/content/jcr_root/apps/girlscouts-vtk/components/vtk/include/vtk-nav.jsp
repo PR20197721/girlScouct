@@ -70,8 +70,7 @@
 					%>
 					
 					<% if( hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID ) ){ %>
-							<li><a href="/content/girlscouts-vtk/en/plan.html"
-								class="label">Year Plan</a></li>
+						<li><a href="/content/girlscouts-vtk/en/vtk.plan.html" class="label">Year Plan</a></li>
 					<% }else{  %>
 							<li><span class="label">Year Plan</span></li>
 					<% } %>	
@@ -180,11 +179,11 @@
 		<%
 			} else {
 		%>
-		<li>
+		
 			<%if(hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID )){ %>
-				<a href="/content/girlscouts-vtk/en/plan.html">Year Plan</a>
+				<li><a href="/content/girlscouts-vtk/en/vtk.plan.html">Year Plan</a></li>
 			<%}else{ %>
-				<span class="label">Year Plan</span>
+				<li><span class="label">Year Plan</span></li>
 			<%} %>
 		</li>
 		<%

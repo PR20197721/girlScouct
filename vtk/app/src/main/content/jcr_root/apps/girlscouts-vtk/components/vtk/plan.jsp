@@ -25,7 +25,6 @@
 %>
 
 
-View activity:<%=meetingDAO.hasPermission(troop.getTroop().getPermissionTokens(), org.girlscouts.vtk.auth.permission.Permission.PERMISSION_VIEW_MEETING_ID) %>
 
 <% if( troop.getYearPlan()!=null){ %> 
 <div class="hide-for-small">
