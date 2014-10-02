@@ -145,8 +145,8 @@ girlscouts.components.LocaleDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
         		};
         		count--;
         	}
-        	var parent = path.substr(0, slashPos);
-        	alert(parent);
+        	var localProperty = path.substr(0, slashPos) + '/jcr:content/locale';
+        	this.locale = CQ.shared.HTTP.get(localProperty).body;
         }
 
         // create DateField
