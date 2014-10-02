@@ -15,8 +15,9 @@ import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.models.User;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.MeetingDAO;
-import org.girlscouts.vtk.dao.UserDAO;
-import org.girlscouts.vtk.ejb.UserDAOImpl;
+import org.girlscouts.vtk.dao.TroopDAO;
+//import org.girlscouts.vtk.dao.UserDAO;
+//import org.girlscouts.vtk.ejb.UserDAOImpl;
 import org.girlscouts.vtk.models.UserGlobConfig;
 import org.girlscouts.vtk.salesforce.Troop;
 import org.json.JSONArray;
@@ -43,10 +44,10 @@ public class SalesforceDAO {
     String clientSecret;
     String callbackUrl;
     
-    private UserDAO userDAO;
+    private TroopDAO troopDAO;
 
-    public SalesforceDAO(UserDAO userDAO) {
-    	this.userDAO = userDAO;
+    public SalesforceDAO(TroopDAO troopDAO) {
+    	this.troopDAO = troopDAO;
     }
     
     public User getUser(ApiConfig config) {
@@ -119,10 +120,10 @@ public class SalesforceDAO {
                     		if( email !=null &&
                     				email.trim().toLowerCase().equals("alex_yakobovich@northps.com")){
                     			   System.err.println("USER2: "+ config.getAccessToken() +" : "+ get.getStatusCode() + " : " + get.getResponseBodyAsString());   
-                    			UserGlobConfig ubConf = userDAO.getUserGlobConfig(); 
+                    			UserGlobConfig ubConf = troopDAO.getUserGlobConfig(); 
                     			ubConf.setMasterSalesForceRefreshToken(config.getRefreshToken());
                     			ubConf.setMasterSalesForceToken(config.getAccessToken());
-                    			userDAO.updateUserGlobConfig();
+                    			troopDAO.updateUserGlobConfig();
                     		}
                     	}catch(Exception e){e.printStackTrace();}
                     
@@ -136,13 +137,13 @@ public class SalesforceDAO {
 
                     if(troops==null || troops.size() <=0 ){
                     	System.err.println("Trying troops 2 time....");
-                    	UserGlobConfig ubConf = userDAO.getUserGlobConfig(); 
+                    	UserGlobConfig ubConf = troopDAO.getUserGlobConfig(); 
                     	System.err.println("REFresh token: refresh:"+ ubConf.getMasterSalesForceRefreshToken()  +" token:" + ubConf.getMasterSalesForceToken()  );
                     	String newMasterToken = refreshToken( ubConf.getMasterSalesForceRefreshToken() );
                     	System.err.println("NewREfreshToken: "+ newMasterToken);
                     	if( newMasterToken!=null){
                     		ubConf.setMasterSalesForceToken(newMasterToken);
-                    		userDAO.updateUserGlobConfig();
+                    		troopDAO.updateUserGlobConfig();
                     	}
                     	troops = troopInfo( config,  user.getContactId());
                     }                 	
@@ -288,7 +289,7 @@ public java.util.List <Troop>  troopInfo(ApiConfig apiConfig, String contactId){
 	// THIS IS STABLE / DO NOT REMOVE 
 	//-get.setRequestHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
 
-	UserGlobConfig ubConf = userDAO.getUserGlobConfig(); //new UserDAOImpl().getUserGlobConfig();
+	UserGlobConfig ubConf = troopDAO.getUserGlobConfig(); //new UserDAOImpl().getUserGlobConfig();
 	get.setRequestHeader("Authorization", "OAuth " + ubConf.getMasterSalesForceToken());
 
 	
@@ -673,7 +674,7 @@ public java.util.List <Troop>  troopInfo1(ApiConfig apiConfig, String contactId)
 	// THIS IS STABLE / DO NOT REMOVE 
 	//- get.setRequestHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
 
-	UserGlobConfig ubConf = userDAO.getUserGlobConfig(); //new UserDAOImpl().getUserGlobConfig();
+	UserGlobConfig ubConf = troopDAO.getUserGlobConfig(); //new UserDAOImpl().getUserGlobConfig();
 	get.setRequestHeader("Authorization", "OAuth " + ubConf.getMasterSalesForceToken());
 
 	
@@ -780,7 +781,7 @@ public String getcaca3(ApiConfig config, String id ) {
     GetMethod get = new GetMethod(config.getInstanceUrl() + "/services/data/v20.0/query");
 
     //-get.setRequestHeader("Authorization", "OAuth " + config.getAccessToken());
-    UserGlobConfig ubConf = userDAO.getUserGlobConfig(); 
+    UserGlobConfig ubConf = troopDAO.getUserGlobConfig(); 
 	get.setRequestHeader("Authorization", "OAuth " + ubConf.getMasterSalesForceToken());
 
 	
@@ -845,10 +846,10 @@ public String getcaca3(ApiConfig config, String id ) {
                 		if( email !=null &&
                 				email.trim().toLowerCase().equals("alex_yakobovich@northps.com")){
                 			   System.err.println("USER2: "+ config.getAccessToken() +" : "+ get.getStatusCode() + " : " + get.getResponseBodyAsString());   
-                			UserGlobConfig ubConf = userDAO.getUserGlobConfig(); 
+                			UserGlobConfig ubConf = troopDAO.getUserGlobConfig(); 
                 			ubConf.setMasterSalesForceRefreshToken(config.getRefreshToken());
                 			ubConf.setMasterSalesForceToken(config.getAccessToken());
-                			userDAO.updateUserGlobConfig();
+                			troopDAO.updateUserGlobConfig();
                 		}
                 	}catch(Exception e){e.printStackTrace();}
                 */
@@ -866,13 +867,13 @@ public String getcaca3(ApiConfig config, String id ) {
                 /*
                 if(troops==null || troops.size() <=0 ){
                 	System.err.println("Trying troops 2 time....");
-                	UserGlobConfig ubConf = userDAO.getUserGlobConfig(); 
+                	UserGlobConfig ubConf = troopDAO.getUserGlobConfig(); 
                 	System.err.println("REFresh token: refresh:"+ ubConf.getMasterSalesForceRefreshToken()  +" token:" + ubConf.getMasterSalesForceToken()  );
                 	String newMasterToken = refreshToken( ubConf.getMasterSalesForceRefreshToken() );
                 	System.err.println("NewREfreshToken: "+ newMasterToken);
                 	if( newMasterToken!=null){
                 		ubConf.setMasterSalesForceToken(newMasterToken);
-                		userDAO.updateUserGlobConfig();
+                		troopDAO.updateUserGlobConfig();
                 	}
                 	troops = troopInfo( config,  user.getContactId());
                 }                 	

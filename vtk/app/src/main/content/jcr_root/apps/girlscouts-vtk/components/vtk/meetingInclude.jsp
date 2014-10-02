@@ -7,7 +7,6 @@
 <%   
 	java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(troop.getYearPlan());
 	
-	
 	try{
 		
 		if( troop.getYearPlan()!=null)

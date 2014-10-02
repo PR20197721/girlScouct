@@ -22,7 +22,8 @@ import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.MeetingDAO;
-import org.girlscouts.vtk.dao.UserDAO;
+import org.girlscouts.vtk.dao.TroopDAO;
+//import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.Meeting;
@@ -36,7 +37,7 @@ import org.girlscouts.vtk.models.YearPlanComponent;
 public class CalendarUtil {
     
 	@Reference
-    UserDAO userDAO;
+	TroopDAO troopDAO;//UserDAO userDAO;
     
     @Reference
     private MeetingDAO meetingDAO;
@@ -223,7 +224,7 @@ public class CalendarUtil {
 			Comparator<MeetingE> comp = new BeanComparator("id");
 		    Collections.sort( user.getYearPlan().getMeetingEvents(), comp);
 			
-			userDAO.updateUser(user);
+			troopDAO.updateTroop(user);
 		}
 		
 		public void updateSched(Troop user, String meetingPath, String time, String date, String ap, 
@@ -260,14 +261,14 @@ public class CalendarUtil {
 				}
 			}
 			
-			userDAO.updateUser(user);
+			troopDAO.updateTroop(user);
 			
 		}
 		
 		public void resetCal(Troop user){
 			
 			user.getYearPlan().setSchedule(null);
-			userDAO.updateUser(user);
+			troopDAO.updateTroop(user);
 		}
 	
 }

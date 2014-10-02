@@ -18,7 +18,7 @@ import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.SearchDAO;
-import org.girlscouts.vtk.dao.UserDAO;
+//import org.girlscouts.vtk.dao.UserDAO;
 
 @Component
 @Service(value=SearchDAO.class)

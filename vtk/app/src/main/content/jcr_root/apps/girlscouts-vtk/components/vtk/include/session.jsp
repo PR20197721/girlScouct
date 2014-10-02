@@ -1,4 +1,4 @@
-<%@page import="org.girlscouts.vtk.models.Troop, org.girlscouts.vtk.auth.permission.Permission"%>
+<%@page import="org.girlscouts.vtk.models.Troop, org.girlscouts.vtk.auth.permission.Permission, org.girlscouts.vtk.utils.*"%>
 <%!
 java.text.SimpleDateFormat FORMAT_MMddYYYY = new java.text.SimpleDateFormat("MM/dd/yyyy");
 java.text.SimpleDateFormat FORMAT_hhmm_AMPM = new java.text.SimpleDateFormat("hh:mm a");
@@ -69,6 +69,8 @@ final YearPlanDAO yearPlanDAO = sling.getService(YearPlanDAO.class);
 //final UserDAO userDAO = sling.getService(UserDAO.class);
 final MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
 final TroopDAO troopDAO = sling.getService(TroopDAO.class);
+final ActivityUtil activityUtil = sling.getService(ActivityUtil.class);
+final TroopUtil troopUtil = sling.getService(TroopUtil.class);
 
 HttpSession session = request.getSession();
 
@@ -135,7 +137,7 @@ if( troop ==null || troop.isRefresh() ){
         		"/"+prefTroop.getTroopId()+
         		"/users/"+ apiConfig.getUserId() +"_"+ prefTroop.getTroopId());
       */
-       troop= troopDAO.getTroop(""+prefTroop.getCouncilCode(), prefTroop.getTroopId());
+       troop= troopUtil.getTroop(""+prefTroop.getCouncilCode(), prefTroop.getTroopId());
   			
         //first time - new user
         if( troop==null ){
@@ -168,7 +170,7 @@ if( troop ==null || troop.isRefresh() ){
 		
 		 //cancelled activity check 091814	        
         if( troop!=null && troop.getYearPlan()!=null && troop.getYearPlan().getActivities() !=null && troop.getYearPlan().getActivities().size()>0){
-        	activityDAO.checkCanceledActivity(troop);
+        	activityUtil.checkCanceledActivity(troop);
         }
 		
 		session.setAttribute("VTK_user", troop);

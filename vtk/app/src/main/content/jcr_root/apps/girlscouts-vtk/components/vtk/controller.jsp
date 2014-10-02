@@ -48,7 +48,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 }else if( request.getParameter("newCustActivity") !=null ){
 	
 	double cost= convertObjectToDouble(request.getParameter("newCustActivity_cost"));
-	activityDAO.createActivity(troop, new Activity( 
+	activityUtil.createActivity(troop, new Activity( 
 		request.getParameter("newCustActivity_name"), 
 		request.getParameter("newCustActivity_txt"),
 		dateFormat4.parse(request.getParameter("newCustActivity_date") +" "+request.getParameter("newCustActivity_startTime") +" " +request.getParameter("newCustActivity_startTime_AP")), 
@@ -158,7 +158,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
     		"/"+newTroop.getTroopId()+"/troops/"+
 		troop.getApiConfig().getUserId()+"_"+  request.getParameter("loginAs") );
 	*/
-	Troop new_troop= troopDAO.getTroop(newTroop.getCouncilCode()+"",request.getParameter("loginAs") );
+	Troop new_troop= troopUtil.getTroop(newTroop.getCouncilCode()+"",request.getParameter("loginAs") );
 	
 	
 	if( new_troop==null ){
@@ -184,7 +184,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	
 }else if( request.getParameter("addAsset")!=null){
 	org.girlscouts.vtk.models.Asset asset = new org.girlscouts.vtk.models.Asset(request.getParameter("addAsset"));
-	new UserDAOImpl().addAsset( troop ,  request.getParameter("meetingUid"),   asset);
+	troopDAO.addAsset( troop ,  request.getParameter("meetingUid"),   asset);
 }else if( request.getParameter("testAB")!=null){
 	boolean isUsrUpd= troopDAO.updateTroop(troop) ;
 	
@@ -375,7 +375,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	java.util.List <org.girlscouts.vtk.models.Activity> activities =  (java.util.List <org.girlscouts.vtk.models.Activity>)session.getValue("vtk_search_activity");
 	for(int i=0;i<activities.size();i++){
 		if( activities.get(i).getUid().equals( request.getParameter("newCustActivityBean") )){
-			activityDAO.createActivity(troop, activities.get(i) );
+			activityUtil.createActivity(troop, activities.get(i) );
 			break;
 		}
 	}

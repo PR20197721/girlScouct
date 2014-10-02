@@ -54,6 +54,9 @@ public class TroopDAOImpl implements TroopDAO {
 	@Reference
 	private CouncilDAO councilDAO;
 	
+	@Reference
+	private ActivityDAO activityDAO;
+	
 	private static UserGlobConfig troopGlobConfig;
 
 	@Activate
@@ -84,13 +87,30 @@ public class TroopDAOImpl implements TroopDAO {
 
 			ocm.refresh(true);
 			troop = (Troop) ocm.getObject( "/vtk/"+ councilId +"/troops/"+ troopId);
-
+			
+/* mooved to troopUtil
 			if (troop != null  && troop.getYearPlan()!=null && troop.getYearPlan().getMeetingEvents() != null) {
 
 				Comparator<MeetingE> comp = new BeanComparator("id");
 				Collections.sort(troop.getYearPlan().getMeetingEvents(), comp);
 			}
 
+			
+			java.util.List<Activity> activities = troop.getYearPlan().getActivities();
+	        if( activities!=null)
+	          for(int i=0;i<activities.size();i++){
+	        	 if( (activities.get(i).getCancelled()==null || activities.get(i).getCancelled().equals("false"))
+	        			 	&& !activities.get(i).getIsEditable() && activities.get(i).getRefUid()!=null ){
+	        		 
+	        		 Activity a = activityDAO.findActivity(activities.get(i).getRefUid() );
+	        		 if( a==null )
+	        			 activities.get(i).setCancelled("true");
+	        		 else
+	        			 activities.set(i, a);
+	        		
+	        	 }
+	          }
+			*/
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

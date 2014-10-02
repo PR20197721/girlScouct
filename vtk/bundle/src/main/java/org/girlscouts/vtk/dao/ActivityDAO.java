@@ -10,6 +10,8 @@ public interface ActivityDAO {
 	public java.util.List<Activity> search(ActivitySearch search);
 	public void updateActivitiesCancel( String uuid );
 	public boolean isActivity( String uuid );
-	public void checkCanceledActivity(Troop user);
+	//public void checkCanceledActivity(Troop user); moved to util
+	public Activity findActivity(String path);
+	public boolean isActivityByPath(String path);
 	
 }
