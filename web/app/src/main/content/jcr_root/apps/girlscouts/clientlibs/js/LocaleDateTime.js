@@ -148,6 +148,8 @@ girlscouts.components.LocaleDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
         	var localProperty = path.substr(0, slashPos) + '/jcr:content/locale';
         	this.locale = CQ.shared.HTTP.get(localProperty).body;
         }
+        
+        alert("locale now = " + this.getLocaleDate(new Date()));
 
         // create DateField
         var dateConfig = CQ.Ext.apply({}, {
@@ -282,6 +284,23 @@ girlscouts.components.LocaleDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
     alignErrorIcon:function() {
         this.errorIcon.alignTo(this.tableEl, 'tl-tr', [2, 0]);
     },
+
+    /**
+     * @private format date without locale information
+     */
+    dateToString:function(date) {
+    	return date.getFullYear() + '-' + (date.getMonth() + 1) + (date.getDate()) + 
+    		' ' + date.getHours() + ':' + date.getMinutes();
+    },
+
+    /**
+     * @private get the date according to locale
+     */
+    getLocaleDate: function(date) {
+    	var localeConverted = moment.tz(this.dateToString(date), this.locale);
+    	return localeConverted.toDate();
+    },
+
     /**
      * @private initializes internal dateValue
      */
@@ -297,6 +316,7 @@ girlscouts.components.LocaleDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
             this.dateValue =  new Date();
         }
     },
+    
     /**
      * Calls clearInvalid on the DateField and TimeField
      */
