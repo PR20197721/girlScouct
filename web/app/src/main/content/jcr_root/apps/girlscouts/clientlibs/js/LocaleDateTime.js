@@ -19,7 +19,7 @@
  * Creates a new DateTime.
  * @param {Object} config The config object
  */
-girlscouts.components.LocaleDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
+girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
 
     /**
      * @cfg {String/Object} defaultAutoCreate DomHelper element spec
@@ -113,9 +113,9 @@ girlscouts.components.LocaleDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
     defaultTriggerWidth: 17,
 
     /**
-     * @cfg {String/Function} The Locale of the time (defaults to 'America/New_York')
+     * @cfg {String/Function} The Time Zone (defaults to 'America/New_York')
      */
-    locale: null,
+    timezone: null,
 
     /**
      * @private
@@ -123,14 +123,14 @@ girlscouts.components.LocaleDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
      */
     initComponent:function() {
         // call parent initComponent
-        girlscouts.components.LocaleDateTime.superclass.initComponent.call(this);
+        girlscouts.components.TimezoneDateTime.superclass.initComponent.call(this);
         
-        // Setup locale
-        if (!this.locale) {
-        	this.locale = 'America/New_York';
-        } else if (typeof this.locale === 'function') {
-        	this.locale = eval('(' + this.locale + ')();');
-        } else if (this.locale === 'dynamic') {
+        // Setup timezone 
+        if (!this.timezone) {
+        	this.timezone= 'America/New_York';
+        } else if (typeof this.timezone === 'function') {
+        	this.timezone = eval('(' + this.locale + ')();');
+        } else if (this.timezone === 'dynamic') {
         	var url = window.location.pathname;
         	var path = CQ.shared.HTTP.getPath(url);
 
@@ -145,12 +145,10 @@ girlscouts.components.LocaleDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
         		};
         		count--;
         	}
-        	var localProperty = path.substr(0, slashPos) + '/jcr:content/locale';
-        	this.locale = CQ.shared.HTTP.get(localProperty).body;
+        	var localProperty = path.substr(0, slashPos) + '/jcr:content/timezone';
+        	this.timezone = CQ.shared.HTTP.get(localProperty).body;
         }
         
-        alert("locale now = " + this.getLocaleDate(new Date()));
-
         // create DateField
         var dateConfig = CQ.Ext.apply({}, {
              id:this.id + '-date',
@@ -189,8 +187,8 @@ girlscouts.components.LocaleDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
         // relay events
         this.relayEvents(this.df, ['focus', 'specialkey', 'invalid', 'valid']);
         this.relayEvents(this.tf, ['focus', 'specialkey', 'invalid', 'valid']);
-
     },
+
     /**
      * @private
      * Renders underlying DateField and TimeField and provides a workaround for side error icon bug
@@ -283,22 +281,6 @@ girlscouts.components.LocaleDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
      */
     alignErrorIcon:function() {
         this.errorIcon.alignTo(this.tableEl, 'tl-tr', [2, 0]);
-    },
-
-    /**
-     * @private format date without locale information
-     */
-    dateToString:function(date) {
-    	return date.getFullYear() + '-' + (date.getMonth() + 1) + (date.getDate()) + 
-    		' ' + date.getHours() + ':' + date.getMinutes();
-    },
-
-    /**
-     * @private get the date according to locale
-     */
-    getLocaleDate: function(date) {
-    	var localeConverted = moment.tz(this.dateToString(date), this.locale);
-    	return localeConverted.toDate();
     },
 
     /**
@@ -732,4 +714,4 @@ girlscouts.components.LocaleDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
 });
 
 // register xtype
-CQ.Ext.reg("localedatetime", girlscouts.components.LocaleDateTime);
+CQ.Ext.reg("timezonedatetime", girlscouts.components.TimezoneDateTime);
