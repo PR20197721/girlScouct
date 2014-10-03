@@ -67,7 +67,8 @@ ageLevel=ageLevel.toLowerCase().trim();
 
         </div>
         <div class="small-24 medium-6 large-5 columns linkButtonWrapper">
-<%if( activity.getDate().after( new java.util.Date()) ||
+<%if( hasPermission(troop, Permission.PERMISSION_RM_ACTIVITY_ID) &&
+		activity.getDate().after( new java.util.Date()) ||
 		(activity.getCancelled()!=null && activity.getCancelled().equals("true") ) 
 		){ %>
 		<a href="#" class="button linkButton" onclick="rmCustActivity12('<%=activity.getPath()%>')">delete this activity</a>
@@ -75,7 +76,7 @@ ageLevel=ageLevel.toLowerCase().trim();
 
 		<!-- a href="#" class="button linkButton" onclick="openClose('editCustActiv')">edit activity</a --> 
           
-          <%if(activity.getIsEditable() ){ %>
+          <%if( activity.getIsEditable() && hasPermission(troop, Permission.PERMISSION_EDIT_ACTIVITY_ID) ){ %>
          	 <a href="#" class="button linkButton" onclick="doEditActivity('editCustActiv')">edit activity</a>
           <%} %>
           
