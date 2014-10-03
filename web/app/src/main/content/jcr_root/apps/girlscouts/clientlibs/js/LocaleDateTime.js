@@ -669,9 +669,12 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
      */
     updateHidden:function() {
         if(this.isRendered) {
-            this.el.dom.value = (this.dateValue && (typeof this.dateValue.format === "function"))
-                    ? this.dateValue.format(this.hiddenFormat)
-                    : '';
+            //this.el.dom.value = (this.dateValue && (typeof this.dateValue.format === "function"))
+            //        ? this.dateValue.format(this.hiddenFormat)
+            //        : '';
+        	this.el.dom.value = this.dateValue ?
+        			moment.tz(this.dateValue.format('Y-m-d H:i'), this.timezone).format("YYYY-MM-DDTHH:mm:00.000Z") 
+        			: '';
         }
     },
     /**
