@@ -557,6 +557,37 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 
 	}
 	response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.home.html");
+}else if( request.getParameter("chngPermis") !=null){
+
+	switch( Integer.parseInt(request.getParameter("chngPermis") )){
+	  case 2 :
+		troop.getTroop().setPermissionTokens(Permission.getPermissionTokens( Permission.GROUP_GUEST_PERMISSIONS));	
+		break;
+	  case 11:
+			
+			troop.getTroop().setPermissionTokens(Permission.getPermissionTokens( Permission.GROUP_LEADER_PERMISSIONS));			
+			break;
+	  case 12:
+		  
+		  troop.getTroop().setPermissionTokens(Permission.getPermissionTokens( Permission.GROUP_MEMBER_2G_PERMISSIONS));
+		  break;
+	  case 13:
+		  troop.getTroop().setPermissionTokens(Permission.getPermissionTokens( Permission.GROUP_MEMBER_1G_PERMISSIONS));		  
+		  break;
+		  
+	  case 14:
+		  troop.getTroop().setPermissionTokens(Permission.getPermissionTokens( Permission.GROUP_MEMBER_NO_TROOP_PERMISSIONS ));
+		  break;
+		  
+	  case 15:
+		  troop.getTroop().setPermissionTokens(Permission.getPermissionTokens( Permission.GROUP_MEMBER_TROOP_PERMISSIONS ));
+		  break;
+		  
+	   default:
+		   troop.getTroop().setPermissionTokens(Permission.getPermissionTokens( Permission.GROUP_GUEST_PERMISSIONS));	
+			
+		break;
+	}
 	
 }else{
 	//TODO throw ERROR CODE

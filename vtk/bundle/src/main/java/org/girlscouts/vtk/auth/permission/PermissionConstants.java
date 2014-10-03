@@ -53,7 +53,7 @@ public class PermissionConstants {
     public static final int GROUP_GUEST = 2;
     public static final String GROUP_GUEST_DISPLAY = "Guest";
     public static final int[] GROUP_GUEST_PERMISSIONS = new int[] {
-    	PERMISSION_LOGIN_ID
+    	PERMISSION_LOGIN_ID,
     };
         
     
@@ -87,7 +87,7 @@ public class PermissionConstants {
     public static final int GROUP_MEMBER_NO_TROOP = 14;
     public static final String GROUP_MEMBER_NO_TROOP_DISPLAY = "Member with no troop Associations";
     public static final int[] GROUP_MEMBER_NO_TROOP_PERMISSIONS = new int[] {
-    	PERMISSION_LOGIN_ID
+    	PERMISSION_LOGIN_ID,
     };
     
     public static final int GROUP_MEMBER_TROOP = 15;

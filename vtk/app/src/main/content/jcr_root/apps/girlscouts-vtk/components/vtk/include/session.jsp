@@ -1,4 +1,4 @@
-<%@page import="org.girlscouts.vtk.models.Troop, org.girlscouts.vtk.auth.permission.Permission, org.girlscouts.vtk.utils.*"%>
+<%@page import="org.girlscouts.vtk.models.Troop, org.girlscouts.vtk.auth.permission.*, org.girlscouts.vtk.utils.*"%>
 <%!
 java.text.SimpleDateFormat FORMAT_MMddYYYY = new java.text.SimpleDateFormat("MM/dd/yyyy");
 java.text.SimpleDateFormat FORMAT_hhmm_AMPM = new java.text.SimpleDateFormat("hh:mm a");
@@ -44,9 +44,6 @@ public void autoLogin(HttpSession session){
 }
 
 
-
-
-
 public boolean hasPermission(Troop troop, int permissionId){
 	java.util.Set<Integer> myPermissionTokens = troop.getTroop().getPermissionTokens();
 	if( myPermissionTokens!=null && myPermissionTokens.contains(permissionId) )
@@ -54,6 +51,10 @@ public boolean hasPermission(Troop troop, int permissionId){
 	
 	return false;
 }
+
+
+
+
 %>
 <%
 
@@ -106,7 +107,7 @@ if( apiConfig.getTroops()==null || apiConfig.getTroops().size()<=0 ||
 
 // Set user for session
 Troop troop= (Troop)session.getValue("VTK_user");
-if( troop ==null || troop.isRefresh() ){
+if( troop ==null || troop.isRefresh()  ){
 	
 	org.girlscouts.vtk.salesforce.Troop prefTroop = apiConfig.getTroops().get(0);
 		  
@@ -240,9 +241,25 @@ if (session.getAttribute("USER_TROOP_LIST") == null) {
 		
 	
 	
-	
+		//out.println(troop.getSfUserId() +" : 005Z0000002OBPiIAO : " +   troop.getSfUserId().equals("005Z0000002OBPiIAO") );
 	%>
 	
 	
 
-
+<% if( troop.getSfUserId().equals("005Z0000002OBPiIAO") ) {%>
+<div class="small-18 medium-18 large-18 columns">
+ <form action="/content/girlscouts-vtk/controllers/vtk.controller.html">
+	<select name="chngPermis">
+		<option value="<%=PermissionConstants.GROUP_LEADER%>">Leader- <%=PermissionConstants.GROUP_LEADER%></option>
+		<option value="<%=PermissionConstants.GROUP_MEMBER_2G%>">GROUP_MEMBER_2G_PERMISSIONS</option>
+		<option value="<%=PermissionConstants.GROUP_MEMBER_1G%>">GROUP_MEMBER_1G_PERMISSIONS</option>
+		<option value="<%=PermissionConstants.GROUP_MEMBER_NO_TROOP%>">GROUP_MEMBER_NO_TROOP_PERMISSIONS</option>
+		<option value="<%=PermissionConstants.GROUP_MEMBER_TROOP%>">GROUP_MEMBER_TROOP_PERMISSIONS</option>
+		<option value="<%=PermissionConstants.GROUP_GUEST %>">GROUP_GUEST_PERMISSIONS</option>
+	</select>
+	</div>
+	<div class="small-6 medium-6 large-6 columns">
+	<input type="submit" value="Change my permission"/>
+	</div>
+ </form>
+<% }%>
