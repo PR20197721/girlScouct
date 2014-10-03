@@ -31,6 +31,8 @@
 	<div class="row subNavRow">
 		<div class="large-22 medium-22 small-20 columns subNavColumn">
 			<div class="centered-table">
+			
+			  <% if( hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID) ){%>
 				<ul id="vtkSubNav" class="hide-for-print">
 					<li>
 						<a href="javascript:void(0)" onclick="newLocCal()">Meeting&nbsp;Dates&nbsp;and&nbsp;Locations</a>
@@ -44,6 +46,8 @@
 						<a href="javascript:void(0)" onclick="newActivity()">Add&nbsp;Activity</a>
 					</li>
 				</ul>
+			 <%} %>
+			 
 			</div>
 		</div>
 		
@@ -85,7 +89,7 @@
 	</script>
 <%}%>
 	<div class="sectionHeader">YEAR PLAN LIBRARY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<% if(troop.getYearPlan()!=null){%>
+<% if(troop.getYearPlan()!=null && hasPermission(troop, Permission.PERMISSION_CREATE_MEETING_ID) ){%>
 		<a href="#" onclick="yesPlan()" id="showHideReveal" class="hide-for-print">reveal</a>&nbsp;<span id="arrowDirection" class="hide-for-print arrowDirection">&#9660;</span>
 <%} %>
 	</div>

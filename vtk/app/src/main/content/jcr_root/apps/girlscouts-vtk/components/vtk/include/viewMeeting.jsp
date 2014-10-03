@@ -11,7 +11,12 @@
 %>
 
 
-<li  onclick='self.location="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=date.getTime()%>"' class="meeting <%=( troop.getYearPlan().getSchedule()==null || new java.util.Date().before(date)) ? "ui-state-default" : "ui-state-default ui-state-disabled"%>" value="<%=meetingCount%>">
+	<li  
+	  <%if( hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID) ){ %>
+		onclick='self.location="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=date.getTime()%>"'
+	  <%}%>	
+		  class="meeting <%=( troop.getYearPlan().getSchedule()==null || new java.util.Date().before(date)) ? "ui-state-default" : "ui-state-default ui-state-disabled"%>" value="<%=meetingCount%>">
+
 	<div  class="row">
         <div class="large-4 medium-5 small-24 columns">
 			<div class="planSquare center ed-table" id="caca">
@@ -73,7 +78,9 @@ if( meetingE.getCancelled()!=null && meetingE.getCancelled().equals("true")){%>
 				<!-- <p class="show-for-small"><%= FORMAT_hhmm_AMPM.format(date)%></p> -->
 				<br/>
 				<p class="blurb"><%=meeting.getBlurb() %></p>
-				<a href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=date.getTime()%>">View Meeting</a>
+				<%if( hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID) ){ %>
+					<a href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=date.getTime()%>">View Meeting</a>
+				<%} %>
 			</div>
 		</div>
 		<div class="large-4 medium-5 hide-for-small columns">

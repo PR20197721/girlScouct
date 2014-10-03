@@ -21,8 +21,8 @@
 
 %>
 <h1 class="yearPlanTitle"><%=troop.getYearPlan().getName() %></h1>
-<br/><p>Drag and drop to reorder meetings</p> 
-<ul id="sortable123">
+<br/><p>Drag and drop to reorder meetings <%=hasPermission(troop, Permission.PERMISSION_MOVE_MEETING_ID)%></p> 
+<ul id="<%= hasPermission(troop, Permission.PERMISSION_MOVE_MEETING_ID) ? "sortable123" : ""%>">
 <% 
 if( troop.getYearPlan().getSchedule()!=null ){ //sched exists
  int meetingCount=0;
