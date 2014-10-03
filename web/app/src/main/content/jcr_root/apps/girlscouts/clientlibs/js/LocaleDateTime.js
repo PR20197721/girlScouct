@@ -145,8 +145,8 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
         		};
         		count--;
         	}
-        	var localProperty = path.substr(0, slashPos) + '/jcr:content/timezone';
-        	this.timezone = CQ.shared.HTTP.get(localProperty).body;
+        	var timezoneProperty = path.substr(0, slashPos) + '/jcr:content/timezone';
+        	this.timezone = CQ.shared.HTTP.get(timezoneProperty).body;
         }
         
         // create DateField
@@ -503,7 +503,7 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
      * @private Sets the value of TimeField
      */
     setTime:function(date) {
-        this.tf.setValue(date);
+        this.tf.setValue(moment.tz(date, this.timezone).format('HH:mm A'));
     },
     /**
      * @private
