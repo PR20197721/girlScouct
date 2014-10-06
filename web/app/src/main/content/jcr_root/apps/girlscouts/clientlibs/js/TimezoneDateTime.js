@@ -97,9 +97,14 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
     defaultTriggerWidth: 17,
 
     /**
-     * @cfg {String/Function} The Time Zone (defaults to 'America/New_York')
+     * @cfg {String/Function} The Time Zone (defaults to this.defaultTimezone)
      */
     timezone: null,
+
+    /**
+     * @cfg {String/Function} The Default Time Zone (defaults to 'America/New_York')
+     */
+    defaultTimezone: "America/New_York",
 
     /**
      * @private
@@ -111,27 +116,24 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
         
         // Setup timezone 
         if (!this.timezone) {
-        	this.timezone= 'America/New_York';
+        	this.timezone = this.defaultTimezone;
         } else if (typeof this.timezone === 'function') {
-        	this.timezone = eval('(' + this.timezone + ')();');
+        	try {
+        		this.timezone = eval('(' + this.timezone + ')();');
+        	} catch (e) {
+        		this.timezone = this.defaultTimezone;
+        	}
         } else if (this.timezone === 'dynamic') {
         	var url = window.location.pathname;
         	var path = CQ.shared.HTTP.getPath(url);
 
-        	// TODO: Use regex
-        	var slashPos = 0;
-        	var count = 3;
-        	while (count != 0) {
-        		var oldSlashPos = slashPos;
-        		slashPos = path.indexOf('/', slashPos + 1);
-        		if (slashPos == -1) {
-        			slashPos = oldSlashPos;
-        			break;
-        		};
-        		count--;
+        	var regex = /^\/content\/[^/]+\/[^/]+/; // e.g. /content/girlscouts-prototype/en
+        	if (regex.test(path)) {
+        		var timezoneProperty = regex.exec(path) + '/jcr:content/timezone';
+        		this.timezone = CQ.shared.HTTP.get(timezoneProperty).body;
+        	} else {
+        		this.timezone = this.defaultTimezone;
         	}
-        	var timezoneProperty = path.substr(0, slashPos) + '/jcr:content/timezone';
-        	this.timezone = CQ.shared.HTTP.get(timezoneProperty).body;
         }
         
         // create DateField
