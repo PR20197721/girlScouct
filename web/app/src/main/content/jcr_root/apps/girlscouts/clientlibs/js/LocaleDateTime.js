@@ -1,24 +1,3 @@
-/*
- * Copyright 1997-2010 Day Management AG
- * Barfuesserplatz 6, 4001 Basel, Switzerland
- * All Rights Reserved.
- *
- * This software is the confidential and proprietary information of
- * Day Management AG, ("Confidential Information"). You shall not
- * disclose such Confidential Information and shall use it only in
- * accordance with the terms of the license agreement you entered into
- * with Day.
- */
-
-/**
- * @class CQ.form.DateTime
- * @extends CQ.Ext.form.Field
- * The DateTime lets the user enter a date and a time by combining
- * {@link CQ.Ext.form.DateField} and {@link CQ.Ext.form.TimeField}.
- * @constructor
- * Creates a new DateTime.
- * @param {Object} config The config object
- */
 girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
 
     /**
@@ -129,7 +108,7 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
         if (!this.timezone) {
         	this.timezone= 'America/New_York';
         } else if (typeof this.timezone === 'function') {
-        	this.timezone = eval('(' + this.locale + ')();');
+        	this.timezone = eval('(' + this.timezone + ')();');
         } else if (this.timezone === 'dynamic') {
         	var url = window.location.pathname;
         	var path = CQ.shared.HTTP.getPath(url);
@@ -672,6 +651,10 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
             //this.el.dom.value = (this.dateValue && (typeof this.dateValue.format === "function"))
             //        ? this.dateValue.format(this.hiddenFormat)
             //        : '';
+
+        	//////// Customized code
+        	// Use Sencha to format the date and then use moment.js to format to the current timezone.
+        	// Sencha "submit" action will pick up this value later.
         	this.el.dom.value = this.dateValue ?
         			moment.tz(this.dateValue.format('Y-m-d H:i'), this.timezone).format("YYYY-MM-DDTHH:mm:00.000Z") 
         			: '';
