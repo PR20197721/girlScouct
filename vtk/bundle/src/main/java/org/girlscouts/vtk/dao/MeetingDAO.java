@@ -1,6 +1,7 @@
 package org.girlscouts.vtk.dao;
 
 import java.util.List;
+import java.util.Set;
 
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Asset;
@@ -49,6 +50,9 @@ public interface MeetingDAO {
 	public Council getCouncil(String councilId);
 	public java.util.List<Milestone> getCouncilMilestones(String councilCode);
 	public void  saveCouncilMilestones(java.util.List<Milestone> milestones);
-	public boolean isCurrentUserId(User user, String sId);
 	
+	public boolean isCurrentUserId(User user, String sId);
+	public  boolean hasPermission(Set<Integer> myPermissionTokens, int permissionId);
+	public  boolean hasPermission(User user, int permissionId);
+	public boolean hasAccess(User user, String mySessionId, int permissionId);
 }

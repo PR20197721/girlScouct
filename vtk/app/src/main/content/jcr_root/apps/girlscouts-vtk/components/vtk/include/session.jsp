@@ -1,3 +1,4 @@
+<%@page import="org.girlscouts.vtk.models.user.User"%>
 <%!
 java.text.SimpleDateFormat FORMAT_MMddYYYY = new java.text.SimpleDateFormat("MM/dd/yyyy");
 java.text.SimpleDateFormat FORMAT_hhmm_AMPM = new java.text.SimpleDateFormat("hh:mm a");
@@ -46,7 +47,7 @@ public void autoLogin(HttpSession session){
 <%
 
 
-boolean isMultiUserFullBlock=false;
+boolean isMultiUserFullBlock=true;
 final ActivityDAO activityDAO = sling.getService(ActivityDAO.class);
 final LocationDAO locationDAO = sling.getService(LocationDAO.class);
 final CalendarUtil calendarUtil = sling.getService(CalendarUtil.class);
@@ -90,8 +91,8 @@ if( apiConfig.getTroops()==null || apiConfig.getTroops().size()<=0 ||
 }
 
 // Set user for session
-User user= (User)session.getValue("VTK_user");
-if( user ==null){
+org.girlscouts.vtk.models.user.User user= (org.girlscouts.vtk.models.user.User)session.getValue("VTK_user");
+if( user ==null || user.isRefresh() ){
 	
 	org.girlscouts.vtk.salesforce.Troop prefTroop = apiConfig.getTroops().get(0);
 		  
@@ -126,7 +127,7 @@ if( user ==null){
         //first time - new user
         if( user==null ){
                 //user = new User(apiConfig.getUserId()+"_"+ apiConfig.getTroops().get(0).getTroopId());
-               user = new User( "/vtk/"+prefTroop.getCouncilCode()+
+               user = new org.girlscouts.vtk.models.user.User( "/vtk/"+prefTroop.getCouncilCode()+
         		"/"+prefTroop.getTroopId()+"/users/",
         		 apiConfig.getUserId() +"_"+ prefTroop.getTroopId() );
         }
@@ -211,40 +212,33 @@ if (session.getAttribute("USER_TROOP_LIST") == null) {
 	session.setAttribute("USER_TROOP_LIST", troops);
 }
 %>
-
+<a href="/content/girlscouts-vtk/en/vtk.controller.html?resetCal=true">RESET CAL</a>
 
 	<%
-	//out.println("ERR_CODE: "+ user.getErrCode() +": " + session.getId() );
-		//if( user!=null && user.getLastModified()!=null) {
-			
-			//if( user.getLastModified().getTime().equals( new java.util.Date("1/2/1976") ) ){
-			if( user.getErrCode()!=null && user.getErrCode().equals("111") ){
-				%>
-					<div style="color:#fff; background-color:red;">Warning: another user is currently logged into this account. To continue, please logout and login again.  (This will cause the other user to be logged out.) error 111-in db</div>
-				<%
+
+		if( user.getErrCode()!=null && user.getErrCode().equals("111") ){
+			%>
+				<div style="color:#fff; background-color:red;">Warning: another user is currently logged into this account or you have no permissions. To continue, please logout and login again.  (This will cause the other user to be logged out.) error 111-in db</div>
+			<%
 			}
 			
-			//if( user.getLastModified().getTime().equals( new java.util.Date("1/3/1976") ) ){
-			
-				
-				//out.println(isMultiUserFullBlock +" : " + (user.getYearPlan()==null) +" :" + (!meetingDAO.isCurrentUserId(user, user.getCurrentUser() )) );
 		if(  isMultiUserFullBlock && user!=null && user.getYearPlan()!=null && !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) )
 		{
 			%><div style="color:#fff; background-color:red;">
 
-			Warning: another user is currently logged into this account. To continue, please logout and login again.  (This will cause the other user to be logged out.) error 111.1-another user</div><% 
-			
+			Warning: another user is currently logged into this account or you have no permissions. To continue, please logout and login again.  (This will cause the other user to be logged out.) error 111.1-another user</div><% 
+			user.setRefresh(true);
 			return;
-		}
+		    }
 		
-		
-		
-			if( user.getErrCode()!=null && user.getErrCode().equals("112") ){
+		if( user.getErrCode()!=null && user.getErrCode().equals("112") ){
 				%>
-					<div style="color:#fff; background-color:red;">Warning: another user is currently logged into this account. To continue, please logout and login again.  (This will cause the other user to be logged out.) error 112-another user</div>
+					<div style="color:#fff; background-color:red;">Warning: another user is currently logged into this account or you have no permissions. To continue, please logout and login again.  (This will cause the other user to be logged out.) error 112-another user</div>
 				<%
+				user.setRefresh(true);
+				return;
 			}
-		//}
+		
 	
 	
 	

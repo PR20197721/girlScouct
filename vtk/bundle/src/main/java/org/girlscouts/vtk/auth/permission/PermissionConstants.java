@@ -1,7 +1,7 @@
 package org.girlscouts.vtk.auth.permission;
 
 public class PermissionConstants {
-
+	
 	public static final int PERMISSION_LOGIN_ID = 0;
     public static final int PERMISSION_VIEW_YEARPLAN_ID = 10;
     
@@ -12,17 +12,29 @@ public class PermissionConstants {
     public static final int PERMISSION_CREATE_ACTIVITY_ID =140;
     
     public static final int PERMISSION_VIEW_MEETING_ID =200;    
+    public static final int PERMISSION_SEARCH_MEETING_ID =210;
+    public static final int PERMISSION_EDIT_MEETING_ID =220;
+    public static final int PERMISSION_MOVE_MEETING_ID =230;
+    public static final int PERMISSION_ADD_MEETING_ID =240;
+    public static final int PERMISSION_CANCEL_MEETING_ID =250;
+    public static final int PERMISSION_REPLACE_MEETING_ID =260;
+    public static final int PERMISSION_CREATE_MEETING_ID =270; //cust meeting
+    public static final int PERMISSION_UPDATE_MEETING_ID =280; //cust meeting
+    public static final int PERMISSION_REMOVE_MEETING_ID =290; //cust meeting
     
     public static final int PERMISSION_TERMINATE_ID = 1000; // max int for permissions
-    
+ 
+	
+	
+	
 	
 	
     public static final int GROUP_ROOT = 0;
     public static final String GROUP_ROOT_DISPLAY = "ROOT";
     public static final int[] ROOT_PERMISSIONS;
     static {
-    	ROOT_PERMISSIONS = new int[PERMISSION_TERMINATE_ID];
-        for (int i=0; i<PERMISSION_TERMINATE_ID; i++) {
+    	ROOT_PERMISSIONS = new int[ PERMISSION_TERMINATE_ID];
+        for (int i=0; i< PERMISSION_TERMINATE_ID ; i++) {
         	ROOT_PERMISSIONS[i] = i;
         }
     }
@@ -40,6 +52,7 @@ public class PermissionConstants {
     	PERMISSION_LOGIN_ID
     };
         
+    
     public static final int GROUP_LEADER = 11;
     public static final String GROUP_LEADER_DISPLAY = "Leader";
     public static final int[] GROUP_LEADER_PERMISSIONS = new int[] {

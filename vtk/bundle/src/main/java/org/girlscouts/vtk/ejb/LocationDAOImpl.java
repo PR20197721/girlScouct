@@ -13,6 +13,7 @@ import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
 import org.apache.jackrabbit.ocm.manager.impl.ObjectContentManagerImpl;
 import org.apache.jackrabbit.ocm.mapper.Mapper;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
+import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.LocationDAO;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.UserDAO;
@@ -51,7 +52,7 @@ public class LocationDAOImpl implements LocationDAO{
 		try{
 			
 			
-			if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+			if( !meetingDAO.hasAccess(user, user.getCurrentUser(), Permission.PERMISSION_CANCEL_MEETING_ID ) ){
 				 user.setErrCode("112");
 				 return;
 			 }
