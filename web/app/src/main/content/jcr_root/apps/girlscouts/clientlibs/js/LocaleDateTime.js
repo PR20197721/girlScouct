@@ -191,7 +191,8 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
         if('below' === this.timePosition || 'bellow' === this.timePosition) {
             t = CQ.Ext.DomHelper.append(ct, {tag:'table',style:'border-collapse:collapse',children:[
                  {tag:'tr',children:[{tag:'td', style:'padding-bottom:1px', cls:'ux-datetime-date'}]},
-                 {tag:'tr',children:[{tag:'td', style: this.hideTime ? "display:none;" : "", cls:"ux-datetime-time"}]}
+                 {tag:'tr',children:[{tag:'td', style: this.hideTime ? "display:none;" : "", cls:"ux-datetime-time"}]},
+                 {tag:'tr',children:[{tag:'td', style: "", cls:"ux-datetime-timezone"}]}
             ]}, true);
         } else {
             t = CQ.Ext.DomHelper.append(ct, {tag:'table',style:'border-collapse:collapse',children:[
