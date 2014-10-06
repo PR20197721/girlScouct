@@ -23,6 +23,11 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
     dateWidth:200,
 
     /**
+     * @cfg {Number} labelWidth Width of date field in pixels (defaults to 200)
+     */
+    labelWidth:150,
+
+    /**
      * @cfg {String} dtSeparator Date - Time separator. Used to split date and time (defaults to ' ' (space))
      */
     dtSeparator:' ',
@@ -509,17 +514,21 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
         if('below' === this.timePosition) {
             this.df.setSize(w, h);
             this.tf.setSize(w, h);
+            this.lf.setSize(w, h);
             if(CQ.Ext.isIE) {
                 this.df.el.up('td').setWidth(w);
                 this.tf.el.up('td').setWidth(w);
+                this.lf.el.up('td').setWidth(w);
             }
         } else {
-            this.df.setSize(w - this.timeWidth, h);
+            this.df.setSize(w - this.timeWidth - this.labelWidth, h);
             this.tf.setSize(this.timeWidth, h);
+            this.lf.setSize(this.labelWidth, h);
 
             if(CQ.Ext.isIE) {
-                this.df.el.up('td').setWidth(w - this.timeWidth);
+                this.df.el.up('td').setWidth(w - this.timeWidth - this.labelWidth);
                 this.tf.el.up('td').setWidth(this.timeWidth);
+                this.lf.el.up('td').setWidth(this.labelWidth);
             }
         }
         this.fireEvent('resize', this, w, h, w, h);
