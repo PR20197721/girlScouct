@@ -25,7 +25,7 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
     /**
      * @cfg {Number} labelWidth Width of date field in pixels (defaults to 200)
      */
-    labelWidth:150,
+    labelWidth:160,
 
     /**
      * @cfg {String} dtSeparator Date - Time separator. Used to split date and time (defaults to ' ' (space))
@@ -204,7 +204,7 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
                 {tag:'tr',children:[
                     {tag:'td', style:'padding-right:' + (this.readOnly ? this.defaultTriggerWidth : '0') + 'px', cls:'ux-datetime-date'},
                     {tag:'td', style: this.hideTime ? "display:none;" : "", cls:"ux-datetime-time"},
-                    {tag:'td', style: "", cls:"ux-datetime-timezone"}
+                    {tag:'td', style: "padding-left: 10px", cls:"ux-datetime-timezone"}
                 ]}
             ]}, true);
         }
