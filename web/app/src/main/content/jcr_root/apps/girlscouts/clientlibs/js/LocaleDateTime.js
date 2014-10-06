@@ -113,6 +113,7 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
         	var url = window.location.pathname;
         	var path = CQ.shared.HTTP.getPath(url);
 
+        	// TODO: Use regex
         	var slashPos = 0;
         	var count = 3;
         	while (count != 0) {
