@@ -163,6 +163,9 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
         }, this.timeConfig);
         this.tf = new CQ.Ext.form.TimeField(timeConfig);
         delete(this.timeFormat);
+        
+        // create timezone label
+        this.lf = new CQ.Ext.form.Label({text: this.timezone});
 
         // relay events
         this.relayEvents(this.df, ['focus', 'specialkey', 'invalid', 'valid']);
@@ -194,7 +197,8 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
             t = CQ.Ext.DomHelper.append(ct, {tag:'table',style:'border-collapse:collapse',children:[
                 {tag:'tr',children:[
                     {tag:'td', style:'padding-right:' + (this.readOnly ? this.defaultTriggerWidth : '0') + 'px', cls:'ux-datetime-date'},
-                    {tag:'td', style: this.hideTime ? "display:none;" : "", cls:"ux-datetime-time"}
+                    {tag:'td', style: this.hideTime ? "display:none;" : "", cls:"ux-datetime-time"},
+                    {tag:'td', style: "", cls:"ux-datetime-timezone"}
                 ]}
             ]}, true);
         }
@@ -207,6 +211,7 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
         // render DateField & TimeField
         this.df.render(t.child('td.ux-datetime-date'));
         this.tf.render(t.child('td.ux-datetime-time'));
+        this.lf.render(t.child('td.ux-datetime-timezone'));
 
         // workaround for IE trigger misalignment bug
         if(CQ.Ext.isIE && CQ.Ext.isStrict) {
