@@ -222,6 +222,7 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
         this.on('specialkey', this.onSpecialKey, this);
         this.df.el.swallowEvent(['keydown', 'keypress']);
         this.tf.el.swallowEvent(['keydown', 'keypress']);
+        this.lf.el.swallowEvent(['keydown', 'keypress']);
 
         // create icon for side invalid errorIcon
         if('side' === this.msgTarget) {
@@ -238,6 +239,7 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
         // prevent helper fields from being submitted
         this.df.el.dom.removeAttribute("name");
         this.tf.el.dom.removeAttribute("name");
+        this.lf.el.dom.removeAttribute("name");
 
         // add hidden type hint
         if (!this.disableTypeHint) {
