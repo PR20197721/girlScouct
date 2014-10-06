@@ -56,4 +56,5 @@ public interface MeetingDAO {
 	public  boolean hasPermission(Troop user, int permissionId);
 	public boolean hasAccess(Troop user, String mySessionId, int permissionId);
 	public void doX();
+	public java.util.Date getLastModif( Troop troop );
 }

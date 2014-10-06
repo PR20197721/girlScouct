@@ -43,14 +43,14 @@ import org.girlscouts.vtk.models.YearPlan;
 @Service(value = ActivityDAO.class)
 public class ActivityDAOImpl implements ActivityDAO {
 
-	private Session session;
+	//private Session session;
 
 	@Reference
 	private SessionPool pool;
 
 	@Activate
 	void activate() {
-		this.session = pool.getSession();
+		//this.session = pool.getSession();
 	}
 
 	//@Reference
@@ -62,7 +62,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 	
 
 	public void createActivity(Troop user, Activity activity) {
-
+		Session session=null;
 		try {
 
 			if (!meetingDAO.hasAccess(user, user.getCurrentTroop(),
@@ -70,7 +70,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 				user.setErrCode("112");
 				return;
 			}
-
+			session = pool.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(Activity.class);
@@ -110,6 +110,11 @@ public class ActivityDAOImpl implements ActivityDAO {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally{
+			try{
+				if( session!=null )
+					pool.closeSession(session);
+			}catch(Exception ex){ex.printStackTrace();}
 		}
 
 	}
@@ -134,12 +139,20 @@ public class ActivityDAOImpl implements ActivityDAO {
 
 	public boolean isActivity(String uuid) {
 
+		Session session =null;
+		
 		javax.jcr.Node node = null;
 		try {
+			session= pool.getSession();
 			node = session.getNodeByIdentifier(uuid);
 
 		} catch (Exception e) {
 			System.err.println("isActivity:Activity not found");
+		}finally{
+			try{
+				if( session!=null )
+					pool.closeSession(session);
+			}catch(Exception ex){ex.printStackTrace();}
 		}
 
 		if (node != null)
@@ -153,7 +166,9 @@ public class ActivityDAOImpl implements ActivityDAO {
 		if (uuid == null)
 			return;
 
+		Session session=null;
 		try {
+			session = pool.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Activity.class);
 
@@ -188,6 +203,11 @@ public class ActivityDAOImpl implements ActivityDAO {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally{
+			try{
+				if( session!=null )
+					pool.closeSession(session);
+			}catch(Exception ex){ex.printStackTrace();}
 		}
 
 	}
@@ -223,12 +243,19 @@ public class ActivityDAOImpl implements ActivityDAO {
 
 		String path = null;
 		javax.jcr.Node node = null;
+		Session session =null;
 		try {
+			session = pool.getSession();
 			node = session.getNodeByIdentifier(uuid);
 			if (node != null)
 				path = node.getPath().replace("/jcr:content", "");
 		} catch (Exception e) {
 			System.err.println("isActivity:Activity not found");
+		}finally{
+			try{
+				if( session!=null )
+					pool.closeSession(session);
+			}catch(Exception ex){ex.printStackTrace();}
 		}
 
 		return path;
@@ -236,10 +263,14 @@ public class ActivityDAOImpl implements ActivityDAO {
 
 	public boolean isActivityByPath(String path) {
 
+		Session session = null;
 		boolean isActivity = true;
 		try {
+			
 			String sql = "select jcr:path from nt:base where jcr:path = '"
 					+ path + "'";
+			
+			session = pool.getSession();
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -261,6 +292,11 @@ public class ActivityDAOImpl implements ActivityDAO {
 				isActivity = false;
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally{
+			try{
+				if( session!=null )
+					pool.closeSession(session);
+			}catch(Exception ex){ex.printStackTrace();}
 		}
 
 		return isActivity;
@@ -268,6 +304,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 
 	public Activity findActivity(String path) {
 		Activity activity = null;
+		Session session =null;
 		try {
 
 			String sql = "select child.register, child.address, parent.[jcr:uuid], child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, ['"
@@ -275,7 +312,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 					+ "'])) and child.start is not null and parent.[jcr:title] is not null ";
 
 			System.err.println(sql);
-
+			session = pool.getSession();
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -336,6 +373,11 @@ System.err.println("Found activvvvv");
 
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally{
+			try{
+				if( session!=null )
+					pool.closeSession(session);
+			}catch(Exception ex){ex.printStackTrace();}
 		}
 
 		return activity;

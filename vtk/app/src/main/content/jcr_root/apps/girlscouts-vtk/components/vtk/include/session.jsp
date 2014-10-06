@@ -107,7 +107,7 @@ if( apiConfig.getTroops()==null || apiConfig.getTroops().size()<=0 ||
 
 // Set user for session
 Troop troop= (Troop)session.getValue("VTK_user");
-if( troop ==null || troop.isRefresh()  ){
+if( troop ==null || troop.isRefresh() || troopUtil.isUpdated(troop) ){
 	
 	org.girlscouts.vtk.salesforce.Troop prefTroop = apiConfig.getTroops().get(0);
 		  
@@ -178,14 +178,14 @@ if( troop ==null || troop.isRefresh()  ){
        if( session!=null && troop.getCurrentTroop()!=null &&  !session.getId().equals( troop.getCurrentTroop() )){  
 			;
 		 }else{
-			 
+			 /*
 			 troop.setCurrentTroop( session.getId() );
 			 if( isMultiUserFullBlock)
 			   if( troop.getYearPlan()!=null)
 			 	 troopDAO.updateTroop(troop);
-				
+				*/
 		 }
-		troop.setCurrentTroop( session.getId() );
+		//-troop.setCurrentTroop( session.getId() );
 		
 		
 }else{
@@ -212,7 +212,12 @@ if (session.getAttribute("USER_TROOP_LIST") == null) {
 	session.setAttribute("USER_TROOP_LIST", troops);
 }
 %>
-
+	
+--<%= meetingDAO.isCurrentTroopId(troop, null) %> --::
+<%=meetingDAO.getLastModif( troop) %> ::
+Retr:<%=troop.getRetrieveTime() %>
+(<%=troop.getRetrieveTime().before(meetingDAO.getLastModif( troop)) %>)
+<%= troopUtil.isUpdated(troop)%>
 
 	<%
 
@@ -241,10 +246,9 @@ if (session.getAttribute("USER_TROOP_LIST") == null) {
 		
 	
 	
-		//out.println(troop.getSfUserId() +" : 005Z0000002OBPiIAO : " +   troop.getSfUserId().equals("005Z0000002OBPiIAO") );
 	%>
 	
-	
+
 
 <% if( troop.getSfUserId().equals("005Z0000002OBPiIAO") ) {%>
 <div class="small-18 medium-18 large-18 columns">

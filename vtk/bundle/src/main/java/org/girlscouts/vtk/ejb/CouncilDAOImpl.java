@@ -34,19 +34,21 @@ import org.girlscouts.vtk.models.YearPlan;
 @Service(value = CouncilDAO.class)
 public class CouncilDAOImpl implements CouncilDAO {
 
-	private Session session;
+	//private Session session;
 
 	@Reference
 	private SessionPool pool;
 
 	@Activate
 	void activate() {
-		this.session = pool.getSession();
+		//this.session = pool.getSession();
 	}
 
 	public Council findCouncil(String councilId) {
 		Council council = null;
+		Session session =null;
 		try {
+			session = pool.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Council.class);
 			classes.add(YearPlan.class); 
@@ -68,6 +70,11 @@ public class CouncilDAOImpl implements CouncilDAO {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally{
+			try{
+				if( session!=null )
+					pool.closeSession(session);
+			}catch(Exception ex){ex.printStackTrace();}
 		}
 
 	
@@ -75,9 +82,10 @@ public class CouncilDAOImpl implements CouncilDAO {
 	}
 
 	public Council createCouncil(String councilId) {
-		
+		Session session =null;
 		Council council = null;
 		try {
+			session = pool.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Council.class);
 			classes.add(YearPlan.class); 
@@ -100,6 +108,11 @@ public class CouncilDAOImpl implements CouncilDAO {
 			ocm.save();
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally{
+			try{
+				if( session!=null )
+					pool.closeSession(session);
+			}catch(Exception ex){ex.printStackTrace();}
 		}
 		return council;
 
@@ -116,8 +129,9 @@ public class CouncilDAOImpl implements CouncilDAO {
 	}
 	
 	public void updateCouncil(Council council){
+		Session session = null;
 		try {
-System.err.println("Update council");
+			session =pool.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Council.class);
 			classes.add(YearPlan.class); 
@@ -139,6 +153,11 @@ System.err.println("Update council");
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally{
+			try{
+				if( session!=null )
+					pool.closeSession(session);
+			}catch(Exception ex){ex.printStackTrace();}
 		}
 	}
 

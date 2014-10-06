@@ -43,11 +43,13 @@ import org.girlscouts.vtk.models.Asset;
 @Service(value = TroopDAO.class)
 public class TroopDAOImpl implements TroopDAO {
 
-	private Session session;
+	
+	//private Session session;
 
 	@Reference
 	private SessionPool pool;
 
+	
 	@Reference
 	private MeetingDAO meetingDAO;
 	
@@ -61,13 +63,15 @@ public class TroopDAOImpl implements TroopDAO {
 
 	@Activate
 	void activate() {
-		this.session = pool.getSession();
+		//this.session = pool.getSession();
 	}
 
 	public Troop getTroop(String councilId, String troopId) {
 
+		Session mySession =null;
 		Troop troop = null;
 		try {
+			mySession = pool.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
@@ -79,14 +83,16 @@ public class TroopDAOImpl implements TroopDAO {
 			classes.add(Milestone.class);
 
 			Mapper mapper = new AnnotationMapperImpl(classes);
-			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
 					mapper);
 
-			QueryManager queryManager = ocm.getQueryManager();
-			Filter filter = queryManager.createFilter(Troop.class);
+			//QueryManager queryManager = ocm.getQueryManager();
+			//Filter filter = queryManager.createFilter(Troop.class);
 
 			ocm.refresh(true);
 			troop = (Troop) ocm.getObject( "/vtk/"+ councilId +"/troops/"+ troopId);
+			if( troop!=null)
+				troop.setRetrieveTime( new java.util.Date() );
 			
 /* mooved to troopUtil
 			if (troop != null  && troop.getYearPlan()!=null && troop.getYearPlan().getMeetingEvents() != null) {
@@ -111,8 +117,13 @@ public class TroopDAOImpl implements TroopDAO {
 	        	 }
 	          }
 			*/
+			
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally{
+			try{
+				pool.closeSession(mySession);
+			} catch (Exception es){es.printStackTrace();}
 		}
 
 		return troop;
@@ -120,9 +131,10 @@ public class TroopDAOImpl implements TroopDAO {
 	
 	
 	public Troop getTroop_byPath(String troopPath) {
-
+		Session mySession =null;
 		Troop troop = null;
 		try {
+			mySession = pool.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
@@ -134,7 +146,7 @@ public class TroopDAOImpl implements TroopDAO {
 			classes.add(Milestone.class);
 
 			Mapper mapper = new AnnotationMapperImpl(classes);
-			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
 					mapper);
 
 			QueryManager queryManager = ocm.getQueryManager();
@@ -151,6 +163,10 @@ public class TroopDAOImpl implements TroopDAO {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally{
+			try{
+				pool.closeSession(mySession);
+			}catch(Exception es){es.printStackTrace();}
 		}
 
 		return troop;
@@ -162,11 +178,13 @@ public class TroopDAOImpl implements TroopDAO {
 			troop.setErrCode("112");
 			return null;
 		}
-
+		
+		Session mySession =null;
 		String x = yearPlanPath;
 		YearPlan plan = null;
 		try {
 
+			mySession = pool.getSession();
 			if (!yearPlanPath.endsWith("/"))
 				yearPlanPath = yearPlanPath + "/";
 
@@ -181,7 +199,7 @@ public class TroopDAOImpl implements TroopDAO {
 			classes.add(Milestone.class);
 
 			Mapper mapper = new AnnotationMapperImpl(classes);
-			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
 					mapper);
 			QueryManager queryManager = ocm.getQueryManager();
 
@@ -197,6 +215,10 @@ public class TroopDAOImpl implements TroopDAO {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally{
+			try{
+				pool.closeSession(mySession);
+			}catch(Exception es){es.printStackTrace();}
 		}
 
 		return plan;
@@ -204,7 +226,7 @@ public class TroopDAOImpl implements TroopDAO {
 	}
 
 	public boolean updateTroop(Troop troop) {
-
+		Session mySession =null;
 		boolean isUpdated = false;
 		try {
 
@@ -223,7 +245,7 @@ public class TroopDAOImpl implements TroopDAO {
 					return false;
 				}
 			}
-
+			mySession = pool.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
@@ -238,13 +260,16 @@ public class TroopDAOImpl implements TroopDAO {
 			classes.add(org.girlscouts.vtk.models.Troop.class);
 
 			Mapper mapper = new AnnotationMapperImpl(classes);
-			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
 					mapper);
 
+			
+	System.err.println(">>>>>>>>>>>>  CHECKING SESSION: "+ (mySession==null ));		
+			//ocm.refresh(true);
 			Comparator<MeetingE> comp = new BeanComparator("id");
 			Collections.sort(troop.getYearPlan().getMeetingEvents(), comp);
 
-			if (session.itemExists(troop.getPath())) {
+			if (mySession.itemExists(troop.getPath())) {
 
 				ocm.update(troop);
 
@@ -260,7 +285,7 @@ public class TroopDAOImpl implements TroopDAO {
 					String node = t.nextToken();
 					path += "/" + node;
 
-					if (!session.itemExists(path)) {
+					if (!mySession.itemExists(path)) {
 						if (i == 1) {
 
 							ocm.insert(new Council(path));
@@ -298,6 +323,11 @@ public class TroopDAOImpl implements TroopDAO {
 		} catch (Exception e) {
 
 			e.printStackTrace();
+			
+		}finally{
+			try{
+				pool.closeSession(mySession);
+			}catch(Exception es){es.printStackTrace();}
 		}
 
 		return isUpdated;
@@ -446,8 +476,9 @@ public class TroopDAOImpl implements TroopDAO {
 	}
 
 	public void rmTroop(Troop troop) {
+		Session mySession =null;
 		try {
-
+			mySession= pool.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
@@ -459,12 +490,16 @@ public class TroopDAOImpl implements TroopDAO {
 			classes.add(Milestone.class);
 
 			Mapper mapper = new AnnotationMapperImpl(classes);
-			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
 					mapper);
 			ocm.remove(troop);
 			ocm.save();
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally{
+			try{
+				pool.closeSession(mySession);
+			}catch(Exception e){e.printStackTrace();}
 		}
 	}
 
@@ -502,13 +537,14 @@ public class TroopDAOImpl implements TroopDAO {
 	public void loadUserGlobConfig() {
 
 		troopGlobConfig = new UserGlobConfig();
-
+		Session mySession =null;
 		try {
+			mySession = pool.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(UserGlobConfig.class);
 
 			Mapper mapper = new AnnotationMapperImpl(classes);
-			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
 					mapper);
 
 			QueryManager queryManager = ocm.getQueryManager();
@@ -519,19 +555,24 @@ public class TroopDAOImpl implements TroopDAO {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally{
+			try{
+				pool.closeSession(mySession);
+			}catch(Exception es){es.printStackTrace();}
 		}
 
 	}
 
 	public void createUserGlobConfig() {
 
+		Session mySession =null;
 		try {
-
+			mySession= pool.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(UserGlobConfig.class);
 
 			Mapper mapper = new AnnotationMapperImpl(classes);
-			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
 					mapper);
 
 			UserGlobConfig troopGlobConfig = new UserGlobConfig();
@@ -542,22 +583,26 @@ public class TroopDAOImpl implements TroopDAO {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally{
+			try{
+				pool.closeSession(mySession);
+			}catch(Exception es){es.printStackTrace();}
 		}
 
 	}
 
 	public void updateUserGlobConfig() {
-
+		Session mySession =null;
 		try {
-
+			mySession = pool.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(UserGlobConfig.class);
 
 			Mapper mapper = new AnnotationMapperImpl(classes);
-			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
 					mapper);
 
-			if (session.itemExists(troopGlobConfig.getPath())) {
+			if (mySession.itemExists(troopGlobConfig.getPath())) {
 
 				ocm.update(troopGlobConfig);
 			} else {
@@ -568,14 +613,19 @@ public class TroopDAOImpl implements TroopDAO {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally{
+			try{
+				pool.closeSession(mySession);
+			}catch(Exception es){es.printStackTrace();}
 		}
 
 	}
 
 	public java.util.List getTroops() {
+		Session mySession =null;
 		java.util.List<Troop> troops = null;
 		try {
-
+			mySession =pool.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
@@ -587,7 +637,7 @@ public class TroopDAOImpl implements TroopDAO {
 			classes.add(Milestone.class);
 
 			Mapper mapper = new AnnotationMapperImpl(classes);
-			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
 					mapper);
 
 			QueryManager queryManager = ocm.getQueryManager();
@@ -601,6 +651,10 @@ public class TroopDAOImpl implements TroopDAO {
 
 		} catch (Exception e) {
 			e.printStackTrace();
+		}finally{
+			try{
+				pool.closeSession(mySession);
+			}catch(Exception es){es.printStackTrace();}
 		}
 		return troops;
 	}

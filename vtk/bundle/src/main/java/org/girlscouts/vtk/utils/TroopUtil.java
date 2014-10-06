@@ -10,6 +10,7 @@ import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.girlscouts.vtk.dao.ActivityDAO;
+import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.TroopDAO;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.MeetingE;
@@ -24,13 +25,17 @@ public class TroopUtil {
 
 	@Reference
 	ActivityDAO activityDAO;
+	
+	@Reference
+	MeetingDAO meetingDAO;
 
 	public Troop getTroop(String councilId, String troopId) {
 
 		Troop troop = null;
 
 		troop = troopDAO.getTroop(councilId, troopId);
-
+		if( troop ==null ) return troop;
+		
 		if (troop != null && troop.getYearPlan() != null
 				&& troop.getYearPlan().getMeetingEvents() != null) {
 
@@ -38,6 +43,7 @@ public class TroopUtil {
 			Collections.sort(troop.getYearPlan().getMeetingEvents(), comp);
 		}
 
+		if (troop.getYearPlan() == null) return troop;
 		java.util.List<Activity> activities = troop.getYearPlan()
 				.getActivities();
 		if (activities != null)
@@ -59,5 +65,16 @@ public class TroopUtil {
 		return troop;
 	}
 	
+	
+	public boolean isUpdated(Troop troop){
+			
+			java.util.Date lastUpdate =meetingDAO.getLastModif(troop);
+			if( lastUpdate !=null && troop.getRetrieveTime().before(lastUpdate) ){
+				troop.setRefresh(true);
+				return false;
+			}
+					
+			return true;	
+	}
 	
 }

@@ -15,10 +15,12 @@ public class Troop {
 	public Troop(String path, String troopId){
 		this.id=troopId;
 		this.path= path + troopId;
+		
 	}
 	
 	public Troop(String troopId){
 		this.id=troopId;
+		
 	}
 	
 	@Field(id=true) private String id;
@@ -32,12 +34,18 @@ public class Troop {
 	@Field private String currentTroop;	
 	@Field private String errCode, refId;
 	private boolean isRefresh; // reload yearPlan from DB. case: someone modified plan:lock
+	private java.util.Date retrieveTime;
 	
-	//tmp
-	private EmailMeetingReminder sendingEmail;	
+	private EmailMeetingReminder sendingEmail;	//tmp
 	
 	
 	
+	public java.util.Date getRetrieveTime() {
+		return retrieveTime;
+	}
+	public void setRetrieveTime(java.util.Date retrieveTime) {
+		this.retrieveTime = retrieveTime;
+	}
 	public boolean isRefresh() {
 		return isRefresh;
 	}

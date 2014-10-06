@@ -73,7 +73,7 @@ import com.day.cq.search.result.SearchResult;
 @Service(value=MeetingDAO.class)
 public class MeetingDAOImpl implements MeetingDAO {
 
-   private Session session;
+   //private Session session;
    
     @Reference
     private SessionPool pool;
@@ -88,7 +88,7 @@ public class MeetingDAOImpl implements MeetingDAO {
     
     @Activate
     void activate() {
-        this.session = pool.getSession();
+       // this.session = pool.getSession();
     }
 	
 
@@ -96,10 +96,11 @@ public class MeetingDAOImpl implements MeetingDAO {
 public java.util.List<MeetingE> getAllEventMeetings(String yearPlanId){
 		
 		java.util.List<MeetingE> meetings =null; 
-		
+		Session session=null;
 	
 		
 		try{
+			session = pool.getSession();
 			List<Class> classes = new ArrayList<Class>();	
 			classes.add(MeetingE.class); 
 			
@@ -119,7 +120,13 @@ public java.util.List<MeetingE> getAllEventMeetings(String yearPlanId){
 	         meetings = (List<MeetingE> ) ocm.getObjects(query);
 	      
 			
-			}catch(Exception e){e.printStackTrace();}
+			}catch(Exception e){e.printStackTrace();
+			}finally{
+				try{
+					if( session!=null )
+						pool.closeSession(session);
+				}catch(Exception ex){ex.printStackTrace();}
+			}
 		
 		
 		return meetings;
@@ -133,12 +140,12 @@ public java.util.List<MeetingE> getAllEventMeetings_byPath(String yearPlanPath){
 	
 	java.util.List<MeetingE> meetings =null; 
 	
-	
+	Session session =null;
 	
 	try{
 		List<Class> classes = new ArrayList<Class>();	
 		classes.add(MeetingE.class); 
-		
+		session = pool.getSession();
 		
 		Mapper mapper = new AnnotationMapperImpl(classes);
 		ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
@@ -156,7 +163,12 @@ public java.util.List<MeetingE> getAllEventMeetings_byPath(String yearPlanPath){
          meetings = (List<MeetingE> ) ocm.getObjects(query);
         
 		}catch(Exception e){e.printStackTrace();}
-	
+	finally{
+		try{
+			if( session!=null )
+				pool.closeSession(session);
+		}catch(Exception ex){ex.printStackTrace();}
+	}
 	
 	return meetings;
 }
@@ -168,10 +180,11 @@ public java.util.List<MeetingE> getAllEventMeetings_byPath(String yearPlanPath){
 public Meeting getMeeting(String path){
 		
 		Meeting meeting =null; 
-		
+		Session session =null;
 		
 		
 		try{
+			session = pool.getSession();
 			List<Class> classes = new ArrayList<Class>();	
 			 
 			classes.add(Meeting.class); 
@@ -185,7 +198,13 @@ public Meeting getMeeting(String path){
 	
 			meeting = (Meeting)ocm.getObject(path);
 	        
-			}catch(Exception e){e.printStackTrace();}
+			}catch(Exception e){e.printStackTrace();
+			}finally{
+				try{
+					if( session!=null )
+						pool.closeSession(session);
+				}catch(Exception ex){ex.printStackTrace();}
+			}
 		
 		
 		return meeting;
@@ -199,12 +218,13 @@ public Meeting getMeeting(String path){
 public java.util.List<MeetingE> getAllUsersEventMeetings(Troop user, String yearPlanId){
 	
 	//TOD yearPLanId ????
-	
+	Session session =null;
 	java.util.List<MeetingE> meetings =null; 
 	
 	if( !hasPermission(user, Permission.PERMISSION_VIEW_MEETING_ID )) return meetings;
 	
 	try{
+		session = pool.getSession();
 		List<Class> classes = new ArrayList<Class>();	
 		classes.add(MeetingE.class); 
 		
@@ -220,7 +240,14 @@ public java.util.List<MeetingE> getAllUsersEventMeetings(Troop user, String year
         
          meetings = (List<MeetingE> ) ocm.getObjects(query);
       
-		}catch(Exception e){e.printStackTrace();}
+		}catch(Exception e){e.printStackTrace();
+		}finally{
+			try{
+				if( session!=null )
+					pool.closeSession(session);
+			}catch(Exception ex){ex.printStackTrace();}
+		}
+	
 	
 	
 	return meetings;
@@ -231,7 +258,7 @@ public java.util.List<MeetingE> getAllUsersEventMeetings(Troop user, String year
 //get all event meetings for users plan
 public Meeting createCustomMeeting(Troop user, MeetingE meetingEvent){ return createCustomMeeting(user, meetingEvent, null); }
 public Meeting createCustomMeeting(Troop user, MeetingE meetingEvent, Meeting meeting){
-	
+	Session session =null;
 	//Meeting meeting =null;
 	try{
 		
@@ -239,7 +266,7 @@ public Meeting createCustomMeeting(Troop user, MeetingE meetingEvent, Meeting me
 			 user.setErrCode("112");
 			 return null;
 		 }
-		
+		session = pool.getSession();
 		List<Class> classes = new ArrayList<Class>();	
 		classes.add(MeetingE.class); 
 		classes.add(Meeting.class);
@@ -262,9 +289,6 @@ public Meeting createCustomMeeting(Troop user, MeetingE meetingEvent, Meeting me
 			ocm.save();
 		}
 	
-		
-	
-		
 		meetingEvent.setRefId(newPath);
 		meeting.setPath(newPath);
 		
@@ -272,7 +296,13 @@ public Meeting createCustomMeeting(Troop user, MeetingE meetingEvent, Meeting me
 		ocm.update(meetingEvent);
 		ocm.save();
 		
-	}catch(Exception e){e.printStackTrace();}
+	}catch(Exception e){e.printStackTrace();
+	}finally{
+		try{
+			if( session!=null )
+				pool.closeSession(session);
+		}catch(Exception ex){ex.printStackTrace();}
+	}
 	
 	return meeting;
 	
@@ -281,7 +311,7 @@ public Meeting createCustomMeeting(Troop user, MeetingE meetingEvent, Meeting me
 
 public Meeting updateCustomMeeting(Troop user, MeetingE meetingEvent, Meeting meeting){
 	
-	//Meeting meeting =null;
+	Session session =null;
 	try{
 		
 		if( !hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_UPDATE_MEETING_ID ) ){ 			
@@ -289,7 +319,7 @@ public Meeting updateCustomMeeting(Troop user, MeetingE meetingEvent, Meeting me
 			 return null;
 		 }
 		
-		
+		session = pool.getSession();
 		List<Class> classes = new ArrayList<Class>();	
 		classes.add(MeetingE.class); 
 		classes.add(Meeting.class);
@@ -320,7 +350,13 @@ public Meeting updateCustomMeeting(Troop user, MeetingE meetingEvent, Meeting me
 		ocm.update(meetingEvent);
 		ocm.save();
 		
-	}catch(Exception e){e.printStackTrace();}
+	}catch(Exception e){e.printStackTrace();
+	}finally{
+		try{
+			if( session!=null )
+				pool.closeSession(session);
+		}catch(Exception ex){ex.printStackTrace();}
+	}
 	
 	return meeting;
 	
@@ -328,6 +364,7 @@ public Meeting updateCustomMeeting(Troop user, MeetingE meetingEvent, Meeting me
 
 
 public Meeting addActivity(Troop user, Meeting meeting, Activity activity){
+	
 	
 	if( !hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_CREATE_ACTIVITY_ID ) ){ 
 		 user.setErrCode("112");
@@ -338,8 +375,11 @@ public Meeting addActivity(Troop user, Meeting meeting, Activity activity){
 	java.util.List <Activity> activities = meeting.getActivities();
 	activities.add( activity);
 	meeting.setActivities(activities);
+	Session session =null;
 	
 	try{
+		
+		session = pool.getSession();
 	List<Class> classes = new ArrayList<Class>();	
 	classes.add(MeetingE.class); 
 	classes.add(Meeting.class);
@@ -352,7 +392,13 @@ public Meeting addActivity(Troop user, Meeting meeting, Activity activity){
 	ocm.update(meeting);
 	ocm.save();
 	
-	}catch(Exception e){e.printStackTrace();}
+	}catch(Exception e){e.printStackTrace();
+	}finally{
+		try{
+			if( session!=null )
+				pool.closeSession(session);
+		}catch(Exception ex){ex.printStackTrace();}
+	}
 	
 	
 	return meeting;
@@ -361,9 +407,10 @@ public Meeting addActivity(Troop user, Meeting meeting, Activity activity){
 
 
 public List< Meeting> search(){
-	
+	Session session =null;
 	List< Meeting> meetings=null;
 	try{
+		session = pool.getSession();
 		List<Class> classes = new ArrayList<Class>();	
 		classes.add(Meeting.class); 
 		classes.add(Activity.class);
@@ -383,7 +430,13 @@ public List< Meeting> search(){
         
         meetings = (List<Meeting> ) ocm.getObjects(query);
         
-		}catch(Exception e){e.printStackTrace();}
+		}catch(Exception e){e.printStackTrace();
+		}finally{
+			try{
+				if( session!=null )
+					pool.closeSession(session);
+			}catch(Exception ex){ex.printStackTrace();}
+		}
 	
 	return meetings;
 	
@@ -394,11 +447,12 @@ public List< Meeting> search(){
 
 public java.util.List<String> doSpellCheck(String word) throws Exception{
 	
-	
+	Session session =null;
 	java.util.List<String> suggest= new java.util.ArrayList();
 
 	
-
+try{
+	session = pool.getSession();
 	javax.jcr.query.QueryManager qm = (javax.jcr.query.QueryManager)session.getWorkspace().getQueryManager();
 	
 
@@ -427,12 +481,19 @@ public java.util.List<String> doSpellCheck(String word) throws Exception{
    for(int i=0;i< values.length;i++){
 	   suggest.add(values[i].getString());
    }
-   
+}catch(Exception e){e.printStackTrace();
+}finally{
+	try{
+		if( session!=null )
+			pool.closeSession(session);
+	}catch(Exception ex){ex.printStackTrace();}
+}
 return suggest;
 }
 
 
 public List<org.girlscouts.vtk.models.Search> getData(Troop user, String _query) {
+	Session session =null;
 	
 	List<org.girlscouts.vtk.models.Search> matched =null;
 	if(!hasPermission(user, Permission.PERMISSION_SEARCH_MEETING_ID)) return matched;
@@ -455,7 +516,9 @@ public List<org.girlscouts.vtk.models.Search> getData(Troop user, String _query)
 	
 	matched = new ArrayList<org.girlscouts.vtk.models.Search>();
 
-		
+		try{
+			
+		session = pool.getSession();
                    
     // create query description as hash map (simplest way, same as form post)
     java.util.Map<String, String> map = new java.util.HashMap<String, String>();  
@@ -540,15 +603,22 @@ public List<org.girlscouts.vtk.models.Search> getData(Troop user, String _query)
    while( itr.hasNext())
 	   matched.add( unq.get( itr.next() ) );
    
-   
+		}catch(Exception e){e.printStackTrace();
+		}finally{
+			try{
+				if( session!=null )
+					pool.closeSession(session);
+			}catch(Exception ex){ex.printStackTrace();}
+		}
 
     return matched;
 }
 public List<org.girlscouts.vtk.models.Search> getDataSQL2(String query) {
 	  
 	List<org.girlscouts.vtk.models.Search> matched = new ArrayList<org.girlscouts.vtk.models.Search>();
-	
+	Session session =null;
 	try{
+		session = pool.getSession();
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
 		
 		String sql="select parent.*, child.* , child.[dc:title], child.[dc:description] , " +
@@ -588,7 +658,13 @@ public List<org.girlscouts.vtk.models.Search> getDataSQL2(String query) {
 		 }
 		
    
-	}catch(Exception e){e.printStackTrace();}
+	}catch(Exception e){e.printStackTrace();
+	}finally{
+		try{
+			if( session!=null )
+				pool.closeSession(session);
+		}catch(Exception ex){ex.printStackTrace();}
+	}
    return matched;
 	}
 
@@ -613,8 +689,10 @@ public java.util.List<Asset> getAids(String tags,
 
 
 private List<Asset> getAidTag(String tags, String meetingName) {	
-	List<Asset> matched = new ArrayList<Asset>();	
+	List<Asset> matched = new ArrayList<Asset>();
+	Session session =null;
 	try{
+		session = pool.getSession();
 		if( tags==null || tags.trim().equals("")) return matched;
 		
 		String sql_tag="";
@@ -667,7 +745,13 @@ private List<Asset> getAidTag(String tags, String meetingName) {
 
    
    
-	}catch(Exception e){e.printStackTrace();}
+	}catch(Exception e){e.printStackTrace();
+	}finally{
+		try{
+			if( session!=null )
+				pool.closeSession(session);
+		}catch(Exception ex){ex.printStackTrace();}
+	}
    return matched;
 	}
 
@@ -676,7 +760,7 @@ private List<Asset> getAidTag_local(String tags, String meetingName) {
 	  
 	
 	List<Asset> matched = new ArrayList<Asset>();
-	
+	Session session =null;
 	try{
 		/*
 		String sql_tag="";
@@ -698,7 +782,7 @@ private List<Asset> getAidTag_local(String tags, String meetingName) {
 		//sql="select dc:description,dc:format from nt:base where  jcr:primaryType= 'dam:Asset' and jcr:path like '/content/dam/girlscouts-vtk/local/aid/Meetings/"+meetingName+"/%' ";
 		
 		sql="select dc:description,dc:format, dc:title  from nt:unstructured where  jcr:path like '/content/dam/girlscouts-vtk/local/aid/meetings/"+meetingName+"/%' and jcr:mixinTypes='cq:Taggable'";
-		
+		session = pool.getSession();
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
    		
@@ -725,7 +809,13 @@ private List<Asset> getAidTag_local(String tags, String meetingName) {
        matched.add(search);
       
    }
-	}catch(Exception e){e.printStackTrace();}
+	}catch(Exception e){e.printStackTrace();
+	}finally{
+		try{
+			if( session!=null )
+				pool.closeSession(session);
+		}catch(Exception ex){ex.printStackTrace();}
+	}
    return matched;
 	}
 
@@ -737,17 +827,14 @@ private List<Asset> getAidTag_custasset(String uid) {
 	  
 	
 	List<Asset> matched = new ArrayList<Asset>();
-	
+	Session session =null;
 	try{
 		
-		
-		
+		session = pool.getSession();
 		String sql= "select jcr:path from nt:base where jcr:path like '/vtk/111/troop-1a/assets/%' and refId='"+ uid +"'";
-		
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
    		
-		 		
 		QueryResult result = q.execute();
    
  
@@ -765,7 +852,13 @@ private List<Asset> getAidTag_custasset(String uid) {
         matched.add(search);
       
    }
-	}catch(Exception e){e.printStackTrace();}
+	}catch(Exception e){e.printStackTrace();
+	}finally{
+		try{
+			if( session!=null )
+				pool.closeSession(session);
+		}catch(Exception ex){ex.printStackTrace();}
+	}
    return matched;
 	}
 
@@ -871,14 +964,9 @@ private List<Asset> getResource_global(String tags, String meetingName) {
 	  
 	
 	List<Asset> matched = new ArrayList<Asset>();
-	
+	Session session=null;
 	try{
-		
-		/* getResources ???
-		 List<Asset> matched_local= getAidTag_local(tags,meetingName) ;
-		   matched.addAll(matched_local);
-	   */
-		   
+		session = pool.getSession();
 		  if( tags==null || tags.equals("")) return matched;
 		
 		String sql_tag="";
@@ -924,12 +1012,13 @@ private List<Asset> getResource_global(String tags, String meetingName) {
        matched.add(search);
       
    }
-   
- 
-	  
-   
-   
-	}catch(Exception e){e.printStackTrace();}
+	}catch(Exception e){e.printStackTrace();
+	}finally{
+		try{
+			if( session!=null )
+				pool.closeSession(session);
+		}catch(Exception ex){ex.printStackTrace();}
+	}
    return matched;
 	}
 
@@ -938,7 +1027,7 @@ private List<Asset> getResource_local(String tags, String meetingName) {
 	  
 	
 	List<Asset> matched = new ArrayList<Asset>();
-	
+	Session session =null;
 	try{
 	
 		
@@ -948,15 +1037,11 @@ private List<Asset> getResource_local(String tags, String meetingName) {
 		
 		
 		sql="select dc:description,dc:format, dc:title  from nt:unstructured where  jcr:path like '/content/dam/girlscouts-vtk/local/resource/meetings/"+meetingName+"/%' and jcr:mixinTypes='cq:Taggable'";
-		
+		session = pool.getSession();
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
-		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
-   		
-		 		
+		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);    		
 		QueryResult result = q.execute();
-   
- 
-   
+     
    for (RowIterator it = result.getRows(); it.hasNext(); ) {
        Row r = it.nextRow();
        Value excerpt = r.getValue("jcr:path");
@@ -975,7 +1060,13 @@ private List<Asset> getResource_local(String tags, String meetingName) {
        matched.add(search);
       
    }
-	}catch(Exception e){e.printStackTrace();}
+	}catch(Exception e){e.printStackTrace();
+	}finally{
+		try{
+			if( session!=null )
+				pool.closeSession(session);
+		}catch(Exception ex){ex.printStackTrace();}
+	}
    return matched;
 	}
 
@@ -988,12 +1079,11 @@ public SearchTag searchA( String councilCode){
 	String councilStr = councilMapper.getCouncilBranch(councilCode);
 	councilStr = councilStr.replace("/content/","");
 
-	
+	Session session =null;
 	SearchTag tags = new SearchTag();
 	try{
-		
-		java.util.Map<String, String> regionsMain = searchRegion(councilStr);
-		
+		session = pool.getSession();
+		java.util.Map<String, String> regionsMain = searchRegion(councilStr);		
 		java.util.Map<String, String> categories = new java.util.TreeMap();
 		java.util.Map<String, String> levels = new java.util.TreeMap();
 		
@@ -1052,7 +1142,13 @@ public SearchTag searchA( String councilCode){
 		 tags.setLevels( levels );
 		 tags.setRegion( searchRegion(councilStr) );
 		 
-	}catch(Exception e){e.printStackTrace();}
+	}catch(Exception e){e.printStackTrace();
+	}finally{
+		try{
+			if( session!=null )
+				pool.closeSession(session);
+		}catch(Exception ex){ex.printStackTrace();}
+	}
 
 	return tags;
 }
@@ -1069,11 +1165,11 @@ public SearchTag searchA( String councilCode){
 
 public SearchTag getDefaultTags( ){
 	
-	
+	Session session =null;
 	String councilStr = "girlscouts";
 	SearchTag tags = new SearchTag();
 	try{
-		
+		session = pool.getSession();
 		java.util.Map<String, String> categories = new java.util.TreeMap();
 		java.util.Map<String, String> levels = new java.util.TreeMap();
 		
@@ -1123,7 +1219,13 @@ public SearchTag getDefaultTags( ){
 		 tags.setLevels( levels );
 		 tags.setRegion( searchRegion(councilStr) );
 		 
-	}catch(Exception e){e.printStackTrace();}
+	}catch(Exception e){e.printStackTrace();
+	}finally{
+		try{
+			if( session!=null )
+				pool.closeSession(session);
+		}catch(Exception ex){ex.printStackTrace();}
+	}
 
 	return tags;
 }
@@ -1133,9 +1235,9 @@ public java.util.List<Activity> searchA2(Troop user, String tags, String cat, St
 		java.util.Date startDate, java.util.Date endDate, String region){
 	
 	java.util.List<Activity> toRet= new java.util.ArrayList();
-			
+	Session session =null;
 	try{
-		
+		session = pool.getSession();
 		
 		boolean isTag=false;
 		
@@ -1310,7 +1412,14 @@ if( (activity.getDate().before(new java.util.Date()) && activity.getEndDate()==n
 		 
 		
 		 
-	}catch(Exception e){e.printStackTrace();}
+	}catch(Exception e){e.printStackTrace();
+	}finally{
+		try{
+			if( session!=null )
+				pool.closeSession(session);
+		}catch(Exception ex){ex.printStackTrace();}
+	}
+	
 	return toRet;
 }
 
@@ -1318,8 +1427,9 @@ if( (activity.getDate().before(new java.util.Date()) && activity.getEndDate()==n
 
 public java.util.Map<String, String> searchRegion( String councilStr){
 	java.util.Map<String, String> container = new java.util.TreeMap();
+	Session session =null;
 	try{
-		
+		session = pool.getSession();
 		
 		java.util.Map<String, String> categories = new java.util.TreeMap();
 		java.util.Map<String, String> levels = new java.util.TreeMap();
@@ -1385,7 +1495,13 @@ public java.util.Map<String, String> searchRegion( String councilStr){
 		
 		
 		 
-	}catch(Exception e){e.printStackTrace();}
+	}catch(Exception e){e.printStackTrace();
+	}finally{
+		try{
+			if( session!=null )
+				pool.closeSession(session);
+		}catch(Exception ex){ex.printStackTrace();}
+	}
 
 	return container;
 }
@@ -1398,8 +1514,9 @@ public java.util.List<Meeting> getAllMeetings(String gradeLevel){
 	java.util.List<Meeting> meetings =null; //new java.util.ArrayList();
 	
 
-	
+	Session session=null;
 	try{
+		session = pool.getSession();
 		List<Class> classes = new ArrayList<Class>();	
 		classes.add(Meeting.class); 
 		classes.add(Activity.class);
@@ -1423,7 +1540,13 @@ public java.util.List<Meeting> getAllMeetings(String gradeLevel){
  	    Collections.sort( meetings, comp);
  		
 		
-		}catch(Exception e){e.printStackTrace();}
+		}catch(Exception e){e.printStackTrace();
+		}finally{
+			try{
+				if( session!=null )
+					pool.closeSession(session);
+			}catch(Exception ex){ex.printStackTrace();}
+		}
 	
 	
 	
@@ -1441,7 +1564,7 @@ public  List<Asset> getAllResources(String _path) {
 	  
 	
 	List<Asset> matched = new ArrayList<Asset>();
-	
+	Session session =null;
 	try{
 		
 		
@@ -1450,7 +1573,7 @@ public  List<Asset> getAllResources(String _path) {
 		sql="select [dc:description], [dc:format], [dc:title], [jcr:mimeType], [jcr:path] " +
 				" from [nt:unstructured] as parent where " +
 				" (isdescendantnode (parent, ["+ _path +"])) and [cq:tags] is not null";
-		
+		session = pool.getSession();
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.JCR_SQL2); 
    		
@@ -1474,7 +1597,8 @@ public  List<Asset> getAllResources(String _path) {
     	   String t= r.getPath().substring( r.getPath().indexOf(".") );
     	   t= t.substring(1, t.indexOf("/"));
     	   search.setDocType( t );
-       }catch(Exception e){e.printStackTrace();}
+       }catch(Exception e){e.printStackTrace();
+       }
        
        
        matched.add(search);
@@ -1482,16 +1606,22 @@ public  List<Asset> getAllResources(String _path) {
    }
    
    
-	}catch(Exception e){e.printStackTrace();}
+	}catch(Exception e){e.printStackTrace();
+	}finally{
+		try{
+			if( session!=null )
+				pool.closeSession(session);
+		}catch(Exception ex){ex.printStackTrace();}
+	}
    return matched;
 	}
 
 public  Asset getAsset(String _path) {
 	  
 	Asset search=null;
-	
+	Session session =null;
 try{
-		
+		session = pool.getSession();
 		String sql="";
 		
 		if( _path!=null && _path.contains("metadata/") )
@@ -1521,7 +1651,14 @@ try{
        
       
    }
-}catch(Exception e){e.printStackTrace();}
+}catch(Exception e){e.printStackTrace();
+}finally{
+	try{
+		if( session!=null )
+			pool.closeSession(session);
+	}catch(Exception ex){ex.printStackTrace();}
+}
+
 return search;
 }
 
@@ -1532,9 +1669,10 @@ return search;
 public java.util.List<Asset> getGlobalResources( String resourceTags){
 	java.util.List<Asset> toRet= new java.util.ArrayList();
 	if( resourceTags==null || resourceTags.equals("")) return toRet;
+	Session session=null;
 	try{
 		
-		
+		session = pool.getSession();
 		java.util.Map<String, String> map = new java.util.HashMap<String, String>();
 		map.put("group.p.or", "true"); 
 		
@@ -1581,17 +1719,23 @@ public java.util.List<Asset> getGlobalResources( String resourceTags){
 	       }catch(Exception e){e.printStackTrace();}
 	   }
 		
-	}catch(Exception e){e.printStackTrace();}
+	}catch(Exception e){e.printStackTrace();
+	}finally{
+		try{
+			if( session!=null )
+				pool.closeSession(session);
+		}catch(Exception ex){ex.printStackTrace();}
+	}
 	
 	
 	return toRet;
 }
 
 public Council getCouncil(String councilId){
-
+	Session session = pool.getSession();
 		Council council= null;
 		try{
-			
+			session = pool.getSession();
 			List<Class> classes = new ArrayList<Class>();	
 			classes.add(Council.class);
 			
@@ -1603,7 +1747,13 @@ public Council getCouncil(String councilId){
 		
 	        council= (Council) ocm.getObject("/vtk/"+ councilId );
 		      
-		}catch(Exception e){e.printStackTrace();}
+		}catch(Exception e){e.printStackTrace();
+		}finally{
+			try{
+				if( session!=null )
+					pool.closeSession(session);
+			}catch(Exception ex){ex.printStackTrace();}
+		}
 		
 		return council;
 
@@ -1615,12 +1765,12 @@ public java.util.List<Milestone> getCouncilMilestones(String councilCode){
 	String councilStr = councilMapper.getCouncilBranch(councilCode);
 	councilStr = councilStr.replace("/content/","");
 	//System.err.println("Counccccc: " +councilStr);
-	
+	Session  session =null;
 	
 	
 	java.util.List<Milestone> milestones = null;
 	try{
-		
+		session = pool.getSession();
 		List<Class> classes = new ArrayList<Class>();	
 		//classes.add(Council.class);
 		classes.add( Milestone.class);
@@ -1642,7 +1792,13 @@ public java.util.List<Milestone> getCouncilMilestones(String councilCode){
 		System.err.println( "Millllsss: "+ (milestones==null) );
 		System.err.println( "Millllsssss: "+ (milestones.size()) );
 	      
-	}catch(Exception e){e.printStackTrace();}
+	}catch(Exception e){e.printStackTrace();
+	}finally{
+		try{
+			if( session!=null )
+				pool.closeSession(session);
+		}catch(Exception ex){ex.printStackTrace();}
+	}
 	
 	return milestones;
 
@@ -1652,10 +1808,10 @@ public java.util.List<Milestone> getCouncilMilestones(String councilCode){
 public void  saveCouncilMilestones(java.util.List<Milestone> milestones){
 
 	
-	
+	Session session = null;
 	
 	try{
-		
+		session = pool.getSession();
 		List<Class> classes = new ArrayList<Class>();	
 		classes.add( Milestone.class);
 		
@@ -1667,13 +1823,33 @@ public void  saveCouncilMilestones(java.util.List<Milestone> milestones){
 		
 		ocm.save();
 		
-	}catch(Exception e){e.printStackTrace();}
+	}catch(Exception e){e.printStackTrace();
+	}finally{
+		try{
+			if( session!=null )
+				pool.closeSession(session);
+		}catch(Exception ex){ex.printStackTrace();}
+	}
 	
 
 
 }
 
+public boolean isCurrentTroopId(Troop troop, String sId){
+	
+	java.util.Date lastUpdate = getLastModif(troop);
+	System.err.println( "LastUpdate: "+lastUpdate +" : "+ troop.getRetrieveTime());
+	if( lastUpdate !=null && troop.getRetrieveTime().before(lastUpdate) ){
+		troop.setRefresh(true);
+		System.err.println("YES CURRENT.");
+		return false;
+	}
+	
+	
+	return true;
+}
 
+/*
 public boolean isCurrentTroopId(Troop user, String sId){
 
 	
@@ -1731,7 +1907,7 @@ public boolean isCurrentTroopId(Troop user, String sId){
 	return isUser;
 	
 }
-
+*/
 
 
 private String getLocation(Troop user, String locationId){
@@ -1770,13 +1946,13 @@ public java.util.List<Activity> searchA1(Troop user, String tags, String cat, St
 	
 	java.util.List<Activity> toRet= new java.util.ArrayList();
 			
-	
+	Session session =null;
 	if(!hasPermission(user, Permission.PERMISSION_SEARCH_MEETING_ID)) return toRet;
 	
 	
 	try{
 		
-		
+		session = pool.getSession();
 		boolean isTag=false;
 		
 		
@@ -1939,7 +2115,13 @@ if( (activity.getDate().before(new java.util.Date()) && activity.getEndDate()==n
 		 
 		 System.err.println("Total: "+ i);
 		 
-	}catch(Exception e){e.printStackTrace();}
+	}catch(Exception e){e.printStackTrace();
+	}finally{
+		try{
+			if( session!=null )
+				pool.closeSession(session);
+		}catch(Exception ex){ex.printStackTrace();}
+	}
 	return toRet;
 }
 
@@ -1975,9 +2157,9 @@ public boolean hasAccess(Troop user, String mySessionId, int permissionId){
 
 
 public void doX(){
-	
+	Session session =null;
 	try{
-		   	
+		   	session = pool.getSession();
         	Node vtkRootNode = session.getNode("/vtk");
     		String sql="select * from nt:unstructured where jcr:path like '/vtk/%/users/%'";
     		
@@ -2013,9 +2195,41 @@ public void doX(){
            if(true)return;
            
        }
-        }catch(Exception e){e.printStackTrace();}
+        }catch(Exception e){e.printStackTrace();
+        }finally{
+			try{
+				if( session!=null )
+					pool.closeSession(session);
+			}catch(Exception ex){ex.printStackTrace();}
+		}
 	
 }
+
+
+public java.util.Date getLastModif( Troop troop ){
+	Session session = null;
+	java.util.Date toRet=null;
+	try{
+		session = pool.getSession();
+	String sql="select jcr:lastModified from nt:base where jcr:path = '"+ troop.getPath() +"'";
+	javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
+	javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 		
+	QueryResult result = q.execute();
+	 for (RowIterator it = result.getRows(); it.hasNext(); ) {	 
+		 Row r = it.nextRow();
+		 toRet = new java.util.Date(r.getValue("jcr:lastModified").getLong());
+	 }
+	}catch(Exception e){e.printStackTrace();
+	}finally{
+		try{
+			if( session!=null )
+				pool.closeSession(session);
+		}catch(Exception ex){ex.printStackTrace();}
+	}
+	return toRet;
+}
+
+
 
 
 }//edn class

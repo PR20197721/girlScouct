@@ -24,7 +24,7 @@ import org.girlscouts.vtk.dao.SearchDAO;
 @Service(value=SearchDAO.class)
 public class Search implements SearchDAO {
 
-	private Session session;
+	//private Session session;
     
     @Reference
     private SessionPool pool;
@@ -32,7 +32,7 @@ public class Search implements SearchDAO {
    
     @Activate
     void activate() {
-        this.session = pool.getSession();
+        //this.session = pool.getSession();
     }
 	
 	
@@ -83,9 +83,10 @@ public class Search implements SearchDAO {
 	}
 	*/
   public List<String> getData(String query) {
-	  
+	  Session session =null;
 	List<String> matched = new ArrayList<String>();
 	try{
+		session = pool.getSession();
     QueryManager qm = session.getWorkspace().getQueryManager();
     Query q = qm.createQuery("select jcr:path, excerpt(.) from nt:resource    where jcr:path like '/content/dam/%' and  contains(., '"+ query +"')", Query.SQL); 
     QueryResult result = q.execute();
@@ -95,7 +96,13 @@ public class Search implements SearchDAO {
         
         matched.add(excerpt.getString());
     }
-	}catch(Exception e){e.printStackTrace();}
+	}catch(Exception e){e.printStackTrace();
+	}finally{
+		try{
+			if( session!=null )
+				pool.closeSession(session);
+		}catch(Exception ex){ex.printStackTrace();}
+	}
     return matched;
 	}
 	

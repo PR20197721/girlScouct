@@ -186,8 +186,8 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	org.girlscouts.vtk.models.Asset asset = new org.girlscouts.vtk.models.Asset(request.getParameter("addAsset"));
 	troopDAO.addAsset( troop ,  request.getParameter("meetingUid"),   asset);
 }else if( request.getParameter("testAB")!=null){
-	boolean isUsrUpd= troopDAO.updateTroop(troop) ;
 	
+	boolean isUsrUpd= troopDAO.updateTroop(troop) ;	
 	if(!isUsrUpd)
 		vtkErr+= vtkErr.concat("Warning: You last change was not saved.");
 	
@@ -195,6 +195,9 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	
 	//getMeeting(girlscouts-vtk/yearPlanTemplates/yearplan2014/brownie/yearPlan1/meetings/meeting1");
 	//meetingDAO.getMeeting("/content/girlscouts-vtk/meetings/myyearplan/brownie/B14OG01");
+
+	//troopDAO.createTroop(councilId, troopId);
+	
 }else if( request.getParameter("addAids")!=null){
 	if( request.getParameter("assetType").equals("AID")){
 		meetingUtil.addAids(troop, request.getParameter("addAids"), request.getParameter("meetingId"), java.net.URLDecoder.decode(request.getParameter("assetName") ) );

@@ -31,20 +31,22 @@ import org.girlscouts.vtk.models.YearPlan;
 @Service(value=YearPlanDAO.class)
 public class YearPlanDAOImpl implements YearPlanDAO{
 
-   private Session session;
+   //private Session session;
     
     @Reference
     private SessionPool pool;
     
     @Activate
     void activate() {
-        this.session = pool.getSession();
+       // this.session = pool.getSession();
     }
 	
 	//public List<YearPlan> test() {
 	public List<YearPlan> getAllYearPlans(String ageLevel) {
 		java.util.List <YearPlan> yearPlans =null;
+		Session session =null;
 		try{
+			session = pool.getSession();
 		List<Class> classes = new ArrayList<Class>();	
 		classes.add(YearPlan.class); 
 		classes.add(Meeting.class); 
@@ -75,7 +77,13 @@ public class YearPlanDAOImpl implements YearPlanDAO{
 		
 		
         
-		}catch(Exception e){e.printStackTrace();}
+		}catch(Exception e){e.printStackTrace();
+		}finally{
+			try{
+				if( session!=null )
+					pool.closeSession(session);
+			}catch(Exception ex){ex.printStackTrace();}
+		}
 		return yearPlans;
 	}
 		
@@ -104,11 +112,11 @@ public class YearPlanDAOImpl implements YearPlanDAO{
 		plan.setId("YRPIDID");
 		plan.setName("YEAr plan name name");
 		plan.setPath("/yearPlan");
-		
+		Session session =null;
 		try{
 			List<Class> classes = new ArrayList<Class>();	
 			classes.add(YearPlan.class); 
-			
+			session = pool.getSession();
 			
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
@@ -124,13 +132,14 @@ public class YearPlanDAOImpl implements YearPlanDAO{
 		public YearPlan getYearPlan(String path) {
 			//System.err.println("YearPlanDAOImpl.getYearPlan");
 			YearPlan yearPlan =null;
+			Session session = null;
 			try{
 			List<Class> classes = new ArrayList<Class>();	
 			classes.add(YearPlan.class); 
 			classes.add(Meeting.class); 
 			classes.add(Cal.class);
 			//classes.add(Milestone.class);
-			
+			session =pool.getSession();
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
 		
@@ -147,7 +156,13 @@ public class YearPlanDAOImpl implements YearPlanDAO{
 	   yearPlan =(YearPlan)  ocm.getObject(path);
 	       
 	        
-			}catch(Exception e){e.printStackTrace();}
+			}catch(Exception e){e.printStackTrace();
+			}finally{
+				try{
+					if( session!=null )
+						pool.closeSession(session);
+				}catch(Exception ex){ex.printStackTrace();}
+			}
 			return yearPlan;
 		}
 			

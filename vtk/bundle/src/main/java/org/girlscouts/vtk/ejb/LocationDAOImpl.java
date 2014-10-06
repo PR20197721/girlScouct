@@ -32,14 +32,14 @@ import org.girlscouts.vtk.models.YearPlan;
 @Service(value=LocationDAO.class)
 public class LocationDAOImpl implements LocationDAO{
 
-   private Session session;
+   //private Session session;
     
     @Reference
     private SessionPool pool;
     
     @Activate
     void activate() {
-        this.session = pool.getSession();
+       // this.session = pool.getSession();
     }
 
     @Reference
@@ -49,7 +49,7 @@ public class LocationDAOImpl implements LocationDAO{
     private MeetingDAO meetingDAO;
     
 	public void removeLocation(Troop user, String locationName) {
-		
+		Session session =null;
 		try{
 			
 			
@@ -59,7 +59,7 @@ public class LocationDAOImpl implements LocationDAO{
 			 }
 			
 			
-			
+			session = pool.getSession();
 			List<Class> classes = new ArrayList<Class>();	
 			classes.add(Troop.class);
 			classes.add(Activity.class);
@@ -112,7 +112,13 @@ public class LocationDAOImpl implements LocationDAO{
 	        */
 			troopDAO.updateTroop(user);
 			
-			}catch(Exception e){e.printStackTrace();}
+			}catch(Exception e){e.printStackTrace();
+			}finally{
+				try{
+					if( session!=null )
+						pool.closeSession(session);
+				}catch(Exception ex){ex.printStackTrace();}
+			}
 		
 		
 		
