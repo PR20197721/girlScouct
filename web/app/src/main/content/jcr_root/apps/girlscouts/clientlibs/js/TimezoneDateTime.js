@@ -130,7 +130,12 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
         	var regex = /^\/content\/[^/]+\/[^/]+/; // e.g. /content/girlscouts-prototype/en
         	if (regex.test(path)) {
         		var timezoneProperty = regex.exec(path) + '/jcr:content/timezone';
-        		this.timezone = CQ.shared.HTTP.get(timezoneProperty).body;
+        		var response = CQ.shared.HTTP.get(timezoneProperty);
+        		if (response.status == 200) {
+        			this.timezone = response.body;
+        		} else {
+        			this.timezone = this.defaultTimezone;
+        		}
         	} else {
         		this.timezone = this.defaultTimezone;
         	}
