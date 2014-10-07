@@ -1,7 +1,7 @@
 <%@ page import="java.util.Date,
 				java.text.DateFormat,
 				java.text.SimpleDateFormat,
-				java.util.TimeZone"%>
+				java.util.Calendar"%>
 				
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
@@ -15,19 +15,19 @@
 	String locationLabel = "";
 	String imgPath="";
 	String iconPath="";
-	
-	
-	String locale =  currentSite.get("locale", "America/New_York");
-    TimeZone tZone = TimeZone.getTimeZone(locale);
-	
-	
+	DateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.S");
 	DateFormat dateFormat = new SimpleDateFormat("EEE MMM d yyyy");
 	DateFormat timeFormat = new SimpleDateFormat("h:mm a");
-	timeFormat.setTimeZone(tZone);
 	
-	startDate = propNode.getProperty("start").getDate().getTime(); 
+	
+	Calendar cal =  Calendar.getInstance();
+	cal.setTime(fromFormat.parse(propNode.getProperty("start").getString()));
+	startDate = cal.getTime(); 
 	startDateStr = dateFormat.format(startDate);
 	startTimeStr = timeFormat.format(startDate);
+
+	
+	
 	String dateStr="";
 	dateStr = startDateStr + ", " +startTimeStr;
 	time = startTimeStr;
@@ -36,7 +36,8 @@
 		locationLabel=propNode.getProperty("locationLabel").getString();
 	}
 	if (propNode.hasProperty("end")){
-		Date endDate = propNode.getProperty("end").getDate().getTime();
+		cal.setTime(fromFormat.parse(propNode.getProperty("end").getString()));
+		Date endDate = cal.getTime();
 		dateStr = getDateTime(startDate,endDate,dateFormat,timeFormat,dateStr);
  	}
  

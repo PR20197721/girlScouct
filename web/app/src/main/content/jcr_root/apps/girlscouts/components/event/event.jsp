@@ -27,43 +27,54 @@
     Map<String,String> map = new HashMap<String,String>();
     map.put("Program Level", "Level");
     map.put("Categories", "Category");	
-    String locale =  currentSite.get("locale", "America/New_York");
-    TimeZone tZone = TimeZone.getTimeZone(locale);
-    
+    //String locale =  currentSite.get("locale", "America/Chicago");
+	//TimeZone tZone = TimeZone.getTimeZone(locale);
+
 	// date and time
     DateFormat dateFormat = new SimpleDateFormat("EEE MMM d yyyy");
+	DateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+
 	DateFormat timeFormat = new SimpleDateFormat("h:mm a");
-	timeFormat.setTimeZone(tZone);
+	//timeFormat.setTimeZone(tZone);
     DateFormat calendarFormat = new SimpleDateFormat("M-yyyy");
-	Date startDate = properties.get("start", Date.class); 
-	
-	String startDateStr = dateFormat.format(startDate);
-	String startTimeStr = timeFormat.format(startDate);
+	//Date startDate = properties.get("start", Date.class); 
+
+	Calendar startDateCl = properties.get("start", Calendar.class); 
+
+	String edtTime = properties.get("start", "");
+    Date basedOnTimeZone = dateFormat1.parse(edtTime);
+    Calendar cale =  Calendar.getInstance();
+    cale.setTime(basedOnTimeZone);
+	Date startDate = cale.getTime();
+
+	String startDateStr = dateFormat.format(cale.getTime());
+	String startTimeStr = timeFormat.format(cale.getTime());
 	
 	
 	//Calendar Date and Month
 	
     Calendar calendar = Calendar.getInstance();
-    calendar.setTime(startDate);
+    calendar.setTime(cale.getTime());
     int month = calendar.get(Calendar.MONTH)+1;
     int year = calendar.get(Calendar.YEAR);
     String combineMonthYear = month+"-"+year;
     String calendarUrl = currentSite.get("calendarPath",String.class)+".html/"+combineMonthYear; 
    
     String time = startTimeStr;
-	Date endDate = properties.get("end", Date.class); 
-	
+    
+    String endDateSt = properties.get("end", "");
 	String register = properties.get("register", String.class);
 	
 	//Start Time : startTimeStr var called time
 	
 	String dateStr = startDateStr + ", " +startTimeStr;
 
-	if (endDate != null) {
+	if (endDateSt != null && !endDateSt.isEmpty()) {
 	    Calendar cal1 = Calendar.getInstance();
 	    Calendar cal2 = Calendar.getInstance();
-	    cal1.setTime(startDate);
+	    Date endDate = dateFormat1.parse(endDateSt);
 	    cal2.setTime(endDate);
+	    cal1.setTime(startDate);
 	    boolean sameDay = cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
 	                      cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
 		String endDateStr = dateFormat.format(endDate);
@@ -88,18 +99,18 @@
 	    {
 	    	
 	    	Tag tag  = tagManager.resolve(str);
-		try {
-	    	if(tags.containsKey(tag.getParent().getTitle()))
-	    	{
-	    		tags.get(tag.getParent().getTitle()).add(tag.getTitle());
-	    	}else{
-	    		List<String> temp = new ArrayList<String>();
-	    		temp.add(tag.getTitle());
-	    		tags.put(tag.getParent().getTitle(),temp);
-	    	}
-} catch (Exception e) {
-	e.printStackTrace();
-}
+	    	
+			try {
+	    		if(tags.containsKey(tag.getParent().getTitle())){
+	    			tags.get(tag.getParent().getTitle()).add(tag.getTitle());
+	    		}else{
+	    			List<String> temp = new ArrayList<String>();
+	    			temp.add(tag.getTitle());
+	    			tags.put(tag.getParent().getTitle(),temp);
+	    		}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 	    }
 	}
     // content
