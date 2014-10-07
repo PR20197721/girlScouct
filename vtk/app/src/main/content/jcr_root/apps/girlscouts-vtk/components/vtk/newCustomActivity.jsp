@@ -412,6 +412,7 @@ function checkAll(x) {
 	
 	
 function searchActivities(){
+	
 	showError(null, "#pickActivitySection .errorMsg");
 	var  keywrd = $.trim(document.getElementById("sch_keyword").value);
 	if( keywrd.length>0 && keywrd.length<3  ){
@@ -436,6 +437,10 @@ function searchActivities(){
                 showError(thisMsg, "#pickActivitySection .errorMsg");
 		return false;
 	}
+	
+	
+	if( startDate!=null && endDate!=null && (startDate > endDate ))
+		{alert("Start Date can not be greater then end Date");return false;}
 	
 	if( keywrd=='' && lvl=='' && cat =='' && startDate=='' && endDate=='' && region=='' ){
 		var thisMsg = "Please select search criteria.";
