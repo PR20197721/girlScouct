@@ -105,10 +105,14 @@ if( apiConfig.getTroops()==null || apiConfig.getTroops().size()<=0 ||
 	return;
 }
 
+String errMsg = null;
 // Set user for session
 Troop troop= (Troop)session.getValue("VTK_user");
 if( troop ==null || troop.isRefresh() || troopUtil.isUpdated(troop) ){
-	
+ out.println("****** NEW");	
+ if( troop!=null && troop.isRefresh() && troop.getErrCode()!=null && !troop.getErrCode().equals("") )
+	 errMsg =  troop.getErrCode();
+	 
 	org.girlscouts.vtk.salesforce.Troop prefTroop = apiConfig.getTroops().get(0);
 		  
 		
@@ -213,21 +217,17 @@ if (session.getAttribute("USER_TROOP_LIST") == null) {
 }
 %>
 	
---<%= meetingDAO.isCurrentTroopId(troop, null) %> --::
-<%=meetingDAO.getLastModif( troop) %> ::
-Retr:<%=troop.getRetrieveTime() %>
-(<%=troop.getRetrieveTime().before(meetingDAO.getLastModif( troop)) %>)
-<%= troopUtil.isUpdated(troop)%>
+
 
 	<%
 
-		if( troop.getErrCode()!=null && troop.getErrCode().equals("111") ){
+		if( (errMsg!=null  && errMsg.equals("111")) || (troop.getErrCode()!=null && troop.getErrCode().equals("111")) ){
 			%>
-				<div style="color:#fff; background-color:red;">Warning: another user is currently logged into this account or you have no permissions. To continue, please logout and login again.  (This will cause the other user to be logged out.) error 111-in db</div>
+				<div style="color:#fff; background-color:red;">Warning: can not process your update at this time. error 111-in db</div>
 			<%
 			}
 			
-		if(  isMultiUserFullBlock && troop!=null && troop.getYearPlan()!=null && !meetingDAO.isCurrentTroopId(troop, troop.getCurrentTroop() ) )
+		if( isMultiUserFullBlock && troop!=null && troop.getYearPlan()!=null && !meetingDAO.isCurrentTroopId(troop, troop.getCurrentTroop() ) )
 		{
 			%><div style="color:#fff; background-color:red;">
 
@@ -236,7 +236,7 @@ Retr:<%=troop.getRetrieveTime() %>
 			return;
 		    }
 		
-		if( troop.getErrCode()!=null && troop.getErrCode().equals("112") ){
+		if( (errMsg!=null  &&errMsg.equals("112")) || (troop.getErrCode()!=null && troop.getErrCode().equals("112")) ){
 				%>
 					<div style="color:#fff; background-color:red;">Warning: another user is currently logged into this account or you have no permissions. To continue, please logout and login again.  (This will cause the other user to be logged out.) error 112-another user</div>
 				<%

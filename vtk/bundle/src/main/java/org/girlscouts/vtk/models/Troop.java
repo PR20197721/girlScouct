@@ -8,19 +8,19 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.ejb.EmailMeetingReminder;
 
-@Node
+@Node(jcrMixinTypes="mix:lockable" ) 
 public class Troop {
-
+	
 	public Troop(){}
 	public Troop(String path, String troopId){
 		this.id=troopId;
 		this.path= path + troopId;
-		
+		this.setRetrieveTime( new java.util.Date() );
 	}
 	
 	public Troop(String troopId){
 		this.id=troopId;
-		
+		this.setRetrieveTime( new java.util.Date() );
 	}
 	
 	@Field(id=true) private String id;

@@ -14,6 +14,7 @@ import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
+import org.apache.jackrabbit.ocm.lock.Lock;
 import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
 import org.apache.jackrabbit.ocm.manager.impl.ObjectContentManagerImpl;
 import org.apache.jackrabbit.ocm.mapper.Mapper;
@@ -86,37 +87,12 @@ public class TroopDAOImpl implements TroopDAO {
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
 					mapper);
 
-			//QueryManager queryManager = ocm.getQueryManager();
-			//Filter filter = queryManager.createFilter(Troop.class);
-
+		
 			ocm.refresh(true);
 			troop = (Troop) ocm.getObject( "/vtk/"+ councilId +"/troops/"+ troopId);
 			if( troop!=null)
 				troop.setRetrieveTime( new java.util.Date() );
 			
-/* mooved to troopUtil
-			if (troop != null  && troop.getYearPlan()!=null && troop.getYearPlan().getMeetingEvents() != null) {
-
-				Comparator<MeetingE> comp = new BeanComparator("id");
-				Collections.sort(troop.getYearPlan().getMeetingEvents(), comp);
-			}
-
-			
-			java.util.List<Activity> activities = troop.getYearPlan().getActivities();
-	        if( activities!=null)
-	          for(int i=0;i<activities.size();i++){
-	        	 if( (activities.get(i).getCancelled()==null || activities.get(i).getCancelled().equals("false"))
-	        			 	&& !activities.get(i).getIsEditable() && activities.get(i).getRefUid()!=null ){
-	        		 
-	        		 Activity a = activityDAO.findActivity(activities.get(i).getRefUid() );
-	        		 if( a==null )
-	        			 activities.get(i).setCancelled("true");
-	        		 else
-	        			 activities.set(i, a);
-	        		
-	        	 }
-	          }
-			*/
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -226,6 +202,9 @@ public class TroopDAOImpl implements TroopDAO {
 	}
 
 	public boolean updateTroop(Troop troop) {
+		
+		
+		
 		Session mySession =null;
 		boolean isUpdated = false;
 		try {
@@ -236,15 +215,7 @@ public class TroopDAOImpl implements TroopDAO {
 			}
 			troop.setErrCode("111");
 
-			// another troop logged in
-			if (troop != null && troop.getLastModified() != null) {
-
-				if (!meetingDAO
-						.isCurrentTroopId(troop, troop.getCurrentTroop())) {
-					troop.setErrCode("112");
-					return false;
-				}
-			}
+			
 			mySession = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
@@ -264,11 +235,21 @@ public class TroopDAOImpl implements TroopDAO {
 					mapper);
 
 			
-	System.err.println(">>>>>>>>>>>>  CHECKING SESSION: "+ (mySession==null ));		
+	//System.err.println(">>>>>>>>>>>>  CHECKING SESSION: "+ (mySession==null ));		
 			//ocm.refresh(true);
 			Comparator<MeetingE> comp = new BeanComparator("id");
 			Collections.sort(troop.getYearPlan().getMeetingEvents(), comp);
 
+			// another troop logged in
+			if (troop != null && troop.getLastModified() != null) {
+					if (!meetingDAO
+									.isCurrentTroopId(troop, troop.getCurrentTroop())) {
+								troop.setErrCode("112");
+								return false;
+							}
+			}
+		
+	Lock lock = ocm.lock(troop.getPath(), true, true);					
 			if (mySession.itemExists(troop.getPath())) {
 
 				ocm.update(troop);
@@ -309,15 +290,14 @@ public class TroopDAOImpl implements TroopDAO {
 				troop.setLastModified(java.util.Calendar.getInstance());
 				ocm.update(troop);
 				ocm.save();
-
 				isUpdated = true;
-
+ocm.unlock(troop.getPath(), lock.getLockToken());
 			} catch (Exception e) {
 				e.printStackTrace();
 
 				troop.setLastModified(old_lastModified);
 				troop.setErrCode(old_errCode);
-
+				troop.setRefresh(true);
 			}
 
 		} catch (Exception e) {

@@ -3,7 +3,7 @@ package org.girlscouts.vtk.models;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
-@Node
+@Node(jcrMixinTypes="mix:lockable" )
 public class JcrNode {
 	
 	public JcrNode(String path){this.path=path;}

@@ -5,7 +5,7 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
 
-@Node
+@Node(jcrMixinTypes="mix:lockable" )
 public class MeetingE extends YearPlanComponent{
 
 	public MeetingE(){

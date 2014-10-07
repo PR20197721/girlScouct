@@ -3,7 +3,7 @@
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 <% 
-	userDAO.rmUser(user);
+	troopDAO.rmTroop(troop);
 	session.putValue("VTK_user",null);
 %>
  

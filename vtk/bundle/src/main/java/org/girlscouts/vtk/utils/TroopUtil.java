@@ -71,10 +71,10 @@ public class TroopUtil {
 			java.util.Date lastUpdate =meetingDAO.getLastModif(troop);
 			if( lastUpdate !=null && troop.getRetrieveTime().before(lastUpdate) ){
 				troop.setRefresh(true);
-				return false;
+				return true;
 			}
 					
-			return true;	
+			return false;	
 	}
 	
 }

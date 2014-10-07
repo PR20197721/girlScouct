@@ -5,7 +5,7 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
-@Node
+@Node(jcrMixinTypes="mix:lockable" )
 public class YearPlan {
 
 	public YearPlan(){

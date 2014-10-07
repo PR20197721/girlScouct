@@ -7,7 +7,7 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
 
 
-@Node
+@Node(jcrMixinTypes="mix:lockable" )
 public class Meeting extends YearPlanComponent {
 
 	

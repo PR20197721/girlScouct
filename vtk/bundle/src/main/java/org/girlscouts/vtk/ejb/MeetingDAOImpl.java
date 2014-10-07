@@ -1789,8 +1789,8 @@ public java.util.List<Milestone> getCouncilMilestones(String councilCode){
 		
 		Query query = queryManager.createQuery(filter);
 		milestones  =(java.util.List<Milestone>) ocm.getObjects(query);
-		System.err.println( "Millllsss: "+ (milestones==null) );
-		System.err.println( "Millllsssss: "+ (milestones.size()) );
+		//System.err.println( "Millllsss: "+ (milestones==null) );
+		//System.err.println( "Millllsssss: "+ (milestones.size()) );
 	      
 	}catch(Exception e){e.printStackTrace();
 	}finally{
@@ -1837,11 +1837,13 @@ public void  saveCouncilMilestones(java.util.List<Milestone> milestones){
 
 public boolean isCurrentTroopId(Troop troop, String sId){
 	
+	//if(true)return false; 
+	
 	java.util.Date lastUpdate = getLastModif(troop);
-	System.err.println( "LastUpdate: "+lastUpdate +" : "+ troop.getRetrieveTime());
+	//System.err.println( "LastUpdate: "+lastUpdate +" : "+ troop.getRetrieveTime());
 	if( lastUpdate !=null && troop.getRetrieveTime().before(lastUpdate) ){
 		troop.setRefresh(true);
-		System.err.println("YES CURRENT.");
+		//System.err.println("YES CURRENT.");
 		return false;
 	}
 	
@@ -2211,7 +2213,7 @@ public java.util.Date getLastModif( Troop troop ){
 	java.util.Date toRet=null;
 	try{
 		session = sessionFactory.getSession();
-	String sql="select jcr:lastModified from nt:base where jcr:path = '"+ troop.getPath() +"'";
+	String sql="select jcr:lastModified from nt:base where jcr:path = '"+ troop.getPath() +"' and jcr:lastModified is not null";
 	javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
 	javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 		
 	QueryResult result = q.execute();

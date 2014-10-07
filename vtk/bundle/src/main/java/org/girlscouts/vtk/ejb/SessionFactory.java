@@ -32,26 +32,21 @@ public class SessionFactory {
 
 //    GenericObjectPool pool=null;
     
-    private static final String VTK_USER = "admin";
-    private static final String VTK_PASS = "admin";
-    private static final String ADMIN_USER = "admin";
-    private static final String ADMIN_PASS = "admin";
-
-    
-
 //    @Reference
 //    Credentials credentials; // vtk credentials
     
-    public Session getAdminSession() throws RepositoryException, LoginException {
-    	final Repository repository = JcrUtils.getRepository(JcrUtils.REPOSITORY_URI);
-        SimpleCredentials creds = new SimpleCredentials(ADMIN_USER, ADMIN_PASS.toCharArray());
-        Session session = repository.login(creds, "crx.default");
-    	return session;
-    }
+   
     public Session getSession() throws RepositoryException, LoginException {
     	//final Repository repository = JcrUtils.getRepository("http://localhost:4503/crx/server/");
-        SimpleCredentials creds = new SimpleCredentials(VTK_USER, VTK_PASS.toCharArray());
-        Session session = repository.login(creds, "crx.default");
+        //SimpleCredentials creds = new SimpleCredentials(VTK_USER, VTK_PASS.toCharArray());
+        //Session session = repository.login(creds, "crx.default");
+        
+    	////////////////////////
+    	// Create a singleton of adminSession and impersonate it every time
+        Session adminSession = repository.loginAdministrative(null);
+        Session session = adminSession.impersonate(new SimpleCredentials("vtk", new char[0]));
+        adminSession.logout();
+        adminSession = null;
     	return session;
     }
     public void closeSession(Session session) {
