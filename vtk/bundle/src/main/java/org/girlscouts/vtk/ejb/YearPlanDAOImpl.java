@@ -34,11 +34,11 @@ public class YearPlanDAOImpl implements YearPlanDAO{
    //private Session session;
     
     @Reference
-    private SessionPool pool;
+    private SessionFactory sessionFactory;
     
     @Activate
     void activate() {
-       // this.session = pool.getSession();
+       // this.session = sessionFactory.getSession();
     }
 	
 	//public List<YearPlan> test() {
@@ -46,7 +46,7 @@ public class YearPlanDAOImpl implements YearPlanDAO{
 		java.util.List <YearPlan> yearPlans =null;
 		Session session =null;
 		try{
-			session = pool.getSession();
+			session = sessionFactory.getSession();
 		List<Class> classes = new ArrayList<Class>();	
 		classes.add(YearPlan.class); 
 		classes.add(Meeting.class); 
@@ -81,7 +81,7 @@ public class YearPlanDAOImpl implements YearPlanDAO{
 		}finally{
 			try{
 				if( session!=null )
-					pool.closeSession(session);
+					sessionFactory.closeSession(session);
 			}catch(Exception ex){ex.printStackTrace();}
 		}
 		return yearPlans;
@@ -116,7 +116,7 @@ public class YearPlanDAOImpl implements YearPlanDAO{
 		try{
 			List<Class> classes = new ArrayList<Class>();	
 			classes.add(YearPlan.class); 
-			session = pool.getSession();
+			session = sessionFactory.getSession();
 			
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
@@ -139,7 +139,7 @@ public class YearPlanDAOImpl implements YearPlanDAO{
 			classes.add(Meeting.class); 
 			classes.add(Cal.class);
 			//classes.add(Milestone.class);
-			session =pool.getSession();
+			session =sessionFactory.getSession();
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
 		
@@ -160,7 +160,7 @@ public class YearPlanDAOImpl implements YearPlanDAO{
 			}finally{
 				try{
 					if( session!=null )
-						pool.closeSession(session);
+						sessionFactory.closeSession(session);
 				}catch(Exception ex){ex.printStackTrace();}
 			}
 			return yearPlan;

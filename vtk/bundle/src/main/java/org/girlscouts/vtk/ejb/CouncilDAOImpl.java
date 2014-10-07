@@ -37,18 +37,18 @@ public class CouncilDAOImpl implements CouncilDAO {
 	//private Session session;
 
 	@Reference
-	private SessionPool pool;
+	private SessionFactory sessionFactory;
 
 	@Activate
 	void activate() {
-		//this.session = pool.getSession();
+		//this.session = sessionFactory.getSession();
 	}
 
 	public Council findCouncil(String councilId) {
 		Council council = null;
 		Session session =null;
 		try {
-			session = pool.getSession();
+			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Council.class);
 			classes.add(YearPlan.class); 
@@ -73,7 +73,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 		}finally{
 			try{
 				if( session!=null )
-					pool.closeSession(session);
+					sessionFactory.closeSession(session);
 			}catch(Exception ex){ex.printStackTrace();}
 		}
 
@@ -85,7 +85,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 		Session session =null;
 		Council council = null;
 		try {
-			session = pool.getSession();
+			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Council.class);
 			classes.add(YearPlan.class); 
@@ -111,7 +111,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 		}finally{
 			try{
 				if( session!=null )
-					pool.closeSession(session);
+					sessionFactory.closeSession(session);
 			}catch(Exception ex){ex.printStackTrace();}
 		}
 		return council;
@@ -131,7 +131,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 	public void updateCouncil(Council council){
 		Session session = null;
 		try {
-			session =pool.getSession();
+			session =sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Council.class);
 			classes.add(YearPlan.class); 
@@ -156,7 +156,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 		}finally{
 			try{
 				if( session!=null )
-					pool.closeSession(session);
+					sessionFactory.closeSession(session);
 			}catch(Exception ex){ex.printStackTrace();}
 		}
 	}

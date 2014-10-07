@@ -47,7 +47,7 @@ public class TroopDAOImpl implements TroopDAO {
 	//private Session session;
 
 	@Reference
-	private SessionPool pool;
+	private SessionFactory sessionFactory;
 
 	
 	@Reference
@@ -63,7 +63,7 @@ public class TroopDAOImpl implements TroopDAO {
 
 	@Activate
 	void activate() {
-		//this.session = pool.getSession();
+		//this.session = sessionFactory.getSession();
 	}
 
 	public Troop getTroop(String councilId, String troopId) {
@@ -71,7 +71,7 @@ public class TroopDAOImpl implements TroopDAO {
 		Session mySession =null;
 		Troop troop = null;
 		try {
-			mySession = pool.getSession();
+			mySession = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
@@ -122,7 +122,7 @@ public class TroopDAOImpl implements TroopDAO {
 			e.printStackTrace();
 		}finally{
 			try{
-				pool.closeSession(mySession);
+				sessionFactory.closeSession(mySession);
 			} catch (Exception es){es.printStackTrace();}
 		}
 
@@ -134,7 +134,7 @@ public class TroopDAOImpl implements TroopDAO {
 		Session mySession =null;
 		Troop troop = null;
 		try {
-			mySession = pool.getSession();
+			mySession = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
@@ -165,7 +165,7 @@ public class TroopDAOImpl implements TroopDAO {
 			e.printStackTrace();
 		}finally{
 			try{
-				pool.closeSession(mySession);
+				sessionFactory.closeSession(mySession);
 			}catch(Exception es){es.printStackTrace();}
 		}
 
@@ -184,7 +184,7 @@ public class TroopDAOImpl implements TroopDAO {
 		YearPlan plan = null;
 		try {
 
-			mySession = pool.getSession();
+			mySession = sessionFactory.getSession();
 			if (!yearPlanPath.endsWith("/"))
 				yearPlanPath = yearPlanPath + "/";
 
@@ -217,7 +217,7 @@ public class TroopDAOImpl implements TroopDAO {
 			e.printStackTrace();
 		}finally{
 			try{
-				pool.closeSession(mySession);
+				sessionFactory.closeSession(mySession);
 			}catch(Exception es){es.printStackTrace();}
 		}
 
@@ -245,7 +245,7 @@ public class TroopDAOImpl implements TroopDAO {
 					return false;
 				}
 			}
-			mySession = pool.getSession();
+			mySession = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
@@ -326,7 +326,7 @@ public class TroopDAOImpl implements TroopDAO {
 			
 		}finally{
 			try{
-				pool.closeSession(mySession);
+				sessionFactory.closeSession(mySession);
 			}catch(Exception es){es.printStackTrace();}
 		}
 
@@ -478,7 +478,7 @@ public class TroopDAOImpl implements TroopDAO {
 	public void rmTroop(Troop troop) {
 		Session mySession =null;
 		try {
-			mySession= pool.getSession();
+			mySession= sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
@@ -498,7 +498,7 @@ public class TroopDAOImpl implements TroopDAO {
 			e.printStackTrace();
 		}finally{
 			try{
-				pool.closeSession(mySession);
+				sessionFactory.closeSession(mySession);
 			}catch(Exception e){e.printStackTrace();}
 		}
 	}
@@ -539,7 +539,7 @@ public class TroopDAOImpl implements TroopDAO {
 		troopGlobConfig = new UserGlobConfig();
 		Session mySession =null;
 		try {
-			mySession = pool.getSession();
+			mySession = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(UserGlobConfig.class);
 
@@ -557,7 +557,7 @@ public class TroopDAOImpl implements TroopDAO {
 			e.printStackTrace();
 		}finally{
 			try{
-				pool.closeSession(mySession);
+				sessionFactory.closeSession(mySession);
 			}catch(Exception es){es.printStackTrace();}
 		}
 
@@ -567,7 +567,7 @@ public class TroopDAOImpl implements TroopDAO {
 
 		Session mySession =null;
 		try {
-			mySession= pool.getSession();
+			mySession= sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(UserGlobConfig.class);
 
@@ -585,7 +585,7 @@ public class TroopDAOImpl implements TroopDAO {
 			e.printStackTrace();
 		}finally{
 			try{
-				pool.closeSession(mySession);
+				sessionFactory.closeSession(mySession);
 			}catch(Exception es){es.printStackTrace();}
 		}
 
@@ -594,7 +594,7 @@ public class TroopDAOImpl implements TroopDAO {
 	public void updateUserGlobConfig() {
 		Session mySession =null;
 		try {
-			mySession = pool.getSession();
+			mySession = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(UserGlobConfig.class);
 
@@ -615,7 +615,7 @@ public class TroopDAOImpl implements TroopDAO {
 			e.printStackTrace();
 		}finally{
 			try{
-				pool.closeSession(mySession);
+				sessionFactory.closeSession(mySession);
 			}catch(Exception es){es.printStackTrace();}
 		}
 
@@ -625,7 +625,7 @@ public class TroopDAOImpl implements TroopDAO {
 		Session mySession =null;
 		java.util.List<Troop> troops = null;
 		try {
-			mySession =pool.getSession();
+			mySession =sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
@@ -653,7 +653,7 @@ public class TroopDAOImpl implements TroopDAO {
 			e.printStackTrace();
 		}finally{
 			try{
-				pool.closeSession(mySession);
+				sessionFactory.closeSession(mySession);
 			}catch(Exception es){es.printStackTrace();}
 		}
 		return troops;

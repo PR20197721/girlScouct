@@ -35,11 +35,11 @@ public class LocationDAOImpl implements LocationDAO{
    //private Session session;
     
     @Reference
-    private SessionPool pool;
+    private SessionFactory sessionFactory;
     
     @Activate
     void activate() {
-       // this.session = pool.getSession();
+       // this.session = sessionFactory.getSession();
     }
 
     @Reference
@@ -59,7 +59,7 @@ public class LocationDAOImpl implements LocationDAO{
 			 }
 			
 			
-			session = pool.getSession();
+			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();	
 			classes.add(Troop.class);
 			classes.add(Activity.class);
@@ -116,7 +116,7 @@ public class LocationDAOImpl implements LocationDAO{
 			}finally{
 				try{
 					if( session!=null )
-						pool.closeSession(session);
+						sessionFactory.closeSession(session);
 				}catch(Exception ex){ex.printStackTrace();}
 			}
 		

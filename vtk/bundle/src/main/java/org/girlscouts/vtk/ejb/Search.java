@@ -27,12 +27,12 @@ public class Search implements SearchDAO {
 	//private Session session;
     
     @Reference
-    private SessionPool pool;
+    private SessionFactory sessonFactory;
     
    
     @Activate
     void activate() {
-        //this.session = pool.getSession();
+        //this.session = sessonFactory.getSession();
     }
 	
 	
@@ -86,7 +86,7 @@ public class Search implements SearchDAO {
 	  Session session =null;
 	List<String> matched = new ArrayList<String>();
 	try{
-		session = pool.getSession();
+		session = sessonFactory.getSession();
     QueryManager qm = session.getWorkspace().getQueryManager();
     Query q = qm.createQuery("select jcr:path, excerpt(.) from nt:resource    where jcr:path like '/content/dam/%' and  contains(., '"+ query +"')", Query.SQL); 
     QueryResult result = q.execute();
@@ -100,7 +100,7 @@ public class Search implements SearchDAO {
 	}finally{
 		try{
 			if( session!=null )
-				pool.closeSession(session);
+				sessonFactory.closeSession(session);
 		}catch(Exception ex){ex.printStackTrace();}
 	}
     return matched;

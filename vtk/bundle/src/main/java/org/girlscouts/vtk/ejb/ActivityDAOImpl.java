@@ -46,11 +46,11 @@ public class ActivityDAOImpl implements ActivityDAO {
 	//private Session session;
 
 	@Reference
-	private SessionPool pool;
+	private SessionFactory sessionFactory;
 
 	@Activate
 	void activate() {
-		//this.session = pool.getSession();
+		//this.session = sessionFactory.getSession();
 	}
 
 	//@Reference
@@ -70,7 +70,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 				user.setErrCode("112");
 				return;
 			}
-			session = pool.getSession();
+			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(Activity.class);
@@ -113,7 +113,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 		}finally{
 			try{
 				if( session!=null )
-					pool.closeSession(session);
+					sessionFactory.closeSession(session);
 			}catch(Exception ex){ex.printStackTrace();}
 		}
 
@@ -143,7 +143,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 		
 		javax.jcr.Node node = null;
 		try {
-			session= pool.getSession();
+			session= sessionFactory.getSession();
 			node = session.getNodeByIdentifier(uuid);
 
 		} catch (Exception e) {
@@ -151,7 +151,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 		}finally{
 			try{
 				if( session!=null )
-					pool.closeSession(session);
+					sessionFactory.closeSession(session);
 			}catch(Exception ex){ex.printStackTrace();}
 		}
 
@@ -168,7 +168,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 
 		Session session=null;
 		try {
-			session = pool.getSession();
+			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Activity.class);
 
@@ -206,7 +206,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 		}finally{
 			try{
 				if( session!=null )
-					pool.closeSession(session);
+					sessionFactory.closeSession(session);
 			}catch(Exception ex){ex.printStackTrace();}
 		}
 
@@ -245,7 +245,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 		javax.jcr.Node node = null;
 		Session session =null;
 		try {
-			session = pool.getSession();
+			session = sessionFactory.getSession();
 			node = session.getNodeByIdentifier(uuid);
 			if (node != null)
 				path = node.getPath().replace("/jcr:content", "");
@@ -254,7 +254,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 		}finally{
 			try{
 				if( session!=null )
-					pool.closeSession(session);
+					sessionFactory.closeSession(session);
 			}catch(Exception ex){ex.printStackTrace();}
 		}
 
@@ -270,7 +270,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 			String sql = "select jcr:path from nt:base where jcr:path = '"
 					+ path + "'";
 			
-			session = pool.getSession();
+			session = sessionFactory.getSession();
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -295,7 +295,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 		}finally{
 			try{
 				if( session!=null )
-					pool.closeSession(session);
+					sessionFactory.closeSession(session);
 			}catch(Exception ex){ex.printStackTrace();}
 		}
 
@@ -312,7 +312,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 					+ "'])) and child.start is not null and parent.[jcr:title] is not null ";
 
 			System.err.println(sql);
-			session = pool.getSession();
+			session = sessionFactory.getSession();
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -376,7 +376,7 @@ System.err.println("Found activvvvv");
 		}finally{
 			try{
 				if( session!=null )
-					pool.closeSession(session);
+					sessionFactory.closeSession(session);
 			}catch(Exception ex){ex.printStackTrace();}
 		}
 

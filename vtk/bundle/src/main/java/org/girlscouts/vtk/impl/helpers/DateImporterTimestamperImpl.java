@@ -12,7 +12,7 @@ import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.jcr.api.SlingRepository;
-import org.girlscouts.vtk.ejb.SessionPool;
+import org.girlscouts.vtk.ejb.SessionFactory;
 import org.girlscouts.vtk.helpers.DataImportTimestamper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +31,7 @@ public class DateImporterTimestamperImpl implements DataImportTimestamper {
     //private Session session;
     
     @Reference
-	private SessionPool pool;
+	private SessionFactory pool;
     
     @Reference
     private SlingRepository repository;
