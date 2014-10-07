@@ -1,9 +1,9 @@
 package org.girlscouts.vtk.utils;
-
-
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.StringTokenizer;
+
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.felix.scr.annotations.Component;
@@ -32,10 +32,8 @@ public class TroopUtil {
 	public Troop getTroop(String councilId, String troopId) {
 
 		Troop troop = null;
-
 		troop = troopDAO.getTroop(councilId, troopId);
-		if( troop ==null ) return troop;
-		
+		if( troop ==null ) return troop;		
 		if (troop != null && troop.getYearPlan() != null
 				&& troop.getYearPlan().getMeetingEvents() != null) {
 
@@ -66,15 +64,36 @@ public class TroopUtil {
 	}
 	
 	
-	public boolean isUpdated(Troop troop){
-			
+	public boolean isUpdated(Troop troop){			
 			java.util.Date lastUpdate =meetingDAO.getLastModif(troop);
 			if( lastUpdate !=null && troop.getRetrieveTime().before(lastUpdate) ){
 				troop.setRefresh(true);
 				return true;
-			}
-					
+			}					
 			return false;	
 	}
+	
+	public void autoLogin(HttpSession session){
+        org.girlscouts.vtk.auth.models.ApiConfig config = new org.girlscouts.vtk.auth.models.ApiConfig();
+        config.setId("test");
+        config.setAccessToken("test");
+        config.setInstanceUrl("test");
+        config.setUserId("test_user");
+        config.setUser(new org.girlscouts.vtk.auth.models.User() );
+
+        java.util.List <org.girlscouts.vtk.salesforce.Troop > troops= new java.util.ArrayList();
+        org.girlscouts.vtk.salesforce.Troop troop = new org.girlscouts.vtk.salesforce.Troop();
+        troop.setCouncilCode(1);
+        troop.setGradeLevel("1-Brownie");
+        troop.setTroopId("test_troop_id");
+        troop.setCouncilId("123");
+        troop.setTroopName("test");
+        
+
+        troops.add(troop);
+        config.setTroops(troops);
+
+        session.setAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName(), config);
+}
 	
 }

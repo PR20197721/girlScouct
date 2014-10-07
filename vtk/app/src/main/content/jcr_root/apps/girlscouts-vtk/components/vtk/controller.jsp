@@ -62,12 +62,14 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 			request.getParameter("calFreq"), 
 			new org.joda.time.DateTime(dateFormat4.parse(request.getParameter("calStartDt") +" "+ request.getParameter("calTime") +
 			" "+ request.getParameter("calAP"))), request.getParameter("exclDt"));
+
 	}catch(Exception e){
 		e.printStackTrace();
 	}
 	
 }else if( request.getParameter("addYearPlanUser") !=null ){
 	troopDAO.selectYearPlan(  troop, request.getParameter("addYearPlanUser"), request.getParameter("addYearPlanName"));
+
 }else if( request.getParameter("addLocation") !=null ){
 	boolean isLoc=false;
 	if( troop.getYearPlan().getLocations()!=null && request.getParameter("name")!=null ) {

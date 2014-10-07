@@ -245,12 +245,14 @@ public class TroopDAOImpl implements TroopDAO {
 					if (!meetingDAO
 									.isCurrentTroopId(troop, troop.getCurrentTroop())) {
 								troop.setErrCode("112");
+		System.err.println("LOCKED..");						
 								return false;
 							}
 			}
 		
-	Lock lock = ocm.lock(troop.getPath(), true, true);					
-			if (mySession.itemExists(troop.getPath())) {
+//Lock lock = ocm.lock(troop.getPath(), true, true);					
+//System.err.println("Session locked "+ lock.getLockOwner() );
+	if (mySession.itemExists(troop.getPath())) {
 
 				ocm.update(troop);
 
@@ -291,7 +293,8 @@ public class TroopDAOImpl implements TroopDAO {
 				ocm.update(troop);
 				ocm.save();
 				isUpdated = true;
-ocm.unlock(troop.getPath(), lock.getLockToken());
+//ocm.unlock(troop.getPath(), lock.getLockToken());
+//System.err.println("Session unlocked "+ lock.getLockOwner() );
 			} catch (Exception e) {
 				e.printStackTrace();
 
