@@ -67,7 +67,7 @@ master.add(predicatePath);
 master.add(predicateFullText);
 Query query = queryBuilder.createQuery(master,slingRequest.getResourceResolver().adaptTo(Session.class));
 query.setExcerpt(true);
-System.out.println(master.toString());
+
 SearchResult result = query.getResult();
 List<Hit> hits = result.getHits();
 %>

@@ -30,30 +30,26 @@
 %>
 
 <%
-	
-	DateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.S");
-	fromFormat.setCalendar(Calendar.getInstance(TimeZone.getTimeZone("GMT")));
-	DateFormat dateFormat = new SimpleDateFormat("EEE MMM d yyyy");
-	DateFormat timeFormat = new SimpleDateFormat("h:mm a");
-
 	Date today = new Date();
 	DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+	DateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.S");
 	String evtStartDt = formatter.format(today);
 	try {
 		today = formatter.parse(evtStartDt);
 	}catch (Exception e) {}
 
-	DateFormat calendarFormat = new SimpleDateFormat("M-yyyy");
 	java.util.List<String> results = srchInfo.getResults();
 	int eventcounts = 0;
 	String key = "";
 	String value = "";
+	
 	if (properties.containsKey("eventcount")) {
 			eventcounts = Integer.parseInt(properties.get("eventcount",String.class));
 			if (eventcounts > results.size()) {
 				eventcounts = results.size();
 			}
 	}
+	
 	String designPath = currentDesign.getPath();
 	String iconImg = properties.get("fileReference", String.class);
 	String eventsLink = properties.get("urltolink", "") + ".html";
@@ -77,8 +73,7 @@
 				</h2>
 			</div>
 		</div>
-		<div
-			class="small-24 medium-24 hide-for-large  hide-for-xlarge hide-for-xxlarge columns featureSmallHeader">
+		<div class="small-24 medium-24 hide-for-large  hide-for-xlarge hide-for-xxlarge columns featureSmallHeader">
 			<div class="feature-icon">
 				<img src="<%=iconImg%>" width="50" height="50" alt="feature icon" />
 			</div>
@@ -120,9 +115,9 @@
 			// if daysofevents is provided then we have to look for the start date such that start >= today.
 			int count = 0;
 			if (eventcounts > 0) {
+				Calendar cale =  Calendar.getInstance();
 				for (String result : results) {
-					Node node = resourceResolver.getResource(result).adaptTo(
-							Node.class);
+					Node node = resourceResolver.getResource(result).adaptTo(Node.class);
 					Date fromdate = null;
 					if (daysofevents > 0) {
 						Calendar cal1 = Calendar.getInstance();
@@ -136,16 +131,18 @@
 							Node propNode = node.getNode("jcr:content/data");
 							if (daysofevents > 0) {
 								if (propNode.hasProperty("start"))
-									fromdate = propNode.getProperty("start").getDate().getTime();
+									cale.setTime(fromFormat.parse(propNode.getProperty("start").getString()));
+									fromdate = cale.getTime();
 							} else {
 								if (propNode.hasProperty("end")) {
-									fromdate = propNode.getProperty("end").getDate().getTime();
+									cale.setTime(fromFormat.parse(propNode.getProperty("end").getString()));
+									fromdate = cale.getTime();
 								} else if (propNode.hasProperty("start")) {
-									fromdate = propNode.getProperty("start").getDate().getTime();
+									cale.setTime(fromFormat.parse(propNode.getProperty("start").getString()));
+									fromdate = cale.getTime();
 								}
 							}
-							title = propNode.getProperty("../jcr:title")
-									.getString();
+							title = propNode.getProperty("../jcr:title").getString();
 							try {
 								String eventDt = formatter.format(fromdate);
 								fromdate = formatter.parse(eventDt);
@@ -157,10 +154,11 @@
 								request.setAttribute("href", href);
 								request.setAttribute("title", title);
 								if (!featureEvents.contains(result)) {
+											
+					%>
+									<cq:include script="event-render.jsp" />
+					<%							
 									count++;
-		%>
-							<cq:include script="event-render.jsp" />
-		<%
 								}
 							}
 							if (eventcounts == count) {

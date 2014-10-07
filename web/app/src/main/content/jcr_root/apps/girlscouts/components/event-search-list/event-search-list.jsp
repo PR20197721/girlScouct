@@ -4,9 +4,7 @@
 <cq:includeClientLib categories="apps.girlscouts" />
 <cq:defineObjects/>
 <% 
-
 DateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.S");
-fromFormat.setCalendar(Calendar.getInstance(TimeZone.getTimeZone("GMT")));
 DateFormat dateFormat = new SimpleDateFormat("EEE MMM d yyyy");
 DateFormat timeFormat = new SimpleDateFormat("h:mm a");
 DateFormat toFormat = new SimpleDateFormat("EEE dd MMM yyyy");
@@ -14,6 +12,8 @@ DateFormat toFormat = new SimpleDateFormat("EEE dd MMM yyyy");
 Date today = new Date();
 DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 String evtStartDt = formatter.format(today);
+Calendar cale =  Calendar.getInstance();
+Date basedOnTimeZone = null;
 try{
 	today = formatter.parse(evtStartDt);
 }catch(Exception e){}
@@ -32,6 +32,7 @@ List<String> results = srchInfo.getResults();
 long hitCounts = srchInfo.getHitCounts();
 SearchResult searchResults = (SearchResult)request.getAttribute("searchResults");
 String q = request.getParameter("q");
+
 if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents").equals("on") ){
 %> 
 <cq:include script="feature-events.jsp"/>
@@ -52,11 +53,16 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 			Node node =  resourceResolver.getResource(result).adaptTo(Node.class);
 			try {
 				Node propNode = node.getNode("jcr:content/data");
-				Date startDate = propNode.getProperty("start").getDate().getTime();
+				String stringStartDate = propNode.getProperty("start").getString();
+				basedOnTimeZone = fromFormat.parse(stringStartDate);
+				cale.setTime(basedOnTimeZone);
+				Date startDate = cale.getTime();
 				if(propNode.hasProperty("end")){
-					evntComparsion = propNode.getProperty("end").getDate().getTime();
+					cale.setTime(fromFormat.parse(propNode.getProperty("end").getString()));
+					evntComparsion = cale.getTime();
 				}else if(propNode.hasProperty("start")){
-					evntComparsion = propNode.getProperty("start").getDate().getTime();
+					cale.setTime(fromFormat.parse(propNode.getProperty("start").getString()));
+					evntComparsion = cale.getTime();
 				}
 				String title = propNode.getProperty("../jcr:title").getString();
 				String href = result+".html";
@@ -73,7 +79,8 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 					locationLabel=propNode.getProperty("locationLabel").getString();
 				}
 				if(propNode.hasProperty("end")){
-					Date endDate = propNode.getProperty("end").getDate().getTime();
+					cale.setTime(fromFormat.parse(propNode.getProperty("end").getString()));
+					Date endDate = cale.getTime();
 					Calendar cal2 = Calendar.getInstance();
 					Calendar cal3 = Calendar.getInstance();
 					cal2.setTime(startDate);

@@ -18,12 +18,14 @@
                     allowBlank="{Boolean}false"
                     fieldLabel="Start Date"
                     name="./jcr:content/data/start"
-                    xtype="datetime"/>
+                    timezone="dynamic"
+                    xtype="timezonedatetime"/>
                 <end
                     jcr:primaryType="cq:Widget"
                     fieldLabel="End Date"
                     name="./jcr:content/data/end"
-                    xtype="datetime"/>
+                    timezone="dynamic"
+                    xtype="timezonedatetime"/>
                 <region
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Region"
@@ -31,6 +33,7 @@
                     xtype="textfield"/>
                 <locationLabel
                     jcr:primaryType="cq:Widget"
+                    allowBlank="{Boolean}false"
                     fieldLabel="Location Name"
                     name="./jcr:content/data/locationLabel"
                     xtype="textfield"/>
