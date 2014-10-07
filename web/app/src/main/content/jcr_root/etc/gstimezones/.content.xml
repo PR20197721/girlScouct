@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
-    jcr:primaryType="nt:unstructured"
-    timezones="\[{text:&quot;EDT&quot;,value:&quot;EDT&quot;},{text:&quot;CDT&quot;,value:&quot;CDT&quot;},{text:&quot;PDT&quot;,value:&quot;PDT&quot;},{text:&quot;MDT&quot;,value:&quot;MDT&quot;},{text:&quot;AKDST&quot;,value:&quot;AKDST&quot;},{text:&quot;HSK&quot;,value:&quot;HSK&quot;}]"/>
