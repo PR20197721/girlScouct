@@ -64,15 +64,20 @@
 %>
                 <div id="manageCalendarSection">
                         <div class="sectionBar">Manage Calendar</div>
+                       
 			<div id="calMng">
 <%
                 if( user.getYearPlan().getSchedule() == null ){
 %>
 <%@include file="include/calSched.jsp" %>
+
 <%
                 }else{
 %>
+ <div><input type="button" value="Click here to change your recurring meeting date and time." name="" onclick="showAlterYearPlanStartDate()"/></div>
+<div>Or select a calendar icon below to change the date, time, or to cancel a specific meeting</div>
 <%@include file="include/calList.jsp" %>
+
 <%
                 }
 %>
