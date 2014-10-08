@@ -44,7 +44,7 @@ cTrans.put("313", "Girl Scouts of Gateway Council, Inc.");
 		javax.jcr.Session s= (slingRequest.getResourceResolver().adaptTo(Session.class));
 		
 		
-		String sql="select  sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where jcr:path like '/vtk/%' and contains(*, 'org.girlscouts.vtk.models.user.User ') ";
+		String sql="select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where jcr:path like '/vtk/%' and contains(*, 'org.girlscouts.vtk.models.user.User ') ";
 		
 		
 		javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
@@ -95,6 +95,7 @@ cTrans.put("313", "Girl Scouts of Gateway Council, Inc.");
 		    org.girlscouts.vtk.models.YearPlanRpt ypr = new org.girlscouts.vtk.models.YearPlanRpt();
 		    ypr.setCouncil(sfCouncil);
 		    ypr.setTroop( r.getValue("sfTroopId").getString() );
+		    ypr.setTroopName( r.getValue("sfTroopName").getString() );
 		    ypr.setTroopAge(sfTroopAge);
 		    yprs.add(ypr);
 		    
@@ -112,6 +113,7 @@ cTrans.put("313", "Girl Scouts of Gateway Council, Inc.");
 		<table>
 		<tr>
 		<th>Council</th>
+		<th>TroopName</th>
 		<th>Junior</th>
 		<th>Brownie</th>
 		<th>Daisy</th>
@@ -165,6 +167,7 @@ cTrans.put("313", "Girl Scouts of Gateway Council, Inc.");
 			%>
 				<tr style="background-color:lightgray;">
 				<td><%=councilId_str ==null ? council : councilId_str%></td>
+				<td></td>
 				<!-- 
 				<td><%= xx.get("3-Junior")%> </td>
 				<td><%= xx.get("2-Brownie")%></td>
@@ -185,7 +188,7 @@ cTrans.put("313", "Girl Scouts of Gateway Council, Inc.");
 			java.util.List <String>_troops = getTroops(yprs,council);
 			for(int ii=0;ii<_troops.size();ii++){
 				String troopId = _troops.get(ii);
-				
+				String troopName= getTroopName( yprs, council, troopId);
 				
 					
 				int jun= getTroopCount( yprs, council, troopId , ("3-Junior"));
@@ -201,6 +204,7 @@ cTrans.put("313", "Girl Scouts of Gateway Council, Inc.");
 				%>
 				<tr>
 				<td><%= troopId%></td>
+				<td><%=troopName %></td>
 				<td><%= jun%> </td>
 				<td><%= bro%></td>
 				<td><%= dai%></td>
@@ -352,4 +356,15 @@ cTrans.put("313", "Girl Scouts of Gateway Council, Inc.");
 		}
 		return troops;
 	}
+	
+	private String  getTroopName(java.util.List<org.girlscouts.vtk.models.YearPlanRpt> container, String council, String troop){
+		
+		for(int i=0;i<container.size();i++){
+			org.girlscouts.vtk.models.YearPlanRpt ypr = container.get(i);
+			if( ypr.getCouncil().equals( council) && ypr.getTroop().equals(troop) )
+				return ypr.getTroopName();
+		}
+		return "";		
+	}
+	
 %>
