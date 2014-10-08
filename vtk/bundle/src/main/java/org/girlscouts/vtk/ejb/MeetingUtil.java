@@ -23,8 +23,6 @@ import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.ActivityDAO;
 import org.girlscouts.vtk.dao.AssetComponentType;
 import org.girlscouts.vtk.dao.MeetingDAO;
-import org.girlscouts.vtk.dao.TroopDAO;
-//import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Asset;
 import org.girlscouts.vtk.models.Cal;
@@ -34,13 +32,14 @@ import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
+import org.girlscouts.vtk.utils.TroopUtil;
 
 @Component
 @Service(MeetingUtil.class)
 public class MeetingUtil {
     
     @Reference
-    TroopDAO troopDAO; 
+    TroopUtil troopUtil; 
     
     @Reference
     MeetingDAO meetingDAO;
@@ -250,7 +249,7 @@ public class MeetingUtil {
 		plan.setAltered("true");
 		troop.setYearPlan(plan);
 		
-		troopDAO.updateTroop(troop);
+		troopUtil.updateTroop(troop);
 		
 		
 	}
@@ -295,7 +294,7 @@ public class MeetingUtil {
 			}
 		}
 		user.getYearPlan().setAltered("true");
-		troopDAO.updateTroop(user);
+		troopUtil.updateTroop(user);
 	}
 	
 	public void rmCustomActivity (Troop user, String activityPath ) throws java.lang.IllegalAccessException{
@@ -314,7 +313,7 @@ public class MeetingUtil {
 			
 		}
 		
-		troopDAO.updateTroop(user);
+		troopUtil.updateTroop(user);
 		
 	}
 	
@@ -341,7 +340,7 @@ public class MeetingUtil {
 		}
 		
 		user.getYearPlan().setAltered("true");
-		troopDAO.updateTroop(user);
+		troopUtil.updateTroop(user);
 	}
 
 	public void rearrangeActivity(Troop user, String meetingPath, String _newPoss)throws java.lang.IllegalAccessException{
@@ -387,7 +386,7 @@ public class MeetingUtil {
 			meetingDAO.createCustomMeeting(user, meetingE, meetingInfo);
 		
 		user.getYearPlan().setAltered("true");
-		troopDAO.updateTroop(user);
+		troopUtil.updateTroop(user);
 	}
 	
 	
@@ -441,7 +440,7 @@ public class MeetingUtil {
 			
 		}
 		user.getYearPlan().setAltered("true");
-		troopDAO.updateTroop(user);
+		troopUtil.updateTroop(user);
 	
 	}
 	
@@ -466,7 +465,7 @@ public class MeetingUtil {
 						
 						activities.remove(y);
 						meetingDAO.createCustomMeeting(user, meeting, meetingInfo);
-						troopDAO.updateTroop(user);
+						troopUtil.updateTroop(user);
 						return;
 					}
 						
@@ -501,7 +500,7 @@ public class MeetingUtil {
 						activity.setDuration(duration);
 						meetingDAO.createCustomMeeting(user, meeting, meetingInfo);
 						user.getYearPlan().setAltered("true");
-						troopDAO.updateTroop(user);
+						troopUtil.updateTroop(user);
 						return;
 						
 					}
@@ -608,7 +607,7 @@ public class MeetingUtil {
 				assets.add( asset );
 				meeting.setAssets( assets );
 				//user.getYearPlan().setAltered("true");
-				troopDAO.updateTroop(user);
+				troopUtil.updateTroop(user);
 				return;
 			}
 		}
@@ -631,7 +630,7 @@ public class MeetingUtil {
 				assets.add( asset );
 				activity.setAssets( assets );
 				user.getYearPlan().setAltered("true");
-				troopDAO.updateTroop(user);
+				troopUtil.updateTroop(user);
 				return;
 			}
 		}
@@ -683,7 +682,7 @@ public class MeetingUtil {
 				assets.add( asset );
 				meeting.setAssets( assets );
 				//user.getYearPlan().setAltered("true");
-				troopDAO.updateTroop(user);
+				troopUtil.updateTroop(user);
 				return;
 			}
 		}
@@ -706,7 +705,7 @@ public class MeetingUtil {
 				assets.add( asset );
 				activity.setAssets( assets );
 				//user.getYearPlan().setAltered("true");
-				troopDAO.updateTroop(user);
+				troopUtil.updateTroop(user);
 				return;
 			}
 		}
@@ -734,7 +733,7 @@ public class MeetingUtil {
 					}
 				}
 				//user.getYearPlan().setAltered("true");
-				troopDAO.updateTroop(user);
+				troopUtil.updateTroop(user);
 				return;
 			}
 		}
@@ -757,7 +756,7 @@ public class MeetingUtil {
 				}
 				
 				//user.getYearPlan().setAltered("true");
-				troopDAO.updateTroop(user);
+				troopUtil.updateTroop(user);
 				return;
 			}
 		}

@@ -120,7 +120,7 @@
 
 			meeting.setLastAssetUpdate( new java.util.Date() );
 			meeting.setAssets( _aidTags);
-		troopDAO.updateTroop(troop);
+		troopUtil.updateTroop(troop);
 		
 				}
 		%><%@include file="include/viewYearPlanMeeting.jsp"%>

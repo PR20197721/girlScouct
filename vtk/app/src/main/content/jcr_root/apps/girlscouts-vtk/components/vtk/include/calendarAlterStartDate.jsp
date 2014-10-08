@@ -97,7 +97,7 @@ exlDates= exlDates==null ? "" : exlDates;
 
 <%
 
-UserGlobConfig ubConf =troopDAO.getUserGlobConfig();
+UserGlobConfig ubConf =troopUtil.getUserGlobConfig();
 
 
 

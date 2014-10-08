@@ -16,8 +16,6 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.LocationDAO;
 import org.girlscouts.vtk.dao.MeetingDAO;
-import org.girlscouts.vtk.dao.TroopDAO;
-//import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Asset;
 import org.girlscouts.vtk.models.Cal;
@@ -27,6 +25,7 @@ import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.YearPlan;
+import org.girlscouts.vtk.utils.TroopUtil;
 
 @Component
 @Service(value=LocationDAO.class)
@@ -43,7 +42,7 @@ public class LocationDAOImpl implements LocationDAO{
     }
 
     @Reference
-    private TroopDAO troopDAO;
+    private TroopUtil troopUtil;
     
     @Reference
     private MeetingDAO meetingDAO;
@@ -106,11 +105,8 @@ public class LocationDAOImpl implements LocationDAO{
 				}
 			}
 			
-			/*091514
-			ocm.update(user);
-			ocm.save();
-	        */
-			troopDAO.updateTroop(user);
+			
+			troopUtil.updateTroop(user);
 			
 			}catch(Exception e){e.printStackTrace();
 			}finally{

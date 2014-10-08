@@ -68,7 +68,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	}
 	
 }else if( request.getParameter("addYearPlanUser") !=null ){
-	troopDAO.selectYearPlan(  troop, request.getParameter("addYearPlanUser"), request.getParameter("addYearPlanName"));
+	troopUtil.selectYearPlan(  troop, request.getParameter("addYearPlanUser"), request.getParameter("addYearPlanName"));
 
 }else if( request.getParameter("addLocation") !=null ){
 	boolean isLoc=false;
@@ -155,7 +155,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	}
 	
 	/*
-	Troop new_troop= troopDAO.getTroop( 
+	Troop new_troop= troopUtil.getTroop( 
 		"/vtk/"+newTroop.getCouncilCode()+
     		"/"+newTroop.getTroopId()+"/troops/"+
 		troop.getApiConfig().getUserId()+"_"+  request.getParameter("loginAs") );
@@ -177,23 +177,23 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	new_troop.setSfCouncil(new_troop.getTroop().getCouncilCode()+"" );
 	
 	//logout multi troop
-	troopDAO.logout(troop);
+	troopUtil.logout(troop);
 	
 	session.setAttribute("VTK_user", new_troop);
 	session.putValue("VTK_planView_memoPos", null);
 	new_troop.setCurrentTroop( session.getId() );
-	troopDAO.updateTroop(new_troop);
+	troopUtil.updateTroop(new_troop);
 	
 }else if( request.getParameter("addAsset")!=null){
 	org.girlscouts.vtk.models.Asset asset = new org.girlscouts.vtk.models.Asset(request.getParameter("addAsset"));
-	troopDAO.addAsset( troop ,  request.getParameter("meetingUid"),   asset);
+	troopUtil.addAsset( troop ,  request.getParameter("meetingUid"),   asset);
 }else if( request.getParameter("testAB")!=null){
 	
 	java.util.Set<Integer> myPermissionTokens = new HashSet<Integer>();
 	troop.getTroop().setPermissionTokens(myPermissionTokens);
 	boolean isUsrUpd= false;
 	try{
-		isUsrUpd = troopDAO.updateTroop(troop) ;	
+		isUsrUpd = troopUtil.updateTroop(troop) ;	
 	}catch(IllegalAccessException iae){iae.printStackTrace();}
 	if(!isUsrUpd)
 		vtkErr+= vtkErr.concat("Warning: You last change was not saved.");
@@ -298,7 +298,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 			
 			meetings.get(i).setAssets(assets);
 			
-			boolean isUsrUpd= troopDAO.updateTroop(troop);
+			boolean isUsrUpd= troopUtil.updateTroop(troop);
 			
 			if(!isUsrUpd)
 				vtkErr+= vtkErr.concat("Warning: You last change was not saved.");
@@ -325,7 +325,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 				
 				activities.get(i).setAssets(assets);
 				
-				boolean isUsrUpd = troopDAO.updateTroop(troop);
+				boolean isUsrUpd = troopUtil.updateTroop(troop);
 				if(!isUsrUpd)
 					vtkErr+= vtkErr.concat("Warning: You last change was not saved.");
 				
@@ -350,7 +350,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	activity.setLocationName(request.getParameter("newCustActivityLocName"));
 	activity.setLocationAddress(request.getParameter("newCustActivityLocAddr"));
 	
-	boolean isUsrUpd = troopDAO.updateTroop(troop);
+	boolean isUsrUpd = troopUtil.updateTroop(troop);
 	if(!isUsrUpd)
 		vtkErr+= vtkErr.concat("Warning: You last change was not saved.");
 	
@@ -510,7 +510,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	m.setDate( new java.util.Date( request.getParameter("date")  ) );
 	milestones.add(m);
 			
-	//troopDAO.updateTroop(troop);
+	//troopUtil.updateTroop(troop);
 	
 	response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
 	
@@ -525,7 +525,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 			milestones.remove(m);
 			
 			
-			boolean isUsrUpd =troopDAO.updateTroop(troop);
+			boolean isUsrUpd =troopUtil.updateTroop(troop);
 			if(!isUsrUpd)
 				vtkErr+= vtkErr.concat("Warning: You last change was not saved.");
 			

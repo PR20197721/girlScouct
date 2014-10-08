@@ -49,7 +49,7 @@
 	final EmailUtil emailUtil = sling.getService(EmailUtil.class);
 	final YearPlanDAO yearPlanDAO = sling.getService(YearPlanDAO.class);
 	final MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
-	final TroopDAO troopDAO = sling.getService(TroopDAO.class);
+	
 	final ActivityUtil activityUtil = sling
 			.getService(ActivityUtil.class);
 	final TroopUtil troopUtil = sling.getService(TroopUtil.class);

@@ -5,7 +5,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.StringTokenizer;
-
 import net.fortuna.ical4j.data.CalendarOutputter;
 import net.fortuna.ical4j.model.Date;
 import net.fortuna.ical4j.model.Property;
@@ -15,15 +14,12 @@ import net.fortuna.ical4j.model.property.CalScale;
 import net.fortuna.ical4j.model.property.ProdId;
 import net.fortuna.ical4j.model.property.Version;
 import net.fortuna.ical4j.util.UidGenerator;
-
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.MeetingDAO;
-import org.girlscouts.vtk.dao.TroopDAO;
-//import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.Meeting;
@@ -31,13 +27,14 @@ import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
+import org.girlscouts.vtk.utils.TroopUtil;
 
 @Component
 @Service(value=CalendarUtil.class)
 public class CalendarUtil {
     
 	@Reference
-	TroopDAO troopDAO;//UserDAO userDAO;
+	TroopUtil troopUtil;
     
     @Reference
     private MeetingDAO meetingDAO;
@@ -224,7 +221,7 @@ public class CalendarUtil {
 			Comparator<MeetingE> comp = new BeanComparator("id");
 		    Collections.sort( user.getYearPlan().getMeetingEvents(), comp);
 			
-			troopDAO.updateTroop(user);
+			troopUtil.updateTroop(user);
 		}
 		
 		public void updateSched(Troop user, String meetingPath, String time, String date, String ap, 
@@ -261,14 +258,14 @@ public class CalendarUtil {
 				}
 			}
 			
-			troopDAO.updateTroop(user);
+			troopUtil.updateTroop(user);
 			
 		}
 		
 		public void resetCal(Troop user)throws java.lang.IllegalAccessException{
 			
 			user.getYearPlan().setSchedule(null);
-			troopDAO.updateTroop(user);
+			troopUtil.updateTroop(user);
 		}
 	
 }

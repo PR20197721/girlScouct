@@ -44,7 +44,7 @@
 	
 	
 	<%
-	UserGlobConfig ubConf =troopDAO.getUserGlobConfig();
+	UserGlobConfig ubConf =troopUtil.getUserGlobConfig();
 	
 
 	//out.println("VacationDates: "+ ubConf.getVacationDates() );

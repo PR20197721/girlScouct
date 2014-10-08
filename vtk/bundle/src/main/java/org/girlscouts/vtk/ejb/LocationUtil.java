@@ -8,19 +8,19 @@ import org.apache.felix.scr.annotations.Service;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.TroopDAO;
-//import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
+import org.girlscouts.vtk.utils.TroopUtil;
 
 @Component
 @Service(LocationUtil.class)
 public class LocationUtil {
     @Reference
-    TroopDAO troopDAO;
+    TroopUtil troopUtil;
     
     @Reference
     private MeetingDAO meetingDAO;
@@ -42,7 +42,7 @@ public class LocationUtil {
 		}
 		
 		
-		troopDAO.updateTroop(user);
+		troopUtil.updateTroop(user);
 		
 	}
 	
@@ -75,7 +75,7 @@ public class LocationUtil {
 		
 		user.setYearPlan(plan);
 		//plan.setAltered("true");
-		troopDAO.updateTroop(user);
+		troopUtil.updateTroop(user);
 		
 		
 		
@@ -138,7 +138,7 @@ public class LocationUtil {
 	    	
 	    }
 		
-	troopDAO.updateTroop(user);
+	troopUtil.updateTroop(user);
 		
 		
 		
@@ -178,7 +178,7 @@ public class LocationUtil {
 		}
 		
 		
-		troopDAO.updateTroop(user);
+		troopUtil.updateTroop(user);
 		
 	}
 }

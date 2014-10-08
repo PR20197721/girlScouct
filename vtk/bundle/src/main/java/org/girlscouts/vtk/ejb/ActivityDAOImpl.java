@@ -2,14 +2,11 @@ package org.girlscouts.vtk.ejb;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.jcr.Node;
 import javax.jcr.Session;
 import javax.jcr.Value;
 import javax.jcr.query.QueryResult;
 import javax.jcr.query.Row;
 import javax.jcr.query.RowIterator;
-
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
@@ -22,11 +19,8 @@ import org.apache.jackrabbit.ocm.query.Filter;
 import org.apache.jackrabbit.ocm.query.Query;
 import org.apache.jackrabbit.ocm.query.QueryManager;
 import org.girlscouts.vtk.auth.permission.Permission;
-//import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.girlscouts.vtk.dao.ActivityDAO;
 import org.girlscouts.vtk.dao.MeetingDAO;
-import org.girlscouts.vtk.dao.TroopDAO;
-//import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.ActivitySearch;
@@ -53,8 +47,6 @@ public class ActivityDAOImpl implements ActivityDAO {
 		//this.session = sessionFactory.getSession();
 	}
 
-	//@Reference
-	//private TroopDAO troopDAO;
 
 	@Reference
 	private MeetingDAO meetingDAO;
@@ -104,9 +96,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 			activities.add(activity);
 			plan.setActivities(activities);
 
-			//moved to activityUtil
-			//user.getYearPlan().setAltered("true");
-			//troopDAO.updateTroop(user);
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -211,34 +201,6 @@ public class ActivityDAOImpl implements ActivityDAO {
 		}
 
 	}
-/*
-	public void checkCanceledActivity(Troop user) {
-
-		if (user == null || user.getYearPlan() == null
-				|| user.getYearPlan().getActivities() == null
-				|| user.getYearPlan().getActivities().size() == 0)
-			return;
-
-		java.util.List<Activity> activity2Cancel = new java.util.ArrayList<Activity>();
-
-		java.util.List<Activity> activities = user.getYearPlan()
-				.getActivities();
-		for (int i = 0; i < activities.size(); i++) {
-
-			if (!(activities.get(i).getCancelled() != null && activities.get(i)
-					.getCancelled().equals("true")))
-				if (!isActivityByPath(activities.get(i).getRefUid())) {
-					activities.get(i).setCancelled("true"); // org
-					activity2Cancel.add(activities.get(i));
-					troopDAO.updateTroop(user);
-				}
-		}
-
-		for (Activity a : activity2Cancel)
-			if (activities.contains(a))
-				activities.remove(a);
-	}
-*/
 	private String getPath(String uuid) {
 
 		String path = null;

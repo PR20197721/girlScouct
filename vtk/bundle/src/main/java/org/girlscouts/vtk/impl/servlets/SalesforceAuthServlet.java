@@ -20,12 +20,13 @@ import org.girlscouts.vtk.auth.dao.SalesforceDAO;
 import org.girlscouts.vtk.auth.dao.SalesforceDAOFactory;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.models.User;
-import org.girlscouts.vtk.dao.TroopDAO;
+
 //import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.helpers.ConfigListener;
 import org.girlscouts.vtk.helpers.ConfigManager;
 import org.girlscouts.vtk.helpers.CouncilMapper;
 import org.girlscouts.vtk.salesforce.Troop;
+import org.girlscouts.vtk.utils.TroopUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,7 +68,7 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
     private CouncilMapper councilMapper;
     
     @Reference
-    private TroopDAO troopDAO;
+    private TroopUtil troopUtil;
     
     @Override
     protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) {
@@ -128,7 +129,7 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
     	
     	
     	try{
-    		troopDAO.logout((org.girlscouts.vtk.models.Troop)session.getAttribute("VTK_user"));
+    		troopUtil.logout((org.girlscouts.vtk.models.Troop)session.getAttribute("VTK_user"));
     				
     		
     	}catch(Exception e){e.printStackTrace();}
