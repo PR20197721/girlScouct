@@ -8,7 +8,10 @@ public class Permission extends PermissionConstants {
 	
     public static final Permission login          = new Permission(PERMISSION_LOGIN_ID, null);
     public static final Permission year_plan_view   = new Permission(PERMISSION_VIEW_YEARPLAN_ID, login);
-   
+    public static final Permission year_plan_add   = new Permission(PERMISSION_ADD_YEARPLAN_ID, year_plan_view);
+    public static final Permission year_plan_rm   = new Permission(PERMISSION_RM_YEARPLAN_ID, year_plan_view);
+    public static final Permission year_plan_edit   = new Permission(PERMISSION_EDIT_YEARPLAN_ID, year_plan_view);
+    
     /*** MEETING ***/
     public static final Permission meeting_view    =  new Permission(PERMISSION_VIEW_MEETING_ID, year_plan_view);
     public static final Permission meeting_search    =  new Permission(PERMISSION_SEARCH_MEETING_ID, meeting_view);

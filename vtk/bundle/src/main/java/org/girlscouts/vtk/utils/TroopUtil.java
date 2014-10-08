@@ -10,9 +10,11 @@ import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.girlscouts.vtk.dao.ActivityDAO;
+import org.girlscouts.vtk.dao.CouncilDAO;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.TroopDAO;
 import org.girlscouts.vtk.models.Activity;
+import org.girlscouts.vtk.models.Council;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Troop;
 
@@ -29,6 +31,9 @@ public class TroopUtil {
 	@Reference
 	MeetingDAO meetingDAO;
 
+	@Reference
+	CouncilDAO councilDAO;
+	
 	public Troop getTroop(String councilId, String troopId) {
 
 		Troop troop = null;
@@ -95,5 +100,24 @@ public class TroopUtil {
 
         session.setAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName(), config);
 }
+	
+public Troop createTroop(String councilId, String troopId) {
+		
+		
+		Troop troop = null;
+		Council council = councilDAO.getOrCreateCouncil(councilId);
+		if( council==null)
+			return null;
+		
+		java.util.List<Troop> troops = council.getTroops();
+		if (troops == null)
+			troops = new java.util.ArrayList<Troop>();
+		troop= new Troop(troopId);
+		troops.add(troop);
+		council.setTroops(troops);
+		
+		councilDAO.updateCouncil(council);
+		return troop;
+	}
 	
 }

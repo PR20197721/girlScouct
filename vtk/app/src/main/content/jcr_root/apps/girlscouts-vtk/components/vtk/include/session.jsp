@@ -115,7 +115,7 @@
 		troop = troopUtil.getTroop("" + prefTroop.getCouncilCode(),
 				prefTroop.getTroopId());
 		if (troop == null) {
-			troop = troopDAO.createTroop(
+			troop = troopUtil.createTroop(
 					"" + prefTroop.getCouncilCode(),
 					prefTroop.getTroopId());
 		}

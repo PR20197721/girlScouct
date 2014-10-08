@@ -165,7 +165,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	
 	if( new_troop==null ){
 		//new_troop = new Troop( "/vtk/"+newTroop.getCouncilCode()+ "/"+newTroop.getTroopId()+"/troops/", troop.getApiConfig().getUserId()+"_"+  request.getParameter("loginAs") );
-		new_troop= troopDAO.createTroop(""+newTroop.getCouncilCode(), request.getParameter("loginAs"));
+		new_troop= troopUtil.createTroop(""+newTroop.getCouncilCode(), request.getParameter("loginAs"));
 	
 	}
 	new_troop.setTroop(newTroop );

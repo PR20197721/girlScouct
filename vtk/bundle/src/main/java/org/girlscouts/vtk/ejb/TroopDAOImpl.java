@@ -141,8 +141,13 @@ public class TroopDAOImpl implements TroopDAO {
 		return troop;
 	}
 
-	public YearPlan addYearPlan(Troop troop, String yearPlanPath) {
+	
+	public YearPlan addYearPlan(Troop troop, String yearPlanPath) throws java.lang.IllegalAccessException {
 
+		//permission to update
+		if( troop!= null && ! meetingDAO.hasPermission(troop, Permission.PERMISSION_ADD_YEARPLAN_ID) )
+			throw new IllegalAccessException();
+		
 		if (!meetingDAO.isCurrentTroopId(troop, troop.getCurrentTroop())) {
 			troop.setErrCode("112");
 			return null;
@@ -288,6 +293,11 @@ public class TroopDAOImpl implements TroopDAO {
 	}
 
 	public void selectYearPlan(Troop troop, String yearPlanPath, String planName) throws java.lang.IllegalAccessException{
+		
+		//permission to update
+		if( troop!= null && ! meetingDAO.hasPermission(troop, Permission.PERMISSION_ADD_YEARPLAN_ID) )
+			throw new IllegalAccessException();
+		
 		if (!meetingDAO.isCurrentTroopId(troop, troop.getCurrentTroop())) {
 			troop.setErrCode("112");
 			return;
@@ -406,9 +416,14 @@ public class TroopDAOImpl implements TroopDAO {
 
 	}
 
-	public void rmTroop(Troop troop) {
+	public void rmTroop(Troop troop)throws IllegalAccessException {
 		Session mySession =null;
 		try {
+			
+			//permission to update
+			if( troop!= null && ! meetingDAO.hasPermission(troop, Permission.PERMISSION_RM_YEARPLAN_ID) )
+				throw new IllegalAccessException();
+			
 			mySession= sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
@@ -436,6 +451,10 @@ public class TroopDAOImpl implements TroopDAO {
 
 	public void addAsset(Troop troop, String meetingUid, Asset asset) throws java.lang.IllegalAccessException{
 
+		//permission to update
+		if( troop!= null && ! meetingDAO.hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) )
+			throw new IllegalAccessException();
+		
 		if (!meetingDAO.isCurrentTroopId(troop, troop.getCurrentTroop())) {
 			troop.setErrCode("112");
 			return;
@@ -545,6 +564,7 @@ public class TroopDAOImpl implements TroopDAO {
 	}
 
 	public java.util.List getTroops() {
+		
 		Session mySession =null;
 		java.util.List<Troop> troops = null;
 		try {
@@ -582,30 +602,13 @@ public class TroopDAOImpl implements TroopDAO {
 	public void logout(Troop troop) throws java.lang.IllegalAccessException{
 		if (troop == null)
 			return;
-		Troop tmp_troop = getTroop_byPath(troop.getPath());
+ 		Troop tmp_troop = getTroop_byPath(troop.getPath());
 		if (tmp_troop == null)
 			return;
 		tmp_troop.setCurrentTroop(null);
 		updateTroop(tmp_troop);
 	}
 
-	public Troop createTroop(String councilId, String troopId) {
-		Troop troop = null;
-		Council council = councilDAO.getOrCreateCouncil(councilId);
-		if( council==null)
-			return null;
-		
-		java.util.List<Troop> troops = council.getTroops();
-		if (troops == null)
-			troops = new java.util.ArrayList<Troop>();
-		troop= new Troop(troopId);
-		troops.add(troop);
-		council.setTroops(troops);
-		
-		councilDAO.updateCouncil(council);
-		return troop;
-	}
-	
 	
 }// ednclass
 
