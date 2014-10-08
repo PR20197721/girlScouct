@@ -74,8 +74,10 @@
 <%
                 }else{
 %>
+<!-- jira 114. next release
  <div><input type="button" value="Click here to change your recurring meeting date and time." name="" onclick="showAlterYearPlanStartDate()"/></div>
 <div>Or select a calendar icon below to change the date, time, or to cancel a specific meeting</div>
+-->
 <%@include file="include/calList.jsp" %>
 
 <%
