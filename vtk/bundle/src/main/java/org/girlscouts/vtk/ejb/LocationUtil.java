@@ -25,7 +25,7 @@ public class LocationUtil {
     @Reference
     private MeetingDAO meetingDAO;
 
-	public void setLocationAllMeetings( Troop user, String locationPath ){
+	public void setLocationAllMeetings( Troop user, String locationPath ) throws java.lang.IllegalAccessException{
 		
 		if( !meetingDAO.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_EDIT_MEETING_ID ) ){
 			 user.setErrCode("112");
@@ -51,7 +51,7 @@ public class LocationUtil {
 		//TODO
 	}
   
-  public void setLocation(Troop user, Location location){
+  public void setLocation(Troop user, Location location) throws java.lang.IllegalAccessException{
 	  
 	  if( !meetingDAO.hasAccess(user, user.getCurrentTroop() , Permission.PERMISSION_EDIT_MEETING_ID) ){
 			 user.setErrCode("112");
@@ -84,7 +84,7 @@ public class LocationUtil {
 				
 		
   }
-  public void changeLocation(Troop user, String dates, String locationRef){
+  public void changeLocation(Troop user, String dates, String locationRef) throws java.lang.IllegalAccessException{
 	  
 	  if( !meetingDAO.hasAccess(user, user.getCurrentTroop() , Permission.PERMISSION_EDIT_MEETING_ID) ){
 			 user.setErrCode("112");
@@ -149,7 +149,7 @@ public class LocationUtil {
   
   
   
-	public void setLocationAllEmpty( Troop user, String locationName ){
+	public void setLocationAllEmpty( Troop user, String locationName )throws java.lang.IllegalAccessException{
 		
 		if( !meetingDAO.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_EDIT_MEETING_ID ) ){
 			 user.setErrCode("112");

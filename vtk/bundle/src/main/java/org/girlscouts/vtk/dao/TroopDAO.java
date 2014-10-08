@@ -12,15 +12,15 @@ public interface TroopDAO {
 	public Troop getTroop_byPath(String troopPath);
 	
 	public YearPlan addYearPlan( Troop troop, String yearPlanPath );
-	public boolean updateTroop(Troop troop);
-	public void selectYearPlan(Troop troop, String yearPlanPath, String name);
+	public boolean updateTroop(Troop troop) throws IllegalAccessException;
+	public void selectYearPlan(Troop troop, String yearPlanPath, String name) throws IllegalAccessException;
 	public void rmTroop(Troop troop);
-	public void addAsset(Troop troop, String meetingUid,  Asset asset);
+	public void addAsset(Troop troop, String meetingUid,  Asset asset) throws IllegalAccessException;
 	
 	public UserGlobConfig getUserGlobConfig();
 	public void updateUserGlobConfig();
 	public java.util.List getTroops();
-	public void logout(Troop troop);
+	public void logout(Troop troop) throws IllegalAccessException;
 	public Troop createTroop(String councilId, String troopId);
 	
 }

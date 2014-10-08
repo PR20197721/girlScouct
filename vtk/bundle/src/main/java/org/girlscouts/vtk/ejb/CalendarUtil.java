@@ -189,7 +189,7 @@ public class CalendarUtil {
 		}
 		
 		
-		public void createSched(Troop user, String freq, org.joda.time.DateTime p, String exclDate){
+		public void createSched(Troop user, String freq, org.joda.time.DateTime p, String exclDate)throws java.lang.IllegalAccessException{
 		
 			if( !meetingDAO.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_EDIT_MEETING_ID ) ){
 				 user.setErrCode("112");
@@ -228,7 +228,7 @@ public class CalendarUtil {
 		}
 		
 		public void updateSched(Troop user, String meetingPath, String time, String date, String ap, 
-				String isCancelledMeeting, long currDate){
+				String isCancelledMeeting, long currDate)throws java.lang.IllegalAccessException{
 			
 			if( !meetingDAO.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_UPDATE_MEETING_ID ) ){
 				 user.setErrCode("112");
@@ -265,7 +265,7 @@ public class CalendarUtil {
 			
 		}
 		
-		public void resetCal(Troop user){
+		public void resetCal(Troop user)throws java.lang.IllegalAccessException{
 			
 			user.getYearPlan().setSchedule(null);
 			troopDAO.updateTroop(user);

@@ -44,12 +44,8 @@ import org.girlscouts.vtk.models.Asset;
 @Service(value = TroopDAO.class)
 public class TroopDAOImpl implements TroopDAO {
 
-	
-	//private Session session;
-
 	@Reference
 	private SessionFactory sessionFactory;
-
 	
 	@Reference
 	private MeetingDAO meetingDAO;
@@ -63,10 +59,8 @@ public class TroopDAOImpl implements TroopDAO {
 	private static UserGlobConfig troopGlobConfig;
 
 	@Activate
-	void activate() {
-		//this.session = sessionFactory.getSession();
-	}
-
+	void activate() {}
+	
 	public Troop getTroop(String councilId, String troopId) {
 
 		Session mySession =null;
@@ -87,13 +81,11 @@ public class TroopDAOImpl implements TroopDAO {
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
 					mapper);
 
-		
 			ocm.refresh(true);
 			troop = (Troop) ocm.getObject( "/vtk/"+ councilId +"/troops/"+ troopId);
 			if( troop!=null)
 				troop.setRetrieveTime( new java.util.Date() );
-			
-			
+		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally{
@@ -156,7 +148,7 @@ public class TroopDAOImpl implements TroopDAO {
 		}
 		
 		Session mySession =null;
-		String x = yearPlanPath;
+		String fmtYearPlanPath = yearPlanPath;
 		YearPlan plan = null;
 		try {
 
@@ -164,7 +156,6 @@ public class TroopDAOImpl implements TroopDAO {
 			if (!yearPlanPath.endsWith("/"))
 				yearPlanPath = yearPlanPath + "/";
 
-			// path has not meetings/ TODO check if exists
 			yearPlanPath += "meetings/";
 
 			List<Class> classes = new ArrayList<Class>();
@@ -180,7 +171,7 @@ public class TroopDAOImpl implements TroopDAO {
 			QueryManager queryManager = ocm.getQueryManager();
 
 			Filter filter = queryManager.createFilter(YearPlan.class);
-			plan = (YearPlan) ocm.getObject(x);
+			plan = (YearPlan) ocm.getObject(fmtYearPlanPath);
 
 			plan.setRefId(yearPlanPath);
 			plan.setMeetingEvents(meetingDAO
@@ -201,16 +192,13 @@ public class TroopDAOImpl implements TroopDAO {
 
 	}
 
-	public boolean updateTroop(Troop troop) {
-		
-		
+	public boolean updateTroop(Troop troop) throws java.lang.IllegalAccessException {
 		
 		Session mySession =null;
 		boolean isUpdated = false;
 		try {
-
+			
 			if (troop == null || troop.getYearPlan() == null) {
-				System.err.println("exiting updateTroop");
 				return true;
 			}
 			troop.setErrCode("111");
@@ -234,30 +222,21 @@ public class TroopDAOImpl implements TroopDAO {
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
 					mapper);
 
-			
-	//System.err.println(">>>>>>>>>>>>  CHECKING SESSION: "+ (mySession==null ));		
-			//ocm.refresh(true);
 			Comparator<MeetingE> comp = new BeanComparator("id");
 			Collections.sort(troop.getYearPlan().getMeetingEvents(), comp);
 
-			// another troop logged in
 			if (troop != null && troop.getLastModified() != null) {
 					if (!meetingDAO
 									.isCurrentTroopId(troop, troop.getCurrentTroop())) {
 								troop.setErrCode("112");
-		System.err.println("LOCKED..");						
-								return false;
+								throw new IllegalAccessException();
+								//return false;
 							}
 			}
 		
-//Lock lock = ocm.lock(troop.getPath(), true, true);					
-//System.err.println("Session locked "+ lock.getLockOwner() );
-	if (mySession.itemExists(troop.getPath())) {
-
+	       if (mySession.itemExists(troop.getPath())) {
 				ocm.update(troop);
-
 			} else {
-
 				String path = "";
 				StringTokenizer t = new StringTokenizer(
 						("/" + troop.getPath())
@@ -267,57 +246,43 @@ public class TroopDAOImpl implements TroopDAO {
 				while (t.hasMoreElements()) {
 					String node = t.nextToken();
 					path += "/" + node;
-
 					if (!mySession.itemExists(path)) {
 						if (i == 1) {
-
 							ocm.insert(new Council(path));
 						} else {
-
 							ocm.insert(troop);
-						}
-						
+						}			
 					}
 					i++;
 				}
-
 				ocm.insert(troop);
 			}
 
 			String old_errCode = troop.getErrCode();
 			java.util.Calendar old_lastModified = troop.getLastModified();
 			try {
-
 				troop.setErrCode(null);
 				troop.setLastModified(java.util.Calendar.getInstance());
 				ocm.update(troop);
 				ocm.save();
 				isUpdated = true;
-//ocm.unlock(troop.getPath(), lock.getLockToken());
-//System.err.println("Session unlocked "+ lock.getLockOwner() );
 			} catch (Exception e) {
 				e.printStackTrace();
-
 				troop.setLastModified(old_lastModified);
 				troop.setErrCode(old_errCode);
 				troop.setRefresh(true);
 			}
-
 		} catch (Exception e) {
-
 			e.printStackTrace();
-			
 		}finally{
 			try{
 				sessionFactory.closeSession(mySession);
 			}catch(Exception es){es.printStackTrace();}
 		}
-
 		return isUpdated;
 	}
 
-	public void selectYearPlan(Troop troop, String yearPlanPath, String planName) {
-
+	public void selectYearPlan(Troop troop, String yearPlanPath, String planName) throws java.lang.IllegalAccessException{
 		if (!meetingDAO.isCurrentTroopId(troop, troop.getCurrentTroop())) {
 			troop.setErrCode("112");
 			return;
@@ -328,26 +293,13 @@ public class TroopDAOImpl implements TroopDAO {
 		try {
 
 			newYearPlan.setName(planName);
-
 			if (oldPlan == null || oldPlan.getMeetingEvents() == null
 					|| oldPlan.getMeetingEvents().size() <= 0
 					|| oldPlan.getSchedule() == null
-					|| oldPlan.getSchedule().getDates().equals("")) { // new
-																		// troop
-																		// new
-																		// plan,
-																		// first
-																		// time
-
+					|| oldPlan.getSchedule().getDates().equals("")) { 
 				troop.setYearPlan(newYearPlan);
-
-				// if dates, copy dates to new year plan && copy/replace OLD
-				// PASSED Meetings
-			} else if (oldPlan.getSchedule() != null) { // no dates; no past
-														// meetings to copy
-
+			} else if (oldPlan.getSchedule() != null) { 
 				String oldDates = oldPlan.getSchedule().getDates();
-
 				int count = 0;
 				java.util.StringTokenizer t = new java.util.StringTokenizer(
 						oldDates, ",");
@@ -355,7 +307,6 @@ public class TroopDAOImpl implements TroopDAO {
 				// if number of dates less then new meetings
 				if (t.countTokens() < newYearPlan.getMeetingEvents().size()) {
 					int countDates = t.countTokens();
-
 					long lastDate = 0, meetingTimeDiff = 99999;
 					while (t.hasMoreElements()) {
 						long diff = lastDate;
@@ -363,13 +314,11 @@ public class TroopDAOImpl implements TroopDAO {
 						if (diff != 0)
 							meetingTimeDiff = lastDate - diff;
 					}
-
 					for (int z = countDates; z < newYearPlan.getMeetingEvents()
 							.size(); z++)
 						oldDates += (lastDate + meetingTimeDiff) + ",";
-
-					oldPlan.getSchedule().setDates(oldDates);
-					t = new java.util.StringTokenizer(oldDates, ",");
+					    oldPlan.getSchedule().setDates(oldDates);
+					    t = new java.util.StringTokenizer(oldDates, ",");
 				}
 
 				while (t.hasMoreElements()) {
@@ -399,13 +348,7 @@ public class TroopDAOImpl implements TroopDAO {
 					} else if (new java.util.Date().before(new java.util.Date(
 							date))) {
 
-						if (count >= oldPlan.getMeetingEvents().size()) // oldPlan
-																		// has
-																		// less
-																		// meetings
-																		// than
-																		// new
-																		// -add
+						if (count >= oldPlan.getMeetingEvents().size()) 
 							oldPlan.getMeetingEvents().add(
 									newYearPlan.getMeetingEvents().get(count));
 						else
@@ -486,13 +429,12 @@ public class TroopDAOImpl implements TroopDAO {
 		}
 	}
 
-	public void addAsset(Troop troop, String meetingUid, Asset asset) {
+	public void addAsset(Troop troop, String meetingUid, Asset asset) throws java.lang.IllegalAccessException{
 
 		if (!meetingDAO.isCurrentTroopId(troop, troop.getCurrentTroop())) {
 			troop.setErrCode("112");
 			return;
 		}
-
 		java.util.List<MeetingE> meetings = troop.getYearPlan()
 				.getMeetingEvents();
 		for (int i = 0; i < meetings.size(); i++)
@@ -500,20 +442,17 @@ public class TroopDAOImpl implements TroopDAO {
 				meetings.get(i).getAssets().add(asset);
 
 		updateTroop(troop);
-
 	}
 
 	public UserGlobConfig getUserGlobConfig() {
 
-		if (true) {
 			loadUserGlobConfig();
 
 			if (troopGlobConfig == null) {
-
 				createUserGlobConfig();
 				loadUserGlobConfig();
 			}
-		}
+		
 		return troopGlobConfig;
 	}
 
@@ -559,9 +498,7 @@ public class TroopDAOImpl implements TroopDAO {
 					mapper);
 
 			UserGlobConfig troopGlobConfig = new UserGlobConfig();
-
 			ocm.insert(troopGlobConfig);
-
 			ocm.save();
 
 		} catch (Exception e) {
@@ -586,10 +523,8 @@ public class TroopDAOImpl implements TroopDAO {
 					mapper);
 
 			if (mySession.itemExists(troopGlobConfig.getPath())) {
-
 				ocm.update(troopGlobConfig);
 			} else {
-
 				ocm.insert(troopGlobConfig);
 			}
 			ocm.save();
@@ -625,13 +560,10 @@ public class TroopDAOImpl implements TroopDAO {
 
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(Troop.class);
-
 			filter.setScope("/vtk//");
-
 			Query query = queryManager.createQuery(filter);
 			troops = (java.util.List<Troop>) ocm.getObjects(query);
-			System.err.println("troops: " + (troops.size()));
-
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally{
@@ -642,7 +574,7 @@ public class TroopDAOImpl implements TroopDAO {
 		return troops;
 	}
 
-	public void logout(Troop troop) {
+	public void logout(Troop troop) throws java.lang.IllegalAccessException{
 		if (troop == null)
 			return;
 		Troop tmp_troop = getTroop_byPath(troop.getPath());
@@ -654,9 +586,6 @@ public class TroopDAOImpl implements TroopDAO {
 
 	public Troop createTroop(String councilId, String troopId) {
 		Troop troop = null;
-System.err.println("createTroop");		
-		//AUTH HERE
-
 		Council council = councilDAO.getOrCreateCouncil(councilId);
 		if( council==null)
 			return null;
@@ -667,7 +596,6 @@ System.err.println("createTroop");
 		troop= new Troop(troopId);
 		troops.add(troop);
 		council.setTroops(troops);
-		
 		
 		councilDAO.updateCouncil(council);
 		return troop;

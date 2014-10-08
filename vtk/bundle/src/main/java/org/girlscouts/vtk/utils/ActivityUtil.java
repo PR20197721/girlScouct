@@ -18,14 +18,14 @@ public class ActivityUtil {
 	@Reference
 	ActivityDAO activityDAO;
 
-	public void createActivity(Troop user, Activity activity) {
+	public void createActivity(Troop user, Activity activity) throws java.lang.IllegalAccessException{
 
 		activityDAO.createActivity(user, activity);
 		user.getYearPlan().setAltered("true");
 		troopDAO.updateTroop(user);
 	}
 
-	public void checkCanceledActivity(Troop user) {
+	public void checkCanceledActivity(Troop user) throws java.lang.IllegalAccessException{
 
 		if (user == null || user.getYearPlan() == null
 				|| user.getYearPlan().getActivities() == null
