@@ -439,8 +439,8 @@ function searchActivities(){
 	}
 	
 	
-	if( startDate!=null && endDate!=null && (startDate > endDate ))
-		{alert("Start Date can not be greater then end Date");return false;}
+	// 4 Next release if( startDate!=null && endDate!=null && (startDate > endDate ))
+	//	{alert("Start Date can not be greater then end Date");return false;}
 	
 	if( keywrd=='' && lvl=='' && cat =='' && startDate=='' && endDate=='' && region=='' ){
 		var thisMsg = "Please select search criteria.";
