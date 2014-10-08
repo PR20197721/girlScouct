@@ -31,15 +31,11 @@ import org.girlscouts.vtk.utils.TroopUtil;
 @Service(value=LocationDAO.class)
 public class LocationDAOImpl implements LocationDAO{
 
-   //private Session session;
-    
     @Reference
     private SessionFactory sessionFactory;
     
     @Activate
-    void activate() {
-       // this.session = sessionFactory.getSession();
-    }
+    void activate() {}
 
     @Reference
     private TroopUtil troopUtil;

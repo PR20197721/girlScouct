@@ -37,22 +37,15 @@ import org.girlscouts.vtk.models.YearPlan;
 @Service(value = ActivityDAO.class)
 public class ActivityDAOImpl implements ActivityDAO {
 
-	//private Session session;
-
 	@Reference
 	private SessionFactory sessionFactory;
 
 	@Activate
-	void activate() {
-		//this.session = sessionFactory.getSession();
-	}
-
+	void activate() {}
 
 	@Reference
 	private MeetingDAO meetingDAO;
 	
-	
-
 	public void createActivity(Troop user, Activity activity) {
 		Session session=null;
 		try {
@@ -96,8 +89,6 @@ public class ActivityDAOImpl implements ActivityDAO {
 			activities.add(activity);
 			plan.setActivities(activities);
 
-			
-			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally{
@@ -109,23 +100,6 @@ public class ActivityDAOImpl implements ActivityDAO {
 
 	}
 
-	public java.util.List<Activity> search(ActivitySearch search) {
-
-		java.util.List activities = new java.util.ArrayList();
-
-		for (int i = 0; i < 2; i++) {
-			Activity activity = new Activity();
-			activity.setName("test " + i);
-			activity.setContent("ACtivity content " + i);
-			activity.setDate(new java.util.Date());
-			activity.setType(YearPlanComponentType.ACTIVITY);
-			activity.setId("ACT" + i);
-
-			activities.add(activity);
-		}
-		return activities;
-
-	}
 
 	public boolean isActivity(String uuid) {
 
@@ -285,7 +259,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 
 			for (RowIterator it = result.getRows(); it.hasNext();) {
 				Row r = it.nextRow();
-System.err.println("Found activvvvv");
+
 				Value v[] = r.getValues();
 
 				activity = new Activity();
@@ -343,6 +317,12 @@ System.err.println("Found activvvvv");
 		}
 
 		return activity;
+	}
+
+
+	public List<Activity> search(ActivitySearch search) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -34,15 +34,11 @@ import org.girlscouts.vtk.models.YearPlan;
 @Service(value = CouncilDAO.class)
 public class CouncilDAOImpl implements CouncilDAO {
 
-	//private Session session;
-
 	@Reference
 	private SessionFactory sessionFactory;
 
 	@Activate
-	void activate() {
-		//this.session = sessionFactory.getSession();
-	}
+	void activate() {}
 
 	public Council findCouncil(String councilId) {
 		Council council = null;

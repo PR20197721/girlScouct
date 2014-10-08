@@ -24,7 +24,6 @@ public class Troop {
 	}
 	
 	@Field(id=true) private String id;
-	 
 	@Field(path=true) String path;
 	@Bean YearPlan yearPlan;	
 	private ApiConfig apiConfig;
@@ -35,7 +34,6 @@ public class Troop {
 	@Field private String errCode, refId;
 	private boolean isRefresh; // reload yearPlan from DB. case: someone modified plan:lock
 	private java.util.Date retrieveTime;
-	
 	private EmailMeetingReminder sendingEmail;	//tmp
 	
 	

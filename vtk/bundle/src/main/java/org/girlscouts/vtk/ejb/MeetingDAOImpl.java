@@ -66,15 +66,10 @@ import com.day.cq.search.QueryBuilder;
 import com.day.cq.search.result.Hit;
 import com.day.cq.search.result.SearchResult;
 
-
-
-
 @Component
 @Service(value=MeetingDAO.class)
 public class MeetingDAOImpl implements MeetingDAO {
 
-   //private Session session;
-   
     @Reference
     private SessionFactory sessionFactory;
     
@@ -87,9 +82,7 @@ public class MeetingDAOImpl implements MeetingDAO {
    
     
     @Activate
-    void activate() {
-       // this.session = sessionFactory.getSession();
-    }
+    void activate() {}
 	
 
 	//by planId
@@ -97,38 +90,27 @@ public java.util.List<MeetingE> getAllEventMeetings(String yearPlanId){
 		
 		java.util.List<MeetingE> meetings =null; 
 		Session session=null;
-	
-		
 		try{
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();	
 			classes.add(MeetingE.class); 
 			
-			
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
-		
-		
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(MeetingE.class);
-			
-	      
-	        filter.setScope(  "/content/girlscouts-vtk/yearPlanTemplates/yearplan2014/brownie/yearPlan"+yearPlanId+"/meetings/");
-	      
+	        filter.setScope(  "/content/girlscouts-vtk/yearPlanTemplates/yearplan2014/brownie/yearPlan"+yearPlanId+"/meetings/");	      
 	        Query query = queryManager.createQuery(filter);
-	        
-	         meetings = (List<MeetingE> ) ocm.getObjects(query);
+	        meetings = (List<MeetingE> ) ocm.getObjects(query);
 	      
 			
-			}catch(Exception e){e.printStackTrace();
+		}catch(Exception e){e.printStackTrace();
 			}finally{
 				try{
 					if( session!=null )
 						sessionFactory.closeSession(session);
 				}catch(Exception ex){ex.printStackTrace();}
 			}
-		
-		
 		return meetings;
 }
 
@@ -137,11 +119,8 @@ public java.util.List<MeetingE> getAllEventMeetings(String yearPlanId){
 
 //by plan path
 public java.util.List<MeetingE> getAllEventMeetings_byPath(String yearPlanPath){
-	
 	java.util.List<MeetingE> meetings =null; 
-	
 	Session session =null;
-	
 	try{
 		List<Class> classes = new ArrayList<Class>();	
 		classes.add(MeetingE.class); 
@@ -149,21 +128,14 @@ public java.util.List<MeetingE> getAllEventMeetings_byPath(String yearPlanPath){
 		
 		Mapper mapper = new AnnotationMapperImpl(classes);
 		ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
-	
-
 		QueryManager queryManager = ocm.getQueryManager();
 		Filter filter = queryManager.createFilter(MeetingE.class);
-		
-      
-        filter.setScope(  yearPlanPath);
-      
+	    filter.setScope(  yearPlanPath);     
         Query query = queryManager.createQuery(filter);
+        meetings = (List<MeetingE> ) ocm.getObjects(query);
         
-        
-         meetings = (List<MeetingE> ) ocm.getObjects(query);
-        
-		}catch(Exception e){e.printStackTrace();}
-	finally{
+	}catch(Exception e){e.printStackTrace();
+	}finally{
 		try{
 			if( session!=null )
 				sessionFactory.closeSession(session);
@@ -216,40 +188,27 @@ public Meeting getMeeting(String path){
 
 //get all event meetings for users plan
 public java.util.List<MeetingE> getAllUsersEventMeetings(Troop user, String yearPlanId){
-	
-	//TOD yearPLanId ????
 	Session session =null;
-	java.util.List<MeetingE> meetings =null; 
-	
-	if( !hasPermission(user, Permission.PERMISSION_VIEW_MEETING_ID )) return meetings;
-	
+	java.util.List<MeetingE> meetings =null; 	
+	if( !hasPermission(user, Permission.PERMISSION_VIEW_MEETING_ID )) return meetings;	
 	try{
 		session = sessionFactory.getSession();
 		List<Class> classes = new ArrayList<Class>();	
-		classes.add(MeetingE.class); 
-		
+		classes.add(MeetingE.class); 		
 		Mapper mapper = new AnnotationMapperImpl(classes);
-		ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
-	
+		ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);		
 		QueryManager queryManager = ocm.getQueryManager();
-		Filter filter = queryManager.createFilter(MeetingE.class);
-		
-        //filter.setScope(  "/content/girlscouts-vtk/yearPlanTemplates/yearplan2014/brownie/yearPlan"+yearPlanId+"/meetings/");
-      filter.setScope("/content/girlscouts-vtk/users/"+ user.getId() +"/yearPlan/meetingEvents/");
-        Query query = queryManager.createQuery(filter);
-        
-         meetings = (List<MeetingE> ) ocm.getObjects(query);
-      
+		Filter filter = queryManager.createFilter(MeetingE.class);		
+        filter.setScope("/content/girlscouts-vtk/users/"+ user.getId() +"/yearPlan/meetingEvents/");
+        Query query = queryManager.createQuery(filter);        
+        meetings = (List<MeetingE> ) ocm.getObjects(query);      
 		}catch(Exception e){e.printStackTrace();
 		}finally{
 			try{
 				if( session!=null )
 					sessionFactory.closeSession(session);
 			}catch(Exception ex){ex.printStackTrace();}
-		}
-	
-	
-	
+		}	
 	return meetings;
 }
 
@@ -259,7 +218,6 @@ public java.util.List<MeetingE> getAllUsersEventMeetings(Troop user, String year
 public Meeting createCustomMeeting(Troop user, MeetingE meetingEvent){ return createCustomMeeting(user, meetingEvent, null); }
 public Meeting createCustomMeeting(Troop user, MeetingE meetingEvent, Meeting meeting){
 	Session session =null;
-	//Meeting meeting =null;
 	try{
 		
 		if( !this.hasAccess(user, user.getCurrentTroop() , PermissionConstants.PERMISSION_CREATE_MEETING_ID) ){ //091514
@@ -279,10 +237,8 @@ public Meeting createCustomMeeting(Troop user, MeetingE meetingEvent, Meeting me
 
 		if( meeting==null )
 		    meeting = getMeeting(meetingEvent.getRefId());
-	
-		//String newPath = meetingEvent.getPath()+"/"+meeting.getId()+"_"+Math.random();
-		String newPath = user.getPath()+"/lib/meetings/"+meeting.getId()+"_"+Math.random();
-		
+
+		String newPath = user.getPath()+"/lib/meetings/"+meeting.getId()+"_"+Math.random();	
 		if( !session.itemExists(user.getPath()+"/lib/meetings/") ){
 			ocm.insert( new JcrNode(user.getPath()+"/lib") );
 			ocm.insert( new JcrNode(user.getPath()+"/lib/meetings") );
@@ -303,7 +259,6 @@ public Meeting createCustomMeeting(Troop user, MeetingE meetingEvent, Meeting me
 				sessionFactory.closeSession(session);
 		}catch(Exception ex){ex.printStackTrace();}
 	}
-	
 	return meeting;
 	
 }
@@ -500,27 +455,14 @@ public List<org.girlscouts.vtk.models.Search> getData(Troop user, String _query)
 	
 	final String RESOURCES_PATH = "resources";
 	String councilId = null;
-	if (user.getTroop() != null) {
-	    
-	        councilId = Integer.toString(user.getTroop().getCouncilCode());
-	    
+	if (user.getTroop() != null) {	    
+	        councilId = Integer.toString(user.getTroop().getCouncilCode());	    
 	}
-	//CouncilMapper mapper = sling.getService(CouncilMapper.class);
 	String branch = councilMapper.getCouncilBranch(councilId);
-
-	// TODO: language?
 	String resourceRootPath = branch + "/en/" + RESOURCES_PATH;
-	//System.out.println("OR PATH : "+ resourceRootPath);
-	
-	
-	
 	matched = new ArrayList<org.girlscouts.vtk.models.Search>();
-
-		try{
-			
-		session = sessionFactory.getSession();
-                   
-    // create query description as hash map (simplest way, same as form post)
+	try{		
+		session = sessionFactory.getSession();                   
     java.util.Map<String, String> map = new java.util.HashMap<String, String>();  
     map.put("fulltext", _query);
     map.put("group.2_path", "/content/dam/girlscouts-vtk/global/aid");
@@ -528,16 +470,9 @@ public List<org.girlscouts.vtk.models.Search> getData(Troop user, String _query)
     map.put("group.p.or", "true"); // combine this group with OR     
     map.put("p.offset", "0"); // same as query.setStart(0) below
     map.put("p.limit", "2000"); // same as query.setHitsPerPage(20) below
-                     
-    
-    
     com.day.cq.search.Query query = qBuilder.createQuery(PredicateGroup.create(map), session);
     query.setExcerpt(true);
-
-               
-    java.util.Map<String, org.girlscouts.vtk.models.Search> unq= new java.util.TreeMap();
-    
-    
+    java.util.Map<String, org.girlscouts.vtk.models.Search> unq= new java.util.TreeMap();   
    SearchResult result = query.getResult();
    
    for (Hit hit : result.getHits()) {
@@ -549,56 +484,35 @@ public List<org.girlscouts.vtk.models.Search> getData(Troop user, String _query)
 		while( itr.hasNext()){
 			String str =(String) itr.next();
 			String str1 = caca.get(str);
-			
 		}
 			
-		
 		ValueMap vp =hit.getProperties();
 		itr = vp.keySet().iterator();
-		
-		
-		
-		
-		
-		
 		  DocHit dh= new DocHit(hit);
-		  org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();
-		
+		  org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();	
 		  search.setPath( dh.getURL() );
 		  search.setDesc( dh.getTitle() );
 		  search.setContent(dh.getExcerpt()  );
 		  search.setSubTitle(dh.getDescription() );
-		  
 	      search.setAssetType(AssetComponentType.RESOURCE); 
 	      if(search.getPath().toLowerCase().contains("/aid/") )
 	    	  search.setAssetType(AssetComponentType.AID); 
-	      
-	      
-	      if( unq.containsKey( search.getPath() ) ){
-	    	  
+	   
+	      if( unq.containsKey( search.getPath() ) ){   	  
 	    	  if( search.getContent()!=null && !search.getContent().trim().equals("") ){
 	    		  org.girlscouts.vtk.models.Search _search = unq.get(search.getPath() );
 	    		  if( _search.getContent() ==null || _search.getContent().trim().equals(""))
-	    			  unq.put(search.getPath(), search);
-	    		  
+	    			  unq.put(search.getPath(), search);  		  
 	    	  }
 	      }else
 	    	  unq.put(search.getPath(), search);
 	      
-	   
-		
-		
-		
-	
-		
 	} catch (RepositoryException e) {
-		// TODO Auto-generated catch block
+		
 		e.printStackTrace();
 	}
    }
    
-   
-  
    java.util.Iterator itr= unq.keySet().iterator();
    while( itr.hasNext())
 	   matched.add( unq.get( itr.next() ) );
@@ -637,18 +551,11 @@ public List<org.girlscouts.vtk.models.Search> getDataSQL2(String query) {
 		
 		//AID search
 		javax.jcr.query.Query q = qm.createQuery(sql,  javax.jcr.query.Query.JCR_SQL2);
-		
-		
 		QueryResult result = q.execute();
-   
 		String str[] = result.getColumnNames();
-	
-		
 		 for (RowIterator it = result.getRows(); it.hasNext(); ) {
 		       Row r = it.nextRow();
-		       
 		       org.girlscouts.vtk.models.Search search = new org.girlscouts.vtk.models.Search();
-		    
 		       search.setPath("test");
 		       search.setDesc( r.getValue("child.dc:title").getString()  );
 		       search.setType( r.getValue("child.dc:format").getString()  );
@@ -656,8 +563,6 @@ public List<org.girlscouts.vtk.models.Search> getDataSQL2(String query) {
 		       search.setType(r.getValue("child3.jcr:mimeType").getString());
 		       matched.add(search);
 		 }
-		
-   
 	}catch(Exception e){e.printStackTrace();
 	}finally{
 		try{
@@ -668,25 +573,13 @@ public List<org.girlscouts.vtk.models.Search> getDataSQL2(String query) {
    return matched;
 	}
 
-
-
-
-
-
-
-
 public java.util.List<Asset> getAids(String tags, 
 		String meetingName, String uids){
-	
-	
 	java.util.List<Asset> container = new java.util.ArrayList();	
 	container.addAll( getAidTag_local( tags,  meetingName));
 	container.addAll( getAidTag( tags, meetingName) );
 	return container;
 }
-
-
-
 
 private List<Asset> getAidTag(String tags, String meetingName) {	
 	List<Asset> matched = new ArrayList<Asset>();
@@ -698,53 +591,36 @@ private List<Asset> getAidTag(String tags, String meetingName) {
 		String sql_tag="";
 		java.util.StringTokenizer t= new java.util.StringTokenizer( tags, ";");
 		while( t.hasMoreElements()){
-			
 			String tag = t.nextToken();
-			sql_tag += "cq:tags like '%"+ tag +"%'"; //" contains(., '"+ tag +"')";
-			
+			sql_tag += "cq:tags like '%"+ tag +"%'"; 
 			if( t.hasMoreElements())
 				sql_tag +=" or ";
 		}
 		
-		
-		String sql="";//select * from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/aid/%'  and ( "+ sql_tag  +" ) ";
-		
+		String sql="";
 		sql="select dc:description,dc:format, dc:title from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/aid/%'";
 		if( !sql_tag.equals(""))
 			sql+=   " and ( "+ sql_tag+" )";
 		
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
-   		
-		 		
 		QueryResult result = q.execute();
-   
- 
    
    for (RowIterator it = result.getRows(); it.hasNext(); ) {
        Row r = it.nextRow();
        Value excerpt = r.getValue("jcr:path");
-       
        String path = excerpt.getString();
        if( path.contains("/jcr:content") ) path= path.substring(0, (path.indexOf("/jcr:content") ));
     	
-       
        Asset search = new Asset();
        search.setRefId(path);
        search.setType(AssetComponentType.AID);
        search.setIsCachable(true);
-       
        try{ search.setDescription( r.getValue("dc:description").getString() );}catch(Exception e){System.err.println("Global Aid Description missing");}
-       
        try{ search.setTitle( r.getValue("dc:title").getString() );}catch(Exception e){}
        matched.add(search);
       
    }
-   
-   
-
-   
-   
 	}catch(Exception e){e.printStackTrace();
 	}finally{
 		try{
@@ -757,44 +633,19 @@ private List<Asset> getAidTag(String tags, String meetingName) {
 
 
 private List<Asset> getAidTag_local(String tags, String meetingName) {
-	  
 	
 	List<Asset> matched = new ArrayList<Asset>();
 	Session session =null;
 	try{
-		/*
-		String sql_tag="";
-		java.util.StringTokenizer t= new java.util.StringTokenizer( tags, ";");
-		while( t.hasMoreElements()){
-			
-			String tag = t.nextToken();
-			sql_tag += " contains(., '"+ tag +"')";
-			
-			if( t.hasMoreElements())
-				sql_tag +=" or ";
-		}
-		*/
-		
-		String sql="select dc:description,dc:format from nt:unstructured" +
-           		"   where   jcr:path like '/content/dam/girlscouts-vtk/local/aid/Meetings/"+meetingName+"/%' ";
-		
-		
-		//sql="select dc:description,dc:format from nt:base where  jcr:primaryType= 'dam:Asset' and jcr:path like '/content/dam/girlscouts-vtk/local/aid/Meetings/"+meetingName+"/%' ";
-		
-		sql="select dc:description,dc:format, dc:title  from nt:unstructured where  jcr:path like '/content/dam/girlscouts-vtk/local/aid/meetings/"+meetingName+"/%' and jcr:mixinTypes='cq:Taggable'";
+		String sql="select dc:description,dc:format, dc:title  from nt:unstructured where  jcr:path like '/content/dam/girlscouts-vtk/local/aid/meetings/"+meetingName+"/%' and jcr:mixinTypes='cq:Taggable'";
 		session = sessionFactory.getSession();
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
-   		
-		 		
 		QueryResult result = q.execute();
-   
- 
-   
+		
    for (RowIterator it = result.getRows(); it.hasNext(); ) {
        Row r = it.nextRow();
        Value excerpt = r.getValue("jcr:path");
-       
        String path = excerpt.getString();
        if( path.contains("/jcr:content") ) path= path.substring(0, (path.indexOf("/jcr:content") ));
     		   
@@ -802,9 +653,7 @@ private List<Asset> getAidTag_local(String tags, String meetingName) {
        search.setRefId(path);
        search.setType(AssetComponentType.AID);
        search.setIsCachable(true);
-       //search.setContent(excerpt.getString());
       try{search.setDescription( r.getValue("dc:description").getString() );}catch(Exception e){}
-      // try{search.setType(r.getValue("dc:format").getString());}catch(Exception e){}
       try{ search.setTitle( r.getValue("dc:title").getString() );}catch(Exception e){}
        matched.add(search);
       
@@ -825,32 +674,22 @@ private List<Asset> getAidTag_local(String tags, String meetingName) {
 
 private List<Asset> getAidTag_custasset(String uid) {
 	  
-	
 	List<Asset> matched = new ArrayList<Asset>();
 	Session session =null;
 	try{
-		
 		session = sessionFactory.getSession();
 		String sql= "select jcr:path from nt:base where jcr:path like '/vtk/111/troop-1a/assets/%' and refId='"+ uid +"'";
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
-   		
 		QueryResult result = q.execute();
-   
- 
-   
    for (RowIterator it = result.getRows(); it.hasNext(); ) {
        Row r = it.nextRow();
        Value excerpt = r.getValue("jcr:path");
-       
        String path = excerpt.getString() +"/custasset";
-    		   
        Asset search = new Asset();
        search.setRefId(path);
        search.setIsCachable(true);
-       //search.setContent(excerpt.getString());
         matched.add(search);
-      
    }
 	}catch(Exception e){e.printStackTrace();
 	}finally{
@@ -862,43 +701,32 @@ private List<Asset> getAidTag_custasset(String uid) {
    return matched;
 	}
 
+	@SuppressWarnings("unchecked")
+	public net.fortuna.ical4j.model.Calendar yearPlanCal(Troop user)
+			throws Exception {
 
+		java.util.Map<java.util.Date, YearPlanComponent> sched = new MeetingUtil()
+				.getYearPlanSched(user.getYearPlan());
+		if (!this.hasPermission(user, Permission.PERMISSION_VIEW_MEETING_ID))
+			return null;
+		net.fortuna.ical4j.model.Calendar calendar = new net.fortuna.ical4j.model.Calendar();
+		calendar.getProperties().add(
+				new ProdId("-//Ben Fortuna//iCal4j 1.0//EN"));
+		calendar.getProperties().add(Version.VERSION_2_0);
+		calendar.getProperties().add(CalScale.GREGORIAN);
+		java.util.Iterator itr = sched.keySet().iterator();
+		while (itr.hasNext()) {
+			java.util.Date dt = (java.util.Date) itr.next();
+			YearPlanComponent _comp = (YearPlanComponent) sched.get(dt);
 
-@SuppressWarnings("unchecked")
-public net.fortuna.ical4j.model.Calendar yearPlanCal(Troop user )throws Exception{
-	 
-	 java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
-		
-	  //String calFile = "/Users/akobovich/mycalendar.ics";
-	  if( !this.hasPermission(user, Permission.PERMISSION_VIEW_MEETING_ID)) return null;
-	 
- 
- //Creating a new calendar
- net.fortuna.ical4j.model.Calendar calendar = new net.fortuna.ical4j.model.Calendar();
- calendar.getProperties().add(new ProdId("-//Ben Fortuna//iCal4j 1.0//EN"));
- calendar.getProperties().add(Version.VERSION_2_0);
- calendar.getProperties().add(CalScale.GREGORIAN);
- 
-	  
-	  
-	  
-	  java.util.Iterator itr = sched.keySet().iterator();
-	  while( itr.hasNext() ){
-		  
-		  
-		  
-		  java.util.Date dt= (java.util.Date) itr.next();
-		  YearPlanComponent _comp= (YearPlanComponent) sched.get(dt);
-		  
-		  Calendar cal = java.util.Calendar.getInstance();
-		  cal.setTime(dt);
-		  
-		  String desc= "", location="";
-		  
-		  switch( _comp.getType() ){
+			Calendar cal = java.util.Calendar.getInstance();
+			cal.setTime(dt);
+
+			String desc = "", location = "";
+
+	  switch( _comp.getType() ){
 				case ACTIVITY :
 					Activity a = ((Activity) _comp);
-					
 					location= (a.getLocationName()==null ? "" : a.getLocationName());
 					location += " "+(a.getLocationAddress()==null ? "" : a.getLocationAddress().replace("\r", ""));
 					desc = ((Activity) _comp).getName();
@@ -910,59 +738,34 @@ public net.fortuna.ical4j.model.Calendar yearPlanCal(Troop user )throws Exceptio
 					location= getLocation( user, ((MeetingE) _comp).getLocationRef());
 					break;
 			}       	
-		  
-	  
-		  final List events = new ArrayList();
 		
-			
-			
+		  final List events = new ArrayList();			
 			final VEvent event = new VEvent(new DateTime(cal.getTime()), desc);
-			//event.getProperties().add(new DtEnd(new DateTime(entry.getEndTime())));
 			event.getProperties().add(new Description(desc));
-			
-			//System.err.println("Location: "+ location);
 			if( location!=null)
 				event.getProperties().add(new net.fortuna.ical4j.model.property.Location(location));
 			  
-			
 			UidGenerator uidGenerator = new UidGenerator("1");
 			event.getProperties().add(uidGenerator.generateUid());
 			events.add(event);
 			
-			
-		
 		calendar.getComponents().addAll(events);
 	  
-	  
-	 
 	  }//end while
 	  return calendar;
 }
 
-
-
-
-
-//resources
-
 public java.util.List<Asset> getResources(String tags, 
-		String meetingName, String uids){
-	
+		String meetingName, String uids){	
 	java.util.List<Asset> container = new java.util.ArrayList();
-	
 	container.addAll( getResource_local( tags,  meetingName));
 	container.addAll( getResource_global( tags, meetingName) );
-	
-	
 	return container;
 }
 
 
-
-
 private List<Asset> getResource_global(String tags, String meetingName) {
 	  
-	
 	List<Asset> matched = new ArrayList<Asset>();
 	Session session=null;
 	try{
@@ -972,29 +775,19 @@ private List<Asset> getResource_global(String tags, String meetingName) {
 		String sql_tag="";
 		java.util.StringTokenizer t= new java.util.StringTokenizer( tags, ";");
 		while( t.hasMoreElements()){
-			
 			String tag = t.nextToken();
-			sql_tag += "cq:tags like '%"+ tag +"%'"; 
-			
+			sql_tag += "cq:tags like '%"+ tag +"%'"; 			
 			if( t.hasMoreElements())
 				sql_tag +=" or ";
 		}
-		
-		
-		String sql="";
-		
-		sql="select dc:description,dc:format, dc:title from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/resource/%'  ";
+				
+		String sql="select dc:description,dc:format, dc:title from nt:unstructured where jcr:path like '/content/dam/girlscouts-vtk/global/resource/%'  ";
 		if(!sql_tag.equals(""))
 			sql+=" and ( "+ sql_tag+" )";
-		
-		
+				
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
-   		
-		 		
-		QueryResult result = q.execute();
-   
- 
+   		QueryResult result = q.execute();
    
    for (RowIterator it = result.getRows(); it.hasNext(); ) {
        Row r = it.nextRow();
@@ -1024,19 +817,11 @@ private List<Asset> getResource_global(String tags, String meetingName) {
 
 
 private List<Asset> getResource_local(String tags, String meetingName) {
-	  
 	
 	List<Asset> matched = new ArrayList<Asset>();
 	Session session =null;
 	try{
-	
-		
-		String sql="select dc:description,dc:format from nt:unstructured" +
-           		"   where   jcr:path like '/content/dam/girlscouts-vtk/local/resource/meetings/"+meetingName+"/%' ";
-		
-		
-		
-		sql="select dc:description,dc:format, dc:title  from nt:unstructured where  jcr:path like '/content/dam/girlscouts-vtk/local/resource/meetings/"+meetingName+"/%' and jcr:mixinTypes='cq:Taggable'";
+		String sql="select dc:description,dc:format, dc:title  from nt:unstructured where  jcr:path like '/content/dam/girlscouts-vtk/local/resource/meetings/"+meetingName+"/%' and jcr:mixinTypes='cq:Taggable'";
 		session = sessionFactory.getSession();
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);    		
@@ -1045,7 +830,6 @@ private List<Asset> getResource_local(String tags, String meetingName) {
    for (RowIterator it = result.getRows(); it.hasNext(); ) {
        Row r = it.nextRow();
        Value excerpt = r.getValue("jcr:path");
-       
        String path = excerpt.getString();
        if( path.contains("/jcr:content") ) path= path.substring(0, (path.indexOf("/jcr:content") ));
     		   
@@ -1053,12 +837,9 @@ private List<Asset> getResource_local(String tags, String meetingName) {
        search.setRefId(path);
        search.setIsCachable(true);
        search.setType(AssetComponentType.RESOURCE);
-       //search.setContent(excerpt.getString());
       try{search.setDescription( r.getValue("dc:description").getString() );}catch(Exception e){}
       try{search.setTitle( r.getValue("dc:title").getString() );}catch(Exception e){}
-      // try{search.setType(r.getValue("dc:format").getString());}catch(Exception e){}
-       matched.add(search);
-      
+       matched.add(search);   
    }
 	}catch(Exception e){e.printStackTrace();
 	}finally{
@@ -1075,10 +856,8 @@ private List<Asset> getResource_local(String tags, String meetingName) {
 
 public SearchTag searchA( String councilCode){
 	
-	
 	String councilStr = councilMapper.getCouncilBranch(councilCode);
 	councilStr = councilStr.replace("/content/","");
-
 	Session session =null;
 	SearchTag tags = new SearchTag();
 	try{
@@ -1086,12 +865,9 @@ public SearchTag searchA( String councilCode){
 		java.util.Map<String, String> regionsMain = searchRegion(councilStr);		
 		java.util.Map<String, String> categories = new java.util.TreeMap();
 		java.util.Map<String, String> levels = new java.util.TreeMap();
-		
-		//String sql="select jcr:title from nt:base where jcr:path like '/etc/tags/girlscouts/%'";
 		String sql="select jcr:title from nt:base where jcr:path like '/etc/tags/"+ councilStr +"/%'";
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
-			
 		QueryResult result = q.execute();
 		 for (RowIterator it = result.getRows(); it.hasNext(); ) {
 		       Row r = it.nextRow();
@@ -1100,33 +876,24 @@ public SearchTag searchA( String councilCode){
 		    	   if( elem!=null )
 		    		   elem = elem.toLowerCase().replace("_", "").replace("/", "");
 		    	   
-		    	   categories.put( elem,null );
-		    	   
+		    	   categories.put( elem,null );	    	   
 		       } else if( r.getPath().startsWith("/etc/tags/"+ councilStr +"/program-level") ){
-		    	   //levels.put( r.getValue("jcr:title").getString(), null );
 		    	   String elem = r.getValue("jcr:title").getString();
 		    	   if( elem!=null )
-		    		   elem = elem.toLowerCase().replace("_", "").replace("/", "");
-		    	   
-		    	   levels.put( elem, null );
-		    	   
+		    		   elem = elem.toLowerCase().replace("_", "").replace("/", "");    	   
+		    	   levels.put( elem, null );  
 		       }
 		 }
 		
-		//if no tags found -> pull from default /etc/tags/girlscouts 9/11/14
+		
 		 if( (categories ==null || categories.size()==0 ) && (levels==null || levels.size()==0) ){
-			 
 		  try{
 			  SearchTag defaultTags = getDefaultTags();
 			  if( regionsMain!=null && regionsMain.size()>0 )
 				  	defaultTags.setRegion(regionsMain);
 			  return defaultTags;
-			  //return getDefaultTags();
 		 	}catch(Exception e){e.printStackTrace();}
 		 }
-		 
-		 
-		 
 		 
 		 if( categories!=null ){
 			 categories.remove("Categories");
@@ -1152,15 +919,6 @@ public SearchTag searchA( String councilCode){
 
 	return tags;
 }
-
-
-
-
-
-
-
-
-
 
 
 public SearchTag getDefaultTags( ){
@@ -1172,12 +930,9 @@ public SearchTag getDefaultTags( ){
 		session = sessionFactory.getSession();
 		java.util.Map<String, String> categories = new java.util.TreeMap();
 		java.util.Map<String, String> levels = new java.util.TreeMap();
-		
-		//String sql="select jcr:title from nt:base where jcr:path like '/etc/tags/girlscouts/%'";
 		String sql="select jcr:title from nt:base where jcr:path like '/etc/tags/"+ councilStr +"/%'";
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
-			
 		QueryResult result = q.execute();
 		 for (RowIterator it = result.getRows(); it.hasNext(); ) {
 		       Row r = it.nextRow();
@@ -1185,26 +940,15 @@ public SearchTag getDefaultTags( ){
 		    	   String elem =  r.getValue("jcr:title").getString();
 		    	   if( elem!=null )
 		    		   elem = elem.toLowerCase().replace("_", "").replace("/", "");
-		    	   
 		    	   categories.put( elem,null );
-		    	   
 		       } else if( r.getPath().startsWith("/etc/tags/"+ councilStr +"/program-level") ){
-		    	   //levels.put( r.getValue("jcr:title").getString(), null );
 		    	   String elem = r.getValue("jcr:title").getString();
 		    	   if( elem!=null )
 		    		   elem = elem.toLowerCase().replace("_", "").replace("/", "");
-		    	   
 		    	   levels.put( elem, null );
-		    	   
 		       }
 		 }
 		
-		
-		
-		 
-		 
-		 
-		 
 		 if( categories!=null ){
 			 categories.remove("Categories");
 			 categories.remove("categories");
@@ -1226,7 +970,6 @@ public SearchTag getDefaultTags( ){
 				sessionFactory.closeSession(session);
 		}catch(Exception ex){ex.printStackTrace();}
 	}
-
 	return tags;
 }
 
@@ -1237,51 +980,35 @@ public java.util.List<Activity> searchA2(Troop user, String tags, String cat, St
 	java.util.List<Activity> toRet= new java.util.ArrayList();
 	Session session =null;
 	try{
-		session = sessionFactory.getSession();
-		
+		session = sessionFactory.getSession();	
 		boolean isTag=false;
-		
-		
-		//TAGS= LVL
 		String sqlTags="";
 		if( tags.equals("|")) tags="";
-		
 		StringTokenizer t= new StringTokenizer( tags, "|");
 		while( t.hasMoreElements()){
 			sqlTags+=" contains(parent.[cq:tags], 'program-level/"+ t.nextToken() +"') ";
-			//sqlTags+=" parent.[cq:tags] = '"+ t.nextToken() +"' ";
 			if( t.hasMoreElements() )
 				sqlTags+=" or ";
 			isTag=true;
 		}
 		if( isTag)
 			sqlTags=" and ("+ sqlTags +" ) ";
-		//END LVL
-		
-		
-		//cat
+
 		String sqlCat="";
 		if( cat.equals("|")) cat="";
-		
 	    t= new StringTokenizer( cat, "|");
 		while( t.hasMoreElements()){
 			sqlCat+=" contains(parent.[cq:tags], 'categories/"+ t.nextToken() +"') ";
-			//sqlCat+=" parent.[cq:tags]= 'gsnetx:categories/"+ t.nextToken() +"' ";
 			if( t.hasMoreElements() )
 				sqlCat+=" or ";
 			isTag=true;
 		}
 		if( !sqlCat.equals("" ))
 			sqlCat=" and ("+ sqlCat +" ) ";
-		//end cat
-		
-		
-		
-		
+
 		String regionSql="";
 		if( region !=null && !region.trim().equals("")) {
 			regionSql += " and LOWER(region) ='"+ region +"'";
-			//isTag=true;
 		}
 		
 		String path = "/content/gateway/en/events/2014/%";
@@ -1289,29 +1016,20 @@ public java.util.List<Activity> searchA2(Troop user, String tags, String cat, St
 			path= path +"/data";
 		else
 			path= path +"/jcr:content";
-		
-		//- org SQL String sql="select start, jcr:title, details, end,locationLabel,srchdisp  from nt:base where jcr:path like '"+ path +"' " ;
-		
+
 		String councilId = null;
 		if (user.getTroop() != null) {
 		        councilId = Integer.toString(user.getTroop().getCouncilCode());
 		}
 		String branch = councilMapper.getCouncilBranch(councilId);
-		// TODO: language?
+
 		branch += "/en";
 		String eventPath = "";
 		try {
 		    eventPath = session.getProperty(branch + "/jcr:content/eventPath").getString();
 		} catch (Exception e) {e.printStackTrace();}
 		
-		
-		
 		String sql= "select child.address, parent.[jcr:uuid], child.start, parent.[jcr:title], child.details, child.end,child.locationLabel,child.srchdisp  from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) where  (isdescendantnode (parent, [" + eventPath + "])) and child.start is not null and parent.[jcr:title] is not null " ;
-		
-		
-		
-
-
 		
 		if( keywrd!=null && !keywrd.trim().equals("") )//&& !isTag )
 			sql+=" and (contains(child.*, '"+ keywrd+"') or contains(parent.*, '"+ keywrd+"')  )";
@@ -1321,30 +1039,19 @@ public java.util.List<Activity> searchA2(Troop user, String tags, String cat, St
 		
 		sql+= sqlTags;
 		sql+= sqlCat;
-		
-		
-		System.err.println( sql );
-		
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.JCR_SQL2); 
 			
 		int i=0;
 		QueryResult result = q.execute();
-		
-	//System.err.println("Size: "+	result.getRows().getSize());
-		
 		 for (RowIterator it = result.getRows(); it.hasNext(); ) {
 		       Row r = it.nextRow();
-		   //  System.err.println("PATH: "+  r.get);
-		       
+		  
 		       Value v[] =r.getValues();
-		       for(int g=0;g<v.length;g++)
-		    	   System.err.println( "*** * "+v[g].getString() );
 		       
 		        Activity activity = new Activity();
 				activity.setUid("A"+ new java.util.Date().getTime() +"_"+ Math.random());
-		        //if( true){//!isTag){
-		  //System.err.println( i );      	
+		         	
 		        	activity.setContent(r.getValue("child.details").getString());
 		        	activity.setDate(r.getValue("child.start").getDate().getTime());
 		        	try{ activity.setEndDate(r.getValue("child.end").getDate().getTime()); }catch(Exception e){}
@@ -1353,33 +1060,23 @@ if( (activity.getDate().before(new java.util.Date()) && activity.getEndDate()==n
 		||
 	( activity.getEndDate()!=null && activity.getEndDate().before(new java.util.Date()))
 		){ 
-			//System.err.println("PastDAte: "+ activity.getDate() +" : "+ activity.getEndDate() );
 			continue;
 	}
-		        	
 		        	activity.setLocationName(r.getValue("child.locationLabel").getString());
 		        	try{
 		        		activity.setLocationAddress(r.getValue("child.address").getString());
 		        	}catch(Exception e){e.printStackTrace();}
-		        	
 		        	activity.setName(r.getValue("child.srchdisp").getString());
-		        	
 		        	activity.setName(r.getValue("parent.jcr:title").getString());
-		        	
 				activity.setType(YearPlanComponentType.ACTIVITY);
 				activity.setId("ACT"+i);
-				//activity.setPath( r.getPath() );
 				
 				//patch
 				if( activity.getDate()!=null && activity.getEndDate()==null){
 					activity.setEndDate(activity.getDate());
 				}
-				
 				activity.setIsEditable(false);
 				try{ activity.setRefUid( r.getValue("parent.jcr:uuid").getString() ); }catch(Exception e){e.printStackTrace();}
-				 
-				
-				
 				if( startDate!=null && endDate!=null)
 				 if(  
 				  ( startDate.after(endDate) ) ||
@@ -1393,25 +1090,13 @@ if( (activity.getDate().before(new java.util.Date()) && activity.getEndDate()==n
 								)
 						)
 						{ 
-					
-							
-							
 							continue;
 						}
-				
-				
-				
-				
-				
-				
 				
 				toRet.add( activity); 
 				i++;
 		 }
-		 
-		 
 		
-		 
 	}catch(Exception e){e.printStackTrace();
 	}finally{
 		try{
@@ -1419,82 +1104,40 @@ if( (activity.getDate().before(new java.util.Date()) && activity.getEndDate()==n
 				sessionFactory.closeSession(session);
 		}catch(Exception ex){ex.printStackTrace();}
 	}
-	
 	return toRet;
 }
-
-
 
 public java.util.Map<String, String> searchRegion( String councilStr){
 	java.util.Map<String, String> container = new java.util.TreeMap();
 	Session session =null;
 	try{
 		session = sessionFactory.getSession();
-		
 		java.util.Map<String, String> categories = new java.util.TreeMap();
 		java.util.Map<String, String> levels = new java.util.TreeMap();
-		
-		//String sql="select Region from nt:base where jcr:path like '/content/gateway/en/events/2014/%' and Region is not null";
-		//String sql="select jcr:title from nt:base where jcr:path like '/etc/tags/"+ councilStr +"/%' and Region is not null";
-		
 		String sql="select region, start, end from nt:base where jcr:path like '/content/"+councilStr+"/en/events-repository/%' and region is not null";
-		System.err.println( sql );
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
-		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
-			
+		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 			
 		QueryResult result = q.execute();
-		
 		 for (RowIterator it = result.getRows(); it.hasNext(); ) {
 		       Row r = it.nextRow();
 		       String elem= r.getValue("region").getString() ;
-		      // elem= elem.trim().toLowerCase();
 		       elem  = elem.toLowerCase();
-		       
 		       try{
-
-		           
-
-		    	   	  java.util.Calendar startDate=null, endDate=null, now=null;
-
+		    	   java.util.Calendar startDate=null, endDate=null, now=null;
 		    	   	  now= java.util.Calendar.getInstance();
-
-		    	       //System.err.println("PT: "+ r.getPath());
-		    	       
-
 		    	   	  try{
-		    	   		 // System.err.println( "STart : "+ (r.getValue("start")==null ));
-		    	   		 // System.err.println( r.getValue("start").getString() );
-		    	   		// System.err.println( r.getValue("start").getString() ==null );
-		    	   		  startDate = r.getValue("start").getDate();
-		    	   		  
+		    	   		  startDate = r.getValue("start").getDate();		    	   		  
 		    	   	  }catch(Exception e){ e.printStackTrace();System.err.println("searchRegion invalid startDate"); }
-
 		    	   	  try{endDate   = r.getValue("end").getDate();}catch(Exception e){ System.err.println("searchRegion invalid endDate"); }
-
-		    	       
-
 		    	   	  if( endDate!=null && endDate.before( now ) )
-
 		    	   	  continue;
-
 		    	   	  else if( endDate==null && startDate.before(now) )
-
 		    	   	  continue;
-
-		    	       
-
 		    	    }catch(Exception e){e.printStackTrace();}
-
-		    	       
-		       
-		       
-		       
 		       if( !container.containsKey(elem) )
 		    	  container.put( elem, null);
 		 }
 		
-		
-		 
 	}catch(Exception e){e.printStackTrace();
 	}finally{
 		try{
@@ -1509,11 +1152,8 @@ public java.util.Map<String, String> searchRegion( String councilStr){
 
 
 
-public java.util.List<Meeting> getAllMeetings(String gradeLevel){
-	
+public java.util.List<Meeting> getAllMeetings(String gradeLevel){	
 	java.util.List<Meeting> meetings =null; //new java.util.ArrayList();
-	
-
 	Session session=null;
 	try{
 		session = sessionFactory.getSession();
@@ -1521,25 +1161,15 @@ public java.util.List<Meeting> getAllMeetings(String gradeLevel){
 		classes.add(Meeting.class); 
 		classes.add(Activity.class);
 		classes.add(JcrCollectionHoldString.class);
-		
 		Mapper mapper = new AnnotationMapperImpl(classes);
 		ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
-	
-	
-		
 		QueryManager queryManager = ocm.getQueryManager();
 		Filter filter = queryManager.createFilter(Meeting.class);
-		
-       // filter.setScope(  "/content/girlscouts-vtk/meetings/");
-        filter.setScope(  "/content/girlscouts-vtk/meetings/myyearplan/"+gradeLevel+"/");
-       
+	    filter.setScope(  "/content/girlscouts-vtk/meetings/myyearplan/"+gradeLevel+"/");
         Query query = queryManager.createQuery(filter);
-         meetings = (List<Meeting> ) ocm.getObjects(query);
-      
+         meetings = (List<Meeting> ) ocm.getObjects(query);  
          Comparator<Meeting> comp = new BeanComparator("position");
  	    Collections.sort( meetings, comp);
- 		
-		
 		}catch(Exception e){e.printStackTrace();
 		}finally{
 			try{
@@ -1547,12 +1177,6 @@ public java.util.List<Meeting> getAllMeetings(String gradeLevel){
 					sessionFactory.closeSession(session);
 			}catch(Exception ex){ex.printStackTrace();}
 		}
-	
-	
-	
-	
-	
-	
 	return meetings;
 
 }
@@ -1561,51 +1185,32 @@ public java.util.List<Meeting> getAllMeetings(String gradeLevel){
 
 
 public  List<Asset> getAllResources(String _path) {
-	  
-	
-	List<Asset> matched = new ArrayList<Asset>();
+List<Asset> matched = new ArrayList<Asset>();
 	Session session =null;
 	try{
-		
-		
-		String sql="";
-		
-		sql="select [dc:description], [dc:format], [dc:title], [jcr:mimeType], [jcr:path] " +
+		String sql="select [dc:description], [dc:format], [dc:title], [jcr:mimeType], [jcr:path] " +
 				" from [nt:unstructured] as parent where " +
 				" (isdescendantnode (parent, ["+ _path +"])) and [cq:tags] is not null";
 		session = sessionFactory.getSession();
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.JCR_SQL2); 
-   		
-		 		
-		QueryResult result = q.execute();
-   
- 
-   
+	QueryResult result = q.execute();
    for (RowIterator it = result.getRows(); it.hasNext(); ) {
        Row r = it.nextRow();
-       
        Asset search = new Asset();
        search.setRefId(r.getPath().replace("/jcr:content/metadata", ""));
        search.setIsCachable(true);
        search.setType(AssetComponentType.RESOURCE);
        try{ search.setDescription( r.getValue("dc:description").getString() );}catch(Exception e){}
        try{ search.setTitle( r.getValue("dc:title").getString() );}catch(Exception e){}
-       
-       //search.setDocType( r.getValue("jcr:mimeType").getString() );
-       try{
+   try{
     	   String t= r.getPath().substring( r.getPath().indexOf(".") );
     	   t= t.substring(1, t.indexOf("/"));
     	   search.setDocType( t );
        }catch(Exception e){e.printStackTrace();
        }
-       
-       
        matched.add(search);
-      
    }
-   
-   
 	}catch(Exception e){e.printStackTrace();
 	}finally{
 		try{
@@ -1617,39 +1222,28 @@ public  List<Asset> getAllResources(String _path) {
 	}
 
 public  Asset getAsset(String _path) {
-	  
 	Asset search=null;
 	Session session =null;
 try{
 		session = sessionFactory.getSession();
 		String sql="";
-		
 		if( _path!=null && _path.contains("metadata/") )
 			_path = _path.replace( "metadata/", "");
-		
 		sql="select dc:description,dc:format, dc:title from nt:unstructured where jcr:path like '"+ _path +"%' and cq:tags is not null";
-		
 		javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
 		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL); 
-   		
-		 		
-		QueryResult result = q.execute();
-   
+   		QueryResult result = q.execute();
    for (RowIterator it = result.getRows(); it.hasNext(); ) {
        Row r = it.nextRow();
        Value excerpt = r.getValue("jcr:path");
-       
        String path = excerpt.getString();
        if( path.contains("/jcr:content") ) path= path.substring(0, (path.indexOf("/jcr:content") ));
-
         search = new Asset();
        search.setRefId(path);
        search.setIsCachable(true);
        search.setType(AssetComponentType.RESOURCE);
        try{ search.setDescription( r.getValue("dc:description").getString() );}catch(Exception e){}
-       try{ search.setTitle( r.getValue("dc:title").getString() );}catch(Exception e){}
-       
-      
+       try{ search.setTitle( r.getValue("dc:title").getString() );}catch(Exception e){}  
    }
 }catch(Exception e){e.printStackTrace();
 }finally{
@@ -1658,51 +1252,32 @@ try{
 			sessionFactory.closeSession(session);
 	}catch(Exception ex){ex.printStackTrace();}
 }
-
 return search;
 }
-
-
-
-
 
 public java.util.List<Asset> getGlobalResources( String resourceTags){
 	java.util.List<Asset> toRet= new java.util.ArrayList();
 	if( resourceTags==null || resourceTags.equals("")) return toRet;
 	Session session=null;
 	try{
-		
 		session = sessionFactory.getSession();
 		java.util.Map<String, String> map = new java.util.HashMap<String, String>();
 		map.put("group.p.or", "true"); 
-		
-		
 		resourceTags+=";"; //if 1 tag no delim
 		StringTokenizer t= new StringTokenizer( resourceTags, ";");
-		
 		int i=1;
 	   while(t.hasMoreElements()){
 		map.put("group."+i+"_fulltext", t.nextToken());
 		i++;
 	   }
 	   
-	    
 	     map.put("path", "/content/dam/girlscouts-vtk/global/resource");
-	     
-	     
 	    map.put("p.offset", "0"); // same as query.setStart(0) below
 	    map.put("p.limit", "100"); // same as query.setHitsPerPage(20) below
-	    
-	    
-	    
 	    com.day.cq.search.Query query = qBuilder.createQuery(PredicateGroup.create(map), session);
-	    
-	
 	    query.setStart(0);
 	    query.setHitsPerPage(100);
-	               
 	   SearchResult result = query.getResult();
-	   
 	   for (Hit hit : result.getHits()) {
 	       try {
 			String path = hit.getPath();
@@ -1713,12 +1288,9 @@ public java.util.List<Asset> getGlobalResources( String resourceTags){
 			asset.setTitle(new DocHit(hit).getTitle());
 			asset.setIsCachable(true);
 			asset.setRefId(new DocHit(hit).getURL());
-			
 			toRet.add(asset);
-	       
 	       }catch(Exception e){e.printStackTrace();}
 	   }
-		
 	}catch(Exception e){e.printStackTrace();
 	}finally{
 		try{
@@ -1726,7 +1298,6 @@ public java.util.List<Asset> getGlobalResources( String resourceTags){
 				sessionFactory.closeSession(session);
 		}catch(Exception ex){ex.printStackTrace();}
 	}
-	
 	
 	return toRet;
 }
