@@ -146,19 +146,35 @@ cTrans.put("313", "Girl Scouts of Gateway Council, Inc.");
 			}
 			
 			
-			int total = 0;
-			if(xx.get("3-Junior")!=null )
+			int total = 0, council_jun=0, council_dai=0, council_bro=0;
+			if(xx.get("3-Junior")!=null ){
 				total+= xx.get("3-Junior");
-			if( xx.get("2-Brownie") !=null)
+				council_jun=xx.get("3-Junior");
+			}
+			
+			if( xx.get("2-Brownie") !=null){
 				total += xx.get("2-Brownie");
-			if( xx.get("1-Daisy") !=null)
+				council_bro= xx.get("2-Brownie");
+			}
+			
+			if( xx.get("1-Daisy") !=null){
 				total += xx.get("1-Daisy");
+				council_dai = xx.get("1-Daisy");
+		    }
+			
 			%>
 				<tr style="background-color:lightgray;">
 				<td><%=councilId_str ==null ? council : councilId_str%></td>
+				<!-- 
 				<td><%= xx.get("3-Junior")%> </td>
 				<td><%= xx.get("2-Brownie")%></td>
 				<td><%= xx.get("1-Daisy")%></td>
+				-->
+				
+				<td><%=council_jun %></td>
+				<td><%=council_bro %></td>
+				<td><%=council_dai  %></td>
+				
 				<td><%=total %></td>
 				</tr>
 			<%
