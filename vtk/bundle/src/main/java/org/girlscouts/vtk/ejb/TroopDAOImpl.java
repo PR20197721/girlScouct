@@ -22,6 +22,7 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
 import org.apache.jackrabbit.ocm.query.Filter;
 import org.apache.jackrabbit.ocm.query.Query;
 import org.apache.jackrabbit.ocm.query.QueryManager;
+import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.ActivityDAO;
 import org.girlscouts.vtk.dao.CouncilDAO;
 import org.girlscouts.vtk.dao.MeetingDAO;
@@ -225,12 +226,16 @@ public class TroopDAOImpl implements TroopDAO {
 			Comparator<MeetingE> comp = new BeanComparator("id");
 			Collections.sort(troop.getYearPlan().getMeetingEvents(), comp);
 
+			//permission to update
+			if( troop!= null && ! meetingDAO.hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID) )
+				throw new IllegalAccessException();
+			
+			//lock
 			if (troop != null && troop.getLastModified() != null) {
-					if (!meetingDAO
-									.isCurrentTroopId(troop, troop.getCurrentTroop())) {
+					if (!meetingDAO.isCurrentTroopId(troop, troop.getCurrentTroop())) {
 								troop.setErrCode("112");
-								throw new IllegalAccessException();
-								//return false;
+								//throw new IllegalStateException();
+								return false;
 							}
 			}
 		

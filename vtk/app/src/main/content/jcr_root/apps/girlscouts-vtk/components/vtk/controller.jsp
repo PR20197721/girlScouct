@@ -189,16 +189,14 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	troopDAO.addAsset( troop ,  request.getParameter("meetingUid"),   asset);
 }else if( request.getParameter("testAB")!=null){
 	
-	boolean isUsrUpd= troopDAO.updateTroop(troop) ;	
+	java.util.Set<Integer> myPermissionTokens = new HashSet<Integer>();
+	troop.getTroop().setPermissionTokens(myPermissionTokens);
+	boolean isUsrUpd= false;
+	try{
+		isUsrUpd = troopDAO.updateTroop(troop) ;	
+	}catch(IllegalAccessException iae){iae.printStackTrace();}
 	if(!isUsrUpd)
 		vtkErr+= vtkErr.concat("Warning: You last change was not saved.");
-	
-	
-	
-	//getMeeting(girlscouts-vtk/yearPlanTemplates/yearplan2014/brownie/yearPlan1/meetings/meeting1");
-	//meetingDAO.getMeeting("/content/girlscouts-vtk/meetings/myyearplan/brownie/B14OG01");
-
-	//troopDAO.createTroop(councilId, troopId);
 	
 }else if( request.getParameter("addAids")!=null){
 	if( request.getParameter("assetType").equals("AID")){
