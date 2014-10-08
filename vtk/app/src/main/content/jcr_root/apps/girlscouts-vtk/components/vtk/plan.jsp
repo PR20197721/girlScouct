@@ -152,9 +152,8 @@ while (yearPlans.hasNext()) {
         if( user.getYearPlan()!=null){ 
 %>
 	</div>
-        <div id="panelRight" class="small-24 medium-24 large-6 columns">
+        <div id="panelRight" class="small-24 medium-24 large-6 columns hide-for-print">
 		<h2 id="resourceListing">Featured Resources:</h2>
-		<br/>
 		<ul>
 		
 			<%
@@ -169,7 +168,7 @@ while (yearPlans.hasNext()) {
 	</div>
 </div>
 <%
-        }
+  }
 %>
 </div>
 

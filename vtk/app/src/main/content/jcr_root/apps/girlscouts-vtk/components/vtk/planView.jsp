@@ -123,33 +123,32 @@
         if( user.getYearPlan()!=null){
 %>
         </div>
-        <div id="panelRight" class="small-24 medium-24 large-6 columns">
-                <h2 id="resourceListing">Resources:</h2>
-		<br/>
-		<ul>
-<%
-int planMeetingResourceCount = 0;
+        <div id="panelRight" class="small-24 medium-24 large-6 columns hide-for-print">
+        <h2 id="resourceListing">Resources:</h2>
+    		<ul>
+        <%
+        int planMeetingResourceCount = 0;
 
-if( _aidTags!=null ) {
-	for(int i=0;i<_aidTags.size();i++){
-		org.girlscouts.vtk.models.Asset asset = _aidTags.get(i);
-		if( asset.getType()!=null )
-		 if( asset.getType(false)!=  org.girlscouts.vtk.dao.AssetComponentType.RESOURCE ) continue;
-			planMeetingResourceCount++;
-%>
-			<li>- <a href="<%=asset.getRefId()%>" target="_blank"><%=asset.getTitle() %></a></li> 
-<%
-	}
-}
-	
-%>
-		</ul>
+        if( _aidTags!=null ) {
+        	for(int i=0;i<_aidTags.size();i++){
+        		org.girlscouts.vtk.models.Asset asset = _aidTags.get(i);
+        		if( asset.getType()!=null )
+        		 if( asset.getType(false)!=  org.girlscouts.vtk.dao.AssetComponentType.RESOURCE ) continue;
+        			planMeetingResourceCount++;
+        %>
+        		<li>- <a href="<%=asset.getRefId()%>" target="_blank"><%=asset.getTitle() %></a></li> 
+        <%
+        	}
+        }
+        	
+        %>
+    		</ul>
 
         </div>
-</div>
-<%
-        }
-%>
+      </div>
+    <%
+      }
+    %>
        <div id="editAgenda"></div>
 <style>
 .modal-example-content {

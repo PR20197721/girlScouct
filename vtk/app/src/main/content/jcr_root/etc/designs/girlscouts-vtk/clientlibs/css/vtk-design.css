@@ -1,7 +1,3 @@
-
-
-
-
 .vtk {
 	padding: .25em;
 }
@@ -808,8 +804,6 @@ li.searchResultsItem .activityDisabled {
 	color: #CCCCCC;
 }
 
-
-
 #gsModal  a{color:#008f50;}
 
 #gsModal .modalNav li.active a {
@@ -820,9 +814,6 @@ li.searchResultsItem .activityDisabled {
 	text-decoration: none;
 	color:#c1ead4;
 }
-
-
-
 label {
     font-size: 12px;
 }
@@ -831,3 +822,4 @@ input[type=checkbox] + label {
  
   font-size: 12px;
 } 
+

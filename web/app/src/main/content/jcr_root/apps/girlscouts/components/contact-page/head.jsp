@@ -67,7 +67,7 @@
 
 	if ("VTK".equals(pageCategory)) {
 %>
-	<link rel="stylesheet" href="/etc/designs/girlscouts-vtk/clientlibs.css" type="text/css" media="screen"/>
+	<link rel="stylesheet" href="/etc/designs/girlscouts-vtk/clientlibs.css" type="text/css"/>
 	<script type="text/javascript"src="/etc/designs/girlscouts-vtk/clientlibs.js"></script>
 <%
 	}
