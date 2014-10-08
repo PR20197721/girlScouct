@@ -64,28 +64,19 @@ View activity:<%=meetingDAO.hasPermission(user.getTroop().getPermissionTokens(),
 			</div>
 		</div>
 		
-		<div class="large-1 medium-1 small-2 columns calendarDownload">
-			<div class="icons">
-			
-			  <!-- <a onclick="javascript:void(0)" onclick="javascript:window.print()"><img alt="Print" src="/etc/designs/girlscouts-vtk/images/calendar-download.png" width="39" height="20" border="0" class="align-right"/>*</a> -->
-			  <%if(user.getYearPlan().getSchedule()!=null){ %>
-				<a onclick="self.location = '/content/girlscouts-vtk/en/cal.ics'"><img alt="Calendar Download" src="/etc/designs/girlscouts-vtk/images/calendar-download.png" width="39" height="20" border="0" class="align-right"/></a>
-			  <%} %>
-			
-			
-			
+	  <%if(user.getYearPlan().getSchedule()!=null){ %>
+		  <div class="large-1 medium-1 small-2 columns calendarDownload">
+			  <div class="icons">
+			  	<!-- <a onclick="javascript:void(0)" onclick="javascript:window.print()"><img alt="Print" src="/etc/designs/girlscouts-vtk/images/calendar-download.png" width="39" height="20" border="0" class="align-right"/>*</a> -->
+					<a onclick="self.location = '/content/girlscouts-vtk/en/cal.ics'"><img alt="Calendar Download" src="/etc/designs/girlscouts-vtk/images/calendar-download.png" width="39" height="20" border="0" class="align-right"/></a>
+				</div>
 			</div>
-		</div>
-		
-		
-		
+	  <%} %>
 		<div class="large-1 medium-1 small-2 columns calendarDownload">
 			<div class="icons">
-			
 			  <a onclick="javascript:window.print()">
 				<img alt="Print" src="/etc/designs/girlscouts-vtk/images/print.png" width="39" height="20" border="0" class="align-right"/>
 			  </a>
-				
 			</div>
 		</div>		
 	</div>
@@ -98,7 +89,7 @@ View activity:<%=meetingDAO.hasPermission(user.getTroop().getPermissionTokens(),
 		fixVerticalSizing = true;
 	</script>
 <%}%>
-	<div class="sectionHeader">YEAR PLAN LIBRARY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<div class="sectionHeader"><span>YEAR PLAN LIBRARY</span>
 <% if(user.getYearPlan()!=null){%>
 		<a href="#" onclick="yesPlan()" id="showHideReveal" class="hide-for-print">reveal</a>&nbsp;<span id="arrowDirection" class="hide-for-print arrowDirection">&#9660;</span>
 <%} %>
@@ -140,7 +131,7 @@ while (yearPlans.hasNext()) {
 			</div>
 			<div class="large-16 columns"><%=yearPlan.getDesc()%></div>
 		</div>
-			<hr/>
+		<hr/>
 <%} %>
 	</div>
 	<div id="yearPlanMeetings" style="display:<%=(user.getYearPlan()!=null) ? "block" : "none" %>">
@@ -148,27 +139,21 @@ while (yearPlans.hasNext()) {
 		<script>$(document).ready(function(){loadMeetings();});</script>
 <% } %>
 	</div>
-<%
-        if( user.getYearPlan()!=null){ 
-%>
+<% if( user.getYearPlan()!=null) { %>
 	</div>
-        <div id="panelRight" class="small-24 medium-24 large-6 columns hide-for-print">
+  <div id="panelRight" class="small-24 medium-24 large-6 columns hide-for-print">
 		<h2 id="resourceListing">Featured Resources:</h2>
 		<ul>
-		
 			<%
 				java.util.List <Asset> assets = meetingDAO.getGlobalResources( user.getYearPlan().getResources());
 				for(int i=0;i<assets.size();i++){
 					Asset asset = assets.get(i);
 					%><li>- <a href="<%=asset.getRefId()%>" target="_blank"><%=asset.getTitle() %></a></li> <% 
 				}
-				
 			%>
 		</ul>
 	</div>
 </div>
-<%
-  }
-%>
+<% } %>
 </div>
 

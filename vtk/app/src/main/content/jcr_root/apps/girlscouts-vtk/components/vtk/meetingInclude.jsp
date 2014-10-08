@@ -27,7 +27,7 @@
 
 %>
 <h1 class="yearPlanTitle"><%=user.getYearPlan().getName() %></h1>
-<br/><p>Drag and drop to reorder meetings</p> 
+<p class="hide-for-print">Drag and drop to reorder meetings</p> 
 <ul id="sortable123">
 <% 
 if( user.getYearPlan().getSchedule()!=null ){ //sched exists

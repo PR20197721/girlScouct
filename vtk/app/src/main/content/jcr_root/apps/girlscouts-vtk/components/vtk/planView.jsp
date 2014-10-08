@@ -9,13 +9,13 @@
 %>
 <%@include file="include/vtk-nav.jsp"%>
 <%
-        if( user.getYearPlan()!=null){
-                // split resource panel
+  if( user.getYearPlan()!=null){
+  // split resource panel
 %>
 <div id="panelWrapper" class="row">
-        <div id="panelLeft" class="small-24 medium-24 large-18 columns">
+  <div id="panelLeft" class="small-24 medium-24 large-18 columns">
 <%
-        }
+  }
 
 	java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan(), false);
 	if( sched==null || (sched.size()==0)){out.println( "You must first select a year plan."); return;}
@@ -53,15 +53,13 @@
 		prevDate = ((java.util.Date)dates.get(currInd-1)).getTime();
 	
 	session.putValue("VTK_planView_memoPos", searchDate.getTime());
-        YearPlanComponent _comp= sched.get(searchDate);
-
-
-        MeetingE meeting = null;
-	List<Asset> _aidTags = null;
-	Meeting meetingInfo = null;
+    YearPlanComponent _comp= sched.get(searchDate);
+    MeetingE meeting = null;
+    List<Asset> _aidTags = null;
+    Meeting meetingInfo = null;
 
 %>
-       <div id="planMsg"></div>
+  <div id="planMsg"></div>
 <%
 	try {
 	if ( _comp.getType() == YearPlanComponentType.MEETING) {
