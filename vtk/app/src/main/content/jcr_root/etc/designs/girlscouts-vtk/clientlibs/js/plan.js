@@ -464,3 +464,7 @@ function printDiv(x) {
         popupWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</html>');
         popupWin.document.close();
 }
+
+function showAlterYearPlanStartDate(){
+	$("#calMng").load("/content/girlscouts-vtk/controllers/vtk.include.calendarAlterStartDate.html");
+}
