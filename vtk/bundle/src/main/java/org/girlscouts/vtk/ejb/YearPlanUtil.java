@@ -1,22 +1,29 @@
 package org.girlscouts.vtk.ejb;
 
+import java.util.List;
+
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.girlscouts.vtk.dao.ActivityDAO;
 import org.girlscouts.vtk.dao.TroopDAO;
+import org.girlscouts.vtk.dao.YearPlanDAO;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Troop;
+import org.girlscouts.vtk.models.YearPlan;
 
 @Component
-@Service(value = ActivityUtil.class)
-public class ActivityUtil {
+@Service(value = YearPlanUtil.class)
+public class YearPlanUtil {
 
 	@Reference
 	TroopDAO troopDAO;
 
 	@Reference
 	ActivityDAO activityDAO;
+	
+	@Reference
+	YearPlanDAO yearPlanDAO;
 
 	public void createActivity(Troop user, Activity activity) throws java.lang.IllegalAccessException{
 
@@ -53,4 +60,12 @@ public class ActivityUtil {
 				activities.remove(a);
 	}
 
+	
+	public List<YearPlan> getAllYearPlans(String ageLevel){
+		return yearPlanDAO.getAllYearPlans(ageLevel);
+	}
+	
+	public YearPlan getYearPlan(String path){
+		return  getYearPlan(path);
+	}
 }

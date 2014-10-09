@@ -48,7 +48,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 }else if( request.getParameter("newCustActivity") !=null ){
 	
 	double cost= convertObjectToDouble(request.getParameter("newCustActivity_cost"));
-	activityUtil.createActivity(troop, new Activity( 
+	yearPlanUtil.createActivity(troop, new Activity( 
 		request.getParameter("newCustActivity_name"), 
 		request.getParameter("newCustActivity_txt"),
 		dateFormat4.parse(request.getParameter("newCustActivity_date") +" "+request.getParameter("newCustActivity_startTime") +" " +request.getParameter("newCustActivity_startTime_AP")), 
@@ -378,7 +378,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	java.util.List <org.girlscouts.vtk.models.Activity> activities =  (java.util.List <org.girlscouts.vtk.models.Activity>)session.getValue("vtk_search_activity");
 	for(int i=0;i<activities.size();i++){
 		if( activities.get(i).getUid().equals( request.getParameter("newCustActivityBean") )){
-			activityUtil.createActivity(troop, activities.get(i) );
+			yearPlanUtil.createActivity(troop, activities.get(i) );
 			break;
 		}
 	}

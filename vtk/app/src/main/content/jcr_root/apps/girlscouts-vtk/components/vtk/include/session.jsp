@@ -43,9 +43,8 @@
 	final LocationUtil locationUtil = sling.getService(LocationUtil.class);
 	final MeetingUtil meetingUtil = sling.getService(MeetingUtil.class);
 	final EmailUtil emailUtil = sling.getService(EmailUtil.class);
-	final YearPlanDAO yearPlanDAO = sling.getService(YearPlanDAO.class);
 	final MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
-	final ActivityUtil activityUtil = sling.getService(ActivityUtil.class);
+	final YearPlanUtil yearPlanUtil = sling.getService(YearPlanUtil.class);
 	final TroopUtil troopUtil = sling.getService(TroopUtil.class);
 
 	HttpSession session = request.getSession();
@@ -124,7 +123,7 @@
 		if (troop != null && troop.getYearPlan() != null
 				&& troop.getYearPlan().getActivities() != null
 				&& troop.getYearPlan().getActivities().size() > 0) {
-			activityUtil.checkCanceledActivity(troop);
+			yearPlanUtil.checkCanceledActivity(troop);
 		}
 		session.setAttribute("VTK_user", troop);
 	}

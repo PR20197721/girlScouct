@@ -1930,4 +1930,6 @@ public class MeetingDAOImpl implements MeetingDAO {
 		}
 		return locationToRmPath;
 	}
+	
+	
 }// edn class

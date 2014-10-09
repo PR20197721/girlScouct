@@ -146,7 +146,7 @@ if( troop.getYearPlan()!=null ){
 				}
 
 
-				java.util.Iterator<YearPlan> yearPlans = yearPlanDAO.getAllYearPlans(ageLevel).listIterator();
+				java.util.Iterator<YearPlan> yearPlans = yearPlanUtil.getAllYearPlans(ageLevel).listIterator();
 				while (yearPlans.hasNext()) {
 					YearPlan yearPlan = yearPlans.next();
 				%>
