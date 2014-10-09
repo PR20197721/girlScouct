@@ -320,9 +320,9 @@ public class ActivityDAOImpl implements ActivityDAO {
 	}
 
 
-	public List<Activity> search(ActivitySearch search) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
+
+
+
 
 }

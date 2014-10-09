@@ -1,14 +1,21 @@
 package org.girlscouts.vtk.utils;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.StringTokenizer;
 
+import javax.jcr.Session;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
+import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
+import org.apache.jackrabbit.ocm.manager.impl.ObjectContentManagerImpl;
+import org.apache.jackrabbit.ocm.mapper.Mapper;
+import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.ActivityDAO;
 import org.girlscouts.vtk.dao.CouncilDAO;
@@ -16,8 +23,12 @@ import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.TroopDAO;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Asset;
+import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.Council;
+import org.girlscouts.vtk.models.JcrCollectionHoldString;
+import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.MeetingE;
+import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.UserGlobConfig;
 import org.girlscouts.vtk.models.YearPlan;
@@ -296,6 +307,37 @@ public void rmTroop(Troop troop) throws java.lang.IllegalAccessException , java.
 public UserGlobConfig getUserGlobConfig(){
 	return troopDAO.getUserGlobConfig();
 }
+
+public void removeLocation(Troop user, String locationName) {
+
+	try{
+		
+		String locationToRmPath = meetingDAO.removeLocation(user, locationName);
+		YearPlan plan = user.getYearPlan();
+		
+		//update every refLoc & set 2 null
+		java.util.List<MeetingE> meetings = plan.getMeetingEvents();
+		
+		for(int i=0;i<meetings.size();i++){
+			
+			if( meetings.get(i).getLocationRef()!=null && 
+					meetings.get(i).getLocationRef().equals( locationToRmPath ) ){
+					meetings.get(i).setLocationRef("");
+					
+			}
+		}
+		
+		
+		updateTroop(user);
+		
+		}catch(Exception e){e.printStackTrace();}
+		
+	
+	
+	
+	
+}
+
 
 }//end class
 

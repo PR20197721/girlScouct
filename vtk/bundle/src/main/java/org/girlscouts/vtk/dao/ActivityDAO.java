@@ -7,7 +7,7 @@ import org.girlscouts.vtk.models.Troop;
 public interface ActivityDAO {
 
 	public void createActivity(Troop user, Activity activity);
-	public java.util.List<Activity> search(ActivitySearch search);
+	//public java.util.List<Activity> search(ActivitySearch search);
 	public void updateActivitiesCancel( String uuid );
 	public boolean isActivity( String uuid );
 	//public void checkCanceledActivity(Troop user); moved to util

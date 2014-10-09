@@ -39,19 +39,13 @@
 	%>
 <%
 	boolean isMultiUserFullBlock = true;
-	final ActivityDAO activityDAO = sling.getService(ActivityDAO.class);
-	final LocationDAO locationDAO = sling.getService(LocationDAO.class);
-	final CalendarUtil calendarUtil = sling
-			.getService(CalendarUtil.class);
-	final LocationUtil locationUtil = sling
-			.getService(LocationUtil.class);
+	final CalendarUtil calendarUtil = sling.getService(CalendarUtil.class);
+	final LocationUtil locationUtil = sling.getService(LocationUtil.class);
 	final MeetingUtil meetingUtil = sling.getService(MeetingUtil.class);
 	final EmailUtil emailUtil = sling.getService(EmailUtil.class);
 	final YearPlanDAO yearPlanDAO = sling.getService(YearPlanDAO.class);
 	final MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
-	
-	final ActivityUtil activityUtil = sling
-			.getService(ActivityUtil.class);
+	final ActivityUtil activityUtil = sling.getService(ActivityUtil.class);
 	final TroopUtil troopUtil = sling.getService(TroopUtil.class);
 
 	HttpSession session = request.getSession();

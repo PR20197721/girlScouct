@@ -104,33 +104,13 @@ public class YearPlanDAOImpl implements YearPlanDAO{
 		return plans;
 	}
 
-	public void createYearPlans(){
-		
-		
-		YearPlan plan = new YearPlan();
-		plan.setDesc("Year Plan descition hererere");
-		plan.setId("YRPIDID");
-		plan.setName("YEAr plan name name");
-		plan.setPath("/yearPlan");
-		Session session =null;
-		try{
-			List<Class> classes = new ArrayList<Class>();	
-			classes.add(YearPlan.class); 
-			session = sessionFactory.getSession();
-			
-			Mapper mapper = new AnnotationMapperImpl(classes);
-			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
-			ocm.insert(plan);
-			ocm.save();
-		}catch(Exception e){e.printStackTrace();}
-	}
+	
 	
 	
 	
 	
 	
 		public YearPlan getYearPlan(String path) {
-			//System.err.println("YearPlanDAOImpl.getYearPlan");
 			YearPlan yearPlan =null;
 			Session session = null;
 			try{
@@ -138,19 +118,15 @@ public class YearPlanDAOImpl implements YearPlanDAO{
 			classes.add(YearPlan.class); 
 			classes.add(Meeting.class); 
 			classes.add(Cal.class);
-			//classes.add(Milestone.class);
+
 			session =sessionFactory.getSession();
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
 		
-			
-	
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(YearPlan.class);
 			
 		
-			
-			
 	        Query query = queryManager.createQuery(filter);
 	        
 	   yearPlan =(YearPlan)  ocm.getObject(path);

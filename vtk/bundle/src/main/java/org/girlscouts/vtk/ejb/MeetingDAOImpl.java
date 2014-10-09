@@ -1872,4 +1872,62 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return toRet;
 	}
 
+	
+	public String removeLocation(Troop user, String locationName) {
+		Session session =null;
+		String locationToRmPath=null;
+		try{
+			
+			
+			if( !hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_CANCEL_MEETING_ID ) ){
+				 user.setErrCode("112");
+				 return null;
+			 }
+			
+			
+			session = sessionFactory.getSession();
+			List<Class> classes = new ArrayList<Class>();	
+			classes.add(Troop.class);
+			classes.add(Activity.class);
+			classes.add(JcrCollectionHoldString.class);
+			classes.add(YearPlan.class);
+			classes.add(MeetingE.class);
+			classes.add(Location.class);
+			classes.add(Cal.class);
+			classes.add(Milestone.class);
+			classes.add(Asset.class);
+			
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
+		
+			
+			YearPlan plan = user.getYearPlan();
+			List<Location> locations = plan.getLocations();
+			for(int i=0;i<locations.size();i++){
+				Location location = locations.get(i);
+				if( location.getUid().equals(locationName)){
+					
+					
+					ocm.remove(location);
+					ocm.save();
+					
+					
+					locationToRmPath= location.getPath() ;
+					locations.remove(location);
+					
+					break;
+				}
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null)
+					sessionFactory.closeSession(session);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		return locationToRmPath;
+	}
 }// edn class
