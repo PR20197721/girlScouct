@@ -1,4 +1,4 @@
-package org.girlscouts.vtk.utils;
+package org.girlscouts.vtk.ejb;
 
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;

@@ -21,12 +21,12 @@ import org.girlscouts.vtk.auth.dao.SalesforceDAOFactory;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.models.User;
 
+import org.girlscouts.vtk.ejb.TroopUtil;
 //import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.helpers.ConfigListener;
 import org.girlscouts.vtk.helpers.ConfigManager;
 import org.girlscouts.vtk.helpers.CouncilMapper;
 import org.girlscouts.vtk.salesforce.Troop;
-import org.girlscouts.vtk.utils.TroopUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

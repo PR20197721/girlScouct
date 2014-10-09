@@ -92,7 +92,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 		locationUtil.setLocationAllEmpty( troop,request.getParameter("name") );
 	}
 }else if( request.getParameter("rmLocation") !=null ){
-	troopUtil.removeLocation(troop, request.getParameter("rmLocation"));
+	locationUtil.removeLocation(troop, request.getParameter("rmLocation"));
 }else if( request.getParameter("newCustAgendaName") !=null ){
 	
 	meetingUtil.createCustomAgenda(troop, 

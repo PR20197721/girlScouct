@@ -27,7 +27,6 @@ import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
-import org.girlscouts.vtk.utils.TroopUtil;
 
 @Component
 @Service(value=CalendarUtil.class)

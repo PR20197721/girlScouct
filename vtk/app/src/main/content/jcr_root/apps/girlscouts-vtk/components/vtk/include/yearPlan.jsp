@@ -24,7 +24,7 @@
 		YearPlan yearPlan = yearPlans.next();
 		%>
 		<div>
-			<input type="submit" name="" value="*** <%=yearPlan.getName()%>" onclick="x('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>') "/> <%=yearPlan.getDesc() %>
+			<input type="submit" name="" value="<%=yearPlan.getName()%>" onclick="x('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>') "/> <%=yearPlan.getDesc() %>
 		
 		</div>
 		<% 

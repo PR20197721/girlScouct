@@ -25,7 +25,6 @@ import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.YearPlan;
-import org.girlscouts.vtk.utils.TroopUtil;
 
 @Component
 @Service(value=LocationDAO.class)

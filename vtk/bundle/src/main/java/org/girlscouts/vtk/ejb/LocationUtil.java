@@ -14,7 +14,6 @@ import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
-import org.girlscouts.vtk.utils.TroopUtil;
 
 @Component
 @Service(LocationUtil.class)
@@ -180,5 +179,27 @@ public class LocationUtil {
 		
 		troopUtil.updateTroop(user);
 		
+	}
+	
+	public void removeLocation(Troop user, String locationName) {
+		try {
+			String locationToRmPath = meetingDAO.removeLocation(user,
+					locationName);
+			YearPlan plan = user.getYearPlan();
+
+			// update every refLoc & set 2 null
+			java.util.List<MeetingE> meetings = plan.getMeetingEvents();
+			for (int i = 0; i < meetings.size(); i++) {
+				if (meetings.get(i).getLocationRef() != null
+						&& meetings.get(i).getLocationRef()
+								.equals(locationToRmPath)) {
+					meetings.get(i).setLocationRef("");
+				}
+			}
+			troopUtil.updateTroop(user);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 }

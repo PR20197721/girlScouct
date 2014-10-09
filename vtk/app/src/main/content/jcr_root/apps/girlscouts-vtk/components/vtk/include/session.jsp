@@ -1,5 +1,5 @@
 <%@page
-	import="org.girlscouts.vtk.models.Troop, org.girlscouts.vtk.auth.permission.*, org.girlscouts.vtk.utils.*"%>
+	import="org.girlscouts.vtk.models.Troop, org.girlscouts.vtk.auth.permission.*"%>
 <%!java.text.SimpleDateFormat FORMAT_MMddYYYY = new java.text.SimpleDateFormat(
 			"MM/dd/yyyy");
 	java.text.SimpleDateFormat FORMAT_hhmm_AMPM = new java.text.SimpleDateFormat(
