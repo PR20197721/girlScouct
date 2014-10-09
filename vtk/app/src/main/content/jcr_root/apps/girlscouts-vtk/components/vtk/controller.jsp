@@ -364,7 +364,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 		if(request.getParameter("endDate") !=null && !request.getParameter("endDate").equals("")) {
 			endDate = new java.util.Date(request.getParameter("endDate"));
 		}
-		java.util.List activities= meetingDAO.searchA1( troop,  request.getParameter("lvl"), request.getParameter("cat") ,
+		java.util.List activities= yearPlanUtil.searchA1( troop,  request.getParameter("lvl"), request.getParameter("cat") ,
 			request.getParameter("keywrd"),
 			startDate, endDate,
 			request.getParameter("region")
@@ -418,15 +418,14 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 			
 			
 			try{
-			//create custom meeting
-			System.err.println(0 +" :"  + m.getRefId());
+			
 			
 			if( !m.getRefId().contains("_") )
-			    meetingDAO.createCustomMeeting(troop, m, custM);
+			    yearPlanUtil.createCustomMeeting(troop, m, custM);
 			else{
-				System.err.println(1);
-				meetingDAO.updateCustomMeeting(troop, m, custM);
-				System.err.println(2);
+				
+				yearPlanUtil.updateCustomMeeting(troop, m, custM);
+				
 			}
 			
 			 out.println( request.getParameter("newvalue") );
@@ -459,30 +458,13 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 }else if( request.getParameter("editMtLogo") !=null ){
 	
 	System.err.println("EDITING MEETING LOGO...");
-	/*
-	java.util.List<MeetingE> meetings= troop.getYearPlan().getMeetingEvents();
-	for(MeetingE m: meetings){
-		if( m.getUid().equals( request.getParameter("mid") ))
-		{
-			
-			Meeting custM = m.getMeetingInfo();
-			custM.setName( request.getParameter("newvalue") );
-					
-			//create custom meeting
-			 meetingDAO.createCustomMeeting(troop, m, custM);
-			
-			 out.println( request.getParameter("newvalue") );
-			
-			break;
-		}
-	}
-	*/
+	
 }else if(request.getParameter("updateCouncilMilestones") !=null){
 	
 	String councilId= request.getParameter("cid");
 	
 	//java.util.List<Milestone> milestones = troop.getYearPlan().getMilestones();
-	java.util.List<Milestone> milestones = meetingDAO.getCouncilMilestones( councilId ) ;
+	java.util.List<Milestone> milestones = yearPlanUtil.getCouncilMilestones( councilId ) ;
 	for(int i=0;i<milestones.size();i++){
 		
 		Milestone m = milestones.get(i);
@@ -495,23 +477,19 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 		
 	}
 	
-	meetingDAO.saveCouncilMilestones(milestones);
+	yearPlanUtil.saveCouncilMilestones(milestones);
 	response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
 	
 }else if(request.getParameter("createCouncilMilestones") !=null){
 	
-	//java.util.List<Milestone> milestones = troop.getYearPlan().getMilestones();
-		
 	String councilId= request.getParameter("cid");
-	java.util.List<Milestone> milestones = meetingDAO.getCouncilMilestones( councilId ) ;
+	java.util.List<Milestone> milestones = yearPlanUtil.getCouncilMilestones( councilId ) ;
 	
 	Milestone m= new Milestone();
 	m.setBlurb(request.getParameter("blurb"));
 	m.setDate( new java.util.Date( request.getParameter("date")  ) );
 	milestones.add(m);
 			
-	//troopUtil.updateTroop(troop);
-	
 	response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
 	
 }else if(request.getParameter("removeCouncilMilestones") !=null){

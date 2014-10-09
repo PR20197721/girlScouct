@@ -5,7 +5,7 @@
 
 <%
 
-SearchTag search = meetingDAO.searchA();
+SearchTag search = yearPlanUtil.searchA(""+troop.getTroop().getCouncilCode());
 java.util.Map<String, String> levels = search.getLevels();
 java.util.Map<String, String> categories =search.getCategories();
 java.util.Map<String, String> region =search.getRegion();

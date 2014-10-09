@@ -42,14 +42,15 @@ public class LocationDAOImpl implements LocationDAO{
     @Reference
     private MeetingDAO meetingDAO;
     
-	public void removeLocation(Troop user, String locationName) {
+	public void removeLocation(Troop user, String locationName) throws IllegalStateException{
 		Session session =null;
 		try{
 			
 			
 			if( !meetingDAO.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_CANCEL_MEETING_ID ) ){
 				 user.setErrCode("112");
-				 return;
+				// return;
+				throw new IllegalStateException();
 			 }
 			
 			

@@ -21,7 +21,7 @@
        			MeetingE meeting = meetings.get(i);
        			
        			if( meeting.getPath().equals( meetingPath )){
-       				Meeting meetingInfo = meetingDAO.getMeeting(meeting.getRefId());
+       				Meeting meetingInfo = yearPlanUtil.getMeeting(meeting.getRefId());
        				
        				if( calT !=null){ //sched
     					meetingDate = Calendar.getInstance();

@@ -80,8 +80,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 	org.girlscouts.vtk.helpers.CouncilMapper councilMapper;
 
 	@Activate
-	void activate() {
-	}
+	void activate() {}
 
 	// by planId
 	public java.util.List<MeetingE> getAllEventMeetings(String yearPlanId) {
@@ -117,8 +116,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 	}
 
 	// by plan path
-	public java.util.List<MeetingE> getAllEventMeetings_byPath(
-			String yearPlanPath) {
+	public java.util.List<MeetingE> getAllEventMeetings_byPath(String yearPlanPath) {
 		java.util.List<MeetingE> meetings = null;
 		Session session = null;
 		try {
@@ -184,11 +182,12 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 	// get all event meetings for users plan
 	public java.util.List<MeetingE> getAllUsersEventMeetings(Troop user,
-			String yearPlanId) {
+			String yearPlanId) throws IllegalStateException, IllegalAccessException {
 		Session session = null;
 		java.util.List<MeetingE> meetings = null;
 		if (!hasPermission(user, Permission.PERMISSION_VIEW_MEETING_ID))
-			return meetings;
+			throw new IllegalAccessException();
+			//return meetings;
 		try {
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
@@ -216,19 +215,20 @@ public class MeetingDAOImpl implements MeetingDAO {
 	}
 
 	// get all event meetings for users plan
-	public Meeting createCustomMeeting(Troop user, MeetingE meetingEvent) {
+	public Meeting createCustomMeeting(Troop user, MeetingE meetingEvent)throws IllegalAccessException {
 		return createCustomMeeting(user, meetingEvent, null);
 	}
 
 	public Meeting createCustomMeeting(Troop user, MeetingE meetingEvent,
-			Meeting meeting) {
+			Meeting meeting) throws IllegalAccessException{
 		Session session = null;
 		try {
 
 			if (!this.hasAccess(user, user.getCurrentTroop(),
 					PermissionConstants.PERMISSION_CREATE_MEETING_ID)) { // 091514
 				user.setErrCode("112");
-				return null;
+				//return null;
+				throw new IllegalAccessException();
 			}
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
@@ -275,7 +275,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 	}
 
 	public Meeting updateCustomMeeting(Troop user, MeetingE meetingEvent,
-			Meeting meeting) {
+			Meeting meeting)throws IllegalAccessException {
 
 		Session session = null;
 		try {
@@ -283,7 +283,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 			if (!hasAccess(user, user.getCurrentTroop(),
 					Permission.PERMISSION_UPDATE_MEETING_ID)) {
 				user.setErrCode("112");
-				return null;
+				//return null;
+				throw new IllegalAccessException();
 			}
 
 			session = sessionFactory.getSession();
@@ -331,12 +332,13 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 	}
 
-	public Meeting addActivity(Troop user, Meeting meeting, Activity activity) {
+	public Meeting addActivity(Troop user, Meeting meeting, Activity activity) throws IllegalAccessException{
 
 		if (!hasAccess(user, user.getCurrentTroop(),
 				Permission.PERMISSION_CREATE_ACTIVITY_ID)) {
 			user.setErrCode("112");
-			return null;
+			//return null;
+			throw new IllegalAccessException();
 		}
 
 		java.util.List<Activity> activities = meeting.getActivities();
@@ -461,12 +463,13 @@ public class MeetingDAOImpl implements MeetingDAO {
 	}
 
 	public List<org.girlscouts.vtk.models.Search> getData(Troop user,
-			String _query) {
+			String _query) throws  IllegalAccessException {
 		Session session = null;
 
 		List<org.girlscouts.vtk.models.Search> matched = null;
 		if (!hasPermission(user, Permission.PERMISSION_SEARCH_MEETING_ID))
-			return matched;
+			throw new IllegalAccessException();
+			//return matched;
 
 		final String RESOURCES_PATH = "resources";
 		String councilId = null;
@@ -605,15 +608,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return matched;
 	}
 
-	public java.util.List<Asset> getAids(String tags, String meetingName,
-			String uids) {
-		java.util.List<Asset> container = new java.util.ArrayList();
-		container.addAll(getAidTag_local(tags, meetingName));
-		container.addAll(getAidTag(tags, meetingName));
-		return container;
-	}
-
-	private List<Asset> getAidTag(String tags, String meetingName) {
+	
+	public List<Asset> getAidTag(String tags, String meetingName) {
 		List<Asset> matched = new ArrayList<Asset>();
 		Session session = null;
 		try {
@@ -679,7 +675,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return matched;
 	}
 
-	private List<Asset> getAidTag_local(String tags, String meetingName) {
+	public List<Asset> getAidTag_local(String tags, String meetingName) {
 
 		List<Asset> matched = new ArrayList<Asset>();
 		Session session = null;
@@ -764,75 +760,11 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return matched;
 	}
 
-	@SuppressWarnings("unchecked")
-	public net.fortuna.ical4j.model.Calendar yearPlanCal(Troop user)
-			throws Exception {
+	
 
-		java.util.Map<java.util.Date, YearPlanComponent> sched = new MeetingUtil()
-				.getYearPlanSched(user.getYearPlan());
-		if (!this.hasPermission(user, Permission.PERMISSION_VIEW_MEETING_ID))
-			return null;
-		net.fortuna.ical4j.model.Calendar calendar = new net.fortuna.ical4j.model.Calendar();
-		calendar.getProperties().add(
-				new ProdId("-//Ben Fortuna//iCal4j 1.0//EN"));
-		calendar.getProperties().add(Version.VERSION_2_0);
-		calendar.getProperties().add(CalScale.GREGORIAN);
-		java.util.Iterator itr = sched.keySet().iterator();
-		while (itr.hasNext()) {
-			java.util.Date dt = (java.util.Date) itr.next();
-			YearPlanComponent _comp = (YearPlanComponent) sched.get(dt);
 
-			Calendar cal = java.util.Calendar.getInstance();
-			cal.setTime(dt);
 
-			String desc = "", location = "";
-
-			switch (_comp.getType()) {
-			case ACTIVITY:
-				Activity a = ((Activity) _comp);
-				location = (a.getLocationName() == null ? "" : a
-						.getLocationName());
-				location += " "
-						+ (a.getLocationAddress() == null ? "" : a
-								.getLocationAddress().replace("\r", ""));
-				desc = ((Activity) _comp).getName();
-				break;
-
-			case MEETING:
-				Meeting meetingInfo = getMeeting(((MeetingE) _comp).getRefId());
-				desc = meetingInfo.getName();
-				location = getLocation(user,
-						((MeetingE) _comp).getLocationRef());
-				break;
-			}
-
-			final List events = new ArrayList();
-			final VEvent event = new VEvent(new DateTime(cal.getTime()), desc);
-			event.getProperties().add(new Description(desc));
-			if (location != null)
-				event.getProperties()
-						.add(new net.fortuna.ical4j.model.property.Location(
-								location));
-
-			UidGenerator uidGenerator = new UidGenerator("1");
-			event.getProperties().add(uidGenerator.generateUid());
-			events.add(event);
-
-			calendar.getComponents().addAll(events);
-
-		}// end while
-		return calendar;
-	}
-
-	public java.util.List<Asset> getResources(String tags, String meetingName,
-			String uids) {
-		java.util.List<Asset> container = new java.util.ArrayList();
-		container.addAll(getResource_local(tags, meetingName));
-		container.addAll(getResource_global(tags, meetingName));
-		return container;
-	}
-
-	private List<Asset> getResource_global(String tags, String meetingName) {
+	public List<Asset> getResource_global(String tags, String meetingName) {
 
 		List<Asset> matched = new ArrayList<Asset>();
 		Session session = null;
@@ -898,7 +830,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return matched;
 	}
 
-	private List<Asset> getResource_local(String tags, String meetingName) {
+	public List<Asset> getResource_local(String tags, String meetingName) {
 
 		List<Asset> matched = new ArrayList<Asset>();
 		Session session = null;
@@ -1584,34 +1516,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return true;
 	}
 
-	private String getLocation(Troop user, String locationId) {
 
-		String fmtLocation = "";
-		if (locationId == null
-				|| user == null
-				|| !this.hasPermission(user,
-						Permission.PERMISSION_VIEW_MEETING_ID))
-			return fmtLocation;
-		try {
-			if (user != null && user.getYearPlan() != null
-					&& user.getYearPlan().getLocations() != null)
-				for (int i = 0; i < user.getYearPlan().getLocations().size(); i++) {
-					if (user.getYearPlan().getLocations().get(i).getPath()
-							.equals(locationId)) {
-						String lName = user.getYearPlan().getLocations().get(i)
-								.getName();
-						String lAddress = user.getYearPlan().getLocations()
-								.get(i).getAddress();
-						fmtLocation = (lName == null ? "" : lName) + " "
-								+ (lAddress == null ? "" : lAddress);
-						break;
-					}
-				}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return fmtLocation;
-	}
 
 	public java.util.List<Activity> searchA1(Troop user, String tags,
 			String cat, String keywrd, java.util.Date startDate,

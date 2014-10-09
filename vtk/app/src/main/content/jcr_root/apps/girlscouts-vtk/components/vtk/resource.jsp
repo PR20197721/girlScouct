@@ -8,6 +8,7 @@
                 com.day.cq.search.PredicateGroup,
                 com.day.cq.search.Query,
                 com.day.cq.search.QueryBuilder,
+                org.girlscouts.vtk.ejb.YearPlanUtil,
                 com.day.cq.search.result.SearchResult,
                 org.girlscouts.vtk.helpers.CouncilMapper"%>
 <%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
@@ -162,7 +163,7 @@ try {
 	    if (categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_AIDS)) {
 		  
 		    	
-		   java.util.List<org.girlscouts.vtk.models.Asset> gresources = meetingDAO.getAllResources(MEETING_AID_PATH+"/"); 
+		   java.util.List<org.girlscouts.vtk.models.Asset> gresources = yearPlanUtil.getAllResources(MEETING_AID_PATH+"/"); 
 		 
 		    %><table width="90%" align="center" class="browseMeetingAids"><tr><th colspan="3">Meeting Aids</th></tr><% 
 		    for(int i=0;i<gresources.size();i++){
@@ -192,7 +193,7 @@ try {
 		   }
 		    %></table><%
 	    } else if (categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_OVERVIEWS)) {
-		    %><%= displayMeetingOverviews(troop, resourceResolver, meetingDAO)%><%
+		    %><%= displayMeetingOverviews(troop, resourceResolver, yearPlanUtil)%><%
 	    } else {
 		    %><div><%= categoryPage.getTitle() %></div><%
 		    %><ul><% 
@@ -269,7 +270,7 @@ try {
 	    return levelMeetingsRootPath;
 	}
 	
-	private String displayMeetingOverviews(Troop troop, ResourceResolver rr, MeetingDAO meetingDAO) {
+	private String displayMeetingOverviews(Troop troop, ResourceResolver rr, YearPlanUtil yearPlanUtil) {
 	    try {
 		    StringBuilder builder = new StringBuilder("<ul>");
 		    String levelMeetingsRootPath = getMeetingsRootPath(troop);
@@ -277,7 +278,7 @@ try {
 		    Iterator<Resource> iter = levelMeetingsRoot.listChildren();
 		    while (iter.hasNext()) {
 		        Resource resource = iter.next();
-		        Meeting meeting = meetingDAO.getMeeting(resource.getPath());
+		        Meeting meeting = yearPlanUtil.getMeeting(resource.getPath());
 			    builder.append("<li><a href=\"javascript:void(0)\" onclick=\"displayResource('overview', '");
 			    builder.append(meeting.getPath());
 			    builder.append("')\">");

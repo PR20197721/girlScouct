@@ -31,7 +31,7 @@ while( itr.hasNext() ){
 		</td>
 		<td width="5"><%=currentMeeting %></td>
 		<td><%= FORMAT_CALENDAR_DATE.format( date ) %></td>
-		<td><%= meetingDAO.getMeeting(  meeting.getRefId() ).getName() %>
+		<td><%= yearPlanUtil.getMeeting(  meeting.getRefId() ).getName() %>
 			<%if( meeting.getCancelled()!=null && meeting.getCancelled().equals("true")){%>
 				<span class="alert">(Cancelled)</span>
 			<%} %>

@@ -36,7 +36,7 @@ String councilId= request.getParameter("cid");
 
 <%
 
-java.util.List<Milestone> milestones = meetingDAO.getCouncilMilestones(councilId ) ;
+java.util.List<Milestone> milestones = yearPlanUtil.getCouncilMilestones(councilId ) ;
 for(int i=0;i<milestones.size();i++){
 
 %>

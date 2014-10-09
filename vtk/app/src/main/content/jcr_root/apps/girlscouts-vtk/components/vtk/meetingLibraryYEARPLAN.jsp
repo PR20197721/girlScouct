@@ -90,12 +90,12 @@
                 <a href="#"><%=yearPlan.getName()%></a><%= showLineBreak %>
         </li>
 <%
-                        java.util.List<MeetingE> meetingEs = meetingDAO.getAllEventMeetings_byPath( yearPlan.getPath() +"/meetings/" );
+						java.util.List<MeetingE> meetingEs = yearPlanUtil.getAllEventMeetings_byPath( yearPlan.getPath() +"/meetings/" );
                         meetingEs= meetingUtil.sortById(meetingEs);
 
                         meetings = new java.util.ArrayList();
                         for(int i=0;i<meetingEs.size();i++){
-                                meetings.add(  meetingDAO.getMeeting(  meetingEs.get(i).getRefId() ) );
+                                meetings.add(  yearPlanUtil.getMeeting(  meetingEs.get(i).getRefId() ) );
                         }
                 }else{
                         String url ="?ypname="+java.net.URLEncoder.encode(yearPlan.getName());

@@ -9,8 +9,8 @@ response.setContentType("text/calendar");
 <%@include file="include/session.jsp"%>
 
 <%
-MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
-net.fortuna.ical4j.model.Calendar calendar = meetingDAO.yearPlanCal(user );
+//-MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
+net.fortuna.ical4j.model.Calendar calendar = yearPlanUtil.yearPlanCal(user );
 
 ServletOutputStream fout = response.getOutputStream();
 net.fortuna.ical4j.data.CalendarOutputter outputter = new net.fortuna.ical4j.data.CalendarOutputter();

@@ -190,7 +190,7 @@ if( troop.getYearPlan()!=null ){
 			<ul>
 
 				<%
-					java.util.List<Asset> assets = meetingDAO
+					java.util.List<Asset> assets = yearPlanUtil
 								.getGlobalResources(troop.getYearPlan().getResources());
 						for (int i = 0; i < assets.size(); i++) {
 							Asset asset = assets.get(i);

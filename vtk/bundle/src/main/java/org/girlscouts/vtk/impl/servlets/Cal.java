@@ -63,6 +63,7 @@ import org.apache.sling.api.resource.ResourceResolverFactory;
 //import org.girlscouts.vtk.auth.models.User;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.dao.MeetingDAO;
+import org.girlscouts.vtk.ejb.YearPlanUtil;
 
 import com.day.cq.commons.jcr.JcrUtil;
 
@@ -98,7 +99,7 @@ import com.day.cq.commons.jcr.JcrUtil;
 	private ResourceResolverFactory resolverFactory; 
 	 
 		 @Reference
-		 MeetingDAO meetingDAO;
+		 YearPlanUtil yearPlanUtil;
 		
 	 @Override
      protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServerException, IOException {
@@ -115,7 +116,7 @@ import com.day.cq.commons.jcr.JcrUtil;
 		  
 		 //MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
 		 try {
-			net.fortuna.ical4j.model.Calendar calendar = meetingDAO.yearPlanCal(user );
+			net.fortuna.ical4j.model.Calendar calendar = yearPlanUtil.yearPlanCal(user );
 			
 			//java.io.FileOutputStream fout = new java.io.FileOutputStream("mycalendar.ics");
 			ServletOutputStream fout = response.getOutputStream();

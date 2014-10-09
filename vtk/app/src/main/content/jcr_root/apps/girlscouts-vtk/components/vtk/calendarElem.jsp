@@ -19,7 +19,7 @@ if( meeting != null && meeting.getCancelled()!=null && meeting.getCancelled().eq
 	isCancelMeeting=true;
 }
 %>       
-<h2><%=   	meetingDAO.getMeeting(  meeting.getRefId() ).getName() %></h2>
+<h2><%=   	yearPlanUtil.getMeeting(  meeting.getRefId() ).getName() %></h2>
 <div id="locMsg"></div>
 <div class="modifyCalendarDate">
 <form>

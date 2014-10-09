@@ -72,7 +72,7 @@
 			try {
 			if ( _comp.getType() == YearPlanComponentType.MEETING) {
 				meeting = (MeetingE) _comp;
-				meetingInfo = meetingDAO.getMeeting(  meeting.getRefId() );
+				meetingInfo = yearPlanUtil.getMeeting(  meeting.getRefId() );
 				
 				meeting.setMeetingInfo(meetingInfo);
 				
@@ -107,13 +107,13 @@
 				_aidTags.remove( aidToRm.get(i));
 
 			//query aids cachables
-			 java.util.List __aidTags =  meetingDAO.getAids( meetingInfo.getAidTags(), meetingInfo.getId(), meeting.getUid());
+			 java.util.List __aidTags =  yearPlanUtil.getAids( meetingInfo.getAidTags(), meetingInfo.getId(), meeting.getUid());
 
 			//merge lists aids
 			_aidTags.addAll( __aidTags );
 
 			//query resources cachables
-			java.util.List __resources =  meetingDAO.getResources( meetingInfo.getResources(), meetingInfo.getId(), meeting.getUid());
+			java.util.List __resources =  yearPlanUtil.getResources( meetingInfo.getResources(), meetingInfo.getId(), meeting.getUid());
 
 			//merge lists resources
 			_aidTags.addAll( __resources );

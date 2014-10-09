@@ -46,14 +46,15 @@ public class ActivityDAOImpl implements ActivityDAO {
 	@Reference
 	private MeetingDAO meetingDAO;
 	
-	public void createActivity(Troop user, Activity activity) {
+	public void createActivity(Troop user, Activity activity) throws IllegalStateException{
 		Session session=null;
 		try {
 
 			if (!meetingDAO.hasAccess(user, user.getCurrentTroop(),
 					Permission.PERMISSION_CREATE_ACTIVITY_ID)) {
 				user.setErrCode("112");
-				return;
+				//return;
+				throw new IllegalStateException();
 			}
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
