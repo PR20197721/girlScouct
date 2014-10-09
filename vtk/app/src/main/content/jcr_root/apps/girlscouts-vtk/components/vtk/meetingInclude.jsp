@@ -34,7 +34,11 @@ if( troop.getYearPlan().getSchedule()!=null ){ //sched exists
 	switch( _comp.getType() ){
 		case ACTIVITY :
 			Activity activity = (Activity) _comp;
-			%>  <%@include file="include/viewActivity.jsp" %>    <% 
+			if (activity.getCancelled()!=null && activity.getCancelled().equals("true") ) {
+				; //dont display
+			}else{
+				%>  <%@include file="include/viewActivity.jsp" %>    <%
+			}
 			break;
 
 		case MEETING :
@@ -62,7 +66,11 @@ if( troop.getYearPlan().getSchedule()!=null ){ //sched exists
 		switch( _comp.getType() ){
 			case ACTIVITY :
 				Activity activity = (Activity) _comp;
-				%>  <%@include file="include/viewActivity.jsp" %>    <% 
+				if (activity.getCancelled()!=null && activity.getCancelled().equals("true") ) {
+					; //dont display
+				}else{
+					%>  <%@include file="include/viewActivity.jsp" %>    <% 
+				}
 				break;
 
 			
