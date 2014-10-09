@@ -1,8 +1,6 @@
 package org.girlscouts.vtk.ejb;
 
-
-	
-	import java.io.FileInputStream;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Calendar;
@@ -13,7 +11,7 @@ import javax.jcr.Session;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
-import org.girlscouts.vtk.dao.LocationDAO;
+
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Meeting;

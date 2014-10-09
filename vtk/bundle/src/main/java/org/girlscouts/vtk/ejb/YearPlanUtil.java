@@ -44,7 +44,10 @@ public class YearPlanUtil {
 	YearPlanDAO yearPlanDAO;
 	
 	@Reference
-	MeetingDAO meetingDAO;
+	private MeetingDAO meetingDAO;
+	
+	@Reference
+	private UserUtil userUtil;
 
 	public void createActivity(Troop user, Activity activity) throws java.lang.IllegalAccessException{
 
@@ -105,7 +108,7 @@ public class YearPlanUtil {
 
 		java.util.Map<java.util.Date, YearPlanComponent> sched = new MeetingUtil()
 				.getYearPlanSched(user.getYearPlan());
-		if (! meetingDAO.hasPermission(user, Permission.PERMISSION_VIEW_MEETING_ID))
+		if (! userUtil.hasPermission(user, Permission.PERMISSION_VIEW_MEETING_ID))
 			return null;
 		net.fortuna.ical4j.model.Calendar calendar = new net.fortuna.ical4j.model.Calendar();
 		calendar.getProperties().add(
@@ -164,7 +167,7 @@ public class YearPlanUtil {
 		String fmtLocation = "";
 		if (locationId == null
 				|| user == null
-				|| !meetingDAO.hasPermission(user,
+				|| ! userUtil.hasPermission(user,
 						Permission.PERMISSION_VIEW_MEETING_ID))
 			return fmtLocation;
 		try {
@@ -204,7 +207,7 @@ public class YearPlanUtil {
 		return meetingDAO.getMeeting(path);
 	}
 	
-	public List<org.girlscouts.vtk.models.Search> getData(Troop user, String query){
+	public List<org.girlscouts.vtk.models.Search> getData(Troop user, String query)throws IllegalAccessException{
 		return meetingDAO.getData(user, query);
 	}
 	
@@ -223,11 +226,11 @@ public class YearPlanUtil {
 		return meetingDAO.getGlobalResources( resourceTags);
 	}
 	
-	public Meeting createCustomMeeting(Troop user, MeetingE meetingEvent){
+	public Meeting createCustomMeeting(Troop user, MeetingE meetingEvent) throws IllegalAccessException{
 		return meetingDAO.createCustomMeeting( user, meetingEvent);
 	}
 	
-	public Meeting updateCustomMeeting(Troop user, MeetingE meetingEvent, Meeting meeting){
+	public Meeting updateCustomMeeting(Troop user, MeetingE meetingEvent, Meeting meeting)throws IllegalAccessException{
 		return meetingDAO.updateCustomMeeting( user,  meetingEvent,  meeting);
 	}
 	

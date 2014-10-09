@@ -27,7 +27,7 @@ public interface MeetingDAO {
 	public List<org.girlscouts.vtk.models.Search> getData(Troop user, String query) throws IllegalAccessException;
 	public SearchTag searchA(String councilCode);
 	public java.util.List<Activity> searchA1(Troop user, String lvl, String cat, String keywrd,
-			java.util.Date startDate, java.util.Date endDate, String region);
+			java.util.Date startDate, java.util.Date endDate, String region) throws IllegalAccessException;
 
 	public  List<Asset> getAllResources(String path) ;
 	public  Asset getAsset(String _path);
@@ -37,12 +37,12 @@ public interface MeetingDAO {
 	public Council getCouncil(String councilId);
 	public java.util.List<Milestone> getCouncilMilestones(String councilCode);
 	public void  saveCouncilMilestones(java.util.List<Milestone> milestones);
-	public boolean isCurrentTroopId(Troop troop, String sId);
-	public  boolean hasPermission(Set<Integer> myPermissionTokens, int permissionId);
-	public  boolean hasPermission(Troop user, int permissionId);
-	public boolean hasAccess(Troop user, String mySessionId, int permissionId);
-	public java.util.Date getLastModif( Troop troop );
-	public String removeLocation(Troop user, String locationName);
+	//public boolean isCurrentTroopId(Troop troop, String sId);
+	//public  boolean hasPermission(Set<Integer> myPermissionTokens, int permissionId);
+	//public  boolean hasPermission(Troop user, int permissionId);
+	//public boolean hasAccess(Troop user, String mySessionId, int permissionId);
+	//public java.util.Date getLastModif( Troop troop );
+	public String removeLocation(Troop user, String locationName) throws IllegalAccessException;
 	public List<Asset> getAidTag_local(String tags, String meetingName);
 	public List<Asset> getAidTag(String tags, String meetingName);
 	public List<Asset> getResource_local(String tags, String meetingName);

@@ -18,17 +18,22 @@ import org.girlscouts.vtk.models.YearPlanComponent;
 @Component
 @Service(LocationUtil.class)
 public class LocationUtil {
+	
     @Reference
     TroopUtil troopUtil;
+    
+    @Reference
+    private UserUtil userUtil;
     
     @Reference
     private MeetingDAO meetingDAO;
 
 	public void setLocationAllMeetings( Troop user, String locationPath ) throws java.lang.IllegalAccessException{
 		
-		if( !meetingDAO.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_EDIT_MEETING_ID ) ){
+		if( !userUtil.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_EDIT_MEETING_ID ) ){
 			 user.setErrCode("112");
-			 return;
+			 //return;
+			 throw new IllegalAccessException();
 		 }
 		
 		YearPlan plan= user.getYearPlan();
@@ -52,9 +57,10 @@ public class LocationUtil {
   
   public void setLocation(Troop user, Location location) throws java.lang.IllegalAccessException{
 	  
-	  if( !meetingDAO.hasAccess(user, user.getCurrentTroop() , Permission.PERMISSION_EDIT_MEETING_ID) ){
+	  if( !userUtil.hasAccess(user, user.getCurrentTroop() , Permission.PERMISSION_EDIT_MEETING_ID) ){
 			 user.setErrCode("112");
-			 return;
+			// return;
+			 throw new IllegalAccessException();
 		 }
 	  
 		YearPlan plan = user.getYearPlan();
@@ -85,9 +91,10 @@ public class LocationUtil {
   }
   public void changeLocation(Troop user, String dates, String locationRef) throws java.lang.IllegalAccessException{
 	  
-	  if( !meetingDAO.hasAccess(user, user.getCurrentTroop() , Permission.PERMISSION_EDIT_MEETING_ID) ){
+	  if( !userUtil.hasAccess(user, user.getCurrentTroop() , Permission.PERMISSION_EDIT_MEETING_ID) ){
 			 user.setErrCode("112");
-			 return;
+			 //return;
+			 throw new IllegalAccessException();
 		 }
 	  
 	  java.util.List <String> processedMeetings =new java.util.ArrayList();
@@ -150,9 +157,10 @@ public class LocationUtil {
   
 	public void setLocationAllEmpty( Troop user, String locationName )throws java.lang.IllegalAccessException{
 		
-		if( !meetingDAO.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_EDIT_MEETING_ID ) ){
+		if( !userUtil.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_EDIT_MEETING_ID ) ){
 			 user.setErrCode("112");
-			 return;
+			 //return;
+			 throw new IllegalAccessException();
 		 }
 		
 		YearPlan plan= user.getYearPlan();
@@ -202,4 +210,5 @@ public class LocationUtil {
 		}
 
 	}
+	
 }

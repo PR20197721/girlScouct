@@ -36,7 +36,8 @@ public class CalendarUtil {
 	TroopUtil troopUtil;
     
     @Reference
-    private MeetingDAO meetingDAO;
+    private UserUtil userUtil;
+
 
 	public void weeklyCal( java.util.Date startDate ){}
 		
@@ -187,9 +188,10 @@ public class CalendarUtil {
 		
 		public void createSched(Troop user, String freq, org.joda.time.DateTime p, String exclDate)throws java.lang.IllegalAccessException{
 		
-			if( !meetingDAO.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_EDIT_MEETING_ID ) ){
+			if( !userUtil.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_EDIT_MEETING_ID ) ){
 				 user.setErrCode("112");
-				 return;
+				 //return;
+				 throw new IllegalAccessException();
 			 }
 			
 			java.util.List <org.joda.time.DateTime>exclDt= new java.util.ArrayList<org.joda.time.DateTime>();
@@ -226,9 +228,10 @@ public class CalendarUtil {
 		public void updateSched(Troop user, String meetingPath, String time, String date, String ap, 
 				String isCancelledMeeting, long currDate)throws java.lang.IllegalAccessException{
 			
-			if( !meetingDAO.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_UPDATE_MEETING_ID ) ){
+			if( !userUtil.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_UPDATE_MEETING_ID ) ){
 				 user.setErrCode("112");
-				 return;
+				// return;
+				 throw new IllegalAccessException();
 			 }
 			
 			java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat("MM/dd/yyyy hh:mm a");

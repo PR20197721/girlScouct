@@ -17,11 +17,14 @@ import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
 import org.apache.jackrabbit.ocm.manager.impl.ObjectContentManagerImpl;
 import org.apache.jackrabbit.ocm.mapper.Mapper;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
+import org.apache.jackrabbit.ocm.query.Filter;
+import org.apache.jackrabbit.ocm.query.QueryManager;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.ActivityDAO;
 import org.girlscouts.vtk.dao.CouncilDAO;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.TroopDAO;
+import org.girlscouts.vtk.dao.YearPlanDAO;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Asset;
 import org.girlscouts.vtk.models.Cal;
@@ -45,10 +48,19 @@ public class TroopUtil {
 	ActivityDAO activityDAO;
 
 	@Reference
-	MeetingDAO meetingDAO;
+	private UserUtil userUtil;
 
 	@Reference
 	CouncilDAO councilDAO;
+	
+	@Reference
+	MeetingDAO meetingDAO;
+	
+	@Reference
+	YearPlanDAO yearPlanDAO;
+	
+	@Reference
+	private YearPlanUtil yearPlanUtil;
 
 	public Troop getTroop(String councilId, String troopId) {
 
@@ -84,18 +96,25 @@ public class TroopUtil {
 				}
 			}
 		return troop;
+		
+		
 	}
 
 	public boolean isUpdated(Troop troop) {
-		java.util.Date lastUpdate = meetingDAO.getLastModif(troop);
+		
+		java.util.Date lastUpdate = yearPlanDAO.getLastModif(troop);
 		if (lastUpdate != null && troop.getRetrieveTime().before(lastUpdate)) {
 			troop.setRefresh(true);
 			return true;
 		}
+		
 		return false;
+		
+		
 	}
 
 	public void autoLogin(HttpSession session) {
+		
 		org.girlscouts.vtk.auth.models.ApiConfig config = new org.girlscouts.vtk.auth.models.ApiConfig();
 		config.setId("test");
 		config.setAccessToken("test");
@@ -117,6 +136,7 @@ public class TroopUtil {
 		session.setAttribute(
 				org.girlscouts.vtk.auth.models.ApiConfig.class.getName(),
 				config);
+				
 	}
 
 	public Troop createTroop(String councilId, String troopId) {
@@ -135,9 +155,11 @@ public class TroopUtil {
 
 		councilDAO.updateCouncil(council);
 		return troop;
+		
 	}
 
 	public void logout(Troop troop) throws java.lang.IllegalAccessException {
+		
 		if (troop == null)
 			return;
 		Troop tmp_troop = troopDAO.getTroop_byPath(troop.getPath());
@@ -145,6 +167,7 @@ public class TroopUtil {
 			return;
 		tmp_troop.setCurrentTroop(null);
 		troopDAO.updateTroop(tmp_troop);
+		
 	}
 
 	public void addAsset(Troop troop, String meetingUid, Asset asset)
@@ -153,11 +176,11 @@ public class TroopUtil {
 
 		// permission to update
 		if (troop != null
-				&& !meetingDAO.hasPermission(troop,
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_YEARPLAN_ID))
 			throw new IllegalAccessException();
 
-		if (!meetingDAO.isCurrentTroopId(troop, troop.getCurrentTroop())) {
+		if (!userUtil.isCurrentTroopId(troop, troop.getCurrentTroop())) {
 			troop.setErrCode("112");
 			throw new IllegalStateException();
 			// return;
@@ -169,6 +192,7 @@ public class TroopUtil {
 				meetings.get(i).getAssets().add(asset);
 
 		troopDAO.updateTroop(troop);
+		
 	}
 
 	public void selectYearPlan(Troop troop, String yearPlanPath, String planName)
@@ -176,17 +200,17 @@ public class TroopUtil {
 
 		// permission to update
 		if (troop != null
-				&& !meetingDAO.hasPermission(troop,
+				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_ADD_YEARPLAN_ID))
 			throw new IllegalAccessException();
 
-		if (!meetingDAO.isCurrentTroopId(troop, troop.getCurrentTroop())) {
+		if (!userUtil.isCurrentTroopId(troop, troop.getCurrentTroop())) {
 			troop.setErrCode("112");
 			return;
 		}
 
 		YearPlan oldPlan = troop.getYearPlan();
-		YearPlan newYearPlan = troopDAO.addYearPlan(troop, yearPlanPath);
+		YearPlan newYearPlan = troopDAO.addYearPlan1(troop, yearPlanPath);
 		try {
 
 			newYearPlan.setName(planName);
@@ -302,7 +326,8 @@ public class TroopUtil {
 			throws java.lang.IllegalAccessException,
 			java.lang.IllegalAccessException {
 
-		return troopDAO.updateTroop(troop);
+		 return troopDAO.updateTroop(troop);
+		 
 	}
 
 	public void rmTroop(Troop troop) throws java.lang.IllegalAccessException,
@@ -314,7 +339,22 @@ public class TroopUtil {
 		return troopDAO.getUserGlobConfig();
 	}
 
-	
+	public YearPlan addYearPlan(Troop troop, String yearPlanPath) throws java.lang.IllegalAccessException, java.lang.IllegalAccessException {
+		YearPlan plan=null;
+		try{
+			 plan = troopDAO.addYearPlan1( troop,  yearPlanPath);
+			plan.setRefId(yearPlanPath);
+		    plan.setMeetingEvents(yearPlanUtil.getAllEventMeetings_byPath(yearPlanPath));
+
+			Comparator<MeetingE> comp = new BeanComparator("id");
+			Collections.sort(plan.getMeetingEvents(), comp);
+
+		} catch (Exception e) {e.printStackTrace();}
+			
+
+		return plan;
+
+	}
 
 }// end class
 

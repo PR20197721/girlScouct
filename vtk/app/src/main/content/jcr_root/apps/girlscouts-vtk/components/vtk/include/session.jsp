@@ -38,15 +38,16 @@
 	
 	%>
 <%
+
 	boolean isMultiUserFullBlock = true;
 	final CalendarUtil calendarUtil = sling.getService(CalendarUtil.class);
 	final LocationUtil locationUtil = sling.getService(LocationUtil.class);
 	final MeetingUtil meetingUtil = sling.getService(MeetingUtil.class);
 	final EmailUtil emailUtil = sling.getService(EmailUtil.class);
-	final MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
 	final YearPlanUtil yearPlanUtil = sling.getService(YearPlanUtil.class);
 	final TroopUtil troopUtil = sling.getService(TroopUtil.class);
-
+	final UserUtil userUtil = sling.getService(UserUtil.class);
+	
 	HttpSession session = request.getSession();
 	int timeout = session.getMaxInactiveInterval();
 	response.setHeader("Refresh", timeout
@@ -147,7 +148,7 @@
 	if (isMultiUserFullBlock
 			&& troop != null
 			&& troop.getYearPlan() != null
-			&& !meetingDAO.isCurrentTroopId(troop,
+			&& !userUtil.isCurrentTroopId(troop,
 					troop.getCurrentTroop())) {
 %><div style="color: #fff; background-color: red;">Warning:
 	another user is currently logged into this account or you have no

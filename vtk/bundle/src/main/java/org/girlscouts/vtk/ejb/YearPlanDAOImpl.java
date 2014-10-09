@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.jcr.Session;
+import javax.jcr.query.QueryResult;
+import javax.jcr.query.Row;
+import javax.jcr.query.RowIterator;
 
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
@@ -22,6 +25,7 @@ import org.girlscouts.vtk.dao.YearPlanDAO;
 import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.Milestone;
+import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.YearPlan;
 
 @Component
@@ -108,4 +112,33 @@ public class YearPlanDAOImpl implements YearPlanDAO {
 		return yearPlan;
 	}
 
+	public java.util.Date getLastModif(Troop troop) {
+		Session session = null;
+		java.util.Date toRet = null;
+		try {
+			session = sessionFactory.getSession();
+			String sql = "select jcr:lastModified from nt:base where jcr:path = '"
+					+ troop.getPath() + "' and jcr:lastModified is not null";
+			javax.jcr.query.QueryManager qm = session.getWorkspace()
+					.getQueryManager();
+			javax.jcr.query.Query q = qm.createQuery(sql,
+					javax.jcr.query.Query.SQL);
+			QueryResult result = q.execute();
+			for (RowIterator it = result.getRows(); it.hasNext();) {
+				Row r = it.nextRow();
+				toRet = new java.util.Date(r.getValue("jcr:lastModified")
+						.getLong());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null)
+					sessionFactory.closeSession(session);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		return toRet;
+	}
 }

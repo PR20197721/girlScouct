@@ -79,6 +79,9 @@ public class MeetingDAOImpl implements MeetingDAO {
 	@Reference
 	org.girlscouts.vtk.helpers.CouncilMapper councilMapper;
 
+	@Reference
+	UserUtil userUtil;
+	
 	@Activate
 	void activate() {}
 
@@ -185,7 +188,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			String yearPlanId) throws IllegalStateException, IllegalAccessException {
 		Session session = null;
 		java.util.List<MeetingE> meetings = null;
-		if (!hasPermission(user, Permission.PERMISSION_VIEW_MEETING_ID))
+		if (!userUtil.hasPermission(user, Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
 			//return meetings;
 		try {
@@ -224,7 +227,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		Session session = null;
 		try {
 
-			if (!this.hasAccess(user, user.getCurrentTroop(),
+			if (! userUtil.hasAccess(user, user.getCurrentTroop(),
 					PermissionConstants.PERMISSION_CREATE_MEETING_ID)) { // 091514
 				user.setErrCode("112");
 				//return null;
@@ -280,7 +283,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		Session session = null;
 		try {
 
-			if (!hasAccess(user, user.getCurrentTroop(),
+			if (!userUtil.hasAccess(user, user.getCurrentTroop(),
 					Permission.PERMISSION_UPDATE_MEETING_ID)) {
 				user.setErrCode("112");
 				//return null;
@@ -334,7 +337,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 	public Meeting addActivity(Troop user, Meeting meeting, Activity activity) throws IllegalAccessException{
 
-		if (!hasAccess(user, user.getCurrentTroop(),
+		if (!userUtil.hasAccess(user, user.getCurrentTroop(),
 				Permission.PERMISSION_CREATE_ACTIVITY_ID)) {
 			user.setErrCode("112");
 			//return null;
@@ -467,7 +470,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		Session session = null;
 
 		List<org.girlscouts.vtk.models.Search> matched = null;
-		if (!hasPermission(user, Permission.PERMISSION_SEARCH_MEETING_ID))
+		if (!userUtil.hasPermission(user, Permission.PERMISSION_SEARCH_MEETING_ID))
 			throw new IllegalAccessException();
 			//return matched;
 
@@ -1507,24 +1510,17 @@ public class MeetingDAOImpl implements MeetingDAO {
 		}
 	}
 
-	public boolean isCurrentTroopId(Troop troop, String sId) {
-		java.util.Date lastUpdate = getLastModif(troop);
-		if (lastUpdate != null && troop.getRetrieveTime().before(lastUpdate)) {
-			troop.setRefresh(true);
-			return false;
-		}
-		return true;
-	}
 
 
 
 	public java.util.List<Activity> searchA1(Troop user, String tags,
 			String cat, String keywrd, java.util.Date startDate,
-			java.util.Date endDate, String region) {
+			java.util.Date endDate, String region) throws IllegalAccessException{
 		java.util.List<Activity> toRet = new java.util.ArrayList();
 		Session session = null;
-		if (!hasPermission(user, Permission.PERMISSION_SEARCH_MEETING_ID))
-			return toRet;
+		if (!userUtil.hasPermission(user, Permission.PERMISSION_SEARCH_MEETING_ID))
+			throw new IllegalAccessException();
+			//return toRet;
 		try {
 			session = sessionFactory.getSession();
 			boolean isTag = false;
@@ -1674,29 +1670,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return toRet;
 	}
 
-	public boolean hasPermission(java.util.Set<Integer> myPermissionTokens,
-			int permissionId) {
-		if (myPermissionTokens != null
-				&& myPermissionTokens.contains(permissionId))
-			return true;
-		return false;
-	}
 
-	public boolean hasPermission(Troop user, int permissionId) {
-		if (!hasPermission(user.getTroop().getPermissionTokens(), permissionId))
-			return false;
-		return true;
-	}
-
-	public boolean hasAccess(Troop user, String mySessionId, int permissionId) {
-		if (!hasPermission(user, permissionId))
-			return false;
-
-		if (!isCurrentTroopId(user, mySessionId))
-			return false;
-
-		return true;
-	}
 
 	public void doX() {
 		Session session = null;
@@ -1747,46 +1721,19 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 	}
 
-	public java.util.Date getLastModif(Troop troop) {
-		Session session = null;
-		java.util.Date toRet = null;
-		try {
-			session = sessionFactory.getSession();
-			String sql = "select jcr:lastModified from nt:base where jcr:path = '"
-					+ troop.getPath() + "' and jcr:lastModified is not null";
-			javax.jcr.query.QueryManager qm = session.getWorkspace()
-					.getQueryManager();
-			javax.jcr.query.Query q = qm.createQuery(sql,
-					javax.jcr.query.Query.SQL);
-			QueryResult result = q.execute();
-			for (RowIterator it = result.getRows(); it.hasNext();) {
-				Row r = it.nextRow();
-				toRet = new java.util.Date(r.getValue("jcr:lastModified")
-						.getLong());
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (session != null)
-					sessionFactory.closeSession(session);
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-		}
-		return toRet;
-	}
+	
 
 	
-	public String removeLocation(Troop user, String locationName) {
+	public String removeLocation(Troop user, String locationName) throws IllegalAccessException{
 		Session session =null;
 		String locationToRmPath=null;
 		try{
 			
 			
-			if( !hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_CANCEL_MEETING_ID ) ){
+			if( !userUtil.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_CANCEL_MEETING_ID ) ){
 				 user.setErrCode("112");
-				 return null;
+				// return null;
+				 throw new IllegalAccessException();
 			 }
 			
 			

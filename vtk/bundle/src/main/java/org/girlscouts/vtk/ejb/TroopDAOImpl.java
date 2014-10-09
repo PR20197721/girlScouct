@@ -39,8 +39,11 @@ public class TroopDAOImpl implements TroopDAO {
 	@Reference
 	private SessionFactory sessionFactory;
 	
+	//@Reference
+	//private YearPlanUtil yearPlanUtil;
+	
 	@Reference
-	private MeetingDAO meetingDAO;
+	private UserUtil userUtil;
 	
 	private static UserGlobConfig troopGlobConfig;
 
@@ -126,13 +129,13 @@ public class TroopDAOImpl implements TroopDAO {
 	}
 
 	
-	public YearPlan addYearPlan(Troop troop, String yearPlanPath) throws java.lang.IllegalAccessException, java.lang.IllegalAccessException {
+	public YearPlan addYearPlan1(Troop troop, String yearPlanPath) throws java.lang.IllegalAccessException, java.lang.IllegalAccessException {
 
 		//permission to update
-		if( troop!= null && ! meetingDAO.hasPermission(troop, Permission.PERMISSION_ADD_YEARPLAN_ID) )
+		if( troop!= null && ! userUtil.hasPermission(troop, Permission.PERMISSION_ADD_YEARPLAN_ID) )
 			throw new IllegalAccessException();
 		
-		if (!meetingDAO.isCurrentTroopId(troop, troop.getCurrentTroop())) {
+		if (!userUtil.isCurrentTroopId(troop, troop.getCurrentTroop())) {
 			troop.setErrCode("112");
 			//return null;
 			throw new java.lang.IllegalAccessException();
@@ -163,14 +166,13 @@ public class TroopDAOImpl implements TroopDAO {
 
 			Filter filter = queryManager.createFilter(YearPlan.class);
 			plan = (YearPlan) ocm.getObject(fmtYearPlanPath);
-
+/*
 			plan.setRefId(yearPlanPath);
-			plan.setMeetingEvents(meetingDAO
-					.getAllEventMeetings_byPath(yearPlanPath));
+		    plan.setMeetingEvents(yearPlanUtil.getAllEventMeetings_byPath(yearPlanPath));
 
 			Comparator<MeetingE> comp = new BeanComparator("id");
 			Collections.sort(plan.getMeetingEvents(), comp);
-
+*/
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally{
@@ -217,12 +219,12 @@ public class TroopDAOImpl implements TroopDAO {
 			Collections.sort(troop.getYearPlan().getMeetingEvents(), comp);
 
 			//permission to update
-			if( troop!= null && ! meetingDAO.hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID) )
+			if( troop!= null && ! userUtil.hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID) )
 				throw new IllegalAccessException();
 			
 			//lock
 			if (troop != null && troop.getLastModified() != null) {
-					if (!meetingDAO.isCurrentTroopId(troop, troop.getCurrentTroop())) {
+					if (!userUtil.isCurrentTroopId(troop, troop.getCurrentTroop())) {
 								troop.setErrCode("112");
 								throw new IllegalAccessException();
 								//return false;
@@ -284,7 +286,7 @@ public class TroopDAOImpl implements TroopDAO {
 		try {
 			
 			//permission to update
-			if( troop!= null && ! meetingDAO.hasPermission(troop, Permission.PERMISSION_RM_YEARPLAN_ID) )
+			if( troop!= null && ! userUtil.hasPermission(troop, Permission.PERMISSION_RM_YEARPLAN_ID) )
 				throw new IllegalAccessException();
 			
 			mySession= sessionFactory.getSession();
