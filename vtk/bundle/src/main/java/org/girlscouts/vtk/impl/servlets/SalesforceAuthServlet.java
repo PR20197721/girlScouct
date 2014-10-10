@@ -129,7 +129,7 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
     	
     	
     	try{
-    		troopUtil.logout((org.girlscouts.vtk.models.Troop)session.getAttribute("VTK_user"));
+    		troopUtil.logout((org.girlscouts.vtk.models.Troop)session.getAttribute("VTK_troop"));
     				
     		
     	}catch(Exception e){e.printStackTrace();}

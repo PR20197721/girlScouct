@@ -80,7 +80,7 @@
 	}
 
 	String errMsg = null;
-	Troop troop = (Troop) session.getValue("VTK_user");
+	Troop troop = (Troop) session.getValue("VTK_troop");
 	if (troop == null || troop.isRefresh()
 			|| troopUtil.isUpdated(troop)) {
 		if (troop != null && troop.isRefresh()
@@ -126,7 +126,7 @@
 				&& troop.getYearPlan().getActivities().size() > 0) {
 			yearPlanUtil.checkCanceledActivity(troop);
 		}
-		session.setAttribute("VTK_user", troop);
+		session.setAttribute("VTK_troop", troop);
 	}
 
 	java.util.List<org.girlscouts.vtk.salesforce.Troop> troops = (java.util.List<org.girlscouts.vtk.salesforce.Troop>) session

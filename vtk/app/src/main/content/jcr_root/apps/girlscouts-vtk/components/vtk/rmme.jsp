@@ -4,7 +4,7 @@
 <%@include file="include/session.jsp"%>
 <% 
 	troopUtil.rmTroop(troop);
-	session.putValue("VTK_user",null);
+	session.putValue("VTK_troop",null);
 %>
  
 You've just been erased :)

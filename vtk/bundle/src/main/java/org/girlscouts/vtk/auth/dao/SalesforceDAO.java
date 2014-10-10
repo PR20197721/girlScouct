@@ -111,8 +111,8 @@ public class SalesforceDAO {
                   try{  user.setContactId(results.getJSONObject(current).getString("ContactId"));}catch(Exception e){e.printStackTrace();}
                     //user.setPhone(results.getJSONObject(current).getString("Phone"));
                     //user.setHomePhone(results.getJSONObject(current).getString("HomePhone"));
-                   // user.setMobilePhone(results.getJSONObject(current).getString("MobilePhone"));
-                   // user.setMobilePhone(results.getJSONObject(current).getString("AssistantPhone"));
+                    // user.setMobilePhone(results.getJSONObject(current).getString("MobilePhone"));
+                    // user.setMobilePhone(results.getJSONObject(current).getString("AssistantPhone"));
                     
                     
                     	try{

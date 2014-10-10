@@ -26,7 +26,7 @@ public class Troop {
 	@Field(id=true) private String id;
 	@Field(path=true) String path;
 	@Bean YearPlan yearPlan;	
-	private ApiConfig apiConfig;
+	//-private ApiConfig apiConfig;
 	private org.girlscouts.vtk.salesforce.Troop troop;
 	@Field private String sfUserId, sfTroopId, sfTroopName, sfTroopAge, sfCouncil;
 	@Field(jcrName="jcr:lastModified") private Calendar lastModified;	
@@ -111,12 +111,14 @@ public class Troop {
 	public void setTroop(org.girlscouts.vtk.salesforce.Troop troop) {
 		this.troop = troop;
 	}
+	/*
 	public ApiConfig getApiConfig() {
 		return apiConfig;
 	}
 	public void setApiConfig(ApiConfig apiConfig) {
 		this.apiConfig = apiConfig;
 	}
+	*/
 	public YearPlan getYearPlan() {
 		return yearPlan;
 	}

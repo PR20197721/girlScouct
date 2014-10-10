@@ -37,12 +37,6 @@ public class SessionFactory {
     
    
     public Session getSession() throws RepositoryException, LoginException {
-    	//final Repository repository = JcrUtils.getRepository("http://localhost:4503/crx/server/");
-        //SimpleCredentials creds = new SimpleCredentials(VTK_USER, VTK_PASS.toCharArray());
-        //Session session = repository.login(creds, "crx.default");
-        
-    	////////////////////////
-    	// Create a singleton of adminSession and impersonate it every time
         Session adminSession = repository.loginAdministrative(null);
         Session session = adminSession.impersonate(new SimpleCredentials("vtk", new char[0]));
         adminSession.logout();

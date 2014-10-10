@@ -110,7 +110,7 @@ import com.day.cq.commons.jcr.JcrUtil;
 
 		 
 		 // MeetingDAO meetingDAO = resourceResolver.adaptTo(MeetingDAO.class);
-		  Troop user= (Troop) request.getSession().getValue("VTK_user");
+		  Troop user= (Troop) request.getSession().getValue("VTK_troop");
 		  
 		 // System.err.println("Chk: "+ (meetingDAO==null)  +" : "+ (user==null) );
 		  

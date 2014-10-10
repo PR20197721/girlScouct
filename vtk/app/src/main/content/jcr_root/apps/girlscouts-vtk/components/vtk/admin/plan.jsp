@@ -15,7 +15,7 @@ if( troop.getYearPlan()==null ){
 	java.util.List  <MeetingE> meetings = new java.util.ArrayList  <MeetingE> ();
 	plan.setMeetingEvents( meetings );
 	troop.setYearPlan( plan );
-	//session.setAttribute("VTK_user", user);
+	
 }
 
 %>
