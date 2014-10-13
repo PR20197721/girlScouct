@@ -51,15 +51,16 @@ public class ActivityDAOImpl implements ActivityDAO {
 	public void createActivity(User user, Troop troop, Activity activity) throws IllegalStateException, IllegalAccessException{
 		Session session=null;
 		try {
+			
 			if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_CREATE_ACTIVITY_ID) )
 				throw new IllegalAccessException();
 			
-			
-			if (!userUtil.hasAccess(troop, troop.getCurrentTroop(),
-					Permission.PERMISSION_CREATE_ACTIVITY_ID)) {
+			if (!userUtil.isCurrentTroopId(troop, troop.getCurrentTroop())) {
 				troop.setErrCode("112");
-				throw new IllegalStateException();
+				throw new java.lang.IllegalAccessException();
 			}
+			
+			
 			
 			
 			session = sessionFactory.getSession();
@@ -116,6 +117,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_YEARPLAN_ID) )
 			throw new IllegalAccessException();
 		
+		
 		Session session =null;
 		javax.jcr.Node node = null;
 		try {
@@ -138,6 +140,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 		return false;
 	}
 
+	/*
 	public void updateActivitiesCancel(User user, String uuid)throws IllegalAccessException {
 
 		if (uuid == null)
@@ -191,6 +194,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 		}
 
 	}
+	*/
 	private String getPath(User user, String uuid) throws IllegalStateException{
 
 		if( uuid ==null ) return null;

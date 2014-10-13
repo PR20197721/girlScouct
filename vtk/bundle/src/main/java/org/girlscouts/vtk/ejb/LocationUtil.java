@@ -181,7 +181,7 @@ public class LocationUtil {
 	
 	public void removeLocation(User user, Troop troop, String locationName) {
 		try {
-			String locationToRmPath = meetingDAO.removeLocation(troop,
+			String locationToRmPath = meetingDAO.removeLocation(user, troop,
 					locationName);
 			YearPlan plan = troop.getYearPlan();
 

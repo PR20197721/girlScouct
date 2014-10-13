@@ -95,7 +95,7 @@
 
                         meetings = new java.util.ArrayList();
                         for(int i=0;i<meetingEs.size();i++){
-                                meetings.add(  yearPlanUtil.getMeeting(  meetingEs.get(i).getRefId() ) );
+                                meetings.add(  yearPlanUtil.getMeeting(user,  meetingEs.get(i).getRefId() ) );
                         }
                 }else{
                         String url ="?ypname="+java.net.URLEncoder.encode(yearPlan.getName());

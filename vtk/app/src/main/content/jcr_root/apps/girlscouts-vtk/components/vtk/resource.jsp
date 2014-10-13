@@ -278,7 +278,7 @@ try {
 		    Iterator<Resource> iter = levelMeetingsRoot.listChildren();
 		    while (iter.hasNext()) {
 		        Resource resource = iter.next();
-		        Meeting meeting = yearPlanUtil.getMeeting(resource.getPath());
+		        Meeting meeting = yearPlanUtil.getMeeting(user,resource.getPath());
 			    builder.append("<li><a href=\"javascript:void(0)\" onclick=\"displayResource('overview', '");
 			    builder.append(meeting.getPath());
 			    builder.append("')\">");

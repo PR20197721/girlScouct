@@ -57,6 +57,7 @@ import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.SearchTag;
 import org.girlscouts.vtk.models.Troop;
+import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
 import org.girlscouts.web.search.DocHit;
@@ -86,8 +87,18 @@ public class MeetingDAOImpl implements MeetingDAO {
 	void activate() {}
 
 	// by planId
-	public java.util.List<MeetingE> getAllEventMeetings(String yearPlanId) {
+	public java.util.List<MeetingE> getAllEventMeetings(User user, String yearPlanId)throws IllegalAccessException {
 
+		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_MEETING_ID) )
+			throw new IllegalAccessException();
+		
+		/*
+		if (!userUtil.isCurrentTroopId(troop, troop.getCurrentTroop())) {
+			troop.setErrCode("112");
+			throw new java.lang.IllegalAccessException();
+		}
+		*/
+		
 		java.util.List<MeetingE> meetings = null;
 		Session session = null;
 		try {
@@ -119,7 +130,12 @@ public class MeetingDAOImpl implements MeetingDAO {
 	}
 
 	// by plan path
-	public java.util.List<MeetingE> getAllEventMeetings_byPath(String yearPlanPath) {
+	public java.util.List<MeetingE> getAllEventMeetings_byPath(User user, String yearPlanPath)throws IllegalAccessException {
+		
+		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_MEETING_ID) )
+			throw new IllegalAccessException();
+		
+		
 		java.util.List<MeetingE> meetings = null;
 		Session session = null;
 		try {
@@ -132,12 +148,9 @@ public class MeetingDAOImpl implements MeetingDAO {
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(MeetingE.class);
 			filter.setScope(yearPlanPath);
-	System.err.println("PTH: "+ yearPlanPath);		
-			
+				
 	 		Query query = queryManager.createQuery(filter);
 			meetings = (List<MeetingE>) ocm.getObjects(query);
-			
-	System.err.println("Allmeet: "+ meetings.size() );
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -153,8 +166,11 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return meetings;
 	}
 
-	public Meeting getMeeting(String path) {
+	public Meeting getMeeting(User user, String path) throws IllegalAccessException{
 
+		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_MEETING_ID) )
+			throw new IllegalAccessException();
+		
 		Meeting meeting = null;
 		Session session = null;
 
@@ -187,11 +203,16 @@ public class MeetingDAOImpl implements MeetingDAO {
 	}
 
 	// get all event meetings for users plan
-	public java.util.List<MeetingE> getAllUsersEventMeetings(Troop user,
+	public java.util.List<MeetingE> getAllUsersEventMeetings(User user, Troop troop,
 			String yearPlanId) throws IllegalStateException, IllegalAccessException {
+		
+		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_MEETING_ID) )
+			throw new IllegalAccessException();
+		
+		
 		Session session = null;
 		java.util.List<MeetingE> meetings = null;
-		if (!userUtil.hasPermission(user, Permission.PERMISSION_VIEW_MEETING_ID))
+		if (!userUtil.hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
 			//return meetings;
 		try {
@@ -203,7 +224,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 					mapper);
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(MeetingE.class);
-			filter.setScope("/content/girlscouts-vtk/users/" + user.getId()
+			filter.setScope("/content/girlscouts-vtk/users/" + troop.getId()
 					+ "/yearPlan/meetingEvents/");
 			Query query = queryManager.createQuery(filter);
 			meetings = (List<MeetingE>) ocm.getObjects(query);
@@ -221,21 +242,23 @@ public class MeetingDAOImpl implements MeetingDAO {
 	}
 
 	// get all event meetings for users plan
-	public Meeting createCustomMeeting(Troop user, MeetingE meetingEvent)throws IllegalAccessException {
-		return createCustomMeeting(user, meetingEvent, null);
+	public Meeting createCustomMeeting(User user, Troop troop, MeetingE meetingEvent)throws IllegalAccessException, IllegalStateException {
+		return createCustomMeeting(user, troop, meetingEvent, null);
 	}
 
-	public Meeting createCustomMeeting(Troop user, MeetingE meetingEvent,
+	public Meeting createCustomMeeting(User user, Troop troop, MeetingE meetingEvent,
 			Meeting meeting) throws IllegalAccessException{
 		Session session = null;
 		try {
 
-			if (! userUtil.hasAccess(user, user.getCurrentTroop(),
-					PermissionConstants.PERMISSION_CREATE_MEETING_ID)) { // 091514
-				user.setErrCode("112");
-				//return null;
+			if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_CREATE_MEETING_ID) )
 				throw new IllegalAccessException();
+			
+			if( user!=null && !userUtil.isCurrentTroopId(troop, troop.getCurrentTroop())){
+				troop.setErrCode("112");
+				throw new IllegalStateException();
 			}
+			
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(MeetingE.class);
@@ -249,13 +272,13 @@ public class MeetingDAOImpl implements MeetingDAO {
 					mapper);
 
 			if (meeting == null)
-				meeting = getMeeting(meetingEvent.getRefId());
+				meeting = getMeeting(user, meetingEvent.getRefId());
 
-			String newPath = user.getPath() + "/lib/meetings/"
+			String newPath = troop.getPath() + "/lib/meetings/"
 					+ meeting.getId() + "_" + Math.random();
-			if (!session.itemExists(user.getPath() + "/lib/meetings/")) {
-				ocm.insert(new JcrNode(user.getPath() + "/lib"));
-				ocm.insert(new JcrNode(user.getPath() + "/lib/meetings"));
+			if (!session.itemExists(troop.getPath() + "/lib/meetings/")) {
+				ocm.insert(new JcrNode(troop.getPath() + "/lib"));
+				ocm.insert(new JcrNode(troop.getPath() + "/lib/meetings"));
 				ocm.save();
 			}
 
@@ -280,17 +303,17 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 	}
 
-	public Meeting updateCustomMeeting(Troop user, MeetingE meetingEvent,
-			Meeting meeting)throws IllegalAccessException {
-
+	public Meeting updateCustomMeeting(User user, Troop troop, MeetingE meetingEvent,
+			Meeting meeting)throws IllegalAccessException, IllegalStateException {
 		Session session = null;
 		try {
 
-			if (!userUtil.hasAccess(user, user.getCurrentTroop(),
-					Permission.PERMISSION_UPDATE_MEETING_ID)) {
-				user.setErrCode("112");
-				//return null;
+			if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_EDIT_MEETING_ID) )
 				throw new IllegalAccessException();
+			
+			if( user!=null && !userUtil.isCurrentTroopId(troop, troop.getCurrentTroop())){
+				troop.setErrCode("112");
+				throw new IllegalStateException();
 			}
 
 			session = sessionFactory.getSession();
@@ -306,13 +329,13 @@ public class MeetingDAOImpl implements MeetingDAO {
 					mapper);
 
 			if (meeting == null)
-				meeting = getMeeting(meetingEvent.getRefId());
+				meeting = getMeeting(user, meetingEvent.getRefId());
 
-			String newPath = meetingEvent.getRefId();// user.getPath()+"/lib/meetings/"+meeting.getId()+"_"+Math.random();
+			String newPath = meetingEvent.getRefId();// troop.getPath()+"/lib/meetings/"+meeting.getId()+"_"+Math.random();
 
-			if (!session.itemExists(user.getPath() + "/lib/meetings/")) {
-				ocm.insert(new JcrNode(user.getPath() + "/lib"));
-				ocm.insert(new JcrNode(user.getPath() + "/lib/meetings"));
+			if (!session.itemExists(troop.getPath() + "/lib/meetings/")) {
+				ocm.insert(new JcrNode(troop.getPath() + "/lib"));
+				ocm.insert(new JcrNode(troop.getPath() + "/lib/meetings"));
 				ocm.save();
 			}
 
@@ -338,13 +361,14 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 	}
 
-	public Meeting addActivity(Troop user, Meeting meeting, Activity activity) throws IllegalAccessException{
+	public Meeting addActivity(User user, Troop troop, Meeting meeting, Activity activity) throws IllegalStateException,IllegalAccessException{
 
-		if (!userUtil.hasAccess(user, user.getCurrentTroop(),
-				Permission.PERMISSION_CREATE_ACTIVITY_ID)) {
-			user.setErrCode("112");
-			//return null;
+		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_CREATE_ACTIVITY_ID) )
 			throw new IllegalAccessException();
+		
+		if( user!=null && !userUtil.isCurrentTroopId(troop, troop.getCurrentTroop())){
+			troop.setErrCode("112");
+			throw new IllegalStateException();
 		}
 
 		java.util.List<Activity> activities = meeting.getActivities();
@@ -383,6 +407,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 	}
 
+	//check if USED???
 	public List<Meeting> search() {
 		Session session = null;
 		List<Meeting> meetings = null;
@@ -468,19 +493,25 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return suggest;
 	}
 
-	public List<org.girlscouts.vtk.models.Search> getData(Troop user,
+	public List<org.girlscouts.vtk.models.Search> getData(User user, Troop troop,
 			String _query) throws  IllegalAccessException {
+		
+		
+		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_LOGIN_ID) )
+			throw new IllegalAccessException();
+		
+		
 		Session session = null;
 
 		List<org.girlscouts.vtk.models.Search> matched = null;
-		if (!userUtil.hasPermission(user, Permission.PERMISSION_SEARCH_MEETING_ID))
+		if (!userUtil.hasPermission(troop, Permission.PERMISSION_SEARCH_MEETING_ID))
 			throw new IllegalAccessException();
-			//return matched;
+			
 
 		final String RESOURCES_PATH = "resources";
 		String councilId = null;
-		if (user.getTroop() != null) {
-			councilId = Integer.toString(user.getTroop().getCouncilCode());
+		if (troop.getTroop() != null) {
+			councilId = Integer.toString(troop.getTroop().getCouncilCode());
 		}
 		String branch = councilMapper.getCouncilBranch(councilId);
 		String resourceRootPath = branch + "/en/" + RESOURCES_PATH;
@@ -615,7 +646,12 @@ public class MeetingDAOImpl implements MeetingDAO {
 	}
 
 	
-	public List<Asset> getAidTag(String tags, String meetingName) {
+	public List<Asset> getAidTag(User user, String tags, String meetingName) throws IllegalAccessException {
+		
+		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_LOGIN_ID) )
+			throw new IllegalAccessException();
+		
+		
 		List<Asset> matched = new ArrayList<Asset>();
 		Session session = null;
 		try {
@@ -681,8 +717,12 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return matched;
 	}
 
-	public List<Asset> getAidTag_local(String tags, String meetingName) {
+	public List<Asset> getAidTag_local(User user, String tags, String meetingName) throws IllegalAccessException{
 
+		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_LOGIN_ID) )
+			throw new IllegalAccessException();
+		
+		
 		List<Asset> matched = new ArrayList<Asset>();
 		Session session = null;
 		try {
@@ -731,8 +771,12 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return matched;
 	}
 
-	private List<Asset> getAidTag_custasset(String uid) {
+	private List<Asset> getAidTag_custasset(User user, String uid) throws IllegalAccessException{
 
+		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_LOGIN_ID) )
+			throw new IllegalAccessException();
+		
+		
 		List<Asset> matched = new ArrayList<Asset>();
 		Session session = null;
 		try {
@@ -770,8 +814,12 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 
 
-	public List<Asset> getResource_global(String tags, String meetingName) {
+	public List<Asset> getResource_global(User user, String tags, String meetingName)throws IllegalAccessException {
 
+		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_LOGIN_ID) )
+			throw new IllegalAccessException();
+		
+		
 		List<Asset> matched = new ArrayList<Asset>();
 		Session session = null;
 		try {
@@ -836,8 +884,13 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return matched;
 	}
 
-	public List<Asset> getResource_local(String tags, String meetingName) {
+	public List<Asset> getResource_local(User user, String tags, String meetingName) throws IllegalAccessException{
 
+		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_LOGIN_ID) )
+			throw new IllegalAccessException();
+		
+		
+		
 		List<Asset> matched = new ArrayList<Asset>();
 		Session session = null;
 		try {
@@ -885,15 +938,20 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return matched;
 	}
 
-	public SearchTag searchA(String councilCode) {
+	public SearchTag searchA(User user, String councilCode) throws IllegalAccessException{
 
+		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_LOGIN_ID) )
+			throw new IllegalAccessException();
+		
+	
+		
 		String councilStr = councilMapper.getCouncilBranch(councilCode);
 		councilStr = councilStr.replace("/content/", "");
 		Session session = null;
 		SearchTag tags = new SearchTag();
 		try {
 			session = sessionFactory.getSession();
-			java.util.Map<String, String> regionsMain = searchRegion(councilStr);
+			java.util.Map<String, String> regionsMain = searchRegion(user, councilStr);
 			java.util.Map<String, String> categories = new java.util.TreeMap();
 			java.util.Map<String, String> levels = new java.util.TreeMap();
 			String sql = "select jcr:title from nt:base where jcr:path like '/etc/tags/"
@@ -926,7 +984,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			if ((categories == null || categories.size() == 0)
 					&& (levels == null || levels.size() == 0)) {
 				try {
-					SearchTag defaultTags = getDefaultTags();
+					SearchTag defaultTags = getDefaultTags(user);
 					if (regionsMain != null && regionsMain.size() > 0)
 						defaultTags.setRegion(regionsMain);
 					return defaultTags;
@@ -947,7 +1005,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 			tags.setCategories(categories);
 			tags.setLevels(levels);
-			tags.setRegion(searchRegion(councilStr));
+			tags.setRegion(searchRegion(user, councilStr));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -963,8 +1021,11 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return tags;
 	}
 
-	public SearchTag getDefaultTags() {
+	public SearchTag getDefaultTags(User user) throws IllegalAccessException {
 
+		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_LOGIN_ID) )
+			throw new IllegalAccessException();
+		
 		Session session = null;
 		String councilStr = "girlscouts";
 		SearchTag tags = new SearchTag();
@@ -1010,7 +1071,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 			tags.setCategories(categories);
 			tags.setLevels(levels);
-			tags.setRegion(searchRegion(councilStr));
+			tags.setRegion(searchRegion(user, councilStr));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1025,7 +1086,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return tags;
 	}
 
-	public java.util.List<Activity> searchA2(Troop user, String tags,
+	public java.util.List<Activity> searchA2(Troop troop, String tags,
 			String cat, String keywrd, java.util.Date startDate,
 			java.util.Date endDate, String region) {
 
@@ -1074,8 +1135,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 				path = path + "/jcr:content";
 
 			String councilId = null;
-			if (user.getTroop() != null) {
-				councilId = Integer.toString(user.getTroop().getCouncilCode());
+			if (troop.getTroop() != null) {
+				councilId = Integer.toString(troop.getTroop().getCouncilCode());
 			}
 			String branch = councilMapper.getCouncilBranch(councilId);
 
@@ -1184,7 +1245,13 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return toRet;
 	}
 
-	public java.util.Map<String, String> searchRegion(String councilStr) {
+	public java.util.Map<String, String> searchRegion(User user, String councilStr) throws IllegalAccessException{
+		
+		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_LOGIN_ID) )
+			throw new IllegalAccessException();
+		
+	
+		
 		java.util.Map<String, String> container = new java.util.TreeMap();
 		Session session = null;
 		try {
@@ -1242,7 +1309,12 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return container;
 	}
 
-	public java.util.List<Meeting> getAllMeetings(String gradeLevel) {
+	public java.util.List<Meeting> getAllMeetings(User user, String gradeLevel) throws IllegalAccessException{
+		
+		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_MEETING_ID) )
+			throw new IllegalAccessException();
+		
+		
 		java.util.List<Meeting> meetings = null; // new java.util.ArrayList();
 		Session session = null;
 		try {
@@ -1276,7 +1348,13 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 	}
 
-	public List<Asset> getAllResources(String _path) {
+	public List<Asset> getAllResources(User user, String _path) throws IllegalAccessException{
+		
+		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_LOGIN_ID) )
+			throw new IllegalAccessException();
+		
+		
+		
 		List<Asset> matched = new ArrayList<Asset>();
 		Session session = null;
 		try {
@@ -1329,7 +1407,13 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return matched;
 	}
 
-	public Asset getAsset(String _path) {
+	public Asset getAsset(User user, String _path) throws IllegalAccessException {
+		
+		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_LOGIN_ID) )
+			throw new IllegalAccessException();
+		
+		
+		
 		Asset search = null;
 		Session session = null;
 		try {
@@ -1377,7 +1461,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return search;
 	}
 
-	public java.util.List<Asset> getGlobalResources(String resourceTags) {
+	public java.util.List<Asset> getGlobalResources( String resourceTags) {
 		java.util.List<Asset> toRet = new java.util.ArrayList();
 		if (resourceTags == null || resourceTags.equals(""))
 			return toRet;
@@ -1431,7 +1515,11 @@ public class MeetingDAOImpl implements MeetingDAO {
 		return toRet;
 	}
 
-	public Council getCouncil(String councilId) {
+	public Council getCouncil(User user, String councilId) throws IllegalAccessException{
+		
+		if (!userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_SEARCH_MEETING_ID))
+			throw new IllegalAccessException();
+		
 		Session session = null;
 		Council council = null;
 		try {
@@ -1516,14 +1604,20 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 
 
-	public java.util.List<Activity> searchA1(Troop user, String tags,
+	public java.util.List<Activity> searchA1(User user, Troop troop, String tags,
 			String cat, String keywrd, java.util.Date startDate,
-			java.util.Date endDate, String region) throws IllegalAccessException{
+			java.util.Date endDate, String region) throws IllegalAccessException,  IllegalStateException{
 		java.util.List<Activity> toRet = new java.util.ArrayList();
 		Session session = null;
-		if (!userUtil.hasPermission(user, Permission.PERMISSION_SEARCH_MEETING_ID))
+		
+		if (!userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_SEARCH_MEETING_ID))
 			throw new IllegalAccessException();
-			//return toRet;
+		
+		if( user!=null && !userUtil.isCurrentTroopId(troop, troop.getCurrentTroop())){
+			troop.setErrCode("112");
+			throw new IllegalStateException();
+		}
+		
 		try {
 			session = sessionFactory.getSession();
 			boolean isTag = false;
@@ -1566,8 +1660,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 				path = path + "/jcr:content";
 
 			String councilId = null;
-			if (user.getTroop() != null) {
-				councilId = Integer.toString(user.getTroop().getCouncilCode());
+			if (troop.getTroop() != null) {
+				councilId = Integer.toString(troop.getTroop().getCouncilCode());
 			}
 			String branch = councilMapper.getCouncilBranch(councilId);
 			branch += "/en";
@@ -1725,19 +1819,18 @@ public class MeetingDAOImpl implements MeetingDAO {
 	}
 
 	
-
-	
-	public String removeLocation(Troop user, String locationName) throws IllegalAccessException{
+	public String removeLocation(User user, Troop troop, String locationName) throws IllegalAccessException, IllegalStateException{
 		Session session =null;
 		String locationToRmPath=null;
 		try{
 			
+			if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_EDIT_MEETING_ID) )
+				throw new IllegalAccessException();
 			
-			if( !userUtil.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_CANCEL_MEETING_ID ) ){
-				 user.setErrCode("112");
-				// return null;
-				 throw new IllegalAccessException();
-			 }
+			if( user!=null && !userUtil.isCurrentTroopId(troop, troop.getCurrentTroop())){
+				troop.setErrCode("112");
+				throw new IllegalStateException();
+			}
 			
 			
 			session = sessionFactory.getSession();
@@ -1756,7 +1849,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
 		
 			
-			YearPlan plan = user.getYearPlan();
+			YearPlan plan = troop.getYearPlan();
 			List<Location> locations = plan.getLocations();
 			for(int i=0;i<locations.size();i++){
 				Location location = locations.get(i);

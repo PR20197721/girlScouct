@@ -1,5 +1,5 @@
 <% 
-	Meeting meeting = yearPlanUtil.getMeeting(meetingE.getRefId());
+	Meeting meeting = yearPlanUtil.getMeeting(user, meetingE.getRefId());
 	boolean isCanceled =false;
 	boolean calendarNotSet = false;
 	if (troop.getYearPlan().getSchedule() == null) {

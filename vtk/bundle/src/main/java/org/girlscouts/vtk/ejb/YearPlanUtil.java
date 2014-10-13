@@ -71,10 +71,10 @@ public class YearPlanUtil {
 				.getActivities();
 		for (int i = 0; i < activities.size(); i++) {
 
-			if (!(activities.get(i).getCancelled() != null && activities.get(i)
-					.getCancelled().equals("true")))
-				if (!activityDAO
-						.isActivityByPath(user, activities.get(i).getRefUid())) {
+			if( !activities.get(i).getIsEditable() && 
+					!(activities.get(i).getCancelled() != null && activities.get(i)
+					.getCancelled().equals("true")) &&
+					!activityDAO.isActivityByPath(user, activities.get(i).getRefUid())) {
 					activities.get(i).setCancelled("true"); // org
 					activity2Cancel.add(activities.get(i));
 					troopDAO.updateTroop(user, troop);
@@ -92,25 +92,25 @@ public class YearPlanUtil {
 	}
 	
 	public YearPlan getYearPlan(String path){
-		return  getYearPlan(path);
+		return  yearPlanDAO.getYearPlan(path);
 	}
 	
-	public java.util.List<Asset> getAids(String tags, String meetingName,
-			String uids) {
+	public java.util.List<Asset> getAids(User user, String tags, String meetingName,
+			String uids)throws IllegalAccessException {
 		java.util.List<Asset> container = new java.util.ArrayList();
-		container.addAll(meetingDAO.getAidTag_local(tags, meetingName));
-		container.addAll(meetingDAO.getAidTag(tags, meetingName)); 
+		container.addAll(meetingDAO.getAidTag_local(user, tags, meetingName));
+		container.addAll(meetingDAO.getAidTag(user, tags, meetingName)); 
 		
 		return container;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public net.fortuna.ical4j.model.Calendar yearPlanCal(Troop user)
+	public net.fortuna.ical4j.model.Calendar yearPlanCal(User user, Troop troop)
 			throws Exception {
 
 		java.util.Map<java.util.Date, YearPlanComponent> sched = new MeetingUtil()
-				.getYearPlanSched(user.getYearPlan());
-		if (! userUtil.hasPermission(user, Permission.PERMISSION_VIEW_MEETING_ID))
+				.getYearPlanSched(troop.getYearPlan());
+		if (! userUtil.hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID))
 			return null;
 		net.fortuna.ical4j.model.Calendar calendar = new net.fortuna.ical4j.model.Calendar();
 		calendar.getProperties().add(
@@ -139,9 +139,9 @@ public class YearPlanUtil {
 				break;
 
 			case MEETING:
-				Meeting meetingInfo = meetingDAO.getMeeting(((MeetingE) _comp).getRefId());
+				Meeting meetingInfo = meetingDAO.getMeeting(user, ((MeetingE) _comp).getRefId());
 				desc = meetingInfo.getName();
-				location = getLocation(user,
+				location = getLocation(troop,
 						((MeetingE) _comp).getLocationRef());
 				break;
 			}
@@ -193,11 +193,11 @@ public class YearPlanUtil {
 		return fmtLocation;
 	}
 	
-	public java.util.List<Asset> getResources(String tags, String meetingName,
-			String uids) {
+	public java.util.List<Asset> getResources(User user, String tags, String meetingName,
+			String uids)throws IllegalAccessException {
 		java.util.List<Asset> container = new java.util.ArrayList();
-		container.addAll(meetingDAO.getResource_local(tags, meetingName));
-		container.addAll(meetingDAO.getResource_global(tags, meetingName));
+		container.addAll(meetingDAO.getResource_local(user, tags, meetingName));
+		container.addAll(meetingDAO.getResource_global(user, tags, meetingName));
 		return container;
 	}
 	
@@ -205,51 +205,51 @@ public class YearPlanUtil {
 		return meetingDAO.getCouncilMilestones( councilCode);
 	}
 	
-	public Meeting getMeeting(String path){
-		return meetingDAO.getMeeting(path);
+	public Meeting getMeeting(User user, String path)throws IllegalAccessException{
+		return meetingDAO.getMeeting(user, path);
 	}
 	
-	public List<org.girlscouts.vtk.models.Search> getData(Troop user, String query)throws IllegalAccessException{
-		return meetingDAO.getData(user, query);
+	public List<org.girlscouts.vtk.models.Search> getData(User user, Troop troop, String query)throws IllegalAccessException{
+		return meetingDAO.getData(user, troop, query);
 	}
 	
-	public java.util.List<Meeting> getAllMeetings(String gradeLevel){
-		return meetingDAO.getAllMeetings(gradeLevel);
+	public java.util.List<Meeting> getAllMeetings(User user, String gradeLevel)throws IllegalAccessException{
+		return meetingDAO.getAllMeetings(user, gradeLevel);
 	}
 	
-	public java.util.List<MeetingE> getAllEventMeetings_byPath(String yearPlanPath){
-		return meetingDAO.getAllEventMeetings_byPath( yearPlanPath.endsWith("/") ? yearPlanPath : yearPlanPath+"/");
+	public java.util.List<MeetingE> getAllEventMeetings_byPath(User user, String yearPlanPath)throws IllegalAccessException{
+		return meetingDAO.getAllEventMeetings_byPath(user,  yearPlanPath.endsWith("/") ? yearPlanPath : yearPlanPath+"/");
 	}
-	public SearchTag searchA(String councilCode){
-		return meetingDAO.searchA( councilCode);
+	public SearchTag searchA(User user, String councilCode)throws IllegalAccessException{
+		return meetingDAO.searchA(user, councilCode);
 	}
 	
 	public java.util.List<Asset> getGlobalResources( String resourceTags){
 		return meetingDAO.getGlobalResources( resourceTags);
 	}
 	
-	public Meeting createCustomMeeting(Troop user, MeetingE meetingEvent) throws IllegalAccessException{
-		return meetingDAO.createCustomMeeting( user, meetingEvent);
+	public Meeting createCustomMeeting(User user, Troop troop, MeetingE meetingEvent) throws IllegalAccessException{
+		return meetingDAO.createCustomMeeting( user,troop, meetingEvent);
 	}
 	
-	public Meeting updateCustomMeeting(Troop user, MeetingE meetingEvent, Meeting meeting)throws IllegalAccessException{
-		return meetingDAO.updateCustomMeeting( user,  meetingEvent,  meeting);
+	public Meeting updateCustomMeeting(User user, Troop troop, MeetingE meetingEvent, Meeting meeting)throws IllegalAccessException{
+		return meetingDAO.updateCustomMeeting(  user, troop, meetingEvent,  meeting);
 	}
 	
 	public void  saveCouncilMilestones(java.util.List<Milestone> milestones){
 		 meetingDAO.saveCouncilMilestones( milestones);
 	}
 	
-	public java.util.List<Activity> searchA1(Troop user, String lvl, String cat, String keywrd,
+	public java.util.List<Activity> searchA1(User user, Troop troop, String lvl, String cat, String keywrd,
 			java.util.Date startDate, java.util.Date endDate, String region) throws IllegalAccessException{
-		return meetingDAO.searchA1( user,  lvl,  cat,  keywrd, startDate, endDate,  region);
+		return meetingDAO.searchA1( user, troop, lvl,  cat,  keywrd, startDate, endDate,  region);
 	}
 	
-	public  List<Asset> getAllResources(String path) {
-		return getAllResources( path) ;
+	public  List<Asset> getAllResources(User user, String path)throws IllegalAccessException {
+		return meetingDAO.getAllResources(user, path) ;
 	}
 	
-	public Meeting createCustomMeeting(Troop user, MeetingE meetingEvent, Meeting meeting){
-		return  createCustomMeeting( user,  meetingEvent,  meeting );
+	public Meeting createCustomMeeting(User user, Troop troop, MeetingE meetingEvent, Meeting meeting) throws IllegalAccessException{
+		return meetingDAO.createCustomMeeting( user, troop,  meetingEvent,  meeting );
 	}
 }

@@ -275,16 +275,16 @@ public class MeetingUtil {
 				
 				Meeting meeting =null;
 				if( m.getRefId().contains("_") )
-				 meeting =meetingDAO.updateCustomMeeting(troop, m, null);
+				 meeting =meetingDAO.updateCustomMeeting(user, troop, m, null);
 				else
-				 meeting =meetingDAO.createCustomMeeting(troop, m);
+				 meeting =meetingDAO.createCustomMeeting(user, troop, m);
 				
 				Activity activity= new Activity();
 				activity.setName(name);
 				activity.setDuration(duration);
 				activity.setActivityDescription(txt);
 			
-				meetingDAO.addActivity(troop, meeting,  activity);
+				meetingDAO.addActivity(user, troop, meeting,  activity);
 				
 				Cal cal = troop.getYearPlan().getSchedule();
 				if( cal!=null )
@@ -363,7 +363,7 @@ public class MeetingUtil {
 		
 		//System.err.println("NewPos: "+ newPoss);
 		
-		Meeting meetingInfo = meetingDAO.getMeeting(  meetingPath );
+		Meeting meetingInfo = meetingDAO.getMeeting(user, meetingPath );
 		java.util.List<Activity>orgActivities = meetingInfo.getActivities();
 		orgActivities= sortActivity(orgActivities);
 		java.util.List<Activity> newActivity = new java.util.ArrayList<Activity>();
@@ -383,9 +383,9 @@ public class MeetingUtil {
 		//create custom meeting
 		MeetingE meetingE= getMeeting(troop.getYearPlan().getMeetingEvents(), meetingPath);
 		if(meetingE.getRefId().contains("_"))
-			meetingDAO.updateCustomMeeting(troop, meetingE, meetingInfo);
+			meetingDAO.updateCustomMeeting(user, troop, meetingE, meetingInfo);
 		else
-			meetingDAO.createCustomMeeting(troop, meetingE, meetingInfo);
+			meetingDAO.createCustomMeeting(user, troop, meetingE, meetingInfo);
 		
 		troop.getYearPlan().setAltered("true");
 		troopUtil.updateTroop(user, troop);
@@ -455,14 +455,14 @@ public class MeetingUtil {
 			if( troop.getYearPlan().getMeetingEvents().get(i).getPath().equals( fromMeetingPath)){
 				
 				MeetingE meeting = troop.getYearPlan().getMeetingEvents().get(i);
-				Meeting meetingInfo = meetingDAO.getMeeting(  meeting.getRefId() );
+				Meeting meetingInfo = meetingDAO.getMeeting( user, meeting.getRefId() );
 				List<Activity> activities = meetingInfo.getActivities();
 				for(int y=0;y<activities.size();y++){
 					
 					if( activities.get(y).getPath().equals( agendaPathToRm ) ){
 						
 						activities.remove(y);
-						meetingDAO.createCustomMeeting(troop, meeting, meetingInfo);
+						meetingDAO.createCustomMeeting(user, troop, meeting, meetingInfo);
 						troopUtil.updateTroop(user, troop);
 						return;
 					}
@@ -488,7 +488,7 @@ public class MeetingUtil {
 			if( troop.getYearPlan().getMeetingEvents().get(i).getPath().equals( meetingPath)){
 				
 				MeetingE meeting = troop.getYearPlan().getMeetingEvents().get(i);
-				Meeting meetingInfo = meetingDAO.getMeeting(  meeting.getRefId() );
+				Meeting meetingInfo = meetingDAO.getMeeting( user, meeting.getRefId() );
 				List<Activity> activities = meetingInfo.getActivities();
 				for(int y=0;y<activities.size();y++){
 					
@@ -496,7 +496,7 @@ public class MeetingUtil {
 						
 						Activity activity = activities.get(y);
 						activity.setDuration(duration);
-						meetingDAO.createCustomMeeting(troop, meeting, meetingInfo);
+						meetingDAO.createCustomMeeting(user,troop, meeting, meetingInfo);
 						troop.getYearPlan().setAltered("true");
 						troopUtil.updateTroop(user, troop);
 						return;
@@ -539,7 +539,7 @@ public class MeetingUtil {
 			 ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1).toLowerCase().trim();
 		 }catch(Exception e){e.printStackTrace();}
 		 
-		 java.util.List< Meeting> __meetings=  meetingDAO.getAllMeetings(ageLevel);
+		 java.util.List< Meeting> __meetings=  meetingDAO.getAllMeetings(user,ageLevel);
 		 
 		 for(int i=0;i<__meetings.size();i++){
 				Meeting __meeting = __meetings.get(i);
@@ -567,7 +567,7 @@ public class MeetingUtil {
 			MeetingE meeting = meetings.get(i);
 			if( meeting.getUid().equals( meetingId)){
 				
-				Asset dbAsset = meetingDAO.getAsset(aidId+"/") ;
+				Asset dbAsset = meetingDAO.getAsset(user, aidId+"/") ;
 				
 				Asset asset = new Asset();
 				asset.setRefId(aidId);

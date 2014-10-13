@@ -15,7 +15,7 @@
 		}
 
     
-	Meeting meetingInfo = yearPlanUtil.getMeeting(  meeting.getRefId() );
+	Meeting meetingInfo = yearPlanUtil.getMeeting( user, meeting.getRefId() );
 	java.util.List <Activity> _activities = meetingInfo.getActivities();
 	java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  meetingInfo.getMeetingInfo();
 %> 

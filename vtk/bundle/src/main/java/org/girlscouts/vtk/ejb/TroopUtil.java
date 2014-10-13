@@ -215,7 +215,7 @@ public class TroopUtil {
 		}
 
 		YearPlan oldPlan = troop.getYearPlan();
-		YearPlan newYearPlan = addYearPlan(troop, yearPlanPath);//troopDAO.addYearPlan1(troop, yearPlanPath);
+		YearPlan newYearPlan = addYearPlan(user, troop, yearPlanPath);//troopDAO.addYearPlan1(troop, yearPlanPath);
 		try {
 
 			newYearPlan.setName(planName);
@@ -344,13 +344,13 @@ public class TroopUtil {
 		return troopDAO.getUserGlobConfig();
 	}
 
-	public YearPlan addYearPlan(Troop troop, String yearPlanPath) throws java.lang.IllegalAccessException, java.lang.IllegalAccessException {
+	public YearPlan addYearPlan(User user, Troop troop, String yearPlanPath) throws java.lang.IllegalAccessException, java.lang.IllegalAccessException {
 		YearPlan plan=null;
 		try{
 			plan = troopDAO.addYearPlan1( troop,  yearPlanPath);
 			plan.setRefId(yearPlanPath);
-		    plan.setMeetingEvents(yearPlanUtil.getAllEventMeetings_byPath(yearPlanPath));
-System.err.println("MeetingNum : "+ plan.getMeetingEvents().size());
+			
+		    plan.setMeetingEvents(yearPlanUtil.getAllEventMeetings_byPath(user, yearPlanPath.endsWith("/meetings/") ? yearPlanPath : (yearPlanPath+"/meetings/")));
 			Comparator<MeetingE> comp = new BeanComparator("id");
 			Collections.sort(plan.getMeetingEvents(), comp);
 

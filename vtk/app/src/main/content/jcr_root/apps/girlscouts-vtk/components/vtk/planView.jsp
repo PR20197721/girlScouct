@@ -72,7 +72,7 @@
 			try {
 			if ( _comp.getType() == YearPlanComponentType.MEETING) {
 				meeting = (MeetingE) _comp;
-				meetingInfo = yearPlanUtil.getMeeting(  meeting.getRefId() );
+				meetingInfo = yearPlanUtil.getMeeting( user, meeting.getRefId() );
 				
 				meeting.setMeetingInfo(meetingInfo);
 				
