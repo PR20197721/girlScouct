@@ -59,7 +59,7 @@ for(int i=0;i<locations.size();i++){
 <% 
                         }else{
 %>
-				<li><%= mLoc.equals(location.getPath() ) ? "YES" : ""%> <del><%=FORMAT_MMddYYYY.format(date) %></del></li>
+				<li><%= mLoc.equals(location.getPath() ) ? "Activity day past" : ""%> <del><%=FORMAT_MMddYYYY.format(date) %></del></li>
 <% 
                         }
                 }

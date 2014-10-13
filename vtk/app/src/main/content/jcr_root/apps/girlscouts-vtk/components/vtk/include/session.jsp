@@ -1,5 +1,5 @@
 <%@page
-	import="org.girlscouts.vtk.models.Troop, org.girlscouts.vtk.auth.permission.*"%>
+	import="org.girlscouts.vtk.models.Troop, org.girlscouts.vtk.auth.permission.*, org.girlscouts.vtk.utils.VtkUtil"%>
 <%!java.text.SimpleDateFormat FORMAT_MMddYYYY = new java.text.SimpleDateFormat(
 			"MM/dd/yyyy");
 	java.text.SimpleDateFormat FORMAT_hhmm_AMPM = new java.text.SimpleDateFormat(
@@ -36,6 +36,24 @@
 		return false;
 	}
 	
+	double convertObjectToDouble(Object o) {
+		Double parsedDouble = 0.00d;
+		if (o != null) {
+			try{
+				String preParsedCost = ((String) o).replaceAll(",", "").replaceAll(" ", "");
+				parsedDouble = Double.parseDouble(preParsedCost);
+			} catch (NumberFormatException npe) {
+				// do nothing -- leave cost at 0.00
+			} catch (ClassCastException cce) {
+				// doo nothing -- leave cost at 0.00
+			}catch(Exception e){
+				// print error
+				e.printStackTrace();
+			}
+		}
+		return parsedDouble;
+	}
+	java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat("MM/dd/yyyy hh:mm a");
 	%>
 <%
 
@@ -48,8 +66,11 @@
 	final TroopUtil troopUtil = sling.getService(TroopUtil.class);
 	final UserUtil userUtil = sling.getService(UserUtil.class);
 	User user=null;
+	
 	HttpSession session = request.getSession();
 	int timeout = session.getMaxInactiveInterval();
+	
+	
 	response.setHeader("Refresh", timeout
 			+ "; URL = /content/girlscouts-vtk/en/vtk.logout.html");
 	org.girlscouts.vtk.auth.models.ApiConfig apiConfig = null;

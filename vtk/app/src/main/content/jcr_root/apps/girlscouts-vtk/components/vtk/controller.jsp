@@ -5,57 +5,21 @@
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 
-<%!
-	double convertObjectToDouble(Object o) {
-		Double parsedDouble = 0.00d;
-		if (o != null) {
-			try{
-				String preParsedCost = ((String) o).replaceAll(",", "").replaceAll(" ", "");
-				parsedDouble = Double.parseDouble(preParsedCost);
-			} catch (NumberFormatException npe) {
-				// do nothing -- leave cost at 0.00
-			} catch (ClassCastException cce) {
-				// doo nothing -- leave cost at 0.00
-			}catch(Exception e){
-				// print error
-				e.printStackTrace();
-			}
-		}
-		return parsedDouble;
-	}
-	java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat("MM/dd/yyyy hh:mm a");
-%>
+
 <%
-
-
-
-/*
-System.err.println("CONTROOLER ");
-Enumeration parameterList = request.getParameterNames();
-while( parameterList.hasMoreElements() )
-{
-  String sName = parameterList.nextElement().toString();
-  System.err.println("</br/>"+ sName +" :" + request.getParameter(sName));
-}
-*/
-
-//java.util.List<Milestone> ms =  meetingDAO.getCouncilMilestones("603");
 
 String vtkErr="";
 
 if( request.getParameter("isMeetingCngAjax") !=null){
 	meetingUtil.changeMeetingPositions( user, troop, request.getParameter("isMeetingCngAjax") );
 }else if( request.getParameter("newCustActivity") !=null ){
-	
-	double cost= convertObjectToDouble(request.getParameter("newCustActivity_cost"));
-System.err.println("A: "+ (user==null) );	
 	yearPlanUtil.createActivity(user, troop, new Activity( 
 		request.getParameter("newCustActivity_name"), 
 		request.getParameter("newCustActivity_txt"),
 		dateFormat4.parse(request.getParameter("newCustActivity_date") +" "+request.getParameter("newCustActivity_startTime") +" " +request.getParameter("newCustActivity_startTime_AP")), 
 		dateFormat4.parse(request.getParameter("newCustActivity_date") +" "+request.getParameter("newCustActivity_endTime") +" "+ request.getParameter("newCustActivity_endTime_AP")), 
 		request.getParameter("newCustActivityLocName"), request.getParameter("newCustActivityLocAddr"),
-		cost )
+		convertObjectToDouble(request.getParameter("newCustActivity_cost")) )
 	);
 }else if( request.getParameter("buildSched") !=null ){
 	try{
@@ -73,7 +37,9 @@ System.err.println("A: "+ (user==null) );
 
 }else if( request.getParameter("addLocation") !=null ){
 	
-	boolean isLoc=false;
+	boolean isLoc=VtkUtil.isLocation(troop.getYearPlan().getLocations(), request.getParameter("name")); //false;
+
+	/*
 	if( troop.getYearPlan().getLocations()!=null && request.getParameter("name")!=null ) {
 		for(int i=0;i< troop.getYearPlan().getLocations().size();i++) {
 			if( troop.getYearPlan().getLocations().get(i).getName().equals(request.getParameter("name")) ) {
@@ -82,6 +48,7 @@ System.err.println("A: "+ (user==null) );
 			}
 		}
 	}
+	*/
 	if(!isLoc) {
 		locationUtil.setLocation(user, troop, 
 		new Location(request.getParameter("name"),
@@ -91,7 +58,7 @@ System.err.println("A: "+ (user==null) );
 	if( troop.getYearPlan().getLocations().size()==1 ){
 		locationUtil.setLocationAllMeetings( user, troop, troop.getYearPlan().getLocations().get(0).getPath());
 	}else if( !isLoc ){
-System.err.println("testss: "+troop.getErrCode());		
+		
 		locationUtil.setLocationAllEmpty(user, troop,request.getParameter("name") );
 	}
 	
@@ -159,23 +126,14 @@ System.err.println("testss: "+troop.getErrCode());
 		}
 	}
 	
-	/*
-	Troop new_troop= troopUtil.getTroop( 
-		"/vtk/"+newTroop.getCouncilCode()+
-    		"/"+newTroop.getTroopId()+"/troops/"+
-		troop.getApiConfig().getUserId()+"_"+  request.getParameter("loginAs") );
-	*/
-System.err.println( "test: "+newTroop.getCouncilCode()+" : "+ request.getParameter("loginAs"));
 	Troop new_troop= troopUtil.getTroop(user, newTroop.getCouncilCode()+"", request.getParameter("loginAs") );
 	
 	
 	if( new_troop==null ){
-		//new_troop = new Troop( "/vtk/"+newTroop.getCouncilCode()+ "/"+newTroop.getTroopId()+"/troops/", troop.getApiConfig().getUserId()+"_"+  request.getParameter("loginAs") );
-		new_troop= troopUtil.createTroop(user, ""+newTroop.getCouncilCode(), request.getParameter("loginAs"));
+			new_troop= troopUtil.createTroop(user, ""+newTroop.getCouncilCode(), request.getParameter("loginAs"));
 	
 	}
 	new_troop.setTroop(newTroop );
-	//new_troop.setApiConfig(user.getApiConfig());
 	new_troop.setSfTroopId( new_troop.getTroop().getTroopId() );
 	new_troop.setSfUserId( user.getApiConfig().getUserId() );
 	new_troop.setSfTroopName( new_troop.getTroop().getTroopName() );  
@@ -185,8 +143,7 @@ System.err.println( "test: "+newTroop.getCouncilCode()+" : "+ request.getParamet
 	//logout multi troop
 	troopUtil.logout(user, troop);
 	
-	session.setAttribute("VTK_troop", new_troop);
-System.err.println("NewTroop: "+ new_troop.getPath());	
+	session.setAttribute("VTK_troop", new_troop);	
 	session.putValue("VTK_planView_memoPos", null);
 	new_troop.setCurrentTroop( session.getId() );
 	troopUtil.updateTroop(user, new_troop);
@@ -277,9 +234,7 @@ System.err.println("NewTroop: "+ new_troop.getPath());
 	org.girlscouts.vtk.ejb.Emailer emailer = sling.getService(org.girlscouts.vtk.ejb.Emailer.class);
 	emailer.test(emr);
 	  
-	//TODO LOG JCR
-	  
-	//REMOVE EMR
+	
 	emr=null;
 	troop.setSendingEmail(null);
 }else if( request.getParameter("bindAssetToYPC") !=null ){
@@ -392,8 +347,8 @@ System.err.println("NewTroop: "+ new_troop.getPath());
 	}
 	
 }else if( request.getParameter("id") !=null ){
-	//out.println( request.getParameter("newvalue") );
-	System.err.println("MID: "+request.getParameter("mid"));
+
+	
 	
 	java.util.List<MeetingE> meetings= troop.getYearPlan().getMeetingEvents();
 	for(MeetingE m: meetings){
@@ -445,21 +400,11 @@ System.err.println("NewTroop: "+ new_troop.getPath());
 	
 }else if( request.getParameter("test") !=null ){
 	
-	//System.err.println( "TEST: "+request.getParameter("test") );
-	
+
 	ObjectMapper mapper = new ObjectMapper();
 	out.println(mapper.writeValueAsString(troop));
 	
-	//System.err.println( "User json: "+mapper.writeValueAsString(troop) );
-
-
-/*
-	out.print("["+ 
-	 "{"+
-	  "\"age\": 13, \"id\": \"motorola-defy-with-motoblur\", \"name\": \"Motorola DEFY\u2122 with MOTOBLUR\u2122\", \"snippet\": \"Are you ready for everything life throws your way?\""+	
-	 "}"+
-	"]");
-	*/		
+	
 			  
 			  
 	
@@ -471,7 +416,6 @@ System.err.println("NewTroop: "+ new_troop.getPath());
 	
 	String councilId= request.getParameter("cid");
 	
-	//java.util.List<Milestone> milestones = troop.getYearPlan().getMilestones();
 	java.util.List<Milestone> milestones = yearPlanUtil.getCouncilMilestones( councilId ) ;
 	for(int i=0;i<milestones.size();i++){
 		
@@ -479,7 +423,6 @@ System.err.println("NewTroop: "+ new_troop.getPath());
 		String blurb= request.getParameter("blurb" + i);
 		String date = request.getParameter("date" + i);
 		
-		//System.err.println("___ "+ i +" : "+blurb +" : "+ date);
 		m.setBlurb(blurb);
 		m.setDate( new java.util.Date(date) );
 		
