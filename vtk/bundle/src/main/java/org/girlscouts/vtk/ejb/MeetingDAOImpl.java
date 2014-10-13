@@ -132,6 +132,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(MeetingE.class);
 			filter.setScope(yearPlanPath);
+	System.err.println("PTH: "+ yearPlanPath);		
 			
 	 		Query query = queryManager.createQuery(filter);
 			meetings = (List<MeetingE>) ocm.getObjects(query);
