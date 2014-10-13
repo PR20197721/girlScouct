@@ -27,6 +27,7 @@ import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.SearchTag;
 import org.girlscouts.vtk.models.Troop;
+import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
 
@@ -49,33 +50,34 @@ public class YearPlanUtil {
 	@Reference
 	private UserUtil userUtil;
 
-	public void createActivity(Troop user, Activity activity) throws java.lang.IllegalAccessException{
+	public void createActivity(User user, Troop troop, Activity activity) throws java.lang.IllegalAccessException{
 
-		activityDAO.createActivity(user, activity);
-		user.getYearPlan().setAltered("true");
-		troopDAO.updateTroop(user);
+	System.err.println("User: "+ (user==null ));	
+		activityDAO.createActivity(user, troop, activity);
+		troop.getYearPlan().setAltered("true");
+		troopDAO.updateTroop(user, troop);
 	}
 
-	public void checkCanceledActivity(Troop user) throws java.lang.IllegalAccessException{
+	public void checkCanceledActivity(User user, Troop troop) throws java.lang.IllegalAccessException{
 
-		if (user == null || user.getYearPlan() == null
-				|| user.getYearPlan().getActivities() == null
-				|| user.getYearPlan().getActivities().size() == 0)
+		if (troop == null || troop.getYearPlan() == null
+				|| troop.getYearPlan().getActivities() == null
+				|| troop.getYearPlan().getActivities().size() == 0)
 			return;
 
 		java.util.List<Activity> activity2Cancel = new java.util.ArrayList<Activity>();
 
-		java.util.List<Activity> activities = user.getYearPlan()
+		java.util.List<Activity> activities = troop.getYearPlan()
 				.getActivities();
 		for (int i = 0; i < activities.size(); i++) {
 
 			if (!(activities.get(i).getCancelled() != null && activities.get(i)
 					.getCancelled().equals("true")))
 				if (!activityDAO
-						.isActivityByPath(activities.get(i).getRefUid())) {
+						.isActivityByPath(user, activities.get(i).getRefUid())) {
 					activities.get(i).setCancelled("true"); // org
 					activity2Cancel.add(activities.get(i));
-					troopDAO.updateTroop(user);
+					troopDAO.updateTroop(user, troop);
 				}
 		}
 
@@ -216,7 +218,7 @@ public class YearPlanUtil {
 	}
 	
 	public java.util.List<MeetingE> getAllEventMeetings_byPath(String yearPlanPath){
-		return meetingDAO.getAllEventMeetings_byPath( yearPlanPath);
+		return meetingDAO.getAllEventMeetings_byPath( yearPlanPath.endsWith("/") ? yearPlanPath : yearPlanPath+"/");
 	}
 	public SearchTag searchA(String councilCode){
 		return meetingDAO.searchA( councilCode);
@@ -239,8 +241,8 @@ public class YearPlanUtil {
 	}
 	
 	public java.util.List<Activity> searchA1(Troop user, String lvl, String cat, String keywrd,
-			java.util.Date startDate, java.util.Date endDate, String region){
-		return searchA1( user,  lvl,  cat,  keywrd, startDate, endDate,  region);
+			java.util.Date startDate, java.util.Date endDate, String region) throws IllegalAccessException{
+		return meetingDAO.searchA1( user,  lvl,  cat,  keywrd, startDate, endDate,  region);
 	}
 	
 	public  List<Asset> getAllResources(String path) {

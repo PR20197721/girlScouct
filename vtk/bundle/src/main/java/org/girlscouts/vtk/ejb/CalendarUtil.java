@@ -25,6 +25,7 @@ import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Troop;
+import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
 
@@ -186,10 +187,10 @@ public class CalendarUtil {
 		}
 		
 		
-		public void createSched(Troop user, String freq, org.joda.time.DateTime p, String exclDate)throws java.lang.IllegalAccessException{
+		public void createSched(User user, Troop troop, String freq, org.joda.time.DateTime p, String exclDate)throws java.lang.IllegalAccessException{
 		
-			if( !userUtil.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_EDIT_MEETING_ID ) ){
-				 user.setErrCode("112");
+			if( !userUtil.hasAccess(troop, troop.getCurrentTroop(), Permission.PERMISSION_EDIT_MEETING_ID ) ){
+				 troop.setErrCode("112");
 				 //return;
 				 throw new IllegalAccessException();
 			 }
@@ -200,11 +201,11 @@ public class CalendarUtil {
 				exclDt.add( new org.joda.time.DateTime( new java.util.Date(t.nextToken()) ));
 			}
 			
-			String existSched = user.getYearPlan().getSchedule()== null ? "" : user.getYearPlan().getSchedule().getDates();
+			String existSched = troop.getYearPlan().getSchedule()== null ? "" : troop.getYearPlan().getSchedule().getDates();
 			
-			java.util.List <org.joda.time.DateTime> sched = new CalendarUtil().genSched( p, freq, exclDt,  user.getYearPlan().getMeetingEvents().size(),
+			java.util.List <org.joda.time.DateTime> sched = new CalendarUtil().genSched( p, freq, exclDt,  troop.getYearPlan().getMeetingEvents().size(),
 					existSched);
-			YearPlan plan = user.getYearPlan();
+			YearPlan plan = troop.getYearPlan();
 			plan.setCalFreq(freq);
 			plan.setCalStartDate( p.getMillis() );
 			plan.setCalExclWeeksOf(exclDate);
@@ -214,29 +215,29 @@ public class CalendarUtil {
 			calendar.fmtDate(sched);
 
 			plan.setSchedule(calendar);
-			user.setYearPlan(plan);
+			troop.setYearPlan(plan);
 			
 			
 			//sort
 			
 			Comparator<MeetingE> comp = new BeanComparator("id");
-		    Collections.sort( user.getYearPlan().getMeetingEvents(), comp);
+		    Collections.sort( troop.getYearPlan().getMeetingEvents(), comp);
 			
-			troopUtil.updateTroop(user);
+			troopUtil.updateTroop(user, troop);
 		}
 		
-		public void updateSched(Troop user, String meetingPath, String time, String date, String ap, 
+		public void updateSched(User user, Troop troop, String meetingPath, String time, String date, String ap, 
 				String isCancelledMeeting, long currDate)throws java.lang.IllegalAccessException{
 			
-			if( !userUtil.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_UPDATE_MEETING_ID ) ){
-				 user.setErrCode("112");
+			if( !userUtil.hasAccess(troop, troop.getCurrentTroop(), Permission.PERMISSION_UPDATE_MEETING_ID ) ){
+				 troop.setErrCode("112");
 				// return;
 				 throw new IllegalAccessException();
 			 }
 			
 			java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat("MM/dd/yyyy hh:mm a");
 			
-			YearPlan plan = user.getYearPlan();
+			YearPlan plan = troop.getYearPlan();
 			Cal cal = plan.getSchedule();
 			
 			
@@ -250,24 +251,24 @@ public class CalendarUtil {
 			
 			
 			
-			java.util.List<MeetingE>meetings = user.getYearPlan().getMeetingEvents();
+			java.util.List<MeetingE>meetings = troop.getYearPlan().getMeetingEvents();
 			for(int i=0;i<meetings.size();i++){
 				MeetingE meeting = meetings.get(i);
 				if( meeting.getPath().equals( meetingPath ) ){
 					meeting.setCancelled(isCancelledMeeting);
-					user.getYearPlan().setAltered("true");
+					troop.getYearPlan().setAltered("true");
 					
 				}
 			}
 			
-			troopUtil.updateTroop(user);
+			troopUtil.updateTroop(user, troop);
 			
 		}
 		
-		public void resetCal(Troop user)throws java.lang.IllegalAccessException{
+		public void resetCal(User user, Troop troop)throws java.lang.IllegalAccessException{
 			
-			user.getYearPlan().setSchedule(null);
-			troopUtil.updateTroop(user);
+			troop.getYearPlan().setSchedule(null);
+			troopUtil.updateTroop(user, troop);
 		}
 	
 }

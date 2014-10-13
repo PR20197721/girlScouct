@@ -3,7 +3,6 @@ package org.girlscouts.vtk.auth.dao;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URLDecoder;
-
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpStatus;
@@ -16,21 +15,12 @@ import org.girlscouts.vtk.auth.models.User;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.TroopDAO;
-//import org.girlscouts.vtk.dao.UserDAO;
-//import org.girlscouts.vtk.ejb.UserDAOImpl;
 import org.girlscouts.vtk.models.UserGlobConfig;
 import org.girlscouts.vtk.salesforce.Troop;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
-//import org.jsoup.Jsoup;
-//import org.jsoup.nodes.Document;
-/*
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-*/
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -377,7 +367,7 @@ public java.util.List <Troop>  troopInfo(ApiConfig apiConfig, String contactId){
 						org.girlscouts.vtk.auth.permission.RollType rollType= org.girlscouts.vtk.auth.permission.RollType.valueOf("DP");
 						switch(rollType){
 							case DP:
-								troop.setPermissionTokens(Permission.getPermissionTokens( Permission.GROUP_MEMBER_2G_PERMISSIONS));//Permission.GROUP_GUEST_PERMISSIONS)) ;//Permission.GROUP_LEADER_PERMISSIONS));
+								troop.setPermissionTokens(Permission.getPermissionTokens( Permission.GROUP_LEADER_PERMISSIONS));
 								System.err.println("REGISTER ROLL DP");
 								break;
 							default:

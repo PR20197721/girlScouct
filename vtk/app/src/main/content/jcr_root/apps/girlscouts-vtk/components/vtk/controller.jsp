@@ -44,11 +44,12 @@ while( parameterList.hasMoreElements() )
 String vtkErr="";
 
 if( request.getParameter("isMeetingCngAjax") !=null){
-	meetingUtil.changeMeetingPositions( troop, request.getParameter("isMeetingCngAjax") );
+	meetingUtil.changeMeetingPositions( user, troop, request.getParameter("isMeetingCngAjax") );
 }else if( request.getParameter("newCustActivity") !=null ){
 	
 	double cost= convertObjectToDouble(request.getParameter("newCustActivity_cost"));
-	yearPlanUtil.createActivity(troop, new Activity( 
+System.err.println("A: "+ (user==null) );	
+	yearPlanUtil.createActivity(user, troop, new Activity( 
 		request.getParameter("newCustActivity_name"), 
 		request.getParameter("newCustActivity_txt"),
 		dateFormat4.parse(request.getParameter("newCustActivity_date") +" "+request.getParameter("newCustActivity_startTime") +" " +request.getParameter("newCustActivity_startTime_AP")), 
@@ -58,7 +59,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	);
 }else if( request.getParameter("buildSched") !=null ){
 	try{
-		calendarUtil.createSched(troop, 
+		calendarUtil.createSched(user, troop, 
 			request.getParameter("calFreq"), 
 			new org.joda.time.DateTime(dateFormat4.parse(request.getParameter("calStartDt") +" "+ request.getParameter("calTime") +
 			" "+ request.getParameter("calAP"))), request.getParameter("exclDt"));
@@ -68,9 +69,10 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	}
 	
 }else if( request.getParameter("addYearPlanUser") !=null ){
-	troopUtil.selectYearPlan(  troop, request.getParameter("addYearPlanUser"), request.getParameter("addYearPlanName"));
+	troopUtil.selectYearPlan( user,  troop, request.getParameter("addYearPlanUser"), request.getParameter("addYearPlanName"));
 
 }else if( request.getParameter("addLocation") !=null ){
+	
 	boolean isLoc=false;
 	if( troop.getYearPlan().getLocations()!=null && request.getParameter("name")!=null ) {
 		for(int i=0;i< troop.getYearPlan().getLocations().size();i++) {
@@ -81,49 +83,52 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 		}
 	}
 	if(!isLoc) {
-		locationUtil.setLocation(troop, 
+		locationUtil.setLocation(user, troop, 
 		new Location(request.getParameter("name"),
 		request.getParameter("address"), request.getParameter("city"), 
 		request.getParameter("state"), request.getParameter("zip") ));
 	}
 	if( troop.getYearPlan().getLocations().size()==1 ){
-		locationUtil.setLocationAllMeetings(troop, troop.getYearPlan().getLocations().get(0).getPath());
+		locationUtil.setLocationAllMeetings( user, troop, troop.getYearPlan().getLocations().get(0).getPath());
 	}else if( !isLoc ){
-		locationUtil.setLocationAllEmpty( troop,request.getParameter("name") );
+System.err.println("testss: "+troop.getErrCode());		
+		locationUtil.setLocationAllEmpty(user, troop,request.getParameter("name") );
 	}
+	
+	
 }else if( request.getParameter("rmLocation") !=null ){
-	locationUtil.removeLocation(troop, request.getParameter("rmLocation"));
+	locationUtil.removeLocation(user, troop, request.getParameter("rmLocation"));
 }else if( request.getParameter("newCustAgendaName") !=null ){
 	
-	meetingUtil.createCustomAgenda(troop, 
+	meetingUtil.createCustomAgenda(user, troop, 
 			request.getParameter("name"), request.getParameter("newCustAgendaName"), 
 			Integer.parseInt(request.getParameter("duration")), Long.parseLong( request.getParameter("startTime") ), request.getParameter("txt") );
 
 }else if( request.getParameter("setLocationToAllMeetings") !=null ){
-	locationUtil.setLocationAllMeetings(troop, request.getParameter("setLocationToAllMeetings") );
+	locationUtil.setLocationAllMeetings(user, troop, request.getParameter("setLocationToAllMeetings") );
 }else if( request.getParameter("updSched") !=null ){
-	calendarUtil.updateSched(troop, request.getParameter("meetingPath"), 
+	calendarUtil.updateSched(user, troop, request.getParameter("meetingPath"), 
 		request.getParameter("time"), request.getParameter("date"), request.getParameter("ap"), 
 		request.getParameter("isCancelledMeeting"), Long.parseLong( request.getParameter("currDt") ));
 }else if( request.getParameter("rmCustActivity") !=null ){
-	meetingUtil.rmCustomActivity (troop, request.getParameter("rmCustActivity") );
+	meetingUtil.rmCustomActivity (user, troop, request.getParameter("rmCustActivity") );
 }else if( request.getParameter("chnLocation") !=null ){
-	locationUtil.changeLocation(troop, request.getParameter("chnLocation"), request.getParameter("newLocPath"));
+	locationUtil.changeLocation(user, troop, request.getParameter("chnLocation"), request.getParameter("newLocPath"));
 }else if( request.getParameter("cngMeeting") !=null ){ //change Meeting
-	meetingUtil.swapMeetings(troop, request.getParameter("fromPath"), request.getParameter("toPath"));
+	meetingUtil.swapMeetings(user, troop, request.getParameter("fromPath"), request.getParameter("toPath"));
 }else if( request.getParameter("addMeeting") !=null ){ //add Meeting
-	meetingUtil.addMeetings(troop,  request.getParameter("toPath"));
+	meetingUtil.addMeetings(user, troop,  request.getParameter("toPath"));
 }else if( request.getParameter("isActivityCngAjax") !=null ){ //activity shuffle
-	meetingUtil.rearrangeActivity( troop, request.getParameter("mid"), request.getParameter("isActivityCngAjax"));
+	meetingUtil.rearrangeActivity(user,  troop, request.getParameter("mid"), request.getParameter("isActivityCngAjax"));
 
 }else if( request.getParameter("rmAgenda") !=null ){
-	meetingUtil.rmAgenda(troop, request.getParameter("rmAgenda") , request.getParameter("mid")  );
+	meetingUtil.rmAgenda(user, troop, request.getParameter("rmAgenda") , request.getParameter("mid")  );
 }else if( request.getParameter("editAgendaDuration") !=null ){
-	meetingUtil.editAgendaDuration(troop, Integer.parseInt(request.getParameter("editAgendaDuration")), 
+	meetingUtil.editAgendaDuration(user, troop, Integer.parseInt(request.getParameter("editAgendaDuration")), 
 		request.getParameter("aid"),
 		request.getParameter("mid"));
 }else if( request.getParameter("revertAgenda") !=null ){
-	meetingUtil.reverAgenda(troop,  request.getParameter("mid") );
+	meetingUtil.reverAgenda(user, troop,  request.getParameter("mid") );
 }else if( request.getParameter("sendMeetingReminderEmail_SF") !=null ){ //view SalesForce
 	  String email_to_gp =request.getParameter("email_to_gp");
 	  String email_to_sf =request.getParameter("email_to_sf");
@@ -144,7 +149,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 		return;
 	}
 	
-	troops = troop.getApiConfig().getTroops();
+	troops = user.getApiConfig().getTroops();
 	session.setAttribute("USER_TROOP_LIST", troops);
 
 	org.girlscouts.vtk.salesforce.Troop newTroop = null;
@@ -160,52 +165,54 @@ if( request.getParameter("isMeetingCngAjax") !=null){
     		"/"+newTroop.getTroopId()+"/troops/"+
 		troop.getApiConfig().getUserId()+"_"+  request.getParameter("loginAs") );
 	*/
-	Troop new_troop= troopUtil.getTroop(newTroop.getCouncilCode()+"",request.getParameter("loginAs") );
+System.err.println( "test: "+newTroop.getCouncilCode()+" : "+ request.getParameter("loginAs"));
+	Troop new_troop= troopUtil.getTroop(user, newTroop.getCouncilCode()+"", request.getParameter("loginAs") );
 	
 	
 	if( new_troop==null ){
 		//new_troop = new Troop( "/vtk/"+newTroop.getCouncilCode()+ "/"+newTroop.getTroopId()+"/troops/", troop.getApiConfig().getUserId()+"_"+  request.getParameter("loginAs") );
-		new_troop= troopUtil.createTroop(""+newTroop.getCouncilCode(), request.getParameter("loginAs"));
+		new_troop= troopUtil.createTroop(user, ""+newTroop.getCouncilCode(), request.getParameter("loginAs"));
 	
 	}
 	new_troop.setTroop(newTroop );
-	new_troop.setApiConfig(troop.getApiConfig());
+	//new_troop.setApiConfig(user.getApiConfig());
 	new_troop.setSfTroopId( new_troop.getTroop().getTroopId() );
-	new_troop.setSfUserId( new_troop.getApiConfig().getUserId() );
+	new_troop.setSfUserId( user.getApiConfig().getUserId() );
 	new_troop.setSfTroopName( new_troop.getTroop().getTroopName() );  
 	new_troop.setSfTroopAge(new_troop.getTroop().getGradeLevel());
 	new_troop.setSfCouncil(new_troop.getTroop().getCouncilCode()+"" );
 	
 	//logout multi troop
-	troopUtil.logout(troop);
+	troopUtil.logout(user, troop);
 	
 	session.setAttribute("VTK_troop", new_troop);
+System.err.println("NewTroop: "+ new_troop.getPath());	
 	session.putValue("VTK_planView_memoPos", null);
 	new_troop.setCurrentTroop( session.getId() );
-	troopUtil.updateTroop(new_troop);
+	troopUtil.updateTroop(user, new_troop);
 	
 }else if( request.getParameter("addAsset")!=null){
 	org.girlscouts.vtk.models.Asset asset = new org.girlscouts.vtk.models.Asset(request.getParameter("addAsset"));
-	troopUtil.addAsset( troop ,  request.getParameter("meetingUid"),   asset);
+	troopUtil.addAsset(user,  troop ,  request.getParameter("meetingUid"),   asset);
 }else if( request.getParameter("testAB")!=null){
 	
 	java.util.Set<Integer> myPermissionTokens = new HashSet<Integer>();
 	troop.getTroop().setPermissionTokens(myPermissionTokens);
 	boolean isUsrUpd= false;
 	try{
-		isUsrUpd = troopUtil.updateTroop(troop) ;	
+		isUsrUpd = troopUtil.updateTroop(user, troop) ;	
 	}catch(IllegalAccessException iae){iae.printStackTrace();}
 	if(!isUsrUpd)
 		vtkErr+= vtkErr.concat("Warning: You last change was not saved.");
 	
 }else if( request.getParameter("addAids")!=null){
 	if( request.getParameter("assetType").equals("AID")){
-		meetingUtil.addAids(troop, request.getParameter("addAids"), request.getParameter("meetingId"), java.net.URLDecoder.decode(request.getParameter("assetName") ) );
+		meetingUtil.addAids(user, troop, request.getParameter("addAids"), request.getParameter("meetingId"), java.net.URLDecoder.decode(request.getParameter("assetName") ) );
 	}else{
-		meetingUtil.addResource(troop, request.getParameter("addAids"), request.getParameter("meetingId"), java.net.URLDecoder.decode(request.getParameter("assetName") ) );
+		meetingUtil.addResource(user, troop, request.getParameter("addAids"), request.getParameter("meetingId"), java.net.URLDecoder.decode(request.getParameter("assetName") ) );
 	}
 }else if( request.getParameter("rmAsset")!=null){
-	meetingUtil.rmAsset(troop, request.getParameter("rmAsset"), request.getParameter("meetingId"));
+	meetingUtil.rmAsset(user, troop, request.getParameter("rmAsset"), request.getParameter("meetingId"));
 }else if( request.getParameter("previewMeetingReminderEmail") !=null ){
 	  String email_to_gp =request.getParameter("email_to_gp");
 	  String email_to_sf =request.getParameter("email_to_sf");
@@ -298,7 +305,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 			
 			meetings.get(i).setAssets(assets);
 			
-			boolean isUsrUpd= troopUtil.updateTroop(troop);
+			boolean isUsrUpd= troopUtil.updateTroop(user, troop);
 			
 			if(!isUsrUpd)
 				vtkErr+= vtkErr.concat("Warning: You last change was not saved.");
@@ -325,7 +332,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 				
 				activities.get(i).setAssets(assets);
 				
-				boolean isUsrUpd = troopUtil.updateTroop(troop);
+				boolean isUsrUpd = troopUtil.updateTroop(user, troop);
 				if(!isUsrUpd)
 					vtkErr+= vtkErr.concat("Warning: You last change was not saved.");
 				
@@ -350,7 +357,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	activity.setLocationName(request.getParameter("newCustActivityLocName"));
 	activity.setLocationAddress(request.getParameter("newCustActivityLocAddr"));
 	
-	boolean isUsrUpd = troopUtil.updateTroop(troop);
+	boolean isUsrUpd = troopUtil.updateTroop(user, troop);
 	if(!isUsrUpd)
 		vtkErr+= vtkErr.concat("Warning: You last change was not saved.");
 	
@@ -378,7 +385,8 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	java.util.List <org.girlscouts.vtk.models.Activity> activities =  (java.util.List <org.girlscouts.vtk.models.Activity>)session.getValue("vtk_search_activity");
 	for(int i=0;i<activities.size();i++){
 		if( activities.get(i).getUid().equals( request.getParameter("newCustActivityBean") )){
-			yearPlanUtil.createActivity(troop, activities.get(i) );
+			System.err.println("B: "+ (user==null) );		
+			yearPlanUtil.createActivity(user, troop, activities.get(i) );
 			break;
 		}
 	}
@@ -503,7 +511,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 			milestones.remove(m);
 			
 			
-			boolean isUsrUpd =troopUtil.updateTroop(troop);
+			boolean isUsrUpd =troopUtil.updateTroop(user, troop);
 			if(!isUsrUpd)
 				vtkErr+= vtkErr.concat("Warning: You last change was not saved.");
 			
@@ -526,7 +534,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	
 }else if(request.getParameter("resetCal") !=null){
 
-	calendarUtil.resetCal(troop);
+	calendarUtil.resetCal(user, troop);
 	out.println("Cal reset");
 }else if(request.getParameter("admin_login")!=null ){
 	

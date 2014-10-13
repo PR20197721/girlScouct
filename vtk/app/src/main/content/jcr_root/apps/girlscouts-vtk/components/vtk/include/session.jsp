@@ -47,7 +47,7 @@
 	final YearPlanUtil yearPlanUtil = sling.getService(YearPlanUtil.class);
 	final TroopUtil troopUtil = sling.getService(TroopUtil.class);
 	final UserUtil userUtil = sling.getService(UserUtil.class);
-	
+	User user=null;
 	HttpSession session = request.getSession();
 	int timeout = session.getMaxInactiveInterval();
 	response.setHeader("Refresh", timeout
@@ -79,16 +79,31 @@
 		return;
 	}
 
+	
+	user = ((org.girlscouts.vtk.models.User) session
+			.getAttribute(org.girlscouts.vtk.models.User.class
+					.getName()));
+	
 	String errMsg = null;
-	Troop troop = (Troop) session.getValue("VTK_troop");
+	Troop troop = (Troop) session.getValue("VTK_troop");	
 	if (troop == null || troop.isRefresh()
 			|| troopUtil.isUpdated(troop)) {
 		if (troop != null && troop.isRefresh()
 				&& troop.getErrCode() != null
 				&& !troop.getErrCode().equals(""))
 			errMsg = troop.getErrCode();
-		org.girlscouts.vtk.salesforce.Troop prefTroop = apiConfig
-				.getTroops().get(0);
+		
+	
+	  org.girlscouts.vtk.salesforce.Troop prefTroop = apiConfig.getTroops().get(0);
+	  
+	  if( troop!=null){
+		  for (int ii = 0; ii < apiConfig.getTroops().size(); ii++){
+		 	if( apiConfig.getTroops().get(ii).getTroopId().equals(troop.getSfTroopId())){ 
+		 			prefTroop = apiConfig.getTroops().get(ii);
+		 			break;
+	  		}
+		  }
+	  }else{
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null) {
 			theCookie: for (int i = 0; i < cookies.length; i++) {
@@ -105,18 +120,30 @@
 
 			}
 		}
-
-		troop = troopUtil.getTroop("" + prefTroop.getCouncilCode(),
+	 }
+	 
+	
+		try{
+			
+		   troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(),
 				prefTroop.getTroopId());
+		}catch(IllegalAccessException ex){
+			%><span class="error">Sorry, you have no access to view year plan</span><%
+			return;
+		}
+		
+		
 		if (troop == null) {
-			troop = troopUtil.createTroop(
+			troop = troopUtil.createTroop(user, 
 					"" + prefTroop.getCouncilCode(),
 					prefTroop.getTroopId());
 		}
-		troop.setApiConfig(apiConfig);
+		
+		
+		//troop.setApiConfig(apiConfig);
 		troop.setTroop(prefTroop);
 		troop.setSfTroopId(troop.getTroop().getTroopId());
-		troop.setSfUserId(troop.getApiConfig().getUserId());
+		troop.setSfUserId( user.getApiConfig().getUserId() ); //troop.getApiConfig().getUserId());
 		troop.setSfTroopName(troop.getTroop().getTroopName());
 		troop.setSfTroopAge(troop.getTroop().getGradeLevel());
 		troop.setSfCouncil(troop.getTroop().getCouncilCode() + "");
@@ -124,7 +151,7 @@
 		if (troop != null && troop.getYearPlan() != null
 				&& troop.getYearPlan().getActivities() != null
 				&& troop.getYearPlan().getActivities().size() > 0) {
-			yearPlanUtil.checkCanceledActivity(troop);
+			yearPlanUtil.checkCanceledActivity(user, troop);
 		}
 		session.setAttribute("VTK_troop", troop);
 	}
@@ -132,7 +159,7 @@
 	java.util.List<org.girlscouts.vtk.salesforce.Troop> troops = (java.util.List<org.girlscouts.vtk.salesforce.Troop>) session
 			.getAttribute("USER_TROOP_LIST");
 	if (session.getAttribute("USER_TROOP_LIST") == null) {
-		troops = troop.getApiConfig().getTroops();
+		troops = user.getApiConfig().getTroops();
 		session.setAttribute("USER_TROOP_LIST", troops);
 	}
 
@@ -198,3 +225,5 @@
 <%
 	}
 %>
+
+

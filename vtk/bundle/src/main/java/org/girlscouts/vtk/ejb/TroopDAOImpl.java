@@ -28,6 +28,7 @@ import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.Troop;
+import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.UserGlobConfig;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.Asset;
@@ -50,8 +51,11 @@ public class TroopDAOImpl implements TroopDAO {
 	@Activate
 	void activate() {}
 	
-	public Troop getTroop(String councilId, String troopId) {
+	public Troop getTroop(User user, String councilId, String troopId) throws IllegalAccessException {
 
+		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_YEARPLAN_ID) )
+			throw new IllegalAccessException();
+		
 		Session mySession =null;
 		Troop troop = null;
 		try {
@@ -87,9 +91,14 @@ public class TroopDAOImpl implements TroopDAO {
 	}
 	
 	
-	public Troop getTroop_byPath(String troopPath) {
+	public Troop getTroop_byPath(User user, String troopPath) throws IllegalAccessException{
 		Session mySession =null;
 		Troop troop = null;
+		
+		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_YEARPLAN_ID) )
+			throw new IllegalAccessException();
+		
+		
 		try {
 			mySession = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
@@ -131,6 +140,7 @@ public class TroopDAOImpl implements TroopDAO {
 	
 	public YearPlan addYearPlan1(Troop troop, String yearPlanPath) throws java.lang.IllegalAccessException, java.lang.IllegalAccessException {
 
+	System.err.println("addYearPlan1..");
 		//permission to update
 		if( troop!= null && ! userUtil.hasPermission(troop, Permission.PERMISSION_ADD_YEARPLAN_ID) )
 			throw new IllegalAccessException();
@@ -167,12 +177,18 @@ public class TroopDAOImpl implements TroopDAO {
 			Filter filter = queryManager.createFilter(YearPlan.class);
 			plan = (YearPlan) ocm.getObject(fmtYearPlanPath);
 /*
+			//System.err.println("Plan found..."+fmtYearPlanPath);
+			//System.err.println(plan.getMeetingEvents().size());
+			
+
 			plan.setRefId(yearPlanPath);
 		    plan.setMeetingEvents(yearPlanUtil.getAllEventMeetings_byPath(yearPlanPath));
 
 			Comparator<MeetingE> comp = new BeanComparator("id");
 			Collections.sort(plan.getMeetingEvents(), comp);
-*/
+ */
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally{
@@ -185,7 +201,7 @@ public class TroopDAOImpl implements TroopDAO {
 
 	}
 
-	public boolean updateTroop(Troop troop) throws java.lang.IllegalAccessException , java.lang.IllegalAccessException{
+	public boolean updateTroop(User user, Troop troop) throws java.lang.IllegalAccessException , java.lang.IllegalAccessException{
 		
 		Session mySession =null;
 		boolean isUpdated = false;
@@ -218,8 +234,10 @@ public class TroopDAOImpl implements TroopDAO {
 			Comparator<MeetingE> comp = new BeanComparator("id");
 			Collections.sort(troop.getYearPlan().getMeetingEvents(), comp);
 
+			System.err.println((userUtil==null ) +"  :"+user.getPermissions());
+			
 			//permission to update
-			if( troop!= null && ! userUtil.hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID) )
+			if( troop!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_YEARPLAN_ID) )
 				throw new IllegalAccessException();
 			
 			//lock

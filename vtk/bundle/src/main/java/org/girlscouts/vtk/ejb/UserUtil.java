@@ -12,35 +12,44 @@ public class UserUtil {
 
 	@Reference
 	YearPlanDAO yearPlanDAO;
+
+	
 	
 	public boolean hasPermission(java.util.Set<Integer> myPermissionTokens,
 			int permissionId) {
+		
+		System.err.println( "Checking permissions: "+ permissionId +" : "+ myPermissionTokens);
 		if (myPermissionTokens != null
 				&& myPermissionTokens.contains(permissionId))
 			return true;
+		
+		System.err.println( "No permission");
 		return false;
 	}
 
-	public boolean hasPermission(Troop user, int permissionId) {
-		if (!hasPermission(user.getTroop().getPermissionTokens(), permissionId))
+	public boolean hasPermission(Troop troop, int permissionId) {
+		if (!hasPermission(troop.getTroop().getPermissionTokens(), permissionId))
 			return false;
 		return true;
 	}
 
-	public boolean hasAccess(Troop user, String mySessionId, int permissionId) {
-		if (!hasPermission(user, permissionId))
+	public boolean hasAccess(Troop troop, String mySessionId, int permissionId) {
+		System.err.println("HAS ACCESS?? checking perm...");
+		if (!hasPermission(troop, permissionId))
 			return false;
 
-		if (!isCurrentTroopId(user, mySessionId))
+		System.err.print("OK. checking lock...");
+		if (!isCurrentTroopId(troop, mySessionId))
 			return false;
 
+		System.err.print("ok");
 		return true;
 	}
 	
 	public boolean isCurrentTroopId(Troop troop, String sId) {
 		
-		java.util.Date lastUpdate = yearPlanDAO.getLastModif(troop);
-		if (lastUpdate != null && troop.getRetrieveTime().before(lastUpdate)) {
+		java.util.Date lastUpdate = yearPlanDAO.getLastModifByOthers(troop, sId);
+		if (lastUpdate != null && troop.getRetrieveTime()!=null && troop.getRetrieveTime().before(lastUpdate)) {
 			troop.setRefresh(true);
 			return false;
 		}

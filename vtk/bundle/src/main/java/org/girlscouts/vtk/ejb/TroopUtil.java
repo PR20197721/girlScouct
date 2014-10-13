@@ -34,6 +34,7 @@ import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.Troop;
+import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.UserGlobConfig;
 import org.girlscouts.vtk.models.YearPlan;
 
@@ -62,10 +63,10 @@ public class TroopUtil {
 	@Reference
 	private YearPlanUtil yearPlanUtil;
 
-	public Troop getTroop(String councilId, String troopId) {
+	public Troop getTroop(User user, String councilId, String troopId) throws IllegalAccessException {
 
 		Troop troop = null;
-		troop = troopDAO.getTroop(councilId, troopId);
+		troop = troopDAO.getTroop(user, councilId, troopId);
 		if (troop == null)
 			return troop;
 		if (troop != null && troop.getYearPlan() != null
@@ -86,7 +87,7 @@ public class TroopUtil {
 						&& !activities.get(i).getIsEditable()
 						&& activities.get(i).getRefUid() != null) {
 
-					Activity a = activityDAO.findActivity(activities.get(i)
+					Activity a = activityDAO.findActivity(user, activities.get(i)
 							.getRefUid());
 					if (a == null)
 						activities.get(i).setCancelled("true");
@@ -100,6 +101,7 @@ public class TroopUtil {
 		
 	}
 
+	//check if info was updated and need to pull from DB fresh copy
 	public boolean isUpdated(Troop troop) {
 		
 		java.util.Date lastUpdate = yearPlanDAO.getLastModif(troop);
@@ -139,10 +141,10 @@ public class TroopUtil {
 				
 	}
 
-	public Troop createTroop(String councilId, String troopId) {
+	public Troop createTroop(User user, String councilId, String troopId) throws IllegalAccessException {
 
 		Troop troop = null;
-		Council council = councilDAO.getOrCreateCouncil(councilId);
+		Council council = councilDAO.getOrCreateCouncil(user, councilId);
 		if (council == null)
 			return null;
 
@@ -153,24 +155,27 @@ public class TroopUtil {
 		troops.add(troop);
 		council.setTroops(troops);
 
-		councilDAO.updateCouncil(council);
+		councilDAO.updateCouncil(user, council);
 		return troop;
 		
 	}
 
-	public void logout(Troop troop) throws java.lang.IllegalAccessException {
-		
+	public void logout(User user, Troop troop) throws java.lang.IllegalAccessException {
+	System.err.println(1);	
 		if (troop == null)
 			return;
-		Troop tmp_troop = troopDAO.getTroop_byPath(troop.getPath());
+	System.err.println(2);	
+		Troop tmp_troop = troopDAO.getTroop_byPath(user, troop.getPath());
 		if (tmp_troop == null)
 			return;
+	System.err.println(3);	
 		tmp_troop.setCurrentTroop(null);
-		troopDAO.updateTroop(tmp_troop);
-		
+	System.err.println(4);
+		troopDAO.updateTroop(user, tmp_troop);
+	System.err.println(5);	
 	}
 
-	public void addAsset(Troop troop, String meetingUid, Asset asset)
+	public void addAsset(User user, Troop troop, String meetingUid, Asset asset)
 			throws java.lang.IllegalAccessException,
 			java.lang.IllegalStateException {
 
@@ -191,11 +196,11 @@ public class TroopUtil {
 			if (meetings.get(i).getUid().equals(meetingUid))
 				meetings.get(i).getAssets().add(asset);
 
-		troopDAO.updateTroop(troop);
+		troopDAO.updateTroop(user, troop);
 		
 	}
 
-	public void selectYearPlan(Troop troop, String yearPlanPath, String planName)
+	public void selectYearPlan(User user, Troop troop, String yearPlanPath, String planName)
 			throws java.lang.IllegalAccessException {
 
 		// permission to update
@@ -210,7 +215,7 @@ public class TroopUtil {
 		}
 
 		YearPlan oldPlan = troop.getYearPlan();
-		YearPlan newYearPlan = troopDAO.addYearPlan1(troop, yearPlanPath);
+		YearPlan newYearPlan = addYearPlan(troop, yearPlanPath);//troopDAO.addYearPlan1(troop, yearPlanPath);
 		try {
 
 			newYearPlan.setName(planName);
@@ -318,15 +323,15 @@ public class TroopUtil {
 
 		troop.getYearPlan().setAltered("false");
 		troop.getYearPlan().setName(planName);
-		troopDAO.updateTroop(troop);
+		troopDAO.updateTroop(user, troop);
 
 	}
 
-	public boolean updateTroop(Troop troop)
+	public boolean updateTroop(User user, Troop troop)
 			throws java.lang.IllegalAccessException,
 			java.lang.IllegalAccessException {
 
-		 return troopDAO.updateTroop(troop);
+		 return troopDAO.updateTroop(user, troop);
 		 
 	}
 
@@ -342,10 +347,10 @@ public class TroopUtil {
 	public YearPlan addYearPlan(Troop troop, String yearPlanPath) throws java.lang.IllegalAccessException, java.lang.IllegalAccessException {
 		YearPlan plan=null;
 		try{
-			 plan = troopDAO.addYearPlan1( troop,  yearPlanPath);
+			plan = troopDAO.addYearPlan1( troop,  yearPlanPath);
 			plan.setRefId(yearPlanPath);
 		    plan.setMeetingEvents(yearPlanUtil.getAllEventMeetings_byPath(yearPlanPath));
-
+System.err.println("MeetingNum : "+ plan.getMeetingEvents().size());
 			Comparator<MeetingE> comp = new BeanComparator("id");
 			Collections.sort(plan.getMeetingEvents(), comp);
 

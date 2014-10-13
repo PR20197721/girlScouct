@@ -128,13 +128,15 @@ public class MeetingDAOImpl implements MeetingDAO {
 			session = sessionFactory.getSession();
 
 			Mapper mapper = new AnnotationMapperImpl(classes);
-			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
-					mapper);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(MeetingE.class);
 			filter.setScope(yearPlanPath);
-			Query query = queryManager.createQuery(filter);
+			
+	 		Query query = queryManager.createQuery(filter);
 			meetings = (List<MeetingE>) ocm.getObjects(query);
+			
+	System.err.println("Allmeet: "+ meetings.size() );
 
 		} catch (Exception e) {
 			e.printStackTrace();

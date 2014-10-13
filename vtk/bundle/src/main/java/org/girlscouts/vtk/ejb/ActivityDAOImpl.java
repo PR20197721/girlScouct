@@ -31,6 +31,7 @@ import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.Troop;
+import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 
 @Component
@@ -47,16 +48,20 @@ public class ActivityDAOImpl implements ActivityDAO {
 	private UserUtil userUtil;
 
 	
-	public void createActivity(Troop user, Activity activity) throws IllegalStateException{
+	public void createActivity(User user, Troop troop, Activity activity) throws IllegalStateException, IllegalAccessException{
 		Session session=null;
 		try {
-
-			if (!userUtil.hasAccess(user, user.getCurrentTroop(),
+			if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_CREATE_ACTIVITY_ID) )
+				throw new IllegalAccessException();
+			
+			
+			if (!userUtil.hasAccess(troop, troop.getCurrentTroop(),
 					Permission.PERMISSION_CREATE_ACTIVITY_ID)) {
-				user.setErrCode("112");
-				//return;
+				troop.setErrCode("112");
 				throw new IllegalStateException();
 			}
+			
+			
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
@@ -73,7 +78,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
 
-			YearPlan plan = user.getYearPlan();
+			YearPlan plan = troop.getYearPlan();
 			List<Activity> activities = plan.getActivities();
 			if (activities == null)
 				activities = new java.util.ArrayList<Activity>();
@@ -81,9 +86,12 @@ public class ActivityDAOImpl implements ActivityDAO {
 			// add refId path
 			String refId = null;
 			try {
-				refId = getPath(activity.getRefUid());
-				if (refId != null)
-					activity.setRefUid(refId);
+				
+				if( activity.getRefUid() !=null ){ //cust activ
+					refId = getPath(user, activity.getRefUid());
+					if (refId != null)
+						activity.setRefUid(refId);
+				}
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
@@ -103,13 +111,16 @@ public class ActivityDAOImpl implements ActivityDAO {
 	}
 
 
-	public boolean isActivity(String uuid) {
+	public boolean isActivity(User user, String uuid) throws IllegalAccessException {
 
-		Session session =null;
+		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_YEARPLAN_ID) )
+			throw new IllegalAccessException();
 		
+		Session session =null;
 		javax.jcr.Node node = null;
 		try {
 			session= sessionFactory.getSession();
+		System.err.println( "UUId: "+ uuid);	
 			node = session.getNodeByIdentifier(uuid);
 
 		} catch (Exception e) {
@@ -127,11 +138,14 @@ public class ActivityDAOImpl implements ActivityDAO {
 		return false;
 	}
 
-	public void updateActivitiesCancel(String uuid) {
+	public void updateActivitiesCancel(User user, String uuid)throws IllegalAccessException {
 
 		if (uuid == null)
 			return;
 
+		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_EDIT_ACTIVITY_ID) )
+			throw new IllegalAccessException();
+		
 		Session session=null;
 		try {
 			session = sessionFactory.getSession();
@@ -177,14 +191,19 @@ public class ActivityDAOImpl implements ActivityDAO {
 		}
 
 	}
-	private String getPath(String uuid) {
+	private String getPath(User user, String uuid) throws IllegalStateException{
 
+		if( uuid ==null ) return null;
+		
 		String path = null;
 		javax.jcr.Node node = null;
 		Session session =null;
 		try {
+			
 			session = sessionFactory.getSession();
+		
 			node = session.getNodeByIdentifier(uuid);
+			
 			if (node != null)
 				path = node.getPath().replace("/jcr:content", "");
 		} catch (Exception e) {
@@ -199,8 +218,11 @@ public class ActivityDAOImpl implements ActivityDAO {
 		return path;
 	}
 
-	public boolean isActivityByPath(String path) {
+	public boolean isActivityByPath(User user, String path) throws IllegalAccessException{
 
+		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_ACTIVITY_ID) )
+			throw new IllegalAccessException();
+		
 		Session session = null;
 		boolean isActivity = true;
 		try {
@@ -240,7 +262,11 @@ public class ActivityDAOImpl implements ActivityDAO {
 		return isActivity;
 	}
 
-	public Activity findActivity(String path) {
+	public Activity findActivity(User user, String path)throws IllegalAccessException {
+		
+		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_SEARCH_ACTIVITY_ID) )
+			throw new IllegalAccessException();
+		
 		Activity activity = null;
 		Session session =null;
 		try {

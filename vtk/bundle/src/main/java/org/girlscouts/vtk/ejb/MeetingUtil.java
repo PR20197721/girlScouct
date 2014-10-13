@@ -30,6 +30,7 @@ import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.Troop;
+import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
 
@@ -219,7 +220,7 @@ public class MeetingUtil {
 	
 	
 	
-	public void changeMeetingPositions(Troop troop, String newPositions)throws IllegalAccessException{
+	public void changeMeetingPositions(User user, Troop troop, String newPositions)throws IllegalAccessException{
 		
 		if( !userUtil.hasAccess(troop, troop.getCurrentTroop(), Permission.PERMISSION_MOVE_MEETING_ID ) ){
 			 troop.setErrCode("112");
@@ -249,17 +250,17 @@ public class MeetingUtil {
 		plan.setAltered("true");
 		troop.setYearPlan(plan);
 		
-		troopUtil.updateTroop(troop);
+		troopUtil.updateTroop(user, troop);
 		
 		
 	}
 	
 	
-	public void createCustomAgenda(Troop user, String name, String meetingPath, int duration, long _startTime, String txt )throws IllegalAccessException{
+	public void createCustomAgenda(User user, Troop troop, String name, String meetingPath, int duration, long _startTime, String txt )throws IllegalAccessException{
 		
 		
-		if( !userUtil.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_CREATE_MEETING_ID ) ){
-			 user.setErrCode("112");
+		if( !userUtil.hasAccess(troop, troop.getCurrentTroop(), Permission.PERMISSION_CREATE_MEETING_ID ) ){
+			 troop.setErrCode("112");
 			 throw new IllegalAccessException();
 		 }
 		
@@ -267,25 +268,25 @@ public class MeetingUtil {
 		startTime.setTimeInMillis(  _startTime  );
 		
 			
-		java.util.List <MeetingE> meetings = user.getYearPlan().getMeetingEvents();
+		java.util.List <MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
 		for(int i=0;i<meetings.size();i++){
 			MeetingE m= meetings.get(i);
 			if( m.getPath().equals(meetingPath)){
 				
 				Meeting meeting =null;
 				if( m.getRefId().contains("_") )
-				 meeting =meetingDAO.updateCustomMeeting(user, m, null);
+				 meeting =meetingDAO.updateCustomMeeting(troop, m, null);
 				else
-				 meeting =meetingDAO.createCustomMeeting(user, m);
+				 meeting =meetingDAO.createCustomMeeting(troop, m);
 				
 				Activity activity= new Activity();
 				activity.setName(name);
 				activity.setDuration(duration);
 				activity.setActivityDescription(txt);
 			
-				meetingDAO.addActivity(user, meeting,  activity);
+				meetingDAO.addActivity(troop, meeting,  activity);
 				
-				Cal cal = user.getYearPlan().getSchedule();
+				Cal cal = troop.getYearPlan().getSchedule();
 				if( cal!=null )
 					cal.addDate( startTime.getTime() );
 				
@@ -293,41 +294,42 @@ public class MeetingUtil {
 				
 			}
 		}
-		user.getYearPlan().setAltered("true");
-		troopUtil.updateTroop(user);
+		troop.getYearPlan().setAltered("true");
+		troopUtil.updateTroop(user, troop);
 	}
 	
-	public void rmCustomActivity (Troop user, String activityPath ) throws java.lang.IllegalAccessException{
+	public void rmCustomActivity (User user, Troop troop, String activityPath ) throws java.lang.IllegalAccessException{
 		
-		if( ! userUtil.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_REMOVE_MEETING_ID ) ){
-			 user.setErrCode("112");
-			 //return;
+		if( ! userUtil.hasAccess(troop, troop.getCurrentTroop(), Permission.PERMISSION_REMOVE_MEETING_ID ) ){
+			 troop.setErrCode("112");
 			 throw new IllegalAccessException();
 		 }
 		
-		java.util.List <Activity> activities = user.getYearPlan().getActivities();
+		java.util.List <Activity> activities = troop.getYearPlan().getActivities();
 		for(int i=0;i<activities.size();i++){
 			
 			Activity activity= activities.get(i);
+	System.err.println(activityPath +" : "+ ( activity==null));
+	System.err.println( "___ "+activity.getPath() );
 			if( activity.getPath().equals(activityPath) )
 				activities.remove(activity);
 			
 		}
 		
-		troopUtil.updateTroop(user);
+		troopUtil.updateTroop(user, troop);
 		
 	}
 	
-	public    void swapMeetings(Troop user, String fromPath, String toPath) throws java.lang.IllegalAccessException{
+	public    void swapMeetings(User user, Troop troop, String fromPath, String toPath) throws java.lang.IllegalAccessException{
 		
-		if( ! userUtil.hasAccess(user, user.getCurrentTroop()  ,Permission.PERMISSION_REPLACE_MEETING_ID)){
-			 user.setErrCode("112");
+		if( ! userUtil.hasAccess(troop, troop.getCurrentTroop()  ,Permission.PERMISSION_REPLACE_MEETING_ID)){
+			 troop.setErrCode("112");
 			 throw new IllegalAccessException();
 		 }
 		
 		
 		
-		java.util.List<MeetingE> meetings = user.getYearPlan().getMeetingEvents();
+		java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
 		for(int i=0;i<meetings.size();i++){
 			
 			MeetingE meeting = meetings.get(i);
@@ -340,15 +342,15 @@ public class MeetingUtil {
 			}
 		}
 		
-		user.getYearPlan().setAltered("true");
-		troopUtil.updateTroop(user);
+		troop.getYearPlan().setAltered("true");
+		troopUtil.updateTroop(user, troop);
 	}
 
-	public void rearrangeActivity(Troop user, String meetingPath, String _newPoss)throws java.lang.IllegalAccessException{
+	public void rearrangeActivity(User user, Troop troop, String meetingPath, String _newPoss)throws java.lang.IllegalAccessException{
 		
 		
-		if( ! userUtil.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_MOVE_MEETING_ID ) ){
-			 user.setErrCode("112");
+		if( ! userUtil.hasAccess(troop, troop.getCurrentTroop(), Permission.PERMISSION_MOVE_MEETING_ID ) ){
+			 troop.setErrCode("112");
 			 throw new IllegalAccessException();
 		 }
 		
@@ -373,21 +375,20 @@ public class MeetingUtil {
 			activity.setActivityNumber(newpos+1);
 			newActivity.set(newpos,  activity);
 			
-			//System.err.println( );
 		}
 		
 		//save activities to meeting
 		meetingInfo.setActivities(newActivity);
 		
 		//create custom meeting
-		MeetingE meetingE= getMeeting(user.getYearPlan().getMeetingEvents(), meetingPath);
+		MeetingE meetingE= getMeeting(troop.getYearPlan().getMeetingEvents(), meetingPath);
 		if(meetingE.getRefId().contains("_"))
-			meetingDAO.updateCustomMeeting(user, meetingE, meetingInfo);
+			meetingDAO.updateCustomMeeting(troop, meetingE, meetingInfo);
 		else
-			meetingDAO.createCustomMeeting(user, meetingE, meetingInfo);
+			meetingDAO.createCustomMeeting(troop, meetingE, meetingInfo);
 		
-		user.getYearPlan().setAltered("true");
-		troopUtil.updateTroop(user);
+		troop.getYearPlan().setAltered("true");
+		troopUtil.updateTroop(user, troop);
 	}
 	
 	
@@ -402,10 +403,10 @@ public class MeetingUtil {
 		return null;
 	}
 	
-	public void addMeetings(Troop user, String newMeetingPath) throws java.lang.IllegalAccessException{
+	public void addMeetings(User user, Troop troop, String newMeetingPath) throws java.lang.IllegalAccessException{
 		
-		if( !userUtil.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_CREATE_MEETING_ID ) ){
-			 user.setErrCode("112");
+		if( !userUtil.hasAccess(troop, troop.getCurrentTroop(), Permission.PERMISSION_CREATE_MEETING_ID ) ){
+			 troop.setErrCode("112");
 			 throw new IllegalAccessException();
 		 }
 		
@@ -413,22 +414,18 @@ public class MeetingUtil {
 		meeting.setRefId(newMeetingPath);
 		
 		int maxMeetEId=0;
-		for(int i=0;i<user.getYearPlan().getMeetingEvents().size();i++)
-			if( maxMeetEId< user.getYearPlan().getMeetingEvents().get(i).getId() )
-				maxMeetEId= user.getYearPlan().getMeetingEvents().get(i).getId();
+		for(int i=0;i<troop.getYearPlan().getMeetingEvents().size();i++)
+			if( maxMeetEId< troop.getYearPlan().getMeetingEvents().get(i).getId() )
+				maxMeetEId= troop.getYearPlan().getMeetingEvents().get(i).getId();
 		meeting.setId( maxMeetEId+1);
 		
 		
 		
-		user.getYearPlan().getMeetingEvents().add(meeting);
+		troop.getYearPlan().getMeetingEvents().add(meeting);
 		
-		if( user.getYearPlan().getSchedule()!=null ){
+		if( troop.getYearPlan().getSchedule()!=null ){
 			
-			StringTokenizer t= new StringTokenizer( user.getYearPlan().getSchedule().getDates(), ",");
-			//Date first = new Date( Integer.parseInt(t.nextToken()));
-			//Date second = new Date( Integer.parseInt(t.nextToken()));
-			//int dayDiff = Days.daysBetween(new DateTime(Long.parseLong(t.nextToken())),new DateTime(Long.parseLong(t.nextToken())) ).getDays();
-			
+			StringTokenizer t= new StringTokenizer( troop.getYearPlan().getSchedule().getDates(), ",");
 			long firstDate=Long.parseLong(t.nextToken());
 			long secondDate=Long.parseLong(t.nextToken());
 			long diff = secondDate- firstDate;
@@ -436,28 +433,28 @@ public class MeetingUtil {
 			while( t.hasMoreElements() )
 				secondDate = Long.parseLong(t.nextToken());
 			
-			user.getYearPlan().getSchedule().setDates( user.getYearPlan().getSchedule().getDates() + ""+ (secondDate+diff)+","); 
+			troop.getYearPlan().getSchedule().setDates( troop.getYearPlan().getSchedule().getDates() + ""+ (secondDate+diff)+","); 
 			
 			
 		}
-		user.getYearPlan().setAltered("true");
-		troopUtil.updateTroop(user);
+		troop.getYearPlan().setAltered("true");
+		troopUtil.updateTroop(user, troop);
 	
 	}
 	
 	
-	public void rmAgenda(Troop user, String agendaPathToRm , String fromMeetingPath  )throws java.lang.IllegalAccessException{
+	public void rmAgenda(User user, Troop troop, String agendaPathToRm , String fromMeetingPath  )throws java.lang.IllegalAccessException{
 		
-		if( ! userUtil.hasAccess(user, user.getCurrentTroop() , Permission.PERMISSION_REMOVE_MEETING_ID) ){
-			 user.setErrCode("112");
+		if( ! userUtil.hasAccess(troop, troop.getCurrentTroop() , Permission.PERMISSION_REMOVE_MEETING_ID) ){
+			 troop.setErrCode("112");
 			 throw new IllegalAccessException();
 		 }
 		
-		for(int i=0;i< user.getYearPlan().getMeetingEvents().size();i++){
+		for(int i=0;i< troop.getYearPlan().getMeetingEvents().size();i++){
 			
-			if( user.getYearPlan().getMeetingEvents().get(i).getPath().equals( fromMeetingPath)){
+			if( troop.getYearPlan().getMeetingEvents().get(i).getPath().equals( fromMeetingPath)){
 				
-				MeetingE meeting = user.getYearPlan().getMeetingEvents().get(i);
+				MeetingE meeting = troop.getYearPlan().getMeetingEvents().get(i);
 				Meeting meetingInfo = meetingDAO.getMeeting(  meeting.getRefId() );
 				List<Activity> activities = meetingInfo.getActivities();
 				for(int y=0;y<activities.size();y++){
@@ -465,8 +462,8 @@ public class MeetingUtil {
 					if( activities.get(y).getPath().equals( agendaPathToRm ) ){
 						
 						activities.remove(y);
-						meetingDAO.createCustomMeeting(user, meeting, meetingInfo);
-						troopUtil.updateTroop(user);
+						meetingDAO.createCustomMeeting(troop, meeting, meetingInfo);
+						troopUtil.updateTroop(user, troop);
 						return;
 					}
 						
@@ -477,20 +474,20 @@ public class MeetingUtil {
 		}
 	}
 	
-	public void editAgendaDuration(Troop user, int duration, String activityPath, String meetingPath)throws java.lang.IllegalAccessException{
+	public void editAgendaDuration(User user, Troop troop, int duration, String activityPath, String meetingPath)throws java.lang.IllegalAccessException{
 	
 		
-		if( ! userUtil.hasAccess(user, user.getCurrentTroop() , Permission.PERMISSION_EDIT_MEETING_ID) ){
-			 user.setErrCode("112");
+		if( ! userUtil.hasAccess(troop, troop.getCurrentTroop() , Permission.PERMISSION_EDIT_MEETING_ID) ){
+			 troop.setErrCode("112");
 			 throw new IllegalAccessException();
 		 }
 		
 		
-        for(int i=0;i< user.getYearPlan().getMeetingEvents().size();i++){
+        for(int i=0;i< troop.getYearPlan().getMeetingEvents().size();i++){
 			
-			if( user.getYearPlan().getMeetingEvents().get(i).getPath().equals( meetingPath)){
+			if( troop.getYearPlan().getMeetingEvents().get(i).getPath().equals( meetingPath)){
 				
-				MeetingE meeting = user.getYearPlan().getMeetingEvents().get(i);
+				MeetingE meeting = troop.getYearPlan().getMeetingEvents().get(i);
 				Meeting meetingInfo = meetingDAO.getMeeting(  meeting.getRefId() );
 				List<Activity> activities = meetingInfo.getActivities();
 				for(int y=0;y<activities.size();y++){
@@ -499,9 +496,9 @@ public class MeetingUtil {
 						
 						Activity activity = activities.get(y);
 						activity.setDuration(duration);
-						meetingDAO.createCustomMeeting(user, meeting, meetingInfo);
-						user.getYearPlan().setAltered("true");
-						troopUtil.updateTroop(user);
+						meetingDAO.createCustomMeeting(troop, meeting, meetingInfo);
+						troop.getYearPlan().setAltered("true");
+						troopUtil.updateTroop(user, troop);
 						return;
 						
 					}
@@ -516,20 +513,18 @@ public class MeetingUtil {
 	
 
 	
-	public  void reverAgenda(Troop user, String meetingPath) throws java.lang.IllegalAccessException{
+	public  void reverAgenda(User user, Troop troop, String meetingPath) throws java.lang.IllegalAccessException{
 		 
-		
-		if( ! userUtil.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_REPLACE_MEETING_ID ) ){
-			 user.setErrCode("112");
-			// return;
+		if( ! userUtil.hasAccess(troop, troop.getCurrentTroop(), Permission.PERMISSION_REPLACE_MEETING_ID ) ){
+			 troop.setErrCode("112");
 			 throw new IllegalAccessException();
 		 }
 		
 		
 		 MeetingE meeting= null;
-		 for(int i=0;i<user.getYearPlan().getMeetingEvents().size();i++)
-			 if( user.getYearPlan().getMeetingEvents().get(i).getPath().equals(meetingPath))
-				  meeting =user.getYearPlan().getMeetingEvents().get(i);
+		 for(int i=0;i<troop.getYearPlan().getMeetingEvents().size();i++)
+			 if( troop.getYearPlan().getMeetingEvents().get(i).getPath().equals(meetingPath))
+				  meeting =troop.getYearPlan().getMeetingEvents().get(i);
 		 
 		 String[] split = meeting.getRefId().split("/");
 		 
@@ -537,13 +532,9 @@ public class MeetingUtil {
 		 String file= split[ ( split.length -1 )];
 		 
 		 file= file.substring(0, file.indexOf("_"));
-		// file= file.substring(0, file.indexOf("-"));
-		 System.err.println("REvert agenda: "+ file);
-		 
-		 //080514 gradeLvel browen  ** java.util.List< Meeting> __meetings=  meetingDAO.search();
 		
 		 
-		 String ageLevel=  user.getTroop().getGradeLevel();
+		 String ageLevel=  troop.getTroop().getGradeLevel();
 		 try{
 			 ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1).toLowerCase().trim();
 		 }catch(Exception e){e.printStackTrace();}
@@ -555,25 +546,23 @@ public class MeetingUtil {
 				System.err.println("*** "+ __meeting.getPath() );
 				
 				if( __meeting.getPath().endsWith(file) ){
-						swapMeetings(user, meetingPath, __meeting.getPath());
+						swapMeetings(user, troop, meetingPath, __meeting.getPath());
 						return;
 				}
 		 }
-		 
-		 
 		
 	}
 	
 	
-	public void addAids(Troop user, String aidId, String meetingId, String assetName)throws java.lang.IllegalAccessException{
+	public void addAids(User user, Troop troop, String aidId, String meetingId, String assetName)throws java.lang.IllegalAccessException{
 		
-		if( ! userUtil.hasAccess(user, user.getCurrentTroop() , Permission.PERMISSION_CREATE_MEETING_ID) ){
-			 user.setErrCode("112");
+		if( ! userUtil.hasAccess(troop, troop.getCurrentTroop() , Permission.PERMISSION_CREATE_MEETING_ID) ){
+			 troop.setErrCode("112");
 			 //return;
 			 throw new IllegalAccessException();
 		 }
 		
-		java.util.List<MeetingE> meetings = user.getYearPlan().getMeetingEvents();
+		java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
 		for(int i=0;i<meetings.size();i++){
 			MeetingE meeting = meetings.get(i);
 			if( meeting.getUid().equals( meetingId)){
@@ -590,10 +579,6 @@ public class MeetingUtil {
 				java.util.List<Asset> assets= meeting.getAssets();
 				assets= assets ==null ? new java.util.ArrayList() : assets;
 				
-				
-				
-				
-				
 				boolean isAsset= false;
 				for(int y=0;y<assets.size();y++)
 					if( assets.get(y).getRefId().equals( aidId ))
@@ -609,8 +594,8 @@ public class MeetingUtil {
 				
 				assets.add( asset );
 				meeting.setAssets( assets );
-				//user.getYearPlan().setAltered("true");
-				troopUtil.updateTroop(user);
+				//troop.getYearPlan().setAltered("true");
+				troopUtil.updateTroop(user, troop);
 				return;
 			}
 		}
@@ -618,7 +603,7 @@ public class MeetingUtil {
 		
 		
 		
-		java.util.List<Activity> activities = user.getYearPlan().getActivities();
+		java.util.List<Activity> activities = troop.getYearPlan().getActivities();
 		for(int i=0;i<activities.size();i++){
 			Activity activity = activities.get(i);
 			if( activity.getUid().equals( meetingId)){
@@ -632,8 +617,8 @@ public class MeetingUtil {
 				assets= assets ==null ? new java.util.ArrayList() : assets;
 				assets.add( asset );
 				activity.setAssets( assets );
-				user.getYearPlan().setAltered("true");
-				troopUtil.updateTroop(user);
+				troop.getYearPlan().setAltered("true");
+				troopUtil.updateTroop(user, troop);
 				return;
 			}
 		}
@@ -642,15 +627,15 @@ public class MeetingUtil {
 	
 	
 	
-	public void addResource(Troop user, String aidId, String meetingId, String assetName)throws java.lang.IllegalAccessException{
+	public void addResource(User user, Troop troop, String aidId, String meetingId, String assetName)throws java.lang.IllegalAccessException{
 		
-		if( ! userUtil.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_CREATE_MEETING_ID ) ){
-			 user.setErrCode("112");
+		if( ! userUtil.hasAccess(troop, troop.getCurrentTroop(), Permission.PERMISSION_CREATE_MEETING_ID ) ){
+			 troop.setErrCode("112");
 			 //return;
 			 throw new IllegalAccessException();
 		 }
 		
-		java.util.List<MeetingE> meetings = user.getYearPlan().getMeetingEvents();
+		java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
 		for(int i=0;i<meetings.size();i++){
 			MeetingE meeting = meetings.get(i);
 			if( meeting.getUid().equals( meetingId)){
@@ -685,8 +670,8 @@ public class MeetingUtil {
 				
 				assets.add( asset );
 				meeting.setAssets( assets );
-				//user.getYearPlan().setAltered("true");
-				troopUtil.updateTroop(user);
+				//troop.getYearPlan().setAltered("true");
+				troopUtil.updateTroop(user, troop);
 				return;
 			}
 		}
@@ -694,7 +679,7 @@ public class MeetingUtil {
 		
 		
 		
-		java.util.List<Activity> activities = user.getYearPlan().getActivities();
+		java.util.List<Activity> activities = troop.getYearPlan().getActivities();
 		for(int i=0;i<activities.size();i++){
 			Activity activity = activities.get(i);
 			if( activity.getUid().equals( meetingId)){
@@ -708,24 +693,24 @@ public class MeetingUtil {
 				assets= assets ==null ? new java.util.ArrayList() : assets;
 				assets.add( asset );
 				activity.setAssets( assets );
-				//user.getYearPlan().setAltered("true");
-				troopUtil.updateTroop(user);
+				//troop.getYearPlan().setAltered("true");
+				troopUtil.updateTroop(user, troop);
 				return;
 			}
 		}
 		
 	}
 	
-	public void rmAsset(Troop user, String aidId, String meetingId)throws java.lang.IllegalAccessException{
+	public void rmAsset(User user, Troop troop, String aidId, String meetingId)throws java.lang.IllegalAccessException{
 		
-		if( ! userUtil.hasAccess(user, user.getCurrentTroop(), Permission.PERMISSION_REMOVE_MEETING_ID ) ){
-			 user.setErrCode("112");
+		if( ! userUtil.hasAccess(troop, troop.getCurrentTroop(), Permission.PERMISSION_REMOVE_MEETING_ID ) ){
+			 troop.setErrCode("112");
 			 //return;
 			 throw new IllegalAccessException();
 		 }
 		
 		
-		java.util.List<MeetingE> meetings = user.getYearPlan().getMeetingEvents();
+		java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
 		for(int i=0;i<meetings.size();i++){
 			MeetingE meeting = meetings.get(i);
 			if( meeting.getUid().equals( meetingId)){
@@ -737,15 +722,15 @@ public class MeetingUtil {
 						assets.remove(y);
 					}
 				}
-				//user.getYearPlan().setAltered("true");
-				troopUtil.updateTroop(user);
+				//troop.getYearPlan().setAltered("true");
+				troopUtil.updateTroop(user, troop);
 				return;
 			}
 		}
 		
 		
 		
-		java.util.List<Activity> activities = user.getYearPlan().getActivities();
+		java.util.List<Activity> activities = troop.getYearPlan().getActivities();
 		for(int i=0;i<activities.size();i++){
 			Activity activity = activities.get(i);
 			if( activity.getUid().equals( meetingId)){
@@ -760,8 +745,8 @@ public class MeetingUtil {
 					}
 				}
 				
-				//user.getYearPlan().setAltered("true");
-				troopUtil.updateTroop(user);
+				//troop.getYearPlan().setAltered("true");
+				troopUtil.updateTroop(user, troop);
 				return;
 			}
 		}

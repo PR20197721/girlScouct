@@ -18,6 +18,7 @@ import org.apache.jackrabbit.ocm.mapper.Mapper;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
 import org.apache.jackrabbit.ocm.query.Filter;
 import org.apache.jackrabbit.ocm.query.QueryManager;
+import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.CouncilDAO;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Asset;
@@ -28,6 +29,7 @@ import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.Troop;
+import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 
 @Component
@@ -36,14 +38,21 @@ public class CouncilDAOImpl implements CouncilDAO {
 
 	@Reference
 	private SessionFactory sessionFactory;
-
+	
+	@Reference
+	private UserUtil userUtil;
+	
 	@Activate
 	void activate() {}
 
-	public Council findCouncil(String councilId) {
+	public Council findCouncil(User user, String councilId) throws IllegalAccessException{
 		Council council = null;
 		Session session =null;
 		try {
+			
+			if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_LOGIN_ID) )
+				throw new IllegalAccessException();
+			
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Council.class);
@@ -77,7 +86,12 @@ public class CouncilDAOImpl implements CouncilDAO {
 		return council;
 	}
 
-	public Council createCouncil(String councilId) {
+	public Council createCouncil(User user, String councilId) throws IllegalAccessException {
+		
+		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_LOGIN_ID) )
+			throw new IllegalAccessException();
+		
+		
 		Session session =null;
 		Council council = null;
 		try {
@@ -114,17 +128,24 @@ public class CouncilDAOImpl implements CouncilDAO {
 
 	}
 	
-	public Council getOrCreateCouncil(String councilId){
+	public Council getOrCreateCouncil(User user, String councilId) throws IllegalAccessException{
 		
+		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_LOGIN_ID) )
+			throw new IllegalAccessException();
 		
-		Council council = findCouncil(councilId);		
+		Council council = findCouncil(user, councilId);		
 		if (council == null)
-			council = createCouncil(councilId);
+			council = createCouncil(user, councilId);
 		
 		return council;
 	}
 	
-	public void updateCouncil(Council council){
+	public void updateCouncil(User user, Council council) throws IllegalAccessException{
+		
+		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_LOGIN_ID) )
+			throw new IllegalAccessException();
+		
+		
 		Session session = null;
 		try {
 			session =sessionFactory.getSession();

@@ -271,7 +271,7 @@ function rmCustActivity(x){
 		if ( status != "error" ) {
 			location.reload();
 		}else{
-			alert("Sorry.  Unable to to remove activity: " + status);
+			alert("Sorry.  Unable to remove activity: " + status);
 		}
 	});
 }
