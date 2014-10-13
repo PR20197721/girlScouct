@@ -163,7 +163,7 @@ try {
 	    if (categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_AIDS)) {
 		  
 		    	
-		   java.util.List<org.girlscouts.vtk.models.Asset> gresources = yearPlanUtil.getAllResources(MEETING_AID_PATH+"/"); 
+		   java.util.List<org.girlscouts.vtk.models.Asset> gresources = yearPlanUtil.getAllResources(user,MEETING_AID_PATH+"/"); 
 		 
 		    %><table width="90%" align="center" class="browseMeetingAids"><tr><th colspan="3">Meeting Aids</th></tr><% 
 		    for(int i=0;i<gresources.size();i++){
@@ -193,7 +193,7 @@ try {
 		   }
 		    %></table><%
 	    } else if (categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_OVERVIEWS)) {
-		    %><%= displayMeetingOverviews(troop, resourceResolver, yearPlanUtil)%><%
+		    %><%= displayMeetingOverviews(user, troop, resourceResolver, yearPlanUtil)%><%
 	    } else {
 		    %><div><%= categoryPage.getTitle() %></div><%
 		    %><ul><% 
@@ -270,7 +270,7 @@ try {
 	    return levelMeetingsRootPath;
 	}
 	
-	private String displayMeetingOverviews(Troop troop, ResourceResolver rr, YearPlanUtil yearPlanUtil) {
+	private String displayMeetingOverviews(User user, Troop troop, ResourceResolver rr, YearPlanUtil yearPlanUtil) {
 	    try {
 		    StringBuilder builder = new StringBuilder("<ul>");
 		    String levelMeetingsRootPath = getMeetingsRootPath(troop);

@@ -18,7 +18,7 @@
 
         String ageLevel=  troop.getTroop().getGradeLevel();
 	ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1).toLowerCase().trim();
-	java.util.List<Meeting> meetings =yearPlanUtil.getAllMeetings(ageLevel);
+	java.util.List<Meeting> meetings =yearPlanUtil.getAllMeetings(user, ageLevel);
 		
 	
         String find="";

@@ -371,7 +371,7 @@ System.err.println("NewTroop: "+ new_troop.getPath());
 		if(request.getParameter("endDate") !=null && !request.getParameter("endDate").equals("")) {
 			endDate = new java.util.Date(request.getParameter("endDate"));
 		}
-		java.util.List activities= yearPlanUtil.searchA1( troop,  request.getParameter("lvl"), request.getParameter("cat") ,
+		java.util.List activities= yearPlanUtil.searchA1(user, troop,  request.getParameter("lvl"), request.getParameter("cat") ,
 			request.getParameter("keywrd"),
 			startDate, endDate,
 			request.getParameter("region")
@@ -429,10 +429,10 @@ System.err.println("NewTroop: "+ new_troop.getPath());
 			
 			
 			if( !m.getRefId().contains("_") )
-			    yearPlanUtil.createCustomMeeting(troop, m, custM);
+			    yearPlanUtil.createCustomMeeting(user, troop, m, custM);
 			else{
 				
-				yearPlanUtil.updateCustomMeeting(troop, m, custM);
+				yearPlanUtil.updateCustomMeeting(user, troop, m, custM);
 				
 			}
 			

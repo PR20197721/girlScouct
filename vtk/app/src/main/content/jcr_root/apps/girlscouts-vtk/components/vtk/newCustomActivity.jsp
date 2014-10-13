@@ -286,7 +286,7 @@ border:5px solid #000;
 <div class="sectionBar">Add activity from the Council Calendar</div>
 <div class="errorMsg error"></div>
 <%
-SearchTag search = yearPlanUtil.searchA(""+troop.getTroop().getCouncilCode());
+SearchTag search = yearPlanUtil.searchA(user, ""+troop.getTroop().getCouncilCode());
 java.util.Map<String, String> levels = search.getLevels();
 java.util.Map<String, String> categories =search.getCategories();
 java.util.Map<String, String> region =search.getRegion();

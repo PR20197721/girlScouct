@@ -130,7 +130,7 @@
 			}
 		%>
 
-		<!-- a href="#" class="button linkButton" onclick="openClose('editCustActiv')">edit activity</a -->
+		
 
 		<%
 			if( activity.getIsEditable() && hasPermission(troop, Permission.PERMISSION_EDIT_ACTIVITY_ID) ){
@@ -155,38 +155,6 @@
 
 		<br />
 	</div>
-
-
-
-
-
-	<!--  
-       <div style="background-color:lightblue; display:none;">
-        	<h4>Upload File**</h4>
-        		<%String aassetId = new java.util.Date().getTime() +"_"+ Math.random();%>
-    
-   
-  
-              <form action="/vtk/<%=troop.getTroop().getCouncilCode()%>/<%=troop.getTroop().getTroopId()%>/assets/<%=aassetId%>" method="post"
-                       onsubmit="return bindAssetToYPC( '/vtk/<%=troop.getTroop().getCouncilCode()%>/<%=troop.getTroop().getTroopId()%>/assets/<%=aassetId%>/custasset', '<%=activity.getUid()%>' )"   enctype="multipart/form-data">
-                       
-               <input type="hidden" name="id" value="<%=aassetId%>"/>      
-               <input type="hidden" name="owner" value="<%=troop.getId()%>"/>
-               <input type="hidden" name="createTime" value="<%=new java.util.Date()%>"/>         
-			   <input type="file" name="custasset" size="50" />
-               <br />
-                <input type="submit" value="Upload File" />
-         </form>
-        </div>
-        -->
-
-
-
-
-
-
-
-
 </div>
 
 
@@ -241,9 +209,7 @@
 	src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.datepicker.validation.js"></script>
 <script type="text/javascript"
 	src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.validate.js"></script>
-<!--
-<link rel="stylesheet" href="/etc/designs/girlscouts-vtk/clientlibs/css/alex/screen.css">
--->
+
 
 <script>
 $(function() {
@@ -253,10 +219,6 @@ $(function() {
   
 jQuery(function($){
 	
-	
-	 	
-	    
-	    
 	$("#newCustActivity_date").inputmask("mm/dd/yyyy", {});
 	
 	$('#newCustActivity_date').datepicker({minDate: 0});
@@ -355,8 +317,7 @@ $('#newCustActivity1').click(function() {
 	
     if ($('#signupForm').valid()) {
     	if(!timeDiff()){ return false;}
-    	editNewCustActivity('<%=activity.getUid()%>
-	');
+    	editNewCustActivity('<%=activity.getUid()%>');
 		} else {
 			alert("Invalid.Fix it");
 		}
@@ -393,7 +354,10 @@ $('#newCustActivity1').click(function() {
 			return true;
 
 	}
+	
+	function test(){alert("test");}
 </script>
+
 <div id="editCustActiv" style="display: none;">
 	<form class="cmxform" id="signupForm">
 		<div class="sectionBar">Edit Custom Activity</div>
@@ -461,9 +425,12 @@ $('#newCustActivity1').click(function() {
 		<div class="row">
 			<div class="small-24 large-24 medium-24 columns centered-table">
 				<input class="button linkButton" type="button" value="Save"
-					id="newCustActivity1" onclick="saveActivity()" /> <input
+					id="newCustActivity1" onclick="saveActivity()" />
+					 <input
 					class="button linkButton" type="button" value="Cancel"
 					onclick="openClose('editCustActiv')" />
+					
+					
 			</div>
 		</div>
 	</form>

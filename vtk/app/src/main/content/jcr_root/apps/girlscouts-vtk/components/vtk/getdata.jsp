@@ -8,7 +8,7 @@
 
 	
 	
-	List<org.girlscouts.vtk.models.Search> countries = yearPlanUtil.getData(troop, query);
+	List<org.girlscouts.vtk.models.Search> countries = yearPlanUtil.getData(user,troop, query);
 	if( countries!=null && countries.size()<=0  ){
 		session.setAttribute("search", countries); 
 		return;
