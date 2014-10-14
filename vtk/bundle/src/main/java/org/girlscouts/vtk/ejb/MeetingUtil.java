@@ -298,22 +298,27 @@ public class MeetingUtil {
 		troopUtil.updateTroop(user, troop);
 	}
 	
-	public void rmCustomActivity (User user, Troop troop, String activityPath ) throws java.lang.IllegalAccessException{
-		
+	public void rmCustomActivity (User user, Troop troop, String activityPath ) throws IllegalStateException, IllegalAccessException{
+		/*
 		if( ! userUtil.hasAccess(troop, troop.getCurrentTroop(), Permission.PERMISSION_REMOVE_MEETING_ID ) ){
 			 troop.setErrCode("112");
 			 throw new IllegalAccessException();
 		 }
+		*/
+		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_REMOVE_MEETING_ID) )
+			throw new IllegalAccessException();
+		
+		if( user!=null && !userUtil.isCurrentTroopId(troop, troop.getCurrentTroop())){
+			troop.setErrCode("112");
+			throw new IllegalStateException();
+		}
+		
 		
 		java.util.List <Activity> activities = troop.getYearPlan().getActivities();
-		for(int i=0;i<activities.size();i++){
-			
+		for(int i=0;i<activities.size();i++){			
 			Activity activity= activities.get(i);
-	System.err.println(activityPath +" : "+ ( activity==null));
-	System.err.println( "___ "+activity.getPath() );
 			if( activity.getPath().equals(activityPath) )
-				activities.remove(activity);
-			
+				activities.remove(activity);			
 		}
 		
 		troopUtil.updateTroop(user, troop);

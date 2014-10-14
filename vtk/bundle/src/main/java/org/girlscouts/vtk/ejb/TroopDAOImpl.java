@@ -39,10 +39,7 @@ public class TroopDAOImpl implements TroopDAO {
 
 	@Reference
 	private SessionFactory sessionFactory;
-	
-	//@Reference
-	//private YearPlanUtil yearPlanUtil;
-	
+
 	@Reference
 	private UserUtil userUtil;
 	
@@ -203,6 +200,7 @@ public class TroopDAOImpl implements TroopDAO {
 
 	public boolean updateTroop(User user, Troop troop) throws java.lang.IllegalAccessException , java.lang.IllegalAccessException{
 		
+	System.err.println("UpdatingTroop");	
 		Session mySession =null;
 		boolean isUpdated = false;
 		try {
@@ -212,7 +210,7 @@ public class TroopDAOImpl implements TroopDAO {
 			}
 			troop.setErrCode("111");
 
-			
+	System.err.println(2);		
 			mySession = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
@@ -227,15 +225,18 @@ public class TroopDAOImpl implements TroopDAO {
 			classes.add(Council.class);
 			classes.add(org.girlscouts.vtk.models.Troop.class);
 
+	System.err.println(3);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
 					mapper);
 
+	System.err.println(4);
 			Comparator<MeetingE> comp = new BeanComparator("id");
 			Collections.sort(troop.getYearPlan().getMeetingEvents(), comp);
 
 			System.err.println((userUtil==null ) +"  :"+user.getPermissions());
-			
+
+	System.err.println(5);	
 			//permission to update
 			if( troop!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_YEARPLAN_ID) )
 				throw new IllegalAccessException();
@@ -248,7 +249,7 @@ public class TroopDAOImpl implements TroopDAO {
 								//return false;
 							}
 			}
-		
+	System.err.println(6);	
 	       if (mySession.itemExists(troop.getPath())) {
 				ocm.update(troop);
 			} else {
@@ -273,13 +274,17 @@ public class TroopDAOImpl implements TroopDAO {
 				ocm.insert(troop);
 			}
 
+	 System.err.println(7);
 			String old_errCode = troop.getErrCode();
 			java.util.Calendar old_lastModified = troop.getLastModified();
 			try {
 				troop.setErrCode(null);
 				troop.setLastModified(java.util.Calendar.getInstance());
 				ocm.update(troop);
+
+	System.err.println(8);			
 				ocm.save();
+	System.err.println(9);			
 				isUpdated = true;
 			} catch (Exception e) {
 				e.printStackTrace();

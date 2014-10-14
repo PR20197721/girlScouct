@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import net.fortuna.ical4j.model.DateTime;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.CalScale;
@@ -273,5 +275,32 @@ public class YearPlanUtil {
 			}
 		}
 		return false;
+	}
+	
+	
+	
+	public void search(User user, Troop troop, javax.servlet.http.HttpServletRequest request){
+		
+		try{
+			java.util.Date startDate = null, endDate= null;
+			if(request.getParameter("startDate") !=null && !request.getParameter("startDate").equals("")) {
+				startDate = new java.util.Date(request.getParameter("startDate"));
+			}
+			if(request.getParameter("endDate") !=null && !request.getParameter("endDate").equals("")) {
+				endDate = new java.util.Date(request.getParameter("endDate"));
+			}
+			java.util.List activities= searchA1(user, troop,  request.getParameter("lvl"), request.getParameter("cat") ,
+				request.getParameter("keywrd"),
+				startDate, endDate,
+				request.getParameter("region")
+			);
+			
+			
+			 HttpSession session = request.getSession();
+			 session.putValue("vtk_search_activity", activities);
+			
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 }//edn class

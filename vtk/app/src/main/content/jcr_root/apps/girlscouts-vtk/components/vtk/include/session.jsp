@@ -25,6 +25,7 @@
 			.getCurrencyInstance();
 	java.text.DecimalFormat FORMAT_COST_CENTS = new java.text.DecimalFormat(
 			"#0.00");
+	java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat("MM/dd/yyyy hh:mm a");
 
 	public boolean hasPermission(Troop troop, int permissionId) {
 		java.util.Set<Integer> myPermissionTokens = troop.getTroop()
@@ -36,24 +37,8 @@
 		return false;
 	}
 	
-	double convertObjectToDouble(Object o) {
-		Double parsedDouble = 0.00d;
-		if (o != null) {
-			try{
-				String preParsedCost = ((String) o).replaceAll(",", "").replaceAll(" ", "");
-				parsedDouble = Double.parseDouble(preParsedCost);
-			} catch (NumberFormatException npe) {
-				// do nothing -- leave cost at 0.00
-			} catch (ClassCastException cce) {
-				// doo nothing -- leave cost at 0.00
-			}catch(Exception e){
-				// print error
-				e.printStackTrace();
-			}
-		}
-		return parsedDouble;
-	}
-	java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat("MM/dd/yyyy hh:mm a");
+	
+	
 	%>
 <%
 

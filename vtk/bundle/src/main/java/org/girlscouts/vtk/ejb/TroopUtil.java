@@ -1,5 +1,6 @@
 package org.girlscouts.vtk.ejb;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -466,6 +467,31 @@ public class TroopUtil {
 			}
 			
 		}
+		return vtkErr;
+	}
+	
+	
+	public String editCustActivity(User user, Troop troop, javax.servlet.http.HttpServletRequest request) throws IllegalAccessException, ParseException{
+		java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat("MM/dd/yyyy hh:mm a");
+		String vtkErr="";
+		java.util.List<Activity> activities= troop.getYearPlan().getActivities();
+		Activity activity= null; 
+		for(int i=0;i<activities.size();i++)
+			if(activities.get(i).getUid().equals(request.getParameter("editCustActivity")) )
+				{activity = activities.get(i); break;}	
+	    double cost= org.girlscouts.vtk.utils.VtkUtil.convertObjectToDouble(request.getParameter("newCustActivity_cost"));
+		activity.setCost(cost);
+		activity.setContent(request.getParameter("newCustActivity_txt"));
+		activity.setDate( dateFormat4.parse(request.getParameter("newCustActivity_date") +" "+request.getParameter("newCustActivity_startTime") +" " +request.getParameter("newCustActivity_startTime_AP") ));
+		activity.setEndDate(dateFormat4.parse(request.getParameter("newCustActivity_date") +" "+request.getParameter("newCustActivity_endTime") +" "+ request.getParameter("newCustActivity_endTime_AP")));
+		activity.setName(request.getParameter("newCustActivity_name"));
+		activity.setLocationName(request.getParameter("newCustActivityLocName"));
+		activity.setLocationAddress(request.getParameter("newCustActivityLocAddr"));
+		
+		boolean isUsrUpd = updateTroop(user, troop);
+		if(!isUsrUpd)
+			vtkErr+= vtkErr.concat("Warning: You last change was not saved.");
+		
 		return vtkErr;
 	}
 }// end class
