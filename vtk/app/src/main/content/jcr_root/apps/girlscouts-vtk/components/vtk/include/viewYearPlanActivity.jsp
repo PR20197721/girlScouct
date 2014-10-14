@@ -355,7 +355,7 @@ $('#newCustActivity1').click(function() {
 
 	}
 	
-	function test(){alert("test");}
+	function closeMe(){ $('.ui-dialog-content').dialog('close'); }
 </script>
 
 <div id="editCustActiv" style="display: none;">
@@ -428,7 +428,7 @@ $('#newCustActivity1').click(function() {
 					id="newCustActivity1" onclick="saveActivity()" />
 					 <input
 					class="button linkButton" type="button" value="Cancel"
-					onclick="openClose('editCustActiv')" />
+					onclick="closeMe()" />
 					
 					
 			</div>
