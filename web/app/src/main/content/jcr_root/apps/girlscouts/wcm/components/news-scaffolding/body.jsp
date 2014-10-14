@@ -264,7 +264,8 @@
                 /****************************************
                 // Customize code to add year
                 ****************************************/
-				var dateField = frm.findField("./jcr:content/date");
+                if(!isUpdate){
+                var dateField = frm.findField("./jcr:content/date");
                 var year;
                 if (dateField.getValue()) {
                 	year = dateField.getValue().getFullYear();	
@@ -273,7 +274,7 @@
                 }
                 var destDir = '<%= contentPath %>/' + year;
                 girlscouts.functions.createPath(destDir, 'cq:Page');
-                if(!isUpdate){
+
                     frm.url = destDir + '/*';
     }
                 var action = new CQ.form.SlingSubmitAction(frm, {
