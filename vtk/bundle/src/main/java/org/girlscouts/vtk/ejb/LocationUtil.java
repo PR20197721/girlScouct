@@ -204,5 +204,19 @@ public class LocationUtil {
 
 	}
 	
-	
+	public void addLocation(User user, Troop troop,Location location) throws IllegalAccessException{
+		
+		boolean isLoc=org.girlscouts.vtk.utils.VtkUtil.isLocation(troop.getYearPlan().getLocations(), location.getName()); 
+
+		if(!isLoc) {
+			setLocation(user, troop, location);
+		}
+		if( troop.getYearPlan().getLocations().size()==1 ){
+			setLocationAllMeetings( user, troop, troop.getYearPlan().getLocations().get(0).getPath());
+		}else if( !isLoc ){
+			
+			setLocationAllEmpty(user, troop, location.getName() );
+		}
+		
+	}
 }

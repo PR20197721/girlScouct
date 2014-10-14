@@ -6,6 +6,7 @@ import org.apache.felix.scr.annotations.Service;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.YearPlanDAO;
 import org.girlscouts.vtk.models.Troop;
+import org.girlscouts.vtk.models.User;
 @Component
 @Service(value = UserUtil.class)
 public class UserUtil {
@@ -57,4 +58,6 @@ public class UserUtil {
 		return true;
 	}
 
+	
+	
 }

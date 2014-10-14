@@ -1,11 +1,7 @@
 package org.girlscouts.vtk.utils;
 
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Service;
 import org.girlscouts.vtk.models.Location;
 
-//@Component
-//@Service(value = VtkUtil.class)
 public enum VtkUtil {;
 
 	public static boolean isLocation(java.util.List<Location> locations, String locationName){

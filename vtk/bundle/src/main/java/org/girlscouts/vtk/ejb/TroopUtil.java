@@ -361,5 +361,112 @@ public class TroopUtil {
 
 	}
 
+
+	public void reLogin( User user, Troop troop, String troopId, HttpSession session ) throws IllegalAccessException{
+		
+		if(troopId==null || troopId.trim().equals("") ){
+			System.err.println("loginAs invalid.abort");
+			return;
+		}
+		
+		java.util.List<org.girlscouts.vtk.salesforce.Troop>troops = user.getApiConfig().getTroops();
+		session.setAttribute("USER_TROOP_LIST", troops);
+
+		org.girlscouts.vtk.salesforce.Troop newTroop = null;
+		for(int i=0;i<troops.size();i++) {
+			if( troops.get(i).getTroopId().equals(troopId)) {
+				newTroop= troops.get(i);
+			}
+		}
+		
+		Troop new_troop=getTroop(user, newTroop.getCouncilCode()+"", troopId );
+		
+		
+		if( new_troop==null ){
+				new_troop= createTroop(user, ""+newTroop.getCouncilCode(), troopId);
+		
+		}
+		new_troop.setTroop(newTroop );
+		new_troop.setSfTroopId( new_troop.getTroop().getTroopId() );
+		new_troop.setSfUserId( user.getApiConfig().getUserId() );
+		new_troop.setSfTroopName( new_troop.getTroop().getTroopName() );  
+		new_troop.setSfTroopAge(new_troop.getTroop().getGradeLevel());
+		new_troop.setSfCouncil(new_troop.getTroop().getCouncilCode()+"" );
+		
+		//logout multi troop
+		logout(user, troop);
+		
+		session.setAttribute("VTK_troop", new_troop);	
+		session.putValue("VTK_planView_memoPos", null);
+		new_troop.setCurrentTroop( session.getId() );
+		updateTroop(user, new_troop);
+		
+		
+	}
+	
+	
+	public String bindAssetToYPC(User user, Troop troop, 
+			String bindAssetToYPC, String _ypcId, String _assetDesc, String _assetTitle) throws IllegalAccessException{
+		
+
+		String vtkErr="";
+		String assetId = bindAssetToYPC;
+		String ypcId = _ypcId;
+		String assetDesc = java.net.URLDecoder.decode( _assetDesc);
+		String assetTitle = java.net.URLDecoder.decode( _assetTitle);
+		java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
+		for(int i=0;i<meetings.size();i++){
+			if( meetings.get(i).getUid().equals( ypcId)){
+				Asset asset = new Asset();
+				asset.setIsCachable(false);
+				asset.setRefId(assetId);
+				asset.setDescription(assetDesc);
+				asset.setTitle(assetTitle);
+				
+				java.util.List<Asset> assets = meetings.get(i).getAssets();
+				assets = assets ==null ? new java.util.ArrayList() : assets;
+				
+				assets.add(asset);
+				
+				meetings.get(i).setAssets(assets);
+				
+				boolean isUsrUpd= updateTroop(user, troop);
+				
+				if(!isUsrUpd)
+					vtkErr+= vtkErr.concat("Warning: You last change was not saved.");
+				
+				
+				return vtkErr;
+			}
+		}
+		
+		java.util.List<Activity> activities = troop.getYearPlan().getActivities();
+		if( activities!=null) {
+			for(int i=0;i<activities.size();i++){
+				if( activities.get(i).getUid().equals( ypcId)){
+					Asset asset = new Asset();
+					asset.setIsCachable(false);
+					asset.setRefId(assetId);
+					asset.setDescription(assetDesc);
+					asset.setTitle(assetTitle);
+					
+					java.util.List<Asset> assets = activities.get(i).getAssets();
+					assets = assets ==null ? new java.util.ArrayList() : assets;
+					
+					assets.add(asset);
+					
+					activities.get(i).setAssets(assets);
+					
+					boolean isUsrUpd = updateTroop(user, troop);
+					if(!isUsrUpd)
+						vtkErr+= vtkErr.concat("Warning: You last change was not saved.");
+					
+					return vtkErr;
+				}
+			}
+			
+		}
+		return vtkErr;
+	}
 }// end class
 

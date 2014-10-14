@@ -252,4 +252,26 @@ public class YearPlanUtil {
 	public Meeting createCustomMeeting(User user, Troop troop, MeetingE meetingEvent, Meeting meeting) throws IllegalAccessException{
 		return meetingDAO.createCustomMeeting( user, troop,  meetingEvent,  meeting );
 	}
-}
+	
+	public void createCustActivity(User user, Troop troop, java.util.List <org.girlscouts.vtk.models.Activity> activities, String activityId) throws IllegalAccessException{
+		
+		//java.util.List <org.girlscouts.vtk.models.Activity> activities =  (java.util.List <org.girlscouts.vtk.models.Activity>)session.getValue("vtk_search_activity");
+		for(int i=0;i<activities.size();i++){
+			if( activities.get(i).getUid().equals( activityId )){	
+				createActivity(user, troop, activities.get(i) );
+				break;
+			}
+		}
+		
+	}
+	
+	public boolean isYearPlanAltered(User user, Troop troop){
+		if( troop.getYearPlan()!=null ){
+			if( troop.getYearPlan().getAltered()!=null && troop.getYearPlan().getAltered().equals("true") ){
+			
+				return true;
+			}
+		}
+		return false;
+	}
+}//edn class
