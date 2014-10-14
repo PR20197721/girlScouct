@@ -151,10 +151,13 @@ public class LocationUtil {
   
 	public void setLocationAllEmpty(User user,  Troop troop, String locationName )throws java.lang.IllegalAccessException{
 		
-		if( !userUtil.hasAccess(troop, troop.getCurrentTroop(), Permission.PERMISSION_EDIT_MEETING_ID ) ){
-			 troop.setErrCode("112");
-			 throw new IllegalAccessException();
-		 }
+		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_EDIT_MEETING_ID) )
+			throw new IllegalAccessException();
+		
+		if( user!=null && !userUtil.isCurrentTroopId(troop, troop.getCurrentTroop())){
+			troop.setErrCode("112");
+			throw new IllegalStateException();
+		}
 		
 		YearPlan plan= troop.getYearPlan();
 		
