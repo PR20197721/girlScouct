@@ -1,4 +1,11 @@
 function rmCustActivity12(x){
+	
+	
+	 var r = confirm("You are about to delete activity!");
+	    if (r != true) {
+	      return;
+	    }
+
 	$.ajax({
 		cache: false,
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand=' + Date.now(),
