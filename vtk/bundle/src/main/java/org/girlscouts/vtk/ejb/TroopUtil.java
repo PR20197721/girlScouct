@@ -83,6 +83,8 @@ public class TroopUtil {
 				.getActivities();
 		if (activities != null)
 			for (int i = 0; i < activities.size(); i++) {
+				
+	System.err.println(i+" >>>> "+ activities.get(i).getPath() );			
 				if ((activities.get(i).getCancelled() == null || activities
 						.get(i).getCancelled().equals("false"))
 						&& !activities.get(i).getIsEditable()
@@ -92,9 +94,10 @@ public class TroopUtil {
 							.getRefUid());
 					if (a == null)
 						activities.get(i).setCancelled("true");
-					else
-						activities.set(i, a);
-
+					else{
+						// TRANSFER DATA ATTR FROM A TO  .get(i)
+						//activities.set(i, a);
+					}
 				}
 			}
 		return troop;

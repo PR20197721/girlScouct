@@ -1,7 +1,9 @@
 <!-- apps/girlscouts-vtk/components/vtk/include/viewYearPlanActivity.jsp -->
+
 <%
 	Activity activity = (Activity) _comp;
 %>
+
 <br />
 <div class="row meetingDetailHeader">
 	<div class="small-24 medium-8 large-7 columns">

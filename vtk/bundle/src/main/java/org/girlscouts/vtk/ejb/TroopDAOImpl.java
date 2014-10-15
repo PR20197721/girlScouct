@@ -296,7 +296,8 @@ public class TroopDAOImpl implements TroopDAO {
 			e.printStackTrace();
 		}finally{
 			try{
-				sessionFactory.closeSession(mySession);
+				if( mySession!=null)
+					sessionFactory.closeSession(mySession);
 			}catch(Exception es){es.printStackTrace();}
 		}
 		return isUpdated;

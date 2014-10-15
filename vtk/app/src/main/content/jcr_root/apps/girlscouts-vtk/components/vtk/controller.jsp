@@ -17,6 +17,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 }else if( request.getParameter("buildSched") !=null ){
 //	/gscontroller/vtk/crud/createSchedule POST {operation: CREATE, calFreq: 'daily', calStartDt: '9/23/14', calTime: '10:46 EST'}
 	try{
+		session.putValue("VTK_planView_memoPos", null);
 		calendarUtil.createSched(user, troop, request.getParameter("calFreq"), 
 			new org.joda.time.DateTime(dateFormat4.parse(request.getParameter("calStartDt") +" "+ request.getParameter("calTime") +
 			" "+ request.getParameter("calAP"))), request.getParameter("exclDt"));
@@ -42,7 +43,9 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 		request.getParameter("time"), request.getParameter("date"), request.getParameter("ap"), 
 		request.getParameter("isCancelledMeeting"), Long.parseLong( request.getParameter("currDt") ));
 }else if( request.getParameter("rmCustActivity") !=null ){
+System.err.println("rm cust activ..");	
 	meetingUtil.rmCustomActivity (user, troop, request.getParameter("rmCustActivity") );
+System.err.println("rm end");	
 }else if( request.getParameter("chnLocation") !=null ){
 	locationUtil.changeLocation(user, troop, request.getParameter("chnLocation"), request.getParameter("newLocPath"));
 }else if( request.getParameter("cngMeeting") !=null ){ //change Meeting

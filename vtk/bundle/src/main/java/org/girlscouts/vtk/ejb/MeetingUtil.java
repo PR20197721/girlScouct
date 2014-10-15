@@ -317,6 +317,7 @@ public class MeetingUtil {
 		java.util.List <Activity> activities = troop.getYearPlan().getActivities();
 		for(int i=0;i<activities.size();i++){			
 			Activity activity= activities.get(i);
+	System.err.println(activity.getPath() +" : "+ activityPath);		
 			if( activity.getPath().equals(activityPath) )
 				activities.remove(activity);			
 		}

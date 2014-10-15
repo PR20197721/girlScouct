@@ -33,18 +33,19 @@
 			if( request.getParameter("elem") !=null ) {
 				searchDate = new java.util.Date( Long.parseLong(  request.getParameter("elem")  ) );	
 			}else if( session.getValue("VTK_planView_memoPos") !=null ){
-			searchDate= new java.util.Date( (Long)session.getValue("VTK_planView_memoPos")  );
+				searchDate= new java.util.Date( (Long)session.getValue("VTK_planView_memoPos")  );
+			
 			} else {
 				
 				if( troop.getYearPlan().getSchedule()==null)
-			searchDate = (java.util.Date) sched.keySet().iterator().next();
+					searchDate = (java.util.Date) sched.keySet().iterator().next();
 				else{
 			
 				  java.util.Iterator itr = sched.keySet().iterator();
 				  while( itr.hasNext() ){
-			searchDate= (java.util.Date)itr.next();
-			if( searchDate.after( new java.util.Date() ) )
-				break;
+					searchDate= (java.util.Date)itr.next();
+					if( searchDate.after( new java.util.Date() ) )
+					break;
 			
 				  }
 			    }
@@ -58,18 +59,19 @@
 				nextDate = ((java.util.Date)dates.get(currInd+1)).getTime();
 			if( currInd>0 )
 				prevDate = ((java.util.Date)dates.get(currInd-1)).getTime();
-			
+	System.err.println("TEST: "+searchDate.getTime() +" : "+ searchDate );		
 			session.putValue("VTK_planView_memoPos", searchDate.getTime());
 		        YearPlanComponent _comp= sched.get(searchDate);
 
 
-		        MeetingE meeting = null;
+		    MeetingE meeting = null;
 			List<Asset> _aidTags = null;
 			Meeting meetingInfo = null;
 		%>
 		<div id="planMsg"></div>
 		<%
 			try {
+			
 			if ( _comp.getType() == YearPlanComponentType.MEETING) {
 				meeting = (MeetingE) _comp;
 				meetingInfo = yearPlanUtil.getMeeting( user, meeting.getRefId() );
