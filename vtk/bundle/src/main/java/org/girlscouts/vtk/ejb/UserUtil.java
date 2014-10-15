@@ -19,12 +19,12 @@ public class UserUtil {
 	public boolean hasPermission(java.util.Set<Integer> myPermissionTokens,
 			int permissionId) {
 		
-		System.err.println( "Checking permissions: "+ permissionId +" : "+ myPermissionTokens);
+		//System.err.println( "Checking permissions: "+ permissionId +" : "+ myPermissionTokens);
 		if (myPermissionTokens != null
 				&& myPermissionTokens.contains(permissionId))
 			return true;
 		
-		System.err.println( "No permission");
+		//System.err.println( "No permission");
 		return false;
 	}
 
@@ -35,15 +35,15 @@ public class UserUtil {
 	}
 
 	public boolean hasAccess(Troop troop, String mySessionId, int permissionId) {
-		System.err.println("HAS ACCESS?? checking perm...");
+		//System.err.println("HAS ACCESS?? checking perm...");
 		if (!hasPermission(troop, permissionId))
 			return false;
 
-		System.err.print("OK. checking lock...");
+		//System.err.print("OK. checking lock...");
 		if (!isCurrentTroopId(troop, mySessionId))
 			return false;
 
-		System.err.print("ok");
+		//System.err.print("ok");
 		return true;
 	}
 	

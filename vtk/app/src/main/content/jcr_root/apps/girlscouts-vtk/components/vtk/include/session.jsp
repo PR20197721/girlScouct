@@ -54,7 +54,7 @@
 	
 	HttpSession session = request.getSession();
 	int timeout = session.getMaxInactiveInterval();
-	
+
 	
 	response.setHeader("Refresh", timeout
 			+ "; URL = /content/girlscouts-vtk/en/vtk.logout.html");

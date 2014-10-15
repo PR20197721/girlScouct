@@ -196,10 +196,11 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 		troop.setSendingEmail(null);
 }else if( request.getParameter("testAB")!=null){
 	
-	java.util.Set<Integer> myPermissionTokens = new HashSet<Integer>();
-	troop.getTroop().setPermissionTokens(myPermissionTokens);
+	//java.util.Set<Integer> myPermissionTokens = new HashSet<Integer>();
+	//troop.getTroop().setPermissionTokens(myPermissionTokens);
 	boolean isUsrUpd= false;
 	try{
+		troop.setRetrieveTime( new java.util.Date() );
 		isUsrUpd = troopUtil.updateTroop(user, troop) ;	
 	}catch(IllegalAccessException iae){iae.printStackTrace();}
 	if(!isUsrUpd)

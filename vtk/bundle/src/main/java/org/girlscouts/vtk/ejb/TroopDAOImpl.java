@@ -283,11 +283,16 @@ public class TroopDAOImpl implements TroopDAO {
 				ocm.update(troop);
 
 	System.err.println(8);			
-				ocm.save();
-	System.err.println(9);			
+				
+					ocm.save(); 
+				
+				
+	System.err.println("TROOP UPDATED>>>>>>>>>>>>>>");			
 				isUpdated = true;
+			
 			} catch (Exception e) {
-				e.printStackTrace();
+				//e.printStackTrace();
+				System.err.println("!!!! ERROR !!!!!  TroopDAOImpl.updateTroop CAN NOT SAVE TROOP !!!! ERROR !!!!!");
 				troop.setLastModified(old_lastModified);
 				troop.setErrCode(old_errCode);
 				troop.setRefresh(true);

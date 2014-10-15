@@ -2,8 +2,10 @@ package org.girlscouts.vtk.ejb;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -120,7 +122,10 @@ public class TroopUtil {
 	}
 
 	public void autoLogin(HttpSession session) {
-		
+	
+		java.util.Set<Integer> s = new HashSet<Integer>(
+			    Arrays.asList(new Integer[] {0, 100, 200, 140, 110, 230, 10, 400, 280, 11, 130, 12, 220, 290, 250, 260, 270, 300, 210, 240, 120}));
+	
 		org.girlscouts.vtk.auth.models.ApiConfig config = new org.girlscouts.vtk.auth.models.ApiConfig();
 		config.setId("test");
 		config.setAccessToken("test");
@@ -135,7 +140,7 @@ public class TroopUtil {
 		troop.setTroopId("test_troop_id");
 		troop.setCouncilId("123");
 		troop.setTroopName("test");
-
+troop.setPermissionTokens(s);
 		troops.add(troop);
 		config.setTroops(troops);
 
@@ -143,6 +148,12 @@ public class TroopUtil {
 				org.girlscouts.vtk.auth.models.ApiConfig.class.getName(),
 				config);
 				
+		User user = new User();
+		user.setApiConfig(config);
+		user.setPermissions( s );
+		session.setAttribute(
+				org.girlscouts.vtk.models.User.class.getName(),
+				user);
 	}
 
 	public Troop createTroop(User user, String councilId, String troopId) throws IllegalAccessException {

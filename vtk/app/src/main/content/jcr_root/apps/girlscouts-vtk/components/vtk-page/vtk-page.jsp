@@ -1,7 +1,10 @@
 <%@page session="false" contentType="text/html; charset=utf-8" import="com.day.cq.commons.Doctype, com.day.cq.wcm.api.WCMMode, com.day.cq.wcm.foundation.ELEvaluator" %><%@taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0" %><cq:defineObjects/><%
 
 
+boolean isAutoLogin =true;
 HttpSession session = request.getSession();
+if( !isAutoLogin ){
+    
 	org.girlscouts.vtk.auth.models.ApiConfig apiConfig= null;
 	try{
 		apiConfig = (org.girlscouts.vtk.auth.models.ApiConfig)
@@ -16,6 +19,15 @@ HttpSession session = request.getSession();
 		response.sendRedirect("/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signin");
 		return;
 	}
+	
+}else{
+	
+	final org.girlscouts.vtk.ejb.TroopUtil troopUtil = sling.getService(org.girlscouts.vtk.ejb.TroopUtil.class);
+	troopUtil.autoLogin(session);
+}
+	
+	
+	
 
 	// read the redirect target from the 'page properties' and perform the
 	// redirect if WCM is disabled.

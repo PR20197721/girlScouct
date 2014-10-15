@@ -20,13 +20,15 @@ public class SessionFactory {
     @Reference
     private SlingRepository repository;
     public Session getSession() throws RepositoryException, LoginException {
-        Session adminSession = repository.loginAdministrative(null);
+
+    	Session adminSession = repository.loginAdministrative(null);
         Session session = adminSession.impersonate(new SimpleCredentials("vtk", new char[0]));
         adminSession.logout();
         adminSession = null;
     	return session;
     }
     public void closeSession(Session session) {
+
     	session.logout();
     }
 
