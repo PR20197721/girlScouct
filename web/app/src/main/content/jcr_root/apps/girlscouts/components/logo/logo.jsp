@@ -34,7 +34,7 @@
 	<img src="<%= regularImage %>"<%= alt %> id="logoImg" />
 <% if (!linkURL.isEmpty()) { %> </a> <% } %>
 </nav>
-<nav class="show-for-small logoSmall">
+<nav class="show-for-small logoSmall hide-for-print">
 <% if (!linkURL.isEmpty()) { %> <a href="<%= linkURL %>"> <% } %>
 	<img src="<%= smallImage %>"<%= alt %> width="<%= smallWidth %>" height="<%= smallHeight %>" />
 <% if (!linkURL.isEmpty()) { %> </a> <% } %>

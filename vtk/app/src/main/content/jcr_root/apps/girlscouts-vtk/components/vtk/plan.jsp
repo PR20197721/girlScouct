@@ -65,14 +65,14 @@ View activity:<%=meetingDAO.hasPermission(user.getTroop().getPermissionTokens(),
 		</div>
 		
 	  <%if(user.getYearPlan().getSchedule()!=null){ %>
-		  <div class="large-1 medium-1 small-2 columns calendarDownload">
+		  <div class="large-1 medium-1 small-2 columns calendarDownload hide-for-print">
 			  <div class="icons">
 			  	<!-- <a onclick="javascript:void(0)" onclick="javascript:window.print()"><img alt="Print" src="/etc/designs/girlscouts-vtk/images/calendar-download.png" width="39" height="20" border="0" class="align-right"/>*</a> -->
 					<a onclick="self.location = '/content/girlscouts-vtk/en/cal.ics'"><img alt="Calendar Download" src="/etc/designs/girlscouts-vtk/images/calendar-download.png" width="39" height="20" border="0" class="align-right"/></a>
 				</div>
 			</div>
 	  <%} %>
-		<div class="large-1 medium-1 small-2 columns calendarDownload">
+		<div class="large-1 medium-1 small-2 columns calendarDownload hide-for-print">
 			<div class="icons">
 			  <a onclick="javascript:window.print()">
 				<img alt="Print" src="/etc/designs/girlscouts-vtk/images/print.png" width="39" height="20" border="0" class="align-right"/>
