@@ -95,6 +95,11 @@ style="border: none;">
 <a href="/content/girlscouts-vtk/en/vtk.admin.councilRpt.html">
 <input type="submit" value="Report" />
 </a>
+
+<a href="/content/girlscouts-vtk/en/vtk.admin.councilRptSingleCount.html">
+<input type="submit" value="Report (single count)" />
+</a>
+
 </td>
 </tr><tr style="background-color: white;border: none;"><td>
 Council Report</td>

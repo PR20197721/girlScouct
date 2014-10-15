@@ -3,6 +3,8 @@
 <cq:defineObjects/>
 <%@include file="../include/session.jsp"%>
 <%
+final MeetingDAO meetingDAO= sling.getService( MeetingDAO.class);
+
 
 	if( request.getParameter("xyd") ==null )
 	{out.println("Cant run script.abort"); return;}
