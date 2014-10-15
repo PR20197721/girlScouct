@@ -21,6 +21,8 @@
 	<cq:include path="content/left/par/event-search" resourceType="girlscouts/components/event-search" />
 <%
     }
+
+
     Set <String> regions = new HashSet<String>();
     SearchResultsInfo srchResults = (SearchResultsInfo)request.getAttribute("eventresults");
     List<String> sresults = srchResults.getResults();
@@ -102,8 +104,10 @@ function toggleWhiteArrow() {
 <div id="events-display">
 
 
-<form action="<%=formAction%>" method="get" id="form">
+
+<form action="<%=formAction%>" method="get" id="form" onsubmit="return validateForm()">
 	<div class="baseDiv programLevel row collapse">
+		<p id ="errorBox" ></p>
 	   <div class="small-24 medium-6 large-7 columns">
 				<div class="title"> By Keyword </div>
 				<input type="text" name="q" placeholder="Keywords" class="searchField" style="width:140px;height:25px;" />
@@ -120,7 +124,7 @@ function toggleWhiteArrow() {
 			</div>	
 		</div>
 		<div class="small-11 medium-12 large-10 columns">
-			<div class="title">By Date</div>
+			<div class="title" id="dateTitle">By Date</div>
 			<div class="row event-activity collapse">
 				<div class="small-12 medium-12 large-12 columns">
 					<input type="text" name="startdtRange" id="startdtRange" class="searchField" <%if((enddtRange!=null && !enddtRange.isEmpty()) && (startdtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="From Today"/>
@@ -169,6 +173,7 @@ function toggleWhiteArrow() {
 	%>
 		</ul>
 	</div>
+
 	<div class="searchButtonRow baseDiv programLevel">
 	    	<input type="submit" value="Search" id="sub" class="form-btn advancedSearchButton"/>
 	</div>
@@ -177,13 +182,71 @@ function toggleWhiteArrow() {
 
 </form>
 <script>
+
+
 $(function() {
 
-    $( "#startdtRange" ).datepicker({minDate: 0});
+    $( "#startdtRange" ).datepicker({minDate: 0,
+beforeShowDay: function(d) {
 
-    $( "#enddtRange" ).datepicker({minDate: 0});
+
+    if($('#enddtRange').val() == "" || $('#enddtRange').val() == undefined){
+		return [true, "","Available"]; 
+    }
+
+    var dateString = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
+
+    //alert((new Date(dateString) < new Date($('#sch_endDate').val())) + " " + dateString + "<" + $('#sch_endDate').val());
+
+    if(+(new Date(dateString)) <= +(new Date($('#enddtRange').val()))){
+		return [true, "","Available"];
+    }
+
+	return [false, "","unAvailable"]; 
+
+    }
+                                    });
+
+    $( "#enddtRange" ).datepicker({minDate: 0,
+beforeShowDay: function(d) {
+
+
+    if($('#startdtRange').val() == "" || $('#startdtRange').val() == undefined){
+		return [true, "","Available"]; 
+    }
+
+    var dateString = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
+
+    //alert((new Date(dateString) < new Date($('#sch_endDate').val())) + " " + dateString + "<" + $('#sch_endDate').val());
+
+    if(+(new Date(dateString)) >= +(new Date($('#startdtRange').val()))){
+		return [true, "","Available"];
+    }
+
+	return [false, "","unAvailable"]; 
+
+    }
+                                  });
 
   });
+
+    function validateForm(){
+
+        if(new Date($('#enddtRange').val()) < new Date($('#startdtRange').val())){
+			document.getElementById("errorBox").innerHTML = "End Date cannot be before Start Date";
+			document.getElementById("dateTitle").style.color = "#FF0000";
+			document.getElementById("errorBox").scrollIntoView();
+
+            return false;
+        }else{
+            document.getElementById("errorBox").innerHTML = "";
+			return true;
+        }
+
+    };
+
+
+
 </script>
 </div>
 
