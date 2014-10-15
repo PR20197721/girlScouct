@@ -1,1 +1,1 @@
-<%@include file="resource.jsp" %>
+<%@include file="plan.jsp" %>

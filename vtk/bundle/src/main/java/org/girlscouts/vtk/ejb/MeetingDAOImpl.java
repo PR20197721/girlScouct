@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import javax.jcr.Node;
+import javax.jcr.NodeIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.Value;
@@ -1774,7 +1775,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 		try {
 			session = sessionFactory.getSession();
 			Node vtkRootNode = session.getNode("/vtk");
-			String sql = "select * from nt:unstructured where jcr:path like '/vtk/%/users/%'";
+			
+			//GOOD String sql = "select * from nt:unstructured where jcr:path like '/vtk/%/users/%'";
+			String sql = "select * from nt:unstructured where jcr:path like '/vtk/603/%/users/%'";
+			
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -1784,20 +1788,18 @@ public class MeetingDAOImpl implements MeetingDAO {
 			for (RowIterator it = result.getRows(); it.hasNext();) {
 				Row r = it.nextRow();
 				Value excerpt = r.getValue("jcr:path");
-				StringTokenizer t = new StringTokenizer(excerpt.getString(),
-						"/");
+				StringTokenizer t = new StringTokenizer(excerpt.getString(), "/");
 				String vtk = t.nextToken();
 				String council = t.nextToken();
 				String troop = t.nextToken();
 				t.nextToken();
 				String user = t.nextToken();
-				String from = "/vtk/" + council + "/" + troop + "/users/"
-						+ user;
+				String from = "/vtk/" + council + "/" + troop + "/users/" + user;
 				String to = "/vtk/" + council + "/troops/" + troop;
 				String to1 = "/vtk/" + council + "/troops";
-				Node x = JcrUtils.getOrCreateByPath(to1, "nt:unstructured",
-						session);
+				Node x = JcrUtils.getOrCreateByPath(to1, "nt:unstructured",session);
 				session.move(from, to);
+		System.err.println("Moving from: "+ from +" to: "+ to);		
 				Node newTroop = session.getNode(to);
 				newTroop.setProperty("ocm_classname",
 						"org.girlscouts.vtk.models.Troop");
@@ -1818,6 +1820,65 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 	}
 
+	
+	//rollback to user from troop . only for emergency
+	public void undoX() {
+		Session session = null;
+		try {
+			session = sessionFactory.getSession();
+			Node vtkRootNode = session.getNode("/vtk");
+			//String sql = "select * from nt:unstructured where jcr:path like '/vtk/%/troops/%'";
+			String sql = "select * from nt:unstructured where jcr:path like '/vtk/603/troops/%'";
+			javax.jcr.query.QueryManager qm = session.getWorkspace()
+					.getQueryManager();
+			javax.jcr.query.Query q = qm.createQuery(sql,
+					javax.jcr.query.Query.SQL);
+			q.setLimit(1);
+			QueryResult result = q.execute();
+			for (RowIterator it = result.getRows(); it.hasNext();) {
+				Row r = it.nextRow();
+				Value excerpt = r.getValue("jcr:path");
+				StringTokenizer t = new StringTokenizer(excerpt.getString(), "/");
+				String vtk = t.nextToken();
+				String council = t.nextToken();
+				String troop = t.nextToken();
+				t.nextToken();
+				String user = t.nextToken();
+				
+	System.err.println("TroopId: "+ troop);	
+				
+				String from = "/vtk/" + council +"/" + troop ;
+				String to =  "/vtk/" + council + "/TROOPID/users/";				
+				String to1 = "/vtk/" + council + "/TROOPID";
+				
+				Node x = JcrUtils.getOrCreateByPath(to1, "nt:unstructured",session);
+	System.err.println("Moving from: "+ from +" to: "+ to);		
+				session.move(from, to);
+			
+				Node newTroop = session.getNode(to);
+				NodeIterator childrenNodes = newTroop.getNodes();
+				Node userNode= childrenNodes.nextNode();
+				
+				userNode.setProperty("ocm_classname",
+						"org.girlscouts.vtk.models.user.User");
+				session.save();
+				if (true)
+					return;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null)
+					sessionFactory.closeSession(session);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+
+	}
+	
+	
 	
 	public String removeLocation(User user, Troop troop, String locationName) throws IllegalAccessException, IllegalStateException{
 		Session session =null;

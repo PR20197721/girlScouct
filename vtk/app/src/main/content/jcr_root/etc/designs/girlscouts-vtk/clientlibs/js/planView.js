@@ -15,10 +15,10 @@ function rmCustActivity12(x){
 			a:Date.now()
 		},
 		success: function(result) {
-
+			document.location="/content/girlscouts-vtk/en/vtk.plan.html";
 		}
 	});
-	document.location="/content/girlscouts-vtk/en/vtk.plan.html";
+	//document.location="/content/girlscouts-vtk/en/vtk.plan.html";
 }
 
 function viewMeetingLibrary(meetingPath,x){

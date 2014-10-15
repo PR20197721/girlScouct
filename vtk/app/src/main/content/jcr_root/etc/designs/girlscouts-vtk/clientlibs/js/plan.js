@@ -267,6 +267,7 @@ function buildSched(){
 }
 
 function rmCustActivity(x){
+	
 	$( "#locMsg" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?rmCustActivity="+x, function( response, status, xhr ) {
 		if ( status != "error" ) {
 			location.reload();

@@ -42,10 +42,8 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	calendarUtil.updateSched(user, troop, request.getParameter("meetingPath"), 
 		request.getParameter("time"), request.getParameter("date"), request.getParameter("ap"), 
 		request.getParameter("isCancelledMeeting"), Long.parseLong( request.getParameter("currDt") ));
-}else if( request.getParameter("rmCustActivity") !=null ){
-System.err.println("rm cust activ..");	
-	meetingUtil.rmCustomActivity (user, troop, request.getParameter("rmCustActivity") );
-System.err.println("rm end");	
+}else if( request.getParameter("rmCustActivity") !=null ){	
+	meetingUtil.rmCustomActivity (user, troop, request.getParameter("rmCustActivity") );	
 }else if( request.getParameter("chnLocation") !=null ){
 	locationUtil.changeLocation(user, troop, request.getParameter("chnLocation"), request.getParameter("newLocPath"));
 }else if( request.getParameter("cngMeeting") !=null ){ //change Meeting

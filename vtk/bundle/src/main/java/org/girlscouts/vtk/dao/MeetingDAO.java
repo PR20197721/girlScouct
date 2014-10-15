@@ -45,4 +45,5 @@ public interface MeetingDAO {
 	
 	//migrate script - 1time only
 	public void doX(); 
+	public void undoX(); 
 }
