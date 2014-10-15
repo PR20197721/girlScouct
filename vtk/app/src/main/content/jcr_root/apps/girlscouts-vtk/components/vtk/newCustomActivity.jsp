@@ -284,7 +284,7 @@ border:5px solid #000;
                 <div id="pickActivitySection">
 <form id="schFrm">
 <div class="sectionBar">Add activity from the Council Calendar</div>
-<div class="errorMsg error"></div>
+<div class="errorMsg error" id="errorMessage"></div>
 <%
 SearchTag search = meetingDAO.searchA(""+user.getTroop().getCouncilCode());
 java.util.Map<String, String> levels = search.getLevels();
@@ -355,7 +355,6 @@ i++;
 	<input type="button" value="View Activities" onclick='searchActivities()' class="button linkButton"/>
 </div>
 </form>
-
 <div id="searchResults"></div>
 </form>
                 </div>
@@ -394,8 +393,43 @@ function submitenter(myfield,e) {
 	}
 }
 
-$('#sch_startDate').datepicker({minDate: 0});
-$('#sch_endDate').datepicker({minDate: 0});
+$('#sch_startDate').datepicker({minDate: new Date(),
+beforeShowDay: function(d) {
+
+
+    if($('#sch_endDate').val() == "" || $('#sch_endDate').val() == undefined){
+		return [true, "","Available"]; 
+    }
+
+    var dateString = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
+
+
+    if(+(new Date(dateString)) <= +(new Date($('#sch_endDate').val()))){
+		return [true, "","Available"];
+    }
+
+	return [false, "","unAvailable"]; 
+
+    }});
+$('#sch_endDate').datepicker({minDate: 0, 
+                             beforeShowDay: function(d) {
+
+
+    if($('#sch_startDate').val() == "" || $('#sch_startDate').val() == undefined){
+		return [true, "","Available"]; 
+    }
+
+    var dateString = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
+
+
+
+    if(+(new Date(dateString)) >= +(new Date($('#sch_startDate').val()))){
+		return [true, "","Available"];
+    }
+
+	return [false, "","unAvailable"]; 
+
+    }});
 
 function checkAll(x) {
 	
@@ -412,7 +446,6 @@ function checkAll(x) {
 	
 	
 function searchActivities(){
-	
 	showError(null, "#pickActivitySection .errorMsg");
 	var  keywrd = $.trim(document.getElementById("sch_keyword").value);
 	if( keywrd.length>0 && keywrd.length<3  ){
@@ -430,6 +463,7 @@ function searchActivities(){
 	if( startDate != '' && endDate=='' ) {
 		var thisMsg = 'Missing end date';
                 showError(thisMsg, "#pickActivitySection .errorMsg");
+
 		return false; 
 	}
 	if( startDate =='' && endDate!='' ) {
@@ -437,10 +471,12 @@ function searchActivities(){
                 showError(thisMsg, "#pickActivitySection .errorMsg");
 		return false;
 	}
-	
-	
-	// 4 Next release if( startDate!=null && endDate!=null && (startDate > endDate ))
-	//	{alert("Start Date can not be greater then end Date");return false;}
+    if( new Date(startDate) > new Date(endDate) ) {
+		var thisMsg = 'End Date cannot be before start date';
+                showError(thisMsg, "#pickActivitySection .errorMsg");
+        document.getElementById("errorMessage").scrollIntoView();
+		return false;
+	}
 	
 	if( keywrd=='' && lvl=='' && cat =='' && startDate=='' && endDate=='' && region=='' ){
 		var thisMsg = "Please select search criteria.";
