@@ -31,7 +31,7 @@
 <% } else {
 // this shows for header large only
 %>
-<nav class="hide-for-small column">
+<nav class="hide-for-small">
 <% if (!linkURL.isEmpty()) { %> <a href="<%= linkURL %>"> <% } %>
 	<img src="<%= regularImage %>"<%= alt %> id="logoImg" width="<%= regularWidth %>" height="<%= regularHeight%>" />
 <% if (!linkURL.isEmpty()) { %> </a> <% } %>
