@@ -23,20 +23,23 @@
 <!-- Modern Browser -->
 <!--[if gt IE 8]><!-->
 <% if(noLink != null && noLink == true){
-    %>
-<nav class="show-for-small mobileFooterLogo">
-	<img src="<%= regularImage %>"<%= alt %> width="<%= regularWidth %>" height="<%= regularHeight %>" />
+// this shows for footer for mobile view only
+%>
+<nav class="small-centered columns small-5">
+	<img src="<%= smallImage %>"<%= alt %> width="<%= smallWidth %>" height="<%= smallHeight %>" />
 </nav>
 <% } else {
+// this shows for header large only
 %>
-<nav class="hide-for-small logoLarge logoLargePadding">
+<nav class="hide-for-small column">
 <% if (!linkURL.isEmpty()) { %> <a href="<%= linkURL %>"> <% } %>
-	<img src="<%= regularImage %>"<%= alt %> id="logoImg" />
+	<img src="<%= regularImage %>"<%= alt %> id="logoImg" width="<%= regularWidth %>" height="<%= regularHeight%>" />
 <% if (!linkURL.isEmpty()) { %> </a> <% } %>
 </nav>
-<nav class="show-for-small logoSmall hide-for-print">
+<!--have to repeat for centering the small screen-->
+<nav class="show-for-small small-centered column small-15">
 <% if (!linkURL.isEmpty()) { %> <a href="<%= linkURL %>"> <% } %>
-	<img src="<%= smallImage %>"<%= alt %> width="<%= smallWidth %>" height="<%= smallHeight %>" />
+	<img src="<%= regularImage %>"<%= alt %> id="logoImg" width="<%= regularWidth %>" height="<%= regularHeight%>" />
 <% if (!linkURL.isEmpty()) { %> </a> <% } %>
 </nav>
 <% } %>

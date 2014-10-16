@@ -30,7 +30,7 @@ String logoPath = currentPage.getAbsoluteParent(2).getContentResource().getPath(
 %>
 		<cq:include path="<%= footerPath + "/nav"%>" resourceType="girlscouts/components/footer-navigation"/>
 	</div> 
-	<div id="mobile-footer" class="centered-table show-for-small">
+	<div id="mobile-footer" class="row show-for-small">
 <%
 	request.setAttribute("noLink", true);
 %>

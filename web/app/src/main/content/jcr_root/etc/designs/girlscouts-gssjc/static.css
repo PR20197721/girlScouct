@@ -147,7 +147,6 @@ a:hover.menuHighlight {
     background: url('images/magnifyer-small.png') no-repeat 0px 10px; 
     background-position: right; 
 }
-
 /* HEADER BAR */
 #headerBar {
     background-color: #009447;
@@ -580,10 +579,6 @@ td.fc-header-left{
 
 .right-off-canvas-menu ul li{
   font-size:1rem;
-}
-
-.emptyrow{
- height:20px;
 }
 
 .logoLargePadding{

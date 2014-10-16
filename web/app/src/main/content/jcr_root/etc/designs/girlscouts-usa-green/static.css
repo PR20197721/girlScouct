@@ -187,6 +187,9 @@ a:hover.menuHighlight {
 /***********************************/
 
 /* HEADER */
+.header-wrapper {
+  background-color: #00ae58;
+}
 #header {
     padding: 15px 0px 0px 0px;
     background-color: #00ae58;
@@ -229,14 +232,16 @@ a:hover.menuHighlight {
     text-align: left;
     background-color: #009447;
 }
-.searchField {
-    background: url('/etc/designs/girlscouts-usa-green/images/search_green.png') no-repeat 0px 10px; 
-    background-position: right; 
+#header.small-centered {
+  text-align: center;
 }
-
+#header.large-uncentered {
+  text-align: left;
+}
 /* HEADER BAR */
 #headerBar {
-    background-color: #009447;
+ background-color: #009447;
+ margin-top:20px;
 }
 #headerBar>div{
     /*padding: 3px 10px 0px 10px;*/
@@ -772,24 +777,24 @@ td.fc-header-left{
  height:20px;
 }
 
-.logoLargePadding{
+/*.logoLargePadding{
  	padding:0px;
  	margin:0px;
  	margin-bottom:15px;
  	width:208px;
  
-}
-#logoImg{
+}*/
+/*#logoImg{
 	padding:0px;
 	margin:0px;
-}
+}*/
 	
-.logoSmall, .mobileFooterLogo {
+/*.logoSmall, .mobileFooterLogo {
 	text-align:center;
-}
-.logoLarge {
+}*/
+/*.logoLarge {
 	text-align: left;
-}
+}*/
 
 .eyebrow-fontsize>li a{
  font-size:0.875rem;
@@ -933,11 +938,15 @@ div.textimage.nowrap div.text p {
 
 /* added change for the search small menu */
 #header .topMessage.alt {
-	height: 30px;
+    height: 30px;
+    margin-top: 20px
 }
 
 #header > div.show-for-small.small-24.columns.topMessage.alt > .row.srch-box {
 	line-height: 30px;
+}
+#headerBar .srch-box.columns.search-box {
+    padding-right:0;
 }
 .srch-box form{
   margin: 5px 0 0 0;
@@ -1340,10 +1349,10 @@ ul.searchResultsList article p{
 .eventsListItem .columns {
 	padding: 20px 10px !important;
 }
-.logoContainer {
+/*.logoContainer {
 	padding-right: 0 !important;
 }
-
+*/
 .mainRightBottom {
 	margin: 0 !important;
 }
@@ -1359,9 +1368,9 @@ ul.searchResultsList article p{
 .featureSmallHeader h2 {
 	padding-left: 10px;
 }
-.eyebrow-navigation {
+/*.eyebrow-navigation {
 	padding-left: 0;
-}
+}*/
 
 #ui-datepicker-div {
 	background-color: #eeeeee;
