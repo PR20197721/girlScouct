@@ -8,6 +8,8 @@ final MeetingDAO meetingDAO= sling.getService( MeetingDAO.class);
 	if( request.getParameter("xyd") ==null )
 	{out.println("Cant run script.abort"); return;}
 
-	meetingDAO.doX();
-	//meetingDAO.undoX();
+	if(request.getParameter("xyd").equals("u2t") )
+		meetingDAO.doX();
+	else
+		meetingDAO.undoX();
 %>

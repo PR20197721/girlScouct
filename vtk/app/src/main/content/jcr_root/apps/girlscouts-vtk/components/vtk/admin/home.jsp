@@ -139,7 +139,12 @@ style="border: none;">
 </li>
 
 <hr/>Use this within rec <a href="/content/girlscouts-vtk/en/vtk.controller.html?resetCal=true">RESET CAL</a>
-<br/><a href="http://localhost:4503/content/girlscouts-vtk/en/vtk.admin.doX.html?xyd=asdf">Cast (datamodel) User to Troop</a>
+
+<div style="background-color:lightyellow;">
+<b>TEST convert data model script </b>
+<br/><a href="http://localhost:4503/content/girlscouts-vtk/en/vtk.admin.doX.html?xyd=u2t">Cast (datamodel) User to Troop</a>
+<br/><a href="http://localhost:4503/content/girlscouts-vtk/en/vtk.admin.doX.html?xyd=t2u">Cast (datamodel) Troop to User</a>
+</div>
 <div style="clear:both"></div>
 </ul></div>
 

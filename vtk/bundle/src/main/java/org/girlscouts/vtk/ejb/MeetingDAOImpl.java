@@ -1771,18 +1771,18 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 
 	public void doX() {
+System.err.println("doX");		
 		Session session = null;
 		try {
 			session = sessionFactory.getSession();
 			Node vtkRootNode = session.getNode("/vtk");
 			
 			//GOOD String sql = "select * from nt:unstructured where jcr:path like '/vtk/%/users/%'";
-			String sql = "select * from nt:unstructured where jcr:path like '/vtk/603/%/users/%'";
+			String sql = "select * from nt:unstructured where jcr:path like '/vtk/1/%/users/%'";
 			
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
-			javax.jcr.query.Query q = qm.createQuery(sql,
-					javax.jcr.query.Query.SQL);
+			javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
 			q.setLimit(1);
 			QueryResult result = q.execute();
 			for (RowIterator it = result.getRows(); it.hasNext();) {
@@ -1823,12 +1823,13 @@ public class MeetingDAOImpl implements MeetingDAO {
 	
 	//rollback to user from troop . only for emergency
 	public void undoX() {
+		System.err.println("undoX");
 		Session session = null;
 		try {
 			session = sessionFactory.getSession();
 			Node vtkRootNode = session.getNode("/vtk");
 			//String sql = "select * from nt:unstructured where jcr:path like '/vtk/%/troops/%'";
-			String sql = "select * from nt:unstructured where jcr:path like '/vtk/603/troops/%'";
+			String sql = "select * from nt:unstructured where jcr:path like '/vtk/1/troops/%'";
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
