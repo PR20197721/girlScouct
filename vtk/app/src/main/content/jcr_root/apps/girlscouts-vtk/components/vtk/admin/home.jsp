@@ -142,8 +142,8 @@ style="border: none;">
 
 <div style="background-color:lightyellow;">
 <b>TEST convert data model script </b>
-<br/><a href="http://localhost:4503/content/girlscouts-vtk/en/vtk.admin.doX.html?xyd=u2t">Cast (datamodel) User to Troop</a>
-<br/><a href="http://localhost:4503/content/girlscouts-vtk/en/vtk.admin.doX.html?xyd=t2u">Cast (datamodel) Troop to User</a>
+<br/><a href="/content/girlscouts-vtk/en/vtk.admin.doX.html?xyd=u2t">Cast (datamodel) User to Troop</a>
+<br/><a href="/content/girlscouts-vtk/en/vtk.admin.doX.html?xyd=t2u">Cast (datamodel) Troop to User</a>
 </div>
 <div style="clear:both"></div>
 </ul></div>

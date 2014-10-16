@@ -1,7 +1,7 @@
 <%@page session="false" contentType="text/html; charset=utf-8" import="com.day.cq.commons.Doctype, com.day.cq.wcm.api.WCMMode, com.day.cq.wcm.foundation.ELEvaluator" %><%@taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0" %><cq:defineObjects/><%
 
 
-boolean isAutoLogin =true;
+boolean isAutoLogin =false;
 HttpSession session = request.getSession();
 if( !isAutoLogin ){
     

@@ -1777,8 +1777,8 @@ System.err.println("doX");
 			session = sessionFactory.getSession();
 			Node vtkRootNode = session.getNode("/vtk");
 			
-			//GOOD String sql = "select * from nt:unstructured where jcr:path like '/vtk/%/users/%'";
-			String sql = "select * from nt:unstructured where jcr:path like '/vtk/1/%/users/%'";
+			//String sql = "select * from nt:unstructured where jcr:path like '/vtk/%/users/%'";
+			String sql = "select * from nt:unstructured where jcr:path like '/vtk/603/%/users/%'";
 			
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
@@ -1804,8 +1804,27 @@ System.err.println("doX");
 				newTroop.setProperty("ocm_classname",
 						"org.girlscouts.vtk.models.Troop");
 				session.save();
-				if (true)
-					return;
+				
+				
+				//****** CLEAN START
+			/*	
+				//String rmPath= "/vtk/" + council +"/test_troop_id/users/";
+				String rmPath= "/vtk/" + council +"/"+troop+"/";
+				System.err.println("Cleaning.. rm "+ rmPath);
+				Node rmNode = session.getNode(rmPath);
+				if(rmNode.getNodes().getSize()==1){
+					session.removeItem(rmPath);
+					System.err.println("rmed "+ rmPath);
+				}else{
+					System.err.println("CLEARN ERROR -- NODE NOT DELETED. "+ rmPath);
+				}
+				
+				session.save();
+				*/
+				//*************  END clean up
+				
+				
+				//if (true)return;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1829,7 +1848,7 @@ System.err.println("doX");
 			session = sessionFactory.getSession();
 			Node vtkRootNode = session.getNode("/vtk");
 			//String sql = "select * from nt:unstructured where jcr:path like '/vtk/%/troops/%'";
-			String sql = "select * from nt:unstructured where jcr:path like '/vtk/1/troops/%'";
+			String sql = "select * from nt:unstructured where jcr:path like '/vtk/603/troops/%'";
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -1849,19 +1868,20 @@ System.err.println("doX");
 				//String user = t.nextToken();
 				
 	System.err.println("TroopId: "+ troop);	
+	
 				
-				String from = "/vtk/" + council +"/" + troop ;
+	
+				String from = "/vtk/" + council +"/troops/" + troop ;
 				String to =  "/vtk/" + council + "/"+ troop +"/users/";				
 				String to1 = "/vtk/" + council + "/"+troop;
+				System.err.println("TO1 :  "+ to1);
 				
 				Node x = JcrUtils.getOrCreateByPath(to1, "nt:unstructured",session);
 	System.err.println("Moving from: "+ from +" to: "+ to);		
-				//-session.move(from, to);
+				session.move(from, to);
 			
 	
-	Node nFrom = session.getNode(from);
-	Node nTo = session.getNode( to );
-	//nFrom.a
+	
 
 				Node newTroop = session.getNode(to);
 				NodeIterator childrenNodes = newTroop.getNodes();
@@ -1870,8 +1890,24 @@ System.err.println("doX");
 				userNode.setProperty("ocm_classname",
 						"org.girlscouts.vtk.models.user.User");
 				session.save();
-				if (true)
-					return;
+				
+				
+				//*************  START clean up
+				//rm /vtk/COUNCIL_ID/troops
+			
+				String rmPath= "/vtk/" + council +"/troops/";
+				System.err.println("Cleaning.. rm "+ rmPath);
+				Node rmNode = session.getNode(rmPath);
+				if(rmNode.getNodes().getSize()==0){
+					session.removeItem(rmPath);
+					System.err.println("rmed "+ rmPath);
+				}else{
+					System.err.println("CLEARN ERROR -- NODE NOT DELETED. "+ rmPath);
+				}
+				//*************  END clean up
+				session.save();
+				
+				//if (true)return;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

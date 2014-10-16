@@ -233,3 +233,30 @@
 %>
 
 
+
+
+
+<%
+/*
+final org.apache.sling.jcr.api.SlingRepository repository = sling.getService(org.apache.sling.jcr.api.SlingRepository.class);
+Session session1 = repository.loginAdministrative(null);
+
+//final org.girlscouts.vtk.ejb.SessionFactory pool = sling.getService(org.girlscouts.vtk.ejb.SessionFactory.class);
+//Session session1  = pool.getSession();
+
+
+//-javax.transaction.UserTransaction utx = sling.getService(javax.transaction.UserTransaction.class);
+
+javax.transaction.UserTransaction utx = (javax.transaction.UserTransaction) 
+			new javax.naming.InitialContext().lookup("java:comp/UserTransaction");
+utx.begin();
+out.println("<br/>First: "+utx.getStatus());
+Node node = session1.getNode("/vtk");
+node.setProperty("d","property");
+session1.save();
+out.println("<br/>Second: "+utx.getStatus());
+utx.rollback();
+//utx.commit();
+session1.logout();
+*/
+%>
