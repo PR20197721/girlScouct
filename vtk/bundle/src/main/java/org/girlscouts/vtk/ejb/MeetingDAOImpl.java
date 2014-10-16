@@ -1842,20 +1842,27 @@ System.err.println("doX");
 				StringTokenizer t = new StringTokenizer(excerpt.getString(), "/");
 				String vtk = t.nextToken();
 				String council = t.nextToken();
-				String troop = t.nextToken();
 				t.nextToken();
-				String user = t.nextToken();
+				String troop = t.nextToken();
+				
+				//t.nextToken();
+				//String user = t.nextToken();
 				
 	System.err.println("TroopId: "+ troop);	
 				
 				String from = "/vtk/" + council +"/" + troop ;
-				String to =  "/vtk/" + council + "/TROOPID/users/";				
-				String to1 = "/vtk/" + council + "/TROOPID";
+				String to =  "/vtk/" + council + "/"+ troop +"/users/";				
+				String to1 = "/vtk/" + council + "/"+troop;
 				
 				Node x = JcrUtils.getOrCreateByPath(to1, "nt:unstructured",session);
 	System.err.println("Moving from: "+ from +" to: "+ to);		
-				session.move(from, to);
+				//-session.move(from, to);
 			
+	
+	Node nFrom = session.getNode(from);
+	Node nTo = session.getNode( to );
+	//nFrom.a
+
 				Node newTroop = session.getNode(to);
 				NodeIterator childrenNodes = newTroop.getNodes();
 				Node userNode= childrenNodes.nextNode();
