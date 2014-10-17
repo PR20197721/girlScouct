@@ -1,4 +1,6 @@
 package org.girlscouts.vtk.jms;
+public class MyComponent{}
+/*
 import javax.jms.Connection;
 import javax.jms.Destination;
 import javax.jms.JMSException;
@@ -16,16 +18,18 @@ import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Deactivate;
 import org.apache.felix.scr.annotations.Reference;
 
-import com.cognifide.jms.api.consumer.SlingMessageConsumer;
+//import com.cognifide.jms.api.consumer.SlingMessageConsumer;
 
 @SlingMessageConsumer(	
 		destinationType	=	DestinationType.TOPIC,	
 		subject	=	"my	topic")	
+
 @Component	
+
 public class MyComponent implements MessageListener	{	
 	
 			@Reference	
-			private JmsConnectionProvider connectionProvider;	
+			//private JmsConnectionProvider connectionProvider;	
 			private	Connection	connection;	
 			private	Session	session;	
 			private MessageConsumer	consumer;	
@@ -37,7 +41,7 @@ public class MyComponent implements MessageListener	{
 			
 			@Activate	
 			protected void	activate()	throws JMSException	{	
-						connection	=	connectionProvider.getConnection();	
+						//connection	=	connectionProvider.getConnection();	
 						session	=	connection.createSession(false,	Session.AUTO_ACKNOWLEDGE);	
 						Destination	dest	=	session.createTopic("my	topic");	
 						consumer	=	session.createConsumer(dest);	
@@ -60,10 +64,12 @@ public class MyComponent implements MessageListener	{
 			            System.out.println(text);
 			        } catch (JMSException jmse){ jmse.printStackTrace( ); }
 			    }
-			    /* Create and send message using topic publisher */
+			   
 			    protected void writeMessage(String text) throws JMSException {
 			        TextMessage message = pubSession.createTextMessage( );
 			        message.setText(" Txt: "+text);
 			        publisher.publish(message);
 			    }
+			    
 }
+*/
