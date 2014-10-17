@@ -37,7 +37,7 @@
 <% if (!linkURL.isEmpty()) { %> </a> <% } %>
 </nav>
 <!--have to repeat for centering the small screen-->
-<nav class="show-for-small small-centered column small-15">
+<nav class="show-for-small small-push-8 column">
 <% if (!linkURL.isEmpty()) { %> <a href="<%= linkURL %>"> <% } %>
 	<img src="<%= regularImage %>"<%= alt %> id="logoImg" width="<%= regularWidth %>" height="<%= regularHeight%>" />
 <% if (!linkURL.isEmpty()) { %> </a> <% } %>
