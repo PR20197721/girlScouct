@@ -173,8 +173,7 @@
 			|| (troop.getErrCode() != null && troop.getErrCode()
 					.equals("111"))) {
 %>
-<div style="color: #fff; background-color: red;">Warning: can not
-	process your update at this time. error 111-in db</div>
+<div style="color: #fff; background-color: red;">Warning:  Another user is logged in with this user id.  If you have logged in to the Volunteer Toolkit on another device or desktop, please logout and login again. error 111-in db</div>
 <%
 	}
 
@@ -183,10 +182,7 @@
 			&& troop.getYearPlan() != null
 			&& !userUtil.isCurrentTroopId(troop,
 					troop.getCurrentTroop())) {
-%><div style="color: #fff; background-color: red;">Warning:
-	another user is currently logged into this account or you have no
-	permissions. To continue, please logout and login again. (This will
-	cause the other user to be logged out.) error 111.1-another user</div>
+%><div style="color: #fff; background-color: red;">Warning:  Another user is logged in with this user id.  If you have logged in to the Volunteer Toolkit on another device or desktop, please logout and login again.</div>
 <%
 	troop.setRefresh(true);
 		return;
@@ -196,10 +192,7 @@
 			|| (troop.getErrCode() != null && troop.getErrCode()
 					.equals("112"))) {
 %>
-<div style="color: #fff; background-color: red;">Warning: another
-	user is currently logged into this account or you have no permissions.
-	To continue, please logout and login again. (This will cause the other
-	user to be logged out.) error 112-another user</div>
+<div style="color: #fff; background-color: red;">Warning:  Another user is logged in with this user id.  If you have logged in to the Volunteer Toolkit on another device or desktop, please logout and login again.</div>
 <%
 	troop.setRefresh(true);
 		return;
