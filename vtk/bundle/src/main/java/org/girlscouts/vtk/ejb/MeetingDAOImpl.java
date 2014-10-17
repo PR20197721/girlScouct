@@ -1,5 +1,6 @@
 package org.girlscouts.vtk.ejb;
 
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -1772,34 +1773,47 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 	public void doX() {
 System.err.println("doX");		
+		java.util.List<String> paths= new java.util.ArrayList<String>();
+				
 		Session session = null;
 		try {
 			session = sessionFactory.getSession();
 			Node vtkRootNode = session.getNode("/vtk");
 			
 			//String sql = "select * from nt:unstructured where jcr:path like '/vtk/%/users/%'";
-			String sql = "select * from nt:unstructured where jcr:path like '/vtk/603/%/users/%'";
+			String sql = "select * from nt:unstructured where jcr:path like '/vtk/603/%/users/%' and ocm_classname ='org.girlscouts.vtk.models.user.User'";
 			
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
-			q.setLimit(1);
+			//q.setLimit(1);
 			QueryResult result = q.execute();
 			for (RowIterator it = result.getRows(); it.hasNext();) {
 				Row r = it.nextRow();
 				Value excerpt = r.getValue("jcr:path");
-				StringTokenizer t = new StringTokenizer(excerpt.getString(), "/");
+				paths.add( excerpt.getString() );
+				System.err.println("Adding path: "+ excerpt.getString());
+			}
+			
+			
+			for(int i=0;i<paths.size();i++){
+				
+				String path= paths.get(i);
+				System.err.println("Path: "+ path );
+				StringTokenizer t = new StringTokenizer(path, "/");
 				String vtk = t.nextToken();
 				String council = t.nextToken();
 				String troop = t.nextToken();
 				t.nextToken();
 				String user = t.nextToken();
+				
 				String from = "/vtk/" + council + "/" + troop + "/users/" + user;
 				String to = "/vtk/" + council + "/troops/" + troop;
 				String to1 = "/vtk/" + council + "/troops";
 				Node x = JcrUtils.getOrCreateByPath(to1, "nt:unstructured",session);
 				session.move(from, to);
-		System.err.println("Moving from: "+ from +" to: "+ to);		
+		System.err.println("Moving from: "+ from +" to: "+ to);	
+		
 				Node newTroop = session.getNode(to);
 				newTroop.setProperty("ocm_classname",
 						"org.girlscouts.vtk.models.Troop");
@@ -1807,7 +1821,7 @@ System.err.println("doX");
 				
 				
 				//****** CLEAN START
-			/*	
+				
 				//String rmPath= "/vtk/" + council +"/test_troop_id/users/";
 				String rmPath= "/vtk/" + council +"/"+troop+"/";
 				System.err.println("Cleaning.. rm "+ rmPath);
@@ -1820,7 +1834,7 @@ System.err.println("doX");
 				}
 				
 				session.save();
-				*/
+				
 				//*************  END clean up
 				
 				
@@ -1844,36 +1858,45 @@ System.err.println("doX");
 	public void undoX() {
 		System.err.println("undoX");
 		Session session = null;
+		java.util.List<String> paths = new java.util.ArrayList<String>();
 		try {
 			session = sessionFactory.getSession();
 			Node vtkRootNode = session.getNode("/vtk");
 			//String sql = "select * from nt:unstructured where jcr:path like '/vtk/%/troops/%'";
-			String sql = "select * from nt:unstructured where jcr:path like '/vtk/603/troops/%'";
+			String sql = "select * from nt:unstructured where jcr:path like '/vtk/603/troops/%' and ocm_classname ='org.girlscouts.vtk.models.Troop'";
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
 					javax.jcr.query.Query.SQL);
-			q.setLimit(1);
+			//q.setLimit(1);
 			QueryResult result = q.execute();
 			for (RowIterator it = result.getRows(); it.hasNext();) {
+				
 				Row r = it.nextRow();
 				Value excerpt = r.getValue("jcr:path");
-				StringTokenizer t = new StringTokenizer(excerpt.getString(), "/");
+				paths.add(excerpt.getString());
+				System.err.println("Adding: "+excerpt.getString());
+			}
+			
+			
+			for(int i=0;i<paths.size();i++){
+				String path= paths.get(i);
+System.err.println("Path: "+path );
+				
+				StringTokenizer t = new StringTokenizer(path, "/");
 				String vtk = t.nextToken();
 				String council = t.nextToken();
 				t.nextToken();
 				String troop = t.nextToken();
 				
-				//t.nextToken();
-				//String user = t.nextToken();
 				
 	System.err.println("TroopId: "+ troop);	
 	
 				
 	
 				String from = "/vtk/" + council +"/troops/" + troop ;
-				String to =  "/vtk/" + council + "/"+ troop +"/users/";				
-				String to1 = "/vtk/" + council + "/"+troop;
+				String to =  "/vtk/" + council + "/"+ troop +"/users/user"+i+"/";				
+				String to1 = "/vtk/" + council + "/"+troop+"/users";
 				System.err.println("TO1 :  "+ to1);
 				
 				Node x = JcrUtils.getOrCreateByPath(to1, "nt:unstructured",session);
@@ -1884,10 +1907,7 @@ System.err.println("doX");
 	
 
 				Node newTroop = session.getNode(to);
-				NodeIterator childrenNodes = newTroop.getNodes();
-				Node userNode= childrenNodes.nextNode();
-				
-				userNode.setProperty("ocm_classname",
+				newTroop.setProperty("ocm_classname",
 						"org.girlscouts.vtk.models.user.User");
 				session.save();
 				
@@ -1907,7 +1927,9 @@ System.err.println("doX");
 				//*************  END clean up
 				session.save();
 				
+				
 				//if (true)return;
+	System.err.println("done moving rec");			
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
