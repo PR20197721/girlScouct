@@ -1342,3 +1342,5 @@ form .form_captcha_img {
 form .form_captcha_input {
     height: 40px;
 }
+
+@import url("home.css");

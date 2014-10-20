@@ -1,0 +1,6 @@
+.home-section .columns,
+.home-section .column {
+  padding-left: 0.0.38em;
+  padding-right: 0.0.38em;
+  background: red;
+}
