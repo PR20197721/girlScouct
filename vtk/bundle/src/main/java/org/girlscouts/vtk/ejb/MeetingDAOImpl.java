@@ -1839,6 +1839,13 @@ System.err.println("doXX");
 					session.removeItem(to);
 				}
 				
+				
+				//cust meeting in lib check and modif refId
+				String yearPlanPath= to+"/yearPlan";
+				java.util.List<String> custMeetings = getCustMeetings(yearPlanPath);
+				if( custMeetings!=null && custMeetings.size()>0)
+					updateCustMeetingPlansRef( custMeetings, to );
+				
 				session.move(from, to);
 		System.err.println("Moving from: "+ from +" to: "+ to);	
 		
@@ -1883,6 +1890,66 @@ System.err.println("doXX");
 
 	}
 
+	
+	//doX
+	public void updateCustMeetingPlansRef(java.util.List<String>meetings, String path){
+		Session session = null;
+		try {				
+			session = sessionFactory.getSession();
+			for(int i=0;i<meetings.size();i++){
+				String meetingPath = meetings.get(i);				
+				String newPath= meetingPath.substring( meetingPath.indexOf("/lib/"));
+				System.err.println("Changing cust meeting path from "+ path +" to: "+ newPath);
+				Node x = session.getNode(meetingPath);
+				x.setProperty("refId", newPath);
+				
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null)
+					sessionFactory.closeSession(session);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		
+	}
+	
+	//doX
+	public java.util.List<String> getCustMeetings(String path){
+		java.util.List <String>toRet = new java.util.ArrayList<String>();
+		Session session = null;
+		try {				
+			session = sessionFactory.getSession();	
+			String sql = "select * from nt:unstructured where jcr:path like '"+ path +"' and ocm_classname ='org.girlscouts.vtk.models.MeetingE' and refId like '%/users/%_%' ";
+			javax.jcr.query.QueryManager qm = session.getWorkspace()
+					.getQueryManager();
+				
+			javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);		
+			QueryResult result = q.execute();
+			for (RowIterator it = result.getRows(); it.hasNext();) {
+				Row r = it.nextRow();
+				Value excerpt = r.getValue("jcr:path");
+				toRet.add( excerpt.getString() );
+				System.err.println("Adding meeting: "+ excerpt.getString());
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null)
+					sessionFactory.closeSession(session);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		return toRet;
+	}
+	
 	
 	//rollback to user from troop . only for emergency
 	public void undoX() {
