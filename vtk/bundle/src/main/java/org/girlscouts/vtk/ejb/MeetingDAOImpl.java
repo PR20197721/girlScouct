@@ -1772,34 +1772,44 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 
 	public void doX() {
-System.err.println("doX");		
+System.err.println("doXX");		
 		java.util.List<String> paths= new java.util.ArrayList<String>();
-				
+		System.err.println("doXX1");				
 		Session session = null;
 		try {
+			System.err.println("doXX2");	
 			session = sessionFactory.getSession();
-			Node vtkRootNode = session.getNode("/vtk");
+			System.err.println("doXX3");	
+			//Node vtkRootNode = session.getNode("/vtk");
+			System.err.println("doXX4");	
+			//select * from nt:unstructured where jcr:path like '/vtk/%/users/%' XXXXXX order";
+			String sql = "select * from nt:unstructured where jcr:path like '/vtk/603/%/users/%' and ocm_classname ='org.girlscouts.vtk.models.user.User' order by jcr:lastModified DESC ";
 			
-			//String sql = "select * from nt:unstructured where jcr:path like '/vtk/%/users/%'";
-			String sql = "select * from nt:unstructured where jcr:path like '/vtk/603/%/users/%' and ocm_classname ='org.girlscouts.vtk.models.user.User'";
+			
+			
 			
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
+			System.err.println("doXX5");	
 			javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
 			//q.setLimit(1);
+			System.err.println("doXX6");	
 			QueryResult result = q.execute();
+			System.err.println("doXX7");	
 			for (RowIterator it = result.getRows(); it.hasNext();) {
 				Row r = it.nextRow();
 				Value excerpt = r.getValue("jcr:path");
 				paths.add( excerpt.getString() );
 				System.err.println("Adding path: "+ excerpt.getString());
 			}
+			System.err.println("doXX8 :"+ paths.size() );	
+			
 			
 			
 			for(int i=0;i<paths.size();i++){
-				
+				System.err.println("doXX9");	
 				String path= paths.get(i);
-				System.err.println("Path: "+ path );
+	System.err.println(i +" PathX: "+ path );
 				StringTokenizer t = new StringTokenizer(path, "/");
 				String vtk = t.nextToken();
 				String council = t.nextToken();
@@ -1810,9 +1820,30 @@ System.err.println("doX");
 				String from = "/vtk/" + council + "/" + troop + "/users/" + user;
 				String to = "/vtk/" + council + "/troops/" + troop;
 				String to1 = "/vtk/" + council + "/troops";
+	System.err.println("from: "+from);			
+	System.err.println("to: " +to);
+	System.err.println("to1:" + to1);
 				Node x = JcrUtils.getOrCreateByPath(to1, "nt:unstructured",session);
+	System.err.println("GetOr Create: "+ x.getPath() );	
+		
+	//	session.save();
+	//	if(true)continue;
+		
+				//NODE EXISTS-rm
+				Node existTroop = null;
+				try{ existTroop= session.getNode(to); }catch(Exception e){}
+				if(existTroop!=null && existTroop.getNodes().getSize()==0)
+					session.removeItem(to);
+				else if(existTroop!=null){
+					System.err.println("MULT TROOP PLAN!!!!!! "+ to);
+					session.removeItem(to);
+				}
+				
 				session.move(from, to);
 		System.err.println("Moving from: "+ from +" to: "+ to);	
+		
+		
+		
 		
 				Node newTroop = session.getNode(to);
 				newTroop.setProperty("ocm_classname",
@@ -1821,7 +1852,6 @@ System.err.println("doX");
 				
 				
 				//****** CLEAN START
-				
 				//String rmPath= "/vtk/" + council +"/test_troop_id/users/";
 				String rmPath= "/vtk/" + council +"/"+troop+"/";
 				System.err.println("Cleaning.. rm "+ rmPath);

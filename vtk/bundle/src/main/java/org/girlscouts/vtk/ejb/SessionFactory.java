@@ -24,7 +24,7 @@ public class SessionFactory {
     	Session adminSession = repository.loginAdministrative(null);
     	//org.apache.jackrabbit.ocm.transaction.jackrabbit.UserTransactionImpl x;
     	//adminSession.b
-    System.err.println(repository.OPTION_TRANSACTIONS_SUPPORTED);	
+    //System.err.println(repository.OPTION_TRANSACTIONS_SUPPORTED);	
         Session session = adminSession.impersonate(new SimpleCredentials("vtk", new char[0]));
         adminSession.logout();
         adminSession = null;
