@@ -24,40 +24,21 @@
 		 }
 	}
 %>
-<div class="small-24 medium-24 large-24 columns news-section">
-	<div class="row">
-		<div class="hide-for-small hide-for-medium large-24 columns featureHeader">
-			<div class="feature-icon">
-				<img src="<%= featureIcon %>" width="50" height="50" alt="feature icon"/>
-			</div>	
-			<div class="feature-title">
-				<h2>
-					<a href="<%= featureLink %>"><%= featureTitle %></a>
-				</h2>
-			</div>
-		</div>
-		<div class="small-24 medium-24 hide-for-large hide-for-xlarge hide-for-xxlarge columns featureSmallHeader">
-		    <div class="feature-icon">
-			<img src="<%= featureIcon %>" width="50" height="50" alt="feature icon"/>
-		    </div>
-		    <div class="feature-title">
-			<h2><a href="<%= featureLink %>"><%= featureTitle %></a></h2>
-		    </div>
-		</div>
-	</div>
-        <div class="content">
-			<ul class="news-block">
 
-<%
-// Feature news when select but author on the home page
-	List list = (List)request.getAttribute("list");
-    
-   
-    
-	if (!list.isEmpty()){
-   	%>
-	<%
-    	Iterator<Page> items = list.getPages();
+<div class="large-1 columns small-2 medium-1">
+  <img src="<%= featureIcon %>" width="50" height="50" alt="feature icon"/>
+</div>
+<div class="column large-23 small-22 medium-23">
+  <div class="row collapse">
+    <h2 class="columns large-24 medium-24 clearfix"><a href="<%= featureLink %>"><%= featureTitle %></a></h2>
+    <%
+    // Feature news when select but author on the home page
+    	List list = (List)request.getAttribute("list"); 
+        
+    	if (!list.isEmpty()){
+       	%>
+    	<%
+        	Iterator<Page> items = list.getPages();
     	String listItemClass = null;
     	while (items.hasNext()){
             String newsLink = "";	
@@ -76,25 +57,19 @@
 			request.setAttribute("imgPath", imgPath);
 			request.setAttribute("newsDesc", newsDesc);
 			request.setAttribute("newsLink", newsLink);
-			request.setAttribute("external_url",external_url);
-    		
-    		
-        %><cq:include script="feature-render.jsp"/><%
+			request.setAttribute("external_url",external_url);		
+      %><cq:include script="feature-render.jsp"/><%
     }
-    
-}
-%>
-<%
-        //int i=0;
-
-        int ncount = 0;
-        if(newscounts > 0){
+  }%>
+  <%
+    //int i=0;
+    int ncount = 0;
+    if(newscounts > 0){
 			for(int i=0;i<resultsHits.size(); i++)
 		    {
-	        	
-	        	try{
-	        	String newsLink = null;
-	       		Node resultNode = resultsHits.get(i).getNode();
+        	try{
+        	String newsLink = null;
+       		Node resultNode = resultsHits.get(i).getNode();
 				newsLink = getPath(resultNode);
 				
 				Node contentNode = resultNode.getNode("jcr:content");
@@ -114,18 +89,17 @@
 				request.setAttribute("newsLink", newsLink);
 				request.setAttribute("external_url",external_url);
 				if(!featureNews.contains(resultNode.getPath())){
-					ncount++;
-	%>
-	 			<cq:include script="feature-render.jsp"/>
-				<%} 
-				 if(ncount==newscounts)
-			      {
-			        	 break;
-			      }
-		    }catch(Exception e){}
-		 } 
-        }
+				ncount++;
+       %>
+ 			<cq:include script="feature-render.jsp"/>
+			<%} 
+			 if(ncount==newscounts)
+		      {
+		        	 break;
+		      }
+	    }catch(Exception e){}
+	 } 
+    }
 %>
-			</ul>
-	</div>
+  </div>
 </div>

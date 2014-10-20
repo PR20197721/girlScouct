@@ -31,6 +31,22 @@
   margin-bottom:5%;
 }
 /*events list*/
-.events-image {
+.home-section .eventsListItem .events-image img {
+   margin-bottom:2.173913%;
+}
+.home-section .events-image {
   padding: 0;
+}
+/*news list*/
+.home-section .row.collapse.news-rows {
+  margin-bottom:2.173913%;
+}
+.home-section .row.collapse.news-rows img {
+  margin-bottom:2.173913%;
+}
+.home-section .news-rows p:first-child {
+  margin: 0;
+}
+.home-section .news-rows p {
+  margin: 10px 0;
 }

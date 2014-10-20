@@ -23,12 +23,12 @@
 <div class="header-wrapper row collapse">
 <div class='columns'>
   <div id="header" class="row">
-    <div class="large-5 medium-9 columns">
+    <div class="large-6 medium-9 columns">
       <cq:include path="<%= headerPath + "/logo" %>" resourceType="girlscouts/components/logo" />
       <%-- TODO: Mike Z. This is an empty <div> that fixes the green box on Chrome. Temp solution. --%>
       <cq:include path="<%= headerPath + "/placeholder" %>" resourceType="girlscouts/components/placeholder" />
     </div>
-    <div class="large-19 medium-15 hide-for-small columns topMessage">
+    <div class="large-18 medium-15 hide-for-small columns topMessage">
       <%/*setCssClasses("columns noLeftPadding" , request); */%>
       <cq:include path="<%= headerPath + "/eyebrow-nav" %>" resourceType="girlscouts/components/eyebrow-navigation" />
       <div class="row collapse">

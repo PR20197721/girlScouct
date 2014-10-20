@@ -63,12 +63,12 @@ a:hover {
     color: green;
 }
 @media only screen and (min-width: 40.063em) {
-    .news-image {
+/*    .news-image {
         padding: 10px;
     }
     .news-data {
         padding: 10px;
-    }
+    }*/
 }
 @media only screen and (max-width: 40em) {
     html {
@@ -83,10 +83,10 @@ a:hover {
     .events-section {
         padding: 0;
     }
-    .news-image {
-        padding-left: 0px;
-        padding-right: 0px;
-    }
+    /*    .news-image {
+            padding-left: 0px;
+            padding-right: 0px;
+        }*/
  /*   .events-image {
         padding-left: 0px;
         padding-right: 0px;
@@ -118,9 +118,9 @@ a:hover {
     .events-data > p:nth-of-type(1) {
         margin: 10px 0;
     }
-    .news-data {
+/*    .news-data {
         margin-bottom: 15px;
-    }
+    }*/
     /* TODO: apply font size change to link titles with or without links*/
     
     .news-data > h3 a {
@@ -215,6 +215,9 @@ a:hover.menuHighlight {
 }
 #header ul li {
     font-size: 1.0em;
+}
+#header > .large-6 {
+    padding: 0.72916667% 0 0 0;
 }
 #header .message {
     text-align: right;

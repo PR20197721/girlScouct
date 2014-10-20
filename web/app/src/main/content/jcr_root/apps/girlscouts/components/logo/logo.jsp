@@ -31,13 +31,7 @@
 <% } else {
 // this shows for header large only
 %>
-<nav class="hide-for-small">
-<% if (!linkURL.isEmpty()) { %> <a href="<%= linkURL %>"> <% } %>
-	<img src="<%= regularImage %>"<%= alt %> id="logoImg" width="<%= regularWidth %>" height="<%= regularHeight%>" />
-<% if (!linkURL.isEmpty()) { %> </a> <% } %>
-</nav>
-<!--have to repeat for centering the small screen-->
-<nav class="show-for-small small-push-8 column">
+<nav class="column small-centered small-14 large-24 medium-24">
 <% if (!linkURL.isEmpty()) { %> <a href="<%= linkURL %>"> <% } %>
 	<img src="<%= regularImage %>"<%= alt %> id="logoImg" width="<%= regularWidth %>" height="<%= regularHeight%>" />
 <% if (!linkURL.isEmpty()) { %> </a> <% } %>
