@@ -1,3 +1,4 @@
+@import url("home.css");
 /***********************************/
 /************* GLOBAL **************/
 /***********************************/
@@ -86,10 +87,10 @@ a:hover {
         padding-left: 0px;
         padding-right: 0px;
     }
-    .events-image {
+ /*   .events-image {
         padding-left: 0px;
         padding-right: 0px;
-    }
+    }*/
     .news-block {
         margin: 0;
     }
@@ -97,9 +98,9 @@ a:hover {
         margin: 0;
         padding: 0;
     }
-    .small-8.medium-12.large-8.columns.events-image {
+ /*   .small-8.medium-12.large-8.columns.events-image {
         padding: 0;
-    }
+    }*/
     .small-16.medium-12.large-16.columns.events-data {
         padding: 0px 15px 0px 15px;
         margin-bottom: 15px;
@@ -359,7 +360,7 @@ a:hover.menuHighlight {
 /* HERO */
 
 #heroBanner {
-    padding: 0px 0px 15px 0px;
+/*    padding: 0px 0px 15px 0px;*/
 }
 #homeBlockGrid {
     background-color: #fff;
@@ -467,21 +468,20 @@ a:hover.menuHighlight {
     border: 1px solid yellow;
 */
 }
-.home-section .columns {
-    /*  padding: 0 20px;*/
-    /* keep this for homepage layout 
+/*.home-section .columns {
+      padding: 0 20px;
+    /*keep this for homepage layout 
     border: 1px solid orange;
-*/
-}
-.home-section.feature-shortstory, .home-section.events-list, .home-section.news-list {
+
+}*/
+/*.home-section.feature-shortstory, .home-section.events-list, .home-section.news-list {
     margin-bottom: 50px;
-}
-.home-section .content .columns {
+}*/
+/*.home-section .content .columns {
     /*  padding: 20px;*/
     /* keep this for homepage layout 
     border: 1px solid green;
-*/
-}
+}*/
 .home-section h2 a {
     font-size: 0.85em;
     color: #414141;
@@ -1090,9 +1090,9 @@ form#contact-us textarea {
     line-height: 1.2em;
     margin-bottom: 0.2rem;
 }
-.events-list ul, events-list li {
+/*.events-list ul, events-list li {
     margin: 0;
-}
+}*/
 .events-list .content {
     /*
         margin: 20px 38px 20px 30px;
@@ -1186,10 +1186,10 @@ div#eventListWrapper {
     
     width: 152px
 }
-.home-section .content ul, .home-section .content li {
+/*.home-section .content ul, .home-section .content li {
     padding: 0;
     margin: 0;
-}
+}*/
 #smallFooterLinks li {
     padding: 5px;
     ;
@@ -1224,9 +1224,9 @@ ul.searchResultsList article p {
     background-position: right center;
     padding-right: 10px;
 }
-.eventsListItem .columns {
+/*.eventsListItem .columns {
     padding: 20px 10px !important;
-}
+}*/
 /*.logoContainer {
     padding-right: 0 !important;
 }
@@ -1342,5 +1342,3 @@ form .form_captcha_img {
 form .form_captcha_input {
     height: 40px;
 }
-
-@import url("home.css");
