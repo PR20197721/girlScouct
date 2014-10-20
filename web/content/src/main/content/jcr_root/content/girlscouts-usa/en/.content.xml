@@ -104,7 +104,7 @@
                 jcr:lastModifiedBy="admin"
                 jcr:primaryType="nt:unstructured"
                 sling:resourceType="girlscouts/components/styled-subparsys"
-                cssClasses="row home-section">
+                cssClasses="columns home-section">
                 <hero_banner
                     jcr:created="{Date}2014-05-02T11:22:24.516-04:00"
                     jcr:createdBy="admin"

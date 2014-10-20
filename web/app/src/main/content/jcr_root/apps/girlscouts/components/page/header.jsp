@@ -29,9 +29,9 @@
       <cq:include path="<%= headerPath + "/placeholder" %>" resourceType="girlscouts/components/placeholder" />
     </div>
     <div class="large-19 medium-15 hide-for-small columns topMessage">
-      <%setCssClasses("columns noLeftPadding" , request); %>
+      <%/*setCssClasses("columns noLeftPadding" , request); */%>
       <cq:include path="<%= headerPath + "/eyebrow-nav" %>" resourceType="girlscouts/components/eyebrow-navigation" />
-      <div class="row">
+      <div class="row collapse">
         <% setCssClasses("large-18 medium-18 small-24 columns", request); %>
         <cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
         <% setCssClasses("large-6 medium-6 small-24 columns searchBar", request); %>
@@ -39,7 +39,7 @@
       </div>
     </div>
     <div class="show-for-small small-24 columns topMessage alt">
-      <div class="row vtk-login">
+      <div class="row vtk-login collapse">
         <% setCssClasses("small-12 columns", request); %>
         <cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
         <div class="small-12 columns">
@@ -49,10 +49,10 @@
           </div>
         </div>
       </div>
-      <div class="row hide srch-box">
-        <% setCssClasses("small-20 columns hide srch-box", request); %>
+      <div class="row hide srch-box collapse">
+        <% setCssClasses("small-22 columns hide srch-box", request); %>
           <cq:include path="<%= headerPath + "/search-box" %>" resourceType="girlscouts/components/search-box" />
-        <div class="small-4 columns">
+        <div class="small-2 columns">
           <a class="right-off-canvas-toggle menu-icon"><img src="<%= designPath %>/images/hamburger.png" width="22" height="28" alt="right side menu hamburger icon"/></a>
         </div>
       </div>
