@@ -350,9 +350,10 @@ public java.util.List <Troop>  troopInfo(ApiConfig apiConfig, String contactId){
 					System.err.println("_____ "+ results.get(i));
 					
 					java.util.Iterator itr = results.getJSONObject(i).getJSONObject("Parent").keys();
+					/*
 					while( itr.hasNext())
 						System.err.println("** "+ itr.next());
-					
+					*/
 					Troop troop = new Troop();
 					try{
 						troop.setCouncilCode( results.getJSONObject(i).getJSONObject("Parent").getInt("Council_Code__c") ); //girls id 111
@@ -361,6 +362,16 @@ public java.util.List <Troop>  troopInfo(ApiConfig apiConfig, String contactId){
 						troop.setGradeLevel(results.getJSONObject(i).getJSONObject("Parent").getString("Program_Grade_Level__c") );
 						troop.setTroopId(results.getJSONObject(i).getString("ParentId"));
 						troop.setTroopName( results.getJSONObject(i).getJSONObject("Parent").getString("Name") );
+
+	/*TEST MUST BE REMOVED**/						
+		if( troop.getGradeLevel().equals("3-Junior"))				
+			troop.setTroopId("701G0000000uQzaIAE");	
+		else if( troop.getGradeLevel().equals("2-Brownie"))				
+			troop.setTroopId("701G0000000uQzTIAU");
+		else if( troop.getGradeLevel().equals("1-Daisy"))				
+			troop.setTroopId("701G0000000uQzUIAU");			
+	/*end test**/					
+		
 						
 						System.err.println("ETSTS: "+ org.girlscouts.vtk.auth.permission.RollType.DP );
 						
