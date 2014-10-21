@@ -1,11 +1,13 @@
 package org.girlscouts.vtk.models;
 
+import java.io.Serializable;
+
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
 
 @Node(jcrMixinTypes="mix:lockable" )
-public class Milestone extends YearPlanComponent {
+public class Milestone extends YearPlanComponent  implements Serializable{
 
 	@Field(path=true) String path;
 	@Field private String blurb;

@@ -1,8 +1,9 @@
 package org.girlscouts.vtk.salesforce;
 
+import java.io.Serializable;
 import java.util.Set;
 
-public class Troop {
+public class Troop  implements Serializable{
 
 	/**
 	 * 

@@ -64,7 +64,7 @@ if( activities!=null  ){
 	}
 %>
 <script>
-function addActiv3(id){
+function addActiv3(id, registerHrefToPop){
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
 		type: 'POST',
@@ -74,6 +74,10 @@ function addActiv3(id){
 		},
 		success: function(result) {
 			//document.getElementById("cust_activ_"+id).innerHTML='Added';
+			if(registerHrefToPop!=null && registerHrefToPop!=''){
+				window.open(registerHrefToPop,'_blank');
+			}
+			
 			location.reload();
 		}
 	});

@@ -1,8 +1,10 @@
 package org.girlscouts.vtk.models;
 
+import java.io.Serializable;
+
 import org.girlscouts.vtk.dao.YearPlanComponentType;
 
-public class YearPlanComponent {
+public class YearPlanComponent  implements Serializable{
 
 	private java.util.Date date;
 	private  YearPlanComponentType type;

@@ -1,6 +1,8 @@
 package org.girlscouts.vtk.models;
 
-public class ActivitySearch {
+import java.io.Serializable;
+
+public class ActivitySearch  implements Serializable{
 
 	private String find, region;
 	private int month, year;

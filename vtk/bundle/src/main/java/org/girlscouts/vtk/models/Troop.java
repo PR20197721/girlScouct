@@ -1,5 +1,6 @@
 package org.girlscouts.vtk.models;
 
+import java.io.Serializable;
 import java.util.Calendar;
 
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Bean;
@@ -9,7 +10,7 @@ import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.ejb.EmailMeetingReminder;
 
 @Node(jcrMixinTypes="mix:lockable" ) 
-public class Troop {
+public class Troop implements Serializable {
 	
 	public Troop(){}
 	public Troop(String path, String troopId){

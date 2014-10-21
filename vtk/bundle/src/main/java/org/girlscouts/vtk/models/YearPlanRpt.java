@@ -1,6 +1,8 @@
 package org.girlscouts.vtk.models;
 
-public class YearPlanRpt {
+import java.io.Serializable;
+
+public class YearPlanRpt  implements Serializable{
 
 		String council, troop, troopAge, troopName;
 

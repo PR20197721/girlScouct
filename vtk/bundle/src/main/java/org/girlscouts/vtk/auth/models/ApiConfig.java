@@ -1,8 +1,10 @@
 package org.girlscouts.vtk.auth.models;
 
+import java.io.Serializable;
+
 import org.girlscouts.vtk.salesforce.Troop;
 
-public class ApiConfig {
+public class ApiConfig  implements Serializable{
 
     private String accessToken, instanceUrl, tokenType, id,
     		refreshToken,
