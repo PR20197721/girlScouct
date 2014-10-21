@@ -1,8 +1,10 @@
 package org.girlscouts.vtk.models;
 
+import java.io.Serializable;
+
 import org.girlscouts.vtk.auth.models.ApiConfig;
 
-public class User {
+public class User implements Serializable{
 
 	private ApiConfig apiConfig;
 	private java.util.Set<Integer> permissions;
