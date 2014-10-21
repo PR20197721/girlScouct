@@ -14,39 +14,29 @@
 <%if ((title.isEmpty()) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
     %>
     <div style="text-align:center; height:300px;"> 
-           <p style="text-align: center"> Click to Edit the Component</p>
+      <p style="text-align: center"> Click to Edit the Component</p>
     </div>
    <% }else{
 %>
-<div class="small-24 medium-24 large-24 columns">
-	<div class="row">
-		<div class="hide-for-small hide-for-medium large-24 columns featureHeader">
-			<div class="feature-icon">
-				<img src="<%= featureIcon %>" width="50" height="50" alt="feature icon"/>
-			</div>
-			<div class="feature-title">
-				<h2><a href="<%= linkTitle %>"><%= title %></a></h2>
-			</div>
-		</div>
-		<div class="small-24 medium-24 hide-for-large  hide-for-xlarge hide-for-xxlarge columns featureSmallHeader">
-			<table width="100%">
-				<tbody>
-					<tr>
-						<td valign="top" width="50"><img src="<%= featureIcon %>" width="50" height="50" alt="feature icon"/></td>
-						<td valign="top"><h2><a href="<%= linkTitle %>"><%= title %></a></h2></td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
-	<div class="row content">
+
+<div class="large-1 columns small-2 medium-1">
+  <img src="<%= featureIcon %>" width="32" height="32" alt="feature icon"/>
+</div>
+
+<div class="column large-23 small-22 medium-23">
+  <div class="row collapse">
+  <h2 class="columns large-24 medium-24"><a href="<%= linkTitle %>"><%= title %></a></h2>
+	<% /*for images to display left and right but on small always on top of text.*/%>
 		<% if (properties.get("imageOnLeft", "off").equals("on")) { %>
-		<cq:include script="image.jsp" />
-		<cq:include script="text.jsp" />
+		<div class="large-11 medium-11 small-22 column">
+			<cq:include script="image.jsp" />
+		</div>
+		 <div class="large-12 medium-12 small-22 small-pull-2 large-reset-order medium-reset-order column"><cq:include script="text.jsp" /></div>
 		<% } else {%>
-		 <cq:include script="text.jsp" />
-		<cq:include script="image.jsp" />
+		<div class="large-11 medium-11 large-push-12 medium-push-11 small-22 column"><cq:include script="image.jsp" /></div>
+		<div class="large-11 small-22 medium-11 large-pull-13 medium-pull-13 small-pull-2 column"><cq:include script="text.jsp" /></div>	
 		<% } %>
+
 	</div>
 </div>
 <%}%>

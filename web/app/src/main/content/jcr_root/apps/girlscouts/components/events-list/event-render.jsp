@@ -54,19 +54,19 @@
 	String href = (String)request.getAttribute("href");
 %>
  <li class="eventsListItem">
-   <div class="row">
-     <div class="small-8 medium-8 large-8 columns events-image">
-         <%
-			if(!iconPath.isEmpty()){ %>
-          		<%= displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80") %>
-             <%} else if(iconPath.isEmpty()) { %>
-					<img src="/content/dam/all_icons/icons_64/events_icon.jpg" alt="events icon"/>
-             <% } %>
-     </div>
-      <div class="small-16 medium-16 large-16 columns events-data">
-         <p><a href="<%= href %>"><%= title %></a></p>
-         <p>Date: <%= dateStr %></p>
-         <p>Location: <%= locationLabel %></p>
-      </div>
+  <div class="row collapse">
+   <div class="medium-6 large-6 small-22 columns events-image">
+    <%
+  	if(!iconPath.isEmpty()){ %>
+      <%= displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80") %>
+      <%} else if(iconPath.isEmpty()) { %>
+        <img src="/content/dam/all_icons/icons_64/events_icon.jpg" alt="events icon"/>
+    <% } %>
    </div>
+    <div class="small-22 medium-16 large-12 columns small-pull-2 small-22 small-pull-2 large-pull-4 medium-reset-order">
+       <p><a href="<%= href %>"><%= title %></a></p>
+       <p>Date: <%= dateStr %></p>
+       <p>Location: <%= locationLabel %></p>
+    </div>
+  </div>
 </li>  

@@ -3,8 +3,7 @@
 <%
 	String shortDesc = properties.get("shortdesc","");
 	String linkTitle = properties.get("pathfield","");
+  String title = properties.get("title","");
 %>
-<div class="small-24 medium-12 large-12 columns textContainer">
-	<%= shortDesc %>
-	<a href="<%= linkTitle %>">Continue &gt;</a> <br /> <br />
-</div>
+  <%= shortDesc %>
+  <a href="<%= linkTitle %>">Continue &gt;</a>

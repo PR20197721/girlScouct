@@ -10,27 +10,26 @@ String newsDesc = (String)request.getAttribute("newsDesc");
 String external_url=(String)request.getAttribute("external_url");
 
 %>
-<li>
-<div class="row">
-	<div class="small-8 medium-4 large-4 columns news-image">
+<div class="row collapse news-rows">
+	<div class="column medium-3 large-3 small-22">
 		<% if(!imgPath.isEmpty()){ %>
-        				<%= displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80") %>
-                  <%} else if(imgPath.isEmpty()) { %>
-                      <img src="/content/dam/all_icons/icons_64/news_icon.jpg" alt="news icon"/>
-          <% } %>
-	
+        <%= displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80") %>
+      <%} else if(imgPath.isEmpty()) { %>
+        <img src="/content/dam/all_icons/icons_64/news_icon.jpg" alt="news icon"/>
+      <% } %>
 	</div>
-   	<div class="small-16 medium-20 large-20 columns news-data">
-   	   <p>
-   	   	 <%if(!external_url.isEmpty()){ %>
-   	   	 	 <a href="<%= external_url %>" target="_blank"><%= newsTitle %></a>
-   	   	 <%}else{%>
-   	   		 <a href="<%= newsLink %>"><%= newsTitle %></a>
-   	   	 <%} %>
-   	   </p>
-			<p><%= newsDateStr %></p>
-  			<p><%=newsDesc%></p>
-   	</div>
+ 	<div class="column small-22 medium-14 large-14 large-pull-6 medium-pull-6 small-pull-2">
+ 	   <p>
+ 	   	 <%if(!external_url.isEmpty()){ %>
+ 	   	 	 <a href="<%= external_url %>" target="_blank"><%= newsTitle %></a>
+ 	   	 <%}else{%>
+ 	   		 <a href="<%= newsLink %>"><%= newsTitle %></a>
+ 	   	 <%} %>
+ 	   </p>
+		  <p><%= newsDateStr %></p>
+      <% if(!newsDesc.isEmpty()) { %>
+			<p><%=newsDesc%></p>
+      <%}%>
+ 	</div>
 </div>
-</li>
 	  
