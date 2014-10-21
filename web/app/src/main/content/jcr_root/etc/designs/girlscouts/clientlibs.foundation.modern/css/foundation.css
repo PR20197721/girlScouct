@@ -5244,11 +5244,12 @@ dialog[open] {
   -webkit-backface-visibility: hidden;
   position: relative;
   width: 100%;
-  overflow-x: hidden;
+  overflow: hidden;
+  min-height:100%;
 }
-.off-canvas-wrap.move-right, .off-canvas-wrap.move-left {
+/*.off-canvas-wrap.move-right, .off-canvas-wrap.move-left {
   height: 100%;
-}
+}*/
 .inner-wrap {
   -webkit-backface-visibility: hidden;
   position: relative;
