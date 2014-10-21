@@ -11,7 +11,7 @@ String external_url=(String)request.getAttribute("external_url");
 
 %>
 <div class="row collapse news-rows">
-	<div class="column medium-3 large-3 small-22">
+	<div class="column medium-3 large-3 small-22 lists-image">
 		<% if(!imgPath.isEmpty()){ %>
         <%= displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80") %>
       <%} else if(imgPath.isEmpty()) { %>

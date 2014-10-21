@@ -31,10 +31,15 @@
   margin-bottom:5%;
 }
 /*events list*/
-.home-section .eventsListItem .events-image img {
+.home-section .lists-image img {
    margin-bottom:2.173913%;
 }
-.home-section .events-image {
+@media only screen {
+  .home-section .lists-image img {
+    min-width: 100%;
+  }
+}
+.home-section .lists-image {
   padding: 0;
 }
 /*news list*/

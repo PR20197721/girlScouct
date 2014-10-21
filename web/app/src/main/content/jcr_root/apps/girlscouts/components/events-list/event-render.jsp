@@ -55,7 +55,7 @@
 %>
  <li class="eventsListItem">
   <div class="row collapse">
-   <div class="medium-6 large-6 small-22 columns events-image">
+   <div class="medium-6 large-6 small-22 columns lists-image">
     <%
   	if(!iconPath.isEmpty()){ %>
       <%= displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80") %>
