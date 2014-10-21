@@ -81,8 +81,10 @@ public class TroopUtil {
 
 		if (troop.getYearPlan() == null)
 			return troop;
-		java.util.List<Activity> activities = troop.getYearPlan()
-				.getActivities();
+		
+		yearPlanUtil.checkCanceledActivity(user, troop);
+		/*
+		java.util.List<Activity> activities = troop.getYearPlan().getActivities();
 		if (activities != null)
 			for (int i = 0; i < activities.size(); i++) {
 				
@@ -92,6 +94,7 @@ public class TroopUtil {
 						&& !activities.get(i).getIsEditable()
 						&& activities.get(i).getRefUid() != null) {
 
+					
 					Activity a = activityDAO.findActivity(user, activities.get(i)
 							.getRefUid());
 					if (a == null)
@@ -100,8 +103,10 @@ public class TroopUtil {
 						// TRANSFER DATA ATTR FROM A TO  .get(i)
 						//activities.set(i, a);
 					}
+					
 				}
 			}
+			*/
 		return troop;
 		
 		

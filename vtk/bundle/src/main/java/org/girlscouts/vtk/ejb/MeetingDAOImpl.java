@@ -1840,14 +1840,10 @@ System.err.println("doXX");
 				}
 				
 				
-				//cust meeting in lib check and modif refId
-				String yearPlanPath= to+"/yearPlan";
-				java.util.List<String> custMeetings = getCustMeetings(yearPlanPath);
-				if( custMeetings!=null && custMeetings.size()>0)
-					updateCustMeetingPlansRef( custMeetings, to );
-				
+			
 				session.move(from, to);
 		System.err.println("Moving from: "+ from +" to: "+ to);	
+		
 		
 		
 		
@@ -1856,6 +1852,14 @@ System.err.println("doXX");
 				newTroop.setProperty("ocm_classname",
 						"org.girlscouts.vtk.models.Troop");
 				session.save();
+				
+				System.err.println("Start libs chk...");
+				//cust meeting in lib check and modif refId
+				String yearPlanPath= to+"/yearPlan";
+				java.util.List<String> custMeetings = getCustMeetings(yearPlanPath);
+				if( custMeetings!=null && custMeetings.size()>0)
+					updateCustMeetingPlansRef( custMeetings, to );
+				
 				
 				
 				//****** CLEAN START
@@ -1898,10 +1902,17 @@ System.err.println("doXX");
 			session = sessionFactory.getSession();
 			for(int i=0;i<meetings.size();i++){
 				String meetingPath = meetings.get(i);				
-				String newPath= meetingPath.substring( meetingPath.indexOf("/lib/"));
-				System.err.println("Changing cust meeting path from "+ path +" to: "+ newPath);
+				
+				
+				
 				Node x = session.getNode(meetingPath);
+				String orgPath = x.getProperty("refId").getString();
+				
+				System.err.println("orgPath : "+ orgPath);
+				String newPath= path+""+orgPath.substring( orgPath.indexOf("/lib/"));
+				System.err.println("Changing cust meeting path from "+ path +" to: "+ newPath);
 				x.setProperty("refId", newPath);
+				session.save();
 				
 			}
 			
@@ -1924,7 +1935,8 @@ System.err.println("doXX");
 		Session session = null;
 		try {				
 			session = sessionFactory.getSession();	
-			String sql = "select * from nt:unstructured where jcr:path like '"+ path +"' and ocm_classname ='org.girlscouts.vtk.models.MeetingE' and refId like '%/users/%_%' ";
+			String sql = "select * from nt:unstructured where jcr:path like '"+ path +"/%' and ocm_classname ='org.girlscouts.vtk.models.MeetingE' and refId like '%/users/%_%' ";
+	System.err.println("SQL cust"+ sql);		
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 				

@@ -223,7 +223,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 	}
 
 	public boolean isActivityByPath(User user, String path) throws IllegalAccessException{
-
+System.err.println("ISActiv");
 		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_ACTIVITY_ID) )
 			throw new IllegalAccessException();
 		
@@ -231,9 +231,8 @@ public class ActivityDAOImpl implements ActivityDAO {
 		boolean isActivity = true;
 		try {
 			
-			String sql = "select jcr:path from nt:base where jcr:path = '"
-					+ path + "'";
-			
+			String sql = "select jcr:path from nt:base where jcr:path = '"+ path + "'";
+	System.err.println("SQL "+sql);		
 			session = sessionFactory.getSession();
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
@@ -245,15 +244,21 @@ public class ActivityDAOImpl implements ActivityDAO {
 			for (RowIterator it = result.getRows(); it.hasNext();) {
 				Row r = it.nextRow();
 				Value excerpt = r.getValue("jcr:path");
+System.err.println("Patha: "+excerpt.getString()) ;				
 				if (excerpt.getString().equals(path)) {
+		System.err.println(1);			
 					isActivity = true;
 					isFound = true;
-				} else
+				} else{
 					isFound = false;
-
+		System.err.println(2);			
+				}
 			}
 			if (!isFound)
 				isActivity = false;
+			
+			
+System.err.println("ChL "+ isActivity);			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally{
@@ -262,7 +267,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 					sessionFactory.closeSession(session);
 			}catch(Exception ex){ex.printStackTrace();}
 		}
-
+System.err.println("chk" + isActivity);
 		return isActivity;
 	}
 

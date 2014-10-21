@@ -154,11 +154,13 @@
 		troop.setSfTroopAge(troop.getTroop().getGradeLevel());
 		troop.setSfCouncil(troop.getTroop().getCouncilCode() + "");
 
+		/*
 		if (troop != null && troop.getYearPlan() != null
 				&& troop.getYearPlan().getActivities() != null
 				&& troop.getYearPlan().getActivities().size() > 0) {
 			yearPlanUtil.checkCanceledActivity(user, troop);
 		}
+		*/
 		session.setAttribute("VTK_troop", troop);
 	}
 
