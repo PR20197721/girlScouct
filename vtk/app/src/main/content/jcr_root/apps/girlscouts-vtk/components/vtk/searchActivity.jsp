@@ -53,9 +53,9 @@ if( activities!=null  ){
 				<i class="activityDisabled">This Activity has already been selected</i>
 			<%}else{ %>
 				<%if( activities.get(i).getRegisterUrl()  !=null && !activities.get(i).getRegisterUrl().equals("")){ %>
-					<a href="#" class="reserved" onclick="addActiv3('<%=activities.get(i).getUid()%>')">Select Activity and Register for event</a>
+					<a href="#" class="reserved" onclick="addActiv3('<%=activities.get(i).getUid()%>', '<%=activities.get(i).getRegisterUrl()%>')">Select Activity and Register for event</a>
 				<%}else{ %>
-					<a href="#" class="reserved" onclick="addActiv3('<%=activities.get(i).getUid()%>')">Select Activity</a>
+					<a href="#" class="reserved" onclick="addActiv3('<%=activities.get(i).getUid()%>', null)">Select Activity</a>
 				<%} %>
 			<%} %>
 			<div id="cust_activ_<%=activities.get(i).getUid()%>"></div>
