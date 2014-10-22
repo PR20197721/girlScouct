@@ -91,13 +91,16 @@
 					.getName()));
 	
 	String errMsg = null;
-	Troop troop = (Troop) session.getValue("VTK_troop");	
-	if (troop == null || troop.isRefresh()
-			|| troopUtil.isUpdated(troop)) {
-		if (troop != null && troop.isRefresh()
-				&& troop.getErrCode() != null
-				&& !troop.getErrCode().equals(""))
-			errMsg = troop.getErrCode();
+	Troop troop = (Troop) session.getValue("VTK_troop");
+	
+	if(troop!=null)
+		System.err.println("TROOP RETR TIME : "+ troop.getRetrieveTime() );	
+	
+	    //if (troop == null || troop.isRefresh() || troopUtil.isUpdated(troop)) {
+		if (troop == null || troop.isRefresh() ) {
+		
+			if (troop != null && troop.isRefresh() && troop.getErrCode() != null && !troop.getErrCode().equals(""))
+				errMsg = troop.getErrCode();
 		
 	
 	  org.girlscouts.vtk.salesforce.Troop prefTroop = apiConfig.getTroops().get(0);
@@ -130,9 +133,9 @@
 	 
 	
 		try{
-			
-		   troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(),
-				prefTroop.getTroopId());
+System.err.println("GETTTTTING TROOP FROM DB....");				
+		   troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
+	   
 		}catch(IllegalAccessException ex){
 			%><span class="error">Sorry, you have no access to view year plan</span><%
 			return;
@@ -179,31 +182,31 @@
 <%
 	}
 
+	/*
 	if (isMultiUserFullBlock
 			&& troop != null
 			&& troop.getYearPlan() != null
 			&& !userUtil.isCurrentTroopId(troop,
 					troop.getCurrentTroop())) {
-%><div style="color: #fff; background-color: red;">Warning:  Another user is logged in with this user id.  If you have logged in to the Volunteer Toolkit on another device or desktop, please logout and login again.</div>
+%><div style="color: #fff; background-color: red;">Warning:  Another user is logged in with this user id.  If you have logged in to the Volunteer Toolkit on another device or desktop, please logout and login again.111.1</div>
 <%
 	troop.setRefresh(true);
 		return;
 	}
-
+*/
 	if ((errMsg != null && errMsg.equals("112"))
 			|| (troop.getErrCode() != null && troop.getErrCode()
 					.equals("112"))) {
 %>
-<div style="color: #fff; background-color: red;">Warning:  Another user is logged in with this user id.  If you have logged in to the Volunteer Toolkit on another device or desktop, please logout and login again.</div>
+<div style="color: #fff; background-color: red;">Warning:  Another user is logged in with this user id.  If you have logged in to the Volunteer Toolkit on another device or desktop, please logout and login again.112</div>
 <%
 	troop.setRefresh(true);
 		return;
 	}
-%>
 
 
 
-<%
+
 	if (troop.getSfUserId().equals("005Z0000002OBPiIAO")) {
 %>
 <div class="small-18 medium-18 large-18 columns">
@@ -225,9 +228,10 @@
 </form>
 <%
 	}
+	System.err.println("TROOP RETR TIME1 : "+ troop.getRetrieveTime() );	
 %>
 
-
+<%= troop.getRetrieveTime() %>
 
 
 

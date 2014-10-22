@@ -3,6 +3,15 @@
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 <%
+
+System.err.println("START**********************");
+System.err.println("** "+ sling.getService(YearPlanDAO.class).getLastModifByOthers(troop, null));
+System.err.println(troop.getRetrieveTime() +" : "+ ((Troop) session.getValue("VTK_troop")).getRetrieveTime());
+System.err.println("________________"+ userUtil.isCurrentTroopId(troop, null)+" errCode: "+ troop.getErrCode());
+System.err.println("END************************");
+
+//if( true)return;
+
 String vtkErr="";
 if( request.getParameter("isMeetingCngAjax") !=null){
 //	/gscontroller/vtk/crud/meetingOrder POST {operation:UPDATE , isMeetingCngAjax: [2,4,6,31]}

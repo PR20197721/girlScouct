@@ -283,14 +283,14 @@ public class TroopDAOImpl implements TroopDAO {
 				troop.setLastModified(java.util.Calendar.getInstance());
 				ocm.update(troop);
 
-	System.err.println(8);			
+	System.err.println(8 +" : : : : : lastMidif db: " + troop.getLastModified().getTime());			
 				
 					ocm.save(); 
 				
 				
-	System.err.println("TROOP UPDATED>>>>>>>>>>>>>>");			
+	System.err.println("TROOP UPDATED>>>>>>>>>>>>>>"+ new java.util.Date() +" : "+ troop.getLastModified().getTime());			
 				isUpdated = true;
-			
+				troop.setRefresh(true);
 			} catch (Exception e) {
 				//e.printStackTrace();
 				System.err.println("!!!! ERROR !!!!!  TroopDAOImpl.updateTroop CAN NOT SAVE TROOP !!!! ERROR !!!!!");

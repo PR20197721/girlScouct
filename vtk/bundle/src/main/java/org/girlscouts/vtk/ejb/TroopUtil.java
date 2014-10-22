@@ -350,7 +350,7 @@ troop.setPermissionTokens(s);
 	public boolean updateTroop(User user, Troop troop)
 			throws java.lang.IllegalAccessException,
 			java.lang.IllegalAccessException {
-
+		
 		 return troopDAO.updateTroop(user, troop);
 		 
 	}

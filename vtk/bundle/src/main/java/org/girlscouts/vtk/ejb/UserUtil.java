@@ -19,12 +19,10 @@ public class UserUtil {
 	public boolean hasPermission(java.util.Set<Integer> myPermissionTokens,
 			int permissionId) {
 		
-		//System.err.println( "Checking permissions: "+ permissionId +" : "+ myPermissionTokens);
 		if (myPermissionTokens != null
 				&& myPermissionTokens.contains(permissionId))
 			return true;
 		
-		//System.err.println( "No permission");
 		return false;
 	}
 
@@ -35,21 +33,24 @@ public class UserUtil {
 	}
 
 	public boolean hasAccess(Troop troop, String mySessionId, int permissionId) {
-		//System.err.println("HAS ACCESS?? checking perm...");
+		
 		if (!hasPermission(troop, permissionId))
 			return false;
 
-		//System.err.print("OK. checking lock...");
+	
 		if (!isCurrentTroopId(troop, mySessionId))
 			return false;
 
-		//System.err.print("ok");
+		
 		return true;
 	}
 	
 	public boolean isCurrentTroopId(Troop troop, String sId) {
 		
+		System.err.println("Checking yp modif...."+ sId);
 		java.util.Date lastUpdate = yearPlanDAO.getLastModifByOthers(troop, sId);
+		System.err.println("LastModif db: "+ lastUpdate);
+		System.err.println("Yptime troop: "+troop.getRetrieveTime());
 		if (lastUpdate != null && troop.getRetrieveTime()!=null && troop.getRetrieveTime().before(lastUpdate)) {
 			troop.setRefresh(true);
 			return false;

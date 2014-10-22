@@ -153,7 +153,7 @@ public class YearPlanDAOImpl implements YearPlanDAO {
 			
 			if(sessionId!=null)
 				sql+= " and currentUser <>'"+sessionId+"'";
-		
+		System.err.println("SQL "+ sql);
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -174,6 +174,7 @@ public class YearPlanDAOImpl implements YearPlanDAO {
 				ex.printStackTrace();
 			}
 		}
+	System.err.println("Last midf timestamp: "+ toRet);	
 		return toRet;
 	}
 }

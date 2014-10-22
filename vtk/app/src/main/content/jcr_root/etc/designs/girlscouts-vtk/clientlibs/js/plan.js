@@ -64,6 +64,8 @@ function doUpdMeeting(){
 		dataType: 'html', // Choosing a JSON datatype
 
 	}).done(function( html ) { loadMeetings();});
+		
+		
 }
 
 function reloadMeeting(){
