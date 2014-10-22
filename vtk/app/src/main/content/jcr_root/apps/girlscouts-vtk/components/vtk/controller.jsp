@@ -13,6 +13,7 @@ System.err.println("END************************");
 //if( true)return;
 
 String vtkErr="";
+try{
 if( request.getParameter("isMeetingCngAjax") !=null){
 //	/gscontroller/vtk/crud/meetingOrder POST {operation:UPDATE , isMeetingCngAjax: [2,4,6,31]}
 	meetingUtil.changeMeetingPositions( user, troop, request.getParameter("isMeetingCngAjax") );
@@ -60,7 +61,9 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 }else if( request.getParameter("addMeeting") !=null ){ //add Meeting
 	meetingUtil.addMeetings(user, troop,  request.getParameter("toPath"));
 }else if( request.getParameter("isActivityCngAjax") !=null ){ //activity shuffle
-	meetingUtil.rearrangeActivity(user,  troop, request.getParameter("mid"), request.getParameter("isActivityCngAjax"));
+	try{
+		meetingUtil.rearrangeActivity(user,  troop, request.getParameter("mid"), request.getParameter("isActivityCngAjax"));
+	}catch(java.lang.IllegalAccessException e){e.printStackTrace();}
 }else if( request.getParameter("rmAgenda") !=null ){
 	// /gscontroller/vtk/crud/removeAgenda POST {operation: DELETE, agendaId: 12345}
 	meetingUtil.rmAgenda(user, troop, request.getParameter("rmAgenda") , request.getParameter("mid")  );
@@ -362,7 +365,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 
 
 
-
+}catch(java.lang.IllegalAccessException e){e.printStackTrace();}
 
 
 %>

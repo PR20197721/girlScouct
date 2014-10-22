@@ -75,7 +75,7 @@ function addActiv3(id, registerHrefToPop){
 		success: function(result) {
 			//document.getElementById("cust_activ_"+id).innerHTML='Added';
 			if(registerHrefToPop!=null && registerHrefToPop!=''){
-				window.open(registerHrefToPop,'_blank');
+				window.open(registerHrefToPop,'_tab');
 			}
 			
 			location.reload();

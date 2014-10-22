@@ -396,6 +396,7 @@ System.err.println("calling update troop");
 		
 		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
 			troop.setErrCode("112");
+	System.err.println("rearrangeActivity-- no change");		
 			throw new java.lang.IllegalAccessException();
 		}
 		

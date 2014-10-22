@@ -234,10 +234,9 @@ No Changes. Record was updated while you were idle. Record was updated to reflec
 </form>
 <%
 	}
-	System.err.println("TROOP RETR TIME1 : "+ troop.getRetrieveTime() );	
+	//System.err.println("TROOP RETR TIME1 : "+ troop.getRetrieveTime() );	
 %>
 
-<%= troop.getRetrieveTime() %>
 
 
 
