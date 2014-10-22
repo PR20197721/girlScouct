@@ -206,6 +206,7 @@ a:hover.menuHighlight {
 #header a.signout {
     font-size: 0.875em;
     color: #fff;
+    margin: 0 15px;
 }
 #header a:hover.signout {
     color: #c00;

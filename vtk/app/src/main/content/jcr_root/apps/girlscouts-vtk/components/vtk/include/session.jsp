@@ -229,7 +229,7 @@ No Changes. Record was updated while you were idle. Record was updated to reflec
 		</select>
 </div>
 <div class="small-6 medium-6 large-6 columns">
-	<input type="submit" value="Change my permission" />
+	<input type="submit" value="Change my permission" class="button" />
 </div>
 </form>
 <%
