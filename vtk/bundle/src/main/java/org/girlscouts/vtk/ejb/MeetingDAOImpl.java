@@ -1697,7 +1697,11 @@ public class MeetingDAOImpl implements MeetingDAO {
 				activity.setUid("A" + new java.util.Date().getTime() + "_"
 						+ Math.random());
 				activity.setContent(r.getValue("child.details").getString());
+				
+				//convert to EST
 				activity.setDate(r.getValue("child.start").getDate().getTime());
+
+				
 				try {
 					activity.setEndDate(r.getValue("child.end").getDate()
 							.getTime());

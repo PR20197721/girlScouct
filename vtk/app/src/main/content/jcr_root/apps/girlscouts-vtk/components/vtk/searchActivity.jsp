@@ -53,7 +53,7 @@ if( activities!=null  ){
 				<i class="activityDisabled">This Activity has already been selected</i>
 			<%}else{ %>
 				<%if( activities.get(i).getRegisterUrl()  !=null && !activities.get(i).getRegisterUrl().equals("")){ %>
-					<a href="#" class="reserved" onclick="addActiv3('<%=activities.get(i).getUid()%>', '<%=activities.get(i).getRegisterUrl()%>')">Select Activity and Register for event</a>
+					<a href="<%=activities.get(i).getRegisterUrl()%>" target="_blank" class="reserved" onclick="addActiv3('<%=activities.get(i).getUid()%>', '<%=activities.get(i).getRegisterUrl()%>')">Select Activity and Register for event</a>
 				<%}else{ %>
 					<a href="#" class="reserved" onclick="addActiv3('<%=activities.get(i).getUid()%>', null)">Select Activity</a>
 				<%} %>
@@ -74,10 +74,12 @@ function addActiv3(id, registerHrefToPop){
 		},
 		success: function(result) {
 			//document.getElementById("cust_activ_"+id).innerHTML='Added';
-			if(registerHrefToPop!=null && registerHrefToPop!=''){
-				window.open(registerHrefToPop,'_tab');
-			}
 			
+			/*
+			if(registerHrefToPop!=null && registerHrefToPop!=''){
+				window.open(registerHrefToPop, '_blank');
+			}
+			*/
 			location.reload();
 		}
 	});
