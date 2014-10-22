@@ -107,7 +107,7 @@ function toggleWhiteArrow() {
 
 <form action="<%=formAction%>" method="get" id="form" onsubmit="return validateForm()">
 	<div class="baseDiv programLevel row collapse">
-		<p id ="errorBox" ></p>
+
 	   <div class="small-24 medium-6 large-7 columns">
 				<div class="title"> By Keyword </div>
 				<input type="text" name="q" placeholder="Keywords" class="searchField" style="width:140px;height:25px;" />
@@ -133,6 +133,7 @@ function toggleWhiteArrow() {
 					<input type="text" name="enddtRange" id="enddtRange" class="searchField" <%if((startdtRange!=null && !startdtRange.isEmpty()) && (enddtRange.isEmpty())){%>style="border: 1px solid red"<%}%> placeholder="To"/>
 				</div>
 			</div>
+			<p id ="dateErrorBox" ></p>
 		</div>
 	</div>	
 	<div class="baseDiv programLevel" >
@@ -233,13 +234,16 @@ beforeShowDay: function(d) {
     function validateForm(){
 
         if(new Date($('#enddtRange').val()) < new Date($('#startdtRange').val())){
-			document.getElementById("errorBox").innerHTML = "End Date cannot be before Start Date";
+			document.getElementById("dateErrorBox").innerHTML = "End Date cannot be less than Start Date";
 			document.getElementById("dateTitle").style.color = "#FF0000";
-			document.getElementById("errorBox").scrollIntoView();
+            document.getElementById("dateErrorBox").style.color = "#FF0000";
+			document.getElementById("dateErrorBox").style.fontSize = "x-small";
+			document.getElementById("dateErrorBox").style.fontWeight = "bold";
+			document.getElementById("dateErrorBox").scrollIntoView();
 
             return false;
         }else{
-            document.getElementById("errorBox").innerHTML = "";
+            document.getElementById("dateErrorBox").innerHTML = "";
 			return true;
         }
 
