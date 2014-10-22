@@ -8,6 +8,7 @@ public class User implements Serializable{
 
 	private ApiConfig apiConfig;
 	private java.util.Set<Integer> permissions;
+	private String sid;//my http sessionId
 	
 	
 	public java.util.Set<Integer> getPermissions() {
@@ -26,4 +27,16 @@ public class User implements Serializable{
 		this.apiConfig = apiConfig;
 	}
 
+	public String getSid() {
+		return sid;
+	}
+
+	public void setSid(String sid) {
+		this.sid = sid;
+	}
+
+	
+
+	
+	
 }

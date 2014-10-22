@@ -221,12 +221,28 @@ public class MeetingUtil {
 	
 	
 	public void changeMeetingPositions(User user, Troop troop, String newPositions)throws IllegalAccessException{
-		
+	
+System.err.println("changeMeetingPositions");		
+
+
+System.err.println("TEST: "+userUtil.isCurrentTroopId(troop, user.getSid()));
+
+
+
+
+
+/*
 		if( !userUtil.hasAccess(troop, troop.getCurrentTroop(), Permission.PERMISSION_MOVE_MEETING_ID ) ){
 			 troop.setErrCode("112");
 			 throw new IllegalAccessException();
 		 }
 		
+		*/
+if( !userUtil.hasPermission(troop,  Permission.PERMISSION_MOVE_MEETING_ID ) ){
+	 troop.setErrCode("112");
+	 throw new IllegalAccessException();
+}
+
 		java.util.List <Integer> newMeetingSetup= new java.util.ArrayList();
 		java.util.StringTokenizer t= new java.util.StringTokenizer( newPositions, ",");
 		while( t.hasMoreElements() )
@@ -246,10 +262,9 @@ public class MeetingUtil {
 		
 		YearPlan plan = troop.getYearPlan();
 		plan.setMeetingEvents(rearangedMeetings);
-	
 		plan.setAltered("true");
 		troop.setYearPlan(plan);
-		
+System.err.println("calling update troop");		
 		troopUtil.updateTroop(user, troop);
 		
 		
@@ -258,11 +273,19 @@ public class MeetingUtil {
 	
 	public void createCustomAgenda(User user, Troop troop, String name, String meetingPath, int duration, long _startTime, String txt )throws IllegalAccessException{
 		
-		
+		/*
 		if( !userUtil.hasAccess(troop, troop.getCurrentTroop(), Permission.PERMISSION_CREATE_MEETING_ID ) ){
 			 troop.setErrCode("112");
 			 throw new IllegalAccessException();
 		 }
+		*/
+		if( troop!= null && ! userUtil.hasPermission(troop,Permission.PERMISSION_CREATE_MEETING_ID ) )
+			throw new IllegalAccessException();
+		
+		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
+			troop.setErrCode("112");
+			throw new java.lang.IllegalAccessException();
+		}
 		
 		java.util.Calendar startTime =  Calendar.getInstance();
 		startTime.setTimeInMillis(  _startTime  );
@@ -308,7 +331,7 @@ public class MeetingUtil {
 		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_REMOVE_MEETING_ID) )
 			throw new IllegalAccessException();
 		
-		if( user!=null && !userUtil.isCurrentTroopId(troop, troop.getCurrentTroop())){
+		if( user!=null && !userUtil.isCurrentTroopId(troop, user.getSid())){
 			troop.setErrCode("112");
 			throw new IllegalStateException();
 		}
@@ -327,12 +350,20 @@ public class MeetingUtil {
 	}
 	
 	public    void swapMeetings(User user, Troop troop, String fromPath, String toPath) throws java.lang.IllegalAccessException{
-		
+		/*
 		if( ! userUtil.hasAccess(troop, troop.getCurrentTroop()  ,Permission.PERMISSION_REPLACE_MEETING_ID)){
 			 troop.setErrCode("112");
 			 throw new IllegalAccessException();
 		 }
+		*/
 		
+		if( troop!= null && ! userUtil.hasPermission(troop,Permission.PERMISSION_REPLACE_MEETING_ID ) )
+			throw new IllegalAccessException();
+		
+		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
+			troop.setErrCode("112");
+			throw new java.lang.IllegalAccessException();
+		}
 		
 		
 		java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
@@ -354,12 +385,19 @@ public class MeetingUtil {
 
 	public void rearrangeActivity(User user, Troop troop, String meetingPath, String _newPoss)throws java.lang.IllegalAccessException{
 		
-		
+		/*
 		if( ! userUtil.hasAccess(troop, troop.getCurrentTroop(), Permission.PERMISSION_MOVE_MEETING_ID ) ){
 			 troop.setErrCode("112");
 			 throw new IllegalAccessException();
 		 }
+		*/
+		if( troop!= null && ! userUtil.hasPermission(troop,Permission.PERMISSION_MOVE_MEETING_ID ) )
+			throw new IllegalAccessException();
 		
+		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
+			troop.setErrCode("112");
+			throw new java.lang.IllegalAccessException();
+		}
 		
 		//TOREDO
 		java.util.List<Integer> newPoss = new java.util.ArrayList();
@@ -410,11 +448,20 @@ public class MeetingUtil {
 	}
 	
 	public void addMeetings(User user, Troop troop, String newMeetingPath) throws java.lang.IllegalAccessException{
-		
+		/*
 		if( !userUtil.hasAccess(troop, troop.getCurrentTroop(), Permission.PERMISSION_CREATE_MEETING_ID ) ){
 			 troop.setErrCode("112");
 			 throw new IllegalAccessException();
 		 }
+		*/
+		if( troop!= null && ! userUtil.hasPermission(troop,Permission.PERMISSION_CREATE_MEETING_ID ) )
+			throw new IllegalAccessException();
+		
+		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
+			troop.setErrCode("112");
+			throw new java.lang.IllegalAccessException();
+		}
+		
 		
 		MeetingE meeting = new MeetingE();
 		meeting.setRefId(newMeetingPath);
@@ -450,11 +497,19 @@ public class MeetingUtil {
 	
 	
 	public void rmAgenda(User user, Troop troop, String agendaPathToRm , String fromMeetingPath  )throws java.lang.IllegalAccessException{
-		
+		/*
 		if( ! userUtil.hasAccess(troop, troop.getCurrentTroop() , Permission.PERMISSION_REMOVE_MEETING_ID) ){
 			 troop.setErrCode("112");
 			 throw new IllegalAccessException();
 		 }
+		*/
+		if( troop!= null && ! userUtil.hasPermission(troop,Permission.PERMISSION_REMOVE_MEETING_ID ) )
+			throw new IllegalAccessException();
+		
+		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
+			troop.setErrCode("112");
+			throw new java.lang.IllegalAccessException();
+		}
 		
 		for(int i=0;i< troop.getYearPlan().getMeetingEvents().size();i++){
 			
@@ -482,11 +537,19 @@ public class MeetingUtil {
 	
 	public void editAgendaDuration(User user, Troop troop, int duration, String activityPath, String meetingPath)throws java.lang.IllegalAccessException{
 	
-		
+		/*
 		if( ! userUtil.hasAccess(troop, troop.getCurrentTroop() , Permission.PERMISSION_EDIT_MEETING_ID) ){
 			 troop.setErrCode("112");
 			 throw new IllegalAccessException();
 		 }
+		 */
+		if( troop!= null && ! userUtil.hasPermission(troop,Permission.PERMISSION_EDIT_MEETING_ID ) )
+			throw new IllegalAccessException();
+		
+		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
+			troop.setErrCode("112");
+			throw new java.lang.IllegalAccessException();
+		}
 		
 		
         for(int i=0;i< troop.getYearPlan().getMeetingEvents().size();i++){
@@ -520,12 +583,19 @@ public class MeetingUtil {
 
 	
 	public  void reverAgenda(User user, Troop troop, String meetingPath) throws java.lang.IllegalAccessException{
-		 
+		 /*
 		if( ! userUtil.hasAccess(troop, troop.getCurrentTroop(), Permission.PERMISSION_REPLACE_MEETING_ID ) ){
 			 troop.setErrCode("112");
 			 throw new IllegalAccessException();
 		 }
+		*/
+		if( troop!= null && ! userUtil.hasPermission(troop,Permission.PERMISSION_REPLACE_MEETING_ID  ) )
+			throw new IllegalAccessException();
 		
+		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
+			troop.setErrCode("112");
+			throw new java.lang.IllegalAccessException();
+		}
 		
 		 MeetingE meeting= null;
 		 for(int i=0;i<troop.getYearPlan().getMeetingEvents().size();i++)
@@ -561,12 +631,20 @@ public class MeetingUtil {
 	
 	
 	public void addAids(User user, Troop troop, String aidId, String meetingId, String assetName)throws java.lang.IllegalAccessException{
-		
+		/*
 		if( ! userUtil.hasAccess(troop, troop.getCurrentTroop() , Permission.PERMISSION_CREATE_MEETING_ID) ){
 			 troop.setErrCode("112");
 			 //return;
 			 throw new IllegalAccessException();
 		 }
+		*/
+		if( troop!= null && ! userUtil.hasPermission(troop,Permission.PERMISSION_CREATE_MEETING_ID  ) )
+			throw new IllegalAccessException();
+		
+		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
+			troop.setErrCode("112");
+			throw new java.lang.IllegalAccessException();
+		}
 		
 		java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
 		for(int i=0;i<meetings.size();i++){
@@ -634,12 +712,20 @@ public class MeetingUtil {
 	
 	
 	public void addResource(User user, Troop troop, String aidId, String meetingId, String assetName)throws java.lang.IllegalAccessException{
-		
+		/*
 		if( ! userUtil.hasAccess(troop, troop.getCurrentTroop(), Permission.PERMISSION_CREATE_MEETING_ID ) ){
 			 troop.setErrCode("112");
 			 //return;
 			 throw new IllegalAccessException();
 		 }
+		*/
+		if( troop!= null && ! userUtil.hasPermission(troop,Permission.PERMISSION_CREATE_MEETING_ID  ) )
+			throw new IllegalAccessException();
+		
+		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
+			troop.setErrCode("112");
+			throw new java.lang.IllegalAccessException();
+		}
 		
 		java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
 		for(int i=0;i<meetings.size();i++){
@@ -708,13 +794,20 @@ public class MeetingUtil {
 	}
 	
 	public void rmAsset(User user, Troop troop, String aidId, String meetingId)throws java.lang.IllegalAccessException{
-		
+		/*
 		if( ! userUtil.hasAccess(troop, troop.getCurrentTroop(), Permission.PERMISSION_REMOVE_MEETING_ID ) ){
 			 troop.setErrCode("112");
 			 //return;
 			 throw new IllegalAccessException();
 		 }
+		*/
+		if( troop!= null && ! userUtil.hasPermission(troop,Permission.PERMISSION_REMOVE_MEETING_ID   ) )
+			throw new IllegalAccessException();
 		
+		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
+			troop.setErrCode("112");
+			throw new java.lang.IllegalAccessException();
+		}
 		
 		java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
 		for(int i=0;i<meetings.size();i++){

@@ -89,6 +89,7 @@
 	user = ((org.girlscouts.vtk.models.User) session
 			.getAttribute(org.girlscouts.vtk.models.User.class
 					.getName()));
+	user.setSid(session.getId());
 	
 	String errMsg = null;
 	Troop troop = (Troop) session.getValue("VTK_troop");
@@ -198,11 +199,16 @@ System.err.println("GETTTTTING TROOP FROM DB....");
 			|| (troop.getErrCode() != null && troop.getErrCode()
 					.equals("112"))) {
 %>
-<div style="color: #fff; background-color: red;">Warning:  Another user is logged in with this user id.  If you have logged in to the Volunteer Toolkit on another device or desktop, please logout and login again.112</div>
+<div style="color: #fff; background-color: red;">
+No Changes. Record was updated while you were idle. Record was updated to reflect changes in db.
+</div>
 <%
 	troop.setRefresh(true);
-		return;
+		
 	}
+
+
+
 
 
 

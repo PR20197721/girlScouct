@@ -188,12 +188,20 @@ public class CalendarUtil {
 		
 		
 		public void createSched(User user, Troop troop, String freq, org.joda.time.DateTime p, String exclDate)throws java.lang.IllegalAccessException{
-		
+		/*
 			if( !userUtil.hasAccess(troop, troop.getCurrentTroop(), Permission.PERMISSION_EDIT_MEETING_ID ) ){
 				 troop.setErrCode("112");
 				 //return;
 				 throw new IllegalAccessException();
 			 }
+			*/
+			if( troop!= null && ! userUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID   ) )
+				throw new IllegalAccessException();
+			
+			if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
+				troop.setErrCode("112");
+				throw new java.lang.IllegalAccessException();
+			}
 			
 			java.util.List <org.joda.time.DateTime>exclDt= new java.util.ArrayList<org.joda.time.DateTime>();
 			java.util.StringTokenizer t= new java.util.StringTokenizer( exclDate, ",");
@@ -228,12 +236,20 @@ public class CalendarUtil {
 		
 		public void updateSched(User user, Troop troop, String meetingPath, String time, String date, String ap, 
 				String isCancelledMeeting, long currDate)throws java.lang.IllegalAccessException{
-			
+			/*
 			if( !userUtil.hasAccess(troop, troop.getCurrentTroop(), Permission.PERMISSION_UPDATE_MEETING_ID ) ){
 				 troop.setErrCode("112");
 				// return;
 				 throw new IllegalAccessException();
 			 }
+			*/
+			if( troop!= null && ! userUtil.hasPermission(troop, Permission.PERMISSION_UPDATE_MEETING_ID   ) )
+				throw new IllegalAccessException();
+			
+			if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
+				troop.setErrCode("112");
+				throw new java.lang.IllegalAccessException();
+			}
 			
 			java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat("MM/dd/yyyy hh:mm a");
 			

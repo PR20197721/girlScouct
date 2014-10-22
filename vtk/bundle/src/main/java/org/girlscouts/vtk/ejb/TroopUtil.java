@@ -205,7 +205,7 @@ troop.setPermissionTokens(s);
 						Permission.PERMISSION_EDIT_YEARPLAN_ID))
 			throw new IllegalAccessException();
 
-		if (!userUtil.isCurrentTroopId(troop, troop.getCurrentTroop())) {
+		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
 			troop.setErrCode("112");
 			throw new IllegalStateException();
 			// return;
@@ -229,7 +229,7 @@ troop.setPermissionTokens(s);
 						Permission.PERMISSION_ADD_YEARPLAN_ID))
 			throw new IllegalAccessException();
 
-		if (!userUtil.isCurrentTroopId(troop, troop.getCurrentTroop())) {
+		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
 			troop.setErrCode("112");
 			return;
 		}
@@ -350,7 +350,7 @@ troop.setPermissionTokens(s);
 	public boolean updateTroop(User user, Troop troop)
 			throws java.lang.IllegalAccessException,
 			java.lang.IllegalAccessException {
-		
+	System.err.println("TroopUtil.updateTroop");	
 		 return troopDAO.updateTroop(user, troop);
 		 
 	}
@@ -367,7 +367,7 @@ troop.setPermissionTokens(s);
 	public YearPlan addYearPlan(User user, Troop troop, String yearPlanPath) throws java.lang.IllegalAccessException, java.lang.IllegalAccessException {
 		YearPlan plan=null;
 		try{
-			plan = troopDAO.addYearPlan1( troop,  yearPlanPath);
+			plan = troopDAO.addYearPlan1(user,  troop,  yearPlanPath);
 			plan.setRefId(yearPlanPath);
 			
 		    plan.setMeetingEvents(yearPlanUtil.getAllEventMeetings_byPath(user, yearPlanPath.endsWith("/meetings/") ? yearPlanPath : (yearPlanPath+"/meetings/")));

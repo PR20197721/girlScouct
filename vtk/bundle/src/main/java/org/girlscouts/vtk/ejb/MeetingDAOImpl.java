@@ -256,7 +256,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_CREATE_MEETING_ID) )
 				throw new IllegalAccessException();
 			
-			if( user!=null && !userUtil.isCurrentTroopId(troop, troop.getCurrentTroop())){
+			if( user!=null && !userUtil.isCurrentTroopId(troop, user.getSid())){
 				troop.setErrCode("112");
 				throw new IllegalStateException();
 			}
@@ -313,7 +313,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_EDIT_MEETING_ID) )
 				throw new IllegalAccessException();
 			
-			if( user!=null && !userUtil.isCurrentTroopId(troop, troop.getCurrentTroop())){
+			if( user!=null && !userUtil.isCurrentTroopId(troop, user.getSid())){
 				troop.setErrCode("112");
 				throw new IllegalStateException();
 			}
@@ -368,7 +368,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_CREATE_ACTIVITY_ID) )
 			throw new IllegalAccessException();
 		
-		if( user!=null && !userUtil.isCurrentTroopId(troop, troop.getCurrentTroop())){
+		if( user!=null && !userUtil.isCurrentTroopId(troop, user.getSid())){
 			troop.setErrCode("112");
 			throw new IllegalStateException();
 		}
@@ -1615,7 +1615,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		if (!userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_SEARCH_MEETING_ID))
 			throw new IllegalAccessException();
 		
-		if( user!=null && !userUtil.isCurrentTroopId(troop, troop.getCurrentTroop())){
+		if( user!=null && !userUtil.isCurrentTroopId(troop, user.getSid())){
 			troop.setErrCode("112");
 			throw new IllegalStateException();
 		}
@@ -1773,6 +1773,9 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 	public void doX() {
 System.err.println("doXX");		
+
+		doX_convertNodesToOCMCouncil();
+
 		java.util.List<String> paths= new java.util.ArrayList<String>();
 		System.err.println("doXX1");				
 		Session session = null;
@@ -1894,6 +1897,34 @@ System.err.println("doXX");
 
 	}
 
+	public void doX_convertNodesToOCMCouncil(){
+		Session session = null;
+		try {		
+			session = sessionFactory.getSession();
+			Node vtk = session.getNode("/vtk");
+			NodeIterator vtks =vtk.getNodes();
+			while( vtks.hasNext()){
+				Node _vtk = (Node)vtks.next();
+				if( _vtk.getPath().contains("/global-settings") )continue;
+				if( _vtk.getPath().contains("/last-import-timestamp") )continue;
+				if( _vtk.getPath().contains("/rep:policy") )continue;
+				
+				System.err.println("VTK " + _vtk.getPath());
+				_vtk.setProperty("ocm_classname", "org.girlscouts.vtk.models.Council");
+				
+			}
+			session.save();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null)
+					sessionFactory.closeSession(session);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
 	
 	//doX
 	public void updateCustMeetingPlansRef(java.util.List<String>meetings, String path){
@@ -2063,7 +2094,7 @@ System.err.println("Path: "+path );
 			if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_EDIT_MEETING_ID) )
 				throw new IllegalAccessException();
 			
-			if( user!=null && !userUtil.isCurrentTroopId(troop, troop.getCurrentTroop())){
+			if( user!=null && !userUtil.isCurrentTroopId(troop, user.getSid())){
 				troop.setErrCode("112");
 				throw new IllegalStateException();
 			}

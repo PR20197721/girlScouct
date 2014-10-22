@@ -152,7 +152,7 @@ public class YearPlanDAOImpl implements YearPlanDAO {
 					+ troop.getPath() + "' and jcr:lastModified is not null";
 			
 			if(sessionId!=null)
-				sql+= " and currentUser <>'"+sessionId+"'";
+				sql+= " and currentTroop <>'"+sessionId+"'";
 		System.err.println("SQL "+ sql);
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();

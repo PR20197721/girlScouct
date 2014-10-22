@@ -55,7 +55,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 			if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_CREATE_ACTIVITY_ID) )
 				throw new IllegalAccessException();
 			
-			if (!userUtil.isCurrentTroopId(troop, troop.getCurrentTroop())) {
+			if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
 				troop.setErrCode("112");
 				throw new java.lang.IllegalAccessException();
 			}

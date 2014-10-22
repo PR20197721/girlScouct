@@ -32,6 +32,7 @@ public class UserUtil {
 		return true;
 	}
 
+	/*
 	public boolean hasAccess(Troop troop, String mySessionId, int permissionId) {
 		
 		if (!hasPermission(troop, permissionId))
@@ -44,7 +45,7 @@ public class UserUtil {
 		
 		return true;
 	}
-	
+	*/
 	public boolean isCurrentTroopId(Troop troop, String sId) {
 		
 		System.err.println("Checking yp modif...."+ sId);
@@ -53,9 +54,10 @@ public class UserUtil {
 		System.err.println("Yptime troop: "+troop.getRetrieveTime());
 		if (lastUpdate != null && troop.getRetrieveTime()!=null && troop.getRetrieveTime().before(lastUpdate)) {
 			troop.setRefresh(true);
+	System.err.println("YP UPDATED : YES");		
 			return false;
 		}
-		
+	System.err.println("YP UPDATED : NO");	
 		return true;
 	}
 

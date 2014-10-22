@@ -136,14 +136,14 @@ public class TroopDAOImpl implements TroopDAO {
 	}
 
 	
-	public YearPlan addYearPlan1(Troop troop, String yearPlanPath) throws java.lang.IllegalAccessException, java.lang.IllegalAccessException {
+	public YearPlan addYearPlan1(User user, Troop troop, String yearPlanPath) throws java.lang.IllegalAccessException, java.lang.IllegalAccessException {
 
 	System.err.println("addYearPlan1..");
 		//permission to update
 		if( troop!= null && ! userUtil.hasPermission(troop, Permission.PERMISSION_ADD_YEARPLAN_ID) )
 			throw new IllegalAccessException();
 		
-		if (!userUtil.isCurrentTroopId(troop, troop.getCurrentTroop())) {
+		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
 			troop.setErrCode("112");
 			//return null;
 			throw new java.lang.IllegalAccessException();
@@ -201,7 +201,7 @@ public class TroopDAOImpl implements TroopDAO {
 
 	public boolean updateTroop(User user, Troop troop) throws java.lang.IllegalAccessException , java.lang.IllegalAccessException{
 		
-	System.err.println("UpdatingTroop");	
+	System.err.println("troopDAO.updateTroop");	
 		Session mySession =null;
 		boolean isUpdated = false;
 		try {
@@ -241,10 +241,13 @@ public class TroopDAOImpl implements TroopDAO {
 			//permission to update
 			if( troop!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_YEARPLAN_ID) )
 				throw new IllegalAccessException();
-			
+	
+	System.err.println("5.1 "+ troop.getLastModified() );
 			//lock
 			if (troop != null && troop.getLastModified() != null) {
-					if (!userUtil.isCurrentTroopId(troop, troop.getCurrentTroop())) {
+	System.err.println("5.2")	;		
+					if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
+	System.err.println("5.3");					
 								troop.setErrCode("112");
 								throw new IllegalAccessException();
 								//return false;
@@ -291,6 +294,7 @@ public class TroopDAOImpl implements TroopDAO {
 	System.err.println("TROOP UPDATED>>>>>>>>>>>>>>"+ new java.util.Date() +" : "+ troop.getLastModified().getTime());			
 				isUpdated = true;
 				troop.setRefresh(true);
+				
 			} catch (Exception e) {
 				//e.printStackTrace();
 				System.err.println("!!!! ERROR !!!!!  TroopDAOImpl.updateTroop CAN NOT SAVE TROOP !!!! ERROR !!!!!");
