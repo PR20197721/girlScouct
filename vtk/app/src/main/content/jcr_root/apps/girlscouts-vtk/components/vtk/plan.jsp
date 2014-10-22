@@ -31,9 +31,6 @@ if( troop.getYearPlan()!=null ){
 		<%
 			}
 		%>
-
-
-
 		<%
 			if( troop.getYearPlan()!=null){
 		%>
@@ -41,7 +38,6 @@ if( troop.getYearPlan()!=null ){
 			<div class="row subNavRow">
 				<div class="large-22 medium-22 small-20 columns subNavColumn">
 					<div class="centered-table">
-
 						<%
 							if( hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID) ){
 						%>
