@@ -60,6 +60,21 @@ public class UserUtil {
 	System.err.println("YP UPDATED : NO");	
 		return true;
 	}
+	
+public boolean isCurrentTroopId_NoRefresh(Troop troop, String sId) {
+		
+		System.err.println("Checking yp modif...."+ sId);
+		java.util.Date lastUpdate = yearPlanDAO.getLastModifByOthers(troop, sId);
+		System.err.println("LastModif db: "+ lastUpdate);
+		System.err.println("Yptime troop: "+troop.getRetrieveTime());
+		if (lastUpdate != null && troop.getRetrieveTime()!=null && troop.getRetrieveTime().before(lastUpdate)) {
+			//troop.setRefresh(true);
+	System.err.println("YP UPDATED : YES");		
+			return false;
+		}
+	System.err.println("YP UPDATED : NO");	
+		return true;
+	}
 
 	
 	

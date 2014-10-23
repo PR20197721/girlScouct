@@ -41,7 +41,7 @@
 	
 	%>
 <%
-
+//System.err.println("****SESSION****");
 	boolean isMultiUserFullBlock = true;
 	final CalendarUtil calendarUtil = sling.getService(CalendarUtil.class);
 	final LocationUtil locationUtil = sling.getService(LocationUtil.class);
@@ -94,12 +94,21 @@
 	String errMsg = null;
 	Troop troop = (Troop) session.getValue("VTK_troop");
 	
-	if(troop!=null)
-		System.err.println("TROOP RETR TIME : "+ troop.getRetrieveTime() );	
+	
+	//Needs for front yp page. ajax/multi call to session.jsp. Not always happens.
+	if( troop != null && !troop.isRefresh() && !userUtil.isCurrentTroopId_NoRefresh(troop,user.getSid() ) &&
+			session.getAttribute("isReloadedWindow")!=null ){
+		
+			troop.setRefresh(true);
+	}
+	session.removeAttribute( "isReloadedWindow"); //rm after pull
+	
+	
+	
 	
 	    //if (troop == null || troop.isRefresh() || troopUtil.isUpdated(troop)) {
 		if (troop == null || troop.isRefresh() ) {
-		
+//out.println("Refresshed");		
 			if (troop != null && troop.isRefresh() && troop.getErrCode() != null && !troop.getErrCode().equals(""))
 				errMsg = troop.getErrCode();
 		
@@ -134,7 +143,7 @@
 	 
 	
 		try{
-System.err.println("GETTTTTING TROOP FROM DB....");				
+//System.err.println("GETTTTTING TROOP FROM DB....");				
 		   troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
 	   
 		}catch(IllegalAccessException ex){
@@ -196,8 +205,8 @@ System.err.println("GETTTTTING TROOP FROM DB....");
 	}
 */
 	if ((errMsg != null && errMsg.equals("112"))
-			|| (troop.getErrCode() != null && troop.getErrCode()
-					.equals("112"))) {
+			|| (troop.getErrCode() != null && troop.getErrCode().equals("112"))
+	    	) {
 %>
 <div style="color: #fff; background-color: red;">
 No Changes. Record was updated while you were idle. Record was updated to reflect changes in db.

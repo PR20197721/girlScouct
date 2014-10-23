@@ -363,15 +363,16 @@ public java.util.List <Troop>  troopInfo(ApiConfig apiConfig, String contactId){
 						troop.setTroopId(results.getJSONObject(i).getString("ParentId"));
 						troop.setTroopName( results.getJSONObject(i).getJSONObject("Parent").getString("Name") );
 
-	/*TEST MUST BE REMOVED**/						
+/*						
+	/*TEST MUST BE REMOVED************************************						
 		if( troop.getGradeLevel().equals("3-Junior"))				
 			troop.setTroopId("701G0000000uQzaIAE");	
 		else if( troop.getGradeLevel().equals("2-Brownie"))				
 			troop.setTroopId("701G0000000uQzTIAU");
 		else if( troop.getGradeLevel().equals("1-Daisy"))				
 			troop.setTroopId("701G0000000uQzUIAU");			
-	/*end test**/					
-		
+	//end test**********************************					
+*/		
 						
 						System.err.println("ETSTS: "+ org.girlscouts.vtk.auth.permission.RollType.DP );
 						

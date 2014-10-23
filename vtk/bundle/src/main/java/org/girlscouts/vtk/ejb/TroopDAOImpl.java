@@ -284,6 +284,7 @@ public class TroopDAOImpl implements TroopDAO {
 			try {
 				troop.setErrCode(null);
 				troop.setLastModified(java.util.Calendar.getInstance());
+				troop.setCurrentTroop(user.getSid());//10/23/14
 				ocm.update(troop);
 
 	System.err.println(8 +" : : : : : lastMidif db: " + troop.getLastModified().getTime());			

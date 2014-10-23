@@ -4,10 +4,10 @@
 <%@include file="include/session.jsp"%>
 <%
 
-System.err.println("START**********************");
-System.err.println("** "+ sling.getService(YearPlanDAO.class).getLastModifByOthers(troop, null));
+System.err.println("START**********************"+ user.getSid());
+System.err.println("** "+ sling.getService(YearPlanDAO.class).getLastModifByOthers(troop, user.getSid()));
 System.err.println(troop.getRetrieveTime() +" : "+ ((Troop) session.getValue("VTK_troop")).getRetrieveTime());
-System.err.println("________________"+ userUtil.isCurrentTroopId(troop, null)+" errCode: "+ troop.getErrCode());
+System.err.println("________________"+ userUtil.isCurrentTroopId_NoRefresh(troop,user.getSid())+" errCode: "+ troop.getErrCode());
 System.err.println("END************************");
 
 //if( true)return;
