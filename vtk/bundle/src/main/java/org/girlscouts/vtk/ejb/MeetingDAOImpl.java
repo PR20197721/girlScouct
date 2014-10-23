@@ -1839,11 +1839,14 @@ System.err.println("doXX");
 				//NODE EXISTS-rm
 				Node existTroop = null;
 				try{ existTroop= session.getNode(to); }catch(Exception e){}
-				if(existTroop!=null && existTroop.getNodes().getSize()==0)
-					session.removeItem(to);
-				else if(existTroop!=null){
+				if(existTroop!=null && existTroop.getNodes().getSize()==0){
+		System.err.println("A1");			
+					//-session.removeItem(to);
+					continue;
+				}else if(existTroop!=null){
 					System.err.println("MULT TROOP PLAN!!!!!! "+ to);
-					session.removeItem(to);
+					//-session.removeItem(to);
+					continue;
 				}
 				
 				
@@ -1859,6 +1862,8 @@ System.err.println("doXX");
 				newTroop.setProperty("ocm_classname",
 						"org.girlscouts.vtk.models.Troop");
 				session.save();
+		
+	//if(true){return;}		
 				
 				System.err.println("Start libs chk...");
 				//cust meeting in lib check and modif refId
@@ -1868,7 +1873,7 @@ System.err.println("doXX");
 					updateCustMeetingPlansRef( custMeetings, to );
 				
 				
-				
+				/*
 				//****** CLEAN START
 				//String rmPath= "/vtk/" + council +"/test_troop_id/users/";
 				String rmPath= "/vtk/" + council +"/"+troop+"/";
@@ -1880,6 +1885,9 @@ System.err.println("doXX");
 				}else{
 					System.err.println("CLEARN ERROR -- NODE NOT DELETED. "+ rmPath);
 				}
+				*/
+				
+				
 				
 				session.save();
 				
