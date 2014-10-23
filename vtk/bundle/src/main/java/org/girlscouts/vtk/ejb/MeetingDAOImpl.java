@@ -1790,7 +1790,8 @@ System.err.println("doXX");
 			//Node vtkRootNode = session.getNode("/vtk");
 			System.err.println("doXX4");	
 			//select * from nt:unstructured where jcr:path like '/vtk/%/users/%' XXXXXX order";
-			String sql = "select * from nt:unstructured where jcr:path like '/vtk/603/%/users/%' and ocm_classname ='org.girlscouts.vtk.models.user.User' order by jcr:lastModified DESC ";
+			//String sql = "select * from nt:unstructured where jcr:path like '/vtk/603/%/users/%' and ocm_classname ='org.girlscouts.vtk.models.user.User' order by jcr:lastModified DESC ";
+			String sql = "select * from nt:unstructured where jcr:path like '/vtk/%/users/%' and ocm_classname ='org.girlscouts.vtk.models.user.User' order by jcr:lastModified DESC ";
 			
 			
 			
@@ -2008,7 +2009,8 @@ System.err.println("doXX");
 	
 	//rollback to user from troop . only for emergency
 	public void undoX() {
-		System.err.println("undoX");
+		System.err.println("undoX--- DISCOUNNECTED");
+	if(true)return;	
 		Session session = null;
 		java.util.List<String> paths = new java.util.ArrayList<String>();
 		try {
