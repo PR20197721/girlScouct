@@ -40,7 +40,10 @@ else if(imageNode!=null){
 			alt = imageNode.getProperty("alt").getString();
 	}
 	if(imageNode.hasProperty("linkURL")){
-			linkUrl = imageNode.getProperty("linkURL").getString()+".html";
+			linkUrl = imageNode.getProperty("linkURL").getString();
+			if (!linkUrl.contains("://")) { // If it is not external link
+			    linkUrl += ".html";
+			}
 	}
 %>  
   
