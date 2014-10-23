@@ -1872,8 +1872,8 @@ System.err.println("doXX");
 				if( custMeetings!=null && custMeetings.size()>0)
 					updateCustMeetingPlansRef( custMeetings, to );
 				
-				
 				/*
+				
 				//****** CLEAN START
 				//String rmPath= "/vtk/" + council +"/test_troop_id/users/";
 				String rmPath= "/vtk/" + council +"/"+troop+"/";
@@ -1885,8 +1885,8 @@ System.err.println("doXX");
 				}else{
 					System.err.println("CLEARN ERROR -- NODE NOT DELETED. "+ rmPath);
 				}
-				*/
 				
+				*/
 				
 				
 				session.save();
