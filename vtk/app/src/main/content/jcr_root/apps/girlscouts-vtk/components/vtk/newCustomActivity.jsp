@@ -494,6 +494,11 @@ function searchActivities(){
 		return false;
 	}
 	
+	document.getElementById("dateTitle").style.fontWeight = "normal";
+    document.getElementById("dateTitle").style.color = "#FF0000";
+    document.getElementById("dateErrorBox").innerHTML = "";
+	document.getElementById("dateTitle").style.color = "";
+	
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
 		type: 'POST',
