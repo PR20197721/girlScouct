@@ -96,7 +96,7 @@ function toggleWhiteArrow() {
         	<div><a href="#" onclick="toggleWhiteArrow()"><img id="whiteArrowImg" src="/etc/designs/girlscouts-usa-green/images/white-down-arrow.png" width ="10" height="15"/></a></div>
         </div>
     	 <div class="small-23 large-23 medium-23 columns">
-   			<div class="title"><span class="activity-color">Find an Activity</span></div>
+   			<div class="title" id="eventsTitle"><span class="activity-color">Find an Activity</span></div>
    		</div>
    </div>
 </div>
@@ -239,7 +239,7 @@ beforeShowDay: function(d) {
             document.getElementById("dateErrorBox").style.color = "#FF0000";
 			document.getElementById("dateErrorBox").style.fontSize = "x-small";
 			document.getElementById("dateErrorBox").style.fontWeight = "bold";
-			document.getElementById("dateErrorBox").scrollIntoView();
+			document.getElementById("eventsTitle").scrollIntoView();
 
             return false;
         }else{
