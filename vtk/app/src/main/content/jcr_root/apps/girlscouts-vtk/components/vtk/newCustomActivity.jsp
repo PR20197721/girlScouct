@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
@@ -283,10 +283,10 @@ border:5px solid #000;
                 </div>
                 <div id="pickActivitySection">
 <form id="schFrm">
-<div class="sectionBar" id="activitySearchLabel">Add activity from the Council Calendar</div>
-<div class="errorMsg error" id="errorMessage"></div>
+<div class="sectionBar">Add activity from the Council Calendar</div>
+<div class="errorMsg error"></div>
 <%
-SearchTag search = meetingDAO.searchA(""+user.getTroop().getCouncilCode());
+SearchTag search = yearPlanUtil.searchA(user, ""+troop.getTroop().getCouncilCode());
 java.util.Map<String, String> levels = search.getLevels();
 java.util.Map<String, String> categories =search.getCategories();
 java.util.Map<String, String> region =search.getRegion();
@@ -298,12 +298,11 @@ java.util.Map<String, String> region =search.getRegion();
         <div class="small-24 medium-18 large-18 columns"><input type="text" id="sch_keyword" value="" onKeyPress="return submitenter(this,event)"/></div>
 </div>
 <div class="row">
-        <div class="small-12 medium-6 large-6 columns"><label for="sch_startDate" id="dateTitle" ACCESSKEY="r">Date Range</label></div>
+        <div class="small-12 medium-6 large-6 columns"><label for="sch_startDate" ACCESSKEY="r">Date Range</label></div>
         <div class="small-6 medium-6 large-6 columns"><input type="text" id="sch_startDate"  value="" class="date calendarField"/></div>
         <div class="small-6 medium-6 large-6 columns"><input type="text" id="sch_endDate"  value="" class="date calendarField"/></div>
         <div class="hide-for-small medium-6 large-6 columns">&nbsp;</div>
 </div>
-<p id ="dateErrorBox" ></p>
 <div class="row">
         <div class="small-24 medium-8 large-6 columns"><label for="sch_region" ACCESSKEY="g">Region</label></div>
         <div class="small-24 medium-16 large-18 columns">
@@ -356,6 +355,7 @@ i++;
 	<input type="button" value="View Activities" onclick='searchActivities()' class="button linkButton"/>
 </div>
 </form>
+
 <div id="searchResults"></div>
 </form>
                 </div>
@@ -394,43 +394,8 @@ function submitenter(myfield,e) {
 	}
 }
 
-$('#sch_startDate').datepicker({minDate: new Date(),
-beforeShowDay: function(d) {
-
-
-    if($('#sch_endDate').val() == "" || $('#sch_endDate').val() == undefined){
-		return [true, "","Available"]; 
-    }
-
-    var dateString = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
-
-
-    if(+(new Date(dateString)) <= +(new Date($('#sch_endDate').val()))){
-		return [true, "","Available"];
-    }
-
-	return [false, "","unAvailable"]; 
-
-    }});
-$('#sch_endDate').datepicker({minDate: 0, 
-                             beforeShowDay: function(d) {
-
-
-    if($('#sch_startDate').val() == "" || $('#sch_startDate').val() == undefined){
-		return [true, "","Available"]; 
-    }
-
-    var dateString = (d.getMonth() + 1) + "/" + d.getDate() + "/" + d.getFullYear();
-
-
-
-    if(+(new Date(dateString)) >= +(new Date($('#sch_startDate').val()))){
-		return [true, "","Available"];
-    }
-
-	return [false, "","unAvailable"]; 
-
-    }});
+$('#sch_startDate').datepicker({minDate: 0});
+$('#sch_endDate').datepicker({minDate: 0});
 
 function checkAll(x) {
 	
@@ -443,9 +408,8 @@ function checkAll(x) {
 	   return container;
 	   
 	}
-
-
-
+	
+	
 	
 function searchActivities(){
 	showError(null, "#pickActivitySection .errorMsg");
@@ -465,7 +429,6 @@ function searchActivities(){
 	if( startDate != '' && endDate=='' ) {
 		var thisMsg = 'Missing end date';
                 showError(thisMsg, "#pickActivitySection .errorMsg");
-
 		return false; 
 	}
 	if( startDate =='' && endDate!='' ) {
@@ -473,30 +436,16 @@ function searchActivities(){
                 showError(thisMsg, "#pickActivitySection .errorMsg");
 		return false;
 	}
-    if( new Date(startDate) > new Date(endDate) ) {
-
-		document.getElementById("dateErrorBox").innerHTML = "End Date cannot be less than Start Date";
-		document.getElementById("dateTitle").style.color = "#FF0000";
-        document.getElementById("dateErrorBox").style.color = "#FF0000";
-		document.getElementById("dateErrorBox").style.fontSize = "small";
-		document.getElementById("dateErrorBox").style.fontWeight = "bold";
-        document.getElementById("dateTitle").style.fontWeight = "bold";
-
-
-        document.getElementById("activitySearchLabel").scrollIntoView();
-		return false;
-	}
 	
+	if( startDate!=null && endDate!=null && (new Date(startDate) > new Date(endDate) ))
+	{alert("Start Date can not be greater then end Date "+ startDate +" : "+ endDate);return false;}
+
 	if( keywrd=='' && lvl=='' && cat =='' && startDate=='' && endDate=='' && region=='' ){
 		var thisMsg = "Please select search criteria.";
                 showError(thisMsg, "#pickActivitySection .errorMsg");
 		return false;
 	}
-
-    document.getElementById("dateTitle").style.fontWeight = "normal";
-    document.getElementById("dateTitle").style.color = "#FF0000";
-    document.getElementById("dateErrorBox").innerHTML = "";
-	document.getElementById("dateTitle").style.color = "";
+	
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
 		type: 'POST',
