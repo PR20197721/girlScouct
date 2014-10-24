@@ -513,5 +513,26 @@ troop.setPermissionTokens(s);
 		
 		return vtkErr;
 	}
+	
+	
+	public void impersonate( User user, Troop nothing, String councilCode, String troopId, HttpSession session ) throws IllegalAccessException{
+			
+			
+		Troop new_troop=getTroop(user, councilCode+"", troopId );
+		
+		new_troop.setTroop(nothing.getTroop() );
+		new_troop.setSfTroopId( new_troop.getTroop().getTroopId() );
+		new_troop.setSfUserId( user.getApiConfig().getUserId() );
+		new_troop.setSfTroopName( new_troop.getTroop().getTroopName() );  
+		new_troop.setSfTroopAge(new_troop.getTroop().getGradeLevel());
+		new_troop.setSfCouncil(new_troop.getTroop().getCouncilCode()+"" );
+		
+		//logout multi troop
+		//-logout(user, nothing);
+		
+		session.setAttribute("VTK_troop", new_troop);	
+		session.putValue("VTK_planView_memoPos", null);
+		new_troop.setCurrentTroop( session.getId() );
+	}
 }// end class
 

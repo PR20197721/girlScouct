@@ -143,7 +143,28 @@ style="border: none;">
 <div style="background-color:lightyellow;">
 <b>TEST convert data model script </b>
 <br/><a href="/content/girlscouts-vtk/en/vtk.admin.doX.html?xyd=u2t">Cast (datamodel) User to Troop</a>
-<br/><a href="/content/girlscouts-vtk/en/vtk.admin.doX.html?xyd=t2u">Cast (datamodel) Troop to User</a>
+<!--  chng logic 2 many times from U2T <br/><a href="/content/girlscouts-vtk/en/vtk.admin.doX.html?xyd=t2u">Cast (datamodel) Troop to User</a> -->
+
+<div style="padding:5px; width:300px;background-color:red;">
+<form action="/content/girlscouts-vtk/en/vtk.controller.html">
+<table>
+	<tr>
+		<td>C</td>
+		<td>
+			<input type="text" name="councilCode" value=""/>
+		</td>
+	</tr>
+	<tr>
+		<td>T</td>
+		<td><input type="text" name="troopId" value=""/></td>
+	</tr>
+	</table>
+	<input type="submit" name="Impersonate4S" value="4Silvia"/>
+</form>
+</div>
+
+
+
 </div>
 <div style="clear:both"></div>
 </ul></div>

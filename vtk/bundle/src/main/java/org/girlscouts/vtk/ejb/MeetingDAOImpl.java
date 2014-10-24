@@ -1,6 +1,8 @@
 package org.girlscouts.vtk.ejb;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -1699,14 +1701,24 @@ public class MeetingDAOImpl implements MeetingDAO {
 				activity.setContent(r.getValue("child.details").getString());
 				
 				//convert to EST
-				activity.setDate(r.getValue("child.start").getDate().getTime());
-
+				// TODO: All VTK date is based on server time zone, which is eastern now.
+				// Event dates in councils may be in a different time zone.
+				// For a temp solution, always force it to eastern time.
+				// e.g. For Texas, 2014-11-06T09:00:00.000-06:00 will be forced to 
+				//                 2014-11-06T09:00:00.000-05:00
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+				String eventStartDateStr = r.getValue("child.start").getString();
+				Date eventStartDate = dateFormat.parse(eventStartDateStr);
+				activity.setDate(eventStartDate);
 				
 				try {
-					activity.setEndDate(r.getValue("child.end").getDate()
-							.getTime());
+    				String eventEndDateStr = r.getValue("child.end").getString();
+    				Date eventEndDate = dateFormat.parse(eventEndDateStr);
+					activity.setEndDate(eventEndDate);
 				} catch (Exception e) {
 				}
+				// TODO: end of hacking timezone
+
 				if ((activity.getDate().before(new java.util.Date()) && activity
 						.getEndDate() == null)
 						|| (activity.getEndDate() != null && activity
@@ -1790,7 +1802,8 @@ System.err.println("doXX");
 			//Node vtkRootNode = session.getNode("/vtk");
 			System.err.println("doXX4");	
 			//select * from nt:unstructured where jcr:path like '/vtk/%/users/%' XXXXXX order";
-			//String sql = "select * from nt:unstructured where jcr:path like '/vtk/603/%/users/%' and ocm_classname ='org.girlscouts.vtk.models.user.User' order by jcr:lastModified DESC ";
+			
+			//TEST ** String sql = "select * from nt:unstructured where jcr:path like '/vtk/603/%/users/%' and ocm_classname ='org.girlscouts.vtk.models.user.User' order by jcr:lastModified DESC ";			
 			String sql = "select * from nt:unstructured where jcr:path like '/vtk/%/users/%' and ocm_classname ='org.girlscouts.vtk.models.user.User' order by jcr:lastModified DESC ";
 			
 			
@@ -1873,21 +1886,25 @@ System.err.println("doXX");
 				if( custMeetings!=null && custMeetings.size()>0)
 					updateCustMeetingPlansRef( custMeetings, to );
 				
-				/*
+				
 				
 				//****** CLEAN START
 				//String rmPath= "/vtk/" + council +"/test_troop_id/users/";
 				String rmPath= "/vtk/" + council +"/"+troop+"/";
 				System.err.println("Cleaning.. rm "+ rmPath);
+				
+				Node rmNode_user = session.getNode(rmPath +"users");
+				
 				Node rmNode = session.getNode(rmPath);
-				if(rmNode.getNodes().getSize()==1){
+				//if(rmNode.getNodes().getSize()==1 ){
+				if( rmNode_user.getNodes().getSize()==0 ){
 					session.removeItem(rmPath);
 					System.err.println("rmed "+ rmPath);
 				}else{
 					System.err.println("CLEARN ERROR -- NODE NOT DELETED. "+ rmPath);
 				}
 				
-				*/
+				
 				
 				
 				session.save();
