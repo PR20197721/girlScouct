@@ -1713,7 +1713,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 				
 				try {
     				String eventEndDateStr = r.getValue("child.end").getString();
-    				Date eventEndDate = dateFormat.parse(eventStartDateStr);
+    				Date eventEndDate = dateFormat.parse(eventEndDateStr);
 					activity.setEndDate(eventEndDate);
 				} catch (Exception e) {
 				}
