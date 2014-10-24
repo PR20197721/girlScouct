@@ -513,7 +513,6 @@ function searchActivities(){
 }
 
 
-}
 
 function setError(errorMessage){
 	document.getElementById("dateErrorBox").innerHTML = errorMessage;
