@@ -1707,11 +1707,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 				// e.g. For Texas, 2014-11-06T09:00:00.000-06:00 will be forced to 
 				//                 2014-11-06T09:00:00.000-05:00
 				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
-				String eventStartDateStr = r.getValue("child.start").getString();
-				Date eventStartDate = dateFormat.parse(eventStartDateStr);
-				activity.setDate(eventStartDate);
-				
 				try {
+    				String eventStartDateStr = r.getValue("child.start").getString();
+    				Date eventStartDate = dateFormat.parse(eventStartDateStr);
+    				activity.setDate(eventStartDate);
     				String eventEndDateStr = r.getValue("child.end").getString();
     				Date eventEndDate = dateFormat.parse(eventEndDateStr);
 					activity.setEndDate(eventEndDate);
