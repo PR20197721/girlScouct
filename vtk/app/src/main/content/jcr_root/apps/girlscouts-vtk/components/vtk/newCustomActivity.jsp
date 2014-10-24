@@ -462,8 +462,8 @@ function searchActivities(){
 	var endDate = $.trim(document.getElementById("sch_endDate").value);
 	var region = document.getElementById("sch_region").value;
 	
-	if(!isDate(startDate)){alert("Invalid Start Date");return false;}
-    if(!isDate(endDate)){alert("Invalid End Date");return false;}
+	if(!isDate(startDate)){setError("Invalid Start Date");return false;}
+    if(!isDate(endDate)){setError("Invalid End Date");return false;}
 	
 	if( startDate != '' && endDate=='' ) {
 		var thisMsg = 'Missing end date';
@@ -477,15 +477,8 @@ function searchActivities(){
 		return false;
 	}
     if( new Date(startDate) > new Date(endDate) ) {
-		document.getElementById("dateErrorBox").innerHTML = "End Date cannot be less than Start Date";
-		document.getElementById("dateTitle").style.color = "#FF0000";
-        document.getElementById("dateErrorBox").style.color = "#FF0000";
-		document.getElementById("dateErrorBox").style.fontSize = "small";
-		document.getElementById("dateErrorBox").style.fontWeight = "bold";
-        document.getElementById("dateTitle").style.fontWeight = "bold";
-
-
-        document.getElementById("activitySearchLabel").scrollIntoView();
+		
+        setError("The End Date cannot be less than Start Date"); 
 		return false;
 	}
 	if( keywrd=='' && lvl=='' && cat =='' && startDate=='' && endDate=='' && region=='' ){
@@ -517,8 +510,16 @@ function searchActivities(){
 		}
 	});
 
-}
 
+function setError(errorMessage){
+	document.getElementById("dateErrorBox").innerHTML = errorMessage;
+	document.getElementById("dateTitle").style.color = "#FF0000";
+    document.getElementById("dateErrorBox").style.color = "#FF0000";
+	document.getElementById("dateErrorBox").style.fontSize = "small";
+	document.getElementById("dateErrorBox").style.fontWeight = "bold";
+    document.getElementById("dateTitle").style.fontWeight = "bold";
+    document.getElementById("activitySearchLabel").scrollIntoView();
+}
 
 
 function isDate(txtDate)
