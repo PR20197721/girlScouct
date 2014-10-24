@@ -509,7 +509,7 @@ function searchActivities(){
 			$("#searchResults").load('/content/girlscouts-vtk/controllers/vtk.searchActivity.html');
 		}
 	});
-
+}
 
 function setError(errorMessage){
 	document.getElementById("dateErrorBox").innerHTML = errorMessage;
