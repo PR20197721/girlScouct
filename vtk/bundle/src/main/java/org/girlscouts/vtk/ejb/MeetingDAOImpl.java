@@ -1,6 +1,8 @@
 package org.girlscouts.vtk.ejb;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -1699,14 +1701,24 @@ public class MeetingDAOImpl implements MeetingDAO {
 				activity.setContent(r.getValue("child.details").getString());
 				
 				//convert to EST
-				activity.setDate(r.getValue("child.start").getDate().getTime());
-
+				// TODO: All VTK date is based on server time zone, which is eastern now.
+				// Event dates in councils may be in a different time zone.
+				// For a temp solution, always force it to eastern time.
+				// e.g. For Texas, 2014-11-06T09:00:00.000-06:00 will be forced to 
+				//                 2014-11-06T09:00:00.000-05:00
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+				String eventStartDateStr = r.getValue("child.start").getString();
+				Date eventStartDate = dateFormat.parse(eventStartDateStr);
+				activity.setDate(eventStartDate);
 				
 				try {
-					activity.setEndDate(r.getValue("child.end").getDate()
-							.getTime());
+    				String eventEndDateStr = r.getValue("child.end").getString();
+    				Date eventEndDate = dateFormat.parse(eventEndDateStr);
+					activity.setEndDate(eventEndDate);
 				} catch (Exception e) {
 				}
+				// TODO: end of hacking timezone
+
 				if ((activity.getDate().before(new java.util.Date()) && activity
 						.getEndDate() == null)
 						|| (activity.getEndDate() != null && activity
