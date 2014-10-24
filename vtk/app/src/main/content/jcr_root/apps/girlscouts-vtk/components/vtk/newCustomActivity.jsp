@@ -462,18 +462,18 @@ function searchActivities(){
 	var endDate = $.trim(document.getElementById("sch_endDate").value);
 	var region = document.getElementById("sch_region").value;
 	
-	if(!isDate(startDate)){setError("Invalid Start Date");return false;}
-    if(!isDate(endDate)){setError("Invalid End Date");return false;}
+	if(!isDate(startDate) && startDate != ''){setError("Invalid Start Date");return false;}
+    if(!isDate(endDate) && endDate!=''){setError("Invalid End Date");return false;}
 	
 	if( startDate != '' && endDate=='' ) {
-		var thisMsg = 'Missing end date';
-                showError(thisMsg, "#pickActivitySection .errorMsg");
+		
+        setError("Missing End Date");
 
 		return false; 
 	}
 	if( startDate =='' && endDate!='' ) {
-		var thisMsg = 'Missing start date';
-                showError(thisMsg, "#pickActivitySection .errorMsg");
+		
+        setError("Missing Start Date");
 		return false;
 	}
     if( new Date(startDate) > new Date(endDate) ) {
