@@ -1,6 +1,8 @@
 package org.girlscouts.vtk.ejb;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
