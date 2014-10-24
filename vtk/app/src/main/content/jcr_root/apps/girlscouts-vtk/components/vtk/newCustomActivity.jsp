@@ -516,9 +516,6 @@ function searchActivities(){
 			$("#searchResults").load('/content/girlscouts-vtk/controllers/vtk.searchActivity.html');
 		}
 	});
-	
-}
-
 
 }
 

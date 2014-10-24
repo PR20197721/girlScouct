@@ -209,7 +209,7 @@
 	    	) {
 %>
 <div style="color: #fff; background-color: red;">
-No Changes. Record was updated while you were idle. Record was updated to reflect changes in db.
+One of your co-leaders is currently making changes in the Volunteer Toolkit for your troop.  When the updates are completed, you will be able to update the Volunteer Toolkit.
 </div>
 <%
 	troop.setRefresh(true);

@@ -1790,8 +1790,9 @@ System.err.println("doXX");
 			//Node vtkRootNode = session.getNode("/vtk");
 			System.err.println("doXX4");	
 			//select * from nt:unstructured where jcr:path like '/vtk/%/users/%' XXXXXX order";
-			//String sql = "select * from nt:unstructured where jcr:path like '/vtk/603/%/users/%' and ocm_classname ='org.girlscouts.vtk.models.user.User' order by jcr:lastModified DESC ";
-			String sql = "select * from nt:unstructured where jcr:path like '/vtk/%/users/%' and ocm_classname ='org.girlscouts.vtk.models.user.User' order by jcr:lastModified DESC ";
+			
+			String sql = "select * from nt:unstructured where jcr:path like '/vtk/603/%/users/%' and ocm_classname ='org.girlscouts.vtk.models.user.User' order by jcr:lastModified DESC ";			
+			//GoodString sql = "select * from nt:unstructured where jcr:path like '/vtk/%/users/%' and ocm_classname ='org.girlscouts.vtk.models.user.User' order by jcr:lastModified DESC ";
 			
 			
 			
@@ -1873,7 +1874,7 @@ System.err.println("doXX");
 				if( custMeetings!=null && custMeetings.size()>0)
 					updateCustMeetingPlansRef( custMeetings, to );
 				
-				/*
+				
 				
 				//****** CLEAN START
 				//String rmPath= "/vtk/" + council +"/test_troop_id/users/";
@@ -1887,7 +1888,7 @@ System.err.println("doXX");
 					System.err.println("CLEARN ERROR -- NODE NOT DELETED. "+ rmPath);
 				}
 				
-				*/
+				
 				
 				
 				session.save();
