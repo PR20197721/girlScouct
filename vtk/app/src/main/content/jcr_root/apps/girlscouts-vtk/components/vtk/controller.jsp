@@ -359,6 +359,14 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 		break;
 	}
 	
+	
+}else if( request.getParameter("Impersonate4S")!=null){
+
+	System.err.println("XXX" +request.getParameter("councilCode")+" : " +request.getParameter("troopId"));
+	troopUtil.impersonate( user, troop, request.getParameter("councilCode"), request.getParameter("troopId"),  session);
+Troop x= (Troop)session.getAttribute("VTK_troop");
+System.err.println("XXX: "+x.getPath());
+	response.sendRedirect("/content/girlscouts-vtk/en/vtk.html");
 }else{
 	//TODO throw ERROR CODE
 }

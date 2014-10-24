@@ -1791,8 +1791,8 @@ System.err.println("doXX");
 			System.err.println("doXX4");	
 			//select * from nt:unstructured where jcr:path like '/vtk/%/users/%' XXXXXX order";
 			
-			String sql = "select * from nt:unstructured where jcr:path like '/vtk/603/%/users/%' and ocm_classname ='org.girlscouts.vtk.models.user.User' order by jcr:lastModified DESC ";			
-			//GoodString sql = "select * from nt:unstructured where jcr:path like '/vtk/%/users/%' and ocm_classname ='org.girlscouts.vtk.models.user.User' order by jcr:lastModified DESC ";
+			//TEST ** String sql = "select * from nt:unstructured where jcr:path like '/vtk/603/%/users/%' and ocm_classname ='org.girlscouts.vtk.models.user.User' order by jcr:lastModified DESC ";			
+			String sql = "select * from nt:unstructured where jcr:path like '/vtk/%/users/%' and ocm_classname ='org.girlscouts.vtk.models.user.User' order by jcr:lastModified DESC ";
 			
 			
 			
@@ -1880,8 +1880,12 @@ System.err.println("doXX");
 				//String rmPath= "/vtk/" + council +"/test_troop_id/users/";
 				String rmPath= "/vtk/" + council +"/"+troop+"/";
 				System.err.println("Cleaning.. rm "+ rmPath);
+				
+				Node rmNode_user = session.getNode(rmPath +"users");
+				
 				Node rmNode = session.getNode(rmPath);
-				if(rmNode.getNodes().getSize()==1){
+				//if(rmNode.getNodes().getSize()==1 ){
+				if( rmNode_user.getNodes().getSize()==0 ){
 					session.removeItem(rmPath);
 					System.err.println("rmed "+ rmPath);
 				}else{
