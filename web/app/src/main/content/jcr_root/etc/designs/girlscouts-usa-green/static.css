@@ -208,6 +208,7 @@ a:hover.menuHighlight {
 #header a.signout {
   font-size: 0.875em;
   color: #fff;
+  margin:0 10px;
 }
 #header a:hover.signout {
   color: #c00;
@@ -779,6 +780,7 @@ td.fc-header-left {
   color: #FFF;
   font-size: 0.875rem;
   font-weight: bold;
+  margin:0 10px;
 }
 #header .vtk-login .login {
   padding-top: 5px;
