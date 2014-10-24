@@ -814,6 +814,7 @@ td.fc-header-left{
    color:#FFF;
    font-size:0.875rem;
    font-weight:bold;
+   margin: 0 10px;
 }
 
 #header .vtk-login .login {
