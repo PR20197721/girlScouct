@@ -1,4 +1,4 @@
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
@@ -18,9 +18,9 @@ if( activities!=null  ){
 
 	for(int i=0;i<activities.size();i++){
 		boolean isExists=false;
-		if( user.getYearPlan().getActivities() !=null) {
-			for(int y=0;y<user.getYearPlan().getActivities().size();y++) {
-				if( user.getYearPlan().getActivities().get(y).getName().equals( activities.get(i).getName())) {
+		if( troop.getYearPlan().getActivities() !=null) {
+			for(int y=0;y<troop.getYearPlan().getActivities().size();y++) {
+				if( troop.getYearPlan().getActivities().get(y).getName().equals( activities.get(i).getName())) {
 					isExists=true;
 					break;
 				}
@@ -52,7 +52,11 @@ if( activities!=null  ){
 			<% }else if( isExists ){ %>
 				<i class="activityDisabled">This Activity has already been selected</i>
 			<%}else{ %>
-				<a href="#" class="reserved" onclick="addActiv3('<%=activities.get(i).getUid()%>')">Select Activity</a>
+				<%if( activities.get(i).getRegisterUrl()  !=null && !activities.get(i).getRegisterUrl().equals("")){ %>
+					<a href="<%=activities.get(i).getRegisterUrl()%>" target="_blank" class="reserved" onclick="addActiv3('<%=activities.get(i).getUid()%>', '<%=activities.get(i).getRegisterUrl()%>')">Select Activity and Register for event</a>
+				<%}else{ %>
+					<a href="#" class="reserved" onclick="addActiv3('<%=activities.get(i).getUid()%>', null)">Select Activity</a>
+				<%} %>
 			<%} %>
 			<div id="cust_activ_<%=activities.get(i).getUid()%>"></div>
 		</li> 
@@ -60,7 +64,7 @@ if( activities!=null  ){
 	}
 %>
 <script>
-function addActiv3(id){
+function addActiv3(id, registerHrefToPop){
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
 		type: 'POST',
@@ -70,6 +74,12 @@ function addActiv3(id){
 		},
 		success: function(result) {
 			//document.getElementById("cust_activ_"+id).innerHTML='Added';
+			
+			/*
+			if(registerHrefToPop!=null && registerHrefToPop!=''){
+				window.open(registerHrefToPop, '_blank');
+			}
+			*/
 			location.reload();
 		}
 	});

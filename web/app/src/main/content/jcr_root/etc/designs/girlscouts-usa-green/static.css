@@ -206,9 +206,9 @@ a:hover.menuHighlight {
   color: #FAA61A;
 }
 #header a.signout {
-  font-size: 0.875em;
-  color: #fff;
-  margin:0 10px;
+    font-size: 0.875em;
+    color: #fff;
+    margin: 0 15px;
 }
 #header a:hover.signout {
   color: #c00;
@@ -774,25 +774,29 @@ td.fc-header-left {
   background-position: center bottom;
 }
 #header div.login {
-  margin-top: 2px;
+	margin-top: 2px;
 }
-#header a.signin {
-  color: #FFF;
-  font-size: 0.875rem;
-  font-weight: bold;
-  margin:0 10px;
+
+#header a.signin{
+   color:#FFF;
+   font-size:0.875rem;
+   font-weight:bold;
+   margin: 0 10px;
 }
+
 #header .vtk-login .login {
-  padding-top: 5px;
-  padding-left: 20px;
+	padding-top: 5px;
+	padding-left: 20px;
 }
+
 #header .small-search-hamburger {
-  float: right;
-  padding-right: 5px;
+	float:right;
+	padding-right:5px;
 }
-#footer div.footer-navigation {
-  padding: 10px 0 10px 20px;
-  /* temporarily removed because it is being covered by footer links
+
+#footer div.footer-navigation{
+    padding:10px 0 10px 20px;
+/* temporarily removed because it is being covered by footer links
     background: url('/etc/designs/girlscouts-usa-green/images/small-trefoil.png') no-repeat;
     background-position:center;
 */

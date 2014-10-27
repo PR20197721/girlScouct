@@ -1,5 +1,7 @@
 package org.girlscouts.vtk.models;
 
+import java.io.Serializable;
+
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
@@ -7,8 +9,8 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
 
 
-@Node
-public class Meeting extends YearPlanComponent {
+@Node(jcrMixinTypes="mix:lockable" )
+public class Meeting extends YearPlanComponent  implements Serializable{
 
 	
 	@Field(path=true) String path;

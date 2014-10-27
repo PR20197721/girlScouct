@@ -1,5 +1,5 @@
 
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig,  org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="../include/session.jsp"%>
@@ -42,9 +42,9 @@ style="border: none;">
 Daisy, Brownie, or Junior troop leaders.
 </td></tr>
 <tr><td>
-<%if(user.getYearPlan()!=null && user.getYearPlan().getMeetingEvents()!=null && user.getYearPlan().getMeetingEvents().size()>0){%>
+<%if(troop.getYearPlan()!=null && troop.getYearPlan().getMeetingEvents()!=null && troop.getYearPlan().getMeetingEvents().size()>0){%>
 	Existing Plans:<br/>
-	<a href="/content/girlscouts-vtk/en/vtk.admin.plan.html">::<%=user.getYearPlan().getName() %></a> <a href="javascript:void(0)" onclick="rmUser()" style="color:red;">remove</a>
+	<a href="/content/girlscouts-vtk/en/vtk.admin.plan.html">::<%=troop.getYearPlan().getName() %></a> <a href="javascript:void(0)" onclick="rmUser()" style="color:red;">remove</a>
 <%}%>
 </div>
 
@@ -96,7 +96,6 @@ style="border: none;">
 <input type="submit" value="Report" />
 </a>
 
-
 <a href="/content/girlscouts-vtk/en/vtk.admin.councilRptSingleCount.html">
 <input type="submit" value="Report (single count)" />
 </a>
@@ -139,8 +138,34 @@ style="border: none;">
 </div>
 </li>
 
+<hr/>Use this within rec <a href="/content/girlscouts-vtk/en/vtk.controller.html?resetCal=true">RESET CAL</a>
+
+<div style="background-color:lightyellow;">
+<b>TEST convert data model script </b>
+<br/><a href="/content/girlscouts-vtk/en/vtk.admin.doX.html?xyd=u2t">Cast (datamodel) User to Troop</a>
+<!--  chng logic 2 many times from U2T <br/><a href="/content/girlscouts-vtk/en/vtk.admin.doX.html?xyd=t2u">Cast (datamodel) Troop to User</a> -->
+
+<div style="padding:5px; width:300px;background-color:red;">
+<form action="/content/girlscouts-vtk/en/vtk.controller.html">
+<table>
+	<tr>
+		<td>C</td>
+		<td>
+			<input type="text" name="councilCode" value=""/>
+		</td>
+	</tr>
+	<tr>
+		<td>T</td>
+		<td><input type="text" name="troopId" value=""/></td>
+	</tr>
+	</table>
+	<input type="submit" name="Impersonate4S" value="4Silvia"/>
+</form>
+</div>
 
 
+
+</div>
 <div style="clear:both"></div>
 </ul></div>
 

@@ -1,3 +1,5 @@
+
+
 <li class="ui-state-default ui-state-disabled activity">
         <div  class="row">
                 <div class="large-4 medium-5 small-24 columns">
@@ -20,7 +22,9 @@
 				<p class="blurb"><%= FORMAT_MMM_dd_yyyy_hhmm_AMPM.format(activity.getDate())%> to <%=FORMAT_MMM_dd_yyyy_hhmm_AMPM.format(activity.getEndDate()) %></p>
 				<p class="blurb"><%=activity.getLocationName() %></p>
 				<br/>
-				<a href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=date.getTime()%>">View Activity</a>
+				<%if( hasPermission(troop, Permission.PERMISSION_VIEW_ACTIVITY_ID) ){ %>
+				  <a href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=date.getTime()%>">View Activity</a>
+			    <%} %>
 			</div>
 		</div>
 	</div> 

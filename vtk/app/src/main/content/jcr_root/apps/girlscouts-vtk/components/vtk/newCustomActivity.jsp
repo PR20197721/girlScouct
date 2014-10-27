@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
@@ -283,10 +283,10 @@ border:5px solid #000;
                 </div>
                 <div id="pickActivitySection">
 <form id="schFrm">
-<div class="sectionBar">Add activity from the Council Calendar</div>
-<div class="errorMsg error" id="errorMessage"></div>
+<div class="sectionBar" id="activitySearchLabel">Add activity from the Council Calendar</div>
+<div class="errorMsg error"></div>
 <%
-SearchTag search = meetingDAO.searchA(""+user.getTroop().getCouncilCode());
+SearchTag search = yearPlanUtil.searchA(user, ""+troop.getTroop().getCouncilCode());
 java.util.Map<String, String> levels = search.getLevels();
 java.util.Map<String, String> categories =search.getCategories();
 java.util.Map<String, String> region =search.getRegion();
@@ -298,11 +298,12 @@ java.util.Map<String, String> region =search.getRegion();
         <div class="small-24 medium-18 large-18 columns"><input type="text" id="sch_keyword" value="" onKeyPress="return submitenter(this,event)"/></div>
 </div>
 <div class="row">
-        <div class="small-12 medium-6 large-6 columns"><label for="sch_startDate" ACCESSKEY="r">Date Range</label></div>
+        <div class="small-12 medium-6 large-6 columns"><label for="sch_startDate" id="dateTitle" ACCESSKEY="r">Date Range</label></div>
         <div class="small-6 medium-6 large-6 columns"><input type="text" id="sch_startDate"  value="" class="date calendarField"/></div>
         <div class="small-6 medium-6 large-6 columns"><input type="text" id="sch_endDate"  value="" class="date calendarField"/></div>
         <div class="hide-for-small medium-6 large-6 columns">&nbsp;</div>
 </div>
+<p id ="dateErrorBox" ></p>
 <div class="row">
         <div class="small-24 medium-8 large-6 columns"><label for="sch_region" ACCESSKEY="g">Region</label></div>
         <div class="small-24 medium-16 large-18 columns">
@@ -355,6 +356,7 @@ i++;
 	<input type="button" value="View Activities" onclick='searchActivities()' class="button linkButton"/>
 </div>
 </form>
+
 <div id="searchResults"></div>
 </form>
                 </div>
@@ -393,7 +395,7 @@ function submitenter(myfield,e) {
 	}
 }
 
-$('#sch_startDate').datepicker({minDate: new Date(),
+$('#sch_startDate').datepicker({minDate: 0,
 beforeShowDay: function(d) {
 
 
@@ -411,8 +413,8 @@ beforeShowDay: function(d) {
 	return [false, "","unAvailable"]; 
 
     }});
-$('#sch_endDate').datepicker({minDate: 0, 
-                             beforeShowDay: function(d) {
+$('#sch_endDate').datepicker({minDate: 0,
+beforeShowDay: function(d) {
 
 
     if($('#sch_startDate').val() == "" || $('#sch_startDate').val() == undefined){
@@ -460,29 +462,35 @@ function searchActivities(){
 	var endDate = $.trim(document.getElementById("sch_endDate").value);
 	var region = document.getElementById("sch_region").value;
 	
+	if(!isDate(startDate) && startDate != ''){setError("Invalid Start Date");return false;}
+    if(!isDate(endDate) && endDate!=''){setError("Invalid End Date");return false;}
+	
 	if( startDate != '' && endDate=='' ) {
-		var thisMsg = 'Missing end date';
-                showError(thisMsg, "#pickActivitySection .errorMsg");
+		
+        setError("Missing End Date");
 
 		return false; 
 	}
 	if( startDate =='' && endDate!='' ) {
-		var thisMsg = 'Missing start date';
-                showError(thisMsg, "#pickActivitySection .errorMsg");
+		
+        setError("Missing Start Date");
 		return false;
 	}
     if( new Date(startDate) > new Date(endDate) ) {
-		var thisMsg = 'End Date cannot be before start date';
-                showError(thisMsg, "#pickActivitySection .errorMsg");
-        document.getElementById("errorMessage").scrollIntoView();
+		
+        setError("The End Date cannot be less than Start Date"); 
 		return false;
 	}
-	
 	if( keywrd=='' && lvl=='' && cat =='' && startDate=='' && endDate=='' && region=='' ){
 		var thisMsg = "Please select search criteria.";
                 showError(thisMsg, "#pickActivitySection .errorMsg");
 		return false;
 	}
+	
+	document.getElementById("dateTitle").style.fontWeight = "normal";
+    document.getElementById("dateTitle").style.color = "#FF0000";
+    document.getElementById("dateErrorBox").innerHTML = "";
+	document.getElementById("dateTitle").style.color = "";
 	
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
@@ -501,6 +509,48 @@ function searchActivities(){
 			$("#searchResults").load('/content/girlscouts-vtk/controllers/vtk.searchActivity.html');
 		}
 	});
-	
+}
+
+function setError(errorMessage){
+	document.getElementById("dateErrorBox").innerHTML = errorMessage;
+	document.getElementById("dateTitle").style.color = "#FF0000";
+    document.getElementById("dateErrorBox").style.color = "#FF0000";
+	document.getElementById("dateErrorBox").style.fontSize = "small";
+	document.getElementById("dateErrorBox").style.fontWeight = "bold";
+    document.getElementById("dateTitle").style.fontWeight = "bold";
+    document.getElementById("activitySearchLabel").scrollIntoView();
+}
+
+
+function isDate(txtDate)
+{
+    var currVal = txtDate;
+    if(currVal == '')
+        return false;
+    
+    var rxDatePattern = /^(\d{1,2})(\/|-)(\d{1,2})(\/|-)(\d{4})$/; //Declare Regex
+    var dtArray = currVal.match(rxDatePattern); // is format OK?
+    
+    if (dtArray == null) 
+        return false;
+    
+    //Checks for mm/dd/yyyy format.
+    dtMonth = dtArray[1];
+    dtDay= dtArray[3];
+    dtYear = dtArray[5];        
+    
+    if (dtMonth < 1 || dtMonth > 12) 
+        return false;
+    else if (dtDay < 1 || dtDay> 31) 
+        return false;
+    else if ((dtMonth==4 || dtMonth==6 || dtMonth==9 || dtMonth==11) && dtDay ==31) 
+        return false;
+    else if (dtMonth == 2) 
+    {
+        var isleap = (dtYear % 4 == 0 && (dtYear % 100 != 0 || dtYear % 400 == 0));
+        if (dtDay> 29 || (dtDay ==29 && !isleap)) 
+                return false;
+    }
+    return true;
 }
 </script>

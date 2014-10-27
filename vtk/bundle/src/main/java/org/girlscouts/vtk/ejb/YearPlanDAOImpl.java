@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.jcr.Session;
+import javax.jcr.query.QueryResult;
+import javax.jcr.query.Row;
+import javax.jcr.query.RowIterator;
 
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
@@ -22,133 +25,156 @@ import org.girlscouts.vtk.dao.YearPlanDAO;
 import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.Milestone;
+import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.YearPlan;
-//import javax.jcr.query.Query;
-//import javax.jcr.query.QueryManager;
-//import javax.jcr.query.QueryManager;
 
 @Component
-@Service(value=YearPlanDAO.class)
-public class YearPlanDAOImpl implements YearPlanDAO{
+@Service(value = YearPlanDAO.class)
+public class YearPlanDAOImpl implements YearPlanDAO {
 
-   private Session session;
-    
-    @Reference
-    private SessionPool pool;
-    
-    @Activate
-    void activate() {
-        this.session = pool.getSession();
-    }
-	
-	//public List<YearPlan> test() {
+	@Reference
+	private SessionFactory sessionFactory;
+
+	@Activate
+	void activate() {}
+
 	public List<YearPlan> getAllYearPlans(String ageLevel) {
-		java.util.List <YearPlan> yearPlans =null;
-		try{
-		List<Class> classes = new ArrayList<Class>();	
-		classes.add(YearPlan.class); 
-		classes.add(Meeting.class); 
-		classes.add(Cal.class);
-		
-		Mapper mapper = new AnnotationMapperImpl(classes);
-		ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
-	
-		
-//ageLevel=("brownie");
-		QueryManager queryManager = ocm.getQueryManager();
-		Filter filter = queryManager.createFilter(YearPlan.class);
-		
-		java.util.Calendar today=  java.util.Calendar.getInstance();
-		int year= today.get(java.util.Calendar.YEAR);
-		
-     //-  filter.setScope(  "/content/girlscouts-vtk/meetings/myyearplan/");
-		//-filter.setScope(  "/content/girlscouts-vtk/yearPlans/yearplan2014/brownie/");
-		//----filter.setScope(  "/content/girlscouts-vtk/yearPlans/yearplan"+year+"/"+ageLevel+"/");
-		filter.setScope("/content/girlscouts-vtk/yearPlanTemplates/yearplan"+year+"/"+ageLevel+"/");
-		
-        Query query = queryManager.createQuery(filter);
-        
-      yearPlans = ( List <YearPlan>)  ocm.getObjects(query);
-       // List<Object> o = (List<Object>) ocm.getObjects(query);
-        // System.err.println("tes: "+ (o ==null) +" : "+o.size() +" : "+(o.get(0)==null)  );
-        // System.err.println( "Fopund YEARPL: "+( yearPlans.size() ) +" : "+ yearPlans.get(0).getName()  );
-		
-		
-        
-		}catch(Exception e){e.printStackTrace();}
-		return yearPlans;
-	}
-		
-	
-	
-	public List<YearPlan> test() {
-	//public List<YearPlan> getAllYearPlans() {
-		java.util.List plans= new java.util.ArrayList();
-		
-		for(int i=0;i<4;i++){
-			YearPlan plan = new YearPlan();
-			plan.setDesc("Descript "+i);
-			plan.setId("YRP"+i);
-			plan.setName("Name "+i);
-			plans.add(plan);
-		}
-		
-		return plans;
-	}
-
-	public void createYearPlans(){
-		
-		
-		YearPlan plan = new YearPlan();
-		plan.setDesc("Year Plan descition hererere");
-		plan.setId("YRPIDID");
-		plan.setName("YEAr plan name name");
-		plan.setPath("/yearPlan");
-		
-		try{
-			List<Class> classes = new ArrayList<Class>();	
-			classes.add(YearPlan.class); 
-			
-			
-			Mapper mapper = new AnnotationMapperImpl(classes);
-			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
-			ocm.insert(plan);
-			ocm.save();
-		}catch(Exception e){e.printStackTrace();}
-	}
-	
-	
-	
-	
-	
-		public YearPlan getYearPlan(String path) {
-			//System.err.println("YearPlanDAOImpl.getYearPlan");
-			YearPlan yearPlan =null;
-			try{
-			List<Class> classes = new ArrayList<Class>();	
-			classes.add(YearPlan.class); 
-			classes.add(Meeting.class); 
+		java.util.List<YearPlan> yearPlans = null;
+		Session session = null;
+		try {
+			session = sessionFactory.getSession();
+			List<Class> classes = new ArrayList<Class>();
+			classes.add(YearPlan.class);
+			classes.add(Meeting.class);
 			classes.add(Cal.class);
-			//classes.add(Milestone.class);
-			
+
 			Mapper mapper = new AnnotationMapperImpl(classes);
-			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
-		
-			
-	
+			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+					mapper);
+
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(YearPlan.class);
-			
-		
-			
-			
-	        Query query = queryManager.createQuery(filter);
-	        
-	   yearPlan =(YearPlan)  ocm.getObject(path);
-	       
-	        
-			}catch(Exception e){e.printStackTrace();}
-			return yearPlan;
+
+			java.util.Calendar today = java.util.Calendar.getInstance();
+			int year = today.get(java.util.Calendar.YEAR);
+
+			filter.setScope("/content/girlscouts-vtk/yearPlanTemplates/yearplan"
+					+ year + "/" + ageLevel + "/");
+
+			Query query = queryManager.createQuery(filter);
+
+			yearPlans = (List<YearPlan>) ocm.getObjects(query);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null)
+					sessionFactory.closeSession(session);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
 		}
+		return yearPlans;
+	}
+
+	public YearPlan getYearPlan(String path) {
+		YearPlan yearPlan = null;
+		Session session = null;
+		try {
+			List<Class> classes = new ArrayList<Class>();
+			classes.add(YearPlan.class);
+			classes.add(Meeting.class);
+			classes.add(Cal.class);
+
+			session = sessionFactory.getSession();
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+					mapper);
+
+			QueryManager queryManager = ocm.getQueryManager();
+			Filter filter = queryManager.createFilter(YearPlan.class);
+
+			Query query = queryManager.createQuery(filter);
+
+			yearPlan = (YearPlan) ocm.getObject(path);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null)
+					sessionFactory.closeSession(session);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		return yearPlan;
+	}
+
+	public java.util.Date getLastModif(Troop troop) {
+		Session session = null;
+		java.util.Date toRet = null;
+		try {
+			session = sessionFactory.getSession();
+			String sql = "select jcr:lastModified from nt:base where jcr:path = '"
+					+ troop.getPath() + "' and jcr:lastModified is not null";
+			javax.jcr.query.QueryManager qm = session.getWorkspace()
+					.getQueryManager();
+			javax.jcr.query.Query q = qm.createQuery(sql,
+					javax.jcr.query.Query.SQL);
+			QueryResult result = q.execute();
+			for (RowIterator it = result.getRows(); it.hasNext();) {
+				Row r = it.nextRow();
+				toRet = new java.util.Date(r.getValue("jcr:lastModified")
+						.getLong());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null)
+					sessionFactory.closeSession(session);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		return toRet;
+	}
+	
+	
+	public java.util.Date getLastModifByOthers(Troop troop, String sessionId) {
+		Session session = null;
+		java.util.Date toRet = null;
+		try {
+			session = sessionFactory.getSession();
+			String sql = "select jcr:lastModified from nt:base where jcr:path = '"
+					+ troop.getPath() + "' and jcr:lastModified is not null";
 			
+			if(sessionId!=null)
+				sql+= " and currentTroop <>'"+sessionId+"'";
+		System.err.println("SQL "+ sql);
+			javax.jcr.query.QueryManager qm = session.getWorkspace()
+					.getQueryManager();
+			javax.jcr.query.Query q = qm.createQuery(sql,
+					javax.jcr.query.Query.SQL);
+			QueryResult result = q.execute();
+			for (RowIterator it = result.getRows(); it.hasNext();) {
+				Row r = it.nextRow();
+				toRet = new java.util.Date(r.getValue("jcr:lastModified")
+						.getLong());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null)
+					sessionFactory.closeSession(session);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+	System.err.println("Last midf timestamp: "+ toRet);	
+		return toRet;
+	}
 }

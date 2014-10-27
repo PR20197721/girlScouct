@@ -8,7 +8,10 @@ public class Permission extends PermissionConstants {
 	
     public static final Permission login          = new Permission(PERMISSION_LOGIN_ID, null);
     public static final Permission year_plan_view   = new Permission(PERMISSION_VIEW_YEARPLAN_ID, login);
-   
+    public static final Permission year_plan_add   = new Permission(PERMISSION_ADD_YEARPLAN_ID, login);
+    public static final Permission year_plan_rm   = new Permission(PERMISSION_RM_YEARPLAN_ID, year_plan_view);
+    public static final Permission year_plan_edit   = new Permission(PERMISSION_EDIT_YEARPLAN_ID, year_plan_view);
+    
     /*** MEETING ***/
     public static final Permission meeting_view    =  new Permission(PERMISSION_VIEW_MEETING_ID, year_plan_view);
     public static final Permission meeting_search    =  new Permission(PERMISSION_SEARCH_MEETING_ID, meeting_view);
@@ -28,7 +31,13 @@ public class Permission extends PermissionConstants {
     public static final Permission activity_create =  new Permission(PERMISSION_CREATE_ACTIVITY_ID, activity_edit);
     public static final Permission activity_rm     =  new Permission(PERMISSION_RM_ACTIVITY_ID, activity_edit);
     
+    /*** TROOP ***/
+    public static final Permission troop_view   = new Permission(PERMISSION_VIEW_TROOP_ID, login);
    
+    /*** FINANCE ***/
+    public static final Permission finance_view   = new Permission(PERMISSION_VIEW_FINANCE_ID, login);
+    
+    
 	
 	
 	

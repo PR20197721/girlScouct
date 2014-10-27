@@ -1,4 +1,4 @@
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig,  org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
@@ -50,7 +50,7 @@ function rmAid(aidId, meetingId, assetName, assetDesc){
 <div class="row modalHeader">
 <%
 	String aidId= request.getParameter("aidId");
-	java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
+	java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(troop.getYearPlan());
 	boolean isWarning=false;
 	String instruction = null;
 	if( sched==null || (sched.size()==0)) {
@@ -100,7 +100,7 @@ function rmAid(aidId, meetingId, assetName, assetDesc){
 					isActivity = true;
 					break;
 				case MEETING :
-					Meeting meetingInfo =meetingDAO.getMeeting( ((MeetingE) _comp).getRefId() );
+					Meeting meetingInfo =yearPlanUtil.getMeeting(user, ((MeetingE) _comp).getRefId() );
 					displayName=meetingInfo.getName();
 					assets =  ((MeetingE) _comp).getAssets(); 
 					break;

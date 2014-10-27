@@ -1,5 +1,5 @@
 <%
-java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
+java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(troop.getYearPlan());
 %>
 <div id="locMsg"></div>
 <table cellpadding="5" cellspacing="0" class="yearMeetingList" width="100%">
@@ -31,7 +31,7 @@ while( itr.hasNext() ){
 		</td>
 		<td width="5"><%=currentMeeting %></td>
 		<td><%= FORMAT_CALENDAR_DATE.format( date ) %></td>
-		<td><%= meetingDAO.getMeeting(  meeting.getRefId() ).getName() %>
+		<td><%= yearPlanUtil.getMeeting( user, meeting.getRefId() ).getName() %>
 			<%if( meeting.getCancelled()!=null && meeting.getCancelled().equals("true")){%>
 				<span class="alert">(Cancelled)</span>
 			<%} %>

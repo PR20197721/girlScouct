@@ -1,4 +1,4 @@
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig,  org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
@@ -8,10 +8,9 @@
 
 	
 	
-	List<org.girlscouts.vtk.models.Search> countries = meetingDAO.getData(user, query);
-	if( countries.size()<=0  ){
+	List<org.girlscouts.vtk.models.Search> countries = yearPlanUtil.getData(user,troop, query);
+	if( countries!=null && countries.size()<=0  ){
 		session.setAttribute("search", countries); 
-
 		return;
 	}
 	

@@ -1,36 +1,30 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 
 <%   
-	java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
-	//add milestones only on this page
+	java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(troop.getYearPlan());
 	
 	try{
-		/*
-		System.err.println( user==null );
-		System.err.println( user.getYearPlan() ==null);
-		System.err.println(meetingDAO==null);
-		System.err.println( user.getTroop()==null);
-		*/
-		if( user.getYearPlan()!=null)
-		user.getYearPlan().setMilestones( meetingDAO.getCouncilMilestones( ""+user.getTroop().getCouncilCode() ) );
+		
+		if( troop.getYearPlan()!=null)
+		troop.getYearPlan().setMilestones( yearPlanUtil.getCouncilMilestones( ""+troop.getTroop().getCouncilCode() ) );
 	}catch(Exception e){e.printStackTrace();}
-	if( user.getYearPlan().getMilestones() ==null )
-		user.getYearPlan().setMilestones(new java.util.ArrayList() );
+	if( troop.getYearPlan().getMilestones() ==null )
+		troop.getYearPlan().setMilestones(new java.util.ArrayList() );
 			
-	for(int i=0;i<user.getYearPlan().getMilestones().size();i++)
-		sched.put( user.getYearPlan().getMilestones().get(i).getDate(), user.getYearPlan().getMilestones().get(i) );
+	for(int i=0;i<troop.getYearPlan().getMilestones().size();i++)
+		sched.put( troop.getYearPlan().getMilestones().get(i).getDate(), troop.getYearPlan().getMilestones().get(i) );
 
 
 %>
-<h1 class="yearPlanTitle"><%=user.getYearPlan().getName() %></h1>
-<p class="hide-for-print">Drag and drop to reorder meetings</p> 
-<ul id="sortable123">
+<h1 class="yearPlanTitle"><%=troop.getYearPlan().getName() %></h1>
+<br/><p>Drag and drop to reorder meetings</p> 
+<ul id="<%= hasPermission(troop, Permission.PERMISSION_MOVE_MEETING_ID) ? "sortable123" : ""%>">
 <% 
-if( user.getYearPlan().getSchedule()!=null ){ //sched exists
+if( troop.getYearPlan().getSchedule()!=null ){ //sched exists
  int meetingCount=0;
  java.util.Iterator itr = sched.keySet().iterator();
  while( itr.hasNext() ){
@@ -43,7 +37,7 @@ if( user.getYearPlan().getSchedule()!=null ){ //sched exists
 			if (activity.getCancelled()!=null && activity.getCancelled().equals("true") ) {
 				; //dont display
 			}else{
-				%>  <%@include file="include/viewActivity.jsp" %>    <% 
+				%>  <%@include file="include/viewActivity.jsp" %>    <%
 			}
 			break;
 

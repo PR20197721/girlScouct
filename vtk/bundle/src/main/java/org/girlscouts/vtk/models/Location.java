@@ -1,10 +1,12 @@
 package org.girlscouts.vtk.models;
 
+import java.io.Serializable;
+
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
-@Node
-public class Location {
+@Node(jcrMixinTypes="mix:lockable" )
+public class Location  implements Serializable{
 
 	
 		

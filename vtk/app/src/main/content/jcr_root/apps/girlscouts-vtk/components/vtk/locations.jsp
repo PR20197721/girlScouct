@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
@@ -60,26 +60,23 @@
 <div class="row modalBody">
         <div class="small-24 medium-24 large-24 columns">
 <%
-        if (user.getYearPlan() != null) {
+        if (troop.getYearPlan() != null) {
 %>
                 <div id="manageCalendarSection">
                         <div class="sectionBar">Manage Calendar</div>
-                       
 			<div id="calMng">
 <%
-                if( true){//user.getYearPlan().getSchedule() == null ){
+                if( troop.getYearPlan().getSchedule() == null ){
 %>
 <%@include file="include/calSched.jsp" %>
-
 <%
                 }else{
 %>
-<!-- jira 114. next release
- <div><input type="button" value="Click here to change your recurring meeting date and time." name="" onclick="showAlterYearPlanStartDate()"/></div>
-<div>Or select a calendar icon below to change the date, time, or to cancel a specific meeting</div>
--->
-<%@include file="include/calList.jsp" %>
 
+
+<input type="button" value="Click here to change your recurring meeting date and time." name="" onclick="showAlterYearPlanStartDate()" class="button" />
+<p>Or select a calendar icon below to change the date, time, or to cancel a specific meeting</p>
+<%@include file="include/calList.jsp" %>
 <%
                 }
 %>
@@ -87,7 +84,7 @@
                 </div>
                 <div id="manageLocationSection">
 <%
-                if( false) {//user.getYearPlan().getSchedule() == null ){
+                if( false) {//troop.getYearPlan().getSchedule() == null ){
 %>
 			Please first select your calendar start date to set meeting locations.
 <%
@@ -100,7 +97,7 @@
                 </div>
                 <div id="manageActivitySection">
 <%
-                if( false) {// user.getYearPlan().getSchedule() == null ){
+                if( false) {// troop.getYearPlan().getSchedule() == null ){
 %>
                         Please first select your calendar start date to set meeting activities.
 <%

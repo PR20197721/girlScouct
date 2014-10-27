@@ -61,8 +61,10 @@ import org.apache.commons.fileupload.util.Streams;
 
 import org.apache.sling.api.resource.ResourceResolverFactory;
 //import org.girlscouts.vtk.auth.models.User;
-import org.girlscouts.vtk.models.user.User;
+import org.girlscouts.vtk.models.Troop;
+import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.dao.MeetingDAO;
+import org.girlscouts.vtk.ejb.YearPlanUtil;
 
 import com.day.cq.commons.jcr.JcrUtil;
 
@@ -98,7 +100,7 @@ import com.day.cq.commons.jcr.JcrUtil;
 	private ResourceResolverFactory resolverFactory; 
 	 
 		 @Reference
-		 MeetingDAO meetingDAO;
+		 YearPlanUtil yearPlanUtil;
 		
 	 @Override
      protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServerException, IOException {
@@ -109,13 +111,17 @@ import com.day.cq.commons.jcr.JcrUtil;
 
 		 
 		 // MeetingDAO meetingDAO = resourceResolver.adaptTo(MeetingDAO.class);
-		  User user= (User) request.getSession().getValue("VTK_user");
+		 User user =  ((org.girlscouts.vtk.models.User) request.getSession()
+					.getAttribute(org.girlscouts.vtk.models.User.class
+							.getName()));
+		 
+		  Troop troop= (Troop) request.getSession().getValue("VTK_troop");
 		  
 		 // System.err.println("Chk: "+ (meetingDAO==null)  +" : "+ (user==null) );
 		  
 		 //MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
 		 try {
-			net.fortuna.ical4j.model.Calendar calendar = meetingDAO.yearPlanCal(user );
+			net.fortuna.ical4j.model.Calendar calendar = yearPlanUtil.yearPlanCal(user, troop );
 			
 			//java.io.FileOutputStream fout = new java.io.FileOutputStream("mycalendar.ics");
 			ServletOutputStream fout = response.getOutputStream();

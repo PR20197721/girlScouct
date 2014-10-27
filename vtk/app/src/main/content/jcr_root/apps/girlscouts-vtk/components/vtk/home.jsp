@@ -61,8 +61,26 @@ if (configManager != null) {
 <!--PAGE STRUCTURE: LEFT CONTENT START-->
 <div class="large-5 hide-for-medium hide-for-small columns mainLeft">
 <div id="leftContent">
+
+
+
+
+
 <!-- apps/girlscouts/components/three-column-page/left.jsp -->
 <div class="cascading-menus">
+
+
+
+
+
+
+
+
+
+
+
+
+
 </ul>
 <script>
 $(document).ready(function() {
@@ -70,8 +88,11 @@ $('#main .side-nav li.active.current').parent().parent().find(">div>a").css({"fo
 });
 </script>
 </div>
+
 <div class="par parsys">
 </div>
+
+
 </div>
 </div>
 <!--PAGE STRUCTURE: LEFT CONTENT STOP-->
@@ -80,16 +101,33 @@ $('#main .side-nav li.active.current').parent().parent().find(">div>a").css({"fo
 <div class="large-19 medium-24 small-24 columns mainRight">
 <div class="breadcrumbWrapper">
 <div class="breadcrumb-trail breadcrumb">
-	<nav class="breadcrumbs"></nav>
+
+
+
+
+
+
+<nav class="breadcrumbs">
+
+</nav>
 </div>
+
 </div>
 <div class="row mainRightBottom">
 <div class="large-18 medium-18 small-24 columns rightBodyLeft">
 <!--PAGE STRUCTURE: MIDDLE CONTENT START-->
+
+
+
+
+
 <!-- apps/girlscouts/components/three-column-page/middle.jsp -->
 <div id="mainContent">
 <div class="par parsys"><div class="text parbase section">
 <h1>Welcome.</h1>
+
+
+
 </div>
 <div class="text parbase section">
 <p><br />

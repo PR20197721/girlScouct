@@ -16,7 +16,7 @@
 				<td class="planSquareMiddle">
 		<div class="planSquare">
 <%
-		if( user.getYearPlan().getSchedule()!=null ) {
+		if( troop.getYearPlan().getSchedule()!=null ) {
 %>
 			<div class="count"><%= meetingCount %></div>
 <%
@@ -28,7 +28,7 @@
                 }
 %>
 			<div class="date">
-        <%if( user.getYearPlan().getSchedule()!=null ) {%>
+        <%if( troop.getYearPlan().getSchedule()!=null ) {%>
 				<div class="cal"><span class="month"><%= FORMAT_MONTH.format(searchDate)%><br/></span><span class="day"><%= FORMAT_DAY_OF_MONTH.format(searchDate)%><br/></span><span class="time hide-for-small"><%= FORMAT_hhmm_AMPM.format(searchDate)%></span></div>
         <%} else {%>
                                 <div class="cal"><span class="month">Meeting<br/></span><span class="day"><%=meetingCount%></span></div>
@@ -63,10 +63,10 @@
 		<!--  <%= meetingInfo.getAidTags() %> -->
 <%
 	Location loc = null;
-	if( meeting.getLocationRef()!=null && user.getYearPlan().getLocations()!=null ) {
-		for(int k=0;k<user.getYearPlan().getLocations().size();k++){
-			if( user.getYearPlan().getLocations().get(k).getPath().equals( meeting.getLocationRef() ) ){
-				loc = user.getYearPlan().getLocations().get(k);
+	if( meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null ) {
+		for(int k=0;k<troop.getYearPlan().getLocations().size();k++){
+			if( troop.getYearPlan().getLocations().get(k).getPath().equals( meeting.getLocationRef() ) ){
+				loc = troop.getYearPlan().getLocations().get(k);
 			}
 		}
 	}
@@ -87,8 +87,11 @@
 %>
 	</div>
         <div class="small-24 medium-6 large-5 columns linkButtonWrapper">
-		<a href="#" class="mLocked button linkButton" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=meeting.getPath()%>&xx=<%=searchDate.getTime()%>', false, null, true)">replace this meeting</a>
-		<br/>
+        
+       <%  if( hasPermission(troop, Permission.PERMISSION_REPLACE_MEETING_ID) ){ %>
+			<a href="#" class="mLocked button linkButton" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=meeting.getPath()%>&xx=<%=searchDate.getTime()%>', false, null, true)">replace this meeting</a>
+			<br/>
+		<%} %>
 <%
 	String img= "", imgDefault="xx";
 	try{
@@ -181,11 +184,12 @@ if( _aidTags!=null )
 
 <div class="sectionHeader">Meeting Agenda</div>
 
+<% if( hasPermission(troop, Permission.PERMISSION_MOVE_MEETING_ID) ){ %>
 	<a href="javascript:void(0)" onclick="revertAgenda('<%=meeting.getPath()%>')"  class="mLocked">Revert to Original Agenda</a>
-
+<%} %>
 
 <p>Select an item to view details, edit duration, or delete. Drag and drop items to reorder them.</p>
-<ul id="sortable" >
+<ul id="<%= hasPermission(troop, Permission.PERMISSION_MOVE_MEETING_ID) ? "sortable" : ""%>" >
 <%
 	java.util.Calendar activSched= java.util.Calendar.getInstance();
 	activSched.setTime( searchDate);
@@ -210,7 +214,7 @@ if( _aidTags!=null )
 				
 				<img class="touchscroll" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/touchscroll-small.png" width="21" height="34"></td>
 <%
-		if( user.getYearPlan().getSchedule()!=null ){ 
+		if( troop.getYearPlan().getSchedule()!=null ){ 
 %>
 				<td class="agendaTime"><%=FORMAT_hhmm_AMPM.format(activSched.getTime()) %></td>   
 <%
@@ -219,7 +223,7 @@ if( _aidTags!=null )
 %>
 				<td>
 				
-					<%if( !isLocked) {%>
+					<%if( !isLocked && hasPermission(troop, Permission.PERMISSION_UPDATE_MEETING_ID)) {%>
 						<a href="javascript:void(0)"  class="mLocked" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isAgenda=<%=ii %>', true, 'Agenda')"><%=_activity.getName() %></a>
 					<%}else{ %>
 						<%=_activity.getName() %>
@@ -231,7 +235,7 @@ if( _aidTags!=null )
 		</table>
 	</li>
 <% 
-		if( user.getYearPlan().getSchedule()!=null )
+		if( troop.getYearPlan().getSchedule()!=null )
 			activSched.add(java.util.Calendar.MINUTE, _activity.getDuration() );
 		duration+= _activity.getDuration();
 	}
@@ -260,12 +264,12 @@ if( _aidTags!=null )
   <!--  
 	<input type="button" name="" value="Add Agenda Items" onclick="addCustAgenda()"  class="mLocked button linkButton"/>
 -->
-    
-<a href="javascript:void(0)" onclick="loadModal('#newMeetingAgenda', true, 'Agenda', false);">Add Agenda Items</a>
-
+ <%if(hasPermission(troop, Permission.PERMISSION_UPDATE_MEETING_ID)){ %>
+	<a href="javascript:void(0)" onclick="loadModal('#newMeetingAgenda', true, 'Agenda', false);">Add Agenda Items</a>
+ <%} %>
 
 <div id="newMeetingAgenda" style="display:none;">
-<% if(true){// user.getYearPlan().getSchedule() !=null){ %>
+<% if(true){// troop.getYearPlan().getSchedule() !=null){ %>
        <h1>Add New Agenda Item</h1> 
 	
 	Enter Agenda Item Name:<br/>
@@ -303,7 +307,7 @@ if( _aidTags!=null )
 </style>
 
 <div id="meetingLibraryView">
-<% if( false) {//user.getYearPlan().getSchedule()!=null ) { %>
+<% if( false) {//troop.getYearPlan().getSchedule()!=null ) { %>
 	<div class="tmp" id="popup123" style="background-color:#EEEEEE;">
 		<%@include file="email/meetingReminder.jsp" %>
 	</div>

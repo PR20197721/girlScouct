@@ -10,49 +10,40 @@ import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.SearchTag;
-import org.girlscouts.vtk.models.user.User;
+import org.girlscouts.vtk.models.Troop;
+import org.girlscouts.vtk.models.User;
 
 public interface MeetingDAO {
 
 	
-	public java.util.List<Meeting> getAllMeetings(String gradeLevel); 
-	public java.util.List<MeetingE> getAllEventMeetings(String yearPlanId);
-	public Meeting getMeeting(String path);
-	public java.util.List<MeetingE> getAllEventMeetings_byPath(String yearPlanPath);
-	public java.util.List<MeetingE> getAllUsersEventMeetings(User user, String yearPlanId);
-	public Meeting createCustomMeeting(User user, MeetingE meetingEvent);
-	public Meeting createCustomMeeting(User user, MeetingE meetingEvent, Meeting meeting);
-	public Meeting addActivity(User user, Meeting meeting, Activity activity);
+	public java.util.List<Meeting> getAllMeetings(User user, String gradeLevel)throws IllegalAccessException; 
+	public java.util.List<MeetingE> getAllEventMeetings(User user, String yearPlanId)throws IllegalAccessException;
+	public Meeting getMeeting(User user, String path) throws IllegalAccessException;
+	public java.util.List<MeetingE> getAllEventMeetings_byPath(User user, String yearPlanPath)throws IllegalAccessException;
+	public java.util.List<MeetingE> getAllUsersEventMeetings(User user, Troop troop, String yearPlanId) throws IllegalStateException, IllegalAccessException;
+	public Meeting createCustomMeeting(User user, Troop troop, MeetingE meetingEvent) throws IllegalAccessException;
+	public Meeting createCustomMeeting(User user, Troop troop, MeetingE meetingEvent, Meeting meeting) throws IllegalAccessException;
+	public Meeting addActivity(User user, Troop troop, Meeting meeting, Activity activity) throws IllegalAccessException;
 	List<Meeting> search();
-	public List<org.girlscouts.vtk.models.Search> getData(User user, String query);
-	//public List<org.girlscouts.vtk.models.Search> getAidTag(String tags, String meetingName);
-	//public List<org.girlscouts.vtk.models.Search> getAidTag_custasset(String uid);
-	public java.util.List<Asset> getAids(String tags, 
-			String meetingName, String uids);
-	
-	
-	
-	public net.fortuna.ical4j.model.Calendar yearPlanCal(User user )throws Exception;
-	public java.util.List<Asset> getResources(String tags, 
-			String meetingName, String uids);
-	
-	public SearchTag searchA(String councilCode);
-	public java.util.List<Activity> searchA1(User user, String lvl, String cat, String keywrd,
-			java.util.Date startDate, java.util.Date endDate, String region);
-	//public java.util.Map<String, String> searchRegion(); //pull distinct regions
-	
-	
-	public  List<Asset> getAllResources(String path) ;
-	public  Asset getAsset(String _path);
+	public List<org.girlscouts.vtk.models.Search> getData(User user, Troop troop, String query) throws IllegalAccessException;
+	public SearchTag searchA(User user, String councilCode) throws IllegalAccessException;
+	public java.util.List<Activity> searchA1(User user, Troop troop, String lvl, String cat, String keywrd,
+			java.util.Date startDate, java.util.Date endDate, String region) throws IllegalAccessException;
+
+	public  List<Asset> getAllResources(User user, String path)throws IllegalAccessException ;
+	public  Asset getAsset(User user, String _path)throws IllegalAccessException;
 	public java.util.List<Asset> getGlobalResources( String resourceTags); // delim ';'
+	public Meeting updateCustomMeeting(User user, Troop troop, MeetingE meetingEvent, Meeting meeting) throws IllegalAccessException;
+	public Council getCouncil(User user, String councilId)throws IllegalAccessException;
+	public java.util.List<Milestone> getCouncilMilestones( String councilCode);
+	public void  saveCouncilMilestones( java.util.List<Milestone> milestones);
+	public String removeLocation(User user, Troop troop, String locationName) throws IllegalAccessException;
+	public List<Asset> getAidTag_local(User user, String tags, String meetingName)throws IllegalAccessException;
+	public List<Asset> getAidTag(User user, String tags, String meetingName)throws IllegalAccessException;
+	public List<Asset> getResource_local(User user, String tags, String meetingName)throws IllegalAccessException;
+	public List<Asset> getResource_global(User user, String tags, String meetingName)throws IllegalAccessException;
 	
-	public Meeting updateCustomMeeting(User user, MeetingE meetingEvent, Meeting meeting);
-	public Council getCouncil(String councilId);
-	public java.util.List<Milestone> getCouncilMilestones(String councilCode);
-	public void  saveCouncilMilestones(java.util.List<Milestone> milestones);
-	
-	public boolean isCurrentUserId(User user, String sId);
-	public  boolean hasPermission(Set<Integer> myPermissionTokens, int permissionId);
-	public  boolean hasPermission(User user, int permissionId);
-	public boolean hasAccess(User user, String mySessionId, int permissionId);
+	//migrate script - 1time only
+	public void doX(); 
+	public void undoX(); 
 }

@@ -5,7 +5,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.StringTokenizer;
-
 import net.fortuna.ical4j.data.CalendarOutputter;
 import net.fortuna.ical4j.model.Date;
 import net.fortuna.ical4j.model.Property;
@@ -15,31 +14,31 @@ import net.fortuna.ical4j.model.property.CalScale;
 import net.fortuna.ical4j.model.property.ProdId;
 import net.fortuna.ical4j.model.property.Version;
 import net.fortuna.ical4j.util.UidGenerator;
-
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.MeetingDAO;
-import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
+import org.girlscouts.vtk.models.Troop;
+import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
-import org.girlscouts.vtk.models.user.User;
 
 @Component
 @Service(value=CalendarUtil.class)
 public class CalendarUtil {
     
 	@Reference
-    UserDAO userDAO;
+	TroopUtil troopUtil;
     
     @Reference
-    private MeetingDAO meetingDAO;
+    private UserUtil userUtil;
+
 
 	public void weeklyCal( java.util.Date startDate ){}
 		
@@ -188,12 +187,21 @@ public class CalendarUtil {
 		}
 		
 		
-		public void createSched(User user, String freq, org.joda.time.DateTime p, String exclDate){
-		
-			if( !meetingDAO.hasAccess(user, user.getCurrentUser(), Permission.PERMISSION_EDIT_MEETING_ID ) ){
-				 user.setErrCode("112");
-				 return;
+		public void createSched(User user, Troop troop, String freq, org.joda.time.DateTime p, String exclDate)throws java.lang.IllegalAccessException{
+		/*
+			if( !userUtil.hasAccess(troop, troop.getCurrentTroop(), Permission.PERMISSION_EDIT_MEETING_ID ) ){
+				 troop.setErrCode("112");
+				 //return;
+				 throw new IllegalAccessException();
 			 }
+			*/
+			if( troop!= null && ! userUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID   ) )
+				throw new IllegalAccessException();
+			
+			if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
+				troop.setErrCode("112");
+				throw new java.lang.IllegalAccessException();
+			}
 			
 			java.util.List <org.joda.time.DateTime>exclDt= new java.util.ArrayList<org.joda.time.DateTime>();
 			java.util.StringTokenizer t= new java.util.StringTokenizer( exclDate, ",");
@@ -201,11 +209,11 @@ public class CalendarUtil {
 				exclDt.add( new org.joda.time.DateTime( new java.util.Date(t.nextToken()) ));
 			}
 			
-			String existSched = user.getYearPlan().getSchedule()== null ? "" : user.getYearPlan().getSchedule().getDates();
+			String existSched = troop.getYearPlan().getSchedule()== null ? "" : troop.getYearPlan().getSchedule().getDates();
 			
-			java.util.List <org.joda.time.DateTime> sched = new CalendarUtil().genSched( p, freq, exclDt,  user.getYearPlan().getMeetingEvents().size(),
+			java.util.List <org.joda.time.DateTime> sched = new CalendarUtil().genSched( p, freq, exclDt,  troop.getYearPlan().getMeetingEvents().size(),
 					existSched);
-			YearPlan plan = user.getYearPlan();
+			YearPlan plan = troop.getYearPlan();
 			plan.setCalFreq(freq);
 			plan.setCalStartDate( p.getMillis() );
 			plan.setCalExclWeeksOf(exclDate);
@@ -215,28 +223,37 @@ public class CalendarUtil {
 			calendar.fmtDate(sched);
 
 			plan.setSchedule(calendar);
-			user.setYearPlan(plan);
+			troop.setYearPlan(plan);
 			
 			
 			//sort
 			
 			Comparator<MeetingE> comp = new BeanComparator("id");
-		    Collections.sort( user.getYearPlan().getMeetingEvents(), comp);
+		    Collections.sort( troop.getYearPlan().getMeetingEvents(), comp);
 			
-			userDAO.updateUser(user);
+			troopUtil.updateTroop(user, troop);
 		}
 		
-		public void updateSched(User user, String meetingPath, String time, String date, String ap, 
-				String isCancelledMeeting, long currDate){
-			
-			if( !meetingDAO.hasAccess(user, user.getCurrentUser(), Permission.PERMISSION_UPDATE_MEETING_ID ) ){
-				 user.setErrCode("112");
-				 return;
+		public void updateSched(User user, Troop troop, String meetingPath, String time, String date, String ap, 
+				String isCancelledMeeting, long currDate)throws java.lang.IllegalAccessException{
+			/*
+			if( !userUtil.hasAccess(troop, troop.getCurrentTroop(), Permission.PERMISSION_UPDATE_MEETING_ID ) ){
+				 troop.setErrCode("112");
+				// return;
+				 throw new IllegalAccessException();
 			 }
+			*/
+			if( troop!= null && ! userUtil.hasPermission(troop, Permission.PERMISSION_UPDATE_MEETING_ID   ) )
+				throw new IllegalAccessException();
+			
+			if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
+				troop.setErrCode("112");
+				throw new java.lang.IllegalAccessException();
+			}
 			
 			java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat("MM/dd/yyyy hh:mm a");
 			
-			YearPlan plan = user.getYearPlan();
+			YearPlan plan = troop.getYearPlan();
 			Cal cal = plan.getSchedule();
 			
 			
@@ -250,24 +267,24 @@ public class CalendarUtil {
 			
 			
 			
-			java.util.List<MeetingE>meetings = user.getYearPlan().getMeetingEvents();
+			java.util.List<MeetingE>meetings = troop.getYearPlan().getMeetingEvents();
 			for(int i=0;i<meetings.size();i++){
 				MeetingE meeting = meetings.get(i);
 				if( meeting.getPath().equals( meetingPath ) ){
 					meeting.setCancelled(isCancelledMeeting);
-					user.getYearPlan().setAltered("true");
+					troop.getYearPlan().setAltered("true");
 					
 				}
 			}
 			
-			userDAO.updateUser(user);
+			troopUtil.updateTroop(user, troop);
 			
 		}
 		
-		public void resetCal(User user){
+		public void resetCal(User user, Troop troop)throws java.lang.IllegalAccessException{
 			
-			user.getYearPlan().setSchedule(null);
-			userDAO.updateUser(user);
+			troop.getYearPlan().setSchedule(null);
+			troopUtil.updateTroop(user, troop);
 		}
 	
 }

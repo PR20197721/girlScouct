@@ -1,4 +1,4 @@
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig,  org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@ page import="com.day.cq.wcm.foundation.Search,
 org.girlscouts.web.search.DocHit,
 com.day.cq.search.eval.JcrPropertyPredicateEvaluator,com.day.cq.search.eval.FulltextPredicateEvaluator,
@@ -24,7 +24,7 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 
 try{
 	//org.girlscouts.vtk.auth.models.User x= 
-	String t= new org.girlscouts.vtk.auth.dao.SalesforceDAO(userDAO).getcaca3( user.getApiConfig() , request.getParameter("xx44") ) ;
+	String t= new org.girlscouts.vtk.auth.dao.SalesforceDAO(userDAO).getcaca3( troop.getApiConfig() , request.getParameter("xx44") ) ;
 	out.println(t);
 }catch(Exception e){e.printStackTrace();}
 %>

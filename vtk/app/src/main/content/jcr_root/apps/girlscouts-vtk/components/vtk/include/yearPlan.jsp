@@ -10,21 +10,21 @@
 
 
 	String confMsg="TEST";
-	if( user.getYearPlan()!=null ){
-		if( user.getYearPlan().getIsAltered()  &&  
-				( isDtMeetings(user.getYearPlan().getSchedule(), 1) || user.getYearPlan().getSchedule()==null ) )
-			{confMsg ="Are You Sure? You will lose customizations that you have made";confMsg+= isDtMeetings(user.getYearPlan().getSchedule(), 1) ;}
-		else if( isDtMeetings(user.getYearPlan().getSchedule(), 0))
-			{confMsg ="Are You Sure? This will modify plans on /after [date]. Any customization for meeting(s) will be lost.";confMsg+=isDtMeetings(user.getYearPlan().getSchedule(), 0); }
+	if( troop.getYearPlan()!=null ){
+		if( troop.getYearPlan().getIsAltered()  &&  
+				( isDtMeetings(troop.getYearPlan().getSchedule(), 1) || troop.getYearPlan().getSchedule()==null ) )
+			{confMsg ="Are You Sure? You will lose customizations that you have made";confMsg+= isDtMeetings(troop.getYearPlan().getSchedule(), 1) ;}
+		else if( isDtMeetings(troop.getYearPlan().getSchedule(), 0))
+			{confMsg ="Are You Sure? This will modify plans on /after [date]. Any customization for meeting(s) will be lost.";confMsg+=isDtMeetings(troop.getYearPlan().getSchedule(), 0); }
 	}
 	
-	java.util.Iterator <YearPlan>yearPlans =yearPlanDAO.getAllYearPlans( request.getParameter("ageLevel")).listIterator();
+	java.util.Iterator <YearPlan>yearPlans =yearPlanUtil.getAllYearPlans( request.getParameter("ageLevel")).listIterator();
 
 	while(yearPlans.hasNext()){
 		YearPlan yearPlan = yearPlans.next();
 		%>
 		<div>
-			<input type="submit" name="" value="*** <%=yearPlan.getName()%>" onclick="x('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>') "/> <%=yearPlan.getDesc() %>
+			<input type="submit" name="" value="<%=yearPlan.getName()%>" onclick="x('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>') "/> <%=yearPlan.getDesc() %>
 		
 		</div>
 		<% 

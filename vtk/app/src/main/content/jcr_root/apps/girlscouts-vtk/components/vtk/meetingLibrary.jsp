@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
@@ -16,10 +16,11 @@
                 showVtkNav =  false;
         }
 
-        String ageLevel=  user.getTroop().getGradeLevel();
+        String ageLevel=  troop.getTroop().getGradeLevel();
 	ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1).toLowerCase().trim();
-	java.util.List<Meeting> meetings =meetingDAO.getAllMeetings(ageLevel);
+	java.util.List<Meeting> meetings =yearPlanUtil.getAllMeetings(user, ageLevel);
 		
+	
         String find="";
 %>
 <div class="row modalHeader">
@@ -51,7 +52,7 @@
         </div>
 <% 
         java.util.List<String> myMeetingIds= new java.util.ArrayList();
-        java.util.List<MeetingE> myMeetings = user.getYearPlan().getMeetingEvents();
+        java.util.List<MeetingE> myMeetings = troop.getYearPlan().getMeetingEvents();
             
                 for(int i=0;i< myMeetings.size();i++){
                         // ADD CANCELED MEETINGS if( myMeetings.get(i).getCancelled()!=null && myMeetings.get(i).getCancelled().equals("true")) continue;

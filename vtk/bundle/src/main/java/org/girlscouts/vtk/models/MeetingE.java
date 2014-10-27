@@ -1,12 +1,14 @@
 package org.girlscouts.vtk.models;
 
+import java.io.Serializable;
+
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
 
-@Node
-public class MeetingE extends YearPlanComponent{
+@Node(jcrMixinTypes="mix:lockable" )
+public class MeetingE extends YearPlanComponent implements Serializable{
 
 	public MeetingE(){
 		this.uid= "M"+new java.util.Date().getTime();

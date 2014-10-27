@@ -20,7 +20,7 @@ function showIt(x){
 		
 		%>(#<%=(i+1) %>)<% 
 		
-		if( user.getYearPlan().getSchedule() !=null){
+		if( troop.getYearPlan().getSchedule() !=null){
 		%>
 			<%= meetingDate.getTime() %>
 		<%
@@ -44,16 +44,16 @@ function showIt(x){
 	
 	<%
 	
-	 if( meeting.getLocationRef()!=null && user.getYearPlan().getLocations()!=null )
-			for(int k=0;k<user.getYearPlan().getLocations().size();k++){
+	 if( meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null )
+			for(int k=0;k<troop.getYearPlan().getLocations().size();k++){
 				
-				if( user.getYearPlan().getLocations().get(k).getPath().equals( meeting.getLocationRef() ) ){
+				if( troop.getYearPlan().getLocations().get(k).getPath().equals( meeting.getLocationRef() ) ){
 					%>
-						<br/><%=user.getYearPlan().getLocations().get(k).getName() %>
-						<br/><%=user.getYearPlan().getLocations().get(k).getAddress() %>
-						<%=user.getYearPlan().getLocations().get(k).getCity() %>
-						<%=user.getYearPlan().getLocations().get(k).getState() %>
-						<%=user.getYearPlan().getLocations().get(k).getZip() %>
+						<br/><%=troop.getYearPlan().getLocations().get(k).getName() %>
+						<br/><%=troop.getYearPlan().getLocations().get(k).getAddress() %>
+						<%=troop.getYearPlan().getLocations().get(k).getCity() %>
+						<%=troop.getYearPlan().getLocations().get(k).getState() %>
+						<%=troop.getYearPlan().getLocations().get(k).getZip() %>
 					<% 
 				}
 			}
@@ -144,7 +144,7 @@ function showIt(x){
 	
 	
 	<div id="newMeetingAgenda" style="display:none;">
-       <% if( user.getYearPlan().getSchedule() !=null){ %>
+       <% if( troop.getYearPlan().getSchedule() !=null){ %>
        <h1>Add New Agenda Item</h1> 
 	
 	Enter Agenda Item Name:<br/>

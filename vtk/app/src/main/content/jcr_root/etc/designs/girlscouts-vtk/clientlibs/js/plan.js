@@ -64,6 +64,8 @@ function doUpdMeeting(){
 		dataType: 'html', // Choosing a JSON datatype
 
 	}).done(function( html ) { loadMeetings();});
+		
+		
 }
 
 function reloadMeeting(){
@@ -267,11 +269,12 @@ function buildSched(){
 }
 
 function rmCustActivity(x){
+	
 	$( "#locMsg" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?rmCustActivity="+x, function( response, status, xhr ) {
 		if ( status != "error" ) {
 			location.reload();
 		}else{
-			alert("Sorry.  Unable to to remove activity: " + status);
+			alert("Sorry.  Unable to remove activity: " + status);
 		}
 	});
 }
@@ -464,7 +467,8 @@ function printDiv(x) {
         popupWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</html>');
         popupWin.document.close();
 }
-
 function showAlterYearPlanStartDate(){
+
 	$("#calMng").load("/content/girlscouts-vtk/controllers/vtk.include.calendarAlterStartDate.html");
-}
+
+	}

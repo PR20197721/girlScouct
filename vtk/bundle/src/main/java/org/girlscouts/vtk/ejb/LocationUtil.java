@@ -7,31 +7,46 @@ import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.MeetingDAO;
-import org.girlscouts.vtk.dao.UserDAO;
+import org.girlscouts.vtk.dao.TroopDAO;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.MeetingE;
+import org.girlscouts.vtk.models.Troop;
+import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
-import org.girlscouts.vtk.models.user.User;
 
 @Component
 @Service(LocationUtil.class)
 public class LocationUtil {
+	
     @Reference
-    UserDAO userDAO;
+    TroopUtil troopUtil;
+    
+    @Reference
+    private UserUtil userUtil;
     
     @Reference
     private MeetingDAO meetingDAO;
 
-	public void setLocationAllMeetings( User user, String locationPath ){
-		
-		if( !meetingDAO.hasAccess(user, user.getCurrentUser(), Permission.PERMISSION_EDIT_MEETING_ID ) ){
-			 user.setErrCode("112");
-			 return;
+	public void setLocationAllMeetings( User user, Troop troop, String locationPath ) throws java.lang.IllegalAccessException{
+		/*
+		if( !userUtil.hasAccess(troop, troop.getCurrentTroop(), Permission.PERMISSION_EDIT_MEETING_ID ) ){
+			 troop.setErrCode("112");
+			 throw new IllegalAccessException();
 		 }
+		*/
+		if( troop!= null && ! userUtil.hasPermission(troop,Permission.PERMISSION_EDIT_MEETING_ID ) )
+			throw new IllegalAccessException();
 		
-		YearPlan plan= user.getYearPlan();
+		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
+			troop.setErrCode("112");
+			//return null;
+			throw new java.lang.IllegalAccessException();
+		}
+		
+		
+		YearPlan plan= troop.getYearPlan();
 		List <MeetingE> meetings = plan.getMeetingEvents();
 		for(int i=0;i<meetings.size();i++){
 			
@@ -40,41 +55,44 @@ public class LocationUtil {
 			
 		}
 		
-		
-		userDAO.updateUser(user);
+		troopUtil.updateTroop(user, troop);
 		
 	}
 	
-  public void setMeetingLocation( User user, MeetingE meeting, String locationPath ){
+  public void setMeetingLocation( Troop user, MeetingE meeting, String locationPath ){
 		
 		//TODO
 	}
   
-  public void setLocation(User user, Location location){
-	  
-	  if( !meetingDAO.hasAccess(user, user.getCurrentUser() , Permission.PERMISSION_EDIT_MEETING_ID) ){
-			 user.setErrCode("112");
-			 return;
+  public void setLocation(User user, Troop troop, Location location) throws java.lang.IllegalAccessException{
+	  /*
+	  if( !userUtil.hasAccess(troop, troop.getCurrentTroop() , Permission.PERMISSION_EDIT_MEETING_ID) ){
+			 troop.setErrCode("112");
+			 throw new IllegalAccessException();
 		 }
+	  */
+	  if( troop!= null && ! userUtil.hasPermission(troop,Permission.PERMISSION_EDIT_MEETING_ID ) )
+			throw new IllegalAccessException();
+		
+		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
+			troop.setErrCode("112");
+			throw new java.lang.IllegalAccessException();
+		}
 	  
-		YearPlan plan = user.getYearPlan();
+		YearPlan plan = troop.getYearPlan();
 		java.util.List <Location> locations = plan.getLocations();
 		
-		
-		boolean isFirst =false;
+		//boolean isFirst =false;
 		if(locations==null){ locations= new java.util.ArrayList<Location>();  }
-		if( locations.size()<=0) isFirst=true;
+		//if( locations.size()<=0) isFirst=true;
 		
 		locations.add( location );
 		
-		Location newLoc =  locations.get(locations.size()-1) ;
-		
+		//Location newLoc =  locations.get(locations.size()-1) ;	
 		plan.setLocations(locations);
 		
-		
-		user.setYearPlan(plan);
-		//plan.setAltered("true");
-		userDAO.updateUser(user);
+		troop.setYearPlan(plan);
+		troopUtil.updateTroop(user, troop);
 		
 		
 		
@@ -83,19 +101,29 @@ public class LocationUtil {
 				
 		
   }
-  public void changeLocation(User user, String dates, String locationRef){
-	  
-	  if( !meetingDAO.hasAccess(user, user.getCurrentUser() , Permission.PERMISSION_EDIT_MEETING_ID) ){
-			 user.setErrCode("112");
-			 return;
+  public void changeLocation(User user, Troop troop, String dates, String locationRef) throws java.lang.IllegalAccessException{
+	  /*
+	  if( !userUtil.hasAccess(troop, troop.getCurrentTroop() , Permission.PERMISSION_EDIT_MEETING_ID) ){
+			 troop.setErrCode("112");
+			 //return;
+			 throw new IllegalAccessException();
 		 }
+	  */
+	  
+	  if( troop!= null && ! userUtil.hasPermission(troop,Permission.PERMISSION_EDIT_MEETING_ID ) )
+			throw new IllegalAccessException();
+		
+		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
+			troop.setErrCode("112");
+			throw new java.lang.IllegalAccessException();
+		}
 	  
 	  java.util.List <String> processedMeetings =new java.util.ArrayList();
 	 	
-		java.util.List <Activity> activities = user.getYearPlan().getActivities();
-		java.util.List <MeetingE> meetings = user.getYearPlan().getMeetingEvents();
+		java.util.List <Activity> activities = troop.getYearPlan().getActivities();
+		java.util.List <MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
 		
-		java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(user.getYearPlan());
+		java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(troop.getYearPlan());
 	java.util.Iterator itr= sched.keySet().iterator();
 	while(itr.hasNext() ){
 		
@@ -137,7 +165,7 @@ public class LocationUtil {
 	    	
 	    }
 		
-		userDAO.updateUser(user);
+	troopUtil.updateTroop(user, troop);
 		
 		
 		
@@ -148,22 +176,22 @@ public class LocationUtil {
   
   
   
-	public void setLocationAllEmpty( User user, String locationName ){
+	public void setLocationAllEmpty(User user,  Troop troop, String locationName )throws java.lang.IllegalAccessException{
 		
-		if( !meetingDAO.hasAccess(user, user.getCurrentUser(), Permission.PERMISSION_EDIT_MEETING_ID ) ){
-			 user.setErrCode("112");
-			 return;
-		 }
+		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_EDIT_MEETING_ID) )
+			throw new IllegalAccessException();
 		
-		YearPlan plan= user.getYearPlan();
+		if( user!=null && !userUtil.isCurrentTroopId(troop, user.getSid())){
+			troop.setErrCode("112");
+			throw new IllegalStateException();
+		}
 		
+		YearPlan plan= troop.getYearPlan();
 		
 		Location location = null;
-		for(int i=0;i<user.getYearPlan().getLocations().size();i++)
-			if( user.getYearPlan().getLocations().get(i).getName().equals( locationName) )
-				{location= user.getYearPlan().getLocations().get(i); break;}
-		
-				
+		for(int i=0;i<troop.getYearPlan().getLocations().size();i++)
+			if( troop.getYearPlan().getLocations().get(i).getName().equals( locationName) )
+				{location= troop.getYearPlan().getLocations().get(i); break;}
 		
 		List <MeetingE> meetings = plan.getMeetingEvents();
 		
@@ -177,7 +205,45 @@ public class LocationUtil {
 		}
 		
 		
-		userDAO.updateUser(user);
+		troopUtil.updateTroop(user, troop);
+		
+	}
+	
+	public void removeLocation(User user, Troop troop, String locationName) {
+		try {
+			String locationToRmPath = meetingDAO.removeLocation(user, troop,
+					locationName);
+			YearPlan plan = troop.getYearPlan();
+
+			// update every refLoc & set 2 null
+			java.util.List<MeetingE> meetings = plan.getMeetingEvents();
+			for (int i = 0; i < meetings.size(); i++) {
+				if (meetings.get(i).getLocationRef() != null
+						&& meetings.get(i).getLocationRef()
+								.equals(locationToRmPath)) {
+					meetings.get(i).setLocationRef("");
+				}
+			}
+			troopUtil.updateTroop(user, troop);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	public void addLocation(User user, Troop troop,Location location) throws IllegalAccessException{
+		
+		boolean isLoc=org.girlscouts.vtk.utils.VtkUtil.isLocation(troop.getYearPlan().getLocations(), location.getName()); 
+
+		if(!isLoc) {
+			setLocation(user, troop, location);
+		}
+		if( troop.getYearPlan().getLocations().size()==1 ){
+			setLocationAllMeetings( user, troop, troop.getYearPlan().getLocations().get(0).getPath());
+		}else if( !isLoc ){
+			
+			setLocationAllEmpty(user, troop, location.getName() );
+		}
 		
 	}
 }

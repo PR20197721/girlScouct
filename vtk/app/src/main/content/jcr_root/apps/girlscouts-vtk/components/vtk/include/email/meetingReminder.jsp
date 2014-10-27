@@ -17,11 +17,11 @@
 <input type="checkbox" id="email_to_tv"/>Troop Volunteers
 
 
-<br/>Enter your own:<input type="text" id="email_to_cc" value="<%=user.getSendingEmail()==null ? "" : user.getSendingEmail().getCc()%>"/>
+<br/>Enter your own:<input type="text" id="email_to_cc" value="<%=troop.getSendingEmail()==null ? "" : troop.getSendingEmail().getCc()%>"/>
 
 <div style="background-color:gray">Compose Email</div>
 
-<br/>Subject: <input type="text" id="email_subj" value="Reminder <%=user.getTroop().getGradeLevel()  %>  Meeting# <%=(currInd +1)%> <%= FORMAT_MEETING_REMINDER.format(searchDate) %>"/>
+<br/>Subject: <input type="text" id="email_subj" value="Reminder <%=troop.getTroop().getGradeLevel()  %>  Meeting# <%=(currInd +1)%> <%= FORMAT_MEETING_REMINDER.format(searchDate) %>"/>
 
 <div style="background-color:yellow;">
 
@@ -47,16 +47,16 @@ Hello Girl Scout Families,
 		<%
 
 
-   if( meeting.getLocationRef()!=null && user.getYearPlan().getLocations()!=null )
-	for(int k=0;k<user.getYearPlan().getLocations().size();k++){
+   if( meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null )
+	for(int k=0;k<troop.getYearPlan().getLocations().size();k++){
 		
-		if( user.getYearPlan().getLocations().get(k).getPath().equals( meeting.getLocationRef() ) ){
+		if( troop.getYearPlan().getLocations().get(k).getPath().equals( meeting.getLocationRef() ) ){
 			%>
-				<br/><%=user.getYearPlan().getLocations().get(k).getPath()%><%=user.getYearPlan().getLocations().get(k).getName() %>
-				<br/><%=user.getYearPlan().getLocations().get(k).getAddress() %>
-				<%=user.getYearPlan().getLocations().get(k).getCity() %>
-				<%=user.getYearPlan().getLocations().get(k).getState() %>
-				<%=user.getYearPlan().getLocations().get(k).getZip() %>
+				<br/><%=troop.getYearPlan().getLocations().get(k).getPath()%><%=troop.getYearPlan().getLocations().get(k).getName() %>
+				<br/><%=troop.getYearPlan().getLocations().get(k).getAddress() %>
+				<%=troop.getYearPlan().getLocations().get(k).getCity() %>
+				<%=troop.getYearPlan().getLocations().get(k).getState() %>
+				<%=troop.getYearPlan().getLocations().get(k).getZip() %>
 			<% 
 		}
 	}
@@ -81,10 +81,10 @@ Hello Girl Scout Families,
 <%=apiConfig.getUser().getHomePhone() %>
 <%=apiConfig.getUser().getAssistantPhone() %>
 
-<br/><br/>Thank you for supporting your <%=user.getTroop().getGradeLevel() %>,
+<br/><br/>Thank you for supporting your <%=troop.getTroop().getGradeLevel() %>,
 
 <br/><br/><%=apiConfig.getUser().getName() %>
-<br/>Troop <%=user.getTroop().getTroopName() %>
+<br/>Troop <%=troop.getTroop().getTroopName() %>
 
 
 
@@ -97,7 +97,7 @@ XXX
 <div>
 	Aid(s) Included:
 	<%
-	EmailMeetingReminder emr = user.getSendingEmail();
+	EmailMeetingReminder emr = troop.getSendingEmail();
 	if( emr!=null ){
 		java.util.List<Asset> eAssets = emr.getAssets();
 		if( eAssets!=null)

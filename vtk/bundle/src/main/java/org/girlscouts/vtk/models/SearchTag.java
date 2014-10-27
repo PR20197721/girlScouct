@@ -1,6 +1,8 @@
 package org.girlscouts.vtk.models;
 
-public class SearchTag {
+import java.io.Serializable;
+
+public class SearchTag implements Serializable {
 
 	
 	private java.util.Map <String, String> categories, levels, region;

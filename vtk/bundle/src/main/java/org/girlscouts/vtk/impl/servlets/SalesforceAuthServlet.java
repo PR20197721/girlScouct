@@ -20,7 +20,9 @@ import org.girlscouts.vtk.auth.dao.SalesforceDAO;
 import org.girlscouts.vtk.auth.dao.SalesforceDAOFactory;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.models.User;
-import org.girlscouts.vtk.dao.UserDAO;
+
+import org.girlscouts.vtk.ejb.TroopUtil;
+//import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.helpers.ConfigListener;
 import org.girlscouts.vtk.helpers.ConfigManager;
 import org.girlscouts.vtk.helpers.CouncilMapper;
@@ -66,7 +68,7 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
     private CouncilMapper councilMapper;
     
     @Reference
-    private UserDAO userDAO;
+    private TroopUtil troopUtil;
     
     @Override
     protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) {
@@ -117,17 +119,16 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
 
     private void signOut(SlingHttpServletRequest request, SlingHttpServletResponse response) {
         
-    	
-    	
-    	
     	boolean isLogoutApi=false, isLogoutWeb=false;
     	
     	HttpSession session = request.getSession();
     	
-    	
-    	
     	try{
-    		userDAO.logout((org.girlscouts.vtk.models.user.User)session.getAttribute("VTK_user"));
+    		troopUtil.logout(
+    				((org.girlscouts.vtk.models.User) session
+    						.getAttribute(org.girlscouts.vtk.models.User.class
+    								.getName())),
+    				(org.girlscouts.vtk.models.Troop)session.getAttribute("VTK_troop"));
     				
     		
     	}catch(Exception e){e.printStackTrace();}
@@ -196,9 +197,17 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
         ApiConfig config = dao.doAuth(code);
         session.setAttribute(ApiConfig.class.getName(), config);
 
+        //sf user - should not be in session. move into vtk.User
         User user = dao.getUser(config);
         session.setAttribute(User.class.getName(), user);
         config.setUser(user);
+                
+        org.girlscouts.vtk.models.User vtkUser = new org.girlscouts.vtk.models.User();
+        vtkUser.setApiConfig(config);
+       
+        //CHN to LOAD PERMISSION HERE 
+        vtkUser.setPermissions( config.getTroops().get(0).getPermissionTokens() ); 
+        session.setAttribute(org.girlscouts.vtk.models.User.class.getName(), vtkUser);
         
         redirect(response, targetUrl);
     }
@@ -218,11 +227,6 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
     
   //aPI logout
   	public boolean logoutApi(ApiConfig apiConfig, boolean isRefreshToken) throws Exception{
-  		
-  		
-  		
-  		
-  		
   		
   		DataOutputStream wr=null;
   		boolean isSucc=false;
@@ -303,31 +307,7 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
   		if( responseCode==200)
   			isSucc=true;
    
-  		
-  		
-  		
-  		
-  		/*
-  		
-  		System.out.println("\nSending 'POST' request to URL : " + url);
-  		System.out.println("Post parameters : " + urlParameters);
-  		System.out.println("Response Code : " + responseCode);
-   
-  		BufferedReader in = new BufferedReader(
-  		        new InputStreamReader(con.getInputStream()));
-  		String inputLine;
-  		StringBuffer response = new StringBuffer();
-   
-  		while ((inputLine = in.readLine()) != null) {
-  			response.append(inputLine);
-  		}
-  		in.close();
-   
-  		//print result
-  		System.out.println(response.toString());
-  		*/
-  		
-  		
+
   		}catch(Exception e){e.printStackTrace();
   		}finally{
   			try{
@@ -346,8 +326,6 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
   
   private void autoLogin(SlingHttpServletRequest request, SlingHttpServletResponse response) {
       HttpSession session = request.getSession();
-      
-      
       
       ApiConfig config = new ApiConfig();
       config.setId("test");

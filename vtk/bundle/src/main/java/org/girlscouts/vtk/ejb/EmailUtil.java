@@ -9,7 +9,7 @@ import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Service;
 import org.girlscouts.vtk.auth.dao.SalesforceDAO;
-import org.girlscouts.vtk.models.user.User;
+import org.girlscouts.vtk.models.Troop;
 
 import org.girlscouts.vtk.salesforce.Campaign;
 import org.girlscouts.vtk.salesforce.Contact;
@@ -29,9 +29,9 @@ public class EmailUtil {
 
 	
 	
-	public void sendMeetingReminder(User user, EmailMeetingReminder emr){
+	public void sendMeetingReminder(Troop user, EmailMeetingReminder emr){
 		
-		org.girlscouts.vtk.auth.models.ApiConfig apiConfig= user.getApiConfig();
+		org.girlscouts.vtk.auth.models.ApiConfig apiConfig=null; /*** TROOP/USER user.getApiConfig();**/
 		
 		java.util.List <String> emailTo = new java.util.ArrayList();
 		

@@ -1,4 +1,11 @@
 function rmCustActivity12(x){
+	
+	
+	 var r = confirm("You are about to delete activity!");
+	    if (r != true) {
+	      return;
+	    }
+
 	$.ajax({
 		cache: false,
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand=' + Date.now(),
@@ -8,10 +15,10 @@ function rmCustActivity12(x){
 			a:Date.now()
 		},
 		success: function(result) {
-
+			document.location="/content/girlscouts-vtk/en/vtk.plan.html";
 		}
 	});
-	document.location="/content/girlscouts-vtk/en/vtk.plan.html";
+	//document.location="/content/girlscouts-vtk/en/vtk.plan.html";
 }
 
 function viewMeetingLibrary(meetingPath,x){
