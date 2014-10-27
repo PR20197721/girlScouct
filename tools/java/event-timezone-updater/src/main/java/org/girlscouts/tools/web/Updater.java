@@ -42,19 +42,19 @@ public class Updater
     private static Map<String, String> TIMEZONE_MAP;
     static {
         TIMEZONE_MAP = new HashMap<String, String>();
-        TIMEZONE_MAP.put("girlscouts-future", "US/Eastern");
-        TIMEZONE_MAP.put("girlscoutcsa", "US/Eastern");
-        TIMEZONE_MAP.put("gsnetx", "US/Central");
-        TIMEZONE_MAP.put("gswcf", "US/Eastern");
-        TIMEZONE_MAP.put("girlscoutsnccp", "US/Eastern");
-        TIMEZONE_MAP.put("gateway", "US/Eastern");
-        TIMEZONE_MAP.put("gssem", "US/Eastern");
+//        TIMEZONE_MAP.put("girlscouts-future", "US/Eastern");
+//        TIMEZONE_MAP.put("girlscoutcsa", "US/Eastern");
+//        TIMEZONE_MAP.put("gsnetx", "US/Central");
+//        TIMEZONE_MAP.put("gswcf", "US/Eastern");
+//        TIMEZONE_MAP.put("girlscoutsnccp", "US/Eastern");
+//        TIMEZONE_MAP.put("gateway", "US/Eastern");
+//        TIMEZONE_MAP.put("gssem", "US/Eastern");
         TIMEZONE_MAP.put("gssjc", "US/Pacific");
-        TIMEZONE_MAP.put("csctx", "US/Central");
-        TIMEZONE_MAP.put("girlscoutsaz", "US/Arizona"); // No daylight savings
-        TIMEZONE_MAP.put("gswestok", "US/Central");
-        TIMEZONE_MAP.put("gssnv", "US/Pacific");
-        TIMEZONE_MAP.put("kansasgirlscouts", "US/Central");
+//        TIMEZONE_MAP.put("csctx", "US/Central");
+//        TIMEZONE_MAP.put("girlscoutsaz", "US/Arizona"); // No daylight savings
+//        TIMEZONE_MAP.put("gswestok", "US/Central");
+//        TIMEZONE_MAP.put("gssnv", "US/Pacific");
+//        TIMEZONE_MAP.put("kansasgirlscouts", "US/Central");
     }
     
     private String server;
@@ -80,16 +80,21 @@ public class Updater
     
     private void doUpdate() throws RepositoryException {
         for (String council : TIMEZONE_MAP.keySet()) {
-            String branch = "/content/" + council + "en";
+            String branch = "/content/" + council + "/en";
             if (!session.nodeExists(branch)) {
                 System.err.println("Node not found: " + branch);
                 continue;
             }
 
             String timezoneStr = TIMEZONE_MAP.get(council);
-            Node branchNode = session.getNode(branch);
+            Node branchNode = session.getNode(branch + "/jcr:content");
             branchNode.setProperty("timezone", timezoneStr);
             session.save();
+            
+            if (timezoneStr.equals("US/Eastern")) {
+                System.out.println("Already in Eastern time, nothing to update: " + council);
+                continue;
+            }
             
             Node repoNode = session.getNode(branch + "/events-repository");
             NodeIterator yearIter = repoNode.getNodes();
@@ -97,17 +102,25 @@ public class Updater
                 Node yearNode = yearIter.nextNode();
                 NodeIterator eventIter = yearNode.getNodes();
                 while (eventIter.hasNext()) {
-                    Node eventNode = eventIter.nextNode().getNode("/data");
-                    updateTimezone(eventNode, "start"); 
-                    updateTimezone(eventNode, "end"); 
+                    Node eventNode = eventIter.nextNode();
+                    if (eventNode.getName().equals("jcr:content")) {
+                        continue;
+                    }
+                    Node dataNode = eventNode.getNode("jcr:content/data");
+                    updateTimezone(dataNode, "start", timezoneStr); 
+                    updateTimezone(dataNode, "end", timezoneStr); 
+                    System.out.println("Updated event: " + eventNode.getPath());
                 }
             }
         }
     }
     
-    private void updateTimezone(Node node, String key) throws RepositoryException {
+    private void updateTimezone(Node node, String key, String timezoneStr) throws RepositoryException {
+        if (!node.hasProperty(key)) {
+            return;
+        }
         Date date = node.getProperty(key).getDate().getTime();
-        TimeZone tz = TimeZone.getTimeZone(key);
+        TimeZone tz = TimeZone.getTimeZone(timezoneStr);
         Calendar cal = Calendar.getInstance(tz);
         cal.setTime(date);
         node.setProperty(key, cal);
