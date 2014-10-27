@@ -64,11 +64,13 @@ public class Updater
     private String username;
     private String password;
     private Session session;
+    private int count;
     
     public Updater(String server, String username, String password) throws RepositoryException {
         this.server = server;
         this.username = username;
         this.password = password;
+        this.count = 0;
         getSession();
     }
     
@@ -115,7 +117,8 @@ public class Updater
                         Node dataNode = eventNode.getNode("jcr:content/data");
                         updateTimezone(dataNode, "start", timezoneStr); 
                         updateTimezone(dataNode, "end", timezoneStr); 
-                        System.out.println("Updated event: " + eventNode.getPath());
+                        count++;
+                        //System.out.println("Updated event: " + eventNode.getPath());
                     } catch (RepositoryException re) {
                         System.err.println("Cannot update event: " + eventNode.getPath());
                         re.printStackTrace();
@@ -124,6 +127,7 @@ public class Updater
                 }
             }
         }
+        System.out.println("# of events updated: " + Integer.toString(this.count));
     }
     
     private void updateTimezone(Node node, String key, String timezoneStr) throws RepositoryException, ParseException {
