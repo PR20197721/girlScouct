@@ -94,6 +94,7 @@ public class Updater
                 session.save();
             } catch (RepositoryException re) {
                 System.err.println("Cannot update timezone for branch: " + branch);
+                this.session.refresh(false);
             }
             
             Node repoNode = session.getNode(branch + "/events-repository");
@@ -118,6 +119,7 @@ public class Updater
                     } catch (RepositoryException re) {
                         System.err.println("Cannot update event: " + eventNode.getPath());
                         re.printStackTrace();
+                        this.session.refresh(false);
                     }
                 }
             }
