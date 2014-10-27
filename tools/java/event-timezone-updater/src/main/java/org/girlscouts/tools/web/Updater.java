@@ -92,11 +92,6 @@ public class Updater
             branchNode.setProperty("timezone", timezoneStr);
             session.save();
             
-            if (timezoneStr.equals("US/Eastern")) {
-                System.out.println("Already in Eastern time, nothing to update: " + council);
-                continue;
-            }
-            
             Node repoNode = session.getNode(branch + "/events-repository");
             NodeIterator yearIter = repoNode.getNodes();
             while (yearIter.hasNext()) {
