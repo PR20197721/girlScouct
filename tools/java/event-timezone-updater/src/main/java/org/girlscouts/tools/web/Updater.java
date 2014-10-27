@@ -97,15 +97,24 @@ public class Updater
             while (yearIter.hasNext()) {
                 Node yearNode = yearIter.nextNode();
                 NodeIterator eventIter = yearNode.getNodes();
+                if (yearNode.getName().equals("jcr:content")) {
+                    continue;
+                }
                 while (eventIter.hasNext()) {
-                    Node eventNode = eventIter.nextNode();
-                    if (eventNode.getName().equals("jcr:content")) {
-                        continue;
+                    Node eventNode = null;
+                    try {
+                        eventNode = eventIter.nextNode();
+                        if (eventNode.getName().equals("jcr:content")) {
+                            continue;
+                        }
+                        Node dataNode = eventNode.getNode("jcr:content/data");
+                        updateTimezone(dataNode, "start", timezoneStr); 
+                        updateTimezone(dataNode, "end", timezoneStr); 
+                        System.out.println("Updated event: " + eventNode.getPath());
+                    } catch (RepositoryException re) {
+                        System.err.println("Cannot update event: " + eventNode.getPath());
+                        re.printStackTrace();
                     }
-                    Node dataNode = eventNode.getNode("jcr:content/data");
-                    updateTimezone(dataNode, "start", timezoneStr); 
-                    updateTimezone(dataNode, "end", timezoneStr); 
-                    System.out.println("Updated event: " + eventNode.getPath());
                 }
             }
         }
