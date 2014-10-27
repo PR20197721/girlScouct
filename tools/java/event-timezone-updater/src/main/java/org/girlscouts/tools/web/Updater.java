@@ -1,5 +1,8 @@
 package org.girlscouts.tools.web;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -34,7 +37,7 @@ public class Updater
         try {
             Updater updater = new Updater(server, username, password);
             updater.doUpdate();
-        } catch (RepositoryException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -42,27 +45,25 @@ public class Updater
     private static Map<String, String> TIMEZONE_MAP;
     static {
         TIMEZONE_MAP = new HashMap<String, String>();
-//        TIMEZONE_MAP.put("girlscouts-future", "US/Eastern");
-//        TIMEZONE_MAP.put("girlscoutcsa", "US/Eastern");
-//        TIMEZONE_MAP.put("gsnetx", "US/Central");
-//        TIMEZONE_MAP.put("gswcf", "US/Eastern");
-//        TIMEZONE_MAP.put("girlscoutsnccp", "US/Eastern");
-//        TIMEZONE_MAP.put("gateway", "US/Eastern");
-//        TIMEZONE_MAP.put("gssem", "US/Eastern");
+        TIMEZONE_MAP.put("girlscouts-future", "US/Eastern");
+        TIMEZONE_MAP.put("girlscoutcsa", "US/Eastern");
+        TIMEZONE_MAP.put("gsnetx", "US/Central");
+        TIMEZONE_MAP.put("gswcf", "US/Eastern");
+        TIMEZONE_MAP.put("girlscoutsnccp", "US/Eastern");
+        TIMEZONE_MAP.put("gateway", "US/Eastern");
+        TIMEZONE_MAP.put("gssem", "US/Eastern");
         TIMEZONE_MAP.put("gssjc", "US/Pacific");
-//        TIMEZONE_MAP.put("csctx", "US/Central");
-//        TIMEZONE_MAP.put("girlscoutsaz", "US/Arizona"); // No daylight savings
-//        TIMEZONE_MAP.put("gswestok", "US/Central");
-//        TIMEZONE_MAP.put("gssnv", "US/Pacific");
-//        TIMEZONE_MAP.put("kansasgirlscouts", "US/Central");
+        TIMEZONE_MAP.put("csctx", "US/Central");
+        TIMEZONE_MAP.put("girlscoutsaz", "US/Arizona"); // No daylight savings
+        TIMEZONE_MAP.put("gswestok", "US/Central");
+        TIMEZONE_MAP.put("gssnv", "US/Pacific");
+        TIMEZONE_MAP.put("kansasgirlscouts", "US/Central");
     }
     
     private String server;
     private String username;
     private String password;
     private Session session;
-    private int allCount = 0;
-    private int updatedCount = 0;
     
     public Updater(String server, String username, String password) throws RepositoryException {
         this.server = server;
@@ -78,7 +79,7 @@ public class Updater
         this.session = session;
     }
     
-    private void doUpdate() throws RepositoryException {
+    private void doUpdate() throws RepositoryException, ParseException {
         for (String council : TIMEZONE_MAP.keySet()) {
             String branch = "/content/" + council + "/en";
             if (!session.nodeExists(branch)) {
@@ -115,14 +116,21 @@ public class Updater
         }
     }
     
-    private void updateTimezone(Node node, String key, String timezoneStr) throws RepositoryException {
+    private void updateTimezone(Node node, String key, String timezoneStr) throws RepositoryException, ParseException {
         if (!node.hasProperty(key)) {
             return;
         }
-        Date date = node.getProperty(key).getDate().getTime();
+        Date origDate = node.getProperty(key).getDate().getTime();
+        DateFormat oldFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+        String dateStr = oldFormat.format(origDate);
+
         TimeZone tz = TimeZone.getTimeZone(timezoneStr);
         Calendar cal = Calendar.getInstance(tz);
+        DateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+        newFormat.setCalendar(cal);
+        Date date = newFormat.parse(dateStr);
         cal.setTime(date);
+
         node.setProperty(key, cal);
         session.save();
     }
