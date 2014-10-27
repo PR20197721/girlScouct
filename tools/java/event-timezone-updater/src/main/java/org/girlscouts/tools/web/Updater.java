@@ -5,7 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -44,7 +44,7 @@ public class Updater
     
     private static Map<String, String> TIMEZONE_MAP;
     static {
-        TIMEZONE_MAP = new HashMap<String, String>();
+        TIMEZONE_MAP = new LinkedHashMap<String, String>();
         TIMEZONE_MAP.put("girlscouts-future", "US/Eastern");
         TIMEZONE_MAP.put("girlscoutcsa", "US/Eastern");
         TIMEZONE_MAP.put("gsnetx", "US/Central");
@@ -64,11 +64,13 @@ public class Updater
     private String username;
     private String password;
     private Session session;
+    private int count;
     
     public Updater(String server, String username, String password) throws RepositoryException {
         this.server = server;
         this.username = username;
         this.password = password;
+        this.count = 0;
         getSession();
     }
     
@@ -90,30 +92,42 @@ public class Updater
             String timezoneStr = TIMEZONE_MAP.get(council);
             Node branchNode = session.getNode(branch + "/jcr:content");
             branchNode.setProperty("timezone", timezoneStr);
-            session.save();
-            
-            if (timezoneStr.equals("US/Eastern")) {
-                System.out.println("Already in Eastern time, nothing to update: " + council);
-                continue;
+            try {
+                session.save();
+            } catch (RepositoryException re) {
+                System.err.println("Cannot update timezone for branch: " + branch);
+                this.session.refresh(false);
             }
             
             Node repoNode = session.getNode(branch + "/events-repository");
             NodeIterator yearIter = repoNode.getNodes();
             while (yearIter.hasNext()) {
                 Node yearNode = yearIter.nextNode();
+                if (yearNode.getName().equals("jcr:content")) {
+                    continue;
+                }
                 NodeIterator eventIter = yearNode.getNodes();
                 while (eventIter.hasNext()) {
-                    Node eventNode = eventIter.nextNode();
-                    if (eventNode.getName().equals("jcr:content")) {
-                        continue;
+                    Node eventNode = null;
+                    try {
+                        eventNode = eventIter.nextNode();
+                        if (eventNode.getName().equals("jcr:content")) {
+                            continue;
+                        }
+                        Node dataNode = eventNode.getNode("jcr:content/data");
+                        updateTimezone(dataNode, "start", timezoneStr); 
+                        updateTimezone(dataNode, "end", timezoneStr); 
+                        count++;
+                        //System.out.println("Updated event: " + eventNode.getPath());
+                    } catch (RepositoryException re) {
+                        System.err.println("Cannot update event: " + eventNode.getPath());
+                        re.printStackTrace();
+                        this.session.refresh(false);
                     }
-                    Node dataNode = eventNode.getNode("jcr:content/data");
-                    updateTimezone(dataNode, "start", timezoneStr); 
-                    updateTimezone(dataNode, "end", timezoneStr); 
-                    System.out.println("Updated event: " + eventNode.getPath());
                 }
             }
         }
+        System.out.println("# of events updated: " + Integer.toString(this.count));
     }
     
     private void updateTimezone(Node node, String key, String timezoneStr) throws RepositoryException, ParseException {
