@@ -37,9 +37,21 @@ public class Updater
         }
     }
     
-    private static Map<String, String> MEETING_MAP;
+    private static Map<String, String> TIMEZONE_MAP;
     static {
-        MEETING_MAP = new HashMap<String, String>();
+        TIMEZONE_MAP = new HashMap<String, String>();
+        TIMEZONE_MAP.put("girlscoutcsa", "US/Eastern");
+        TIMEZONE_MAP.put("gsnetx", "US/Central");
+        TIMEZONE_MAP.put("gswcf", "US/Eastern");
+        TIMEZONE_MAP.put("girlscoutsnccp", "US/Eastern");
+        TIMEZONE_MAP.put("gateway", "US/Eastern");
+        TIMEZONE_MAP.put("gssem", "US/Eastern");
+        TIMEZONE_MAP.put("gssjc", "US/Pacific");
+        TIMEZONE_MAP.put("csctx", "US/Central");
+        TIMEZONE_MAP.put("girlscoutsaz", "US/Arizona"); // No daylight savings
+        TIMEZONE_MAP.put("gswestok", "US/Central");
+        TIMEZONE_MAP.put("gssnv", "US/Pacific");
+        TIMEZONE_MAP.put("kansasgirlscouts", "US/Central");
     }
     
     private String server;
