@@ -5,9 +5,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.TreeMap;
 
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
@@ -44,7 +44,7 @@ public class Updater
     
     private static Map<String, String> TIMEZONE_MAP;
     static {
-        TIMEZONE_MAP = new HashMap<String, String>();
+        TIMEZONE_MAP = new TreeMap<String, String>();
         TIMEZONE_MAP.put("girlscouts-future", "US/Eastern");
         TIMEZONE_MAP.put("girlscoutcsa", "US/Eastern");
         TIMEZONE_MAP.put("gsnetx", "US/Central");
