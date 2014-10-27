@@ -96,10 +96,10 @@ public class Updater
             NodeIterator yearIter = repoNode.getNodes();
             while (yearIter.hasNext()) {
                 Node yearNode = yearIter.nextNode();
-                NodeIterator eventIter = yearNode.getNodes();
                 if (yearNode.getName().equals("jcr:content")) {
                     continue;
                 }
+                NodeIterator eventIter = yearNode.getNodes();
                 while (eventIter.hasNext()) {
                     Node eventNode = null;
                     try {
