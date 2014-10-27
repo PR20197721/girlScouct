@@ -90,7 +90,11 @@ public class Updater
             String timezoneStr = TIMEZONE_MAP.get(council);
             Node branchNode = session.getNode(branch + "/jcr:content");
             branchNode.setProperty("timezone", timezoneStr);
-            session.save();
+            try {
+                session.save();
+            } catch (RepositoryException re) {
+                System.err.println("Cannot update timezone for branch: " + branch);
+            }
             
             Node repoNode = session.getNode(branch + "/events-repository");
             NodeIterator yearIter = repoNode.getNodes();
