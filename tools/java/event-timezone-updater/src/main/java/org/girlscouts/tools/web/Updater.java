@@ -1,11 +1,13 @@
 package org.girlscouts.tools.web;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
-import javax.jcr.PathNotFoundException;
 import javax.jcr.Repository;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
@@ -20,7 +22,7 @@ public class Updater
     public static void main(String[] args)
     {
         if (args.length < 3) {
-            System.out.println("VTK meeting updater");
+            System.out.println("Event Updater");
             System.out.println("Params: server username password");
             System.out.println("Server example: http://localhost:4503/crx/server");
             System.exit(-1);
@@ -40,6 +42,7 @@ public class Updater
     private static Map<String, String> TIMEZONE_MAP;
     static {
         TIMEZONE_MAP = new HashMap<String, String>();
+        TIMEZONE_MAP.put("girlscouts-future", "US/Eastern");
         TIMEZONE_MAP.put("girlscoutcsa", "US/Eastern");
         TIMEZONE_MAP.put("gsnetx", "US/Central");
         TIMEZONE_MAP.put("gswcf", "US/Eastern");
@@ -76,5 +79,38 @@ public class Updater
     }
     
     private void doUpdate() throws RepositoryException {
+        for (String council : TIMEZONE_MAP.keySet()) {
+            String branch = "/content/" + council + "en";
+            if (!session.nodeExists(branch)) {
+                System.err.println("Node not found: " + branch);
+                continue;
+            }
+
+            String timezoneStr = TIMEZONE_MAP.get(council);
+            Node branchNode = session.getNode(branch);
+            branchNode.setProperty("timezone", timezoneStr);
+            session.save();
+            
+            Node repoNode = session.getNode(branch + "/events-repository");
+            NodeIterator yearIter = repoNode.getNodes();
+            while (yearIter.hasNext()) {
+                Node yearNode = yearIter.nextNode();
+                NodeIterator eventIter = yearNode.getNodes();
+                while (eventIter.hasNext()) {
+                    Node eventNode = eventIter.nextNode().getNode("/data");
+                    updateTimezone(eventNode, "start"); 
+                    updateTimezone(eventNode, "end"); 
+                }
+            }
+        }
+    }
+    
+    private void updateTimezone(Node node, String key) throws RepositoryException {
+        Date date = node.getProperty(key).getDate().getTime();
+        TimeZone tz = TimeZone.getTimeZone(key);
+        Calendar cal = Calendar.getInstance(tz);
+        cal.setTime(date);
+        node.setProperty(key, cal);
+        session.save();
     }
 }
