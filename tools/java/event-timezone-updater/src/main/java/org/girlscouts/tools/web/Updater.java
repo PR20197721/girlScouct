@@ -52,7 +52,7 @@ public class Updater
         TIMEZONE_MAP.put("girlscoutsnccp", "US/Eastern");
         TIMEZONE_MAP.put("gateway", "US/Eastern");
         TIMEZONE_MAP.put("gssem", "US/Eastern");
-        TIMEZONE_MAP.put("gssjc", "US/Pacific");
+        TIMEZONE_MAP.put("gssjc", "US/Central");
         TIMEZONE_MAP.put("csctx", "US/Central");
         TIMEZONE_MAP.put("girlscoutsaz", "US/Arizona"); // No daylight savings
         TIMEZONE_MAP.put("gswestok", "US/Central");
