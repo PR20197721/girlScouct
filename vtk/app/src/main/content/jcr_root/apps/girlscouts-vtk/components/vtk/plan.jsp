@@ -8,9 +8,6 @@
 <div id="errInfo"></div>
 
 
-<link rel="stylesheet"
-	href="/etc/designs/girlscouts-vtk/clientlibs/css/print.css"
-	type="text/css">
 
 <%!String activeTab = "plan";
 	boolean showVtkNav = true;%>
