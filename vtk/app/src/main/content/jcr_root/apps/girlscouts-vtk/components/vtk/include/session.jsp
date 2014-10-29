@@ -222,7 +222,7 @@ One of your co-leaders is currently making changes in the Volunteer Toolkit for 
 
 
 
-	if (troop.getSfUserId().equals("005Z0000002OBPiIAO")) {
+	if (false){//troop.getSfUserId().equals("005Z0000002OBPiIAO")) {
 %>
 <div class="small-18 medium-18 large-18 columns">
 	<form action="/content/girlscouts-vtk/controllers/vtk.controller.html">
