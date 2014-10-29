@@ -104,7 +104,7 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
     /**
      * @cfg {String/Function} The Default Time Zone (defaults to 'America/New_York')
      */
-    defaultTimezone: "America/New_York",
+    defaultTimezone: "US/Eastern",
 
     /**
      * @private
@@ -126,7 +126,17 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
         } else if (this.timezone === 'dynamic') {
         	var url = window.location.pathname;
         	var path = CQ.shared.HTTP.getPath(url);
-
+        	
+        	// New event from scaffolding page
+        	var regexScaffolding = /\/etc\/scaffolding\/[^/]+\/event/; //e.g. /etc/scaffolding/gsnetx/event
+        	if (regexScaffolding.test(path)) {
+        		var targetPathProperty = regexScaffolding.exec(path) + '/jcr:content/cq:targetPath';
+        		var response = CQ.shared.HTTP.get(targetPathProperty);
+        		if (response.status == 200) {
+        			path = response.body;
+        		}
+        	}
+        	
         	var regex = /^\/content\/[^/]+\/[^/]+/; // e.g. /content/girlscouts-prototype/en
         	if (regex.test(path)) {
         		var timezoneProperty = regex.exec(path) + '/jcr:content/timezone';
