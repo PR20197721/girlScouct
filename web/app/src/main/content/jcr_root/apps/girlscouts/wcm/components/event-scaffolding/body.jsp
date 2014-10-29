@@ -326,10 +326,34 @@ properties of this scaffolding.
             }
                 });
                 if((startDate < endDate) | endDate == ""){
-                frm.doAction(action);
+                    
+                    var startDateValue = frm.findField("./jcr:content/data/start").el.dom.value;
+
+                    var periodVariance = (endDate.getTime() - startDate.getTime())/900000;
+                    var stringPeriod = "";
+                    if(periodVariance < 10){
+						stringPeriod = "00" + (periodVariance | 0);
+                    } else if(periodVariance < 100){
+						stringPeriod = "0" + (periodVariance | 0);
+                    } else if(periodVariance < 1000){
+						stringPeriod = "" + (periodVariance | 0);
+                    } else{
+						stringPeriod = "";
+                    }
+
+
+					 if(0 != stringPeriod.length){
+						var firstPart = startDateValue.substring(0, startDateValue.length - 9);
+						var lastPart = startDateValue.substring(startDateValue.length - 6, startDateValue.length);
+                        var newStartDate = firstPart + stringPeriod + lastPart;
+						frm.findField("./jcr:content/data/start").el.dom.value = newStartDate;
+
+                    }
+                	frm.doAction(action);
                 }
                 else{
-                    CQ.Ext.Msg.alert("Error", "The Event End Date: " + endDate + " cannot be before or at the same time as Event Start Date: " + startDate);
+
+                    CQ.Ext.Msg.alert("Error", "The Event End Date cannot be before or at the same time as Event Start Date");
                    frm.reset();
                    window.scrollTo(0,0);
                    frm.findField(0).focus();
