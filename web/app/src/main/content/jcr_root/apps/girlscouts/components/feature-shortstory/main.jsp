@@ -31,9 +31,9 @@
 		<div class="large-11 medium-11 small-22 column">
 			<cq:include script="image.jsp" />
 		</div>
-		 <div class="large-12 medium-12 small-22 small-pull-2 large-reset-order medium-reset-order column"><cq:include script="text.jsp" /></div>
+		 <div class="large-11 medium-11 small-22 small-pull-2 column large-pull-1 medium-pull-1"><cq:include script="text.jsp" /></div>
 		<% } else {%>
-		<div class="large-11 medium-11 large-push-12 medium-push-11 small-22 column"><cq:include script="image.jsp" /></div>
+		<div class="large-11 medium-11 large-push-12 medium-push-12 small-22 column"><cq:include script="image.jsp" /></div>
 		<div class="large-11 small-22 medium-11 large-pull-13 medium-pull-13 small-pull-2 column"><cq:include script="text.jsp" /></div>	
 		<% } %>
 
