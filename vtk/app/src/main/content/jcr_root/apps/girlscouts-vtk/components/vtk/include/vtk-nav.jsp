@@ -10,7 +10,7 @@
 
 
 
-<div id="troop" class="row">
+<div id="troop" class="row hide-for-print">
 	<div class="small-24 medium-24 large-24 troopPrompt columns">
 		Current troop profile: <select id="reloginid" onchange="relogin()">
 			<%
