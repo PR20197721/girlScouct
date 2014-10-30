@@ -72,7 +72,7 @@
           <executions>
               <execution>
                   <configuration>
-                      <mainClass>org.girlscouts.tools.vtk.Updater</mainClass>
+                      <mainClass>org.girlscouts.tools.web.Updater</mainClass>
                       <!-- Optional -->
                       <onejarVersion>0.97</onejarVersion>
                       <!-- Optional, default is false -->

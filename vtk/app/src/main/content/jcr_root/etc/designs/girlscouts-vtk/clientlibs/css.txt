@@ -3,4 +3,5 @@
 jquery-ui.css
 jquery-te-1.4.0.css
 jquery.custombox.css
+print.css
 vtk-design.css

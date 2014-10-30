@@ -118,7 +118,7 @@ public class Updater
                         updateTimezone(dataNode, "start", timezoneStr); 
                         updateTimezone(dataNode, "end", timezoneStr); 
                         count++;
-                        //System.out.println("Updated event: " + eventNode.getPath());
+                        System.out.println("Updated event: " + eventNode.getPath());
                     } catch (RepositoryException re) {
                         System.err.println("Cannot update event: " + eventNode.getPath());
                         re.printStackTrace();
