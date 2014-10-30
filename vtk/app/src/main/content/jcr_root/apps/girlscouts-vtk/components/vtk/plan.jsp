@@ -32,7 +32,7 @@ if( troop.getYearPlan()!=null ){
 		<%
 			if( troop.getYearPlan()!=null){
 		%>
-		<div class="hide-for-small">
+		<div class="hide-for-small hide-for-print">
 			<div class="row subNavRow">
 				<div class="large-22 medium-22 small-20 columns subNavColumn">
 					<div class="centered-table">
@@ -178,7 +178,7 @@ if( troop.getYearPlan()!=null ){
 				if (troop.getYearPlan() != null) {
 			%>
 		</div>
-		<div id="panelRight" class="small-24 medium-24 large-6 columns">
+		<div id="panelRight" class="small-24 medium-24 large-6 columns hide-for-print">
 			<h2 id="resourceListing">Featured Resources:</h2>
 			<br />
 			<ul>
