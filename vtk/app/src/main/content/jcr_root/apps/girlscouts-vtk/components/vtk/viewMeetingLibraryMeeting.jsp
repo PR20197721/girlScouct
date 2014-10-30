@@ -19,7 +19,7 @@ if( orgMeetingPath==null || orgMeetingPath.equals("null") || orgMeetingPath.equa
 	function cngMeeting(){
 		
 		
-		$( "#cngMeet" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?<%=orgMeetingPath==null ? "addMeeting" : "cngMeeting"%>=true&fromPath=<%=orgMeetingPath%>&toPath=<%=meetingPath%>",function( html ) {
+		$( "#cngMeet" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?<%=orgMeetingPath==null ? "act=AddMeeting&addMeeting" : "act=SwapMeetings&cngMeeting"%>=true&fromPath=<%=orgMeetingPath%>&toPath=<%=meetingPath%>",function( html ) {
 			 <%if(orgMeetingPath==null){%>
 			    document.location="/content/girlscouts-vtk/en/vtk.plan.html";
 			 <%}else{%>

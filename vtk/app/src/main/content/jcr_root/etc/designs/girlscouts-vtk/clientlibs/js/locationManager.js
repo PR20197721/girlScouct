@@ -3,7 +3,8 @@ function rmLocation(locationName){
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
 		type: 'POST',
-		data: { 
+		data: {
+			act:'RemoveLocation',
 			rmLocation:locationName,
 			a:Date.now()
 		},
@@ -18,6 +19,7 @@ function applyLocToAllMeetings(locationPath){
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
 		type: 'POST',
 		data: { 
+			act:'SetLocationAllMeetings',
 			setLocationToAllMeetings:locationPath,
 			a:Date.now()
 		},
@@ -39,6 +41,7 @@ function updLocations(locationPath,idName){
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
 		type: 'POST',
 		data: { 
+			act:'ChangeLocation',
 			chnLocation:addon,
 			newLocPath:locationPath,
 			a:Date.now()

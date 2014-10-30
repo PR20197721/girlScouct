@@ -496,6 +496,7 @@ function searchActivities(){
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
 		type: 'POST',
 		data: { 
+			act:'Search',
 			srch:true,
 			keywrd:keywrd,
 			lvl:lvl,

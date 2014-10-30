@@ -69,6 +69,7 @@ function addActiv3(id, registerHrefToPop){
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
 		type: 'POST',
 		data: { 
+			act:'CreateCustomActivity',
 			newCustActivityBean:id,
 			a:Date.now()
 		},

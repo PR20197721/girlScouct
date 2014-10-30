@@ -16,7 +16,7 @@ function x(planId, planPath, confirmMsg, planName){
     }else{
     	
     	$.ajax({
-    		url: "/content/girlscouts-vtk/controllers/vtk.controller.html?isAltered=chk",
+    		url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=isAltered&isAltered=chk",
     		cache: false
     	}).done(function( html ) {
     		html= $.trim(html)
@@ -30,7 +30,7 @@ function x(planId, planPath, confirmMsg, planName){
 			
 	
 	$.ajax({
-		url: "/content/girlscouts-vtk/controllers/vtk.controller.html?addYearPlanUser="+planPath+"&addYearPlanName="+ planName,
+		url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=SelectYearPlan&addYearPlanUser="+planPath+"&addYearPlanName="+ planName,
 		cache: false
 	}).done(function( html ) {
 		loadMeetings();
@@ -58,7 +58,7 @@ function doUpdMeeting(){
 	var newVals = getNewMeetingSetup();
 	
 	var x =$.ajax({ // ajax call starts
-		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?isMeetingCngAjax='+ newVals, // JQuery loads serverside.php
+		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=ChangeMeetingPositions&isMeetingCngAjax='+ newVals, // JQuery loads serverside.php
 		data: '', // Send value of the clicked button
 
 		dataType: 'html', // Choosing a JSON datatype
@@ -200,6 +200,7 @@ function addLocation(){
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
 		type: 'POST',
 		data: { 
+			act:'AddLocation',
 			addLocation:true,
 			name:name,
 			address:address,
@@ -229,7 +230,7 @@ function updSched(i, meetingPath, currDt){
 		"&currDt="+currDt+
 		"&isCancelledMeeting="+ isCancelled;
 
-	$( "#locMsg" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?updSched=true&"+urlParam, function( response, status, xhr ) {
+	$( "#locMsg" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?act=UpdateSched&updSched=true&"+urlParam, function( response, status, xhr ) {
 		if ( status != "error" ) { }else{ }  
 	});
 
@@ -253,6 +254,7 @@ function buildSched(){
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
 		type: 'POST',
 		data: { 
+			act:'CreateSchedule',
 			buildSched:true,
 			calStartDt:calStartDt ,
 			calAP:calAP,
@@ -270,7 +272,7 @@ function buildSched(){
 
 function rmCustActivity(x){
 	
-	$( "#locMsg" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?rmCustActivity="+x, function( response, status, xhr ) {
+	$( "#locMsg" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?act=RemoveCustomActivity&rmCustActivity="+x, function( response, status, xhr ) {
 		if ( status != "error" ) {
 			location.reload();
 		}else{
@@ -302,6 +304,7 @@ function createNewCustActivity(){
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand='+Date.now(),
 		type: 'POST',
 		data: { 
+			act:'CreateActivity',
 			newCustActivity:true,
 			newCustActivity_name:newCustActivity_name ,
 			newCustActivity_date:newCustActivity_date ,
@@ -339,6 +342,7 @@ function editNewCustActivity(activityUid){
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand='+Date.now(),
 		type: 'POST',
 		data: { 
+			act:'EditCustActivity',
 			editCustActivity:activityUid,
 			newCustActivity_name:newCustActivity_name ,
 			newCustActivity_date:newCustActivity_date ,
@@ -414,6 +418,7 @@ function relogin(){
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand='+Date.now(),
 		type: 'POST',
 		data: { 
+			act:'ReLogin',
 			loginAs:elem,
 			a:Date.now()
 		},
@@ -434,6 +439,7 @@ function bindAssetToYPC(assetId, ypcId){
 			url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand='+Date.now(),
 			type: 'POST',
 			data: { 
+				act:'BindAssetToYPC',
 				bindAssetToYPC:assetId,
 				ypcId:ypcId,
 				assetDesc:assetDesc,

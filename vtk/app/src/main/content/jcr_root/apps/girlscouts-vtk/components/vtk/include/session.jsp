@@ -245,7 +245,8 @@ One of your co-leaders is currently making changes in the Volunteer Toolkit for 
 	}
 	//System.err.println("TROOP RETR TIME1 : "+ troop.getRetrieveTime() );	
 %>
-
+SFUser: <%= user.getApiConfig().getUserId() %>
+<br/><%=VtkUtil.doHash( user.getApiConfig().getUserId() ) %>
 
 
 

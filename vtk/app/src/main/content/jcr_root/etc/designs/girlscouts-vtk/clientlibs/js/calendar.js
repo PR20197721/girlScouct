@@ -19,6 +19,7 @@ function updSched1(i, meetingPath, currDt){
 	      url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
 	      type: 'POST',
 	      data: { 
+	    	  act:'UpdateSched',
 	    	  updSched:true,
 	    	  meetingPath:meetingPath,
 			  date:date,

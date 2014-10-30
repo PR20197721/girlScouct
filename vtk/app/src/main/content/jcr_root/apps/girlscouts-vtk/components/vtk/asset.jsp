@@ -10,6 +10,7 @@ function assignAid(aidId, meetingId, assetName, assetDesc){
 			url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand=' + Date.now(),
 			type: 'POST',
 			data: { 
+				act:'AddAid',
 				addAids:aidId,
 				meetingId: meetingId,
 				assetName:assetName,
@@ -32,6 +33,7 @@ function rmAid(aidId, meetingId, assetName, assetDesc){
 			url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand=' + Date.now(),
 			type: 'POST',
 			data: { 
+				act:'RemoveAsset',
 				rmAsset:aidId,
 				meetingId: meetingId,
 				assetName:assetName,

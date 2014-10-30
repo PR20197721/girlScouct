@@ -11,6 +11,7 @@ function rmCustActivity12(x){
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand=' + Date.now(),
 		type: 'POST',
 		data: { 
+			act:'RemoveCustomActivity',
 			rmCustActivity:x,
 			a:Date.now()
 		},
@@ -55,7 +56,7 @@ function createCustAgendaItem1(mid, time, mPath){
 	var createCustAgendaTxt = document.getElementById("newCustAgendaTxt").value;
 	var urlPath =mPath +"&duration="+newCustAgendaDuration+"&name="+ newCustAgendaName+"&startTime="+time+"&txt="+createCustAgendaTxt ;
 	$.ajax({
-		url: "/content/girlscouts-vtk/controllers/vtk.controller.html?newCustAgendaName="+urlPath,
+		url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=CreateCustomAgenda&newCustAgendaName="+urlPath,
 		cache: false
 	}).done(function( html ) {
 		document.location="/content/girlscouts-vtk/en/vtk.planView.html?elem="+mid;
@@ -78,7 +79,7 @@ function getNewActivitySetup() {
 function repositionActivity(meetingPath){
 	var newVals = getNewActivitySetup();
 	var x =$.ajax({ // ajax call starts
-		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?mid='+meetingPath+'&isActivityCngAjax='+ newVals, // JQuery loads serverside.php
+		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=RearrangeActivity&mid='+meetingPath+'&isActivityCngAjax='+ newVals, // JQuery loads serverside.php
 		data: '', // Send value of the clicked button
 		dataType: 'html', // Choosing a JSON datatype
 		success: function (data) { 
@@ -105,7 +106,7 @@ function rmAgenda(id, mid){
 	if( !isRm ) return false;
 	
 	var x =$.ajax({ // ajax call starts
-		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rmAgenda='+id+'&mid='+mid, // JQuery loads serverside.php
+		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=RemoveAgenda&rmAgenda='+id+'&mid='+mid, // JQuery loads serverside.php
 		data: '', // Send value of the clicked button
 		dataType: 'html', // Choosing a JSON datatype
 		success: function (data) { 
@@ -118,7 +119,7 @@ function rmAgenda(id, mid){
 
 function durEditActiv(duration, activPath, meetingPath){
 	var x =$.ajax({ // ajax call starts
-		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?editAgendaDuration='+duration+'&aid='+activPath+'&mid='+meetingPath, // JQuery loads serverside.php
+		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=EditAgendaDuration&editAgendaDuration='+duration+'&aid='+activPath+'&mid='+meetingPath, // JQuery loads serverside.php
 		data: '', // Send value of the clicked button
 		dataType: 'html', // Choosing a JSON datatype
 		success: function (data) { 
@@ -132,7 +133,7 @@ function durEditActiv(duration, activPath, meetingPath){
 
 function revertAgenda(mid) {
 	var x =$.ajax({ // ajax call starts
-		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?revertAgenda=true&mid='+ mid, // JQuery loads serverside.php
+		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=RevertAgenda&revertAgenda=true&mid='+ mid, // JQuery loads serverside.php
 		data: '', // Send value of the clicked button
 		dataType: 'html', // Choosing a JSON datatype
 		success: function (data) { 

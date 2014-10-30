@@ -374,6 +374,7 @@ try{ isFile = Integer.parseInt( request.getParameter("isFile") ); }catch(Excepti
         			url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand='+Date.now(),
         			type: 'POST',
         			data: { 
+        				act:'BindAssetToYPC',
         				bindAssetToYPC:assetId,
         				ypcId:ypcId,
         				assetDesc:assetDesc,
