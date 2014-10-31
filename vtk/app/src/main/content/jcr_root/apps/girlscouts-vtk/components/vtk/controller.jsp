@@ -126,8 +126,10 @@ try{
 			out.println( yearPlanUtil.isYearPlanAltered(user, troop) );
 	  		return;
 		case GetFinances:
-			
-	  		return;
+			financeUtil.getFinances(user, troop, Integer.parseInt(request.getParameter("finance_qtr")));
+	  		System.err.println(1);
+	  		
+			return;
 		default :	    		
 	    		break;
 	}
