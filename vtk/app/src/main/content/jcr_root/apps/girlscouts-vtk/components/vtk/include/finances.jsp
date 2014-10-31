@@ -9,7 +9,7 @@ if( finance ==null )
 	finance= new Finance();
 
 double acc_rcv = (finance.getGsusaRegistration() + finance.getServiceActivitiesEvents() + finance.getProductSalesProceeds() + finance.getTroopActivities() + finance.getTroopSupplies() + finance.getGsStorePurchases());
-
+double acc_out = ();
 %>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.extensions.js"></script>
