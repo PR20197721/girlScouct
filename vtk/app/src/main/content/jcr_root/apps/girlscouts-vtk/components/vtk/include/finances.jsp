@@ -46,11 +46,11 @@ if( finance ==null )
 	</div>
 	<div class="row">
 	  <div class="small-24 large-12 columns">Product Sales Proceeds:</div>
- 	  <div class="small-24 large-12 columns"><input type="text" id="product_sales_proceeds" name="product_sales_proceeds" value=""/></div>
+ 	  <div class="small-24 large-12 columns"><input type="text" id="product_sales_proceeds" name="product_sales_proceeds" value="<%=finance.getProductSalesProceeds()%>"/></div>
 	</div>
 	<div class="row">
 	  <div class="small-24 large-12 columns">Approved Money-Earnings Activities:</div>
- 	  <div class="small-24 large-12 columns"><input type="text" id="amea" name="amea" value=""/></div>
+ 	  <div class="small-24 large-12 columns"><input type="text" id="amea" name="amea" value="<%=getAmea()%>"/></div>
 	</div>
 	<div class="row">
 	  <div class="small-24 large-12 columns">Interest on Bank Accounts:</div>
