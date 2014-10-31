@@ -50,11 +50,11 @@ if( finance ==null )
 	</div>
 	<div class="row">
 	  <div class="small-24 large-12 columns">Approved Money-Earnings Activities:</div>
- 	  <div class="small-24 large-12 columns"><input type="text" id="amea" name="amea" value="<%=getAmea()%>"/></div>
+ 	  <div class="small-24 large-12 columns"><input type="text" id="amea" name="amea" value="<%=finance.getApprovedMoneyEarningActivity()%>"/></div>
 	</div>
 	<div class="row">
 	  <div class="small-24 large-12 columns">Interest on Bank Accounts:</div>
- 	  <div class="small-24 large-12 columns"><input type="text" id="bank_interest" name="bank_interest" value=""/></div>
+ 	  <div class="small-24 large-12 columns"><input type="text" id="bank_interest" name="bank_interest" value="<%=finance.getBankInterest()%>"/></div>
 	</div>
   </div>
   
