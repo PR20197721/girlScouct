@@ -4,7 +4,10 @@
 <cq:defineObjects/>
 <%@include file="../include/session.jsp"%>
 <%
-//Finance finance = financeUtil.getFinances(user, troop, 1);
+Finance finance = financeUtil.getFinances(user, troop, 1);
+if( finance ==null )
+	finance= new Finance();
+
 %>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.extensions.js"></script>
@@ -30,7 +33,7 @@
   <div class="small-24 large-12 columns">
   	<div class="row">
 	  <div class="small-24 large-12 columns">Starting Balance:</div>
- 	  <div class="small-24 large-12 columns"><input type="text" name="starting_balance" id="starting_balance" value=""/>
+ 	  <div class="small-24 large-12 columns"><input type="text" name="starting_balance" id="starting_balance" value="<%=finance.getStartingBalance()%>"/>
  	  </div>
 	</div>
 	<div class="row">
