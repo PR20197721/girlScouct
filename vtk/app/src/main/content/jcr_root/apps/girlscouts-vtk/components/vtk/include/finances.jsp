@@ -65,27 +65,27 @@ double balance = acc_rcv - acc_out;
   <div class="small-24 large-12 columns">
     <div class="row">
 	  <div class="small-24 large-12 columns">GSUSA Registrations:</div>
- 	  <div class="small-24 large-12 columns"><input type="text" id="gsusa_registrations" name="gsusa_registrations" value="<%=finance.getGsusaRegistration()%>"/></div>
+ 	  <div class="small-24 large-12 columns"><input type="text" id="gsusa_registrations" name="gsusa_registrations" value="<%=FORMAT_COST_CENTS.format(finance.getGsusaRegistration())%>"/></div>
 	</div>
 	 <div class="row">
 	  <div class="small-24 large-12 columns">Service Activities/Events:</div>
- 	  <div class="small-24 large-12 columns"><input type="text" id="service_ae" name="service_ae" value="<%=finance.getServiceActivitiesEvents()%>"/></div>
+ 	  <div class="small-24 large-12 columns"><input type="text" id="service_ae" name="service_ae" value="<%=FORMAT_COST_CENTS.format( finance.getServiceActivitiesEvents())%>"/></div>
 	</div>
 	 <div class="row">
 	  <div class="small-24 large-12 columns">Council Programs/Camp:</div>
- 	  <div class="small-24 large-12 columns"><input type="text" id="council_pc" name="council_pc" value="<%=finance.getCouncilProgramsCamp()%>"/></div>
+ 	  <div class="small-24 large-12 columns"><input type="text" id="council_pc" name="council_pc" value="<%=FORMAT_COST_CENTS.format(finance.getCouncilProgramsCamp())%>"/></div>
 	</div>
 	<div class="row">
 	  <div class="small-24 large-12 columns">Troop Activities:</div>
- 	  <div class="small-24 large-12 columns"><input type="text" id="troop_activities" name="troop_activities" value="<%=finance.getTroopActivities()%>"/></div>
+ 	  <div class="small-24 large-12 columns"><input type="text" id="troop_activities" name="troop_activities" value="<%=FORMAT_COST_CENTS.format(finance.getTroopActivities())%>"/></div>
 	</div>
 	<div class="row">
 	  <div class="small-24 large-12 columns">Troop Supplies:</div>
- 	  <div class="small-24 large-12 columns"><input type="text" id="troop_supplies" name="troop_supplies" value="<%=finance.getTroopSupplies()%>"/></div>
+ 	  <div class="small-24 large-12 columns"><input type="text" id="troop_supplies" name="troop_supplies" value="<%=FORMAT_COST_CENTS.format(finance.getTroopSupplies())%>"/></div>
 	</div>
 	<div class="row">
 	  <div class="small-24 large-12 columns">GS Store Purchase:</div>
- 	  <div class="small-24 large-12 columns"><input type="text" id="gs_store_purchase" name="gs_store_purchase" value="<%=finance.getGsStorePurchases()%>"/></div>
+ 	  <div class="small-24 large-12 columns"><input type="text" id="gs_store_purchase" name="gs_store_purchase" value="<%=FORMAT_COST_CENTS.format(finance.getGsStorePurchases())%>"/></div>
 	</div>
   </div>
  
