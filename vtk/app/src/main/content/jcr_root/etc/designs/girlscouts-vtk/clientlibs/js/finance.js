@@ -2,7 +2,7 @@
 
 function checkFinances(){
 	if ($('#financeForm').valid()) {	
-				;
+			saveFinances();
 		}else {			
 			alert("The form has one or more errors.  Please update and try again.", "#createActivitySection .errorMsg");
 		}
