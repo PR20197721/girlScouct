@@ -8,6 +8,8 @@ Finance finance = financeUtil.getFinances(user, troop, 1);
 if( finance ==null )
 	finance= new Finance();
 
+double acc_rcv = (finance.getGsusaRegistration() + finance.getServiceActivitiesEvents() + finance.getProductSalesProceeds() + finance.getTroopActivities() + finance.getTroopSupplies() + finance.getGsStorePurchases());
+
 %>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.extensions.js"></script>
