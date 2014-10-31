@@ -450,6 +450,9 @@ public class TroopDAOImpl implements TroopDAO {
 
 
 	public Finance getFinanaces(User user, Troop troop, int qtr){
+		
+		//TODO PERMISSIONS HERE
+		
 		Session mySession =null;
 		Finance finance =null;
 		try {
@@ -479,6 +482,8 @@ public class TroopDAOImpl implements TroopDAO {
 	}
 
 	public void setFinances(User user, Troop troop, Finance finance){
+		
+		//TODO PERMISSIONS HERE 
 		Session mySession =null;
 		try {
 			mySession = sessionFactory.getSession();
@@ -490,9 +495,9 @@ public class TroopDAOImpl implements TroopDAO {
 					mapper);
 
 			if (mySession.itemExists(finance.getPath())) {
-				ocm.update(troopGlobConfig);
+				ocm.update(finance);
 			} else {
-				ocm.insert(troopGlobConfig);
+				ocm.insert(finance);
 			}
 			ocm.save();
 
