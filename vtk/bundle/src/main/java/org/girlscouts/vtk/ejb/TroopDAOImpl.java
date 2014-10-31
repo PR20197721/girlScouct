@@ -453,13 +453,25 @@ public class TroopDAOImpl implements TroopDAO {
 		Finance finance =null;
 		try {
 			mySession = sessionFactory.getSession();
-			
+			List<Class> classes = new ArrayList<Class>();
+			classes.add(Finance.class);
+
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
+					mapper);
+
+			QueryManager queryManager = ocm.getQueryManager();
+			Filter filter = queryManager.createFilter(Finance.class);
+
+			finance = (UserGlobConfig) ocm.getObject("/vtk/global-settings");
+
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally{
 			try{
-				sessionFactory.closeSession(mySession);
+				if( sessionFactory!=null)
+					sessionFactory.closeSession(mySession);
 			}catch(Exception es){es.printStackTrace();}
 		}
 		return finance;
