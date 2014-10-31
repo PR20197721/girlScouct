@@ -106,15 +106,15 @@ double balance = acc_rcv - acc_out;
 	</div>
     <div class="row">
 	  <div class="small-24 large-12 columns">Total Income:</div>
- 	  <div class="small-24 large-12 columns"><%=acc_rcv%></div>
+ 	  <div class="small-24 large-12 columns">$<%=FORMAT_COST_CENTS.format(acc_rcv)%></div>
 	</div>
 	<div class="row">
 	  <div class="small-24 large-12 columns">Total Expenses:</div>
- 	  <div class="small-24 large-12 columns"><%= acc_out%></div>
+ 	  <div class="small-24 large-12 columns">$<%= FORMAT_COST_CENTS.format(acc_out)%></div>
 	</div>
 	<div class="row">
 	  <div class="small-24 large-12 columns">Current Balance:</div>
- 	  <div class="small-24 large-12 columns"><%=balance %></div>
+ 	  <div class="small-24 large-12 columns">$<%=FORMAT_COST_CENTS.format(balance) %></div>
 	</div>
 	<div class="row">
 	  <div class="small-24 large-12 columns"></div>
