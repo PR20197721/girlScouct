@@ -155,7 +155,19 @@ $.validator.addMethod('currency', function(value, element, regexp) {
 	
 	function saveFinances(){
 		
-
+		var starting_balance").maskMoney();
+		var troop_dues").maskMoney();
+		var sponsorship_donations").maskMoney();
+		var product_sales_proceeds").maskMoney();
+		var amea").maskMoney();
+		var bank_interest").maskMoney();
+		var gsusa_registrations").maskMoney();
+		var service_ae").maskMoney();
+		var council_pc").maskMoney();
+		var troop_activities").maskMoney();
+		var troop_supplies").maskMoney();
+		var gs_store_purchase").maskMoney();" +
+				
 		 /*var assetDesc = document.getElementById("assetDesc").value;
 		 var custasset = document.getElementById("custasset").value;
 		 if( $.trim(custasset)=='' ){alert('Please select file to upload');return false;}
@@ -166,9 +178,8 @@ $.validator.addMethod('currency', function(value, element, regexp) {
 				type: 'POST',
 				data: { 
 					act:'UpdateFinances',
-					bindAssetToYPC:assetId,
-					ypcId:ypcId,
-					assetDesc:assetDesc,
+					qtr:qtr,
+					starting
 					a:Date.now()
 				},
 				success: function(result) {
