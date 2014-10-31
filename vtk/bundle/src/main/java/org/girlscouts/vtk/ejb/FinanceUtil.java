@@ -24,17 +24,17 @@ public class FinanceUtil {
 		Finance finance =new Finance();
 		finance.setApprovedMoneyEarningActivity( Double.parseDouble(params.get("amea")[0]) );
 		finance.setCouncilProgramsCamp( Double.parseDouble( params.get("council_pc")[0] ) );
-		finance.setFinancialQuarter();
-		finance.setGsStorePurchases();
-		finance.setGsusaRegistration();
-		finance.setInterestOnBankAccount();
-		finance.setProductSalesProceeds();
-		finance.setServiceActivitiesEvents();
-		finance.setSponsorshipDonations();
-		finance.setStartingBalance();
-		finance.setTroopActivities();
-		finance.setTroopDues();
-		finance.setTroopSupplies();
+		finance.setFinancialQuarter(Integer.parseInt( params.get("qtr")[0] ));
+		finance.setGsStorePurchases( Double.parseDouble( params.get("")[0] ) );
+		finance.setGsusaRegistration( Double.parseDouble( params.get("")[0] ) );
+		finance.setInterestOnBankAccount( Double.parseDouble( params.get("")[0] ) );
+		finance.setProductSalesProceeds( Double.parseDouble( params.get("")[0] ) );
+		finance.setServiceActivitiesEvents( Double.parseDouble( params.get("")[0] ) );
+		finance.setSponsorshipDonations( Double.parseDouble( params.get("")[0] ) );
+		finance.setStartingBalance( Double.parseDouble( params.get("")[0] ) );
+		finance.setTroopActivities( Double.parseDouble( params.get("")[0] ) );
+		finance.setTroopDues( Double.parseDouble( params.get("")[0] ) );
+		finance.setTroopSupplies( Double.parseDouble( params.get("")[0] ) );
 		
 		
 	}
