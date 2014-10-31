@@ -167,7 +167,7 @@ $.validator.addMethod('currency', function(value, element, regexp) {
 		var troop_activities = document.getElementById("troop_activities").value;
 		var troop_supplies = document.getElementById("troop_supplies").value;
 		var gs_store_purchase = document.getElementById("gs_store_purchase").value;
-				
+		var qtr = document.getElementById("qtr").value;
 		
 		  $.ajax({
 				url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand='+Date.now(),
