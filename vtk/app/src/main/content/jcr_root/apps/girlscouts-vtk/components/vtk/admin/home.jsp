@@ -138,9 +138,9 @@ style="border: none;">
 </div>
 </li>
 
-<br/>Finances TAB VTK v2::
-<a href="/content/girlscouts-vtk/en/vtk.include.finances.html?qtr=2">Finances TAB</a>
-
+<br/>VTK v2::
+<br/><a href="/content/girlscouts-vtk/en/vtk.include.finances.html?qtr=2">Finances TAB</a>
+<br/><a href="/content/girlscouts-vtk/en/vtk.admin.troopPhoto.html" >change troop picture</a>
 
 <hr/>Use this within rec <a href="/content/girlscouts-vtk/en/vtk.controller.html?resetCal=true">RESET CAL</a>
 
