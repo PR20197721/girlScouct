@@ -66,15 +66,15 @@ if( finance ==null )
 	</div>
 	 <div class="row">
 	  <div class="small-24 large-12 columns">Service Activities/Events:</div>
- 	  <div class="small-24 large-12 columns"><input type="text" id="service_ae" name="service_ae" value=""/></div>
+ 	  <div class="small-24 large-12 columns"><input type="text" id="service_ae" name="service_ae" value="<%=finance.getServiceActivitiesEvents()%>"/></div>
 	</div>
 	 <div class="row">
 	  <div class="small-24 large-12 columns">Council Programs/Camp:</div>
- 	  <div class="small-24 large-12 columns"><input type="text" id="council_pc" name="council_pc" value=""/></div>
+ 	  <div class="small-24 large-12 columns"><input type="text" id="council_pc" name="council_pc" value="<%=finance.getCouncilProgramsCamp()%>"/></div>
 	</div>
 	<div class="row">
 	  <div class="small-24 large-12 columns">Troop Activities:</div>
- 	  <div class="small-24 large-12 columns"><input type="text" id="troop_activities" name="troop_activities" value=""/></div>
+ 	  <div class="small-24 large-12 columns"><input type="text" id="troop_activities" name="troop_activities" value="<%=finance.getTroopActivites()%>"/></div>
 	</div>
 	<div class="row">
 	  <div class="small-24 large-12 columns">Troop Supplies:</div>

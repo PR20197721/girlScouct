@@ -18,7 +18,7 @@ public class Finance  implements Serializable{
 		productSalesProceeds,approvedMoneyEarningActivity, interestOnBankAccount,
 		
 		gsusaRegistration, serviceActivitiesEvents, CouncilProgramsCamp,
-		troopActivites, troopSupplies, gsStorePurchases;
+		troopActivities, troopSupplies, gsStorePurchases;
 	
 	@Field(id=true) 
 	private int financialQuarter;
