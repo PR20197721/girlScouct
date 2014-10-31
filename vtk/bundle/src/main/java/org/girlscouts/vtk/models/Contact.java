@@ -1,6 +1,8 @@
 package org.girlscouts.vtk.models;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
+import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
+@Node(jcrMixinTypes="mix:lockable" ) 
 public class Contact implements java.io.Serializable{
 
 	/**
@@ -107,14 +109,6 @@ public class Contact implements java.io.Serializable{
 	}
 
 	
-
-	public String getAccountId() {
-		return accountId;
-	}
-
-	public void setAccountId(String accountId) {
-		this.accountId = accountId;
-	}
 
 	public String getLastName() {
 		return lastName;
