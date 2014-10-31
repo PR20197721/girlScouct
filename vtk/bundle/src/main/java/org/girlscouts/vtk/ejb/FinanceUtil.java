@@ -1,6 +1,8 @@
 package org.girlscouts.vtk.ejb;
 import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
+import org.girlscouts.vtk.dao.TroopDAO;
 import org.girlscouts.vtk.models.Finance;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
@@ -9,10 +11,11 @@ import org.girlscouts.vtk.models.User;
 @Service(value=FinanceUtil.class)
 public class FinanceUtil {
 
+	@Reference 
+	TroopDAO troopDAO;
+	
 	public Finance getFinances(User user, Troop troop, int qtr){
-		Finance finance=null;
-		
-		return finance;
+		return troopDAO.getFinanaces(user, troop, qtr);
 	}
 	
 	
