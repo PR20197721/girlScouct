@@ -155,18 +155,18 @@ $.validator.addMethod('currency', function(value, element, regexp) {
 	
 	function saveFinances(){
 		
-		var starting_balance").maskMoney();
-		var troop_dues").maskMoney();
-		var sponsorship_donations").maskMoney();
-		var product_sales_proceeds").maskMoney();
-		var amea").maskMoney();
-		var bank_interest").maskMoney();
-		var gsusa_registrations").maskMoney();
-		var service_ae").maskMoney();
-		var council_pc").maskMoney();
-		var troop_activities").maskMoney();
-		var troop_supplies").maskMoney();
-		var gs_store_purchase").maskMoney();" +
+		var starting_balance = document.getElementById("").value;
+		var troop_dues = document.getElementById("").value;
+		var sponsorship_donations = document.getElementById("").value;
+		var product_sales_proceeds = document.getElementById("").value;
+		var amea = document.getElementById("").value;
+		var bank_interest = document.getElementById("").value;
+		var gsusa_registrations = document.getElementById("").value;
+		var service_ae = document.getElementById("").value;
+		var council_pc = document.getElementById("").value;
+		var troop_activities = document.getElementById("").value;
+		var troop_supplies = document.getElementById("").value;
+		var gs_store_purchase = document.getElementById("").value;
 				
 		 /*var assetDesc = document.getElementById("assetDesc").value;
 		 var custasset = document.getElementById("custasset").value;
