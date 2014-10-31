@@ -21,6 +21,7 @@ public class FinanceUtil {
 	
 	
 	public void updateFinances( User user, Troop troop, java.util.Map<java.lang.String,java.lang.String[]> params){
-		
+		Finance finance =new Finance();
+		finance.setApprovedMoneyEarningActivity(params.get(""))
 	}
 }
