@@ -29,7 +29,7 @@ double balance = acc_rcv - acc_out;
 
 <h3>Q<%=qtr %> 2014</h3>
 <form class="cmxform" id="financeForm">
-<input type="hidden" name="qtr" value="<%=qtr%>"/>
+<input type="hidden" id="qtr" name="qtr" value="<%=qtr%>"/>
 <div class="errorMsg error"></div>
 <div class="row">
 
