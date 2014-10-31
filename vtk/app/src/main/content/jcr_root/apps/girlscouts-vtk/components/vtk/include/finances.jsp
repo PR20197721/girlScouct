@@ -107,7 +107,7 @@ if( finance ==null )
 	</div>
 	<div class="row">
 	  <div class="small-24 large-12 columns">Total Expenses:</div>
- 	  <div class="small-24 large-12 columns">XXX</div>
+ 	  <div class="small-24 large-12 columns"><%=(finance.getGsusaRegistration() + finance.getServiceActivitiesEvents() + finance.getProductSalesProceeds() + finance.getTroopActivities() + finance.getTroopSupplies() + finance.getGsStorePurchases()) %></div>
 	</div>
 	<div class="row">
 	  <div class="small-24 large-12 columns">Current Balance:</div>
