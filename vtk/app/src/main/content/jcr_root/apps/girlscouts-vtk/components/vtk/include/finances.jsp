@@ -4,7 +4,8 @@
 <cq:defineObjects/>
 <%@include file="../include/session.jsp"%>
 <%
-int qtr= request.getParameter("qtr");
+int qtr= 0;
+try{ qtr = Integer.parseInt( request.getParameter("qtr") ); }catch(Exception e){out.println("Invalid qtr"); return;}
 Finance finance = financeUtil.getFinances(user, troop, qtr);
 if( finance ==null )
 	finance= new Finance();
@@ -28,6 +29,9 @@ double balance = acc_rcv - acc_out;
 
 
 <a href="/content/girlscouts-vtk/en/vtk.include.finances.html?qtr=1">Q1</a> || 
+<a href="/content/girlscouts-vtk/en/vtk.include.finances.html?qtr=1">Q1</a> || 
+<a href="/content/girlscouts-vtk/en/vtk.include.finances.html?qtr=1">Q1</a> || 
+<a href="/content/girlscouts-vtk/en/vtk.include.finances.html?qtr=1">Q1</a> 
 <br/>
 
 <h3>Q<%=qtr %> 2014</h3>
