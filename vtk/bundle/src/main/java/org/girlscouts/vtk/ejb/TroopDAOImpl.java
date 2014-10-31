@@ -453,19 +453,7 @@ public class TroopDAOImpl implements TroopDAO {
 		Finance finance =null;
 		try {
 			mySession = sessionFactory.getSession();
-			List<Class> classes = new ArrayList<Class>();
-			classes.add(UserGlobConfig.class);
-
-			Mapper mapper = new AnnotationMapperImpl(classes);
-			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
-					mapper);
-
-			if (mySession.itemExists(troopGlobConfig.getPath())) {
-				ocm.update(troopGlobConfig);
-			} else {
-				ocm.insert(troopGlobConfig);
-			}
-			ocm.save();
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
