@@ -1,12 +1,31 @@
 package org.girlscouts.vtk.models;
+import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 
-public class Contact {
+public class Contact implements java.io.Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9143046810103196285L;
+
+	@Field(id=true)
+	private String id;
 	
-	private String id, email, phone, firstName, lastName, address, address1, city, state, zip, suite;
+	@Field(path=true) String path;
+	
+	@Field
+	private String email, phone, firstName, lastName, address, address1, city, state, zip, suite;
 
 		
 	
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
+
 	public String getFirstName() {
 		return firstName;
 	}
