@@ -155,15 +155,15 @@ $.validator.addMethod('currency', function(value, element, regexp) {
 	
 	function saveFinances(){
 		
-		var starting_balance = document.getElementById("").value;
-		var troop_dues = document.getElementById("").value;
-		var sponsorship_donations = document.getElementById("").value;
-		var product_sales_proceeds = document.getElementById("").value;
-		var amea = document.getElementById("").value;
-		var bank_interest = document.getElementById("").value;
-		var gsusa_registrations = document.getElementById("").value;
-		var service_ae = document.getElementById("").value;
-		var council_pc = document.getElementById("").value;
+		var starting_balance = document.getElementById("starting_balance").value;
+		var troop_dues = document.getElementById("troop_dues").value;
+		var sponsorship_donations = document.getElementById("sponsorship_donations").value;
+		var product_sales_proceeds = document.getElementById("product_sales_proceeds").value;
+		var amea = document.getElementById("amea").value;
+		var bank_interest = document.getElementById("bank_interest").value;
+		var gsusa_registrations = document.getElementById("gsusa_registrations").value;
+		var service_ae = document.getElementById("service_ae").value;
+		var council_pc = document.getElementById("council_pc").value;
 		var troop_activities = document.getElementById("").value;
 		var troop_supplies = document.getElementById("").value;
 		var gs_store_purchase = document.getElementById("").value;
