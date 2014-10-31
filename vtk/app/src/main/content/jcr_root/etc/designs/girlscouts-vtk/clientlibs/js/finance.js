@@ -164,9 +164,9 @@ $.validator.addMethod('currency', function(value, element, regexp) {
 		var gsusa_registrations = document.getElementById("gsusa_registrations").value;
 		var service_ae = document.getElementById("service_ae").value;
 		var council_pc = document.getElementById("council_pc").value;
-		var troop_activities = document.getElementById("").value;
-		var troop_supplies = document.getElementById("").value;
-		var gs_store_purchase = document.getElementById("").value;
+		var troop_activities = document.getElementById("troop_activities").value;
+		var troop_supplies = document.getElementById("troop_supplies").value;
+		var gs_store_purchase = document.getElementById("gs_store_purchase").value;
 				
 		 /*var assetDesc = document.getElementById("assetDesc").value;
 		 var custasset = document.getElementById("custasset").value;
