@@ -26,6 +26,6 @@ public class FinanceUtil {
 		finance.setCouncilProgramsCamp( Double.parseDouble( params.get("council_pc")[0] ) );
 		
 		
-		System.err.println("TESSTSSDF: "+ finance.getCouncilProgramsCamp());
+		
 	}
 }
