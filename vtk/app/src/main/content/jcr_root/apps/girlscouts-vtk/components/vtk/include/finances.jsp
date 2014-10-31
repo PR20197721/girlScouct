@@ -38,11 +38,11 @@ if( finance ==null )
 	</div>
 	<div class="row">
 	  <div class="small-24 large-12 columns">Troop Dues:</div>
- 	  <div class="small-24 large-12 columns"><input type="text" id="troop_dues" name="troop_dues" value=""/></div>
+ 	  <div class="small-24 large-12 columns"><input type="text" id="troop_dues" name="troop_dues" value="<%=finance.getTroopDues()%>"/></div>
 	</div>
 	<div class="row">
 	  <div class="small-24 large-12 columns">Sponsorship/Donations:</div>
- 	  <div class="small-24 large-12 columns"><input type="text" id="sponsorship_donations" name="sponsorship_donations" value=""/></div>
+ 	  <div class="small-24 large-12 columns"><input type="text" id="sponsorship_donations" name="sponsorship_donations" value="<%=finance.getSponsorshipDonations()%>"/></div>
 	</div>
 	<div class="row">
 	  <div class="small-24 large-12 columns">Product Sales Proceeds:</div>
