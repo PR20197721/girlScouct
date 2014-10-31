@@ -10,6 +10,7 @@ if( finance ==null )
 
 double acc_out = (finance.getGsusaRegistration() + finance.getServiceActivitiesEvents() + finance.getProductSalesProceeds() + finance.getTroopActivities() + finance.getTroopSupplies() + finance.getGsStorePurchases());
 double acc_rcv = (finance.getStartingBalance() + finance.getTroopDues() + finance.getSponsorshipDonations() + finance.getProductSalesProceeds()+ finance.getApprovedMoneyEarningActivity()+ finance.getInterestOnBankAccount() );
+double balance = acc_rcv - acc_out;
 %>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.extensions.js"></script>
@@ -105,15 +106,15 @@ double acc_rcv = (finance.getStartingBalance() + finance.getTroopDues() + financ
 	</div>
     <div class="row">
 	  <div class="small-24 large-12 columns">Total Income:</div>
- 	  <div class="small-24 large-12 columns"><%=(finance.getStartingBalance() + finance.getTroopDues() + finance.getSponsorshipDonations() + finance.getProductSalesProceeds()+ finance.getApprovedMoneyEarningActivity()+ finance.getInterestOnBankAccount() ) %></div>
+ 	  <div class="small-24 large-12 columns"><%=acc_rcv%></div>
 	</div>
 	<div class="row">
 	  <div class="small-24 large-12 columns">Total Expenses:</div>
- 	  <div class="small-24 large-12 columns"><%=(finance.getGsusaRegistration() + finance.getServiceActivitiesEvents() + finance.getProductSalesProceeds() + finance.getTroopActivities() + finance.getTroopSupplies() + finance.getGsStorePurchases()) %></div>
+ 	  <div class="small-24 large-12 columns"><%= acc_out%></div>
 	</div>
 	<div class="row">
 	  <div class="small-24 large-12 columns">Current Balance:</div>
- 	  <div class="small-24 large-12 columns">XXX</div>
+ 	  <div class="small-24 large-12 columns"><%=balance %></div>
 	</div>
 	<div class="row">
 	  <div class="small-24 large-12 columns"></div>
