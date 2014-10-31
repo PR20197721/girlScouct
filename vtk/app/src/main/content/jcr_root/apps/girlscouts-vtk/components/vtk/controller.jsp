@@ -129,7 +129,7 @@ try{
 			financeUtil.getFinances(user, troop, Integer.parseInt(request.getParameter("finance_qtr")));
 			return;
 		case UpdateFinances:
-			financeUtil.updateFinances(user, troop, Integer.parseInt(request.getParameter("finance_qtr")));
+			financeUtil.updateFinances(user, troop, request.getParameterMap());
 			return;
 		default :	    		
 	    		break;
