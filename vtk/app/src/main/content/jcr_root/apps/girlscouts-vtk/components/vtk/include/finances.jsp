@@ -54,7 +54,7 @@ if( finance ==null )
 	</div>
 	<div class="row">
 	  <div class="small-24 large-12 columns">Interest on Bank Accounts:</div>
- 	  <div class="small-24 large-12 columns"><input type="text" id="bank_interest" name="bank_interest" value="<%=finance.getBankInterest()%>"/></div>
+ 	  <div class="small-24 large-12 columns"><input type="text" id="bank_interest" name="bank_interest" value="<%=finance.getInterestOnBankAccount()%>"/></div>
 	</div>
   </div>
   
@@ -62,7 +62,7 @@ if( finance ==null )
   <div class="small-24 large-12 columns">
     <div class="row">
 	  <div class="small-24 large-12 columns">GSUSA Registrations:</div>
- 	  <div class="small-24 large-12 columns"><input type="text" id="gsusa_registrations" name="gsusa_registrations" value=""/></div>
+ 	  <div class="small-24 large-12 columns"><input type="text" id="gsusa_registrations" name="gsusa_registrations" value="<%=finance.getGsusaRegistration()%>"/></div>
 	</div>
 	 <div class="row">
 	  <div class="small-24 large-12 columns">Service Activities/Events:</div>
