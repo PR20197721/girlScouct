@@ -101,6 +101,7 @@ public class SalesforceDAO {
                   //  user.setEmail(results.getJSONObject(current).getString("Email"));
                   try{
                 	  user.setContactId(results.getJSONObject(current).getString("ContactId"));
+                	 // user.setSecuredId( VtkUtil.doHash( user.getContactId()) );
                 	//  user.setSecuredId(VtkUtil.doHash( user.getContactId()));
                   }catch(Exception e){e.printStackTrace();}
                     //user.setPhone(results.getJSONObject(current).getString("Phone"));

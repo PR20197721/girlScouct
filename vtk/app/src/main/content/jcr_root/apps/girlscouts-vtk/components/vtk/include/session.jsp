@@ -50,6 +50,7 @@
 	final YearPlanUtil yearPlanUtil = sling.getService(YearPlanUtil.class);
 	final TroopUtil troopUtil = sling.getService(TroopUtil.class);
 	final UserUtil userUtil = sling.getService(UserUtil.class);
+	final FinanceUtil financeUtil = sling.getService(FinanceUtil.class);
 	User user=null;
 	
 	HttpSession session = request.getSession();
@@ -89,6 +90,7 @@
 	user = ((org.girlscouts.vtk.models.User) session
 			.getAttribute(org.girlscouts.vtk.models.User.class
 					.getName()));
+	
 	user.setSid(session.getId());
 	
 	String errMsg = null;
