@@ -1,5 +1,6 @@
 package org.girlscouts.vtk.dao;
 
+import org.girlscouts.vtk.models.Finance;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.UserGlobConfig;
@@ -16,6 +17,7 @@ public interface TroopDAO {
 	public void rmTroop(Troop troop) throws IllegalAccessException;
 	public UserGlobConfig getUserGlobConfig();
 	public void updateUserGlobConfig();
+	public Finance getFinanaces(User user, Troop troop, int qtr);
 
 	
 }
