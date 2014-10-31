@@ -155,6 +155,25 @@ $.validator.addMethod('currency', function(value, element, regexp) {
 	
 	function saveFinances(){
 		
-		
+
+		 /*var assetDesc = document.getElementById("assetDesc").value;
+		 var custasset = document.getElementById("custasset").value;
+		 if( $.trim(custasset)=='' ){alert('Please select file to upload');return false;}
+		 if( $.trim(assetDesc)=='' ){alert('Please enter name of asset');return false;}
+		 */
+		  $.ajax({
+				url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand='+Date.now(),
+				type: 'POST',
+				data: { 
+					act:'UpdateFinances',
+					bindAssetToYPC:assetId,
+					ypcId:ypcId,
+					assetDesc:assetDesc,
+					a:Date.now()
+				},
+				success: function(result) {
+					
+				}
+			});
 		
 	}
