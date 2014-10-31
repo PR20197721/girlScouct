@@ -36,6 +36,7 @@ public class FinanceUtil {
 		finance.setTroopDues( Double.parseDouble( params.get("troop_dues")[0] ) );
 		finance.setTroopSupplies( Double.parseDouble( params.get("troop_supplies")[0] ) );
 		
+		//TODO NOTIFY Council here
 		
 	}
 }

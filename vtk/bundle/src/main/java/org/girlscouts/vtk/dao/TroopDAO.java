@@ -18,6 +18,7 @@ public interface TroopDAO {
 	public UserGlobConfig getUserGlobConfig();
 	public void updateUserGlobConfig();
 	public Finance getFinanaces(User user, Troop troop, int qtr);
+	public void setFinances(User user, Troop troop, Finance finance);
 
 	
 }
