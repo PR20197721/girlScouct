@@ -24,7 +24,17 @@ public class FinanceUtil {
 		Finance finance =new Finance();
 		finance.setApprovedMoneyEarningActivity( Double.parseDouble(params.get("amea")[0]) );
 		finance.setCouncilProgramsCamp( Double.parseDouble( params.get("council_pc")[0] ) );
-		
+		finance.setFinancialQuarter();
+		finance.setGsStorePurchases();
+		finance.setGsusaRegistration();
+		finance.setInterestOnBankAccount();
+		finance.setProductSalesProceeds();
+		finance.setServiceActivitiesEvents();
+		finance.setSponsorshipDonations();
+		finance.setStartingBalance();
+		finance.setTroopActivities();
+		finance.setTroopDues();
+		finance.setTroopSupplies();
 		
 		
 	}
