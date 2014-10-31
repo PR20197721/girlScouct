@@ -127,8 +127,6 @@ try{
 	  		return;
 		case GetFinances:
 			financeUtil.getFinances(user, troop, Integer.parseInt(request.getParameter("finance_qtr")));
-	  		System.err.println(1);
-	  		
 			return;
 		default :	    		
 	    		break;
