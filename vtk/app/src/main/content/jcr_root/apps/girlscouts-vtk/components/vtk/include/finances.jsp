@@ -103,7 +103,7 @@ if( finance ==null )
 	</div>
     <div class="row">
 	  <div class="small-24 large-12 columns">Total Income:</div>
- 	  <div class="small-24 large-12 columns"><%= %></div>
+ 	  <div class="small-24 large-12 columns"><%=(finance.getStartingBalance() + finance.getTroopDues() + finance.getSponsorshipDonations() + finance.getProductSalesProceeds()+ finance.getApprovedMoneyEarningActivity()+ finance.getInterestOnBankAccount() ) %></div>
 	</div>
 	<div class="row">
 	  <div class="small-24 large-12 columns">Total Expenses:</div>
