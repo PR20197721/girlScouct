@@ -74,15 +74,15 @@ if( finance ==null )
 	</div>
 	<div class="row">
 	  <div class="small-24 large-12 columns">Troop Activities:</div>
- 	  <div class="small-24 large-12 columns"><input type="text" id="troop_activities" name="troop_activities" value="<%=finance.getTroopActivites()%>"/></div>
+ 	  <div class="small-24 large-12 columns"><input type="text" id="troop_activities" name="troop_activities" value="<%=finance.getTroopActivities()%>"/></div>
 	</div>
 	<div class="row">
 	  <div class="small-24 large-12 columns">Troop Supplies:</div>
- 	  <div class="small-24 large-12 columns"><input type="text" id="troop_supplies" name="troop_supplies" value=""/></div>
+ 	  <div class="small-24 large-12 columns"><input type="text" id="troop_supplies" name="troop_supplies" value="<%=finance.getTroopSupplies()%>"/></div>
 	</div>
 	<div class="row">
 	  <div class="small-24 large-12 columns">GS Store Purchase:</div>
- 	  <div class="small-24 large-12 columns"><input type="text" id="gs_store_purchase" name="gs_store_purchase" value=""/></div>
+ 	  <div class="small-24 large-12 columns"><input type="text" id="gs_store_purchase" name="gs_store_purchase" value="<%=finance.getGsStorePurchases()%>"/></div>
 	</div>
   </div>
  
@@ -103,7 +103,7 @@ if( finance ==null )
 	</div>
     <div class="row">
 	  <div class="small-24 large-12 columns">Total Income:</div>
- 	  <div class="small-24 large-12 columns">XXX</div>
+ 	  <div class="small-24 large-12 columns"><%= %></div>
 	</div>
 	<div class="row">
 	  <div class="small-24 large-12 columns">Total Expenses:</div>
