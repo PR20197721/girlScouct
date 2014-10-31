@@ -97,13 +97,7 @@ public class Finance  implements Serializable{
 		CouncilProgramsCamp = councilProgramsCamp;
 	}
 
-	public double getTroopActivites() {
-		return troopActivites;
-	}
-
-	public void setTroopActivites(double troopActivites) {
-		this.troopActivites = troopActivites;
-	}
+	
 
 	public double getTroopSupplies() {
 		return troopSupplies;
@@ -135,6 +129,14 @@ public class Finance  implements Serializable{
 
 	public void setFinancialQuarter(int financialQuarter) {
 		this.financialQuarter = financialQuarter;
+	}
+
+	public double getTroopActivities() {
+		return troopActivities;
+	}
+
+	public void setTroopActivities(double troopActivities) {
+		this.troopActivities = troopActivities;
 	}
 
 	
