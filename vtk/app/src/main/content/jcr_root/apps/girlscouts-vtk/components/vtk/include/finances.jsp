@@ -29,9 +29,9 @@ double balance = acc_rcv - acc_out;
 
 
 <a href="/content/girlscouts-vtk/en/vtk.include.finances.html?qtr=1">Q1</a> || 
-<a href="/content/girlscouts-vtk/en/vtk.include.finances.html?qtr=1">Q1</a> || 
-<a href="/content/girlscouts-vtk/en/vtk.include.finances.html?qtr=1">Q1</a> || 
-<a href="/content/girlscouts-vtk/en/vtk.include.finances.html?qtr=1">Q1</a> 
+<a href="/content/girlscouts-vtk/en/vtk.include.finances.html?qtr=2">Q2</a> || 
+<a href="/content/girlscouts-vtk/en/vtk.include.finances.html?qtr=3">Q3</a> || 
+<a href="/content/girlscouts-vtk/en/vtk.include.finances.html?qtr=4">Q4</a> 
 <br/>
 
 <h3>Q<%=qtr %> 2014</h3>
