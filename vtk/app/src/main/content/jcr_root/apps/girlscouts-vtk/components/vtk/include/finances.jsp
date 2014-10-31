@@ -41,23 +41,23 @@ double balance = acc_rcv - acc_out;
 	</div>
 	<div class="row">
 	  <div class="small-24 large-12 columns">Troop Dues:</div>
- 	  <div class="small-24 large-12 columns"><input type="text" id="troop_dues" name="troop_dues" value="<%=finance.getTroopDues()%>"/></div>
+ 	  <div class="small-24 large-12 columns"><input type="text" id="troop_dues" name="troop_dues" value="<%=FORMAT_COST_CENTS.format(finance.getTroopDues())%>"/></div>
 	</div>
 	<div class="row">
 	  <div class="small-24 large-12 columns">Sponsorship/Donations:</div>
- 	  <div class="small-24 large-12 columns"><input type="text" id="sponsorship_donations" name="sponsorship_donations" value="<%=finance.getSponsorshipDonations()%>"/></div>
+ 	  <div class="small-24 large-12 columns"><input type="text" id="sponsorship_donations" name="sponsorship_donations" value="<%=FORMAT_COST_CENTS.format(finance.getSponsorshipDonations())%>"/></div>
 	</div>
 	<div class="row">
 	  <div class="small-24 large-12 columns">Product Sales Proceeds:</div>
- 	  <div class="small-24 large-12 columns"><input type="text" id="product_sales_proceeds" name="product_sales_proceeds" value="<%=finance.getProductSalesProceeds()%>"/></div>
+ 	  <div class="small-24 large-12 columns"><input type="text" id="product_sales_proceeds" name="product_sales_proceeds" value="<%=FORMAT_COST_CENTS.format(finance.getProductSalesProceeds())%>"/></div>
 	</div>
 	<div class="row">
 	  <div class="small-24 large-12 columns">Approved Money-Earnings Activities:</div>
- 	  <div class="small-24 large-12 columns"><input type="text" id="amea" name="amea" value="<%=finance.getApprovedMoneyEarningActivity()%>"/></div>
+ 	  <div class="small-24 large-12 columns"><input type="text" id="amea" name="amea" value="<%=FORMAT_COST_CENTS.format(finance.getApprovedMoneyEarningActivity())%>"/></div>
 	</div>
 	<div class="row">
 	  <div class="small-24 large-12 columns">Interest on Bank Accounts:</div>
- 	  <div class="small-24 large-12 columns"><input type="text" id="bank_interest" name="bank_interest" value="<%=finance.getInterestOnBankAccount()%>"/></div>
+ 	  <div class="small-24 large-12 columns"><input type="text" id="bank_interest" name="bank_interest" value="<%=FORMAT_COST_CENTS.format(finance.getInterestOnBankAccount())%>"/></div>
 	</div>
   </div>
   
