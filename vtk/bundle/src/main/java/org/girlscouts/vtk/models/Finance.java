@@ -17,7 +17,7 @@ public class Finance  implements Serializable{
 	private double startingBalance, troopDues, sponsorshipDonations,
 		productSalesProceeds,approvedMoneyEarningActivity, interestOnBankAccount,
 		
-		gsusaRegistration, serviceActivitiesEvents, CouncilProgramsCamp,
+		gsusaRegistration, serviceActivitiesEvents, councilProgramsCamp,
 		troopActivities, troopSupplies, gsStorePurchases;
 	
 	@Field(id=true) 
@@ -89,15 +89,17 @@ public class Finance  implements Serializable{
 		this.serviceActivitiesEvents = serviceActivitiesEvents;
 	}
 
+	
+
+	
+
 	public double getCouncilProgramsCamp() {
-		return CouncilProgramsCamp;
+		return councilProgramsCamp;
 	}
 
 	public void setCouncilProgramsCamp(double councilProgramsCamp) {
-		CouncilProgramsCamp = councilProgramsCamp;
+		this.councilProgramsCamp = councilProgramsCamp;
 	}
-
-	
 
 	public double getTroopSupplies() {
 		return troopSupplies;
