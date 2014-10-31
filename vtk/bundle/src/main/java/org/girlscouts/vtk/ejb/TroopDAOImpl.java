@@ -463,7 +463,7 @@ public class TroopDAOImpl implements TroopDAO {
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(Finance.class);
 
-			finance = (Finance) ocm.getObject("/vtk/global-settings");
+			finance = (Finance) ocm.getObject("/vtk/"+ troop.getSfCouncil()+"/"+troop.getId()+"/");
 
 
 		} catch (Exception e) {
