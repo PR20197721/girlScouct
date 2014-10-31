@@ -4,10 +4,12 @@
 <cq:defineObjects/>
 <%@include file="../include/session.jsp"%>
 <%
-int qtr=1;
+int qtr= request.getParameter("qtr");
 Finance finance = financeUtil.getFinances(user, troop, qtr);
 if( finance ==null )
 	finance= new Finance();
+
+
 
 double acc_out = (finance.getGsusaRegistration() + finance.getServiceActivitiesEvents() + finance.getProductSalesProceeds() + finance.getTroopActivities() + finance.getTroopSupplies() + finance.getGsStorePurchases());
 double acc_rcv = (finance.getStartingBalance() + finance.getTroopDues() + finance.getSponsorshipDonations() + finance.getProductSalesProceeds()+ finance.getApprovedMoneyEarningActivity()+ finance.getInterestOnBankAccount() );
@@ -25,7 +27,8 @@ double balance = acc_rcv - acc_out;
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/finance.js"></script>
 
 
-
+<a href="/content/girlscouts-vtk/en/vtk.include.finances.html?qtr=1">Q1</a> || 
+<br/>
 
 <h3>Q<%=qtr %> 2014</h3>
 <form class="cmxform" id="financeForm">
