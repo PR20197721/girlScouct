@@ -125,6 +125,9 @@ try{
 		case isAltered:
 			out.println( yearPlanUtil.isYearPlanAltered(user, troop) );
 	  		return;
+		case GetFinances:
+			
+	  		return;
 		default :	    		
 	    		break;
 	}

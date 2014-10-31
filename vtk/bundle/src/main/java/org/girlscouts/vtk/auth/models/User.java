@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class User  implements Serializable{
 
     private String name, email, phone, mobilePhone, assistantPhone, homePhone,
-    	contactId, securedId;
+    	contactId;
     
     //tmp
     //private String ageLevel="brownie";
@@ -61,12 +61,7 @@ public class User  implements Serializable{
 	public void setHomePhone(String homePhone) {
 		this.homePhone = homePhone;
 	}
-	public String getSecuredId() {
-		return securedId;
-	}
-	public void setSecuredId(String securedId) {
-		this.securedId = securedId;
-	}
+	
     
     
     
