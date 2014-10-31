@@ -11,6 +11,7 @@ import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
+import org.apache.jackrabbit.commons.JcrUtils;
 import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
 import org.apache.jackrabbit.ocm.manager.impl.ObjectContentManagerImpl;
 import org.apache.jackrabbit.ocm.mapper.Mapper;
@@ -497,6 +498,7 @@ public class TroopDAOImpl implements TroopDAO {
 			if (mySession.itemExists(finance.getPath())) {
 				ocm.update(finance);
 			} else {
+				JcrUtils.getOrCreateByPath(finance.getPath().substring(0, finance.getPath().lastIndexOf("/")), "nt:unstructured",mySession);
 				ocm.insert(finance);
 			}
 			ocm.save();
