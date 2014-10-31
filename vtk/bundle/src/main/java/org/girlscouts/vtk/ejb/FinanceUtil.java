@@ -29,12 +29,12 @@ public class FinanceUtil {
 		finance.setGsusaRegistration( Double.parseDouble( params.get("gsusa_registrations")[0] ) );
 		finance.setInterestOnBankAccount( Double.parseDouble( params.get("bank_interest")[0] ) );
 		finance.setProductSalesProceeds( Double.parseDouble( params.get("product_sales_proceeds")[0] ) );
-		finance.setServiceActivitiesEvents( Double.parseDouble( params.get("")[0] ) );
-		finance.setSponsorshipDonations( Double.parseDouble( params.get("")[0] ) );
-		finance.setStartingBalance( Double.parseDouble( params.get("")[0] ) );
-		finance.setTroopActivities( Double.parseDouble( params.get("")[0] ) );
-		finance.setTroopDues( Double.parseDouble( params.get("")[0] ) );
-		finance.setTroopSupplies( Double.parseDouble( params.get("")[0] ) );
+		finance.setServiceActivitiesEvents( Double.parseDouble( params.get("service_ae")[0] ) );
+		finance.setSponsorshipDonations( Double.parseDouble( params.get("sponsorship_donations")[0] ) );
+		finance.setStartingBalance( Double.parseDouble( params.get("starting_balance")[0] ) );
+		finance.setTroopActivities( Double.parseDouble( params.get("troop_activities")[0] ) );
+		finance.setTroopDues( Double.parseDouble( params.get("troop_dues")[0] ) );
+		finance.setTroopSupplies( Double.parseDouble( params.get("troop_supplies")[0] ) );
 		
 		
 	}
