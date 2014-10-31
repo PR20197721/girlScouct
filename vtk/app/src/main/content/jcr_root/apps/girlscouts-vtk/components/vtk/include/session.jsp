@@ -41,6 +41,7 @@
 	
 	%>
 <%
+// Alex
 //System.err.println("****SESSION****");
 	boolean isMultiUserFullBlock = true;
 	final CalendarUtil calendarUtil = sling.getService(CalendarUtil.class);
