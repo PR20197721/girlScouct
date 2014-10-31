@@ -441,7 +441,8 @@ public class TroopDAOImpl implements TroopDAO {
 			e.printStackTrace();
 		}finally{
 			try{
-				sessionFactory.closeSession(mySession);
+				if( sessionFactory!=null)
+					sessionFactory.closeSession(mySession);
 			}catch(Exception es){es.printStackTrace();}
 		}
 
@@ -477,6 +478,32 @@ public class TroopDAOImpl implements TroopDAO {
 		return finance;
 	}
 
+	public void setFinances(User user, Troop troop, Finance finance){
+		Session mySession =null;
+		try {
+			mySession = sessionFactory.getSession();
+			List<Class> classes = new ArrayList<Class>();
+			classes.add(Finance.class);
+
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
+					mapper);
+
+			if (mySession.itemExists(finance.getPath())) {
+				ocm.update(troopGlobConfig);
+			} else {
+				ocm.insert(troopGlobConfig);
+			}
+			ocm.save();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			try{
+				sessionFactory.closeSession(mySession);
+			}catch(Exception es){es.printStackTrace();}
+		}
+	}
 	
 }// ednclass
 
