@@ -3,7 +3,7 @@ package org.girlscouts.vtk.models;
 public class Contact {
 
 	
-	private String id, lastName, accountId, email, phone;
+	private String id, email, phone, firstName, lastName, address, address1, city, state, zip, suite;
 
 		
 	
