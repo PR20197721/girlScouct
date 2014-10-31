@@ -25,10 +25,10 @@ public class FinanceUtil {
 		finance.setApprovedMoneyEarningActivity( Double.parseDouble(params.get("amea")[0]) );
 		finance.setCouncilProgramsCamp( Double.parseDouble( params.get("council_pc")[0] ) );
 		finance.setFinancialQuarter(Integer.parseInt( params.get("qtr")[0] ));
-		finance.setGsStorePurchases( Double.parseDouble( params.get("")[0] ) );
-		finance.setGsusaRegistration( Double.parseDouble( params.get("")[0] ) );
-		finance.setInterestOnBankAccount( Double.parseDouble( params.get("")[0] ) );
-		finance.setProductSalesProceeds( Double.parseDouble( params.get("")[0] ) );
+		finance.setGsStorePurchases( Double.parseDouble( params.get("gs_store_purchase")[0] ) );
+		finance.setGsusaRegistration( Double.parseDouble( params.get("gsusa_registrations")[0] ) );
+		finance.setInterestOnBankAccount( Double.parseDouble( params.get("bank_interest")[0] ) );
+		finance.setProductSalesProceeds( Double.parseDouble( params.get("product_sales_proceeds")[0] ) );
 		finance.setServiceActivitiesEvents( Double.parseDouble( params.get("")[0] ) );
 		finance.setSponsorshipDonations( Double.parseDouble( params.get("")[0] ) );
 		finance.setStartingBalance( Double.parseDouble( params.get("")[0] ) );
