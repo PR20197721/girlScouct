@@ -498,6 +498,7 @@ public class TroopDAOImpl implements TroopDAO {
 			if (mySession.itemExists(finance.getPath())) {
 				ocm.update(finance);
 			} else {
+				System.err.println("** "+ finance.getPath().substring(0, finance.getPath().lastIndexOf("/")));
 				JcrUtils.getOrCreateByPath(finance.getPath().substring(0, finance.getPath().lastIndexOf("/")), "nt:unstructured",mySession);
 				ocm.insert(finance);
 			}
