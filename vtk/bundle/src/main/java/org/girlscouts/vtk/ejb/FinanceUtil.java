@@ -36,6 +36,8 @@ public class FinanceUtil {
 		finance.setTroopDues( Double.parseDouble( params.get("troop_dues")[0] ) );
 		finance.setTroopSupplies( Double.parseDouble( params.get("troop_supplies")[0] ) );
 		
+		troopDAO.setFinances(user, troop, finance);
+		
 		//TODO NOTIFY Council here
 		
 	}
