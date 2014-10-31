@@ -157,24 +157,24 @@ $.validator.addMethod('currency', function(value, element, regexp) {
 		
 		var starting_balance = document.getElementById("starting_balance").value;
 		var troop_dues = document.getElementById("troop_dues").value;
-	alert(1);
+	
 		var sponsorship_donations = document.getElementById("sponsorship_donations").value;
 		var product_sales_proceeds = document.getElementById("product_sales_proceeds").value;
-	alert(2);	
+		
 		var amea = document.getElementById("amea").value;
 		var bank_interest = document.getElementById("bank_interest").value;
 		var gsusa_registrations = document.getElementById("gsusa_registrations").value;
-	alert(3);	
+		
 		var service_ae = document.getElementById("service_ae").value;
 		var council_pc = document.getElementById("council_pc").value;
 		var troop_activities = document.getElementById("troop_activities").value;
-	alert(4);	
+		
 		var troop_supplies = document.getElementById("troop_supplies").value;
-	alert(5);	
+
 		var gs_store_purchase = document.getElementById("gs_store_purchase").value;
-	alert(6);	
+		
 		var qtr = document.getElementById("qtr").value;
-	alert(7);	
+		
 		  $.ajax({
 				url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand='+Date.now(),
 				type: 'POST',
