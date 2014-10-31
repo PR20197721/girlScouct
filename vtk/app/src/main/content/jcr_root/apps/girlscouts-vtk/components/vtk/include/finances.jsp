@@ -4,7 +4,8 @@
 <cq:defineObjects/>
 <%@include file="../include/session.jsp"%>
 <%
-Finance finance = financeUtil.getFinances(user, troop, 1);
+int qtr=1;
+Finance finance = financeUtil.getFinances(user, troop, qtr);
 if( finance ==null )
 	finance= new Finance();
 
@@ -21,14 +22,14 @@ double balance = acc_rcv - acc_out;
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.maskMoney.js"></script>
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.datepicker.validation.js"></script>
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.validate.js"></script>
-
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/finance.js"></script>
 
 
 
 
-<h3>QXXX 2014</h3>
+<h3>Q<%=qtr %> 2014</h3>
 <form class="cmxform" id="financeForm">
+<input type="hidden" name="qtr" value="<%=qtr%>"/>
 <div class="errorMsg error"></div>
 <div class="row">
 
