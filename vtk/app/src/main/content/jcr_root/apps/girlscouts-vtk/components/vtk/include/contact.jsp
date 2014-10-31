@@ -12,8 +12,11 @@
   <div class="small-24 large-12 columns">
   	<div class="row">
 	  <div class="small-24 large-2 columns">-></div>
- 	  <div class="small-24 large-12 columns"><input type="text" name="starting_balance" id="starting_balance" value="<%=FORMAT_COST_CENTS.format(finance.getStartingBalance())%>"/>
- 	  </div>
+ 	  <div class="small-24 large-5 columns"> Name </div>
+ 	  <div class="small-24 large-5 columns"> Roll </div>
+ 	  <div class="small-24 large-2 columns">I</div>
+ 	  <div class="small-24 large-5 columns"> Email </div>
+ 	  <div class="small-24 large-5 columns"> TEL </div>
 	</div>
   </div>
  </div>
