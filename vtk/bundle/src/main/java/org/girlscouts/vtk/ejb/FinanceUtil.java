@@ -22,7 +22,6 @@ public class FinanceUtil {
 	
 	public void updateFinances( User user, Troop troop, java.util.Map<java.lang.String,java.lang.String[]> params){
 		Finance finance =new Finance();
-		finance.setPath();
 		finance.setApprovedMoneyEarningActivity( Double.parseDouble(params.get("amea")[0]) );
 		finance.setCouncilProgramsCamp( Double.parseDouble( params.get("council_pc")[0] ) );
 		finance.setFinancialQuarter(Integer.parseInt( params.get("qtr")[0] ));
@@ -36,6 +35,7 @@ public class FinanceUtil {
 		finance.setTroopActivities( Double.parseDouble( params.get("troop_activities")[0] ) );
 		finance.setTroopDues( Double.parseDouble( params.get("troop_dues")[0] ) );
 		finance.setTroopSupplies( Double.parseDouble( params.get("troop_supplies")[0] ) );
+		finance.setPath("/vtk/"+ troop.getSfCouncil()+"/troops/"+troop.getId()+"/finances/"+finance.getFinancialQuarter());
 		
 		troopDAO.setFinances(user, troop, finance);
 		
