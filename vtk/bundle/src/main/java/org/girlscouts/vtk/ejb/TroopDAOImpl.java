@@ -23,6 +23,7 @@ import org.girlscouts.vtk.dao.TroopDAO;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.Council;
+import org.girlscouts.vtk.models.Finance;
 import org.girlscouts.vtk.models.JcrNode;
 import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.MeetingE;
@@ -447,6 +448,34 @@ public class TroopDAOImpl implements TroopDAO {
 	}
 
 
+	public Finance getFinanaces(User user, Troop troop, int qtr){
+		Session mySession =null;
+		Finance finance =null;
+		try {
+			mySession = sessionFactory.getSession();
+			List<Class> classes = new ArrayList<Class>();
+			classes.add(UserGlobConfig.class);
+
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
+					mapper);
+
+			if (mySession.itemExists(troopGlobConfig.getPath())) {
+				ocm.update(troopGlobConfig);
+			} else {
+				ocm.insert(troopGlobConfig);
+			}
+			ocm.save();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			try{
+				sessionFactory.closeSession(mySession);
+			}catch(Exception es){es.printStackTrace();}
+		}
+		return finance;
+	}
 
 	
 }// ednclass
