@@ -26,8 +26,8 @@ public enum ActionController {
 	Search,
 	CreateCustomActivity,
 	isAltered,
-	GetFinances
-	
+	GetFinances,
+	UpdateFinances
 	/*
 	 ActionController(int x){state=x;}
 	 private int state;
