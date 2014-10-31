@@ -17,7 +17,7 @@ public class FinanceUtil {
 	
 	
 	
-	public void updateFinances( Finance finance){
+	public void updateFinances( User user, Troop troop, Finance finance){
 		
 	}
 }
