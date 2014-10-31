@@ -151,3 +151,10 @@ $.validator.addMethod('currency', function(value, element, regexp) {
 		});
 
 	});
+	
+	
+	function saveFinances(){
+		
+		
+		
+	}
