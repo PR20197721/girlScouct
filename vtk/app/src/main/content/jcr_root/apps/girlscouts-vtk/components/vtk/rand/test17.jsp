@@ -22,15 +22,7 @@ phonecatApp.controller('PhoneListCtrl', function xxx($scope, $http) {
   $scope.orderProp = 'id';
 });
 
-/*
-function xxx($scope,$http){	
-		$http.get('/content/girlscouts-vtk/controllers/vtk.controller.html?test=anglr1')
-		.success(function (data) {	  
-			 $scope.phones = data.yearPlan['meetingEvents'];
-		 window.setTimeout(xxx, 1000);
-		 });
-}
-*/
+
 
 
 </script>
