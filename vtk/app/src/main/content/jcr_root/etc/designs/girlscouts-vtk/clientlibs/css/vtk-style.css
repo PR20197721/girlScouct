@@ -1,0 +1,50 @@
+.vtk-body #main {
+  background: transparent; }
+  .vtk-body #main .row {
+    background: #fff; }
+    .vtk-body #main .row.instructions, .vtk-body #main .row.content {
+      padding-top: 20px;
+      min-height: 487px; }
+  .vtk-body #main #troop {
+    background: #e1e1e1;
+    padding-top: 7px;
+    padding-bottom: 7px; }
+    .vtk-body #main #troop select {
+      background-color: #cccccc;
+      color: #565656;
+      text-transform: uppercase;
+      font-size: 14px;
+      background-size: 15px; }
+  .vtk-body #main #yearPlanSelection .row {
+    border-bottom: solid 1px #dddddd; }
+    .vtk-body #main #yearPlanSelection .row:nth-child(n+1) {
+      padding-top: 20px;
+      padding-bottom: 20px; }
+    .vtk-body #main #yearPlanSelection .row a {
+      line-height: 20px; }
+.vtk-body #mainContent.welcome-page .parbase.section.text h1 {
+  margin: 1.25rem 0; }
+.vtk-body #mainContent.welcome-page .parbase.section.text p {
+  font-size: 0.875rem;
+  margin-top: 1.13rem; }
+
+.tab-wrapper .columns {
+  background: #e1e1e1; }
+
+.tabs dd {
+  width: 16.666667%;
+  border-bottom: solid 6px #009447; }
+  .tabs dd > a {
+    background: #00ae57;
+    color: #fff;
+    padding: 10px 0 4px 0;
+    text-transform: uppercase;
+    text-align: center; }
+    .tabs dd > a:hover {
+      background: #fff;
+      color: #303030;
+      border-color: #fff; }
+  .tabs dd.active, .tabs dd:hover {
+    border-color: #fff; }
+    .tabs dd.active a, .tabs dd:hover a {
+      color: #303030; }
