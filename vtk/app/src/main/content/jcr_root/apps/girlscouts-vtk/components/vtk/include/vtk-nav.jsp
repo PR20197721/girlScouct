@@ -1,18 +1,13 @@
-
 <%
 	if (troops != null && troops.size() > 1) {
-
-		Cookie cookie = new Cookie("vtk_prefTroop", troop.getTroop()
-				.getGradeLevel());
+		Cookie cookie = new Cookie("vtk_prefTroop", troop.getTroop().getGradeLevel());
 		cookie.setMaxAge(-1);
 		response.addCookie(cookie);
 %>
 
-
-
 <div id="troop" class="row hide-for-print">
-	<div class="small-24 medium-24 large-24 troopPrompt columns">
-		Current troop profile: <select id="reloginid" onchange="relogin()">
+	<div class="columns large-7 medium-7 right">
+		<select id="reloginid" onchange="relogin()">
 			<%
 				for (int i = 0; i < troops.size(); i++) {
 			%>
@@ -31,116 +26,54 @@
 <%
 	}
 %>
-<div class="hide-for-small full-width-wrapper underline hide-for-print">
-
+<div class="hide-for-print tab-wrapper">
 	<%
-		if (troop.getYearPlan() != null) {
+		//if (troop.getYearPlan() != null) {
 	%>
 	<div class="row">
-		<div class="small-24 medium-24 large-18 columns">
+		<div class="columns">
 			<%
-				}
+			//	}
 			%>
-			
-			<div class="centered-table">
-				<ul class="tabs group">
-					<%
-					 if ("myTroop".equals(activeTab)) {
-					%>
-					<li class="active"><span class="label">My Troop</span></li>
-					<%
-						} else {
-					%>
-					
-						<% if( hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID) ){ %>
-							<li><a href="/content/girlscouts-vtk/en/vtk.myTroop.html" class="label">My Troop</a></li>
-						<% }else{  %>
-							<li><span class="label">My Troop</span></li>
-						<% } %>	
-					</li>
-					<%
-						}
-					%>
-					<%
-						if ("plan".equals(activeTab)) {
-					%>
-					<li class="active"><span class="label">Year Plan</span></li>
-					<%
-						} else {
-					%>
-					
-					<% if( hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID ) ){ %>
-						<li><a href="/content/girlscouts-vtk/en/vtk.plan.html" class="label">Year Plan</a></li>
-					<% }else{  %>
-							<li><span class="label">Year Plan</span></li>
-					<% } %>	
-					<%
-						}
-					%>
-					<%
-						if ("planView".equals(activeTab)) {
-					%>
-					<li class="active"><span class="label">Meeting Plan</span></li>
-					<%
-						} else {
-					%>
-					<li>
-						<%
-							if (troop.getYearPlan() != null && hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID) ) {
-						%> <a
-						href="/content/girlscouts-vtk/en/vtk.planView.html" class="label">Meeting
-							Plan</a> <%
- 	} else {
- %> <a href="#" onclick="alert('Please select a year plan')" class="label">Meeting Plan</a> <%
- 	}
- %>
-					</li>
-					<%
-						}
-					%>
-					<%
-						if ("resource".equals(activeTab)) {
-					%>
-					<li class="active"><span class="label">Resources</span></li>
-					<%
-						} else {
-					%>
-					<li><a href="/content/girlscouts-vtk/en/vtk.resource.html"
-						class="label">Resources</a></li>
-					<%
-						}
-					%>
-					<%
-						if ("finances".equals(activeTab)) {
-					%>
-					<li class="active"><span class="label">Finances</span></li>
-					<%
-						} else {
-					%>
-							<li>
-								<% if( hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){ %>
-									<a href="/content/girlscouts-vtk/en/vtk.finances.html" class="label">Finances</a>
-								<%}else{ %>
-									<span class="label">Finances</span>
-								<%} %>
-							</li>
-					<%
-						}
-					%>
-				</ul>
-			</div>
-			
-			<%
-				if (troop.getYearPlan() != null) {
-			%>
-		</div>
-		<div class="show-for-large large-6 columns">&nbsp;</div>
-	</div>
-	<%
-		}
-	%>
-</div>
 
+			<dl class="tabs" data-tab>
+			<% if(hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
+					<dd <%= "myTroop".equals(activeTab) ? "class='active'" : "" %>>
+						<a href="/content/girlscouts-vtk/en/vtk.myTroop.html">My Troop</a>
+					</dd>
+			<% } %>
+			<% if(hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID)) { %>
+					<dd <%= "plan".equals(activeTab) ? "class='active'" : "" %>>
+						<a href="/content/girlscouts-vtk/en/vtk.plan.html">Year Plan</a>
+					</dd>
+			<% } %>
+			<% if(hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) { %>
+				<dd <%= "planView".equals(activeTab) ? "class='active'" : "" %>>
+					 <a <%= troop.getYearPlan() != null ? "href='/content/girlscouts-vtk/en/vtk.planView.html'" :  "href='#' onClick='alert(\"Please select a year plan\")'"  %>>Meeting Plan</a>
+				</dd>
+			<%	} %>
+				<dd <%= "resource".equals(activeTab) ? "class='active'" : "" %>>
+					<a href="/content/girlscouts-vtk/en/vtk.resource.html">Resources</a>
+				</dd>
+			
+			<% if( hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){ %>
+					<dd <%= "finances".equals(activeTab) ? "class='active'" : "" %>>
+						<a href="/content/girlscouts-vtk/en/vtk.finances.html">Finances</a>
+					</dd>
+				<% } 	%>
+			</dl>
+			<%
+			//	if (troop.getYearPlan() != null) {
+			%>
+		</div><!--/columns-->
+	</div><!--/row-->
+	<%
+		//}
+	%>
+</div><!--/hide-for-print-->
+
+<!-- 
+New redesign this is not needed.
 <div class="show-for-small hide-for-print">
 	<a href="#" id="vtk-main-menu-button"
 		onclick="$('#vtk-main-menu').toggle()" class="large button expand">Menu</a>
@@ -157,7 +90,7 @@
 				<% if( hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID) ){ %>
 					<a href="/content/girlscouts-vtk/en/vtk.myTroop.html">My Troop</a>
 				<%}else{ %>
-					<span class="label">My Troop</span>
+					<span>My Troop</span>
 				<%} %>
 			</li>
 		<%
@@ -183,7 +116,7 @@
 			<%if(hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID )){ %>
 				<li><a href="/content/girlscouts-vtk/en/vtk.plan.html">Year Plan</a></li>
 			<%}else{ %>
-				<li><span class="label">Year Plan</span></li>
+				<li><span>Year Plan</span></li>
 			<%} %>
 		</li>
 		<%
@@ -231,10 +164,12 @@
 			<% if( hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){ %>
 				<a href="/content/girlscouts-vtk/en/vtk.finances.html">Finances</a></li>
 			<%}else{ %>
-				<span class="label">Finances</span>
+				<span>Finances</span>
 			<%} %>	
 		<%
 			}
 		%>
 	</ul>
-</div>
+</div> -->
+
+

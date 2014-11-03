@@ -414,23 +414,9 @@ $('#main .side-nav li.active.current').parent().parent().find(">div>a").css({"fo
 <div id="mainContent">
 <div class="par parsys"><div class="text parbase section">
 <h1>Welcome.</h1>
-
-
-
 </div>
-<div class="text parbase section">
-<p><br />
-<br />
-</p>
 
-
-
-</div>
 <div class="grid-system nopadding section">
-
-
-
-
 
 <ul class="large-block-grid-2 medium-block-grid-2 small-block-grid-1 "><li><div class="text parbase nopadding section">
 <table border="0" cellpadding="0" cellspacing="0"
