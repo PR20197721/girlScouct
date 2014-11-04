@@ -13,13 +13,12 @@ public class User implements Serializable{
 	public java.util.Set<Integer> getPermissions() {
 		return permissions;
 	}
-
 	public void setPermissions(java.util.Set<Integer> permissions) {
 		this.permissions = permissions;
 	}
 
 	public ApiConfig getApiConfig() {
-		return apiConfig;
+	return apiConfig;
 	}
 
 	public void setApiConfig(ApiConfig apiConfig) {
