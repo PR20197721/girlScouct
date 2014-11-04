@@ -15,6 +15,7 @@ phonecatApp.controller('PhoneListCtrl', function xxx($scope, $http) {
   		$http.get('/content/girlscouts-vtk/controllers/vtk.controller.html?test=anglr1')
   		.success(function (data) {	  
    			 $scope.phones = data.yearPlan['meetingEvents'];
+   			 
     		 window.setTimeout( xxx($scope,$http), 10000);
    		 });
 
@@ -53,7 +54,9 @@ phonecatApp.controller('PhoneListCtrl', function xxx($scope, $http) {
             <span>ID:{{phone.id}}</span>
             <p>Path{{phone.path}}</p>
             <p>Type: {{phone.type}}</p>
-            
+            <p> 
+            	UID{{ phone.uid}}
+            </p>
             
             
             
