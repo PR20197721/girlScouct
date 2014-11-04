@@ -125,6 +125,12 @@ try{
 		case isAltered:
 			out.println( yearPlanUtil.isYearPlanAltered(user, troop) );
 	  		return;
+		case GetFinances:
+			financeUtil.getFinances(user, troop, Integer.parseInt(request.getParameter("finance_qtr")));
+			return;
+		case UpdateFinances:
+			financeUtil.updateFinances(user, troop, request.getParameterMap());
+			return;
 		default :	    		
 	    		break;
 	}
@@ -382,6 +388,17 @@ if(request.getParameter("admin_login")!=null ){
 	
 
 	ObjectMapper mapper = new ObjectMapper();
+	
+	org.girlscouts.vtk.salesforce.Troop prefTroop = apiConfig.getTroops().get(0);
+	for (int ii = 0; ii < apiConfig.getTroops().size(); ii++){
+	 	if( apiConfig.getTroops().get(ii).getTroopId().equals(troop.getSfTroopId())){ 
+	 			prefTroop = apiConfig.getTroops().get(ii);
+	 			break;
+  		}
+	  }
+	troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
+	
+	
 	out.println(mapper.writeValueAsString(troop));
 	
 	

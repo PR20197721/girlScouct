@@ -478,3 +478,4 @@ function showAlterYearPlanStartDate(){
 	$("#calMng").load("/content/girlscouts-vtk/controllers/vtk.include.calendarAlterStartDate.html");
 
 	}
+

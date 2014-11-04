@@ -204,7 +204,7 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
                 
         org.girlscouts.vtk.models.User vtkUser = new org.girlscouts.vtk.models.User();
         vtkUser.setApiConfig(config);
-       
+     
         //CHN to LOAD PERMISSION HERE 
         vtkUser.setPermissions( config.getTroops().get(0).getPermissionTokens() ); 
         session.setAttribute(org.girlscouts.vtk.models.User.class.getName(), vtkUser);

@@ -41,6 +41,7 @@
 	
 	%>
 <%
+// Alex
 //System.err.println("****SESSION****");
 	boolean isMultiUserFullBlock = true;
 	final CalendarUtil calendarUtil = sling.getService(CalendarUtil.class);
@@ -50,6 +51,7 @@
 	final YearPlanUtil yearPlanUtil = sling.getService(YearPlanUtil.class);
 	final TroopUtil troopUtil = sling.getService(TroopUtil.class);
 	final UserUtil userUtil = sling.getService(UserUtil.class);
+	final FinanceUtil financeUtil = sling.getService(FinanceUtil.class);
 	User user=null;
 	
 	HttpSession session = request.getSession();
@@ -89,6 +91,7 @@
 	user = ((org.girlscouts.vtk.models.User) session
 			.getAttribute(org.girlscouts.vtk.models.User.class
 					.getName()));
+	
 	user.setSid(session.getId());
 	
 	String errMsg = null;
@@ -244,9 +247,6 @@ One of your co-leaders is currently making changes in the Volunteer Toolkit for 
 <%
 	}
 	//System.err.println("TROOP RETR TIME1 : "+ troop.getRetrieveTime() );	
+//SFUser: <%= user.getApiConfig().getUserId() >
+//<br/><=VtkUtil.doHash( user.getApiConfig().getUserId() ) >
 %>
-SFUser: <%= user.getApiConfig().getUserId() %>
-<br/><%=VtkUtil.doHash( user.getApiConfig().getUserId() ) %>
-
-
-

@@ -11,6 +11,7 @@ import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
+import org.apache.jackrabbit.commons.JcrUtils;
 import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
 import org.apache.jackrabbit.ocm.manager.impl.ObjectContentManagerImpl;
 import org.apache.jackrabbit.ocm.mapper.Mapper;
@@ -23,6 +24,7 @@ import org.girlscouts.vtk.dao.TroopDAO;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.Council;
+import org.girlscouts.vtk.models.Finance;
 import org.girlscouts.vtk.models.JcrNode;
 import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.MeetingE;
@@ -440,14 +442,76 @@ public class TroopDAOImpl implements TroopDAO {
 			e.printStackTrace();
 		}finally{
 			try{
-				sessionFactory.closeSession(mySession);
+				if( sessionFactory!=null)
+					sessionFactory.closeSession(mySession);
 			}catch(Exception es){es.printStackTrace();}
 		}
 
 	}
 
 
+	public Finance getFinanaces(User user, Troop troop, int qtr){
+		
+		//TODO PERMISSIONS HERE
+		
+		Session mySession =null;
+		Finance finance =null;
+		try {
+			mySession = sessionFactory.getSession();
+			List<Class> classes = new ArrayList<Class>();
+			classes.add(Finance.class);
 
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
+					mapper);
+
+			QueryManager queryManager = ocm.getQueryManager();
+			Filter filter = queryManager.createFilter(Finance.class);
+
+			finance = (Finance) ocm.getObject("/vtk/"+ troop.getSfCouncil()+"/troops/"+troop.getId()+"/finances/"+qtr);
+
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			try{
+				if( sessionFactory!=null)
+					sessionFactory.closeSession(mySession);
+			}catch(Exception es){es.printStackTrace();}
+		}
+		return finance;
+	}
+
+	public void setFinances(User user, Troop troop, Finance finance){
+		
+		//TODO PERMISSIONS HERE 
+		Session mySession =null;
+		try {
+			mySession = sessionFactory.getSession();
+			List<Class> classes = new ArrayList<Class>();
+			classes.add(Finance.class);
+
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
+					mapper);
+
+			if (mySession.itemExists(finance.getPath())) {
+				ocm.update(finance);
+			} else {
+				System.err.println("** "+ finance.getPath().substring(0, finance.getPath().lastIndexOf("/")));
+				JcrUtils.getOrCreateByPath(finance.getPath().substring(0, finance.getPath().lastIndexOf("/")), "nt:unstructured",mySession);
+				ocm.insert(finance);
+			}
+			ocm.save();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			try{
+				sessionFactory.closeSession(mySession);
+			}catch(Exception es){es.printStackTrace();}
+		}
+	}
 	
 }// ednclass
 
