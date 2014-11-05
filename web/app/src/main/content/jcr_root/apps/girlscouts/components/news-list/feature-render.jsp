@@ -10,15 +10,15 @@ String newsDesc = (String)request.getAttribute("newsDesc");
 String external_url=(String)request.getAttribute("external_url");
 
 %>
-<div class="row collapse news-rows">
-	<div class="column medium-3 large-3 small-22 lists-image">
+<div class="row news-rows">
 		<% if(!imgPath.isEmpty()){ %>
+    <div class="column medium-3 large-3 small-22 lists-image">
         <%= displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80") %>
-      <%} else if(imgPath.isEmpty()) { %>
-        <img src="/content/dam/all_icons/icons_64/news_icon.jpg" alt="news icon"/>
-      <% } %>
-	</div>
- 	<div class="column small-22 medium-14 large-14 large-pull-6 medium-pull-6 small-pull-2">
+    </div>
+      <%} //else if(imgPath.isEmpty()) { %>
+        <!--img src="/content/dam/all_icons/icons_64/news_icon.jpg" alt="news icon"/-->
+      <% //} %>
+ 	<div class="column small-24 medium-21 large-21 list-text">
  	   <p>
  	   	 <%if(!external_url.isEmpty()){ %>
  	   	 	 <a href="<%= external_url %>" target="_blank"><%= newsTitle %></a>

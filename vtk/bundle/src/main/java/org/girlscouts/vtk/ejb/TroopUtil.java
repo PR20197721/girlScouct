@@ -168,6 +168,7 @@ troop.setPermissionTokens(s);
 		if (council == null)
 			return null;
 
+		/*
 		java.util.List<Troop> troops = council.getTroops();
 		if (troops == null)
 			troops = new java.util.ArrayList<Troop>();
@@ -176,6 +177,9 @@ troop.setPermissionTokens(s);
 		council.setTroops(troops);
 
 		councilDAO.updateCouncil(user, council);
+		*/
+		troop = new Troop(troopId);
+		troop.setPath("/vtk/" + councilId + "/troops/" + troopId);
 		return troop;
 		
 	}
