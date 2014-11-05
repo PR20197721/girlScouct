@@ -17,8 +17,8 @@ public class Finance  implements Serializable{
 	private double startingBalance, troopDues, sponsorshipDonations,
 		productSalesProceeds,approvedMoneyEarningActivity, interestOnBankAccount,
 		
-		gsusaRegistration, serviceActivitiesEvents, CouncilProgramsCamp,
-		troopActivites, troopSupplies, gsStorePurchases;
+		gsusaRegistration, serviceActivitiesEvents, councilProgramsCamp,
+		troopActivities, troopSupplies, gsStorePurchases;
 	
 	@Field(id=true) 
 	private int financialQuarter;
@@ -89,20 +89,16 @@ public class Finance  implements Serializable{
 		this.serviceActivitiesEvents = serviceActivitiesEvents;
 	}
 
+	
+
+	
+
 	public double getCouncilProgramsCamp() {
-		return CouncilProgramsCamp;
+		return councilProgramsCamp;
 	}
 
 	public void setCouncilProgramsCamp(double councilProgramsCamp) {
-		CouncilProgramsCamp = councilProgramsCamp;
-	}
-
-	public double getTroopActivites() {
-		return troopActivites;
-	}
-
-	public void setTroopActivites(double troopActivites) {
-		this.troopActivites = troopActivites;
+		this.councilProgramsCamp = councilProgramsCamp;
 	}
 
 	public double getTroopSupplies() {
@@ -135,6 +131,14 @@ public class Finance  implements Serializable{
 
 	public void setFinancialQuarter(int financialQuarter) {
 		this.financialQuarter = financialQuarter;
+	}
+
+	public double getTroopActivities() {
+		return troopActivities;
+	}
+
+	public void setTroopActivities(double troopActivities) {
+		this.troopActivities = troopActivities;
 	}
 
 	

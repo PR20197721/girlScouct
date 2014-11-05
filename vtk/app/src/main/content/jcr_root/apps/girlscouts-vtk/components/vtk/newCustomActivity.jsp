@@ -130,7 +130,6 @@ required: "Please enter valid start date",
 
 
 $('#newCustActivity').click(function() {
-
 		if ($('#signupForm').valid()) {
 		if(!timeDiff()){ return false;}
 		createNewCustActivity();

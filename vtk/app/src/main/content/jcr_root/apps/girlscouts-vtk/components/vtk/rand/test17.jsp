@@ -1,22 +1,29 @@
 <html>
   
    <head>
-    <script src="/etc/designs/girlscouts-vtk/clientlibs/js/angular.min.js"></script>
-    <script src="/etc/designs/girlscouts-vtk/clientlibs/js/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular.min.js">      </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.5/angular-route.min.js"></script>
   </head>
   
 <script>
 
 var phonecatApp = angular.module('phonecatApp', []);
 
-phonecatApp.controller('PhoneListCtrl', function ($scope, $http) {
-  $http.get('/content/girlscouts-vtk/controllers/vtk.controller.html?test=anglr1').success(function(data) {
-    $scope.phones = data.yearPlan.meetingEvents;
-    
-  });
+phonecatApp.controller('PhoneListCtrl', function xxx($scope, $http) {
+	
+	
+  		$http.get('/content/girlscouts-vtk/controllers/vtk.controller.html?test=anglr1')
+  		.success(function (data) {	  
+   			 $scope.phones = data.yearPlan['meetingEvents'];
+    		 window.setTimeout( xxx($scope,$http), 10000);
+   		 });
+
 
   $scope.orderProp = 'id';
 });
+
+
+
 
 </script>
 

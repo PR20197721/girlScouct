@@ -11,6 +11,7 @@ import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
+import org.apache.jackrabbit.commons.JcrUtils;
 import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
 import org.apache.jackrabbit.ocm.manager.impl.ObjectContentManagerImpl;
 import org.apache.jackrabbit.ocm.mapper.Mapper;
@@ -441,7 +442,8 @@ public class TroopDAOImpl implements TroopDAO {
 			e.printStackTrace();
 		}finally{
 			try{
-				sessionFactory.closeSession(mySession);
+				if( sessionFactory!=null)
+					sessionFactory.closeSession(mySession);
 			}catch(Exception es){es.printStackTrace();}
 		}
 
@@ -449,6 +451,9 @@ public class TroopDAOImpl implements TroopDAO {
 
 
 	public Finance getFinanaces(User user, Troop troop, int qtr){
+		
+		//TODO PERMISSIONS HERE
+		
 		Session mySession =null;
 		Finance finance =null;
 		try {
@@ -477,6 +482,36 @@ public class TroopDAOImpl implements TroopDAO {
 		return finance;
 	}
 
+	public void setFinances(User user, Troop troop, Finance finance){
+		
+		//TODO PERMISSIONS HERE 
+		Session mySession =null;
+		try {
+			mySession = sessionFactory.getSession();
+			List<Class> classes = new ArrayList<Class>();
+			classes.add(Finance.class);
+
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
+					mapper);
+
+			if (mySession.itemExists(finance.getPath())) {
+				ocm.update(finance);
+			} else {
+				System.err.println("** "+ finance.getPath().substring(0, finance.getPath().lastIndexOf("/")));
+				JcrUtils.getOrCreateByPath(finance.getPath().substring(0, finance.getPath().lastIndexOf("/")), "nt:unstructured",mySession);
+				ocm.insert(finance);
+			}
+			ocm.save();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			try{
+				sessionFactory.closeSession(mySession);
+			}catch(Exception es){es.printStackTrace();}
+		}
+	}
 	
 }// ednclass
 
