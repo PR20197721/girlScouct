@@ -53,5 +53,6 @@
   margin: 0;
 }
 .home-section .news-rows p {
-  margin: 10px 0;
+  line-height: 1.2em;
+  margin-bottom: 0.2rem;
 }
