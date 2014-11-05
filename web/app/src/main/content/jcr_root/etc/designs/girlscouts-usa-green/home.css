@@ -43,16 +43,22 @@
   padding: 0;
 }
 /*news list*/
-.home-section .row.collapse.news-rows {
+.home-section .row.news-rows {
   margin-bottom:2.173913%;
 }
-.home-section .row.collapse.news-rows img {
+.home-section .row.news-rows img {
   margin-bottom:2.173913%;
+  padding-right: 0.38em;
+  padding-left: 0;
 }
+
 .home-section .news-rows p:first-child {
   margin: 0;
 }
 .home-section .news-rows p {
   line-height: 1.2em;
   margin-bottom: 0.2rem;
+}
+.home-section .news-rows .list-text {
+  padding-left: 0;
 }
