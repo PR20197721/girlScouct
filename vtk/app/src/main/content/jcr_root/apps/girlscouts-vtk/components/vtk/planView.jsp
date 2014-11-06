@@ -60,7 +60,7 @@
 				nextDate = ((java.util.Date)dates.get(currInd+1)).getTime();
 			if( currInd>0 )
 				prevDate = ((java.util.Date)dates.get(currInd-1)).getTime();
-	System.err.println("TEST: "+searchDate.getTime() +" : "+ searchDate );		
+	//System.err.println("TEST: "+searchDate.getTime() +" : "+ searchDate );		
 			session.putValue("VTK_planView_memoPos", searchDate.getTime());
 		        YearPlanComponent _comp= sched.get(searchDate);
 

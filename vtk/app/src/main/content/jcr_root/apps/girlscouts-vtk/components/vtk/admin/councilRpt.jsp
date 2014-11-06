@@ -76,7 +76,7 @@ cTrans.put("313", "Girl Scouts of Gateway Council, Inc.");
 			
 		    try{sfTroopAge= r.getValue("sfTroopAge").getString();}catch(Exception e){}
 		    
-		   System.err.println("** "+ r.getNode().getPath()); 
+		   //System.err.println("** "+ r.getNode().getPath()); 
 		    if( sfTroopAge==null){
 		    	Node node = r.getNode().getNode("yearPlan/meetingEvents/").getNodes().nextNode();	
 		    	
@@ -304,7 +304,7 @@ cTrans.put("313", "Girl Scouts of Gateway Council, Inc.");
 				else if( planId.startsWith("j"))
 					users.get(i).setSfTroopAge("3-Junior");
 			}
-			System.err.println( users.get(i).getSfTroopAge() );
+			//System.err.println( users.get(i).getSfTroopAge() );
 		  }catch(Exception e){e.printStackTrace();}
 		}
 		

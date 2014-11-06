@@ -11,7 +11,7 @@
     	
     	
     	meetings = ((java.util.List<Meeting>) session.getValue("VTK_meetings")).listIterator();
-    	System.err.println("REFRESHED meetings");
+    	//System.err.println("REFRESHED meetings");
     }else{ //pull
     	
  

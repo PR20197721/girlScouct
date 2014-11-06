@@ -407,7 +407,7 @@ if(request.getParameter("admin_login")!=null ){
 	
 }else if( request.getParameter("editMtLogo") !=null ){
 	
-	System.err.println("EDITING MEETING LOGO...");
+	//System.err.println("EDITING MEETING LOGO...");
 	
 }else if(request.getParameter("updateCouncilMilestones") !=null){
 	
@@ -501,10 +501,10 @@ if(request.getParameter("admin_login")!=null ){
 	
 }else if( request.getParameter("Impersonate4S")!=null){
 
-	System.err.println("XXX" +request.getParameter("councilCode")+" : " +request.getParameter("troopId"));
+	//System.err.println("XXX" +request.getParameter("councilCode")+" : " +request.getParameter("troopId"));
 	troopUtil.impersonate( user, troop, request.getParameter("councilCode"), request.getParameter("troopId"),  session);
 Troop x= (Troop)session.getAttribute("VTK_troop");
-System.err.println("XXX: "+x.getPath());
+//System.err.println("XXX: "+x.getPath());
 	response.sendRedirect("/content/girlscouts-vtk/en/vtk.html");
 }else if( request.getParameter("addAsset")!=null){ //not in switch?? not used?
 	//org.girlscouts.vtk.models.Asset asset = new org.girlscouts.vtk.models.Asset(request.getParameter("addAsset"));
