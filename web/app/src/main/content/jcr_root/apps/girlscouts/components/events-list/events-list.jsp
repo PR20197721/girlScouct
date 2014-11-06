@@ -32,7 +32,7 @@
 <%
 	Date today = new Date();
 	DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-	DateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.S");
+	DateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S");
 	String evtStartDt = formatter.format(today);
 	try {
 		today = formatter.parse(evtStartDt);
