@@ -33,11 +33,13 @@ import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Component
 @Service(value = ActivityDAO.class)
 public class ActivityDAOImpl implements ActivityDAO {
-
+	 private final Logger log = LoggerFactory.getLogger("vtk");
 	@Reference
 	private SessionFactory sessionFactory;
 
@@ -122,11 +124,11 @@ public class ActivityDAOImpl implements ActivityDAO {
 		javax.jcr.Node node = null;
 		try {
 			session= sessionFactory.getSession();
-		System.err.println( "UUId: "+ uuid);	
+		
 			node = session.getNodeByIdentifier(uuid);
 
 		} catch (Exception e) {
-			System.err.println("isActivity:Activity not found");
+			log.error("isActivity:Activity not found");
 		}finally{
 			try{
 				if( session!=null )
@@ -211,7 +213,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 			if (node != null)
 				path = node.getPath().replace("/jcr:content", "");
 		} catch (Exception e) {
-			System.err.println("isActivity:Activity not found");
+			log.error("isActivity:Activity not found");
 		}finally{
 			try{
 				if( session!=null )
@@ -223,7 +225,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 	}
 
 	public boolean isActivityByPath(User user, String path) throws IllegalAccessException{
-System.err.println("ISActiv");
+
 		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_ACTIVITY_ID) )
 			throw new IllegalAccessException();
 		
@@ -232,7 +234,7 @@ System.err.println("ISActiv");
 		try {
 			
 			String sql = "select jcr:path from nt:base where jcr:path = '"+ path + "'";
-	System.err.println("SQL "+sql);		
+	log.debug("SQL "+sql);		
 			session = sessionFactory.getSession();
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
@@ -244,21 +246,21 @@ System.err.println("ISActiv");
 			for (RowIterator it = result.getRows(); it.hasNext();) {
 				Row r = it.nextRow();
 				Value excerpt = r.getValue("jcr:path");
-System.err.println("Patha: "+excerpt.getString()) ;				
+log.debug("Patha: "+excerpt.getString()) ;				
 				if (excerpt.getString().equals(path)) {
-		System.err.println(1);			
+					
 					isActivity = true;
 					isFound = true;
 				} else{
 					isFound = false;
-		System.err.println(2);			
+				
 				}
 			}
 			if (!isFound)
 				isActivity = false;
 			
 			
-System.err.println("ChL "+ isActivity);			
+//log.debug("ChL "+ isActivity);			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}finally{
@@ -267,7 +269,7 @@ System.err.println("ChL "+ isActivity);
 					sessionFactory.closeSession(session);
 			}catch(Exception ex){ex.printStackTrace();}
 		}
-System.err.println("chk" + isActivity);
+//System.err.println("chk" + isActivity);
 		return isActivity;
 	}
 
@@ -284,7 +286,7 @@ System.err.println("chk" + isActivity);
 					+ path
 					+ "'])) and child.start is not null and parent.[jcr:title] is not null ";
 
-			System.err.println(sql);
+			log.debug(sql);
 			session = sessionFactory.getSession();
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();

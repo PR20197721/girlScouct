@@ -19,13 +19,13 @@ public class SessionFactoryX  extends BasePoolableObjectFactory {
 			public SessionFactoryX(SlingRepository repository){ this.repository = repository;}
 	
 	        public Session makeObject() throws Exception {
-	        	System.err.println( "REpository: " +( repository==null) ); 
+	        	//System.err.println( "REpository: " +( repository==null) ); 
 	            return  repository.loginAdministrative(null);
 	        }
 
 	       
 	        public void destroyObject(Session obj) throws Exception {
-	        	System.err.println("Destroying session...");
+	        	//System.err.println("Destroying session...");
 	        	if( obj!=null)
 	        		obj.logout();
 	            obj =null;
@@ -35,7 +35,7 @@ public class SessionFactoryX  extends BasePoolableObjectFactory {
 	        
 	        @Activate
 	        void activate() {
-	            System.err.println("Activating session factory");
+	            //System.err.println("Activating session factory");
 	        }
 	      
 	    }

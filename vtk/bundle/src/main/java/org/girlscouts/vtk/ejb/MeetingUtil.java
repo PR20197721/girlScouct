@@ -33,11 +33,13 @@ import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Component
 @Service(MeetingUtil.class)
 public class MeetingUtil {
-    
+	 private final Logger log = LoggerFactory.getLogger("vtk");
     @Reference
     TroopUtil troopUtil; 
     
@@ -65,7 +67,7 @@ public class MeetingUtil {
 			newMeeting.set(newpos,  meeting);
 			
 		}
-	  }catch(Exception e){ System.err.println("ERROR : MeetingUtil.updateMeetingPos");newMeeting= orgMeetings; e.printStackTrace();}
+	  }catch(Exception e){ log.error("ERROR : MeetingUtil.updateMeetingPos");newMeeting= orgMeetings; e.printStackTrace();}
 	  
 		return newMeeting;
 	}
@@ -222,10 +224,10 @@ public class MeetingUtil {
 	
 	public void changeMeetingPositions(User user, Troop troop, String newPositions)throws IllegalAccessException{
 	
-System.err.println("changeMeetingPositions");		
+//System.err.println("changeMeetingPositions");		
 
 
-System.err.println("TEST: "+userUtil.isCurrentTroopId(troop, user.getSid()));
+//System.err.println("TEST: "+userUtil.isCurrentTroopId(troop, user.getSid()));
 
 
 
@@ -264,7 +266,7 @@ if( !userUtil.hasPermission(troop,  Permission.PERMISSION_MOVE_MEETING_ID ) ){
 		plan.setMeetingEvents(rearangedMeetings);
 		plan.setAltered("true");
 		troop.setYearPlan(plan);
-System.err.println("calling update troop");		
+//System.err.println("calling update troop");		
 		troopUtil.updateTroop(user, troop);
 		
 		
@@ -340,7 +342,7 @@ System.err.println("calling update troop");
 		java.util.List <Activity> activities = troop.getYearPlan().getActivities();
 		for(int i=0;i<activities.size();i++){			
 			Activity activity= activities.get(i);
-	System.err.println(activity.getPath() +" : "+ activityPath);		
+	//System.err.println(activity.getPath() +" : "+ activityPath);		
 			if( activity.getPath().equals(activityPath) )
 				activities.remove(activity);			
 		}
@@ -396,7 +398,7 @@ System.err.println("calling update troop");
 		
 		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
 			troop.setErrCode("112");
-	System.err.println("rearrangeActivity-- no change");		
+	//System.err.println("rearrangeActivity-- no change");		
 			throw new java.lang.IllegalAccessException();
 		}
 		
@@ -620,7 +622,7 @@ System.err.println("calling update troop");
 		 
 		 for(int i=0;i<__meetings.size();i++){
 				Meeting __meeting = __meetings.get(i);
-				System.err.println("*** "+ __meeting.getPath() );
+				//System.err.println("*** "+ __meeting.getPath() );
 				
 				if( __meeting.getPath().endsWith(file) ){
 						swapMeetings(user, troop, meetingPath, __meeting.getPath());

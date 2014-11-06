@@ -65,6 +65,8 @@ import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
 import org.girlscouts.web.search.DocHit;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.day.cq.search.PredicateGroup;
 import com.day.cq.search.QueryBuilder;
@@ -74,7 +76,7 @@ import com.day.cq.search.result.SearchResult;
 @Component
 @Service(value = MeetingDAO.class)
 public class MeetingDAOImpl implements MeetingDAO {
-
+	 private final Logger log = LoggerFactory.getLogger("vtk");
 	@Reference
 	private SessionFactory sessionFactory;
 
@@ -699,7 +701,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 					search.setDescription(r.getValue("dc:description")
 							.getString());
 				} catch (Exception e) {
-					System.err.println("Global Aid Description missing");
+					log.error("Global Aid Description missing");
 				}
 				try {
 					search.setTitle(r.getValue("dc:title").getString());
@@ -1281,12 +1283,12 @@ public class MeetingDAOImpl implements MeetingDAO {
 						startDate = r.getValue("start").getDate();
 					} catch (Exception e) {
 						e.printStackTrace();
-						System.err.println("searchRegion invalid startDate");
+						log.error("searchRegion invalid startDate");
 					}
 					try {
 						endDate = r.getValue("end").getDate();
 					} catch (Exception e) {
-						System.err.println("searchRegion invalid endDate");
+						log.error("searchRegion invalid endDate");
 					}
 					if (endDate != null && endDate.before(now))
 						continue;
@@ -1751,7 +1753,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 					activity.setRegisterUrl(r.getValue("child.register")
 							.getString());
 				} catch (Exception e) {
-					System.err.println("searchActivity no register url");
+					log.error("searchActivity no register url");
 				}
 
 				if (startDate != null && endDate != null) {
@@ -1787,12 +1789,13 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 
 	public void doX() {
-System.err.println("doXX");		
+		/*
+//System.err.println("doXX");		
 
 		doX_convertNodesToOCMCouncil();
 
 		java.util.List<String> paths= new java.util.ArrayList<String>();
-		System.err.println("doXX1");				
+		//System.err.println("doXX1");				
 		Session session = null;
 		try {
 			System.err.println("doXX2");	
@@ -1926,10 +1929,11 @@ System.err.println("doXX");
 				ex.printStackTrace();
 			}
 		}
-
+*/
 	}
 
 	public void doX_convertNodesToOCMCouncil(){
+		
 		Session session = null;
 		try {		
 			session = sessionFactory.getSession();
@@ -1941,7 +1945,7 @@ System.err.println("doXX");
 				if( _vtk.getPath().contains("/last-import-timestamp") )continue;
 				if( _vtk.getPath().contains("/rep:policy") )continue;
 				
-				System.err.println("VTK " + _vtk.getPath());
+				log.debug("VTK " + _vtk.getPath());
 				_vtk.setProperty("ocm_classname", "org.girlscouts.vtk.models.Council");
 				
 			}
@@ -1956,6 +1960,7 @@ System.err.println("doXX");
 				ex.printStackTrace();
 			}
 		}
+		
 	}
 	
 	//doX
@@ -1971,9 +1976,9 @@ System.err.println("doXX");
 				Node x = session.getNode(meetingPath);
 				String orgPath = x.getProperty("refId").getString();
 				
-				System.err.println("orgPath : "+ orgPath);
+				log.debug("orgPath : "+ orgPath);
 				String newPath= path+""+orgPath.substring( orgPath.indexOf("/lib/"));
-				System.err.println("Changing cust meeting path from "+ path +" to: "+ newPath);
+				log.debug("Changing cust meeting path from "+ path +" to: "+ newPath);
 				x.setProperty("refId", newPath);
 				session.save();
 				
@@ -1999,7 +2004,7 @@ System.err.println("doXX");
 		try {				
 			session = sessionFactory.getSession();	
 			String sql = "select * from nt:unstructured where jcr:path like '"+ path +"/%' and ocm_classname ='org.girlscouts.vtk.models.MeetingE' and refId like '%/users/%_%' ";
-	System.err.println("SQL cust"+ sql);		
+	log.debug("SQL cust"+ sql);		
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 				
@@ -2009,7 +2014,7 @@ System.err.println("doXX");
 				Row r = it.nextRow();
 				Value excerpt = r.getValue("jcr:path");
 				toRet.add( excerpt.getString() );
-				System.err.println("Adding meeting: "+ excerpt.getString());
+				log.debug("Adding meeting: "+ excerpt.getString());
 			}
 			
 		} catch (Exception e) {
@@ -2028,6 +2033,7 @@ System.err.println("doXX");
 	
 	//rollback to user from troop . only for emergency
 	public void undoX() {
+		/*
 		System.err.println("undoX--- DISCOUNNECTED");
 	if(true)return;	
 		Session session = null;
@@ -2114,7 +2120,7 @@ System.err.println("Path: "+path );
 				ex.printStackTrace();
 			}
 		}
-
+*/
 	}
 	
 	

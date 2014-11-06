@@ -103,7 +103,7 @@ import com.day.cq.commons.jcr.JcrUtil;
 		    @Override
 		     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServerException, IOException {
 
-		System.err.println("Asset...");    	
+		//System.err.println("Asset...");    	
 		    	  ResourceResolver resourceResolver = null;
 		      try {
 		      final boolean isMultipart = org.apache.commons.fileupload.servlet.ServletFileUpload.isMultipartContent(request);
@@ -160,7 +160,7 @@ import com.day.cq.commons.jcr.JcrUtil;
 		            		 // out.println("<script>location.reload();</script>");
 		            	   }
 		              }else if( request.getParameter("upldTroopPic")!=null){
-		System.err.println( "UPLDTRoopId "+ request.getParameter("troopId"))    ;        	  
+		//System.err.println( "UPLDTRoopId "+ request.getParameter("troopId"))    ;        	  
 		            	  loc= "/content/dam/girlscouts-vtk/troops/"+ request.getParameter("troopId")+"/imgLib/troop_pic.png";
 		            	  name="troop_pic.png";
 		            	 
@@ -235,7 +235,7 @@ import com.day.cq.commons.jcr.JcrUtil;
 		    			String desc, String owner, String id)
 		            throws RepositoryException {        
 		            ValueFactory valueFactory = session.getValueFactory();        
-	System.err.println("Saving..." + parentPath +" : "+ name);	         
+	//System.err.println("Saving..." + parentPath +" : "+ name);	         
 		            Node page = JcrUtil.createPath(parentPath, "nt:unstructured", "nt:unstructured", session, true);
 		          
 		            

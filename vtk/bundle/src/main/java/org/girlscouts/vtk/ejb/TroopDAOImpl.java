@@ -34,11 +34,13 @@ import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.UserGlobConfig;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.Asset;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Component
 @Service(value = TroopDAO.class)
 public class TroopDAOImpl implements TroopDAO {
-
+	 private final Logger log = LoggerFactory.getLogger("vtk");
 	@Reference
 	private SessionFactory sessionFactory;
 
@@ -140,7 +142,7 @@ public class TroopDAOImpl implements TroopDAO {
 	
 	public YearPlan addYearPlan1(User user, Troop troop, String yearPlanPath) throws java.lang.IllegalAccessException, java.lang.IllegalAccessException {
 
-	System.err.println("addYearPlan1..");
+	//System.err.println("addYearPlan1..");
 		//permission to update
 		if( troop!= null && ! userUtil.hasPermission(troop, Permission.PERMISSION_ADD_YEARPLAN_ID) )
 			throw new IllegalAccessException();
@@ -203,7 +205,7 @@ public class TroopDAOImpl implements TroopDAO {
 
 	public boolean updateTroop(User user, Troop troop) throws java.lang.IllegalAccessException , java.lang.IllegalAccessException{
 		
-	System.err.println("troopDAO.updateTroop");	
+	//System.err.println("troopDAO.updateTroop");	
 		Session mySession =null;
 		boolean isUpdated = false;
 		try {
@@ -213,7 +215,7 @@ public class TroopDAOImpl implements TroopDAO {
 			}
 			troop.setErrCode("111");
 
-	System.err.println(2);		
+	//System.err.println(2);		
 			mySession = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
@@ -228,34 +230,34 @@ public class TroopDAOImpl implements TroopDAO {
 			classes.add(Council.class);
 			classes.add(org.girlscouts.vtk.models.Troop.class);
 
-	System.err.println(3);
+	//System.err.println(3);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
 					mapper);
 
-	System.err.println(4);
+	//System.err.println(4);
 			Comparator<MeetingE> comp = new BeanComparator("id");
 			Collections.sort(troop.getYearPlan().getMeetingEvents(), comp);
 
-			System.err.println((userUtil==null ) +"  :"+user.getPermissions());
+			//System.err.println((userUtil==null ) +"  :"+user.getPermissions());
 
-	System.err.println(5);	
+	//System.err.println(5);	
 			//permission to update
 			if( troop!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_YEARPLAN_ID) )
 				throw new IllegalAccessException();
 	
-	System.err.println("5.1 "+ troop.getLastModified() );
+	//System.err.println("5.1 "+ troop.getLastModified() );
 			//lock
 			if (troop != null && troop.getLastModified() != null) {
-	System.err.println("5.2")	;		
+	//System.err.println("5.2")	;		
 					if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
-	System.err.println("5.3");					
+	//System.err.println("5.3");					
 								troop.setErrCode("112");
 								throw new IllegalAccessException();
 								//return false;
 							}
 			}
-	System.err.println(6);	
+	//System.err.println(6);	
 	       if (mySession.itemExists(troop.getPath())) {
 				ocm.update(troop);
 			} else {
@@ -280,7 +282,7 @@ public class TroopDAOImpl implements TroopDAO {
 				ocm.insert(troop);
 			}
 
-	 System.err.println(7);
+	 //System.err.println(7);
 			String old_errCode = troop.getErrCode();
 			java.util.Calendar old_lastModified = troop.getLastModified();
 			try {
@@ -289,18 +291,18 @@ public class TroopDAOImpl implements TroopDAO {
 				troop.setCurrentTroop(user.getSid());//10/23/14
 				ocm.update(troop);
 
-	System.err.println(8 +" : : : : : lastMidif db: " + troop.getLastModified().getTime());			
+	//System.err.println(8 +" : : : : : lastMidif db: " + troop.getLastModified().getTime());			
 				
 					ocm.save(); 
 				
 				
-	System.err.println("TROOP UPDATED>>>>>>>>>>>>>>"+ new java.util.Date() +" : "+ troop.getLastModified().getTime());			
+	//System.err.println("TROOP UPDATED>>>>>>>>>>>>>>"+ new java.util.Date() +" : "+ troop.getLastModified().getTime());			
 				isUpdated = true;
 				troop.setRefresh(true);
 				
 			} catch (Exception e) {
 				//e.printStackTrace();
-				System.err.println("!!!! ERROR !!!!!  TroopDAOImpl.updateTroop CAN NOT SAVE TROOP !!!! ERROR !!!!!");
+				log.error("!!!! ERROR !!!!!  TroopDAOImpl.updateTroop CAN NOT SAVE TROOP !!!! ERROR !!!!!");
 				troop.setLastModified(old_lastModified);
 				troop.setErrCode(old_errCode);
 				troop.setRefresh(true);
@@ -498,7 +500,7 @@ public class TroopDAOImpl implements TroopDAO {
 			if (mySession.itemExists(finance.getPath())) {
 				ocm.update(finance);
 			} else {
-				System.err.println("** "+ finance.getPath().substring(0, finance.getPath().lastIndexOf("/")));
+				//System.err.println("** "+ finance.getPath().substring(0, finance.getPath().lastIndexOf("/")));
 				JcrUtils.getOrCreateByPath(finance.getPath().substring(0, finance.getPath().lastIndexOf("/")), "nt:unstructured",mySession);
 				ocm.insert(finance);
 			}

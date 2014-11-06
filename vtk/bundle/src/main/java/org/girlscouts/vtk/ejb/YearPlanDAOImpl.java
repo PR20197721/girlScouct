@@ -27,11 +27,13 @@ import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.YearPlan;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Component
 @Service(value = YearPlanDAO.class)
 public class YearPlanDAOImpl implements YearPlanDAO {
-
+	 private final Logger log = LoggerFactory.getLogger("vtk");
 	@Reference
 	private SessionFactory sessionFactory;
 
@@ -153,7 +155,7 @@ public class YearPlanDAOImpl implements YearPlanDAO {
 			
 			if(sessionId!=null)
 				sql+= " and currentTroop <>'"+sessionId+"'";
-		System.err.println("SQL "+ sql);
+		log.debug("SQL "+ sql);
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -174,7 +176,7 @@ public class YearPlanDAOImpl implements YearPlanDAO {
 				ex.printStackTrace();
 			}
 		}
-	System.err.println("Last midf timestamp: "+ toRet);	
+	//System.err.println("Last midf timestamp: "+ toRet);	
 		return toRet;
 	}
 }

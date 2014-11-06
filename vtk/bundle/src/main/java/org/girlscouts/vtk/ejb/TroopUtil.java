@@ -40,11 +40,13 @@ import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.UserGlobConfig;
 import org.girlscouts.vtk.models.YearPlan;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Component
 @Service(value = TroopUtil.class)
 public class TroopUtil {
-
+	 private final Logger log = LoggerFactory.getLogger("vtk");
 	@Reference
 	TroopDAO troopDAO;
 
@@ -327,8 +329,7 @@ troop.setPermissionTokens(s);
 		} catch (Exception e) {
 			e.printStackTrace();
 			try {
-				System.err
-						.println("Error setting new Plan: dumping old plan and replacing with new Plan");
+				//log.e("Error setting new Plan: dumping old plan and replacing with new Plan");
 				troop.setYearPlan(newYearPlan);
 			} catch (Exception ew) {
 				ew.printStackTrace();
@@ -357,7 +358,7 @@ troop.setPermissionTokens(s);
 	public boolean updateTroop(User user, Troop troop)
 			throws java.lang.IllegalAccessException,
 			java.lang.IllegalAccessException {
-	System.err.println("TroopUtil.updateTroop");	
+	//System.err.println("TroopUtil.updateTroop");	
 		 return troopDAO.updateTroop(user, troop);
 		 
 	}
@@ -392,7 +393,7 @@ troop.setPermissionTokens(s);
 	public void reLogin( User user, Troop troop, String troopId, HttpSession session ) throws IllegalAccessException{
 		
 		if(troopId==null || troopId.trim().equals("") ){
-			System.err.println("loginAs invalid.abort");
+			log.error("loginAs invalid.abort");
 			return;
 		}
 		
