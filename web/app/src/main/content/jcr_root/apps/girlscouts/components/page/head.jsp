@@ -67,5 +67,7 @@
 <%
 	}
 %>
+<!--//loading a font file for all the small icons on the site-->
+  <link rel="stylesheet" href="/etc/designs/girlscouts/fonts/style.css" type="text/css"/>
   <title><%= title %></title>
 </head>
