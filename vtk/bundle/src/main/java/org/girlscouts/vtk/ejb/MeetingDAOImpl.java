@@ -1872,8 +1872,7 @@ System.err.println("doXX");
 		
 		
 				Node newTroop = session.getNode(to);
-				newTroop.setProperty("ocm_classname",
-						"org.girlscouts.vtk.models.Troop");
+				newTroop.setProperty("ocm_classname","org.girlscouts.vtk.models.Troop");
 				session.save();
 		
 	//if(true){return;}		
