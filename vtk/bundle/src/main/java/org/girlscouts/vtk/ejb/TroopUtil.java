@@ -185,6 +185,7 @@ troop.setPermissionTokens(s);
 	}
 
 	public void logout(User user, Troop troop) throws java.lang.IllegalAccessException {
+		/*
 	System.err.println(1);	
 		if (troop == null)
 			return;
@@ -197,6 +198,7 @@ troop.setPermissionTokens(s);
 	System.err.println(4);
 		troopDAO.updateTroop(user, tmp_troop);
 	System.err.println(5);	
+	*/
 	}
 
 	public void addAsset(User user, Troop troop, String meetingUid, Asset asset)
