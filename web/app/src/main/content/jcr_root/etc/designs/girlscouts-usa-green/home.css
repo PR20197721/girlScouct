@@ -6,13 +6,12 @@
   padding-right: 0.38em;
 }
 /* icon alignemnt to the header text */
-.home-section > .columns.large-1 {
+.home-section .columns.large-1 {
   margin-top: .8%;
 }
 .home-section.hero-banner .columns,
 .home-section.hero-banner .column {
-  padding-left:0 !important;
-  padding-right:0 !important;
+ padding:0;
 }
 .home-section h2 {
   margin-top:0;
