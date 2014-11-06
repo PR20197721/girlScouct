@@ -44,7 +44,7 @@
 #main .side-nav li.active.current > div, #main .side-nav li.active li.active > div {
 	background-color: transparent;
 }
-
+.header-wrapper,
 #header {
     background-color: #FFFFFF;
 }
