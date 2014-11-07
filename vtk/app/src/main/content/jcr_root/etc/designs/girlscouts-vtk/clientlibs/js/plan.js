@@ -230,7 +230,14 @@ function updSched(i, meetingPath, currDt){
 }
 
 function buildSched(){
+
 	var calStartDt = document.getElementById("calStartDt").value;
+	
+	if( new Date(calStartDt) <= new Date() )
+		{alert("You cannot select a date in the past to reschedule the meetings. Please type or select a date in the future."); return;}
+
+	
+	
 	var calAP = document.getElementById("calAP").value;
 	var calFreq = document.getElementById("calFreq");
 	var z =calFreq.options[calFreq.selectedIndex].text;
