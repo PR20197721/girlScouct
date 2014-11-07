@@ -225,6 +225,7 @@ a:hover.menuHighlight {
 #header .message {
   text-align: right;
 }
+
 #header .logoSmall {
   margin: 0px 0px 10px 0px;
 }
@@ -328,6 +329,9 @@ a:hover.menuHighlight {
     text-align: center;
     clear: both;
     position: relative;
+  }
+  .logo nav {
+    text-align: center;
   }
 }
 .social-media-icons p {
@@ -1354,9 +1358,3 @@ form .form_captcha_img {
 form .form_captcha_input {
   height: 40px;
 }
-
-
-
-
-
-
