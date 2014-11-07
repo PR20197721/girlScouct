@@ -12,14 +12,14 @@ String external_url=(String)request.getAttribute("external_url");
 %>
 <div class="row news-rows">
 		
-  <div class="column medium-3 large-3 small-4 lists-image">
+  <div class="column medium-3 large-3 small-8 lists-image">
   <% if(!imgPath.isEmpty()){ %>
     <%= displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80") %>
   <%} else { %>
     <img src="/content/dam/all_icons/icons_64/news_icon.jpg" alt="news icon"/>
   <% } %>
   </div>
- 	<div class="column large-21 medium-20 small-19 list-text">
+ 	<div class="column large-20 medium-20 small-15 list-text">
  	   <p>
  	   	<a href="<%=!external_url.isEmpty() ? external_url : newsLink%>" <%=!external_url.isEmpty() ?  "target='_blank'": " "%> title="<%= newsTitle %>"><%= newsTitle %></a>
  	   </p>

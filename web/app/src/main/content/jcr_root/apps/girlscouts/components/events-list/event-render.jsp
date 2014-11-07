@@ -55,14 +55,14 @@
 %>
  <li class="eventsListItem">
   <div class="row collapse">  
-    <div class="medium-6 large-6 small-4 columns lists-image">
+    <div class="medium-6 large-6 small-8 columns lists-image">
       <% if(!iconPath.isEmpty()) { /*if there is image*/ %>
         <%= displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80") %>
       <%} else { /*if there is no image*/ %>
         <img src="/content/dam/all_icons/icons_64/events_icon.jpg" alt="events icon"/>
       <% } %>
     </div>
-    <div class="medium-16 large-16 columns small-19">
+    <div class="medium-16 large-16 columns small-15">
        <p><a href="<%= href %>" title="<%= title %>"><%= title %></a></p>
        <p>Date: <%= dateStr %></p>
        <p>Location: <%= locationLabel %></p>
