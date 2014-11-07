@@ -3,14 +3,7 @@ function loadMeetings(){
 	$("#yearPlanMeetings").load(url);
 }	
 
-function x(planId, planPath, confirmMsg, planName){
-	
-	
-
-	
-	
-	
-	
+function x(planId, planPath, confirmMsg, planName) {	
 	if( confirmMsg!=null && confirmMsg!='' ){
 		if( !confirm(confirmMsg) ) return;
     }else{
@@ -170,21 +163,21 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 		});
 	}
 }
-
 function yesPlan(){
-	if( document.getElementById('yearPlanMeetings').style.display=='none' ){
-		document.getElementById('yearPlanMeetings').style.display='block';
-		document.getElementById('yearPlanSelection').style.display='none';	
-		document.getElementById('showHideReveal').innerHTML='reveal';
-                document.getElementById('arrowDirection').innerHTML='&#9660;';
-	}else{
-		document.getElementById('yearPlanMeetings').style.display='none';
-		document.getElementById('yearPlanSelection').style.display='block';
-		document.getElementById('showHideReveal').innerHTML='hide';
-                document.getElementById('arrowDirection').innerHTML='&#9650;';
-	}
+  if( document.getElementById('yearPlanMeetings').style.display=='none' ){
+    document.getElementById('yearPlanMeetings').style.display='block';
+    document.getElementById('yearPlanSelection').style.display='none';  
+    document.getElementById('showHideReveal').innerHTML='VIEW YEAR PLAN LIBRARY';
+    // document.getElementById('arrowDirection').innerHTML='&#9660;';
+    $('#showHideReveal').toggleClass('open').addClass('close');
+  }else{
+    document.getElementById('yearPlanMeetings').style.display='none';
+    document.getElementById('yearPlanSelection').style.display='block';
+    document.getElementById('showHideReveal').innerHTML='YEAR PLAN LIBRARY';
+    // document.getElementById('arrowDirection').innerHTML='&#9650;';
+    $('#showHideReveal').removeClass('close').addClass('open');
+  }
 }
-
 function addLocation(){
 	showError(null, "#locationEdit .errorMsg");
 	var  name = document.getElementById("loc_name").value;
