@@ -4,6 +4,9 @@
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 
+
+	
+
 <%   
 	java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(troop.getYearPlan());
 	
@@ -27,7 +30,7 @@
 	</div>
 </div>
 
-<ul id="<%= hasPermission(troop, Permission.PERMISSION_MOVE_MEETING_ID) ? "sortable123" : ""%>">
+<ul class="phones" id="<%= hasPermission(troop, Permission.PERMISSION_MOVE_MEETING_ID) ? "sortable123" : ""%>">
 <% 
 if( troop.getYearPlan().getSchedule()!=null ){ //sched exists
  int meetingCount=0;

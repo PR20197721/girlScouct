@@ -11,7 +11,7 @@
 %>
 
 
-	<li  ng-repeat="phone in phones | filter:query | orderBy:orderProp"
+	<li  
 	  <%if( hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID) ){ %>
 		onclick='self.location="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=date.getTime()%>"'
 	  <%}%>	
@@ -20,7 +20,6 @@
 	<div  class="row">
         <div class="large-4 medium-5 small-24 columns">
 			<div class="planSquare center ed-table" id="caca">
-			{{phone.path}}
 <%
 	if (calendarNotSet) {
 %>
