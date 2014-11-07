@@ -30,9 +30,16 @@ function updSched1(i, meetingPath, currDt){
 				a:Date.now()
 	      },
 	      success: function(result) {
-	    	  //alert("Done");
+	    	  
 	    	  document.location="/content/girlscouts-vtk/en/vtk.plan.html";
-	      }
+	      },
+	      error: function (xhr, ajaxOptions, thrownError) {
+	    	  if( xhr.status==499)
+	    		  alert("Error: Found duplicate DATE in your schedule. Please change date/time and try again.");
+	    	  else
+	    		  alert("Error occured updating schedule date.please try again");
+	          
+	        }
 	  });
 	 //document.location="/content/girlscouts-vtk/en/vtk.plan.html";
 	 //alert("over");

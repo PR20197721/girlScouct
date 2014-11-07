@@ -28,11 +28,15 @@ import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Component
 @Service(value=CalendarUtil.class)
 public class CalendarUtil {
     
+	private final Logger log = LoggerFactory.getLogger("vtk");
+	
 	@Reference
 	TroopUtil troopUtil;
     
@@ -234,15 +238,9 @@ public class CalendarUtil {
 			troopUtil.updateTroop(user, troop);
 		}
 		
-		public void updateSched(User user, Troop troop, String meetingPath, String time, String date, String ap, 
+		public boolean  updateSched(User user, Troop troop, String meetingPath, String time, String date, String ap, 
 				String isCancelledMeeting, long currDate)throws java.lang.IllegalAccessException{
-			/*
-			if( !userUtil.hasAccess(troop, troop.getCurrentTroop(), Permission.PERMISSION_UPDATE_MEETING_ID ) ){
-				 troop.setErrCode("112");
-				// return;
-				 throw new IllegalAccessException();
-			 }
-			*/
+			
 			if( troop!= null && ! userUtil.hasPermission(troop, Permission.PERMISSION_UPDATE_MEETING_ID   ) )
 				throw new IllegalAccessException();
 			
@@ -256,12 +254,16 @@ public class CalendarUtil {
 			YearPlan plan = troop.getYearPlan();
 			Cal cal = plan.getSchedule();
 			
-			
+		
 			
 			java.util.Date newDate = null;
 			try{ newDate =dateFormat4.parse( date +" "+time + " "+ap); }catch(Exception e){e.printStackTrace();}
 			
 			String sched = cal.getDates();
+			if( ( sched==null || sched.contains(newDate.getTime()+"") ) && 
+					!( (""+currDate).equals(newDate.getTime()+"") ) )
+				{log.error("CalendarUtil.updateSched error: DUP DATE: date already exist in cal"); return false;}
+			
 			sched = sched.replace(""+currDate, newDate.getTime()+"");
 			cal.setDates(sched);
 			
@@ -278,7 +280,7 @@ public class CalendarUtil {
 			}
 			
 			troopUtil.updateTroop(user, troop);
-			
+			return true;
 		}
 		
 		public void resetCal(User user, Troop troop)throws java.lang.IllegalAccessException{
