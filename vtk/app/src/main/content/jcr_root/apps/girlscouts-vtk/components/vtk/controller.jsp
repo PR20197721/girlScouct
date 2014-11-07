@@ -399,9 +399,17 @@ if(request.getParameter("admin_login")!=null ){
 	 			break;
   		}
 	  }
+	
+	if( userUtil.isCurrentTroopId_NoRefresh(troop,user.getSid()) ) {
+		return; 
+	}else{
+		System.err.println("yes refresh caca");
+	}
+	
+	
 	troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
-	
-	
+	session.setAttribute("VTK_troop", troop);
+	//if alter = timestamp change
 	out.println(mapper.writeValueAsString(troop));
 	
 	

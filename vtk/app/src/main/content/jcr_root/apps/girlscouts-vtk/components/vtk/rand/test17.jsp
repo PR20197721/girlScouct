@@ -13,10 +13,12 @@ phonecatApp.controller('PhoneListCtrl', function xxx($scope, $http) {
 	
 	
   		$http.get('/content/girlscouts-vtk/controllers/vtk.controller.html?test=anglr1')
-  		.success(function (data) {	  
-   			 $scope.phones = data.yearPlan['meetingEvents'];
-   			 
-    		 window.setTimeout( xxx($scope,$http), 10000);
+  		.success(function (data) {	 
+  			var _data = $.trim(data);
+  			if( _data != '') {
+   			 	$scope.phones = data.yearPlan['meetingEvents'];
+  			}
+   			 setInterval(function(){xxx($scope,$http) }, 5000);
    		 });
 
 
@@ -37,7 +39,7 @@ phonecatApp.controller('PhoneListCtrl', function xxx($scope, $http) {
     <div class="row">
       <div class="col-md-2">
         <!--Sidebar content-->
-
+<%=new java.util.Date() %> ***
         Search: <input ng-model="query">
         Sort by:
         <select ng-model="orderProp">
@@ -46,7 +48,7 @@ phonecatApp.controller('PhoneListCtrl', function xxx($scope, $http) {
         </select>
 
       </div>
-      <div class="col-md-10">
+      <div class="cacca">
         <!--Body content-->
 
         <ul class="phones">
