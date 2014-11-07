@@ -12,147 +12,81 @@
 <%	if( !hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID ) ) { %>
 		<span class="error">You have no permission to view year plan</span>
 		<% return; }
-	if( troop.getYearPlan()!=null ) {
-			// split resource panel
-	%>
-<div id="panelWrapper" class="row">
-	<div id="panelLeft" class="small-24 medium-24 large-18 columns">
-		<%
-			}
+				if( troop.getYearPlan()!=null ) {
+						// split resource panel
 		%>
-		<%
-			if( troop.getYearPlan()!=null){
-		%>
-		<div class="hide-for-small hide-for-print">
-			<div class="row subNavRow">
-				<div class="large-22 medium-22 small-20 columns subNavColumn">
-					<div class="centered-table">
-						<%
-							if( hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID) ){
-						%>
-						<ul id="vtkSubNav" class="hide-for-print">
-							<li><a href="javascript:void(0)" onclick="newLocCal()">Meeting&nbsp;Dates&nbsp;and&nbsp;Locations</a>
-							</li>
-							<li>|</li>
-							<li><a href="javascript:void(0)" onclick="doMeetingLib()">Add&nbsp;Meeting</a>
-							</li>
-							<li>|</li>
-							<li><a href="javascript:void(0)" onclick="newActivity()">Add&nbsp;Activity</a>
-							</li>
-						</ul>
-						<%
-							}
-						%>
-
-					</div>
-				</div>
-
-				<div class="large-1 medium-1 small-2 columns calendarDownload">
-					<div class="icons">
-
-						<!-- <a onclick="javascript:void(0)" onclick="javascript:window.print()"><img alt="Print" src="/etc/designs/girlscouts-vtk/images/calendar-download.png" width="39" height="20" border="0" class="align-right"/>*</a> -->
-						<%
-							if(troop.getYearPlan().getSchedule()!=null){
-						%>
-						<a onclick="self.location = '/content/girlscouts-vtk/en/cal.ics'"><img
-							alt="Calendar Download"
-							src="/etc/designs/girlscouts-vtk/images/calendar-download.png"
-							width="39" height="20" border="0" class="align-right" /></a>
-						<%
-							}
-						%>
-
-
-
-					</div>
-				</div>
-
-
-
-				<div class="large-1 medium-1 small-2 columns calendarDownload">
-					<div class="icons">
-
-						<a onclick="javascript:window.print()"> <img alt="Print"
-							src="/etc/designs/girlscouts-vtk/images/print.png" width="39"
-							height="20" border="0" class="align-right" />
-						</a>
-
-					</div>
-				</div>
-
-
-
-			</div>
-		</div>
-		<%
-			} else {
-		%>
-				<div class="instructions row">
-					<div class="column">
-						<p>To start planning your year, select a Year Plan</p>
-					</div>
-				</div>
-				<script>
-					fixVerticalSizing = true;
-				</script>
-					<%
-						}
-					%>
-				<div class="sectionHeader row">
-					<div class="column">
-						<p>YEAR PLAN LIBRARY</p>
-							<%
-								if(troop.getYearPlan()!=null && hasPermission(troop, Permission.PERMISSION_CREATE_MEETING_ID) ){
-							%>
-							<a href="#" onclick="yesPlan()" id="showHideReveal"
-								class="hide-for-print">reveal</a>&nbsp;<span id="arrowDirection"
-								class="hide-for-print arrowDirection">&#9660;</span>
-							<%
-								}
-							%>
-						</div>
-				</div>
-			<%
-				if(troop.getYearPlan()!=null){
-			%>
-			<div id="yearPlanSelection" style="display: none;">
-				<%
-					}else{
-				%>
-				<div id="yearPlanSelection">
-					<%
-						} 
-					String ageLevel=  troop.getTroop().getGradeLevel();
-					ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1);
-					ageLevel=ageLevel.toLowerCase().trim();
-
-					String confMsg="";
-					if( troop.getYearPlan()!=null ){
-						if( troop.getYearPlan().getAltered()!=null && troop.getYearPlan().getAltered().equals("true") ){
-							confMsg ="Are You Sure? You will lose customizations that you have made";
-						}
-						
-					}
-					java.util.Iterator<YearPlan> yearPlans = yearPlanUtil.getAllYearPlans(ageLevel).listIterator();
-					while (yearPlans.hasNext()) {
-						YearPlan yearPlan = yearPlans.next();
-					%>
-					<div class="row">
-						<div class="large-8 columns">
-							<div style="background-color: #efefef; padding: 10px; margin-left: 10px; text-align: center;">
-								<a href="javascript:void(0)"
-									onclick="x('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>', '<%=yearPlan.getName()%>')"><%=yearPlan.getName()%></a>
+		<div id="panelWrapper" class="row">
+			<div id="panelLeft" class="columns">
+				<% } %>
+				<% if(troop.getYearPlan()!=null) { /*inline utility menu*/ %>
+					<div class="hide-for-small hide-for-print row">
+						<div class="column large-20 medium-24 large-centered medium-centered">
+							<div class="row">
+								<div class="columns large-19">
+									<%	if( hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID ) ) { %>
+									<ul id="vtkSubNav" class="inline-list hide-for-print">
+										<li><a href="#" onclick="newLocCal()" title="Metting Dates and Location">Meeting Dates and Locations</a></li>
+										<li><a href="#" onclick="doMeetingLib()" title="Add Meeting">Add Meeting</a></li>
+										<li><a href="#" onclick="newActivity()" title="Add Activity">Add Activity</a></li>
+									</ul>
+									<% } %>
+								</div>
+								<div class="large-5 columns">
+									<ul class="inline-list">
+										<li><a class="icon" onclick="self.location = '/content/girlscouts-vtk/en/cal.ics'" title="download plan"><i class="icon-download"></i></a></li>
+										<li><a class="icon" onclick="javascript:window.print()" title="print plan"><i class="icon-printer"></i></a></li>
+										<li><a class="icon" onclick="javascript:window.print()" title="help"><i class="icon-questions-answers"></i></a></li>
+									</ul>
+								</div>
 							</div>
-							<!--  <input type="submit" name="" value="<%=yearPlan.getName()%>" onclick="x('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>', '<%=yearPlan.getName()%>')" /> -->
 						</div>
-						<div class="large-16 columns">
-							<p><%=yearPlan.getDesc()%></p>
-						</div>
-					</div><!--/row-->
-					<%
-						}
-					%>
+					</div><!--/hide-->
+				<% } %>
+				<%-- Show/Hide the year plan library---%>
+				<% if(troop.getYearPlan()!=null && hasPermission(troop, Permission.PERMISSION_CREATE_MEETING_ID) ){ %>
+				<div class="sectionHeader row">
+					<div class="column large-20 medium-20 large-centered medium-centered">
+						<p id="showHideReveal" onclick="yesPlan()">VIEW YEAR PLAN LIBRARY</p>
+						<!--<a href="#" onclick="yesPlan()" id="showHideReveal"
+						class="hide-for-print">reveal</a>&nbsp;<span id="arrowDirection"
+						class="hide-for-print arrowDirection">&#9660;</span> -->
+					</div>
 				</div>
+				<%
+					}
+				%>
+				<div id="yearPlanSelection" <%= (troop.getYearPlan()!=null) ? "style=\"display: none\"":" " %>>
+					<div class="row">
+						<p class="large-20 medium-20 large-centered medium-centered columns">To start planning your year, select a Year Plan.</p>
+					</div>
+	        <%
+						String ageLevel=  troop.getTroop().getGradeLevel();
+						ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1);
+						ageLevel=ageLevel.toLowerCase().trim();
+
+						String confMsg="";
+						if( troop.getYearPlan()!=null ){
+							if( troop.getYearPlan().getAltered()!=null && troop.getYearPlan().getAltered().equals("true") ){
+								confMsg ="Are You Sure? You will lose customizations that you have made";
+							}	
+						}
+						java.util.Iterator<YearPlan> yearPlans = yearPlanUtil.getAllYearPlans(ageLevel).listIterator();
+							while (yearPlans.hasNext()) {
+								YearPlan yearPlan = yearPlans.next();
+						%>
+						<div class="row">
+							<div class="large-2 columns large-push-2">
+									<input type="radio" id="r_<%=yearPlan.getId()%>" class="radio1" name="group1" onclick="x('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>', '<%=yearPlan.getName()%>')" />
+									<label for="r_<%=yearPlan.getId()%>"></label>
+									<!-- <input type="submit" name="" value="<%=yearPlan.getName()%>" onclick="x('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>', '<%=yearPlan.getName()%>')" /> -->
+							</div>
+							<div class="large-18 columns large-pull-2">
+								<a href="#" onclick="x('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>', '<%=yearPlan.getName()%>')"><%=yearPlan.getName()%></a>
+								<p><%=yearPlan.getDesc()%></p>
+							</div>
+						</div><!--/row-->
+						<% }	%>
+				</div><!--/yearPlanSelection-->
 				<div id="yearPlanMeetings" style="display:<%=(troop.getYearPlan()!=null) ? "block" : "none"%>">
 					<%
 						if(troop.getYearPlan()!=null){
@@ -165,11 +99,13 @@
 					<%
 						}
 					%>
-				</div>
+				</div><!--/yearPlanMeetings-->
 				<%
 					if (troop.getYearPlan() != null) {
 				%>
-			</div>
+			</div><!--/panelLeft-->
+		</div><!--/panelWrapper-->
+<!-- Pannel was removed as per new design.	
 			<div id="panelRight" class="small-24 medium-24 large-6 columns hide-for-print">
 				<h2 id="resourceListing">Featured Resources:</h2>
 				<br />
@@ -185,10 +121,9 @@
 						}
 					%>
 				</ul>
-			</div>
-		</div>
-		<%
-			}
-		%>
-</div>
+			</div> -->
+			<%
+				}
+			%>
+	
 

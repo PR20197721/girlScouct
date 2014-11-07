@@ -67,5 +67,6 @@
 <%
 	}
 %>
+  <link rel="stylesheet" href="/etc/designs/girlscouts/fonts/style.css" type="text/css"/>
   <title><%= title %></title>
 </head>
