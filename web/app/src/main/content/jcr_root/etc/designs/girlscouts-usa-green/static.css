@@ -62,6 +62,11 @@ a {
 a:hover {
   color: green;
 }
+@media only screen and (min-width:500ps and max-width: 620px) {
+  .home-section .columns.large-1 {
+    margin:0;
+  }
+}
 @media only screen and (min-width: 40.063em) {
 /*    .news-image {
 padding: 10px;
@@ -492,9 +497,11 @@ a:hover.menuHighlight {
 /* keep this for homepage layout 
     border: 1px solid green;
 }*/
-
+.home-section h2 {
+  font-size: 1.63em;
+  text-transform: uppercase;
+}
 .home-section h2 a {
-  font-size: 0.85em;
   color: #414141;
   font-weight: 300;
 }
