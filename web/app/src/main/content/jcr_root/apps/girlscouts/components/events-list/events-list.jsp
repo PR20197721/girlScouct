@@ -63,7 +63,7 @@
 <!-- <div class="small-24 medium-24 large-24 columns events-section">
 	<div class="row"> -->
 			<div class="large-1 columns small-2 medium-1">
-				<img src="<%=iconImg%>" width="50" height="50" alt="feature icon" />
+				<img src="<%=iconImg%>" width="32" height="32" alt="feature icon" />
 			</div>
 			<div class="column large-23 small-22 medium-23">
 				<div class="row collapse">

@@ -492,9 +492,11 @@ a:hover.menuHighlight {
 /* keep this for homepage layout 
     border: 1px solid green;
 }*/
-
+.home-section h2 {
+  font-size: 1.63em;
+  text-transform: uppercase;
+}
 .home-section h2 a {
-  font-size: 0.85em;
   color: #414141;
   font-weight: 300;
 }
