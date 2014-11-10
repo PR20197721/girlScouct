@@ -15,7 +15,8 @@ phonecatApp.controller('PhoneListCtrl', function xxx($scope, $http) {
   		$http.get('/content/girlscouts-vtk/controllers/vtk.controller.html?test=anglr1')
   		.success(function (data) {	 
   			var _data = $.trim(data);
-  			if( _data != '') {
+  			if( _data==null || _data != '')  {
+  				
    			 	$scope.phones = data.yearPlan['meetingEvents'];
   			}
    			 setInterval(function(){xxx($scope,$http) }, 5000);

@@ -4,6 +4,12 @@
 <cq:defineObjects />
 <% request.getSession().setAttribute( "isReloadedWindow", "true"); %>
 <%@include file="include/session.jsp"%>
+
+
+
+
+
+
 <div id="errInfo"></div>
 
 <%!String activeTab = "plan";
@@ -96,6 +102,7 @@
 							loadMeetings();
 						});
 					</script>
+					
 					<%
 						}
 					%>
@@ -126,4 +133,6 @@
 				}
 			%>
 	
+
+
 
