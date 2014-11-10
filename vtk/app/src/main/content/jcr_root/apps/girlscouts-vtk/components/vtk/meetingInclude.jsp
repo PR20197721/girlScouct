@@ -51,7 +51,7 @@
 							}
 							break;
 
-<<<<<<< HEAD
+
 <div ng-controller="PhoneListCtrl"><!-- start alex div angular -->
 <ul class="phones" id="<%= hasPermission(troop, Permission.PERMISSION_MOVE_MEETING_ID) ? "sortable123" : ""%>">
 <% 
@@ -93,7 +93,8 @@ if( troop.getYearPlan().getSchedule()!=null ){ //sched exists
 	 while( itr.hasNext() ){
 		java.util.Date date = (java.util.Date) itr.next();
 		YearPlanComponent _comp= sched.get(date);
-=======
+
+
 						case MEETING :
 							meetingCount++;
 							MeetingE meetingE =(MeetingE)_comp;
@@ -110,9 +111,8 @@ if( troop.getYearPlan().getSchedule()!=null ){ //sched exists
 					
 					//display activities
 					java.util.Iterator itr = sched.keySet().iterator();
->>>>>>> branch 'dev' of git@github.com:northpoint/girlscouts.git
-		
-<<<<<<< HEAD
+
+
 		switch( _comp.getType() ){
 			case ACTIVITY :
 				Activity activity = (Activity) _comp;
@@ -155,7 +155,7 @@ if( troop.getYearPlan().getSchedule()!=null ){ //sched exists
 %>
 </ul>
 </div> <!-- end alex div angular -->
-=======
+
 					 while( itr.hasNext() ){
 						java.util.Date date = (java.util.Date) itr.next();
 						YearPlanComponent _comp= sched.get(date);
@@ -194,7 +194,7 @@ if( troop.getYearPlan().getSchedule()!=null ){ //sched exists
 		</ul>
 	</div><!--/columns-->
 </div><!--/row-->
->>>>>>> branch 'dev' of git@github.com:northpoint/girlscouts.git
+
 <script>
 	$(function() {
 	  var scrollTarget = "";
