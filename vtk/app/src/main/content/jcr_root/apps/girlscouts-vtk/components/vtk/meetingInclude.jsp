@@ -4,6 +4,9 @@
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 
+
+	
+
 <%   
 	java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(troop.getYearPlan());
 	
@@ -48,6 +51,50 @@
 							}
 							break;
 
+
+<div ng-controller="PhoneListCtrl"><!-- start alex div angular -->
+<ul class="phones" id="<%= hasPermission(troop, Permission.PERMISSION_MOVE_MEETING_ID) ? "sortable123" : ""%>">
+<% 
+if( troop.getYearPlan().getSchedule()!=null ){ //sched exists
+ int meetingCount=0;
+ java.util.Iterator itr = sched.keySet().iterator();
+ while( itr.hasNext() ){
+	java.util.Date date = (java.util.Date) itr.next();
+	YearPlanComponent _comp= sched.get(date);
+	
+	switch( _comp.getType() ){
+		case ACTIVITY :
+			Activity activity = (Activity) _comp;
+			if (activity.getCancelled()!=null && activity.getCancelled().equals("true") ) {
+				; //dont display
+			}else{
+				%>  <%@include file="include/viewActivity.jsp" %>    <%
+			}
+			break;
+
+		case MEETING :
+			meetingCount++;
+			MeetingE meetingE =(MeetingE)_comp;
+			%>  <%@include file="include/viewMeeting.jsp" %>    <% 
+			break;
+		case MILESTONE :
+			Milestone milestone = (Milestone) _comp;
+			%>  <%@include file="include/viewMilestone.jsp" %>    <% 
+			break;
+	} 	
+ }
+}else{ //no sched
+	
+	
+	int meetingCount=0;
+
+	//display activities
+	java.util.Iterator itr = sched.keySet().iterator();
+	 while( itr.hasNext() ){
+		java.util.Date date = (java.util.Date) itr.next();
+		YearPlanComponent _comp= sched.get(date);
+
+
 						case MEETING :
 							meetingCount++;
 							MeetingE meetingE =(MeetingE)_comp;
@@ -64,7 +111,51 @@
 					
 					//display activities
 					java.util.Iterator itr = sched.keySet().iterator();
-		
+
+
+		switch( _comp.getType() ){
+			case ACTIVITY :
+				Activity activity = (Activity) _comp;
+				if (activity.getCancelled()!=null && activity.getCancelled().equals("true") ) {
+					; //dont display
+				}else{
+					%>  <%@include file="include/viewActivity.jsp" %>    <% 
+				}
+				break;
+
+			
+		} 	
+	 }
+	 
+	 //displ others
+	 itr = sched.keySet().iterator();
+	 while( itr.hasNext() ){
+			java.util.Date date = (java.util.Date) itr.next();
+			YearPlanComponent _comp= sched.get(date);
+			
+			switch( _comp.getType() ){
+			case MEETING :
+				meetingCount++;
+				MeetingE meetingE =(MeetingE)_comp;
+				%>  <%@include file="include/viewMeeting.jsp" %>    <% 
+				break;
+			case MILESTONE :
+				Milestone milestone = (Milestone) _comp;
+				%>  <%@include file="include/viewMilestone.jsp" %>    <% 
+				break;
+				
+			} 	
+		 }
+	
+	
+	
+}
+
+
+%>
+</ul>
+</div> <!-- end alex div angular -->
+
 					 while( itr.hasNext() ){
 						java.util.Date date = (java.util.Date) itr.next();
 						YearPlanComponent _comp= sched.get(date);
@@ -103,6 +194,7 @@
 		</ul>
 	</div><!--/columns-->
 </div><!--/row-->
+
 <script>
 	$(function() {
 	  var scrollTarget = "";
