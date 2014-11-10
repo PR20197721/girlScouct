@@ -26,113 +26,107 @@
 		<p class="hide-for-print">Drag and drop to reorder meetings</p> 
 	</div>
 </div>
+<div class="row">
+	<div class="columns large-21 large-centered">
+		<ul id="<%= hasPermission(troop, Permission.PERMISSION_MOVE_MEETING_ID) ? "sortable123" : ""%>">
+				<% 
+				if( troop.getYearPlan().getSchedule()!=null ){ //Schedule exists
+				 int meetingCount=0;
+				 java.util.Iterator itr = sched.keySet().iterator();
+				 while( itr.hasNext() ){
+					java.util.Date date = (java.util.Date) itr.next();
+					YearPlanComponent _comp= sched.get(date);
+					
+					switch( _comp.getType() ){
+						case ACTIVITY :
+							Activity activity = (Activity) _comp;
+							if (activity.getCancelled()!=null && activity.getCancelled().equals("true") ) {
+								; //dont display
+							}else{
+								%> 
+								<%@include file="include/viewActivity.jsp" %>    <%
+							}
+							break;
 
-<ul id="<%= hasPermission(troop, Permission.PERMISSION_MOVE_MEETING_ID) ? "sortable123" : ""%>">
-<% 
-if( troop.getYearPlan().getSchedule()!=null ){ //sched exists
- int meetingCount=0;
- java.util.Iterator itr = sched.keySet().iterator();
- while( itr.hasNext() ){
-	java.util.Date date = (java.util.Date) itr.next();
-	YearPlanComponent _comp= sched.get(date);
-	
-	switch( _comp.getType() ){
-		case ACTIVITY :
-			Activity activity = (Activity) _comp;
-			if (activity.getCancelled()!=null && activity.getCancelled().equals("true") ) {
-				; //dont display
-			}else{
-				%>  <%@include file="include/viewActivity.jsp" %>    <%
-			}
-			break;
-
-		case MEETING :
-			meetingCount++;
-			MeetingE meetingE =(MeetingE)_comp;
-			%>  <%@include file="include/viewMeeting.jsp" %>    <% 
-			break;
-		case MILESTONE :
-			Milestone milestone = (Milestone) _comp;
-			%>  <%@include file="include/viewMilestone.jsp" %>    <% 
-			break;
-	} 	
- }
-}else{ //no sched
-	
-	
-	int meetingCount=0;
-
-	//display activities
-	java.util.Iterator itr = sched.keySet().iterator();
-	 while( itr.hasNext() ){
-		java.util.Date date = (java.util.Date) itr.next();
-		YearPlanComponent _comp= sched.get(date);
+						case MEETING :
+							meetingCount++;
+							MeetingE meetingE =(MeetingE)_comp;
+							%>  <%@include file="include/viewMeeting.jsp" %>    <% 
+							break;
+						case MILESTONE :
+							Milestone milestone = (Milestone) _comp;
+							%>  <%@include file="include/viewMilestone.jsp" %>    <% 
+							break;
+					} 	
+				 }
+				}else{ //Schedule doesn't exist
+					int meetingCount=0;
+					
+					//display activities
+					java.util.Iterator itr = sched.keySet().iterator();
 		
-		switch( _comp.getType() ){
-			case ACTIVITY :
-				Activity activity = (Activity) _comp;
-				if (activity.getCancelled()!=null && activity.getCancelled().equals("true") ) {
-					; //dont display
-				}else{
-					%>  <%@include file="include/viewActivity.jsp" %>    <% 
-				}
-				break;
-
-			
-		} 	
-	 }
-	 
-	 //displ others
-	 itr = sched.keySet().iterator();
-	 while( itr.hasNext() ){
-			java.util.Date date = (java.util.Date) itr.next();
-			YearPlanComponent _comp= sched.get(date);
-			
-			switch( _comp.getType() ){
-			case MEETING :
-				meetingCount++;
-				MeetingE meetingE =(MeetingE)_comp;
-				%>  <%@include file="include/viewMeeting.jsp" %>    <% 
-				break;
-			case MILESTONE :
-				Milestone milestone = (Milestone) _comp;
-				%>  <%@include file="include/viewMilestone.jsp" %>    <% 
-				break;
-				
-			} 	
-		 }
-	
-	
-	
-}
-
-
-%>
-</ul>
+					 while( itr.hasNext() ){
+						java.util.Date date = (java.util.Date) itr.next();
+						YearPlanComponent _comp= sched.get(date);
+		
+						switch( _comp.getType() ){
+							case ACTIVITY :
+								Activity activity = (Activity) _comp;
+								if (activity.getCancelled()!=null && activity.getCancelled().equals("true") ) {
+									; //dont display
+								}else{
+									%>  <%@include file="include/viewActivity.jsp" %>    <% 
+								}
+								break;	
+						} 	
+					 }
+					 //displ others
+					 itr = sched.keySet().iterator();
+					 	
+					 	while( itr.hasNext() ){
+							java.util.Date date = (java.util.Date) itr.next();
+							YearPlanComponent _comp= sched.get(date);
+							
+							switch( _comp.getType() ){
+							case MEETING :
+								meetingCount++;
+								MeetingE meetingE =(MeetingE)_comp;
+								%>  <%@include file="include/viewMeeting.jsp" %>    <% 
+								break;
+							case MILESTONE :
+								Milestone milestone = (Milestone) _comp;
+								%>  <%@include file="include/viewMilestone.jsp" %>    <% 
+								break;
+							} 	
+						}
+					} %>
+		</ul>
+	</div><!--/columns-->
+</div><!--/row-->
 <script>
 	$(function() {
-                var scrollTarget = "";
-                if (Modernizr.touch) {
-                        // touch device
-                        scrollTarget = ".touchscroll";
-                } else {
-                        $(".touchscroll").hide();
-                }
-                $("#sortable123").sortable({
-                        items: "li:not(.ui-state-disabled)",
-                        delay:150,
-                        cursor: "move" ,
-                        distance: 5,
-                        opacity: 0.5 ,
-                        scroll: true,
-                        scrollSensitivity: 10 ,
-                        tolerance: "intersect" ,
-                        handle: scrollTarget,
-			update:  function (event, ui) {
-				doUpdMeeting();
-			}
-                });
-                $( "#sortable123 li" ).disableSelection();
+	  var scrollTarget = "";
+	  if (Modernizr.touch) {
+	          // touch device
+	          scrollTarget = ".touchscroll";
+	  } else {
+	          $(".touchscroll").hide();
+	  }
+	  $("#sortable123").sortable({
+	          items: "li:not(.ui-state-disabled)",
+	          delay:150,
+	          cursor: "move" ,
+	          distance: 5,
+	          opacity: 0.5 ,
+	          scroll: true,
+	          scrollSensitivity: 10 ,
+	          tolerance: "intersect" ,
+	          handle: scrollTarget,
+		update:  function (event, ui) {
+								doUpdMeeting();
+							}
+   });
+    $( "#sortable123 li" ).disableSelection();
 	});
 </script>
 

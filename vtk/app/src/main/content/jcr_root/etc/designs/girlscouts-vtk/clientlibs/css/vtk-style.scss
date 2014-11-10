@@ -1,4 +1,8 @@
 .vtk-body {
+  p {
+    font-size:0.88em;
+    line-height:1.31;
+  }
   #main {
     background: transparent;
     .row {
@@ -63,6 +67,24 @@
         height: 25px;
         top: 5px;
         left: 28px;
+      }
+    }
+    #yearPlanMeetings {
+      .ui-sortable {
+        li .row {
+          .large-1:nth-of-type(1) {
+            background: url("/etc/designs/girlscouts-vtk/images/throbber.png") no-repeat 0 0;
+            height: 80px;
+          }
+        }
+      }
+
+      .yearPlanTitle {
+        font-size: 1.63em;
+        text-transform:uppercase;
+      }
+      .ui-sortable {
+        margin: 0;
       }
     }
   }
