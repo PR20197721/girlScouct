@@ -30,6 +30,7 @@
 	</div>
 </div>
 
+<div ng-controller="PhoneListCtrl"><!-- start alex div angular -->
 <ul class="phones" id="<%= hasPermission(troop, Permission.PERMISSION_MOVE_MEETING_ID) ? "sortable123" : ""%>">
 <% 
 if( troop.getYearPlan().getSchedule()!=null ){ //sched exists
@@ -112,6 +113,7 @@ if( troop.getYearPlan().getSchedule()!=null ){ //sched exists
 
 %>
 </ul>
+</div> <!-- end alex div angular -->
 <script>
 	$(function() {
                 var scrollTarget = "";
