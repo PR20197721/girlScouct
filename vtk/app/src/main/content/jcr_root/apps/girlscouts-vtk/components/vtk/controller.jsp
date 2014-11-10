@@ -65,9 +65,12 @@ try{
 			locationUtil.setLocationAllMeetings(user, troop, request.getParameter("setLocationToAllMeetings") );
 			return;
 		case UpdateSched:
-			calendarUtil.updateSched(user, troop, request.getParameter("meetingPath"), 
+			boolean isSucc =calendarUtil.updateSched(user, troop, request.getParameter("meetingPath"), 
 					request.getParameter("time"), request.getParameter("date"), request.getParameter("ap"), 
 					request.getParameter("isCancelledMeeting"), Long.parseLong( request.getParameter("currDt") ));
+	
+		System.err.println("test: "+ isSucc);	
+			if( !isSucc ){ response.sendError(499, "Date already exists in schedule" );}
 			return;
 		case RemoveCustomActivity:
 			meetingUtil.rmCustomActivity (user, troop, request.getParameter("rmCustActivity") );	
@@ -396,9 +399,17 @@ if(request.getParameter("admin_login")!=null ){
 	 			break;
   		}
 	  }
+	
+	if( userUtil.isCurrentTroopId_NoRefresh(troop,user.getSid()) ) {
+		return; 
+	}else{
+		System.err.println("yes refresh caca");
+	}
+	
+	
 	troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
-	
-	
+	session.setAttribute("VTK_troop", troop);
+	//if alter = timestamp change
 	out.println(mapper.writeValueAsString(troop));
 	
 	
