@@ -43,15 +43,12 @@ public class NodeListener implements EventListener {
     	*/
     	
     	
-    	
-    	
         Collection<NodeEvent> events = NodeEventCollector.getEvents(iter);
-        
         for (NodeEvent event : events) {
             try {
                 String path = event.getPath();
                 int type = event.getType();
-      //- System.err.println(">> " + path +" : "+ type );         
+        
                 if (type == Constants.EVENT_UPDATE) {
                     replicator.replicate(session, ReplicationActionType.ACTIVATE, path, opts);
                 } else if (type == Constants.EVENT_REMOVE){

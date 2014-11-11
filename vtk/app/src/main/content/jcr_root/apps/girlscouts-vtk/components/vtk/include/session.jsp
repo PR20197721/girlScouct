@@ -251,7 +251,25 @@ One of your co-leaders is currently making changes in the Volunteer Toolkit for 
 //<br/><=VtkUtil.doHash( user.getApiConfig().getUserId() ) >
 %>
 
-
+<script>
+	function xx(){
+		
+	alert(1);
+		$.ajax({
+    		url: "/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid=<%=session.getId()%>&upid=<%=troop.getYearPlan().getPath()%>&d=<%=new java.util.Date()%>",
+    		cache: false
+    	}).done(function( html ) {
+    		var obj = jQuery.parseJSON(html );
+    		
+    		alert(obj.yp_cng);
+    	
+    	});
+		
+		
+		
+		window.setInterval(xx(),1000);
+	}
+</script>
 
 
   
