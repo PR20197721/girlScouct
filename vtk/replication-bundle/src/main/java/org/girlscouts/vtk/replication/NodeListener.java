@@ -7,6 +7,7 @@ import javax.jcr.observation.Event;
 import javax.jcr.observation.EventIterator;
 import javax.jcr.observation.EventListener;
 
+import org.apache.commons.collections4.map.PassiveExpiringMap;
 import org.girlscouts.vtk.replication.NodeEventCollector.NodeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,7 @@ public class NodeListener implements EventListener {
     private Session session;
     private Replicator replicator;
     private ReplicationOptions opts;
+   
     
     public NodeListener(Session session, Replicator replicator) {
         this.session = session;
@@ -32,12 +34,20 @@ public class NodeListener implements EventListener {
         opts.setSuppressVersions(true);
     }
 
+   
+    
     public void onEvent(EventIterator iter) {
     	/*
     	try{
     	while( iter.hasNext() ){
     		Event e = iter.nextEvent();
-    		System.err.println( "** "+ e.NODE_ADDED+" : "+ e.NODE_MOVED +" : "+e.NODE_REMOVED +" : "+e.PROPERTY_CHANGED+" : "+e.getPath() +" : "+ e.getInfo() + " : "+ e.getIdentifier() +" : "+e.getType());
+    		//System.err.println( "** "+ e.NODE_ADDED+" : "+ e.NODE_MOVED +" : "+e.NODE_REMOVED +" : "+e.PROPERTY_CHANGED+" : "+e.getPath() +" : "+ e.getInfo() + " : "+ e.getIdentifier() +" : "+e.getType());
+    		
+    		if( e.PROPERTY_CHANGED==16 && 
+    				e.getPath().endsWith("/jcr:lastModified") ){
+    					System.err.println(">> "+ (e.PROPERTY_CHANGED==16) + " : "+e.getPath());
+    					saveModified( e.getPath().substring(0, e.getPath().lastIndexOf("/")) );
+    		}
     	}
     	}catch(Exception e){e.printStackTrace();}
     	*/

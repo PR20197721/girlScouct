@@ -27,6 +27,7 @@ import org.apache.jackrabbit.util.Text;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
+import org.girlscouts.vtk.modifiedcheck.ModifiedChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,6 +56,9 @@ public class ReplicationServlet extends SlingAllMethodsServlet {
     
     @Reference
     protected ReplicationManager replicationManager;
+    
+    @Reference
+    protected ModifiedChecker modifiedChecker;
 
     public ReplicationServlet() {
         this.logger = LoggerFactory.getLogger(getClass());
@@ -84,6 +88,12 @@ public class ReplicationServlet extends SlingAllMethodsServlet {
                 throw new ReplicationException("No replication path.");
             }
             path = Text.unescape(path);
+            
+            // Notify the modifiedChecker that this node has been modified externally.
+            // sessionId == null because it is from another server.
+            
+     System.err.println("MODIFFFFFFFFFFFFFFFF");       
+            modifiedChecker.setModified(null, path);
 
             long start = System.currentTimeMillis();
             if ("true".equals(request.getParameter("sink"))) {

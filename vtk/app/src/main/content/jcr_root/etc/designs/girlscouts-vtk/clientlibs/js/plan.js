@@ -479,3 +479,27 @@ function showAlterYearPlanStartDate(){
 
 	}
 
+
+function xx1256(){
+	console.log(1);
+		$.ajax({
+    		url: "/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid=<%=session.getId()%>&upid=<%=troop.getYearPlan().getPath()%>&d=<%=new java.util.Date()%>",
+    		cache: false
+    	}).done(function( html ) {
+    		
+    		var obj = jQuery.parseJSON(html );
+    		if( obj.yp_cng == false ){
+    			alert("reloading...");
+    			window.reload();
+    			
+    		}
+    		setTimeout(xx1256,15000);
+    		
+    	});
+	
+		
+			
+	}
+	
+	
+
