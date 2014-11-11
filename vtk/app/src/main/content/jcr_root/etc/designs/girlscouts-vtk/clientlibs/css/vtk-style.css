@@ -1,6 +1,14 @@
+.row .row {
+  margin-left: -5px;
+  margin-right: -5px; }
+
+.column, .columns {
+  padding-left: 5px;
+  padding-right: 5px; }
+
 .vtk-body p {
   font-size: 0.88em;
-  line-height: 1.31; }
+  line-height: 1.5; }
 .vtk-body #main {
   background: transparent; }
   .vtk-body #main .row {
@@ -50,15 +58,72 @@
     width: 25px;
     height: 25px;
     top: 5px;
-    left: 28px; }
-  .vtk-body #main #yearPlanMeetings .ui-sortable li .row .large-1:nth-of-type(1) {
-    background: url("/etc/designs/girlscouts-vtk/images/throbber.png") no-repeat 0 0;
-    height: 80px; }
+    left: 23%; }
   .vtk-body #main #yearPlanMeetings .yearPlanTitle {
     font-size: 1.63em;
     text-transform: uppercase; }
-  .vtk-body #main #yearPlanMeetings .ui-sortable {
+  .vtk-body #main #yearPlanMeetings #sortable123 {
     margin: 0; }
+    .vtk-body #main #yearPlanMeetings #sortable123 .meeting {
+      margin-bottom: 2.0833333%; }
+      .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div {
+        padding-left: 30px;
+        background-color: #f6f6f6;
+        cursor: pointer; }
+        .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div:before {
+          content: '';
+          background: url("images/throbber.png") repeat-y white;
+          height: 100%;
+          width: 23px;
+          position: absolute;
+          left: 0;
+          padding: 0 17px;
+          cursor: move; }
+        .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div p {
+          margin: 0; }
+        .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div .bg-square {
+          background-color: #00ae57;
+          text-align: center;
+          padding: 5px 0 0 4px;
+          color: #fff;
+          position: absolute;
+          height: 100%;
+          width: 91px; }
+          .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div .bg-square .date {
+            text-transform: uppercase; }
+            .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div .bg-square .date .day {
+              font-size: 2.06em; }
+            .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div .bg-square .date p {
+              font-weight: 100; }
+          .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div .bg-square .count {
+            font-size: 10px;
+            font-weight: 100;
+            color: #000;
+            border: solid 1px #000;
+            border-radius: 8px;
+            width: 18px;
+            background: #ecec13;
+            padding-left: 1px;
+            position: absolute; }
+          .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div .bg-square:after {
+            border: solid 15px transparent;
+            border-color: transparent transparent transparent #00ae57;
+            position: absolute;
+            left: 100%;
+            top: 35%;
+            content: " "; }
+          .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div .bg-square.canceled {
+            background-color: #ff0000; }
+            .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div .bg-square.canceled:after {
+              border-color: transparent transparent transparent #ff0000; }
+        .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div > div:first-child {
+          position: static; }
+        .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div > div:nth-of-type(2) {
+          padding-left: 140px;
+          padding-top: 15px;
+          padding-bottom: 15px; }
+          .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div > div:nth-of-type(2) .subtitle {
+            text-transform: uppercase; }
 .vtk-body #mainContent.welcome-page .parbase.section.text h1 {
   margin: 1.25rem 0; }
 .vtk-body #mainContent.welcome-page .parbase.section.text p {
@@ -132,3 +197,9 @@
     border-color: #fff; }
     .tabs dd.active a, .tabs dd:hover a {
       color: #303030; }
+
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default {
+  border: none;
+  color: #393939; }
