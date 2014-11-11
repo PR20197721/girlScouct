@@ -1,1 +1,28 @@
 /* orange nav */
+
+#main .side-nav * {
+    color: #333333;
+    margin: 0px;
+}
+
+#main .side-nav > li > div > a {
+    font-weight: bold;
+}
+
+#main .side-nav li div:hover {
+    background-color: #DCDCDC;
+}
+
+#main .side-nav li.active.current > div {
+    background-color: #B0B0B0;
+}
+
+#main .side-nav > li {
+    background: url('/etc/designs/girlscouts-usa-green/images/orange-vertical.png') repeat-y 0px 0px;
+    background-color: #F1F1EF;
+    list-style: none;
+}
+#main .side-nav > li.active {
+    background: url('/etc/designs/girlscouts-usa-green/images/orange-yellow-vertical.png') repeat-y 0px 0px;
+    background-color: #f7f7f6;
+}
