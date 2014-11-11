@@ -14,8 +14,7 @@
   .vtk-body #main .row {
     background: #fff; }
     .vtk-body #main .row.content {
-      padding-top: 20px;
-      min-height: 487px; }
+      padding-top: 20px; }
     .vtk-body #main .row.instructions {
       padding-top: 20px; }
   .vtk-body #main #troop {
@@ -125,7 +124,7 @@
           .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div > div:nth-of-type(2) .subtitle {
             text-transform: uppercase; }
 .vtk-body #mainContent.welcome-page .parbase.section.text h1 {
-  margin: 1.25rem 0; }
+  margin: 0 0 1.25rem 0; }
 .vtk-body #mainContent.welcome-page .parbase.section.text p {
   font-size: 0.875rem;
   margin-top: 1.13rem; }

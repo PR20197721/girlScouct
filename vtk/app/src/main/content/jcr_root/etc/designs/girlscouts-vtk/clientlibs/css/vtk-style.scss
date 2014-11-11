@@ -17,7 +17,7 @@
       background: #fff;
       &.content {
         padding-top: 20px;
-        min-height: 487px;
+        // min-height: 487px;
       }
       &.instructions {
         padding-top: 20px;
@@ -165,7 +165,7 @@
   #mainContent.welcome-page .parbase.section {
     &.text {
       h1 {
-        margin: 1.25rem 0;
+        margin: 0 0 1.25rem 0;
       }
       p {
         font-size: 0.875rem;

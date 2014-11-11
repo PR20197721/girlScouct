@@ -52,7 +52,7 @@ if (configManager != null) {
  
 <!-- apps/girlscouts/components/three-column-page/content.jsp -->
 <!--PAGE STRUCTURE: MAIN-->
-<div id="main" class="row">
+<div class="row content">
 	<!--PAGE STRUCTURE: LEFT CONTENT START-->
 	<div class="large-5 hide-for-medium hide-for-small columns mainLeft">
 		<div id="leftContent">
@@ -124,17 +124,6 @@ if (configManager != null) {
 </div>
 <!--PAGE STRUCTURE: MAIN CONTENT STOP-->
 </div>
-
-<script type="text/javascript">
-	var resizeWindow = function(){
-		if(fixVerticalSizing) {
-			var currentMainHeight = $('#main').height();
-			var targetMainHeight = $(this).height() - $("#header").height() - $("#headerBar").height() - $("#footer").height() - 15;
-			if (targetMainHeight > 1.1 * currentMainHeight) {
-				$('#main').height(targetMainHeight);
-			}
-		}
-	};
-	window.onload = resizeWindow;
-	$(window).resize(resizeWindow);
+<script>
+    fixVerticalSizing = true;
 </script>
