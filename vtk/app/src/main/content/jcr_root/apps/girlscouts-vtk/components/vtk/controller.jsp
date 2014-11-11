@@ -3,13 +3,7 @@
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 <%
-/*
-System.err.println("START**********************"+ user.getSid());
-System.err.println("** "+ sling.getService(YearPlanDAO.class).getLastModifByOthers(troop, user.getSid()));
-System.err.println(troop.getRetrieveTime() +" : "+ ((Troop) session.getValue("VTK_troop")).getRetrieveTime());
-System.err.println("________________"+ userUtil.isCurrentTroopId_NoRefresh(troop,user.getSid())+" errCode: "+ troop.getErrCode());
-System.err.println("END************************");
-*/
+
 
 String vtkErr="";
 try{
@@ -409,10 +403,13 @@ if(request.getParameter("admin_login")!=null ){
 	
 	troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
 	session.setAttribute("VTK_troop", troop);
+	
 	//if alter = timestamp change
 	out.println(mapper.writeValueAsString(troop));
 	
-	
+}else if( request.getParameter("test1") !=null ){
+
+	System.err.println("CHECK");
 			  
 			  
 	
