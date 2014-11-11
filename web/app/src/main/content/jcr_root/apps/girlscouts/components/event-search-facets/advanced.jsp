@@ -44,7 +44,7 @@
     facetsAndTags = (HashMap<String, List<FacetsInfo>>) request.getAttribute("facetsAndTags");
     String homepagePath = currentPage.getAbsoluteParent(2).getPath();
     //String REGIONS = currentSite.get("locationsPath", homepagePath + "/locations");
-    String YEARS = currentSite.get("eventsPath", homepagePath + "/events");
+    String YEARS = currentSite.get("eventPath", homepagePath + "/events");
     long RESULTS_PER_PAGE = Long.parseLong(properties.get("resultsPerPage", "10"));
     String[] tags = request.getParameterValues("tags");
     HashSet<String> set = new HashSet<String>();

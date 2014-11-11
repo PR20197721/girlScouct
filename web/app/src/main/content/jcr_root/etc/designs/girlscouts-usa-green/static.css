@@ -225,6 +225,7 @@ a:hover.menuHighlight {
 #header .message {
   text-align: right;
 }
+
 #header .logoSmall {
   margin: 0px 0px 10px 0px;
 }
@@ -328,6 +329,9 @@ a:hover.menuHighlight {
     text-align: center;
     clear: both;
     position: relative;
+  }
+  .logo nav {
+    text-align: center;
   }
 }
 .social-media-icons p {
@@ -488,9 +492,11 @@ a:hover.menuHighlight {
 /* keep this for homepage layout 
     border: 1px solid green;
 }*/
-
+.home-section h2 {
+  font-size: 1.63em;
+  text-transform: uppercase;
+}
 .home-section h2 a {
-  font-size: 0.85em;
   color: #414141;
   font-weight: 300;
 }
