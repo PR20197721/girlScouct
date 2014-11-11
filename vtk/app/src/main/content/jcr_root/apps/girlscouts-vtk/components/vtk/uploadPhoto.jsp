@@ -119,23 +119,9 @@ try{ isFile = Integer.parseInt( request.getParameter("isFile") ); }catch(Excepti
          
          	var canvas = document.getElementById("myCanvas");
          	var img    = canvas.toDataURL("image/png");
-         	//document.getElementById('canvasImg').src = dataURL;
-         	
+
          	 document.getElementById('custasset').value = dataUrl.replace('data:image/png;base64,', '');//img.replace('data:image/png;base64,', '');
-         	
-         	 
-         	 
-         	 
-         	 //var dataURL = canvas.toDataURL('image/jpeg', 0.5);
-         	/*
-         	var blob = dataURItoBlob(img);
-         	var fd = new FormData(document.forms["frmImg"]);
-         	alert( "fd: "+fd);
-         	alert( "blob: "+ blob);
-         	fd.append("tatat", blob);
-         	fd.append("acaca", img.replace('data:image/png;base64,', ''), "asdfasd");
-         	*/
-         	
+         
          	
          	 
          	 

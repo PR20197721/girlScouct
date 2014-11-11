@@ -13,6 +13,7 @@ import org.apache.commons.httpclient.methods.PostMethod;
 import org.apache.felix.scr.annotations.Reference;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.models.User;
+import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.ejb.UserDAOImpl;
@@ -369,6 +370,29 @@ public java.util.List <Troop>  troopInfo(ApiConfig apiConfig, String contactId){
 						troop.setGradeLevel(results.getJSONObject(i).getJSONObject("Parent").getString("Program_Grade_Level__c") );
 						troop.setTroopId(results.getJSONObject(i).getString("ParentId"));
 						troop.setTroopName( results.getJSONObject(i).getJSONObject("Parent").getString("Name") );
+						
+						System.err.println("ETSTS: "+ org.girlscouts.vtk.auth.permission.RollType.DP );
+						
+						org.girlscouts.vtk.auth.permission.RollType rollType= org.girlscouts.vtk.auth.permission.RollType.valueOf("DP");
+						switch(rollType){
+							case DP:
+								troop.setPermissionTokens(Permission.getPermissionTokens( Permission.ROOT_PERMISSIONS ) );
+								System.err.println("REGISTER ROLL DP");
+								break;
+							default:
+								System.err.println("REGISTER ROLL DEFAULT");
+								troop.setPermissionTokens(Permission.getPermissionTokens( Permission.GROUP_GUEST_PERMISSIONS ) );
+								break;
+						}
+						
+						
+						
+						/*
+						if( org.girlscouts.vtk.auth.permission.RollType.DP.equals("DP") ) //DP --> job_code__c = 'DP'
+							troop.setPermissionTokens(Permission.getPermissionTokens( Permission.GROUP_MEMBER_1G_PERMISSIONS ) );
+						else //GUEST
+							troop.setPermissionTokens(Permission.getPermissionTokens( Permission.GROUP_GUEST_PERMISSIONS ) );
+					*/
 					}catch(Exception e){
 						e.printStackTrace();
 					}

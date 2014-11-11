@@ -44,9 +44,20 @@ public class Activity extends YearPlanComponent{
 	@Field Double cost;
 	@Field Boolean isEditable;
 	@Field private String cancelled;
+	@Field private String registerUrl;
+	
+	
+
 	
 	
 	
+	public String getRegisterUrl() {
+		return registerUrl;
+	}
+
+	public void setRegisterUrl(String registerUrl) {
+		this.registerUrl = registerUrl;
+	}
 
 	public String getCancelled() {
 		return cancelled;

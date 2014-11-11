@@ -11,7 +11,6 @@ Medium
 
 Small
 40em 640 and below
-
 Font : Open Sans
 
 */
@@ -577,13 +576,8 @@ td.fc-header-left{
   
 }
 
-
 .right-off-canvas-menu ul li{
   font-size:1rem;
-}
-
-.emptyrow{
- height:20px;
 }
 
 .logoLargePadding{
@@ -709,8 +703,6 @@ ul.side-nav, li#sub-active ul, li#sub-active > ul > li > ul > li{
 .lineHeight{
  line-height:1.5;
 }
-
-
 .register a{
     background: url('images/small-green-arrow-right.png') no-repeat  0px 0px;
     background-position:right center;
@@ -724,7 +716,7 @@ ul.side-nav, li#sub-active ul, li#sub-active > ul > li > ul > li{
 }
 
 #mainContent ul {
-	list-style: disc;
+  list-style: disc;
 }
 
 div.image.center img {
@@ -734,7 +726,7 @@ div.image.center img {
 }
 
 div.image.center small {
-	text-align: center;
+  text-align: center;
 }
 
 .rightBodyLeft {
@@ -755,11 +747,11 @@ div.textimage.image_right div.image {
 
 /* added change for the search small menu */
 #header .topMessage.alt {
-	height: 30px;
+  height: 30px;
 }
 
 #header > div.show-for-small.small-24.columns.topMessage.alt > .row.srch-box {
-	line-height: 30px;
+  line-height: 30px;
 }
 .srch-box form{
   margin:8px 0 0;
@@ -769,7 +761,7 @@ div.textimage.image_right div.image {
 }
 
 #header > .show-for-small.topMessage.alt > .srch-box > .small-2.columns {
-	padding: 0;
+  padding: 0;
 }
 
 .emailicon {

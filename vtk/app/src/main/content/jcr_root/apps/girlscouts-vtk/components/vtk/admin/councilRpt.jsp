@@ -44,7 +44,7 @@ cTrans.put("313", "Girl Scouts of Gateway Council, Inc.");
 		javax.jcr.Session s= (slingRequest.getResourceResolver().adaptTo(Session.class));
 		
 		
-		String sql="select  sfTroopAge,jcr:path, sfCouncil,excerpt(.) from nt:base where jcr:path like '/vtk/%' and contains(*, 'org.girlscouts.vtk.models.user.User ') ";
+		String sql="select  sfTroopName,sfTroopAge,jcr:path, sfTroopId,sfCouncil,excerpt(.) from nt:base where jcr:path like '/vtk/%' and contains(*, 'org.girlscouts.vtk.models.user.User ') ";
 		
 		
 		javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();
@@ -57,7 +57,7 @@ cTrans.put("313", "Girl Scouts of Gateway Council, Inc.");
 	
 		org.apache.commons.collections.MultiMap containeR= new org.apache.commons.collections.map.MultiValueMap();
 		
-		
+		java.util.List <org.girlscouts.vtk.models.YearPlanRpt> yprs = new java.util.ArrayList<org.girlscouts.vtk.models.YearPlanRpt>();
 		
 		
 		
@@ -80,7 +80,6 @@ cTrans.put("313", "Girl Scouts of Gateway Council, Inc.");
 		    if( sfTroopAge==null){
 		    	Node node = r.getNode().getNode("yearPlan/meetingEvents/").getNodes().nextNode();	
 		    	
-		    	//out.println("** "+ (node==null) );
 		    	String refId= node.getProperty("refId").getString();
 		    	String planId= refId.substring( refId.lastIndexOf("/") +1).toLowerCase();
 		    	
@@ -93,6 +92,12 @@ cTrans.put("313", "Girl Scouts of Gateway Council, Inc.");
 		    	
 		    }
 		    
+		    org.girlscouts.vtk.models.YearPlanRpt ypr = new org.girlscouts.vtk.models.YearPlanRpt();
+		    ypr.setCouncil(sfCouncil);
+		    ypr.setTroop( r.getValue("sfTroopId").getString() );
+		    ypr.setTroopName( r.getValue("sfTroopName").getString() );
+		    ypr.setTroopAge(sfTroopAge);
+		    yprs.add(ypr);
 		    
 		    if( !unCouncil.contains(sfCouncil) )
 		    	unCouncil.add(sfCouncil);
@@ -100,9 +105,7 @@ cTrans.put("313", "Girl Scouts of Gateway Council, Inc.");
   		   	containeR.put( sfCouncil,sfTroopAge );
 		    
   		   	
-  		   	
-  		   	
-			//out.println("<br/>"+ sfCouncil +" : " +sfTroopAge );
+  		  
 		       count++;
 		}
 		out.println("Total: "+count);
@@ -110,9 +113,11 @@ cTrans.put("313", "Girl Scouts of Gateway Council, Inc.");
 		<table>
 		<tr>
 		<th>Council</th>
+		<th>TroopName</th>
 		<th>Junior</th>
 		<th>Brownie</th>
 		<th>Daisy</th>
+		<th>Total</th>
 		
 		</tr>
 <%
@@ -129,7 +134,7 @@ cTrans.put("313", "Girl Scouts of Gateway Council, Inc.");
 				String _council= (String) itr.next();
 				java.util.List lvl= (java.util.List)containeR.get( council );
 				if( council.equals(_council) ){
-					//out.println("YEs --" + lvl);
+					
 					for(int y=0;y<lvl.size();y++){
 						String l = (String) lvl.get(y);
 						if( xx.get(l)==null )
@@ -143,225 +148,83 @@ cTrans.put("313", "Girl Scouts of Gateway Council, Inc.");
 			}
 			
 			
+			int total = 0, council_jun=0, council_dai=0, council_bro=0;
+			if(xx.get("3-Junior")!=null ){
+				total+= xx.get("3-Junior");
+				council_jun=xx.get("3-Junior");
+			}
+			
+			if( xx.get("2-Brownie") !=null){
+				total += xx.get("2-Brownie");
+				council_bro= xx.get("2-Brownie");
+			}
+			
+			if( xx.get("1-Daisy") !=null){
+				total += xx.get("1-Daisy");
+				council_dai = xx.get("1-Daisy");
+		    }
 			
 			%>
-				<tr>
+				<tr style="background-color:lightgray;">
 				<td><%=councilId_str ==null ? council : councilId_str%></td>
+				<td></td>
+				<!-- 
 				<td><%= xx.get("3-Junior")%> </td>
 				<td><%= xx.get("2-Brownie")%></td>
 				<td><%= xx.get("1-Daisy")%></td>
+				-->
+				
+				<td><%=council_jun %></td>
+				<td><%=council_bro %></td>
+				<td><%=council_dai  %></td>
+				
+				<td><%=total %></td>
 				</tr>
 			<%
+			
+			int total_dai=0, total_bro=0, total_jun=0;
+			
+			
+			java.util.List <String>_troops = getTroops(yprs,council);
+			for(int ii=0;ii<_troops.size();ii++){
+				String troopId = _troops.get(ii);
+				String troopName= getTroopName( yprs, council, troopId);
+				
+					
+				int jun= getTroopCount( yprs, council, troopId , ("3-Junior"));
+				int bro =getTroopCount( yprs, council, troopId , ("2-Brownie"));
+				int dai=getTroopCount( yprs, council, troopId , ("1-Daisy"));
+				int troop_total = jun+ bro+dai;
+				
+				
+				total_dai += dai;
+				total_bro += bro;
+				total_jun += jun;
+				
+				%>
+				<tr>
+				<td><%= troopId%></td>
+				<td><%=troopName %></td>
+				<td><%= jun%> </td>
+				<td><%= bro%></td>
+				<td><%= dai%></td>
+				<td><%= troop_total %></td>
+				
+				</tr>
+				<%
+				
+			}
+			
 		}
-		out.println("</table>");
+		out.println("</table>" );
 		
 		
 		
 		
 		
-		
-		
-		
-		
-		if(true)return;
-
-
-
-
-
-
-
-
-java.util.List<User> users = userDAO.getUsers();
-users = doFix(users);
-
-
-
-%>
-
-
-<script>
-
-
-
-var myapp = angular.module('myapp', ["highcharts-ng"]);
-
-myapp.controller('myctrl', function ($scope) {
-
-    $scope.chartConfig = {
-        options: {
-            chart: {
-                type: 'chart',
-                zoomType: 'x'
-            }
-        },
-       
-      
-        
-        series: [
-                 
-                 
-        <%
-        
-        	java.util.Map <String, Map>container = parseData(users);
-      
-        	
-        	out.println("{name: 'Brownie', data:[");
-        	java.util.Map <String, Integer>lvl = container.get("2-Brownie");
-        	if( lvl!=null)
-        	 for(int i=0;i< unqCouncil.size();i++){
-        		Integer x = lvl.get( unqCouncil.get(i)  );
-        		if( x == null)
-        			out.println("0,");
-        		else
-        			out.println(x+",");
-        		
-        	 }
-        	out.println("]},");
-        	
-        	
-        	
-        	out.println("{name: 'Daisy', data:[");
-        	lvl = container.get("1-Daisy");
-        	if( lvl!=null)
-        	  for(int i=0;i< unqCouncil.size();i++){
-        		Integer x = lvl.get( unqCouncil.get(i)  );
-        		if( x == null)
-        			out.println("0,");
-        		else
-        			out.println(x+",");
-        		
-        	  }
-        	 out.println("]},");
-        	 
-        	 
-        	 out.println("{name: 'Junior', data:[");
-         	lvl = container.get("3-Junior");
-         	if( lvl!=null)
-         	  for(int i=0;i< unqCouncil.size();i++){
-         		Integer x = lvl.get( unqCouncil.get(i)  );
-         		if( x == null)
-         			out.println("0,");
-         		else
-         			out.println(x+",");
-         		
-         	  }
-         	 out.println("]}");
-        	
-        	
-        	
-        %>         
-        ],
-        
-        title: {
-            text: ''
-        },
-        xAxis: {
-            categories: <%=unqCouncil%>
-        },
-        
-        loading: false
-    }
-
-});
-
-
-</script>
-
-<div ng-app="myapp">
-    <div ng-controller="myctrl">
-       
-        <div class="row">
-            <highchart id="chart1" config="chartConfig" class="span10"></highchart>
-        </div>
-    </div>
-</div>
-
-
-<table>
-<tr>
-<th>Council</th>
-<th>Brownie</th>
-<th>Daisy</th>
-<th>Junior</th>
-</tr>
-<%
-/*
-
-java.util.Map<String, String> cTrans = new java.util.TreeMap();
-
-cTrans.put("597", "Girl Scouts of Northeast Texas"); 
-
-cTrans.put("477", "Girl Scouts of Minnesota and Wisconsin River Valleys, Inc.");
-
-cTrans.put("465", "Girl Scouts of Southeastern Michigan"); 
-
-cTrans.put("367", "Girl Scouts - North Carolina Coastal Pines, Inc.");
-
-cTrans.put("320", "Girl Scouts of West Central Florida, Inc.");
-
-cTrans.put("388", "Girl Scout Council of the Southern Appalachians, Inc.");
-
-cTrans.put("313", "Girl Scouts of Gateway Council, Inc.");
-
-*/
-
-
-
-	for(int i=0;i<unqCouncil.size();i++){
-		
-		String councilId= (String) unqCouncil.get(i);
-		String councilId_str = cTrans.get(councilId);
-		int das = 0, jun=0,brow=0;
-		for(int u=0;u< users.size();u++){
-			
-			 User uu= users.get(u);
-			
-			 if( uu.getSfCouncil().equals( councilId )){
-			 	if( uu.getSfTroopAge().toLowerCase().contains("brownie" ) )
-			 		brow ++;
-			 	else if( uu.getSfTroopAge().toLowerCase().contains("junior" ) )
-			 		jun++;
-			 	else if( uu.getSfTroopAge().toLowerCase().contains("daisy" ) )
-			 		das++;
-			 
-			 }
-			 
-	  	}//edn for
-	  	
-		 %>
-		 <tr>
-		 	<td><%=councilId_str ==null ? councilId : councilId_str%></td>
-		 	<td><%=brow %></td>
-		 	<td><%=das %></td>
-		 	<td><%=jun %></td>
-		 </tr>
-		 <%
-		 
-		 
-	}
-	
- out.println("</table>");
-
-	  		
-	  			
-	  			
-	  			/*
-	out.println("Total users: "+users.size());	
-	%><table><tr><th>Council</th><th>Age Group</th></tr><% 
-	
-	
-	for(User uu: users){
 		%>
-		<tr>
-		<td><%= uu.getSfCouncil()%></td>
-		<td><%= uu.getSfTroopAge()%></td>
-		</tr>
-  <% }%>
-  </table>
-  
-  <% */ %>
-
+		
+		
 <%!
 
 
@@ -468,4 +331,40 @@ cTrans.put("313", "Girl Scouts of Gateway Council, Inc.");
 		return users;
 	}
 
+	
+	public int getTroopCount(java.util.List<org.girlscouts.vtk.models.YearPlanRpt> container, 
+			String council, String troop, String troopAge){
+		
+		int total =0;
+		for(int i=0;i<container.size();i++){
+			org.girlscouts.vtk.models.YearPlanRpt ypr = container.get(i);
+			if( ypr.getCouncil().equals( council) && ypr.getTroop().equals(troop) && ypr.getTroopAge().equals(troopAge))
+				total ++;
+		}
+		return total;
+	}
+	
+	public java.util.List<String> getTroops( java.util.List<org.girlscouts.vtk.models.YearPlanRpt> container, 
+			String council){
+		
+		java.util.List <String> troops =new java.util.ArrayList<String>();
+		
+		for(int i=0;i<container.size();i++){
+			org.girlscouts.vtk.models.YearPlanRpt ypr = container.get(i);
+			if( ypr.getCouncil().equals( council) && !troops.contains(ypr.getTroop())  )
+				troops.add( ypr.getTroop() );
+		}
+		return troops;
+	}
+	
+	private String  getTroopName(java.util.List<org.girlscouts.vtk.models.YearPlanRpt> container, String council, String troop){
+		
+		for(int i=0;i<container.size();i++){
+			org.girlscouts.vtk.models.YearPlanRpt ypr = container.get(i);
+			if( ypr.getCouncil().equals( council) && ypr.getTroop().equals(troop) )
+				return ypr.getTroopName();
+		}
+		return "";		
+	}
+	
 %>

@@ -1,5 +1,6 @@
 package org.girlscouts.vtk.ejb;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -11,6 +12,15 @@ import org.apache.commons.beanutils.BeanComparator;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
+import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
+import org.apache.jackrabbit.ocm.manager.impl.ObjectContentManagerImpl;
+import org.apache.jackrabbit.ocm.mapper.Mapper;
+import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
+import org.apache.jackrabbit.ocm.query.Filter;
+import org.apache.jackrabbit.ocm.query.Query;
+import org.apache.jackrabbit.ocm.query.QueryManager;
+import org.girlscouts.vtk.auth.permission.Permission;
+import org.girlscouts.vtk.dao.ActivityDAO;
 import org.girlscouts.vtk.dao.AssetComponentType;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.UserDAO;
@@ -33,6 +43,9 @@ public class MeetingUtil {
     
     @Reference
     MeetingDAO meetingDAO;
+    
+    @Reference
+    ActivityDAO activityDAO;
 	
 	public java.util.List<MeetingE> updateMeetingPos(java.util.List<MeetingE> orgMeetings, java.util.List <Integer> newPoss){
 		
@@ -121,6 +134,7 @@ public class MeetingUtil {
 	
 	public java.util.Map getYearPlanSched(YearPlan plan){
 		
+		if( plan==null )return null;
 		java.util.Map <java.util.Date,  YearPlanComponent> sched = null;
 		try{
 			sched=new java.util.TreeMap<java.util.Date,YearPlanComponent>();
@@ -207,7 +221,7 @@ public class MeetingUtil {
 	
 	public void changeMeetingPositions(User user, String newPositions){
 		
-		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+		if( !meetingDAO.hasAccess(user, user.getCurrentUser(), Permission.PERMISSION_MOVE_MEETING_ID ) ){
 			 user.setErrCode("112");
 			 return;
 		 }
@@ -244,7 +258,7 @@ public class MeetingUtil {
 	public void createCustomAgenda(User user, String name, String meetingPath, int duration, long _startTime, String txt ){
 		
 		
-		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+		if( !meetingDAO.hasAccess(user, user.getCurrentUser(), Permission.PERMISSION_CREATE_MEETING_ID ) ){
 			 user.setErrCode("112");
 			 return;
 		 }
@@ -285,7 +299,7 @@ public class MeetingUtil {
 	
 	public void rmCustomActivity (User user, String activityPath ){
 		
-		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+		if( !meetingDAO.hasAccess(user, user.getCurrentUser(), Permission.PERMISSION_REMOVE_MEETING_ID ) ){
 			 user.setErrCode("112");
 			 return;
 		 }
@@ -305,7 +319,7 @@ public class MeetingUtil {
 	
 	public    void swapMeetings(User user, String fromPath, String toPath){
 		
-		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+		if( !meetingDAO.hasAccess(user, user.getCurrentUser()  ,Permission.PERMISSION_REPLACE_MEETING_ID)){
 			 user.setErrCode("112");
 			 return;
 		 }
@@ -332,7 +346,7 @@ public class MeetingUtil {
 	public void rearrangeActivity(User user, String meetingPath, String _newPoss){
 		
 		
-		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+		if( !meetingDAO.hasAccess(user, user.getCurrentUser(), Permission.PERMISSION_MOVE_MEETING_ID ) ){
 			 user.setErrCode("112");
 			 return;
 		 }
@@ -389,7 +403,7 @@ public class MeetingUtil {
 	
 	public void addMeetings(User user, String newMeetingPath){
 		
-		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+		if( !meetingDAO.hasAccess(user, user.getCurrentUser(), Permission.PERMISSION_CREATE_MEETING_ID ) ){
 			 user.setErrCode("112");
 			 return;
 		 }
@@ -433,7 +447,7 @@ public class MeetingUtil {
 	
 	public void rmAgenda(User user, String agendaPathToRm , String fromMeetingPath  ){
 		
-		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+		if( !meetingDAO.hasAccess(user, user.getCurrentUser() , Permission.PERMISSION_REMOVE_MEETING_ID) ){
 			 user.setErrCode("112");
 			 return;
 		 }
@@ -465,7 +479,7 @@ public class MeetingUtil {
 	public void editAgendaDuration(User user, int duration, String activityPath, String meetingPath){
 	
 		
-		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+		if( !meetingDAO.hasAccess(user, user.getCurrentUser() , Permission.PERMISSION_EDIT_MEETING_ID) ){
 			 user.setErrCode("112");
 			 return;
 		 }
@@ -504,7 +518,7 @@ public class MeetingUtil {
 	public  void reverAgenda(User user, String meetingPath){
 		 
 		
-		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+		if( !meetingDAO.hasAccess(user, user.getCurrentUser(), Permission.PERMISSION_REPLACE_MEETING_ID ) ){
 			 user.setErrCode("112");
 			 return;
 		 }
@@ -551,7 +565,7 @@ public class MeetingUtil {
 	
 	public void addAids(User user, String aidId, String meetingId, String assetName){
 		
-		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+		if( !meetingDAO.hasAccess(user, user.getCurrentUser() , Permission.PERMISSION_CREATE_MEETING_ID) ){
 			 user.setErrCode("112");
 			 return;
 		 }
@@ -627,7 +641,7 @@ public class MeetingUtil {
 	
 	public void addResource(User user, String aidId, String meetingId, String assetName){
 		
-		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+		if( !meetingDAO.hasAccess(user, user.getCurrentUser(), Permission.PERMISSION_CREATE_MEETING_ID ) ){
 			 user.setErrCode("112");
 			 return;
 		 }
@@ -700,7 +714,7 @@ public class MeetingUtil {
 	
 	public void rmAsset(User user, String aidId, String meetingId){
 		
-		if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){
+		if( !meetingDAO.hasAccess(user, user.getCurrentUser(), Permission.PERMISSION_REMOVE_MEETING_ID ) ){
 			 user.setErrCode("112");
 			 return;
 		 }
@@ -776,4 +790,10 @@ public class MeetingUtil {
 		return _activities;
 		
 	}
+	
+	
+
+
+
+
 }

@@ -9,6 +9,13 @@
 	//add milestones only on this page
 	
 	try{
+		/*
+		System.err.println( user==null );
+		System.err.println( user.getYearPlan() ==null);
+		System.err.println(meetingDAO==null);
+		System.err.println( user.getTroop()==null);
+		*/
+		if( user.getYearPlan()!=null)
 		user.getYearPlan().setMilestones( meetingDAO.getCouncilMilestones( ""+user.getTroop().getCouncilCode() ) );
 	}catch(Exception e){e.printStackTrace();}
 	if( user.getYearPlan().getMilestones() ==null )
@@ -20,7 +27,7 @@
 
 %>
 <h1 class="yearPlanTitle"><%=user.getYearPlan().getName() %></h1>
-<br/><p>Drag and drop to reorder meetings</p> 
+<p class="hide-for-print">Drag and drop to reorder meetings</p> 
 <ul id="sortable123">
 <% 
 if( user.getYearPlan().getSchedule()!=null ){ //sched exists
@@ -33,7 +40,11 @@ if( user.getYearPlan().getSchedule()!=null ){ //sched exists
 	switch( _comp.getType() ){
 		case ACTIVITY :
 			Activity activity = (Activity) _comp;
-			%>  <%@include file="include/viewActivity.jsp" %>    <% 
+			if (activity.getCancelled()!=null && activity.getCancelled().equals("true") ) {
+				; //dont display
+			}else{
+				%>  <%@include file="include/viewActivity.jsp" %>    <% 
+			}
 			break;
 
 		case MEETING :
@@ -61,7 +72,11 @@ if( user.getYearPlan().getSchedule()!=null ){ //sched exists
 		switch( _comp.getType() ){
 			case ACTIVITY :
 				Activity activity = (Activity) _comp;
-				%>  <%@include file="include/viewActivity.jsp" %>    <% 
+				if (activity.getCancelled()!=null && activity.getCancelled().equals("true") ) {
+					; //dont display
+				}else{
+					%>  <%@include file="include/viewActivity.jsp" %>    <% 
+				}
 				break;
 
 			

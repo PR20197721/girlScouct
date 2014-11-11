@@ -2,7 +2,7 @@
 
 <center>
 <h1>VTK Admin</h1>
-<form action="vtk.admin.home.html">
+<form action="/content/girlscouts-vtk/controllers/vtk.controller.html" method="POST">
 
 <table>
 <tr>
@@ -18,7 +18,7 @@
 
 <tr>
 	<th></th>
-	<td><input type="submit" name="" value="Login" /></td>
+	<td><input type="submit" name="admin_login" value="Login" /></td>
 </tr>
 </table>
 </form>

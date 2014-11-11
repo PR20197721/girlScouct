@@ -66,7 +66,9 @@
     <div class="form_rightcol">
         <div class="form_captcha_input"><input type="text" id=":cq:captcha" name=":cq:captcha" class="<%= FormsHelper.getCss(properties, "form_field form_field_text") %>" size="6"/></div>
         <div class="form_captcha_img"><img id="cq_captchaimg" src="<%= resource.getPath() %>.captcha.png?id=123" alt=""></div>
-        <div class="form_captcha_refresh"><input type="button" onclick="captchaRefresh()" value="<%=i18n.get("refresh")%>" class="<%= FormsHelper.getCss(properties, "form_button") %>"></div>
+        <div class="form_captcha_refresh">
+        	<a href="#" onclick="captchaRefresh(); return false;">Refresh</a>
+        </div>
     </div>
 </div>
 <!-- <div class="form_row">

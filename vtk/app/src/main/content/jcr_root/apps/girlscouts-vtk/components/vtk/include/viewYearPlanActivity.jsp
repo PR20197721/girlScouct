@@ -55,9 +55,10 @@ ageLevel=ageLevel.toLowerCase().trim();
 <a href="/content/girlscouts-vtk/controllers/vtk.map.html?address=<%=activity.getLocationAddress()%>" target="_blank"><%=activity.getLocationAddress() ==null ? "" : activity.getLocationAddress()  %></a>
 
 
+
 <% if (activity.getCancelled()!=null && activity.getCancelled().equals("true") )  {%>
 		<span class="alert">(Cancelled)</span>
-<%}%>
+<%} %>
 
 <br/><br/>Cost:<%=FORMAT_CURRENCY.format(activity.getCost()) %>
 <br/><br/>
@@ -66,7 +67,9 @@ ageLevel=ageLevel.toLowerCase().trim();
 
         </div>
         <div class="small-24 medium-6 large-5 columns linkButtonWrapper">
-<%if( activity.getDate().after( new java.util.Date())){ %>
+<%if( activity.getDate().after( new java.util.Date()) ||
+		(activity.getCancelled()!=null && activity.getCancelled().equals("true") ) 
+		){ %>
 		<a href="#" class="button linkButton" onclick="rmCustActivity12('<%=activity.getPath()%>')">delete this activity</a>
 <%} %>
 
@@ -76,6 +79,12 @@ ageLevel=ageLevel.toLowerCase().trim();
          	 <a href="#" class="button linkButton" onclick="doEditActivity('editCustActiv')">edit activity</a>
           <%} %>
           
+
+<% if ( !(activity.getCancelled()!=null && activity.getCancelled().equals("true") ) && 
+				activity.getRegisterUrl()  !=null && !activity.getRegisterUrl().equals("")){ %>
+		<a href="<%=activity.getRegisterUrl() %>" class="button linkButton" target="_blank">Register for this event</a>				
+<%}%>
+
 
                 <br/>
         </div>        

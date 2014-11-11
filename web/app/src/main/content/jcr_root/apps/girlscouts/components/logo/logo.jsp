@@ -23,20 +23,17 @@
 <!-- Modern Browser -->
 <!--[if gt IE 8]><!-->
 <% if(noLink != null && noLink == true){
-    %>
-<nav class="show-for-small mobileFooterLogo">
-	<img src="<%= regularImage %>"<%= alt %> width="<%= regularWidth %>" height="<%= regularHeight %>" />
+// this shows for footer for mobile view only
+%>
+<nav class="small-centered columns small-5">
+	<img src="<%= smallImage %>"<%= alt %> width="<%= smallWidth %>" height="<%= smallHeight %>" />
 </nav>
 <% } else {
+// this shows for header large only
 %>
-<nav class="hide-for-small logoLarge logoLargePadding">
+<nav class="column small-centered small-14 large-24 medium-24">
 <% if (!linkURL.isEmpty()) { %> <a href="<%= linkURL %>"> <% } %>
-	<img src="<%= regularImage %>"<%= alt %> id="logoImg" />
-<% if (!linkURL.isEmpty()) { %> </a> <% } %>
-</nav>
-<nav class="show-for-small logoSmall">
-<% if (!linkURL.isEmpty()) { %> <a href="<%= linkURL %>"> <% } %>
-	<img src="<%= smallImage %>"<%= alt %> width="<%= smallWidth %>" height="<%= smallHeight %>" />
+	<img src="<%= regularImage %>"<%= alt %> id="logoImg" width="<%= regularWidth %>" height="<%= regularHeight%>" />
 <% if (!linkURL.isEmpty()) { %> </a> <% } %>
 </nav>
 <% } %>

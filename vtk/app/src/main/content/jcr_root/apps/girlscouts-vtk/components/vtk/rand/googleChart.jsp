@@ -6,15 +6,14 @@ function drawChart() {
 
   var data = google.visualization.arrayToDataTable([
    
-    
-    
+  
     
     ['Troop','597', '367', '320', '388', '313', '111', '603'],
     
 [ 'Brownie', 84,
 105,
 68,
-18,
+16,
 2,
 1,
 0,

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import javax.jcr.Session;
@@ -20,6 +21,7 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
 import org.apache.jackrabbit.ocm.query.Filter;
 import org.apache.jackrabbit.ocm.query.Query;
 import org.apache.jackrabbit.ocm.query.QueryManager;
+import org.girlscouts.vtk.dao.ActivityDAO;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.models.Activity;
@@ -46,9 +48,12 @@ public class UserDAOImpl implements UserDAO{
     @Reference
     private MeetingDAO meetingDAO;
     
-    
+   // @Reference
+   // private ActivityDAO activityDAO;
     
     private static UserGlobConfig userGlobConfig;
+    
+
     
     @Activate
     void activate() {
@@ -108,6 +113,14 @@ public class UserDAOImpl implements UserDAO{
 	        	
 	        }
 	        */
+	        
+	        
+	        //cancelled activity check	        
+	        if( user!=null && user.getYearPlan()!=null && user.getYearPlan().getActivities() !=null && user.getYearPlan().getActivities().size()>0){
+	        	//activityDAO.checkCanceledActivity(user);
+	        }
+	        
+	        
 		}catch(Exception e){e.printStackTrace();}
 		
 		
@@ -184,13 +197,7 @@ public class UserDAOImpl implements UserDAO{
         	 
         	 //another user logged in
         	 if( user!=null && user.getLastModified()!=null ){
-        		 /*
-        		 java.util.Calendar x= java.util.Calendar.getInstance();
-        		 x.add(java.util.Calendar.MINUTE, -2);
-        		 
-        		 System.err.println("Check: "+ x.getTime() +" MK: "+ user.getLastModified().getTime() +" :" +(user.getLastModified().after(x)) );
-        		 System.err.println("Check1 isCurrentUser: "+ meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) );
-        		 */
+        		
         		 
         				 if( !meetingDAO.isCurrentUserId(user, user.getCurrentUser() ) ){// && user.getLastModified().after(x) ){ 
         			 
@@ -213,9 +220,10 @@ public class UserDAOImpl implements UserDAO{
 			classes.add(JcrNode.class);
 			classes.add(Milestone.class);
 			classes.add(Council.class);
+			classes.add(org.girlscouts.vtk.models.Troop.class);
 			
 			Mapper mapper = new AnnotationMapperImpl(classes);
-			ObjectContentManager ocm =  new ObjectContentManagerImpl(session, mapper);	
+			ObjectContentManager ocm =  new ObjectContentManagerImpl(pool.getSession(), mapper);	
 		
 		
 			Comparator<MeetingE> comp = new BeanComparator("id");
@@ -265,6 +273,8 @@ System.err.println( "sessionId: "+ user.getCurrentUser() );
 			String old_errCode= user.getErrCode();
 			java.util.Calendar old_lastModified = user.getLastModified();
 			try{
+
+				
 				user.setErrCode(null);
 				user.setLastModified(java.util.Calendar.getInstance());
 				ocm.update(user);
@@ -649,9 +659,17 @@ public void addAsset(User user, String meetingUid,  Asset asset){
 		if(user ==null) return;
 		User tmp_user= getUser(user.getPath());
 		//tmp_user.setTroop(user.getTroop());
+		if( tmp_user ==null )return;
 		tmp_user.setCurrentUser(null);
 		updateUser( tmp_user );
 	}
 	
-	
+	/*
+	public boolean hasPermission(Set<Integer> myPermissionTokens, int permissionId){
+		if( myPermissionTokens!=null && myPermissionTokens.contains(permissionId) )
+			return true;
+		
+		return false;
+	}
+	*/
 }//ednclass

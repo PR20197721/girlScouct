@@ -16,25 +16,27 @@ String footerPath = currentPage.getAbsoluteParent(2).getContentResource().getPat
 String logoPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
 %>
 <!-- web/app/src/main/content/jcr_root/apps/girlscouts/components/page/footer.jsp -->
-				<div id="footer" class="hide-for-small row">
-					<% setCssClasses("large-24 medium-24 small-24 columns", request); %>
+<div class="hide-for-print">
+	<div id="footer" class="hide-for-small row">
+		<% setCssClasses("large-24 medium-24 small-24 columns", request); %>
 <%
 	request.setAttribute("centerLinks", false);
 %>
-					<cq:include path="<%= footerPath + "/nav"%>" resourceType="girlscouts/components/footer-navigation"/>
-				</div>
-				<div id="mobile-nav-footer" class="show-for-small collapse">
+		<cq:include path="<%= footerPath + "/nav"%>" resourceType="girlscouts/components/footer-navigation"/>
+	</div>
+	<div id="mobile-nav-footer" class="show-for-small collapse">
 <%
 	request.setAttribute("centerLinks", true);
 %>
-					<cq:include path="<%= footerPath + "/nav"%>" resourceType="girlscouts/components/footer-navigation"/>
-				</div> 
-				<div id="mobile-footer" class="centered-table show-for-small">
+		<cq:include path="<%= footerPath + "/nav"%>" resourceType="girlscouts/components/footer-navigation"/>
+	</div> 
+	<div id="mobile-footer" class="row show-for-small">
 <%
 	request.setAttribute("noLink", true);
 %>
-					<cq:include path="<%= logoPath + "/logo"%>" resourceType="girlscouts/components/logo" />
-				</div> 
+		<cq:include path="<%= logoPath + "/logo"%>" resourceType="girlscouts/components/logo" />
+	</div>
+</div>
 <cq:include script="google-analytics.jsp" />
 <cq:include script="footer-tracking.jsp" />
 <script type="text/javascript">

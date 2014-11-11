@@ -6,14 +6,11 @@
 <cq:include script="init.jsp"/> 
 
 <cq:include script="news-search.jsp"/>
-
     <%
      if(properties.containsKey("isonhomepage") && properties.get("isonhomepage").equals("on")){%>
     	  <cq:include script="feature-news.jsp"/>
     <%}else{
     	%><cq:include script="list-news.jsp"/>
     	
-  <%   }
-    
-   
+  <%   }   
 %>
