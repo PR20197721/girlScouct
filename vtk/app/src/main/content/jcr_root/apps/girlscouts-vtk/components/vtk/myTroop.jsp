@@ -11,7 +11,7 @@
     fixVerticalSizing = true;
 </script>
 <div class="row content">
-  <div class="columns">
+  <div class="columns push-1">
     <h3>Coming in future releases:</h3> 
     <ul>
     	<li>- View troop membership and contact information</li>

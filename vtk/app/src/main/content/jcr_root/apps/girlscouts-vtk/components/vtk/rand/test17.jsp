@@ -12,7 +12,7 @@ var phonecatApp = angular.module('phonecatApp', []);
 phonecatApp.controller('PhoneListCtrl', function xxx($scope, $http) {
 	
 	
-  		$http.get('/content/girlscouts-vtk/controllers/vtk.controller.html?test=anglr1')
+  		$http.get('/content/girlscouts-vtk/controllers/vtk.controller.html?test1=anglr1')
   		.success(function (data) {	 
   			var _data = $.trim(data);
   			if( _data==null || _data != '')  {
@@ -40,7 +40,7 @@ phonecatApp.controller('PhoneListCtrl', function xxx($scope, $http) {
     <div class="row">
       <div class="col-md-2">
         <!--Sidebar content-->
-<%=new java.util.Date() %> ***
+
         Search: <input ng-model="query">
         Sort by:
         <select ng-model="orderProp">

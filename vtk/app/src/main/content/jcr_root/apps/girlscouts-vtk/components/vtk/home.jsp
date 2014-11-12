@@ -34,6 +34,7 @@ branch += "/en/jcr:content";
 
 ValueMap valueMap = (ValueMap)resourceResolver.resolve(branch).adaptTo(ValueMap.class);
 boolean isHideSignIn = valueMap.get("hideVTKButton", "").equals("true");
+boolean isHideMember = valueMap.get("hideMemberButton", "").equals("true");
 
 // Get URL for community page
 ConfigManager configManager = (ConfigManager)sling.getService(ConfigManager.class);
@@ -52,7 +53,7 @@ if (configManager != null) {
  
 <!-- apps/girlscouts/components/three-column-page/content.jsp -->
 <!--PAGE STRUCTURE: MAIN-->
-<div id="main" class="row">
+<div class="row content">
 	<!--PAGE STRUCTURE: LEFT CONTENT START-->
 	<div class="large-5 hide-for-medium hide-for-small columns mainLeft">
 		<div id="leftContent">
@@ -105,8 +106,10 @@ if (configManager != null) {
 						</li>
 						<li>
 							<div class="text parbase section">
-								<a href="<%= communityUrl %>" title="member profile"><img src="/etc/designs/girlscouts-vtk/images/btn_member_profile.jpg"/></a>
-								<p>Do you want to change your member profile or contact details? Do you need to renew a membership? Go to the Girl Scout Member Community for access to your member profile.</p>
+								<% if (!isHideMember) { %>
+									<a href="<%= communityUrl %>" title="member profile"><img src="/etc/designs/girlscouts-vtk/images/btn_member_profile.jpg"/></a>
+									<p>Do you want to change your member profile or contact details? Do you need to renew a membership? Go to the Girl Scout Member Community for access to your member profile.</p>
+								<%} %>
 							</div>
 						</li>
 					</ul>
@@ -124,17 +127,6 @@ if (configManager != null) {
 </div>
 <!--PAGE STRUCTURE: MAIN CONTENT STOP-->
 </div>
-
-<script type="text/javascript">
-	var resizeWindow = function(){
-		if(fixVerticalSizing) {
-			var currentMainHeight = $('#main').height();
-			var targetMainHeight = $(this).height() - $("#header").height() - $("#headerBar").height() - $("#footer").height() - 15;
-			if (targetMainHeight > 1.1 * currentMainHeight) {
-				$('#main').height(targetMainHeight);
-			}
-		}
-	};
-	window.onload = resizeWindow;
-	$(window).resize(resizeWindow);
+<script>
+    fixVerticalSizing = true;
 </script>

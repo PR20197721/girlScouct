@@ -15,6 +15,7 @@ import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.jcr.api.SlingRepository;
+import org.girlscouts.vtk.modifiedcheck.ModifiedChecker;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,7 @@ public class ReplicationManager {
     @Reference
     private SlingRepository repository;
     
+     
     @Reference
     private Replicator replicator;
 
