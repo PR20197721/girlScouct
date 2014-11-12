@@ -46,7 +46,7 @@
 .home-section .lists-image {
   padding: 0;
 }
-/*news list*/`
+/*news list*/
 .home-section .row.news-rows {
   margin-bottom:2.173913%;
 }
@@ -65,8 +65,4 @@
 }
 .home-section .news-rows .list-text {
   padding-left: 0;
-}
-.home-section .icon-arrow-right {
-  font-size:32px;
-  color:#00ae58;
 }
