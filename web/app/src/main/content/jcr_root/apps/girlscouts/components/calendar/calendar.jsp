@@ -13,7 +13,7 @@
     List<JSONObject> eventList = new ArrayList<JSONObject>();
     DateFormat dateFormat = new SimpleDateFormat("EEE, MMM d, yyyy");
     DateFormat timeFormat = new SimpleDateFormat("h:mm a");
-    DateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.S");
+    DateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S");
     Date startDate = null; 
     Calendar cale = Calendar.getInstance();
     

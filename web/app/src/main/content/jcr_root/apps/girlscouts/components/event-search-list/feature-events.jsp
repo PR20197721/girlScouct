@@ -8,7 +8,7 @@
 <cq:includeClientLib categories="apps.girlscouts" />
 <cq:defineObjects/>
 <% 
-  DateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.S");
+  DateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S");
   fromFormat.setCalendar(Calendar.getInstance(TimeZone.getTimeZone("GMT")));
   DateFormat toFormat = new SimpleDateFormat("EEE dd MMM yyyy");
   SearchResultsInfo srchInfo = (SearchResultsInfo)request.getAttribute("eventresults");
