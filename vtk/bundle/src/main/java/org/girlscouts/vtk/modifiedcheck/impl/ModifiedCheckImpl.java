@@ -12,8 +12,11 @@ public class ModifiedCheckImpl implements ModifiedChecker {
 	private PassiveExpiringMap modifiedContainer;
 	
 	public boolean isModified(String sessionId, String yearplanId) {
-		if(modifiedContainer.get(yearplanId)!=null )
+		String modified_sId = modifiedContainer.get(yearplanId);
+		//if(modifiedContainer!=null && (modifiedContainer.get(yearplanId) !=null) ){
+			System.err.println("yes");
 			return true;
+		}
 		
 		return false;
 	}
@@ -22,13 +25,17 @@ public class ModifiedCheckImpl implements ModifiedChecker {
 
 	
 	 public void setModified(String sessionId, String path ){
-	    System.err.println( "SetModif: "+ path );	
-		 if( path==null || !path.endsWith("/jcr:lastModified") ) return;
-	    	
+	 //   System.err.println( "SetModif: "+ path );	
+		
+	    if( path==null || !path.endsWith("/yearPlan") ) return;
+	    
 	    	if( modifiedContainer==null )
-	    		modifiedContainer = new PassiveExpiringMap(60000);
+	    		modifiedContainer = new PassiveExpiringMap(11000);
 	    	
-	    	modifiedContainer.put(path , null);
+	    	System.err.println("inserting -"+ path +"- into modifiedContainer....");
+	    	
+	    	modifiedContainer.put(path , "ssid");
+	    	System.err.println("Checking container size: "+ modifiedContainer.size() +" : "+ modifiedContainer.get(path) );
 	    }
 
 

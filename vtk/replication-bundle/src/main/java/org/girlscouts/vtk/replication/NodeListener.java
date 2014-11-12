@@ -8,6 +8,9 @@ import javax.jcr.observation.EventIterator;
 import javax.jcr.observation.EventListener;
 
 import org.apache.commons.collections4.map.PassiveExpiringMap;
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Reference;
+import org.girlscouts.vtk.modifiedcheck.ModifiedChecker;
 import org.girlscouts.vtk.replication.NodeEventCollector.NodeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +25,6 @@ public class NodeListener implements EventListener {
     private Session session;
     private Replicator replicator;
     private ReplicationOptions opts;
-   
     
     public NodeListener(Session session, Replicator replicator) {
         this.session = session;

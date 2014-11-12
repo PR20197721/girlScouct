@@ -34,6 +34,7 @@ branch += "/en/jcr:content";
 
 ValueMap valueMap = (ValueMap)resourceResolver.resolve(branch).adaptTo(ValueMap.class);
 boolean isHideSignIn = valueMap.get("hideVTKButton", "").equals("true");
+boolean isHideMember = valueMap.get("hideMemberButton", "").equals("true");
 
 // Get URL for community page
 ConfigManager configManager = (ConfigManager)sling.getService(ConfigManager.class);
@@ -105,8 +106,10 @@ if (configManager != null) {
 						</li>
 						<li>
 							<div class="text parbase section">
-								<a href="<%= communityUrl %>" title="member profile"><img src="/etc/designs/girlscouts-vtk/images/btn_member_profile.jpg"/></a>
-								<p>Do you want to change your member profile or contact details? Do you need to renew a membership? Go to the Girl Scout Member Community for access to your member profile.</p>
+								<% if (!isHideMember) { %>
+									<a href="<%= communityUrl %>" title="member profile"><img src="/etc/designs/girlscouts-vtk/images/btn_member_profile.jpg"/></a>
+									<p>Do you want to change your member profile or contact details? Do you need to renew a membership? Go to the Girl Scout Member Community for access to your member profile.</p>
+								<%} %>
 							</div>
 						</li>
 					</ul>

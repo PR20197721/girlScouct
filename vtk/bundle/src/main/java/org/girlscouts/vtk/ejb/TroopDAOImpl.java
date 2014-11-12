@@ -34,6 +34,7 @@ import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.UserGlobConfig;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.Asset;
+import org.girlscouts.vtk.modifiedcheck.ModifiedChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,6 +50,10 @@ public class TroopDAOImpl implements TroopDAO {
 	
 	private static UserGlobConfig troopGlobConfig;
 
+	
+	@Reference
+    private ModifiedChecker modifiedChecker;
+   
 	@Activate
 	void activate() {}
 	
@@ -289,6 +294,9 @@ public class TroopDAOImpl implements TroopDAO {
 				troop.setErrCode(null);
 				troop.setLastModified(java.util.Calendar.getInstance());
 				troop.setCurrentTroop(user.getSid());//10/23/14
+				
+				//modif 
+				
 				ocm.update(troop);
 
 	//System.err.println(8 +" : : : : : lastMidif db: " + troop.getLastModified().getTime());			

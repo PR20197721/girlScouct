@@ -480,20 +480,20 @@ function showAlterYearPlanStartDate(){
 	}
 
 
-function xx1256(){
-	console.log(1);
+function expiredcheck(ssId, ypId){
+	
 		$.ajax({
-    		url: "/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid=<%=session.getId()%>&upid=<%=troop.getYearPlan().getPath()%>&d=<%=new java.util.Date()%>",
+    		url: "/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid="+ssId+"&ypid="+ypId+"&d=",
     		cache: false
     	}).done(function( html ) {
     		
     		var obj = jQuery.parseJSON(html );
-    		if( obj.yp_cng == false ){
+    		if( obj.yp_cng == 'true'  ){
     			alert("reloading...");
-    			window.reload();
+    			window.location.reload();
     			
     		}
-    		setTimeout(xx1256,15000);
+    		setTimeout(function(){ expiredcheck(ssId, ypId);},20000);
     		
     	});
 	
