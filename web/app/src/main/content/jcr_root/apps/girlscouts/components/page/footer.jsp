@@ -44,17 +44,22 @@ String logoPath = currentPage.getAbsoluteParent(2).getContentResource().getPath(
 	var resizeWindow = function(){
 		if(fixVerticalSizing) {
 			//get height of the actual page
-			var currentMainHeight = $('#main').height();
+			var currentMainHeight = $('.inner-wrap').height();
 			//get the height of the window
-			targetMainHeight = $(this).height();
-		//	var targetMainHeight = $(this).height() - $("#header").height() - $("#headerBar").height() - $("#footer").height() - 15;
+			var windowHeight = $(window).height();
+		  var targetMainHeight = (windowHeight-currentMainHeight);
 			//if the content of the page is not to the bottom of the window add this padding, note the row that is the wrapper
 			//must have class content
-			if (targetMainHeight > currentMainHeight) {
-				$('#main .row.content').css('padding-bottom',targetMainHeight-contentHeight);
+			if(targetMainHeight > 0) {
+			  $('#main .row.content').css('padding-bottom',targetMainHeight + "px");
 			}
 		}
 	};
-	window.onload = resizeWindow;
-	$(window).resize(resizeWindow);
+	$(document).ready(function(){
+		resizeWindow();
+	});
+	$( window ).resize(function() {
+	$('#main .row.content').css('padding-bottom',0);
+		resizeWindow();	
+	});
 </script>
