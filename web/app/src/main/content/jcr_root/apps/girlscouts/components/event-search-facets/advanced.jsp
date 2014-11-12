@@ -233,6 +233,11 @@ beforeShowDay: function(d) {
 
     function validateForm(){
 
+
+        if($('#enddtRange').val() == "" && $('#startdtRange').val() == ""){
+			return true;
+        }
+
 		if(!isDate($('#enddtRange').val())){
 			displayError("Inavlid End Date");
 			return false;

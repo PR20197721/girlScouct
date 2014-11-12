@@ -114,28 +114,34 @@ if( troop.getYearPlan().getSchedule()!=null ){ //sched exists
 </ul>
 <script>
 	$(function() {
-                var scrollTarget = "";
-                if (Modernizr.touch) {
-                        // touch device
-                        scrollTarget = ".touchscroll";
-                } else {
-                        $(".touchscroll").hide();
-                }
-                $("#sortable123").sortable({
-                        items: "li:not(.ui-state-disabled)",
-                        delay:150,
-                        cursor: "move" ,
-                        distance: 5,
-                        opacity: 0.5 ,
-                        scroll: true,
-                        scrollSensitivity: 10 ,
-                        tolerance: "intersect" ,
-                        handle: scrollTarget,
-			update:  function (event, ui) {
+      var scrollTarget = "";
+      if (Modernizr.touch) {
+        // touch device
+        scrollTarget = ".touchscroll";
+      } else {
+        $(".touchscroll").hide();
+      }
+      $("#sortable123").sortable({
+        items: "li:not(.ui-state-disabled)",
+        delay:150,
+        cursor: "move" ,
+        distance: 5,
+        opacity: 0.5 ,
+        scroll: true,
+        scrollSensitivity: 10 ,
+        tolerance: "intersect" ,
+        handle: scrollTarget,
+        helper:'clone',
+				update:  function (event, ui) {
+					  ui.item.unbind("click");
+					// ui.item.one("click", function (event) { 
+					//       console.log("one-time-click");
+					//       event.stopImmediatePropagation();
+					//       });
 				doUpdMeeting();
 			}
-                });
-                $( "#sortable123 li" ).disableSelection();
+    });
+     $( "#sortable123 li" ).disableSelection();
 	});
 </script>
 
