@@ -37,7 +37,7 @@ public class NodeEventCollector {
 
         @Override
         public boolean equals(Object obj) {
-            return (obj instanceof NodeEvent) && (((NodeEvent)obj).path == this.path);
+            return (obj instanceof NodeEvent) && (((NodeEvent)obj).path.equals(this.path));
         }
 
         @Override
