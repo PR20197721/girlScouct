@@ -39,6 +39,7 @@ branch += "/en/jcr:content";
 
 ValueMap valueMap = (ValueMap)resourceResolver.resolve(branch).adaptTo(ValueMap.class);
 boolean isHideSignIn = valueMap.get("hideVTKButton", "").equals("true");
+boolean isHideMember = valueMap.get("hideMemberButton", "").equals("true");
 
 // Get URL for community page
 ConfigManager configManager = (ConfigManager)sling.getService(ConfigManager.class);
@@ -161,6 +162,7 @@ style="border: none;">
 
 </div>
 </li><li><div class="text parbase nopadding section">
+<% if (!isHideMember) { %>
 <table border="0" cellpadding="0" cellspacing="0"
 style="border: none;">
 <tbody><tr><td>
@@ -168,6 +170,7 @@ style="border: none;">
 </td>
 </tr><tr style="background-color: white;border: none;"><td>Do you want to change your member profile or contact details? Do you need to renew a membership? Go to the Girl Scout Member Community for access to your member profile.</td>
 </tr></tbody></table>
+<%}//edn if %>
 
 
 
