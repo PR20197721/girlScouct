@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 import javax.jcr.Session;
 import org.apache.commons.beanutils.BeanComparator;
+import org.apache.commons.collections4.map.PassiveExpiringMap;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
@@ -296,6 +297,10 @@ public class TroopDAOImpl implements TroopDAO {
 				troop.setCurrentTroop(user.getSid());//10/23/14
 				
 				//modif 
+				try{
+					modifiedChecker.setModified(user.getSid(), troop.getYearPlan().getPath());
+				}catch(Exception em){em.printStackTrace();}
+			
 				
 				ocm.update(troop);
 

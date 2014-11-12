@@ -10,10 +10,11 @@ import org.girlscouts.vtk.modifiedcheck.ModifiedChecker;
 public class ModifiedCheckImpl implements ModifiedChecker {
 
 	private PassiveExpiringMap modifiedContainer;
-	
+	public ModifiedCheckImpl(){modifiedContainer = new PassiveExpiringMap(25000); }
 	public boolean isModified(String sessionId, String yearplanId) {
-		String modified_sId = modifiedContainer.get(yearplanId);
-		//if(modifiedContainer!=null && (modifiedContainer.get(yearplanId) !=null) ){
+		String modified_sId = (String) modifiedContainer.get(yearplanId);
+		if( modified_sId!=null && !modified_sId.equals(sessionId) ){
+			//if(modifiedContainer!=null && (modifiedContainer.get(yearplanId) !=null) ){
 			System.err.println("yes");
 			return true;
 		}
@@ -28,13 +29,13 @@ public class ModifiedCheckImpl implements ModifiedChecker {
 	 //   System.err.println( "SetModif: "+ path );	
 		
 	    if( path==null || !path.endsWith("/yearPlan") ) return;
-	    
+	    /*
 	    	if( modifiedContainer==null )
 	    		modifiedContainer = new PassiveExpiringMap(11000);
+	    	*/
+	    	System.err.println("inserting -"+ path +"- into modifiedContainer...." + sessionId);
 	    	
-	    	System.err.println("inserting -"+ path +"- into modifiedContainer....");
-	    	
-	    	modifiedContainer.put(path , "ssid");
+	    	modifiedContainer.put(path , sessionId);
 	    	System.err.println("Checking container size: "+ modifiedContainer.size() +" : "+ modifiedContainer.get(path) );
 	    }
 
