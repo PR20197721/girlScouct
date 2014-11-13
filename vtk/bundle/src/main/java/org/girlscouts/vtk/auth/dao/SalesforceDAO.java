@@ -17,7 +17,6 @@ import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.TroopDAO;
 import org.girlscouts.vtk.models.UserGlobConfig;
 import org.girlscouts.vtk.salesforce.Troop;
-import org.girlscouts.vtk.utils.VtkUtil;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,6 +29,7 @@ import org.slf4j.LoggerFactory;
 public class SalesforceDAO {
    // private final Logger log = LoggerFactory.getLogger(SalesforceDAO.class);
 	 private final Logger log = LoggerFactory.getLogger("vtk");
+	 
     String OAuthUrl;
     String clientId;
     String clientSecret;
@@ -99,11 +99,7 @@ public class SalesforceDAO {
             }catch(Exception e){e.printStackTrace();}
                     
                   //  user.setEmail(results.getJSONObject(current).getString("Email"));
-                  try{
-                	  user.setContactId(results.getJSONObject(current).getString("ContactId"));
-                	 // user.setSecuredId( VtkUtil.doHash( user.getContactId()) );
-                	//  user.setSecuredId(VtkUtil.doHash( user.getContactId()));
-                  }catch(Exception e){e.printStackTrace();}
+                  try{  user.setContactId(results.getJSONObject(current).getString("ContactId"));}catch(Exception e){e.printStackTrace();}
                     //user.setPhone(results.getJSONObject(current).getString("Phone"));
                     //user.setHomePhone(results.getJSONObject(current).getString("HomePhone"));
                     // user.setMobilePhone(results.getJSONObject(current).getString("MobilePhone"));
@@ -131,7 +127,6 @@ public class SalesforceDAO {
                     java.util.List <Troop>  troops = troopInfo( config,  user.getContactId());
 
                     if(troops==null || troops.size() <=0 ){
-                    	
                     	log.debug("Trying troops 2 time....");
                     	UserGlobConfig ubConf = troopDAO.getUserGlobConfig(); 
                     	log.debug("REFresh token: refresh:"+ ubConf.getMasterSalesForceRefreshToken()  +" token:" + ubConf.getMasterSalesForceToken()  );
@@ -169,11 +164,6 @@ public class SalesforceDAO {
     }
 
     public ApiConfig doAuth(String code) {
-    	
-    	log.debug("caca");
-    	log.error("caca1");
-    	log.info("caca2");
-    	
         try {
             code = URLDecoder.decode(code, "UTF-8");
         } catch (Exception e) {

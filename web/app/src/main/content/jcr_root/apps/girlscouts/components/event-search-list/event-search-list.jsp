@@ -4,7 +4,7 @@
 <cq:includeClientLib categories="apps.girlscouts" />
 <cq:defineObjects/>
 <% 
-DateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.S");
+DateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S");
 DateFormat dateFormat = new SimpleDateFormat("EEE MMM d yyyy");
 DateFormat timeFormat = new SimpleDateFormat("h:mm a");
 DateFormat toFormat = new SimpleDateFormat("EEE dd MMM yyyy");
