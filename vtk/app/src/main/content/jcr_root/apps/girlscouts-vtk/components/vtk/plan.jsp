@@ -5,11 +5,6 @@
 <% request.getSession().setAttribute( "isReloadedWindow", "true"); %>
 <%@include file="include/session.jsp"%>
 
-
-
-
-
-
 <div id="errInfo"></div>
 
 <%!String activeTab = "plan";
@@ -39,7 +34,7 @@
 								</div>
 								<div class="large-5 columns">
 									<ul class="inline-list">
-										<li><a class="icon" onclick="self.location = '/content/girlscouts-vtk/en/cal.ics'" title="download plan"><i class="icon-download"></i></a></li>
+										<li><a class="icon" onclick="self.location = 'c'" title="download plan"><i class="icon-download"></i></a></li>
 										<li><a class="icon" onclick="javascript:window.print()" title="print plan"><i class="icon-printer"></i></a></li>
 										<li><a class="icon" onclick="javascript:window.print()" title="help"><i class="icon-questions-answers"></i></a></li>
 									</ul>

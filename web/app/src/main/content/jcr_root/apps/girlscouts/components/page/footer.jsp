@@ -51,7 +51,8 @@ String logoPath = currentPage.getAbsoluteParent(2).getContentResource().getPath(
 			//if the content of the page is not to the bottom of the window add this padding, note the row that is the wrapper
 			//must have class content
 			if(targetMainHeight > 0) {
-			  $('#main .row.content').css('padding-bottom',targetMainHeight + "px");
+			  $('.vtk-body #main .row.content').css('padding-bottom',targetMainHeight + "px");
+			  $('#main.content').css('padding-bottom',targetMainHeight + "px");
 			}
 		}
 	};
@@ -59,7 +60,9 @@ String logoPath = currentPage.getAbsoluteParent(2).getContentResource().getPath(
 		resizeWindow();
 	});
 	$( window ).resize(function() {
-	$('#main .row.content').css('padding-bottom',0);
-		resizeWindow();	
+		 //first remove the padding added after reload.
+			$('#main .row.content').css('padding-bottom','');
+			$('#main.content').css('padding-bottom','');
+			resizeWindow();	
 	});
 </script>
