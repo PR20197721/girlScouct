@@ -4,9 +4,6 @@
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 
-
-	
-
 <%   
 	java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(troop.getYearPlan());
 	
@@ -23,14 +20,9 @@
 
 
 %>
-<div class="row">
-	<div class="column large-20 medium-20 large-centered medium-centered">
-		<h1 class="yearPlanTitle"><%=troop.getYearPlan().getName() %></h1>
-		<p class="hide-for-print">Drag and drop to reorder meetings</p> 
-	</div>
-</div>
-
-<ul class="phones" id="<%= hasPermission(troop, Permission.PERMISSION_MOVE_MEETING_ID) ? "sortable123" : ""%>">
+<h1 class="yearPlanTitle"><%=troop.getYearPlan().getName() %></h1>
+<p class="hide-for-print">Drag and drop to reorder meetings</p> 
+<ul id="<%= hasPermission(troop, Permission.PERMISSION_MOVE_MEETING_ID) ? "sortable123" : ""%>">
 <% 
 if( troop.getYearPlan().getSchedule()!=null ){ //sched exists
  int meetingCount=0;
@@ -114,34 +106,28 @@ if( troop.getYearPlan().getSchedule()!=null ){ //sched exists
 </ul>
 <script>
 	$(function() {
-      var scrollTarget = "";
-      if (Modernizr.touch) {
-        // touch device
-        scrollTarget = ".touchscroll";
-      } else {
-        $(".touchscroll").hide();
-      }
-      $("#sortable123").sortable({
-        items: "li:not(.ui-state-disabled)",
-        delay:150,
-        cursor: "move" ,
-        distance: 5,
-        opacity: 0.5 ,
-        scroll: true,
-        scrollSensitivity: 10 ,
-        tolerance: "intersect" ,
-        handle: scrollTarget,
-        helper:'clone',
-				update:  function (event, ui) {
-					  ui.item.unbind("click");
-					// ui.item.one("click", function (event) { 
-					//       console.log("one-time-click");
-					//       event.stopImmediatePropagation();
-					//       });
+                var scrollTarget = "";
+                if (Modernizr.touch) {
+                        // touch device
+                        scrollTarget = ".touchscroll";
+                } else {
+                        $(".touchscroll").hide();
+                }
+                $("#sortable123").sortable({
+                        items: "li:not(.ui-state-disabled)",
+                        delay:150,
+                        cursor: "move" ,
+                        distance: 5,
+                        opacity: 0.5 ,
+                        scroll: true,
+                        scrollSensitivity: 10 ,
+                        tolerance: "intersect" ,
+                        handle: scrollTarget,
+			update:  function (event, ui) {
 				doUpdMeeting();
 			}
-    });
-     $( "#sortable123 li" ).disableSelection();
+                });
+                $( "#sortable123 li" ).disableSelection();
 	});
 </script>
 

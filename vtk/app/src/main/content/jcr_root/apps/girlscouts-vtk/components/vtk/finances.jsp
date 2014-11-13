@@ -11,16 +11,6 @@
 <script>
         fixVerticalSizing = true;
 </script>
-<<<<<<< HEAD
-<div class="row content">
-  <div class="columns push-1">
-    <h3>Coming in future releases:</h3> 
-  	<ul>
-  		<li>- Create and manage your troop's financial report</li>
-  		<li>- Share with council personnel and with troop parents</li>
-  	</ul>
-  </div>
-=======
 <div id="vtkBody">
 	<br/>
 	<h3>Coming in future releases:</h3> 
@@ -29,5 +19,4 @@
 			<li>- Share with council personnel and with troop parents</li>
 		</ul>
 	<br/>
->>>>>>> parent of f644004... VTK changes to tabs, overall pages rows, and columns
 </div>
