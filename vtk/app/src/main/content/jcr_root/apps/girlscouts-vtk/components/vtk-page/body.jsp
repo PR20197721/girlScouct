@@ -28,7 +28,11 @@
    	    newCurrentDesign = (Design)resourceResolver.resolve(designPath).adaptTo(Design.class);
    	}
 %>
+<<<<<<< HEAD
 	<body  ng-app="phonecatApp" data-grid-framework="f4" data-grid-color="darksalmon" data-grid-opacity="0.5" data-grid-zindex="10" data-grid-gutterwidth="10px" data-grid-nbcols="24" class="vtk-body">
+=======
+	<body data-grid-framework="f4" data-grid-color="darksalmon" data-grid-opacity="0.5" data-grid-zindex="10" data-grid-gutterwidth="10px" data-grid-nbcols="24">
+>>>>>>> parent of f644004... VTK changes to tabs, overall pages rows, and columns
 		<div class="off-canvas-wrap">
 			<div class="inner-wrap">
 				<%
