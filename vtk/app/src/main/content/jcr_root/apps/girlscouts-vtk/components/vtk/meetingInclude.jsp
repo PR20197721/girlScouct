@@ -123,9 +123,10 @@ if( troop.getYearPlan().getSchedule()!=null ){ //sched exists
                         scrollSensitivity: 10 ,
                         tolerance: "intersect" ,
                         handle: scrollTarget,
-			update:  function (event, ui) {
-				doUpdMeeting();
-			}
+												update:  function (event, ui) {
+													doUpdMeeting();
+													ui.item.unbind("click");
+										}
                 });
                 $( "#sortable123 li" ).disableSelection();
 	});
