@@ -7,6 +7,10 @@ import javax.jcr.observation.Event;
 import javax.jcr.observation.EventIterator;
 import javax.jcr.observation.EventListener;
 
+import org.apache.commons.collections4.map.PassiveExpiringMap;
+import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Reference;
+import org.girlscouts.vtk.modifiedcheck.ModifiedChecker;
 import org.girlscouts.vtk.replication.NodeEventCollector.NodeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,26 +36,31 @@ public class NodeListener implements EventListener {
         opts.setSuppressVersions(true);
     }
 
+   
+    
     public void onEvent(EventIterator iter) {
     	/*
     	try{
     	while( iter.hasNext() ){
     		Event e = iter.nextEvent();
-    		System.err.println( "** "+ e.NODE_ADDED+" : "+ e.NODE_MOVED +" : "+e.NODE_REMOVED +" : "+e.PROPERTY_CHANGED+" : "+e.getPath() +" : "+ e.getInfo() + " : "+ e.getIdentifier() +" : "+e.getType());
+    		//System.err.println( "** "+ e.NODE_ADDED+" : "+ e.NODE_MOVED +" : "+e.NODE_REMOVED +" : "+e.PROPERTY_CHANGED+" : "+e.getPath() +" : "+ e.getInfo() + " : "+ e.getIdentifier() +" : "+e.getType());
+    		
+    		if( e.PROPERTY_CHANGED==16 && 
+    				e.getPath().endsWith("/jcr:lastModified") ){
+    					System.err.println(">> "+ (e.PROPERTY_CHANGED==16) + " : "+e.getPath());
+    					saveModified( e.getPath().substring(0, e.getPath().lastIndexOf("/")) );
+    		}
     	}
     	}catch(Exception e){e.printStackTrace();}
     	*/
     	
     	
-    	
-    	
         Collection<NodeEvent> events = NodeEventCollector.getEvents(iter);
-        
         for (NodeEvent event : events) {
             try {
                 String path = event.getPath();
                 int type = event.getType();
-      //- System.err.println(">> " + path +" : "+ type );         
+        
                 if (type == Constants.EVENT_UPDATE) {
                     replicator.replicate(session, ReplicationActionType.ACTIVATE, path, opts);
                 } else if (type == Constants.EVENT_REMOVE){

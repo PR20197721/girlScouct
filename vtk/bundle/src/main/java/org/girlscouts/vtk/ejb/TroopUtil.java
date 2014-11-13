@@ -187,9 +187,8 @@ troop.setPermissionTokens(s);
 	}
 
 	public void logout(User user, Troop troop) throws java.lang.IllegalAccessException {
-		// keep this method as placeholder for future logout actions
 		/*
-		System.err.println(1);	
+	System.err.println(1);	
 		if (troop == null)
 			return;
 	System.err.println(2);	
@@ -426,8 +425,8 @@ troop.setPermissionTokens(s);
 		
 		session.setAttribute("VTK_troop", new_troop);	
 		session.putValue("VTK_planView_memoPos", null);
-		//-new_troop.setCurrentTroop( session.getId() );
-		//-updateTroop(user, new_troop);
+		//new_troop.setCurrentTroop( session.getId() );
+	//	updateTroop(user, new_troop);
 		
 		
 	}

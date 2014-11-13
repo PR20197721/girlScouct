@@ -1,7 +1,15 @@
+.row .row {
+  margin-left: -5px;
+  margin-right: -5px;
+}
+.column, .columns {
+  padding-left: 5px;
+  padding-right: 5px;
+}
 .vtk-body {
   p {
     font-size:0.88em;
-    line-height:1.31;
+    line-height:1.5;
   }
   #main {
     background: transparent;
@@ -9,7 +17,7 @@
       background: #fff;
       &.content {
         padding-top: 20px;
-        min-height: 487px;
+        // min-height: 487px;
       }
       &.instructions {
         padding-top: 20px;
@@ -66,32 +74,98 @@
         width: 25px;
         height: 25px;
         top: 5px;
-        left: 28px;
+        left: 23%;
       }
     }
     #yearPlanMeetings {
-      .ui-sortable {
-        li .row {
-          .large-1:nth-of-type(1) {
-            background: url("/etc/designs/girlscouts-vtk/images/throbber.png") no-repeat 0 0;
-            height: 80px;
-          }
-        }
-      }
-
       .yearPlanTitle {
         font-size: 1.63em;
         text-transform:uppercase;
       }
-      .ui-sortable {
+      #sortable123 {
         margin: 0;
+        .meeting {
+         margin-bottom: 2.0833333%;
+          > div {
+            padding-left: 30px;
+            background-color:#f6f6f6;
+            cursor: pointer;
+            &:before {
+              content:'';
+              background: url("images/throbber.png") repeat-y #fff;
+              height: 100%;
+              width: 23px;
+              position: absolute;
+              left:0;
+              padding: 0 17px;
+              cursor: move;
+            }
+            p {
+              margin:0;
+            }
+            .bg-square {
+              background-color: #00ae57;
+              text-align: center;
+              padding: 5px 0 0 4px;
+              color: #fff;
+              position: absolute;
+              height: 100%;
+              width: 91px;
+              .date {
+                text-transform: uppercase;
+                .day {
+                  font-size: 2.06em;
+                }
+                p {
+                  font-weight: 100;
+                }
+              }
+              .count {
+                font-size: 10px;
+                font-weight: 100;
+                color: #000;
+                border: solid 1px #000;
+                border-radius: 8px;
+                width: 18px;
+                background: #ecec13;
+                padding-left: 1px;
+                position: absolute;
+              }
+              &:after {
+                border: solid 15px transparent;
+                border-color: transparent transparent transparent #00ae57;
+                position: absolute;
+                left: 100%;
+                top: 35%;
+                content: " ";
+              }
+              &.canceled {
+                background-color: #ff0000;
+                &:after {
+                  border-color: transparent transparent transparent #ff0000;
+                }
+              }
+            }
+            > div:first-child {
+              position: static;
+            }
+            >div:nth-of-type(2) {
+              padding-left:140px;
+              padding-top:15px;
+              padding-bottom:15px;
+              .subtitle {
+                text-transform:uppercase;
+              }
+            }
+          }
+        }
       }
     }
   }
   #mainContent.welcome-page .parbase.section {
     &.text {
       h1 {
-        margin: 1.25rem 0;
+        margin: 0 0 1.25rem 0;
       }
       p {
         font-size: 0.875rem;
@@ -192,4 +266,11 @@
       color: #303030;
     }
   }
+}
+//soratable lists
+.ui-state-default, 
+.ui-widget-content .ui-state-default, 
+.ui-widget-header .ui-state-default {
+  border: none;
+  color: #393939;
 }

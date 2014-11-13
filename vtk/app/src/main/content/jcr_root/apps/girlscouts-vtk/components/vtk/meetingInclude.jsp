@@ -4,9 +4,6 @@
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 
-
-	
-
 <%   
 	java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(troop.getYearPlan());
 	
@@ -23,14 +20,9 @@
 
 
 %>
-<div class="row">
-	<div class="column large-20 medium-20 large-centered medium-centered">
-		<h1 class="yearPlanTitle"><%=troop.getYearPlan().getName() %></h1>
-		<p class="hide-for-print">Drag and drop to reorder meetings</p> 
-	</div>
-</div>
-
-<ul class="phones" id="<%= hasPermission(troop, Permission.PERMISSION_MOVE_MEETING_ID) ? "sortable123" : ""%>">
+<h1 class="yearPlanTitle"><%=troop.getYearPlan().getName() %></h1>
+<p class="hide-for-print">Drag and drop to reorder meetings</p> 
+<ul id="<%= hasPermission(troop, Permission.PERMISSION_MOVE_MEETING_ID) ? "sortable123" : ""%>">
 <% 
 if( troop.getYearPlan().getSchedule()!=null ){ //sched exists
  int meetingCount=0;

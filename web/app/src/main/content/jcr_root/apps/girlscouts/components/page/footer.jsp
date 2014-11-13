@@ -40,15 +40,26 @@ String logoPath = currentPage.getAbsoluteParent(2).getContentResource().getPath(
 <cq:include script="google-analytics.jsp" />
 <cq:include script="footer-tracking.jsp" />
 <script type="text/javascript">
+  //seems to be only used in VTK sections
 	var resizeWindow = function(){
 		if(fixVerticalSizing) {
-			var currentMainHeight = $('#main').height();
-			var targetMainHeight = $(this).height() - $("#header").height() - $("#headerBar").height() - $("#footer").height() - 15;
-			if (targetMainHeight > 1.1 * currentMainHeight) {
-				$('#main').height(targetMainHeight);
+			//get height of the actual page
+			var currentMainHeight = $('.inner-wrap').height();
+			//get the height of the window
+			var windowHeight = $(window).height();
+		  var targetMainHeight = (windowHeight-currentMainHeight);
+			//if the content of the page is not to the bottom of the window add this padding, note the row that is the wrapper
+			//must have class content
+			if(targetMainHeight > 0) {
+			  $('#main .row.content').css('padding-bottom',targetMainHeight + "px");
 			}
 		}
 	};
-	window.onload = resizeWindow;
-	$(window).resize(resizeWindow);
+	$(document).ready(function(){
+		resizeWindow();
+	});
+	$( window ).resize(function() {
+	$('#main .row.content').css('padding-bottom',0);
+		resizeWindow();	
+	});
 </script>

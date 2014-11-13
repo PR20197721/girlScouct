@@ -479,3 +479,27 @@ function showAlterYearPlanStartDate(){
 
 	}
 
+
+function expiredcheck(ssId, ypId){
+	
+		$.ajax({
+    		url: "/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid="+ssId+"&ypid="+ypId+"&d=",
+    		cache: false
+    	}).done(function( html ) {
+    		
+    		var obj = jQuery.parseJSON(html );
+    		if( obj.yp_cng == 'true'  ){
+    			alert("reloading...");
+    			window.location.reload();
+    			
+    		}
+    		setTimeout(function(){ expiredcheck(ssId, ypId);},20000);
+    		
+    	});
+	
+		
+			
+	}
+	
+	
+

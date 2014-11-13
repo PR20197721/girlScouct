@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 import javax.jcr.Session;
 import org.apache.commons.beanutils.BeanComparator;
+import org.apache.commons.collections4.map.PassiveExpiringMap;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
@@ -34,6 +35,7 @@ import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.UserGlobConfig;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.Asset;
+import org.girlscouts.vtk.modifiedcheck.ModifiedChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,6 +51,10 @@ public class TroopDAOImpl implements TroopDAO {
 	
 	private static UserGlobConfig troopGlobConfig;
 
+	
+	@Reference
+    private ModifiedChecker modifiedChecker;
+   
 	@Activate
 	void activate() {}
 	
@@ -289,6 +295,13 @@ public class TroopDAOImpl implements TroopDAO {
 				troop.setErrCode(null);
 				troop.setLastModified(java.util.Calendar.getInstance());
 				troop.setCurrentTroop(user.getSid());//10/23/14
+				
+				//modif 
+				try{
+					modifiedChecker.setModified(user.getSid(), troop.getYearPlan().getPath());
+				}catch(Exception em){em.printStackTrace();}
+			
+				
 				ocm.update(troop);
 
 	//System.err.println(8 +" : : : : : lastMidif db: " + troop.getLastModified().getTime());			

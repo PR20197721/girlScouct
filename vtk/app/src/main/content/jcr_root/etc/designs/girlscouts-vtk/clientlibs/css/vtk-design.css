@@ -1,4 +1,6 @@
-
+.vtk {
+  padding: .25em;
+}
 #main {
   margin: 0 auto;
   max-width: 60em;
@@ -116,7 +118,7 @@ ul.tabs {
 #newLocationCal {
   background-color: #fff;
   padding: 2em;
-  border: 2px solid grey;
+  border: 2px solid gray;
 }
 #newLocationModal {
   background-color: #fff;

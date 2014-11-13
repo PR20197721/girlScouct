@@ -6,13 +6,12 @@
   padding-right: 0.38em;
 }
 /* icon alignemnt to the header text */
-.home-section > .columns.large-1 {
-  margin-top: .8%;
+.home-section .columns.large-1 {
+/*  margin-top: .8%;*/
 }
 .home-section.hero-banner .columns,
 .home-section.hero-banner .column {
-  padding-left:0 !important;
-  padding-right:0 !important;
+ padding:0;
 }
 .home-section h2 {
   margin-top:0;
@@ -37,6 +36,11 @@
 @media only screen {
   .home-section .lists-image img {
     min-width: 100%;
+  }
+}
+@media only screen and (max-width: 420px) {
+  .home-section .columns.small-2 {
+    margin-top:.8%;
   }
 }
 .home-section .lists-image {

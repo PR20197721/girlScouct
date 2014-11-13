@@ -81,7 +81,9 @@
     #header {
       background:#00ae58 !important;
     }
-    #yearPlanMeetings li.milestone.ui-state-disabled {
-      background: #c0c0c0 !important;
+    #yearPlanMeetings li.milestone {
+      border-top: 1px solid gray;
+      border-bottom: 1px solid gray;
+      padding:10px 0;
     }
 }

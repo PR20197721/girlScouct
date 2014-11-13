@@ -20,6 +20,11 @@
     <name>Girl Scouts Volunteer Toolkit Replication Bundle</name>
 
     <dependencies>
+    	 <dependency>
+    	    <groupId>org.girlscouts.vtk</groupId>
+    	    <artifactId>girlscouts-vtk-bundle</artifactId>
+    	    <version>1.0-SNAPSHOT</version>
+    	</dependency>
         <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.compendium</artifactId>
@@ -97,6 +102,14 @@
 			<version>2.6.2</version>
 			<scope>provided</scope>
 		</dependency>
+		
+		<dependency>
+	<groupId>org.apache.commons</groupId>
+	<artifactId>commons-collections4</artifactId>
+	<version>4.0</version>
+</dependency>
+	
+		
 </dependencies>
 
     <!-- ====================================================================== -->
