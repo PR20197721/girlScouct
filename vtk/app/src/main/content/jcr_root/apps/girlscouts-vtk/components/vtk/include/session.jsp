@@ -252,12 +252,13 @@ One of your co-leaders is currently making changes in the Volunteer Toolkit for 
 %>
 
 
+<%if( troop!=null && troop.getYearPlan()!=null){ %>
 <script>
 $( document ).ready(function() {
 	setTimeout(function(){expiredcheck('<%=session.getId()%>','<%=troop.getYearPlan().getPath()%>');},20000);
-	//expiredcheck('<%=session.getId()%>','<%=troop.getYearPlan().getPath()%>');
+	
 	});
 </script>
 
-
+<%} %>
   
