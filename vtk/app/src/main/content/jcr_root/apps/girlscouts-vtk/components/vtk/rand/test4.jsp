@@ -12,22 +12,23 @@
   
 <div class="content"></div>
  
-<script id="artist-list-template" type="text/x-handlebars-template">
+<script id="vtk-template" type="text/x-handlebars-template">
  
 <table>
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Hometown</th>
-      <th>Favorite Color</th>
+      <th>date</th>
+      <th>meeting name</th>
+     
     </tr>
   </thead>
   <tbody>
       {{#each []}}
       <tr>
-          <td>{{this.name}}</td>
-          <td>{{this.hometown}}</td>
-          <td>{{this.favoriteColor}}</td>
+ <td>--</td>         
+ <td>{{this.usid}}</td>
+         
+        
       </tr>
       {{/each}}
   </tbody>
@@ -46,7 +47,8 @@
 var YearPlan = Backbone.Model.extend({
  
     defaults:{
-        name: 'New Year Plan',
+    	usid: 'New YearPlan',
+    	yp_cng:"true"
         
     },
  
@@ -56,10 +58,48 @@ var YearPlan = Backbone.Model.extend({
  
 });
 
+/*
 window.x = new YearPlan();
 x.fetch({ url: "http://localhost:4503/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid=test&ypid=test"});
-
+console.log(x);
+ */
  
+ 
+ /*
+var YearPlans = Backbone.Collection.extend({
+	 
+    model: YearPlan,
+ 
+    initialize: function() {
+        console.log('New collection initialized...');
+    }
+});  
+*/
+
+
+var YearPlanCollection = Backbone.Collection.extend({
+    defaults: {
+        model: YearPlan
+    },
+    model: YearPlan,
+   url: 'http://localhost:4503/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid=test&ypid=test',
+//url: 'http://localhost:4503/content/girlscouts-vtk/controllers/vtk.rand.test0.html',
+    parse: function(response){
+       return response.items;
+    },
+    
+    initialize: function() {
+        console.log('New collection initialized...');
+    }
+});
+
+var y= new YearPlanCollection();
+y.fetch();
+for (variable in y) {
+	console.log(">>"+variable+" : "+y[variable]);
+}
+
+
 
  /*
 var biggie = new Artist({ id: 1, name: 'Notorious BIG', birthday: 'May 21, 1972', hometown: 'Brooklyn, NY', favoriteColor: 'green' });
@@ -88,14 +128,17 @@ var ArtistListView = Backbone.View.extend({
     el: '.content',
  
     initialize:function(){
+    	console.log("Rendering....");
         this.render();
     },
     render: function () {
-        var source = $('#artist-list-template').html();
+        var source = $('#vtk-template').html();
         var template = Handlebars.compile(source);
-        var html = template(x.toJSON());
-       
+        var html = template(y.toJSON());
         this.$el.html(html);
+        
+        
+       
     }
 });
  

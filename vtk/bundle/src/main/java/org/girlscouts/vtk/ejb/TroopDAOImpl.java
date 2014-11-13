@@ -268,16 +268,13 @@ public class TroopDAOImpl implements TroopDAO {
 				ocm.update(troop);
 			} else {
 				String path = "";
-				StringTokenizer t = new StringTokenizer(
-						("/" + troop.getPath())
-								.replace("/" + troop.getId(), ""),
-						"/");
+				StringTokenizer t = new StringTokenizer(("/" + troop.getPath()).replace("/" + troop.getId(), ""),"/");
 				int i = 0;
 				while (t.hasMoreElements()) {
 					String node = t.nextToken();
 					path += "/" + node;
 					if (!mySession.itemExists(path)) {
-						if (i == 1) {
+						if (i == 2) {
 							ocm.insert(new Council(path));
 						} else {
 							ocm.insert(troop);
