@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    xtype="tabpanel">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <tab1
+            jcr:primaryType="cq:Panel"
+            title="Properties">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <title
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Title"
+                    name="./jcr:title"/>
+                <reference
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="where you put the update pages"
+                    fieldLabel="reference path"
+                    name="./reference"
+                    rootPath="/content"
+                    xtype="pathfield"/>
+                <nItem
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="Number of items shown in the list"
+                    fieldLabel="number of items"
+                    name="./nItems"
+                    xtype="numberfield"/>
+            </items>
+        </tab1>
+        <tab2
+            jcr:primaryType="cq:Panel"
+            title="See All">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <checkbox
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="showSeeAll"
+                    inputValue="true"
+                    name="./showSeeAll"
+                    type="checkbox"
+                    xtype="selection"/>
+                <link
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription="equals to [Content Path] by default. specify here otherwise."
+                    fieldLabel="Link"
+                    name="./link"
+                    xtype="pathfield"/>
+            </items>
+        </tab2>
+    </items>
+</jcr:root>

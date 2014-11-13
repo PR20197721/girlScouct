@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    xtype="tabpanel">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <tab1
+            jcr:primaryType="cq:Panel"
+            title="Title">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <title
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Title"
+                    name="./jcr:content/jcr:title"/>
+            </items>
+        </tab1>
+        <tab2
+            jcr:primaryType="cq:Panel"
+            title="Date">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <date
+                    jcr:primaryType="cq:Widget"
+                    fieldDescription=""
+                    fieldLabel="Date"
+                    name="./jcr:content/date"
+                    xtype="datefield"/>
+            </items>
+        </tab2>
+        <tab3
+            jcr:primaryType="cq:Panel"
+            title="Description">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <text
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Text"
+                    name="./jcr:content/text"
+                    xtype="richtext"/>
+            </items>
+        </tab3>
+    </items>
+</jcr:root>
