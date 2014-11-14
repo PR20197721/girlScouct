@@ -12,7 +12,10 @@ function updSched1(i, meetingPath, currDt){
 	var time = document.getElementById("cngTime"+i).value;
 	var ap = document.getElementById("cngAP"+i).value;
 	var isCancelled = document.getElementById("isCancellMeeting"+i).checked;
-//alert(date+" : "+ time +" : "+ ap +" : "+ isCancelled);
+
+	
+	
+	if( new Date(date)<= new Date() ){alert("You cannot select a date in the past to reschedule the meetings. Please type or select a date in the future."); return;}
 	
 	
 	 $.ajax({
@@ -35,9 +38,9 @@ function updSched1(i, meetingPath, currDt){
 	      },
 	      error: function (xhr, ajaxOptions, thrownError) {
 	    	  if( xhr.status==499)
-	    		  alert("Error: Found duplicate DATE in your schedule. Please change date/time and try again.");
+	    		  alert("This date and time have already been selected for another meeting. Please select a different date and time.");
 	    	  else
-	    		  alert("Error occured updating schedule date.please try again");
+	    		  alert("This date and time have already been selected for another meeting. Please select a different date and time.");
 	          
 	        }
 	  });

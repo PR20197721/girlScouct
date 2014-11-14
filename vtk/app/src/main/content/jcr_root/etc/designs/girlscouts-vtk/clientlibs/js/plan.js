@@ -484,12 +484,16 @@ function expiredcheck(ssId, ypId){
 	
 		$.ajax({
     		url: "/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid="+ssId+"&ypid="+ypId+"&d=",
+    		dataType: 'json',
     		cache: false
-    	}).done(function( html ) {
+    	}).done(function( obj ) {
+    		//console.log("**"+html+"**");
+    		//var obj = jQuery.parseJSON(html );
     		
-    		var obj = jQuery.parseJSON(html );
+    		console.log("*** "+ (obj.yp_cng == 'true') );
+    		
     		if( obj.yp_cng == 'true'  ){
-    			alert("reloading...");
+    			//alert("reloading...");
     			window.location.reload();
     			
     		}
