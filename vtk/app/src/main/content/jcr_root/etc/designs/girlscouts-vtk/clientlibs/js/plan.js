@@ -406,6 +406,7 @@ function loadLocMng(){
 }       
 function loadCalMng(){
 	$("#calMng").load("/content/girlscouts-vtk/controllers/vtk.calendar.html?rand="+Date.now());
+	
 }
 
 function manageCalElem(elem ){

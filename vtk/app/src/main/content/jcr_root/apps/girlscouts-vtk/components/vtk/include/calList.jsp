@@ -1,3 +1,8 @@
+
+<input type="button" value="Click here to change your recurring meeting date and time." name="" onclick="showAlterYearPlanStartDate()" class="button" />
+<p>Or select a calendar icon below to change the date, time, or to cancel a specific meeting</p>
+
+
 <%
 java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(troop.getYearPlan());
 %>
