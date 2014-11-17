@@ -147,31 +147,16 @@
   
 <div class="content"></div>
  
+<div style="background-color:red">asdfadfadsfadsfasdfadsf</div>
+ 
 <script id="vtk-template" type="text/x-handlebars-template">
- 
-<table>
-  <thead>
-    <tr>
-      <th>date</th>
-      <th>meeting name</th>
-     
-    </tr>
-  </thead>
-  <tbody>
-      {{#each []}}
-      <tr>
- <td>--</td>         
- <td>{{this.usid}}</td>
-         
-        
-      </tr>
-      {{/each}}
-  </tbody>
-</table>
-</script>
- 
-</script>
-  
+  <div>testasdfadsfasdfasdfasdfasdfasdf</div>
+   {{#each []}}
+          
+ 		<fieldset>{{this.usid}}</fieldset>
+		<div id="adfad">aaaa</div>
+    {{/each}}
+  </script>
   
 <script type="text/javascript">
  
@@ -237,7 +222,7 @@ var YearPlanCollection = Backbone.Collection.extend({
 			}
 		}
     	
-    	
+    	var artistListView = new ArtistListView();
     	
        return response;//.items;
     },

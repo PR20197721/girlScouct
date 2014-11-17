@@ -233,9 +233,8 @@ function buildSched(){
 
 	var calStartDt = document.getElementById("calStartDt").value;
 	
-	if( new Date(calStartDt) <= new Date() )
-		{alert("You cannot select a date in the past to reschedule the meetings. Please type or select a date in the future."); return;}
-
+	
+	
 	
 	
 	var calAP = document.getElementById("calAP").value;
@@ -243,7 +242,39 @@ function buildSched(){
 	var z =calFreq.options[calFreq.selectedIndex].text;
 	var calTime = document.getElementById("calTime").value;
 	if( $.trim(calTime) =='') {alert("Time field empty");return;}
+	
+	var stringToParse = calStartDt +" " +calTime ;
+	var dateString    = stringToParse.match(/\d{2}\/\d{2}\/\d{4}\s+\d{2}:\d{2}/) +" "+calAP;
+	var dt            = new Date(dateString);
+	
+	
+	
+	if( isNaN(dt) ){
+		alert("Invalid date/time");
+		return;
+	}
+	
+	
+	var minExpDate = new Date();
+	minExpDate.setMinutes ( minExpDate.getMinutes() + 30 );
+	
+	
+	var maxExpDate = new Date();
+	maxExpDate.setDate ( maxExpDate.getDate() +  730);
+	
+	if( dt > maxExpDate ){
+		alert("You cannot select a date after "+moment(maxExpDate).format('MM/DD/YYYY h:mm a')+" since the YP won't fit into the actual calendar year");
+		return;
+	}
+	
+	
+	if( new Date(dt) <= minExpDate )
+	{alert("You cannot select a date in the past to reschedule the meetings. Please type or select a date in the future."); return;}
 
+	
+	
+	
+	
 	var _level="";
 	var levels = document.getElementsByName('exclDt');
 	for (var i=0; i < levels.length; i++){ 
