@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.girlscouts.tools.web</groupId>
-  <artifactId>event-timezone-updater</artifactId>
+  <artifactId>vtk-link-updater</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>event-timezone-updater</name>
+  <name>vtk-link-updater</name>
   <url>http://maven.apache.org</url>
 
   <properties>
@@ -72,7 +72,7 @@
           <executions>
               <execution>
                   <configuration>
-                      <mainClass>org.girlscouts.tools.web.Updater</mainClass>
+                      <mainClass>org.girlscouts.tools.web.vklink.Updater</mainClass>
                       <!-- Optional -->
                       <onejarVersion>0.97</onejarVersion>
                       <!-- Optional, default is false -->
