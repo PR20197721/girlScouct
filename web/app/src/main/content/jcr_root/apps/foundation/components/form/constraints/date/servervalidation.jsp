@@ -37,8 +37,11 @@
         new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ"),
         new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss"),
         new SimpleDateFormat("yyyy-MM-dd"),
-        new SimpleDateFormat("dd.MM.yyyy HH:mm:ss"),
-        new SimpleDateFormat("dd.MM.yyyy")};
+        new SimpleDateFormat("MM.dd.yyyy HH:mm:ss"),
+        new SimpleDateFormat("MM.dd.yyyy"),
+        new SimpleDateFormat("MM.dd.yy"),
+        new SimpleDateFormat("MM/dd/yyyy"),
+		new SimpleDateFormat("MM/dd/yy")};
 
     /**
      * Parse a date/time using an array of DateFormat objects
