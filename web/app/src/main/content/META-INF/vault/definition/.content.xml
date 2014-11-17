@@ -267,6 +267,14 @@
             mode="replace"
             root="/etc/workflow/launcher/config/gs_modify_asset_sp_right_hero"
             rules="[]"/>  
+         <f52
+            jcr:primaryType="nt:unstructured"
+            mode="replace"
+            root="/apps/foundation"
+            rules="[]"/>  
+            
+    </filter>
+</jcr:root>
             
     </filter>
 </jcr:root>
