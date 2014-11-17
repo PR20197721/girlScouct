@@ -1366,11 +1366,20 @@ form .form_captcha_input {
   height: 40px;
 }
 /*styles for updates list pages */
+.update-list .row {
+  background-color: #fff;
+}
+.update-list:first-child .row:first-child > div {
+  padding-top: 60px;
+}
 .update-list .more-link:after {
   content:">";
   margin-left: 5px;
 }
-.update-list * {
+.update-list p,
+.update-list span,
+.update-list ul li,
+.update-list a {
   font-size: 14px;
 }
 .update-list h3 {
@@ -1387,11 +1396,16 @@ form .form_captcha_input {
   line-height: 1.63em;
 }
 
-#mainContent .update-list ul {
+.update-list ul {
   list-style: none;
   margin-top:15px;
 }
 .update-list ul li {
   margin-bottom: 20px;
 }
-
+.update-list-header {
+  padding-bottom: 20px;
+}
+.update-list-footer {
+  padding: 10px 0;
+}
