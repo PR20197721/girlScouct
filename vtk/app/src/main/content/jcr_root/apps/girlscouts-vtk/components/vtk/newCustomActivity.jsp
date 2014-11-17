@@ -463,10 +463,6 @@ function searchActivities(){
 	var region = document.getElementById("sch_region").value;
 	
 	
-	if( startDate == '' && endDate=='' ) {
-		return true;
-    }
-	
 	
 	if(!isDate(startDate) && startDate != ''){setError("Invalid Start Date");return false;}
     if(!isDate(endDate) && endDate!=''){setError("Invalid End Date");return false;}
