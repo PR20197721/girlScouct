@@ -72,7 +72,7 @@
           <executions>
               <execution>
                   <configuration>
-                      <mainClass>org.girlscouts.tools.web.vklink.Updater</mainClass>
+                      <mainClass>org.girlscouts.tools.web.stage.StageUpdater</mainClass>
                       <!-- Optional -->
                       <onejarVersion>0.97</onejarVersion>
                       <!-- Optional, default is false -->
