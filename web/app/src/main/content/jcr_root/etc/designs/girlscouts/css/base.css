@@ -1,6 +1,4 @@
 /* base */
-
-@import url("home.css");
 /***********************************/
 /************* GLOBAL **************/
 /***********************************/
@@ -394,6 +392,9 @@ a:hover.menuHighlight {
 #main ul.side-nav ul {
   padding: 0px;
   margin: 0px;
+}
+#main .side-nav li div {
+  padding: 10px 0px;
 }
 #main .side-nav li {
   position: relative;

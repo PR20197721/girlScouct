@@ -14,7 +14,9 @@
 #main .side-nav > li.active {
         background:#ffffff;
 }
-
+#main .side-nav > li:before {
+  border: none;
+}
 #main .side-nav > li > div > a {
 	font-weight: normal;
 }

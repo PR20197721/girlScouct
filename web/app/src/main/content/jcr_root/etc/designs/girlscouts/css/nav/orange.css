@@ -1,4 +1,4 @@
-/* orange nav */
+/* orange border generic nav */
 
 #main .side-nav * {
   color: #333333;
@@ -15,7 +15,6 @@
 }
 #main .side-nav > li {
   /*background: url('/etc/designs/girlscouts-usa-green/images/orange-vertical.png') repeat-y 0px 0px;*/
-  
   background-color: #F1F1EF;
   list-style: none;
   position: relative;
@@ -26,11 +25,10 @@
   position: absolute;
   height: 100%;
 }
+#main .side-nav > li.active {
+  background-color: #f7f7f6;
+}
 #main .side-nav > li.active:before {
   border-color: #FBCD41;
-}
-#main .side-nav > li.active {
-  /*background: url('/etc/designs/girlscouts-usa-green/images/orange-yellow-vertical.png') repeat-y 0px 0px;*/
-  
-  background-color: #f7f7f6;
+  z-index: 10;
 }
