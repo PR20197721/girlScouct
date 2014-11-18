@@ -1,7 +1,8 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 
-<%@ page import="com.day.cq.wcm.api.Page,
+<%@ page
+	import="com.day.cq.wcm.api.Page,
 com.day.cq.wcm.api.PageFilter,
 com.day.cq.dam.api.Asset,
 java.util.ArrayList,
@@ -18,13 +19,14 @@ java.util.Comparator"%>
   ArrayList<ValueMap> updateList = new ArrayList();
 
 
-  if(rPath != null ){
-    if(rPath.isEmpty()){
-      rPath=currentPage.getPath();
-    }
-    Resource res = slingRequest.getResourceResolver().getResource(rPath);
-    if(res != null){
-    	Page udPage = res.adaptTo(Page.class);
+  if(rPath == null || rPath.isEmpty()){
+    
+    rPath=currentPage.getPath();
+  }
+    
+  Resource res = slingRequest.getResourceResolver().getResource(rPath);
+  if(res != null){
+	  Page udPage = res.adaptTo(Page.class);
 
       Iterator<Page> iter = udPage.listChildren(new PageFilter(request));
       while(iter.hasNext()){
@@ -48,33 +50,33 @@ java.util.Comparator"%>
       }
     });
   }
-}
+
 %>
 <div class="row">
-  <div class="columns large-20 large-centered">
-    <section class="clearfix header">
-     <h3><%= properties.get("jcr:title","New Section") %></h3>
+	<div class="columns large-20 large-centered">
+		<section class="clearfix header">
+			<h3><%= properties.get("jcr:title","New Section") %></h3>
 
-     <% if(seeAll.equals("true")) { %>
-     <a href="<%=link %>.html" title="see all" class="more-link">See all</a> 
-     <% } %>
-    </section>
+			<% if(seeAll.equals("true")) { %>
+			<a href="<%=link %>.html" title="see all" class="more-link">See
+				all</a>
+			<% } %>
+		</section>
 
-    <section class="clearfix">
-      <ul>
-        <%
+		<section class="clearfix">
+			<ul>
+				<%
         int nItems = properties.get("nItems",updateList.size());
         for(int i=0; i<nItems&&i<updateList.size(); i++) {
         ValueMap updateItem = updateList.get(i);
         %>
-        <li>
-          <span class="date"><%= updateItem.get("date", "00/00/00") %></span>
-          <span class="title"><strong><%= updateItem.get("jcr:title", "no title") %></strong></span>
-          <div class="text"><%= updateItem.get("text", "no description") %></div> 
-        </li>          
-        <% } %>
-      </ul>
-    </section>
-  </div>
+				<li><span class="date"><%= updateItem.get("date", "00/00/00") %></span>
+					<span class="title"><strong><%= updateItem.get("jcr:title", "no title") %></strong></span>
+					<div class="text"><%= updateItem.get("text", "no description") %></div>
+				</li>
+				<% } %>
+			</ul>
+		</section>
+	</div>
 </div>
 
