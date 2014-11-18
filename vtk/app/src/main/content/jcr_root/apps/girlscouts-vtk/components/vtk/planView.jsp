@@ -63,7 +63,13 @@
 	//System.err.println("TEST: "+searchDate.getTime() +" : "+ searchDate );		
 			session.putValue("VTK_planView_memoPos", searchDate.getTime());
 		        YearPlanComponent _comp= sched.get(searchDate);
-
+if( _comp ==null ){
+	%><span class="error">
+	A co-leader has made changes to the schedule of the Year Plan that affect this meeting. 
+	<a href="/content/girlscouts-vtk/en/vtk.plan.html">Click here</a> to go to the Year Plan view to see this changes and access the updated version of this meeting.
+	</span><% 
+	return;
+}
 
 		    MeetingE meeting = null;
 			List<Asset> _aidTags = null;
