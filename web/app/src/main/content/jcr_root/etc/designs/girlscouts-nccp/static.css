@@ -6,13 +6,15 @@
 	margin: 0;
 	font-size: 13.5px;
 }
-
+#main .side-nav li:before {
+  border: none;
+}
 #main .side-nav li a {
 	line-height: 1em;
 }
 
 #main .side-nav > li.active {
-        background:#ffffff;
+  background:#ffffff;
 }
 
 #main .side-nav > li > div > a {
@@ -23,11 +25,11 @@
 	color:#414141;
 }
 #main .side-nav li div {
-    padding-bottom: 7px !important;
-    padding-top: 7px !important;
+    padding-bottom: 7px;
+    padding-top: 7px;
 }
 #main .side-nav li.active.current {
-	background: url('/etc/designs/girlscouts-usa-green/images/small-green-arrow-right.png') no-repeat 185px 6px #f1f1ef;
+	/*background: url('/etc/designs/girlscouts-usa-green/images/small-green-arrow-right.png') no-repeat 185px 6px #f1f1ef;*/
 }
 
 #main .side-nav li.active.current > div > a, #main .side-nav li.active li.active > div > a {
@@ -53,16 +55,16 @@
     color: #000000;
 }
 
-#header a.signin {
+#header a.signin,
+#header a.signout {
 	color: #000;
-
 }
+
 #mobile-footer {
 background-color: #FFFFFF;
 }
-
 @media only screen and (max-width: 40em) {
     #header a.signin {
-	color: #FFF;
-}
+	   color: #FFF;
+  }
 }

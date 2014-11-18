@@ -409,36 +409,48 @@ a:hover.menuHighlight {
   list-style: none;
 }
 /* Left-Nav MG Changes */
-
+#main .side-nav li {
+  list-style: none;
+  position: relative;
+}
 #main .side-nav > li {
-  background: url('/etc/designs/girlscouts-usa-green/images/orange-vertical.png') repeat-y 0px 0px;
+/*  background: url('/etc/designs/girlscouts-usa-green/images/orange-vertical.png') repeat-y 0px 0px;*/
   background-color: #F1F1EF;
 }
 #main .side-nav > li.active {
-  background: url('/etc/designs/girlscouts-usa-green/images/orange-yellow-vertical.png') repeat-y 0px 0px;
+/*  background: url('/etc/designs/girlscouts-usa-green/images/orange-yellow-vertical.png') repeat-y 0px 0px;*/
   background-color: #f7f7f6;
 }
+#main .side-nav li:before {
+    border: solid 5px #FAA61A;
+    content: "";
+    position: absolute;
+    height: 100%;
+}
+#main .side-nav > li.active:before {
+    border-color:#FBCD41;
+    z-index: 10;
+}
 #main .side-nav li div {
-  padding: 10px 0px 10px 10px;
-  margin-left: 10px;
+  padding: 10px 0px;
+/*  margin-left: 10px;*/
 }
 #main ul.side-nav, .side-nav ul {
   padding: 0px;
   margin: 0px;
 }
-#main .side-nav li {
-  list-style: none;
-}
-#main .side-nav li li div {
+#main .side-nav li div a {
   padding-left: 20px;
+  line-height: 1.3;
 }
-#main .side-nav li li li div {
+#main .side-nav li li div a {
   padding-left: 30px;
+
 }
-#main .side-nav li li li li div {
+#main .side-nav li li li div a {
   padding-left: 40px;
 }
-#main .side-nav li li li li li div {
+#main .side-nav li li li li div a {
   padding-left: 50px;
 }
 #main .side-nav > li > div > a {

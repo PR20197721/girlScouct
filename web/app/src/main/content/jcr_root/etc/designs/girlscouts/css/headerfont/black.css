@@ -1,5 +1,8 @@
-/* black header font */
-
+/* white background header font */
 #header a {
-    color: #000000;
+  color: #000000;
+}
+#header a.signout,
+#header a.signin {
+  color: #000000;
 }
