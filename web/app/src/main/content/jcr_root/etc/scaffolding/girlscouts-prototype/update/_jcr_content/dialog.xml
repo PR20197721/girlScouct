@@ -9,6 +9,7 @@
             <items jcr:primaryType="cq:WidgetCollection">
                 <title
                     jcr:primaryType="cq:Widget"
+                    allowBlank="{Boolean}false"
                     fieldLabel="Title"
                     name="./jcr:content/jcr:title"/>
             </items>
@@ -19,6 +20,7 @@
             <items jcr:primaryType="cq:WidgetCollection">
                 <date
                     jcr:primaryType="cq:Widget"
+                    allowBlank="{Boolean}false"
                     fieldDescription=""
                     fieldLabel="Date"
                     name="./jcr:content/date"
@@ -31,6 +33,7 @@
             <items jcr:primaryType="cq:WidgetCollection">
                 <text
                     jcr:primaryType="cq:Widget"
+                    allowBlank="{Boolean}false"
                     fieldLabel="Text"
                     name="./jcr:content/text"
                     xtype="richtext"/>
