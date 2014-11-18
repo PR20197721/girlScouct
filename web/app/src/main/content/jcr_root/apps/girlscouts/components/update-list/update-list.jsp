@@ -8,7 +8,9 @@ com.day.cq.dam.api.Asset,
 java.util.ArrayList,
 java.util.Iterator,
 java.util.Collections,
-java.util.Comparator"%>
+java.util.Comparator,
+java.text.SimpleDateFormat,
+java.util.Date"%>
 <%
 
   String rPath = properties.get("reference", null);
@@ -70,12 +72,19 @@ java.util.Comparator"%>
         int nItems = properties.get("nItems",updateList.size());
         for(int i=0; i<nItems&&i<updateList.size(); i++) {
         ValueMap updateItem = updateList.get(i);
+        String dateField = updateItem.get("date", "00/00/00");
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy");
+		Date date = sdf.parse(dateField);
+
+        SimpleDateFormat displayDateFormat = new SimpleDateFormat("MM.dd.yyyy");
+		String formattedDateStr = displayDateFormat.format(date);
+
         %>
-				<li><span class="date"><%= updateItem.get("date", "00/00/00") %></span>
+				<li><span class="date"><%= formattedDateStr %></span>
 					<span class="title"><strong><%= updateItem.get("jcr:title", "no title") %></strong></span>
 					<div class="text"><%= updateItem.get("text", "no description") %></div>
 				</li>
-				<% } %>
+		<% } %>
 			</ul>
 		</section>
 	</div>
