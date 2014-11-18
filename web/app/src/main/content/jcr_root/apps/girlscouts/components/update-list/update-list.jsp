@@ -35,6 +35,7 @@ java.util.Comparator"%>
         ValueMap props = itemPage.getProperties();
         updateList.add(props);
       }
+      Collections.reverse(updateList);
       Collections.sort(updateList, new Comparator() {
       public int compare(Object a, Object b) {
       ValueMap aProps = (ValueMap) a;
