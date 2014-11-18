@@ -8,7 +8,5 @@ if [ -z $VERSION ]; then
 fi
 
 curl -u "admin:4U5Hsq5Q_I" -F file=@"$HOME/.m2/repository/org/girlscouts/web/girlscouts-app/$VERSION/girlscouts-app-$VERSION.zip" -F name="girlscouts-app" -F force=true -F install=true http://author-girlscouts-stage.adobecqms.net/crx/packmgr/service.jsp
-#curl -u "admin:@Q&W1iHzx(" -F file=@"$HOME/.m2/repository/org/girlscouts/web/girlscouts-content/$VERSION/girlscouts-content-$VERSION.zip" -F name="girlscouts-content" -F force=true -F install=true http://author-girlscouts-dev2.adobecqms.net/crx/packmgr/service.jsp
 
 curl -u "admin:4U5Hsq5Q_I" -F file=@"$HOME/.m2/repository/org/girlscouts/web/girlscouts-app/$VERSION/girlscouts-app-$VERSION.zip" -F name="girlscouts-app" -F force=true -F install=true http://54.85.69.30:4503/crx/packmgr/service.jsp
-#curl -u "admin:@Q&W1iHzx(" -F file=@"$HOME/.m2/repository/org/girlscouts/web/girlscouts-content/$VERSION/girlscouts-content-$VERSION.zip" -F name="girlscouts-content" -F force=true -F install=true http://ec2-54-83-199-118.compute-1.amazonaws.com:4503/crx/packmgr/service.jsp
