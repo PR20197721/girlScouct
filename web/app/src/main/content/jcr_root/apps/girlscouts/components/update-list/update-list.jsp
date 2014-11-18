@@ -23,8 +23,9 @@ java.util.Comparator"%>
       rPath=currentPage.getPath();
     }
     Resource res = slingRequest.getResourceResolver().getResource(rPath);
-    Page udPage = res.adaptTo(Page.class);
-    if(udPage != null){
+    if(res != null){
+    	Page udPage = res.adaptTo(Page.class);
+
       Iterator<Page> iter = udPage.listChildren(new PageFilter(request));
       while(iter.hasNext()){
 
@@ -70,7 +71,7 @@ java.util.Comparator"%>
           <span class="date"><%= updateItem.get("date", "00/00/00") %></span>
           <span class="title"><strong><%= updateItem.get("jcr:title", "no title") %></strong></span>
           <div class="text"><%= updateItem.get("text", "no description") %></div> 
-        </li>
+        </li>          
         <% } %>
       </ul>
     </section>
