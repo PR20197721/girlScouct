@@ -205,6 +205,7 @@ a:hover.menuHighlight {
 #header a.signout {
   font-size: 0.875em;
   color: #fff;
+  margin: 0 15px;
 }
 #header a:hover.signout {
   color: #c00;
@@ -982,7 +983,7 @@ div.wrapper .row:nth-child(2) {
 #form .title {
   padding: 4px 0px 7px 0px;
   font-size: 15px;
-  color: grey;
+  color: gray;
 }
 .white-arrow-down {
   background: url('/etc/designs/girlscouts-usa-green/images/white-arrow-down.png') no-repeat;
