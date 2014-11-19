@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
-    jcr:description="A page for informing the councils with simple header and footer"
+    jcr:description="A page for Digital Experience Team with simple header and footer"
     jcr:primaryType="cq:Template"
-    jcr:title="Inform-Page"
+    jcr:title="Dxp-Page"
     allowedPaths="[/content(/.*)?]"
     ranking="{Long}10">
     <jcr:content
         jcr:primaryType="cq:PageContent"
-        sling:resourceType="girlscouts/components/inform-page"/>
+        sling:resourceType="girlscouts/components/dxp-page"/>
 </jcr:root>
