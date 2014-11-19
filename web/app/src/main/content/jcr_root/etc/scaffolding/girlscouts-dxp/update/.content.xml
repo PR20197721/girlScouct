@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:lastModified="{Date}2009-04-01T12:27:34.647+02:00"
+        cq:lastModifiedBy="admin"
+        cq:lastReplicated="{Date}2014-11-14T15:18:19.361-05:00"
+        cq:lastReplicatedBy="admin"
+        cq:lastReplicationAction="Activate"
+        cq:targetPath="/content/girlscouts-dxp/en"
+        cq:targetTemplate="/apps/girlscouts/templates/update-page"
+        jcr:description="Girl Scouts Updates Scaffolding"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Update"
+        jcr:uuid="a4baa22d-b61d-4fad-9163-de8e8f62d488"
+        sling:resourceType="wcm/scaffolding/components/scaffolding">
+        <dialog/>
+    </jcr:content>
+</jcr:root>
