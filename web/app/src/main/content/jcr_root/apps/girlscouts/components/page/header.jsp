@@ -32,7 +32,7 @@
       <%/*setCssClasses("columns noLeftPadding" , request); */%>
       <cq:include path="<%= headerPath + "/eyebrow-nav" %>" resourceType="girlscouts/components/eyebrow-navigation" />
       <div class="row collapse">
-        <% setCssClasses("large-18 medium-18 small-24 columns", request); %>
+        <% setCssClasses("large-17 medium-17 small-24 columns", request); %>
         <cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
         <% setCssClasses("large-6 medium-6 small-24 columns searchBar", request); %>
         <cq:include path="<%= headerPath + "/search-box" %>" resourceType="girlscouts/components/search-box" />

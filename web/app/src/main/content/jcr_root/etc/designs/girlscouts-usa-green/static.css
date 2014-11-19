@@ -210,14 +210,7 @@ a:hover.menuHighlight {
 #header a:hover {
   color: #FAA61A;
 }
-#header a.signout {
-    font-size: 0.875em;
-    color: #fff;
-    margin: 0 15px;
-}
-#header a:hover.signout {
-  color: #c00;
-}
+
 #header ul {
   float: right;
 }
@@ -776,9 +769,19 @@ td.fc-header-left {
 .eyebrow-fontsize>li a {
   font-size: 0.875rem;
 }
-#header .searchField {
-  height: 21px;
-  width: 100%;
+#header .searchBar input {
+    height: 21px;
+    width: 100%;
+    position: relative;;
+}
+#header .searchBar form:after {
+  font-family: "JollyFont";
+  position: absolute;
+  content: "\e66c";
+  color: rgb(0, 174, 88);
+  top: 0px;
+  left: 89%;
+  font-size: 1.3em;
 }
 #headerBar ul li.active {
   background: url('/etc/designs/girlscouts-usa-green/images/white-up-arrow.png') no-repeat 60px 0px;
@@ -787,14 +790,25 @@ td.fc-header-left {
 #header div.login {
 	margin-top: 2px;
 }
-
-#header a.signin{
-   color:#FFF;
-   font-size:0.875rem;
-   font-weight:bold;
-   margin: 0 10px;
+#header a.link-login {
+  color: #FFF;
+  font-size: 0.875rem;
+  font-weight: bold;
+  margin: 0 0 0 10px;
 }
-
+#header a.link-login:after {
+  border: solid 5px;
+  content: "";
+  border-color: transparent transparent transparent #fff;
+  position: absolute;
+  margin: 4px 0 0 5px;
+}
+#header a.link-login:hover:after {
+  border-color: transparent transparent transparent #c00;
+}
+#header a.link-login:hover {
+  color: #c00;
+}
 #header .vtk-login .login {
 	padding-top: 5px;
 	padding-left: 20px;
