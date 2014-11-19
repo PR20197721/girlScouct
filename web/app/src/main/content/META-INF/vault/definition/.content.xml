@@ -272,9 +272,11 @@
             mode="replace"
             root="/apps/foundation"
             rules="[]"/>  
-            
-    </filter>
-</jcr:root>
-            
+        <f53
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/scaffolding/girlscouts-dxp"
+            rules="[]"/>
+
     </filter>
 </jcr:root>
