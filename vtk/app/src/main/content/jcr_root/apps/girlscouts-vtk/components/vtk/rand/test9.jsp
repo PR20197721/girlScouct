@@ -116,9 +116,9 @@
                  collection: peopleCollection
              });
          
-        	 //$("body").append(tableView.render().$el);
-        	// tableView.render()
-        	 tableView.render().$el
+        	 $("body").append(tableView.render().$el);
+        	 tableView.render()
+        	// tableView.render().$el
         }
     </script>
 </html>
