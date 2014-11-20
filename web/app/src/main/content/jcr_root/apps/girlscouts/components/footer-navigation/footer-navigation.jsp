@@ -10,14 +10,21 @@
   padding: 0;
 }
 #footer a {
-  color:#fff;
+  color:#fff;  
 }
 #footer ul {
   margin: 0;
   padding: 0;
+  line-height: 1;
+}
+#footer [class*="block-grid-"] > li {
+  padding-bottom: 0.63em;
+}
+#footer .footer-navigation div:nth-of-type(1) ul {
+  padding-top:7px;
 }
 #footer .footer-navigation div:last-child ul {
-  text-align: right;
+/*  text-align: right;*/
 }
 #footer li {
   display: inline;
@@ -30,6 +37,12 @@
 [class^="icon-"], [class*=" icon-"] {
   color:white;
   font-size: 32px;
+}
+@media only screen and (max-width: 40em) { 
+  #footer div.footer-navigation {
+    background-color: #009447;
+    padding-bottom:25px;
+  }
 }
 </style>
 <div class="columns large-18 medium-18">
