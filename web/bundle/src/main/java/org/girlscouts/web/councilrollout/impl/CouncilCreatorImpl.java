@@ -20,10 +20,7 @@ public class CouncilCreatorImpl implements CouncilCreator{
     private static Logger log = LoggerFactory
     	    .getLogger(CouncilCreatorImpl.class);
 
-	public String create() throws GirlScoutsException {
-		// TODO Auto-generated method stub
-log.error("In here");
-String test = "In Here";
-return test;
+	public void generateHomePage() throws GirlScoutsException {
+
 }
 }
