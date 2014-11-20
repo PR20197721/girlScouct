@@ -6,6 +6,6 @@ import org.girlscouts.web.exception.GirlScoutsException;
 
 public interface CouncilCreator {
 
-    void create() throws GirlScoutsException;
+    String create() throws GirlScoutsException;
 
 }
