@@ -1,10 +1,6 @@
-<%@ page import="org.girlscouts.web.councilrollout.CouncilCreator,
-    com.day.cq.wcm.api.PageManager" %>
+<%@ page import="org.girlscouts.web.councilrollout.CouncilCreator" %>
 <%@include file="/libs/foundation/global.jsp" %>
-<cq:include script="form.jsp"/>
 <%
-CouncilCreator creator = sling.getService(CouncilCreator.class);
-creator.create();
 String councilTitle = request.getParameter("councilTitle");
 String councilName = request.getParameter("councilName");
 String councilPath = "/content";
@@ -14,9 +10,12 @@ Node contentNode = session.getNode("/content");
 
 //Checks if the council node has already been created. if it has, then abort process.
 if(contentNode.hasNode("hanke")){ %>
+<cq:include script="form.jsp"/>
+
 Council Already Exists. Abort.
 <% } else{
-
+	CouncilCreator creator = sling.getService(CouncilCreator.class);
+	creator.generateHomePage(session, resourceResolver);
 
 }
 %>
