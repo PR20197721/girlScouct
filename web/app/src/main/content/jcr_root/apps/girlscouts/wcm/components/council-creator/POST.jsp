@@ -3,7 +3,7 @@
 <%
 String councilTitle = request.getParameter("councilTitle");
 String councilName = request.getParameter("councilName");
-String councilPath = "/content";
+String contentPath = "/content";
 
 Session session = (Session) resourceResolver.adaptTo(Session.class);
 Node contentNode = session.getNode("/content");
@@ -14,8 +14,9 @@ if(contentNode.hasNode("hanke")){ %>
 
 Council Already Exists. Abort.
 <% } else{
-	CouncilCreator creator = sling.getService(CouncilCreator.class);
-	creator.generateHomePage(session, resourceResolver);
 
+	CouncilCreator creator = sling.getService(CouncilCreator.class);
+	String something = creator.generateHomePage(session, resourceResolver, contentPath, councilName, councilTitle);
+%>Council homepage created under path <%= something %><%
 }
 %>

@@ -30,7 +30,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 	public String generateHomePage(Session session, ResourceResolver rr,
 			String contentPath, String councilName, String councilTitle)
 			throws GirlScoutsException {
-		String councilPath;
+		String councilPath = null;
 		try {
 			PageManager manager = (PageManager) rr.adaptTo(PageManager.class);
 			Page councilPage = manager.create(contentPath, councilName, "",
@@ -42,6 +42,6 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return councilTitle;
+		return councilPath;
 	}
 }
