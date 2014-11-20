@@ -17,49 +17,19 @@ String logoPath = currentPage.getAbsoluteParent(2).getContentResource().getPath(
 %>
 <!-- web/app/src/main/content/jcr_root/apps/girlscouts/components/page/footer.jsp -->
 <div class="hide-for-print">
-	<div id="footer" class="hide-for-small row">
-		<% setCssClasses("large-24 medium-24 small-24 columns", request); %>
-<%
-	request.setAttribute("centerLinks", false);
-%>
+ <!--footer menu links-->
+	<div id="footer" class="row">
 		<cq:include path="<%= footerPath + "/nav"%>" resourceType="girlscouts/components/footer-navigation"/>
 	</div>
-	<div id="mobile-nav-footer" class="show-for-small collapse">
-<%
-	request.setAttribute("centerLinks", true);
-%>
-		<cq:include path="<%= footerPath + "/nav"%>" resourceType="girlscouts/components/footer-navigation"/>
-	</div> 
+	<!--logo for the mobile footer-->
 	<div id="mobile-footer" class="row show-for-small">
-<%
-	request.setAttribute("noLink", true);
-%>
+		<%
+			request.setAttribute("noLink", true);
+		%>
 		<cq:include path="<%= logoPath + "/logo"%>" resourceType="girlscouts/components/logo" />
 	</div>
 </div>
+
 <cq:include script="google-analytics.jsp" />
 <cq:include script="footer-tracking.jsp" />
-<script type="text/javascript">
-  //seems to be only used in VTK sections
-	var resizeWindow = function(){
-		if(fixVerticalSizing) {
-			//get height of the actual page
-			var currentMainHeight = $('.inner-wrap').height();
-			//get the height of the window
-			var windowHeight = $(window).height();
-		  var targetMainHeight = (windowHeight-currentMainHeight);
-			//if the content of the page is not to the bottom of the window add this padding, note the row that is the wrapper
-			//must have class content
-			if(targetMainHeight > 0) {
-			  $('#main .row.content').css('padding-bottom',targetMainHeight + "px");
-			}
-		}
-	};
-	$(document).ready(function(){
-		resizeWindow();
-	});
-	$( window ).resize(function() {
-	$('#main .row.content').css('padding-bottom',0);
-		resizeWindow();	
-	});
-</script>
+<script type="text/javascript" src="/etc/designs/girlscouts/clientlibs/js/footer.js"></script>

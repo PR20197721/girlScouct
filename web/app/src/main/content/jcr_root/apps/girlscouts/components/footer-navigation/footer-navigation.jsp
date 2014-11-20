@@ -2,74 +2,50 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <%
-String[] links = properties.get("links", String[].class);
-Boolean centerLinks = (Boolean) request.getAttribute("centerLinks");
-
-if(centerLinks != null && centerLinks == false) {
-	%> <div class="footerLinks"> <%
-} else {
-	%> <div class="footerLinksMobile"> <%
+  String[] links = properties.get("links", String[].class);
+  Boolean centerLinks = (Boolean) request.getAttribute("centerLinks");
+%>
+<style>
+#footer div.footer-navigation {
+  padding: 0;
 }
-//TODO: Find a way to have the links center dynamically
-if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMMode.EDIT) {
-	%>##### Footer Navigation #####<%
-} else if (links != null){
-	for (int i = 0; i < links.length; i++) {
-		String[] values = links[i].split("\\|\\|\\|");
-		String label = values[0];
-		String path = values.length >= 2 ? values[1] : "";
-		path = genLink(resourceResolver, path);
-		String clazz = values.length >= 3 ? " "+ values[2] : "";
-		if(centerLinks != null && centerLinks == false){
-%>
-	<a class="menu<%= clazz %>" href="<%= path %>"><%= label %></a>
-<%
-		} else {
-			if (i==0){
-%>
-	<ul id="smallFooterLinks" class="small-block-grid-2">
-<%
-			}
-%>
-		<li>
-			<a class="text-center menu<%= clazz %>" href="<%= path %>"><%= label %></a>
-		</li>
-<%
-			if (i == links.length - 1) {
-%>
-	</ul>
-<%
-			}
-		}
-	}
+#footer a {
+  color:#fff;
 }
-%>
+#footer ul {
+  margin: 0;
+  padding: 0;
+}
+#footer .footer-navigation div:last-child ul {
+  text-align: right;
+}
+#footer li {
+  display: inline;
+  list-style: none;
+}
+#footer .footer-navigation div:last-child ul a,
+#footer .footer-navigation div:last-child ul a {
+  margin: 0;
+}
+[class^="icon-"], [class*=" icon-"] {
+  color:white;
+  font-size: 32px;
+}
+</style>
+<div class="columns large-18 medium-18">
+  <ul>
+    <li><a href="/content/gateway/en/website/privacy-policy.html">Privacy Policy</a></li>
+    <li><a href="/content/gateway/en/website/terms-and-conditions.html">Terms and Conditions</a></li>
+    <li><a href="/content/gateway/en/website/terms-and-conditions.html">Content Monitoring</a></li>
+    <li><a href="http://www.gsnetx.org/en/for-volunteers/spanish-website.html">En Espanol</a></li>
+    <li><a href="https://gsusa.ebiz.uapps.net/vp/Home.aspx?pid=4">eBiz</a></li>
+  </ul>
 </div>
-<%--
-<div class="footerMiscellaneous">
-	<cq:include path="miscellaneous" resourceType="girlscouts/components/styled-parsys" />
+<div class="columns large-6 medium-6">
+  <ul>
+    <li><a><i class="icon-social-twitter-tweet-bird"></i></a></li>
+    <li><a><i class="icon-social-facebook"></i></a></li>
+    <li><a><i class="icon-social-instagram"></i></a></li>
+    <li><a><i class="icon-video-movie"></i></a></li>
+  </ul>
 </div>
---%>
-
-<%
-	String[] socialIcons = properties.get("socialIcons", String[].class);
-	if (socialIcons != null) {
-		if(centerLinks != null && centerLinks == false) {
-	    	%><div class="footerSocialMedia"><%
-		} else {
-		    %><div class="footerSocialMediaMobile"><%
-		}
-
-	    for (String settingStr : socialIcons) {
-	        String[] settings = settingStr.split("\\|\\|\\|");
-	        if (settings.length < 2) {
-	            continue;
-	        }
-	        String url = settings[0];
-	        String iconPath = settings[1];
-	        
-			%><a class="text-center" href="<%= url %>"><img src="<%= iconPath %>"/></a><%
-	    }
-	    %></div><%
-	}
-%>
