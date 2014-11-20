@@ -1321,3 +1321,7 @@ form .form_captcha_img {
 form .form_captcha_input {
     height: 40px;
 }
+/*styles for updates list pages */
+.update-list .more-link:after {
+  content:">";
+}

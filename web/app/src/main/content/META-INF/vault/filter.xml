@@ -15,6 +15,7 @@
     <filter root="/etc/designs/girlscoutsnccp"/>
     <filter root="/etc/designs/girlscouts-nccp"/>
     <filter root="/etc/scaffolding/girlscouts-prototype"/>
+    <filter root="/etc/scaffolding/girlscouts-dxp"/>
     <filter root="/etc/workflow/models/email-workflow"/>
     <filter root="/etc/workflow/launcher/config/create_asset_event"/> 
     <filter root="/etc/workflow/launcher/config/gs_create_asset_large_hero"/>
