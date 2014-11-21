@@ -298,7 +298,7 @@ a:hover.menuHighlight {
 #footer [class*="block-grid-"] > li {
   padding-bottom: 0.63em;
 }
-#footer .footer-navigation div:nth-of-type(1) ul {
+#footer .footer-navigation div:first-child ul {
   padding-top:7px;
 }
 #footer .footer-navigation div:last-child ul {
@@ -320,6 +320,9 @@ a:hover.menuHighlight {
   #footer div.footer-navigation {
     background-color: #009447;
     padding-bottom:25px;
+  }
+  #footer .footer-navigation div:first-child {
+    padding-bottom: 10px;
   }
   .logo nav {
     text-align: center;
