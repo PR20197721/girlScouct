@@ -64,8 +64,25 @@ if( !isAutoLogin ){
 	}
 	
 	request.setAttribute("PAGE_CATEGORY", "VTK");
+	
+	
+	
+	
+	
+	
 %><%= Doctype.fromRequest(request).getDeclaration() %>
 <html <%= wcmModeIsPreview ? "class=\"preview\"" : ""%>>
 <cq:include script="head.jsp"/>
 <cq:include script="body.jsp"/>
+
+<% 
+
+String thisFooterScript = (String)request.getAttribute("footerScript") ;
+if (thisFooterScript!= null) {
+	out.println(thisFooterScript);
+}else{
+	out.println("");
+}
+%>
+
 </html>

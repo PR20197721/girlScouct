@@ -9,11 +9,16 @@
 		 isCanceled=true;
 	}
 %>
-	<li <%if( hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID) ){ %>
-			onclick='self.location="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=date.getTime()%>"'
+
+
+			
+			
+			<li <%if( hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID) ){ %>
+			onclick='meetingDetails("<%=date.getTime()%>")'
 			<%}%>
 	class="meeting <%=( troop.getYearPlan().getSchedule()==null || new java.util.Date().before(date)) ? "ui-state-default" : "ui-state-default ui-state-disabled"%>" value="<%=meetingCount%>">
-			
+	
+	
 		<div  class="row">
 			<div class="large-4 medium-5 small-24 columns">
 				<div class="planSquare center ed-table">

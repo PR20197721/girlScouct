@@ -105,6 +105,7 @@ if( troop.getYearPlan().getSchedule()!=null ){ //sched exists
 %>
 </ul>
 <script>
+	var currentlyDragging = false;
 	$(function() {
                 var scrollTarget = "";
                 if (Modernizr.touch) {
@@ -114,6 +115,9 @@ if( troop.getYearPlan().getSchedule()!=null ){ //sched exists
                         $(".touchscroll").hide();
                 }
                 $("#sortable123").sortable({
+                	
+                	
+                	
                         items: "li:not(.ui-state-disabled)",
                         delay:150,
                         cursor: "move" ,
@@ -123,13 +127,26 @@ if( troop.getYearPlan().getSchedule()!=null ){ //sched exists
                         scrollSensitivity: 10 ,
                         tolerance: "intersect" ,
                         handle: scrollTarget,
-												update:  function (event, ui) {
-													doUpdMeeting();
-													ui.item.unbind("click");
-										}
+												
+                        
+                        
+                        
+                        
+                        update:  function (event, ui) {
+							doUpdMeeting();
+							currentlyDragging = true;
+						}
                 });
                 $( "#sortable123 li" ).disableSelection();
 	});
+	
+	function meetingDetails(elem){
+		if( !currentlyDragging ){
+			self.location="/content/girlscouts-vtk/en/vtk.planView.html?elem="+elem;
+		}
+		
+		currentlyDragging=false;
+	}
 </script>
 
 

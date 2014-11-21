@@ -15,7 +15,18 @@ function updSched1(i, meetingPath, currDt){
 
 	
 	
-	if( new Date(date)<= new Date() ){alert("You cannot select a date in the past to reschedule the meetings. Please type or select a date in the future."); return;}
+	if( new Date(date)<= new Date() ){
+		
+		var x = document.getElementById("cngDate0ErrMsg");
+		if( x!=null){
+			
+			x.innerHTML ="<span style='color:red;'>You cannot select a date in the past to reschedule the meetings. Please type or select a date in the future.</span>";
+			
+		}else{
+			alert("You cannot select a date in the past to reschedule the meetings. Please type or select a date in the future."); 
+		}
+		return;
+	}
 	
 	
 	 $.ajax({

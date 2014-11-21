@@ -55,11 +55,13 @@
 	User user=null;
 	
 	HttpSession session = request.getSession();
-	int timeout = session.getMaxInactiveInterval();
 
-	
+	int timeout = session.getMaxInactiveInterval();
 	response.setHeader("Refresh", timeout
 			+ "; URL = /content/girlscouts-vtk/en/vtk.logout.html");
+
+	
+	
 	org.girlscouts.vtk.auth.models.ApiConfig apiConfig = null;
 	try {
 		if (session
@@ -99,15 +101,15 @@
 	
 	
 	//Needs for front yp page. ajax/multi call to session.jsp. Not always happens.
-	if( troop != null && !troop.isRefresh() && !userUtil.isCurrentTroopId_NoRefresh(troop,user.getSid() ) &&
+	if(  troop != null && !troop.isRefresh() && !userUtil.isCurrentTroopId_NoRefresh(troop,user.getSid() ) &&
 			session.getAttribute("isReloadedWindow")!=null ){
-		
+		System.err.println("_________ _ _ _ _ _");
 			troop.setRefresh(true);
 	}
 	session.removeAttribute( "isReloadedWindow"); //rm after pull
 	
-	
-	
+	if(request.getParameter("reload")!=null){System.err.println("&&&&&&& REFRESH SET: "); troop.setRefresh(true);}
+	System.err.println("........"+request.getParameter("reload") );
 	
 	    //if (troop == null || troop.isRefresh() || troopUtil.isUpdated(troop)) {
 		if (troop == null || troop.isRefresh() ) {
@@ -115,7 +117,7 @@
 			if (troop != null && troop.isRefresh() && troop.getErrCode() != null && !troop.getErrCode().equals(""))
 				errMsg = troop.getErrCode();
 		
-	
+	System.err.println("***************");
 	  org.girlscouts.vtk.salesforce.Troop prefTroop = apiConfig.getTroops().get(0);
 	  
 	  if( troop!=null){
@@ -252,13 +254,9 @@ One of your co-leaders is currently making changes in the Volunteer Toolkit for 
 %>
 
 
-<%if( troop!=null && troop.getYearPlan()!=null){ %>
-<script>
-$( document ).ready(function() {
-	setTimeout(function(){expiredcheck('<%=session.getId()%>','<%=troop.getYearPlan().getPath()%>');},20000);
-	
-	});
-</script>
-
-<%} %>
+<% 
+if( troop!=null && troop.getYearPlan()!=null){	
+	String footerScript = "<script>$( document ).ready(function() {setTimeout(function(){expiredcheck('"+session.getId()+"','"+troop.getYearPlan().getPath()+"');},20000);});</script>";
+	request.setAttribute("footerScript", footerScript);
+} %>
   

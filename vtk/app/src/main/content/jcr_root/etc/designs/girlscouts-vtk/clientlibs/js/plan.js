@@ -258,7 +258,7 @@ function buildSched(){
 	var minExpDate = new Date();
 	minExpDate.setMinutes ( minExpDate.getMinutes() + 30 );
 	
-	
+	/*
 	var maxExpDate = new Date();
 	maxExpDate.setDate ( maxExpDate.getDate() +  730);
 	
@@ -266,10 +266,14 @@ function buildSched(){
 		alert("You cannot select a date after "+moment(maxExpDate).format('MM/DD/YYYY h:mm a')+" since the YP won't fit into the actual calendar year");
 		return;
 	}
-	
+	*/
 	
 	if( new Date(dt) <= minExpDate )
-	{alert("You cannot select a date in the past to reschedule the meetings. Please type or select a date in the future."); return;}
+	{
+		
+			alert("You cannot select a date in the past to reschedule the meetings. Please type or select a date in the future.");
+			return;
+	}
 
 	
 	
@@ -521,12 +525,26 @@ function expiredcheck(ssId, ypId){
     	}).done(function( obj ) {
     		//console.log("**"+html+"**");
     		//var obj = jQuery.parseJSON(html );
-    		
+    		console.log("/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid="+ssId+"&ypid="+ypId+"&d=");
     		console.log("*** "+ (obj.yp_cng == 'true') );
     		
     		if( obj.yp_cng == 'true'  ){
     			//alert("reloading...");
-    			window.location.reload();
+    		
+    			var myUrl = window.location.href;
+    			if(window.location.href.indexOf("reload=data") !=-1 ){
+    					;
+    			}else if( window.location.href.indexOf("?") !=-1){
+    				//window.location.replace(window.location.href + "&reload=data")
+    				myUrl = window.location.href + "&reload=data";
+    			}else{
+    				//window.location.replace(window.location.href + "?reload=data")
+    				myUrl = window.location.href + "?reload=data";
+    		    }
+    			//alert(myUrl);
+    			//if(true)return;
+    			//window.location.reload();
+    			window.location.href= myUrl;
     			
     		}
     		setTimeout(function(){ expiredcheck(ssId, ypId);},20000);
@@ -536,6 +554,8 @@ function expiredcheck(ssId, ypId){
 		
 			
 	}
+	
+	
 	
 	
 
