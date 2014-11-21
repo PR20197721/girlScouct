@@ -3,11 +3,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.girlscouts.tools.web</groupId>
-  <artifactId>vtk-link-updater</artifactId>
+  <artifactId>pub-sync</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>vtk-link-updater</name>
+  <name>pub-sync</name>
   <url>http://maven.apache.org</url>
 
   <properties>
@@ -72,7 +72,7 @@
           <executions>
               <execution>
                   <configuration>
-                      <mainClass>org.girlscouts.tools.web.stage.StageUpdater</mainClass>
+                      <mainClass>org.girlscouts.tools.web.pubsync.PubSynchronizer</mainClass>
                       <!-- Optional -->
                       <onejarVersion>0.97</onejarVersion>
                       <!-- Optional, default is false -->
