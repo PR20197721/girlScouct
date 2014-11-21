@@ -28,7 +28,7 @@ import com.day.cq.wcm.api.PageManager;
 public class CouncilCreatorImpl implements CouncilCreator {
 	private static Logger log = LoggerFactory
 			.getLogger(CouncilCreatorImpl.class);
-	
+
 	ArrayList<String> paths = new ArrayList<String>();
 
 	public ArrayList<String> generateHomePage(Session session,
@@ -69,6 +69,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			// Set sling:resourceType of the jcr:content of HomePage node
 			jcrNode.setProperty("sling:resourceType",
 					"girlscouts/components/homepage");
+			jcrNode.setProperty("cq:designPath", "/etc/designs/girlscouts-test");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

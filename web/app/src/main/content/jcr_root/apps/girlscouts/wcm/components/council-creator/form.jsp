@@ -1,5 +1,5 @@
-IN HERE
 <form action="#" method="post">
+<input type="hidden" name="action" value="create"/>
 HomePage Title:<br>
 <input type="text" name="councilTitle">
 <br><br>
