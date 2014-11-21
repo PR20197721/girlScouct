@@ -48,7 +48,7 @@
 								levelFlag = false;
 							} else {
 								if (rootPath.equals(nodePath)) {
-									menuBuilder.append("<li class=\"active\">");
+									menuBuilder.append("<li class=\"active current\">");
 								} else {
 									menuBuilder.append("<li>");
 								}
@@ -77,7 +77,7 @@
 						menuBuilder.append(createHref(page));
 						menuBuilder.append("</div>");
 
-						menuBuilder.append("<ul><li class=\"active\">");
+						menuBuilder.append("<ul><li class=\"active current\">");
 						menuBuilder.append("<div><a href=")
 								.append(currPath + ".html").append(">")
 								.append(currTitle).append("</a></div>");
