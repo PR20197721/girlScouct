@@ -268,60 +268,53 @@ a:hover.menuHighlight {
     line-height: 31px;
 }
 /* FOOTER */
-
 #footer {
-    background-color: #00ae58;
-    padding: 0px 0px;
+  background-color: #00ae58;
+  padding: 0px;
 }
 #footer a {
-    font-size: 0.875em;
-    font-weight: normal;
-    margin: 0px 10px 0px 0px;
+  font-size: 0.875em;
+  font-weight: normal;
+  margin: 0px 10px 0px 0px;
+  color:#fff; 
 }
-#mobile-nav-footer {
+#footer div.footer-navigation {
+  padding: 10px 0;
+}
+#footer ul {
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+}
+#footer [class*="block-grid-"] > li {
+  padding-bottom: 0.63em;
+}
+#footer .footer-navigation div:nth-of-type(1) ul {
+  padding-top:7px;
+}
+#footer .footer-navigation div:last-child ul {
+/*  text-align: right;*/
+}
+#footer li {
+  display: inline;
+  list-style: none;
+}
+#footer .footer-navigation div:last-child ul a,
+#footer .footer-navigation div:last-child ul a {
+  margin: 0;
+}
+[class^="icon-"], [class*=" icon-"] {
+  color:white;
+  font-size: 32px;
+}
+@media only screen and (max-width: 40em) { 
+  #footer div.footer-navigation {
     background-color: #009447;
-    padding: 0px 0px;
-}
-#mobile-nav-footer a {
-    font-size: 0.875em;
-    font-weight: normal;
-    margin: 10px 0;
-}
-#mobile-nav-footer div.footer-navigation {
-    /* temporarily removed because it is being covered by footer links
-    background: url('/etc/designs/girlscouts-usa-green/images/small-trefoil.png') no-repeat;
-    background-position: center;
-*/
-}
-
-.footerLinks {
-    display: inline-block;
-    float: left;
-}
-.footerSocialMedia {
-    display: inline-block;
-    float: right;
-    padding-right: 20px;
-}
-.footerSocialMediaMobile {
-    display: table;
-    margin-left: auto;
-    margin-right: auto;
-}
-.footerSocialMediaMobile a img {
-    padding: 0 10px 10px 10px;
-}
-.footerMiscellaneous {
-    position: absolute;
-    bottom: 4px;
-    right: 0;
-}
-@media only screen and (max-width: 40em) {
-    .footerMiscellaneous {
-        text-align: center;
-        clear: both;
-        position: relative;
-    }
+    padding-bottom:25px;
+  }
+  .logo nav {
+    text-align: center;
+  }
 }
 .social-media-icons p {
     margin: 0;
@@ -716,24 +709,6 @@ td.fc-header-left {
 .emptyrow {
     height: 20px;
 }
-/*.logoLargePadding{
-    padding:0px;
-    margin:0px;
-    margin-bottom:15px;
-    width:208px;
- 
-}*/
-/*#logoImg{
-    padding:0px;
-    margin:0px;
-}*/
-/*.logoSmall, .mobileFooterLogo {
-    text-align:center;
-}*/
-/*.logoLarge {
-    text-align: left;
-}*/
-
 .eyebrow-fontsize>li a {
     font-size: 0.875rem;
 }
@@ -761,18 +736,6 @@ td.fc-header-left {
     float: right;
     padding-right: 5px;
 }
-#footer div.footer-navigation {
-    padding: 10px 0 10px 20px;
-    /* temporarily removed because it is being covered by footer links
-    background: url('/etc/designs/girlscouts-usa-green/images/small-trefoil.png') no-repeat;
-    background-position:center;
-*/
-}
-/*#leftContent li.active ul li.active{
-    background: url('/etc/designs/girlscouts-usa-green/images/small-green-arrow-right.png') no-repeat  0px 0px;
-    background-position:right 9px;  
-}*/
-
 .hrStyle >hr {
     border-color: #9C9C9C;
     border-width: 1px 0px 0px 0px;
@@ -1164,16 +1127,6 @@ div#eventListWrapper {
     /*width: 144px;*/
     
     width: 152px
-}
-/*.home-section .content ul, .home-section .content li {
-    padding: 0;
-    margin: 0;
-}*/
-#smallFooterLinks li {
-    padding: 5px;
-    ;
-    font-size: 0.9em;
-    text-align: center;
 }
 ul.searchResultsList li {
     list-style-type: none;
