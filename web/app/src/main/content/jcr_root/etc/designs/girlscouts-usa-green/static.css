@@ -190,9 +190,9 @@ a:hover.menuHighlight {
   background-color: #00ae58;
 }
 #header {
-  padding: 15px 0px 0px 0px;
   background-color: #00ae58;
   color: #FFFFFF;
+  padding-top:15px;
 }
 #header span {
   color: #FAA61A;
@@ -219,9 +219,9 @@ a:hover.menuHighlight {
 #header ul li {
   font-size: 1.0em;
 }
-#header > .large-6 {
+/*#header > .large-6 {
   padding: 0.72916667% 0 0 0;
-}
+}*/
 #header .message {
   text-align: right;
 }
@@ -246,7 +246,7 @@ a:hover.menuHighlight {
 
 #headerBar {
   background-color: #009447;
-  margin-top: 20px;
+  margin-top: 15px;
 }
 #headerBar>div {
   /*padding: 3px 10px 0px 10px;*/
@@ -793,6 +793,7 @@ td.fc-header-left {
 #header .vtk-login .login {
 	padding-top: 5px;
 	padding-left: 20px;
+  white-space: nowrap;
 }
 
 #header .small-search-hamburger {
