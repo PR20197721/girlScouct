@@ -1,5 +1,7 @@
 package org.girlscouts.web.councilrollout.impl;
 
+import java.util.ArrayList;
+
 import javax.jcr.Node;
 import javax.jcr.Session;
 
@@ -26,22 +28,51 @@ import com.day.cq.wcm.api.PageManager;
 public class CouncilCreatorImpl implements CouncilCreator {
 	private static Logger log = LoggerFactory
 			.getLogger(CouncilCreatorImpl.class);
+	
+	ArrayList<String> paths = new ArrayList<String>();
 
-	public String generateHomePage(Session session, ResourceResolver rr,
-			String contentPath, String councilName, String councilTitle)
-			throws GirlScoutsException {
+	public ArrayList<String> generateHomePage(Session session,
+			ResourceResolver rr, String contentPath, String councilName,
+			String councilTitle) throws GirlScoutsException {
 		String councilPath = null;
 		try {
 			PageManager manager = (PageManager) rr.adaptTo(PageManager.class);
+			// Create Council HomePage
 			Page councilPage = manager.create(contentPath, councilName, "",
 					councilTitle, true);
 			councilPath = councilPage.getPath();
+			paths.add(councilPath);
 			Node jcrNode = session.getNode(councilPath + "/jcr:content");
-			jcrNode.setProperty("sling:resourceType", "foundation/components/page");
+			// Set sling:resourceType of the jcr:content of HomePage node
+			jcrNode.setProperty("sling:resourceType",
+					"foundation/components/page");
+			String enPath = generateEnglishPage(manager, session, rr,
+					councilPath, "en", councilTitle);
+			paths.add(enPath);
 			session.save();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return councilPath;
+		return paths;
 	}
+
+	String generateEnglishPage(PageManager manager, Session session,
+			ResourceResolver rr, String contentPath, String pageName,
+			String councilTitle) {
+		String pagePath = null;
+		try {
+
+			Page englishPage = manager.create(contentPath, pageName, "",
+					councilTitle, true);
+			pagePath = englishPage.getPath();
+			Node jcrNode = session.getNode(pagePath + "/jcr:content");
+			// Set sling:resourceType of the jcr:content of HomePage node
+			jcrNode.setProperty("sling:resourceType",
+					"girlscouts/components/homepage");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return pagePath;
+	}
+
 }

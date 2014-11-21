@@ -9,7 +9,7 @@ Session session = (Session) resourceResolver.adaptTo(Session.class);
 Node contentNode = session.getNode("/content");
 
 //Checks if the council node has already been created. if it has, then abort process.
-if(contentNode.hasNode("hanke")){ %>
+if(contentNode.hasNode(councilName)){ %>
 <cq:include script="form.jsp"/>
 
 Council Already Exists. Abort.
