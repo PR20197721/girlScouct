@@ -4,7 +4,7 @@
     jcr:primaryType="cq:Template"
     jcr:title="DXP Page"
     allowedPaths="[/content(/.*)?]"
-    ranking="{Long}10">
+    ranking="{Long}80">
     <jcr:content
         jcr:primaryType="cq:PageContent"
         sling:resourceType="girlscouts/components/dxp-page"/>
