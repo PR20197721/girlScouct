@@ -9,7 +9,7 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@page session="false" %>
 <cq:defineObjects/>
-Something something something
+
 <%
 final int DEFAULT_AD_COUNT = 2;
 final String AD_ATTR = "apps.girlscouts.components.ad-list-page.currentAd";
