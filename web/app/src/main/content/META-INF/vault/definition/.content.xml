@@ -277,6 +277,10 @@
             mode="replace"
             root="/etc/scaffolding/girlscouts-dxp"
             rules="[]"/>
-
+         <f54
+            jcr:primaryType="nt:unstructured"
+            mode="replace"
+            root="/apps/wcm"
+            rules="[]"/>  
     </filter>
 </jcr:root>
