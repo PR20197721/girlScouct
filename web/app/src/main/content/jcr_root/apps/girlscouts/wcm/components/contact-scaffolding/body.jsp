@@ -23,6 +23,8 @@
 %><body>
     <script src="/libs/cq/ui/resources/cq-ui.js" type="text/javascript"></script><%
         String contentPath = properties.get("cq:targetPath", "");
+	    String dlgPathProperty = properties.get("dialogPath", "");
+	    String dlgPath = !dlgPathProperty.isEmpty() ? dlgPathProperty : resource.getPath() + "/dialog";
         String dlgPath = resource.getPath() + "/dialog";
         String templatePath = properties.get("cq:targetTemplate", "");
         String scaffoldPath = resourcePage.getPath();
