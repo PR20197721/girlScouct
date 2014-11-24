@@ -16,6 +16,5 @@
         jcr:title="Council Year Plan :: Milestones"
         jcr:uuid="0de59e54-07f3-4d6f-bb3e-cf64cbd4ea7d"
         sling:resourceType="girlscouts/wcm/components/milestones-scaffolding">
-        <dialog/>
     </jcr:content>
 </jcr:root>

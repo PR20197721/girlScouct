@@ -10,6 +10,5 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="Events"
         sling:resourceType="girlscouts/wcm/components/event-scaffolding">
-        <dialog/>
     </jcr:content>
 </jcr:root>

@@ -10,6 +10,5 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="News"
         sling:resourceType="girlscouts/wcm/components/news-scaffolding">
-        <dialog/>
     </jcr:content>
 </jcr:root>

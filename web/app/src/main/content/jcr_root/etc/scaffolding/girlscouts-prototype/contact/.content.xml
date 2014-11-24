@@ -10,6 +10,5 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="Contact"
         sling:resourceType="girlscouts/wcm/components/contact-scaffolding">
-        <dialog/>
     </jcr:content>
 </jcr:root>

@@ -11,6 +11,5 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="Ads"
         sling:resourceType="wcm/scaffolding/components/scaffolding">
-        <dialog/>
     </jcr:content>
 </jcr:root>
