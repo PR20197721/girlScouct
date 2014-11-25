@@ -18,9 +18,7 @@
   <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/0.9.2/backbone-min.js"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.3.0/handlebars.js"></script>
 
-<form>
-<input type="button" value="test" onclick="y()"/>
-</form>
+
 </body>
 </html>
 
@@ -63,9 +61,22 @@ _.templateSettings = {
          parse: function(data) {
 
        		console.log( data )   
-       		//-this.render;
-             //return data.results;
+       	this.render;
+            //return data.results;
        		return data;
+         },
+         
+       initialize: function()
+         {
+             this.on( "change:name", this.changeName, this);
+             
+         },
+     changeName:
+         function( model, val, options)
+         {
+    	 console.log(222);
+             var prev = model.previousAttributes();
+             console.log( model.get("name") + " changed his name from " + prev.name);
          }
 	});
 
@@ -76,7 +87,10 @@ _.templateSettings = {
 		
 		initialize: function() {
 			this.collection.on('add', this.addOne, this);
+			//this.collection.on('add', this.render, this);
 			this.collection.on('change', this.changeOne, this);
+			this.collection.on('remove', this.removeOne, this);
+			this.collection.on('reset', this.resetOne, this);
 		},
 		
 		render: function() {
@@ -85,15 +99,27 @@ _.templateSettings = {
 
 			return this;
 		},
-
+		removeOne: function(person) {
+			
+			console.log("REMOVEEEEE");			
+			
+					},
 		addOne: function(person) {
+			
+console.log("ADDDDDDD");			
 			var personView = new App.Views.Person({ model: person });
 console.log(person)			
 			this.$el.append(personView.render().el);
 		},
 		changeOne: function(person) {
-			console.log("change all peopel....");
+			
+			console.log("CHANGE.....");			
+			
+		},
+		resetOne: function(person){
+			console.log("RESET.....");	
 		}
+		
 	});
 
 	// The View for a Person
@@ -105,18 +131,20 @@ console.log(person)
 		initialize: function(){
 			this.model.on('change', this.render, this);
 			this.model.on('destroy', this.remove, this);
+			this.model.on('add', this.render, this);
 		},
 		
 		events: {
 		 'click .edit' : 'editPerson',
-		 'click .delete' : 'DestroyPerson'	,
-		 'change' : 'editPerson',
+		 'click .delete' : 'DestroyPerson'	
+		
 		},
 		
 		editPerson: function(){
 		console.log(1)
 			var newName = prompt("Please enter the new name", this.model.get('name'));
 			if (!newName) return;
+			console.log( newName);
 			this.model.set('name', newName);
 		},
 		
@@ -165,32 +193,38 @@ console.log(person)
 
 	var peopleCollection = new App.Collections.People([
 		{
-			name: 'Mohit Jain',
+			name: 'Mohit Jain1',
 			age: 26,
-			idAttribute: 1,
-			id: 1
+			idAttribute: 110,
+			id: 110,
 		},
 		{
 			name: 'Taroon Tyagi',
 			age: 25,
 			occupation: 'web designer',
-			idAttribute: 2,
-			id: 2
+			idAttribute: 120,
+			id: 120,
+			
 		},
 		{
 			name: 'Rahul Narang',
 			age: 26,
 			occupation: 'Java Developer',
-			idAttribute: 3,
-			id: 3
+			idAttribute: 130,
+			id: 130,
+			
 		}
 	]);
 	
 	var addPersonView = new App.Views.AddPerson({ collection: peopleCollection });
 	peopleView = new App.Views.People({ collection: peopleCollection });
-	$(document.body).append(peopleView.render().el);
 	
-	
+	/*
+	var person = new App.Models.Person({ name: "alex" });
+	peopleCollection.add(person);
+	*/
+	$(document.body).html(peopleView.render().el);
+	y(peopleCollection);
 	
 	})();
 	/*
@@ -251,11 +285,11 @@ for( var i in  peopleView ){
 
 
 
-function y(){
+function y(collect){
 	console.log(window.document);
 	
-	var collect = new App.Collections.People();
-	var allView = new App.Views.People({collection: collect});
+	//var collect = new App.Collections.People();
+	//var allView = new App.Views.People({collection: collect});
 	//$(document.body).html(allView.render().el);
 /*
 	collect = new App.Collections.People([
@@ -300,13 +334,12 @@ function y(){
 	                                       	
 	                                       	
 	                                       	
-	   	collect.fetch({
-	                                     	   update:true,
-	                                     	   remove: true,
+	   collect.fetch({
+	                                     	  
 	                                     	   add: true,
-	                                     	   change: true,
+	                                     	   
 	                                       success: function(model) {
-	                                          // console.log(model)
+	                                         //console.log(model)
 	                                     	 // console.log( ">> "+model.get('name') ); 
 	                                          
 	                                          
@@ -322,16 +355,18 @@ function y(){
 	                                     });
 	                                     
 	                                     
-	allView = new App.Views.People({collection: collect});
-	console.log("calling refresh...");
+	//allView = new App.Views.People({collection: collect});
+	//console.log("calling refresh...");
 	//allView.render().el;
 	//allView.render();
 	//allView.model.trigger('change'); 
-	//$(document.body).html(allView.render().el);
-	allView.render().el
+	//$(document.body).append(allView.render().el);
+	//-allView.render().el
 	//console.log(window.document);
 	
-	setTimeout(function(){y(collect);}, 5000);
+	
+	
+	setTimeout(function(){y(collect);}, 10000);
 }
 
 
@@ -346,6 +381,8 @@ function x(peopleCollection){
 	
 	//peopleView = new App.Views.People({collection: peopleCollection});
 	peopleCollection.fetch({
+		reset: true,
+	
     	   update:true,
     	   remove: true,
     	   add: true,
