@@ -19,21 +19,21 @@ String logoPath = currentPage.getAbsoluteParent(2).getContentResource().getPath(
 <div class="hide-for-print">
 	<div id="footer" class="hide-for-small row">
 		<% setCssClasses("large-24 medium-24 small-24 columns", request); %>
-<%
-	request.setAttribute("centerLinks", false);
-%>
+			<%
+				request.setAttribute("centerLinks", false);
+			%>
 		<cq:include path="<%= footerPath + "/nav"%>" resourceType="girlscouts/components/footer-navigation"/>
 	</div>
 	<div id="mobile-nav-footer" class="show-for-small collapse">
-<%
-	request.setAttribute("centerLinks", true);
-%>
+		<%
+			request.setAttribute("centerLinks", true);
+		%>
 		<cq:include path="<%= footerPath + "/nav"%>" resourceType="girlscouts/components/footer-navigation"/>
 	</div> 
 	<div id="mobile-footer" class="row show-for-small">
-<%
-	request.setAttribute("noLink", true);
-%>
+		<%
+			request.setAttribute("noLink", true);
+		%>
 		<cq:include path="<%= logoPath + "/logo"%>" resourceType="girlscouts/components/logo" />
 	</div>
 </div>

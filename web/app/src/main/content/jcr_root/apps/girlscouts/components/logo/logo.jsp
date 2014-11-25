@@ -22,7 +22,7 @@
 <![endif]-->
 <!-- Modern Browser -->
 <!--[if gt IE 8]><!-->
-<% if(noLink != null && noLink == true){
+<% if(noLink != null && noLink == true) {
 // this shows for footer for mobile view only
 %>
 <nav class="small-centered columns small-5">
@@ -33,7 +33,7 @@
 %>
 <nav>
 <% if (!linkURL.isEmpty()) { %> <a href="<%= linkURL %>"> <% } %>
-	<img src="<%= regularImage %>"<%= alt %> id="logoImg" width="<%= regularWidth %>" height="<%= regularHeight%>" />
+		<img src="<%= regularImage %>"<%= alt %> id="logoImg" width="<%= regularWidth %>" height="<%= regularHeight%>" />
 <% if (!linkURL.isEmpty()) { %> </a> <% } %>
 </nav>
 <% } %>
