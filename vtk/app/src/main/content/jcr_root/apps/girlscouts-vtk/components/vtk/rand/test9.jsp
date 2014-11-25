@@ -69,6 +69,7 @@
                 model: peopleCollection.models,
                 render: function () {
                     var html = _.template(rowTemplate, this.model.toJSON());
+                    console.log( "rendering..");
                     this.$el.html(html);
                     return this;
                 },
@@ -114,11 +115,14 @@
         	 console.log(peopleCollection)
         	 tableView = new TableView({
                  collection: peopleCollection
+                 
              });
          
-        	 $("body").append(tableView.render().$el);
-        	 tableView.render()
-        	// tableView.render().$el
+        	// $("body").append(tableView.render().$el);
+        	 //tableView.render()
+        	 tableView.render().$el
+        	 peopleCollection.fetch({add:true})
+        	 
         }
     </script>
 </html>
