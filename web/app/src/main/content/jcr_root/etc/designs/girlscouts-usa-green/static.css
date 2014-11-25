@@ -1404,7 +1404,7 @@ form .form_captcha_input {
   margin-bottom: 20px;
 }
 .update-list-header {
-  padding-bottom: 20px;
+  padding-bottom: 0;
 }
 .update-list-footer {
   padding: 10px 0;
