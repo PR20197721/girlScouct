@@ -24,7 +24,7 @@ function addClassGrid() {
      else {
       $('.footer-navigation > div:nth-of-type(1) ul').removeClass('small-block-grid-2');
       $('.footer-navigation > div:nth-of-type(2) ul').css('text-align', 'right');
-    }
+  }
 }
 
 //doc.ready function and all the calls.
