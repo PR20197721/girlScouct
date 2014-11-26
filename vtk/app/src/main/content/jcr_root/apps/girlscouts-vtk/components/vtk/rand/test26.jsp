@@ -50,7 +50,14 @@ _.templateSettings = {
 			name: 'Guest User',
 			age: 30,
 			occupation: 'worker'
-		}
+		},
+		initialize: function(){
+            
+            this.on("change:name", function(model){
+                var name = model.get("name"); 
+                console.log("Changed name to " + name );
+            });
+        }
 	});
 
 	// A List of People
@@ -91,6 +98,7 @@ _.templateSettings = {
 			this.collection.on('change', this.changeOne, this);
 			this.collection.on('remove', this.removeOne, this);
 			this.collection.on('reset', this.resetOne, this);
+			_.bindAll(this, "render"); 
 		},
 		
 		render: function() {
@@ -143,6 +151,9 @@ console.log(person)
 		editPerson: function(){
 		console.log(1)
 			var newName = prompt("Please enter the new name", this.model.get('name'));
+		alert(1)
+		prompt("asd", "a");
+		console.log(2 +  ": "+ this.model.get('name') +" : "+ newName);
 			if (!newName) return;
 			console.log( newName);
 			this.model.set('name', newName);
