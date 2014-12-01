@@ -14,21 +14,25 @@
     <style>
     
     .example-enter {
-  opacity: 0.01;
-  transition: opacity .5s ease-in;
+  opacity: .3;
+  transition: opacity 5s ease-in;
+  color:red;
 }
 
 .example-enter.example-enter-active {
   opacity: 1;
+  color:red;
 }
 
 .example-leave {
-  opacity: 1;
-  transition: opacity .5s ease-in;
+  opacity: 3;
+  transition: opacity 2s ease-in;
+  color:red;
 }
 
 .example-leave.example-leave-active {
-  opacity: 0.01;
+  opacity: 3;
+  color:red;
 }
     </style>
   </head>
