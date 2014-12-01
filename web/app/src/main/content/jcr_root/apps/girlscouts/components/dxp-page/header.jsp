@@ -20,8 +20,7 @@
 <!--[if gt IE 8]><!-->
 <!--<![endif]-->
 <!--PAGE STRUCTURE: HEADER-->
-<div
-	class="header-wrapper row collapse hide-for-print update-list-header">
+<div class="header-wrapper row collapse hide-for-print update-list-header">
 	<div class='columns'>
 		<div id="header" class="row">
 			<div class="large-6 medium-9 columns">
@@ -30,9 +29,18 @@
 				<cq:include path="<%= headerPath + "/placeholder" %>"
 					resourceType="girlscouts/components/placeholder" />
 			</div>
+            <div class="show-for-small small-24 columns topMessage alt">
+      			<div class="row collapse">
+                    <div class="columns"></div>
+        			<div class="small-12 columns">
+         			 <div class="small-search-hamburger">
+            			<a class="right-off-canvas-toggle menu-icon"><img src="<%= designPath %>/images/hamburger.png" width="22" height="28" alt="toggle hamburger side menu icon"/></a>
+          			 </div>
+        			</div>
+      			</div>
+    		</div>
 		</div>
 	</div>
-	<!--PAGE STRUCTURE: GLOBAL NAV-->
 	<div class="header-wrapper row collapse hide-for-print">
 		<div class='columns'>
 			<!--PAGE STRUCTURE: HEADER BAR-->
@@ -52,5 +60,5 @@
 
 <!--[if gt IE 8]><!-->
 <!-- SMALL SCREEN CANVAS should be after the global navigation is loaded,since global navigation won't be authorable-->
-
+  <cq:include script="small-screen-menus"/>
 <!--<![endif]-->
