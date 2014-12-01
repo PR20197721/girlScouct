@@ -5,5 +5,5 @@
 
 <div id="error">
 	Your session expired.
-	<br/>Please log in. <a href="/content/girlscouts-vtk/en/vtk.html">Log In</a>
+	<p>Please log in. <a href="/content/girlscouts-vtk/en/vtk.html">Log In</a></p>
 </div>

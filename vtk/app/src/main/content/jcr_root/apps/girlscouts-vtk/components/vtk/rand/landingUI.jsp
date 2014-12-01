@@ -47,8 +47,6 @@
 <!-- Begin: login logic -->
 
 <script type="text/javascript">
-var fixVerticalSizing = true;
-
 $(document).ready(function() {
 girlscouts.components.login.init('en', 'null?action=signin', 'null?action=signout');
 if (window.location.href.indexOf('isSignOutSalesForce=true') != -1) {
@@ -561,28 +559,6 @@ $('.advertisement').load('/content/girlscouts-template/en/ads.10.html');
 </div>
 
 </div>
-
-
-
-
-
-
-
-
-
-<script type="text/javascript">
-var resizeWindow = function(){
-if(fixVerticalSizing) {
-var currentMainHeight = $('#main').height();
-var targetMainHeight = $(this).height() - $("#header").height() - $("#headerBar").height() - $("#footer").height() - 15;
-if (targetMainHeight > 1.1 * currentMainHeight) {
-$('#main').height(targetMainHeight);
-}
-}
-};
-window.onload = resizeWindow;
-$(window).resize(resizeWindow);
-</script>
 
 </div>
 </div>
