@@ -22,7 +22,7 @@
 					<div class="date">
 			    	<p class="month"><%=calendarNotSet ? "Meeting" : FORMAT_MONTH.format(date) %></p>
 			      <p class="day"><%=calendarNotSet ? meetingCount : FORMAT_DAY_OF_MONTH.format(date) %></p>
-			      <p class="hour"><%=calendarNotSet ? meetingCount : FORMAT_hhmm.format(date) %></p>
+			      <p class="hour"><%=calendarNotSet ? meetingCount : FORMAT_hhmm_AMPM.format(date) %></p>
 				  </div>
 					<!-- <%if(!calendarNotSet && isCanceled) { %> 
 						<div class="cancelled">X</div>
@@ -43,7 +43,7 @@
 					</div>
 				</div> -->
 			</div>     
-	    <div class="large-15 medium-12 small-24 columns">
+	    <div class="large-20 medium-19 small-24 columns">
 				<p class='subtitle'>
 					<% if(isCanceled){ %>
 						<span><strong>Meeting Canceled:</strong></span>
@@ -59,8 +59,5 @@
 			<div class="large-4 medium-5 columns">
 				<img width="100" height="100" src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png"/>
 			</div>
-<!-- 	    <div class="large-1 medium-2 small-24 columns touchscrollWrapper">
-	      <img class="touchscroll" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/touchscroll.png" border="0" width="21" height="62"/>
-	    </div> -->
-	  </div><!--/row-->
+	  </div><!--/columns-->
 </li>

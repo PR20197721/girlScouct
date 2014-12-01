@@ -66,6 +66,7 @@
     .vtk-body #main #yearPlanMeetings #sortable123 .meeting {
       margin-bottom: 2.0833333%; }
       .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div {
+        height: 100px;
         padding-left: 30px;
         background-color: #f6f6f6;
         cursor: pointer; }
@@ -80,6 +81,10 @@
           cursor: move; }
         .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div p {
           margin: 0; }
+          .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div p.blurb {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap; }
         .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div .bg-square {
           background-color: #00ae57;
           text-align: center;
@@ -87,11 +92,12 @@
           color: #fff;
           position: absolute;
           height: 100%;
-          width: 91px; }
+          width: 100px; }
           .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div .bg-square .date {
             text-transform: uppercase; }
             .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div .bg-square .date .day {
-              font-size: 2.06em; }
+              font-size: 2.06em;
+              line-height: 1; }
             .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div .bg-square .date p {
               font-weight: 100; }
           .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div .bg-square .count {
@@ -123,6 +129,14 @@
           padding-bottom: 15px; }
           .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div > div:nth-of-type(2) .subtitle {
             text-transform: uppercase; }
+      .vtk-body #main #yearPlanMeetings #sortable123 .meeting.activity.ui-state-disabled {
+        opacity: 1; }
+        .vtk-body #main #yearPlanMeetings #sortable123 .meeting.activity.ui-state-disabled > div .bg-square {
+          background-color: #00abe6; }
+          .vtk-body #main #yearPlanMeetings #sortable123 .meeting.activity.ui-state-disabled > div .bg-square:after {
+            border-color: transparent transparent transparent #00abe6; }
+        .vtk-body #main #yearPlanMeetings #sortable123 .meeting.activity.ui-state-disabled > div:before {
+          cursor: default !important; }
 .vtk-body #mainContent.welcome-page .parbase.section.text h1 {
   margin: 0 0 1.25rem 0; }
 .vtk-body #mainContent.welcome-page .parbase.section.text p {

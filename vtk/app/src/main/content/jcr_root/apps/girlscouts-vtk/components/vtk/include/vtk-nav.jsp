@@ -61,6 +61,11 @@
 						<a href="/content/girlscouts-vtk/en/vtk.finances.html">Finances</a>
 					</dd>
 				<% } 	%>
+			<!--<% // to do add this to javA if(hasPermission(troop, Permission.PERMISSION_VIEW_PROFILE) ) { %>-->
+				<dd <%= "profile".equals(activeTab) ? "class='active'" : "" %>>
+					<a href="/content/girlscouts-vtk/en/vtk.profile.html">Profile</a>
+				</dd>
+			<!--<% // } 	%>-->
 			</dl>
 			<%
 			//	if (troop.getYearPlan() != null) {

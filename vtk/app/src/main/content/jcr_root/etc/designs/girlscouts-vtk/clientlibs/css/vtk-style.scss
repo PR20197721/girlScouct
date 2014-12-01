@@ -87,6 +87,7 @@
         .meeting {
          margin-bottom: 2.0833333%;
           > div {
+            height: 100px;
             padding-left: 30px;
             background-color:#f6f6f6;
             cursor: pointer;
@@ -102,6 +103,11 @@
             }
             p {
               margin:0;
+              &.blurb {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+              }
             }
             .bg-square {
               background-color: #00ae57;
@@ -110,11 +116,12 @@
               color: #fff;
               position: absolute;
               height: 100%;
-              width: 91px;
+              width: 100px;
               .date {
                 text-transform: uppercase;
                 .day {
                   font-size: 2.06em;
+                  line-height: 1;
                 }
                 p {
                   font-weight: 100;
@@ -155,6 +162,22 @@
               padding-bottom:15px;
               .subtitle {
                 text-transform:uppercase;
+              }
+            }
+          }
+          &.activity {
+            &.ui-state-disabled {
+              opacity: 1;
+              > div  {
+                 .bg-square {
+                  background-color: #00abe6;
+                  &:after {
+                    border-color: transparent transparent transparent #00abe6;
+                  }
+                }
+                &:before {
+                  cursor: default !important;
+                }
               }
             }
           }

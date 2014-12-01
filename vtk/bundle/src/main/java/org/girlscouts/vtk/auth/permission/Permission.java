@@ -35,11 +35,7 @@ public class Permission extends PermissionConstants {
     public static final Permission troop_view   = new Permission(PERMISSION_VIEW_TROOP_ID, login);
    
     /*** FINANCE ***/
-    public static final Permission finance_view   = new Permission(PERMISSION_VIEW_FINANCE_ID, login);
-    
-    
-	
-	
+    public static final Permission finance_view   = new Permission(PERMISSION_VIEW_FINANCE_ID, login);	
 	
     private static Map<Integer, Permission> GLOBAL_PERMISSION_MAP;
     

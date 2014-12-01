@@ -124,7 +124,6 @@ if( troop.getYearPlan().getSchedule()!=null ){ //sched exists
       $("#sortable123").sortable({
         items: "li:not(.ui-state-disabled)",
         delay:150,
-        cursor: "move" ,
         distance: 5,
         opacity: 0.5 ,
         scroll: true,
