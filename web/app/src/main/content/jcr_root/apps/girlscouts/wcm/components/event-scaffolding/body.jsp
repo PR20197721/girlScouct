@@ -30,8 +30,8 @@
 	<%
         try{
 		String contentPath = properties.get("cq:targetPath", "");
-	    String dlgPathProperty = properties.get("dialogPath", "");
-	    String dlgPath = !dlgPathProperty.isEmpty() ? dlgPathProperty : resource.getPath() + "/dialog";
+		String dlgPathProperty = properties.get("dialogPath", "");
+		String dlgPath = !dlgPathProperty.isEmpty() ? dlgPathProperty : resource.getPath() + "/dialog";
 		String templatePath = properties.get("cq:targetTemplate", "");
 		String scaffoldPath = resourcePage.getPath();
 		String formUrl = contentPath + "/*";
@@ -302,9 +302,9 @@ properties of this scaffolding.
                 } else {
                 	year = new Date().getFullYear();
                 }
+                if(!isUpdate){
                 var destDir = '<%=contentPath%>/' + year;
                 girlscouts.functions.createPath(destDir, 'cq:Page');
-                if(!isUpdate){
                 frm.url = destDir + '/*';
                 }
                 var action = new CQ.form.SlingSubmitAction(frm, {
