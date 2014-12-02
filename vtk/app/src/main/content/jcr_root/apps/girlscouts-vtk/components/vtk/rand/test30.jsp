@@ -204,10 +204,21 @@ React.render(
 	
 
 //setTimeout(function(){x();}, 5000);
-}
 
+
+
+
+React.render(
+        <h1>Hello, world!</h1>,$( ".alextest" )
+        
+      );
+}
+$( "#alextest" ).css( "border", "3px solid red" );
 
     </script>
+    
+    
+    <div id="alextest">test</div>
   </body>
 </html>
 

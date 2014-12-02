@@ -517,7 +517,12 @@ Troop x= (Troop)session.getAttribute("VTK_troop");
 }else if( request.getParameter("addAsset")!=null){ //not in switch?? not used?
 	//org.girlscouts.vtk.models.Asset asset = new org.girlscouts.vtk.models.Asset(request.getParameter("addAsset"));
 	troopUtil.addAsset(user,  troop ,  request.getParameter("meetingUid"),   new org.girlscouts.vtk.models.Asset(request.getParameter("addAsset")));
-
+}else if( request.getParameter("reactjs")!=null ){
+	
+	ObjectMapper mapper = new ObjectMapper();
+	out.println(mapper.writeValueAsString(troop));
+	
+	
 }else{
 	//TODO throw ERROR CODE
 }
