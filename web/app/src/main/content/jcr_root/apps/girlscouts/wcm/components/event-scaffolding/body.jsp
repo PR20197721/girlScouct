@@ -30,7 +30,8 @@
 	<%
         try{
 		String contentPath = properties.get("cq:targetPath", "");
-		String dlgPath = resource.getPath() + "/dialog";
+	    String dlgPathProperty = properties.get("dialogPath", "");
+	    String dlgPath = !dlgPathProperty.isEmpty() ? dlgPathProperty : resource.getPath() + "/dialog";
 		String templatePath = properties.get("cq:targetTemplate", "");
 		String scaffoldPath = resourcePage.getPath();
 		String formUrl = contentPath + "/*";
