@@ -15,8 +15,8 @@
 			<%}%>
 		class="row meeting <%=( troop.getYearPlan().getSchedule()==null || new java.util.Date().before(date)) ? "ui-state-default" : "ui-state-default ui-state-disabled"%>" value="<%=meetingCount%>">
 		
-		<div class="columns large-21 push-1">
-	    <div class="large-3 medium-3 small-24 columns">
+		<div class="column large-20 medium-20 large-centered medium-centered">
+	    <div class="large-3 medium-3 small-4 columns">
 				<div class="bg-square  <%=(!calendarNotSet && isCanceled) ? "canceled" : "" %>">
 					<div class="count"><%= meetingCount %></div>
 					<div class="date">
@@ -43,7 +43,7 @@
 					</div>
 				</div> -->
 			</div>     
-	    <div class="large-20 medium-19 small-24 columns">
+	    <div class="large-22 medium-22 small-17 columns">
 				<p class='subtitle'>
 					<% if(isCanceled){ %>
 						<span><strong>Meeting Canceled:</strong></span>
@@ -56,8 +56,8 @@
 					<a href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=date.getTime()%>">View Meeting</a>
 				<%} %> -->
 			</div>
-			<div class="large-4 medium-5 columns">
-				<img width="100" height="100" src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png"/>
+			<div class="large-2 medium-2 columns hide-for-small">
+				<img src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png" alt="<%=img%>" />
 			</div>
 	  </div><!--/columns-->
 </li>

@@ -58,6 +58,8 @@
     height: 25px;
     top: 5px;
     left: 23%; }
+  .vtk-body #main #yearPlanMeetings > .row > div.column {
+    padding: 0; }
   .vtk-body #main #yearPlanMeetings .yearPlanTitle {
     font-size: 1.63em;
     text-transform: uppercase; }
@@ -66,8 +68,7 @@
     .vtk-body #main #yearPlanMeetings #sortable123 .meeting {
       margin-bottom: 2.0833333%; }
       .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div {
-        height: 100px;
-        padding-left: 30px;
+        height: 80px;
         background-color: #f6f6f6;
         cursor: pointer; }
         .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div:before {
@@ -76,12 +77,12 @@
           height: 100%;
           width: 23px;
           position: absolute;
-          left: 0;
+          left: -33px;
           padding: 0 17px;
           cursor: move; }
         .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div p {
           margin: 0; }
-          .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div p.blurb {
+          .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div p.blurb, .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div p.category, .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div p.subtitle {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap; }
@@ -92,14 +93,16 @@
           color: #fff;
           position: absolute;
           height: 100%;
-          width: 100px; }
+          width: 80px;
+          left: 0; }
           .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div .bg-square .date {
             text-transform: uppercase; }
+            .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div .bg-square .date p {
+              font-weight: 100;
+              line-height: 1; }
             .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div .bg-square .date .day {
               font-size: 2.06em;
-              line-height: 1; }
-            .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div .bg-square .date p {
-              font-weight: 100; }
+              line-height: 1.3; }
           .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div .bg-square .count {
             font-size: 10px;
             font-weight: 100;
@@ -124,11 +127,14 @@
         .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div > div:first-child {
           position: static; }
         .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div > div:nth-of-type(2) {
-          padding-left: 140px;
-          padding-top: 15px;
-          padding-bottom: 15px; }
+          padding-left: 120px;
+          padding-top: 10px;
+          padding-bottom: 10px; }
           .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div > div:nth-of-type(2) .subtitle {
             text-transform: uppercase; }
+        .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div > div:nth-of-type(3) {
+          padding-top: 10px;
+          padding-bottom: 10px; }
       .vtk-body #main #yearPlanMeetings #sortable123 .meeting.activity.ui-state-disabled {
         opacity: 1; }
         .vtk-body #main #yearPlanMeetings #sortable123 .meeting.activity.ui-state-disabled > div .bg-square {
@@ -157,15 +163,16 @@
         border: none; }
       .vtk-body .inline-list#vtkSubNav > li a {
         font-size: 0.75em; }
-.vtk-body #showHideReveal {
+.vtk-body .sectionHeader > div.column {
+  background-color: #f6f6f6; }
+.vtk-body .sectionHeader #showHideReveal {
   position: relative;
   height: 46px;
-  background-color: #f6f6f6;
   padding-left: 45px;
   line-height: 46px;
   color: #484848;
   cursor: pointer; }
-  .vtk-body #showHideReveal:before {
+  .vtk-body .sectionHeader #showHideReveal:before {
     position: absolute;
     content: "";
     width: 0;
@@ -177,7 +184,7 @@
     left: 15px;
     border-width: 12px;
     margin-top: -12px; }
-  .vtk-body #showHideReveal.open:before {
+  .vtk-body .sectionHeader #showHideReveal.open:before {
     border-color: #929292 transparent transparent transparent;
     margin-top: -3px;
     left: 6px; }
@@ -216,3 +223,11 @@
 .ui-widget-header .ui-state-default {
   border: none;
   color: #393939; }
+
+@media only screen and (max-width: 40em) {
+  .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div .bg-square {
+    position: static; }
+    .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div .bg-square:after {
+      content: none; }
+  .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div > div:nth-of-type(2) {
+    padding-left: 35px; } }

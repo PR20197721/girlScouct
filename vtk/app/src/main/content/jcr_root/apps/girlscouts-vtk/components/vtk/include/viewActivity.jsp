@@ -1,6 +1,6 @@
 <li class="row meeting activity ui-state-default ui-state-disabled" onclick='self.location="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=date.getTime()%>"'>
-	<div class="columns large-21 push-1">
-		<div class="large-3 medium-3 columns">
+	<div class="column large-20 medium-20 large-centered medium-centered">
+		<div class="large-3 medium-3 small-6 columns">
 			<div class="bg-square">
 				<div class="date">
 		    	<p class="month"><%= FORMAT_MONTH.format(activity.getDate())%></p>
@@ -10,7 +10,7 @@
 			</div><!--/square-->
 		</div>
 
-		<div class="large-20 medium-20 columns pull-4">
+		<div class="large-24 medium-24 small-18 columns">
 			<p class='subtitle'><%= activity.getName()%></p>
 <!-- 			<p class="category"><%= FORMAT_MMM_dd_yyyy_hhmm_AMPM.format(activity.getDate())%> to <%=FORMAT_MMM_dd_yyyy_hhmm_AMPM.format(activity.getEndDate()) %></p> -->
 			<p class="blurb"><%=activity.getLocationName() %></p>
