@@ -36,6 +36,9 @@
 
 		return false;
 	}
+	
+	
+	
 	%>
 <%
 // Alex
@@ -66,26 +69,21 @@
 					.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class
 							.getName()));
 		} else {
-			out.println("<div class=\"row content\"><div class=\"columns\">");
 			out.println("Your session has timed out.  Please login.");
-			out.println("</div></div>");
 			return;
 		}
 	} catch (ClassCastException cce) {
 		session.invalidate();
 		log.error("ApiConfig class cast exception -- probably due to restart.  Logging out user.");
-		out.println("<div class=\"row content\"><div class=\"columns\">");
 		out.println("Your session has timed out.  Please login.");
-		out.println("</div></div>");
 		return;
 	}
 	if (apiConfig.getTroops() == null
 			|| apiConfig.getTroops().size() <= 0
 			|| (apiConfig.getTroops().get(0).getType() == 1)) {
-		out.println("<div class=\"row content\"><div class=\"columns\">");
-		out.println("<p>Council Code: " + apiConfig.getTroops().get(0).getCouncilCode() + "</p>");
+		out.println("Council Code: "
+				+ apiConfig.getTroops().get(0).getCouncilCode());
 		out.println("<span class='error'>Sorry, this user is not part of a valid GirlScouts' campaign. Please ask your council admin for SalesForce access.</span>");
-		out.println("</div></div>");
 		return;
 	}
 
@@ -139,15 +137,19 @@
 							prefTroop = apiConfig.getTroops().get(ii);
 							break theCookie;
 						}
+
 				}
+
 			}
 		}
-	}	
-	try{
+	 }
+	 
+	
+		try{
 //System.err.println("GETTTTTING TROOP FROM DB....");				
-		  troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
+		   troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
 	   
-		} catch(IllegalAccessException ex) {
+		}catch(IllegalAccessException ex){
 			%><span class="error">Sorry, you have no access to view year plan</span><%
 			return;
 		}
@@ -189,7 +191,7 @@
 			|| (troop.getErrCode() != null && troop.getErrCode()
 					.equals("111"))) {
 %>
-<div><span  class="error">Warning:  Another user is logged in with this user id.  If you have logged in to the Volunteer Toolkit on another device or desktop, please logout and login again. error 111-in db</span></div>
+<div style="color: #fff; background-color: red;">Warning:  Another user is logged in with this user id.  If you have logged in to the Volunteer Toolkit on another device or desktop, please logout and login again. error 111-in db</div>
 <%
 	}
 
@@ -209,13 +211,20 @@
 			|| (troop.getErrCode() != null && troop.getErrCode().equals("112"))
 	    	) {
 %>
-<div><span class="error">
-One of your co-leaders is currently making changes in the Volunteer Toolkit for your troop.  When the updates are completed, you will be able to update the Volunteer Toolkit.</span>
+<div style="color: #fff; background-color: red;">
+One of your co-leaders is currently making changes in the Volunteer Toolkit for your troop.  When the updates are completed, you will be able to update the Volunteer Toolkit.
 </div>
 <%
 	troop.setRefresh(true);
 		
 	}
+
+
+
+
+
+
+
 	if (false){//troop.getSfUserId().equals("005Z0000002OBPiIAO")) {
 %>
 <div class="small-18 medium-18 large-18 columns">
