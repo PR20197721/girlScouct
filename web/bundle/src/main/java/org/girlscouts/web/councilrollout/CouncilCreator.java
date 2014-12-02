@@ -3,16 +3,19 @@ package org.girlscouts.web.councilrollout;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.jcr.Node;
 import javax.jcr.Session;
 
 import org.apache.sling.api.resource.ResourceResolver;
 import org.girlscouts.web.exception.GirlScoutsException;
 
+import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
 
 public interface CouncilCreator {
 
-    ArrayList<String> generateHomePage(Session session, ResourceResolver rr,
+    ArrayList<Page> generateSite(Session session, ResourceResolver rr,
 			String councilPath, String councilName, String councilTitle) throws GirlScoutsException;
-
+    
+    ArrayList<Node> generateDAMFolders(Session session, String path, String councilName, String councilTitle) throws GirlScoutsException;
 }
