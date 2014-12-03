@@ -261,17 +261,18 @@
     }
   }
 }
-#panelLeft {
-  .inline-list {
-    li {
-      &:last-child {
-          margin:0;
-        } 
-      &:nth-of-type(2) {
-        margin: 0 15px
-      }
+.inline-list {
+  li {
+    &:last-child {
+        margin:0;
+      } 
+    &:nth-of-type(2) {
+      margin: 0 15px
     }
-    .icon i {
+  }
+  .icon {
+    i {
+      color: inherit;
       font-size: 30px;
       line-height: 1;
     }

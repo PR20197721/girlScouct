@@ -189,11 +189,12 @@
     margin-top: -3px;
     left: 6px; }
 
-#panelLeft .inline-list li:last-child {
+.inline-list li:last-child {
   margin: 0; }
-#panelLeft .inline-list li:nth-of-type(2) {
+.inline-list li:nth-of-type(2) {
   margin: 0 15px; }
-#panelLeft .inline-list .icon i {
+.inline-list .icon i {
+  color: inherit;
   font-size: 30px;
   line-height: 1; }
 

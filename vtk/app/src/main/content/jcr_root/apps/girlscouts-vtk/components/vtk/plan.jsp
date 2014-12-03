@@ -105,7 +105,7 @@
 				<%
 					if (troop.getYearPlan() != null) {
 				%>
-			</div><!--/panelLeft-->
+			</div><!--/columns-->
 		</div><!--/panelWrapper-->
 <!-- Pannel was removed as per new design.	
 			<div id="panelRight" class="small-24 medium-24 large-6 columns hide-for-print">
