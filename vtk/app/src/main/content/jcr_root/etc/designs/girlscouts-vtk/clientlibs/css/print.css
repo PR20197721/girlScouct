@@ -92,4 +92,7 @@
     .planSquare .date .month {
       display: inline;
     }
+    li.milestone .listLabel {
+      white-space: nowrap;
+    }
 }
