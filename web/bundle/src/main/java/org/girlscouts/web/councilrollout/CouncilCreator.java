@@ -15,8 +15,7 @@ import com.day.cq.wcm.api.PageManager;
 
 public interface CouncilCreator {
 
-    ArrayList<Page> generateSite(Session session, ResourceResolver rr,
-			String councilPath, String councilName, String councilTitle) throws GirlScoutsException;
+    ArrayList<Page> generateSite(Session session, ResourceResolver rr, String councilPath, String councilName, String councilTitle) throws GirlScoutsException;
     
     ArrayList<Node> generateDAMFolders(Session session, String path, String councilName, String councilTitle) throws GirlScoutsException;
 

@@ -22,6 +22,7 @@ import org.girlscouts.web.exception.GirlScoutsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.day.cq.tagging.InvalidTagFormatException;
 import com.day.cq.tagging.Tag;
 import com.day.cq.tagging.TagManager;
 import com.day.cq.wcm.api.Page;
@@ -76,17 +77,26 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		} catch (PathNotFoundException e) {
 			LOG.error("Provided path is not correct" + e.toString());
 		} catch (Exception e) {
-			e.printStackTrace();
+			LOG.error("Unable to create DAM Folders with stack trace : " + e.toString());
 		}
 		return damNodes;
 
 	}
 
-	public ArrayList<Tag> generateTags(Session session, ResourceResolver rr, String path,
-			String councilName, String councilTitle) throws GirlScoutsException {
-ArrayList<Tag> tags = new ArrayList<Tag>();
-TagManager manager = (TagManager) rr.adaptTo(TagManager.class);
-return tags;
+	public ArrayList<Tag> generateTags(Session session, ResourceResolver rr, String path, String councilName, String councilTitle) throws GirlScoutsException {
+		ArrayList<Tag> tags = new ArrayList<Tag>();
+		String tagPath = "/etc/tags";
+		try {
+			TagManager manager = (TagManager) rr.adaptTo(TagManager.class);
+			tags.add(manager.createTag(tagPath + "/" + councilName, councilTitle, ""));
+			tags.add(manager.createTag(tagPath + "/" + councilName + "/" + "categories", "Categories", ""));
+			tags.add(manager.createTag(tagPath + "/" + councilName + "/" + "program-level", "Program Level", ""));
+			tags.add(manager.createTag(tagPath + "/" + councilName + "/" + "forms_documents", "Forms & Documents", ""));
+			session.save();
+		} catch (Exception e){
+			LOG.error("Unable to create Tags with stack trace : " + e.toString());
+		}
+		return tags;
 	}
 	
 	private Node buildFolder(Node node, String path, String folderName, String folderTitle) {
