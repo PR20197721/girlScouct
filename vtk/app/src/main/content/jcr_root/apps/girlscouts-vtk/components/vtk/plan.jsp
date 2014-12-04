@@ -47,7 +47,7 @@
 				<% if(troop.getYearPlan()!=null && hasPermission(troop, Permission.PERMISSION_CREATE_MEETING_ID) ){ %>
 				<div class="sectionHeader row">
 					<div class="column large-20 medium-20 large-centered medium-centered">
-						<p id="showHideReveal" onclick="yesPlan()">VIEW YEAR PLAN LIBRARY</p>
+						<p id="showHideReveal" onclick="yesPlan()" class="hide-for-print">VIEW YEAR PLAN LIBRARY</p>
 						<!--<a href="#" onclick="yesPlan()" id="showHideReveal"
 						class="hide-for-print">reveal</a>&nbsp;<span id="arrowDirection"
 						class="hide-for-print arrowDirection">&#9660;</span> -->

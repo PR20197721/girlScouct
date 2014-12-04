@@ -84,4 +84,13 @@
     #yearPlanMeetings li.milestone.ui-state-disabled {
       background: #c0c0c0 !important;
     }
+    .vtk-body #main #yearPlanMeetings #sortable123 .meeting {
+      border-bottom: solid 1px #666;
+    }
+    .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div:before {
+      content: none;
+    }
+    .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div .bg-square:after {
+      content: none;
+    }
 }
