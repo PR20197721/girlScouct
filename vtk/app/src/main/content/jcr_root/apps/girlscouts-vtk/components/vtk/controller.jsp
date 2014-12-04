@@ -519,10 +519,71 @@ Troop x= (Troop)session.getAttribute("VTK_troop");
 	troopUtil.addAsset(user,  troop ,  request.getParameter("meetingUid"),   new org.girlscouts.vtk.models.Asset(request.getParameter("addAsset")));
 }else if( request.getParameter("reactjs")!=null ){
 	
-	ObjectMapper mapper = new ObjectMapper();
-	out.println(mapper.writeValueAsString(troop));
 	
+	System.err.println("\n\n\n\n ...........................");
+	//if( true ){//!userUtil.isCurrentTroopId( troop, user.getSid() ) ){
 	
+		
+		 boolean isFirst = false;
+	 if( request.getParameter("isFirst") !=null && request.getParameter("isFirst").equals("1"))
+		 isFirst= true;
+		
+		boolean isCng= false;
+		try{
+		
+	if( !isFirst ){		
+		java.net.URL tata = new java.net.URL("http://localhost:4503/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid="+session.getId()+"&ypid="+troop.getYearPlan().getPath()+"&d=");
+        java.net.URLConnection yc = tata.openConnection();
+        java.io.BufferedReader in = new java.io.BufferedReader(new java.io.InputStreamReader(
+                                    yc.getInputStream()));
+        String inputLine;
+        while ((inputLine = in.readLine()) != null) {
+            System.err.println(inputLine +" : "+ (inputLine.indexOf("\"yp_cng\":\"true\"")!= -1 ));
+        
+        	if(inputLine!=null && (inputLine.indexOf("\"yp_cng\":\"true\"")!= -1) ){
+        		isCng= true;
+        	}
+        }
+        in.close();	
+	}
+		}catch(Exception e){e.printStackTrace();}
+	
+		System.err.println("IsCng: "+isCng);
+	
+	 
+	if( isFirst || isCng){	
+		
+		System.err.println("\n\n\n\n >>>>>>>>>>>>>>>>>>>>>>>REFRESH....reactjs");
+		org.girlscouts.vtk.salesforce.Troop prefTroop = apiConfig.getTroops().get(0);
+		for (int ii = 0; ii < apiConfig.getTroops().size(); ii++){
+		 	if( apiConfig.getTroops().get(ii).getTroopId().equals(troop.getSfTroopId())){ 
+		 			prefTroop = apiConfig.getTroops().get(ii);
+		 			break;
+	  		}
+		  }
+		
+		
+		troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
+		PlanView planView = meetingUtil.planView(user, troop, request);
+	
+		
+		java.util.List <MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
+		for( int i=0;i<meetings.size();i++){
+			MeetingE _meeting = meetings.get(i);
+			if(_meeting.getMeetingInfo()!=null && _meeting.getMeetingInfo().getActivities()!=null ){
+				java.util.List<Activity> _activities = _meeting.getMeetingInfo().getActivities();
+			
+				Comparator<Activity> comp = new org.apache.commons.beanutils.BeanComparator("activityNumber");
+        		Collections.sort( _activities, comp);
+			}
+		}
+		
+		
+	
+		ObjectMapper mapper = new ObjectMapper();
+		out.println(mapper.writeValueAsString(troop));
+		System.err.println("AG \n\n\n");
+	}
 }else{
 	//TODO throw ERROR CODE
 }
