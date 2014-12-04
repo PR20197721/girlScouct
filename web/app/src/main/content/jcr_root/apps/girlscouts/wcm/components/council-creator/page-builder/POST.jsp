@@ -36,30 +36,48 @@ if(contentNode.hasNode(councilName)){ %>
 Council Already Exists. Abort.
 <% } else{
 %><br>PAGES:<br><%
-    //UserManager manager = (UserManager) resourceResolver.adaptTo(UserManager.class);
-    //		manager.createGroup("test", "test", "/home/groups/girlscouts-usa");
-    //     Authorizable b = (Authorizable) resourceResolver.adaptTo(Authorizable.class);
-    //Authorizable a = manager.getAuthorizable("administrators");
+        CouncilCreator creator = sling.getService(CouncilCreator.class);
+ArrayList<Page> pageList = creator.generateSite(session, resourceResolver, contentPath, councilName, councilTitle);
+for(Page p : pageList){
+%>"<%= p.getTitle()%>" created under path:
+<%= p.getPath()%>
+<br>
+<%
+}
+%><br>SCAFFOLDING:<br><%
+    //ArrayList<Page> scaffoldingList = creator.generateScaffolding(session, resourceResolver, councilName);
+    //for(Page p : scaffoldingList){ 
+%>Scaffolding created under path:
 
-    CouncilCreator creator = sling.getService(CouncilCreator.class);
+<br>
+<%
+        //}
+%>
+<br>ASSETS:<br><%
+ArrayList<Node> folderList = creator.generateDAMFolders(session, contentPath, councilName, councilTitle);
+for(Node n : folderList){ 
+%>"<%= n.getName() %>" folder created under path:
+<%= n.getPath() %>
+<br>
+<%
+}
+%><br>TAGS:<br><%
+ArrayList<Tag> tagList = creator.generateTags(session, resourceResolver, contentPath, councilName, councilTitle);
+for(Tag t : tagList){ 
+%>"<%= t.getTitle() %>" tag created under path:
+<%= t.getPath() %>
+<br>
+<%
+}
+%><br>GROUPS:<br><%
     ArrayList<Group> groupList = creator.generateGroups(session, resourceResolver, councilName, councilTitle);
     for(Group g : groupList){ 
 %>"<%= g.getName() %>" group created under path:
-<%= g.getPath() %>
+<%= g.getHomePath() %>
 <br>
 <%
    }
-%>Create DAM folder structure:
-<br>
-<form action="assets.html">
-    <input type="submit" value="Confirm">
-</form>
-<br><br>
-Create tags:
-<br>
-<form action="tags.html" method="post">
-    <input type="submit" value="Confirm">
-</form><%
+
 }
 }
 %>
