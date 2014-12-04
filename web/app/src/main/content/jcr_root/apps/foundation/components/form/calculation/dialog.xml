@@ -94,5 +94,17 @@
                     xtype="textfield"/>
             </items>
         </five>
+        <expression
+            jcr:primaryType="nt:unstructured"
+            title="Expression"
+            xtype="panel">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <expression
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Expression"
+                    name="./expression"
+                    xtype="textfield"/>
+            </items>
+        </expression>
     </items>
 </jcr:root>
