@@ -34,8 +34,10 @@
       <div class="row collapse">
         <% setCssClasses("large-18 medium-18 small-24 columns", request); %>
         <cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
+        <% if(currentSite.get("hideSearch","false").equals("false")){ %>
         <% setCssClasses("large-6 medium-6 small-24 columns searchBar", request); %>
         <cq:include path="<%= headerPath + "/search-box" %>" resourceType="girlscouts/components/search-box" />
+      <%} %>
       </div>
     </div>
     <div class="show-for-small small-24 columns topMessage alt">
@@ -44,7 +46,9 @@
         <cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
         <div class="small-12 columns">
           <div class="small-search-hamburger">
+             <% if(currentSite.get("hideSearch","false").equals("false")){ %>
               <a class="search-icon"><img src="<%= designPath %>/images/search_white.png" width="21" height="21" alt="search icon"/></a>
+              <% } %>
             <a class="right-off-canvas-toggle menu-icon"><img src="<%= designPath %>/images/hamburger.png" width="22" height="28" alt="toggle hamburger side menu icon"/></a>
           </div>
         </div>
