@@ -282,5 +282,11 @@
             mode="replace"
             root="/apps/wcm"
             rules="[]"/>  
+        <f55
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/workflow/launcher/config/gs_form_reverse_replication"
+            rules="[]"/>
+
     </filter>
 </jcr:root>
