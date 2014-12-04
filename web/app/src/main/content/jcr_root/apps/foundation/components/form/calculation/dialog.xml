@@ -14,12 +14,6 @@
                     jcr:primaryType="nt:unstructured"
                     path="/libs/foundation/components/form/defaults/items.infinity.json"
                     xtype="cqinclude"/>
-                <multivalue
-                    jcr:primaryType="cq:Widget"
-                    boxLabel="Property is multi value"
-                    name="./multivalue"
-                    type="checkbox"
-                    xtype="selection"/>
                 <readOnly
                     jcr:primaryType="cq:Widget"
                     boxLabel="Only show value"
