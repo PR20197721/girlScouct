@@ -520,13 +520,14 @@ Troop x= (Troop)session.getAttribute("VTK_troop");
 }else if( request.getParameter("reactjs")!=null ){
 	
 	
-	System.err.println("\n\n\n\n ...........................");
+	System.err.println("\n\n\n\n ..........................."+request.getParameter("isFirst"));
 	//if( true ){//!userUtil.isCurrentTroopId( troop, user.getSid() ) ){
 	
 		
-		 boolean isFirst = false;
-	 if( request.getParameter("isFirst") !=null && request.getParameter("isFirst").equals("1"))
+	 boolean isFirst = false;
+	 if( request.getParameter("isFirst") !=null && request.getParameter("isFirst").equals("1")){
 		 isFirst= true;
+	 }
 		
 		boolean isCng= false;
 		try{
@@ -582,7 +583,7 @@ Troop x= (Troop)session.getAttribute("VTK_troop");
 	
 		ObjectMapper mapper = new ObjectMapper();
 		out.println(mapper.writeValueAsString(troop));
-		System.err.println("AG \n\n\n");
+		
 	}
 }else{
 	//TODO throw ERROR CODE

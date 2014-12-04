@@ -4,17 +4,18 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <cq:defineObjects />
 
-<%@include file="../include/session.jsp"%>
+<%@include file="include/session.jsp"%>
 <%
 
 	org.girlscouts.vtk.models.PlanView planView = meetingUtil.planView1(  user,  troop,  request);
+	//String mid= "M1417631220300_0.6255638440068995";
 	String mid=planView.getYearPlanComponent().getUid();
-	
+
 %>
 
 <html>
  
-
+  <title>Hello </title>
   <script src="http://fb.me/react-0.12.1.js"></script>
   <script src="http://fb.me/JSXTransformer-0.12.1.js"></script>
   <script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
@@ -24,33 +25,42 @@
     
     
   <body>
- 
+  <h1>VTK Meeting <%=mid %></h1>
     <div id="content"></div>
     <script type="text/jsx">
 
+
+
 var MeetingList = React.createClass({
+
  getInitialState: function() {
     return { show: false };
   },
+
   componentWillMount: function() {
     setInterval(this.toggle, 1500);
   },
   toggle: function() {
     this.setState({ show: !this.state.show });
   },
+
+
   render: function() {
+
+
     var commentNodes = this.props.data.map(function (comment ,i ) {
+
 
 
 if(comment.uid=='<%=mid%>'){
 
       return (
+
         <YearPlan  item={comment} key={i} author={comment.uid}>
 			<br/>Location: {comment.locationRef}
             <br/>Name: {comment.meetingInfo.name}
 		    <br/>Blurb: {comment.meetingInfo.meetingInfo["meeting short description"].str}
 
-			<MeetingAssets data={comment.assets} />
 			<MeetingActivities data={comment.meetingInfo.activities} />
 
         </YearPlan>
@@ -59,8 +69,11 @@ if(comment.uid=='<%=mid%>'){
 }
     });
     return (
+	
       <div className="commentList">
+
         {commentNodes}
+
       </div>
     );
   }
@@ -74,23 +87,32 @@ if(comment.uid=='<%=mid%>'){
 
 
 var MeetingActivities = React.createClass({
+
  getInitialState: function() {
     return { show: false };
   },
+
   componentWillMount: function() {
     setInterval(this.toggle, 1500);
   },
   toggle: function() {
     this.setState({ show: !this.state.show });
   },
+
+
   render: function() {
     var commentNodes = this.props.data.map(function (comment ,i ) {
       return (
+
+	
 		  <YearPlan  item={comment.activityNumber} key={comment.activityNumber} author={comment.name}>
-      		  <li key='{comment.activityNumber}' >		
-			  {comment.duration} ... {comment.activityNumber}
+        <li key='{comment.activityNumber}' >
+			
+			{comment.duration} ... {comment.activityNumber}
         </li>
 	</YearPlan>
+
+
       );
 
     });
@@ -102,36 +124,6 @@ var MeetingActivities = React.createClass({
   }
 });
 
-
-
-
-
-var MeetingAssets = React.createClass({
- getInitialState: function() {
-    return { show: false };
-  },
-  componentWillMount: function() {
-    setInterval(this.toggle, 1500);
-  },
-  toggle: function() {
-    this.setState({ show: !this.state.show });
-  },
-  render: function() {
-    var commentNodes = this.props.data.map(function (comment ,i ) {
-      return (
-		  <YearPlan  item={comment} key={i} author={comment.title}>
-      		{comment.path} 
-		  </YearPlan>
-      );
-
-    });
-    return (
-      <ol>
-        {commentNodes}
-      </ol>
-    );
-  }
-});
 
 
 
@@ -141,11 +133,19 @@ var MeetingAssets = React.createClass({
 
 
 var YearPlanComponent = React.createClass({
+
  getInitialState: function() {
     return { show: false };
   },
+
+  
+
+
   render: function() {
+
     var commentNodes = this.props.data;
+
+
     return (
       <div className="commentList">
         {commentNodes}
@@ -179,10 +179,12 @@ var YearPlan = React.createClass({
 var CommentBox = React.createClass({
 
  loadCommentsFromServer: function( isFirst ) {
+
+
    $.ajax({
       url: this.props.url + (isFirst==1 ? ("&isFirst="+ isFirst) : ''),
       dataType: 'json',
-	  cache: false,
+cache: false,
       success: function(data) {
        this.setState({data: data.yearPlan.meetingEvents});
  	   this.setState({yp: data});
@@ -207,6 +209,7 @@ var CommentBox = React.createClass({
 	var y = this.state.yp ? this.state.yp.uid : 'loading year plan...';
 
     return (
+
       <div className="commentBox">
         <h1>View Meeting</h1>
        

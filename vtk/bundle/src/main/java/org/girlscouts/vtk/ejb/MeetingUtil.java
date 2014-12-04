@@ -898,10 +898,15 @@ if( !userUtil.hasPermission(troop,  Permission.PERMISSION_MOVE_MEETING_ID ) ){
 	
 	public PlanView planView( User user, Troop troop, javax.servlet.http.HttpServletRequest request ) throws Exception{
 		
+		
+		PlanView planView = planView1(  user,  troop,  request);
+		/*
 		PlanView planView = new PlanView();
 		HttpSession session= request.getSession();
 		
-		java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(troop.getYearPlan(), false);
+		//java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(troop.getYearPlan(), false);
+		
+		java.util.Map <java.util.Date,  YearPlanComponent> sched = getYearPlanSched(troop.getYearPlan(), false);
 		if( sched==null || (sched.size()==0)){System.err.println( "You must first select a year plan."); return null;}
 		java.util.List<java.util.Date> dates =new java.util.ArrayList<java.util.Date>(sched.keySet());
 		long nextDate=0, prevDate=0;
@@ -937,6 +942,8 @@ if( !userUtil.hasPermission(troop,  Permission.PERMISSION_MOVE_MEETING_ID ) ){
 			prevDate = ((java.util.Date)dates.get(currInd-1)).getTime();	
 		session.putValue("VTK_planView_memoPos", searchDate.getTime());
 	    YearPlanComponent _comp= sched.get(searchDate);
+	    */
+		 YearPlanComponent _comp= planView.getYearPlanComponent();
 		if( _comp ==null ){
 			/*
 			%><span class="error">
@@ -965,7 +972,8 @@ if( !userUtil.hasPermission(troop,  Permission.PERMISSION_MOVE_MEETING_ID ) ){
 			java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  meetingInfo.getMeetingInfo();
 
 			boolean isLocked=false;
-			if(searchDate.before( new java.util.Date() ) && troop.getYearPlan().getSchedule()!=null ) isLocked= true;
+			//if(searchDate.before( new java.util.Date() ) && troop.getYearPlan().getSchedule()!=null ) isLocked= true;
+			if(planView.getSearchDate().before( new java.util.Date() ) && troop.getYearPlan().getSchedule()!=null ) isLocked= true;
 
 			boolean isCanceled =false;
 			if( meeting.getCancelled()!=null && meeting.getCancelled().equals("true")){
@@ -1016,6 +1024,64 @@ if( !userUtil.hasPermission(troop,  Permission.PERMISSION_MOVE_MEETING_ID ) ){
 		meeting.setMeetingInfo(meetingInfo);
 		planView.setMeeting(meeting);
 		planView.setAidTags( _aidTags );
+		/*
+		planView.setSearchDate(searchDate);
+		planView.setPrevDate(prevDate);
+		planView.setNextDate(nextDate);
+		planView.setCurrInd(currInd);
+		planView.setMeetingCount(meetingCount);
+		planView.setYearPlanComponent(_comp);
+		*/
+		
+		
+		
+		return planView;
+	}
+
+	public PlanView planView1( User user, Troop troop, javax.servlet.http.HttpServletRequest request){
+		
+		PlanView planView = new PlanView();
+		HttpSession session= request.getSession();
+		
+		java.util.Map <java.util.Date,  YearPlanComponent> sched = getYearPlanSched(troop.getYearPlan(), false);
+		if( sched==null || (sched.size()==0)){System.err.println( "You must first select a year plan."); return null;}
+		java.util.List<java.util.Date> dates =new java.util.ArrayList<java.util.Date>(sched.keySet());
+		long nextDate=0, prevDate=0;
+		java.util.Date searchDate= null;
+
+		if( request.getParameter("elem") !=null ) {
+			searchDate = new java.util.Date( Long.parseLong(  request.getParameter("elem")  ) );	
+		}else if( session.getValue("VTK_planView_memoPos") !=null ){
+			searchDate= new java.util.Date( (Long)session.getValue("VTK_planView_memoPos")  );			
+		} else {
+			
+			if( troop.getYearPlan().getSchedule()==null)
+				searchDate = (java.util.Date) sched.keySet().iterator().next();
+			else{
+		
+			  java.util.Iterator itr = sched.keySet().iterator();
+			  while( itr.hasNext() ){
+				searchDate= (java.util.Date)itr.next();
+				if( searchDate.after( new java.util.Date() ) )
+				break;
+		
+			  }
+		    }
+		
+		}
+
+		int currInd =dates.indexOf(searchDate);
+	        int meetingCount = currInd+1;
+
+		if( dates.size()-1 > currInd )
+			nextDate = ((java.util.Date)dates.get(currInd+1)).getTime();
+		if( currInd>0 )
+			prevDate = ((java.util.Date)dates.get(currInd-1)).getTime();	
+		session.putValue("VTK_planView_memoPos", searchDate.getTime());
+	    YearPlanComponent _comp= sched.get(searchDate);
+	 
+	    
+	    
 		planView.setSearchDate(searchDate);
 		planView.setPrevDate(prevDate);
 		planView.setNextDate(nextDate);
@@ -1023,11 +1089,7 @@ if( !userUtil.hasPermission(troop,  Permission.PERMISSION_MOVE_MEETING_ID ) ){
 		planView.setMeetingCount(meetingCount);
 		planView.setYearPlanComponent(_comp);
 		
-		
-		
-		
-		return planView;
+	    return planView;
 	}
-
 
 }
