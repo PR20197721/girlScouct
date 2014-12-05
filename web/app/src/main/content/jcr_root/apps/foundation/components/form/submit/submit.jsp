@@ -102,6 +102,19 @@
 			}
 			$(document).ready(function(){
 				$('form#<%=formId%>').submit(func<%=rand%>);
+
+				var submitElem = $('form#<%=formId%> input.form_button_submit');
+				if (submitElem.attr('onclick')) {
+					eval('var oldFunc = function(){' + submitElem.attr('onclick') + '}');
+					submitElem.attr('onclick', '');
+					submitElem.click(function() {
+						if (func<%=rand%>()) {
+							return oldFunc();
+						} else {
+							return false;
+						}
+					});
+				}
 			})
 		</script>
 <%
