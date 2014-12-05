@@ -23,6 +23,8 @@
 				   java.util.ResourceBundle,
 				   com.day.cq.i18n.I18n,
 				   java.util.StringTokenizer,
+				   java.util.Set,
+				   java.util.HashSet,
 				   java.lang.StringBuilder" %><%
 
 	final ResourceBundle resourceBundle = slingRequest.getResourceBundle(null);
@@ -143,17 +145,32 @@
 		String expression = properties.get("expression", "");
 		
 		StringBuilder builder = new StringBuilder();
+		Set<String> fields = new HashSet<String>();
 		StringTokenizer tokenizer = new StringTokenizer(expression, "[" + DELIMS + "]", true);
 		while (tokenizer.hasMoreTokens()) {
 		    String token = tokenizer.nextToken();
 		   	if (DELIMS.indexOf(token) == -1) {
+		   	    // it is a field
 		   	    builder.append("$('form#"+ formId)
-		   	    	.append(" input[name='" + token + "]').val()");
+		   	    	.append(" input[name=" + token + "]').val()");
+		   	    fields.add(token);
 		   	} else {
+		   	    // it is an operator
 		   	    builder.append(token);
 		   	}
 		}
+
 		String finalExpression = builder.toString();
-		%>####<%= finalExpression %>####<%
+		String thisField = properties.get("name", "");
+		%>
+		<script>
+			function func_<%=formId%>() {
+			   $('form#<%=formId%> input[name=<%=thisField%>]').val(<%=finalExpression%>);
+			}
+			<% for (String field : fields) { %>
+				$('form#<%=formId%> input[name=<%=field%>]').blur(func_<%=formId%>);
+			<% } %>
+		</script>
+		<%
 	}
 %>
