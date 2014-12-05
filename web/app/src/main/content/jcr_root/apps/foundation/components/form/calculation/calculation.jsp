@@ -21,7 +21,9 @@
                    com.day.cq.wcm.foundation.forms.LayoutHelper,
                    com.day.cq.wcm.foundation.forms.FormResourceEdit,
 				   java.util.ResourceBundle,
-				   com.day.cq.i18n.I18n" %><%
+				   com.day.cq.i18n.I18n,
+				   java.util.StringTokenizer,
+				   java.lang.StringBuilder" %><%
 
 	final ResourceBundle resourceBundle = slingRequest.getResourceBundle(null);
 	I18n i18n = new I18n(resourceBundle);  
@@ -137,8 +139,21 @@
 	}
 	
 	if (formId != null) {
-	    %><script>alert('<%=formId%>');</script><%
-		%>####<%= formId %>####<%
+		String DELIMS = "+-*/()";
+		String expression = properties.get("expression", "");
+		
+		StringBuilder builder = new StringBuilder();
+		StringTokenizer tokenizer = new StringTokenizer(expression, "[" + DELIMS + "]", true);
+		while (tokenizer.hasMoreTokens()) {
+		    String token = tokenizer.nextToken();
+		   	if (DELIMS.indexOf(token) == -1) {
+		   	    builder.append("$('form#"+ formId)
+		   	    	.append(" input[name='" + token + "]').val()");
+		   	} else {
+		   	    builder.append(token);
+		   	}
+		}
+		String finalExpression = builder.toString();
+		%>####<%= finalExpression %>####<%
 	}
-	
 %>
