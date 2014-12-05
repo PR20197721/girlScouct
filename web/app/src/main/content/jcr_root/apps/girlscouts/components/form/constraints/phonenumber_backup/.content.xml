@@ -3,5 +3,5 @@
     jcr:primaryType="sling:Folder"
     jcr:title="Phone Number"
     sling:resourceType="foundation/components/form/constraint"
-    constraintMessage="invalid phone number"
-    hint="Validates if the field contains a phone number"/>
+    constraintMessage="Field does not contain a number."
+    hint="Validates if the field contains a number."/>
