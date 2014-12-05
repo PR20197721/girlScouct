@@ -1,7 +1,6 @@
 
 
-
-
+ 
 
 <%= meeting.getPath()%>
 <!-- apps/girlscouts-vtk/components/vtk/include/viewYearPlanMeeting.jsp -->

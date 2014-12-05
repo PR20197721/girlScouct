@@ -1,0 +1,1 @@
+<li><a href={this.props.refId} target="_blank">{this.props.title}</a> - {this.props.description}</li>

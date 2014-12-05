@@ -17,23 +17,35 @@
 
   <script src="http://fb.me/react-0.12.1.js"></script>
   <script src="http://fb.me/JSXTransformer-0.12.1.js"></script>
-  <script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/showdown/0.3.1/showdown.min.js"></script>
+     <script src="http://cdnjs.cloudflare.com/ajax/libs/react/0.12.1/react-with-addons.js"></script>
  
+  
   
     
     
   <body>
+  
+  <style>
+  	  .meetingHeader{border:5px solid green; background-color:yellow;}
+  	
+	  li.placeholder { background: rgb(255,240,120);}
+	  li.placeholder:before {content: "Drop here"; color: rgb(225,210,90);}
+	  ul { list-style: none; margin:0; padding:0}
+	  li {padding: 5px; background:#eee}
+	  
+  
+  </style>
  
     <div id="content"></div>
     <script type="text/jsx">
 
+var thisMeetingRefId;
 var MeetingList = React.createClass({
  getInitialState: function() {
     return { show: false };
   },
   componentWillMount: function() {
-    setInterval(this.toggle, 1500);
+    //setInterval(this.toggle, 1500);
   },
   toggle: function() {
     this.setState({ show: !this.state.show });
@@ -43,13 +55,12 @@ var MeetingList = React.createClass({
 
 
 if(comment.uid=='<%=mid%>'){
-
+	thisMeetingRefId	= comment.refId;
       return (
-        <YearPlan  item={comment} key={i} author={comment.uid}>
-			<br/>Location: {comment.locationRef}
-            <br/>Name: {comment.meetingInfo.name}
-		    <br/>Blurb: {comment.meetingInfo.meetingInfo["meeting short description"].str}
-
+        <YearPlan  item={comment} key={i} >
+			
+			<MeetingPlan uid={comment.uid} meetingTitle={comment.meetingInfo.name}
+				location={comment.locationRef} blurb={comment.meetingInfo.meetingInfo["meeting short description"].str} />
 			<MeetingAssets data={comment.assets} />
 			<MeetingActivities data={comment.meetingInfo.activities} />
 
@@ -72,32 +83,78 @@ if(comment.uid=='<%=mid%>'){
 
 
 
+var placeholder = document.createElement("li");
+placeholder.className = "placeholder";
 
 var MeetingActivities = React.createClass({
+dragStart: function(e) {
+
+    this.dragged = e.currentTarget;
+    e.dataTransfer.effectAllowed = 'move';
+    
+    // Firefox requires dataTransfer data to be set
+    e.dataTransfer.setData("text/html", e.currentTarget);
+  },
+  dragEnd: function(e) {
+
+    this.dragged.style.display = "block";
+    this.dragged.parentNode.removeChild(placeholder);
+
+    // Update data
+    var data = this.props.data;//this.state.data;
+    var from = Number(this.dragged.dataset.id);
+    var to = Number(this.over.dataset.id);
+    if(from < to) to--;
+    if(this.nodePlacement == "after") to++;
+    data.splice(to, 0, data.splice(from, 1)[0]);
+    this.setState({data: data});
+console.log("final");
+console.log( data);
+console.log( this.props)
+ xx(data);
+  },
+  dragOver: function(e) {
+
+    e.preventDefault();
+    this.dragged.style.display = "none";
+    if(e.target.className == "placeholder") return;
+    this.over = e.target;
+    // Inside the dragOver method
+    var relY = e.clientY - this.over.offsetTop;
+    var height = this.over.offsetHeight / 2;
+    var parent = e.target.parentNode;
+    
+    if(relY > height) {
+      this.nodePlacement = "after";
+      parent.insertBefore(placeholder, e.target.nextElementSibling);
+    }
+    else if(relY < height) {
+      this.nodePlacement = "before"
+      parent.insertBefore(placeholder, e.target);
+    }
+  },
  getInitialState: function() {
     return { show: false };
   },
   componentWillMount: function() {
-    setInterval(this.toggle, 1500);
+    //setInterval(this.toggle, 1500);
   },
   toggle: function() {
     this.setState({ show: !this.state.show });
   },
   render: function() {
-    var commentNodes = this.props.data.map(function (comment ,i ) {
+    var commentNodes = this.props.data.map((function (comment ,i ) {
       return (
-		  <YearPlan  item={comment.activityNumber} key={comment.activityNumber} author={comment.name}>
-      		  <li key='{comment.activityNumber}' >		
-			  {comment.duration} ... {comment.activityNumber}
-        </li>
-	</YearPlan>
+		    		  	
+			        
+	    <%@include file="meetingActivity.jsp"%>
       );
 
-    });
+    }).bind(this));
     return (
-      <ol>
+      <ul onDragOver={this.dragOver}>
         {commentNodes}
-      </ol>
+      </ul>
     );
   }
 });
@@ -111,7 +168,7 @@ var MeetingAssets = React.createClass({
     return { show: false };
   },
   componentWillMount: function() {
-    setInterval(this.toggle, 1500);
+   // setInterval(this.toggle, 1500);
   },
   toggle: function() {
     this.setState({ show: !this.state.show });
@@ -119,16 +176,15 @@ var MeetingAssets = React.createClass({
   render: function() {
     var commentNodes = this.props.data.map(function (comment ,i ) {
       return (
-		  <YearPlan  item={comment} key={i} author={comment.title}>
-      		{comment.path} 
-		  </YearPlan>
+		  <MeetingAsset  item={comment} key={i} refId={comment.refId} title={comment.title} description={comment.description}/>
+      		
       );
 
     });
     return (
-      <ol>
+      <ul>
         {commentNodes}
-      </ol>
+      </ul>
     );
   }
 });
@@ -169,11 +225,35 @@ var YearPlan = React.createClass({
   }
 });
 
+var MeetingPlan = React.createClass({
+  render: function() {
+    return (
+		<%@include file="meetingHeader.jsp"%>
+    );
+  }
+});
+
+var MeetingAsset = React.createClass({
+  render: function() {
+    return (
+		<%@include file="meetingAsset.jsp"%>
+    );
+  }
+});
 
 
-
-
-
+var MeetingActivity = React.createClass({
+  render: function() {
+    return (
+		
+		 
+			<%@include file="meetingActivity.jsp"%>
+	
+		 
+	
+    );
+  }
+});
 
 
 var CommentBox = React.createClass({
@@ -198,6 +278,7 @@ var CommentBox = React.createClass({
     return {data: []};
   },
   componentDidMount: function() {
+
     this.loadCommentsFromServer(1);
     setInterval( this.loadCommentsFromServer, this.props.pollInterval);
   },
@@ -208,7 +289,7 @@ var CommentBox = React.createClass({
 
     return (
       <div className="commentBox">
-        <h1>View Meeting</h1>
+        
        
  			<MeetingList data={x} />
        		<YearPlanComponent data={y} />
@@ -222,11 +303,32 @@ var CommentBox = React.createClass({
 
 
 React.render(
-<CommentBox url="/content/girlscouts-vtk/controllers/vtk.controller.html?reactjs=asdf" pollInterval={20000} />,
+<CommentBox url="/content/girlscouts-vtk/controllers/vtk.controller.html?reactjs=asdf" pollInterval={2000} />,
   document.getElementById('content')
 );
 
+
+function xx(activities){
+console.log(1);
+console.log( YearPlan);
+console.log(this.props);
+//alert( MeetingPlan.refId );
+	var yy='';
+	for( var x in activities ){
+		console.log( "*** "+ activities[x].activityNumber);
+		yy+= activities[x].activityNumber +",";
+	} 
+console.log(yy);
+repositionActivity(thisMeetingRefId , yy);
+	
+}
+
+
+	
     </script>
+    
+    
+   
   </body>
 </html>
 

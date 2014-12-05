@@ -533,7 +533,7 @@ Troop x= (Troop)session.getAttribute("VTK_troop");
 		try{
 		
 	if( !isFirst ){		
-		java.net.URL tata = new java.net.URL("http://localhost:4503/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid="+session.getId()+"&ypid="+troop.getYearPlan().getPath()+"&d=");
+		java.net.URL tata = new java.net.URL("http://localhost:4503/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid=X"+session.getId()+"&ypid="+troop.getYearPlan().getPath()+"&d=");
         java.net.URLConnection yc = tata.openConnection();
         java.io.BufferedReader in = new java.io.BufferedReader(new java.io.InputStreamReader(
                                     yc.getInputStream()));

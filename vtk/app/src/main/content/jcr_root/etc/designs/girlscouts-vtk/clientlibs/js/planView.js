@@ -76,14 +76,15 @@ function getNewActivitySetup() {
 	return toRet.substring(0, toRet.length-1);
 }
 
-function repositionActivity(meetingPath){
-	var newVals = getNewActivitySetup();
+function repositionActivity(meetingPath,newVals ){
+	//-var newVals = getNewActivitySetup();
+	
 	var x =$.ajax({ // ajax call starts
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=RearrangeActivity&mid='+meetingPath+'&isActivityCngAjax='+ newVals, // JQuery loads serverside.php
 		data: '', // Send value of the clicked button
 		dataType: 'html', // Choosing a JSON datatype
 		success: function (data) { 
-			location.reload();
+			//-location.reload();
 		},
 		error: function (data) { 
 		}
