@@ -3,5 +3,5 @@
     jcr:primaryType="sling:Folder"
     jcr:title="Dollar Amount"
     sling:resourceType="foundation/components/form/constraint"
-    constraintMessage="invalid amount in US dollar"
+    constraintMessage="invalid amount in US dollar (max. 99999.99)"
     hint="Validates if the field contains an amount in US dollar"/>
