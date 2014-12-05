@@ -16,6 +16,7 @@
   Draws an element of a form
 
 --%><%@include file="/libs/foundation/global.jsp"%><%
+%><%@include file="/apps/foundation/components/form/expression.jsp"%><%
 %><%@ page import="com.day.cq.wcm.foundation.TextFormat,
                    com.day.cq.wcm.foundation.forms.FormsHelper,
                    com.day.cq.wcm.foundation.forms.LayoutHelper,
@@ -126,44 +127,14 @@
 %>
 
 <%
-	Node parentNode = currentNode.getParent();
-	NodeIterator iter = parentNode.getNodes();
-	String formId = null;
-	while (iter.hasNext()) {
-	    Node node = iter.nextNode();
-	    if (node.hasProperty("sling:resourceType")) {
-	        String resourceType = node.getProperty("sling:resourceType").getString();
-	        if (resourceType.equals("foundation/components/form/start")) {
-	            formId = node.getProperty("formid").getString();
-	        }
-	        if (node.getPath().equals(resource.getPath())) {
-	            // FormId for this resouse found
-	            break;
-	        }
-	    }
-	}
+	String formId = getFormId(currentNode);
 	
 	if (formId != null) {
-		String DELIMS = "+-*/()";
-		String expression = properties.get("expression", "");
-		
-		StringBuilder builder = new StringBuilder();
-		Set<String> fields = new HashSet<String>();
-		StringTokenizer tokenizer = new StringTokenizer(expression, "[" + DELIMS + "]", true);
-		while (tokenizer.hasMoreTokens()) {
-		    String token = tokenizer.nextToken();
-		   	if (DELIMS.indexOf(token) == -1) {
-		   	    // it is a field
-		   	    builder.append("Number($('form#"+ formId)
-		   	    	.append(" input[name=" + token + "]').val())");
-		   	    fields.add(token);
-		   	} else {
-		   	    // it is an operator
-		   	    builder.append(token);
-		   	}
-		}
+	    String expression = properties.get("expression", "");
+		FormatExpressionResult result = formatExpression(expression, formId);
+		String finalExpression = result.expression;
+	    Set<String> fields = result.fields;
 
-		String finalExpression = builder.toString();
 		String thisField = properties.get("name", "");
 		String rand = Integer.toString(new Double(Math.random()*100000).intValue());
 		%>

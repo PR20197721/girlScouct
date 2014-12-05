@@ -73,3 +73,10 @@
       </div>
     </div>
     <% LayoutHelper.printDescription(FormsHelper.getDescription(resource, ""), out); %>
+    
+<%
+	String constraint = properties.get("constraint", "");
+	if (!constraint.isEmpty()) {
+	    
+	}
+%>
