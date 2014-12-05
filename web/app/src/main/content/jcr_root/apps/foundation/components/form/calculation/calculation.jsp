@@ -164,12 +164,15 @@
 		String thisField = properties.get("name", "");
 		%>
 		<script>
-			function func_<%=formId%>() {
-			   $('form#<%=formId%> input[name=<%=thisField%>]').val(<%=finalExpression%>);
+			function func() {
+				$('form#<%=formId%> input[name="<%=thisField%>"]').val(<%=finalExpression%>);
 			}
+
+			$(document).ready(function(){
 			<% for (String field : fields) { %>
-				$('form#<%=formId%> input[name=<%=field%>]').blur(func_<%=formId%>);
+				$('form#<%=formId%> input[name="<%=field%>"]').blur(func);
 			<% } %>
+			});
 		</script>
 		<%
 	}
