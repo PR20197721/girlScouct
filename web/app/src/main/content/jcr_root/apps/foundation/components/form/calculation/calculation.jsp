@@ -136,7 +136,7 @@
 	    Set<String> fields = result.fields;
 
 		String thisField = properties.get("name", "");
-		String rand = Integer.toString(new Double(Math.random()*100000).intValue());
+		String rand = Integer.toString(new Double(Math.random()*1000000).intValue());
 		%>
 		<script>
 			function func<%=rand%>() {

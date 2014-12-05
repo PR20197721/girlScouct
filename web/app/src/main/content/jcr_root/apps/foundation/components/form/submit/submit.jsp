@@ -83,14 +83,21 @@
 			FormatExpressionResult result = formatExpression(constraint, formId);
 			String finalExpression = result.expression;
 		    Set<String> fields = result.fields;
-			String thisField = properties.get("name", "");
+			String rand = Integer.toString(new Double(Math.random()*1000000).intValue());
 %>
 		<script>
-			if (<%=finalExpression%>) {
-				$('form#<%=formId%> input[name="<%=thisField%>"]').enable();
-			} else {
-				$('form#<%=formId%> input[name="<%=thisField%>"]').disable();
+			function func<%=rand%>() {
+				if (<%=finalExpression%>) {
+					$('form#<%=formId%> input[type="submit"]').removeAttr('disabled');
+				} else {
+					$('form#<%=formId%> input[type="submit"]').attr('disabled','disabled');
+				}
 			}
+			$(document).ready(function(){
+				<% for (String field : fields) { %>
+					$('form#<%=formId%> input[name="<%=field%>"]').blur(func<%=rand%>);
+				<% } %>
+			})
 		</script>
 <%
 	    }
