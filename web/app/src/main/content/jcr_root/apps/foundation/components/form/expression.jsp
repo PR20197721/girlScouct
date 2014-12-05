@@ -44,7 +44,7 @@ boolean isNumber(String input) {
 }
 
 FormatExpressionResult formatExpression(String expression, String formId) {
-	String DELIMS = "+-*/()=><!";
+	String DELIMS = "+-*/()=><!&|";
 	
 	StringBuilder builder = new StringBuilder();
 	Set<String> fields = new HashSet<String>();
