@@ -151,8 +151,8 @@
 		    String token = tokenizer.nextToken();
 		   	if (DELIMS.indexOf(token) == -1) {
 		   	    // it is a field
-		   	    builder.append("$('form#"+ formId)
-		   	    	.append(" input[name=" + token + "]').val()");
+		   	    builder.append("Number($('form#"+ formId)
+		   	    	.append(" input[name=" + token + "]').val())");
 		   	    fields.add(token);
 		   	} else {
 		   	    // it is an operator
@@ -162,15 +162,16 @@
 
 		String finalExpression = builder.toString();
 		String thisField = properties.get("name", "");
+		String rand = Integer.toString(new Double(Math.random()*100000).intValue());
 		%>
 		<script>
-			function func() {
+			function func<%=rand%>() {
 				$('form#<%=formId%> input[name="<%=thisField%>"]').val(<%=finalExpression%>);
 			}
 
 			$(document).ready(function(){
 			<% for (String field : fields) { %>
-				$('form#<%=formId%> input[name="<%=field%>"]').blur(func);
+				$('form#<%=formId%> input[name="<%=field%>"]').blur(func<%=rand%>);
 			<% } %>
 			});
 		</script>
