@@ -135,6 +135,9 @@
 	        String resourceType = node.getProperty("sling:resourceType").getString();
 	        if (resourceType.equals("foundation/components/form/start")) {
 	            formId = node.getProperty("formid").getString();
+	        }
+	        if (node.getPath().equals(resource.getPath())) {
+	            // FormId for this resouse found
 	            break;
 	        }
 	    }
