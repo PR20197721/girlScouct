@@ -120,3 +120,25 @@
         LayoutHelper.printErrors(slingRequest, name, out);
     }
 %>
+
+<%
+	Node parentNode = currentNode.getParent();
+	NodeIterator iter = parentNode.getNodes();
+	String formId = null;
+	while (iter.hasNext()) {
+	    Node node = iter.nextNode();
+	    if (node.hasProperty("sling:resourceType")) {
+	        String resourceType = node.getProperty("sling:resourceType").getString();
+	        if (resourceType.equals("foundation/components/form/start")) {
+	            formId = node.getProperty("formid").getString();
+	            break;
+	        }
+	    }
+	}
+	
+	if (formId != null) {
+	    %><script>alert('<%=formId%>');</script><%
+		%>####<%= formId %>####<%
+	}
+	
+%>
