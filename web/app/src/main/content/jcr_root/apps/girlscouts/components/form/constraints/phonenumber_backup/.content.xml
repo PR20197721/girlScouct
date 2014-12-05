@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
     jcr:primaryType="sling:Folder"
-<<<<<<< HEAD
     jcr:title="Phone Number backup"
-=======
-    jcr:title="Phone Number"
->>>>>>> cb0e94423f543a604cb1f18dfada1da0a358fcd0
     sling:resourceType="foundation/components/form/constraint"
     constraintMessage="Field does not contain a number."
     hint="Validates if the field contains a number."/>
