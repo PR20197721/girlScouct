@@ -91,19 +91,17 @@
 		<script>
 			function func<%=rand%>() {
 				if (<%=finalExpression%>) {
-					$('form#<%=formId%> input[type="submit"]').removeAttr('disabled');
 					$('form#<%=formId%> div.submit_error').html('');
 					$('form#<%=formId%> div.submit_error').hide();
+					return true;
 				} else {
-					$('form#<%=formId%> input[type="submit"]').attr('disabled','disabled');
 					$('form#<%=formId%> div.submit_error').html('<%= errMsg %>');
 					$('form#<%=formId%> div.submit_error').show();
+					return false;
 				}
 			}
 			$(document).ready(function(){
-				<% for (String field : fields) { %>
-					$('form#<%=formId%> input[name="<%=field%>"]').blur(func<%=rand%>);
-				<% } %>
+				$('form#<%=formId%>').submit(func<%=rand%>);
 			})
 		</script>
 <%
