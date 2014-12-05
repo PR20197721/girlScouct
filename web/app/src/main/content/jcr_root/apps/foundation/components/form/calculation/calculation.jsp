@@ -152,6 +152,7 @@
 			<% for (String field : fields) { %>
 				$('form#<%=formId%> input[name="<%=field%>"]').blur(func<%=rand%>);
 			<% } %>
+				$('form#<%=formId%> input[name="<%=thisField%>"]').attr('readonly', true);
 			});
 		</script>
 		<%
