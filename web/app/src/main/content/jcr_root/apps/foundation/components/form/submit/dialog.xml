@@ -59,6 +59,11 @@
                     fieldLabel="Constraint"
                     name="./constraint"
                     xtype="textfield"/>
+                <errMsg
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Error Message"
+                    name="./errMsg"
+                    xtype="textfield"/>
             </items>
         </constraint>
     </items>

@@ -34,8 +34,17 @@ class FormatExpressionResult {
 	Set<String> fields;
 }
 
+boolean isNumber(String input) {
+	try {
+		Double.parseDouble(input);
+	} catch (NumberFormatException e) {
+		return false;
+	}
+	return true;
+}
+
 FormatExpressionResult formatExpression(String expression, String formId) {
-	String DELIMS = "+-*/()=><!";
+	String DELIMS = "+-*/()=><!&|";
 	
 	StringBuilder builder = new StringBuilder();
 	Set<String> fields = new HashSet<String>();
@@ -44,10 +53,15 @@ FormatExpressionResult formatExpression(String expression, String formId) {
 	while (tokenizer.hasMoreTokens()) {
 	    String token = tokenizer.nextToken();
 	   	if (DELIMS.indexOf(token) == -1) {
-	   	    // it is a field
-	   	    builder.append("Number($('form#"+ formId)
-	   	    	.append(" input[name=" + token + "]').val())");
-	   	    fields.add(token);
+	   	    if (isNumber(token)) {
+	   	        // it is a number
+	   	        builder.append(token);
+	   	    } else {
+		   	    // it is a field
+		   	    builder.append("Number($('form#"+ formId)
+		   	    	.append(" input[name=" + token + "]').val())");
+		   	    fields.add(token);
+	   	    }
 	   	} else {
 	   	    // it is an operator
 	   	    if (token.equals("=") && 
