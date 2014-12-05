@@ -35,6 +35,8 @@
 %>
     <div class="form_row">
       <% LayoutHelper.printTitle(null, null, false, out); %>
+      <%--  Placeholder for error message if constraint not met. --%>
+      <div class="form_rightcol form_error submit_error" style="display: none"></div>
       <div class="form_rightcol">
         <%
         boolean clientValidation = FormsHelper.doClientValidation(slingRequest);
@@ -77,6 +79,7 @@
     
 <%
 	String constraint = properties.get("constraint", "");
+	String errMsg = properties.get("errMsg", "");
 	if (!constraint.isEmpty()) {
 	    String formId = getFormId(currentNode);
 	    if (formId != null) {
@@ -89,8 +92,12 @@
 			function func<%=rand%>() {
 				if (<%=finalExpression%>) {
 					$('form#<%=formId%> input[type="submit"]').removeAttr('disabled');
+					$('form#<%=formId%> div.submit_error').html('');
+					$('form#<%=formId%> div.submit_error').hide();
 				} else {
 					$('form#<%=formId%> input[type="submit"]').attr('disabled','disabled');
+					$('form#<%=formId%> div.submit_error').html('<%= errMsg %>');
+					$('form#<%=formId%> div.submit_error').show();
 				}
 			}
 			$(document).ready(function(){
