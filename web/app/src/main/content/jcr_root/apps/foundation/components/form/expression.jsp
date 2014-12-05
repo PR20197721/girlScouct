@@ -35,11 +35,12 @@ class FormatExpressionResult {
 }
 
 FormatExpressionResult formatExpression(String expression, String formId) {
-	String DELIMS = "+-*/()";
+	String DELIMS = "+-*/()=><!";
 	
 	StringBuilder builder = new StringBuilder();
 	Set<String> fields = new HashSet<String>();
 	StringTokenizer tokenizer = new StringTokenizer(expression, "[" + DELIMS + "]", true);
+	String prevToken = "";
 	while (tokenizer.hasMoreTokens()) {
 	    String token = tokenizer.nextToken();
 	   	if (DELIMS.indexOf(token) == -1) {
@@ -49,8 +50,15 @@ FormatExpressionResult formatExpression(String expression, String formId) {
 	   	    fields.add(token);
 	   	} else {
 	   	    // it is an operator
-	   	    builder.append(token);
+	   	    if (token.equals("=") && 
+	   	            !prevToken.equals("<") && 
+	   	            !prevToken.equals(">")) { // in case >= <=
+	   	        builder.append("==");
+	   	    } else {
+   	    		builder.append(token);
+	   	    }
 	   	}
+	   	prevToken = token;
 	}
 
 	FormatExpressionResult result = new FormatExpressionResult();

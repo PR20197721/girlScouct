@@ -22,6 +22,7 @@
         java.util.Locale,
 		java.util.ResourceBundle,
 		com.day.cq.i18n.I18n" %><%
+%><%@include file="/apps/foundation/components/form/expression.jsp"%><%
 
 	final Locale pageLocale = currentPage.getLanguage(true);
 	final ResourceBundle resourceBundle = slingRequest.getResourceBundle(pageLocale);
@@ -77,6 +78,21 @@
 <%
 	String constraint = properties.get("constraint", "");
 	if (!constraint.isEmpty()) {
-	    
+	    String formId = getFormId(currentNode);
+	    if (formId != null) {
+			FormatExpressionResult result = formatExpression(constraint, formId);
+			String finalExpression = result.expression;
+		    Set<String> fields = result.fields;
+			String thisField = properties.get("name", "");
+%>
+		<script>
+			if (<%=finalExpression%>) {
+				$('form#<%=formId%> input[name="<%=thisField%>"]').enable();
+			} else {
+				$('form#<%=formId%> input[name="<%=thisField%>"]').disable();
+			}
+		</script>
+<%
+	    }
 	}
 %>
