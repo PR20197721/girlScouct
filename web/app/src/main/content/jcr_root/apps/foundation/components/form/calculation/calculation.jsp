@@ -140,7 +140,12 @@
 		%>
 		<script>
 			function func<%=rand%>() {
-				$('form#<%=formId%> input[name="<%=thisField%>"]').val(<%=finalExpression%>);
+				var result = <%= finalExpression %>;
+				if (isNaN(result)) {
+					$('form#<%=formId%> input[name="<%=thisField%>"]').val('');
+				} else {
+					$('form#<%=formId%> input[name="<%=thisField%>"]').val(result);
+				}
 			}
 
 			$(document).ready(function(){
