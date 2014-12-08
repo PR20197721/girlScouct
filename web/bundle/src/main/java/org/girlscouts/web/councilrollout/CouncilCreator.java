@@ -18,7 +18,7 @@ public interface CouncilCreator {
 
     ArrayList<Page> generateSite(Session session, ResourceResolver rr, String councilPath, String councilName, String councilTitle) throws GirlScoutsException;
 
-    ArrayList<Page> generateScaffolding(Session session, ResourceResolver rr, String councilName) throws GirlScoutsException;
+    ArrayList<Node> generateScaffolding(Session session, ResourceResolver rr, String councilName) throws GirlScoutsException;
     
     ArrayList<Node> generateDAMFolders(Session session, String path, String councilName, String councilTitle) throws GirlScoutsException;
 

@@ -36,48 +36,48 @@ if(contentNode.hasNode(councilName)){ %>
 Council Already Exists. Abort.
 <% } else{
 %><br>PAGES:<br><%
-        CouncilCreator creator = sling.getService(CouncilCreator.class);
-ArrayList<Page> pageList = creator.generateSite(session, resourceResolver, contentPath, councilName, councilTitle);
-for(Page p : pageList){
+    CouncilCreator creator = sling.getService(CouncilCreator.class);
+          ArrayList<Page> pageList = creator.generateSite(session, resourceResolver, contentPath, councilName, councilTitle);
+          for(Page p : pageList){
 %>"<%= p.getTitle()%>" created under path:
 <%= p.getPath()%>
 <br>
 <%
-}
+    }
 %><br>SCAFFOLDING:<br><%
-    //ArrayList<Page> scaffoldingList = creator.generateScaffolding(session, resourceResolver, councilName);
-    //for(Page p : scaffoldingList){ 
-%>Scaffolding created under path:
+    ArrayList<Node> scaffoldingList = creator.generateScaffolding(session, resourceResolver, councilName);
+    for(Node s : scaffoldingList){ 
+%>"<%= s.getName() %>" scaffolding created under path:
+<%= s.getPath() %>
 
 <br>
 <%
-        //}
+        }
 %>
 <br>ASSETS:<br><%
-ArrayList<Node> folderList = creator.generateDAMFolders(session, contentPath, councilName, councilTitle);
-for(Node n : folderList){ 
+  ArrayList<Node> folderList = creator.generateDAMFolders(session, contentPath, councilName, councilTitle);
+  for(Node n : folderList){ 
 %>"<%= n.getName() %>" folder created under path:
 <%= n.getPath() %>
 <br>
 <%
-}
+        }
 %><br>TAGS:<br><%
-ArrayList<Tag> tagList = creator.generateTags(session, resourceResolver, contentPath, councilName, councilTitle);
-for(Tag t : tagList){ 
+        ArrayList<Tag> tagList = creator.generateTags(session, resourceResolver, contentPath, councilName, councilTitle);
+        for(Tag t : tagList){ 
 %>"<%= t.getTitle() %>" tag created under path:
 <%= t.getPath() %>
 <br>
 <%
-}
+        }
 %><br>GROUPS:<br><%
-    ArrayList<Group> groupList = creator.generateGroups(session, resourceResolver, councilName, councilTitle);
-    for(Group g : groupList){ 
+        ArrayList<Group> groupList = creator.generateGroups(session, resourceResolver, councilName, councilTitle);
+        for(Group g : groupList){ 
 %>"<%= g.getName() %>" group created under path:
 <%= g.getHomePath() %>
 <br>
 <%
-   }
-
+        }
 }
 }
 %>

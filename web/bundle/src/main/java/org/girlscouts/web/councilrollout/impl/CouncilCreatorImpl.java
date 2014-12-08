@@ -8,7 +8,9 @@ import java.util.Map.Entry;
 
 import javax.jcr.ItemExistsException;
 import javax.jcr.Node;
+import javax.jcr.NodeIterator;
 import javax.jcr.PathNotFoundException;
+import javax.jcr.PropertyIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.lock.LockException;
@@ -28,6 +30,7 @@ import org.girlscouts.web.exception.GirlScoutsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.day.cq.commons.jcr.JcrUtil;
 import com.day.cq.security.Authorizable;
 import com.day.cq.security.Group;
 import com.day.cq.security.UserManager;
@@ -46,7 +49,7 @@ import com.day.cq.wcm.api.WCMException;
 		@Property(name = "service.vendor", value = "Girl Scouts", propertyPrivate = false) })
 public class CouncilCreatorImpl implements CouncilCreator {
 	private static Logger LOG = LoggerFactory.getLogger(CouncilCreatorImpl.class);
-
+	
 	public ArrayList<Page> generateSite(Session session, ResourceResolver rr, String contentPath, String councilName, String councilTitle) throws GirlScoutsException {
 		ArrayList<Page> pages = new ArrayList<Page>();
 		HashMap<String, String> propertyMap = new HashMap<String,String>();
@@ -55,15 +58,15 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		try {
 			PageManager manager = (PageManager) rr.adaptTo(PageManager.class);
 			// Create Council HomePage
-			pages.add(buildPage(manager, session, contentPath, councilTitle, null, councilName, "", "foundation/components/page"));
+			pages.add(buildPage(manager, session, contentPath, councilTitle, null, councilName, "", "foundation/components/page", null));
 			
 			propertyMap = setLangPropertyMap(councilPath, "en");
-			Page englishPage = buildPage(manager, session, councilPath, councilTitle, "en", "", "girlscouts/components/homepage", propertyMap);
+			Page englishPage = buildPage(manager, session, councilPath, councilTitle, null, "en", "", "girlscouts/components/homepage", propertyMap);
 			languagePath = englishPage.getPath();
 			pages.add(englishPage);
-			pages.add(buildPage(manager, session, languagePath, "Ad Page", null, "ad-page", "", "girlscouts/components/ad-list-page"));
-			pages.add(buildPage(manager, session, languagePath, "Search | " + councilTitle, "Search | " + councilTitle, "site-search", "", "girlscouts/components/three-column-page"));
-			pages.add(buildPage(manager, session, languagePath, "Map", null, "map", "", "girlscouts/components/map"));
+			pages.add(buildPage(manager, session, languagePath, "Ad Page", null, "ad-page", "", "girlscouts/components/ad-list-page", null));
+			pages.add(buildPage(manager, session, languagePath, "Search | " + councilTitle, "Search | " + councilTitle, "site-search", "", "girlscouts/components/three-column-page", null));
+			pages.add(buildPage(manager, session, languagePath, "Map", null, "map", "", "girlscouts/components/map", null));
 
 			pages.add(buildRepository(manager, session, languagePath, "events-repository", "", "Events Repository"));
 			pages.add(buildRepository(manager, session, languagePath, "contacts", "", "Contacts"));
@@ -76,36 +79,40 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		return pages;
 	}
 	
-	public ArrayList<Page> generateScaffolding(Session session, ResourceResolver rr, String councilName) throws GirlScoutsException {
-		ArrayList<Page> scaffoldings = new ArrayList<Page>();
+	public ArrayList<Node> generateScaffolding(Session session, ResourceResolver rr, String councilName) throws GirlScoutsException {
+		ArrayList<Node> scaffoldings = new ArrayList<Node>();
 		final String scaffoldingPath = "/etc/scaffolding";
 		final String scaffoldingPrototype = "girlscouts-prototype";
 		try {
-			PageManager manager = (PageManager) rr.adaptTo(PageManager.class);
-
 			Node scaffoldingFolder = session.getNode(scaffoldingPath);
 			Node councilFolder = buildFolder(scaffoldingFolder, councilName, null, "nt:folder", false);
-			
+
 			if(scaffoldingFolder.hasNode(scaffoldingPrototype)){
-			Resource prototype = rr.resolve(scaffoldingPath + "/" + scaffoldingPrototype);
+			Node n = session.getNode(scaffoldingPath + "/" + scaffoldingPrototype);
 			if(scaffoldingFolder.getNode(scaffoldingPrototype).hasNodes()){
-				Iterator<Resource> i = prototype.listChildren();
-				while(i.hasNext()){
-					Page scaffoldingType = (Page) i.next().adaptTo(Page.class);
-					String type = scaffoldingType.getName();
-					manager.copy(scaffoldingType, scaffoldingPath +  "/" + councilName, type, false, false);
+			NodeIterator i = n.getNodes();
+			while(i.hasNext()){
+				String type;
+				String targetPath;
+				Node scaffoldingNode = i.nextNode();
+				targetPath = scaffoldingNode.getNode("jcr:content").getProperty("cq:targetPath").getValue().getString();
+				type = scaffoldingNode.getName();
+				scaffoldingNode = JcrUtil.copy(scaffoldingNode, councilFolder, type);
+				targetPath = targetPath.replace(scaffoldingPrototype, councilName);
+				scaffoldingNode.getNode("jcr:content").setProperty("cq:targetPath", targetPath);
+				scaffoldings.add(scaffoldingNode);
+					}
 				}
 			}
-			}
-			LOG.error("SEKJFHWKEF");
 			session.save();
 		} catch (Exception e) {
 			LOG.error("Unable to create DAM Folders with stack trace : " + e.toString());
-		}
+			e.printStackTrace();
+	}
 		return scaffoldings;
 
-	}
-	
+}
+
 	public ArrayList<Node> generateDAMFolders(Session session, String path, String councilName, String councilTitle) throws GirlScoutsException {
 		ArrayList<Node> damNodes = new ArrayList<Node>();
 		try {
@@ -145,18 +152,17 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		ArrayList<Group> groupList = new ArrayList<Group>();
 		String homePath = "/home/groups";
 		try {
-			LOG.error("SJSHEFKJEFW");
 			UserManager manager = (UserManager) rr.adaptTo(UserManager.class);
 			Group councilAuthors = manager.createGroup(councilName + "-authors", councilName + "-authors", homePath + "/" + councilName);
 			Group councilReviewers = manager.createGroup(councilName + "-reviewers", councilName + "-reviewers", homePath + "/" + councilName);
 			groupList.add(councilAuthors);
 			groupList.add(councilReviewers);
-			Group c = (Group) manager.findByHome(homePath + "/girlscouts-usa/gs-authors");
-		c.addMember(councilAuthors);
-			LOG.error(c.getID());
-			LOG.error("SJSHEFKJEFW");
+			Group gsAuthors = (Group) manager.findByHome(homePath + "/girlscouts-usa/gs-authors");
+			gsAuthors.addMember(councilAuthors);
+			Group gsReviewers = (Group) manager.findByHome(homePath + "/girlscouts-usa/gs-reviewers");
+			gsReviewers.addMember(councilReviewers);
 			session.save();
-
+		
 		} catch(Exception e){
 			LOG.error(e.toString());
 		}
@@ -185,6 +191,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		}
 		return propertyMap;
 	}
+	
 	private Node buildFolder(Node node, String folderName, String folderTitle, String primaryType, boolean hasJcrNode) {
 		Node folderNode = null;
 		try {
@@ -205,46 +212,31 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		return folderNode;
 	}
 	
-	private Page buildPage(PageManager manager, Session session, String path, String title, String seoTitle, String pageName, String template, String resourceType) {
+	private Page buildPage(PageManager manager, Session session, String path, String title, String seoTitle, String pageName, String template, String resourceType, HashMap<String, String> propertyMap) {
 		Page returnPage = null;
 		try {
+
 			returnPage = manager.create(path, pageName, template, title);
+
 			Node jcrNode = session.getNode(returnPage.getPath() + "/jcr:content");
-			// Set sling:resourceType of the jcr:content of HomePage node
-			jcrNode.setProperty("sling:resourceType", resourceType);
-			if (seoTitle != null) {
-				jcrNode.setProperty("seoTitle", title);
-			}
-		} catch (WCMException e){
-			LOG.error("Cannot build page titled " + title + " " + e.toString());
-		} catch (Exception e){
-			e.printStackTrace();	
-			}
-		return returnPage;
-	}
-	
-	private Page buildPage(PageManager manager, Session session, String path, String title, String pageName, String template, String resourceType, HashMap<String, String> propertyMap) {
-		Page languagePage = null;
-		try {
-
-			languagePage = manager.create(path, pageName, "", title);
-
-			Node jcrNode = session.getNode(languagePage.getPath() + "/jcr:content");
 			// Set sling:resourceType of the jcr:content of HomePage node
 			if(resourceType != null || resourceType == ""){
 			jcrNode.setProperty("sling:resourceType", resourceType);
 			}
-			
-			if (!propertyMap.isEmpty()){
+			if (seoTitle != null || seoTitle == "") {
+				jcrNode.setProperty("seoTitle", seoTitle);
+			}
+			if (!propertyMap.isEmpty() || propertyMap != null){
 				for(Entry<String, String> map: propertyMap.entrySet()){
 					jcrNode.setProperty(map.getKey(), map.getValue());
 				}
 			}
-
+		}catch (WCMException e){
+				LOG.error("Cannot build page titled " + title + " " + e.toString());
 		} catch (Exception e) {
-			LOG.error("Cannot build page titled " + title + " " + e.toString());
-		}
-		return languagePage;
+e.printStackTrace();
+}
+		return returnPage;
 	}
 	
 	private Page buildRepository(PageManager manager, Session session, String languagePath, String pageName, String template, String title) {
