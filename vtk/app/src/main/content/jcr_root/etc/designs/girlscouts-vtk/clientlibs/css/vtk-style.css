@@ -149,8 +149,7 @@
   font-size: 0.875rem;
   margin-top: 1.13rem; }
 .vtk-body .inline-list {
-  margin-left: 0;
-  margin-top: 15px; }
+  margin: 0; }
   .vtk-body .inline-list#vtkSubNav {
     text-transform: uppercase; }
     .vtk-body .inline-list#vtkSubNav > li {
@@ -188,6 +187,42 @@
     border-color: #929292 transparent transparent transparent;
     margin-top: -3px;
     left: 6px; }
+.vtk-body #main .meeting_navigation {
+  background: #00ae58; }
+  .vtk-body #main .meeting_navigation * {
+    color: #fff;
+    font-size: 24px;
+    text-transform: uppercase;
+    margin-bottom: 0; }
+  .vtk-body #main .meeting_navigation p {
+    font-weight: 100; }
+  .vtk-body #main .meeting_navigation .column:first-child, .vtk-body #main .meeting_navigation .column:last-child {
+    position: static;
+    width: 10%; }
+  .vtk-body #main .meeting_navigation .column:nth-child(2) {
+    border-left: solid 1px #fff;
+    border-right: solid 1px #fff;
+    text-align: center;
+    padding: 10px 0;
+    width: 80%; }
+  .vtk-body #main .meeting_navigation .direction {
+    border: solid 1px transparent; }
+    .vtk-body #main .meeting_navigation .direction:before {
+      border-style: solid;
+      content: "";
+      border-width: 27px;
+      display: block;
+      position: absolute;
+      margin-top: -27px;
+      top: 50%; }
+    .vtk-body #main .meeting_navigation .direction.left:before {
+      border-color: transparent #fff transparent transparent;
+      left: 0; }
+    .vtk-body #main .meeting_navigation .direction.right:before {
+      border-color: transparent  transparent transparent #fff;
+      right: 0; }
+.vtk-body .crumbs .columns {
+  padding: 0; }
 
 .inline-list li:last-child {
   margin: 0; }

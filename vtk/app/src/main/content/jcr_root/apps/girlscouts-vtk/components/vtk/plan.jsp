@@ -16,11 +16,11 @@
 				if( troop.getYearPlan()!=null ) {
 						// split resource panel
 		%>
-		<div id="panelWrapper" class="row">
+		<div id="panelWrapper" class="row content">
 			<div class="columns">
 				<% } %>
 				<% if(troop.getYearPlan()!=null) { /*inline utility menu*/ %>
-					<div class="hide-for-small hide-for-print row">
+					<div class="hide-for-small hide-for-print row crumbs">
 						<div class="column large-20 medium-24 large-centered medium-centered">
 							<div class="row">
 								<div class="columns large-19">
