@@ -108,9 +108,9 @@ dragStart: function(e) {
     if(this.nodePlacement == "after") to++;
     data.splice(to, 0, data.splice(from, 1)[0]);
     this.setState({data: data});
-console.log("final");
-console.log( data);
-console.log( this.props)
+//console.log("final");
+//console.log( data);
+//console.log( this.props)
  xx(data);
   },
   dragOver: function(e) {
@@ -144,10 +144,11 @@ console.log( this.props)
   },
   render: function() {
     var commentNodes = this.props.data.map((function (comment ,i ) {
+	  
       return (
 		    		  	
-			        
-	    <%@include file="meetingActivity.jsp"%>
+			<%@include file="meetingActivity.jsp"%>
+	    
       );
 
     }).bind(this));
@@ -155,11 +156,27 @@ console.log( this.props)
       <ul onDragOver={this.dragOver}>
         {commentNodes}
       </ul>
+	  <div>total time: {this.props}</div>
     );
   }
 });
 
+var ActivityName = React.createClass({
+   
+    onClick: function() {
 
+		loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=mid%>&isAgenda='+(this.props.item.activityNumber-1), true, 'Agenda')
+
+ 
+    },
+    render: function() {
+        return (
+            <a href="#" onClick={this.onClick} className={this.props.selected ? "selected" : ""}>
+               {this.props.item.name}
+            </a>
+        );
+    }
+});
 
 
 
@@ -309,26 +326,56 @@ React.render(
 
 
 function xx(activities){
-console.log(1);
-console.log( YearPlan);
-console.log(this.props);
+//console.log(1);
+//console.log( YearPlan);
+//console.log(this.props);
 //alert( MeetingPlan.refId );
 	var yy='';
 	for( var x in activities ){
-		console.log( "*** "+ activities[x].activityNumber);
+		//console.log( "*** "+ activities[x].activityNumber);
 		yy+= activities[x].activityNumber +",";
 	} 
-console.log(yy);
+//console.log(yy);
 repositionActivity(thisMeetingRefId , yy);
 	
 }
+
 
 
 	
     </script>
     
     
-   
+
+	<a href="javascript:void(0)" onclick="loadModal('#newMeetingAgenda', true, 'Agenda', false);">Add Agenda Items</a>
+
+<div id="newMeetingAgenda" style="display:none;">
+
+       <h1>Add New Agenda Item</h1> 
+	
+	Enter Agenda Item Name:<br/>
+	<input type="text" id="newCustAgendaName" value=""/>
+	
+	<br/>Time Allotment:
+	<select id="newCustAgendaDuration">
+		<option value="5">5</option>
+		<option value="10">10</option>
+                <option value="15">15</option>
+		<option value="20">20</option>
+                <option value="25">25</option>
+		<option value="30">30</option>
+	</select>
+	
+	<%if( activSched.getTime() !=null && activSched.getTime().after(new java.util.Date("1/1/2000") ) ){ %>
+	 + (<%= activSched.getTime()%>)
+	 <%} %>
+	
+	<br/>Description:<textarea id="newCustAgendaTxt"></textarea>
+	<br/><br/>
+	<div class="linkButtonWrapper">
+		<input type="button" value="save" onclick="createCustAgendaItem1('<%=searchDate.getTime()%>', '<%=activSched.getTime().getTime()%>', '<%=meeting.getPath()%>')" class="button linkButton"/>
+	</div>
+
   </body>
 </html>
 

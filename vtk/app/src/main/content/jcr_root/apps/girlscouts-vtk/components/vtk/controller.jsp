@@ -87,6 +87,8 @@ try{
 			meetingUtil.rmAgenda(user, troop, request.getParameter("rmAgenda") , request.getParameter("mid")  );
 			return;
 		case EditAgendaDuration:
+			System.err.println("**" + Integer.parseInt(request.getParameter("editAgendaDuration")) +" : "+ 
+					request.getParameter("aid") +" : "+request.getParameter("mid"));
 			meetingUtil.editAgendaDuration(user, troop, Integer.parseInt(request.getParameter("editAgendaDuration")), 
 					request.getParameter("aid"),request.getParameter("mid"));
 			return;
