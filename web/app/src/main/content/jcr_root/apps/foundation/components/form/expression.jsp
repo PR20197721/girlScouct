@@ -8,6 +8,13 @@
 String getFormId(Node thisNode) {
     try {
 		Node parentNode = thisNode.getParent();
+
+		String parentResourceType = parentNode.getProperty("sling:resourceType").getString();
+        while(!parentResourceType.equals("foundation/components/parsys")){
+            parentNode = parentNode.getParent();
+			parentResourceType = parentNode.getProperty("sling:resourceType").getString();
+        }
+
 		NodeIterator iter = parentNode.getNodes();
 		String formId = null;
 		while (iter.hasNext()) {
