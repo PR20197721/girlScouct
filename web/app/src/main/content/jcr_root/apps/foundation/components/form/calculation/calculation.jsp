@@ -142,7 +142,7 @@
 		<script>
 			function func<%=rand%>() {
 				var result = <%= finalExpression %>;
-				if (isNaN(result)) {
+				if (isNaN(result) || !isFinite(result)) {
 					$('form#<%=formId%> input[name="<%=thisField%>"]').val('');
 				} else {
 					var tens = Math.pow(10, <%=accuracy%>);
