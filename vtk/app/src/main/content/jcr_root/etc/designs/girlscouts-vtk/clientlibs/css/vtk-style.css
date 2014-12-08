@@ -215,10 +215,10 @@
       position: absolute;
       margin-top: -27px;
       top: 50%; }
-    .vtk-body #main .meeting_navigation .direction.left:before {
+    .vtk-body #main .meeting_navigation .direction.prev:before {
       border-color: transparent #fff transparent transparent;
       left: 0; }
-    .vtk-body #main .meeting_navigation .direction.right:before {
+    .vtk-body #main .meeting_navigation .direction.next:before {
       border-color: transparent  transparent transparent #fff;
       right: 0; }
 .vtk-body .crumbs .columns {

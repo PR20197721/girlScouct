@@ -298,11 +298,11 @@
         margin-top: -27px;
         top: 50%;
       }
-      &.left:before {
+      &.prev:before {
         border-color: transparent #fff transparent transparent;
         left:0;
       }
-      &.right:before {
+      &.next:before {
         border-color: transparent  transparent transparent #fff;
         right:0;
       }
