@@ -3,7 +3,22 @@
 		<h1>{this.props.meetingTitle}</h1>
 		<div className="error">Location:{this.props.location}</div>
 		<div>Blurb:{this.props.blurb}</div>
+		<div>Meeting# {this.props.meetingId}</div>
+		
+		<div><a className="mLocked button linkButton" href="javascript:loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath='+thisMeetingPath+'&xx=<%=planView.getSearchDate().getTime()%>', false, null, true)">replace this meeting</a>
+		</div>
+			
         {this.props.children}
+        
+        
+     <a href="http://localhost:4503/content/girlscouts-vtk/en/vtk.rand.meeting.html?elem=<%=planView.getPrevDate()%>">NEXT</a>
+        || <a href="http://localhost:4503/content/girlscouts-vtk/en/vtk.rand.meeting.html?elem=<%=planView.getNextDate()%>">NEXT</a>
+     
+      
+      <hr/>
+        <a href="http://localhost:4503/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=planView.getPrevDate()%>">NEXT</a>
+        || <a href="http://localhost:4503/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=planView.getNextDate()%>">NEXT</a>
+     
       </div>
       
  

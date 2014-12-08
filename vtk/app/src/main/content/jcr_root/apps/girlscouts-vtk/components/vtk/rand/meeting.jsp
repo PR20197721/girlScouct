@@ -17,7 +17,7 @@
 
   <script src="http://fb.me/react-0.12.1.js"></script>
   <script src="http://fb.me/JSXTransformer-0.12.1.js"></script>
-     <script src="http://cdnjs.cloudflare.com/ajax/libs/react/0.12.1/react-with-addons.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/react/0.12.1/react-with-addons.js"></script>
  
   
   
@@ -40,6 +40,7 @@
     <script type="text/jsx">
 
 var thisMeetingRefId;
+var thisMeetingPath;
 var MeetingList = React.createClass({
  getInitialState: function() {
     return { show: false };
@@ -56,10 +57,12 @@ var MeetingList = React.createClass({
 
 if(comment.uid=='<%=mid%>'){
 	thisMeetingRefId	= comment.refId;
+	thisMeetingPath = comment.path;
       return (
         <YearPlan  item={comment} key={i} >
 			
 			<MeetingPlan uid={comment.uid} meetingTitle={comment.meetingInfo.name}
+				meetingId={comment.id}
 				location={comment.locationRef} blurb={comment.meetingInfo.meetingInfo["meeting short description"].str} />
 			<MeetingAssets data={comment.assets} />
 			<MeetingActivities data={comment.meetingInfo.activities} />
@@ -87,6 +90,7 @@ var placeholder = document.createElement("li");
 placeholder.className = "placeholder";
 
 var MeetingActivities = React.createClass({
+total: 0,
 dragStart: function(e) {
 
     this.dragged = e.currentTarget;
@@ -139,10 +143,18 @@ dragStart: function(e) {
   componentWillMount: function() {
     //setInterval(this.toggle, 1500);
   },
+	componentDidMount: function(){ 	
+		/*		
+			if( this.props.data!=null ){
+					this.total = xx1(this.props.data);
+			}
+		*/
+	},
   toggle: function() {
     this.setState({ show: !this.state.show });
   },
   render: function() {
+	this.total = xx1(this.props.data);
     var commentNodes = this.props.data.map((function (comment ,i ) {
 	  
       return (
@@ -153,10 +165,12 @@ dragStart: function(e) {
 
     }).bind(this));
     return (
+	<div>
       <ul onDragOver={this.dragOver}>
         {commentNodes}
       </ul>
-	  <div>total time: {this.props}</div>
+	 	total time: {this.total}
+	</div>
     );
   }
 });
@@ -342,12 +356,25 @@ repositionActivity(thisMeetingRefId , yy);
 
 
 
+function xx1(activities){
+	var total=0 ;
+	for( var x in activities ){	
+		var i = activities[x].duration ;
+		total += i;		
+	} 
+	return total;	
+}
+
+
 	
     </script>
     
+    <hr/>
+    <a href="javascript:void(0)" onclick="revertAgenda( thisMeetingPath )"  class="mLocked">Revert to Original Agenda</a>
+    <br/><br/>
     
+    	<a href="javascript:void(0)" onclick="loadModal('#newMeetingAgenda', true, 'Agenda', false);">Add Agenda Items</a>
 
-	<a href="javascript:void(0)" onclick="loadModal('#newMeetingAgenda', true, 'Agenda', false);">Add Agenda Items</a>
 
 <div id="newMeetingAgenda" style="display:none;">
 
@@ -366,16 +393,15 @@ repositionActivity(thisMeetingRefId , yy);
 		<option value="30">30</option>
 	</select>
 	
-	<%if( activSched.getTime() !=null && activSched.getTime().after(new java.util.Date("1/1/2000") ) ){ %>
-	 + (<%= activSched.getTime()%>)
-	 <%} %>
+	
 	
 	<br/>Description:<textarea id="newCustAgendaTxt"></textarea>
 	<br/><br/>
 	<div class="linkButtonWrapper">
-		<input type="button" value="save" onclick="createCustAgendaItem1('<%=searchDate.getTime()%>', '<%=activSched.getTime().getTime()%>', '<%=meeting.getPath()%>')" class="button linkButton"/>
+		<input type="button" value="save" onclick="createCustAgendaItem1('<%=planView.getSearchDate().getTime()%>', '1', thisMeetingPath)" class="button linkButton"/>
 	</div>
 
+    
   </body>
 </html>
 
