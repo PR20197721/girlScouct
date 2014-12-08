@@ -106,10 +106,11 @@
                     xtype="textfield"/>
                 <accuracy
                     jcr:primaryType="cq:Widget"
-                    fieldLabel="Accuracy"
-                    name="./precision"
-                    value="2"
+                    defaultValue="2"
                     fieldDescription="How many decimal digits"
+                    fieldLabel="Accuracy"
+                    name="./accuracy"
+                    value="2"
                     xtype="numberfield"/>
             </items>
         </expression>
