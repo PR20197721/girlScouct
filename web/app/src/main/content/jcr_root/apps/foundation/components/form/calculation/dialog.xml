@@ -104,6 +104,13 @@
                     fieldLabel="Expression"
                     name="./expression"
                     xtype="textfield"/>
+                <accuracy
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Accuracy"
+                    name="./precision"
+                    value="2"
+                    fieldDescription="How many decimal digits"
+                    xtype="numberfield"/>
             </items>
         </expression>
     </items>
