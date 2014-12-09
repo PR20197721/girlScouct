@@ -2,10 +2,40 @@
   <h6>meeting agenda</h6>
   <p>Select and agenda item to view details, edit duration and delete. Drag and drop to reorder.</p>
   <ul>
-   <li><span>3:30</span><a href="" title="Meeting Overview">Meeting Overview</a> <span>:10</span></li>
-   <li><span>3:30</span><a href="" title="Meeting Overview">Meeting Overview</a> <span>:10</span></li>
-   <li><span>3:30</span><a href="" title="Meeting Overview">Meeting Overview</a> <span>:10</span></li>
-   <li>
+  <li class="row">
+    <div class="large-3 medium-3 small-4 columns push-2">
+      <span>3:30</span>
+    </div>
+    <div class="large-17 columns push-1">
+      <a href="" title="Meeting Overview">Meeting Overview</a> 
+    </div>
+    <div class="large-3 columns">
+      <span>:10</span>
+    </div>
+  </li>
+  <li class="row">
+    <div class="large-3 medium-3 small-4 columns push-2">
+      <span>3:30</span>
+    </div>
+    <div class="large-17 columns push-1">
+      <a href="" title="Meeting Overview">Meeting Overview</a> 
+    </div>
+    <div class="large-3 columns">
+      <span>:10</span>
+    </div>
+  </li>
+  <li class="row">
+    <div class="large-3 medium-3 small-4 columns push-2">
+      <span>3:30</span>
+    </div>
+    <div class="large-17 columns push-1">
+      <a href="" title="Meeting Overview">Meeting Overview</a> 
+    </div>
+    <div class="large-3 columns">
+      <span>:10</span>
+    </div>
+  </li>
+   <li class="row">
      <a href="javascript:void(0)" onclick="loadModal('#newMeetingAgenda', true, 'Agenda', false);" title="Add meeting aids"><i class="icon-button-circle-plus"></i> Add Agenda Item</a>
    </li>
   </ul>
