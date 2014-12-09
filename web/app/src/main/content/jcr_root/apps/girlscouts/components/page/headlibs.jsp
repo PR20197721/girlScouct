@@ -37,7 +37,8 @@
 	String hideSignIn = currentSite.get("hideSignIn", "");
 %>
 	<script type="text/javascript">
-    	var fixVerticalSizing = true;
+	///the variable has to be set on the page where the resizing is needed not in the header.
+    	// var fixVerticalSizing = true;
 <%
     if (!hideSignIn.equalsIgnoreCase("true")) {
 %>

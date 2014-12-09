@@ -51,4 +51,5 @@
   <%@include file="include/meeting_planning.jsp"%>
   <%@include file="include/meeting_communication.jsp"%>
   <%@include file="include/meeting_aids.jsp"%>
+  <%@include file="include/meeting_agenda.jsp"%>
 </div>

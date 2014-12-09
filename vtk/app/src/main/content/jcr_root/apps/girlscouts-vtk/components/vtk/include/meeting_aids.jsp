@@ -10,7 +10,7 @@
       <p>art template</p>
     </li>
     <li>
-      <a onclick="loadModal('#newMeetingAgenda', true, 'Agenda', false);" title="Add meeting aids"><i class="icon-button-circle-plus"></i> Add Meeting Aids</a>
+      <a href="javascript:void(0)" onclick="loadModal('#newMeetingAgenda', true, 'Agenda', false);" title="Add meeting aids"><i class="icon-button-circle-plus"></i> Add Meeting Aids</a>
     </li>
   </ul>
 </section>
