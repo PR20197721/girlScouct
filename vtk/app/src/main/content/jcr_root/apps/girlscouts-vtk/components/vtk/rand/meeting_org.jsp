@@ -17,18 +17,13 @@
 
 
 
-  <!-- script src="http://fb.me/react-0.12.1.js"></script -->
-   <!--script src="http://fb.me/JSXTransformer-0.12.1.js"></script -->
-   <!--script src="http://cdnjs.cloudflare.com/ajax/libs/react/0.12.1/react-with-addons.js"></script -->
-   <!--script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script -->
+  <script src="http://fb.me/react-0.12.1.js"></script>
+  <script src="http://fb.me/JSXTransformer-0.12.1.js"></script>
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/react/0.12.1/react-with-addons.js"></script>
+ 
+  <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
   
-       <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-    <script src="http://fb.me/react-0.12.1.js"></script>
-   <script src="http://fb.me/JSXTransformer-0.12.1.js"></script>
-     <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
-  
+    
     
   <body>
   
@@ -42,9 +37,6 @@
 	  
   
   </style>
- <div id="testDiv"></div>
- <hr/>
- 
  
     <div id="content"></div>
     <script type="text/jsx">
@@ -69,7 +61,6 @@ if(comment.uid=='<%=mid%>'){
 	thisMeetingRefId	= comment.refId;
 	thisMeetingPath = comment.path;
       return (
-
         <YearPlan  item={comment} key={i} >
 			
 			<MeetingPlan uid={comment.uid} meetingTitle={comment.meetingInfo.name}
@@ -100,32 +91,73 @@ if(comment.uid=='<%=mid%>'){
 var placeholder = document.createElement("li");
 placeholder.className = "placeholder";
 
-
-
-
-
 var MeetingActivities = React.createClass({
 total: 0,
+dragStart: function(e) {
+console.log(1);
+    this.dragged = e.currentTarget;
+  	e.dataTransfer.effectAllowed = 'move';
+  console.log(2);
+    // Firefox requires dataTransfer data to be set
+   e.dataTransfer.setData("text/html", e.currentTarget);
+  },
+  dragEnd: function(e) {
+console.log( "dragEnd");
+    this.dragged.style.display = "block";
+    this.dragged.parentNode.removeChild(placeholder);
 
+    // Update data
+    var data = this.props.data;//this.state.data;
+    var from = Number(this.dragged.dataset.id);
+    var to = Number(this.over.dataset.id);
+    if(from < to) to--;
+    if(this.nodePlacement == "after") to++;
+    data.splice(to, 0, data.splice(from, 1)[0]);
+    this.setState({data: data});
+
+	 xx(data);
+  },
+  dragOver: function(e) {
+console.log( "dragOver");
+    e.preventDefault();
+    this.dragged.style.display = "none";
+    if(e.target.className == "placeholder") return;
+    this.over = e.target;
+    // Inside the dragOver method
+    var relY = e.clientY - this.over.offsetTop;
+    var height = this.over.offsetHeight / 2;
+    var parent = e.target.parentNode;
+    
+    if(relY > height) {
+      this.nodePlacement = "after";
+      parent.insertBefore(placeholder, e.target.nextElementSibling);
+    }
+    else if(relY < height) {
+      this.nodePlacement = "before"
+      parent.insertBefore(placeholder, e.target);
+    }
+  },
  getInitialState: function() {
     return { show: false };
   },
   componentWillMount: function() {
-    
+    //setInterval(this.toggle, 1500);
   },
 	componentDidMount: function(){ 	
-		
+		/*		
+			if( this.props.data!=null ){
+					this.total = xx1(this.props.data);
+			}
+		*/
 	},
   toggle: function() {
     this.setState({ show: !this.state.show });
   },
-  handleSort: function(newOrder) {
-          var newItems = newOrder.map(function(index) {
-            return this.props.data[index];
-          }.bind(this));
-          this.setState({data: newItems});
-        },
+	onDrag: function (){
+		console.log("dragging.... ");
+},
   render: function() {
+var onDrag = this.state.dragging ? this.onDrag : null;
 	this.total = xx1(this.props.data);
     var commentNodes = this.props.data.map((function (comment ,i ) {
 	  
@@ -138,9 +170,9 @@ total: 0,
     }).bind(this));
     return (
 	<div>
-      
+      <ul onDragOver={this.dragOver}>
         {commentNodes}
-
+      </ul>
 	 	total time: {this.total}
 	</div>
     );
@@ -302,86 +334,6 @@ var CommentBox = React.createClass({
 });
 
 
-	  function cloneWithProps(c) {
-        var newInstance = new c.constructor();
-        newInstance.construct(c.props);
-        return newInstance;
-      }
-
-
-
-
-
-      var SmartSortable = React.createClass({
-        getDefaultProps: function() {
-          return {component: React.DOM.ul, childComponent: React.DOM.li};
-        },
-
-        render: function() {
-          var component = this.props.component;
-console.log( this.props );
-console.log( this.props.component ); 
-console.log(this)
-
-          return  null;//this.transferPropsTo(<component />);
-
- 
-        },
-
-        componentDidMount: function() {
-          jQuery(this.getDOMNode()).sortable({stop: this.handleDrop});
-          this.getChildren().forEach(function(child, i) {
-            jQuery(this.getDOMNode()).append('<' + this.props.childComponent.componentConstructor.displayName + ' />');
-            var node = jQuery(this.getDOMNode()).children().last()[0];
-            node.dataset.reactSortablePos = i;
-            React.renderComponent(cloneWithProps(child), node);
-          }.bind(this));
-        },
-        componentDidUpdate: function() {
-          var childIndex = 0;
-          var nodeIndex = 0;
-          var children = this.getChildren();
-          var nodes = jQuery(this.getDOMNode()).children();
-          var numChildren = children.length;
-          var numNodes = nodes.length;
-
-          while (childIndex < numChildren) {
-            if (nodeIndex >= numNodes) {
-console.log(221);
-console.log(this.props)
-console.log(this.props.childComponent)
-              jQuery(this.getDOMNode()).append('<' + this.props.childComponent.componentConstructor.displayName + '/>');
-              nodes.push(jQuery(this.getDOMNode()).children().last()[0]);
-              nodes[numNodes].dataset.reactSortablePos = numNodes;
-              numNodes++;
-            }
-            React.renderComponent(cloneWithProps(children[childIndex]), nodes[nodeIndex]);
-            childIndex++;
-            nodeIndex++;
-          }
-          while (nodeIndex < numNodes) {
-            React.unmountComponentAtNode(nodes[nodeIndex]);
-            jQuery(nodes[nodeIndex]).remove();
-            nodeIndex++;
-          }
-        },
-        componentWillUnmount: function() {
-          jQuery(this.getDOMNode()).children().get().forEach(function(node) {
-            React.unmountComponentAtNode(node);
-          });
-        },
-        getChildren: function() {
-          return this.props.children || [];
-        },
-        handleDrop: function() {
-          var newOrder = jQuery(this.getDOMNode()).children().get().map(function(child, i) {
-            var rv = child.dataset.reactSortablePos;
-            child.dataset.reactSortablePos = i;
-            return rv;
-          });
-          this.props.onSort(newOrder);
-        }
-      });
 
 
 
@@ -418,33 +370,7 @@ function xx1(activities){
 }
 
 
-var App = React.createClass({
-        getInitialState: function() {
-          return {items: ['test 0', 'test 1', 'test 2'], counter: 3};
-        },
-        handleSort: function(newOrder) {
-          var newItems = newOrder.map(function(index) {
-            return this.state.items[index];
-          }.bind(this));
-          this.setState({items: newItems});
-        },
-        render: function() {
-          var items = this.state.items.map(function(item) {
-            return <li key={item}>{item}</li>;
-          });
-          return (
-            <div>
-             
-              <SmartSortable onSort={this.handleSort}>
-                {items}
-              </SmartSortable>
-             
-            </div>
-          );
-        }
-      });
-   React.renderComponent(<App />, document.getElementById('testDiv'));
-
+	
     </script>
     
     <hr/>

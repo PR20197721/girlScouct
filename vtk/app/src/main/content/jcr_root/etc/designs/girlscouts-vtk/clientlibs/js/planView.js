@@ -133,6 +133,8 @@ function durEditActiv(duration, activPath, meetingPath){
 }
 
 function revertAgenda(mid) {
+	console.log("MID: "+mid); 
+	
 	var x =$.ajax({ // ajax call starts
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=RevertAgenda&revertAgenda=true&mid='+ mid, // JQuery loads serverside.php
 		data: '', // Send value of the clicked button
