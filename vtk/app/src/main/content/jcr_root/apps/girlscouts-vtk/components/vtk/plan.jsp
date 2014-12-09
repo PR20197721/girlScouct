@@ -23,17 +23,17 @@
 					<div class="hide-for-small hide-for-print row crumbs">
 						<div class="column large-20 medium-24 large-centered medium-centered">
 							<div class="row">
-								<div class="columns large-19">
+								<div class="columns large-20">
 									<%	if( hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID ) ) { %>
-									<ul id="vtkSubNav" class="inline-list hide-for-print">
+									<ul id="sub-nav" class="inline-list hide-for-print">
 										<li><a href="#" onclick="newLocCal()" title="Metting Dates and Location">Meeting Dates and Locations</a></li>
 										<li><a href="#" onclick="doMeetingLib()" title="Add Meeting">Add Meeting</a></li>
 										<li><a href="#" onclick="newActivity()" title="Add Activity">Add Activity</a></li>
 									</ul>
 									<% } %>
 								</div>
-								<div class="large-5 columns">
-									<ul class="inline-list">
+								<div class="columns large-4">
+									<ul class="inline-list" id="util-links">
 										<li><a class="icon" onclick="self.location = 'c'" title="download plan"><i class="icon-download"></i></a></li>
 										<li><a class="icon" onclick="javascript:window.print()" title="print plan"><i class="icon-printer"></i></a></li>
 										<li><a class="icon" onclick="javascript:window.print()" title="help"><i class="icon-questions-answers"></i></a></li>
