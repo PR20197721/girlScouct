@@ -9,5 +9,8 @@
       <i class="icon-pdf-file-extension"><span></span></i><a href="" title="View Meeting Summary Email">View Meeting Summary Email</a>
       <p>art template</p>
     </li>
+    <li>
+      <a onclick="loadModal('#newMeetingAgenda', true, 'Agenda', false);" title="Add meeting aids"><i class="icon-button-circle-plus"></i> Add Meeting Aids</a>
+    </li>
   </ul>
 </section>
