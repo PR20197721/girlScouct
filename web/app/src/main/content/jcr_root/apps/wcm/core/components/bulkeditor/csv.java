@@ -9,7 +9,7 @@
  * accordance with the terms of the license agreement you entered into
  * with Day.
  */
-package libs.wcm.core.components.bulkeditor;
+package apps.wcm.core.components.bulkeditor;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -41,7 +41,7 @@ import com.day.text.XMLChar;
 /**
  * Servers as base for image servlets
  */
-public class tsv extends SlingAllMethodsServlet {
+public class csv extends SlingAllMethodsServlet {
     /**
      * Query clause
      */
@@ -59,7 +59,7 @@ public class tsv extends SlingAllMethodsServlet {
      */
     public static final String PROPERTIES_PARAM = "cols";
 
-    public static final String DEFAULT_SEPARATOR = "\t";
+    public static final String DEFAULT_SEPARATOR = ",";
 
     public static final String VALUE_DELIMITER = "\"";
 
@@ -98,11 +98,11 @@ public class tsv extends SlingAllMethodsServlet {
             //final String separator = (request.getParameter(SEPARATOR_PARAM)!=null ? request.getParameter(SEPARATOR_PARAM) : DEFAULT_SEPARATOR);
             final String separator = DEFAULT_SEPARATOR;
 
-            bw.write(tsv.valueParser(JcrConstants.JCR_PATH, separator));
+            bw.write(csv.valueParser(JcrConstants.JCR_PATH, separator));
             if (properties != null) {
                 for (String property : properties) {
                     property = property.trim();
-                    bw.write(separator + tsv.valueParser(property, separator));
+                    bw.write(separator + csv.valueParser(property, separator));
                 }
             }
 
@@ -112,14 +112,14 @@ public class tsv extends SlingAllMethodsServlet {
                 Row hit = hits.nextRow();
                 Node node = (Node) session.getItem(hit.getValue(JcrConstants.JCR_PATH).getString());
                 if (node != null) {
-                    bw.write(tsv.valueParser(hit.getValue(JcrConstants.JCR_PATH).getString(), separator));
+                    bw.write(csv.valueParser(hit.getValue(JcrConstants.JCR_PATH).getString(), separator));
                     if (properties != null) {
                         for (String property : properties) {
                             bw.write(separator);
                             property = property.trim();
                             if (node.hasProperty(property)) {
                                 Property prop = node.getProperty(property);
-                                bw.write(tsv.format(prop));
+                                bw.write(csv.format(prop));
                             }
                         }
                     }
@@ -132,7 +132,7 @@ public class tsv extends SlingAllMethodsServlet {
 
         // send string buffer
         bw.flush();
-        response.setContentType("text/tsv");
+        response.setContentType("text/csv");
         String encoding = request.getParameter(ENCODING_PARAM);
         response.setCharacterEncoding(StringUtils.isNotBlank(encoding) ? encoding : CHARACTER_ENCODING);
         response.getWriter().print(buf.getBuffer().toString());
