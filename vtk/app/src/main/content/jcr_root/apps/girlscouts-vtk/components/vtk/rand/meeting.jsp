@@ -51,12 +51,12 @@
 
 var thisMeetingRefId;
 var thisMeetingPath;
+
 var MeetingList = React.createClass({
  getInitialState: function() {
     return { show: false };
   },
   componentWillMount: function() {
-    //setInterval(this.toggle, 1500);
   },
   toggle: function() {
     this.setState({ show: !this.state.show });
@@ -76,8 +76,8 @@ if(comment.uid=='<%=mid%>'){
 				meetingId={comment.id}
 				location={comment.locationRef} blurb={comment.meetingInfo.meetingInfo["meeting short description"].str} />
 			<MeetingAssets data={comment.assets} />
-			<MeetingActivities data={comment.meetingInfo.activities} />
-
+			
+			<SortableList1 items={comment.meetingInfo.activities}/>
         </YearPlan>
 
       );
@@ -119,33 +119,31 @@ total: 0,
   toggle: function() {
     this.setState({ show: !this.state.show });
   },
-  handleSort: function(newOrder) {
-          var newItems = newOrder.map(function(index) {
-            return this.props.data[index];
-          }.bind(this));
-          this.setState({data: newItems});
-        },
+
+onReorder: function (order) {
+
+this.setState(this.props.data);
+		//this.setState({data: order});
+console.log(12);		
+console.log(order);
+	},
+
   render: function() {
-	this.total = xx1(this.props.data);
-    var commentNodes = this.props.data.map((function (comment ,i ) {
+	//this.total = xx1(this.props.data);
+    //var commentNodes = this.props.data.map((function (comment ,i ) {
 	  
-      return (
-		    		  	
-			<%@include file="meetingActivity.jsp"%>
-	    
-      );
+console.log(11);
+console.log(this.props.data);
 
-    }).bind(this));
-    return (
-	<div>
-      
-        {commentNodes}
+	return <SortableListItems items={this.props.data} onReorder={this.onReorder}/>;
+    // return (<!-- %@include file="meetingActivity.jsp"% -->);
+	
 
-	 	total time: {this.total}
-	</div>
-    );
   }
 });
+
+
+
 
 var ActivityName = React.createClass({
    
@@ -312,78 +310,6 @@ var CommentBox = React.createClass({
 
 
 
-      var SmartSortable = React.createClass({
-        getDefaultProps: function() {
-          return {component: React.DOM.ul, childComponent: React.DOM.li};
-        },
-
-        render: function() {
-          var component = this.props.component;
-console.log( this.props );
-console.log( this.props.component ); 
-console.log(this)
-
-          return  null;//this.transferPropsTo(<component />);
-
- 
-        },
-
-        componentDidMount: function() {
-          jQuery(this.getDOMNode()).sortable({stop: this.handleDrop});
-          this.getChildren().forEach(function(child, i) {
-            jQuery(this.getDOMNode()).append('<' + this.props.childComponent.componentConstructor.displayName + ' />');
-            var node = jQuery(this.getDOMNode()).children().last()[0];
-            node.dataset.reactSortablePos = i;
-            React.renderComponent(cloneWithProps(child), node);
-          }.bind(this));
-        },
-        componentDidUpdate: function() {
-          var childIndex = 0;
-          var nodeIndex = 0;
-          var children = this.getChildren();
-          var nodes = jQuery(this.getDOMNode()).children();
-          var numChildren = children.length;
-          var numNodes = nodes.length;
-
-          while (childIndex < numChildren) {
-            if (nodeIndex >= numNodes) {
-console.log(221);
-console.log(this.props)
-console.log(this.props.childComponent)
-              jQuery(this.getDOMNode()).append('<' + this.props.childComponent.componentConstructor.displayName + '/>');
-              nodes.push(jQuery(this.getDOMNode()).children().last()[0]);
-              nodes[numNodes].dataset.reactSortablePos = numNodes;
-              numNodes++;
-            }
-            React.renderComponent(cloneWithProps(children[childIndex]), nodes[nodeIndex]);
-            childIndex++;
-            nodeIndex++;
-          }
-          while (nodeIndex < numNodes) {
-            React.unmountComponentAtNode(nodes[nodeIndex]);
-            jQuery(nodes[nodeIndex]).remove();
-            nodeIndex++;
-          }
-        },
-        componentWillUnmount: function() {
-          jQuery(this.getDOMNode()).children().get().forEach(function(node) {
-            React.unmountComponentAtNode(node);
-          });
-        },
-        getChildren: function() {
-          return this.props.children || [];
-        },
-        handleDrop: function() {
-          var newOrder = jQuery(this.getDOMNode()).children().get().map(function(child, i) {
-            var rv = child.dataset.reactSortablePos;
-            child.dataset.reactSortablePos = i;
-            return rv;
-          });
-          this.props.onSort(newOrder);
-        }
-      });
-
-
 
 React.render(
 <CommentBox url="/content/girlscouts-vtk/controllers/vtk.controller.html?reactjs=asdf" pollInterval={2000} />,
@@ -418,32 +344,104 @@ function xx1(activities){
 }
 
 
-var App = React.createClass({
-        getInitialState: function() {
-          return {items: ['test 0', 'test 1', 'test 2'], counter: 3};
-        },
-        handleSort: function(newOrder) {
-          var newItems = newOrder.map(function(index) {
-            return this.state.items[index];
-          }.bind(this));
-          this.setState({items: newItems});
-        },
-        render: function() {
-          var items = this.state.items.map(function(item) {
-            return <li key={item}>{item}</li>;
-          });
-          return (
-            <div>
-             
-              <SmartSortable onSort={this.handleSort}>
-                {items}
-              </SmartSortable>
-             
-            </div>
-          );
-        }
-      });
-   React.renderComponent(<App />, document.getElementById('testDiv'));
+
+
+
+var SortableList = React.createClass({
+	getInitialState: function() {
+		return {
+			items: this.props.items 
+		};
+	},
+
+	onReorder: function (order) {
+		this.setState({items: order});
+console.log(order);
+	},
+
+	render: function () {
+		return <SortableListItems items={this.state.items} onReorder={this.onReorder}/>;
+	}
+});
+
+var SortableListItems = React.createClass({
+ 	render: function() {
+        return <ul>
+        	{this.props.items.map(function(item) {
+        		return <li id={item}>
+                   {item}
+                </li>;
+        	})}
+        </ul>;
+    },
+    componentDidMount: function() {
+    	var dom = $(this.getDOMNode());
+    	var onReorder = this.props.onReorder;
+        dom.sortable({
+        	stop: function (event, ui) {
+        		var order = dom.sortable("toArray", {attribute: "id"});
+        		dom.sortable("cancel");
+console.log( order );
+        		onReorder(order);
+        	}
+        });
+    }
+});
+
+
+
+
+var SortableList1 = React.createClass({
+	getInitialState: function() {
+		return {
+			items: this.props.items 
+		};
+	},
+
+	onReorder: function (order) {
+console.log(143)
+		this.setState({items: order});
+console.log(order);
+	},
+
+	render: function () {
+		return <SortableListItems1 items={this.state.items} onReorder={this.onReorder}/>;
+	}
+});
+
+
+var SortableListItems1 = React.createClass({
+ 	render: function() {
+
+        return <ul>
+        	{this.props.items.map(function(item) {
+        		return <li id={item.activityNumber}>
+                   {item} * {item.activityNumber} * {item.duration}
+                </li>;
+        	})}
+        </ul>;
+    },
+    componentDidMount: function() {
+    	var dom = $(this.getDOMNode());
+    	var onReorder = this.props.onReorder;
+        dom.sortable({
+        	stop: function (event, ui) {
+        		var order = dom.sortable("toArray" );
+        		dom.sortable("cancel");
+        		onReorder(order);
+        	}
+        });
+    }
+});
+
+
+
+React.renderComponent(<SortableList items={['item 1', 'item 222', 'item 4']}/>, document.getElementById('testDiv'));
+
+
+
+
+
 
     </script>
     

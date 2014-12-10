@@ -2,15 +2,25 @@
 <html>
   <head>
     
+    
+  <script src="http://fb.me/react-0.12.1.js"></script>
+  <script src="http://fb.me/JSXTransformer-0.12.1.js"></script>
+ 
+  
+  
+    
+    
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-    <script src="http://fb.me/react-0.5.1.js"></script>
-    <script src="http://fb.me/JSXTransformer-0.5.1.js"></script>
+    <!--  script src="http://fb.me/react-0.5.1.js"></script -->
+    <!--  script src="http://fb.me/JSXTransformer-0.5.1.js"></script -->
      <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
   </head>
   <body>
   <h1>222</h1>
+  <div id="testStatic">Here1</div>
+  
     <script type="text/jsx">
       /** @jsx React.DOM */
 
@@ -35,7 +45,7 @@
 
         render: function() {
           var component = this.props.component;
-          return this.transferPropsTo(<component />);
+          return null;//this.transferPropsTo(<component />);
         },
 
         componentDidMount: function() {
@@ -122,7 +132,7 @@
         }
       });
 
-      React.renderComponent(<App />, document.body);
+      React.renderComponent(<App />, document.getElementById('testStatic'));
     </script>
   </body>
 </html>
