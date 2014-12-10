@@ -78,7 +78,7 @@ function getNewActivitySetup() {
 
 function repositionActivity(meetingPath,newVals ){
 	//-var newVals = getNewActivitySetup();
-	
+console.log(1);	
 	var x =$.ajax({ // ajax call starts
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=RearrangeActivity&mid='+meetingPath+'&isActivityCngAjax='+ newVals, // JQuery loads serverside.php
 		data: '', // Send value of the clicked button

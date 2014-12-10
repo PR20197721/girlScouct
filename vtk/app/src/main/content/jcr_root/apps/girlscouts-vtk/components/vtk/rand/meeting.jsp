@@ -77,7 +77,7 @@ if(comment.uid=='<%=mid%>'){
 				location={comment.locationRef} blurb={comment.meetingInfo.meetingInfo["meeting short description"].str} />
 			<MeetingAssets data={comment.assets} />
 			
-			<SortableList1 items={comment.meetingInfo.activities}/>
+			<SortableList1 data={comment.meetingInfo.activities}/>
         </YearPlan>
 
       );
@@ -392,33 +392,88 @@ console.log( order );
 
 
 var SortableList1 = React.createClass({
+
+
+
 	getInitialState: function() {
+		/*
 		return {
 			items: this.props.items 
+
 		};
+		*/
+ return { show: false };
 	},
 
 	onReorder: function (order) {
-console.log(143)
-		this.setState({items: order});
+		//this.setState({items: order});
 console.log(order);
+
+
+// Update data1
+    var data = this.props.data;
+
+console.log(data);
+
+	var newData = new Array();
+	//for( var x in order ){
+	for(var i=0; i <order.length;i++){//
+		console.log("__ "+ order[i]);
+		newData[i] = data[order[i]];
+	}
+
+
+
+/*
+    for( var x in data ){	
+		var i = data[x].activityNumber ;
+		console.log("** "+i);	
+	} 
+*/
+   this.setState({data: newData});
+
+
 	},
 
-	render: function () {
-		return <SortableListItems1 items={this.state.items} onReorder={this.onReorder}/>;
+
+ render: function () {
+
+
+		return <SortableListItems1  data={this.props.data} onReorder={this.onReorder}/>;
 	}
 });
 
 
 var SortableListItems1 = React.createClass({
- 	render: function() {
 
-        return <ul>
-        	{this.props.items.map(function(item) {
-        		return <li id={item.activityNumber}>
-                   {item} * {item.activityNumber} * {item.duration}
+
+
+render: function() {
+
+
+ 		return <ul>
+        	{this.props.data.map(function(item, i) {
+        		return <li id={item.activityNumber} >
+                   {item.name}
                 </li>;
         	})}
+        </ul>;
+
+
+    
+  },
+
+
+
+ 	render123: function() {
+
+        return <ul>
+        	{this.props.items.map((function(item, i) {
+        		return <li key={i} >
+                   {item.name}**
+                </li>;
+        	}).bind(this))
+	}
         </ul>;
     },
     componentDidMount: function() {
@@ -426,17 +481,40 @@ var SortableListItems1 = React.createClass({
     	var onReorder = this.props.onReorder;
         dom.sortable({
         	stop: function (event, ui) {
-        		var order = dom.sortable("toArray" );
+        		var order = dom.sortable("toArray", {attribute: "id"});
         		dom.sortable("cancel");
+console.log( order );
         		onReorder(order);
+var yy  = order.toString().replace('"','');
+console.log( yy );
+//repositionActivity1(thisMeetingRefId , yy);
+
+
+
+    
+
         	}
-        });
+        });	
     }
 });
 
 
 
-React.renderComponent(<SortableList items={['item 1', 'item 222', 'item 4']}/>, document.getElementById('testDiv'));
+function repositionActivity1(meetingPath,newVals ){
+	//-var newVals = getNewActivitySetup();
+console.log(1);	
+	var x =$.ajax({ // ajax call starts
+		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=RearrangeActivity&mid='+meetingPath+'&isActivityCngAjax='+ newVals, // JQuery loads serverside.php
+		data: '', // Send value of the clicked button
+		dataType: 'html', // Choosing a JSON datatype
+		success: function (data) { 
+			//location.reload();
+		},
+		error: function (data) { 
+		}
+	});
+} 
+React.renderComponent(<SortableList  items={['item 1', 'item 222', 'item 4']}/>, document.getElementById('testDiv'));
 
 
 
