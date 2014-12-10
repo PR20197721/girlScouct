@@ -396,13 +396,9 @@ var SortableList1 = React.createClass({
 
 
 	getInitialState: function() {
-		/*
-		return {
-			items: this.props.items 
-
-		};
-		*/
- return { show: false };
+		
+ 		 //return { show: false };
+		 return {data: this.props.data};
 	},
 
 	onReorder: function (order) {
@@ -410,36 +406,36 @@ var SortableList1 = React.createClass({
 console.log(order);
 
 
-// Update data1
+
     var data = this.props.data;
-
 console.log(data);
-
 	var newData = new Array();
-	//for( var x in order ){
-	for(var i=0; i <order.length;i++){//
-		console.log("__ "+ order[i]);
-		newData[i] = data[order[i]];
+	
+	for(var i=0; i <order.length;i++){
+		var pos = order[i];
+		console.log("__ "+ pos);
+		newData[i] = data[pos-1];
 	}
 
-
+console.log(newData)
+   this.setState({data: newData});
+this.props.data = newData;
 
 /*
-    for( var x in data ){	
-		var i = data[x].activityNumber ;
-		console.log("** "+i);	
-	} 
+this.setProps({
+            data: newData
+        });
 */
-   this.setState({data: newData});
-
-
+React.render(
+<CommentBox url="/content/girlscouts-vtk/controllers/vtk.controller.html?reactjs=asdf" pollInterval={2000} />,
+  document.getElementById('content')
+);
 	},
-
 
  render: function () {
 
 
-		return <SortableListItems1  data={this.props.data} onReorder={this.onReorder}/>;
+		return <SortableListItems1  data={this.props.data}  onReorder={this.onReorder}/>;
 	}
 });
 
@@ -452,11 +448,14 @@ render: function() {
 
 
  		return <ul>
-        	{this.props.data.map(function(item, i) {
+        	{this.props.data.map((function(item, i) {
         		return <li id={item.activityNumber} >
                    {item.name}
                 </li>;
-        	})}
+        	}).bind(this))
+}
+
+		
         </ul>;
 
 
@@ -480,15 +479,17 @@ render: function() {
     	var dom = $(this.getDOMNode());
     	var onReorder = this.props.onReorder;
         dom.sortable({
+revert: 5000,
+
         	stop: function (event, ui) {
         		var order = dom.sortable("toArray", {attribute: "id"});
         		dom.sortable("cancel");
 console.log( order );
         		onReorder(order);
+
 var yy  = order.toString().replace('"','');
 console.log( yy );
-//repositionActivity1(thisMeetingRefId , yy);
-
+repositionActivity1(thisMeetingRefId , yy);
 
 
     
