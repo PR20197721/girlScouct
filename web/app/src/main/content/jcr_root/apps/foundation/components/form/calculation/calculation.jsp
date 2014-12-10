@@ -137,13 +137,16 @@
 
 		String thisField = properties.get("name", "");
 		String rand = Integer.toString(new Double(Math.random()*1000000).intValue());
+		String accuracy = properties.get("accuracy", "2");
 		%>
 		<script>
 			function func<%=rand%>() {
 				var result = <%= finalExpression %>;
-				if (isNaN(result)) {
+				if (isNaN(result) || !isFinite(result)) {
 					$('form#<%=formId%> input[name="<%=thisField%>"]').val('');
 				} else {
+					var tens = Math.pow(10, <%=accuracy%>);
+					result = Math.round(result*tens)/tens;
 					$('form#<%=formId%> input[name="<%=thisField%>"]').val(result);
 				}
 			}

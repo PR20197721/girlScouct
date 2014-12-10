@@ -27,6 +27,11 @@
                     inputValue="true"
                     name="./readOnly"
                     xtype="checkbox"/>
+                <value
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Prefix"
+                    name="./prefix"
+                    xtype="textfield"/>
             </items>
         </first>
         <second
