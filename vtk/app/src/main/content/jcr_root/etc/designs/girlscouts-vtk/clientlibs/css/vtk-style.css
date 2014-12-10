@@ -243,6 +243,8 @@
     .vtk-body #main .meeting-detail section ul li {
       margin-bottom: 20px;
       padding-bottom: 0; }
+      .vtk-body #main .meeting-detail section ul li a {
+        font-weight: 700; }
   .vtk-body #main .meeting-detail section i {
     font-size: 27px;
     position: relative;
@@ -284,6 +286,23 @@
       margin: 0 20px; }
     .vtk-body #main .meeting-detail .crumbs .columns #util-links.inline-list li:last-child {
       float: right; }
+.vtk-body #main .meeting-detail .wrapper {
+  position: relative;
+  background-color: #f6f6f6;
+  padding: 20px 0; }
+  .vtk-body #main .meeting-detail .wrapper:before {
+    background: url("images/throbber.png") repeat-y white;
+    content: '';
+    height: 100%;
+    width: 15px;
+    position: absolute;
+    left: 0;
+    cursor: move;
+    top: 0;
+    border-right: 5px white solid;
+    display: block; }
+  .vtk-body #main .meeting-detail .wrapper a {
+    font-weight: 100; }
 
 .inline-list li:last-child {
   margin: 0; }

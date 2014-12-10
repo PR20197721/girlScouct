@@ -333,6 +333,9 @@
         li {
           margin-bottom:20px;
           padding-bottom:0;
+          a {
+            font-weight: 700;
+          }
         }
       }
     //experiment
@@ -388,6 +391,26 @@
             float:right;
           }
         }
+      }
+    }
+    .wrapper {
+      position: relative;
+      background-color: #f6f6f6;
+      padding: 20px 0;
+      &:before {
+        background: url("images/throbber.png") repeat-y #fff;
+        content: '';
+        height: 100%;
+        width: 15px;
+        position: absolute;
+        left: 0;
+        cursor: move;
+        top: 0;
+        border-right: 5px white solid;
+        display: block;
+      }
+      a {
+        font-weight: 100;
       }
     }
   }
