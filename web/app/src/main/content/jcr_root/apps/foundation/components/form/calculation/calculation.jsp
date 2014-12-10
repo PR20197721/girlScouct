@@ -46,6 +46,7 @@
     }
 
     String title = i18n.getVar(FormsHelper.getTitle(resource, "Text"));
+    String prefix = properties.get("prefix", "");
 
     if (multiValued && !readOnly) {
         %><%@include file="multivalue.jsp"%><%
@@ -61,7 +62,7 @@
         <div class="form_rightcol" id="<%= xssAPI.encodeForHTMLAttr(name) %>_rightcol"><%
             int i = 0;
             for (String value : values) {
-                %><div id="<%= xssAPI.encodeForHTMLAttr(name) %>_<%= i %>_wrapper" class="form_rightcol_wrapper"><%
+                %><div id="<%= xssAPI.encodeForHTMLAttr(name) %>_<%= i %>_wrapper" class="form_rightcol_wrapper"><%=prefix%><%
                 if (readOnly) {
                     if (value.length() == 0) {
                         // at least display a space otherwise layout may break
