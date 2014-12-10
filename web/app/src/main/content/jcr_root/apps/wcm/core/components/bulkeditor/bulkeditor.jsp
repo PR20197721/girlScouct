@@ -128,7 +128,7 @@
         //config
         String queryURL = "/etc/importers/bulkeditor/query.json";
         String importURL = "/etc/importers/bulkeditor/import";
-        String exportURL = "/etc/importers/bulkeditor/export.tsv";
+        String exportURL = "/etc/importers/bulkeditor/export.csv";
         String renderTo = "cq-bulkeditor";
 
 
