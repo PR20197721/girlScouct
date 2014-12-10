@@ -245,6 +245,8 @@
       padding-bottom: 0; }
       .vtk-body #main .meeting-detail section ul li a {
         font-weight: 700; }
+        .vtk-body #main .meeting-detail section ul li a.view {
+          font-weight: 100; }
   .vtk-body #main .meeting-detail section i {
     font-size: 27px;
     position: relative;

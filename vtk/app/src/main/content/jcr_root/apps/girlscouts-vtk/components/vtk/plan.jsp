@@ -6,7 +6,7 @@
 <%@include file="include/session.jsp"%>
 
 <div id="errInfo"></div>
-
+<script>var fixVerticalSizing = false;</script>
 <%!String activeTab = "plan";
 	boolean showVtkNav = true;%>
 <%@include file="include/vtk-nav.jsp"%>
@@ -97,7 +97,6 @@
 							loadMeetings();
 						});
 					</script>
-					
 					<%
 						}
 					%>

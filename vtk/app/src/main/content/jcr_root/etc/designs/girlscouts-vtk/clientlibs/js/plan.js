@@ -1,6 +1,7 @@
 function loadMeetings(){
+	var fixVerticalSizing = false;
 	var url = '/content/girlscouts-vtk/controllers/vtk.meetingInclude.html';
-	$("#yearPlanMeetings").load(url);
+	$("#yearPlanMeetings").load(url)
 }	
 
 function x(planId, planPath, confirmMsg, planName) {	

@@ -335,6 +335,9 @@
           padding-bottom:0;
           a {
             font-weight: 700;
+            &.view {
+              font-weight: 100;
+            }
           }
         }
       }

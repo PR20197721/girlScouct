@@ -190,6 +190,7 @@
 </style>
 
 <script>
+
 	function x12(xx, ttl, id) {
 
 		var y = document.getElementById('ifr');

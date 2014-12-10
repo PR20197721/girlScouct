@@ -1,6 +1,7 @@
   //seems to be only used in VTK sections
   var resizeWindow = function(){
-    if(fixVerticalSizing) {
+    //make sure fixVertical is defined.
+   if(typeof fixVerticalSizing != 'undefined' && fixVerticalSizing === true) {
       //get height of the actual page
       var currentMainHeight = $('.inner-wrap').height();
       //get the height of the window
@@ -12,10 +13,10 @@
         $('.vtk-body #main .row.content').css('padding-bottom',targetMainHeight + "px");
         $('#main.content').css('padding-bottom',targetMainHeight + "px");
       }
-    }
+   }
   };
     $(window).load(function(){
-      resizeWindow();
+        resizeWindow(); 
     })
   $( window ).resize(function() {
      //first remove the padding added after reload.
