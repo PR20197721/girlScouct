@@ -554,7 +554,7 @@ Troop x= (Troop)session.getAttribute("VTK_troop");
 		System.err.println("IsCng: "+isCng);
 	
 	 
-	if( isFirst || isCng){	
+	if( true) {//isFirst || isCng){	
 		
 		System.err.println("\n\n\n\n >>>>>>>>>>>>>>>>>>>>>>>REFRESH....reactjs");
 		org.girlscouts.vtk.salesforce.Troop prefTroop = apiConfig.getTroops().get(0);

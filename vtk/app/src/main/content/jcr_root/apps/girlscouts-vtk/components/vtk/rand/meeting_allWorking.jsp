@@ -68,38 +68,6 @@ var MeetingList = React.createClass({
 if(comment.uid=='<%=mid%>'){
 	thisMeetingRefId	= comment.refId;
 	thisMeetingPath = comment.path;
-
-
-
-
-/*
-for(var i=0;i<activ.length;i++){
-	activ[i].name = "A"+activ[i].name;
-}
-*/
-
-/*
-var activ = comment.meetingInfo.activities;
-console.log("sort");
-	var newData = new Array();	
-	for(var i=0; i <activ.length;i++){
-		var pos = activ[i];
-
-		//pos.name="X"+ pos.name;
-		//newData[ (pos.activityNumber-1) ] = pos;
-
-		var newObject= jQuery.extend(true, {}, pos);
-		//newObject.name= "X"+activ[i].name;
-		newObject.name= activ[i].name;		
-
-		newData[ (pos.activityNumber-1) ] = newObject;
-	}
-console.log(newData);
-comment.meetingInfo.activities= newData;
-*/
-
-
-
       return (
 
         <YearPlan  item={comment} key={i} >
@@ -215,14 +183,9 @@ var MeetingAssets = React.createClass({
 
     });
     return (
-      <section class="column large-20 medium-20 large-centered medium-centered">
-  		<h6>meeting aids</h6>
-  			<ul class="large-block-grid-2">
-        		{commentNodes}
-			</ul>
-		
-	 </section>  
-      
+      <ul>
+        {commentNodes}
+      </ul>
     );
   }
 });
@@ -349,10 +312,9 @@ var CommentBox = React.createClass({
 
 
 React.render(
-<CommentBox url="/content/girlscouts-vtk/controllers/vtk.controller.html?reactjs=asdf" pollInterval={10000} />,
+<CommentBox url="/content/girlscouts-vtk/controllers/vtk.controller.html?reactjs=asdf" pollInterval={2000} />,
   document.getElementById('content')
 );
-
 
 
 function xx(activities){
@@ -436,37 +398,34 @@ var SortableList1 = React.createClass({
 	getInitialState: function() {
 		
  		 return { show: false };
-		//return {data: this.props.data};
+		//* return {data: this.props.data};
 	},
 
-
-
 	onReorder: function (order) {
-
+		//this.setState({items: order});
+console.log(order);
+console.log(11111)
 
 
     var data = this.props.data;
-
+console.log(data);
 	var newData = new Array();
 	
 	for(var i=0; i <order.length;i++){
 		var pos = order[i];
 		console.log("__ "+ pos);
 		newData[i] = data[pos-1];
-		newData[i].activityNumber = (i+1);
 	}
-    console.log("newDaaa");
-	console.log( newData);
-    this.setState({data: newData});
-this.forceUpdate();
 
+console.log(newData)
+   this.setState({data: newData});
+this.props.data = newData;
 
-React.renderComponent(
-<CommentBox url="/content/girlscouts-vtk/controllers/vtk.controller.html?reactjs=asdf" pollInterval={10000} />,
-  document.getElementById('content')
-);
-
-
+/*
+this.setProps({
+            data: newData
+        });
+*/
 
 	},
 
@@ -487,27 +446,11 @@ var SortableListItems1 = React.createClass({
 
 render: function() {
 
-/*
-var activ= this.props.data;
-var newData = new Array();	
-	for(var i=0; i <activ.length;i++){
-		var pos = activ[i];
-pos.name= (pos.activityNumber-1) +  " : " + pos.name;
-console.log(pos.name+" : "+i +" : " +pos.activityNumber)
-
-		newData[ (pos.activityNumber-1) ] = pos;
-//if( i>1) break;
-	}
-var g1= newData;
-console.log("g1");
-console.log(g1)
-*/
-
 
  		return <ul>
         	{this.props.data.map((function(item, i) {
         		return <li id={item.activityNumber} >
-                   * {item.activityNumber} * {item.name} * {item.duration}
+                   {item.activityNumber} * {item.name} * {item.duration}
                 </li>;
         	}).bind(this))
 }
@@ -541,8 +484,8 @@ var yy  = order.toString().replace('"','');
 console.log( yy );
 repositionActivity1(thisMeetingRefId , yy);
 
-onReorder(order);
-  
+
+   
 
         	}
         });	
@@ -559,7 +502,7 @@ console.log(1);
 		data: '', // Send value of the clicked button
 		dataType: 'html', // Choosing a JSON datatype
 		success: function (data) { 
-			location.reload();
+			//location.reload();
 		},
 		error: function (data) { 
 		}
