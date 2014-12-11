@@ -187,6 +187,15 @@ public class csv extends SlingAllMethodsServlet {
                 String strValue = ValueHelper.serialize(prop.getValue(), false);
                 escape(attrValue, strValue, false);
             }
+            String strValue = attrValue.toString();
+            if (strValue.contains(",")) {
+                strValue = strValue.replace("\"", "\"\"");
+                strValue = "\"" + strValue + "\"";
+            }
+            if (strValue.isEmpty()) {
+                strValue = "\"\"";
+            }
+            return strValue;
         }
         return attrValue.toString();
     }
