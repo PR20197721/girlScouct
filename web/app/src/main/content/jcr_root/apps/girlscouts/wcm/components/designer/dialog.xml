@@ -72,6 +72,13 @@
                                 value="/etc/designs/girlscouts/css/nav/green.css"/>
                         </options>
                     </nav>
+                    <headerimage
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}true"
+                        fieldLabel="Header Image"
+                        name="./headerImage"
+                        rootPath="/content/dam"
+                        xtype="pathfield"/>
                 </items>
             </tab1>
         </items>
