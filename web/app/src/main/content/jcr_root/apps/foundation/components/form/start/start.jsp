@@ -18,6 +18,7 @@
 --%><%@include file="/libs/foundation/global.jsp"%>
 <%
 %><%@ page import="com.day.cq.wcm.foundation.forms.ValidationInfo,
+                 com.day.cq.wcm.api.WCMMode,
                  com.day.cq.wcm.foundation.forms.FormsConstants,
                  com.day.cq.wcm.foundation.forms.FormsHelper,
                  org.apache.sling.api.resource.Resource,
@@ -38,41 +39,44 @@
     componentContext.setDecorate(true);
     // check if we have validation erros
 
-	Resource formStartResource = resource;
-    ValueMap vm = properties;
-    StringBuilder sb = new StringBuilder();
-    //sb.append(req.getContextPath());
-    sb.append("/etc/importers/bulkeditor.html?rootPath=");
-    String actionPath = (String)vm.get("action", "");
-    if ((actionPath != null) && (actionPath.trim().length() != 0)) {
-	    if (actionPath.endsWith("*")) {
-	      actionPath = actionPath.substring(0, actionPath.length() - 1);
-	    }
-	    if (actionPath.endsWith("/")) {
-	      actionPath = actionPath.substring(0, actionPath.length() - 1);
-	    }
-	    sb.append(FormsHelper.encodeValue(actionPath));
-	    sb.append("&initialSearch=true&contentMode=false&spc=true");
-	    Iterator elements = FormsHelper.getFormElements(formStartResource);
-	    while (elements.hasNext()) {
-	      Resource element = (Resource)elements.next();
-	      FieldHelper.initializeField(slingRequest, slingResponse, element);
-	      FieldDescription[] descs = FieldHelper.getFieldDescriptions(slingRequest, element);
-	      for (FieldDescription desc : descs) {
-	        if (!desc.isPrivate()) {
-	          String name = FormsHelper.encodeValue(desc.getName());
-	          if (name.equals("submit")) {
-	              continue;
-	          }
-	          sb.append("&cs=");
-	          sb.append(name);
-	          sb.append("&cv=");
-	          sb.append(name);
-	        }
-	      }
-	    }
-	    sb.append("&cs=timestamp&cv=jcr:created");
-		%><div><button type="button" class="x-btn-text" onclick='CQ.shared.Util.open("<%=sb.toString() %>", null, "FormReport"); return false;'>View Data ...</button></div><%
+    if (WCMMode.fromRequest(request) == WCMMode.EDIT) {
+	 	Resource formStartResource = resource;
+	    ValueMap vm = properties;
+	    StringBuilder sb = new StringBuilder();
+	    //sb.append(req.getContextPath());
+	    sb.append("/etc/importers/bulkeditor.html?rootPath=");
+	    String actionPath = (String)vm.get("action", "");
+	    String actionType = (String)vm.get("actionType", "");
+	    if ((actionPath.trim().length() != 0) && (actionType.trim().endsWith("store"))) {
+		    if (actionPath.endsWith("*")) {
+		      actionPath = actionPath.substring(0, actionPath.length() - 1);
+		    }
+		    if (actionPath.endsWith("/")) {
+		      actionPath = actionPath.substring(0, actionPath.length() - 1);
+		    }
+		    sb.append(FormsHelper.encodeValue(actionPath));
+		    sb.append("&initialSearch=true&contentMode=false&spc=true");
+		    Iterator elements = FormsHelper.getFormElements(formStartResource);
+		    while (elements.hasNext()) {
+		      Resource element = (Resource)elements.next();
+		      FieldHelper.initializeField(slingRequest, slingResponse, element);
+		      FieldDescription[] descs = FieldHelper.getFieldDescriptions(slingRequest, element);
+		      for (FieldDescription desc : descs) {
+		        if (!desc.isPrivate()) {
+		          String name = FormsHelper.encodeValue(desc.getName());
+		          if (name.equals("submit")) {
+		              continue;
+		          }
+		          sb.append("&cs=");
+		          sb.append(name);
+		          sb.append("&cv=");
+		          sb.append(name);
+		        }
+		      }
+		    }
+		    sb.append("&cs=timestamp&cv=jcr:created");
+			%><div><button type="button" class="x-btn-text" onclick='CQ.shared.Util.open("<%=sb.toString() %>", null, "FormReport"); return false;'>View Data ...</button></div><%
+	    }       
     }
 
     final ValidationInfo info = ValidationInfo.getValidationInfo(request);
