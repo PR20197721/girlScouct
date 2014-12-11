@@ -38,7 +38,6 @@
     componentContext.setDecorate(true);
     // check if we have validation erros
 
-	%><div onclick='CQ.shared.Util.open("/bin/wcm/foundation/forms/report.html?path=/content/gateway/en/form-test/jcr:content/content/middle/par/start", null, "FormReport");'>Report</div><%
 	Resource formStartResource = resource;
     ValueMap vm = properties;
     StringBuilder sb = new StringBuilder();
@@ -62,6 +61,9 @@
 	      for (FieldDescription desc : descs) {
 	        if (!desc.isPrivate()) {
 	          String name = FormsHelper.encodeValue(desc.getName());
+	          if (name.equals("submit")) {
+	              continue;
+	          }
 	          sb.append("&cs=");
 	          sb.append(name);
 	          sb.append("&cv=");
@@ -69,8 +71,9 @@
 	        }
 	      }
 	    }
+	    sb.append("&cs=timestamp&cv=jcr:created");
+		%><div><button type="button" class="x-btn-text" onclick='CQ.shared.Util.open("<%=sb.toString() %>", null, "FormReport"); return false;'>View Data ...</button></div><%
     }
-    %>####<%= sb.toString() %>####<%
 
     final ValidationInfo info = ValidationInfo.getValidationInfo(request);
     if ( info != null ) {
