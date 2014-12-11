@@ -42,7 +42,7 @@
     </div>
   </li>
    <li class="row">
-     <a href="javascript:void(0)" onclick="loadModal('#newMeetingAgenda', true, 'Agenda', false);" title="Add meeting aids"><i class="icon-button-circle-plus"></i> Add Agenda Item</a>
+     <a  onclick="loadModal('#newMeetingAgenda', true, 'Agenda', false);" title="Add meeting aids"><i class="icon-button-circle-plus"></i> Add Agenda Item</a>
    </li>
   </ul>
 </section>

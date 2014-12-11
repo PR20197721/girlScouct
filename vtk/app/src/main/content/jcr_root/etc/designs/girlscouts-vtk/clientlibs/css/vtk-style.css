@@ -230,7 +230,6 @@
   margin-top: 17px; }
   .vtk-body #main .meeting-detail section h6 {
     font-size: .88em;
-    font-family: "OpenSans-SemiBold";
     text-transform: uppercase;
     background: #f6f6f6;
     margin-left: -5px;
@@ -305,6 +304,64 @@
     display: block; }
   .vtk-body #main .meeting-detail .wrapper a {
     font-weight: 100; }
+.vtk-body #main .modal-box .header {
+  background: #00ae57; }
+  .vtk-body #main .modal-box .header h3 {
+    text-transform: uppercase;
+    font-size: 24px;
+    display: inline-block; }
+  .vtk-body #main .modal-box .header a {
+    font-size: 30px;
+    text-align: right; }
+  .vtk-body #main .modal-box .header * {
+    color: #fff; }
+.vtk-body #main .modal-box .tabs-wrapper {
+  background: #D9D9D9;
+  padding: 20px 10px; }
+  .vtk-body #main .modal-box .tabs-wrapper .tabs dd {
+    width: 33.3333333%; }
+  .vtk-body #main .modal-box .tabs-wrapper .tabs-content {
+    background: #fff;
+    padding: 0px 20px;
+    margin: 0; }
+    .vtk-body #main .modal-box .tabs-wrapper .tabs-content input {
+      padding: 5px 8px;
+      height: auto; }
+    .vtk-body #main .modal-box .tabs-wrapper .tabs-content select {
+      padding: 0;
+      margin: 0;
+      height: 31px; }
+    .vtk-body #main .modal-box .tabs-wrapper .tabs-content input[type="checkbox"] {
+      display: none; }
+    .vtk-body #main .modal-box .tabs-wrapper .tabs-content label {
+      top: 0; }
+      .vtk-body #main .modal-box .tabs-wrapper .tabs-content label:before {
+        border: solid 1px #ccc;
+        content: "";
+        height: 30px;
+        width: 30px;
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+        font-size: 15px;
+        text-align: center;
+        padding: 4px;
+        display: inline-block;
+        float: left; }
+      .vtk-body #main .modal-box .tabs-wrapper .tabs-content label p {
+        float: left; }
+      .vtk-body #main .modal-box .tabs-wrapper .tabs-content label span {
+        display: block; }
+    .vtk-body #main .modal-box .tabs-wrapper .tabs-content input[type=checkbox]:checked + label:before {
+      content: "\e6d7";
+      font-family: JollyFont;
+      color: green; }
+  .vtk-body #main .modal-box .tabs-wrapper .btn {
+    text-transform: uppercase;
+    color: #fff; }
+  .vtk-body #main .modal-box .tabs-wrapper section {
+    margin: 0 0 40px 0; }
+    .vtk-body #main .modal-box .tabs-wrapper section p {
+      padding-left: 5px;
+      padding-right: 5px; }
 
 .inline-list li:last-child {
   margin: 0; }
