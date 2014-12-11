@@ -48,6 +48,44 @@
 	    String actionPath = (String)vm.get("action", "");
 	    String actionType = (String)vm.get("actionType", "");
 	    if ((actionPath.trim().length() != 0) && (actionType.trim().endsWith("store"))) {
+	    
+	    %>
+	        <style>
+	        	button#view-data:hover, button#view-data:focus {
+		            background: linear;
+		            background: #fff9f9;
+		            background: -moz-linear-gradient(top, #fff9f9 0%, #dee3e8 100%);
+		            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fff9f9), color-stop(100%,#dee3e8));
+		            background: -webkit-linear-gradient(top, #fff9f9 0%,#dee3e8 100%);
+		            background: -o-linear-gradient(top, #fff9f9 0%,#dee3e8 100%);
+		            background: -ms-linear-gradient(top, #fff9f9 0%,#dee3e8 100%);
+		            background: linear-gradient(to bottom, #fff9f9 0%,#dee3e8 100%);
+		            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fff9f9', endColorstr='#dee3e8',GradientType=0 );
+		            border: solid 1px #666;
+		            border-radius: 3px;
+	            }
+
+	            button#view-data {
+		            border:solid 1px #666;
+		            border-radius: 3px;
+		            background-color: #ededed;
+		            padding-left: 3px;
+		            padding-right: 3px;
+		            cursor: pointer;
+		            margin: 0;
+		            overflow: visible;
+		            width: auto;
+		            transition: none;
+		            -moz-outline: 0 none;
+		            outline: 0 none;
+		            font: normal 11px Tahoma, Arial, Helvetica, sans-serif;
+		            color: #333;
+		            padding: 2px 4px;
+		            margin:15px 0 20px 0;
+	            }
+	        </style>
+	        <% 
+	        
 		    if (actionPath.endsWith("*")) {
 		      actionPath = actionPath.substring(0, actionPath.length() - 1);
 		    }
@@ -75,7 +113,7 @@
 		      }
 		    }
 		    sb.append("&cs=timestamp&cv=jcr:created");
-			%><div><button type="button" class="x-btn-text" onclick='CQ.shared.Util.open("<%=sb.toString() %>", null, "FormReport"); return false;'>View Data ...</button></div><%
+			%><div><button id="view-data" type="button" class="x-btn-text" onclick='CQ.shared.Util.open("<%=sb.toString() %>", null, "FormReport"); return false;'>View Data ...</button></div><%
 	    }       
     }
 
