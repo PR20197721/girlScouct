@@ -4,39 +4,39 @@
   <ul>
   <li class="row">
     <div class="wrapper clearfix">
-      <div class="large-3 medium-3 small-4 columns push-2">
+      <div class="large-3 medium-3 small-3 columns small-push-1 large-push-2">
         <span>3:30</span>
       </div>
-      <div class="large-17 columns push-1">
+      <div class="large-17 columns medium-17 small-17 small-push-1 large-push-1">
         <a href="" title="Meeting Overview">Meeting Overview</a> 
       </div>
-      <div class="large-3 columns">
+      <div class="large-3 medium-3 small-3 columns">
         <span>:10</span>
       </div>
     </div>
   </li>
   <li class="row">
     <div class="wrapper clearfix">
-      <div class="large-3 medium-3 small-4 columns push-2">
+      <div class="large-3 medium-3 small-3 columns small-push-1 large-push-2">
         <span>3:30</span>
       </div>
-      <div class="large-17 columns push-1">
+      <div class="large-17 columns medium-17 small-17 small-push-1 large-push-1">
         <a href="" title="Meeting Overview">Meeting Overview</a> 
       </div>
-      <div class="large-3 columns">
+      <div class="large-3 medium-3 small-3 columns">
         <span>:10</span>
       </div>
     </div>
   </li>
   <li class="row">
     <div class="wrapper clearfix">
-      <div class="large-3 medium-3 small-4 columns push-2">
+      <div class="large-3 medium-3 small-3 columns small-push-1 large-push-2">
         <span>3:30</span>
       </div>
-      <div class="large-17 columns push-1">
+      <div class="large-17 columns medium-17 small-17 small-push-1 large-push-1">
         <a href="" title="Meeting Overview">Meeting Overview</a> 
       </div>
-      <div class="large-3 columns">
+      <div class="large-3 medium-3 small-3 columns">
         <span>:10</span>
       </div>
     </div>

@@ -1,5 +1,5 @@
-<div class="column large-20 medium-20 large-centered medium-centered">
-  <div class="meeting-navigation row">
+<div class="column large-20 medium-20 large-centered medium-centered small-24">
+  <div class="meeting-navigation row collapse">
     <p class="column">
       <a class="direction prev" href="/content/girlscouts-vtk/en/vtk.planView.html?elem=1418266800000"></a>
     </p>

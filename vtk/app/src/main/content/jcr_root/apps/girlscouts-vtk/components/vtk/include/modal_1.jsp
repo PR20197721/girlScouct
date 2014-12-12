@@ -2,7 +2,7 @@
 <!--/TODO rename this once done -->
 <div class="modal-box row">
 
-    <div class="header clearfix">
+    <div class="header columns clearfix">
       <h3 class="columns large-22">MEETING date and locations</h3><a class="columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
     </div>
 
