@@ -6,7 +6,7 @@
   padding-left: 5px;
   padding-right: 5px; }
 
-.vtk-body p {
+.vtk-body p, .vtk-body span {
   font-size: 0.88em;
   line-height: 1.5; }
 .vtk-body #main {
@@ -226,6 +226,9 @@
     .vtk-body #main .meeting-detail .meeting-navigation .direction.next:before {
       border-color: transparent  transparent transparent #fff;
       right: 0; }
+.vtk-body #main .meeting-detail [class^="icon-"],
+.vtk-body #main .meeting-detail [class*=" icon-"] {
+  font-size: 27px; }
 .vtk-body #main .meeting-detail section {
   margin-top: 17px; }
   .vtk-body #main .meeting-detail section h6 {
@@ -246,14 +249,14 @@
         font-weight: 700; }
         .vtk-body #main .meeting-detail section ul li a.view {
           font-weight: 100; }
-  .vtk-body #main .meeting-detail section i {
-    font-size: 27px;
+  .vtk-body #main .meeting-detail section [class^="icon-"],
+  .vtk-body #main .meeting-detail section [class*=" icon-"] {
     position: relative;
     vertical-align: middle;
-    margin: 0 4px 0 -5px;
     display: block;
     float: left; }
-    .vtk-body #main .meeting-detail section i span {
+    .vtk-body #main .meeting-detail section [class^="icon-"] span,
+    .vtk-body #main .meeting-detail section [class*=" icon-"] span {
       position: absolute;
       display: block;
       height: 66%;
@@ -261,7 +264,8 @@
       left: 5px;
       top: 4px;
       opacity: .5; }
-      .vtk-body #main .meeting-detail section i span:before {
+      .vtk-body #main .meeting-detail section [class^="icon-"] span:before,
+      .vtk-body #main .meeting-detail section [class*=" icon-"] span:before {
         position: absolute;
         background: #ade3ef;
         height: 100%;
@@ -329,6 +333,8 @@
       padding: 0;
       margin: 0;
       height: 31px; }
+    .vtk-body #main .modal-box .tabs-wrapper .tabs-content table {
+      width: 100%; }
     .vtk-body #main .modal-box .tabs-wrapper .tabs-content input[type="checkbox"] {
       display: none; }
     .vtk-body #main .modal-box .tabs-wrapper .tabs-content label {
@@ -354,7 +360,8 @@
       color: green; }
   .vtk-body #main .modal-box .tabs-wrapper .btn {
     text-transform: uppercase;
-    color: #fff; }
+    color: #fff;
+    margin-left: 5px; }
   .vtk-body #main .modal-box .tabs-wrapper section {
     margin: 0 0 40px 0; }
     .vtk-body #main .modal-box .tabs-wrapper section p {

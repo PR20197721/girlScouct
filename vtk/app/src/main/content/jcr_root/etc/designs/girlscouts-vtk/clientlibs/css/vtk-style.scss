@@ -7,7 +7,7 @@
   padding-right: 5px;
 }
 .vtk-body {
-  p {
+  p, span {
     font-size:0.88em;
     line-height:1.5;
   }
@@ -315,6 +315,10 @@
         }
       }
     }
+    [class^="icon-"],
+    [class*=" icon-"] {
+      font-size:27px;
+    }
     section {
       margin-top:17px;
       h6 {
@@ -341,36 +345,34 @@
           }
         }
       }
-    //experiment
-    i {
-      font-size: 27px;
-      position: relative;
-      vertical-align: middle;
-      margin: 0 4px 0 -5px;
-      display: block;
-      float:left;
-      span {
-        position: absolute;
+      [class^="icon-"],
+      [class*=" icon-"] {
+        position: relative;
+        vertical-align: middle;
         display: block;
-        height: 66%;
-        width: 66%;
-        left: 5px;
-        top: 4px;
-        opacity: .5;
-          &:before {
-            position: absolute;
-            background: #ade3ef;
-            height: 100%;
-            width: 105%;
-            left: 0;
-            top: 0;
-            opacity: .5;
-            content: "";
-            display: block;
+        float:left;
+        span {
+          position: absolute;
+          display: block;
+          height: 66%;
+          width: 66%;
+          left: 5px;
+          top: 4px;
+          opacity: .5;
+            &:before {
+              position: absolute;
+              background: #ade3ef;
+              height: 100%;
+              width: 105%;
+              left: 0;
+              top: 0;
+              opacity: .5;
+              content: "";
+              display: block;
+            }
           }
         }
       }
-    }
     #main-info {
       margin-top: 0;
       section {
@@ -385,7 +387,7 @@
       #util-links.inline-list {
         position:relative;
         top: -10px;
-        li{
+        li {
           &:nth-of-type(2) {
             margin: 0 15.151515%;
           }
@@ -451,6 +453,9 @@
           margin: 0;
           height: 31px;
         }
+        table {
+          width: 100%;
+        }
         input[type="checkbox"] {
           display: none;
         }
@@ -484,6 +489,7 @@
       .btn {
         text-transform: uppercase;
         color: #fff;
+        margin-left:5px;
       }
       section {
         margin: 0 0 40px 0;
