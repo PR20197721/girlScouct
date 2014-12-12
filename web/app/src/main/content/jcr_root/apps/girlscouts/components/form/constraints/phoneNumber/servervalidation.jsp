@@ -7,14 +7,18 @@
                 com.day.cq.wcm.foundation.forms.ValidationInfo"%><%
 %><%@taglib prefix="sling" uri="http://sling.apache.org/taglibs/sling/1.0" %><%
 %><sling:defineObjects/><%
-//validation format xx.00
-	final Pattern p = Pattern.compile("^([1-9][0-9]{0,4}|0)[.][0-9]{2}$");
+// Validated formate (xxx)xxx-xxxx
+    final Pattern p = Pattern.compile("^[(][2-9][0-9]{2}[)][0-9]{3}-[0-9]{4}$");
 	final FieldDescription desc = FieldHelper.getConstraintFieldDescription(slingRequest);
 	final String[] values = request.getParameterValues(desc.getName());
 	if ( values != null ) {
 		for(int i=0; i<values.length; i++) {
 			final Matcher m = p.matcher(values[i]);
 			if ( !m.matches() ) {
+                if(desc.getConstraintMessage()==null){//if no custom error msg from the council
+                    //default error msg
+                    desc.setConstraintMessage("The format for the Phone Number should be (xxx)xxx-xxxx");
+                }
 				if ( desc.isMultiValue() ) {
 					ValidationInfo.addConstraintError(slingRequest, desc, i);
 				} else {
