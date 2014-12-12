@@ -39,6 +39,7 @@ import org.slf4j.LoggerFactory;
 public class designer_css extends SlingSafeMethodsServlet {
     private static final String CSS_FOLDER = "/etc/designs/girlscouts/css";
     private static final String BASE_CSS = CSS_FOLDER + "/base.css";
+    private static final String HOME_CSS = CSS_FOLDER + "/home.css";
 
     /**
      * default logger
@@ -77,6 +78,7 @@ public class designer_css extends SlingSafeMethodsServlet {
         ResourceResolver rr = req.getResourceResolver();
         ValueMap properties = (ValueMap)rr.resolve(path).adaptTo(ValueMap.class);
         writeCss(null, out, rr, properties);
+        writeCss("home", out, rr, properties);
         writeCss("headerStyle", out, rr, properties);
         writeCss("navStyle", out, rr, properties);
         writeCss("headerFontStyle", out, rr, properties);        
@@ -86,7 +88,11 @@ public class designer_css extends SlingSafeMethodsServlet {
         String path;
         if (property == null) { // Use base.css if property is null
             path = BASE_CSS;
-        } else {
+        } 
+        else if (property == "home") {
+            path = HOME_CSS;
+        }
+        else {
             path = properties.get(property, "");
         }
 
