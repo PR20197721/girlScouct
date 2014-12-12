@@ -17,7 +17,7 @@
   request.setAttribute("headerPath", headerPath);
   String headerImagePath = currentSite.get("headerImagePath", "");
 
-%><%= headerImagePath %>
+%>
 <!-- Modern Browser -->
 <!--[if gt IE 8]><!-->
 <!--<![endif]-->
