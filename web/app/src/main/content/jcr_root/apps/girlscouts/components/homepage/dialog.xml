@@ -162,6 +162,12 @@
                                     value="US/Hawaii"/>
                             </options>
                         </locale>
+                        <header-image-path
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Header Image Path"
+                            name="./headerImagePath"
+                            rootPath="/content/dam"
+                            xtype="pathfield"/>
                     </items>
                 </girl-scouts>
             </items>
