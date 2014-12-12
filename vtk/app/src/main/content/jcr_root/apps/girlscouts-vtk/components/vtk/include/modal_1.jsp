@@ -1,6 +1,6 @@
 
 <!--/TODO rename this once done -->
-<div class="modal-box row">
+<div class="modal-box row" id="myModal">
 
     <div class="header clearfix">
       <h3 class="columns large-22">MEETING date and locations</h3><a class="columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
@@ -51,7 +51,7 @@
           </form>
         </div>
         <div class="content clearfix" id="panel2">
-          <p>This is the second panel of the basic tab example. This is the second panel of the basic tab example.</p>
+          <p>Add, delete or edit locations to assign to your meetings.</p>
         </div>
         <div class="content clearfix" id="panel3">
           <p>This is the third panel of the basic tab example. This is the third panel of the basic tab example.</p>

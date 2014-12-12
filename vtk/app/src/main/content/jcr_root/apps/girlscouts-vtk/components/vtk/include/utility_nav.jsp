@@ -8,7 +8,7 @@
       </div>
       <div class="columns large-1 medium-2 small-2">
         <ul class="inline-list" id="util-links">
-<!--           <li><a class="icon"  onclick="javascript:window.print()" title="download plan"><i class="icon-download"></i></a></li>
+<!--      <li><a class="icon"  onclick="javascript:window.print()" title="download plan"><i class="icon-download"></i></a></li>
           <li><a class="icon" onclick="javascript:window.print()" title="print plan"><i class="icon-printer"></i></a></li> -->
           <li><a class="icon" onclick="javascript:window.print()" title="help"><i class="icon-questions-answers"></i></a></li>
         </ul>
