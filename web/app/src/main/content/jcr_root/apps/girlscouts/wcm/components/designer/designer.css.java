@@ -81,7 +81,8 @@ public class designer_css extends SlingSafeMethodsServlet {
         writeCss("home", out, rr, properties);
         writeCss("headerStyle", out, rr, properties);
         writeCss("navStyle", out, rr, properties);
-        writeCss("headerFontStyle", out, rr, properties);        
+        writeCss("headerFontStyle", out, rr, properties);
+        writeCss("councilStyle", out, rr, properties);
     }
 
     private void writeCss(String property, Writer out, ResourceResolver rr, ValueMap properties) {
