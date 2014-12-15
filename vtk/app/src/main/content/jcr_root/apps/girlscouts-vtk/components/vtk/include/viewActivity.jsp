@@ -1,3 +1,4 @@
+
 <li class="row meeting activity ui-state-default ui-state-disabled" onclick='self.location="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=date.getTime()%>"'>
 	<div class="column large-20 medium-20 large-centered medium-centered">
 		<div class="large-3 medium-3 small-6 columns">

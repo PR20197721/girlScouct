@@ -462,6 +462,8 @@ function searchActivities(){
 	var endDate = $.trim(document.getElementById("sch_endDate").value);
 	var region = document.getElementById("sch_region").value;
 	
+	
+	
 	if(!isDate(startDate) && startDate != ''){setError("Invalid Start Date");return false;}
     if(!isDate(endDate) && endDate!=''){setError("Invalid End Date");return false;}
 	

@@ -301,9 +301,9 @@ properties of this scaffolding.
                 } else {
                 	year = new Date().getFullYear();
                 }
+                if(!isUpdate){
                 var destDir = '<%=contentPath%>/' + year;
                 girlscouts.functions.createPath(destDir, 'cq:Page');
-                if(!isUpdate){
                 frm.url = destDir + '/*';
                 }
                 var action = new CQ.form.SlingSubmitAction(frm, {

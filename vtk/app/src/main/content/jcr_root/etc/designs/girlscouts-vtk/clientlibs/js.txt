@@ -13,3 +13,4 @@ resources.js
 vtk-global.js
 jquery.jscroll.js
 jquery.jscroll.min.js
+moment.min.js

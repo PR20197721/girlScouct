@@ -1,9 +1,8 @@
 
 
+ 
 
-
-
-
+<%= meeting.getPath()%>
 <!-- apps/girlscouts-vtk/components/vtk/include/viewYearPlanMeeting.jsp -->
 <br/>
 <div class="row meetingDetailHeader">

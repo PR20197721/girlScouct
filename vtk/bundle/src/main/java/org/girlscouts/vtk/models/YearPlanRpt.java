@@ -37,6 +37,8 @@ public class YearPlanRpt  implements Serializable{
 		public void setTroopName(String troopName) {
 			this.troopName = troopName;
 		}
+
+		
 		
 		
 		
