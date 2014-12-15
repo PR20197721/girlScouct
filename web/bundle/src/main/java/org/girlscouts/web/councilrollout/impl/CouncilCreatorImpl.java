@@ -179,12 +179,14 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			propertyMap.put("eventPath", path + "/" + langAbbrev + "/events-repository");
 			propertyMap.put("footerTracking", "<script src=\"https://www.girlscouts.org/includes/join/council_ebiz_conversion_include.js\"></script>");
 			propertyMap.put("globalLanding", path + "/" + langAbbrev + "/site-search");
+			propertyMap.put("headerImagePath", "");
 			propertyMap.put("hideSignIn", "false");
 			propertyMap.put("hideVTKButton", "false");
 			propertyMap.put("leftNavRoot", path + "/" + langAbbrev + "/event-list");
 			propertyMap.put("locale", "America/New_York");
 			propertyMap.put("locationsPath", path + "/" + langAbbrev + "/location");
 			propertyMap.put("newsPath", path + "/" + langAbbrev + "/our-council/news");					
+			propertyMap.put("timezone", "US/Eastern");
 			
 		} catch(Exception e){
 			e.printStackTrace();
