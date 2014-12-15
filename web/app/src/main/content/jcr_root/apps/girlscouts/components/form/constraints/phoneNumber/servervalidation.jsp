@@ -17,7 +17,7 @@
 			if ( !m.matches() ) {
                 if(desc.getConstraintMessage()==null){//if no custom error msg from the council
                     //default error msg
-                    desc.setConstraintMessage("The format for the Phone Number should be (xxx)xxx-xxxx");
+                    desc.setConstraintMessage("Please enter a valid phone number with format (xxx)xxx-xxxx");
                 }
 				if ( desc.isMultiValue() ) {
 					ValidationInfo.addConstraintError(slingRequest, desc, i);

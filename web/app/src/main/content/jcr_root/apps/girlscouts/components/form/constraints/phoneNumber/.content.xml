@@ -7,5 +7,5 @@
     jcr:primaryType="sling:Folder"
     jcr:title="Phone Number"
     sling:resourceType="foundation/components/form/constraint"
-    constraintMessage="The format for the Phone Number should be (xxx)xxx-xxxx"
+    constraintMessage="Please enter a valid phone number with format (xxx)xxx-xxxx."
     hint="Validates if the field contains a phone number"/>
