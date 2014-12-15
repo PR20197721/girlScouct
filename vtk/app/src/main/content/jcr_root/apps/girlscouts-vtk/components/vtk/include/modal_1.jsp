@@ -1,4 +1,14 @@
-
+// <script>
+//   $(document).ready(function(){
+//   $(document).foundation({
+//     tab: {
+//       callback : function (tab) {
+//         console.log("######### tab " + tab);
+//       }
+//     }
+//   });
+//   });
+// </script>
 <!--/TODO rename this once done -->
 <div class="modal-box" id="myModal">
 
@@ -79,7 +89,6 @@
               </tr>
             </table>
           </div><!--/meeting-list-->
-
         </div><!--/content-1-->
 
         <div class="content clearfix" id="panel2">
