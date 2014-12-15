@@ -63,7 +63,7 @@ li {
 
 	<%@include file="meetingMain.jsp"%>
 
-	<div id="content"></div>
+	<div id="panelWrapper"></div>
 	<script type="text/jsx">
 
 var thisMeetingRefId;
@@ -282,7 +282,7 @@ var SortableListItems1 = React.createClass({
         	stop: function (event, ui) {
         		var order = dom.sortable("toArray", {attribute: "id"});
    			    var yy  = order.toString().replace('"','');
-xx();
+
 				repositionActivity1(thisMeetingRefId , yy);
 
         	}
@@ -309,22 +309,11 @@ function repositionActivity1(meetingPath,newVals ){
 
 
 
-function xx(){
-console.log("xx");
-	React.unmountComponentAtNode(document.getElementById('content'));
 
 
 React.render(
 <CommentBox url="/content/girlscouts-vtk/controllers/vtk.controller.html?reactjs=asdf" pollInterval={10000} />,
-  document.getElementById('content')
-);
-
-}
-
-
-React.render(
-<CommentBox url="/content/girlscouts-vtk/controllers/vtk.controller.html?reactjs=asdf" pollInterval={10000} />,
-  document.getElementById('content')
+  document.getElementById('panelWrapper')
 );
 
 
