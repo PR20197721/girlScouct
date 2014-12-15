@@ -5,8 +5,8 @@
     response.addCookie(cookie);
 %>
 
-<div id="troop" className="row hide-for-print">
-  <div className="columns large-7 medium-7 right">
+<div id="troop" class="row hide-for-print">
+  <div class="columns large-7 medium-7 right">
     <select id="reloginid" onchange="relogin()">
       <%
         for (int i = 0; i < troops.size(); i++) {
@@ -26,43 +26,43 @@
 <%
   }
 %>
-<div className="hide-for-print tab-wrapper">
+<div class="hide-for-print tab-wrapper">
   <%
     //if (troop.getYearPlan() != null) {
   %>
-  <div className="row">
-    <div className="columns">
+  <div class="row">
+    <div class="columns">
       <%
       //  }
       %>
 
-      <dl className="tabs" data-tab>
+      <dl class="tabs" data-tab>
       <% if(hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
-          <dd <%= "myTroop".equals(activeTab) ? "className='active'" : "" %>>
+          <dd <%= "myTroop".equals(activeTab) ? "class='active'" : "" %>>
             <a href="/content/girlscouts-vtk/en/vtk.myTroop.html">My Troop</a>
           </dd>
       <% } %>
       <% if(hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID)) { %>
-          <dd <%= "plan".equals(activeTab) ? "className='active'" : "" %>>
+          <dd <%= "plan".equals(activeTab) ? "class='active'" : "" %>>
             <a href="/content/girlscouts-vtk/en/vtk.plan.html">Year Plan</a>
           </dd>
       <% } %>
       <% if(hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) { %>
-        <dd <%= "planView".equals(activeTab) ? "className='active'" : "" %>>
+        <dd <%= "planView".equals(activeTab) ? "class='active'" : "" %>>
            <a <%= troop.getYearPlan() != null ? "href='/content/girlscouts-vtk/en/vtk.planView.html'" :  "href='#' onClick='alert(\"Please select a year plan\")'"  %>>Meeting Plan</a>
         </dd>
       <%  } %>
-        <dd <%= "resource".equals(activeTab) ? "className='active'" : "" %>>
+        <dd <%= "resource".equals(activeTab) ? "class='active'" : "" %>>
           <a href="/content/girlscouts-vtk/en/vtk.resource.html">Resources</a>
         </dd>
       
       <% if( hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){ %>
-          <dd <%= "finances".equals(activeTab) ? "className='active'" : "" %>>
+          <dd <%= "finances".equals(activeTab) ? "class='active'" : "" %>>
             <a href="/content/girlscouts-vtk/en/vtk.finances.html">Finances</a>
           </dd>
         <% }  %>
       <!--<% // to do add this to javA if(hasPermission(troop, Permission.PERMISSION_VIEW_PROFILE) ) { %>-->
-        <dd <%= "profile".equals(activeTab) ? "className='active'" : "" %>>
+        <dd <%= "profile".equals(activeTab) ? "class='active'" : "" %>>
           <a href="/content/girlscouts-vtk/en/vtk.profile.html">Profile</a>
         </dd>
       <!--<% // }   %>-->

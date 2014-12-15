@@ -28,7 +28,7 @@
 
 <div id="panelWrapper" class="row content meeting-detail">
 
-  <%@include file="include/utility_nav.jsp"%>
+ 
   
 <script type="text/jsx">
 
@@ -265,6 +265,7 @@ var MeetingPlan = React.createClass({
 
     return (
 		<div className="section-wrapper">
+ <%@include file="include/utility_nav.jsp"%>
 		 <%@include file="include/meeting_navigator.jsp"%>
  		 <%@include file="include/meeting_maininfo.jsp"%>
 		 <%@include file="include/meeting_planning.jsp"%>
