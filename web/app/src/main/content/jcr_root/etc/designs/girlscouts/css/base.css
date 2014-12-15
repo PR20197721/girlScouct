@@ -58,9 +58,9 @@ h1, h2, h3, h4, h5, h6 {
 .bold {
     font-weight: bold;
 }
-a {
+/*a {
     color: #00ae58;
-}
+}*/
 a:hover {
     color: green;
 }
@@ -185,7 +185,7 @@ a:hover.menuHighlight {
 /********* PAGE STRUCTURE **********/
 /***********************************/
 /* HEADER */
-
+/*
 .header-wrapper {
     background-color: #00ae58;
 }
@@ -194,6 +194,7 @@ a:hover.menuHighlight {
     background-color: #00ae58;
     color: #FFFFFF;
 }
+*/
 #header span {
     color: #FAA61A;
     font-size: 1.0em;
