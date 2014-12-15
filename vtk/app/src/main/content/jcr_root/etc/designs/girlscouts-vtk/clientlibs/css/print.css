@@ -81,8 +81,10 @@
     #header {
       background:#00ae58 !important;
     }
+    #yearPlanMeetings li.milestone,
     #yearPlanMeetings li.milestone.ui-state-disabled {
-      background: #c0c0c0 !important;
+      border-bottom: 1px solid gray !important;
+      padding:10px 0;
     }
     .vtk-body #main #yearPlanMeetings #sortable123 .meeting {
       border-bottom: solid 1px #666;

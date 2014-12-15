@@ -74,8 +74,6 @@
 %>
 
 
-<input type="button" value="Click here to change your recurring meeting date and time." name="" onclick="showAlterYearPlanStartDate()" class="button" />
-<p>Or select a calendar icon below to change the date, time, or to cancel a specific meeting</p>
 <%@include file="include/calList.jsp" %>
 <%
                 }

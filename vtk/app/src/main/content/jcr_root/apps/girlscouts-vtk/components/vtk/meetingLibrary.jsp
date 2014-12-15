@@ -70,7 +70,7 @@ function cngMeeting(mPath){
 %>
 		document.location="/content/girlscouts-vtk/en/vtk.plan.html";
 <%}else{%>
-		document.location="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=request.getParameter("xx")%>";
+		//document.location="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=request.getParameter("xx")%>";
 <%}%>
 	});
 }
