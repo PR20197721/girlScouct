@@ -1,9 +1,10 @@
 
 <!--/TODO rename this once done -->
-<div class="modal-box" id="myModal">
+<div id="myModal" class="reveal-modal" data-reveal>
 
     <div class="header clearfix">
-      <h3 class="columns large-22">MEETING date and locations</h3><a class="columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
+      <h3 class="columns large-22">MEETING date and locations</h3>
+      <a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
     </div>
 
     <div class="tabs-wrapper">
@@ -15,7 +16,7 @@
 
       <div class="tabs-content">
         
-        <div class="content clearfix active" id="panel1">
+        <div class="content clearfix active row" id="panel1">
           <form class="clearfix">
             <section class="clearfix">
               <p>Configure X meeting dates starting on or after XX/XX/XXXX:</p>
@@ -81,7 +82,7 @@
           </div><!--/meeting-list-->
         </div><!--/content-1-->
 
-        <div class="content clearfix" id="panel2">
+        <div class="content clearfix row" id="panel2">
           <p>Add, delete or edit locations to assign to your meetings.</p>
           <form>
             <section>
@@ -96,8 +97,14 @@
             <button class="btn right">Add</button>
           </form>
         </div><!--/content-2-->
-        <div class="content clearfix" id="panel3">
-          <p>This is the third panel of the basic tab example. This is the third panel of the basic tab example.</p>
+        <div class="content clearfix row" id="panel3">
+          <table>
+            <tr>
+              <td><strong>Jan 18, 2015, 1:00pm</strong></td>
+              <td> Challange Learning Center: Living in Space Program</td>
+              <td><a href="#nogo" title="remove">Remove</a></td>
+            </tr>
+          </table>
         </div><!--/content-3-->
     </div>
   </div><!--/tab wrapper-->

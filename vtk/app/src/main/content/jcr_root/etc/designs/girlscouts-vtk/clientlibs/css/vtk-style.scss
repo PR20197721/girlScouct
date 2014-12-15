@@ -418,7 +418,8 @@
       }
     }
   }
-  #main .modal-box {
+  .reveal-modal {
+    padding:0;
     .header {
       background: #00ae57;
       h3 {
@@ -426,9 +427,13 @@
         font-size: 24px;
         display: inline-block;
       }
-      a {
-        font-size: 30px;
+      a,
+      [class*=" icon-"],
+      [class^="icon-"] {
+        font-size: 35px;
         text-align: right;
+        top: 0;
+        right: 0;
       }
       * {
         color: #fff;
@@ -499,7 +504,10 @@
         }
       }
     }
-
+    [class^="icon-"],
+    [class*=" icon-"] {
+      font-size:27px;
+    }
   }
 }//end of vtk-body
 
