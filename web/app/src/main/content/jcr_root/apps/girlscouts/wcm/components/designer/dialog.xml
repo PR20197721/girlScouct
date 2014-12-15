@@ -8,7 +8,7 @@
         <items jcr:primaryType="cq:WidgetCollection">
             <tab1
                 jcr:primaryType="cq:Panel"
-                title="Design Choises">
+                title="Design Choices">
                 <items jcr:primaryType="cq:WidgetCollection">
                     <header
                         jcr:primaryType="cq:Widget"
