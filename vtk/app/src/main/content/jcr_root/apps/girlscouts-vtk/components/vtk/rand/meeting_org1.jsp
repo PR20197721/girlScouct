@@ -25,7 +25,7 @@
   <script src="http://cdnjs.cloudflare.com/ajax/libs/react/0.12.1/react-with-addons.js"></script>
  
   <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
-  
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
     
     
   <body>
@@ -43,6 +43,12 @@
  
     <div id="content"></div>
     <script type="text/jsx">
+React.initializeTouchEvents(true);
+
+
+React.initializeTouchEvents(true); 
+
+
 
 var thisMeetingRefId;
 var thisMeetingPath;
@@ -99,10 +105,14 @@ total: 0,
 dragStart: function(e) {
 console.log(1);
     this.dragged = e.currentTarget;
-  	e.dataTransfer.effectAllowed = 'move';
+console.log(22);
+console.log( e);
+  	//e.dataTransfer.effectAllowed = 'move';
+
+
   console.log(2);
     // Firefox requires dataTransfer data to be set
-   e.dataTransfer.setData("text/html", e.currentTarget);
+   //-e.dataTransfer.setData("text/html", e.currentTarget);
   },
   dragEnd: function(e) {
 console.log( "dragEnd");
@@ -166,7 +176,13 @@ var onDrag = this.state.dragging ? this.onDrag : null;
 	  
       return (
 		    		  	
-			<%@include file="meetingActivity.jsp"%>
+			<li data-id={i} key={i}  
+			draggable="true"
+            onDragEnd={this.dragEnd}
+            onDragStart={this.dragStart}>
+            
+			{comment.activityNumber}--{comment.name}-{comment.duration}
+			</li>
 	    
       );
 

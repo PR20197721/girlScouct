@@ -9,7 +9,7 @@
 
       <p class="column">
 
-        <a class="direction prev" href="/content/girlscouts-vtk/en/vtk.rand.meeting.html?elem=<%=planView.getPrevDate()%>"></a>
+        <a class="direction prev" href="/content/girlscouts-vtk/en/vtk.rand.<%=myProjLoc %>.meeting.html?elem=<%=planView.getPrevDate()%>"></a>
 
       </p>
 
@@ -31,7 +31,7 @@
 
       <p class="column">
 
-        <a class="direction next" href="/content/girlscouts-vtk/en/vtk.html?elem=1423083600000"></a>
+        <a class="direction next" href="/content/girlscouts-vtk/en/vtk.<%=myProjLoc %>.html?elem=1423083600000"></a>
 
       </p>
 
