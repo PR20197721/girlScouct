@@ -1,14 +1,3 @@
-// <script>
-//   $(document).ready(function(){
-//   $(document).foundation({
-//     tab: {
-//       callback : function (tab) {
-//         console.log("######### tab " + tab);
-//       }
-//     }
-//   });
-//   });
-// </script>
 <!--/TODO rename this once done -->
 <div class="modal-box" id="myModal">
 
