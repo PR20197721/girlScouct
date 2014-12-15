@@ -199,6 +199,8 @@
     margin-bottom: 0; }
   .vtk-body #main .meeting-detail .meeting-navigation p {
     font-weight: 100; }
+    .vtk-body #main .meeting-detail .meeting-navigation p span {
+      margin-right: 10px; }
   .vtk-body #main .meeting-detail .meeting-navigation .column:first-child, .vtk-body #main .meeting-detail .meeting-navigation .column:last-child {
     position: static;
     width: 10%; }

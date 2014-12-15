@@ -276,6 +276,9 @@
       }
       p {
         font-weight: 100;
+        span {
+          margin-right:10px
+        }
       }
       .column {
         &:first-child,
