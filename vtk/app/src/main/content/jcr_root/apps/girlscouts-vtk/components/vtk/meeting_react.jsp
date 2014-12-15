@@ -25,4 +25,3 @@
   <%@include file="include/modal_1.jsp"%>
 
 </div>
-

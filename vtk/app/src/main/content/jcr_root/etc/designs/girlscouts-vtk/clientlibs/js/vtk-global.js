@@ -16,6 +16,10 @@ var $ = jQuery.noConflict();
 	}
 	//all function calls should go here
 	  $(document).ready(function(){
-	  	 $(document).foundation();
+	  	 $(document).foundation({
+	  	   reveal : {
+	  	     animation: 'fade'
+	  	   }
+	  	 });
 	  });
  })($);
