@@ -247,10 +247,10 @@ var SortableList1 = React.createClass({
 
     render: function () {
 		return <section className="column large-20 medium-20 large-centered medium-centered">
-  <h6>meeting agenda</h6>
-  <p>Select and agenda item to view details, edit duration and delete. Drag and drop to reorder.</p>
- <SortableListItems1 key="{this.props.data}"  data={this.props.data}  onReorder={this.onReorder}/>
-</section>;
+  					<h6>meeting agenda</h6>
+  					<p>Select and agenda item to view details, edit duration and delete. Drag and drop to reorder.</p>
+ 						<SortableListItems1 key="{this.props.data}"  data={this.props.data}  onReorder={this.onReorder}/>
+				</section>;
 	}
 });
 
@@ -306,6 +306,9 @@ React.render(
 
 
     </script>
-
+    
+    
+<!--/TODO this is for text only-->
+  <%@include file="include/modal_1.jsp"%>
 </div>
 
