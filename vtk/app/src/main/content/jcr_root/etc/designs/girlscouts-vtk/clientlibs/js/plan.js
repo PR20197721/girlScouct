@@ -234,9 +234,8 @@ function buildSched(){
 
 	var calStartDt = document.getElementById("calStartDt").value;
 	
-	if( new Date(calStartDt) <= new Date() )
-		{alert("You cannot select a date in the past to reschedule the meetings. Please type or select a date in the future."); return;}
-
+	
+	
 	
 	
 	var calAP = document.getElementById("calAP").value;
@@ -244,7 +243,43 @@ function buildSched(){
 	var z =calFreq.options[calFreq.selectedIndex].text;
 	var calTime = document.getElementById("calTime").value;
 	if( $.trim(calTime) =='') {alert("Time field empty");return;}
+	
+	var stringToParse = calStartDt +" " +calTime ;
+	var dateString    = stringToParse.match(/\d{2}\/\d{2}\/\d{4}\s+\d{2}:\d{2}/) +" "+calAP;
+	var dt            = new Date(dateString);
+	
+	
+	
+	if( isNaN(dt) ){
+		alert("Invalid date/time");
+		return;
+	}
+	
+	
+	var minExpDate = new Date();
+	minExpDate.setMinutes ( minExpDate.getMinutes() + 30 );
+	
+	/*
+	var maxExpDate = new Date();
+	maxExpDate.setDate ( maxExpDate.getDate() +  730);
+	
+	if( dt > maxExpDate ){
+		alert("You cannot select a date after "+moment(maxExpDate).format('MM/DD/YYYY h:mm a')+" since the YP won't fit into the actual calendar year");
+		return;
+	}
+	*/
+	
+	if( new Date(dt) <= minExpDate )
+	{
+		
+			alert("You cannot select a date in the past to reschedule the meetings. Please type or select a date in the future.");
+			return;
+	}
 
+	
+	
+	
+	
 	var _level="";
 	var levels = document.getElementsByName('exclDt');
 	for (var i=0; i < levels.length; i++){ 
@@ -407,6 +442,7 @@ function loadLocMng(){
 }       
 function loadCalMng(){
 	$("#calMng").load("/content/girlscouts-vtk/controllers/vtk.calendar.html?rand="+Date.now());
+	
 }
 
 function manageCalElem(elem ){
@@ -485,13 +521,31 @@ function expiredcheck(ssId, ypId){
 	
 		$.ajax({
     		url: "/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid="+ssId+"&ypid="+ypId+"&d=",
+    		dataType: 'json',
     		cache: false
-    	}).done(function( html ) {
+    	}).done(function( obj ) {
+    		//console.log("**"+html+"**");
+    		//var obj = jQuery.parseJSON(html );
+    		console.log("/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid="+ssId+"&ypid="+ypId+"&d=");
+    		console.log("*** "+ (obj.yp_cng == 'true') );
     		
-    		var obj = jQuery.parseJSON(html );
     		if( obj.yp_cng == 'true'  ){
-    			alert("reloading...");
-    			window.location.reload();
+    			//alert("reloading...");
+    		
+    			var myUrl = window.location.href;
+    			if(window.location.href.indexOf("reload=data") !=-1 ){
+    					;
+    			}else if( window.location.href.indexOf("?") !=-1){
+    				//window.location.replace(window.location.href + "&reload=data")
+    				myUrl = window.location.href + "&reload=data";
+    			}else{
+    				//window.location.replace(window.location.href + "?reload=data")
+    				myUrl = window.location.href + "?reload=data";
+    		    }
+    			//alert(myUrl);
+    			//if(true)return;
+    			//window.location.reload();
+    			window.location.href= myUrl;
     			
     		}
     		setTimeout(function(){ expiredcheck(ssId, ypId);},20000);
@@ -501,6 +555,8 @@ function expiredcheck(ssId, ypId){
 		
 			
 	}
+	
+	
 	
 	
 

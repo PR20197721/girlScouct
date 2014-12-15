@@ -8,6 +8,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
@@ -23,12 +25,15 @@ import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.ActivityDAO;
 import org.girlscouts.vtk.dao.AssetComponentType;
 import org.girlscouts.vtk.dao.MeetingDAO;
+import org.girlscouts.vtk.dao.YearPlanComponentType;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Asset;
 import org.girlscouts.vtk.models.Cal;
+import org.girlscouts.vtk.models.JcrCollectionHoldString;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Milestone;
+import org.girlscouts.vtk.models.PlanView;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
@@ -51,6 +56,13 @@ public class MeetingUtil {
 	
     @Reference
     UserUtil userUtil;
+    
+    @Reference
+    YearPlanUtil yearPlanUtil;
+    
+    @Reference
+    org.girlscouts.vtk.helpers.DataImportTimestamper dataImportTimestamper;
+    
     
 	public java.util.List<MeetingE> updateMeetingPos(java.util.List<MeetingE> orgMeetings, java.util.List <Integer> newPoss){
 		
@@ -884,8 +896,200 @@ if( !userUtil.hasPermission(troop,  Permission.PERMISSION_MOVE_MEETING_ID ) ){
 	}
 	
 	
+	public PlanView planView( User user, Troop troop, javax.servlet.http.HttpServletRequest request ) throws Exception{
+		
+		
+		PlanView planView = planView1(  user,  troop,  request);
+		/*
+		PlanView planView = new PlanView();
+		HttpSession session= request.getSession();
+		
+		//java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(troop.getYearPlan(), false);
+		
+		java.util.Map <java.util.Date,  YearPlanComponent> sched = getYearPlanSched(troop.getYearPlan(), false);
+		if( sched==null || (sched.size()==0)){System.err.println( "You must first select a year plan."); return null;}
+		java.util.List<java.util.Date> dates =new java.util.ArrayList<java.util.Date>(sched.keySet());
+		long nextDate=0, prevDate=0;
+		java.util.Date searchDate= null;
 
+		if( request.getParameter("elem") !=null ) {
+			searchDate = new java.util.Date( Long.parseLong(  request.getParameter("elem")  ) );	
+		}else if( session.getValue("VTK_planView_memoPos") !=null ){
+			searchDate= new java.util.Date( (Long)session.getValue("VTK_planView_memoPos")  );			
+		} else {
+			
+			if( troop.getYearPlan().getSchedule()==null)
+				searchDate = (java.util.Date) sched.keySet().iterator().next();
+			else{
+		
+			  java.util.Iterator itr = sched.keySet().iterator();
+			  while( itr.hasNext() ){
+				searchDate= (java.util.Date)itr.next();
+				if( searchDate.after( new java.util.Date() ) )
+				break;
+		
+			  }
+		    }
+		
+		}
 
+		int currInd =dates.indexOf(searchDate);
+	        int meetingCount = currInd+1;
 
+		if( dates.size()-1 > currInd )
+			nextDate = ((java.util.Date)dates.get(currInd+1)).getTime();
+		if( currInd>0 )
+			prevDate = ((java.util.Date)dates.get(currInd-1)).getTime();	
+		session.putValue("VTK_planView_memoPos", searchDate.getTime());
+	    YearPlanComponent _comp= sched.get(searchDate);
+	    */
+		 YearPlanComponent _comp= planView.getYearPlanComponent();
+		if( _comp ==null ){
+			/*
+			%><span class="error">
+			A co-leader has made changes to the schedule of the Year Plan that affect this meeting. 
+			<a href="/content/girlscouts-vtk/en/vtk.plan.html">Click here</a> to go to the Year Plan view to see this changes and access the updated version of this meeting.
+			</span><% 
+			*/
+			System.err.println("_comp is null");
+			return null;
+		}
+
+	    MeetingE meeting = null;
+		List<Asset> _aidTags = null;
+		Meeting meetingInfo = null;
+
+		
+		
+
+		if ( _comp.getType() == YearPlanComponentType.MEETING) {
+			meeting = (MeetingE) _comp;
+			meetingInfo = yearPlanUtil.getMeeting( user, meeting.getRefId() );
+			
+			meeting.setMeetingInfo(meetingInfo);
+			
+			java.util.List <Activity> _activities = meetingInfo.getActivities();
+			java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  meetingInfo.getMeetingInfo();
+
+			boolean isLocked=false;
+			//if(searchDate.before( new java.util.Date() ) && troop.getYearPlan().getSchedule()!=null ) isLocked= true;
+			if(planView.getSearchDate().before( new java.util.Date() ) && troop.getYearPlan().getSchedule()!=null ) isLocked= true;
+
+			boolean isCanceled =false;
+			if( meeting.getCancelled()!=null && meeting.getCancelled().equals("true")){
+				isCanceled  = true;
+			}
+
+			_aidTags = meeting.getAssets();
+
+			java.util.Date sysAssetLastLoad = // sling.getService(org.girlscouts.vtk.helpers.DataImportTimestamper.class).getTimestamp(); //SYSTEM QUERY
+					dataImportTimestamper.getTimestamp();
+			
+			if(meeting.getLastAssetUpdate()==null || meeting.getLastAssetUpdate().before(sysAssetLastLoad) ){
+
+			_aidTags = _aidTags ==null ? new java.util.ArrayList() : _aidTags;
+
+			//rm cachables
+			java.util.List aidToRm= new java.util.ArrayList();
+			for(int i=0;i<_aidTags.size();i++){
+				if( _aidTags.get(i).getIsCachable() )
+					aidToRm.add( _aidTags.get(i));
+			}
+
+			for(int i=0;i<aidToRm.size();i++)
+				_aidTags.remove( aidToRm.get(i));
+
+			//query aids cachables
+			 java.util.List __aidTags =  yearPlanUtil.getAids(user, meetingInfo.getAidTags(), meetingInfo.getId(), meeting.getUid());
+
+			//merge lists aids
+			_aidTags.addAll( __aidTags );
+
+			//query resources cachables
+			java.util.List __resources =  yearPlanUtil.getResources(user, meetingInfo.getResources(), meetingInfo.getId(), meeting.getUid());
+
+			//merge lists resources
+			_aidTags.addAll( __resources );
+
+			meeting.setLastAssetUpdate( new java.util.Date() );
+			meeting.setAssets( _aidTags);
+			troopUtil.updateTroop(user, troop);
+		
+		}
+		
+	  }
+		
+		
+		
+		meeting.setMeetingInfo(meetingInfo);
+		planView.setMeeting(meeting);
+		planView.setAidTags( _aidTags );
+		/*
+		planView.setSearchDate(searchDate);
+		planView.setPrevDate(prevDate);
+		planView.setNextDate(nextDate);
+		planView.setCurrInd(currInd);
+		planView.setMeetingCount(meetingCount);
+		planView.setYearPlanComponent(_comp);
+		*/
+		
+		
+		
+		return planView;
+	}
+
+	public PlanView planView1( User user, Troop troop, javax.servlet.http.HttpServletRequest request){
+		
+		PlanView planView = new PlanView();
+		HttpSession session= request.getSession();
+		
+		java.util.Map <java.util.Date,  YearPlanComponent> sched = getYearPlanSched(troop.getYearPlan(), false);
+		if( sched==null || (sched.size()==0)){System.err.println( "You must first select a year plan."); return null;}
+		java.util.List<java.util.Date> dates =new java.util.ArrayList<java.util.Date>(sched.keySet());
+		long nextDate=0, prevDate=0;
+		java.util.Date searchDate= null;
+
+		if( request.getParameter("elem") !=null ) {
+			searchDate = new java.util.Date( Long.parseLong(  request.getParameter("elem")  ) );	
+		}else if( session.getValue("VTK_planView_memoPos") !=null ){
+			searchDate= new java.util.Date( (Long)session.getValue("VTK_planView_memoPos")  );			
+		} else {
+			
+			if( troop.getYearPlan().getSchedule()==null)
+				searchDate = (java.util.Date) sched.keySet().iterator().next();
+			else{
+		
+			  java.util.Iterator itr = sched.keySet().iterator();
+			  while( itr.hasNext() ){
+				searchDate= (java.util.Date)itr.next();
+				if( searchDate.after( new java.util.Date() ) )
+				break;
+		
+			  }
+		    }
+		
+		}
+
+		int currInd =dates.indexOf(searchDate);
+	        int meetingCount = currInd+1;
+
+		if( dates.size()-1 > currInd )
+			nextDate = ((java.util.Date)dates.get(currInd+1)).getTime();
+		if( currInd>0 )
+			prevDate = ((java.util.Date)dates.get(currInd-1)).getTime();	
+		session.putValue("VTK_planView_memoPos", searchDate.getTime());
+	    YearPlanComponent _comp= sched.get(searchDate);
+	 
+	    
+	    
+		planView.setSearchDate(searchDate);
+		planView.setPrevDate(prevDate);
+		planView.setNextDate(nextDate);
+		planView.setCurrInd(currInd);
+		planView.setMeetingCount(meetingCount);
+		planView.setYearPlanComponent(_comp);
+		
+	    return planView;
+	}
 
 }

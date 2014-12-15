@@ -38,6 +38,7 @@ if( meeting != null && meeting.getCancelled()!=null && meeting.getCancelled().eq
 <form id="frmCalElem">
 	<label for"cngDate0">Change Date</label>
 	<br/><input type="text" value="<%= FORMAT_MMddYYYY.format(date) %>" id="cngDate0"  name="cngDate0" class="date calendarField"/>
+	<span  id="cngDate0ErrMsg"></span>
 	<br/><label for"cngTime0">Change Time</label>
 	<br/><input type="text" id="cngTime0" value="<%= FORMAT_hhmm.format(date) %>" name="cngDate0" class="date"/>
 	<select id="cngAP0" name="cngAP0" class="ampm">
