@@ -265,10 +265,10 @@ var MeetingPlan = React.createClass({
 
     return (
 		<div>
-		<%@include file="include/meeting_navigator.jsp"%>
- 		<%@include file="include/meeting_maininfo.jsp"%>
-		<%@include file="include/meeting_planning.jsp"%>
-		<%@include file="include/meeting_communication.jsp"%>
+  		<%@include file="include/meeting_navigator.jsp"%>
+   		<%@include file="include/meeting_maininfo.jsp"%>
+  		<%@include file="include/meeting_planning.jsp"%>
+  		<%@include file="include/meeting_communication.jsp"%>
 		</div>
     );
 
