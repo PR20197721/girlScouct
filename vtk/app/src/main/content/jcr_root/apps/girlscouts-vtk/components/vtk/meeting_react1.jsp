@@ -1,70 +1,49 @@
-
-<%
-	String myProjLoc = "jira241";
-%>
-
-
-
 <%@ page
-	import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.troop.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
+  import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <cq:defineObjects />
 
-<%@include file="../../include/session.jsp"%>
+<%@include file="include/session.jsp"%>
 <%
-	org.girlscouts.vtk.models.PlanView planView = meetingUtil
-			.planView1(user, troop, request);
+  String activeTab = "planView";
+    boolean showVtkNav = true;
+    
+	org.girlscouts.vtk.models.PlanView planView = meetingUtil.planView1(user, troop, request);
 	String mid = planView.getYearPlanComponent().getUid();
-	java.util.Date searchDate = new java.util.Date(planView
-			.getSearchDate().getTime());
+	java.util.Date searchDate = new java.util.Date(planView.getSearchDate().getTime());
+
+
 %>
 
-<html>
 
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-<link rel="stylesheet"
-	href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 <script src="http://fb.me/react-0.12.1.js"></script>
 <script src="http://fb.me/JSXTransformer-0.12.1.js"></script>
-<script
-	src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
+<script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
 
 
-<body>
-
-	<style>
-.meetingHeader {
-	border: 5px solid green;
-	background-color: yellow;
-}
-
-li.placeholder {
-	background: rgb(255, 240, 120);
-}
-
-li.placeholder:before {
-	content: "Drop here";
-	color: rgb(225, 210, 90);
-}
-
-ul {
-	list-style: none;
-	margin: 0;
-	padding: 0
-}
-
-li {
-	padding: 5px;
-	background: #eee
-}
-</style>
+<%@include file="include/tab_navigation.jsp"%>
+<!--page wrapper-->
+<div id="panelWrapper" class="row content meeting-detail">
+  <!--/utility links and download, print, help links-->
+  <%@include file="include/utility_nav.jsp"%>
+  <!--/meeting title and navigation-->
+  
+<!-- 
+  <%@include file="include/meeting_maininfo.jsp"%>
+  <%@include file="include/meeting_planning.jsp"%>
+  <%@include file="include/meeting_communication.jsp"%>
+  <%@include file="include/meeting_aids.jsp"%>
+  <%@include file="include/meeting_agenda.jsp"%>
+  <!--/TODO this is for text only-->
+  <%@include file="include/modal_1.jsp"%>
+-->
 
 
-	<%@include file="meetingMain.jsp"%>
 
-	<div id="panelWrapper"></div>
-	<script type="text/jsx">
+<script type="text/jsx">
 
 var thisMeetingRefId;
 var thisMeetingPath;
@@ -155,13 +134,13 @@ var MeetingAssets = React.createClass({
 
     });
     return (
-      <section class="column large-20 medium-20 large-centered medium-centered">
-  		<h6>meeting aids</h6>
-  			<ul class="large-block-grid-2">
+      <section className="column large-20 medium-20 large-centered medium-centered">
+ 		 <h6>meeting aids</h6>
+ 			 <ul className="large-block-grid-2 medium-block-grid-2 small-block-grid-1">
         		{commentNodes}
-			</ul>
-		
-	 </section>  
+     				<li><a href="javascript:void(0)" onclick="loadModal('#newMeetingAgenda', true, 'Agenda', false);" title="Add meeting aids"><i className="icon-button-circle-plus"></i> Add Meeting Aids</a></li>
+  			</ul>
+		</section> 
       
     );
   }
@@ -185,7 +164,12 @@ var MeetingPlan = React.createClass({
   render: function() {
 
     return (
-		<%@include file="meetingHeader.jsp"%>
+		<div>
+		<%@include file="include/meeting_navigator.jsp"%>
+ 		<%@include file="include/meeting_maininfo.jsp"%>
+		<%@include file="include/meeting_planning.jsp"%>
+		<%@include file="include/meeting_communication.jsp"%>
+		</div>
     );
   }
 });
@@ -193,7 +177,7 @@ var MeetingPlan = React.createClass({
 var MeetingAsset = React.createClass({
   render: function() {
     return (
-		<%@include file="meetingAsset.jsp"%>
+		<%@include file="include/meeting_aids.jsp"%>
     );
   }
 });
@@ -202,7 +186,7 @@ var MeetingAsset = React.createClass({
 var MeetingActivity = React.createClass({
   render: function() {
     return (
-			<%@include file="meetingActivity.jsp"%>	
+			<div>meetingactivity</div>
     );
   }
 });
@@ -262,7 +246,11 @@ var SortableList1 = React.createClass({
 	},
 
     render: function () {
-		return <SortableListItems1 key="{this.props.data}"  data={this.props.data}  onReorder={this.onReorder}/>;
+		return <section className="column large-20 medium-20 large-centered medium-centered">
+  					<h6>meeting agenda</h6>
+  					<p>Select and agenda item to view details, edit duration and delete. Drag and drop to reorder.</p>
+ 						<SortableListItems1 key="{this.props.data}"  data={this.props.data}  onReorder={this.onReorder}/>
+				</section>;
 	}
 });
 
@@ -271,7 +259,7 @@ var SortableListItems1 = React.createClass({
   render: function() {
 
    return (
-		<%@include file="meetingActivity1.jsp"%>
+		<%@include file="include/meeting_agenda.jsp"%>
     );
 	
   },
@@ -318,41 +306,9 @@ React.render(
 
 
     </script>
-
-	<hr />
-	<a href="javascript:void(0)" onclick="revertAgenda( thisMeetingPath )"
-		class="mLocked">Revert to Original Agenda</a>
-	<br />
-	<br />
-
-	<a href="javascript:void(0)"
-		onclick="loadModal('#newMeetingAgenda', true, 'Agenda', false);">Add
-		Agenda Items</a>
-
-
-	<div id="newMeetingAgenda" style="display: none;">
-
-		<h1>Add New Agenda Item</h1>
-
-		Enter Agenda Item Name:<br /> <input type="text"
-			id="newCustAgendaName" value="" /> <br />Time Allotment: <select
-			id="newCustAgendaDuration">
-			<option value="5">5</option>
-			<option value="10">10</option>
-			<option value="15">15</option>
-			<option value="20">20</option>
-			<option value="25">25</option>
-			<option value="30">30</option>
-		</select> <br />Description:
-		<textarea id="newCustAgendaTxt"></textarea>
-		<br /> <br />
-		<div class="linkButtonWrapper">
-			<input type="button" value="save"
-				onclick="createCustAgendaItem2('<%=planView.getSearchDate().getTime()%>', '1', thisMeetingPath)"
-				class="button linkButton" />
-		</div>
-
-		<div id="myActivity">activity</div>
-</body>
-</html>
+    
+    
+<!--/TODO this is for text only-->
+  <%@include file="include/modal_1.jsp"%>
+</div>
 

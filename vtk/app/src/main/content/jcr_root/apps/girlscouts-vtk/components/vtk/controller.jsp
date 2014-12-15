@@ -573,11 +573,32 @@ Troop x= (Troop)session.getAttribute("VTK_troop");
 		java.util.List <MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
 		for( int i=0;i<meetings.size();i++){
 			MeetingE _meeting = meetings.get(i);
+			
 			if(_meeting.getMeetingInfo()!=null && _meeting.getMeetingInfo().getActivities()!=null ){
+				
+				
+System.err.println("ISACTIV......... "+request.getParameter("isActiv"));				
+			if(request.getParameter("isActivNew")!=null && request.getParameter("isActivNew").equals("1") ){
+				_meeting.getMeetingInfo().setActivities(null );
+				/*
+				java.util.List<Activity> _activities = _meeting.getMeetingInfo().getActivities();
+				Activity temp = new Activity();
+				temp.setName("temp");
+				temp.setDuration(0);
+				temp.setActivityNumber(0);
+				_activities.add( temp );
+				_meeting.getMeetingInfo().setActivities( _activities);
+				*/
+				
+			}else{
 				java.util.List<Activity> _activities = _meeting.getMeetingInfo().getActivities();
 			
 				Comparator<Activity> comp = new org.apache.commons.beanutils.BeanComparator("activityNumber");
         		Collections.sort( _activities, comp);
+			}
+			
+			
+			
 			}
 		}
 		
