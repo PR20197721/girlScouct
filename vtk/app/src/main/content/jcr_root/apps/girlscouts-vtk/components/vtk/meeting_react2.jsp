@@ -267,7 +267,7 @@
     );
     </script>
     <!--/TODO this is for text only-->
-    <%@include file="include/modal_1.jsp"%>
+    <%@include file="include/modal_agenda.jsp"%>
 </div><!--/panelWrapper-->
 
 
