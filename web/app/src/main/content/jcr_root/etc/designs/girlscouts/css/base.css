@@ -1,7 +1,5 @@
 /* base */
 
-/*@import url("home.css");*/
-
 /***********************************/
 /************* GLOBAL **************/
 /***********************************/
@@ -513,7 +511,7 @@ input#date {
   padding-right: 10px;
 }
 #advSearch {
-  background-image: url("/etc/designs/girlscouts/images/search_green.png");
+  /*background-image: url("/etc/designs/girlscouts-usa-green/images/search.png");*/
   background-position: right center;
   background-repeat: no-repeat;
   padding: 10px;
