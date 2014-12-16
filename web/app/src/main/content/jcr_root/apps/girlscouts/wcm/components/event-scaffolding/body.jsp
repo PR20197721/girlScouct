@@ -30,8 +30,8 @@
 	<%
         try{
 		String contentPath = properties.get("cq:targetPath", "");
-	    String dlgPathProperty = properties.get("dialogPath", "");
-	    String dlgPath = !dlgPathProperty.isEmpty() ? dlgPathProperty : resource.getPath() + "/dialog";
+		String dlgPathProperty = properties.get("dialogPath", "");
+		String dlgPath = !dlgPathProperty.isEmpty() ? dlgPathProperty : resource.getPath() + "/dialog";
 		String templatePath = properties.get("cq:targetTemplate", "");
 		String scaffoldPath = resourcePage.getPath();
 		String formUrl = contentPath + "/*";
@@ -326,7 +326,7 @@ properties of this scaffolding.
 
             }
                 });
-                if((startDate < endDate) | endDate == ""){
+                if(typeof endDate === 'object' && startDate < endDate){
                     
                     var startDateValue = frm.findField("./jcr:content/data/start").el.dom.value;
 
@@ -351,9 +351,9 @@ properties of this scaffolding.
 
                     }
                 	frm.doAction(action);
-                }
-                else{
-
+                } else if (endDate.length == 0){
+					frm.doAction(action);
+                } else {
                     CQ.Ext.Msg.alert("Error", "The Event End Date cannot be before or at the same time as Event Start Date");
                    frm.reset();
                    window.scrollTo(0,0);
