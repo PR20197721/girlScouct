@@ -1,5 +1,4 @@
-/* green header font */
-
+/* white background header font */
 #header a {
-    color: #00AE58;
+  color: #00AE58; /*green color*/
 }
