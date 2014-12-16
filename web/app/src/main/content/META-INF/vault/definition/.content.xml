@@ -277,6 +277,11 @@
             mode="replace"
             root="/etc/scaffolding/girlscouts-dxp"
             rules="[]"/>
+        <f54
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/workflow/launcher/config/gs_form_reverse_replication"
+            rules="[]"/>
 
     </filter>
 </jcr:root>

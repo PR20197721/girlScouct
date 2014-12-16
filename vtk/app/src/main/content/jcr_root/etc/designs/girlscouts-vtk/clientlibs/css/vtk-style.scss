@@ -78,6 +78,9 @@
       }
     }
     #yearPlanMeetings {
+      > .row > div.column {
+        padding:0;
+      }
       .yearPlanTitle {
         font-size: 1.63em;
         text-transform:uppercase;
@@ -87,21 +90,29 @@
         .meeting {
          margin-bottom: 2.0833333%;
           > div {
-            padding-left: 30px;
+            height: 80px;
             background-color:#f6f6f6;
             cursor: pointer;
+
             &:before {
               content:'';
               background: url("images/throbber.png") repeat-y #fff;
               height: 100%;
               width: 23px;
               position: absolute;
-              left:0;
+              left:-33px;
               padding: 0 17px;
               cursor: move;
             }
             p {
               margin:0;
+              &.blurb,
+              &.category,
+              &.subtitle {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+              }
             }
             .bg-square {
               background-color: #00ae57;
@@ -110,14 +121,17 @@
               color: #fff;
               position: absolute;
               height: 100%;
-              width: 91px;
+              width: 80px;
+              left:0;
               .date {
                 text-transform: uppercase;
-                .day {
-                  font-size: 2.06em;
-                }
                 p {
                   font-weight: 100;
+                  line-height:1;
+                }
+                .day {
+                  font-size: 2.06em;
+                  line-height:1.3;
                 }
               }
               .count {
@@ -150,11 +164,31 @@
               position: static;
             }
             >div:nth-of-type(2) {
-              padding-left:140px;
-              padding-top:15px;
-              padding-bottom:15px;
+              padding-left:120px;
+              padding-top:10px;
+              padding-bottom:10px;
               .subtitle {
                 text-transform:uppercase;
+              }
+            }
+            >div:nth-of-type(3) {
+              padding-top:10px;
+              padding-bottom:10px;
+            }
+          }
+          &.activity {
+            &.ui-state-disabled {
+              opacity: 1;
+              > div  {
+                 .bg-square {
+                  background-color: #00abe6;
+                  &:after {
+                    border-color: transparent transparent transparent #00abe6;
+                  }
+                }
+                &:before {
+                  cursor: default !important;
+                }
               }
             }
           }
@@ -193,32 +227,36 @@
       }
     }
   }
-  #showHideReveal {
-    position: relative;
-    height: 46px;
-    background-color: #f6f6f6;
-    padding-left: 45px;
-    line-height: 46px;
-    color: #484848;
-    cursor:pointer;
-    &:before {
-      position: absolute;
-      content: "";
-      width: 0;
-      height: 0;
-      display: block;
-      border-style: solid;
-      border-color: transparent transparent transparent #929292;
-      top: 50%;
-      left: 15px;
-      border-width: 12px;
-      margin-top: -12px;
+  .sectionHeader {
+    > div.column {
+      background-color:#f6f6f6;
     }
-    &.open {
+    #showHideReveal {
+      position: relative;
+      height: 46px;
+      padding-left: 45px;
+      line-height: 46px;
+      color: #484848;
+      cursor:pointer;
       &:before {
-        border-color: #929292 transparent transparent transparent;
-        margin-top: -3px;
-        left: 6px;
+        position: absolute;
+        content: "";
+        width: 0;
+        height: 0;
+        display: block;
+        border-style: solid;
+        border-color: transparent transparent transparent #929292;
+        top: 50%;
+        left: 15px;
+        border-width: 12px;
+        margin-top: -12px;
+      }
+      &.open {
+        &:before {
+          border-color: #929292 transparent transparent transparent;
+          margin-top: -3px;
+          left: 6px;
+        }
       }
     }
   }
@@ -273,4 +311,19 @@
 .ui-widget-header .ui-state-default {
   border: none;
   color: #393939;
+}
+//Media queries
+//small screen
+@media only screen and (max-width: 40em) {
+  .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div {
+    .bg-square {
+      position: static;
+      &:after {
+        content: none;
+      }
+    }
+    > div:nth-of-type(2) {
+        padding-left:35px;
+    }
+  }
 }
