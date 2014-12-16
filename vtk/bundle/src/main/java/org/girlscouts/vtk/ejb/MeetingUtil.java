@@ -308,6 +308,8 @@ if( !userUtil.hasPermission(troop,  Permission.PERMISSION_MOVE_MEETING_ID ) ){
 		java.util.List <MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
 		for(int i=0;i<meetings.size();i++){
 			MeetingE m= meetings.get(i);
+		
+			
 			if( m.getPath().equals(meetingPath)){
 				
 				Meeting meeting =null;
@@ -315,11 +317,12 @@ if( !userUtil.hasPermission(troop,  Permission.PERMISSION_MOVE_MEETING_ID ) ){
 				 meeting =meetingDAO.updateCustomMeeting(user, troop, m, null);
 				else
 				 meeting =meetingDAO.createCustomMeeting(user, troop, m);
-				
+			
 				Activity activity= new Activity();
 				activity.setName(name);
 				activity.setDuration(duration);
 				activity.setActivityDescription(txt);
+				activity.setActivityNumber( meeting.getActivities().size()	 +1 );
 			
 				meetingDAO.addActivity(user, troop, meeting,  activity);
 				

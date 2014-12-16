@@ -11,6 +11,8 @@
 	org.girlscouts.vtk.models.PlanView planView = meetingUtil.planView1(user, troop, request);
 	String mid = planView.getYearPlanComponent().getUid();
 	java.util.Date searchDate = new java.util.Date(planView.getSearchDate().getTime());
+	java.util.Date newActivityDate = new java.util.Date( searchDate.getTime() );
+	newActivityDate.setMinutes( newActivityDate.getMinutes() +100 );
 
 
 %>
@@ -64,7 +66,9 @@ var MeetingList = React.createClass({
 
   },
 
-
+test: function(value) {
+        console.log("************");
+    },
 
   render: function() {
 
@@ -109,11 +113,11 @@ thisMeetingDate = new Date( Number(thisMeetingDate) );
 
 meetingId={comment.id} meetingGlobalId={thisMeetingImg}
 
-location={comment.locationRef} blurb={comment.meetingInfo.meetingInfo["meeting short description"].str} />
+location={comment.locationRef} cat={comment.meetingInfo.cat} blurb={comment.meetingInfo.meetingInfo["meeting short description"].str} />
 
 <MeetingAssets data={comment.assets} />
 
-<SortableList1 data={comment.meetingInfo.activities}/>
+<SortableList1 data={comment.meetingInfo.activities} onClick={this.test}/>
 
         </YearPlan>
 
@@ -265,7 +269,7 @@ var MeetingPlan = React.createClass({
 
     return (
 		<div className="section-wrapper">
- <%@include file="include/utility_nav.jsp"%>
+ 		 <%@include file="include/utility_nav.jsp"%>
 		 <%@include file="include/meeting_navigator.jsp"%>
  		 <%@include file="include/meeting_maininfo.jsp"%>
 		 <%@include file="include/meeting_planning.jsp"%>
@@ -308,7 +312,7 @@ var CommentBox = React.createClass({
 
 
 
-console.log("isActivNew: "+ isActivNew);
+//console.log("isActivNew: "+ isActivNew);
 
    $.ajax({
 
@@ -330,7 +334,7 @@ this.setState({data:data.yearPlan});
 
       error: function(xhr, status, err) {
 
-        console.error(this.props.url, status, err.toString());
+        //-console.error(this.props.url, status, err.toString());
 
       }.bind(this)
 
@@ -404,15 +408,14 @@ var SortableList1 = React.createClass({
 
 getInitialState: function() {
 
-return {data: this.props.data};
-
+		return {data: this.props.data};
 },
-
 
 
 onReorder: function (order) {
 
-isActivNew=1;
+		isActivNew=1;
+
 
 
 
@@ -425,15 +428,11 @@ isActivNew=1;
 		return <section className="column large-20 medium-20 large-centered medium-centered">
   					<h6>meeting agenda</h6>
   					<p>Select and agenda item to view details, edit duration and delete. Drag and drop to reorder.</p>
- 						<SortableListItems1 key="{this.props.data}"  data={this.props.data}  onReorder={this.onReorder}/>
+ 						<SortableListItems1  key="{this.props.data}"  data={this.props.data} onClick={this.alex} onReorder={this.onReorder}/>
 				</section>;
 }
 
 });
-
-
-
-function xy(){isActivNew='';}
 
 
 
@@ -478,8 +477,6 @@ return <div><img src="http://sgsitsindore.in/Images/wait.gif"/></div>
 
 repositionActivity1(thisMeetingRefId , yy);
 
-//xx();
-
 onReorder(order);
 
         }
@@ -496,7 +493,6 @@ onReorder(order);
 
 componentWillUpdate: function() {
 
-console.log("will update");
 
     var dom = $(this.getDOMNode());
 
@@ -514,7 +510,6 @@ console.log("will update");
 
 repositionActivity1(thisMeetingRefId , yy);
 
-//xx();
 
 onReorder(order);
 
@@ -565,27 +560,7 @@ error: function (data) {
 
 
 
-function xx(){
 
-console.log("xx");
-
-React.unmountComponentAtNode(document.getElementById('content'));
-
-
-
-
-
-React.render(
-
-<CommentBox url="/content/girlscouts-vtk/controllers/vtk.controller.html?reactjs=asdf" pollInterval={10000} />,
-
-  document.getElementById('content')
-
-);
-
-
-
-}
 
 
 
@@ -610,5 +585,67 @@ React.render(
     
 <!--/TODO this is for text only-->
   <%@include file="include/modal_1.jsp"%>
+
 </div>
 
+
+
+
+<hr />
+
+<a href="javascript:void(0)" onclick="revertAgenda( thisMeetingPath )">Revert to Original Agenda</a>
+
+<br />
+
+<br />
+
+
+
+<a href="javascript:void(0)" onclick="loadModal('#newMeetingAgenda', true, 'Agenda', false);">Add Agenda Items</a>
+
+
+
+
+
+<div id="newMeetingAgenda" style="display: none;">
+
+
+
+<h1>Add New Agenda Item</h1>
+
+
+
+Enter Agenda Item Name:<br /> <input type="text"
+
+id="newCustAgendaName" value="" /> <br />Time Allotment: <select
+
+id="newCustAgendaDuration">
+
+<option value="5">5</option>
+
+<option value="10">10</option>
+
+<option value="15">15</option>
+
+<option value="20">20</option>
+
+<option value="25">25</option>
+
+<option value="30">30</option>
+
+</select> <br />Description:
+
+<textarea id="newCustAgendaTxt"></textarea>
+
+<br /> <br />
+
+<div class="linkButtonWrapper">
+
+<input type="button" value="save"
+
+onclick="createCustAgendaItem2('<%=planView.getSearchDate().getTime()%>', '<%=newActivityDate.getTime()%>', thisMeetingPath)"
+
+class="button linkButton" />
+
+
+</div>

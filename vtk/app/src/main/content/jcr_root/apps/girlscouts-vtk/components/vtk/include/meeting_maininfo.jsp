@@ -8,7 +8,7 @@
         </section>
       <section>
         <p>Category:</p>
-        <p>XXXX</p>
+        <p>{this.props.cat}</p>
       </section>
     </div>
     <div className="column large-7 medium-7 small-7">
