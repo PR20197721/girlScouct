@@ -30,11 +30,17 @@ var App = React.createClass({
             }
         };
     },
+shouldComponentUpdate: function (nextProps, nextState) {
+    return this.props.cursor !== nextProps.cursor;
+},
     render: function () {
         return <pre>{JSON.stringify(this.state, undefined, 2)}</pre>;
     }
 });
 
+var myClass = React.createClass({
+    mixins: [ImmutableOptimizations(['cursor'])],
+});
 
 React.render(
 <App />,
