@@ -89,22 +89,12 @@
 						<% }	%>
 				</div><!--/yearPlanSelection-->
 				<div id="yearPlanMeetings" style="display:<%=(troop.getYearPlan()!=null) ? "block" : "none"%>">
-					<%
-						if(troop.getYearPlan()!=null){
-					%>
-					<script>
-						$(document).ready(function() {
-							loadMeetings();
-						});
-					</script>
-					<%
-						}
-					%>
 				</div><!--/yearPlanMeetings-->
 				<%
 					if (troop.getYearPlan() != null) {
 				%>
 			</div><!--/columns-->
+
 		</div><!--/panelWrapper-->
 <!-- Pannel was removed as per new design.	
 			<div id="panelRight" class="small-24 medium-24 large-6 columns hide-for-print">

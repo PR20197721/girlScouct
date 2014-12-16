@@ -38,7 +38,7 @@
 %>
 	<script type="text/javascript">
 	///the variable has to be set on the page where the resizing is needed not in the header.
-    	var fixVerticalSizing = true;
+  //  	var fixVerticalSizing = true;
 	<%
     if (!hideSignIn.equalsIgnoreCase("true")) {
 	%>

@@ -1,7 +1,7 @@
   //seems to be only used in VTK sections
   var resizeWindow = function(){
     //make sure fixVertical is defined.
-    if(typeof fixVerticalSizing != 'undefined' && fixVerticalSizing === true) {
+    //if(typeof fixVerticalSizing != 'undefined' && fixVerticalSizing === true) {
       //get height of the actual page
       var currentMainHeight = $('.inner-wrap').height();
       //get the height of the window
@@ -13,10 +13,17 @@
         $('.vtk-body #main .row.content').first().css('padding-bottom',targetMainHeight + "px");
         $('#main.content').css('padding-bottom',targetMainHeight + "px");
       }
-   }
+      else {
+        $('#main .row.content').css('padding-bottom','');
+        $('#main.content').css('padding-bottom','');
+      }
+   //}
   };
   $(window).load(function(){
-      resizeWindow();
+    $("#yearPlanMeetings").load(loadMeetings());
+  })
+  $(document).ready(function(){
+   resizeWindow();
   })
   $( window ).resize(function() {
      //first remove the padding added after reload.
