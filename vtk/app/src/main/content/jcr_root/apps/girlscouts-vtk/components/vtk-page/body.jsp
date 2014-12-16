@@ -72,5 +72,5 @@
 				%>
 			</div>
 		</div>
-		<!-- <div id="myModal"></div> -->
+		 <div id="gsModal"></div> 
 	</body>
