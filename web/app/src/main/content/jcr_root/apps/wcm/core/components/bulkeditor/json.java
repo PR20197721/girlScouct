@@ -25,6 +25,7 @@ import javax.jcr.Value;
 import javax.jcr.query.Row;
 import javax.jcr.query.RowIterator;
 import javax.servlet.ServletException;
+import javax.jcr.ItemNotFoundException
 
 import org.apache.jackrabbit.commons.query.GQL;
 import org.apache.sling.api.SlingHttpServletRequest;
@@ -38,111 +39,154 @@ import com.day.cq.commons.jcr.JcrConstants;
  * Servers as base for image servlets
  */
 public class json extends SlingAllMethodsServlet {
-    /**
-     * Query clause
-     */
-    public static final String QUERY_PARAM = "query";
+	/**
+	 * Query clause
+	 */
+	public static final String QUERY_PARAM = "query";
 
-    /**
-     * Common path prefix
-     */
-    public static final String COMMON_PATH_PREFIX_PARAM = "pathPrefix";
+	/**
+	 * Common path prefix
+	 */
+	public static final String COMMON_PATH_PREFIX_PARAM = "pathPrefix";
 
-    /**
-     * Common path prefix
-     */
-    public static final String PROPERTIES_PARAM = "cols";
+	/**
+	 * Common path prefix
+	 */
+	public static final String PROPERTIES_PARAM = "cols";
 
-    public static final String TIDY_PARAM = "tidy";
+	public static final String TIDY_PARAM = "tidy";
 
-    /**
-     * Property name replacements
-     */
-    private static Map<String, String> PROPERTY_NAME_REPLACEMENTS = new HashMap<String, String>();
-    static {
-        PROPERTY_NAME_REPLACEMENTS.put("\\.", "_DOT_");
-    }
+	/**
+	 * Property name replacements
+	 */
+	private static Map<String, String> PROPERTY_NAME_REPLACEMENTS = new HashMap<String, String>();
+	static {
+		PROPERTY_NAME_REPLACEMENTS.put("\\.", "_DOT_");
+	}
 
-    protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response)
-            throws ServletException, IOException {
+	protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response)
+			throws ServletException, IOException {
 
-        if ("json".equals(request.getRequestPathInfo().getExtension())) {
-            StringWriter buf = new StringWriter();
+		if ("json".equals(request.getRequestPathInfo().getExtension())) {
+			StringWriter buf = new StringWriter();
 
-            String queryString = request.getParameter(QUERY_PARAM);
-            String commonPathPrefix = request.getParameter(COMMON_PATH_PREFIX_PARAM);
+			String queryString = request.getParameter(QUERY_PARAM);
+			String commonPathPrefix = request.getParameter(COMMON_PATH_PREFIX_PARAM);
 
-            Session session = request.getResourceResolver().adaptTo(
-                    Session.class);
-            try {
-                RowIterator hits;
-                if (commonPathPrefix != null && queryString != null) {
-                    hits = GQL.execute(queryString, session, commonPathPrefix);
-                } else if (queryString != null) {
-                    hits = GQL.execute(queryString, session);
-                } else {
-                    return;
-                }
+			Session session = request.getResourceResolver().adaptTo(
+					Session.class);
+			try {
+				RowIterator hits;
+				if (commonPathPrefix != null && queryString != null) {
+					hits = GQL.execute(queryString, session, commonPathPrefix);
+				} else if (queryString != null) {
+					hits = GQL.execute(queryString, session);
+				} else {
+					return;
+				}
 
-                long nbrOfResults = hits.getSize();
+				long nbrOfResults = hits.getSize();
 
-                TidyJSONWriter writer = new TidyJSONWriter(buf);
-                writer.setTidy("true".equals(request.getParameter(TIDY_PARAM)));
-                writer.object();
-                writer.key("hits");
-                writer.array();
+				TidyJSONWriter writer = new TidyJSONWriter(buf);
+				writer.setTidy("true".equals(request.getParameter(TIDY_PARAM)));
+				writer.object();
+				writer.key("hits");
+				writer.array();
 
-                String tmp = request.getParameter(PROPERTIES_PARAM);
-                String[] properties = (tmp != null) ? tmp.split(",") : null;
-                while (hits.hasNext()) {
-                    Row hit = hits.nextRow();
-                    Node node = (Node) session.getItem(hit.getValue(JcrConstants.JCR_PATH).getString());
-                    if (node != null) {
-                        writer.object();
-                        writer.key(JcrConstants.JCR_PATH).value(hit.getValue(JcrConstants.JCR_PATH).getString());
-                        if (properties != null) {
-                            for (String property : properties) {
-                                if (node.hasProperty(property)) {
-                                    Property prop = node.getProperty(property);
-                                    writer.key(encodeString(property));
-                                    if (prop.getType() != PropertyType.BINARY) {
-                                        if (prop.getDefinition().isMultiple()) {
-                                            writer.array();
-                                            for (Value v : prop.getValues()) {
-                                                writer.value(v.getString());
-                                            }
-                                            writer.endArray();
-                                        } else {
-                                            writer.value(prop.getString());
-                                        }
-                                    } else {
-                                        writer.value("BINARY");
-                                    }
-                                }
-                            }
-                        }
-                        writer.endObject();
-                    }
-                }
+				String tmp = request.getParameter(PROPERTIES_PARAM);
+				String[] properties = (tmp != null) ? tmp.split(",") : null;
+				while (hits.hasNext()) {
+					Row hit = hits.nextRow();
+					org.w3c.dom.Node node = (Node) session.getItem(hit.getValue(JcrConstants.JCR_PATH).getString());
+					if (node != null) {
 
-                writer.endArray();
-                writer.key("results").value(nbrOfResults);
-                writer.endObject();
-            } catch (Exception e) {
-                throw new ServletException(e);
-            }
+						writer.object();
+						writer.key(JcrConstants.JCR_PATH).value(hit.getValue(JcrConstants.JCR_PATH).getString());
+						if (properties != null) {
+							for (String property : properties) {
+								//if is encryped, decrypt to retreive 
+								if(node.hasProperty("isEncrypted") && node.getProperty("isEncrypted").equals("true")){
+									Map<String, String[]> propsMap=getNodeSecret(node);
+									if(propsMap.containsKey(property)){
+										writer.key(encodeString(property));
+										String[] values = propsMap.get(property);
+										if (values.length()>1) {
+											writer.array();
+											for (String v : values) {
+												writer.value(v);
+											}
+											writer.endArray();
+										} else {
+											writer.value(values[0]);
+										}
+									}
 
-            // send string buffer
-            response.setContentType("application/json");
-            response.setCharacterEncoding("utf-8");
-            response.getWriter().print(buf.getBuffer().toString());
-        }
-    }
+								}else{
+									if (node.hasProperty(property)) {
+										Property prop = node.getProperty(property);
+										writer.key(encodeString(property));
+										if (prop.getType() != PropertyType.BINARY) {
+											if (prop.getDefinition().isMultiple()) {
+												writer.array();
+												for (Value v : prop.getValues()) {
+													writer.value(v.getString());
+												}
+												writer.endArray();
+											} else {
+												writer.value(prop.getString());
+											}
+										} else {
+											writer.value("BINARY");
+										}
+									}
+								}
+							}
+						}
+						writer.endObject();
+					}
+				}
 
-    public static String encodeString(String s) {
-        for (String key : PROPERTY_NAME_REPLACEMENTS.keySet()) {
-            s = s.replaceAll(key, PROPERTY_NAME_REPLACEMENTS.get(key));
-        }
-        return s;
-    }
+				writer.endArray();
+				writer.key("results").value(nbrOfResults);
+				writer.endObject();
+			} catch (Exception e) {
+				throw new ServletException(e);
+			}
+
+			// send string buffer
+			response.setContentType("application/json");
+			response.setCharacterEncoding("utf-8");
+			response.getWriter().print(buf.getBuffer().toString());
+		}
+	}
+
+	public static String encodeString(String s) {
+		for (String key : PROPERTY_NAME_REPLACEMENTS.keySet()) {
+			s = s.replaceAll(key, PROPERTY_NAME_REPLACEMENTS.get(key));
+		}
+		return s;
+	}
+	//return decrypted(name,value) pair of a node 
+	public Map<String, String[]> getNodeSecret(Node node) throws ItemNotFoundException{
+		try{
+			String secret = node.getProperty("secret");
+			String decrypted = decrypted(secret);
+			String[] propStrings = decrypted.split("\n");
+			Map<String, String> propsMap = new HashMap<String, String>();
+			for(String propString:propStrings){
+				String[] tmpStrings=propString.split(":");
+				String prop = tmpStrings[0];
+				String[] values = tmpStrings[1].split(",");
+				propsMap.put(tmpStrings[0], values);
+			}
+			return propsMap;
+
+		}catch(Exception e){
+			throw new ItemNotFoundException("The node is encrypted, but no secret found");
+		}
+
+	}
+	public String decrypted(String s){
+		return s+"decrypted";
+	}
 }
