@@ -16,12 +16,17 @@
   Draws an element of a form
 
 --%><%@include file="/libs/foundation/global.jsp"%><%
+%><%@include file="/apps/foundation/components/form/expression.jsp"%><%
 %><%@ page import="com.day.cq.wcm.foundation.TextFormat,
                    com.day.cq.wcm.foundation.forms.FormsHelper,
                    com.day.cq.wcm.foundation.forms.LayoutHelper,
                    com.day.cq.wcm.foundation.forms.FormResourceEdit,
 				   java.util.ResourceBundle,
-				   com.day.cq.i18n.I18n" %><%
+				   com.day.cq.i18n.I18n,
+				   java.util.StringTokenizer,
+				   java.util.Set,
+				   java.util.HashSet,
+				   java.lang.StringBuilder" %><%
 
 	final ResourceBundle resourceBundle = slingRequest.getResourceBundle(null);
 	I18n i18n = new I18n(resourceBundle);  
@@ -105,7 +110,7 @@
             }
         %></div><%
         if (multiValued && !readOnly) {
-            %><span class="form_mv_add" onclick="CQ_form_addMultivalueWithPrefix('<%= xssAPI.encodeForJSString(name) %>', <%= rows %>, <%= width == null ? "null" : "'" + xssAPI.getValidInteger(width, 100) + "'" %>, '<%= prefix %>');<%= forceMrChangeHandler %>">[+]</span><%
+            %><span class="form_mv_add" onclick="CQ_form_addMultivalue('<%= xssAPI.encodeForJSString(name) %>', <%= rows %>, <%= width == null ? "null" : "'" + xssAPI.getValidInteger(width, 100) + "'" %>);<%= forceMrChangeHandler %>">[+]</span><%
         }
     %></div><%
 
@@ -120,4 +125,40 @@
         // check mandatory and single values constraints
         LayoutHelper.printErrors(slingRequest, name, out);
     }
+%>
+
+<%
+	String formId = getFormId(currentNode);
+	
+	if (formId != null) {
+	    String expression = properties.get("expression", "");
+		FormatExpressionResult result = formatExpression(expression, formId);
+		String finalExpression = result.expression;
+	    Set<String> fields = result.fields;
+
+		String thisField = properties.get("name", "");
+		String rand = Integer.toString(new Double(Math.random()*1000000).intValue());
+		String accuracy = properties.get("accuracy", "2");
+		%>
+		<script>
+			function func<%=rand%>() {
+				var result = <%= finalExpression %>;
+				if (isNaN(result) || !isFinite(result)) {
+					$('form#<%=formId%> input[name="<%=thisField%>"]').val('');
+				} else {
+					var tens = Math.pow(10, <%=accuracy%>);
+					result = Math.round(result*tens)/tens;
+					$('form#<%=formId%> input[name="<%=thisField%>"]').val(result);
+				}
+			}
+
+			$(document).ready(function(){
+			<% for (String field : fields) { %>
+				$('form#<%=formId%> input[name="<%=field%>"]').blur(func<%=rand%>);
+			<% } %>
+				$('form#<%=formId%> input[name="<%=thisField%>"]').attr('readonly', true);
+			});
+		</script>
+		<%
+	}
 %>

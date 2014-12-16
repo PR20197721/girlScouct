@@ -11,7 +11,7 @@
  * with Day.
  */
 %><script type="text/javascript">
-    function CQ_form_addMultivalueWithPrefix(name, rows, width, prefix) {
+    function CQ_form_addMultivalue(name, rows, width) {
         var wrapper = document.getElementById(name + "_rightcol");
         var fieldWrapper = document.createElement("div");
         var index = new Date().getTime();
@@ -41,9 +41,6 @@
         };
         icon.innerHTML = "&nbsp;[&ndash;]";
 
-        if (prefix) {
-        	fieldWrapper.appendChild(document.createTextNode(prefix));
-        }
         fieldWrapper.appendChild(field);
         fieldWrapper.appendChild(icon);
         wrapper.appendChild(fieldWrapper);

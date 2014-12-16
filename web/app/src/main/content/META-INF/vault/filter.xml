@@ -56,4 +56,5 @@
     <filter root="/etc/workflow/notification/email/default"/>
     <filter root="/etc/tracker"/>
     <filter root="/etc/msm/rolloutconfigs/gsdefault"/>
+    <filter root="/apps/wcm"/>
 </workspaceFilter>

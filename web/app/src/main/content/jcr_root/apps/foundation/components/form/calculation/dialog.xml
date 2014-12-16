@@ -14,12 +14,6 @@
                     jcr:primaryType="nt:unstructured"
                     path="/libs/foundation/components/form/defaults/items.infinity.json"
                     xtype="cqinclude"/>
-                <multivalue
-                    jcr:primaryType="cq:Widget"
-                    boxLabel="Property is multi value"
-                    name="./multivalue"
-                    type="checkbox"
-                    xtype="selection"/>
                 <readOnly
                     jcr:primaryType="cq:Widget"
                     boxLabel="Only show value"
@@ -105,5 +99,25 @@
                     xtype="textfield"/>
             </items>
         </five>
+        <expression
+            jcr:primaryType="nt:unstructured"
+            title="Expression"
+            xtype="panel">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <expression
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Expression"
+                    name="./expression"
+                    xtype="textfield"/>
+                <accuracy
+                    jcr:primaryType="cq:Widget"
+                    defaultValue="2"
+                    fieldDescription="How many decimal digits"
+                    fieldLabel="Accuracy"
+                    name="./accuracy"
+                    value="2"
+                    xtype="numberfield"/>
+            </items>
+        </expression>
     </items>
 </jcr:root>
