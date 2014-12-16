@@ -35,7 +35,16 @@ var App = React.createClass({
     }
 });
 
-var Cursor = require('/reactjs/react-cursor').Cursor;
+
+React.render(
+<App />,
+  document.getElementById('test')
+);
+var Cursor = require(["../../../reactjs/react-cursor"], function (util){ 
+
+	console.log("1");
+}).Cursor;
+
 var cursor = Cursor.build(this);
                 
 
@@ -44,6 +53,9 @@ cursor.refine('a').set(11);
 cursor.refine('b').refine('foo').value     ;
 cursor.refine('b').refine('foo').set({ 'bar': 43, 'baz': ['red', 'green'] });
 cursor.refine('b', 'foo', 'baz', 1).set('blue');
+
+
+
 
                                 </script>
                                 
