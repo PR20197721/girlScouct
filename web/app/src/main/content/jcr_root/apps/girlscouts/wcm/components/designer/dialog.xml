@@ -65,7 +65,7 @@
                             <grey
                                 jcr:primaryType="nt:unstructured"
                                 text="Grey"
-                                value="/etc/designs/girlscouts/css/nav/white.css"/>
+                                value="/etc/designs/girlscouts/css/nav/grey.css"/>
                             <green
                                 jcr:primaryType="nt:unstructured"
                                 text="Green"
