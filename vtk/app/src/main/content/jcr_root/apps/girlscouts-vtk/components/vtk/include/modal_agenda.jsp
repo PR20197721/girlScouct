@@ -1,6 +1,6 @@
 
 <!--/TODO rename this once done -->
-<div id="myModal_agenda" class="reveal-modal" data-reveal>
+<div id="myModal" class="reveal-modal" data-reveal>
     <div class="header clearfix">
       <h3 class="columns large-22">Agenda</h3>
       <a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>

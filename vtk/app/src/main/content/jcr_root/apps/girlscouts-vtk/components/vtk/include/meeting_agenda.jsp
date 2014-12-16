@@ -18,7 +18,8 @@
         
   
    <li className="row">
-    <a data-reveal-id="myModal_agenda"><i className="icon-button-circle-plus"></i> Replace this meeting</a>
-   
+     <a  href="javascript:loadModal('#newMeetingAgenda', true, 'Agenda', false);" title="Add meeting aids">
+     	<i className="icon-button-circle-plus"></i> Add Agenda Item
+     </a>
    </li>
   </ul>
