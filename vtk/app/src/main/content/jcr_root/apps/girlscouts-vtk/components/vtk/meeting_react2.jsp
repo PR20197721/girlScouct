@@ -33,191 +33,76 @@
  
   
 <script type="text/jsx">
-
-
-
 var thisMeetingRefId;
-
 var thisMeetingPath;
-
 var thisMeetingImg="tata";
-
 var thisMeetingDate="a";
-
 var isActivNew=0;
 
-
-
 var MeetingList = React.createClass({
-
- getInitialState: function() {
-
+  getInitialState: function() {
     return { show: false };
-
   },
-
-  componentWillMount: function() {
-
-  },
-
   toggle: function() {
-
     this.setState({ show: !this.state.show });
-
   },
-
-test: function(value) {
-        console.log("************");
-    },
-
   render: function() {
+   var scheduleDates = this.props.schedule.dates;
+   var commentNodes = this.props.data.map(function (comment ,i ) {
+   if(comment.uid=='<%=mid%>'){
+   if( scheduleDates !=null ){
+		var scheduleDatesArray = scheduleDates.split(',');
+		thisMeetingDate =  scheduleDatesArray[comment.id] ;
+	}
 
-
-
-var scheduleDates = this.props.schedule.dates;
-
-    var commentNodes = this.props.data.map(function (comment ,i ) {
-
-
-
-if(comment.uid=='<%=mid%>'){
-
-
-if( scheduleDates !=null ){
-
-var scheduleDatesArray = scheduleDates.split(',');
-
-thisMeetingDate =  scheduleDatesArray[comment.id] ;
-
-
-
-}
-
-
-
-
-
-thisMeetingRefId  = comment.refId;
-
-thisMeetingPath  = comment.path;
-
-thisMeetingImg   = "/content/dam/girlscouts-vtk/local/icon/meetings/"+ comment.meetingInfo.id +".png";
-
-thisMeetingDate = new Date( Number(thisMeetingDate) );
-
-      return (
-
-        <YearPlan  item={comment} key={i} >
-
-<MeetingPlan meetingModMONTH={moment(thisMeetingDate).format('MMMM')} meetingModDAY={moment(thisMeetingDate).format('DD')} meetingModHOUR={moment(thisMeetingDate).format('h:mm a')} uid={comment.uid} meetingTitle={comment.meetingInfo.name}
-
-meetingId={comment.id} meetingGlobalId={thisMeetingImg}
-
-location={comment.locationRef} cat={comment.meetingInfo.cat} blurb={comment.meetingInfo.meetingInfo["meeting short description"].str} />
-
-<MeetingAssets data={comment.assets} />
-
-<SortableList1 data={comment.meetingInfo.activities} onClick={this.test}/>
-
-        </YearPlan>
-
-      );
-
-}
-
-    });
+	thisMeetingRefId  = comment.refId;
+	thisMeetingPath  = comment.path;
+	thisMeetingImg   = "/content/dam/girlscouts-vtk/local/icon/meetings/"+ comment.meetingInfo.id +".png";
+	thisMeetingDate = new Date( Number(thisMeetingDate) );
 
     return (
+        <YearPlan  item={comment} key={i} >
+			<MeetingPlan meetingModMONTH={moment(thisMeetingDate).format('MMMM')} meetingModDAY={moment(thisMeetingDate).format('DD')} meetingModHOUR={moment(thisMeetingDate).format('h:mm a')} uid={comment.uid} meetingTitle={comment.meetingInfo.name} meetingId={comment.id} meetingGlobalId={thisMeetingImg} location={comment.locationRef} cat={comment.meetingInfo.cat} blurb={comment.meetingInfo.meetingInfo["meeting short description"].str} />
+			<MeetingAssets data={comment.assets} />
+			<SortableList1 data={comment.meetingInfo.activities}/>
+        </YearPlan>
+      );
 
-      
-<div className="commentList">
-        {commentNodes}
-</div>
+   }//end if meetingId
 
-    );
+    }); //end of loop
 
-  }
-
+    return ( <div className="commentList">{commentNodes}</div>    );
+  } //end of render
 });
-
-
-
-
-
-var placeholder = document.createElement("li");
-
-placeholder.className = "placeholder";
-
-
 
 var ActivityName = React.createClass({
-
     onClick: function() {
-
-loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=mid%>&isAgenda='+(this.props.item.activityNumber-1), true, 'Agenda')
-
+         loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=mid%>&isAgenda='+(this.props.item.activityNumber-1), true, 'Agenda')
     },
-
     render: function() {
-
         return (
-
             <a href="#" onClick={this.onClick} className={this.props.selected ? "selected" : ""}>
-
                {this.props.item.name}
-
             </a>
-
         );
-
     }
-
 });
 
-
-
-
-
-
-
 var MeetingAssets = React.createClass({
-
  getInitialState: function() {
-
     return { show: false };
-
   },
-
-  componentWillMount: function() {
-
-
-
-  },
-
   toggle: function() {
-
     this.setState({ show: !this.state.show });
-
   },
-
   render: function() {
-
     var commentNodes = this.props.data.map(function (comment ,i ) {
-
       return (
-
-  <MeetingAsset  item={comment} key={i} refId={comment.refId} title={comment.title} description={comment.description}/>
-
-      
-
+ 			 <MeetingAsset  item={comment} key={i} refId={comment.refId} title={comment.title} description={comment.description}/>
       );
-
-
-
     });
-
     return (
-
        <section className="column large-20 medium-20 large-centered medium-centered">
  		 <h6>meeting aids</h6>
  			 <ul className="large-block-grid-2 medium-block-grid-2 small-block-grid-1">
@@ -226,47 +111,24 @@ var MeetingAssets = React.createClass({
   			</ul>
 		</section> 
     );
-
   }
-
 });
-
-
-
-
 
 var YearPlan = React.createClass({
-
   render: function() {
-
     return (
-
       <div className="comment">
-
         <h2 className="commentAuthor">
-
           {this.props.author}
-
         </h2>
-
         {this.props.children}
-
       </div>
-
     );
-
   }
-
 });
 
-
-
 var MeetingPlan = React.createClass({
-
   render: function() {
-
-
-
     return (
 		<div className="section-wrapper">
  		 <%@include file="include/utility_nav.jsp"%>
@@ -276,309 +138,134 @@ var MeetingPlan = React.createClass({
 		 <%@include file="include/meeting_communication.jsp"%>
 		</div>
     );
-
   }
-
 });
-
-
 
 var MeetingAsset = React.createClass({
-
   render: function() {
-
     return (
-
 		<%@include file="include/meeting_aids.jsp"%>
-
     );
-
   }
-
 });
-
-
-
-
-
-
-
 
 var CommentBox = React.createClass({
-
-
-
  loadCommentsFromServer: function( isFirst ) {
-
-
-
-//console.log("isActivNew: "+ isActivNew);
-
    $.ajax({
-
       url: this.props.url + 
-
-(isActivNew==1 ? ("&isActivNew="+ isActivNew) : '')+
-
-(isFirst==1 ? ("&isFirst="+ isFirst) : ''),
-
+		(isActivNew==1 ? ("&isActivNew="+ isActivNew) : '')+
+		(isFirst ==1 ? ("&isFirst="+ isFirst) : ''),
       dataType: 'json',
-
-  cache: false,
-
+      cache: false,
       success: function(data) {
-
-this.setState({data:data.yearPlan});
-
-  }.bind(this),
-
+      	this.setState({data:data.yearPlan});
+  	  }.bind(this),
       error: function(xhr, status, err) {
-
         //-console.error(this.props.url, status, err.toString());
-
       }.bind(this)
-
     });
-
-isActivNew=0;
-
+	if( isActivNew ==1 ){
+		isActivNew=2;
+	}else if( isActivNew ==2 ){
+		isActivNew=0;
+	}
  },
-
-
-
   getInitialState: function() {
-
     return {data: []};
-
   },
-
-
-
   componentDidMount: function() {
-
-console.log("didmount");
-
     this.loadCommentsFromServer(1);
-
     setInterval( this.loadCommentsFromServer, this.props.pollInterval);
-
+    setInterval( this.checkLocalUpdate, 1000);
   },
-
-
-
+  checkLocalUpdate: function(){
+  	if( (isActivNew == 1) || (isActivNew == 2) )
+			{ this.loadCommentsFromServer() ; }
+  },
   render: function() {
-
-
-
-var x;
-
-var sched;
-
-if( this.state.data.meetingEvents!=null){
-
-x =  this.state.data.meetingEvents;
-
-     sched = this.state.data.schedule;
-
-return (
-
- 	 <MeetingList data={x} schedule={sched} /> 
-
-    );
-
-}else{
-
-return <div>loading...</div>;
-
-}
-
+	var x;
+	var sched;
+	if( this.state.data.meetingEvents!=null){
+		x =  this.state.data.meetingEvents;
+        sched = this.state.data.schedule;
+		return (
+ 			 <MeetingList data={x} schedule={sched} /> 
+	    );
+	}else{
+		return <div>loading...</div>;
+	}
   }
-
 });
 
-
-
-
-
-
-
 var SortableList1 = React.createClass({
-
-
-
-getInitialState: function() {
-
+	getInitialState: function() {
 		return {data: this.props.data};
-},
-
-
-onReorder: function (order) {
-
+    },
+	onReorder: function (order) {
 		isActivNew=1;
-
-
-
-
-},
-
-
-
+	},
     render: function () {
-
 		return <section className="column large-20 medium-20 large-centered medium-centered">
   					<h6>meeting agenda</h6>
   					<p>Select and agenda item to view details, edit duration and delete. Drag and drop to reorder.</p>
  						<SortableListItems1  key="{this.props.data}"  data={this.props.data} onClick={this.alex} onReorder={this.onReorder}/>
-				</section>;
-}
-
+				</section>; 
+    }
 });
 
-
-
 var SortableListItems1 = React.createClass({
-
   render: function() {
-
-
-
         if( this.props.data!=null ){
-
   				 return (
 					<%@include file="include/meeting_agenda.jsp"%>
 					);
-
-}else{
-
-return <div><img src="http://sgsitsindore.in/Images/wait.gif"/></div>
-
-}
-
-
+        }else{
+                 return <div><img src="http://sgsitsindore.in/Images/wait.gif"/></div>
+        }
   },
-
   componentDidMount: function() {
-
-
-
     var dom = $(this.getDOMNode());
-
     var onReorder = this.props.onReorder;
-
-        dom.sortable({
-
-        stop: function (event, ui) {
-
+    dom.sortable({
+      stop: function (event, ui) {
         var order = dom.sortable("toArray", {attribute: "id"});
-
-       var yy  = order.toString().replace('"','');
-
-
-
-repositionActivity1(thisMeetingRefId , yy);
-
-onReorder(order);
-
-        }
-
-        });
-
-    },
-
-
-
-
-
-
-
-componentWillUpdate: function() {
-
-
+        var yy  = order.toString().replace('"','');
+        repositionActivity1(thisMeetingRefId , yy);
+        onReorder(order);
+      }
+    });
+  },
+  componentWillUpdate: function() {
     var dom = $(this.getDOMNode());
-
     var onReorder = this.props.onReorder;
-
-        dom.sortable({
-
+    dom.sortable({
         stop: function (event, ui) {
-
-        var order = dom.sortable("toArray", {attribute: "id"});
-
-       var yy  = order.toString().replace('"','');
-
-
-
-repositionActivity1(thisMeetingRefId , yy);
-
-
-onReorder(order);
-
+        	var order = dom.sortable("toArray", {attribute: "id"});
+        	var yy  = order.toString().replace('"','');
+        	repositionActivity1(thisMeetingRefId , yy);
+			onReorder(order);
         }
-
-        });
-
-    }
-
+    });
+  }
 });
-
-
-
-
-
-
 
 function repositionActivity1(meetingPath,newVals ){
-
-
 var x =$.ajax({
-
-url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=RearrangeActivity&mid='+meetingPath+'&isActivityCngAjax='+ newVals, // JQuery loads serverside.php
-
-data: '', 
-
-dataType: 'html', 
-
-success: function (data) { 
-
-
-
-//location.reload();
-
-},
-
-error: function (data) { 
-
-}
-
-});
-
+	url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=RearrangeActivity&mid='+meetingPath+'&isActivityCngAjax='+ newVals, // JQuery loads serverside.php
+	data: '', 
+	dataType: 'html', 
+	success: function (data) { 
+	},
+	error: function (data) { 
+	}
+	});
 } 
 
-
-
-
-
-
-
-
-
-
-
-
-
 React.render(
-
-<CommentBox url="/content/girlscouts-vtk/controllers/vtk.controller.html?reactjs=asdf" pollInterval={1000} />,
-
+<CommentBox url="/content/girlscouts-vtk/controllers/vtk.controller.html?reactjs=asdf" pollInterval={10000} />,
   document.getElementById('panelWrapper')
-
 );
-
-
-
-
-
-    </script>
+</script>
 
 
     
