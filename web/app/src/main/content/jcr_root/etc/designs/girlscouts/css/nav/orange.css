@@ -9,6 +9,7 @@
 }
 #main .side-nav li div {
 	margin-left:10px;
+    padding: 10px 0px 10px 10px;
 }
 #main .side-nav li div:hover {
   background-color: #DCDCDC;

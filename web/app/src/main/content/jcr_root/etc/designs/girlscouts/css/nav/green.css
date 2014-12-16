@@ -28,6 +28,7 @@
   padding-bottom: 7px;
   padding-top: 7px;
   position: relative;
+  padding: 10px 0px 10px 10px;
 }
 #main .side-nav li.active.current {
   background-color: #00ae58;
