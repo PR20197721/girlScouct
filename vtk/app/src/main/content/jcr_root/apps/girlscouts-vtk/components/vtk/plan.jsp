@@ -9,7 +9,7 @@
 <script>var fixVerticalSizing = false;</script>
 <%!String activeTab = "plan";
 	boolean showVtkNav = true;%>
-<%@include file="include/vtk-nav.jsp"%>
+<%@include file="include/tab_navigation.jsp"%>
 <%	if( !hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID ) ) { %>
 		<span class="error">You have no permission to view year plan</span>
 		<% return; }
@@ -26,7 +26,7 @@
 								<div class="columns large-20">
 									<%	if( hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID ) ) { %>
 									<ul id="sub-nav" class="inline-list hide-for-print">
-										<li><a href="#" onclick="newLocCal()" title="Metting Dates and Location">Meeting Dates and Locations</a></li>
+										<li><a data-reveal-id="modal_meeting" title="Metting Dates and Location">Meeting Dates and Locations</a></li>
 										<li><a href="#" onclick="doMeetingLib()" title="Add Meeting">Add Meeting</a></li>
 										<li><a href="#" onclick="newActivity()" title="Add Activity">Add Activity</a></li>
 									</ul>
@@ -117,6 +117,6 @@
 				}
 			%>
 	
-
+<%@include file="include/modals/modal_meeting_location.jsp"%>
 
 

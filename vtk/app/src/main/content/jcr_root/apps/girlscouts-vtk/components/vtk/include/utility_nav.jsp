@@ -8,7 +8,6 @@
       </div>
       <div className="columns large-1 medium-2 small-2">
         <ul className="inline-list" id="util-links">
-
           <li><a className="icon" onclick="javascript:window.print()" title="help"><i className="icon-questions-answers"></i></a></li>
         </ul>
       </div>

@@ -5,14 +5,14 @@
       <section>
         <p>Location:</p>
         <p>{this.props.location}</p>
-        </section>
+      </section>
       <section>
         <p>Category:</p>
         <p>{this.props.cat}</p>
       </section>
     </div>
     <div className="column large-7 medium-7 small-7">
-      <img src={this.props.meetingGlobalId} height="211" width="236" alt="badge" />
+      <img src={this.props.meetingGlobalId} alt="badge" />
     </div>
   </div>
 </section>

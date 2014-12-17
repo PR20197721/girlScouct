@@ -26,13 +26,9 @@
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script>
 
 <%@include file="include/tab_navigation.jsp"%>
+<!--%@include file="include/myPop.jsp"%-->
 
-
-
-    
-     <%@include file="include/myPop.jsp"%>
 <div id="panelWrapper" class="row content meeting-detail">
-
   <script type="text/jsx">
     var thisMeetingRefId;
     var thisMeetingPath;
@@ -49,45 +45,48 @@
       },
       render: function() {
        var scheduleDates = this.props.schedule.dates;
+       
        var commentNodes = this.props.data.map(function (comment ,i ) {
-       if(comment.uid=='<%=mid%>'){
-       if( scheduleDates !=null ){
-    		var scheduleDatesArray = scheduleDates.split(',');
-    		thisMeetingDate =  scheduleDatesArray[comment.id] ;
-    	}
+       
+       if(comment.uid=='<%=mid%>') {
+        
+        if( scheduleDates !=null ) {
+      		var scheduleDatesArray = scheduleDates.split(',');
+      		thisMeetingDate =  scheduleDatesArray[comment.id] ;
+    	  } 
 
-    	thisMeetingRefId  = comment.refId;
-    	thisMeetingPath  = comment.path;
-    	thisMeetingImg   = "/content/dam/girlscouts-vtk/local/icon/meetings/"+ comment.meetingInfo.id +".png";
-    	thisMeetingDate = new Date( Number(thisMeetingDate) );
+      	thisMeetingRefId  = comment.refId;
+      	thisMeetingPath  = comment.path;
+      	thisMeetingImg   = "/content/dam/girlscouts-vtk/local/icon/meetings/"+ comment.meetingInfo.id +".png";
+      	thisMeetingDate = new Date( Number(thisMeetingDate) );
 
-        return (
+          return (
             <YearPlan  item={comment} key={i} >
-    			<MeetingPlan meetingModMONTH={moment(thisMeetingDate).format('MMMM')} meetingModDAY={moment(thisMeetingDate).format('DD')} meetingModHOUR={moment(thisMeetingDate).format('h:mm a')} uid={comment.uid} meetingTitle={comment.meetingInfo.name} meetingId={comment.id} meetingGlobalId={thisMeetingImg} location={comment.locationRef} cat={comment.meetingInfo.cat} blurb={comment.meetingInfo.meetingInfo["meeting short description"].str} />
-    			<MeetingAssets data={comment.assets} />
-    			<SortableList1 data={comment.meetingInfo.activities}/>
+      			 <MeetingPlan meetingModMONTH={moment(thisMeetingDate).format('MMMM')} meetingModDAY={moment(thisMeetingDate).format('DD')} meetingModHOUR={moment(thisMeetingDate).format('h:mm a')} uid={comment.uid} meetingTitle={comment.meetingInfo.name} meetingId={comment.id} meetingGlobalId={thisMeetingImg} location={comment.locationRef} cat={comment.meetingInfo.cat} blurb={comment.meetingInfo.meetingInfo["meeting short description"].str} />
+      			 <MeetingAssets data={comment.assets} />
+      			 <SortableList1 data={comment.meetingInfo.activities}/>
             </YearPlan>
           );
 
        }//end if meetingId
 
-        }); //end of loop
+      }); //end of loop
 
         return ( <div className="commentList">{commentNodes}</div>    );
       } //end of render
     });
 
     var ActivityName = React.createClass({
-        onClick: function() {
-         loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=mid%>&isAgenda='+(this.props.item.activityNumber-1), true, 'Agenda')       
-		},
-        render: function() {
-            return (
-                <a href="javascript:void(0)" onClick={this.onClick} className={this.props.selected ? "selected" : ""}>
-                   {this.props.item.name}
-                </a>
-            );
-        }
+      onClick: function() {
+        loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=mid%>&isAgenda='+(this.props.item.activityNumber-1), true, 'Agenda')       
+		  },
+      render: function() {
+        return (
+            <a href="javascript:void(0)" onClick={this.onClick} className={this.props.selected ? "selected" : ""}>
+               {this.props.item.name}
+            </a>
+        );
+      }
     });
 
     var MeetingAssets = React.createClass({
@@ -100,7 +99,7 @@
       render: function() {
         var commentNodes = this.props.data.map(function (comment ,i ) {
           return (
-     			 <MeetingAsset  item={comment} key={i} refId={comment.refId} title={comment.title} description={comment.description}/>
+     			 <MeetingAsset item={comment} key={i} refId={comment.refId} title={comment.title} description={comment.description}/>
           );
         });
         return (
@@ -109,7 +108,7 @@
      			  <ul className="large-block-grid-2 medium-block-grid-2 small-block-grid-1">
               {commentNodes}
       		  </ul>
-            <a className="add-btn" href="javascript:void(0)" onclick="loadModal('#newMeetingAgenda', true, 'Agenda', false);" title="Add meeting aids"><i className="icon-button-circle-plus"></i> Add Meeting Aids</a>
+            <a className="add-btn" onclick="loadModal('#newMeetingAgenda', true, 'Agenda', false);" title="Add meeting aids"><i className="icon-button-circle-plus"></i> Add Meeting Aids</a>
     		  </section> 
         );
       }
@@ -149,10 +148,9 @@
         );
       }
     });
-
     var CommentBox = React.createClass({
      loadCommentsFromServer: function( isFirst ) {
-console.log("loading..");
+        console.log("loading..");
        $.ajax({
 
           url: this.props.url + 
@@ -218,13 +216,13 @@ console.log("loading..");
 
     var SortableListItems1 = React.createClass({
       render: function() {
-            if( this.props.data!=null ){
-      				 return (
-    					<%@include file="include/meeting_agenda.jsp"%>
-    					);
-            }else{
-                     return <div><img src="http://sgsitsindore.in/Images/wait.gif"/></div>
-            }
+        if( this.props.data!=null ){
+  				return (
+					  <%@include file="include/meeting_agenda.jsp"%>
+					);
+        }else{
+          return <div><img src="http://sgsitsindore.in/Images/wait.gif"/></div>
+        }
       },
       componentDidMount: function() {
         var dom = $(this.getDOMNode());
@@ -269,15 +267,11 @@ console.log("loading..");
       document.getElementById('panelWrapper')
     );
 
-
     </script>
     
-    <%@include file="include/modal_agenda.jsp"%>
-
- 
-  
+    <%@include file="include/modal_agenda.jsp"%> 
+   
 </div><!--/panelWrapper-->
-
 
 
 

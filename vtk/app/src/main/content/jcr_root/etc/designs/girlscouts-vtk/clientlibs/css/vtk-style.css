@@ -28,7 +28,7 @@
       font-size: 14px;
       background-size: 15px;
       height: 24px;
-      padding: 5px inherit; }
+      padding: 0 0.5rem; }
   .vtk-body #main #yearPlanSelection .row:nth-child(1) {
     padding-bottom: 35px; }
     .vtk-body #main #yearPlanSelection .row:nth-child(1) p {
@@ -338,50 +338,52 @@
       background: #fff;
       padding: 0px 20px;
       margin: 0; }
-      .vtk-body .reveal-modal .tabs-wrapper .tabs-content input {
-        padding: 5px 8px;
-        height: auto; }
-      .vtk-body .reveal-modal .tabs-wrapper .tabs-content select {
-        padding: 0;
-        margin: 0;
-        height: 31px; }
-      .vtk-body .reveal-modal .tabs-wrapper .tabs-content table {
-        width: 100%; }
-      .vtk-body .reveal-modal .tabs-wrapper .tabs-content input[type="checkbox"] {
-        display: none; }
-      .vtk-body .reveal-modal .tabs-wrapper .tabs-content label {
-        top: 0; }
-        .vtk-body .reveal-modal .tabs-wrapper .tabs-content label:before {
-          border: solid 1px #ccc;
-          content: "";
-          height: 30px;
-          width: 30px;
-          text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
-          font-size: 15px;
-          text-align: center;
-          padding: 4px;
-          display: inline-block;
-          float: left; }
-        .vtk-body .reveal-modal .tabs-wrapper .tabs-content label p {
-          float: left; }
-        .vtk-body .reveal-modal .tabs-wrapper .tabs-content label span {
-          display: block; }
-      .vtk-body .reveal-modal .tabs-wrapper .tabs-content input[type=checkbox]:checked + label:before {
-        content: "\e6d7";
-        font-family: JollyFont;
-        color: green; }
-    .vtk-body .reveal-modal .tabs-wrapper .btn {
+  .vtk-body .reveal-modal .content {
+    padding: 0.9375em 0; }
+    .vtk-body .reveal-modal .content [class^="icon-"],
+    .vtk-body .reveal-modal .content [class*=" icon-"] {
+      font-size: 27px; }
+    .vtk-body .reveal-modal .content input {
+      padding: 5px 8px;
+      height: auto; }
+    .vtk-body .reveal-modal .content select {
+      padding: 0;
+      margin: 0;
+      height: 31px; }
+    .vtk-body .reveal-modal .content table {
+      width: 100%; }
+    .vtk-body .reveal-modal .content input[type="checkbox"] {
+      display: none; }
+    .vtk-body .reveal-modal .content label {
+      top: 0; }
+      .vtk-body .reveal-modal .content label:before {
+        border: solid 1px #ccc;
+        content: "";
+        height: 30px;
+        width: 30px;
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+        font-size: 15px;
+        text-align: center;
+        padding: 4px;
+        display: inline-block;
+        float: left; }
+      .vtk-body .reveal-modal .content label p {
+        float: left; }
+      .vtk-body .reveal-modal .content label span {
+        display: block; }
+    .vtk-body .reveal-modal .content input[type=checkbox]:checked + label:before {
+      content: "\e6d7";
+      font-family: JollyFont;
+      color: green; }
+    .vtk-body .reveal-modal .content .btn {
       text-transform: uppercase;
       color: #fff;
       margin-left: 5px; }
-    .vtk-body .reveal-modal .tabs-wrapper section {
+    .vtk-body .reveal-modal .content section {
       margin: 0 0 40px 0; }
-      .vtk-body .reveal-modal .tabs-wrapper section p {
+      .vtk-body .reveal-modal .content section p {
         padding-left: 5px;
         padding-right: 5px; }
-  .vtk-body .reveal-modal [class^="icon-"],
-  .vtk-body .reveal-modal [class*=" icon-"] {
-    font-size: 27px; }
 
 .inline-list li:last-child {
   margin: 0; }
