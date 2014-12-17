@@ -3,7 +3,7 @@
     <div className="row collapse">
       <div className="columns large-23 medium-22 small-22">
         <ul id="sub-nav" className="inline-list hide-for-print">
-          <li><a data-reveal-id="myModal">Replace this meeting</a></li>
+          <li><a data-reveal-id="myModal_1">Replace this meeting</a></li>
         </ul>
       </div>
       <div className="columns large-1 medium-2 small-2">

@@ -6,7 +6,7 @@
 <%@include file="include/session.jsp"%>
 <%
   String activeTab = "planView";
-    boolean showVtkNav = true;
+  boolean showVtkNav = true;
     
 	org.girlscouts.vtk.models.PlanView planView = meetingUtil.planView1(user, troop, request);
 	String mid = planView.getYearPlanComponent().getUid();
@@ -16,7 +16,6 @@
 
 
 %>
-
 
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
@@ -31,8 +30,6 @@
 <div id="panelWrapper" class="row content meeting-detail">
 
   <script type="text/jsx">
-  var fixVerticalSizing = false;
-
     var thisMeetingRefId;
     var thisMeetingPath;
     var thisMeetingImg="tata";
@@ -103,13 +100,13 @@
           );
         });
         return (
-           <section className="column large-20 medium-20 large-centered medium-centered">
-     		 <h6>meeting aids</h6>
-     			 <ul className="large-block-grid-2 medium-block-grid-2 small-block-grid-1">
-            		{commentNodes}
-         				<li><a href="javascript:void(0)" onclick="loadModal('#newMeetingAgenda', true, 'Agenda', false);" title="Add meeting aids"><i className="icon-button-circle-plus"></i> Add Meeting Aids</a></li>
-      			</ul>
-    		</section> 
+          <section className="column large-20 medium-20 large-centered medium-centered">
+     		    <h6>meeting aids</h6>
+     			  <ul className="large-block-grid-2 medium-block-grid-2 small-block-grid-1">
+              {commentNodes}
+      		  </ul>
+            <a className="add-btn" href="javascript:void(0)" onclick="loadModal('#newMeetingAgenda', true, 'Agenda', false);" title="Add meeting aids"><i className="icon-button-circle-plus"></i> Add Meeting Aids</a>
+    		  </section> 
         );
       }
     });
@@ -206,10 +203,10 @@
     	},
         render: function () {
     		return <section className="column large-20 medium-20 large-centered medium-centered">
-      					<h6>meeting agenda</h6>
-      					<p>Select and agenda item to view details, edit duration and delete. Drag and drop to reorder.</p>
-     						<SortableListItems1  key="{this.props.data}"  data={this.props.data} onClick={this.alex} onReorder={this.onReorder}/>
-    				</section>; 
+      					 <h6>meeting agenda</h6>
+      					 <p>Select and agenda item to view details, edit duration and delete. Drag and drop to reorder.</p>
+     						 <SortableListItems1  key="{this.props.data}"  data={this.props.data} onClick={this.alex} onReorder={this.onReorder}/>
+    				    </section>; 
         }
     });
 

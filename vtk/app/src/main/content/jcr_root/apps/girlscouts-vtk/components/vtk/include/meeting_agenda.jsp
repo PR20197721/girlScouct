@@ -19,6 +19,5 @@
   
    <li className="row">
     <a data-reveal-id="myModal_agenda"><i className="icon-button-circle-plus"></i> Replace this meeting</a>
-   
    </li>
   </ul>

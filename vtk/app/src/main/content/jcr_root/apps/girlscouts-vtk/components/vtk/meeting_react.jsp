@@ -23,7 +23,6 @@
   <!-- %@include file="include/meeting_aids.jsp"%-->
   <!-- %@include file="include/meeting_agenda.jsp"%-->
   <!--/TODO this is for text only-->
-  <a data-reveal-id="myModal">Replace this meeting</a>
+  <a data-reveal-id="myModal_1">Replace this meeting</a>
   <%@include file="include/modal_1.jsp"%>
-
 </div>
