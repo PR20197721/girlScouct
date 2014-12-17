@@ -23,10 +23,14 @@
 <script src="http://fb.me/react-0.12.1.js"></script>
 <script src="http://fb.me/JSXTransformer-0.12.1.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
-
+<script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script>
 
 <%@include file="include/tab_navigation.jsp"%>
 
+
+
+    
+     <%@include file="include/myPop.jsp"%>
 <div id="panelWrapper" class="row content meeting-detail">
 
   <script type="text/jsx">
@@ -75,11 +79,11 @@
 
     var ActivityName = React.createClass({
         onClick: function() {
-             loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=mid%>&isAgenda='+(this.props.item.activityNumber-1), true, 'Agenda')
-        },
+         loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=mid%>&isAgenda='+(this.props.item.activityNumber-1), true, 'Agenda')       
+		},
         render: function() {
             return (
-                <a href="#" onClick={this.onClick} className={this.props.selected ? "selected" : ""}>
+                <a href="javascript:void(0)" onClick={this.onClick} className={this.props.selected ? "selected" : ""}>
                    {this.props.item.name}
                 </a>
             );
@@ -148,7 +152,9 @@
 
     var CommentBox = React.createClass({
      loadCommentsFromServer: function( isFirst ) {
+console.log("loading..");
        $.ajax({
+
           url: this.props.url + 
     		(isActivNew==1 ? ("&isActivNew="+ isActivNew) : '')+
     		(isFirst ==1 ? ("&isFirst="+ isFirst) : ''),
@@ -262,9 +268,17 @@
     <CommentBox url="/content/girlscouts-vtk/controllers/vtk.controller.html?reactjs=asdf" pollInterval={10000} />,
       document.getElementById('panelWrapper')
     );
+
+
     </script>
-    <!--/TODO this is for text only-->
+    
     <%@include file="include/modal_agenda.jsp"%>
+
+ 
+  
 </div><!--/panelWrapper-->
+
+
+
 
 
