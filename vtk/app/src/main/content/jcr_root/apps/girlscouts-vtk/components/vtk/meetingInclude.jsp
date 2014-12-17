@@ -139,15 +139,4 @@ if( troop.getYearPlan().getSchedule()!=null ){ //sched exists
                 });
                 $( "#sortable123 li" ).disableSelection();
 	});
-	
-	function meetingDetails(elem){
-		if( !currentlyDragging ){
-			self.location="/content/girlscouts-vtk/en/vtk.planView.html?elem="+elem;
-		}
-		
-		currentlyDragging=false;
-	}
 </script>
-
-
-
