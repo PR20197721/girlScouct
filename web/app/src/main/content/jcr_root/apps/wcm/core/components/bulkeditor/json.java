@@ -11,6 +11,7 @@
  */
 package apps.wcm.core.components.bulkeditor;
 
+import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashMap;
@@ -106,9 +107,9 @@ public class json extends SlingAllMethodsServlet {
 							if (properties != null) {
 								for (String property : properties) {
 									if(decryptedMap.containsKey(property)){
-										writeProperty(writer,property,decryptedMap);
+										writeProperty(writer,property,decryptedMap.get(property));
 									}else if (node.hasProperty(property)) {
-										writeProperty(writer, property,node);
+										writeProperty(writer,property,node.getProperty(property));
 									}
 								}
 							}
@@ -116,7 +117,7 @@ public class json extends SlingAllMethodsServlet {
 							if (properties != null) {
 								for (String property : properties) {
 									if (node.hasProperty(property)) {
-										writeProperty(writer,property,node);
+										writeProperty(writer,property,node.getProperty(property));
 									}
 								}
 							}
@@ -145,7 +146,7 @@ public class json extends SlingAllMethodsServlet {
 		return s;
 	}
 	//return decrypted(name,value) pair of a node 
-	public Map<String, String[]> getNodeSecret(Node node) throws ItemNotFoundException{
+	public static Map<String, String[]> getNodeSecret(Node node) throws ItemNotFoundException{
 		try{
 			String secret = node.getProperty("secret").getString();
 			String decrypted = decrypted(secret);
@@ -164,52 +165,41 @@ public class json extends SlingAllMethodsServlet {
 		}
 
 	}
-	public String decrypted(String s){	
+	public static String decrypted(String s){	
 		return s.substring(0, s.indexOf(" encrypted"));
 	}
-	
-	public void writeProperty(TidyJSONWriter writer, String property, Map<String, String[]> propsMap)throws Exception{
-		try{
-			writer.key(encodeString(property));
-			String[] values = propsMap.get(property);
-			if(values.length==0){
-				writer.value("");
-			}
-			else if (values.length==1) {
-				writer.value(values[0]);
 
-			} else {
-				writer.array();
-				for (String v : values) {
-					writer.value(v);
-				}
-				writer.endArray();
+	public void writeProperty(TidyJSONWriter writer, String name, String[] values)throws Exception{
+		writer.key(encodeString(name));
+		if(values.length==0){
+			writer.value("");
+		}
+		else if (values.length==1) {
+			writer.value(values[0]);
+
+		} else {
+			writer.array();
+			for (String v : values) {
+				writer.value(v);
 			}
-		}catch(Exception e){
-			throw new Exception(e);
+			writer.endArray();
 		}
 
 	}
-	public void writeProperty(TidyJSONWriter writer, String property,Node node)throws Exception{
-		try{
-			Property prop = node.getProperty(property);
-
-			writer.key(encodeString(property));
-			if (prop.getType() != PropertyType.BINARY) {
-				if (prop.getDefinition().isMultiple()) {
-					writer.array();
-					for (Value v : prop.getValues()) {
-						writer.value(v.getString());
-					}
-					writer.endArray();
-				} else {
-					writer.value(prop.getString());
+	public void writeProperty(TidyJSONWriter writer, String name, Property prop)throws Exception{
+		writer.key(encodeString(name));
+		if (prop.getType() != PropertyType.BINARY) {
+			if (prop.getDefinition().isMultiple()) {
+				writer.array();
+				for (Value v : prop.getValues()) {
+					writer.value(v.getString());
 				}
+				writer.endArray();
 			} else {
-				writer.value("BINARY");
+				writer.value(prop.getString());
 			}
-		}catch(Exception e){
-			throw new Exception(e);
+		} else {
+			writer.value("BINARY");
 		}
 	}
 }

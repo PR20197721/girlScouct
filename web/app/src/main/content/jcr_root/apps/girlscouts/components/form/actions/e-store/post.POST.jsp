@@ -68,7 +68,6 @@
                     final Node parent = node.getParent();
                     parent.setProperty("formPath", request.getParameter(FormsConstants.REQUEST_PROPERTY_FORM_START));
                     parent.setProperty("sling:resourceType", "foundation/components/form/actions/showbulkeditor");
-                    //store the form parameters to the node
                     //serialize all the parameters in format:
                    	//name1:value1,value2
                    	//name2:value1,value2
@@ -84,6 +83,7 @@
                         	sb.append(",");
                         }
                         sb.append("\n");
+                        //store the secret to the node
                         node.setProperty("secret",encrypt(sb.toString()));
                         node.setProperty("isEncrypted","true");
 /*                         if(values.length==1){
