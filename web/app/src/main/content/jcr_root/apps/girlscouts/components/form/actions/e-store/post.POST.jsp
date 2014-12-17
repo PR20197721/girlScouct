@@ -77,12 +77,15 @@
                 		final String paraName=itr.next();
                         final String[] values = request.getParameterValues(paraName);
                         sb.append(paraName);
-                        sb.append(":");
+                        final char NAME_VALUE_SEPARATOR=30;
+                        sb.append(NAME_VALUE_SEPARATOR);
                         for(String value:values){
                         	sb.append(value);
-                        	sb.append(",");
+                            final char VALUE_SEPARATOR=31;
+                        	sb.append(VALUE_SEPARATOR);
                         }
-                        sb.append("\n");
+                        final char PARA_SEPARATOR=29;
+                        sb.append(PARA_SEPARATOR);
                         //store the secret to the node
                         node.setProperty("secret",encrypt(sb.toString()));
                         node.setProperty("isEncrypted","true");

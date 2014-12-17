@@ -35,6 +35,8 @@ import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import com.day.cq.commons.TidyJSONWriter;
 import com.day.cq.commons.jcr.JcrConstants;
 
+
+
 /**
  * Servers as base for image servlets
  */
@@ -63,6 +65,9 @@ public class json extends SlingAllMethodsServlet {
 	static {
 		PROPERTY_NAME_REPLACEMENTS.put("\\.", "_DOT_");
 	}
+	final static char NAME_VALUE_SEPARATOR=30;
+	final static char VALUE_SEPARATOR=31;
+	final static char PARA_SEPARATOR=29;
 
 	protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response)
 			throws ServletException, IOException {
@@ -150,12 +155,12 @@ public class json extends SlingAllMethodsServlet {
 		try{
 			String secret = node.getProperty("secret").getString();
 			String decrypted = decrypted(secret);
-			String[] propStrings = decrypted.split("\n");
+			String[] propStrings = decrypted.split(String.valueOf(PARA_SEPARATOR));
 			Map<String, String[]> propsMap = new HashMap<String, String[]>();
 			for(String propString:propStrings){
-				String[] tmpStrings=propString.split(":");
+				String[] tmpStrings=propString.split(String.valueOf(NAME_VALUE_SEPARATOR));
 				String propName = tmpStrings[0];
-				String[] values = tmpStrings[1].split(",");
+				String[] values = tmpStrings[1].split(String.valueOf(VALUE_SEPARATOR));
 				propsMap.put(propName, values);
 			}
 			return propsMap;
