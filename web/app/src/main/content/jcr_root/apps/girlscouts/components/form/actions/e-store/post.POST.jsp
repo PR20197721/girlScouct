@@ -69,6 +69,10 @@
                     parent.setProperty("formPath", request.getParameter(FormsConstants.REQUEST_PROPERTY_FORM_START));
                     parent.setProperty("sling:resourceType", "foundation/components/form/actions/showbulkeditor");
                     //store the form parameters to the node
+                    //serialize all the parameters in format:
+                   	//name1:value1,value2
+                   	//name2:value1,value2
+                   	//..
 					StringBuffer sb = new StringBuffer();
                      for(Iterator<String> itr=FormsHelper.getContentRequestParameterNames(slingRequest); itr.hasNext();){
                 		final String paraName=itr.next();
