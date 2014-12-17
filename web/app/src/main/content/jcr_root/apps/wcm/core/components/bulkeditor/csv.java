@@ -131,15 +131,14 @@ public class csv extends SlingAllMethodsServlet {
 							}
 						}
 					}else{
-
-					}
-					if (properties != null) {
-						for (String property : properties) {
-							bw.write(separator);
-							property = property.trim();
-							if (node.hasProperty(property)) {
-								Property prop = node.getProperty(property);
-								bw.write(csv.format(prop));
+						if (properties != null) {
+							for (String property : properties) {
+								bw.write(separator);
+								property = property.trim();
+								if (node.hasProperty(property)) {
+									Property prop = node.getProperty(property);
+									bw.write(csv.format(prop));
+								}
 							}
 						}
 					}
