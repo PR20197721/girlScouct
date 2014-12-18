@@ -9,10 +9,15 @@
 		 isCanceled=true;
 	}
 %>
+<script>
+        function meetingDetails(elem){
+                if( !currentlyDragging ){
+                        self.location="/content/girlscouts-vtk/en/vtk.planView.html?elem="+elem;
+                }
 
-
-			
-			
+                currentlyDragging=false;
+        }
+</script>
 			<li <%if( hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID) ){ %>
 			onclick='meetingDetails("<%=date.getTime()%>")'
 			<%}%>
