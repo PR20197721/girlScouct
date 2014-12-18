@@ -19,15 +19,26 @@
       }
    //}
   };
-  $(window).load(function(){
-    $("#yearPlanMeetings").load(loadMeetings());
-  })
-  $(document).ready(function(){
-   resizeWindow();
-  })
-  $( window ).resize(function() {
-     //first remove the padding added after reload.
-      $('.vtk-body #main .row.content').css('padding-bottom','');
-      $('#main.content').css('padding-bottom','');
-      resizeWindow(); 
-  });
+//need to add class for small screens only on the footer links.
+  function addClassGrid() {
+  if ($(window).width() < 640) {
+      $('.footer-navigation > div:nth-of-type(1) ul').addClass('small-block-grid-2');
+      $('.footer-navigation > div:nth-of-type(2) ul').css('text-align', 'center');
+     }
+     else {
+      $('.footer-navigation > div:nth-of-type(1) ul').removeClass('small-block-grid-2');
+      $('.footer-navigation > div:nth-of-type(2) ul').css('text-align', 'right');
+  }
+}
+
+$(document).ready(function(){
+ resizeWindow();
+ addClassGrid();
+})
+$(window).resize(function() {
+ //first remove the padding added after reload.
+  $('.vtk-body #main .row.content').css('padding-bottom','');
+  $('#main.content').css('padding-bottom','');
+  resizeWindow();
+  addClassGrid(); 
+});
