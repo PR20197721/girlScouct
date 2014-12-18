@@ -13,10 +13,8 @@
 
 		<div class="large-24 medium-24 small-18 columns">
 			<p class='subtitle'><%= activity.getName()%></p>
-<!-- 			<p class="category"><%= FORMAT_MMM_dd_yyyy_hhmm_AMPM.format(activity.getDate())%> to <%=FORMAT_MMM_dd_yyyy_hhmm_AMPM.format(activity.getEndDate()) %></p> -->
 			<p class="blurb"><%=activity.getLocationName() %></p>
 			<%if( hasPermission(troop, Permission.PERMISSION_VIEW_ACTIVITY_ID) ){ %>
-			<!-- <a href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=date.getTime()%>">View Activity</a> -->
 			<%} %>
 		</div>
 	</div><!--/columns-->

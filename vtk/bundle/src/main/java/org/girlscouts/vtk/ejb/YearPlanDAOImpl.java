@@ -64,7 +64,6 @@ public class YearPlanDAOImpl implements YearPlanDAO {
 					+ year + "/" + ageLevel + "/");
 
 			Query query = queryManager.createQuery(filter);
-
 			yearPlans = (List<YearPlan>) ocm.getObjects(query);
 
 		} catch (Exception e) {

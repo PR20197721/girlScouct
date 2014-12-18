@@ -2,17 +2,11 @@
   import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <cq:defineObjects />
-
 <%@include file="include/session.jsp"%>
 <%
   String activeTab = "planView";
     boolean showVtkNav = true;
-    
-	
-
 %>
-
-
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
@@ -21,32 +15,22 @@
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script>
 <script src="http://fb.me/react-with-addons-0.12.1.js"></script>
-
 <%@include file="include/tab_navigation.jsp"%>
-
-
-
-    
-     
 <div id="panelWrapper" class="row content meeting-detail">
-
   <script type="text/jsx">
-
 	var isActivNew;
 	var isFirst;
-
     var CommentBox = React.createClass({
      loadCommentsFromServer: function( isFirst ) {
 	   console.log("loading..");
        $.ajax({
-
           url: this.props.url + 
     		(isActivNew==1 ? ("&isActivNew="+ isActivNew) : '')+
     		(isFirst ==1 ? ("&isFirst="+ isFirst) : ''),
           dataType: 'json',
           cache: false,
           success: function(data) {
-          	this.setState({data:data.yearPlan});
+          	this.setState({data:data});
       	  }.bind(this),
           error: function(xhr, status, err) {
             //-console.error(this.props.url, status, err.toString());
@@ -71,13 +55,12 @@
     			{ this.loadCommentsFromServer() ; }
       },
       render: function() {
-    	var x;
-    	var sched;
-    	if( this.state.data.meetingEvents!=null){
-    		x =  this.state.data.meetingEvents;
-            sched = this.state.data.schedule;
+    	var x;   	
+    	if( this.state.data!=null){
+    		x =  this.state.data;
+           
     		return (
-     			 <YearPlanComponents data={x} schedule={sched} /> 
+     			 <YearPlanComponents data={x} /> 
     	    );
     	}else{
     		return <div>loading meeting plans...</div>;
@@ -95,46 +78,38 @@
         this.setState({ show: !this.state.show });
       },
       render: function() {
-       var scheduleDates = this.props.schedule.dates;
-       var commentNodes = this.props.data.map(function (comment ,i ) {
-      
-
-console.log( comment );
-       if( scheduleDates !=null ){
-    		var scheduleDatesArray = scheduleDates.split(',');
-    		thisMeetingDate =  scheduleDatesArray[comment.id] ;
-    	}
-
-    	/*
-		thisMeetingRefId  = comment.refId;
-    	thisMeetingPath  = comment.path;
-    	thisMeetingImg   = "/content/dam/girlscouts-vtk/local/icon/meetings/"+ comment.meetingInfo.id +".png";
-    	thisMeetingDate = new Date( Number(thisMeetingDate) );
-*/
-        return (
-            <div>{comment.meetingInfo.name}</div>
-          );
-
-     
-
-        }); //end of loop
-
-        return ( <div className="commentList">{commentNodes}</div>    );
+		var commentNodes;
+		if( this.props.data!=null){
+			var keys =  Object.keys( this.props.data );
+			var meetingObj = this.props.data;
+			commentNodes = keys.map( function (comment ,i ) {
+				return ( <MeetingComponent date={comment} info={meetingObj} />  );
+			});
+         }
+        return ( <div className="commentList">..{commentNodes}</div>    );
       } //end of render
     });
 
 
+    var MeetingComponent = React.createClass({
+      render: function() {
+		var date = this.props.date;
+		var obj  = this.props.info[date];
+        return (
+           <div>{this.props.date} - {obj.uid} </div>
+        );
+      }
+    });
+
 
     
     React.render(
-    <CommentBox url="/content/girlscouts-vtk/controllers/vtk.controller.html?reactjs=asdf" pollInterval={10000} />,
+    <CommentBox url="/content/girlscouts-vtk/controllers/vtk.controller.html?yearPlanSched=X" pollInterval={10000} />,
       document.getElementById('panelWrapper')
     );
 
 
-    </script>
-   
-  
+    </script>  
 </div><!--/panelWrapper-->
 
 
