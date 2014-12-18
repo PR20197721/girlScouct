@@ -2,7 +2,7 @@ girlscouts.components.TimezoneSelection = CQ.Ext.extend(CQ.form.Selection, {
 	timezone: null,
 	
     initComponent:function() {
-    	var timezone;
+    	var timezones;
         // call parent initComponent
         girlscouts.components.TimezoneSelection.superclass.initComponent.call(this);
         
@@ -25,14 +25,14 @@ girlscouts.components.TimezoneSelection = CQ.Ext.extend(CQ.form.Selection, {
     		var timezoneProperty = regex.exec(path) + '/jcr:content/timezone';
     		var response = CQ.shared.HTTP.get(timezoneProperty);
     		if (response.status == 200) {
-    			timezone = response.body;
+    			timezones = response.body;
     		} else {
-    			timezone = this.defaultTimezone;
+    			timezones = this.defaultTimezone;
     		}
     	} else {
-    		timezone = this.defaultTimezone;
+    		timezones = this.defaultTimezone;
     	}
-    	alert('timezone=' + timezone);
+    	alert('timezones=' + timezones);
     },
     
 	listeners: {
