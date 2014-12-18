@@ -31,10 +31,14 @@ import org.apache.jackrabbit.commons.query.GQL;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
+import org.apache.sling.scripting.core.ScriptHelper;
+import org.apache.sling.api.scripting.SlingBindings;
 
 import com.day.cq.commons.TidyJSONWriter;
 import com.day.cq.commons.jcr.JcrConstants;
 
+import org.girlscouts.web.exception.GirlScoutsException;
+import org.girlscouts.web.encryption.FormEncryption;
 
 
 /**
@@ -108,7 +112,7 @@ public class json extends SlingAllMethodsServlet {
 						writer.key(JcrConstants.JCR_PATH).value(hit.getValue(JcrConstants.JCR_PATH).getString());
 						//if is encryped form, decrypt to retreive 
 						if(node.hasProperty("isEncrypted") && node.getProperty("isEncrypted").getString().equals("true")){
-							Map<String, String[]> decryptedMap=getNodeSecret(node);
+							Map<String, String[]> decryptedMap=getNodeSecret(node,request);
 							if (properties != null) {
 								for (String property : properties) {
 									if(decryptedMap.containsKey(property)){
@@ -150,11 +154,15 @@ public class json extends SlingAllMethodsServlet {
 		}
 		return s;
 	}
-	//return decrypted(name,value) pair of a node 
-	public static Map<String, String[]> getNodeSecret(Node node) throws ItemNotFoundException{
+	//return decrypted (name,value) pair of a node 
+	public static Map<String, String[]> getNodeSecret(Node node,SlingHttpServletRequest request) throws ItemNotFoundException{
 		try{
 			String secret = node.getProperty("secret").getString();
-			String decrypted = decrypted(secret);
+            SlingBindings bindings = (SlingBindings) request.getAttribute(SlingBindings.class.getName());
+            ScriptHelper scriptHelper = (ScriptHelper)bindings.getSling();
+            FormEncryption fEn = scriptHelper.getService(FormEncryption.class);
+
+            String decrypted = fEn.decrypt(secret);
 			String[] propStrings = decrypted.split(String.valueOf(PARA_SEPARATOR));
 			Map<String, String[]> propsMap = new HashMap<String, String[]>();
 			for(String propString:propStrings){
@@ -169,9 +177,6 @@ public class json extends SlingAllMethodsServlet {
 			throw new ItemNotFoundException("The node is encrypted, but no secret found");
 		}
 
-	}
-	public static String decrypted(String s){	
-		return s.substring(0, s.indexOf(" encrypted"));
 	}
 
 	public void writeProperty(TidyJSONWriter writer, String name, String[] values)throws Exception{

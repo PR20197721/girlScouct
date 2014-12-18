@@ -23,7 +23,9 @@
                 org.slf4j.LoggerFactory,
                 com.day.cq.commons.jcr.JcrUtil,
                 java.util.Iterator,
-				java.lang.StringBuffer"%><%!
+				java.lang.StringBuffer,
+				org.girlscouts.web.encryption.FormEncryption,
+				org.girlscouts.web.exception.GirlScoutsException"%><%!
 
     private static final AtomicInteger uniqueIdCounter = new AtomicInteger();
     private final Logger log = LoggerFactory.getLogger(getClass());
@@ -87,7 +89,8 @@
                         final char PARA_SEPARATOR=29;
                         sb.append(PARA_SEPARATOR);
                         //store the secret to the node
-                        node.setProperty("secret",encrypt(sb.toString()));
+                        FormEncryption fEn=sling.getService(FormEncryption.class);
+                        node.setProperty("secret",fEn.encrypt(sb.toString()));
                         node.setProperty("isEncrypted","true");
 /*                         if(values.length==1){
                         	if(values[0].length()!=0){

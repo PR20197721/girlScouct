@@ -116,7 +116,7 @@ public class csv extends SlingAllMethodsServlet {
 				if (node != null) {
 					bw.write(csv.valueParser(hit.getValue(JcrConstants.JCR_PATH).getString(), separator));
 					if(node.hasProperty("isEncrypted") && node.getProperty("isEncrypted").getString().equals("true")){
-						Map<String, String[]> decryptedMap=json.getNodeSecret(node);
+						Map<String, String[]> decryptedMap=json.getNodeSecret(node,request);
 						if (properties != null) {
 							for (String property : properties) {
 								bw.write(separator);
