@@ -50,7 +50,7 @@ if( troop.getYearPlan().getSchedule()!=null ){ //sched exists
 		case MEETING :
 			meetingCount++;
 			MeetingE meetingE =(MeetingE)_comp;
-			%>  <%@include file="include/view_meeting.jsp" %>    <% 
+			%>  <%@include file="include/viewMeeting.jsp" %> <% 
 			break;
 		case MILESTONE :
 			Milestone milestone = (Milestone) _comp;
@@ -141,3 +141,6 @@ if( troop.getYearPlan().getSchedule()!=null ){ //sched exists
      $( "#sortable123 li" ).disableSelection();
 	});
 </script>
+
+
+
