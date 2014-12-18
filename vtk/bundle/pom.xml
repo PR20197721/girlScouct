@@ -21,6 +21,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.girlscouts.vtk</groupId>
+            <artifactId>modified-checker</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.compendium</artifactId>
         </dependency>
