@@ -89,6 +89,7 @@
 						<% }	%>
 				</div><!--/yearPlanSelection-->
 				<div id="yearPlanMeetings" style="display:<%=(troop.getYearPlan()!=null) ? "block" : "none"%>">
+					<!--loadMeeting function in the footer.js-->
 				</div><!--/yearPlanMeetings-->
 				<%
 					if (troop.getYearPlan() != null) {

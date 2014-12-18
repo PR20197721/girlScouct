@@ -22,4 +22,7 @@ var $ = jQuery.noConflict();
 	  	   }
 	  	 });
 	  });
+	  $(window).load(function(){
+	    $("#yearPlanMeetings").load(loadMeetings());
+	  })
  })($);

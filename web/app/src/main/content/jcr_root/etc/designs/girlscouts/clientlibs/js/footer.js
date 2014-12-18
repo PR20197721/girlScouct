@@ -19,9 +19,6 @@
       }
    //}
   };
-  $(window).load(function(){
-    $("#yearPlanMeetings").load(loadMeetings());
-  })
   $(document).ready(function(){
    resizeWindow();
   })
