@@ -608,6 +608,14 @@ System.err.println("ISACTIV......... "+request.getParameter("isActiv"));
 		out.println(mapper.writeValueAsString(troop));
 		
 	}
+	
+}else if( request.getParameter("yearPlanSched") !=null ){
+		
+	java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(troop.getYearPlan());
+	ObjectMapper mapper = new ObjectMapper();
+	//out.println("[");
+	out.println(mapper.writeValueAsString(sched));
+	//out.println("]");
 }else{
 	//TODO throw ERROR CODE
 }
