@@ -256,10 +256,10 @@
         </profile>
     </profiles>
   <modules>
+    <module>modified-checker-bundle</module>
     <module>bundle</module>
     <module>replication-bundle</module>
     <module>ical4j-wrapper</module>
     <module>app</module>
-    <module>modified-checker-bundle</module>
   </modules>
 </project>
