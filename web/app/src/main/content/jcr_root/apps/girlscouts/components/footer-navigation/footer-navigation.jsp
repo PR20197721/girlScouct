@@ -5,7 +5,7 @@
   String[] links = properties.get("links", String[].class);
   String[] socialIcons = properties.get("socialIcons", String[].class);
 %>
-<div class="columns large-18 medium-18">
+<div class="columns large-18 medium-18 small-19 small-centered large-uncentered medium-uncentered">
   <ul>
   <% 
     if ((links == null || links.length == 0) && WCMMode.fromRequest(request) == WCMMode.EDIT) {

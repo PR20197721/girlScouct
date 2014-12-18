@@ -96,7 +96,10 @@ padding-right: 0px;
 padding-left: 0px;
 padding-right: 0px;
 }*/
-  
+  #footer li {
+    white-space: nowrap;
+    padding:0;
+  }
   .news-block {
     margin: 0;
   }
@@ -285,10 +288,16 @@ a:hover.menuHighlight {
   font-size: 0.875em;
   font-weight: normal;
   margin: 0px 10px 0px 0px;
-  color:#fff; 
+  color:#C1EAD4; 
+}
+#footer a:hover {
+    color: #ffffff;
 }
 #footer div.footer-navigation {
-  padding: 10px 0;
+  padding: 20px 0;
+}
+#footer div.footer-navigation >div:nth-of-type(1) {
+  padding:0;
 }
 #footer ul {
   margin: 0;
