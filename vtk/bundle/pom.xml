@@ -581,8 +581,6 @@
                         </Export-Package>
                         -->
                         
-            <!--  <Export-Package>org.alex.app.core*;version="${project.version}"</Export-Package> -->
-           <Bundle-Activator>org.alex.app.core.Activator</Bundle-Activator> 
            
                         
                         <!-- Recursively embed dependency jars -->
