@@ -14,7 +14,7 @@
         $('#main.content').css('padding-bottom',targetMainHeight + "px");
       }
       else {
-        $('#main .row.content').css('padding-bottom','');
+        $('.vtk-body #main .row.content').css('padding-bottom','');
         $('#main.content').css('padding-bottom','');
       }
    //}
@@ -27,7 +27,7 @@
   })
   $( window ).resize(function() {
      //first remove the padding added after reload.
-      $('#main .row.content').css('padding-bottom','');
+      $('.vtk-body #main .row.content').css('padding-bottom','');
       $('#main.content').css('padding-bottom','');
       resizeWindow(); 
   });

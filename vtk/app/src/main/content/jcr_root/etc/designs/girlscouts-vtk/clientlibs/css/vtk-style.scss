@@ -34,7 +34,7 @@
         font-size: 14px;
         background-size: 15px;
         height:24px;
-        padding: 5px inherit;
+        padding: 0 0.5rem;
       }
     }
     #yearPlanSelection {
@@ -264,8 +264,6 @@
   //meeting tab page
   #main .meeting-detail {
     .meeting-navigation {
-      // border-left: 80px solid #00ae58;
-      // border-right: 80px solid #00ae58;
       background: #00ae58;
       margin-bottom: 5%;
       * {
@@ -333,6 +331,11 @@
         margin-right: -5px;
         margin-bottom: 1.25em;
         padding: 5px;
+      }
+      .add-btn,
+      .add-btn * {
+        font-weight: 700;
+        line-height:27px;
       }
       ul {
         padding:0;
@@ -421,6 +424,7 @@
       }
     }
   }
+  //modals
   .reveal-modal {
     padding:0;
     .header {
@@ -442,6 +446,7 @@
         color: #fff;
       }
     }
+    //tabs inside the modals
     .tabs-wrapper {
       background: #D9D9D9;
       padding: 20px 10px;
@@ -452,47 +457,54 @@
         background: #fff;
         padding: 0px 20px;
         margin: 0;
-        input {
-          padding: 5px 8px;
-          height: auto;
+      }
+    }
+    .content {
+      padding: 0.9375em 0;
+      [class^="icon-"],
+      [class*=" icon-"] {
+        font-size:27px;
+      }
+      input {
+        padding: 5px 8px;
+        height: auto;
+      }
+      select {
+        padding: 0;
+        margin: 0;
+        height: 31px;
+      }
+      table {
+        width: 100%;
+      }
+      input[type="checkbox"] {
+        display: none;
+      }
+      label {
+        top:0;
+      &:before {
+        border: solid 1px #ccc;
+        content: "";
+        height: 30px;
+        width: 30px;
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+        font-size: 15px;
+        text-align: center;
+        padding: 4px;
+        display: inline-block;
+        float: left;
+      }
+      p {
+        float: left;
+      }
+        span {
+          display: block;
         }
-        select {
-          padding: 0;
-          margin: 0;
-          height: 31px;
-        }
-        table {
-          width: 100%;
-        }
-        input[type="checkbox"] {
-          display: none;
-        }
-        label {
-          top:0;
-        &:before {
-          border: solid 1px #ccc;
-          content: "";
-          height: 30px;
-          width: 30px;
-          text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
-          font-size: 15px;
-          text-align: center;
-          padding: 4px;
-          display: inline-block;
-          float: left;
-        }
-        p {
-          float: left;
-        }
-          span {
-            display: block;
-          }
-        }
-        input[type=checkbox]:checked + label:before {
-          content: "\e6d7";
-          font-family: JollyFont;
-          color: green;
-        }
+      }
+      input[type=checkbox]:checked + label:before {
+        content: "\e6d7";
+        font-family: JollyFont;
+        color: green;
       }
       .btn {
         text-transform: uppercase;
@@ -507,11 +519,7 @@
         }
       }
     }
-    [class^="icon-"],
-    [class*=" icon-"] {
-      font-size:27px;
-    }
-  }
+  }//end modals
 }//end of vtk-body
 
 //overwrite of global
@@ -546,17 +554,14 @@
     padding: 5px 0 0 0;
     text-transform: uppercase;
     text-align: center;
-    &:hover {
-      background: #fff;
-      color: #303030;
-      border-color: #fff;
-    }
   }
   &.active,
   &:hover {
     border-color: #fff;
     a {
+      background: #fff;
       color: #303030;
+      border-color: #fff;
     }
   }
 }

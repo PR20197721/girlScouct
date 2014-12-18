@@ -4,12 +4,10 @@
       <div className="columns large-23 medium-22 small-22">
         <ul id="sub-nav" className="inline-list hide-for-print">
           <li><a href="javascript:loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath='+thisMeetingPath+'&xx=<%=planView.getSearchDate().getTime() %>', false, null, true)" title="replace this meeting">Replace this meeting</a></li>
-       
         </ul>
       </div>
       <div className="columns large-1 medium-2 small-2">
         <ul className="inline-list" id="util-links">
-
           <li><a className="icon" onclick="javascript:window.print()" title="help"><i className="icon-questions-answers"></i></a></li>
         </ul>
       </div>

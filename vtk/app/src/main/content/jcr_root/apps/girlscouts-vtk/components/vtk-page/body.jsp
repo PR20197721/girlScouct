@@ -72,5 +72,5 @@
 				%>
 			</div>
 		</div>
-		 <div id="gsModal"></div> 
+		 <div id="gsModal"></div>
 	</body>
