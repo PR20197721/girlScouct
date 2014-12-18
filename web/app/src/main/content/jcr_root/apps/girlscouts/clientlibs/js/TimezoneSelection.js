@@ -1,8 +1,8 @@
 girlscouts.components.TimezoneSelection = CQ.Ext.extend(CQ.form.Selection, {
-	timezone: null,
+	timezones: null,
 	
     initComponent:function() {
-    	var timezones;
+    	var timezoneStr;
         // call parent initComponent
         girlscouts.components.TimezoneSelection.superclass.initComponent.call(this);
         
@@ -25,14 +25,30 @@ girlscouts.components.TimezoneSelection = CQ.Ext.extend(CQ.form.Selection, {
     		var timezoneProperty = regex.exec(path) + '/jcr:content/timezone';
     		var response = CQ.shared.HTTP.get(timezoneProperty);
     		if (response.status == 200) {
-    			timezones = response.body;
+    			timezoneStr = response.body;
     		} else {
-    			timezones = this.defaultTimezone;
+    			timezoneStr = this.defaultTimezone;
     		}
     	} else {
-    		timezones = this.defaultTimezone;
+    		timezoneStr = this.defaultTimezone;
     	}
-    	alert('timezones=' + timezones);
+    	
+    	/*
+    	var timezone = timezoneStr.split(',');
+    	if (timezones.length <= 1) {
+    		this.hide();
+    	} else {
+    		this.timezones = new Array();
+    		for (var i = 0; i < timezones.length; i++) {
+    			var timezoneSetting = timezones[i];
+    			var result = timezoneSetting.split(':'); // US/Central:CST
+    			this.timezone.push({
+    				text: result[0],
+    				value: result[1]
+    			});
+    		}
+    	}
+    	*/
     },
     
 	listeners: {
@@ -49,4 +65,4 @@ girlscouts.components.TimezoneSelection = CQ.Ext.extend(CQ.form.Selection, {
 	}
 });
 
-CQ.Ext.reg("timezoneselect", girlscouts.components.TimezoneSelection);
+CQ.Ext.reg("timezoneStrelect", girlscouts.components.TimezoneSelection);
