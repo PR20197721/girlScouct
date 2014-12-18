@@ -161,7 +161,6 @@ public class json extends SlingAllMethodsServlet {
             SlingBindings bindings = (SlingBindings) request.getAttribute(SlingBindings.class.getName());
             ScriptHelper scriptHelper = (ScriptHelper)bindings.getSling();
             FormEncryption fEn = scriptHelper.getService(FormEncryption.class);
-
             String decrypted = fEn.decrypt(secret);
 			String[] propStrings = decrypted.split(String.valueOf(PARA_SEPARATOR));
 			Map<String, String[]> propsMap = new HashMap<String, String[]>();
