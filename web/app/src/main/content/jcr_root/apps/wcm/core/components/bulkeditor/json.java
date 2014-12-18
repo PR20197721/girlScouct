@@ -41,7 +41,6 @@ import org.girlscouts.web.exception.GirlScoutsException;
 import org.girlscouts.web.encryption.FormEncryption;
 
 
-
 /**
  * Servers as base for image servlets
  */

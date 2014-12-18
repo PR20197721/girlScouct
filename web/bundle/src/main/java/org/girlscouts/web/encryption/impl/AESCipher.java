@@ -38,9 +38,7 @@ public class AESCipher {
     
     public synchronized Secret encrypt(String plainText) throws NoSuchAlgorithmException, NoSuchProviderException, NoSuchPaddingException, InvalidKeyException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException {
         Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM, CIPHER_AUTH);
-        System.out.println("a");
         cipher.init(Cipher.ENCRYPT_MODE, key);
-        System.out.println("b");
         Secret returnSecret = new Secret(plainText, Hash.generateRandomSaltString(), 0);
         for (int i = 0; i < Secret.ITERATIONS; i++ ) {
             byte[] sec = (returnSecret.getSalt() + returnSecret.getValue()).getBytes("UTF-8");
