@@ -97,11 +97,28 @@ public class MeetingUtil {
 		return _activity;
 	}
 	
-	
-	public java.util.Map getYearPlanSched(YearPlan plan,boolean meetingPlanSpecialSort){
-	
-		if( plan.getSchedule()!=null || plan.getActivities()==null || plan.getActivities().size()<=0 )
+	public java.util.Map getYearPlanSched(User user, YearPlan plan,boolean meetingPlanSpecialSort)throws IllegalAccessException{ return getYearPlanSched(user, plan,meetingPlanSpecialSort, false ); }
+	public java.util.Map getYearPlanSched(User user, YearPlan plan,boolean meetingPlanSpecialSort, boolean isLoadMeetingInfo) throws IllegalAccessException{
+
+		if( plan.getSchedule()!=null || plan.getActivities()==null || plan.getActivities().size()<=0 ){
+			
+			
+			//set meetingInfos if isLoadMeetingInfo
+			if( isLoadMeetingInfo ){
+				System.err.println(3);
+				java.util.List<MeetingE> meetingEs = plan.getMeetingEvents();
+				for(int i=0;i<meetingEs.size();i++){
+					MeetingE meetingE = meetingEs.get(i);
+					Meeting meetingInfo = yearPlanUtil.getMeeting( user, meetingE.getRefId() );
+					meetingE.setMeetingInfo(meetingInfo);
+				}
+				plan.setMeetingEvents(meetingEs);
+			}
+		
+			
 			return getYearPlanSched( plan );
+		}
+		
 		
 		
 		//if no sched and activ -> activ on top
@@ -134,6 +151,12 @@ public class MeetingUtil {
 			case MEETING :
 				
 				MeetingE meetingE =(MeetingE)_comp;
+				if( isLoadMeetingInfo ){
+					Meeting meetingInfo = yearPlanUtil.getMeeting( user, meetingE.getRefId() );
+		System.err.println("TESTSSSSS: "+ (meetingInfo ==null) );			
+		System.err.println("TESTSSSSS: "+meetingInfo.getName());
+					meetingE.setMeetingInfo(meetingInfo);
+				}
 				container.put(date, meetingE);
 				break;
 			case MILESTONE :
@@ -149,86 +172,70 @@ public class MeetingUtil {
 	}
 	
 	
-	public java.util.Map getYearPlanSched(YearPlan plan){
-		
-		if( plan==null )return null;
-		java.util.Map <java.util.Date,  YearPlanComponent> sched = null;
-		try{
-			sched=new java.util.TreeMap<java.util.Date,YearPlanComponent>();
-		
-		
-		List <Activity> activities = plan.getActivities();
-		
+	public java.util.Map getYearPlanSched(YearPlan plan) {
 
+		if (plan == null)
+			return null;
 		
-	java.util.List <MeetingE> meetingEs = plan.getMeetingEvents();
-	
-	
-	Comparator<MeetingE> comp = new BeanComparator("id");
-    Collections.sort(meetingEs, comp);
- 
-	
-	
-	
-	if( plan.getSchedule() !=null ){
-		
-		
-		String calMeeting= plan.getSchedule().getDates();
-		StringTokenizer t= new StringTokenizer( calMeeting, ",");
-		int count=0;
-		while( t.hasMoreElements()){
-			
-			try{
-				sched.put( new java.util.Date( Long.parseLong( (t.nextToken() ) ) ) , meetingEs.get(count));
-			}catch(Exception e){e.printStackTrace();}
-			count++;
-			
-		}
-		
-		
-		
-		int counter=0;
-		java.util.Iterator itr = sched.keySet().iterator();
-		while( itr.hasNext()){
-			sched.put( (java.util.Date)itr.next(), meetingEs.get(counter) );
-			counter++;
-		}
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-	}else{ //no dates: create 1976
-		Calendar tmp= java.util.Calendar.getInstance();
-		tmp.setTime(new java.util.Date("1/1/1976"));
-		
-		for(int i=0;i<meetingEs.size();i++){
-			
-			sched.put( tmp.getTime(), meetingEs.get(i));
-			tmp.add( java.util.Calendar.DATE, 1);
-		}
-	}
-	
-	
-	
-	if( activities!=null)
-		  for(int i=0;i<activities.size();i++){
+		java.util.Map<java.util.Date, YearPlanComponent> sched = null;
+		try {
+			sched = new java.util.TreeMap<java.util.Date, YearPlanComponent>();
 
-			sched.put(activities.get(i).getDate(), activities.get(i));
-		  }
-	
-		
-		}catch(Exception e){e.printStackTrace(); return null;}
-		
-		
-		
-		
+			List<Activity> activities = plan.getActivities();
+
+			java.util.List<MeetingE> meetingEs = plan.getMeetingEvents();
+
+			Comparator<MeetingE> comp = new BeanComparator("id");
+			Collections.sort(meetingEs, comp);
+
+			if (plan.getSchedule() != null) {
+
+				String calMeeting = plan.getSchedule().getDates();
+				StringTokenizer t = new StringTokenizer(calMeeting, ",");
+				int count = 0;
+				while (t.hasMoreElements()) {
+
+					try {
+						sched.put(
+								new java.util.Date(Long.parseLong((t
+										.nextToken()))), meetingEs.get(count));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					count++;
+
+				}
+
+				int counter = 0;
+				java.util.Iterator itr = sched.keySet().iterator();
+				while (itr.hasNext()) {
+					sched.put((java.util.Date) itr.next(),
+							meetingEs.get(counter));
+					counter++;
+				}
+
+			} else { // no dates: create 1976
+				Calendar tmp = java.util.Calendar.getInstance();
+				tmp.setTime(new java.util.Date("1/1/1976"));
+
+				for (int i = 0; i < meetingEs.size(); i++) {
+
+					sched.put(tmp.getTime(), meetingEs.get(i));
+					tmp.add(java.util.Calendar.DATE, 1);
+				}
+			}
+
+			if (activities != null)
+				for (int i = 0; i < activities.size(); i++) {
+
+					sched.put(activities.get(i).getDate(), activities.get(i));
+				}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
 		return sched;
 	}
 	
@@ -1041,12 +1048,12 @@ if( !userUtil.hasPermission(troop,  Permission.PERMISSION_MOVE_MEETING_ID ) ){
 		return planView;
 	}
 
-	public PlanView planView1( User user, Troop troop, javax.servlet.http.HttpServletRequest request){
+	public PlanView planView1( User user, Troop troop, javax.servlet.http.HttpServletRequest request) throws IllegalAccessException{
 		
 		PlanView planView = new PlanView();
 		HttpSession session= request.getSession();
 		
-		java.util.Map <java.util.Date,  YearPlanComponent> sched = getYearPlanSched(troop.getYearPlan(), false);
+		java.util.Map <java.util.Date,  YearPlanComponent> sched = getYearPlanSched(user, troop.getYearPlan(), false, false);
 		if( sched==null || (sched.size()==0)){System.err.println( "You must first select a year plan."); return null;}
 		java.util.List<java.util.Date> dates =new java.util.ArrayList<java.util.Date>(sched.keySet());
 		long nextDate=0, prevDate=0;

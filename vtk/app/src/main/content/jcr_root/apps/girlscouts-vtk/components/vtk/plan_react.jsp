@@ -4,7 +4,7 @@
 <cq:defineObjects />
 <%@include file="include/session.jsp"%>
 <%
-  String activeTab = "planView";
+  String activeTab = "plan";
     boolean showVtkNav = true;
 %>
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
@@ -77,16 +77,30 @@
       toggle: function() {
         this.setState({ show: !this.state.show });
       },
+onReorder: function (order) {
+},
       render: function() {
 		var commentNodes;
 		if( this.props.data!=null){
 			var keys =  Object.keys( this.props.data );
 			var meetingObj = this.props.data;
 			commentNodes = keys.map( function (comment ,i ) {
-				return ( <MeetingComponent date={comment} info={meetingObj} />  );
+				return ( <MeetingComponent key={i} date={comment} info={meetingObj} onReorder={this.onReorder} />  );
 			});
          }
-        return ( <div className="commentList">..{commentNodes}</div>    );
+        return ( 
+			<div id="yearPlanMeetings">
+				  <div className="row">
+				    <div className="column large-20 medium-20 large-centered medium-centered">
+					  <h1 className="yearPlanTitle">XXX</h1>
+					  <p className="hide-for-print">Drag and drop to reorder meetings</p> 
+					</div>
+				</div>
+				<ul id="sortable123">
+					{commentNodes}
+				</ul>
+			</div>			
+	    );
       } //end of render
     });
 
@@ -95,9 +109,38 @@
       render: function() {
 		var date = this.props.date;
 		var obj  = this.props.info[date];
+		var img = "/content/dam/girlscouts-vtk/local/icon/meetings/"+ obj.meetingInfo.id +".png";
         return (
-           <div>{this.props.date} - {obj.uid} </div>
+          
+			<%@include file="include/view_meeting.jsp" %> 
         );
+      },
+	  onReorder: function(order){
+	  
+	  },
+	  componentDidMount: function() {
+        var dom = $(this.getDOMNode());
+        var onReorder = this.props.onReorder;
+        dom.sortable({
+          stop: function (event, ui) {
+            var order = dom.sortable("toArray", {attribute: "id"});
+            var yy  = order.toString().replace('"','');
+   			//call server AJAX here
+            onReorder(order);
+          }
+        });
+      },
+      componentWillUpdate: function() {
+        var dom = $(this.getDOMNode());
+        var onReorder = this.props.onReorder;
+        dom.sortable({
+            stop: function (event, ui) {
+            	var order = dom.sortable("toArray", {attribute: "id"});
+            	var yy  = order.toString().replace('"','');
+            	//call server AJAX here
+    			onReorder(order);
+            }
+        });
       }
     });
 

@@ -611,7 +611,7 @@ System.err.println("ISACTIV......... "+request.getParameter("isActiv"));
 	
 }else if( request.getParameter("yearPlanSched") !=null ){
 		
-	java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(troop.getYearPlan());
+	java.util.Map <java.util.Date,  YearPlanComponent> sched =  meetingUtil.getYearPlanSched(user, troop.getYearPlan(), true, true);
 	ObjectMapper mapper = new ObjectMapper();
 	//out.println("[");
 	out.println(mapper.writeValueAsString(sched));
