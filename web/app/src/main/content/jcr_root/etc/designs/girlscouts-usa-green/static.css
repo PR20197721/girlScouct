@@ -1392,51 +1392,6 @@ form .form_captcha_input {
   height: 40px;
 }
 
-/*styles for updates list pages */
-.update-list .row {
-  background-color: #fff;
-}
-.update-list:first-child .row:first-child > div {
-  padding-top: 60px;
-}
-.update-list .more-link:after {
-  content:">";
-  margin-left: 5px;
-}
-.update-list p,
-.update-list span,
-.update-list ul li,
-.update-list a {
-  font-size: 14px;
-}
-.update-list h3 {
-  float: left;
-  margin: 0;
-  font-size: 1.63em;
-}
-.update-list section.header {
-  background: #f6f6f6;
-  padding: 0.75em 0.63em;
-}
-.update-list section.header a {
-  float: right;
-  line-height: 1.63em;
-}
-
-.update-list ul {
-  list-style: none;
-  margin-top:15px;
-}
-.update-list ul li {
-  margin-bottom: 20px;
-}
-.update-list-header {
-  padding-bottom: 0;
-}
-.update-list-footer {
-  padding: 10px 0;
-}
-
 /******* Home page specific******/
 /*Adding home specific fix page**/
 /*we need to adjust the padding for the gutters*/
@@ -1505,4 +1460,49 @@ form .form_captcha_input {
 }
 .home-section .news-rows .list-text {
   padding-left: 0;
+}
+
+/*styles for updates list pages */
+.update-list .row {
+  background-color: #fff;
+}
+.update-list:first-child .row:first-child > div {
+  padding-top: 60px;
+}
+.update-list .more-link:after {
+  content:">";
+  margin-left: 5px;
+}
+.update-list p,
+.update-list span,
+.update-list ul li,
+.update-list a {
+  font-size: 14px;
+}
+.update-list h3 {
+  float: left;
+  margin: 0;
+  font-size: 1.63em;
+}
+.update-list section.header {
+  background: #f6f6f6;
+  padding: 0.75em 0.63em;
+}
+.update-list section.header a {
+  float: right;
+  line-height: 1.63em;
+}
+
+.update-list ul {
+  list-style: none;
+  margin-top:15px;
+}
+.update-list ul li {
+  margin-bottom: 20px;
+}
+.update-list-header {
+  padding-bottom: 0;
+}
+.update-list-footer {
+  padding: 10px 0;
 }
