@@ -25,6 +25,7 @@
 <script src="http://fb.me/JSXTransformer-0.12.1.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script>
+<script src="http://fb.me/react-with-addons-0.12.1.js"></script>
 
 <%@include file="include/tab_navigation.jsp"%>
 
@@ -209,6 +210,9 @@ console.log("loading..");
         },
     	onReorder: function (order) {
     		isActivNew=1;
+//console.log(this.props.data)
+//React.addons.update( this.props.data , this.props.data);
+//console.log(1);
     	},
         render: function () {
     		return <section className="column large-20 medium-20 large-centered medium-centered">
