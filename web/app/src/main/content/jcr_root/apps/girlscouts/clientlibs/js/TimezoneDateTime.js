@@ -731,7 +731,14 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
         return function(val) {
             return CQ.Ext.util.Format.date(val, format);
         };
+    },
+    
+    setTimezone: function(timezone) {
+    	this.timezone = timezone;
+    	alert('timezone = ' + timezone);
     }
+    
+    
 });
 
 // register xtype

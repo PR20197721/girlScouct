@@ -6,7 +6,7 @@ girlscouts.components.TimezoneSelection = CQ.Ext.extend(CQ.form.Selection, {
 				var datetimes = that.findParentByType('panel').findByType('timezonedatetime');
 				for (var i = 0; i < datetimes.length; i++) {
 					var datetime = datetimes[i];
-					console.info('###' + i + ' selectionchanged. newvalue=' + value);
+					datetime.setTimezone(value);
 				}
 			}
 		}
