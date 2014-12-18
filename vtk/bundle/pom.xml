@@ -21,6 +21,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.girlscouts.vtk</groupId>
+            <artifactId>modified-checker</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.compendium</artifactId>
         </dependency>
@@ -577,8 +581,6 @@
                         </Export-Package>
                         -->
                         
-            <!--  <Export-Package>org.alex.app.core*;version="${project.version}"</Export-Package> -->
-           <Bundle-Activator>org.alex.app.core.Activator</Bundle-Activator> 
            
                         
                         <!-- Recursively embed dependency jars -->
