@@ -50,7 +50,7 @@ if( troop.getYearPlan().getSchedule()!=null ){ //sched exists
 		case MEETING :
 			meetingCount++;
 			MeetingE meetingE =(MeetingE)_comp;
-			%>  <%@include file="include/viewMeeting.jsp" %>    <% 
+			%>  <%@include file="include/view_meeting.jsp" %>    <% 
 			break;
 		case MILESTONE :
 			Milestone milestone = (Milestone) _comp;
