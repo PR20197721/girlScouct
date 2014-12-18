@@ -22,7 +22,7 @@
     <dependencies>
     	<dependency>
              <groupId>org.girlscouts.vtk</groupId>
-             <artifactId>modified-checker</artifactId>
+             <artifactId>modified-checker-bundle</artifactId>
              <scope>provided</scope>
     	</dependency>
         <dependency>
