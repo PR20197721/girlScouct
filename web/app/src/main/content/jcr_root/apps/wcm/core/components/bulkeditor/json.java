@@ -34,8 +34,9 @@ import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 
 import com.day.cq.commons.TidyJSONWriter;
 import com.day.cq.commons.jcr.JcrConstants;
-
-
+import org.girlscouts.web.exception.GirlScoutsException;
+import org.girlscouts.web.encryption.FormEncryption;
+import org.girlscouts.web.encryption.impl.FormEncryptionImpl;
 
 /**
  * Servers as base for image servlets
@@ -154,7 +155,9 @@ public class json extends SlingAllMethodsServlet {
 	public static Map<String, String[]> getNodeSecret(Node node) throws ItemNotFoundException{
 		try{
 			String secret = node.getProperty("secret").getString();
-			String decrypted = decrypted(secret);
+            FormEncryption fEn= new FromEncryptionImpl();
+            
+            String decrypted = fEn.decrypt(secret);
 			String[] propStrings = decrypted.split(String.valueOf(PARA_SEPARATOR));
 			Map<String, String[]> propsMap = new HashMap<String, String[]>();
 			for(String propString:propStrings){
