@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    cq:lastReplicated="{Date}2014-12-12T11:26:12.998-05:00"
+    cq:lastReplicatedBy="admin"
+    cq:lastReplicationAction="Activate"
+    jcr:mixinTypes="[cq:ReplicationStatus]"
+    jcr:primaryType="sling:Folder"
+    jcr:title="Currency Amount"
+    sling:resourceType="foundation/components/form/constraint"
+    constraintMessage="The format for currency should be XXXXX.00"
+    hint="Validates if the field contains an amount in US dollar"/>

@@ -141,6 +141,3 @@ if( troop.getYearPlan().getSchedule()!=null ){ //sched exists
      $( "#sortable123 li" ).disableSelection();
 	});
 </script>
-
-
-
