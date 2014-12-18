@@ -36,10 +36,16 @@ import org.apache.sling.api.scripting.SlingBindings;
 
 import com.day.cq.commons.TidyJSONWriter;
 import com.day.cq.commons.jcr.JcrConstants;
+<<<<<<< HEAD
 
 import org.girlscouts.web.exception.GirlScoutsException;
 import org.girlscouts.web.encryption.FormEncryption;
 
+=======
+import org.girlscouts.web.exception.GirlScoutsException;
+import org.girlscouts.web.encryption.FormEncryption;
+import org.girlscouts.web.encryption.impl.FormEncryptionImpl;
+>>>>>>> 775e991a97820f10a0883663afcaeb8b77394144
 
 /**
  * Servers as base for image servlets
@@ -161,7 +167,6 @@ public class json extends SlingAllMethodsServlet {
             SlingBindings bindings = (SlingBindings) request.getAttribute(SlingBindings.class.getName());
             ScriptHelper scriptHelper = (ScriptHelper)bindings.getSling();
             FormEncryption fEn = scriptHelper.getService(FormEncryption.class);
-
             String decrypted = fEn.decrypt(secret);
 			String[] propStrings = decrypted.split(String.valueOf(PARA_SEPARATOR));
 			Map<String, String[]> propsMap = new HashMap<String, String[]>();
