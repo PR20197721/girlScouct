@@ -19,7 +19,4 @@
      <a  href="javascript:loadModal('#newMeetingAgenda', true, 'Agenda', false);" title="Add meeting aids">
      	<i className="icon-button-circle-plus"></i> Add Agenda Item</a>
    </li>
-   <li className="row">
-     <a data-reveal-id="modal_meeting"><i className="icon-button-circle-plus"></i> Add Agenda Item</a>
-   </li>
 </ul>
