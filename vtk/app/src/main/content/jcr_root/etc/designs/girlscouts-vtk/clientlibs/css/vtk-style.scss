@@ -95,7 +95,6 @@
             height: 80px;
             background-color:#f6f6f6;
             cursor: pointer;
-
             &:before {
               content:'';
               background: url("images/throbber.png") repeat-y #fff;
@@ -179,20 +178,29 @@
             }
           }
           &.activity {
-            &.ui-state-disabled {
-              opacity: 1;
-              > div  {
-                 .bg-square {
-                  background-color: #00abe6;
-                  &:after {
-                    border-color: transparent transparent transparent #00abe6;
-                  }
-                }
-                &:before {
-                  cursor: default !important;
+            > div  {
+               .bg-square {
+                background-color: #00abe6;
+                &:after {
+                  border-color: transparent transparent transparent #00abe6;
                 }
               }
+              &:before {
+                cursor: default !important;
+              }
+            &.ui-state-disabled {
+              opacity: 1;
+              }
             }
+          }
+        }
+        .milestone {
+          > div {
+            background: #f7941d;
+            margin: 20px auto;
+            color: #fff;
+            font-weight: 700;
+            font-size: 14px;
           }
         }
       }

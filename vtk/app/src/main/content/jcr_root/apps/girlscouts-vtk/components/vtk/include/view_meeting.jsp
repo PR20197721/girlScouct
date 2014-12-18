@@ -18,12 +18,15 @@
         
         {obj.title}
       </p>
+
       <p className="category">{obj.meetingInfo.cat}</p>
       <p className="blurb">{obj.meetingInfo.blurb}</p>
+
     </div>
     <div className="large-2 medium-2 columns hide-for-small">
       <img src={img} alt={obj.meetingInfo.id}/>
     </div>
+
   </div>
 
 </li>

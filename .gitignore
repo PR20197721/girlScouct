@@ -40,3 +40,5 @@
 /vtk/api-bundle/bin/
 
 /vtk/replication-bundle/bin/
+
+bin/

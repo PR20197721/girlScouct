@@ -22,6 +22,7 @@
         java.util.Locale,
 		java.util.ResourceBundle,
 		com.day.cq.i18n.I18n" %><%
+%><%@include file="/apps/foundation/components/form/expression.jsp"%><%
 
 	final Locale pageLocale = currentPage.getLanguage(true);
 	final ResourceBundle resourceBundle = slingRequest.getResourceBundle(pageLocale);
@@ -34,6 +35,8 @@
 %>
     <div class="form_row">
       <% LayoutHelper.printTitle(null, null, false, out); %>
+      <%--  Placeholder for error message if constraint not met. --%>
+      <div class="form_rightcol form_error submit_error" style="display: none"></div>
       <div class="form_rightcol">
         <%
         boolean clientValidation = FormsHelper.doClientValidation(slingRequest);
@@ -73,3 +76,48 @@
       </div>
     </div>
     <% LayoutHelper.printDescription(FormsHelper.getDescription(resource, ""), out); %>
+    
+<%
+	String constraint = properties.get("constraint", "");
+	String errMsg = properties.get("errMsg", "");
+	if (!constraint.isEmpty()) {
+	    String formId = getFormId(currentNode);
+	    if (formId != null) {
+			FormatExpressionResult result = formatExpression(constraint, formId);
+			String finalExpression = result.expression;
+		    Set<String> fields = result.fields;
+			String rand = Integer.toString(new Double(Math.random()*1000000).intValue());
+%>
+		<script>
+			function func<%=rand%>() {
+				if (<%=finalExpression%>) {
+					$('form#<%=formId%> div.submit_error').html('');
+					$('form#<%=formId%> div.submit_error').hide();
+					return true;
+				} else {
+					$('form#<%=formId%> div.submit_error').html('<%= errMsg %>');
+					$('form#<%=formId%> div.submit_error').show();
+					return false;
+				}
+			}
+			$(document).ready(function(){
+				$('form#<%=formId%>').submit(func<%=rand%>);
+
+				var submitElem = $('form#<%=formId%> input.form_button_submit');
+				if (submitElem.attr('onclick')) {
+					eval('var oldFunc = function(){' + submitElem.attr('onclick') + '}');
+					submitElem.attr('onclick', '');
+					submitElem.click(function() {
+						if (func<%=rand%>()) {
+							return oldFunc();
+						} else {
+							return false;
+						}
+					});
+				}
+			})
+		</script>
+<%
+	    }
+	}
+%>

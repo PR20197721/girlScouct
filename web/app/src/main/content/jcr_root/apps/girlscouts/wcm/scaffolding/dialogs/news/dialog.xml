@@ -173,7 +173,7 @@
                     jcr:primaryType="cq:Widget"
                     ignoreData="{Boolean}true"
                     name="./jcr:content/middle/par/text/sling:resourceType"
-                    value="foundation/components/textimage"
+                    value="girlscouts/components/textimage"
                     xtype="hidden"/>
                 <description
                     jcr:primaryType="cq:Widget"

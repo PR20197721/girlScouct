@@ -137,14 +137,20 @@
         .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div > div:nth-of-type(3) {
           padding-top: 10px;
           padding-bottom: 10px; }
-      .vtk-body #main #yearPlanMeetings #sortable123 .meeting.activity.ui-state-disabled {
+      .vtk-body #main #yearPlanMeetings #sortable123 .meeting.activity > div .bg-square {
+        background-color: #00abe6; }
+        .vtk-body #main #yearPlanMeetings #sortable123 .meeting.activity > div .bg-square:after {
+          border-color: transparent transparent transparent #00abe6; }
+      .vtk-body #main #yearPlanMeetings #sortable123 .meeting.activity > div:before {
+        cursor: default !important; }
+      .vtk-body #main #yearPlanMeetings #sortable123 .meeting.activity > div.ui-state-disabled {
         opacity: 1; }
-        .vtk-body #main #yearPlanMeetings #sortable123 .meeting.activity.ui-state-disabled > div .bg-square {
-          background-color: #00abe6; }
-          .vtk-body #main #yearPlanMeetings #sortable123 .meeting.activity.ui-state-disabled > div .bg-square:after {
-            border-color: transparent transparent transparent #00abe6; }
-        .vtk-body #main #yearPlanMeetings #sortable123 .meeting.activity.ui-state-disabled > div:before {
-          cursor: default !important; }
+    .vtk-body #main #yearPlanMeetings #sortable123 .milestone > div {
+      background: #f7941d;
+      margin: 20px auto;
+      color: #fff;
+      font-weight: 700;
+      font-size: 14px; }
 .vtk-body #mainContent.welcome-page .parbase.section.text h1 {
   margin: 0 0 1.25rem 0; }
 .vtk-body #mainContent.welcome-page .parbase.section.text p {
