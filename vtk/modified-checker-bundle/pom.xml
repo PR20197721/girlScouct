@@ -15,7 +15,7 @@
     <!-- P R O J E C T D E S C R I P T I O N -->
     <!-- ====================================================================== -->
 
-    <artifactId>modified-checker</artifactId>
+    <artifactId>modified-checker-bundle</artifactId>
     <packaging>bundle</packaging>
     <name>Girl Scouts Volunteer Toolkit Modified Checker Bundle</name>
 
