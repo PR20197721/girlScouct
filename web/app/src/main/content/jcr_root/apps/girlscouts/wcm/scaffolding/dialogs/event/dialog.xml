@@ -16,7 +16,7 @@
                 <timezoneselect
                     jcr:primaryType="nt:unstructured"
                     fieldLabel="Time Zone"
-                    name="./timezone"
+                    name="./jcr:content/data/timezone"
                     xtype="timezoneselect"/>
                 <start
                     jcr:primaryType="cq:Widget"
