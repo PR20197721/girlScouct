@@ -9,6 +9,12 @@ girlscouts.components.TimezoneSelection = CQ.Ext.extend(CQ.form.Selection, {
     
     optionsCallback: function() {
         var timezones = girlscouts.functions.getTimezones();
+        // Hide this field if there is only one time zone.
+        if (timezones.length <= 1) {
+            this.hide();
+            return;
+        }
+
         var options = new Array();
         
         this.timezoneDic = {};
