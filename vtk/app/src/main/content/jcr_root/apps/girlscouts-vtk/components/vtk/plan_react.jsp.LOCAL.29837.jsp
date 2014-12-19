@@ -20,8 +20,6 @@
 
 <div id="panelWrapper" class="row content meeting-detail">
 
-  <%@include file="include/utility_nav.jsp"%>
-
   <%@include file="include/view_yp_dropdown.jsp"%>
 
   <div id="panelWrapper1">

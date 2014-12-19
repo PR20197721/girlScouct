@@ -20,8 +20,7 @@
 
 <div id="panelWrapper" class="row content meeting-detail">
 
-  <%@include file="include/utility_nav.jsp"%>
-
+<<<<<<< HEAD
   <%@include file="include/view_yp_dropdown.jsp"%>
 
   <div id="panelWrapper1">
@@ -85,6 +84,52 @@
           this.setState({ show: !this.state.show });
         },
         onReorder: function (order) {
+=======
+   var YearPlanComponents = React.createClass({
+      getInitialState: function() {
+        return { show: false };
+      },
+      toggle: function() {
+        this.setState({ show: !this.state.show });
+      },
+      onReorder: function (order) {
+      },
+      render: function() {
+
+		var commentNodes;
+		if( this.props.data!=null){
+			var keys =  Object.keys( this.props.data );
+			var meetingObj = this.props.data;
+			commentNodes = keys.map( function (comment ,i ) {
+				return ( <MeetingComponent key={i} date={comment} info={meetingObj} onReorder={this.onReorder} />  );
+			});
+         }
+        return ( 
+			<div id="yearPlanMeetings" className="columns">
+				  <div className="row">
+				    <div className="column large-20 medium-20 large-centered medium-centered">
+					  <h1 className="yearPlanTitle">XXX</h1>
+					  <p className="hide-for-print">Drag and drop to reorder meetings</p> 
+					</div>
+				  </div>
+				  <ul>
+					{commentNodes}
+				  </ul>
+			</div>			
+	    );
+
+      } //end of render
+    });
+
+  var MeetingComponent = React.createClass({
+    render: function() {
+  		var date = this.props.date;
+  		var obj  = this.props.info[date];
+  		var img = "/content/dam/girlscouts-vtk/local/icon/meetings/"+ obj.meetingInfo.id +".png";
+        return (   
+  			<%@include file="include/view_meeting.jsp" %> 
+          );
+>>>>>>> e026736c5f3379edb2c990c4ca9330221d2c4299
         },
         render: function() {
       		var commentNodes;
