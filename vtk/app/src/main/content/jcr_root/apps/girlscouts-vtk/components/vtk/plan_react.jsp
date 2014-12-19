@@ -95,10 +95,10 @@ onReorder: function (order) {
 					  <h1 className="yearPlanTitle">XXX</h1>
 					  <p className="hide-for-print">Drag and drop to reorder meetings</p> 
 					</div>
-				</div>
-				<ul>
+				  </div>
+				  <ul>
 					{commentNodes}
-				</ul>
+				  </ul>
 			</div>			
 	    );
       } //end of render
@@ -106,9 +106,7 @@ onReorder: function (order) {
 
 
     var MeetingComponent = React.createClass({
-		getInitialState: function() {
-    		return {date: this.props.date, info: this.props.info};
-        },
+		
       render: function() {
 		var date = this.props.date;
 		var obj  = this.props.info[date];
