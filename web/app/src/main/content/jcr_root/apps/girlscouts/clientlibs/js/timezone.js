@@ -3,6 +3,7 @@
 // {"timezone": "US/Central", "label": "CST"}
 // label can be empty if there is only one time zone in the array.
 girlscouts.functions.getTimezones = function() {
+	var defaultTimezone = 'US/Eastern';
 	var timezoneStr;
     
 	var url = window.location.pathname;
@@ -27,10 +28,10 @@ girlscouts.functions.getTimezones = function() {
 		if (response.status == 200) {
 			timezoneStr = response.body;
 		} else {
-			timezoneStr = this.defaultTimezone;
+			timezoneStr = defaultTimezone;
 		}
 	} else {
-		timezoneStr = this.defaultTimezone;
+		timezoneStr = defaultTimezone;
 	}
 	
 	var timezoneStrElems = timezoneStr.split(',');

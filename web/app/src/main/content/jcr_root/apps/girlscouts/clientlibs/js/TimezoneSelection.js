@@ -65,4 +65,4 @@ girlscouts.components.TimezoneSelection = CQ.Ext.extend(CQ.form.Selection, {
 	}
 });
 
-CQ.Ext.reg("timezoneStrelect", girlscouts.components.TimezoneSelection);
+CQ.Ext.reg("timezoneselect", girlscouts.components.TimezoneSelection);
