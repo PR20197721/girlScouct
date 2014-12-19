@@ -703,6 +703,7 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
     setTimezone: function(timezone) {
     	this.timezone = timezone;
     	this.lf.setText(timezone);
+    	this.updateHidden();
     }
     
     
