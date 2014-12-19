@@ -115,6 +115,7 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
         girlscouts.components.TimezoneDateTime.superclass.initComponent.call(this);
         
         var timezones = girlscouts.functions.getTimezones();
+        // Choose the default time zone
         this.timezone = timezones[0].timezone;
         
         // create DateField

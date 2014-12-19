@@ -34,6 +34,10 @@ girlscouts.functions.getTimezones = function() {
 		timezoneStr = defaultTimezone;
 	}
 	
+	// Retrieved property is in this format:
+	// US/Central:CST,US/Eastern/EST
+	// or if there is only one time zone, without label
+	// US/Central 
 	var timezoneStrElems = timezoneStr.split(',');
 	var timezones = new Array();
 	for (var i = 0; i < timezoneStrElems.length; i++) {
