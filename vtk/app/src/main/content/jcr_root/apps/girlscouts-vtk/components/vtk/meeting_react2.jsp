@@ -205,9 +205,6 @@
         },
     	onReorder: function (order) {
     		isActivNew=1;
-//console.log(this.props.data)
-//React.addons.update( this.props.data , this.props.data);
-//console.log(1);
     	},
         render: function () {
     		return <section className="column large-20 medium-20 large-centered medium-centered">
@@ -217,6 +214,9 @@
     				    </section>; 
         }
     });
+
+
+
 
     var SortableListItems1 = React.createClass({
       render: function() {
