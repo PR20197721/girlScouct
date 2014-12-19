@@ -106,6 +106,9 @@ onReorder: function (order) {
 
 
     var MeetingComponent = React.createClass({
+		getInitialState: function() {
+    		return {date: this.props.date, info: this.props.info};
+        },
       render: function() {
 		var date = this.props.date;
 		var obj  = this.props.info[date];
@@ -124,6 +127,8 @@ onReorder: function (order) {
         dom.sortable({
           stop: function (event, ui) {
             var order = dom.sortable("toArray", {attribute: "id"});
+console.log(1);
+console.log(order);
             var yy  = order.toString().replace('"','');
    			//call server AJAX here
             onReorder(order);
@@ -136,6 +141,8 @@ onReorder: function (order) {
         dom.sortable({
             stop: function (event, ui) {
             	var order = dom.sortable("toArray", {attribute: "id"});
+console.log(1);
+console.log(order);
             	var yy  = order.toString().replace('"','');
             	//call server AJAX here
     			onReorder(order);
