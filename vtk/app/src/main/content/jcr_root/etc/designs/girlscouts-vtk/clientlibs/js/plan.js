@@ -47,8 +47,8 @@ function getNewMeetingSetup() {
 	return toRet.substring(0, toRet.length-1);
 }
 
-function doUpdMeeting(){
-	var newVals = getNewMeetingSetup();
+function doUpdMeeting(newVals){
+	//var newVals = getNewMeetingSetup();
 	
 	var x =$.ajax({ // ajax call starts
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=ChangeMeetingPositions&isMeetingCngAjax='+ newVals, // JQuery loads serverside.php

@@ -117,6 +117,8 @@
             var order = dom.sortable("toArray", {attribute: "id"});
             var yy  = order.toString().replace('"','');
     			//call server AJAX here
+console.log(yy) 
+doUpdMeeting1(yy);
             onReorder(order);
           }
         });
@@ -129,12 +131,38 @@
           	var order = dom.sortable("toArray", {attribute: "id"});
           	var yy  = order.toString().replace('"','');
           	//call server AJAX here
+doUpdMeeting1(yy);
+console.log(yy) 
   			    onReorder(order);
           }
       });
     }
   });
 
+  var MeetingImg = React.createClass({
+      render: function() {
+
+		var src= "/content/dam/girlscouts-vtk/local/icon/meetings/"+ this.props.mid +".png";
+        return (
+    		<img src={src}/>
+        );
+      }
+    });
+
+
+
+function doUpdMeeting1(newVals){
+
+	var x =$.ajax({ 
+		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=ChangeMeetingPositions&isMeetingCngAjax='+ newVals, // JQuery loads serverside.php
+		data: '', 
+
+		dataType: 'html', 
+
+	}).done(function( html ) { });
+		
+		
+}
   React.render(
     <CommentBox url="/content/girlscouts-vtk/controllers/vtk.controller.html?yearPlanSched=X" pollInterval={10000} />,
       document.getElementById('panelWrapper')

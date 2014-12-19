@@ -1,4 +1,4 @@
-<li  className="row meeting " key={obj[comment].id} id={obj[comment].id}>
+<li  className="row meeting " key={obj[comment].id} id={obj[comment].id +1}>
   <div className="column large-20 medium-20 large-centered medium-centered">
     
     <div className="large-3 medium-3 small-4 columns">
@@ -18,7 +18,7 @@
       <p className="blurb">{obj[comment].meetingInfo.blurb}</p>
     </div>
     <div className="large-2 medium-2 columns hide-for-small">
-      IMG
+      <MeetingImg mid={obj[comment].meetingInfo.id}/>
     </div>
   </div>
 
