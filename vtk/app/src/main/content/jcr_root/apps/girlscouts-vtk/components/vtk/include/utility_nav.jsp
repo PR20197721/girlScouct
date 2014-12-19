@@ -3,7 +3,9 @@
     <div className="row collapse">
       <div className="columns large-23 medium-22 small-22">
         <ul id="sub-nav" className="inline-list hide-for-print">
-          <li><a href="javascript:loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath='+thisMeetingPath+'&xx=<%=planView.getSearchDate().getTime() %>', false, null, true)" title="replace this meeting">Replace this meeting</a></li>
+          <li><a data-reveal-id="modal_meeting" title="Metting Dates and Location">Meeting Dates and Locations</a></li>
+          <li><a href="#" onclick="doMeetingLib()" title="Add Meeting">Add Meeting</a></li>
+          <li><a href="#" onclick="newActivity()" title="Add Activity">Add Activity</a></li>
         </ul>
       </div>
       <div className="columns large-1 medium-2 small-2">

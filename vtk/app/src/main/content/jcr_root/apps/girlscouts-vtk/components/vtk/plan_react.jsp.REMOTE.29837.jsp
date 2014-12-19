@@ -73,15 +73,21 @@
       }
     });
 
-   var YearPlanComponents = React.createClass({      
+   var YearPlanComponents = React.createClass({
+      getInitialState: function() {
+        return { show: false };
+      },
+      toggle: function() {
+        this.setState({ show: !this.state.show });
+      },
       onReorder: function (order) {
       },
       render: function() {
+
 		var commentNodes;
 		if( this.props.data!=null){
 			var keys =  Object.keys( this.props.data );
 			var meetingObj = this.props.data;
-console.log(this.props.data)
 			commentNodes = keys.map( function (comment ,i ) {
 				return ( <MeetingComponent key={i} date={comment} info={meetingObj} onReorder={this.onReorder} />  );
 			});
@@ -99,6 +105,7 @@ console.log(this.props.data)
 				  </ul>
 			</div>			
 	    );
+
       } //end of render
     });
 
