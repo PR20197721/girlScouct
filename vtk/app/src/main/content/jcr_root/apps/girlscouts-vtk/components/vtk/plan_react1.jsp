@@ -18,9 +18,11 @@
 
 <%@include file="include/tab_navigation.jsp"%>
  
+ <div id="panelWrapper" class="row meeting-detail">
+ <%@include file="include/utility_nav.jsp"%>
 <%@include file="include/view_yp_dropdown.jsp"%>
 
-<div id="panelWrapper" class="row meeting-detail">
+<div id="caca">
  
   <script type="text/jsx">
   	var isActivNew;
@@ -165,10 +167,10 @@ function doUpdMeeting1(newVals){
 }
   React.render(
     <CommentBox url="/content/girlscouts-vtk/controllers/vtk.controller.html?yearPlanSched=X" pollInterval={10000} />,
-      document.getElementById('panelWrapper')
+      document.getElementById('caca')
     );
   </script>  
-
+</div>
 </div><!--/panelWrapper-->
 
 

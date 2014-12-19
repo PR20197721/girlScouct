@@ -30,6 +30,8 @@
 <!--%@include file="include/myPop.jsp"%-->
 
 <div id="panelWrapper" class="row content meeting-detail">
+<%@include file="include/utility_nav.jsp"%>
+<div id="caca">
   <script type="text/jsx">
     var thisMeetingRefId;
     var thisMeetingPath;
@@ -132,7 +134,7 @@
       render: function() {
         return (
     		<div className="section-wrapper">
-     		 <%@include file="include/utility_nav.jsp"%>
+     		 
     		 <%@include file="include/meeting_navigator.jsp"%>
      		 <%@include file="include/meeting_maininfo.jsp"%>
     		 <%@include file="include/meeting_planning.jsp"%>
@@ -268,14 +270,15 @@
 
     React.render(
     <CommentBox url="/content/girlscouts-vtk/controllers/vtk.controller.html?reactjs=asdf" pollInterval={10000} />,
-      document.getElementById('panelWrapper')
+      document.getElementById('caca')
     );
 
     </script>
     
     <%@include file="include/modal_agenda.jsp"%> 
    
-</div><!--/panelWrapper-->
+</div>
+</div>
 
 
 
