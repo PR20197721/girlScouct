@@ -31,6 +31,8 @@ public class FormEncryptionImpl implements FormEncryption {
             return secret.toString();
             
         } catch (Exception e) {
+        	log.error("Encryption Exception");
+        	log.error(e.toString());
             throw new GirlScoutsException(e,"Encryption Exception");
         }
 	}
@@ -44,6 +46,8 @@ public class FormEncryptionImpl implements FormEncryption {
             aes.decrypt(crypt);
             return crypt.getValue();
         } catch (Exception e) {
+        	log.error("Decryption Exception");
+        	log.error(e.toString());
             throw new GirlScoutsException(e,"Decryption Exception");
         }
 	}
