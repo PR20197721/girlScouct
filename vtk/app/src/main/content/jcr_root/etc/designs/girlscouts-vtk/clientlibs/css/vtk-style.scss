@@ -37,9 +37,6 @@
         padding: 0 0.5rem;
       }
     }
-    .yp-wrapper {
-      padding-top: 20px;
-    }
     #yearPlanSelection {
       .row {
         &:nth-child(1) {
@@ -400,16 +397,18 @@
         }
       }
     }
-    .crumbs .columns {
-      #util-links.inline-list {
-        position:relative;
-        top: -10px;
-        li {
-          &:nth-of-type(2) {
-            margin: 0 15.151515%;
-          }
-          &:last-child {
-            float:right;
+    .crumbs {
+      .columns {
+        #util-links.inline-list {
+          position:relative;
+          top: -10px;
+          li {
+            &:nth-of-type(2) {
+              margin: 0 15.151515%;
+            }
+            &:last-child {
+              float:right;
+            }
           }
         }
       }
