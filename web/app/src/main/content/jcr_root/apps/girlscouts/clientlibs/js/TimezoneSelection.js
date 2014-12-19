@@ -1,6 +1,6 @@
 girlscouts.components.TimezoneSelection = CQ.Ext.extend(CQ.form.Selection, {
-	timezones: null,
-	
+	timezoneDic: null,
+
     initComponent:function() {
         // call parent initComponent
         girlscouts.components.TimezoneSelection.superclass.initComponent.call(this);
@@ -11,6 +11,7 @@ girlscouts.components.TimezoneSelection = CQ.Ext.extend(CQ.form.Selection, {
         var timezones = girlscouts.functions.getTimezones();
         var options = new Array();
         
+        this.timezoneDic = {};
         for (var i = 0; i < timezones.length; i++) {
         	var timezone = timezones[i];
         	options.push({
@@ -18,6 +19,7 @@ girlscouts.components.TimezoneSelection = CQ.Ext.extend(CQ.form.Selection, {
         		text: timezone.timezone,
         		qtip: timezone.label
         	});
+        	this.timezoneDic[timezone.label] = timezone.timezone;
         }
         this.setOptions(options);
         this.setValue(options[0].value);
@@ -30,7 +32,7 @@ girlscouts.components.TimezoneSelection = CQ.Ext.extend(CQ.form.Selection, {
 				var datetimes = that.findParentByType('panel').findByType('timezonedatetime');
 				for (var i = 0; i < datetimes.length; i++) {
 					var datetime = datetimes[i];
-					datetime.setTimezone(value);
+					datetime.setTimezone(this.timezoneDic[value]);
 				}
 			}
 		}
