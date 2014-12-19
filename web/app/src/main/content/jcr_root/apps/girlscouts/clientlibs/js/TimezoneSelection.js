@@ -20,6 +20,7 @@ girlscouts.components.TimezoneSelection = CQ.Ext.extend(CQ.form.Selection, {
         	});
         }
         this.setOptions(options);
+        this.setValue(options[0].value);
     },
     
 	listeners: {
