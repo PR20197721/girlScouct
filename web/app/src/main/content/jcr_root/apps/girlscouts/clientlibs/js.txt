@@ -2,6 +2,7 @@
 
 main.js
 link-widget.js
+timezone.js
 simplified-link-widget.js
 dynamic-pathfield.js
 SpecialCharsDialog.js
