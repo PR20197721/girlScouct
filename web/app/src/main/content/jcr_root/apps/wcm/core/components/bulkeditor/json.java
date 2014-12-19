@@ -41,6 +41,7 @@ import org.girlscouts.web.exception.GirlScoutsException;
 import org.girlscouts.web.encryption.FormEncryption;
 
 
+
 /**
  * Servers as base for image servlets
  */
@@ -158,6 +159,7 @@ public class json extends SlingAllMethodsServlet {
 	public static Map<String, String[]> getNodeSecret(Node node,SlingHttpServletRequest request) throws ItemNotFoundException{
 		try{
 			String secret = node.getProperty("secret").getString();
+
             SlingBindings bindings = (SlingBindings) request.getAttribute(SlingBindings.class.getName());
             ScriptHelper scriptHelper = (ScriptHelper)bindings.getSling();
             FormEncryption fEn = scriptHelper.getService(FormEncryption.class);
