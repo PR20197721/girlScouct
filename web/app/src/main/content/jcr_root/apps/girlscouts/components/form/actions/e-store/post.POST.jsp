@@ -34,11 +34,7 @@
 	uri="http://sling.apache.org/taglibs/sling/1.0"%>
 <%
     %><%@taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0"%>
-<cq:defineObjects /><sling:defineObjects /><%!
-	String encrypt(String s){
-		return s+" encrypted";
-	}
-%>
+<cq:defineObjects /><sling:defineObjects />
 <%
     final SlingRepository repository = sling.getService(SlingRepository.class);
     final ValueMap props = ResourceUtil.getValueMap(resource);
