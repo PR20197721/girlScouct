@@ -87,7 +87,7 @@
         font-size: 1.63em;
         text-transform:uppercase;
       }
-      #sortable123 {
+      ul {
         margin: 0;
         .meeting {
          margin-bottom: 2.0833333%;
@@ -584,7 +584,7 @@
 //Media queries
 //small screen
 @media only screen and (max-width: 40em) {
-  .vtk-body #main #yearPlanMeetings #sortable123 .meeting > div {
+  .vtk-body #main #yearPlanMeetings ul .meeting > div {
     .bg-square {
       position: static;
       &:after {

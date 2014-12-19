@@ -89,14 +89,14 @@ onReorder: function (order) {
 			});
          }
         return ( 
-			<div id="yearPlanMeetings">
+			<div id="yearPlanMeetings" className="columns">
 				  <div className="row">
 				    <div className="column large-20 medium-20 large-centered medium-centered">
 					  <h1 className="yearPlanTitle">XXX</h1>
 					  <p className="hide-for-print">Drag and drop to reorder meetings</p> 
 					</div>
 				</div>
-				<ul id="sortable123">
+				<ul>
 					{commentNodes}
 				</ul>
 			</div>			
