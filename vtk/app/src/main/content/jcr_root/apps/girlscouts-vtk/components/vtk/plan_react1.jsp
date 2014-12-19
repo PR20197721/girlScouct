@@ -77,15 +77,6 @@
       onReorder: function (order) {
       },
       render: function() {
-		var commentNodes;
-		if( this.props.data!=null){
-			var keys =  Object.keys( this.props.data );
-			var meetingObj = this.props.data;
-console.log(this.props.data)
-			commentNodes = keys.map( function (comment ,i ) {
-				return ( <MeetingComponent key={i} date={comment} info={meetingObj} onReorder={this.onReorder} />  );
-			});
-         }
         return ( 
 			<div id="yearPlanMeetings" className="columns">
 				  <div className="row">
@@ -94,9 +85,7 @@ console.log(this.props.data)
 					  <p className="hide-for-print">Drag and drop to reorder meetings</p> 
 					</div>
 				  </div>
-				  <ul>
-					{commentNodes}
-				  </ul>
+				  <MeetingComponent key={this.props.data} data={this.props.data} onReorder={this.onReorder} /> 
 			</div>			
 	    );
       } //end of render
@@ -104,12 +93,18 @@ console.log(this.props.data)
 
   var MeetingComponent = React.createClass({
     render: function() {
-  		var date = this.props.date;
-  		var obj  = this.props.info[date];
-  		var img = "/content/dam/girlscouts-vtk/local/icon/meetings/"+ obj.meetingInfo.id +".png";
-        return (   
-  			<%@include file="include/view_meeting.jsp" %> 
-          );
+		if( this.props.data!=null){
+			var keys =  Object.keys( this.props.data );
+			var obj = this.props.data;
+
+			return (<ul>
+						{ keys.map( function (comment ,i ) {
+							return <%@include file="include/view_meeting.jsp" %> 
+						   })
+						}
+					</ul>
+ 			);
+         }  		
         },
     onReorder: function(order) {
 
