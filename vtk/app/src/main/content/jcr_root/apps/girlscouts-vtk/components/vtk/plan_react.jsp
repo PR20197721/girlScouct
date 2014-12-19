@@ -96,7 +96,7 @@
 					  <p className="hide-for-print">Drag and drop to reorder meetings</p> 
 					</div>
 				  </div>
-				 <ul id="sortable123">
+				 <ul>
 					{commentNodes}
 				 </ul>
 			</div>			
