@@ -23,6 +23,6 @@ var $ = jQuery.noConflict();
 	  	 });
 	  });
 	  $(window).load(function(){
-	    $("#yearPlanMeetings").load(loadMeetings());
+	    //$("#yearPlanMeetings").load(loadMeetings());
 	  })
  })($);

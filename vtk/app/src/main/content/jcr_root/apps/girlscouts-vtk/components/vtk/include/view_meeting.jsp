@@ -1,4 +1,4 @@
-<li  className="row meeting " id={obj.id}>
+<li  className="row meeting " key={obj.id} id={obj.id}>
   <div className="column large-20 medium-20 large-centered medium-centered">
     
     <div className="large-3 medium-3 small-4 columns">

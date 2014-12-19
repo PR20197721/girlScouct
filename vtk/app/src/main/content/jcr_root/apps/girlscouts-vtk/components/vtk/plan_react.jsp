@@ -15,14 +15,17 @@
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script>
 <script src="http://fb.me/react-with-addons-0.12.1.js"></script>
+
 <%@include file="include/tab_navigation.jsp"%>
+
 <div id="panelWrapper" class="row content meeting-detail">
   <script type="text/jsx">
+
 	var isActivNew;
 	var isFirst;
     var CommentBox = React.createClass({
      loadCommentsFromServer: function( isFirst ) {
-	   console.log("loading..");
+	   console.log("loading plan..");
        $.ajax({
           url: this.props.url + 
     		(isActivNew==1 ? ("&isActivNew="+ isActivNew) : '')+
@@ -71,14 +74,11 @@
 
 
  var YearPlanComponents = React.createClass({
-      getInitialState: function() {
-        return { show: false };
-      },
-      toggle: function() {
-        this.setState({ show: !this.state.show });
-      },
-onReorder: function (order) {
-},
+      
+	  onReorder: function (order) {
+    		//isActivNew=1;
+
+    	},
       render: function() {
 		var commentNodes;
 		if( this.props.data!=null){
@@ -95,10 +95,10 @@ onReorder: function (order) {
 					  <h1 className="yearPlanTitle">XXX</h1>
 					  <p className="hide-for-print">Drag and drop to reorder meetings</p> 
 					</div>
-				</div>
-				<ul id="sortable123">
+				  </div>
+				 <ul >
 					{commentNodes}
-				</ul>
+				 </ul>
 			</div>			
 	    );
       } //end of render
@@ -135,9 +135,12 @@ onReorder: function (order) {
         var onReorder = this.props.onReorder;
         dom.sortable({
             stop: function (event, ui) {
+console.log(1);
             	var order = dom.sortable("toArray", {attribute: "id"});
-            	var yy  = order.toString().replace('"','');
+      console.log(2 +" : "+ order);      	
+				var yy  = order.toString().replace('"','');
             	//call server AJAX here
+console.log( order );
     			onReorder(order);
             }
         });
