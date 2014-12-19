@@ -45,7 +45,7 @@
 										}
 								%>
 							<div class="date">
-								<div class="cal"><span class="month"><%= FORMAT_MONTH.format(date)%></span>
+								<div class="cal"><span class="month"><%= FORMAT_MONTH.format(date)%></span><br/>
 									<span class="day"><%= FORMAT_DAY_OF_MONTH.format(date)%></span>
 									<!-- <span class="time hide-for-small"><%= FORMAT_hhmm_AMPM.format(date)%></span> -->
 								</div>
