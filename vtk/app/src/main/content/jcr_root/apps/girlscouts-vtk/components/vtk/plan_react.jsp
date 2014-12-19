@@ -15,14 +15,20 @@
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script>
 <script src="http://fb.me/react-with-addons-0.12.1.js"></script>
+
 <%@include file="include/tab_navigation.jsp"%>
-<div id="panelWrapper" class="row content meeting-detail">
+ 
+<%@include file="include/view_yp_dropdown.jsp"%>
+
+<div id="panelWrapper" class="row meeting-detail">
+ 
   <script type="text/jsx">
-	var isActivNew;
-	var isFirst;
+  	var isActivNew;
+  	var isFirst;
+    
     var CommentBox = React.createClass({
      loadCommentsFromServer: function( isFirst ) {
-	   console.log("loading..");
+     console.log("loading..");
        $.ajax({
           url: this.props.url + 
     		(isActivNew==1 ? ("&isActivNew="+ isActivNew) : '')+
@@ -55,31 +61,29 @@
     			{ this.loadCommentsFromServer() ; }
       },
       render: function() {
-    	var x;   	
-    	if( this.state.data!=null){
-    		x =  this.state.data;
-           
-    		return (
-     			 <YearPlanComponents data={x} /> 
-    	    );
-    	}else{
-    		return <div>loading meeting plans...</div>;
-    	}
+      	var x;   	
+      	if( this.state.data!=null){
+      		x =  this.state.data;       
+      		return (
+       			 <YearPlanComponents data={x} /> 
+      	    );
+      	} else {
+      		return <div>loading meeting plans...</div>;
+      	}
       }
     });
 
-
-
- var YearPlanComponents = React.createClass({
+   var YearPlanComponents = React.createClass({
       getInitialState: function() {
         return { show: false };
       },
       toggle: function() {
         this.setState({ show: !this.state.show });
       },
-onReorder: function (order) {
-},
+      onReorder: function (order) {
+      },
       render: function() {
+
 		var commentNodes;
 		if( this.props.data!=null){
 			var keys =  Object.keys( this.props.data );
@@ -101,63 +105,54 @@ onReorder: function (order) {
 				  </ul>
 			</div>			
 	    );
+
       } //end of render
     });
 
+  var MeetingComponent = React.createClass({
+    render: function() {
+  		var date = this.props.date;
+  		var obj  = this.props.info[date];
+  		var img = "/content/dam/girlscouts-vtk/local/icon/meetings/"+ obj.meetingInfo.id +".png";
+        return (   
+  			<%@include file="include/view_meeting.jsp" %> 
+          );
+        },
+    onReorder: function(order) {
 
-    var MeetingComponent = React.createClass({
-		
-      render: function() {
-		var date = this.props.date;
-		var obj  = this.props.info[date];
-		var img = "/content/dam/girlscouts-vtk/local/icon/meetings/"+ obj.meetingInfo.id +".png";
-        return (
-          
-			<%@include file="include/view_meeting.jsp" %> 
-        );
-      },
-	  onReorder: function(order){
-	  
-	  },
-	  componentDidMount: function() {
+    },
+    componentDidMount: function() {
         var dom = $(this.getDOMNode());
         var onReorder = this.props.onReorder;
         dom.sortable({
           stop: function (event, ui) {
             var order = dom.sortable("toArray", {attribute: "id"});
-console.log(1);
-console.log(order);
             var yy  = order.toString().replace('"','');
-   			//call server AJAX here
+    			//call server AJAX here
             onReorder(order);
           }
         });
       },
-      componentWillUpdate: function() {
-        var dom = $(this.getDOMNode());
-        var onReorder = this.props.onReorder;
-        dom.sortable({
-            stop: function (event, ui) {
-            	var order = dom.sortable("toArray", {attribute: "id"});
-console.log(1);
-console.log(order);
-            	var yy  = order.toString().replace('"','');
-            	//call server AJAX here
-    			onReorder(order);
-            }
-        });
-      }
-    });
+    componentWillUpdate: function() {
+      var dom = $(this.getDOMNode());
+      var onReorder = this.props.onReorder;
+      dom.sortable({
+          stop: function (event, ui) {
+          	var order = dom.sortable("toArray", {attribute: "id"});
+          	var yy  = order.toString().replace('"','');
+          	//call server AJAX here
+  			    onReorder(order);
+          }
+      });
+    }
+  });
 
-
-    
-    React.render(
+  React.render(
     <CommentBox url="/content/girlscouts-vtk/controllers/vtk.controller.html?yearPlanSched=X" pollInterval={10000} />,
       document.getElementById('panelWrapper')
     );
+  </script>  
 
-
-    </script>  
 </div><!--/panelWrapper-->
 
 

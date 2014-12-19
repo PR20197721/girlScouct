@@ -9,7 +9,6 @@
           <p className="day">{moment(date).format('DD')}</p>
           <p className="hour">{moment(date).format('hh:mm a')}</p>
         </div>
-       
       </div>
     </div>    
 
@@ -21,7 +20,6 @@
     <div className="large-2 medium-2 columns hide-for-small">
       <img src={img} alt={obj.meetingInfo.id}/>
     </div>
-
   </div>
 
 </li>
