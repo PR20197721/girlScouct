@@ -2,6 +2,7 @@
 <workspaceFilter version="1.0">
     <filter root="/apps/girlscouts"/>
     <filter root="/apps/foundation"/>
+    <filter root="/apps/wcm"/>
     <filter root="/etc/map.author"/>
     <filter root="/etc/map.publish"/>
     <filter root="/etc/map.publish.dev"/>
@@ -36,6 +37,7 @@
     <filter root="/etc/workflow/launcher/config/parse_word_doc_mod" />
     <filter root="/etc/workflow/launcher/config/parse_word_docx_create" />
     <filter root="/etc/workflow/launcher/config/parse_word_docx_mod" />
+    <filter root="/etc/workflow/launcher/config/gs_form_reverse_replication" />
     <filter root="/etc/workflow/models/dam/gs_update_asset_large_hero"/>
     <filter root="/etc/workflow/models/dam/gs_update_asset_large_logo"/>  
     <filter root="/etc/workflow/models/dam/gs_update_asset_medium_hero"/>   
@@ -54,4 +56,5 @@
     <filter root="/etc/workflow/notification/email/default"/>
     <filter root="/etc/tracker"/>
     <filter root="/etc/msm/rolloutconfigs/gsdefault"/>
+    <filter root="/apps/wcm"/>
 </workspaceFilter>

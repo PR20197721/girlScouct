@@ -49,5 +49,22 @@
                     xtype="textfield"/>
             </items>
         </five>
+        <constraint
+            jcr:primaryType="nt:unstructured"
+            title="Constraint"
+            xtype="panel">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <contraint
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Constraint"
+                    name="./constraint"
+                    xtype="textfield"/>
+                <errMsg
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Error Message"
+                    name="./errMsg"
+                    xtype="textfield"/>
+            </items>
+        </constraint>
     </items>
 </jcr:root>

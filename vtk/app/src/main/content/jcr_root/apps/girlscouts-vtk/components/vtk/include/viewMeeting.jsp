@@ -9,10 +9,15 @@
 		 isCanceled=true;
 	}
 %>
+<script>
+        function meetingDetails(elem){
+                if( !currentlyDragging ){
+                        self.location="/content/girlscouts-vtk/en/vtk.planView.html?elem="+elem;
+                }
 
-
-			
-			
+                currentlyDragging=false;
+        }
+</script>
 			<li <%if( hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID) ){ %>
 			onclick='meetingDetails("<%=date.getTime()%>")'
 			<%}%>
@@ -40,8 +45,8 @@
 										}
 								%>
 							<div class="date">
-								<div class="cal"><span class="month"><%= FORMAT_MONTH.format(date)%><br/></span>
-									<span class="day"><%= FORMAT_DAY_OF_MONTH.format(date)%><br/></span>
+								<div class="cal"><span class="month"><%= FORMAT_MONTH.format(date)%></span><br/>
+									<span class="day"><%= FORMAT_DAY_OF_MONTH.format(date)%></span>
 									<!-- <span class="time hide-for-small"><%= FORMAT_hhmm_AMPM.format(date)%></span> -->
 								</div>
 							</div>
@@ -77,7 +82,6 @@
 					<p><small><%=meeting.getCat()%></small></p>
 					 <!--  p class="tags"><%=meeting.getAidTags() %></p --> 
 					<!-- <p class="show-for-small"><%= FORMAT_hhmm_AMPM.format(date)%></p> -->
-					<br/>
 					<p class="blurb"><%=meeting.getBlurb() %></p>
 					<%if( hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID) ){ %>
 						<a href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=date.getTime()%>">View Meeting</a>
