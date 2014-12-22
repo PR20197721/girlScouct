@@ -3,9 +3,7 @@
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 <%
-
-
-String vtkErr="";
+	String vtkErr="";
 try{
 	
 	
@@ -21,115 +19,116 @@ try{
 	if( aContr!=null)
 	  switch(aContr){
 		case ChangeMeetingPositions:
-			meetingUtil.changeMeetingPositions( user, troop, request.getParameter("isMeetingCngAjax") );
+System.err.println("changing... "+ request.getParameter("isMeetingCngAjax") );			
+	meetingUtil.changeMeetingPositions( user, troop, request.getParameter("isMeetingCngAjax") );
 	    	return;
 		case CreateActivity:
-			yearPlanUtil.createActivity(user, troop, new Activity( 
-					request.getParameter("newCustActivity_name"), request.getParameter("newCustActivity_txt"),
-					dateFormat4.parse(request.getParameter("newCustActivity_date") +" "+request.getParameter("newCustActivity_startTime") +" " +request.getParameter("newCustActivity_startTime_AP")), 
-					dateFormat4.parse(request.getParameter("newCustActivity_date") +" "+request.getParameter("newCustActivity_endTime") +" "+ request.getParameter("newCustActivity_endTime_AP")), 
-					request.getParameter("newCustActivityLocName"), request.getParameter("newCustActivityLocAddr"),
-					VtkUtil.convertObjectToDouble(request.getParameter("newCustActivity_cost")) ));
-			return;
+	yearPlanUtil.createActivity(user, troop, new Activity( 
+			request.getParameter("newCustActivity_name"), request.getParameter("newCustActivity_txt"),
+			dateFormat4.parse(request.getParameter("newCustActivity_date") +" "+request.getParameter("newCustActivity_startTime") +" " +request.getParameter("newCustActivity_startTime_AP")), 
+			dateFormat4.parse(request.getParameter("newCustActivity_date") +" "+request.getParameter("newCustActivity_endTime") +" "+ request.getParameter("newCustActivity_endTime_AP")), 
+			request.getParameter("newCustActivityLocName"), request.getParameter("newCustActivityLocAddr"),
+			VtkUtil.convertObjectToDouble(request.getParameter("newCustActivity_cost")) ));
+	return;
 		case CreateSchedule:
-			try{
-				session.putValue("VTK_planView_memoPos", null);
-				calendarUtil.createSched(user, troop, request.getParameter("calFreq"), 
-					new org.joda.time.DateTime(dateFormat4.parse(request.getParameter("calStartDt") +" "+ request.getParameter("calTime") +
-					" "+ request.getParameter("calAP"))), request.getParameter("exclDt"));
-			}catch(Exception e){e.printStackTrace();}
-			return;
+	try{
+		session.putValue("VTK_planView_memoPos", null);
+		calendarUtil.createSched(user, troop, request.getParameter("calFreq"), 
+			new org.joda.time.DateTime(dateFormat4.parse(request.getParameter("calStartDt") +" "+ request.getParameter("calTime") +
+			" "+ request.getParameter("calAP"))), request.getParameter("exclDt"));
+	}catch(Exception e){e.printStackTrace();}
+	return;
 		case SelectYearPlan:
-			troopUtil.selectYearPlan( user,  troop, request.getParameter("addYearPlanUser"), request.getParameter("addYearPlanName"));
-			return;
+	troopUtil.selectYearPlan( user,  troop, request.getParameter("addYearPlanUser"), request.getParameter("addYearPlanName"));
+	return;
 		case AddLocation:
-			locationUtil.addLocation(user, troop, new Location(request.getParameter("name"),
-					request.getParameter("address"), request.getParameter("city"), 
-					request.getParameter("state"), request.getParameter("zip") ));
-			return;
+	locationUtil.addLocation(user, troop, new Location(request.getParameter("name"),
+			request.getParameter("address"), request.getParameter("city"), 
+			request.getParameter("state"), request.getParameter("zip") ));
+	return;
 		case RemoveLocation:
-			locationUtil.removeLocation(user, troop, request.getParameter("rmLocation"));
-			return;
+	locationUtil.removeLocation(user, troop, request.getParameter("rmLocation"));
+	return;
 		case CreateCustomAgenda:
-			meetingUtil.createCustomAgenda(user, troop, 
-					request.getParameter("name"), request.getParameter("newCustAgendaName"), 
-					Integer.parseInt(request.getParameter("duration")), Long.parseLong( request.getParameter("startTime") ), request.getParameter("txt") );
-			return;
+	meetingUtil.createCustomAgenda(user, troop, 
+			request.getParameter("name"), request.getParameter("newCustAgendaName"), 
+			Integer.parseInt(request.getParameter("duration")), Long.parseLong( request.getParameter("startTime") ), request.getParameter("txt") );
+	return;
 		case SetLocationAllMeetings:
-			locationUtil.setLocationAllMeetings(user, troop, request.getParameter("setLocationToAllMeetings") );
-			return;
+	locationUtil.setLocationAllMeetings(user, troop, request.getParameter("setLocationToAllMeetings") );
+	return;
 		case UpdateSched:
-			boolean isSucc =calendarUtil.updateSched(user, troop, request.getParameter("meetingPath"), 
-					request.getParameter("time"), request.getParameter("date"), request.getParameter("ap"), 
-					request.getParameter("isCancelledMeeting"), Long.parseLong( request.getParameter("currDt") ));
+	boolean isSucc =calendarUtil.updateSched(user, troop, request.getParameter("meetingPath"), 
+			request.getParameter("time"), request.getParameter("date"), request.getParameter("ap"), 
+			request.getParameter("isCancelledMeeting"), Long.parseLong( request.getParameter("currDt") ));
 	
 		System.err.println("test: "+ isSucc);	
-			if( !isSucc ){ response.sendError(499, "Date already exists in schedule" );}
-			return;
+	if( !isSucc ){ response.sendError(499, "Date already exists in schedule" );}
+	return;
 		case RemoveCustomActivity:
-			meetingUtil.rmCustomActivity (user, troop, request.getParameter("rmCustActivity") );	
-			return;
+	meetingUtil.rmCustomActivity (user, troop, request.getParameter("rmCustActivity") );	
+	return;
 		case ChangeLocation:
-			locationUtil.changeLocation(user, troop, request.getParameter("chnLocation"), request.getParameter("newLocPath"));
-			return;
+	locationUtil.changeLocation(user, troop, request.getParameter("chnLocation"), request.getParameter("newLocPath"));
+	return;
 		case SwapMeetings:
-			meetingUtil.swapMeetings(user, troop, request.getParameter("fromPath"), request.getParameter("toPath"));
-			return;
+	meetingUtil.swapMeetings(user, troop, request.getParameter("fromPath"), request.getParameter("toPath"));
+	return;
 		case AddMeeting:
-			meetingUtil.addMeetings(user, troop,  request.getParameter("toPath"));
-			return;
+	meetingUtil.addMeetings(user, troop,  request.getParameter("toPath"));
+	return;
 		case RearrangeActivity:
-			try{
-				meetingUtil.rearrangeActivity(user,  troop, request.getParameter("mid"), request.getParameter("isActivityCngAjax"));
-			}catch(java.lang.IllegalAccessException e){e.printStackTrace();}
-			return;
+	try{
+		meetingUtil.rearrangeActivity(user,  troop, request.getParameter("mid"), request.getParameter("isActivityCngAjax"));
+	}catch(java.lang.IllegalAccessException e){e.printStackTrace();}
+	return;
 		case RemoveAgenda:
-			meetingUtil.rmAgenda(user, troop, request.getParameter("rmAgenda") , request.getParameter("mid")  );
-			return;
+	meetingUtil.rmAgenda(user, troop, request.getParameter("rmAgenda") , request.getParameter("mid")  );
+	return;
 		case EditAgendaDuration:
-			System.err.println("**" + Integer.parseInt(request.getParameter("editAgendaDuration")) +" : "+ 
-					request.getParameter("aid") +" : "+request.getParameter("mid"));
-			meetingUtil.editAgendaDuration(user, troop, Integer.parseInt(request.getParameter("editAgendaDuration")), 
-					request.getParameter("aid"),request.getParameter("mid"));
-			return;
+	System.err.println("**" + Integer.parseInt(request.getParameter("editAgendaDuration")) +" : "+ 
+			request.getParameter("aid") +" : "+request.getParameter("mid"));
+	meetingUtil.editAgendaDuration(user, troop, Integer.parseInt(request.getParameter("editAgendaDuration")), 
+			request.getParameter("aid"),request.getParameter("mid"));
+	return;
 		case RevertAgenda:
-			meetingUtil.reverAgenda(user, troop,  request.getParameter("mid") );
-			return;
+	meetingUtil.reverAgenda(user, troop,  request.getParameter("mid") );
+	return;
 		case ReLogin:
-			troopUtil.reLogin(user, troop, request.getParameter("loginAs"), session);
-			return;
+	troopUtil.reLogin(user, troop, request.getParameter("loginAs"), session);
+	return;
 		case AddAid:
-			if( request.getParameter("assetType").equals("AID")){
-				meetingUtil.addAids(user, troop, request.getParameter("addAids"), request.getParameter("meetingId"), java.net.URLDecoder.decode(request.getParameter("assetName") ) );
-			}else{
-				meetingUtil.addResource(user, troop, request.getParameter("addAids"), request.getParameter("meetingId"), java.net.URLDecoder.decode(request.getParameter("assetName") ) );
-			}
-			return;
+	if( request.getParameter("assetType").equals("AID")){
+		meetingUtil.addAids(user, troop, request.getParameter("addAids"), request.getParameter("meetingId"), java.net.URLDecoder.decode(request.getParameter("assetName") ) );
+	}else{
+		meetingUtil.addResource(user, troop, request.getParameter("addAids"), request.getParameter("meetingId"), java.net.URLDecoder.decode(request.getParameter("assetName") ) );
+	}
+	return;
 		case RemoveAsset:
-			meetingUtil.rmAsset(user, troop, request.getParameter("rmAsset"), request.getParameter("meetingId"));
-			return;
+	meetingUtil.rmAsset(user, troop, request.getParameter("rmAsset"), request.getParameter("meetingId"));
+	return;
 		case BindAssetToYPC:
-			vtkErr = troopUtil.bindAssetToYPC(user, troop, request.getParameter("bindAssetToYPC"), 
-					request.getParameter("ypcId"), request.getParameter("assetDesc"), request.getParameter("assetTitle"));
-			return;
+	vtkErr = troopUtil.bindAssetToYPC(user, troop, request.getParameter("bindAssetToYPC"), 
+			request.getParameter("ypcId"), request.getParameter("assetDesc"), request.getParameter("assetTitle"));
+	return;
 		case EditCustActivity:
-			vtkErr = troopUtil.editCustActivity(user, troop, request);
-			return;
+	vtkErr = troopUtil.editCustActivity(user, troop, request);
+	return;
 		case Search:
-			yearPlanUtil.search( user,  troop, request);
-			return;
+	yearPlanUtil.search( user,  troop, request);
+	return;
 		case  CreateCustomActivity:
-			yearPlanUtil.createCustActivity(user, troop, (java.util.List <org.girlscouts.vtk.models.Activity>)session.getValue("vtk_search_activity"), request.getParameter("newCustActivityBean"));
-			return;
+	yearPlanUtil.createCustActivity(user, troop, (java.util.List <org.girlscouts.vtk.models.Activity>)session.getValue("vtk_search_activity"), request.getParameter("newCustActivityBean"));
+	return;
 		case isAltered:
-			out.println( yearPlanUtil.isYearPlanAltered(user, troop) );
+	out.println( yearPlanUtil.isYearPlanAltered(user, troop) );
 	  		return;
 		case GetFinances:
-			financeUtil.getFinances(user, troop, Integer.parseInt(request.getParameter("finance_qtr")));
-			return;
+	financeUtil.getFinances(user, troop, Integer.parseInt(request.getParameter("finance_qtr")));
+	return;
 		case UpdateFinances:
-			financeUtil.updateFinances(user, troop, request.getParameterMap());
-			return;
+	financeUtil.updateFinances(user, troop, request.getParameterMap());
+	return;
 		default :	    		
 	    		break;
 	}
@@ -159,22 +158,22 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 	try{
 		session.putValue("VTK_planView_memoPos", null);
 		calendarUtil.createSched(user, troop, request.getParameter("calFreq"), 
-			new org.joda.time.DateTime(dateFormat4.parse(request.getParameter("calStartDt") +" "+ request.getParameter("calTime") +
-			" "+ request.getParameter("calAP"))), request.getParameter("exclDt"));
+	new org.joda.time.DateTime(dateFormat4.parse(request.getParameter("calStartDt") +" "+ request.getParameter("calTime") +
+	" "+ request.getParameter("calAP"))), request.getParameter("exclDt"));
 	}catch(Exception e){e.printStackTrace();}
 }else if( request.getParameter("addYearPlanUser") !=null ){
 	troopUtil.selectYearPlan( user,  troop, request.getParameter("addYearPlanUser"), request.getParameter("addYearPlanName"));
 }else if( request.getParameter("addLocation") !=null ){
 	locationUtil.addLocation(user, troop, new Location(request.getParameter("name"),
-			request.getParameter("address"), request.getParameter("city"), 
-			request.getParameter("state"), request.getParameter("zip") ));
+	request.getParameter("address"), request.getParameter("city"), 
+	request.getParameter("state"), request.getParameter("zip") ));
 }else if( request.getParameter("rmLocation") !=null ){
 	// /gscontroller/vtk/crud/location POST {operation: DELETE, locationId: 12345}
 	locationUtil.removeLocation(user, troop, request.getParameter("rmLocation"));
 }else if( request.getParameter("newCustAgendaName") !=null ){
 	meetingUtil.createCustomAgenda(user, troop, 
-			request.getParameter("name"), request.getParameter("newCustAgendaName"), 
-			Integer.parseInt(request.getParameter("duration")), Long.parseLong( request.getParameter("startTime") ), request.getParameter("txt") );
+	request.getParameter("name"), request.getParameter("newCustAgendaName"), 
+	Integer.parseInt(request.getParameter("duration")), Long.parseLong( request.getParameter("startTime") ), request.getParameter("txt") );
 
 }else if( request.getParameter("setLocationToAllMeetings") !=null ){
 	// /gscontroller/vtk/crud/updateAllMeetingLocations POST {operation: UPDATE, locationId: 12345}
@@ -228,7 +227,7 @@ if( request.getParameter("isMeetingCngAjax") !=null){
 
 }else if( request.getParameter("bindAssetToYPC") !=null ){	
 	vtkErr = troopUtil.bindAssetToYPC(user, troop, request.getParameter("bindAssetToYPC"), 
-			request.getParameter("ypcId"), request.getParameter("assetDesc"), request.getParameter("assetTitle"));
+	request.getParameter("ypcId"), request.getParameter("assetDesc"), request.getParameter("assetTitle"));
 }else if( request.getParameter("editCustActivity") !=null ){
 	vtkErr = troopUtil.editCustActivity(user, troop, request);
 }else if( request.getParameter("srch") !=null ){	
@@ -246,7 +245,7 @@ if(request.getParameter("admin_login")!=null ){
 		String u= request.getParameter("usr");
 		String p= request.getParameter("pswd");
 		if( u.equals("admin") && p.equals("icruise123") )
-			session.putValue("VTK_ADMIN", u);
+	session.putValue("VTK_ADMIN", u);
 	}
 	response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.home.html");
 	
@@ -300,7 +299,7 @@ if(request.getParameter("admin_login")!=null ){
 	  
 	  if( rmAid!=null){
 		  for(int i=0;i<aids.size();i++)
-			  if( aids.get(i).getRefId().equals( rmAid))
+	  if( aids.get(i).getRefId().equals( rmAid))
 		  		aids.remove(i);
 	  }
 
@@ -311,20 +310,20 @@ if(request.getParameter("admin_login")!=null ){
 	// /gscontroller/vtk/action/sendMeetingReminderEmail parameters  
 		EmailMeetingReminder emr=null;
 		if( troop.getSendingEmail() !=null ) {
-			emr= troop.getSendingEmail();
+	emr= troop.getSendingEmail();
 		}
 		if( emr.getCc()==null || emr.getCc().equals("")) {
-			emr.setCc("ayakobovich@northpointdigital.com");
+	emr.setCc("ayakobovich@northpointdigital.com");
 		}
 		String html = emr.getHtml();
 		html+="<br/>Aids Included:";
 		if( emr!=null ){
-			java.util.List<Asset> eAssets = emr.getAssets();
-			if( eAssets!=null) {
-				for(int i=0;i<eAssets.size();i++){
-					html += "<br/><a href=\""+eAssets.get(i).getRefId()+"\">"+eAssets.get(i).getRefId()+ "</a>";
-				}
-			}
+	java.util.List<Asset> eAssets = emr.getAssets();
+	if( eAssets!=null) {
+		for(int i=0;i<eAssets.size();i++){
+			html += "<br/><a href=\""+eAssets.get(i).getRefId()+"\">"+eAssets.get(i).getRefId()+ "</a>";
+		}
+	}
 		}
 		emr.setHtml( html);
 		org.girlscouts.vtk.ejb.Emailer emailer = sling.getService(org.girlscouts.vtk.ejb.Emailer.class);
@@ -352,34 +351,34 @@ if(request.getParameter("admin_login")!=null ){
 	for(MeetingE m: meetings){
 		if( m.getUid().equals( request.getParameter("mid") ))
 		{
-			Meeting custM = m.getMeetingInfo();			
-			if( request.getParameter("id").equals("editMeetingName")){
-				custM.setName( request.getParameter("newvalue") );
-			}else if( request.getParameter("id").equals("editMeetingDesc")){
-				java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  custM.getMeetingInfo();
-				meetingInfoItems.put("meeting short description", new JcrCollectionHoldString(request.getParameter("newvalue")));
-			}else if( request.getParameter("id").equals("editMeetingOverview")){
-				java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  custM.getMeetingInfo();
-				meetingInfoItems.put("overview", new JcrCollectionHoldString(request.getParameter("newvalue")));
-			}else if( request.getParameter("id").equals("editMeetingActivity")){
-				java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  custM.getMeetingInfo();
-				meetingInfoItems.put("detailed activity plan", new JcrCollectionHoldString(request.getParameter("newvalue")));
-			}else if( request.getParameter("id").equals("editMeetingMaterials")){
-				java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  custM.getMeetingInfo();
-				meetingInfoItems.put("materials", new JcrCollectionHoldString(request.getParameter("newvalue")));
-			}
-			
-			
-			try{
-				if( !m.getRefId().contains("_") )
-				    yearPlanUtil.createCustomMeeting(user, troop, m, custM);
-				else{
-					yearPlanUtil.updateCustomMeeting(user, troop, m, custM);				
-				}				
-				out.println( request.getParameter("newvalue") );
-			}catch(Exception e){e.printStackTrace();}
-			
-			break;
+	Meeting custM = m.getMeetingInfo();			
+	if( request.getParameter("id").equals("editMeetingName")){
+		custM.setName( request.getParameter("newvalue") );
+	}else if( request.getParameter("id").equals("editMeetingDesc")){
+		java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  custM.getMeetingInfo();
+		meetingInfoItems.put("meeting short description", new JcrCollectionHoldString(request.getParameter("newvalue")));
+	}else if( request.getParameter("id").equals("editMeetingOverview")){
+		java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  custM.getMeetingInfo();
+		meetingInfoItems.put("overview", new JcrCollectionHoldString(request.getParameter("newvalue")));
+	}else if( request.getParameter("id").equals("editMeetingActivity")){
+		java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  custM.getMeetingInfo();
+		meetingInfoItems.put("detailed activity plan", new JcrCollectionHoldString(request.getParameter("newvalue")));
+	}else if( request.getParameter("id").equals("editMeetingMaterials")){
+		java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  custM.getMeetingInfo();
+		meetingInfoItems.put("materials", new JcrCollectionHoldString(request.getParameter("newvalue")));
+	}
+	
+	
+	try{
+		if( !m.getRefId().contains("_") )
+		    yearPlanUtil.createCustomMeeting(user, troop, m, custM);
+		else{
+			yearPlanUtil.updateCustomMeeting(user, troop, m, custM);				
+		}				
+		out.println( request.getParameter("newvalue") );
+	}catch(Exception e){e.printStackTrace();}
+	
+	break;
 		}
 	}
 	
@@ -412,8 +411,8 @@ if(request.getParameter("admin_login")!=null ){
 }else if( request.getParameter("test1") !=null ){
 
 	System.err.println("CHECK");
-			  
-			  
+	  
+	  
 	
 }else if( request.getParameter("editMtLogo") !=null ){
 	
@@ -447,7 +446,7 @@ if(request.getParameter("admin_login")!=null ){
 	m.setBlurb(request.getParameter("blurb"));
 	m.setDate( new java.util.Date( request.getParameter("date")  ) );
 	milestones.add(m);
-			
+	
 	response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
 	
 }else if(request.getParameter("removeCouncilMilestones") !=null){
@@ -458,16 +457,16 @@ if(request.getParameter("admin_login")!=null ){
 		
 		Milestone m = milestones.get(i);
 		if( m.getUid().equals(request.getParameter("removeCouncilMilestones")) ){
-			milestones.remove(m);
-			
-			
-			boolean isUsrUpd =troopUtil.updateTroop(user, troop);
-			if(!isUsrUpd)
-				vtkErr+= vtkErr.concat("Warning: You last change was not saved.");
-			
-			
-			response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
-			return;
+	milestones.remove(m);
+	
+	
+	boolean isUsrUpd =troopUtil.updateTroop(user, troop);
+	if(!isUsrUpd)
+		vtkErr+= vtkErr.concat("Warning: You last change was not saved.");
+	
+	
+	response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
+	return;
 		}
 	}
 
@@ -483,9 +482,9 @@ if(request.getParameter("admin_login")!=null ){
 		troop.getTroop().setPermissionTokens(Permission.getPermissionTokens( Permission.GROUP_GUEST_PERMISSIONS));	
 		break;
 	  case 11:
-			
-			troop.getTroop().setPermissionTokens(Permission.getPermissionTokens( Permission.GROUP_LEADER_PERMISSIONS));			
-			break;
+	
+	troop.getTroop().setPermissionTokens(Permission.getPermissionTokens( Permission.GROUP_LEADER_PERMISSIONS));			
+	break;
 	  case 12:
 		  
 		  troop.getTroop().setPermissionTokens(Permission.getPermissionTokens( Permission.GROUP_MEMBER_2G_PERMISSIONS));
@@ -504,7 +503,7 @@ if(request.getParameter("admin_login")!=null ){
 		  
 	   default:
 		   troop.getTroop().setPermissionTokens(Permission.getPermissionTokens( Permission.GROUP_GUEST_PERMISSIONS));	
-			
+	
 		break;
 	}
 	
@@ -541,7 +540,7 @@ Troop x= (Troop)session.getAttribute("VTK_troop");
                                     yc.getInputStream()));
         String inputLine;
         while ((inputLine = in.readLine()) != null) {
-            System.err.println(inputLine +" : "+ (inputLine.indexOf("\"yp_cng\":\"true\"")!= -1 ));
+           // System.err.println(inputLine +" : "+ (inputLine.indexOf("\"yp_cng\":\"true\"")!= -1 ));
         
         	if(inputLine!=null && (inputLine.indexOf("\"yp_cng\":\"true\"")!= -1) ){
         		isCng= true;
@@ -572,34 +571,34 @@ Troop x= (Troop)session.getAttribute("VTK_troop");
 		
 		java.util.List <MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
 		for( int i=0;i<meetings.size();i++){
-			MeetingE _meeting = meetings.get(i);
-			
-			if(_meeting.getMeetingInfo()!=null && _meeting.getMeetingInfo().getActivities()!=null ){
-				
-				
+	MeetingE _meeting = meetings.get(i);
+	
+	if(_meeting.getMeetingInfo()!=null && _meeting.getMeetingInfo().getActivities()!=null ){
+		
+		
 System.err.println("ISACTIV......... "+request.getParameter("isActiv"));				
-			if(request.getParameter("isActivNew")!=null && request.getParameter("isActivNew").equals("1") ){
-				_meeting.getMeetingInfo().setActivities(null );
-				/*
-				java.util.List<Activity> _activities = _meeting.getMeetingInfo().getActivities();
-				Activity temp = new Activity();
-				temp.setName("temp");
-				temp.setDuration(0);
-				temp.setActivityNumber(0);
-				_activities.add( temp );
-				_meeting.getMeetingInfo().setActivities( _activities);
-				*/
-				
-			}else{
-				java.util.List<Activity> _activities = _meeting.getMeetingInfo().getActivities();
-			
-				Comparator<Activity> comp = new org.apache.commons.beanutils.BeanComparator("activityNumber");
+	if(request.getParameter("isActivNew")!=null && request.getParameter("isActivNew").equals("1") ){
+		_meeting.getMeetingInfo().setActivities(null );
+		/*
+		java.util.List<Activity> _activities = _meeting.getMeetingInfo().getActivities();
+		Activity temp = new Activity();
+		temp.setName("temp");
+		temp.setDuration(0);
+		temp.setActivityNumber(0);
+		_activities.add( temp );
+		_meeting.getMeetingInfo().setActivities( _activities);
+		*/
+		
+	}else{
+		java.util.List<Activity> _activities = _meeting.getMeetingInfo().getActivities();
+	
+		Comparator<Activity> comp = new org.apache.commons.beanutils.BeanComparator("activityNumber");
         		Collections.sort( _activities, comp);
-			}
-			
-			
-			
-			}
+	}
+	
+	
+	
+	}
 		}
 		
 		
@@ -610,19 +609,64 @@ System.err.println("ISACTIV......... "+request.getParameter("isActiv"));
 	}
 	
 }else if( request.getParameter("yearPlanSched") !=null ){
-		
-	java.util.Map <java.util.Date,  YearPlanComponent> sched =  meetingUtil.getYearPlanSched(user, troop.getYearPlan(), true, true);
-	ObjectMapper mapper = new ObjectMapper();
-	//out.println("[");
-	out.println(mapper.writeValueAsString(sched));
-	//out.println("]");
-}else{
-	//TODO throw ERROR CODE
-}
+	
+			boolean isFirst = false;
+			if (request.getParameter("isFirst") != null
+					&& request.getParameter("isFirst").equals("1")) {
+				isFirst = true;
+			}
 
+			boolean isCng = false;
+			try {
 
+				if (!isFirst) {
+					java.net.URL tata = new java.net.URL(
+							"http://localhost:4503/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid=X"
+									+ session.getId() + "&ypid="
+									+ troop.getYearPlan().getPath()
+									+ "&d=");
+					java.net.URLConnection yc = tata.openConnection();
+					java.io.BufferedReader in = new java.io.BufferedReader(
+							new java.io.InputStreamReader(
+									yc.getInputStream()));
+					String inputLine;
+					while ((inputLine = in.readLine()) != null) {
+						if (inputLine != null
+								&& (inputLine
+										.indexOf("\"yp_cng\":\"true\"") != -1)) {
+							isCng = true;
+						}
+					}
+					in.close();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 
-}catch(java.lang.IllegalAccessException e){e.printStackTrace();}
+			if (isFirst || isCng) {
 
+				if (request.getParameter("isActivNew") != null
+						&& request.getParameter("isActivNew").equals(
+								"1")) {
+					out.println("[{\"my\":\"\"}]");
+				} else {
+					System.err.println("pulling...");
 
+					java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil
+							.getYearPlanSched(user,
+									troop.getYearPlan(), true, true);
+					ObjectMapper mapper = new ObjectMapper();
+					out.println("{\"my\":");
+					out.println(mapper.writeValueAsString(sched));
+					out.println("}");
+				}
+			}
+
+		} else {
+			//TODO throw ERROR CODE
+		}
+
+	} catch (java.lang.IllegalAccessException e) {
+		e.printStackTrace();
+	}
 %>

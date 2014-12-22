@@ -18,9 +18,9 @@
 
 <%@include file="include/tab_navigation.jsp"%>
  
- <div id="panelWrapper" class="row meeting-detail">
+ <div id="panelWrapper" class="row meeting-detail content">
  <%@include file="include/utility_nav.jsp"%>
-<%@include file="include/view_yp_dropdown.jsp"%>
+ <%@include file="include/view_yp_dropdown.jsp"%>
 
 <div id="caca">
  
@@ -56,16 +56,16 @@
       componentDidMount: function() {
         this.loadCommentsFromServer(1);
         setInterval( this.loadCommentsFromServer, this.props.pollInterval);
-        setInterval( this.checkLocalUpdate, 1000);
+        setInterval( this.checkLocalUpdate, 100);
       },
       checkLocalUpdate: function(){
       	if( (isActivNew == 1) || (isActivNew == 2) )
-    			{ this.loadCommentsFromServer() ; }
+    			{ console.log("code: "+isActivNew); this.loadCommentsFromServer() ; }
       },
       render: function() {
       	var x;   	
-      	if( this.state.data!=null){
-      		x =  this.state.data;       
+      	if( this.state.data.my!=null){
+      		x =  this.state.data.my;       
       		return (
        			 <YearPlanComponents data={x} /> 
       	    );
@@ -77,13 +77,14 @@
 
    var YearPlanComponents = React.createClass({      
       onReorder: function (order) {
+		isActivNew=1;
       },
       render: function() {
         return ( 
 			<div id="yearPlanMeetings" className="columns">
 				  <div className="row">
 				    <div className="column large-20 medium-20 large-centered medium-centered">
-					  <h1 className="yearPlanTitle">XXX</h1>
+					  <h1 className="yearPlanTitle">XXXX</h1>
 					  <p className="hide-for-print">Drag and drop to reorder meetings</p> 
 					</div>
 				  </div>
@@ -106,10 +107,14 @@
 						}
 					</ul>
  			);
-         }  		
+         }else{
+		 	
+         	 return <div><img src="http://sgsitsindore.in/Images/wait.gif"/></div>
+        
+		 }  		
         },
     onReorder: function(order) {
-
+		isActivNew=1;
     },
     componentDidMount: function() {
         var dom = $(this.getDOMNode());
@@ -117,14 +122,12 @@
         dom.sortable({
           stop: function (event, ui) {
             var order = dom.sortable("toArray", {attribute: "id"});
-            var yy  = order.toString().replace('"','');
-    			//call server AJAX here
-console.log(yy) 
-doUpdMeeting1(yy);
+            var yy  = order.toString().replace('"','');    		
+			doUpdMeeting1(yy);
             onReorder(order);
           }
         });
-      },
+    },
     componentWillUpdate: function() {
       var dom = $(this.getDOMNode());
       var onReorder = this.props.onReorder;
@@ -132,10 +135,8 @@ doUpdMeeting1(yy);
           stop: function (event, ui) {
           	var order = dom.sortable("toArray", {attribute: "id"});
           	var yy  = order.toString().replace('"','');
-          	//call server AJAX here
-doUpdMeeting1(yy);
-console.log(yy) 
-  			    onReorder(order);
+			doUpdMeeting1(yy); 
+  			onReorder(order);
           }
       });
     }
@@ -143,7 +144,6 @@ console.log(yy)
 
   var MeetingImg = React.createClass({
       render: function() {
-
 		var src= "/content/dam/girlscouts-vtk/local/icon/meetings/"+ this.props.mid +".png";
         return (
     		<img src={src}/>
@@ -154,19 +154,16 @@ console.log(yy)
 
 
 function doUpdMeeting1(newVals){
-
 	var x =$.ajax({ 
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=ChangeMeetingPositions&isMeetingCngAjax='+ newVals, // JQuery loads serverside.php
 		data: '', 
-
 		dataType: 'html', 
-
 	}).done(function( html ) { });
 		
 		
 }
   React.render(
-    <CommentBox url="/content/girlscouts-vtk/controllers/vtk.controller.html?yearPlanSched=X" pollInterval={10000} />,
+    <CommentBox url="/content/girlscouts-vtk/controllers/vtk.controller.html?yearPlanSched=X&isFirst=1" pollInterval={10000} />,
       document.getElementById('caca')
     );
   </script>  
