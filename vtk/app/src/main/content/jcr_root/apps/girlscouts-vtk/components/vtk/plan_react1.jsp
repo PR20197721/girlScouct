@@ -63,11 +63,12 @@
     			{ console.log("code: "+isActivNew); this.loadCommentsFromServer() ; }
       },
       render: function() {
-      	var x;   	
-      	if( this.state.data.my!=null){
-      		x =  this.state.data.my;       
+      	var x, yearPlanName;   	
+      	if( this.state.data.schedule!=null){
+      		x =  this.state.data.schedule;
+			yearPlanName = this.state.data.yearPlan;       
       		return (
-       			 <YearPlanComponents data={x} /> 
+       			 <YearPlanComponents yearPlanName={yearPlanName} data={x} /> 
       	    );
       	} else {
       		return <div>loading meeting plans...</div>;
@@ -84,7 +85,7 @@
 			<div id="yearPlanMeetings" className="columns">
 				  <div className="row">
 				    <div className="column large-20 medium-20 large-centered medium-centered">
-					  <h1 className="yearPlanTitle">XXXX</h1>
+					  <h1 className="yearPlanTitle">{this.props.yearPlanName}</h1>
 					  <p className="hide-for-print">Drag and drop to reorder meetings</p> 
 					</div>
 				  </div>

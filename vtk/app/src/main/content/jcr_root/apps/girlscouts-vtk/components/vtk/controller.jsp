@@ -648,15 +648,27 @@ System.err.println("ISACTIV......... "+request.getParameter("isActiv"));
 				if (request.getParameter("isActivNew") != null
 						&& request.getParameter("isActivNew").equals(
 								"1")) {
-					out.println("[{\"my\":\"\"}]");
+					out.println("[{\"yearPlan\":\""+troop.getYearPlan().getName()+"\",\"schedule\":null}]");
 				} else {
 					System.err.println("pulling...");
 
+					org.girlscouts.vtk.salesforce.Troop prefTroop = apiConfig.getTroops().get(0);
+					for (int ii = 0; ii < apiConfig.getTroops().size(); ii++){
+					 	if( apiConfig.getTroops().get(ii).getTroopId().equals(troop.getSfTroopId())){ 
+					 			prefTroop = apiConfig.getTroops().get(ii);
+					 			break;
+				  		}
+					  }
+					
+					
+					troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
+					
 					java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil
 							.getYearPlanSched(user,
 									troop.getYearPlan(), true, true);
+					
 					ObjectMapper mapper = new ObjectMapper();
-					out.println("{\"my\":");
+					out.println("{\"yearPlan\":\""+troop.getYearPlan().getName()+"\",\"schedule\":");
 					out.println(mapper.writeValueAsString(sched));
 					out.println("}");
 				}
