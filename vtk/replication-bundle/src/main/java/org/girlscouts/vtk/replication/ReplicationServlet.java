@@ -91,8 +91,6 @@ public class ReplicationServlet extends SlingAllMethodsServlet {
             
             // Notify the modifiedChecker that this node has been modified externally.
             // sessionId == null because it is from another server.
-            
-     System.err.println("MODIFFFFFFFFFFFFFFFF");       
             modifiedChecker.setModified(null, path);
 
             long start = System.currentTimeMillis();
