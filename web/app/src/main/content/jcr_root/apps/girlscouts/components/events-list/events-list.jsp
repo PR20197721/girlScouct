@@ -74,6 +74,7 @@
 							Set<String> featureEvents = (HashSet) request.getAttribute("featureEvents");
 							if (!featureEvents.isEmpty()) {
 								Iterator<String> itemUrl = featureEvents.iterator();
+
 								while (itemUrl.hasNext()) {
 									Node node = resourceResolver.getResource(itemUrl.next()).adaptTo(Node.class);
 									href = node.getPath() + ".html";
@@ -91,7 +92,9 @@
 										}
 									} catch (Exception e) {}
 								}
+
 							}
+
 						%>
 						<%
 							//Here we need to handle 2 thing if the daysofevents is not provided we
@@ -155,7 +158,13 @@
 						%>
 					</ul>
 				</div><!--/inner row collapse-->
+
 			</div><!--/columns-->
+			 <% if(featureEvents.isEmpty()){
+                          %>  <h2> No Events Available </h2> <%
+
+                        }
+				%>
 <!-- 		<div class="small-24 medium-24 hide-for-large  hide-for-xlarge hide-for-xxlarge columns featureSmallHeader">
 			<div class="feature-icon">
 				<img src="<%=iconImg%>" width="50" height="50" alt="feature icon" />
