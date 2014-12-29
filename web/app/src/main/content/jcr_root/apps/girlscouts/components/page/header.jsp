@@ -15,14 +15,16 @@
   String designPath = currentDesign == null ? "/" : currentDesign.getPath();
   int depth = currentPage.getDepth();
   request.setAttribute("headerPath", headerPath);
+  String headerImagePath = currentSite.get("headerImagePath", "");
+
 %>
 <!-- Modern Browser -->
 <!--[if gt IE 8]><!-->
 <!--<![endif]-->
 <!--PAGE STRUCTURE: HEADER-->
-<div class="header-wrapper row collapse hide-for-print">
+<div class="header-wrapper row collapse hide-for-print" <% if(!headerImagePath.equals("") && headerImagePath != null){ %> style="background-image: url('<%= headerImagePath%>')" <%}%> >
 <div class='columns'>
-  <div id="header" class="row">
+    <div id="header" class="row">
     <div class="large-6 medium-9 columns">
       <cq:include path="<%= headerPath + "/logo" %>" resourceType="girlscouts/components/logo" />
       <%-- TODO: Mike Z. This is an empty <div> that fixes the green box on Chrome. Temp solution. --%>
@@ -32,7 +34,7 @@
       <%/*setCssClasses("columns noLeftPadding" , request); */%>
       <cq:include path="<%= headerPath + "/eyebrow-nav" %>" resourceType="girlscouts/components/eyebrow-navigation" />
       <div class="row collapse">
-        <% setCssClasses("large-18 medium-18 small-24 columns", request); %>
+        <% setCssClasses("large-17 medium-17 small-24 columns", request); %>
         <cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
         <% if(currentSite.get("hideSearch","false").equals("false")){ %>
         <% setCssClasses("large-6 medium-6 small-24 columns searchBar", request); %>

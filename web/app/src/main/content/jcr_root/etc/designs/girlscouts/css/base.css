@@ -1,4 +1,5 @@
 /* base */
+
 /***********************************/
 /************* GLOBAL **************/
 /***********************************/
@@ -17,7 +18,9 @@ Font : Open Sans
 */
 /* Embedded Fonts */
 
+
 /* @font-face {
+ @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 300;
@@ -35,6 +38,7 @@ Font : Open Sans
   font-weight: 700;
   src: local('Open Sans Bold'), local('OpenSans-Bold'), url('../girlscouts/open-sans-bold.woff') format('woff');
 }
+
 */
 html {
   font-size: 1em; /* or can be 100% since it's browser's default size 16px*/
@@ -47,6 +51,7 @@ body {
   margin: 0.2em 0 0.4em 0;
   color: #000000;
 }
+
 h1, h2, h3, h4, h5, h6 {
   color: #000000;
   line-height: 1;
@@ -60,6 +65,7 @@ h1, h2, h3, h4, h5, h6 {
 a {
   color: #00ae58;
 }
+
 a:hover {
   color: green;
 }
@@ -186,14 +192,7 @@ a:hover.menuHighlight {
 /********* PAGE STRUCTURE **********/
 /***********************************/
 /* HEADER */
-.header-wrapper {
-  background-color: #00ae58;
-}
-#header {
-  padding: 15px 0px 0px 0px;
-  background-color: #00ae58;
-  color: #FFFFFF;
-}
+
 #header span {
   color: #FAA61A;
   font-size: 1.0em;
@@ -394,23 +393,21 @@ a:hover.menuHighlight {
   padding: 0px;
   margin: 0px;
 }
-#main .side-nav li div {
-  padding: 10px 0px;
+#main ul.side-nav,
+.side-nav ul {
+  padding: 0px;
+  margin: 0px;
 }
-#main .side-nav li {
-  position: relative;
-}
-#main .side-nav li div a {
+#main .side-nav li li div {
   padding-left: 20px;
-  line-height: 1.3;
 }
-#main .side-nav li li div a {
+#main .side-nav li li li div {
   padding-left: 30px;
 }
-#main .side-nav li li li div a {
+#main .side-nav li li li li div {
   padding-left: 40px;
 }
-#main .side-nav li li li li div a {
+#main .side-nav li li li li li div {
   padding-left: 50px;
 }
 #main .side-nav li.active li.active > div {
@@ -423,15 +420,6 @@ a:hover.menuHighlight {
   color: #ffffff;
   font-weight: bold;
 }
-
-
-/*.home-section {
-    padding: 15px 0px;
-}
-.home-section.hero-banner {
-    padding: 0px 0px 0px 0px;
-}*/
-
 .home-section .feature-icon {
   display: inline-block;
   position: relative;
@@ -444,25 +432,7 @@ a:hover.menuHighlight {
 .home-section .content {
   padding: 0;
   border: 0;
-  /* keep this for homepage layout 
-    border: 1px solid yellow;
-*/
 }
-/*.home-section .columns {
-      padding: 0 20px;
-    /*keep this for homepage layout 
-    border: 1px solid orange;
-
-}*/
-/*.home-section.feature-shortstory, .home-section.events-list, .home-section.news-list {
-    margin-bottom: 50px;
-}*/
-/*.home-section .content .columns {
-    /*  padding: 20px;*/
-/* keep this for homepage layout 
-    border: 1px solid green;
-}*/
-
 .home-section h2 a {
   font-size: 0.85em;
   color: #414141;
@@ -484,6 +454,7 @@ a:hover.menuHighlight {
 #contactsList tr:first-child {
   /*background-color: #00ae58;*/
 }
+
 table, tr:first-child {
   border-collapse: collapse;
   /*border: 1px solid black;*/
@@ -540,7 +511,7 @@ input#date {
   padding-right: 10px;
 }
 #advSearch {
-  background-image: url("/etc/designs/girlscouts-usa-green/images/search.png");
+  /*background-image: url("/etc/designs/girlscouts-usa-green/images/search.png");*/
   background-position: right center;
   background-repeat: no-repeat;
   padding: 10px;
@@ -557,6 +528,7 @@ span#advSearch > a {
   width: 48%;
   margin-right: 5px;
 }
+
 input.form-btn, a.form-btn {
   background: none repeat scroll 0 center #00A850;
   border: 0 none;
@@ -700,14 +672,14 @@ td.fc-header-left {
   font-weight: normal;
 }
 #right-canvas-menu .side-nav>li {
-  background: url('/etc/designs/girlscouts-usa-green/images/orange-vertical.png') repeat-y 0px 0px;
+  background: url('/etc/designs/girlscouts/images/orange-vertical.png') repeat-y 0px 0px;
 }
 #right-canvas-menu .side-nav>li.active {
-  background: url('/etc/designs/girlscouts-usa-green/images/orange-yellow-vertical.png') repeat-y 0px 0px;
+  background: url('/etc/designs/girlscouts/images/orange-yellow-vertical.png') repeat-y 0px 0px;
   padding: 0px 0px 0px 10px;
 }
 #right-canvas-menu .side-nav>li#sub-active {
-  background: url('/etc/designs/girlscouts-usa-green/images/orange-yellow-vertical.png') repeat-y 0px 0px;
+  background: url('/etc/designs/girlscouts/images/orange-yellow-vertical.png') repeat-y 0px 0px;
 }
 #right-canvas-menu .side-nav ul#submenu {
   padding: 0px;
@@ -739,21 +711,45 @@ td.fc-header-left {
 .eyebrow-fontsize>li a {
   font-size: 0.875rem;
 }
-#header .searchField {
+#header .searchBar input {
   height: 21px;
   width: 100%;
+  position: relative;
+}
+#header .searchBar input:after {
+  font-family: "JollyFont";
+  position: absolute;
+  content: "\e66c";
+  color: rgb(0, 174, 88);
+  top: 0px;
+  left: 89%;
+  font-size: 1.3em;
 }
 #headerBar ul li.active {
-  background: url('/etc/designs/girlscouts-usa-green/images/white-up-arrow.png') no-repeat 60px 0px;
+  background: url('/etc/designs/girlscouts/images/white-up-arrow.png') no-repeat 60px 0px;
   background-position: center bottom;
 }
 #header div.login {
   margin-top: 2px;
 }
-#header a.signin {
+#header a.link-login {
   color: #FFF;
   font-size: 0.875rem;
   font-weight: bold;
+  margin: 0 0 0 10px;
+}
+#header a.link-login:after {
+  border: solid 5px;
+  content: "";
+  border-color: transparent transparent transparent #fff;
+  position: absolute;
+  margin: 4px 0 0 5px;
+}
+#header a.link-login:hover:after {
+  border-color: transparent transparent transparent #c00;
+}
+#header a.link-login:hover {
+  color: #c00;
 }
 #header .vtk-login .login {
   padding-top: 5px;
@@ -810,7 +806,7 @@ td.fc-header-left {
   font-size: 1.0rem;
 }
 #calendar a {
-  background: url('/etc/designs/girlscouts-usa-green/images/calendar-icon.png') no-repeat 0px 0px;
+  background: url('/etc/designs/girlscouts/images/calendar-icon.png') no-repeat 0px 0px;
   background-position: left center;
   padding-left: 25px;
 }
@@ -829,6 +825,7 @@ div.image.center small {
   padding: 0 1.250em;
 }
 /* no padding or margin for grid system */
+
 
 .grid-system.nopadding li, .grid-system.nopadding div.image {
   margin-bottom: 0;
@@ -875,7 +872,7 @@ div.textimage.nowrap div.text p {
   padding: 0;
 }
 .emailicon {
-  background: url('/etc/designs/girlscouts-usa-green/images/envelope.png') no-repeat;
+  background: url('/etc/designs/girlscouts/images/envelope.png') no-repeat;
   width: 20px;
   height: 14px;
 }
@@ -897,12 +894,12 @@ input.searchField {
   overflow: hidden;
 }
 .option-top {
-  background: url('/etc/designs/girlscouts-usa-green/images/option-top-green-arrow.png') no-repeat;
+  background: url('/etc/designs/girlscouts/images/option-top-green-arrow.png') no-repeat;
   width: 130px;
   height: 20px;
 }
 .option-down {
-  background: url('/etc/designs/girlscouts-usa-green/images/option-down-green-arrow.png') no-repeat;
+  background: url('/etc/designs/girlscouts/images/option-down-green-arrow.png') no-repeat;
   width: 130px;
   height: 20px;
 }
@@ -954,14 +951,13 @@ div.wrapper .row:nth-child(2) {
   -moz-appearance: window;
   text-indent: 0.01px;
   text-overflow: '';
-  background: url('/etc/designs/girlscouts-usa-green/images/select-dropdown-arrow.png') no-repeat right center;
+  background: url('/etc/designs/girlscouts/images/select-dropdown-arrow.png') no-repeat right center;
   /*background-repeat: no-repeat;
     background-position: right center;
-    */
-  
+    */ 
   width: 140px;
   height: 25px;
-  color: grey;
+  color: gray;
   display: inline-block;
   padding: 6px 3px 6px 5px;
   outline: none;
@@ -970,7 +966,7 @@ div.wrapper .row:nth-child(2) {
 @-moz-document url-prefix() {
   .dropdown-moz {
     -webkit-appearance: none;
-    background: #ffffff url('/etc/designs/girlscouts-usa-green/images/select-dropdown-arrow.png') no-repeat right center;
+    background: #ffffff url('/etc/designs/girlscouts/images/select-dropdown-arrow.png') no-repeat right center;
     border: 1px solid #cccccc;
     top: 0px;
   }
@@ -986,13 +982,13 @@ div.wrapper .row:nth-child(2) {
   color: gray;
 }
 .white-arrow-down {
-  background: url('/etc/designs/girlscouts-usa-green/images/white-arrow-down.png') no-repeat;
+  background: url('/etc/designs/girlscouts/images/white-down-arrow.png') no-repeat;
   width: 20px;
   height: 20px;
   background-position: center bottom;
 }
 .white-arrow-up {
-  background: url('/etc/designs/girlscouts-usa-green/images/white-arrow-up.png') no-repeat;
+  background: url('/etc/designs/girlscouts/images/white-up-arrow.png') no-repeat;
   width: 20px;
   height: 20px;
   background-position: center bottom;
@@ -1100,6 +1096,7 @@ form#contact-us textarea {
 .eventsList {
   clear: both;
 }
+
 .eventsList p, .eventsList b {
   line-height: 1em;
 }
@@ -1120,7 +1117,7 @@ form#contact-us textarea {
   padding-left: 140px;
 }
 .horizontalRule {
-  background: url('/etc/designs/girlscouts-usa-green/images/horizontal-stripe.png') repeat-x center center;
+  background: url('/etc/designs/girlscouts/images/horizontal-stripe.png') repeat-x center center;
 }
 .checkbox-grid span {
   display: block;
@@ -1144,7 +1141,7 @@ div#eventListWrapper {
   margin-top: 2em;
 }
 .styled-select select {
-  background: url('/etc/designs/girlscouts-usa-green/images/select-dropdown-arrow.png') no-repeat 116px;
+  background: url('/etc/designs/girlscouts/images/select-dropdown-arrow.png') no-repeat 116px;
   border: medium none;
   height: 23px;
   padding: 5px 0 5px 5px;
@@ -1152,9 +1149,8 @@ div#eventListWrapper {
   color: #989898;
   background-color: #ffffff;
 }
+
 .styled-select, .styled-select select {
-  /*width: 129px;*/
-  
   width: 138px;
 }
 .styled-select {
@@ -1164,9 +1160,8 @@ div#eventListWrapper {
   position: relative;
 }
 .styled-select select {
-  /*width: 144px;*/
   
-  width: 152px
+  width: 152px;
 }
 /*.home-section .content ul, .home-section .content li {
     padding: 0;
@@ -1203,7 +1198,7 @@ ul.searchResultsList article p {
   margin-top: 1em;
 }
 .eventDetailsRegisterLink a {
-  background: url('images/small-green-arrow-right.png') no-repeat 0px 0px;
+  background: url('/etc/designs/girlscouts/images/small-green-arrow-right.png') no-repeat 0px 0px;
   background-position: right center;
   padding-right: 10px;
 }
@@ -1222,6 +1217,7 @@ ul.searchResultsList article p {
   font-size: 0.7rem !important;
   margin: 0 !important;
 }
+
 .featureSmallHeader table, .featureSmallHeader table td, .featureSmallHeader h2 {
   padding: 0;
   margin: 0;
@@ -1239,6 +1235,7 @@ ul.searchResultsList article p {
   padding: 10px;
   border: 1px solid #959595;
 }
+
 .ui-datepicker .ui-datepicker-prev, .ui-datepicker .ui-datepicker-next {
   border: 1px solid #eeeeee !important;
 }
@@ -1314,6 +1311,7 @@ form .form_captcha_refresh {
   padding: 5px;
   text-transform: uppercase;
 }
+
 .form_captcha_refresh .form_button:hover, .form_captcha_refresh .form_button:focus {
   background-color: #008000;
   box-shadow: none;
@@ -1324,6 +1322,7 @@ form .form_captcha_img {
 }
 form .form_captcha_input {
   height: 40px;
+
 }
 /*styles for updates list pages */
 .update-list .more-link:after {

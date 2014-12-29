@@ -1,0 +1,73 @@
+
+/******************************/
+/***********HOME***************/
+/******************************/
+
+/*Adding home specific fix page**/
+/*we need to adjust the padding for the gutters*/
+.home-section .columns,
+.home-section .column {
+  padding-left: 0.38em;
+  padding-right: 0.38em;
+}
+/* icon alignemnt to the header text */
+.home-section .columns.large-1 {
+/*  margin-top: .8%;*/
+}
+.home-section.hero-banner .columns,
+.home-section.hero-banner .column {
+ padding:0;
+}
+.home-section h2 {
+  margin-top:0;
+  line-height: 1;
+  margin-bottom: 3.125%;
+}
+.styled-subparsys .home-section.feature-shortstory:nth-of-type(2) {
+  margin-top: 5.2083333%;/*50px*/
+}
+.home-section.feature-shortstory,
+.home-section.events-list,
+.home-section.news-list {
+  margin-bottom: 3.125%; /*30px*/
+}
+.home-section.feature-shortstory .column.large-23 .small-22 img {
+  margin-bottom:5%;
+}
+/*events list*/
+.home-section .lists-image img {
+   margin-bottom:2.173913%;
+}
+@media only screen {
+  .home-section .lists-image img {
+    min-width: 100%;
+  }
+}
+@media only screen and (max-width: 420px) {
+  .home-section .columns.small-2 {
+    margin-top:.8%;
+  }
+}
+.home-section .lists-image {
+  padding: 0;
+}
+/*news list*/
+.home-section .row.news-rows {
+  margin-bottom:2.173913%;
+}
+.home-section .row.news-rows img {
+  margin-bottom:2.173913%;
+  padding-right: 0.38em;
+  padding-left: 0;
+}
+
+.home-section .news-rows p:first-child {
+  margin: 0;
+}
+.home-section .news-rows p {
+  line-height: 1.2em;
+  margin-bottom: 0.2rem;
+}
+.home-section .news-rows .list-text {
+  padding-left: 0;
+}
