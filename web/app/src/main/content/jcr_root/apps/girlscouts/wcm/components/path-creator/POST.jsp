@@ -32,16 +32,15 @@
 			for (int i = 0; i < targetProperties.length; i++) {
 				String[] tuple = targetProperties[i].split("\\|");
 				if (tuple.length == 2) {
-                    if (tuple[1].equalsIgnoreCase("true") || tuple[1].equalsIgnoreCase("false")){
-                        boolean value = Boolean.valueOf(tuple[1]);
-                        jcrNode.setProperty(tuple[0], value);
-                    }
-                    else{
-					jcrNode.setProperty(tuple[0], tuple[1]);
+					if (tuple[1].equalsIgnoreCase("true") || tuple[1].equalsIgnoreCase("false")){
+						boolean value = Boolean.valueOf(tuple[1]);
+						jcrNode.setProperty(tuple[0], value);
+					} else {
+						jcrNode.setProperty(tuple[0], tuple[1]);
+					}
 				}
 			}
+			session.save();
 		}
-		session.save();
 	}
-}
 %>
