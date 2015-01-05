@@ -160,7 +160,7 @@
 
   var ViewMeeting = React.createClass({
       render: function() {
-		var src= "/content/girlscouts-vtk/en/vtk.meeting_react2.html?elem="+ new Date(this.props.date).getTime();
+		var src= "/content/girlscouts-vtk/en/vtk.details.html?elem="+ new Date(this.props.date).getTime();
         return (
     		<a href={src}>{this.props.name}</a>
         );

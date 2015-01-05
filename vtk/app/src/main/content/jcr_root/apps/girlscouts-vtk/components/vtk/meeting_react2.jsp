@@ -1,21 +1,8 @@
-<%@ page
-  import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
-<%@include file="/libs/foundation/global.jsp"%>
-<cq:defineObjects />
+<% 
 
-<%@include file="include/session.jsp"%>
-<%
-  String activeTab = "planView";
-  boolean showVtkNav = true;
-    
-	org.girlscouts.vtk.models.PlanView planView = meetingUtil.planView1(user, troop, request);
-	String mid = planView.getYearPlanComponent().getUid();
-	//java.util.Date searchDate = new java.util.Date(planView.getSearchDate().getTime());
-	//java.util.Date newActivityDate = new java.util.Date( searchDate.getTime() );
-	//newActivityDate.setMinutes( newActivityDate.getMinutes() +100 );
-
-
+String mid = planView.getYearPlanComponent().getUid();
 %>
+
 
 <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
@@ -33,6 +20,8 @@
 <%@include file="include/utility_nav.jsp"%>
 <div id="theMeeting">
   <script type="text/jsx">
+
+
     var thisMeetingRefId;
     var thisMeetingPath;
     var thisMeetingImg="tata";

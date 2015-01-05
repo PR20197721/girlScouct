@@ -1091,7 +1091,6 @@ if( !userUtil.hasPermission(troop,  Permission.PERMISSION_MOVE_MEETING_ID ) ){
 	    YearPlanComponent _comp= sched.get(searchDate);
 	 
 	    
-	    
 		planView.setSearchDate(searchDate);
 		planView.setPrevDate(prevDate);
 		planView.setNextDate(nextDate);

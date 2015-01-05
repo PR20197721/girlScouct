@@ -2,12 +2,12 @@
   <div className="meeting-navigation row collapse">
     <p className="column">
     	{ '<%=planView.getPrevDate()%>' !=0 ?  
-     		 <a className="direction prev" href="/content/girlscouts-vtk/en/vtk.meeting_react2.html?elem=<%=planView.getPrevDate()%>"></a>
+     		 <a className="direction prev" href="/content/girlscouts-vtk/en/vtk.details.html?elem=<%=planView.getPrevDate()%>"></a>
     		: ""
     	}
     </p>
     <div className="column">
-      <h3>Meeting {this.props.id} : {this.props.meetingTitle}</h3>
+      <h3><%=planView.getYearPlanComponent().getType()%> {this.props.id} : {this.props.meetingTitle}</h3>
       <p className="date">
         <span className="month">{this.props.meetingModMONTH}</span>
         <span className="day">{this.props.meetingModDAY}</span>
@@ -16,7 +16,7 @@
     </div>
     <p className="column">
     { '<%=planView.getNextDate()%>' !=0 ? 
-     	 <a className="direction next" href="/content/girlscouts-vtk/en/vtk.meeting_react2.html?elem=<%=planView.getNextDate()%>"></a>
+     	 <a className="direction next" href="/content/girlscouts-vtk/en/vtk.details.html?elem=<%=planView.getNextDate()%>"></a>
          : ""
     	}
     </p>

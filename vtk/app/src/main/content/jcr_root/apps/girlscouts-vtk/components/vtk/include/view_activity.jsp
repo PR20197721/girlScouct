@@ -14,7 +14,7 @@
 
     <div className="large-22 medium-22 small-17 columns">
       <p className="subtitle">
-      	{obj[comment].name}
+      	<ViewMeeting date={comment} name={obj[comment].name}/>
       </p>
      	<p>{obj[comment].activityDescription}</p>
     </div>
