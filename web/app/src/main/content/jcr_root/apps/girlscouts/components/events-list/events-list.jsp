@@ -40,6 +40,7 @@
 
 	java.util.List<String> results = srchInfo.getResults();
 	int eventcounts = 0;
+	int eventsRendered = 0;
 	String key = "";
 	String value = "";
 	
@@ -60,8 +61,6 @@
 	String title = "";
 %>
 
-<!-- <div class="small-24 medium-24 large-24 columns events-section">
-	<div class="row"> -->
 			<div class="large-1 columns small-2 medium-1">
 				<img src="<%=iconImg%>" width="32" height="32" alt="feature icon" />
 			</div>
@@ -89,6 +88,7 @@
 											%>
 												<cq:include script="event-render.jsp" />
 											<%
+                                                eventsRendered++;
 										}
 									} catch (Exception e) {}
 								}
@@ -144,7 +144,9 @@
 															
 												%>
 													<cq:include script="event-render.jsp" />
-												<%							
+
+												<%		
+                                                    eventsRendered++;
 													count++;
 												}
 											}
@@ -160,24 +162,11 @@
 				</div><!--/inner row collapse-->
 
 			</div><!--/columns-->
-			 <% if(featureEvents.isEmpty()){
+			 <% if(eventsRendered == 0){
                           %>  <h2> No Events Available </h2> <%
 
                         }
 				%>
-<!-- 		<div class="small-24 medium-24 hide-for-large  hide-for-xlarge hide-for-xxlarge columns featureSmallHeader">
-			<div class="feature-icon">
-				<img src="<%=iconImg%>" width="50" height="50" alt="feature icon" />
-			</div>
-			<div class="feature-title">
-				<h2>
-					<a href="<%=eventsLink%>"><%=featureTitle%></a>
-				</h2>
-			</div>
-		</div> -->
-<!-- 	</div> -->
-	
-<!-- </div> -->
 
 
 
