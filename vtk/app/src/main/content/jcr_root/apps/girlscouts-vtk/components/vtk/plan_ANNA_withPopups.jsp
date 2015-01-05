@@ -609,13 +609,13 @@ System.err.println("ISACTIV......... "+request.getParameter("isActiv"));
 	}
 	
 }else if( request.getParameter("yearPlanSched") !=null ){
-	System.err.println("xx: "+request.getParameter("isFirst")  );	
+	
 			boolean isFirst = false;
 			if (request.getParameter("isFirst") != null
 					&& request.getParameter("isFirst").equals("1")) {
 				isFirst = true;
 			}
-System.err.println("CGG: "+request.getParameter("isFirst") +" : "+ isFirst );
+
 			boolean isCng = false;
 			try {
 
@@ -644,7 +644,7 @@ System.err.println("CGG: "+request.getParameter("isFirst") +" : "+ isFirst );
 			}
 
 			if (isFirst || isCng) {
-System.err.println("CHK: " + isFirst + " : "+ isCng);
+
 				if (request.getParameter("isActivNew") != null
 						&& request.getParameter("isActivNew").equals(
 								"1")) {

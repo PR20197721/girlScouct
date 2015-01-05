@@ -10,9 +10,9 @@
     
 	org.girlscouts.vtk.models.PlanView planView = meetingUtil.planView1(user, troop, request);
 	String mid = planView.getYearPlanComponent().getUid();
-	java.util.Date searchDate = new java.util.Date(planView.getSearchDate().getTime());
-	java.util.Date newActivityDate = new java.util.Date( searchDate.getTime() );
-	newActivityDate.setMinutes( newActivityDate.getMinutes() +100 );
+	//java.util.Date searchDate = new java.util.Date(planView.getSearchDate().getTime());
+	//java.util.Date newActivityDate = new java.util.Date( searchDate.getTime() );
+	//newActivityDate.setMinutes( newActivityDate.getMinutes() +100 );
 
 
 %>
@@ -31,7 +31,7 @@
 
 <div id="panelWrapper" class="row content meeting-detail">
 <%@include file="include/utility_nav.jsp"%>
-<div id="caca">
+<div id="theMeeting">
   <script type="text/jsx">
     var thisMeetingRefId;
     var thisMeetingPath;
@@ -270,7 +270,7 @@
 
     React.render(
     <CommentBox url="/content/girlscouts-vtk/controllers/vtk.controller.html?reactjs=asdf" pollInterval={10000} />,
-      document.getElementById('caca')
+      document.getElementById('theMeeting')
     );
 
     </script>

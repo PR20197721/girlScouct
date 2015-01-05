@@ -318,7 +318,7 @@ function rmCustActivity(x){
 	});
 }
 
-function createNewCustActivity(){
+function createNewCustActivity(){	
 	var newCustActivity_name = document.getElementById("newCustActivity_name").value;
 	if( $.trim(newCustActivity_name) =='' ){alert("Please fill 'Name' field"); return false;}
 	var newCustActivity_date = document.getElementById("newCustActivity_date").value;
