@@ -8,7 +8,7 @@ girlscouts.functions.createPath = function(path, type, prop) {
 	var conf = {
 		type: 'POST',
 		url: "/apps/girlscouts/wcm/components/path-creator.html", 
-		data: {"path": path, "type" : type},
+		data: {"path": path, "type" : type, "prop" : prop},
 		async: false
 	};
 	if (prop) {

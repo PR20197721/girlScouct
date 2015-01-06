@@ -27,7 +27,8 @@
   Set<String> featureNews = (HashSet)request.getAttribute("featureNews");
   
  %>
-<%  
+<%
+ int newsRendered = 0;
  if (!list.isEmpty()){
 	   	%>
 	   	<div class="row">
@@ -57,7 +58,7 @@
 				
 			%>
            <%}%>
-	       <cq:include script="news-list-render.jsp"/>  
+	       <cq:include script="news-list-render.jsp"/> <% newsRendered++; %> 
 	    
 	<%}%>
  
@@ -83,12 +84,26 @@
 	request.setAttribute("external_url",external_url);
 	if(!featureNews.contains(hit.getPath())){
 	%>
-	<cq:include script="news-list-render.jsp"/>
+	<cq:include script="news-list-render.jsp"/> <% newsRendered++; %> 
 	
 	<%}
   }
 
+	if(newsRendered == 0){ %>
+
+		<div class="row">
+	   	   <div class="small-24 large-24 medium-24 columns">
+               <h4>News Component Empty:</h4>
+              	<h5>No News Available</h5>
+	   	   </div>
+	   	</div>
+<%
+	}
+
+
 %>
+
+
 
 
 <style>

@@ -1,4 +1,4 @@
-@import url("home.css");
+/*@import url("home.css");*/
 /***********************************/
 /************* GLOBAL **************/
 /***********************************/
@@ -210,14 +210,7 @@ a:hover.menuHighlight {
 #header a:hover {
   color: #FAA61A;
 }
-#header a.signout {
-    font-size: 0.875em;
-    color: #fff;
-    margin: 0 15px;
-}
-#header a:hover.signout {
-  color: #c00;
-}
+
 #header ul {
   float: right;
 }
@@ -409,36 +402,48 @@ a:hover.menuHighlight {
   list-style: none;
 }
 /* Left-Nav MG Changes */
-
+#main .side-nav li {
+  list-style: none;
+  position: relative;
+}
 #main .side-nav > li {
-  background: url('/etc/designs/girlscouts-usa-green/images/orange-vertical.png') repeat-y 0px 0px;
+/*  background: url('/etc/designs/girlscouts-usa-green/images/orange-vertical.png') repeat-y 0px 0px;*/
   background-color: #F1F1EF;
 }
 #main .side-nav > li.active {
-  background: url('/etc/designs/girlscouts-usa-green/images/orange-yellow-vertical.png') repeat-y 0px 0px;
+/*  background: url('/etc/designs/girlscouts-usa-green/images/orange-yellow-vertical.png') repeat-y 0px 0px;*/
   background-color: #f7f7f6;
 }
+#main .side-nav li:before {
+    border: solid 5px #FAA61A;
+    content: "";
+    position: absolute;
+    height: 100%;
+}
+#main .side-nav > li.active:before {
+    border-color:#FBCD41;
+    z-index: 10;
+}
 #main .side-nav li div {
-  padding: 10px 0px 10px 10px;
-  margin-left: 10px;
+  padding: 10px 0px;
+/*  margin-left: 10px;*/
 }
 #main ul.side-nav, .side-nav ul {
   padding: 0px;
   margin: 0px;
 }
-#main .side-nav li {
-  list-style: none;
-}
-#main .side-nav li li div {
+#main .side-nav li div a {
   padding-left: 20px;
+  line-height: 1.3;
 }
-#main .side-nav li li li div {
+#main .side-nav li li div a {
   padding-left: 30px;
+
 }
-#main .side-nav li li li li div {
+#main .side-nav li li li div a {
   padding-left: 40px;
 }
-#main .side-nav li li li li li div {
+#main .side-nav li li li li div a {
   padding-left: 50px;
 }
 #main .side-nav > li > div > a {
@@ -776,9 +781,19 @@ td.fc-header-left {
 .eyebrow-fontsize>li a {
   font-size: 0.875rem;
 }
-#header .searchField {
-  height: 21px;
-  width: 100%;
+#header .searchBar input {
+    height: 21px;
+    width: 100%;
+    position: relative;;
+}
+#header .searchBar form:after {
+  font-family: "JollyFont";
+  position: absolute;
+  content: "\e66c";
+  color: rgb(0, 174, 88);
+  top: 0px;
+  left: 89%;
+  font-size: 1.3em;
 }
 #headerBar ul li.active {
   background: url('/etc/designs/girlscouts-usa-green/images/white-up-arrow.png') no-repeat 60px 0px;
@@ -787,14 +802,25 @@ td.fc-header-left {
 #header div.login {
 	margin-top: 2px;
 }
-
-#header a.signin{
-   color:#FFF;
-   font-size:0.875rem;
-   font-weight:bold;
-   margin: 0 10px;
+#header a.link-login {
+  color: #FFF;
+  font-size: 0.875rem;
+  font-weight: bold;
+  margin: 0 0 0 10px;
 }
-
+#header a.link-login:after {
+  border: solid 5px;
+  content: "";
+  border-color: transparent transparent transparent #fff;
+  position: absolute;
+  margin: 4px 0 0 5px;
+}
+#header a.link-login:hover:after {
+  border-color: transparent transparent transparent #c00;
+}
+#header a.link-login:hover {
+  color: #c00;
+}
 #header .vtk-login .login {
 	padding-top: 5px;
 	padding-left: 20px;
@@ -1365,6 +1391,77 @@ form .form_captcha_img {
 form .form_captcha_input {
   height: 40px;
 }
+
+/******* Home page specific******/
+/*Adding home specific fix page**/
+/*we need to adjust the padding for the gutters*/
+.home-section .columns,
+.home-section .column {
+  padding-left: 0.38em;
+  padding-right: 0.38em;
+}
+/* icon alignemnt to the header text */
+.home-section .columns.large-1 {
+/*  margin-top: .8%;*/
+}
+.home-section.hero-banner .columns,
+.home-section.hero-banner .column {
+ padding:0;
+}
+.home-section h2 {
+  margin-top:0;
+  line-height: 1;
+  margin-bottom: 3.125%;
+}
+.styled-subparsys .home-section.feature-shortstory:nth-of-type(2) {
+  margin-top: 5.2083333%;/*50px*/
+}
+.home-section.feature-shortstory,
+.home-section.events-list,
+.home-section.news-list {
+  margin-bottom: 3.125%; /*30px*/
+}
+.home-section.feature-shortstory .column.large-23 .small-22 img {
+  margin-bottom:5%;
+}
+/*events list*/
+.home-section .lists-image img {
+   margin-bottom:2.173913%;
+}
+@media only screen {
+  .home-section .lists-image img {
+    min-width: 100%;
+  }
+}
+@media only screen and (max-width: 420px) {
+  .home-section .columns.small-2 {
+    margin-top:.8%;
+  }
+}
+.home-section .lists-image {
+  padding: 0;
+}
+/*news list*/
+.home-section .row.news-rows {
+  margin-bottom:2.173913%;
+}
+.home-section .row.news-rows img {
+  margin-bottom:2.173913%;
+  padding-right: 0.38em;
+  padding-left: 0;
+}
+
+.home-section .news-rows p:first-child {
+  margin: 0;
+}
+.home-section .news-rows p {
+  line-height: 1.2em;
+  margin-bottom: 0.2rem;
+}
+.home-section .news-rows .list-text {
+  padding-left: 0;
+}
+
 /*styles for updates list pages */
 .update-list .row {
   background-color: #fff;
@@ -1404,7 +1501,7 @@ form .form_captcha_input {
   margin-bottom: 20px;
 }
 .update-list-header {
-  padding-bottom: 20px;
+  padding-bottom: 0;
 }
 .update-list-footer {
   padding: 10px 0;

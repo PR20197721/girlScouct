@@ -163,6 +163,7 @@ ul.tabs {
 .planSquare .date .month {
   font-size: 1em;
   line-height: 1.6em;
+  display: block;
 }
 .planSquare .date .day {
   font-size: 1.8em;
