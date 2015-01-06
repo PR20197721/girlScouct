@@ -609,13 +609,13 @@ System.err.println("ISACTIV......... "+request.getParameter("isActiv"));
 	}
 	
 }else if( request.getParameter("yearPlanSched") !=null ){
-	System.err.println("xx: "+request.getParameter("isFirst")  );	
+	
 			boolean isFirst = false;
 			if (request.getParameter("isFirst") != null
 					&& request.getParameter("isFirst").equals("1")) {
 				isFirst = true;
 			}
-System.err.println("CGG: "+request.getParameter("isFirst") +" : "+ isFirst );
+
 			boolean isCng = false;
 			try {
 
@@ -644,7 +644,7 @@ System.err.println("CGG: "+request.getParameter("isFirst") +" : "+ isFirst );
 			}
 
 			if (isFirst || isCng) {
-System.err.println("CHK: " + isFirst + " : "+ isCng);
+
 				if (request.getParameter("isActivNew") != null
 						&& request.getParameter("isActivNew").equals(
 								"1")) {
@@ -674,61 +674,6 @@ System.err.println("CHK: " + isFirst + " : "+ isCng);
 				}
 			}
 
-			
-			
-}else if( request.getParameter("reactActivity")!=null ){
-	
-	 boolean isFirst = false;
-	 if( request.getParameter("isFirst") !=null && request.getParameter("isFirst").equals("1")){
-		 isFirst= true;
-	 }
-		
-		boolean isCng= false;
-		try{
-		
-	if( !isFirst ){		
-		java.net.URL tata = new java.net.URL("http://localhost:4503/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid=X"+session.getId()+"&ypid="+troop.getYearPlan().getPath()+"&d=");
-        java.net.URLConnection yc = tata.openConnection();
-        java.io.BufferedReader in = new java.io.BufferedReader(new java.io.InputStreamReader(
-                                    yc.getInputStream()));
-        String inputLine;
-        while ((inputLine = in.readLine()) != null) {
-        	if(inputLine!=null && (inputLine.indexOf("\"yp_cng\":\"true\"")!= -1) ){
-        		isCng= true;
-        	}
-        }
-        in.close();	
-	}
-		}catch(Exception e){e.printStackTrace();}
-	
-		System.err.println("IsCng: "+isCng);
-	
-	 
-	if( isFirst || isCng){	
-		
-		System.err.println("\n\n\n\n >>>>>>>>>>>>>>>>>>>>>>>REFRESH....reactjs activity");
-		org.girlscouts.vtk.salesforce.Troop prefTroop = apiConfig.getTroops().get(0);
-		for (int ii = 0; ii < apiConfig.getTroops().size(); ii++){
-		 	if( apiConfig.getTroops().get(ii).getTroopId().equals(troop.getSfTroopId())){ 
-		 			prefTroop = apiConfig.getTroops().get(ii);
-		 			break;
-	  		}
-		  }
-		
-		Activity currentActivity= null;
-		troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
-		java.util.List<Activity> activities = troop.getYearPlan().getActivities();
-		for(int i=0;i<activities.size();i++){
-			if( activities.get(i).getUid().equals(request.getParameter("reactActivity")) )
-				currentActivity= activities.get(i);
-		}
-	
-		ObjectMapper mapper = new ObjectMapper();
-		out.println(mapper.writeValueAsString(currentActivity));
-		
-	}
-			
-			
 		} else {
 			//TODO throw ERROR CODE
 		}
