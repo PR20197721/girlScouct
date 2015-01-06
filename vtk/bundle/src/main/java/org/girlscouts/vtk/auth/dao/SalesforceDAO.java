@@ -15,6 +15,7 @@ import org.girlscouts.vtk.auth.models.User;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.TroopDAO;
+import org.girlscouts.vtk.models.Contact;
 import org.girlscouts.vtk.models.UserGlobConfig;
 import org.girlscouts.vtk.salesforce.Troop;
 import org.json.JSONArray;
@@ -331,6 +332,7 @@ public java.util.List <Troop>  troopInfo(ApiConfig apiConfig, String contactId){
 		
 		
 		log.debug("troopInfo.RespCode "+ get.getResponseBodyAsString());
+System.err.println("tata troop: "+get.getResponseBodyAsString());
 		JSONObject _response = new JSONObject(
 				new JSONTokener(new InputStreamReader(
 						get.getResponseBodyAsStream())));
@@ -900,5 +902,95 @@ public String getcaca3(ApiConfig config, String id ) {
     }
     return null;
 }
+
+
+public java.util.List<Contact> getContacts(ApiConfig apiConfig, String sfTroopId){
+	//select id, email, phone, name from Contact where id in (select contactid from campaignmember where campaignid='701G0000000uzUmIAI')
+System.err.println("tata start "+ sfTroopId);	
+	GetMethod get =null;
+    java.util.List <Contact> contacts = new java.util.ArrayList();
+	try{	
+	HttpClient httpclient = new HttpClient();
+	get= new GetMethod(apiConfig.getInstanceUrl()+ "/services/data/v20.0/query");
+	// THIS IS STABLE / DO NOT REMOVE 
+	//- get.setRequestHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
+
+	UserGlobConfig ubConf = troopDAO.getUserGlobConfig(); //new UserDAOImpl().getUserGlobConfig();
+	get.setRequestHeader("Authorization", "OAuth " + ubConf.getMasterSalesForceToken());
+
+	
+	NameValuePair[] params = new NameValuePair[1];
+	params[0] = new NameValuePair("q", "select id, email, phone, name from Contact where id in (select contactid from campaignmember where campaignid='"+ sfTroopId +"')");
+		
+	
+	get.setQueryString(params);
+
+	try {
+		
+		
+		log.debug("______________troopInfo1___________start_____________________________");
+		log.debug( get.getRequestCharSet() );
+		Header headers[] =get.getRequestHeaders();
+		for( Header h : headers){
+			log.debug("Headers: "+h.getName() +" : "+ h.getValue());
+		}
+		log.debug(":::> " + get.getQueryString());
+		log.debug(apiConfig.getInstanceUrl()+ "/services/data/v20.0/query");
+		log.debug("______________troopInfo1_____________end___________________________");
+		
+		
+		httpclient.executeMethod(get);
+		
+		
+		log.debug("troopInfo1.RespCode "+ get.getResponseBodyAsString());
+	System.err.println("tata: "+get.getResponseBodyAsString());	
+		JSONObject _response = new JSONObject(
+				new JSONTokener(new InputStreamReader(
+						get.getResponseBodyAsStream())));
+		log.debug( _response.toString());
+		
+		if (get.getStatusCode() == HttpStatus.SC_OK) {
+			
+			try {
+				JSONObject response = new JSONObject(
+						new JSONTokener(new InputStreamReader(
+								get.getResponseBodyAsStream())));
+				
+
+				JSONArray results = response.getJSONArray("records");
+
+				for (int i = 0; i < results.length(); i++) {
+					
+					log.debug("_____ "+ results.get(i));
+					
+					
+					Contact contact = new Contact();
+					try{
+						
+						//troop.setCouncilCode( results.getJSONObject(i).getJSONObject("Owner").getInt("Council_Code__c") ); //girls id 111						
+						//System.err.println("tata "+ results.getJSONObject(i).getString("Name") );
+						contact.setFirstName(results.getJSONObject(i).getString("Name"));
+						contact.setEmail(results.getJSONObject(i).getString("Email"));
+						contact.setPhone(results.getJSONObject(i).getString("Phone"));
+					}catch(Exception e){
+						e.printStackTrace();
+					}
+					contacts.add(contact);
+				}
+			
+			} catch (JSONException e) {
+				e.printStackTrace();
+				
+			}
+		}
+	} finally {
+		get.releaseConnection();
+	}
+	}catch(Exception ex){ex.printStackTrace();}			
+			
+			return contacts;
+}
+
+
 
 }

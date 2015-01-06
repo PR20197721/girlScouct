@@ -52,6 +52,10 @@
 	final TroopUtil troopUtil = sling.getService(TroopUtil.class);
 	final UserUtil userUtil = sling.getService(UserUtil.class);
 	final FinanceUtil financeUtil = sling.getService(FinanceUtil.class);
+	
+	//dont use
+	final TroopDAO troopDAO = sling.getService(TroopDAO.class);
+	
 	User user=null;
 	
 	HttpSession session = request.getSession();
@@ -150,7 +154,12 @@
 		try{
 //System.err.println("GETTTTTING TROOP FROM DB....");				
 		   troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
-	   
+		  
+		   //load troop contacts
+		   java.util.List<Contact>contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO).getContacts( user.getApiConfig(), prefTroop.getTroopId() );
+		   
+		   
+		   
 		}catch(IllegalAccessException ex){
 			%><span class="error">Sorry, you have no access to view year plan</span><%
 			return;
