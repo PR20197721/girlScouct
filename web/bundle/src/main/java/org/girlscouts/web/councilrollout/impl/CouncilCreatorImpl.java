@@ -221,15 +221,15 @@ public class CouncilCreatorImpl implements CouncilCreator
 			returnPage = manager.create(path, pageName, template, title);
 			Node jcrNode = session.getNode(returnPage.getPath() + "/jcr:content");
 			// Set sling:resourceType of the jcr:content of HomePage node
-			if(resourceType != null || resourceType != "") {
+			if(resourceType != null && resourceType != "") {
 			    jcrNode.setProperty("sling:resourceType", resourceType);
 			}			
 			
-			if (seoTitle != null || seoTitle != "") {
+			if (seoTitle != null && seoTitle != "") {
 				jcrNode.setProperty("seoTitle", seoTitle);
 			}			
 			
-			if (!propertyMap.isEmpty() || propertyMap != null) {
+			if (!propertyMap.isEmpty() && propertyMap != null) {
 				
 				for(Entry<String, String> map: propertyMap.entrySet()) {
 					jcrNode.setProperty(map.getKey(), map.getValue());
