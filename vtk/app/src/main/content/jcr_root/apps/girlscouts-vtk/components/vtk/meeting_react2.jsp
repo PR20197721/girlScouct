@@ -121,7 +121,6 @@ String mid = planView.getYearPlanComponent().getUid();
       render: function() {
         return (
     		<div className="section-wrapper">
-     		 
     		 <%@include file="include/meeting_navigator.jsp"%>
      		 <%@include file="include/meeting_maininfo.jsp"%>
     		 <%@include file="include/meeting_planning.jsp"%>
