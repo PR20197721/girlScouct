@@ -17,10 +17,14 @@
 <script src="http://fb.me/react-with-addons-0.12.1.js"></script>
 
 <%@include file="include/tab_navigation.jsp"%>
- 
-<%@include file="include/view_yp_dropdown.jsp"%>
 
-<div id="panelWrapper" class="row meeting-detail">
+<div id="panelWrapper" class="row content meeting-detail">
+
+  <%@include file="include/utility_nav.jsp"%>
+
+  <%@include file="include/view_yp_dropdown.jsp"%>
+
+  <div id="panelWrapper1">
  
   <script type="text/jsx">
   	var isActivNew;
@@ -165,10 +169,10 @@ function doUpdMeeting1(newVals){
 }
   React.render(
     <CommentBox url="/content/girlscouts-vtk/controllers/vtk.controller.html?yearPlanSched=X" pollInterval={10000} />,
-      document.getElementById('panelWrapper')
+      document.getElementById('panelWrapper1')
     );
   </script>  
-
+  </div>
 </div><!--/panelWrapper-->
 
 

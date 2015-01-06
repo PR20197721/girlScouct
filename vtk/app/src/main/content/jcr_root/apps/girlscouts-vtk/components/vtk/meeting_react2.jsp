@@ -27,8 +27,6 @@
 <script src="http://fb.me/react-with-addons-0.12.1.js"></script>
 
 <%@include file="include/tab_navigation.jsp"%>
-<!--%@include file="include/myPop.jsp"%-->
-
 <div id="panelWrapper" class="row content meeting-detail">
   <script type="text/jsx">
     var thisMeetingRefId;
