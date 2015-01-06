@@ -95,7 +95,7 @@
 					.getName()));
 	
 	user.setSid(session.getId());
-	
+	System.err.println("User currYear: "+ user.getCurrentYear());
 	String errMsg = null;
 	Troop troop = (Troop) session.getValue("VTK_troop");
 	

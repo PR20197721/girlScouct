@@ -71,7 +71,7 @@
 								confMsg ="Are You Sure? You will lose customizations that you have made";
 							}	
 						}
-						java.util.Iterator<YearPlan> yearPlans = yearPlanUtil.getAllYearPlans(ageLevel).listIterator();
+						java.util.Iterator<YearPlan> yearPlans = yearPlanUtil.getAllYearPlans(user, ageLevel).listIterator();
 							while (yearPlans.hasNext()) {
 								YearPlan yearPlan = yearPlans.next();
 						%>
