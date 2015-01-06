@@ -9,7 +9,9 @@
     
 	org.girlscouts.vtk.models.PlanView planView = meetingUtil.planView1(user, troop, request);
 	
-	switch( planView.getYearPlanComponent().getType() ){
+out.println(planView.getYearPlanComponent().getType());
+
+	switch( planView.getYearPlanComponent().getType() ) {
 	  case MEETING:
 		%><%@include file="meeting_react2.jsp"%><%
 		break;
@@ -17,8 +19,5 @@
 		%><%@include file="activity_react2.jsp"%><%
 		break;
 	}
-	
-	
-
 %>
 

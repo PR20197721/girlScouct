@@ -23,7 +23,7 @@
  <%@include file="include/view_yp_dropdown.jsp"%>
 
 <div id="thePlan">
- 
+
   <script type="text/jsx">
   	var isActivNew;
   	var isFirst=1;
@@ -75,7 +75,6 @@
       	}
       }
     });
-
    var YearPlanComponents = React.createClass({      
       onReorder: function (order) {
 		isActivNew=1;
@@ -85,13 +84,11 @@
 			<div id="yearPlanMeetings" className="columns">
 				  <div className="row">
 				    <div className="column large-20 medium-20 large-centered medium-centered">
-					  <h1 className="yearPlanTitle">{this.props.yearPlanName}</h1>
-					  <p className="hide-for-print">Drag and drop to reorder meetings</p> 
-					</div>
+  					  <h1 className="yearPlanTitle">{this.props.yearPlanName}</h1>
+  					  <p className="hide-for-print">Drag and drop to reorder meetings</p> 
+					  </div>
 				  </div>
-				
-					  <MeetingComponent key={this.props.data} data={this.props.data} onReorder={this.onReorder} /> 
-				 
+					<MeetingComponent key={this.props.data} data={this.props.data} onReorder={this.onReorder} /> 
 			</div>			
 	    );
       } //end of render
@@ -102,8 +99,10 @@
 		if( this.props.data!=null){
 			var keys =  Object.keys( this.props.data );
 			var obj = this.props.data;
-
 			return (<ul>
+        {/*TODO THIS IS FLAT HTML MILESTONE, NEEDS TO BE ADDED HERE INTO THE COMMENT.TYPE*/}
+        <%@include file="include/view_milestone.jsp"%>
+        {/*END OF TODO*/}
 						{ keys.map( function (comment ,i ) {
 							  if( obj[comment].type == 'MEETING' ){
 									return <%@include file="include/view_meeting.jsp" %> 

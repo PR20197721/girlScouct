@@ -1,6 +1,12 @@
 /* white header */
-.header-wrapper,
+
 #header {
+    padding: 15px 0px 0px 0px;
+    color: #FFFFFF;
+}
+
+.header-wrapper
+{
     background-color: #FFFFFF;
 }
 

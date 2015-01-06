@@ -14,8 +14,6 @@ String mid = planView.getYearPlanComponent().getUid();
 <script src="http://fb.me/react-with-addons-0.12.1.js"></script>
 
 <%@include file="include/tab_navigation.jsp"%>
-<!--%@include file="include/myPop.jsp"%-->
-
 <div id="panelWrapper" class="row content meeting-detail">
 <%@include file="include/utility_nav.jsp"%>
 <div id="theMeeting">
@@ -123,7 +121,6 @@ String mid = planView.getYearPlanComponent().getUid();
       render: function() {
         return (
     		<div className="section-wrapper">
-     		 
     		 <%@include file="include/meeting_navigator.jsp"%>
      		 <%@include file="include/meeting_maininfo.jsp"%>
     		 <%@include file="include/meeting_planning.jsp"%>

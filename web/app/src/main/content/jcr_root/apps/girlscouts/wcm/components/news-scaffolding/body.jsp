@@ -268,13 +268,14 @@
                 if(!isUpdate){
                 var dateField = frm.findField("./jcr:content/date");
                 var year;
+                var newsYearProps = "showCurrent|true|||hideInNav|true";
                 if (dateField.getValue()) {
                 	year = dateField.getValue().getFullYear();	
                 } else {
                 	year = new Date().getFullYear();
                 }
                 var destDir = '<%= contentPath %>/' + year;
-                girlscouts.functions.createPath(destDir, 'cq:Page');
+                girlscouts.functions.createPath(destDir, 'cq:Page', newsYearProps);
 
                     frm.url = destDir + '/*';
     }

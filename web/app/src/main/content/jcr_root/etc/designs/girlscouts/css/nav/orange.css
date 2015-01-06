@@ -7,6 +7,10 @@
 #main .side-nav > li > div > a {
   font-weight: bold;
 }
+#main .side-nav li div {
+	margin-left:10px;
+    padding: 10px 0px 10px 10px;
+}
 #main .side-nav li div:hover {
   background-color: #DCDCDC;
 }
@@ -19,7 +23,7 @@
   list-style: none;
   position: relative;
 }
-#main .side-nav li:before {
+#main .side-nav > li:before {
   border: solid 5px #FAA61A;
   content: "";
   position: absolute;
