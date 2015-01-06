@@ -15,6 +15,8 @@ import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
+import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
 import org.girlscouts.vtk.auth.dao.SalesforceDAO;
 import org.girlscouts.vtk.auth.dao.SalesforceDAOFactory;
@@ -207,6 +209,10 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
      
         //CHN to LOAD PERMISSION HERE 
         vtkUser.setPermissions( config.getTroops().get(0).getPermissionTokens() ); 
+        
+        //load config
+        vtkUser.setCurrentYear( getCurrentYear( request.getResourceResolver(), vtkUser.getApiConfig().getTroops().get(0).getCouncilCode() ) );
+        
         session.setAttribute(org.girlscouts.vtk.models.User.class.getName(), vtkUser);
         
         redirect(response, targetUrl);
@@ -355,5 +361,44 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
       //redirect(response, "http://localhost:4503/content/girlscouts-vtk/en/vtk.html");
   }
   
+  private String getCurrentYear( ResourceResolver resourceResolver, int councilId ){
+
+	    String elem = null;
+
+	    try{
+
+	    String branch = councilMapper.getCouncilBranch(councilId+"");	    
+
+	    branch += "/jcr:content";
+
+	    ValueMap valueMap = (ValueMap)resourceResolver.resolve(branch).adaptTo(ValueMap.class);
+
+	        elem = valueMap.get("currentYear", "");	    
+
+	    }catch(Exception e){e.printStackTrace();}
+
+	    return elem ==null ? getCurrentYearDefault(resourceResolver) : elem;
+
+	    }
+
+	    
+
+	    private String getCurrentYearDefault(ResourceResolver resourceResolver){
+
+	    String elem=null;
+
+	    try{	    
+
+	    String branch = "/content/gateway/jcr:content";
+
+	    ValueMap valueMap = (ValueMap)resourceResolver.resolve(branch).adaptTo(ValueMap.class);
+
+	    elem = valueMap.get("currentYear", "");	    
+
+	    }catch(Exception e){e.printStackTrace();}
+
+	    return elem;
+
+	    }
     
 }

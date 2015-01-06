@@ -17,8 +17,6 @@
 		%><%@include file="activity_react2.jsp"%><%
 		break;
 	}
-	
-	
 
 %>
 
