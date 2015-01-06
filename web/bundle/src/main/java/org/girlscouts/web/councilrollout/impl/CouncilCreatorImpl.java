@@ -47,60 +47,61 @@ import com.day.cq.wcm.api.WCMException;
 		@Property(name = "service.pid", value = "org.girlscouts.web.councilrollout.councilcreator", propertyPrivate = false),
 		@Property(name = "service.description", value = "Girl Scouts council rollout service", propertyPrivate = false),
 		@Property(name = "service.vendor", value = "Girl Scouts", propertyPrivate = false) })
-public class CouncilCreatorImpl implements CouncilCreator {
+
+public class CouncilCreatorImpl implements CouncilCreator 
+{
 	private static Logger LOG = LoggerFactory.getLogger(CouncilCreatorImpl.class);
 	
-	public ArrayList<Page> generateSite(Session session, ResourceResolver rr, String contentPath, String councilName, String councilTitle) throws GirlScoutsException {
+	public ArrayList<Page> generateSite(Session session, ResourceResolver rr, String contentPath, String councilName, String councilTitle) {
 		ArrayList<Page> pages = new ArrayList<Page>();
 		HashMap<String, String> propertyMap = new HashMap<String,String>();
 		String councilPath = contentPath + "/" + councilName;
-		String languagePath = null;
+		
 		try {
 			PageManager manager = (PageManager) rr.adaptTo(PageManager.class);
 			// Create Council HomePage
 			pages.add(buildPage(manager, session, contentPath, councilTitle, null, councilName, "", "foundation/components/page", null));
-			
 			propertyMap = setLangPropertyMap(councilPath, "en");
 			Page englishPage = buildPage(manager, session, councilPath, councilTitle, null, "en", "", "girlscouts/components/homepage", propertyMap);
-			languagePath = englishPage.getPath();
+			String languagePath = englishPage.getPath();
 			pages.add(englishPage);
 			pages.add(buildPage(manager, session, languagePath, "Ad Page", null, "ad-page", "", "girlscouts/components/ad-list-page", null));
 			pages.add(buildPage(manager, session, languagePath, "Search | " + councilTitle, "Search | " + councilTitle, "site-search", "", "girlscouts/components/three-column-page", null));
 			pages.add(buildPage(manager, session, languagePath, "Map", null, "map", "", "girlscouts/components/map", null));
-
 			pages.add(buildRepository(manager, session, languagePath, "events-repository", "", "Events Repository"));
 			pages.add(buildRepository(manager, session, languagePath, "contacts", "", "Contacts"));
 			pages.add(buildRepository(manager, session, languagePath, "milestones", "", "Milestones"));
 			session.save();
 		} catch (Exception e) {
-			LOG.error("Unable to create ..... with stack trace : " + e.toString());
+			LOG.error("Error occurred during Page Building Procedure: " + e.toString());
 			e.printStackTrace();
 		}
 		return pages;
 	}
 	
-	public ArrayList<Node> generateScaffolding(Session session, ResourceResolver rr, String councilName) throws GirlScoutsException {
+	public ArrayList<Node> generateScaffolding(Session session, ResourceResolver rr, String councilName) {
 		ArrayList<Node> scaffoldings = new ArrayList<Node>();
 		final String scaffoldingPath = "/etc/scaffolding";
 		final String scaffoldingPrototype = "girlscouts-prototype";
+		
 		try {
 			Node scaffoldingFolder = session.getNode(scaffoldingPath);
 			Node councilFolder = buildFolder(scaffoldingFolder, councilName, null, "nt:folder", false);
 
-			if(scaffoldingFolder.hasNode(scaffoldingPrototype)){
-			Node n = session.getNode(scaffoldingPath + "/" + scaffoldingPrototype);
-			if(scaffoldingFolder.getNode(scaffoldingPrototype).hasNodes()){
-			NodeIterator i = n.getNodes();
-			while(i.hasNext()){
-				String type;
-				String targetPath;
-				Node scaffoldingNode = i.nextNode();
-				targetPath = scaffoldingNode.getNode("jcr:content").getProperty("cq:targetPath").getValue().getString();
-				type = scaffoldingNode.getName();
-				scaffoldingNode = JcrUtil.copy(scaffoldingNode, councilFolder, type);
-				targetPath = targetPath.replace(scaffoldingPrototype, councilName);
-				scaffoldingNode.getNode("jcr:content").setProperty("cq:targetPath", targetPath);
-				scaffoldings.add(scaffoldingNode);
+			if (scaffoldingFolder.hasNode(scaffoldingPrototype)) {
+			    Node n = session.getNode(scaffoldingPath + "/" + scaffoldingPrototype);
+			    
+			    if (scaffoldingFolder.getNode(scaffoldingPrototype).hasNodes()) {
+			        NodeIterator i = n.getNodes();
+			        
+			        while (i.hasNext()) {
+				        Node scaffoldingNode = i.nextNode();
+				        String targetPath = scaffoldingNode.getNode("jcr:content").getProperty("cq:targetPath").getValue().getString();
+				        String type = scaffoldingNode.getName();
+				        scaffoldingNode = JcrUtil.copy(scaffoldingNode, councilFolder, type);
+				        targetPath = targetPath.replace(scaffoldingPrototype, councilName);
+				        scaffoldingNode.getNode("jcr:content").setProperty("cq:targetPath", targetPath);
+				        scaffoldings.add(scaffoldingNode);
 					}
 				}
 			}
@@ -108,12 +109,12 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		} catch (Exception e) {
 			LOG.error("Unable to create DAM Folders with stack trace : " + e.toString());
 			e.printStackTrace();
-	}
+	    }
 		return scaffoldings;
-
 }
 
-	public ArrayList<Node> generateDAMFolders(Session session, String path, String councilName, String councilTitle) throws GirlScoutsException {
+	public ArrayList<Node> generateDAMFolders(Session session, String path, String councilName, String councilTitle) 
+	{
 		ArrayList<Node> damNodes = new ArrayList<Node>();
 		try {
 			Node damNode = session.getNode(path + "/" + "dam");
@@ -127,12 +128,12 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			LOG.error("Unable to create DAM Folders with stack trace : " + e.toString());
 		}
 		return damNodes;
-
 	}
 
-	public ArrayList<Tag> generateTags(Session session, ResourceResolver rr, String path, String councilName, String councilTitle) throws GirlScoutsException {
+	public ArrayList<Tag> generateTags(Session session, ResourceResolver rr, String path, String councilName, String councilTitle) {
 		ArrayList<Tag> tags = new ArrayList<Tag>();
 		final String tagPath = "/etc/tags";
+		
 		try {
 			TagManager manager = (TagManager) rr.adaptTo(TagManager.class);
 			tags.add(manager.createTag(tagPath + "/" + councilName, councilTitle, ""));
@@ -140,17 +141,18 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			tags.add(manager.createTag(tagPath + "/" + councilName + "/" + "program-level", "Program Level", ""));
 			tags.add(manager.createTag(tagPath + "/" + councilName + "/" + "forms_documents", "Forms & Documents", ""));
 			session.save();
-		} catch (InvalidTagFormatException e){
+		} catch (InvalidTagFormatException e) {
 			LOG.error("Unable to create Tag with correct format: " + e.toString());
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return tags;
 	}
 	
-	public ArrayList<Group> generateGroups(Session session, ResourceResolver rr, String councilName, String councilTitle) throws GirlScoutsException {
+	public ArrayList<Group> generateGroups(Session session, ResourceResolver rr, String councilName, String councilTitle) {
 		ArrayList<Group> groupList = new ArrayList<Group>();
 		String homePath = "/home/groups";
+		
 		try {
 			UserManager manager = (UserManager) rr.adaptTo(UserManager.class);
 			Group councilAuthors = manager.createGroup(councilName + "-authors", councilName + "-authors", homePath + "/" + councilName);
@@ -161,17 +163,17 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			gsAuthors.addMember(councilAuthors);
 			Group gsReviewers = (Group) manager.findByHome(homePath + "/girlscouts-usa/gs-reviewers");
 			gsReviewers.addMember(councilReviewers);
-			session.save();
-		
-		} catch(Exception e){
+			session.save();		
+		} catch(Exception e) {
 			LOG.error(e.toString());
 		}
 			return groupList;
 	}
 	
-	private HashMap<String,String> setLangPropertyMap(String path, String langAbbrev){
+	private HashMap<String,String> setLangPropertyMap(String path, String langAbbrev) {
 		HashMap<String,String> propertyMap = new HashMap<String,String>();
-		try{
+		
+		try {
 			propertyMap.put("cq:designPath", "/etc/designs/girlscouts-usa-green");
 			propertyMap.put("adsPath", path + "/" + langAbbrev + "/ad-page");
 			propertyMap.put("calendarPath", path + "/" + langAbbrev + "/event-calendar");
@@ -186,9 +188,8 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			propertyMap.put("locale", "America/New_York");
 			propertyMap.put("locationsPath", path + "/" + langAbbrev + "/location");
 			propertyMap.put("newsPath", path + "/" + langAbbrev + "/our-council/news");					
-			propertyMap.put("timezone", "US/Eastern");
-			
-		} catch(Exception e){
+			propertyMap.put("timezone", "US/Eastern");			
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return propertyMap;
@@ -196,17 +197,17 @@ public class CouncilCreatorImpl implements CouncilCreator {
 	
 	private Node buildFolder(Node node, String folderName, String folderTitle, String primaryType, boolean hasJcrNode) {
 		Node folderNode = null;
+		
 		try {
 			folderNode = node.addNode(folderName, primaryType);
-			if (hasJcrNode){
-			Node jcrNode = folderNode.addNode("jcr:content", "nt:unstructured");
-			
-			if (folderTitle == null || folderTitle == "") {
-				jcrNode.setProperty("jcr:title", folderName);
-			} else {
-				jcrNode.setProperty("jcr:title", folderTitle);
-
-			}
+			if (hasJcrNode) {
+			    Node jcrNode = folderNode.addNode("jcr:content", "nt:unstructured");
+			    
+			    if (folderTitle == null || folderTitle == "") {
+				    jcrNode.setProperty("jcr:title", folderName);
+			    } else {
+				    jcrNode.setProperty("jcr:title", folderTitle);
+			    }
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -217,32 +218,34 @@ public class CouncilCreatorImpl implements CouncilCreator {
 	private Page buildPage(PageManager manager, Session session, String path, String title, String seoTitle, String pageName, String template, String resourceType, HashMap<String, String> propertyMap) {
 		Page returnPage = null;
 		try {
-
 			returnPage = manager.create(path, pageName, template, title);
-
 			Node jcrNode = session.getNode(returnPage.getPath() + "/jcr:content");
 			// Set sling:resourceType of the jcr:content of HomePage node
-			if(resourceType != null || resourceType == ""){
-			jcrNode.setProperty("sling:resourceType", resourceType);
-			}
-			if (seoTitle != null || seoTitle == "") {
+			if(resourceType != null || resourceType != "") {
+			    jcrNode.setProperty("sling:resourceType", resourceType);
+			}			
+			
+			if (seoTitle != null || seoTitle != "") {
 				jcrNode.setProperty("seoTitle", seoTitle);
-			}
-			if (!propertyMap.isEmpty() || propertyMap != null){
-				for(Entry<String, String> map: propertyMap.entrySet()){
+			}			
+			
+			if (!propertyMap.isEmpty() || propertyMap != null) {
+				
+				for(Entry<String, String> map: propertyMap.entrySet()) {
 					jcrNode.setProperty(map.getKey(), map.getValue());
 				}
 			}
-		}catch (WCMException e){
-				LOG.error("Cannot build page titled " + title + " " + e.toString());
+		} catch (WCMException e) {
+		    LOG.error("Cannot build page titled " + title + " " + e.toString());
 		} catch (Exception e) {
-e.printStackTrace();
-}
+            e.printStackTrace();
+        }
 		return returnPage;
 	}
 	
 	private Page buildRepository(PageManager manager, Session session, String languagePath, String pageName, String template, String title) {
 		Page thisRepositoryPage = null;
+		
 		try {
 			thisRepositoryPage = manager.create(languagePath, pageName, template, title);
 		} catch (Exception e) {
@@ -250,5 +253,4 @@ e.printStackTrace();
 		}
 		return thisRepositoryPage;
 	}
-
 }
