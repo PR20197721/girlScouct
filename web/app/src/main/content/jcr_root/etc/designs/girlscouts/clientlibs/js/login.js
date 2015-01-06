@@ -25,10 +25,10 @@ girlscouts.components.login = {
 	    // TODO: Add language
 	    var html;
 	    if (state === 'signedin') {
-		    html = '<span  style="white-space: nowrap;">' + 'Hello&nbsp;' + name.replace(" ","&nbsp;") + 
-		    '&nbsp;<a href="javascript:void(0)" onclick="girlscouts.components.login.signOut();" class="signout">SIGN&nbsp;OUT</a></span>';
+		    html = '<span>' + 'Hello ' + name.replace(" ","&nbsp;") + '.' + '</span>'+
+		    '<a href="javascript:void(0)" onclick="girlscouts.components.login.signOut();" class="signout link-login">SIGN OUT</a>';
 	    } else if (state === 'signedout') {
-		    html = '<span><a href="' + this.signInUrl + '" class="signin">' + 'SIGN IN' + '</a></span>';
+		    html = '<a href="' + this.signInUrl + '" class="signin link-login">SIGN IN</a>';
     	}
 	    $('.login').html(html);
     }
