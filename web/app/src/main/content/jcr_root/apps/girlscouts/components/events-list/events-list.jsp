@@ -163,7 +163,7 @@
 
 			</div><!--/columns-->
 			 <% if(eventsRendered == 0){
-                          %>  <h2> No Events Available </h2> <%
+                            %>  <div style="height:75px"></div> <%
 
                         }
 				%>
