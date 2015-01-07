@@ -5,7 +5,7 @@ public class Facade {
     {
         if (args.length < 5) {
             System.out.println("Girl Scouts AEM data migrate tool");
-            System.out.println("Params: server username password cmd [nodePath] [dryrun]");
+            System.out.println("Params: server username password cmd [nodePath] [isDryRun]");
             System.out.println("Server example: http://localhost:4502/crx/server");
             System.out.println("Available commands:");
             System.out.println("removedeactivated: remove deactivated nodes. (Can be dry run)");
@@ -19,7 +19,7 @@ public class Facade {
         String password = args[2];
         String cmd = args[3];
         String nodePath = args.length >= 5 ? args[4] : "/content";
-        boolean isDryRun = args.length >= 6 && args[5].equals("dryrun");
+        boolean isDryRun = args.length >= 6 && args[5].equalsIgnoreCase("true");
 
         try {
             if (cmd.equals("removedeactivated")) {
