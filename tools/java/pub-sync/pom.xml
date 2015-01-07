@@ -2,8 +2,8 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.girlscouts.tools.web</groupId>
-  <artifactId>pub-sync</artifactId>
+  <groupId>org.girlscouts.tools</groupId>
+  <artifactId>migrate-tool</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
@@ -96,7 +96,7 @@
           <executions>
               <execution>
                   <configuration>
-                      <mainClass>org.girlscouts.tools.web.pubsync.PubSynchronizer</mainClass>
+                      <mainClass>org.girlscouts.tools.datamigrate.Facade</mainClass>
                       <!-- Optional -->
                       <onejarVersion>0.97</onejarVersion>
                       <!-- Optional, default is false -->

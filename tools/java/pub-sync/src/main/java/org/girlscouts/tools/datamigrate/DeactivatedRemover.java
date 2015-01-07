@@ -1,4 +1,4 @@
-package org.girlscouts.tools.web.stage;
+package org.girlscouts.tools.datamigrate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,36 +18,12 @@ import org.apache.jackrabbit.commons.JcrUtils;
 
 public class DeactivatedRemover 
 {
-    public static void main(String[] args)
-    {
-        if (args.length < 3) {
-            System.out.println("Remove deactivated assets and pages");
-            System.out.println("Params: server username password [root] [dryrun]");
-            System.out.println("Server example: http://localhost:4502/crx/server");
-            System.exit(-1);
-        }
-        String server = args[0];
-        String username = args[1];
-        String password = args[2];
-        String root = args.length >= 4 ? args[3] : "/content";
-        boolean isDryRun = args.length >= 5 && args[4].equals("dryrun");
-
-        try {
-            DeactivatedRemover remover = new DeactivatedRemover(server, username, password, isDryRun);
-            System.out.println("Scanning repo for deactivated nodes ...");
-            remover.scan(root);
-            remover.doRemove();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
+    private static String REPLICATION_PROP = "cq:lastReplicationAction";
+    private static String REPLICATION_VAL = "Deactivate";
     private boolean isDryRun;
     private int totalCount = 0, removedCount = 0;
     private List<String> toRemove;
     private Session session;
-    private static String REPLICATION_PROP = "cq:lastReplicationAction";
-    private static String REPLICATION_VAL = "Deactivate";
     
     public DeactivatedRemover(String server, String username, String password, boolean isDryRun) throws RepositoryException {
         this.isDryRun = isDryRun;
@@ -62,7 +38,8 @@ public class DeactivatedRemover
         return session;
     }
     
-    private void scan(String parentPath) throws RepositoryException {
+    void scan(String parentPath) throws RepositoryException {
+        System.out.println("Scanning repo for deactivated nodes ...");
         Node parentNode = session.getNode(parentPath);
         NodeIterator iter = parentNode.getNodes();
         while (iter.hasNext()) {
@@ -84,7 +61,7 @@ public class DeactivatedRemover
         }
     }
     
-    private void doRemove() throws RepositoryException {
+    void doRemove() throws RepositoryException {
         System.out.println("=======================");
         System.out.println("=======================");
         System.out.println("TO REMOVE");
