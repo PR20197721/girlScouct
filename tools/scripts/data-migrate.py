@@ -4,51 +4,61 @@
 # Usage ./data-migrate [target-env]
 # e.g. ./data-migrate stage
 # Migrate data from prod auth to stage auth 
-# and then replicate tree to stage pub
+# then migrate data from stage auth to stage pub
+# finally do some cleanup
 
 import sys, os, time
 
 start_time = time.time()
 
 all_conf = {
-    'local' : {
-        'auth_url' : 'localhost:4502',
-        'pub_url' : 'localhost:4503',
+    'local-auth' : {
+        'url' : 'localhost:4502',
         'username' : 'admin',
         'password' : 'admin',
         'admin_password' : 'admin',
-        'source' : 'dev'
+        'source' : 'dev-auth'
     },
-    'dev' : {
-        'auth_url' : '54.83.199.117:4502',
-        'pub_url' : '54.83.199.118:4503',
+    'local-pub' : {
+        'url' : 'localhost:4503',
+        'username' : 'admin',
+        'password' : 'admin',
+        'source' : 'local-auth'
+    },
+    'dev-auth' : {
+        'url' : '54.83.199.117:4502',
         'username' : 'datamigrate',
         'password' : 'datamigrate123',
         'admin_password' : '@Q&W1iHzx(',
-        'source' : 'stage'
+        'source' : 'stage-auth'
     },
-    'stage' : {
-        'auth_url' : '54.86.13.38:4502',
-        'pub_url' : '54.85.69.30:4503',
+    'dev-pub' : {
+        'url' : '54.83.199.118:4503',
+        'username' : 'datamigrate',
+        'password' : 'datamigrate123',
+        'source' : 'dev-auth'
+    },
+    'stage-auth' : {
+        'url' : '54.86.13.38:4502',
         'username' : 'datamigrate',
         'password' : 'datamigrate123',
         'admin_password' : '4U5Hsq5Q_I',
-        'source' : 'prod'
+        'source' : 'prod-auth'
     },
-    'prod' : {
-        'auth_url' : '54.84.115.158:4502',
-        'pub_url' : '54.85.131.182:4503',
+    'stage-pub' : {
+        'url' : '54.85.69.30:4503',
+        'username' : 'datamigrate',
+        'password' : 'datamigrate123',
+        'source' : 'stage-auth'
+    },
+    'prod-auth' : {
+        'url' : '54.84.115.158:4502',
         'username' : 'proddatamigrate',
         'password' : 'v3swezaz'
     }
 }
 
-branches_auth=[
-    '/content'
-]
-
-branches_pub=[
-    '/vtk',
+branches=[
     '/content'
 ]
 
