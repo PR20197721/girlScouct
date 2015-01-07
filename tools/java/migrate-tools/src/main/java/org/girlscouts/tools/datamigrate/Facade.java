@@ -3,7 +3,7 @@ package org.girlscouts.tools.datamigrate;
 public class Facade {
     public static void main(String[] args)
     {
-        if (args.length < 5) {
+        if (args.length < 4) {
             System.out.println("Girl Scouts AEM data migrate tool");
             System.out.println("Params: server username password cmd [nodePath] [isDryRun]");
             System.out.println("Server example: http://localhost:4502/crx/server");

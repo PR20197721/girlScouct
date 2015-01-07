@@ -44,6 +44,7 @@ public class DeactivatedRemover
         while (iter.hasNext()) {
             totalCount++;
             Node node = iter.nextNode();
+            System.out.println("checking deactivated: " + node.getPath());
             if (node.hasProperty(REPLICATION_PROP) &&
                     node.getProperty(REPLICATION_PROP).getString().equals(REPLICATION_VAL)) {
                 removedCount++;
