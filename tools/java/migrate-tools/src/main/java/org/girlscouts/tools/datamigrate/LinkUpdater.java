@@ -1,4 +1,4 @@
-package org.girlscouts.tools.web.stage;
+package org.girlscouts.tools.datamigrate;
 
 import java.text.ParseException;
 
@@ -12,39 +12,15 @@ import javax.jcr.Value;
 
 import org.apache.jackrabbit.commons.JcrUtils;
 
-// Params: server username password
-// Adjust links in stage
-// my.girlscouts.org => my-stage.girlscouts.org
-// server example: http://localhost:4502/crx/server/
-public class StageUpdater 
+public class LinkUpdater 
 {
-    public static void main(String[] args)
-    {
-        if (args.length < 3) {
-            System.out.println("Stage Updater: adjust links in stage");
-            System.out.println("Params: server username password");
-            System.out.println("Server example: http://localhost:4502/crx/server");
-            System.exit(-1);
-        }
-        String server = args[0];
-        String username = args[1];
-        String password = args[2];
-
-        try {
-            StageUpdater updater = new StageUpdater(server, username, password);
-            updater.doUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
     private String server;
     private String username;
     private String password;
     private Session session;
     private int count;
     
-    public StageUpdater(String server, String username, String password) throws RepositoryException {
+    public LinkUpdater(String server, String username, String password) throws RepositoryException {
         this.server = server;
         this.username = username;
         this.password = password;
@@ -61,7 +37,7 @@ public class StageUpdater
     
     private static String GLOBAL_NAV_PATH = "jcr:content/header/global-nav";
     
-    private void doUpdate() throws RepositoryException, ParseException {
+    void doUpdate() throws RepositoryException, ParseException {
         Node rootNode = session.getNode("/content");
         NodeIterator iterBranch = rootNode.getNodes();
         while (iterBranch.hasNext()) {
