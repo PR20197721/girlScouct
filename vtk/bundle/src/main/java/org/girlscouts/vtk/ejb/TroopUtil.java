@@ -158,6 +158,7 @@ troop.setPermissionTokens(s);
 		User user = new User();
 		user.setApiConfig(config);
 		user.setPermissions( s );
+		user.setCurrentYear("2014");
 		session.setAttribute(
 				org.girlscouts.vtk.models.User.class.getName(),
 				user);
