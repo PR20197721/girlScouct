@@ -33,8 +33,8 @@ public class DeactivatedRemover
 
         try {
             DeactivatedRemover remover = new DeactivatedRemover(server, username, password, isDryRun);
-            //remover.scan("/content");
-            remover.scan("/content/geometrixx-outdoors");
+            System.out.println("Scanning repo for deactivated nodes ...");
+            remover.scan("/content");
             remover.doRemove();
         } catch (Exception e) {
             e.printStackTrace();
