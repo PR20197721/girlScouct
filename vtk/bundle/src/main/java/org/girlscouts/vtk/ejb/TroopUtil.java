@@ -142,11 +142,11 @@ public class TroopUtil {
 
 		java.util.List<org.girlscouts.vtk.salesforce.Troop> troops = new java.util.ArrayList();
 		org.girlscouts.vtk.salesforce.Troop troop = new org.girlscouts.vtk.salesforce.Troop();
-		troop.setCouncilCode(1);
-		troop.setGradeLevel("1-Brownie");
-		troop.setTroopId("test_troop_id");
-		troop.setCouncilId("123");
-		troop.setTroopName("test");
+		troop.setCouncilCode(603);
+		troop.setGradeLevel("1-Daisy");
+		troop.setTroopId("701G0000000v1B6IAI");
+		troop.setCouncilId("603");
+		troop.setTroopName("Troop00960");
 troop.setPermissionTokens(s);
 		troops.add(troop);
 		config.setTroops(troops);
