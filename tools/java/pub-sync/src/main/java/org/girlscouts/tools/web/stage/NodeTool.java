@@ -11,16 +11,12 @@ import javax.jcr.version.VersionManager;
 
 import org.apache.jackrabbit.commons.JcrUtils;
 
-// Params: src_server src_username src_password dst_server dst_username dst_password
-// Synchronize src and dst repo
-// server example: http://localhost:4502/crx/server/
-
 public class NodeTool 
 {
     public static void main(String[] args)
     {
         if (args.length < 4) {
-            System.out.println("Stage Updater: adjust links in stage");
+            System.out.println("Node Tool to checkout/unlock a node");
             System.out.println("Params: src_server src_username src_password node_path [cmd]");
             System.out.println("Available commands: checkout, unlock");
             System.out.println("Server example: http://localhost:4502/crx/server");
