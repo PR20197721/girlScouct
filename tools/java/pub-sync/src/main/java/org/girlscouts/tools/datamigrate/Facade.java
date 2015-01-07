@@ -22,6 +22,7 @@ public class Facade {
 
         try {
             if (cmd.equals("removedeactivated")) {
+                System.out.println("Scanning repo for deactivated nodes ...");
                 DeactivatedRemover remover = new DeactivatedRemover(server, username, password, isDryRun);
                 remover.scan(nodePath);
                 remover.doRemove();

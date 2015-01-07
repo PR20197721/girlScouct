@@ -39,7 +39,6 @@ public class DeactivatedRemover
     }
     
     void scan(String parentPath) throws RepositoryException {
-        System.out.println("Scanning repo for deactivated nodes ...");
         Node parentNode = session.getNode(parentPath);
         NodeIterator iter = parentNode.getNodes();
         while (iter.hasNext()) {
@@ -65,6 +64,9 @@ public class DeactivatedRemover
         System.out.println("=======================");
         System.out.println("=======================");
         System.out.println("TO REMOVE");
+        if (isDryRun) {
+            System.out.println("dry run");
+        }
         System.out.println("=======================");
         System.out.println("=======================");
         for (String nodePath : toRemove) {
