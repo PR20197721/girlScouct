@@ -12,7 +12,7 @@ import javax.jcr.SimpleCredentials;
 
 import org.apache.jackrabbit.commons.JcrUtils;
 
-// Params: server username password
+// Params: server username password [root] [dryrun]
 // Remove deactivated assets pages
 // server example: http://localhost:4502/crx/server/
 
@@ -22,19 +22,20 @@ public class DeactivatedRemover
     {
         if (args.length < 3) {
             System.out.println("Remove deactivated assets and pages");
-            System.out.println("Params: server username password [dryrun]");
+            System.out.println("Params: server username password [root] [dryrun]");
             System.out.println("Server example: http://localhost:4502/crx/server");
             System.exit(-1);
         }
         String server = args[0];
         String username = args[1];
         String password = args[2];
-        boolean isDryRun = args.length >= 4 && args[3].equals("dryrun");
+        String root = args.length >= 4 ? args[3] : "/content";
+        boolean isDryRun = args.length >= 5 && args[4].equals("dryrun");
 
         try {
             DeactivatedRemover remover = new DeactivatedRemover(server, username, password, isDryRun);
             System.out.println("Scanning repo for deactivated nodes ...");
-            remover.scan("/content");
+            remover.scan(root);
             remover.doRemove();
         } catch (Exception e) {
             e.printStackTrace();
