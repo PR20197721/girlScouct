@@ -660,9 +660,9 @@ System.err.println("CHK: " + isFirst + " : "+ isCng);
 				  		}
 					  }
 					
-					
+		System.err.println("TESTTR" + prefTroop.getCouncilCode()+" :"+ prefTroop.getTroopId())	;		
 					troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
-					
+		System.err.println("TESTTR: "+ (troop==null) );			
 					java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil
 							.getYearPlanSched(user,
 									troop.getYearPlan(), true, true);
