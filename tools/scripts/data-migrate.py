@@ -62,6 +62,10 @@ branches=[
     '/content'
 ]
 
+exclude='-e "/content/catalogs/.*" -e "/content/campaigns/.*" -e "/content/launches/.*" -e "/content/usergenerated/.*" -e "/content/publications/.*" -e "/content/communities/.*" -e "/content/mac/.*" -e "/vtk/global-settings" -e "/content/dam/hierarchy/.*"'
+
+MIGRATE_TOOL_JAR = 'migrate-tools-1.0-SNAPSHOT.one-jar.jar'
+
 batch_size = 1024
 
 def switch_component(name, switch):
@@ -72,35 +76,46 @@ def switch_component(name, switch):
     os.system("curl -silent -u admin:" + dst_conf['admin_password'] + " --data 'action=" + switch_str + "' http://" + dst_conf['auth_url'] + "/system/console/components/" + name + "/" + name + " > /dev/null") # due to wierd Felix REST API, component has to be repeated twice.
     print "### " + switch_str + "d component: " + name;
 
-def rcp(branch, runmode):
-    "RCP data. Runmode can be auth/pub"
-    os.system("vlt rcp -b " + str(batch_size) + " -r -u -n http://" + src_conf['username'] + ":" + src_conf['password'] + "@" + src_conf[runmode + '_url'] + "/crx/-/jcr:root" + branch + " http://" + dst_conf["username"] + ":" + dst_conf["password"] + "@" + dst_conf[runmode + '_url'] + "/crx/-/jcr:root" + branch);
+def rcp(branch):
+    "RCP data."
+    os.system("vlt rcp -b " + str(batch_size) + " " + exclude + " -r -u -n http://" + src_conf['username'] + ":" + src_conf['password'] + "@" + src_conf['url'] + "/crx/-/jcr:root" + branch + " http://" + dst_conf["username"] + ":" + dst_conf["password"] + "@" + dst_conf['url'] + "/crx/-/jcr:root" + branch);
     print "### Migrated branch: " + branch
 
 ####################
 # Main
 ####################
 if len(sys.argv) < 2:
-    sys.exit('Please provide target env: local dev stage');
+    sys.exit('Please provide target env: local-auth local-pub dev-auth dev-pub stage-auth stage-pub');
 
 dst_env = sys.argv[1]
+runmode = dst_env.split('-')[1]
 dst_conf = all_conf[dst_env]
 src_env = dst_conf['source']
 src_conf = all_conf[src_env]
 
 # Stop workflow launcher and listener to prevent DAM workflows
-switch_component('com.adobe.granite.workflow.core.launcher.WorkflowLauncherImpl', False);
-switch_component('com.adobe.granite.workflow.core.launcher.WorkflowLauncherListener', False);
+if runmode == 'auth':
+    switch_component('com.adobe.granite.workflow.core.launcher.WorkflowLauncherImpl', False);
+    switch_component('com.adobe.granite.workflow.core.launcher.WorkflowLauncherListener', False);
 
-for branch in branches_auth:
-    rcp(branch, 'auth');
+for branch in branches:
+    rcp(branch)
 
 # Re-enable workflow launcher and listener
-switch_component('com.adobe.granite.workflow.core.launcher.WorkflowLauncherImpl', True);
-switch_component('com.adobe.granite.workflow.core.launcher.WorkflowLauncherListener', True);
+if runmode == 'auth':
+    switch_component('com.adobe.granite.workflow.core.launcher.WorkflowLauncherImpl', True);
+    switch_component('com.adobe.granite.workflow.core.launcher.WorkflowLauncherListener', True);
 
-for branch in branches_pub:
-    rcp(branch, 'pub');
-    
+migrate_tool = 'java -jar ' + MIGRATE_TOOL_JAR + ' http://' + dst_conf['url'] + '/crx/server ' + dst_conf['username'] + ' ' + dst_conf['password'] + ' '
+if runmode == 'pub':
+    # Remove deactivated nodes
+    for branch in branches:
+        os.system(migrate_tool + 'removedeactivated ' + branch)     
+
+if dst_env.split('-')[0] == 'stage':
+    # Update VTK link 
+    for branch in branches:
+        os.system(migrate_tool + 'updatelink ' + branch)     
+
 elapsed_time = time.time() - start_time
 print "All Done. Time elapsed: " + str(elapsed_time) + " seconds."
