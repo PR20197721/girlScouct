@@ -74,7 +74,7 @@
                     </nav>
                     <council
                         jcr:primaryType="cq:Widget"
-                        allowBlank="{Boolean}true"
+                        allowBlank="{Boolean}false"
                         fieldLabel="Council Style"
                         name="./councilStyle"
                         rootPath="/etc/designs"

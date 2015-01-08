@@ -1,4 +1,4 @@
-/* grey nav */
+/***** GREY NAV *****/
 
 #main .side-nav * {
   color: #858585;
@@ -58,3 +58,4 @@
 #main .side-nav li.active li.active > div {
   background-color: transparent;
 }
+
