@@ -73,12 +73,12 @@ def switch_component(name, switch):
     switch_str = "disable"
     if switch:
         switch_str = "enable"
-    os.system("curl -silent -u admin:" + dst_conf['admin_password'] + " --data 'action=" + switch_str + "' http://" + dst_conf['auth_url'] + "/system/console/components/" + name + "/" + name + " > /dev/null") # due to wierd Felix REST API, component has to be repeated twice.
+    os.system("curl -silent -u 'admin:" + dst_conf['admin_password'] + "' --data 'action=" + switch_str + "' http://localhost:4502/system/console/components/" + name + "/" + name + " > /dev/null") # due to wierd Felix REST API, component has to be repeated twice.
     print "### " + switch_str + "d component: " + name;
 
 def rcp(branch):
     "RCP data."
-    os.system("vlt rcp -b " + str(batch_size) + " " + exclude + " -r -u -n http://" + src_conf['username'] + ":" + src_conf['password'] + "@" + src_conf['url'] + "/crx/-/jcr:root" + branch + " http://" + dst_conf["username"] + ":" + dst_conf["password"] + "@" + dst_conf['url'] + "/crx/-/jcr:root" + branch);
+    os.system("vlt rcp -b " + str(batch_size) + " " + exclude + " -r -u -n http://" + src_conf['username'] + ":" + src_conf['password'] + "@" + src_conf['url'] + "/crx/-/jcr:root" + branch + " http://" + dst_conf["username"] + ":" + dst_conf["password"] + "@localhost:" + port + "/crx/-/jcr:root" + branch);
     print "### Migrated branch: " + branch
 
 ####################
@@ -92,6 +92,9 @@ runmode = dst_env.split('-')[1]
 dst_conf = all_conf[dst_env]
 src_env = dst_conf['source']
 src_conf = all_conf[src_env]
+port = '4502'
+if runmode == 'pub':
+    port = '4503'
 
 # Stop workflow launcher and listener to prevent DAM workflows
 if runmode == 'auth':
