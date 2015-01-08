@@ -1,4 +1,5 @@
-/* white background header font */
+/***** GREEN FONT FOR HEADER *****/
+
 #header a {
   color: #00AE58; /*green color*/
 }
@@ -9,3 +10,4 @@
   position: absolute;
   margin: 4px 0 0 10px;
 }
+
