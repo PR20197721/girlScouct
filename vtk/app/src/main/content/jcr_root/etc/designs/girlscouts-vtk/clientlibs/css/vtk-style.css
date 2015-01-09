@@ -397,7 +397,7 @@
   .vtk-body .accordion dl dt,
   .vtk-body .accordion a {
     font-weight: normal;
-    font-size: 0.88rem; }
+    font-size: 14px; }
   .vtk-body .accordion > dt {
     background: #00ae58;
     position: relative;
@@ -405,7 +405,7 @@
     margin: 0; }
     .vtk-body .accordion > dt * {
       color: #fff;
-      font-size: 0.88rem;
+      font-size: 14px;
       vertical-align: middle; }
     .vtk-body .accordion > dt h3 {
       display: inline;
@@ -462,7 +462,7 @@
       clear: both; }
       .vtk-body .accordion .accordion-inner .accordion-navigation ul,
       .vtk-body .accordion .accordion-inner .accordion-navigation li {
-        font-size: .88rem !important; }
+        font-size: 14px !important; }
     .vtk-body .accordion .accordion-inner ul.column:first-child {
       margin-left: 27px; }
 

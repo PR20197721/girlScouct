@@ -33,7 +33,6 @@
         <div class="content active" id="panel1">
           <div class="row">
             <div class="column large-20 large-centered">
-              
                 <% for(int i=0; i<contacts.size(); i++) { 
                     org.girlscouts.vtk.models.Contact contact = contacts.get(i);
                 %>
