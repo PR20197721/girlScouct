@@ -33,7 +33,7 @@
      console.log("loading.." + (isActivNew) +" : "+isFirst+ " : "+(isFirst ==1));
        $.ajax({
           url: this.props.url + 
-    		(isActivNew==1 ? ("&isActivNew="+ isActivNew) : '')+
+    		( (isActivNew==1 || isActivNew==2) ? ("&isActivNew="+ isActivNew) : '')+
     		(isFirst ==1 ? ("&isFirst="+ isFirst) : ''),
           dataType: 'json',
           cache: false,
@@ -100,14 +100,14 @@
 			var keys =  Object.keys( this.props.data );
 			var obj = this.props.data;
 			return (<ul>
-        {/*TODO THIS IS FLAT HTML MILESTONE, NEEDS TO BE ADDED HERE INTO THE COMMENT.TYPE*/}
-        <%@include file="include/view_milestone.jsp"%>
-        {/*END OF TODO*/}
+        
 						{ keys.map( function (comment ,i ) {
 							  if( obj[comment].type == 'MEETING' ){
 									return <%@include file="include/view_meeting.jsp" %> 
 							  }else if( obj[comment].type == 'ACTIVITY' ){
 									return <%@include file="include/view_activity.jsp" %>
+							  }else if( obj[comment].type == 'MILESTONE' ){
+									return <%@include file="include/view_milestone.jsp" %>
 							  }
 						   })
 						}

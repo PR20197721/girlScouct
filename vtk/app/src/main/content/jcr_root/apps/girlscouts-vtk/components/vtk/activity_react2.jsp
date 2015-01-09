@@ -10,7 +10,7 @@ String aid = planView.getYearPlanComponent().getUid();
 
 %>
 
-<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+<!-- <script src="http://code.jquery.com/jquery-1.9.1.js"></script> -->
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 <script src="http://fb.me/react-0.12.1.js"></script>
@@ -92,21 +92,21 @@ String aid = planView.getYearPlanComponent().getUid();
       render: function() {
         return (
                <div>
-				<%@include file="include/meeting_navigator.jsp"%>
-				Name:{this.props.data.name}
-				<br/>Date: {this.props.data.date} -{this.props.data.endDate}
-				<br/>Time:
-				<br/>Age range: 
-				<br/>Location:{this.props.data.locationName} --- {this.props.data.locationAddress} -- {this.props.data.locationRef}
-				<br/>Cost: {this.props.data.cost}
-				<br/>Desc: {this.props.data.activityDescription}
-				<br/>Path: {this.props.data.path}
-				<br/>Uid: {this.props.data.uid}
-				<br/>Register Url{this.props.data.registerUrl}
-				<br/>Canceled:{this.props.data.cancelled}
-				<br/>IsEditable: {this.props.data.isEditable}
-				<br/><a href="javascript:rmCustActivity12(aPath)">delete this activity</a>
-			   </div>
+        				<%@include file="include/meeting_navigator.jsp"%>
+        				Name:{this.props.data.name}
+        				<br/>Date: {this.props.data.date} -{this.props.data.endDate}
+        				<br/>Time:
+        				<br/>Age range: 
+        				<br/>Location:{this.props.data.locationName} --- {this.props.data.locationAddress} -- {this.props.data.locationRef}
+        				<br/>Cost: {this.props.data.cost}
+        				<br/>Desc: {this.props.data.activityDescription}
+        				<br/>Path: {this.props.data.path}
+        				<br/>Uid: {this.props.data.uid}
+        				<br/>Register Url{this.props.data.registerUrl}
+        				<br/>Canceled:{this.props.data.cancelled}
+        				<br/>IsEditable: {this.props.data.isEditable}
+        				<br/><a href="javascript:rmCustActivity12(aPath)">delete this activity</a>
+			         </div>
         );
       }
     });

@@ -83,6 +83,8 @@ public class TroopDAOImpl implements TroopDAO {
 
 			ocm.refresh(true);
 			troop = (Troop) ocm.getObject( "/vtk/"+ councilId +"/troops/"+ troopId);
+	System.err.println("tata: "+ "/vtk/"+ councilId +"/troops/"+ troopId);
+	System.err.println("tata: "+ troop.getYearPlan().getCalFreq());
 			if( troop!=null)
 				troop.setRetrieveTime( new java.util.Date() );
 		
@@ -184,6 +186,8 @@ public class TroopDAOImpl implements TroopDAO {
 
 			Filter filter = queryManager.createFilter(YearPlan.class);
 			plan = (YearPlan) ocm.getObject(fmtYearPlanPath);
+			if( plan!=null && plan.getCalFreq()==null)
+				plan.setCalFreq("biweekly");
 /*
 			//System.err.println("Plan found..."+fmtYearPlanPath);
 			//System.err.println(plan.getMeetingEvents().size());
@@ -295,6 +299,7 @@ public class TroopDAOImpl implements TroopDAO {
 				
 				//modif 
 				try{
+System.err.println("MANUUUUUUU: "+ (modifiedChecker==null) );			
 					modifiedChecker.setModified(user.getSid(), troop.getYearPlan().getPath());
 				}catch(Exception em){em.printStackTrace();}
 			

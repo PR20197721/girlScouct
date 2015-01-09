@@ -9,9 +9,6 @@
 <%@include file="include/vtk-nav.jsp"%>
 
 
-
-
-
 <br/><br/><a href="/content/girlscouts-vtk/en/vtk.admin.troopPhoto.html">add/change a photo of your troop</a>
 
 <H3>INFO</H3>
