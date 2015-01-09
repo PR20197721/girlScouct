@@ -23,5 +23,4 @@
       <MeetingImg mid={obj[comment].meetingInfo.id}/>
     </div>
   </div>
-
 </li>

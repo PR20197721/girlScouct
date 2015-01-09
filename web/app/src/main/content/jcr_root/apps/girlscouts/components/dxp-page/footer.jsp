@@ -16,6 +16,7 @@ String footerPath = currentPage.getAbsoluteParent(2).getContentResource().getPat
 String logoPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
 %>
 <!-- web/app/src/main/content/jcr_root/apps/girlscouts/components/page/footer.jsp -->
+
 <div class="hide-for-print">
 	<div id="footer" class="hide-for-small row update-list-footer">
 		<% setCssClasses("large-24 medium-24 small-24 columns", request); %>
