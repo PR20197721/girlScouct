@@ -6,8 +6,7 @@
         String activeTab = "myTroop";
         boolean showVtkNav = true;
 %>
-<%@include file="include/vtk-nav.jsp"%>
-
+<%@include file="include/tab_navigation.jsp"%>
 
 <br/><br/><a href="/content/girlscouts-vtk/en/vtk.admin.troopPhoto.html">add/change a photo of your troop</a>
 

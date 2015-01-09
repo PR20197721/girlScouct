@@ -4,7 +4,7 @@
 <%@include file="include/session.jsp"%>
 <div id="errInfo"></div>
 <%
-        String activeTab = "finances";
+        String activeTab = "profile";
         boolean showVtkNav = true;
 %>
 <%@include file="include/tab_navigation.jsp"%>
