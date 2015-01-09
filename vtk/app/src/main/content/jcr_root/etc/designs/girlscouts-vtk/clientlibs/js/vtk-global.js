@@ -16,8 +16,10 @@ var $ = jQuery.noConflict();
 	}
 	function vtk_accordion() {
 		$('.accordion dt > :first-child').on('click', function() {
-			var target = $(this).parent().data('target')
+			var target = $(this).parent().data('target');
+			var toggle = $(this);
 			$('#' + target).slideToggle('slow');
+			$(toggle).toggleClass('on');
 			return false;
 			if($('.accordion .accordion-navigation').children(':visible').length == 0) {
 			 resizeWindow();

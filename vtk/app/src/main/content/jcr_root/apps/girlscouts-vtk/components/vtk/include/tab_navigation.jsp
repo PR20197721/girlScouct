@@ -31,7 +31,7 @@
     //if (troop.getYearPlan() != null) {
   %>
   <div class="row">
-    <div class="columns">
+    <div class="columns large-22 large-centered">
       <%
       //  }
       %>
