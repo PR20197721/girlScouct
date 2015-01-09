@@ -28,7 +28,8 @@
     String activeTab = "resource";
     boolean showVtkNav = true;
 %>
-<%@include file="include/vtk-nav.jsp"%>
+<%@include file="include/tab_navigation.jsp"%>
+<div id="panelWrapper" class="row content">
 <script>
 	var fixVerticalSizing = false;
 	$(function() {
@@ -208,6 +209,7 @@ try {
 	    }
 	}
 %>
+</div>
 <br/><br/>
 <%!
 	private long countAllChildren(Page page) {
