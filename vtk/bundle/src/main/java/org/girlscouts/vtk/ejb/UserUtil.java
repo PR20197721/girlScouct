@@ -48,6 +48,7 @@ public class UserUtil {
 	*/
 	public boolean isCurrentTroopId(Troop troop, String sId) {
 		
+if(true)return true;		
 		//System.err.println("Checking yp modif...."+ sId);
 		java.util.Date lastUpdate = yearPlanDAO.getLastModifByOthers(troop, sId);
 		//System.err.println("LastModif db: "+ lastUpdate);

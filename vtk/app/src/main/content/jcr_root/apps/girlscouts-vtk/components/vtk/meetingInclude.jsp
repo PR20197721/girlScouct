@@ -9,10 +9,10 @@
 	java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(troop.getYearPlan());
 	
 	try{
-		
 		if( troop.getYearPlan()!=null)
-		troop.getYearPlan().setMilestones( yearPlanUtil.getCouncilMilestones( ""+troop.getTroop().getCouncilCode() ) );
+			troop.getYearPlan().setMilestones( yearPlanUtil.getCouncilMilestones( ""+troop.getTroop().getCouncilCode() ) );
 	}catch(Exception e){e.printStackTrace();}
+	
 	if( troop.getYearPlan().getMilestones() ==null )
 		troop.getYearPlan().setMilestones(new java.util.ArrayList() );
 			

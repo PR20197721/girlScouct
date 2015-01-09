@@ -9,7 +9,7 @@
     
 	org.girlscouts.vtk.models.PlanView planView = meetingUtil.planView1(user, troop, request);
 	
-//out.println(planView.getYearPlanComponent().getType());
+
 
 	switch( planView.getYearPlanComponent().getType() ) {
 	  case MEETING:

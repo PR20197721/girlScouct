@@ -674,6 +674,25 @@ System.err.println("pulling...");
 							.getYearPlanSched(user,
 									troop.getYearPlan(), true, true);
 					
+					
+					//start milestone
+					try{
+						
+											
+					
+						if( troop.getYearPlan()!=null)
+							troop.getYearPlan().setMilestones( yearPlanUtil.getCouncilMilestones( ""+troop.getSfCouncil() ) );
+					}catch(Exception e){e.printStackTrace();}
+	System.err.println("TATA: "+troop.getYearPlan().getMilestones());				
+					if( troop.getYearPlan().getMilestones() ==null )
+						troop.getYearPlan().setMilestones(new java.util.ArrayList() );
+							
+					for(int i=0;i<troop.getYearPlan().getMilestones().size();i++)
+						sched.put( troop.getYearPlan().getMilestones().get(i).getDate(), troop.getYearPlan().getMilestones().get(i) );
+
+					//edn milestone
+					
+					
 					ObjectMapper mapper = new ObjectMapper();
 					out.println("{\"yearPlan\":\""+troop.getYearPlan().getName()+"\",\"schedule\":");
 					out.println(mapper.writeValueAsString(sched));

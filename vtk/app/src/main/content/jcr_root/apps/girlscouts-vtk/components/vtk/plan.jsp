@@ -106,6 +106,8 @@
 									return <%@include file="include/view_meeting.jsp" %> 
 							  }else if( obj[comment].type == 'ACTIVITY' ){
 									return <%@include file="include/view_activity.jsp" %>
+							  }else if( obj[comment].type == 'MILESTONE' ){
+									return <%@include file="include/view_milestone.jsp" %>
 							  }
 						   })
 						}
