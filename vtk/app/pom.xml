@@ -41,6 +41,11 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>beanutils-wrapper</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.day.cq.wcm</groupId>
             <artifactId>cq-wcm-api</artifactId>
             <version>5.6.6</version>
@@ -123,6 +128,11 @@
                         </embedded>
                         <embedded>
                             <groupId>${project.groupId}</groupId>
+                            <artifactId>beanutils-wrapper</artifactId>
+                            <target>/apps/girlscouts-vtk/install</target>
+                        </embedded>
+                        <embedded>
+                            <groupId>${project.groupId}</groupId>
                             <artifactId>modified-checker-bundle</artifactId>
                             <target>/apps/girlscouts-vtk/install</target>
                         </embedded>
@@ -158,6 +168,11 @@
                                     <embedded>
                                         <groupId>${project.groupId}</groupId>
                                         <artifactId>ical4j-wrapper</artifactId>
+                                        <target>/apps/girlscouts-vtk/install</target>
+                                    </embedded>
+                                    <embedded>
+                                        <groupId>${project.groupId}</groupId>
+                                        <artifactId>beanutils-wrapper</artifactId>
                                         <target>/apps/girlscouts-vtk/install</target>
                                     </embedded>
                                     <embedded>
