@@ -144,10 +144,10 @@ public class TroopUtil {
 		org.girlscouts.vtk.salesforce.Troop troop = new org.girlscouts.vtk.salesforce.Troop();
 		troop.setCouncilCode(603);
 		troop.setGradeLevel("1-Daisy");
-		troop.setTroopId("701G0000000v1B6IAI");
+		troop.setTroopId("701Z0000000gvRvIAI");
 		troop.setCouncilId("603");
 		troop.setTroopName("Troop00960");
-troop.setPermissionTokens(s);
+		troop.setPermissionTokens(s);
 		troops.add(troop);
 		config.setTroops(troops);
 

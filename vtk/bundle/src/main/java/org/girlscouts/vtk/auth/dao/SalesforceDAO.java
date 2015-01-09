@@ -284,11 +284,14 @@ public java.util.List <Troop>  troopInfo(ApiConfig apiConfig, String contactId){
 		
 	HttpClient httpclient = new HttpClient();
 	get= new GetMethod(apiConfig.getInstanceUrl()+ "/services/data/v20.0/query");
+	
 	// THIS IS STABLE / DO NOT REMOVE 
-	//-get.setRequestHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
+	//get.setRequestHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
 
 	UserGlobConfig ubConf = troopDAO.getUserGlobConfig(); //new UserDAOImpl().getUserGlobConfig();
 	get.setRequestHeader("Authorization", "OAuth " + ubConf.getMasterSalesForceToken());
+
+System.err.println("Master token: "+ ubConf.getMasterSalesForceToken() );
 
 	
 	NameValuePair[] params = new NameValuePair[1];
@@ -314,7 +317,10 @@ public java.util.List <Troop>  troopInfo(ApiConfig apiConfig, String contactId){
 							"  Parent.Program_Grade_Level__c IN ('1-Daisy','2-Brownie','3-Junior')");
 							//" (parent.program_grade_level__c like '1-%' or parent.program_grade_level__c like '2-%' or parent.program_grade_level__c like '3-%')");
 
-	
+	System.err.println(" ctest : SELECT parentid,parent.name,parent.program_grade_level__c, parent.council_code__c, parent.account__c FROM campaign " +
+			"WHERE id IN (SELECT campaignid from campaignmember where  contactid='"+ contactId +"' and active__c = true)  " +
+			"AND job_code__c = 'DP' and" +
+			"  Parent.Program_Grade_Level__c IN ('1-Daisy','2-Brownie','3-Junior')");
 	
 		
 	

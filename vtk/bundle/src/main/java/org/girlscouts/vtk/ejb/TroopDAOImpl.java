@@ -295,6 +295,7 @@ public class TroopDAOImpl implements TroopDAO {
 				
 				//modif 
 				try{
+System.err.println("MANUUUUUUU: "+ (modifiedChecker==null) );			
 					modifiedChecker.setModified(user.getSid(), troop.getYearPlan().getPath());
 				}catch(Exception em){em.printStackTrace();}
 			
