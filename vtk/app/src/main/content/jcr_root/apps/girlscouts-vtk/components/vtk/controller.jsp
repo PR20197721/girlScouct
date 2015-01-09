@@ -648,7 +648,7 @@ System.err.println("CGG: "+request.getParameter("isFirst") +" : "+ isFirst );
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			isCng=true;
+			//isCng=true;
 System.err.println("CHK1: " + isFirst + " : "+ isCng+" : "+ request.getParameter("isActivNew"));
 			if (isFirst || isCng || request.getParameter("isActivNew") != null) {
 System.err.println("CHK: " + isFirst + " : "+ isCng+" : "+ request.getParameter("isActivNew"));

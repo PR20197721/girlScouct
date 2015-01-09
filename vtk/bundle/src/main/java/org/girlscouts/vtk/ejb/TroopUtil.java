@@ -109,6 +109,11 @@ public class TroopUtil {
 				}
 			}
 			*/
+		
+		
+		if( troop.getYearPlan()!=null && troop.getYearPlan().getCalFreq()==null)
+			troop.getYearPlan().setCalFreq("biweekly");
+		
 		return troop;
 		
 		

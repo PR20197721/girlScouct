@@ -25,6 +25,11 @@
 		<div class="small-24 medium-4 large-4 columns"><label for="calFreq" ACCESSKEY=f>Frequency:</label></div>
 		<div class="small-24 medium-8 large-8 columns">
 			<select id="calFreq">
+<%
+System.err.println("tata44: "+ (troop==null));
+System.err.println("tata44: "+ (troop.getYearPlan()==null));
+System.err.println("tata44: "+ (troop.getYearPlan().getCalFreq()==null));
+%>			
 				<option value="weekly" <%= troop.getYearPlan().getCalFreq().equals("weekly") ? " SELECTED" : "" %>>weekly</option>
 				<option value="biweekly"  <%= troop.getYearPlan().getCalFreq().equals("biweekly") ? " SELECTED" : "" %>>biweekly</option>
 				<option value="monthly"  <%= troop.getYearPlan().getCalFreq().equals("monthly") ? " SELECTED" : "" %>>monthly</option>
