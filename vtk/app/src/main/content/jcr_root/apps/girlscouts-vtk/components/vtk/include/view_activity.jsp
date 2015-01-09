@@ -16,6 +16,18 @@
       	<ViewMeeting date={comment} name={obj[comment].name}/>
       </p>
      	<p>{obj[comment].activityDescription}</p>
+     	<p>
+     		LOCATION NAME--> {obj[comment].locationName}
+     		
+        				<br/>Location:{obj[comment].locationName} --- {obj[comment].locationAddress} -- {obj[comment].locationRef}
+        				<br/>Cost: {obj[comment].cost}
+        				<br/>Desc: {obj[comment].activityDescription}
+        				<br/>Path: {obj[comment].path}
+        				<br/>Uid: {obj[comment].uid}
+        				<br/>Register Url{obj[comment].registerUrl}
+        				<br/>Canceled:{obj[comment].cancelled}
+        				<br/>IsEditable: {obj[comment].isEditable}
+     	</p>
     </div>
     <div className="large-2 medium-2 columns hide-for-small">
  
