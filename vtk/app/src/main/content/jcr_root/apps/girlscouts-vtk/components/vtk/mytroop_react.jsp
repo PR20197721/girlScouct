@@ -21,37 +21,55 @@
 <%@include file="include/tab_navigation.jsp"%>
 
 <div id="panelWrapper" class="row content">
+
+<%@include file="include/utility_nav.jsp"%>
+
+  <img class="hero-image" src="/etc/designs/girlscouts-vtk/images/mytroop_text.png" alt="my troop" />
   <div class="column large-24 large-centered">
 
     <dl class="accordion" data-accordion>
-      <dt data-target="panel1"><h3>TROOP 123 Info</h3><a href="mailto:adulfan@gmail.com">email to (n)</a></dt>
+      <dt data-target="panel1"><h3 class="on"><%=troop.getSfTroopName() %> INFO</h3><a href="mailto:adulfan@gmail.com"><i class="icon icon-mail"></i>email to 15 contacts</a></dt>
       <dd class="accordion-navigation">
         <div class="content active" id="panel1">
           <div class="row">
-            <div class="column large-23 large-centered">
-              <dl class="accordion" data-accordion>
+            <div class="column large-20 large-centered">
+              
                 <% for(int i=0; i<contacts.size(); i++) { 
                     org.girlscouts.vtk.models.Contact contact = contacts.get(i);
-                    out.println(contacts);
                 %>
-                <dt data-target="panel<%=i+1%>b">
-                  <p class="name"><%=contact.getFirstName() %></p>
-                  <a href="mailto:<%=contact.getEmail() %>"><%=contact.getEmail() %></a>
-                  <a href="tel:+<%=contact.getPhone() %>"><%=contact.getPhone() %></a>
-                </dt>
-                <dd class="accordion-navigation">
-                  <div id="panel<%=i+1%>b" class="content">
-                      
-                  </div>
-                </dd>
+                <div class="row">
+                  <dl class="accordion-inner" data-accordion>
+                    <dt data-target="panel<%=i+1%>b" class="clearfix">
+                      <span class="name column large-6"><%=contact.getFirstName() %></span>
+                      <span class="name column large-4">Jack Berger</span>
+                      <a class="column large-8" href="mailto:<%=contact.getEmail() %>">
+                        <i class="icon icon-mail"></i><%=contact.getEmail() %>
+                      </a>
+                      <span class="column large-4"><%=contact.getPhone() %></span>
+                    </dt>
+                    <dd class="accordion-navigation">
+                      <div id="panel<%=i+1%>b" class="content">
+                        <ul class="column large-4">
+                          <li>DOB: 9/1/2004</li>
+                          <li>AGE: 10</li>
+                        </ul>
+                        <ul class="column large-18">
+                          <li><address>1 Main St. Apt 5B<br/>Cleveland, OH<br/>00000</address></li>
+                        </ul>
+                      </div>
+                    </dd>
+                  </dl>
+                </div>
                 <%}//end for %>
-              </dl>
+              
             </div>
           </div>
         </div>
       </dd>
 
-      <dt data-target="panel2"><h3>TROOP 123 Info</h3><a href="mailto:adulfan@gmail.com">email</a></dt>
+      
+      <!-- 
+      <dt data-target="panel2"><h3><%=troop.getSfTroopName() %> VOLUNTEERS</h3><a href="mailto:adulfan@gmail.com">email to 10 contacts</a></dt>
       <dd class="accordion-navigation">
         <div class="content" id="panel2">
           <div class="row">
@@ -74,7 +92,7 @@
                   <div id="panel3b" class="content">
                     Panel 3. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                   </div>
-                </dd>
+                </dd> -->
               </dl>
             </div>
           </div>

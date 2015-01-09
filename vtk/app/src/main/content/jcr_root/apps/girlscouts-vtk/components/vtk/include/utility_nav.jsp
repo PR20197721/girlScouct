@@ -15,7 +15,7 @@
           <% } %>
           <!-- if on a My Troop page-->
 		  <% if("myTroop".equals(activeTab)) { %>
-          <li><a data-reveal-id="modal_update_photo" title="update photo">add/change a photo of your troop</a></li>
+          <li><a data-reveal-id="modal_upload_image" title="update photo">add/change a photo of your troop</a></li>
           <% } %>
         </ul>
       </div>
