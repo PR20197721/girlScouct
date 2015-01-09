@@ -620,6 +620,12 @@ System.err.println("CGG: "+request.getParameter("isFirst") +" : "+ isFirst );
 			try {
 
 				if (!isFirst) {
+					
+	System.err.println("Checking for updates...");
+			System.err.println("http://localhost:4503/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid=X"
+					+ session.getId() + "&ypid="
+					+ troop.getYearPlan().getPath()
+					+ "&d=");
 					java.net.URL tata = new java.net.URL(
 							"http://localhost:4503/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid=X"
 									+ session.getId() + "&ypid="
@@ -642,15 +648,16 @@ System.err.println("CGG: "+request.getParameter("isFirst") +" : "+ isFirst );
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-
-			if (isFirst || isCng) {
-System.err.println("CHK: " + isFirst + " : "+ isCng);
+			//isCng=true;
+System.err.println("CHK1: " + isFirst + " : "+ isCng+" : "+ request.getParameter("isActivNew"));
+			if (isFirst || isCng || request.getParameter("isActivNew") != null) {
+System.err.println("CHK: " + isFirst + " : "+ isCng+" : "+ request.getParameter("isActivNew"));
 				if (request.getParameter("isActivNew") != null
 						&& request.getParameter("isActivNew").equals(
 								"1")) {
 					out.println("[{\"yearPlan\":\""+troop.getYearPlan().getName()+"\",\"schedule\":null}]");
 				} else {
-					System.err.println("pulling...");
+System.err.println("pulling...");
 
 					org.girlscouts.vtk.salesforce.Troop prefTroop = apiConfig.getTroops().get(0);
 					for (int ii = 0; ii < apiConfig.getTroops().size(); ii++){
@@ -660,9 +667,9 @@ System.err.println("CHK: " + isFirst + " : "+ isCng);
 				  		}
 					  }
 					
-		System.err.println("TESTTR" + prefTroop.getCouncilCode()+" :"+ prefTroop.getTroopId())	;		
+		//System.err.println("TESTTR" + prefTroop.getCouncilCode()+" :"+ prefTroop.getTroopId())	;		
 					troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
-		System.err.println("TESTTR: "+ (troop==null) );			
+		//System.err.println("TESTTR: "+ (troop==null) );			
 					java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil
 							.getYearPlanSched(user,
 									troop.getYearPlan(), true, true);
