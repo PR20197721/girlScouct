@@ -27,9 +27,9 @@ String mid = planView.getYearPlanComponent().getUid();
 
 		<h1>Add New Agenda Item</h1>
 
-		Enter Agenda Item Name:<br /> <input type="text"
-			id="newCustAgendaName" value="" /> <br />Time Allotment: <select
-			id="newCustAgendaDuration">
+		Enter Agenda Item Name:<br />
+    <input type="text" id="newCustAgendaName" value="" /> <br />Time Allotment:
+    <select id="newCustAgendaDuration">
 			<option value="5">5</option>
 			<option value="10">10</option>
 			<option value="15">15</option>
