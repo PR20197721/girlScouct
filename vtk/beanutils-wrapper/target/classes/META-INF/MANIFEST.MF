@@ -1,7 +1,13 @@
 Manifest-Version: 1.0
+<<<<<<< HEAD
 Bnd-LastModified: 1420828914698
 Build-Jdk: 1.6.0_65
 Built-By: akobovich
+=======
+Bnd-LastModified: 1420816785536
+Build-Jdk: 1.7.0_67
+Built-By: adulfan
+>>>>>>> 90184c3f1373a3826233e613a6d54deb700d4303
 Bundle-ClassPath: .,commons-beanutils-1.9.2.jar,commons-logging-1.1.1.ja
  r,commons-collections-3.2.1.jar
 Bundle-Description: Maven Multimodule project for Girl Scouts Volunteer 

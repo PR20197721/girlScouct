@@ -39,7 +39,7 @@
       <dl class="tabs">
       <% if(hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
           <dd <%= "myTroop".equals(activeTab) ? "class='active'" : "" %>>
-            <a href="/content/girlscouts-vtk/en/vtk.myTroop.html">My Troop</a>
+            <a href="/content/girlscouts-vtk/en/vtk.mytroop_react.html">My Troop</a>
           </dd>
       <% } %>
       <% if(hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID)) { %>
@@ -50,7 +50,7 @@
       <% } %>
       <% if(hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) { %>
         <dd <%= "planView".equals(activeTab) ? "class='active'" : "" %>>
-           <a <%= troop.getYearPlan() != null ? "href='/content/girlscouts-vtk/en/vtk.meeting_react2.html'" :  "href='#' onClick='alert(\"Please select a year plan\")'"  %>>Meeting Plan</a>
+           <a <%= troop.getYearPlan() != null ? "href='/content/girlscouts-vtk/en/vtk.details.html'" :  "href='#' onClick='alert(\"Please select a year plan\")'"  %>>Meeting Plan</a>
         </dd>
       <%  } %>
         <dd <%= "resource".equals(activeTab) ? "class='active'" : "" %>>
