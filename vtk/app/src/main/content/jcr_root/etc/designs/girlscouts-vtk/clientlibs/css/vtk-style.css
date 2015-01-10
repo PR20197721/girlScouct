@@ -399,6 +399,9 @@
       text-transform: uppercase;
       font-size: 24px;
       display: inline-block; }
+    .vtk-body .modalWrap .header span {
+      text-align: right;
+      margin-top: 10px; }
     .vtk-body .modalWrap .header a,
     .vtk-body .modalWrap .header [class*=" icon-"],
     .vtk-body .modalWrap .header [class^="icon-"] {
@@ -406,9 +409,37 @@
       text-align: right;
       top: 0;
       right: 0;
-      outline: none; }
+      outline: none;
+      vertical-align: middle; }
     .vtk-body .modalWrap .header * {
       color: #fff; }
+  .vtk-body .modalWrap .content a {
+    color: #00ae57; }
+  .vtk-body .modalWrap .content .title {
+    text-transform: uppercase;
+    margin: 0; }
+  .vtk-body .modalWrap .meeting-library {
+    background: #fff;
+    padding: 20px 40px; }
+    .vtk-body .modalWrap .meeting-library table {
+      border: none; }
+    .vtk-body .modalWrap .meeting-library a {
+      position: relative;
+      padding-right: 15px;
+      white-space: nowrap;
+      text-transform: uppercase; }
+      .vtk-body .modalWrap .meeting-library a:after {
+        border-style: solid;
+        content: "";
+        border-width: 5px;
+        display: block;
+        position: absolute;
+        margin-top: -5px;
+        top: 50%;
+        border-color: transparent transparent transparent #00ae58;
+        right: 0; }
+    .vtk-body .modalWrap .meeting-library .included {
+      font-size: 10px; }
   .vtk-body .modalWrap .tabs-wrapper {
     background: #D9D9D9;
     padding: 20px 10px; }
@@ -420,11 +451,6 @@
       background: #fff;
       padding: 30px 20px 60px 20px;
       margin: 0; }
-      .vtk-body .modalWrap .tabs-wrapper .tabs-content [class^="icon-"],
-      .vtk-body .modalWrap .tabs-wrapper .tabs-content [class*=" icon-"] {
-        font-size: 27px;
-        color: #00ae57;
-        vertical-align: middle; }
       .vtk-body .modalWrap .tabs-wrapper .tabs-content table {
         width: 100%;
         border: none; }
@@ -435,8 +461,11 @@
       .vtk-body .modalWrap .tabs-wrapper .tabs-content #manageLocationSection,
       .vtk-body .modalWrap .tabs-wrapper .tabs-content #manageActivitySection {
         display: none; }
-      .vtk-body .modalWrap .tabs-wrapper .tabs-content a {
-        color: #00ae57; }
+    .vtk-body .modalWrap .tabs-wrapper [class^="icon-"],
+    .vtk-body .modalWrap .tabs-wrapper [class*=" icon-"] {
+      font-size: 27px;
+      color: #00ae57;
+      vertical-align: middle; }
   .vtk-body .modalWrap .btn {
     text-transform: uppercase;
     color: #fff;

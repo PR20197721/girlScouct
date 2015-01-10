@@ -534,6 +534,10 @@
         font-size: 24px;
         display: inline-block;
       }
+      span {
+        text-align:right;
+        margin-top:10px;
+      }
       a,
       [class*=" icon-"],
       [class^="icon-"] {
@@ -542,9 +546,46 @@
         top: 0;
         right: 0;
         outline: none;
+        vertical-align:middle;
       }
       * {
         color: #fff;
+      }
+    }
+    .content {
+      a {
+        color: #00ae57;
+      }
+      .title {
+        text-transform: uppercase;
+        margin:0;
+      }
+    }
+    .meeting-library {
+      background: #fff;
+      padding: 20px 40px;
+      table {
+        border:none;
+      }
+      a {
+        position: relative;
+        padding-right: 15px;
+        white-space: nowrap;
+        text-transform: uppercase;
+        &:after {
+          border-style: solid;
+          content: "";
+          border-width: 5px;
+          display: block;
+          position: absolute;
+          margin-top: -5px;
+          top: 50%;
+          border-color: transparent transparent transparent #00ae58;
+          right:0;
+        }
+      }
+      .included {
+        font-size:10px;
       }
     }
     .tabs-wrapper {
@@ -561,12 +602,6 @@
         background: #fff;
         padding: 30px 20px 60px 20px;
         margin: 0;
-        [class^="icon-"],
-        [class*=" icon-"] {
-          font-size:27px;
-          color: #00ae57;
-          vertical-align:middle;
-        }
         table {
           width: 100%;
           border:none;
@@ -580,9 +615,12 @@
         #manageActivitySection {
           display:none;
         }
-        a {
-          color: #00ae57;
-        }
+      }
+      [class^="icon-"],
+      [class*=" icon-"] {
+        font-size:27px;
+        color: #00ae57;
+        vertical-align:middle;
       }
     }
     .btn {
