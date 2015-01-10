@@ -387,7 +387,9 @@
   padding: 0;
   border-radius: 0;
   border: 0;
-  font-size: 14px; }
+  font-size: 14px;
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.7); }
   .vtk-body .modalWrap #gsModal {
     padding: 0; }
   .vtk-body .modalWrap .header {
@@ -422,6 +424,13 @@
         font-size: 27px;
         color: #00ae57;
         vertical-align: middle; }
+      .vtk-body .modalWrap .tabs-wrapper .tabs-content table {
+        width: 100%;
+        border: none; }
+        .vtk-body .modalWrap .tabs-wrapper .tabs-content table td,
+        .vtk-body .modalWrap .tabs-wrapper .tabs-content table tr {
+          padding: 0.5625rem 0;
+          background: none; }
 .vtk-body .hero-image {
   margin-bottom: 10px; }
 .vtk-body .crumbs .columns #util-links.inline-list {

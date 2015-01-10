@@ -1,6 +1,5 @@
 
-<input type="button" value="Click here to change your recurring meeting date and time." name="" onclick="showAlterYearPlanStartDate()" class="button" />
-<p>Or select a calendar icon below to change the date, time, or to cancel a specific meeting</p>
+<!-- <input type="button" value="Click here to change your recurring meeting date and time." name="" onclick="showAlterYearPlanStartDate()" class="button" /> -->
 
 
 <%
@@ -14,21 +13,21 @@ java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().get
     <td><span>1</span></td>
     <td><span>1 Sep 15, 2014, 3:00PM</span></td>
     <td><span>This represents the Meeting Title Meeting Title Meeting Title</span></td>
-    <td> <a href="#nogo" title="settings"><i class="icon-gear"></i></a></td>
+    <td> <a onclick="showAlterYearPlanStartDate()" title="settings"><i class="icon-gear"></i></a></td>
   </tr>
   <tr>
     <td><a href="#nogo" title="calendar"><i class="icon-calendar"></i></a></td>
     <td><span>1</span></td>
     <td><span>1 Sep 15, 2014, 3:00PM</span></td>
     <td><span>This represents the Meeting Title Meeting Title Meeting Title</span></td>
-    <td> <a href="#nogo" title="settings"><i class="icon-gear"></i></a></td>
+    <td> <a onclick="showAlterYearPlanStartDate()" title="settings"><i class="icon-gear"></i></a></td>
   </tr>
   <tr>
     <td><a href="#nogo" title="calendar"><i class="icon-calendar"></i></a></td>
     <td><span>1</span></td>
     <td><span>1 Sep 15, 2014, 3:00PM</span></td>
     <td><span>This represents the Meeting Title Meeting Title Meeting Title</span></td>
-    <td> <a href="#nogo" title="settings"><i class="icon-gear"></i></a></td>
+    <td> <a onclick="showAlterYearPlanStartDate()" title="settings"><i class="icon-gear"></i></a></td>
   </tr>
 </table>
 
@@ -46,27 +45,16 @@ while( itr.hasNext() ){
 	MeetingE meeting = (MeetingE)sched.get(date);
 	currentMeeting++;
 %>
-<% if( date.after(new java.util.Date() )){ %>
-        <tr onclick="manageCalElem('<%=date.getTime()%>');">
-<% }else{ %>
 	<tr>
-<% } %>
-		<td width="26">
-<% if( date.after(new java.util.Date() )){ %>
-			<a href="#" onclick="manageCalElem('<%=date.getTime()%>')">
-				<img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/calendar-pick.png" alt="Calender" width="22" height="22"/>
-			</a>
-<% }else{ %>
-        <img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/calendar-pick-past.png" alt="Calender Expired" width="22" height="22"/>
-<% } %>
-		</td>
-		<td width="5"><%=currentMeeting %></td>
-		<td><%= FORMAT_CALENDAR_DATE.format( date ) %></td>
-		<td><%= yearPlanUtil.getMeeting( user, meeting.getRefId() ).getName() %>
-			<%if( meeting.getCancelled()!=null && meeting.getCancelled().equals("true")){%>
+	  <td><a onclick="manageCalElem('<%=date.getTime()%>');" title="calendar"><i class="icon-calendar"></i></a></td>
+	  <td><span><%=currentMeeting %></span></td>
+	  <td><span><%= FORMAT_CALENDAR_DATE.format( date ) %></span></td>
+	  <td><span><%= yearPlanUtil.getMeeting( user, meeting.getRefId() ).getName() %>
+			<%if( meeting.getCancelled()!=null && meeting.getCancelled().equals("true")) { %>
 				<span class="alert">(Cancelled)</span>
-			<%} %>
-		</td>
+			<% } %></span></td>
+	  <td><a onclick="showAlterYearPlanStartDate()" title="settings"><i class="icon-gear"></i></a></td>
 	</tr>
+
 <% }%>
 </table>

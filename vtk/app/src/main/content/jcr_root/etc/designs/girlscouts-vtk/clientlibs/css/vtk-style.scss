@@ -521,6 +521,8 @@
     border-radius:0;
     border:0;
     font-size: 14px;
+    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.7);
     #gsModal {
       padding:0;
     }
@@ -563,6 +565,15 @@
           font-size:27px;
           color: #00ae57;
           vertical-align:middle;
+        }
+        table {
+          width: 100%;
+          border:none;
+          td,
+          tr {
+            padding:0.5625rem 0;
+            background: none;
+          }
         }
       }
     }

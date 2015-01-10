@@ -74,7 +74,7 @@
         if (troop.getYearPlan() != null) {
       %>
         <div id="manageCalendarSection">
-          <div class="sectionBar">Manage Calendar</div>
+         <!--  <div class="sectionBar">Manage Calendar</div> -->
           <div id="calMng">
             <%
               if( troop.getYearPlan().getSchedule() == null ) {
