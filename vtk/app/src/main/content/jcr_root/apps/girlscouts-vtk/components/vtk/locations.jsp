@@ -55,7 +55,7 @@
     
     <dl class="tabs" data-tab>
       <dd id="manageCalendarTab" class="active manageCalendarTab"><a href="#" onclick="toggleSection('calendar')">Calendar</a></dd>
-      <dd id="manageLocationTab" class="manageCalendarTab"><a href="#" onclick="toggleSection('location')">Location</a></dd>
+      <dd id="manageLocationTab" class="manageCalendarTab" ><a href="#" onclick="toggleSection('location')">Location</a></dd>
       <dd id="manageActivityTab" class="manageCalendarTab"><a href="#" onclick="toggleSection('activity')">Activities</a></dd>
     </dl>
 
@@ -69,23 +69,25 @@
     </div> -->
     <div class="tabs-content">
       <div class="small-24 medium-24 large-24 columns">
-      <%
-        if (troop.getYearPlan() != null) {
-      %>
-        <div id="manageCalendarSection">
-         <!--  <div class="sectionBar">Manage Calendar</div> -->
-          <div id="calMng">
-            <%
-              if( troop.getYearPlan().getSchedule() == null ) {
-              %>
-            <%@include file="include/calSched.jsp" %>
-            <%
-              }else{
-            %>
-            <%@include file="include/calList.jsp" %>
-            <% } %>
+        <%
+          if (troop.getYearPlan() != null) {
+        %>
+          <div id="manageCalendarSection">
+          <div class="content clearfix active row" id="panel1">
+           <!--  <div class="sectionBar">Manage Calendar</div> -->
+            <div id="calMng">
+              <%
+                if( troop.getYearPlan().getSchedule() == null ) {
+                %>
+                <%@include file="include/calSched.jsp" %>
+                <%
+                  }else{
+                %>
+                <%@include file="include/calList.jsp" %>
+                <% } %>
+              </div>
+            </div>
           </div>
-        </div>
           <div id="manageLocationSection">
             <%
               if( false) {//troop.getYearPlan().getSchedule() == null ){

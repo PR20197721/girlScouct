@@ -435,6 +435,8 @@
       .vtk-body .modalWrap .tabs-wrapper .tabs-content #manageLocationSection,
       .vtk-body .modalWrap .tabs-wrapper .tabs-content #manageActivitySection {
         display: none; }
+      .vtk-body .modalWrap .tabs-wrapper .tabs-content a {
+        color: #00ae57; }
   .vtk-body .modalWrap .btn {
     text-transform: uppercase;
     color: #fff;
