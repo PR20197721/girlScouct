@@ -37,7 +37,7 @@
                     org.girlscouts.vtk.models.Contact contact = contacts.get(i);
                 %>
                 <div class="row">
-                  <dl class="accordion-inner" data-accordion>
+                  <dl class="accordion-inner clearfix" data-accordion>
                     <dt data-target="panel<%=i+1%>b" class="clearfix">
                       <span class="name column large-6"><%=contact.getFirstName() %></span>
                       <span class="name column large-4">Jack Berger</span>
