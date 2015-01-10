@@ -6,32 +6,6 @@
 java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(troop.getYearPlan());
 %>
 <div id="locMsg"></div>
-
-<table>
-  <tr>
-    <td><a href="#nogo" title="calendar"><i class="icon-calendar"></i></a></td>
-    <td><span>1</span></td>
-    <td><span>1 Sep 15, 2014, 3:00PM</span></td>
-    <td><span>This represents the Meeting Title Meeting Title Meeting Title</span></td>
-    <td> <a onclick="showAlterYearPlanStartDate()" title="settings"><i class="icon-gear"></i></a></td>
-  </tr>
-  <tr>
-    <td><a href="#nogo" title="calendar"><i class="icon-calendar"></i></a></td>
-    <td><span>1</span></td>
-    <td><span>1 Sep 15, 2014, 3:00PM</span></td>
-    <td><span>This represents the Meeting Title Meeting Title Meeting Title</span></td>
-    <td> <a onclick="showAlterYearPlanStartDate()" title="settings"><i class="icon-gear"></i></a></td>
-  </tr>
-  <tr>
-    <td><a href="#nogo" title="calendar"><i class="icon-calendar"></i></a></td>
-    <td><span>1</span></td>
-    <td><span>1 Sep 15, 2014, 3:00PM</span></td>
-    <td><span>This represents the Meeting Title Meeting Title Meeting Title</span></td>
-    <td> <a onclick="showAlterYearPlanStartDate()" title="settings"><i class="icon-gear"></i></a></td>
-  </tr>
-</table>
-
-
 <table cellpadding="5" cellspacing="0" class="yearMeetingList" width="100%">
 <%
 int currentMeeting=0;
