@@ -79,6 +79,12 @@ public class TroopUtil {
 
 			Comparator<MeetingE> comp = new BeanComparator("id");
 			Collections.sort(troop.getYearPlan().getMeetingEvents(), comp);
+			
+			for(int i=0;i<troop.getYearPlan().getMeetingEvents().size();i++){
+				troop.getYearPlan().getMeetingEvents().get(i).setId(i);
+			}
+			//troopDAO.updateTroop(user, troop);
+			
 		}
 
 		if (troop.getYearPlan() == null)
