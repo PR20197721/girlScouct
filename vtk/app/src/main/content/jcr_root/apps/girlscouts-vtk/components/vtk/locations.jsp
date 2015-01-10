@@ -86,6 +86,7 @@
             <% } %>
           </div>
         </div>
+<%--
           <div id="manageLocationSection">
             <%
               if( false) {//troop.getYearPlan().getSchedule() == null ){
@@ -99,6 +100,7 @@
             		}
             %>
           </div>
+--%>
           <div id="manageActivitySection">
             <%
               if( false) {// troop.getYearPlan().getSchedule() == null ){
