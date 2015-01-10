@@ -39,16 +39,25 @@
           cache: false,
           success: function(data) {
           	this.setState({data:data});
+
+		if( isActivNew ==1 ){
+    		isActivNew=2;
+    	}else if( isActivNew ==2 ){
+    		isActivNew=0;
+    	}
+
       	  }.bind(this),
           error: function(xhr, status, err) {
             //-console.error(this.props.url, status, err.toString());
           }.bind(this)
         });
+/*
     	if( isActivNew ==1 ){
     		isActivNew=2;
     	}else if( isActivNew ==2 ){
     		isActivNew=0;
     	}
+*/
      },
       getInitialState: function() {
         return {data: []};
@@ -121,6 +130,7 @@
         },
     onReorder: function(order) {
 		isActivNew=1;
+alert(1);
     },
     componentDidMount: function() {
         var dom = $(this.getDOMNode());
@@ -128,7 +138,8 @@
         dom.sortable({
           stop: function (event, ui) {
             var order = dom.sortable("toArray", {attribute: "id"});
-            var yy  = order.toString().replace('"','');    		
+            var yy  = order.toString().replace('"',''); 
+	
 			doUpdMeeting1(yy);
             onReorder(order);
           }

@@ -19,8 +19,14 @@ try{
 	if( aContr!=null)
 	  switch(aContr){
 		case ChangeMeetingPositions:
-System.err.println("changing... "+ request.getParameter("isMeetingCngAjax") );			
-	meetingUtil.changeMeetingPositions( user, troop, request.getParameter("isMeetingCngAjax") );
+System.err.println("changing... "+ request.getParameter("isMeetingCngAjax") );	
+String x= request.getParameter("isMeetingCngAjax");
+while( x.indexOf(",,")!=-1 ){
+	x= x.replaceAll(",,",",");
+}
+System.err.println("changing new... "+ x );	
+	meetingUtil.changeMeetingPositions( user, troop, x );
+	//meetingUtil.changeMeetingPositions( user, troop, request.getParameter("isMeetingCngAjax") );
 	    	return;
 		case CreateActivity:
 	yearPlanUtil.createActivity(user, troop, new Activity( 
@@ -566,7 +572,7 @@ Troop x= (Troop)session.getAttribute("VTK_troop");
 		
 		
 		troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
-		session.putValue("VTK_troop", troop);
+		//session.putValue("VTK_troop", troop);
 		PlanView planView = meetingUtil.planView(user, troop, request);
 	
 		
@@ -603,7 +609,14 @@ System.err.println("ISACTIV......... "+request.getParameter("isActiv"));
 		}
 		
 		
-	
+		troop.setTroop(prefTroop);
+		troop.setSfTroopId(troop.getTroop().getTroopId());
+		troop.setSfUserId( user.getApiConfig().getUserId() ); 
+		troop.setSfTroopName(troop.getTroop().getTroopName());
+		troop.setSfTroopAge(troop.getTroop().getGradeLevel());
+		troop.setSfCouncil(troop.getTroop().getCouncilCode() + "");					
+session.putValue("VTK_troop", troop);	
+					
 		ObjectMapper mapper = new ObjectMapper();
 		out.println(mapper.writeValueAsString(troop));
 		
@@ -622,7 +635,7 @@ System.err.println("CGG: "+request.getParameter("isFirst") +" : "+ isFirst );
 
 				if (!isFirst) {
 					
-	System.err.println("Checking for updates...");
+	System.err.println("Checking for updates..."+(troop.getYearPlan()==null));
 			System.err.println("http://localhost:4503/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid=X"
 					+ session.getId() + "&ypid="
 					+ troop.getYearPlan().getPath()
@@ -672,7 +685,7 @@ System.err.println("pulling...");
 					troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
 		//System.err.println("TESTTR: "+ (troop==null) );			
 					
-		session.putValue("VTK_troop", troop);
+		
 					java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil
 							.getYearPlanSched(user,
 									troop.getYearPlan(), true, true);
@@ -695,6 +708,14 @@ System.err.println("pulling...");
 
 					//edn milestone
 					
+					
+		troop.setTroop(prefTroop);
+		troop.setSfTroopId(troop.getTroop().getTroopId());
+		troop.setSfUserId( user.getApiConfig().getUserId() ); 
+		troop.setSfTroopName(troop.getTroop().getTroopName());
+		troop.setSfTroopAge(troop.getTroop().getGradeLevel());
+		troop.setSfCouncil(troop.getTroop().getCouncilCode() + "");					
+session.putValue("VTK_troop", troop);	
 					
 					ObjectMapper mapper = new ObjectMapper();
 					out.println("{\"yearPlan\":\""+troop.getYearPlan().getName()+"\",\"schedule\":");
@@ -746,7 +767,7 @@ System.err.println("pulling...");
 		
 		Activity currentActivity= null;
 		troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
-		session.putValue("VTK_troop", troop);
+		//session.putValue("VTK_troop", troop);
 		java.util.List<Activity> activities = troop.getYearPlan().getActivities();
 		for(int i=0;i<activities.size();i++){
 			if( activities.get(i).getUid().equals(request.getParameter("reactActivity")) )

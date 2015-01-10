@@ -69,16 +69,24 @@ String mid = planView.getYearPlanComponent().getUid();
         this.setState({ show: !this.state.show });
       },
       render: function() {
-       var scheduleDates = this.props.schedule.dates;
+       var scheduleDates =null;
+		if( this.props.schedule!=null){
+			scheduleDates= this.props.schedule.dates;
+		}
        
        var commentNodes = this.props.data.map(function (comment ,i ) {
        
        if(comment.uid=='<%=mid%>') {
         
         if( scheduleDates !=null ) {
-      		var scheduleDatesArray = scheduleDates.split(',');
+      		
+			var scheduleDatesArray = scheduleDates.split(',');
       		thisMeetingDate =  scheduleDatesArray[comment.id] ;
-    	  } 
+			
+			
+    	  } else{ 
+			thisMeetingDate=new Date('<%=planView.getSearchDate()%>');
+		  }
 
       	thisMeetingRefId  = comment.refId;
       	thisMeetingPath  = comment.path;
@@ -184,16 +192,27 @@ String mid = planView.getYearPlanComponent().getUid();
           cache: false,
           success: function(data) {
           	this.setState({data:data.yearPlan});
+
+		if( isActivNew ==1 ){
+    		isActivNew=2;
+    	}else if( isActivNew ==2 ){
+    		isActivNew=0;
+    	}
+
       	  }.bind(this),
           error: function(xhr, status, err) {
             //-console.error(this.props.url, status, err.toString());
           }.bind(this)
         });
+
+		/*
     	if( isActivNew ==1 ){
     		isActivNew=2;
     	}else if( isActivNew ==2 ){
     		isActivNew=0;
     	}
+		*/
+
      },
       getInitialState: function() {
         return {data: []};
@@ -228,6 +247,7 @@ String mid = planView.getYearPlanComponent().getUid();
         },
     	onReorder: function (order) {
     		isActivNew=1;
+
     	},
         render: function () {
     		return <section className="column large-20 medium-20 large-centered medium-centered">

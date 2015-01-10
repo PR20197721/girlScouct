@@ -10,9 +10,12 @@
     <div className="column">
       <h3><%=planView.getYearPlanComponent().getType()%> {this.props.id} : {this.props.meetingTitle}</h3>
       <p className="date">
+      
+      	<%if(planView.getSearchDate()!=null && planView.getSearchDate().after( new java.util.Date("1/1/1977") )){ %>
         <span className="month">{this.props.meetingModMONTH}</span>
         <span className="day">{this.props.meetingModDAY}</span>
         <span className="hour">{this.props.meetingModHOUR}</span>
+      	<%} %>	
       </p>
     </div>
     <p className="column">
