@@ -94,7 +94,7 @@
           > div {
             height: 80px;
             background-color:#f6f6f6;
-            cursor: pointer;
+            cursor: move;
             &:before {
               content:'';
               background: url("images/throbber.png") repeat-y #fff;

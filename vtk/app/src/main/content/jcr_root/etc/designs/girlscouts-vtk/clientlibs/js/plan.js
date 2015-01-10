@@ -71,7 +71,7 @@ function reloadMeeting(){
 }
 
 function newActivity(){
-        XlPage('/content/girlscouts-vtk/controllers/vtk.newCustomActivity.html', false, "", true);
+        loadModalPage('/content/girlscouts-vtk/controllers/vtk.newCustomActivity.html', false, "", true);
 }
 
 function addExistActivity(activityId){
