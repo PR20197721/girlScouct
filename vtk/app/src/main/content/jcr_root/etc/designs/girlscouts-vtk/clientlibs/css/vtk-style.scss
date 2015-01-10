@@ -515,6 +515,60 @@
       }
     }
   }//end modals
+  
+  .modalWrap {
+    padding:0;
+    border-radius:0;
+    border:0;
+    font-size: 14px;
+    #gsModal {
+      padding:0;
+    }
+    .header {
+      background: #00ae57;
+      h3 {
+        text-transform: uppercase;
+        font-size: 24px;
+        display: inline-block;
+      }
+      a,
+      [class*=" icon-"],
+      [class^="icon-"] {
+        font-size: 35px;
+        text-align: right;
+        top: 0;
+        right: 0;
+        outline: none;
+      }
+      * {
+        color: #fff;
+      }
+    }
+    .tabs-wrapper {
+      background: #D9D9D9;
+      padding: 20px 10px;
+      .tabs {
+        dd {
+          width: 33.3333333%;
+          float:left;
+          background:#00ae57;
+        }
+      }
+      .tabs-content {
+        background: #fff;
+        padding: 30px 20px 60px 20px;
+        margin: 0;
+        [class^="icon-"],
+        [class*=" icon-"] {
+          font-size:27px;
+          color: #00ae57;
+          vertical-align:middle;
+        }
+      }
+    }
+  }
+
+
   .hero-image {
     margin-bottom:10px;
   }

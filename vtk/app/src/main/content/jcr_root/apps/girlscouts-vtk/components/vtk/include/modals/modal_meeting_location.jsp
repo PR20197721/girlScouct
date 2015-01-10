@@ -52,7 +52,7 @@
           </form>
           <!--/when user already has a meeting calendar-->
           <div className="meetings-list clearfix">
-            <p>Select the calendar icon to change the date, time, or cancel an individual meeting. Or select the [symbol] to use the planning wizard to reconfigure the calendar from that date forward</p>
+            <p>Select the calendar icon to change the date, time, or cancel an individual meeting. Or select the <i className="icon-gear"></i> to use the planning wizard to reconfigure the calendar from that date forward</p>
             <table>
               <tr>
                 <td><a href="#nogo" title="calendar"><i className="icon-calendar"></i></a></td>

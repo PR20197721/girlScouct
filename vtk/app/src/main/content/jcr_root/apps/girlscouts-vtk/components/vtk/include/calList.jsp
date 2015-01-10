@@ -7,6 +7,32 @@
 java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(troop.getYearPlan());
 %>
 <div id="locMsg"></div>
+
+<table>
+  <tr>
+    <td><a href="#nogo" title="calendar"><i class="icon-calendar"></i></a></td>
+    <td><span>1</span></td>
+    <td><span>1 Sep 15, 2014, 3:00PM</span></td>
+    <td><span>This represents the Meeting Title Meeting Title Meeting Title</span></td>
+    <td> <a href="#nogo" title="settings"><i class="icon-gear"></i></a></td>
+  </tr>
+  <tr>
+    <td><a href="#nogo" title="calendar"><i class="icon-calendar"></i></a></td>
+    <td><span>1</span></td>
+    <td><span>1 Sep 15, 2014, 3:00PM</span></td>
+    <td><span>This represents the Meeting Title Meeting Title Meeting Title</span></td>
+    <td> <a href="#nogo" title="settings"><i class="icon-gear"></i></a></td>
+  </tr>
+  <tr>
+    <td><a href="#nogo" title="calendar"><i class="icon-calendar"></i></a></td>
+    <td><span>1</span></td>
+    <td><span>1 Sep 15, 2014, 3:00PM</span></td>
+    <td><span>This represents the Meeting Title Meeting Title Meeting Title</span></td>
+    <td> <a href="#nogo" title="settings"><i class="icon-gear"></i></a></td>
+  </tr>
+</table>
+
+
 <table cellpadding="5" cellspacing="0" class="yearMeetingList" width="100%">
 <%
 int currentMeeting=0;
@@ -31,7 +57,7 @@ while( itr.hasNext() ){
 				<img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/calendar-pick.png" alt="Calender" width="22" height="22"/>
 			</a>
 <% }else{ %>
-                        <img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/calendar-pick-past.png" alt="Calender Expired" width="22" height="22"/>
+        <img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/calendar-pick-past.png" alt="Calender Expired" width="22" height="22"/>
 <% } %>
 		</td>
 		<td width="5"><%=currentMeeting %></td>

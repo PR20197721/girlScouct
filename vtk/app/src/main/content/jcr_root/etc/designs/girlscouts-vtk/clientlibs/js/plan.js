@@ -18,10 +18,7 @@ function x(planId, planPath, confirmMsg, planName) {
     			if( !confirm("Are You Sure? You will lose customizations that you have made") ) return;
     	});
     	
-    }
-		
-			
-	
+    }	
 	$.ajax({
 		url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=SelectYearPlan&addYearPlanUser="+planPath+"&addYearPlanName="+ planName,
 		cache: false
@@ -74,7 +71,7 @@ function reloadMeeting(){
 }
 
 function newActivity(){
-        loadModalPage('/content/girlscouts-vtk/controllers/vtk.newCustomActivity.html', false, "", true);
+        XlPage('/content/girlscouts-vtk/controllers/vtk.newCustomActivity.html', false, "", true);
 }
 
 function addExistActivity(activityId){

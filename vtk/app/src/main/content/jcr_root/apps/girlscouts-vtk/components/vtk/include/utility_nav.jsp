@@ -5,7 +5,7 @@
         <ul id="sub-nav" class="inline-list hide-for-print">
           <!--if on YP page this menu shows-->
 		  <% if("plan".equals(activeTab)) { %>
-          <li><a href="#" onclick="newLocCal()" data-reveal-id="modal_meeting" title="Metting Dates and Location">Meeting Dates and Locations</a></li>
+          <li><a href="#" onclick="newLocCal()" title="Metting Dates and Location">Meeting Dates and Locations</a></li>
           <li><a href="#" onclick="doMeetingLib()" title="Add Meeting">Add Meeting</a></li>
           <li><a href="#" onclick="newActivity()" title="Add Activity">Add Activity</a></li>
           <% } %>
