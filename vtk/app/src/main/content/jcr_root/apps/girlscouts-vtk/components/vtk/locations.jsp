@@ -68,7 +68,6 @@
       </ul>
     </div> -->
     <div class="tabs-content">
-      <p>Select the calendar icon to change the date, time, or cancel an individual meeting.Or select the <i class="icon-gear"></i> to use the planning wizard to reconfigure the calendar from that date forward</p>
       <div class="small-24 medium-24 large-24 columns">
       <%
         if (troop.getYearPlan() != null) {
