@@ -123,7 +123,9 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 		dialog = $( divSelector ).dialog({
 			width:dWidth,
 			modal:true,
-			height:dHeight,
+			maxHeight:dHeight,
+			height: 'auto',
+			minHeight: 'auto',
 			dialogClass:"modalWrap",
 			show:375,
 			"open": function() {
