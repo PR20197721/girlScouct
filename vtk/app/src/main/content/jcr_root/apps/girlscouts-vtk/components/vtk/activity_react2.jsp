@@ -116,6 +116,6 @@ String aid = planView.getYearPlanComponent().getUid();
 </div>
 </div>
 
-
+<%@include file="include/activity_edit_react.jsp"%>
 
 
