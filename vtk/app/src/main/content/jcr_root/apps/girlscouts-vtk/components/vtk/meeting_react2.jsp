@@ -1,7 +1,10 @@
+<!-- PAGEID :: ./app/src/main/content/jcr_root/apps/girlscouts-vtk/components/vtk/meeting_react2.jsp -->
 <% 
 
 String mid = planView.getYearPlanComponent().getUid();
 MeetingE meeting = (MeetingE)planView.getYearPlanComponent();
+pageContext.setAttribute("MEETING_PATH", meeting.getPath());
+pageContext.setAttribute("PLANVIEW_TIME", Long.valueOf(planView.getSearchDate().getTime()));
 %>
 
 
@@ -17,14 +20,6 @@ MeetingE meeting = (MeetingE)planView.getYearPlanComponent();
 <%@include file="include/tab_navigation.jsp"%>
 <div id="panelWrapper" class="row content meeting-detail">
 <%@include file="include/utility_nav.jsp"%>
-
-
-
-   
-  
-<a href="#" class="mLocked button linkButton" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=meeting.getPath()%>&xx=<%=planView.getSearchDate().getTime()%>', false, null, true)">replace this meeting</a>
-			
-
 	<div id="newMeetingAgendaX" style="display: none;">
 
 		<h1>Add New Agenda Item</h1>

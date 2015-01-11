@@ -1,3 +1,4 @@
+<!-- PAGE START activity_react2.jsp -->
 <%
 
 if( false ){
@@ -119,5 +120,4 @@ String aid = planView.getYearPlanComponent().getUid();
 
 
 <%@include file="include/activity_edit_react.jsp"%>
-
-
+<!-- PAGE STOP activity_react2.jsp -->

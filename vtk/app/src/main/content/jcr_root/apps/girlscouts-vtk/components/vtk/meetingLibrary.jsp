@@ -57,7 +57,11 @@
         %>
       		document.location="/content/girlscouts-vtk/en/vtk.plan.html";
       <%} else {%>
-      		//document.location="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=request.getParameter("xx")%>";
+		if (window.opener) {
+			window.opener.location.reload(false);
+		} else {
+			window.location.reload(false);
+		}
       <%}%>
   	});
   }

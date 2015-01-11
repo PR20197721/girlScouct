@@ -11,7 +11,21 @@
           <% } %>
           <!-- if on Meeting Detail Page-->
 		  <% if("planView".equals(activeTab)) { %>
-          <li><a data-reveal-id="modal_activity" title="Replace this meeting">Replace this meeting</a></li>
+          <li>
+<%
+try {
+	Object meetingPath = pageContext.getAttribute("MEETING_PATH");
+	if (meetingPath != null) {
+		Long planViewTime = (Long) pageContext.getAttribute("PLANVIEW_TIME");
+	%>
+		<a href="#" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=(String) meetingPath %>&xx=<%= planViewTime.longValue() %>', false, null, true)">replace this meeting</a>
+	<%
+	}
+} catch (Exception te) {
+	te.printStackTrace();
+}
+%>
+	  </li>
           <% } %>
           <!-- if on a My Troop page-->
 		  <% if("myTroop".equals(activeTab)) { %>

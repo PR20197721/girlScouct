@@ -1,6 +1,7 @@
 <%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig,  org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
+<!-- PAGE START asset.jsp -->
 <%@include file="include/session.jsp"%>
 <script>
 function assignAid(aidId, meetingId, assetName, assetDesc){
@@ -138,3 +139,4 @@ function rmAid(aidId, meetingId, assetName, assetDesc){
 <%
 	}
 %>
+<!-- PAGE STOP asset.jsp -->
