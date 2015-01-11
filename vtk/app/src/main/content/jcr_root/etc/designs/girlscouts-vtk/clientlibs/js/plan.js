@@ -503,7 +503,7 @@ function bindAssetToYPC(assetId, ypcId){
 
 
 function doMeetingLib(){
-	loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html', false);
+	loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html', false, null, true);
 }
 
 function doHelp(isSched){
