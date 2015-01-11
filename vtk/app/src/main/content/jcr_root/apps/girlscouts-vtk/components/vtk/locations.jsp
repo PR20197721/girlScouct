@@ -22,6 +22,9 @@
         $("#manageActivitySection").show();
     }
   }
+   $(document).ready(function() {
+      toggleSection();
+    });
 </script>
   <!-- apps/girlscouts-vtk/components/vtk/locations.jsp  -->
 

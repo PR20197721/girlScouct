@@ -34,6 +34,5 @@ var $ = jQuery.noConflict();
 	  	   },
 	  	 });
 	  	 vtk_accordion();
-	  	 toggleSection();
   });
  })($);
