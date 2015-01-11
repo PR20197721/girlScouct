@@ -41,5 +41,6 @@
      <button class="btn right">Remove</button>
    </form>
    </div>
-   <div id="locList"></div>
+   <hr/>
+   <div id="locList"><script>loadLocMng();</script></div>
  </div><!--/content-2-->
