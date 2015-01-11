@@ -21,6 +21,7 @@
  <p>Add, delete or edit locations to assign to your meetings.</p>
  -->
  <div class="content clearfix row" id="panel2">
+ <div id="locationEdit"><!-- add 4 js err ms -->
    <p>Add, delete or edit locations to assign to your meetings.</p>
    <div id="err" class="errorMsg error"></div>
    <form id="addLocationForm">
@@ -39,4 +40,6 @@
      <button class="btn right" onclick="addLocation()">Add</button>
      <button class="btn right">Remove</button>
    </form>
+   </div>
+   <div id="locList"></div>
  </div><!--/content-2-->

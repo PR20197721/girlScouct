@@ -48,6 +48,7 @@ System.err.println("changing new... "+ x );
 	troopUtil.selectYearPlan( user,  troop, request.getParameter("addYearPlanUser"), request.getParameter("addYearPlanName"));
 	return;
 		case AddLocation:
+			
 	locationUtil.addLocation(user, troop, new Location(request.getParameter("name"),
 			request.getParameter("address"), request.getParameter("city"), 
 			request.getParameter("state"), request.getParameter("zip") ));
