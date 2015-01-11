@@ -1,6 +1,7 @@
 <% 
 
 String mid = planView.getYearPlanComponent().getUid();
+MeetingE meeting = (MeetingE)planView.getYearPlanComponent();
 %>
 
 
@@ -21,7 +22,8 @@ String mid = planView.getYearPlanComponent().getUid();
 
    
   
-
+<a href="#" class="mLocked button linkButton" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=meeting.getPath()%>&xx=<%=planView.getSearchDate().getTime()%>', false, null, true)">replace this meeting</a>
+			
 
 	<div id="newMeetingAgendaX" style="display: none;">
 
