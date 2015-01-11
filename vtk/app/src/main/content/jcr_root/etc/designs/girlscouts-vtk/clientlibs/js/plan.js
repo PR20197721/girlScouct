@@ -123,7 +123,7 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 		dialog = $( divSelector ).dialog({
 			width:dWidth,
 			modal:true,
-			maxHeight:dHeight,
+			maxHeight:dHeight,		
 			height: 'auto',
 			minHeight: 'auto',
 			dialogClass:"modalWrap",
@@ -180,16 +180,25 @@ function yesPlan(){
   }
 }
 function addLocation(){
-	showError(null, "#locationEdit .errorMsg");
+	
+	
+	
+	//NEEDS to be BACK vtk-global.js? showError(null, "#locationEdit .errorMsg");	
 	var  name = document.getElementById("loc_name").value;
+	
 	if( $.trim(name) =='' ){
-		showError("Please enter a location", "#locationEdit .errorMsg");
+		//showError("Please enter a location", "#locationEdit .errorMsg"); //js missing from VTK2
+		alert("Please enter a location");
 		return false;
 	}
-	var  address = document.getElementById("loc_address").value;
+	
+	var  address = document.getElementById("loc_address").value;	
 	var  city = document.getElementById("loc_city").value;
 	var  state = document.getElementById("loc_state").value;
 	var  zip = document.getElementById("loc_zip").value;
+	
+	
+	
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
 		type: 'POST',
@@ -204,10 +213,13 @@ function addLocation(){
 			a:Date.now()
 		},
 		success: function(result) {
+			
+			
 			if($.trim(result)!=''){ alert( $.trim(result) ) ;}
 			 loadLocMng();
 			//document.getElementById("err").innerHtml=result;
 			$("#addLocationForm").trigger("reset");
+			
 		}
 	});
 }

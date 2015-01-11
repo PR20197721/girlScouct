@@ -107,25 +107,25 @@ UserGlobConfig ubConf =troopUtil.getUserGlobConfig();
 
 
 
-<li><label><input type="checkbox" name="exclDt" value="09/07/2014" <%=("".equals(exlDates) || exlDates.contains("09/07/2014")) ? "CHECKED" : ""  %>/>09/07/2014 (Labor Day)</label></li>
+<li><label><input type="checkbox" name="exclDt" value="09/07/2015" <%=("".equals(exlDates) || exlDates.contains("09/07/2015")) ? "CHECKED" : ""  %>/>09/07/2015 (Labor Day)</label></li>
 
-<li><label><input type="checkbox" name="exclDt" value="10/12/2014" <%=("".equals(exlDates) || exlDates.contains("10/12/2014")) ? "CHECKED" : ""  %>/>10/12/2014 (Columbus Day)</label></li>
+<li><label><input type="checkbox" name="exclDt" value="10/12/2015" <%=("".equals(exlDates) || exlDates.contains("10/12/2015")) ? "CHECKED" : ""  %>/>10/12/2015 (Columbus Day)</label></li>
 
-                <li><label><input type="checkbox" name="exclDt" value="11/11/2014" <%=("".equals(exlDates) || exlDates.contains("11/11/2014")) ? "CHECKED" : ""  %>/>11/11/2014 (Veteran's Day Day)</label></li>
+                <li><label><input type="checkbox" name="exclDt" value="11/11/2015" <%=("".equals(exlDates) || exlDates.contains("11/11/2015")) ? "CHECKED" : ""  %>/>11/11/2015 (Veteran's Day Day)</label></li>
 
-<li><label><input type="checkbox" name="exclDt" value="11/26/2014" <%=("".equals(exlDates) || exlDates.contains("11/26/2014")) ? "CHECKED" : ""  %>/>11/26/2014 (Thanksgiving)</label></li>
+<li><label><input type="checkbox" name="exclDt" value="11/26/2015" <%=("".equals(exlDates) || exlDates.contains("11/26/2015")) ? "CHECKED" : ""  %>/>11/26/2015 (Thanksgiving)</label></li>
 
-<li><label><input type="checkbox" name="exclDt" value="12/25/2014" <%=("".equals(exlDates) || exlDates.contains("12/25/2014")) ? "CHECKED" : ""  %>/>12/25/2014 (Christmas)</label></li>
+<li><label><input type="checkbox" name="exclDt" value="12/25/2015" <%=("".equals(exlDates) || exlDates.contains("12/25/2015")) ? "CHECKED" : ""  %>/>12/25/2015 (Christmas)</label></li>
 
-                <li><label><input type="checkbox" name="exclDt" value="01/01/2015" <%=("".equals(exlDates) || exlDates.contains("01/01/2015")) ? "CHECKED" : ""  %>/>01/01/2015 (New Years)</label></li>
+                <li><label><input type="checkbox" name="exclDt" value="01/01/2016" <%=("".equals(exlDates) || exlDates.contains("01/01/2016")) ? "CHECKED" : ""  %>/>01/01/2016 (New Years)</label></li>
 
-                <li><label><input type="checkbox" name="exclDt" value="01/19/2015" <%=("".equals(exlDates) || exlDates.contains("01/19/2015")) ? "CHECKED" : ""  %>/>01/19/2015 (Martin Luther King, Jr.)</label></li>
+                <li><label><input type="checkbox" name="exclDt" value="01/18/2016" <%=("".equals(exlDates) || exlDates.contains("01/18/2016")) ? "CHECKED" : ""  %>/>01/18/2016 (Martin Luther King, Jr.)</label></li>
 
-                <li><label><input type="checkbox" name="exclDt" value="02/16/2015" <%=("".equals(exlDates) || exlDates.contains("02/16/2015")) ? "CHECKED" : ""  %>/>02/16/2015 (Washington's Birthday)</label></li>
+                <li><label><input type="checkbox" name="exclDt" value="02/15/2016" <%=("".equals(exlDates) || exlDates.contains("02/15/2016")) ? "CHECKED" : ""  %>/>02/15/2016 (Washington's Birthday)</label></li>
 
-                <li><label><input type="checkbox" name="exclDt" value="05/25/2015" <%=("".equals(exlDates) || exlDates.contains("02/25/2015")) ? "CHECKED" : ""  %>/>05/25/2015 (Memorial Day)</label></li>
+                <li><label><input type="checkbox" name="exclDt" value="05/30/2016" <%=("".equals(exlDates) || exlDates.contains("02/30/2016")) ? "CHECKED" : ""  %>/>05/30/2016 (Memorial Day)</label></li>
 
-                <li><label><input type="checkbox" name="exclDt" value="07/04/2015" <%=("".equals(exlDates) || exlDates.contains("07/04/2015")) ? "CHECKED" : ""  %>/>07/04/2015 (Independence Day)</label></li>
+                <li><label><input type="checkbox" name="exclDt" value="07/04/2016" <%=("".equals(exlDates) || exlDates.contains("07/04/2016")) ? "CHECKED" : ""  %>/>07/04/2016 (Independence Day)</label></li>
 
 </ul>
 
