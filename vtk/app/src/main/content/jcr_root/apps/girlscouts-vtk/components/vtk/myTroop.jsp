@@ -8,7 +8,7 @@
 %>
 <%@include file="include/tab_navigation.jsp"%>
 
-<br/><br/><a href="/content/girlscouts-vtk/en/vtk.admin.troopPhoto.html">add/change a photo of your troop</a>
+<br/><br/><a href="/content/girlscouts-vtk/en/vtk.include.troopPhoto.html">add/change a photo of your troop</a>
 
 <H3>INFO</H3>
 <div class="row">

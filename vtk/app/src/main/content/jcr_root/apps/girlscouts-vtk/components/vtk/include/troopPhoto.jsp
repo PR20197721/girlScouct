@@ -2,7 +2,7 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="../include/session.jsp"%>
-<%@include file="../admin/toolbar.jsp"%>
+
 
 
 <h1>Troop Photo</h1>

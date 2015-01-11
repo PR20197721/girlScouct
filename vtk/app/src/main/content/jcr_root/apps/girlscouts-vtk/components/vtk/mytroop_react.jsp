@@ -24,7 +24,7 @@
 
 <%@include file="include/utility_nav.jsp"%>
 
-  <img class="hero-image" src="/etc/designs/girlscouts-vtk/images/mytroop_text.png" alt="my troop" />
+  <img class="hero-image" src="/content/dam/girlscouts-vtk/troops/<%=troop.getTroop().getTroopId() %>/imgLib/troop_pic.png/troop_pic.png" alt="my troop" />
   <div class="column large-24 large-centered">
 
     <dl class="accordion" data-accordion>
