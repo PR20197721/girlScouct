@@ -12,8 +12,7 @@
   <div class="columns large-20 large-centered">
   	<h3>Coming in future releases:</h3> 
 		<ul>
-			<li>- Create and manage your troop's financial report</li>
-			<li>- Share with council personnel and with troop parents</li>
+			<li>- Manage your personal profile</li>
 		</ul>
   </div>
 </div>
