@@ -20,6 +20,7 @@
       {/* <br/>Location:{obj[comment].locationName} --- {obj[comment].locationAddress} -- {obj[comment].locationRef}
         <br/>Cost: {obj[comment].cost}
         <br/>Desc: {obj[comment].activityDescription}
+        <br/>Desc: {obj[comment].content}
         <br/>Path: {obj[comment].path}
         <br/>Uid: {obj[comment].uid}
         <br/>Register Url{obj[comment].registerUrl}
