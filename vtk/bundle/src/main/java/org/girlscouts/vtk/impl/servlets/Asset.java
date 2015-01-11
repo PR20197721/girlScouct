@@ -163,7 +163,7 @@ import com.day.cq.commons.jcr.JcrUtil;
 		//System.err.println( "UPLDTRoopId "+ request.getParameter("troopId"))    ;        	  
 		            	  loc= "/content/dam/girlscouts-vtk/troops/"+ request.getParameter("troopId")+"/imgLib/troop_pic.png";
 		            	  name="troop_pic.png";
-		            	 
+System.out.println("Inside Asset.java upldTroopPic loc " + loc);
 		              }
 		              
 		              reverseReplicateBinary(session, loc, name,            
@@ -221,13 +221,11 @@ import com.day.cq.commons.jcr.JcrUtil;
 		      
 			if( request.getParameter("loc")!=null && request.getParameter("loc").contains("/tmp/import/assets") ){
 		      
-				response.sendRedirect("http://localhost:4503/content/girlscouts-vtk/en/vtk.admin.previewImportMeeting.html?id="+ request.getParameter("id"));
-		 
+				response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.previewImportMeeting.html?id="+ request.getParameter("id"));
 		    
 		    }else if( request.getParameter("upldTroopPic")!=null ){
-		    	response.sendRedirect("http://localhost:4503/content/girlscouts-vtk/en/vtk.admin.troopPhoto.html?troopId="+request.getParameter("troopId"));
+		    	response.sendRedirect("/content/girlscouts-vtk/en/vtk.mytroop_react.html");
 		    }
-		    
 }
 		    
 		    

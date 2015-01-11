@@ -1,5 +1,5 @@
 <%@ page
-  import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
+  import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*, java.io.*, java.net.*"%>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
@@ -23,8 +23,29 @@
 <div id="panelWrapper" class="row content">
 
 <%@include file="include/utility_nav.jsp"%>
+<%
+        String troopId= troop.getTroop().getTroopId();
+        if( troopId ==null || troopId.trim().equals("") ){
+                %>
+                        <span class="error">Warning: no troop is specified.</span>
+                <%
+                return;
+        }
+	String troopPhotoUrl = "/content/dam/girlscouts-vtk/troops/" + troopId + "/imgLib/troop_pic.png/troop_pic.png";
+%>
+<div id="modal_upload_image" class="reveal-modal" data-reveal>
+<b>Troop:<%=troop.getTroop().getTroopName()%></b>
 
-  <img class="hero-image" src="/etc/designs/girlscouts-vtk/images/mytroop_text.png" alt="my troop" />
+<form action="/content/girlscouts-vtk/controllers/auth.asset.html" method="post" id="frmImg" name="frmImg" enctype="multipart/form-data">
+
+        <input type="hidden" name="troopId"  value="<%=troopId%>"/>
+        <input type="file"   name="upldTroopPic" value="" />
+        <input type="submit" value="Upload Photo"  />
+
+</form>
+	<a class="close-reveal-modal">&#215;</a>
+</div>
+  <img class="hero-image" src="<%=troopPhotoUrl %>" alt="GirlScouts Troop <%=troop.getTroop().getTroopName()%> Photo" />
   <div class="column large-24 large-centered">
 
     <dl class="accordion" data-accordion>
