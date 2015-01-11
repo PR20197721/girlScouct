@@ -1,10 +1,31 @@
 
 <%
 Activity activity = (Activity)planView.getYearPlanComponent();
-%>
-<a href="#" class="button linkButton"
-			onclick="doEditActivity('editCustActiv')">edit activity</a>
 
+
+if( activity.getIsEditable() ){
+		%>
+			<a href="#" class="button linkButton"
+				onclick="doEditActivity('editCustActiv')">edit activity</a>
+		<% 
+}
+			
+
+
+
+if ( !(activity.getCancelled()!=null && activity.getCancelled().equals("true") ) && 
+	activity.getRegisterUrl()  !=null && !activity.getRegisterUrl().equals("")){
+			%>
+				<a href="<%=activity.getRegisterUrl()%>" class="button linkButton"
+				target="_blank">Register for this event</a>
+			<%
+}
+
+			
+%>
+
+
+			
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.js"></script>
 <script
 	src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.extensions.js"></script>

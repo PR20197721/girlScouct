@@ -42,10 +42,14 @@
         <input type="file"   name="upldTroopPic" value="" />
         <input type="submit" value="Upload Photo"  />
 
+<<<<<<< HEAD
 </form>
 	<a class="close-reveal-modal">&#215;</a>
 </div>
   <img class="hero-image" src="<%=troopPhotoUrl %>" alt="GirlScouts Troop <%=troop.getTroop().getTroopName()%> Photo" />
+=======
+  <img class="hero-image" src="/content/dam/girlscouts-vtk/troops/<%=troop.getTroop().getTroopId() %>/imgLib/troop_pic.png/troop_pic.png" alt="my troop" />
+>>>>>>> 484898cd59a40ccfbe2bedb3e80079a4f11aeb46
   <div class="column large-24 large-centered">
 
     <dl class="accordion" data-accordion>

@@ -100,6 +100,7 @@ String aid = planView.getYearPlanComponent().getUid();
         				<br/>Location:{this.props.data.locationName} --- {this.props.data.locationAddress} -- {this.props.data.locationRef}
         				<br/>Cost: {this.props.data.cost}
         				<br/>Desc: {this.props.data.activityDescription}
+ <br/>Desc1: {this.props.data.content}
         				<br/>Path: {this.props.data.path}
         				<br/>Uid: {this.props.data.uid}
         				<br/>Register Url{this.props.data.registerUrl}
@@ -115,6 +116,7 @@ String aid = planView.getYearPlanComponent().getUid();
 
 </div>
 </div>
+
 
 <%@include file="include/activity_edit_react.jsp"%>
 

@@ -1,6 +1,7 @@
 <% 
 
 String mid = planView.getYearPlanComponent().getUid();
+MeetingE meeting = (MeetingE)planView.getYearPlanComponent();
 %>
 
 
@@ -21,7 +22,8 @@ String mid = planView.getYearPlanComponent().getUid();
 
    
   
-
+<a href="#" class="mLocked button linkButton" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=meeting.getPath()%>&xx=<%=planView.getSearchDate().getTime()%>', false, null, true)">replace this meeting</a>
+			
 
 	<div id="newMeetingAgendaX" style="display: none;">
 
@@ -141,7 +143,7 @@ String mid = planView.getYearPlanComponent().getUid();
      			  <ul className="large-block-grid-2 medium-block-grid-2 small-block-grid-1">
               {commentNodes}
       		  </ul>
-            <a className="add-btn" onclick="loadModal('#newMeetingAgenda', true, 'Agenda', false);" title="Add meeting aids"><i className="icon-button-circle-plus"></i> Add Meeting Aids</a>
+            <a className="add-btn" href="/content/girlscouts-vtk/en/vtk.resource.html" title="Add meeting aids"><i className="icon-button-circle-plus"></i> Add Meeting Aids</a>
     		  </section> 
         );
       }

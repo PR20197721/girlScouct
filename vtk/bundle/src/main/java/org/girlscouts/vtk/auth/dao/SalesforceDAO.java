@@ -925,7 +925,7 @@ System.err.println("tata start "+ sfTroopId);
 	HttpClient httpclient = new HttpClient();
 	get= new GetMethod(apiConfig.getInstanceUrl()+ "/services/data/v20.0/query");
 	// THIS IS STABLE / DO NOT REMOVE 
-	//- get.setRequestHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
+	// get.setRequestHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
 
 	UserGlobConfig ubConf = troopDAO.getUserGlobConfig(); //new UserDAOImpl().getUserGlobConfig();
 	get.setRequestHeader("Authorization", "OAuth " + ubConf.getMasterSalesForceToken());
@@ -955,7 +955,7 @@ System.err.println("tata start "+ sfTroopId);
 		
 		
 		log.debug("troopInfo1.RespCode "+ get.getResponseBodyAsString());
-	System.err.println("tata: "+get.getResponseBodyAsString());	
+	System.err.println("tata contact: "+get.getResponseBodyAsString());	
 		JSONObject _response = new JSONObject(
 				new JSONTokener(new InputStreamReader(
 						get.getResponseBodyAsStream())));
