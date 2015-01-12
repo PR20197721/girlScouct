@@ -10,6 +10,9 @@
 
     java.util.List<org.girlscouts.vtk.models.Contact>contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO).getContacts( user.getApiConfig(), troop.getSfTroopId() );
 %>
+<script>
+function tata1(){location.reload();}
+</script>
 
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
@@ -37,7 +40,7 @@
 <div id="modal_upload_image" class="reveal-modal" data-reveal>
 <b>Troop:<%=troop.getTroop().getTroopName()%></b>
 
-<form action="/content/girlscouts-vtk/controllers/auth.asset.html" method="post" id="frmImg" name="frmImg" enctype="multipart/form-data">
+<form action="/content/girlscouts-vtk/controllers/auth.asset.html" method="post" id="frmImg" name="frmImg" enctype="multipart/form-data" onsubmit="tata1()">
 
         <input type="hidden" name="troopId"  value="<%=troopId%>"/>
         <input type="file"   name="upldTroopPic" value="" />
