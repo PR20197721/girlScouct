@@ -7,6 +7,7 @@ if( false ){
 }
 
 String aid = planView.getYearPlanComponent().getUid();
+pageContext.setAttribute("DETAIL_TYPE", "activity");
 
 
 %>
@@ -26,9 +27,13 @@ String aid = planView.getYearPlanComponent().getUid();
 <div id="panelWrapper" class="row content meeting-detail">
 <%@include file="include/utility_nav.jsp"%>
 <div id="theActivity">
+<%@include file="include/activity_edit_react.jsp"%>
+
   <script type="text/jsx">
    var isActivNew=0;
 	var aPath;
+    var meetingStartDate="";
+    var meetingEndDate="";
 
     var CommentBox = React.createClass({
      loadCommentsFromServer: function( isFirst ) {
@@ -69,11 +74,12 @@ String aid = planView.getYearPlanComponent().getUid();
     	var x;
     	
     	if( this.state.data.uid!=null){
-    		
 			x= this.state.data;
 			aPath= x.path;
-    		return (
-     			 <Activity data={x} /> 
+			meetingStartDate=new Date(Number(x.date));
+			meetingEndDate=new Date(Number(x.endDate));
+          return (
+                         <Activity data={x} meetingTitle={x.name} meetingModMONTH={moment(meetingStartDate).format('MMMM')} meetingModDAY={moment(meetingStartDate).format('DD')} meetingModHOUR={moment(meetingStartDate).format('h:mm a')}/>
     	    );
     	}else{
     		return <div>loading...</div>;
@@ -92,32 +98,36 @@ String aid = planView.getYearPlanComponent().getUid();
 	var Activity = React.createClass({
       render: function() {
         return (
-               <div>
-        				<%@include file="include/meeting_navigator.jsp"%>
-        				Name:{this.props.data.name}
-        				<br/>Date: {this.props.data.date} -{this.props.data.endDate}
-        				<br/>Time:
-        				<br/>Age range: 
-        				<br/>Location:{this.props.data.locationName} --- {this.props.data.locationAddress} -- {this.props.data.locationRef}
-        				<br/>Cost: {this.props.data.cost}
-        				<br/>Desc: {this.props.data.activityDescription}
- <br/>Desc1: {this.props.data.content}
-        				<br/>Path: {this.props.data.path}
-        				<br/>Uid: {this.props.data.uid}
-        				<br/>Register Url{this.props.data.registerUrl}
-        				<br/>Canceled:{this.props.data.cancelled}
-        				<br/>IsEditable: {this.props.data.isEditable}
-        				<br/><a href="javascript:rmCustActivity12(aPath)">delete this activity</a>
-			         </div>
+                <div className="section-wrapper">
+<%@include file="include/meeting_navigator.jsp"%>
+<section className="column large-20 medium-20 large-centered medium-centered" id="main-info">
+	<div className="row">
+		<div className="column large-17 medium-17 small-17">
+			<p>{this.props.data.name}</p>
+                                        <br/>Date: {this.props.data.date} -{this.props.data.endDate}
+                                        <br/>Time:
+                                        <br/>Age range:
+                                        <br/>Cost: {this.props.data.cost}
+                                        <br/>Desc: {this.props.data.activityDescription}
+					<br/>Desc1: {this.props.data.content}
+                                        <br/>Path: {this.props.data.path}
+                                        <br/>Uid: {this.props.data.uid}
+                                        <br/>Register Url{this.props.data.registerUrl}
+                                        <br/>Canceled:{this.props.data.cancelled}
+                                        <br/>IsEditable: {this.props.data.isEditable}
+                                        <br/><a href="javascript:rmCustActivity12(aPath)">delete this activity</a>
+				<p>Location:</p>
+				<p>{this.props.data.locationName} --- {this.props.data.locationAddress} -- {this.props.data.locationRef}</p>
+		</div>
+		<div className="column large-7 medium-7 small-7"></div>
+	</div>
+</section>
+</div>
         );
       }
     });
 
     </script>
-
 </div>
 </div>
-
-
-<%@include file="include/activity_edit_react.jsp"%>
 <!-- PAGE STOP activity_react2.jsp -->

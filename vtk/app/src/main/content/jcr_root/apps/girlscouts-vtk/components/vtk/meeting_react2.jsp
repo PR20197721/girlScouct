@@ -5,6 +5,8 @@ String mid = planView.getYearPlanComponent().getUid();
 MeetingE meeting = (MeetingE)planView.getYearPlanComponent();
 pageContext.setAttribute("MEETING_PATH", meeting.getPath());
 pageContext.setAttribute("PLANVIEW_TIME", Long.valueOf(planView.getSearchDate().getTime()));
+pageContext.setAttribute("DETAIL_TYPE", "meeting");
+
 %>
 
 
@@ -315,21 +317,5 @@ pageContext.setAttribute("PLANVIEW_TIME", Long.valueOf(planView.getSearchDate().
     
     <%@include file="include/modal_agenda.jsp"%> 
    
-   
-   
-   
-   
-
-
-
-   
-   
-   
-   
-   
 </div>
 </div>
-
-
-
-

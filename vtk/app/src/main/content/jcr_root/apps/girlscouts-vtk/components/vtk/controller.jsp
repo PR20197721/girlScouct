@@ -4,6 +4,12 @@
 <%@include file="include/session.jsp"%>
 <%
 	String vtkErr="";
+	int serverPortInt = request.getServerPort();
+	String serverPort = "";
+	if (serverPortInt != 80 && serverPortInt != 443) {
+		serverPort = ":" + String.valueOf(serverPortInt);	
+	}
+	String serverName = request.getServerName();
 try{
 	
 	
@@ -540,8 +546,9 @@ Troop x= (Troop)session.getAttribute("VTK_troop");
 		boolean isCng= false;
 		try{
 		
-	if( !isFirst ){		
-		java.net.URL tata = new java.net.URL("http://localhost:4503/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid=X"+session.getId()+"&ypid="+troop.getYearPlan().getPath()+"&d=");
+	if( !isFirst ){	
+		
+		java.net.URL tata = new java.net.URL("http://" + serverName  + serverPort + "/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid=X"+session.getId()+"&ypid="+troop.getYearPlan().getPath()+"&d=");
         java.net.URLConnection yc = tata.openConnection();
         java.io.BufferedReader in = new java.io.BufferedReader(new java.io.InputStreamReader(
                                     yc.getInputStream()));
@@ -637,12 +644,12 @@ System.err.println("CGG: "+request.getParameter("isFirst") +" : "+ isFirst );
 				if (!isFirst) {
 					
 	System.err.println("Checking for updates..."+(troop.getYearPlan()==null));
-			System.err.println("http://localhost:4503/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid=X"
+			System.err.println("http://" + serverName  + serverPort + "/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid=X"
 					+ session.getId() + "&ypid="
 					+ troop.getYearPlan().getPath()
 					+ "&d=");
 					java.net.URL tata = new java.net.URL(
-							"http://localhost:4503/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid=X"
+							"http://" + serverName  + serverPort + "/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid=X"
 									+ session.getId() + "&ypid="
 									+ troop.getYearPlan().getPath()
 									+ "&d=");
@@ -738,7 +745,7 @@ session.putValue("VTK_troop", troop);
 		try{
 		
 	if( !isFirst ){		
-		java.net.URL tata = new java.net.URL("http://localhost:4503/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid=X"+session.getId()+"&ypid="+troop.getYearPlan().getPath()+"&d=");
+		java.net.URL tata = new java.net.URL("http://" + serverName  + serverPort + "/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid=X"+session.getId()+"&ypid="+troop.getYearPlan().getPath()+"&d=");
         java.net.URLConnection yc = tata.openConnection();
         java.io.BufferedReader in = new java.io.BufferedReader(new java.io.InputStreamReader(
                                     yc.getInputStream()));

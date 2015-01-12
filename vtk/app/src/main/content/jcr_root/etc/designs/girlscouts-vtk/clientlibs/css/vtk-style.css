@@ -198,6 +198,9 @@
 .vtk-body #main .meeting-detail .meeting-navigation {
   background: #00ae58;
   margin-bottom: 5%; }
+.vtk-body #main .meeting-detail .meeting-navigation.activity-navigation{
+  background: #00abe6;
+}
   .vtk-body #main .meeting-detail .meeting-navigation * {
     color: #fff;
     font-size: 24px;
