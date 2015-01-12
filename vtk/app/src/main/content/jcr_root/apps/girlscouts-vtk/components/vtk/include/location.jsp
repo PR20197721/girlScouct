@@ -29,18 +29,15 @@
 	   <input type="hidden" id="loc_state" value=""/>
 	   <input type="hidden" id="loc_zip" value=""/>
      <section>
-       <div class="column large-12">
+       <div class="column small-10">
           <input type="text" placeholder="Location Name" id="loc_name" value="" />
        </div>
-       <div class="column large-12">
+       <div class="column small-10">
          <input type="text" placeholder="Location Address" id="loc_address" value="" />
        </div>
-       <p>Applies to 15 of 15 meetings</p>
+       <button class="btn right add-btn" onclick="addLocation()">Add</button>
+       <p><div id="locList"><script>loadLocMng();</script></div></p>
      </section>
-     <button class="btn right" onclick="addLocation()">Add</button>
-     <button class="btn right">Remove</button>
    </form>
-   </div>
-   <hr/>
-   <div id="locList"><script>loadLocMng();</script></div>
+   </div>  
  </div><!--/content-2-->
