@@ -111,21 +111,14 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
         <p>{this.props.data.locationName} <br/>{this.props.data.locationAddress} {this.props.data.locationRef}</p>
       </section>
 
-      <section>
-        <p>Time:</p>
-        <p>XXX</p>
-      </section>
+     
 
 	  <section>
         <p>Age:</p>
-        <p>XXX</p>
+        <p><%=troop.getSfTroopAge()%></p>
       </section>
 
-	  <section>
-        <p>Location:</p>
-        <p>XXX</p>
-      </section>
-
+	
 	  <section>
         <p>Cost:</p>
         <p>{this.props.data.cost}</p>
@@ -144,5 +137,10 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
 
     </script>
 </div>
+<br/><a href="javascript:rmCustActivity12(aPath)">delete this activity</a>
 </div>
+
+
+			        
+
 <!-- PAGE STOP activity_react2.jsp -->
