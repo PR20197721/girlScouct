@@ -44,8 +44,7 @@
 #main .side-nav li.active.current > div, #main .side-nav li.active li.active > div {
 	background-color: transparent;
 }
-.header-wrapper,
-#header {
+.header-wrapper {
     background-color: #FFFFFF;
 }
 
@@ -58,7 +57,7 @@
 
 }
 #mobile-footer {
-background-color: #FFFFFF;
+  background-color: #FFFFFF;
 }
 
 @media only screen and (max-width: 40em) {

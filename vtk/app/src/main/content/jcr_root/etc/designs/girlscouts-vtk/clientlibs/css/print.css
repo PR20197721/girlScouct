@@ -1,10 +1,10 @@
 /*  print pages only */
 @media print {
     .column, .columns {
-      position: relative;
+/*      position: relative;
       padding-left: 0.9375em;
       padding-right: 0.9375em;
-      float: left;
+      float: left;*/
     }
     .large-1 {
       width: 4.16667%;
@@ -83,5 +83,14 @@
     }
     #yearPlanMeetings li.milestone.ui-state-disabled {
       background: #c0c0c0 !important;
+    }
+    #yearPlanMeetings li.milestone:first-child {
+      border-top: 1px solid gray !important;
+    }
+    .planSquare .date .month {
+      display: inline;
+    }
+    li.milestone .listLabel {
+      white-space: nowrap;
     }
 }

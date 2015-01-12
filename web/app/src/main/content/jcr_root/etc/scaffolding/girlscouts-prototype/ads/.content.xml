@@ -2,6 +2,7 @@
 <jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
     jcr:primaryType="cq:Page">
     <jcr:content
+        dialogPath="/apps/girlscouts/wcm/scaffolding/dialogs/ads/dialog"
         cq:lastModified="{Date}2014-04-30T11:18:03.571-04:00"
         cq:lastModifiedBy="admin"
         cq:targetPath="/content/girlscouts-prototype/en/ads"
@@ -11,6 +12,5 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="Ads"
         sling:resourceType="wcm/scaffolding/components/scaffolding">
-        <dialog/>
     </jcr:content>
 </jcr:root>

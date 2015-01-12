@@ -190,9 +190,8 @@ a:hover.menuHighlight {
   background-color: #00ae58;
 }
 #header {
-  padding: 15px 0px 0px 0px;
-  background-color: #00ae58;
   color: #FFFFFF;
+  padding-top:15px;
 }
 #header span {
   color: #FAA61A;
@@ -219,9 +218,9 @@ a:hover.menuHighlight {
 #header ul li {
   font-size: 1.0em;
 }
-#header > .large-6 {
+/*#header > .large-6 {
   padding: 0.72916667% 0 0 0;
-}
+}*/
 #header .message {
   text-align: right;
 }
@@ -246,7 +245,7 @@ a:hover.menuHighlight {
 
 #headerBar {
   background-color: #009447;
-  margin-top: 20px;
+  margin-top: 15px;
 }
 #headerBar>div {
   /*padding: 3px 10px 0px 10px;*/
@@ -793,6 +792,7 @@ td.fc-header-left {
 #header .vtk-login .login {
 	padding-top: 5px;
 	padding-left: 20px;
+  white-space: nowrap;
 }
 
 #header .small-search-hamburger {
@@ -1359,4 +1359,48 @@ form .form_captcha_img {
 }
 form .form_captcha_input {
   height: 40px;
+}
+/*styles for updates list pages */
+.update-list .row {
+  background-color: #fff;
+}
+.update-list:first-child .row:first-child > div {
+  padding-top: 60px;
+}
+.update-list .more-link:after {
+  content:">";
+  margin-left: 5px;
+}
+.update-list p,
+.update-list span,
+.update-list ul li,
+.update-list a {
+  font-size: 14px;
+}
+.update-list h3 {
+  float: left;
+  margin: 0;
+  font-size: 1.63em;
+}
+.update-list section.header {
+  background: #f6f6f6;
+  padding: 0.75em 0.63em;
+}
+.update-list section.header a {
+  float: right;
+  line-height: 1.63em;
+}
+
+.update-list ul {
+  list-style: none;
+  margin-top:15px;
+}
+.update-list ul li {
+  margin-bottom: 20px;
+}
+.update-list-header {
+  padding-bottom: 0;
+}
+.update-list-footer {
+  padding: 10px 0;
 }

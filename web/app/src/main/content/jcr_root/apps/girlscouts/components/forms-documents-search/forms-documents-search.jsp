@@ -169,23 +169,16 @@ try{
 %>
 		<a href="<%=pth%>" <%=newWindow %>><%=title %></a>
 <%
-		if (q != null && !q.isEmpty()) {
-			String excerpt = docHit.getExcerpt();
-			if(excerpt!=null && !"".equals(excerpt)) {
-%>
-				<div><%= excerpt %></div>
-<%
-			} else {
-%>
-                <div><%=description%></div>
-<%
-			}
-		} else {
-			
+
+		String excerpt = docHit.getExcerpt();
+        if(description == null || description.isEmpty()){
+            %><div><%=excerpt%> </div> <%
+        } else{
+
 %>
 		<div><%= description %></div>
 <%
-		}
+              }
 %>
 		<br/>
 <%

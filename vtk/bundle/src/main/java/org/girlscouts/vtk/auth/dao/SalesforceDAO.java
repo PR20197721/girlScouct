@@ -27,9 +27,8 @@ import org.slf4j.LoggerFactory;
 
 // TODO: Need thread pool here
 public class SalesforceDAO {
-   // private final Logger log = LoggerFactory.getLogger(SalesforceDAO.class);
-	 private final Logger log = LoggerFactory.getLogger("vtk");
-	 
+    private final Logger log = LoggerFactory.getLogger(SalesforceDAO.class);
+
     String OAuthUrl;
     String clientId;
     String clientSecret;
@@ -64,20 +63,20 @@ public class SalesforceDAO {
 
         try {
         	
-        	log.debug("________________getUser_________start_____________________________");
-    		log.debug( get.getRequestCharSet() );
+        	System.err.println("________________getUser_________start_____________________________");
+    		System.err.println( get.getRequestCharSet() );
     		Header headers[] =get.getRequestHeaders();
     		for( Header h : headers){
-    			log.debug("Headers: "+h.getName() +" : "+ h.getValue());
+    			System.err.println("Headers: "+h.getName() +" : "+ h.getValue());
     		}
-    		log.debug(":::> " + get.getQueryString());
-    		log.debug(config.getInstanceUrl()+ "/services/data/v20.0/query");
-    		log.debug("___________________getUser________end___________________________");
+    		System.err.println(":::> " + get.getQueryString());
+    		System.err.println(config.getInstanceUrl()+ "/services/data/v20.0/query");
+    		System.err.println("___________________getUser________end___________________________");
     		
         	
             httpclient.executeMethod(get);
 
-   log.debug("USER: "+ config.getAccessToken() +" : "+ get.getStatusCode() + " : " + get.getResponseBodyAsString());   
+   System.err.println("USER: "+ config.getAccessToken() +" : "+ get.getStatusCode() + " : " + get.getResponseBodyAsString());   
    
             log.debug(get.getStatusCode() + " : " + get.getResponseBodyAsString());
     
@@ -110,7 +109,7 @@ public class SalesforceDAO {
                     		String email=results.getJSONObject(current).getString("Email");
                     		if( email !=null &&
                     				email.trim().toLowerCase().equals("alex_yakobovich@northps.com")){
-                    			   log.debug("USER2: "+ config.getAccessToken() +" : "+ get.getStatusCode() + " : " + get.getResponseBodyAsString());   
+                    			   System.err.println("USER2: "+ config.getAccessToken() +" : "+ get.getStatusCode() + " : " + get.getResponseBodyAsString());   
                     			UserGlobConfig ubConf = troopDAO.getUserGlobConfig(); 
                     			ubConf.setMasterSalesForceRefreshToken(config.getRefreshToken());
                     			ubConf.setMasterSalesForceToken(config.getAccessToken());
@@ -127,11 +126,11 @@ public class SalesforceDAO {
                     java.util.List <Troop>  troops = troopInfo( config,  user.getContactId());
 
                     if(troops==null || troops.size() <=0 ){
-                    	log.debug("Trying troops 2 time....");
+                    	System.err.println("Trying troops 2 time....");
                     	UserGlobConfig ubConf = troopDAO.getUserGlobConfig(); 
-                    	log.debug("REFresh token: refresh:"+ ubConf.getMasterSalesForceRefreshToken()  +" token:" + ubConf.getMasterSalesForceToken()  );
+                    	System.err.println("REFresh token: refresh:"+ ubConf.getMasterSalesForceRefreshToken()  +" token:" + ubConf.getMasterSalesForceToken()  );
                     	String newMasterToken = refreshToken( ubConf.getMasterSalesForceRefreshToken() );
-                    	log.debug("NewREfreshToken: "+ newMasterToken);
+                    	System.err.println("NewREfreshToken: "+ newMasterToken);
                     	if( newMasterToken!=null){
                     		ubConf.setMasterSalesForceToken(newMasterToken);
                     		troopDAO.updateUserGlobConfig();
@@ -182,35 +181,35 @@ public class SalesforceDAO {
         post.addParameter("redirect_uri", callbackUrl);
        // post.addParameter("scope", "full refresh_token");
         
-     log.debug(   post.getRequestCharSet() );
-     log.debug( post.getRequestEntity().toString());
+     System.err.println(   post.getRequestCharSet() );
+     System.err.println( post.getRequestEntity().toString());
         
         try {
         	
         	
         	
-        	log.debug("________________doAuth_________start_____________________________");
-        	log.debug("code "+ code );
-            log.debug("grant_type: authorization_code");
-            log.debug("client_id: "+ clientId);
-            log.debug("client_secret: "+ clientSecret);
-            log.debug("redirect_uri "+ callbackUrl);
-           // log.debug("scope: full refresh_token");
+        	System.err.println("________________doAuth_________start_____________________________");
+        	System.err.println("code "+ code );
+            System.err.println("grant_type: authorization_code");
+            System.err.println("client_id: "+ clientId);
+            System.err.println("client_secret: "+ clientSecret);
+            System.err.println("redirect_uri "+ callbackUrl);
+           // System.err.println("scope: full refresh_token");
             
-    		log.debug( post.getRequestCharSet() );
+    		System.err.println( post.getRequestCharSet() );
     		Header headers[] =post.getRequestHeaders();
     		for( Header h : headers){
-    			log.debug("Headers: "+h.getName() +" : "+ h.getValue());
+    			System.err.println("Headers: "+h.getName() +" : "+ h.getValue());
     		}
-    		log.debug(":::> " + post.getQueryString());
-    		log.debug(OAuthUrl + "/services/oauth2/token");
-    		log.debug("___________________doAuth________end___________________________");
+    		System.err.println(":::> " + post.getQueryString());
+    		System.err.println(OAuthUrl + "/services/oauth2/token");
+    		System.err.println("___________________doAuth________end___________________________");
     		
         	
             httpclient.executeMethod(post);
             
             
-            log.debug("doAuth: "+ post.getResponseBodyAsString());
+            System.err.println("doAuth: "+ post.getResponseBodyAsString());
             
             if (post.getStatusCode() == HttpStatus.SC_OK) {
                 try {
@@ -227,10 +226,10 @@ public class SalesforceDAO {
 				refreshTokenStr = authResponse.getString("refresh_token");
 			} catch (Exception npe) {
 				// skip refresh token
-				log.debug("Skipping refresh token because SF is not providing it");
+				System.err.println("Skipping refresh token because SF is not providing it");
 			}
-               log.debug("Access token: "+ authResponse.getString("access_token")) ; 
-               log.debug("REfresh tolen: "+ refreshTokenStr);
+               System.err.println("Access token: "+ authResponse.getString("access_token")) ; 
+               System.err.println("REfresh tolen: "+ refreshTokenStr);
                
                     // TODO: seems not used now
                     //tokenType = authResponse.getString("token_type");
@@ -316,25 +315,25 @@ public java.util.List <Troop>  troopInfo(ApiConfig apiConfig, String contactId){
 	try {
 		
 		
-		log.debug("________________troopInfo_________start_____________________________");
-		log.debug( get.getRequestCharSet() );
+		System.err.println("________________troopInfo_________start_____________________________");
+		System.err.println( get.getRequestCharSet() );
 		Header headers[] =get.getRequestHeaders();
 		for( Header h : headers){
-			log.debug("Headers: "+h.getName() +" : "+ h.getValue());
+			System.err.println("Headers: "+h.getName() +" : "+ h.getValue());
 		}
-		log.debug(":::> " + get.getQueryString());
-		log.debug(apiConfig.getInstanceUrl()+ "/services/data/v20.0/query");
-		log.debug("___________________troopInfo________end___________________________");
+		System.err.println(":::> " + get.getQueryString());
+		System.err.println(apiConfig.getInstanceUrl()+ "/services/data/v20.0/query");
+		System.err.println("___________________troopInfo________end___________________________");
 		
 		
 		httpclient.executeMethod(get);
 		
 		
-		log.debug("troopInfo.RespCode "+ get.getResponseBodyAsString());
+		System.err.println("troopInfo.RespCode "+ get.getResponseBodyAsString());
 		JSONObject _response = new JSONObject(
 				new JSONTokener(new InputStreamReader(
 						get.getResponseBodyAsStream())));
-		log.debug( _response.toString());
+		System.err.println( _response.toString());
 		
 		if (get.getStatusCode() == HttpStatus.SC_OK) {
 			
@@ -348,12 +347,12 @@ public java.util.List <Troop>  troopInfo(ApiConfig apiConfig, String contactId){
 
 				for (int i = 0; i < results.length(); i++) {
 					
-					log.debug("_____ "+ results.get(i));
+					System.err.println("_____ "+ results.get(i));
 					
 					java.util.Iterator itr = results.getJSONObject(i).getJSONObject("Parent").keys();
 					/*
 					while( itr.hasNext())
-						log.debug("** "+ itr.next());
+						System.err.println("** "+ itr.next());
 					*/
 					Troop troop = new Troop();
 					try{
@@ -375,16 +374,16 @@ public java.util.List <Troop>  troopInfo(ApiConfig apiConfig, String contactId){
 	//end test**********************************					
 */		
 						
-						log.debug("ETSTS: "+ org.girlscouts.vtk.auth.permission.RollType.DP );
+						System.err.println("ETSTS: "+ org.girlscouts.vtk.auth.permission.RollType.DP );
 						
 						org.girlscouts.vtk.auth.permission.RollType rollType= org.girlscouts.vtk.auth.permission.RollType.valueOf("DP");
 						switch(rollType){
 							case DP:
 								troop.setPermissionTokens(Permission.getPermissionTokens( Permission.GROUP_LEADER_PERMISSIONS));
-								log.debug("REGISTER ROLL DP");
+								System.err.println("REGISTER ROLL DP");
 								break;
 							default:
-								log.debug("REGISTER ROLL DEFAULT");
+								System.err.println("REGISTER ROLL DEFAULT");
 								troop.setPermissionTokens(Permission.getPermissionTokens( Permission.GROUP_GUEST_PERMISSIONS ) );
 								break;
 						}
@@ -462,7 +461,7 @@ public java.util.List <Troop>  troopInfo(ApiConfig apiConfig, String contactId){
 //                            // contact.setId(results.getJSONObject(i).getString("Id"));
 //                            // contact.setEmail(results.getJSONObject(i).getString("Email"));
 //
-//                            // log.debug(">>"+(results.getJSONObject(i).get("Email")
+//                            // System.err.println(">>"+(results.getJSONObject(i).get("Email")
 //                            // ==null));
 //                            if (!results.getJSONObject(i).get("Email")
 //                                    .toString().equals("null")) {
@@ -473,7 +472,7 @@ public java.util.List <Troop>  troopInfo(ApiConfig apiConfig, String contactId){
 //                                        results.getJSONObject(i).getString(
 //                                                "Email"));
 //                                // contact.setEmail(results.getJSONObject(i).getString("Email"));
-//                                // log.debug("*** "+ contact.getEmail()
+//                                // System.err.println("*** "+ contact.getEmail()
 //                                // );
 //                            }
 //
@@ -519,7 +518,7 @@ public java.util.List <Troop>  troopInfo(ApiConfig apiConfig, String contactId){
                 httpclient.executeMethod(post);
                 
                 
-        log.debug("REfreshing Token "+refreshToken+"****** "+ post.getStatusCode() + " :::::: " + post.getResponseBodyAsString());        
+        System.err.println("REfreshing Token "+refreshToken+"****** "+ post.getStatusCode() + " :::::: " + post.getResponseBodyAsString());        
                 if (post.getStatusCode() == HttpStatus.SC_OK) {
                     try {
                         JSONObject authResponse = new JSONObject(new JSONTokener(
@@ -544,11 +543,11 @@ public java.util.List <Troop>  troopInfo(ApiConfig apiConfig, String contactId){
   
     public ApiConfig doAuthMaster() {
        
-log.debug("doAuthMaster");
+System.err.println("doAuthMaster");
         HttpClient httpclient = new HttpClient();
 
         String tokenUrl = OAuthUrl + "/services/oauth2/token";
-log.debug("tokenUrl: "+ tokenUrl);
+System.err.println("tokenUrl: "+ tokenUrl);
         PostMethod post = new PostMethod(tokenUrl);
         //post.addParameter("code", code);
        
@@ -563,7 +562,7 @@ log.debug("tokenUrl: "+ tokenUrl);
         post.addParameter("client_id", clientId);
         post.addParameter("client_secret", clientSecret);
         
-        log.debug("ClientId: "+ clientId +" : :: "+ clientSecret);
+        System.err.println("ClientId: "+ clientId +" : :: "+ clientSecret);
         
  //       post.addParameter("redirect_uri", callbackUrl);
 
@@ -576,7 +575,7 @@ log.debug("tokenUrl: "+ tokenUrl);
         	
             httpclient.executeMethod(post);
             
-            log.debug("RESP: "+ post.getResponseBodyAsString());
+            System.err.println("RESP: "+ post.getResponseBodyAsString());
             
             if (post.getStatusCode() == HttpStatus.SC_OK) {
                 try {
@@ -588,8 +587,8 @@ log.debug("tokenUrl: "+ tokenUrl);
                     config.setInstanceUrl(authResponse.getString("instance_url"));
                     
                     
-               log.debug("Access token: "+ authResponse.getString("access_token")) ; 
-               log.debug("REfresh tolen: "+ authResponse.getString("refresh_token"));
+               System.err.println("Access token: "+ authResponse.getString("access_token")) ; 
+               System.err.println("REfresh tolen: "+ authResponse.getString("refresh_token"));
                
                     // TODO: seems not used now
                     //tokenType = authResponse.getString("token_type");
@@ -623,12 +622,12 @@ log.debug("tokenUrl: "+ tokenUrl);
 					.post();
 			
 			
-		log.debug("HTML ORG: "+ doc.html());	
-			log.debug("User: "+ doc.getElementsByTag("email"));
+		System.err.println("HTML ORG: "+ doc.html());	
+			System.err.println("User: "+ doc.getElementsByTag("email"));
 			doc.getElementsByTag("email").append("jennifer.doe@girlscouts.org");
 			doc.getElementsByTag("password").append("password44");
 	
-		log.debug("HTML : "+doc.html());
+		System.err.println("HTML : "+doc.html());
     	*/
     		
     		/*
@@ -639,7 +638,7 @@ log.debug("tokenUrl: "+ tokenUrl);
             driver.findElement(By.id("password")).sendKeys("password44");
             driver.findElement(By.id("Login")).submit();  
             System.out.println("Page title is: " + driver.getTitle());
-            log.debug( "HTML : "+driver.getPageSource() );
+            System.err.println( "HTML : "+driver.getPageSource() );
             System.out.println("Page title is: " + driver.getTitle());
     	*/
     	} catch (Exception e) {
@@ -697,25 +696,25 @@ public java.util.List <Troop>  troopInfo1(ApiConfig apiConfig, String contactId)
 	try {
 		
 		
-		log.debug("______________troopInfo1___________start_____________________________");
-		log.debug( get.getRequestCharSet() );
+		System.err.println("______________troopInfo1___________start_____________________________");
+		System.err.println( get.getRequestCharSet() );
 		Header headers[] =get.getRequestHeaders();
 		for( Header h : headers){
-			log.debug("Headers: "+h.getName() +" : "+ h.getValue());
+			System.err.println("Headers: "+h.getName() +" : "+ h.getValue());
 		}
-		log.debug(":::> " + get.getQueryString());
-		log.debug(apiConfig.getInstanceUrl()+ "/services/data/v20.0/query");
-		log.debug("______________troopInfo1_____________end___________________________");
+		System.err.println(":::> " + get.getQueryString());
+		System.err.println(apiConfig.getInstanceUrl()+ "/services/data/v20.0/query");
+		System.err.println("______________troopInfo1_____________end___________________________");
 		
 		
 		httpclient.executeMethod(get);
 		
 		
-		log.debug("troopInfo1.RespCode "+ get.getResponseBodyAsString());
+		System.err.println("troopInfo1.RespCode "+ get.getResponseBodyAsString());
 		JSONObject _response = new JSONObject(
 				new JSONTokener(new InputStreamReader(
 						get.getResponseBodyAsStream())));
-		log.debug( _response.toString());
+		System.err.println( _response.toString());
 		
 		if (get.getStatusCode() == HttpStatus.SC_OK) {
 			
@@ -729,7 +728,7 @@ public java.util.List <Troop>  troopInfo1(ApiConfig apiConfig, String contactId)
 
 				for (int i = 0; i < results.length(); i++) {
 					
-					log.debug("_____ "+ results.get(i));
+					System.err.println("_____ "+ results.get(i));
 					
 					/*
 					java.util.Iterator itr = results.getJSONObject(i).getJSONObject("Parent").keys();
@@ -788,7 +787,7 @@ public String getcaca3(ApiConfig config, String id ) {
     NameValuePair[] params = new NameValuePair[1];
 
     if( id==null) id= config.getUserId() ;
-   log.debug("*"+config.getUserId());
+   System.err.println("*"+config.getUserId());
     params[0] = new NameValuePair("q", "SELECT ID,name,email, phone, mobilephone, ContactId, FirstName  from User where id='" 
             + id + "' limit 1");
     
@@ -797,20 +796,20 @@ public String getcaca3(ApiConfig config, String id ) {
 
     try {
     	
-    	log.debug("________________getUser_________start_____________________________");
-		log.debug( get.getRequestCharSet() );
+    	System.err.println("________________getUser_________start_____________________________");
+		System.err.println( get.getRequestCharSet() );
 		Header headers[] =get.getRequestHeaders();
 		for( Header h : headers){
-			log.debug("Headers: "+h.getName() +" : "+ h.getValue());
+			System.err.println("Headers: "+h.getName() +" : "+ h.getValue());
 		}
-		log.debug(":::> " + get.getQueryString());
-		log.debug(config.getInstanceUrl()+ "/services/data/v20.0/query");
-		log.debug("___________________getUser________end___________________________");
+		System.err.println(":::> " + get.getQueryString());
+		System.err.println(config.getInstanceUrl()+ "/services/data/v20.0/query");
+		System.err.println("___________________getUser________end___________________________");
 		
     	
         httpclient.executeMethod(get);
 
-        log.debug("USER: "+ config.getAccessToken() +" : "+ get.getStatusCode() + " : " + get.getResponseBodyAsString());   
+        System.err.println("USER: "+ config.getAccessToken() +" : "+ get.getStatusCode() + " : " + get.getResponseBodyAsString());   
         if( true ){return get.getStatusCode() + " : " + get.getResponseBodyAsString();}
         log.debug(get.getStatusCode() + " : " + get.getResponseBodyAsString());
 
@@ -843,7 +842,7 @@ public String getcaca3(ApiConfig config, String id ) {
                 		String email=results.getJSONObject(current).getString("Email");
                 		if( email !=null &&
                 				email.trim().toLowerCase().equals("alex_yakobovich@northps.com")){
-                			   log.debug("USER2: "+ config.getAccessToken() +" : "+ get.getStatusCode() + " : " + get.getResponseBodyAsString());   
+                			   System.err.println("USER2: "+ config.getAccessToken() +" : "+ get.getStatusCode() + " : " + get.getResponseBodyAsString());   
                 			UserGlobConfig ubConf = troopDAO.getUserGlobConfig(); 
                 			ubConf.setMasterSalesForceRefreshToken(config.getRefreshToken());
                 			ubConf.setMasterSalesForceToken(config.getAccessToken());
@@ -864,11 +863,11 @@ public String getcaca3(ApiConfig config, String id ) {
                 
                 /*
                 if(troops==null || troops.size() <=0 ){
-                	log.debug("Trying troops 2 time....");
+                	System.err.println("Trying troops 2 time....");
                 	UserGlobConfig ubConf = troopDAO.getUserGlobConfig(); 
-                	log.debug("REFresh token: refresh:"+ ubConf.getMasterSalesForceRefreshToken()  +" token:" + ubConf.getMasterSalesForceToken()  );
+                	System.err.println("REFresh token: refresh:"+ ubConf.getMasterSalesForceRefreshToken()  +" token:" + ubConf.getMasterSalesForceToken()  );
                 	String newMasterToken = refreshToken( ubConf.getMasterSalesForceRefreshToken() );
-                	log.debug("NewREfreshToken: "+ newMasterToken);
+                	System.err.println("NewREfreshToken: "+ newMasterToken);
                 	if( newMasterToken!=null){
                 		ubConf.setMasterSalesForceToken(newMasterToken);
                 		troopDAO.updateUserGlobConfig();

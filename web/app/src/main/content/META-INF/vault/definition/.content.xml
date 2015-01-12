@@ -267,6 +267,31 @@
             mode="replace"
             root="/etc/workflow/launcher/config/gs_modify_asset_sp_right_hero"
             rules="[]"/>  
-            
+         <f52
+            jcr:primaryType="nt:unstructured"
+            mode="replace"
+            root="/apps/foundation"
+            rules="[]"/>  
+        <f53
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/scaffolding/girlscouts-dxp"
+            rules="[]"/>
+         <f54
+            jcr:primaryType="nt:unstructured"
+            mode="replace"
+            root="/apps/wcm"
+            rules="[]"/>  
+        <f55
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/workflow/launcher/config/gs_form_reverse_replication"
+            rules="[]"/>
+        <f55
+            jcr:primaryType="nt:folder"
+            mode="replace"
+            root="/apps/wcm/core"
+            rules="[]"/>
+
     </filter>
 </jcr:root>
