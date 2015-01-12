@@ -98,8 +98,8 @@ System.err.println("Activ :"+ i);
 	}
 
 	
-	public List<YearPlan> getAllYearPlans(String ageLevel){
-		return yearPlanDAO.getAllYearPlans(ageLevel);
+	public List<YearPlan> getAllYearPlans(User user, String ageLevel){
+		return yearPlanDAO.getAllYearPlans(user,ageLevel);
 	}
 	
 	public YearPlan getYearPlan(String path){

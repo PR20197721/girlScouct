@@ -94,7 +94,7 @@
 	String errMsg = null;
 	Troop troop = (Troop) session.getValue("VTK_troop");
 	
-	
+
 	//Needs for front yp page. ajax/multi call to session.jsp. Not always happens.
 	if( troop != null && !troop.isRefresh() && !userUtil.isCurrentTroopId_NoRefresh(troop,user.getSid() ) &&
 			session.getAttribute("isReloadedWindow")!=null ){
