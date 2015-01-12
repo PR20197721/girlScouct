@@ -333,7 +333,8 @@
 .vtk-body .reveal-modal {
   padding: 0; }
   .vtk-body .reveal-modal .header {
-    background: #00ae57; }
+    background: #00ae57;
+    padding: 7px 0 5px 5px; }
     .vtk-body .reveal-modal .header h3 {
       text-transform: uppercase;
       font-size: 24px;
@@ -415,7 +416,8 @@
     .vtk-body .modalWrap #gsModal p, .vtk-body .modalWrap #gsModal a, .vtk-body .modalWrap #gsModal span, .vtk-body .modalWrap #gsModal li {
       font-size: 14px; }
   .vtk-body .modalWrap .header {
-    background: #00ae57; }
+    background: #00ae57;
+    padding: 7px 0 5px 5px; }
     .vtk-body .modalWrap .header h3 {
       text-transform: uppercase;
       font-size: 24px;
@@ -479,9 +481,23 @@
         .vtk-body .modalWrap .tabs-wrapper .tabs-content table tr {
           padding: 0.5625rem 0;
           background: none; }
+      .vtk-body .modalWrap .tabs-wrapper .tabs-content .date label {
+        margin-top: 5px; }
       .vtk-body .modalWrap .tabs-wrapper .tabs-content #manageLocationSection,
-      .vtk-body .modalWrap .tabs-wrapper .tabs-content #manageActivitySection {
+      .vtk-body .modalWrap .tabs-wrapper .tabs-content #manageActivitySection,
+      .vtk-body .modalWrap .tabs-wrapper .tabs-content #pickActivitySection {
         display: none; }
+      .vtk-body .modalWrap .tabs-wrapper .tabs-content #pickActivitySection .looking-glass {
+        position: relative; }
+        .vtk-body .modalWrap .tabs-wrapper .tabs-content #pickActivitySection .looking-glass:after {
+          font-family: "JollyFont";
+          position: absolute;
+          content: "\e66c";
+          color: #00ae58;
+          top: 0px;
+          left: 90%;
+          font-size: 1.5rem;
+          padding: 7px 0; }
     .vtk-body .modalWrap .tabs-wrapper [class^="icon-"],
     .vtk-body .modalWrap .tabs-wrapper [class*=" icon-"] {
       font-size: 27px;
@@ -493,6 +509,31 @@
     margin-left: 5px; }
     .vtk-body .modalWrap .btn.add-btn {
       padding: 10px 2rem; }
+  .vtk-body .modalWrap button, .vtk-body .modalWrap select {
+    text-transform: uppercase; }
+.vtk-body #manageCalendarSection .holidays input[type=checkbox]:checked + label:before {
+  content: "\e6d7";
+  font-family: JollyFont;
+  color: green; }
+.vtk-body #manageCalendarSection .holidays input[type="checkbox"] {
+  display: none; }
+.vtk-body #manageCalendarSection .holidays label:before {
+  border: solid 1px #ccc;
+  content: "";
+  height: 30px;
+  width: 30px;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+  font-size: 15px;
+  text-align: center;
+  display: inline-block;
+  float: left;
+  padding: 4px; }
+.vtk-body #manageCalendarSection .holidays label p {
+  float: left;
+  margin-top: -5px;
+  margin-left: 9px; }
+.vtk-body #manageCalendarSection .holidays label span {
+  display: block; }
 .vtk-body .hero-image {
   margin-bottom: 10px; }
 .vtk-body .crumbs .columns #util-links.inline-list {

@@ -35,17 +35,19 @@
 	String troopPhotoUrl = "/content/dam/girlscouts-vtk/troops/" + troopId + "/imgLib/troop_pic.png/troop_pic.png";
 %>
 <div id="modal_upload_image" class="reveal-modal" data-reveal>
-<b>Troop:<%=troop.getTroop().getTroopName()%></b>
-
-<form action="/content/girlscouts-vtk/controllers/auth.asset.html" method="post" id="frmImg" name="frmImg" enctype="multipart/form-data">
-
-        <input type="hidden" name="troopId"  value="<%=troopId%>"/>
-        <input type="file"   name="upldTroopPic" value="" />
-        <input type="submit" value="Upload Photo"  />
-
-</form>
-	<a class="close-reveal-modal">&#215;</a>
+<div class="header clearfix">
+  <h3 class="columns large-22">Troop:<%=troop.getTroop().getTroopName()%></h3>
+  <a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
 </div>
+  <div class="content">
+    <form action="/content/girlscouts-vtk/controllers/auth.asset.html" method="post" id="frmImg" name="frmImg" enctype="multipart/form-data">
+      <input type="hidden" name="troopId"  value="<%=troopId%>"/>
+      <input type="file"   name="upldTroopPic" value="" />
+      <input type="submit" value="Upload Photo" class="button btn" />
+    </form>
+  </div>
+</div>
+
   <img class="hero-image" src="<%=troopPhotoUrl %>" alt="GirlScouts Troop <%=troop.getTroop().getTroopName()%> Photo" />
   <div class="column large-24 large-centered">
 

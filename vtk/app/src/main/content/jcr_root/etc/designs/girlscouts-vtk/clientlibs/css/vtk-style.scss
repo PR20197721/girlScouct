@@ -449,6 +449,7 @@
     padding:0;
     .header {
       background: #00ae57;
+      padding:7px 0 5px 5px;
       h3 {
         text-transform: uppercase;
         font-size: 24px;
@@ -540,6 +541,7 @@
       }
     }
   }//end modals
+
   //modals per JQ UI
   .modalWrap {
     padding:0;
@@ -557,6 +559,7 @@
     }
     .header {
       background: #00ae57;
+      padding:7px 0 5px 5px;
       h3 {
         text-transform: uppercase;
         font-size: 24px;
@@ -639,9 +642,30 @@
             background: none;
           }
         }
+        .date {
+          label {
+            margin-top:5px;
+          }
+        }
         #manageLocationSection,
-        #manageActivitySection {
+        #manageActivitySection,
+        #pickActivitySection {
           display:none;
+        }
+        #pickActivitySection {
+          .looking-glass {
+            position:relative;
+            &:after {
+              font-family: "JollyFont";
+              position: absolute;
+              content: "\e66c";
+              color: rgb(0, 174, 88);
+              top: 0px;
+              left: 90%;
+              font-size: 1.5rem;
+              padding: 7px 0;
+            }
+          }
         }
       }
       [class^="icon-"],
@@ -659,8 +683,44 @@
         padding:10px 2rem;
       }
     }
+    button, select {
+      text-transform:uppercase;
+    }
   }
-
+  #manageCalendarSection {
+    .holidays {
+      input[type=checkbox]:checked + label:before {
+        content: "\e6d7";
+        font-family: JollyFont;
+        color: green;
+      }
+      input[type="checkbox"] {
+        display: none;
+      }
+      label {
+      &:before {
+        border: solid 1px #ccc;
+        content: "";
+        height: 30px;
+        width: 30px;
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+        font-size: 15px;
+        text-align: center;
+        display: inline-block;
+        float: left;
+        padding:4px;
+      }
+      p {
+        float: left;
+        margin-top: -5px;
+        margin-left: 9px;
+      }
+        span {
+          display: block;
+        }
+      }
+    }
+  }
   .hero-image {
     margin-bottom:10px;
   }
