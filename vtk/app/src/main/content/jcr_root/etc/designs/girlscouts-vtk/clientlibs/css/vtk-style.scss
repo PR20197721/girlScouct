@@ -271,6 +271,7 @@
   }
   //meeting tab page
   #main .meeting-detail {
+    color:#393939;
     .meeting-navigation {
       background: #00ae58;
       margin-bottom: 5%;
@@ -394,6 +395,10 @@
         margin-top: 0;
         p {
           margin:0;
+          font-weight:700;
+        }
+        &:last-child {
+          margin-bottom:0;
         }
       }
     }
@@ -417,9 +422,29 @@
         font-weight: 100;
       }
     }
+    a {
+      font-size:0.88em;
+    }
   }
-
-  //modals
+  .locationResultElement {
+    margin-bottom:20px;
+    padding-bottom:20px;
+    border-bottom:solid 1px #999;
+    ul,li {
+      list-style-type: none;
+    }
+    li {
+      input {
+        margin-right:20px;
+      }
+    }
+    &:last-child {
+      border:none;
+      padding:0;
+      margin:0;
+    }
+  }
+  //modals per Foundation
   .reveal-modal {
     padding:0;
     .header {
@@ -515,7 +540,7 @@
       }
     }
   }//end modals
-  
+  //modals per JQ UI
   .modalWrap {
     padding:0;
     border-radius:0;
@@ -526,6 +551,9 @@
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.7);
     #gsModal {
       padding:0;
+      p,a,span,li {
+        font-size: 14px;
+      }
     }
     .header {
       background: #00ae57;
@@ -627,9 +655,11 @@
       text-transform: uppercase;
       color: #fff;
       margin-left:5px;
+      &.add-btn {
+        padding:10px 2rem;
+      }
     }
   }
-
 
   .hero-image {
     margin-bottom:10px;

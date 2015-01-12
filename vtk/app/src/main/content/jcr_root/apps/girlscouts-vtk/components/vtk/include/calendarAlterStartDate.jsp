@@ -8,11 +8,52 @@
 
 <%@include file="session.jsp"%>
 
+
+<form className="clearfix">
+  <section className="clearfix">
+<!--     <p>Configure X meeting dates starting on or after XX/XX/XXXX:</p> -->
+    <div className="large-4 columns">
+      <input type="text" placeholder="Start Date" id="calStartDt" name="calStartDt" value="<%=troop.getYearPlan().getCalStartDate()==null ? "" : FORMAT_MMddYYYY.format(new java.util.Date(troop.getYearPlan().getCalStartDate())) %>" />
+    </div>
+    <div className="large-2 columns">
+      <a href="#nogo" title="calendar"><i className="icon-calendar"></i></a>
+    </div>
+    <div className="large-4 columns">
+      <input type="text" placeholder="Time" id="calTime" value="<%=troop.getYearPlan().getCalStartDate()==null ? (org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_HOUR+":"+org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_MIN) : FORMAT_hhmm.format(new java.util.Date(troop.getYearPlan().getCalStartDate())) %>" />
+    </div>
+    <div className="large-3 columns">
+      <select>
+        <option value="0">AM</option>
+        <option value="1">PM</option>
+      </select>
+    </div>
+    <div className="large-4 columns left">
+      <select>
+        <option value="0">Frequency</option>
+        <option value="1">Once a day</option>
+      </select>
+    </div>
+  </section>
+  <section className="clearfix">
+    <p>Do not schedule the meeting the week of:</p>
+    <input id="checkbox1" type="checkbox" /><label for="checkbox1"><p><span className="date">12/12/14</span><span>Thanksgiving</span></p></label>
+    <input id="checkbox2" type="checkbox" /><label for="checkbox2"><p><span className="date">12/12/14</span><span>Another Holiday</span></p></label>
+    <input id="checkbox3" type="checkbox" /><label for="checkbox3"><p><span className="date">12/12/14</span><span>Holiday Name</span></p></label>
+    <input id="checkbox4" type="checkbox" /><label for="checkbox4"><p><span className="date">12/12/14</span><span>Thanksgiving</span></p></label>
+    <input id="checkbox5" type="checkbox" /><label for="checkbox5"><p><span className="date">12/12/14</span><span>Thanksgiving</span></p></label>
+  </section>
+  <button className="btn right">create calendar</button>
+  <button className="btn right">cancel</button>
+</form>
+
+
+
+
+
+
+
+///////////
 <div class="setupCalendar">
-
-<p>Select the date of your next meeting. Recurring meeting dates will be calculated based on this date.</p>
-
-
 
 <form>
 
