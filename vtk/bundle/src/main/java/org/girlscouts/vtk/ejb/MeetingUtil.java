@@ -1030,7 +1030,8 @@ if( !userUtil.hasPermission(troop,  Permission.PERMISSION_MOVE_MEETING_ID ) ){
 		
 		
 		
-		meeting.setMeetingInfo(meetingInfo);
+		if( meeting!=null)
+			meeting.setMeetingInfo(meetingInfo);
 		planView.setMeeting(meeting);
 		planView.setAidTags( _aidTags );
 		/*
