@@ -24,17 +24,15 @@ if (pageContext.getAttribute("DETAIL_TYPE") != null && "activity".equals((String
         <span className="month">{this.props.meetingModMONTH}</span>
         <span className="day">{this.props.meetingModDAY}</span>
         <span className="hour">{this.props.meetingModHOUR}</span>
-      	<%} %>
-      	<!-- need end date -->
-      	<% Date endDate;
-      	if(endDate!=null && endDate.after(startDate)){%>
+      	<%} 
+      	if(new Date("07/28/2015 17:00:00")!=null && new Date("07/28/2015 17:00:00").after(planView.getSearchDate())){%>
       		-
       		<%SimpleDateFormat fm= new SimpleDateFormat("yyyyMMdd");
-      		if(!fm.format(endDate).equals(fm.format(startDate))){%>
-				<span><%= endDateMonth %></span>
-        		<span><%= endDateDay%></span>      		
+      		if(!fm.format(new Date("07/28/2015 17:00:00")).equals(fm.format(planView.getSearchDate()))){%>
+				<span><%= new SimpleDateFormat("MMMM").format(new Date("07/28/2015 17:00:00")) %></span>
+        		<span><%= new SimpleDateFormat("dd").format(new Date("07/28/2015 17:00:00"))%></span>      		
         	<%}%>     
-        		<span><%= endDateTime %></span>
+        		<span><%= new SimpleDateFormat("hh:mm a").format(new Date("07/28/2015 17:00:00")) %></span>
       	<%}%>
       </p>
     </div>
