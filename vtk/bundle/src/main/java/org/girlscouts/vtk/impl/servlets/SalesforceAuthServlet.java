@@ -377,7 +377,7 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
 
 	    }catch(Exception e){e.printStackTrace();}
 
-	    return elem ==null ? getCurrentYearDefault(resourceResolver) : elem;
+	    return (elem ==null || elem.equals("") ) ? getCurrentYearDefault(resourceResolver) : elem;
 
 	    }
 
