@@ -103,21 +103,29 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
 <section className="column large-20 medium-20 large-centered medium-centered" id="main-info">
 	<div className="row">
 		<div className="column large-17 medium-17 small-17">
-			<p>{this.props.data.name}</p>
-                                        <br/>Date: {this.props.data.date} -{this.props.data.endDate}
-                                        <br/>Time:
-                                        <br/>Age range:
-                                        <br/>Cost: {this.props.data.cost}
-                                        <br/>Desc: {this.props.data.activityDescription}
-					<br/>Desc1: {this.props.data.content}
-                                        <br/>Path: {this.props.data.path}
-                                        <br/>Uid: {this.props.data.uid}
-                                        <br/>Register Url{this.props.data.registerUrl}
-                                        <br/>Canceled:{this.props.data.cancelled}
-                                        <br/>IsEditable: {this.props.data.isEditable}
-                                        <br/><a href="javascript:rmCustActivity12(aPath)">delete this activity</a>
-				<p>Location:</p>
-				<p>{this.props.data.locationName} --- {this.props.data.locationAddress} -- {this.props.data.locationRef}</p>
+
+ <p>{this.props.data.content}</p>
+
+      <section>
+        <p>Location:</p>
+        <p>{this.props.data.locationName} <br/>{this.props.data.locationAddress} {this.props.data.locationRef}</p>
+      </section>
+
+     
+
+	  <section>
+        <p>Age:</p>
+        <p><%=troop.getSfTroopAge()%></p>
+      </section>
+
+	
+	  <section>
+        <p>Cost:</p>
+        <p>{this.props.data.cost}</p>
+      </section>
+
+
+			
 		</div>
 		<div className="column large-7 medium-7 small-7"></div>
 	</div>
@@ -129,5 +137,10 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
 
     </script>
 </div>
+<br/><a href="javascript:rmCustActivity12(aPath)">delete this activity</a>
 </div>
+
+
+			        
+
 <!-- PAGE STOP activity_react2.jsp -->

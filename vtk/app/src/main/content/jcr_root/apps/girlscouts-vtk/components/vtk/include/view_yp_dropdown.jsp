@@ -28,8 +28,7 @@
       %>
       <div class="row">
         <div class="large-2 columns large-push-2">
-            <%if( troop.getYearPlan()!=null && (yearPlan.getId().equals(troop.getYearPlan().getId()))){%>::<%}%>
-            <input type="radio" id="r_<%=yearPlan.getId()%>" class="radio1" name="group1" onclick="x('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>', '<%=yearPlan.getName()%>')" />
+            <input type="radio" <%=( troop.getYearPlan()!=null && (yearPlan.getId().equals(troop.getYearPlan().getId()))) ? " checked " : "" %> id="r_<%=yearPlan.getId()%>" class="radio1" name="group1" onclick="x('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>', '<%=yearPlan.getName()%>')" />
             <label for="r_<%=yearPlan.getId()%>"></label>
             <!-- <input type="submit" name="" value="<%=yearPlan.getName()%>" onclick="x('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>', '<%=yearPlan.getName()%>')" /> -->
         </div>

@@ -142,7 +142,7 @@ function durEditActiv(duration, activPath, meetingPath){
 		data: '', // Send value of the clicked button
 		dataType: 'html', // Choosing a JSON datatype
 		success: function (data) { 
-			//location.reload();
+			location.reload();
 		},
 		error: function (data) { 
 
