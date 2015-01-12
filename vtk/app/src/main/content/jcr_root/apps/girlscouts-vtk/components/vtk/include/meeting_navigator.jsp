@@ -1,6 +1,8 @@
 <div className="column large-20 medium-20 large-centered medium-centered small-24">
+
 <%
-if (pageContext.getAttribute("DETAIL_TYPE") != null && "activity".equals((String) pageContext.getAttribute("DETAIL_TYPE"))) {
+//if (pageContext.getAttribute("DETAIL_TYPE") != null && "activity".equals((String) pageContext.getAttribute("DETAIL_TYPE"))) {
+if( (planView.getYearPlanComponent().getType() ==  YearPlanComponentType.ACTIVITY) ){
 %>
   <div className="meeting-navigation activity-navigation row collapse">
 <%
@@ -25,17 +27,26 @@ if (pageContext.getAttribute("DETAIL_TYPE") != null && "activity".equals((String
         <span className="day">{this.props.meetingModDAY}</span>
         <span className="hour">{this.props.meetingModHOUR}</span>
       	<%} %>
-      	<!-- need end date -->
-      	<% Date endDate;
-      	if(endDate!=null && endDate.after(startDate)){%>
-      		-
-      		<%SimpleDateFormat fm= new SimpleDateFormat("yyyyMMdd");
-      		if(!fm.format(endDate).equals(fm.format(startDate))){%>
-				<span><%= endDateMonth %></span>
-        		<span><%= endDateDay%></span>      		
-        	<%}%>     
-        		<span><%= endDateTime %></span>
-      	<%}%>
+      	
+      	
+      	
+      	<% switch( planView.getYearPlanComponent().getType() ) {
+	
+	  		case ACTIVITY:
+				
+					java.util.Date endDate = ( (Activity) planView.getYearPlanComponent() ).getEndDate();
+					
+						out.println("-");
+						if(planView.getSearchDate().getMonth() !=  endDate.getMonth() ){%>FORMAT_MONTH.format(endDate)<% }
+						if(planView.getSearchDate().getDay() !=  endDate.getDay() ){%>FORMAT_DAY_OF_MONTH.format(endDate)<% }
+						
+						%><%=FORMAT_hhmm_AMPM.format(endDate) %><% 
+					
+				
+				break;
+		}
+      	%>
+      	
       </p>
     </div>
     <p className="column">

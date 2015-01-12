@@ -26,8 +26,11 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
 
 <div id="panelWrapper" class="row content meeting-detail">
 <%@include file="include/utility_nav.jsp"%>
-<div id="theActivity">
 <%@include file="include/activity_edit_react.jsp"%>
+<a href="javascript:rmCustActivity12(aPath)">delete this activity</a>
+			
+<div id="theActivity">
+
 
   <script type="text/jsx">
    var isActivNew=0;
@@ -126,8 +129,22 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
 
 
 			
+		
+		
+
+
+			<section>
+			
+			<p>
+				<%@include file="include/meeting_communication.jsp"%>
+			</p>
+			</section>
+			
+        </div>
+		<div className="column large-7 medium-7 small-7">
+		
 		</div>
-		<div className="column large-7 medium-7 small-7"></div>
+
 	</div>
 </section>
 </div>
@@ -137,7 +154,7 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
 
     </script>
 </div>
-<br/><a href="javascript:rmCustActivity12(aPath)">delete this activity</a>
+
 </div>
 
 
