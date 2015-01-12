@@ -83,8 +83,7 @@ public class TroopDAOImpl implements TroopDAO {
 
 			ocm.refresh(true);
 			troop = (Troop) ocm.getObject( "/vtk/"+ councilId +"/troops/"+ troopId);
-	System.err.println("tata: "+ "/vtk/"+ councilId +"/troops/"+ troopId);
-	System.err.println("tata: "+ troop.getYearPlan().getCalFreq());
+
 			if( troop!=null)
 				troop.setRetrieveTime( new java.util.Date() );
 		
