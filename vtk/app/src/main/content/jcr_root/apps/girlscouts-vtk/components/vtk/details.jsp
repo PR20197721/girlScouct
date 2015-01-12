@@ -7,7 +7,7 @@
   String activeTab = "planView";
   boolean showVtkNav = true;
     
-	org.girlscouts.vtk.models.PlanView planView = meetingUtil.planView1(user, troop, request);
+	org.girlscouts.vtk.models.PlanView planView = meetingUtil.planView(user, troop, request);
 	
 
 

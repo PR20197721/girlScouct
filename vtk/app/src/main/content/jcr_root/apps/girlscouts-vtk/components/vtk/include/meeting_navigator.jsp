@@ -24,7 +24,18 @@ if (pageContext.getAttribute("DETAIL_TYPE") != null && "activity".equals((String
         <span className="month">{this.props.meetingModMONTH}</span>
         <span className="day">{this.props.meetingModDAY}</span>
         <span className="hour">{this.props.meetingModHOUR}</span>
-      	<%} %>	
+      	<%} %>
+      	<!-- need end date -->
+      	<% Date endDate;
+      	if(endDate!=null && endDate.after(startDate)){%>
+      		-
+      		<%SimpleDateFormat fm= new SimpleDateFormat("yyyyMMdd");
+      		if(!fm.format(endDate).equals(fm.format(startDate))){%>
+				<span><%= endDateMonth %></span>
+        		<span><%= endDateDay%></span>      		
+        	<%}%>     
+        		<span><%= endDateTime %></span>
+      	<%}%>
       </p>
     </div>
     <p className="column">

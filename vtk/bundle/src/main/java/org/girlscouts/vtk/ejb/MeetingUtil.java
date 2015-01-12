@@ -970,7 +970,6 @@ if( !userUtil.hasPermission(troop,  Permission.PERMISSION_MOVE_MEETING_ID ) ){
 		Meeting meetingInfo = null;
 
 		
-		
 
 		if ( _comp.getType() == YearPlanComponentType.MEETING) {
 			meeting = (MeetingE) _comp;
@@ -1031,7 +1030,8 @@ if( !userUtil.hasPermission(troop,  Permission.PERMISSION_MOVE_MEETING_ID ) ){
 		
 		
 		
-		meeting.setMeetingInfo(meetingInfo);
+		if( meeting!=null)
+			meeting.setMeetingInfo(meetingInfo);
 		planView.setMeeting(meeting);
 		planView.setAidTags( _aidTags );
 		/*

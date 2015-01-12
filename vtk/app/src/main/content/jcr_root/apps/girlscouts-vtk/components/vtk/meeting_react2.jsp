@@ -3,12 +3,13 @@
 
 String mid = planView.getYearPlanComponent().getUid();
 MeetingE meeting = (MeetingE)planView.getYearPlanComponent();
+
 pageContext.setAttribute("MEETING_PATH", meeting.getPath());
 pageContext.setAttribute("PLANVIEW_TIME", Long.valueOf(planView.getSearchDate().getTime()));
 pageContext.setAttribute("DETAIL_TYPE", "meeting");
 
 %>
-
+   <%@include file="include/meeting_aids_add.jsp"%>
 
 <!-- <script src="http://code.jquery.com/jquery-1.9.1.js"></script> -->
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
@@ -140,7 +141,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
      			  <ul className="large-block-grid-2 medium-block-grid-2 small-block-grid-1">
               {commentNodes}
       		  </ul>
-            <a className="add-btn" href="/content/girlscouts-vtk/en/vtk.resource.html" title="Add meeting aids"><i className="icon-button-circle-plus"></i> Add Meeting Aids</a>
+            <a className="add-btn" href="#" title="Add meeting aids"><i className="icon-button-circle-plus"></i> Add Meeting Aids</a>
     		  </section> 
         );
       }
@@ -316,6 +317,6 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
     </script>
     
     <%@include file="include/modal_agenda.jsp"%> 
-   
+ 
 </div>
 </div>
