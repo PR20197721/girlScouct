@@ -26,6 +26,7 @@ if( (planView.getYearPlanComponent().getType() ==  YearPlanComponentType.ACTIVIT
         <span className="month">{this.props.meetingModMONTH}</span>
         <span className="day">{this.props.meetingModDAY}</span>
         <span className="hour">{this.props.meetingModHOUR}</span>
+
       	<%} %>
       	
       	
@@ -47,6 +48,7 @@ if( (planView.getYearPlanComponent().getType() ==  YearPlanComponentType.ACTIVIT
 		}
       	%>
       	
+
       </p>
     </div>
     <p className="column">
