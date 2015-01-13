@@ -9,7 +9,7 @@ pageContext.setAttribute("PLANVIEW_TIME", Long.valueOf(planView.getSearchDate().
 pageContext.setAttribute("DETAIL_TYPE", "meeting");
 
 %>
-   <%@include file="include/meeting_aids_add.jsp"%>
+  <%@include file="include/meeting_aids_add.jsp"%>
 
 <!-- <script src="http://code.jquery.com/jquery-1.9.1.js"></script> -->
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
