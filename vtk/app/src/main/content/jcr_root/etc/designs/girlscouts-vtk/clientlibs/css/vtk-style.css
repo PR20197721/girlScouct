@@ -11,7 +11,7 @@
   outline: none; }
 .vtk-body p,
 .vtk-body span {
-  font-size: 0.88em;
+  font-size: 14px;
   line-height: 1.5; }
 .vtk-body #main {
   background: transparent; }
@@ -250,7 +250,7 @@
   .vtk-body #main .meeting-detail section {
     margin-top: 17px; }
     .vtk-body #main .meeting-detail section h6 {
-      font-size: .88em;
+      font-size: 14px;
       text-transform: uppercase;
       background: #f6f6f6;
       margin-left: -5px;
@@ -325,7 +325,7 @@
     .vtk-body #main .meeting-detail .wrapper a {
       font-weight: 100; }
   .vtk-body #main .meeting-detail a {
-    font-size: 0.88em; }
+    font-size: 14px; }
 .vtk-body #main #theActivity #main-info section {
   float: left;
   width: 50%; }
@@ -342,7 +342,9 @@
     padding: 0;
     margin: 0; }
 .vtk-body .reveal-modal {
-  padding: 0; }
+  padding: 0;
+  max-height: 80%;
+  overflow: auto; }
   .vtk-body .reveal-modal .header {
     background: #00ae57;
     padding: 7px 0 5px 5px; }

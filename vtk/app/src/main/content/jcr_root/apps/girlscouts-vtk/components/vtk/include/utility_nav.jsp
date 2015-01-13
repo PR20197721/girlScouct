@@ -49,7 +49,7 @@
       </div>
       <div class="columns large-4 medium-4">
        <ul class="inline-list" id="util-links">
-          <li><a class="icon" onclick="javascript:window.help()" title="help"><i class="icon-questions-answers"></i></a></li>
+          <li><a class="icon" data-reveal-id="modal_help" title="help"><i class="icon-questions-answers"></i></a></li>
           <% if("plan".equals(activeTab)) { %>
           <li><a class="icon" onclick="javascript:window.download()" title="help"><i class="icon-download"></i></a>
           <li><a class="icon" onclick="javascript:window.print()" title="help"><i class="icon-printer"></i></a>
@@ -59,3 +59,5 @@
     </div>
   </div>
 </div>
+<%@include file="modals/modal_help.jsp"%>
+

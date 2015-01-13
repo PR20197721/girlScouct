@@ -41,14 +41,14 @@
 <div id="panelWrapper" class="row content">
 
 <%@include file="include/utility_nav.jsp"%>
-<%
-        String troopId= troop.getTroop().getTroopId();
-        if( troopId ==null || troopId.trim().equals("") ){
-                %>
-                        <span class="error">Warning: no troop is specified.</span>
-                <%
-                return;
-        }
+    <%
+    String troopId= troop.getTroop().getTroopId();
+    if( troopId ==null || troopId.trim().equals("") ){
+            %>
+                    <span class="error">Warning: no troop is specified.</span>
+            <%
+            return;
+    }
 	String troopPhotoUrl = "/content/dam/girlscouts-vtk/troops/" + troopId + "/imgLib/troop_pic.png/troop_pic.png";
 %>
   <div id="modal_upload_image" class="reveal-modal" data-reveal>
