@@ -193,156 +193,158 @@
     <dd id="createActivityTab" class="active manageCalendarTab"><a href="#" onclick="toggleSection('create')">Custom Activity</a></dd>
     <dd id="pickActivityTab" class="manageCalendarTab" ><a href="#" onclick="toggleSection('pick')">Council Activity</a></dd>
   </dl>
-  <div class="row modalBody tabs-content">
-    <div class="small-24 medium-24 large-24 columns">
-      <div id="createActivitySection">
-        <form class="cmxform" id="signupForm">
-       <!--    <div class="sectionBar">Create a Custom Activity</div> -->
-          <div class="errorMsg error"></div>
+  <div class="modalBody tabs-content">
+    <div class="row">
+      <div class="small-24 medium-24 large-24 columns">
+        <div id="createActivitySection">
+          <form class="cmxform" id="signupForm">
+         <!--    <div class="sectionBar">Create a Custom Activity</div> -->
+            <div class="errorMsg error"></div>
 
-          <div class="row">
-            <div class="small-24 large-12 medium-12 columns">
-              <input type="text" placeholder="Activity Name" name="newCustActivity_name" id="newCustActivity_name" value="" onchange="doChkSubmitValid()"/>
-              <!-- <span style="color:red;">*</span> -->
-            </div>
-            <div class="small-24 large-3 medium-3 columns date">
-              <input type="text" id="newCustActivity_date" name="newCustActivity_date" placeholder="mm/dd/yyyy" class="date calendarField" onchange="doChkSubmitValid()"/><!-- <span style="color:red;">*</span> -->
-            </div>
-            <div class="large-1 columns medium-1 small-1 date">
-              <label for="newCustActivity_date"><i class="icon-calendar"></i></label>
-            </div>
-            <div class="small-16 medium-2 large-2 columns">
-              <input type="text" id="newCustActivity_startTime" placeholder="Start Time" name="newCustActivity_startTime" value="<%=org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_HOUR+":"+org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_MIN %>" required class="time" />
-              <!-- <span style="color:red;">*</span> -->
-            </div>
-            <div class="small-8 medium-2 large-2 columns">
-              <select id="newCustActivity_startTime_AP" class="ampm">
-                <option value="pm">PM</option>
-                <option value="am">AM</option>
-              </select>
-            </div>
-            <div class="small-16 medium-2 large-2 columns">
-              <input type="text" placeholder="End Time" id="newCustActivity_endTime" name="newCustActivity_endTime" value="<%=org.girlscouts.vtk.models.VTKConfig.CALENDAR_END_TIME_HOUR+":"+org.girlscouts.vtk.models.VTKConfig.CALENDAR_END_TIME_MIN %>"  required class="time"/>
-              <!-- <span style="color:red;">*</span> -->
-            </div>
-            <div class="small-8 medium-2 large-2 columns">
-              <select id="newCustActivity_endTime_AP" class="ampm">
-                <option value="pm">PM</option>
-                <option value="am">AM</option>
-              </select>
-            </div>
-          </div><!--/row-->
-
-          <div class="row">
-            <div class="small-24 medium-12 large-12 columns">
-              <input type="text" name="newCustActivity_locName" id="newCustActivity_locName" placeholder="Location Name" value="" onchange="doChkSubmitValid()"/>
-            <!--   <span style="color:red;">*</span> -->
-            </div>
-            <div class="small-24 medium-12 large-12 columns"><input type="text" id="newCustActivity_locAddr" value="" placeholder="Location Address" /></div>
-          </div><!--/row-->
-
-          <div class="row">
-            <div class="small-24 medium-12 large-12 columns"><input type="text" id="newCustActivity_cost" value="" placeholder="Cost" /></div>
-            <div class="small-24 medium-12 large-12 columns">
-              <textarea id="newCustActivity_txt" rows="4" cols="5" placeholder="Activity Description"></textarea>
-            </div>
-          </div><!--/row-->
-
-
-          <div class="linkButtonWrapper">
-            <input class="button linkButton" type="button" value="Add Activity" id="newCustActivity"  disabled/>
-          </div>
-        </form>
-      </div><!--/create activity-->
-
-      <div id="pickActivitySection">
-        <form id="schFrm">
-          <!-- <div class="sectionBar" id="activitySearchLabel">Add activity from the Council Calendar</div> -->
-          <div class="errorMsg error"></div>
-            <%
-            SearchTag search = yearPlanUtil.searchA(user, ""+troop.getTroop().getCouncilCode());
-            java.util.Map<String, String> levels = search.getLevels();
-            java.util.Map<String, String> categories =search.getCategories();
-            java.util.Map<String, String> region =search.getRegion();
-            %>
-          <div class="row">
-            <div class="small-24 medium-8 large-8 columns">
-              <label for="sch_keyword" ACCESSKEY="f">Find Activity by:</label>
-              <div class="looking-glass"><input type="text" id="sch_keyword" placeholder="Keywords" value="" onKeyPress="return submitenter(this,event)"/></div>
-            </div>
-            <div class="small-24 medium-6 large-6 columns">
-              <label for="sch_region" ACCESSKEY="g">Region</label>
-              <select id="sch_region">
-                <option value="">Select Region</option>
-                <% java.util.Iterator itr2= region.keySet().iterator();
-                while( itr2.hasNext() ){
-                String str=(String) itr2.next();
-                %>
-                <option value="<%= str %>"><%= str %></option>
-                <% } %>
-              </select>
-            </div>
-            <div class="columns large-10 medium-10 small-24 date">
-              <label id="dateTitle" ACCESSKEY="r">Date</label>
-              <div class="small-24 large-9 medium-9 columns">
-                <input type="text" id="sch_startDate"  value="" placeholder="From" class="date calendarField"/>
+            <div class="row">
+              <div class="small-24 large-12 medium-12 columns">
+                <input type="text" placeholder="Activity Name" name="newCustActivity_name" id="newCustActivity_name" value="" onchange="doChkSubmitValid()"/>
+                <!-- <span style="color:red;">*</span> -->
               </div>
-              <div class="large-3 columns medium-3 small-1">
-                <label for="sch_startDate"><i class="icon-calendar"></i></label>
+              <div class="small-24 large-3 medium-3 columns date">
+                <input type="text" id="newCustActivity_date" name="newCustActivity_date" placeholder="mm/dd/yyyy" class="date calendarField" onchange="doChkSubmitValid()"/><!-- <span style="color:red;">*</span> -->
               </div>
-              <div class="small-24 large-9 medium-9 columns">
-                <input type="text" id="sch_endDate"  value="" placeholder="To" class="date calendarField"/>
+              <div class="large-1 columns medium-1 small-1 date">
+                <label for="newCustActivity_date"><i class="icon-calendar"></i></label>
               </div>
-              <div class="large-3 columns medium-3 small-1">
-                <label for="sch_endDate"><i class="icon-calendar"></i></label>
+              <div class="small-16 medium-2 large-2 columns">
+                <input type="text" id="newCustActivity_startTime" placeholder="Start Time" name="newCustActivity_startTime" value="<%=org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_HOUR+":"+org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_MIN %>" required class="time" />
+                <!-- <span style="color:red;">*</span> -->
               </div>
+              <div class="small-8 medium-2 large-2 columns">
+                <select id="newCustActivity_startTime_AP" class="ampm">
+                  <option value="pm">PM</option>
+                  <option value="am">AM</option>
+                </select>
+              </div>
+              <div class="small-16 medium-2 large-2 columns">
+                <input type="text" placeholder="End Time" id="newCustActivity_endTime" name="newCustActivity_endTime" value="<%=org.girlscouts.vtk.models.VTKConfig.CALENDAR_END_TIME_HOUR+":"+org.girlscouts.vtk.models.VTKConfig.CALENDAR_END_TIME_MIN %>"  required class="time"/>
+                <!-- <span style="color:red;">*</span> -->
+              </div>
+              <div class="small-8 medium-2 large-2 columns">
+                <select id="newCustActivity_endTime_AP" class="ampm">
+                  <option value="pm">PM</option>
+                  <option value="am">AM</option>
+                </select>
+              </div>
+            </div><!--/row-->
+
+            <div class="row">
+              <div class="small-24 medium-12 large-12 columns">
+                <input type="text" name="newCustActivity_locName" id="newCustActivity_locName" placeholder="Location Name" value="" onchange="doChkSubmitValid()"/>
+              <!--   <span style="color:red;">*</span> -->
+              </div>
+              <div class="small-24 medium-12 large-12 columns"><input type="text" id="newCustActivity_locAddr" value="" placeholder="Location Address" /></div>
+            </div><!--/row-->
+
+            <div class="row">
+              <div class="small-24 medium-12 large-12 columns"><input type="text" id="newCustActivity_cost" value="" placeholder="Cost" /></div>
+              <div class="small-24 medium-12 large-12 columns">
+                <textarea id="newCustActivity_txt" rows="4" cols="5" placeholder="Activity Description"></textarea>
+              </div>
+            </div><!--/row-->
+
+
+            <div class="linkButtonWrapper">
+              <input class="button linkButton" type="button" value="Add Activity" id="newCustActivity"  disabled/>
             </div>
-          </div>
-          <p id ="dateErrorBox"></p>
-          <div class="row">
-            <div class="columns small-24">
-              <label for="sch_lvl" ACCESSKEY="p">Program Level</label>
-              <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-3 formCheckboxes">
-                <% java.util.Iterator itr1= levels.keySet().iterator();
-                  int i=0;
-                  while( itr1.hasNext() ){
-                  i++;
-                  String str=(String) itr1.next();
+          </form>
+        </div><!--/create activity-->
+
+        <div id="pickActivitySection">
+          <form id="schFrm">
+            <!-- <div class="sectionBar" id="activitySearchLabel">Add activity from the Council Calendar</div> -->
+            <div class="errorMsg error"></div>
+              <%
+              SearchTag search = yearPlanUtil.searchA(user, ""+troop.getTroop().getCouncilCode());
+              java.util.Map<String, String> levels = search.getLevels();
+              java.util.Map<String, String> categories =search.getCategories();
+              java.util.Map<String, String> region =search.getRegion();
+              %>
+            <div class="row">
+              <div class="small-24 medium-8 large-8 columns">
+                <label for="sch_keyword" ACCESSKEY="f">Find Activity by:</label>
+                <div class="looking-glass"><input type="text" id="sch_keyword" placeholder="Keywords" value="" onKeyPress="return submitenter(this,event)"/></div>
+              </div>
+              <div class="small-24 medium-6 large-6 columns">
+                <label for="sch_region" ACCESSKEY="g">Region</label>
+                <select id="sch_region">
+                  <option value="">Select Region</option>
+                  <% java.util.Iterator itr2= region.keySet().iterator();
+                  while( itr2.hasNext() ){
+                  String str=(String) itr2.next();
                   %>
-                  <li><input type="checkbox" name="sch_lvl" id="sch_lvl_<%=i %>" value="<%= str %>"/>
-                  <label for="sch_lvl_<%=i %>"><p><span><%= str %></span></p></label></li>
-                <% } %>
+                  <option value="<%= str %>"><%= str %></option>
+                  <% } %>
+                </select>
+              </div>
+              <div class="columns large-10 medium-10 small-24 date">
+                <label id="dateTitle" ACCESSKEY="r">Date</label>
+                <div class="small-24 large-9 medium-9 columns">
+                  <input type="text" id="sch_startDate"  value="" placeholder="From" class="date calendarField"/>
+                </div>
+                <div class="large-3 columns medium-3 small-1">
+                  <label for="sch_startDate"><i class="icon-calendar"></i></label>
+                </div>
+                <div class="small-24 large-9 medium-9 columns">
+                  <input type="text" id="sch_endDate"  value="" placeholder="To" class="date calendarField"/>
+                </div>
+                <div class="large-3 columns medium-3 small-1">
+                  <label for="sch_endDate"><i class="icon-calendar"></i></label>
+                </div>
+              </div>
+            </div>
+            <p id ="dateErrorBox"></p>
+            <div class="row">
+              <div class="columns small-24">
+                <label for="sch_lvl" ACCESSKEY="p">Program Level</label>
+                <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-3 formCheckboxes">
+                  <% java.util.Iterator itr1= levels.keySet().iterator();
+                    int i=0;
+                    while( itr1.hasNext() ){
+                    i++;
+                    String str=(String) itr1.next();
+                    %>
+                    <li><input type="checkbox" name="sch_lvl" id="sch_lvl_<%=i %>" value="<%= str %>"/>
+                    <label for="sch_lvl_<%=i %>"><p><span><%= str %></span></p></label></li>
+                  <% } %>
+                </ul>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="columns small-24">
+                <label for="sch_cats" ACCESSKEY="i">Categories</label>
+                <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-3 formCheckboxes">
+                  <% java.util.Iterator itr= categories.keySet().iterator();
+                  i=0;
+                  while( itr.hasNext() ){
+                  i++;
+                  String str=(String) itr.next();
+                  %>
+                  <li>
+                    <input type="checkbox" name="sch_cats" id="sch_cats_<%=i %>" value="<%= str %>"/>
+                    <label class="tty" for="sch_cats_<%=i %>"><p><span><%= str %></span></p></label>
+                  </li>
+                  <% } %>
+                <ul>
               </ul>
             </div>
-          </div>
 
-          <div class="row">
-            <div class="columns small-24">
-              <label for="sch_cats" ACCESSKEY="i">Categories</label>
-              <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-3 formCheckboxes">
-                <% java.util.Iterator itr= categories.keySet().iterator();
-                i=0;
-                while( itr.hasNext() ){
-                i++;
-                String str=(String) itr.next();
-                %>
-                <li>
-                  <input type="checkbox" name="sch_cats" id="sch_cats_<%=i %>" value="<%= str %>"/>
-                  <label class="tty" for="sch_cats_<%=i %>"><p><span><%= str %></span></p></label>
-                </li>
-                <% } %>
-              <ul>
-            </ul>
-          </div>
+            <div class="linkButtonWrapper">
+             <input type="button" value="View Activities" onclick='searchActivities()' class="button btn"/>
+            </div>
 
-          <div class="linkButtonWrapper">
-           <input type="button" value="View Activities" onclick='searchActivities()' class="button btn"/>
-          </div>
-
-          <div id="searchResults"></div>
-        </form>
-      </div><!--/pickActivitySection-->
-    </div><!--/small-24-->
+            <div id="searchResults"></div>
+          </form>
+        </div><!--/pickActivitySection-->
+      </div><!--/small-24-->
+    </row>
   </div><!--/modalBody-->
 </div><!--/tabs-wrapper-->
 <script>
