@@ -257,7 +257,7 @@
 
       <div id="pickActivitySection">
         <form id="schFrm">
-<!--           <div class="sectionBar" id="activitySearchLabel">Add activity from the Council Calendar</div> -->
+          <!-- <div class="sectionBar" id="activitySearchLabel">Add activity from the Council Calendar</div> -->
           <div class="errorMsg error"></div>
             <%
             SearchTag search = yearPlanUtil.searchA(user, ""+troop.getTroop().getCouncilCode());

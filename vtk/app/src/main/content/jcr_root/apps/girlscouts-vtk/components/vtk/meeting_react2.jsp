@@ -47,10 +47,6 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 
 </div>
 
-
-
-
-
 <div id="theMeeting">
   <script type="text/jsx">
 

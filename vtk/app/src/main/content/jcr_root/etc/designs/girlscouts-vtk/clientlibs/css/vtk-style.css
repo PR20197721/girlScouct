@@ -236,6 +236,8 @@
       .vtk-body #main .meeting-detail .meeting-navigation .direction.next:before {
         border-color: transparent  transparent transparent #fff;
         right: 0; }
+    .vtk-body #main .meeting-detail .meeting-navigation.activity-navigation {
+      background: #00abe6; }
   .vtk-body #main .meeting-detail [class^="icon-"],
   .vtk-body #main .meeting-detail [class*=" icon-"] {
     font-size: 27px; }
@@ -318,6 +320,9 @@
       font-weight: 100; }
   .vtk-body #main .meeting-detail a {
     font-size: 0.88em; }
+.vtk-body #main #theActivity #main-info section {
+  float: left;
+  width: 50%; }
 .vtk-body .locationResultElement {
   margin-bottom: 20px;
   padding-bottom: 20px;
