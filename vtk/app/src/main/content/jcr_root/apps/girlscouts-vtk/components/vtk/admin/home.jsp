@@ -100,6 +100,10 @@ style="border: none;">
 <input type="submit" value="Report (single count)" />
 </a>
 
+    <a href="/content/girlscouts-vtk/en/vtk.admin.councilRptTroopYearPlan.html">
+<input type="submit" value="Report with YearPlan"/>
+</a>
+
 </td>
 </tr><tr style="background-color: white;border: none;"><td>
 Council Report</td>
