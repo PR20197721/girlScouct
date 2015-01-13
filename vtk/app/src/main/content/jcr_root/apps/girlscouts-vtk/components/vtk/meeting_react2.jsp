@@ -4,6 +4,21 @@
 String mid = planView.getYearPlanComponent().getUid();
 MeetingE meeting = (MeetingE)planView.getYearPlanComponent();
 
+
+
+
+Location loc = null;
+if( meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null ) {
+	for(int k=0;k<troop.getYearPlan().getLocations().size();k++){
+		if( troop.getYearPlan().getLocations().get(k).getPath().equals( meeting.getLocationRef() ) ){
+			loc = troop.getYearPlan().getLocations().get(k);
+		}
+	}
+}
+
+
+
+
 pageContext.setAttribute("MEETING_PATH", meeting.getPath());
 pageContext.setAttribute("PLANVIEW_TIME", Long.valueOf(planView.getSearchDate().getTime()));
 pageContext.setAttribute("DETAIL_TYPE", "meeting");

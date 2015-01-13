@@ -79,7 +79,9 @@
               <%
                 if( troop.getYearPlan().getSchedule() == null ) {
                 %>
-                <%@include file="include/calSched.jsp" %>
+                <!--  %@include file="include/calSched.jsp" % -->
+                
+                <%@include file="include/calendarAlterStartDate.jsp" %>
                 <%
                   }else{
                 %>

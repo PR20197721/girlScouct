@@ -631,6 +631,8 @@ session.putValue("VTK_troop", troop);
 	}
 	
 }else if( request.getParameter("yearPlanSched") !=null ){
+	
+if( troop.getYearPlan()==null ) return;
 	System.err.println("xx: "+request.getParameter("isFirst")  );	
 			boolean isFirst = false;
 			if (request.getParameter("isFirst") != null

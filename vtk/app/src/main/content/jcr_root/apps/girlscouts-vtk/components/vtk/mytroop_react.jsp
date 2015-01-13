@@ -15,10 +15,16 @@
 				if( contacts.get(i).getEmail()!=null && !contacts.get(i).getEmail().trim().equals("") && 
 						!emailTo.contains( contacts.get(i).getEmail().trim()+"," ) ) 
 					emailTo+= contacts.get(i).getEmail() +",";
+					//emailTo+= "\""+ contacts.get(i).getFirstName() +"\"" +"<"+contacts.get(i).getEmail() +">,";
+			
+			emailTo = emailTo.trim(); 
 			if( emailTo.endsWith(",") ) 
-				emailTo.substring(0, emailTo.length()-1);
+				emailTo= emailTo.substring(0, emailTo.length()-1);
 			if( emailTo.startsWith(",") ) 
-				emailTo.substring(1, emailTo.length());
+				emailTo= emailTo.substring(1, emailTo.length());
+			
+			System.err.println( emailTo );
+			
 	}catch(Exception e){e.printStackTrace();}
 %>
 
@@ -66,7 +72,7 @@
   <div class="column large-24 large-centered">
 
     <dl class="accordion" data-accordion>
-      <dt data-target="panel1"><h3 class="on"><%=troop.getSfTroopName() %> INFO</h3><a href="mailto:<%=emailTo%>"><i class="icon icon-mail"></i>email to 15 contacts</a></dt>
+      <dt data-target="panel1"><h3 class="on"><%=troop.getSfTroopName() %> INFO</h3><a href='mailto:<%=emailTo%>'><i class="icon icon-mail"></i>email to 15 contacts</a></dt>
       <dd class="accordion-navigation">
         <div class="content active" id="panel1">
           <div class="row">

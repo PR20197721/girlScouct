@@ -1083,7 +1083,7 @@ for(int h=0;h<meetingInfo.getActivities().size();h++)
 
 		if( request.getParameter("elem") !=null ) {
 			searchDate = new java.util.Date( Long.parseLong(  request.getParameter("elem")  ) );	
-		}else if( session.getValue("VTK_planView_memoPos") !=null ){
+		}else if( false) {//session.getValue("VTK_planView_memoPos") !=null ){
 			searchDate= new java.util.Date( (Long)session.getValue("VTK_planView_memoPos")  );			
 		} else {
 			

@@ -3,8 +3,12 @@
     <div className="column large-17 medium-17 small-17">
       <p>{this.props.blurb}</p>
       <section>
-        <p>Location:</p>
-        <p>{this.props.location}</p>
+        
+        <p>
+        	<%if(loc!=null){ %>
+        		Location: <%=loc.getName() %> - <a href="/content/girlscouts-vtk/controllers/vtk.map.html?address=<%= loc.getAddress()%>" target="_blank"><%=loc.getAddress() %></a>
+       		<%}//end if %>
+        </p>
       </section>
       <section>
         <p>Category:</p>

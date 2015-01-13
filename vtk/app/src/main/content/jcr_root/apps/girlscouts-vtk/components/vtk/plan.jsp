@@ -23,7 +23,7 @@
  <div id="panelWrapper" class="row meeting-detail content">
  <%@include file="include/utility_nav.jsp"%>
  <%@include file="include/view_yp_dropdown.jsp"%>
-
+<div id="yearPlanMeetings">
 <div id="thePlan">
 
   <script type="text/jsx">
@@ -193,6 +193,7 @@ function doUpdMeeting1(newVals){
       document.getElementById('thePlan')
     );
   </script>  
+</div>
 </div>
 </div><!--/panelWrapper-->
 
