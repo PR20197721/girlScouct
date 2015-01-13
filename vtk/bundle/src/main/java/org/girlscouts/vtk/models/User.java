@@ -11,6 +11,7 @@ public class User implements Serializable{
 	private String sid;//my http sessionId
 	private String currentYear; //could be uniq id -> String
 	
+	
 	public java.util.Set<Integer> getPermissions() {
 		return permissions;
 	}

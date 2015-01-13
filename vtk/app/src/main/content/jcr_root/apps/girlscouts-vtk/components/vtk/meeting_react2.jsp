@@ -294,6 +294,8 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
     });
 
     function repositionActivity1(meetingPath,newVals ){
+console.log("TATA: "+ newVals);
+
     var x =$.ajax({
     	url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=RearrangeActivity&mid='+meetingPath+'&isActivityCngAjax='+ newVals, // JQuery loads serverside.php
     	data: '', 

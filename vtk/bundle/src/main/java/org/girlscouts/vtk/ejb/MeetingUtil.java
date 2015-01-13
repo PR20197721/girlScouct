@@ -423,16 +423,20 @@ if( !userUtil.hasPermission(troop,  Permission.PERMISSION_MOVE_MEETING_ID ) ){
 	//System.err.println("rearrangeActivity-- no change");		
 			throw new java.lang.IllegalAccessException();
 		}
-		
+
+System.err.println("TATA66 : newpos:"+ _newPoss);		
+
 		//TOREDO
 		java.util.List<Integer> newPoss = new java.util.ArrayList();
 		StringTokenizer t= new StringTokenizer( _newPoss, ",");
 		while( t.hasMoreElements())
 			newPoss.add( Integer.parseInt( t.nextToken() ));
 		
-		//System.err.println("NewPos: "+ newPoss);
+System.err.println("tata66 NewPos: "+ newPoss);
 		
-		Meeting meetingInfo = meetingDAO.getMeeting(user, meetingPath );
+		//Meeting meetingInfo = meetingDAO.getMeeting(user, meetingPath ); 1/13/15
+		Meeting meetingInfo = yearPlanUtil.getMeeting(user, meetingPath );
+		
 		java.util.List<Activity>orgActivities = meetingInfo.getActivities();
 		orgActivities= sortActivity(orgActivities);
 		java.util.List<Activity> newActivity = new java.util.ArrayList<Activity>();
@@ -440,14 +444,18 @@ if( !userUtil.hasPermission(troop,  Permission.PERMISSION_MOVE_MEETING_ID ) ){
 		
 		for(int i=0;i<orgActivities.size();i++){
 			Activity activity = orgActivities.get(i);
+System.err.println("tata66 orgAct: "+ activity.getActivityNumber());			
 			int newpos = newPoss.indexOf(i+1) ;
+System.err.println("tata66 setNewActiv :"+(newpos+1));			
 			activity.setActivityNumber(newpos+1);
-			newActivity.set(newpos,  activity);
-			
+			newActivity.set(newpos,  activity);			
 		}
 		
 		//save activities to meeting
 		meetingInfo.setActivities(newActivity);
+		
+for(int h=0;h<meetingInfo.getActivities().size();h++)	
+	System.err.println( "tata66 endResult: "+ meetingInfo.getActivities().get(h).getActivityNumber() +" : "+meetingInfo.getActivities().get(h).getName() );
 		
 		//create custom meeting
 		MeetingE meetingE= getMeeting(troop.getYearPlan().getMeetingEvents(), meetingPath);
@@ -551,10 +559,15 @@ if( !userUtil.hasPermission(troop,  Permission.PERMISSION_MOVE_MEETING_ID ) ){
 						
 						Comparator<Activity> comp = new org.apache.commons.beanutils.BeanComparator("activityNumber");
 		        		Collections.sort( activities, comp);
-		        		
+		      System.err.println("Tata66 : "+ activities.size()); 
+		      for(int ii=0;ii<activities.size();ii++)
+		    	  System.err.println("tata66 : "+ ii + " : "+ activities.get(ii).getActivityNumber());
 						for(int ii=0;ii<activities.size();ii++)
-							activities.get(ii).setActivityNumber(ii);
-						
+							activities.get(ii).setActivityNumber(ii+1);
+				
+			  for(int ii=0;ii<activities.size();ii++)
+					    	  System.err.println("tata66 : new "+ ii + " : "+ activities.get(ii).getActivityNumber());
+									
 						meetingDAO.createCustomMeeting(user, troop, meeting, meetingInfo);
 						troopUtil.updateTroop(user, troop);
 						return;
@@ -981,6 +994,8 @@ if( !userUtil.hasPermission(troop,  Permission.PERMISSION_MOVE_MEETING_ID ) ){
 		if ( _comp.getType() == YearPlanComponentType.MEETING) {
 			meeting = (MeetingE) _comp;
 			meetingInfo = yearPlanUtil.getMeeting( user, meeting.getRefId() );
+			
+
 			
 			meeting.setMeetingInfo(meetingInfo);
 			
