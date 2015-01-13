@@ -9,23 +9,26 @@
           <li><a href="#" onclick="doMeetingLib()" title="Add Meeting">Add Meeting</a></li>
           <li><a href="#" onclick="newActivity()" title="Add Activity">Add Activity</a></li>
           <% } %>
-          <!-- if on Meeting Detail Page-->
-		  <% if("planView".equals(activeTab)) { %>
-          <li>
-<%
-try {
-	Object meetingPath = pageContext.getAttribute("MEETING_PATH");
-	if (meetingPath != null) {
-		Long planViewTime = (Long) pageContext.getAttribute("PLANVIEW_TIME");
-	%>
-		<a href="#" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=(String) meetingPath %>&xx=<%= planViewTime.longValue() %>', false, null, true)">replace this meeting</a>
-	<%
-	}
-} catch (Exception te) {
-	te.printStackTrace();
-}
-%>
-	  </li>
+          <!--TODO if activity detail page-->
+           <li><a href="#">edit activity</a></li>
+           <li><a target="_blank">Register for this event</a></li>
+        <!-- if on Meeting Detail Page-->
+  		  <% if("planView".equals(activeTab)) { %>
+            <li>
+              <%
+              try {
+              	Object meetingPath = pageContext.getAttribute("MEETING_PATH");
+              	if (meetingPath != null) {
+              		Long planViewTime = (Long) pageContext.getAttribute("PLANVIEW_TIME");
+              	%>
+              		<a href="#" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=(String) meetingPath %>&xx=<%= planViewTime.longValue() %>', false, null, true)">replace this meeting</a>
+              	<%
+              	}
+              } catch (Exception te) {
+              	te.printStackTrace();
+              }
+              %>
+	       </li>
           <% } %>
           <!-- if on a My Troop page-->
 		  <% if("myTroop".equals(activeTab)) { %>
@@ -36,7 +39,7 @@ try {
       <div class="columns large-4 medium-4">
        <ul class="inline-list" id="util-links">
           <li><a class="icon" onclick="javascript:window.help()" title="help"><i class="icon-questions-answers"></i></a></li>
-		  <% if("plan".equals(activeTab)) { %>
+		      <% if("plan".equals(activeTab)) { %>
           <li><a class="icon" onclick="javascript:window.download()" title="help"><i class="icon-download"></i></a>
           <li><a class="icon" onclick="javascript:window.print()" title="help"><i class="icon-printer"></i></a>
           <% } %>

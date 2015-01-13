@@ -1,27 +1,18 @@
 
 <%
 Activity activity = (Activity)planView.getYearPlanComponent();
-
-
-if( activity.getIsEditable() ){
-		%>
-			 <a href="#" 
-				onclick="doEditActivity('editCustActiv')">edit activity</a> ||
-		<% 
-}
-			
-
-
-
-if ( !(activity.getCancelled()!=null && activity.getCancelled().equals("true") ) && 
-	activity.getRegisterUrl()  !=null && !activity.getRegisterUrl().equals("")){
+	if( activity.getIsEditable() ){
 			%>
-				<a href="<%=activity.getRegisterUrl()%>" class="button linkButton"
-				target="_blank">Register for this event</a>
-			<%
-}
+				 <a href="#" onclick="doEditActivity('editCustActiv')">edit activity</a>
+			<% 
+	}
 
-			
+	if ( !(activity.getCancelled()!=null && activity.getCancelled().equals("true") ) && 
+		activity.getRegisterUrl()  !=null && !activity.getRegisterUrl().equals("")){
+			%>
+				<a href="<%=activity.getRegisterUrl()%>" class="button linkButton" target="_blank">Register for this event</a>
+			<%
+	}			
 %>
 
 
@@ -46,7 +37,6 @@ if ( !(activity.getCancelled()!=null && activity.getCancelled().equals("true") )
 <script type="text/javascript"
 	src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.validate.js"></script>
 
-
 <script>
 $(function() {
 	$( "#newCustActivity_date" ).datepicker({minDate: 0});
@@ -64,10 +54,6 @@ jQuery(function($){
 	$("#newCustActivity_cost").maskMoney({thousands:''});
 	});
 	
-
-
-
-
 $.validator.addMethod('time', function(value, element, param) {
     return value == '' || value.match(/^([01][0-9]|2[0-3]):[0-5][0-9]$/);
 }, 'Enter a valid time: hh:mm');
@@ -78,12 +64,9 @@ $.validator.addMethod('currency', function(value, element, regexp) {
 }, '');
 
 
-$().ready(function() {
-	
- 		
+$().ready(function() {	
 	$("#signupForm").validate({	
 		rules: {
-			
 			newCustActivity_name: {
 				required: true,
 				minlength: 2
@@ -137,20 +120,17 @@ $().ready(function() {
  
 });
 
-	function saveActivity(){
-	    if ($('#signupForm').valid()) {
-	    	if(!timeDiff()){ return false;}
-	    	editNewCustActivity('<%=activity.getUid()%>');
-	    }
-	    else {
-                alert("The form has one or more errors.  Please update the form and try again.");
-	    }
-		
-		
+function saveActivity(){
+    if ($('#signupForm').valid()) {
+    	if(!timeDiff()){ return false;}
+    	editNewCustActivity('<%=activity.getUid()%>');
+    }
+    else {
+      alert("The form has one or more errors.  Please update the form and try again.");
+    }
 	}
 	
 $('#newCustActivity1').click(function() {
-	
     if ($('#signupForm').valid()) {
     	if(!timeDiff()){ return false;}
     	editNewCustActivity('<%=activity.getUid()%>');
@@ -254,8 +234,7 @@ $('#newCustActivity1').click(function() {
 					value="<%=FORMAT_COST_CENTS.format(activity.getCost())%>" />
 			</div>
 			<div class="large-12 medium-12 small-24 columns">
-				<textarea id="newCustActivity_txt" rows="4" cols="5"
-					" style="width: 300px;"><%=activity.getContent()%></textarea>
+				<textarea id="newCustActivity_txt" rows="4" cols="5" style="width: 300px;"><%=activity.getContent()%></textarea>
 			</div>
 		</div>
 		<div class="row">
