@@ -553,6 +553,8 @@
       padding: 10px 2rem; }
   .vtk-body .modalWrap button, .vtk-body .modalWrap select {
     text-transform: uppercase; }
+.vtk-body .browseMeetingAids a, .vtk-body .browseMeetingAids p, .vtk-body .browseMeetingAids span, .vtk-body .browseMeetingAids input {
+  font-size: 14px; }
 .vtk-body #manageCalendarSection .holidays input[type=checkbox]:checked + label:before {
   content: "\e6d7";
   font-family: JollyFont;

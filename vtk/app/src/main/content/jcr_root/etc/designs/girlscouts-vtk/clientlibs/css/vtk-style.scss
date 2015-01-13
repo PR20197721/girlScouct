@@ -745,6 +745,11 @@
       text-transform:uppercase;
     }
   }
+  .browseMeetingAids {
+    a, p, span, input {
+      font-size: 14px;
+    }
+  }
   //calendars on the popups
   #manageCalendarSection {
     .holidays {
