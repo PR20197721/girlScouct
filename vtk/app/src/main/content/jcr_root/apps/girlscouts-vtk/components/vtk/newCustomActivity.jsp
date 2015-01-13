@@ -283,7 +283,7 @@
               </select>
             </div>
             <div class="columns large-10 medium-10 small-24 date">
-              <label for="sch_startDate" id="dateTitle" ACCESSKEY="r">Date</label>
+              <label id="dateTitle" ACCESSKEY="r">Date</label>
               <div class="small-24 large-9 medium-9 columns">
                 <input type="text" id="sch_startDate"  value="" placeholder="From" class="date calendarField"/>
               </div>
@@ -300,25 +300,25 @@
           </div>
           <p id ="dateErrorBox"></p>
           <div class="row">
-            <div class="small-24 medium-8 large-6 columns"><label for="sch_lvl" ACCESSKEY="p">Program Level</label></div>
-            <div class="small-24 medium-16 large-18 columns">
+            <div class="columns small-24">
+              <label for="sch_lvl" ACCESSKEY="p">Program Level</label>
               <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-3 formCheckboxes">
-
                 <% java.util.Iterator itr1= levels.keySet().iterator();
                   int i=0;
                   while( itr1.hasNext() ){
                   i++;
                   String str=(String) itr1.next();
                   %>
-                <li><input type="checkbox" name="sch_lvl" id="sch_lvl_<%=i %>" value="<%= str %>"/>&nbsp;<label for="sch_lvl_<%=i %>"><%= str %></label></li>
+                  <li><input type="checkbox" name="sch_lvl" id="sch_lvl_<%=i %>" value="<%= str %>"/>
+                  <label for="sch_lvl_<%=i %>"><p><span><%= str %></span></p></label></li>
                 <% } %>
               </ul>
-            </div>  
+            </div>
           </div>
 
           <div class="row">
-            <div class="small-24 medium-8 large-6 columns"><label for="sch_cats" ACCESSKEY="i">Categories</label></div>
-            <div class="small-24 medium-16 large-18 columns">
+            <div class="columns small-24">
+              <label for="sch_cats" ACCESSKEY="i">Categories</label>
               <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-3 formCheckboxes">
                 <% java.util.Iterator itr= categories.keySet().iterator();
                 i=0;
@@ -326,10 +326,13 @@
                 i++;
                 String str=(String) itr.next();
                 %>
-                <li><input type="checkbox" name="sch_cats" id="sch_cats_<%=i %>" value="<%= str %>"/>&nbsp;<label class="tty" for="sch_cats_<%=i %>"><%= str %></label></li>
+                <li>
+                  <input type="checkbox" name="sch_cats" id="sch_cats_<%=i %>" value="<%= str %>"/>
+                  <label class="tty" for="sch_cats_<%=i %>"><p><span><%= str %></span></p></label>
+                </li>
                 <% } %>
               <ul>
-            </div>
+            </ul>
           </div>
 
           <div class="linkButtonWrapper">

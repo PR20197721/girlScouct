@@ -481,12 +481,15 @@
         .vtk-body .modalWrap .tabs-wrapper .tabs-content table tr {
           padding: 0.5625rem 0;
           background: none; }
-      .vtk-body .modalWrap .tabs-wrapper .tabs-content .date label {
+      .vtk-body .modalWrap .tabs-wrapper .tabs-content .date label[for="sch_startDate"],
+      .vtk-body .modalWrap .tabs-wrapper .tabs-content .date label[for="sch_endDate"] {
         margin-top: 5px; }
       .vtk-body .modalWrap .tabs-wrapper .tabs-content #manageLocationSection,
       .vtk-body .modalWrap .tabs-wrapper .tabs-content #manageActivitySection,
       .vtk-body .modalWrap .tabs-wrapper .tabs-content #pickActivitySection {
         display: none; }
+      .vtk-body .modalWrap .tabs-wrapper .tabs-content #pickActivitySection .row > .columns > label {
+        margin-bottom: 7px; }
       .vtk-body .modalWrap .tabs-wrapper .tabs-content #pickActivitySection .looking-glass {
         position: relative; }
         .vtk-body .modalWrap .tabs-wrapper .tabs-content #pickActivitySection .looking-glass:after {
@@ -498,6 +501,33 @@
           left: 90%;
           font-size: 1.5rem;
           padding: 7px 0; }
+      .vtk-body .modalWrap .tabs-wrapper .tabs-content #pickActivitySection .formCheckboxes li {
+        padding-bottom: 0; }
+        .vtk-body .modalWrap .tabs-wrapper .tabs-content #pickActivitySection .formCheckboxes li input[type="checkbox"] + label,
+        .vtk-body .modalWrap .tabs-wrapper .tabs-content #pickActivitySection .formCheckboxes li input[type="radio"] + label {
+          margin-left: 0; }
+        .vtk-body .modalWrap .tabs-wrapper .tabs-content #pickActivitySection .formCheckboxes li input[type=checkbox]:checked + label:before {
+          content: "\e6d7";
+          font-family: JollyFont;
+          color: green; }
+        .vtk-body .modalWrap .tabs-wrapper .tabs-content #pickActivitySection .formCheckboxes li input[type="checkbox"] {
+          display: none; }
+        .vtk-body .modalWrap .tabs-wrapper .tabs-content #pickActivitySection .formCheckboxes li label:before {
+          border: solid 1px #ccc;
+          content: "";
+          height: 30px;
+          width: 30px;
+          text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+          font-size: 15px;
+          text-align: center;
+          display: inline-block;
+          float: left;
+          padding: 4px; }
+        .vtk-body .modalWrap .tabs-wrapper .tabs-content #pickActivitySection .formCheckboxes li label p {
+          float: left;
+          margin-left: 9px; }
+        .vtk-body .modalWrap .tabs-wrapper .tabs-content #pickActivitySection .formCheckboxes li label span {
+          display: block; }
     .vtk-body .modalWrap .tabs-wrapper [class^="icon-"],
     .vtk-body .modalWrap .tabs-wrapper [class*=" icon-"] {
       font-size: 27px;
@@ -536,6 +566,30 @@
   display: block; }
 .vtk-body .hero-image {
   margin-bottom: 10px; }
+.vtk-body #searchResults h3 {
+  text-transform: uppercase;
+  margin: 10px 0 20px 0;
+  border-top: solid 1px #ccc;
+  padding-top: 20px; }
+.vtk-body #searchResults h4 {
+  margin-bottom: 15px; }
+.vtk-body #searchResults .activityDate,
+.vtk-body #searchResults .activityLocation {
+  margin: 0; }
+.vtk-body #searchResults .activityLocation a {
+  display: block;
+  font-weight: 600; }
+.vtk-body #searchResults ul,
+.vtk-body #searchResults li {
+  list-style: none; }
+.vtk-body #searchResults li {
+  border-bottom: solid 1px #ccc;
+  margin-bottom: 20px;
+  padding-bottom: 20px; }
+  .vtk-body #searchResults li:last-child {
+    border: none;
+    padding-bottom: 0;
+    margin-bottom: 0; }
 .vtk-body .crumbs .columns #util-links.inline-list {
   position: relative;
   top: -10px; }
@@ -652,6 +706,9 @@
 .ui-widget-header .ui-state-default {
   border: none;
   color: #393939; }
+
+.ui-widget-content a {
+  color: #00ae58; }
 
 @media only screen and (max-width: 40em) {
   .vtk-body #main #yearPlanMeetings ul .meeting > div .bg-square {
