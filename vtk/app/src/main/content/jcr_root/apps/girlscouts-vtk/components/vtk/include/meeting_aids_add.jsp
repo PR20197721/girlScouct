@@ -19,13 +19,13 @@
 					 
 					    %>
 
-					    <div id="modal_meeting_aids" className="reveal-modal" data-reveal>
-					        <div className="header clearfix">
-					          <h3 className="columns large-22">MEETING date and locations</h3>
-					          <a className="close-reveal-modal columns large-2" href="#"><i className="icon-button-circle-cross"></i></a>
+					    <div id="modal_meeting_aids" class="reveal-modal" data-reveal>
+					        <div class="header clearfix">
+					          <h3 class="columns large-22">MEETING date and locations</h3>
+					          <a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
 					        </div>
 
-					    <table width="90%" align="center" class="browseMeetingAids"><tr><th colspan="3">Meeting Aids</th></tr><% 
+					    <table width="90%" align="center" class="browseMeetingAids"><% 
 					    for(int i=0;i<gresources.size();i++){
 						org.girlscouts.vtk.models.Asset a = gresources.get(i);
 						String assetImage = org.girlscouts.vtk.utils.GSUtils.getDocTypeImageFromString(a.getDocType());
