@@ -66,7 +66,7 @@ function createCustAgendaItem1(mid, time, mPath){
 //no reload
 function createCustAgendaItem2(mid, time, mPath){
 	
-	console.log(mid +" : "+ time +" : "+ mPath);
+	//console.log(mid +" : "+ time +" : "+ mPath);
 	
 	var newCustAgendaName = document.getElementById("newCustAgendaName").value;
 	if( $.trim(newCustAgendaName)==''){alert("Please fill agenda name"); return false;}
@@ -78,6 +78,7 @@ function createCustAgendaItem2(mid, time, mPath){
 		cache: false
 	}).done(function( html ) {
 		//document.location="/content/girlscouts-vtk/en/vtk.planView.html?elem="+mid;
+		location.reload();
 	});
 }
 
