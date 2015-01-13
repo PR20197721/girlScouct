@@ -5,8 +5,8 @@ Activity activity = (Activity)planView.getYearPlanComponent();
 
 if( activity.getIsEditable() ){
 		%>
-			<a href="#" class="button linkButton"
-				onclick="doEditActivity('editCustActiv')">edit activity</a>
+			 <a href="#" 
+				onclick="doEditActivity('editCustActiv')">edit activity</a> ||
 		<% 
 }
 			

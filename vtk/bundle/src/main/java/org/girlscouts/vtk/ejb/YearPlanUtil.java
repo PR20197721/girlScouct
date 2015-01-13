@@ -217,7 +217,17 @@ public class YearPlanUtil {
 	}
 	
 	public Meeting getMeeting(User user, String path)throws IllegalAccessException{
-		return meetingDAO.getMeeting(user, path);
+		
+		Meeting meeting =meetingDAO.getMeeting(user, path);
+		
+		/*//sort agendas; set activNum
+		java.util.List<Activity> activities = meeting.getActivities();
+		for(int i=0;i<activities.size();i++){
+			activities.get(i).setActivityNumber(i);
+		}
+		*/
+		
+		return meeting;
 	}
 	
 	public List<org.girlscouts.vtk.models.Search> getData(User user, Troop troop, String query)throws IllegalAccessException{
