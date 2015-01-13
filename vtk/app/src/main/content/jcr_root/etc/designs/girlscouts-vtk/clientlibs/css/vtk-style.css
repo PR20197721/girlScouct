@@ -6,7 +6,8 @@
   padding-left: 5px;
   padding-right: 5px; }
 
-.vtk-body p, .vtk-body span {
+.vtk-body p,
+.vtk-body span {
   font-size: 0.88em;
   line-height: 1.5; }
 .vtk-body #main {
@@ -675,6 +676,8 @@
         font-size: 14px !important; }
     .vtk-body .accordion .accordion-inner ul.column:first-child {
       margin-left: 27px; }
+.vtk-body .ui-widget-content .tabs-content a {
+  color: #00ae58; }
 
 .inline-list li:last-child {
   margin: 0; }
@@ -711,9 +714,6 @@
 .ui-widget-header .ui-state-default {
   border: none;
   color: #393939; }
-
-.ui-widget-content a {
-  color: #00ae58; }
 
 @media only screen and (max-width: 40em) {
   .vtk-body #main #yearPlanMeetings ul .meeting > div .bg-square {

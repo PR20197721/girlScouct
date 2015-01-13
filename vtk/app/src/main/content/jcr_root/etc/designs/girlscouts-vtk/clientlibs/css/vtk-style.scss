@@ -7,7 +7,8 @@
   padding-right: 5px;
 }
 .vtk-body {
-  p, span {
+  p,
+  span {
     font-size:0.88em;
     line-height:1.5;
   }
@@ -553,7 +554,6 @@
       }
     }
   }//end modals
-
   //modals per JQ UI
   .modalWrap {
     padding:0;
@@ -831,7 +831,7 @@
       }
     }
   }
-//accordion
+  //accordion
   .accordion {
     margin-bottom:1.25rem;
     dl dt,
@@ -925,8 +925,10 @@
       }
     }
   }
-
-}//end of vtk-body
+  .ui-widget-content .tabs-content a {
+    color:#00ae58;
+  }
+} //end of vtk-body
 
 //overwrite of global
 .inline-list {
@@ -980,9 +982,6 @@
 .ui-widget-header .ui-state-default {
   border: none;
   color: #393939;
-}
-.ui-widget-content a {
-  color:#00ae58;
 }
 
 //Media queries
