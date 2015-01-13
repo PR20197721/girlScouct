@@ -9,8 +9,6 @@ pageContext.setAttribute("PLANVIEW_TIME", Long.valueOf(planView.getSearchDate().
 pageContext.setAttribute("DETAIL_TYPE", "meeting");
 
 %>
-   <%@include file="include/meeting_aids_add.jsp"%>
-
 <!-- <script src="http://code.jquery.com/jquery-1.9.1.js"></script> -->
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
@@ -41,7 +39,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 	     <input type="button" value="save" onclick="createCustAgendaItem2('<%=planView.getSearchDate().getTime()%>', '1', thisMeetingPath)" class="button linkButton" />
 		</div>
   </div>
-
+  <%@include file="include/meeting_aids_add.jsp"%>
   <div id="theMeeting">
     <script type="text/jsx">
 
@@ -129,7 +127,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
        			  <ul className="large-block-grid-2 medium-block-grid-2 small-block-grid-1">
                 {commentNodes}
         		  </ul>
-              <a className="add-btn" href="#" title="Add meeting aids"><i className="icon-button-circle-plus"></i> Add Meeting Aids</a>
+              <a className="add-btn" data-reveal-id="modal_meeting_aids" href="#" title="Add meeting aids"><i className="icon-button-circle-plus"></i> Add Meeting Aids</a>
       		  </section> 
           );
         }
@@ -299,7 +297,6 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
       );
 
       </script>
-      
       <%@include file="include/modal_agenda.jsp"%> 
   </div>
 </div>
