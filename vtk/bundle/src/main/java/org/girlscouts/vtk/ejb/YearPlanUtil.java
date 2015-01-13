@@ -219,11 +219,11 @@ public class YearPlanUtil {
 	public Meeting getMeeting(User user, String path)throws IllegalAccessException{
 		
 		Meeting meeting =meetingDAO.getMeeting(user, path);
-		
-		/*//sort agendas; set activNum
+		/*
+		//sort agendas; set activNum
 		java.util.List<Activity> activities = meeting.getActivities();
 		for(int i=0;i<activities.size();i++){
-			activities.get(i).setActivityNumber(i);
+			activities.get(i).setActivityNumber(i+1);
 		}
 		*/
 		
