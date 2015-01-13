@@ -343,7 +343,7 @@
     margin: 0; }
 .vtk-body .reveal-modal {
   padding: 0;
-  height: 85%;
+  max-height: 80%;
   overflow: auto; }
   .vtk-body .reveal-modal .header {
     background: #00ae57;

@@ -226,12 +226,8 @@ $('#newCustActivity1').click(function() {
 			<div class="small-24 large-24 medium-24 columns centered-table">
 				<input class="button linkButton" type="button" value="Save"
 					id="newCustActivity1" onclick="saveActivity()" />
-					 <input
-					class="button linkButton" type="button" value="Cancel"
-					onclick="closeMe()" />
-					
-					
-			</div>
+					 <input	class="button linkButton" type="button" value="Cancel" onclick="closeMe()" />
+		</div>
 		</div>
 	</form>
 </div>

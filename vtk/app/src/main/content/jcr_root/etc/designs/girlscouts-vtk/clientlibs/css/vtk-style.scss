@@ -465,7 +465,7 @@
   //modals per Foundation
   .reveal-modal {
     padding:0;
-    height: 85%;
+    max-height: 80%;
     overflow: auto;
     .header {
       background: #00ae57;
