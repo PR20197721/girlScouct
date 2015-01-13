@@ -63,7 +63,7 @@
 				a:Date.now()
 			},
 			success: function(result) {
-
+location.reload();
 			}
 		});
 }
