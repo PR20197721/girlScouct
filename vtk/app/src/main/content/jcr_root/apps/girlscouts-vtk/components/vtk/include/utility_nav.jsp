@@ -9,27 +9,38 @@
           <li><a href="#" onclick="doMeetingLib()" title="Add Meeting">Add Meeting</a></li>
           <li><a href="#" onclick="newActivity()" title="Add Activity">Add Activity</a></li>
           <% } %>
-          <!--TODO if activity detail page-->
-           <li><a href="#">edit activity</a></li>
-           <li><a target="_blank">Register for this event</a></li>
-        <!-- if on Meeting Detail Page-->
+
+       	  <!-- if on Meeting Detail Page-->
   		  <% if("planView".equals(activeTab)) { %>
-            <li>
-              <%
-              try {
-              	Object meetingPath = pageContext.getAttribute("MEETING_PATH");
-              	if (meetingPath != null) {
-              		Long planViewTime = (Long) pageContext.getAttribute("PLANVIEW_TIME");
-              	%>
-              		<a href="#" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=(String) meetingPath %>&xx=<%= planViewTime.longValue() %>', false, null, true)">replace this meeting</a>
-              	<%
-              	}
-              } catch (Exception te) {
-              	te.printStackTrace();
-              }
-              %>
-	       </li>
-          <% } %>
+  		  		<!--if activity detail page-->
+  		  		<% switch( planView.getYearPlanComponent().getType() ) {
+		  			case ACTIVITY:
+		  				Activity activity = (Activity)planView.getYearPlanComponent();
+		  				if( activity.getIsEditable() ){%>
+		  				<li><a href="#" onclick="doEditActivity('editCustActiv')">edit activity</a></li>
+						<% }
+		  				if ( !(activity.getCancelled()!=null && activity.getCancelled().equals("true") ) && 
+		  				activity.getRegisterUrl()  !=null && !activity.getRegisterUrl().equals("")){%>
+		  				<li><a href="<%=activity.getRegisterUrl()%>" class="button linkButton" target="_blank">Register for this event</a></li><%
+		  				} %>
+		  			  	<li><a href="javascript:rmCustActivity12(aPath)">delete this activity</a></li><% 
+		  			  	
+	  				case MEETING:
+			  			try {
+			              	Object meetingPath = pageContext.getAttribute("MEETING_PATH");
+			              	if (meetingPath != null) {
+			              		Long planViewTime = (Long) pageContext.getAttribute("PLANVIEW_TIME");%>
+			              	<li>
+			              	<a href="#" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=(String) meetingPath %>&xx=<%= planViewTime.longValue() %>', false, null, true)">replace this meeting</a>
+			              	</li><% 
+			              	}
+			            } catch (Exception te) {
+			                	te.printStackTrace();
+			            }
+					break;
+				}
+  		  }%> 
+  		  
           <!-- if on a My Troop page-->
 		  <% if("myTroop".equals(activeTab)) { %>
           <li><a data-reveal-id="modal_upload_image" title="update photo" href="#nogo">add/change a photo of your troop</a></li>
