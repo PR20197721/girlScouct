@@ -1,3 +1,6 @@
+
+
+
 <div class="setupCalendar">
 	<p>Set up your meeting dates and times:</p>
 	<form>
@@ -25,11 +28,7 @@
 		<div class="small-24 medium-4 large-4 columns"><label for="calFreq" ACCESSKEY=f>Frequency:</label></div>
 		<div class="small-24 medium-8 large-8 columns">
 			<select id="calFreq">
-					<%
-					System.err.println("tata44: "+ (troop==null));
-					System.err.println("tata44: "+ (troop.getYearPlan()==null));
-					System.err.println("tata44: "+ (troop.getYearPlan().getCalFreq()==null));
-					%>			
+							
 				<option value="weekly" <%= troop.getYearPlan().getCalFreq().equals("weekly") ? " SELECTED" : "" %>>weekly</option>
 				<option value="biweekly"  <%= troop.getYearPlan().getCalFreq().equals("biweekly") ? " SELECTED" : "" %>>biweekly</option>
 				<option value="monthly"  <%= troop.getYearPlan().getCalFreq().equals("monthly") ? " SELECTED" : "" %>>monthly</option>
@@ -37,7 +36,7 @@
 		</div>
 		<div class="hide-for-small medium-12 large-12">&nbsp;</div>
 	</div>
-	<p><label for="exclDt" ACCESSKEY=s>Do not schedule a meeting during the week of **:</label></p>
+	<p><label for="exclDt" ACCESSKEY=s>Do not schedule a meeting during the week of :</label></p>
 <%
 	String exlDates = troop.getYearPlan().getCalExclWeeksOf();
 	exlDates= exlDates==null ? "" : exlDates;
@@ -54,7 +53,7 @@
 			userDAO.updateUserGlobConfig();
 			*/
 		%>
-			<li><label>**<input type="checkbox" name="exclDt" value="09/07/2014" <%=("".equals(exlDates) || exlDates.contains("09/07/2014")) ? "CHECKED" : ""  %>/>09/07/2014 (Labor Day)</label></li>
+			<li><label><input type="checkbox" name="exclDt" value="09/07/2014" <%=("".equals(exlDates) || exlDates.contains("09/07/2014")) ? "CHECKED" : ""  %>/>09/07/2014 (Labor Day)</label></li>
 			<li><label><input type="checkbox" name="exclDt" value="10/12/2014" <%=("".equals(exlDates) || exlDates.contains("10/12/2014")) ? "CHECKED" : ""  %>/>10/12/2014 (Columbus Day)</label></li>
 			<li><label><input type="checkbox" name="exclDt" value="11/11/2014" <%=("".equals(exlDates) || exlDates.contains("11/11/2014")) ? "CHECKED" : ""  %>/>11/11/2014 (Veteran's Day Day)</label></li>
 			<li><label><input type="checkbox" name="exclDt" value="11/26/2014" <%=("".equals(exlDates) || exlDates.contains("11/26/2014")) ? "CHECKED" : ""  %>/>11/26/2014 (Thanksgiving)</label></li>

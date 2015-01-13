@@ -9,6 +9,17 @@
     boolean showVtkNav = true;
 
     java.util.List<org.girlscouts.vtk.models.Contact>contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO).getContacts( user.getApiConfig(), troop.getSfTroopId() );
+	String emailTo=",";
+	try{
+			for(int i=0;i<contacts.size();i++)
+				if( contacts.get(i).getEmail()!=null && !contacts.get(i).getEmail().trim().equals("") && 
+						!emailTo.contains( contacts.get(i).getEmail().trim()+"," ) ) 
+					emailTo+= contacts.get(i).getEmail() +",";
+			if( emailTo.endsWith(",") ) 
+				emailTo.substring(0, emailTo.length()-1);
+			if( emailTo.startsWith(",") ) 
+				emailTo.substring(1, emailTo.length());
+	}catch(Exception e){e.printStackTrace();}
 %>
 
 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
@@ -55,7 +66,7 @@
   <div class="column large-24 large-centered">
 
     <dl class="accordion" data-accordion>
-      <dt data-target="panel1"><h3 class="on"><%=troop.getSfTroopName() %> INFO</h3><a href="mailto:adulfan@gmail.com"><i class="icon icon-mail"></i>email to 15 contacts</a></dt>
+      <dt data-target="panel1"><h3 class="on"><%=troop.getSfTroopName() %> INFO</h3><a href="mailto:<%=emailTo%>"><i class="icon icon-mail"></i>email to 15 contacts</a></dt>
       <dd class="accordion-navigation">
         <div class="content active" id="panel1">
           <div class="row">

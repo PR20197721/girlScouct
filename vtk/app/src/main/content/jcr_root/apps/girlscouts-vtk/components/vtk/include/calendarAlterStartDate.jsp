@@ -6,12 +6,13 @@
 
 <cq:defineObjects/>
 
-<%@include file="session.jsp"%>
+
+		<%@include file="session.jsp"%>
 
 
 <form class="clearfix">
   <section class="clearfix">
-<!--     <p>Configure X meeting dates starting on or after XX/XX/XXXX:</p> -->
+
     <div class="large-4 columns">
       <input type="text" placeholder="Start Date" id="calStartDt" name="calStartDt" value="<%=troop.getYearPlan().getCalStartDate()==null ? "" : FORMAT_MMddYYYY.format(new java.util.Date(troop.getYearPlan().getCalStartDate())) %>" />
     </div>
@@ -68,8 +69,7 @@
     <input type="checkbox" id="chk_10" name="exclDt" value="07/04/2016" <%=("".equals(exlDates) || exlDates.contains("07/04/2016")) ? "CHECKED" : ""  %>/><label for="chk_10"><p><span class="date">07/04/2016</span><span>Independence Day</span></p></label>
   </section>
   <button class="btn right" onclick="buildSched()">Update Calendar</button>
-<!--   <button class="btn right">create calendar</button>
-  <button class="btn right">cancel</button> -->
+
 </form>
 
 <div id="calView"></div>

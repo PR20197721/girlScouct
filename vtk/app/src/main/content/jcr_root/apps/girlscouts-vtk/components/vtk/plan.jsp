@@ -165,7 +165,7 @@ alert(1);
       render: function() {
 		var src= "/content/dam/girlscouts-vtk/local/icon/meetings/"+ this.props.mid +".png";
         return (
-    		<img src={src}/>
+    		<img src={src} onerror="this.style.display='none';"/>
         );
       }
     });

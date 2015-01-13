@@ -28,7 +28,11 @@ while( itr.hasNext() ){
 			<%if( meeting.getCancelled()!=null && meeting.getCancelled().equals("true")) { %>
 				<span class="alert">(Cancelled)</span>
 			<% } %></span></td>
-	  <td><a onclick="showAlterYearPlanStartDate()" title="settings"><i class="icon-gear"></i></a></td>
+	  <td>
+	  <% if( date!=null && date.after( new java.util.Date() ) ){%>
+	 	 <a onclick="showAlterYearPlanStartDate()" title="settings"><i class="icon-gear"></i></a>
+	  <%} %>
+	  </td>
 	</tr>
 <% }%>
 </table>
