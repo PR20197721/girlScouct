@@ -20,8 +20,9 @@
           confMsg ="Are You Sure? You will lose customizations that you have made";
         } 
       }
+      
       java.util.Iterator<YearPlan> yearPlans = yearPlanUtil.getAllYearPlans(user, ageLevel).listIterator();
-     //System.err.println("***** start__ "+ageLevel+" : "+ (yearPlanUtil.getAllYearPlans(ageLevel).size() ) ); 
+     System.err.println("**tata*** start__ "+ageLevel+" : "+ (yearPlanUtil.getAllYearPlans(user, ageLevel).size() ) ); 
         while (yearPlans.hasNext()) {
           YearPlan yearPlan = yearPlans.next();
          // System.err.println("*****"); 

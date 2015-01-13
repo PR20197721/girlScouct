@@ -6,8 +6,10 @@
 
 <cq:defineObjects/>
 
+<%
+System.println("tata: "+ request.getParameter("isNew"));
 
-		<%@include file="session.jsp"%>
+%>
 
 
 <form class="clearfix">
