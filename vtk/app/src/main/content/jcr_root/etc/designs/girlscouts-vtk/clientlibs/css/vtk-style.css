@@ -6,6 +6,9 @@
   padding-left: 5px;
   padding-right: 5px; }
 
+.vtk-body a,
+.vtk-body img {
+  outline: none; }
 .vtk-body p,
 .vtk-body span {
   font-size: 0.88em;
@@ -146,12 +149,14 @@
         cursor: default !important; }
       .vtk-body #main #yearPlanMeetings ul .meeting.activity > div.ui-state-disabled {
         opacity: 1; }
-    .vtk-body #main #yearPlanMeetings ul .milestone > div {
-      background: #f7941d;
-      margin: 20px auto;
-      color: #fff;
-      font-weight: 700;
-      font-size: 14px; }
+    .vtk-body #main #yearPlanMeetings ul .milestone {
+      pointer-events: none; }
+      .vtk-body #main #yearPlanMeetings ul .milestone > div {
+        background: #f7941d;
+        margin: 20px auto;
+        color: #fff;
+        font-weight: 700;
+        font-size: 14px; }
 .vtk-body #mainContent.welcome-page .parbase.section.text h1 {
   margin: 0 0 1.25rem 0; }
 .vtk-body #mainContent.welcome-page .parbase.section.text p {
@@ -488,7 +493,8 @@
           padding: 0.5625rem 0;
           background: none; }
       .vtk-body .modalWrap .tabs-wrapper .tabs-content .date label[for="sch_startDate"],
-      .vtk-body .modalWrap .tabs-wrapper .tabs-content .date label[for="sch_endDate"] {
+      .vtk-body .modalWrap .tabs-wrapper .tabs-content .date label[for="sch_endDate"],
+      .vtk-body .modalWrap .tabs-wrapper .tabs-content .date label[for="newCustActivity_date"] {
         margin-top: 5px; }
       .vtk-body .modalWrap .tabs-wrapper .tabs-content #manageLocationSection,
       .vtk-body .modalWrap .tabs-wrapper .tabs-content #manageActivitySection,
@@ -571,7 +577,16 @@
 .vtk-body #manageCalendarSection .holidays label span {
   display: block; }
 .vtk-body .hero-image {
-  margin-bottom: 10px; }
+  margin-bottom: 10px;
+  position: relative; }
+  .vtk-body .hero-image a {
+    position: absolute;
+    bottom: 12px;
+    color: #fff;
+    font-size: 40px;
+    right: 20px; }
+    .vtk-body .hero-image a:hover {
+      color: #ccc; }
 .vtk-body #searchResults h3 {
   text-transform: uppercase;
   margin: 10px 0 20px 0;

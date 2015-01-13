@@ -13,9 +13,9 @@
        	  <!-- if on Meeting Detail Page-->
   		  <% if("planView".equals(activeTab)) { %>
   		  		<!--if activity detail page-->
-  		  		<% switch(meetingUtil.planView(user, troop, request).getYearPlanComponent().getType() ) {
+  		  		<% switch( planView.getYearPlanComponent().getType() ) {
 		  			case ACTIVITY:
-		  				Activity activity = (Activity)meetingUtil.planView(user, troop, request).getYearPlanComponent();
+		  				Activity activity = (Activity)planView.getYearPlanComponent();
 		  				if( activity.getIsEditable() ){%>
 		  				<li><a href="#" onclick="doEditActivity('editCustActiv')">edit activity</a></li>
 						<% }
@@ -43,7 +43,7 @@
   		  
           <!-- if on a My Troop page-->
 		  <% if("myTroop".equals(activeTab)) { %>
-          <li><a data-reveal-id="modal_upload_image" title="update photo" href="#">add/change a photo of your troop</a></li>
+          <li><a data-reveal-id="modal_upload_image" title="update photo" href="#nogo">add/change a photo of your troop</a></li>
           <% } %>
         </ul>
       </div>
