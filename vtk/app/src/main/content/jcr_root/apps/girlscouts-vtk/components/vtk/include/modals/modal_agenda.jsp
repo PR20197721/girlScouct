@@ -8,7 +8,7 @@
       <section class="clearfix">
         <p>Add New Agenda Item</p>
         <div class="large-8 columns">
-          <input type="text" placeholder="Enter Ageda Item Name" />
+          <input type="text" placeholder="Enter Agenda Item Name" id="newCustAgendaName"/>
         </div>
         <div class="large-8 columns">
           <select id="newCustAgendaDuration" value="Time Allotment">
@@ -21,7 +21,7 @@
           </select>
         </div>
         <div class="large-8 columns left">
-          <input type="text" placeholder="Description" />
+          <input type="text" placeholder="Description" id="newCustAgendaTxt"/>
         </div>
       </section>
       <button onclick="createCustAgendaItem2('<%=planView.getSearchDate().getTime()%>', '1', thisMeetingPath)" class="button btn right">Save</button>
