@@ -23,18 +23,12 @@
 <div class="header-wrapper row collapse hide-for-print update-list-header">
 	<div class='columns'>
 		<div id="header" class="row">
-            <!-- logo -->
 			<div class="large-6 medium-9 columns">
 				<cq:include path="<%= headerPath + "/logo" %>"
 					resourceType="girlscouts/components/logo" />
 				<cq:include path="<%= headerPath + "/placeholder" %>"
 					resourceType="girlscouts/components/placeholder" />
 			</div>
-            <!--eyebrow-->
-            <div class="large-18 medium-15 hide-for-small columns topMessage">
-      			<cq:include path="<%= headerPath + "/eyebrow-nav" %>" resourceType="girlscouts/components/eyebrow-navigation" />
-            </div>
-            <!--top nav small window (mobile view) hamburger-->
             <div class="show-for-small small-24 columns topMessage alt">
       			<div class="row collapse">
                     <div class="columns"></div>
@@ -54,7 +48,6 @@
 				<% setCssClasses("large-push-5 large-19 medium-23 small-24 columns", request); %>
 				<cq:include path="<%= headerPath + "/global-nav" %>"
 					resourceType="girlscouts/components/global-navigation" />
-                <!-- top nav medium window hamburger -->
 				<div class="small-search-hamburger show-for-medium medium-1 columns">
 					<a class="show-for-medium right-off-canvas-toggle menu-icon"><img
 						src="/etc/designs/girlscouts-usa-green/images/hamburger.png"
