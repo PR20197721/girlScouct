@@ -32,7 +32,7 @@
           <% } %>
           <!-- if on a My Troop page-->
 		  <% if("myTroop".equals(activeTab)) { %>
-          <li><a data-reveal-id="modal_upload_image" title="update photo" href="#">add/change a photo of your troop</a></li>
+          <li><a data-reveal-id="modal_upload_image" title="update photo" href="#nogo">add/change a photo of your troop</a></li>
           <% } %>
         </ul>
       </div>

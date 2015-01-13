@@ -205,7 +205,7 @@
               <input type="text" placeholder="Activity Name" name="newCustActivity_name" id="newCustActivity_name" value="" onchange="doChkSubmitValid()"/>
               <!-- <span style="color:red;">*</span> -->
             </div>
-            <div class="small-24 large-3 medium-3 columns">
+            <div class="small-24 large-3 medium-3 columns date">
               <input type="text" id="newCustActivity_date" name="newCustActivity_date" placeholder="mm/dd/yyyy" class="date calendarField" onchange="doChkSubmitValid()"/><!-- <span style="color:red;">*</span> -->
             </div>
             <div class="large-1 columns medium-1 small-1 date">

@@ -16,7 +16,7 @@
 				}))	
 			}	
    <li className="row">
-   
-     	 <a href="javascript:loadModal('#newMeetingAgendaX', true, 'Agenda', false);"><i className="icon-button-circle-plus"></i> Add Agenda Item</a>
+   <a  onclick="loadModal('#newMeetingAgenda', true, 'Agenda', false);" title="Add meeting aids"><i className="icon-button-circle-plus"></i> Add Agenda Item</a>
+     <%--TODO should be this code<a data-reveal-id="modal_agenda" title="add agenda" href="#nogo"><i className="icon-button-circle-plus"></i> Add Agenda Item</a>--%>
    </li>
 </ul>

@@ -7,6 +7,10 @@
   padding-right: 5px;
 }
 .vtk-body {
+  a,
+  img {
+    outline:none;
+  }
   p,
   span {
     font-size:0.88em;
@@ -196,6 +200,7 @@
           }
         }
         .milestone {
+          pointer-events: none;
           > div {
             background: #f7941d;
             margin: 20px auto;
@@ -656,7 +661,8 @@
         }
         .date {
           label[for="sch_startDate"],
-          label[for="sch_endDate"] {
+          label[for="sch_endDate"],
+          label[for="newCustActivity_date"] {
             margin-top:5px;
           }
         }
@@ -777,6 +783,17 @@
   //image for the my troop page.
   .hero-image {
     margin-bottom:10px;
+    position: relative;
+    a {
+      position: absolute;
+      bottom: 12px;
+      color: #fff;
+      font-size: 40px;
+      right: 20px;
+        &:hover {
+          color:#ccc;
+        }
+      }
   }
   //activity popup search results
   #searchResults {
