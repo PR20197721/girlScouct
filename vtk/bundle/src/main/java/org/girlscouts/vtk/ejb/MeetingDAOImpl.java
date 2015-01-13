@@ -195,6 +195,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 					mapper);
 
 			meeting = (Meeting) ocm.getObject(path);
+			
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();

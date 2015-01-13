@@ -548,6 +548,13 @@ if( !userUtil.hasPermission(troop,  Permission.PERMISSION_MOVE_MEETING_ID ) ){
 					if( activities.get(y).getPath().equals( agendaPathToRm ) ){
 						
 						activities.remove(y);
+						
+						Comparator<Activity> comp = new org.apache.commons.beanutils.BeanComparator("activityNumber");
+		        		Collections.sort( activities, comp);
+		        		
+						for(int ii=0;ii<activities.size();ii++)
+							activities.get(ii).setActivityNumber(ii);
+						
 						meetingDAO.createCustomMeeting(user, troop, meeting, meetingInfo);
 						troopUtil.updateTroop(user, troop);
 						return;
