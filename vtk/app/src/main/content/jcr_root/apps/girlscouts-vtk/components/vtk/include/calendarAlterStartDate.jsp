@@ -11,8 +11,7 @@
 	
 	String startAlterDate = request.getParameter("alterYPStartDate") ==null ? "" : request.getParameter("alterYPStartDate");
 
-	System.err.println("tatax: "+startAlterDate);
-	System.err.println("tatax1: "+ new java.util.Date( Long.parseLong(startAlterDate)) );
+	
 %>
 
 <form class="clearfix">
