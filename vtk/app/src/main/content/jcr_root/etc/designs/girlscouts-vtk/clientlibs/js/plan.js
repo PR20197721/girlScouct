@@ -311,7 +311,7 @@ function buildSched(){
 		success: function(result) {
 			//-loadCalMng();
 		//	location.reload();
-			location.reload();
+			location.reload(true);
 		}
 	});
 }
