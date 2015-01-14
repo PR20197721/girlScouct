@@ -77,7 +77,8 @@
            <!--  <div class="sectionBar">Manage Calendar</div> -->
             <div id="calMng">
               <%
-                if( troop.getYearPlan().getSchedule() == null ) {
+              	 
+                if( troop.getYearPlan().getSchedule() == null  || request.getParameter("alterYPStartDate")!=null) {
                 %>
                 <!--  %@include file="include/calSched.jsp" % -->
                 

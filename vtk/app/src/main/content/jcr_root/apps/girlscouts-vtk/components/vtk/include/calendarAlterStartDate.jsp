@@ -6,17 +6,20 @@
 
 <cq:defineObjects/>
 
+
 <%
-System.println("tata: "+ request.getParameter("isNew"));
+	
+	String startAlterDate = request.getParameter("alterYPStartDate") ==null ? "" : request.getParameter("alterYPStartDate");
 
+	System.err.println("tatax: "+startAlterDate);
+	System.err.println("tatax1: "+ new java.util.Date( Long.parseLong(startAlterDate)) );
 %>
-
 
 <form class="clearfix">
   <section class="clearfix">
 
     <div class="large-4 columns">
-      <input type="text" placeholder="Start Date" id="calStartDt" name="calStartDt" value="<%=troop.getYearPlan().getCalStartDate()==null ? "" : FORMAT_MMddYYYY.format(new java.util.Date(troop.getYearPlan().getCalStartDate())) %>" />
+      <input type="text" placeholder="Start Date" id="calStartDt" name="calStartDt" value="<%=( startAlterDate!=null && !startAlterDate.trim().equals("")) ? FORMAT_MMddYYYY.format(new java.util.Date( Long.parseLong(startAlterDate))):( troop.getYearPlan().getCalStartDate()==null ? "" : FORMAT_MMddYYYY.format(new java.util.Date(troop.getYearPlan().getCalStartDate()))) %>" />
     </div>
     <div class="large-2 columns">
       <label for="calStartDt"><i class="icon-calendar"></i></label>
