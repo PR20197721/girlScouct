@@ -461,6 +461,19 @@
       padding:0;
       margin:0;
     }
+    .row:nth-of-type(1) {
+      border-bottom: solid 1px #ccc;
+      margin-bottom: 10px;
+      padding-bottom: 10px;
+      h3 {
+        margin: 0;
+        line-height: 1;
+      }
+      h5 {
+        margin: 0;
+        line-height: 1.6875rem;
+      }
+    }
   }
   //modals per Foundation
   .reveal-modal {
@@ -727,7 +740,56 @@
             }
           }
         }
-      }
+        #manageLocationSection {
+          .locationList li {
+            padding-bottom:0;
+            input[type="checkbox"] + label,
+            input[type="radio"] + label {
+              margin-left: 0;
+            }
+            input[type=checkbox]:checked + label:before {
+              content: "\e6d7";
+              font-family: JollyFont;
+              color: green;
+            }
+            input[type="checkbox"] {
+              display:none;
+            }
+            label {
+            &:before {
+              border: solid 1px #ccc;
+              content: "";
+              height: 30px;
+              width: 30px;
+              text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+              font-size: 15px;
+              text-align: center;
+              display: inline-block;
+              float: left;
+              padding:4px;
+            }
+            p {
+              float: left;
+              margin-left: 9px;
+            }
+              span {
+                display: block;
+              }
+            }
+          }
+        }
+        #manageActivitySection {
+          table {
+            tr {
+              td:first-child {
+                width:40%;
+              }
+            }
+          }
+        }
+      }//tab content
+      
+
       [class^="icon-"],
       [class*=" icon-"] {
         font-size:27px;

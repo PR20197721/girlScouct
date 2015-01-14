@@ -1,4 +1,4 @@
-<div class="content clearfix row" id="panel3">
+<div class="content clearfix" id="panel3">
 <% if( troop.getYearPlan().getActivities()!=null && troop.getYearPlan().getActivities().size()>0) { %>
 
   <table>

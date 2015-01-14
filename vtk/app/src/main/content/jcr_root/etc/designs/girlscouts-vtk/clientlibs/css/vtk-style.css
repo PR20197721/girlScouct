@@ -341,6 +341,16 @@
     border: none;
     padding: 0;
     margin: 0; }
+  .vtk-body .locationResultElement .row:nth-of-type(1) {
+    border-bottom: solid 1px #ccc;
+    margin-bottom: 10px;
+    padding-bottom: 10px; }
+    .vtk-body .locationResultElement .row:nth-of-type(1) h3 {
+      margin: 0;
+      line-height: 1; }
+    .vtk-body .locationResultElement .row:nth-of-type(1) h5 {
+      margin: 0;
+      line-height: 1.6875rem; }
 .vtk-body .reveal-modal {
   padding: 0;
   max-height: 80%;
@@ -542,6 +552,35 @@
           margin-left: 9px; }
         .vtk-body .modalWrap .tabs-wrapper .tabs-content #pickActivitySection .formCheckboxes li label span {
           display: block; }
+      .vtk-body .modalWrap .tabs-wrapper .tabs-content #manageLocationSection .locationList li {
+        padding-bottom: 0; }
+        .vtk-body .modalWrap .tabs-wrapper .tabs-content #manageLocationSection .locationList li input[type="checkbox"] + label,
+        .vtk-body .modalWrap .tabs-wrapper .tabs-content #manageLocationSection .locationList li input[type="radio"] + label {
+          margin-left: 0; }
+        .vtk-body .modalWrap .tabs-wrapper .tabs-content #manageLocationSection .locationList li input[type=checkbox]:checked + label:before {
+          content: "\e6d7";
+          font-family: JollyFont;
+          color: green; }
+        .vtk-body .modalWrap .tabs-wrapper .tabs-content #manageLocationSection .locationList li input[type="checkbox"] {
+          display: none; }
+        .vtk-body .modalWrap .tabs-wrapper .tabs-content #manageLocationSection .locationList li label:before {
+          border: solid 1px #ccc;
+          content: "";
+          height: 30px;
+          width: 30px;
+          text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+          font-size: 15px;
+          text-align: center;
+          display: inline-block;
+          float: left;
+          padding: 4px; }
+        .vtk-body .modalWrap .tabs-wrapper .tabs-content #manageLocationSection .locationList li label p {
+          float: left;
+          margin-left: 9px; }
+        .vtk-body .modalWrap .tabs-wrapper .tabs-content #manageLocationSection .locationList li label span {
+          display: block; }
+      .vtk-body .modalWrap .tabs-wrapper .tabs-content #manageActivitySection table tr td:first-child {
+        width: 40%; }
     .vtk-body .modalWrap .tabs-wrapper [class^="icon-"],
     .vtk-body .modalWrap .tabs-wrapper [class*=" icon-"] {
       font-size: 27px;
