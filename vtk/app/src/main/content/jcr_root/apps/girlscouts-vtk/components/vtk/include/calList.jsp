@@ -30,7 +30,7 @@ while( itr.hasNext() ){
 			<% } %></span></td>
 	  <td>
 	  <% if( date!=null && date.after( new java.util.Date() ) ){%>
-	 	 <a onclick="showAlterYearPlanStartDate()" title="settings"><i class="icon-gear"></i></a>
+	 	 <a onclick="showAlterYearPlanStartDate('<%= date.getTime() %>')" title="settings"><i class="icon-gear"></i></a>
 	  <%} %>
 	  </td>
 	</tr>

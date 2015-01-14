@@ -79,7 +79,7 @@ function addExistActivity(activityId){
 }
 
 function newLocCal(){
-	loadModalPage('/content/girlscouts-vtk/controllers/vtk.locations.html', false, null, true);
+	loadModalPage('/content/girlscouts-vtk/controllers/vtk.locations.html', false, null, true, false);
 }
 
 function closeModalPage() {
@@ -94,8 +94,6 @@ function resetModalPage() {
 }
 
 function loadModalPage(link, showTitle, title, fullPageScroll, print) {
-	
-
 		resetModalPage();
         $( "#gsModal" ).load(link, function( response, status, xhr ) {
                 if ( status == "error" ) {
@@ -522,10 +520,11 @@ function printDiv(x) {
         popupWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</html>');
         popupWin.document.close();
 }
-function showAlterYearPlanStartDate(){
+function showAlterYearPlanStartDate(fromDate){
 
-	$("#calMng").load("/content/girlscouts-vtk/controllers/vtk.include.calendarAlterStartDate.html?isNew=false");
-
+	//$("#calMng").load("/content/girlscouts-vtk/controllers/vtk.include.calendarAlterStartDate.html?isNew=false");
+	//	newLocCal();
+	loadModalPage('/content/girlscouts-vtk/controllers/vtk.locations.html?alterYPStartDate='+ fromDate, false, null, true, false);
 	}
 
 
