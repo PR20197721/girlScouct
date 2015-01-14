@@ -299,7 +299,13 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
       } 
 
       React.render(
-      <CommentBox url="/content/girlscouts-vtk/controllers/vtk.controller.html?reactjs=asdf&elem=<%=request.getParameter("elem")%>" pollInterval={10000} />,
+<%
+	String elem = request.getParameter("elem");
+	if (elem != null) {
+		elem = "&elem=" + elem;
+	}
+%>
+      <CommentBox url="/content/girlscouts-vtk/controllers/vtk.controller.html?reactjs=asdf<%= elem%>" pollInterval={10000} />,
         document.getElementById('theMeeting')
       );
 

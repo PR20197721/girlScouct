@@ -82,7 +82,7 @@
        			 <YearPlanComponents yearPlanName={yearPlanName} data={x} /> 
       	    );
       	} else {
-      		return <div>loading meeting plans...</div>;
+      		return <div></div>;
       	}
       }
     });
