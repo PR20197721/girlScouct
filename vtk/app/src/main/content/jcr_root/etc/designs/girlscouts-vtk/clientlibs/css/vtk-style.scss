@@ -518,6 +518,9 @@
     }
     .content {
       padding: 1.25rem;
+      &.row {
+        padding:1.25rem 0;
+      }
       [class^="icon-"],
       [class*=" icon-"] {
         font-size:27px;
@@ -708,10 +711,6 @@
           }
           .formCheckboxes li {
             padding-bottom:0;
-            input[type="checkbox"] + label,
-            input[type="radio"] + label {
-              margin-left: 0;
-            }
             input[type=checkbox]:checked + label:before {
               content: "\e6d7";
               font-family: JollyFont;
@@ -736,6 +735,7 @@
             p {
               float: left;
               margin-left: 9px;
+              max-width:75px;
             }
               span {
                 display: block;
@@ -746,10 +746,6 @@
         #manageLocationSection {
           .locationList li {
             padding-bottom:0;
-            input[type="checkbox"] + label,
-            input[type="radio"] + label {
-              margin-left: 0;
-            }
             input[type=checkbox]:checked + label:before {
               content: "\e6d7";
               font-family: JollyFont;
@@ -791,8 +787,6 @@
           }
         }
       }//tab content
-      
-
       [class^="icon-"],
       [class*=" icon-"] {
         font-size:27px;
@@ -803,13 +797,19 @@
     .btn {
       text-transform: uppercase;
       color: #fff;
-      margin-left:5px;
       &.add-btn {
         padding:10px 2rem;
       }
     }
     button, select {
       text-transform:uppercase;
+    }
+  }
+  .reveal-modal,
+  .modalWrap {
+    input[type="checkbox"] + label,
+    input[type="radio"] + label {
+      margin:0;
     }
   }
   .browseMeetingAids {
@@ -820,6 +820,11 @@
   //calendars on the popups
   #manageCalendarSection {
     .holidays {
+      ul {
+        li {
+          list-style: none;
+        }
+      }
       input[type=checkbox]:checked + label:before {
         content: "\e6d7";
         font-family: JollyFont;
@@ -965,54 +970,54 @@
         }
       }
     }
-  .icon-mail {
-    font-size: 31px;
-    margin-right: 30px;
-    line-height:.5;
-    }
-    .accordion-inner {
-      background: #f7f7f6;
-      dt {
-        position: relative;
-        padding: 10px 10px 10px 15px;
-        margin-bottom:0;
-        * {
-          vertical-align: middle;
-        }
-        .name:nth-of-type(1) {
-          cursor: pointer;
-          padding-left:30px;
-          &:before {
-            border-style: solid;
-            content: "";
-            border-width: 10px;
-            display: block;
-            position: absolute;
-            margin-top: -10px;
-            top: 50%;
-            border-color: transparent transparent transparent #00ae58;
-            left:0;
+    .icon-mail {
+      font-size: 31px;
+      margin-right: 30px;
+      line-height:.5;
+      }
+      .accordion-inner {
+        background: #f7f7f6;
+        dt {
+          position: relative;
+          padding: 10px 10px 10px 15px;
+          margin-bottom:0;
+          * {
+            vertical-align: middle;
           }
-          &.on {
-            font-weight:bold;
+          .name:nth-of-type(1) {
+            cursor: pointer;
+            padding-left:30px;
             &:before {
-              border-color:#00ae58 transparent transparent;
-              margin-top: -4px;
+              border-style: solid;
+              content: "";
+              border-width: 10px;
+              display: block;
+              position: absolute;
+              margin-top: -10px;
+              top: 50%;
+              border-color: transparent transparent transparent #00ae58;
+              left:0;
+            }
+            &.on {
+              font-weight:bold;
+              &:before {
+                border-color:#00ae58 transparent transparent;
+                margin-top: -4px;
+              }
             }
           }
         }
-      }
-      .accordion-navigation {
-        clear:both;
-        ul,
-        li {
-          font-size: 14px !important;
+        .accordion-navigation {
+          clear:both;
+          ul,
+          li {
+            font-size: 14px !important;
+          }
+        }
+        ul.column:first-child {
+          margin-left:27px;
         }
       }
-      ul.column:first-child {
-        margin-left:27px;
-      }
-    }
   }
   .ui-widget-content .tabs-content a {
     color:#00ae58;
@@ -1072,7 +1077,10 @@
   border: none;
   color: #393939;
 }
-
+input[type="file"] {
+  box-shadow: inset 0 0 9px #CECECB;
+  width: 400px;
+}
 //Media queries
 //small screen
 @media only screen and (max-width: 40em) {
