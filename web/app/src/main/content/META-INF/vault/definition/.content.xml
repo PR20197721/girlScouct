@@ -288,5 +288,45 @@
             mode="replace"
             root="/apps/wcm"
             rules="[]"/>  
+         <f56
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/workflow/models/girl-scouts-activate"
+            rules="[]"/>  
+         <f57
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/workflow/models/girl-scouts-deactivate"
+            rules="[]"/>  
+         <f58
+            jcr:primaryType="nt:unstructured"
+            mode="replace"
+            root="/etc/workflow/launcher/config/gs_create_flipbook_file"
+            rules="[]"/>  
+         <f59
+            jcr:primaryType="nt:unstructured"
+            mode="replace"
+            root="/etc/workflow/launcher/config/gs_create_flipbook_folder"
+            rules="[]"/>  
+         <f60
+            jcr:primaryType="nt:unstructured"
+            mode="replace"
+            root="/etc/workflow/launcher/config/gs_modify_flipbook_file"
+            rules="[]"/>  
+         <f61
+            jcr:primaryType="nt:unstructured"
+            mode="replace"
+            root="/etc/workflow/launcher/config/gs_modify_flipbook_folder"
+            rules="[]"/>  
+         <f62
+            jcr:primaryType="nt:unstructured"
+            mode="replace"
+            root="/etc/workflow/launcher/config/gs_remove_flipbook_file"
+            rules="[]"/>  
+         <f63
+            jcr:primaryType="nt:unstructured"
+            mode="replace"
+            root="/etc/workflow/launcher/config/gs_remove_flipbook_folder"
+            rules="[]"/>  
     </filter>
 </jcr:root>
