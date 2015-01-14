@@ -7,7 +7,7 @@
     description="No Description"
     title="Girl Scouts Deactivate">
     <metaData
-        cq:lastModified="{Long}1421259892457"
+        cq:lastModified="{Long}1421271920839"
         cq:lastModifiedBy="admin"
         jcr:primaryType="nt:unstructured"/>
     <nodes jcr:primaryType="nt:unstructured">
@@ -19,12 +19,13 @@
         </node0>
         <node1
             jcr:primaryType="cq:WorkflowNode"
-            description="Description of step 1"
-            title="Step 1"
-            type="PARTICIPANT">
+            description="Deactivate the payload."
+            title="Deactivate"
+            type="PROCESS">
             <metaData
                 jcr:primaryType="nt:unstructured"
-                PARTICIPANT="admin"/>
+                PROCESS="org.girlscouts.cq.workflow.DeactivateProcess"
+                PROCESS_AUTO_ADVANCE="true"/>
         </node1>
         <node2
             jcr:primaryType="cq:WorkflowNode"
