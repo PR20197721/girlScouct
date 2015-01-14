@@ -103,7 +103,7 @@ import com.day.cq.commons.jcr.JcrUtil;
 		    @Override
 		     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServerException, IOException {
 
-		//System.err.println("Asset...");    	
+		System.err.println("Asset...");    	
 		    	  ResourceResolver resourceResolver = null;
 		      try {
 		      final boolean isMultipart = org.apache.commons.fileupload.servlet.ServletFileUpload.isMultipartContent(request);

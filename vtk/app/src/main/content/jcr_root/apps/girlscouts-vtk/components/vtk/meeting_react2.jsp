@@ -303,6 +303,8 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 	String elem = request.getParameter("elem");
 	if (elem != null) {
 		elem = "&elem=" + elem;
+	} else {
+		elem = "";
 	}
 %>
       <CommentBox url="/content/girlscouts-vtk/controllers/vtk.controller.html?reactjs=asdf<%= elem%>" pollInterval={10000} />,

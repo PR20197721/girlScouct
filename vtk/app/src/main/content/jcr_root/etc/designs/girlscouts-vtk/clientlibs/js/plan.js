@@ -571,3 +571,21 @@ function expiredcheck(ssId, ypId){
 	
 	//tmp need to replace with original
 function showError(x,y){}
+
+function rmTroopInfo(){
+	
+	$.ajax({
+		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand='+Date.now(),
+		type: 'POST',
+		data: { 
+			isRmTroopImg:'true',
+			a:Date.now()
+		},
+		success: function(result) {
+			location.reload();
+		}
+	});
+	
+	
+	
+}

@@ -789,7 +789,16 @@ session.putValue("VTK_troop", troop);
 		
 	}
 			
-			
+}else if( request.getParameter("isRmTroopImg") !=null ){
+	
+		
+		try{
+		Session __session = (Session)resourceResolver.adaptTo(Session.class);
+		__session.removeItem("/content/dam/girlscouts-vtk/troops/"+ troop.getTroop().getTroopId()+"/imgLib/troop_pic.png/troop_pic.png");
+		__session.save();
+		}catch(Exception e){e.printStackTrace();}
+		
+
 		} else {
 			//TODO throw ERROR CODE
 		}
