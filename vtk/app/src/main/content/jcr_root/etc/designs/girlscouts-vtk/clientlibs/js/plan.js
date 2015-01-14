@@ -210,9 +210,7 @@ function addLocation(){
 			zip:zip,
 			a:Date.now()
 		},
-		success: function(result) {
-			
-			
+		success: function(result) {	
 			if($.trim(result)!=''){ alert( $.trim(result) ) ;}
 			 loadLocMng();
 			//document.getElementById("err").innerHtml=result;

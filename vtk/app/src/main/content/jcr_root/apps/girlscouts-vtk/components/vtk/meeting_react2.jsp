@@ -242,7 +242,9 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
         					 <h6>meeting agenda</h6>
         					 <p>Select and agenda item to view details, edit duration and delete. Drag and drop to reorder.</p>
        						 <SortableListItems1  key="{this.props.data}"  data={this.props.data} onClick={this.alex} onReorder={this.onReorder}/>
-      				    </section>; 
+      				   <strong><a data-reveal-id="modal_agenda"><i className="icon-button-circle-plus"></i> Add Agenda Item</a></strong>
+
+						 </section>; 
           }
       });
 
@@ -297,7 +299,13 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
       } 
 
       React.render(
-      <CommentBox url="/content/girlscouts-vtk/controllers/vtk.controller.html?reactjs=asdf&elem=<%=request.getParameter("elem")%>" pollInterval={10000} />,
+<%
+	String elem = request.getParameter("elem");
+	if (elem != null) {
+		elem = "&elem=" + elem;
+	}
+%>
+      <CommentBox url="/content/girlscouts-vtk/controllers/vtk.controller.html?reactjs=asdf<%= elem%>" pollInterval={10000} />,
         document.getElementById('theMeeting')
       );
 
