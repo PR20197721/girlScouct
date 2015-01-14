@@ -26,6 +26,17 @@ var $ = jQuery.noConflict();
 			}
 		});
 	}
+	function validate_image() {
+		$('form#frmImg').submit(function(e) {
+		   var $this = $(this);
+		   var $input =  $this.find('input[type="file"]').val();
+		 if($input == '') {
+		   alert ("you must choose a image");
+		   return false; 
+		   e.preventDefault(); 
+		  }    
+		});  
+	}
 	//all function calls should go here
 	  $(document).ready(function() {
 	  	 $(document).foundation({
@@ -34,5 +45,6 @@ var $ = jQuery.noConflict();
 	  	   },
 	  	 });
 	  	 vtk_accordion();
+	  	 validate_image();
   });
  })($);
