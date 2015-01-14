@@ -37,7 +37,7 @@
 		return false;
 	}
 	
-	%>
+%>
 <%
 //System.err.println("****SESSION****");
 	boolean isMultiUserFullBlock = true;
