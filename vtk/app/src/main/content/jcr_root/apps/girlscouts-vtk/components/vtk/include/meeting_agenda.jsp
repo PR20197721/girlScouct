@@ -1,4 +1,4 @@
- <div class="sortable-list">
+ 
    <ul>
       {this.props.data.map((function(item, i) {
       return <li className="row"  key={item.activityNumber} id={item.activityNumber}>
@@ -16,6 +16,6 @@
         </li>;
   				}))	
   			}
+  			
   </ul>
-  <strong><a data-reveal-id="modal_agenda"><i className="icon-button-circle-plus"></i> Add Agenda Item</a></strong>
-</div>
+  
