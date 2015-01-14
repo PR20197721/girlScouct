@@ -211,9 +211,9 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
 	// In Koo added troop size check
 	if (config.getTroops() != null && config.getTroops().size() > 0) {
 		vtkUser.setPermissions( config.getTroops().get(0).getPermissionTokens() ); 
+		//load configs
+		vtkUser.setCurrentYear( getCurrentYear( request.getResourceResolver(), vtkUser.getApiConfig().getTroops().get(0).getCouncilCode() ) );
    	}
-	//load configs
-	vtkUser.setCurrentYear( getCurrentYear( request.getResourceResolver(), vtkUser.getApiConfig().getTroops().get(0).getCouncilCode() ) );
 	session.setAttribute(org.girlscouts.vtk.models.User.class.getName(), vtkUser);
         redirect(response, targetUrl);
     }
