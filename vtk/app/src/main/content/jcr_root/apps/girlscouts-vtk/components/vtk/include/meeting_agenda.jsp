@@ -17,8 +17,5 @@
   				}))	
   			}
   </ul>
-  <strong><a data-reveal-id="modal_agenda"><i className="icon-button-circle-plus"></i> Add Agenda Item modal</a></strong>
-  <br/>
-  <a href="javascript:loadModal('#tataAgenda', true, 'Agenda', false);" title="Add meeting agenda"><i className="icon-button-circle-plus"></i> Add Agenda Item</a>
-  <%@include file="modals/modal_agenda.jsp"%>
+  <strong><a data-reveal-id="modal_agenda"><i className="icon-button-circle-plus"></i> Add Agenda Item</a></strong>
 </div>

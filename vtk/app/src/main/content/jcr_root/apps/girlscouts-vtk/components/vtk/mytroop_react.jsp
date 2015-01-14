@@ -1,5 +1,5 @@
 <%@ page
-  import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*, java.io.*, java.net.*"%>
+  import="com.day.text.Text, java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*, java.io.*, java.net.*"%>
 <%@include file="/libs/foundation/global.jsp" %>
 <!-- PAGEID :: ./app/src/main/content/jcr_root/apps/girlscouts-vtk/components/vtk/mytroop_react.jsp -->
 <cq:defineObjects/>
@@ -14,8 +14,8 @@
 			for(int i=0;i<contacts.size();i++)
 				if( contacts.get(i).getEmail()!=null && !contacts.get(i).getEmail().trim().equals("") && 
 						!emailTo.contains( contacts.get(i).getEmail().trim()+"," ) ) 
-					emailTo+= contacts.get(i).getEmail() +",";
-					//emailTo+= "\""+ contacts.get(i).getFirstName() +"\"" +"<"+contacts.get(i).getEmail() +">,";
+					//emailTo+= contacts.get(i).getEmail() +",";
+					emailTo += Text.escape(contacts.get(i).getFirstName()) +"<" + contacts.get(i).getEmail() +">,";
 			
 			emailTo = emailTo.trim(); 
 			if( emailTo.endsWith(",") ) 
@@ -66,7 +66,18 @@
   </div>
   
   <div class="hero-image">
+<%
+        if (!resourceResolver.resolve(troopPhotoUrl).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+%>
     <img src="<%=troopPhotoUrl %>" alt="GirlScouts Troop <%=troop.getTroop().getTroopName()%> Photo" />
+<%
+	} else {
+%>
+
+No Image
+<%
+	}
+%>
     <a data-reveal-id="modal_upload_image" title="update photo" href="#nogo" title="upload image"><i class="icon-photo-camera"></i></a>
   </div>
   <div class="column large-24 large-centered">
