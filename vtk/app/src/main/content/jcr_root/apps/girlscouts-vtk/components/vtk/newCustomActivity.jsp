@@ -267,10 +267,12 @@
               java.util.Map<String, String> region =search.getRegion();
               %>
             <div class="row">
+
               <div class="small-24 medium-8 large-8 columns">
                 <label for="sch_keyword" ACCESSKEY="f">Find Activity by:</label>
                 <div class="looking-glass"><input type="text" id="sch_keyword" placeholder="Keywords" value="" onKeyPress="return submitenter(this,event)"/></div>
               </div>
+
               <div class="small-24 medium-6 large-6 columns">
                 <label for="sch_region" ACCESSKEY="g">Region</label>
                 <select id="sch_region">
@@ -300,10 +302,11 @@
               </div>
             </div>
             <p id ="dateErrorBox"></p>
+            
             <div class="row">
               <div class="columns small-24">
                 <label for="sch_lvl" ACCESSKEY="p">Program Level</label>
-                <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-3 formCheckboxes">
+                <ul class="small-block-grid-6 formCheckboxes">
                   <% java.util.Iterator itr1= levels.keySet().iterator();
                     int i=0;
                     while( itr1.hasNext() ){
@@ -320,7 +323,7 @@
             <div class="row">
               <div class="columns small-24">
                 <label for="sch_cats" ACCESSKEY="i">Categories</label>
-                <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-3 formCheckboxes">
+                <ul class="small-block-grid-6 formCheckboxes">
                   <% java.util.Iterator itr= categories.keySet().iterator();
                   i=0;
                   while( itr.hasNext() ){
@@ -349,7 +352,7 @@
 </div><!--/tabs-wrapper-->
 <script>
  $( "#newCustActivity_date" ).datepicker();
-function toggleSection(section) {
+  function toggleSection(section) {
     $("#createActivityTab").removeClass("active");
     $("#pickActivityTab").removeClass("active");
     $("#createActivitySection").hide();

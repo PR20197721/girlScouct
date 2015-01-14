@@ -210,9 +210,7 @@ function addLocation(){
 			zip:zip,
 			a:Date.now()
 		},
-		success: function(result) {
-			
-			
+		success: function(result) {	
 			if($.trim(result)!=''){ alert( $.trim(result) ) ;}
 			 loadLocMng();
 			//document.getElementById("err").innerHtml=result;
@@ -311,7 +309,7 @@ function buildSched(){
 		success: function(result) {
 			//-loadCalMng();
 		//	location.reload();
-			location.reload();
+			location.reload(true);
 		}
 	});
 }

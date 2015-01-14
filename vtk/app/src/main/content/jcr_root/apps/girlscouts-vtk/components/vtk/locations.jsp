@@ -68,58 +68,56 @@
       </ul>
     </div> -->
     <div class="tabs-content">
-      <div class="small-24 medium-24 large-24 columns">
-        <%
-          if (troop.getYearPlan() != null) {
-        %>
-          <div id="manageCalendarSection">
-          <div class="content clearfix active row" id="panel1">
-           <!--  <div class="sectionBar">Manage Calendar</div> -->
-            <div id="calMng">
+      <%
+        if (troop.getYearPlan() != null) {
+      %>
+        <div id="manageCalendarSection">
+        <div class="content clearfix active" id="panel1">
+         <!--  <div class="sectionBar">Manage Calendar</div> -->
+          <div id="calMng">
+            <%
+            	 
+              if( troop.getYearPlan().getSchedule() == null  || request.getParameter("alterYPStartDate")!=null) {
+              %>
+              <!--  %@include file="include/calSched.jsp" % -->
+              
+              <%@include file="include/calendarAlterStartDate.jsp" %>
               <%
-              	 
-                if( troop.getYearPlan().getSchedule() == null  || request.getParameter("alterYPStartDate")!=null) {
-                %>
-                <!--  %@include file="include/calSched.jsp" % -->
-                
-                <%@include file="include/calendarAlterStartDate.jsp" %>
-                <%
-                  }else{
-                %>
-                <%@include file="include/calList.jsp" %>
-                <% } %>
-              </div>
+                }else{
+              %>
+              <%@include file="include/calList.jsp" %>
+              <% } %>
             </div>
           </div>
-          <div id="manageLocationSection">
-            <%
-              if( false) {//troop.getYearPlan().getSchedule() == null ){
-            %>
-             Please first select your calendar start date to set meeting locations.
-            <%
-            		} else {
-            %>
-            <%@include file="include/location.jsp" %>
-            <%
-            		}
-            %>
-          </div>
-          <div id="manageActivitySection">
-            <%
-              if( false) {// troop.getYearPlan().getSchedule() == null ){
-            %>
-              Please first select your calendar start date to set meeting activities.
-            <%
-              } else {
-            %>
-            <%@include file="include/manageActivities.jsp" %>
-            <% } %>
-          </div>
+        </div>
+        <div id="manageLocationSection">
+          <%
+            if( false) {//troop.getYearPlan().getSchedule() == null ){
+          %>
+           Please first select your calendar start date to set meeting locations.
+          <%
+          		} else {
+          %>
+          <%@include file="include/location.jsp" %>
+          <%
+          		}
+          %>
+        </div>
+        <div id="manageActivitySection">
+          <%
+            if( false) {// troop.getYearPlan().getSchedule() == null ){
+          %>
+            Please first select your calendar start date to set meeting activities.
           <%
             } else {
           %>
-          <span class="error">This year plan has no meetings.<br/> Please select a different year plan.</span>
+          <%@include file="include/manageActivities.jsp" %>
           <% } %>
-      </div>
+        </div>
+        <%
+          } else {
+        %>
+        <span class="error">This year plan has no meetings.<br/> Please select a different year plan.</span>
+        <% } %>
     </div>
   </div>

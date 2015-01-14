@@ -52,25 +52,39 @@
       exlDates= exlDates==null ? "" : exlDates;
       UserGlobConfig ubConf =troopUtil.getUserGlobConfig();
       %>
-    <input type="checkbox" id="chk_1" name="exclDt" value="09/07/2015" <%=("".equals(exlDates) || exlDates.contains("09/07/2015")) ? "CHECKED" : ""  %>/><label for="chk_1"><p><span class="date">09/07/2015</span><span>Labor Day</span></p></label>
-
-    <input type="checkbox" id="chk_2" name="exclDt" value="10/12/2015" <%=("".equals(exlDates) || exlDates.contains("10/12/2015")) ? "CHECKED" : ""  %>/><label for="chk_2"><p><span class="date">10/12/2015</span><span>Columbus Day</span></p></label>
-
-    <input type="checkbox" id="chk_3" name="exclDt" value="11/11/2015" <%=("".equals(exlDates) || exlDates.contains("11/11/2015")) ? "CHECKED" : ""  %>/><label for="chk_3"><p><span class="date">11/11/2015</span><span>Veteran's Day Day</span></p></label>
-
-    <input type="checkbox" id="chk_4" name="exclDt" value="11/26/2015" <%=("".equals(exlDates) || exlDates.contains("11/26/2015")) ? "CHECKED" : ""  %>/><label for="chk_4"><p><span class="date">11/26/2015</span><span>Thanksgiving</span></p></label>
-
-    <input type="checkbox" id="chk_5" name="exclDt" value="12/25/2015" <%=("".equals(exlDates) || exlDates.contains("12/25/2015")) ? "CHECKED" : ""  %>/><label for="chk_5"><p><span class="date">12/25/2015</span><span>Christmas</span></p></label>
-
-    <input type="checkbox" id="chk_6" name="exclDt" value="01/01/2016" <%=("".equals(exlDates) || exlDates.contains("01/01/2016")) ? "CHECKED" : ""  %>/><label for="chk_6"><p><span class="date">01/01/2016</span><span>New Years</span></p></label>
-
-    <input type="checkbox" id="chk_7" name="exclDt" value="01/18/2016" <%=("".equals(exlDates) || exlDates.contains("01/18/2016")) ? "CHECKED" : ""  %>/><label for="chk_7"><p><span class="date">01/18/2016</span><span>Martin Luther King, Jr.</span></p></label>
-
-    <input type="checkbox" id="chk_8" name="exclDt" value="02/15/2016" <%=("".equals(exlDates) || exlDates.contains("02/15/2016")) ? "CHECKED" : ""  %>/><label for="chk_8"><p><span class="date">02/15/2016</span><span>Washington's Birthday</span></p></label>
-
-    <input type="checkbox" id="chk_9" name="exclDt" value="05/30/2016" <%=("".equals(exlDates) || exlDates.contains("02/30/2016")) ? "CHECKED" : ""  %>/><label for="chk_9"><p><span class="date">05/30/2016</span><span>Memorial Day</span></p></label>
-
-    <input type="checkbox" id="chk_10" name="exclDt" value="07/04/2016" <%=("".equals(exlDates) || exlDates.contains("07/04/2016")) ? "CHECKED" : ""  %>/><label for="chk_10"><p><span class="date">07/04/2016</span><span>Independence Day</span></p></label>
+      <ul class="small-block-grid-3">
+       <li>
+        <input type="checkbox" id="chk_1" name="exclDt" value="09/07/2015" <%=("".equals(exlDates) || exlDates.contains("09/07/2015")) ? "CHECKED" : ""  %>/><label for="chk_1"><p><span class="date">09/07/2015</span><span>Labor Day</span></p></label>
+      </li>
+      <li>
+        <input type="checkbox" id="chk_2" name="exclDt" value="10/12/2015" <%=("".equals(exlDates) || exlDates.contains("10/12/2015")) ? "CHECKED" : ""  %>/><label for="chk_2"><p><span class="date">10/12/2015</span><span>Columbus Day</span></p></label>
+      </li>
+      <li>
+        <input type="checkbox" id="chk_3" name="exclDt" value="11/11/2015" <%=("".equals(exlDates) || exlDates.contains("11/11/2015")) ? "CHECKED" : ""  %>/><label for="chk_3"><p><span class="date">11/11/2015</span><span>Veteran's Day Day</span></p></label>
+      </li>
+      <li>
+        <input type="checkbox" id="chk_4" name="exclDt" value="11/26/2015" <%=("".equals(exlDates) || exlDates.contains("11/26/2015")) ? "CHECKED" : ""  %>/><label for="chk_4"><p><span class="date">11/26/2015</span><span>Thanksgiving</span></p></label>
+      </li>
+      <li>
+        <input type="checkbox" id="chk_5" name="exclDt" value="12/25/2015" <%=("".equals(exlDates) || exlDates.contains("12/25/2015")) ? "CHECKED" : ""  %>/><label for="chk_5"><p><span class="date">12/25/2015</span><span>Christmas</span></p></label>
+      </li>
+      <li>
+        <input type="checkbox" id="chk_6" name="exclDt" value="01/01/2016" <%=("".equals(exlDates) || exlDates.contains("01/01/2016")) ? "CHECKED" : ""  %>/><label for="chk_6"><p><span class="date">01/01/2016</span><span>New Years</span></p></label>
+      </li>
+      <li>
+        <input type="checkbox" id="chk_7" name="exclDt" value="01/18/2016" <%=("".equals(exlDates) || exlDates.contains("01/18/2016")) ? "CHECKED" : ""  %>/><label for="chk_7"><p><span class="date">01/18/2016</span><span>Martin Luther King, Jr.</span></p></label>
+      </li>
+      <li>
+        <input type="checkbox" id="chk_8" name="exclDt" value="02/15/2016" <%=("".equals(exlDates) || exlDates.contains("02/15/2016")) ? "CHECKED" : ""  %>/><label for="chk_8"><p><span class="date">02/15/2016</span><span>Washington's Birthday</span></p></label>
+      </li>
+      <li>
+        <input type="checkbox" id="chk_9" name="exclDt" value="05/30/2016" <%=("".equals(exlDates) || exlDates.contains("02/30/2016")) ? "CHECKED" : ""  %>/><label for="chk_9"><p><span class="date">05/30/2016</span><span>Memorial Day</span></p></label>
+      </li>
+      <li>
+        <input type="checkbox" id="chk_10" name="exclDt" value="07/04/2016" <%=("".equals(exlDates) || exlDates.contains("07/04/2016")) ? "CHECKED" : ""  %>/><label for="chk_10"><p><span class="date">07/04/2016</span><span>Independence Day</span></p></label>
+      </li>
+      <li>
+    </ul>
   </section>
   <button class="btn right" onclick="buildSched()">Update Calendar</button>
 
