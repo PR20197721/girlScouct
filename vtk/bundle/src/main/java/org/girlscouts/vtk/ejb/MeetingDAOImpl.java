@@ -115,7 +115,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 					mapper);
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(MeetingE.class);
-			filter.setScope("/content/girlscouts-vtk/yearPlanTemplates/yearplan2014/brownie/yearPlan"
+			filter.setScope("/content/girlscouts-vtk/yearPlanTemplates/yearplan"+ user.getCurrentYear() +"/brownie/yearPlan"
 					+ yearPlanId + "/meetings/");
 			Query query = queryManager.createQuery(filter);
 			meetings = (List<MeetingE>) ocm.getObjects(query);

@@ -1,0 +1,31 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1421248789035
+Build-Jdk: 1.6.0_65
+Built-By: akobovich
+Bundle-ClassPath: .,commons-beanutils-1.9.2.jar,commons-logging-1.1.1.ja
+ r,commons-collections-3.2.1.jar
+Bundle-Description: Maven Multimodule project for Girl Scouts Volunteer 
+ Toolkit.
+Bundle-ManifestVersion: 2
+Bundle-Name: Girl Scouts BeanUtils Wrapper
+Bundle-SymbolicName: org.girlscouts.vtk.beanutils-wrapper
+Bundle-Version: 1.0.0.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Embed-Dependency: *;scope=compile|runtime
+Embed-Transitive: true
+Embedded-Artifacts: commons-beanutils-1.9.2.jar;g="commons-beanutils";a=
+ "commons-beanutils";v="1.9.2",commons-logging-1.1.1.jar;g="commons-logg
+ ing";a="commons-logging";v="1.1.1",commons-collections-3.2.1.jar;g="com
+ mons-collections";a="commons-collections";v="3.2.1"
+Export-Package: org.apache.commons.beanutils;uses:="org.apache.commons.b
+ eanutils.expression,org.apache.commons.beanutils.converters";version="1
+ .9.2",org.apache.commons.beanutils.expression;version="1.9.2",org.apach
+ e.commons.beanutils.locale.converters;uses:="org.apache.commons.beanuti
+ ls,org.apache.commons.beanutils.locale";version="1.9.2",org.apache.comm
+ ons.beanutils.converters;uses:="org.apache.commons.beanutils";version="
+ 1.9.2",org.apache.commons.beanutils.locale;uses:="org.apache.commons.be
+ anutils,org.apache.commons.beanutils.expression,org.apache.commons.bean
+ utils.locale.converters";version="1.9.2"
+Import-Package: javax.servlet,org.apache.avalon.framework.logger;resolut
+ ion:=optional,org.apache.log;resolution:=optional,org.apache.log4j
+Tool: Bnd-1.50.0

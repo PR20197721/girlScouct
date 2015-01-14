@@ -9,7 +9,7 @@ public class User implements Serializable{
 	private ApiConfig apiConfig;
 	private java.util.Set<Integer> permissions;
 	private String sid;//my http sessionId
-	
+	private String currentYear;
 	
 	public java.util.Set<Integer> getPermissions() {
 		return permissions;
@@ -34,6 +34,16 @@ public class User implements Serializable{
 	public void setSid(String sid) {
 		this.sid = sid;
 	}
+
+	public String getCurrentYear() {
+		return currentYear;
+	}
+
+	public void setCurrentYear(String currentYear) {
+		this.currentYear = currentYear;
+	}
+
+	
 
 	
 
