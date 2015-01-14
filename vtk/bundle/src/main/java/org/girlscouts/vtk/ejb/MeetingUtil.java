@@ -993,6 +993,7 @@ for(int h=0;h<meetingInfo.getActivities().size();h++)
 
 		if ( _comp.getType() == YearPlanComponentType.MEETING) {
 			meeting = (MeetingE) _comp;
+	System.err.println("TATA77: "+ meeting.getRefId() );		
 			meetingInfo = yearPlanUtil.getMeeting( user, meeting.getRefId() );
 			
 
@@ -1080,7 +1081,7 @@ for(int h=0;h<meetingInfo.getActivities().size();h++)
 		java.util.List<java.util.Date> dates =new java.util.ArrayList<java.util.Date>(sched.keySet());
 		long nextDate=0, prevDate=0;
 		java.util.Date searchDate= null;
-
+System.err.println("tata77: "+ request.getParameter("elem"));
 		if( request.getParameter("elem") !=null ) {
 			searchDate = new java.util.Date( Long.parseLong(  request.getParameter("elem")  ) );	
 		}else if( false) {//session.getValue("VTK_planView_memoPos") !=null ){
