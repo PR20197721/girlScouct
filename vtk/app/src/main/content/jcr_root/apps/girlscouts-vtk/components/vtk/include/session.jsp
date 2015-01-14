@@ -76,7 +76,7 @@
 					.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class
 							.getName()));
 		} else {
-			out.println("Your session has timed out.  Please login.");
+			out.println("Your session has timed out.  Please refresh this page and login.");
 			return;
 		}
 	} catch (ClassCastException cce) {
