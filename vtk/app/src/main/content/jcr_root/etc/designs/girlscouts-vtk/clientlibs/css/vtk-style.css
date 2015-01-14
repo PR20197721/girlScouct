@@ -371,7 +371,7 @@
       padding: 0px 20px;
       margin: 0; }
   .vtk-body .reveal-modal .content {
-    padding: 0.9375em 0; }
+    padding: 1.25rem; }
     .vtk-body .reveal-modal .content [class^="icon-"],
     .vtk-body .reveal-modal .content [class*=" icon-"] {
       font-size: 27px; }

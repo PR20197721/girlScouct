@@ -83,7 +83,7 @@ No Image
   <div class="column large-24 large-centered">
 
     <dl class="accordion" data-accordion>
-      <dt data-target="panel1"><h3 class="on"><%=troop.getSfTroopName() %> INFO</h3><a href='mailto:<%=emailTo%>'><i class="icon icon-mail"></i>email to 15 contacts</a></dt>
+      <dt data-target="panel1"><h3 class="on"><%=troop.getSfTroopName() %> INFO</h3><a href='mailto:<%=emailTo%>'><i class="icon icon-mail"></i>email to <%= contacts.size() %> contacts</a></dt>
       <dd class="accordion-navigation">
         <div class="content active" id="panel1">
           <div class="row">
