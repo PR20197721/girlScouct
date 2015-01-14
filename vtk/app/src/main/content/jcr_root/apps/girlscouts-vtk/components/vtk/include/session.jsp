@@ -37,9 +37,6 @@
 		return false;
 	}
 	
-
-	
-	
 	%>
 <%
 //System.err.println("****SESSION****");
