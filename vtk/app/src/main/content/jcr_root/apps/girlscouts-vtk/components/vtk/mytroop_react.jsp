@@ -71,11 +71,6 @@
 %>
     <img src="<%=troopPhotoUrl %>" alt="GirlScouts Troop <%=troop.getTroop().getTroopName()%> Photo" />
 <%
-	} else {
-%>
-
-No Image
-<%
 	}
 %>
     <a data-reveal-id="modal_upload_image" title="update photo" href="#nogo" title="upload image"><i class="icon-photo-camera"></i></a>
