@@ -58,72 +58,69 @@
   		return this.optional(element) || re.test(value);
   		}, '');
 
-
   $().ready(function() {
 
-  		$("#signupForm").validate({	
-  rules: {
+  	$("#signupForm").validate({	
+    rules: {
 
-  newCustActivity_name: {
-  required: true,
-  minlength: 2
-  },
-  newCustActivity_locName:{
-  	required: true,
-  	minlength: 2
-  },
-  newCustActivity_startTime:{
-  required:true,
-  minlength: 5,
-  time: true
-  },
-  newCustActivity_endTime:{
-  required:true,
-  minlength: 5,
-  time: true
-  },
-  newCustActivity_cost:{
-  required:true,
-  minlength: 4,
-  currency:true
-  		     },
-  newCustActivity_date:{
-  required:true,
-  	 minlength:8,
-  	 date:true
-  		     }
+    newCustActivity_name: {
+    required: true,
+    minlength: 2
+    },
+    newCustActivity_locName:{
+    	required: true,
+    	minlength: 2
+    },
+    newCustActivity_startTime:{
+    required:true,
+    minlength: 5,
+    time: true
+    },
+    newCustActivity_endTime:{
+    required:true,
+    minlength: 5,
+    time: true
+    },
+    newCustActivity_cost:{
+    required:true,
+    minlength: 4,
+    currency:true
+    		     },
+    newCustActivity_date:{
+    required:true,
+    	 minlength:8,
+    	 date:true
+    		     }
 
-  },
-  messages: {
-  newCustActivity_name: {
-  required: "Please enter a Name",
-  	  minlength: "Your Name must consist of at least 2 characters"
-  		      },
-  newCustActivity_locName: {
-  		    	  required: "Please enter a Location Name",
-  		    	  	  minlength: "Your Name must consist of at least 2 characters"
-  		    	  		      },
-  newCustActivity_startTime:{
-  required: "Please enter a Start time",
-  	  minlength: "Valid format HH:mm"
-  			  },
-  newCustActivity_endTime:{
-  required: "Please enter a End time",
-  	  minlength: "Valid format HH:mm"
-  			},
-  newCustActivity_cost:{
-  required: "Please enter a valid amount. Default 0.00",
-  	  minlength: "Valid format 0.00"
-  		     },
-  newCustActivity_date:{
-  required: "Please enter valid start date",
-  	  minlength: "Valid format mm/dd/yyyy"
-  		     }
-  	  }
+    },
+    messages: {
+    newCustActivity_name: {
+    required: "Please enter a Name",
+    	  minlength: "Your Name must consist of at least 2 characters"
+    		      },
+    newCustActivity_locName: {
+    		    	  required: "Please enter a Location Name",
+    		    	  	  minlength: "Your Name must consist of at least 2 characters"
+    		    	  		      },
+    newCustActivity_startTime:{
+    required: "Please enter a Start time",
+    	  minlength: "Valid format HH:mm"
+    			  },
+    newCustActivity_endTime:{
+    required: "Please enter a End time",
+    	  minlength: "Valid format HH:mm"
+    			},
+    newCustActivity_cost:{
+    required: "Please enter a valid amount. Default 0.00",
+    	  minlength: "Valid format 0.00"
+    		     },
+    newCustActivity_date:{
+    required: "Please enter valid start date",
+    	  minlength: "Valid format mm/dd/yyyy"
+    		     }
+    	  }
+    });
   });
-  });
-
-
 
   $('#newCustActivity').click(function() {
   		if ($('#signupForm').valid()) {
@@ -133,8 +130,7 @@
   		else {
   			showError("The form has one or more errors.  Please update and try again.", "#createActivitySection .errorMsg");
   		}
-  		});
-
+  });
 
   function timeDiff(){
   	var date= document.getElementById("newCustActivity_date").value;
@@ -171,7 +167,6 @@
   	} else {
   		return true;
   	}
-
   }
 </script>  
 
@@ -182,13 +177,12 @@
   if (isWarning) {
   %>
     <span class="warning"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/warning-small.png" width="20" height="20" align="left"/></span>
-
   <% } %>
   <h3 class="columns large-22"><%= instruction %></h3>
   <a class="close-reveal-modal columns large-2" onclick="closeModalPage()"  ><i class="icon-button-circle-cross"></i></a>
 </div>
 
-  <div class="tabs-wrapper">
+<div class="tabs-wrapper">
   <dl class="tabs" data-tab>
     <dd id="createActivityTab" class="active manageCalendarTab"><a href="#" onclick="toggleSection('create')">Custom Activity</a></dd>
     <dd id="pickActivityTab" class="manageCalendarTab" ><a href="#" onclick="toggleSection('pick')">Council Activity</a></dd>
@@ -302,7 +296,7 @@
               </div>
             </div>
             <p id ="dateErrorBox"></p>
-            
+
             <div class="row">
               <div class="columns small-24">
                 <label for="sch_lvl" ACCESSKEY="p">Program Level</label>

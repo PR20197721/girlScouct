@@ -21,19 +21,19 @@
 	java.util.List<Meeting> meetings =yearPlanUtil.getAllMeetings(user, ageLevel);
 	String find="";
 %>
-<div class="header clearfix">
-  <h3 class="columns large-10">Meeting Library</h3>
-  <span class="column large-12">HINT: meeting overviews are available under resources</span>
-  <a class="close-reveal-modal columns large-2" onclick="closeModalPage()"><i class="icon-button-circle-cross"></i></a>
-</div>
+  <div class="header clearfix">
+    <h3 class="columns large-10">Meeting Library</h3>
+    <span class="column large-12">HINT: meeting overviews are available under resources</span>
+    <a class="close-reveal-modal columns large-2" onclick="closeModalPage()"><i class="icon-button-circle-cross"></i></a>
+  </div>
 
   <%
     boolean isWarning=false;
     String instruction = "Select a meeting to add to your Year Plan";
     if (isWarning) {
   %>
-  	<div class="small-4 medium-2 large-2 columns">
-  		<div class="warning"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/warning-small.png" width="20" height="20" align="left"/></div>
+  <div class="small-4 medium-2 large-2 columns">
+  	<div class="warning"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/warning-small.png" width="20" height="20" align="left"/></div>
   	</div>
   	<div class="small-20 medium-22 large-22 columns">
       <% } %>
