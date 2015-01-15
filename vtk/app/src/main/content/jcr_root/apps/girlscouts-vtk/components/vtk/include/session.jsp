@@ -203,7 +203,7 @@
 			|| (troop.getErrCode() != null && troop.getErrCode()
 					.equals("111"))) {
 %>
-<div style="color: #fff; background-color: red;">Warning:  Another user is logged in with this user id.  If you have logged in to the Volunteer Toolkit on another device or desktop, please logout and login again. error 111-in db</div>
+<!--Warning:  Another user is logged in with this user id.  If you have logged in to the Volunteer Toolkit on another device or desktop, please logout and login again. error 111-in db -->
 <%
 	}
 
@@ -215,7 +215,7 @@
 					troop.getCurrentTroop())) {
 %><div style="color: #fff; background-color: red;">Warning:  Another user is logged in with this user id.  If you have logged in to the Volunteer Toolkit on another device or desktop, please logout and login again.111.1</div>
 <%
-	troop.setRefresh(true);
+		troop.setRefresh(true);
 		return;
 	}
 */
