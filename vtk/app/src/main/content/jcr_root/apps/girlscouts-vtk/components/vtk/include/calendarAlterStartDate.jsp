@@ -6,13 +6,9 @@
 
 <cq:defineObjects/>
 
-
-<%
-	
-	String startAlterDate = request.getParameter("alterYPStartDate") ==null ? "" : request.getParameter("alterYPStartDate");
-
-	
-%>
+  <%	
+  	String startAlterDate = request.getParameter("alterYPStartDate") ==null ? "" : request.getParameter("alterYPStartDate");
+  %>
 
 <form class="clearfix">
   <section class="clearfix">
@@ -52,9 +48,9 @@
       exlDates= exlDates==null ? "" : exlDates;
       UserGlobConfig ubConf =troopUtil.getUserGlobConfig();
       %>
-      <ul class="small-block-grid-3">
-       <li>
-        <input type="checkbox" id="chk_1" name="exclDt" value="09/07/2015" <%=("".equals(exlDates) || exlDates.contains("09/07/2015")) ? "CHECKED" : ""  %>/><label for="chk_1"><p><span class="date">09/07/2015</span><span>Labor Day</span></p></label>
+    <ul class="small-block-grid-3">
+     <li>
+      <input type="checkbox" id="chk_1" name="exclDt" value="09/07/2015" <%=("".equals(exlDates) || exlDates.contains("09/07/2015")) ? "CHECKED" : ""  %>/><label for="chk_1"><p><span class="date">09/07/2015</span><span>Labor Day</span></p></label>
       </li>
       <li>
         <input type="checkbox" id="chk_2" name="exclDt" value="10/12/2015" <%=("".equals(exlDates) || exlDates.contains("10/12/2015")) ? "CHECKED" : ""  %>/><label for="chk_2"><p><span class="date">10/12/2015</span><span>Columbus Day</span></p></label>
@@ -83,11 +79,9 @@
       <li>
         <input type="checkbox" id="chk_10" name="exclDt" value="07/04/2016" <%=("".equals(exlDates) || exlDates.contains("07/04/2016")) ? "CHECKED" : ""  %>/><label for="chk_10"><p><span class="date">07/04/2016</span><span>Independence Day</span></p></label>
       </li>
-      <li>
     </ul>
   </section>
   <button class="btn right" onclick="buildSched()">Update Calendar</button>
-
 </form>
 
 <div id="calView"></div>

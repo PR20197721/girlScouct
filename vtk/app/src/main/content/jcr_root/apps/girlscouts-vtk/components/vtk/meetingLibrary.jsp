@@ -21,19 +21,19 @@
 	java.util.List<Meeting> meetings =yearPlanUtil.getAllMeetings(user, ageLevel);
 	String find="";
 %>
-<div class="header clearfix">
-  <h3 class="columns large-10">Meeting Library</h3>
-  <span class="column large-12">HINT: meeting overviews are available under resources</span>
-  <a class="close-reveal-modal columns large-2" onclick="closeModalPage()"><i class="icon-button-circle-cross"></i></a>
-</div>
+  <div class="header clearfix">
+    <h3 class="columns large-10">Meeting Library</h3>
+    <span class="column large-12">HINT: meeting overviews are available under resources</span>
+    <a class="close-reveal-modal columns large-2" onclick="closeModalPage()"><i class="icon-button-circle-cross"></i></a>
+  </div>
 
   <%
     boolean isWarning=false;
     String instruction = "Select a meeting to add to your Year Plan";
     if (isWarning) {
   %>
-  	<div class="small-4 medium-2 large-2 columns">
-  		<div class="warning"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/warning-small.png" width="20" height="20" align="left"/></div>
+  <div class="small-4 medium-2 large-2 columns">
+  	<div class="warning"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/warning-small.png" width="20" height="20" align="left"/></div>
   	</div>
   	<div class="small-20 medium-22 large-22 columns">
       <% } %>
@@ -66,43 +66,45 @@
   	});
   }
   </script>
-  <div class="content meeting-library">
-    <p class="instruction"><%= instruction %></p>
-    <div id="cngMeet"></div>
-    <table class="meetingSelect">
-    	<tbody>
-        <%
-        for(int i=0;i<meetings.size();i++){
-        	Meeting meeting = meetings.get(i);
-        %>
-        	<tr>
-        		<td>
-          			<p class="title"><%=meeting.getName()%></p>
-          			<!--  <p class="tags"> <%=meeting.getAidTags() %></p> -->
-          			<p class="blurb"><%=meeting.getBlurb() %></p>
-        		</td>
-            <td>
-              <%  if( !myMeetingIds.contains( meeting.getId().trim().toLowerCase()) ) { %>
-                <a href="#" onclick="cngMeeting('<%=meeting.getPath()%>')">Select Meeting</a>
-              <% } else {%>
-                <img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/check.png" width="10" height="15"> <i class="included">Included in Year Plan</i>
-              <% }%>
-            </td>
-        		<td>
-            <%
-            	try {
-            		String img= meeting.getId().substring( meeting.getId().lastIndexOf("/")+1).toUpperCase();
-            		if(img.contains("_") )img= img.substring(0, img.indexOf("_"));
-            %>
-                  <img width="100" height="100" src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png"/>
+  <div class="scroll">
+    <div class="content meeting-library">
+      <p class="instruction"><%= instruction %></p>
+      <div id="cngMeet"></div>
+      <table class="meetingSelect">
+      	<tbody>
+          <%
+          for(int i=0;i<meetings.size();i++){
+          	Meeting meeting = meetings.get(i);
+          %>
+          	<tr>
+          		<td>
+            			<p class="title"><%=meeting.getName()%></p>
+            			<!--  <p class="tags"> <%=meeting.getAidTags() %></p> -->
+            			<p class="blurb"><%=meeting.getBlurb() %></p>
+          		</td>
+              <td>
+                <%  if( !myMeetingIds.contains( meeting.getId().trim().toLowerCase()) ) { %>
+                  <a href="#" onclick="cngMeeting('<%=meeting.getPath()%>')">Select Meeting</a>
+                <% } else {%>
+                  <img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/check.png" width="10" height="15"> <i class="included">Included in Year Plan</i>
+                <% }%>
+              </td>
+          		<td>
               <%
-              	} catch(Exception e){
-              		e.printStackTrace();
-              	}
+              	try {
+              		String img= meeting.getId().substring( meeting.getId().lastIndexOf("/")+1).toUpperCase();
+              		if(img.contains("_") )img= img.substring(0, img.indexOf("_"));
               %>
-            </td>
-        	</tr>
-        <% } %>
-    	</tbody>
-    </table>
-</div>
+                    <img width="100" height="100" src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png"/>
+                <%
+                	} catch(Exception e){
+                		e.printStackTrace();
+                	}
+                %>
+              </td>
+          	</tr>
+          <% } %>
+      	</tbody>
+      </table>
+    </div>
+  </div>

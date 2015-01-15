@@ -44,7 +44,7 @@
     </div> -->
     <h3 class="columns large-22">MEETING date and locations</h3>
     <a class="columns large-2" href="/content/girlscouts-vtk/en/vtk.html?rand=<%= new java.util.Date().getTime()%>"><i class="icon-button-circle-cross"></i></a>
-<!--     <div class="small-4 medium-2 large-2 columns">
+    <!-- <div class="small-4 medium-2 large-2 columns">
         <a class="right" href="/content/girlscouts-vtk/en/vtk.html?rand=<%= new java.util.Date().getTime()%>">
           <img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/close-small.png" width="20" height="20" border="0" align="right">
         </a>

@@ -15,10 +15,6 @@ if( meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null )
 		}
 	}
 }
-
-
-
-
 pageContext.setAttribute("MEETING_PATH", meeting.getPath());
 pageContext.setAttribute("PLANVIEW_TIME", Long.valueOf(planView.getSearchDate().getTime()));
 pageContext.setAttribute("DETAIL_TYPE", "meeting");
@@ -34,10 +30,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 <script src="http://fb.me/react-with-addons-0.12.1.js"></script>
 
 
-
-
-
-
+<div id="modal_agenda_edit" class="reveal-modal" data-reveal></div>
 <%@include file="include/tab_navigation.jsp"%>
 
 <script>
@@ -48,6 +41,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 <%@include file="include/utility_nav.jsp"%>
 <%@include file="include/meeting_aids_add.jsp"%>
 <%@include file="include/modals/modal_agenda.jsp"%>
+
   <div id="theMeeting">
     <script type="text/jsx">
       var thisMeetingRefId;
@@ -100,18 +94,32 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
         } //end of render
       });
 
-      var ActivityName = React.createClass({
+      var ActivityNameAlex = React.createClass({
         onClick: function() {
-          loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=mid%>&isAgenda='+(this.props.item.activityNumber-1), true, 'Agenda')       
+         loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=mid%>&isAgenda='+(this.props.item.activityNumber-1), true, 'Agenda')       
   		  },
         render: function() {
           return (
-              <a href="javascript:void(0)" onClick={this.onClick} className={this.props.selected ? "selected" : ""}>
+              
+              <a href="javascript:void(0)" onClick={this.onClick} className={this.props.selected ? "selected" : ""} mid= '<%=mid%>' isAgenda= {(this.props.item.activityNumber-1)}>
                  {this.props.item.name}
               </a>
           );
         }
       });
+
+
+      var ActivityName = React.createClass({
+        
+        render: function() {
+          return (
+              <a data-reveal-id="modal_agenda_edit" data-reveal-ajax="true" href={"/content/girlscouts-vtk/controllers/vtk.include.modals.modal_agenda_edit.html?mid=<%=mid%>&isAgenda="+(this.props.item.activityNumber-1)}>{this.props.item.name}</a>
+              
+          );
+        }
+      });
+
+
 
       var MeetingAssets = React.createClass({
        getInitialState: function() {
