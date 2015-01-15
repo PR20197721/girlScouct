@@ -947,6 +947,10 @@
     a {
       font-weight:normal;
       font-size: 14px;
+      &.email {
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
     }
    > dt {
       background: #00ae58;

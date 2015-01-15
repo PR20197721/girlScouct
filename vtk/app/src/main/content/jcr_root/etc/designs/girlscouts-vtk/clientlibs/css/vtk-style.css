@@ -680,6 +680,10 @@
   .vtk-body .accordion a {
     font-weight: normal;
     font-size: 14px; }
+    .vtk-body .accordion dl dt.email,
+    .vtk-body .accordion a.email {
+      text-overflow: ellipsis;
+      overflow: hidden; }
   .vtk-body .accordion > dt {
     background: #00ae58;
     position: relative;
