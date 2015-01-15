@@ -14,8 +14,8 @@
 			for(int i=0;i<contacts.size();i++)
 				if( contacts.get(i).getEmail()!=null && !contacts.get(i).getEmail().trim().equals("") && 
 						!emailTo.contains( contacts.get(i).getEmail().trim()+"," ) ) 
-					//emailTo+= contacts.get(i).getEmail() +",";
-					emailTo += Text.escape(contacts.get(i).getFirstName()) +"<" + contacts.get(i).getEmail() +">,";
+					emailTo+= contacts.get(i).getEmail() +",";
+					//emailTo += Text.escape(contacts.get(i).getFirstName()) +"<" + contacts.get(i).getEmail() +">,";
 			
 			emailTo = emailTo.trim(); 
 			if( emailTo.endsWith(",") ) 
@@ -23,7 +23,7 @@
 			if( emailTo.startsWith(",") ) 
 				emailTo= emailTo.substring(1, emailTo.length());
 			
-			System.err.println( emailTo );
+			//System.err.println( emailTo );
 			
 	}catch(Exception e){e.printStackTrace();}
 %>

@@ -245,7 +245,13 @@
 					var y = parseFloat($(cropArea).css("top"), 10) * dimensionsDifferenceHeight; // y-coordinate of the crop selection
 					var w = parseFloat($(cropArea).css("width"), 10) * dimensionsDifferenceWidth; // width of the crop selection
 					var h = parseFloat($(cropArea).css("height"), 10) * dimensionsDifferenceHeight; // height of the crop selestion
-			
+					
+					
+					 var context = canvas.getContext('2d');
+					 context.drawImage(imageObj, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight);
+
+					
+					console.log("tata: "+ o.troopId+" : "+o.upldTroopPic + " : " +o.phpScriptLocation);
 					$.ajax({
 						url: o.phpScriptLocation,
 						data: {x: x, y: y, w: w, h: h, dimension_x: o.newImageWidth, dimension_y: o.newImageHeight, image_path: imagePath, image_destination: o.imageDestination, troopId: o.troopId, upldTroopPic:o.upldTroopPic}, 
@@ -264,3 +270,24 @@
 	});
 
     })(jQuery);
+ 
+ /*
+//draw cropped image
+ var sourceX = 150;
+ var sourceY = 0;
+ var sourceWidth = 150;
+ var sourceHeight = 150;
+ var destWidth = sourceWidth;
+ var destHeight = sourceHeight;
+ var destX = canvas.width / 2 - destWidth / 2;
+ var destY = canvas.height / 2 - destHeight / 2;
+
+ context.drawImage(imageObj, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight);
+
+ var resizeImage = function(width, height){
+	    resize_canvas.width = width;
+	    resize_canvas.height = height;
+	    resize_canvas.getContext('2d').drawImage(orig_src, 0, 0, width, height);   
+	    $(image_target).attr('src', resize_canvas.toDataURL("image/png"));  
+	  };
+ */
