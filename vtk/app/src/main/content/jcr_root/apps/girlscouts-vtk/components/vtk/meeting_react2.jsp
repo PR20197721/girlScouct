@@ -39,7 +39,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 
 <div id="panelWrapper" class="row content meeting-detail">
 <%@include file="include/utility_nav.jsp"%>
-<%@include file="include/meeting_aids_add.jsp"%>
+<%@include file="include/modals/modal_meeting_aids.jsp"%>
 <%@include file="include/modals/modal_agenda.jsp"%>
 
   <div id="theMeeting">

@@ -501,6 +501,7 @@
         text-align: right;
         top: 0;
         right: 0;
+        vertical-align: middle;
       }
       * {
         color: #fff;
@@ -533,7 +534,7 @@
         height: auto;
       }
       select {
-        padding: 0;
+        padding: 0 10px;
         margin: 0;
         height: 31px;
       }
@@ -629,7 +630,7 @@
         top: 0;
         right: 0;
         outline: none;
-        vertical-align:middle;
+        vertical-align: middle;
       }
       * {
         color: #fff;

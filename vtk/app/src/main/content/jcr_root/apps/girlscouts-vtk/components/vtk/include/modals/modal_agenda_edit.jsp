@@ -3,7 +3,7 @@
     <a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
   </div>
   <div class="scroll">
-    <div class="modal-content row">
+    <div class="content row">
       <div class="setupCalendar">
         <h3>Agenda Item: Activity name</h3>
         <div class="columns small-4">
