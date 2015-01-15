@@ -60,8 +60,8 @@
 }
 .dropzone .dz-preview .dz-details,
 .dropzone-previews .dz-preview .dz-details {
-  width: 100px;
-  height: 100px;
+/*   width: 200px;
+  height: 300px; */
   position: relative;
   background: #ebebeb;
   padding: 5px;
@@ -77,16 +77,17 @@
   position: absolute;
   top: 0;
   left: 0;
-  width: 100px;
-  height: 100px;
+  width: 100%;
+/*  height: 100px; */
 }
 .dropzone .dz-preview .dz-details .dz-size,
 .dropzone-previews .dz-preview .dz-details .dz-size {
   position: absolute;
   bottom: -28px;
   left: 3px;
-  height: 28px;
-  line-height: 28px;
+  width:100%;
+/*   height: 280px;
+  line-height: 280px; */
 }
 .dropzone .dz-preview.dz-error .dz-error-mark,
 .dropzone-previews .dz-preview.dz-error .dz-error-mark {
@@ -106,8 +107,8 @@
 .dropzone-previews .dz-preview .dz-error-mark {
   display: none;
   position: absolute;
-  width: 40px;
-  height: 40px;
+  width: 400px;
+  height: 400px;
   font-size: 30px;
   text-align: center;
   right: -10px;
@@ -127,7 +128,7 @@
   top: 100px;
   left: 6px;
   right: 6px;
-  height: 6px;
+  height: 600px;
   background: #d7d7d7;
   display: none;
 }
@@ -224,6 +225,7 @@
   -webkit-box-shadow: 1px 1px 4px rgba(0,0,0,0.16);
   box-shadow: 1px 1px 4px rgba(0,0,0,0.16);
   font-size: 14px;
+  width:100%;
 }
 .dropzone .dz-preview.dz-image-preview:hover .dz-details img,
 .dropzone-previews .dz-preview.dz-image-preview:hover .dz-details img {
@@ -440,11 +442,11 @@
 
 Dropzone.options.myAwesomeDropzone = {
 		
-		alert(1);
   paramName: "file", // The name that will be used to transfer the file
   maxFilesize: 2, // MB
+  uploadMultiple:false,
   accept: function(file, done) {
-	  alert(2)
+	  
     if (file.name == "justinbieber.jpg") {
       done("Naha, you don't.");
     }
@@ -456,6 +458,8 @@ Dropzone.options.myAwesomeDropzone = {
 		
 </script>
 <div id="myId"> 
+<div id="caca">asdfa</div>
+<div class="caca">s</div>
 <form 
       class="dropzone"
       action="/content/girlscouts-vtk/controllers/auth.asset.html" method="post"
