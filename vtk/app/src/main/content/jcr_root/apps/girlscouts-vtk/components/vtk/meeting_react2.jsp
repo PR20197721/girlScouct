@@ -113,7 +113,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
         
         render: function() {
           return (
-              <a data-reveal-id="modal_agenda_edit" data-reveal-ajax="true" href="/content/girlscouts-vtk/controllers/vtk.include.modals.modal_agenda_edit.html?mid=<%=mid%>&isAgenda={(this.props.item.activityNumber-1)}">{this.props.item.name}</a>
+              <a data-reveal-id="modal_agenda_edit" data-reveal-ajax="true" href={"/content/girlscouts-vtk/controllers/vtk.include.modals.modal_agenda_edit.html?mid=<%=mid%>&isAgenda="+(this.props.item.activityNumber-1)}>{this.props.item.name}</a>
               
           );
         }
