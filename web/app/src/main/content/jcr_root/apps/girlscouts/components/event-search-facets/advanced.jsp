@@ -239,12 +239,12 @@ beforeShowDay: function(d) {
         }
 
 		if(!isDate($('#enddtRange').val())){
-			displayError("Inavlid End Date");
+			displayError("Invalid End Date");
 			return false;
 		}
 
 		if(!isDate($('#startdtRange').val())){
-			displayError("Inavlid Start Date");
+			displayError("Invalid Start Date");
 			return false;
 		}
 		

@@ -8,7 +8,7 @@
         <items jcr:primaryType="cq:WidgetCollection">
             <tab1
                 jcr:primaryType="cq:Panel"
-                title="Design Choises">
+                title="Design Choices">
                 <items jcr:primaryType="cq:WidgetCollection">
                     <header
                         jcr:primaryType="cq:Widget"
@@ -44,7 +44,7 @@
                                 jcr:primaryType="nt:unstructured"
                                 text="White"
                                 value="/etc/designs/girlscouts/css/headerfont/white.css"/>
-                            <Copy_x0020_of_x0020_black
+                            <green
                                 jcr:primaryType="nt:unstructured"
                                 text="Green"
                                 value="/etc/designs/girlscouts/css/headerfont/green.css"/>
@@ -62,16 +62,23 @@
                                 jcr:primaryType="nt:unstructured"
                                 text="Orange"
                                 value="/etc/designs/girlscouts/css/nav/orange.css"/>
-                            <white
+                            <grey
                                 jcr:primaryType="nt:unstructured"
-                                text="White"
-                                value="/etc/designs/girlscouts/css/nav/white.css"/>
+                                text="Grey"
+                                value="/etc/designs/girlscouts/css/nav/grey.css"/>
                             <green
                                 jcr:primaryType="nt:unstructured"
                                 text="Green"
                                 value="/etc/designs/girlscouts/css/nav/green.css"/>
                         </options>
                     </nav>
+                    <council
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldLabel="Council Style"
+                        name="./councilStyle"
+                        rootPath="/etc/designs"
+                        xtype="pathfield"/>
                 </items>
             </tab1>
         </items>

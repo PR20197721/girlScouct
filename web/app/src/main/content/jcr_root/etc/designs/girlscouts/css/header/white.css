@@ -1,12 +1,12 @@
-/* white header */
+/**** WHITE HEADER *****/
+
 #header {
     padding: 15px 0px 0px 0px;
-    background-color: #FFFFFF;
     color: #FFFFFF;
 }
 
-.header-wrapper,
-#header {
+.header-wrapper
+{
     background-color: #FFFFFF;
 }
 

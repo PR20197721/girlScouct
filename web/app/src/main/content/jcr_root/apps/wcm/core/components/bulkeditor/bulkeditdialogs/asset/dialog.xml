@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    height="365"
+    ok="function() {                 var config = {};                 if (this.responseScope) {                     config = {                         'scope': this.responseScope,                         'success': this.success ? this.success : this.responseScope.success,                         'failure': this.failure ? this.failure : this.responseScope.failure                     };                 }                 else {                     if (this.success) {                         config.success = this.success;                     }                     if (this.failure) {                         config.failure = this.failure;                     }                 }                  if (this.form.isValid()) {                     if (this.fireEvent('beforesubmit', this) === false){                         return false;                     }                     this.form.items.each(function(field) {                         if (field.emptyText &amp;&amp; field.el.dom.value == field.emptyText) {                             field.setRawValue('');                         }                          var rv = field.getValue();                         if( !rv || rv == '') {                             field.disable();                         }                     });                      for(var i = 0; i &lt; this.postToURLs.length; i++) {                         var c = CQ.Util.applyDefaults({                             'url': this.postToURLs[i]                         }, config);                         var action = new CQ.form.SlingSubmitAction(this.form, c);                         this.form.doAction(action);                         this.form.url = null;                     }                     this.hide();                 } else {                     CQ.Ext.Msg.show({                         title:CQ.I18n.getMessage('Validation Failed'),                         msg: CQ.I18n.getMessage('Verify the values of the marked fields.'),                         buttons: CQ.Ext.Msg.OK,                         icon: CQ.Ext.Msg.ERROR                     });                 }             }"
+    stateful="false"
+    title="Asset Properties"
+    xtype="dialog">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <panel
+            jcr:primaryType="cq:Widget"
+            xtype="panel">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <title
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Title"
+                    name="./jcr:content/metadata/dc:title"
+                    xtype="textfield"/>
+                <description
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Description"
+                    height="{Long}54"
+                    name="./jcr:content/metadata/dc:description"
+                    xtype="textarea"/>
+                <tags
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Tags"
+                    name="./jcr:content/metadata/cq:tags"
+                    xtype="tags"/>
+                <creator
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Creator"
+                    name="./jcr:content/metadata/dc:creator"
+                    xtype="textfield"/>
+                <contributor
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Contributor"
+                    name="./jcr:content/metadata/dc:contributor"
+                    xtype="textfield"/>
+                <language
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Language"
+                    name="./jcr:content/metadata/dc:language"
+                    xtype="textfield"/>
+                <copyright
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Copyright"
+                    name="./jcr:content/metadata/dc:rights"
+                    xtype="textfield"/>
+                <owner
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Copyright Owner"
+                    name="./jcr:content/metadata/xmpRights:Owner"
+                    xtype="textfield"/>
+                <terms
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Usage Terms"
+                    height="{Long}54"
+                    name="./jcr:content/metadata/xmpRights:UsageTerms"
+                    xtype="textarea"/>
+                <expires
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Expires"
+                    name="./jcr:content/metadata/prism:expirationDate"
+                    xtype="datetime"/>
+                <onTime
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="On Time"
+                    name="./jcr:content/onTime"
+                    xtype="datetime"/>
+                <offTime
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Off Time"
+                    name="./jcr:content/offTime"
+                    xtype="datetime"/>
+                <tool
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Created With"
+                    name="./jcr:content/metadata/xmp:CreatorTool"
+                    xtype="textfield"/>
+            </items>
+        </panel>
+    </items>
+</jcr:root>

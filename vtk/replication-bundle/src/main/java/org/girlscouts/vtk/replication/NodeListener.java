@@ -3,14 +3,12 @@ package org.girlscouts.vtk.replication;
 import java.util.Collection;
 
 import javax.jcr.Session;
-import javax.jcr.observation.Event;
 import javax.jcr.observation.EventIterator;
 import javax.jcr.observation.EventListener;
 
-import org.apache.commons.collections4.map.PassiveExpiringMap;
-import org.apache.felix.scr.annotations.Component;
-import org.apache.felix.scr.annotations.Reference;
-import org.girlscouts.vtk.modifiedcheck.ModifiedChecker;
+import org.girlscouts.vtk.replication.AgentIdRegexFilter;
+import org.girlscouts.vtk.replication.Constants;
+import org.girlscouts.vtk.replication.NodeEventCollector;
 import org.girlscouts.vtk.replication.NodeEventCollector.NodeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

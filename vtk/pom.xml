@@ -36,6 +36,11 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>org.girlscouts.vtk</groupId>
+                <artifactId>modified-checker-bundle</artifactId>
+                <version>${project.version}</version> 
+            </dependency>
+            <dependency>
                 <groupId>org.osgi</groupId>
                 <artifactId>org.osgi.core</artifactId>
                 <version>4.2.0</version>
@@ -95,6 +100,16 @@
                 <version>4.8.1</version>
                 <scope>test</scope>
             </dependency>
+            <dependency>
+                <groupId>org.apache.directory.studio</groupId>
+                <artifactId>org.apache.commons.collections</artifactId>
+                <version>3.2.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>4.0</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -107,7 +122,7 @@
         <repository>
             <id>adobe</id>
             <name>Adobe Public Repository</name>
-            <url>http://repo.adobe.com/nexus/content/groups/public/</url>
+            <url>https://repo.adobe.com/nexus/content/groups/public/</url>
             <layout>default</layout>
         </repository>
     </repositories>
@@ -115,7 +130,7 @@
         <pluginRepository>
             <id>adobe</id>
             <name>Adobe Public Repository</name>
-            <url>http://repo.adobe.com/nexus/content/groups/public/</url>
+            <url>https://repo.adobe.com/nexus/content/groups/public/</url>
             <layout>default</layout>
         </pluginRepository>
     </pluginRepositories>
@@ -241,6 +256,7 @@
         </profile>
     </profiles>
   <modules>
+    <module>modified-checker-bundle</module>
     <module>bundle</module>
     <module>replication-bundle</module>
     <module>ical4j-wrapper</module>
