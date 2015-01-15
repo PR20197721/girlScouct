@@ -246,10 +246,10 @@
 					var w = parseFloat($(cropArea).css("width"), 10) * dimensionsDifferenceWidth; // width of the crop selection
 					var h = parseFloat($(cropArea).css("height"), 10) * dimensionsDifferenceHeight; // height of the crop selestion
 					
-					
+					/*
 					 var context = canvas.getContext('2d');
 					 context.drawImage(imageObj, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight);
-
+					 */
 					
 					console.log("tata: "+ o.troopId+" : "+o.upldTroopPic + " : " +o.phpScriptLocation);
 					$.ajax({

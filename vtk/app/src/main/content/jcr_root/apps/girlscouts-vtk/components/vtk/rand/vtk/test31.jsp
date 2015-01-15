@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset=utf-8>
+<meta name="viewport" content="width=620">
+<title>HTML5 Demo: Drag and drop, automatic upload</title>
+<link rel="stylesheet" href="css/html5demos.css">
+<script src="js/h5utils.js"></script></head>
+<body>
+<section id="wrapper">
+
+<style>
+#holder { border: 10px dashed #ccc; min-width: 100px; min-height: 100px; margin: 20px auto;}
+#holder.hover { border: 10px dashed #0c0; }
+#holder img { display: block; margin: 10px auto; }
+#holder p { margin: 10px; font-size: 14px; }
+progress { width: 100%; }
+progress:after { content: '%'; }
+.fail { background: #c00; padding: 2px; color: #fff; }
+.hidden { display: none !important;}
+</style>
+
+<article>
+  <div id="holder">
+  </div> 
+  <p id="upload" class="hidden"><label>Drag & drop not supported, but you can still upload via this input field:<br><input type="file"></label></p>
+  <p id="filereader">File API & FileReader API not supported</p>
+  <p id="formdata">XHR2's FormData is not supported</p>
+  <p id="progress">XHR2's upload progress isn't supported</p>
+  <p>Upload progress: <progress id="uploadprogress" min="0" max="100" value="0">0</progress></p>
+  </article>
+<script>
+var holder = document.getElementById('holder'),
+    tests = {
+      filereader: typeof FileReader != 'undefined',
+      dnd: 'draggable' in document.createElement('span'),
+      formdata: !!window.FormData,
+      progress: "upload" in new XMLHttpRequest
+    }, 
+    support = {
+      filereader: document.getElementById('filereader'),
+      formdata: document.getElementById('formdata'),
+      progress: document.getElementById('progress')
+    },
+    acceptedTypes = {
+      'image/png': true,
+      'image/jpeg': true,
+      'image/gif': true
+    },
+    progress = document.getElementById('uploadprogress'),
+    fileupload = document.getElementById('upload');
+
+"filereader formdata progress".split(' ').forEach(function (api) {
+  if (tests[api] === false) {
+    support[api].className = 'fail';
+  } else {
+    // FFS. I could have done el.hidden = true, but IE doesn't support
+    // hidden, so I tried to create a polyfill that would extend the
+    // Element.prototype, but then IE10 doesn't even give me access
+    // to the Element object. Brilliant.
+    support[api].className = 'hidden';
+  }
+});
+
+function previewfile(file) {
+  if (tests.filereader === true && acceptedTypes[file.type] === true) {
+    var reader = new FileReader();
+    reader.onload = function (event) {
+      var image = new Image();
+      image.src = event.target.result;
+     // image.width = 250; // a fake resize
+      holder.appendChild(image);
+    };
+
+    reader.readAsDataURL(file);
+  }  else {
+    holder.innerHTML += '<p>Uploaded ' + file.name + ' ' + (file.size ? (file.size/1024|0) + 'K' : '');
+    console.log(file);
+  }
+}
+
+function readfiles(files) {
+    debugger;
+    var formData = tests.formdata ? new FormData() : null;
+    for (var i = 0; i < files.length; i++) {
+      if (tests.formdata) formData.append('file', files[i]);
+      previewfile(files[i]);
+    }
+
+    // now post a new XHR request
+    if (tests.formdata) {
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/devnull.php');
+      xhr.onload = function() {
+        progress.value = progress.innerHTML = 100;
+      };
+
+      if (tests.progress) {
+        xhr.upload.onprogress = function (event) {
+          if (event.lengthComputable) {
+            var complete = (event.loaded / event.total * 100 | 0);
+            progress.value = progress.innerHTML = complete;
+          }
+        }
+      }
+
+      xhr.send(formData);
+    }
+}
+
+if (tests.dnd) { 
+  holder.ondragover = function () { this.className = 'hover'; return false; };
+  holder.ondragend = function () { this.className = ''; return false; };
+  holder.ondrop = function (e) {
+    this.className = '';
+    e.preventDefault();
+    readfiles(e.dataTransfer.files);
+  }
+} else {
+  fileupload.className = 'hidden';
+  fileupload.querySelector('input').onchange = function () {
+    readfiles(this.files);
+  };
+}
+
+</script>
+
+
+
+
+
+
+
+<link rel="stylesheet" type="text/css" href="/etc/designs/girlscouts-vtk/clientlibs/css/crop/jquery.simpleimagecrop.css" media="all">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="/etc/designs/girlscouts-vtk/clientlibs/js/crop/jquery.simpleimagecrop.js"></script>
+<script type="text/javascript">
+    $(window).load(function() {
+        $('#crop_container').simpleImageCrop({
+            maxPreviewImageWidth: 700,
+            maxPreviewImageHeight: 700,
+            newImageHeight: 300,
+            newImageWidth: 400,
+            imageDestination: 'test2', // destination from the folder where the php script is located (without extension). if the same as the source file the image will be overwritten.
+            phpScriptLocation: 'http://localhost:4503/content/girlscouts-vtk/controllers/auth.asset.html',
+            successMessage: 'The image has been cropped!',
+            warningMessage: 'Warning: Selected area is too small. The image will be blurry.',
+troopId:'701G0000000uQzTIAU',
+upldTroopPic:"tata"
+        });         
+    });   
+</script>
+
+
+ <noscript>Please enable JavaScript to use the Simple Image Crop plugin.</noscript>
+<div id="crop_container" class="hidden">
+    <div id="crop_box">
+        <div id="resize_icon"></div>
+    </div>
+    <div id="crop_message">Leave this text here</div>
+    <img id="image_to_crop" src="http://localhost:4503/content/dam/girlscouts-shared/images/banners/large/HOME_HERO-DONATE.png/_jcr_content/renditions/cq5dam.web.960.420.png" alt="">    
+    <div id="crop_button">
+        <img src="img/cut_icon.png" alt="Crop">
+    </div>
+</div>
+ 
+
+<div id="crop_preview" class="hidden">
+    <div id="preview_message">Preview</div>
+    <img id="image_preview" alt="Crop Preview">   
+</div>
+
+
+
+
+</body>
+</html>
