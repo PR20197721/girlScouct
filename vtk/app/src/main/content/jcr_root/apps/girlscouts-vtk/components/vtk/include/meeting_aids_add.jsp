@@ -16,30 +16,32 @@
 		  <h3 class="columns large-22">Meeting aids</h3>
 		  <a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
 		</div>
-		<div class="modal-content">
-			<table width="90%" align="center" class="browseMeetingAids">
-				<% 
-			  	for(int i=0;i<gresources.size();i++) {
-						org.girlscouts.vtk.models.Asset a = gresources.get(i);
-						String assetImage = org.girlscouts.vtk.utils.GSUtils.getDocTypeImageFromString(a.getDocType());
-				%>
-				<tr>
-					<td width="40">
-						<% if (assetImage != null) { %>	
-							<img src="<%= assetImage %>" width="40" height="40" border="0"/>
-						<% } %>
-					</td>
-			 		<td><a class="previewItem" href="<%=a.getRefId() %>" target="_blank"><%= a.getTitle() %></a> </td>
-			 		<td width="40">
-			 			<% if( !existingAids.contains(a.getRefId()) && hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID ) ){ %>
-			 				 <input type="button" value="Add to Meeting" onclick="assignAid('<%=a.getRefId()%>', '<%=planView.getYearPlanComponent().getUid()%>', '<%=a.getTitle()%>')" class="button linkButton"/>
-			 			<%} else {%>
-							<p class="btn button disabled" style="width:100%">Exists</p>
-			 			<%} %>
-			 		</td>
-				</tr>
-			 	<% } %>
-			</table>
+		<div class="scroll">
+			<div class="content">
+				<table width="90%" align="center" class="browseMeetingAids">
+					<% 
+				  	for(int i=0;i<gresources.size();i++) {
+							org.girlscouts.vtk.models.Asset a = gresources.get(i);
+							String assetImage = org.girlscouts.vtk.utils.GSUtils.getDocTypeImageFromString(a.getDocType());
+					%>
+					<tr>
+						<td width="40">
+							<% if (assetImage != null) { %>	
+								<img src="<%= assetImage %>" width="40" height="40" border="0"/>
+							<% } %>
+						</td>
+				 		<td><a class="previewItem" href="<%=a.getRefId() %>" target="_blank"><%= a.getTitle() %></a> </td>
+				 		<td width="40">
+				 			<% if( !existingAids.contains(a.getRefId()) && hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID ) ){ %>
+				 				 <input type="button" value="Add to Meeting" onclick="assignAid('<%=a.getRefId()%>', '<%=planView.getYearPlanComponent().getUid()%>', '<%=a.getTitle()%>')" class="button linkButton"/>
+				 			<%} else {%>
+								<p class="btn button disabled" style="width:100%">Exists</p>
+				 			<%} %>
+				 		</td>
+					</tr>
+				 	<% } %>
+				</table>
+			</div>
 		</div>
 	</div>
 <script>

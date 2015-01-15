@@ -66,43 +66,45 @@
   	});
   }
   </script>
-  <div class="content meeting-library">
-    <p class="instruction"><%= instruction %></p>
-    <div id="cngMeet"></div>
-    <table class="meetingSelect">
-    	<tbody>
-        <%
-        for(int i=0;i<meetings.size();i++){
-        	Meeting meeting = meetings.get(i);
-        %>
-        	<tr>
-        		<td>
-          			<p class="title"><%=meeting.getName()%></p>
-          			<!--  <p class="tags"> <%=meeting.getAidTags() %></p> -->
-          			<p class="blurb"><%=meeting.getBlurb() %></p>
-        		</td>
-            <td>
-              <%  if( !myMeetingIds.contains( meeting.getId().trim().toLowerCase()) ) { %>
-                <a href="#" onclick="cngMeeting('<%=meeting.getPath()%>')">Select Meeting</a>
-              <% } else {%>
-                <img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/check.png" width="10" height="15"> <i class="included">Included in Year Plan</i>
-              <% }%>
-            </td>
-        		<td>
-            <%
-            	try {
-            		String img= meeting.getId().substring( meeting.getId().lastIndexOf("/")+1).toUpperCase();
-            		if(img.contains("_") )img= img.substring(0, img.indexOf("_"));
-            %>
-                  <img width="100" height="100" src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png"/>
+  <div class="scroll">
+    <div class="content meeting-library">
+      <p class="instruction"><%= instruction %></p>
+      <div id="cngMeet"></div>
+      <table class="meetingSelect">
+      	<tbody>
+          <%
+          for(int i=0;i<meetings.size();i++){
+          	Meeting meeting = meetings.get(i);
+          %>
+          	<tr>
+          		<td>
+            			<p class="title"><%=meeting.getName()%></p>
+            			<!--  <p class="tags"> <%=meeting.getAidTags() %></p> -->
+            			<p class="blurb"><%=meeting.getBlurb() %></p>
+          		</td>
+              <td>
+                <%  if( !myMeetingIds.contains( meeting.getId().trim().toLowerCase()) ) { %>
+                  <a href="#" onclick="cngMeeting('<%=meeting.getPath()%>')">Select Meeting</a>
+                <% } else {%>
+                  <img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/check.png" width="10" height="15"> <i class="included">Included in Year Plan</i>
+                <% }%>
+              </td>
+          		<td>
               <%
-              	} catch(Exception e){
-              		e.printStackTrace();
-              	}
+              	try {
+              		String img= meeting.getId().substring( meeting.getId().lastIndexOf("/")+1).toUpperCase();
+              		if(img.contains("_") )img= img.substring(0, img.indexOf("_"));
               %>
-            </td>
-        	</tr>
-        <% } %>
-    	</tbody>
-    </table>
-</div>
+                    <img width="100" height="100" src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png"/>
+                <%
+                	} catch(Exception e){
+                		e.printStackTrace();
+                	}
+                %>
+              </td>
+          	</tr>
+          <% } %>
+      	</tbody>
+      </table>
+    </div>
+  </div>

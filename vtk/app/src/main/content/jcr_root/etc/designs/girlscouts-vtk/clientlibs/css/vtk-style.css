@@ -355,8 +355,10 @@
       line-height: 1.6875rem; }
 .vtk-body .reveal-modal {
   padding: 0;
-  max-height: 80%;
-  overflow: auto; }
+  height: 100%; }
+  .vtk-body .reveal-modal .scroll {
+    max-height: 80%;
+    overflow: auto; }
   .vtk-body .reveal-modal .header {
     background: #00ae57;
     padding: 7px 0 5px 5px; }
@@ -430,6 +432,10 @@
       .vtk-body .reveal-modal .content section p {
         padding-left: 5px;
         padding-right: 5px; }
+.vtk-body #modal_agenda_edit .content h3 {
+  margin-bottom: 20px; }
+.vtk-body #modal_agenda_edit .content .btn {
+  padding: 4px 20px; }
 .vtk-body .modalWrap {
   padding: 0;
   border-radius: 0;
@@ -439,6 +445,7 @@
   -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.7); }
   .vtk-body .modalWrap #gsModal {
+    background: #fff;
     padding: 0; }
     .vtk-body .modalWrap #gsModal p, .vtk-body .modalWrap #gsModal a, .vtk-body .modalWrap #gsModal span, .vtk-body .modalWrap #gsModal li {
       font-size: 14px; }
