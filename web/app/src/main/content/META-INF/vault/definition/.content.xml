@@ -287,6 +287,11 @@
             jcr:primaryType="nt:unstructured"
             mode="replace"
             root="/apps/wcm"
-            rules="[]"/>  
+            rules="[]"/>
+ 		 <f56
+            jcr:primaryType="sling:Folder"
+            mode="replace"
+            root="/etc/council-rollout"
+            rules="[]"/>
     </filter>
 </jcr:root>
