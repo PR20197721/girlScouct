@@ -12,7 +12,7 @@
             newImageHeight: 300,
             newImageWidth: 400,
             imageDestination: 'test2', // destination from the folder where the php script is located (without extension). if the same as the source file the image will be overwritten.
-            phpScriptLocation: '/content/girlscouts-vtk/controllers/auth.asset.html',
+            phpScriptLocation: 'http://localhost:4503/content/girlscouts-vtk/controllers/auth.asset.html',
             successMessage: 'The image has been cropped!',
             warningMessage: 'Warning: Selected area is too small. The image will be blurry.',
 troopId:'701G0000000uQzTIAU',

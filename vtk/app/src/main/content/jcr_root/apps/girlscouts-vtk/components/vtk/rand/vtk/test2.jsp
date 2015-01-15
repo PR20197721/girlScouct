@@ -1,7 +1,7 @@
  <%@page import="java.util.Iterator,org.girlscouts.vtk.models.user.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
-<%@include file="include/session.jsp"%>
+<%@include file="../../include/session.jsp"%>
 
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/dropzone.js"></script>
 
@@ -459,17 +459,17 @@ Dropzone.options.myAwesomeDropzone = {
 <form 
       class="dropzone"
       action="/content/girlscouts-vtk/controllers/auth.asset.html" method="post"
-      onsubmit="return bindAssetToYPC( '/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopId() %>/assets/<%=assetId %>', '<%=request.getParameter("refId")%>' )" 
+      onsubmit="return bindAssetToYPC( '/vtk/<%=troop.getTroop().getCouncilCode()%>/<%=troop.getTroop().getTroopId() %>/assets/<%=assetId %>', '<%=request.getParameter("refId")%>' )" 
       id="my-awesome-dropzone">
       
       
-        	<input type="hidden" name="loc" value="/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopId() %>/assets"/>
+        	<input type="hidden" name="loc" value="/vtk/<%=troop.getTroop().getCouncilCode()%>/<%=troop.getTroop().getTroopId() %>/assets"/>
               Asset Name: <input type="text" id="assetDesc" name="assetDesc" value="" />
                <input type="hidden" name="id" value="<%=assetId %>"/>     
                 <input type="hidden" name="me" value="<%=request.getParameter("myId")%>"/>      
-               <input type="hidden" name="owner" value="<%=user.getId()%>"/>
+               <input type="hidden" name="owner" value="<%=troop.getId()%>"/>
                <input type="hidden" name="createTime" value="<%=new java.util.Date()%>"/>  
                 <br />
-                <input type="button" value="Upload File" onclick="bindAssetToYPC( '/vtk/<%=user.getTroop().getCouncilCode()%>/<%=user.getTroop().getTroopId() %>/assets/<%=assetId %>', '<%=request.getParameter("refId")%>' )" /> 
+                <input type="button" value="Upload File" onclick="bindAssetToYPC( '/vtk/<%=troop.getTroop().getCouncilCode()%>/<%=troop.getTroop().getTroopId() %>/assets/<%=assetId %>', '<%=request.getParameter("refId")%>' )" /> 
       </form>
       </div> 

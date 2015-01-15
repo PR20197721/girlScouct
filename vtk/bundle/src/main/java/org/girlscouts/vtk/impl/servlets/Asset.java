@@ -85,7 +85,7 @@ import com.day.cq.commons.jcr.JcrUtil;
 		    @Property(propertyPrivate=true, name = "sling.servlet.resourceTypes", value = "sling/servlet/default"),
 		    @Property(propertyPrivate=true, name = "sling.servlet.selectors", value = "asset"),
 		    @Property(propertyPrivate=true, name = "sling.servlet.extensions", value = "html"),
-		    @Property(propertyPrivate=true, name = "sling.servlet.methods", value = "POST")
+		    @Property(propertyPrivate=true, name = "sling.servlet.methods", value = {"POST", "GET"})
 		})
 
 
@@ -96,14 +96,20 @@ import com.day.cq.commons.jcr.JcrUtil;
 	@Reference
 	private ResourceResolverFactory resolverFactory; 
 	 
-		 
+	 @Override
+     protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServerException, IOException {
+
+System.err.println("Asset..get.");
+doPost(request, response);
+	 }
 		
 		    
 		    
 		    @Override
 		     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServerException, IOException {
 
-		System.err.println("Asset...");    	
+		System.err.println("Asset..."+ request.getParameter("upldTroopPic") ); 
+		
 		    	  ResourceResolver resourceResolver = null;
 		      try {
 		      final boolean isMultipart = org.apache.commons.fileupload.servlet.ServletFileUpload.isMultipartContent(request);
@@ -111,7 +117,7 @@ import com.day.cq.commons.jcr.JcrUtil;
 		      PrintWriter out = null;
 		      
 		        out = response.getWriter();
-
+System.err.println("isMultipart: "+isMultipart);
 		        if (isMultipart) {
 		        	
 
@@ -160,7 +166,7 @@ import com.day.cq.commons.jcr.JcrUtil;
 		            		 // out.println("<script>location.reload();</script>");
 		            	   }
 		              }else if( request.getParameter("upldTroopPic")!=null){
-		//System.err.println( "UPLDTRoopId "+ request.getParameter("troopId"))    ;        	  
+		System.err.println( "UPLDTRoopId "+ request.getParameter("troopId"))    ;        	  
 		            	  loc= "/content/dam/girlscouts-vtk/troops/"+ request.getParameter("troopId")+"/imgLib/troop_pic.png";
 		            	  name="troop_pic.png";
 System.out.println("Inside Asset.java upldTroopPic loc " + loc);
