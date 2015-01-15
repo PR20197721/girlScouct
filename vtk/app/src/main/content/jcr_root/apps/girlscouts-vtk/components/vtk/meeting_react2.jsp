@@ -29,7 +29,8 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script>
 <script src="http://fb.me/react-with-addons-0.12.1.js"></script>
 
-<%@include file="include/modals/modal_agenda_edit.jsp"%>
+
+<div id="modal_agenda_edit" class="reveal-modal" data-reveal></div>
 <%@include file="include/tab_navigation.jsp"%>
 
 <script>
@@ -100,7 +101,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
         render: function() {
           return (
               
-              <a href="javascript:void(0)" onClick={this.onClick} className={this.props.selected ? "selected" : ""}>
+              <a href="javascript:void(0)" onClick={this.onClick} className={this.props.selected ? "selected" : ""} mid= '<%=mid%>' isAgenda= {(this.props.item.activityNumber-1)}>
                  {this.props.item.name}
               </a>
           );
@@ -112,7 +113,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
         
         render: function() {
           return (
-              <a data-reveal-id="modal_agenda_edit">{this.props.item.name}</a>
+              <a data-reveal-id="modal_agenda_edit" data-reveal-ajax="true" href="/content/girlscouts-vtk/controllers/vtk.include.modals.modal_agenda_edit.html?mid=<%=mid%>&isAgenda={(this.props.item.activityNumber-1)}">{this.props.item.name}</a>
               
           );
         }
