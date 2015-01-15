@@ -241,11 +241,6 @@ function updSched(i, meetingPath, currDt){
 function buildSched(){
 
 	var calStartDt = document.getElementById("calStartDt").value;
-	
-	
-	
-	
-	
 	var calAP = document.getElementById("calAP").value;
 	var calFreq = document.getElementById("calFreq");
 	var z =calFreq.options[calFreq.selectedIndex].text;
