@@ -587,3 +587,21 @@ function rmTroopInfo(){
 	
 	
 }
+
+
+function rmMeeting( rmDate, mid){
+	
+	$.ajax({
+		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand='+Date.now(),
+		type: 'POST',
+		data: { 
+			act:'RmMeeting',
+			rmDate: rmDate,
+			mid: mid,			
+			a:Date.now()
+		},
+		success: function(result) {
+			location.reload();
+		}
+	});
+}

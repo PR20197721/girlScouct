@@ -7,6 +7,30 @@
 <cq:defineObjects />
 <%@include file="../session.jsp"%>
 
+
+
+<div class="header clearfix">
+	<h3 class="columns large-22">
+	<% 
+		if (request.getParameter("isOverview") != null) {
+				out.println("Overview");
+		} else if (request.getParameter("isActivity") != null) {
+			out.println("Activity");
+		} else if (request.getParameter("isMaterials") != null) {
+			out.println("Materials");
+		} else if (request.getParameter("isAgenda") != null) {
+			out.println("Agenda");
+		}
+	%>
+	</h3>
+	<a class="close-reveal-modal columns large-2" href="#"><i
+		class="icon-button-circle-cross"></i></a>
+</div>
+<div class="scroll">
+	<div class="content row">
+		<div class="setupCalendar">
+
+
 <%
 	MeetingE meeting = null;
 	java.util.List<MeetingE> meetings = troop.getYearPlan()
@@ -63,7 +87,8 @@
 
 
 
-
+<% if (request.getParameter("isActivity") != null) {%>
+<!-- 
 <div class="header clearfix">
 	<h3 class="columns large-22">Agenda</h3>
 	<a class="close-reveal-modal columns large-2" href="#"><i
@@ -72,6 +97,7 @@
 <div class="scroll">
 	<div class="content row">
 		<div class="setupCalendar">
+		-->
 			<h3>
 				Agenda Item:
 				<%=_activity.getName()%></h3>
@@ -110,6 +136,14 @@
 					}
 				%>
 			</div>
+			<!--  
 		</div>
+	</div>
+</div>
+-->
+
+<%}%>
+
+	</div>
 	</div>
 </div>

@@ -140,8 +140,14 @@ System.err.println("changing new... "+ x );
 	financeUtil.getFinances(user, troop, Integer.parseInt(request.getParameter("finance_qtr")));
 	return;
 		case UpdateFinances:
-	financeUtil.updateFinances(user, troop, request.getParameterMap());
-	return;
+			financeUtil.updateFinances(user, troop, request.getParameterMap());
+			return;
+	
+		case RmMeeting:
+			meetingUtil.rmMeeting( user, troop, request.getParameter("mid") );
+			meetingUtil.rmSchedDate( user, troop,  Long.parseLong( request.getParameter("rmDate") ) );
+			return;
+		
 		default :	    		
 	    		break;
 	}

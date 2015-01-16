@@ -55,6 +55,18 @@ if( meeting != null && meeting.getCancelled()!=null && meeting.getCancelled().eq
 	
 	<input type="button" value="cancel" onclick="loadCalMng()" class="button linkButton"/>
 </form>
+
+
+
+<%
+	java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user, troop);
+    for(int i=0;i<meetingsToCancel.size();i++) {
+    	%>
+    			<br/><a href="#" onclick="rmMeeting('<%=date.getTime()%>','<%=meetingsToCancel.get(i).getRefId()%>')"><%=meetingsToCancel.get(i).getMeetingInfo().getName() %></a>
+    	<% 
+    }
+%>
+
 </div>
 <script>
 $(function() {

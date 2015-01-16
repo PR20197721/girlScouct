@@ -1131,10 +1131,14 @@ System.err.println("tata77: "+ request.getParameter("elem"));
 		java.util.Date today = new java.util.Date();
 		java.util.Map <java.util.Date,  YearPlanComponent> sched = getYearPlanSched(user, troop.getYearPlan(), false, false);
 		java.util.Iterator itr= sched.keySet().iterator();
+System.err.println("tata88 : "+ sched.size());		
 		while( itr.hasNext() ){
 			java.util.Date date = (Date) itr.next();
+System.err.println("tata88: "+ date);			
 			YearPlanComponent ypc = sched.get(date);
-			if( date.before(today) && ypc.getType()== YearPlanComponentType.MEETING){
+System.err.println("tata88 ypc "+ ypc.getType() );			
+			if( date.after(today) && ypc.getType()== YearPlanComponentType.MEETING){
+System.err.println("tata88 yes");				
 				MeetingE MEETING = (MeetingE) ypc;
 				Meeting meetingInfo = yearPlanUtil.getMeeting( user, MEETING.getRefId() );
 				MEETING.setMeetingInfo(meetingInfo);
@@ -1148,10 +1152,10 @@ System.err.println("tata77: "+ request.getParameter("elem"));
 		boolean isRemoved = false;
 		String dates = troop.getYearPlan().getSchedule().getDates();
 		dates= "," + dates + ",";
-		dates = dates.replace(dateToRm+"", "");
+		dates = dates.replace(","+dateToRm+"," , ",");
 		dates=  dates.replace(",,", ",");
 		if( dates.startsWith(",")) dates= dates.substring(1);
-		if( dates.endsWith(",") ) dates = dates.substring( dates.length()-1);
+		if( dates.endsWith(",") ) dates = dates.substring(0, dates.length()-1);
 		troop.getYearPlan().getSchedule().setDates(dates);
 		troopUtil.updateTroop(user,  troop);	
 		isRemoved=true;
@@ -1170,31 +1174,6 @@ System.err.println("tata77: "+ request.getParameter("elem"));
 		return isRemoved;
 	}
 	
-	public boolean chnSchedDatesFwd(User user, Troop troop, long fromDate, long newDate, int freq) throws IllegalAccessException{
-		boolean isChg = false;
-		String dates = "," + troop.getYearPlan().getSchedule().getDates() + ",";
-		StringTokenizer t= new StringTokenizer( dates, ",");
-		
-		Calendar newCalDate = new java.util.GregorianCalendar();
-		newCalDate.setTimeInMillis(newDate);
-		
-		while( t.hasMoreElements() ){
-			java.util.Date dt = new java.util.Date( Long.parseLong( t.nextToken() ) );	
-			
-			if( (dt.getTime() == fromDate)   ){	
-				dates.replace(""+dt.getTime(), ""+newDate );
-				newCalDate.add( java.util.Calendar.DATE, freq);	
-			}else if( dt.getTime() > fromDate ){
-				dates.replace(""+dt.getTime(), ""+newCalDate.getTimeInMillis() );
-				newCalDate.add( java.util.Calendar.DATE, freq);
-			}
-		}
-		
-		dates = dates.replace(",,", ",");
-		if( dates.startsWith(",") ) dates= dates.substring(1);
-		if( dates.endsWith(",") ) dates= dates.substring(0, dates.length()-1 );
-		troopUtil.updateTroop(user,  troop);
-		
-		return isChg;
-	}
+	
+	
 }
