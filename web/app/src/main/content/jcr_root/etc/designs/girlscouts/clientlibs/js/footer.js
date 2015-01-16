@@ -32,7 +32,6 @@
       $('.footer-navigation > div:nth-of-type(2) ul').css('text-align', 'right');
   }
 }
-
 $(document).ready(function(){
  resizeWindow();
  addClassGrid();
