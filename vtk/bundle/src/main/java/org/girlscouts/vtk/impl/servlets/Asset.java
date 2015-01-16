@@ -167,8 +167,9 @@ System.err.println("isMultipart: "+isMultipart);
 		            	   }
 		              }else if( request.getParameter("upldTroopPic")!=null){
 		System.err.println( "UPLDTRoopId "+ request.getParameter("troopId"))    ;        	  
-		            	  loc= "/content/dam/girlscouts-vtk/troops/"+ request.getParameter("troopId")+"/imgLib/troop_pic.png";
-		            	  name="troop_pic.png";
+		            	  //loc= "/content/dam/girlscouts-vtk/troops/"+ request.getParameter("troopId")+"/imgLib/troop_pic.png";
+						  loc= "/vtk/"+ request.getParameter("councilId")+"/troops/"+ request.getParameter("troopId")+"/resources"; 	              	  
+						  name="troop_pic.png";
 System.out.println("Inside Asset.java upldTroopPic loc " + loc);
 		              }
 		              
