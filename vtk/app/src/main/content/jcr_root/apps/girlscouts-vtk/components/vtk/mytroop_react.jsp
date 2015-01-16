@@ -70,7 +70,7 @@
                     <dt data-target="panel<%=i+1%>b" class="clearfix">
                       <span class="name column large-6"><%=contact.getFirstName() %></span>
                       <span class="name column large-4">&nbsp;</span>
-                      <a class="column large-8" href="mailto:<%= Text.escape(contact.getFirstName()) %><<%=contact.getEmail() %>>">
+                      <a class="column large-8 email" href="mailto:<%= Text.escape(contact.getFirstName()) %><<%=contact.getEmail() %>>">
                         <i class="icon icon-mail"></i><%=contact.getEmail() %>
                       </a>
                       <span class="column large-4"><%=contact.getPhone() %></span>
