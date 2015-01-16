@@ -27,9 +27,6 @@
    	if (!designPath.isEmpty()) {
    	    newCurrentDesign = (Design)resourceResolver.resolve(designPath).adaptTo(Design.class);
    	}
-   	
-  
-	
 %>
 	<body class="vtk-body" data-grid-framework="f4" data-grid-color="darksalmon" data-grid-opacity="0.5" data-grid-zindex="10" data-grid-gutterwidth="10px" data-grid-nbcols="24">
 		<div class="off-canvas-wrap">
@@ -73,4 +70,11 @@
 			</div>
 		</div>
 		 <div id="gsModal"></div>
+		 <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<!-- 		 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" /> -->
+		 <script src="http://fb.me/react-0.12.1.js"></script>
+		 <script src="http://fb.me/JSXTransformer-0.12.1.js"></script>
+		 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
+		 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script>
+		 <script src="http://fb.me/react-with-addons-0.12.1.js"></script>
 	</body>
