@@ -77,15 +77,15 @@
 	<%=meetingInfoItems.get("overview").getStr() %>
 
 	<br/><br/>If you have any questions, or want to participate in this meeting, please contact me at 
-	<%=apiConfig.getUser().getPhone() %>
-	<%=apiConfig.getUser().getMobilePhone() %>
-	<%=apiConfig.getUser().getHomePhone() %>
-	<%=apiConfig.getUser().getAssistantPhone() %>
+	<%if(apiConfig.getUser().getPhone()!=null)%><%=apiConfig.getUser().getPhone() %>
+	<%if(apiConfig.getUser().getMobilePhone()!=null)%><%=apiConfig.getUser().getMobilePhone() %>
+	<%if(apiConfig.getUser().getHomePhone()!=null)%><%=apiConfig.getUser().getHomePhone() %>
+	<%if(apiConfig.getUser().getAssistantPhone()!=null)%><%=apiConfig.getUser().getAssistantPhone() %>
 
 	<br/><br/>Thank you for supporting your <%=troop.getTroop().getGradeLevel() %>,
 
-	<br/><br/><%=apiConfig.getUser().getName() %>
-	<br/>Troop <%=troop.getTroop().getTroopName() %>
+	<br/><br/><%if(apiConfig.getUser().getName()!=null)%><%=apiConfig.getUser().getName() %>
+	<br/><%=troop.getTroop().getTroopName() %>
 
 	<br/><br/>Aid(s) Included:xxx
 	<%EmailMeetingReminder emr = troop.getSendingEmail();
@@ -93,7 +93,7 @@
 			java.util.List<Asset> eAssets = emr.getAssets();
 			if( eAssets!=null)
 				for(int i=0;i<eAssets.size();i++){
-				%><li><%=eAssets.get(i).getRefId() %></li><% 
+				%><li><%=eAssets.get(i).getTitle() %></li><% 
 				}
 		}%>
 	</div>
