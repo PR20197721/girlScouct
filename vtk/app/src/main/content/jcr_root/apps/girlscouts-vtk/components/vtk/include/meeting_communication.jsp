@@ -12,7 +12,5 @@
    <li>(5 of 6 present, no achievements - <a href="" title="view" className="view">view</a>)</li>
    <li><a href="" title="Upload Photo">Upload Photo</a></li>
    <li>(none)</li>
-   <li><a href="" title="Edit/Send Meeting Summary Email">Edit/Send Meeting Summary Email</a></li>
-   <li>(not sent)</li>
   </ul>
 </section>

@@ -510,7 +510,7 @@
     //tabs inside the modals
     .tabs-wrapper {
       background: #D9D9D9;
-      padding: 20px 10px;
+      padding: 30px 20px 25px;
       .tabs dd {
         width: 33.3333333%;
       }
@@ -674,7 +674,7 @@
     }
     .tabs-wrapper {
       background: #D9D9D9;
-      padding: 20px 10px;
+      padding: 30px 20px 25px;
       .tabs {
         dd {
           width: 33.3333333%;
@@ -825,6 +825,87 @@
     input[type="checkbox"] + label,
     input[type="radio"] + label {
       margin:0;
+    }
+    #frmCalElem {
+      #datepicker {
+        .ui-widget {
+          width: 100%;
+          border:none;
+          background:none;
+          a {
+            color: #333;
+            border:none !important;
+            background: none;
+            &.ui-datepicker-next,
+            &.ui-datepicker-prev {
+              span {
+                border-style: solid;
+                content: "";
+                border-width: 13px;
+                margin-top: -13px;
+                top: 50%;
+                border-color: transparent transparent transparent #00ae58;
+                margin-left: 5px;
+                width:13px;
+                height:13px;
+                &:hover {
+                  border-color: transparent transparent transparent #039d50;
+                }
+              }
+              &.ui-state-hover {
+                .ui-icon,
+                .ui-state-focus,
+                .ui-state-focus .ui-icon {
+                  background: none;
+                }
+              }
+            }
+            &.ui-datepicker-prev span {
+              border-color: transparent  #00ae58 transparent transparent;
+              &:hover {
+                border-color: transparent #039d50 transparent transparent;
+              }
+
+            }
+          }
+          .ui-datepicker-header {
+            background:none;
+            border:none;
+            color:#333;
+            .ui-datepicker-title {
+              float:none;
+            }
+          }
+          table thead, table tfoot {
+            background: none;
+          }
+          tbody {
+            border:solid 1px #ccc;
+            .ui-datepicker-current-day {
+              background: #cfefde;
+              a,
+              a.ui-state-hover {
+                background: #cfefde;
+              }
+            }
+            td {
+              padding:14px;
+              border:solid 1px #ccc;
+              &:hover {
+                background: #cfefde;
+              }
+              &.ui-state-disabled,
+              &.ui-state-disabled * {
+                background: #dfdfdf;
+                pointer-events: none;
+              }
+            }
+          }
+        }
+      }
+    }
+    #frmCalElem_1 {
+      margin-top:20px;
     }
   }
   .browseMeetingAids {
@@ -1038,9 +1119,6 @@
         }
       }
   }
-  .ui-widget-content .tabs-content a {
-    color:#00ae58;
-  }
 } //end of vtk-body
 
 //overwrite of global
@@ -1095,6 +1173,17 @@
 .ui-widget-header .ui-state-default {
   border: none;
   color: #393939;
+}
+.ui-widget-overlay {
+  background:#000;
+  background-image: none;
+}
+.ui-widget-content .tabs-content a {
+  color:#00ae58;
+}
+.ui-widget,
+.ui-widget .ui-widget {
+  font-family: "Open Sans";
 }
 input[type="file"] {
   box-shadow: inset 0 0 9px #CECECB;
