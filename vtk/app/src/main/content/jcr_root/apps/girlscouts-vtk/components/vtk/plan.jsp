@@ -111,7 +111,6 @@
 			var keys =  Object.keys( this.props.data );
 			var obj = this.props.data;
 			return (<ul>
-        
 						{ keys.map( function (comment ,i ) {
 							  if( obj[comment].type == 'MEETING' ){
 									return <%@include file="include/view_meeting.jsp" %> 
