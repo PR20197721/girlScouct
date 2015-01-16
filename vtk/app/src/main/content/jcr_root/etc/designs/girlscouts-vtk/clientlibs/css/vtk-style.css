@@ -372,7 +372,8 @@
       font-size: 35px;
       text-align: right;
       top: 0;
-      right: 0; }
+      right: 0;
+      vertical-align: middle; }
     .vtk-body .reveal-modal .header * {
       color: #fff; }
   .vtk-body .reveal-modal .tabs-wrapper {
@@ -395,7 +396,7 @@
       padding: 5px 8px;
       height: auto; }
     .vtk-body .reveal-modal .content select {
-      padding: 0;
+      padding: 0 10px;
       margin: 0;
       height: 31px; }
     .vtk-body .reveal-modal .content table {
@@ -679,6 +680,10 @@
   .vtk-body .accordion a {
     font-weight: normal;
     font-size: 14px; }
+    .vtk-body .accordion dl dt.email,
+    .vtk-body .accordion a.email {
+      text-overflow: ellipsis;
+      overflow: hidden; }
   .vtk-body .accordion > dt {
     background: #00ae58;
     position: relative;
