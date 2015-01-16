@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -1124,4 +1125,76 @@ System.err.println("tata77: "+ request.getParameter("elem"));
 	    return planView;
 	}
 
+	public java.util.List<MeetingE> getMeetingToCancel(User user, Troop troop) throws IllegalAccessException{
+		
+		java.util.List<MeetingE> meetings = new java.util.ArrayList();
+		java.util.Date today = new java.util.Date();
+		java.util.Map <java.util.Date,  YearPlanComponent> sched = getYearPlanSched(user, troop.getYearPlan(), false, false);
+		java.util.Iterator itr= sched.keySet().iterator();
+		while( itr.hasNext() ){
+			java.util.Date date = (Date) itr.next();
+			YearPlanComponent ypc = sched.get(date);
+			if( date.before(today) && ypc.getType()== YearPlanComponentType.MEETING){
+				MeetingE MEETING = (MeetingE) ypc;
+				Meeting meetingInfo = yearPlanUtil.getMeeting( user, MEETING.getRefId() );
+				MEETING.setMeetingInfo(meetingInfo);
+				meetings.add( MEETING );
+			}
+		}
+		return  meetings;
+	}
+	
+	public boolean rmSchedDate( User user, Troop troop, long dateToRm) throws IllegalAccessException{
+		boolean isRemoved = false;
+		String dates = troop.getYearPlan().getSchedule().getDates();
+		dates= "," + dates + ",";
+		dates = dates.replace(dateToRm+"", "");
+		dates=  dates.replace(",,", ",");
+		if( dates.startsWith(",")) dates= dates.substring(1);
+		if( dates.endsWith(",") ) dates = dates.substring( dates.length()-1);
+		troop.getYearPlan().getSchedule().setDates(dates);
+		troopUtil.updateTroop(user,  troop);	
+		isRemoved=true;
+		return isRemoved;
+	}
+	
+	public boolean rmMeeting(User user, Troop troop, String meetingRefId ) throws IllegalAccessException{		
+		boolean isRemoved= false;
+		java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
+		for(int i=0;i<meetings.size();i++){
+			if( meetings.get(i).getRefId().equals( meetingRefId) )
+				meetings.remove(i);
+		}
+		troopUtil.updateTroop(user,  troop);
+		isRemoved=true;
+		return isRemoved;
+	}
+	
+	public boolean chnSchedDatesFwd(User user, Troop troop, long fromDate, long newDate, int freq) throws IllegalAccessException{
+		boolean isChg = false;
+		String dates = "," + troop.getYearPlan().getSchedule().getDates() + ",";
+		StringTokenizer t= new StringTokenizer( dates, ",");
+		
+		Calendar newCalDate = new java.util.GregorianCalendar();
+		newCalDate.setTimeInMillis(newDate);
+		
+		while( t.hasMoreElements() ){
+			java.util.Date dt = new java.util.Date( Long.parseLong( t.nextToken() ) );	
+			
+			if( (dt.getTime() == fromDate)   ){	
+				dates.replace(""+dt.getTime(), ""+newDate );
+				newCalDate.add( java.util.Calendar.DATE, freq);	
+			}else if( dt.getTime() > fromDate ){
+				dates.replace(""+dt.getTime(), ""+newCalDate.getTimeInMillis() );
+				newCalDate.add( java.util.Calendar.DATE, freq);
+			}
+		}
+		
+		dates = dates.replace(",,", ",");
+		if( dates.startsWith(",") ) dates= dates.substring(1);
+		if( dates.endsWith(",") ) dates= dates.substring(0, dates.length()-1 );
+		troopUtil.updateTroop(user,  troop);
+		
+		return isChg;
+	}
 }

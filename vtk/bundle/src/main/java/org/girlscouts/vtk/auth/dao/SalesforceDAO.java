@@ -934,7 +934,7 @@ System.err.println("tata start "+ sfTroopId);
 	NameValuePair[] params = new NameValuePair[1];
 	params[0] = new NameValuePair("q", "select id, email, phone, name from Contact where id in (select contactid from campaignmember where campaignid='"+ sfTroopId +"')");
 		
-	
+	System.err.println("tata API contact: select id, email, phone, name, secondaryrole from Contact where id in (select contactid from campaignmember where campaignid='"+ sfTroopId +"')");
 	get.setQueryString(params);
 
 	try {
