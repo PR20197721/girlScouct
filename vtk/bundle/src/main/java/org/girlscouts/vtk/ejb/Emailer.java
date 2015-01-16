@@ -30,7 +30,7 @@ public class Emailer {
 		
 		
 		ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
-		//emailRecipients.add(new InternetAddress("alex_yakobovich@northpointdigital.com"));
+		emailRecipients.add(new InternetAddress("cwu@northpointdigital.com"));
 		emailRecipients.add(new InternetAddress(emr.getCc()));
 		emailRecipients.add(new InternetAddress("ayakobovich@northpointdigital.com"));
 		

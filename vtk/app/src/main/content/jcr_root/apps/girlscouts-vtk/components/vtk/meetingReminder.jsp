@@ -87,11 +87,7 @@
 	<br/><br/><%=apiConfig.getUser().getName() %>
 	<br/>Troop <%=troop.getTroop().getTroopName() %>
 
-	<br/><br/>Form(s) Required:
-	<div id=formLinks"></div>
-	</textarea>
-	<div>
-	Aid(s) Included:
+	<br/><br/>Aid(s) Included:xxx
 	<%EmailMeetingReminder emr = troop.getSendingEmail();
 		if( emr!=null ){
 			java.util.List<Asset> eAssets = emr.getAssets();
@@ -101,9 +97,15 @@
 				}
 		}%>
 	</div>
+	
+	<br/></br/>Form(s) Required:xxx
+	<div id=formLinks"></div>
+	<div>
+	</textarea>
+	
 
 	<div id="ima">
-		<div id="imaHdr">Include Meeting Aid:</div>
+		<div style="background-color:gray" id="imaHdr">Include Meeting Aid:</div>
 		<div id="imaBd">
 		<table>
 			<tr>
@@ -121,21 +123,16 @@
 		</div>
 	</div>
 	<div id="ifl">
-	<div id="iflHdr">Include Form Link:</div>
+	<div style="background-color:gray" id="iflHdr">Include Form Link:</div>
 	<div id="iflBd">
-	<table>
-		<tr>
-			<th>&nbsp;</th>
-			<th>Add to Email</th>
-		</tr>
-		<%/*
-		for(int i=0;i<_formLinks.size();i++){%>
-		 <tr>
-			<td><%= _formLinks.get(i).getDesc() %></td>
-			<td><a href="javascript:void(0)" onclick="addLinkToEmail('<%=_formLinks.get(i)%>')" class="addLinkToEmail"> + </a></td>
-		 </tr>
-		 <%}*/%>
-	</table>
+	<%/*form needed
+		for(int i=0;i<_forms.size();i++){
+		String formName;
+		String formurl;%>
+	
+		<input type="checkbox" id="<%=formname%>" onclick="addLinkToEmail(forms(i))"/><%=formname %>
+
+	<%}*/%>
 	</div>
 	</div>
 	<input type="button" value="Preview" onclick="previewMeetingReminderEmail('<%=meeting.getPath()%>','<%=meeting.getUid()%>')"/>
@@ -151,9 +148,10 @@
 		"strike": false,
 		"fsizes": ['10','12','14','16','18','20','22','24','28','32']
 	});
-	function addLinkToEmail(link){
-		$('.emailhtm .formLinks').append(link);
+	function addLink(link){
+		$('.emailhtm .formLinks').append('<a href="'+formurl+'">'+formname+'/a>');
 		return;
 	};
+	
 </script>
  

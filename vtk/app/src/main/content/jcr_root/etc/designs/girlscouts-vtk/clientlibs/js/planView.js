@@ -192,7 +192,7 @@ function previewMeetingReminderEmail(mid){
 		},
 		success: function(result) {
 			//console.log(result);
-			document.location="/content/girlscouts-vtk/controllers/vtk.meetingReminder_preview.html";
+			$("$.content clearfix").load("/content/girlscouts-vtk/controllers/vtk.meetingReminder_preview.html");
 		}
 	});
 	return;
