@@ -5,5 +5,4 @@ jquery-te-1.4.0.css
 jquery.custombox.css
 vtk-style.css
 print.css
-quill.snow.css
-quill.advanced.css
+jquery-te-1.4.0.css
