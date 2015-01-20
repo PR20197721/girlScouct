@@ -911,6 +911,13 @@
     .scroll {
       overflow: auto;
     }
+    .setupCalendar {
+      .editable-textarea {
+        h5 {
+          text-transform: uppercase;
+        }
+      }
+    }
   }
   .browseMeetingAids {
     a, p, span, input {

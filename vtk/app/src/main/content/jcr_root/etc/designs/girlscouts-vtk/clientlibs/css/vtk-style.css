@@ -691,6 +691,9 @@
 .vtk-body .reveal-modal .scroll,
 .vtk-body .modalWrap .scroll {
   overflow: auto; }
+.vtk-body .reveal-modal .setupCalendar .editable-textarea h5,
+.vtk-body .modalWrap .setupCalendar .editable-textarea h5 {
+  text-transform: uppercase; }
 .vtk-body .browseMeetingAids a, .vtk-body .browseMeetingAids p, .vtk-body .browseMeetingAids span, .vtk-body .browseMeetingAids input {
   font-size: 14px; }
 .vtk-body #manageCalendarSection .holidays ul li {
