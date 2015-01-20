@@ -3,7 +3,8 @@
     if( troopId ==null || troopId.trim().equals("") ) { %>
       <span class="error">Warning: no troop is specified.</span>
     <% return; }
-     String troopPhotoUrl = "/content/dam/girlscouts-vtk/troops/" + troopId + "/imgLib/troop_pic.png/troop_pic.png";
+     //String troopPhotoUrl = "/content/dam/girlscouts-vtk/troops/" + troopId + "/imgLib/troop_pic.png/troop_pic.png";
+     String troopPhotoUrl = "/vtk/"+ troop.getTroop().getCouncilCode() +"/troops/" + troopId + "/resources/troop_pic.png";
     %>
   <div id="modal_upload_image" class="reveal-modal" data-reveal>
     <div class="header clearfix">
@@ -13,6 +14,7 @@
     <div class="content row">
       <form action="/content/girlscouts-vtk/controllers/auth.asset.html" method="post" id="frmImg" name="frmImg" enctype="multipart/form-data">
         <input type="hidden" name="troopId"  value="<%=troopId%>"/>
+        <input type="hidden" name="councilId"  value="<%=troop.getTroop().getCouncilCode()%>"/>
         <input type="file" name="upldTroopPic" value="Upload Image" />
         <input type="submit" value="UPLOAD PHOTO" class="button btn" />
       </form>

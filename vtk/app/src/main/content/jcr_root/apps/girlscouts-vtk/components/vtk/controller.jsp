@@ -140,8 +140,14 @@ System.err.println("changing new... "+ x );
 	financeUtil.getFinances(user, troop, Integer.parseInt(request.getParameter("finance_qtr")));
 	return;
 		case UpdateFinances:
-	financeUtil.updateFinances(user, troop, request.getParameterMap());
-	return;
+			financeUtil.updateFinances(user, troop, request.getParameterMap());
+			return;
+	
+		case RmMeeting:
+			meetingUtil.rmMeeting( user, troop, request.getParameter("mid") );
+			meetingUtil.rmSchedDate( user, troop,  Long.parseLong( request.getParameter("rmDate") ) );
+			return;
+		
 		default :	    		
 	    		break;
 	}
@@ -791,10 +797,9 @@ session.putValue("VTK_troop", troop);
 			
 }else if( request.getParameter("isRmTroopImg") !=null ){
 	
-		
 		try{
 		Session __session = (Session)resourceResolver.adaptTo(Session.class);
-		__session.removeItem("/content/dam/girlscouts-vtk/troops/"+ troop.getTroop().getTroopId()+"/imgLib/troop_pic.png/troop_pic.png");
+		__session.removeItem("/vtk/"+troop.getTroop().getCouncilCode()+"/troops/"+ troop.getTroop().getTroopId()+"/resources/troop_pic.png");
 		__session.save();
 		}catch(Exception e){e.printStackTrace();}
 		
