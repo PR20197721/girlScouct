@@ -311,7 +311,7 @@ if(request.getParameter("admin_login")!=null ){
 		  for(int i=0;i<contacts.size();i++){ 
 				String contactEmail = contacts.get(i).getEmail();
 				if(contactEmail!=null && !contactEmail.isEmpty())
-				emr.addTo(contact.getEmail());
+				emr.addTo(contactEmail);
 		  }
 	  }
 	  

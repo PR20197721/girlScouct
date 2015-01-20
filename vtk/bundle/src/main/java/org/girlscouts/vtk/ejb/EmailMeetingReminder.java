@@ -135,8 +135,11 @@ public class EmailMeetingReminder {
 	}
 	
 	public void addTo(String to){
-		this.to+=";";
-		this.to+=to;
+		if(this.to == null){
+			this.to = to;
+		}else{
+			this.to+=";"+to;
+		}
 	}
 	
 	
