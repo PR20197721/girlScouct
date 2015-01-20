@@ -291,6 +291,7 @@ if(request.getParameter("admin_login")!=null ){
 	  String html = request.getParameter("email_htm"); 
 	  String meetingId= request.getParameter("mid");
 	  EmailMeetingReminder emr=null;
+	  
 	  if( troop.getSendingEmail() !=null ){
 		  emr= troop.getSendingEmail();
 		  emr.setCc(cc);
@@ -299,10 +300,29 @@ if(request.getParameter("admin_login")!=null ){
 	  }else{
 	  	  emr = new EmailMeetingReminder(null, null, cc, subj, html);
 	  }
-	  emr.setEmailToGirlParent(email_to_gp);
-	  emr.setEmailToSelf(email_to_sf);
-	  emr.setEmailToTroopVolunteer(email_to_tv);
+
 	  emr.setMeetingId(meetingId);
+	  
+	  if(email_to_gp.equals("true")){
+		  java.util.List<Contact> contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO).getContacts(user.getApiConfig(), troop.getSfTroopId() );
+		  String emails = null;
+		  for(int i=0;i<contacts.size();i++){ 
+				String contactEmail = contacts.get(i).getEmail();
+				if(emails==null) emails=contactEmail;
+				else emails+=";"+contactEmail;
+		  }
+		  emr.addTo(emails);
+		  emr.setEmailToGirlParent(emails);
+
+	  }
+	  if(email_to_sf.equals("true")){
+			emr.setEmailToSelf(apiConfig.getUser().getEmail());
+			emr.addTo(apiConfig.getUser().getEmail());
+	  }
+	  if(email_to_tv.equals("true")){
+		  emr.setEmailToTroopVolunteer(email_to_tv);
+		  /*Troop Volunteers data needed */
+	  }
 	  
 	  String addAid= request.getParameter("addAid");
 	  String rmAid=  request.getParameter("rmAid");

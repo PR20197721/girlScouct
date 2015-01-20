@@ -28,12 +28,18 @@ public class Emailer {
 		MessageGateway<HtmlEmail> messageGateway = messageGatewayService
 				.getGateway(HtmlEmail.class);
 		
-		
+		String[] ccStrings = emr.getCc().split(";");
+		String[] toStrings = emr.getTo().split(";");
 		ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
-		emailRecipients.add(new InternetAddress("cwu@northpointdigital.com"));
-		emailRecipients.add(new InternetAddress(emr.getCc()));
-		emailRecipients.add(new InternetAddress("ayakobovich@northpointdigital.com"));
-		
+		for (int i = 0; i < toStrings.length; i++) {
+			emailRecipients.add(new InternetAddress(toStrings[i]));	
+		}
+		for (int i = 0; i < ccStrings.length; i++) {
+			emailRecipients.add(new InternetAddress(ccStrings[i]));	
+		}
+		//emailRecipients.add(new InternetAddress("ayakobovich@northpointdigital.com"));
+		//emailRecipients.add(new InternetAddress("cwu@northpointdigital.com"));
+
 		
 		HtmlEmail email = new HtmlEmail();
 		email.setHtmlMsg(emr.getHtml())	;	

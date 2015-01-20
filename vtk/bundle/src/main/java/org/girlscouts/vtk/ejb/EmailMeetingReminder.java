@@ -5,13 +5,13 @@ import org.girlscouts.vtk.models.Asset;
 public class EmailMeetingReminder {
 
 	private String to, from, cc, bcc, html, subj,
-		emailToGirlParent, emailToSelf, emailToTroopVolunteer,
-		meetingId;
-	
+	emailToGirlParent, emailToSelf, emailToTroopVolunteer,
+	meetingId;
+
 	private java.util.List<Asset> assets;
-	
-	
-	
+
+
+
 	public EmailMeetingReminder(String to, String from , String cc, String subj, String html){
 		this.to= to;
 		this.from=from;
@@ -19,10 +19,7 @@ public class EmailMeetingReminder {
 		this.subj= subj;
 		this.html=html;
 	}
-	
-	
-	
-	
+
 
 	public java.util.List<Asset> getAssets() {
 		return assets;
@@ -118,6 +115,7 @@ public class EmailMeetingReminder {
 
 	public void setEmailToGirlParent(String emailToGirlParent) {
 		this.emailToGirlParent = emailToGirlParent;
+
 	}
 
 	public String getEmailToSelf() {
@@ -135,16 +133,26 @@ public class EmailMeetingReminder {
 	public void setEmailToTroopVolunteer(String emailToTroopVolunteer) {
 		this.emailToTroopVolunteer = emailToTroopVolunteer;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
+	public void addTo(String to){
+		if(to!=null && !to.isEmpty()){
+			if(this.to == null){
+				this.to = to;
+			}else{
+				this.to+=";"+to;
+			}
+		}
+	}
+
+
+
+
+
+
+
+
+
+
 }
 
 
