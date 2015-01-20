@@ -1,7 +1,7 @@
 <%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
-<%@include file="include/session.jsp"%>
+<%@include file="../session.jsp"%>
 <% 
 EmailMeetingReminder emr = troop.getSendingEmail();
 %>
@@ -24,7 +24,7 @@ EmailMeetingReminder emr = troop.getSendingEmail();
 
 
 <%= emr.getHtml() %>
-
+<!--  
 <div>
 	Aid(s) Included:
 	<%
@@ -40,8 +40,7 @@ EmailMeetingReminder emr = troop.getSendingEmail();
 
 </div>
 
-<br/><br/><input type="button" value="Send" onclick="sendMeetingReminderEmail()"/>
-
+-->
 
 
 
