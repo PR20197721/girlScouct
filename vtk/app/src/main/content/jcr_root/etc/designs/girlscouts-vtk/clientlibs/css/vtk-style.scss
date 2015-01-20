@@ -482,10 +482,6 @@
   .reveal-modal {
     padding:0;
     height:100%;
-    .scroll {
-      max-height: 80%;
-      overflow: auto;
-    }
     .header {
       background: #00ae57;
       padding:7px 0 5px 5px;
@@ -906,6 +902,10 @@
     }
     #frmCalElem_1 {
       margin-top:20px;
+    }
+    .scroll {
+      max-height: 80%;
+      overflow: auto;
     }
   }
   .browseMeetingAids {
