@@ -17,9 +17,18 @@ boolean isCancelMeeting= false;
 if( meeting != null && meeting.getCancelled()!=null && meeting.getCancelled().equals("true")){
 	isCancelMeeting=true;
 }
-%>       
+%>     
+<%
+	java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user, troop);
+    for(int i=0;i<meetingsToCancel.size();i++) {
+    	%>
+    	  <p><a href="#" onclick="rmMeeting('<%=date.getTime()%>','<%=meetingsToCancel.get(i).getRefId()%>')"><%=meetingsToCancel.get(i).getMeetingInfo().getName() %></a></p>
+    	<% 
+    }
+%>  
 <h5><strong><%=yearPlanUtil.getMeeting( user, meeting.getRefId() ).getName() %></strong></h5>
 <div id="locMsg"></div>
+
 <div class="clearfix">
 	<div class="modifyCalendarDate">
 		<div class="column small-10">
@@ -27,7 +36,6 @@ if( meeting != null && meeting.getCancelled()!=null && meeting.getCancelled().eq
 		<form id="frmCalElem">
 			<div id="datepicker"></div>
 			<input type="hidden" value="<%= FORMAT_MMddYYYY.format(date) %>" id="cngDate0"  name="cngDate0" class="date calendarField"/>
-			
 			<p><strong>Change Time</strong></p>
 			<section class='row clearfix'>
 				<div class="column small-4">
@@ -41,10 +49,9 @@ if( meeting != null && meeting.getCancelled()!=null && meeting.getCancelled().eq
 				</div>
 				</div>
 			</section>
-			
 		</form>
 		<span  id="cngDate0ErrMsg"></span>
-		</div>
+	</div>
 		<div class="column small-10 push-2">
 		 <p style="margin-bottom:0"><strong>Cancel Meeting</strong></p>
 		 <span>Select meeting plan you would  like to cancel:</span>

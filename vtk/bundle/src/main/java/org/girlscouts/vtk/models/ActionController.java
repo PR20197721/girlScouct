@@ -27,7 +27,9 @@ public enum ActionController {
 	CreateCustomActivity,
 	isAltered,
 	GetFinances,
-	UpdateFinances
+	UpdateFinances, 
+	RmMeeting
+	
 	/*
 	 ActionController(int x){state=x;}
 	 private int state;

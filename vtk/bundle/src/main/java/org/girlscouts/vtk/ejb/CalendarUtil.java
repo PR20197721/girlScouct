@@ -97,9 +97,7 @@ public class CalendarUtil {
 			
 			java.util.List<org.joda.time.DateTime> sched = new java.util.ArrayList();
 			
-			
 			org.joda.time.DateTime date = new org.joda.time.DateTime(startDate);
-			//-sched.add(_startDate);
 			
 			int addedDates =0;
 			
@@ -115,10 +113,7 @@ public class CalendarUtil {
 			}
 			
 			
-			//for(int i=1;i<numOfMeetings;i++){
 			for(int i=1;i<100;i++){
-				
-	         
 				
 				if (!exclDates.contains( date ) ){
 					
@@ -136,7 +131,7 @@ public class CalendarUtil {
 				}
 				
 				
-				   if (freq.equals("weekly")){
+				if (freq.equals("weekly")){
 		                date= date.plusWeeks(1); 
 		                
 		            } else if (freq.equals("monthly")) {
@@ -190,8 +185,8 @@ public class CalendarUtil {
 			
 		}
 		
-		
-		public void createSched(User user, Troop troop, String freq, org.joda.time.DateTime p, String exclDate)throws java.lang.IllegalAccessException{
+		//vtk1 -dont use
+		public void createSched_OLD(User user, Troop troop, String freq, org.joda.time.DateTime p, String exclDate)throws java.lang.IllegalAccessException{
 		/*
 			if( !userUtil.hasAccess(troop, troop.getCurrentTroop(), Permission.PERMISSION_EDIT_MEETING_ID ) ){
 				 troop.setErrCode("112");
@@ -289,4 +284,113 @@ public class CalendarUtil {
 			troopUtil.updateTroop(user, troop);
 		}
 	
+		
+		public java.util.List <org.joda.time.DateTime>  getExclWeeks(String bannedDates){
+			
+			
+			//banned dates to list
+			java.util.List <org.joda.time.DateTime>exclWeeksOfDate = new java.util.ArrayList();
+			StringTokenizer t= new StringTokenizer( bannedDates, ",");
+			while( t.hasMoreElements() )
+				exclWeeksOfDate.add( new org.joda.time.DateTime(t.nextToken()) );
+			
+			//banned weeks to list 
+			java.util.List <org.joda.time.DateTime> exclDates = new java.util.ArrayList <org.joda.time.DateTime> ();
+			for(int i=0;i<exclWeeksOfDate.size();i++ ){
+				exclDates.addAll( new CalendarUtil().exclWeek( exclWeeksOfDate.get(i) )  );
+			}
+			
+			return exclDates;
+		}
+		
+		public java.util.Date getNextAvailDate( java.util.List <org.joda.time.DateTime> exclWeeks, long fromDate , int freq ){
+			
+			for(int i=0;i<exclWeeks.size();i++)
+					System.err.println("tata88: "+ exclWeeks.get(i) );
+			
+			return null;
+			
+		}
+		
+		public boolean chnSchedDatesFwd(User user, Troop troop, long fromDate, long newDate, int freq) throws IllegalAccessException{
+			boolean isChg = false;
+			String dates = "," + troop.getYearPlan().getSchedule().getDates() + ",";
+			StringTokenizer t= new StringTokenizer( dates, ",");
+			
+			Calendar newCalDate = new java.util.GregorianCalendar();
+			newCalDate.setTimeInMillis(newDate);
+			
+			java.util.List <org.joda.time.DateTime> exclWeeks=  new CalendarUtil().getExclWeeks( troop.getYearPlan().getCalExclWeeksOf() );
+			
+			while( t.hasMoreElements() ){
+				java.util.Date dt = new java.util.Date( Long.parseLong( t.nextToken() ) );	
+	new CalendarUtil().getNextAvailDate(exclWeeks, fromDate, freq)	;		
+				if( (dt.getTime() == fromDate)   ){	
+					dates.replace(""+dt.getTime(), ""+newDate );
+					newCalDate.add( java.util.Calendar.DATE, freq);	
+				}else if( dt.getTime() > fromDate ){
+					dates.replace(""+dt.getTime(), ""+newCalDate.getTimeInMillis() );
+					newCalDate.add( java.util.Calendar.DATE, freq);
+				}
+			}
+			
+			dates = dates.replace(",,", ",");
+			if( dates.startsWith(",") ) dates= dates.substring(1);
+			if( dates.endsWith(",") ) dates= dates.substring(0, dates.length()-1 );
+			
+			//setFreg year
+			//TODO
+			
+			//-SAVE troopUtil.updateTroop(user,  troop);
+			return isChg;
+		}
+		
+		
+		public void createSched(User user, Troop troop, String freq, org.joda.time.DateTime p, String exclDate)throws java.lang.IllegalAccessException{
+			
+				if( troop!= null && ! userUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID   ) )
+					throw new IllegalAccessException();
+				
+				if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
+					troop.setErrCode("112");
+					throw new java.lang.IllegalAccessException();
+				}
+				
+				java.util.List <String>exclDt= new java.util.ArrayList<String>();
+				java.util.StringTokenizer t= new java.util.StringTokenizer( exclDate, ",");
+				while( t.hasMoreElements() ){
+					//exclDt.add( fmt.parse( new java.util.Date(t.nextToken() ) ) );
+				}
+				
+				
+				
+				
+				
+				/*
+				String existSched = troop.getYearPlan().getSchedule()== null ? "" : troop.getYearPlan().getSchedule().getDates();
+				
+				java.util.List <org.joda.time.DateTime> sched = new CalendarUtil().genSched( p, freq, exclDt,  troop.getYearPlan().getMeetingEvents().size(),
+						existSched);
+				YearPlan plan = troop.getYearPlan();
+				plan.setCalFreq(freq);
+				plan.setCalStartDate( p.getMillis() );
+				plan.setCalExclWeeksOf(exclDate);
+				
+				Cal calendar = plan.getSchedule();
+				if(calendar==null) calendar= new Cal();
+				calendar.fmtDate(sched);
+
+				plan.setSchedule(calendar);
+				troop.setYearPlan(plan);
+				
+				
+				//sort
+				
+				Comparator<MeetingE> comp = new BeanComparator("id");
+			    Collections.sort( troop.getYearPlan().getMeetingEvents(), comp);
+				
+				troopUtil.updateTroop(user, troop);
+				*/
+			}
+			
 }
