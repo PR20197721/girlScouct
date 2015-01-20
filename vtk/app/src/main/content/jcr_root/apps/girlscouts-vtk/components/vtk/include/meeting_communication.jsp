@@ -6,6 +6,6 @@
    <li><a href="" title="Record Attendance & Achievementst">Record Attendance &amp; Achievements</a></li>
    <li>(5 of 6 present, no achievements - <a href="" title="view" className="view">view</a>)</li>
    <li><a href="" title="Upload Photo">Upload Photo</a></li>
-   <li>(none)</li>
+   <li>(none) </li>
   </ul>
 </section>

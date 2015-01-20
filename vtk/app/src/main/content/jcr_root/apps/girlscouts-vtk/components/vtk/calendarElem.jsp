@@ -18,14 +18,7 @@ if( meeting != null && meeting.getCancelled()!=null && meeting.getCancelled().eq
 	isCancelMeeting=true;
 }
 %>     
-<%
-	java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user, troop);
-    for(int i=0;i<meetingsToCancel.size();i++) {
-    	%>
-    	  <p><a href="#" onclick="rmMeeting('<%=date.getTime()%>','<%=meetingsToCancel.get(i).getRefId()%>')"><%=meetingsToCancel.get(i).getMeetingInfo().getName() %></a></p>
-    	<% 
-    }
-%>  
+ 
 <h5><strong><%=yearPlanUtil.getMeeting( user, meeting.getRefId() ).getName() %></strong></h5>
 <div id="locMsg"></div>
 
@@ -35,6 +28,7 @@ if( meeting != null && meeting.getCancelled()!=null && meeting.getCancelled().eq
 		<p><strong>Change Date</strong></p>
 		<form id="frmCalElem">
 			<div id="datepicker"></div>
+			<!-- dont remove --><input type="input" name="cngDate0" value="" id="cngDate0" />
 			<input type="hidden" value="<%= FORMAT_MMddYYYY.format(date) %>" id="cngDate0"  name="cngDate0" class="date calendarField"/>
 			<p><strong>Change Time</strong></p>
 			<section class='row clearfix'>
@@ -57,21 +51,17 @@ if( meeting != null && meeting.getCancelled()!=null && meeting.getCancelled().eq
 		 <span>Select meeting plan you would  like to cancel:</span>
 		 <form id="frmCalElem_1">
 		 	<select>
-		 		<option value="0">Meeting 1</option>
-		 		<option value="1">Meeting 2</option>
-		 		<option value="2">Meeting 3</option>
-		 		<option value="0">Meeting 1</option>
-		 		<option value="1">Meeting 2</option>
-		 		<option value="2">Meeting 3</option>
-		 		<option value="0">Meeting 1</option>
-		 		<option value="1">Meeting 2</option>
-		 		<option value="2">Meeting 3</option>
-		 		<option value="0">Meeting 1</option>
-		 		<option value="1">Meeting 2</option>
-		 		<option value="2">Meeting 3</option>
-		 		<option value="0">Meeting 1</option>
-		 		<option value="1">Meeting 2</option>
-		 		<option value="2">Meeting 3</option>
+		 	
+		 	<%
+    java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user, troop);
+    for(int i=0;i<meetingsToCancel.size();i++) {
+      %>
+       <!--  <p><a href="#" onclick="rmMeeting('<%=date.getTime()%>','<%=meetingsToCancel.get(i).getRefId()%>')"><%=meetingsToCancel.get(i).getMeetingInfo().getName() %></a></p> -->
+       <option value="<%=meetingsToCancel.get(i).getRefId()%>"><%=meetingsToCancel.get(i).getMeetingInfo().getName() %></option>
+     
+      <% 
+    }
+      %> 
 		 	</select>
 			<!--  <input type="checkbox" id="isCancellMeeting0" name="isCancellMeeting0" <%=isCancelMeeting == true ? "CHECKED" : "" %>/>
 			 <label for="isCancellMeeting0">Cancel Meeting</label> -->
@@ -81,10 +71,35 @@ if( meeting != null && meeting.getCancelled()!=null && meeting.getCancelled().eq
 		</div>
 	</div>
 	<input type="button" value="save" id="saveCalElem" class="button btn right"/>
+	
+	
+	
+	
+	 <%
+   // java.util.List <MeetingE> +meetingsToCancel = meetingUtil.getMeetingToCancel(user, troop);
+    for(int i=0;i< meetingsToCancel.size();i++) {
+      %>
+       <p><a href="#" onclick="rmMeeting('<%=date.getTime()%>','<%=meetingsToCancel.get(i).getRefId()%>')"><%=meetingsToCancel.get(i).getMeetingInfo().getName() %></a></p>
+     
+      <% 
+    }
+      %>
+	
+	
 </div>
 <script>
 $(function() {
-    $( "#cngDate0" ).datepicker({minDate: 0});
+    //$( "#cngDate0" ).datepicker({minDate: 0});
+	$( "#datepicker" ).datepicker({
+		  minDate: 0,
+		  onSelect: function(dateText, inst) { 
+		      var dateAsString = dateText; //the first parameter of this function
+		      var dateAsObject = $(this).datepicker( 'getDate' ); //the getDate method
+		      console.log( "caca b4: "+document.getElementById("cngDate0").value);
+		      document.getElementById("cngDate0").value =dateAsString;
+		      console.log( "caca after: "+document.getElementById("cngDate0").value);
+		   }
+		  });
   });
 </script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.js"></script>
@@ -123,11 +138,12 @@ $.validator.addMethod('time', function(value, element, param) {
 
 
 $().ready(function() {
-	  $( "#datepicker" ).datepicker({
+	/*
+	  $( "#cngDate0" ).datepicker({
 	  	minDate: 0
 	  });
 
-		$("#frmCalElem").validate({	
+$("#frmCalElem").validate({
 			rules: {
 				cngDate0: {
 					required:true,
@@ -142,11 +158,15 @@ $().ready(function() {
 					}
 				}
 		});
+		*/
 });
 
 $('#saveCalElem').click(function() {
+	console.log("cacaaca: "+$('#frmCalElem').valid());
 		if ($('#frmCalElem').valid()) {
+			console.log(1);
 			if(!timeDiff()){ return false;}
+			console.log(2);
 			  updSched1('0','<%=meeting.getPath()%>','<%=date.getTime()%>');
 			}
 			else {
@@ -155,7 +175,7 @@ $('#saveCalElem').click(function() {
 		});
 
 	function timeDiff(){
-		var date= document.getElementById("cngDate0").value;
+		//var date= document.getElementById("cngDate0").value;
 		return true;
 	}
 </script> 
