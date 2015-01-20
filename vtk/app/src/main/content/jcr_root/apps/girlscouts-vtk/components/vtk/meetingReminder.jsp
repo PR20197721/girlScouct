@@ -1,16 +1,14 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
-<%@include file="/libs/foundation/global.jsp" %>
-<cq:defineObjects/>
-<script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery-te-1.4.0.min.js"></script>
-<%@include file="include/session.jsp"%>
+
 <!-- apps/girlscouts-vtk/components/vtk/meetingReminder.jsp -->
+ 
 <!--/header-->
+<!-- 
 	<div class="header clearfix">
 		<h3 class="columns large-22">Reminder Email</h3>
 	  	<a class="close-reveal-modal columns large-2" onclick="closeModalPage()"><i class="icon-button-circle-cross"></i></a>
 	</div>
-<!-- /content -->
+-->
+<!-- /content --> 
 <div class="content clearfix">
 <% 
 	String userId = apiConfig.getUserId() ;

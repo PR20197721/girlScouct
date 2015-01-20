@@ -3,7 +3,7 @@
   <ul className="large-block-grid-2 medium-block-grid-2 small-block-grid-2">
    <li><a <%if(planView.getSearchDate()!=null &&
    planView.getSearchDate().after( new java.util.Date("1/1/1977") )) {%>
-   href="javascript:loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingReminder.html', false, null, true)" 
+   href="javascript:loadModalPage('/content/girlscouts-vtk/controllers/vtk.include.modals.modal_meeting_reminder.html', false, null, true)" 
    <%} else{%>
    href="javascript:alert('You have not yet scheduled your meeting calendar.\nPlease select a year plan and schedule your meetings by clicking on the MEETING DATES AND LOCATION link.')"
    <%} %> title="Meeting Reminder Email">Meeting Reminder Email</a></li>

@@ -1,162 +1,149 @@
 
-<%@page import="org.girlscouts.vtk.auth.models.ApiConfig" %>
-
-<%=apiConfig.getUserId() %>--
-<%=apiConfig.getAccessToken() %>
-
-<br/>Reminder Meeting#  <%=(currInd +1)%> <%= FORMAT_MEETING_REMINDER.format(searchDate) %>
+<!-- apps/girlscouts-vtk/components/vtk/include/email/meetingReminder.jsp -->
+<div class="content clearfix">
+<% 
+	String userId = apiConfig.getUserId() ;
+	String accessToken = apiConfig.getAccessToken() ;
+	PlanView planView = meetingUtil.planView(user, troop, request);
+	MeetingE meeting = (MeetingE)planView.getYearPlanComponent();
+	Meeting meetingInfo = meeting.getMeetingInfo();
+	java.util.List <Activity> _activities = meetingInfo.getActivities();
+	java.util.Map<String, JcrCollectionHoldString> meetingInfoItems= meetingInfo.getMeetingInfo();
+	Date searchDate = planView.getSearchDate();
+%> 
+	Reminder Meeting # <%=planView.getMeetingCount()%> <%= FORMAT_MEETING_REMINDER.format(searchDate) %>
 	
+	Sent: 
+	<script>
+		$('#sent').append(moment(new Date()).format('MM/DD/YYYY'));
+	</script>
 
-<br/>Sent: XXX
-
-
-<div style="background-color:gray">Address List</div>
-
-<input type="checkbox" id="email_to_gp" checked/>Girls /Parents
-<input type="checkbox" id="email_to_sf" checked/>Self
-<input type="checkbox" id="email_to_tv"/>Troop Volunteers
-
-
-<br/>Enter your own:<input type="text" id="email_to_cc" value="<%=troop.getSendingEmail()==null ? "" : troop.getSendingEmail().getCc()%>"/>
-
-<div style="background-color:gray">Compose Email</div>
-
-<br/>Subject: <input type="text" id="email_subj" value="Reminder <%=troop.getTroop().getGradeLevel()  %>  Meeting# <%=(currInd +1)%> <%= FORMAT_MEETING_REMINDER.format(searchDate) %>"/>
-
-<div style="background-color:yellow;">
-
-
-
-
-
-
-</div>
-
-  <textarea id="email_htm" name="textarea" class="jqte-test" rows="25" cols="25"> 
-
-Hello Girl Scout Families,
-<br/><br/>Here are the details of our next meeting:
-
-<table>
-	<tr>
-		<th>Date:</th><td><%= FORMAT_MEETING_REMINDER.format(searchDate) %></td>
-	</tr>
-	<tr>
-		<th>Location:</th><td>
-		
-		<%
-
-
-   if( meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null )
-	for(int k=0;k<troop.getYearPlan().getLocations().size();k++){
-		
-		if( troop.getYearPlan().getLocations().get(k).getPath().equals( meeting.getLocationRef() ) ){
-			%>
-				<br/><%=troop.getYearPlan().getLocations().get(k).getPath()%><%=troop.getYearPlan().getLocations().get(k).getName() %>
-				<br/><%=troop.getYearPlan().getLocations().get(k).getAddress() %>
-				<%=troop.getYearPlan().getLocations().get(k).getCity() %>
-				<%=troop.getYearPlan().getLocations().get(k).getState() %>
-				<%=troop.getYearPlan().getLocations().get(k).getZip() %>
-			<% 
-		}
-	}
-%>
-		
-		
-		</td>
+	<div style="background-color:gray">Address List</div>
+	
+	<input type="checkbox" id="email_to_gp" checked/>Girls/Parents
+	<input type="checkbox" id="email_to_sf"/>Self
+	<input type="checkbox" id="email_to_tv"/>Troop Volunteers
+	
+	</br>Enter your own:<input type="email" id="email_to_cc" value="<%=troop.getSendingEmail()==null ? "" : troop.getSendingEmail().getCc()%>"/>
+	
+	<div style="background-color:gray">Compose Email</div>
+	
+	<br/>Subject: <input type="text" id="email_subj" value="Reminder <%=troop.getTroop().getGradeLevel() %> Meeting #<%=planView.getMeetingCount()%> <%= FORMAT_MEETING_REMINDER.format(searchDate) %>"/>
+	
+	<div style="background-color:yellow;">
+	</div>
+	<textarea id="email_htm" name="textarea" class="jqte-test" rows="25" cols="25"> 
+	
+	Hello Girl Scout Families,
+	<br/><br/>Here are the details of our next meeting:
+	<table>
+		<tr><th>Date:</th>
+			<td><%= FORMAT_MEETING_REMINDER.format(searchDate) %></td>
 		</tr>
-		<tr>
-		<th>Topic:</th><td><%= meetingInfo.getName() %></td>
+		<tr><th>Location:</th>
+			<td><%
+			if( meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null ){
+				for(int k=0;k<troop.getYearPlan().getLocations().size();k++){
+					
+					if( troop.getYearPlan().getLocations().get(k).getPath().equals( meeting.getLocationRef() ) ){
+						%>
+							<br/><%=troop.getYearPlan().getLocations().get(k).getPath()%><%=troop.getYearPlan().getLocations().get(k).getName() %>
+							<br/><%=troop.getYearPlan().getLocations().get(k).getAddress() %>
+							<%=troop.getYearPlan().getLocations().get(k).getCity() %>
+							<%=troop.getYearPlan().getLocations().get(k).getState() %>
+							<%=troop.getYearPlan().getLocations().get(k).getZip() %>
+						<% 
+					}
+				}
+	   		}
+			%></td>
 		</tr>
-	</tr>
-</table>
+		<tr><th>Topic:</th>
+			<td><%= meetingInfo.getName() %></td>
+		</tr>
+	</table>
 
+	<%=meetingInfoItems.get("overview").getStr() %>
 
+	<br/><br/>If you have any questions, or want to participate in this meeting, please contact me at 
+	<%if(apiConfig.getUser().getPhone()!=null)%><%=apiConfig.getUser().getPhone() %>
+	<%if(apiConfig.getUser().getMobilePhone()!=null)%><%=apiConfig.getUser().getMobilePhone() %>
+	<%if(apiConfig.getUser().getHomePhone()!=null)%><%=apiConfig.getUser().getHomePhone() %>
+	<%if(apiConfig.getUser().getAssistantPhone()!=null)%><%=apiConfig.getUser().getAssistantPhone() %>
 
-<%=meetingInfoItems.get("overview").getStr() %>
+	<br/><br/>Thank you for supporting your <%=troop.getTroop().getGradeLevel() %>,
 
-<br/><br/>If you have any questions, or want to participate in this meeting, please contact me at 
-<%=apiConfig.getUser().getPhone() %>
-<%=apiConfig.getUser().getMobilePhone() %>
-<%=apiConfig.getUser().getHomePhone() %>
-<%=apiConfig.getUser().getAssistantPhone() %>
+	<br/><br/><%if(apiConfig.getUser().getName()!=null)%><%=apiConfig.getUser().getName() %>
+	<br/><%=troop.getTroop().getTroopName() %>
 
-<br/><br/>Thank you for supporting your <%=troop.getTroop().getGradeLevel() %>,
-
-<br/><br/><%=apiConfig.getUser().getName() %>
-<br/>Troop <%=troop.getTroop().getTroopName() %>
-
-
-
-
-
-<br/><br/>Form(s) Required:
-XXX
- </textarea> 
-
-<div>
-	Aid(s) Included:
-	<%
-	EmailMeetingReminder emr = troop.getSendingEmail();
-	if( emr!=null ){
-		java.util.List<Asset> eAssets = emr.getAssets();
-		if( eAssets!=null)
-			for(int i=0;i<eAssets.size();i++){
-				%><li><%=eAssets.get(i).getRefId() %></li><% 
-			}
-	}
-	%>
-
-</div>
-
-
-<br/><br/><input type="button" value="Preview" onclick="previewMeetingReminderEmail('<%=meeting.getPath()%>','<%=meeting.getUid()%>')"/>
-
-
-
-<div id="imal">
+	<br/><br/>Aid(s) Included:xxx
+	<div id=aids>
+	<%EmailMeetingReminder emr = troop.getSendingEmail();
+		if( emr!=null ){
+			java.util.List<Asset> eAssets = emr.getAssets();
+			if( eAssets!=null)
+				for(int i=0;i<eAssets.size();i++){
+				%><li><%=eAssets.get(i).getTitle() %></li><% 
+				}
+		}%>
+	</div>
 	
+	<br/></br/>Form(s) Required:xxx
+	<div id=formLinks"></div>
 	
-	<div id="imalHdr">Include Meeting Aid Link:</div>
-	<div id="imalBd">
+	</textarea>
 	
+
+	<div id="ima">
+		<div style="background-color:gray" id="imaHdr">Include Meeting Aid:</div>
+		<div id="imaBd">
 		<table>
-		
 			<tr>
 				<th>&nbsp;</th>
 				<th>Add to Email</th>
 			</tr>
-			
-			<%
-			/*
+			<%/*
 			for(int i=0;i<_aidTags.size();i++){%>
 			 <tr>
 				<td><%= _aidTags.get(i).getDesc() %></td>
 				<td><a href="javascript:void(0)" onclick="addAidToEmail('<%=_aidTags.get(i).getPath()%>','<%=meeting.getUid() %>')" class="addAidToEmail"> + </a></td>
 			 </tr>
-			 <%}
-			
-			*/%>
+			 <%}*/%>
 		</table>
+		</div>
 	</div>
+	<div id="ifl">
+	<div style="background-color:gray" id="iflHdr">Include Form Link:</div>
+	<div id="iflBd">
+	<%/*form needed
+		for(int i=0;i<_forms.size();i++){
+		String formName;
+		String formurl;%>
+	
+		<input type="checkbox" id="<%=formname%>" onclick="addLinkToEmail(forms(i))"/><%=formname %>
 
-
+	<%}*/%>
+	</div>
+	</div>
+	<input type="button" value="Preview" onclick="previewMeetingReminderEmail('<%=meeting.getPath()%>','<%=meeting.getUid()%>')"/>
+	<input type="button" value="Send" onclick="sendMeetingReminderEmail()"/>
 	
 </div>
 
-
-
+<!-- end of /content -->
 <script>
-	$('.jqte-test').jqte();
-	
-	// settings of status
-	var jqteStatus = true;
-	$(".status").click(function()
-	{
-		jqteStatus = jqteStatus ? false : true;
-		$('.jqte-test').jqte({"status" : jqteStatus})
+	$(".jqte-test").jqte({
+		"source": false,
+		"rule": false,
+		"sub": false,
+		"strike": false,
+		"fsizes": ['10','12','14','16','18','20','22','24','28','32']
 	});
+	function addLink(link){
+		$('.emailhtm .formLinks').append('<a href="'+formurl+'">'+formname+'/a>');
+		return;
+	};
+	
 </script>
 
-
-
+ 
