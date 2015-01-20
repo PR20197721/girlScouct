@@ -4025,7 +4025,7 @@ dialog, .reveal-modal {
   display: none;
   position: absolute;
   z-index: 100;
-  width: 100vw;
+  width: 100%;
   top: 0;
   left: 0;
   background-color: white;
@@ -4129,7 +4129,7 @@ dialog[open] {
 */
     dialog.full, .reveal-modal.full {
       margin-left: -50vw;
-      width: 100vw; } /* } */
+      width: 100%; } /* } */
 
 /* Tooltips */
 .has-tip {
