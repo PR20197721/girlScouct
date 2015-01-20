@@ -168,15 +168,13 @@ function revertAgenda(mid) {
 }
 
 function previewMeetingReminderEmail(mid){
-	
-	
-	
 	var email_to_gp = document.getElementById("email_to_gp").value;
 	var email_to_sf = document.getElementById("email_to_sf").value;
 	var email_to_tv = document.getElementById("email_to_tv").value;
 	var email_cc = document.getElementById("email_to_cc").value;
 	var email_subj = document.getElementById("email_subj").value;
 	var email_htm = document.getElementById("email_htm").value; 
+	var email_
 	
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
@@ -194,7 +192,7 @@ function previewMeetingReminderEmail(mid){
 		},
 		success: function(result) {
 			//console.log(result);
-			document.location="/content/girlscouts-vtk/en/vtk.include.email.meetingReminder_preview.html";
+			$("$.content clearfix").load("/content/girlscouts-vtk/controllers/vtk.meetingReminder_preview.html");
 		}
 	});
 	return;
@@ -227,7 +225,7 @@ function addAidToEmail(aidUrl, mid){
 		success: function(result) {
 			//console.log(result);
 			location.reload();
-			//document.location="/content/girlscouts-vtk/en/vtk.include.email.meetingReminder_preview.html";
+			//document.location="/content/girlscouts-vtk//vtk.include.email.meetingReminder_preview.html";
 		}
 	});
 	return;
@@ -240,12 +238,9 @@ function sendMeetingReminderEmail(){
 		type: 'POST',
 		data: { 
 			sendMeetingReminderEmail: true,
-			
 		},
 		success: function(result) {
-			
-			document.location="/content/girlscouts-vtk/en/vtk.html";
-			
+			location.reload();
 		}
 	});
 	return;

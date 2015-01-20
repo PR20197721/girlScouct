@@ -1,5 +1,14 @@
 
-<!-- apps/girlscouts-vtk/components/vtk/include/email/meetingReminder.jsp -->
+<!-- apps/girlscouts-vtk/components/vtk/meetingReminder.jsp -->
+ 
+<!--/header-->
+<!-- 
+	<div class="header clearfix">
+		<h3 class="columns large-22">Reminder Email</h3>
+	  	<a class="close-reveal-modal columns large-2" onclick="closeModalPage()"><i class="icon-button-circle-cross"></i></a>
+	</div>
+-->
+<!-- /content --> 
 <div class="content clearfix">
 <% 
 	String userId = apiConfig.getUserId() ;
@@ -77,7 +86,6 @@
 	<br/><%=troop.getTroop().getTroopName() %>
 
 	<br/><br/>Aid(s) Included:xxx
-	<div id=aids>
 	<%EmailMeetingReminder emr = troop.getSendingEmail();
 		if( emr!=null ){
 			java.util.List<Asset> eAssets = emr.getAssets();
@@ -90,7 +98,7 @@
 	
 	<br/></br/>Form(s) Required:xxx
 	<div id=formLinks"></div>
-	
+	<div>
 	</textarea>
 	
 
@@ -129,7 +137,6 @@
 	<input type="button" value="Send" onclick="sendMeetingReminderEmail()"/>
 	
 </div>
-
 <!-- end of /content -->
 <script>
 	$(".jqte-test").jqte({
@@ -145,5 +152,4 @@
 	};
 	
 </script>
-
  
