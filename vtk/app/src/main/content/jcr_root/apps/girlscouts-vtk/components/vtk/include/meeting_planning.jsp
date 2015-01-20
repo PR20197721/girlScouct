@@ -5,7 +5,7 @@
     <a data-reveal-id="modal_agenda_edit" data-reveal-ajax="true" href={"/content/girlscouts-vtk/controllers/vtk.include.modals.modal_agenda_edit.html?mid=<%=mid%>&isOverview=true"}>Meeting Overview</a>           
     </li>    
    <li>
-    <a data-reveal-id="modal_agenda_edit" data-reveal-ajax="true" href={"/content/girlscouts-vtk/controllers/vtk.include.modals.modal_agenda_edit.html?mid=<%=mid%>&sActivity=true"}>Activity</a>           
+    <a data-reveal-id="modal_agenda_edit" data-reveal-ajax="true" href={"/content/girlscouts-vtk/controllers/vtk.include.modals.modal_agenda_edit.html?mid=<%=mid%>&isActivity=true"}>Activity</a>           
    </li>
    <li>
     <a data-reveal-id="modal_agenda_edit" data-reveal-ajax="true" href={"/content/girlscouts-vtk/controllers/vtk.include.modals.modal_agenda_edit.html?mid=<%=mid%>&isMaterials=true"}>Materials</a>           
