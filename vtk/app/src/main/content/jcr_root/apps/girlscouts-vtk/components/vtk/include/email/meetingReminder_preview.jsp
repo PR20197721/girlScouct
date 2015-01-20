@@ -18,12 +18,12 @@ EmailMeetingReminder emr = troop.getSendingEmail();
 <br/>Enter your own:<%=emr.getCc() %>
 
 
-
+<br/>To: <%= emr.getTo()%>
 <br/>Subject: <%=emr.getSubj() %>
 
 
 
-<%= emr.getHtml() %>
+<br/><%= emr.getHtml() %>
 <!--  
 <div>
 	Aid(s) Included:

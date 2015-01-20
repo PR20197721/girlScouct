@@ -306,13 +306,19 @@ if(request.getParameter("admin_login")!=null ){
 	  emr.setEmailToTroopVolunteer(email_to_tv);
 	  emr.setMeetingId(meetingId);
 	  
-	  java.util.List<org.girlscouts.vtk.models.Contact>contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO).getContacts(user.getApiConfig(), troop.getSfTroopId() );
 	  if(email_to_gp.equals("true")){
+		  java.util.List<Contact> contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO).getContacts(user.getApiConfig(), troop.getSfTroopId() );
 		  for(int i=0;i<contacts.size();i++){ 
 				String contactEmail = contacts.get(i).getEmail();
 				if(contactEmail!=null && !contactEmail.isEmpty())
 				emr.addTo(contactEmail);
 		  }
+	  }
+	  if(email_to_sf.equals("true")){
+			emr.addTo(user.getEmail());
+	  }
+	  if(email_to_tv.equals("true")){
+		  /*Troop Volunteers data needed */
 	  }
 	  
 	  String addAid= request.getParameter("addAid");
