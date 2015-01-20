@@ -335,6 +335,7 @@ if(request.getParameter("admin_login")!=null ){
 	emr.setCc("ayakobovich@northpointdigital.com");
 		}
 		String html = emr.getHtml();
+		/*
 		html+="<br/>Aids Included:";
 		if( emr!=null ){
 	java.util.List<Asset> eAssets = emr.getAssets();
@@ -343,12 +344,11 @@ if(request.getParameter("admin_login")!=null ){
 			html += "<br/><a href=\""+eAssets.get(i).getRefId()+"\">"+eAssets.get(i).getRefId()+ "</a>";
 		}
 	}
-		}
-		emr.setHtml( html);
+		}*/
+		emr.setHtml(html);
 		org.girlscouts.vtk.ejb.Emailer emailer = sling.getService(org.girlscouts.vtk.ejb.Emailer.class);
 		emailer.test(emr);
 		  
-		
 		emr=null;
 		troop.setSendingEmail(null);
 }else if( request.getParameter("testAB")!=null){

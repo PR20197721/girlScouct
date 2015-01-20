@@ -83,7 +83,7 @@
 			java.util.List<Asset> eAssets = emr.getAssets();
 			if( eAssets!=null)
 				for(int i=0;i<eAssets.size();i++){
-				%><li><%=eAssets.get(i).getTitle() %></li><% 
+				%><li><a href="<%=eAssets.get(i).getRefId() %>"><%=eAssets.get(i).getRefId() %></a></li><% 
 				}
 		}%>
 	</div>
