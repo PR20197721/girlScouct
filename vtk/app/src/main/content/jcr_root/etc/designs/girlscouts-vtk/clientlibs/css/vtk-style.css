@@ -438,6 +438,21 @@
   margin-bottom: 20px; }
 .vtk-body #modal_agenda_edit .content .btn {
   padding: 4px 20px; }
+.vtk-body #modal_attendance .content h4 {
+  font-size: 24px;
+  margin-bottom: 50px; }
+.vtk-body #modal_attendance .content ul {
+  list-style: none; }
+  .vtk-body #modal_attendance .content ul label {
+    vertical-align: top; }
+    .vtk-body #modal_attendance .content ul label:before {
+      float: right; }
+    .vtk-body #modal_attendance .content ul label p {
+      float: right;
+      font-weight: 600;
+      font-size: 17px;
+      text-transform: uppercase;
+      margin-right: 80px; }
 .vtk-body .modalWrap {
   padding: 0;
   border-radius: 0;
