@@ -28,62 +28,62 @@
 </div>
 <div class="scroll">
 	<div class="content row">
-		<div class="setupCalendar">
+		<div class="setupCalendar columns">
 
 
-<%
-	MeetingE meeting = null;
-	java.util.List<MeetingE> meetings = troop.getYearPlan()
-			.getMeetingEvents();
-	for (int i = 0; i < meetings.size(); i++)
-		if (meetings.get(i).getUid()
-				.equals(request.getParameter("mid"))) {
-			meeting = meetings.get(i);
+			<%
+				MeetingE meeting = null;
+				java.util.List<MeetingE> meetings = troop.getYearPlan()
+						.getMeetingEvents();
+				for (int i = 0; i < meetings.size(); i++)
+					if (meetings.get(i).getUid()
+							.equals(request.getParameter("mid"))) {
+						meeting = meetings.get(i);
+						break;
+					}
+				Meeting meetingInfo = yearPlanUtil.getMeeting(user,
+						meeting.getRefId());
+				java.util.List<Activity> _activities = meetingInfo.getActivities();
+				java.util.Map<String, JcrCollectionHoldString> meetingInfoItems = meetingInfo
+						.getMeetingInfo();
+				Activity _activity = null;
+			%>
+
+		<%
+			if (request.getParameter("isOverview") != null) {
+		%>
+		<span class="editable_textarea" id="editMeetingOverview"><%=meetingInfoItems.get("overview").getStr()%></span>
+		<%
+			} else if (request.getParameter("isActivity") != null) {
+		%>
+		<span class="editable_textarea" id="editMeetingActivity"><%=meetingInfoItems.get("detailed activity plan")
+								.getStr()%>
+		</span>
+		<%
+			} else if (request.getParameter("isMaterials") != null) {
+		%>
+		<span class="editable_textarea" id="editMeetingMaterials"><%=meetingInfoItems.get("materials").getStr()%></span>
+		<%
+			} else if (request.getParameter("isAgenda") != null) {
+
+				try {
+					meetingUtil.sortActivity(_activities);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				for (int ii = 0; ii < _activities.size(); ii++) {
+					_activity = _activities.get(ii);
+					if (ii == Integer
+							.parseInt(request.getParameter("isAgenda"))) {
+		%>
+
+		<%
 			break;
-		}
-	Meeting meetingInfo = yearPlanUtil.getMeeting(user,
-			meeting.getRefId());
-	java.util.List<Activity> _activities = meetingInfo.getActivities();
-	java.util.Map<String, JcrCollectionHoldString> meetingInfoItems = meetingInfo
-			.getMeetingInfo();
-	Activity _activity = null;
-%>
-
-<%
-	if (request.getParameter("isOverview") != null) {
-%>
-<span class="editable_textarea" id="editMeetingOverview"><%=meetingInfoItems.get("overview").getStr()%></span>
-<%
-	} else if (request.getParameter("isActivity") != null) {
-%>
-<span class="editable_textarea" id="editMeetingActivity"><%=meetingInfoItems.get("detailed activity plan")
-						.getStr()%>
-</span>
-<%
-	} else if (request.getParameter("isMaterials") != null) {
-%>
-<span class="editable_textarea" id="editMeetingMaterials"><%=meetingInfoItems.get("materials").getStr()%></span>
-<%
-	} else if (request.getParameter("isAgenda") != null) {
-
-		try {
-			meetingUtil.sortActivity(_activities);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		for (int ii = 0; ii < _activities.size(); ii++) {
-			_activity = _activities.get(ii);
-			if (ii == Integer
-					.parseInt(request.getParameter("isAgenda"))) {
-%>
-
-<%
-	break;
+					}
+				}
 			}
-		}
-	}
-%>
+		%>
 
 
 

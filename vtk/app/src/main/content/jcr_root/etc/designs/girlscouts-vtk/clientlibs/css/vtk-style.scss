@@ -481,7 +481,9 @@
   //modals per Foundation
   .reveal-modal {
     padding:0;
-    height:100%;
+    height:auto;
+    min-height:113px;
+    max-height:none;
     .header {
       background: #00ae57;
       padding:7px 0 5px 5px;
@@ -502,6 +504,9 @@
       * {
         color: #fff;
       }
+    }
+    .scroll {
+      max-height: 700px;
     }
     //tabs inside the modals
     .tabs-wrapper {
@@ -904,7 +909,6 @@
       margin-top:20px;
     }
     .scroll {
-      max-height: 80%;
       overflow: auto;
     }
   }
