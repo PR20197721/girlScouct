@@ -20,9 +20,6 @@ public class EmailMeetingReminder {
 		this.html=html;
 	}
 	
-	
-	
-	
 
 	public java.util.List<Asset> getAssets() {
 		return assets;
@@ -118,6 +115,7 @@ public class EmailMeetingReminder {
 
 	public void setEmailToGirlParent(String emailToGirlParent) {
 		this.emailToGirlParent = emailToGirlParent;
+		
 	}
 
 	public String getEmailToSelf() {
@@ -134,6 +132,11 @@ public class EmailMeetingReminder {
 
 	public void setEmailToTroopVolunteer(String emailToTroopVolunteer) {
 		this.emailToTroopVolunteer = emailToTroopVolunteer;
+	}
+	
+	public void addTo(String to){
+		this.to+=";";
+		this.to+=to;
 	}
 	
 	

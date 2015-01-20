@@ -291,6 +291,7 @@ if(request.getParameter("admin_login")!=null ){
 	  String html = request.getParameter("email_htm"); 
 	  String meetingId= request.getParameter("mid");
 	  EmailMeetingReminder emr=null;
+	  
 	  if( troop.getSendingEmail() !=null ){
 		  emr= troop.getSendingEmail();
 		  emr.setCc(cc);
@@ -299,10 +300,20 @@ if(request.getParameter("admin_login")!=null ){
 	  }else{
 	  	  emr = new EmailMeetingReminder(null, null, cc, subj, html);
 	  }
+
 	  emr.setEmailToGirlParent(email_to_gp);
 	  emr.setEmailToSelf(email_to_sf);
 	  emr.setEmailToTroopVolunteer(email_to_tv);
 	  emr.setMeetingId(meetingId);
+	  
+	  java.util.List<org.girlscouts.vtk.models.Contact>contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO).getContacts(user.getApiConfig(), troop.getSfTroopId() );
+	  if(email_to_gp.equals("true")){
+		  for(int i=0;i<contacts.size();i++){ 
+				String contactEmail = contacts.get(i).getEmail();
+				if(contactEmail!=null && !contactEmail.isEmpty())
+				emr.addTo(contact.getEmail());
+		  }
+	  }
 	  
 	  String addAid= request.getParameter("addAid");
 	  String rmAid=  request.getParameter("rmAid");

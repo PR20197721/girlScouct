@@ -10,6 +10,7 @@
 	java.util.List <Activity> _activities = meetingInfo.getActivities();
 	java.util.Map<String, JcrCollectionHoldString> meetingInfoItems= meetingInfo.getMeetingInfo();
 	Date searchDate = planView.getSearchDate();
+	  
 %> 
 	Reminder Meeting # <%=planView.getMeetingCount()%> <%= FORMAT_MEETING_REMINDER.format(searchDate) %>
 	
