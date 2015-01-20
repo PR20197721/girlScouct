@@ -17,23 +17,19 @@ boolean isCancelMeeting= false;
 if( meeting != null && meeting.getCancelled()!=null && meeting.getCancelled().equals("true")){
 	isCancelMeeting=true;
 }
+java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user, troop);
+
 %>     
-<%
-	java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user, troop);
-    for(int i=0;i<meetingsToCancel.size();i++) {
-    	%>
-    	  <p><a href="#" onclick="rmMeeting('<%=date.getTime()%>','<%=meetingsToCancel.get(i).getRefId()%>')"><%=meetingsToCancel.get(i).getMeetingInfo().getName() %></a></p>
-    	<% 
-    }
-%>  
-<h5><strong><%=yearPlanUtil.getMeeting( user, meeting.getRefId() ).getName() %></strong></h5>
+ 
+<h5><strong><%=yearPlanUtil.getMeeting(user, meeting.getRefId() ).getName() %></strong></h5>
 <div id="locMsg"></div>
 
 <div class="clearfix">
 	<div class="modifyCalendarDate">
 		<div class="column small-10">
-		<p><strong>Change Date</strong></p>
+		<input type="radio" value="change" id="cngRadio"><strong> Change Date / Time</strong>
 		<form id="frmCalElem">
+			<p><strong>Change Date</strong></p>
 			<div id="datepicker"></div>
 			<input type="hidden" value="<%= FORMAT_MMddYYYY.format(date) %>" id="cngDate0"  name="cngDate0" class="date calendarField"/>
 			<p><strong>Change Time</strong></p>
@@ -53,25 +49,15 @@ if( meeting != null && meeting.getCancelled()!=null && meeting.getCancelled().eq
 		<span  id="cngDate0ErrMsg"></span>
 	</div>
 		<div class="column small-10 push-2">
-		 <p style="margin-bottom:0"><strong>Cancel Meeting</strong></p>
+		 <input type="radio" value="cancel" id="cclRadio"><strong> Cancel Meeting</strong>
 		 <span>Select meeting plan you would  like to cancel:</span>
 		 <form id="frmCalElem_1">
-		 	<select>
-		 		<option value="0">Meeting 1</option>
-		 		<option value="1">Meeting 2</option>
-		 		<option value="2">Meeting 3</option>
-		 		<option value="0">Meeting 1</option>
-		 		<option value="1">Meeting 2</option>
-		 		<option value="2">Meeting 3</option>
-		 		<option value="0">Meeting 1</option>
-		 		<option value="1">Meeting 2</option>
-		 		<option value="2">Meeting 3</option>
-		 		<option value="0">Meeting 1</option>
-		 		<option value="1">Meeting 2</option>
-		 		<option value="2">Meeting 3</option>
-		 		<option value="0">Meeting 1</option>
-		 		<option value="1">Meeting 2</option>
-		 		<option value="2">Meeting 3</option>
+		 	<select id="meeting_select">	
+		 	<%
+		 	    for(int i=0;i<meetingsToCancel.size();i++) {%>
+				 	<option value="<%=meetingsToCancel.get(i).getRefId()%>" <%=meetingsToCancel.get(i).getRefId()==meeting.getRefId()? "SELECTED" : "" %>><%= meetingsToCancel.get(i).getMeetingInfo().getName()%></option>		 				 	   
+				<% }
+		 	%>	 	
 		 	</select>
 			<!--  <input type="checkbox" id="isCancellMeeting0" name="isCancellMeeting0" <%=isCancelMeeting == true ? "CHECKED" : "" %>/>
 			 <label for="isCancellMeeting0">Cancel Meeting</label> -->
@@ -137,14 +123,19 @@ $().ready(function() {
 			},
 			messages: {
 					newCustActivity_date: {
-						required: "Please enter valid start date",
-					  minlength: "Valid format mm/dd/yyyy"
+					required: "Please enter valid start date",
+					minlength: "Valid format mm/dd/yyyy"
 					}
 				}
 		});
 });
 
 $('#saveCalElem').click(function() {
+	if($('#cclRadio').prop('checked')){
+		var r = $("#meeting_select option:selected").val();
+  	  	rmMeeting('<%=date.getTime()%>',r);
+	}
+	else if($("#cngRadio").prop("checked")){
 		if ($('#frmCalElem').valid()) {
 			if(!timeDiff()){ return false;}
 			  updSched1('0','<%=meeting.getPath()%>','<%=date.getTime()%>');
@@ -152,10 +143,10 @@ $('#saveCalElem').click(function() {
 			else {
 				showError("The form has one or more errors.  Please update and try again.", "#createActivitySection .errorMsg");
 			}
-		});
-
-	function timeDiff(){
-		var date= document.getElementById("cngDate0").value;
-		return true;
 	}
+});
+function timeDiff(){
+	var date= document.getElementById("cngDate0").value;
+	return true;
+}
 </script> 
