@@ -10,9 +10,9 @@ EmailMeetingReminder emr = troop.getSendingEmail();
 
 <div style="background-color:gray">Address List</div>
 
-<br/>Girls /Parents <%= emr.getEmailToGirlParent().equals("true") ? "CHECKED" : "" %>
-<br/>Self <%= emr.getEmailToSelf().equals("true")  ? "CHECKED" : "" %>
-<br/>Troop Volunteers <%= emr.getEmailToTroopVolunteer().equals("true")  ? "CHECKED" : "" %>
+<br/>Girls /Parents <%= emr.getEmailToGirlParent()!=null ? "CHECKED\n"+emr.getEmailToGirlParent() : "" %>
+<br/>Self <%= emr.getEmailToSelf()!=null ? "CHECKED\n"+emr.getEmailToSelf() : "" %>
+<br/>Troop Volunteers <%= emr.getEmailToTroopVolunteer()!=null ? "CHECKED\n"+emr.getEmailToTroopVolunteer() : "" %>
 
 
 <br/>Enter your own:<%=emr.getCc() %>
