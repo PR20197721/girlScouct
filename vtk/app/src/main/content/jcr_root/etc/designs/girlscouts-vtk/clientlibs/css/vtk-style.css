@@ -355,7 +355,9 @@
       line-height: 1.6875rem; }
 .vtk-body .reveal-modal {
   padding: 0;
-  height: 100%; }
+  height: auto;
+  min-height: 113px;
+  max-height: none; }
   .vtk-body .reveal-modal .header {
     background: #00ae57;
     padding: 7px 0 5px 5px; }
@@ -373,6 +375,8 @@
       vertical-align: middle; }
     .vtk-body .reveal-modal .header * {
       color: #fff; }
+  .vtk-body .reveal-modal .scroll {
+    max-height: 700px; }
   .vtk-body .reveal-modal .tabs-wrapper {
     background: #D9D9D9;
     padding: 30px 20px 25px; }
@@ -434,6 +438,21 @@
   margin-bottom: 20px; }
 .vtk-body #modal_agenda_edit .content .btn {
   padding: 4px 20px; }
+.vtk-body #modal_attendance .content h4 {
+  font-size: 24px;
+  margin-bottom: 50px; }
+.vtk-body #modal_attendance .content ul {
+  list-style: none; }
+  .vtk-body #modal_attendance .content ul label {
+    vertical-align: top; }
+    .vtk-body #modal_attendance .content ul label:before {
+      float: right; }
+    .vtk-body #modal_attendance .content ul label p {
+      float: right;
+      font-weight: 600;
+      font-size: 17px;
+      text-transform: uppercase;
+      margin-right: 80px; }
 .vtk-body .modalWrap {
   padding: 0;
   border-radius: 0;
@@ -686,8 +705,10 @@
   margin-top: 20px; }
 .vtk-body .reveal-modal .scroll,
 .vtk-body .modalWrap .scroll {
-  max-height: 80%;
   overflow: auto; }
+.vtk-body .reveal-modal .setupCalendar .editable-textarea h5,
+.vtk-body .modalWrap .setupCalendar .editable-textarea h5 {
+  text-transform: uppercase; }
 .vtk-body .browseMeetingAids a, .vtk-body .browseMeetingAids p, .vtk-body .browseMeetingAids span, .vtk-body .browseMeetingAids input {
   font-size: 14px; }
 .vtk-body #manageCalendarSection .holidays ul li {

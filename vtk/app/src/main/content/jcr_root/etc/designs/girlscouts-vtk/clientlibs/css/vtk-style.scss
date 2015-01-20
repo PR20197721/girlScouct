@@ -481,7 +481,9 @@
   //modals per Foundation
   .reveal-modal {
     padding:0;
-    height:100%;
+    height:auto;
+    min-height:113px;
+    max-height:none;
     .header {
       background: #00ae57;
       padding:7px 0 5px 5px;
@@ -502,6 +504,9 @@
       * {
         color: #fff;
       }
+    }
+    .scroll {
+      max-height: 700px;
     }
     //tabs inside the modals
     .tabs-wrapper {
@@ -587,6 +592,30 @@
       }
       .btn {
         padding:4px 20px;
+      }
+    }
+  }
+  #modal_attendance {
+    .content {
+      h4 {
+        font-size:24px;
+        margin-bottom: 50px;
+      }
+      ul {
+        list-style:none;
+        label {
+          vertical-align: top;
+          &:before {
+            float:right;
+          }
+          p {
+            float:right;
+            font-weight:600;
+            font-size:17px;
+            text-transform: uppercase;
+            margin-right: 80px;
+          }
+        }
       }
     }
   }
@@ -904,8 +933,14 @@
       margin-top:20px;
     }
     .scroll {
-      max-height: 80%;
       overflow: auto;
+    }
+    .setupCalendar {
+      .editable-textarea {
+        h5 {
+          text-transform: uppercase;
+        }
+      }
     }
   }
   .browseMeetingAids {

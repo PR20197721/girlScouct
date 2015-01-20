@@ -182,7 +182,7 @@
   <a class="close-reveal-modal columns large-2" onclick="closeModalPage()"  ><i class="icon-button-circle-cross"></i></a>
 </div>
 
-<div class="tabs-wrapper">
+<div class="tabs-wrapper scroll">
   <dl class="tabs" data-tab>
     <dd id="createActivityTab" class="active manageCalendarTab"><a href="#" onclick="toggleSection('create')">Custom Activity</a></dd>
     <dd id="pickActivityTab" class="manageCalendarTab" ><a href="#" onclick="toggleSection('pick')">Council Activity</a></dd>

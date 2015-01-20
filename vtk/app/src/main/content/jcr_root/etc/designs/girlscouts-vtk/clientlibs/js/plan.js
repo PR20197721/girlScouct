@@ -109,7 +109,7 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 	var wWidth = $(window).width();
 	var wHeight = $(window).height();
 	var dWidth = wWidth * 0.95; //this will make the dialog 80% of the
-	var dHeight = wHeight *0.97;
+	var dHeight = wHeight *0.95;
 	if (dWidth >960) {
 		dWidth = 960; // max-width: 60em;
 	}
@@ -121,21 +121,19 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 		dialog = $( divSelector ).dialog({
 			width:dWidth,
 			modal:true,
-			maxHeight:dHeight,		
-			height: 'auto',
-			minHeight: 'auto',
 			dialogClass:"modalWrap",
+			position: ['center',20],
 			show:375,
 			"open": function() {
 				if (!showTitle) {
 					$(".ui-dialog-titlebar").hide();
-					$('.scroll').css({height: '80%'});
+					$('.scroll').css({'max-height': dHeight});
 				} else {
 					$("span.ui-dialog-title").html(title);
 					$(".ui-dialog-titlebar").show();
 				}
 				$("body").css({ overflow: 'hidden' });
-				$(this).css({overflow: 'scroll'});
+				$(this).css({overflow: 'hidden'});
 			},
 			"close": function() {
 				$("body").css({ overflow: 'inherit' });
@@ -146,6 +144,7 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 			width:dWidth,
 			modal:true,
 			dialogClass:"modalWrap",
+			position: ['center',20],
 			show:375,
 			"open": function() {
 				if (!showTitle) {
@@ -241,13 +240,11 @@ function updSched(i, meetingPath, currDt){
 function buildSched(){
 
 	var calStartDt = document.getElementById("calStartDt").value;
+
 	var orgDt = "0";
 	if( document.getElementById("orgDt")!=null )
 		orgDt= document.getElementById("orgDt").value;
-	
-	
-	
-	
+
 	var calAP = document.getElementById("calAP").value;
 	var calFreq = document.getElementById("calFreq");
 	var z =calFreq.options[calFreq.selectedIndex].text;
