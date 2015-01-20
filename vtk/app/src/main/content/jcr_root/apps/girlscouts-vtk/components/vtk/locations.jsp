@@ -50,14 +50,14 @@
         </a>
     </div> -->
   </div><!--/header-->
-
-  <div class="tabs-wrapper">
-    
-    <dl class="tabs" data-tab>
-      <dd id="manageCalendarTab" class="active manageCalendarTab"><a href="#" onclick="toggleSection('calendar')">Calendar</a></dd>
-      <dd id="manageLocationTab" class="manageCalendarTab" ><a href="#" onclick="toggleSection('location')">Location</a></dd>
-      <dd id="manageActivityTab" class="manageCalendarTab"><a href="#" onclick="toggleSection('activity')">Activities</a></dd>
-    </dl>
+  <div class="scroll">
+    <div class="tabs-wrapper">
+      
+      <dl class="tabs" data-tab>
+        <dd id="manageCalendarTab" class="active manageCalendarTab"><a href="#" onclick="toggleSection('calendar')">Calendar</a></dd>
+        <dd id="manageLocationTab" class="manageCalendarTab" ><a href="#" onclick="toggleSection('location')">Location</a></dd>
+        <dd id="manageActivityTab" class="manageCalendarTab"><a href="#" onclick="toggleSection('activity')">Activities</a></dd>
+      </dl>
 
 <!-- 
     <div class="row modalNav">
@@ -67,57 +67,58 @@
         <li id="manageActivityTab" class="manageCalendarTab"><a href="#" onclick="toggleSection('activity')">Activities</a></li>
       </ul>
     </div> -->
-    <div class="tabs-content">
-      <%
-        if (troop.getYearPlan() != null) {
-      %>
-        <div id="manageCalendarSection">
-        <div class="content clearfix active" id="panel1">
-         <!--  <div class="sectionBar">Manage Calendar</div> -->
-          <div id="calMng">
-            <%
-            	 
-              if( troop.getYearPlan().getSchedule() == null  || request.getParameter("alterYPStartDate")!=null) {
-              %>
-              <!--  %@include file="include/calSched.jsp" % -->
-              
-              <%@include file="include/calendarAlterStartDate.jsp" %>
+      <div class="tabs-content">
+        <%
+          if (troop.getYearPlan() != null) {
+        %>
+          <div id="manageCalendarSection">
+          <div class="content clearfix active" id="panel1">
+           <!--  <div class="sectionBar">Manage Calendar</div> -->
+            <div id="calMng">
               <%
-                }else{
-              %>
-              <%@include file="include/calList.jsp" %>
-              <% } %>
+              	 
+                if( troop.getYearPlan().getSchedule() == null  || request.getParameter("alterYPStartDate")!=null) {
+                %>
+                <!--  %@include file="include/calSched.jsp" % -->
+                
+                <%@include file="include/calendarAlterStartDate.jsp" %>
+                <%
+                  }else{
+                %>
+                <%@include file="include/calList.jsp" %>
+                <% } %>
+              </div>
             </div>
           </div>
-        </div>
-        <div id="manageLocationSection">
-          <%
-            if( false) {//troop.getYearPlan().getSchedule() == null ){
-          %>
-           Please first select your calendar start date to set meeting locations.
-          <%
-          		} else {
-          %>
-          <%@include file="include/location.jsp" %>
-          <%
-          		}
-          %>
-        </div>
-        <div id="manageActivitySection">
-          <%
-            if( false) {// troop.getYearPlan().getSchedule() == null ){
-          %>
-            Please first select your calendar start date to set meeting activities.
+          <div id="manageLocationSection">
+            <%
+              if( false) {//troop.getYearPlan().getSchedule() == null ){
+            %>
+             Please first select your calendar start date to set meeting locations.
+            <%
+            		} else {
+            %>
+            <%@include file="include/location.jsp" %>
+            <%
+            		}
+            %>
+          </div>
+          <div id="manageActivitySection">
+            <%
+              if( false) {// troop.getYearPlan().getSchedule() == null ){
+            %>
+              Please first select your calendar start date to set meeting activities.
+            <%
+              } else {
+            %>
+            <%@include file="include/manageActivities.jsp" %>
+            <% } %>
+          </div>
           <%
             } else {
           %>
-          <%@include file="include/manageActivities.jsp" %>
+          <span class="error">This year plan has no meetings.<br/> Please select a different year plan.</span>
           <% } %>
-        </div>
-        <%
-          } else {
-        %>
-        <span class="error">This year plan has no meetings.<br/> Please select a different year plan.</span>
-        <% } %>
-    </div>
-  </div>
+      </div><!--tabs-content-->
+    </div><!--/tabs-wrapper-->
+  </div><!--/scroll-->

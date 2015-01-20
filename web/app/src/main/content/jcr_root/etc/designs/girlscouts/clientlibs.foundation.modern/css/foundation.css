@@ -4406,7 +4406,7 @@ dialog, .reveal-modal {
   display: none;
   position: absolute;
   z-index: 100;
-  width: 100vw;
+  width: 100%;
   top: 0;
   left: 0;
   background-color: white;
@@ -4509,8 +4509,8 @@ dialog[open] {
 }
 @media only screen and (min-width: 40.063em) and (min-width: 40.063em) {
   dialog.full, .reveal-modal.full {
-    margin-left: -50vw;
-    width: 100vw;
+    margin-left: -50%;
+    width: 100%;
   }
 }
 @media print {

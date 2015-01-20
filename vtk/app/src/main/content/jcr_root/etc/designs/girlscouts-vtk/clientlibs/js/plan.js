@@ -129,6 +129,7 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 			"open": function() {
 				if (!showTitle) {
 					$(".ui-dialog-titlebar").hide();
+					$('.scroll').css({height: '80%'});
 				} else {
 					$("span.ui-dialog-title").html(title);
 					$(".ui-dialog-titlebar").show();
@@ -137,7 +138,6 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 				$(this).css({overflow: 'scroll'});
 			},
 			"close": function() {
-				
 				$("body").css({ overflow: 'inherit' });
 			}
 		});
