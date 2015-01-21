@@ -130,6 +130,17 @@
             background-color: #ff0000; }
             .vtk-body #main #yearPlanMeetings ul .meeting > div .bg-square.canceled:after {
               border-color: transparent transparent transparent #ff0000; }
+          .vtk-body #main #yearPlanMeetings ul .meeting > div .bg-square.passed {
+            background-color: #e7e7e7;
+            color: #999; }
+            .vtk-body #main #yearPlanMeetings ul .meeting > div .bg-square.passed:after {
+              border-color: transparent transparent transparent #e7e7e7; }
+            .vtk-body #main #yearPlanMeetings ul .meeting > div .bg-square.passed .count {
+              background: transparent; }
+          .vtk-body #main #yearPlanMeetings ul .meeting > div .bg-square.current {
+            background-color: #F9A61A; }
+            .vtk-body #main #yearPlanMeetings ul .meeting > div .bg-square.current:after {
+              border-color: transparent transparent transparent #F9A61A; }
         .vtk-body #main #yearPlanMeetings ul .meeting > div > div:first-child {
           position: static; }
         .vtk-body #main #yearPlanMeetings ul .meeting > div > div:nth-of-type(2) {

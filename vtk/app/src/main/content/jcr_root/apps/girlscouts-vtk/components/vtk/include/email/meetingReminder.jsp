@@ -1,16 +1,13 @@
-
-<!-- apps/girlscouts-vtk/components/vtk/include/email/meetingReminder.jsp -->
 <div class="content clearfix">
 <% 
-	String userId = apiConfig.getUserId() ;
-	String accessToken = apiConfig.getAccessToken() ;
+	String userId = apiConfig.getUserId();
+	String accessToken = apiConfig.getAccessToken();
 	PlanView planView = meetingUtil.planView(user, troop, request);
 	MeetingE meeting = (MeetingE)planView.getYearPlanComponent();
 	Meeting meetingInfo = meeting.getMeetingInfo();
 	java.util.List <Activity> _activities = meetingInfo.getActivities();
 	java.util.Map<String, JcrCollectionHoldString> meetingInfoItems= meetingInfo.getMeetingInfo();
 	Date searchDate = planView.getSearchDate();
-	  
 %> 
 	Reminder Meeting # <%=planView.getMeetingCount()%> <%= FORMAT_MEETING_REMINDER.format(searchDate) %>
 	
@@ -90,7 +87,7 @@
 	</div>
 	
 	<br/></br/>Form(s) Required:xxx
-	<div id=formLinks"></div>
+	<div id="formLinks"></div>
 	
 	</textarea>
 	
@@ -103,8 +100,7 @@
 				<th>&nbsp;</th>
 				<th>Add to Email</th>
 			</tr>
-			<%
-			List<Asset> aidTags = planView.getAidTags();
+			<% List<Asset> aidTags = planView.getAidTags();
 			for(int i=0;i<aidTags.size();i++){%>
 			 <tr>
 				<td><%= aidTags.get(i).getRefId() %></td>

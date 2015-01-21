@@ -165,6 +165,22 @@
                   border-color: transparent transparent transparent #ff0000;
                 }
               }
+              &.passed {
+                 background-color: #e7e7e7;
+                 color: #999;
+                 &:after {
+                   border-color: transparent transparent transparent #e7e7e7;
+                 }
+                 .count {
+                  background: transparent;
+                 }
+              }
+              &.current {
+                 background-color: #F9A61A;
+                 &:after {
+                   border-color: transparent transparent transparent #F9A61A;
+                 }
+              }
             }
             > div:first-child {
               position: static;
