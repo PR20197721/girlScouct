@@ -184,6 +184,7 @@
           }
           &.activity {
             > div  {
+              cursor: default;
                .bg-square {
                 background-color: #00abe6;
                 &:after {
