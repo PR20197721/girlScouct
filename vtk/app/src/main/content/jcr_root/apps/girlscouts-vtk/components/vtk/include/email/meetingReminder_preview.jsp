@@ -37,6 +37,7 @@
 </div>
 
 -->
+	<input type="button" value="Send" onclick="sendMeetingReminderEmail()"/>
 
 
 

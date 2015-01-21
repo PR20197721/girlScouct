@@ -104,7 +104,7 @@
 			for(int i=0;i<aidTags.size();i++){%>
 			 <tr>
 				<td><%= aidTags.get(i).getRefId() %></td>
-				<td><a href="javascript:void(0)" onclick="addAidToEmail('<%=aidTags.get(i).getPath()%>','<%=meeting.getUid() %>')" class="addAidToEmail"> + </a></td>
+				<td><a href="javascript:void(0)" onclick="addAidToEmail('<%=aidTags.get(i).getPath()%>','<%=aidTags.get(i).getRefId()%>','<%=meeting.getUid() %>')" class="addAidToEmail"> + </a></td>
 			 </tr>
 			 <%}%>
 		</table>
@@ -124,7 +124,6 @@
 	</div>
 	</div>
 	<input type="button" value="Preview" onclick="previewMeetingReminderEmail('<%=meeting.getPath()%>','<%=meeting.getUid()%>')"/>
-	<input type="button" value="Send" onclick="sendMeetingReminderEmail()"/>
 	
 </div>
 
