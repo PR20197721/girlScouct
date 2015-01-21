@@ -24,20 +24,8 @@
  <script>
   $("#sortable123").sortable({
      items: "li:not(.ui-state-disabled)",
-     delay:150,
-     distance: 5,
-     opacity: 0.5 ,
-     scroll: true,
-     scrollSensitivity: 10 ,
-     tolerance: "intersect" ,
-     handle: scrollTarget,
-     helper:'clone',
-     update:  function (event, ui) {
-         ui.item.unbind("click");
-      
-     doUpdMeeting();
-   }
- });
+    
+   });
   $( "#sortable123 li" ).disableSelection();
  </script>
  
@@ -157,27 +145,36 @@
           var dom = $(this.getDOMNode());
           var onReorder = this.props.onReorder;
           dom.sortable({
+items: "li:not(.ui-state-disabled)",
             stop: function (event, ui) {
               var order = dom.sortable("toArray", {attribute: "id"});
               var yy  = order.toString().replace('"',''); 
                 doUpdMeeting1(yy);
                 onReorder(order);
-            }
-          });
+            },
+    start: function(event, ui) {
+            //$(ui.item).sortable('cancel');  
+            //dom.sortable('cancel');           
+        }
+ }).disableSelection();
       },
       componentWillUpdate: function() {
         var dom = $(this.getDOMNode());
         var onReorder = this.props.onReorder;
         dom.sortable({
+items: "li:not(.ui-state-disabled)",
             stop: function (event, ui) {
             	var order = dom.sortable("toArray", {attribute: "id"});
             	var yy  = order.toString().replace('"','');
                 doUpdMeeting1(yy); 
                 onReorder(order);
-            }
-        });
+            },
+    start: function(event, ui) {
+           // dom.sortable('cancel');       
       }
-    });
+    }).disableSelection();
+}
+});
 
     var MeetingImg = React.createClass({
         render: function() {
