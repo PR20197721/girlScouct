@@ -4,6 +4,7 @@ import java.io.FileOutputStream;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.StringTokenizer;
 import net.fortuna.ical4j.data.CalendarOutputter;
 import net.fortuna.ical4j.model.Date;
@@ -28,6 +29,7 @@ import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,11 +45,12 @@ public class CalendarUtil {
     @Reference
     private UserUtil userUtil;
 
-
+    private java.text.SimpleDateFormat fmtDate = new java.text.SimpleDateFormat("MM/dd/yyyy");
+    
 	public void weeklyCal( java.util.Date startDate ){}
 		
 	
-		
+		/*
 		public java.util.List<org.joda.time.DateTime> genSched( org.joda.time.DateTime date, 
 				String freq, java.util.List<org.joda.time.DateTime> exclWeeksOfDate,int NumOfMeetings, String existingSched ){
 			
@@ -69,7 +72,7 @@ public class CalendarUtil {
 			
 			return  sched;
 		}
-		
+		*/
 		public java.util.List<java.util.Date> toUtilDate( java.util.List <org.joda.time.DateTime> sched)
 		{
 			
@@ -157,26 +160,20 @@ public class CalendarUtil {
 		
 		//exclude full week of this date
 		//public java.util.List <org.joda.time.LocalDate> exclWeek( java.util.Date date){
-		public java.util.List <org.joda.time.DateTime> exclWeek( org.joda.time.DateTime date){
-			
-			java.util.List<org.joda.time.DateTime> exclDates = new java.util.ArrayList();
+		//-public java.util.List <org.joda.time.DateTime> exclWeek( org.joda.time.DateTime date){
+			public java.util.List <String> exclWeek( org.joda.time.DateTime date){
+					
+			java.util.List<String> exclDates = new java.util.ArrayList();
 			
 			org.joda.time.DateTime now = new org.joda.time.DateTime(date);
-			/*
-			exclDates.add( now.withDayOfWeek(org.joda.time.DateTimeConstants.MONDAY) );
-			exclDates.add( now.withDayOfWeek(org.joda.time.DateTimeConstants.TUESDAY) );
-			exclDates.add( now.withDayOfWeek(org.joda.time.DateTimeConstants.WEDNESDAY) );
-			exclDates.add( now.withDayOfWeek(org.joda.time.DateTimeConstants.THURSDAY) );
-			exclDates.add( now.withDayOfWeek(org.joda.time.DateTimeConstants.FRIDAY) );
-			exclDates.add( now.withDayOfWeek(org.joda.time.DateTimeConstants.SATURDAY) );
-			exclDates.add( now.withDayOfWeek(org.joda.time.DateTimeConstants.SUNDAY) );
-*/
+		
 			
 			
 			java.util.Calendar cal = now.toGregorianCalendar();
 			cal.set(java.util.Calendar.DAY_OF_WEEK, java.util.Calendar.SUNDAY);
 			for(int i=0;i<7;i++){
-				exclDates.add(  new org.joda.time.DateTime(cal.getTimeInMillis()) );
+				//exclDates.add(  new org.joda.time.DateTime(cal.getTimeInMillis()) );
+				exclDates.add(  fmtDate.format( cal.getTime()) );
 				cal.add(java.util.Calendar.DATE, 1);
 			}
 		
@@ -184,16 +181,11 @@ public class CalendarUtil {
 			return exclDates;
 			
 		}
-		
+		/*
 		//vtk1 -dont use
 		public void createSched_OLD(User user, Troop troop, String freq, org.joda.time.DateTime p, String exclDate)throws java.lang.IllegalAccessException{
-		/*
-			if( !userUtil.hasAccess(troop, troop.getCurrentTroop(), Permission.PERMISSION_EDIT_MEETING_ID ) ){
-				 troop.setErrCode("112");
-				 //return;
-				 throw new IllegalAccessException();
-			 }
-			*/
+		
+		
 			if( troop!= null && ! userUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID   ) )
 				throw new IllegalAccessException();
 			
@@ -232,7 +224,7 @@ public class CalendarUtil {
 			
 			troopUtil.updateTroop(user, troop);
 		}
-		
+		*/
 		public boolean  updateSched(User user, Troop troop, String meetingPath, String time, String date, String ap, 
 				String isCancelledMeeting, long currDate)throws java.lang.IllegalAccessException{
 			
@@ -284,7 +276,7 @@ public class CalendarUtil {
 			troopUtil.updateTroop(user, troop);
 		}
 	
-		
+		/*
 		public java.util.List <org.joda.time.DateTime>  getExclWeeks(String bannedDates){
 			
 			
@@ -302,7 +294,7 @@ public class CalendarUtil {
 			
 			return exclDates;
 		}
-		
+		*/
 		public java.util.Date getNextAvailDate( java.util.List <org.joda.time.DateTime> exclWeeks, long fromDate , int freq ){
 			
 			for(int i=0;i<exclWeeks.size();i++)
@@ -311,7 +303,7 @@ public class CalendarUtil {
 			return null;
 			
 		}
-		
+		/*
 		public boolean chnSchedDatesFwd(User user, Troop troop, long fromDate, long newDate, int freq) throws IllegalAccessException{
 			boolean isChg = false;
 			String dates = "," + troop.getYearPlan().getSchedule().getDates() + ",";
@@ -345,9 +337,9 @@ public class CalendarUtil {
 			return isChg;
 		}
 		
-		
-		public void createSched(User user, Troop troop, String freq, org.joda.time.DateTime p, String exclDate)throws java.lang.IllegalAccessException{
-			
+		*/
+		public void createSched(User user, Troop troop, String freq, org.joda.time.DateTime newStartDate, String exclDate, long oldFromDate)throws java.lang.IllegalAccessException{
+System.err.println("tata88 start createsched "+ newStartDate );			
 				if( troop!= null && ! userUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID   ) )
 					throw new IllegalAccessException();
 				
@@ -355,15 +347,59 @@ public class CalendarUtil {
 					troop.setErrCode("112");
 					throw new java.lang.IllegalAccessException();
 				}
+
+				//org Dates
+				String dates = "";
+				if( troop.getYearPlan().getSchedule()==null ){
+					java.util.Calendar cal = java.util.Calendar.getInstance();
+					cal.setTime( new java.util.Date("1/1/1977") );
+					oldFromDate=cal.getTimeInMillis();
+					for(int i=0;i<troop.getYearPlan().getMeetingEvents().size();i++){
+						
+						dates= dates + (cal.getTimeInMillis())+",";
+						cal.add(java.util.Calendar.DATE, 1);
+					}
+				}else
+					dates =troop.getYearPlan().getSchedule().getDates();
 				
-				java.util.List <String>exclDt= new java.util.ArrayList<String>();
-				java.util.StringTokenizer t= new java.util.StringTokenizer( exclDate, ",");
+				if( !dates.startsWith(",") ) dates= ","+dates ;
+				if( !dates.endsWith(",") ) dates= dates +",";
+				
+				//ALL excl dates
+			    java.util.List <String> exclDates =getExclDates( exclDate);
+System.err.println("tata88 exlDate: "+ exclDates);				
+			    //current cal
+			    Calendar newCalDate = java.util.Calendar.getInstance();
+			    newCalDate.setTimeInMillis(newStartDate.getMillis());
+			    
+System.err.println("tata88 dates: "+ dates +" newCalDate: "+ newCalDate.getTime());		
+
+			    StringTokenizer t= new StringTokenizer( dates, ",");
 				while( t.hasMoreElements() ){
-					//exclDt.add( fmt.parse( new java.util.Date(t.nextToken() ) ) );
+					java.util.Date dt = new java.util.Date( Long.parseLong( t.nextToken() ) );	
+	System.err.println("tata88 chk: "+ dt +" : "+ dt.getTime() + " : " + oldFromDate +" -- "+ (dt.getTime() == oldFromDate) );				
+					if( (dt.getTime() == oldFromDate)){	
+						long newDate = getNextDate( exclDates, newCalDate.getTimeInMillis(), freq, true);
+	System.err.println("tata88 first: "+ newDate +" replace "+ dt.getTime() + " with " + newDate +" LOOK replace: "+
+						dt +" with "+ new java.util.Date(newDate) );	
+	
+						dates=dates.replace(","+dt.getTime() +",", "," + newDate +"," );
+						newCalDate.setTimeInMillis( newDate );
+					}else if( dt.getTime() > oldFromDate ){
+						
+						long newDate = getNextDate( exclDates, newCalDate.getTimeInMillis(), freq, false);
+						dates= dates.replace(","+dt.getTime() +",", "," + newDate +",");
+	System.err.println("tata88 else: "+ newDate +" > "+ oldFromDate +" replace "+ dt.getTime() + " with " + newDate 
+			+" LOOK replace: "+
+			dt +" with "+ new java.util.Date(newDate) );								
+						newCalDate.setTimeInMillis( newDate );
+						
+					}
 				}
+				if( dates.startsWith(",") ) dates= dates.substring(1) ;
+				if( dates.endsWith(",") )   dates= dates.substring(0, dates.length()-1);
 				
-				
-				
+	System.err.println("tata88 new dates: "+ dates);
 				
 				
 				/*
@@ -371,16 +407,19 @@ public class CalendarUtil {
 				
 				java.util.List <org.joda.time.DateTime> sched = new CalendarUtil().genSched( p, freq, exclDt,  troop.getYearPlan().getMeetingEvents().size(),
 						existSched);
+						*/
 				YearPlan plan = troop.getYearPlan();
 				plan.setCalFreq(freq);
-				plan.setCalStartDate( p.getMillis() );
+				plan.setCalStartDate( Long.parseLong( dates.substring(0, dates.indexOf(",")) ) );
 				plan.setCalExclWeeksOf(exclDate);
 				
 				Cal calendar = plan.getSchedule();
 				if(calendar==null) calendar= new Cal();
-				calendar.fmtDate(sched);
-
+				calendar.setDates(dates);
+				//calendar.fmtDate(dates);
 				plan.setSchedule(calendar);
+				
+				
 				troop.setYearPlan(plan);
 				
 				
@@ -390,7 +429,48 @@ public class CalendarUtil {
 			    Collections.sort( troop.getYearPlan().getMeetingEvents(), comp);
 				
 				troopUtil.updateTroop(user, troop);
-				*/
+				
 			}
 			
+		private java.util.List <String> getExclDates( String exclDate ){
+			java.util.List <String> exclDates = new java.util.ArrayList <String> ();		
+			java.util.StringTokenizer t= new java.util.StringTokenizer( exclDate, ",");
+			while( t.hasMoreElements() ){
+				
+				//exclDates.addAll( exclWeek( new DateTime( new java.util.Date(t.nextToken()).getTime() )) );
+				exclDates.addAll( exclWeek( new DateTime( new java.util.Date(t.nextToken()).getTime() )) );
+				
+			}
+			return exclDates;
+		}
+		
+		private long getNextDate( List <String> exclDates, long theDate, String freq, boolean isUseCurrDate){
+System.err.println("tata start nextDate " + new java.util.Date(theDate) );			
+			long nextDate = theDate;
+			
+			if( !isUseCurrDate ){
+				org.joda.time.DateTime date = new org.joda.time.DateTime(theDate);
+				if (freq.equals("weekly")){
+	                date= date.plusWeeks(1); 
+	                
+	            } else if (freq.equals("monthly")) {
+	                date= date.plusMonths(1); 
+	                
+	            } else if (freq.equals("biweekly")) {
+	            	date= date.plusWeeks(2);
+	                
+	            }
+				nextDate= date.getMillis();
+			}
+System.err.println("tata88 nextDate start: nextDate: "+nextDate+" : "+isUseCurrDate );			
+System.err.println("tata88: nextDate chk : "+ fmtDate.format(new java.util.Date(nextDate) ) +": "+exclDates.contains( fmtDate.format(new java.util.Date(nextDate) ) ));			
+			if( !exclDates.contains( fmtDate.format(new java.util.Date(nextDate) ) ) )
+				return nextDate;
+			else
+				return getNextDate(exclDates, nextDate, freq, false);
+			
+			
+		}
+		
+		
 }

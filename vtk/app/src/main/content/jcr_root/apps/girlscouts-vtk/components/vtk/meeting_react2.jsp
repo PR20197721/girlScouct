@@ -6,7 +6,6 @@ MeetingE meeting = (MeetingE)planView.getYearPlanComponent();
 
 
 
-
 Location loc = null;
 if( meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null ) {
 	for(int k=0;k<troop.getYearPlan().getLocations().size();k++){

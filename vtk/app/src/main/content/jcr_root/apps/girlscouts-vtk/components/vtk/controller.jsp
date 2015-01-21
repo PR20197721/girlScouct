@@ -44,10 +44,12 @@ System.err.println("changing new... "+ x );
 	return;
 		case CreateSchedule:
 	try{
+		
+	System.err.println("tata88: contr" + request.getParameter("orgDt"));
 		session.putValue("VTK_planView_memoPos", null);
 		calendarUtil.createSched(user, troop, request.getParameter("calFreq"), 
 			new org.joda.time.DateTime(dateFormat4.parse(request.getParameter("calStartDt") +" "+ request.getParameter("calTime") +
-			" "+ request.getParameter("calAP"))), request.getParameter("exclDt"));
+			" "+ request.getParameter("calAP"))), request.getParameter("exclDt"), Long.parseLong( (request.getParameter("orgDt") ==null || request.getParameter("orgDt").equals("")) ? "0" : request.getParameter("orgDt")  ) );
 	}catch(Exception e){e.printStackTrace();}
 	return;
 		case SelectYearPlan:

@@ -240,6 +240,11 @@ function updSched(i, meetingPath, currDt){
 function buildSched(){
 
 	var calStartDt = document.getElementById("calStartDt").value;
+
+	var orgDt = "0";
+	if( document.getElementById("orgDt")!=null )
+		orgDt= document.getElementById("orgDt").value;
+
 	var calAP = document.getElementById("calAP").value;
 	var calFreq = document.getElementById("calFreq");
 	var z =calFreq.options[calFreq.selectedIndex].text;
@@ -298,7 +303,8 @@ function buildSched(){
 			calAP:calAP,
 			calFreq:z,
 			calTime:calTime,
-			exclDt:_level
+			exclDt:_level,
+			orgDt:orgDt
 		},
 		success: function(result) {
 			//-loadCalMng();

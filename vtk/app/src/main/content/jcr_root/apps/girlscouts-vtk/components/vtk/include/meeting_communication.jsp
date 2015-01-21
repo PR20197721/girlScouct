@@ -8,9 +8,9 @@
    href="javascript:alert('You have not yet scheduled your meeting calendar.\nPlease select a year plan and schedule your meetings by clicking on the MEETING DATES AND LOCATION link.')"
    <%} %> title="Meeting Reminder Email">Meeting Reminder Email</a></li>
    <li>(2 sent - <a href="" title="view" className="view">view</a>)</li>
-   <li><a href="" title="Record Attendance & Achievementst">Record Attendance &amp; Achievements</a></li>
-   <li>(5 of 6 present, no achievements - <a href="" title="view" className="view">view</a>)</li>
+   <li><a data-reveal-id="modal_attendance" data-reveal-ajax="true" href={"/content/girlscouts-vtk/controllers/vtk.include.modals.modal_attendance.html"}>Record Attendance &amp; Achievements</a></li>
+   <li>(5 of 6 present, no achievements - <a href="#nogo" title="view" className="view">view</a>)</li>
    <li><a href="" title="Upload Photo">Upload Photo</a></li>
-   <li>(none)</li>
+   <li>(none) </li>
   </ul>
 </section>

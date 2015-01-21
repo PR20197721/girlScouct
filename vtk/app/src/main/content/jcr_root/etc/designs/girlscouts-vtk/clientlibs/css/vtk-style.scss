@@ -595,6 +595,30 @@
       }
     }
   }
+  #modal_attendance {
+    .content {
+      h4 {
+        font-size:24px;
+        margin-bottom: 50px;
+      }
+      ul {
+        list-style:none;
+        label {
+          vertical-align: top;
+          &:before {
+            float:right;
+          }
+          p {
+            float:right;
+            font-weight:600;
+            font-size:17px;
+            text-transform: uppercase;
+            margin-right: 80px;
+          }
+        }
+      }
+    }
+  }
   //modals per JQ UI
   .modalWrap {
     padding:0;
