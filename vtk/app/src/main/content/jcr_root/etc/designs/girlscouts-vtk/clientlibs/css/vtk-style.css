@@ -141,6 +141,8 @@
         .vtk-body #main #yearPlanMeetings ul .meeting > div > div:nth-of-type(3) {
           padding-top: 10px;
           padding-bottom: 10px; }
+      .vtk-body #main #yearPlanMeetings ul .meeting.activity.ui-state-disabled {
+        opacity: 1; }
       .vtk-body #main #yearPlanMeetings ul .meeting.activity > div {
         cursor: default; }
         .vtk-body #main #yearPlanMeetings ul .meeting.activity > div .bg-square {

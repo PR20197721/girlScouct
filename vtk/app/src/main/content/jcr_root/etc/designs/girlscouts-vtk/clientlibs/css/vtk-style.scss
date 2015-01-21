@@ -183,6 +183,9 @@
             }
           }
           &.activity {
+            &.ui-state-disabled {
+              opacity: 1;
+            }
             > div  {
               cursor: default;
                .bg-square {
