@@ -41,6 +41,7 @@ EmailMeetingReminder emr = troop.getSendingEmail();
 </div>
 
 -->
+	<input type="button" value="Send" onclick="sendMeetingReminderEmail()"/>
 
 
 

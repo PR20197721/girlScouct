@@ -128,7 +128,6 @@
 	</div>
 	</div>
 	<input type="button" value="Preview" onclick="previewMeetingReminderEmail('<%=meeting.getPath()%>','<%=meeting.getUid()%>')"/>
-	<input type="button" value="Send" onclick="sendMeetingReminderEmail()"/>
 	
 </div>
 
