@@ -20,6 +20,27 @@
 
 <%@include file="include/tab_navigation.jsp"%>
  
+ 
+ <script>
+  $("#sortable123").sortable({
+     items: "li:not(.ui-state-disabled)",
+     delay:150,
+     distance: 5,
+     opacity: 0.5 ,
+     scroll: true,
+     scrollSensitivity: 10 ,
+     tolerance: "intersect" ,
+     handle: scrollTarget,
+     helper:'clone',
+     update:  function (event, ui) {
+         ui.item.unbind("click");
+      
+     doUpdMeeting();
+   }
+ });
+  $( "#sortable123 li" ).disableSelection();
+ </script>
+ 
  <div id="panelWrapper" class="row meeting-detail content">
    <%@include file="include/utility_nav.jsp"%>
    <%@include file="include/view_yp_dropdown.jsp"%>
@@ -99,7 +120,7 @@
     					  <p className="hide-for-print">Drag and drop to reorder meetings</p> 
   					  </div>
   				  </div>
-  					<MeetingComponent key={this.props.data} data={this.props.data} onReorder={this.onReorder} /> 
+  					<MeetingComponent key={this.props.data} data={this.props.data} onReorder={this.onReorder}/> 
   			</div>			
   	    );
         } //end of render
@@ -110,7 +131,7 @@
     		if( this.props.data!=null){
     			var keys =  Object.keys( this.props.data );
     			var obj = this.props.data;
-    			return (<ul>
+    			return (<ul id="sortable123">
             
     						{ keys.map( function (comment ,i ) {
     							  if( obj[comment].type == 'MEETING' ){

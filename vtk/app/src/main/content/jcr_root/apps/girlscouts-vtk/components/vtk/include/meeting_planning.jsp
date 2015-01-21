@@ -10,5 +10,6 @@
    <li>
     <a data-reveal-id="modal_agenda_edit" data-reveal-ajax="true" href={"/content/girlscouts-vtk/controllers/vtk.include.modals.modal_agenda_edit.html?mid=<%=mid%>&isMaterials=true"}>Materials</a>           
   </li>
+ 
   </ul>
 </section>
