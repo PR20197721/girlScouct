@@ -18,8 +18,8 @@
           <li>
             <input type="checkbox" checked name="sch_lvl" id="sch_lvl_2" value="Girl 2">
             <label for="sch_lvl_2"><p><span>Girl 2</span></p></label>
-            <input type="checkbox" checked name="sch_lvl" id="sch_lvl_1_1" value="Girl 1 achievements">
-            <label for="sch_lvl_1_1"><p><span></span></p></label>
+            <input type="checkbox" checked name="sch_lvl" id="sch_lvl_1_2" value="Girl 1 achievements">
+            <label for="sch_lvl_1_2"><p><span></span></p></label>
           </li>
 
           <li>

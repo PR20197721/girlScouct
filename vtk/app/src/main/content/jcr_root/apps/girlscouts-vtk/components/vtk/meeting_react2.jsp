@@ -29,7 +29,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 <script src="http://fb.me/react-with-addons-0.12.1.js"></script> -->
 
 
-<div id="modal_agenda_edit" class="reveal-modal" data-reveal></div>
+<div id="modal_popup" class="reveal-modal" data-reveal></div>
 
 <%@include file="include/tab_navigation.jsp"%>
 
@@ -113,7 +113,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
         
         render: function() {
           return (
-              <a data-reveal-id="modal_agenda_edit" data-reveal-ajax="true" href={"/content/girlscouts-vtk/controllers/vtk.include.modals.modal_agenda_edit.html?mid=<%=mid%>&isAgenda="+(this.props.item.activityNumber-1)}>{this.props.item.name}</a>
+              <a data-reveal-id="modal_popup" data-reveal-ajax="true" href={"/content/girlscouts-vtk/controllers/vtk.include.modals.modal_agenda_edit.html?mid=<%=mid%>&isAgenda="+(this.props.item.activityNumber-1)}>{this.props.item.name}</a>
               
           );
         }

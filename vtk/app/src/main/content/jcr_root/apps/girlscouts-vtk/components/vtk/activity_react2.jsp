@@ -23,6 +23,7 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
 
 <%@include file="include/tab_navigation.jsp"%>
 <!--%@include file="include/myPop.jsp"%-->
+<div id="modal_popup" class="reveal-modal" data-reveal></div>
 
 <div id="panelWrapper" class="row content meeting-detail">
   <%@include file="include/utility_nav.jsp"%>
