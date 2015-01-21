@@ -40,8 +40,10 @@ public class Emailer {
 		//emailRecipients.add(new InternetAddress("ayakobovich@northpointdigital.com"));
 		//emailRecipients.add(new InternetAddress("cwu@northpointdigital.com"));
 
-		
+
 		HtmlEmail email = new HtmlEmail();
+		//email.setHostName("mail.whatserver.com");
+		//email.setFrom("me@apache.org");
 		email.setHtmlMsg(emr.getHtml())	;	
 		email.setTo(emailRecipients);
 		email.setSubject(emr.getSubj());
