@@ -17,20 +17,25 @@ boolean isCancelMeeting= false;
 if( meeting != null && meeting.getCancelled()!=null && meeting.getCancelled().equals("true")){
 	isCancelMeeting=true;
 }
+java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user, troop);
+
 %>     
  
-<h5><strong><%=yearPlanUtil.getMeeting( user, meeting.getRefId() ).getName() %></strong></h5>
+<h5><strong><%=yearPlanUtil.getMeeting(user, meeting.getRefId() ).getName() %></strong></h5>
+
 <div id="locMsg"></div>
 
 <div class="clearfix">
 	<div class="modifyCalendarDate">
 		<div class="column small-10">
-		<p><strong>Change Date</strong></p>
+		<input type="radio" value="change" id="cngRadio"><strong> Change Date / Time</strong>
 		<form id="frmCalElem">
+			<p><strong>Change Date:</strong></p>
+			<span>Select today's date or any future date</span>
 			<div id="datepicker"></div>
 			<!-- dont remove --><input type="input" name="cngDate0" value="" id="cngDate0" />
 			<input type="hidden" value="<%= FORMAT_MMddYYYY.format(date) %>" id="cngDate0"  name="cngDate0" class="date calendarField"/>
-			<p><strong>Change Time</strong></p>
+			<p><strong>Change Time:</strong></p>
 			<section class='row clearfix'>
 				<div class="column small-4">
 					<input type="text" id="cngTime0" value="<%= FORMAT_hhmm.format(date) %>" name="cngDate0" class="date inline"/>
@@ -47,43 +52,24 @@ if( meeting != null && meeting.getCancelled()!=null && meeting.getCancelled().eq
 		<span  id="cngDate0ErrMsg"></span>
 	</div>
 		<div class="column small-10 push-2">
-		 <p style="margin-bottom:0"><strong>Cancel Meeting</strong></p>
-		 <span>Select meeting plan you would  like to cancel:</span>
+		 <input type="radio" value="cancel" id="cclRadio"><strong> Cancel Meeting</strong>
+		 <span>Select meeting plan you would like to cancel:</span>
 		 <form id="frmCalElem_1">
-		 	<select>
-		 	
+
+		 	<select id="meeting_select">	
 		 	<%
-    java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user, troop);
-    for(int i=0;i<meetingsToCancel.size();i++) {
-      %>
-       <!--  <p><a href="#" onclick="rmMeeting('<%=date.getTime()%>','<%=meetingsToCancel.get(i).getRefId()%>')"><%=meetingsToCancel.get(i).getMeetingInfo().getName() %></a></p> -->
-       <option value="<%=meetingsToCancel.get(i).getRefId()%>"><%=meetingsToCancel.get(i).getMeetingInfo().getName() %></option>
-     
-      <% 
-    }
-      %> 
+		 	    for(int i=0;i<meetingsToCancel.size();i++) {%>
+				 	<option value="<%=meetingsToCancel.get(i).getRefId()%>" <%=meetingsToCancel.get(i).getRefId()==meeting.getRefId()? "SELECTED" : "" %>><%= meetingsToCancel.get(i).getMeetingInfo().getName()%></option>		 				 	   
+				<% }
+		 	%>	 	
+
 		 	</select>
-			<!--  <input type="checkbox" id="isCancellMeeting0" name="isCancellMeeting0" <%=isCancelMeeting == true ? "CHECKED" : "" %>/>
-			 <label for="isCancellMeeting0">Cancel Meeting</label> -->
-			 <!--  <input type="button" value="save" onclick="updSched1('0','<%=meeting.getPath()%>','<%=date.getTime()%>')" class="button linkButton"/> -->	
-		<!-- 	 <input type="button" value="cancel" onclick="loadCalMng()" class="button btn"/> -->
+			
 		 </form>
 		</div>
 	</div>
 	<input type="button" value="save" id="saveCalElem" class="button btn right"/>
 	
-	
-	
-	
-	 <%
-   // java.util.List <MeetingE> +meetingsToCancel = meetingUtil.getMeetingToCancel(user, troop);
-    for(int i=0;i< meetingsToCancel.size();i++) {
-      %>
-       <p><a href="#" onclick="rmMeeting('<%=date.getTime()%>','<%=meetingsToCancel.get(i).getRefId()%>')"><%=meetingsToCancel.get(i).getMeetingInfo().getName() %></a></p>
-     
-      <% 
-    }
-      %>
 	
 	
 </div>
@@ -138,31 +124,28 @@ $.validator.addMethod('time', function(value, element, param) {
 
 
 $().ready(function() {
-	/*
-	  $( "#cngDate0" ).datepicker({
-	  	minDate: 0
-	  });
-
-$("#frmCalElem").validate({
-			rules: {
-				cngDate0: {
-					required:true,
-					 minlength:8,
-					 date:true
-				}
-			},
-			messages: {
-					newCustActivity_date: {
-						required: "Please enter valid start date",
-					  minlength: "Valid format mm/dd/yyyy"
-					}
+		$('#cclRadio').change(function(){
+			if($('#cclRadio').prop('checked')){
+				$("#cngRadio").prop('checked', false);
 				}
 		});
-		*/
+		$('#cngRadio').change(function(){
+			if($('#cngRadio').prop('checked')){
+				$("#cclRadio").prop('checked', false);
+				}
+		});
+
 });
 
+
 $('#saveCalElem').click(function() {
-	console.log("cacaaca: "+$('#frmCalElem').valid());
+
+	if($('#cclRadio').prop('checked')){
+		var r = $("#meeting_select option:selected").val();
+  	  	rmMeeting('<%=date.getTime()%>',r);
+	}
+	else if($("#cngRadio").prop("checked")){
+		console.log("cacaaca: "+$('#frmCalElem').valid());
 		if ($('#frmCalElem').valid()) {
 			console.log(1);
 			if(!timeDiff()){ return false;}
@@ -172,10 +155,17 @@ $('#saveCalElem').click(function() {
 			else {
 				showError("The form has one or more errors.  Please update and try again.", "#createActivitySection .errorMsg");
 			}
-		});
 
+	}
 	function timeDiff(){
 		//var date= document.getElementById("cngDate0").value;
 		return true;
+
 	}
+});
+
+//function timeDiff(){
+//	var date= document.getElementById("cngDate0").value;
+//	return true;
+//}
 </script> 
