@@ -103,13 +103,14 @@
 				<th>&nbsp;</th>
 				<th>Add to Email</th>
 			</tr>
-			<%/*
-			for(int i=0;i<_aidTags.size();i++){%>
+			<%
+			List<Asset> aidTags = planView.getAidTags();
+			for(int i=0;i<aidTags.size();i++){%>
 			 <tr>
-				<td><%= _aidTags.get(i).getDesc() %></td>
-				<td><a href="javascript:void(0)" onclick="addAidToEmail('<%=_aidTags.get(i).getPath()%>','<%=meeting.getUid() %>')" class="addAidToEmail"> + </a></td>
+				<td><%= aidTags.get(i).getRefId() %></td>
+				<td><a href="javascript:void(0)" onclick="addAidToEmail('<%=aidTags.get(i).getPath()%>','<%=meeting.getUid() %>')" class="addAidToEmail"> + </a></td>
 			 </tr>
-			 <%}*/%>
+			 <%}%>
 		</table>
 		</div>
 	</div>
