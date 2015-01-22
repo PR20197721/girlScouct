@@ -4,6 +4,7 @@
 
 	Reminder Meeting <%=((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getName() %>
 	<%= FORMAT_MEETING_REMINDER.format(planView.getSearchDate()) %>
+
 	<div id="sent">
 	Sent: 
 	</div>
