@@ -408,7 +408,8 @@
       padding: 1.25rem 0; }
     .vtk-body .reveal-modal .content [class^="icon-"],
     .vtk-body .reveal-modal .content [class*=" icon-"] {
-      font-size: 27px; }
+      font-size: 27px;
+      vertical-align: middle; }
     .vtk-body .reveal-modal .content input {
       padding: 5px 8px;
       height: auto; }
@@ -455,11 +456,33 @@
       font-family: "OpenSans-SemiBold";
       text-transform: uppercase;
       background: #f6f6f6;
-      margin-left: -5px;
-      margin-right: -5px;
-      margin-bottom: 1.25em;
-      padding: 5px;
+      padding: 5px 0 3px 1.25em;
       color: #000; }
+      .vtk-body .reveal-modal .content.meeting-reminder h6:before {
+        border-color: transparent transparent transparent #000;
+        margin-left: 5px;
+        border-width: 5px;
+        margin-top: -5px; }
+      .vtk-body .reveal-modal .content.meeting-reminder h6.on:before {
+        border-color: #000 transparent transparent;
+        margin-top: -2px; }
+    .vtk-body .reveal-modal .content.meeting-reminder .accordion dt {
+      background: #f6f6f6;
+      padding: 0; }
+      .vtk-body .reveal-modal .content.meeting-reminder .accordion dt h6 {
+        background: none;
+        padding: 0;
+        margin-left: 20px; }
+      .vtk-body .reveal-modal .content.meeting-reminder .accordion dt .name:nth-of-type(1):before {
+        border-color: transparent transparent transparent #000;
+        margin-left: 5px;
+        border-width: 5px;
+        margin-top: -5px; }
+      .vtk-body .reveal-modal .content.meeting-reminder .accordion dt .name:nth-of-type(1).on:before {
+        border-color: #000 transparent transparent; }
+    .vtk-body .reveal-modal .content.meeting-reminder .accordion dd .name {
+      font-family: "OpenSans-SemiBold";
+      vertical-align: middle; }
 .vtk-body .modal_agenda_edit .content h3 {
   margin-bottom: 20px; }
 .vtk-body .modal_agenda_edit .content .btn {
@@ -822,14 +845,16 @@
       color: #fff;
       font-size: 14px;
       vertical-align: middle; }
-    .vtk-body .accordion > dt h3 {
+    .vtk-body .accordion > dt h3,
+    .vtk-body .accordion > dt h6 {
       display: inline;
       font-size: 1.5rem;
       text-transform: uppercase;
       margin-left: 40px;
       margin-right: 120px;
       cursor: pointer; }
-      .vtk-body .accordion > dt h3:before {
+      .vtk-body .accordion > dt h3:before,
+      .vtk-body .accordion > dt h6:before {
         border-style: solid;
         content: "";
         border-width: 13px;
@@ -839,7 +864,8 @@
         top: 50%;
         border-color: transparent transparent transparent #fff;
         margin-left: 5px; }
-      .vtk-body .accordion > dt h3.on:before {
+      .vtk-body .accordion > dt h3.on:before,
+      .vtk-body .accordion > dt h6.on:before {
         border-color: #fff transparent transparent;
         margin-top: -4px;
         margin-left: 0; }

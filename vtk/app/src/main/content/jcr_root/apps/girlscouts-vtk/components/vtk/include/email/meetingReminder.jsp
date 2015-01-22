@@ -105,7 +105,6 @@
 	
 
 	<div id="ima">
-		<div style="background-color:gray" id="imaHdr">Include Meeting Aid:</div>
 		<div id="imaBd">
 		<table>
 			<tr>
@@ -117,7 +116,7 @@
 			for(int i=0;i<planView.getAidTags().size();i++){%>
 			 <tr>
 				<td><%= planView.getAidTags().get(i).getTitle() %></td>
-			 	<td><a href="javascript:void(0)" onclick="addAidLink('<%=planView.getAidTags().get(i).getRefId()%>','<%=planView.getAidTags().get(i).getTitle()%>','<%=((MeetingE)planView.getYearPlanComponent()).getUid() %>')" class="addAidToEmail"> + </a></td>
+			 	<td><a onclick="addAidLink('<%=planView.getAidTags().get(i).getRefId()%>','<%=planView.getAidTags().get(i).getTitle()%>','<%=((MeetingE)planView.getYearPlanComponent()).getUid() %>')" class="addAidToEmail"> + </a></td>
 			 	
 			 </tr>
 			 <%}%>
@@ -125,7 +124,6 @@
 		</div>
 	</div>
 	<div id="ifl">
-	<div style="background-color:gray" id="iflHdr">Include Form Link:</div>
 	<div id="iflBd">
 	<%/*form needed
 		for(int i=0;i<_forms.size();i++){
@@ -137,33 +135,45 @@
 	<%}*/%>
 	</div>
 	</div>
-	<input type="button" value="Preview" onclick="previewMeetingReminderEmail('<%=((MeetingE)planView.getYearPlanComponent()).getPath()%>','<%=((MeetingE)planView.getYearPlanComponent()).getUid()%>')"/>
-	
-
 	<dl class="accordion" data-accordion>
-	  <dt data-target="panel1"><h6 class="on">Main title</h6></dt>
+	  <dt data-target="panel1"><h6 class="on">Include meeting aid</h6></dt>
 	  <dd class="accordion-navigation">
 	    <div class="content active" id="panel1">
-	      <div class="row">
-	        <div class="column large-20 large-centered">
-	            <div class="row">
-	              <dl class="accordion-inner clearfix" data-accordion>
-	                <dt data-target="panel1b" class="clearfix">
-	                	<span class="name">Brisk Winter</span>
-	                </dt>
-	                <dd class="accordion-navigation">
-	                  <div id="panel1b" class="content">
-	                    <p>Content</p>
-	                  </div>
-	                </dd>
-	              </dl>
-	            </div>	          
-	        </div>
-	      </div>
+      	<ul class="small-block-grid-2">
+      	<% for(int i=0;i<planView.getAidTags().size();i++) { %>
+      		<li><i class="icon-pdf-file-extension"><span class="color-overlay"></span></i><span class="name"><%= planView.getAidTags().get(i).getTitle() %></span></li>
+      		<li><a href="#nogo" title="add" onclick="addAidLink('<%=planView.getAidTags().get(i).getRefId()%>','<%=planView.getAidTags().get(i).getTitle()%>','<%=((MeetingE)planView.getYearPlanComponent()).getUid() %>')"><i class="icon-button-circle-plus"></i></a></li>
+      	<%}%>
+      	</ul>
 	    </div>
 	  </dd>
 	 </dl>
 
+	<dl class="accordion" data-accordion>
+	  <dt data-target="panel1"><h6>Include Form Link</h6></dt>
+	  <dd class="accordion-navigation">
+	    <div class="content active" id="panel1">
+        <div class="row">
+          <dl class="accordion-inner clearfix" data-accordion>
+            <dt data-target="panel1b" class="clearfix">
+            	<span class="name">Activity Planning and Approval</span>
+            </dt>
+            <dd class="accordion-navigation">
+              <div id="panel1b" class="content">
+                <ul class="inline-list">
+                  <li>Name of Form</li>
+                  <li>Purpose of Form</li>
+                  <li><i class="icon-button-circle-plus"></i></li>
+                </ul>
+              </div>
+            </dd>
+          </dl>
+	      </div>
+	    </div>
+	  </dd>
+	 </dl>
+	<input type="button" value="Preview" class="button btn" onclick="previewMeetingReminderEmail('<%=((MeetingE)planView.getYearPlanComponent()).getPath()%>','<%=((MeetingE)planView.getYearPlanComponent()).getUid()%>')"/>
+	<input class="button btn" value="Send email" type="button" />
 </div>
 <% //}%>
 
