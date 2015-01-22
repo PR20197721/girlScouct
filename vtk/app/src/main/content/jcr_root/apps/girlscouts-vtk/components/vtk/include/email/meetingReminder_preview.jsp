@@ -1,7 +1,8 @@
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="../session.jsp"%>
+
 <% 
 EmailMeetingReminder emr = troop.getSendingEmail();
 %>
@@ -24,24 +25,8 @@ EmailMeetingReminder emr = troop.getSendingEmail();
 
 
 <br/><%= emr.getHtml() %>
-<!--  
-<div>
-	Aid(s) Included:
-	<%
-	
-	if( emr!=null ){
-		java.util.List<Asset> eAssets = emr.getAssets();
-		if( eAssets!=null)
-			for(int i=0;i<eAssets.size();i++){
-				%><li><%=eAssets.get(i).getRefId() %></li><% 
-			}
-	}
-	%>
 
-</div>
-
--->
-	<input type="button" value="Send" onclick="sendMeetingReminderEmail()"/>
+<input type="button" value="Send" onclick="sendMeetingReminderEmail()"/>
 
 
 

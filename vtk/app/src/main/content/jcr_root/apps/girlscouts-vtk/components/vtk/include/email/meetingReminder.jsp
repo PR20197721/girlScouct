@@ -125,6 +125,11 @@
 </div>
 <% //}%>
 
+ 
+<div id="email_dialog" style="display:none">
+  <p>added to email.</p>
+</div>
+
 <!-- end of /content -->
 <script>
 	$(".jqte-test").jqte({
@@ -139,7 +144,8 @@
 		return;
 	};
 	function addAidLink(refId,title,uid){
-		$('#aidLinks').append('<li><a href="'+refId+'">'+title+'</a></li>');
+		$('#aidLinks').append('<li><i class="icon-pdf-file-extension"></i><a href="'+refId+'">'+title+'</a></li>');
+		$( "#email_dialog" ).dialog();
 		//$('.addAidToEmail').text("-");
 		//addAidToEmail(refId,title,uid);
 		return;
