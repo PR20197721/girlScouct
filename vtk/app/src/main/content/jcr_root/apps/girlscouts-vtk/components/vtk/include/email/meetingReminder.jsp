@@ -1,49 +1,43 @@
-<script>
-//print out the date the email was sent.
- var sent_date = "";
- if(moment(new Date()) != null && moment(new Date()) !='') {
- 	sent_date = $('.sent').append(moment(new Date()).format('MM/DD/YYYY'));
- } else {
- 	sent_date = $('.sent').append('none');
- }
-</script>
 <div class="content clearfix meeting-reminder">
-<% 
-	String userId = apiConfig.getUserId();
-	String accessToken = apiConfig.getAccessToken();
-	PlanView planView = meetingUtil.planView(user, troop, request);
-	MeetingE meeting = (MeetingE)planView.getYearPlanComponent();
-	Meeting meetingInfo = meeting.getMeetingInfo();
-	java.util.List <Activity> _activities = meetingInfo.getActivities();
-	java.util.Map<String, JcrCollectionHoldString> meetingInfoItems= meetingInfo.getMeetingInfo();
-	Date searchDate = planView.getSearchDate();
-%> 
-	<h5>Reminder Meeting <%=meetingInfo.getName() %> <%= FORMAT_MEETING_REMINDER.format(searchDate) %></h5>
-	
+
+		<% 
+			//if(planView.getYearPlanComponent().getType()==YearPlanComponentType.ACTIVITY) 
+		{ %> 
+		This is an activity
+		<% 
+			//}
+
+			//if(planView.getYearPlanComponent().getType()==YearPlanComponentType.MEETING){
+				//MeetingE meeting = (MeetingE)planView.getYearPlanComponent();
+				//Meeting meetingInfo = meeting.getMeetingInfo();
+				//Date searchDate = planView.getSearchDate();
+		%>
+	<h5>Reminder Meeting TITLE <%= FORMAT_MEETING_REMINDER.format(planView.getSearchDate()) %></h5>
 	<p class="sent">Sent: 
-		<script>sent_date;</script>
+	  <script>sent_date;</script>
 	</p>
+
 	<h6>Address List</h6>
 	<ul>
-		<li>
-			<input type="checkbox" id="email_to_gp" checked />
-			<label for="email_to_gp">Girls / Parents</label>
-		</li>
+	  <li>
+	    <input type="checkbox" id="email_to_gp" checked />
+	    <label for="email_to_gp">Girls / Parents</label>
+	  </li>
 
-		<li>
-			<input type="checkbox" id="email_to_sf" checked />
-			<label for="email_to_sf">Self</label>
-		</li>
-		<li>
-			<input type="checkbox" id="email_to_tv" />
-			<label for="email_to_tv">Troop Volunteers</label>
-		</li>
-	
+	  <li>
+	    <input type="checkbox" id="email_to_sf" checked />
+	    <label for="email_to_sf">Self</label>
+	  </li>
+	  <li>
+	    <input type="checkbox" id="email_to_tv" />
+	    <label for="email_to_tv">Troop Volunteers</label>
+	  </li>
+	</ul>
 	<p>Enter your own:<input type="email" id="email_to_cc" value="<%=troop.getSendingEmail()==null ? "" : troop.getSendingEmail().getCc()%>"/></p>
 	
 	<div style="background-color:gray">Compose Email</div>
 	
-	<br/>Subject: <input type="text" id="email_subj" value="Reminder <%=troop.getTroop().getGradeLevel() %> Meeting <%=meetingInfo.getName() %> <%= FORMAT_MEETING_REMINDER.format(searchDate) %>"/>
+	<br/>Subject: <input type="text" id="email_subj" value="Reminder <%=troop.getTroop().getGradeLevel() %> Meeting #<%=planView.getMeetingCount()%> <%= FORMAT_MEETING_REMINDER.format(planView.getSearchDate()) %>"/>
 	
 	<div style="background-color:yellow;">
 	</div>
@@ -53,14 +47,14 @@
 	<br/><br/>Here are the details of our next meeting:
 	<table>
 		<tr><th>Date:</th>
-			<td><%= FORMAT_MEETING_REMINDER.format(searchDate) %></td>
+			<td><%= FORMAT_MEETING_REMINDER.format(planView.getSearchDate()) %></td>
 		</tr>
 		<tr><th>Location:</th>
 			<td><%
-			if( meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null ){
+			if( ((MeetingE)planView.getYearPlanComponent()).getLocationRef()!=null && troop.getYearPlan().getLocations()!=null ){
 				for(int k=0;k<troop.getYearPlan().getLocations().size();k++){
 					
-					if( troop.getYearPlan().getLocations().get(k).getPath().equals( meeting.getLocationRef() ) ){
+					if( troop.getYearPlan().getLocations().get(k).getPath().equals( ((MeetingE)planView.getYearPlanComponent()).getLocationRef() ) ){
 						%>
 							<br/><%=troop.getYearPlan().getLocations().get(k).getPath()%><%=troop.getYearPlan().getLocations().get(k).getName() %>
 							<br/><%=troop.getYearPlan().getLocations().get(k).getAddress() %>
@@ -74,11 +68,11 @@
 			%></td>
 		</tr>
 		<tr><th>Topic:</th>
-			<td><%= meetingInfo.getName() %></td>
+			<td><%= ((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getName() %></td>
 		</tr>
 	</table>
 
-	<%=meetingInfoItems.get("overview").getStr() %>
+	<%=((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getMeetingInfo().get("overview").getStr() %>
 
 	<br/><br/>If you have any questions, or want to participate in this meeting, please contact me at 
 	<%if(apiConfig.getUser().getPhone()!=null)%><%=apiConfig.getUser().getPhone() %>
@@ -93,9 +87,9 @@
 
 	<br/><br/>Aid(s) Included:xxx
 	<div id=aids>
-	<%EmailMeetingReminder emr = troop.getSendingEmail();
-		if( emr!=null ){
-			java.util.List<Asset> eAssets = emr.getAssets();
+	<%//EmailMeetingReminder emr = troop.getSendingEmail();
+		if( troop.getSendingEmail()!=null ){
+			java.util.List<Asset> eAssets = troop.getSendingEmail().getAssets();
 			if( eAssets!=null)
 				for(int i=0;i<eAssets.size();i++){
 				%><li><a href="<%=eAssets.get(i).getRefId() %>"><%=eAssets.get(i).getRefId() %></a></li><% 
@@ -117,11 +111,12 @@
 				<th>&nbsp;</th>
 				<th>Add to Email</th>
 			</tr>
-			<% List<Asset> aidTags = planView.getAidTags();
-			for(int i=0;i<aidTags.size();i++){%>
+			<%
+			//List<Asset> aidTags = planView.getAidTags();
+			for(int i=0;i<planView.getAidTags().size();i++){%>
 			 <tr>
-				<td><%= aidTags.get(i).getRefId() %></td>
-				<td><a href="javascript:void(0)" onclick="addAidToEmail('<%=aidTags.get(i).getPath()%>','<%=aidTags.get(i).getRefId()%>','<%=meeting.getUid() %>')" class="addAidToEmail"> + </a></td>
+				<td><%= planView.getAidTags().get(i).getRefId() %></td>
+				<td><a href="javascript:void(0)" onclick="addAidToEmail('<%=planView.getAidTags().get(i).getPath()%>','<%=planView.getAidTags().get(i).getRefId()%>','<%=((MeetingE)planView.getYearPlanComponent()).getUid() %>')" class="addAidToEmail"> + </a></td>
 			 </tr>
 			 <%}%>
 		</table>
@@ -140,9 +135,10 @@
 	<%}*/%>
 	</div>
 	</div>
-	<input type="button" value="Preview" onclick="previewMeetingReminderEmail('<%=meeting.getPath()%>','<%=meeting.getUid()%>')"/>
+	<input type="button" value="Preview" onclick="previewMeetingReminderEmail('<%=((MeetingE)planView.getYearPlanComponent()).getPath()%>','<%=((MeetingE)planView.getYearPlanComponent()).getUid()%>')"/>
 	
 </div>
+<% //} %>
 
 <!-- end of /content -->
 <script>
@@ -157,7 +153,13 @@
 		$('.emailhtm .formLinks').append('<a href="'+formurl+'">'+formname+'/a>');
 		return;
 	};
-	
+	//print out the date the email was sent.
+	 var sent_date = "";
+	 if(moment(new Date()) != null && moment(new Date()) !='') {
+	  sent_date = $('.sent').append(moment(new Date()).format('MM/DD/YYYY'));
+	 } else {
+	  sent_date = $('.sent').append('none');
+	 }
 </script>
 
  
