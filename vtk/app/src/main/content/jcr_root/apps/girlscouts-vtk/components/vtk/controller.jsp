@@ -3,6 +3,7 @@
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 <%
+System.err.println("controlle.............................r");
 	String vtkErr="";
 	int serverPortInt = request.getServerPort();
 	String serverPort = "";
@@ -149,7 +150,10 @@ System.err.println("changing new... "+ x );
 			meetingUtil.rmMeeting( user, troop, request.getParameter("mid") );
 			meetingUtil.rmSchedDate( user, troop,  Long.parseLong( request.getParameter("rmDate") ) );
 			return;
-		
+		case UpdAttendance:	
+			meetingUtil.updateAttendance(user, troop, request);
+			meetingUtil.updateAchievement(user, troop, request);
+			return;
 		default :	    		
 	    		break;
 	}

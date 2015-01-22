@@ -49,8 +49,10 @@ import org.girlscouts.vtk.dao.AssetComponentType;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
 import org.girlscouts.vtk.helpers.CouncilMapper;
+import org.girlscouts.vtk.models.Achievement;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Asset;
+import org.girlscouts.vtk.models.Attendance;
 import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.Council;
 import org.girlscouts.vtk.models.JcrCollectionHoldString;
@@ -2187,6 +2189,129 @@ System.err.println("Path: "+path );
 			}
 		}
 		return locationToRmPath;
+	}
+	
+	public Attendance getAttendance(User user, Troop troop, String mid ){
+		
+		Attendance attendance=null;
+		Session session = null;
+		try {
+			session = sessionFactory.getSession();
+			List<Class> classes = new ArrayList<Class>();
+			classes.add(Attendance.class);
+
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+					mapper);
+			QueryManager queryManager = ocm.getQueryManager();
+
+			attendance = (Attendance) ocm.getObject(mid);
+			
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null)
+					sessionFactory.closeSession(session);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		return attendance;
+	}
+	
+	
+	public boolean setAttendance(User user, Troop troop, String mid, Attendance attendance ){
+		
+		Session session = null;
+		try {
+			session = sessionFactory.getSession();
+			List<Class> classes = new ArrayList<Class>();
+			classes.add(Attendance.class);
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+					mapper);
+
+
+			if (!session.itemExists(attendance.getPath())) 
+				ocm.insert(attendance);
+			ocm.update(attendance);
+			ocm.save();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null)
+					sessionFactory.closeSession(session);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		
+		return false;
+	}
+	
+	
+public Achievement getAchievement(User user, Troop troop, String mid ){
+		
+		Achievement attendance=null;
+		Session session = null;
+		try {
+			session = sessionFactory.getSession();
+			List<Class> classes = new ArrayList<Class>();
+			classes.add(Achievement.class);
+
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+					mapper);
+			QueryManager queryManager = ocm.getQueryManager();
+
+			attendance = (Achievement) ocm.getObject(mid);
+			
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null)
+					sessionFactory.closeSession(session);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		return attendance;
+	}
+	
+	
+	public boolean setAchievement(User user, Troop troop, String mid, Achievement Achievement ){
+		
+		Session session = null;
+		try {
+			session = sessionFactory.getSession();
+			List<Class> classes = new ArrayList<Class>();
+			classes.add(Achievement.class);
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+					mapper);
+
+
+			if (!session.itemExists(Achievement.getPath())) 
+				ocm.insert(Achievement);
+			ocm.update(Achievement);
+			ocm.save();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null)
+					sessionFactory.closeSession(session);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		
+		return false;
 	}
 	
 	

@@ -28,7 +28,8 @@ public enum ActionController {
 	isAltered,
 	GetFinances,
 	UpdateFinances, 
-	RmMeeting
+	RmMeeting,
+	UpdAttendance
 	
 	/*
 	 ActionController(int x){state=x;}

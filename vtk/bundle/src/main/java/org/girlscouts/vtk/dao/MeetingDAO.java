@@ -3,8 +3,10 @@ package org.girlscouts.vtk.dao;
 import java.util.List;
 import java.util.Set;
 
+import org.girlscouts.vtk.models.Achievement;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Asset;
+import org.girlscouts.vtk.models.Attendance;
 import org.girlscouts.vtk.models.Council;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
@@ -46,4 +48,10 @@ public interface MeetingDAO {
 	//migrate script - 1time only
 	public void doX(); 
 	public void undoX(); 
+	
+	public Attendance getAttendance(User user, Troop troop, String mid );
+	public boolean setAttendance(User user, Troop troop, String mid, Attendance attendance );
+	
+	public Achievement getAchievement(User user, Troop troop, String mid );
+	public boolean setAchievement(User user, Troop troop, String mid, Achievement a );
 }
