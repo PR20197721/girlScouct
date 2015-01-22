@@ -37,20 +37,7 @@ public class NodeListener implements EventListener {
    
     
     public void onEvent(EventIterator iter) {
-    	/*
-    	try{
-    	while( iter.hasNext() ){
-    		Event e = iter.nextEvent();
-    		//System.err.println( "** "+ e.NODE_ADDED+" : "+ e.NODE_MOVED +" : "+e.NODE_REMOVED +" : "+e.PROPERTY_CHANGED+" : "+e.getPath() +" : "+ e.getInfo() + " : "+ e.getIdentifier() +" : "+e.getType());
-    		
-    		if( e.PROPERTY_CHANGED==16 && 
-    				e.getPath().endsWith("/jcr:lastModified") ){
-    					System.err.println(">> "+ (e.PROPERTY_CHANGED==16) + " : "+e.getPath());
-    					saveModified( e.getPath().substring(0, e.getPath().lastIndexOf("/")) );
-    		}
-    	}
-    	}catch(Exception e){e.printStackTrace();}
-    	*/
+    	
     	
     	
         Collection<NodeEvent> events = NodeEventCollector.getEvents(iter);

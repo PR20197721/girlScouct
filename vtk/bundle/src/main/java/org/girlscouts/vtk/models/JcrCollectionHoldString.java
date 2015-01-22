@@ -1,18 +1,22 @@
 package org.girlscouts.vtk.models;
 
-
 import java.io.Serializable;
 
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
-@Node(jcrMixinTypes="mix:lockable" )
-public class JcrCollectionHoldString implements Comparable, Serializable{
+@Node(jcrMixinTypes = "mix:lockable")
+public class JcrCollectionHoldString implements Comparable, Serializable {
 
-	public JcrCollectionHoldString(){}
-	public JcrCollectionHoldString(String str) {this.str=str;}
-	
-	@Field private String str;
+	public JcrCollectionHoldString() {
+	}
+
+	public JcrCollectionHoldString(String str) {
+		this.str = str;
+	}
+
+	@Field
+	private String str;
 
 	public String getStr() {
 		return str;
@@ -21,9 +25,10 @@ public class JcrCollectionHoldString implements Comparable, Serializable{
 	public void setStr(String str) {
 		this.str = str;
 	}
+
 	public int compareTo(Object o) {
 		// TODO Auto-generated method stub
 		return 0;
 	}
-	
+
 }

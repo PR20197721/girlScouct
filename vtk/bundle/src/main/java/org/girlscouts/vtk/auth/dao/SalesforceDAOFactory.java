@@ -11,46 +11,39 @@ import org.girlscouts.vtk.dao.TroopDAO;
 import org.girlscouts.vtk.helpers.ConfigListener;
 import org.girlscouts.vtk.helpers.ConfigManager;
 
-@Component(
-        label="Girl Scouts VTK Salesforce DAO Factory",
-        description="Girl Scouts VTK Salesforce DAO Factory",
-        metatype=true, 
-        immediate=true
-)
-@Service(
-        value=SalesforceDAOFactory.class
-)
+@Component(label = "Girl Scouts VTK Salesforce DAO Factory", description = "Girl Scouts VTK Salesforce DAO Factory", metatype = true, immediate = true)
+@Service(value = SalesforceDAOFactory.class)
 public class SalesforceDAOFactory implements ConfigListener {
-    @Reference
-    ConfigManager configManager;
-    
-    @Reference
-    TroopDAO troopDAO;
-    
-    private String clientId;
-    private String clientSecret;
-    private String OAuthUrl;
-    private String callbackUrl;
+	@Reference
+	ConfigManager configManager;
 
-    @SuppressWarnings("rawtypes")
-    public void updateConfig(Dictionary configs) {
-        clientId = (String)configs.get("clientId");
-        clientSecret = (String)configs.get("clientSecret");
-        OAuthUrl = (String)configs.get("OAuthUrl");
-        callbackUrl = (String)configs.get("callbackUrl");
-    }
-    
-    @Activate
-    public void init() {
-        configManager.register(this);
-    }
-    
-    public SalesforceDAO getInstance() {
-        SalesforceDAO dao = new SalesforceDAO(troopDAO);
-        dao.clientId = clientId;
-        dao.clientSecret = clientSecret;
-        dao.OAuthUrl = OAuthUrl;
-        dao.callbackUrl = callbackUrl;
-        return dao;
-    }
+	@Reference
+	TroopDAO troopDAO;
+
+	private String clientId;
+	private String clientSecret;
+	private String OAuthUrl;
+	private String callbackUrl;
+
+	@SuppressWarnings("rawtypes")
+	public void updateConfig(Dictionary configs) {
+		clientId = (String) configs.get("clientId");
+		clientSecret = (String) configs.get("clientSecret");
+		OAuthUrl = (String) configs.get("OAuthUrl");
+		callbackUrl = (String) configs.get("callbackUrl");
+	}
+
+	@Activate
+	public void init() {
+		configManager.register(this);
+	}
+
+	public SalesforceDAO getInstance() {
+		SalesforceDAO dao = new SalesforceDAO(troopDAO);
+		dao.clientId = clientId;
+		dao.clientSecret = clientSecret;
+		dao.OAuthUrl = OAuthUrl;
+		dao.callbackUrl = callbackUrl;
+		return dao;
+	}
 }

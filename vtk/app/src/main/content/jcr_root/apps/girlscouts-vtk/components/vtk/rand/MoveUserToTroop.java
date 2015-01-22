@@ -57,7 +57,7 @@ try{
            String from ="/vtk/"+council+"/"+ troop+"/users/"+user;
            String to= "/vtk/"+ council+"/troops/"+troop ;
            String to1 = "/vtk/"+ council+"/troops";
-           System.err.println(from +" >> "+ to );
+           
         
            Node x =JcrUtils.getOrCreateByPath(to1, "nt:unstructured", session);
            session.move(from, to);
