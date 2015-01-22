@@ -4,8 +4,9 @@
 
 	Reminder Meeting <%=((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getName() %>
 	<%= FORMAT_MEETING_REMINDER.format(planView.getSearchDate()) %>
-	
+	<div id="sent">
 	Sent: 
+	</div>
 	<script>
 		$('#sent').append(moment(new Date()).format('MM/DD/YYYY'));
 	</script>
