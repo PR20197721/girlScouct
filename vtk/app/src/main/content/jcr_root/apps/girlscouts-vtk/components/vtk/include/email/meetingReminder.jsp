@@ -2,17 +2,8 @@
 <!-- apps/girlscouts-vtk/components/vtk/include/email/meetingReminder.jsp -->
 <div class="content clearfix">
 
-<% //if(planView.getYearPlanComponent().getType()==YearPlanComponentType.ACTIVITY){
-		%>This is an activity<% 
-	//}
-
-	//if(planView.getYearPlanComponent().getType()==YearPlanComponentType.MEETING){
-		//MeetingE meeting = (MeetingE)planView.getYearPlanComponent();
-		//Meeting meetingInfo = meeting.getMeetingInfo();
-		//Date searchDate = planView.getSearchDate();
-%>
-
-	Reminder Meeting # <%=planView.getMeetingCount()%> <%= FORMAT_MEETING_REMINDER.format(planView.getSearchDate()) %>
+	Reminder Meeting <%=((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getName() %>
+	<%= FORMAT_MEETING_REMINDER.format(planView.getSearchDate()) %>
 	
 	Sent: 
 	<script>
@@ -78,15 +69,16 @@
 	<br/><%=troop.getTroop().getTroopName() %>
 
 	<br/><br/>Aid(s) Included:xxx
-	<div id=aids>
-	<%//EmailMeetingReminder emr = troop.getSendingEmail();
-		if( troop.getSendingEmail()!=null ){
+	<div id=aidLinks>
+	<%--  
+	<%if( troop.getSendingEmail()!=null ){
 			java.util.List<Asset> eAssets = troop.getSendingEmail().getAssets();
 			if( eAssets!=null)
 				for(int i=0;i<eAssets.size();i++){
-				%><li><a href="<%=eAssets.get(i).getRefId() %>"><%=eAssets.get(i).getRefId() %></a></li><% 
+				%><li><a href="<%=eAssets.get(i).getRefId() %>"><%=eAssets.get(i).getTitle() %></a></li><% 
 				}
-		}%>
+	}%>
+	--%>
 	</div>
 	
 	<br/></br/>Form(s) Required:xxx
@@ -107,8 +99,9 @@
 			//List<Asset> aidTags = planView.getAidTags();
 			for(int i=0;i<planView.getAidTags().size();i++){%>
 			 <tr>
-				<td><%= planView.getAidTags().get(i).getRefId() %></td>
-				<td><a href="javascript:void(0)" onclick="addAidToEmail('<%=planView.getAidTags().get(i).getPath()%>','<%=planView.getAidTags().get(i).getRefId()%>','<%=((MeetingE)planView.getYearPlanComponent()).getUid() %>')" class="addAidToEmail"> + </a></td>
+				<td><%= planView.getAidTags().get(i).getTitle() %></td>
+			 	<td><a href="javascript:void(0)" onclick="addAidLink('<%=planView.getAidTags().get(i).getRefId()%>','<%=planView.getAidTags().get(i).getTitle()%>','<%=((MeetingE)planView.getYearPlanComponent()).getUid() %>')" class="addAidToEmail"> + </a></td>
+			 	
 			 </tr>
 			 <%}%>
 		</table>
@@ -141,8 +134,14 @@
 		"strike": false,
 		"fsizes": ['10','12','14','16','18','20','22','24','28','32']
 	});
-	function addLink(link){
-		$('.emailhtm .formLinks').append('<a href="'+formurl+'">'+formname+'/a>');
+	function addFormLink(link){
+		$('textarea #emailhtm .formLinks').append('<a href="'+formurl+'">'+formname+'/a>');
+		return;
+	};
+	function addAidLink(refId,title,uid){
+		$('#aidLinks').append('<li><a href="'+refId+'">'+title+'</a></li>');
+		//$('.addAidToEmail').text("-");
+		//addAidToEmail(refId,title,uid);
 		return;
 	};
 	
