@@ -198,7 +198,7 @@ function previewMeetingReminderEmail(mid){
 	return;
 }
 
-function addAidToEmail(aidUrl, mid){
+function addAidToEmail(aidUrl, aidRefId, mid){
 	
 	var email_to_gp = document.getElementById("email_to_gp").value;
 	var email_to_sf = document.getElementById("email_to_sf").value;
@@ -220,11 +220,14 @@ function addAidToEmail(aidUrl, mid){
 			email_subj:email_subj,
 			mid:mid,
 			addAid:aidUrl,
+			aidRefId:aidRefId,
 			email_htm: email_htm
 		},
 		success: function(result) {
 			//console.log(result);
-			location.reload();
+			$('.emailhtm .aids').append('<a href="'+aidurl+'">'+aidRefId+'/a>');
+			this.text("-");
+			//location.reload();
 			//document.location="/content/girlscouts-vtk//vtk.include.email.meetingReminder_preview.html";
 		}
 	});
