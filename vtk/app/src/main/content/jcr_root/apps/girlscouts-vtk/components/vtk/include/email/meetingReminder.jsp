@@ -20,7 +20,7 @@
 	
 	<div style="background-color:gray">Compose Email</div>
 	
-	<br/>Subject: <input type="text" id="email_subj" value="Reminder <%=troop.getTroop().getGradeLevel() %> Meeting #<%=planView.getMeetingCount()%> <%= FORMAT_MEETING_REMINDER.format(planView.getSearchDate()) %>"/>
+	<br/>Subject: <input type="text" id="email_subj" value="Reminder <%=troop.getTroop().getGradeLevel() %> Meeting <%=((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getName() %> <%= FORMAT_MEETING_REMINDER.format(planView.getSearchDate()) %>"/>
 	
 	<div style="background-color:yellow;">
 	</div>

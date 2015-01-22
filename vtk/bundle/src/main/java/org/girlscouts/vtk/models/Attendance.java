@@ -12,7 +12,7 @@ public class Attendance   implements Serializable{
 
 	@Field (path=true) private String path;
 	@Field (id=true) private String  id;
-	@Collection List<String> users; //sf id
+	@Field String users; //sf id
 	
 	public String getPath() {
 		return path;
@@ -26,10 +26,10 @@ public class Attendance   implements Serializable{
 	public void setId(String id) {
 		this.id = id;
 	}
-	public List<String> getUsers() {
+	public String getUsers() {
 		return users;
 	}
-	public void setUsers(List<String> users) {
+	public void setUsers(String users) {
 		this.users = users;
 	}
 

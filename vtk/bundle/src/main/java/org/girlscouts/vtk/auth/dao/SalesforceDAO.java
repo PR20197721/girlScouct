@@ -984,6 +984,7 @@ System.err.println("tata start "+ sfTroopId);
 						contact.setFirstName(results.getJSONObject(i).getString("Name"));
 						contact.setEmail(results.getJSONObject(i).getString("Email"));
 						contact.setPhone(results.getJSONObject(i).getString("Phone"));
+						contact.setId(results.getJSONObject(i).getString("Id"));
 					}catch(Exception e){
 						e.printStackTrace();
 					}
