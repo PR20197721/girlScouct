@@ -1,4 +1,13 @@
-<div class="content clearfix">
+<script>
+//print out the date the email was sent.
+ var sent_date = "";
+ if(moment(new Date()) != null && moment(new Date()) !='') {
+ 	sent_date = $('.sent').append(moment(new Date()).format('MM/DD/YYYY'));
+ } else {
+ 	sent_date = $('.sent').append('none');
+ }
+</script>
+<div class="content clearfix meeting-reminder">
 <% 
 	String userId = apiConfig.getUserId();
 	String accessToken = apiConfig.getAccessToken();
@@ -9,24 +18,32 @@
 	java.util.Map<String, JcrCollectionHoldString> meetingInfoItems= meetingInfo.getMeetingInfo();
 	Date searchDate = planView.getSearchDate();
 %> 
-	Reminder Meeting # <%=planView.getMeetingCount()%> <%= FORMAT_MEETING_REMINDER.format(searchDate) %>
+	<h5>Reminder Meeting <%=meetingInfo.getName() %> <%= FORMAT_MEETING_REMINDER.format(searchDate) %></h5>
 	
-	Sent: 
-	<script>
-		$('#sent').append(moment(new Date()).format('MM/DD/YYYY'));
-	</script>
+	<p class="sent">Sent: 
+		<script>sent_date;</script>
+	</p>
+	<h6>Address List</h6>
+	<ul>
+		<li>
+			<input type="checkbox" id="email_to_gp" checked />
+			<label for="email_to_gp">Girls / Parents</label>
+		</li>
 
-	<div style="background-color:gray">Address List</div>
+		<li>
+			<input type="checkbox" id="email_to_sf" checked />
+			<label for="email_to_sf">Self</label>
+		</li>
+		<li>
+			<input type="checkbox" id="email_to_tv" />
+			<label for="email_to_tv">Troop Volunteers</label>
+		</li>
 	
-	<input type="checkbox" id="email_to_gp" checked/>Girls/Parents
-	<input type="checkbox" id="email_to_sf"/>Self
-	<input type="checkbox" id="email_to_tv"/>Troop Volunteers
-	
-	</br>Enter your own:<input type="email" id="email_to_cc" value="<%=troop.getSendingEmail()==null ? "" : troop.getSendingEmail().getCc()%>"/>
+	<p>Enter your own:<input type="email" id="email_to_cc" value="<%=troop.getSendingEmail()==null ? "" : troop.getSendingEmail().getCc()%>"/></p>
 	
 	<div style="background-color:gray">Compose Email</div>
 	
-	<br/>Subject: <input type="text" id="email_subj" value="Reminder <%=troop.getTroop().getGradeLevel() %> Meeting #<%=planView.getMeetingCount()%> <%= FORMAT_MEETING_REMINDER.format(searchDate) %>"/>
+	<br/>Subject: <input type="text" id="email_subj" value="Reminder <%=troop.getTroop().getGradeLevel() %> Meeting <%=meetingInfo.getName() %> <%= FORMAT_MEETING_REMINDER.format(searchDate) %>"/>
 	
 	<div style="background-color:yellow;">
 	</div>
