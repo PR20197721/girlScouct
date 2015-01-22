@@ -26,9 +26,12 @@ import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.ActivityDAO;
 import org.girlscouts.vtk.dao.AssetComponentType;
 import org.girlscouts.vtk.dao.MeetingDAO;
+import org.girlscouts.vtk.dao.TroopDAO;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
+import org.girlscouts.vtk.models.Achievement;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Asset;
+import org.girlscouts.vtk.models.Attendance;
 import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.JcrCollectionHoldString;
 import org.girlscouts.vtk.models.Meeting;
@@ -64,6 +67,8 @@ public class MeetingUtil {
     @Reference
     org.girlscouts.vtk.helpers.DataImportTimestamper dataImportTimestamper;
     
+    @Reference
+    TroopDAO troopDAO; //1/20/15
     
 	public java.util.List<MeetingE> updateMeetingPos(java.util.List<MeetingE> orgMeetings, java.util.List <Integer> newPoss){
 		
@@ -1174,6 +1179,143 @@ System.err.println("tata88 yes");
 		return isRemoved;
 	}
 	
+	public boolean updateAttendance(User user, Troop troop, javax.servlet.http.HttpServletRequest request){
+			
+		String mid = request.getParameter("mid");
+		String attendances[] = request.getParameterValues("attendance");
+		
+		java.util.List<org.girlscouts.vtk.models.Contact>contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO).getContacts( user.getApiConfig(), troop.getSfTroopId() );		
+		String path = "/vtk/"+ troop.getSfCouncil()+"/troops/"+ troop.getSfTroopId()+"/yearPlan/meetingEvents/"+mid+"/attendance";
+		java.util.List<String> Attendances  = new java.util.ArrayList<String>();
+		Attendance ATTENDANCES = getAttendance(user, troop, path);
+		if( ATTENDANCES==null ){
+			ATTENDANCES= new Attendance();
+			ATTENDANCES.setPath(path);
+		}
 	
+		if( ATTENDANCES!=null && ATTENDANCES.getUsers()!=null ){
+			StringTokenizer t= new StringTokenizer( ATTENDANCES.getUsers(), "," );
+			while( t.hasMoreElements() )
+				Attendances.add( t.nextToken() );
+		}
+		
+		java.util.List<String> CURRENT_CONTACT_LIST= new java.util.ArrayList<String>();
+		for(int i=0;i<contacts.size();i++)
+			CURRENT_CONTACT_LIST.add(contacts.get(i).getId());
+		
+		//add 
+		for(int i=0; i<attendances.length;i++){ 
+			if( !Attendances.contains(attendances[i]) )
+				Attendances.add(attendances[i]);
+		}
+
+		//rm
+		java.util.List<String> attendances_toRm = new java.util.ArrayList<String>();
+		for(int i=0;i<Attendances.size();i++){
+			String contactId = Attendances.get(i);
+			boolean isExists = false;
+			if( CURRENT_CONTACT_LIST.contains(contactId) )
+				for(int y=0;y<attendances.length;y++)
+					if( attendances[y] == contactId )
+						isExists= true;
+			if( !isExists )
+				attendances_toRm.remove(contactId);
+		}
+		
+		for(int i=0;i< attendances_toRm.size();i++ )
+			Attendances.remove(attendances_toRm.get(i));
+			
+	
+		String _attendances = "";
+		if( Attendances !=null  )
+			for(int i= 0;i< Attendances.size();i++)
+					_attendances += Attendances.get(i)+",";
+		
+			
+		ATTENDANCES.setUsers(_attendances);
+		setAttendance( user,  troop,  mid, ATTENDANCES );
+		
+		return false;
+	}
+	
+	public Attendance getAttendance(User user, Troop troop, String mid){
+		
+		return meetingDAO.getAttendance(user, troop, mid );
+	}
+	
+	
+	public boolean setAttendance(User user, Troop troop, String mid, Attendance attendance){
+		return meetingDAO.setAttendance(user, troop, mid, attendance );
+	}
+	
+    public Achievement getAchievement(User user, Troop troop, String mid){
+		
+		return meetingDAO.getAchievement(user, troop, mid );
+	}
+	
+	
+	public boolean setAchievement(User user, Troop troop, String mid, Achievement achievement){
+		
+		return meetingDAO.setAchievement(user, troop, mid, achievement );
+	}
+	
+	public boolean updateAchievement(User user, Troop troop, javax.servlet.http.HttpServletRequest request){
+		
+		String mid = request.getParameter("mid");
+		String attendances[] = request.getParameterValues("achievement");
+		
+		java.util.List<org.girlscouts.vtk.models.Contact>contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO).getContacts( user.getApiConfig(), troop.getSfTroopId() );		
+		String path = "/vtk/"+ troop.getSfCouncil()+"/troops/"+ troop.getSfTroopId()+"/yearPlan/meetingEvents/"+mid+"/achievement";
+		java.util.List<String> Attendances  = new java.util.ArrayList<String>();
+		Achievement ATTENDANCES = getAchievement(user, troop, path);
+		if( ATTENDANCES==null ){
+			ATTENDANCES= new Achievement();
+			ATTENDANCES.setPath(path);
+		}
+	
+		if( ATTENDANCES!=null && ATTENDANCES.getUsers()!=null ){
+			StringTokenizer t= new StringTokenizer( ATTENDANCES.getUsers(), "," );
+			while( t.hasMoreElements() )
+				Attendances.add( t.nextToken() );
+		}
+		
+		java.util.List<String> CURRENT_CONTACT_LIST= new java.util.ArrayList<String>();
+		for(int i=0;i<contacts.size();i++)
+			CURRENT_CONTACT_LIST.add(contacts.get(i).getId());
+		
+		//add 
+		for(int i=0; i<attendances.length;i++){ 
+			if( !Attendances.contains(attendances[i]) )
+				Attendances.add(attendances[i]);
+		}
+
+		//rm
+		java.util.List<String> attendances_toRm = new java.util.ArrayList<String>();
+		for(int i=0;i<Attendances.size();i++){
+			String contactId = Attendances.get(i);
+			boolean isExists = false;
+			if( CURRENT_CONTACT_LIST.contains(contactId) )
+				for(int y=0;y<attendances.length;y++)
+					if( attendances[y] == contactId )
+						isExists= true;
+			if( !isExists )
+				attendances_toRm.remove(contactId);
+		}
+		
+		for(int i=0;i< attendances_toRm.size();i++ )
+			Attendances.remove(attendances_toRm.get(i));
+			
+	
+		String _attendances = "";
+		if( Attendances !=null  )
+			for(int i= 0;i< Attendances.size();i++)
+					_attendances += Attendances.get(i)+",";
+		
+			
+		ATTENDANCES.setUsers(_attendances);
+		setAchievement( user,  troop,  mid, ATTENDANCES );
+		
+		return false;
+	}
 	
 }
