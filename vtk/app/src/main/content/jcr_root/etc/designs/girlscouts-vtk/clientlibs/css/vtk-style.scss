@@ -613,7 +613,7 @@
           margin-right: -5px;
           margin-bottom: 1.25em;
           padding: 5px;
-
+          color:#000;
         }
       }
     }
@@ -629,20 +629,19 @@
     }
   }
   .modal-attendance {
-    .content {
-      h4 {
-        font-size:24px;
-        margin-bottom: 50px;
-      }
-      ul {
-        list-style:none;
-        label {
-          vertical-align: top;
-          &:before {
-            float:right;
+      .content {
+        h4 {
+          font-size:24px;
+          margin-bottom: 50px;
+        }
+        table {
+          border:none;
+          tr,
+          td,
+          th {
+            background: none;
           }
           p {
-            float:right;
             font-weight:600;
             font-size:17px;
             text-transform: uppercase;
@@ -650,9 +649,7 @@
           }
         }
       }
-    }
-  }
-  //modals per JQ UI
+    }  //modals per JQ UI
   .modalWrap {
     padding:0;
     border-radius:0;

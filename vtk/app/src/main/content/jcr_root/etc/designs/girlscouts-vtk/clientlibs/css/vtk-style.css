@@ -458,7 +458,8 @@
       margin-left: -5px;
       margin-right: -5px;
       margin-bottom: 1.25em;
-      padding: 5px; }
+      padding: 5px;
+      color: #000; }
 .vtk-body .modal_agenda_edit .content h3 {
   margin-bottom: 20px; }
 .vtk-body .modal_agenda_edit .content .btn {
@@ -466,18 +467,17 @@
 .vtk-body .modal-attendance .content h4 {
   font-size: 24px;
   margin-bottom: 50px; }
-.vtk-body .modal-attendance .content ul {
-  list-style: none; }
-  .vtk-body .modal-attendance .content ul label {
-    vertical-align: top; }
-    .vtk-body .modal-attendance .content ul label:before {
-      float: right; }
-    .vtk-body .modal-attendance .content ul label p {
-      float: right;
-      font-weight: 600;
-      font-size: 17px;
-      text-transform: uppercase;
-      margin-right: 80px; }
+.vtk-body .modal-attendance .content table {
+  border: none; }
+  .vtk-body .modal-attendance .content table tr,
+  .vtk-body .modal-attendance .content table td,
+  .vtk-body .modal-attendance .content table th {
+    background: none; }
+  .vtk-body .modal-attendance .content table p {
+    font-weight: 600;
+    font-size: 17px;
+    text-transform: uppercase;
+    margin-right: 80px; }
 .vtk-body .modalWrap {
   padding: 0;
   border-radius: 0;
