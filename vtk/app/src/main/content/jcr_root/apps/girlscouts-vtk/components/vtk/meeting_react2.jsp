@@ -41,6 +41,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 <%@include file="include/utility_nav.jsp"%>
 <%@include file="include/modals/modal_meeting_aids.jsp"%>
 <%@include file="include/modals/modal_agenda.jsp"%>
+<%@include file="include/modals/modal_meeting_reminder.jsp" %>
 
   <div id="theMeeting">
     <script type="text/jsx">
@@ -168,6 +169,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
       		 <%@include file="include/meeting_planning.jsp"%>
       		 <%@include file="include/meeting_communication.jsp"%>
       		</div>
+
           );
         }
       });
