@@ -441,18 +441,21 @@
 .vtk-body .modal-attendance .content h4 {
   font-size: 24px;
   margin-bottom: 50px; }
-.vtk-body .modal-attendance .content ul {
-  list-style: none; }
-  .vtk-body .modal-attendance .content ul label {
-    vertical-align: top; }
-    .vtk-body .modal-attendance .content ul label:before {
-      float: right; }
-    .vtk-body .modal-attendance .content ul label p {
-      float: right;
-      font-weight: 600;
-      font-size: 17px;
-      text-transform: uppercase;
-      margin-right: 80px; }
+.vtk-body .modal-attendance .content table {
+  border: none; }
+  .vtk-body .modal-attendance .content table tr,
+  .vtk-body .modal-attendance .content table td,
+.vtk-body .modal-attendance .content table thead,
+.vtk-body .modal-attendance .content table th {
+    background: none; }
+.vtk-body .modal-attendance .content table td:nth-child(n+2) {
+    text-align: center;
+}
+  .vtk-body .modal-attendance .content table p {
+    font-weight: 600;
+    font-size: 17px;
+    text-transform: uppercase;
+    margin-right: 80px; }
 .vtk-body .modalWrap {
   padding: 0;
   border-radius: 0;
