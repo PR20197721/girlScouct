@@ -1,55 +1,56 @@
+
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
+<%@include file="/libs/foundation/global.jsp"%>
+<cq:defineObjects />
+<%@include file="../session.jsp"%>
+
+  <% 
+    java.util.List<org.girlscouts.vtk.models.Contact>contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO).getContacts( user.getApiConfig(), troop.getSfTroopId() );
+    String path = "/vtk/"+ troop.getSfCouncil()+"/troops/"+ troop.getSfTroopId()+"/yearPlan/meetingEvents/"+request.getParameter("mid");
+    Attendance attendance = meetingUtil.getAttendance(user, troop, path + "/attendance");
+    Achievement achievement = meetingUtil.getAchievement(user, troop, path + "/achievement");
+  %>
 <div class="modal-attendance">
   <div class="header clearfix">
     <h3 class="columns large-22">Meeting Title</h3>
     <a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
   </div>
   <div class="scroll">
-    <div class="content">
+    <div class="content" id="modal_A_A">
      <h4>Attendance and Achievements</h4>
-      <form>
-        <ul class="columns small-20 small-centered">          
-          <li>
-            <input type="checkbox" checked name="sch_lvl" id="sch_lvl_1" value="Girl 1 attendance">
-            <label for="sch_lvl_1"><p><span>Girl 1</span></p></label>
-            <input type="checkbox" checked name="sch_lvl" id="sch_lvl_1_1" value="Girl 1 achievements">
-            <label for="sch_lvl_1_1"><p><span></span></p></label>
-          </li>
-
-          <li>
-            <input type="checkbox" checked name="sch_lvl" id="sch_lvl_2" value="Girl 2">
-            <label for="sch_lvl_2"><p><span>Girl 2</span></p></label>
-            <input type="checkbox" checked name="sch_lvl" id="sch_lvl_1_2" value="Girl 1 achievements">
-            <label for="sch_lvl_1_2"><p><span></span></p></label>
-          </li>
-
-          <li>
-            <input type="checkbox" checked name="sch_lvl" id="sch_lvl_3" value="Girl 3">
-            <label for="sch_lvl_3"><p><span>Girl 3</span></p></label>
-            <input type="checkbox" checked name="sch_lvl" id="sch_lvl_1_3" value="Girl 1 achievements">
-            <label for="sch_lvl_1_3"><p><span></span></p></label>
-          </li>
-
-          <li>
-            <input type="checkbox" checked name="sch_lvl" id="sch_lvl_4" value="Girl 4">
-            <label for="sch_lvl_4"><p><span>Girl 4</span></p></label>
-            <input type="checkbox" checked name="sch_lvl" id="sch_lvl_1_4" value="Girl 1 achievements">
-            <label for="sch_lvl_1_4"><p><span></span></p></label>
-          </li>
-
-          <li>
-            <input type="checkbox" checked name="sch_lvl" id="sch_lvl_5" value="Girl 5">
-            <label for="sch_lvl_5"><p><span>Girl 5</span></p></label>
-            <input type="checkbox" checked name="sch_lvl" id="sch_lvl_1_5" value="Girl 1 achievements">
-            <label for="sch_lvl_1_5"><p><span></span></p></label>
-          </li>
-
-          <li>
-            <input type="checkbox" checked name="sch_lvl" id="sch_lvl_6" value="Girl 6">
-            <label for="sch_lvl_6"><p><span>Girl 6</span></p></label>
-            <input type="checkbox" checked name="sch_lvl" id="sch_lvl_1_6" value="Girl 1 achievements">
-            <label for="sch_lvl_1_6"><p><span></span></p></label>
-          </li>
-        </ul>
+      <form action="/content/girlscouts-vtk/controllers/vtk.controller.html">
+        <input type="hidden" value="UpdAttendance" name="act"/>
+        <input type="hidden" name="mid" value="<%=request.getParameter("mid")%>"/>
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Attendance</th>
+              <th>Achievement Earned</th>
+            </tr>
+          </thead>
+          <tbody>
+	          <%for(int i=0;i<contacts.size();i++){ %> 
+	          <tr>
+	            <td>
+	              <p><%=contacts.get(i).getFirstName() %></p>         
+	            </td>
+	            <td>
+	              <input type="checkbox"  <%= (attendance!=null && attendance.getUsers()!=null && attendance.getUsers().contains(contacts.get(i).getId()) )  ? " checked " : "" %> name="attendance" id="a<%=contacts.get(i).getId() %>" value="<%=contacts.get(i).getId() %>">
+	              <label for="a<%=contacts.get(i).getId() %>"></label>
+	            </td>
+	            <td>
+	              <input type="checkbox"  <%= (achievement!=null && achievement.getUsers()!=null && achievement.getUsers().contains(contacts.get(i).getId()) )  ? " checked " : "" %> name="achievement" id="c<%=contacts.get(i).getId() %>" value="<%=contacts.get(i).getId() %>">
+	              <label for="c<%=contacts.get(i).getId() %>"></label>
+	            </td>
+	          </tr>
+	          <% } %>
+          </tbody>
+        
+        </table>        
+        <input type="submit" value="Save"  class="btn button right" />
       </form>
     </div>
   </div>
