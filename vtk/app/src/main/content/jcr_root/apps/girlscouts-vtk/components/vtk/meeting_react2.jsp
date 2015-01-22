@@ -141,7 +141,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
        			  <ul className="large-block-grid-2 medium-block-grid-2 small-block-grid-1">
                 {commentNodes}
         		  </ul>
-              <a className="add-btn" data-reveal-id="modal_meeting_aids" href="#" title="Add meeting aids"><i className="icon-button-circle-plus"></i> Add Meeting Aids</a>
+              <a className="add-btn" data-reveal-id="modal_meeting_aids" href="#nogo" title="Add meeting aids"><i className="icon-button-circle-plus"></i> Add Meeting Aids</a>
       		  </section> 
           );
         }

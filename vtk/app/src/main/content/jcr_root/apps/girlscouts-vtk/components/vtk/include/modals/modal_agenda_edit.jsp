@@ -37,11 +37,9 @@
 									meeting = meetings.get(i);
 									break;
 								}
-							Meeting meetingInfo = yearPlanUtil.getMeeting(user,
-									meeting.getRefId());
+							Meeting meetingInfo = yearPlanUtil.getMeeting(user,	meeting.getRefId());
 							java.util.List<Activity> _activities = meetingInfo.getActivities();
-							java.util.Map<String, JcrCollectionHoldString> meetingInfoItems = meetingInfo
-									.getMeetingInfo();
+							java.util.Map<String, JcrCollectionHoldString> meetingInfoItems = meetingInfo.getMeetingInfo();
 							Activity _activity = null;
 						%>
 
@@ -49,14 +47,13 @@
 						if (request.getParameter("isOverview") != null) {
 					%>
 					<div class="editable-textarea column small-20 small-centered" id="editMeetingOverview">
-						<h5>Meeting 1: introduction</h5>
+						<h5>Meeting <%=meetingInfo.getName()%> : introduction</h5>
 						<%=meetingInfoItems.get("overview").getStr()%>
 					</div>
 					<%
 						} else if (request.getParameter("isActivity") != null) {
 					%>
-					<div class="editable-textarea column small-20 small-centered" id="editMeetingActivity"><%=meetingInfoItems.get("detailed activity plan")
-											.getStr()%>
+					<div class="editable-textarea column small-20 small-centered" id="editMeetingActivity"><%=meetingInfoItems.get("detailed activity plan").getStr()%>
 					</div>
 					<%
 						} else if (request.getParameter("isMaterials") != null) {

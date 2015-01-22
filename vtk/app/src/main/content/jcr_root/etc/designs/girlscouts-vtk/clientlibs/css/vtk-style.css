@@ -130,6 +130,17 @@
             background-color: #ff0000; }
             .vtk-body #main #yearPlanMeetings ul .meeting > div .bg-square.canceled:after {
               border-color: transparent transparent transparent #ff0000; }
+          .vtk-body #main #yearPlanMeetings ul .meeting > div .bg-square.passed {
+            background-color: #e7e7e7;
+            color: #999; }
+            .vtk-body #main #yearPlanMeetings ul .meeting > div .bg-square.passed:after {
+              border-color: transparent transparent transparent #e7e7e7; }
+            .vtk-body #main #yearPlanMeetings ul .meeting > div .bg-square.passed .count {
+              background: transparent; }
+          .vtk-body #main #yearPlanMeetings ul .meeting > div .bg-square.current {
+            background-color: #F9A61A; }
+            .vtk-body #main #yearPlanMeetings ul .meeting > div .bg-square.current:after {
+              border-color: transparent transparent transparent #F9A61A; }
         .vtk-body #main #yearPlanMeetings ul .meeting > div > div:first-child {
           position: static; }
         .vtk-body #main #yearPlanMeetings ul .meeting > div > div:nth-of-type(2) {
@@ -141,14 +152,18 @@
         .vtk-body #main #yearPlanMeetings ul .meeting > div > div:nth-of-type(3) {
           padding-top: 10px;
           padding-bottom: 10px; }
-      .vtk-body #main #yearPlanMeetings ul .meeting.activity > div .bg-square {
-        background-color: #00abe6; }
-        .vtk-body #main #yearPlanMeetings ul .meeting.activity > div .bg-square:after {
-          border-color: transparent transparent transparent #00abe6; }
-      .vtk-body #main #yearPlanMeetings ul .meeting.activity > div:before {
-        cursor: default !important; }
-      .vtk-body #main #yearPlanMeetings ul .meeting.activity > div.ui-state-disabled {
+      .vtk-body #main #yearPlanMeetings ul .meeting.activity.ui-state-disabled {
         opacity: 1; }
+      .vtk-body #main #yearPlanMeetings ul .meeting.activity > div {
+        cursor: default; }
+        .vtk-body #main #yearPlanMeetings ul .meeting.activity > div .bg-square {
+          background-color: #00abe6; }
+          .vtk-body #main #yearPlanMeetings ul .meeting.activity > div .bg-square:after {
+            border-color: transparent transparent transparent #00abe6; }
+        .vtk-body #main #yearPlanMeetings ul .meeting.activity > div:before {
+          cursor: default !important; }
+        .vtk-body #main #yearPlanMeetings ul .meeting.activity > div.ui-state-disabled {
+          opacity: 1; }
     .vtk-body #main #yearPlanMeetings ul .milestone {
       pointer-events: none; }
       .vtk-body #main #yearPlanMeetings ul .milestone > div {
@@ -253,6 +268,7 @@
     margin-top: 17px; }
     .vtk-body #main .meeting-detail section h6 {
       font-size: 14px;
+      font-family: "OpenSans-SemiBold";
       text-transform: uppercase;
       background: #f6f6f6;
       margin-left: -5px;
@@ -434,6 +450,16 @@
       .vtk-body .reveal-modal .content section p {
         padding-left: 5px;
         padding-right: 5px; }
+    .vtk-body .reveal-modal .content.meeting-reminder h6 {
+      font-size: 14px;
+      font-family: "OpenSans-SemiBold";
+      text-transform: uppercase;
+      background: #f6f6f6;
+      margin-left: -5px;
+      margin-right: -5px;
+      margin-bottom: 1.25em;
+      padding: 5px;
+      color: #000; }
 .vtk-body .modal_agenda_edit .content h3 {
   margin-bottom: 20px; }
 .vtk-body .modal_agenda_edit .content .btn {
@@ -445,12 +471,8 @@
   border: none; }
   .vtk-body .modal-attendance .content table tr,
   .vtk-body .modal-attendance .content table td,
-.vtk-body .modal-attendance .content table thead,
-.vtk-body .modal-attendance .content table th {
+  .vtk-body .modal-attendance .content table th {
     background: none; }
-.vtk-body .modal-attendance .content table td:nth-child(n+2) {
-    text-align: center;
-}
   .vtk-body .modal-attendance .content table p {
     font-weight: 600;
     font-size: 17px;

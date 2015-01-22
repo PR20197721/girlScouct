@@ -335,11 +335,16 @@ if(request.getParameter("admin_login")!=null ){
 	  
 	  java.util.List<Asset> aids = emr.getAssets();
 	  if( addAid!=null ){
-		  String aidRefId = request.getParameter("aidRefId");
+		  String aidTitle = request.getParameter("aidTitle");
 		  aids= aids==null ? new java.util.ArrayList<Asset>() : aids;
+		  for(int i=0;i<aids.size();i++){
+			  if( aids.get(i).getRefId().equals(addAid)){
+				  		return;
+			  }
+		  }
 		  Asset aid = new Asset();
-		  aid.setPath(addAid);
-		  aid.setRefId(aidRefId);
+		  aid.setRefId(addAid);
+		  aid.setTitle(aidTitle);
 		  aids.add( aid );
 		  emr.setAssets(aids);
 	  }
