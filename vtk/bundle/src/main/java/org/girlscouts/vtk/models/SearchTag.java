@@ -4,12 +4,9 @@ import java.io.Serializable;
 
 public class SearchTag implements Serializable {
 
-	
-	private java.util.Map <String, String> categories, levels, region;
+	private java.util.Map<String, String> categories, levels, region;
 	private String searchKeyword;
-	
-	
-	
+
 	public java.util.Map<String, String> getRegion() {
 		return region;
 	}
@@ -42,9 +39,4 @@ public class SearchTag implements Serializable {
 		this.levels = levels;
 	}
 
-	
-	
-	
-	
-	
 }

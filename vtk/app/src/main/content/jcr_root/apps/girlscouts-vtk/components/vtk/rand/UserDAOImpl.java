@@ -83,7 +83,7 @@ public class UserDAOImpl implements UserDAO{
 	        // GOOD user = (User) ocm.getObject("/content/girlscouts-vtk/users/"+ userId);
 			
 			//6/27/14 
-		System.err.println("GET_USER_OBJ********************");	
+	
 			ocm.refresh(true);
 	        user = (Troop) ocm.getObject(userId);
 	      
@@ -239,14 +239,14 @@ public class UserDAOImpl implements UserDAO{
 	    
 	    
 	   
-			System.err.println("CHECKING JCR: " +ocm.objectExists( user.getPath()) );
+			
 		
 			if( session.itemExists( user.getPath() )){
-				System.err.println( "User updated");
+				
 				ocm.update(user);
 				
 			}else{
-				System.err.println("cteating user");
+			
 				
 				String path = "";
 				StringTokenizer t= new StringTokenizer(("/"+user.getPath()).replace( "/"+user.getId(), ""), "/" );
@@ -254,10 +254,10 @@ public class UserDAOImpl implements UserDAO{
 				while(t.hasMoreElements()){
 					String node = t.nextToken();
 					path += "/"+node ;
-					System.err.println( "user cr: "+path+":"+session.itemExists( path ) );	
+						
 					if( !session.itemExists( path )){
 						if( i==1 ){
-							System.err.println(i +" : creating user");
+							
 							ocm.insert( new Council( path ) );
 						}else
 							ocm.insert( new JcrNode( path ) );
@@ -269,8 +269,7 @@ public class UserDAOImpl implements UserDAO{
 				System.err.println( "User created/insert");
 				ocm.insert(user);
 			}
-//System.err.println("Saving user info..."+ user.getPath() );
-//System.err.println( "sessionId: "+ user.getCurrentTroop() );
+
 
 			String old_errCode= user.getErrCode();
 			java.util.Calendar old_lastModified = user.getLastModified();
@@ -284,7 +283,7 @@ public class UserDAOImpl implements UserDAO{
 				
 			
 				isUpdated=true;
-				System.err.println("User info saved..." + user.getErrCode());	
+					
 			}catch(Exception e){
 				e.printStackTrace();
 				
@@ -300,7 +299,7 @@ public class UserDAOImpl implements UserDAO{
 				
 			
 			 if( user!=null )
-				System.err.println("TEST: "+user.getId() +" : "+ user.getPath() );
+				
 			 
 			 e.printStackTrace();
 			}
@@ -409,7 +408,6 @@ public class UserDAOImpl implements UserDAO{
 	}catch(Exception e){
 		e.printStackTrace();
 		try{
-				System.err.println("Error setting new Plan: dumping old plan and replacing with new Plan");
 				user.setYearPlan(newYearPlan);
 		}catch(Exception ew){ew.printStackTrace();}
 	}
@@ -567,10 +565,7 @@ public void addAsset(Troop user, String meetingUid,  Asset asset){
 			userGlobConfig = (UserGlobConfig) ocm.getObject("/vtk/global-settings");
 			
 			
-			System.err.println("test : "+ (userGlobConfig==null) );
-			
-			//System.err.println("test : "+ (userGlobConfig.getVacationDates() +" : " + userGlobConfig.getVacationDates()) );
-		     
+		
 		}catch(Exception e){e.printStackTrace();}
 		
 		
@@ -649,7 +644,7 @@ public void addAsset(Troop user, String meetingUid,  Asset asset){
 				
 			Query query = queryManager.createQuery(filter);
 			users  =(java.util.List<Troop>) ocm.getObjects(query);
-			System.err.println( "users: "+ (users.size()) );
+			
 		      
 		}catch(Exception e){e.printStackTrace();}
 		return users;
