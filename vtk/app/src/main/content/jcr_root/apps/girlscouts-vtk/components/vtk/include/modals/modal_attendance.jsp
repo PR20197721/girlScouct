@@ -23,20 +23,34 @@
       <form action="/content/girlscouts-vtk/controllers/vtk.controller.html">
         <input type="hidden" value="UpdAttendance" name="act"/>
         <input type="hidden" name="mid" value="<%=request.getParameter("mid")%>"/>
-        <ul class="columns small-20 small-centered">    
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th>Attendance</th>
+              <th>Achievement Earned</th>
+            </tr>
+          </thead>
+          <tbody>
+	          <%for(int i=0;i<contacts.size();i++){ %> 
+	          <tr>
+	            <td>
+	              <p><%=contacts.get(i).getFirstName() %></p>         
+	            </td>
+	            <td>
+	              <input type="checkbox"  <%= (attendance!=null && attendance.getUsers()!=null && attendance.getUsers().contains(contacts.get(i).getId()) )  ? " checked " : "" %> name="attendance" id="a<%=contacts.get(i).getId() %>" value="<%=contacts.get(i).getId() %>">
+	              <label for="a<%=contacts.get(i).getId() %>"></label>
+	            </td>
+	            <td>
+	              <input type="checkbox"  <%= (achievement!=null && achievement.getUsers()!=null && achievement.getUsers().contains(contacts.get(i).getId()) )  ? " checked " : "" %> name="achievement" id="c<%=contacts.get(i).getId() %>" value="<%=contacts.get(i).getId() %>">
+	              <label for="c<%=contacts.get(i).getId() %>"></label>
+	            </td>
+	          </tr>
+	          <% } %>
+          </tbody>
         
-        <%for(int i=0;i<contacts.size();i++){ %>      
-          <li>
-            <input type="checkbox"  <%= (attendance!=null && attendance.getUsers()!=null && attendance.getUsers().contains(contacts.get(i).getId()) )  ? " checked " : "" %> name="attendance" id="a<%=contacts.get(i).getId() %>" value="<%=contacts.get(i).getId() %>">
-            <label for="a<%=contacts.get(i).getId() %>"><p><span><%=contacts.get(i).getFirstName() %></span></p></label>
-            <input type="checkbox"  <%= (achievement!=null && achievement.getUsers()!=null && achievement.getUsers().contains(contacts.get(i).getId()) )  ? " checked " : "" %> name="achievement" id="c<%=contacts.get(i).getId() %>" value="<%=contacts.get(i).getId() %>">
-            <label for="c<%=contacts.get(i).getId() %>"><p><span></span></p></label>
-          </li>
-        <% } %>
-        
-        </ul>
-        
-        <input type="submit" value="Save"  class="btn button" />
+        </table>        
+        <input type="submit" value="Save"  class="btn button right" />
       </form>
     </div>
   </div>

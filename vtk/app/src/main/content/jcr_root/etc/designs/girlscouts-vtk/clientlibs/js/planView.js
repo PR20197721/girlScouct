@@ -197,8 +197,8 @@ function previewMeetingReminderEmail(mid){
 	});
 	return;
 }
-
-function addAidToEmail(aidUrl, aidRefId, mid){
+/*
+function addAidToEmail(aidUrl, aidTitle, mid){
 	
 	var email_to_gp = document.getElementById("email_to_gp").value;
 	var email_to_sf = document.getElementById("email_to_sf").value;
@@ -220,21 +220,18 @@ function addAidToEmail(aidUrl, aidRefId, mid){
 			email_subj:email_subj,
 			mid:mid,
 			addAid:aidUrl,
-			aidRefId:aidRefId,
+			aidTitle:aidTitle,
 			email_htm: email_htm
 		},
 		success: function(result) {
-			//console.log(result);
-			$('.emailhtm .aids').append('<a href="'+aidurl+'">'+aidRefId+'/a>');
-			this.text("-");
-			//location.reload();
-			//document.location="/content/girlscouts-vtk//vtk.include.email.meetingReminder_preview.html";
+			$('#aids').append('<a href="'+aidUrl+'">'+aidTitle+'/a>');
+			$('.addAidToEmail').text("-");
 		}
 	});
 	return;
 	
 }
-
+*/
 function sendMeetingReminderEmail(){
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
