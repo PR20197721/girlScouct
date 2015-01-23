@@ -3,6 +3,7 @@
     <filter root="/apps/girlscouts"/>
     <filter root="/apps/foundation"/>
     <filter root="/apps/wcm"/>
+    <filter root="/apps/sling"/>
     <filter root="/etc/map.author"/>
     <filter root="/etc/map.publish"/>
     <filter root="/etc/map.publish.dev"/>

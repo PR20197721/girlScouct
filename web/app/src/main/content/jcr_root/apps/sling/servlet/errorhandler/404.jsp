@@ -1,5 +1,6 @@
 <%@ page session="false" %><%
-%><%@ page import="
+%><%@include file="/libs/foundation/global.jsp"%>
+<%@ page import="
     java.net.URLEncoder,
     org.apache.sling.api.scripting.SlingBindings,
     org.apache.sling.engine.auth.Authenticator,
@@ -18,14 +19,16 @@
             && (userAgent.indexOf("Mozilla") > -1
                 || userAgent.indexOf("Opera") > -1);
     }
-    
+
 %><%
+    boolean isAuthor = WCMMode.fromRequest(request) != WCMMode.DISABLED && !sling.getService(SlingSettingsService.class).getRunModes().contains("publish");
+    
 
     // decide whether to redirect to the (wcm) login page, or to send a plain 404
-    if (isAnonymousUser(request)
+    if (isAuthor && isAnonymousUser(request)
             && isBrowserRequest(request)) {
         
-        SlingBindings bindings = (SlingBindings) request.getAttribute("org.apache.sling.api.scripting.SlingBindings");
+        bindings = (SlingBindings) request.getAttribute("org.apache.sling.api.scripting.SlingBindings");
         Authenticator auth = bindings.getSling().getService(Authenticator.class);
         if (auth != null) {
             try {
