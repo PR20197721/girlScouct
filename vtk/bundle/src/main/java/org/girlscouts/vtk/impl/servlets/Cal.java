@@ -105,7 +105,6 @@ import com.day.cq.commons.jcr.JcrUtil;
 	 @Override
      protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServerException, IOException {
 	 
-		 //System.err.println("Hello ics.get..");
 		 response.setHeader ("Content-Disposition", "attachment;filename=\"mycalendar.ics\"");
 		 response.setContentType("text/calendar");
 
@@ -117,7 +116,6 @@ import com.day.cq.commons.jcr.JcrUtil;
 		 
 		  Troop troop= (Troop) request.getSession().getValue("VTK_troop");
 		  
-		 // System.err.println("Chk: "+ (meetingDAO==null)  +" : "+ (user==null) );
 		  
 		 //MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
 		 try {

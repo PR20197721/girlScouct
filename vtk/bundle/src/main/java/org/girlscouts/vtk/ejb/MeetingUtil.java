@@ -111,7 +111,7 @@ public class MeetingUtil {
 			
 			//set meetingInfos if isLoadMeetingInfo
 			if( isLoadMeetingInfo ){
-				System.err.println(3);
+				
 				java.util.List<MeetingE> meetingEs = plan.getMeetingEvents();
 				for(int i=0;i<meetingEs.size();i++){
 					MeetingE meetingE = meetingEs.get(i);
@@ -159,8 +159,7 @@ public class MeetingUtil {
 				MeetingE meetingE =(MeetingE)_comp;
 				if( isLoadMeetingInfo ){
 					Meeting meetingInfo = yearPlanUtil.getMeeting( user, meetingE.getRefId() );
-		System.err.println("TESTSSSSS: "+ (meetingInfo ==null) );			
-		System.err.println("TESTSSSSS: "+meetingInfo.getName());
+		
 					meetingE.setMeetingInfo(meetingInfo);
 				}
 				container.put(date, meetingE);
@@ -249,10 +248,6 @@ public class MeetingUtil {
 	
 	public void changeMeetingPositions(User user, Troop troop, String newPositions)throws IllegalAccessException{
 	
-//System.err.println("changeMeetingPositions");		
-
-
-//System.err.println("TEST: "+userUtil.isCurrentTroopId(troop, user.getSid()));
 
 
 
@@ -291,7 +286,7 @@ if( !userUtil.hasPermission(troop,  Permission.PERMISSION_MOVE_MEETING_ID ) ){
 		plan.setMeetingEvents(rearangedMeetings);
 		plan.setAltered("true");
 		troop.setYearPlan(plan);
-//System.err.println("calling update troop");		
+		
 		troopUtil.updateTroop(user, troop);
 		
 		
@@ -370,7 +365,7 @@ if( !userUtil.hasPermission(troop,  Permission.PERMISSION_MOVE_MEETING_ID ) ){
 		java.util.List <Activity> activities = troop.getYearPlan().getActivities();
 		for(int i=0;i<activities.size();i++){			
 			Activity activity= activities.get(i);
-	//System.err.println(activity.getPath() +" : "+ activityPath);		
+		
 			if( activity.getPath().equals(activityPath) )
 				activities.remove(activity);			
 		}
@@ -426,11 +421,11 @@ if( !userUtil.hasPermission(troop,  Permission.PERMISSION_MOVE_MEETING_ID ) ){
 		
 		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
 			troop.setErrCode("112");
-	//System.err.println("rearrangeActivity-- no change");		
+			
 			throw new java.lang.IllegalAccessException();
 		}
 
-System.err.println("TATA66 : newpos:"+ _newPoss);		
+	
 
 		//TOREDO
 		java.util.List<Integer> newPoss = new java.util.ArrayList();
@@ -438,7 +433,7 @@ System.err.println("TATA66 : newpos:"+ _newPoss);
 		while( t.hasMoreElements())
 			newPoss.add( Integer.parseInt( t.nextToken() ));
 		
-System.err.println("tata66 NewPos: "+ newPoss);
+
 		
 		//Meeting meetingInfo = meetingDAO.getMeeting(user, meetingPath ); 1/13/15
 		Meeting meetingInfo = yearPlanUtil.getMeeting(user, meetingPath );
@@ -449,10 +444,9 @@ System.err.println("tata66 NewPos: "+ newPoss);
 		for(int i=0;i<orgActivities.size();i++) newActivity.add(null);  
 		
 		for(int i=0;i<orgActivities.size();i++){
-			Activity activity = orgActivities.get(i);
-System.err.println("tata66 orgAct: "+ activity.getActivityNumber());			
+			Activity activity = orgActivities.get(i);			
 			int newpos = newPoss.indexOf(i+1) ;
-System.err.println("tata66 setNewActiv :"+(newpos+1));			
+			
 			activity.setActivityNumber(newpos+1);
 			newActivity.set(newpos,  activity);			
 		}
@@ -460,9 +454,7 @@ System.err.println("tata66 setNewActiv :"+(newpos+1));
 		//save activities to meeting
 		meetingInfo.setActivities(newActivity);
 		
-for(int h=0;h<meetingInfo.getActivities().size();h++)	
-	System.err.println( "tata66 endResult: "+ meetingInfo.getActivities().get(h).getActivityNumber() +" : "+meetingInfo.getActivities().get(h).getName() );
-		
+
 		//create custom meeting
 		MeetingE meetingE= getMeeting(troop.getYearPlan().getMeetingEvents(), meetingPath);
 		if(meetingE.getRefId().contains("_"))
@@ -565,15 +557,11 @@ for(int h=0;h<meetingInfo.getActivities().size();h++)
 						
 						Comparator<Activity> comp = new org.apache.commons.beanutils.BeanComparator("activityNumber");
 		        		Collections.sort( activities, comp);
-		      System.err.println("Tata66 : "+ activities.size()); 
-		      for(int ii=0;ii<activities.size();ii++)
-		    	  System.err.println("tata66 : "+ ii + " : "+ activities.get(ii).getActivityNumber());
-						for(int ii=0;ii<activities.size();ii++)
+		      
+		     			for(int ii=0;ii<activities.size();ii++)
 							activities.get(ii).setActivityNumber(ii+1);
 				
-			  for(int ii=0;ii<activities.size();ii++)
-					    	  System.err.println("tata66 : new "+ ii + " : "+ activities.get(ii).getActivityNumber());
-									
+			 	
 						meetingDAO.createCustomMeeting(user, troop, meeting, meetingInfo);
 						troopUtil.updateTroop(user, troop);
 						return;
@@ -670,7 +658,6 @@ for(int h=0;h<meetingInfo.getActivities().size();h++)
 		 
 		 for(int i=0;i<__meetings.size();i++){
 				Meeting __meeting = __meetings.get(i);
-				//System.err.println("*** "+ __meeting.getPath() );
 				
 				if( __meeting.getPath().endsWith(file) ){
 						swapMeetings(user, troop, meetingPath, __meeting.getPath());
@@ -681,7 +668,7 @@ for(int h=0;h<meetingInfo.getActivities().size();h++)
 	}
 	
 	
-	public void addAids(User user, Troop troop, String aidId, String meetingId, String assetName)throws java.lang.IllegalAccessException{
+	public void addAids(User user, Troop troop, String aidId, String meetingId, String assetName,String docType)throws java.lang.IllegalAccessException{
 		/*
 		if( ! userUtil.hasAccess(troop, troop.getCurrentTroop() , Permission.PERMISSION_CREATE_MEETING_ID) ){
 			 troop.setErrCode("112");
@@ -708,6 +695,7 @@ for(int h=0;h<meetingInfo.getActivities().size();h++)
 				asset.setRefId(aidId);
 				asset.setType(AssetComponentType.AID.toString());
 				asset.setTitle(assetName);
+				asset.setDocType(docType);
 				if( dbAsset !=null )
 		     		asset.setDescription(dbAsset.getDescription());
 				
@@ -762,7 +750,7 @@ for(int h=0;h<meetingInfo.getActivities().size();h++)
 	
 	
 	
-	public void addResource(User user, Troop troop, String aidId, String meetingId, String assetName)throws java.lang.IllegalAccessException{
+	public void addResource(User user, Troop troop, String aidId, String meetingId, String assetName,String docType)throws java.lang.IllegalAccessException{
 		/*
 		if( ! userUtil.hasAccess(troop, troop.getCurrentTroop(), Permission.PERMISSION_CREATE_MEETING_ID ) ){
 			 troop.setErrCode("112");
@@ -789,7 +777,7 @@ for(int h=0;h<meetingInfo.getActivities().size();h++)
 				asset.setRefId(aidId);
 				asset.setType(AssetComponentType.RESOURCE.toString());
 				asset.setTitle(assetName);
-				
+				asset.setDocType(docType);
 				
 				java.util.List<Asset> assets= meeting.getAssets();
 				assets= assets ==null ? new java.util.ArrayList() : assets;
@@ -936,58 +924,10 @@ for(int h=0;h<meetingInfo.getActivities().size();h++)
 		
 		
 		PlanView planView = planView1(  user,  troop,  request);
-		/*
-		PlanView planView = new PlanView();
-		HttpSession session= request.getSession();
 		
-		//java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(troop.getYearPlan(), false);
-		
-		java.util.Map <java.util.Date,  YearPlanComponent> sched = getYearPlanSched(troop.getYearPlan(), false);
-		if( sched==null || (sched.size()==0)){System.err.println( "You must first select a year plan."); return null;}
-		java.util.List<java.util.Date> dates =new java.util.ArrayList<java.util.Date>(sched.keySet());
-		long nextDate=0, prevDate=0;
-		java.util.Date searchDate= null;
-
-		if( request.getParameter("elem") !=null ) {
-			searchDate = new java.util.Date( Long.parseLong(  request.getParameter("elem")  ) );	
-		}else if( session.getValue("VTK_planView_memoPos") !=null ){
-			searchDate= new java.util.Date( (Long)session.getValue("VTK_planView_memoPos")  );			
-		} else {
-			
-			if( troop.getYearPlan().getSchedule()==null)
-				searchDate = (java.util.Date) sched.keySet().iterator().next();
-			else{
-		
-			  java.util.Iterator itr = sched.keySet().iterator();
-			  while( itr.hasNext() ){
-				searchDate= (java.util.Date)itr.next();
-				if( searchDate.after( new java.util.Date() ) )
-				break;
-		
-			  }
-		    }
-		
-		}
-
-		int currInd =dates.indexOf(searchDate);
-	        int meetingCount = currInd+1;
-
-		if( dates.size()-1 > currInd )
-			nextDate = ((java.util.Date)dates.get(currInd+1)).getTime();
-		if( currInd>0 )
-			prevDate = ((java.util.Date)dates.get(currInd-1)).getTime();	
-		session.putValue("VTK_planView_memoPos", searchDate.getTime());
-	    YearPlanComponent _comp= sched.get(searchDate);
-	    */
 		 YearPlanComponent _comp= planView.getYearPlanComponent();
 		if( _comp ==null ){
-			/*
-			%><span class="error">
-			A co-leader has made changes to the schedule of the Year Plan that affect this meeting. 
-			<a href="/content/girlscouts-vtk/en/vtk.plan.html">Click here</a> to go to the Year Plan view to see this changes and access the updated version of this meeting.
-			</span><% 
-			*/
-			System.err.println("_comp is null");
+			
 			return null;
 		}
 
@@ -999,7 +939,7 @@ for(int h=0;h<meetingInfo.getActivities().size();h++)
 
 		if ( _comp.getType() == YearPlanComponentType.MEETING) {
 			meeting = (MeetingE) _comp;
-	System.err.println("TATA77: "+ meeting.getRefId() );		
+	
 			meetingInfo = yearPlanUtil.getMeeting( user, meeting.getRefId() );
 			
 
@@ -1087,7 +1027,7 @@ for(int h=0;h<meetingInfo.getActivities().size();h++)
 		java.util.List<java.util.Date> dates =new java.util.ArrayList<java.util.Date>(sched.keySet());
 		long nextDate=0, prevDate=0;
 		java.util.Date searchDate= null;
-System.err.println("tata77: "+ request.getParameter("elem"));
+
 		if( request.getParameter("elem") !=null ) {
 			searchDate = new java.util.Date( Long.parseLong(  request.getParameter("elem")  ) );	
 		}else if( false) {//session.getValue("VTK_planView_memoPos") !=null ){
@@ -1136,14 +1076,14 @@ System.err.println("tata77: "+ request.getParameter("elem"));
 		java.util.Date today = new java.util.Date();
 		java.util.Map <java.util.Date,  YearPlanComponent> sched = getYearPlanSched(user, troop.getYearPlan(), false, false);
 		java.util.Iterator itr= sched.keySet().iterator();
-System.err.println("tata88 : "+ sched.size());		
+		
 		while( itr.hasNext() ){
 			java.util.Date date = (Date) itr.next();
-System.err.println("tata88: "+ date);			
+			
 			YearPlanComponent ypc = sched.get(date);
-System.err.println("tata88 ypc "+ ypc.getType() );			
+			
 			if( date.after(today) && ypc.getType()== YearPlanComponentType.MEETING){
-System.err.println("tata88 yes");				
+			
 				MeetingE MEETING = (MeetingE) ypc;
 				Meeting meetingInfo = yearPlanUtil.getMeeting( user, MEETING.getRefId() );
 				MEETING.setMeetingInfo(meetingInfo);

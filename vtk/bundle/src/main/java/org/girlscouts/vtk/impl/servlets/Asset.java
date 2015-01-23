@@ -99,7 +99,7 @@ import com.day.cq.commons.jcr.JcrUtil;
 	 @Override
      protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServerException, IOException {
 
-System.err.println("Asset..get.");
+
 doPost(request, response);
 	 }
 		
@@ -108,7 +108,7 @@ doPost(request, response);
 		    @Override
 		     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServerException, IOException {
 
-		System.err.println("Asset..."+ request.getParameter("upldTroopPic") ); 
+		 
 		
 		    	  ResourceResolver resourceResolver = null;
 		      try {
@@ -117,7 +117,7 @@ doPost(request, response);
 		      PrintWriter out = null;
 		      
 		        out = response.getWriter();
-System.err.println("isMultipart: "+isMultipart);
+
 		        if (isMultipart) {
 		        	
 
@@ -166,11 +166,11 @@ System.err.println("isMultipart: "+isMultipart);
 		            		 // out.println("<script>location.reload();</script>");
 		            	   }
 		              }else if( request.getParameter("upldTroopPic")!=null){
-		System.err.println( "UPLDTRoopId "+ request.getParameter("troopId"))    ;        	  
+		      	  
 		            	  //loc= "/content/dam/girlscouts-vtk/troops/"+ request.getParameter("troopId")+"/imgLib/troop_pic.png";
 						  loc= "/vtk/"+ request.getParameter("councilId")+"/troops/"+ request.getParameter("troopId")+"/resources"; 	              	  
 						  name="troop_pic.png";
-System.out.println("Inside Asset.java upldTroopPic loc " + loc);
+
 		              }
 		              
 		              reverseReplicateBinary(session, loc, name,            
@@ -199,9 +199,8 @@ System.out.println("Inside Asset.java upldTroopPic loc " + loc);
 		        	 final org.apache.sling.api.request.RequestParameter param = pArr[0];
 		        	 final InputStream stream = param.getInputStream();
 		        	 if (param.isFormField()) {
-			              //System.err.println("Form field " + k + " with value " + org.apache.commons.fileupload.util.Streams.asString(stream) + " detected.");
-			            } else {
-			              //System.err.println("File field " + k + " with file name " + param.getFileName() + " detected.");
+			              ;
+			              } else {
 			            
 			              resourceResolver = resolverFactory.getAdministrativeResourceResolver(null);            
 			              Session session = resourceResolver.adaptTo(Session.class);            
@@ -240,7 +239,7 @@ System.out.println("Inside Asset.java upldTroopPic loc " + loc);
 		    			String desc, String owner, String id)
 		            throws RepositoryException {        
 		            ValueFactory valueFactory = session.getValueFactory();        
-	//System.err.println("Saving..." + parentPath +" : "+ name);	         
+	       
 		            Node page = JcrUtil.createPath(parentPath, "nt:unstructured", "nt:unstructured", session, true);
 		          
 		            

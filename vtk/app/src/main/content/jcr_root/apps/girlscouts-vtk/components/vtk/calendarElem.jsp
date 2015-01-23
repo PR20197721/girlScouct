@@ -90,9 +90,9 @@ $(function() {
 		  onSelect: function(dateText, inst) { 
 		      var dateAsString = dateText; //the first parameter of this function
 		      var dateAsObject = $(this).datepicker( 'getDate' ); //the getDate method
-		      console.log( "caca b4: "+document.getElementById("cngDate0").value);
+		      
 		      document.getElementById("cngDate0").value =dateAsString;
-		      console.log( "caca after: "+document.getElementById("cngDate0").value);
+		      
 		   }
 		  });
   });
@@ -154,11 +154,11 @@ $('#saveCalElem').click(function() {
   	  	rmMeeting('<%=date.getTime()%>',r);
 	}
 	else if($("#cngRadio").prop("checked")){
-		console.log("cacaaca: "+$('#frmCalElem').valid());
+		
 		if ($('#frmCalElem').valid()) {
-			console.log(1);
+			
 			if(!timeDiff()){ return false;}
-			console.log(2);
+			
 			  updSched1('0','<%=meeting.getPath()%>','<%=date.getTime()%>');
 			}
 			else {

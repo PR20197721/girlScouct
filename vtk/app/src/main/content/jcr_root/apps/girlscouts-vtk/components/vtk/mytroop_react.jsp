@@ -23,18 +23,18 @@
 			if( emailTo.startsWith(",") ) 
 				emailTo= emailTo.substring(1, emailTo.length());
 			
-			//System.err.println( emailTo );
+			
 			
 	}catch(Exception e){e.printStackTrace();}
 %>
 
 <!-- <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-<script src="http://fb.me/react-0.12.1.js"></script>
-<script src="http://fb.me/JSXTransformer-0.12.1.js"></script>
-<script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
-<script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script>
-<script src="http://fb.me/react-with-addons-0.12.1.js"></script> -->
+<!-- script src="http://fb.me/react-0.12.1.js"></script -->
+<!-- script src="http://fb.me/JSXTransformer-0.12.1.js"></script -->
+<!-- script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script -->
+<!-- script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script -->
+<!-- script src="http://fb.me/react-with-addons-0.12.1.js"></script> -->
 
 <%@include file="include/tab_navigation.jsp"%>
 

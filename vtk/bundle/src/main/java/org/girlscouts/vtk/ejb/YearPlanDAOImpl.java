@@ -176,7 +176,7 @@ public class YearPlanDAOImpl implements YearPlanDAO {
 				ex.printStackTrace();
 			}
 		}
-	//System.err.println("Last midf timestamp: "+ toRet);	
+		
 		return toRet;
 	}
 }

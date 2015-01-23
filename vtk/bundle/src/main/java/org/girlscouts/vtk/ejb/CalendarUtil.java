@@ -297,8 +297,7 @@ public class CalendarUtil {
 		*/
 		public java.util.Date getNextAvailDate( java.util.List <org.joda.time.DateTime> exclWeeks, long fromDate , int freq ){
 			
-			for(int i=0;i<exclWeeks.size();i++)
-					System.err.println("tata88: "+ exclWeeks.get(i) );
+			
 			
 			return null;
 			
@@ -339,7 +338,6 @@ public class CalendarUtil {
 		
 		*/
 		public void createSched(User user, Troop troop, String freq, org.joda.time.DateTime newStartDate, String exclDate, long oldFromDate)throws java.lang.IllegalAccessException{
-System.err.println("tata88 start createsched "+ newStartDate );			
 				if( troop!= null && ! userUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID   ) )
 					throw new IllegalAccessException();
 				
@@ -367,21 +365,19 @@ System.err.println("tata88 start createsched "+ newStartDate );
 				
 				//ALL excl dates
 			    java.util.List <String> exclDates =getExclDates( exclDate);
-System.err.println("tata88 exlDate: "+ exclDates);				
+			
 			    //current cal
 			    Calendar newCalDate = java.util.Calendar.getInstance();
 			    newCalDate.setTimeInMillis(newStartDate.getMillis());
 			    
-System.err.println("tata88 dates: "+ dates +" newCalDate: "+ newCalDate.getTime());		
+	
 
 			    StringTokenizer t= new StringTokenizer( dates, ",");
 				while( t.hasMoreElements() ){
 					java.util.Date dt = new java.util.Date( Long.parseLong( t.nextToken() ) );	
-	System.err.println("tata88 chk: "+ dt +" : "+ dt.getTime() + " : " + oldFromDate +" -- "+ (dt.getTime() == oldFromDate) );				
 					if( (dt.getTime() == oldFromDate)){	
 						long newDate = getNextDate( exclDates, newCalDate.getTimeInMillis(), freq, true);
-	System.err.println("tata88 first: "+ newDate +" replace "+ dt.getTime() + " with " + newDate +" LOOK replace: "+
-						dt +" with "+ new java.util.Date(newDate) );	
+		
 	
 						dates=dates.replace(","+dt.getTime() +",", "," + newDate +"," );
 						newCalDate.setTimeInMillis( newDate );
@@ -389,25 +385,16 @@ System.err.println("tata88 dates: "+ dates +" newCalDate: "+ newCalDate.getTime(
 						
 						long newDate = getNextDate( exclDates, newCalDate.getTimeInMillis(), freq, false);
 						dates= dates.replace(","+dt.getTime() +",", "," + newDate +",");
-	System.err.println("tata88 else: "+ newDate +" > "+ oldFromDate +" replace "+ dt.getTime() + " with " + newDate 
-			+" LOOK replace: "+
-			dt +" with "+ new java.util.Date(newDate) );								
-						newCalDate.setTimeInMillis( newDate );
+							newCalDate.setTimeInMillis( newDate );
 						
 					}
 				}
 				if( dates.startsWith(",") ) dates= dates.substring(1) ;
 				if( dates.endsWith(",") )   dates= dates.substring(0, dates.length()-1);
 				
-	System.err.println("tata88 new dates: "+ dates);
+		
 				
 				
-				/*
-				String existSched = troop.getYearPlan().getSchedule()== null ? "" : troop.getYearPlan().getSchedule().getDates();
-				
-				java.util.List <org.joda.time.DateTime> sched = new CalendarUtil().genSched( p, freq, exclDt,  troop.getYearPlan().getMeetingEvents().size(),
-						existSched);
-						*/
 				YearPlan plan = troop.getYearPlan();
 				plan.setCalFreq(freq);
 				plan.setCalStartDate( Long.parseLong( dates.substring(0, dates.indexOf(",")) ) );
@@ -445,7 +432,7 @@ System.err.println("tata88 dates: "+ dates +" newCalDate: "+ newCalDate.getTime(
 		}
 		
 		private long getNextDate( List <String> exclDates, long theDate, String freq, boolean isUseCurrDate){
-System.err.println("tata start nextDate " + new java.util.Date(theDate) );			
+		
 			long nextDate = theDate;
 			
 			if( !isUseCurrDate ){
@@ -462,8 +449,6 @@ System.err.println("tata start nextDate " + new java.util.Date(theDate) );
 	            }
 				nextDate= date.getMillis();
 			}
-System.err.println("tata88 nextDate start: nextDate: "+nextDate+" : "+isUseCurrDate );			
-System.err.println("tata88: nextDate chk : "+ fmtDate.format(new java.util.Date(nextDate) ) +": "+exclDates.contains( fmtDate.format(new java.util.Date(nextDate) ) ));			
 			if( !exclDates.contains( fmtDate.format(new java.util.Date(nextDate) ) ) )
 				return nextDate;
 			else

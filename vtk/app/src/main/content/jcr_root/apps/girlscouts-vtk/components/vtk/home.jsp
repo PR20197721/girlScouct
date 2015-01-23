@@ -52,7 +52,7 @@ if (configManager != null) {
 <!--
 <% 
 	out.print(councilId); 
-	System.err.println("### Council Id: " + councilId);
+	
 %>
 -->
  

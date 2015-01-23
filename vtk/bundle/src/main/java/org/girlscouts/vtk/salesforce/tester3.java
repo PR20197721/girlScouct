@@ -47,35 +47,14 @@ public class tester3 {
 	if(true)return;
 	
 	
-	/*
-	//to get all campaignIds for contactId. Each CampaignMember
-	java.util.List<String>  campaignIds = me.getCampaignIds(apiConfig); 
-	for(int i=0;i<campaignIds.size();i++){
-		System.err.println( "CampID: "+ campaignIds.get(i));
-	
-		
-		if( i==0 ){
-			me.getCampaign(apiConfig, "701Z0000000WZA7");
-			me.getGirstEmails(apiConfig, "701Z0000000WZA7", "Volunteer");
-		}
-		
-	}
-	*/
+
 	
 	
 	
 	
 	
 	
-//	java.util.List<Campaign> campaigns = 
-	
-	
-		//apiConfig.setUserId("701Z0000000WZA7");
-		//com.np.Users _user = new tester3().getUserInfo(apiConfig);
-		//System.err.println("WhoAMI? "+ _user.getName() + " : "+ _user.getEmail());
-		
-		//System.err.println( camp.getId() + " :" + camp.getName() );
-		
+
 		
 		
 		if(true)return;

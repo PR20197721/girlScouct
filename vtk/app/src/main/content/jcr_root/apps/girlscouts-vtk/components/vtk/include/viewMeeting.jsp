@@ -1,4 +1,3 @@
-
 <% 
 	Meeting meeting = yearPlanUtil.getMeeting(user, meetingE.getRefId());
 	boolean isCanceled =false;

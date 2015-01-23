@@ -8,27 +8,16 @@
     String activeTab = "plan";
     boolean showVtkNav = true;
 %>
-<!-- <script src="http://code.jquery.com/jquery-1.9.1.js"></script> -->
-<!-- <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" /> -->
-<!-- <link rel="stylesheet" href="/etc/designs/girlscouts-vtk/clientlibs/css/vtk-style.css" /> -->
-<!-- <script src="http://fb.me/react-0.12.1.js"></script>
-<script src="http://fb.me/JSXTransformer-0.12.1.js"></script>
+
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" /> 
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script>
-<script src="http://fb.me/react-with-addons-0.12.1.js"></script> -->
+
+ 
 
 <%@include file="include/tab_navigation.jsp"%>
- 
- 
- <script>
-  $("#sortable123").sortable({
-     items: "li:not(.ui-state-disabled)",
-    
-   });
-  $( "#sortable123 li" ).disableSelection();
- </script>
- 
+
+
  <div id="panelWrapper" class="row meeting-detail content">
    <%@include file="include/utility_nav.jsp"%>
    <%@include file="include/view_yp_dropdown.jsp"%>
