@@ -115,9 +115,9 @@ System.err.println("changing new... "+ x );
 	return;
 		case AddAid:
 	if( request.getParameter("assetType").equals("AID")){
-		meetingUtil.addAids(user, troop, request.getParameter("addAids"), request.getParameter("meetingId"), java.net.URLDecoder.decode(request.getParameter("assetName") ) );
+		meetingUtil.addAids(user, troop, request.getParameter("addAids"), request.getParameter("meetingId"), java.net.URLDecoder.decode(request.getParameter("assetName") ),request.getParameter("docType") );
 	}else{
-		meetingUtil.addResource(user, troop, request.getParameter("addAids"), request.getParameter("meetingId"), java.net.URLDecoder.decode(request.getParameter("assetName") ) );
+		meetingUtil.addResource(user, troop, request.getParameter("addAids"), request.getParameter("meetingId"), java.net.URLDecoder.decode(request.getParameter("assetName") ),request.getParameter("docType") );
 	}
 	return;
 		case RemoveAsset:
@@ -335,7 +335,6 @@ if(request.getParameter("admin_login")!=null ){
 	  
 	  java.util.List<Asset> aids = emr.getAssets();
 	  if( addAid!=null ){
-		  String aidTitle = request.getParameter("aidTitle");
 		  aids= aids==null ? new java.util.ArrayList<Asset>() : aids;
 		  for(int i=0;i<aids.size();i++){
 			  if( aids.get(i).getRefId().equals(addAid)){
@@ -344,7 +343,7 @@ if(request.getParameter("admin_login")!=null ){
 		  }
 		  Asset aid = new Asset();
 		  aid.setRefId(addAid);
-		  aid.setTitle(aidTitle);
+		  aid.setTitle(request.getParameter("aidTitle"));
 		  aids.add( aid );
 		  emr.setAssets(aids);
 	  }

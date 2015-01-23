@@ -34,7 +34,7 @@
 				 		<td><a class="previewItem" href="<%=a.getRefId() %>" target="_blank"><%= a.getTitle() %></a> </td>
 				 		<td width="40">
 				 			<% if( !existingAids.contains(a.getRefId()) && hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID ) ){ %>
-				 				 <input type="button" value="Add to Meeting" onclick="assignAid('<%=a.getRefId()%>', '<%=planView.getYearPlanComponent().getUid()%>', '<%=a.getTitle()%>')" class="button linkButton"/>
+				 				 <input type="button" value="Add to Meeting" onclick="assignAid('<%=a.getRefId()%>', '<%=planView.getYearPlanComponent().getUid()%>', '<%=a.getTitle()%>','<%=a.getDocType()%>')" class="button linkButton"/>
 				 			<%} else {%>
 								<p class="btn button disabled" style="width:100%">Exists</p>
 				 			<%} %>
@@ -46,7 +46,7 @@
 		</div>
 	</div>
 <script>
-  function assignAid(aidId, meetingId, assetName, assetDesc){
+  function assignAid(aidId, meetingId, assetName, assetDesc, assetDocType){
 	  $.ajax({
 			cache: false,
 			url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand=' + Date.now(),
@@ -58,6 +58,7 @@
 				assetName:assetName,
 				assetDesc:assetDesc,
 				assetType:'AID',
+				docType:assetDocType,
 				a:Date.now()
 			},
 			success: function(result) {

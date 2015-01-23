@@ -99,8 +99,13 @@
 			</tr>
 			<%
 			//List<Asset> aidTags = planView.getAidTags();
-			for(int i=0;i<planView.getAidTags().size();i++){%>
-			 <tr>
+			for(int i=0;i<planView.getAidTags().size();i++){
+				 String assetIcon = GSUtils.getDocTypeImageFromString(planView.getAidTags().get(i).getDocType());
+			%><tr>
+				<td width="40">
+					<% if (assetImage != null) { %>	
+					<img src="<%= assetIcon %>" width="40" height="40" border="0"/>
+					<% } %>
 				<td><%= planView.getAidTags().get(i).getTitle() %></td>
 			 	<td><a href="javascript:void(0)" onclick="addAidLink('<%=planView.getAidTags().get(i).getRefId()%>','<%=planView.getAidTags().get(i).getTitle()%>','<%=((MeetingE)planView.getYearPlanComponent()).getUid() %>')" class="addAidToEmail"> + </a></td>
 			 	
