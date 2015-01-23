@@ -5,16 +5,17 @@ import java.io.Serializable;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
-@Node(jcrMixinTypes = "mix:lockable")
-public class JcrNode implements Serializable {
+@Node(jcrMixinTypes="mix:lockable" )
+public class JcrNode  implements Serializable{
+	
+	public JcrNode(String path){this.path=path;}
 
-	public JcrNode(String path) {
-		this.path = path;
-	}
+	@Field(path=true) String path;
 
-	@Field(path = true)
-	String path;
-
+	
+	
+	
+	
 	public String getPath() {
 		return path;
 	}
@@ -22,5 +23,7 @@ public class JcrNode implements Serializable {
 	public void setPath(String path) {
 		this.path = path;
 	}
-
+	
+	
+	
 }

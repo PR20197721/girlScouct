@@ -4,11 +4,16 @@ import java.io.Serializable;
 
 import org.girlscouts.vtk.dao.AssetComponentType;
 
-public class Search implements Serializable {
+public class Search  implements Serializable{
 
 	private String path, content, type, desc, subTitle;
 	private AssetComponentType assetType;
 
+	
+	
+	
+	
+	
 	public String getSubTitle() {
 		return subTitle;
 	}
@@ -57,4 +62,8 @@ public class Search implements Serializable {
 		this.desc = desc;
 	}
 
+
+	
+	
+	
 }

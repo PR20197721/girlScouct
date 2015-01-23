@@ -1,11 +1,12 @@
 <li  className="row meeting" key={obj[comment].id} id={obj[comment].id+1}>
   <div className="column large-20 medium-20 large-centered medium-centered">
+    
     <div className="large-3 medium-3 small-4 columns">
       <div className={ obj[comment].cancelled =='true' ? "bg-square canceled": "bg-square"}>
         <div className="count">{(obj[comment].id)+1}</div>
         <div className="date">
-          <p className="month">{ moment(comment).get('year') < 1978 ? "meeting" : moment(comment).format('MMM')}</p>
-          <p className="day">{ moment(comment).get('year') < 1978 ? (obj[comment].id)+1 : moment(comment).format('DD')}</p>
+          <p className="month">{ moment(comment).get('year') < 1978 ? "" : moment(comment).format('MMM')}</p>
+          <p className="day">{ moment(comment).get('year') < 1978 ? "" : moment(comment).format('DD')}</p>
           <p className="hour">{ moment(comment).get('year') < 1978 ? "" : moment(comment).format('hh:mm a')}</p>
         </div>
       </div>

@@ -329,7 +329,7 @@ if(request.getParameter("admin_login")!=null ){
 		  emr.setEmailToTroopVolunteer(email_to_tv);
 		  /*Troop Volunteers data needed */
 	  }
-	  
+	  /*
 	  String addAid= request.getParameter("addAid");
 	  String rmAid=  request.getParameter("rmAid");
 	  
@@ -354,7 +354,7 @@ if(request.getParameter("admin_login")!=null ){
 	  if( aids.get(i).getRefId().equals( rmAid))
 		  		aids.remove(i);
 	  }
-
+	*/
 	  troop.setSendingEmail(emr);
 	
 	
@@ -362,10 +362,10 @@ if(request.getParameter("admin_login")!=null ){
 	// /gscontroller/vtk/action/sendMeetingReminderEmail parameters  
 		EmailMeetingReminder emr=null;
 		if( troop.getSendingEmail() !=null ) {
-	emr= troop.getSendingEmail();
+			emr= troop.getSendingEmail();
 		}
 		if( emr.getCc()==null || emr.getCc().equals("")) {
-	emr.setCc("ayakobovich@northpointdigital.com");
+			emr.setCc("ayakobovich@northpointdigital.com");
 		}
 		String html = emr.getHtml();
 		/*
@@ -377,13 +377,12 @@ if(request.getParameter("admin_login")!=null ){
 			html += "<br/><a href=\""+eAssets.get(i).getRefId()+"\">"+eAssets.get(i).getRefId()+ "</a>";
 		}
 	}
-		}*/
-		emr.setHtml(html);
+		}
+		emr.setHtml(html);*/
 		org.girlscouts.vtk.ejb.Emailer emailer = sling.getService(org.girlscouts.vtk.ejb.Emailer.class);
-		emailer.test(emr);
-		  
-		emr=null;
+		emailer.test(emr);	  
 		troop.setSendingEmail(null);
+		
 }else if( request.getParameter("testAB")!=null){
 	
 	//java.util.Set<Integer> myPermissionTokens = new HashSet<Integer>();

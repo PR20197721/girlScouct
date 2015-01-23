@@ -34,13 +34,12 @@ import org.slf4j.LoggerFactory;
 @Component
 @Service(value = YearPlanDAO.class)
 public class YearPlanDAOImpl implements YearPlanDAO {
-	private final Logger log = LoggerFactory.getLogger("vtk");
+	 private final Logger log = LoggerFactory.getLogger("vtk");
 	@Reference
 	private SessionFactory sessionFactory;
 
 	@Activate
-	void activate() {
-	}
+	void activate() {}
 
 	public List<YearPlan> getAllYearPlans(User user, String ageLevel) {
 		java.util.List<YearPlan> yearPlans = null;
@@ -60,7 +59,7 @@ public class YearPlanDAOImpl implements YearPlanDAO {
 			Filter filter = queryManager.createFilter(YearPlan.class);
 
 			java.util.Calendar today = java.util.Calendar.getInstance();
-			// int year = today.get(java.util.Calendar.YEAR);
+			//int year = today.get(java.util.Calendar.YEAR);
 
 			filter.setScope("/content/girlscouts-vtk/yearPlanTemplates/yearplan"
 					+ user.getCurrentYear() + "/" + ageLevel + "/");
@@ -144,7 +143,8 @@ public class YearPlanDAOImpl implements YearPlanDAO {
 		}
 		return toRet;
 	}
-
+	
+	
 	public java.util.Date getLastModifByOthers(Troop troop, String sessionId) {
 		Session session = null;
 		java.util.Date toRet = null;
@@ -152,10 +152,10 @@ public class YearPlanDAOImpl implements YearPlanDAO {
 			session = sessionFactory.getSession();
 			String sql = "select jcr:lastModified from nt:base where jcr:path = '"
 					+ troop.getPath() + "' and jcr:lastModified is not null";
-
-			if (sessionId != null)
-				sql += " and currentTroop <>'" + sessionId + "'";
-			log.debug("SQL " + sql);
+			
+			if(sessionId!=null)
+				sql+= " and currentTroop <>'"+sessionId+"'";
+		log.debug("SQL "+ sql);
 			javax.jcr.query.QueryManager qm = session.getWorkspace()
 					.getQueryManager();
 			javax.jcr.query.Query q = qm.createQuery(sql,
@@ -176,7 +176,7 @@ public class YearPlanDAOImpl implements YearPlanDAO {
 				ex.printStackTrace();
 			}
 		}
-
+	//System.err.println("Last midf timestamp: "+ toRet);	
 		return toRet;
 	}
 }

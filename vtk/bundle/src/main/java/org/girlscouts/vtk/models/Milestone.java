@@ -6,23 +6,25 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
 
-@Node(jcrMixinTypes = "mix:lockable")
-public class Milestone extends YearPlanComponent implements Serializable {
+@Node(jcrMixinTypes="mix:lockable" )
+public class Milestone extends YearPlanComponent  implements Serializable{
 
-	@Field(path = true)
-	String path;
-	@Field
-	private String blurb;
-	@Field
-	private java.util.Date date;
-	@Field(id = true)
-	String uid;
-
-	public Milestone() {
-		this.uid = "M" + new java.util.Date().getTime() + "_" + Math.random();
+	@Field(path=true) String path;
+	@Field private String blurb;
+	@Field private java.util.Date date;
+	@Field(id=true) String uid;
+	
+	public Milestone(){
+		this.uid= "M"+new java.util.Date().getTime()+"_"+ Math.random(); 
 		super.setType(YearPlanComponentType.MILESTONE);
-	}
+		}
 
+	
+	
+	
+	
+	
+	
 	public String getPath() {
 		return path;
 	}
@@ -48,14 +50,16 @@ public class Milestone extends YearPlanComponent implements Serializable {
 	}
 
 	public String getUid() {
-		if (uid == null)
-			this.uid = "M" + new java.util.Date().getTime() + "_"
-					+ Math.random();
+		if(uid==null)
+			this.uid= "M"+new java.util.Date().getTime()+"_"+ Math.random();
 		return uid;
 	}
 
 	public void setUid(String uid) {
 		this.uid = uid;
 	}
-
+	
+	
+	
+	
 }

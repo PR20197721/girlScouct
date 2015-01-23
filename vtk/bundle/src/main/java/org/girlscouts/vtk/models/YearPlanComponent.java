@@ -4,12 +4,15 @@ import java.io.Serializable;
 
 import org.girlscouts.vtk.dao.YearPlanComponentType;
 
-public class YearPlanComponent implements Serializable {
+public class YearPlanComponent  implements Serializable{
 
 	private java.util.Date date;
-	private YearPlanComponentType type;
+	private  YearPlanComponentType type;
 	private String uid;
-
+	
+	
+	
+	
 	public String getUid() {
 		return uid;
 	}
@@ -33,5 +36,7 @@ public class YearPlanComponent implements Serializable {
 	public void setType(YearPlanComponentType type) {
 		this.type = type;
 	}
-
+	
+	
+	
 }

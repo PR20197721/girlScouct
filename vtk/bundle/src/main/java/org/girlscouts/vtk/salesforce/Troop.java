@@ -3,21 +3,25 @@ package org.girlscouts.vtk.salesforce;
 import java.io.Serializable;
 import java.util.Set;
 
-public class Troop implements Serializable {
+public class Troop  implements Serializable{
 
 	/**
 	 * 
-	 * type =0 stand type =1 no troops, just get cauncil id
+	 * type =0 stand
+	 * type =1 no troops, just get cauncil id
 	 */
-
-	public Troop() {
-		this.type = 0;
-	}
-
-	private String troopId, troopName, gradeLevel, councilId;
+	
+	public Troop(){ this.type= 0; }
+	private String troopId, troopName, gradeLevel,  councilId;
 
 	private int councilCode, type;
 	private Set<Integer> permissionTokens;
+	
+	
+	
+	
+	
+
 
 	public Set<Integer> getPermissionTokens() {
 		return permissionTokens;
@@ -59,6 +63,8 @@ public class Troop implements Serializable {
 		this.gradeLevel = gradeLevel;
 	}
 
+	
+
 	public int getCouncilCode() {
 		return councilCode;
 	}
@@ -74,5 +80,8 @@ public class Troop implements Serializable {
 	public void setCouncilId(String councilId) {
 		this.councilId = councilId;
 	}
-
+	
+	
+	
+	
 }

@@ -2,8 +2,14 @@ package org.girlscouts.vtk.salesforce;
 
 public class Campaign {
 
-	private String name, Id, jobCode, parentCampaignId;
+	private String  name, Id, jobCode, parentCampaignId;
 
+
+	
+	
+	
+	
+	
 	public String getParentCampaignId() {
 		return parentCampaignId;
 	}
@@ -35,5 +41,7 @@ public class Campaign {
 	public void setId(String id) {
 		Id = id;
 	}
-
+	
+	
+	
 }

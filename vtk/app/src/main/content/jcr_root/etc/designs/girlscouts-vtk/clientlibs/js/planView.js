@@ -191,7 +191,6 @@ function previewMeetingReminderEmail(mid){
 			email_htm: email_htm
 		},
 		success: function(result) {
-			//console.log(result);
 			window.open("/content/girlscouts-vtk/controllers/vtk.include.email.meetingReminder_preview.html");
 		}
 	});
