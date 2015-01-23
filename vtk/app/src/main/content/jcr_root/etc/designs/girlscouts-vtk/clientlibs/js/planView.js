@@ -174,7 +174,6 @@ function previewMeetingReminderEmail(mid){
 	var email_cc = document.getElementById("email_to_cc").value;
 	var email_subj = document.getElementById("email_subj").value;
 	var email_htm = document.getElementById("email_htm").value; 
-	var email_
 	
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
@@ -237,6 +236,7 @@ function sendMeetingReminderEmail(){
 		type: 'POST',
 		data: { 
 			sendMeetingReminderEmail: true,
+			email_sent_date: moment(new Date()).format('MM/DD/YYYY')
 		},
 		success: function(result) {
 			location.reload();

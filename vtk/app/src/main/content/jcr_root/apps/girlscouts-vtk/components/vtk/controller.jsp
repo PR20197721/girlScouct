@@ -307,7 +307,7 @@ if(request.getParameter("admin_login")!=null ){
 	  }
 
 	  emr.setMeetingId(meetingId);
-	  
+
 	  if(email_to_gp.equals("true")){
 		  java.util.List<Contact> contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO).getContacts(user.getApiConfig(), troop.getSfTroopId() );
 		  String emails = null;
@@ -353,6 +353,7 @@ if(request.getParameter("admin_login")!=null ){
 		  		aids.remove(i);
 	  }
 	*/
+	
 	  troop.setSendingEmail(emr);
 	
 	
@@ -365,6 +366,8 @@ if(request.getParameter("admin_login")!=null ){
 		if( emr.getCc()==null || emr.getCc().equals("")) {
 			emr.setCc("ayakobovich@northpointdigital.com");
 		}
+		
+		emr.setSentDate(sentDate);
 		String html = emr.getHtml();
 		/*
 		html+="<br/>Aids Included:";

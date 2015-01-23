@@ -4,7 +4,7 @@ import org.girlscouts.vtk.models.Asset;
 
 public class EmailMeetingReminder {
 
-	private String to, from, cc, bcc, html, subj,
+	private String to, from, cc, bcc, html, subj, sentDate,
 	emailToGirlParent, emailToSelf, emailToTroopVolunteer,
 	meetingId;
 
@@ -132,6 +132,12 @@ public class EmailMeetingReminder {
 
 	public void setEmailToTroopVolunteer(String emailToTroopVolunteer) {
 		this.emailToTroopVolunteer = emailToTroopVolunteer;
+	}
+	public void setSentDate(String date){
+		sentDate = date;
+	}
+	public void getSentDate(){
+		return sentDate;
 	}
 
 	public void addTo(String to){

@@ -3,7 +3,6 @@
 <div class="content clearfix meeting-reminder">
 
 <% //if(planView.getYearPlanComponent().getType()==YearPlanComponentType.ACTIVITY){
-		%>This is an activity<% 
 	//}
 
 	//if(planView.getYearPlanComponent().getType()==YearPlanComponentType.MEETING){
@@ -15,7 +14,7 @@
 	<h5>Reminder Meeting <%=((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getName() %>
 	  <%= FORMAT_MEETING_REMINDER.format(planView.getSearchDate()) %></h5>
 	
-	<p class="sent">Sent: </p>
+	<p class="sent">Sent: None</p>
 
 	<h6>Address List</h6>
 	
@@ -149,17 +148,21 @@
 </div>
 <!--//content-->
 <% //}%>
-
+<div class="added" style="display:none">
+<p>Added to email.</p>
+</div>
 
 
 <script>
 	$(document).ready(function(){
 		//print out the date the email was sent.
-		 if(moment(new Date()) != null && moment(new Date()) !='') {
+		 /* if(moment(new Date()) != null && moment(new Date()) !='') {
 		  $('.sent').append(moment(new Date()).format('MM/DD/YYYY'));
 		 } else {
 		  $('.sent').append('none');
-		 }
+		 } */
+		 $(".added").dialog({ autoOpen: false });
+
 	});
 	
 
@@ -177,6 +180,11 @@
 	function addAidLink(refId,title,docType,uid){
 		$('#aidLinks').append('<li><i class="icon-'+docType+'-file-extension"></i><a href="'+refId+'">'+title+'</a></li>');
 		//$('.addAidToEmail').text("-");
+		$('.added').dialog('open');
+	    setTimeout(function() {
+	    	$('.added').dialog('close');
+	    }, 100);
+
 		//addAidToEmail(refId,title,uid);
 		return;
 	};
