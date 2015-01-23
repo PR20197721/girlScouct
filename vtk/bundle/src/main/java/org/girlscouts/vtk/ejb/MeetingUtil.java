@@ -111,7 +111,7 @@ public class MeetingUtil {
 			
 			//set meetingInfos if isLoadMeetingInfo
 			if( isLoadMeetingInfo ){
-				System.err.println(3);
+				
 				java.util.List<MeetingE> meetingEs = plan.getMeetingEvents();
 				for(int i=0;i<meetingEs.size();i++){
 					MeetingE meetingE = meetingEs.get(i);
@@ -159,8 +159,7 @@ public class MeetingUtil {
 				MeetingE meetingE =(MeetingE)_comp;
 				if( isLoadMeetingInfo ){
 					Meeting meetingInfo = yearPlanUtil.getMeeting( user, meetingE.getRefId() );
-		System.err.println("TESTSSSSS: "+ (meetingInfo ==null) );			
-		System.err.println("TESTSSSSS: "+meetingInfo.getName());
+		
 					meetingE.setMeetingInfo(meetingInfo);
 				}
 				container.put(date, meetingE);
@@ -249,10 +248,6 @@ public class MeetingUtil {
 	
 	public void changeMeetingPositions(User user, Troop troop, String newPositions)throws IllegalAccessException{
 	
-//System.err.println("changeMeetingPositions");		
-
-
-//System.err.println("TEST: "+userUtil.isCurrentTroopId(troop, user.getSid()));
 
 
 
@@ -291,7 +286,7 @@ if( !userUtil.hasPermission(troop,  Permission.PERMISSION_MOVE_MEETING_ID ) ){
 		plan.setMeetingEvents(rearangedMeetings);
 		plan.setAltered("true");
 		troop.setYearPlan(plan);
-//System.err.println("calling update troop");		
+		
 		troopUtil.updateTroop(user, troop);
 		
 		
@@ -370,7 +365,7 @@ if( !userUtil.hasPermission(troop,  Permission.PERMISSION_MOVE_MEETING_ID ) ){
 		java.util.List <Activity> activities = troop.getYearPlan().getActivities();
 		for(int i=0;i<activities.size();i++){			
 			Activity activity= activities.get(i);
-	//System.err.println(activity.getPath() +" : "+ activityPath);		
+		
 			if( activity.getPath().equals(activityPath) )
 				activities.remove(activity);			
 		}
@@ -426,11 +421,11 @@ if( !userUtil.hasPermission(troop,  Permission.PERMISSION_MOVE_MEETING_ID ) ){
 		
 		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
 			troop.setErrCode("112");
-	//System.err.println("rearrangeActivity-- no change");		
+			
 			throw new java.lang.IllegalAccessException();
 		}
 
-System.err.println("TATA66 : newpos:"+ _newPoss);		
+	
 
 		//TOREDO
 		java.util.List<Integer> newPoss = new java.util.ArrayList();
@@ -438,7 +433,7 @@ System.err.println("TATA66 : newpos:"+ _newPoss);
 		while( t.hasMoreElements())
 			newPoss.add( Integer.parseInt( t.nextToken() ));
 		
-System.err.println("tata66 NewPos: "+ newPoss);
+
 		
 		//Meeting meetingInfo = meetingDAO.getMeeting(user, meetingPath ); 1/13/15
 		Meeting meetingInfo = yearPlanUtil.getMeeting(user, meetingPath );
@@ -449,10 +444,9 @@ System.err.println("tata66 NewPos: "+ newPoss);
 		for(int i=0;i<orgActivities.size();i++) newActivity.add(null);  
 		
 		for(int i=0;i<orgActivities.size();i++){
-			Activity activity = orgActivities.get(i);
-System.err.println("tata66 orgAct: "+ activity.getActivityNumber());			
+			Activity activity = orgActivities.get(i);			
 			int newpos = newPoss.indexOf(i+1) ;
-System.err.println("tata66 setNewActiv :"+(newpos+1));			
+			
 			activity.setActivityNumber(newpos+1);
 			newActivity.set(newpos,  activity);			
 		}
@@ -460,9 +454,7 @@ System.err.println("tata66 setNewActiv :"+(newpos+1));
 		//save activities to meeting
 		meetingInfo.setActivities(newActivity);
 		
-for(int h=0;h<meetingInfo.getActivities().size();h++)	
-	System.err.println( "tata66 endResult: "+ meetingInfo.getActivities().get(h).getActivityNumber() +" : "+meetingInfo.getActivities().get(h).getName() );
-		
+
 		//create custom meeting
 		MeetingE meetingE= getMeeting(troop.getYearPlan().getMeetingEvents(), meetingPath);
 		if(meetingE.getRefId().contains("_"))
@@ -565,15 +557,11 @@ for(int h=0;h<meetingInfo.getActivities().size();h++)
 						
 						Comparator<Activity> comp = new org.apache.commons.beanutils.BeanComparator("activityNumber");
 		        		Collections.sort( activities, comp);
-		      System.err.println("Tata66 : "+ activities.size()); 
-		      for(int ii=0;ii<activities.size();ii++)
-		    	  System.err.println("tata66 : "+ ii + " : "+ activities.get(ii).getActivityNumber());
-						for(int ii=0;ii<activities.size();ii++)
+		      
+		     			for(int ii=0;ii<activities.size();ii++)
 							activities.get(ii).setActivityNumber(ii+1);
 				
-			  for(int ii=0;ii<activities.size();ii++)
-					    	  System.err.println("tata66 : new "+ ii + " : "+ activities.get(ii).getActivityNumber());
-									
+			 	
 						meetingDAO.createCustomMeeting(user, troop, meeting, meetingInfo);
 						troopUtil.updateTroop(user, troop);
 						return;

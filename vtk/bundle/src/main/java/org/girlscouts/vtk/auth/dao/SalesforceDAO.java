@@ -213,7 +213,7 @@ public class SalesforceDAO {
             
             
             log.debug("doAuth: "+ post.getResponseBodyAsString());
-System.err.println("CHECK MASTER doAuth: "+ post.getResponseBodyAsString());         
+         
             if (post.getStatusCode() == HttpStatus.SC_OK) {
                 try {
                     JSONObject authResponse = new JSONObject(new JSONTokener(
@@ -231,8 +231,7 @@ System.err.println("CHECK MASTER doAuth: "+ post.getResponseBodyAsString());
 				// skip refresh token
 				log.debug("Skipping refresh token because SF is not providing it");
 			}
-			System.err.println("CHECK MASTER doAuth1 "+	authResponse.getString("access_token") +" :" +	refreshTokenStr);	
-               log.debug("Access token: "+ authResponse.getString("access_token")) ; 
+			    log.debug("Access token: "+ authResponse.getString("access_token")) ; 
                log.debug("REfresh tolen: "+ refreshTokenStr);
                
                     // TODO: seems not used now
@@ -287,7 +286,6 @@ public java.util.List <Troop>  troopInfo(ApiConfig apiConfig, String contactId){
 	UserGlobConfig ubConf = troopDAO.getUserGlobConfig(); //new UserDAOImpl().getUserGlobConfig();
 	get.setRequestHeader("Authorization", "OAuth " + ubConf.getMasterSalesForceToken());
 
-System.err.println("Master token: "+ ubConf.getMasterSalesForceToken() );
 
 	
 	NameValuePair[] params = new NameValuePair[1];
@@ -313,10 +311,6 @@ System.err.println("Master token: "+ ubConf.getMasterSalesForceToken() );
 							"  Parent.Program_Grade_Level__c IN ('1-Daisy','2-Brownie','3-Junior')");
 							//" (parent.program_grade_level__c like '1-%' or parent.program_grade_level__c like '2-%' or parent.program_grade_level__c like '3-%')");
 
-	System.err.println(" ctest : SELECT parentid,parent.name,parent.program_grade_level__c, parent.council_code__c, parent.account__c FROM campaign " +
-			"WHERE id IN (SELECT campaignid from campaignmember where  contactid='"+ contactId +"' and active__c = true)  " +
-			"AND job_code__c = 'DP' and" +
-			"  Parent.Program_Grade_Level__c IN ('1-Daisy','2-Brownie','3-Junior')");
 	
 		
 	
@@ -340,7 +334,6 @@ System.err.println("Master token: "+ ubConf.getMasterSalesForceToken() );
 		
 		
 		log.debug("troopInfo.RespCode "+ get.getResponseBodyAsString());
-System.err.println("tata troop: "+get.getResponseBodyAsString());
 		JSONObject _response = new JSONObject(
 				new JSONTokener(new InputStreamReader(
 						get.getResponseBodyAsStream())));
@@ -425,89 +418,7 @@ System.err.println("tata troop: "+get.getResponseBodyAsString());
     
     
     
-// TODO: Cleanup later
-//    public java.util.Map<String, String> getContactEmailList(ApiConfig apiConfig) {
-//
-//        /*
-//         * apiConfig= new ApiConfig(); apiConfig.setAccessToken(
-//         * "00DZ000000MhaMd!ARwAQOmZ2MpksgBDo_LPFW7m36oHJ5DtME1OulwhgO5xK1.bGgo9qr7JFGCe7Im56V.oYtmvOqF1ziS_iMzkcvoOMMv9f9ND"
-//         * ); apiConfig.setInstanceUrl("https://cs11.salesforce.com");
-//         */
-//
-//        java.util.Map emails = new java.util.TreeMap();
-//        try {
-//
-//            HttpClient httpclient = new HttpClient();
-//            GetMethod get = new GetMethod(apiConfig.getInstanceUrl()
-//                    + "/services/data/v20.0/query");
-//
-//            // set the token in the header
-//            get.setRequestHeader("Authorization",
-//                    "OAuth " + apiConfig.getAccessToken());
-//
-//            // set the SOQL as a query param
-//            NameValuePair[] params = new NameValuePair[1];
-//
-//            params[0] = new NameValuePair("q", "SELECT id,Email from Contact");
-//            get.setQueryString(params);
-//
-//            try {
-//                httpclient.executeMethod(get);
-//                if (get.getStatusCode() == HttpStatus.SC_OK) {
-//                    // Now lets use the standard java json classes to work with
-//                    // the
-//                    // results
-//                    try {
-//                        JSONObject response = new JSONObject(new JSONTokener(
-//                                new InputStreamReader(
-//                                        get.getResponseBodyAsStream())));
-//                        System.out.println("Query response: "
-//                                + response.toString(2));
-//
-//                        JSONArray results = response.getJSONArray("records");
-//
-//                        for (int i = 0; i < results.length(); i++) {
-//
-//                            // Contact contact = new Contact();
-//                            // contact.setId(results.getJSONObject(i).getString("Id"));
-//                            // contact.setEmail(results.getJSONObject(i).getString("Email"));
-//
-//                            // log.debug(">>"+(results.getJSONObject(i).get("Email")
-//                            // ==null));
-//                            if (!results.getJSONObject(i).get("Email")
-//                                    .toString().equals("null")) {
-//
-//                                emails.put(
-//                                        results.getJSONObject(i)
-//                                                .getString("Id"),
-//                                        results.getJSONObject(i).getString(
-//                                                "Email"));
-//                                // contact.setEmail(results.getJSONObject(i).getString("Email"));
-//                                // log.debug("*** "+ contact.getEmail()
-//                                // );
-//                            }
-//
-//                            /*
-//                             * System.out.println(results.getJSONObject(i).getString
-//                             * ("Id") + ", " +
-//                             * results.getJSONObject(i).getString("Name") +
-//                             * "\n");
-//                             */
-//                        }
-//                        System.out.println("\n");
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//
-//                    }
-//                }
-//            } finally {
-//                get.releaseConnection();
-//            }
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//        }
-//        return emails;
-//    }
+
 
     //master
     private String refreshToken(String refreshToken){
@@ -626,32 +537,7 @@ log.debug("tokenUrl: "+ tokenUrl);
     public void test(){
     	
     	try {
-    		/*
-			Document doc = Jsoup.connect("https://test.salesforce.com/")
-					.data("username", "jennifer.doe@girlscouts.org")
-					.data("password", "password44")
-					.post();
-			
-			
-		log.debug("HTML ORG: "+ doc.html());	
-			log.debug("User: "+ doc.getElementsByTag("email"));
-			doc.getElementsByTag("email").append("jennifer.doe@girlscouts.org");
-			doc.getElementsByTag("password").append("password44");
-	
-		log.debug("HTML : "+doc.html());
-    	*/
     		
-    		/*
-    		 WebDriver driver = new  FirefoxDriver();
-    		
-    		driver.get("https://test.salesforce.com");        
-            driver.findElement(By.id("username")).sendKeys("jennifer.doe@girlscouts.org");
-            driver.findElement(By.id("password")).sendKeys("password44");
-            driver.findElement(By.id("Login")).submit();  
-            System.out.println("Page title is: " + driver.getTitle());
-            log.debug( "HTML : "+driver.getPageSource() );
-            System.out.println("Page title is: " + driver.getTitle());
-    	*/
     	} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -689,16 +575,7 @@ public java.util.List <Troop>  troopInfo1(ApiConfig apiConfig, String contactId)
 	NameValuePair[] params = new NameValuePair[1];
 	
 
-/*
-	params[0] = new NameValuePair("q",
-			"SELECT parentid,parent.name,parent.program_grade_level__c, parent.council_code__c, parent.account__c FROM campaign " +
-					"WHERE id IN (SELECT campaignid from campaignmember where  contactid='"+ contactId +"' and active__c = true)  " );
-					
-						"AND job_code__c = 'DP' and" +
-							"  Parent.Program_Grade_Level__c IN ('1-Daisy','2-Brownie','3-Junior')");
-							//" (parent.program_grade_level__c like '1-%' or parent.program_grade_level__c like '2-%' or parent.program_grade_level__c like '3-%')");
 
-	*/
 	params[0] = new NameValuePair("q", "select Owner.council_code__c FROM Contact WHERE Id = '"+ contactId  +"'");
 		
 	
@@ -782,139 +659,11 @@ public java.util.List <Troop>  troopInfo1(ApiConfig apiConfig, String contactId)
 
 
 
-public String getcaca3(ApiConfig config, String id ) {
-    User user = new User();
-
-    HttpClient httpclient = new HttpClient();
-    GetMethod get = new GetMethod(config.getInstanceUrl() + "/services/data/v20.0/query");
-
-    //-get.setRequestHeader("Authorization", "OAuth " + config.getAccessToken());
-    UserGlobConfig ubConf = troopDAO.getUserGlobConfig(); 
-	get.setRequestHeader("Authorization", "OAuth " + ubConf.getMasterSalesForceToken());
-
-	
-	
-    // set the SOQL as a query param
-    NameValuePair[] params = new NameValuePair[1];
-
-    if( id==null) id= config.getUserId() ;
-   log.debug("*"+config.getUserId());
-    params[0] = new NameValuePair("q", "SELECT ID,name,email, phone, mobilephone, ContactId, FirstName  from User where id='" 
-            + id + "' limit 1");
-    
-    
-    get.setQueryString(params);
-
-    try {
-    	
-    	log.debug("________________getUser_________start_____________________________");
-		log.debug( get.getRequestCharSet() );
-		Header headers[] =get.getRequestHeaders();
-		for( Header h : headers){
-			log.debug("Headers: "+h.getName() +" : "+ h.getValue());
-		}
-		log.debug(":::> " + get.getQueryString());
-		log.debug(config.getInstanceUrl()+ "/services/data/v20.0/query");
-		log.debug("___________________getUser________end___________________________");
-		
-    	
-        httpclient.executeMethod(get);
-
-        log.debug("USER: "+ config.getAccessToken() +" : "+ get.getStatusCode() + " : " + get.getResponseBodyAsString());   
-        if( true ){return get.getStatusCode() + " : " + get.getResponseBodyAsString();}
-        log.debug(get.getStatusCode() + " : " + get.getResponseBodyAsString());
-
-        if (get.getStatusCode() == HttpStatus.SC_OK) {
-            try {
-                JSONObject response = new JSONObject(
-                                      new JSONTokener(
-                                      new InputStreamReader(
-                                      get.getResponseBodyAsStream())));
-                log.debug("Query response: " + response.toString(2));
-                JSONArray results = response.getJSONArray("records");
-
-                // Always use the last record
-                int current = results.length() - 1;
-                try{
-              //  user.setName(results.getJSONObject(current).getString("Name"));
-        try{
-        	user.setName(results.getJSONObject(current).getString("FirstName"));
-        }catch(Exception e){e.printStackTrace();}
-                
-              //  user.setEmail(results.getJSONObject(current).getString("Email"));
-              try{  user.setContactId(results.getJSONObject(current).getString("ContactId"));}catch(Exception e){e.printStackTrace();}
-                //user.setPhone(results.getJSONObject(current).getString("Phone"));
-                //user.setHomePhone(results.getJSONObject(current).getString("HomePhone"));
-               // user.setMobilePhone(results.getJSONObject(current).getString("MobilePhone"));
-               // user.setMobilePhone(results.getJSONObject(current).getString("AssistantPhone"));
-                
-                /*
-                	try{
-                		String email=results.getJSONObject(current).getString("Email");
-                		if( email !=null &&
-                				email.trim().toLowerCase().equals("alex_yakobovich@northps.com")){
-                			   log.debug("USER2: "+ config.getAccessToken() +" : "+ get.getStatusCode() + " : " + get.getResponseBodyAsString());   
-                			UserGlobConfig ubConf = troopDAO.getUserGlobConfig(); 
-                			ubConf.setMasterSalesForceRefreshToken(config.getRefreshToken());
-                			ubConf.setMasterSalesForceToken(config.getAccessToken());
-                			troopDAO.updateUserGlobConfig();
-                		}
-                	}catch(Exception e){e.printStackTrace();}
-                */
-                }catch(Exception e){e.printStackTrace();}
-                
-                
-                test();
-                doAuthMaster();
-                
-                java.util.List <Troop>  troops = troopInfo( config,  user.getContactId());
-
-                
-                
-                
-                /*
-                if(troops==null || troops.size() <=0 ){
-                	log.debug("Trying troops 2 time....");
-                	UserGlobConfig ubConf = troopDAO.getUserGlobConfig(); 
-                	log.debug("REFresh token: refresh:"+ ubConf.getMasterSalesForceRefreshToken()  +" token:" + ubConf.getMasterSalesForceToken()  );
-                	String newMasterToken = refreshToken( ubConf.getMasterSalesForceRefreshToken() );
-                	log.debug("NewREfreshToken: "+ newMasterToken);
-                	if( newMasterToken!=null){
-                		ubConf.setMasterSalesForceToken(newMasterToken);
-                		troopDAO.updateUserGlobConfig();
-                	}
-                	troops = troopInfo( config,  user.getContactId());
-                }                 	
-                // 4test troops=null;
-                */
-                
-                //if no troops for the DP , get council code
-                if( troops==null || troops.size()<=0 )
-                	troops = troopInfo1( config,  user.getContactId());
-                
-                
-                
-                config.setTroops( troops );
-                
-                return null; //user
-            } catch (JSONException e) {
-                log.error("JSON Parse exception: " + e.toString());
-            }
-        } else {
-            log.error("Return status not OK: " + get.getStatusCode() + " " + get.getResponseBodyAsString());
-        }
-    } catch (Exception e) {
-        log.error("Error executing HTTP GET when getting the user: " + e.toString());
-    } finally {
-        get.releaseConnection();
-    }
-    return null;
-}
 
 
 public java.util.List<Contact> getContacts(ApiConfig apiConfig, String sfTroopId){
 	//select id, email, phone, name from Contact where id in (select contactid from campaignmember where campaignid='701G0000000uzUmIAI')
-System.err.println("tata start "+ sfTroopId);	
+
 	GetMethod get =null;
     java.util.List <Contact> contacts = new java.util.ArrayList();
 	try{	
@@ -930,7 +679,6 @@ System.err.println("tata start "+ sfTroopId);
 	NameValuePair[] params = new NameValuePair[1];
 	params[0] = new NameValuePair("q", "select id, email, phone, name, secondary_role__c , rc_bios__role__c from Contact where id in (select contactid from campaignmember where campaignid='"+ sfTroopId +"')");
 		
-	System.err.println("tata API contact: select id, email, phone, name, secondary_role__c from Contact where id in (select contactid from campaignmember where campaignid='"+ sfTroopId +"')");
 	get.setQueryString(params);
 
 	try {
@@ -951,7 +699,6 @@ System.err.println("tata start "+ sfTroopId);
 		
 		
 		log.debug("troopInfo1.RespCode "+ get.getResponseBodyAsString());
-	System.err.println("tata contact: "+get.getResponseBodyAsString());	
 		JSONObject _response = new JSONObject(
 				new JSONTokener(new InputStreamReader(
 						get.getResponseBodyAsStream())));
