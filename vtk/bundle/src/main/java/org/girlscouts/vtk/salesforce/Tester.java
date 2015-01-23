@@ -34,8 +34,7 @@ package org.girlscouts.vtk.salesforce;
 
 	      // Deal with the response.
 	      // Use caution: ensure correct character encoding and is not binary data
-	      System.out.println(new String(responseBody));
-
+	     
 	    } catch (HttpException e) {
 	      System.err.println("Fatal protocol violation: " + e.getMessage());
 	      e.printStackTrace();

@@ -49,7 +49,7 @@ public enum VtkUtil {;
       */
 		
 		str+= HASH_SEED ;
-		System.out.println("########### str = " + str);
+		
         MessageDigest md = MessageDigest.getInstance("MD5"); //SHA-256");// 512");
         md.update(str.getBytes());
  

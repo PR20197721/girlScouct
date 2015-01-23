@@ -618,22 +618,11 @@ public java.util.List <Troop>  troopInfo1(ApiConfig apiConfig, String contactId)
 					
 					log.debug("_____ "+ results.get(i));
 					
-					/*
-					java.util.Iterator itr = results.getJSONObject(i).getJSONObject("Parent").keys();
-					while( itr.hasNext())
-						System.out.println("** "+ itr.next());
-					*/
+					
 					
 					Troop troop = new Troop();
 					try{
-						/*
-						troop.setCouncilCode( results.getJSONObject(i).getJSONObject("Parent").getInt("Council_Code__c") ); //girls id 111
-						troop.setCouncilId(results.getJSONObject(i).getJSONObject("Parent").getString("Account__c") );
 						
-						troop.setGradeLevel(results.getJSONObject(i).getJSONObject("Parent").getString("Program_Grade_Level__c") );
-						troop.setTroopId(results.getJSONObject(i).getString("ParentId"));
-						troop.setTroopName( results.getJSONObject(i).getJSONObject("Parent").getString("Name") );
-						*/
 						
 						troop.setCouncilCode( results.getJSONObject(i).getJSONObject("Owner").getInt("Council_Code__c") ); //girls id 111						
 						troop.setType(1);
