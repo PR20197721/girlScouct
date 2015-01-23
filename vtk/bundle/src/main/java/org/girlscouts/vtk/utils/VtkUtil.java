@@ -2,8 +2,10 @@ package org.girlscouts.vtk.utils;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Calendar;
 
 import org.girlscouts.vtk.models.Location;
+import org.girlscouts.vtk.models.Meeting;
 
 public enum VtkUtil {
 	;
@@ -68,5 +70,15 @@ public enum VtkUtil {
 
 		return sb.toString();
 
+	}
+	
+	public static final int getMeetingEndTime( Meeting meeting ){
+		int total =0;
+		for(int i=0; i< meeting.getActivities().size(); i++){
+			total += meeting.getActivities().get(i).getDuration();
+		}
+		
+		
+		return total;
 	}
 }
