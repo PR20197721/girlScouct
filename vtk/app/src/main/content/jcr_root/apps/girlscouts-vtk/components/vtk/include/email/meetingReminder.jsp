@@ -1,12 +1,12 @@
-<script>
-	//print out the date the email was sent.
-	 var sent_date = "";
-	 if(moment(new Date()) != null && moment(new Date()) !='') {
-	  sent_date = $('.sent').append(moment(new Date()).format('MM/DD/YYYY'));
-	 } else {
-	  sent_date = $('.sent').append('none');
-	 }
-</script>
+<!-- <script>
+// 	//print out the date the email was sent.
+// 	 var sent_date = "";
+// 	 if(moment(new Date()) != null && moment(new Date()) !='') {
+// 	  sent_date = $('.sent').append(moment(new Date()).format('MM/DD/YYYY'));
+// 	 } else {
+// 	  sent_date = $('.sent').append('none');
+// 	 }
+// </script>-->
 
 <div class="content clearfix meeting-reminder">
 
@@ -23,9 +23,8 @@
 	<h5>Reminder Meeting <%=((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getName() %>
 	  <%= FORMAT_MEETING_REMINDER.format(planView.getSearchDate()) %></h5>
 	
-	<p class="sent">Sent: 
-	  <script>sent_date;</script>
-	</p>
+	<p class="sent">Sent: ONLY SHOW WHEN AFTER SENT</p>	  <!--<script>sent_date;</script>-->
+	
 
 	<h6>Address List</h6>
 	
@@ -121,7 +120,7 @@
 				<th>Add to Email</th>
 			</tr>
 			<%
-			//List<Asset> aidTags = planView.getAidTags();
+			List<Asset> aidTags = planView.getAidTags();
 			for(int i=0;i<planView.getAidTags().size();i++){%>
 			 <tr>
 				<td><%= planView.getAidTags().get(i).getTitle() %></td>
@@ -151,7 +150,9 @@
 	  <dd class="accordion-navigation">
 	    <div class="content active" id="panel1">
       	<ul class="small-block-grid-2">
-      	<% for(int i=0;i<planView.getAidTags().size();i++) { %>
+      	<% 
+      		// List<Asset> aidTags = planView.getAidTags();
+      		for(int i=0;i<planView.getAidTags().size();i++) { %>
       		<li><i class="icon-pdf-file-extension"><span class="color-overlay"></span></i><span class="name"><%= planView.getAidTags().get(i).getTitle() %></span></li>
       		<li><a href="#nogo" title="add" onclick="addAidLink('<%=planView.getAidTags().get(i).getRefId()%>','<%=planView.getAidTags().get(i).getTitle()%>','<%=((MeetingE)planView.getYearPlanComponent()).getUid() %>')"><i class="icon-button-circle-plus"></i></a></li>
       	<%}%>
