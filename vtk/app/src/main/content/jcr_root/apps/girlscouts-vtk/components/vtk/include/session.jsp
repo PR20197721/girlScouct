@@ -43,7 +43,7 @@
 	%>
 <%
 // Alex
-//System.err.println("****SESSION****");
+
 	boolean isMultiUserFullBlock = true;
 	final CalendarUtil calendarUtil = sling.getService(CalendarUtil.class);
 	final LocationUtil locationUtil = sling.getService(LocationUtil.class);
@@ -100,7 +100,7 @@
 					.getName()));
 	
 	user.setSid(session.getId());
-	//System.err.println("User currYear: "+ user.getCurrentYear());
+
 	String errMsg = null;
 	Troop troop = (Troop) session.getValue("VTK_troop");
 	
@@ -108,21 +108,21 @@
 	//Needs for front yp page. ajax/multi call to session.jsp. Not always happens.
 	if(  troop != null && !troop.isRefresh() && !userUtil.isCurrentTroopId_NoRefresh(troop,user.getSid() ) &&
 			session.getAttribute("isReloadedWindow")!=null ){
-		//System.err.println("_________ _ _ _ _ _");
+	
 			troop.setRefresh(true);
 	}
 	session.removeAttribute( "isReloadedWindow"); //rm after pull
 	
-	if(request.getParameter("reload")!=null){System.err.println("&&&&&&& REFRESH SET: "); troop.setRefresh(true);}
-	//System.err.println("........"+request.getParameter("reload") );
+	if(request.getParameter("reload")!=null){troop.setRefresh(true);}
+
 	
 	    //if (troop == null || troop.isRefresh() || troopUtil.isUpdated(troop)) {
 		if (troop == null || troop.isRefresh() ) {
-//out.println("Refresshed");		
+
 			if (troop != null && troop.isRefresh() && troop.getErrCode() != null && !troop.getErrCode().equals(""))
 				errMsg = troop.getErrCode();
 		
-	//System.err.println("***************");
+	
 	  org.girlscouts.vtk.salesforce.Troop prefTroop = apiConfig.getTroops().get(0);
 	  
 	  if( troop!=null){
@@ -153,7 +153,7 @@
 	 
 	
 		try{
-//System.err.println("GETTTTTING TROOP FROM DB....");				
+				
 		   troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
 
 		   //load troop contacts
@@ -258,7 +258,7 @@ One of your co-leaders is currently making changes in the Volunteer Toolkit for 
 </form>
 <%
 	}
-	//System.err.println("TROOP RETR TIME1 : "+ troop.getRetrieveTime() );	
+	
 //SFUser: <%= user.getApiConfig().getUserId() >
 //<br/><=VtkUtil.doHash( user.getApiConfig().getUserId() ) >
 %>

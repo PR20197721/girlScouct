@@ -1,1 +1,0 @@
-["FILE","<%=new java.util.Date() %>","Blue","Yellow","Black","White","Orange"]
