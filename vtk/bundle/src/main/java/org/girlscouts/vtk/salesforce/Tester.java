@@ -27,9 +27,7 @@ package org.girlscouts.vtk.salesforce;
 	      // Execute the method.
 	      int statusCode = client.executeMethod(method);
 
-	      if (statusCode != HttpStatus.SC_OK) {
-	        System.err.println("Method failed: " + method.getStatusLine());
-	      }
+	      
 
 	      // Read the response body.
 	      byte[] responseBody = method.getResponseBody();
