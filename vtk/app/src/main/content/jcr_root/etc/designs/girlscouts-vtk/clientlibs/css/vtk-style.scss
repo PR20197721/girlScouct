@@ -165,22 +165,6 @@
                   border-color: transparent transparent transparent #ff0000;
                 }
               }
-              &.passed {
-                 background-color: #e7e7e7;
-                 color: #999;
-                 &:after {
-                   border-color: transparent transparent transparent #e7e7e7;
-                 }
-                 .count {
-                  background: transparent;
-                 }
-              }
-              &.current {
-                 background-color: #F9A61A;
-                 &:after {
-                   border-color: transparent transparent transparent #F9A61A;
-                 }
-              }
             }
             > div:first-child {
               position: static;
@@ -199,11 +183,7 @@
             }
           }
           &.activity {
-            &.ui-state-disabled {
-              opacity: 1;
-            }
             > div  {
-              cursor: default;
                .bg-square {
                 background-color: #00abe6;
                 &:after {
@@ -365,7 +345,7 @@
       margin-top:17px;
       h6 {
         font-size: 14px;
-        font-family: "OpenSans-SemiBold";
+        // font-family: "OpenSans-SemiBold";
         text-transform: uppercase;
         background: #f6f6f6;
         margin-left: -5px;
@@ -603,19 +583,6 @@
           padding-right: 5px;
         }
       }
-      &.meeting-reminder {
-        h6 {
-          font-size: 14px;
-          font-family: "OpenSans-SemiBold";
-          text-transform: uppercase;
-          background: #f6f6f6;
-          margin-left: -5px;
-          margin-right: -5px;
-          margin-bottom: 1.25em;
-          padding: 5px;
-          color:#000;
-        }
-      }
     }
   }//end modals
   .modal_agenda_edit {
@@ -629,27 +596,32 @@
     }
   }
   .modal-attendance {
-      .content {
-        h4 {
-          font-size:24px;
-          margin-bottom: 50px;
-        }
-        table {
-          border:none;
-          tr,
-          td,
-          th {
-            background: none;
-          }
-          p {
-            font-weight:600;
-            font-size:17px;
-            text-transform: uppercase;
-            margin-right: 80px;
-          }
-        }
+    .content {
+      h4 {
+        font-size:24px;
+        margin-bottom: 50px;
       }
-    }  //modals per JQ UI
+      table {
+        border:none;
+        tr,
+        td,
+        th,
+        thead {
+          background: none;
+        }
+        td:nth-child(n+2) {
+          text-align:center;
+        }
+        p {
+          font-weight:600;
+          font-size:17px;
+          text-transform: uppercase;
+          margin-right: 80px;
+         }
+       }
+     }
+   }
+  //modals per JQ UI
   .modalWrap {
     padding:0;
     border-radius:0;

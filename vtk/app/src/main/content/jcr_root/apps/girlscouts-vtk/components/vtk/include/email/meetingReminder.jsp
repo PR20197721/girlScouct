@@ -1,47 +1,33 @@
-<div class="content clearfix meeting-reminder">
 
-<% //if(planView.getYearPlanComponent().getType()==YearPlanComponentType.ACTIVITY){
-		%>This is an activity<% 
-	//}
+<!-- apps/girlscouts-vtk/components/vtk/include/email/meetingReminder.jsp -->
+<div class="content clearfix">
 
-	//if(planView.getYearPlanComponent().getType()==YearPlanComponentType.MEETING){
-		//MeetingE meeting = (MeetingE)planView.getYearPlanComponent();
-		//Meeting meetingInfo = meeting.getMeetingInfo();
-		//Date searchDate = planView.getSearchDate();
-%>
+	Reminder Meeting <%=((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getName() %>
+	<%= FORMAT_MEETING_REMINDER.format(planView.getSearchDate()) %>
 
-	<h5>Reminder Meeting <%=((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getName() %>
-	  <%= FORMAT_MEETING_REMINDER.format(planView.getSearchDate()) %></h5>
-	
-	<p class="sent">Sent: 
-	  <script>sent_date;</script>
-	</p>
+	<div id="sent">
+	Sent: 
+	</div>
+	<script>
+		$('#sent').append(moment(new Date()).format('MM/DD/YYYY'));
+	</script>
 
-	<h6>Address List</h6>
+	<div style="background-color:gray">Address List</div>
 	
-	<ul class="inline-list">
-	  <li>
-	    <input type="checkbox" id="email_to_gp" checked />
-	    <label for="email_to_gp">Girls / Parents</label>
-	  </li>
-
-	  <li>
-	    <input type="checkbox" id="email_to_sf" checked />
-	    <label for="email_to_sf">Self</label>
-	  </li>
-	  <li>
-	    <input type="checkbox" id="email_to_tv" />
-	    <label for="email_to_tv">Troop Volunteers</label>
-	  </li>
-	</ul>
-	<p>Enter your own:<input type="email" id="email_to_cc" value="<%=troop.getSendingEmail()==null ? "" : troop.getSendingEmail().getCc()%>"/></p>
+	<input type="checkbox" id="email_to_gp" checked/>Girls/Parents
+	<input type="checkbox" id="email_to_sf"/>Self
+	<input type="checkbox" id="email_to_tv"/>Troop Volunteers
 	
-	<h6>Compose Email</h6>
+	</br>Enter your own:<input type="email" id="email_to_cc" value="<%=troop.getSendingEmail()==null ? "" : troop.getSendingEmail().getCc()%>"/>
 	
-	<p>Subject: <input type="text" id="email_subj" value="Reminder <%=troop.getTroop().getGradeLevel() %> Meeting #<%=planView.getMeetingCount()%> <%= FORMAT_MEETING_REMINDER.format(planView.getSearchDate()) %>"/></p>
+	<div style="background-color:gray">Compose Email</div>
 	
-	<div style="background-color:yellow;"></div>
+	<br/>Subject: <input type="text" id="email_subj" value="Reminder <%=troop.getTroop().getGradeLevel() %> Meeting <%=((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getName() %> <%= FORMAT_MEETING_REMINDER.format(planView.getSearchDate()) %>"/>
+	
+	<div style="background-color:yellow;">
+	</div>
 	<textarea id="email_htm" name="textarea" class="jqte-test" rows="25" cols="25"> 
+	
 	Hello Girl Scout Families,
 	<br/><br/>Here are the details of our next meeting:
 	<table>
@@ -85,8 +71,7 @@
 	<br/><%=troop.getTroop().getTroopName() %>
 
 	<br/><br/>Aid(s) Included:xxx
-
-	<div id="aidLinks">
+	<div id=aidLinks>
 	<%--  
 	<%if( troop.getSendingEmail()!=null ){
 			java.util.List<Asset> eAssets = troop.getSendingEmail().getAssets();
@@ -139,33 +124,13 @@
 	</div>
 	<input type="button" value="Preview" onclick="previewMeetingReminderEmail('<%=((MeetingE)planView.getYearPlanComponent()).getPath()%>','<%=((MeetingE)planView.getYearPlanComponent()).getUid()%>')"/>
 	
-
-	<dl class="accordion" data-accordion>
-	  <dt data-target="panel1"><h6 class="on">Main title</h6></dt>
-	  <dd class="accordion-navigation">
-	    <div class="content active" id="panel1">
-	      <div class="row">
-	        <div class="column large-20 large-centered">
-	            <div class="row">
-	              <dl class="accordion-inner clearfix" data-accordion>
-	                <dt data-target="panel1b" class="clearfix">
-	                	<span class="name">Brisk Winter</span>
-	                </dt>
-	                <dd class="accordion-navigation">
-	                  <div id="panel1b" class="content">
-	                    <p>Content</p>
-	                  </div>
-	                </dd>
-	              </dl>
-	            </div>	          
-	        </div>
-	      </div>
-	    </div>
-	  </dd>
-	 </dl>
-
 </div>
 <% //}%>
+
+ 
+<div id="email_dialog" style="display:none">
+  <p>added to email.</p>
+</div>
 
 <!-- end of /content -->
 <script>
@@ -181,18 +146,13 @@
 		return;
 	};
 	function addAidLink(refId,title,uid){
-		$('#aidLinks').append('<li><a href="'+refId+'">'+title+'</a></li>');
+		$('#aidLinks').append('<li><i class="icon-pdf-file-extension"></i><a href="'+refId+'">'+title+'</a></li>');
+		$( "#email_dialog" ).dialog();
 		//$('.addAidToEmail').text("-");
 		//addAidToEmail(refId,title,uid);
 		return;
 	};
-	//print out the date the email was sent.
-	 var sent_date = "";
-	 if(moment(new Date()) != null && moment(new Date()) !='') {
-	  sent_date = $('.sent').append(moment(new Date()).format('MM/DD/YYYY'));
-	 } else {
-	  sent_date = $('.sent').append('none');
-	 }
+	
 </script>
 
  

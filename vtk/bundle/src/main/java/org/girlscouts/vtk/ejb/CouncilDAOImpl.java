@@ -38,30 +38,26 @@ public class CouncilDAOImpl implements CouncilDAO {
 
 	@Reference
 	private SessionFactory sessionFactory;
-
+	
 	@Reference
 	private UserUtil userUtil;
-
+	
 	@Activate
-	void activate() {
-	}
+	void activate() {}
 
-	public Council findCouncil(User user, String councilId)
-			throws IllegalAccessException {
+	public Council findCouncil(User user, String councilId) throws IllegalAccessException{
 		Council council = null;
-		Session session = null;
+		Session session =null;
 		try {
-
-			if (user != null
-					&& !userUtil.hasPermission(user.getPermissions(),
-							Permission.PERMISSION_LOGIN_ID))
+			
+			if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_LOGIN_ID) )
 				throw new IllegalAccessException();
-
+			
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Council.class);
-			classes.add(YearPlan.class);
-			classes.add(MeetingE.class);
+			classes.add(YearPlan.class); 
+			classes.add(MeetingE.class); 
 			classes.add(Location.class);
 			classes.add(Cal.class);
 			classes.add(Activity.class);
@@ -73,39 +69,37 @@ public class CouncilDAOImpl implements CouncilDAO {
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
+			
+			council = (Council) ocm.getObject("/vtk/"+ councilId);
 
-			council = (Council) ocm.getObject("/vtk/" + councilId);
-
+			
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				if (session != null)
+		}finally{
+			try{
+				if( session!=null )
 					sessionFactory.closeSession(session);
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
+			}catch(Exception ex){ex.printStackTrace();}
 		}
 
+	
 		return council;
 	}
 
-	public Council createCouncil(User user, String councilId)
-			throws IllegalAccessException {
-
-		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
-						Permission.PERMISSION_LOGIN_ID))
+	public Council createCouncil(User user, String councilId) throws IllegalAccessException {
+		
+		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_LOGIN_ID) )
 			throw new IllegalAccessException();
-
-		Session session = null;
+		
+		
+		Session session =null;
 		Council council = null;
 		try {
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Council.class);
-			classes.add(YearPlan.class);
-			classes.add(MeetingE.class);
+			classes.add(YearPlan.class); 
+			classes.add(MeetingE.class); 
 			classes.add(Location.class);
 			classes.add(Cal.class);
 			classes.add(Activity.class);
@@ -117,54 +111,48 @@ public class CouncilDAOImpl implements CouncilDAO {
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
-
-			council = new Council("/vtk/" + councilId);
+			
+			
+			council = new Council("/vtk/"+ councilId);
 			ocm.insert(council);
 			ocm.save();
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				if (session != null)
+		}finally{
+			try{
+				if( session!=null )
 					sessionFactory.closeSession(session);
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
+			}catch(Exception ex){ex.printStackTrace();}
 		}
 		return council;
 
 	}
-
-	public Council getOrCreateCouncil(User user, String councilId)
-			throws IllegalAccessException {
-
-		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
-						Permission.PERMISSION_LOGIN_ID))
+	
+	public Council getOrCreateCouncil(User user, String councilId) throws IllegalAccessException{
+		
+		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_LOGIN_ID) )
 			throw new IllegalAccessException();
-
-		Council council = findCouncil(user, councilId);
+		
+		Council council = findCouncil(user, councilId);		
 		if (council == null)
 			council = createCouncil(user, councilId);
-
+		
 		return council;
 	}
-
-	public void updateCouncil(User user, Council council)
-			throws IllegalAccessException {
-
-		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
-						Permission.PERMISSION_LOGIN_ID))
+	
+	public void updateCouncil(User user, Council council) throws IllegalAccessException{
+		
+		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_LOGIN_ID) )
 			throw new IllegalAccessException();
-
+		
+		
 		Session session = null;
 		try {
-			session = sessionFactory.getSession();
+			session =sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Council.class);
-			classes.add(YearPlan.class);
-			classes.add(MeetingE.class);
+			classes.add(YearPlan.class); 
+			classes.add(MeetingE.class); 
 			classes.add(Location.class);
 			classes.add(Cal.class);
 			classes.add(Activity.class);
@@ -176,19 +164,17 @@ public class CouncilDAOImpl implements CouncilDAO {
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
-
+			
 			ocm.update(council);
 			ocm.save();
-
+			
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			try {
-				if (session != null)
+		}finally{
+			try{
+				if( session!=null )
 					sessionFactory.closeSession(session);
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
+			}catch(Exception ex){ex.printStackTrace();}
 		}
 	}
 

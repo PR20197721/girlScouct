@@ -7,21 +7,24 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
-@Node(jcrMixinTypes = "mix:lockable")
-public class Council implements Serializable {
-	public Council() {
+@Node(jcrMixinTypes="mix:lockable" )
+public class Council  implements Serializable{
+	public Council(){}
+	public Council(String path){ 
+		this.path= path;
+		
+		
 	}
-
-	public Council(String path) {
-		this.path = path;
-
-	}
-
-	@Field(path = true)
-	String path;
-
-	@Collection
-	private java.util.List<Troop> troops;
+	
+	@Field(path=true) String path;
+	
+	
+	
+	@Collection private java.util.List <Troop> troops;
+	
+	
+	
+	
 
 	public java.util.List<Troop> getTroops() {
 		return troops;
@@ -39,4 +42,7 @@ public class Council implements Serializable {
 		this.path = path;
 	}
 
+	
+	
+	
 }

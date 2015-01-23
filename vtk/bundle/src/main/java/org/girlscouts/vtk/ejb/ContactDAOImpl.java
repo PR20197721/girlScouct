@@ -20,80 +20,74 @@ import org.girlscouts.vtk.models.User;
 
 @Component
 @Service(value = ContactDAO.class)
-public class ContactDAOImpl implements ContactDAO {
+public class ContactDAOImpl implements ContactDAO{
+
 
 	@Reference
 	private SessionFactory sessionFactory;
+	
+	public void save(User user, Troop troop, Contact contact)throws IllegalStateException, IllegalAccessException{
+		
+				//TODO PERMISSIONS HERE 
+				Session mySession =null;
+				try {
+					mySession = sessionFactory.getSession();
+					List<Class> classes = new ArrayList<Class>();
+					classes.add(Contact.class);
 
-	public void save(User user, Troop troop, Contact contact)
-			throws IllegalStateException, IllegalAccessException {
+					Mapper mapper = new AnnotationMapperImpl(classes);
+					ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
+							mapper);
 
-		// TODO PERMISSIONS HERE
-		Session mySession = null;
-		try {
-			mySession = sessionFactory.getSession();
-			List<Class> classes = new ArrayList<Class>();
-			classes.add(Contact.class);
+					if (mySession.itemExists(contact.getPath())) {
+						ocm.update(contact);
+					} else {
+						JcrUtils.getOrCreateByPath(contact.getPath().substring(0, contact.getPath().lastIndexOf("/")), "nt:unstructured",mySession);
+						ocm.insert(contact);
+					}
+					ocm.save();
 
-			Mapper mapper = new AnnotationMapperImpl(classes);
-			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
-					mapper);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}finally{
+					try{
+						sessionFactory.closeSession(mySession);
+					}catch(Exception es){es.printStackTrace();}
+				}
+		
+	}
+	
+	
+	public Contact retreive(User user, Troop troop, String contactId)throws IllegalStateException, IllegalAccessException{
+		//TODO PERMISSIONS HERE
+		
+				Session mySession =null;
+				Contact contact =null;
+				try {
+					mySession = sessionFactory.getSession();
+					List<Class> classes = new ArrayList<Class>();
+					classes.add(Contact.class);
 
-			if (mySession.itemExists(contact.getPath())) {
-				ocm.update(contact);
-			} else {
-				JcrUtils.getOrCreateByPath(
-						contact.getPath().substring(0,
-								contact.getPath().lastIndexOf("/")),
-						"nt:unstructured", mySession);
-				ocm.insert(contact);
-			}
-			ocm.save();
+					Mapper mapper = new AnnotationMapperImpl(classes);
+					ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
+							mapper);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				sessionFactory.closeSession(mySession);
-			} catch (Exception es) {
-				es.printStackTrace();
-			}
-		}
+					QueryManager queryManager = ocm.getQueryManager();
+					Filter filter = queryManager.createFilter(Contact.class);
 
+					contact = (Contact) ocm.getObject("/vtk/"+ troop.getSfCouncil()+"/troops/"+troop.getId()+"/contacts/"+contactId);
+
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}finally{
+					try{
+						if( sessionFactory!=null)
+							sessionFactory.closeSession(mySession);
+					}catch(Exception es){es.printStackTrace();}
+				}
+				return contact;
 	}
 
-	public Contact retreive(User user, Troop troop, String contactId)
-			throws IllegalStateException, IllegalAccessException {
-		// TODO PERMISSIONS HERE
-
-		Session mySession = null;
-		Contact contact = null;
-		try {
-			mySession = sessionFactory.getSession();
-			List<Class> classes = new ArrayList<Class>();
-			classes.add(Contact.class);
-
-			Mapper mapper = new AnnotationMapperImpl(classes);
-			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
-					mapper);
-
-			QueryManager queryManager = ocm.getQueryManager();
-			Filter filter = queryManager.createFilter(Contact.class);
-
-			contact = (Contact) ocm.getObject("/vtk/" + troop.getSfCouncil()
-					+ "/troops/" + troop.getId() + "/contacts/" + contactId);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (sessionFactory != null)
-					sessionFactory.closeSession(mySession);
-			} catch (Exception es) {
-				es.printStackTrace();
-			}
-		}
-		return contact;
-	}
-
+	
 }

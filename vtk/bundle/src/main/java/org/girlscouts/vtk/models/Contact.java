@@ -1,26 +1,25 @@
 package org.girlscouts.vtk.models;
-
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
-@Node(jcrMixinTypes = "mix:lockable")
-public class Contact implements java.io.Serializable {
+@Node(jcrMixinTypes="mix:lockable" ) 
+public class Contact implements java.io.Serializable{
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -9143046810103196285L;
 
-	@Field(id = true)
+	@Field(id=true)
 	private String id;
-
-	@Field(path = true)
-	String path;
-
+	
+	@Field(path=true) String path;
+	
 	@Field
-	private String email, phone, firstName, lastName, address, address1, city,
-			state, zip, suite;
+	private String email, phone, firstName, lastName, address, address1, city, state, zip, suite;
 
+		
+	
 	public String getPath() {
 		return path;
 	}
@@ -109,6 +108,8 @@ public class Contact implements java.io.Serializable {
 		this.id = id;
 	}
 
+	
+
 	public String getLastName() {
 		return lastName;
 	}
@@ -117,4 +118,8 @@ public class Contact implements java.io.Serializable {
 		this.lastName = lastName;
 	}
 
+	
+
+	
+	
 }

@@ -7,36 +7,36 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
 
-@Node(jcrMixinTypes = "mix:lockable")
-public class MeetingE extends YearPlanComponent implements Serializable {
+@Node(jcrMixinTypes="mix:lockable" )
+public class MeetingE extends YearPlanComponent implements Serializable{
 
-	public MeetingE() {
-		this.uid = "M" + new java.util.Date().getTime();
+	public MeetingE(){
+		this.uid= "M"+new java.util.Date().getTime();
 		super.setType(YearPlanComponentType.MEETING);
-	}
+		}
+	
+	@Field(path=true) String path;
+	@Field private String refId; //path to meetingInfo template
 
-	@Field(path = true)
-	String path;
-	@Field
-	private String refId; // path to meetingInfo template
+	@Field private String locationRef;
+	private Meeting meetingInfo; 
+	
+	@Field private String cancelled;
+	
+	@Field private Integer id;
+	
+	@Field(id=true) String uid;
+	 
+	@Collection java.util.List<Asset> assets;
+	@Field java.util.Date lastAssetUpdate;
+	
 
-	@Field
-	private String locationRef;
-	private Meeting meetingInfo;
-
-	@Field
-	private String cancelled;
-
-	@Field
-	private Integer id;
-
-	@Field(id = true)
-	String uid;
-
-	@Collection
-	java.util.List<Asset> assets;
-	@Field
-	java.util.Date lastAssetUpdate;
+	
+	
+	
+	
+	
+	
 
 	public java.util.Date getLastAssetUpdate() {
 		return lastAssetUpdate;
@@ -60,9 +60,8 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 
 	public void setUid(String uid) {
 		this.uid = uid;
-		if (uid == null)
-			this.uid = "M" + new java.util.Date().getTime() + "_"
-					+ Math.random();
+		if(uid==null)
+			this.uid= "M"+new java.util.Date().getTime()+"_"+ Math.random();
 	}
 
 	public Integer getId() {
@@ -112,5 +111,6 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 	public void setPath(String path) {
 		this.path = path;
 	}
-
+	
+	
 }
