@@ -136,9 +136,9 @@ doPost(request, response);
 
 		            if( k.equals("custasset") ){
 		            
-		               byte[] caca= Base64.decodeBase64(t);
+		               byte[] db64= Base64.decodeBase64(t);
 	
-		               InputStream inn = new ByteArrayInputStream(caca);
+		               InputStream inn = new ByteArrayInputStream(db64);
 		                
 		
 		                resourceResolver = resolverFactory.getAdministrativeResourceResolver(null);            

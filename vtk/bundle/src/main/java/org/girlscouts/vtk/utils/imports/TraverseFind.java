@@ -220,14 +220,10 @@ public class TraverseFind {
         	
         	if( fs==null ){System.err.println("File not found: "+ fileLoc);return null;}
         	
-           //- fs = new FileInputStream(fileLoc);
-        	
-            // fs = new FileInputStream("/Users/akobovich/Desktop/caca.docx");
-            XWPFDocument hdoc = new XWPFDocument(OPCPackage.open(fs));
+             XWPFDocument hdoc = new XWPFDocument(OPCPackage.open(fs));
 
             
-            System.err.println("Processing file: "+ fileLoc);
-            
+          
             java.util.List<XWPFParagraph> parags = hdoc.getParagraphs();
          
 

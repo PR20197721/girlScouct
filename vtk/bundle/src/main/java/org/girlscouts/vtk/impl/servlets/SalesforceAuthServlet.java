@@ -332,14 +332,14 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements Co
       config.setId("test");
       config.setAccessToken("test");
       config.setInstanceUrl("etst");
-      config.setUserId("caca");
+      config.setUserId("userId");
       config.setUser(new User() );
       
       java.util.List <Troop > troops= new java.util.ArrayList();
       Troop troop = new Troop();
       troop.setCouncilCode(1);
       troop.setGradeLevel("1-Brownie");
-      troop.setTroopId("caca");
+      troop.setTroopId("troopId");
       troop.setTroopName("test");
       
       troops.add(troop);

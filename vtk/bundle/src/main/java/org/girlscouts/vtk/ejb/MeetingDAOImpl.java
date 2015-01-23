@@ -548,11 +548,11 @@ public class MeetingDAOImpl implements MeetingDAO {
 				try {
 					String path = hit.getPath();
 
-					java.util.Map<String, String> caca = hit.getExcerpts();
-					java.util.Iterator itr = caca.keySet().iterator();
+					java.util.Map<String, String> exc = hit.getExcerpts();
+					java.util.Iterator itr = exc.keySet().iterator();
 					while (itr.hasNext()) {
 						String str = (String) itr.next();
-						String str1 = caca.get(str);
+						String str1 = exc.get(str);
 					}
 
 					ValueMap vp = hit.getProperties();
