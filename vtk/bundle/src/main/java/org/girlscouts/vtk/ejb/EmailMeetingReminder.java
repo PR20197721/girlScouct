@@ -136,7 +136,7 @@ public class EmailMeetingReminder {
 	public void setSentDate(String date){
 		sentDate = date;
 	}
-	public void getSentDate(){
+	public String getSentDate(){
 		return sentDate;
 	}
 

@@ -102,9 +102,9 @@
 	</textarea>
 
 	<dl class="accordion" data-accordion>
-	  <dt data-target="panel1"><h6 class="on">Include meeting aid</h6></dt>
+	  <dt data-target="panel1"><h6 class="off">Include meeting aid</h6></dt>
 	  <dd class="accordion-navigation">
-	    <div class="content active" id="panel1">
+	    <div class="content" id="panel1">
       	<ul class="small-block-grid-2">
       	<% for(int i=0;i<planView.getAidTags().size();i++) { %>
       		<li><i class="icon-<%=planView.getAidTags().get(i).getDocType()==null?"":planView.getAidTags().get(i).getDocType()+"-"%>file-extension">
@@ -142,8 +142,8 @@
 	  </dd>
 	 </dl>
 	 <div class="right clearfix">
-		<input type="button" value="Preview" class="button btn" onclick="previewMeetingReminderEmail('<%=((MeetingE)planView.getYearPlanComponent()).getPath()%>','<%=((MeetingE)planView.getYearPlanComponent()).getUid()%>')"/>
-		<input class="button btn" value="Send email" type="button" />
+		<input type="button" value="Save" class="button btn" onclick="previewMeetingReminderEmail('<%=((MeetingE)planView.getYearPlanComponent()).getUid()%>')"/>
+		<input class="button btn" value="Send email" type="button" onclick="sendMeetingReminderEmail()"/>
 	</div>
 </div>
 <!--//content-->
@@ -155,7 +155,7 @@
 
 <script>
 	$(document).ready(function(){
-		//print out the date the email was sent.
+		//print out the date the email was sent.TBD
 		 /* if(moment(new Date()) != null && moment(new Date()) !='') {
 		  $('.sent').append(moment(new Date()).format('MM/DD/YYYY'));
 		 } else {
@@ -183,10 +183,11 @@
 		$('.added').dialog('open');
 	    setTimeout(function() {
 	    	$('.added').dialog('close');
-	    }, 100);
+	    }, 500);
 
 		//addAidToEmail(refId,title,uid);
 		return;
 	};
+
 </script>
  

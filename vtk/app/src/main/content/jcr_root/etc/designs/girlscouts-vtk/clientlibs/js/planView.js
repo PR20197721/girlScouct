@@ -190,7 +190,7 @@ function previewMeetingReminderEmail(mid){
 			email_htm: email_htm
 		},
 		success: function(result) {
-			window.open("/content/girlscouts-vtk/controllers/vtk.include.email.meetingReminder_preview.html");
+			var preview = window.open("/content/girlscouts-vtk/controllers/vtk.include.email.meetingReminder_preview.html","preview","");
 		}
 	});
 	return;
@@ -239,6 +239,7 @@ function sendMeetingReminderEmail(){
 			email_sent_date: moment(new Date()).format('MM/DD/YYYY')
 		},
 		success: function(result) {
+			window.focus();
 			location.reload();
 		}
 	});

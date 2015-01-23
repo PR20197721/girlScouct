@@ -367,7 +367,7 @@ if(request.getParameter("admin_login")!=null ){
 			emr.setCc("ayakobovich@northpointdigital.com");
 		}
 		
-		emr.setSentDate(sentDate);
+		emr.setSentDate(request.getParameter("email_sent_date"));
 		String html = emr.getHtml();
 		/*
 		html+="<br/>Aids Included:";
