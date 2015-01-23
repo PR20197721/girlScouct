@@ -68,6 +68,7 @@ public class CouncilCreatorImpl implements CouncilCreator
 			pages.add(buildPage(manager, session, languagePath, "Ad Page", null, "ad-page", "", "girlscouts/components/ad-list-page", null));
 			pages.add(buildPage(manager, session, languagePath, "Search | " + councilTitle, "Search | " + councilTitle, "site-search", "", "girlscouts/components/three-column-page", null));
 			pages.add(buildPage(manager, session, languagePath, "Map", null, "map", "", "girlscouts/components/map", null));
+			pages.add(buildPage(manager, session, languagePath, "", null, "404", "", "girlscouts/components/error-page", null));
 			pages.add(buildRepository(manager, session, languagePath, "events-repository", "", "Events Repository"));
 			pages.add(buildRepository(manager, session, languagePath, "contacts", "", "Contacts"));
 			pages.add(buildRepository(manager, session, languagePath, "milestones", "", "Milestones"));
