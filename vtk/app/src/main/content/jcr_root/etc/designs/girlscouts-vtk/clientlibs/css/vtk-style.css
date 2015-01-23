@@ -494,6 +494,12 @@
   .vtk-body #modal-meeting-reminder .jqte .jqte_editor {
     border: solid 1px #efefef;
     box-shadow: inset 2px 2px 2px 0px #dddddd; }
+    .vtk-body #modal-meeting-reminder .jqte .jqte_editor a:link {
+      color: #00ae57 !important;
+      text-decoration: none; }
+      .vtk-body #modal-meeting-reminder .jqte .jqte_editor a:link * {
+        color: #00ae57 !important;
+        text-decoration: none; }
 .vtk-body #modal-meeting-reminder .accordion {
   margin: 0 0 5px 0; }
   .vtk-body #modal-meeting-reminder .accordion dt {

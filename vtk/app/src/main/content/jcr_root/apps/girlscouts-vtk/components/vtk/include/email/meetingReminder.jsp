@@ -97,23 +97,14 @@
 
 		<br/><br/><%if(apiConfig.getUser().getName()!=null)%><%=apiConfig.getUser().getName() %>
 		<br/><%=troop.getTroop().getTroopName() %>
-
-		<br/><br/>Aid(s) Included:xxx
-
+		<br/><br/>
 		<div id="aidLinks">
-		<%--  
-		<%if( troop.getSendingEmail()!=null ){
-				java.util.List<Asset> eAssets = troop.getSendingEmail().getAssets();
-				if( eAssets!=null)
-					for(int i=0;i<eAssets.size();i++){
-					%><li><a href="<%=eAssets.get(i).getRefId() %>"><%=eAssets.get(i).getTitle() %></a></li><% 
-					}
-		}%>
-		--%>
+			<p class="hide">Aids Included: </p>
 		</div>
-		
-		<br/></br/>Form(s) Required:xxx
-		<div id="formLinks"></div>
+		<br/><br/>
+		<div id="formLinks">
+			<p class="hide">Form(s) Required</p>
+		</div>
 	</textarea>
 	
 
@@ -159,7 +150,7 @@
       		// List<Asset> aidTags = planView.getAidTags();
       		for(int i=0;i<planView.getAidTags().size();i++) { %>
       		<li><i class="icon-pdf-file-extension"><span class="color-overlay"></span></i><span class="name"><%= planView.getAidTags().get(i).getTitle() %></span></li>
-      		<li><a href="#nogo" title="add" onclick="addAidLink('<%=planView.getAidTags().get(i).getRefId()%>','<%=planView.getAidTags().get(i).getTitle()%>','<%=((MeetingE)planView.getYearPlanComponent()).getUid() %>')"><i class="icon-button-circle-plus"></i></a></li>
+      		<li><a class="add-links" href="#nogo" title="add" onclick="addAidLink('<%=planView.getAidTags().get(i).getRefId()%>','<%=planView.getAidTags().get(i).getTitle()%>','<%=((MeetingE)planView.getYearPlanComponent()).getUid() %>')"><i class="icon-button-circle-plus"></i></a></li>
       	<%}%>
       	</ul>
 	    </div>
@@ -219,6 +210,7 @@
 	};
 	function addAidLink(refId,title,uid){
 		$('#aidLinks').append('<li><a href="'+refId+'">'+title+'</a></li>');
+		$('#aidLinks p.hide').removeClass();
 		//$('.addAidToEmail').text("-");
 		//addAidToEmail(refId,title,uid);
 		return;

@@ -664,6 +664,14 @@
       .jqte_editor {
         border: solid 1px #efefef;
         box-shadow: inset 2px 2px 2px 0px #dddddd;
+          a:link {
+            color: #00ae57 !important;
+            text-decoration: none;
+            & * {
+              color: #00ae57 !important;
+              text-decoration: none;
+            }
+        }
       }
     }
     .accordion {
