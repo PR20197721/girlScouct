@@ -107,16 +107,7 @@ public class Permission extends PermissionConstants {
     public static void main(String[] args) {
     	
     	Set<Integer> myPermissionTokens = getPermissionTokens(GROUP_MEMBER_1G_PERMISSIONS ); 
-    	System.out.println("PERMISSION_VIEW_ACTIVITY_ID " + myPermissionTokens.contains(PERMISSION_VIEW_ACTIVITY_ID));
-    	System.out.println("PERMISSION_SEARCH_ACTIVITY_ID " + myPermissionTokens.contains(PERMISSION_SEARCH_ACTIVITY_ID));
-    	System.out.println("PERMISSION_RM_ACTIVITY_ID " + myPermissionTokens.contains(PERMISSION_RM_ACTIVITY_ID));
-    	System.out.println("PERMISSION_EDIT_ACTIVITY_ID " + myPermissionTokens.contains(PERMISSION_EDIT_ACTIVITY_ID));
-    	System.out.println("PERMISSION_CREATE_ACTIVITY_ID " + myPermissionTokens.contains(PERMISSION_CREATE_ACTIVITY_ID));           
-    	System.out.println("PERMISSION_VIEW_MEETING_ID " + myPermissionTokens.contains(PERMISSION_VIEW_MEETING_ID));
-       	System.out.println("PERMISSION_LOGIN_ID  " + myPermissionTokens.contains(PERMISSION_LOGIN_ID ));
-       	System.out.println("PERMISSION_VIEW_YEARPLAN_ID " + myPermissionTokens.contains(PERMISSION_VIEW_YEARPLAN_ID));    	
-    	System.out.println("PERMISSION_TERMINATE_ID " + myPermissionTokens.contains(PERMISSION_TERMINATE_ID));
-
+    	
     }
 }
 
