@@ -722,8 +722,6 @@ public java.util.List<Contact> getContacts(ApiConfig apiConfig, String sfTroopId
 					Contact contact = new Contact();
 					try{
 						
-						//troop.setCouncilCode( results.getJSONObject(i).getJSONObject("Owner").getInt("Council_Code__c") ); //girls id 111						
-						//System.err.println("tata "+ results.getJSONObject(i).getString("Name") );
 						contact.setFirstName(results.getJSONObject(i).getString("Name"));
 						contact.setEmail(results.getJSONObject(i).getString("Email"));
 						contact.setPhone(results.getJSONObject(i).getString("Phone"));

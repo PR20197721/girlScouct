@@ -658,7 +658,6 @@ if( !userUtil.hasPermission(troop,  Permission.PERMISSION_MOVE_MEETING_ID ) ){
 		 
 		 for(int i=0;i<__meetings.size();i++){
 				Meeting __meeting = __meetings.get(i);
-				//System.err.println("*** "+ __meeting.getPath() );
 				
 				if( __meeting.getPath().endsWith(file) ){
 						swapMeetings(user, troop, meetingPath, __meeting.getPath());
@@ -925,58 +924,10 @@ if( !userUtil.hasPermission(troop,  Permission.PERMISSION_MOVE_MEETING_ID ) ){
 		
 		
 		PlanView planView = planView1(  user,  troop,  request);
-		/*
-		PlanView planView = new PlanView();
-		HttpSession session= request.getSession();
 		
-		//java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(troop.getYearPlan(), false);
-		
-		java.util.Map <java.util.Date,  YearPlanComponent> sched = getYearPlanSched(troop.getYearPlan(), false);
-		if( sched==null || (sched.size()==0)){System.err.println( "You must first select a year plan."); return null;}
-		java.util.List<java.util.Date> dates =new java.util.ArrayList<java.util.Date>(sched.keySet());
-		long nextDate=0, prevDate=0;
-		java.util.Date searchDate= null;
-
-		if( request.getParameter("elem") !=null ) {
-			searchDate = new java.util.Date( Long.parseLong(  request.getParameter("elem")  ) );	
-		}else if( session.getValue("VTK_planView_memoPos") !=null ){
-			searchDate= new java.util.Date( (Long)session.getValue("VTK_planView_memoPos")  );			
-		} else {
-			
-			if( troop.getYearPlan().getSchedule()==null)
-				searchDate = (java.util.Date) sched.keySet().iterator().next();
-			else{
-		
-			  java.util.Iterator itr = sched.keySet().iterator();
-			  while( itr.hasNext() ){
-				searchDate= (java.util.Date)itr.next();
-				if( searchDate.after( new java.util.Date() ) )
-				break;
-		
-			  }
-		    }
-		
-		}
-
-		int currInd =dates.indexOf(searchDate);
-	        int meetingCount = currInd+1;
-
-		if( dates.size()-1 > currInd )
-			nextDate = ((java.util.Date)dates.get(currInd+1)).getTime();
-		if( currInd>0 )
-			prevDate = ((java.util.Date)dates.get(currInd-1)).getTime();	
-		session.putValue("VTK_planView_memoPos", searchDate.getTime());
-	    YearPlanComponent _comp= sched.get(searchDate);
-	    */
 		 YearPlanComponent _comp= planView.getYearPlanComponent();
 		if( _comp ==null ){
-			/*
-			%><span class="error">
-			A co-leader has made changes to the schedule of the Year Plan that affect this meeting. 
-			<a href="/content/girlscouts-vtk/en/vtk.plan.html">Click here</a> to go to the Year Plan view to see this changes and access the updated version of this meeting.
-			</span><% 
-			*/
-			System.err.println("_comp is null");
+			
 			return null;
 		}
 
@@ -988,7 +939,7 @@ if( !userUtil.hasPermission(troop,  Permission.PERMISSION_MOVE_MEETING_ID ) ){
 
 		if ( _comp.getType() == YearPlanComponentType.MEETING) {
 			meeting = (MeetingE) _comp;
-	System.err.println("TATA77: "+ meeting.getRefId() );		
+	
 			meetingInfo = yearPlanUtil.getMeeting( user, meeting.getRefId() );
 			
 
@@ -1076,7 +1027,7 @@ if( !userUtil.hasPermission(troop,  Permission.PERMISSION_MOVE_MEETING_ID ) ){
 		java.util.List<java.util.Date> dates =new java.util.ArrayList<java.util.Date>(sched.keySet());
 		long nextDate=0, prevDate=0;
 		java.util.Date searchDate= null;
-System.err.println("tata77: "+ request.getParameter("elem"));
+
 		if( request.getParameter("elem") !=null ) {
 			searchDate = new java.util.Date( Long.parseLong(  request.getParameter("elem")  ) );	
 		}else if( false) {//session.getValue("VTK_planView_memoPos") !=null ){
@@ -1125,14 +1076,14 @@ System.err.println("tata77: "+ request.getParameter("elem"));
 		java.util.Date today = new java.util.Date();
 		java.util.Map <java.util.Date,  YearPlanComponent> sched = getYearPlanSched(user, troop.getYearPlan(), false, false);
 		java.util.Iterator itr= sched.keySet().iterator();
-System.err.println("tata88 : "+ sched.size());		
+		
 		while( itr.hasNext() ){
 			java.util.Date date = (Date) itr.next();
-System.err.println("tata88: "+ date);			
+			
 			YearPlanComponent ypc = sched.get(date);
-System.err.println("tata88 ypc "+ ypc.getType() );			
+			
 			if( date.after(today) && ypc.getType()== YearPlanComponentType.MEETING){
-System.err.println("tata88 yes");				
+			
 				MeetingE MEETING = (MeetingE) ypc;
 				Meeting meetingInfo = yearPlanUtil.getMeeting( user, MEETING.getRefId() );
 				MEETING.setMeetingInfo(meetingInfo);
