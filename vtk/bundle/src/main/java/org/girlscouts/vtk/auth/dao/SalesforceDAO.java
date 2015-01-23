@@ -43,31 +43,29 @@ public class SalesforceDAO {
     }
     
     public User getUser(ApiConfig config) {
-   System.err.println("CHECK MASTER start"); 	
+ 	
         User user = new User();
-System.err.println("CHECK MASTER start 1"); 
+
         HttpClient httpclient = new HttpClient();
-        System.err.println("CHECK MASTER start1.0 : "+ (config==null) ); 
-        System.err.println("CHECK MASTER start1.1 : "+ config.getInstanceUrl());
         GetMethod get = new GetMethod(config.getInstanceUrl() + "/services/data/v20.0/query");
-System.err.println("CHECK MASTER start 2"); 
+
         get.setRequestHeader("Authorization", "OAuth " + config.getAccessToken());
-        System.err.println("CHECK MASTER start 3"); 
+
         // set the SOQL as a query param
         NameValuePair[] params = new NameValuePair[1];
-        System.err.println("CHECK MASTER start 4"); 
+  
         /*
         params[0] = new NameValuePair("q", "SELECT ID,name,email, phone, mobilephone, homephone,otherPhone, AssistantPhone from User where id='" 
                     + config.getUserId() + "' limit 1");
         */
         params[0] = new NameValuePair("q", "SELECT ID,name,email, phone, mobilephone, ContactId, FirstName  from User where id='" 
                 + config.getUserId() + "' limit 1");
-        System.err.println("CHECK MASTER start 5"); 
+       
         
         get.setQueryString(params);
-        System.err.println("CHECK MASTER start 6"); 
+     
         try {
-System.err.println("CHECK MASTER SQL");      	
+     	
         	log.debug("________________getUser_________start_____________________________");
     		log.debug( get.getRequestCharSet() );
     		Header headers[] =get.getRequestHeaders();
@@ -81,11 +79,9 @@ System.err.println("CHECK MASTER SQL");
         	
             httpclient.executeMethod(get);
 
-   System.err.println("CHECK MASTER log USER: "+ config.getAccessToken() +" : "+ get.getStatusCode() + " : " + get.getResponseBodyAsString());   
    
             log.debug(get.getStatusCode() + " : " + get.getResponseBodyAsString());
-    System.err.println("CHECK MASTER 0: "+get.getStatusCode() + " : " + get.getResponseBodyAsString());
-            if (get.getStatusCode() == HttpStatus.SC_OK) {
+             if (get.getStatusCode() == HttpStatus.SC_OK) {
                 try {
                     JSONObject response = new JSONObject(
                                           new JSONTokener(
@@ -101,18 +97,18 @@ System.err.println("CHECK MASTER SQL");
             try{
             	user.setName(results.getJSONObject(current).getString("FirstName"));
             }catch(Exception e){e.printStackTrace();}
-            System.err.println("CHECK MASTER 1");             
+                       
                   //  user.setEmail(results.getJSONObject(current).getString("Email"));
                   try{  user.setContactId(results.getJSONObject(current).getString("ContactId"));}catch(Exception e){e.printStackTrace();}
                     //user.setPhone(results.getJSONObject(current).getString("Phone"));
                     //user.setHomePhone(results.getJSONObject(current).getString("HomePhone"));
                     // user.setMobilePhone(results.getJSONObject(current).getString("MobilePhone"));
                     // user.setMobilePhone(results.getJSONObject(current).getString("AssistantPhone"));
-                  System.err.println("CHECK MASTER 2");             
+                          
                     
                     	try{
                     		String email=results.getJSONObject(current).getString("Email");
-                    		System.err.println("CHECK MASTER 3: "+ email);
+                    		
        
                     		if( email !=null &&
                     				email.trim().toLowerCase().equals("alex_yakobovich@northps.com")){

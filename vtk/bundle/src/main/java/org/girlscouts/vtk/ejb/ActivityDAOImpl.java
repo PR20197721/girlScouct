@@ -142,61 +142,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 		return false;
 	}
 
-	/*
-	public void updateActivitiesCancel(User user, String uuid)throws IllegalAccessException {
 
-		if (uuid == null)
-			return;
-
-		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_EDIT_ACTIVITY_ID) )
-			throw new IllegalAccessException();
-		
-		Session session=null;
-		try {
-			session = sessionFactory.getSession();
-			List<Class> classes = new ArrayList<Class>();
-			classes.add(Activity.class);
-
-			Mapper mapper = new AnnotationMapperImpl(classes);
-			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
-					mapper);
-
-			QueryManager queryManager = ocm.getQueryManager();
-			Filter filter = queryManager.createFilter(Activity.class);
-			filter.setScope("/vtk//");
-			filter.addEqualTo("refUid", uuid);
-
-			Query query = queryManager.createQuery(filter);
-			java.util.List<Activity> activities = (List<Activity>) ocm
-					.getObjects(query);
-
-			if (activities != null)
-				System.err.println("Found " + activities.size()
-						+ "  activities matching uuid " + uuid);
-			else
-				System.err.println("No activities foudn for uuid " + uuid);
-
-			for (int i = 0; i < activities.size(); i++) {
-				Activity a = activities.get(i);
-				if (a.getRefUid().equals(uuid)) { // "if" just to double check
-					a.setCancelled("true");
-					ocm.update(a);
-				}
-			}
-
-			ocm.save();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}finally{
-			try{
-				if( session!=null )
-					sessionFactory.closeSession(session);
-			}catch(Exception ex){ex.printStackTrace();}
-		}
-
-	}
-	*/
 	private String getPath(User user, String uuid) throws IllegalStateException{
 
 		if( uuid ==null ) return null;
@@ -269,7 +215,7 @@ log.debug("Patha: "+excerpt.getString()) ;
 					sessionFactory.closeSession(session);
 			}catch(Exception ex){ex.printStackTrace();}
 		}
-//System.err.println("chk" + isActivity);
+
 		return isActivity;
 	}
 
