@@ -46,7 +46,7 @@
 		</div>
 	</div>
 <script>
-  function assignAid(aidId, meetingId, assetName, assetDesc, assetDocType){
+  function assignAid(aidId, meetingId, assetName, assetDesc){
 	  $.ajax({
 			cache: false,
 			url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand=' + Date.now(),
@@ -58,7 +58,6 @@
 				assetName:assetName,
 				assetDesc:assetDesc,
 				assetType:'AID',
-				docType:assetDocType,
 				a:Date.now()
 			},
 			success: function(result) {

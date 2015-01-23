@@ -115,7 +115,7 @@ System.err.println("changing new... "+ x );
 	return;
 		case AddAid:
 	if( request.getParameter("assetType").equals("AID")){
-		meetingUtil.addAids(user, troop, request.getParameter("addAids"), request.getParameter("meetingId"), java.net.URLDecoder.decode(request.getParameter("assetName") ),request.getParameter("docType") );
+		meetingUtil.addAids(user, troop, request.getParameter("addAids"), request.getParameter("meetingId"), java.net.URLDecoder.decode(request.getParameter("assetName") ),request.getParameter("assetDesc") );
 	}else{
 		meetingUtil.addResource(user, troop, request.getParameter("addAids"), request.getParameter("meetingId"), java.net.URLDecoder.decode(request.getParameter("assetName") ),request.getParameter("docType") );
 	}
