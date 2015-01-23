@@ -42,28 +42,31 @@ import org.slf4j.LoggerFactory;
 @Component
 @Service(value = TroopDAO.class)
 public class TroopDAOImpl implements TroopDAO {
-	 private final Logger log = LoggerFactory.getLogger("vtk");
+	private final Logger log = LoggerFactory.getLogger("vtk");
 	@Reference
 	private SessionFactory sessionFactory;
 
 	@Reference
 	private UserUtil userUtil;
-	
+
 	private static UserGlobConfig troopGlobConfig;
 
-	
 	@Reference
-    private ModifiedChecker modifiedChecker;
-   
-	@Activate
-	void activate() {}
-	
-	public Troop getTroop(User user, String councilId, String troopId) throws IllegalAccessException {
+	private ModifiedChecker modifiedChecker;
 
-		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_YEARPLAN_ID) )
+	@Activate
+	void activate() {
+	}
+
+	public Troop getTroop(User user, String councilId, String troopId)
+			throws IllegalAccessException {
+
+		if (user != null
+				&& !userUtil.hasPermission(user.getPermissions(),
+						Permission.PERMISSION_VIEW_YEARPLAN_ID))
 			throw new IllegalAccessException();
-		
-		Session mySession =null;
+
+		Session mySession = null;
 		Troop troop = null;
 		try {
 			mySession = sessionFactory.getSession();
@@ -82,32 +85,36 @@ public class TroopDAOImpl implements TroopDAO {
 					mapper);
 
 			ocm.refresh(true);
-			troop = (Troop) ocm.getObject( "/vtk/"+ councilId +"/troops/"+ troopId);
+			troop = (Troop) ocm.getObject("/vtk/" + councilId + "/troops/"
+					+ troopId);
 
-			if( troop!=null)
-				troop.setRetrieveTime( new java.util.Date() );
-		
+			if (troop != null)
+				troop.setRetrieveTime(new java.util.Date());
+
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
-			try{
-				if( mySession!=null)
+		} finally {
+			try {
+				if (mySession != null)
 					sessionFactory.closeSession(mySession);
-			} catch (Exception es){es.printStackTrace();}
+			} catch (Exception es) {
+				es.printStackTrace();
+			}
 		}
 
 		return troop;
 	}
-	
-	
-	public Troop getTroop_byPath(User user, String troopPath) throws IllegalAccessException{
-		Session mySession =null;
+
+	public Troop getTroop_byPath(User user, String troopPath)
+			throws IllegalAccessException {
+		Session mySession = null;
 		Troop troop = null;
-		
-		if( user!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_YEARPLAN_ID) )
+
+		if (user != null
+				&& !userUtil.hasPermission(user.getPermissions(),
+						Permission.PERMISSION_VIEW_YEARPLAN_ID))
 			throw new IllegalAccessException();
-		
-		
+
 		try {
 			mySession = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
@@ -128,7 +135,7 @@ public class TroopDAOImpl implements TroopDAO {
 			Filter filter = queryManager.createFilter(Troop.class);
 
 			ocm.refresh(true);
-			troop = (Troop) ocm.getObject( troopPath);
+			troop = (Troop) ocm.getObject(troopPath);
 
 			if (troop != null && troop.getYearPlan().getMeetingEvents() != null) {
 				Comparator<MeetingE> comp = new BeanComparator("id");
@@ -137,30 +144,34 @@ public class TroopDAOImpl implements TroopDAO {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
-			try{
+		} finally {
+			try {
 				sessionFactory.closeSession(mySession);
-			}catch(Exception es){es.printStackTrace();}
+			} catch (Exception es) {
+				es.printStackTrace();
+			}
 		}
 
 		return troop;
 	}
 
-	
-	public YearPlan addYearPlan1(User user, Troop troop, String yearPlanPath) throws java.lang.IllegalAccessException, java.lang.IllegalAccessException {
+	public YearPlan addYearPlan1(User user, Troop troop, String yearPlanPath)
+			throws java.lang.IllegalAccessException,
+			java.lang.IllegalAccessException {
 
-
-		//permission to update
-		if( troop!= null && ! userUtil.hasPermission(troop, Permission.PERMISSION_ADD_YEARPLAN_ID) )
+		// permission to update
+		if (troop != null
+				&& !userUtil.hasPermission(troop,
+						Permission.PERMISSION_ADD_YEARPLAN_ID))
 			throw new IllegalAccessException();
-		
+
 		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
 			troop.setErrCode("112");
-			//return null;
+			// return null;
 			throw new java.lang.IllegalAccessException();
 		}
-		
-		Session mySession =null;
+
+		Session mySession = null;
 		String fmtYearPlanPath = yearPlanPath;
 		YearPlan plan = null;
 		try {
@@ -185,36 +196,36 @@ public class TroopDAOImpl implements TroopDAO {
 
 			Filter filter = queryManager.createFilter(YearPlan.class);
 			plan = (YearPlan) ocm.getObject(fmtYearPlanPath);
-			if( plan!=null && plan.getCalFreq()==null)
+			if (plan != null && plan.getCalFreq() == null)
 				plan.setCalFreq("biweekly");
 
-			
-			
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
-			try{
+		} finally {
+			try {
 				sessionFactory.closeSession(mySession);
-			}catch(Exception es){es.printStackTrace();}
+			} catch (Exception es) {
+				es.printStackTrace();
+			}
 		}
 
 		return plan;
 
 	}
 
-	public boolean updateTroop(User user, Troop troop) throws java.lang.IllegalAccessException , java.lang.IllegalAccessException{
-		
-		
-		Session mySession =null;
+	public boolean updateTroop(User user, Troop troop)
+			throws java.lang.IllegalAccessException,
+			java.lang.IllegalAccessException {
+
+		Session mySession = null;
 		boolean isUpdated = false;
 		try {
-			
+
 			if (troop == null || troop.getYearPlan() == null) {
 				return true;
 			}
 			troop.setErrCode("111");
 
-			
 			mySession = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
@@ -229,37 +240,38 @@ public class TroopDAOImpl implements TroopDAO {
 			classes.add(Council.class);
 			classes.add(org.girlscouts.vtk.models.Troop.class);
 
-	
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
 					mapper);
 
-	
 			Comparator<MeetingE> comp = new BeanComparator("id");
 			Collections.sort(troop.getYearPlan().getMeetingEvents(), comp);
 
-				
-			//permission to update
-			if( troop!= null && ! userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_YEARPLAN_ID) )
+			// permission to update
+			if (troop != null
+					&& !userUtil.hasPermission(user.getPermissions(),
+							Permission.PERMISSION_VIEW_YEARPLAN_ID))
 				throw new IllegalAccessException();
-	
 
-			//lock
+			// lock
 			if (troop != null && troop.getLastModified() != null) {
-			
-					if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
-			
-								troop.setErrCode("112");
-								throw new IllegalAccessException();
-								//return false;
-							}
+
+				if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
+
+					troop.setErrCode("112");
+					throw new IllegalAccessException();
+					// return false;
+				}
 			}
-	
-	       if (mySession.itemExists(troop.getPath())) {
+
+			if (mySession.itemExists(troop.getPath())) {
 				ocm.update(troop);
 			} else {
 				String path = "";
-				StringTokenizer t = new StringTokenizer(("/" + troop.getPath()).replace("/" + troop.getId(), ""),"/");
+				StringTokenizer t = new StringTokenizer(
+						("/" + troop.getPath())
+								.replace("/" + troop.getId(), ""),
+						"/");
 				int i = 0;
 				while (t.hasMoreElements()) {
 					String node = t.nextToken();
@@ -269,39 +281,38 @@ public class TroopDAOImpl implements TroopDAO {
 							ocm.insert(new Council(path));
 						} else {
 							ocm.insert(troop);
-						}			
+						}
 					}
 					i++;
 				}
 				ocm.insert(troop);
 			}
 
-	
 			String old_errCode = troop.getErrCode();
 			java.util.Calendar old_lastModified = troop.getLastModified();
 			try {
 				troop.setErrCode(null);
 				troop.setLastModified(java.util.Calendar.getInstance());
-				troop.setCurrentTroop(user.getSid());//10/23/14
-				
-				//modif 
-				try{
-			
-					modifiedChecker.setModified(user.getSid(), troop.getYearPlan().getPath());
-				}catch(Exception em){em.printStackTrace();}
-			
-				
+				troop.setCurrentTroop(user.getSid());// 10/23/14
+
+				// modif
+				try {
+
+					modifiedChecker.setModified(user.getSid(), troop
+							.getYearPlan().getPath());
+				} catch (Exception em) {
+					em.printStackTrace();
+				}
+
 				ocm.update(troop);
-			
-				
-					ocm.save(); 
-				
-				
+
+				ocm.save();
+
 				isUpdated = true;
 				troop.setRefresh(true);
-				
+
 			} catch (Exception e) {
-				
+
 				log.error("!!!! ERROR !!!!!  TroopDAOImpl.updateTroop CAN NOT SAVE TROOP !!!! ERROR !!!!!");
 				troop.setLastModified(old_lastModified);
 				troop.setErrCode(old_errCode);
@@ -309,26 +320,28 @@ public class TroopDAOImpl implements TroopDAO {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
-			try{
-				if( mySession!=null)
+		} finally {
+			try {
+				if (mySession != null)
 					sessionFactory.closeSession(mySession);
-			}catch(Exception es){es.printStackTrace();}
+			} catch (Exception es) {
+				es.printStackTrace();
+			}
 		}
 		return isUpdated;
 	}
 
-
-
-	public void rmTroop(Troop troop)throws IllegalAccessException {
-		Session mySession =null;
+	public void rmTroop(Troop troop) throws IllegalAccessException {
+		Session mySession = null;
 		try {
-			
-			//permission to update
-			if( troop!= null && ! userUtil.hasPermission(troop, Permission.PERMISSION_RM_YEARPLAN_ID) )
+
+			// permission to update
+			if (troop != null
+					&& !userUtil.hasPermission(troop,
+							Permission.PERMISSION_RM_YEARPLAN_ID))
 				throw new IllegalAccessException();
-			
-			mySession= sessionFactory.getSession();
+
+			mySession = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
@@ -346,31 +359,31 @@ public class TroopDAOImpl implements TroopDAO {
 			ocm.save();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
-			try{
+		} finally {
+			try {
 				sessionFactory.closeSession(mySession);
-			}catch(Exception e){e.printStackTrace();}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
-
-
 	public UserGlobConfig getUserGlobConfig() {
 
-			loadUserGlobConfig();
+		loadUserGlobConfig();
 
-			if (troopGlobConfig == null) {
-				createUserGlobConfig();
-				loadUserGlobConfig();
-			}
-		
+		if (troopGlobConfig == null) {
+			createUserGlobConfig();
+			loadUserGlobConfig();
+		}
+
 		return troopGlobConfig;
 	}
 
 	public void loadUserGlobConfig() {
 
 		troopGlobConfig = new UserGlobConfig();
-		Session mySession =null;
+		Session mySession = null;
 		try {
 			mySession = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
@@ -388,19 +401,21 @@ public class TroopDAOImpl implements TroopDAO {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
-			try{
+		} finally {
+			try {
 				sessionFactory.closeSession(mySession);
-			}catch(Exception es){es.printStackTrace();}
+			} catch (Exception es) {
+				es.printStackTrace();
+			}
 		}
 
 	}
 
 	public void createUserGlobConfig() {
 
-		Session mySession =null;
+		Session mySession = null;
 		try {
-			mySession= sessionFactory.getSession();
+			mySession = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(UserGlobConfig.class);
 
@@ -414,16 +429,18 @@ public class TroopDAOImpl implements TroopDAO {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
-			try{
+		} finally {
+			try {
 				sessionFactory.closeSession(mySession);
-			}catch(Exception es){es.printStackTrace();}
+			} catch (Exception es) {
+				es.printStackTrace();
+			}
 		}
 
 	}
 
 	public void updateUserGlobConfig() {
-		Session mySession =null;
+		Session mySession = null;
 		try {
 			mySession = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
@@ -442,22 +459,23 @@ public class TroopDAOImpl implements TroopDAO {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
-			try{
-				if( sessionFactory!=null)
+		} finally {
+			try {
+				if (sessionFactory != null)
 					sessionFactory.closeSession(mySession);
-			}catch(Exception es){es.printStackTrace();}
+			} catch (Exception es) {
+				es.printStackTrace();
+			}
 		}
 
 	}
 
+	public Finance getFinanaces(User user, Troop troop, int qtr) {
 
-	public Finance getFinanaces(User user, Troop troop, int qtr){
-		
-		//TODO PERMISSIONS HERE
-		
-		Session mySession =null;
-		Finance finance =null;
+		// TODO PERMISSIONS HERE
+
+		Session mySession = null;
+		Finance finance = null;
 		try {
 			mySession = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
@@ -470,24 +488,26 @@ public class TroopDAOImpl implements TroopDAO {
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(Finance.class);
 
-			finance = (Finance) ocm.getObject("/vtk/"+ troop.getSfCouncil()+"/troops/"+troop.getId()+"/finances/"+qtr);
-
+			finance = (Finance) ocm.getObject("/vtk/" + troop.getSfCouncil()
+					+ "/troops/" + troop.getId() + "/finances/" + qtr);
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
-			try{
-				if( sessionFactory!=null)
+		} finally {
+			try {
+				if (sessionFactory != null)
 					sessionFactory.closeSession(mySession);
-			}catch(Exception es){es.printStackTrace();}
+			} catch (Exception es) {
+				es.printStackTrace();
+			}
 		}
 		return finance;
 	}
 
-	public void setFinances(User user, Troop troop, Finance finance){
-		
-		//TODO PERMISSIONS HERE 
-		Session mySession =null;
+	public void setFinances(User user, Troop troop, Finance finance) {
+
+		// TODO PERMISSIONS HERE
+		Session mySession = null;
 		try {
 			mySession = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
@@ -500,19 +520,24 @@ public class TroopDAOImpl implements TroopDAO {
 			if (mySession.itemExists(finance.getPath())) {
 				ocm.update(finance);
 			} else {
-				JcrUtils.getOrCreateByPath(finance.getPath().substring(0, finance.getPath().lastIndexOf("/")), "nt:unstructured",mySession);
+				JcrUtils.getOrCreateByPath(
+						finance.getPath().substring(0,
+								finance.getPath().lastIndexOf("/")),
+						"nt:unstructured", mySession);
 				ocm.insert(finance);
 			}
 			ocm.save();
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
-			try{
+		} finally {
+			try {
 				sessionFactory.closeSession(mySession);
-			}catch(Exception es){es.printStackTrace();}
+			} catch (Exception es) {
+				es.printStackTrace();
+			}
 		}
 	}
-	
+
 }// ednclass
 

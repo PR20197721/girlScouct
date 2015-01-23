@@ -5,26 +5,25 @@ import java.io.Serializable;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
-@Node(jcrMixinTypes="mix:lockable" )
-public class Finance  implements Serializable{
+@Node(jcrMixinTypes = "mix:lockable")
+public class Finance implements Serializable {
 
 	private static final long serialVersionUID = 8084860336298434137L;
 
-	@Field(path=true) 
+	@Field(path = true)
 	String path;
-	
+
 	@Field
 	private double startingBalance, troopDues, sponsorshipDonations,
-		productSalesProceeds,approvedMoneyEarningActivity, interestOnBankAccount,
-		
-		gsusaRegistration, serviceActivitiesEvents, councilProgramsCamp,
-		troopActivities, troopSupplies, gsStorePurchases;
-	
-	@Field(id=true) 
+			productSalesProceeds, approvedMoneyEarningActivity,
+			interestOnBankAccount,
+
+			gsusaRegistration, serviceActivitiesEvents, councilProgramsCamp,
+			troopActivities, troopSupplies, gsStorePurchases;
+
+	@Field(id = true)
 	private int financialQuarter;
-	
-	
-	
+
 	public double getStartingBalance() {
 		return startingBalance;
 	}
@@ -61,7 +60,8 @@ public class Finance  implements Serializable{
 		return approvedMoneyEarningActivity;
 	}
 
-	public void setApprovedMoneyEarningActivity(double approvedMoneyEarningActivity) {
+	public void setApprovedMoneyEarningActivity(
+			double approvedMoneyEarningActivity) {
 		this.approvedMoneyEarningActivity = approvedMoneyEarningActivity;
 	}
 
@@ -89,10 +89,6 @@ public class Finance  implements Serializable{
 		this.serviceActivitiesEvents = serviceActivitiesEvents;
 	}
 
-	
-
-	
-
 	public double getCouncilProgramsCamp() {
 		return councilProgramsCamp;
 	}
@@ -116,7 +112,7 @@ public class Finance  implements Serializable{
 	public void setGsStorePurchases(double gsStorePurchases) {
 		this.gsStorePurchases = gsStorePurchases;
 	}
-	
+
 	public String getPath() {
 		return path;
 	}
@@ -141,5 +137,4 @@ public class Finance  implements Serializable{
 		this.troopActivities = troopActivities;
 	}
 
-	
 }
