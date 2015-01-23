@@ -102,7 +102,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
         render: function() {
           return (
               
-              <a href="javascript:void(0)" onClick={this.onClick} className={this.props.selected ? "selected" : ""} mid= '<%=mid%>' isAgenda= {(this.props.item.activityNumber-1)}>
+              <a href="javascript:void(0)" onClick={this.onClick} className={this.props.selected ? "selected" : ""} mid='<%=mid%>' isAgenda={(this.props.item.activityNumber-1)}>
                  {this.props.item.name}
               </a>
           );
