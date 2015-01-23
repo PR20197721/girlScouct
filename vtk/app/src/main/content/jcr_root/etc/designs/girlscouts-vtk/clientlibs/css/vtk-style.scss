@@ -165,6 +165,22 @@
                   border-color: transparent transparent transparent #ff0000;
                 }
               }
+              &.passed {
+                 background-color: #e7e7e7;
+                 color: #999;
+                 &:after {
+                   border-color: transparent transparent transparent #e7e7e7;
+                 }
+                 .count {
+                  background: transparent;
+                 }
+              }
+              &.current {
+                 background-color: #F9A61A;
+                 &:after {
+                   border-color: transparent transparent transparent #F9A61A;
+                 }
+              }
             }
             > div:first-child {
               position: static;
@@ -183,7 +199,11 @@
             }
           }
           &.activity {
+            &.ui-state-disabled {
+              opacity: 1;
+            }
             > div  {
+              cursor: default;
                .bg-square {
                 background-color: #00abe6;
                 &:after {
@@ -345,7 +365,7 @@
       margin-top:17px;
       h6 {
         font-size: 14px;
-        // font-family: "OpenSans-SemiBold";
+        font-family: "OpenSans-SemiBold";
         text-transform: uppercase;
         background: #f6f6f6;
         margin-left: -5px;
@@ -529,6 +549,7 @@
       [class^="icon-"],
       [class*=" icon-"] {
         font-size:27px;
+        vertical-align: middle;
       }
       input {
         padding: 5px 8px;
@@ -583,6 +604,60 @@
           padding-right: 5px;
         }
       }
+      &.meeting-reminder {
+        h6 {
+          font-size: 14px;
+          font-family: "OpenSans-SemiBold";
+          text-transform: uppercase;
+          background: #f6f6f6;
+          padding: 5px 0 3px 1.25em;
+          color:#000;
+          &:before {
+            border-color: transparent transparent transparent #000;
+            margin-left:5px;
+            border-width: 5px;
+            margin-top: -5px;
+          }
+          &.on:before {
+            border-color: #000 transparent transparent;
+            margin-top: -2px;
+          }
+        }
+        .accordion {
+          dt {
+            background:#f6f6f6;
+            padding:0;
+            h6 {
+              background:none;
+              padding: 0;
+              margin-left: 20px;
+            }
+            .name:nth-of-type(1) {
+              &:before {
+                border-color: transparent transparent transparent #000;
+                margin-left:5px;
+                border-width: 5px;
+                margin-top: -5px;
+              }
+              &.on:before {
+                border-color: #000 transparent transparent;
+              }
+            }
+          }
+          dd {
+            .name {
+              font-family: "OpenSans-SemiBold";
+              vertical-align: middle;
+            }
+          }
+          .accordion-inner {
+            background:none;
+            dt {
+              background:none;
+            }
+          }
+        }
+      }
     }
   }//end modals
   .modal_agenda_edit {
@@ -596,31 +671,27 @@
     }
   }
   .modal-attendance {
-    .content {
-      h4 {
-        font-size:24px;
-        margin-bottom: 50px;
+      .content {
+        h4 {
+          font-size:24px;
+          margin-bottom: 50px;
+        }
+        table {
+          border:none;
+          tr,
+          td,
+          th {
+            background: none;
+          }
+          p {
+            font-weight:600;
+            font-size:17px;
+            text-transform: uppercase;
+            margin-right: 80px;
+          }
+        }
       }
-      table {
-        border:none;
-        tr,
-        td,
-        th,
-        thead {
-          background: none;
-        }
-        td:nth-child(n+2) {
-          text-align:center;
-        }
-        p {
-          font-weight:600;
-          font-size:17px;
-          text-transform: uppercase;
-          margin-right: 80px;
-         }
-       }
-     }
-   }
+    }
   //modals per JQ UI
   .modalWrap {
     padding:0;
@@ -1048,11 +1119,9 @@
         position:relative;
         top: -10px;
         li {
+          float:right;
           &:nth-of-type(2) {
             margin: 0 15.151515%;
-          }
-          &:last-child {
-            float:right;
           }
         }
       }
@@ -1080,7 +1149,8 @@
         font-size: 14px;
         vertical-align: middle;
       }
-      h3 {
+      h3,
+      h6 {
         display: inline;
         font-size: 1.5rem;
         text-transform: uppercase;
