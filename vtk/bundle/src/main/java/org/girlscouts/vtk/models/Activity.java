@@ -199,12 +199,7 @@ public class Activity extends YearPlanComponent implements Serializable{
 	}
 	public void setActivityNumber(int activityNumber) {
 		this.activityNumber = activityNumber;
-		/*
-		if( path==null )
-			path="/myActivity/"+activityNumber;
 	
-	//System.err.println("Activity path: "+ path);
-	*/
 	}
 	
 	
