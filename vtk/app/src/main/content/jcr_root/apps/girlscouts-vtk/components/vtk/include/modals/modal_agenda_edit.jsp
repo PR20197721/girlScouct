@@ -62,7 +62,7 @@
 					%>
 					<div class="editable-textarea column small-20 small-centered" id="editMeetingMaterials"><%=meetingInfoItems.get("materials").getStr()%></div>
 						<%
-							} else if (request.getParameter("isAgenda") != null) {
+						} else if (request.getParameter("isAgenda") != null) {
 								try {
 									meetingUtil.sortActivity(_activities);
 								} catch (Exception e) {
@@ -80,7 +80,8 @@
 						}
 					%>
 
-			<% if (request.getParameter("isActivity") != null) {%>
+			<% if (request.getParameter("isAgenda") != null) {%>
+			asdfasdf
 				<h3>Agenda Item: <%=_activity.getName()%></h3>
 				<div class="columns small-4">
 					<select onchange="durEditActiv(this.options[this.selectedIndex].value, '<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">
