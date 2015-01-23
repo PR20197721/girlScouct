@@ -92,30 +92,7 @@ public class TroopUtil {
 			return troop;
 		
 		yearPlanUtil.checkCanceledActivity(user, troop);
-		/*
-		java.util.List<Activity> activities = troop.getYearPlan().getActivities();
-		if (activities != null)
-			for (int i = 0; i < activities.size(); i++) {
-				
-	System.err.println(i+" >>>> "+ activities.get(i).getPath() );			
-				if ((activities.get(i).getCancelled() == null || activities
-						.get(i).getCancelled().equals("false"))
-						&& !activities.get(i).getIsEditable()
-						&& activities.get(i).getRefUid() != null) {
-
-					
-					Activity a = activityDAO.findActivity(user, activities.get(i)
-							.getRefUid());
-					if (a == null)
-						activities.get(i).setCancelled("true");
-					else{
-						// TRANSFER DATA ATTR FROM A TO  .get(i)
-						//activities.set(i, a);
-					}
-					
-				}
-			}
-			*/
+		
 		
 		
 		if( troop.getYearPlan()!=null && troop.getYearPlan().getCalFreq()==null)
@@ -200,20 +177,7 @@ public class TroopUtil {
 	}
 
 	public void logout(User user, Troop troop) throws java.lang.IllegalAccessException {
-		/*
-	System.err.println(1);	
-		if (troop == null)
-			return;
-	System.err.println(2);	
-		Troop tmp_troop = troopDAO.getTroop_byPath(user, troop.getPath());
-		if (tmp_troop == null)
-			return;
-	System.err.println(3);	
-		tmp_troop.setCurrentTroop(null);
-	System.err.println(4);
-		troopDAO.updateTroop(user, tmp_troop);
-	System.err.println(5);	
-	*/
+	
 	}
 
 	public void addAsset(User user, Troop troop, String meetingUid, Asset asset)
@@ -370,7 +334,7 @@ public class TroopUtil {
 	public boolean updateTroop(User user, Troop troop)
 			throws java.lang.IllegalAccessException,
 			java.lang.IllegalAccessException {
-	//System.err.println("TroopUtil.updateTroop");	
+	
 		 return troopDAO.updateTroop(user, troop);
 		 
 	}

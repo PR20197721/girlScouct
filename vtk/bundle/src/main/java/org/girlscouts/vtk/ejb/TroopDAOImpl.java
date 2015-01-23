@@ -149,7 +149,7 @@ public class TroopDAOImpl implements TroopDAO {
 	
 	public YearPlan addYearPlan1(User user, Troop troop, String yearPlanPath) throws java.lang.IllegalAccessException, java.lang.IllegalAccessException {
 
-	//System.err.println("addYearPlan1..");
+
 		//permission to update
 		if( troop!= null && ! userUtil.hasPermission(troop, Permission.PERMISSION_ADD_YEARPLAN_ID) )
 			throw new IllegalAccessException();
@@ -187,17 +187,7 @@ public class TroopDAOImpl implements TroopDAO {
 			plan = (YearPlan) ocm.getObject(fmtYearPlanPath);
 			if( plan!=null && plan.getCalFreq()==null)
 				plan.setCalFreq("biweekly");
-/*
-			//System.err.println("Plan found..."+fmtYearPlanPath);
-			//System.err.println(plan.getMeetingEvents().size());
-			
 
-			plan.setRefId(yearPlanPath);
-		    plan.setMeetingEvents(yearPlanUtil.getAllEventMeetings_byPath(yearPlanPath));
-
-			Comparator<MeetingE> comp = new BeanComparator("id");
-			Collections.sort(plan.getMeetingEvents(), comp);
- */
 			
 			
 		} catch (Exception e) {
@@ -510,7 +500,6 @@ public class TroopDAOImpl implements TroopDAO {
 			if (mySession.itemExists(finance.getPath())) {
 				ocm.update(finance);
 			} else {
-				//System.err.println("** "+ finance.getPath().substring(0, finance.getPath().lastIndexOf("/")));
 				JcrUtils.getOrCreateByPath(finance.getPath().substring(0, finance.getPath().lastIndexOf("/")), "nt:unstructured",mySession);
 				ocm.insert(finance);
 			}

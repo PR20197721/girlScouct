@@ -54,14 +54,12 @@ public class YearPlanUtil {
 
 	public void createActivity(User user, Troop troop, Activity activity) throws java.lang.IllegalAccessException{
 
-	//System.err.println("User: "+ (user==null ));	
 		activityDAO.createActivity(user, troop, activity);
 		troop.getYearPlan().setAltered("true");
 		troopDAO.updateTroop(user, troop);
 	}
 
 	public void checkCanceledActivity(User user, Troop troop) throws java.lang.IllegalAccessException{
-//System.err.println("CheckCanceledActiv");
 		if (troop == null || troop.getYearPlan() == null
 				|| troop.getYearPlan().getActivities() == null
 				|| troop.getYearPlan().getActivities().size() == 0)
@@ -72,26 +70,16 @@ public class YearPlanUtil {
 		java.util.List<Activity> activities = troop.getYearPlan()
 				.getActivities();
 		for (int i = 0; i < activities.size(); i++) {
-//System.err.println("Activ :"+ i);
 			if( !activities.get(i).getIsEditable() && 
 					!(activities.get(i).getCancelled() != null && activities.get(i).getCancelled().equals("true")) &&
 						!activityDAO.isActivityByPath(user, activities.get(i).getRefUid())) {
-		//System.err.println("Test isSact: canecling" );		
 					activities.get(i).setCancelled("true"); // org
 					activity2Cancel.add(activities.get(i));
 					//troopDAO.updateTroop(user, troop);
 				}
 		}
 
-			/* if need to remove canceled activ auto - uncomment
-		for (Activity a : activity2Cancel){
-	System.err.println("Del activ?");		
-			if (activities.contains(a)){
-				System.err.println("Deliting activ : "+ a.getPath());
-				activities.remove(a);
-			}
-		}
-		*/
+			
 		
 		if( activity2Cancel!=null  && activity2Cancel.size()>0)
 			troopDAO.updateTroop(user, troop);

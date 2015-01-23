@@ -99,7 +99,7 @@ import com.day.cq.commons.jcr.JcrUtil;
 	 @Override
      protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServerException, IOException {
 
-System.err.println("Asset..get.");
+
 doPost(request, response);
 	 }
 		
@@ -108,7 +108,7 @@ doPost(request, response);
 		    @Override
 		     protected void doPost(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServerException, IOException {
 
-		System.err.println("Asset..."+ request.getParameter("upldTroopPic") ); 
+		 
 		
 		    	  ResourceResolver resourceResolver = null;
 		      try {

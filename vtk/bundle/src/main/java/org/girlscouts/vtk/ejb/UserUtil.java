@@ -33,48 +33,28 @@ if(true)return true;
 		return true;
 	}
 
-	/*
-	public boolean hasAccess(Troop troop, String mySessionId, int permissionId) {
-		
-		if (!hasPermission(troop, permissionId))
-			return false;
-
 	
-		if (!isCurrentTroopId(troop, mySessionId))
-			return false;
-
-		
-		return true;
-	}
-	*/
 	public boolean isCurrentTroopId(Troop troop, String sId) {
 		
 if(true)return true;		
-		//System.err.println("Checking yp modif...."+ sId);
+		
 		java.util.Date lastUpdate = yearPlanDAO.getLastModifByOthers(troop, sId);
-		//System.err.println("LastModif db: "+ lastUpdate);
-		//System.err.println("Yptime troop: "+troop.getRetrieveTime());
 		if (lastUpdate != null && troop.getRetrieveTime()!=null && troop.getRetrieveTime().before(lastUpdate)) {
 			troop.setRefresh(true);
-	//System.err.println("YP UPDATED : YES");		
 			return false;
-		}
-	//System.err.println("YP UPDATED : NO");	
+		}	
 		return true;
 	}
 	
 public boolean isCurrentTroopId_NoRefresh(Troop troop, String sId) {
 		
-		//System.err.println("Checking yp modif...."+ sId);
+	
 		java.util.Date lastUpdate = yearPlanDAO.getLastModifByOthers(troop, sId);
-		//.err.println("LastModif db: "+ lastUpdate);
-		//System.err.println("Yptime troop: "+troop.getRetrieveTime());
 		if (lastUpdate != null && troop.getRetrieveTime()!=null && troop.getRetrieveTime().before(lastUpdate)) {
-			//troop.setRefresh(true);
-	//System.err.println("YP UPDATED : YES");		
+			
 			return false;
 		}
-	//System.err.println("YP UPDATED : NO");	
+		
 		return true;
 	}
 
