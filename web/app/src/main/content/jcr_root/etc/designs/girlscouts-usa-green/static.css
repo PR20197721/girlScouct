@@ -17,7 +17,7 @@ Font : Open Sans
 */
 /* Embedded Fonts */
 
-<!-- @font-face {
+@font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 300;
@@ -35,7 +35,8 @@ Font : Open Sans
   font-weight: 700;
   src: local('Open Sans Bold'), local('OpenSans-Bold'), url('../girlscouts/open-sans-bold.woff') format('woff');
 }
---> html {
+
+html {
   font-size: 16px;
 }
 body {

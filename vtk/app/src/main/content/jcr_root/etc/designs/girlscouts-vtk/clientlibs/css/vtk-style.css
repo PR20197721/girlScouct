@@ -505,6 +505,9 @@
     font-size: 17px;
     text-transform: uppercase;
     margin-right: 80px; }
+  .vtk-body .modal-attendance .content table thead th,
+  .vtk-body .modal-attendance .content table td:nth-child(n+2) {
+    text-align: center; }
 .vtk-body .modalWrap {
   padding: 0;
   border-radius: 0;
@@ -725,10 +728,6 @@
     .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget .ui-datepicker-header .ui-datepicker-title,
     .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget .ui-datepicker-header .ui-datepicker-title {
       float: none; }
-  .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget table thead, .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget table tfoot,
-  .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget table thead,
-  .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget table tfoot {
-    background: none; }
   .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget tbody,
   .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody {
     border: solid 1px #ccc; }
@@ -910,6 +909,9 @@
         font-size: 14px !important; }
     .vtk-body .accordion .accordion-inner ul.column:first-child {
       margin-left: 27px; }
+.vtk-body table thead,
+.vtk-body table tfoot {
+  background: none; }
 
 .inline-list li:last-child {
   margin: 0; }
@@ -981,3 +983,7 @@ input[type="file"] {
 @media only screen and (min-width: 40.063em) and (max-width: 60.063em) {
   .vtk-body #main .crumbs .columns #util-links.inline-list li:nth-of-type(2) {
     margin: 0 11px; } }
+@media only screen and (min-width: 60.063em) {
+  .vtk-body .reveal-modal {
+    margin-left: -30%;
+    width: 60%; } }
