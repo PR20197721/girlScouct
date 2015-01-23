@@ -195,8 +195,9 @@ a:hover.menuHighlight {
 
 #header span {
   color: #FAA61A;
-  font-size: 1.0em;
+  font-size: 1em;
   font-weight: bold;
+  line-height: 1;
 }
 #header a:hover {
   color: #FAA61A;
@@ -743,21 +744,23 @@ td.fc-header-left {
   content: "";
   border-color: transparent transparent transparent #fff;
   position: absolute;
-  margin: 4px 0 0 5px;
+  margin: -5px 0 0 5px;
+  top:50%;
 }
 #header a.link-login:hover:after {
-  border-color: transparent transparent transparent #c00;
+  border-color: transparent transparent transparent #FAA61A;
 }
 #header a.link-login:hover {
-  color: #c00;
+  color: #FAA61A;
 }
 #header .vtk-login .login {
-  padding-top: 5px;
-  padding-left: 20px;
+/*  padding-top: 5px;
+  padding-left: 20px;*/
 }
 #header .small-search-hamburger {
   float: right;
-  padding-right: 5px;
+  font-size:1.3em;
+/*  padding-right: 5px;*/
 }
 #footer div.footer-navigation {
   padding: 10px 0 10px 20px;
@@ -848,8 +851,10 @@ div.textimage.nowrap div.text p {
 /* added change for the search small menu */
 
 #header .topMessage.alt {
-  height: 30px;
-  margin-top: 20px
+/*  height: 30px;*/
+  margin-top: 20px;
+  padding-top:3px;
+  padding-bottom:3px;
 }
 /*#header > div.show-for-small.small-24.columns.topMessage.alt > .row.srch-box {
     line-height: 30px;
@@ -863,10 +868,21 @@ div.textimage.nowrap div.text p {
   text-align: right;
 }
 .srch-box form {
-  margin: 5px 0 0 0;
+/*  margin: 5px 0 0 0;*/
+  margin:0;
+}
+.srch-box form:after {
+  font-family: "JollyFont";
+  position: absolute;
+  content: "\e66c";
+  color: rgb(0, 174, 88);
+  top: 0px;
+  left: 94%;
+  font-size: 1.3em;
 }
 .srch-box form input[type="text"] {
   margin: 0;
+  height: 20px;
 }
 #header > .show-for-small.topMessage.alt > .srch-box > .small-2.columns {
   padding: 0;

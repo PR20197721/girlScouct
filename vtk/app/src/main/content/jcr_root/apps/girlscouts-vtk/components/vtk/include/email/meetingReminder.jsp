@@ -1,3 +1,13 @@
+<script>
+	//print out the date the email was sent.
+	 var sent_date = "";
+	 if(moment(new Date()) != null && moment(new Date()) !='') {
+	  sent_date = $('.sent').append(moment(new Date()).format('MM/DD/YYYY'));
+	 } else {
+	  sent_date = $('.sent').append('none');
+	 }
+</script>
+
 <div class="content clearfix meeting-reminder">
 
 <% //if(planView.getYearPlanComponent().getType()==YearPlanComponentType.ACTIVITY){
@@ -100,11 +110,10 @@
 	
 	<br/></br/>Form(s) Required:xxx
 	<div id="formLinks"></div>
-	
 	</textarea>
 	
 
-	<div id="ima">
+<!-- 	<div id="ima">
 		<div id="imaBd">
 		<table>
 			<tr>
@@ -122,9 +131,9 @@
 			 <%}%>
 		</table>
 		</div>
-	</div>
-	<div id="ifl">
-	<div id="iflBd">
+	</div> -->
+<!-- 	<div id="ifl">
+	<div id="iflBd"> -->
 	<%/*form needed
 		for(int i=0;i<_forms.size();i++){
 		String formName;
@@ -133,8 +142,10 @@
 		<input type="checkbox" id="<%=formname%>" onclick="addLinkToEmail(forms(i))"/><%=formname %>
 
 	<%}*/%>
-	</div>
-	</div>
+<!-- 	</div>
+	</div> -->
+
+
 	<dl class="accordion" data-accordion>
 	  <dt data-target="panel1"><h6 class="on">Include meeting aid</h6></dt>
 	  <dd class="accordion-navigation">
@@ -150,20 +161,20 @@
 	 </dl>
 
 	<dl class="accordion" data-accordion>
-	  <dt data-target="panel1"><h6>Include Form Link</h6></dt>
+	  <dt data-target="panel2"><h6>Include Form Link</h6></dt>
 	  <dd class="accordion-navigation">
-	    <div class="content active" id="panel1">
+	    <div class="content" id="panel2">
         <div class="row">
           <dl class="accordion-inner clearfix" data-accordion>
             <dt data-target="panel1b" class="clearfix">
             	<span class="name">Activity Planning and Approval</span>
             </dt>
-            <dd class="accordion-navigation">
+            <dd>
               <div id="panel1b" class="content">
-                <ul class="inline-list">
+                <ul class="small-block-grid-3">
                   <li>Name of Form</li>
                   <li>Purpose of Form</li>
-                  <li><i class="icon-button-circle-plus"></i></li>
+                  <li><a href="" title="add form"><i class="icon-button-circle-plus"></i></a></li>
                 </ul>
               </div>
             </dd>
@@ -172,12 +183,16 @@
 	    </div>
 	  </dd>
 	 </dl>
-	<input type="button" value="Preview" class="button btn" onclick="previewMeetingReminderEmail('<%=((MeetingE)planView.getYearPlanComponent()).getPath()%>','<%=((MeetingE)planView.getYearPlanComponent()).getUid()%>')"/>
-	<input class="button btn" value="Send email" type="button" />
+	 <div class="right clearfix">
+		<input type="button" value="Preview" class="button btn" onclick="previewMeetingReminderEmail('<%=((MeetingE)planView.getYearPlanComponent()).getPath()%>','<%=((MeetingE)planView.getYearPlanComponent()).getUid()%>')"/>
+		<input class="button btn" value="Send email" type="button" />
+	</div>
 </div>
+<!--//content-->
 <% //}%>
 
-<!-- end of /content -->
+
+
 <script>
 	$(".jqte-test").jqte({
 		"source": false,
@@ -196,13 +211,5 @@
 		//addAidToEmail(refId,title,uid);
 		return;
 	};
-	//print out the date the email was sent.
-	 var sent_date = "";
-	 if(moment(new Date()) != null && moment(new Date()) !='') {
-	  sent_date = $('.sent').append(moment(new Date()).format('MM/DD/YYYY'));
-	 } else {
-	  sent_date = $('.sent').append('none');
-	 }
 </script>
-
  

@@ -483,6 +483,10 @@
     .vtk-body .reveal-modal .content.meeting-reminder .accordion dd .name {
       font-family: "OpenSans-SemiBold";
       vertical-align: middle; }
+    .vtk-body .reveal-modal .content.meeting-reminder .accordion .accordion-inner {
+      background: none; }
+      .vtk-body .reveal-modal .content.meeting-reminder .accordion .accordion-inner dt {
+        background: none; }
 .vtk-body .modal_agenda_edit .content h3 {
   margin-bottom: 20px; }
 .vtk-body .modal_agenda_edit .content .btn {
@@ -822,10 +826,10 @@
 .vtk-body .crumbs .columns #util-links.inline-list {
   position: relative;
   top: -10px; }
-  .vtk-body .crumbs .columns #util-links.inline-list li:nth-of-type(2) {
-    margin: 0 15.151515%; }
-  .vtk-body .crumbs .columns #util-links.inline-list li:last-child {
+  .vtk-body .crumbs .columns #util-links.inline-list li {
     float: right; }
+    .vtk-body .crumbs .columns #util-links.inline-list li:nth-of-type(2) {
+      margin: 0 15.151515%; }
 .vtk-body .accordion {
   margin-bottom: 1.25rem; }
   .vtk-body .accordion dl dt,
