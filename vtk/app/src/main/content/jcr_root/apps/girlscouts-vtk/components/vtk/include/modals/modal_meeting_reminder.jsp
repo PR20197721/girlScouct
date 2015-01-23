@@ -11,7 +11,7 @@
     <a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
   </div>
   <div class="scroll">
-   <%@include file="/apps/girlscouts-vtk/components/vtk/include/email/meetingReminder.jsp" %> 
+   
   </div><!--/scroll-->
   </div>
 

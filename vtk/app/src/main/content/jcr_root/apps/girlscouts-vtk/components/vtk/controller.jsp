@@ -3,7 +3,7 @@
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 <%
-System.err.println("controlle.............................r");
+
 	String vtkErr="";
 	int serverPortInt = request.getServerPort();
 	String serverPort = "";
@@ -26,12 +26,12 @@ try{
 	if( aContr!=null)
 	  switch(aContr){
 		case ChangeMeetingPositions:
-System.err.println("changing... "+ request.getParameter("isMeetingCngAjax") );	
+
 String x= request.getParameter("isMeetingCngAjax");
 while( x.indexOf(",,")!=-1 ){
 	x= x.replaceAll(",,",",");
 }
-System.err.println("changing new... "+ x );	
+	
 	meetingUtil.changeMeetingPositions( user, troop, x );
 	//meetingUtil.changeMeetingPositions( user, troop, request.getParameter("isMeetingCngAjax") );
 	    	return;
@@ -46,7 +46,7 @@ System.err.println("changing new... "+ x );
 		case CreateSchedule:
 	try{
 		
-	System.err.println("tata88: contr" + request.getParameter("orgDt"));
+	
 		session.putValue("VTK_planView_memoPos", null);
 		calendarUtil.createSched(user, troop, request.getParameter("calFreq"), 
 			new org.joda.time.DateTime(dateFormat4.parse(request.getParameter("calStartDt") +" "+ request.getParameter("calTime") +
@@ -78,7 +78,7 @@ System.err.println("changing new... "+ x );
 			request.getParameter("time"), request.getParameter("date"), request.getParameter("ap"), 
 			request.getParameter("isCancelledMeeting"), Long.parseLong( request.getParameter("currDt") ));
 	
-		System.err.println("test: "+ isSucc);	
+		
 	if( !isSucc ){ response.sendError(499, "Date already exists in schedule" );}
 	return;
 		case RemoveCustomActivity:
@@ -102,8 +102,7 @@ System.err.println("changing new... "+ x );
 	meetingUtil.rmAgenda(user, troop, request.getParameter("rmAgenda") , request.getParameter("mid")  );
 	return;
 		case EditAgendaDuration:
-	System.err.println("**" + Integer.parseInt(request.getParameter("editAgendaDuration")) +" : "+ 
-			request.getParameter("aid") +" : "+request.getParameter("mid"));
+			//request.getParameter("aid") +" : "+request.getParameter("mid"));
 	meetingUtil.editAgendaDuration(user, troop, Integer.parseInt(request.getParameter("editAgendaDuration")), 
 			request.getParameter("aid"),request.getParameter("mid"));
 	return;
@@ -281,7 +280,7 @@ if(request.getParameter("admin_login")!=null ){
 	  String cc = request.getParameter("email_to_cc");
 	  String subj = request.getParameter("email_subj");
 	  String html = request.getParameter("email_htm"); 
-	  System.out.println("contrHTML: "+ html);
+	  
 	  
 	  EmailMeetingReminder emr = new EmailMeetingReminder(null, null, cc, subj, html);
 	  emr.setEmailToGirlParent(email_to_gp);
@@ -450,7 +449,7 @@ if(request.getParameter("admin_login")!=null ){
 	if( userUtil.isCurrentTroopId_NoRefresh(troop,user.getSid()) ) {
 		return; 
 	}else{
-		System.err.println("yes refresh caca");
+		;
 	}
 	
 	
@@ -462,13 +461,13 @@ if(request.getParameter("admin_login")!=null ){
 	
 }else if( request.getParameter("test1") !=null ){
 
-	System.err.println("CHECK");
+	
 	  
 	  
 	
 }else if( request.getParameter("editMtLogo") !=null ){
 	
-	//System.err.println("EDITING MEETING LOGO...");
+	;
 	
 }else if(request.getParameter("updateCouncilMilestones") !=null){
 	
@@ -562,10 +561,8 @@ if(request.getParameter("admin_login")!=null ){
 	
 }else if( request.getParameter("Impersonate4S")!=null){
 
-	//System.err.println("XXX" +request.getParameter("councilCode")+" : " +request.getParameter("troopId"));
 	troopUtil.impersonate( user, troop, request.getParameter("councilCode"), request.getParameter("troopId"),  session);
 Troop x= (Troop)session.getAttribute("VTK_troop");
-//System.err.println("XXX: "+x.getPath());
 	response.sendRedirect("/content/girlscouts-vtk/en/vtk.html");
 }else if( request.getParameter("addAsset")!=null){ //not in switch?? not used?
 	//org.girlscouts.vtk.models.Asset asset = new org.girlscouts.vtk.models.Asset(request.getParameter("addAsset"));
@@ -573,8 +570,6 @@ Troop x= (Troop)session.getAttribute("VTK_troop");
 }else if( request.getParameter("reactjs")!=null ){
 	
 	
-	System.err.println("\n\n\n\n ..........................."+request.getParameter("isFirst"));
-	//if( true ){//!userUtil.isCurrentTroopId( troop, user.getSid() ) ){
 	
 		
 	 boolean isFirst = false;
@@ -587,14 +582,13 @@ Troop x= (Troop)session.getAttribute("VTK_troop");
 		
 	if( !isFirst ){	
 		
-		java.net.URL tata = new java.net.URL("http://" + serverName  + serverPort + "/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid=X"+session.getId()+"&ypid="+troop.getYearPlan().getPath()+"&d=");
-        java.net.URLConnection yc = tata.openConnection();
+		java.net.URL url = new java.net.URL("http://" + serverName  + serverPort + "/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid=X"+session.getId()+"&ypid="+troop.getYearPlan().getPath()+"&d=");
+        java.net.URLConnection yc = url.openConnection();
         java.io.BufferedReader in = new java.io.BufferedReader(new java.io.InputStreamReader(
                                     yc.getInputStream()));
         String inputLine;
         while ((inputLine = in.readLine()) != null) {
-           // System.err.println(inputLine +" : "+ (inputLine.indexOf("\"yp_cng\":\"true\"")!= -1 ));
-        
+          
         	if(inputLine!=null && (inputLine.indexOf("\"yp_cng\":\"true\"")!= -1) ){
         		isCng= true;
         	}
@@ -603,12 +597,11 @@ Troop x= (Troop)session.getAttribute("VTK_troop");
 	}
 		}catch(Exception e){e.printStackTrace();}
 	
-		System.err.println("IsCng: "+isCng);
+		
 	
 	 
 	if( isFirst || isCng){	
 		
-		System.err.println("\n\n\n\n >>>>>>>>>>>>>>>>>>>>>>>REFRESH....reactjs");
 		org.girlscouts.vtk.salesforce.Troop prefTroop = apiConfig.getTroops().get(0);
 		for (int ii = 0; ii < apiConfig.getTroops().size(); ii++){
 		 	if( apiConfig.getTroops().get(ii).getTroopId().equals(troop.getSfTroopId())){ 
@@ -630,7 +623,7 @@ Troop x= (Troop)session.getAttribute("VTK_troop");
 	if(_meeting.getMeetingInfo()!=null && _meeting.getMeetingInfo().getActivities()!=null ){
 		
 		
-System.err.println("ISACTIV......... "+request.getParameter("isActiv"));				
+				
 	if(request.getParameter("isActivNew")!=null && request.getParameter("isActivNew").equals("1") ){
 		_meeting.getMeetingInfo().setActivities(null );
 		/*
@@ -672,29 +665,26 @@ session.putValue("VTK_troop", troop);
 }else if( request.getParameter("yearPlanSched") !=null ){
 	
 if( troop.getYearPlan()==null ) return;
-	System.err.println("xx: "+request.getParameter("isFirst")  );	
+	
 			boolean isFirst = false;
 			if (request.getParameter("isFirst") != null
 					&& request.getParameter("isFirst").equals("1")) {
 				isFirst = true;
 			}
-System.err.println("CGG: "+request.getParameter("isFirst") +" : "+ isFirst );
+
 			boolean isCng = false;
 			try {
 
 				if (!isFirst) {
 					
-	System.err.println("Checking for updates..."+(troop.getYearPlan()==null));
-			System.err.println("http://" + serverName  + serverPort + "/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid=X"
-					+ session.getId() + "&ypid="
-					+ troop.getYearPlan().getPath()
-					+ "&d=");
-					java.net.URL tata = new java.net.URL(
+
+			
+					java.net.URL url = new java.net.URL(
 							"http://" + serverName  + serverPort + "/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid=X"
 									+ session.getId() + "&ypid="
 									+ troop.getYearPlan().getPath()
 									+ "&d=");
-					java.net.URLConnection yc = tata.openConnection();
+					java.net.URLConnection yc = url.openConnection();
 					java.io.BufferedReader in = new java.io.BufferedReader(
 							new java.io.InputStreamReader(
 									yc.getInputStream()));
@@ -712,15 +702,13 @@ System.err.println("CGG: "+request.getParameter("isFirst") +" : "+ isFirst );
 				e.printStackTrace();
 			}
 			//isCng=true;
-System.err.println("CHK1: " + isFirst + " : "+ isCng+" : "+ request.getParameter("isActivNew"));
 			if (isFirst || isCng || request.getParameter("isActivNew") != null) {
-System.err.println("CHK: " + isFirst + " : "+ isCng+" : "+ request.getParameter("isActivNew"));
 				if (request.getParameter("isActivNew") != null
 						&& request.getParameter("isActivNew").equals(
 								"1")) {
 					out.println("[{\"yearPlan\":\""+troop.getYearPlan().getName()+"\",\"schedule\":null}]");
 				} else {
-System.err.println("pulling...");
+
 
 					org.girlscouts.vtk.salesforce.Troop prefTroop = apiConfig.getTroops().get(0);
 					for (int ii = 0; ii < apiConfig.getTroops().size(); ii++){
@@ -730,9 +718,7 @@ System.err.println("pulling...");
 				  		}
 					  }
 					
-		//System.err.println("TESTTR" + prefTroop.getCouncilCode()+" :"+ prefTroop.getTroopId())	;		
 					troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
-		//System.err.println("TESTTR: "+ (troop==null) );			
 					
 		
 					java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil
@@ -786,8 +772,8 @@ session.putValue("VTK_troop", troop);
 		try{
 		
 	if( !isFirst ){		
-		java.net.URL tata = new java.net.URL("http://" + serverName  + serverPort + "/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid=X"+session.getId()+"&ypid="+troop.getYearPlan().getPath()+"&d=");
-        java.net.URLConnection yc = tata.openConnection();
+		java.net.URL url = new java.net.URL("http://" + serverName  + serverPort + "/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid=X"+session.getId()+"&ypid="+troop.getYearPlan().getPath()+"&d=");
+        java.net.URLConnection yc = url.openConnection();
         java.io.BufferedReader in = new java.io.BufferedReader(new java.io.InputStreamReader(
                                     yc.getInputStream()));
         String inputLine;
@@ -800,12 +786,12 @@ session.putValue("VTK_troop", troop);
 	}
 		}catch(Exception e){e.printStackTrace();}
 	
-		System.err.println("IsCng: "+isCng);
+		
 	
 	 
 	if( isFirst || isCng){	
 		
-		System.err.println("\n\n\n\n >>>>>>>>>>>>>>>>>>>>>>>REFRESH....reactjs activity");
+		
 		org.girlscouts.vtk.salesforce.Troop prefTroop = apiConfig.getTroops().get(0);
 		for (int ii = 0; ii < apiConfig.getTroops().size(); ii++){
 		 	if( apiConfig.getTroops().get(ii).getTroopId().equals(troop.getSfTroopId())){ 

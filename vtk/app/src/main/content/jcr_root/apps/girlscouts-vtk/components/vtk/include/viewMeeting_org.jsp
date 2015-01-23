@@ -19,7 +19,7 @@
 
 	<div  class="row">
         <div class="large-4 medium-5 small-24 columns">
-			<div class="planSquare center ed-table" id="caca">
+			<div class="planSquare center ed-table" id="acac">
 <%
 	if (calendarNotSet) {
 %>

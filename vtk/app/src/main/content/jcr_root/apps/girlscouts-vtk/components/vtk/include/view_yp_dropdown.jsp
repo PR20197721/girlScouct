@@ -22,10 +22,9 @@
       }
       
       java.util.Iterator<YearPlan> yearPlans = yearPlanUtil.getAllYearPlans(user, ageLevel).listIterator();
-     System.err.println("**tata*** start__ "+ageLevel+" : "+ (yearPlanUtil.getAllYearPlans(user, ageLevel).size() ) ); 
         while (yearPlans.hasNext()) {
           YearPlan yearPlan = yearPlans.next();
-         // System.err.println("*****"); 
+          
       %>
       <div class="row">
         <div class="large-2 columns large-push-2">
