@@ -681,7 +681,7 @@ for(int h=0;h<meetingInfo.getActivities().size();h++)
 	}
 	
 	
-	public void addAids(User user, Troop troop, String aidId, String meetingId, String assetName)throws java.lang.IllegalAccessException{
+	public void addAids(User user, Troop troop, String aidId, String meetingId, String assetName,String docType)throws java.lang.IllegalAccessException{
 		/*
 		if( ! userUtil.hasAccess(troop, troop.getCurrentTroop() , Permission.PERMISSION_CREATE_MEETING_ID) ){
 			 troop.setErrCode("112");
@@ -708,6 +708,7 @@ for(int h=0;h<meetingInfo.getActivities().size();h++)
 				asset.setRefId(aidId);
 				asset.setType(AssetComponentType.AID.toString());
 				asset.setTitle(assetName);
+				asset.setDocType(docType);
 				if( dbAsset !=null )
 		     		asset.setDescription(dbAsset.getDescription());
 				
@@ -762,7 +763,7 @@ for(int h=0;h<meetingInfo.getActivities().size();h++)
 	
 	
 	
-	public void addResource(User user, Troop troop, String aidId, String meetingId, String assetName)throws java.lang.IllegalAccessException{
+	public void addResource(User user, Troop troop, String aidId, String meetingId, String assetName,String docType)throws java.lang.IllegalAccessException{
 		/*
 		if( ! userUtil.hasAccess(troop, troop.getCurrentTroop(), Permission.PERMISSION_CREATE_MEETING_ID ) ){
 			 troop.setErrCode("112");
@@ -789,7 +790,7 @@ for(int h=0;h<meetingInfo.getActivities().size();h++)
 				asset.setRefId(aidId);
 				asset.setType(AssetComponentType.RESOURCE.toString());
 				asset.setTitle(assetName);
-				
+				asset.setDocType(docType);
 				
 				java.util.List<Asset> assets= meeting.getAssets();
 				assets= assets ==null ? new java.util.ArrayList() : assets;
