@@ -689,9 +689,13 @@
             text-transform: uppercase;
             margin-right: 80px;
           }
+          thead th,
+          td:nth-child(n+2) {
+            text-align:center;
+          }
         }
       }
-    }
+  }
   //modals per JQ UI
   .modalWrap {
     padding:0;
@@ -974,9 +978,6 @@
               float:none;
             }
           }
-          table thead, table tfoot {
-            background: none;
-          }
           tbody {
             border:solid 1px #ccc;
             .ui-datepicker-current-day {
@@ -1226,6 +1227,12 @@
         }
       }
   }
+  table {
+    thead, 
+    tfoot {
+      background: none;
+    }
+  }
 } //end of vtk-body
 
 //overwrite of global
@@ -1324,6 +1331,12 @@ input[type="file"] {
 @media only screen and (min-width: 40.063em) and (max-width: 60.063em) {
   .vtk-body #main .crumbs .columns #util-links.inline-list li:nth-of-type(2) {
     margin: 0 11px;
+  }
+}
+@media only screen and (min-width: 60.063em) {
+  .vtk-body .reveal-modal {
+    margin-left: -30%;
+    width: 60%;
   }
 }
 

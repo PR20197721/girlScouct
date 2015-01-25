@@ -12,27 +12,30 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Component
-@Service(value=SessionFactory.class)
-
+@Service(value = SessionFactory.class)
 public class SessionFactory {
-    private static final Logger log = LoggerFactory.getLogger(SessionFactory.class);
-    
-    @Reference
-    private SlingRepository repository;
-    public Session getSession() throws RepositoryException, LoginException {
+	private static final Logger log = LoggerFactory
+			.getLogger(SessionFactory.class);
 
-    	Session adminSession = repository.loginAdministrative(null);
-    	//org.apache.jackrabbit.ocm.transaction.jackrabbit.UserTransactionImpl x;
-    	//adminSession.b
-    //System.err.println(repository.OPTION_TRANSACTIONS_SUPPORTED);	
-        Session session = adminSession.impersonate(new SimpleCredentials("vtk", new char[0]));
-        adminSession.logout();
-        adminSession = null;
-    	return session;
-    }
-    public void closeSession(Session session) {
+	@Reference
+	private SlingRepository repository;
 
-    	session.logout();
-    }
+	public Session getSession() throws RepositoryException, LoginException {
+
+		Session adminSession = repository.loginAdministrative(null);
+		// org.apache.jackrabbit.ocm.transaction.jackrabbit.UserTransactionImpl
+		// x;
+		// adminSession.b
+		Session session = adminSession.impersonate(new SimpleCredentials("vtk",
+				new char[0]));
+		adminSession.logout();
+		adminSession = null;
+		return session;
+	}
+
+	public void closeSession(Session session) {
+
+		session.logout();
+	}
 
 }

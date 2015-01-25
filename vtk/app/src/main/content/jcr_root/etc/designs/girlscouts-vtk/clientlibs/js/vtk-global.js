@@ -35,7 +35,7 @@ var $ = jQuery.noConflict();
 		   return false; 
 		   e.preventDefault(); 
 		  }    
-		});  
+		});
 	}
 	//all function calls should go here
 	  $(document).ready(function() {
@@ -46,5 +46,6 @@ var $ = jQuery.noConflict();
 	  	 });
 	  	 vtk_accordion();
 	  	 validate_image();
+	  	 $("#modal-meeting-reminder").prev(".reveal-modal-bg").css({'pointer-events':'none'});
   });
  })($);

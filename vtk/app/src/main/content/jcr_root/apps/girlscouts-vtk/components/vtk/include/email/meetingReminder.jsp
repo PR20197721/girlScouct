@@ -1,4 +1,12 @@
-
+<!-- <script>
+// 	//print out the date the email was sent.
+// 	 var sent_date = "";
+// 	 if(moment(new Date()) != null && moment(new Date()) !='') {
+// 	  sent_date = $('.sent').append(moment(new Date()).format('MM/DD/YYYY'));
+// 	 } else {
+// 	  sent_date = $('.sent').append('none');
+// 	 }
+// </script>-->
 
 <div class="content clearfix meeting-reminder">
 
@@ -14,6 +22,7 @@
 	<h5>Reminder Meeting <%=((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getName() %>
 	  <%= FORMAT_MEETING_REMINDER.format(planView.getSearchDate()) %></h5>
 	
+
 	<p class="sent">Sent: None</p>
 
 	<h6>Address List</h6>
@@ -100,18 +109,51 @@
 	<br/></br/>Form(s) Required:xxx
 	<div id="formLinks"></div>
 	</textarea>
+	
+
+<!-- 	<div id="ima">
+		<div id="imaBd">
+		<table>
+			<tr>
+				<th>&nbsp;</th>
+				<th>Add to Email</th>
+			</tr>
+			<%
+			List<Asset> aidTags = planView.getAidTags();
+			for(int i=0;i<planView.getAidTags().size();i++){%>
+			 <tr>
+				<td><%= planView.getAidTags().get(i).getTitle() %></td>
+			 	<td><a onclick="addAidLink('<%=planView.getAidTags().get(i).getRefId()%>','<%=planView.getAidTags().get(i).getTitle()%>','<%=((MeetingE)planView.getYearPlanComponent()).getUid() %>')" class="addAidToEmail"> + </a></td>
+			 	
+			 </tr>
+			 <%}%>
+		</table>
+		</div>
+	</div> -->
+<!-- 	<div id="ifl">
+	<div id="iflBd"> -->
+	<%/*form needed
+		for(int i=0;i<_forms.size();i++){
+		String formName;
+		String formurl;%>
+	
+		<input type="checkbox" id="<%=formname%>" onclick="addLinkToEmail(forms(i))"/><%=formname %>
+
+	<%}*/%>
+<!-- 	</div>
+	</div> -->
+
 
 	<dl class="accordion" data-accordion>
 	  <dt data-target="panel1"><h6 class="off">Include meeting aid</h6></dt>
 	  <dd class="accordion-navigation">
 	    <div class="content" id="panel1">
       	<ul class="small-block-grid-2">
-      	<% for(int i=0;i<planView.getAidTags().size();i++) { %>
-      		<li><i class="icon-<%=planView.getAidTags().get(i).getDocType()==null?"":planView.getAidTags().get(i).getDocType()+"-"%>file-extension">
-      		<span class="color-overlay"></span></i><span class="name"><%= planView.getAidTags().get(i).getTitle() %>
-      		</span>
-      		</li>
-      		<li><a href="#nogo" title="add" onclick="addAidLink('<%=planView.getAidTags().get(i).getRefId()%>','<%=planView.getAidTags().get(i).getTitle()%>','<%= planView.getAidTags().get(i).getDocType() %>','<%=((MeetingE)planView.getYearPlanComponent()).getUid() %>')"><i class="icon-button-circle-plus"></i></a></li>
+      	<% 
+      		// List<Asset> aidTags = planView.getAidTags();
+      		for(int i=0;i<planView.getAidTags().size();i++) { %>
+      		<li><i class="icon-pdf-file-extension"><span class="color-overlay"></span></i><span class="name"><%= planView.getAidTags().get(i).getTitle() %></span></li>
+      		<li><a href="#nogo" title="add" onclick="addAidLink('<%=planView.getAidTags().get(i).getRefId()%>','<%=planView.getAidTags().get(i).getTitle()%>','<%=((MeetingE)planView.getYearPlanComponent()).getUid() %>')"><i class="icon-button-circle-plus"></i></a></li>
       	<%}%>
       	</ul>
 	    </div>
@@ -177,8 +219,8 @@
 		$('textarea #emailhtm .formLinks').append('<a href="'+formurl+'">'+formname+'/a>');
 		return;
 	};
-	function addAidLink(refId,title,docType,uid){
-		$('#aidLinks').append('<li><i class="icon-'+docType+'-file-extension"></i><a href="'+refId+'">'+title+'</a></li>');
+	function addAidLink(refId,title,uid){
+		$('#aidLinks').append('<li><a href="'+refId+'">'+title+'</a></li>');
 		//$('.addAidToEmail').text("-");
 		$('.added').dialog('open');
 	    setTimeout(function() {

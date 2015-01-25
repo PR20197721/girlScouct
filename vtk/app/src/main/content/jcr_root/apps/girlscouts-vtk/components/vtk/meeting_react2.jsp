@@ -102,7 +102,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
         render: function() {
           return (
               
-              <a href="javascript:void(0)" onClick={this.onClick} className={this.props.selected ? "selected" : ""} mid= '<%=mid%>' isAgenda= {(this.props.item.activityNumber-1)}>
+              <a href="javascript:void(0)" onClick={this.onClick} className={this.props.selected ? "selected" : ""} mid='<%=mid%>' isAgenda={(this.props.item.activityNumber-1)}>
                  {this.props.item.name}
               </a>
           );
@@ -252,7 +252,9 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
         					 <h6>meeting agenda</h6>
         					 <p>Select and agenda item to view details, edit duration and delete. Drag and drop to reorder.</p>
        						 <SortableListItems1  key="{this.props.data}"  data={this.props.data} onClick={this.alex} onReorder={this.onReorder}/>
-      				   <strong><a data-reveal-id="modal_agenda"><i className="icon-button-circle-plus"></i> Add Agenda Item</a></strong>
+
+<AgendaTotal data={this.props.data}/>   				
+                  <strong><a data-reveal-id="modal_agenda"><i className="icon-button-circle-plus"></i> Add Agenda Item</a></strong>
 
 						 </section>; 
           }
@@ -269,6 +271,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
           }
         },
         componentDidMount: function() {
+
           var dom = $(this.getDOMNode());
           var onReorder = this.props.onReorder;
           dom.sortable({
@@ -321,6 +324,38 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
         document.getElementById('theMeeting')
       );
 
+
+ var AgendaTotal = React.createClass({
+       
+        render: function() {
+          return (
+              <div>
+                Total: {getAgendaTotalTime(this.props.data)}
+              </div>
+              
+          );
+        }
+      });
+
+
+
+function getAgendaTotalTime(x){
+
+  var total =0;
+  x.map((function(item, i) {
+        total += item.duration;
+  }))
+
+
+    var hours = Math.floor( total / 60);          
+    var minutes = total % 60;
+
+    if( hours<=0 )
+      return minutes;
+   else
+    return hours+":"+ minutes;
+
+}
       </script>
   </div>
 </div>
