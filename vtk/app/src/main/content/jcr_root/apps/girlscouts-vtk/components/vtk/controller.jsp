@@ -196,7 +196,7 @@
 							.getParameter("meetingId"),
 							java.net.URLDecoder.decode(request
 									.getParameter("assetName")),
-							request.getParameter("assetDesc"));
+							request.getParameter("assetDocType"));
 				} else {
 					meetingUtil.addResource(user, troop, request
 							.getParameter("addAids"), request
