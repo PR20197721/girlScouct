@@ -32,6 +32,7 @@ import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
+import org.girlscouts.vtk.utils.VtkUtil;
 
 @Component
 @Service(value = YearPlanUtil.class)
@@ -127,6 +128,7 @@ public class YearPlanUtil {
 			cal.setTime(dt);
 
 			String desc = "", location = "";
+			java.util.Date endDate=null;
 
 			switch (_comp.getType()) {
 			case ACTIVITY:
@@ -137,6 +139,7 @@ public class YearPlanUtil {
 						+ (a.getLocationAddress() == null ? "" : a
 								.getLocationAddress().replace("\r", ""));
 				desc = ((Activity) _comp).getName();
+				endDate= a.getEndDate();
 				break;
 
 			case MEETING:
@@ -145,11 +148,18 @@ public class YearPlanUtil {
 				desc = meetingInfo.getName();
 				location = getLocation(troop,
 						((MeetingE) _comp).getLocationRef());
+				
+				int totalMeetingMin = VtkUtil.getMeetingEndTime(((MeetingE) _comp).getMeetingInfo());
+				java.util.Calendar endTimeCal = java.util.Calendar.getInstance();
+				endTimeCal.setTime(cal.getTime());
+				endTimeCal.add(java.util.Calendar.MINUTE, totalMeetingMin);
+				endDate = endTimeCal.getTime();
+				
 				break;
 			}
-
+if( endDate ==null ) endDate = cal.getTime();
 			final List events = new ArrayList();
-			final VEvent event = new VEvent(new DateTime(cal.getTime()), desc);
+			final VEvent event = new VEvent(new DateTime(cal.getTime()), new DateTime(endDate),  desc);
 			event.getProperties().add(new Description(desc));
 			if (location != null)
 				event.getProperties()

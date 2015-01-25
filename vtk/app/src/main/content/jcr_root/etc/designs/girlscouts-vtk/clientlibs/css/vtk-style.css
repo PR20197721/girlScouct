@@ -268,7 +268,7 @@
     margin-top: 17px; }
     .vtk-body #main .meeting-detail section h6 {
       font-size: 14px;
-      font-family: "OpenSans-SemiBold";
+      font-weight: 600;
       text-transform: uppercase;
       background: #f6f6f6;
       margin-left: -5px;
@@ -421,26 +421,27 @@
       width: 100%; }
     .vtk-body .reveal-modal .content input[type="checkbox"] {
       display: none; }
+    .vtk-body .reveal-modal .content input[type="checkbox"] + label:before {
+      border: solid 1px #ccc;
+      content: "";
+      height: 30px;
+      width: 30px;
+      text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+      font-size: 15px;
+      text-align: center;
+      padding: 4px;
+      display: inline-block;
+      float: left; }
     .vtk-body .reveal-modal .content label {
       top: 0; }
-      .vtk-body .reveal-modal .content label:before {
-        border: solid 1px #ccc;
-        content: "";
-        height: 30px;
-        width: 30px;
-        text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
-        font-size: 15px;
-        text-align: center;
-        padding: 4px;
-        display: inline-block;
-        float: left; }
       .vtk-body .reveal-modal .content label p {
-        float: left; }
+        float: left;
+        margin: 3px 0 0 9px; }
       .vtk-body .reveal-modal .content label span {
         display: block; }
     .vtk-body .reveal-modal .content input[type=checkbox]:checked + label:before {
       content: "\e6d7";
-      font-family: JollyFont;
+      font-family: "JollyFont";
       color: green; }
     .vtk-body .reveal-modal .content .btn {
       text-transform: uppercase;
@@ -451,42 +452,87 @@
       .vtk-body .reveal-modal .content section p {
         padding-left: 5px;
         padding-right: 5px; }
-    .vtk-body .reveal-modal .content.meeting-reminder h6 {
-      font-size: 14px;
-      font-family: "OpenSans-SemiBold";
-      text-transform: uppercase;
-      background: #f6f6f6;
-      padding: 5px 0 3px 1.25em;
-      color: #000; }
-      .vtk-body .reveal-modal .content.meeting-reminder h6:before {
-        border-color: transparent transparent transparent #000;
-        margin-left: 5px;
-        border-width: 5px;
-        margin-top: -5px; }
-      .vtk-body .reveal-modal .content.meeting-reminder h6.on:before {
-        border-color: #000 transparent transparent;
-        margin-top: -2px; }
-    .vtk-body .reveal-modal .content.meeting-reminder .accordion dt {
-      background: #f6f6f6;
-      padding: 0; }
-      .vtk-body .reveal-modal .content.meeting-reminder .accordion dt h6 {
-        background: none;
-        padding: 0;
-        margin-left: 20px; }
-      .vtk-body .reveal-modal .content.meeting-reminder .accordion dt .name:nth-of-type(1):before {
-        border-color: transparent transparent transparent #000;
-        margin-left: 5px;
-        border-width: 5px;
-        margin-top: -5px; }
-      .vtk-body .reveal-modal .content.meeting-reminder .accordion dt .name:nth-of-type(1).on:before {
-        border-color: #000 transparent transparent; }
-    .vtk-body .reveal-modal .content.meeting-reminder .accordion dd .name {
-      font-family: "OpenSans-SemiBold";
-      vertical-align: middle; }
-    .vtk-body .reveal-modal .content.meeting-reminder .accordion .accordion-inner {
+.vtk-body #modal-meeting-reminder h6 {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  background: #f6f6f6;
+  padding: 5px 0 3px 1.25em;
+  color: #000; }
+  .vtk-body #modal-meeting-reminder h6:before {
+    border-color: transparent transparent transparent #000;
+    margin-left: 5px;
+    border-width: 5px;
+    margin-top: -5px; }
+  .vtk-body #modal-meeting-reminder h6.on:before {
+    border-color: #000 transparent transparent;
+    margin-top: -2px; }
+.vtk-body #modal-meeting-reminder [class*="block-grid-"] li {
+  padding-bottom: 10px; }
+  .vtk-body #modal-meeting-reminder [class*="block-grid-"] li::nth-last-child(-n+2) {
+    padding-bottom: 0; }
+.vtk-body #modal-meeting-reminder section {
+  margin-bottom: 0; }
+  .vtk-body #modal-meeting-reminder section label {
+    float: left;
+    min-width: 14%;
+    text-align: right; }
+  .vtk-body #modal-meeting-reminder section input[type="email"],
+  .vtk-body #modal-meeting-reminder section input[type="text"] {
+    width: 55%;
+    margin-left: 15px;
+    float: left; }
+.vtk-body #modal-meeting-reminder .jqte {
+  margin-top: 0;
+  border: none;
+  box-shadow: none; }
+  .vtk-body #modal-meeting-reminder .jqte .jqte_toolbar {
+    border: none;
+    margin-bottom: 10px;
+    background: #f6f6f6;
+    padding: 10px 4px; }
+  .vtk-body #modal-meeting-reminder .jqte .jqte_editor {
+    border: solid 1px #efefef;
+    box-shadow: inset 2px 2px 2px 0px #dddddd; }
+    .vtk-body #modal-meeting-reminder .jqte .jqte_editor a:link {
+      color: #00ae57 !important;
+      text-decoration: none; }
+      .vtk-body #modal-meeting-reminder .jqte .jqte_editor a:link * {
+        color: #00ae57 !important;
+        text-decoration: none; }
+.vtk-body #modal-meeting-reminder .accordion {
+  margin: 0 0 5px 0; }
+  .vtk-body #modal-meeting-reminder .accordion dt {
+    background: #f6f6f6;
+    padding: 0; }
+    .vtk-body #modal-meeting-reminder .accordion dt h6 {
+      background: none;
+      padding: 0;
+      margin-left: 30px; }
+    .vtk-body #modal-meeting-reminder .accordion dt .name:nth-of-type(1):before {
+      border-color: transparent transparent transparent #000;
+      margin-left: 5px;
+      border-width: 5px;
+      margin-top: -5px; }
+    .vtk-body #modal-meeting-reminder .accordion dt .name:nth-of-type(1).on:before {
+      border-color: #000 transparent transparent; }
+  .vtk-body #modal-meeting-reminder .accordion dd .name {
+    font-weight: 600;
+    vertical-align: middle; }
+  .vtk-body #modal-meeting-reminder .accordion dd .small-block-grid-2 > li:nth-child(2n),
+  .vtk-body #modal-meeting-reminder .accordion dd .small-block-grid-3 > li:nth-child(3n) {
+    text-align: right; }
+  .vtk-body #modal-meeting-reminder .accordion dd .content {
+    padding-top: 3px;
+    padding-bottom: 0;
+    padding-left: 0; }
+  .vtk-body #modal-meeting-reminder .accordion .accordion-inner {
+    background: none; }
+    .vtk-body #modal-meeting-reminder .accordion .accordion-inner dt {
       background: none; }
-      .vtk-body .reveal-modal .content.meeting-reminder .accordion .accordion-inner dt {
-        background: none; }
+    .vtk-body #modal-meeting-reminder .accordion .accordion-inner .content {
+      padding-left: 70px;
+      padding-right: 0; }
 .vtk-body .modal_agenda_edit .content h3 {
   margin-bottom: 20px; }
 .vtk-body .modal_agenda_edit .content .btn {
@@ -612,7 +658,7 @@
         padding-bottom: 0; }
         .vtk-body .modalWrap .tabs-wrapper .tabs-content #pickActivitySection .formCheckboxes li input[type=checkbox]:checked + label:before {
           content: "\e6d7";
-          font-family: JollyFont;
+          font-family: "JollyFont";
           color: green; }
         .vtk-body .modalWrap .tabs-wrapper .tabs-content #pickActivitySection .formCheckboxes li input[type="checkbox"] {
           display: none; }
@@ -637,7 +683,7 @@
         padding-bottom: 0; }
         .vtk-body .modalWrap .tabs-wrapper .tabs-content #manageLocationSection .locationList li input[type=checkbox]:checked + label:before {
           content: "\e6d7";
-          font-family: JollyFont;
+          font-family: "JollyFont";
           color: green; }
         .vtk-body .modalWrap .tabs-wrapper .tabs-content #manageLocationSection .locationList li input[type="checkbox"] {
           display: none; }
@@ -766,7 +812,7 @@
   list-style: none; }
 .vtk-body #manageCalendarSection .holidays input[type=checkbox]:checked + label:before {
   content: "\e6d7";
-  font-family: JollyFont;
+  font-family: "JollyFont";
   color: green; }
 .vtk-body #manageCalendarSection .holidays input[type="checkbox"] {
   display: none; }
@@ -898,7 +944,7 @@
           border-color: transparent transparent transparent #00ae58;
           left: 0; }
         .vtk-body .accordion .accordion-inner dt .name:nth-of-type(1).on {
-          font-weight: bold; }
+          font-weight: 700; }
           .vtk-body .accordion .accordion-inner dt .name:nth-of-type(1).on:before {
             border-color: #00ae58 transparent transparent;
             margin-top: -4px; }

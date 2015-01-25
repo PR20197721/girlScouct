@@ -4,10 +4,10 @@
     <a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
   </div>
   <div class="scroll">
-    <div class="content clearfix row">
+    <div class="content clearfix">
       <form class="clearfix">
-        <section class="clearfix">
-          <h3>Add New Agenda Item</h3>
+        <section class="clearfix row">
+          <h4 class="column">Add New Agenda Item</h4>
           <div class="large-8 columns">
             <input type="text" placeholder="Enter Agenda Item Name" id="newCustAgendaName"/>
           </div>
