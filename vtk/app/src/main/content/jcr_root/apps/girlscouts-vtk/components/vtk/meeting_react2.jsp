@@ -329,8 +329,8 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
        
         render: function() {
           return (
-              <p>
-                <strong>{getAgendaTotalTime(this.props.data)}</strong>
+              <p className="row">
+                <strong className="column small-2 small-push-21">{getAgendaTotalTime(this.props.data)}</strong>
               </p>
               
           );
