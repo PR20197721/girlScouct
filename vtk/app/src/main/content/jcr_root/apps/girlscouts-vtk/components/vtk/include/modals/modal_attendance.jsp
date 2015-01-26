@@ -38,11 +38,11 @@
 	              <p><%=contacts.get(i).getFirstName() %></p>         
 	            </td>
 	            <td>
-	              <input type="checkbox"  <%= (attendance!=null && attendance.getUsers()!=null && attendance.getUsers().contains(contacts.get(i).getId()) )  ? " checked " : "" %> name="attendance" id="a<%=contacts.get(i).getId() %>" value="<%=contacts.get(i).getId() %>">
+	              <input type="checkbox"  <%= (attendance!=null && attendance.getUsers()!=null && attendance.getUsers().contains(contacts.get(i).getId()) )  ? "checked" : "" %> name="attendance" id="a<%=contacts.get(i).getId() %>" value="<%=contacts.get(i).getId() %>">
 	              <label for="a<%=contacts.get(i).getId() %>"></label>
 	            </td>
 	            <td>
-	              <input type="checkbox"  <%= (achievement!=null && achievement.getUsers()!=null && achievement.getUsers().contains(contacts.get(i).getId()) )  ? " checked " : "" %> name="achievement" id="c<%=contacts.get(i).getId() %>" value="<%=contacts.get(i).getId() %>">
+	              <input type="checkbox"  <%= (achievement!=null && achievement.getUsers()!=null && achievement.getUsers().contains(contacts.get(i).getId()) )  ? "checked" : "" %> name="achievement" id="c<%=contacts.get(i).getId() %>" value="<%=contacts.get(i).getId() %>">
 	              <label for="c<%=contacts.get(i).getId() %>"></label>
 	            </td>
 	          </tr>
