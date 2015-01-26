@@ -99,6 +99,7 @@ Activity activity = (Activity)planView.getYearPlanComponent();
 	    if ($('#signupForm').valid()) {
 	    	if(!timeDiff()){ return false;}
 	    	editNewCustActivity('<%=activity.getUid()%>');
+	    	closeMe();
 	    }
 	    else {
 	      alert("The form has one or more errors.  Please update the form and try again.");
@@ -150,51 +151,68 @@ Activity activity = (Activity)planView.getYearPlanComponent();
 </script>
 
 <div id="editCustActiv" style="display: none;">
-	<form class="cmxform" id="signupForm">
-		<div class="sectionBar">Edit Custom Activity</div>
-		<div id="newCustActivity_err" style="color: red;"></div>
-		<div class="row">
-			<div class="large-6 medium-12 small-24 columns">
-				<font color="red">*</font> <input type="text" name="newCustActivity_name" id="newCustActivity_name" value="<%=activity.getName()%>" placeholder="Name of Activity" />
-			</div>
-			<div class="large-6 medium-12 small-24 columns">
-				Date: ex:05/07/2014<input type="text" name="newCustActivity_date" id="newCustActivity_date" value="<%=FORMAT_MMddYYYY.format(activity.getDate())%>" style="width: 160px;" />
-			</div>
-			<div class="large-6 medium-12 small-24 columns">
-				Start Time: <input type="text" name="newCustActivity_startTime" id="newCustActivity_startTime" value="<%=FORMAT_hhmm_AMPM.format(activity.getDate())%>" style="width: 100px;" />
-				<select id="newCustActivity_startTime_AP">
-					<option value="am" <%=FORMAT_AMPM.format(activity.getDate()).toUpperCase().trim().equals("AM") ? "SELECTED" : ""%>>am</option>
-					<option value="pm" <%=FORMAT_AMPM.format(activity.getDate()).toUpperCase().trim().equals("PM") ? "SELECTED" : ""%>>pm</option>
-				</select>
-			</div>
-			<div class="large-6 medium-12 small-24 columns">
-				End Time: <input type="text" id="newCustActivity_endTime" value="<%=FORMAT_hhmm_AMPM.format(activity.getEndDate())%>" style="width: 100px;" /> <select id="newCustActivity_endTime_AP">
-					<option value="am" <%=FORMAT_AMPM.format(activity.getEndDate()).toUpperCase().trim().equals("AM") ? "SELECTED" : ""%>>am</option>
-					<option value="pm" <%=FORMAT_AMPM.format(activity.getEndDate()).toUpperCase().trim().equals("PM") ? "SELECTED" : ""%>>pm</option>
-				</select>
-			</div>
-		</div>
-		<div class="row">
-			<div class="small-24 medium-12 large-12 columns">
-				Location Name <input type="text" id="newCustActivity_locName" value="<%=activity.getLocationName()%>" style="width: 100px;" />
-			</div>
-			<div class="small-24 medium-12 large-12 columns">
-				Location Address <input type="text" id="newCustActivity_locAddr" value="<%=activity.getLocationAddress()%>" style="width: 100px;" />
-			</div>
-		</div>
-		<div class="row">
-			<div class="small-24 medium-12 large-12 columns">
-				Cost: <input type="text" name="newCustActivity_cost" id="newCustActivity_cost" value="<%=FORMAT_COST_CENTS.format(activity.getCost())%>" />
-			</div>
-			<div class="large-12 medium-12 small-24 columns">
-				<textarea id="newCustActivity_txt" rows="4" cols="5" style="width: 300px;"><%=activity.getContent()%></textarea>
-			</div>
-		</div>
-		<div class="row">
-			<div class="small-24 large-24 medium-24 columns centered-table">
-				<input class="button linkButton" type="button" value="Save" id="newCustActivity1" onclick="saveActivity()" />
-				<input	class="button linkButton" type="button" value="Cancel" onclick="closeMe()" />
-		</div>
-		</div>
-	</form>
-</div>
+  <form class="cmxform" id="signupForm">        
+            <div class="errorMsg error"></div>
+
+            <div class="row">
+              <div class="small-24 large-12 medium-12 columns">
+
+                <input type="text" name="newCustActivity_name" id="newCustActivity_name" value="<%=activity.getName()%>" placeholder="Activity Name" />
+              </div>
+              <div class="small-24 large-3 medium-3 columns date">
+                 <input type="text" name="newCustActivity_date" id="newCustActivity_date" value="<%=FORMAT_MMddYYYY.format(activity.getDate())%>" placeholder="mm/dd/yyyy" class="date calendarField"/>
+              </div>
+              <div class="large-1 columns medium-1 small-1 date">
+                <label for="newCustActivity_date"><i class="icon-calendar"></i></label>
+              </div>
+              <div class="small-16 medium-2 large-2 columns">
+                <input type="text" name="newCustActivity_startTime" id="newCustActivity_startTime" value="<%=FORMAT_hhmm_AMPM.format(activity.getDate())%>" />
+              </div>
+              <div class="small-8 medium-2 large-2 columns">
+                
+                <select id="newCustActivity_startTime_AP" class="ampm">
+          <option value="am" <%=FORMAT_AMPM.format(activity.getDate()).toUpperCase().trim().equals("AM") ? "SELECTED" : ""%>>am</option>
+          <option value="pm" <%=FORMAT_AMPM.format(activity.getDate()).toUpperCase().trim().equals("PM") ? "SELECTED" : ""%>>pm</option>
+        </select>
+              </div>
+              <div class="small-16 medium-2 large-2 columns">
+               <input type="text" id="newCustActivity_endTime" value="<%=FORMAT_hhmm_AMPM.format(activity.getEndDate())%>" style="width: 100px;" /> 
+
+              </div>
+              <div class="small-8 medium-2 large-2 columns">
+                         <select id="newCustActivity_endTime_AP"  class="ampm">
+          <option value="am" <%=FORMAT_AMPM.format(activity.getEndDate()).toUpperCase().trim().equals("AM") ? "SELECTED" : "" %>>am</option>
+          <option value="pm" <%=FORMAT_AMPM.format(activity.getEndDate()).toUpperCase().trim().equals("PM") ? "SELECTED" : "" %>>pm</option>
+        </select>
+              </div>
+            </div><!--/row-->
+
+            <div class="row">
+              <div class="small-24 medium-12 large-12 columns">
+              <input type="text" id="newCustActivity_locName" value="<%=activity.getLocationName()%>" placeholder="Location Name" />
+              </div>
+              <div class="small-24 medium-12 large-12 columns">
+            
+               <input type="text" id="newCustActivity_locAddr" value="<%=activity.getLocationAddress()%>" placeholder="Location Address" />
+              </div>
+            </div><!--/row-->
+
+            <div class="row">
+              <div class="small-24 medium-12 large-12 columns">
+              
+               <input type="text" name="newCustActivity_cost" id="newCustActivity_cost"  placeholder="Cost"  value="<%=FORMAT_COST_CENTS.format(activity.getCost())%>" />
+              </div>
+              <div class="small-24 medium-12 large-12 columns">
+               
+                  <textarea id="newCustActivity_txt" rows="4" cols="5" placeholder="Activity Description"><%=activity.getContent()%></textarea>
+              </div>
+            </div><!--/row-->
+
+
+            <div class="linkButtonWrapper">
+              
+              <input class="button linkButton" type="button" value="Save" id="newCustActivity1" onclick="saveActivity()" />
+               <input  class="button linkButton" type="button" value="Cancel" onclick="closeMe()" />
+            </div>
+          </form>
+        </div><!--/create activity-->
