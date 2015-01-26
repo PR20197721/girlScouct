@@ -742,7 +742,8 @@
       border-color: transparent transparent transparent #00ae58;
       margin-left: 5px;
       width: 13px;
-      height: 13px; }
+      height: 13px;
+      background: none; }
       .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget a.ui-datepicker-next span:hover, .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget a.ui-datepicker-prev span:hover,
       .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget a.ui-datepicker-next span:hover,
       .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget a.ui-datepicker-prev span:hover {
