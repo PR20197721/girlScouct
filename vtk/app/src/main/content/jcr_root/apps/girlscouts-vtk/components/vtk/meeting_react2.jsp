@@ -356,6 +356,21 @@ function getAgendaTotalTime(x){
     return hours+":"+ minutes;
 
 }
+
+var agendaSched= null;
+function getAgendaTime( duration ){
+ if( agendaSched==null ){
+    agendaSched= moment('<%=planView.getSearchDate()%>');
+ }
+  var curr = agendaSched;
+  agendaSched  = addMinutes( agendaSched, duration);
+
+  return curr;
+}
+
+function addMinutes(date, minutes) {
+    return new Date(date + minutes*60000).getTime();
+}
       </script>
   </div>
 </div>
