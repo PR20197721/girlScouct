@@ -188,14 +188,27 @@ items: "li:not(.ui-state-disabled)",
     		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=ChangeMeetingPositions&isMeetingCngAjax='+ newVals, // JQuery loads serverside.php
     		data: '', 
     		dataType: 'html', 
-    	}).done(function( html ) { });
-    		
-    		
+    	}).done(function( html ) { });    		
     }
+
       React.render(
         <CommentBox url="/content/girlscouts-vtk/controllers/vtk.controller.html?yearPlanSched=X" pollInterval={10000} />,
           document.getElementById('thePlan')
         );
+
+function testrr(obj, comment){ 
+ console.log("tata: "+moment(comment).get('year')) ;
+
+ if(  moment(comment).get('year') < 1978 ){
+    return "bg-square";
+ }else if(  moment(comment) < moment( new Date()) ){
+    return "bg-square passed";
+ }else if( obj[comment].cancelled =='true' ){
+    return "bg-square canceled";
+ }else{
+    return "bg-square";
+ }
+}
       </script>  
     </div>
   </div>
