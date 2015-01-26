@@ -20,7 +20,11 @@
 			currentMeeting++;
 		%>
 		<tr>
-		  <td><a onclick="manageCalElem('<%=date.getTime()%>');" title="calendar"><i class="icon-calendar"></i></a></td>
+		  <td>
+		   <% if( date!=null && date.after( new java.util.Date() ) ){%>
+		    <a onclick="manageCalElem('<%=date.getTime()%>');" title="calendar"><i class="icon-calendar"></i></a>
+		   <%} %>
+		   </td>
 		  <td><span><%=currentMeeting %></span></td>
 		  <td><span><%= FORMAT_CALENDAR_DATE.format( date ) %></span></td>
 		  <td><span><%= yearPlanUtil.getMeeting( user, meeting.getRefId() ).getName() %>

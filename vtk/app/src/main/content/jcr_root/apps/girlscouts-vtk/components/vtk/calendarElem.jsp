@@ -28,7 +28,7 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 <div class="clearfix">
 	<div class="modifyCalendarDate">
 		<div class="column small-10">
-		<input type="radio" value="change" id="cngRadio"><strong> Change Date / Time</strong>
+		<input type="radio" value="change" id="cngRadio" CHECKED><strong> Change Date / Time</strong>
 		<form id="frmCalElem">
 			<p><strong>Change Date:</strong></p>
 			<span>Select today's date or any future date</span>
