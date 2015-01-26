@@ -27,7 +27,7 @@
     <script type="text/jsx">
     	var isActivNew;
     	var isFirst=1;
-      
+      var meetingPassed=false;
       var CommentBox = React.createClass({
        loadCommentsFromServer: function( isFirst ) {
        console.log("loading.." + (isActivNew) +" : "+isFirst+ " : "+(isFirst ==1));
@@ -111,6 +111,12 @@
     			return (<ul id="sortable123">
             
     						{ keys.map( function (comment ,i ) {
+
+if(  ( obj[comment].type == 'MEETING')  &&
+  moment(comment) < moment( new Date()) )
+    {meetingPassed= true;}
+
+
     							  if( obj[comment].type == 'MEETING' ){
     									return <%@include file="include/view_meeting.jsp" %> 
     							  }else if( obj[comment].type == 'ACTIVITY' ){
@@ -118,6 +124,8 @@
     							  }else if( obj[comment].type == 'MILESTONE' ){
     									return <%@include file="include/view_milestone.jsp" %>
     							  }
+
+
     						   })
     						}
     					</ul>
@@ -197,12 +205,17 @@ items: "li:not(.ui-state-disabled)",
         );
 
 function testrr(obj, comment){ 
- console.log("tata: "+moment(comment).get('year')) ;
 
+
+console.log( comment +" : "+ meetingPassed);
  if(  moment(comment).get('year') < 1978 ){
     return "bg-square";
  }else if(  moment(comment) < moment( new Date()) ){
     return "bg-square passed";
+ }else if(meetingPassed && 
+    moment(comment) > moment( new Date())) {
+  meetingPassed= false;
+  return "bg-square current";
  }else if( obj[comment].cancelled =='true' ){
     return "bg-square canceled";
  }else{
