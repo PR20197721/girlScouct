@@ -521,11 +521,15 @@ public class MeetingUtil {
 			while (t.hasMoreElements())
 				secondDate = Long.parseLong(t.nextToken());
 
+			String newDates = troop.getYearPlan().getSchedule().getDates();
+			if( newDates!=null && !newDates.endsWith(",") )
+				newDates= newDates+",";
+			
 			troop.getYearPlan()
 					.getSchedule()
 					.setDates(
-							troop.getYearPlan().getSchedule().getDates() + ""
-									+ (secondDate + diff) + ",");
+							(newDates
+									+ (secondDate + diff) + ","));
 
 		}
 		troop.getYearPlan().setAltered("true");
