@@ -5,7 +5,7 @@
       <div className={ obj[comment].cancelled =='true' ? "bg-square canceled": "bg-square"}>
         <div className="count">{(obj[comment].id)+1}</div>
         <div className="date">
-          <p className="month">{ moment(comment).get('year') < 1978 ? "" : moment(comment).format('MMM')}</p>
+          <p className="month">{ moment(comment).get('year') < 1978 ? "meeting" : moment(comment).format('MMM')}</p>
           <p className="day">{ moment(comment).get('year') < 1978 ? "" : moment(comment).format('DD')}</p>
           <p className="hour">{ moment(comment).get('year') < 1978 ? "" : moment(comment).format('hh:mm a')}</p>
         </div>
