@@ -201,7 +201,8 @@
           &.activity {
             &.ui-state-disabled {
               opacity: 1;
-            }
+              border:none;
+              }
             > div  {
               cursor: default;
                .bg-square {
@@ -212,9 +213,6 @@
               }
               &:before {
                 cursor: default !important;
-              }
-            &.ui-state-disabled {
-              opacity: 1;
               }
             }
           }
