@@ -17,15 +17,7 @@
       </p>
      	<p className="category">{obj[comment].content}</p>
      	<p className="blurb">{obj[comment].locationName}</p>
-      {/* <!--<br/>Location:{obj[comment].locationName} --- {obj[comment].locationAddress} -- {obj[comment].locationRef}
-        <br/>Cost: {obj[comment].cost}
-        <br/>Desc: {obj[comment].activityDescription}
-        <br/>Desc: {obj[comment].content}
-        <br/>Path: {obj[comment].path}
-        <br/>Uid: {obj[comment].uid}
-        <br/>Register Url{obj[comment].registerUrl}
-        <br/>Canceled:{obj[comment].cancelled}
-        <br/>IsEditable: {obj[comment].isEditable}-->*/}
+     
     </div>
     <div className="large-2 medium-2 columns hide-for-small"></div>
   </div>
