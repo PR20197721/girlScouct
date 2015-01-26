@@ -196,7 +196,7 @@
 							.getParameter("meetingId"),
 							java.net.URLDecoder.decode(request
 									.getParameter("assetName")),
-							request.getParameter("assetDesc"));
+							request.getParameter("assetDocType"));
 				} else {
 					meetingUtil.addResource(user, troop, request
 							.getParameter("addAids"), request
@@ -465,6 +465,7 @@
 			if (emr.getCc() == null || emr.getCc().equals("")) {
 				emr.setCc("ayakobovich@northpointdigital.com");
 			}
+			emr.setSentDate(request.getParameter("email_sent_date"));
 			String html = emr.getHtml();
 			/*
 			html+="<br/>Aids Included:";

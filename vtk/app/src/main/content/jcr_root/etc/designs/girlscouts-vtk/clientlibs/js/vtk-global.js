@@ -46,6 +46,8 @@ var $ = jQuery.noConflict();
 	  	 });
 	  	 vtk_accordion();
 	  	 validate_image();
-	  	 $("#modal-meeting-reminder").prev(".reveal-modal-bg").css({'pointer-events':'none'});
+				$(document).on('opened.fndtn.reveal', '[data-reveal]', function () {
+				  $("#modal-meeting-reminder").prev(".reveal-modal-bg").css({'pointer-events':'none'});
+				});
   });
  })($);
