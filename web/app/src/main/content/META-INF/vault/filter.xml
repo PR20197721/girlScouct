@@ -50,6 +50,7 @@
     <filter root="/etc/workflow/models/girl-scouts-preview-workflow"/>
     <filter root="/etc/workflow/models/girl-scouts-roll-out-workflow"/>
     <filter root="/etc/workflow/models/publish_example"/>
+    <filter root="/etc/workflow/models/reverse_replication_with_delay"/>
     <filter root="/etc/workflow/models/request_for_activation"/>
     <filter root="/etc/workflow/models/request_for_deactivation"/>
     <filter root="/etc/workflow/scripts/girlscouts"/>
