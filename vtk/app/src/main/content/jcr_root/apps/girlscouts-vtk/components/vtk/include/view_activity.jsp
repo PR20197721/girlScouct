@@ -3,7 +3,7 @@
     
     <div className="large-3 medium-3 small-4 columns">
       <div className="bg-square  ">
-        <div className="date">***
+        <div className="date">
           <p className="month">{ moment(comment).get('year') < 1978 ? "" : moment(comment).format('MMM')}</p>
           <p className="day">{ moment(comment).get('year') < 1978 ? "" : moment(comment).format('DD')}</p>
           <p className="hour">{ moment(comment).get('year') < 1978 ? "" : moment(comment).format('hh:mm a')}</p>
@@ -17,15 +17,7 @@
       </p>
      	<p className="category">{obj[comment].content}</p>
      	<p className="blurb">{obj[comment].locationName}</p>
-      {/* <!--<br/>Location:{obj[comment].locationName} --- {obj[comment].locationAddress} -- {obj[comment].locationRef}
-        <br/>Cost: {obj[comment].cost}
-        <br/>Desc: {obj[comment].activityDescription}
-        <br/>Desc: {obj[comment].content}
-        <br/>Path: {obj[comment].path}
-        <br/>Uid: {obj[comment].uid}
-        <br/>Register Url{obj[comment].registerUrl}
-        <br/>Canceled:{obj[comment].cancelled}
-        <br/>IsEditable: {obj[comment].isEditable}-->*/}
+     
     </div>
     <div className="large-2 medium-2 columns hide-for-small"></div>
   </div>
