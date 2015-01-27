@@ -1,13 +1,3 @@
-<!-- <script>
-// 	//print out the date the email was sent.
-// 	 var sent_date = "";
-// 	 if(moment(new Date()) != null && moment(new Date()) !='') {
-// 	  sent_date = $('.sent').append(moment(new Date()).format('MM/DD/YYYY'));
-// 	 } else {
-// 	  sent_date = $('.sent').append('none');
-// 	 }
-// </script>-->
-
 <div class="content clearfix">
 
 <% //if(planView.getYearPlanComponent().getType()==YearPlanComponentType.ACTIVITY){
@@ -21,7 +11,7 @@
 		//Date searchDate = planView.getSearchDate();
 %>
 
-	<h4>Reminder Meeting <%=((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getName() %>
+	<h4>Reminder Meeting #<%=planView.getMeetingCount()%>
 	  <%= FORMAT_MEETING_REMINDER.format(planView.getSearchDate()) %></h4>
 	
 
