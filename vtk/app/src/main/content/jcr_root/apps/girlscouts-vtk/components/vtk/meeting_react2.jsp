@@ -265,7 +265,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
   					  <%@include file="include/meeting_agenda.jsp"%>
   					);
           }else{
-            return <div><img src="http://sgsitsindore.in/Images/wait.gif"/></div>
+            return <div className="pleaseWait">Please wait..</div>
           }
         },
         componentDidMount: function() {
@@ -339,6 +339,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 
 function getAgendaTotalTime(x){
 
+if( x==null ) return "";
   var total =0;
   x.map((function(item, i) {
         total += item.duration;

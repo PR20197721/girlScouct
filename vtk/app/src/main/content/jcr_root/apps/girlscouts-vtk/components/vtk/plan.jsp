@@ -208,7 +208,7 @@ items: "li:not(.ui-state-disabled)",
 function testrr(obj, comment){ 
 
 
-console.log( comment +" : "+ meetingPassed);
+//console.log( comment +" : "+ meetingPassed);
  if(  moment(comment).get('year') < 1978 ){
     return "bg-square";
  }else if(  moment(comment) < moment( new Date()) ){
