@@ -370,9 +370,7 @@
       line-height: 1.6875rem; }
 .vtk-body .reveal-modal {
   padding: 0;
-  height: auto;
-  min-height: 113px;
-  max-height: none; }
+  top: 0; }
   .vtk-body .reveal-modal .header {
     background: #00ae57;
     padding: 7px 0 5px 5px; }
@@ -390,8 +388,6 @@
       vertical-align: middle; }
     .vtk-body .reveal-modal .header * {
       color: #fff; }
-  .vtk-body .reveal-modal .scroll {
-    max-height: 700px; }
   .vtk-body .reveal-modal .tabs-wrapper {
     background: #D9D9D9;
     padding: 30px 20px 25px; }

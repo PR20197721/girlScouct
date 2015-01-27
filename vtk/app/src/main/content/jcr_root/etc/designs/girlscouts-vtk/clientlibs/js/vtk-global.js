@@ -14,6 +14,14 @@ var $ = jQuery.noConflict();
 			$(targetNode).hide();
 		}
 	}
+	// function modal_height() {
+ //  	var window_h = $(window).height();
+ //  	// var popup_top = $(window_h -$('.reveal-modal').height()/2);
+ //  	var popup_h = (window_h - 50);
+	// 	$('.reveal-modal').css('top', 0);
+	// 	$('.reveal-modal').css('height' , window_h + 'px');
+	// 	$('.scroll').css('max-height' , popup_h +' px');
+	// }
 	function vtk_accordion() {
 		$('.accordion dt > :first-child').on('click', function() {
 			var target = $(this).parent().data('target');
@@ -26,6 +34,15 @@ var $ = jQuery.noConflict();
 			}
 		});
 	}
+		function modal_height() {
+	  	var window_h = $(window).height();
+	  	// var popup_top = $(window_h -$('.reveal-modal').height()/2);
+	  	var popup_h = (window_h - 50);
+			$('.reveal-modal').css('top', $(window).height()-$('.reveal-modal').height/2);
+			$('.reveal-modal').css('max-height' , window_h + 'px');
+			//$('.scroll').css('max-height' , popup_h +' px');
+			$('.scroll').css('max-height' , ($(window).height()-50)+'px');
+		}
 	function validate_image() {
 		$('form#frmImg').submit(function(e) {
 		   var $this = $(this);
@@ -39,15 +56,30 @@ var $ = jQuery.noConflict();
 	}
 	//all function calls should go here
 	  $(document).ready(function() {
+	  	$('body').css('overflow','auto');
 	  	 $(document).foundation({
-	  	   reveal : {
-	  	     animation: 'fade'
-	  	   },
+	  	  reveal : {
+	  	     animation: 'fade',
+	  	     root_element: 'window',
+	  	     close_on_background_click: false,
+	  	     open: function () { 
+	  	     	$('body').css({'overflow':'hidden'});
+	  	     },
+	  	     close: function () {
+	  	     	$('body').css({'overflow':'inherit'})
+	  	     },
+	  	 	}
 	  	 });
+	  	 modal_height();
 	  	 vtk_accordion();
 	  	 validate_image();
 				$(document).on('opened.fndtn.reveal', '[data-reveal]', function () {
-				  $("#modal-meeting-reminder").prev(".reveal-modal-bg").css({'pointer-events':'none'});
+					var window_h = $(window).height();
+					var popup_h = (window_h - 50);
+					$(this).find('.scroll').css('max-height' , ($(window).height()-50)+'px');
 				});
   });
+	  $(window).resize(function() {
+	  	modal_height();
+	  });
  })($);
