@@ -116,14 +116,27 @@
 	<div id="ifl">
 	<div style="background-color:gray" id="iflHdr">Include Form Link:</div>
 	<div id="iflBd">
-	<%/*form needed
-		for(int i=0;i<_forms.size();i++){
-		String formName;
-		String formurl;%>
-	
-		<input type="checkbox" id="<%=formname%>" onclick="addLinkToEmail(forms(i))"/><%=formname %>
+	<%
 
-	<%}*/%>
+        org.girlscouts.vtk.utils.DocumentUtil docUtil = new org.girlscouts.vtk.utils.DocumentUtil(resourceResolver, sling.getService(com.day.cq.tagging.JcrTagManagerFactory.class), "gsctx");
+		try{
+			DocumentCategory tempCategory = docUtil.getNextCategory();
+			while(tempCategory != null){
+				String name = tempCategory.getName();
+	            %><h3><b> <%=name %></b></h3> <%
+	            Document tempDoc = tempCategory.getNextDocument();
+	            while(tempDoc != null){
+	            	 %><p><b> <%=tempDoc.getTitle()%></b></p> <%
+	            	tempDoc = tempCategory.getNextDocument();
+	            }
+				tempCategory = docUtil.getNextCategory();
+			}
+		} catch(PathNotFoundException e){
+			%><h1>Tags Not Configured Properly</h1><%
+		} catch(RepositoryException e){
+			%><h1>Repository Exception </h1><%
+		}
+%>
 	</div>
 	</div>
 	<input type="button" value="Preview" onclick="previewMeetingReminderEmail('<%=meeting.getPath()%>','<%=meeting.getUid()%>')"/>
