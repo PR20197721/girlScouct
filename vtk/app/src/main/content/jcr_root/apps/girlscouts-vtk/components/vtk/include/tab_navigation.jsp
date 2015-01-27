@@ -71,9 +71,7 @@
           <option value="/content/girlscouts-vtk/en/vtk.mytroop_react.html">My Troop</option>
         <% } %>
         <% if(hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID)) { %>
-          <option value="/content/girlscouts-vtk/en/vtk.html">
-            <a href="/content/girlscouts-vtk/en/vtk.html">Year Plan</a>
-          </option>
+          <option value="/content/girlscouts-vtk/en/vtk.html">Year Plan</option>
         <% } %>
         <% if(hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) { 
           String ref = "/content/girlscouts-vtk/en/vtk.details.html";
