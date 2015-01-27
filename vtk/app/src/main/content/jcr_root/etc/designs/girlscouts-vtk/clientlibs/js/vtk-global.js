@@ -60,7 +60,13 @@ var $ = jQuery.noConflict();
 		      window.location.href = $(this).val();          
 		    }
 		});
-	}
+		var path = location.pathname;
+		$('select.tabs option').each(function() {
+			if($(this).val() == path) {
+				$(this).prop("selected", true);
+			}
+		});
+  }
 	//all function calls should go here
 	  $(document).ready(function() {
 	  	$('body').css('overflow','auto');
