@@ -127,7 +127,7 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 			"open": function() {
 				if (!showTitle) {
 					$(".ui-dialog-titlebar").hide();
-					$('.scroll').css({'max-height': dHeight});
+					//$('.scroll').css({'max-height': dHeight});
 				} else {
 					$("span.ui-dialog-title").html(title);
 					$(".ui-dialog-titlebar").show();
