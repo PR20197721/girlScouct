@@ -131,7 +131,7 @@ if(  ( obj[comment].type == 'MEETING')  &&
     					</ul>
      			);
         }else{
-          return <div><img src="http://sgsitsindore.in/Images/wait.gif"/></div>         
+          return <div className="pleaseWait">Please wait..</div>        
     		 }  		
         },
       onReorder: function(order) {
