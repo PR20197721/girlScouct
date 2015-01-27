@@ -576,7 +576,7 @@
       }
       select {
         padding: 0 10px;
-        margin: 0;
+        margin-bottom: 1.25rem;
         height: 31px;
       }
       table {
@@ -1408,6 +1408,10 @@ input[type="file"] {
   }
   .vtk-body #main .meeting-detail .meeting-navigation .direction:before {
     border-width:20px;
+  }
+  table, thead, tbody, th, td, tr { 
+    display: block;
+    width: 100%; 
   }
 }
 //medium screen 
