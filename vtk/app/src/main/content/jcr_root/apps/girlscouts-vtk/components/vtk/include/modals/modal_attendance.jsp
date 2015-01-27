@@ -11,6 +11,10 @@
     String path = "/vtk/"+ troop.getSfCouncil()+"/troops/"+ troop.getSfTroopId()+"/yearPlan/meetingEvents/"+request.getParameter("mid");
     Attendance attendance = meetingUtil.getAttendance(user, troop, path + "/attendance");
     Achievement achievement = meetingUtil.getAchievement(user, troop, path + "/achievement"); 
+    
+    boolean isAttendance= true, isAchievement=true;
+    if( attendance==null  ){isAttendance=false;}
+    if( achievement==null ){isAchievement=false;}
   %>
 <div class="modal-attendance">
   <div class="header clearfix">
@@ -21,8 +25,8 @@
     <div class="content" id="modal_A_A">
      <h4><%=request.getParameter("mName")%></h4>
       <form action="/content/girlscouts-vtk/controllers/vtk.controller.html">
-        <input type="hidden" value="UpdAttendance" name="act"/>
-        <input type="hidden" name="mid" value="<%=request.getParameter("mid")%>"/>
+        <!--  input type="hidden" value="UpdAttendance" id="UpdAttendance" name="act"/ -->
+        <!--  input type="hidden" name="mid" id ="mid" value="<%=request.getParameter("mid")%>"/ -->
         <table>
           <thead>
             <tr>
@@ -38,11 +42,11 @@
 	              <p><%=contacts.get(i).getFirstName() %></p>         
 	            </td>
 	            <td>
-	              <input type="checkbox"  <%= (attendance!=null && attendance.getUsers()!=null && attendance.getUsers().contains(contacts.get(i).getId()) )  ? "checked" : "" %> name="attendance" id="a<%=contacts.get(i).getId() %>" value="<%=contacts.get(i).getId() %>">
+	              <input type="checkbox"  <%= ( !isAttendance || (attendance!=null && attendance.getUsers()!=null && attendance.getUsers().contains(contacts.get(i).getId()) ) )  ? "checked" : "" %> name="attendance" id="a<%=contacts.get(i).getId() %>" value="<%=contacts.get(i).getId() %>">
 	              <label for="a<%=contacts.get(i).getId() %>"></label>
 	            </td>
 	            <td>
-	              <input type="checkbox"  <%= (achievement!=null && achievement.getUsers()!=null && achievement.getUsers().contains(contacts.get(i).getId()) )  ? "checked" : "" %> name="achievement" id="c<%=contacts.get(i).getId() %>" value="<%=contacts.get(i).getId() %>">
+	              <input type="checkbox"  <%= ( !isAchievement  || (achievement!=null && achievement.getUsers()!=null && achievement.getUsers().contains(contacts.get(i).getId())) )  ? "checked" : "" %> name="achievement" id="c<%=contacts.get(i).getId() %>" value="<%=contacts.get(i).getId() %>">
 	              <label for="c<%=contacts.get(i).getId() %>"></label>
 	            </td>
 	          </tr>
@@ -50,7 +54,7 @@
           </tbody>
         
         </table>        
-        <input type="submit" value="Save"  class="btn button right" />
+        <input type="button" value="Save"  class="btn button right" onclick="updateAttendAchvm('<%=request.getParameter("mid")%>')"/>
       </form>
     </div>
   </div>
