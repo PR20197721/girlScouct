@@ -253,6 +253,7 @@
 						Long.parseLong(request.getParameter("rmDate")));
 				return;
 			case UpdAttendance:
+	System.err.println("tata66: "+ request.getParameter("attendance"));			
 				meetingUtil.updateAttendance(user, troop, request);
 				meetingUtil.updateAchievement(user, troop, request);
 				return;

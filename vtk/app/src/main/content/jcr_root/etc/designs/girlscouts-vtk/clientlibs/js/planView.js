@@ -267,3 +267,37 @@ function openClose1(div1, div2){
 		document.getElementById(div2).style.display='none';	
 	}
 }
+
+function updateAttendAchvm(mid){
+	
+	var attend = getCheckedCheckboxesFor('attendance');
+	var achn = getCheckedCheckboxesFor('achievement');
+	//var UpdAttendance= document.getElementById('UpdAttendance');
+	//var mid= document.getElementById('mid');
+	console.log( attend);
+	$.ajax({
+		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
+		type: 'POST',
+		data: { 
+			act:'UpdAttendance',
+			mid:mid,
+			attendance:attend,
+			achievement:achn
+		},
+		success: function(result) {
+			$('.ui-dialog-content').dialog('close');
+		}
+	});
+	return;
+	
+}
+
+function getCheckedCheckboxesFor(checkboxName) {
+	var t="";
+    var checkboxes = document.querySelectorAll('input[name="' + checkboxName + '"]:checked'), values = [];
+    Array.prototype.forEach.call(checkboxes, function(el) {
+        //values.push(el.value);
+    	t+= el.value +",";
+    });
+    return t;//values;
+}
