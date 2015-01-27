@@ -1154,8 +1154,17 @@ public class MeetingUtil {
 			javax.servlet.http.HttpServletRequest request) {
 
 		String mid = request.getParameter("mid");
-		String attendances[] = request.getParameterValues("attendance");
-
+		//String attendances[] = request.getParameterValues("attendance");
+		String attendances[] = null;
+     	if( request.getParameter("attendance") !=null ){
+			int i=0;
+			StringTokenizer t= new StringTokenizer( request.getParameter("attendance"), ",");
+			while( t.hasMoreElements() ){
+				if( attendances==null ) attendances = new String[ t.countTokens()];
+				attendances[i] = t.nextToken();		
+				i++;
+			}
+		}
 		java.util.List<org.girlscouts.vtk.models.Contact> contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
 				troopDAO)
 				.getContacts(user.getApiConfig(), troop.getSfTroopId());
@@ -1241,8 +1250,19 @@ public class MeetingUtil {
 			javax.servlet.http.HttpServletRequest request) {
 
 		String mid = request.getParameter("mid");
-		String attendances[] = request.getParameterValues("achievement");
-
+		//String attendances[] = request.getParameterValues("achievement");
+		String attendances[] = null;
+		if( request.getParameter("achievement") !=null ){
+			int i=0;
+			StringTokenizer t= new StringTokenizer( request.getParameter("attendance"), ",");
+			while( t.hasMoreElements() ){
+				if( attendances==null ) attendances = new String[ t.countTokens()];
+				attendances[i] = t.nextToken();
+			
+				i++;
+			}
+		}
+		
 		java.util.List<org.girlscouts.vtk.models.Contact> contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
 				troopDAO)
 				.getContacts(user.getApiConfig(), troop.getSfTroopId());
