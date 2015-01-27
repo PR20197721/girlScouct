@@ -54,6 +54,13 @@ var $ = jQuery.noConflict();
 		  }    
 		});
 	}
+	function select_tabs() {
+		$("select.tabs").on('change', function(index) {
+		    if ($(this).index() !==0 ) {
+		      window.location.href = $(this).val();          
+		    }
+		});
+	}
 	//all function calls should go here
 	  $(document).ready(function() {
 	  	$('body').css('overflow','auto');
@@ -70,6 +77,7 @@ var $ = jQuery.noConflict();
 	  	     },
 	  	 	}
 	  	 });
+	  	 select_tabs();
 	  	 modal_height();
 	  	 vtk_accordion();
 	  	 validate_image();
