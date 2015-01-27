@@ -1,7 +1,7 @@
 <section className="column large-20 medium-20 large-centered medium-centered" id="main-info">
   <div className="row">
     <div className="column large-17 medium-17 small-17">
-      <p>{this.props.blurb}</p>
+      <p>{decodeURIComponent("&x2019"+this.props.blurb)}</p>
       <section>
         
         <p>
