@@ -49,6 +49,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
       var thisMeetingImg="default";
       var thisMeetingDate="a";
       var isActivNew=0;
+      var agendaSched= null;
 
       var MeetingList = React.createClass({
         getInitialState: function() {
@@ -70,9 +71,11 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
           if( scheduleDates !=null ) {
         		
   			var scheduleDatesArray = scheduleDates.split(',');
-        		thisMeetingDate =  scheduleDatesArray[comment.id];			
+        		thisMeetingDate =  scheduleDatesArray[comment.id];	
+		
       	  } else{ 
   			   thisMeetingDate=new Date('<%=planView.getSearchDate()%>');
+
   		  }
 
         	thisMeetingRefId  = comment.refId;
@@ -261,11 +264,12 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
       var SortableListItems1 = React.createClass({
         render: function() {
           if( this.props.data!=null ){
+agendaSched=null;
     				return (
   					  <%@include file="include/meeting_agenda.jsp"%>
   					);
           }else{
-            return <div><img src="http://sgsitsindore.in/Images/wait.gif"/></div>
+            return <div className="pleaseWait">Please wait..</div>
           }
         },
         componentDidMount: function() {
@@ -339,6 +343,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 
 function getAgendaTotalTime(x){
 
+if( x==null ) return "";
   var total =0;
   x.map((function(item, i) {
         total += item.duration;
@@ -355,12 +360,15 @@ function getAgendaTotalTime(x){
 
 }
 
-var agendaSched= null;
+
 function getAgendaTime( duration ){
+
+
  if( agendaSched==null ){
-    agendaSched= moment('<%=planView.getSearchDate()%>');
+    agendaSched= thisMeetingDate.getTime();
  }
-  var curr = agendaSched;
+
+var curr= agendaSched;
   agendaSched  = addMinutes( agendaSched, duration);
 
   return curr;

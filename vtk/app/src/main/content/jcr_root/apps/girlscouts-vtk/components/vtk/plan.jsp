@@ -131,7 +131,7 @@ if(  ( obj[comment].type == 'MEETING')  &&
     					</ul>
      			);
         }else{
-          return <div><img src="http://sgsitsindore.in/Images/wait.gif"/></div>         
+          return <div className="pleaseWait">Please wait..</div>        
     		 }  		
         },
       onReorder: function(order) {
@@ -208,7 +208,7 @@ items: "li:not(.ui-state-disabled)",
 function testrr(obj, comment){ 
 
 
-console.log( comment +" : "+ meetingPassed);
+//console.log( comment +" : "+ meetingPassed);
  if(  moment(comment).get('year') < 1978 ){
     return "bg-square";
  }else if(  moment(comment) < moment( new Date()) ){
