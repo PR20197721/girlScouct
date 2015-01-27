@@ -497,11 +497,16 @@
     }
   }
   //modals per Foundation
+  // .reveal-modal-bg {
+  //   position:fixed;
+  // }
   .reveal-modal {
     padding:0;
-    height:auto;
-    min-height:113px;
-    max-height:none;
+    // height:auto;
+    // min-height:113px;
+    // max-height:none;
+    top: 0;
+    // position:fixed;
     .header {
       background: #00ae57;
       padding:7px 0 5px 5px;
@@ -524,7 +529,8 @@
       }
     }
     .scroll {
-      max-height: 700px;
+      // max-height: 700px;
+      // padding-bottom:40px;
     }
     //tabs inside the modals
     .tabs-wrapper {

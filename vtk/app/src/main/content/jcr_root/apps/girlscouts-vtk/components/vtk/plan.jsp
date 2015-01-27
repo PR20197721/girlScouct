@@ -184,9 +184,10 @@ items: "li:not(.ui-state-disabled)",
 
     var ViewMeeting = React.createClass({
         render: function() {
-  		var src= "/content/girlscouts-vtk/en/vtk.details.html?elem="+ new Date(this.props.date).getTime();
+          var date  = new Date(this.props.date).getTime();
+  		    var src= "/content/girlscouts-vtk/en/vtk.details.html?elem="+date;
           return (
-      		<a href={src}>{this.props.name}</a>
+      		  <a href={src}>{this.props.name}</a>
           );
         }
       });
