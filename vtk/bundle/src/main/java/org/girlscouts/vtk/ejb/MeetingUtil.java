@@ -1180,7 +1180,8 @@ public class MeetingUtil {
 			CURRENT_CONTACT_LIST.add(contacts.get(i).getId());
 
 		// add
-		for (int i = 0; i < attendances.length; i++) {
+		if( attendances!=null)
+		 for (int i = 0; i < attendances.length; i++) {
 			if (!Attendances.contains(attendances[i]))
 				Attendances.add(attendances[i]);
 		}
@@ -1189,13 +1190,16 @@ public class MeetingUtil {
 		java.util.List<String> attendances_toRm = new java.util.ArrayList<String>();
 		for (int i = 0; i < Attendances.size(); i++) {
 			String contactId = Attendances.get(i);
-			boolean isExists = false;
-			if (CURRENT_CONTACT_LIST.contains(contactId))
-				for (int y = 0; y < attendances.length; y++)
+	System.err.println("tata55: "+ contactId);		
+			boolean isExists = false;			
+			if (CURRENT_CONTACT_LIST.contains(contactId))	
+				if( attendances!=null )
+				  for (int y = 0; y < attendances.length; y++)
 					if (attendances[y] == contactId)
 						isExists = true;
+	System.err.println("tata55 exist: "+ contactId + " : "+isExists);		
 			if (!isExists)
-				attendances_toRm.remove(contactId);
+				attendances_toRm.add(contactId);
 		}
 
 		for (int i = 0; i < attendances_toRm.size(); i++)
@@ -1263,10 +1267,11 @@ public class MeetingUtil {
 			CURRENT_CONTACT_LIST.add(contacts.get(i).getId());
 
 		// add
-		for (int i = 0; i < attendances.length; i++) {
+		if( attendances!=null)
+		 for (int i = 0; i < attendances.length; i++) {
 			if (!Attendances.contains(attendances[i]))
 				Attendances.add(attendances[i]);
-		}
+		 }
 
 		// rm
 		java.util.List<String> attendances_toRm = new java.util.ArrayList<String>();
@@ -1274,11 +1279,12 @@ public class MeetingUtil {
 			String contactId = Attendances.get(i);
 			boolean isExists = false;
 			if (CURRENT_CONTACT_LIST.contains(contactId))
+			   if( attendances!=null)	
 				for (int y = 0; y < attendances.length; y++)
 					if (attendances[y] == contactId)
 						isExists = true;
 			if (!isExists)
-				attendances_toRm.remove(contactId);
+				attendances_toRm.add(contactId);
 		}
 
 		for (int i = 0; i < attendances_toRm.size(); i++)
