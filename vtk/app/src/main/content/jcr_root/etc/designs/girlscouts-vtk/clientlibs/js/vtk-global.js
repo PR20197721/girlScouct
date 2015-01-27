@@ -34,7 +34,7 @@ var $ = jQuery.noConflict();
 			}
 		});
 	}
-		function modal_height_onpen() {
+		function modal_height_on_open() {
 			$(document).on('opened.fndtn.reveal', '[data-reveal]', function () {
 					var window_h = $(window).height();
 					var popup_h = (window_h - 50);
@@ -87,7 +87,7 @@ var $ = jQuery.noConflict();
 	  	 	}
 	  	 });
 	  	 select_tabs();
-	  	 modal_height_onpen();
+	  	 modal_height_on_open();
 	  	 vtk_accordion();
 	  	 validate_image();
   });
