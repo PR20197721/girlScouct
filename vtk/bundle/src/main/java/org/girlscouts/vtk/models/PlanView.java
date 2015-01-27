@@ -7,6 +7,8 @@ public class PlanView {
 	private MeetingE meeting;
 	private List<Asset> aidTags;
 	private java.util.Date searchDate;
+	//meeting length in minutes
+	private int meetingLength;
 	private long prevDate, nextDate;
 	private int currInd, meetingCount;
 	private YearPlanComponent yearPlanComponent;
@@ -74,5 +76,14 @@ public class PlanView {
 	public void setYearPlanComponent(YearPlanComponent yearPlanComponent) {
 		this.yearPlanComponent = yearPlanComponent;
 	}
+	//meeting length in minutes
+	public int getMeetingLength() {
+		return meetingLength;
+	}
+
+	public void setMeetingLength(int meetingLength) {
+		this.meetingLength = meetingLength;
+	}
+
 
 }
