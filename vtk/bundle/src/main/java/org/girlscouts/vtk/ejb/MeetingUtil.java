@@ -945,10 +945,9 @@ public class MeetingUtil {
 		MeetingE meeting = null;
 		List<Asset> _aidTags = null;
 		Meeting meetingInfo = null;
-		int meetingCount = 0;
 		if (_comp.getType() == YearPlanComponentType.MEETING) {
 			meeting = (MeetingE) _comp;
-			meetingCount = troop.getYearPlan().getMeetingEvents().indexOf(_comp)+1;
+			int meetingCount = troop.getYearPlan().getMeetingEvents().indexOf(_comp)+1;
 			meetingInfo = yearPlanUtil.getMeeting(user, meeting.getRefId());
 
 			meeting.setMeetingInfo(meetingInfo);
@@ -1013,6 +1012,13 @@ public class MeetingUtil {
 				troopUtil.updateTroop(user, troop);
 
 			}
+			int meetingLength = 0;
+			for(Activity _agenda : _activities){
+				meetingLength+=_agenda.getDuration();
+			}
+			
+			planView.setMeetingCount(meetingCount);
+			planView.setMeetingLength(meetingLength);
 
 		}
 
@@ -1020,7 +1026,6 @@ public class MeetingUtil {
 			meeting.setMeetingInfo(meetingInfo);
 		planView.setMeeting(meeting);
 		planView.setAidTags(_aidTags);
-		planView.setMeetingCount(meetingCount);
 
 		/*
 		 * planView.setSearchDate(searchDate); planView.setPrevDate(prevDate);
