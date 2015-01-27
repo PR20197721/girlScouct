@@ -252,11 +252,9 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
         					 <h6>meeting agenda</h6>
         					 <p>Select and agenda item to view details, edit duration and delete. Drag and drop to reorder.</p>
        						 <SortableListItems1  key="{this.props.data}"  data={this.props.data} onClick={this.alex} onReorder={this.onReorder}/>
-
-<AgendaTotal data={this.props.data}/>   				
+                  <AgendaTotal data={this.props.data}/>   				
                   <strong><a data-reveal-id="modal_agenda"><i className="icon-button-circle-plus"></i> Add Agenda Item</a></strong>
-
-						 </section>; 
+						     </section>; 
           }
       });
 
