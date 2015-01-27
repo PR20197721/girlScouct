@@ -9,11 +9,17 @@
 		//MeetingE meeting = (MeetingE)planView.getYearPlanComponent();
 		//Meeting meetingInfo = meeting.getMeetingInfo();
 		//Date searchDate = planView.getSearchDate();
+	Calendar c = Calendar.getInstance();
+	c.setTime(planView.getSearchDate());
+	c.add(Calendar.MINUTE, planView.getMeetingLength());
+	Date meetingEndDate = c.getTime();
+	Date searchDate = planView.getSearchDate();
+	
 %>
 
 	<h4>Reminder Meeting #<%=planView.getMeetingCount()%>
-	  <%= FORMAT_MEETING_REMINDER.format(planView.getSearchDate()) %></h4>
-	
+	  <%= FORMAT_MEETING_REMINDER.format(searchDate) %> - <%=FORMAT_hhmm_AMPM.format(meetingEndDate)%></h4>
+
 
 	<p class="sent">Sent: None</p>
 
@@ -41,7 +47,7 @@
 	<h6>Compose Email</h6>
 	<section class="clearfix">
 		<label for="email_subj">Subject:</label>
-		<input type="text" id="email_subj" value="Reminder <%=troop.getTroop().getGradeLevel() %> Meeting #<%=planView.getMeetingCount()%> <%= FORMAT_MEETING_REMINDER.format(planView.getSearchDate()) %>" />
+		<input type="text" id="email_subj" value="Reminder <%=troop.getTroop().getGradeLevel() %> Meeting #<%=planView.getMeetingCount()%> <%= FORMAT_MEETING_REMINDER.format(searchDate) %> - <%=FORMAT_hhmm_AMPM.format(meetingEndDate)%>" />
 	</section>
 
 	<div style="background-color:yellow;"></div>
@@ -51,7 +57,7 @@
 		<br/><br/>Here are the details of our next meeting:
 		<table>
 			<tr><th>Date:</th>
-				<td><%= FORMAT_MEETING_REMINDER.format(planView.getSearchDate()) %></td>
+				<td><%= FORMAT_MEETING_REMINDER.format(searchDate)%> - <%=FORMAT_hhmm_AMPM.format(meetingEndDate)%></td>
 			</tr>
 			<tr><th>Location:</th>
 				<td><%
