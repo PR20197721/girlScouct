@@ -812,7 +812,12 @@
 							java.util.List<Activity> _activities = _meeting
 									.getMeetingInfo().getActivities();
 
-							Comparator<Activity> comp = new org.apache.commons.beanutils.BeanComparator(
+//System.err.println("tata blub: "+ org.apache.commons.lang.StringEscapeUtils.escapeHtml(_meeting.getMeetingInfo().getMeetingInfo().get("meeting short description").getStr()));
+
+
+_meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new JcrCollectionHoldString(org.apache.commons.lang.StringEscapeUtils.unescapeHtml(_meeting.getMeetingInfo().getMeetingInfo().get("meeting short description").getStr()))); 
+		
+		Comparator<Activity> comp = new org.apache.commons.beanutils.BeanComparator(
 									"activityNumber");
 							Collections.sort(_activities, comp);
 						}
