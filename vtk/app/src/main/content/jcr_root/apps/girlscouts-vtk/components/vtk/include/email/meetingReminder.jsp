@@ -98,6 +98,7 @@
 		<div id="aidLinks">
 			<p class="hide">Aids Included: </p>
 		</div>
+
 		<br/><br/>
 		<div id="formLinks">
 			<p class="hide">Form(s) Required</p>
@@ -121,39 +122,61 @@
 	  </dd>
 	 </dl>
 
+
+	</div>
 	<dl class="accordion" data-accordion>
 	  <dt data-target="panel2"><h6>Include Form Link</h6></dt>
 	  <dd class="accordion-navigation">
 	    <div class="content" id="panel2">
-        <div class="row">
-          <dl class="accordion-inner clearfix" data-accordion>
-            <dt data-target="panel1b" class="clearfix">
-            	<span class="name">Activity Planning and Approval</span>
-            </dt>
-            <dd>
-              <div id="panel1b" class="content">
-                <ul class="small-block-grid-3">
-                  <li><span>Name of Form</span></li>
-                  <li><span>Purpose of Form</span></li>
-                  <li><a href="" title="add form"><i class="icon-button-circle-plus"></i></a></li>
-                  <li><span>Name of Form</span></li>
-                  <li><span>Purpose of Form</span></li>
-                  <li><a href="" title="add form"><i class="icon-button-circle-plus"></i></a></li>
-                  <li><span>Name of Form</span></li>
-                  <li><span>Purpose of Form</span></li>
-                  <li><a href="" title="add form"><i class="icon-button-circle-plus"></i></a></li>
-                </ul>
-              </div>
-            </dd>
-          </dl>
-	      </div>
-	    </div>
+	<%
+
+        org.girlscouts.vtk.utils.DocumentUtil docUtil = new org.girlscouts.vtk.utils.DocumentUtil(resourceResolver, sling.getService(com.day.cq.tagging.JcrTagManagerFactory.class), "gsctx");
+		try{
+			
+			int panelCount = 1;
+			DocumentCategory tempCategory = docUtil.getNextCategory();
+			while(tempCategory != null){
+				String name = tempCategory.getName();
+			%>
+			<div class="row">
+          		<dl class="accordion-inner clearfix" data-accordion>
+            		<dt data-target="panel<%=panelCount%>b" class="clearfix">
+            			<span class="name"><%=name %></span>
+            		</dt>
+            	<dd>
+              		<div id="panel<%=panelCount%>b" class="content">
+                		<ul class="small-block-grid-2">
+			
+			<%
+			            Document tempDoc = tempCategory.getNextDocument();
+			            while(tempDoc != null){
+			            	 %><li><span><%=tempDoc.getName()%></span></li> 
+			            	 	<li><a href="" title="add form"><i class="icon-button-circle-plus"></i></a></li> <%
+			            	tempDoc = tempCategory.getNextDocument();
+			            }
+						tempCategory = docUtil.getNextCategory();
+						%> 
+						</ul>
+             		 </div>
+            		</dd>
+          		</dl>
+	      		</div>
+						
+						<%
+						panelCount++;
+			}
+		}  catch(RepositoryException e){
+			%><h1>ERROR: Tags Or Documents Not Configured Properly</h1><%
+		}
+%>
+	 </div>
 	  </dd>
 	 </dl>
-	 <div class="right clearfix">
-		<input type="button" value="Save" class="button btn" onclick="previewMeetingReminderEmail('<%=((MeetingE)planView.getYearPlanComponent()).getUid()%>')"/>
-		<input class="button btn" value="Send email" type="button" onclick="sendMeetingReminderEmail()"/>
-	</div>
+	
+	<input type="button" value="Preview" onclick="previewMeetingReminderEmail('<%=meeting.getPath()%>','<%=meeting.getUid()%>')"/>
+	<input type="button" value="Send" onclick="sendMeetingReminderEmail()"/>
+	
+
 </div>
 <!--//content-->
 <% //}%>
@@ -183,6 +206,7 @@
 		"fsizes": ['10','12','14','16','18','20','22','24','28','32']
 	});
 	function addFormLink(link){
+
 		$('textarea #emailhtm .formLinks').append('<a href="'+formurl+'">'+formname+'/a>');
 		return;
 	};
@@ -196,6 +220,7 @@
 	    }, 500);
 
 		//addAidToEmail(refId,title,uid);
+
 		return;
 	};
 
