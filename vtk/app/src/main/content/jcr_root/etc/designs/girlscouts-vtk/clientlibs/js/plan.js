@@ -122,8 +122,8 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 			width:dWidth,
 			modal:true,
 			dialogClass:"modalWrap",
-			position: ['center',20],
 			show:375,
+		
 			open: function() {
 				if (!showTitle) {
 					$(".ui-dialog-titlebar").hide();
@@ -144,7 +144,7 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 			width:dWidth,
 			modal:true,
 			dialogClass:"modalWrap",
-			position: ['center',20],
+		
 			show:375,
 			open: function() {
 				if (!showTitle) {
