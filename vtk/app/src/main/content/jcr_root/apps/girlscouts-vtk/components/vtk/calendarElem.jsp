@@ -57,6 +57,7 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 		 <form id="frmCalElem_1">
 
 		 	<select id="meeting_select">	
+		 	
 		 	<%
 		 	    for(int i=0;i<meetingsToCancel.size();i++) {%>
 				 	<option value="<%=meetingsToCancel.get(i).getRefId()%>" <%=meetingsToCancel.get(i).getRefId()==meeting.getRefId()? "SELECTED" : "" %>><%= meetingsToCancel.get(i).getMeetingInfo().getName()%></option>		 				 	   
@@ -70,16 +71,7 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 	</div>
 	<input type="button" value="save" id="saveCalElem" class="button btn right"/>
 	
-	<!--  DONT REMOVE THIS CODE -->
-	<%
-  meetingsToCancel = meetingUtil.getMeetingToCancel(user, troop);
-    for(int i=0;i<meetingsToCancel.size();i++) {
-      %>
-        <p><a href="#" onclick="rmMeeting('<%=date.getTime()%>','<%=meetingsToCancel.get(i).getRefId()%>')"><%=meetingsToCancel.get(i).getMeetingInfo().getName() %></a></p>
-      <% 
-    }
-  %> 
-  <!-- end DONT REMOVE THIS CODE -->
+	
 
 </div>
 <script>

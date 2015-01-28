@@ -69,7 +69,7 @@
         },
         checkLocalUpdate: function(){
         	if( (isActivNew == 1) || (isActivNew == 2) )
-      			{ console.log("code: "+isActivNew); this.loadCommentsFromServer() ; }
+      			{  this.loadCommentsFromServer() ; }
         },
         render: function() {
         	var x, yearPlanName;   	
@@ -207,8 +207,6 @@ items: "li:not(.ui-state-disabled)",
 
 function testrr(obj, comment){ 
 
-
-//console.log( comment +" : "+ meetingPassed);
  if(  moment(comment).get('year') < 1978 ){
     return "bg-square";
  }else if(  moment(comment) < moment( new Date()) ){
