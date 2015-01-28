@@ -1238,6 +1238,7 @@ public class MeetingUtil {
 				_attendances += Attendances.get(i) + ",";
 
 		ATTENDANCES.setUsers(_attendances);
+		ATTENDANCES.setTotal(contacts.size());
 		setAttendance(user, troop, mid, ATTENDANCES);
 
 		return false;
@@ -1342,6 +1343,7 @@ public class MeetingUtil {
 				_attendances += Attendances.get(i) + ",";
 
 		ATTENDANCES.setUsers(_attendances);
+		ATTENDANCES.setTotal(contacts.size());
 		setAchievement(user, troop, mid, ATTENDANCES);
 
 		return false;
