@@ -74,7 +74,6 @@
           <div id="manageCalendarSection">
           <div class="content clearfix active" id="panel1">
            <!--  <div class="sectionBar">Manage Calendar</div> -->
-           <p>Configure X meeting dates starting on or after XX/XX/XXXX:</p>
             <div id="calMng">
               <%
               	 

@@ -72,7 +72,6 @@ var $ = jQuery.noConflict();
   }
 	//all function calls should go here
 	  $(document).ready(function() {
-	  	$('body').css('overflow','auto');
 	  	 $(document).foundation({
 	  	  reveal : {
 	  	     animation: 'fade',
