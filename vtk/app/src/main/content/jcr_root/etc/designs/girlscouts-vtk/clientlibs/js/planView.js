@@ -78,7 +78,7 @@ function createCustAgendaItem2(mid, time, mPath){
 		cache: false
 	}).done(function( html ) {
 		//document.location="/content/girlscouts-vtk/en/vtk.planView.html?elem="+mid;
-		location.reload();
+		location.reload("true");
 	});
 }
 
