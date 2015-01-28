@@ -274,7 +274,8 @@ function updateAttendAchvm(mid){
 	var achn = getCheckedCheckboxesFor('achievement');
 	//var UpdAttendance= document.getElementById('UpdAttendance');
 	//var mid= document.getElementById('mid');
-	console.log( attend);
+	console.log( "attend: "+ attend);
+	console.log( "achv: "+ achn);
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
 		type: 'POST',
@@ -285,7 +286,9 @@ function updateAttendAchvm(mid){
 			achievement:achn
 		},
 		success: function(result) {
-			$('.ui-dialog-content').dialog('close');
+			console.log("closing...");
+			
+			$('#modal_popup').foundation('reveal', 'close');
 		}
 	});
 	return;
