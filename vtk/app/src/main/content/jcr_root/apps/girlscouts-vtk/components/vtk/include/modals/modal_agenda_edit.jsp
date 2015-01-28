@@ -49,7 +49,7 @@
 						if (request.getParameter("isOverview") != null) {
 					%>
 					<div class="editable-textarea column small-20 small-centered" id="editMeetingOverview">
-						<h5>Meeting 1: introduction</h5>
+						<h5><%=meetingInfo.getName()%>: introduction</h5>
 						<%=meetingInfoItems.get("overview").getStr()%>
 					</div>
 					<%
