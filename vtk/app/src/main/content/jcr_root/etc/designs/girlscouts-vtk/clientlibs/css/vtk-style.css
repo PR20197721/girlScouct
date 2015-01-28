@@ -386,7 +386,7 @@
   top: 0; }
   .vtk-body .reveal-modal .header {
     background: #00ae57;
-    padding: 7px 0 5px 5px; }
+    padding: 7px 0 5px 9px; }
     .vtk-body .reveal-modal .header h3 {
       text-transform: uppercase;
       font-size: 24px;
@@ -577,7 +577,7 @@
       font-size: 14px; }
   .vtk-body .modalWrap .header {
     background: #00ae57;
-    padding: 7px 0 5px 5px; }
+    padding: 7px 0 5px 9px; }
     .vtk-body .modalWrap .header h3 {
       text-transform: uppercase;
       font-size: 24px;
