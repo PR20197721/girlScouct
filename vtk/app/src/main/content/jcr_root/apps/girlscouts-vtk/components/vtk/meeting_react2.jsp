@@ -3,18 +3,17 @@
 
 String mid = planView.getYearPlanComponent().getUid();
 MeetingE meeting = (MeetingE)planView.getYearPlanComponent();
-out.println( meeting.getPath()+"/attendance" );
-Attendance attendance = meetingUtil.getAttendance( user,  troop,  meeting.getPath()+"/attendance/");
+
+
+Attendance attendance = meetingUtil.getAttendance( user,  troop,  meeting.getPath()+"/attendance");
 int attendanceCurrent=0, attendanceTotal=0;
-out.println( attendanceCurrent+ " : "+ attendanceTotal );
+
 
 if( attendance !=null && attendance.getUsers()!=null ){
 	attendanceCurrent = new StringTokenizer( attendance.getUsers(), ",").countTokens();
 	attendanceTotal= attendance.getTotal();
 }
 
-/vtk/603/troops/701G0000000uQzTIAU/yearPlan/meetingEvents/M1422476458644_0.48338557453542264/attendance
-/vtk/603/troops/701G0000000uQzTIAU/yearPlan/meetingEvents/M1422476458644_0.48338557453542264/attendance
 
 Location loc = null;
 if( meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null ) {
