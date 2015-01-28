@@ -139,6 +139,7 @@
         alert(1);
       },
       componentDidMount: function() {
+resizeWindow();
           var dom = $(this.getDOMNode());
           var onReorder = this.props.onReorder;
           dom.sortable({

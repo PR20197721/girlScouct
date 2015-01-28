@@ -576,7 +576,9 @@
     padding: 0;
     overflow: hidden !important; }
     .vtk-body .modalWrap #gsModal p, .vtk-body .modalWrap #gsModal a, .vtk-body .modalWrap #gsModal span, .vtk-body .modalWrap #gsModal li {
-      font-size: 14px; }
+      font-size: 14px; 
+
+}
   .vtk-body .modalWrap .header {
     background: #00ae57;
     padding: 7px 0 5px 9px; }
@@ -1015,12 +1017,13 @@
 
 .ui-widget,
 .ui-widget .ui-widget {
-  font-family: "Open Sans"; }
-
+  font-family: "Open Sans"; 
+}
 input[type="file"] {
   box-shadow: inset 0 0 9px #CECECB;
   width: 400px; }
-
+    
+     
 @media only screen and (max-width: 40em) {
   .vtk-body #main #yearPlanMeetings ul .meeting > div .bg-square {
     position: static; }
@@ -1048,3 +1051,4 @@ input[type="file"] {
   .vtk-body .reveal-modal {
     margin-left: -30%;
     width: 60%; } }
+    }

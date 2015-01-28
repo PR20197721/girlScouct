@@ -119,16 +119,16 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 	}
 	if (fullPageScroll) {
 		dialog = $( divSelector ).dialog({
-			width: dWidth,
-			modal: true,
-			height: wHeight,
-			dialogClass: "modalWrap",
-			top: 0,
+			width:dWidth,
+			modal:true,
+			height:dHeight,
+			dialogClass:"modalWrap",
 			show:375,
-			"open": function() {
+		
+			open: function() {
 				if (!showTitle) {
 					$(".ui-dialog-titlebar").hide();
-					$('.scroll').css({'max-height': dHeight-50});
+					$('.scroll').css({'max-height': dHeight});
 				} else {
 					$("span.ui-dialog-title").html(title);
 					$(".ui-dialog-titlebar").show();
@@ -136,7 +136,7 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 				$("body").css({ overflow: 'hidden' });
 				$(this).css({overflow: 'hidden'});
 			},
-			"close": function() {
+			close: function() {
 				$("body").css({ overflow: 'inherit' });
 			}
 		});
@@ -144,8 +144,8 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 		dialog = $( divSelector ).dialog({
 			width:dWidth,
 			modal:true,
-			height: dHeight,
 			dialogClass:"modalWrap",
+
 			show:375,
 			open: function() {
 				if (!showTitle) {
