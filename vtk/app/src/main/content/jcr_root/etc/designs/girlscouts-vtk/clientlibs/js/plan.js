@@ -109,7 +109,7 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 	var wWidth = $(window).width();
 	var wHeight = $(window).height();
 	var dWidth = wWidth * 0.95; //this will make the dialog 80% of the
-	var dHeight = wHeight *0.95;
+	var dHeight = wHeight * 0.95;
 	if (dWidth >960) {
 		dWidth = 960; // max-width: 60em;
 	}
@@ -124,7 +124,7 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 			dialogClass:"modalWrap",
 			position: ['center',20],
 			show:375,
-			"open": function() {
+			open: function() {
 				if (!showTitle) {
 					$(".ui-dialog-titlebar").hide();
 					//$('.scroll').css({'max-height': dHeight});
@@ -135,7 +135,7 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 				$("body").css({ overflow: 'hidden' });
 				$(this).css({overflow: 'hidden'});
 			},
-			"close": function() {
+			close: function() {
 				$("body").css({ overflow: 'inherit' });
 			}
 		});
@@ -146,7 +146,7 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 			dialogClass:"modalWrap",
 			position: ['center',20],
 			show:375,
-			"open": function() {
+			open: function() {
 				if (!showTitle) {
 					$(".ui-dialog-titlebar").hide();
 				} else {
@@ -155,7 +155,7 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 				}
 				$("body").css({ overflow: 'hidden' });
 			},
-			"close": function() {
+			close: function() {
 				$("body").css({ overflow: 'inherit' });
 			}
 		});
@@ -177,8 +177,6 @@ function yesPlan(){
   }
 }
 function addLocation(){
-	
-	
 	
 	//NEEDS to be BACK vtk-global.js? showError(null, "#locationEdit .errorMsg");	
 	var  name = document.getElementById("loc_name").value;

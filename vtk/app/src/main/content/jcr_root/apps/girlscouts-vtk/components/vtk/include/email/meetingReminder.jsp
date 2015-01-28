@@ -9,11 +9,17 @@
 		//MeetingE meeting = (MeetingE)planView.getYearPlanComponent();
 		//Meeting meetingInfo = meeting.getMeetingInfo();
 		//Date searchDate = planView.getSearchDate();
+	Calendar c = Calendar.getInstance();
+	c.setTime(planView.getSearchDate());
+	c.add(Calendar.MINUTE, planView.getMeetingLength());
+	Date meetingEndDate = c.getTime();
+	Date searchDate = planView.getSearchDate();
+	
 %>
 
 	<h4>Reminder Meeting #<%=planView.getMeetingCount()%>
-	  <%= FORMAT_MEETING_REMINDER.format(planView.getSearchDate()) %></h4>
-	
+	  <%= FORMAT_MEETING_REMINDER.format(searchDate) %> - <%=FORMAT_hhmm_AMPM.format(meetingEndDate)%></h4>
+
 
 	<p class="sent">Sent: None</p>
 
@@ -41,7 +47,7 @@
 	<h6>Compose Email</h6>
 	<section class="clearfix">
 		<label for="email_subj">Subject:</label>
-		<input type="text" id="email_subj" value="Reminder <%=troop.getTroop().getGradeLevel() %> Meeting #<%=planView.getMeetingCount()%> <%= FORMAT_MEETING_REMINDER.format(planView.getSearchDate()) %>" />
+		<input type="text" id="email_subj" value="Reminder <%=troop.getTroop().getGradeLevel() %> Meeting #<%=planView.getMeetingCount()%> <%= FORMAT_MEETING_REMINDER.format(searchDate) %> - <%=FORMAT_hhmm_AMPM.format(meetingEndDate)%>" />
 	</section>
 
 	<div style="background-color:yellow;"></div>
@@ -51,7 +57,7 @@
 		<br/><br/>Here are the details of our next meeting:
 		<table>
 			<tr><th>Date:</th>
-				<td><%= FORMAT_MEETING_REMINDER.format(planView.getSearchDate()) %></td>
+				<td><%= FORMAT_MEETING_REMINDER.format(searchDate)%> - <%=FORMAT_hhmm_AMPM.format(meetingEndDate)%></td>
 			</tr>
 			<tr><th>Location:</th>
 				<td><%
@@ -98,39 +104,6 @@
 		</div>
 	</textarea>
 	
-
-<!-- 	<div id="ima">
-		<div id="imaBd">
-		<table>
-			<tr>
-				<th>&nbsp;</th>
-				<th>Add to Email</th>
-			</tr>
-			<%
-			List<Asset> aidTags = planView.getAidTags();
-			for(int i=0;i<planView.getAidTags().size();i++){%>
-			 <tr>
-				<td><%= planView.getAidTags().get(i).getTitle() %></td>
-			 	<td><a onclick="addAidLink('<%=planView.getAidTags().get(i).getRefId()%>','<%=planView.getAidTags().get(i).getTitle()%>','<%=((MeetingE)planView.getYearPlanComponent()).getUid() %>')" class="addAidToEmail"> + </a></td>
-			 	
-			 </tr>
-			 <%}%>
-		</table>
-		</div>
-	</div> -->
-<!-- 	<div id="ifl">
-	<div id="iflBd"> -->
-	<%/*form needed
-		for(int i=0;i<_forms.size();i++){
-		String formName;
-		String formurl;%>
-	
-		<input type="checkbox" id="<%=formname%>" onclick="addLinkToEmail(forms(i))"/><%=formname %>
-
-	<%}*/%>
-<!-- 	</div>
-	</div> -->
-
 
 	<dl class="accordion" data-accordion>
 	  <dt data-target="panel1"><h6 class="off">Include meeting aid</h6></dt>
