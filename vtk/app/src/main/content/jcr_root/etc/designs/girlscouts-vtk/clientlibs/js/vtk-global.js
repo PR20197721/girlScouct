@@ -35,11 +35,11 @@ var $ = jQuery.noConflict();
 		});
 	}
 		function modal_height_on_open() {
-			$(document).on('opened.fndtn.reveal', '[data-reveal]', function () {
-					var window_h = $(window).height();
-					var popup_h = (window_h - 50);
-					$(this).find('.scroll').css('max-height' , ($(window).height()-50)+'px');
-				});
+		  $(document).on('opened.fndtn.reveal', '[data-reveal]', function () {
+				var window_h = $(window).height();
+				var popup_h = (window_h - 50);
+				$(this).find('.scroll').css('max-height' , ($(window).height()-50)+'px');
+			});
 		}
 		function modal_height_resize() {
     	var window_h = $(window).height();
@@ -72,7 +72,6 @@ var $ = jQuery.noConflict();
   }
 	//all function calls should go here
 	  $(document).ready(function() {
-	  	$('body').css('overflow','auto');
 	  	 $(document).foundation({
 	  	  reveal : {
 	  	     animation: 'fade',
