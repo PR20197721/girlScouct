@@ -112,9 +112,9 @@
             
     						{ keys.map( function (comment ,i ) {
 
-if(  ( obj[comment].type == 'MEETING')  &&
-  moment(comment) < moment( new Date()) )
-    {meetingPassed= true;}
+                    if(  ( obj[comment].type == 'MEETING')  &&
+                      moment(comment) < moment( new Date()) )
+                        {meetingPassed= true;}
 
 
     							  if( obj[comment].type == 'MEETING' ){
@@ -142,7 +142,7 @@ if(  ( obj[comment].type == 'MEETING')  &&
           var dom = $(this.getDOMNode());
           var onReorder = this.props.onReorder;
           dom.sortable({
-items: "li:not(.ui-state-disabled)",
+          items: "li:not(.ui-state-disabled)",
             stop: function (event, ui) {
               var order = dom.sortable("toArray", {attribute: "id"});
               var yy  = order.toString().replace('"',''); 
@@ -153,13 +153,13 @@ items: "li:not(.ui-state-disabled)",
             //$(ui.item).sortable('cancel');  
             //dom.sortable('cancel');           
         }
- }).disableSelection();
+    }).disableSelection();
       },
       componentWillUpdate: function() {
         var dom = $(this.getDOMNode());
         var onReorder = this.props.onReorder;
         dom.sortable({
-items: "li:not(.ui-state-disabled)",
+        items: "li:not(.ui-state-disabled)",
             stop: function (event, ui) {
             	var order = dom.sortable("toArray", {attribute: "id"});
             	var yy  = order.toString().replace('"','');
@@ -170,7 +170,7 @@ items: "li:not(.ui-state-disabled)",
            // dom.sortable('cancel');       
       }
     }).disableSelection();
-}
+  }
 });
 
     var MeetingImg = React.createClass({

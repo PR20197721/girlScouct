@@ -753,35 +753,36 @@
     }
   }
   .modal-attendance {
-      .content {
-        h4 {
-          font-size:24px;
-          margin-bottom: 50px;
+    .content {
+      h4 {
+        font-size:24px;
+        margin-bottom: 50px;
+      }
+      table {
+        border:none;
+        tr,
+        td,
+        th {
+          background: none;
         }
-        table {
-          border:none;
-          tr,
-          td,
-          th {
-            background: none;
-          }
-          p {
-            font-weight:600;
-            font-size:17px;
-            text-transform: uppercase;
-            margin-right: 80px;
-          }
-          thead th,
-          td:nth-child(n+2) {
-            text-align:center;
-          }
+        p {
+          font-weight:600;
+          font-size:17px;
+          text-transform: uppercase;
+          margin-right: 80px;
+        }
+        thead th,
+        td:nth-child(n+2) {
+          text-align:center;
         }
       }
+    }
   }
   //modals per JQ UI
   .modalWrap {
     padding:0;
     border-radius:0;
+    top: 0 !important;
     border:0;
     font-size: 14px;
     background:#D9D9D9;
@@ -790,6 +791,8 @@
     #gsModal {
       background: #fff;
       padding:0;
+      // top:0;
+      overflow:hidden !important;
       p,a,span,li {
         font-size: 14px;
       }
