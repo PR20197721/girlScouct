@@ -123,8 +123,7 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 			modal:true,
 			height:dHeight,
 			dialogClass:"modalWrap",
-			show:375,
-		
+			show:375,	
 			open: function() {
 				if (!showTitle) {
 					$(".ui-dialog-titlebar").hide();
