@@ -418,7 +418,7 @@
 					else
 						emails += ";" + contactEmail;
 				}
-				emr.addTo(emails);
+				emr.setTo(emails);
 				emr.setEmailToGirlParent(emails);
 
 			}
