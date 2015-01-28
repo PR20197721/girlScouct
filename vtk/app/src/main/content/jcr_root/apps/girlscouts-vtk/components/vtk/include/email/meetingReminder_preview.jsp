@@ -17,10 +17,8 @@ EmailMeetingReminder emr = troop.getSendingEmail();
 <br/><%= emr.getTo()%>
 <br/>Enter your own:<%=emr.getCc() %>
 
-
-
-<br/><br/>Subject: <%=emr.getSubj() %>
-
+<br/><br/><div style="background-color:gray">Compose Email</div>
+Subject: <%=emr.getSubj() %>
 <br/><br/><%= emr.getHtml() %>
 
 <input type="button" value="Send" onclick="sendMeetingReminderEmail()"/>
