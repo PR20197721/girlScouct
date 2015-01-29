@@ -19,6 +19,7 @@ public class Meeting extends YearPlanComponent implements Serializable {
 	private String aidTags, resources, agenda;
 	@Field
 	private Integer position;
+	@Field private Boolean isAchievement; 
 
 	@Collection
 	private java.util.List<Activity> activities;
@@ -127,4 +128,17 @@ public class Meeting extends YearPlanComponent implements Serializable {
 		this.path = path;
 	}
 
+	public Boolean getIsAchievement() {
+		return isAchievement;
+	}
+
+	public void setIsAchievement(Boolean isAchievement) {
+		this.isAchievement = isAchievement;
+	}
+
+	
+	
+
+	
+	
 }

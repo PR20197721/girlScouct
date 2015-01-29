@@ -13,7 +13,7 @@
           </div>
           <div class="large-8 columns">
             <select id="newCustAgendaDuration">
-              <option value="Time Allotment" selected>Time Allotment</option>
+              <option value="0" selected>Time Allotment</option>
               <option value="5">5</option>
               <option value="10">10</option>
               <option value="15">15</option>
@@ -26,7 +26,7 @@
             <input type="text" placeholder="Description" id="newCustAgendaTxt"/>
           </div>
         </section>
-        <button onclick="createCustAgendaItem2('<%=planView.getSearchDate().getTime()%>', '1', thisMeetingPath)" class="button btn right">Save</button>
+        <input type="button" onclick="createCustAgendaItem2('<%=planView.getSearchDate().getTime()%>', '1', thisMeetingPath)" class="button btn right" value="Save"/>
       </form>
     </div>
   </div>

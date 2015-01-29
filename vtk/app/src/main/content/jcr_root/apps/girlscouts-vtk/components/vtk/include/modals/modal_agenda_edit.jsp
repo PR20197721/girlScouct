@@ -84,7 +84,7 @@
 						<h3>Agenda Item: <%=_activity.getName()%></h3>
 						<div class="columns small-4">
 							<select onchange="durEditActiv(this.options[this.selectedIndex].value, '<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">
-								<option value="Time Allotment" selected>Time Allotment</option>
+								<option value="0" selected>Time Allotment</option>
 								<option value="5"
 									<%=(_activity.getDuration() == 5) ? "SELECTED" : ""%>>5</option>
 								<option value="10"

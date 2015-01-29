@@ -15,7 +15,11 @@
     boolean isAttendance= true, isAchievement=true;
     if( attendance==null  ){isAttendance=false;}
     if( achievement==null ){isAchievement=false;}
-  %>
+    
+    boolean showAchievement=( request.getParameter("isAch")!=null && request.getParameter("isAch").equals("true")) ? true :  false;
+ 
+    
+    %>
 <div class="modal-attendance">
   <div class="header clearfix">
     <h3 class="columns large-22">Attendance and Achievements</h3>
@@ -32,7 +36,7 @@
             <tr>
               <th></th>
               <th>Attendance</th>
-              <th>Achievement Earned</th>
+              <%if( showAchievement ){ %><th>Achievement Earned</th> <%} %>
             </tr>
           </thead>
           <tbody>
@@ -45,10 +49,12 @@
 	              <input type="checkbox"  <%= ( !isAttendance || (attendance!=null && attendance.getUsers()!=null && attendance.getUsers().contains(contacts.get(i).getId()) ) )  ? "checked" : "" %> name="attendance" id="a<%=contacts.get(i).getId() %>" value="<%=contacts.get(i).getId() %>">
 	              <label for="a<%=contacts.get(i).getId() %>"></label>
 	            </td>
-	            <td>
-	              <input type="checkbox"  <%= ( !isAchievement  || (achievement!=null && achievement.getUsers()!=null && achievement.getUsers().contains(contacts.get(i).getId())) )  ? "checked" : "" %> name="achievement" id="c<%=contacts.get(i).getId() %>" value="<%=contacts.get(i).getId() %>">
-	              <label for="c<%=contacts.get(i).getId() %>"></label>
-	            </td>
+	            <%if( showAchievement ){ %>
+				            <td>
+				              <input type="checkbox"  <%= ( !isAchievement  || (achievement!=null && achievement.getUsers()!=null && achievement.getUsers().contains(contacts.get(i).getId())) )  ? "checked" : "" %> name="achievement" id="c<%=contacts.get(i).getId() %>" value="<%=contacts.get(i).getId() %>">
+				              <label for="c<%=contacts.get(i).getId() %>"></label>
+				            </td>
+	            <%} %>
 	          </tr>
 	          <% } %>
           </tbody>

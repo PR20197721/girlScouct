@@ -35,16 +35,25 @@ var $ = jQuery.noConflict();
 		});
 	}
 		function modal_height_on_open() {
-			$(document).on('opened.fndtn.reveal', '[data-reveal]', function () {
-					var window_h = $(window).height();
-					var popup_h = (window_h - 50);
-					$(this).find('.scroll').css('max-height' , ($(window).height()-50)+'px');
-				});
+		  $(document).on('opened.fndtn.reveal', '[data-reveal]', function () {
+				var window_h = $(window).height();
+				var popup_h = (window_h - 50);
+				$(this).find('.scroll').css('max-height' , ($(window).height()-50)+'px');
+			});
+			$('#gsModal').css({
+  			'max-height': $(window).height()+'px !important',
+  			'height': '100% !important',
+  		});
 		}
 		function modal_height_resize() {
     	var window_h = $(window).height();
     	var popup_h = (window_h - 50);
   		$('.scroll').css('max-height' , ($(window).height()-50)+'px');
+  		$('.modalWrap').css('max-height' , $(window).height()+'px');
+			$('#gsModal').css({
+  			'max-height': $(window).height()+'px !important',
+  			'height': '100% !important',
+  		});
 		}
 	function validate_image() {
 		$('form#frmImg').submit(function(e) {
@@ -72,7 +81,6 @@ var $ = jQuery.noConflict();
   }
 	//all function calls should go here
 	  $(document).ready(function() {
-	  	$('body').css('overflow','auto');
 	  	 $(document).foundation({
 	  	  reveal : {
 	  	     animation: 'fade',

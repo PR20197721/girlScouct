@@ -10,21 +10,18 @@ EmailMeetingReminder emr = troop.getSendingEmail();
 
 
 <div style="background-color:gray">Address List</div>
-
-<br/>Girls /Parents <%= emr.getEmailToGirlParent()!=null ? "CHECKED\n"+emr.getEmailToGirlParent() : "" %>
-<br/>Self <%= emr.getEmailToSelf()!=null ? "CHECKED\n"+emr.getEmailToSelf() : "" %>
-<br/>Troop Volunteers <%= emr.getEmailToTroopVolunteer()!=null ? "CHECKED\n"+emr.getEmailToTroopVolunteer() : "" %>
-
-
+<br/>To:
+(<%= emr.getEmailToGirlParent()!=null ? "Girls /Parents " : "" %>
+<%= emr.getEmailToSelf()!=null ? "Self " : "" %>
+<%= emr.getEmailToTroopVolunteer()!=null ? "Troop Volunteers" : "" %>)
+<br/><%= emr.getTo()%>
 <br/>Enter your own:<%=emr.getCc() %>
 
 
-<br/>To: <%= emr.getTo()%>
-<br/>Subject: <%=emr.getSubj() %>
 
+<br/><br/>Subject: <%=emr.getSubj() %>
 
-
-<br/><%= emr.getHtml() %>
+<br/><br/><%= emr.getHtml() %>
 
 <input type="button" value="Send" onclick="sendMeetingReminderEmail()"/>
 

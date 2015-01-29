@@ -288,5 +288,10 @@
             mode="replace"
             root="/apps/wcm"
             rules="[]"/>  
+          <f56
+            jcr:primaryType="cq:WorkflowLauncher"
+            mode="replace"
+            root="/etc/workflow/models/reverse_replication_with_delay"
+            rules="[]"/> 
     </filter>
 </jcr:root>

@@ -57,6 +57,7 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 		 <form id="frmCalElem_1">
 
 		 	<select id="meeting_select">	
+		 	
 		 	<%
 		 	    for(int i=0;i<meetingsToCancel.size();i++) {%>
 				 	<option value="<%=meetingsToCancel.get(i).getRefId()%>" <%=meetingsToCancel.get(i).getRefId()==meeting.getRefId()? "SELECTED" : "" %>><%= meetingsToCancel.get(i).getMeetingInfo().getName()%></option>		 				 	   
@@ -70,16 +71,7 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 	</div>
 	<input type="button" value="save" id="saveCalElem" class="button btn right"/>
 	
-	<!--  DONT REMOVE THIS CODE -->
-	<%
-  meetingsToCancel = meetingUtil.getMeetingToCancel(user, troop);
-    for(int i=0;i<meetingsToCancel.size();i++) {
-      %>
-        <p><a href="#" onclick="rmMeeting('<%=date.getTime()%>','<%=meetingsToCancel.get(i).getRefId()%>')"><%=meetingsToCancel.get(i).getMeetingInfo().getName() %></a></p>
-      <% 
-    }
-  %> 
-  <!-- end DONT REMOVE THIS CODE -->
+	
 
 </div>
 <script>
@@ -150,8 +142,9 @@ $().ready(function() {
 $('#saveCalElem').click(function() {
 
 	if($('#cclRadio').prop('checked')){
-		var r = $("#meeting_select option:selected").val();
-  	  	rmMeeting('<%=date.getTime()%>',r);
+		   var r = $("#meeting_select option:selected").val();
+		   var isProceed = confirm("Make sure you want to cancel the meeting? This will remove the meeting from the calendar and you will have <%=(sched.size()-1)%> meetings instead of <%=sched.size()%> meetings this year");
+  	   if( isProceed == true ) {rmMeeting('<%=date.getTime()%>',r); }
 	}
 	else if($("#cngRadio").prop("checked")){
 		

@@ -69,7 +69,7 @@
         },
         checkLocalUpdate: function(){
         	if( (isActivNew == 1) || (isActivNew == 2) )
-      			{ console.log("code: "+isActivNew); this.loadCommentsFromServer() ; }
+      			{  this.loadCommentsFromServer() ; }
         },
         render: function() {
         	var x, yearPlanName;   	
@@ -112,9 +112,9 @@
             
     						{ keys.map( function (comment ,i ) {
 
-if(  ( obj[comment].type == 'MEETING')  &&
-  moment(comment) < moment( new Date()) )
-    {meetingPassed= true;}
+                    if(  ( obj[comment].type == 'MEETING')  &&
+                      moment(comment) < moment( new Date()) )
+                        {meetingPassed= true;}
 
 
     							  if( obj[comment].type == 'MEETING' ){
@@ -139,10 +139,11 @@ if(  ( obj[comment].type == 'MEETING')  &&
         alert(1);
       },
       componentDidMount: function() {
+resizeWindow();
           var dom = $(this.getDOMNode());
           var onReorder = this.props.onReorder;
           dom.sortable({
-items: "li:not(.ui-state-disabled)",
+          items: "li:not(.ui-state-disabled)",
             stop: function (event, ui) {
               var order = dom.sortable("toArray", {attribute: "id"});
               var yy  = order.toString().replace('"',''); 
@@ -153,13 +154,13 @@ items: "li:not(.ui-state-disabled)",
             //$(ui.item).sortable('cancel');  
             //dom.sortable('cancel');           
         }
- }).disableSelection();
+    }).disableSelection();
       },
       componentWillUpdate: function() {
         var dom = $(this.getDOMNode());
         var onReorder = this.props.onReorder;
         dom.sortable({
-items: "li:not(.ui-state-disabled)",
+        items: "li:not(.ui-state-disabled)",
             stop: function (event, ui) {
             	var order = dom.sortable("toArray", {attribute: "id"});
             	var yy  = order.toString().replace('"','');
@@ -170,15 +171,19 @@ items: "li:not(.ui-state-disabled)",
            // dom.sortable('cancel');       
       }
     }).disableSelection();
-}
+  }
 });
 
     var MeetingImg = React.createClass({
         render: function() {
   		var src= "/content/dam/girlscouts-vtk/local/icon/meetings/"+ this.props.mid +".png";
-          return (
-      		<img src={src} onerror="this.style.display='none';"/>
-          );
+
+          var imgReturn=src;
+         if( !imageExists( src ) ){ imgReturn=""; }
+            return (
+      	     	<img src={imgReturn}/>
+             );
+          
         }
       });
 
@@ -207,8 +212,6 @@ items: "li:not(.ui-state-disabled)",
 
 function testrr(obj, comment){ 
 
-
-//console.log( comment +" : "+ meetingPassed);
  if(  moment(comment).get('year') < 1978 ){
     return "bg-square";
  }else if(  moment(comment) < moment( new Date()) ){
@@ -222,6 +225,17 @@ function testrr(obj, comment){
  }else{
     return "bg-square";
  }
+}
+
+function imageExists(image_url){
+
+    var http = new XMLHttpRequest();
+
+    http.open('HEAD', image_url, false);
+    http.send();
+
+    return http.status != 404;
+
 }
       </script>  
     </div>

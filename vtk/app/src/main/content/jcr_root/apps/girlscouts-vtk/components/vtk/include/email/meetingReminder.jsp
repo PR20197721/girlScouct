@@ -205,7 +205,7 @@
 	
 	
 	 <div class="right clearfix">
-		<input type="button" value="Save" class="button btn" onclick="previewMeetingReminderEmail('<%=((MeetingE)planView.getYearPlanComponent()).getUid()%>')"/>
+		<input type="button" value="Save" class="button btn" onclick="validate();"/>
 		<input class="button btn" value="Send email" type="button" onclick="sendMeetingReminderEmail()"/>
 	</div>
 	
@@ -268,6 +268,22 @@
 
 		//addAidToEmail(refId,title,uid);
 		return;
+	};
+	function validate(){
+	    var emailReg = /^(([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?\;?)+$/;
+	    var email = $('#email_to_cc').val();
+		if(email.length){
+		    if(!emailReg.test(email)){
+		    	//$('#email_to_cc') label turn red or input background turn red
+	            alert("Please enter valid email addresses");
+	    	    return false;
+	        }
+		}else if (!$("input:checkbox:checked").length){
+	            alert("Please select email recipients");
+	    	    return false;
+		}
+	    previewMeetingReminderEmail('<%=((MeetingE)planView.getYearPlanComponent()).getUid()%>');
+	    
 	};
 
 </script>

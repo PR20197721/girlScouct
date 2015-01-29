@@ -17,7 +17,8 @@ public class Attendance implements Serializable {
 	private String id;
 	@Field
 	String users; // sf id
-
+	@Field int total;
+	
 	public String getPath() {
 		return path;
 	}
@@ -40,6 +41,14 @@ public class Attendance implements Serializable {
 
 	public void setUsers(String users) {
 		this.users = users;
+	}
+
+	public int getTotal() {
+		return total;
+	}
+
+	public void setTotal(int total) {
+		this.total = total;
 	}
 
 }

@@ -70,6 +70,9 @@ public class MeetingUtil {
 	@Reference
 	TroopDAO troopDAO; // 1/20/15
 
+	 java.text.SimpleDateFormat FORMAT_MMddYYYY = new java.text.SimpleDateFormat(
+				"MM/dd/yyyy");
+	 
 	public java.util.List<MeetingE> updateMeetingPos(
 			java.util.List<MeetingE> orgMeetings,
 			java.util.List<Integer> newPoss) {
@@ -1136,6 +1139,16 @@ public class MeetingUtil {
 		if (dates.endsWith(","))
 			dates = dates.substring(0, dates.length() - 1);
 		troop.getYearPlan().getSchedule().setDates(dates);
+		
+		String exclDates = troop.getYearPlan().getCalExclWeeksOf();
+		exclDates =  exclDates ==null ? "" : exclDates;
+		if( exclDates.endsWith(",") || exclDates.equals(""))
+			exclDates += FORMAT_MMddYYYY.format(new java.util.Date( dateToRm)) +",";
+		else
+			exclDates += "," +FORMAT_MMddYYYY.format(new java.util.Date( dateToRm)) +",";
+		troop.getYearPlan().setCalExclWeeksOf(exclDates);
+		
+		
 		troopUtil.updateTroop(user, troop);
 		isRemoved = true;
 		return isRemoved;
@@ -1204,14 +1217,14 @@ public class MeetingUtil {
 		java.util.List<String> attendances_toRm = new java.util.ArrayList<String>();
 		for (int i = 0; i < Attendances.size(); i++) {
 			String contactId = Attendances.get(i);
-	System.err.println("tata55: "+ contactId);		
+			
 			boolean isExists = false;			
 			if (CURRENT_CONTACT_LIST.contains(contactId))	
 				if( attendances!=null )
 				  for (int y = 0; y < attendances.length; y++)
 					if (attendances[y].equals(contactId))
 						isExists = true;
-	System.err.println("tata55 exist: "+ contactId + " : "+isExists);		
+			
 			if (!isExists)
 				attendances_toRm.add(contactId);
 		}
@@ -1225,6 +1238,7 @@ public class MeetingUtil {
 				_attendances += Attendances.get(i) + ",";
 
 		ATTENDANCES.setUsers(_attendances);
+		ATTENDANCES.setTotal(contacts.size());
 		setAttendance(user, troop, mid, ATTENDANCES);
 
 		return false;
@@ -1261,16 +1275,15 @@ public class MeetingUtil {
 			int i=0;
 			StringTokenizer t= new StringTokenizer( request.getParameter("achievement"), ",");
 			while( t.hasMoreElements() ){
-	System.err.println("tatata :"+ t.countTokens() +" :"+i);			
+				
 				if( attendances==null ) attendances = new String[ t.countTokens()];
 				attendances[i] = t.nextToken();
-	System.err.println("tata55 Adding param "+ attendances[i]);		
+			
 				i++;
 			}
 		}
 		
-		for(int i=0;i<attendances.length;i++)
-			System.err.println("tata after: "+attendances[i]);
+		
 		
 		java.util.List<org.girlscouts.vtk.models.Contact> contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
 				troopDAO)
@@ -1301,40 +1314,41 @@ public class MeetingUtil {
 			if (!Attendances.contains(attendances[i]))
 				Attendances.add(attendances[i]);
 		 }
-//System.err.println("tata added attend "+ Attendances);
+
 		// rm
 		java.util.List<String> attendances_toRm = new java.util.ArrayList<String>();
 		for (int i = 0; i < Attendances.size(); i++) {
 			String contactId = Attendances.get(i);
-//System.err.println("tata441 : "+ contactId);			
+			
 			boolean isExists = false;
 			
-//System.err.println("tata44 :" + CURRENT_CONTACT_LIST +" : "+ CURRENT_CONTACT_LIST.contains(contactId));			
 			if (CURRENT_CONTACT_LIST.contains(contactId))
 			   if( attendances!=null)	
 				for (int y = 0; y < attendances.length; y++){
-	//System.err.println( "tata44.1: "+ attendances[y] +" : "+ contactId +" : "+(attendances[y].equals(contactId)));				
 					if (attendances[y].equals(contactId))
 						isExists = true;
 				}
 			if (!isExists){
-//System.err.println("tata removing atte "+ contactId);				
+				
 				attendances_toRm.add(contactId);
 			}
 		}
 
 		for (int i = 0; i < attendances_toRm.size(); i++)
 			Attendances.remove(attendances_toRm.get(i));
-//System.err.println("tata final atten "+ Attendances);
+
 		String _attendances = "";
 		if (Attendances != null)
 			for (int i = 0; i < Attendances.size(); i++)
 				_attendances += Attendances.get(i) + ",";
 
 		ATTENDANCES.setUsers(_attendances);
+		ATTENDANCES.setTotal(contacts.size());
 		setAchievement(user, troop, mid, ATTENDANCES);
 
 		return false;
 	}
+	
+	
 
 }

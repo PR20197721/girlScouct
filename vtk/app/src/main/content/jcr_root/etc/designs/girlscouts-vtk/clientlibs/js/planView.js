@@ -66,19 +66,23 @@ function createCustAgendaItem1(mid, time, mPath){
 //no reload
 function createCustAgendaItem2(mid, time, mPath){
 	
-	//console.log(mid +" : "+ time +" : "+ mPath);
+
 	
 	var newCustAgendaName = document.getElementById("newCustAgendaName").value;
 	if( $.trim(newCustAgendaName)==''){alert("Please fill agenda name"); return false;}
 	var newCustAgendaDuration= document.getElementById("newCustAgendaDuration").value;
+	
+	if( newCustAgendaDuration<1){alert('Invalid Duration');return false;}
 	var createCustAgendaTxt = document.getElementById("newCustAgendaTxt").value;
 	var urlPath =mPath +"&duration="+newCustAgendaDuration+"&name="+ newCustAgendaName+"&startTime="+time+"&txt="+createCustAgendaTxt ;
+	
 	$.ajax({
 		url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=CreateCustomAgenda&newCustAgendaName="+urlPath,
 		cache: false
 	}).done(function( html ) {
 		//document.location="/content/girlscouts-vtk/en/vtk.planView.html?elem="+mid;
-		location.reload("true");
+		//-location.reload("true");
+		$('#modal_popup').foundation('reveal', 'close');
 	});
 }
 
