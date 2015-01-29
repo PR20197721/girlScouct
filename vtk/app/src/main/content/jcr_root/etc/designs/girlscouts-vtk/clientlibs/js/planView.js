@@ -293,6 +293,7 @@ function updateAttendAchvm(mid){
 			console.log("closing...");
 			
 			$('#modal_popup').foundation('reveal', 'close');
+			location.reload();
 		}
 	});
 	return;

@@ -176,12 +176,14 @@ resizeWindow();
 
     var MeetingImg = React.createClass({
         render: function() {
-  		var src= "/content/dam/girlscouts-vtk/local/icon/meetings/"+ this.props.mid +".png";
+  		  var src= "/content/dam/girlscouts-vtk/local/icon/meetings/"+ this.props.mid +".png";
 
-          var imgReturn=src;
-         if( !imageExists( src ) ){ imgReturn=""; }
+          var imgReturn="";
+         if( !imageExists( src ) ){ 
+            imgReturn="hide"; 
+         }
             return (
-      	     	<img src={imgReturn}/>
+      	     	<img src={src} className={imgReturn}/>
              );
           
         }

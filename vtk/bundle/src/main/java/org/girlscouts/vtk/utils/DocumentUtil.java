@@ -54,13 +54,15 @@ public class DocumentUtil {
 		
 		//Get all the tags
 		this.allTags = new LinkedList<TagHolder>();
-		Iterator<Resource> tagIterator = this.tagsDirectory.getChildren().iterator();
-		while(tagIterator.hasNext()){
-			Resource tagResource = tagIterator.next();
-			System.err.println("Tag Name: " + tagResource.getName());
-			Node tempNode = tagResource.adaptTo(Node.class);
-			System.err.println("Tag Title: " + tempNode.getProperty("jcr:title").getString());
-			this.allTags.add(new TagHolder(tempNode.getProperty("jcr:title").getString(), this.tagIdPrefix + tempNode.getName()));
+		if(tagsDirectory!=null){
+			Iterator<Resource> tagIterator = this.tagsDirectory.getChildren().iterator();
+			while(tagIterator.hasNext()){
+				Resource tagResource = tagIterator.next();
+				System.err.println("Tag Name: " + tagResource.getName());
+				Node tempNode = tagResource.adaptTo(Node.class);
+				System.err.println("Tag Title: " + tempNode.getProperty("jcr:title").getString());
+				this.allTags.add(new TagHolder(tempNode.getProperty("jcr:title").getString(), this.tagIdPrefix + tempNode.getName()));
+			}
 		}
 		
 		
