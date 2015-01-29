@@ -70,7 +70,7 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 		</div>
 	</div>
 	<input type="button" value="save" id="saveCalElem" class="button btn right"/>
-	
+	<div id="dialog-confirm"></div>
 	
 
 </div>
@@ -142,9 +142,11 @@ $().ready(function() {
 $('#saveCalElem').click(function() {
 
 	if($('#cclRadio').prop('checked')){
-		   var r = $("#meeting_select option:selected").val();
-		   var isProceed = confirm("Make sure you want to cancel the meeting? This will remove the meeting from the calendar and you will have <%=(sched.size()-1)%> meetings instead of <%=sched.size()%> meetings this year");
-  	   if( isProceed == true ) {rmMeeting('<%=date.getTime()%>',r); }
+		   //var r = $("#meeting_select option:selected").val();
+		   //var isProceed = confirm("Make sure you want to cancel the meeting? This will remove the meeting from the calendar and you will have <%=(sched.size()-1)%> meetings instead of <%=sched.size()%> meetings this year");
+  	   //if( isProceed == true ) {rmMeeting('<%=date.getTime()%>',r); }
+  	   
+		   fnOpenNormalDialog();
 	}
 	else if($("#cngRadio").prop("checked")){
 		
@@ -170,4 +172,30 @@ $('#saveCalElem').click(function() {
 //	var date= document.getElementById("cngDate0").value;
 //	return true;
 //}
+
+
+function fnOpenNormalDialog() {
+    $("#dialog-confirm").html("Make sure you want to cancel the meeting? This will remove the meeting from the calendar and you will have <%=(sched.size()-1)%> meetings instead of <%=sched.size()%> meetings this year");
+
+    // Define the Dialog and its properties.
+    $("#dialog-confirm").dialog({
+        resizable: false,
+        modal: true,
+        title: "Anna fix this tata",
+        height: 250,
+        width: 400,
+        
+        buttons: {
+            "go ahead,cancel the meeting": function () {
+                $(this).dialog('close');
+                var r = $("#meeting_select option:selected").val();
+                rmMeeting('<%=date.getTime()%>',r);
+            },
+                "Return to Specify Dates and Locations": function () {
+                $(this).dialog('close');
+                //take back to org pop
+            }
+        }
+    });
+}
 </script> 
