@@ -123,7 +123,7 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 			modal:true,
 			height:dHeight,
 			dialogClass:"modalWrap",
-			show:375,
+			show:375,	
 			open: function() {
 				if (!showTitle) {
 					$(".ui-dialog-titlebar").hide();
@@ -144,6 +144,7 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 			width:dWidth,
 			modal:true,
 			dialogClass:"modalWrap",
+
 			show:375,
 			open: function() {
 				if (!showTitle) {
@@ -515,11 +516,11 @@ function printDiv(x) {
         popupWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</html>');
         popupWin.document.close();
 }
-function showAlterYearPlanStartDate(fromDate){
+function showAlterYearPlanStartDate(fromDate, mCountUpd){
 
 	//$("#calMng").load("/content/girlscouts-vtk/controllers/vtk.include.calendarAlterStartDate.html?isNew=false");
 	//	newLocCal();
-	loadModalPage('/content/girlscouts-vtk/controllers/vtk.locations.html?alterYPStartDate='+ fromDate, false, null, true, false);
+	loadModalPage('/content/girlscouts-vtk/controllers/vtk.locations.html?alterYPStartDate='+ fromDate+'&mCountUpd='+ mCountUpd, false, null, true, false);
 	}
 
 

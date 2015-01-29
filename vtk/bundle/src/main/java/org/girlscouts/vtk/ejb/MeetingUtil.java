@@ -70,6 +70,9 @@ public class MeetingUtil {
 	@Reference
 	TroopDAO troopDAO; // 1/20/15
 
+	 java.text.SimpleDateFormat FORMAT_MMddYYYY = new java.text.SimpleDateFormat(
+				"MM/dd/yyyy");
+	 
 	public java.util.List<MeetingE> updateMeetingPos(
 			java.util.List<MeetingE> orgMeetings,
 			java.util.List<Integer> newPoss) {
@@ -1136,6 +1139,16 @@ public class MeetingUtil {
 		if (dates.endsWith(","))
 			dates = dates.substring(0, dates.length() - 1);
 		troop.getYearPlan().getSchedule().setDates(dates);
+		
+		String exclDates = troop.getYearPlan().getCalExclWeeksOf();
+		exclDates =  exclDates ==null ? "" : exclDates;
+		if( exclDates.endsWith(",") || exclDates.equals(""))
+			exclDates += FORMAT_MMddYYYY.format(new java.util.Date( dateToRm)) +",";
+		else
+			exclDates += "," +FORMAT_MMddYYYY.format(new java.util.Date( dateToRm)) +",";
+		troop.getYearPlan().setCalExclWeeksOf(exclDates);
+		
+		
 		troopUtil.updateTroop(user, troop);
 		isRemoved = true;
 		return isRemoved;
@@ -1225,6 +1238,7 @@ public class MeetingUtil {
 				_attendances += Attendances.get(i) + ",";
 
 		ATTENDANCES.setUsers(_attendances);
+		ATTENDANCES.setTotal(contacts.size());
 		setAttendance(user, troop, mid, ATTENDANCES);
 
 		return false;
@@ -1329,6 +1343,7 @@ public class MeetingUtil {
 				_attendances += Attendances.get(i) + ",";
 
 		ATTENDANCES.setUsers(_attendances);
+		ATTENDANCES.setTotal(contacts.size());
 		setAchievement(user, troop, mid, ATTENDANCES);
 
 		return false;

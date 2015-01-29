@@ -5,6 +5,15 @@ String mid = planView.getYearPlanComponent().getUid();
 MeetingE meeting = (MeetingE)planView.getYearPlanComponent();
 
 
+Attendance attendance = meetingUtil.getAttendance( user,  troop,  meeting.getPath()+"/attendance");
+int attendanceCurrent=0, attendanceTotal=0;
+
+
+if( attendance !=null && attendance.getUsers()!=null ){
+	attendanceCurrent = new StringTokenizer( attendance.getUsers(), ",").countTokens();
+	attendanceTotal= attendance.getTotal();
+}
+
 
 Location loc = null;
 if( meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null ) {
@@ -14,6 +23,10 @@ if( meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null )
 		}
 	}
 }
+
+pageContext.setAttribute("MEETING_ATTENDANCE_TOTAL", attendanceTotal);
+pageContext.setAttribute("MEETING_ATTENDANCE_CURRENT", attendanceCurrent);
+
 pageContext.setAttribute("MEETING_PATH", meeting.getPath());
 pageContext.setAttribute("PLANVIEW_TIME", Long.valueOf(planView.getSearchDate().getTime()));
 pageContext.setAttribute("DETAIL_TYPE", "meeting");
@@ -273,7 +286,7 @@ agendaSched=null;
           }
         },
         componentDidMount: function() {
-
+ resizeWindow();
           var dom = $(this.getDOMNode());
           var onReorder = this.props.onReorder;
           dom.sortable({
