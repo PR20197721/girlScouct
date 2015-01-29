@@ -177,9 +177,13 @@ resizeWindow();
     var MeetingImg = React.createClass({
         render: function() {
   		var src= "/content/dam/girlscouts-vtk/local/icon/meetings/"+ this.props.mid +".png";
-          return (
-      		<img src={src} onerror="this.style.display='none';"/>
-          );
+
+          var imgReturn=src;
+         if( !imageExists( src ) ){ imgReturn=""; }
+            return (
+      	     	<img src={imgReturn}/>
+             );
+          
         }
       });
 
@@ -221,6 +225,17 @@ function testrr(obj, comment){
  }else{
     return "bg-square";
  }
+}
+
+function imageExists(image_url){
+
+    var http = new XMLHttpRequest();
+
+    http.open('HEAD', image_url, false);
+    http.send();
+
+    return http.status != 404;
+
 }
       </script>  
     </div>
