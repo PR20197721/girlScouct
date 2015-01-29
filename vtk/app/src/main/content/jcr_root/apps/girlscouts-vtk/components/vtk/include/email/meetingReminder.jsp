@@ -204,6 +204,7 @@
 		if(email.length){
 		    if(!emailReg.test(email)){
 		    	//$('#email_to_cc') label turn red or input background turn red
+		    	$('.scroll').scrollTop($('#email_to_cc').position().top);
 	            alert("Please enter valid email addresses");
 	    	    return false;
 	        }
