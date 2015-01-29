@@ -40,20 +40,20 @@ var $ = jQuery.noConflict();
 				var popup_h = (window_h - 50);
 				$(this).find('.scroll').css('max-height' , ($(window).height()-50)+'px');
 			});
-			$('#gsModal').css({
-  			'max-height': $(window).height()+'px !important',
-  			'height': '100% !important',
-  		});
+			// $('#gsModal').css({
+  	// 		'max-height': $(window).height()+'px !important',
+  	// 		'height': '100% !important',
+  	// 	});
 		}
 		function modal_height_resize() {
     	var window_h = $(window).height();
     	var popup_h = (window_h - 50);
   		$('.scroll').css('max-height' , ($(window).height()-50)+'px');
   		$('.modalWrap').css('max-height' , $(window).height()+'px');
-			$('#gsModal').css({
-  			'max-height': $(window).height()+'px !important',
-  			'height': '100% !important',
-  		});
+			// $('#gsModal').css({
+  	// 		'max-height': $(window).height()+'px !important',
+  	// 		'height': '100% !important',
+  	// 	});
 		}
 	function validate_image() {
 		$('form#frmImg').submit(function(e) {

@@ -71,7 +71,7 @@ function reloadMeeting(){
 }
 
 function newActivity(){
-        loadModalPage('/content/girlscouts-vtk/controllers/vtk.newCustomActivity.html', false, "", true);
+        loadModalPage('/content/girlscouts-vtk/controllers/vtk.newCustomActivity.html', false, null, true, false);
 }
 
 function addExistActivity(activityId){
@@ -94,7 +94,7 @@ function resetModalPage() {
 }
 
 function loadModalPage(link, showTitle, title, fullPageScroll, print) {
-	resetModalPage();
+		resetModalPage();
         $( "#gsModal" ).load(link, function( response, status, xhr ) {
                 if ( status == "error" ) {
                         var msg = "Sorry but there was an error: ";
@@ -109,7 +109,8 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 	var wWidth = $(window).width();
 	var wHeight = $(window).height();
 	var dWidth = wWidth * 0.95; //this will make the dialog 80% of the
-	var dHeight = wHeight ;
+	var dHeight = wHeight * 0.95;
+	var tHeight = $(window).height() 
 	if (dWidth >960) {
 		dWidth = 960; // max-width: 60em;
 	}
@@ -119,22 +120,25 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 	}
 	if (fullPageScroll) {
 		dialog = $( divSelector ).dialog({
-			width:dWidth,
-			modal:true,
-			height:dHeight,
-			position: { my: "center top", at: "center top" },
-			dialogClass:"modalWrap",
-			show:375,	
+			dialogClass: "modalWrap",
+			modal: true,
+			show: 375,
+			width: dWidth,
+			height: wHeight,
+			maxHight: wHeight,
 			open: function() {
+				$('.scroll').css('max-height' , $(window).height()+'px');
+				$("body").css({ overflow: 'hidden' });
+				// $(".modalWrap").css({
+				// 	'max-height': $(window).height() + 'px !important',
+				// 	'height': $(window).height() + 'px !important'
+				// 	});
 				if (!showTitle) {
 					$(".ui-dialog-titlebar").hide();
-                                        $('.scroll').css({'max-height': dHeight});
 				} else {
 					$("span.ui-dialog-title").html(title);
 					$(".ui-dialog-titlebar").show();
 				}
-				$("body").css({ overflow: 'hidden' });
-				$(this).css({overflow: 'hidden'});
 			},
 			close: function() {
 				$("body").css({ overflow: 'inherit' });
@@ -146,7 +150,6 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 			modal:true,
 			dialogClass:"modalWrap",
 			show:375,
-                        position: { my: "center top", at: "center top" },
 			open: function() {
 				if (!showTitle) {
 					$(".ui-dialog-titlebar").hide();
@@ -498,11 +501,11 @@ function bindAssetToYPC(assetId, ypcId){
 
 
 function doMeetingLib(){
-	loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html', false, null, true);
+	loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html', false, null, true, false);
 }
 
 function doHelp(isSched){
-	loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html', false);
+	loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html', false, null, true, false);
 }
 
 
