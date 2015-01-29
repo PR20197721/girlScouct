@@ -8,10 +8,17 @@ MeetingE meeting = (MeetingE)planView.getYearPlanComponent();
 Attendance attendance = meetingUtil.getAttendance( user,  troop,  meeting.getPath()+"/attendance");
 int attendanceCurrent=0, attendanceTotal=0;
 
-
 if( attendance !=null && attendance.getUsers()!=null ){
 	attendanceCurrent = new StringTokenizer( attendance.getUsers(), ",").countTokens();
 	attendanceTotal= attendance.getTotal();
+}
+
+Achievement achievement = meetingUtil.getAchievement( user,  troop,  meeting.getPath()+"/achievement");
+int achievementCurrent=0;//, achievementTotal=0;
+
+if( achievement !=null && achievement.getUsers()!=null ){
+	achievementCurrent = new StringTokenizer( achievement.getUsers(), ",").countTokens();
+	//achievementTotal= achievement.getTotal();
 }
 
 
@@ -24,6 +31,8 @@ if( meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null )
 	}
 }
 
+//pageContext.setAttribute("MEETING_achievement_TOTAL", achievementTotal);
+pageContext.setAttribute("MEETING_achievement_CURRENT", achievementCurrent);
 pageContext.setAttribute("MEETING_ATTENDANCE_TOTAL", attendanceTotal);
 pageContext.setAttribute("MEETING_ATTENDANCE_CURRENT", attendanceCurrent);
 
