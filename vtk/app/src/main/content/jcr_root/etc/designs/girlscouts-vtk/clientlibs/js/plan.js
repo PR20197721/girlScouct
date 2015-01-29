@@ -109,7 +109,7 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 	var wWidth = $(window).width();
 	var wHeight = $(window).height();
 	var dWidth = wWidth * 0.95; //this will make the dialog 80% of the
-	var dHeight = wHeight * 0.95;
+	var dHeight = wHeight ;
 	if (dWidth >960) {
 		dWidth = 960; // max-width: 60em;
 	}
@@ -122,12 +122,13 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 			width:dWidth,
 			modal:true,
 			height:dHeight,
+			position: { my: "center top", at: "center top" },
 			dialogClass:"modalWrap",
 			show:375,	
 			open: function() {
 				if (!showTitle) {
 					$(".ui-dialog-titlebar").hide();
-					$('.scroll').css({'max-height': dHeight});
+                                        $('.scroll').css({'max-height': dHeight});
 				} else {
 					$("span.ui-dialog-title").html(title);
 					$(".ui-dialog-titlebar").show();
@@ -144,8 +145,8 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 			width:dWidth,
 			modal:true,
 			dialogClass:"modalWrap",
-
 			show:375,
+                        position: { my: "center top", at: "center top" },
 			open: function() {
 				if (!showTitle) {
 					$(".ui-dialog-titlebar").hide();
