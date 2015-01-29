@@ -17,7 +17,7 @@
             <!--if activity detail page-->
             <% switch(meetingUtil.planView(user, troop, request).getYearPlanComponent().getType() ) {
               case ACTIVITY:
-                //Activity activity = (Activity)meetingUtil.planView(user, troop, request).getYearPlanComponent();
+                Activity activity = (Activity)meetingUtil.planView(user, troop, request).getYearPlanComponent();
                 if( activity.getIsEditable() ){%>
                 <li><a href="#" onclick="doEditActivity('editCustActiv')">edit activity</a></li>
               <% }
