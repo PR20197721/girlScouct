@@ -15,18 +15,18 @@
           <!-- if on Meeting Detail Page-->
             <% if("planView".equals(activeTab)) { %>
             <!--if activity detail page-->
-            <%switch(meetingUtil.planView(user, troop, request).getYearPlanComponent().getType() ) {
-            case ACTIVITY:
-              Activity activity = (Activity)meetingUtil.planView(user, troop, request).getYearPlanComponent();
-              if( activity.getIsEditable() ){%>
-              <li><a href="#" onclick="doEditActivity('editCustActiv')">edit activity</a></li>
-            <% }
-              if ( !(activity.getCancelled()!=null && activity.getCancelled().equals("true") ) && 
-              activity.getRegisterUrl()  !=null && !activity.getRegisterUrl().equals("")){%>
-              <li><a href="<%=activity.getRegisterUrl()%>" class="button linkButton" target="_blank">Register for this event</a></li><%
-              } %>
-                <li><a href="javascript:rmCustActivity12(aPath)">delete this activity</a></li><% 
-                
+            <% switch(meetingUtil.planView(user, troop, request).getYearPlanComponent().getType() ) {
+              case ACTIVITY:
+                //Activity activity = (Activity)meetingUtil.planView(user, troop, request).getYearPlanComponent();
+                if( activity.getIsEditable() ){%>
+                <li><a href="#" onclick="doEditActivity('editCustActiv')">edit activity</a></li>
+              <% }
+                if ( !(activity.getCancelled()!=null && activity.getCancelled().equals("true") ) && 
+                activity.getRegisterUrl()  !=null && !activity.getRegisterUrl().equals("")){%>
+                <li><a href="<%=activity.getRegisterUrl()%>" class="button linkButton" target="_blank">Register for this event</a></li><%
+                } %>
+                  <li><a href="javascript:rmCustActivity12(aPath)">delete this activity</a></li><% 
+                  
             case MEETING:
               try {	Object meetingPath = pageContext.getAttribute("MEETING_PATH");
                       if (meetingPath != null && meetingPath != "") {

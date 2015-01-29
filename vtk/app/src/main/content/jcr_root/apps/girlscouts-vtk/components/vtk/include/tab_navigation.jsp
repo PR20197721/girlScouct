@@ -96,8 +96,8 @@
                       te.printStackTrace();
                 } %>
 
-            <%  Object activityPath = pageContext.getAttribute("ACTIVITY_PATH");
-              if (activityPath != null) {
+            <%  //Object activityPath = pageContext.getAttribute("ACTIVITY_PATH");
+              //if (activityPath != null) {
                 Activity activity = (Activity)meetingUtil.planView(user, troop, request).getYearPlanComponent();
                 if( activity.getIsEditable() ) { %>
                   <li><a href="#" onclick="doEditActivity('editCustActiv')">edit activity</a></li>
@@ -107,7 +107,7 @@
               <% } %>
                 <li><a href="javascript:rmCustActivity12(aPath)">delete this activity</a></li><% 
             %>
-            <% } %>
+            <%//} %>
             </ul>
           </li>
           <li <%= ("resource".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.resource.html">Resources</a></li>
