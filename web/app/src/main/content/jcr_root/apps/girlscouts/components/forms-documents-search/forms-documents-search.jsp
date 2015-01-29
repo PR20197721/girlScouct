@@ -116,10 +116,15 @@ try{
 		String pth = docHit.getURL();
 		String title = docHit.getTitle();
 		String description = docHit.getDescription();
-		
-		// Temporary Hit fix for handling multiple description and title
-		
+
 		Node node = resourceResolver.resolve(hit.getPath()).adaptTo(Node.class);
+
+        //GSWS-132: Prevents unwanted (page) results
+        if(!node.hasNode("jcr:content/metadata")){
+            continue;
+        }
+
+		// Temporary Hit fix for handling multiple description and title
 		if(title.indexOf(".pdf")>0 || title.indexOf(".doc")>0 || title.indexOf(".docx")>0  ) {
 			if(node.hasNode("jcr:content/metadata")) {
 				Node metadata = node.getNode("jcr:content/metadata");
