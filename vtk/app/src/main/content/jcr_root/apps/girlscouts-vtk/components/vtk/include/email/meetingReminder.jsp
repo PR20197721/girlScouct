@@ -109,7 +109,7 @@
 				<th>Add to Email</th>
 			</tr>
 			<%
-			List<Asset> aidTags = planView.getAidTags();
+			//List<Asset> aidTags = planView.getAidTags();
 			for(int i=0;i<planView.getAidTags().size();i++){%>
 			 <tr>
 				<td><%= planView.getAidTags().get(i).getTitle() %></td>
