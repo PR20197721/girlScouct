@@ -176,7 +176,7 @@ try{
 <%
 		if (q != null && !q.isEmpty()) {
 			String excerpt = docHit.getExcerpt();
-			if(excerpt!=null && !"".equals(excerpt) && description==null) {
+			if(excerpt!=null && !"".equals(excerpt) && (description==null || "".equals(description))) {
 %>
 				<div><%= excerpt %></div>
 <%
