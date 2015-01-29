@@ -33,7 +33,7 @@
   }
 }
 $(document).ready(function(){
- resizeWindow();
+ //resizeWindow();
  addClassGrid();
 })
 $(window).load(function(){
@@ -42,13 +42,13 @@ $(window).load(function(){
   var windowHeight = $(window).height();
   var targetMainHeight = (windowHeight-currentMainHeight);
   if(targetMainHeight != 0) {
-    resizeWindow();
+ //   resizeWindow();
   }
 })
 $(window).resize(function() {
  //first remove the padding added after reload.
   $('.vtk-body #main .row.content').css('padding-bottom','');
   $('#main.content').css('padding-bottom','');
-  resizeWindow();
+  //resizeWindow();
   addClassGrid(); 
 });

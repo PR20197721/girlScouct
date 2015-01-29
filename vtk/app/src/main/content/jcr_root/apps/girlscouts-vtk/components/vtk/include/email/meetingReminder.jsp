@@ -114,7 +114,7 @@
       		// List<Asset> aidTags = planView.getAidTags();
       		for(int i=0;i<planView.getAidTags().size();i++) { %>
       		<li><i class="icon-pdf-file-extension"><span class="color-overlay"></span></i><span class="name"><%= planView.getAidTags().get(i).getTitle() %></span></li>
-      		<li><a class="add-links" href="#nogo" title="add" onclick="addAidLink('<%=planView.getAidTags().get(i).getRefId()%>','<%=planView.getAidTags().get(i).getTitle()%>','<%=((MeetingE)planView.getYearPlanComponent()).getUid() %>')"><i class="icon-button-circle-plus"></i></a></li>
+      		<li><a class="add-links" data-reveal-id="notification" title="add" onclick="addAidLink('<%=planView.getAidTags().get(i).getRefId()%>','<%=planView.getAidTags().get(i).getTitle()%>','<%=((MeetingE)planView.getYearPlanComponent()).getUid() %>')"><i class="icon-button-circle-plus"></i></a></li>
       	<%}%>
       	</ul>
 	    </div>
@@ -161,7 +161,6 @@
 <p>Added to email.</p>
 </div>
 
-
 <script>
 	$(document).ready(function(){
 		//print out the date the email was sent.TBD
@@ -194,7 +193,6 @@
 	    setTimeout(function() {
 	    	$('.added').dialog('close');
 	    }, 500);
-
 		//addAidToEmail(refId,title,uid);
 		return;
 	};
