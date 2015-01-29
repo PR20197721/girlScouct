@@ -193,7 +193,7 @@ function fnOpenNormalDialog() {
             },
                 "Return to Specify Dates and Locations": function () {
                 $(this).dialog('close');
-                //take back to org pop
+                newLocCal();
             }
         }
     });
