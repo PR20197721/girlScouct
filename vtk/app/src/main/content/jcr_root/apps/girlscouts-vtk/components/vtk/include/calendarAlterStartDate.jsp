@@ -8,11 +8,13 @@
 
   <%	
   	String startAlterDate = request.getParameter("alterYPStartDate") ==null ? "" : request.getParameter("alterYPStartDate");
-System.err.println("tatataa: "+ startAlterDate);
+
   %>
 
 <form class="clearfix">
+<%if(startAlterDate!=null && !startAlterDate.equals("") ){ %>
   <p>Configure <%=request.getParameter("mCountUpd") %> meeting dates starting on or after <%=FORMAT_MMddYYYY.format( new java.util.Date(Long.parseLong(startAlterDate))) %>:</p>
+<%} %>  
   <input type="hidden" id="orgDt" name="orgDt" value="<%=( startAlterDate!=null && !startAlterDate.trim().equals("")) ? startAlterDate:( troop.getYearPlan().getCalStartDate()==null ? "" : new java.util.Date(troop.getYearPlan().getCalStartDate()).getTime() ) %>"/>   
   <section class="clearfix">
 
