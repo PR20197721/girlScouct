@@ -1,3 +1,5 @@
+
+<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 <div class="content clearfix">
 
 <% //if(planView.getYearPlanComponent().getType()==YearPlanComponentType.ACTIVITY){
@@ -9,17 +11,11 @@
 		//MeetingE meeting = (MeetingE)planView.getYearPlanComponent();
 		//Meeting meetingInfo = meeting.getMeetingInfo();
 		//Date searchDate = planView.getSearchDate();
-	Calendar c = Calendar.getInstance();
-	c.setTime(planView.getSearchDate());
-	c.add(Calendar.MINUTE, planView.getMeetingLength());
-	Date meetingEndDate = c.getTime();
-	Date searchDate = planView.getSearchDate();
-	
 %>
 
 	<h4>Reminder Meeting #<%=planView.getMeetingCount()%>
-	  <%= FORMAT_MEETING_REMINDER.format(searchDate) %> - <%=FORMAT_hhmm_AMPM.format(meetingEndDate)%></h4>
-
+	  <%= FORMAT_MEETING_REMINDER.format(planView.getSearchDate()) %></h4>
+	
 
 	<p class="sent">Sent: None</p>
 
@@ -47,7 +43,7 @@
 	<h6>Compose Email</h6>
 	<section class="clearfix">
 		<label for="email_subj">Subject:</label>
-		<input type="text" id="email_subj" value="Reminder <%=troop.getTroop().getGradeLevel() %> Meeting #<%=planView.getMeetingCount()%> <%= FORMAT_MEETING_REMINDER.format(searchDate) %> - <%=FORMAT_hhmm_AMPM.format(meetingEndDate)%>" />
+		<input type="text" id="email_subj" value="Reminder <%=troop.getTroop().getGradeLevel() %> Meeting #<%=planView.getMeetingCount()%> <%= FORMAT_MEETING_REMINDER.format(planView.getSearchDate()) %>" />
 	</section>
 
 	<div style="background-color:yellow;"></div>
@@ -57,7 +53,7 @@
 		<br/><br/>Here are the details of our next meeting:
 		<table>
 			<tr><th>Date:</th>
-				<td><%= FORMAT_MEETING_REMINDER.format(searchDate)%> - <%=FORMAT_hhmm_AMPM.format(meetingEndDate)%></td>
+				<td><%= FORMAT_MEETING_REMINDER.format(planView.getSearchDate()) %></td>
 			</tr>
 			<tr><th>Location:</th>
 				<td><%
@@ -98,12 +94,44 @@
 		<div id="aidLinks">
 			<p class="hide">Aids Included: </p>
 		</div>
-
 		<br/><br/>
 		<div id="formLinks">
 			<p class="hide">Form(s) Required</p>
 		</div>
 	</textarea>
+	
+
+<!-- 	<div id="ima">
+		<div id="imaBd">
+		<table>
+			<tr>
+				<th>&nbsp;</th>
+				<th>Add to Email</th>
+			</tr>
+			<%
+			List<Asset> aidTags = planView.getAidTags();
+			for(int i=0;i<planView.getAidTags().size();i++){%>
+			 <tr>
+				<td><%= planView.getAidTags().get(i).getTitle() %></td>
+			 	<td><a onclick="addAidLink('<%=planView.getAidTags().get(i).getRefId()%>','<%=planView.getAidTags().get(i).getTitle()%>','<%=((MeetingE)planView.getYearPlanComponent()).getUid() %>')" class="addAidToEmail"> + </a></td>
+			 	
+			 </tr>
+			 <%}%>
+		</table>
+		</div>
+	</div> -->
+<!-- 	<div id="ifl">
+	<div id="iflBd"> -->
+	<%/*form needed
+		for(int i=0;i<_forms.size();i++){
+		String formName;
+		String formurl;%>
+	
+		<input type="checkbox" id="<%=formname%>" onclick="addLinkToEmail(forms(i))"/><%=formname %>
+
+	<%}*/%>
+<!-- 	</div>
+	</div> -->
 	
 
 	<dl class="accordion" data-accordion>
@@ -122,8 +150,8 @@
 	  </dd>
 	 </dl>
 
+	
 
-	</div>
 	<dl class="accordion" data-accordion>
 	  <dt data-target="panel2"><h6>Include Form Link</h6></dt>
 	  <dd class="accordion-navigation">
@@ -150,8 +178,8 @@
 			<%
 			            Document tempDoc = tempCategory.getNextDocument();
 			            while(tempDoc != null){
-			            	 %><li><span><%=tempDoc.getName()%></span></li> 
-			            	 	<li><a href="" title="add form"><i class="icon-button-circle-plus"></i></a></li> <%
+			            	 %><li><span><%=tempDoc.getTitle()%></span></li> 
+			            	 	<li><a class="add-links" href="#nogo" title="add" onclick="addFormLink('<%=tempDoc.getPath()%>', '<%=tempDoc.getTitle()%>', 'panel<%=panelCount%>b')"><i class="icon-button-circle-plus"></i></a></li> <%
 			            	tempDoc = tempCategory.getNextDocument();
 			            }
 						tempCategory = docUtil.getNextCategory();
@@ -172,17 +200,24 @@
 	 </div>
 	  </dd>
 	 </dl>
+	     
 	
-	<input type="button" value="Preview" onclick="previewMeetingReminderEmail('<%=meeting.getPath()%>','<%=meeting.getUid()%>')"/>
-	<input type="button" value="Send" onclick="sendMeetingReminderEmail()"/>
 	
-
+	
+	 <div class="right clearfix">
+		<input type="button" value="Save" class="button btn" onclick="previewMeetingReminderEmail('<%=((MeetingE)planView.getYearPlanComponent()).getUid()%>')"/>
+		<input class="button btn" value="Send email" type="button" onclick="sendMeetingReminderEmail()"/>
+	</div>
+	
+	
+	<div id="added">
+		<p>Added to email.</p>
+	</div>
+	
 </div>
 <!--//content-->
 <% //}%>
-<div class="added" style="display:none">
-<p>Added to email.</p>
-</div>
+
 
 
 <script>
@@ -193,7 +228,7 @@
 		 } else {
 		  $('.sent').append('none');
 		 } */
-		 $(".added").dialog({ autoOpen: false });
+		 $('#added').dialog({ autoOpen: false, zIndex: 200 });
 
 	});
 	
@@ -205,22 +240,33 @@
 		"strike": false,
 		"fsizes": ['10','12','14','16','18','20','22','24','28','32']
 	});
-	function addFormLink(link){
-
-		$('textarea #emailhtm .formLinks').append('<a href="'+formurl+'">'+formname+'/a>');
+	function addFormLink(link, formname, categoryId){
+		$('#formLinks').append('<li><a href="'+link+'">'+formname+'</a></li>');
+		$('#formLinks p.hide').removeClass();
+		$("dt[data-target='" + categoryId + "'] span").removeClass('on');
+		$('.accordion #' + categoryId).slideToggle('slow');
+		$('.ui-dialog-titlebar').css('display', 'none');
+		$('#added').dialog('open');
+		$('.ui-dialog').css('z-index', 300);
+	    setTimeout(function() {
+	    	$('#added').dialog('close');
+	    }, 1000);
+	    
+		
 		return;
 	};
 	function addAidLink(refId,title,uid){
 		$('#aidLinks').append('<li><a href="'+refId+'">'+title+'</a></li>');
 		$('#aidLinks p.hide').removeClass();
 		//$('.addAidToEmail').text("-");
-		$('.added').dialog('open');
+		$('#added').dialog('open');
+		$('.ui-dialog-titlebar').css('display', 'none');
+		$('.ui-dialog').css('z-index', 300);
 	    setTimeout(function() {
-	    	$('.added').dialog('close');
-	    }, 500);
+	    	$('#added').dialog('close');
+	    }, 1000);
 
 		//addAidToEmail(refId,title,uid);
-
 		return;
 	};
 
