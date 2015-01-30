@@ -150,6 +150,17 @@ public class CouncilCreatorImpl implements CouncilCreator
 		return tags;
 	}
 	
+	public ArrayList<Page> generateDesign(Session session, ResourceResolver rr, String path, String councilName, String councilTitle) {
+		ArrayList<Page> design = new ArrayList<Page>();
+		final String designPath = "/etc/designs";
+		try {
+			
+		} catch(Exception e) {
+			
+		}
+		return design;
+	}
+	
 	public ArrayList<Group> generateGroups(Session session, ResourceResolver rr, String councilName, String councilTitle) {
 		ArrayList<Group> groupList = new ArrayList<Group>();
 		String homePath = "/home/groups";
