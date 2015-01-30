@@ -1,5 +1,4 @@
 
-<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 <div class="content clearfix">
 
 <% //if(planView.getYearPlanComponent().getType()==YearPlanComponentType.ACTIVITY){
@@ -240,17 +239,23 @@
 	function validate(){
 	    var emailReg = /^(([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?\;?)+$/;
 	    var email = $('#email_to_cc').val();
+	    var subject = $('#email_subj').val();
 		if(email.length){
 		    if(!emailReg.test(email)){
 		    	//$('#email_to_cc') label turn red or input background turn red
 		    	$('.scroll').scrollTop($('#email_to_cc').position().top);
-	            alert("Please enter valid email addresses");
+	            alert("Please enter valid email address(es).");
 	    	    return false;
 	        }
 		}else if (!$("input:checkbox:checked").length){
 	    	$('.scroll').scrollTop($('#email_to_cc').position().top);
-    		alert("Please select email recipients");
+    		alert("Address list can not be empty.");
 	    	return false;
+		}
+		if(!subject.length){
+	    	$('.scroll').scrollTop($('#email_subj').position().top);
+    		alert("Subject can not be empty.");
+    		return false;
 		}
 	    previewMeetingReminderEmail('<%=((MeetingE)planView.getYearPlanComponent()).getUid()%>');
 	    

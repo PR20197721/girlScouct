@@ -44,6 +44,7 @@
 	final TroopUtil troopUtil = sling.getService(TroopUtil.class);
 	final UserUtil userUtil = sling.getService(UserUtil.class);
 	final FinanceUtil financeUtil = sling.getService(FinanceUtil.class);
+	final SessionFactory sessionFactory = sling.getService(SessionFactory.class);
 	
 	//dont use
 	final TroopDAO troopDAO = sling.getService(TroopDAO.class);

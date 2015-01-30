@@ -1028,12 +1028,16 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 		} else if (request.getParameter("isRmTroopImg") != null) {
 
 			try {
+				
+				
+				Session __session = sessionFactory.getSession();
+				/*
 				Session __session = (Session) resourceResolver
 						.adaptTo(Session.class);
-				__session.removeItem("/vtk/"
-						+ troop.getTroop().getCouncilCode()
-						+ "/troops/" + troop.getTroop().getTroopId()
-						+ "/resources/troop_pic.png");
+				*/
+				String troopPhotoUrl = "/content/dam/girlscouts-vtk/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png";
+			    
+				__session.removeItem(troopPhotoUrl);
 				__session.save();
 			} catch (Exception e) {
 				e.printStackTrace();
