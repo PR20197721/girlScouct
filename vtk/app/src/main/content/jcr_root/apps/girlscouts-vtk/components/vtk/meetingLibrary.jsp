@@ -22,9 +22,9 @@
 	String find="";
 %>
   <div class="header clearfix">
-    <h3 class="columns large-10">Meeting Library</h3>
-    <span class="column large-12">HINT: meeting overviews are available under resources</span>
-    <a class="close-reveal-modal columns large-2" onclick="closeModalPage()"><i class="icon-button-circle-cross"></i></a>
+    <h3 class="columns small-10">Meeting Library</h3>
+    <span class="column small-11">HINT: meeting overviews are available under resources</span>
+    <a class="close-reveal-modal columns small-3" onclick="closeModalPage()"><i class="icon-button-circle-cross"></i></a>
   </div>
 
   <%
