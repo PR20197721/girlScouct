@@ -494,11 +494,21 @@
   margin-top: 0;
   border: none;
   box-shadow: none; }
+  .vtk-body #modal-meeting-reminder .jqte * {
+    font-family: "Open Sans", Arial, sans-serif !important; }
   .vtk-body #modal-meeting-reminder .jqte .jqte_toolbar {
     border: none;
     margin-bottom: 10px;
     background: #f6f6f6;
     padding: 10px 4px; }
+    .vtk-body #modal-meeting-reminder .jqte .jqte_toolbar .jqte_tool_label,
+    .vtk-body #modal-meeting-reminder .jqte .jqte_toolbar .jqte_tool {
+      border: none; }
+    .vtk-body #modal-meeting-reminder .jqte .jqte_toolbar .jqte_tool_label {
+      height: auto;
+      line-height: 1; }
+    .vtk-body #modal-meeting-reminder .jqte .jqte_toolbar .jqte_tool {
+      margin-right: 7px; }
   .vtk-body #modal-meeting-reminder .jqte .jqte_editor {
     border: solid 1px #efefef;
     box-shadow: inset 2px 2px 2px 0px #dddddd; }
@@ -992,6 +1002,8 @@
     .tab-wrapper.row .dropdown * {
       color: #565656;
       font-size: 14px; }
+    .tab-wrapper.row .dropdown li.active > a {
+      font-weight: bold; }
     .tab-wrapper.row .dropdown a.expand {
       display: block;
       padding: 10px;
@@ -1001,7 +1013,7 @@
         border-color: #000 transparent transparent transparent;
         content: "";
         position: absolute;
-        right: 16px; }
+        right: 20px; }
 
 .tabs dd {
   width: 16.666667%;

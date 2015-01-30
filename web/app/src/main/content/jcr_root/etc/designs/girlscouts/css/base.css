@@ -875,7 +875,9 @@ div.textimage.nowrap div.text p {
 /*#headerBar .srch-box.columns.search-box {
     padding-right:0;
 }*/
-
+#headerBar .small-search-hamburger.show-for-medium {
+  margin-top:6px;
+}
 #header .srch-box .small-2 {
   text-align: right;
 }

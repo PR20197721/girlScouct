@@ -46,7 +46,7 @@
       <div class="row vtk-login collapse">
         <% setCssClasses("small-19 columns", request); %>
         <cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
-        <div class="small-3 columns">
+        <div class="small-4 columns">
           <div class="small-search-hamburger">
              <% if(currentSite.get("hideSearch","false").equals("false")){ %>
               <a class="search-icon"><i class="icon-search-magnifying-glass"></i>

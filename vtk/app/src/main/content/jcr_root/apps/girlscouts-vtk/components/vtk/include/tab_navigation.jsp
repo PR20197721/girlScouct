@@ -75,11 +75,11 @@
           <li class='has-dropdown<%= ("plan".equals(activeTab)) ? " active" : " " %>'><a href="/content/girlscouts-vtk/en/vtk.html">Year Plan</a>
             <ul class="dropdown">
             <% if("plan".equals(activeTab)) { %>
-              <li><a href="#" onclick="newLocCal()">Specify Meeting Dates and Locations</a></li>
-              <li><a href="#" onclick="doMeetingLib()">Add Meeting</a></li>
-              <li><a href="#" onclick="newActivity()">Add Activity</a></li>
-              <li><a onclick="self.location = '/content/girlscouts-vtk/en/cal.ics'">Download Calendar</a></li>
-            <%}%>
+              <li><a onclick="newLocCal()">Specify Meeting Dates and Locations</a></li>
+              <li><a onclick="doMeetingLib()">Add Meeting</a></li>
+              <li><a onclick="newActivity()">Add Activity</a></li>
+              <li><a onclick="self.location='/content/girlscouts-vtk/en/cal.ics'">Download Calendar</a></li>
+            <% } %>
             </ul>
           </li>
           <%}%>
