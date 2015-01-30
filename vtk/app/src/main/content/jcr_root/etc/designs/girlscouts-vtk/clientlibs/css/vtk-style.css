@@ -992,6 +992,8 @@
     .tab-wrapper.row .dropdown * {
       color: #565656;
       font-size: 14px; }
+    .tab-wrapper.row .dropdown li.active > a {
+      font-weight: bold; }
     .tab-wrapper.row .dropdown a.expand {
       display: block;
       padding: 10px;
@@ -1001,7 +1003,7 @@
         border-color: #000 transparent transparent transparent;
         content: "";
         position: absolute;
-        right: 16px; }
+        right: 20px; }
 
 .tabs dd {
   width: 16.666667%;

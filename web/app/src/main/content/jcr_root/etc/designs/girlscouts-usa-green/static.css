@@ -283,6 +283,9 @@ a:hover.menuHighlight {
 #headerBar ul.inline-list li {
   line-height: 31px;
 }
+#headerBar .small-search-hamburger.show-for-medium {
+  margin-top:6px;
+}
 /* FOOTER */
 
 #footer {

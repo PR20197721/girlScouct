@@ -1353,6 +1353,11 @@
       color: #565656;
       font-size: 14px;
     }
+    li.active {
+      > a {
+        font-weight:bold;
+      }
+    }
     a.expand {
       display: block;
       padding: 10px;
@@ -1362,7 +1367,7 @@
         border-color: #000 transparent transparent transparent;
         content: "";
         position: absolute;
-        right: 16px;
+        right: 20px;
       }
     }
   }
