@@ -1,3 +1,5 @@
+
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
 
 <%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig,  org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
@@ -11,7 +13,10 @@
 
   %>
 
-<form class="clearfix2">
+
+
+
+
 <%if(startAlterDate!=null && !startAlterDate.equals("") ){ %>
   <p>Configure <%=request.getParameter("mCountUpd") %> meeting dates starting on or after <%=FORMAT_MMddYYYY.format( new java.util.Date(Long.parseLong(startAlterDate))) %>:</p>
 <%} %>  
@@ -46,6 +51,7 @@
       </select>
     </div>
   </section>
+
   <section class="clearfix holidays">
     <p>Do not schedule the meeting the week of:</p>
       <%
@@ -96,7 +102,7 @@
     </ul>
   </section>
   <button class="btn right" onclick="buildSched()">Update Calendar</button>
-</form>
+
 
 
 
@@ -104,5 +110,10 @@
 <script>
   //inicialize the calendar.
   $( "#calStartDt" ).datepicker();
-  
+ 
+  document.getElementById('gsModal').style.height = '1500px';
+  var show = $( "#gsModal" ).dialog( "option", "show" );
+  resetModalPage();
+  $("#gsModal").dialog( "close");
+
 </script>
