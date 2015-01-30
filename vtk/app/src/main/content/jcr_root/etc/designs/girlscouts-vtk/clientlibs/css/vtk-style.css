@@ -584,9 +584,7 @@
   .vtk-body .modalWrap #gsModal {
     background: #fff;
     padding: 0;
-    overflow: hidden !important;
-    height: 100% !important;
-    max-height: 100% !important; }
+    overflow: hidden !important; }
     .vtk-body .modalWrap #gsModal p, .vtk-body .modalWrap #gsModal a, .vtk-body .modalWrap #gsModal span, .vtk-body .modalWrap #gsModal li {
       font-size: 14px; }
   .vtk-body .modalWrap .header {
@@ -644,9 +642,12 @@
       width: 33.3333333%;
       float: left;
       background: #00ae57; }
+    .vtk-body .modalWrap .tabs-wrapper .tabs #createActivityTab,
+    .vtk-body .modalWrap .tabs-wrapper .tabs #pickActivityTab {
+      width: 50%; }
     .vtk-body .modalWrap .tabs-wrapper .tabs-content {
       background: #fff;
-      padding: 30px 20px 60px 20px;
+      padding: 30px 20px 0px 20px;
       margin: 0; }
       .vtk-body .modalWrap .tabs-wrapper .tabs-content table {
         width: 100%;
@@ -1073,7 +1074,11 @@ input[type="file"] {
 
   table, thead, tbody, th, td, tr {
     display: block;
-    width: 100%; } }
+    width: 100%; }
+
+  .modalWrap {
+    width: 100% !important;
+    max-width: 100% !important; } }
 @media only screen and (min-width: 40.063em) and (max-width: 60.063em) {
   .vtk-body #main .crumbs .columns #util-links.inline-list li:nth-of-type(2) {
     margin: 0 11px; } }
