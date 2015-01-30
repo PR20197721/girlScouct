@@ -293,5 +293,10 @@
             mode="replace"
             root="/etc/council-rollout"
             rules="[]"/>
+ 		 <f57
+            jcr:primaryType="nt:unstructured"
+            mode="replace"
+            root="/etc/designs/girlscouts-prototype"
+            rules="[]"/>
     </filter>
 </jcr:root>
