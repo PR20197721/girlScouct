@@ -10,7 +10,7 @@
       <%} else{%>
    		href="javascript:alert('You have not yet scheduled your meeting calendar.\nPlease select a year plan and schedule your meetings by clicking on the MEETING DATES AND LOCATION link.')"
    		<%} %> 
-   		title="Meeting Reminder Email">Meeting Reminder Email</a>
+   		title="Meeting Reminder Email">Edit/Sent Meeting Reminder Email</a>
   <% }%> 
   </li>
    <li>(2 sent - <a href="" title="view" className="view">view</a>)</li>

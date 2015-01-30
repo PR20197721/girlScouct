@@ -15,7 +15,7 @@
         <p>{this.props.cat}</p>
       </section>
     </div>
-    <div className="column large-7 medium-7 small-7">
+    <div className="column large-7 medium-7 small-7 text-right">
       <img src={this.props.meetingGlobalId} alt="badge" />
     </div>
   </div>

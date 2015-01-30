@@ -12,8 +12,7 @@ function x(planId, planPath, confirmMsg, planName) {
     		url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=isAltered&isAltered=chk",
     		cache: false
     	}).done(function( html ) {
-    		html= $.trim(html)
-    		
+    		html= $.trim(html)  		
     		if(html=='true')
     			if( !confirm("Are You Sure? You will lose customizations that you have made") ) return;
     	});
@@ -95,6 +94,7 @@ function resetModalPage() {
 
 function loadModalPage(link, showTitle, title, fullPageScroll, print) {
 		resetModalPage();
+		
         $( "#gsModal" ).load(link, function( response, status, xhr ) {
                 if ( status == "error" ) {
                         var msg = "Sorry but there was an error: ";
@@ -126,6 +126,7 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 			width: dWidth,
 			height: wHeight,
 			maxHight: wHeight,
+
 			open: function() {
 				$('.scroll').css('max-height' , $(window).height()+'px');
 				$("body").css({ overflow: 'hidden' });
@@ -139,6 +140,7 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 					$("span.ui-dialog-title").html(title);
 					$(".ui-dialog-titlebar").show();
 				}
+					
 			},
 			close: function() {
 				$("body").css({ overflow: 'inherit' });
@@ -150,6 +152,7 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 			modal:true,
 			dialogClass:"modalWrap",
 			show:375,
+	
 			open: function() {
 				if (!showTitle) {
 					$(".ui-dialog-titlebar").hide();
@@ -525,7 +528,8 @@ function showAlterYearPlanStartDate(fromDate, mCountUpd){
 	//$("#calMng").load("/content/girlscouts-vtk/controllers/vtk.include.calendarAlterStartDate.html?isNew=false");
 	//	newLocCal();
 	loadModalPage('/content/girlscouts-vtk/controllers/vtk.locations.html?alterYPStartDate='+ fromDate+'&mCountUpd='+ mCountUpd, false, null, true, false);
-	}
+	
+}
 
 
 function expiredcheck(ssId, ypId){

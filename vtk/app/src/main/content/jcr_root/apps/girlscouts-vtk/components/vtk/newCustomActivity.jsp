@@ -178,8 +178,8 @@
   %>
     <span class="warning"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/warning-small.png" width="20" height="20" align="left"/></span>
   <% } %>
-  <h3 class="columns large-22"><%= instruction %></h3>
-  <a class="close-reveal-modal columns large-2" onclick="closeModalPage()"  ><i class="icon-button-circle-cross"></i></a>
+  <h3 class="columns small-21"><%= instruction %></h3>
+  <a class="close-reveal-modal columns small-3" onclick="closeModalPage()"  ><i class="icon-button-circle-cross"></i></a>
 </div>
 
 <div class="tabs-wrapper scroll">
@@ -200,10 +200,10 @@
                 <input type="text" placeholder="Activity Name" name="newCustActivity_name" id="newCustActivity_name" value="" onchange="doChkSubmitValid()"/>
                 <!-- <span style="color:red;">*</span> -->
               </div>
-              <div class="small-24 large-3 medium-3 columns date">
+              <div class="small-21 large-3 medium-3 columns date">
                 <input type="text" id="newCustActivity_date" name="newCustActivity_date" placeholder="mm/dd/yyyy" class="date calendarField" onchange="doChkSubmitValid()"/><!-- <span style="color:red;">*</span> -->
               </div>
-              <div class="large-1 columns medium-1 small-1 date">
+              <div class="large-1 columns medium-1 small-3 date">
                 <label for="newCustActivity_date"><i class="icon-calendar"></i></label>
               </div>
               <div class="small-16 medium-2 large-2 columns">
@@ -281,16 +281,16 @@
               </div>
               <div class="columns large-10 medium-10 small-24 date">
                 <label id="dateTitle" ACCESSKEY="r">Date</label>
-                <div class="small-24 large-9 medium-9 columns">
+                <div class="small-21 large-9 medium-9 columns">
                   <input type="text" id="sch_startDate"  value="" placeholder="From" class="date calendarField"/>
                 </div>
-                <div class="large-3 columns medium-3 small-1">
+                <div class="large-3 columns medium-3 small-3">
                   <label for="sch_startDate"><i class="icon-calendar"></i></label>
                 </div>
-                <div class="small-24 large-9 medium-9 columns">
+                <div class="small-21 large-9 medium-9 columns">
                   <input type="text" id="sch_endDate"  value="" placeholder="To" class="date calendarField"/>
                 </div>
-                <div class="large-3 columns medium-3 small-1">
+                <div class="large-3 columns medium-3 small-3">
                   <label for="sch_endDate"><i class="icon-calendar"></i></label>
                 </div>
               </div>

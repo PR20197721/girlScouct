@@ -494,11 +494,21 @@
   margin-top: 0;
   border: none;
   box-shadow: none; }
+  .vtk-body #modal-meeting-reminder .jqte * {
+    font-family: "Open Sans", Arial, sans-serif !important; }
   .vtk-body #modal-meeting-reminder .jqte .jqte_toolbar {
     border: none;
     margin-bottom: 10px;
     background: #f6f6f6;
     padding: 10px 4px; }
+    .vtk-body #modal-meeting-reminder .jqte .jqte_toolbar .jqte_tool_label,
+    .vtk-body #modal-meeting-reminder .jqte .jqte_toolbar .jqte_tool {
+      border: none; }
+    .vtk-body #modal-meeting-reminder .jqte .jqte_toolbar .jqte_tool_label {
+      height: auto;
+      line-height: 1; }
+    .vtk-body #modal-meeting-reminder .jqte .jqte_toolbar .jqte_tool {
+      margin-right: 7px; }
   .vtk-body #modal-meeting-reminder .jqte .jqte_editor {
     border: solid 1px #efefef;
     box-shadow: inset 2px 2px 2px 0px #dddddd; }
@@ -1044,11 +1054,13 @@ input[type="file"] {
 
 @media only screen and (max-width: 40em) {
   .vtk-body #main #yearPlanMeetings ul .meeting > div .bg-square {
-    position: static; }
+    left: 30px; }
     .vtk-body #main #yearPlanMeetings ul .meeting > div .bg-square:after {
       content: none; }
+  .vtk-body #main #yearPlanMeetings ul .meeting > div::before {
+    left: 5px; }
   .vtk-body #main #yearPlanMeetings ul .meeting > div > div:nth-of-type(2) {
-    padding-left: 35px; }
+    padding-left: 115px; }
 
   .vtk-body #main .meeting-detail .meeting-navigation .column:nth-child(2) {
     border: none; }
