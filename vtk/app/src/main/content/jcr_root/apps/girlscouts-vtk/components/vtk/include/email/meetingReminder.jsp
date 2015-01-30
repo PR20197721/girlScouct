@@ -144,16 +144,16 @@
               		<div id="panel<%=panelCount%>b" class="content">
                 		<ul class="small-block-grid-2">
 			
-			<%
-			            Document tempDoc = tempCategory.getNextDocument();
-			            while(tempDoc != null){
-			            	 %><li><span><%=tempDoc.getTitle()%></span></li> 
-			            	 	<li><a class="add-links" href="#nogo" title="add" onclick="addFormLink('<%=tempDoc.getPath()%>', '<%=tempDoc.getTitle()%>', 'panel<%=panelCount%>b')"><i class="icon-button-circle-plus"></i></a></li> <%
-			            	tempDoc = tempCategory.getNextDocument();
-			            }
-						tempCategory = docUtil.getNextCategory();
-						%> 
-						</ul>
+										<%
+				            Document tempDoc = tempCategory.getNextDocument();
+				            while(tempDoc != null){
+				            	 %><li><span><%=tempDoc.getTitle()%></span></li> 
+				            	 	<li><a class="add-links" href="#nogo" title="add" onclick="addFormLink('<%=tempDoc.getPath()%>', '<%=tempDoc.getTitle()%>', 'panel<%=panelCount%>b')"><i class="icon-button-circle-plus"></i></a></li> <%
+				            	tempDoc = tempCategory.getNextDocument();
+			            	}
+									tempCategory = docUtil.getNextCategory();
+									%> 
+									</ul>
              		 </div>
             		</dd>
           		</dl>
@@ -169,12 +169,8 @@
 	 </div>
 	  </dd>
 	 </dl>
-	     
-	
-	
-	
 	 <div class="right clearfix">
-		<input type="button" value="Send" class="button btn" onclick="validate();"/>
+		<input type="button" value="Send email" class="button btn" onclick="validate();"/>
 		<!--  <input class="button btn" value="Send email" type="button" onclick="sendMeetingReminderEmail()"/>-->
 	</div>
 	
