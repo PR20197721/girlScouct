@@ -20,7 +20,7 @@
 	<h4>Reminder Meeting #<%=planView.getMeetingCount()%>
 	<%= FORMAT_MEETING_REMINDER.format(searchDate) %> - <%=FORMAT_hhmm_AMPM.format(meetingEndDate)%></h4>
 	
-	<p class="sent">Sent: None</p>
+	<p class="sent">Sent: None</p><!--TODO add the date after email is sent-->
 
 	<h6>Address List</h6>
 	
@@ -118,62 +118,55 @@
       	</ul>
 	    </div>
 	  </dd>
-	 </dl>
-
+	</dl>
 
 	<dl class="accordion" data-accordion>
 	  <dt data-target="panel2"><h6>Include Form Link</h6></dt>
 	  <dd class="accordion-navigation">
 	    <div class="content" id="panel2">
-	<%
-
-        org.girlscouts.vtk.utils.DocumentUtil docUtil = new org.girlscouts.vtk.utils.DocumentUtil(resourceResolver, sling.getService(com.day.cq.tagging.JcrTagManagerFactory.class), "gsctx");
-		try{
-			
-			int panelCount = 1;
-			DocumentCategory tempCategory = docUtil.getNextCategory();
-			while(tempCategory != null){
-				String name = tempCategory.getName();
-			%>
-			<div class="row">
-          		<dl class="accordion-inner clearfix" data-accordion>
-            		<dt data-target="panel<%=panelCount%>b" class="clearfix">
-            			<span class="name"><%=name %></span>
-            		</dt>
-            	<dd>
-              		<div id="panel<%=panelCount%>b" class="content">
-                		<ul class="small-block-grid-2">
-			
-										<%
-				            Document tempDoc = tempCategory.getNextDocument();
-				            while(tempDoc != null){
-				            	 %><li><span><%=tempDoc.getTitle()%></span></li> 
-				            	 	<li><a class="add-links" href="#nogo" title="add" onclick="addFormLink('<%=tempDoc.getPath()%>', '<%=tempDoc.getTitle()%>', 'panel<%=panelCount%>b')"><i class="icon-button-circle-plus"></i></a></li> <%
-				            	tempDoc = tempCategory.getNextDocument();
-			            	}
-									tempCategory = docUtil.getNextCategory();
-									%> 
-									</ul>
-             		 </div>
-            		</dd>
-          		</dl>
-	      		</div>
+				<% org.girlscouts.vtk.utils.DocumentUtil docUtil = new org.girlscouts.vtk.utils.DocumentUtil(resourceResolver, sling.getService(com.day.cq.tagging.JcrTagManagerFactory.class), "gsctx");
+					try {
 						
-						<%
-						panelCount++;
-			}
-		}  catch(RepositoryException e){
-			%><h1>ERROR: Tags Or Documents Not Configured Properly</h1><%
-		}
-%>
-	 </div>
+						int panelCount = 1;
+						DocumentCategory tempCategory = docUtil.getNextCategory();
+						while(tempCategory != null){
+							String name = tempCategory.getName();
+						%>
+						<div class="row">
+			    		<dl class="accordion-inner clearfix" data-accordion>
+			      		<dt data-target="panel<%=panelCount%>b" class="clearfix">
+			      			<span class="name"><%=name %></span>
+			      		</dt>
+			      		<dd>
+									<div id="panel<%=panelCount%>b" class="content">
+										<ul class="small-block-grid-2">
+
+										<%
+										Document tempDoc = tempCategory.getNextDocument();
+										while(tempDoc != null){
+											 %><li><span><%=tempDoc.getTitle()%></span></li> 
+											 	<li><a class="add-links" href="#nogo" title="add" onclick="addFormLink('<%=tempDoc.getPath()%>', '<%=tempDoc.getTitle()%>', 'panel<%=panelCount%>b')"><i class="icon-button-circle-plus"></i></a></li> <%
+											tempDoc = tempCategory.getNextDocument();
+										}
+										tempCategory = docUtil.getNextCategory();
+										%> 
+										</ul>
+									</div>
+								</dd>
+							</dl>
+						</div>
+						<% panelCount++; }
+							}  catch(RepositoryException e){
+								%><h1>ERROR: Tags Or Documents Not Configured Properly</h1><%
+							}
+						%>
+			</div>
 	  </dd>
-	 </dl>
-	 <div class="right clearfix">
+	</dl>
+	<div class="right clearfix">
 		<input type="button" value="Send email" class="button btn" onclick="validate();"/>
 		<!--  <input class="button btn" value="Send email" type="button" onclick="sendMeetingReminderEmail()"/>-->
 	</div>
-	
 	
 	<div id="added">
 		<p>Added to email.</p>
@@ -194,7 +187,6 @@
 		  $('.sent').append('none');
 		 } */
 		 $('#added').dialog({ autoOpen: false, zIndex: 200 });
-
 	});
 	
 
@@ -216,8 +208,6 @@
 	    setTimeout(function() {
 	    	$('#added').dialog('close');
 	    }, 1000);
-	    
-		
 		return;
 	};
 	function addAidLink(refId,title,uid){
@@ -243,7 +233,7 @@
 	            alert("Please enter valid email address(es).");
 	    	    return false;
 	        }
-		}else if (!$("input:checkbox:checked").length){
+		} else if (!$("input:checkbox:checked").length){
 	    	$('.scroll').scrollTop($('#email_to_cc').position().top);
     		alert("Address list can not be empty.");
 	    	return false;
@@ -253,9 +243,7 @@
     		alert("Subject can not be empty.");
     		return false;
 		}
-	    previewMeetingReminderEmail('<%=((MeetingE)planView.getYearPlanComponent()).getUid()%>');
-	    
+	    previewMeetingReminderEmail('<%=((MeetingE)planView.getYearPlanComponent()).getUid()%>');    
 	};
-
 </script>
  
