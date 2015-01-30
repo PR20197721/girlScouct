@@ -34,6 +34,8 @@ var $ = jQuery.noConflict();
 			}
 		});
 	}
+// In Koo removed to simplify modal styling and delegate to CSS
+/*
 		function modal_height_on_open() {
 		  $(document).on('opened.fndtn.reveal', '[data-reveal]', function () {
 				var window_h = $(window).height();
@@ -55,6 +57,7 @@ var $ = jQuery.noConflict();
   	// 		'height': '100% !important',
   	// 	});
 		}
+*/
 	function validate_image() {
 		$('form#frmImg').submit(function(e) {
 		   var $this = $(this);
@@ -95,11 +98,14 @@ var $ = jQuery.noConflict();
 	  	 	}
 	  	 });
 	  	 select_tabs();
-	  	 modal_height_on_open();
+// In Koo removed to simplify modal styling and delegate to CSS
+//	  	 modal_height_on_open();
 	  	 vtk_accordion();
 	  	 validate_image();
   });
-  $(window).resize(function() {
-  	modal_height_resize()
-  });
+
+// In Koo removed to simplify modal styling and delegate to CSS
+//  $(window).resize(function() {
+//  	modal_height_resize()
+//  });
  })($);
