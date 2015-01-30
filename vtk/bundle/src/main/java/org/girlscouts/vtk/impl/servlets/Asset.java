@@ -159,13 +159,16 @@ public class Asset extends SlingAllMethodsServlet {
 								// out.println("<script>location.reload();</script>");
 							}
 						} else if (request.getParameter("upldTroopPic") != null) {
-
+						/*		
 							// loc= "/content/dam/girlscouts-vtk/troops/"+
 							// request.getParameter("troopId")+"/imgLib/troop_pic.png";
 							loc = "/vtk/" + request.getParameter("councilId")
 									+ "/troops/"
 									+ request.getParameter("troopId")
 									+ "/resources";
+							*/
+							loc = "/content/dam/girlscouts-vtk/troop-data/"+ request.getParameter("councilId") +"/" + request.getParameter("troopId") + "/imgLib";
+						     
 							name = "troop_pic.png";
 
 						}
