@@ -38,10 +38,10 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 			<p><strong>Change Time:</strong></p>
 			<section class='row clearfix'>
 				<div class="column small-4">
-					<input type="text" id="cngTime0" value="<%= FORMAT_hhmm.format(date) %>" name="cngDate0" class="date inline"/>
+					<input type="text" id="cngTime0" value="<%= FORMAT_hhmm.format(date) %>" name="cngDate0" style="width:60px"  />
 				</div>
-				<div class="columm small-4 left">
-					<select id="cngAP0" name="cngAP0" class="ampm">
+				<div class="columm small-6 left">
+				<select id="cngAP0" name="cngAP0" class="ampm">
 						<option value="pm" <%= AP.equals("PM") ? "SELECTED" : "" %>>PM</option> 
 						<option value="am" <%= AP.equals("AM") ? "SELECTED" : "" %>>AM</option>
 					</select>
