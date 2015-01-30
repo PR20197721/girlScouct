@@ -31,24 +31,11 @@
         String instruction = "Select the calendar icon to change the date, time, or cancel an individual meeting.Or select the to use the planning wizard to reconfigure the calendar from that date forward";
        // if (isWarning) {
       %>
-<!--     <div class="small-4 medium-2 large-2 columns">                
-      <div class="warning">
-        <img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/warning-small.png" width="20" height="20" align="left"/>
-      </div>
-    </div> -->
-<!--     <div class="small-16 medium-20 large-20 columns">
-      <%// } else { %>
-    <div class="small-20 medium-22 large-22 columns">
-      <% //} %>
-          <span class="instruction"><%= instruction %></span>
-    </div> -->
+
+
     <h3 class="columns large-22">MEETING date and locations</h3>
     <a class="columns large-2" href="/content/girlscouts-vtk/en/vtk.html?rand=<%= new java.util.Date().getTime()%>"><i class="icon-button-circle-cross"></i></a>
-    <!-- <div class="small-4 medium-2 large-2 columns">
-        <a class="right" href="/content/girlscouts-vtk/en/vtk.html?rand=<%= new java.util.Date().getTime()%>">
-          <img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/close-small.png" width="20" height="20" border="0" align="right">
-        </a>
-    </div> -->
+   
   </div><!--/header-->
   <div class="scroll">
     <div class="tabs-wrapper">
@@ -59,14 +46,7 @@
         <dd id="manageActivityTab" class="manageCalendarTab"><a href="#" onclick="toggleSection('activity')">Activities</a></dd>
       </dl>
 
-<!-- 
-    <div class="row modalNav">
-      <ul class="small-block-grid-1 medium-block-grid-3 large-block-grid-3 specifyDates">
-        <li id="manageCalendarTab" class="active manageCalendarTab"><a href="#" onclick="toggleSection('calendar')">Calendar</a></li>
-        <li id="manageLocationTab" class="manageCalendarTab"><a href="#" onclick="toggleSection('location')">Location</a></li>
-        <li id="manageActivityTab" class="manageCalendarTab"><a href="#" onclick="toggleSection('activity')">Activities</a></li>
-      </ul>
-    </div> -->
+
       <div class="tabs-content">
         <%
           if (troop.getYearPlan() != null) {
@@ -121,4 +101,5 @@
           <% } %>
       </div><!--tabs-content-->
     </div><!--/tabs-wrapper-->
+<div style="padding-bottom:100px;color:#fff;">caca</div>
   </div><!--/scroll-->

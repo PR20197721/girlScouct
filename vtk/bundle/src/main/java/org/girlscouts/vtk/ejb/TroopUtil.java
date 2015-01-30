@@ -218,6 +218,8 @@ public class TroopUtil {
 		YearPlan oldPlan = troop.getYearPlan();
 		YearPlan newYearPlan = addYearPlan(user, troop, yearPlanPath);// troopDAO.addYearPlan1(troop,
 																		// yearPlanPath);
+		
+		
 		try {
 
 			newYearPlan.setName(planName);

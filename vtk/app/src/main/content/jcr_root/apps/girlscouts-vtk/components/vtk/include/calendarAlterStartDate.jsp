@@ -11,7 +11,7 @@
 
   %>
 
-<form class="clearfix">
+<form class="clearfix2">
 <%if(startAlterDate!=null && !startAlterDate.equals("") ){ %>
   <p>Configure <%=request.getParameter("mCountUpd") %> meeting dates starting on or after <%=FORMAT_MMddYYYY.format( new java.util.Date(Long.parseLong(startAlterDate))) %>:</p>
 <%} %>  
@@ -98,8 +98,11 @@
   <button class="btn right" onclick="buildSched()">Update Calendar</button>
 </form>
 
+
+
 <div id="calView"></div>
 <script>
   //inicialize the calendar.
   $( "#calStartDt" ).datepicker();
+  
 </script>
