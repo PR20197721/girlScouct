@@ -1433,13 +1433,16 @@ input[type="file"] {
 @media only screen and (max-width: 40em) {
   .vtk-body #main #yearPlanMeetings ul .meeting > div {
     .bg-square {
-      position: static;
+      left:30px;
       &:after {
         content: none;
       }
     }
+    &::before {
+      left:5px;
+    }
     > div:nth-of-type(2) {
-        padding-left:35px;
+        padding-left: 115px;
     }
   }
   .vtk-body #main .meeting-detail .meeting-navigation .column:nth-child(2) {

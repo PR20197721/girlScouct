@@ -1054,11 +1054,13 @@ input[type="file"] {
 
 @media only screen and (max-width: 40em) {
   .vtk-body #main #yearPlanMeetings ul .meeting > div .bg-square {
-    position: static; }
+    left: 30px; }
     .vtk-body #main #yearPlanMeetings ul .meeting > div .bg-square:after {
       content: none; }
+  .vtk-body #main #yearPlanMeetings ul .meeting > div::before {
+    left: 5px; }
   .vtk-body #main #yearPlanMeetings ul .meeting > div > div:nth-of-type(2) {
-    padding-left: 35px; }
+    padding-left: 115px; }
 
   .vtk-body #main .meeting-detail .meeting-navigation .column:nth-child(2) {
     border: none; }
