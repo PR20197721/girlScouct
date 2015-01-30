@@ -1341,12 +1341,30 @@
     }
   }
 }
-.tab-wrapper {
-  > .row {
-    background: #e1e1e1 !important;
-  }
+.tab-wrapper.row {
+  background: #e1e1e1;
   .columns {
     background: #e1e1e1;
+  }
+  .dropdown {
+    background-color: #cccccc;
+    text-transform: uppercase;
+    * {
+      color: #565656;
+      font-size: 14px;
+    }
+    a.expand {
+      display: block;
+      padding: 10px;
+      margin-bottom: 10px;
+      &:after {
+        border: solid 8px transparent;
+        border-color: #000 transparent transparent transparent;
+        content: "";
+        position: absolute;
+        right: 16px;
+      }
+    }
   }
 }
 .tabs dd {

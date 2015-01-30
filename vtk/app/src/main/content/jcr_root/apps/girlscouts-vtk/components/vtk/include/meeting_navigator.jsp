@@ -22,10 +22,18 @@ if( (planView.getYearPlanComponent().getType() ==  YearPlanComponentType.ACTIVIT
     <div className="column">
       <h3><%=planView.getYearPlanComponent().getType()%> {this.props.id} : {this.props.meetingTitle}</h3>
       <p className="date">
-      	<%if(planView.getSearchDate()!=null && planView.getSearchDate().after( new java.util.Date("1/1/1977") )){ %>
+      	<%if(planView.getSearchDate()!=null && planView.getSearchDate().after( new java.util.Date("1/1/1977") )){ 
+      	      Calendar meetingDate = null;
+      	      meetingDate=Calendar.getInstance();
+			  meetingDate.setTime(planView.getSearchDate());
+			  meetingDate.add(Calendar.MINUTE, planView.getMeetingLength());
+			  //Date meetingEnd = null;
+			  Date meetingEnd = meetingDate.getTime();%>
         <span className="month">{this.props.meetingModMONTH}</span>
         <span className="day">{this.props.meetingModDAY}</span>
         <span className="hour">{this.props.meetingModHOUR}</span>
+        -<span><%=FORMAT_hhmm_AMPM.format(meetingEnd)%></span>
+
 
       	<%} %>
       	
@@ -38,8 +46,8 @@ if( (planView.getYearPlanComponent().getType() ==  YearPlanComponentType.ACTIVIT
 					java.util.Date endDate = ( (Activity) planView.getYearPlanComponent() ).getEndDate();
 					
 						out.println("-");
-						if(planView.getSearchDate().getMonth() !=  endDate.getMonth() ){%>FORMAT_MONTH.format(endDate)<% }
-						if(planView.getSearchDate().getDay() !=  endDate.getDay() ){%>FORMAT_DAY_OF_MONTH.format(endDate)<% }
+						if(planView.getSearchDate().getMonth() !=  endDate.getMonth() ){%><%= FORMAT_MONTH.format(endDate)%><% }
+						if(planView.getSearchDate().getDay() !=  endDate.getDay() ){%><%=FORMAT_DAY_OF_MONTH.format(endDate)%><% }
 						
 						%><%=FORMAT_hhmm_AMPM.format(endDate) %><% 
 					

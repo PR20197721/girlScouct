@@ -1,42 +1,42 @@
-<div class="hide-for-print crumbs clearfix">
+<div class="hide-for-print crumbs clearfix hide-for-small">
   <div class="column small-24 medium-20 large-centered medium-centered large-20">
     <div class="row">
       <div class="columns small-18 medium-20">
         <ul id="sub-nav" class="inline-list hide-for-print">
           <!--if on YP page this menu shows-->
-           <% if("plan".equals(activeTab)) { 
-           		if (troop.getYearPlan() != null) {%>
-          		<li><a href="#" onclick="newLocCal()" title="Metting Dates and Location">Specify Dates and Locations</a></li>
-          		<li><a href="#" onclick="doMeetingLib()" title="Add Meeting">Add Meeting</a></li>
-          		<li><a href="#" onclick="newActivity()" title="Add Activity">Add Activity</a></li>
+            <% if("plan".equals(activeTab)) { 
+           		if (troop.getYearPlan() != null) { %>
+            		<li><a href="#" onclick="newLocCal()" title="Metting Dates and Location">Specify Dates and Locations</a></li>
+            		<li><a href="#" onclick="doMeetingLib()" title="Add Meeting">Add Meeting</a></li>
+            		<li><a href="#" onclick="newActivity()" title="Add Activity">Add Activity</a></li>
           		<% }
-          } %>
+            } %>
 
           <!-- if on Meeting Detail Page-->
             <% if("planView".equals(activeTab)) { %>
             <!--if activity detail page-->
-            <%switch(meetingUtil.planView(user, troop, request).getYearPlanComponent().getType() ) {
-            case ACTIVITY:
-              Activity activity = (Activity)meetingUtil.planView(user, troop, request).getYearPlanComponent();
-              if( activity.getIsEditable() ){%>
-              <li><a href="#" onclick="doEditActivity('editCustActiv')">edit activity</a></li>
-            <% }
-              if ( !(activity.getCancelled()!=null && activity.getCancelled().equals("true") ) && 
-              activity.getRegisterUrl()  !=null && !activity.getRegisterUrl().equals("")){%>
-              <li><a href="<%=activity.getRegisterUrl()%>" class="button linkButton" target="_blank">Register for this event</a></li><%
-              } %>
-                <li><a href="javascript:rmCustActivity12(aPath)">delete this activity</a></li><% 
-                
+            <% switch(meetingUtil.planView(user, troop, request).getYearPlanComponent().getType() ) {
+              case ACTIVITY:
+                Activity activity = (Activity)meetingUtil.planView(user, troop, request).getYearPlanComponent();
+                if( activity.getIsEditable() ){%>
+                <li><a href="#" onclick="doEditActivity('editCustActiv')">edit activity</a></li>
+              <% }
+                if ( !(activity.getCancelled()!=null && activity.getCancelled().equals("true") ) && 
+                activity.getRegisterUrl()  !=null && !activity.getRegisterUrl().equals("")){%>
+                <li><a href="<%=activity.getRegisterUrl()%>" class="button linkButton" target="_blank">Register for this event</a></li><%
+                } %>
+                  <li><a href="javascript:rmCustActivity12(aPath)">delete this activity</a></li><% 
+                  
             case MEETING:
-              try {	  Object meetingPath = pageContext.getAttribute("MEETING_PATH");
-                      if (meetingPath != null) {
+              try {	Object meetingPath = pageContext.getAttribute("MEETING_PATH");
+                      if (meetingPath != null && meetingPath != "") {
                         Long planViewTime = (Long) pageContext.getAttribute("PLANVIEW_TIME");%>
                       <li>
                       <a href="#" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=(String) meetingPath %>&xx=<%= planViewTime.longValue() %>', false, null, true)">replace this meeting</a>
                       </li><% 
                       }
                   } catch (Exception te) {
-                        te.printStackTrace();
+                    te.printStackTrace();
                   }
                 break;
               }

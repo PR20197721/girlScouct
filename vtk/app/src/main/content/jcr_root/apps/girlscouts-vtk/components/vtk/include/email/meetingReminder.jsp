@@ -1,5 +1,4 @@
 
-<script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 <div class="content clearfix">
 
 <% //if(planView.getYearPlanComponent().getType()==YearPlanComponentType.ACTIVITY){
@@ -11,12 +10,16 @@
 		//MeetingE meeting = (MeetingE)planView.getYearPlanComponent();
 		//Meeting meetingInfo = meeting.getMeetingInfo();
 		//Date searchDate = planView.getSearchDate();
+	Calendar c = Calendar.getInstance();
+	c.setTime(planView.getSearchDate());
+	c.add(Calendar.MINUTE, planView.getMeetingLength());
+	Date meetingEndDate = c.getTime();
+	Date searchDate = planView.getSearchDate();
 %>
 
 	<h4>Reminder Meeting #<%=planView.getMeetingCount()%>
-	  <%= FORMAT_MEETING_REMINDER.format(planView.getSearchDate()) %></h4>
+	<%= FORMAT_MEETING_REMINDER.format(searchDate) %> - <%=FORMAT_hhmm_AMPM.format(meetingEndDate)%></h4>
 	
-
 	<p class="sent">Sent: None</p>
 
 	<h6>Address List</h6>
@@ -43,7 +46,7 @@
 	<h6>Compose Email</h6>
 	<section class="clearfix">
 		<label for="email_subj">Subject:</label>
-		<input type="text" id="email_subj" value="Reminder <%=troop.getTroop().getGradeLevel() %> Meeting #<%=planView.getMeetingCount()%> <%= FORMAT_MEETING_REMINDER.format(planView.getSearchDate()) %>" />
+		<input type="text" id="email_subj" value="Reminder <%=troop.getTroop().getGradeLevel() %> Meeting #<%=planView.getMeetingCount()%> <%= FORMAT_MEETING_REMINDER.format(searchDate) %> - <%=FORMAT_hhmm_AMPM.format(meetingEndDate)%>" />	
 	</section>
 
 	<div style="background-color:yellow;"></div>
@@ -53,7 +56,7 @@
 		<br/><br/>Here are the details of our next meeting:
 		<table>
 			<tr><th>Date:</th>
-				<td><%= FORMAT_MEETING_REMINDER.format(planView.getSearchDate()) %></td>
+				<td><%= FORMAT_MEETING_REMINDER.format(searchDate)%> - <%=FORMAT_hhmm_AMPM.format(meetingEndDate)%></td>
 			</tr>
 			<tr><th>Location:</th>
 				<td><%
@@ -100,40 +103,7 @@
 		</div>
 	</textarea>
 	
-
-<!-- 	<div id="ima">
-		<div id="imaBd">
-		<table>
-			<tr>
-				<th>&nbsp;</th>
-				<th>Add to Email</th>
-			</tr>
-			<%
-			List<Asset> aidTags = planView.getAidTags();
-			for(int i=0;i<planView.getAidTags().size();i++){%>
-			 <tr>
-				<td><%= planView.getAidTags().get(i).getTitle() %></td>
-			 	<td><a onclick="addAidLink('<%=planView.getAidTags().get(i).getRefId()%>','<%=planView.getAidTags().get(i).getTitle()%>','<%=((MeetingE)planView.getYearPlanComponent()).getUid() %>')" class="addAidToEmail"> + </a></td>
-			 	
-			 </tr>
-			 <%}%>
-		</table>
-		</div>
-	</div> -->
-<!-- 	<div id="ifl">
-	<div id="iflBd"> -->
-	<%/*form needed
-		for(int i=0;i<_forms.size();i++){
-		String formName;
-		String formurl;%>
 	
-		<input type="checkbox" id="<%=formname%>" onclick="addLinkToEmail(forms(i))"/><%=formname %>
-
-	<%}*/%>
-<!-- 	</div>
-	</div> -->
-	
-
 	<dl class="accordion" data-accordion>
 	  <dt data-target="panel1"><h6 class="off">Include meeting aid</h6></dt>
 	  <dd class="accordion-navigation">
@@ -150,7 +120,6 @@
 	  </dd>
 	 </dl>
 
-	
 
 	<dl class="accordion" data-accordion>
 	  <dt data-target="panel2"><h6>Include Form Link</h6></dt>
@@ -205,8 +174,8 @@
 	
 	
 	 <div class="right clearfix">
-		<input type="button" value="Save" class="button btn" onclick="validate();"/>
-		<input class="button btn" value="Send email" type="button" onclick="sendMeetingReminderEmail()"/>
+		<input type="button" value="Send" class="button btn" onclick="validate();"/>
+		<!--  <input class="button btn" value="Send email" type="button" onclick="sendMeetingReminderEmail()"/>-->
 	</div>
 	
 	
@@ -216,7 +185,7 @@
 	
 </div>
 <!--//content-->
-<% //}%>
+
 
 
 
@@ -258,30 +227,35 @@
 	function addAidLink(refId,title,uid){
 		$('#aidLinks').append('<li><a href="'+refId+'">'+title+'</a></li>');
 		$('#aidLinks p.hide').removeClass();
-		//$('.addAidToEmail').text("-");
 		$('#added').dialog('open');
 		$('.ui-dialog-titlebar').css('display', 'none');
 		$('.ui-dialog').css('z-index', 300);
 	    setTimeout(function() {
 	    	$('#added').dialog('close');
 	    }, 1000);
-
 		//addAidToEmail(refId,title,uid);
 		return;
 	};
 	function validate(){
 	    var emailReg = /^(([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?\;?)+$/;
 	    var email = $('#email_to_cc').val();
+	    var subject = $('#email_subj').val();
 		if(email.length){
 		    if(!emailReg.test(email)){
 		    	//$('#email_to_cc') label turn red or input background turn red
 		    	$('.scroll').scrollTop($('#email_to_cc').position().top);
-	            alert("Please enter valid email addresses");
+	            alert("Please enter valid email address(es).");
 	    	    return false;
 	        }
 		}else if (!$("input:checkbox:checked").length){
-	            alert("Please select email recipients");
-	    	    return false;
+	    	$('.scroll').scrollTop($('#email_to_cc').position().top);
+    		alert("Address list can not be empty.");
+	    	return false;
+		}
+		if(!subject.length){
+	    	$('.scroll').scrollTop($('#email_subj').position().top);
+    		alert("Subject can not be empty.");
+    		return false;
 		}
 	    previewMeetingReminderEmail('<%=((MeetingE)planView.getYearPlanComponent()).getUid()%>');
 	    

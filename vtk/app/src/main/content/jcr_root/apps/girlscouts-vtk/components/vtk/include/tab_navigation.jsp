@@ -26,11 +26,10 @@
 <%
   }
 %>
-<div class="hide-for-print tab-wrapper">
+<div class="hide-for-print tab-wrapper row">
   <%
     //if (troop.getYearPlan() != null) {
   %>
-  <div class="row">
     <div class="columns large-22 large-centered small-24">
       <%
       //  }
@@ -66,31 +65,49 @@
         </dd>
         <!-- % // }   %-->
       </dl>
-      <select class="tabs show-for-small">
-        <% if(hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
-          <option value="/content/girlscouts-vtk/en/vtk.mytroop_react.html">My Troop</option>
-        <% } %>
-        <% if(hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID)) { %>
-          <option value="/content/girlscouts-vtk/en/vtk.html">Year Plan</option>
-        <% } %>
-        <% if(hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) { 
-          String ref = "/content/girlscouts-vtk/en/vtk.details.html";
-          if(troop.getYearPlan() == null) {
-          ref = "onClick=alert(\"Please select a year plan\")";
-          }
-        %>
-          <option value="<%=ref%>">Meeting Plan</option>
-        <%  } %>
-        <% if( hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){ %>
-          <option value="/content/girlscouts-vtk/en/vtk.finances.html">Finances</option>
-        <% }  %>
-          <option value="/content/girlscouts-vtk/en/vtk.profile.html">Profile</option>
-      </select>
+      <div class="dropdown show-for-small hide-for-print">
+        <a id="vtk-main-menu-button" onclick="$('#vtk-main-menu').slideToggle('slow')" class="expand">Menu</a>
+        <ul id="vtk-main-menu" class="hide-for-print" style="display: none;">
+          <% if(hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
+          <li <%= ("myTroop".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.mytroop_react.html">My Troop</a></li>
+          <%}%> 
+          <% if(hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID)) { %>
+          <li class='has-dropdown<%= ("plan".equals(activeTab)) ? " active" : " " %>'><a href="/content/girlscouts-vtk/en/vtk.html">Year Plan</a>
+            <ul class="dropdown">
+            <% if("plan".equals(activeTab)) { %>
+              <li><a href="#" onclick="newLocCal()">Specify Meeting Dates and Locations</a></li>
+              <li><a href="#" onclick="doMeetingLib()">Add Meeting</a></li>
+              <li><a href="#" onclick="newActivity()">Add Activity</a></li>
+              <li><a onclick="self.location = '/content/girlscouts-vtk/en/cal.ics'">Download Calendar</a></li>
+            <%}%>
+            </ul>
+          </li>
+          <%}%>
+          <li class='has-dropdown<%= ("planView".equals(activeTab)) ? " active" : " " %>'> <a <%= troop.getYearPlan() != null ? "href='/content/girlscouts-vtk/en/vtk.details.html'" :  "href='#' onClick='alert(\"Please select a year plan\")'"  %>>Meeting Plan</a>
+            <ul class="dropdown">
+            <% try { Object meetingPath = pageContext.getAttribute("MEETING_PATH");
+              if (meetingPath != null) {
+                Long planViewTime = (Long) pageContext.getAttribute("PLANVIEW_TIME"); %>
+                <li><a href="#" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=(String) meetingPath %>&xx=<%= planViewTime.longValue() %>', false, null, true)">replace this meeting</a>
+                </li>
+              <% }
+            } catch (Exception te) {
+                  te.printStackTrace();
+            } %>
+              <li><a href="#" onclick="doEditActivity('editCustActiv')">edit activity</a></li>
+              <li><a href="#" target="_blank">Register for this event</a></li>
+              <li><a href="javascript:rmCustActivity12(aPath)">delete this activity</a></li>
+            </ul>
+          </li>
+          <li <%= ("resource".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.resource.html">Resources</a></li>
+          <li <%= ("finances".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.finances.html">Finances</a></li>
+           <li <%= ("profile".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.profile.html">Profile</a></li>
+        </ul>
+      </div>
       <%
       //  if (troop.getYearPlan() != null) {
       %>
     </div><!--/columns-->
-  </div><!--/row-->
   <%
     //}
   %>

@@ -982,10 +982,26 @@
   font-size: 30px;
   line-height: 1; }
 
-.tab-wrapper > .row {
-  background: #e1e1e1 !important; }
-.tab-wrapper .columns {
+.tab-wrapper.row {
   background: #e1e1e1; }
+  .tab-wrapper.row .columns {
+    background: #e1e1e1; }
+  .tab-wrapper.row .dropdown {
+    background-color: #cccccc;
+    text-transform: uppercase; }
+    .tab-wrapper.row .dropdown * {
+      color: #565656;
+      font-size: 14px; }
+    .tab-wrapper.row .dropdown a.expand {
+      display: block;
+      padding: 10px;
+      margin-bottom: 10px; }
+      .tab-wrapper.row .dropdown a.expand:after {
+        border: solid 8px transparent;
+        border-color: #000 transparent transparent transparent;
+        content: "";
+        position: absolute;
+        right: 16px; }
 
 .tabs dd {
   width: 16.666667%;
