@@ -1438,7 +1438,7 @@ input[type="file"] {
         content: none;
       }
     }
-    &::before {
+    &:before {
       left:5px;
     }
     > div:nth-of-type(2) {
