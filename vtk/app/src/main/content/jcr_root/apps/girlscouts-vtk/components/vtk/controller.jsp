@@ -482,6 +482,8 @@
 			org.girlscouts.vtk.ejb.Emailer emailer = sling
 					.getService(org.girlscouts.vtk.ejb.Emailer.class);
 			emailer.test(emr);
+			//window.open("/content/girlscouts-vtk/controllers/vtk.include.email.meetingReminder_preview.html","preview","");
+
 			troop.setSendingEmail(null);
 
 		} else if (request.getParameter("testAB") != null) {

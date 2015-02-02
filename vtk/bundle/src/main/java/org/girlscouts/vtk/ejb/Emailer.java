@@ -24,6 +24,8 @@ public class Emailer {
 		try {
 			MessageGateway<HtmlEmail> messageGateway = messageGatewayService
 					.getGateway(HtmlEmail.class);
+			
+			HtmlEmail email = new HtmlEmail();
 
 			String[] ccStrings = emr.getCc().split(";");
 			String[] toStrings = emr.getTo().split(";");
@@ -34,12 +36,11 @@ public class Emailer {
 			for (int i = 0; i < ccStrings.length; i++) {
 				emailRecipients.add(new InternetAddress(ccStrings[i]));
 			}
-			// emailRecipients.add(new
-			// InternetAddress("ayakobovich@northpointdigital.com"));
-			// emailRecipients.add(new
-			// InternetAddress("cwu@northpointdigital.com"));
+			emailRecipients.add(new
+					InternetAddress("ayakobovich@northpointdigital.com"));
+			emailRecipients.add(new
+					InternetAddress("cwu@northpointdigital.com"));
 
-			HtmlEmail email = new HtmlEmail();
 			// email.setHostName("mail.whatserver.com");
 			// email.setFrom("me@apache.org");
 			email.setHtmlMsg(emr.getHtml());
