@@ -44,7 +44,7 @@
     </div>
     <div class="show-for-small small-24 columns topMessage alt">
       <div class="row vtk-login collapse">
-        <% setCssClasses("small-19 columns", request); %>
+        <% setCssClasses("small-20 columns", request); %>
         <cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
         <div class="small-4 columns">
           <div class="small-search-hamburger">
