@@ -674,7 +674,7 @@ public class SalesforceDAO {
 			String sfTroopId) {
 		// select id, email, phone, name from Contact where id in (select
 		// contactid from campaignmember where campaignid='701G0000000uzUmIAI')
-
+testApex(apiConfig,  sfTroopId);
 		GetMethod get = null;
 		java.util.List<Contact> contacts = new java.util.ArrayList();
 		try {
@@ -730,6 +730,98 @@ public class SalesforceDAO {
 
 						for (int i = 0; i < results.length(); i++) {
 
+							log.debug("_____ " + results.get(i));
+
+							Contact contact = new Contact();
+							try {
+
+								contact.setFirstName(results.getJSONObject(i)
+										.getString("Name"));
+								contact.setEmail(results.getJSONObject(i)
+										.getString("Email"));
+								contact.setPhone(results.getJSONObject(i)
+										.getString("Phone"));
+								contact.setId(results.getJSONObject(i)
+										.getString("Id"));
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+							contacts.add(contact);
+						}
+
+					} catch (JSONException e) {
+						e.printStackTrace();
+
+					}
+				}
+			} finally {
+				get.releaseConnection();
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+
+		return contacts;
+	}
+
+	public java.util.List<Contact> testApex(ApiConfig apiConfig,
+			String sfTroopId) {
+		
+		System.err.println("Apex tata start");
+		
+		GetMethod get = null;
+		java.util.List<Contact> contacts = new java.util.ArrayList();
+		try {
+			HttpClient httpclient = new HttpClient();
+			//get = new GetMethod(apiConfig.getInstanceUrl() +"/services/data/v20.0/query");
+			get = new GetMethod(apiConfig.getInstanceUrl() +"/services/apexrest/troopMembers");
+			// THIS IS STABLE / DO NOT REMOVE
+			// get.setRequestHeader("Authorization", "OAuth " +
+			// apiConfig.getAccessToken());
+
+			UserGlobConfig ubConf = troopDAO.getUserGlobConfig(); 
+			get.setRequestHeader("Authorization",
+					"OAuth " + ubConf.getMasterSalesForceToken());
+
+			NameValuePair[] params = new NameValuePair[1];
+			params[0] = new NameValuePair("troopId",sfTroopId);
+
+			get.setQueryString(params);
+
+			try {
+System.err.println("tata APEX : "+ get.getQueryString() +" TroopId: "+ sfTroopId +" MasterToken: " + ubConf.getMasterSalesForceToken());
+				log.debug("______________troopInfo1___________start_____________________________");
+				log.debug(get.getRequestCharSet());
+				Header headers[] = get.getRequestHeaders();
+				for (Header h : headers) {
+					log.debug("Headers: " + h.getName() + " : " + h.getValue());
+				}
+				log.debug(":::> " + get.getQueryString());
+				log.debug(apiConfig.getInstanceUrl()
+						+ "/services/data/v20.0/query");
+				log.debug("______________troopInfo1_____________end___________________________");
+
+				httpclient.executeMethod(get);
+System.err.println("Apex tata resp1: "+get.getResponseBodyAsStream());
+				log.debug("troopInfo1.RespCode "
+						+ get.getResponseBodyAsString());
+System.err.println("Apex tata x1");				
+				JSONObject _response = new JSONObject(new JSONTokener(
+						new InputStreamReader(get.getResponseBodyAsStream())));
+				log.debug(_response.toString());
+System.err.println("Apex tata rr: 123");
+System.err.println("Apex tata r: "+get.getStatusCode() );
+				if (get.getStatusCode() == HttpStatus.SC_OK) {
+
+					try {
+						JSONObject response = new JSONObject(new JSONTokener(
+								new InputStreamReader(
+										get.getResponseBodyAsStream())));
+System.err.println("Apex tata r1: "+ response);
+						JSONArray results = response.getJSONArray("records");
+System.err.println("Apex tata r2 : "+ results);
+						for (int i = 0; i < results.length(); i++) {
+System.err.println("Apex tata r3 : "+ results.get(i));
 							log.debug("_____ " + results.get(i));
 
 							Contact contact = new Contact();
