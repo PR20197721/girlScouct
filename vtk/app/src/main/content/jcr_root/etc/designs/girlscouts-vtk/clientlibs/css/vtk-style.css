@@ -619,9 +619,11 @@
     margin: 0; }
   .vtk-body .modalWrap .meeting-library {
     background: #fff;
-    padding: 20px 40px; }
+    padding-top: 20px; }
     .vtk-body .modalWrap .meeting-library table {
       border: none; }
+      .vtk-body .modalWrap .meeting-library table tbody tr td:first-child {
+        width: 70%; }
     .vtk-body .modalWrap .meeting-library a {
       position: relative;
       padding-right: 15px;
