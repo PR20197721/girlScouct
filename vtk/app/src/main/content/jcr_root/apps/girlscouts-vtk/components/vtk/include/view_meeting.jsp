@@ -3,7 +3,7 @@
     
     <div className="large-3 medium-3 small-4 columns">
       <div className={testrr(obj, comment)}>
-         <div className={ (moment(comment).get('year') < 1978) ?  "hide" : "count"}>{(obj[comment].id)+1}</div>      
+        <div className={ (moment(comment).get('year') < 1978) ?  "hide" : "count"}>{(obj[comment].id)+1}</div>      
         <div className="date">
           <p className="month">{ moment(comment).get('year') < 1978 ? "meeting" : moment(comment).format('MMM')}</p>
           <p className="day">{ moment(comment).get('year') < 1978 ? (obj[comment].id)+1 : moment(comment).format('DD')}</p>
@@ -12,7 +12,7 @@
       </div>
     </div>    
 
-    <div className="large-22 medium-22 small-17 columns">
+    <div className="large-22 medium-22 small-24 columns">
       <p className="subtitle">
       	<ViewMeeting date={comment} name={obj[comment].meetingInfo.name}/>
       </p>

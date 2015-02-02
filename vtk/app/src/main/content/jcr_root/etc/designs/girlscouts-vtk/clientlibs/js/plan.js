@@ -108,10 +108,10 @@ function loadModalPage(link, showTitle, title, fullPageScroll, print) {
 function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 	var wWidth = $(window).width();
 	var wHeight = $(window).height();
-	var dWidth = wWidth * 0.95; //this will make the dialog 80% of the
-	var dHeight = wHeight * 0.95;
+	var dWidth = wWidth * 1; //this will make the dialog 80% of the
+	var dHeight = wHeight * 1;
 	var tHeight = $(window).height() 
-	if (dWidth >960) {
+	if (dWidth > 960) {
 		dWidth = 960; // max-width: 60em;
 	}
 	var dialog = null;
@@ -123,12 +123,11 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 			dialogClass: "modalWrap",
 			modal: true,
 			show: 375,
-			width: dWidth,
-			height: wHeight,
-			maxHight: wHeight,
-
+			minWidth:dWidth,
+			maxWidth: dWidth,
+			width:dWidth,
 			open: function() {
-				$('.scroll').css('max-height' , $(window).height()+'px');
+				$('.scroll').css('max-height' , ($(window).height()-75)+'px');
 				$("body").css({ overflow: 'hidden' });
 				// $(".modalWrap").css({
 				// 	'max-height': $(window).height() + 'px !important',
@@ -148,11 +147,9 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 		});
 	} else {
 		dialog = $( divSelector ).dialog({
-			width:dWidth,
 			modal:true,
 			dialogClass:"modalWrap",
 			show:375,
-	
 			open: function() {
 				if (!showTitle) {
 					$(".ui-dialog-titlebar").hide();

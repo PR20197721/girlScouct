@@ -87,7 +87,8 @@ $.ui.dialog.prototype.open = function () {
 
             // check & set height
             if ((oHeight + 100) > wHeight || elem.hasClass("resizedH")) {
-                elem.dialog("option", "height", setHeight).parent().css("max-height", setHeight);
+// In Koo JQuery UI Modal fix
+//                elem.dialog("option", "height", setHeight).parent().css("max-height", setHeight);
                 elem.addClass("resizedH");
             }
 

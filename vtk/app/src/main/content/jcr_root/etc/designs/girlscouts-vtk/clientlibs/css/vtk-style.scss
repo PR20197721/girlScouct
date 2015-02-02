@@ -806,8 +806,8 @@
       background: #fff;
       padding:0;
       overflow:hidden !important;
-      height: 100% !important;
-      max-height: 100% !important;
+      // height: 100% !important;
+      // max-height: 100% !important;
       p,a,span,li {
         font-size: 14px;
       }
@@ -883,10 +883,14 @@
           float:left;
           background:#00ae57;
         }
+        #createActivityTab,
+        #pickActivityTab {
+          width:50%;
+        }
       }
       .tabs-content {
         background: #fff;
-        padding: 30px 20px 60px 20px;
+        padding: 30px 20px 0px 20px;
         margin: 0;
         table {
           width: 100%;
@@ -1433,13 +1437,16 @@ input[type="file"] {
 @media only screen and (max-width: 40em) {
   .vtk-body #main #yearPlanMeetings ul .meeting > div {
     .bg-square {
-      position: static;
+      left:30px;
       &:after {
         content: none;
       }
     }
+    &:before {
+      left:5px;
+    }
     > div:nth-of-type(2) {
-        padding-left:35px;
+        padding-left: 115px;
     }
   }
   .vtk-body #main .meeting-detail .meeting-navigation .column:nth-child(2) {
@@ -1454,6 +1461,10 @@ input[type="file"] {
   table, thead, tbody, th, td, tr { 
     display: block;
     width: 100%; 
+  }
+  .modalWrap {
+    width: 100% !important;
+    max-width: 100% !important;
   }
 }
 //medium screen 
