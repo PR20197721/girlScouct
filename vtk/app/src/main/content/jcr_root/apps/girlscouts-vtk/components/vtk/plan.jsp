@@ -232,6 +232,7 @@ console.log("NOT TOUCH");
 
     var ViewMeeting = React.createClass({
         render: function() {
+console.log("tata: "+this.props.date );
           var date  = new Date(this.props.date).getTime();
   		    var src= "/content/girlscouts-vtk/en/vtk.details.html?elem="+date;
           return (

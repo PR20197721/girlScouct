@@ -15,7 +15,7 @@
 
     <div className="large-22 medium-22 small-24 columns">
       <p className="subtitle">
-      	<ViewMeeting date={comment} name={obj[comment].meetingInfo.name}/>
+      	<ViewMeeting date={moment(comment).toDate()} name={obj[comment].meetingInfo.name}/>
       </p>
       <p className="category">{obj[comment].meetingInfo.cat}</p>
       <p className="blurb">{obj[comment].meetingInfo.blurb}</p>
