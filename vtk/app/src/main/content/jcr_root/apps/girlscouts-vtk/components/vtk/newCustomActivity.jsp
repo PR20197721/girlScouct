@@ -229,6 +229,7 @@
             </div><!--/row-->
 
             <div class="row">
+            
               <div class="small-24 medium-12 large-12 columns">
                 <input type="text" name="newCustActivity_locName" id="newCustActivity_locName" placeholder="Location Name" value="" onchange="doChkSubmitValid()"/>
               <!--   <span style="color:red;">*</span> -->

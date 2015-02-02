@@ -551,6 +551,10 @@
     .vtk-body #modal-meeting-reminder .accordion .accordion-inner .content {
       padding-left: 70px;
       padding-right: 0; }
+.vtk-body #modal_meeting_aids .button {
+  padding: 5px 8px;
+  display: block;
+  margin: 0; }
 .vtk-body .modal_agenda_edit .content h3 {
   margin-bottom: 20px; }
 .vtk-body .modal_agenda_edit .content .btn {
