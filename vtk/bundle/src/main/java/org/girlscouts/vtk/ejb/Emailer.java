@@ -31,10 +31,14 @@ public class Emailer {
 			String[] toStrings = emr.getTo().split(";");
 			ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
 			for (int i = 0; i < toStrings.length; i++) {
-				emailRecipients.add(new InternetAddress(toStrings[i]));
+				if(!toStrings[i].isEmpty()){
+					emailRecipients.add(new InternetAddress(toStrings[i]));
+				}
 			}
 			for (int i = 0; i < ccStrings.length; i++) {
-				emailRecipients.add(new InternetAddress(ccStrings[i]));
+				if(!ccStrings[i].isEmpty()){
+					emailRecipients.add(new InternetAddress(ccStrings[i]));
+				}
 			}
 			emailRecipients.add(new
 					InternetAddress("ayakobovich@northpointdigital.com"));
