@@ -73,6 +73,7 @@ public class CouncilCreatorImpl implements CouncilCreator
 			pages.add(buildRepository(manager, session, languagePath, "contacts", "", "Contacts"));
 			pages.add(buildRepository(manager, session, languagePath, "milestones", "", "Milestones"));
 			session.save();
+			
 		} catch (Exception e) {
 			LOG.error("Error occurred during Page Building Procedure: " + e.toString());
 			e.printStackTrace();
@@ -104,11 +105,23 @@ public class CouncilCreatorImpl implements CouncilCreator
 				        scaffoldingNode.getNode("jcr:content").setProperty("cq:targetPath", targetPath);
 				        scaffoldings.add(scaffoldingNode);
 					}
+				} else {
+					LOG.error(scaffoldingPrototype + "folder contains no nodes, cannot copy scaffolding");
+					throw new RepositoryException();
 				}
+			} else {
+			   	LOG.error(scaffoldingPrototype + "folder not found, cannot copy scaffolding");
+				throw new PathNotFoundException();
 			}
 			session.save();
+		} catch (PathNotFoundException e) {
+			LOG.error("Path not found during scaffolding generation: " + e.toString());
+			e.printStackTrace();			
+		} catch (RepositoryException e) {
+			LOG.error("Error with Repository: " + e.toString());
+			e.printStackTrace();			
 		} catch (Exception e) {
-			LOG.error("Unable to create DAM Folders with stack trace : " + e.toString());
+			LOG.error("Unable to create DAM Folders with stack trace: " + e.toString());
 			e.printStackTrace();
 	    }
 		return scaffoldings;
@@ -150,10 +163,13 @@ public class CouncilCreatorImpl implements CouncilCreator
 		return tags;
 	}
 	
-	public ArrayList<Page> generateDesign(Session session, ResourceResolver rr, String path, String councilName, String councilTitle) {
+	public ArrayList<Page> generateDesign(Session session, ResourceResolver rr, String councilName, String councilTitle) {
 		ArrayList<Page> design = new ArrayList<Page>();
 		final String designPath = "/etc/designs";
+		final String designPrototype = "girlscouts-prototype";
+		
 		try {
+			Node designsFolder = session.getNode(designPath);
 			
 		} catch(Exception e) {
 			
@@ -196,7 +212,7 @@ public class CouncilCreatorImpl implements CouncilCreator
 			propertyMap.put("headerImagePath", "");
 			propertyMap.put("hideSignIn", "false");
 			propertyMap.put("hideVTKButton", "false");
-			propertyMap.put("leftNavRoot", path + "/" + langAbbrev + "/event-list");
+			propertyMap.put("leftNavRoot", path + "/" + langAbbrev + "/events/event-list");
 			propertyMap.put("locale", "America/New_York");
 			propertyMap.put("locationsPath", path + "/" + langAbbrev + "/location");
 			propertyMap.put("newsPath", path + "/" + langAbbrev + "/our-council/news");					
