@@ -144,10 +144,10 @@ resizeWindow();
 
 
       if (Modernizr.touch) {
-console.log("TOUCH");
+
         scrollTarget = ".touchscroll";
       } else {
-console.log("NOT TOUCH");
+
         $(".touchscroll").hide();
       }
 

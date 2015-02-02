@@ -1,17 +1,10 @@
-
-
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
-
 <%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig,  org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
-
 <%@include file="/libs/foundation/global.jsp" %>
-
 <cq:defineObjects/>
-
-  <%	
-  	String startAlterDate = request.getParameter("alterYPStartDate") ==null ? "" : request.getParameter("alterYPStartDate");
-
-  %>
+<%	
+  	String startAlterDate = request.getParameter("alterYPStartDate") == null ? "" : request.getParameter("alterYPStartDate");
+%>
 
 
 
@@ -19,7 +12,7 @@
 
 <%if(startAlterDate!=null && !startAlterDate.equals("") ){ %>
   <p>Configure <%=request.getParameter("mCountUpd") %> meeting dates starting on or after <%=FORMAT_MMddYYYY.format( new java.util.Date(Long.parseLong(startAlterDate))) %>:</p>
-<%} %>  
+<%} %>
   <input type="hidden" id="orgDt" name="orgDt" value="<%=( startAlterDate!=null && !startAlterDate.trim().equals("")) ? startAlterDate:( troop.getYearPlan().getCalStartDate()==null ? "" : new java.util.Date(troop.getYearPlan().getCalStartDate()).getTime() ) %>"/>   
   <section class="clearfix">
 
@@ -94,7 +87,8 @@
         <input type="checkbox" id="chk_10" name="exclDt" value="07/04/2016" <%=("".equals(exlDates) || exlDates.contains("07/04/2016")) ? "CHECKED" : ""  %>/><label for="chk_10"><p><span class="date">07/04/2016</span><span>Independence Day</span></p></label>
       </li>
       
-       <%for(int i=9;i<split_exclDates.length;i++){ %>
+       <%for(int i=9;i<split_exclDates.length;i++){ 
+       %>
          <li>
             <input type="checkbox" id="chk_<%=(i+2) %>" name="exclDt" value="<%=split_exclDates[i] %>" CHECKED/><label for="chk_<%=(i+2)%>"><p><span class="date"><%= split_exclDates[i]%></span><span>Custom</span></p></label>
          </li>
@@ -108,12 +102,7 @@
 
 <div id="calView"></div>
 <script>
-  //inicialize the calendar.
-  $( "#calStartDt" ).datepicker();
- 
-  document.getElementById('gsModal').style.height = '1500px';
-  var show = $( "#gsModal" ).dialog( "option", "show" );
-  resetModalPage();
-  $("#gsModal").dialog( "close");
 
+   $( "#calStartDt" ).datepicker();
+ 
 </script>
