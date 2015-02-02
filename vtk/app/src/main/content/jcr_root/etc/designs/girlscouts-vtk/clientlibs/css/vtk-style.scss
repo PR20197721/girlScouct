@@ -113,6 +113,7 @@
             height: 80px;
             background-color:#f6f6f6;
             cursor: move;
+            padding-left:0;
             &:before {
               content:'';
               background: url("images/throbber.png") repeat-y #fff;
@@ -1368,7 +1369,7 @@
   }
 }
 .tab-wrapper.row {
-  background: #e1e1e1;
+  background: #e1e1e1 !important;
   .columns {
     background: #e1e1e1;
   }
@@ -1448,6 +1449,7 @@ input[type="file"] {
       position:absolute;
       cursor: move;
       z-index: 100;
+      display: block !important;
     }
     .bg-square {
       left:30px;

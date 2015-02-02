@@ -88,7 +88,8 @@
       .vtk-body #main #yearPlanMeetings ul .meeting > div {
         height: 80px;
         background-color: #f6f6f6;
-        cursor: move; }
+        cursor: move;
+        padding-left: 0; }
         .vtk-body #main #yearPlanMeetings ul .meeting > div:before {
           content: '';
           background: url("images/throbber.png") repeat-y white;
@@ -999,7 +1000,7 @@
   line-height: 1; }
 
 .tab-wrapper.row {
-  background: #e1e1e1; }
+  background: #e1e1e1 !important; }
   .tab-wrapper.row .columns {
     background: #e1e1e1; }
   .tab-wrapper.row .dropdown {
@@ -1062,7 +1063,8 @@ input[type="file"] {
   .vtk-body #main #yearPlanMeetings ul .meeting > div .touchscroll {
     position: absolute;
     cursor: move;
-    z-index: 100; }
+    z-index: 100;
+    display: block !important; }
   .vtk-body #main #yearPlanMeetings ul .meeting > div .bg-square {
     left: 30px; }
     .vtk-body #main #yearPlanMeetings ul .meeting > div .bg-square:after {
