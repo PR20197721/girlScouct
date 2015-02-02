@@ -13,7 +13,7 @@
    		title="Meeting Reminder Email">Edit/Sent Meeting Reminder Email</a>
   <% }%> 
   </li>
-  <!--  <li>(2 sent - <a href="" title="view" className="view">view</a>)</li> -->
+   <li></li>
    
    
    <%if((planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING)){ %>
@@ -44,6 +44,7 @@
    <%} %>
    
    
-  
+   <li></li>
+   <li></li>
   </ul>
 </section>
