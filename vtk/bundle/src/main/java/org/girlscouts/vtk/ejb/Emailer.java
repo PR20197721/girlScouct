@@ -29,22 +29,24 @@ public class Emailer {
 			String[] ccStrings,toStrings;
 			if(!emr.getCc().isEmpty()){
 				ccStrings = emr.getCc().split(";");
+				for (int i = 0; i < ccStrings.length; i++) {
+					if(!ccStrings[i].isEmpty()){
+						emailRecipients.add(new InternetAddress(ccStrings[i]));
+					}
+				}
+
 			}
 			if(!emr.getTo().isEmpty()){
 				toStrings = emr.getTo().split(";");
+				for (int i = 0; i < toStrings.length; i++) {
+					if(!toStrings[i].isEmpty()){
+						emailRecipients.add(new InternetAddress(toStrings[i]));
+					}
+				}
 			}
 			ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
-			for (int i = 0; i < toStrings.length; i++) {
-				if(!toStrings[i].isEmpty()){
-					emailRecipients.add(new InternetAddress(toStrings[i]));
-				}
-			}
-			for (int i = 0; i < ccStrings.length; i++) {
-				if(!ccStrings[i].isEmpty()){
-					emailRecipients.add(new InternetAddress(ccStrings[i]));
-				}
-			}
-
+			
+			
 			// email.setHostName("mail.whatserver.com");
 			// email.setFrom("me@apache.org");
 			email.setHtmlMsg(emr.getHtml());
