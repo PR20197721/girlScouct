@@ -8,8 +8,19 @@
     String activeTab = "myTroop";
     boolean showVtkNav = true;
 
-  java.util.List<org.girlscouts.vtk.models.Contact>contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO).getContacts( user.getApiConfig(), troop.getSfTroopId() );
-	String emailTo=",";
+  java.util.List<org.girlscouts.vtk.models.Contact> contacts = null;
+  if( isCachableContacts && session.getAttribute("vtk_cachable_contacts")!=null ) {
+	  contacts = (java.util.List<org.girlscouts.vtk.models.Contact>) session.getAttribute("vtk_cachable_contacts");
+  }
+
+  if( contacts==null ){
+	   contacts =	new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO).getContacts( user.getApiConfig(), troop.getSfTroopId() );
+	   if( contacts!=null )
+		   session.setAttribute("vtk_cachable_contacts" , contacts);
+  }
+  
+  
+  String emailTo=",";
 	try{
 			for(int i=0;i<contacts.size();i++)
 				if( contacts.get(i).getEmail()!=null && !contacts.get(i).getEmail().trim().equals("") && 

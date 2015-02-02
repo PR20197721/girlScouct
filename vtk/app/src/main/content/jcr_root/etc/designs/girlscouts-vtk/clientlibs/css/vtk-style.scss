@@ -1243,6 +1243,9 @@
           &:nth-of-type(2) {
             margin: 0 15.151515%;
           }
+          &:last-child {
+            margin:0;
+          }
         }
       }
     }
@@ -1356,14 +1359,6 @@
 
 //overwrite of global
 .inline-list {
-  li {
-    &:last-child {
-        margin:0;
-      } 
-    &:nth-of-type(2) {
-      margin: 0 15px
-    }
-  }
   .icon {
     i {
       color: inherit;

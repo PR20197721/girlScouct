@@ -13,6 +13,7 @@
 <H3>INFO</H3>
 <div class="row">
  <%
+ 
  	java.util.List<org.girlscouts.vtk.models.Contact>contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO).getContacts( user.getApiConfig(), troop.getSfTroopId() );
   %>
   

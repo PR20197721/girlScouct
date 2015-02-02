@@ -907,6 +907,8 @@
     float: right; }
     .vtk-body .crumbs .columns #util-links.inline-list li:nth-of-type(2) {
       margin: 0 15.151515%; }
+    .vtk-body .crumbs .columns #util-links.inline-list li:last-child {
+      margin: 0; }
 .vtk-body .accordion {
   margin-bottom: 1.25rem; }
   .vtk-body .accordion dl dt,
@@ -991,10 +993,6 @@
 .vtk-body table tfoot {
   background: none; }
 
-.inline-list li:last-child {
-  margin: 0; }
-.inline-list li:nth-of-type(2) {
-  margin: 0 15px; }
 .inline-list .icon i {
   color: inherit;
   font-size: 30px;
