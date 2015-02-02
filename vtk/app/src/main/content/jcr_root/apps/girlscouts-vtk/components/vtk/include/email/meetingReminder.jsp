@@ -1,4 +1,5 @@
 
+<%@ page import="org.girlscouts.vtk.helpers.*" %>
 <div class="content clearfix">
 
 <% //if(planView.getYearPlanComponent().getType()==YearPlanComponentType.ACTIVITY){
@@ -124,7 +125,23 @@
 	  <dt data-target="panel2"><h6>Include Form Link</h6></dt>
 	  <dd class="accordion-navigation">
 	    <div class="content" id="panel2">
-				<% org.girlscouts.vtk.utils.DocumentUtil docUtil = new org.girlscouts.vtk.utils.DocumentUtil(resourceResolver, sling.getService(com.day.cq.tagging.JcrTagManagerFactory.class), "gsctx");
+				<% 
+				String councilId = null;
+				if (apiConfig != null) {
+				    if (apiConfig.getTroops().size() > 0) {
+				        councilId = Integer.toString(apiConfig.getTroops().get(0).getCouncilCode());
+				    }
+				}
+				CouncilMapper mapper = sling.getService(CouncilMapper.class);
+				String branch = mapper.getCouncilBranch(councilId);
+				branch = branch.replace("/content/", "");
+				
+				//For testing on local set default council since gateway doesn't have tags
+				if(branch == null || branch.isEmpty() || branch.equals("gateway")){
+					branch = "gsctx";
+				}
+				
+					org.girlscouts.vtk.utils.DocumentUtil docUtil = new org.girlscouts.vtk.utils.DocumentUtil(resourceResolver, sling.getService(com.day.cq.tagging.JcrTagManagerFactory.class), branch);
 					try {
 						
 						int panelCount = 1;
