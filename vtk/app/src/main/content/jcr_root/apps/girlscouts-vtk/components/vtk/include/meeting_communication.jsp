@@ -37,7 +37,7 @@
           <%= pageContext.getAttribute("MEETING_achievement_CURRENT") %> of <%= pageContext.getAttribute("MEETING_ATTENDANCE_TOTAL") %> achievement(s)
         <%} %>
     <%} %>   
-   - <a data-reveal-id="modal_popup" data-reveal-ajax="true" title="view" className="view" href={"/content/girlscouts-vtk/controllers/vtk.include.modals.modal_attendance.html?mid=<%=planView.getYearPlanComponent().getUid() %>&isAch=<%=(planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING) ? ((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getIsAchievement() : "false" %>&mName=<%= (planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING) ? ((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getName() : ((Activity)planView.getYearPlanComponent()).getName()%>"}>view</a>
+   
     
      )
    </li>
