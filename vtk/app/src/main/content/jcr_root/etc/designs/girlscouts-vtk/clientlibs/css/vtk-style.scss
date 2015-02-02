@@ -756,6 +756,13 @@
       }
     }
   }
+  #modal_meeting_aids {
+    .button {
+      padding: 5px 8px;
+      display: block;
+      margin:0;
+    }
+  }
   .modal_agenda_edit {
     .content {
       h3 {
@@ -849,9 +856,14 @@
     }
     .meeting-library {
       background: #fff;
-      padding: 20px 40px;
+      padding-top: 20px;
       table {
         border:none;
+        tbody {
+          tr td:first-child {
+            width: 70%;
+          }
+        }
       }
       a {
         position: relative;
