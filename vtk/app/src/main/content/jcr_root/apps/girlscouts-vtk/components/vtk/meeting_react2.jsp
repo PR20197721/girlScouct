@@ -286,7 +286,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
       var SortableListItems1 = React.createClass({
         render: function() {
           if( this.props.data!=null ){
-agendaSched=null;
+            agendaSched=null;
     				return (
   					  <%@include file="include/meeting_agenda.jsp"%>
   					);
@@ -295,7 +295,7 @@ agendaSched=null;
           }
         },
         componentDidMount: function() {
- resizeWindow();
+          resizeWindow();
           var dom = $(this.getDOMNode());
           var onReorder = this.props.onReorder;
           dom.sortable({

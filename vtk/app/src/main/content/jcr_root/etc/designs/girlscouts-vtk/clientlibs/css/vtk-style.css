@@ -83,11 +83,13 @@
   .vtk-body #main #yearPlanMeetings ul {
     margin: 0; }
     .vtk-body #main #yearPlanMeetings ul .meeting {
-      margin-bottom: 2.0833333%; }
+      margin-bottom: 2.0833333%;
+      border: none; }
       .vtk-body #main #yearPlanMeetings ul .meeting > div {
         height: 80px;
         background-color: #f6f6f6;
-        cursor: move; }
+        cursor: move;
+        padding-left: 0; }
         .vtk-body #main #yearPlanMeetings ul .meeting > div:before {
           content: '';
           background: url("images/throbber.png") repeat-y white;
@@ -109,7 +111,7 @@
           padding: 5px 0 0 4px;
           color: #fff;
           position: absolute;
-          height: 100%;
+          height: 80px;
           width: 80px;
           left: 0; }
           .vtk-body #main #yearPlanMeetings ul .meeting > div .bg-square .date {
@@ -906,6 +908,8 @@
     float: right; }
     .vtk-body .crumbs .columns #util-links.inline-list li:nth-of-type(2) {
       margin: 0 15.151515%; }
+    .vtk-body .crumbs .columns #util-links.inline-list li:last-child {
+      margin: 0; }
 .vtk-body .accordion {
   margin-bottom: 1.25rem; }
   .vtk-body .accordion dl dt,
@@ -990,17 +994,13 @@
 .vtk-body table tfoot {
   background: none; }
 
-.inline-list li:last-child {
-  margin: 0; }
-.inline-list li:nth-of-type(2) {
-  margin: 0 15px; }
 .inline-list .icon i {
   color: inherit;
   font-size: 30px;
   line-height: 1; }
 
 .tab-wrapper.row {
-  background: #e1e1e1; }
+  background: #e1e1e1 !important; }
   .tab-wrapper.row .columns {
     background: #e1e1e1; }
   .tab-wrapper.row .dropdown {
@@ -1060,12 +1060,17 @@ input[type="file"] {
   width: 400px; }
 
 @media only screen and (max-width: 40em) {
+  .vtk-body #main #yearPlanMeetings ul .meeting > div .touchscroll {
+    position: absolute;
+    cursor: move;
+    z-index: 100;
+    display: block !important; }
   .vtk-body #main #yearPlanMeetings ul .meeting > div .bg-square {
     left: 30px; }
     .vtk-body #main #yearPlanMeetings ul .meeting > div .bg-square:after {
       content: none; }
   .vtk-body #main #yearPlanMeetings ul .meeting > div:before {
-    left: 5px; }
+    content: none; }
   .vtk-body #main #yearPlanMeetings ul .meeting > div > div:nth-of-type(2) {
     padding-left: 115px; }
 
