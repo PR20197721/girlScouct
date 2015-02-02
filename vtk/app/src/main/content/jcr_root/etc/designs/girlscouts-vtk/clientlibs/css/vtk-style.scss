@@ -1478,6 +1478,10 @@ input[type="file"] {
     width: 100% !important;
     max-width: 100% !important;
   }
+  .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget tbody td,
+  .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody td {
+    padding: 9px;
+  }
 }
 //medium screen 
 @media only screen and (min-width: 40.063em) and (max-width: 60.063em) {
