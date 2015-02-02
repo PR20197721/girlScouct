@@ -60,8 +60,10 @@
 			//function applyAids(aid, aidDesc){  applyAids(aid,aidDesc, '<%=AssetComponentType.AID%>'); }
 			function applyAids(aid, aidDesc, assetType){
 				if( assetType==null || assetType==''){assetType= '<%=AssetComponentType.AID%>'; }
-				var link = "/content/girlscouts-vtk/controllers/vtk.asset.html?aidId="+ aid+ "&aidName="+encodeURI(aidDesc)+"&aType="+ assetType;
-				loadModalPage(link, false, null);
+				var link = "/content/girlscouts-vtk/controllers/vtk.asset1.html?aidId="+ aid+ "&aidName="+encodeURI(aidDesc)+"&aType="+ assetType;
+			 
+				loadModalPage(link, false, null, true, false);
+				
 			}
 		</script>
 
