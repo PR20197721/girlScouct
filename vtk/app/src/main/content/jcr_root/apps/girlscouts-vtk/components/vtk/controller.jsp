@@ -462,12 +462,11 @@
 			EmailMeetingReminder emr = null;
 			if (troop.getSendingEmail() != null) {
 				emr = troop.getSendingEmail();
-			}
-			if (emr.getCc() == null || emr.getCc().equals("")) {
-				emr.setCc("ayakobovich@northpointdigital.com");
+			}else{
+				System.out.println("emr does not exit!");
 			}
 			emr.setSentDate(request.getParameter("email_sent_date"));
-			String html = emr.getHtml();
+			//String html = emr.getHtml();
 			/*
 			html+="<br/>Aids Included:";
 			if( emr!=null ){
