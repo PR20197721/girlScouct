@@ -64,8 +64,9 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 			 </form>
 		</div>
 	</div>
-	<input type="button" value="save" id="saveCalElem" class="button btn right"/>
+	<input type="button" value="save" id="saveCalElem" class="button btn right">
 	<div id="dialog-confirm"></div>
+
 <script>
 $(function() {
     //$( "#cngDate0" ).datepicker({minDate: 0});
@@ -173,12 +174,11 @@ function fnOpenNormalDialog() {
     $("#dialog-confirm").dialog({
         resizable: false,
         modal: true,
-        
+        title: false,
         height: 250,
         width: 400,
-        
         buttons: {
-            "go ahead,cancel the meeting": function () {
+            "Go ahead,cancel the meeting": function () {
                 $(this).dialog('close');
                 var r = $("#meeting_select option:selected").val();
                 rmMeeting('<%=date.getTime()%>',r);
@@ -187,7 +187,11 @@ function fnOpenNormalDialog() {
                 $(this).dialog('close');
                 newLocCal();
             }
-        }
+        },
+        create: function (event, ui) {
+        	$(".ui-dialog-titlebar.ui-widget-header").hide();
+    		}
+
     });
 }
 </script> 

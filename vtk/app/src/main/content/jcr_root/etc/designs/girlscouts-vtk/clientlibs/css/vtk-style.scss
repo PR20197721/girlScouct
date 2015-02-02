@@ -1441,6 +1441,26 @@ input[type="file"] {
   box-shadow: inset 0 0 9px #CECECB;
   width: 400px;
 }
+.ui-dialog-buttonset {
+  .btn {
+    padding:10px !important;
+  }
+  .ui-state-active,
+  .ui-button {
+    background: #00a850 !important;
+    border: none !important;
+    color: white !important;
+    padding:10px !important;
+    border-radius: 0;
+  }
+  .ui-state-hover {
+    background: #008640 !important;
+    border: none !important;
+    color: white !important;
+    padding:10px !important;
+    border-radius: 0;
+  }
+}
 //Media queries
 //small screen
 @media only screen and (max-width: 40em) {
