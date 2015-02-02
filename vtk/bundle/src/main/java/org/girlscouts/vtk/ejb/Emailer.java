@@ -26,11 +26,12 @@ public class Emailer {
 					.getGateway(HtmlEmail.class);
 			
 			HtmlEmail email = new HtmlEmail();
+			String[] ccStrings,toStrings;
 			if(!emr.getCc().isEmpty()){
-				String[] ccStrings = emr.getCc().split(";");
+				ccStrings = emr.getCc().split(";");
 			}
 			if(!emr.getTo().isEmpty()){
-				String[] toStrings = emr.getTo().split(";");
+				toStrings = emr.getTo().split(";");
 			}
 			ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
 			for (int i = 0; i < toStrings.length; i++) {
