@@ -32,12 +32,12 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 				<p><strong>Change Date:</strong></p>
 				<span>Select today's date or any future date</span>
 				<div id="datepicker"></div>
-				<!-- dont remove --><input type="input" name="cngDate0" value="" id="cngDate0" />
+				<!-- <input type="hidden" name="cngDate0" value="" id="cngDate0" /> -->
 				<input type="hidden" value="<%= FORMAT_MMddYYYY.format(date) %>" id="cngDate0"  name="cngDate0" class="date calendarField"/>
 				<p><strong>Change Time:</strong></p>
 				<section class='row clearfix'>
-					<div class="column small-6 large-4 medium-4">
-						<input type="text" id="cngTime0" value="<%= FORMAT_hhmm.format(date) %>" name="cngDate0" style="width:60px"  />
+					<div class="column small-6">
+						<input type="text" id="cngTime0" value="<%= FORMAT_hhmm.format(date) %>" name="cngDate0"  />
 					</div>
 					<div class="columm small-6 left">
 						<select id="cngAP0" name="cngAP0" class="ampm">
