@@ -26,6 +26,8 @@ public class Emailer {
 					.getGateway(HtmlEmail.class);
 			
 			HtmlEmail email = new HtmlEmail();
+			ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
+
 			String[] ccStrings,toStrings;
 			if(!emr.getCc().isEmpty()){
 				ccStrings = emr.getCc().split(";");
@@ -44,7 +46,6 @@ public class Emailer {
 					}
 				}
 			}
-			ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
 			
 			
 			// email.setHostName("mail.whatserver.com");
