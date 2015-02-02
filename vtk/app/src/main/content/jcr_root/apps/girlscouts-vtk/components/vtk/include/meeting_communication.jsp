@@ -44,7 +44,6 @@
    <%} %>
    
    
-   <li><a href="" title="Upload Photo">Upload Photo</a></li>
-   <li>(none) </li>
+  
   </ul>
 </section>
