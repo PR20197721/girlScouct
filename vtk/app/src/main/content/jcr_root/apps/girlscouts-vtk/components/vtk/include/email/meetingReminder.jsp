@@ -260,7 +260,8 @@
     		alert("Subject can not be empty.");
     		return false;
 		}
-	    previewMeetingReminderEmail('<%=((MeetingE)planView.getYearPlanComponent()).getUid()%>');    
+	    previewMeetingReminderEmail('<%=((MeetingE)planView.getYearPlanComponent()).getUid()%>');   
+	    
 	};
 </script>
  

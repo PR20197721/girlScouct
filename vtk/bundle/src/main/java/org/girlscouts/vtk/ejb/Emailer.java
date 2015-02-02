@@ -24,22 +24,29 @@ public class Emailer {
 		try {
 			MessageGateway<HtmlEmail> messageGateway = messageGatewayService
 					.getGateway(HtmlEmail.class);
-
-			String[] ccStrings = emr.getCc().split(";");
-			String[] toStrings = emr.getTo().split(";");
-			ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
-			for (int i = 0; i < toStrings.length; i++) {
-				emailRecipients.add(new InternetAddress(toStrings[i]));
-			}
-			for (int i = 0; i < ccStrings.length; i++) {
-				emailRecipients.add(new InternetAddress(ccStrings[i]));
-			}
-			// emailRecipients.add(new
-			// InternetAddress("ayakobovich@northpointdigital.com"));
-			// emailRecipients.add(new
-			// InternetAddress("cwu@northpointdigital.com"));
-
+			
 			HtmlEmail email = new HtmlEmail();
+			String[] ccStrings,toStrings;
+			if(!emr.getCc().isEmpty()){
+				ccStrings = emr.getCc().split(";");
+				for (int i = 0; i < ccStrings.length; i++) {
+					if(!ccStrings[i].isEmpty()){
+						emailRecipients.add(new InternetAddress(ccStrings[i]));
+					}
+				}
+
+			}
+			if(!emr.getTo().isEmpty()){
+				toStrings = emr.getTo().split(";");
+				for (int i = 0; i < toStrings.length; i++) {
+					if(!toStrings[i].isEmpty()){
+						emailRecipients.add(new InternetAddress(toStrings[i]));
+					}
+				}
+			}
+			ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
+			
+			
 			// email.setHostName("mail.whatserver.com");
 			// email.setFrom("me@apache.org");
 			email.setHtmlMsg(emr.getHtml());
