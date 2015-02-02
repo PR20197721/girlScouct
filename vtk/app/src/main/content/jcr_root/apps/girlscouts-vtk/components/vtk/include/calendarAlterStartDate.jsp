@@ -23,16 +23,16 @@
   <input type="hidden" id="orgDt" name="orgDt" value="<%=( startAlterDate!=null && !startAlterDate.trim().equals("")) ? startAlterDate:( troop.getYearPlan().getCalStartDate()==null ? "" : new java.util.Date(troop.getYearPlan().getCalStartDate()).getTime() ) %>"/>   
   <section class="clearfix">
 
-    <div class="large-4 columns">
+    <div class="small-5 columns">
       <input type="text" placeholder="Start Date" id="calStartDt" name="calStartDt" value="<%=( startAlterDate!=null && !startAlterDate.trim().equals("")) ? FORMAT_MMddYYYY.format(new java.util.Date( Long.parseLong(startAlterDate))):( troop.getYearPlan().getCalStartDate()==null ? "" : FORMAT_MMddYYYY.format(new java.util.Date(troop.getYearPlan().getCalStartDate()))) %>" />
     </div>
-    <div class="large-2 columns">
+    <div class="small-2 columns">
       <label for="calStartDt"><i class="icon-calendar"></i></label>
     </div>
-    <div class="large-4 columns">
+    <div class="small-4 columns">
       <input type="text" placeholder="Time" id="calTime" value="<%=troop.getYearPlan().getCalStartDate()==null ? (org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_HOUR+":"+org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_MIN) : FORMAT_hhmm.format(new java.util.Date(troop.getYearPlan().getCalStartDate())) %>" />
     </div>
-    <div class="large-3 columns">
+    <div class="small-3 columns">
       <select id="calAP">
         <% String AM = "PM";
           if( troop.getYearPlan().getCalStartDate() !=null ){
@@ -43,7 +43,7 @@
         <option value="am" <%=AM.equals("AM") ? " SELECTED" : "" %>>AM</option>
       </select>
     </div>
-    <div class="large-4 columns left">
+    <div class="small-4 columns left">
       <select id="calFreq">
         <option value="weekly" <%= troop.getYearPlan().getCalFreq().equals("weekly") ? " SELECTED" : "" %>>weekly</option>
         <option value="biweekly" <%= troop.getYearPlan().getCalFreq().equals("biweekly") ? " SELECTED" : "" %>>biweekly</option>

@@ -25,55 +25,47 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 
 <div id="locMsg"></div>
 
-<div class="clearfix">
-	<div class="modifyCalendarDate">
-		<div class="column small-10">
-		<input type="radio" value="change" id="cngRadio" CHECKED><strong> Change Date / Time</strong>
-		<form id="frmCalElem">
-			<p><strong>Change Date:</strong></p>
-			<span>Select today's date or any future date</span>
-			<div id="datepicker"></div>
-			<!-- dont remove --><input type="input" name="cngDate0" value="" id="cngDate0" />
-			<input type="hidden" value="<%= FORMAT_MMddYYYY.format(date) %>" id="cngDate0"  name="cngDate0" class="date calendarField"/>
-			<p><strong>Change Time:</strong></p>
-			<section class='row clearfix'>
-				<div class="column small-4">
-					<input type="text" id="cngTime0" value="<%= FORMAT_hhmm.format(date) %>" name="cngDate0" style="width:60px"  />
-				</div>
-				<div class="columm small-6 left">
-				<select id="cngAP0" name="cngAP0" class="ampm">
-						<option value="pm" <%= AP.equals("PM") ? "SELECTED" : "" %>>PM</option> 
-						<option value="am" <%= AP.equals("AM") ? "SELECTED" : "" %>>AM</option>
-					</select>
-				</div>
-				</div>
-			</section>
-		</form>
-		<span  id="cngDate0ErrMsg"></span>
-	</div>
-		<div class="column small-10 push-2">
-		 <input type="radio" value="cancel" id="cclRadio"><strong> Cancel Meeting</strong>
-		 <span>Select meeting plan you would like to cancel:</span>
-		 <form id="frmCalElem_1">
+	<div class="modifyCalendarDate clearfix">
+		<div class="column large-10 medium-10 small-24">
+			<input type="radio" value="change" id="cngRadio" CHECKED><strong> Change Date / Time</strong>
+			<form id="frmCalElem">
+				<p><strong>Change Date:</strong></p>
+				<span>Select today's date or any future date</span>
+				<div id="datepicker"></div>
+				<!-- <input type="hidden" name="cngDate0" value="" id="cngDate0" /> -->
+				<input type="hidden" value="<%= FORMAT_MMddYYYY.format(date) %>" id="cngDate0"  name="cngDate0" class="date calendarField"/>
+				<p><strong>Change Time:</strong></p>
+				<section class='row clearfix'>
+					<div class="column small-6">
+						<input type="text" id="cngTime0" value="<%= FORMAT_hhmm.format(date) %>" name="cngDate0"  />
+					</div>
+					<div class="columm small-6 left">
+						<select id="cngAP0" name="cngAP0" class="ampm">
+							<option value="pm" <%= AP.equals("PM") ? "SELECTED" : "" %>>PM</option> 
+							<option value="am" <%= AP.equals("AM") ? "SELECTED" : "" %>>AM</option>
+						</select>
+					</div>
+				</section>
+			</form>
+			<span  id="cngDate0ErrMsg"></span>
+		</div>
 
-		 	<select id="meeting_select">	
-		 	
-		 	<%
-		 	    for(int i=0;i<meetingsToCancel.size();i++) {%>
-				 	<option value="<%=meetingsToCancel.get(i).getRefId()%>" <%=meetingsToCancel.get(i).getRefId()==meeting.getRefId()? "SELECTED" : "" %>><%= meetingsToCancel.get(i).getMeetingInfo().getName()%></option>		 				 	   
-				<% }
-		 	%>	 	
-
-		 	</select>
-			
-		 </form>
+		<div class="column small-24 large-10 medium-10">
+			<input type="radio" value="cancel" id="cclRadio"><strong> Cancel Meeting</strong>
+			<p>Select meeting plan you would like to cancel:</p>
+			<form id="frmCalElem_1">
+				<select id="meeting_select">	
+				 	<%
+				 	    for(int i=0;i<meetingsToCancel.size();i++) {%>
+						 	<option value="<%=meetingsToCancel.get(i).getRefId()%>" <%=meetingsToCancel.get(i).getRefId()==meeting.getRefId()? "SELECTED" : "" %>><%= meetingsToCancel.get(i).getMeetingInfo().getName()%></option>		 				 	   
+						<% }
+				 	%>	 	
+			 	</select>
+			 </form>
 		</div>
 	</div>
 	<input type="button" value="save" id="saveCalElem" class="button btn right"/>
 	<div id="dialog-confirm"></div>
-	
-
-</div>
 <script>
 $(function() {
     //$( "#cngDate0" ).datepicker({minDate: 0});
