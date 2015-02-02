@@ -173,7 +173,7 @@ function fnOpenNormalDialog() {
     $("#dialog-confirm").dialog({
         resizable: false,
         modal: true,
-        title: "Anna fix this tata",
+        
         height: 250,
         width: 400,
         
