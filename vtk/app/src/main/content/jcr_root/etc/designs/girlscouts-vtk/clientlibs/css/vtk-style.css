@@ -83,7 +83,8 @@
   .vtk-body #main #yearPlanMeetings ul {
     margin: 0; }
     .vtk-body #main #yearPlanMeetings ul .meeting {
-      margin-bottom: 2.0833333%; }
+      margin-bottom: 2.0833333%;
+      border: none; }
       .vtk-body #main #yearPlanMeetings ul .meeting > div {
         height: 80px;
         background-color: #f6f6f6;
@@ -109,7 +110,7 @@
           padding: 5px 0 0 4px;
           color: #fff;
           position: absolute;
-          height: 100%;
+          height: 80px;
           width: 80px;
           left: 0; }
           .vtk-body #main #yearPlanMeetings ul .meeting > div .bg-square .date {
@@ -1060,12 +1061,16 @@ input[type="file"] {
   width: 400px; }
 
 @media only screen and (max-width: 40em) {
+  .vtk-body #main #yearPlanMeetings ul .meeting > div .touchscroll {
+    position: absolute;
+    cursor: move;
+    z-index: 100; }
   .vtk-body #main #yearPlanMeetings ul .meeting > div .bg-square {
     left: 30px; }
     .vtk-body #main #yearPlanMeetings ul .meeting > div .bg-square:after {
       content: none; }
   .vtk-body #main #yearPlanMeetings ul .meeting > div:before {
-    left: 5px; }
+    content: none; }
   .vtk-body #main #yearPlanMeetings ul .meeting > div > div:nth-of-type(2) {
     padding-left: 115px; }
 
