@@ -275,8 +275,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
           render: function () {
       		return <section className="column large-20 medium-20 large-centered medium-centered">
         					 <h6>meeting agenda</h6>
-                   <a href="javascript:void(0)" onclick="revertAgenda('/vtk/603/troops/701G0000000uQzUIAU/yearPlan/meetingEvents/M1422906376353_0.36698847162600257')" class="mLocked">Revert to Original Agenda</a>
-        					 <p>Select and agenda item to view details, edit duration and delete. Drag and drop to reorder.</p>
+                  <p>Select and agenda item to view details, edit duration and delete. Drag and drop to reorder.</p>
        						 <SortableListItems1  key="{this.props.data}"  data={this.props.data} onClick={this.alex} onReorder={this.onReorder}/>
                   <AgendaTotal data={this.props.data}/>   				
                   <strong><a data-reveal-id="modal_agenda"><i className="icon-button-circle-plus"></i> Add Agenda Item</a></strong>

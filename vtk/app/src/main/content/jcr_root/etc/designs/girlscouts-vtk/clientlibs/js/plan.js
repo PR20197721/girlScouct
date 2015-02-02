@@ -93,19 +93,24 @@ function resetModalPage() {
 }
 
 function loadModalPage(link, showTitle, title, fullPageScroll, print) {
-		resetModalPage();
 		
+	resetModalPage();
+	
         $( "#gsModal" ).load(link, function( response, status, xhr ) {
+     	
                 if ( status == "error" ) {
+               	
                         var msg = "Sorry but there was an error: ";
                         $( "#error" ).html( msg + xhr.status + " " + xhr.statusText );
                 }else{
-			loadModal("#gsModal", showTitle, title, fullPageScroll, print);
+               	
+                	loadModal("#gsModal", showTitle, title, fullPageScroll, print);
                 }
         });
 }
 
 function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
+	alert(4);
 	var wWidth = $(window).width();
 	var wHeight = $(window).height();
 	var dWidth = wWidth * 1; //this will make the dialog 80% of the
