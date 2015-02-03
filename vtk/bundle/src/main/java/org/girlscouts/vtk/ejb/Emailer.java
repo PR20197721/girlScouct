@@ -29,7 +29,7 @@ public class Emailer {
 			ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
 
 			String[] ccStrings,toStrings;
-			if(!emr.getCc().isEmpty()){
+			if(emr.getCc()!=null && !emr.getCc().isEmpty()){
 				ccStrings = emr.getCc().split(";");
 				for (int i = 0; i < ccStrings.length; i++) {
 					if(!ccStrings[i].isEmpty()){
@@ -38,7 +38,7 @@ public class Emailer {
 				}
 
 			}
-			if(!emr.getTo().isEmpty()){
+			if(emr.getTo()!=null && !emr.getTo().isEmpty()){
 				toStrings = emr.getTo().split(";");
 				for (int i = 0; i < toStrings.length; i++) {
 					if(!toStrings[i].isEmpty()){
