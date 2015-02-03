@@ -59,35 +59,33 @@ if (troop.getYearPlan() != null) {
 			<div id="manageCalendarSection">
 				<div class="content clearfix active" id="panel1">
 					<div id="calMng">
-<%
-    if( troop.getYearPlan().getSchedule() == null  || request.getParameter("alterYPStartDate")!=null) {
-
-%>
-<%@include file="include/calendarAlterStartDate.jsp"%>
-<%
-
-    }else{
-%>
-<%@include file="include/calList.jsp"%>
-<%  } %>
+						<%
+						  if( troop.getYearPlan().getSchedule() == null  || request.getParameter("alterYPStartDate")!=null) {
+						%>
+							<%@include file="include/calendarAlterStartDate.jsp"%>
+						<%
+						    } else {
+						%>
+							<%@include file="include/calList.jsp"%>
+						<%  } %>
 					</div>
 				</div>
 			</div>
 			<div id="manageLocationSection">
-<%@include file="include/location.jsp"%>
+				<%@include file="include/location.jsp"%>
 			</div>
 			<div id="manageActivitySection">
-<%@include file="include/manageActivities.jsp"%>
+				<%@include file="include/manageActivities.jsp"%>
 			</div>
-<%
-} else {
-%>
-			<span class="error">This year plan has no meetings.<br />
-				Please select a different year plan.
-			</span>
-<%
-}
-%>
+				<%
+				} else {
+				%>
+					<span class="error">This year plan has no meetings.<br />
+						Please select a different year plan.
+					</span>
+				<%
+				}
+				%>
 		</div>
 		<!--tabs-content-->
 	</div>

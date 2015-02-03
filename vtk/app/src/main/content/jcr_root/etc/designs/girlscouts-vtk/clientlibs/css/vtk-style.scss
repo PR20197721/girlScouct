@@ -796,6 +796,11 @@
       }
       form {
         margin-bottom:0;
+        &.cmxform {
+          input[type="button"] {
+            margin-top: 1rem;
+          }
+        }
       }
     }
     .header {

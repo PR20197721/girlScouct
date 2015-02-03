@@ -244,10 +244,7 @@
               </div>
             </div><!--/row-->
 
-
-            <div class="linkButtonWrapper">
-              <input class="button linkButton" type="button" value="Add Activity" id="newCustActivity"  disabled/>
-            </div>
+            <input class="button right" type="button" value="Add Activity" id="newCustActivity"  disabled/>
           </form>
         </div><!--/create activity-->
 
@@ -334,9 +331,7 @@
               </ul>
             </div>
 
-            <div class="linkButtonWrapper">
-             <input type="button" value="View Activities" onclick='searchActivities()' class="button btn"/>
-            </div>
+            <input type="button" value="View Activities" onclick='searchActivities()' class="button btn right"/>
 
             <div id="searchResults"></div>
           </form>

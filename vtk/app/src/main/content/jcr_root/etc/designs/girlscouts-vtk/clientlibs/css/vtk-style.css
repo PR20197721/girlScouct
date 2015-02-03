@@ -580,6 +580,8 @@
       font-size: 14px; }
     .vtk-body .modalWrap #gsModal form {
       margin-bottom: 0; }
+      .vtk-body .modalWrap #gsModal form.cmxform input[type="button"] {
+        margin-top: 1rem; }
   .vtk-body .modalWrap .header {
     background: #00ae57;
     padding: 7px 0 5px 9px; }
