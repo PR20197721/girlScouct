@@ -24,7 +24,7 @@ public interface CouncilCreator {
 
     ArrayList<Tag> generateTags(Session session, ResourceResolver rr, String path, String councilName, String councilTitle);
     
-    ArrayList<Page> generateDesign(Session session, ResourceResolver rr, String councilName, String councilTitle);
+    ArrayList<Node> generateDesign(Session session, ResourceResolver rr, String councilName, String councilTitle);
     
     ArrayList<Group> generateGroups(Session session, ResourceResolver rr, String councilName, String councilTitle);
 }

@@ -163,17 +163,36 @@ public class CouncilCreatorImpl implements CouncilCreator
 		return tags;
 	}
 	
-	public ArrayList<Page> generateDesign(Session session, ResourceResolver rr, String councilName, String councilTitle) {
-		ArrayList<Page> design = new ArrayList<Page>();
+	public ArrayList<Node> generateDesign(Session session, ResourceResolver rr, String councilName, String councilTitle) {
+		ArrayList<Node> design = new ArrayList<Node>();
 		final String designPath = "/etc/designs";
-		final String designPrototype = "girlscouts-prototype";
+		final String designPrototypePath = "girlscouts-prototype";
 		
 		try {
 			Node designsFolder = session.getNode(designPath);
-			
-		} catch(Exception e) {
-			
-		}
+					
+			if (designsFolder.hasNode(designPrototypePath)) {
+			    Node prototypeDesign = designsFolder.getNode(designPrototypePath);
+			    buildFolder(designsFolder, councilName, councilTitle, "cq:Page", false);
+			    Node councilDesign = JcrUtil.copy(prototypeDesign, designsFolder, councilName);
+			    design.add(councilDesign);
+			    councilDesign.getNode("jcr:content").setProperty("jcr:title", councilTitle);			    			   			    
+			    } else {
+					LOG.error("design prototype folder not found");
+					throw new PathNotFoundException();
+				}
+			session.save();
+		} catch (PathNotFoundException e) {
+			LOG.error("Path not found during design generation: " + e.toString());
+			e.printStackTrace();			
+		} catch (RepositoryException e) {
+			LOG.error("Error with Repository: " + e.toString());
+			e.printStackTrace();			
+		} catch (Exception e) {
+			LOG.error("Cannot generate design: " + e.toString());
+			e.printStackTrace();
+
+		} 
 		return design;
 	}
 	
