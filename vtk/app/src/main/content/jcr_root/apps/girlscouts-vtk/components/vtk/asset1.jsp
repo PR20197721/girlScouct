@@ -50,7 +50,7 @@ function rmAid(aidId, meetingId, assetName, assetDesc){
                 a:Date.now()
             },
             success: function(result) {
-
+            	applyAids(aidId, assetName, '<%=request.getParameter("aType")%>');
             }
         });
     applyAids(aidId, assetName);

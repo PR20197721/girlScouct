@@ -29,7 +29,8 @@
     boolean showVtkNav = true;
 %>
 
-<div id="myModal" class="reveal-modal" data-reveal></div>
+<div id="myModal0" class="reveal-modal" data-reveal></div>
+<div id="myModal1" class="reveal-modal" data-reveal></div>
 
 
    
@@ -69,13 +70,15 @@
 			});
 
 			//function applyAids(aid, aidDesc){  applyAids(aid,aidDesc, '<%=AssetComponentType.AID%>'); }
+	var x=0;		
 			function applyAids(aid, aidDesc, assetType){
 	
 				if( assetType==null || assetType==''){assetType= '<%=AssetComponentType.AID%>'; }
 				var link = "/content/girlscouts-vtk/controllers/vtk.asset1.html?aidId="+ aid+ "&aidName="+encodeURI(aidDesc)+"&aType="+ assetType;
 						
-				$('#myModal').foundation('reveal', 'open', {url: link});
-    
+				$('#myModal'+x).foundation('reveal', 'open', {url: link});
+    if( x==0 )x=1;
+    else x=0;
 			}
 		</script>
 		
