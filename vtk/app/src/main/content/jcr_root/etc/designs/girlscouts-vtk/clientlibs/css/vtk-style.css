@@ -546,6 +546,9 @@
     padding-top: 3px;
     padding-bottom: 0;
     padding-left: 0; }
+    .vtk-body #modal-meeting-reminder .accordion dd .content li span {
+      display: inline-block;
+      white-space: nowrap; }
   .vtk-body #modal-meeting-reminder .accordion .accordion-inner {
     background: none; }
     .vtk-body #modal-meeting-reminder .accordion .accordion-inner dt {
@@ -936,7 +939,8 @@
       text-transform: uppercase;
       margin-left: 40px;
       margin-right: 120px;
-      cursor: pointer; }
+      cursor: pointer;
+      position: relative; }
       .vtk-body .accordion > dt h3:before,
       .vtk-body .accordion > dt h6:before {
         border-style: solid;
@@ -1090,6 +1094,14 @@ input[type="file"] {
   .vtk-body #main #yearPlanMeetings ul .meeting > div > div:nth-of-type(2) {
     padding-left: 115px; }
 
+  .vtk-body .accordion > dt h3 {
+    width: 100%;
+    display: block; }
+    .vtk-body .accordion > dt h3.on:before {
+      margin-left: -40px; }
+    .vtk-body .accordion > dt h3:before {
+      margin-left: -40px; }
+
   .vtk-body #main .meeting-detail .meeting-navigation .column:nth-child(2) {
     border: none; }
 
@@ -1109,7 +1121,12 @@ input[type="file"] {
 
   .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget tbody td,
   .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody td {
-    padding: 9px; } }
+    padding: 9px; }
+
+  .vtk-body #modal-meeting-reminder .accordion dd .content li span {
+    max-width: 245px;
+    overflow: hidden;
+    text-overflow: ellipsis; } }
 @media only screen and (min-width: 40.063em) and (max-width: 60.063em) {
   .vtk-body #main .crumbs .columns #util-links.inline-list li:nth-of-type(2) {
     margin: 0 11px; } }
