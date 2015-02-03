@@ -28,7 +28,18 @@
     String activeTab = "resource";
     boolean showVtkNav = true;
 %>
+
+<div id="myModal" class="reveal-modal" data-reveal></div>
+
+
+   
 <%@include file="include/tab_navigation.jsp"%>
+
+
+
+   
+   
+   
 <div id="panelWrapper" class="row content">
   <div class="columns large-20 large-centered">
 		<script>
@@ -59,13 +70,18 @@
 
 			//function applyAids(aid, aidDesc){  applyAids(aid,aidDesc, '<%=AssetComponentType.AID%>'); }
 			function applyAids(aid, aidDesc, assetType){
+				
+				
 				if( assetType==null || assetType==''){assetType= '<%=AssetComponentType.AID%>'; }
 				var link = "/content/girlscouts-vtk/controllers/vtk.asset1.html?aidId="+ aid+ "&aidName="+encodeURI(aidDesc)+"&aType="+ assetType;
-			 
-				loadModalPage(link, false, null, true, false);
+				$('#myModal').foundation('reveal', 'open', {url: link});
+			    
 				
 			}
 		</script>
+		
+
+
 
 			<h1>Search For Resources</h1>
 			<div class="ui-widget">
