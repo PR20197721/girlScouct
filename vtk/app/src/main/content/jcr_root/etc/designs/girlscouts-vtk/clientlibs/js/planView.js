@@ -243,8 +243,14 @@ function sendMeetingReminderEmail(){
 			email_sent_date: moment(new Date()).format('MM/DD/YYYY')
 		},
 		success: function(result) {
-			alert("Email Sent!");
 			location.reload('true');
+		    $('.ui-dialog-titlebar').css('display', 'none');
+			$('#after-sent').dialog('open');
+			$('.ui-dialog').css('z-index', 300);
+		    setTimeout(function() {
+		    	$('#added').dialog('close');
+		    }, 10000);
+
 		}
 	});
 	return;

@@ -188,6 +188,9 @@
 	<div id="added">
 		<p>Added to email.</p>
 	</div>
+	<div id="after-sent">
+		<p>Email(s) sent.</p>
+	</div>
 	
 </div>
 <!--//content-->
@@ -204,6 +207,8 @@
 		  $('.sent').append('none');
 		 } */
 		 $('#added').dialog({ autoOpen: false, zIndex: 200 });
+		 $('#after-sent').dialog({ autoOpen: false, zIndex: 200 });
+
 	});
 	
 
@@ -215,7 +220,10 @@
 		"fsizes": ['10','12','14','16','18','20','22','24','28','32']
 	});
 	function addFormLink(link, formname, categoryId){
-		$('#formLinks').append('<li><a href="'+link+'">'+formname+'</a></li>');
+		var url = window.location.href;
+		var arr = url.split("/");
+		var host = arr[0] + "//" + arr[2];
+		$('#formLinks').append('<li><a href="'+host+link+'">'+formname+'</a></li>');
 		$('#formLinks p.hide').removeClass();
 		$("dt[data-target='" + categoryId + "'] span").removeClass('on');
 		$('.accordion #' + categoryId).slideToggle('slow');
@@ -228,7 +236,10 @@
 		return;
 	};
 	function addAidLink(refId,title,uid){
-		$('#aidLinks').append('<li><a href="'+refId+'">'+title+'</a></li>');
+		var url = window.location.href;
+		var arr = url.split("/");
+		var host = arr[0] + "//" + arr[2];
+		$('#aidLinks').append('<li><a href="'+host+refId+'">'+title+'</a></li>');
 		$('#aidLinks p.hide').removeClass();
 		$('#added').dialog('open');
 		$('.ui-dialog-titlebar').css('display', 'none');
@@ -240,8 +251,10 @@
 		return;
 	};
 	function sendEmail(){
-		validate();
-	    previewMeetingReminderEmail('<%=((MeetingE)planView.getYearPlanComponent()).getUid()%>');   
+		if(validate()){
+	    	previewMeetingReminderEmail('<%=((MeetingE)planView.getYearPlanComponent()).getUid()%>'); 
+		}
+
 	};
 	function validate(){
 	    var emailReg = /^(([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?\;?)+$/;
@@ -264,7 +277,7 @@
     		alert("Subject can not be empty.");
     		return false;
 		}
-		return;
+		return true;
 	    
 	};
 	
