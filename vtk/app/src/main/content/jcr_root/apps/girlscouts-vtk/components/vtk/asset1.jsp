@@ -140,7 +140,7 @@ function rmAid(aidId, meetingId, assetName, assetDesc){
                 <a href="javascript:void(0)" onclick="rmAid('<%=aidId %>', '<%=_comp.getUid()%>', '<%=request.getParameter("aidName")%>')">remove</a>
             </li>
 <%
-            } else {
+            } else if(!isActivity){
 %>
 
             <li><a href="javascript:void(0)" onclick="assignAid('<%=aidId %>', '<%=_comp.getUid()%>', '<%=request.getParameter("aidName")%>')"><%=displayName%></a></li>
