@@ -81,7 +81,6 @@ $(function() {
 		      
 		   }
 		  });
-	$( "#datepicker").setDate(document.getElementById("cngDate0"));
   });
 </script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.js"></script>
