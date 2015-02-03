@@ -14,6 +14,14 @@ var $ = jQuery.noConflict();
 			$(targetNode).hide();
 		}
 	}
+	// function modal_height() {
+ //  	var window_h = $(window).height();
+ //  	// var popup_top = $(window_h -$('.reveal-modal').height()/2);
+ //  	var popup_h = (window_h - 50);
+	// 	$('.reveal-modal').css('top', 0);
+	// 	$('.reveal-modal').css('height' , window_h + 'px');
+	// 	$('.scroll').css('max-height' , popup_h +' px');
+	// }
 	function vtk_accordion() {
 		$('.accordion dt > :first-child').on('click', function() {
 			var target = $(this).parent().data('target');
@@ -32,13 +40,13 @@ var $ = jQuery.noConflict();
 		  $(document).on('opened.fndtn.reveal', '[data-reveal]', function () {
 				var window_h = $(window).height();
 				var popup_h = (window_h - 75);
-				$(this).find('.scroll').css('max-height' , popup_h+'px');
+				$(this).find('.scroll').css('max-height' , popup_h + 'px');
 			});
 		}
 		function modal_height_resize() {
     	var window_h = $(window).height();
     	var popup_h = (window_h - 75);
-  		$('.scroll').css('max-height' , popup_h+'px');
+  		$('.scroll').css('max-height' , popup_h + 'px');
   		$('.modalWrap').css('max-height' , $(window).height()+'px');
 		}
 
