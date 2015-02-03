@@ -181,7 +181,7 @@
 	  </dd>
 	</dl>
 	<div class="right clearfix">
-		<input type="button" value="Send email" class="button btn" onclick="validate();"/>
+		<input type="button" value="Send email" class="button btn" onclick="sendEmail();"/>
 		<!--  <input class="button btn" value="Send email" type="button" onclick="sendMeetingReminderEmail()"/>-->
 	</div>
 	
@@ -239,6 +239,10 @@
 		//addAidToEmail(refId,title,uid);
 		return;
 	};
+	function sendEmail(){
+		validate();
+	    previewMeetingReminderEmail('<%=((MeetingE)planView.getYearPlanComponent()).getUid()%>');   
+	};
 	function validate(){
 	    var emailReg = /^(([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?\;?)+$/;
 	    var email = $('#email_to_cc').val();
@@ -260,8 +264,9 @@
     		alert("Subject can not be empty.");
     		return false;
 		}
-	    previewMeetingReminderEmail('<%=((MeetingE)planView.getYearPlanComponent()).getUid()%>');   
+		return;
 	    
 	};
+	
 </script>
  

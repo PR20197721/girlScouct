@@ -243,7 +243,8 @@ function sendMeetingReminderEmail(){
 			email_sent_date: moment(new Date()).format('MM/DD/YYYY')
 		},
 		success: function(result) {
-			alert("sent!");
+			alert("Email Sent!");
+			location.reload('true');
 		}
 	});
 	return;
