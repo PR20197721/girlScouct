@@ -744,6 +744,12 @@
           padding-top:3px;
           padding-bottom:0;
           padding-left:0;
+          li {
+            span {
+              display:inline-block;
+              white-space: nowrap;
+            }
+          }
         }
       }
       .accordion-inner {
@@ -1281,6 +1287,7 @@
         margin-left: 40px;
         margin-right: 120px;
         cursor: pointer;
+        position: relative;
         &:before {
           border-style: solid;
           content: "";
@@ -1483,6 +1490,22 @@ input[type="file"] {
     > div:nth-of-type(2) {
         padding-left: 115px;
     }
+  } 
+  .vtk-body .accordion > dt h3 {
+    width:100%;
+    display: block;
+    &.on {
+      &:before {
+        margin-left: -40px;
+      }
+    }
+    &:before {
+      margin-left: -40px;
+    }
+  }
+  .vtk-body .modalWrap .tabs-wrapper .tabs-content .yearMeetingList td {
+    vertical-align: top;
+    width: auto;
   }
   .vtk-body #main .meeting-detail .meeting-navigation .column:nth-child(2) {
     border:none;
@@ -1504,6 +1527,11 @@ input[type="file"] {
   .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget tbody td,
   .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody td {
     padding: 9px;
+  }
+  .vtk-body #modal-meeting-reminder .accordion dd .content li span {
+    max-width: 245px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 //medium screen 
