@@ -37,14 +37,6 @@
 	}catch(Exception e){e.printStackTrace();}
 %>
 
-<!-- <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-<!-- 2/1/15 link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" / -->
-<!-- script src="http://fb.me/react-0.12.1.js"></script -->
-<!-- script src="http://fb.me/JSXTransformer-0.12.1.js"></script -->
-<!-- script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script -->
-<!-- script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script -->
-<!-- script src="http://fb.me/react-with-addons-0.12.1.js"></script> -->
-
 <%@include file="include/tab_navigation.jsp"%>
 
 <div id="panelWrapper" class="row content">
@@ -63,7 +55,7 @@
     	}
     %>
   </div>
-  <div class="column large-24 large-centered">
+  <div class="column large-24 large-centered mytroop">
 
     <dl class="accordion" data-accordion>
       <dt data-target="panel1"><h3 class="on"><%=troop.getSfTroopName() %> INFO</h3><a href='mailto:<%=emailTo%>'><i class="icon icon-mail"></i>email to <%= contacts.size() %> contacts</a></dt>
@@ -77,8 +69,8 @@
                 <div class="row">
                   <dl class="accordion-inner clearfix" data-accordion>
                     <dt data-target="panel<%=i+1%>b" class="clearfix">
-                      <span class="name column large-6"><%=contact.getFirstName() %></span>
-                      <span class="name column large-4">&nbsp;</span>
+                      <span class="name column large-10"><%=contact.getFirstName() %></span>
+                     <!--  <span class="name column large-4 hide-for-small">&nbsp;</span> -->
                       <a class="column large-8 email" href="mailto:<%=contact.getEmail() %>">
                         <i class="icon icon-mail"></i><%=contact.getEmail() %>
                       </a>
