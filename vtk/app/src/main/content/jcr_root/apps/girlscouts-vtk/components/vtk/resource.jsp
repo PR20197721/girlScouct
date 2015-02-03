@@ -70,10 +70,10 @@
 
 			//function applyAids(aid, aidDesc){  applyAids(aid,aidDesc, '<%=AssetComponentType.AID%>'); }
 			function applyAids(aid, aidDesc, assetType){
-				
-				
+	
 				if( assetType==null || assetType==''){assetType= '<%=AssetComponentType.AID%>'; }
 				var link = "/content/girlscouts-vtk/controllers/vtk.asset1.html?aidId="+ aid+ "&aidName="+encodeURI(aidDesc)+"&aType="+ assetType;
+				console.log(link);
 				$('#myModal').foundation('reveal', 'open', {url: link});
 			    
 				
