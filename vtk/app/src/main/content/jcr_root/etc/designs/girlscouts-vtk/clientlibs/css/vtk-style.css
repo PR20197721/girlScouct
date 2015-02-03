@@ -578,6 +578,8 @@
     overflow: hidden !important; }
     .vtk-body .modalWrap #gsModal p, .vtk-body .modalWrap #gsModal a, .vtk-body .modalWrap #gsModal span, .vtk-body .modalWrap #gsModal li {
       font-size: 14px; }
+    .vtk-body .modalWrap #gsModal form {
+      margin-bottom: 0; }
   .vtk-body .modalWrap .header {
     background: #00ae57;
     padding: 7px 0 5px 9px; }
@@ -640,7 +642,7 @@
       width: 50%; }
     .vtk-body .modalWrap .tabs-wrapper .tabs-content {
       background: #fff;
-      padding: 30px 20px 0px 20px;
+      padding: 30px 20px 20px 20px;
       margin: 0; }
       .vtk-body .modalWrap .tabs-wrapper .tabs-content table {
         width: 100%;
@@ -738,6 +740,9 @@
 .vtk-body .modalWrap input[type="checkbox"] + label,
 .vtk-body .modalWrap input[type="radio"] + label {
   margin: 0; }
+.vtk-body .reveal-modal .button,
+.vtk-body .modalWrap .button {
+  margin-bottom: 0; }
 .vtk-body .reveal-modal #frmCalElem,
 .vtk-body .modalWrap #frmCalElem {
   margin-bottom: 0; }
@@ -799,12 +804,18 @@
     .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody {
       border: solid 1px #ccc; }
       .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget tbody .ui-datepicker-current-day,
-      .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody .ui-datepicker-current-day {
+      .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget tbody .ui-datepicker-today,
+      .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody .ui-datepicker-current-day,
+      .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody .ui-datepicker-today {
         background: #cfefde; }
         .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget tbody .ui-datepicker-current-day a,
         .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget tbody .ui-datepicker-current-day a.ui-state-hover,
+        .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget tbody .ui-datepicker-today a,
+        .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget tbody .ui-datepicker-today a.ui-state-hover,
         .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody .ui-datepicker-current-day a,
-        .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody .ui-datepicker-current-day a.ui-state-hover {
+        .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody .ui-datepicker-current-day a.ui-state-hover,
+        .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody .ui-datepicker-today a,
+        .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody .ui-datepicker-today a.ui-state-hover {
           background: #cfefde; }
       .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget tbody td,
       .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody td {
