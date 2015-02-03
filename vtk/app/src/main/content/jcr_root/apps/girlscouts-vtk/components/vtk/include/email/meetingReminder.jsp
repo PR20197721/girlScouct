@@ -258,10 +258,11 @@
 	};
 	function validate(){
 	    var emailReg = /^(([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?\;?)+$/;
-	    var email = $('#email_to_cc').val();
+	    var emailAddr = $('#email_to_cc').val();
 	    var subject = $('#email_subj').val();
-		if(email.length){
-		    if(!emailReg.test(email)){
+	    var body = $('#email_htm').val();
+		if(emailAddr.length){
+		    if(!emailReg.test(emailAddr)){
 		    	//$('#email_to_cc') label turn red or input background turn red
 		    	$('.scroll').scrollTop($('#email_to_cc').position().top);
 	            alert("Please enter valid email address(es).");
@@ -275,6 +276,11 @@
 		if(!subject.length){
 	    	$('.scroll').scrollTop($('#email_subj').position().top);
     		alert("Subject can not be empty.");
+    		return false;
+		}
+		if(!body.length){
+	    	$('.scroll').scrollTop($('#email_htm').position().top);
+    		alert("Email body can not be empty.");
     		return false;
 		}
 		return true;
