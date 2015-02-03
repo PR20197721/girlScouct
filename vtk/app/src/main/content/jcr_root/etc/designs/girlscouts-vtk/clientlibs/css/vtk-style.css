@@ -578,6 +578,8 @@
     overflow: hidden !important; }
     .vtk-body .modalWrap #gsModal p, .vtk-body .modalWrap #gsModal a, .vtk-body .modalWrap #gsModal span, .vtk-body .modalWrap #gsModal li {
       font-size: 14px; }
+    .vtk-body .modalWrap #gsModal form {
+      margin-bottom: 0; }
   .vtk-body .modalWrap .header {
     background: #00ae57;
     padding: 7px 0 5px 9px; }
@@ -640,7 +642,7 @@
       width: 50%; }
     .vtk-body .modalWrap .tabs-wrapper .tabs-content {
       background: #fff;
-      padding: 30px 20px 0px 20px;
+      padding: 30px 20px 20px 20px;
       margin: 0; }
       .vtk-body .modalWrap .tabs-wrapper .tabs-content table {
         width: 100%;
@@ -738,82 +740,95 @@
 .vtk-body .modalWrap input[type="checkbox"] + label,
 .vtk-body .modalWrap input[type="radio"] + label {
   margin: 0; }
-.vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget,
-.vtk-body .modalWrap #frmCalElem #datepicker .ui-widget {
-  width: 100%;
-  border: none;
-  background: none; }
-  .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget a,
-  .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget a {
-    color: #333;
-    border: none !important;
-    background: none; }
-    .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget a.ui-datepicker-next span, .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget a.ui-datepicker-prev span,
-    .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget a.ui-datepicker-next span,
-    .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget a.ui-datepicker-prev span {
-      border-style: solid;
-      content: "";
-      border-width: 13px;
-      margin-top: -13px;
-      top: 50%;
-      border-color: transparent transparent transparent #00ae58;
-      margin-left: 5px;
-      width: 13px;
-      height: 13px;
-      background: none; }
-      .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget a.ui-datepicker-next span:hover, .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget a.ui-datepicker-prev span:hover,
-      .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget a.ui-datepicker-next span:hover,
-      .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget a.ui-datepicker-prev span:hover {
-        border-color: transparent transparent transparent #039d50; }
-    .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget a.ui-datepicker-next.ui-state-hover .ui-icon,
-    .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget a.ui-datepicker-next.ui-state-hover .ui-state-focus,
-    .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget a.ui-datepicker-next.ui-state-hover .ui-state-focus .ui-icon, .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget a.ui-datepicker-prev.ui-state-hover .ui-icon,
-    .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget a.ui-datepicker-prev.ui-state-hover .ui-state-focus,
-    .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget a.ui-datepicker-prev.ui-state-hover .ui-state-focus .ui-icon,
-    .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget a.ui-datepicker-next.ui-state-hover .ui-icon,
-    .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget a.ui-datepicker-next.ui-state-hover .ui-state-focus,
-    .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget a.ui-datepicker-next.ui-state-hover .ui-state-focus .ui-icon,
-    .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget a.ui-datepicker-prev.ui-state-hover .ui-icon,
-    .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget a.ui-datepicker-prev.ui-state-hover .ui-state-focus,
-    .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget a.ui-datepicker-prev.ui-state-hover .ui-state-focus .ui-icon {
-      background: none; }
-    .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget a.ui-datepicker-prev span,
-    .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget a.ui-datepicker-prev span {
-      border-color: transparent  #00ae58 transparent transparent; }
-      .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget a.ui-datepicker-prev span:hover,
-      .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget a.ui-datepicker-prev span:hover {
-        border-color: transparent #039d50 transparent transparent; }
-  .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget .ui-datepicker-header,
-  .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget .ui-datepicker-header {
-    background: none;
+.vtk-body .reveal-modal .button,
+.vtk-body .modalWrap .button {
+  margin-bottom: 0; }
+.vtk-body .reveal-modal #frmCalElem,
+.vtk-body .modalWrap #frmCalElem {
+  margin-bottom: 0; }
+  .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget,
+  .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget {
+    width: 100%;
     border: none;
-    color: #333; }
-    .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget .ui-datepicker-header .ui-datepicker-title,
-    .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget .ui-datepicker-header .ui-datepicker-title {
-      float: none; }
-  .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget tbody,
-  .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody {
-    border: solid 1px #ccc; }
-    .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget tbody .ui-datepicker-current-day,
-    .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody .ui-datepicker-current-day {
-      background: #cfefde; }
-      .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget tbody .ui-datepicker-current-day a,
-      .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget tbody .ui-datepicker-current-day a.ui-state-hover,
-      .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody .ui-datepicker-current-day a,
-      .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody .ui-datepicker-current-day a.ui-state-hover {
-        background: #cfefde; }
-    .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget tbody td,
-    .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody td {
-      padding: 14px;
+    background: none; }
+    .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget a,
+    .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget a {
+      color: #333;
+      border: none !important;
+      background: none;
+      text-align: center; }
+      .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget a.ui-datepicker-next span, .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget a.ui-datepicker-prev span,
+      .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget a.ui-datepicker-next span,
+      .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget a.ui-datepicker-prev span {
+        border-style: solid;
+        content: "";
+        border-width: 13px;
+        margin-top: -13px;
+        top: 50%;
+        border-color: transparent transparent transparent #00ae58;
+        margin-left: 5px;
+        width: 13px;
+        height: 13px;
+        background: none; }
+        .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget a.ui-datepicker-next span:hover, .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget a.ui-datepicker-prev span:hover,
+        .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget a.ui-datepicker-next span:hover,
+        .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget a.ui-datepicker-prev span:hover {
+          border-color: transparent transparent transparent #039d50; }
+      .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget a.ui-datepicker-next.ui-state-hover .ui-icon,
+      .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget a.ui-datepicker-next.ui-state-hover .ui-state-focus,
+      .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget a.ui-datepicker-next.ui-state-hover .ui-state-focus .ui-icon, .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget a.ui-datepicker-prev.ui-state-hover .ui-icon,
+      .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget a.ui-datepicker-prev.ui-state-hover .ui-state-focus,
+      .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget a.ui-datepicker-prev.ui-state-hover .ui-state-focus .ui-icon,
+      .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget a.ui-datepicker-next.ui-state-hover .ui-icon,
+      .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget a.ui-datepicker-next.ui-state-hover .ui-state-focus,
+      .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget a.ui-datepicker-next.ui-state-hover .ui-state-focus .ui-icon,
+      .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget a.ui-datepicker-prev.ui-state-hover .ui-icon,
+      .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget a.ui-datepicker-prev.ui-state-hover .ui-state-focus,
+      .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget a.ui-datepicker-prev.ui-state-hover .ui-state-focus .ui-icon {
+        background: none; }
+      .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget a.ui-datepicker-prev span,
+      .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget a.ui-datepicker-prev span {
+        border-color: transparent  #00ae58 transparent transparent; }
+        .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget a.ui-datepicker-prev span:hover,
+        .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget a.ui-datepicker-prev span:hover {
+          border-color: transparent #039d50 transparent transparent; }
+    .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget .ui-datepicker-header,
+    .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget .ui-datepicker-header {
+      background: none;
+      border: none;
+      color: #333; }
+      .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget .ui-datepicker-header .ui-datepicker-title,
+      .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget .ui-datepicker-header .ui-datepicker-title {
+        float: none; }
+    .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget tbody,
+    .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody {
       border: solid 1px #ccc; }
-      .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget tbody td:hover,
-      .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody td:hover {
+      .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget tbody .ui-datepicker-current-day,
+      .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget tbody .ui-datepicker-today,
+      .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody .ui-datepicker-current-day,
+      .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody .ui-datepicker-today {
         background: #cfefde; }
-      .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget tbody td.ui-state-disabled, .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget tbody td.ui-state-disabled *,
-      .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody td.ui-state-disabled,
-      .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody td.ui-state-disabled * {
-        background: #dfdfdf;
-        pointer-events: none; }
+        .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget tbody .ui-datepicker-current-day a,
+        .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget tbody .ui-datepicker-current-day a.ui-state-hover,
+        .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget tbody .ui-datepicker-today a,
+        .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget tbody .ui-datepicker-today a.ui-state-hover,
+        .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody .ui-datepicker-current-day a,
+        .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody .ui-datepicker-current-day a.ui-state-hover,
+        .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody .ui-datepicker-today a,
+        .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody .ui-datepicker-today a.ui-state-hover {
+          background: #cfefde; }
+      .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget tbody td,
+      .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody td {
+        padding: 14px;
+        border: solid 1px #ccc; }
+        .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget tbody td:hover,
+        .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody td:hover {
+          background: #cfefde; }
+        .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget tbody td.ui-state-disabled, .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget tbody td.ui-state-disabled *,
+        .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody td.ui-state-disabled,
+        .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody td.ui-state-disabled * {
+          background: #dfdfdf;
+          pointer-events: none; }
 .vtk-body .reveal-modal #frmCalElem_1,
 .vtk-body .modalWrap #frmCalElem_1 {
   margin-top: 20px; }
@@ -824,6 +839,8 @@
 .vtk-body .reveal-modal .setupCalendar .editable-textarea h5,
 .vtk-body .modalWrap .setupCalendar .editable-textarea h5 {
   text-transform: uppercase; }
+.vtk-body .modifyCalendarDate {
+  margin-top: 25px; }
 .vtk-body #modal_meeting_aids .button {
   padding: 5px 8px;
   display: block;

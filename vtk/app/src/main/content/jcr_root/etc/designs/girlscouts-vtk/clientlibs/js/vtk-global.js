@@ -39,14 +39,14 @@ var $ = jQuery.noConflict();
 		function modal_height_on_open() {
 		  $(document).on('opened.fndtn.reveal', '[data-reveal]', function () {
 				var window_h = $(window).height();
-				var popup_h = (window_h - 50);
-				$(this).find('.scroll').css('max-height' , ($(window).height()-50)+'px');
+				var popup_h = (window_h - 75);
+				$(this).find('.scroll').css('max-height' , popup_h + 'px');
 			});
 		}
 		function modal_height_resize() {
     	var window_h = $(window).height();
-    	var popup_h = (window_h - 50);
-  		$('.scroll').css('max-height' , ($(window).height()-50)+'px');
+    	var popup_h = (window_h - 75);
+  		$('.scroll').css('max-height' , popup_h + 'px');
   		$('.modalWrap').css('max-height' , $(window).height()+'px');
 		}
 
