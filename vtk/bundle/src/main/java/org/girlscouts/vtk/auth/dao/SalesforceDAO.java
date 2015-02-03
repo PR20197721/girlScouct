@@ -674,7 +674,7 @@ public class SalesforceDAO {
 			String sfTroopId) {
 		// select id, email, phone, name from Contact where id in (select
 		// contactid from campaignmember where campaignid='701G0000000uzUmIAI')
-testApex(apiConfig,  sfTroopId);
+//testApex(apiConfig,  sfTroopId);
 		GetMethod get = null;
 		java.util.List<Contact> contacts = new java.util.ArrayList();
 		try {

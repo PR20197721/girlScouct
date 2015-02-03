@@ -52,7 +52,6 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 
 
 <div id="modal_popup" class="reveal-modal" data-reveal></div>
-
 <%@include file="include/tab_navigation.jsp"%>
 
 <script>
