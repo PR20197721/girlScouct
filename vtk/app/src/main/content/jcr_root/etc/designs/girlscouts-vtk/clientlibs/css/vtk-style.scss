@@ -514,9 +514,6 @@
     }
   }
   //modals per Foundation
-  // .reveal-modal-bg {
-  //   position:fixed;
-  // }
   .reveal-modal {
     padding:0;
     // height:auto;
@@ -711,6 +708,20 @@
     }
     .accordion {
       margin:0 0 5px 0;
+      &:nth-of-type(1) {
+        ul {
+          li {
+            position:relative;
+            .ext {
+              position: absolute;
+              left:0;
+            }
+            span.name {
+              margin-left: 30px;
+            }
+          }
+        }
+      }
       dt {
         background:#f6f6f6;
         padding:0;
@@ -760,49 +771,6 @@
         .content {
           padding-left:70px;
           padding-right:0;
-        }
-      }
-    }
-  }
-  #modal_meeting_aids {
-    .button {
-      padding: 5px 8px;
-      display: block;
-      margin:0;
-    }
-  }
-  .modal_agenda_edit {
-    .content {
-      h3 {
-        margin-bottom:20px;
-      }
-      .btn {
-        padding:4px 20px;
-      }
-    }
-  }
-  .modal-attendance {
-    .content {
-      h4 {
-        font-size:24px;
-        margin-bottom: 50px;
-      }
-      table {
-        border:none;
-        tr,
-        td,
-        th {
-          background: none;
-        }
-        p {
-          font-weight:600;
-          font-size:17px;
-          text-transform: uppercase;
-          margin-right: 80px;
-        }
-        thead th,
-        td:nth-child(n+2) {
-          text-align:center;
         }
       }
     }
@@ -1046,6 +1014,7 @@
       text-transform:uppercase;
     }
   }
+  //both modals
   .reveal-modal,
   .modalWrap {
     input[type="checkbox"] + label,
@@ -1139,6 +1108,49 @@
       .editable-textarea {
         h5 {
           text-transform: uppercase;
+        }
+      }
+    }
+  }
+  #modal_meeting_aids {
+    .button {
+      padding: 5px 8px;
+      display: block;
+      margin:0;
+    }
+  }
+  .modal_agenda_edit {
+    .content {
+      h3 {
+        margin-bottom:20px;
+      }
+      .btn {
+        padding:4px 20px;
+      }
+    }
+  }
+  .modal-attendance {
+    .content {
+      h4 {
+        font-size:24px;
+        margin-bottom: 50px;
+      }
+      table {
+        border:none;
+        tr,
+        td,
+        th {
+          background: none;
+        }
+        p {
+          font-weight:600;
+          font-size:17px;
+          text-transform: uppercase;
+          margin-right: 80px;
+        }
+        thead th,
+        td:nth-child(n+2) {
+          text-align:center;
         }
       }
     }
@@ -1257,7 +1269,7 @@
       }
     }
   }
-  //accordion
+  //accordionon my troop tab and reminder email popup
   .accordion {
     margin-bottom:1.25rem;
     dl dt,
@@ -1334,7 +1346,7 @@
               margin-top: -10px;
               top: 50%;
               border-color: transparent transparent transparent #00ae58;
-              left:0;
+              left:5px;
             }
             &.on {
               font-weight:700;
@@ -1357,12 +1369,14 @@
         }
       }
   }
+  //tables
   table {
     thead, 
     tfoot {
       background: none;
     }
   }
+
 } //end of vtk-body
 
 //overwrite of global
@@ -1437,6 +1451,7 @@
   background:#000;
   background-image: none;
 }
+
 .ui-widget-content .tabs-content a {
   color:#00ae58;
 }
@@ -1533,11 +1548,31 @@ input[type="file"] {
     overflow: hidden;
     text-overflow: ellipsis;
   }
+   //my troop page accordion 
+  .mytroop {
+    .accordion-inner {
+      dt {
+        .column {
+          margin-bottom: 7px;
+        }
+      }
+    }
+  }
 }
 //medium screen 
 @media only screen and (min-width: 40.063em) and (max-width: 60.063em) {
   .vtk-body #main .crumbs .columns #util-links.inline-list li:nth-of-type(2) {
     margin: 0 11px;
+  }
+   //my troop page accordion 
+  .mytroop {
+    .accordion-inner {
+      dt {
+        .column {
+          margin-bottom: 7px;
+        }
+      }
+    }
   }
 }
 @media only screen and (min-width: 60.063em) {

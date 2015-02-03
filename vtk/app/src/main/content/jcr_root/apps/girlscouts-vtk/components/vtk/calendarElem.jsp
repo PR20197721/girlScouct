@@ -71,6 +71,7 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 $(function() {
     //$( "#cngDate0" ).datepicker({minDate: 0});
 	$( "#datepicker" ).datepicker({
+		  defaultDate: new Date ('<%=date%>'),
 		  minDate: 0,
 		  onSelect: function(dateText, inst) { 
 		      var dateAsString = dateText; //the first parameter of this function

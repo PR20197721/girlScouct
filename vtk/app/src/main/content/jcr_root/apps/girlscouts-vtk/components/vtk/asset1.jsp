@@ -21,11 +21,18 @@ function assignAid(aidId, meetingId, assetName, assetDesc){
                 a:Date.now()
             },
             success: function(result) {
-
+            	//applyAids('<%=request.getParameter("aidId")%>', '<%=request.getParameter("aidName")%>', '<%=request.getParameter("aType")%>');
+           
+            	//-applyAids(aidId, assetName, '<%=request.getParameter("aType")%>');
+            	
+            	applyAids(aidId, assetName, '<%=request.getParameter("aType")%>');
+            	
             }
         });
-        applyAids(aidId, assetName, '<%=request.getParameter("aType")%>');
+        //applyAids(aidId, assetName, '<%=request.getParameter("aType")%>');
 }
+
+
 
 
 function rmAid(aidId, meetingId, assetName, assetDesc){
@@ -43,7 +50,7 @@ function rmAid(aidId, meetingId, assetName, assetDesc){
                 a:Date.now()
             },
             success: function(result) {
-
+            	applyAids(aidId, assetName, '<%=request.getParameter("aType")%>');
             }
         });
     applyAids(aidId, assetName);
@@ -51,6 +58,15 @@ function rmAid(aidId, meetingId, assetName, assetDesc){
 
 
 </script>
+
+<div class="header clearfix">
+    <h3 class="columns large-22">Add Meeting</h3>
+    <a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
+  </div>
+  <div class="scroll">
+    <div class="content">
+
+
 <div class="row modalHeader">
 <%
     String aidId= request.getParameter("aidId");
@@ -80,7 +96,7 @@ function rmAid(aidId, meetingId, assetName, assetDesc){
         <hr/>
     </div>
     <div class="small-4 medium-2 large-2 columns">
-        <a class="right" onclick="closeModalPage()" href="#"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/close-small.png" width="20" height="20" border="0" align="right"></a>
+       <!--   <a class="right" onclick="closeModalPage()" href="#"><img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/close-small.png" width="20" height="20" border="0" align="right"></a> -->
     </div>
 </div>
 <%
@@ -137,7 +153,16 @@ function rmAid(aidId, meetingId, assetName, assetDesc){
         </ul>
     </div>
 </div>
+
+
+
+
 <%
     }
 %>
+
+
+ </div>
+  </div>
+</div>
 <!-- PAGE STOP asset.jsp -->
