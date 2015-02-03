@@ -21,11 +21,18 @@ function assignAid(aidId, meetingId, assetName, assetDesc){
                 a:Date.now()
             },
             success: function(result) {
+            	//applyAids('<%=request.getParameter("aidId")%>', '<%=request.getParameter("aidName")%>', '<%=request.getParameter("aType")%>');
+           
+            	//-applyAids(aidId, assetName, '<%=request.getParameter("aType")%>');
+            	
+            	applyAids(aidId, assetName, '<%=request.getParameter("aType")%>');
             	
             }
         });
-        applyAids(aidId, assetName, '<%=request.getParameter("aType")%>');
+        //applyAids(aidId, assetName, '<%=request.getParameter("aType")%>');
 }
+
+
 
 
 function rmAid(aidId, meetingId, assetName, assetDesc){
