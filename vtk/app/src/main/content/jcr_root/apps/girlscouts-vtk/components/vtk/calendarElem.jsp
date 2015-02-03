@@ -81,6 +81,7 @@ $(function() {
 		      
 		   }
 		  });
+	$( "#datepicker).setDate(document.getElementById("cngDate0"));
   });
 </script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.js"></script>
@@ -169,7 +170,7 @@ $('#saveCalElem').click(function() {
 
 
 function fnOpenNormalDialog() {
-    $("#dialog-confirm").html("Make sure you want to cancel the meeting? This will remove the meeting from the calendar and you will have <%=(sched.size()-1)%> meetings instead of <%=sched.size()%> meetings this year");
+    $("#dialog-confirm").html("Are you sure you want to cancel the meeting? This will remove the meeting from the calendar and you will have <%=(sched.size()-1)%> meetings instead of <%=sched.size()%> meetings this year.");
 
     // Define the Dialog and its properties.
     $("#dialog-confirm").dialog({
