@@ -171,7 +171,7 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 	}
 }
 function yesPlan(){
-  if( document.getElementById('yearPlanMeetings').style.display=='none' ){
+  if(document.getElementById('yearPlanMeetings').style.display=='none' ){
     document.getElementById('yearPlanMeetings').style.display='block';
     document.getElementById('yearPlanSelection').style.display='none';  
     document.getElementById('showHideReveal').innerHTML='VIEW YEAR PLAN LIBRARY';

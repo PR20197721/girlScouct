@@ -194,7 +194,6 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
       		 <%@include file="include/meeting_planning.jsp"%>
       		 <%@include file="include/meeting_communication.jsp"%>
       		</div>
-
           );
         }
       });
