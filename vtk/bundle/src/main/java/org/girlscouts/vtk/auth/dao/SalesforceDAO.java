@@ -1,14 +1,20 @@
 package org.girlscouts.vtk.auth.dao;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URLDecoder;
+
+import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.apache.felix.scr.annotations.Reference;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.models.User;
@@ -674,7 +680,7 @@ public class SalesforceDAO {
 			String sfTroopId) {
 		// select id, email, phone, name from Contact where id in (select
 		// contactid from campaignmember where campaignid='701G0000000uzUmIAI')
-//testApex(apiConfig,  sfTroopId);
+testApex(apiConfig,  sfTroopId);
 		GetMethod get = null;
 		java.util.List<Contact> contacts = new java.util.ArrayList();
 		try {
@@ -766,30 +772,123 @@ public class SalesforceDAO {
 
 	public java.util.List<Contact> testApex(ApiConfig apiConfig,
 			String sfTroopId) {
+
+		java.util.List<Contact> contacts = new java.util.ArrayList();
+		HttpClient client = new HttpClient();
+
+	    // Create a method instance.
+	    GetMethod method = new GetMethod("https://gsuat-gsmembers.cs11.force.com/members/services/apexrest/troopMembers/?troopId=701G0000000uQzaIAE");
+	    
+	    try {
+	      // Execute the method.
+	      int statusCode = client.executeMethod(method);
+
+	      if (statusCode != HttpStatus.SC_OK) {
+	        System.err.println("Method failed: " + method.getStatusLine());
+	      }
+
+	      // Read the response body.
+	      byte[] responseBody = method.getResponseBody();
+String rsp = new String(responseBody);
+rsp ="{\"records\":"+ rsp +"}";
+	       System.out.println(">>>>> "+rsp);
+
+	       
+	       try {
+				JSONObject response = new JSONObject(rsp);
+
+				JSONArray results = response.getJSONArray("records");
+
+				for (int i = 0; i < results.length(); i++) {
+
+					log.debug("_____ " + results.get(i));
+
+					Contact contact = new Contact();
+					
+					try {
+
+						contact.setFirstName(results.getJSONObject(i)
+								.getString("Name"));
+						contact.setEmail(results.getJSONObject(i)
+								.getString("Email"));
+						contact.setPhone(results.getJSONObject(i)
+								.getString("Phone"));
+						contact.setId(results.getJSONObject(i)
+								.getString("Id"));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					contacts.add(contact);
+				}
+
+			} catch (JSONException e) {
+				e.printStackTrace();
+
+			}
+	       
+	       
+	       
+	    } catch (HttpException e) {
+	      System.err.println("Fatal protocol violation: " + e.getMessage());
+	      e.printStackTrace();
+	    } catch (IOException e) {
+	      System.err.println("Fatal transport error: " + e.getMessage());
+	      e.printStackTrace();
+	    } finally {
+	      // Release the connection.
+	      method.releaseConnection();
+	    }  
+		return contacts;
 		
-		System.err.println("Apex tata start");
+	/*
+		try {
+			sendGet();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}		
+		return null;
+		*/
+		
+		
+		/*
+		
+		System.err.println("Apex test start");
 		
 		GetMethod get = null;
 		java.util.List<Contact> contacts = new java.util.ArrayList();
 		try {
 			HttpClient httpclient = new HttpClient();
 			//get = new GetMethod(apiConfig.getInstanceUrl() +"/services/data/v20.0/query");
-			get = new GetMethod(apiConfig.getInstanceUrl() +"/services/apexrest/troopMembers");
-			// THIS IS STABLE / DO NOT REMOVE
-			// get.setRequestHeader("Authorization", "OAuth " +
-			// apiConfig.getAccessToken());
+			//- get = new GetMethod(apiConfig.getInstanceUrl() +"/services/apexrest/troopMembers");
+			get = new GetMethod("https://gsuat-gsmembers.cs11.force.com/members/services/apexrest/troopMembers/?troopId=701G0000000uQzaIAE");
+			
+			
+			
+			//https://gsuat-gsmembers.cs11.force.com/members/services/apexrest/troopMembers?troopId
+	System.err.println("test apex url: " + apiConfig.getInstanceUrl() );		
+		//	 THIS IS STABLE / DO NOT REMOVE
+		//	 get.setRequestHeader("Authorization", "OAuth " + apiConfig.getAccessToken());
+		
+			
+		
+		//	UserGlobConfig ubConf = troopDAO.getUserGlobConfig(); 
+		//	get.setRequestHeader("Authorization","OAuth " + ubConf.getMasterSalesForceToken());
 
-			UserGlobConfig ubConf = troopDAO.getUserGlobConfig(); 
-			get.setRequestHeader("Authorization",
-					"OAuth " + ubConf.getMasterSalesForceToken());
+		//	NameValuePair[] params = new NameValuePair[1];
+		//	params[0] = new NameValuePair("troopId",sfTroopId);
 
-			NameValuePair[] params = new NameValuePair[1];
-			params[0] = new NameValuePair("troopId",sfTroopId);
-
-			get.setQueryString(params);
-
+			//get.setQueryString(params);
+System.err.println("______tata_______________test APEX req: "+ get.getQueryString() +" TroopId: "+ sfTroopId );
+			httpclient.executeMethod(get);
+System.err.println("______tata_______________test APEX resp: " + get.getResponseContentLength());			
+			if(true)return null;
+			
+			
+			
+			
 			try {
-System.err.println("tata APEX : "+ get.getQueryString() +" TroopId: "+ sfTroopId +" MasterToken: " + ubConf.getMasterSalesForceToken());
+//System.err.println("_____________________test APEX : "+ get.getQueryString() +" TroopId: "+ sfTroopId +" MasterToken: " + ubConf.getMasterSalesForceToken());
 				log.debug("______________troopInfo1___________start_____________________________");
 				log.debug(get.getRequestCharSet());
 				Header headers[] = get.getRequestHeaders();
@@ -800,28 +899,36 @@ System.err.println("tata APEX : "+ get.getQueryString() +" TroopId: "+ sfTroopId
 				log.debug(apiConfig.getInstanceUrl()
 						+ "/services/data/v20.0/query");
 				log.debug("______________troopInfo1_____________end___________________________");
-
+System.err.println("test apex a111: "+ get.getQueryString() +" : "+ get.getURI() );
 				httpclient.executeMethod(get);
-System.err.println("Apex tata resp1: "+get.getResponseBodyAsStream());
+
+				
+				
+				System.err.println("*****************    Apex test resp1: "+get.getResponseBodyAsStream());
+
+
+
+
+
 				log.debug("troopInfo1.RespCode "
 						+ get.getResponseBodyAsString());
-System.err.println("Apex tata x1");				
+System.err.println("Apex test x1");				
 				JSONObject _response = new JSONObject(new JSONTokener(
 						new InputStreamReader(get.getResponseBodyAsStream())));
 				log.debug(_response.toString());
-System.err.println("Apex tata rr: 123");
-System.err.println("Apex tata r: "+get.getStatusCode() );
+System.err.println("Apex test rr: 123");
+System.err.println("Apex test r: "+get.getStatusCode() );
 				if (get.getStatusCode() == HttpStatus.SC_OK) {
 
 					try {
 						JSONObject response = new JSONObject(new JSONTokener(
 								new InputStreamReader(
 										get.getResponseBodyAsStream())));
-System.err.println("Apex tata r1: "+ response);
+System.err.println("Apex test r1: "+ response);
 						JSONArray results = response.getJSONArray("records");
-System.err.println("Apex tata r2 : "+ results);
+System.err.println("Apex test r2 : "+ results);
 						for (int i = 0; i < results.length(); i++) {
-System.err.println("Apex tata r3 : "+ results.get(i));
+System.err.println("Apex test r3 : "+ results.get(i));
 							log.debug("_____ " + results.get(i));
 
 							Contact contact = new Contact();
@@ -854,6 +961,8 @@ System.err.println("Apex tata r3 : "+ results.get(i));
 		}
 
 		return contacts;
+		*/
 	}
 
+	
 }

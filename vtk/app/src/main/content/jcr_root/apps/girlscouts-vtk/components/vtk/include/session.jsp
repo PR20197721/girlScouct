@@ -20,7 +20,7 @@
 	java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat("MM/dd/yyyy hh:mm a");
 
 	
-	boolean isCachableContacts=true;
+	boolean isCachableContacts=false;
 	
 	public boolean hasPermission(Troop troop, int permissionId) {
 		java.util.Set<Integer> myPermissionTokens = troop.getTroop()
