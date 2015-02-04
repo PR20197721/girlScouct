@@ -430,31 +430,7 @@
 				emr.setEmailToTroopVolunteer(email_to_tv);
 				/*Troop Volunteers data needed */
 			}
-			/*
-			String addAid= request.getParameter("addAid");
-			String rmAid=  request.getParameter("rmAid");
-			
-			java.util.List<Asset> aids = emr.getAssets();
-			if( addAid!=null ){
-			  aids= aids==null ? new java.util.ArrayList<Asset>() : aids;
-			  for(int i=0;i<aids.size();i++){
-				  if( aids.get(i).getRefId().equals(addAid)){
-					  		return;
-				  }
-			  }
-			  Asset aid = new Asset();
-			  aid.setRefId(addAid);
-			  aid.setTitle(request.getParameter("aidTitle"));
-			  aids.add( aid );
-			  emr.setAssets(aids);
-			}
-			
-			if( rmAid!=null){
-			  for(int i=0;i<aids.size();i++)
-			if( aids.get(i).getRefId().equals( rmAid))
-			  		aids.remove(i);
-			}
-			 */
+
 			troop.setSendingEmail(emr);
 
 		} else if (request.getParameter("sendMeetingReminderEmail") != null) { //view smpt
@@ -465,24 +441,16 @@
 			}else{
 				System.out.println("emr does not exit!");
 			}
-			emr.setSentDate(request.getParameter("email_sent_date"));
-			//String html = emr.getHtml();
-			/*
-			html+="<br/>Aids Included:";
-			if( emr!=null ){
-			java.util.List<Asset> eAssets = emr.getAssets();
-			if( eAssets!=null) {
-			for(int i=0;i<eAssets.size();i++){
-				html += "<br/><a href=\""+eAssets.get(i).getRefId()+"\">"+eAssets.get(i).getRefId()+ "</a>";
-			}
-			}
-			}
-			emr.setHtml(html);*/
+
 			org.girlscouts.vtk.ejb.Emailer emailer = sling
 					.getService(org.girlscouts.vtk.ejb.Emailer.class);
 			emailer.test(emr);
-			//window.open("/content/girlscouts-vtk/controllers/vtk.include.email.meetingReminder_preview.html","preview","");
-
+			emr.setUid("MR" + new Date().getTime() + "_" + Math.random());
+			emr.setSentDate(new Date().getTime());
+			meetingUtil.saveEmail(user, troop, emr.getUid(), emr.getMeetingId());
+			
+			
+			
 			troop.setSendingEmail(null);
 
 		} else if (request.getParameter("testAB") != null) {

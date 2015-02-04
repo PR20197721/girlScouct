@@ -40,6 +40,7 @@ import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.UserGlobConfig;
 import org.girlscouts.vtk.models.YearPlan;
+import org.girlscouts.vtk.models.ReminderEmail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -17,6 +17,7 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 
 	@Field(path = true)
 	String path;
+	
 	@Field
 	private String refId; // path to meetingInfo template
 
@@ -35,6 +36,10 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 
 	@Collection
 	java.util.List<Asset> assets;
+	
+	@Collection
+	java.util.List<ReminderEmail> sentEmails;
+	
 	@Field
 	java.util.Date lastAssetUpdate;
 
@@ -111,6 +116,14 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 
 	public void setPath(String path) {
 		this.path = path;
+	}
+	
+	public java.util.List<ReminderEmail> getEmails() {
+		return sentEmails;
+	}
+
+	public void setEmails(java.util.List<ReminderEmail> emails) {
+		this.sentEmails = emails;
 	}
 
 }

@@ -42,6 +42,7 @@ import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
+import org.girlscouts.vtk.models.ReminderEmail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -691,7 +692,7 @@ public class MeetingUtil {
 		}
 
 	}
-
+	
 	public void addAids(User user, Troop troop, String aidId, String meetingId,
 			String assetName, String docType)
 			throws java.lang.IllegalAccessException {
@@ -1348,6 +1349,42 @@ public class MeetingUtil {
 
 		return false;
 	}
+	
+	public void saveEmail(User user, Troop troop, String emailId, String meetingId)
+			throws java.lang.IllegalAccessException {
+
+		if (troop != null
+				&& !userUtil.hasPermission(troop,
+						Permission.PERMISSION_CREATE_MEETING_ID))
+			throw new IllegalAccessException();
+
+		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
+			troop.setErrCode("112");
+			throw new java.lang.IllegalAccessException();
+		}
+
+		java.util.List<MeetingE> meetings = troop.getYearPlan()
+				.getMeetingEvents();
+		for (int i = 0; i < meetings.size(); i++) {
+			MeetingE meeting = meetings.get(i);
+			if (meeting.getUid().equals(meetingId)) {
+				ReminderEmail email = new ReminderEmail();
+				java.util.List<ReminderEmail> emails = meeting.getEmails();
+				emails = emails == null? new java.util.ArrayList<ReminderEmail>() :emails;
+				emails.add(email);
+				meeting.setEmails(emails);
+				// troop.getYearPlan().setAltered("true");
+				troopUtil.updateTroop(user, troop);
+				return;
+			}
+		}
+
+		java.util.List<Activity> activities = troop.getYearPlan()
+				.getActivities();
+		
+
+	}
+
 	
 	
 
