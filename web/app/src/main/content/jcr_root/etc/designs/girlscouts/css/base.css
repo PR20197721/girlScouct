@@ -756,7 +756,7 @@ td.fc-header-left {
   content: "";
   border-color: transparent transparent transparent #fff;
   position: absolute;
-  margin: -5px 0 0 5px;
+  margin: -4px 0 0 5px;
   top:50%;
 }
 #header a.link-login:hover:after {

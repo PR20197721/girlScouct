@@ -1395,6 +1395,12 @@
     }
   }
 
+  .reveal-modal-bg,
+  .ui-widget-overlay {
+    background: rgba(0, 0, 0, 0.6) !important;
+    box-shadow: 0 0 50px rgba(0, 0, 0, .9) !important;
+    opacity: 1 !important;
+  }
 } //end of vtk-body
 
 //overwrite of global

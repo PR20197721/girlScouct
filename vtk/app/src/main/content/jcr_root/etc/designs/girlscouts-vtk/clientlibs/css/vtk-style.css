@@ -1023,6 +1023,11 @@
 .vtk-body table thead,
 .vtk-body table tfoot {
   background: none; }
+.vtk-body .reveal-modal-bg,
+.vtk-body .ui-widget-overlay {
+  background: rgba(0, 0, 0, 0.6) !important;
+  box-shadow: 0 0 50px rgba(0, 0, 0, 0.9) !important;
+  opacity: 1 !important; }
 
 .inline-list .icon i {
   color: inherit;
