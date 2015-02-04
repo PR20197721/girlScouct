@@ -735,7 +735,7 @@ td.fc-header-left {
   content: "\e66c";
   color: rgb(0, 174, 88);
   top: 0px;
-  left: 89%;
+  right: 0%;
   font-size: 1.3em;
 }
 #headerBar ul li.active {
