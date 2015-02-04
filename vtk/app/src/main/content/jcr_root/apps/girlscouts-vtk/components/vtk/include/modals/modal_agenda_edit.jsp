@@ -25,8 +25,8 @@
 			class="icon-button-circle-cross"></i></a>
 	</div>
 	<div class="scroll">
-		<div class="content row">
-			<div class="setupCalendar columns">
+		<div class="content clearfix">
+			<div class="setupCalendar row">
 						<%
 							MeetingE meeting = null;
 							java.util.List<MeetingE> meetings = troop.getYearPlan()
