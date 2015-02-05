@@ -258,17 +258,15 @@
       padding-bottom:20px;
     }
   }
-  #mainContent.welcome-page .parbase.section {
-    &.text {
+  #mainContent.welcome-page {
       h1 {
-        margin: 0 0 1.25rem 0;
+        margin: 1.88rem 0 4.38rem 0;
       }
       p {
         font-size: 0.875rem;
         margin-top: 1.13rem;
       }
     }
-  }
   .inline-list {
     margin: 0;
     &#sub-nav {
@@ -286,6 +284,29 @@
           font-size: 0.75em;
         }
       }
+    }
+  }
+  //table overwrites
+  table {
+    width: 100%;
+    border:none;
+    thead, 
+    tfoot {
+      background: none;
+      border:none;
+    }
+    tr, 
+    td {
+      border:none;
+    }
+  }
+  table tr {
+    background: #fff;
+    &:nth-of-type(odd) {
+      background: #f9f9f9;
+    }
+    &:nth-of-type(even) {
+      background: #fff;
     }
   }
   .sectionHeader {
@@ -356,6 +377,7 @@
           h3 {
             margin: 0;
             padding-top: 15px;
+            line-height:1.5;
           }
         }
       }
@@ -1399,20 +1421,13 @@
         }
       }
   }
-  //tables
-  table {
-    thead, 
-    tfoot {
-      background: none;
-    }
-  }
-
   .reveal-modal-bg,
   .ui-widget-overlay {
     background: rgba(0, 0, 0, 0.6) !important;
     box-shadow: 0 0 50px rgba(0, 0, 0, .9) !important;
     opacity: 1 !important;
   }
+
 } //end of vtk-body
 
 //overwrite of global
@@ -1604,18 +1619,6 @@ input[type="file"] {
         }
       }
     }
-  }
-}
-table { 
-  width: 100%; 
-}
-table tr {
-  background: #fff;
-  &:nth-of-type(odd) {
-    background: #f9f9f9;
-  }
-  &:nth-of-type(even) {
-    background: #fff;
   }
 }
 //medium screen 

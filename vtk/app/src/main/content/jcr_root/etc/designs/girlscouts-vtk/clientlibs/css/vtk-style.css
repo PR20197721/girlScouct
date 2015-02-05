@@ -191,9 +191,9 @@
           text-transform: uppercase; }
   .vtk-body #main #theMeeting {
     padding-bottom: 20px; }
-.vtk-body #mainContent.welcome-page .parbase.section.text h1 {
-  margin: 0 0 1.25rem 0; }
-.vtk-body #mainContent.welcome-page .parbase.section.text p {
+.vtk-body #mainContent.welcome-page h1 {
+  margin: 1.88rem 0 4.38rem 0; }
+.vtk-body #mainContent.welcome-page p {
   font-size: 0.875rem;
   margin-top: 1.13rem; }
 .vtk-body .inline-list {
@@ -210,6 +210,22 @@
         border: none; }
       .vtk-body .inline-list#sub-nav > li a {
         font-size: 0.75em; }
+.vtk-body table {
+  width: 100%;
+  border: none; }
+  .vtk-body table thead,
+  .vtk-body table tfoot {
+    background: none;
+    border: none; }
+  .vtk-body table tr,
+  .vtk-body table td {
+    border: none; }
+.vtk-body table tr {
+  background: #fff; }
+  .vtk-body table tr:nth-of-type(odd) {
+    background: #f9f9f9; }
+  .vtk-body table tr:nth-of-type(even) {
+    background: #fff; }
 .vtk-body .sectionHeader > div.column {
   background-color: #f6f6f6; }
 .vtk-body .sectionHeader #showHideReveal {
@@ -262,7 +278,8 @@
       min-height: 70px; }
       .vtk-body #main .meeting-detail .meeting-navigation .column:nth-child(2) h3 {
         margin: 0;
-        padding-top: 15px; }
+        padding-top: 15px;
+        line-height: 1.5; }
     .vtk-body #main .meeting-detail .meeting-navigation .direction {
       border: solid 1px transparent; }
       .vtk-body #main .meeting-detail .meeting-navigation .direction:before {
@@ -1027,9 +1044,6 @@
         font-size: 14px !important; }
     .vtk-body .accordion .accordion-inner ul.column:first-child {
       margin-left: 27px; }
-.vtk-body table thead,
-.vtk-body table tfoot {
-  background: none; }
 .vtk-body .reveal-modal-bg,
 .vtk-body .ui-widget-overlay {
   background: rgba(0, 0, 0, 0.6) !important;
@@ -1181,16 +1195,6 @@ input[type="file"] {
 
   .mytroop .accordion-inner dt .column {
     margin-bottom: 7px; } }
-table {
-  width: 100%; }
-
-table tr {
-  background: #fff; }
-  table tr:nth-of-type(odd) {
-    background: #f9f9f9; }
-  table tr:nth-of-type(even) {
-    background: #fff; }
-
 @media only screen and (min-width: 40.063em) and (max-width: 60.063em) {
   .vtk-body #main .crumbs .columns #util-links.inline-list li:nth-of-type(2) {
     margin: 0 11px; }

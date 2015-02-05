@@ -4,102 +4,140 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
+<script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.maskMoney.js"></script>
+<script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/finance.js"></script>
 <div id="errInfo"></div>
 <%
         String activeTab = "finances";
         boolean showVtkNav = true;
+
+        //pager/navigator
         int qtr= 0;
-        try{ qtr = Integer.parseInt( request.getParameter("qtr") ); }catch(Exception e){out.println("Invalid qtr"); return;}
-        Finance finance = financeUtil.getFinances(user, troop, qtr);
-        if( finance ==null ){
-          System.err.println("------------------->");
-          System.err.println("QUARTER IS NULL");
-          System.err.println("------------------->");
-          finance= new Finance();
+        try { 
+          qtr = Integer.parseInt( request.getParameter("qtr") );
+        }catch(Exception e){out.println("Invalid qtr"); 
+          return;
         }
 
+        Finance finance = financeUtil.getFinances(user, troop, qtr);
+        if( finance ==null ){
+          finance= new Finance();
+        }
 
         double acc_out = (finance.getGsusaRegistration() + finance.getServiceActivitiesEvents() + finance.getProductSalesProceeds() + finance.getTroopActivities() + finance.getTroopSupplies() + finance.getGsStorePurchases());
         double acc_rcv = (finance.getStartingBalance() + finance.getTroopDues() + finance.getSponsorshipDonations() + finance.getProductSalesProceeds()+ finance.getApprovedMoneyEarningActivity()+ finance.getInterestOnBankAccount() );
         double balance = acc_rcv - acc_out;
 %>
-<script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/finance.js"></script>
 
 <%@include file="include/tab_navigation.jsp"%>
 
 <div id="panelWrapper" class="row content meeting-detail">
- <%@include file="include/utility_nav.jsp"%>
+  
+  <%@include file="include/utility_nav.jsp"%>
+  
   <div class="columns large-20 large-centered">
-  	<a href="/content/girlscouts-vtk/en/vtk.include.finances.html?qtr=1">Q1</a> || 
-    <a href="/content/girlscouts-vtk/en/vtk.include.finances.html?qtr=2">Q2</a> || 
-    <a href="/content/girlscouts-vtk/en/vtk.include.finances.html?qtr=3">Q3</a> || 
-    <a href="/content/girlscouts-vtk/en/vtk.include.finances.html?qtr=4">Q4</a> 
-    <br/>
 
-    <h3>Q<%=qtr %> 2014</h3>
+    <%@include file="include/finances_navigator.jsp"%>
+
     <form class="cmxform" id="financeForm">
     <input type="hidden" id="qtr" name="qtr" value="<%=qtr%>"/>
-    <div class="errorMsg error"></div>
+     <div class="errorMsg error"></div>
     <div class="row">
-
+      <section class="column large-10 medium-10">
+        <h6>current income</h6>
+        <ul class="large-block-grid-2 small-block-grid-2">
+          <li>Beginning Balance:</li>
+          <li><input type="text" name="starting_balance" id="starting_balance" onblur="updateTotals()" value="<%=FORMAT_COST_CENTS.format(finance.getStartingBalance())%>"/></li>
+          <li>Troop Dues:</li>
+          <li><input type="text" id="troop_dues" name="troop_dues" onblur="updateTotals()" value="<%=FORMAT_COST_CENTS.format(finance.getTroopDues())%>"/></li>
+          <li>Sponsorship/Donations:</li>
+          <li><input type="text" id="sponsorship_donations" onblur="updateTotals()" name="sponsorship_donations" value="<%=FORMAT_COST_CENTS.format(finance.getSponsorshipDonations())%>"/></li>
+          <li>Product Sales Proceeds:</li>
+          <li><input type="text" id="product_sales_proceeds" onblur="updateTotals()" name="product_sales_proceeds" value="<%=FORMAT_COST_CENTS.format(finance.getProductSalesProceeds())%>"/></li>
+          <li>Approved Money-Earnings Activities:</li>
+          <li><input type="text" id="amea" name="amea" onblur="updateTotals()" value="<%=FORMAT_COST_CENTS.format(finance.getApprovedMoneyEarningActivity())%>"/></li>
+          <li>Interest on Bank Accounts:</li>
+          <li><input type="text" id="bank_interest" name="bank_interest" onblur="updateTotals()" value="<%=FORMAT_COST_CENTS.format(finance.getInterestOnBankAccount())%>"/></li>
+        </uL>
+      </section>
+      <section class="column large-10 medium-10">
+         <h6>current expenses</h6>
+         <ul class="large-block-grid-2 small-block-grid-2">
+           <li>GSUSA Registrations:</li>
+           <li><input type="text" id="gsusa_registrations" name="gsusa_registrations" onblur="updateTotals()" value="<%=FORMAT_COST_CENTS.format(finance.getGsusaRegistration())%>"/></li>
+           <li>Service Activities/Events:</li>
+           <li><input type="text" id="service_ae" name="service_ae" onblur="updateTotals()" value="<%=FORMAT_COST_CENTS.format( finance.getServiceActivitiesEvents())%>"/></li>
+           <li>Council Programs/Camp:</li>
+           <li><input type="text" id="council_pc" name="council_pc" onblur="updateTotals()" value="<%=FORMAT_COST_CENTS.format(finance.getCouncilProgramsCamp())%>"/></li>
+           <li>Troop Activities:</li>
+           <li><input type="text" id="troop_activities" name="troop_activities" onblur="updateTotals()" value="<%=FORMAT_COST_CENTS.format(finance.getTroopActivities())%>"/></li>
+           <li>Troop Supplies:</li>
+           <li><input type="text" id="troop_supplies" name="troop_supplies" onblur="updateTotals()" value="<%=FORMAT_COST_CENTS.format(finance.getTroopSupplies())%>"/></li>
+           <li>GS Store Purchase:</li>
+           <li><input type="text" id="gs_store_purchase" name="gs_store_purchase" onblur="updateTotals()" value="<%=FORMAT_COST_CENTS.format(finance.getGsStorePurchases())%>"/></li>
+         </ul>
+      </section>
+    </div><!--/row-->
+<!--       <div class="row">
+ -->
     <!-- current income -->
-      <div class="small-24 large-12 columns">
-        <div class="row">
+      <!-- <div class="small-24 large-12 columns"> -->
+<!--         <div class="row">
         <div class="small-24 large-12 columns">Starting Balance:</div>
         <div class="small-24 large-12 columns"><input type="text" name="starting_balance" id="starting_balance" onblur="updateTotals()" value="<%=FORMAT_COST_CENTS.format(finance.getStartingBalance())%>"/>
         </div>
-      </div>
-      <div class="row">
+      </div> -->
+<!--       <div class="row">
         <div class="small-24 large-12 columns">Troop Dues:</div>
         <div class="small-24 large-12 columns"><input type="text" id="troop_dues" name="troop_dues" onblur="updateTotals()" value="<%=FORMAT_COST_CENTS.format(finance.getTroopDues())%>"/></div>
-      </div>
-      <div class="row">
+      </div> -->
+<!--       <div class="row">
         <div class="small-24 large-12 columns">Sponsorship/Donations:</div>
         <div class="small-24 large-12 columns"><input type="text" id="sponsorship_donations" onblur="updateTotals()" name="sponsorship_donations" value="<%=FORMAT_COST_CENTS.format(finance.getSponsorshipDonations())%>"/></div>
-      </div>
-      <div class="row">
+      </div> -->
+<!--       <div class="row">
         <div class="small-24 large-12 columns">Product Sales Proceeds:</div>
         <div class="small-24 large-12 columns"><input type="text" id="product_sales_proceeds" onblur="updateTotals()" name="product_sales_proceeds" value="<%=FORMAT_COST_CENTS.format(finance.getProductSalesProceeds())%>"/></div>
-      </div>
-      <div class="row">
+      </div> -->
+<!--       <div class="row">
         <div class="small-24 large-12 columns">Approved Money-Earnings Activities:</div>
         <div class="small-24 large-12 columns"><input type="text" id="amea" name="amea" onblur="updateTotals()" value="<%=FORMAT_COST_CENTS.format(finance.getApprovedMoneyEarningActivity())%>"/></div>
-      </div>
-      <div class="row">
+      </div> -->
+<!--       <div class="row">
         <div class="small-24 large-12 columns">Interest on Bank Accounts:</div>
         <div class="small-24 large-12 columns"><input type="text" id="bank_interest" name="bank_interest" onblur="updateTotals()" value="<%=FORMAT_COST_CENTS.format(finance.getInterestOnBankAccount())%>"/></div>
       </div>
-      </div>
+      </div> -->
       
       <!-- current exp -->
-      <div class="small-24 large-12 columns">
+<!--       <div class="small-24 large-12 columns">
         <div class="row">
         <div class="small-24 large-12 columns">GSUSA Registrations:</div>
         <div class="small-24 large-12 columns"><input type="text" id="gsusa_registrations" name="gsusa_registrations" onblur="updateTotals()" value="<%=FORMAT_COST_CENTS.format(finance.getGsusaRegistration())%>"/></div>
-      </div>
-       <div class="row">
+      </div> -->
+<!--        <div class="row">
         <div class="small-24 large-12 columns">Service Activities/Events:</div>
         <div class="small-24 large-12 columns"><input type="text" id="service_ae" name="service_ae" onblur="updateTotals()" value="<%=FORMAT_COST_CENTS.format( finance.getServiceActivitiesEvents())%>"/></div>
-      </div>
-       <div class="row">
+      </div> -->
+<!--        <div class="row">
         <div class="small-24 large-12 columns">Council Programs/Camp:</div>
         <div class="small-24 large-12 columns"><input type="text" id="council_pc" name="council_pc" onblur="updateTotals()" value="<%=FORMAT_COST_CENTS.format(finance.getCouncilProgramsCamp())%>"/></div>
-      </div>
-      <div class="row">
+      </div> -->
+<!--       <div class="row">
         <div class="small-24 large-12 columns">Troop Activities:</div>
         <div class="small-24 large-12 columns"><input type="text" id="troop_activities" name="troop_activities" onblur="updateTotals()" value="<%=FORMAT_COST_CENTS.format(finance.getTroopActivities())%>"/></div>
-      </div>
-      <div class="row">
+      </div> -->
+<!--       <div class="row">
         <div class="small-24 large-12 columns">Troop Supplies:</div>
         <div class="small-24 large-12 columns"><input type="text" id="troop_supplies" name="troop_supplies" onblur="updateTotals()" value="<%=FORMAT_COST_CENTS.format(finance.getTroopSupplies())%>"/></div>
-      </div>
-      <div class="row">
+      </div> -->
+    <!--   <div class="row">
         <div class="small-24 large-12 columns">GS Store Purchase:</div>
         <div class="small-24 large-12 columns"><input type="text" id="gs_store_purchase" name="gs_store_purchase" onblur="updateTotals()" value="<%=FORMAT_COST_CENTS.format(finance.getGsStorePurchases())%>"/></div>
-      </div>
-      </div>
+      </div> -->
+      <!-- </div> -->
      
-    </div>
+    <!-- </div> -->
 
     <!-- totals -->
     <div class="row">
