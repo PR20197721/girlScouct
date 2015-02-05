@@ -8,6 +8,6 @@
     eventType="{Long}1"
     excludeList=""
     glob="/content/usergenerated(/.*)"
-    nodetype="sling:Folder"
+    nodetype="nt:file"
     runModes="publish"
-    workflow="/etc/workflow/models/reverse_replication_with_delay/jcr:content/model"/>
+    workflow="/etc/workflow/models/reverse_replication/jcr:content/model"/>
