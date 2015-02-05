@@ -407,7 +407,8 @@
 			emr.setMeetingId(meetingId);
 
 			if (email_to_sf.equals("true")) {
-				emr.setEmailToSelf(apiConfig.getUser().getEmail());
+				//emr.setEmailToSelf(apiConfig.getUser().getEmail());
+				emr.setEmailToSelf("true");
 				emr.setTo(apiConfig.getUser().getEmail());
 			}
 			if (email_to_gp.equals("true")) {
@@ -423,12 +424,14 @@
 						emails += ";" + contactEmail;
 				}
 				emr.addTo(emails);
-				emr.setEmailToGirlParent(emails);
+				//emr.setEmailToGirlParent(emails);
+				emr.setEmailToGirlParent("true");
 
 			}
 			
 			if (email_to_tv.equals("true")) {
 				emr.setEmailToTroopVolunteer(email_to_tv);
+				emr.setEmailToTroopVolunteer("true");
 				/*Troop Volunteers data needed */
 			}
 
