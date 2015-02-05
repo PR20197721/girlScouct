@@ -1,17 +1,5 @@
 <div className="column large-20 medium-20 large-centered medium-centered small-24">
-
-<%
-//if (pageContext.getAttribute("DETAIL_TYPE") != null && "activity".equals((String) pageContext.getAttribute("DETAIL_TYPE"))) {
-if( (planView.getYearPlanComponent().getType() ==  YearPlanComponentType.ACTIVITY) ){
-%>
-  <div className="meeting-navigation activity-navigation row collapse">
-<%
-} else {
-%>
-  <div className="meeting-navigation row collapse">
-<%
-}
-%>
+  <div className="meeting-navigation<%= (planView.getYearPlanComponent().getType() ==  YearPlanComponentType.ACTIVITY) ? " activity-navigation " : "" %> row collapse">
     <p className="column">
     	<span>
       { '<%=planView.getPrevDate()%>' !=0 ? 
@@ -53,10 +41,8 @@ if( (planView.getYearPlanComponent().getType() ==  YearPlanComponentType.ACTIVIT
 					
 				
 				break;
-		}
-      	%>
-      	
-
+    		  }
+        %>
       </p>
     </div>
     <p className="column">

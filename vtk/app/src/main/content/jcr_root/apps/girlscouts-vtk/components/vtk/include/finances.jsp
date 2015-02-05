@@ -39,18 +39,20 @@ if(hasAdminPermissions){
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.validate.js"></script>
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/finance.js"></script>
 
+<div id="panelWrapper" class="row content">
+	 <div class="column large-20 large-centered">
+		<a href="/content/girlscouts-vtk/en/vtk.include.finances.html?qtr=1">Q1</a> || 
+		<a href="/content/girlscouts-vtk/en/vtk.include.finances.html?qtr=2">Q2</a> || 
+		<a href="/content/girlscouts-vtk/en/vtk.include.finances.html?qtr=3">Q3</a> || 
+		<a href="/content/girlscouts-vtk/en/vtk.include.finances.html?qtr=4">Q4</a> 
+		<br/>
 
-<a href="/content/girlscouts-vtk/en/vtk.include.finances.html?qtr=1">Q1</a> || 
-<a href="/content/girlscouts-vtk/en/vtk.include.finances.html?qtr=2">Q2</a> || 
-<a href="/content/girlscouts-vtk/en/vtk.include.finances.html?qtr=3">Q3</a> || 
-<a href="/content/girlscouts-vtk/en/vtk.include.finances.html?qtr=4">Q4</a> 
-<br/>
+		<h3>Q<%=qtr %> 2014</h3>
+		<form class="cmxform" id="financeForm">
+		<input type="hidden" id="qtr" name="qtr" value="<%=qtr%>"/>
+		<div class="errorMsg error"></div>
+		<div class="row">
 
-<h3>Q<%=qtr %> 2014</h3>
-<form class="cmxform" id="financeForm">
-<input type="hidden" id="qtr" name="qtr" value="<%=qtr%>"/>
-<div class="errorMsg error"></div>
-<div class="row">
 
 <!-- current income -->
   <div class="small-24 large-12 columns">
@@ -112,37 +114,41 @@ if(hasAdminPermissions){
  
 </div>
 
-<!-- totals -->
-<div class="row">
- <div class="small-24 large-12 columns">
-	<div class="row">
-	  <div class="small-24 large-12 columns"></div>
- 	  <div class="small-24 large-12 columns"></div>
+
+		<!-- totals -->
+		<div class="row">
+		 <div class="small-24 large-12 columns">
+			<div class="row">
+			  <div class="small-24 large-12 columns"></div>
+		 	  <div class="small-24 large-12 columns"></div>
+			</div>
+		 </div>
+		 <div class="small-24 large-12 columns">
+			<div class="row">
+			  <div class="small-24 large-12 columns"></div>
+		 	  <div class="small-24 large-12 columns"></div>
+			</div>
+		    <div class="row">
+			  <div class="small-24 large-12 columns">Total Income:</div>
+		 	  <div class="small-24 large-12 columns" id="total_income">$<%=FORMAT_COST_CENTS.format(acc_rcv)%></div>
+			</div>
+			<div class="row">
+			  <div class="small-24 large-12 columns">Total Expenses:</div>
+		 	  <div class="small-24 large-12 columns" id="total_expenses">$<%= FORMAT_COST_CENTS.format(acc_out)%></div>
+			</div>
+			<div class="row">
+			  <div class="small-24 large-12 columns">Current Balance:</div>
+		 	  <div class="small-24 large-12 columns" id="current_balance">$<%=FORMAT_COST_CENTS.format(balance) %></div>
+			</div>
+			<div class="row">
+			  <div class="small-24 large-12 columns"></div>
+		 	  <div class="small-24 large-12 columns"><input type="button" name="" value="Save" id="updateFinances" onclick="checkFinances()"/>
+		 	 
+		 	  </div>
+			</div>
+		  </div>
+		 </div>
+		 </form>
 	</div>
- </div>
- <div class="small-24 large-12 columns">
-	<div class="row">
-	  <div class="small-24 large-12 columns"></div>
- 	  <div class="small-24 large-12 columns"></div>
-	</div>
-    <div class="row">
-	  <div class="small-24 large-12 columns">Total Income:</div>
- 	  <div class="small-24 large-12 columns" id="total_income">$<%=FORMAT_COST_CENTS.format(acc_rcv)%></div>
-	</div>
-	<div class="row">
-	  <div class="small-24 large-12 columns">Total Expenses:</div>
- 	  <div class="small-24 large-12 columns" id="total_expenses">$<%= FORMAT_COST_CENTS.format(acc_out)%></div>
-	</div>
-	<div class="row">
-	  <div class="small-24 large-12 columns">Current Balance:</div>
- 	  <div class="small-24 large-12 columns" id="current_balance">$<%=FORMAT_COST_CENTS.format(balance) %></div>
-	</div>
-	<div class="row">
-	  <div class="small-24 large-12 columns"></div>
- 	  <div class="small-24 large-12 columns"><input type="button" name="" value="Save" id="updateFinances" onclick="checkFinances()"/>
- 	 
- 	  </div>
-	</div>
-  </div>
- </div>
- </form>
+</div><!--/panelWrapper-->
+

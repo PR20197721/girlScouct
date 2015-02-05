@@ -1,8 +1,9 @@
-<li  className="row meeting" key={obj[comment].id} id={obj[comment].id+1}>
+<li  className="row meeting ui-state-default" key={obj[comment].id} id={obj[comment].id+1}>      
   <div className="column large-20 medium-20 large-centered medium-centered">
-    
+    <img className="touchscroll" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/throbber.png"/> 
     <div className="large-3 medium-3 small-4 columns">
       <div className={testrr(obj, comment)}>
+    
         <div className={ (moment(comment).get('year') < 1978) ?  "hide" : "count"}>{(obj[comment].id)+1}</div>      
         <div className="date">
           <p className="month">{ moment(comment).get('year') < 1978 ? "meeting" : moment(comment).format('MMM')}</p>
@@ -14,7 +15,7 @@
 
     <div className="large-22 medium-22 small-24 columns">
       <p className="subtitle">
-      	<ViewMeeting date={comment} name={obj[comment].meetingInfo.name}/>
+      	<ViewMeeting date={moment(comment).toDate()} name={obj[comment].meetingInfo.name}/>
       </p>
       <p className="category">{obj[comment].meetingInfo.cat}</p>
       <p className="blurb">{obj[comment].meetingInfo.blurb}</p>

@@ -8,8 +8,19 @@
     String activeTab = "myTroop";
     boolean showVtkNav = true;
 
-  java.util.List<org.girlscouts.vtk.models.Contact>contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO).getContacts( user.getApiConfig(), troop.getSfTroopId() );
-	String emailTo=",";
+  java.util.List<org.girlscouts.vtk.models.Contact> contacts = null;
+  if( isCachableContacts && session.getAttribute("vtk_cachable_contacts")!=null ) {
+	  contacts = (java.util.List<org.girlscouts.vtk.models.Contact>) session.getAttribute("vtk_cachable_contacts");
+  }
+
+  if( contacts==null ){
+	   contacts =	new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO).getContacts( user.getApiConfig(), troop.getSfTroopId() );
+	   if( contacts!=null )
+		   session.setAttribute("vtk_cachable_contacts" , contacts);
+  }
+  
+  
+  String emailTo=",";
 	try{
 			for(int i=0;i<contacts.size();i++)
 				if( contacts.get(i).getEmail()!=null && !contacts.get(i).getEmail().trim().equals("") && 
@@ -26,14 +37,6 @@
 	}catch(Exception e){e.printStackTrace();}
 %>
 
-<!-- <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-<!-- 2/1/15 link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" / -->
-<!-- script src="http://fb.me/react-0.12.1.js"></script -->
-<!-- script src="http://fb.me/JSXTransformer-0.12.1.js"></script -->
-<!-- script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script -->
-<!-- script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script -->
-<!-- script src="http://fb.me/react-with-addons-0.12.1.js"></script> -->
-
 <%@include file="include/tab_navigation.jsp"%>
 
 <div id="panelWrapper" class="row content">
@@ -47,12 +50,12 @@
             if (!resourceResolver.resolve(troopPhotoUrl).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
     %>
         <img src="<%=troopPhotoUrl %>" alt="GirlScouts Troop <%=troop.getTroop().getTroopName()%> Photo" />
+        <a data-reveal-id="modal_upload_image" title="update photo" href="#nogo" title="upload image"><i class="icon-photo-camera"></i></a>
     <%
     	}
     %>
-    <a data-reveal-id="modal_upload_image" title="update photo" href="#nogo" title="upload image"><i class="icon-photo-camera"></i></a>
   </div>
-  <div class="column large-24 large-centered">
+  <div class="column large-24 large-centered mytroop">
 
     <dl class="accordion" data-accordion>
       <dt data-target="panel1"><h3 class="on"><%=troop.getSfTroopName() %> INFO</h3><a href='mailto:<%=emailTo%>'><i class="icon icon-mail"></i>email to <%= contacts.size() %> contacts</a></dt>
@@ -66,8 +69,8 @@
                 <div class="row">
                   <dl class="accordion-inner clearfix" data-accordion>
                     <dt data-target="panel<%=i+1%>b" class="clearfix">
-                      <span class="name column large-6"><%=contact.getFirstName() %></span>
-                      <span class="name column large-4">&nbsp;</span>
+                      <span class="name column large-10"><%=contact.getFirstName() %></span>
+                     <!--  <span class="name column large-4 hide-for-small">&nbsp;</span> -->
                       <a class="column large-8 email" href="mailto:<%=contact.getEmail() %>">
                         <i class="icon icon-mail"></i><%=contact.getEmail() %>
                       </a>

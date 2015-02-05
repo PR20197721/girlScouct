@@ -10,7 +10,7 @@
               <ActivityName item={item} key={item.uid} selected={item.uid} itemSelected={this.setSelectedItem} activityNumber={item.activityNumber - 1} /> 
             </div>
             <div className="large-3 medium-3 small-3 columns">
-              <span>:{item.duration}</span>
+              <span>:{item.duration<10 ? ("0"+item.duration) : item.duration}</span>
             </div>
           </div>
         </li>;

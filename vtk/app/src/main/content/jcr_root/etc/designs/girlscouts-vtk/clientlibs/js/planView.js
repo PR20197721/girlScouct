@@ -194,7 +194,7 @@ function previewMeetingReminderEmail(mid){
 			email_htm: email_htm
 		},
 		success: function(result) {
-			var preview = window.open("/content/girlscouts-vtk/controllers/vtk.include.email.meetingReminder_preview.html","preview","");
+			sendMeetingReminderEmail();
 		}
 	});
 	return;
@@ -243,8 +243,14 @@ function sendMeetingReminderEmail(){
 			email_sent_date: moment(new Date()).format('MM/DD/YYYY')
 		},
 		success: function(result) {
-			window.focus();
-			location.reload();
+			location.reload('true');
+		    $('.ui-dialog-titlebar').css('display', 'none');
+			$('#after-sent').dialog('open');
+			$('.ui-dialog').css('z-index', 300);
+		    setTimeout(function() {
+		    	$('#added').dialog('close');
+		    }, 10000);
+
 		}
 	});
 	return;
