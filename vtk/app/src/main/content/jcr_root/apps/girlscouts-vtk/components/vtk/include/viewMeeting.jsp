@@ -18,8 +18,8 @@
 
 	<div class="column large-20 medium-20 large-centered medium-centered">
 		<div class="large-3 medium-3 small-4 columns">
-			<div
-				class="bg-square  <%=(!calendarNotSet && isCanceled) ? "canceled" : "" %>">
+		<img class="touchscroll" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/touchscroll-small.png" width="21" height="34">
+			<div class="bg-square  <%=(!calendarNotSet && isCanceled) ? "canceled" : "" %>">
 				<div class="count"><%= meetingCount %></div>
 				<div class="date">
 					<p class="month"><%=calendarNotSet ? "Meeting" : FORMAT_MONTH.format(date) %></p>

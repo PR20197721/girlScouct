@@ -60,8 +60,8 @@
   	        <%} else{
   	          	%> onclick="alert('You have not yet scheduled your meeting calendar.\nPlease select a year plan and schedule your meetings by clicking on the MEETING DATES AND LOCATION link.')"
   	        <% } %> title="download the calendar"><i class="icon-download"></i></a></li>
+            <li><a class="icon" onclick="javascript:window.print()" title="print"><i class="icon-printer"></i></a></li>
           <% } %>
-          <li><a class="icon" onclick="javascript:window.print()" title="print"><i class="icon-printer"></i></a></li>
         </ul>
       </div>
     </div>

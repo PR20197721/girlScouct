@@ -75,7 +75,7 @@ a {
 a:hover {
   color: green;
 }
-@media only screen and (min-width:500ps and max-width: 620px) {
+@media only screen and (min-width:500px and max-width: 620px) {
   .home-section .columns.large-1 {
     margin:0;
   }
@@ -809,7 +809,7 @@ td.fc-header-left {
   content: "\e66c";
   color: rgb(0, 174, 88);
   top: 0px;
-  left: 89%;
+  right: 0%;
   font-size: 1.3em;
 }
 #headerBar ul li.active {
@@ -830,7 +830,7 @@ td.fc-header-left {
   content: "";
   border-color: transparent transparent transparent #fff;
   position: absolute;
-  margin: -5px 0 0 5px;
+  margin: -4px 0 0 5px;
   top:50%;
 }
 #header a.link-login:hover:after {

@@ -113,7 +113,7 @@
       	<% 
       		// List<Asset> aidTags = planView.getAidTags();
       		for(int i=0;i<planView.getAidTags().size();i++) { %>
-      		<li><i class="icon-pdf-file-extension"><span class="color-overlay"></span></i><span class="name"><%= planView.getAidTags().get(i).getTitle() %></span></li>
+      		<li><i class="icon-pdf-file-extension ext"><!-- <span class="color-overlay"></span> --></i><span class="name"><%= planView.getAidTags().get(i).getTitle() %></span></li>
       		<li><a class="add-links" href="#nogo" title="add" onclick="addAidLink('<%=planView.getAidTags().get(i).getRefId()%>','<%=planView.getAidTags().get(i).getTitle()%>','<%=((MeetingE)planView.getYearPlanComponent()).getUid() %>')"><i class="icon-button-circle-plus"></i></a></li>
       	<%}%>
       	</ul>
@@ -181,12 +181,15 @@
 	  </dd>
 	</dl>
 	<div class="right clearfix">
-		<input type="button" value="Send email" class="button btn" onclick="validate();"/>
+		<input type="button" value="Send email" class="button btn" onclick="sendEmail();"/>
 		<!--  <input class="button btn" value="Send email" type="button" onclick="sendMeetingReminderEmail()"/>-->
 	</div>
 	
 	<div id="added">
 		<p>Added to email.</p>
+	</div>
+	<div id="after-sent">
+		<p>Email(s) sent.</p>
 	</div>
 	
 </div>
@@ -204,6 +207,8 @@
 		  $('.sent').append('none');
 		 } */
 		 $('#added').dialog({ autoOpen: false, zIndex: 200 });
+		 $('#after-sent').dialog({ autoOpen: false, zIndex: 200 });
+
 	});
 	
 
@@ -215,7 +220,10 @@
 		"fsizes": ['10','12','14','16','18','20','22','24','28','32']
 	});
 	function addFormLink(link, formname, categoryId){
-		$('#formLinks').append('<li><a href="'+link+'">'+formname+'</a></li>');
+		var url = window.location.href;
+		var arr = url.split("/");
+		var host = arr[0] + "//" + arr[2];
+		$('#formLinks').append('<li><a href="'+host+link+'">'+formname+'</a></li>');
 		$('#formLinks p.hide').removeClass();
 		$("dt[data-target='" + categoryId + "'] span").removeClass('on');
 		$('.accordion #' + categoryId).slideToggle('slow');
@@ -228,7 +236,10 @@
 		return;
 	};
 	function addAidLink(refId,title,uid){
-		$('#aidLinks').append('<li><a href="'+refId+'">'+title+'</a></li>');
+		var url = window.location.href;
+		var arr = url.split("/");
+		var host = arr[0] + "//" + arr[2];
+		$('#aidLinks').append('<li><a href="'+host+refId+'">'+title+'</a></li>');
 		$('#aidLinks p.hide').removeClass();
 		$('#added').dialog('open');
 		$('.ui-dialog-titlebar').css('display', 'none');
@@ -239,12 +250,19 @@
 		//addAidToEmail(refId,title,uid);
 		return;
 	};
+	function sendEmail(){
+		if(validate()){
+	    	previewMeetingReminderEmail('<%=((MeetingE)planView.getYearPlanComponent()).getUid()%>'); 
+		}
+
+	};
 	function validate(){
 	    var emailReg = /^(([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?\;?)+$/;
-	    var email = $('#email_to_cc').val();
+	    var emailAddr = $('#email_to_cc').val();
 	    var subject = $('#email_subj').val();
-		if(email.length){
-		    if(!emailReg.test(email)){
+	    var body = $('#email_htm').val();
+		if(emailAddr.length){
+		    if(!emailReg.test(emailAddr)){
 		    	//$('#email_to_cc') label turn red or input background turn red
 		    	$('.scroll').scrollTop($('#email_to_cc').position().top);
 	            alert("Please enter valid email address(es).");
@@ -260,7 +278,14 @@
     		alert("Subject can not be empty.");
     		return false;
 		}
-	    previewMeetingReminderEmail('<%=((MeetingE)planView.getYearPlanComponent()).getUid()%>');    
+		if(!body.length){
+	    	$('.scroll').scrollTop($('#email_htm').position().top);
+    		alert("Email body can not be empty.");
+    		return false;
+		}
+		return true;
+	    
 	};
+	
 </script>
  

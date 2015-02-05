@@ -69,7 +69,14 @@
         <a id="vtk-main-menu-button" onclick="$('#vtk-main-menu').slideToggle('slow')" class="expand">Menu</a>
         <ul id="vtk-main-menu" class="hide-for-print" style="display: none;">
           <% if(hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
-          <li <%= ("myTroop".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.mytroop_react.html">My Troop</a></li>
+          <li class='has-dropdown<%= ("myTroop".equals(activeTab)) ? " active" : " " %>'><a href="/content/girlscouts-vtk/en/vtk.mytroop_react.html">My Troop</a>
+          	<ul class="dropdown">
+          	<% if("myTroop".equals(activeTab)) { %>
+          		<li><a data-reveal-id="modal_upload_image" title="update photo" href="#">add/change a photo of your troop</a></li>
+          		<li><a title="remove photo" href="#" onclick="rmTroopInfo()">remove troop photo</a></li>
+          	<% } %>
+            </ul>
+          </li>
           <%}%> 
           <% if(hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID)) { %>
           <li class='has-dropdown<%= ("plan".equals(activeTab)) ? " active" : " " %>'><a href="/content/girlscouts-vtk/en/vtk.html">Year Plan</a>
@@ -83,22 +90,43 @@
             </ul>
           </li>
           <%}%>
+          <% if(hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) { %>
           <li class='has-dropdown<%= ("planView".equals(activeTab)) ? " active" : " " %>'> <a <%= troop.getYearPlan() != null ? "href='/content/girlscouts-vtk/en/vtk.details.html'" :  "href='#' onClick='alert(\"Please select a year plan\")'"  %>>Meeting Plan</a>
             <ul class="dropdown">
-            <% try { Object meetingPath = pageContext.getAttribute("MEETING_PATH");
-              if (meetingPath != null) {
-                Long planViewTime = (Long) pageContext.getAttribute("PLANVIEW_TIME"); %>
-                <li><a href="#" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=(String) meetingPath %>&xx=<%= planViewTime.longValue() %>', false, null, true)">replace this meeting</a>
-                </li>
-              <% }
-            } catch (Exception te) {
-                  te.printStackTrace();
-            } %>
-              <li><a href="#" onclick="doEditActivity('editCustActiv')">edit activity</a></li>
+            <% if("planView".equals(activeTab)) { 
+               switch(meetingUtil.planView(user, troop, request).getYearPlanComponent().getType() ) {
+                case ACTIVITY:
+                  Activity activity = (Activity)meetingUtil.planView(user, troop, request).getYearPlanComponent();
+                  if( activity.getIsEditable() ){%>
+                  <li><a href="#" onclick="doEditActivity('editCustActiv')">edit activity</a></li>
+                <% }
+                  if ( !(activity.getCancelled()!=null && activity.getCancelled().equals("true") ) && 
+                  activity.getRegisterUrl()  !=null && !activity.getRegisterUrl().equals("")){%>
+                  <li><a href="<%=activity.getRegisterUrl()%>" class="button linkButton" target="_blank">Register for this event</a></li><%
+                  } %>
+                    <li><a href="javascript:rmCustActivity12(aPath)">delete this activity</a></li><% 
+                    
+              	case MEETING:
+                	try { Object meetingPath = pageContext.getAttribute("MEETING_PATH");
+                        if (meetingPath != null && meetingPath != "") {
+                          Long planViewTime = (Long) pageContext.getAttribute("PLANVIEW_TIME");%>
+                        <li>
+                        <a href="#" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=(String) meetingPath %>&xx=<%= planViewTime.longValue() %>', false, null, true)">replace this meeting</a>
+                        </li><% 
+                        }
+                    } catch (Exception te) {
+                      te.printStackTrace();
+                    }
+                  break;
+                }%>
+              <!-- <li><a href="#" onclick="doEditActivity('editCustActiv')">edit activity</a></li>
               <li><a href="#" target="_blank">Register for this event</a></li>
-              <li><a href="javascript:rmCustActivity12(aPath)">delete this activity</a></li>
+              <li><a href="javascript:rmCustActivity12(aPath)">delete this activity</a></li> -->
+            <% } %>  
             </ul>
           </li>
+          <%  } %>
+          
           <li <%= ("resource".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.resource.html">Resources</a></li>
           <li <%= ("finances".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.finances.html">Finances</a></li>
            <li <%= ("profile".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.profile.html">Profile</a></li>

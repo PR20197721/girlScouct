@@ -462,12 +462,11 @@
 			EmailMeetingReminder emr = null;
 			if (troop.getSendingEmail() != null) {
 				emr = troop.getSendingEmail();
-			}
-			if (emr.getCc() == null || emr.getCc().equals("")) {
-				emr.setCc("ayakobovich@northpointdigital.com");
+			}else{
+				System.out.println("emr does not exit!");
 			}
 			emr.setSentDate(request.getParameter("email_sent_date"));
-			String html = emr.getHtml();
+			//String html = emr.getHtml();
 			/*
 			html+="<br/>Aids Included:";
 			if( emr!=null ){
@@ -482,6 +481,8 @@
 			org.girlscouts.vtk.ejb.Emailer emailer = sling
 					.getService(org.girlscouts.vtk.ejb.Emailer.class);
 			emailer.test(emr);
+			//window.open("/content/girlscouts-vtk/controllers/vtk.include.email.meetingReminder_preview.html","preview","");
+
 			troop.setSendingEmail(null);
 
 		} else if (request.getParameter("testAB") != null) {

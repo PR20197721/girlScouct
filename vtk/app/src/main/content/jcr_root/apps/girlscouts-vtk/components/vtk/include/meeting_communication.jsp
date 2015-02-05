@@ -13,10 +13,9 @@
    		title="Meeting Reminder Email">Edit/Sent Meeting Reminder Email</a>
   <% }%> 
   </li>
-   <li>(2 sent - <a href="" title="view" className="view">view</a>)</li>
+  <li></li>
    
-   
-   <%if((planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING)){ %>
+  <%if((planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING)){ %>
    <li>        
     <a data-reveal-id="modal_popup" data-reveal-ajax="true" href={"/content/girlscouts-vtk/controllers/vtk.include.modals.modal_attendance.html?mid=<%=planView.getYearPlanComponent().getUid() %>&isAch=<%=(planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING) ? ((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getIsAchievement() : "false" %>&mName=<%= (planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING) ? ((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getName() : ((Activity)planView.getYearPlanComponent()).getName()%>"}>Record Attendance &amp; Achievements</a>
     </li>
@@ -36,15 +35,9 @@
         <% }else{%>
           <%= pageContext.getAttribute("MEETING_achievement_CURRENT") %> of <%= pageContext.getAttribute("MEETING_ATTENDANCE_TOTAL") %> achievement(s)
         <%} %>
-    <%} %>   
-   - <a data-reveal-id="modal_popup" data-reveal-ajax="true" title="view" className="view" href={"/content/girlscouts-vtk/controllers/vtk.include.modals.modal_attendance.html?mid=<%=planView.getYearPlanComponent().getUid() %>&isAch=<%=(planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING) ? ((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getIsAchievement() : "false" %>&mName=<%= (planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING) ? ((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getName() : ((Activity)planView.getYearPlanComponent()).getName()%>"}>view</a>
-    
+    <%} %>
      )
    </li>
    <%} %>
-   
-   
-   <li><a href="" title="Upload Photo">Upload Photo</a></li>
-   <li>(none) </li>
   </ul>
 </section>

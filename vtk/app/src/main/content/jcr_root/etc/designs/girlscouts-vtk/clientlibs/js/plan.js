@@ -93,19 +93,24 @@ function resetModalPage() {
 }
 
 function loadModalPage(link, showTitle, title, fullPageScroll, print) {
-		resetModalPage();
 		
+	resetModalPage();
+
         $( "#gsModal" ).load(link, function( response, status, xhr ) {
+    	
                 if ( status == "error" ) {
+               	
                         var msg = "Sorry but there was an error: ";
                         $( "#error" ).html( msg + xhr.status + " " + xhr.statusText );
                 }else{
-			loadModal("#gsModal", showTitle, title, fullPageScroll, print);
+               	
+                	loadModal("#gsModal", showTitle, title, fullPageScroll, print);
                 }
         });
 }
 
 function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
+	
 	var wWidth = $(window).width();
 	var wHeight = $(window).height();
 	var dWidth = wWidth * 1; //this will make the dialog 80% of the
@@ -166,7 +171,7 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 	}
 }
 function yesPlan(){
-  if( document.getElementById('yearPlanMeetings').style.display=='none' ){
+  if(document.getElementById('yearPlanMeetings').style.display=='none' ){
     document.getElementById('yearPlanMeetings').style.display='block';
     document.getElementById('yearPlanSelection').style.display='none';  
     document.getElementById('showHideReveal').innerHTML='VIEW YEAR PLAN LIBRARY';
@@ -521,11 +526,9 @@ function printDiv(x) {
         popupWin.document.close();
 }
 function showAlterYearPlanStartDate(fromDate, mCountUpd){
-
-	//$("#calMng").load("/content/girlscouts-vtk/controllers/vtk.include.calendarAlterStartDate.html?isNew=false");
-	//	newLocCal();
+	// temporary fix until more permanent refactoring
+	closeModalPage();
 	loadModalPage('/content/girlscouts-vtk/controllers/vtk.locations.html?alterYPStartDate='+ fromDate+'&mCountUpd='+ mCountUpd, false, null, true, false);
-	
 }
 
 

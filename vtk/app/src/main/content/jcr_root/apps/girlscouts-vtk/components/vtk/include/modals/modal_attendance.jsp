@@ -26,7 +26,7 @@
     <a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
   </div>
   <div class="scroll">
-    <div class="content" id="modal_A_A">
+    <div class="content clearfix" id="modal_A_A">
      <h4><%=request.getParameter("mName")%></h4>
       <form action="/content/girlscouts-vtk/controllers/vtk.controller.html">
         <!--  input type="hidden" value="UpdAttendance" id="UpdAttendance" name="act"/ -->

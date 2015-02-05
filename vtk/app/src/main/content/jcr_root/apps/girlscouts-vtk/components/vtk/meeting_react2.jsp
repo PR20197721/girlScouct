@@ -52,7 +52,6 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 
 
 <div id="modal_popup" class="reveal-modal" data-reveal></div>
-
 <%@include file="include/tab_navigation.jsp"%>
 
 <script>
@@ -194,7 +193,6 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
       		 <%@include file="include/meeting_planning.jsp"%>
       		 <%@include file="include/meeting_communication.jsp"%>
       		</div>
-
           );
         }
       });
@@ -275,10 +273,10 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
           render: function () {
       		return <section className="column large-20 medium-20 large-centered medium-centered">
         					 <h6>meeting agenda</h6>
-        					 <p>Select and agenda item to view details, edit duration and delete. Drag and drop to reorder.</p>
+                  <p>Select and agenda item to view details, edit duration and delete. Drag and drop to reorder.</p>
        						 <SortableListItems1  key="{this.props.data}"  data={this.props.data} onClick={this.alex} onReorder={this.onReorder}/>
                   <AgendaTotal data={this.props.data}/>   				
-                  <strong><a data-reveal-id="modal_agenda"><i className="icon-button-circle-plus"></i> Add Agenda Item</a></strong>
+                  <strong><a data-reveal-id="modal_agenda" className="add-btn"><i className="icon-button-circle-plus"></i> Add Agenda Item</a></strong>
 						     </section>; 
           }
       });
@@ -286,7 +284,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
       var SortableListItems1 = React.createClass({
         render: function() {
           if( this.props.data!=null ){
-agendaSched=null;
+            agendaSched=null;
     				return (
   					  <%@include file="include/meeting_agenda.jsp"%>
   					);
@@ -295,7 +293,7 @@ agendaSched=null;
           }
         },
         componentDidMount: function() {
- resizeWindow();
+          resizeWindow();
           var dom = $(this.getDOMNode());
           var onReorder = this.props.onReorder;
           dom.sortable({

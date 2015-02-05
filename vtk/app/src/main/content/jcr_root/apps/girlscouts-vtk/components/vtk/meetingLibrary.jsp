@@ -67,8 +67,8 @@
   }
   </script>
   <div class="scroll">
-    <div class="content meeting-library">
-      <p class="instruction"><%= instruction %></p>
+    <div class="content meeting-library row">
+      <p class="instruction columns small-24"><%= instruction %></p>
       <div id="cngMeet"></div>
       <table class="meetingSelect">
       	<tbody>

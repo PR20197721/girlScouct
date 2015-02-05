@@ -2,6 +2,6 @@
 jquery-ui.css
 jquery-te-1.4.0.css
 jquery.custombox.css
+themes_smoothness_jquery-ui.css
 vtk-style.css
 print.css
-themes_smoothness_jquery-ui.css

@@ -5,7 +5,7 @@
   </div>
   <div class="scroll">
     <div class="content clearfix">
-      <form class="clearfix">
+      <form>
         <section class="clearfix row">
           <h4 class="column">Add New Agenda Item</h4>
           <div class="large-8 columns">

@@ -28,6 +28,7 @@
     	var isActivNew;
     	var isFirst=1;
       var meetingPassed=false;
+var scrollTarget = "";
       var CommentBox = React.createClass({
        loadCommentsFromServer: function( isFirst ) {
        console.log("loading.." + (isActivNew) +" : "+isFirst+ " : "+(isFirst ==1));
@@ -140,10 +141,30 @@
       },
       componentDidMount: function() {
 resizeWindow();
+
+
+      if (Modernizr.touch) {
+
+        scrollTarget = ".touchscroll";
+      } else {
+
+        $(".touchscroll").hide();
+      }
+
           var dom = $(this.getDOMNode());
           var onReorder = this.props.onReorder;
           dom.sortable({
           items: "li:not(.ui-state-disabled)",
+
+        delay:150,
+        distance: 5,
+        opacity: 0.5 ,
+        scroll: true,
+        scrollSensitivity: 10 ,
+        tolerance: "intersect" ,
+        handle: scrollTarget,
+        helper:'clone',
+
             stop: function (event, ui) {
               var order = dom.sortable("toArray", {attribute: "id"});
               var yy  = order.toString().replace('"',''); 
@@ -157,10 +178,30 @@ resizeWindow();
     }).disableSelection();
       },
       componentWillUpdate: function() {
+
+
+      if (Modernizr.touch) {
+        // touch device
+        scrollTarget = ".touchscroll";
+      } else {
+        $(".touchscroll").hide();
+      }
+
         var dom = $(this.getDOMNode());
         var onReorder = this.props.onReorder;
         dom.sortable({
         items: "li:not(.ui-state-disabled)",
+
+      delay:150,
+        distance: 5,
+        opacity: 0.5 ,
+        scroll: true,
+        scrollSensitivity: 10 ,
+        tolerance: "intersect" ,
+        handle: scrollTarget,
+        helper:'clone',
+
+
             stop: function (event, ui) {
             	var order = dom.sortable("toArray", {attribute: "id"});
             	var yy  = order.toString().replace('"','');
@@ -212,33 +253,37 @@ resizeWindow();
           document.getElementById('thePlan')
         );
 
-        function meetingDateBlock(obj, comment){ 
+function testrr(obj, comment){ 
 
-         if(  moment(comment).get('year') < 1978 ){
-            return "bg-square";
-         }else if(  moment(comment) < moment( new Date()) ){
-            return "bg-square passed";
-         }else if(meetingPassed && 
-            moment(comment) > moment( new Date())) {
-          meetingPassed= false;
-          return "bg-square current";
-         }else if( obj[comment].cancelled =='true' ){
-            return "bg-square canceled";
-         }else{
-            return "bg-square";
-         }
-        }
+ if(  moment(comment).get('year') < 1978 ){
+    return "bg-square";
+ }else if(  moment(comment) < moment( new Date()) ){
+    return "bg-square passed";
+ }else if(meetingPassed && 
+    moment(comment) > moment( new Date())) {
+  meetingPassed= false;
+  return "bg-square current";
+ }else if( obj[comment].cancelled =='true' ){
+    return "bg-square canceled";
+ }else{
+    return "bg-square";
+ }
+}
 
-        function imageExists(image_url){
+function imageExists(image_url){
 
-            var http = new XMLHttpRequest();
+    var http = new XMLHttpRequest();
 
-            http.open('HEAD', image_url, false);
-            http.send();
+    http.open('HEAD', image_url, false);
+    http.send();
 
-            return http.status != 404;
+    return http.status != 404;
 
-        }
+}
+
+
+
+
       </script>  
     </div>
   </div>

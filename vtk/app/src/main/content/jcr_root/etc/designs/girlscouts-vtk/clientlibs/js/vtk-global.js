@@ -22,33 +22,30 @@ var $ = jQuery.noConflict();
 	// 	$('.reveal-modal').css('height' , window_h + 'px');
 	// 	$('.scroll').css('max-height' , popup_h +' px');
 	// }
-	function vtk_accordion() {
-		$('.accordion dt > :first-child').on('click', function() {
-			var target = $(this).parent().data('target');
-			var toggle = $(this);
-			$('#' + target).slideToggle('slow');
-			$(toggle).toggleClass('on');
-			return false;
-			if($('.accordion .accordion-navigation').children(':visible').length == 0) {
-			 resizeWindow();
-			}
+  function vtk_accordion() {
+    $('.accordion dt > :first-child').on('click', function() {
+      var target = $(this).parent().data('target');
+      var toggle = $(this);
+      $('#' + target).slideToggle('slow');
+      $(toggle).toggleClass('on');
+        return false;
+    });
+  }
+
+	function modal_height_on_open() {
+	  $(document).on('opened.fndtn.reveal', '[data-reveal]', function () {
+			var window_h = $(window).height();
+			var popup_h = (window_h - 75);
+			$(this).find('.scroll').css('max-height' , popup_h + 'px');
 		});
 	}
-// In Koo removed to simplify modal styling and delegate to CSS
-
-		function modal_height_on_open() {
-		  $(document).on('opened.fndtn.reveal', '[data-reveal]', function () {
-				var window_h = $(window).height();
-				var popup_h = (window_h - 50);
-				$(this).find('.scroll').css('max-height' , ($(window).height()-50)+'px');
-			});
-		}
-		function modal_height_resize() {
-    	var window_h = $(window).height();
-    	var popup_h = (window_h - 50);
-  		$('.scroll').css('max-height' , ($(window).height()-50)+'px');
-  		$('.modalWrap').css('max-height' , $(window).height()+'px');
-		}
+	
+	function modal_height_resize() {
+  	var window_h = $(window).height();
+  	var popup_h = (window_h - 75);
+		$('.scroll').css('max-height' , popup_h + 'px');
+		$('.modalWrap').css('max-height' , $(window).height()+'px');
+	}
 
 	function validate_image() {
 		$('form#frmImg').submit(function(e) {
@@ -93,6 +90,7 @@ var $ = jQuery.noConflict();
 	  	 modal_height_on_open();
 	  	 vtk_accordion();
 	  	 validate_image();
+	  	 resizeWindow();
   });
 
  $(window).resize(function() {
