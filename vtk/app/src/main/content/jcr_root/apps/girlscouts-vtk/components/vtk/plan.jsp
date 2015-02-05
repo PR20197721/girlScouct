@@ -212,33 +212,33 @@ resizeWindow();
           document.getElementById('thePlan')
         );
 
-function testrr(obj, comment){ 
+        function meetingDateBlock(obj, comment){ 
 
- if(  moment(comment).get('year') < 1978 ){
-    return "bg-square";
- }else if(  moment(comment) < moment( new Date()) ){
-    return "bg-square passed";
- }else if(meetingPassed && 
-    moment(comment) > moment( new Date())) {
-  meetingPassed= false;
-  return "bg-square current";
- }else if( obj[comment].cancelled =='true' ){
-    return "bg-square canceled";
- }else{
-    return "bg-square";
- }
-}
+         if(  moment(comment).get('year') < 1978 ){
+            return "bg-square";
+         }else if(  moment(comment) < moment( new Date()) ){
+            return "bg-square passed";
+         }else if(meetingPassed && 
+            moment(comment) > moment( new Date())) {
+          meetingPassed= false;
+          return "bg-square current";
+         }else if( obj[comment].cancelled =='true' ){
+            return "bg-square canceled";
+         }else{
+            return "bg-square";
+         }
+        }
 
-function imageExists(image_url){
+        function imageExists(image_url){
 
-    var http = new XMLHttpRequest();
+            var http = new XMLHttpRequest();
 
-    http.open('HEAD', image_url, false);
-    http.send();
+            http.open('HEAD', image_url, false);
+            http.send();
 
-    return http.status != 404;
+            return http.status != 404;
 
-}
+        }
       </script>  
     </div>
   </div>

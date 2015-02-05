@@ -56,7 +56,7 @@
         </dd>
         <% if( hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){ %>
           <dd <%= "finances".equals(activeTab) ? "class='active'" : "" %>>
-            <a href="/content/girlscouts-vtk/en/vtk.include.finances.html?qtr=1">Finances</a>
+            <a href="/content/girlscouts-vtk/en/vtk.finances.html?qtr=1">Finances</a>
           </dd>
         <% }  %>
         <!-- % // to do add this to javA if(hasPermission(troop, Permission.PERMISSION_VIEW_PROFILE) ) { %-->
