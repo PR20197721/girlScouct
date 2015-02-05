@@ -1,34 +1,10 @@
 
 
 function checkFinances(){
-	if (!$('#starting_balance').valid()) {	
-			alert("The field starting_balance is invalid.");
-	}else if(!$('#troop_dues').valid()){			
-			alert("The field troop_dues is invalid.");
-	}else if(!$('#sponsorship_donations').valid()){			
-			alert("The field sponsorship_donations is invalid.");
-	}else if(!$('#product_sales_proceeds').valid()){			
-			alert("The field product_sales_proceeds is invalid.");
-	}else if(!$('#amea').valid()){			
-			alert("The field amea is invalid.");
-	}else if(!$('#bank_interest').valid()){			
-			alert("The field bank_interest is invalid.");
-	}else if(!$('#gsusa_registrations').valid()){			
-			alert("The field gsusa_registrations is invalid.");
-	}else if(!$('#service_ae').valid()){			
-			alert("The field service_ae is invalid.");
-	}else if(!$('#council_pc').valid()){			
-			alert("The field council_pc is invalid.");
-	}else if(!$('#troop_activities').valid()){			
-			alert("The field troop_activities is invalid.");
-	}else if(!$('#troop_supplies').valid()){			
-			alert("The field troop_supplies is invalid.");
-	}else if(!$('#gs_store_purchase').valid()){			
-			alert("The field gs_store_purchase is invalid.");
-	}else {
+	
 		alert("about to save finances");
 		saveFinances();
-	}
+	
 	
 }
 
@@ -48,127 +24,10 @@ $(function() {
 });
 
 
-$.validator.addMethod('currency', function(value, element, regexp) {
-		var re = /^\d{1,9}(\.\d{1,2})?$/;
-		return this.optional(element) || re.test(value);
-		}, '');
 
-
-
-	$(document).ready(function() {
-		$("#financeForm").validate({
-			rules : {
-				//Current Income
-				starting_balance : {
-					required : true,
-					minlength : 4
-				},
-				troop_dues: {
-					required : true,
-					minlength : 4
-				},
-				sponsorship_donations: {
-					required : true,
-					minlength : 4
-				},
-				product_sales_proceeds: {
-					required : true,
-					minlength : 4
-				},
-				amea: {
-					required : true,
-					minlength : 4
-				},
-				
-				bank_interest: {
-					required : true,
-					minlength : 4
-				},
-				//Current Expenses
-				gsusa_registrations: {
-					required : true,
-					minlength : 4
-				},
-				service_ae: {
-					required : true,
-					minlength : 4
-				},
-				council_pc: {
-					required : true,
-					minlength : 4
-				},
-				troop_activities : {
-						required : true,
-						minlength : 4,
-				},	
-				troop_supplies	: {
-					required : true,
-					minlength : 4
-				},
-				gs_store_purchase: {
-					required : true,
-					minlength : 4
-				}		
-				
-			},
-
-			messages : {
-				troop_dues : {
-					required : "Please enter a valid amount. Default 0.00",
-					minlength : "Valid format 0.00"
-				},
-				sponsorship_donations: {
-					required : "Please enter a valid amount. Default 0.00",
-					minlength : "Valid format 0.00"
-				},
-				product_sales_proceeds: {
-					required : "Please enter a valid amount. Default 0.00",
-					minlength : "Valid format 0.00"
-				},
-				amea: {
-					required : "Please enter a valid amount. Default 0.00",
-					minlength : "Valid format 0.00"
-				},
-				bank_interest: {
-					required : "Please enter a valid amount. Default 0.00",
-					minlength : "Valid format 0.00"
-				},
-				gsusa_registrations: {
-					required : "Please enter a valid amount. Default 0.00",
-					minlength : "Valid format 0.00"
-				},
-				gsusa_registrations: {
-					required : "Please enter a valid amount. Default 0.00",
-					minlength : "Valid format 0.00"
-				},
-				service_ae: {
-					required : "Please enter a valid amount. Default 0.00",
-					minlength : "Valid format 0.00"
-				},
-				council_pc: {
-					required : "Please enter a valid amount. Default 0.00",
-					minlength : "Valid format 0.00"
-				},
-				troop_activities: {
-					required : "Please enter a valid amount. Default 0.00",
-					minlength : "Valid format 0.00"
-				},
-				troop_supplies: {
-					required : "Please enter a valid amount. Default 0.00",
-					minlength : "Valid format 0.00"
-				},
-				starting_balance : {
-					required : "Please enter a valid amount. Default 0.00",
-					minlength : "Valid format 0.00"
-				}
-
-			}
-		});
-
-	});
 	
 	
-	function saveFinances(){
+function saveFinances(){
 		
 		
 		var starting_balance = document.getElementById("starting_balance").value;
@@ -236,11 +95,12 @@ $.validator.addMethod('currency', function(value, element, regexp) {
 		
 	}
 	
-	function updateTotals(){
+function updateTotals(){
 	
 		var starting_balance = document.getElementById("starting_balance").value;
 		starting_balance = Number(starting_balance.replace(/,/g, ''));
 		starting_balance = starting_balance * 100;
+		
 		
 		var troop_dues = document.getElementById("troop_dues").value;
 		troop_dues = Number(troop_dues.replace(/,/g, ''));
@@ -287,11 +147,15 @@ $.validator.addMethod('currency', function(value, element, regexp) {
 		gs_store_purchase = gs_store_purchase * 100;
 		
 		var totalIncome = starting_balance + troop_dues + sponsorship_donations + product_sales_proceeds + amea + bank_interest;
-		totalIncome = totalIncome / 100;
 		var totalExpenses = gsusa_registrations + service_ae + council_pc + troop_activities + troop_supplies + gs_store_purchase;
-		totalIncome = totalIncome / 100;
 		var currentBalance = totalIncome - totalExpenses;
+		
 		totalIncome = totalIncome / 100;
+		totalExpenses = totalExpenses / 100;
+		currentBalance = currentBalance / 100;
+		
+		
+		
 		
 		document.getElementById("total_income").innerHTML = "$" + totalIncome;
 		document.getElementById("total_expenses").innerHTML = "$" + totalExpenses;
