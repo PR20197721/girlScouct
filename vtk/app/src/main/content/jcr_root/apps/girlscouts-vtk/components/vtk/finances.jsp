@@ -65,7 +65,7 @@
 
       <section class="column large-12 medium-12">
         <h6>current income</h6>
-        <ul class="large-block-grid-2 small-block-grid-2">
+        <ul class="large-block-grid-2 small-block-grid-2 text-right">
           <li>Beginning Balance:</li>
           <li><%=String.format(financeFieldTag, "starting_balance", "starting_balance", FORMAT_COST_CENTS.format(finance.getStartingBalance())) %></li>
           <li>Troop Dues:</li>
@@ -83,7 +83,7 @@
 
       <section class="column large-12 medium-12">
          <h6>current expenses</h6>
-         <ul class="large-block-grid-2 small-block-grid-2">
+         <ul class="large-block-grid-2 small-block-grid-2 text-right">
            <li>GSUSA Registrations:</li>
            <li><%=String.format(financeFieldTag, "gsusa_registrations", "gsusa_registrations", FORMAT_COST_CENTS.format(finance.getGsusaRegistration())) %></li>
            <li>Service Activities/Events:</li>
@@ -100,7 +100,18 @@
       </section>
     </div><!--/row-->
     <!-- totals -->
-    <div class="row">
+    <div class="text-right row">
+      <section>
+        <h6>Total Income:  <span>$<%=FORMAT_COST_CENTS.format(acc_rcv)%></span></h6>
+      </section>
+      <section>
+        <h6>Total Income: <span>$<%=FORMAT_COST_CENTS.format(acc_rcv)%></span></h6>
+      </section>
+      <section>
+        <h6>Total Income: <span>$<%=FORMAT_COST_CENTS.format(acc_rcv)%></span></h6>
+      </section>
+    </div>
+<!--     <div class="row">
      <div class="small-24 large-12 columns">
       <div class="row">
         <div class="small-24 large-12 columns"></div>
@@ -126,12 +137,11 @@
       </div>
       <div class="row">
         <div class="small-24 large-12 columns"></div>
-        <div class="small-24 large-12 columns"><input type="button" name="" value="Save" id="updateFinances" onclick="checkFinances()"/>
-       
+        <div class="small-24 large-12 columns"><input type="button" name="" class="btn button" value="Save" id="updateFinances" onclick="checkFinances()"/>
         </div>
       </div>
       </div>
-     </div>
+     </div> -->
      </form>
 
   </div>

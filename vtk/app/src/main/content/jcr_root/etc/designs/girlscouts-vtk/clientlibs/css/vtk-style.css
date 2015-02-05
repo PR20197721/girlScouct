@@ -303,6 +303,8 @@
     font-size: 27px; }
   .vtk-body #main .meeting-detail section {
     margin-top: 17px; }
+    .vtk-body #main .meeting-detail section:first-child {
+      margin-top: 0; }
     .vtk-body #main .meeting-detail section h6 {
       font-size: 14px;
       font-weight: 600;
@@ -350,16 +352,14 @@
           opacity: .5;
           content: "";
           display: block; }
-  .vtk-body #main .meeting-detail #main-info {
+  .vtk-body #main .meeting-detail #main-info section {
+    margin-bottom: 30px;
     margin-top: 0; }
-    .vtk-body #main .meeting-detail #main-info section {
-      margin-bottom: 30px;
-      margin-top: 0; }
-      .vtk-body #main .meeting-detail #main-info section p {
-        margin: 0;
-        font-weight: 700; }
-      .vtk-body #main .meeting-detail #main-info section:last-child {
-        margin-bottom: 0; }
+    .vtk-body #main .meeting-detail #main-info section p {
+      margin: 0;
+      font-weight: 700; }
+    .vtk-body #main .meeting-detail #main-info section:last-child {
+      margin-bottom: 0; }
   .vtk-body #main .meeting-detail .wrapper {
     position: relative;
     background-color: #f6f6f6;
@@ -475,8 +475,6 @@
       font-family: "JollyFont";
       color: green; }
     .vtk-body .reveal-modal .content .btn {
-      text-transform: uppercase;
-      color: #fff;
       margin-left: 5px; }
     .vtk-body .reveal-modal .content section {
       margin: 0 0 40px 0; }
@@ -751,12 +749,9 @@
       font-size: 27px;
       color: #00ae57;
       vertical-align: middle; }
-  .vtk-body .modalWrap .btn {
-    text-transform: uppercase;
-    color: #fff; }
-    .vtk-body .modalWrap .btn.add-btn {
-      padding: 10px 2rem; }
-  .vtk-body .modalWrap button, .vtk-body .modalWrap select {
+  .vtk-body .modalWrap .btn.add-btn {
+    padding: 10px 2rem; }
+  .vtk-body .modalWrap select {
     text-transform: uppercase; }
 .vtk-body .reveal-modal input[type="checkbox"] + label,
 .vtk-body .reveal-modal input[type="radio"] + label,
@@ -765,8 +760,7 @@
   margin: 0; }
 .vtk-body .reveal-modal .button,
 .vtk-body .modalWrap .button {
-  margin-bottom: 0;
-  text-transform: uppercase; }
+  margin-bottom: 0; }
 .vtk-body .reveal-modal #frmCalElem,
 .vtk-body .modalWrap #frmCalElem {
   margin-bottom: 0; }
@@ -1047,6 +1041,22 @@
   background: rgba(0, 0, 0, 0.6) !important;
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.9) !important;
   opacity: 1 !important; }
+.vtk-body #main .meeting-detail #financeForm section {
+  margin-top: 0; }
+  .vtk-body #main .meeting-detail #financeForm section ul li {
+    margin: 0;
+    line-height: 2; }
+.vtk-body #main .meeting-detail #financeForm .large-block-grid-2 > li:nth-child(2n+1) {
+  width: 70%;
+  white-space: nowrap; }
+.vtk-body #main .meeting-detail #financeForm .large-block-grid-2 > li:nth-child(2n) {
+  width: 30%; }
+.vtk-body #main .meeting-detail #financeForm input[type="text"] {
+  height: 30px; }
+
+.btn, .button, button {
+  text-transform: uppercase;
+  color: #fff; }
 
 .inline-list .icon i {
   color: inherit;

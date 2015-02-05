@@ -410,7 +410,10 @@
       font-size:27px;
     }
     section {
-      margin-top:17px;
+      margin-top: 17px;
+    &:first-child {
+      margin-top: 0;
+    }
       h6 {
         font-size: 14px;
         font-weight:600;
@@ -469,7 +472,6 @@
         }
       }
     #main-info {
-      margin-top: 0;
       section {
         margin-bottom:30px;
         margin-top: 0;
@@ -648,8 +650,6 @@
         color: green;
       }
       .btn {
-        text-transform: uppercase;
-        color: #fff;
         margin-left:5px;
       }
       section {
@@ -1045,13 +1045,11 @@
       }
     }
     .btn {
-      text-transform: uppercase;
-      color: #fff;
       &.add-btn {
         padding:10px 2rem;
       }
     }
-    button, select {
+    select {
       text-transform:uppercase;
     }
   }
@@ -1064,7 +1062,6 @@
     }
     .button {
       margin-bottom: 0;
-      text-transform: uppercase;
     }
     #frmCalElem {
       margin-bottom:0;
@@ -1428,9 +1425,33 @@
     opacity: 1 !important;
   }
 
+  //Financial page 
+  #main .meeting-detail #financeForm {
+    section {
+      margin-top:0;
+      ul li {
+        margin:0;
+        line-height: 2;
+      }
+    }
+    .large-block-grid-2 > li:nth-child(2n+1) {
+      width: 70%;
+      white-space: nowrap;
+    }
+    .large-block-grid-2 > li:nth-child(2n) {
+      width: 30%;
+    }
+    input[type="text"] {
+      height: 30px;
+    }
+  }
 } //end of vtk-body
 
 //overwrite of global
+.btn, .button, button {
+  text-transform:uppercase;
+  color:#fff;
+}
 .inline-list {
   .icon {
     i {
@@ -1541,6 +1562,9 @@ input[type="file"] {
     border-radius: 0;
   }
 }
+
+
+
 //Media queries
 //small screen
 @media only screen and (max-width: 40em) {
