@@ -59,7 +59,6 @@ public class Emailer {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-
 		}
 
 	}

@@ -1,3 +1,4 @@
+
 <section className="column large-20 medium-20 large-centered medium-centered">
   <h6>manage communications</h6>
   <ul className="large-block-grid-2 medium-block-grid-2 small-block-grid-2">
@@ -13,7 +14,7 @@
    		title="Meeting Reminder Email">Edit/Sent Meeting Reminder Email</a>
   <% }%> 
   </li>
-  <li></li>
+  <li>(2 sent - <a href="#" title="view sent emails" className="view" data-reveal-id="modal_view_sent_emails">view</a>)</li>
    
   <%if((planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING)){ %>
    <li>        

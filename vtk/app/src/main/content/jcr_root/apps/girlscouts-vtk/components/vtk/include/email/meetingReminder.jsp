@@ -2,15 +2,7 @@
 <%@ page import="org.girlscouts.vtk.helpers.*" %>
 <div class="content clearfix">
 
-<% //if(planView.getYearPlanComponent().getType()==YearPlanComponentType.ACTIVITY){
-
-		%><!-- This is an activity --><% 
-	//}
-
-	//if(planView.getYearPlanComponent().getType()==YearPlanComponentType.MEETING){
-		//MeetingE meeting = (MeetingE)planView.getYearPlanComponent();
-		//Meeting meetingInfo = meeting.getMeetingInfo();
-		//Date searchDate = planView.getSearchDate();
+<% 
 	Calendar c = Calendar.getInstance();
 	c.setTime(planView.getSearchDate());
 	c.add(Calendar.MINUTE, planView.getMeetingLength());
@@ -61,10 +53,10 @@
 			</tr>
 			<tr><th>Location:</th>
 				<td><%
-				if( ((MeetingE)planView.getYearPlanComponent()).getLocationRef()!=null && troop.getYearPlan().getLocations()!=null ){
+				if( meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null ){
 					for(int k=0;k<troop.getYearPlan().getLocations().size();k++){
 						
-						if( troop.getYearPlan().getLocations().get(k).getPath().equals( ((MeetingE)planView.getYearPlanComponent()).getLocationRef() ) ){
+						if( troop.getYearPlan().getLocations().get(k).getPath().equals( meeting.getLocationRef() ) ){
 							%>
 								<br/><%=troop.getYearPlan().getLocations().get(k).getPath()%><%=troop.getYearPlan().getLocations().get(k).getName() %>
 								<br/><%=troop.getYearPlan().getLocations().get(k).getAddress() %>
@@ -78,11 +70,11 @@
 				%></td>
 			</tr>
 			<tr><th>Topic:</th>
-				<td><%= ((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getName() %></td>
+				<td><%= meeting.getMeetingInfo().getName() %></td>
 			</tr>
 		</table>
 
-		<%=((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getMeetingInfo().get("overview").getStr() %>
+		<%=meeting.getMeetingInfo().getMeetingInfo().get("overview").getStr() %>
 
 		<br/><br/>If you have any questions, or want to participate in this meeting, please contact me at 
 		<%if(apiConfig.getUser().getPhone()!=null)%><%=apiConfig.getUser().getPhone() %>
@@ -114,7 +106,7 @@
       		// List<Asset> aidTags = planView.getAidTags();
       		for(int i=0;i<planView.getAidTags().size();i++) { %>
       		<li><i class="icon-pdf-file-extension ext"><!-- <span class="color-overlay"></span> --></i><span class="name"><%= planView.getAidTags().get(i).getTitle() %></span></li>
-      		<li><a class="add-links" href="#nogo" title="add" onclick="addAidLink('<%=planView.getAidTags().get(i).getRefId()%>','<%=planView.getAidTags().get(i).getTitle()%>','<%=((MeetingE)planView.getYearPlanComponent()).getUid() %>')"><i class="icon-button-circle-plus"></i></a></li>
+      		<li><a class="add-links" href="#nogo" title="add" onclick="addAidLink('<%=planView.getAidTags().get(i).getRefId()%>','<%=planView.getAidTags().get(i).getTitle()%>','<%=mid %>')"><i class="icon-button-circle-plus"></i></a></li>
       	<%}%>
       	</ul>
 	    </div>
@@ -252,7 +244,7 @@
 	};
 	function sendEmail(){
 		if(validate()){
-	    	previewMeetingReminderEmail('<%=((MeetingE)planView.getYearPlanComponent()).getUid()%>'); 
+	    	previewMeetingReminderEmail('<%=mid%>'); 
 		}
 
 	};
