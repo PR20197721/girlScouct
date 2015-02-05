@@ -40,10 +40,10 @@ if(hasAdminPermissions){
 
 <div id="panelWrapper" class="row content">
 	 <div class="column large-20 large-centered">
-		<a href="/content/girlscouts-vtk/en/vtk.include.finances.html?qtr=1">Q1</a> || 
-		<a href="/content/girlscouts-vtk/en/vtk.include.finances.html?qtr=2">Q2</a> || 
-		<a href="/content/girlscouts-vtk/en/vtk.include.finances.html?qtr=3">Q3</a> || 
-		<a href="/content/girlscouts-vtk/en/vtk.include.finances.html?qtr=4">Q4</a> 
+		<a href="/content/girlscouts-vtk/en/vtk.finances.html?qtr=1">Q1</a> || 
+		<a href="/content/girlscouts-vtk/en/vtk.finances.html?qtr=2">Q2</a> || 
+		<a href="/content/girlscouts-vtk/en/vtk.finances.html?qtr=3">Q3</a> || 
+		<a href="/content/girlscouts-vtk/en/vtk.finances.html?qtr=4">Q4</a> 
 		<br/>
 
 		<h3>Q<%=qtr %> 2014</h3>
@@ -58,7 +58,7 @@ if(hasAdminPermissions){
   	<div class="row">
 	  <div class="small-24 large-12 columns">Starting Balance:</div>
  	  <div class="small-24 large-12 columns"><%=String.format(financeFieldTag, "starting_balance", "starting_balance", FORMAT_COST_CENTS.format(finance.getStartingBalance())) %>
- 	  
+ 	  <%System.err.println(String.format(financeFieldTag, "starting_balance", "starting_balance", FORMAT_COST_CENTS.format(finance.getStartingBalance()))); %>
  	  </div>
 	</div>
 	<div class="row">
@@ -110,8 +110,7 @@ if(hasAdminPermissions){
  	  <div class="small-24 large-12 columns"><input type="text" id="gs_store_purchase" name="gs_store_purchase" onblur="updateTotals()" value="<%=FORMAT_COST_CENTS.format(finance.getGsStorePurchases())%>"/></div>
 	</div>
   </div>
- 
-</div>
+	</div>
 
 
 		<!-- totals -->
