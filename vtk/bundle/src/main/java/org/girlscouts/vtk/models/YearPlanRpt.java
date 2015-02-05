@@ -2,42 +2,40 @@ package org.girlscouts.vtk.models;
 
 import java.io.Serializable;
 
-public class YearPlanRpt  implements Serializable{
+public class YearPlanRpt implements Serializable {
 
-		String council, troop, troopAge, troopName;
+	String council, troop, troopAge, troopName;
 
-		public String getCouncil() {
-			return council;
-		}
+	public String getCouncil() {
+		return council;
+	}
 
-		public void setCouncil(String council) {
-			this.council = council;
-		}
+	public void setCouncil(String council) {
+		this.council = council;
+	}
 
-		public String getTroop() {
-			return troop;
-		}
+	public String getTroop() {
+		return troop;
+	}
 
-		public void setTroop(String troop) {
-			this.troop = troop;
-		}
+	public void setTroop(String troop) {
+		this.troop = troop;
+	}
 
-		public String getTroopAge() {
-			return troopAge;
-		}
+	public String getTroopAge() {
+		return troopAge;
+	}
 
-		public void setTroopAge(String troopAge) {
-			this.troopAge = troopAge;
-		}
+	public void setTroopAge(String troopAge) {
+		this.troopAge = troopAge;
+	}
 
-		public String getTroopName() {
-			return troopName;
-		}
+	public String getTroopName() {
+		return troopName;
+	}
 
-		public void setTroopName(String troopName) {
-			this.troopName = troopName;
-		}
-		
-		
-		
+	public void setTroopName(String troopName) {
+		this.troopName = troopName;
+	}
+
 }

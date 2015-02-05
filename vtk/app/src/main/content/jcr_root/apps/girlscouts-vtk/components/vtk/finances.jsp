@@ -7,16 +7,13 @@
         String activeTab = "finances";
         boolean showVtkNav = true;
 %>
-<%@include file="include/vtk-nav.jsp"%>
-<script>
-        fixVerticalSizing = true;
-</script>
-<div id="vtkBody">
-	<br/>
-	<h3>Coming in future releases:</h3> 
+<%@include file="include/tab_navigation.jsp"%>
+<div id="panelWrapper" class="row content meeting-detail">
+  <div class="columns large-20 large-centered">
+  	<h3>Coming in future releases:</h3> 
 		<ul>
 			<li>- Create and manage your troop's financial report</li>
 			<li>- Share with council personnel and with troop parents</li>
 		</ul>
-	<br/>
+  </div>
 </div>

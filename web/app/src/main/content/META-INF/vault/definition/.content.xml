@@ -293,7 +293,7 @@
             mode="replace"
             root="/etc/workflow/models/reverse_replication_with_delay"
             rules="[]"/> 
-          <f56
+          <f57
             jcr:primaryType="cq:WorkflowLauncher"
             mode="replace"
             root="/etc/workflow/launcher/config/gs_form_reverse_replication_upload"

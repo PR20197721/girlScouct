@@ -9,17 +9,19 @@ import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 
 @Component
-@Service(value=ContactUtil.class)
+@Service(value = ContactUtil.class)
 public class ContactUtil {
 
-	@Reference 
+	@Reference
 	ContactDAO contactDAO;
-	
-	public void saveContact(User user, Troop troop, Contact contact) throws IllegalStateException, IllegalAccessException{
+
+	public void saveContact(User user, Troop troop, Contact contact)
+			throws IllegalStateException, IllegalAccessException {
 		contactDAO.save(user, troop, contact);
 	}
-	
-	public Contact getContact(User user, Troop troop, String contactId)throws IllegalStateException, IllegalAccessException{
+
+	public Contact getContact(User user, Troop troop, String contactId)
+			throws IllegalStateException, IllegalAccessException {
 		return contactDAO.retreive(user, troop, contactId);
 	}
 }
