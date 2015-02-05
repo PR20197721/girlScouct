@@ -178,7 +178,8 @@
         .vtk-body #main #yearPlanMeetings ul .meeting.activity > div .bg-square:after {
           border-color: transparent transparent transparent #00abe6; }
       .vtk-body #main #yearPlanMeetings ul .meeting.activity > div:before {
-        cursor: default !important; }
+        cursor: default !important;
+        content: none; }
     .vtk-body #main #yearPlanMeetings ul .milestone {
       pointer-events: none; }
       .vtk-body #main #yearPlanMeetings ul .milestone > div {
