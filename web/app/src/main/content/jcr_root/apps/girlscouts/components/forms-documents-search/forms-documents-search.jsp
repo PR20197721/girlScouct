@@ -115,18 +115,31 @@ try{
 		DocHit docHit = new DocHit(hit);
 		String pth = docHit.getURL();
 		String title = docHit.getTitle();
-        String titleWithExtension = "";
 		String description = docHit.getDescription();
 
 		Node node = resourceResolver.resolve(hit.getPath()).adaptTo(Node.class);
         if(node.hasNode("jcr:content/metadata")){
             Node metadata = node.getNode("jcr:content/metadata");
-            //some files have different metadata. This should account for that
-            if(metadata.hasProperty("pdf:Title")){
-                titleWithExtension = metadata.getProperty("pdf:Title").getString();
+            //The title set in the dam is dc:title, and the description is dc:description
+            
+            // Temporary Hit fix for handling multiple description and title
+            if(metadata.hasProperty("dc:title")){
+            	if(metadata.getProperty("dc:title").isMultiple()) {
+					Value[] value = null;
+
+					value = metadata.getProperty("dc:title").getValues();
+					if((!value[0].getString().isEmpty()) && (value[0].getString()!=null)) {
+						title = value[0].getString();
+
+					}
+				}
+            	else{
+                	title = metadata.getProperty("dc:title").getString();
+            	}
             }
+            // In case title wasn't set. This usually includes the file extension
             else if(metadata.hasProperty("jcr:title")){
-                titleWithExtension = metadata.getProperty("jcr:title").getString();
+                title = metadata.getProperty("jcr:title").getString();
             }
             if(metadata.hasProperty("dc:description")){
                 // Hotfix for description been multivalue- If description is empty we will try-to
@@ -143,20 +156,6 @@ try{
                     description = fileDesc.getString();
                 }
             }
-            // Temporary Hit fix for handling multiple description and title
-			if(titleWithExtension.indexOf(".pdf")>0 || titleWithExtension.indexOf(".doc")>0 || titleWithExtension.indexOf(".docx")>0  ) {
-                if(metadata.hasProperty("dc:title")){
-					if(metadata.getProperty("dc:title").isMultiple()) {
-						Value[] value = null;
-
-						value = metadata.getProperty("dc:title").getValues();
-						if((!value[0].getString().isEmpty()) && (value[0].getString()!=null)) {
-							title = value[0].getString();
-
-						}
-					}
-				}
-			}
         }
 
 		int idx = pth.lastIndexOf('.');
