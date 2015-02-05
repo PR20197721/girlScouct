@@ -12,9 +12,6 @@
         try{ qtr = Integer.parseInt( request.getParameter("qtr") ); }catch(Exception e){out.println("Invalid qtr"); return;}
         Finance finance = financeUtil.getFinances(user, troop, qtr);
         if( finance ==null ){
-          System.err.println("------------------->");
-          System.err.println("QUARTER IS NULL");
-          System.err.println("------------------->");
           finance= new Finance();
         }
 
@@ -23,7 +20,17 @@
         double acc_rcv = (finance.getStartingBalance() + finance.getTroopDues() + finance.getSponsorshipDonations() + finance.getProductSalesProceeds()+ finance.getApprovedMoneyEarningActivity()+ finance.getInterestOnBankAccount() );
         double balance = acc_rcv - acc_out;
 %>
+<script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.js"></script>
+<script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.extensions.js"></script>
+<script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.custom.extensions.js"></script>
+<script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.date.extensions.js"></script>
+<script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.maskedinput.js"></script>
+<script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
+<script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.maskMoney.js"></script>
+<script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.datepicker.validation.js"></script>
+<script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.validate.js"></script>
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/finance.js"></script>
+
 
 <%@include file="include/tab_navigation.jsp"%>
 
