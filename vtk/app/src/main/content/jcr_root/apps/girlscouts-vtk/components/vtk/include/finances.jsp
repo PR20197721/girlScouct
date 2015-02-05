@@ -8,9 +8,7 @@ int qtr= 0;
 try{ qtr = Integer.parseInt( request.getParameter("qtr") ); }catch(Exception e){out.println("Invalid qtr"); return;}
 Finance finance = financeUtil.getFinances(user, troop, qtr);
 if( finance ==null ){
-	System.err.println("------------------->");
-	System.err.println("QUARTER IS NULL");
-	System.err.println("------------------->");
+
 	finance= new Finance();
 }
 
@@ -18,6 +16,17 @@ if( finance ==null ){
 double acc_out = (finance.getGsusaRegistration() + finance.getServiceActivitiesEvents() + finance.getProductSalesProceeds() + finance.getTroopActivities() + finance.getTroopSupplies() + finance.getGsStorePurchases());
 double acc_rcv = (finance.getStartingBalance() + finance.getTroopDues() + finance.getSponsorshipDonations() + finance.getProductSalesProceeds()+ finance.getApprovedMoneyEarningActivity()+ finance.getInterestOnBankAccount() );
 double balance = acc_rcv - acc_out;
+
+//To be set using permissions
+boolean hasAdminPermissions = true;
+String financeFieldTag = "";
+if(hasAdminPermissions){
+	financeFieldTag = "<input type=\"text\" name=\"%s\" id=\"%s\" onblur=\"updateTotals()\" value=\"%s\"/>";
+} else{
+	financeFieldTag = "<p name=\"%s\" id=\"%s\">&s</p>";
+}
+
+
 %>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.extensions.js"></script>
@@ -47,7 +56,8 @@ double balance = acc_rcv - acc_out;
   <div class="small-24 large-12 columns">
   	<div class="row">
 	  <div class="small-24 large-12 columns">Starting Balance:</div>
- 	  <div class="small-24 large-12 columns"><input type="text" name="starting_balance" id="starting_balance" onblur="updateTotals()" value="<%=FORMAT_COST_CENTS.format(finance.getStartingBalance())%>"/>
+ 	  <div class="small-24 large-12 columns"><%=String.format(financeFieldTag, "starting_balance", "starting_balance", FORMAT_COST_CENTS.format(finance.getStartingBalance())) %>
+ 	  
  	  </div>
 	</div>
 	<div class="row">
