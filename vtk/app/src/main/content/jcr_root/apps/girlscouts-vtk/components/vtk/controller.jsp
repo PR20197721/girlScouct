@@ -406,6 +406,10 @@
 
 			emr.setMeetingId(meetingId);
 
+			if (email_to_sf.equals("true")) {
+				emr.setEmailToSelf(apiConfig.getUser().getEmail());
+				emr.setTo(apiConfig.getUser().getEmail());
+			}
 			if (email_to_gp.equals("true")) {
 				java.util.List<Contact> contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
 						troopDAO).getContacts(user.getApiConfig(),
@@ -418,14 +422,11 @@
 					else
 						emails += ";" + contactEmail;
 				}
-				emr.setTo(emails);
+				emr.addTo(emails);
 				emr.setEmailToGirlParent(emails);
 
 			}
-			if (email_to_sf.equals("true")) {
-				emr.setEmailToSelf(apiConfig.getUser().getEmail());
-				emr.addTo(apiConfig.getUser().getEmail());
-			}
+			
 			if (email_to_tv.equals("true")) {
 				emr.setEmailToTroopVolunteer(email_to_tv);
 				/*Troop Volunteers data needed */
@@ -445,9 +446,7 @@
 			org.girlscouts.vtk.ejb.Emailer emailer = sling
 					.getService(org.girlscouts.vtk.ejb.Emailer.class);
 			emailer.test(emr);
-			emr.setUid("MR" + new Date().getTime() + "_" + Math.random());
-			emr.setSentDate(new Date().getTime());
-			meetingUtil.saveEmail(user, troop, emr.getUid(), emr.getMeetingId());
+			meetingUtil.saveEmail(user, troop, emr.getMeetingId());
 			
 			
 			

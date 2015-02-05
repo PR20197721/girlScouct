@@ -206,7 +206,6 @@ function sendMeetingReminderEmail(){
 		type: 'POST',
 		data: { 
 			sendMeetingReminderEmail: true,
-			email_sent_date: moment(new Date()).format('MM/DD/YYYY')
 		},
 		success: function(result) {
 			location.reload('true');

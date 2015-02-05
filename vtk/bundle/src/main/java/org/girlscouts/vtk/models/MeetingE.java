@@ -118,11 +118,11 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 		this.path = path;
 	}
 	
-	public java.util.List<ReminderEmail> getEmails() {
+	public java.util.List<ReminderEmail> getSentEmails() {
 		return sentEmails;
 	}
 
-	public void setEmails(java.util.List<ReminderEmail> emails) {
+	public void setSentEmails(java.util.List<ReminderEmail> emails) {
 		this.sentEmails = emails;
 	}
 

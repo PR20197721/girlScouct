@@ -1350,7 +1350,7 @@ public class MeetingUtil {
 		return false;
 	}
 	
-	public void saveEmail(User user, Troop troop, String emailId, String meetingId)
+	public void saveEmail(User user, Troop troop, String meetingId)
 			throws java.lang.IllegalAccessException {
 
 		if (troop != null
@@ -1368,11 +1368,11 @@ public class MeetingUtil {
 		for (int i = 0; i < meetings.size(); i++) {
 			MeetingE meeting = meetings.get(i);
 			if (meeting.getUid().equals(meetingId)) {
-				ReminderEmail email = new ReminderEmail();
-				java.util.List<ReminderEmail> emails = meeting.getEmails();
+				ReminderEmail email = new ReminderEmail(troop.getSendingEmail());
+				java.util.List<ReminderEmail> emails = meeting.getSentEmails();
 				emails = emails == null? new java.util.ArrayList<ReminderEmail>() :emails;
 				emails.add(email);
-				meeting.setEmails(emails);
+				meeting.setSentEmails(emails);
 				// troop.getYearPlan().setAltered("true");
 				troopUtil.updateTroop(user, troop);
 				return;

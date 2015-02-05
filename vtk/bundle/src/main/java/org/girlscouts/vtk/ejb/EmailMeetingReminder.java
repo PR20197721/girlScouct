@@ -3,11 +3,9 @@ package org.girlscouts.vtk.ejb;
 
 public class EmailMeetingReminder {
 
-
-	private String uid, to, from, cc, bcc, html, subj, 
+	private String to, from, cc, bcc, html, subj, 
 	emailToGirlParent, emailToSelf, emailToTroopVolunteer,
 	meetingId;
-	private long sentDate;
 
 
 	public EmailMeetingReminder(String to, String from, String cc, String subj,
@@ -19,12 +17,7 @@ public class EmailMeetingReminder {
 		this.html = html;
 	}
 
-	public String getUid(){
-		return uid;
-	}
-	public void setUid(String uid){
-		this.uid=uid;
-	}
+
 	public String getMeetingId() {
 		return meetingId;
 	}
@@ -105,12 +98,7 @@ public class EmailMeetingReminder {
 	public void setEmailToTroopVolunteer(String emailToTroopVolunteer) {
 		this.emailToTroopVolunteer = emailToTroopVolunteer;
 	}
-	public void setSentDate(long date){
-		sentDate = date;
-	}
-	public long getSentDate(){
-		return sentDate;
-	}
+
 
 	public void addTo(String to) {
 		if (to != null && !to.isEmpty()) {

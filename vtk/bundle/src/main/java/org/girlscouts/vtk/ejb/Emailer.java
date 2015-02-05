@@ -51,13 +51,15 @@ public class Emailer {
 			// email.setHostName("mail.whatserver.com");
 			// email.setFrom("me@apache.org");
 			email.setHtmlMsg(emr.getHtml());
-			email.setTo(emailRecipients);
+			if(!emailRecipients.isEmpty())
+				email.setTo(emailRecipients);
 			email.setSubject(emr.getSubj());
 
 			messageGateway.send(email);
 
 		} catch (Exception e) {
 			e.printStackTrace();
+
 		}
 
 	}
