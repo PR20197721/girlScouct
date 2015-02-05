@@ -42,7 +42,7 @@ import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
-import org.girlscouts.vtk.models.ReminderEmail;
+import org.girlscouts.vtk.models.SentEmail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -1368,9 +1368,9 @@ public class MeetingUtil {
 		for (int i = 0; i < meetings.size(); i++) {
 			MeetingE meeting = meetings.get(i);
 			if (meeting.getUid().equals(meetingId)) {
-				ReminderEmail email = new ReminderEmail(troop.getSendingEmail());
-				java.util.List<ReminderEmail> emails = meeting.getSentEmails();
-				emails = emails == null? new java.util.ArrayList<ReminderEmail>() :emails;
+				SentEmail email = new SentEmail(troop.getSendingEmail());
+				java.util.List<SentEmail> emails = meeting.getSentEmails();
+				emails = emails == null? new java.util.ArrayList<SentEmail>() :emails;
 				emails.add(email);
 				meeting.setSentEmails(emails);
 				// troop.getYearPlan().setAltered("true");

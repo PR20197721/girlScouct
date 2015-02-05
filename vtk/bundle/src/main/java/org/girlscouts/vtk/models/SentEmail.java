@@ -12,14 +12,14 @@ import org.girlscouts.vtk.difflib.*;
 import java.util.Date;
 
 @Node(jcrMixinTypes = "mix:lockable")
-public class ReminderEmail implements Serializable {
+public class SentEmail implements Serializable {
 	
-	public ReminderEmail() {
+	public SentEmail() {
 		this.uid="MR" + new Date().getTime() + "_" + Math.random();
 		this.sentDate=new Date().getTime();
 
 	}
-	public ReminderEmail(EmailMeetingReminder emr) {
+	public SentEmail(EmailMeetingReminder emr) {
 		this.uid="MR" + new Date().getTime() + "_" + Math.random();
 		this.sentDate=new Date().getTime();
 		if(emr.getTo()!=null && !emr.getTo().isEmpty()){
@@ -35,7 +35,7 @@ public class ReminderEmail implements Serializable {
 		patch = emr.getHtml();
 
 	}
-	public ReminderEmail(String path){
+	public SentEmail(String path){
 		this.path = path;
 		this.uid="MR" + new Date().getTime() + "_" + Math.random();
 		this.sentDate=new Date().getTime();

@@ -38,7 +38,7 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 	java.util.List<Asset> assets;
 	
 	@Collection
-	java.util.List<ReminderEmail> sentEmails;
+	java.util.List<SentEmail> sentEmails;
 	
 	@Field
 	java.util.Date lastAssetUpdate;
@@ -118,11 +118,11 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 		this.path = path;
 	}
 	
-	public java.util.List<ReminderEmail> getSentEmails() {
+	public java.util.List<SentEmail> getSentEmails() {
 		return sentEmails;
 	}
 
-	public void setSentEmails(java.util.List<ReminderEmail> emails) {
+	public void setSentEmails(java.util.List<SentEmail> emails) {
 		this.sentEmails = emails;
 	}
 

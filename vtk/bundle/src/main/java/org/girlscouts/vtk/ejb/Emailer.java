@@ -48,8 +48,6 @@ public class Emailer {
 			}
 			
 			
-			// email.setHostName("mail.whatserver.com");
-			// email.setFrom("me@apache.org");
 			email.setHtmlMsg(emr.getHtml());
 			if(!emailRecipients.isEmpty())
 				email.setTo(emailRecipients);

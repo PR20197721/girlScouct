@@ -35,7 +35,7 @@ import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.UserGlobConfig;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.Asset;
-import org.girlscouts.vtk.models.ReminderEmail;
+import org.girlscouts.vtk.models.SentEmail;
 import org.girlscouts.vtk.modifiedcheck.ModifiedChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -80,7 +80,7 @@ public class TroopDAOImpl implements TroopDAO {
 			classes.add(Asset.class);
 			classes.add(Cal.class);
 			classes.add(Milestone.class);
-			classes.add(ReminderEmail.class);
+			classes.add(SentEmail.class);
 
 
 			Mapper mapper = new AnnotationMapperImpl(classes);
@@ -242,7 +242,7 @@ public class TroopDAOImpl implements TroopDAO {
 			classes.add(Milestone.class);
 			classes.add(Council.class);
 			classes.add(org.girlscouts.vtk.models.Troop.class);
-			classes.add(ReminderEmail.class);
+			classes.add(SentEmail.class);
 
 
 			Mapper mapper = new AnnotationMapperImpl(classes);
@@ -356,7 +356,7 @@ public class TroopDAOImpl implements TroopDAO {
 			classes.add(Activity.class);
 			classes.add(Asset.class);
 			classes.add(Milestone.class);
-			classes.add(ReminderEmail.class);
+			classes.add(SentEmail.class);
 
 
 			Mapper mapper = new AnnotationMapperImpl(classes);

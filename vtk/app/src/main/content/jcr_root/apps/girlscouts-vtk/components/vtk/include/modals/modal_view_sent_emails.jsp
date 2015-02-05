@@ -13,8 +13,8 @@
 	   					<li><p>emails not set up for activities</p></li> 
 	   				<% } else{
 	   					MeetingE curM = (MeetingE)planView.getYearPlanComponent();
-	   					List<ReminderEmail> emails = curM.getSentEmails();
-	   					for(ReminderEmail eml : emails){%>
+	   					List<SentEmail> emails = curM.getSentEmails();
+	   					for(SentEmail eml : emails){%>
 	   						<li><%=eml.getUid() %>
 	   						</li>
 	   					<% } 
