@@ -21,8 +21,7 @@
 			}
 		%>
 		</h3>
-		<a class="close-reveal-modal columns large-2" href="#"><i
-			class="icon-button-circle-cross"></i></a>
+		<a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
 	</div>
 	<div class="scroll">
 		<div class="content row">
@@ -81,12 +80,14 @@
 					%>
 
 			<% if (request.getParameter("isAgenda") != null) {%>
+			<div class="row">
+                        <form>
 						<h3>Agenda Item: <%=_activity.getName()%></h3>
 						<div class="columns small-4">
 							<select onchange="durEditActiv(this.options[this.selectedIndex].value, '<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">
 								<option value="0" selected>Time Allotment</option>
 								<option value="5"
-									<%=(_activity.getDuration() == 5) ? "SELECTED" : ""%>>5</option>
+									<%=(_activity.getDuration() == 5)  ? "SELECTED" : ""%>>5</option>
 								<option value="10"
 									<%=(_activity.getDuration() == 10) ? "SELECTED" : ""%>>10</option>
 								<option value="15"
@@ -98,11 +99,15 @@
 								<option value="30"
 									<%=(_activity.getDuration() == 30) ? "SELECTED" : ""%>>30</option>
 							</select>
+							
 						</div>
-						<section class="columns small-20">
+						<div class="columns small-20">
 							<button onclick="location.reload();" class="btn button">Save and Back to meeting</button>
 							<button class="btn button" onclick="return rmAgenda('<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">Delete This Agenda Item</button>
-						</section>
+						
+						</div>
+</form>
+                </div>
 					<section class="row">
 						<%
 							if (_activity.getActivityDescription() != null && !_activity.getActivityDescription().isEmpty()) {
@@ -110,9 +115,7 @@
 							}
 						%>
 					</section>
-				</div>
 				<%}%>
 			</div>
 		</div>
-	</div>
 	</div>
