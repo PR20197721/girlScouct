@@ -3,7 +3,7 @@
     jcr:description="Please use scaffolding to generate a piece of news."
     jcr:primaryType="cq:Template"
     jcr:title="News"
-    allowedPaths="[/content(/.*)?]"
+    allowedPaths="[]"
     ranking="{Long}30">
     <jcr:content
         jcr:primaryType="cq:PageContent"
