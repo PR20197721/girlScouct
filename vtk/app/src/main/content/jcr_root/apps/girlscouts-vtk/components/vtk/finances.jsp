@@ -113,9 +113,9 @@
         <h6 class="clearfix"><span class="column small-20">Total Income:</span> <span class="column small-4">$<%=FORMAT_COST_CENTS.format(acc_rcv)%></span></h6>
       </section>
       <%=save_btn%>
+     </div>
     </div>
-     </div> -->
-     </form>
+  </form>
 
   </div>
 </div>
