@@ -490,7 +490,6 @@
   color: #000; }
   .vtk-body #modal-meeting-reminder h6:before {
     border-color: transparent transparent transparent #000;
-    margin-left: 5px;
     border-width: 5px;
     margin-top: -5px; }
   .vtk-body #modal-meeting-reminder h6.on:before {
