@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    xtype="tabpanel">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <tab1
+            jcr:primaryType="cq:Panel"
+            title="Properties">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <id
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Id"
+                    name="./id"/>
+                <cat
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Category"
+                    name="./cat"/>
+                <agenda
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Agenda"
+                    name="./agenda"/>
+            </items>
+        </tab1>
+    </items>
+</jcr:root>
