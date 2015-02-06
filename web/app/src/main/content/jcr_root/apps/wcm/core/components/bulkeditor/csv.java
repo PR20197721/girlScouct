@@ -18,6 +18,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.jcr.Node;
+import javax.jcr.NodeIterator;
 import javax.jcr.Property;
 import javax.jcr.PropertyType;
 import javax.jcr.RepositoryException;
@@ -83,14 +84,16 @@ public class csv extends SlingAllMethodsServlet {
         Session session = request.getResourceResolver().adaptTo(
                 Session.class);
         try {
-            RowIterator hits;
-            if (commonPathPrefix != null && queryString != null) {
-                hits = GQL.execute(queryString, session, commonPathPrefix);
-            } else if (queryString != null) {
-                hits = GQL.execute(queryString, session);
-            } else {
-                return;
-            }
+            // Girl Scouts customization
+            // Discarding the original implementation of using a query
+            //RowIterator hits;
+            //if (commonPathPrefix != null && queryString != null) {
+            //    hits = GQL.execute(queryString, session, commonPathPrefix);
+            //} else if (queryString != null) {
+            //    hits = GQL.execute(queryString, session);
+            //} else {
+            //    return;
+            //}
 
             String tmp = request.getParameter(PROPERTIES_PARAM);
             String[] properties = (tmp != null) ? tmp.split(",") : null;
@@ -108,11 +111,17 @@ public class csv extends SlingAllMethodsServlet {
 
             bw.newLine();
 
-            while (hits.hasNext()) {
-                Row hit = hits.nextRow();
-                Node node = (Node) session.getItem(hit.getValue(JcrConstants.JCR_PATH).getString());
+            String path = queryString.split(":")[1];
+            NodeIterator iter = session.getNode(path).getNodes();
+
+            //while (hits.hasNext()) {
+            while (iter.hasNext()) {
+                Node node = iter.nextNode();
+                //Row hit = hits.nextRow();
+                //Node node = (Node) session.getItem(hit.getValue(JcrConstants.JCR_PATH).getString());
                 if (node != null) {
-                    bw.write(csv.valueParser(hit.getValue(JcrConstants.JCR_PATH).getString(), separator));
+                    //bw.write(csv.valueParser(hit.getValue(JcrConstants.JCR_PATH).getString(), separator));
+                    bw.write(csv.valueParser(node.getPath(), separator));
                     if (properties != null) {
                         for (String property : properties) {
                             bw.write(separator);
