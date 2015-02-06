@@ -3,7 +3,7 @@
  
  <%
  // Design 
-	String designPath = currentDesign.getPath();
+    final String designPath = "/etc/designs/girlscouts";
    //Spring Board First 
     String FsbDesc = (String)request.getAttribute("FsbDesc");
     String FsbTitle = (String)request.getAttribute("FsbTitle");
