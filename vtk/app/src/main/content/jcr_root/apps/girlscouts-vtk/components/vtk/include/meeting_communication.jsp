@@ -14,7 +14,8 @@
    		title="Meeting Reminder Email">Edit/Sent Meeting Reminder Email</a>
   <% }%> 
   </li>
-  <li>(2 sent - <a href="#" title="view sent emails" className="view" data-reveal-id="modal_view_sent_emails">view</a>)</li>
+  <li>(<%=planView.getMeeting().getSentEmails()==null?0:planView.getMeeting().getSentEmails().size() %> sent - 
+  <a href="#" title="view sent emails" className="view" data-reveal-id="modal_view_sent_emails">view</a>)</li>
    
   <%if((planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING)){ %>
    <li>        

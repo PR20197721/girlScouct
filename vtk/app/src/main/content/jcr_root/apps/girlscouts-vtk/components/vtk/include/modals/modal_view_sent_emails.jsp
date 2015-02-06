@@ -8,18 +8,22 @@
 		</div>
 		<div class="scroll">
 			<div class="content">
-				<ul class="browseSentEmails">
+			  	<div class="browseSentEmails">
 					<% if( (planView.getYearPlanComponent().getType() ==  YearPlanComponentType.ACTIVITY) ){%>
-	   					<li><p>emails not set up for activities</p></li> 
+	   					<p>emails not set up for activities</p> 
 	   				<% } else{
-	   					MeetingE curM = (MeetingE)planView.getYearPlanComponent();
+	   					MeetingE curM = planView.getMeeting();
 	   					List<SentEmail> emails = curM.getSentEmails();
-	   					for(SentEmail eml : emails){%>
-	   						<li><%=eml.getUid() %>
-	   						</li>
-	   					<% } 
+	   					if(emails!=null && !emails.isEmpty()){
+		   					for(SentEmail eml : emails){%>
+		   						<div><%=FORMAT_CALENDAR_DATE.format(eml.getSentDate()) %></div>
+		   						<div><%=eml.getSubject() %></div>
+		   						<div><%=eml.getHtmlMsg() %></div>
+		   						<hr>
+		   					<% } 
+	   					}
 	   				}%>
-				</ul>
+				</div>
 					
 			</div>
 		</div>

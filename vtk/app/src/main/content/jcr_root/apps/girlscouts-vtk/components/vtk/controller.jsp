@@ -448,11 +448,12 @@
 
 			org.girlscouts.vtk.ejb.Emailer emailer = sling
 					.getService(org.girlscouts.vtk.ejb.Emailer.class);
-			emailer.test(emr);
-			meetingUtil.saveEmail(user, troop, emr.getMeetingId());
-			
-			
-			
+			emailer.send(emr);
+			try{
+				meetingUtil.saveEmail(user, troop, emr.getMeetingId());
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 			troop.setSendingEmail(null);
 
 		} else if (request.getParameter("testAB") != null) {

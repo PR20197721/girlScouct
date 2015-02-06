@@ -2,7 +2,7 @@
 <% 
 
 String mid = planView.getYearPlanComponent().getUid();
-MeetingE meeting = (MeetingE)planView.getYearPlanComponent();
+MeetingE meeting = planView.getMeeting();
 
 
 Attendance attendance = meetingUtil.getAttendance( user,  troop,  meeting.getPath()+"/attendance");

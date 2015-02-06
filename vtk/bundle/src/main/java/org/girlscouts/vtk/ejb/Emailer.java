@@ -19,7 +19,7 @@ public class Emailer {
 	@Reference
 	private MessageGatewayService messageGatewayService;
 
-	public void test(EmailMeetingReminder emr) {
+	public void send(EmailMeetingReminder emr) {
 
 		try {
 			MessageGateway<HtmlEmail> messageGateway = messageGatewayService

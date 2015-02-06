@@ -1,11 +1,13 @@
 package org.girlscouts.vtk.ejb;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -43,8 +45,11 @@ import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
 import org.girlscouts.vtk.models.SentEmail;
+import org.girlscouts.vtk.difflib.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+
 
 @Component
 @Service(MeetingUtil.class)
@@ -1351,7 +1356,7 @@ public class MeetingUtil {
 	}
 	
 	public void saveEmail(User user, Troop troop, String meetingId)
-			throws java.lang.IllegalAccessException {
+			throws Exception {
 
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
@@ -1362,28 +1367,46 @@ public class MeetingUtil {
 			troop.setErrCode("112");
 			throw new java.lang.IllegalAccessException();
 		}
-
-		java.util.List<MeetingE> meetings = troop.getYearPlan()
-				.getMeetingEvents();
-		for (int i = 0; i < meetings.size(); i++) {
-			MeetingE meeting = meetings.get(i);
-			if (meeting.getUid().equals(meetingId)) {
-				SentEmail email = new SentEmail(troop.getSendingEmail());
-				java.util.List<SentEmail> emails = meeting.getSentEmails();
-				emails = emails == null? new java.util.ArrayList<SentEmail>() :emails;
-				emails.add(email);
-				meeting.setSentEmails(emails);
-				// troop.getYearPlan().setAltered("true");
-				troopUtil.updateTroop(user, troop);
-				return;
+		try{
+			java.util.List<MeetingE> meetings = troop.getYearPlan()
+					.getMeetingEvents();
+			for (int i = 0; i < meetings.size(); i++) {
+				MeetingE meeting = meetings.get(i);
+				if (meeting.getUid().equals(meetingId)) {
+					SentEmail email = new SentEmail(troop.getSendingEmail());
+					//email.setPatch(getPatch(meeting.getMeetingInfo().getMeetingInfo().get("overview").getStr(), troop.getSendingEmail().getHtml()));
+					java.util.List<SentEmail> emails = meeting.getSentEmails();
+					emails = emails == null? new java.util.ArrayList<SentEmail>() :emails;
+					emails.add(email);
+					meeting.setSentEmails(emails);
+					// troop.getYearPlan().setAltered("true");
+					troopUtil.updateTroop(user, troop);
+					return;
+				}
 			}
+	
+			java.util.List<Activity> activities = troop.getYearPlan()
+					.getActivities();
+		}catch(Exception e){
+			e.printStackTrace();
 		}
-
-		java.util.List<Activity> activities = troop.getYearPlan()
-				.getActivities();
 		
 
 	}
+	private org.girlscouts.vtk.difflib.Patch getPatch(String template, String copy){
+		List<String> original = new LinkedList<String>();
+		List<String> revised = new LinkedList<String>();
+
+		original.add(template);
+		revised.add(copy);
+		
+		org.girlscouts.vtk.difflib.Patch patch = DiffUtils.diff(original, revised);
+		return patch;
+		
+        
+	}
+
+
 
 	
 	

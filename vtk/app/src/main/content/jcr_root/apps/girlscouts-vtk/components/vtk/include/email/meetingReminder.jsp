@@ -215,8 +215,8 @@
 		var url = window.location.href;
 		var arr = url.split("/");
 		var host = arr[0] + "//" + arr[2];
-		$('#formLinks').append('<li><a href="'+host+link+'">'+formname+'</a></li>');
-		$('#formLinks p.hide').removeClass();
+		$('.jqte_editor #formLinks').append('<li><a href="'+host+link+'">'+formname+'</a></li>');
+		$('.jqte_editor #formLinks p.hide').removeClass();
 		$("dt[data-target='" + categoryId + "'] span").removeClass('on');
 		$('.accordion #' + categoryId).slideToggle('slow');
 		$('.ui-dialog-titlebar').css('display', 'none');
@@ -231,8 +231,8 @@
 		var url = window.location.href;
 		var arr = url.split("/");
 		var host = arr[0] + "//" + arr[2];
-		$('#aidLinks').append('<li><a href="'+host+refId+'">'+title+'</a></li>');
-		$('#aidLinks p.hide').removeClass();
+		$('.jqte_editor #aidLinks').append('<li><a href="'+host+refId+'">'+title+'</a></li>');
+		$('.jqte_editor #aidLinks p.hide').removeClass();
 		$('#added').dialog('open');
 		$('.ui-dialog-titlebar').css('display', 'none');
 		$('.ui-dialog').css('z-index', 300);
