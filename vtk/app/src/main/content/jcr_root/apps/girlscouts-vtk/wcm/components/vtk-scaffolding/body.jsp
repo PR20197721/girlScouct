@@ -31,10 +31,9 @@
     String contentPath = properties.get("cq:targetPath", "");
     String dlgPathProperty = properties.get("dialogPath", "");
     String dlgPath = !dlgPathProperty.isEmpty() ? dlgPathProperty : resource.getPath() + "/dialog";
-    String templatePath = properties.get("cq:targetTemplate", "");
     String scaffoldPath = resourcePage.getPath();
     String formUrl = contentPath + "/*";
-    boolean pageMode = templatePath.length() > 0;
+    boolean pageMode = false;
     boolean isUpdate = false;
     if (!resourcePage.getPath().equals(currentPage.getPath())) {
         contentPath = currentPage.getPath();
@@ -312,7 +311,6 @@
                 if (!isUpdate) {
                     if (pageMode) {
                         params["./jcr:primaryType"] = "cq:Page";
-                        params["./jcr:content@CopyFrom"] = "<%= xssAPI.encodeForJSString(templatePath) %>/jcr:content";
                         params["./jcr:content/jcr:primaryType"] = "cq:PageContent";
                         // Note: cq:PageContent inherits from cq:Taggable; no need to check for ./cq:tags field
                     } else {
