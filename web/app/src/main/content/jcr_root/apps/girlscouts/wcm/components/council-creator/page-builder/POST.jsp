@@ -83,7 +83,7 @@ else {
     %><br>DESIGN:<br><%
     ArrayList<Node> designList = creator.generateDesign(session, resourceResolver, councilName, councilTitle);
           for (Node d : designList) { 
-            %>"<%= d.getName() %>" group created under path:
+            %>"<%= d.getName() %>" design created under path:
             <%= d.getPath() %>
             <br>
             <%
