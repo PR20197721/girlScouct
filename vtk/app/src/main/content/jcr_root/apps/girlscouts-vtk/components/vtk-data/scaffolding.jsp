@@ -24,31 +24,23 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%
 %><cq:defineObjects/><%
+	final String VTK_SCAFFOLDING_ROOT = "/etc/scaffolding/girlscouts-vtk";
 
-    // first check if the page has a scaffold specified
-    String scaffoldPath = pageProperties.get("cq:scaffolding", "");
-    if (scaffoldPath.length() == 0) {
-        // search all scaffolds for the correct template
-        // this should be improved and respect template + best content path
-        Resource scRoot = resourceResolver.getResource("/etc/scaffolding");
-        Node root = scRoot == null ? null : scRoot.adaptTo(Node.class);
-        if (root != null) {
-            scaffoldPath = ScaffoldingUtils.findScaffoldByTemplate(root, pageProperties.get("cq:template", ""));
-            %><%= scaffoldPath %><%
-            if (scaffoldPath == null) {
-                scaffoldPath = ScaffoldingUtils.findScaffoldByPath(root, currentPage.getPath());
-            }
-        }
-    }
-    if (scaffoldPath == null || scaffoldPath.length() == 0) {
+	// check the vtkDataType property to get scaffolding
+	String vtkDataType = properties.get("vtkDataType", "");
+	String scaffoldPath;
+	if (vtkDataType.isEmpty()) {
         // use default
         scaffoldPath = "/etc/scaffolding";
-    }
-Page root = resourceResolver.resolve(scaffoldPath).adaptTo(Page.class);
-    scaffoldPath+="/jcr:content.html";
-Node scaffoldingRoot = root.adaptTo(Node.class);
-scaffoldingRoot = scaffoldingRoot.getNode("jcr:content");
-String scaffoldResource = scaffoldingRoot.getProperty("sling:resourceType").getString();
+	} else {
+	    scaffoldPath = VTK_SCAFFOLDING_ROOT + "/" + vtkDataType;
+	}
+
+	Page root = resourceResolver.resolve(scaffoldPath).adaptTo(Page.class);
+    scaffoldPath += "/jcr:content.html";
+	Node scaffoldingRoot = root.adaptTo(Node.class);
+	scaffoldingRoot = scaffoldingRoot.getNode("jcr:content");
+	String scaffoldResource = scaffoldingRoot.getProperty("sling:resourceType").getString();
     IncludeOptions.getOptions(request, true).forceSameContext(true);
     %><cq:include resourceType="<%= scaffoldResource %>" path="<%= scaffoldPath %>" /><%
 
