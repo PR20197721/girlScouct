@@ -515,6 +515,7 @@ function doHelp(isSched){
 
 
 function doEditActivity(x){
+	
 	loadModal( "#"+x, true, "Edit Activity", false);
 }
 
