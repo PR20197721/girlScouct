@@ -84,6 +84,8 @@ public class csv extends SlingAllMethodsServlet {
         Session session = request.getResourceResolver().adaptTo(
                 Session.class);
         try {
+            // Girl Scouts customization
+            // Discarding the original implementation of using a query
             //RowIterator hits;
             //if (commonPathPrefix != null && queryString != null) {
             //    hits = GQL.execute(queryString, session, commonPathPrefix);

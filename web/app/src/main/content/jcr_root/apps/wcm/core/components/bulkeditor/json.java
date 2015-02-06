@@ -78,6 +78,8 @@ public class json extends SlingAllMethodsServlet {
             try {
                 RowIterator hits;
 
+                // Girl Scouts customization
+                // Discarding the original implementation of using a query
                 //if (commonPathPrefix != null && queryString != null) {
                     //hits = GQL.execute(queryString, session, commonPathPrefix);
                 //} else if (queryString != null) {
@@ -101,6 +103,9 @@ public class json extends SlingAllMethodsServlet {
 
                 NodeIterator iter = session.getNode(path).getNodes();
                 while (iter.hasNext()) {
+                // Girl Scouts customization
+                // Use NodeIterator instead. Only handles direct children.
+                // This reduces deeper query and gets rid of the memory issue of queries.
                 //while (hits.hasNext()) {
                     //Row hit = hits.nextRow();
                     //Node node = (Node) session.getItem(hit.getValue(JcrConstants.JCR_PATH).getString());
