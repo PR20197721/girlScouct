@@ -33,18 +33,20 @@
     String dlgPath = !dlgPathProperty.isEmpty() ? dlgPathProperty : resource.getPath() + "/dialog";
     String scaffoldPath = resourcePage.getPath();
     String formUrl = contentPath + "/*";
+    // Always false. VTK scaffolding does not envolve pages.
     boolean pageMode = false;
     boolean isUpdate = false;
-    if (!resourcePage.getPath().equals(currentPage.getPath())) {
-        contentPath = currentPage.getPath();
-        formUrl = currentPage.getPath();
+    String requestUri = request.getRequestURI();
+    requestUri = requestUri.substring(0, requestUri.indexOf('.'));
+
+    if (!resourcePage.getPath().equals(requestUri)) {
+        contentPath = requestUri;
+        formUrl = requestUri;
         isUpdate = true;
-        pageMode = true;
     } else if (request.getAttribute(ScaffoldingUtils.CONTEXT_RESOURCE_ATTR_NAME) != null) {
         contentPath = ((Resource) request.getAttribute(ScaffoldingUtils.CONTEXT_RESOURCE_ATTR_NAME)).getPath();
         formUrl = contentPath;
         isUpdate = true;
-        pageMode = false;
     }
 
     String title = null;
