@@ -965,6 +965,8 @@
       color: #fff;
       font-size: 14px;
       vertical-align: middle; }
+    .vtk-body .accordion > dt h3 {
+      position: relative; }
     .vtk-body .accordion > dt h3,
     .vtk-body .accordion > dt h6 {
       display: inline;
@@ -972,8 +974,7 @@
       text-transform: uppercase;
       margin-left: 40px;
       margin-right: 120px;
-      cursor: pointer;
-      position: relative; }
+      cursor: pointer; }
       .vtk-body .accordion > dt h3:before,
       .vtk-body .accordion > dt h6:before {
         border-style: solid;
