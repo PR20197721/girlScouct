@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.jcr.Node;
+import javax.jcr.NodeIterator;
 import javax.jcr.Property;
 import javax.jcr.PropertyType;
 import javax.jcr.Session;
@@ -76,15 +77,18 @@ public class json extends SlingAllMethodsServlet {
                     Session.class);
             try {
                 RowIterator hits;
-                if (commonPathPrefix != null && queryString != null) {
-                    hits = GQL.execute(queryString, session, commonPathPrefix);
-                } else if (queryString != null) {
-                    hits = GQL.execute(queryString, session);
-                } else {
-                    return;
-                }
 
-                long nbrOfResults = hits.getSize();
+                //if (commonPathPrefix != null && queryString != null) {
+                    //hits = GQL.execute(queryString, session, commonPathPrefix);
+                //} else if (queryString != null) {
+                    //hits = GQL.execute(queryString, session);
+                //} else {
+                    //return;
+                //}
+
+                String path = queryString.split(":")[1];
+
+                long nbrOfResults = 0;//hits.getSize();
 
                 TidyJSONWriter writer = new TidyJSONWriter(buf);
                 writer.setTidy("true".equals(request.getParameter(TIDY_PARAM)));
@@ -94,12 +98,18 @@ public class json extends SlingAllMethodsServlet {
 
                 String tmp = request.getParameter(PROPERTIES_PARAM);
                 String[] properties = (tmp != null) ? tmp.split(",") : null;
-                while (hits.hasNext()) {
-                    Row hit = hits.nextRow();
-                    Node node = (Node) session.getItem(hit.getValue(JcrConstants.JCR_PATH).getString());
+
+                NodeIterator iter = session.getNode(path).getNodes();
+                while (iter.hasNext()) {
+                //while (hits.hasNext()) {
+                    //Row hit = hits.nextRow();
+                    //Node node = (Node) session.getItem(hit.getValue(JcrConstants.JCR_PATH).getString());
+                    nbrOfResults++;
+                    Node node = iter.nextNode();
                     if (node != null) {
                         writer.object();
-                        writer.key(JcrConstants.JCR_PATH).value(hit.getValue(JcrConstants.JCR_PATH).getString());
+                        //writer.key(JcrConstants.JCR_PATH).value(hit.getValue(JcrConstants.JCR_PATH).getString());
+                        writer.key(JcrConstants.JCR_PATH).value(node.getPath());
                         if (properties != null) {
                             for (String property : properties) {
                                 if (node.hasProperty(property)) {
@@ -128,6 +138,7 @@ public class json extends SlingAllMethodsServlet {
                 writer.endArray();
                 writer.key("results").value(nbrOfResults);
                 writer.endObject();
+
             } catch (Exception e) {
                 throw new ServletException(e);
             }
