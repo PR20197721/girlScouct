@@ -1429,6 +1429,13 @@
   #main .meeting-detail #financeForm {
     section {
       margin-top:0;
+      h6 {
+        span {
+          &:nth-of-type(2) {
+            font-weight: normal;
+          }
+        }
+      }
       ul li {
         margin:0;
         line-height: 2;
@@ -1443,6 +1450,7 @@
     }
     input[type="text"] {
       height: 30px;
+      text-align: right;
     }
   }
 } //end of vtk-body

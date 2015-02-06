@@ -39,8 +39,10 @@
         
         boolean hasAdminPermissions = true;
         String financeFieldTag = "";
+        String save_btn = "";
         if(hasAdminPermissions){
         	financeFieldTag = "<input type=\"text\" name=\"%s\" id=\"%s\" onblur=\"updateTotals()\" value=\"%s\"/>";
+          save_btn = "<a role=\"button\" aria-label=\"submit form\" href=\"#\" class=\"button\">Save</a>";
         } else{
         	financeFieldTag = "<p name=\"%s\" id=\"%s\">&s</p>";
         }
@@ -61,7 +63,7 @@
     <form class="cmxform" id="financeForm">
     <input type="hidden" id="qtr" name="qtr" value="<%=qtr%>"/>
     <div class="errorMsg error"></div>
-    <div class="row">
+    <div class="row collapse">
 
       <section class="column large-12 medium-12">
         <h6>current income</h6>
@@ -100,47 +102,18 @@
       </section>
     </div><!--/row-->
     <!-- totals -->
-    <div class="text-right row">
+    <div class="text-right row collapse">
       <section>
-        <h6>Total Income:  <span>$<%=FORMAT_COST_CENTS.format(acc_rcv)%></span></h6>
+        <h6 class="clearfix"><span class="column small-20">Total Income:</span>  <span class="column small-4">$<%=FORMAT_COST_CENTS.format(acc_rcv)%></span></h6>
       </section>
       <section>
-        <h6>Total Income: <span>$<%=FORMAT_COST_CENTS.format(acc_rcv)%></span></h6>
+        <h6 class="clearfix"><span class="column small-20">Total Income:</span> <span class="column small-4">$<%=FORMAT_COST_CENTS.format(acc_rcv)%></span></h6>
       </section>
       <section>
-        <h6>Total Income: <span>$<%=FORMAT_COST_CENTS.format(acc_rcv)%></span></h6>
+        <h6 class="clearfix"><span class="column small-20">Total Income:</span> <span class="column small-4">$<%=FORMAT_COST_CENTS.format(acc_rcv)%></span></h6>
       </section>
+      <%=save_btn%>
     </div>
-<!--     <div class="row">
-     <div class="small-24 large-12 columns">
-      <div class="row">
-        <div class="small-24 large-12 columns"></div>
-        <div class="small-24 large-12 columns"></div>
-      </div>
-     </div>
-     <div class="small-24 large-12 columns">
-      <div class="row">
-        <div class="small-24 large-12 columns"></div>
-        <div class="small-24 large-12 columns"></div>
-      </div>
-        <div class="row">
-        <div class="small-24 large-12 columns">Total Income:</div>
-        <div class="small-24 large-12 columns" id="total_income">$<%=FORMAT_COST_CENTS.format(acc_rcv)%></div>
-      </div>
-      <div class="row">
-        <div class="small-24 large-12 columns">Total Expenses:</div>
-        <div class="small-24 large-12 columns" id="total_expenses">$<%= FORMAT_COST_CENTS.format(acc_out)%></div>
-      </div>
-      <div class="row">
-        <div class="small-24 large-12 columns">Current Balance:</div>
-        <div class="small-24 large-12 columns" id="current_balance">$<%=FORMAT_COST_CENTS.format(balance) %></div>
-      </div>
-      <div class="row">
-        <div class="small-24 large-12 columns"></div>
-        <div class="small-24 large-12 columns"><input type="button" name="" class="btn button" value="Save" id="updateFinances" onclick="checkFinances()"/>
-        </div>
-      </div>
-      </div>
      </div> -->
      </form>
 

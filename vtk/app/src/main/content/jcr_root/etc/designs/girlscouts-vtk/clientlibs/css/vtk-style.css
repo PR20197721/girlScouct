@@ -1043,6 +1043,8 @@
   opacity: 1 !important; }
 .vtk-body #main .meeting-detail #financeForm section {
   margin-top: 0; }
+  .vtk-body #main .meeting-detail #financeForm section h6 span:nth-of-type(2) {
+    font-weight: normal; }
   .vtk-body #main .meeting-detail #financeForm section ul li {
     margin: 0;
     line-height: 2; }
@@ -1052,7 +1054,8 @@
 .vtk-body #main .meeting-detail #financeForm .large-block-grid-2 > li:nth-child(2n) {
   width: 30%; }
 .vtk-body #main .meeting-detail #financeForm input[type="text"] {
-  height: 30px; }
+  height: 30px;
+  text-align: right; }
 
 .btn, .button, button {
   text-transform: uppercase;
