@@ -174,7 +174,7 @@ public class CouncilCreatorImpl implements CouncilCreator
 			if (designsFolder.hasNode(designPrototypePath)) {
 			    Node prototypeDesign = designsFolder.getNode(designPrototypePath);
 			    buildFolder(designsFolder, councilName, councilTitle, "cq:Page", false);
-			    Node councilDesign = JcrUtil.copy(prototypeDesign, designsFolder, councilName);
+			    Node councilDesign = JcrUtil.copy(prototypeDesign, designsFolder, "girlscouts-" + councilName);
 			    design.add(councilDesign);
 			    councilDesign.getNode("jcr:content").setProperty("jcr:title", councilTitle);			    			   			    
 			    } else {
