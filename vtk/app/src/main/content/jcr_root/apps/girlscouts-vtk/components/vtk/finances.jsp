@@ -61,61 +61,62 @@
     
     
     <form class="cmxform" id="financeForm">
-    <input type="hidden" id="qtr" name="qtr" value="<%=qtr%>"/>
-    <div class="errorMsg error"></div>
-    <div class="row collapse">
+      <input type="hidden" id="qtr" name="qtr" value="<%=qtr%>"/>
+      <div class="errorMsg error"></div>
+      
+      <div class="row collapse">
 
-      <section class="column large-12 medium-12">
-        <h6>current income</h6>
-        <ul class="large-block-grid-2 small-block-grid-2 text-right">
-          <li>Beginning Balance:</li>
-          <li><%=String.format(financeFieldTag, "starting_balance", "starting_balance", FORMAT_COST_CENTS.format(finance.getStartingBalance())) %></li>
-          <li>Troop Dues:</li>
-          <li><%=String.format(financeFieldTag, "troop_dues", "troop_dues", FORMAT_COST_CENTS.format(finance.getTroopDues())) %></li>
-          <li>Sponsorship/Donations:</li>
-          <li><%=String.format(financeFieldTag, "sponsorship_donations", "sponsorship_donations", FORMAT_COST_CENTS.format(finance.getSponsorshipDonations())) %></li>
-          <li>Product Sales Proceeds:</li>
-          <li><%=String.format(financeFieldTag, "product_sales_proceeds", "product_sales_proceeds", FORMAT_COST_CENTS.format(finance.getProductSalesProceeds())) %></li>
-          <li>Approved Money-Earnings Activities:</li>
-          <li><%=String.format(financeFieldTag, "amea", "amea", FORMAT_COST_CENTS.format(finance.getApprovedMoneyEarningActivity())) %></li>
-          <li>Interest on Bank Accounts:</li>
-          <li><%=String.format(financeFieldTag, "bank_interest", "bank_interest", FORMAT_COST_CENTS.format(finance.getInterestOnBankAccount())) %></li>
-        </uL>
-      </section>
+        <section class="column large-12 medium-12">
+          <h6>current income</h6>
+          <ul class="large-block-grid-2 small-block-grid-2 text-right">
+            <li>Beginning Balance:</li>
+            <li><%=String.format(financeFieldTag, "starting_balance", "starting_balance", FORMAT_COST_CENTS.format(finance.getStartingBalance())) %></li>
+            <li>Troop Dues:</li>
+            <li><%=String.format(financeFieldTag, "troop_dues", "troop_dues", FORMAT_COST_CENTS.format(finance.getTroopDues())) %></li>
+            <li>Sponsorship/Donations:</li>
+            <li><%=String.format(financeFieldTag, "sponsorship_donations", "sponsorship_donations", FORMAT_COST_CENTS.format(finance.getSponsorshipDonations())) %></li>
+            <li>Product Sales Proceeds:</li>
+            <li><%=String.format(financeFieldTag, "product_sales_proceeds", "product_sales_proceeds", FORMAT_COST_CENTS.format(finance.getProductSalesProceeds())) %></li>
+            <li>Approved Money-Earnings Activities:</li>
+            <li><%=String.format(financeFieldTag, "amea", "amea", FORMAT_COST_CENTS.format(finance.getApprovedMoneyEarningActivity())) %></li>
+            <li>Interest on Bank Accounts:</li>
+            <li><%=String.format(financeFieldTag, "bank_interest", "bank_interest", FORMAT_COST_CENTS.format(finance.getInterestOnBankAccount())) %></li>
+          </uL>
+        </section>
 
-      <section class="column large-12 medium-12">
-         <h6>current expenses</h6>
-         <ul class="large-block-grid-2 small-block-grid-2 text-right">
-           <li>GSUSA Registrations:</li>
-           <li><%=String.format(financeFieldTag, "gsusa_registrations", "gsusa_registrations", FORMAT_COST_CENTS.format(finance.getGsusaRegistration())) %></li>
-           <li>Service Activities/Events:</li>
-           <li><%=String.format(financeFieldTag, "service_ae", "service_ae", FORMAT_COST_CENTS.format(finance.getServiceActivitiesEvents())) %></li>
-           <li>Council Programs/Camp:</li>
-           <li><%=String.format(financeFieldTag, "council_pc", "council_pc", FORMAT_COST_CENTS.format(finance.getCouncilProgramsCamp())) %></li>
-           <li>Troop Activities:</li>
-           <li><%=String.format(financeFieldTag, "troop_activities", "troop_activities", FORMAT_COST_CENTS.format(finance.getTroopActivities())) %></li>
-           <li>Troop Supplies:</li>
-           <li><%=String.format(financeFieldTag, "troop_supplies", "troop_supplies", FORMAT_COST_CENTS.format(finance.getTroopSupplies())) %></li>
-           <li>GS Store Purchase:</li>
-           <li><%=String.format(financeFieldTag, "gs_store_purchase", "gs_store_purchase", FORMAT_COST_CENTS.format(finance.getSponsorshipDonations())) %></li>
-         </ul>
-      </section>
-    </div><!--/row-->
-    <!-- totals -->
-    <div class="text-right row collapse">
-      <section>
-        <h6 class="clearfix"><span class="column small-20">Total Income:</span>  <span class="column small-4">$<%=FORMAT_COST_CENTS.format(acc_rcv)%></span></h6>
-      </section>
-      <section>
-        <h6 class="clearfix"><span class="column small-20">Total Income:</span> <span class="column small-4">$<%=FORMAT_COST_CENTS.format(acc_rcv)%></span></h6>
-      </section>
-      <section>
-        <h6 class="clearfix"><span class="column small-20">Total Income:</span> <span class="column small-4">$<%=FORMAT_COST_CENTS.format(acc_rcv)%></span></h6>
-      </section>
-      <%=save_btn%>
-     </div>
-    </div>
-  </form>
+        <section class="column large-12 medium-12">
+           <h6>current expenses</h6>
+           <ul class="large-block-grid-2 small-block-grid-2 text-right">
+             <li>GSUSA Registrations:</li>
+             <li><%=String.format(financeFieldTag, "gsusa_registrations", "gsusa_registrations", FORMAT_COST_CENTS.format(finance.getGsusaRegistration())) %></li>
+             <li>Service Activities/Events:</li>
+             <li><%=String.format(financeFieldTag, "service_ae", "service_ae", FORMAT_COST_CENTS.format(finance.getServiceActivitiesEvents())) %></li>
+             <li>Council Programs/Camp:</li>
+             <li><%=String.format(financeFieldTag, "council_pc", "council_pc", FORMAT_COST_CENTS.format(finance.getCouncilProgramsCamp())) %></li>
+             <li>Troop Activities:</li>
+             <li><%=String.format(financeFieldTag, "troop_activities", "troop_activities", FORMAT_COST_CENTS.format(finance.getTroopActivities())) %></li>
+             <li>Troop Supplies:</li>
+             <li><%=String.format(financeFieldTag, "troop_supplies", "troop_supplies", FORMAT_COST_CENTS.format(finance.getTroopSupplies())) %></li>
+             <li>GS Store Purchase:</li>
+             <li><%=String.format(financeFieldTag, "gs_store_purchase", "gs_store_purchase", FORMAT_COST_CENTS.format(finance.getSponsorshipDonations())) %></li>
+           </ul>
+        </section>
+      </div><!--/row-->
+      <!-- totals -->
+      <div class="text-right row collapse">
+        <section>
+          <h6 class="clearfix"><span class="column small-20">Total Income:</span>  <span class="column small-4">$<%=FORMAT_COST_CENTS.format(acc_rcv)%></span></h6>
+        </section>
+        <section>
+          <h6 class="clearfix"><span class="column small-20">Total Income:</span> <span class="column small-4">$<%=FORMAT_COST_CENTS.format(acc_rcv)%></span></h6>
+        </section>
+        <section>
+          <h6 class="clearfix"><span class="column small-20">Total Income:</span> <span class="column small-4">$<%=FORMAT_COST_CENTS.format(acc_rcv)%></span></h6>
+        </section>
+        <%=save_btn%>
+       </div>
+      </div>
+    </form>
 
   </div>
 </div>
