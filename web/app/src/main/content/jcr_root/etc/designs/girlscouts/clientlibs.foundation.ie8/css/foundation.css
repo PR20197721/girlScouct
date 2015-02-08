@@ -4129,7 +4129,7 @@ dialog[open] {
 */
     dialog.full, .reveal-modal.full {
       margin-left: -50vw;
-      width: 100vw; } /* } */
+      width: 100%; } /* } */
 
 /* Tooltips */
 .has-tip {

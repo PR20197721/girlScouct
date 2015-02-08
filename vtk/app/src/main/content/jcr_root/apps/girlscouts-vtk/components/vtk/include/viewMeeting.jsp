@@ -9,90 +9,43 @@
 		 isCanceled=true;
 	}
 %>
-<script>
-        function meetingDetails(elem){
-                if( !currentlyDragging ){
-                        self.location="/content/girlscouts-vtk/en/vtk.planView.html?elem="+elem;
-                }
+<li
+	<%if( hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID) ){ %>
+	onclick='self.location="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=date.getTime()%>"'
+	<%}%>
+	class="row meeting <%=( troop.getYearPlan().getSchedule()==null || new java.util.Date().before(date)) ? "ui-state-default" : "ui-state-default ui-state-disabled"%>"
+	value="<%=meetingCount%>">
 
-                currentlyDragging=false;
-        }
-</script>
-			<li <%if( hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID) ){ %>
-			onclick='meetingDetails("<%=date.getTime()%>")'
-			<%}%>
-	class="meeting <%=( troop.getYearPlan().getSchedule()==null || new java.util.Date().before(date)) ? "ui-state-default" : "ui-state-default ui-state-disabled"%>" value="<%=meetingCount%>">
-	
-	
-		<div  class="row">
-			<div class="large-4 medium-5 small-24 columns">
-				<div class="planSquare center ed-table">
-					<%
-						if (calendarNotSet) {
-					%>
+	<div class="column large-20 medium-20 large-centered medium-centered">
+		<div class="large-3 medium-3 small-4 columns">
+		<img class="touchscroll" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/touchscroll-small.png" width="21" height="34">
+			<div class="bg-square  <%=(!calendarNotSet && isCanceled) ? "canceled" : "" %>">
+				<div class="count"><%= meetingCount %></div>
 				<div class="date">
-					<div class="cal"><span class="month">Meeting<br/></span><span class="day"><%= meetingCount %><br/></span></div>
+					<p class="month"><%=calendarNotSet ? "Meeting" : FORMAT_MONTH.format(date) %></p>
+					<p class="day"><%=calendarNotSet ? meetingCount : FORMAT_DAY_OF_MONTH.format(date) %></p>
+					<p class="hour"><%=calendarNotSet ? meetingCount : FORMAT_hhmm_AMPM.format(date) %></p>
 				</div>
-				<%
-					} else {
-								%>
-								<div class="count"><%= meetingCount %></div>
-								<%
-										if (isCanceled) {
-								%>
-												<div class="cancelled"><div class="cross">X</div></div>
-								<%
-										}
-								%>
-							<div class="date">
-								<div class="cal"><span class="month"><%= FORMAT_MONTH.format(date)%></span><br/>
-									<span class="day"><%= FORMAT_DAY_OF_MONTH.format(date)%></span>
-									<!-- <span class="time hide-for-small"><%= FORMAT_hhmm_AMPM.format(date)%></span> -->
-								</div>
-							</div>
-							<%
-								}
-							%>
-		</div>
-				<div class="centered-table" style="display:none;">
-					<div class="show-for-small smallBadge">
-							<%
-								String img= "";
-								try{
-									img= meetingE.getRefId().substring( meetingE.getRefId().lastIndexOf("/")+1).toUpperCase();
-									if(img.contains("_") )img= img.substring(0, img.indexOf("_"));
-								}catch(Exception e){
-									e.printStackTrace();
-								}
-							%>
-						<img width="100" height="100" src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png"/>
-					</div>
-				</div>
-			</div>
-	    <div class="large-15 medium-12 small-24 columns">
-				<div class="planMain">
-					<h2>
-						<%
-						if( meetingE.getCancelled()!=null && meetingE.getCancelled().equals("true")){%>
-										<span class="alert">(Cancelled)</span>
-						<% }
 
-						%>
-					<%=meeting.getName() %> </h2>
-					<p><small><%=meeting.getCat()%></small></p>
-					 <!--  p class="tags"><%=meeting.getAidTags() %></p --> 
-					<!-- <p class="show-for-small"><%= FORMAT_hhmm_AMPM.format(date)%></p> -->
-					<p class="blurb"><%=meeting.getBlurb() %></p>
-					<%if( hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID) ){ %>
-						<a href="/content/girlscouts-vtk/en/vtk.planView.html?elem=<%=date.getTime()%>">View Meeting</a>
-					<%} %>
-				</div>
 			</div>
-			<div class="large-4 medium-5 hide-for-small columns">
-				<img width="100" height="100" src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png"/>
-			</div>
-	    <div class="large-1 medium-2 small-24 columns touchscrollWrapper">
-	        <img class="touchscroll" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/touchscroll.png" border="0" width="21" height="62"/>
-	    </div>
+			<!--/square-->
 		</div>
+
+		<div class="large-22 medium-22 small-17 columns">
+			<p class='subtitle'>
+				<% if(isCanceled){ %>
+				<span><strong>Meeting Canceled:</strong></span>
+				<% } %>
+				<%=meeting.getName() %>
+			</p>
+			<p class="category"><%=meeting.getCat()%></p>
+			<p class="blurb"><%=meeting.getBlurb() %></p>
+		</div>
+		<div class="large-2 medium-2 columns hide-for-small">
+			<img
+				src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png"
+				alt="<%=img%>" />
+		</div>
+	</div>
+	<!--/columns-->
 </li>

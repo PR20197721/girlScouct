@@ -37,25 +37,26 @@
 	String hideSignIn = currentSite.get("hideSignIn", "");
 %>
 	<script type="text/javascript">
-    	var fixVerticalSizing = true;
-<%
+	///the variable has to be set on the page where the resizing is needed not in the header.
+  //  	var fixVerticalSizing = true;
+	<%
     if (!hideSignIn.equalsIgnoreCase("true")) {
-%>
+	%>
 		$(document).ready(function() {
 			girlscouts.components.login.init('<%= language %>', '<%= signInUrl %>', '<%= signOutUrl %>');
-			<%-- TODO: Create a new servlet for redirect so this param will not show in browser --%>
+			// TODO: Create a new servlet for redirect so this param will not show in browser.
 			if (window.location.href.indexOf('isSignOutSalesForce=true') != -1) {
 				$.removeCookie('girl-scout-name');
 			}
-			var name = $.cookie('girl-scout-name');
-			if (name) {
-				girlscouts.components.login.sayHello('signedin', name);	
-			} else {
-				girlscouts.components.login.genCode('<%= helloUrl %>');
+			if($.cookie) {
+				var name = $.cookie('girl-scout-name');
+				if (name) {
+					girlscouts.components.login.sayHello('signedin', name);	
+				} else {
+					girlscouts.components.login.genCode('<%= helloUrl %>');
+				}
 			}
 		});
-<!-- End: login logic -->
-<%
-	}
-%>
+	//End: login logic
+<% 	} %>
 	</script>

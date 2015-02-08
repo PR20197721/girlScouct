@@ -47,9 +47,9 @@
         <div class="small-12 columns">
           <div class="small-search-hamburger">
              <% if(currentSite.get("hideSearch","false").equals("false")){ %>
-              <a class="search-icon"><img src="<%= designPath %>/images/search_white.png" width="21" height="21" alt="search icon"/></a>
+              <a class="search-icon"><img src="/etc/designs/girlscouts/images/search_white.png" width="21" height="21" alt="search icon"/></a>
               <% } %>
-            <a class="right-off-canvas-toggle menu-icon"><img src="<%= designPath %>/images/hamburger.png" width="22" height="28" alt="toggle hamburger side menu icon"/></a>
+            <a class="right-off-canvas-toggle menu-icon"><img src="/etc/designs/girlscouts/images/hamburger.png" width="22" height="28" alt="toggle hamburger side menu icon"/></a>
           </div>
         </div>
       </div>
@@ -57,7 +57,7 @@
         <% setCssClasses("small-22 columns hide srch-box", request); %>
           <cq:include path="<%= headerPath + "/search-box" %>" resourceType="girlscouts/components/search-box" />
         <div class="small-2 columns">
-          <a class="right-off-canvas-toggle menu-icon"><img src="<%= designPath %>/images/hamburger.png" width="22" height="28" alt="right side menu hamburger icon"/></a>
+          <a class="right-off-canvas-toggle menu-icon"><img src="/etc/designs/girlscouts/images/hamburger.png" width="22" height="28" alt="right side menu hamburger icon"/></a>
         </div>
       </div>
     </div>
@@ -67,7 +67,7 @@
     <% setCssClasses("large-push-5 large-19 medium-23 small-24 columns", request); %>
     <cq:include path="<%= headerPath + "/global-nav" %>" resourceType="girlscouts/components/global-navigation" />
     <div class="small-search-hamburger show-for-medium medium-1 columns">
-      <a class="show-for-medium right-off-canvas-toggle menu-icon"><img src="/etc/designs/girlscouts-usa-green/images/hamburger.png" width="19" height="28" alt="side menu icon"></a>
+      <a class="show-for-medium right-off-canvas-toggle menu-icon"><img src="/etc/designs/girlscouts/images/hamburger.png" width="19" height="28" alt="side menu icon"></a>
     </div>
   </div>
 </div>
