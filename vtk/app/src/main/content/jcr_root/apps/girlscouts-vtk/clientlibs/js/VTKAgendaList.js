@@ -34,10 +34,17 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
 
     // overriding CQ.form.CompositeField#setValue
     setValue: function(value) {
+        girlscouts.components.VTKAgendaList.superclass.setValue.call(this);
     },
 
     // overriding CQ.form.CompositeField#getValue
     getValue: function() {
+        var value;
+        for (var i = 0; i < this.items.length; i++) {
+        	value += '[' + (i+1) + '^' + this.items[i] + ']';
+        }
+        alert('value = ' + value);
+        return value;
     },
 
     // overriding CQ.form.CompositeField#getRawValue

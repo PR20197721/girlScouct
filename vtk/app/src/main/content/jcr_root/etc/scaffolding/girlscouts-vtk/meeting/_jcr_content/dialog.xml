@@ -17,9 +17,14 @@
                     name="./cat"/>
                 <agenda
                     jcr:primaryType="cq:Widget"
-                    xtype="vtk-agendalist"
                     fieldLabel="Agenda"
-                    name="./agenda"/>
+                    hideLabel="{Boolean}true"
+                    name="./agenda"
+                    xtype="vtk-agendalist">
+                    <fieldConfig
+                        jcr:primaryType="nt:unstructured"
+                        xtype="vtk-agenda"/>
+                </agenda>
             </items>
         </tab1>
     </items>
