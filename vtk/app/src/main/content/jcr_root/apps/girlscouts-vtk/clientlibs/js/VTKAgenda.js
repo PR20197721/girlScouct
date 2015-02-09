@@ -374,8 +374,8 @@ girlscouts.components.VTKAgenda= CQ.Ext.extend(CQ.Ext.form.Field, {
     	// format agenda^duration
     	// e.g. ^As Girls Arrive^10
     	var match = val.trim().split('^');
-    	var agenda = match[0];
-    	var duration = match[1];
+    	var agenda = match[0]; // Do not trim. may contain intentional white spaces
+    	var duration = match[1].trim();
     	this.textField.setValue(agenda);
     	this.numberField.setValue(duration);
         //this.updateValue();
