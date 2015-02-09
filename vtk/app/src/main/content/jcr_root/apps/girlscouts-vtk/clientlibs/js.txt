@@ -2,3 +2,4 @@
 
 main.js
 VTKAgenda.js
+VTKAgendaList.js
