@@ -169,7 +169,7 @@
 		}
 		
 		
-		//troop.setApiConfig(apiConfig);
+		
 		troop.setTroop(prefTroop);
 		troop.setSfTroopId(troop.getTroop().getTroopId());
 		troop.setSfUserId( user.getApiConfig().getUserId() ); //troop.getApiConfig().getUserId());

@@ -38,12 +38,16 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 	@Field
 	java.util.Date lastAssetUpdate;
 
+	
+	
+	
 	public java.util.Date getLastAssetUpdate() {
 		return lastAssetUpdate;
 	}
 
 	public void setLastAssetUpdate(java.util.Date lastAssetUpdate) {
 		this.lastAssetUpdate = lastAssetUpdate;
+		isUpdated=true;
 	}
 
 	public java.util.List<Asset> getAssets() {
@@ -52,6 +56,7 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 
 	public void setAssets(java.util.List<Asset> assets) {
 		this.assets = assets;
+		isUpdated=true;
 	}
 
 	public String getUid() {
@@ -63,6 +68,7 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 		if (uid == null)
 			this.uid = "M" + new java.util.Date().getTime() + "_"
 					+ Math.random();
+		isUpdated=true;
 	}
 
 	public Integer getId() {
@@ -71,6 +77,7 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
+		isUpdated=true;
 	}
 
 	public String getCancelled() {
@@ -79,6 +86,7 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 
 	public void setCancelled(String cancelled) {
 		this.cancelled = cancelled;
+		isUpdated=true;
 	}
 
 	public String getLocationRef() {
@@ -87,6 +95,7 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 
 	public void setLocationRef(String locationRef) {
 		this.locationRef = locationRef;
+		isUpdated=true;
 	}
 
 	public Meeting getMeetingInfo() {
@@ -95,6 +104,7 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 
 	public void setMeetingInfo(Meeting meetingInfo) {
 		this.meetingInfo = meetingInfo;
+		isUpdated=true;
 	}
 
 	public String getRefId() {
@@ -103,6 +113,7 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 
 	public void setRefId(String refId) {
 		this.refId = refId;
+		isUpdated=true;
 	}
 
 	public String getPath() {
@@ -111,6 +122,19 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 
 	public void setPath(String path) {
 		this.path = path;
+		isUpdated=true;
 	}
 
+	
+	
+	private boolean isUpdated;
+
+	public boolean isUpdated() {
+		return isUpdated;
+	}
+
+	public void setUpdated(boolean isUpdated) {
+		this.isUpdated = isUpdated;
+	}
+	
 }

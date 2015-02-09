@@ -17,6 +17,9 @@ import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
 import org.apache.jackrabbit.ocm.manager.impl.ObjectContentManagerImpl;
 import org.apache.jackrabbit.ocm.mapper.Mapper;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
+import org.apache.jackrabbit.ocm.mapper.model.BeanDescriptor;
+import org.apache.jackrabbit.ocm.mapper.model.ClassDescriptor;
+import org.apache.jackrabbit.ocm.mapper.model.CollectionDescriptor;
 import org.apache.jackrabbit.ocm.query.Filter;
 import org.apache.jackrabbit.ocm.query.QueryManager;
 import org.girlscouts.vtk.auth.permission.Permission;
@@ -120,6 +123,7 @@ public class TroopDAOImpl implements TroopDAO {
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
+			
 			classes.add(MeetingE.class);
 			classes.add(Activity.class);
 			classes.add(Location.class);
@@ -213,7 +217,7 @@ public class TroopDAOImpl implements TroopDAO {
 
 	}
 
-	public boolean updateTroop(User user, Troop troop)
+	public boolean updateTroopX(User user, Troop troop)
 			throws java.lang.IllegalAccessException,
 			java.lang.IllegalAccessException {
 
@@ -241,9 +245,65 @@ public class TroopDAOImpl implements TroopDAO {
 			classes.add(org.girlscouts.vtk.models.Troop.class);
 
 			Mapper mapper = new AnnotationMapperImpl(classes);
+			
+			
+	
+
+/*
+	        java.util.Iterator itr =		mapper.getClassDescriptorByClass(YearPlan.class).getBeanDescriptors().iterator();
+			while( itr.hasNext()){
+				BeanDescriptor b= (BeanDescriptor)itr.next();
+System.err.println("tata chk: "+ b.isAutoUpdate() +" : "+  b.getFieldName() +" : "+b.getJcrName());				
+				if( troop.getYearPlan().getSchedule().isUpdated() )
+						b.setAutoUpdate(true);
+				else
+					    b.setAutoUpdate(false);
+System.err.println("tata chk after: "+ b.isAutoUpdate() );				
+			}
+			
+			CollectionDescriptor b =mapper.getClassDescriptorByClass(YearPlan.class).getCollectionDescriptor("meetingEvents");
+			System.err.println("tatat: "+b);
+			
+			java.util.List<MeetingE> _meetingsE = troop.getYearPlan().getMeetingEvents();
+			for(int i=0;i<_meetingsE.size();i++)
+				_meetingsE.get(i).setUpdated(false);
+				*/
+			
+		/*
+			CollectionDescriptor b =mapper.getClassDescriptorByClass(YearPlan.class).getCollectionDescriptor("meetingEvents");
+			b.get
+			System.err.println("tatat col: "+b.get);
+		
+					
+			java.util.Map<String, String> m = org.apache.commons.beanutils.BeanUtils.describe(troop);
+			java.util.Iterator ii = m.keySet().iterator();
+			while( ii.hasNext()){
+				String x= (String) ii.next();
+				System.err.println( "tata itr: "+  x +" : "+ m.get(x) );
+				
+			}
+			
+			
+
+			java.util.Map u = org.apache.commons.beanutils.PropertyUtils.describe(troop);
+			java.util.Iterator iii = u.keySet().iterator();
+			while( iii.hasNext()){
+				String x= (String) iii.next();
+				Object obj = u.get(x);
+				java.util.Map sub = org.apache.commons.beanutils.BeanUtils.describe(obj);
+				if()
+				System.err.println( "tata itr1: "+  x +" : "+ obj  +" : " + sub.get("schedule")  );
+				
+			}
+			*/
+			
+			
+			
+			
+			
+			
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
 					mapper);
-
 			Comparator<MeetingE> comp = new BeanComparator("id");
 			Collections.sort(troop.getYearPlan().getMeetingEvents(), comp);
 
@@ -303,7 +363,7 @@ public class TroopDAOImpl implements TroopDAO {
 				} catch (Exception em) {
 					em.printStackTrace();
 				}
-
+;		
 				ocm.update(troop);
 
 				ocm.save();
@@ -539,5 +599,300 @@ public class TroopDAOImpl implements TroopDAO {
 		}
 	}
 
+	
+	//**********************
+	public boolean updateTroop(User user, Troop troop)
+			throws java.lang.IllegalAccessException,
+			java.lang.IllegalAccessException {
+		
+			modifyTroop(user, troop);
+			modifyYearPlan( user, troop );
+			modifySchedule( user, troop );
+			
+			java.util.List<Location> locations = troop.getYearPlan().getLocations();
+			for(int i=0;i<locations.size();i++)
+				modifyLocation( user, troop, locations.get(i) );
+			
+			for(int i=0;i<troop.getYearPlan().getActivities().size();i++)
+				modifyActivity( user, troop, troop.getYearPlan().getActivities().get(i) );
+			
+		return false;
+	}
+	
+	
+
+	public boolean modifyActivity(User user, Troop troop, Activity activity)
+			throws java.lang.IllegalAccessException,
+			java.lang.IllegalAccessException {
+		
+		
+		if( !activity.isDbUpdate() )return true;
+		
+		Session mySession = null;
+		boolean isUpdated = false;
+		try {
+			mySession = sessionFactory.getSession();
+			List<Class> classes = new ArrayList<Class>();
+			classes.add(Location.class);
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,mapper);
+	System.err.println(">>> tata "+ activity.getPath());		
+			if( !ocm.objectExists(activity.getPath()))
+				ocm.insert(activity);
+			else
+				ocm.update(activity);
+			ocm.save();
+			isUpdated= true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (mySession != null)
+					sessionFactory.closeSession(mySession);
+			} catch (Exception es) {
+				es.printStackTrace();
+			}
+		}
+		
+		return isUpdated;
+	}
+	
+
+	public boolean modifyLocation(User user, Troop troop, Location location)
+			throws java.lang.IllegalAccessException,
+			java.lang.IllegalAccessException {
+		
+		
+		if( !location.isDbUpdate() )return true;
+		
+		Session mySession = null;
+		boolean isUpdated = false;
+		try {
+			mySession = sessionFactory.getSession();
+			List<Class> classes = new ArrayList<Class>();
+			classes.add(Location.class);
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,mapper);
+	System.err.println(">>> tata "+ location.getPath());		
+			if( !ocm.objectExists(location.getPath()))
+				ocm.insert(location);
+			else
+				ocm.update(location);
+			ocm.save();
+			isUpdated= true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (mySession != null)
+					sessionFactory.closeSession(mySession);
+			} catch (Exception es) {
+				es.printStackTrace();
+			}
+		}
+		
+		return isUpdated;
+	}
+	
+	
+
+	public boolean modifySchedule(User user, Troop troop)
+			throws java.lang.IllegalAccessException,
+			java.lang.IllegalAccessException {
+		
+		Cal schedule = troop.getYearPlan().getSchedule();
+		if( !schedule.isDbUpdate() )return true;
+		
+		Session mySession = null;
+		boolean isUpdated = false;
+		try {
+			mySession = sessionFactory.getSession();
+			List<Class> classes = new ArrayList<Class>();
+			classes.add(Cal.class);
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,mapper);
+			ocm.update(schedule);
+			ocm.save();
+			isUpdated= true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (mySession != null)
+					sessionFactory.closeSession(mySession);
+			} catch (Exception es) {
+				es.printStackTrace();
+			}
+		}
+		
+		return isUpdated;
+	}
+	
+	
+	public boolean modifyYearPlan(User user, Troop troop)
+			throws java.lang.IllegalAccessException,
+			java.lang.IllegalAccessException {
+		
+		YearPlan yearPlan = troop.getYearPlan();
+		if( !yearPlan.isDbUpdate() )return true;
+		
+		Session mySession = null;
+		boolean isUpdated = false;
+		try {
+			mySession = sessionFactory.getSession();
+			List<Class> classes = new ArrayList<Class>();
+			classes.add(YearPlan.class);
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
+					mapper);
+			ocm.update(yearPlan);
+			ocm.save();
+			isUpdated=true;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (mySession != null)
+					sessionFactory.closeSession(mySession);
+			} catch (Exception es) {
+				es.printStackTrace();
+			}
+		}
+		
+		return isUpdated;
+	}
+	
+	
+	
+	public boolean modifyTroop(User user, Troop troop)
+			throws java.lang.IllegalAccessException,
+			java.lang.IllegalAccessException {
+		
+		if( !troop.isDbUpdate() )return true;
+		
+		Session mySession = null;
+		boolean isUpdated = false;
+		try {
+
+			if (troop == null || troop.getYearPlan() == null) {
+				return true;
+			}
+			troop.setErrCode("111");
+
+			mySession = sessionFactory.getSession();
+			List<Class> classes = new ArrayList<Class>();
+			classes.add(Troop.class);
+			classes.add(YearPlan.class);
+			/*
+			classes.add(MeetingE.class);
+			classes.add(Location.class);
+			classes.add(Cal.class);
+			classes.add(Activity.class);
+			classes.add(Asset.class);
+			classes.add(JcrNode.class);
+			classes.add(Milestone.class);
+			classes.add(Council.class);
+			classes.add(org.girlscouts.vtk.models.Troop.class);
+*/
+			
+			
+			
+			
+			
+			
+			
+			
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
+					mapper);
+			Comparator<MeetingE> comp = new BeanComparator("id");
+			Collections.sort(troop.getYearPlan().getMeetingEvents(), comp);
+
+			// permission to update
+			if (troop != null
+					&& !userUtil.hasPermission(user.getPermissions(),
+							Permission.PERMISSION_VIEW_YEARPLAN_ID))
+				throw new IllegalAccessException();
+
+			// lock
+			if (troop != null && troop.getLastModified() != null) {
+
+				if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
+
+					troop.setErrCode("112");
+					throw new IllegalAccessException();
+					// return false;
+				}
+			}
+
+			if (mySession.itemExists(troop.getPath())) {
+				ocm.update(troop);
+			} else {
+				String path = "";
+				StringTokenizer t = new StringTokenizer(
+						("/" + troop.getPath())
+								.replace("/" + troop.getId(), ""),
+						"/");
+				int i = 0;
+				while (t.hasMoreElements()) {
+					String node = t.nextToken();
+					path += "/" + node;
+					if (!mySession.itemExists(path)) {
+						if (i == 2) {
+							ocm.insert(new Council(path));
+						} else {
+							ocm.insert(troop);
+						}
+					}
+					i++;
+				}
+				ocm.insert(troop);
+			}
+
+			String old_errCode = troop.getErrCode();
+			java.util.Calendar old_lastModified = troop.getLastModified();
+			try {
+				troop.setErrCode(null);
+				troop.setLastModified(java.util.Calendar.getInstance());
+				troop.setCurrentTroop(user.getSid());// 10/23/14
+
+				// modif
+				try {
+
+					modifiedChecker.setModified(user.getSid(), troop
+							.getYearPlan().getPath());
+				} catch (Exception em) {
+					em.printStackTrace();
+				}
+;		
+				ocm.update(troop);
+
+				ocm.save();
+
+				isUpdated = true;
+				troop.setRefresh(true);
+
+			} catch (Exception e) {
+
+				log.error("!!!! ERROR !!!!!  TroopDAOImpl.updateTroop CAN NOT SAVE TROOP !!!! ERROR !!!!!");
+				troop.setLastModified(old_lastModified);
+				troop.setErrCode(old_errCode);
+				troop.setRefresh(true);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (mySession != null)
+					sessionFactory.closeSession(mySession);
+			} catch (Exception es) {
+				es.printStackTrace();
+			}
+		}
+		return isUpdated;
+	}
+	
+	
 }// ednclass
 

@@ -96,8 +96,48 @@ public class TroopUtil {
 				&& troop.getYearPlan().getCalFreq() == null)
 			troop.getYearPlan().setCalFreq("biweekly");
 
+		
+		doDbReset(troop);
+		
+		System.err.println("tata Troop reset...");
+		
+		/*
+		//TODO
+		troop.getYearPlan().getSchedule().setUpdated(false);
+		java.util.List<MeetingE> _meetingsE = troop.getYearPlan().getMeetingEvents();
+		for(int i=0;i<_meetingsE.size();i++)
+			_meetingsE.get(i).setUpdated(false);
+		*/
+		
 		return troop;
 
+	}
+	
+	
+	
+	private void doDbReset(Troop troop){
+			if( troop!=null){
+				troop.setDbUpdate(false);
+				if( troop.getYearPlan()!=null){
+					troop.getYearPlan().setDbUpdate(false);
+					
+					if( troop.getYearPlan().getSchedule()!=null )
+						troop.getYearPlan().getSchedule().setDbUpdate(false);
+					
+					if( troop.getYearPlan().getLocations()!=null ){
+						for(int i=0;i<troop.getYearPlan().getLocations().size();i++)
+							troop.getYearPlan().getLocations().get(i).setDbUpdate(false);
+					}
+					
+					if( troop.getYearPlan().getActivities()!=null ){
+						for(int i=0;i<troop.getYearPlan().getActivities().size();i++ ){
+							troop.getYearPlan().getActivities().get(i).setDbUpdate(false);
+						}
+					}
+					
+				}
+			}
+			
 	}
 
 	// check if info was updated and need to pull from DB fresh copy
