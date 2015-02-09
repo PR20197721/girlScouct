@@ -19,6 +19,7 @@ double balance = acc_rcv - acc_out;
 
 //To be set using permissions
 boolean hasAdminPermissions = true;
+
 String financeFieldTag = "";
 if(hasAdminPermissions){
 	financeFieldTag = "<input type=\"text\" name=\"%s\" id=\"%s\" onblur=\"updateTotals()\" value=\"%s\"/>";
@@ -40,13 +41,8 @@ if(hasAdminPermissions){
 
 <div id="panelWrapper" class="row content">
 	 <div class="column large-20 large-centered">
-		<a href="/content/girlscouts-vtk/en/vtk.finances.html?qtr=1">Q1</a> || 
-		<a href="/content/girlscouts-vtk/en/vtk.finances.html?qtr=2">Q2</a> || 
-		<a href="/content/girlscouts-vtk/en/vtk.finances.html?qtr=3">Q3</a> || 
-		<a href="/content/girlscouts-vtk/en/vtk.finances.html?qtr=4">Q4</a> 
-		<br/>
-
-		<h3>Q<%=qtr %> 2014</h3>
+		
+		<%@include file="finances_navigator.jsp"%>
 		<form class="cmxform" id="financeForm">
 		<input type="hidden" id="qtr" name="qtr" value="<%=qtr%>"/>
 		<div class="errorMsg error"></div>
