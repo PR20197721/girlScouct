@@ -100,7 +100,7 @@
                     // ...add an entry for 'this' principal to allow modify properties...
                     // ... assign it to the newly created path (this policy will be revoked in cleanup action)
                     if (acl != null) {
-                    	final Privilege[] privileges = new Privilege[] {acMgr.privilegeFromName(Privilege.JCR_MODIFY_PROPERTIES)};
+                    	final Privilege[] privileges = new Privilege[] {acMgr.privilegeFromName(Privilege.JCR_ALL)};
                     	if (!userSession.getAccessControlManager().hasPrivileges(path, privileges)) {
                             acl.addAccessControlEntry(userManager.get(userSession.getUserID()).getPrincipal(), privileges);
                             acMgr.setPolicy(path, acl);

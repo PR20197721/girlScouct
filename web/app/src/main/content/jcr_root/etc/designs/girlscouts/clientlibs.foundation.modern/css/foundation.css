@@ -4509,8 +4509,8 @@ dialog[open] {
 }
 @media only screen and (min-width: 40.063em) and (min-width: 40.063em) {
   dialog.full, .reveal-modal.full {
-    margin-left: -50vw;
-    width: 100vw;
+    margin-left: -50%;
+    width: 100%;
   }
 }
 @media print {

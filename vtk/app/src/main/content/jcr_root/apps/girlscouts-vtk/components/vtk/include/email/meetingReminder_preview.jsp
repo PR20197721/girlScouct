@@ -1,7 +1,8 @@
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
-<%@include file="include/session.jsp"%>
+<%@include file="../session.jsp"%>
+
 <% 
 EmailMeetingReminder emr = troop.getSendingEmail();
 %>
@@ -9,39 +10,18 @@ EmailMeetingReminder emr = troop.getSendingEmail();
 
 
 <div style="background-color:gray">Address List</div>
-
-<br/>Girls /Parents <%= emr.getEmailToGirlParent() !=null ? "CHECKED" : "" %>
-<br/>Self <%= emr.getEmailToSelf() !=null ? "CHECKED" : "" %>
-<br/>Troop Volunteers <%= emr.getEmailToTroopVolunteer() !=null ? "CHECKED" : "" %>
-
-
+<br/>To:
+(<%= emr.getEmailToGirlParent()!=null ? "Girls /Parents " : "" %>
+<%= emr.getEmailToSelf()!=null ? "Self " : "" %>
+<%= emr.getEmailToTroopVolunteer()!=null ? "Troop Volunteers" : "" %>)
+<br/><%= emr.getTo()%>
 <br/>Enter your own:<%=emr.getCc() %>
 
+<br/><br/><div style="background-color:gray">Compose Email</div>
+Subject: <%=emr.getSubj() %>
+<br/><br/><%= emr.getHtml() %>
 
-
-<br/>Subject: <%=emr.getSubj() %>
-
-
-
-<%= emr.getHtml() %>
-
-<div>
-	Aid(s) Included:
-	<%
-	
-	if( emr!=null ){
-		java.util.List<Asset> eAssets = emr.getAssets();
-		if( eAssets!=null)
-			for(int i=0;i<eAssets.size();i++){
-				%><li><%=eAssets.get(i).getRefId() %></li><% 
-			}
-	}
-	%>
-
-</div>
-
-<br/><br/><input type="button" value="Send" onclick="sendMeetingReminderEmail()"/>
-
+<input type="button" value="Send" onclick="sendMeetingReminderEmail()"/>
 
 
 
