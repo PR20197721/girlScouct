@@ -633,7 +633,7 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 		try {
 			mySession = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
-			classes.add(Location.class);
+			classes.add(Activity.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,mapper);
 	System.err.println(">>> tata "+ activity.getPath());		
