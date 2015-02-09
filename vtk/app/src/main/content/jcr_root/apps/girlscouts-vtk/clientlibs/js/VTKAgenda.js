@@ -241,12 +241,7 @@ girlscouts.components.VTKAgenda= CQ.Ext.extend(CQ.Ext.form.Field, {
      * @return {Date/String} Returns value of this field
      */
     getValue:function() {
-        // create new instance of date
-        if (this.valueAsString) {
-            return (this.dateValue && (typeof this.dateValue.format === "function")) ? this.dateValue.format(this.hiddenFormat) : '';
-        } else {
-            return this.dateValue ? this.dateValue.clone() : '';
-        }
+    	return this.textField.getValue() + '^' + this.numberField.getValue();
     },
 
     /**
@@ -267,19 +262,12 @@ girlscouts.components.VTKAgenda= CQ.Ext.extend(CQ.Ext.form.Field, {
      * @private Handles blur event
      */
     onBlur:function(f) {
-        // called by both DateField and TimeField blur events
+        // called by both TextField and NumberField blur events
 
         // revert focus to previous field if clicked in between
         if(this.wrapClick) {
             f.focus();
             this.wrapClick = false;
-        }
-
-        // update underlying value
-        if(f === this.textField) {
-            this.updateDate();
-        } else {
-            this.updateTime();
         }
         this.updateHidden();
 
@@ -383,15 +371,11 @@ girlscouts.components.VTKAgenda= CQ.Ext.extend(CQ.Ext.form.Field, {
      * Sets the value of this field
      */
     setValue:function(val) {
-    	// format #^agenda^duration
-    	// e.g. 1^As Girls Arrive^10
+    	// format agenda^duration
+    	// e.g. ^As Girls Arrive^10
     	var match = val.trim().split('^');
-    	// Skip # field
-    	for (var i = 1; i < match.length; i++) {
-    		match[i] = match[i].trim();
-    	}
-    	var agenda = match[1];
-    	var duration = match[2];
+    	var agenda = match[0];
+    	var duration = match[1];
     	this.textField.setValue(agenda);
     	this.numberField.setValue(duration);
         //this.updateValue();
@@ -417,18 +401,9 @@ girlscouts.components.VTKAgenda= CQ.Ext.extend(CQ.Ext.form.Field, {
         return this.setVisible(false);
     },
     updateHidden:function() {
-        if(this.isRendered) {
-            //this.el.dom.value = (this.dateValue && (typeof this.dateValue.format === "function"))
-            //        ? this.dateValue.format(this.hiddenFormat)
-            //        : '';
-
-        	//////// Customized code
-        	// Use Sencha to format the date and then use moment.js to format to the current timezone.
-        	// Sencha "submit" action will pick up this value later.
-        	this.el.dom.value = this.dateValue ?
-        			moment.tz(this.dateValue.format('Y-m-d H:i'), this.timezone).format("YYYY-MM-DDTHH:mm:00.000Z") 
-        			: '';
-        }
+     if(this.isRendered) {
+         this.el.dom.value = this.textField.getValue() + '^' + this.numberField.getValue();
+     }
     },
     /**
      * @return {Boolean} True = valid, false = invalid, else false
