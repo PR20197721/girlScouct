@@ -18,9 +18,10 @@
 <%
         String activeTab = "finances";
         boolean showVtkNav = true;
-
+		
         //pager/navigator
         int qtr= 0;
+        int numberOfPeriods = 4;
         try { 
           qtr = Integer.parseInt( request.getParameter("qtr") );
         }catch(Exception e){out.println("Invalid qtr"); 
