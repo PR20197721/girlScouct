@@ -19,9 +19,10 @@
         String activeTab = "finances";
         boolean showVtkNav = true;
 		
-        //pager/navigator
-        int qtr= 0;
-        int numberOfPeriods = 4;
+        int qtr = 0;
+        
+        boolean isQuarterly = true;
+        
         try { 
           qtr = Integer.parseInt( request.getParameter("qtr") );
         }catch(Exception e){out.println("Invalid qtr"); 

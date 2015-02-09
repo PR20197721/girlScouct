@@ -5,7 +5,7 @@
 <div class="column large-20 medium-20 large-centered medium-centered small-24">
 	<%
 	
-	boolean isQuarterly = true;
+	
 	if(isQuarterly){
 		String quarterLinkTemplate = "/content/girlscouts-vtk/en/vtk.finances.html?qtr=%d";
 		String prevLink = "";
