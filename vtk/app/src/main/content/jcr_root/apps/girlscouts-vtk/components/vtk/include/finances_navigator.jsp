@@ -22,13 +22,17 @@
 		%>
   <div class="meeting-navigation row collapse">
     <p class="column">
-      <a class="direction prev" href="<%=prevLink%>"></a>
+      <% if (!prevLink.isEmpty()) { %>
+        <a class="direction prev" href="<%=prevLink%>"></a>
+      <%}%>
     </p>
     <div class="column">
       <h3>Q<%=qtr %> 2015</h3>
     </div>
     <p class="column">
-      <a class="direction next" href="<%=nextLink%>"></a>
+      <% if (!nextLink.isEmpty()) { %>
+        <a class="direction next" href="<%=nextLink%>"></a>
+      <%}%>
     </p>
   </div>
   	<% } else{ %>
