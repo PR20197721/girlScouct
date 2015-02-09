@@ -67,6 +67,7 @@
         <span class="column small-10 large-5 medium-7">Reporting Frequency:</span>
         <select class="columns small-6 large-3 medium-5 left">
           <option value="Quarterly">Quarterly</option>
+          <option value="Yearly">Yearly</option>
         </select>
       </div>
 
