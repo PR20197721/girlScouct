@@ -1500,7 +1500,8 @@
   }
 }
 .tabs dd {
-  width: 16.666667%;
+  max-width: 16.666667%;
+  min-width: 14.252874%;
   border-bottom:solid 6px #009447;
   > a {
     background: #00ae57;
