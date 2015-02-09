@@ -15,7 +15,7 @@ girlscouts.components.VTKAgenda= CQ.Ext.extend(CQ.Ext.form.Field, {
     /**
      * @cfg {Number} timeWidth Width of time field in pixels (defaults to 100)
      */
-    timeWidth:100,
+    numberWidth:100,
 
     /**
      * @cfg {Number} textWidth Width of date field in pixels (defaults to 200)
@@ -23,23 +23,9 @@ girlscouts.components.VTKAgenda= CQ.Ext.extend(CQ.Ext.form.Field, {
     textWidth:200,
 
     /**
-     * @cfg {Number} labelWidth Width of date field in pixels (defaults to 200)
-     */
-    labelWidth:160,
-
-    /**
      * @cfg {String} dtSeparator Date - Time separator. Used to split date and time (defaults to ' ' (space))
      */
     dtSeparator:' ',
-
-    /**
-     * @cfg {String} hiddenFormat Format of datetime used to store value in hidden field
-     * and submitted to server
-     * (defaults to 'Y-m-d\\TH:i:sP' that is ISO8601 format)
-     */
-    //hiddenFormat: 'Y-m-d H:i:s'
-    //hiddenFormat: 'd.m.Y H:i:s'
-    hiddenFormat: 'Y-m-d\\TH:i:s.000P',
 
     /**
      * @cfg {String} defaultValue Init time or date field if not explicitly filled in (defaults to "").
@@ -48,33 +34,9 @@ girlscouts.components.VTKAgenda= CQ.Ext.extend(CQ.Ext.form.Field, {
     defaultValue: "",
 
     /**
-     * @cfg {Boolean} allowBlank False to validate that at least one option is selected (defaults to true)
-     */
-    allowBlank: true,
-
-    /**
-     * @cfg {String} timePosition Where the time field should be rendered. 'right' is suitable for forms
-     * and 'below' is suitable if the field is used as the grid editor (defaults to 'right')
-     */
-    timePosition:'right', // valid values:'below', 'right'
-
-    /**
      * @cfg {Boolean} disableTypeHint True to disable the field @TypeHint
      */
     disableTypeHint:false,
-
-    /**
-     * @cfg {String} dateFormat Format of DateField. (defaults to CQ.Ext.form.DateField.prototype.format)
-     */
-    /**
-     * @cfg {String} timeFormat Format of TimeField. (defaults to CQ.Ext.form.TimeField.prototype.format)
-     */
-
-    /**
-     * @cfg {Boolean} valueAsString Returns string value instead of the date object for
-     * getValue(). (defaults to false)
-     */
-    valueAsString: false,
 
     /**
      * @cfg {String} typeHint The type hint for the server. (defaults to 'Date')
@@ -88,16 +50,6 @@ girlscouts.components.VTKAgenda= CQ.Ext.extend(CQ.Ext.form.Field, {
      * @private
      */
     defaultTriggerWidth: 17,
-
-    /**
-     * @cfg {String/Function} The Time Zone (defaults to this.defaultTimezone)
-     */
-    timezone: null,
-
-    /**
-     * @cfg {String/Function} The Default Time Zone (defaults to 'America/New_York')
-     */
-    defaultTimezone: "US/Eastern",
 
     /**
      * @private
@@ -121,7 +73,7 @@ girlscouts.components.VTKAgenda= CQ.Ext.extend(CQ.Ext.form.Field, {
 
         // create NumberField for agenda duration
         var numberConfig = CQ.Ext.apply({}, {
-            width: this.timeWidth,
+            width: this.numberWidth,
             allowBlank: false,
             listeners:{
                  blur:{scope:this, fn:this.onBlur},
@@ -226,28 +178,13 @@ girlscouts.components.VTKAgenda= CQ.Ext.extend(CQ.Ext.form.Field, {
     },
 
     /**
-     * @private initializes internal dateValue
-     */
-    initDateValue:function() {
-        if (this.defaultValue == "now") {
-            this.dateValue = new Date();
-        } else if (this.defaultValue) {
-            this.dateValue = Date.parseDate(this.defaultValue, this.hiddenFormat);
-            if (!this.dateValue) {
-                this.dateValue =  new Date();
-            }
-        } else {
-            this.dateValue =  new Date();
-        }
-    },
-    
-    /**
      * Calls clearInvalid on the DateField and TimeField
      */
     clearInvalid:function(){
         this.textField.clearInvalid();
         this.numberField.clearInvalid();
     },
+
     /**
      * Disable this component.
      * @return {Ext.Component} this
@@ -310,22 +247,6 @@ girlscouts.components.VTKAgenda= CQ.Ext.extend(CQ.Ext.form.Field, {
         } else {
             return this.dateValue ? this.dateValue.clone() : '';
         }
-    },
-
-    /**
-     * Returns the value of this field as date object, regardless of the config 'valueAsString'.
-     * @return {Date} value of this field as Date object
-     */
-    getDateValue: function() {
-        return this.dateValue ? this.dateValue.clone() : null;
-    },
-
-    /**
-     * Converts a value from getValue() or change event to a Date object, regardless of the config 'valueAsString'.
-     * @return {Date} the value as Date object
-     */
-    valueToDate: function(value) {
-        return Date.parseDate(value, this.hiddenFormat);
     },
 
     /**
@@ -436,18 +357,6 @@ girlscouts.components.VTKAgenda= CQ.Ext.extend(CQ.Ext.form.Field, {
 
     },
     /**
-     * @private Sets the value of DateField
-     */
-    setDate:function(date) {
-        this.textField.setValue(date);
-    },
-    /**
-     * @private Sets the value of TimeField
-     */
-    setTime:function(date) {
-        this.numberField.setValue(moment.tz(date, this.timezone).format('HH:mm A'));
-    },
-    /**
      * @private
      * Sets correct sizes of underlying DateField and TimeField
      * With workarounds for IE bugs
@@ -474,45 +383,18 @@ girlscouts.components.VTKAgenda= CQ.Ext.extend(CQ.Ext.form.Field, {
      * Sets the value of this field
      */
     setValue:function(val) {
-        if (!val) {
-            this.setDate('');
-            this.setTime('');
-            this.updateValue();
-            return;
-        }
-        if ('number' === typeof val) {
-          val = new Date(val);
-        }
-
-        // todo: date values from content should be automatically converted to Dates
-        if ('string' === typeof val) {
-            if(val == "now") {
-                val = new Date();
-  	        } else {
-                var v = Date.parse(val);
-                if (!v) {
-                    v = Date.parseDate(val, this.hiddenFormat);
-                }
-                if (v) {
-                    val = new Date(v);
-                }
-            }
-        }
-        val = val ? val : new Date();
-        // don't use "val instanceof Date" as that doesn't work between iframes
-        if (typeof val.setDate == "function" && typeof val.setTime == "function") {
-            this.setDate(val);
-            this.setTime(val);
-            this.dateValue = val.clone();
-        } else {
-            var da = val.split(this.dtSeparator);
-            this.setDate(da[0]);
-            if(da[1]) {
-                this.setTime(da[1]);
-            }
-        }
-        this.updateValue();
-        this.startValue = this.getValue();
+    	// format #^agenda^duration
+    	// e.g. 1^As Girls Arrive^10
+    	var match = val.trim().split('^');
+    	// Skip # field
+    	for (var i = 1; i < match.length; i++) {
+    		match[i] = match[i].trim();
+    	}
+    	var agenda = match[1];
+    	var duration = match[2];
+    	this.textField.setValue(agenda);
+    	this.numberField.setValue(duration);
+        //this.updateValue();
     },
     /**
      * Hide or show this component by boolean
@@ -534,72 +416,6 @@ girlscouts.components.VTKAgenda= CQ.Ext.extend(CQ.Ext.form.Field, {
     hide:function() {
         return this.setVisible(false);
     },
-    /**
-     * @private Updates the date part
-     */
-    updateDate:function() {
-
-        var d = this.textField.getValue();
-        if(d) {
-            if(!this.isDate(this.dateValue)) {
-                this.initDateValue();
-                if(!this.numberField.getValue()) {
-                    this.setTime(this.dateValue);
-                }
-            }
-            this.dateValue.setDate(1); // because of leap years
-            this.dateValue.setFullYear(d.getFullYear());
-            this.dateValue.setMonth(d.getMonth());
-            this.dateValue.setDate(d.getDate());
-        } else {
-            this.dateValue = '';
-            this.setTime('');
-        }
-    },
-
-	/**
-	 * private
-	 * Checks if the object is a date by not using instanceof
-	 */
-	isDate: function(obj) {
-        return (typeof(obj)!='undefined') && ((typeof obj.setDate === "function") && (typeof obj.setTime === "function")
-		       && (typeof obj.getFirstDateOfMonth === "function") && (typeof obj.getFirstDayOfMonth === "function"));
-	},
-
-    /**
-     * @private
-     * Updates the time part
-     */
-    updateTime:function() {
-        var t = this.numberField.getValue();
-        if(t && !this.isDate(t)) {
-            if(t == "now") {
-                t = new Date()
-  	        } else {
-                t = Date.parseDate(t, this.numberField.format);
-            }
-        }
-        if(t && !this.textField.getValue()) {
-            this.initDateValue();
-            this.setDate(this.dateValue);
-        }
-        if((typeof this.dateValue.setHours === "function")
-		    && (typeof this.dateValue.setMinutes === "function")
-		    && (typeof this.dateValue.setSeconds === "function")) {
-            if(t) {
-                this.dateValue.setHours(t.getHours());
-                this.dateValue.setMinutes(t.getMinutes());
-                this.dateValue.setSeconds(t.getSeconds());
-            } else {
-                this.dateValue.setHours(0);
-                this.dateValue.setMinutes(0);
-                this.dateValue.setSeconds(0);
-            }
-        }
-    },
-    /**
-     * @private Updates the underlying hidden field value
-     */
     updateHidden:function() {
         if(this.isRendered) {
             //this.el.dom.value = (this.dateValue && (typeof this.dateValue.format === "function"))
@@ -613,14 +429,6 @@ girlscouts.components.VTKAgenda= CQ.Ext.extend(CQ.Ext.form.Field, {
         			moment.tz(this.dateValue.format('Y-m-d H:i'), this.timezone).format("YYYY-MM-DDTHH:mm:00.000Z") 
         			: '';
         }
-    },
-    /**
-     * @private Updates all of Date, Time and Hidden
-     */
-    updateValue:function() {
-        this.updateDate();
-        this.updateTime();
-        this.updateHidden();
     },
     /**
      * @return {Boolean} True = valid, false = invalid, else false
