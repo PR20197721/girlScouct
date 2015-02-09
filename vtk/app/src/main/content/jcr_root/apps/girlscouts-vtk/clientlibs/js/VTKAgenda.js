@@ -1,4 +1,4 @@
-girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
+girlscouts.components.VTKAgenda= CQ.Ext.extend(CQ.Ext.form.Field, {
 
     /**
      * @cfg {String/Object} defaultAutoCreate DomHelper element spec
@@ -18,9 +18,9 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
     timeWidth:100,
 
     /**
-     * @cfg {Number} dateWidth Width of date field in pixels (defaults to 200)
+     * @cfg {Number} textWidth Width of date field in pixels (defaults to 200)
      */
-    dateWidth:200,
+    textWidth:200,
 
     /**
      * @cfg {Number} labelWidth Width of date field in pixels (defaults to 200)
@@ -82,13 +82,6 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
     typeHint: null,
 
     /**
-     * @cfg {Object} dateConfig Config for DateField constructor.
-     */
-    /**
-     * @cfg {Object} timeConfig Config for TimeField constructor.
-     */
-
-    /**
      * Taken from CQ.Ext.form.TriggerField. Needed for readOnly case, but before
      * the date or time widgets were created, so calling getTriggerWidth() is not
      * possible. However, the default will mostly be used anyway.
@@ -112,86 +105,35 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
      */
     initComponent:function() {
         // call parent initComponent
-        girlscouts.components.TimezoneDateTime.superclass.initComponent.call(this);
+        girlscouts.components.VTKAgenda.superclass.initComponent.call(this);
         
-        // Setup timezone 
-        if (!this.timezone) {
-        	this.timezone = this.defaultTimezone;
-        } else if (typeof this.timezone === 'function') {
-        	try {
-        		this.timezone = eval('(' + this.timezone + ')();');
-        	} catch (e) {
-        		this.timezone = this.defaultTimezone;
-        	}
-        } else if (this.timezone === 'dynamic') {
-        	var url = window.location.pathname;
-        	var path = CQ.shared.HTTP.getPath(url);
-        	
-        	// New event from scaffolding page
-        	var regexScaffolding = /\/etc\/scaffolding\/[^/]+\/event/; //e.g. /etc/scaffolding/gsnetx/event
-        	if (regexScaffolding.test(path)) {
-        		var targetPathProperty = regexScaffolding.exec(path) + '/jcr:content/cq:targetPath';
-        		var response = CQ.shared.HTTP.get(targetPathProperty);
-        		if (response.status == 200) {
-        			path = response.body;
-        		}
-        	}
-        	
-        	var regex = /^\/content\/[^/]+\/[^/]+/; // e.g. /content/girlscouts-prototype/en
-        	if (regex.test(path)) {
-        		var timezoneProperty = regex.exec(path) + '/jcr:content/timezone';
-        		var response = CQ.shared.HTTP.get(timezoneProperty);
-        		if (response.status == 200) {
-        			this.timezone = response.body;
-        		} else {
-        			this.timezone = this.defaultTimezone;
-        		}
-        	} else {
-        		this.timezone = this.defaultTimezone;
-        	}
-        }
-        
-        // create DateField
-        var dateConfig = CQ.Ext.apply({}, {
+        // create TextField for agenda content
+        var textConfig = CQ.Ext.apply({}, {
              id:this.id + '-date',
-            format:this.dateFormat || CQ.Ext.form.DateField.prototype.format,
-            width: this.readOnly ? this.dateWidth - this.defaultTriggerWidth : this.dateWidth,
-            selectOnFocus:this.selectOnFocus,
-            allowBlank:this.allowBlank,
-            hideTrigger: this.readOnly,
-            readOnly: this.readOnly,
+            width: this.textWidth,
+            allowBlank: false,
             listeners:{
                  blur:{scope:this, fn:this.onBlur},
                  focus:{scope:this, fn:this.onFocus}
             }
-        }, this.dateConfig);
-        this.df = new CQ.Ext.form.DateField(dateConfig);
-        delete(this.dateFormat);
+        }, this.textConfig);
+        this.textField = new CQ.Ext.form.TextField(textConfig);
 
-        // create TimeField
-        var timeConfig = CQ.Ext.apply({}, {
-             id:this.id + '-time',
-            format:this.timeFormat || CQ.Ext.form.TimeField.prototype.format,
-            width: this.readOnly ? this.timeWidth - this.defaultTriggerWidth : this.timeWidth,
-            hideTrigger: this.readOnly,
-            minListWidth: this.timeWidth,
-            selectOnFocus:this.selectOnFocus,
-            allowBlank:this.allowBlank,
-            readOnly: this.readOnly,
+        // create NumberField for agenda duration
+        var numberConfig = CQ.Ext.apply({}, {
+            width: this.timeWidth,
+            allowBlank: false,
             listeners:{
                  blur:{scope:this, fn:this.onBlur},
                  focus:{scope:this, fn:this.onFocus}
             }
-        }, this.timeConfig);
-        this.tf = new CQ.Ext.form.TimeField(timeConfig);
-        delete(this.timeFormat);
+        }, this.numberConfig);
+        this.numberField = new CQ.Ext.form.NumberField(numberConfig);
         
-        // create timezone label
-        this.lf = new CQ.Ext.form.Label({text: this.timezone});
-
+        //TODO
         // relay events
-        this.relayEvents(this.df, ['focus', 'specialkey', 'invalid', 'valid']);
-        this.relayEvents(this.tf, ['focus', 'specialkey', 'invalid', 'valid']);
+        //this.relayEvents(this.textField, ['focus', 'specialkey', 'invalid', 'valid']);
+        //this.relayEvents(this.numberField, ['focus', 'specialkey', 'invalid', 'valid']);
     },
 
     /**
@@ -204,27 +146,19 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
             return;
         }
 
+        // TODO: what is this?
         // render underlying hidden field
         CQ.form.DateTime.superclass.onRender.call(this, ct, position);
 
         // render DateField and TimeField
         // create bounding table
         var t;
-        if('below' === this.timePosition || 'bellow' === this.timePosition) {
-            t = CQ.Ext.DomHelper.append(ct, {tag:'table',style:'border-collapse:collapse',children:[
-                 {tag:'tr',children:[{tag:'td', style:'padding-bottom:1px', cls:'ux-datetime-date'}]},
-                 {tag:'tr',children:[{tag:'td', style: this.hideTime ? "display:none;" : "", cls:"ux-datetime-time"}]},
-                 {tag:'tr',children:[{tag:'td', style: "", cls:"ux-datetime-timezone"}]}
-            ]}, true);
-        } else {
-            t = CQ.Ext.DomHelper.append(ct, {tag:'table',style:'border-collapse:collapse',children:[
-                {tag:'tr',children:[
-                    {tag:'td', style:'padding-right:' + (this.readOnly ? this.defaultTriggerWidth : '0') + 'px', cls:'ux-datetime-date'},
-                    {tag:'td', style: this.hideTime ? "display:none;" : "", cls:"ux-datetime-time"},
-                    {tag:'td', style: "padding-left: 10px", cls:"ux-datetime-timezone"}
-                ]}
-            ]}, true);
-        }
+        t = CQ.Ext.DomHelper.append(ct, {tag:'table',style:'border-collapse:collapse',children:[
+            {tag:'tr',children:[
+                {tag:'td', style:'padding-right:' + '0px', cls:'ux-vtk-agenda-text'},
+                {tag:'td', cls:"ux-vtk-agenda-number"}
+            ]}
+        ]}, true);
 
         this.tableEl = t;
 
@@ -232,53 +166,51 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
         this.wrap.on("mousedown", this.onMouseDown, this, {delay:10});
 
         // render DateField & TimeField
-        this.df.render(t.child('td.ux-datetime-date'));
-        this.tf.render(t.child('td.ux-datetime-time'));
-        this.lf.render(t.child('td.ux-datetime-timezone'));
+        this.textField.render(t.child('td.ux-vtk-agenda-text'));
+        this.numberField.render(t.child('td.ux-vtk-agenda-number'));
 
         // workaround for IE trigger misalignment bug
         if(CQ.Ext.isIE && CQ.Ext.isStrict) {
             t.select('input').applyStyles({top:0});
         }
 
-        this.on('specialkey', this.onSpecialKey, this);
-        this.df.el.swallowEvent(['keydown', 'keypress']);
-        this.tf.el.swallowEvent(['keydown', 'keypress']);
-        this.lf.el.swallowEvent(['keydown', 'keypress']);
+        // TODO: what is this?
+        //this.on('specialkey', this.onSpecialKey, this);
+        //this.textField.el.swallowEvent(['keydown', 'keypress']);
+        //this.numberField.el.swallowEvent(['keydown', 'keypress']);
 
         // create icon for side invalid errorIcon
         if('side' === this.msgTarget) {
             var elp = this.el.findParent('.x-form-element', 10, true);
             this.errorIcon = elp.createChild({cls:'x-form-invalid-icon'});
 
-            this.df.errorIcon = this.errorIcon;
-            this.tf.errorIcon = this.errorIcon;
+            this.textField.errorIcon = this.errorIcon;
+            this.numberField.errorIcon = this.errorIcon;
         }
 
         // setup name for submit
         this.el.dom.name = this.hiddenName || this.name || this.id;
 
         // prevent helper fields from being submitted
-        this.df.el.dom.removeAttribute("name");
-        this.tf.el.dom.removeAttribute("name");
-        this.lf.el.dom.removeAttribute("name");
+        this.textField.el.dom.removeAttribute("name");
+        this.numberField.el.dom.removeAttribute("name");
 
+        // TODO: we don't need this, right?
         // add hidden type hint
-        if (!this.disableTypeHint) {
-            var th = new CQ.Ext.form.Hidden({
-                name: this.name + "@TypeHint",
-                value: this.typeHint ? this.typeHint : "Date",
-                ignoreDate: true,
-                renderTo: ct
-            });
-        }
+//        if (!this.disableTypeHint) {
+//            var th = new CQ.Ext.form.Hidden({
+//                name: this.name + "@TypeHint",
+//                value: this.typeHint ? this.typeHint : "Date",
+//                ignoreDate: true,
+//                renderTo: ct
+//            });
+//        }
 
         // we're rendered flag
         this.isRendered = true;
 
         // update hidden field
         this.updateHidden();
-
     },
 
     /**
@@ -313,8 +245,8 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
      * Calls clearInvalid on the DateField and TimeField
      */
     clearInvalid:function(){
-        this.df.clearInvalid();
-        this.tf.clearInvalid();
+        this.textField.clearInvalid();
+        this.numberField.clearInvalid();
     },
     /**
      * Disable this component.
@@ -323,13 +255,13 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
     disable:function() {
         if(this.isRendered) {
             this.onDisable();
-            this.df.disabled = this.disabled;
-            this.df.onDisable();
-            this.tf.onDisable();
+            this.textField.disabled = this.disabled;
+            this.textField.onDisable();
+            this.numberField.onDisable();
         }
         this.disabled = true;
-        this.df.disabled = true;
-        this.tf.disabled = true;
+        this.textField.disabled = true;
+        this.numberField.disabled = true;
         this.fireEvent("disable", this);
         return this;
     },
@@ -340,12 +272,12 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
     enable:function() {
         if(this.rendered){
             this.onEnable();
-            this.df.onEnable();
-            this.tf.onEnable();
+            this.textField.onEnable();
+            this.numberField.onEnable();
         }
         this.disabled = false;
-        this.df.disabled = false;
-        this.tf.disabled = false;
+        this.textField.disabled = false;
+        this.numberField.disabled = false;
         this.fireEvent("enable", this);
         return this;
     },
@@ -353,7 +285,7 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
      * @private Focus date filed
      */
     focus:function() {
-        this.df.focus();
+        this.textField.focus();
     },
     /**
      * @private
@@ -401,14 +333,14 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
      * @private Calls isValid methods of underlying DateField and TimeField and returns the result
      */
     isValid:function() {
-        return this.df.isValid() && this.tf.isValid();
+        return this.textField.isValid() && this.numberField.isValid();
     },
     /**
      * Returns true if this component is visible
      * @return {Boolean}
      */
     isVisible : function(){
-        return this.df.rendered && this.df.getActionEl().isVisible();
+        return this.textField.rendered && this.textField.getActionEl().isVisible();
     },
     /**
      * @private Handles blur event
@@ -423,7 +355,7 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
         }
 
         // update underlying value
-        if(f === this.df) {
+        if(f === this.textField) {
             this.updateDate();
         } else {
             this.updateTime();
@@ -432,7 +364,7 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
 
         // fire events later
         (function() {
-            if(!this.df.hasFocus && !this.tf.hasFocus) {
+            if(!this.textField.hasFocus && !this.numberField.hasFocus) {
                 this.checkIfChanged(true);
                 this.hasFocus = false;
                 this.fireEvent('blur', this);
@@ -488,13 +420,13 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
     onSpecialKey:function(t, e) {
         var key = e.getKey();
         if(key === e.TAB) {
-            if(t === this.df && !e.shiftKey) {
+            if(t === this.textField && !e.shiftKey) {
                 e.stopEvent();
-                this.tf.focus();
+                this.numberField.focus();
             }
-            if(t === this.tf && e.shiftKey) {
+            if(t === this.numberField && e.shiftKey) {
                 e.stopEvent();
-                this.df.focus();
+                this.textField.focus();
             }
         }
         // otherwise it misbehaves in editor grid
@@ -507,13 +439,13 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
      * @private Sets the value of DateField
      */
     setDate:function(date) {
-        this.df.setValue(date);
+        this.textField.setValue(date);
     },
     /**
      * @private Sets the value of TimeField
      */
     setTime:function(date) {
-        this.tf.setValue(moment.tz(date, this.timezone).format('HH:mm A'));
+        this.numberField.setValue(moment.tz(date, this.timezone).format('HH:mm A'));
     },
     /**
      * @private
@@ -528,25 +460,12 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
             h = w.height;
             w = w.width;
         }
-        if('below' === this.timePosition) {
-            this.df.setSize(w, h);
-            this.tf.setSize(w, h);
-            this.lf.setSize(w, h);
-            if(CQ.Ext.isIE) {
-                this.df.el.up('td').setWidth(w);
-                this.tf.el.up('td').setWidth(w);
-                this.lf.el.up('td').setWidth(w);
-            }
-        } else {
-            this.df.setSize(w - this.timeWidth - this.labelWidth, h);
-            this.tf.setSize(this.timeWidth, h);
-            this.lf.setSize(this.labelWidth, h);
+        this.textField.setSize(w - this.timeWidth - this.labelWidth, h);
+        this.numberField.setSize(this.timeWidth, h);
 
-            if(CQ.Ext.isIE) {
-                this.df.el.up('td').setWidth(w - this.timeWidth - this.labelWidth);
-                this.tf.el.up('td').setWidth(this.timeWidth);
-                this.lf.el.up('td').setWidth(this.labelWidth);
-            }
+        if(CQ.Ext.isIE) {
+            this.textField.el.up('td').setWidth(w - this.timeWidth - this.labelWidth);
+            this.numberField.el.up('td').setWidth(this.timeWidth);
         }
         this.fireEvent('resize', this, w, h, w, h);
     },
@@ -601,11 +520,11 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
      */
     setVisible: function(visible){
         if(visible) {
-            this.df.show();
-            this.tf.show();
+            this.textField.show();
+            this.numberField.show();
         } else{
-            this.df.hide();
-            this.tf.hide();
+            this.textField.hide();
+            this.numberField.hide();
         }
         return this;
     },
@@ -620,11 +539,11 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
      */
     updateDate:function() {
 
-        var d = this.df.getValue();
+        var d = this.textField.getValue();
         if(d) {
             if(!this.isDate(this.dateValue)) {
                 this.initDateValue();
-                if(!this.tf.getValue()) {
+                if(!this.numberField.getValue()) {
                     this.setTime(this.dateValue);
                 }
             }
@@ -652,15 +571,15 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
      * Updates the time part
      */
     updateTime:function() {
-        var t = this.tf.getValue();
+        var t = this.numberField.getValue();
         if(t && !this.isDate(t)) {
             if(t == "now") {
                 t = new Date()
   	        } else {
-                t = Date.parseDate(t, this.tf.format);
+                t = Date.parseDate(t, this.numberField.format);
             }
         }
-        if(t && !this.df.getValue()) {
+        if(t && !this.textField.getValue()) {
             this.initDateValue();
             this.setDate(this.dateValue);
         }
@@ -708,13 +627,13 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
      * calls validate methods of DateField and TimeField
      */
     validate:function() {
-        var valid = this.df.validate() && this.tf.validate();
+        var valid = this.textField.validate() && this.numberField.validate();
 
         if(this.validator){
             var result = this.validator.call(this,this.getValue(),this);
             if(result!==true){
-                this.df.markInvalid(result);
-                this.tf.markInvalid(result);
+                this.textField.markInvalid(result);
+                this.numberField.markInvalid(result);
             }
             valid &= result===true;
         }
@@ -735,4 +654,4 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
 });
 
 // register xtype
-CQ.Ext.reg("timezonedatetime", girlscouts.components.TimezoneDateTime);
+CQ.Ext.reg("vtk-agenda", girlscouts.components.VTKAgenda);
