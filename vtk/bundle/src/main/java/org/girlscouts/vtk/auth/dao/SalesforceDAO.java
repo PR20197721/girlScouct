@@ -895,6 +895,7 @@ public class SalesforceDAO {
 			contact.setZip(results.getJSONObject(i).getString("MailingPostalCode"));
 			contact.setAge(  results.getJSONObject(i).getInt("rC_Bios__Age__c") );
 			contact.setDob(  results.getJSONObject(i).getString("Birthdate") );
+			contact.setRole(  results.getJSONObject(i).getString("rC_Bios__Role__c") );
 			
 			} catch (Exception e) {
 
