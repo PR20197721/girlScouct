@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.net.URLDecoder;
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
@@ -670,7 +671,7 @@ public class SalesforceDAO {
 		return troops;
 	}
 
-	public java.util.List<Contact> getContacts(ApiConfig apiConfig,
+	public java.util.List<Contact> getContacts_X(ApiConfig apiConfig,
 			String sfTroopId) {
 		// select id, email, phone, name from Contact where id in (select
 		// contactid from campaignmember where campaignid='701G0000000uzUmIAI')
@@ -764,96 +765,188 @@ public class SalesforceDAO {
 		return contacts;
 	}
 
-	public java.util.List<Contact> testApex(ApiConfig apiConfig,
+	public java.util.List<Contact> getContacts(ApiConfig apiConfig,
+
 			String sfTroopId) {
-		
-		System.err.println("Apex tata start");
-		
-		GetMethod get = null;
-		java.util.List<Contact> contacts = new java.util.ArrayList();
-		try {
-			HttpClient httpclient = new HttpClient();
-			//get = new GetMethod(apiConfig.getInstanceUrl() +"/services/data/v20.0/query");
-			get = new GetMethod(apiConfig.getInstanceUrl() +"/services/apexrest/troopMembers");
-			// THIS IS STABLE / DO NOT REMOVE
-			// get.setRequestHeader("Authorization", "OAuth " +
-			// apiConfig.getAccessToken());
 
-			UserGlobConfig ubConf = troopDAO.getUserGlobConfig(); 
-			get.setRequestHeader("Authorization",
-					"OAuth " + ubConf.getMasterSalesForceToken());
+			System.err.println("test*************** APEX START *************************");
 
-			NameValuePair[] params = new NameValuePair[1];
-			params[0] = new NameValuePair("troopId",sfTroopId);
+			java.util.List<Contact> contacts = new java.util.ArrayList();
 
-			get.setQueryString(params);
+			HttpClient client = new HttpClient();
+
+
+
+			    // Create a method instance.
+
+			  //  GetMethod method = new GetMethod("https://gsuat-gsmembers.cs11.force.com/members/services/apexrest/troopMembers/?troopId=701G0000000uQzaIAE");
+
+			  GetMethod method = new GetMethod("https://gsuat-gsmembers.cs11.force.com/members/services/apexrest/troopMembers/?troopId="+ sfTroopId);
+
+			   
+
+			    try {
+
+			   
+
+			    //UserGlobConfig ubConf = troopDAO.getUserGlobConfig(); 
+
+			    //method.setRequestHeader("Authorization", "OAuth " + ubConf.getMasterSalesForceToken());
+
+			    method.setRequestHeader("Authorization", "OAuth " +apiConfig.getAccessToken());
+
+			   
+
+			   
+
+			      // Execute the method.
+
+			      int statusCode = client.executeMethod(method);
+
+
+
+			      if (statusCode != HttpStatus.SC_OK) {
+
+			        System.err.println("Method failed: " + method.getStatusLine());
+
+			      }
+
+
+
+			      // Read the response body.
+
+			      byte[] responseBody = method.getResponseBody();
+
+			String rsp = new String(responseBody);
+
+			rsp ="{\"records\":"+ rsp +"}";
+
+			      System.out.println(">>>>> "+rsp);
+
+
+
+			       
+
+			      try {
+
+			JSONObject response = new JSONObject(rsp);
+
+			System.err.println("<<<<<Apex test r1: "+ response);
+
+			JSONArray results = response.getJSONArray("records");
+
+
+
+
+			for (int i = 0; i < results.length(); i++) {
+
+			System.err.println(".......Apex test r3 : "+ results.get(i));
+
+
+
+			/*
+
+			//rC_Bios__Preferred_Contact__c
+
+			System.err.println("*******tata*** "+results.getJSONObject(i)
+
+			.getJSONObject("rC_Bios__Preferred_Contact__c")
+
+			.getString("MailingState") );
+
+			*/
+
+
+
+			log.debug("_____ " + results.get(i));
+
+
+
+			Contact contact = new Contact();
+
 
 			try {
-System.err.println("tata APEX : "+ get.getQueryString() +" TroopId: "+ sfTroopId +" MasterToken: " + ubConf.getMasterSalesForceToken());
-				log.debug("______________troopInfo1___________start_____________________________");
-				log.debug(get.getRequestCharSet());
-				Header headers[] = get.getRequestHeaders();
-				for (Header h : headers) {
-					log.debug("Headers: " + h.getName() + " : " + h.getValue());
-				}
-				log.debug(":::> " + get.getQueryString());
-				log.debug(apiConfig.getInstanceUrl()
-						+ "/services/data/v20.0/query");
-				log.debug("______________troopInfo1_____________end___________________________");
 
-				httpclient.executeMethod(get);
-System.err.println("Apex tata resp1: "+get.getResponseBodyAsStream());
-				log.debug("troopInfo1.RespCode "
-						+ get.getResponseBodyAsString());
-System.err.println("Apex tata x1");				
-				JSONObject _response = new JSONObject(new JSONTokener(
-						new InputStreamReader(get.getResponseBodyAsStream())));
-				log.debug(_response.toString());
-System.err.println("Apex tata rr: 123");
-System.err.println("Apex tata r: "+get.getStatusCode() );
-				if (get.getStatusCode() == HttpStatus.SC_OK) {
+			System.err.println( "tata>>> "+  results.getJSONObject(i).getString("rC_Bios__Role__c") + ": " + 
 
-					try {
-						JSONObject response = new JSONObject(new JSONTokener(
-								new InputStreamReader(
-										get.getResponseBodyAsStream())));
-System.err.println("Apex tata r1: "+ response);
-						JSONArray results = response.getJSONArray("records");
-System.err.println("Apex tata r2 : "+ results);
-						for (int i = 0; i < results.length(); i++) {
-System.err.println("Apex tata r3 : "+ results.get(i));
-							log.debug("_____ " + results.get(i));
+			results.getJSONObject(i).getString("MailingState") +" :" +results.getJSONObject(i).getString("MailingCity"));
 
-							Contact contact = new Contact();
-							try {
+			contact.setFirstName(results.getJSONObject(i)
 
-								contact.setFirstName(results.getJSONObject(i)
-										.getString("Name"));
-								contact.setEmail(results.getJSONObject(i)
-										.getString("Email"));
-								contact.setPhone(results.getJSONObject(i)
-										.getString("Phone"));
-								contact.setId(results.getJSONObject(i)
-										.getString("Id"));
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-							contacts.add(contact);
-						}
+			.getString("Name"));
 
-					} catch (JSONException e) {
-						e.printStackTrace();
+			contact.setEmail(results.getJSONObject(i)
 
-					}
-				}
-			} finally {
-				get.releaseConnection();
+			.getString("Email"));
+
+			contact.setPhone(results.getJSONObject(i)
+
+			.getString("Phone"));
+
+			contact.setId(results.getJSONObject(i)
+
+			.getString("Id"));
+			
+			contact.setAddress(results.getJSONObject(i) .getString("MailingStreet"));
+			contact.setCity(results.getJSONObject(i) .getString("MailingCity"));
+			contact.setState(results.getJSONObject(i) .getString("MailingState"));
+			contact.setState(results.getJSONObject(i) .getString("MailingPostalCode"));
+			contact.setCountry(results.getJSONObject(i) .getString("MailingCountry"));
+			contact.setZip(results.getJSONObject(i).getString("MailingPostalCode"));
+			contact.setAge(  results.getJSONObject(i).getInt("rC_Bios__Age__c") );
+			contact.setDob(  results.getJSONObject(i).getString("Birthdate") );
+			
+			} catch (Exception e) {
+
+			e.printStackTrace();
+
 			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
-		}
 
-		return contacts;
+			contacts.add(contact);
+
+			}
+
+
+
+			} catch (JSONException e) {
+
+			e.printStackTrace();
+
+
+
+			}
+
+			       
+
+			       
+
+			       
+
+			    } catch (HttpException e) {
+
+			      System.err.println("Fatal protocol violation: " + e.getMessage());
+
+			      e.printStackTrace();
+
+			    } catch (IOException e) {
+
+			      System.err.println("Fatal transport error: " + e.getMessage());
+
+			      e.printStackTrace();
+
+			    } finally {
+
+			      // Release the connection.
+
+			      method.releaseConnection();
+
+			    }  
+
+			   
+
+			    System.err.println("test*************** APEX END *************************");
+
+			return contacts;
 	}
 
 }
