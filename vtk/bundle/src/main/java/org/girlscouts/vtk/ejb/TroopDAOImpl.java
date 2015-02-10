@@ -653,6 +653,7 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 				ocm.insert(asset);
 			else
 				ocm.update(asset);
+			
 			ocm.save();
 			isUpdated= true;
 		} catch (Exception e) {
