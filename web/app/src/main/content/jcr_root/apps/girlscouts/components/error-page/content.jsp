@@ -2,21 +2,18 @@
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <!--PAGE STRUCTURE: MAIN-->
 <% String headerPath = (String) request.getAttribute("headerPath"); %>
-  <div id="main" class="row collapse">
-<div class="large-push-5 medium-24 small-24 columns mainRight">
-    <div class="row mainRightBottom">
-				<div class="large-18 medium-18 small-24 columns rightBodyLeft">
+  <div id="main" class="row collapse page-404">
+	<div class="small-13 columns small-centered">
+        <img src="/content/dam/girlscouts-shared/images/banners/medium/404.jpg">
+        <p><h3>We're very sorry.</h3></p>
 
-<h3>We're Very Sorry</h3>
-                    <br>
-                    <br>
-<b>We can't seem to find the page you're looking for</b>
-                    <div class="large-18 medium-18 small-24 columns">
-                    <cq:include path="<%= headerPath + "/search-box" %>" resourceType="girlscouts/components/search-box" />
-                    </div>
+        <p><strong>We can't seem to find the page you're looking for.</strong></p>
+        
+        <p>Use the global navigation above, or try a search below.</p>
+        
+        <div class="searchBar columns medium-6 search-box large-10 large-centered">
+            <cq:include path="<%= headerPath + "/search-box" %>" resourceType="girlscouts/components/search-box" />
+        </div>
 	      <!--PAGE STRUCTURE: RIGHT CONTENT STOP-->
-			</div>
-    </div>
-      </div>
+	</div>
 </div>
-
