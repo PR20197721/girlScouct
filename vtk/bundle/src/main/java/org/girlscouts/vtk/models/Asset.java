@@ -22,25 +22,21 @@ public class Asset implements Serializable {
 		this.type = "AID";
 	}
 
-	@Field
-	private String type, description, title, docType, refId;
-
-	@Field(path = true)
-	private String path;
-	// @Field private String uid;
-	@Field
-	Boolean isCachable;
-
-	@Field(id = true)
-	private String uid;
-
-	// @Field (id=true) private String refId;
-
+	@Field	private String type, description, title, docType, refId;
+	@Field(path = true) private String path;
+	@Field Boolean isCachable;
+	@Field(id = true) private String uid;
+	private boolean isDbUpdate=false;
+	
+	
 	public String getDocType() {
 		return docType;
 	}
 
 	public void setDocType(String docType) {
+		if( (docType !=null && this.docType!=null && !this.docType.equals(docType)  )	||
+				(docType!=null && this.docType==null) )
+			isDbUpdate=true;
 		this.docType = docType;
 	}
 
@@ -49,6 +45,9 @@ public class Asset implements Serializable {
 	}
 
 	public void setTitle(String title) {
+		if( (title !=null && this.title!=null && !this.title.equals(title)  )	||
+				(title!=null && this.title==null) )
+			isDbUpdate=true;
 		this.title = title;
 	}
 
@@ -57,6 +56,9 @@ public class Asset implements Serializable {
 	}
 
 	public void setDescription(String description) {
+		if( (description !=null && this.description!=null && !this.description.equals(description)  )	||
+				(description!=null && this.description==null) )
+			isDbUpdate=true;
 		this.description = description;
 	}
 
@@ -65,6 +67,9 @@ public class Asset implements Serializable {
 	}
 
 	public void setIsCachable(Boolean isCachable) {
+		if( (isCachable !=null && this.isCachable!=null && this.isCachable.booleanValue() !=isCachable.booleanValue()  )	||
+				(isCachable!=null && this.isCachable==null) )
+			isDbUpdate=true;
 		this.isCachable = isCachable;
 	}
 
@@ -73,6 +78,9 @@ public class Asset implements Serializable {
 	}
 
 	public void setRefId(String refId) {
+		if( (refId !=null && this.refId!=null && !this.refId.equals(refId)  )	||
+				(refId!=null && this.refId==null) )
+			isDbUpdate=true;
 		this.refId = refId;
 	}
 
@@ -89,6 +97,9 @@ public class Asset implements Serializable {
 	}
 
 	public void setType(String type) {
+		if( (type !=null && this.type!=null && !this.type.equals(type)  )	||
+				(type!=null && this.type==null) )
+			isDbUpdate=true;
 		this.type = type;
 	}
 
@@ -105,7 +116,18 @@ public class Asset implements Serializable {
 	}
 
 	public void setPath(String path) {
+		if( (path !=null && this.path!=null && !this.path.equals(path)  )	||
+				(path!=null && this.path==null) )
+			isDbUpdate=true;
 		this.path = path;
+	}
+
+	public boolean isDbUpdate() {
+		return isDbUpdate;
+	}
+
+	public void setDbUpdate(boolean isDbUpdate) {
+		this.isDbUpdate = isDbUpdate;
 	}
 
 }

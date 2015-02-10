@@ -38,14 +38,14 @@ public class NodeListener implements EventListener {
    
     
     public void onEvent(EventIterator iter) {
-    	
+    	/*
     try{
     	while( iter.hasNext()){
     		Event e = (Event)iter.next();
     		System.err.println(">> tata >> "+e.getInfo().size() +" : "+ e.getPath() +" : "+ e.getType() +" : "+ e.getUserID() );
     	}
     }catch(Exception e){e.printStackTrace();}
-    	
+    	*/
         Collection<NodeEvent> events = NodeEventCollector.getEvents(iter);
         for (NodeEvent event : events) {
             try {
@@ -53,10 +53,9 @@ public class NodeListener implements EventListener {
                 String path = event.getPath();
               
                 int type = event.getType();
-        
+ System.err.println("tatataaa : " + type+ " : "+ path);   
                 if (type == Constants.EVENT_UPDATE) {
                 	
-         System.err.println("tatataaa : " + type+ " : "+ path);       	
                     replicator.replicate(session, ReplicationActionType.ACTIVATE, path, opts);
                 } else if (type == Constants.EVENT_REMOVE){
                     replicator.replicate(session, ReplicationActionType.DELETE, path, opts);

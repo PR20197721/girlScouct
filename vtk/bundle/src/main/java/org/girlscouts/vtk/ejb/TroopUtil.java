@@ -135,6 +135,16 @@ public class TroopUtil {
 						}
 					}
 					
+					if( troop.getYearPlan().getMeetingEvents()!=null ){
+						for(int i=0;i<troop.getYearPlan().getMeetingEvents().size();i++ ){
+							troop.getYearPlan().getMeetingEvents().get(i).setDbUpdate(false);
+							java.util.List<Asset> assets = troop.getYearPlan().getMeetingEvents().get(i).getAssets();
+							if( assets!=null)
+							 for(int y=0;y<assets.size();y++)
+								assets.get(y).setDbUpdate(false);
+						}
+					}
+					
 				}
 			}
 			

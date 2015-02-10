@@ -88,8 +88,9 @@ public class MeetingUtil {
 				MeetingE meeting = orgMeetings.get(i);
 				int newpos = newPoss.indexOf(i + 1);
 				meeting.setId(newpos);
+				meeting.setDbUpdate(true);
 				newMeeting.set(newpos, meeting);
-
+				
 			}
 		} catch (Exception e) {
 			log.error("ERROR : MeetingUtil.updateMeetingPos");
@@ -510,7 +511,7 @@ public class MeetingUtil {
 				maxMeetEId = troop.getYearPlan().getMeetingEvents().get(i)
 						.getId();
 		meeting.setId(maxMeetEId + 1);
-
+		meeting.setDbUpdate(true);
 		troop.getYearPlan().getMeetingEvents().add(meeting);
 
 		if (troop.getYearPlan().getSchedule() != null) {

@@ -40,7 +40,7 @@ public class Activity extends YearPlanComponent implements Serializable {
 	@Field	private String content, id, refUid;
 	@Field	private String locationName, locationAddress;
 	@Field private String locationRef;// depricated
-	//@Collection java.util.List<Asset> assets;
+	@Collection java.util.List<Asset> assets;
 	@Field(id = true) String uid;
 	@Field Double cost;
 	@Field Boolean isEditable;
@@ -101,9 +101,12 @@ public class Activity extends YearPlanComponent implements Serializable {
 	}
 
 	public void setCost(Double cost) {
+	
 		if( ( cost!=null && this.cost!=null && this.cost.doubleValue()!= cost.doubleValue() ) ||
 				(this.cost==null && cost!=null) )
 			isDbUpdate=true;
+		
+		
 		this.cost = cost;
 	}
 
@@ -120,7 +123,7 @@ public class Activity extends YearPlanComponent implements Serializable {
 			isDbUpdate=true;
 		this.uid = uid;
 	}
-/*
+
 	public java.util.List<Asset> getAssets() {
 		return assets;
 	}
@@ -131,7 +134,7 @@ public class Activity extends YearPlanComponent implements Serializable {
 			isDbUpdate=true;
 		this.assets = assets;
 	}
-	*/
+	
 	public String getLocationName() {
 		return locationName;
 	}

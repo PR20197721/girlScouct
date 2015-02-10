@@ -610,22 +610,112 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 			modifySchedule( user, troop );
 			
 			java.util.List<Location> locations = troop.getYearPlan().getLocations();
-			for(int i=0;i<locations.size();i++)
-				modifyLocation( user, troop, locations.get(i) );
-			
+			if( locations!=null)
+				for(int i=0;i<locations.size();i++)
+					modifyLocation( user, troop, locations.get(i) );
+					
 			for(int i=0;i<troop.getYearPlan().getActivities().size();i++)
 				modifyActivity( user, troop, troop.getYearPlan().getActivities().get(i) );
 			
+			for(int i=0;i<troop.getYearPlan().getMeetingEvents().size();i++){
+				modifyMeeting( user, troop, troop.getYearPlan().getMeetingEvents().get(i) );
+				java.util.List<Asset> assets =troop.getYearPlan().getMeetingEvents().get(i).getAssets();
+				if( assets!=null)
+				 for(int y=0;y<assets.size();y++)
+					modifyAsset( user, troop, assets.get(y));
+			}
 		return false;
 	}
 	
+
+	public boolean modifyAsset(User user, Troop troop, Asset asset)
+			throws java.lang.IllegalAccessException,
+			java.lang.IllegalAccessException {
+		
+		if( !asset.isDbUpdate() )return true;
+		
+		Session mySession = null;
+		boolean isUpdated = false;
+		try {
+			mySession = sessionFactory.getSession();
+			List<Class> classes = new ArrayList<Class>();
+			
+			classes.add(Asset.class);
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,mapper);
+			if(ocm.objectExists(asset.getPath()) ){
+				JcrUtils.getOrCreateByPath(
+						asset.getPath().substring(0, asset.getPath().lastIndexOf("/")),
+						"nt:unstructured", mySession);
+				
+			}
+			if( !ocm.objectExists(asset.getPath()))
+				ocm.insert(asset);
+			else
+				ocm.update(asset);
+			ocm.save();
+			isUpdated= true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (mySession != null)
+					sessionFactory.closeSession(mySession);
+			} catch (Exception es) {
+				es.printStackTrace();
+			}
+		}
+		
+		return isUpdated;
+	}
+
+	public boolean modifyMeeting(User user, Troop troop, MeetingE meeting)
+			throws java.lang.IllegalAccessException,
+			java.lang.IllegalAccessException {
+		
+		if( !meeting.isDbUpdate() )return true;
+		
+		Session mySession = null;
+		boolean isUpdated = false;
+		try {
+			mySession = sessionFactory.getSession();
+			List<Class> classes = new ArrayList<Class>();
+			classes.add(MeetingE.class);
+			classes.add(Asset.class);
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,mapper);
+	if( meeting.getPath() ==null ){
+		JcrUtils.getOrCreateByPath(
+				 troop.getYearPlan().getPath() +"/meetingEvents",
+				"nt:unstructured", mySession);
+		meeting.setPath( troop.getYearPlan().getPath() +"/meetingEvents/"+meeting.getUid());
+	}
+			if( !ocm.objectExists(meeting.getPath()))
+				ocm.insert(meeting);
+			else
+				ocm.update(meeting);
+			ocm.save();
+			isUpdated= true;
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (mySession != null)
+					sessionFactory.closeSession(mySession);
+			} catch (Exception es) {
+				es.printStackTrace();
+			}
+		}
+		
+		return isUpdated;
+	}
 	
 
 	public boolean modifyActivity(User user, Troop troop, Activity activity)
 			throws java.lang.IllegalAccessException,
 			java.lang.IllegalAccessException {
 		
-		
+	//System.err.println("tata madif activ: "+ activity.isDbUpdate());	
 		if( !activity.isDbUpdate() )return true;
 		
 		Session mySession = null;
@@ -636,7 +726,13 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 			classes.add(Activity.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,mapper);
-	System.err.println(">>> tata "+ activity.getPath());		
+	//System.err.println(">>> tata "+ activity.getPath() +" : "+ troop.getYearPlan().getPath() +" : "+troop.getYearPlan().getPath() +"/activities/"+activity.getUid());	
+	if( activity.getPath() ==null ){
+		JcrUtils.getOrCreateByPath(
+				 troop.getYearPlan().getPath() +"/activities",
+				"nt:unstructured", mySession);
+		activity.setPath( troop.getYearPlan().getPath() +"/activities/"+activity.getUid());
+	}
 			if( !ocm.objectExists(activity.getPath()))
 				ocm.insert(activity);
 			else
@@ -673,7 +769,7 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 			classes.add(Location.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,mapper);
-	System.err.println(">>> tata "+ location.getPath());		
+	//System.err.println(">>> tata "+ location.getPath());		
 			if( !ocm.objectExists(location.getPath()))
 				ocm.insert(location);
 			else
@@ -701,7 +797,8 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 			java.lang.IllegalAccessException {
 		
 		Cal schedule = troop.getYearPlan().getSchedule();
-		if( !schedule.isDbUpdate() )return true;
+		
+		if( schedule==null || !schedule.isDbUpdate() )return true;
 		
 		Session mySession = null;
 		boolean isUpdated = false;
@@ -711,7 +808,16 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 			classes.add(Cal.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,mapper);
-			ocm.update(schedule);
+			if( schedule.getPath()==null){
+				JcrUtils.getOrCreateByPath(
+						 troop.getYearPlan().getPath() +"/schedule",
+						"nt:unstructured", mySession);
+				schedule.setPath( troop.getYearPlan().getPath() +"/schedule");
+			}
+			if( ocm.objectExists(schedule.getPath()))
+					ocm.update(schedule);
+			else 
+					ocm.insert(schedule);
 			ocm.save();
 			isUpdated= true;
 		} catch (Exception e) {
