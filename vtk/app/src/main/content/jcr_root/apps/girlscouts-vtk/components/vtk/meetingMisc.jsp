@@ -8,25 +8,14 @@
 	MeetingE meeting = null;
 	java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
 	for(int i=0;i<meetings.size();i++)
-		if( meetings.get(i).getUid().equals( request.getParameter("mid")) ) 
-		{
+		if( meetings.get(i).getUid().equals( request.getParameter("mid"))) {
 			meeting= meetings.get(i);
 			break;
-		}
-
-    
+		}  
 	Meeting meetingInfo = yearPlanUtil.getMeeting( user, meeting.getRefId() );
 	java.util.List <Activity> _activities = meetingInfo.getActivities();
 	java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  meetingInfo.getMeetingInfo();
 %> 
-
-
-
-
-
-
-
-
 
 <%if( request.getParameter("isOverview")!=null ){%>
 	<span class="editable_textarea" id="editMeetingOverview"><%=meetingInfoItems.get("overview").getStr() %></span>
@@ -38,20 +27,14 @@
 
 
 	//java.util.List <Activity> _activities = meetingInfo.getActivities();
-	try{
+	try {
 		meetingUtil.sortActivity(_activities);
-	}catch(Exception e){e.printStackTrace();}
+	} catch(Exception e){e.printStackTrace();}
 	
 	for(int ii=0;ii< _activities.size();ii++){ 
 		Activity _activity = _activities.get(ii);
-		if( ii == Integer.parseInt( request.getParameter("isAgenda")  ) ){
-			
-			%>
-			<%@include file="include/editActivity.jsp" %> 
-			<%
-			
-			break;
-		}
+		if(ii == Integer.parseInt(request.getParameter("isAgenda"))){	%>
+			<%@include file="include/modals/modal_agenda_edit.jsp" %> 
+			<% break; }
 	}
-	
- }%>
+} %>

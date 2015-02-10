@@ -16,6 +16,7 @@ String footerPath = currentPage.getAbsoluteParent(2).getContentResource().getPat
 String logoPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
 %>
 <!-- web/app/src/main/content/jcr_root/apps/girlscouts/components/page/footer.jsp -->
+
 <div class="hide-for-print">
 	<div id="footer" class="hide-for-small row update-list-footer">
 		<% setCssClasses("large-24 medium-24 small-24 columns", request); %>
@@ -37,23 +38,4 @@ String logoPath = currentPage.getAbsoluteParent(2).getContentResource().getPath(
 		<cq:include path="<%= logoPath + "/logo"%>" resourceType="girlscouts/components/logo" />
 	</div>
 </div>
-
-<script type="text/javascript">
-  //seems to be only used in VTK sections
-	var resizeWindow = function(){
-		if(fixVerticalSizing) {
-			//get height of the actual page
-			var currentMainHeight = $('#main').height();
-			//get the height of the window
-			targetMainHeight = $(this).height();
-		//	var targetMainHeight = $(this).height() - $("#header").height() - $("#headerBar").height() - $("#footer").height() - 15;
-			//if the content of the page is not to the bottom of the window add this padding, note the row that is the wrapper
-			//must have class content
-			if (targetMainHeight > currentMainHeight) {
-				$('#main .row.content').css('padding-bottom',targetMainHeight-contentHeight);
-			}
-		}
-	};
-	window.onload = resizeWindow;
-	$(window).resize(resizeWindow);
-</script>
+<script src="/etc/designs/girlscouts/clientlibs/js/footer.js"></script>

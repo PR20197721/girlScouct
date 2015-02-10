@@ -39,27 +39,6 @@ String logoPath = currentPage.getAbsoluteParent(2).getContentResource().getPath(
 </div>
 <cq:include script="google-analytics.jsp" />
 <cq:include script="footer-tracking.jsp" />
-<script type="text/javascript">
-  //seems to be only used in VTK sections
-	var resizeWindow = function(){
-		if(fixVerticalSizing) {
-			//get height of the actual page
-			var currentMainHeight = $('.inner-wrap').height();
-			//get the height of the window
-			var windowHeight = $(window).height();
-		  var targetMainHeight = (windowHeight-currentMainHeight);
-			//if the content of the page is not to the bottom of the window add this padding, note the row that is the wrapper
-			//must have class content
-			if(targetMainHeight > 0) {
-			  $('#main .row').css('padding-bottom',targetMainHeight + "px");
-			}
-		}
-	};
-	$(document).ready(function(){
-		resizeWindow();
-	});
-	$( window ).resize(function() {
-	$('#main .row').css('padding-bottom',0);
-		resizeWindow();	
-	});
-</script>
+
+<script src="/etc/designs/girlscouts/clientlibs/js/footer.js"></script>
+

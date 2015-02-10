@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:WorkflowLauncher"
+    condition=""
+    description="Girl Scouts Remove Flipbook Folder"
+    enabled="{Boolean}true"
+    eventType="{Long}2"
+    excludeList=""
+    glob="/content/kansasgirlscouts/en/brochures(/.*)"
+    nodetype="nt:folder"
+    runModes="author"
+    workflow="/etc/workflow/models/girl-scouts-deactivate/jcr:content/model"/>
