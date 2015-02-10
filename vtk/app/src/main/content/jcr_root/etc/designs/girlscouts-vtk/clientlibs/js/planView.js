@@ -195,8 +195,7 @@ function previewMeetingReminderEmail(mid,template){
 			template:template
 		},
 		success: function(result) {
-	    	alert('<%=troop.getSendingEmail()%>');
-
+			sendMeetingReminderEmail();
 		}
 	});
 	return;

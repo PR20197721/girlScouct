@@ -197,9 +197,7 @@
 	function getTemplate(){
 		$('#email_htm').val(removeIndentions($('.jqte_editor').html()));
 		template = $('#email_htm').val();
-		<% if (troop.getSendingEmail()==null){%>
-    	previewMeetingReminderEmail('<%=mid%>',template);<%}%> 
-    	alert('<%=troop.getSendingEmail()%>');
+		
 	};
 	function addFormLink(link, formname, categoryId){
 		var url = window.location.href;

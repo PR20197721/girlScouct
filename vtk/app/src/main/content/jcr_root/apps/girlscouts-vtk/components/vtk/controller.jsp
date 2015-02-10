@@ -455,7 +455,7 @@
 			}catch(Exception e){
 				e.printStackTrace();
 			}
-			//troop.setSendingEmail(null);
+			troop.setSendingEmail(null);
 
 		} /* else if (request.getParameter("getHtmlMsg") != null) {
 			String template = request.getParameter("template");

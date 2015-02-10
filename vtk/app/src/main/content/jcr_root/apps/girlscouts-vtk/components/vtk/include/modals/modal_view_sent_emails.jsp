@@ -18,8 +18,7 @@
 		   					for(SentEmail eml : emails){%>
 		   						<div><%=FORMAT_CALENDAR_DATE.format(eml.getSentDate()) %></div>
 		   						<div><%=eml.getSubject() %></div>
-		   						<div><%=troop.getSendingEmail()==null?"null":troop.getSendingEmail().getTemplate() %></div>
-<%-- 		   						<div><%=eml.getHtmlMsg(troop.getSendingEmail().getTemplate())%> </div>--%>		   						<hr>
+ 		   						<div><%=eml.getHtmlMsg(curM.getEmlTemplate())%> </div>		   						<hr>
 		   					<% } 
 	   					}
 	   				}%>

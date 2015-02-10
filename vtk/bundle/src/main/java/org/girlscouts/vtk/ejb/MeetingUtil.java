@@ -1378,9 +1378,9 @@ public class MeetingUtil {
 					emails = emails == null? new java.util.ArrayList<SentEmail>() :emails;
 					emails.add(email);
 					meeting.setSentEmails(emails);
-//					if(meeting.getEmlTemplate()==null){
-//						meeting.setEmlTemplate(troop.getSendingEmail().getTemplate()));
-//					}
+					if(meeting.getEmlTemplate()==null){
+						meeting.setEmlTemplate(troop.getSendingEmail().getTemplate());
+					}
 					troopUtil.updateTroop(user, troop);
 					return;
 				}
