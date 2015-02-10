@@ -234,9 +234,6 @@
 		if(validate()){
 			//alert(template);
 	    	previewMeetingReminderEmail('<%=mid%>',template);
-
-			sendMeetingReminderEmail();
-
 		}
 	};
 	function validate(){

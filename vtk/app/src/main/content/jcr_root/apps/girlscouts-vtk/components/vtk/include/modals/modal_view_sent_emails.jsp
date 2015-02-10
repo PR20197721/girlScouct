@@ -15,10 +15,11 @@
 	   					MeetingE curM = planView.getMeeting();
 	   					List<SentEmail> emails = curM.getSentEmails();
 	   					if(emails!=null && !emails.isEmpty()){
-		   					for(SentEmail eml : emails){%>
+		   					for(int k=emails.size(); k>0; k--){
+		   						SentEmail eml = emails.get(k-1);%>
 		   						<div><%=FORMAT_CALENDAR_DATE.format(eml.getSentDate()) %></div>
 		   						<div><%=eml.getSubject() %></div>
- 		   						<div><%=eml.getHtmlMsg(curM.getEmlTemplate())%> </div>		   						<hr>
+ 		   						<div><%=curM.getEmlTemplate()==null? "":eml.getHtmlMsg(curM.getEmlTemplate())%> </div>		   						<hr>
 		   					<% } 
 	   					}
 	   				}%>

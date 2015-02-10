@@ -28,8 +28,8 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
 <div id="panelWrapper" class="row content meeting-detail">
   <%@include file="include/utility_nav.jsp"%>
   <%@include file="include/activity_edit_react.jsp"%>
-  <%@include file="include/modals/modal_view_sent_emails.jsp"%>
-			
+<%--   <%@include file="include/modals/modal_view_sent_emails.jsp"%>
+ --%>			
   <div id="theActivity">
 
 

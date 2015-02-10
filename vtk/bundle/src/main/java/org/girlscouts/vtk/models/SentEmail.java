@@ -51,7 +51,7 @@ public class SentEmail implements Serializable {
 	private String htmlMsg;
 	
 	@Field
-	private String addressList,subject,  addresses, htmlDiff;
+	private String addressList,subject, addresses, htmlDiff;
 	
 	
 	@Field
