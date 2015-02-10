@@ -82,6 +82,9 @@ girlscouts.components.VTKAgenda= CQ.Ext.extend(CQ.Ext.form.Field, {
         }, this.numberConfig);
         this.numberField = new CQ.Ext.form.NumberField(numberConfig);
         
+        // Do not submit this field. Values will be combined in VTKAgendaList.
+        this.name = '';
+        
         //TODO
         // relay events
         //this.relayEvents(this.textField, ['focus', 'specialkey', 'invalid', 'valid']);

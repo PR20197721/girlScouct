@@ -68,7 +68,6 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
                 index++;
             }
         }, this);
-        alert('value = ' +value);
         return value;
     },
     
