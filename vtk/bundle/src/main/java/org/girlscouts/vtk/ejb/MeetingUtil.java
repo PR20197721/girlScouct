@@ -1374,12 +1374,13 @@ public class MeetingUtil {
 				MeetingE meeting = meetings.get(i);
 				if (meeting.getUid().equals(meetingId)) {
 					SentEmail email = new SentEmail(troop.getSendingEmail());
-					//email.setPatch(getPatch(meeting.getMeetingInfo().getMeetingInfo().get("overview").getStr(), troop.getSendingEmail().getHtml()));
 					java.util.List<SentEmail> emails = meeting.getSentEmails();
 					emails = emails == null? new java.util.ArrayList<SentEmail>() :emails;
 					emails.add(email);
 					meeting.setSentEmails(emails);
-					// troop.getYearPlan().setAltered("true");
+//					if(meeting.getEmlTemplate()==null){
+//						meeting.setEmlTemplate(troop.getSendingEmail().getTemplate()));
+//					}
 					troopUtil.updateTroop(user, troop);
 					return;
 				}
@@ -1393,22 +1394,8 @@ public class MeetingUtil {
 		
 
 	}
-	private org.girlscouts.vtk.difflib.Patch getPatch(String template, String copy){
-		List<String> original = new LinkedList<String>();
-		List<String> revised = new LinkedList<String>();
-
-		original.add(template);
-		revised.add(copy);
-		
-		org.girlscouts.vtk.difflib.Patch patch = DiffUtils.diff(original, revised);
-		return patch;
-		
-        
-	}
 
 
 
-	
-	
 
 }

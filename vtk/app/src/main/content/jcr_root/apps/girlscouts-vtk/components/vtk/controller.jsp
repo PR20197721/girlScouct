@@ -392,6 +392,7 @@
 			String subj = request.getParameter("email_subj");
 			String html = request.getParameter("email_htm");
 			String meetingId = request.getParameter("mid");
+			String template = request.getParameter("template");
 			EmailMeetingReminder emr = null;
 
 			if (troop.getSendingEmail() != null) {
@@ -405,7 +406,7 @@
 			}
 
 			emr.setMeetingId(meetingId);
-
+			emr.setTemplate(template);
 			if (email_to_sf.equals("true")) {
 				//emr.setEmailToSelf(apiConfig.getUser().getEmail());
 				emr.setEmailToSelf("true");
@@ -454,9 +455,16 @@
 			}catch(Exception e){
 				e.printStackTrace();
 			}
-			troop.setSendingEmail(null);
+			//troop.setSendingEmail(null);
 
-		} else if (request.getParameter("testAB") != null) {
+		} /* else if (request.getParameter("getHtmlMsg") != null) {
+			String template = request.getParameter("template");
+			String eid = request.getParameter("eid");
+			meetingUtil.saveEmail(user, troop, emr.getMeetingId());
+
+		
+			
+		} */else if (request.getParameter("testAB") != null) {
 
 			//java.util.Set<Integer> myPermissionTokens = new HashSet<Integer>();
 			//troop.getTroop().setPermissionTokens(myPermissionTokens);
