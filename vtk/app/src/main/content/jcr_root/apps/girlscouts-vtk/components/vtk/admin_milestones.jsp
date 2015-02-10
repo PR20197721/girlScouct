@@ -4,31 +4,44 @@
 <%@include file="include/session.jsp"%>
 <% 
     String activeTab = "admin_milestones";
+    java.util.List<Milestone> milestones = yearPlanUtil.getCouncilMilestones("603") ;
 %>
 <%@include file="include/tab_navigation.jsp"%>
-<div id="panelWrapper" class="row content milestones">
-<<<<<<< Updated upstream
-
-=======
+<div id="panelWrapper" class="row content milestones meeting-detail">
   <%@include file="include/utility_nav.jsp"%>
   <div class="columns small-20 small-centered">
     <p>Edit milestones, add dates, create new milestones, and set to show in plans.</p>
+    <div class="row">
+     <p class="column large-10">Message</p>
+     <p class="column large-5">Date</p>
+     <p class="column large-5">Show in Plans</p>
+    </div>
     <form>
-      <table>
-        <tr>
-          <th></th>
-          <th>Message</th>
-          <th>Date</th>
-          <th>Show in Plans</th>
-        </tr>
-        <tr>
-          <td><a href="" title="remove"><i class="icon-button-circle-cross" /></a></td>
-          <td><<input type="text" placeholder="Name of the milestone" /></td>
-          <td><input type="text" placeholder="Start Date" id="calStartDt" name="calStartDt" value="<%=( startAlterDate!=null && !startAlterDate.trim().equals("")) ? FORMAT_MMddYYYY.format(new java.util.Date( Long.parseLong(startAlterDate))):( troop.getYearPlan().getCalStartDate()==null ? "" : FORMAT_MMddYYYY.format(new java.util.Date(troop.getYearPlan().getCalStartDate()))) %>" /></td>
-          <td></td>
-        </tr>
-      </table>
+    <% for( int i=0; i<milestones.size(); i++ ) { %>
+      <section class="row">
+        <div class="column large-2">
+          <a href="" title="remove"><i class="icon-button-circle-cross"></i></a>
+        </div>
+        <div class="column large-5">
+          <input type="text" placeholder="<%=milestones.get(i).getBlurb()%>" />
+        </div>
+        <div class="column large-5">
+         <input type="text" id="date<%=i %>" class="datepicker" name="date_<%=i %>" value="<%=FORMAT_MMddYYYY.format(milestones.get(i).getDate())%>"/>
+        </div>
+        <div class="column large-5">
+          <label for="date<%=i %>"><i class="icon-calendar"></i></label>
+        </div>
+        <div class="column large-4">
+          <input type="checkbox" name="ch_<%=i %>" id="ch_<%=i %>" value="" / >
+          <label for="ch_<%=i %>"></label>
+        </div>
+      </section>
+    <%}%>
     </form>
   </div>
->>>>>>> Stashed changes
 </div>
+<script>
+  $(function() {
+    $( ".datepicker" ).datepicker();
+  });
+  </script>

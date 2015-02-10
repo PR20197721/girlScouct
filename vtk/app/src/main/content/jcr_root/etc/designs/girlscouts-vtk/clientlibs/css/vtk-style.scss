@@ -1165,16 +1165,15 @@
         font-size:24px;
         margin-bottom: 50px;
       }
-        p {
-          font-weight:600;
-          font-size:17px;
-          text-transform: uppercase;
-          margin-right: 80px;
-        }
-        thead th,
-        td:nth-child(n+2) {
+      p {
+        font-weight:600;
+        font-size:17px;
+        text-transform: uppercase;
+        margin-right: 80px;
+      }
+      thead th,
+      td:nth-child(n+2) {
           text-align:center;
-        }
       }
     }
   }
@@ -1404,6 +1403,32 @@
     th {
       background: none;
     }
+  }
+  //ADMIN PAGES
+  .milestones {
+    input[type=checkbox]:checked + label:before {
+      content: "\e6d7";
+      font-family: "JollyFont";
+      color: green;
+    }
+    input[type="checkbox"] {
+      display: none;
+    }
+    input[type=checkbox] + label {
+      &:before {
+        border: solid 1px #ccc;
+        content: "";
+        height: 30px;
+        width: 30px;
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+        font-size: 15px;
+        text-align: center;
+        display: inline-block;
+        float: left;
+        padding:4px;
+      }
+    }
+  }
 } //end of vtk-body
 
 //overwrite of global
