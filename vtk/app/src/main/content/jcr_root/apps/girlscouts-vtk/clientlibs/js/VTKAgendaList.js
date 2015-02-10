@@ -69,40 +69,6 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
             }
         }, this);
         return value;
-    },
-    
-//    addItem: function() {
-//        girlscouts.components.VTKAgendaList.superclass.addItem.call(this, arguments);
-//        alert('getValue = ' + this.getValue());
-//        this.hiddenField.setValue(this.getValue());
-//    },
-    
-    addItem: function(value) {
-        var item = this.insert(this.items.getCount() - 1, {});
-        var form = this.findParentByType("form");
-        if (form)
-            form.getForm().add(item.field);
-        this.doLayout();
-
-        if (item.field.processPath) item.field.processPath(this.path);
-        if (value) {
-            item.setValue(value);
-        }
-
-        if (this.fieldWidth < 0) {
-            // fieldWidth is < 0 when e.g. the MultiField is on a hidden tab page;
-            // do not set width but wait for resize event triggered when the tab page is shown
-            return;
-        }
-        if (!this.fieldWidth) {
-            this.calculateFieldWidth(item);
-        }
-        try {
-            item.field.setWidth(this.fieldWidth);
-        }
-        catch (e) {
-            CQ.Log.debug("CQ.form.MultiField#addItem: " + e.message);
-        }
     }
 });
 
