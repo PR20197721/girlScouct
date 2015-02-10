@@ -35,6 +35,9 @@
       //  }
       %>
       <dl class="tabs hide-for-small">
+          <dd <%= "admin_milestones".equals(activeTab) ? "class='active'" : "" %>>
+            <a href="/content/girlscouts-vtk/en/vtk.admin_milestone.html">Milestones</a>
+          </dd>
         <% if(hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
           <dd <%= "myTroop".equals(activeTab) ? "class='active'" : "" %>>
             <a href="/content/girlscouts-vtk/en/vtk.mytroop_react.html">My Troop</a>
@@ -58,7 +61,7 @@
           <dd <%= "finances".equals(activeTab) ? "class='active'" : "" %>>
             <a href="/content/girlscouts-vtk/en/vtk.finances.html">Finances</a>
           </dd>
-        <% }  %>
+        <%}%>
         <!-- % // to do add this to javA if(hasPermission(troop, Permission.PERMISSION_VIEW_PROFILE) ) { %-->
         <dd <%= "profile".equals(activeTab) ? "class='active'" : "" %>>
           <a href="/content/girlscouts-vtk/en/vtk.profile.html">Profile</a>
