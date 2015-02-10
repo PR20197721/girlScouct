@@ -47,13 +47,12 @@ public class Emailer {
 				}
 			}
 			
-			
-			email.setHtmlMsg(emr.getHtml());
-			if(!emailRecipients.isEmpty())
-				email.setTo(emailRecipients);
 			email.setSubject(emr.getSubj());
-
-			messageGateway.send(email);
+			email.setHtmlMsg(emr.getHtml());
+			if(!emailRecipients.isEmpty()){
+				email.setTo(emailRecipients);
+				messageGateway.send(email);
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
