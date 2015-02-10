@@ -107,6 +107,8 @@ public class SalesforceDAO {
 						try {
 							user.setContactId(results.getJSONObject(current)
 									.getString("ContactId"));
+							user.setSfUserId(results.getJSONObject(current)
+									.getString("Id"));
 						} catch (Exception e) {
 							e.printStackTrace();
 						}
@@ -146,9 +148,8 @@ public class SalesforceDAO {
 					test();
 					doAuthMaster();
 
-					java.util.List<Troop> troops = troopInfo(config,
-							user.getContactId());
-
+					//java.util.List<Troop> troops = troopInfo(config, user.getContactId());
+					java.util.List<Troop> troops = troopInfo(config, user.getSfUserId());
 					if (troops == null || troops.size() <= 0) {
 						log.debug("Trying troops 2 time....");
 						UserGlobConfig ubConf = troopDAO.getUserGlobConfig();
@@ -162,7 +163,8 @@ public class SalesforceDAO {
 							ubConf.setMasterSalesForceToken(newMasterToken);
 							troopDAO.updateUserGlobConfig();
 						}
-						troops = troopInfo(config, user.getContactId());
+						//troops = troopInfo(config, user.getContactId());
+						troops = troopInfo(config, user.getSfUserId());
 					}
 					// 4test troops=null;
 
@@ -960,7 +962,10 @@ public class SalesforceDAO {
 
 		HttpClient client = new HttpClient();
 		GetMethod method = new GetMethod("https://gsuat-gsmembers.cs11.force.com/members/services/apexrest/activeUserTroopData?userId="+ contactId);
-		System.err.println("**** URL tata: https://gsuat-gsmembers.cs11.force.com/members/services/apexrest/activeUserTroopData?userId="+ contactId);
+		System.err.println("**||** URL  https://gsuat-gsmembers.cs11.force.com/members/services/apexrest/activeUserTroopData?userId="+ contactId);
+		
+		System.err.println("**OAuth** URL  "+ apiConfig.getInstanceUrl() +"/services/apexrest/activeUserTroopData?userId="+ contactId);
+		
 		    try {
 		    method.setRequestHeader("Authorization", "OAuth " +apiConfig.getAccessToken());
 
