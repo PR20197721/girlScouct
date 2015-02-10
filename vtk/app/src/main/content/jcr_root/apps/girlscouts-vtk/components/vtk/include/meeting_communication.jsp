@@ -1,3 +1,6 @@
+<%
+        if (sessionFeatures.contains(SHOW_BETA)) {
+%>
 <section className="column large-20 medium-20 large-centered medium-centered">
   <h6>manage communications</h6>
   <ul className="large-block-grid-2 medium-block-grid-2 small-block-grid-2">
@@ -41,3 +44,6 @@
    <%} %>
   </ul>
 </section>
+<%
+        }
+%>

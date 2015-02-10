@@ -40,9 +40,9 @@
           </dd>
         <% if(hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
           <dd <%= "myTroop".equals(activeTab) ? "class='active'" : "" %>>
-            <a href="/content/girlscouts-vtk/en/vtk.mytroop_react.html">My Troop</a>
+            <a href="/content/girlscouts-vtk/en/vtk.myTroop.html">My Troop</a>
           </dd>
-        <% } %>
+<%} %>
         <% if(hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID)) { %>
           <dd <%= "plan".equals(activeTab) ? "class='active'" : "" %>>
            <!--  <a href="/content/girlscouts-vtk/en/vtk.plan.html">Year Plan</a> -->

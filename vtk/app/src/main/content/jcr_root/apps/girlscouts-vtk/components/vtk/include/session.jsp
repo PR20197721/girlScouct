@@ -1,4 +1,3 @@
-
 <%@page	import="org.girlscouts.vtk.models.Troop, org.girlscouts.vtk.auth.permission.*, org.girlscouts.vtk.utils.VtkUtil"%>
 <%!java.text.SimpleDateFormat FORMAT_MMddYYYY = new java.text.SimpleDateFormat("MM/dd/yyyy");
 	java.text.SimpleDateFormat FORMAT_hhmm_AMPM = new java.text.SimpleDateFormat("hh:mm a");
@@ -31,13 +30,13 @@
 
 		return false;
 	}
-	
-	
-	
-	%>
-<%
-// Alex
 
+	// Feature set toggles
+	String SHOW_BETA = "showBeta";
+	String[] ENABLED_FEATURES = new String[] {SHOW_BETA};
+
+%>
+<%
 	boolean isMultiUserFullBlock = true;
 	final CalendarUtil calendarUtil = sling.getService(CalendarUtil.class);
 	final LocationUtil locationUtil = sling.getService(LocationUtil.class);
@@ -57,10 +56,27 @@
 	HttpSession session = request.getSession();
 
 	int timeout = session.getMaxInactiveInterval();
-	response.setHeader("Refresh", timeout
-			+ "; URL = /content/girlscouts-vtk/en/vtk.logout.html");
+	response.setHeader("Refresh", timeout + "; URL = /content/girlscouts-vtk/en/vtk.logout.html");
 
-	
+	if (session.getAttribute("SESSION_FEATURE_MAP") == null) {
+		session.setAttribute("SESSION_FEATURES", new HashSet<String>());
+	}
+	Set sessionFeatures = (Set) session.getAttribute("SESSION_FEATURES");
+	for (String enabledFeature: ENABLED_FEATURES) {
+		if (request.getParameter(enabledFeature) != null) {
+			String thisFeatureValue = ((String) request.getParameter(enabledFeature)).toLowerCase();
+			if ("true".equals(thisFeatureValue) || "yes".equals(thisFeatureValue) ) {
+				if (!sessionFeatures.contains(enabledFeature)) {
+					sessionFeatures.add(enabledFeature);
+				}
+			} else if ("false".equals(thisFeatureValue) || "no".equals(thisFeatureValue) ) {
+				if (sessionFeatures.contains(enabledFeature)) {
+					sessionFeatures.remove(enabledFeature);
+				}
+			}
+		}
+	}
+	session.setAttribute("SESSION_FEATURES", sessionFeatures);
 	
 	org.girlscouts.vtk.auth.models.ApiConfig apiConfig = null;
 	try {
