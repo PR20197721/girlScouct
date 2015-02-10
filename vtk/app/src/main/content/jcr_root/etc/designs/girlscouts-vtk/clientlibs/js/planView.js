@@ -125,24 +125,24 @@ function editAgenda(x){
 }
 
 function rmAgenda(id, mid){
-console.log(1);	
+
 	var isRm = confirm("Remove Agenda?");
 	if( !isRm ) return false;
-	console.log(2);
-if( true)return;	
+	
+	
 	var x =$.ajax({ // ajax call starts
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=RemoveAgenda&rmAgenda='+id+'&mid='+mid, // JQuery loads serverside.php
 		data: '', // Send value of the clicked button
 		dataType: 'html', // Choosing a JSON datatype
 		success: function (data) { 
-			console.log(3); 
-			//location.reload();
+			
+			location.reload();
 		},
 		error: function (data) { 
-			console.log(4);
+			
 		}
 	});
-	console.log(5);
+	
 }
 
 function durEditActiv(duration, activPath, meetingPath){
