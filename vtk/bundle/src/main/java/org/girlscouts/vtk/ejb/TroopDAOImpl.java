@@ -901,14 +901,7 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 			classes.add(Milestone.class);
 			classes.add(Council.class);
 			classes.add(org.girlscouts.vtk.models.Troop.class);
-*/
-			
-			
-			
-			
-			
-			
-			
+*/	
 			
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
