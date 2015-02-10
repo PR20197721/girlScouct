@@ -1,4 +1,4 @@
-/* orange border generic nav */
+/***** ORANGE BORDER GREY NAV *****/
 
 #main .side-nav * {
   color: #333333;
@@ -36,3 +36,4 @@
   border-color: #FBCD41;
   z-index: 10;
 }
+

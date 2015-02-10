@@ -19,18 +19,17 @@ Font : Open Sans
 /* Embedded Fonts */
 
 
-/* @font-face {
- @font-face {
+@font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 300;
-  src: local('Open Sans Light'), local('OpenSans-Light'), url('../girlscouts/open-sans-light.woff') format('woff');
+  src: local('Open Sans Light'), local('OpenSans-Light'), url('./girlscouts/open-sans-light.woff') format('woff');
 }
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
-  src: local('Open Sans'), local('OpenSans'), url('../girlscouts/open-sans.woff') format('woff');
+  src: local('Open Sans'), local('OpenSans'), url('./girlscouts/open-sans.woff') format('woff');
 }
 @font-face {
   font-family: 'Open Sans';
@@ -48,10 +47,10 @@ Font : Open Sans
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 700;
-  src: local('Open Sans Bold'), local('OpenSans-Bold'), url('../girlscouts/open-sans-bold.woff') format('woff');
+  src: local('Open Sans Bold'), local('OpenSans-Bold'), url('./girlscouts/open-sans-bold.woff') format('woff');
 }
 
-*/
+
 html {
   font-size: 1em; /* or can be 100% since it's browser's default size 16px*/
 }
@@ -446,8 +445,11 @@ a:hover.menuHighlight {
   padding: 0;
   border: 0;
 }
+.home-section h2 {
+  font-size: 1.63em;
+  text-transform: uppercase;
+}
 .home-section h2 a {
-  font-size: 0.85em;
   color: #414141;
   font-weight: 300;
 }

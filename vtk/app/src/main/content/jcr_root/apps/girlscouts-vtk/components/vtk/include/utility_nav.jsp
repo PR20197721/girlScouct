@@ -19,11 +19,14 @@
               case ACTIVITY:
                 Activity activity = (Activity)meetingUtil.planView(user, troop, request).getYearPlanComponent();
                 if( activity.getIsEditable() ){%>
-                <li><a href="#" onclick="doEditActivity('editCustActiv')">edit activity</a></li>
+                <li>
+                    <!--  <a href="#" data-reveal-id="editModal" onclick="doEditActivity('editCustActiv')">edit activity</a> -->
+                    <a href="#" data-reveal-id="editCustActiv">edit activity</a>
+                  </li>
               <% }
                 if ( !(activity.getCancelled()!=null && activity.getCancelled().equals("true") ) && 
                 activity.getRegisterUrl()  !=null && !activity.getRegisterUrl().equals("")){%>
-                <li><a href="<%=activity.getRegisterUrl()%>" class="button linkButton" target="_blank">Register for this event</a></li><%
+                <li><a href="<%=activity.getRegisterUrl()%>"  target="_blank">Register for this event</a></li><%
                 } %>
                   <li><a href="javascript:rmCustActivity12(aPath)">delete this activity</a></li><% 
                   
