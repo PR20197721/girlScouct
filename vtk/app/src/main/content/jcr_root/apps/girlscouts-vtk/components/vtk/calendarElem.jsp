@@ -81,7 +81,7 @@ $(function() {
 		      
 		   }
 		  });
-	$( "#datepicker").setDate(document.getElementById("cngDate0"));
+	
   });
 </script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.js"></script>
@@ -144,9 +144,9 @@ $('#saveCalElem').click(function() {
 		   fnOpenNormalDialog();
 	}
 	else if($("#cngRadio").prop("checked")){
-		
+
 		if ($('#frmCalElem').valid()) {
-			
+		
 			if(!timeDiff()){ return false;}
 			
 			  updSched1('0','<%=meeting.getPath()%>','<%=date.getTime()%>');

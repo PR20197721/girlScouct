@@ -1,6 +1,8 @@
 package org.girlscouts.vtk.dao;
 
+import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Finance;
+import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.UserGlobConfig;
@@ -30,5 +32,12 @@ public interface TroopDAO {
 	public Finance getFinanaces(User user, Troop troop, int qtr);
 
 	public void setFinances(User user, Troop troop, Finance finance);
+	
+	public boolean removeActivity(User user, Troop troop, Activity activity) throws java.lang.IllegalAccessException,
+	java.lang.IllegalAccessException ;
+	
+	public boolean removeMeeting(User user, Troop troop, MeetingE meeting)
+			throws java.lang.IllegalAccessException,
+			java.lang.IllegalAccessException;
 
 }

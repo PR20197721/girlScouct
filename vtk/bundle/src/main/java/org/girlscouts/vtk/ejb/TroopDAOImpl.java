@@ -606,23 +606,39 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 			java.lang.IllegalAccessException {
 		
 			modifyTroop(user, troop);
+System.err.println("tata troop path: "+ troop.getPath() );	
+
+			if( troop.getYearPlan().getPath()==null || !troop.getYearPlan().getPath().startsWith(troop.getPath()) )
+				troop.getYearPlan().setPath(troop.getPath() +"/yearPlan");
 			modifyYearPlan( user, troop );
+			
+
+System.err.println("tata yearPlan path: "+ troop.getYearPlan().getPath() );				
 			modifySchedule( user, troop );
 			
 			java.util.List<Location> locations = troop.getYearPlan().getLocations();
 			if( locations!=null)
 				for(int i=0;i<locations.size();i++)
 					modifyLocation( user, troop, locations.get(i) );
-					
-			for(int i=0;i<troop.getYearPlan().getActivities().size();i++)
+			
+			if( troop.getYearPlan().getActivities() !=null)		
+			 for(int i=0;i<troop.getYearPlan().getActivities().size();i++)
 				modifyActivity( user, troop, troop.getYearPlan().getActivities().get(i) );
 			
 			for(int i=0;i<troop.getYearPlan().getMeetingEvents().size();i++){
-				modifyMeeting( user, troop, troop.getYearPlan().getMeetingEvents().get(i) );
-				java.util.List<Asset> assets =troop.getYearPlan().getMeetingEvents().get(i).getAssets();
+				MeetingE meeting = troop.getYearPlan().getMeetingEvents().get(i);
+		
+				if( meeting.getPath()==null || !meeting.getPath().startsWith( troop.getYearPlan().getPath() ))
+					meeting.setPath( troop.getYearPlan().getPath()  +"/meetingEvents/"+ meeting.getUid());
+				modifyMeeting( user, troop, meeting );
+				java.util.List<Asset> assets = meeting.getAssets();
 				if( assets!=null)
-				 for(int y=0;y<assets.size();y++)
-					modifyAsset( user, troop, assets.get(y));
+				 for(int y=0;y<assets.size();y++){
+					Asset asset = assets.get(y);
+					if( asset.getPath()==null )
+						asset.setPath( meeting.getPath() +"/assets/"+ asset.getUid() );
+					modifyAsset( user, troop, asset);
+				 }
 			}
 		return false;
 	}
@@ -643,6 +659,8 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 			classes.add(Asset.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,mapper);
+System.err.println("tata:: " + asset.getPath());			
+
 			if(ocm.objectExists(asset.getPath()) ){
 				JcrUtils.getOrCreateByPath(
 						asset.getPath().substring(0, asset.getPath().lastIndexOf("/")),
@@ -685,6 +703,8 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 			classes.add(Asset.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,mapper);
+			
+		System.err.println("tata meeting: "+ meeting.getPath());	
 	if( meeting.getPath() ==null ){
 		JcrUtils.getOrCreateByPath(
 				 troop.getYearPlan().getPath() +"/meetingEvents",
@@ -891,7 +911,6 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
-			/*
 			classes.add(MeetingE.class);
 			classes.add(Location.class);
 			classes.add(Cal.class);
@@ -901,7 +920,7 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 			classes.add(Milestone.class);
 			classes.add(Council.class);
 			classes.add(org.girlscouts.vtk.models.Troop.class);
-*/	
+			
 			
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
@@ -965,7 +984,7 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 				} catch (Exception em) {
 					em.printStackTrace();
 				}
-;		
+		
 				ocm.update(troop);
 
 				ocm.save();
@@ -993,6 +1012,67 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 		return isUpdated;
 	}
 	
+
+	public boolean removeActivity(User user, Troop troop, Activity activity)
+			throws java.lang.IllegalAccessException,
+			java.lang.IllegalAccessException {
+		
+		Session mySession = null;
+		boolean isUpdated = false;
+		try {
+			mySession = sessionFactory.getSession();
+			List<Class> classes = new ArrayList<Class>();
+			classes.add(Activity.class);
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,mapper);
+			ocm.remove(activity);
+			ocm.save();
+			isUpdated=true;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (mySession != null)
+					sessionFactory.closeSession(mySession);
+			} catch (Exception es) {
+				es.printStackTrace();
+			}
+		}
+		
+		return isUpdated;
+	}
+	
+	
+	public boolean removeMeeting(User user, Troop troop, MeetingE meeting)
+			throws java.lang.IllegalAccessException,
+			java.lang.IllegalAccessException {
+		
+		Session mySession = null;
+		boolean isUpdated = false;
+		try {
+			mySession = sessionFactory.getSession();
+			List<Class> classes = new ArrayList<Class>();
+			classes.add(MeetingE.class);
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,mapper);
+			ocm.remove(meeting);
+			ocm.save();
+			isUpdated=true;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (mySession != null)
+					sessionFactory.closeSession(mySession);
+			} catch (Exception es) {
+				es.printStackTrace();
+			}
+		}
+		
+		return isUpdated;
+	}
 	
 }// ednclass
 

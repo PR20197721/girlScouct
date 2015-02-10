@@ -370,12 +370,14 @@ public class MeetingUtil {
 		for (int i = 0; i < activities.size(); i++) {
 			Activity activity = activities.get(i);
 
-			if (activity.getPath().equals(activityPath))
+			if (activity.getPath().equals(activityPath)){
 				activities.remove(activity);
+				troopDAO.removeActivity(user, troop, activity);
+			}
 		}
 
-		troopUtil.updateTroop(user, troop);
-
+		//troopUtil.updateTroop(user, troop);
+		
 	}
 
 	public void swapMeetings(User user, Troop troop, String fromPath,
@@ -1161,10 +1163,12 @@ public class MeetingUtil {
 		java.util.List<MeetingE> meetings = troop.getYearPlan()
 				.getMeetingEvents();
 		for (int i = 0; i < meetings.size(); i++) {
-			if (meetings.get(i).getRefId().equals(meetingRefId))
+			if (meetings.get(i).getRefId().equals(meetingRefId)){
+				troopDAO.removeMeeting(user, troop, meetings.get(i));
 				meetings.remove(i);
+			}
 		}
-		troopUtil.updateTroop(user, troop);
+		//troopUtil.updateTroop(user, troop);
 		isRemoved = true;
 		return isRemoved;
 	}
