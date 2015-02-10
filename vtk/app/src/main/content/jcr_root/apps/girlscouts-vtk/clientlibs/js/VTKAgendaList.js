@@ -42,20 +42,33 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
     },
 
     // overriding CQ.form.CompositeField#setValue
-    setValue: function(value) {
+    setValue: function(newValue) {
         this.fireEvent("change", this, value, this.getValue());
-        
-        var newValues = value.split(']');
-        newValues.each(function(_value, i) {
-        	// [1^open ceremory^10 => open ceremony^10 
-        	_value[i] = /[^\^]+^(.*)/.exec(_value[i].trim())[0]; 
-        });
-        
-        this.items = new Array();
-        newValues.each(function(_value) {
-        	this.addValue(_value);
-        });
+        var oldItems = this.items;
+        oldItems.each(function(item/*, index, length*/) {
+            if (item instanceof CQ.form.MultiField.Item) {
+                this.remove(item, true);
+                this.findParentByType("form").getForm().remove(item);
+            }
+        }, this);
         this.doLayout();
+        
+         
+        var value = newValue.split(']');
+        value.pop(); // remove the last one
+        if ((value != null) && (value != "")) {
+            if (value instanceof Array || CQ.Ext.isArray(value)) {
+                for (var i = 0; i < value.length; i++) {
+                	var _value = value[i];
+                	// [1^open ceremory^10 => open ceremony^10 
+                	var _split = value[i].split('^');
+                	_value = _split[1] + '^' + _split[2];
+                	this.addItem(_value);
+                }
+            } else {
+                this.addItem(value);
+            }
+        }
     },
 
     // overriding CQ.form.CompositeField#getValue
