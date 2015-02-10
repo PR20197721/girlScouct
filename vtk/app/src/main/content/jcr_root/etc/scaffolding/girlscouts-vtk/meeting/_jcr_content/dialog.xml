@@ -15,9 +15,12 @@
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Category"
                     name="./cat"/>
-                <agenda
+                <agenda-label
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Agenda"
+                    xtype="label"/>
+                <agenda
+                    jcr:primaryType="cq:Widget"
                     hideLabel="{Boolean}true"
                     name="./agenda"
                     xtype="vtk-agendalist">
