@@ -55,7 +55,7 @@ public class YearPlan implements Serializable {
 	public void setResources(String resources) {
 		this.resources = resources;
 		isDbUpdate=true;
-		System.err.println("tata1");
+		
 	}
 
 	public java.util.List<Milestone> getMilestones() {
@@ -93,7 +93,7 @@ public class YearPlan implements Serializable {
 		
 		if( altered!=null && this.altered!=null && !this.altered.equals(altered)){
 			isDbUpdate=true;
-			System.err.println("tata2");
+			
 		}
 		
 		this.altered = altered;
@@ -108,7 +108,7 @@ public class YearPlan implements Serializable {
 	public void setCalStartDate(Long calStartDate) {
 		this.calStartDate = calStartDate;
 		isDbUpdate=true;
-		System.err.println("tata3");
+		
 	}
 
 	public String getCalFreq() {
@@ -118,7 +118,7 @@ public class YearPlan implements Serializable {
 	public void setCalFreq(String calFreq) {
 		this.calFreq = calFreq;
 		isDbUpdate=true;
-		System.err.println("tata4");
+		
 	}
 
 	public String getCalExclWeeksOf() {
@@ -128,7 +128,7 @@ public class YearPlan implements Serializable {
 	public void setCalExclWeeksOf(String calExclWeeksOf) {
 		this.calExclWeeksOf = calExclWeeksOf;
 		isDbUpdate=true;
-		System.err.println("tata5");
+		
 	}
 
 	public Cal getSchedule() {
@@ -162,7 +162,7 @@ public class YearPlan implements Serializable {
 	public void setRefId(String refId) {
 		this.refId = refId;
 		isDbUpdate=true;
-		System.err.println("tata6");
+		
 	}
 
 	public java.util.List<MeetingE> getMeetingEvents() {
@@ -180,7 +180,7 @@ public class YearPlan implements Serializable {
 	public void setPath(String path) {
 		if( this.path!=null && path!=null && !path.equals(this.path)){
 			isDbUpdate=true;
-			System.err.println("tata7");
+			
 		}
 		this.path = path;
 		
@@ -193,7 +193,7 @@ public class YearPlan implements Serializable {
 	public void setId(String id) {
 		this.id = id;
 		isDbUpdate=true;
-		System.err.println("tata8");
+		
 	}
 
 	public String getName() {
@@ -203,7 +203,7 @@ public class YearPlan implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 		isDbUpdate=true;
-		System.err.println("tata9");
+		
 	}
 
 	public String getDesc() {
@@ -213,7 +213,7 @@ public class YearPlan implements Serializable {
 	public void setDesc(String desc) {
 		this.desc = desc;
 		isDbUpdate=true;
-		System.err.println("tata10");
+	
 	}
 
 	public boolean isDbUpdate() {

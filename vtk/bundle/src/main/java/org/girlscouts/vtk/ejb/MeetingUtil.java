@@ -288,6 +288,7 @@ public class MeetingUtil {
 		YearPlan plan = troop.getYearPlan();
 		plan.setMeetingEvents(rearangedMeetings);
 		plan.setAltered("true");
+		plan.setDbUpdate(true);
 		troop.setYearPlan(plan);
 
 		troopUtil.updateTroop(user, troop);

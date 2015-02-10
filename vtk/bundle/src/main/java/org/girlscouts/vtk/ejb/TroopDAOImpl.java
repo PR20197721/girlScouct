@@ -606,14 +606,13 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 			java.lang.IllegalAccessException {
 		
 			modifyTroop(user, troop);
-System.err.println("tata troop path: "+ troop.getPath() );	
+	
 
 			if( troop.getYearPlan().getPath()==null || !troop.getYearPlan().getPath().startsWith(troop.getPath()) )
 				troop.getYearPlan().setPath(troop.getPath() +"/yearPlan");
 			modifyYearPlan( user, troop );
 			
-
-System.err.println("tata yearPlan path: "+ troop.getYearPlan().getPath() );				
+			
 			modifySchedule( user, troop );
 			
 			java.util.List<Location> locations = troop.getYearPlan().getLocations();
@@ -659,7 +658,7 @@ System.err.println("tata yearPlan path: "+ troop.getYearPlan().getPath() );
 			classes.add(Asset.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,mapper);
-System.err.println("tata:: " + asset.getPath());			
+			
 
 			if(ocm.objectExists(asset.getPath()) ){
 				JcrUtils.getOrCreateByPath(
@@ -704,7 +703,7 @@ System.err.println("tata:: " + asset.getPath());
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,mapper);
 			
-		System.err.println("tata meeting: "+ meeting.getPath());	
+			
 	if( meeting.getPath() ==null ){
 		JcrUtils.getOrCreateByPath(
 				 troop.getYearPlan().getPath() +"/meetingEvents",
@@ -735,8 +734,7 @@ System.err.println("tata:: " + asset.getPath());
 	public boolean modifyActivity(User user, Troop troop, Activity activity)
 			throws java.lang.IllegalAccessException,
 			java.lang.IllegalAccessException {
-		
-	//System.err.println("tata madif activ: "+ activity.isDbUpdate());	
+
 		if( !activity.isDbUpdate() )return true;
 		
 		Session mySession = null;
@@ -747,7 +745,6 @@ System.err.println("tata:: " + asset.getPath());
 			classes.add(Activity.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,mapper);
-	//System.err.println(">>> tata "+ activity.getPath() +" : "+ troop.getYearPlan().getPath() +" : "+troop.getYearPlan().getPath() +"/activities/"+activity.getUid());	
 	if( activity.getPath() ==null ){
 		JcrUtils.getOrCreateByPath(
 				 troop.getYearPlan().getPath() +"/activities",
@@ -790,7 +787,6 @@ System.err.println("tata:: " + asset.getPath());
 			classes.add(Location.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,mapper);
-	//System.err.println(">>> tata "+ location.getPath());		
 			if( !ocm.objectExists(location.getPath()))
 				ocm.insert(location);
 			else
@@ -861,7 +857,7 @@ System.err.println("tata:: " + asset.getPath());
 			java.lang.IllegalAccessException {
 		
 		YearPlan yearPlan = troop.getYearPlan();
-		if( !yearPlan.isDbUpdate() )return true;
+		// ALWAYS -expirecheck --- if( !yearPlan.isDbUpdate() )return true;
 		
 		Session mySession = null;
 		boolean isUpdated = false;
@@ -945,7 +941,8 @@ System.err.println("tata:: " + asset.getPath());
 				}
 			}
 
-			if (mySession.itemExists(troop.getPath())) {
+			//if (mySession.itemExists(troop.getPath())) {
+			if (ocm.objectExists(troop.getPath())) {
 				ocm.update(troop);
 			} else {
 				String path = "";

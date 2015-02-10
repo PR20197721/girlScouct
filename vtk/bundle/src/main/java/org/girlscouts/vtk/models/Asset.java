@@ -38,6 +38,7 @@ public class Asset implements Serializable {
 				(docType!=null && this.docType==null) )
 			isDbUpdate=true;
 		this.docType = docType;
+		System.err.println("tata "+1);
 	}
 
 	public String getTitle() {
@@ -49,6 +50,7 @@ public class Asset implements Serializable {
 				(title!=null && this.title==null) )
 			isDbUpdate=true;
 		this.title = title;
+		System.err.println("tata "+2);
 	}
 
 	public String getDescription() {
@@ -60,6 +62,7 @@ public class Asset implements Serializable {
 				(description!=null && this.description==null) )
 			isDbUpdate=true;
 		this.description = description;
+		System.err.println("tata "+3);
 	}
 
 	public Boolean getIsCachable() {
@@ -71,6 +74,7 @@ public class Asset implements Serializable {
 				(isCachable!=null && this.isCachable==null) )
 			isDbUpdate=true;
 		this.isCachable = isCachable;
+		System.err.println("tata "+4);
 	}
 
 	public String getRefId() {
@@ -82,6 +86,7 @@ public class Asset implements Serializable {
 				(refId!=null && this.refId==null) )
 			isDbUpdate=true;
 		this.refId = refId;
+		System.err.println("tata "+5);
 	}
 
 	public String getUid() {
@@ -101,6 +106,7 @@ public class Asset implements Serializable {
 				(type!=null && this.type==null) )
 			isDbUpdate=true;
 		this.type = type;
+		System.err.println("tata "+6);
 	}
 
 	public AssetComponentType getType(boolean nothing) {
@@ -120,6 +126,7 @@ public class Asset implements Serializable {
 				(path!=null && this.path==null) )
 			isDbUpdate=true;
 		this.path = path;
+		System.err.println("tata "+7);
 	}
 
 	public boolean isDbUpdate() {
