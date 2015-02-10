@@ -15,7 +15,7 @@
  */
 package org.girlscouts.vtk.difflib;
 
-import difflib.myers.MyersDiff;
+import org.girlscouts.vtk.difflib.myers.MyersDiff;
 
 import java.util.ArrayList;
 import java.util.List;

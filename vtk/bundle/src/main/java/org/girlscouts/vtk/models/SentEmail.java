@@ -5,7 +5,6 @@ import java.io.Serializable;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
-import org.apache.commons.lang.StringUtils;
 import org.girlscouts.vtk.ejb.EmailMeetingReminder;
 import org.girlscouts.vtk.difflib.*;
 import java.util.Arrays;
@@ -60,31 +59,23 @@ public class SentEmail implements Serializable {
 
 	
 	private void generateDiffString(String template, String copy){
-		List<String> original = new LinkedList<String>();
-		List<String> revised = new LinkedList<String>();
-
-		original.addAll(Arrays.asList(template.split("\r?\n|\r")));
-		revised.addAll(Arrays.asList(copy.split("\r?\n|\r")));
+		List<String> original = Arrays.asList(template.split("\r?\n|\r"));
+		List<String> revised = Arrays.asList(copy.split("\r?\n|\r"));
 		
+		Patch patch = org.girlscouts.vtk.difflib.DiffUtils.diff(original, revised);
+		List<String> diffStrings = org.girlscouts.vtk.difflib.DiffUtils.generateUnifiedDiff("", "", original, patch, 0);
 		
-		org.girlscouts.vtk.difflib.Patch patch = org.girlscouts.vtk.difflib.DiffUtils.diff(original, revised);
-		List<String> diffStrings = org.girlscouts.vtk.difflib.DiffUtils.generateUnifiedDiff("", "", original, patch, 0);	
-        String []dfs = new String[diffStrings.size()];
-        htmlDiff = StringUtils.join(diffStrings.toArray(dfs), "\n");
-   
+        htmlDiff = StringUtills.join(diffStrings, "\n");
 	}
 	
-	public String getHtmlMsg(String template) throws org.girlscouts.vtk.difflib.PatchFailedException {
-		List<String >diff = new LinkedList<String>();
-		String[] diffStrings = this.htmlDiff.split("\n");
-		diff = Arrays.asList(diffStrings);
-		org.girlscouts.vtk.difflib.Patch patch2 = org.girlscouts.vtk.difflib.DiffUtils.parseUnifiedDiff(diff);
-        List<String> original = new LinkedList<String>();
-		original.addAll(Arrays.asList(template.split("\r?\n|\r")));
-        List<String> result = (List<String>) org.girlscouts.vtk.difflib.DiffUtils.patch(original, patch2);
+	public String getHtmlMsg(String template) throws PatchFailedException {
+		List<String >diff = Arrays.asList(this.htmlDiff.split("\n"));
+        List<String> original = Arrays.asList(template.split("\r?\n|\r"));
 
-        String []dsf = new String[result.size()];
-        htmlMsg = StringUtils.join( result.toArray(dsf), "\n");		
+		Patch patch2 = DiffUtils.parseUnifiedDiff(diff);
+        List<String> result = (List<String>) DiffUtils.patch(original, patch2);
+
+        htmlMsg = StringUtills.join(result,"\n");
         return htmlMsg;
 	}
 	

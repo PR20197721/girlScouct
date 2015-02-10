@@ -55,7 +55,7 @@
  *
  */
 
-package difflib.myers;
+package org.girlscouts.vtk.difflib.myers;
 
 /**
  * Base class for all exceptions emanating from this package.

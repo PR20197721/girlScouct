@@ -55,7 +55,7 @@
  *
  */
 
-package difflib.myers;
+package org.girlscouts.vtk.difflib.myers;
 
 /**
  * A node in a diffpath.

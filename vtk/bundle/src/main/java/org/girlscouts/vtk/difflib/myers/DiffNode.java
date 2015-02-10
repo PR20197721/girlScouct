@@ -1,4 +1,4 @@
-package difflib.myers;
+package org.girlscouts.vtk.difflib.myers;
 
 /**
  * <p>Title: </p>

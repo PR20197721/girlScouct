@@ -19,15 +19,13 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
-import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
 /**
  * Describes the patch holding all deltas between the original and revised texts.
  * 
  * @author <a href="dm.naumenko@gmail.com">Dmitry Naumenko</a>
  */
-@Node
+
 public class Patch {
     private List<Delta> deltas = new LinkedList<Delta>();
 

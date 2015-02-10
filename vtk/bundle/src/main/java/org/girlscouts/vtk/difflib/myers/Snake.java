@@ -55,7 +55,7 @@
  *
  */
 
-package difflib.myers;
+package org.girlscouts.vtk.difflib.myers;
 
 /**
  *  Represents a snake in a diffpath.

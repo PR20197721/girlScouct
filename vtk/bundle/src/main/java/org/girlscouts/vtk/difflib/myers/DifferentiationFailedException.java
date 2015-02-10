@@ -55,7 +55,7 @@
  *
  */
 
-package difflib.myers;
+package org.girlscouts.vtk.difflib.myers;
 
 /**
  * Thrown whenever the differencing engine cannot produce the differences
