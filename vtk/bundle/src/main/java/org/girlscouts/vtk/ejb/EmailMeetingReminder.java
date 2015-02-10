@@ -3,7 +3,7 @@ package org.girlscouts.vtk.ejb;
 
 public class EmailMeetingReminder {
 
-	private String to, from, cc, bcc, html, subj, 
+	private String to, from, cc, bcc, template, html, subj, 
 	emailToGirlParent, emailToSelf, emailToTroopVolunteer,
 	meetingId;
 
@@ -74,6 +74,13 @@ public class EmailMeetingReminder {
 		this.html = html;
 	}
 
+	public String getTemplate() {
+		return template;
+	}
+
+	public void setTemplate(String template) {
+		this.template = template;
+	}
 	public String getEmailToGirlParent() {
 		return emailToGirlParent;
 	}

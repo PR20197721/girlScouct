@@ -56,6 +56,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 
 <script>
     var thisMeetingPath = "";
+    var template = "";
 </script>
 
 <div id="panelWrapper" class="row content meeting-detail">

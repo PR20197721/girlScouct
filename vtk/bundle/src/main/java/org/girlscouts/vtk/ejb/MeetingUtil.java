@@ -1355,60 +1355,35 @@ public class MeetingUtil {
 		return false;
 	}
 	
-	public void saveEmail(User user, Troop troop, String meetingId)
-			throws Exception {
+	public void saveEmail(User user, Troop troop, String meetingId){
 
-		if (troop != null
-				&& !userUtil.hasPermission(troop,
-						Permission.PERMISSION_CREATE_MEETING_ID))
-			throw new IllegalAccessException();
-
-		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
-			troop.setErrCode("112");
-			throw new java.lang.IllegalAccessException();
-		}
-		try{
-			java.util.List<MeetingE> meetings = troop.getYearPlan()
-					.getMeetingEvents();
-			for (int i = 0; i < meetings.size(); i++) {
-				MeetingE meeting = meetings.get(i);
-				if (meeting.getUid().equals(meetingId)) {
+		java.util.List<MeetingE> meetings = troop.getYearPlan()
+				.getMeetingEvents();
+		for (int i = 0; i < meetings.size(); i++) {
+			MeetingE meeting = meetings.get(i);
+			if (meeting.getUid().equals(meetingId)) {
+				try{
 					SentEmail email = new SentEmail(troop.getSendingEmail());
-					//email.setPatch(getPatch(meeting.getMeetingInfo().getMeetingInfo().get("overview").getStr(), troop.getSendingEmail().getHtml()));
 					java.util.List<SentEmail> emails = meeting.getSentEmails();
 					emails = emails == null? new java.util.ArrayList<SentEmail>() :emails;
 					emails.add(email);
+
 					meeting.setSentEmails(emails);
-					// troop.getYearPlan().setAltered("true");
-					troopUtil.updateTroop(user, troop);
+					if(meeting.getEmlTemplate()==null){
+						meeting.setEmlTemplate(troop.getSendingEmail().getTemplate());
+					}
+					meetingDAO.updateMeetingEvent(user, troop, meeting);
 					return;
+				}catch(Exception e){
+					e.printStackTrace();
 				}
 			}
-	
-			java.util.List<Activity> activities = troop.getYearPlan()
-					.getActivities();
-		}catch(Exception e){
-			e.printStackTrace();
+			//java.util.List<Activity> activities = troop.getYearPlan().getActivities();
 		}
-		
 
 	}
-	private org.girlscouts.vtk.difflib.Patch getPatch(String template, String copy){
-		List<String> original = new LinkedList<String>();
-		List<String> revised = new LinkedList<String>();
-
-		original.add(template);
-		revised.add(copy);
-		
-		org.girlscouts.vtk.difflib.Patch patch = DiffUtils.diff(original, revised);
-		return patch;
-		
-        
-	}
 
 
 
-	
-	
 
 }

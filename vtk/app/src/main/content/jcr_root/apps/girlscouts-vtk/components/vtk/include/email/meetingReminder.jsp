@@ -44,27 +44,26 @@
 
 	<div style="background-color:yellow;"></div>
 
-	<textarea id="email_htm" name="textarea" class="jqte-test" rows="25" cols="25"> 
-		Hello Girl Scout Families,
-		<br/><br/>Here are the details of our next meeting:
-		<table>
+	<textarea id="email_htm" name="textarea" class="jqte-test" rows="25" cols="25">
+		<p>Hello Girl Scout Families,</p>
+		<br/><p>Here are the details of our next meeting:</p>
+		<table> 
 			<tr><th>Date:</th>
 				<td><%= FORMAT_MEETING_REMINDER.format(searchDate)%> - <%=FORMAT_hhmm_AMPM.format(meetingEndDate)%></td>
 			</tr>
 			<tr><th>Location:</th>
 				<td><%
 				if( meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null ){
-					for(int k=0;k<troop.getYearPlan().getLocations().size();k++){
-						
-						if( troop.getYearPlan().getLocations().get(k).getPath().equals( meeting.getLocationRef() ) ){
-							%>
-								<br/><%=troop.getYearPlan().getLocations().get(k).getPath()%><%=troop.getYearPlan().getLocations().get(k).getName() %>
-								<br/><%=troop.getYearPlan().getLocations().get(k).getAddress() %>
-								<%=troop.getYearPlan().getLocations().get(k).getCity() %>
-								<%=troop.getYearPlan().getLocations().get(k).getState() %>
-								<%=troop.getYearPlan().getLocations().get(k).getZip() %>
-							<% 
-						}
+					for(int k=0;k<troop.getYearPlan().getLocations().size();k++){	
+						if( troop.getYearPlan().getLocations().get(k).getPath().equals( meeting.getLocationRef() ) ){%>
+						<%=troop.getYearPlan().getLocations().get(k).getName() %>
+						<br/><%=troop.getYearPlan().getLocations().get(k).getAddress() %>
+						<%-- 
+						<%=troop.getYearPlan().getLocations().get(k).getCity() %>
+						<%=troop.getYearPlan().getLocations().get(k).getState() %>
+						<%=troop.getYearPlan().getLocations().get(k).getZip() %> 
+						--%>
+						<% }
 					}
 		   		}
 				%></td>
@@ -73,19 +72,17 @@
 				<td><%= meeting.getMeetingInfo().getName() %></td>
 			</tr>
 		</table>
-
 		<%=meeting.getMeetingInfo().getMeetingInfo().get("overview").getStr() %>
-
-		<br/><br/>If you have any questions, or want to participate in this meeting, please contact me at 
+		<br/><p>If you have any questions, or want to participate in this meeting, please contact me at 
 		<%if(apiConfig.getUser().getPhone()!=null)%><%=apiConfig.getUser().getPhone() %>
 		<%if(apiConfig.getUser().getMobilePhone()!=null)%><%=apiConfig.getUser().getMobilePhone() %>
 		<%if(apiConfig.getUser().getHomePhone()!=null)%><%=apiConfig.getUser().getHomePhone() %>
 		<%if(apiConfig.getUser().getAssistantPhone()!=null)%><%=apiConfig.getUser().getAssistantPhone() %>
+		</p>
+		<br/><p>Thank you for supporting your <%=troop.getTroop().getGradeLevel() %>,</p>
 
-		<br/><br/>Thank you for supporting your <%=troop.getTroop().getGradeLevel() %>,
-
-		<br/><br/><%if(apiConfig.getUser().getName()!=null)%><%=apiConfig.getUser().getName() %>
-		<br/><%=troop.getTroop().getTroopName() %>
+		<br/><p><%if(apiConfig.getUser().getName()!=null)%><%=apiConfig.getUser().getName() %></p>
+		<p><%=troop.getTroop().getTroopName() %></p>
 		<br/><br/>
 		<div id="aidLinks">
 			<p class="hide">Aids Included: </p>
@@ -101,82 +98,70 @@
 	  <dt data-target="panel1"><h6 class="off">Include meeting aid</h6></dt>
 	  <dd class="accordion-navigation">
 	    <div class="content" id="panel1">
-      	<ul class="small-block-grid-2">
-      	<% 
-      		// List<Asset> aidTags = planView.getAidTags();
-      		for(int i=0;i<planView.getAidTags().size();i++) { %>
+      	<ul class="small-block-grid-2"><%  
+      	for(int i=0;i<planView.getAidTags().size();i++) { %>
       		<li><i class="icon-pdf-file-extension ext"><!-- <span class="color-overlay"></span> --></i><span class="name"><%= planView.getAidTags().get(i).getTitle() %></span></li>
-      		<li><a class="add-links" href="#nogo" title="add" onclick="addAidLink('<%=planView.getAidTags().get(i).getRefId()%>','<%=planView.getAidTags().get(i).getTitle()%>','<%=mid %>')"><i class="icon-button-circle-plus"></i></a></li>
-      	<%}%>
+      		<li><a class="add-links" href="#nogo" title="add" onclick="addAidLink('<%=planView.getAidTags().get(i).getRefId()%>','<%=planView.getAidTags().get(i).getTitle()%>','<%=mid %>')"><i class="icon-button-circle-plus"></i></a></li><%
+      	}%>
       	</ul>
 	    </div>
 	  </dd>
 	</dl>
-
 	<dl class="accordion" data-accordion>
 	  <dt data-target="panel2"><h6>Include Form Link</h6></dt>
 	  <dd class="accordion-navigation">
-	    <div class="content" id="panel2">
-				<% 
-				String councilId = null;
-				if (apiConfig != null) {
-				    if (apiConfig.getTroops().size() > 0) {
-				        councilId = Integer.toString(apiConfig.getTroops().get(0).getCouncilCode());
-				    }
-				}
-				CouncilMapper mapper = sling.getService(CouncilMapper.class);
-				String branch = mapper.getCouncilBranch(councilId);
-				branch = branch.replace("/content/", "");
-				
-				//For testing on local set default council since gateway doesn't have tags
-				if(branch == null || branch.isEmpty() || branch.equals("gateway")){
-					branch = "gsctx";
-				}
-				
-					org.girlscouts.vtk.utils.DocumentUtil docUtil = new org.girlscouts.vtk.utils.DocumentUtil(resourceResolver, sling.getService(com.day.cq.tagging.JcrTagManagerFactory.class), branch);
-					try {
-						
-						int panelCount = 1;
-						DocumentCategory tempCategory = docUtil.getNextCategory();
-						while(tempCategory != null){
-							String name = tempCategory.getName();
-						%>
-						<div class="row">
-			    		<dl class="accordion-inner clearfix" data-accordion>
-			      		<dt data-target="panel<%=panelCount%>b" class="clearfix">
-			      			<span class="name"><%=name %></span>
-			      		</dt>
-			      		<dd>
-									<div id="panel<%=panelCount%>b" class="content">
-										<ul class="small-block-grid-2">
-
-										<%
-										Document tempDoc = tempCategory.getNextDocument();
-										while(tempDoc != null){
-											 %><li><span><%=tempDoc.getTitle()%></span></li> 
-											 	<li><a class="add-links" href="#nogo" title="add" onclick="addFormLink('<%=tempDoc.getPath()%>', '<%=tempDoc.getTitle()%>', 'panel<%=panelCount%>b')"><i class="icon-button-circle-plus"></i></a></li> <%
-											tempDoc = tempCategory.getNextDocument();
-										}
-										tempCategory = docUtil.getNextCategory();
-										%> 
-										</ul>
-									</div>
-								</dd>
-							</dl>
-						</div>
-						<% panelCount++; }
-							}  catch(RepositoryException e){
-								%><h1>ERROR: Tags Or Documents Not Configured Properly</h1><%
-							}
-						%>
+	    <div class="content" id="panel2"><% 
+			String councilId = null;
+			if (apiConfig != null) {
+			    if (apiConfig.getTroops().size() > 0) {
+			        councilId = Integer.toString(apiConfig.getTroops().get(0).getCouncilCode());
+			    }
+			}
+			CouncilMapper mapper = sling.getService(CouncilMapper.class);
+			String branch = mapper.getCouncilBranch(councilId);
+			branch = branch.replace("/content/", "");
+			
+			//For testing on local set default council since gateway doesn't have tags
+			if(branch == null || branch.isEmpty() || branch.equals("gateway")){
+				branch = "gsctx";
+			}
+			
+			org.girlscouts.vtk.utils.DocumentUtil docUtil = new org.girlscouts.vtk.utils.DocumentUtil(resourceResolver, sling.getService(com.day.cq.tagging.JcrTagManagerFactory.class), branch);
+			try {	
+				int panelCount = 1;
+				DocumentCategory tempCategory = docUtil.getNextCategory();
+				while(tempCategory != null){
+					String name = tempCategory.getName();
+				%>
+				<div class="row">
+	    		<dl class="accordion-inner clearfix" data-accordion>
+	      		<dt data-target="panel<%=panelCount%>b" class="clearfix">
+	      			<span class="name"><%=name %></span>
+	      		</dt>
+	      		<dd><div id="panel<%=panelCount%>b" class="content">
+					<ul class="small-block-grid-2"><% 
+					Document tempDoc = tempCategory.getNextDocument();
+					while(tempDoc != null){%>
+						<li><span><%=tempDoc.getTitle()%></span></li> 
+						<li><a class="add-links" href="#nogo" title="add" onclick="addFormLink('<%=tempDoc.getPath()%>', '<%=tempDoc.getTitle()%>', 'panel<%=panelCount%>b')"><i class="icon-button-circle-plus"></i></a></li> <%
+						tempDoc = tempCategory.getNextDocument();
+					}
+					tempCategory = docUtil.getNextCategory();%> 
+					</ul>
+					</div>
+				</dd>
+				</dl>
+				</div><% 
+				panelCount++; }
+				}  catch(RepositoryException e){
+					%><h1>ERROR: Tags Or Documents Not Configured Properly</h1><%
+				}%>
 			</div>
-	  </dd>
+	  	</dd>
 	</dl>
 	<div class="right clearfix">
 		<input type="button" value="Send email" class="button btn" onclick="sendEmail();"/>
-		<!--  <input class="button btn" value="Send email" type="button" onclick="sendMeetingReminderEmail()"/>-->
 	</div>
-	
 	<div id="added">
 		<p>Added to email.</p>
 	</div>
@@ -185,12 +170,11 @@
 	</div>
 	
 </div>
-<!--//content-->
-
-
+<!--end of content-->
 
 
 <script>
+	//var template;
 	$(document).ready(function(){
 		//print out the date the email was sent.TBD
 		 /* if(moment(new Date()) != null && moment(new Date()) !='') {
@@ -200,17 +184,21 @@
 		 } */
 		 $('#added').dialog({ autoOpen: false, zIndex: 200 });
 		 $('#after-sent').dialog({ autoOpen: false, zIndex: 200 });
-
+		$(".jqte-test").jqte({
+			"source": false,
+			"rule": false,
+			"sub": false,
+			"strike": false,
+			"fsizes": ['10','12','14','16','18','20','22','24','28','32']
+		});
+		getTemplate();
 	});
 	
-
-	$(".jqte-test").jqte({
-		"source": false,
-		"rule": false,
-		"sub": false,
-		"strike": false,
-		"fsizes": ['10','12','14','16','18','20','22','24','28','32']
-	});
+	function getTemplate(){
+		$('#email_htm').val(removeIndentions($('.jqte_editor').html()));
+		template = $('#email_htm').val();
+		
+	};
 	function addFormLink(link, formname, categoryId){
 		var url = window.location.href;
 		var arr = url.split("/");
@@ -244,15 +232,16 @@
 	};
 	function sendEmail(){
 		if(validate()){
-	    	previewMeetingReminderEmail('<%=mid%>'); 
+			//alert(template);
+	    	previewMeetingReminderEmail('<%=mid%>',template);
 		}
-
 	};
 	function validate(){
 	    var emailReg = /^(([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?\;?)+$/;
 	    var emailAddr = $('#email_to_cc').val();
 	    var subject = $('#email_subj').val();
 	    var body = $('#email_htm').val();
+	    //alert(body);
 		if(emailAddr.length){
 		    if(!emailReg.test(emailAddr)){
 		    	//$('#email_to_cc') label turn red or input background turn red
@@ -278,6 +267,13 @@
 		return true;
 	    
 	};
+	function removeIndentions(x) {
+		//return x.replace(/\n|\r/gim, '');
+		return x.replace(/^\s+|\s+$/gim, '');
+
+	};
+
+
 	
 </script>
  

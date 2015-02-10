@@ -1329,7 +1329,6 @@
         margin-left: 40px;
         margin-right: 120px;
         cursor: pointer;
-        position: relative;
         &:before {
           border-style: solid;
           content: "";
@@ -1560,6 +1559,7 @@ input[type="file"] {
   .vtk-body .accordion > dt h3 {
     width:100%;
     display: block;
+    position: relative;
     &.on {
       &:before {
         margin-left: -40px;

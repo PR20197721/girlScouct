@@ -102,7 +102,7 @@
                 <% }
                   if ( !(activity.getCancelled()!=null && activity.getCancelled().equals("true") ) && 
                   activity.getRegisterUrl()  !=null && !activity.getRegisterUrl().equals("")){%>
-                  <li><a href="<%=activity.getRegisterUrl()%>" class="button linkButton" target="_blank">Register for this event</a></li><%
+                  <li><a href="<%=activity.getRegisterUrl()%>" target="_blank">Register for this event</a></li><%
                   } %>
                     <li><a href="javascript:rmCustActivity12(aPath)">delete this activity</a></li><% 
                     

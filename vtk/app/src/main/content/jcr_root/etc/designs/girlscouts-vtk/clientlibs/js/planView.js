@@ -171,14 +171,14 @@ function revertAgenda(mid) {
 	});
 }
 
-function previewMeetingReminderEmail(mid){
+function previewMeetingReminderEmail(mid,template){
 	var email_to_gp = document.getElementById("email_to_gp").checked;
 	var email_to_sf = document.getElementById("email_to_sf").checked;
 	var email_to_tv = document.getElementById("email_to_tv").checked;
 	var email_cc = document.getElementById("email_to_cc").value;
 	var email_subj = document.getElementById("email_subj").value;
-	var email_htm = document.getElementById("email_htm").value; 
-	
+	var email_htm = document.getElementById("email_htm").value;
+
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
 		type: 'POST',
@@ -191,7 +191,8 @@ function previewMeetingReminderEmail(mid){
 			email_cc:email_cc,
 			email_subj:email_subj,
 			mid:mid,
-			email_htm: email_htm
+			email_htm: email_htm,
+			template:template
 		},
 		success: function(result) {
 			sendMeetingReminderEmail();

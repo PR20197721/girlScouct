@@ -33,6 +33,9 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 
 	@Field(id = true)
 	String uid;
+	
+	@Field
+	private String emlTemplate;
 
 	@Collection
 	java.util.List<Asset> assets;
@@ -124,6 +127,14 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 
 	public void setSentEmails(java.util.List<SentEmail> emails) {
 		this.sentEmails = emails;
+	}
+	
+	public String getEmlTemplate() {
+		return emlTemplate;
+	}
+
+	public void setEmlTemplate(String template) {
+		this.emlTemplate =  template;
 	}
 
 }
