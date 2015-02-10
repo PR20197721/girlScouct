@@ -1,13 +1,5 @@
-<%@ page
-  import="com.day.text.Text, java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*, java.io.*, java.net.*"%>
-<%@include file="/libs/foundation/global.jsp" %>
 <!-- PAGEID :: ./app/src/main/content/jcr_root/apps/girlscouts-vtk/components/vtk/mytroop_react.jsp -->
-<cq:defineObjects/>
-<%@include file="include/session.jsp"%>
 <%
-    String activeTab = "myTroop";
-    boolean showVtkNav = true;
-
   java.util.List<org.girlscouts.vtk.models.Contact> contacts = null;
   if( isCachableContacts && session.getAttribute("vtk_cachable_contacts")!=null ) {
 	  contacts = (java.util.List<org.girlscouts.vtk.models.Contact>) session.getAttribute("vtk_cachable_contacts");
@@ -36,13 +28,7 @@
 			
 	}catch(Exception e){e.printStackTrace();}
 %>
-
-<%@include file="include/tab_navigation.jsp"%>
-
-<div id="panelWrapper" class="row content">
-
 <%@include file="include/utility_nav.jsp"%>
-
 <%@include file='include/modals/modal_upload_img.jsp' %>
 
   <div class="hero-image">
@@ -131,4 +117,3 @@
     </dl>
 
   </div><!--/column-->
-</div><!--panel-wrapper-->

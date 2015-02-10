@@ -1,0 +1,30 @@
+SalesForce is the Identity Provider
+
+Issuer
+https://gsusa--gsuat.cs11.my.salesforce.com
+
+Identity Provider Login URL
+https://gsusa--gsuat.cs11.my.salesforce.com/idp/endpoint/HttpPost
+
+
+Local
+Entity ID:		gsvtk-local
+ACS URL:	http://localhost:4503/content/girlscouts-vtk/en/vtk.html
+
+Dev
+Entity ID:		gsvtk-dev
+ACS URL:	http://dev.girlscouts.org/content/girlscouts-vtk/en/vtk.html
+
+Stage
+Entity ID:		gsvtk-stage
+ACS URL:	http://stage.girlscouts.org/content/girlscouts-vtk/en/vtk.html
+
+UAT
+Entity ID:		gsvtk-uat
+ACS URL:	https://my-uat.girlscouts.org/content/girlscouts-vtk/en/vtk.html
+
+
+PROD
+Entity ID:		gsvtk-prod
+ACS URL:	https://my.girlscouts.org/content/girlscouts-vtk/en/vtk.html
+
