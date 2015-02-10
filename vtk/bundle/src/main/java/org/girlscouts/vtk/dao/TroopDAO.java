@@ -39,5 +39,9 @@ public interface TroopDAO {
 	public boolean removeMeeting(User user, Troop troop, MeetingE meeting)
 			throws java.lang.IllegalAccessException,
 			java.lang.IllegalAccessException;
+	
+	public boolean removeAsset(User user, Troop troop, Asset asset)
+			throws java.lang.IllegalAccessException,
+			java.lang.IllegalAccessException ;
 
 }

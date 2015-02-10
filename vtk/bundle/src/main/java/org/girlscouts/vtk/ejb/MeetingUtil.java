@@ -872,10 +872,11 @@ public class MeetingUtil {
 				for (int y = 0; y < assets.size(); y++) {
 					if (assets.get(y).getRefId().equals(aidId)) {
 						assets.remove(y);
+						troopDAO.removeAsset(user, troop, assets.get(y));
 					}
 				}
 				// troop.getYearPlan().setAltered("true");
-				troopUtil.updateTroop(user, troop);
+				//troopUtil.updateTroop(user, troop);
 				return;
 			}
 		}

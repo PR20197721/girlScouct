@@ -639,6 +639,18 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 					modifyAsset( user, troop, asset);
 				 }
 			}
+			
+			
+			
+			// modif
+			try {
+				modifiedChecker.setModified(user.getSid(), troop.getYearPlan().getPath());
+			} catch (Exception em) {
+				em.printStackTrace();
+			}
+			
+			
+			
 		return false;
 	}
 	
@@ -857,7 +869,7 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 			java.lang.IllegalAccessException {
 		
 		YearPlan yearPlan = troop.getYearPlan();
-		// ALWAYS -expirecheck --- if( !yearPlan.isDbUpdate() )return true;
+		if( !yearPlan.isDbUpdate() )return true;
 		
 		Session mySession = null;
 		boolean isUpdated = false;
@@ -871,6 +883,9 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 			ocm.update(yearPlan);
 			ocm.save();
 			isUpdated=true;
+			
+			
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -1070,6 +1085,38 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 		
 		return isUpdated;
 	}
+	
+	
+	public boolean removeAsset(User user, Troop troop, Asset asset)
+			throws java.lang.IllegalAccessException,
+			java.lang.IllegalAccessException {
+		
+		Session mySession = null;
+		boolean isUpdated = false;
+		try {
+			mySession = sessionFactory.getSession();
+			List<Class> classes = new ArrayList<Class>();
+			classes.add(Asset.class);
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,mapper);
+			ocm.remove(asset);
+			ocm.save();
+			isUpdated=true;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (mySession != null)
+					sessionFactory.closeSession(mySession);
+			} catch (Exception es) {
+				es.printStackTrace();
+			}
+		}
+		
+		return isUpdated;
+	}
+	
 	
 }// ednclass
 
