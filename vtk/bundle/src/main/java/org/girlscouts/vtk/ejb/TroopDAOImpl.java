@@ -617,9 +617,12 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 			
 			java.util.List<Location> locations = troop.getYearPlan().getLocations();
 			if( locations!=null)
-				for(int i=0;i<locations.size();i++)
+				for(int i=0;i<locations.size();i++){
+					Location location= locations.get(i);
+					if( location.getPath()==null )
+						location.setPath(troop.getYearPlan().getPath()+"/locations/"+ location.getUid());
 					modifyLocation( user, troop, locations.get(i) );
-			
+				}
 			if( troop.getYearPlan().getActivities() !=null)		
 			 for(int i=0;i<troop.getYearPlan().getActivities().size();i++)
 				modifyActivity( user, troop, troop.getYearPlan().getActivities().get(i) );
@@ -799,6 +802,15 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 			classes.add(Location.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,mapper);
+		System.err.println("tata location: "+ location.getPath() );	
+		
+		if(!ocm.objectExists(location.getPath()) ){
+			JcrUtils.getOrCreateByPath(
+					location.getPath().substring(0, location.getPath().lastIndexOf("/")),
+					"nt:unstructured", mySession);
+			
+		}
+		
 			if( !ocm.objectExists(location.getPath()))
 				ocm.insert(location);
 			else

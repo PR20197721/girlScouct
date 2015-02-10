@@ -28,6 +28,7 @@ public class Location implements Serializable {
 		this.state = state;
 		this.zip = zip;
 		this.city = city;
+		isDbUpdate=true;
 	}
 
 	public String getUid() {
