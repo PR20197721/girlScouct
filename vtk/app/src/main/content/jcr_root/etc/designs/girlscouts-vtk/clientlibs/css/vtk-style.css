@@ -965,8 +965,6 @@
       color: #fff;
       font-size: 14px;
       vertical-align: middle; }
-    .vtk-body .accordion > dt h3 {
-      position: relative; }
     .vtk-body .accordion > dt h3,
     .vtk-body .accordion > dt h6 {
       display: inline;
@@ -1148,7 +1146,8 @@ input[type="file"] {
 
   .vtk-body .accordion > dt h3 {
     width: 100%;
-    display: block; }
+    display: block;
+    position: relative; }
     .vtk-body .accordion > dt h3.on:before {
       margin-left: -40px; }
     .vtk-body .accordion > dt h3:before {

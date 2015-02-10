@@ -1321,9 +1321,6 @@
         font-size: 14px;
         vertical-align: middle;
       }
-      h3 {
-        position:relative;
-      }
       h3,
       h6 {
         display: inline;
@@ -1562,6 +1559,7 @@ input[type="file"] {
   .vtk-body .accordion > dt h3 {
     width:100%;
     display: block;
+    position: relative;
     &.on {
       &:before {
         margin-left: -40px;
