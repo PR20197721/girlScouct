@@ -30,32 +30,81 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
     // overriding CQ.Ext.Component#initComponent
     initComponent: function() {
         girlscouts.components.VTKAgendaList.superclass.initComponent.call(this);
+        this.hiddenField = new CQ.Ext.form.Hidden({
+            name: this.name
+        });
+        this.add(this.hiddenField);
+
+        var form = this.findParentByType("form");
+        form.on('beforeaction', function(){
+        	this.hiddenField.setValue(this.getValue());
+        }, this);
     },
 
     // overriding CQ.form.CompositeField#setValue
     setValue: function(value) {
-        girlscouts.components.VTKAgendaList.superclass.setValue.call(this);
+        this.fireEvent("change", this, value, this.getValue());
+        
+        var newValues = value.split(']');
+        newValues.each(function(_value, i) {
+        	// [1^open ceremory^10 => open ceremony^10 
+        	_value[i] = /[^\^]+^(.*)/.exec(_value[i].trim())[0]; 
+        });
+        
+        this.items = new Array();
+        newValues.each(function(_value) {
+        	this.addValue(_value);
+        });
+        this.doLayout();
     },
 
     // overriding CQ.form.CompositeField#getValue
     getValue: function() {
-        var value;
-        for (var i = 0; i < this.items.length; i++) {
-        	value += '[' + (i+1) + '^' + this.items[i] + ']';
-        }
-        alert('value = ' + value);
+        var value = '';
+        this.items.each(function(item, index/*, length*/) {
+            if (item instanceof CQ.form.MultiField.Item) {
+                //value[index] = item.getValue();
+                value += '[' + index + '^' + item.getValue() + ']';
+                index++;
+            }
+        }, this);
+        alert('value = ' +value);
         return value;
     },
+    
+//    addItem: function() {
+//        girlscouts.components.VTKAgendaList.superclass.addItem.call(this, arguments);
+//        alert('getValue = ' + this.getValue());
+//        this.hiddenField.setValue(this.getValue());
+//    },
+    
+    addItem: function(value) {
+        var item = this.insert(this.items.getCount() - 1, {});
+        var form = this.findParentByType("form");
+        if (form)
+            form.getForm().add(item.field);
+        this.doLayout();
 
-    // overriding CQ.form.CompositeField#getRawValue
-    getRawValue: function() {
-    },
+        if (item.field.processPath) item.field.processPath(this.path);
+        if (value) {
+            item.setValue(value);
+        }
 
-    // private
-    updateHidden: function() {
-        this.hiddenField.setValue(this.getValue());
-    } 
-
+        if (this.fieldWidth < 0) {
+            // fieldWidth is < 0 when e.g. the MultiField is on a hidden tab page;
+            // do not set width but wait for resize event triggered when the tab page is shown
+            return;
+        }
+        if (!this.fieldWidth) {
+            this.calculateFieldWidth(item);
+        }
+        try {
+            item.field.setWidth(this.fieldWidth);
+        }
+        catch (e) {
+            CQ.Log.debug("CQ.form.MultiField#addItem: " + e.message);
+        }
+    }
 });
 
 // register xtype

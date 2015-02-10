@@ -329,7 +329,7 @@
                         params[":nameHint"] = hint;
                     }
                 }
-
+                
                 var action = new CQ.form.SlingSubmitAction(frm, {
                     params: params,
                     success: function(frm, resp) {
