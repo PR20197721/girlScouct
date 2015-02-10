@@ -861,31 +861,27 @@
 .vtk-body .modal-attendance .content h4 {
   font-size: 24px;
   margin-bottom: 50px; }
-.vtk-body .modal-attendance .content table {
-  border: none; }
-  .vtk-body .modal-attendance .content table tr,
-  .vtk-body .modal-attendance .content table td,
-  .vtk-body .modal-attendance .content table th {
-    background: none; }
-  .vtk-body .modal-attendance .content table p {
-    font-weight: 600;
-    font-size: 17px;
-    text-transform: uppercase;
-    margin-right: 80px; }
-  .vtk-body .modal-attendance .content table thead th,
-  .vtk-body .modal-attendance .content table td:nth-child(n+2) {
-    text-align: center; }
-.vtk-body .browseMeetingAids a, .vtk-body .browseMeetingAids p, .vtk-body .browseMeetingAids span, .vtk-body .browseMeetingAids input {
+.vtk-body .modal-attendance .content p {
+  font-weight: 600;
+  font-size: 17px;
+  text-transform: uppercase;
+  margin-right: 80px; }
+.vtk-body .modal-attendance .content thead th,
+.vtk-body .modal-attendance .content td:nth-child(n+2) {
+  text-align: center; }
+
+.browseMeetingAids a, .browseMeetingAids p, .browseMeetingAids span, .browseMeetingAids input {
   font-size: 14px; }
-.vtk-body #manageCalendarSection .holidays ul li {
+
+#manageCalendarSection .holidays ul li {
   list-style: none; }
-.vtk-body #manageCalendarSection .holidays input[type=checkbox]:checked + label:before {
+#manageCalendarSection .holidays input[type=checkbox]:checked + label:before {
   content: "\e6d7";
   font-family: "JollyFont";
   color: green; }
-.vtk-body #manageCalendarSection .holidays input[type="checkbox"] {
+#manageCalendarSection .holidays input[type="checkbox"] {
   display: none; }
-.vtk-body #manageCalendarSection .holidays label:before {
+#manageCalendarSection .holidays label:before {
   border: solid 1px #ccc;
   content: "";
   height: 30px;
@@ -896,85 +892,89 @@
   display: inline-block;
   float: left;
   padding: 4px; }
-.vtk-body #manageCalendarSection .holidays label p {
+#manageCalendarSection .holidays label p {
   float: left;
   margin-top: -5px;
   margin-left: 9px; }
-.vtk-body #manageCalendarSection .holidays label span {
+#manageCalendarSection .holidays label span {
   display: block; }
-.vtk-body .hero-image {
+
+.hero-image {
   margin-bottom: 10px;
   position: relative; }
-  .vtk-body .hero-image a {
+  .hero-image a {
     position: absolute;
     bottom: 12px;
     color: #fff;
     font-size: 40px;
     right: 20px; }
-    .vtk-body .hero-image a:hover {
+    .hero-image a:hover {
       color: #ccc; }
-.vtk-body #searchResults h3 {
+
+#searchResults h3 {
   text-transform: uppercase;
   margin: 10px 0 20px 0;
   border-top: solid 1px #ccc;
   padding-top: 20px; }
-.vtk-body #searchResults h4 {
+#searchResults h4 {
   margin-bottom: 15px; }
-.vtk-body #searchResults .activityDate,
-.vtk-body #searchResults .activityLocation {
+#searchResults .activityDate,
+#searchResults .activityLocation {
   margin: 0; }
-.vtk-body #searchResults .activityLocation a {
+#searchResults .activityLocation a {
   display: block;
   font-weight: 600; }
-.vtk-body #searchResults ul,
-.vtk-body #searchResults li {
+#searchResults ul,
+#searchResults li {
   list-style: none; }
-.vtk-body #searchResults li {
+#searchResults li {
   border-bottom: solid 1px #ccc;
   margin-bottom: 20px;
   padding-bottom: 20px; }
-  .vtk-body #searchResults li:last-child {
+  #searchResults li:last-child {
     border: none;
     padding-bottom: 0;
     margin-bottom: 0; }
-.vtk-body .crumbs .columns #util-links.inline-list {
+
+.crumbs .columns #util-links.inline-list {
   position: relative;
   top: -10px; }
-  .vtk-body .crumbs .columns #util-links.inline-list li {
+  .crumbs .columns #util-links.inline-list li {
     float: right; }
-    .vtk-body .crumbs .columns #util-links.inline-list li:nth-of-type(2) {
+    .crumbs .columns #util-links.inline-list li:nth-of-type(2) {
       margin: 0 15.151515%; }
-    .vtk-body .crumbs .columns #util-links.inline-list li:last-child {
+    .crumbs .columns #util-links.inline-list li:last-child {
       margin: 0; }
-.vtk-body .accordion {
+
+.accordion {
   margin-bottom: 1.25rem; }
-  .vtk-body .accordion dl dt,
-  .vtk-body .accordion a {
+  .accordion dl dt,
+  .accordion a {
     font-weight: normal;
     font-size: 14px; }
-    .vtk-body .accordion dl dt.email,
-    .vtk-body .accordion a.email {
+    .accordion dl dt.email,
+    .accordion a.email {
       text-overflow: ellipsis;
       overflow: hidden; }
-  .vtk-body .accordion > dt {
+  .accordion > dt {
     background: #00ae58;
     position: relative;
     padding: 13px 0 11px 25px;
     margin: 0; }
-    .vtk-body .accordion > dt * {
+    .accordion > dt * {
       color: #fff;
       font-size: 14px;
       vertical-align: middle; }
-    .vtk-body .accordion > dt h3,
-    .vtk-body .accordion > dt h6 {
+    .accordion > dt h3,
+    .accordion > dt h6 {
       display: inline;
       font-size: 1.5rem;
       text-transform: uppercase;
       margin-left: 40px;
       margin-right: 120px;
       cursor: pointer; }
-      .vtk-body .accordion > dt h3:before,
-      .vtk-body .accordion > dt h6:before {
+      .accordion > dt h3:before,
+      .accordion > dt h6:before {
         border-style: solid;
         content: "";
         border-width: 13px;
@@ -984,27 +984,27 @@
         top: 50%;
         border-color: transparent transparent transparent #fff;
         margin-left: 5px; }
-      .vtk-body .accordion > dt h3.on:before,
-      .vtk-body .accordion > dt h6.on:before {
+      .accordion > dt h3.on:before,
+      .accordion > dt h6.on:before {
         border-color: #fff transparent transparent;
         margin-top: -4px;
         margin-left: 0; }
-  .vtk-body .accordion .icon-mail {
+  .accordion .icon-mail {
     font-size: 31px;
     margin-right: 30px;
     line-height: .5; }
-  .vtk-body .accordion .accordion-inner {
+  .accordion .accordion-inner {
     background: #f7f7f6; }
-    .vtk-body .accordion .accordion-inner dt {
+    .accordion .accordion-inner dt {
       position: relative;
       padding: 10px 10px 10px 15px;
       margin-bottom: 0; }
-      .vtk-body .accordion .accordion-inner dt * {
+      .accordion .accordion-inner dt * {
         vertical-align: middle; }
-      .vtk-body .accordion .accordion-inner dt .name:nth-of-type(1) {
+      .accordion .accordion-inner dt .name:nth-of-type(1) {
         cursor: pointer;
         padding-left: 30px; }
-        .vtk-body .accordion .accordion-inner dt .name:nth-of-type(1):before {
+        .accordion .accordion-inner dt .name:nth-of-type(1):before {
           border-style: solid;
           content: "";
           border-width: 10px;
@@ -1014,26 +1014,31 @@
           top: 50%;
           border-color: transparent transparent transparent #00ae58;
           left: 5px; }
-        .vtk-body .accordion .accordion-inner dt .name:nth-of-type(1).on {
+        .accordion .accordion-inner dt .name:nth-of-type(1).on {
           font-weight: 700; }
-          .vtk-body .accordion .accordion-inner dt .name:nth-of-type(1).on:before {
+          .accordion .accordion-inner dt .name:nth-of-type(1).on:before {
             border-color: #00ae58 transparent transparent;
             margin-top: -4px; }
-    .vtk-body .accordion .accordion-inner .accordion-navigation {
+    .accordion .accordion-inner .accordion-navigation {
       clear: both; }
-      .vtk-body .accordion .accordion-inner .accordion-navigation ul,
-      .vtk-body .accordion .accordion-inner .accordion-navigation li {
+      .accordion .accordion-inner .accordion-navigation ul,
+      .accordion .accordion-inner .accordion-navigation li {
         font-size: 14px !important; }
-    .vtk-body .accordion .accordion-inner ul.column:first-child {
+    .accordion .accordion-inner ul.column:first-child {
       margin-left: 27px; }
-.vtk-body table thead,
-.vtk-body table tfoot {
-  background: none; }
-.vtk-body .reveal-modal-bg,
-.vtk-body .ui-widget-overlay {
+
+.reveal-modal-bg,
+.ui-widget-overlay {
   background: rgba(0, 0, 0, 0.6) !important;
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.9) !important;
   opacity: 1 !important; }
+
+table {
+  border: none; }
+  table tr,
+  table td,
+  table th {
+    background: none; }
 
 .inline-list .icon i {
   color: inherit;

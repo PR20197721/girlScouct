@@ -66,6 +66,9 @@
         <dd <%= "profile".equals(activeTab) ? "class='active'" : "" %>>
           <a href="/content/girlscouts-vtk/en/vtk.profile.html">Profile</a>
         </dd>
+        <dd <%= "profile".equals(activeTab) ? "class='active'" : "" %>>
+          <a href="/content/girlscouts-vtk/en/vtk.profile.html">Profile</a>
+        </dd>
         <!-- % // }   %-->
       </dl>
       <div class="dropdown show-for-small hide-for-print">

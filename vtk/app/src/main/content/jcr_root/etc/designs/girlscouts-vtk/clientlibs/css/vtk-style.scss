@@ -1165,13 +1165,6 @@
         font-size:24px;
         margin-bottom: 50px;
       }
-      table {
-        border:none;
-        tr,
-        td,
-        th {
-          background: none;
-        }
         p {
           font-weight:600;
           font-size:17px;
@@ -1398,20 +1391,19 @@
         }
       }
   }
-  //tables
-  table {
-    thead, 
-    tfoot {
-      background: none;
-    }
-  }
-
   .reveal-modal-bg,
   .ui-widget-overlay {
     background: rgba(0, 0, 0, 0.6) !important;
     box-shadow: 0 0 50px rgba(0, 0, 0, .9) !important;
     opacity: 1 !important;
   }
+  table {
+    border:none;
+    tr,
+    td,
+    th {
+      background: none;
+    }
 } //end of vtk-body
 
 //overwrite of global
