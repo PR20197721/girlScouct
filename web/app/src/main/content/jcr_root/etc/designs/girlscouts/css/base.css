@@ -1369,6 +1369,10 @@ form .form_captcha_input {
   padding-top: 30px;
 }
 
+.page-404 .searchBar {
+padding: 40px 0px 40px 0;
+}
+
 .page-404 .searchBar form{
   position:relative;
 }
