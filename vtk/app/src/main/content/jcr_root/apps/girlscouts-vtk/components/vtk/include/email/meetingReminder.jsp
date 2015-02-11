@@ -45,6 +45,9 @@
 	<div style="background-color:yellow;"></div>
 
 	<textarea id="email_htm" name="textarea" class="jqte-test" rows="25" cols="25">
+		<%if (meeting.getEmlTemplate()!=null) {%>
+		<%= meeting.getEmlTemplate()%> 
+		<%}else{ %>
 		<p>Hello Girl Scout Families,</p>
 		<br/><p>Here are the details of our next meeting:</p>
 		<table> 
@@ -91,6 +94,7 @@
 		<div id="formLinks">
 			<p class="hide">Form(s) Required</p>
 		</div>
+		<% }%>
 	</textarea>
 	
 	
