@@ -1,22 +1,13 @@
-<%@page
-	import="org.girlscouts.vtk.models.Troop, org.girlscouts.vtk.auth.permission.*, org.girlscouts.vtk.utils.VtkUtil"%>
-<%!java.text.SimpleDateFormat FORMAT_MMddYYYY = new java.text.SimpleDateFormat(
-			"MM/dd/yyyy");
-	java.text.SimpleDateFormat FORMAT_hhmm_AMPM = new java.text.SimpleDateFormat(
-			"hh:mm a");
-	java.text.SimpleDateFormat FORMAT_hhmm = new java.text.SimpleDateFormat(
-			"hh:mm");
+<%@page	import="org.girlscouts.vtk.models.Troop, org.girlscouts.vtk.auth.permission.*, org.girlscouts.vtk.utils.VtkUtil"%>
+<%!java.text.SimpleDateFormat FORMAT_MMddYYYY = new java.text.SimpleDateFormat("MM/dd/yyyy");
+	java.text.SimpleDateFormat FORMAT_hhmm_AMPM = new java.text.SimpleDateFormat("hh:mm a");
+	java.text.SimpleDateFormat FORMAT_hhmm = new java.text.SimpleDateFormat("hh:mm");
 	java.text.SimpleDateFormat FORMAT_AMPM = new java.text.SimpleDateFormat("a");
-	java.text.SimpleDateFormat FORMAT_MONTH = new java.text.SimpleDateFormat(
-			"MMM");
-	java.text.SimpleDateFormat FORMAT_DAY_OF_MONTH = new java.text.SimpleDateFormat(
-			"d");
-	java.text.SimpleDateFormat FORMAT_MONTH_DAY = new java.text.SimpleDateFormat(
-			"MMM d");
-	java.text.SimpleDateFormat FORMAT_MMM_dd_hhmm_AMPM = new java.text.SimpleDateFormat(
-			"MMM dd hh:mm a");
-	java.text.SimpleDateFormat FORMAT_MEETING_REMINDER = new java.text.SimpleDateFormat(
-			"EEE MMM dd,yyyy hh:mm a");
+	java.text.SimpleDateFormat FORMAT_MONTH = new java.text.SimpleDateFormat("MMM");
+	java.text.SimpleDateFormat FORMAT_DAY_OF_MONTH = new java.text.SimpleDateFormat("d");
+	java.text.SimpleDateFormat FORMAT_MONTH_DAY = new java.text.SimpleDateFormat("MMM d");
+	java.text.SimpleDateFormat FORMAT_MMM_dd_hhmm_AMPM = new java.text.SimpleDateFormat(	"MMM dd hh:mm a");
+	java.text.SimpleDateFormat FORMAT_MEETING_REMINDER = new java.text.SimpleDateFormat("EEE MMM dd, yyyy hh:mm a");
 	java.text.SimpleDateFormat FORMAT_MMM_dd_yyyy_hhmm_AMPM = new java.text.SimpleDateFormat(
 			"MMM dd yyyy hh:mm a");
 	java.text.SimpleDateFormat FORMAT_CALENDAR_DATE = new java.text.SimpleDateFormat(
@@ -27,6 +18,9 @@
 			"#0.00");
 	java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat("MM/dd/yyyy hh:mm a");
 
+	
+	boolean isCachableContacts=true;
+	
 	public boolean hasPermission(Troop troop, int permissionId) {
 		java.util.Set<Integer> myPermissionTokens = troop.getTroop()
 				.getPermissionTokens();
@@ -36,13 +30,13 @@
 
 		return false;
 	}
-	
-	
-	
-	%>
+
+	// Feature set toggles
+	String SHOW_BETA = "showBeta";
+	String[] ENABLED_FEATURES = new String[] {SHOW_BETA};
+
+%>
 <%
-// Alex
-//System.err.println("****SESSION****");
 	boolean isMultiUserFullBlock = true;
 	final CalendarUtil calendarUtil = sling.getService(CalendarUtil.class);
 	final LocationUtil locationUtil = sling.getService(LocationUtil.class);
@@ -52,15 +46,38 @@
 	final TroopUtil troopUtil = sling.getService(TroopUtil.class);
 	final UserUtil userUtil = sling.getService(UserUtil.class);
 	final FinanceUtil financeUtil = sling.getService(FinanceUtil.class);
+	final SessionFactory sessionFactory = sling.getService(SessionFactory.class);
+	final ContactUtil contactUtil = sling.getService(ContactUtil.class);
+	
+	//dont use
+	final TroopDAO troopDAO = sling.getService(TroopDAO.class);
+	
 	User user=null;
 	
 	HttpSession session = request.getSession();
 
 	int timeout = session.getMaxInactiveInterval();
-	response.setHeader("Refresh", timeout
-			+ "; URL = /content/girlscouts-vtk/en/vtk.logout.html");
+	response.setHeader("Refresh", timeout + "; URL = /content/girlscouts-vtk/en/vtk.logout.html");
 
-	
+	if (session.getAttribute("SESSION_FEATURE_MAP") == null) {
+		session.setAttribute("SESSION_FEATURES", new HashSet<String>());
+	}
+	Set sessionFeatures = (Set) session.getAttribute("SESSION_FEATURES");
+	for (String enabledFeature: ENABLED_FEATURES) {
+		if (request.getParameter(enabledFeature) != null) {
+			String thisFeatureValue = ((String) request.getParameter(enabledFeature)).toLowerCase();
+			if ("true".equals(thisFeatureValue) || "yes".equals(thisFeatureValue) ) {
+				if (!sessionFeatures.contains(enabledFeature)) {
+					sessionFeatures.add(enabledFeature);
+				}
+			} else if ("false".equals(thisFeatureValue) || "no".equals(thisFeatureValue) ) {
+				if (sessionFeatures.contains(enabledFeature)) {
+					sessionFeatures.remove(enabledFeature);
+				}
+			}
+		}
+	}
+	session.setAttribute("SESSION_FEATURES", sessionFeatures);
 	
 	org.girlscouts.vtk.auth.models.ApiConfig apiConfig = null;
 	try {
@@ -71,7 +88,7 @@
 					.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class
 							.getName()));
 		} else {
-			out.println("Your session has timed out.  Please login.");
+			out.println("Your session has timed out.  Please refresh this page and login.");
 			return;
 		}
 	} catch (ClassCastException cce) {
@@ -95,7 +112,7 @@
 					.getName()));
 	
 	user.setSid(session.getId());
-	
+
 	String errMsg = null;
 	Troop troop = (Troop) session.getValue("VTK_troop");
 	
@@ -103,21 +120,21 @@
 	//Needs for front yp page. ajax/multi call to session.jsp. Not always happens.
 	if(  troop != null && !troop.isRefresh() && !userUtil.isCurrentTroopId_NoRefresh(troop,user.getSid() ) &&
 			session.getAttribute("isReloadedWindow")!=null ){
-		System.err.println("_________ _ _ _ _ _");
+	
 			troop.setRefresh(true);
 	}
 	session.removeAttribute( "isReloadedWindow"); //rm after pull
 	
-	if(request.getParameter("reload")!=null){System.err.println("&&&&&&& REFRESH SET: "); troop.setRefresh(true);}
-	System.err.println("........"+request.getParameter("reload") );
+	if(request.getParameter("reload")!=null){troop.setRefresh(true);}
+
 	
 	    //if (troop == null || troop.isRefresh() || troopUtil.isUpdated(troop)) {
 		if (troop == null || troop.isRefresh() ) {
-//out.println("Refresshed");		
+
 			if (troop != null && troop.isRefresh() && troop.getErrCode() != null && !troop.getErrCode().equals(""))
 				errMsg = troop.getErrCode();
 		
-	System.err.println("***************");
+	
 	  org.girlscouts.vtk.salesforce.Troop prefTroop = apiConfig.getTroops().get(0);
 	  
 	  if( troop!=null){
@@ -148,9 +165,14 @@
 	 
 	
 		try{
-//System.err.println("GETTTTTING TROOP FROM DB....");				
+				
 		   troop = troopUtil.getTroop(user, "" + prefTroop.getCouncilCode(), prefTroop.getTroopId());
-	   
+
+		   //load troop contacts
+		   //-java.util.List<Contact>contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO).getContacts( user.getApiConfig(), prefTroop.getTroopId() );
+		   
+		   
+		   
 		}catch(IllegalAccessException ex){
 			%><span class="error">Sorry, you have no access to view year plan</span><%
 			return;
@@ -193,7 +215,7 @@
 			|| (troop.getErrCode() != null && troop.getErrCode()
 					.equals("111"))) {
 %>
-<div style="color: #fff; background-color: red;">Warning:  Another user is logged in with this user id.  If you have logged in to the Volunteer Toolkit on another device or desktop, please logout and login again. error 111-in db</div>
+<!--Warning:  Another user is logged in with this user id.  If you have logged in to the Volunteer Toolkit on another device or desktop, please logout and login again. error 111-in db -->
 <%
 	}
 
@@ -205,7 +227,7 @@
 					troop.getCurrentTroop())) {
 %><div style="color: #fff; background-color: red;">Warning:  Another user is logged in with this user id.  If you have logged in to the Volunteer Toolkit on another device or desktop, please logout and login again.111.1</div>
 <%
-	troop.setRefresh(true);
+		troop.setRefresh(true);
 		return;
 	}
 */
@@ -248,15 +270,16 @@ One of your co-leaders is currently making changes in the Volunteer Toolkit for 
 </form>
 <%
 	}
-	//System.err.println("TROOP RETR TIME1 : "+ troop.getRetrieveTime() );	
+	
 //SFUser: <%= user.getApiConfig().getUserId() >
 //<br/><=VtkUtil.doHash( user.getApiConfig().getUserId() ) >
 %>
 
 
 <% 
-if( troop!=null && troop.getYearPlan()!=null){	
+if( false ){//troop!=null && troop.getYearPlan()!=null){	
 	String footerScript = "<script>$( document ).ready(function() {setTimeout(function(){expiredcheck('"+session.getId()+"','"+troop.getYearPlan().getPath()+"');},20000);});</script>";
 	request.setAttribute("footerScript", footerScript);
 } %>
-  
+
+ 

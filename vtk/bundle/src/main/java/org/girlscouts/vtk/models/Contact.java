@@ -1,25 +1,28 @@
 package org.girlscouts.vtk.models;
+
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
-@Node(jcrMixinTypes="mix:lockable" ) 
-public class Contact implements java.io.Serializable{
+@Node(jcrMixinTypes = "mix:lockable")
+public class Contact implements java.io.Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -9143046810103196285L;
 
-	@Field(id=true)
+	@Field(id = true)
 	private String id;
-	
-	@Field(path=true) String path;
-	
-	@Field
-	private String email, phone, firstName, lastName, address, address1, city, state, zip, suite;
 
-		
-	
+	@Field(path = true)
+	String path;
+
+	@Field
+	private String email, phone, firstName, lastName, address, address1, city,
+			state, zip, suite, role, dob, country;
+	@Field
+	private int age;
+
 	public String getPath() {
 		return path;
 	}
@@ -108,8 +111,6 @@ public class Contact implements java.io.Serializable{
 		this.id = id;
 	}
 
-	
-
 	public String getLastName() {
 		return lastName;
 	}
@@ -119,7 +120,43 @@ public class Contact implements java.io.Serializable{
 	}
 
 	
+	public String getRole() {
+		return role;
+	}
 
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public String getDob() {
+		return dob;
+	}
+
+	public void setDob(String dob) {
+		this.dob = dob;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	
 	
 	
 }
