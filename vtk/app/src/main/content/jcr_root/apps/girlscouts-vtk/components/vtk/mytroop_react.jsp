@@ -27,6 +27,8 @@
 				emailTo= emailTo.substring(1, emailTo.length());
 			
 	}catch(Exception e){e.printStackTrace();}
+	
+
 %>
 <%@include file="include/utility_nav.jsp"%>
 <%@include file='include/modals/modal_upload_img.jsp' %>
@@ -51,6 +53,7 @@
             <div class="column large-20 large-centered">
                 <% for(int i=0; i<contacts.size(); i++) { 
                     org.girlscouts.vtk.models.Contact contact = contacts.get(i);
+                    java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, troop, contact);
                 %>
                 <div class="row">
                   <dl class="accordion-inner clearfix" data-accordion>
@@ -71,6 +74,21 @@
                         <ul class="column large-18">
                           <li><address>1 Main St. Apt 5B<br/>Cleveland, OH<br/>00000</address></li>
                         </ul>
+                        
+                        
+                        <!-- attendance & ach -->
+                        <%
+                        for(int y=0;y<infos.size();y++){
+                        	%>
+                        	   <div style="background-color:yellow;">
+                        	       <%= infos.get(y).getYearPlanComponent().getType()== YearPlanComponentType.MEETING ? ((MeetingE) infos.get(y).getYearPlanComponent()).getRefId() : "" %>
+                        	       <br/>Attendance: <%=  infos.get(y).isAttended()%>
+                        	       <br/>Achievement: <%=  infos.get(y).isAchievement()%>
+                        	   </div>
+                        	<% 
+                        }
+                        %>
+                        
                       </div>
                     </dd>
                   </dl>

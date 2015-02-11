@@ -545,5 +545,8 @@ public class TroopUtil {
 		session.putValue("VTK_planView_memoPos", null);
 		new_troop.setCurrentTroop(session.getId());
 	}
+	
+	
+	
 }// end class
 
