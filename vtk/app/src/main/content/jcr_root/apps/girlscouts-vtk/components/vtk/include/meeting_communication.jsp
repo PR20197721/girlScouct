@@ -1,5 +1,5 @@
 <%
-        if (sessionFeatures.contains(SHOW_BETA)) {
+        if (SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) {
 %>
 <section className="column large-20 medium-20 large-centered medium-centered">
   <h6>manage communications</h6>

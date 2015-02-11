@@ -403,6 +403,7 @@ public class CalendarUtil {
 		if (calendar == null)
 			calendar = new Cal();
 		calendar.setDates(dates);
+		calendar.setDbUpdate(true);
 		// calendar.fmtDate(dates);
 		plan.setSchedule(calendar);
 
