@@ -1055,6 +1055,9 @@
   margin-bottom: 5px;
   font-weight: 700;
   text-align: center; }
+  .vtk-body #main .milestones p.column.end {
+    line-height: 32px;
+    text-align: left; }
 
 .inline-list .icon i {
   color: inherit;

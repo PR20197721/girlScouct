@@ -1432,10 +1432,16 @@
     [class*=" icon-"] {
       font-size: 32px;
     }
-    p.column {
-      margin-bottom: 5px;
-      font-weight: 700;
-      text-align: center;
+    p{
+      &.column {
+        margin-bottom: 5px;
+        font-weight: 700;
+        text-align: center;
+        &.end {
+          line-height: 32px;
+          text-align: left;
+        }
+      }
     }
   }
 } //end of vtk-body
@@ -1666,4 +1672,3 @@ table tr {
     width: 60%;
   }
 }
-

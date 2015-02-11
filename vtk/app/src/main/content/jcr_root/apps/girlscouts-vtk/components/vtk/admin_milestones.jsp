@@ -16,7 +16,7 @@
      <p class="column large-4 large-push-3">Date</p>
      <p class="column large-4 large-pull-4">Show in Plans</p>
     </div>
-    <form>
+    <form class="clearfix">
     <% for( int i=0; i<milestones.size(); i++ ) { %>
       <section class="row">
         <div class="column large-1">
@@ -37,7 +37,15 @@
         </div>
       </section>
     <%}%>
-    <
+      <section class="row">
+        <div class="column large-2">
+          <a href="" title="remove"><i class="icon-button-circle-plus"></i></a>
+        </div>
+        <p class="column large-4 end">Add a  Milestone</p>
+      </section>
+      <section class="row">
+        <button class="btn right button">Save to plans</button>
+      </section>
     </form>
   </div>
 </div>
