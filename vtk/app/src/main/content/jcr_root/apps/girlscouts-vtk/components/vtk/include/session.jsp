@@ -67,7 +67,7 @@
 	Set sessionFeatures = (Set) session.getAttribute("SESSION_FEATURES");
 	for (String enabledFeature: ENABLED_FEATURES) {
 		if (request.getParameter(enabledFeature) != null) {
-			String thisFeatureValue = ((String) request.getParameter(enabledFeature)).toLowerCase();
+			String thisFeatureValue = ((String) request.getParameter(enabledFeature)).trim().toLowerCase();
 			if ("true".equals(thisFeatureValue) || "yes".equals(thisFeatureValue) ) {
 				if (!sessionFeatures.contains(enabledFeature)) {
 					sessionFeatures.add(enabledFeature);
