@@ -31,9 +31,11 @@
 		return false;
 	}
 
+
 	// Feature set toggles
-	String SHOW_BETA = "showBeta";
-	String[] ENABLED_FEATURES = new String[] {SHOW_BETA};
+	boolean SHOW_BETA = false; // controls feature for all users -- don't set this to true unless you know what I'm talking about
+	String SHOW_BETA_FEATURE = "showBeta"; // request parameter to control feature per user session
+	String[] ENABLED_FEATURES = new String[] {SHOW_BETA_FEATURE};
 
 %>
 <%
