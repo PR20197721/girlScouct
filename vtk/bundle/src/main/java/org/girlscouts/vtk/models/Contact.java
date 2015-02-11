@@ -19,7 +19,9 @@ public class Contact implements java.io.Serializable {
 
 	@Field
 	private String email, phone, firstName, lastName, address, address1, city,
-			state, zip, suite;
+			state, zip, suite, role, dob, country;
+	@Field
+	private int age;
 
 	public String getPath() {
 		return path;
@@ -117,4 +119,44 @@ public class Contact implements java.io.Serializable {
 		this.lastName = lastName;
 	}
 
+	
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public String getDob() {
+		return dob;
+	}
+
+	public void setDob(String dob) {
+		this.dob = dob;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	
+	
+	
 }
