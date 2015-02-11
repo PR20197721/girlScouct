@@ -6,7 +6,7 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.girlscouts.vtk.ejb.EmailMeetingReminder;
-import org.girlscouts.vtk.difflib.*;
+import difflib.*;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
@@ -62,8 +62,8 @@ public class SentEmail implements Serializable {
 		List<String> original = Arrays.asList(template.split("\r?\n|\r"));
 		List<String> revised = Arrays.asList(copy.split("\r?\n|\r"));
 		
-		Patch patch = org.girlscouts.vtk.difflib.DiffUtils.diff(original, revised);
-		List<String> diffStrings = org.girlscouts.vtk.difflib.DiffUtils.generateUnifiedDiff("", "", original, patch, 0);
+		Patch patch = DiffUtils.diff(original, revised);
+		List<String> diffStrings = DiffUtils.generateUnifiedDiff("", "", original, patch, 0);
 		
         htmlDiff = StringUtills.join(diffStrings, "\n");
 	}

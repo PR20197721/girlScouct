@@ -45,7 +45,6 @@ import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
 import org.girlscouts.vtk.models.SentEmail;
-import org.girlscouts.vtk.difflib.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
