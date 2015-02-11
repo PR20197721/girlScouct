@@ -443,7 +443,11 @@ public class CalendarUtil {
 				date = date.plusWeeks(1);
 
 			} else if (freq.equals("monthly")) {
-				date = date.plusMonths(1);
+				//date = date.plusMonths(1);
+				int x= date.getDayOfWeek();
+				int prevMonth = new DateTime(date.getMillis()).plusMonths(1).getMonthOfYear();
+				date= date.plusMonths(1).withDayOfWeek(x); 	    
+				if(date.getMonthOfYear() != prevMonth ) date = date.minusWeeks(1);
 
 			} else if (freq.equals("biweekly")) {
 				date = date.plusWeeks(2);
