@@ -1031,13 +1031,13 @@
   .vtk-body table td,
   .vtk-body table th {
     background: none; }
-.vtk-body .milestones input[type=checkbox]:checked + label:before {
+.vtk-body #main .milestones input[type=checkbox]:checked + label:before {
   content: "\e6d7";
   font-family: "JollyFont";
   color: green; }
-.vtk-body .milestones input[type="checkbox"] {
+.vtk-body #main .milestones input[type="checkbox"] {
   display: none; }
-.vtk-body .milestones input[type=checkbox] + label:before {
+.vtk-body #main .milestones input[type=checkbox] + label:before {
   border: solid 1px #ccc;
   content: "";
   height: 30px;
@@ -1048,6 +1048,13 @@
   display: inline-block;
   float: left;
   padding: 4px; }
+.vtk-body #main .milestones [class^="icon-"],
+.vtk-body #main .milestones [class*=" icon-"] {
+  font-size: 32px; }
+.vtk-body #main .milestones p.column {
+  margin-bottom: 5px;
+  font-weight: 700;
+  text-align: center; }
 
 .inline-list .icon i {
   color: inherit;

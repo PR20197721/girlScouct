@@ -1405,7 +1405,7 @@
     }
   }
   //ADMIN PAGES
-  .milestones {
+  #main .milestones  {
     input[type=checkbox]:checked + label:before {
       content: "\e6d7";
       font-family: "JollyFont";
@@ -1427,6 +1427,15 @@
         float: left;
         padding:4px;
       }
+    }
+    [class^="icon-"],
+    [class*=" icon-"] {
+      font-size: 32px;
+    }
+    p.column {
+      margin-bottom: 5px;
+      font-weight: 700;
+      text-align: center;
     }
   }
 } //end of vtk-body
