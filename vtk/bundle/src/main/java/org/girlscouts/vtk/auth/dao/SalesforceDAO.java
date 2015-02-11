@@ -247,6 +247,8 @@ public class SalesforceDAO {
 							.getString("access_token"));
 					config.setInstanceUrl(authResponse
 							.getString("instance_url"));
+					config.setWebServicesUrl(authResponse
+							.getString("sfdc_community_url"));
 
 					String refreshTokenStr = null;
 					try {
@@ -781,8 +783,10 @@ public class SalesforceDAO {
 
 			  //  GetMethod method = new GetMethod("https://gsuat-gsmembers.cs11.force.com/members/services/apexrest/troopMembers/?troopId=701G0000000uQzaIAE");
 
-			  GetMethod method = new GetMethod("https://gsuat-gsmembers.cs11.force.com/members/services/apexrest/troopMembers/?troopId="+ sfTroopId);
-
+			 // GetMethod method = new GetMethod("https://gsuat-gsmembers.cs11.force.com/members/services/apexrest/troopMembers/?troopId="+ sfTroopId);
+			  GetMethod method = new GetMethod( apiConfig.getWebServicesUrl() + "/services/apexrest/troopMembers/?troopId="+ sfTroopId);
+				  
+			
 			   
 
 			    try {
@@ -961,10 +965,12 @@ public class SalesforceDAO {
 		
 
 		HttpClient client = new HttpClient();
-		GetMethod method = new GetMethod("https://gsuat-gsmembers.cs11.force.com/members/services/apexrest/activeUserTroopData?userId="+ contactId);
-		System.err.println("**||** URL  https://gsuat-gsmembers.cs11.force.com/members/services/apexrest/activeUserTroopData?userId="+ contactId);
+		//GetMethod method = new GetMethod("https://gsuat-gsmembers.cs11.force.com/members/services/apexrest/activeUserTroopData?userId="+ contactId);
+		//System.err.println("**||** URL  https://gsuat-gsmembers.cs11.force.com/members/services/apexrest/activeUserTroopData?userId="+ contactId);
 		
-		System.err.println("**OAuth** URL  "+ apiConfig.getInstanceUrl() +"/services/apexrest/activeUserTroopData?userId="+ contactId);
+		GetMethod method = new GetMethod(apiConfig.getWebServicesUrl() +"/services/apexrest/activeUserTroopData?userId="+ contactId);
+		
+		System.err.println("**OAuth** URL  "+ apiConfig.getWebServicesUrl() +"/services/apexrest/activeUserTroopData?userId="+ contactId);
 		
 		    try {
 		    method.setRequestHeader("Authorization", "OAuth " +apiConfig.getAccessToken());
