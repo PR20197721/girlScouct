@@ -37,9 +37,9 @@
       <dl class="tabs hide-for-small">
         <% if(hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
           <dd <%= "myTroop".equals(activeTab) ? "class='active'" : "" %>>
-            <a href="/content/girlscouts-vtk/en/vtk.mytroop_react.html">My Troop</a>
+            <a href="/content/girlscouts-vtk/en/vtk.myTroop.html">My Troop</a>
           </dd>
-        <% } %>
+<%} %>
         <% if(hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID)) { %>
           <dd <%= "plan".equals(activeTab) ? "class='active'" : "" %>>
            <!--  <a href="/content/girlscouts-vtk/en/vtk.plan.html">Year Plan</a> -->
@@ -102,7 +102,7 @@
                 <% }
                   if ( !(activity.getCancelled()!=null && activity.getCancelled().equals("true") ) && 
                   activity.getRegisterUrl()  !=null && !activity.getRegisterUrl().equals("")){%>
-                  <li><a href="<%=activity.getRegisterUrl()%>" class="button linkButton" target="_blank">Register for this event</a></li><%
+                  <li><a href="<%=activity.getRegisterUrl()%>" target="_blank">Register for this event</a></li><%
                   } %>
                     <li><a href="javascript:rmCustActivity12(aPath)">delete this activity</a></li><% 
                     
