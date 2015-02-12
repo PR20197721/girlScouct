@@ -58,7 +58,8 @@
 		<%
 			} else if (request.getParameter("isMaterials") != null) {
 		%>
-		<div class="editable-textarea column small-20 small-centered" id="editMeetingMaterials"><%=meetingInfoItems.get("materials").getStr()%></div>
+		<div class="editable-textarea column small-20 small-centered" id="editMeetingMaterials">
+		<%=meetingInfoItems.get("materials").getStr()%></div>
 			<%
 			} else if (request.getParameter("isAgenda") != null) {
 					try {
