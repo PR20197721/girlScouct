@@ -1,7 +1,12 @@
 function rmLocation(locationName){
 	
         showError(null, "#locationEdit .errorMsg");
-       
+     
+        
+     if(!confirm('Are you sure you want to delete this location?') ){
+    	 return false;
+     }   
+        
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
 		type: 'POST',
