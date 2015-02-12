@@ -93,15 +93,6 @@
       background-color: #f6f6f6;
       cursor: move;
       padding-left: 0; }
-      .vtk-body #main #yearPlanMeetings ul .meeting > div:before {
-        content: '';
-        background: url("images/throbber.png") repeat-y white;
-        height: 100%;
-        width: 23px;
-        position: absolute;
-        left: -33px;
-        padding: 0 17px;
-        cursor: move; }
       .vtk-body #main #yearPlanMeetings ul .meeting > div p {
         margin: 0; }
         .vtk-body #main #yearPlanMeetings ul .meeting > div p.blurb, .vtk-body #main #yearPlanMeetings ul .meeting > div p.category, .vtk-body #main #yearPlanMeetings ul .meeting > div p.subtitle {
