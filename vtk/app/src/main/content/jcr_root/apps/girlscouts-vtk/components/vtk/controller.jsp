@@ -92,9 +92,13 @@
 				}
 				return;
 			case SelectYearPlan:
+				
+	System.err.println("***			SelectYearPlan");
 				troopUtil.selectYearPlan(user, troop,
 						request.getParameter("addYearPlanUser"),
 						request.getParameter("addYearPlanName"));
+				
+				
 				return;
 			case AddLocation:
 
@@ -841,8 +845,11 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 			}
 
 		} else if (request.getParameter("yearPlanSched") != null) {
-
-			if (troop.getYearPlan() == null)
+			
+		if( troop.getYearPlan() !=null)
+		    System.err.println("tata yearPlan: "+  troop.getYearPlan().getRefId());
+			
+		    if (troop.getYearPlan() == null)
 				return;
 
 			boolean isFirst = false;

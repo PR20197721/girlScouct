@@ -4,10 +4,12 @@ function loadMeetings(){
 }	
 
 function x(planId, planPath, confirmMsg, planName) {	
+	console.log(1);
 	if( confirmMsg!=null && confirmMsg!='' ){
+		console.log(2);
 		if( !confirm(confirmMsg) ) return;
     }else{
-    	
+    	console.log(3);
     	$.ajax({
     		url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=isAltered&isAltered=chk",
     		cache: false
@@ -17,7 +19,9 @@ function x(planId, planPath, confirmMsg, planName) {
     			if( !confirm("Are You Sure? You will lose customizations that you have made") ) return;
     	});
     	
-    }	
+    }
+	console.log(4);
+	
 	$.ajax({
 		url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=SelectYearPlan&addYearPlanUser="+planPath+"&addYearPlanName="+ planName,
 		cache: false

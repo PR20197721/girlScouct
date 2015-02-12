@@ -253,7 +253,7 @@ public class TroopUtil {
 
 	public void selectYearPlan(User user, Troop troop, String yearPlanPath,
 			String planName) throws java.lang.IllegalAccessException {
-
+System.err.println("tata selecteYearPlan start");
 		// permission to update
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
@@ -266,10 +266,21 @@ public class TroopUtil {
 		}
 
 		YearPlan oldPlan = troop.getYearPlan();
+		
+		for(int i=0;i<oldPlan.getMeetingEvents().size();i++)
+				System.err.println("tata oldPlan:"+((MeetingE)oldPlan.getMeetingEvents().get(i)).getRefId());
+		
+		
+		
 		YearPlan newYearPlan = addYearPlan(user, troop, yearPlanPath);// troopDAO.addYearPlan1(troop,
 																		// yearPlanPath);
+		for(int i=0;i<newYearPlan.getMeetingEvents().size();i++)
+			System.err.println("tata newPlan:"+((MeetingE)newYearPlan.getMeetingEvents().get(i)).getRefId());
 		
 		
+		
+		
+		System.err.println("tata selecteYearPlan start 1");
 		try {
 
 			newYearPlan.setName(planName);
@@ -339,8 +350,7 @@ public class TroopUtil {
 											newYearPlan.getMeetingEvents()
 													.get(count).getRefId());
 
-						oldPlan.getMeetingEvents().get(count)
-								.setCancelled("false");
+						oldPlan.getMeetingEvents().get(count).setCancelled("false");
 
 					}
 					count++;
@@ -376,8 +386,22 @@ public class TroopUtil {
 
 		troop.getYearPlan().setAltered("false");
 		troop.getYearPlan().setName(planName);
+		
+		/*
+		java.util.List<MeetingE> m = troop.getYearPlan().getMeetingEvents();
+		for(int i=0;i<m.size();i++){
+			m.get(i).setDbUpdate(true);
+			
+			if( m.get(i).getMeetingInfo()!=null )
+				System.err.println("tata m:"+m.get(i).getMeetingInfo().getName());
+		}
+		*/
+		for(int i=0;i<troop.getYearPlan().getMeetingEvents().size();i++)
+			System.err.println("tata newPlan:"+((MeetingE) troop.getYearPlan().getMeetingEvents().get(i)).getRefId());
+		
+		
 		troopDAO.updateTroop(user, troop);
-
+		System.err.println("tata selecteYearPlan end ************ ");
 	}
 
 	public boolean updateTroop(User user, Troop troop)
@@ -408,6 +432,7 @@ public class TroopUtil {
 			plan.setMeetingEvents(yearPlanUtil.getAllEventMeetings_byPath(user,
 					yearPlanPath.endsWith("/meetings/") ? yearPlanPath
 							: (yearPlanPath + "/meetings/")));
+			
 			Comparator<MeetingE> comp = new BeanComparator("id");
 			Collections.sort(plan.getMeetingEvents(), comp);
 
