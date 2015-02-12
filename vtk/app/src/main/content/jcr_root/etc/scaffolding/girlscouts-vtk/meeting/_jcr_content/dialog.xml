@@ -7,14 +7,49 @@
             jcr:primaryType="cq:Panel"
             title="Properties">
             <items jcr:primaryType="cq:WidgetCollection">
+                <ocm_classname
+                    jcr:primaryType="cq:Widget"
+                    xtype="hidden"
+                    name="./ocm_classname"
+                    defaultValue="org.girlscouts.vtk.models.Meeting"/>
+                <resType
+                    jcr:primaryType="cq:Widget"
+                    xtype="hidden"
+                    name="./sling:resourceType"
+                    defaultValue="girlscouts-vtk/components/vtk-data"/>
+                <vtkDataType
+                    jcr:primaryType="cq:Widget"
+                    xtype="hidden"
+                    name="./vtkDataType"
+                    defaultValue="meeting"/>
                 <id
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Id"
                     name="./id"/>
+                <level
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Level"
+                    name="./level"/>
+                <name
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Name"
+                    name="./name"/>
+                <blurb
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Blurb"
+                    name="./blurb"/>
                 <cat
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Category"
                     name="./cat"/>
+                <aidTags
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Aid Tags"
+                    name="./aidTags"/>
+                <resources
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Resources"
+                    name="./resources"/>
                 <agenda-label
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Agenda"
