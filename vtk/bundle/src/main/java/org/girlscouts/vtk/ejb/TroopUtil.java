@@ -267,7 +267,8 @@ System.err.println("tata selecteYearPlan start");
 
 		YearPlan oldPlan = troop.getYearPlan();
 		
-		for(int i=0;i<oldPlan.getMeetingEvents().size();i++)
+		if(oldPlan!=null && oldPlan.getMeetingEvents()!=null)
+    		for(int i=0;i<oldPlan.getMeetingEvents().size();i++)
 				System.err.println("tata oldPlan:"+((MeetingE)oldPlan.getMeetingEvents().get(i)).getRefId());
 		
 		
@@ -275,7 +276,7 @@ System.err.println("tata selecteYearPlan start");
 		YearPlan newYearPlan = addYearPlan(user, troop, yearPlanPath);// troopDAO.addYearPlan1(troop,
 																		// yearPlanPath);
 		for(int i=0;i<newYearPlan.getMeetingEvents().size();i++)
-			System.err.println("tata newPlan:"+((MeetingE)newYearPlan.getMeetingEvents().get(i)).getRefId());
+			System.err.println("tata newPlan: pos: "+((MeetingE)newYearPlan.getMeetingEvents().get(i)).getId() +" : "+((MeetingE)newYearPlan.getMeetingEvents().get(i)).getRefId());
 		
 		
 		
@@ -396,14 +397,31 @@ System.err.println("tata selecteYearPlan start");
 				System.err.println("tata m:"+m.get(i).getMeetingInfo().getName());
 		}
 		*/
-		for(int i=0;i<troop.getYearPlan().getMeetingEvents().size();i++)
-			System.err.println("tata newPlan:"+((MeetingE) troop.getYearPlan().getMeetingEvents().get(i)).getRefId());
+		for(int i=0;i<troop.getYearPlan().getMeetingEvents().size();i++){
+			System.err.println("tata newPlan pos "+ ((MeetingE) troop.getYearPlan().getMeetingEvents().get(i)).getId() +" :"+((MeetingE) troop.getYearPlan().getMeetingEvents().get(i)).getRefId() + " : "+
+					((MeetingE) troop.getYearPlan().getMeetingEvents().get(i)).isDbUpdate() );
+			//xtroopDAO.removeMeetings(user, troop, troop.getYearPlan().getMeetingEvents());
+		}
+		
+		//if(oldPlan!=null && oldPlan.getMeetingEvents()!=null)
+    	//	for(int i=0;i<oldPlan.getMeetingEvents().size();i++)
+		troopDAO.removeMeetings(user, troop);
+		
+		
+		for(int i=0;i<troop.getYearPlan().getMeetingEvents().size();i++){
+			System.err.println("tata newPlanXXX pos "+ ((MeetingE) troop.getYearPlan().getMeetingEvents().get(i)).getId() +" :"+((MeetingE) troop.getYearPlan().getMeetingEvents().get(i)).getRefId() + " : "+
+					((MeetingE) troop.getYearPlan().getMeetingEvents().get(i)).isDbUpdate() );
+			
+		}
 		
 		
 		troopDAO.updateTroop(user, troop);
 		System.err.println("tata selecteYearPlan end ************ ");
 	}
 
+	
+	
+	
 	public boolean updateTroop(User user, Troop troop)
 			throws java.lang.IllegalAccessException,
 			java.lang.IllegalAccessException {
