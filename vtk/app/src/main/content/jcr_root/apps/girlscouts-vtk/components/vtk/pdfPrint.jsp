@@ -39,7 +39,9 @@ try{
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 		PdfWriter.getInstance(document, response.getOutputStream());
 		document.open();
-		document.add(new com.itextpdf.text.Paragraph(str));
+		//document.add(new com.itextpdf.text.Paragraph(str));
+		com.itextpdf.text.html.simpleparser.HTMLWorker htmlWorker = new com.itextpdf.text.html.simpleparser.HTMLWorker(document);
+	    htmlWorker.parse(new java.io.StringReader(str));
 		document.close();
 		
 
