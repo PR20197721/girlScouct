@@ -1,5 +1,7 @@
 function rmLocation(locationName){
+	
         showError(null, "#locationEdit .errorMsg");
+       
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
 		type: 'POST',
@@ -9,7 +11,7 @@ function rmLocation(locationName){
 			a:Date.now()
 		},
 		success: function(result) {
-		$("#locList").load("/content/girlscouts-vtk/controllers/vtk.locationManage.html?rand="+Date.now());
+			$("#locList").load("/content/girlscouts-vtk/controllers/vtk.locationManage.html?rand="+Date.now());
 		}
 	});
 }
