@@ -37,7 +37,7 @@
                 <meeting_short_description
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Meeting Short Description"
-                    name="./meetingInfo/meeting short description"/>
+                    name="./meetingInfo/meeting short description/str"/>
                 <blurb
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Blurb"
