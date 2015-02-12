@@ -68,15 +68,22 @@ public class SentEmail implements Serializable {
         htmlDiff = StringUtills.join(diffStrings, "\n");
 	}
 	
-	public String getHtmlMsg(String template) throws PatchFailedException {
+	public String getHtmlMsg(String template){
 		List<String >diff = Arrays.asList(this.htmlDiff.split("\n"));
         List<String> original = Arrays.asList(template.split("\r?\n|\r"));
 
 		Patch patch2 = DiffUtils.parseUnifiedDiff(diff);
-        List<String> result = (List<String>) DiffUtils.patch(original, patch2);
+		try{
+			List<String> result = (List<String>) DiffUtils.patch(original, patch2);
+			htmlMsg = StringUtills.join(result,"\n");
 
-        htmlMsg = StringUtills.join(result,"\n");
+		}catch(PatchFailedException pfe){
+			pfe.printStackTrace();
+		}
         return htmlMsg;
+
+
+        
 	}
 	
 	public String getUid() {
