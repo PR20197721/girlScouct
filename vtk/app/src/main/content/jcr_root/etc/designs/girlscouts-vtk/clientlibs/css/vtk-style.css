@@ -13,6 +13,12 @@
 .vtk-body span {
   font-size: 14px;
   line-height: 1.5; }
+.vtk-body .check {
+  margin-bottom: 20px; }
+  .vtk-body .check:before {
+    content: "\e6d7";
+    font-family: "JollyFont";
+    color: green; }
 .vtk-body #header > .columns {
   padding-right: 0.9375em;
   padding-left: 0.9375em; }
@@ -191,9 +197,9 @@
           text-transform: uppercase; }
   .vtk-body #main #theMeeting {
     padding-bottom: 20px; }
-.vtk-body #mainContent.welcome-page .parbase.section.text h1 {
-  margin: 0 0 1.25rem 0; }
-.vtk-body #mainContent.welcome-page .parbase.section.text p {
+.vtk-body #mainContent.welcome-page h1 {
+  margin: 1.88rem 0 4.38rem 0; }
+.vtk-body #mainContent.welcome-page p {
   font-size: 0.875rem;
   margin-top: 1.13rem; }
 .vtk-body .inline-list {
@@ -210,6 +216,22 @@
         border: none; }
       .vtk-body .inline-list#sub-nav > li a {
         font-size: 0.75em; }
+.vtk-body table {
+  width: 100%;
+  border: none; }
+  .vtk-body table thead,
+  .vtk-body table tfoot {
+    background: none;
+    border: none; }
+  .vtk-body table tr,
+  .vtk-body table td {
+    border: none; }
+.vtk-body table tbody tr {
+  background: #fff; }
+  .vtk-body table tbody tr:nth-of-type(odd) {
+    background: #f9f9f9; }
+  .vtk-body table tbody tr:nth-of-type(even) {
+    background: #fff; }
 .vtk-body .sectionHeader > div.column {
   background-color: #f6f6f6; }
 .vtk-body .sectionHeader #showHideReveal {
@@ -262,7 +284,8 @@
       min-height: 70px; }
       .vtk-body #main .meeting-detail .meeting-navigation .column:nth-child(2) h3 {
         margin: 0;
-        padding-top: 15px; }
+        padding-top: 15px;
+        line-height: 1.5; }
     .vtk-body #main .meeting-detail .meeting-navigation .direction {
       border: solid 1px transparent; }
       .vtk-body #main .meeting-detail .meeting-navigation .direction:before {
@@ -286,13 +309,13 @@
     font-size: 27px; }
   .vtk-body #main .meeting-detail section {
     margin-top: 17px; }
+    .vtk-body #main .meeting-detail section:first-child {
+      margin-top: 0; }
     .vtk-body #main .meeting-detail section h6 {
       font-size: 14px;
       font-weight: 600;
       text-transform: uppercase;
       background: #f6f6f6;
-      margin-left: -5px;
-      margin-right: -5px;
       margin-bottom: 1.25em;
       padding: 5px; }
     .vtk-body #main .meeting-detail section .add-btn,
@@ -335,16 +358,14 @@
           opacity: .5;
           content: "";
           display: block; }
-  .vtk-body #main .meeting-detail #main-info {
+  .vtk-body #main .meeting-detail #main-info section {
+    margin-bottom: 30px;
     margin-top: 0; }
-    .vtk-body #main .meeting-detail #main-info section {
-      margin-bottom: 30px;
-      margin-top: 0; }
-      .vtk-body #main .meeting-detail #main-info section p {
-        margin: 0;
-        font-weight: 700; }
-      .vtk-body #main .meeting-detail #main-info section:last-child {
-        margin-bottom: 0; }
+    .vtk-body #main .meeting-detail #main-info section p {
+      margin: 0;
+      font-weight: 700; }
+    .vtk-body #main .meeting-detail #main-info section:last-child {
+      margin-bottom: 0; }
   .vtk-body #main .meeting-detail .wrapper {
     position: relative;
     background-color: #f6f6f6;
@@ -460,8 +481,6 @@
       font-family: "JollyFont";
       color: green; }
     .vtk-body .reveal-modal .content .btn {
-      text-transform: uppercase;
-      color: #fff;
       margin-left: 5px; }
     .vtk-body .reveal-modal .content section {
       margin: 0 0 40px 0; }
@@ -477,7 +496,6 @@
   color: #000; }
   .vtk-body #modal-meeting-reminder h6:before {
     border-color: transparent transparent transparent #000;
-    margin-left: 5px;
     border-width: 5px;
     margin-top: -5px; }
   .vtk-body #modal-meeting-reminder h6.on:before {
@@ -736,12 +754,9 @@
       font-size: 27px;
       color: #00ae57;
       vertical-align: middle; }
-  .vtk-body .modalWrap .btn {
-    text-transform: uppercase;
-    color: #fff; }
-    .vtk-body .modalWrap .btn.add-btn {
-      padding: 10px 2rem; }
-  .vtk-body .modalWrap button, .vtk-body .modalWrap select {
+  .vtk-body .modalWrap .btn.add-btn {
+    padding: 10px 2rem; }
+  .vtk-body .modalWrap select {
     text-transform: uppercase; }
 .vtk-body .reveal-modal input[type="checkbox"] + label,
 .vtk-body .reveal-modal input[type="radio"] + label,
@@ -750,8 +765,7 @@
   margin: 0; }
 .vtk-body .reveal-modal .button,
 .vtk-body .modalWrap .button {
-  margin-bottom: 0;
-  text-transform: uppercase; }
+  margin-bottom: 0; }
 .vtk-body .reveal-modal #frmCalElem,
 .vtk-body .modalWrap #frmCalElem {
   margin-bottom: 0; }
@@ -875,6 +889,24 @@
   .vtk-body .modal-attendance .content table thead th,
   .vtk-body .modal-attendance .content table td:nth-child(n+2) {
     text-align: center; }
+.vtk-body #modal_report_detail scroll * {
+  font-size: 14px; }
+.vtk-body #modal_report_detail .row.bg {
+  background: #f9f9f9;
+  padding-top: 1em; }
+.vtk-body #modal_report_detail table {
+  margin-top: 20px; }
+  .vtk-body #modal_report_detail table tr th {
+    text-align: center; }
+  .vtk-body #modal_report_detail table tr td {
+    vertical-align: middle; }
+    .vtk-body #modal_report_detail table tr td:nth-last-child(-n+2) {
+      text-align: center; }
+.vtk-body #modal_report_detail .large-block-grid-2 > li:nth-child(2n+1) {
+  text-align: right; }
+.vtk-body #modal_report_detail [class*="block-grid-"] > li {
+  padding-bottom: 1em;
+  white-space: nowrap; }
 .vtk-body .browseMeetingAids a, .vtk-body .browseMeetingAids p, .vtk-body .browseMeetingAids span, .vtk-body .browseMeetingAids input {
   font-size: 14px; }
 .vtk-body #manageCalendarSection .holidays ul li {
@@ -972,7 +1004,8 @@
       text-transform: uppercase;
       margin-left: 40px;
       margin-right: 120px;
-      cursor: pointer; }
+      cursor: pointer;
+      position: relative; }
       .vtk-body .accordion > dt h3:before,
       .vtk-body .accordion > dt h6:before {
         border-style: solid;
@@ -1026,14 +1059,88 @@
         font-size: 14px !important; }
     .vtk-body .accordion .accordion-inner ul.column:first-child {
       margin-left: 27px; }
-.vtk-body table thead,
-.vtk-body table tfoot {
-  background: none; }
 .vtk-body .reveal-modal-bg,
 .vtk-body .ui-widget-overlay {
   background: rgba(0, 0, 0, 0.6) !important;
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.9) !important;
   opacity: 1 !important; }
+.vtk-body #main .meeting-detail #financeForm section {
+  margin-top: 0; }
+  .vtk-body #main .meeting-detail #financeForm section h6 span:nth-of-type(2) {
+    font-weight: normal; }
+  .vtk-body #main .meeting-detail #financeForm section ul li {
+    margin: 0;
+    line-height: 2; }
+.vtk-body #main .meeting-detail #financeForm .large-block-grid-2 > li:nth-child(2n+1) {
+  width: 70%;
+  white-space: nowrap; }
+.vtk-body #main .meeting-detail #financeForm .large-block-grid-2 > li:nth-child(2n) {
+  width: 30%; }
+.vtk-body #main .meeting-detail #financeForm input[type="text"] {
+  height: 30px;
+  text-align: right; }
+.vtk-body #main .finances #financeForm input[type=checkbox]:checked + label:before {
+  content: "\e6d7";
+  font-family: "JollyFont";
+  color: green; }
+.vtk-body #main .finances #financeForm input[type="checkbox"] {
+  display: none; }
+.vtk-body #main .finances #financeForm input[type="text"] {
+  text-align: left; }
+.vtk-body #main .finances #financeForm label:before {
+  border: solid 1px #ccc;
+  content: "";
+  height: 30px;
+  width: 30px;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+  font-size: 15px;
+  text-align: center;
+  display: inline-block;
+  float: left;
+  padding: 4px; }
+.vtk-body #main .finances #financeForm section p:nth-of-type(1) {
+  font-size: 12px;
+  font-weight: 600;
+  margin-right: 23px;
+  margin-bottom: 5px; }
+.vtk-body #main .finances #financeForm .opts {
+  margin-bottom: 15px; }
+  .vtk-body #main .finances #financeForm .opts span {
+    margin-top: 3px; }
+  .vtk-body #main .finances #financeForm .opts select {
+    height: 30px;
+    padding: 0 11px;
+    border: solid 1px #333;
+    font-weight: bold;
+    font-size: 14px; }
+.vtk-body #main .reports .row.titles {
+  font-weight: 700;
+  white-space: nowrap; }
+.vtk-body #main .reports input[type=checkbox]:checked + label:before {
+  content: "\e6d7";
+  font-family: "JollyFont";
+  color: green; }
+.vtk-body #main .reports input[type="checkbox"] {
+  display: none; }
+.vtk-body #main .reports label {
+  margin: 0; }
+  .vtk-body #main .reports label:before {
+    border: solid 1px #ccc;
+    content: "";
+    height: 30px;
+    width: 30px;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    font-size: 15px;
+    text-align: center;
+    display: inline-block;
+    float: left;
+    padding: 4px; }
+.vtk-body #main .reports .accordion .accordion-inner dt {
+  padding-left: 0; }
+
+.btn, .button, button {
+  text-transform: uppercase;
+  color: #fff; }
 
 .inline-list .icon i {
   color: inherit;
@@ -1055,16 +1162,20 @@
     .tab-wrapper.row .dropdown a.expand {
       display: block;
       padding: 10px;
-      margin-bottom: 10px; }
+      margin-bottom: 10px;
+      position: relative; }
       .tab-wrapper.row .dropdown a.expand:after {
-        border: solid 8px transparent;
+        border: solid 7px transparent;
         border-color: #000 transparent transparent transparent;
         content: "";
         position: absolute;
-        right: 20px; }
+        right: 3.3333%;
+        top: 50%;
+        margin-top: -3px; }
 
 .tabs dd {
-  width: 16.666667%;
+  max-width: 16.666667%;
+  min-width: 14.252874%;
   border-bottom: solid 6px #009447; }
   .tabs dd > a {
     background: #00ae57;
@@ -1146,8 +1257,7 @@ input[type="file"] {
 
   .vtk-body .accordion > dt h3 {
     width: 100%;
-    display: block;
-    position: relative; }
+    display: block; }
     .vtk-body .accordion > dt h3.on:before {
       margin-left: -40px; }
     .vtk-body .accordion > dt h3:before {
@@ -1181,16 +1291,6 @@ input[type="file"] {
 
   .mytroop .accordion-inner dt .column {
     margin-bottom: 7px; } }
-table {
-  width: 100%; }
-
-table tr {
-  background: #fff; }
-  table tr:nth-of-type(odd) {
-    background: #f9f9f9; }
-  table tr:nth-of-type(even) {
-    background: #fff; }
-
 @media only screen and (min-width: 40.063em) and (max-width: 60.063em) {
   .vtk-body #main .crumbs .columns #util-links.inline-list li:nth-of-type(2) {
     margin: 0 11px; }
