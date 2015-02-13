@@ -124,7 +124,7 @@ try{
     		continue;
 		}
 
-		else{
+		else if(node.hasNode("jcr:content/metadata")){
             Node metadata = node.getNode("jcr:content/metadata");
             //The title set in the dam is dc:title, and the description is dc:description
             
