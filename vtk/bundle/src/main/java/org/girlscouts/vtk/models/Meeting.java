@@ -6,99 +6,79 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
+@Node(jcrMixinTypes = "mix:lockable")
+public class Meeting extends YearPlanComponent implements Serializable {
 
+	@Field(path = true)
+	String path;
+	@Field
+	private String id, name;
+	@Field
+	private String level, blurb, cat;
+	@Field
+	private String aidTags, resources, agenda;
+	@Field
+	private Integer position;
+	@Field private Boolean isAchievement; 
 
+	@Collection
+	private java.util.List<Activity> activities;
 
-@Node(jcrMixinTypes="mix:lockable" )
-public class Meeting extends YearPlanComponent  implements Serializable{
+	@Collection
+	private java.util.Map<String, JcrCollectionHoldString> meetingInfo;
 
-	
-	@Field(path=true) String path;
-	@Field private String id, name;
-	@Field private String  level, blurb, cat;
-	@Field private String aidTags,resources, agenda;
-	@Field private Integer position;
-	
-	@Collection private java.util.List <Activity> activities;
-	
-	
-    @Collection private java.util.Map<String, JcrCollectionHoldString> meetingInfo;
-	
-   
-
-
-public Integer getPosition() {
+	public Integer getPosition() {
 		return position;
 	}
-
 
 	public void setPosition(Integer position) {
 		this.position = position;
 	}
 
+	public java.util.Map<String, JcrCollectionHoldString> getMeetingInfo() {
+		return meetingInfo;
+	}
 
-public java.util.Map<String, JcrCollectionHoldString> getMeetingInfo() {
-	return meetingInfo;
-}
-
-
-public void setMeetingInfo(java.util.Map<String, JcrCollectionHoldString> meetingInfo) {
-	this.meetingInfo = meetingInfo;
-}
-
-
+	public void setMeetingInfo(
+			java.util.Map<String, JcrCollectionHoldString> meetingInfo) {
+		this.meetingInfo = meetingInfo;
+	}
 
 	public java.util.List<Activity> getActivities() {
 		return activities;
 	}
 
-
-
 	public void setActivities(java.util.List<Activity> activities) {
 		this.activities = activities;
 	}
-
-
 
 	public String getAidTags() {
 		return aidTags;
 	}
 
-
-
 	public void setAidTags(String aidTags) {
 		this.aidTags = aidTags;
 	}
-
-
 
 	public String getResources() {
 		return resources;
 	}
 
-
-
 	public void setResources(String resources) {
 		this.resources = resources;
 	}
-
-
 
 	public String getAgenda() {
 		return agenda;
 	}
 
-
-
 	public void setAgenda(String agenda) {
 		this.agenda = agenda;
 	}
 
-
-
-	public Meeting(){this.path="/meeting";}
-	
-	
+	public Meeting() {
+		this.path = "/meeting";
+	}
 
 	public String getLevel() {
 		return level;
@@ -147,8 +127,18 @@ public void setMeetingInfo(java.util.Map<String, JcrCollectionHoldString> meetin
 	public void setPath(String path) {
 		this.path = path;
 	}
+
+	public Boolean getIsAchievement() {
+		return isAchievement;
+	}
+
+	public void setIsAchievement(Boolean isAchievement) {
+		this.isAchievement = isAchievement;
+	}
+
 	
 	
+
 	
 	
 }

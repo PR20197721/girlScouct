@@ -1,7 +1,8 @@
-
+/*
 $(function() {
     $( "#calStartDt" ).datepicker({minDate: 0});
   });
+*/
   
 
 
@@ -11,7 +12,7 @@ function updSched1(i, meetingPath, currDt){
 	var date = document.getElementById("cngDate"+i).value;
 	var time = document.getElementById("cngTime"+i).value;
 	var ap = document.getElementById("cngAP"+i).value;
-	var isCancelled = document.getElementById("isCancellMeeting"+i).checked;
+	var isCancelled = false;//document.getElementById("isCancellMeeting"+i).checked;
 
 	
 	

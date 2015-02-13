@@ -13,54 +13,52 @@ import org.girlscouts.vtk.auth.models.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@SlingServlet(
-   resourceTypes = "sling/servlet/default",
-   selectors = "hello",
-   extensions = "js",
-   methods = "GET"
-)
+@SlingServlet(resourceTypes = "sling/servlet/default", selectors = "hello", extensions = "js", methods = "GET")
 public class HelloServlet extends SlingSafeMethodsServlet {
-    private static final long serialVersionUID = 5981389970977916595L;
+	private static final long serialVersionUID = 5981389970977916595L;
 
-    private static final Logger log = LoggerFactory.getLogger(HelloServlet.class);
+	private static final Logger log = LoggerFactory
+			.getLogger(HelloServlet.class);
 
-    @Override
-    protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) {
-        try {
-            PrintWriter out = response.getWriter();
+	@Override
+	protected void doGet(SlingHttpServletRequest request,
+			SlingHttpServletResponse response) {
+		try {
+			PrintWriter out = response.getWriter();
 
-            HttpSession session = request.getSession(false);
-            if (session == null) {
-                sayPleaseSignIn(out);
-            } else {
-                // TODO: Users may be lazy loaded. May refactor later.
-                
-            	
-            	//080614 User user = (User)session.getAttribute(User.class.getName());
-            	User user=null;
-            	try{
-            		user = (User)session.getAttribute(User.class.getName());
-            	}catch(Exception e){}
-            	
-            	
-                if (user == null) {
-                    sayPleaseSignIn(out);
-                } else {
-                    String name = user.getName();
-                    sayHello(out, name);
-                }
-            }
-        } catch (IOException e) {
-            log.error("Cannot get PrintWriter \"out\" from response.");
-        }
-    }
-    
-    private void sayPleaseSignIn(PrintWriter out) {
-        out.println("girlscouts.components.login.sayHello('signedout');");
-    }
-    
-    private void sayHello(PrintWriter out, String name) {
-        out.println("$.cookie('girl-scout-name', '" + name + "', {path: '/'});");
-        out.println("girlscouts.components.login.sayHello('signedin', '" + name + "');");
-    }
+			HttpSession session = request.getSession(false);
+			if (session == null) {
+				sayPleaseSignIn(out);
+			} else {
+				// TODO: Users may be lazy loaded. May refactor later.
+
+				// 080614 User user =
+				// (User)session.getAttribute(User.class.getName());
+				User user = null;
+				try {
+					user = (User) session.getAttribute(User.class.getName());
+				} catch (Exception e) {
+				}
+
+				if (user == null) {
+					sayPleaseSignIn(out);
+				} else {
+					String name = user.getName();
+					sayHello(out, name);
+				}
+			}
+		} catch (IOException e) {
+			log.error("Cannot get PrintWriter \"out\" from response.");
+		}
+	}
+
+	private void sayPleaseSignIn(PrintWriter out) {
+		out.println("girlscouts.components.login.sayHello('signedout');");
+	}
+
+	private void sayHello(PrintWriter out, String name) {
+		out.println("$.cookie('girl-scout-name', '" + name + "', {path: '/'});");
+		out.println("girlscouts.components.login.sayHello('signedin', '" + name
+				+ "');");
+	}
 }
