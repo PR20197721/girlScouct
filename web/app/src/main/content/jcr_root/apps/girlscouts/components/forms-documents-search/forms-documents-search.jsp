@@ -120,12 +120,12 @@ try{
 		Node node = resourceResolver.resolve(hit.getPath()).adaptTo(Node.class);
 
 		//GSWS-132: Prevents unwanted (page) results
-		if(!node.hasNode("jcr:content/metadata")){
-    		continue;
+		if(!node.hasNode("jcr:content")){
+			continue;
 		}
 
 		else if(node.hasNode("jcr:content/metadata")){
-            Node metadata = node.getNode("jcr:content/metadata");
+			Node metadata = node.getNode("jcr:content/metadata");
             //The title set in the dam is dc:title, and the description is dc:description
             
             // Temporary Hit fix for handling multiple description and title
