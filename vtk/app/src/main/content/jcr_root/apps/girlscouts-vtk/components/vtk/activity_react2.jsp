@@ -108,6 +108,7 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
                 <p>Cost: {this.props.data.cost}</p>
               </section>
               <p>{this.props.data.content}</p>
+
             </div>
             <%@include file="include/meeting_communication.jsp"%>
           </div>
