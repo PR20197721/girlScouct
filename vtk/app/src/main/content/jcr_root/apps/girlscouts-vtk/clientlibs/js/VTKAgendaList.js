@@ -53,7 +53,11 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
         }, this);
         this.doLayout();
         
-         
+        var http = CQ.shared.HTTP;
+        http.get(http.externalize('/content/girlscouts-vtk/meetings/myyearplan/brownie/B14B02/activities.1.json'), function(options, success, response) {
+        	
+        }, this); 
+
         var value = newValue.split(']');
         value.pop(); // remove the last one
         if ((value != null) && (value != "")) {
