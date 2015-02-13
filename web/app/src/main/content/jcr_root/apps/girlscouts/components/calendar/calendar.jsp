@@ -101,6 +101,13 @@
 							dateStr += " - " + endTimeStr;
 						}
 	            	  }
+                    
+					//Add time zone label to date string if event has one
+               		String timeZoneLabel = propNode.hasProperty("timezone") ? propNode.getProperty("timezone").getString() : "";
+					if(!timeZoneLabel.isEmpty()){
+						dateStr = dateStr + " " + timeZoneLabel;
+					}
+
 					if(propNode.hasProperty("color")){
 	            		 color = propNode.getProperty("color").getString();
 	            	}
