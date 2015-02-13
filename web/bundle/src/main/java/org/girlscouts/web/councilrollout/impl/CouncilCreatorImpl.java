@@ -256,7 +256,10 @@ public class CouncilCreatorImpl implements CouncilCreator
 				    jcrNode.setProperty("jcr:title", folderTitle);
 			    }
 			}
-		} catch (Exception e) {
+		} catch (ItemExistsException e) {
+			LOG.error("Folder/Node already exists, cannot create folder. " + e.toString());
+		}
+		catch (Exception e) {
 			e.printStackTrace();
 		}
 		return folderNode;
