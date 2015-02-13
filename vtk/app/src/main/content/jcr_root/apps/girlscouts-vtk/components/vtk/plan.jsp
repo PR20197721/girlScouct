@@ -132,7 +132,7 @@ var scrollTarget = "";
     					</ul>
      			);
         }else{
-          return <div className="pleaseWait">Please wait..</div>        
+          return <div><img src="/content/dam/gateway/trefoil_loading.gif"/></div>        
     		 }  		
         },
       onReorder: function(order) {

@@ -289,7 +289,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
   					  <%@include file="include/meeting_agenda.jsp"%>
   					);
           }else{
-            return <div className="pleaseWait">Please wait..</div>
+            return <div><img src="/content/dam/gateway/trefoil_loading.gif"/></div> 
           }
         },
         componentDidMount: function() {
