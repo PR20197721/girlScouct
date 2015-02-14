@@ -300,15 +300,23 @@ System.err.println("tata selecteYearPlan start");
 				if (t.countTokens() < newYearPlan.getMeetingEvents().size()) {
 					int countDates = t.countTokens();
 					long lastDate = 0, meetingTimeDiff = 99999;
+					
 					while (t.hasMoreElements()) {
 						long diff = lastDate;
 						lastDate = Long.parseLong(t.nextToken());
+						
 						if (diff != 0)
 							meetingTimeDiff = lastDate - diff;
+							
 					}
-					for (int z = countDates; z < newYearPlan.getMeetingEvents()
-							.size(); z++)
-						oldDates += (lastDate + meetingTimeDiff) + ",";
+	System.err.println("tata chk lastDate: "+ new java.util.Date(lastDate) +" : "+ meetingTimeDiff);				
+					for (int z = countDates; z < newYearPlan.getMeetingEvents().size(); z++){
+						if(!oldDates.endsWith(",")) 
+							oldDates+=",";
+						oldDates +=  (lastDate + meetingTimeDiff) + ",";
+	System.err.println("tata adding sched date: "+ new java.util.Date((lastDate + meetingTimeDiff))  +" : "+ meetingTimeDiff);					
+	System.err.println("tata new sched : "+ oldDates);
+					}
 					oldPlan.getSchedule().setDates(oldDates);
 					t = new java.util.StringTokenizer(oldDates, ",");
 				}
@@ -413,6 +421,25 @@ System.err.println("tata selecteYearPlan start");
 					((MeetingE) troop.getYearPlan().getMeetingEvents().get(i)).isDbUpdate() );
 			
 		}
+	System.err.println("tataXX: "+ troop.getYearPlan().getSchedule());	
+		if( troop.getYearPlan().getSchedule()!=null){
+System.err.println("tata2b2b2 :"+ (troop.getYearPlan().getMeetingEvents().size() > oldPlan.getMeetingEvents().size()));			
+			if( oldPlan.getMeetingEvents()!= null && troop.getYearPlan().getMeetingEvents().size() > oldPlan.getMeetingEvents().size() ){
+	System.err.println("tata1c1");			
+				java.util.Calendar test = java.util.Calendar.getInstance();
+				test.setTimeInMillis( new java.util.Date("2/2/2016").getTime() );
+				for(int i=0;i< (troop.getYearPlan().getMeetingEvents().size()- oldPlan.getMeetingEvents().size() ) ;i++){
+					//add date to sched
+					troop.getYearPlan().getSchedule().setDates(troop.getYearPlan().getSchedule().getDates() + ", " + test.getTimeInMillis() +",");
+	System.err.println("tata ,.... "+ troop.getYearPlan().getSchedule().getDates());				
+					test.add(java.util.Calendar.DATE, 7);
+					
+					
+				}
+			}
+			troop.getYearPlan().getSchedule().setDbUpdate(true);
+		}
+		
 		
 		
 		troopDAO.updateTroop(user, troop);

@@ -210,7 +210,7 @@ public class MeetingUtil {
 				StringTokenizer t = new StringTokenizer(calMeeting, ",");
 				int count = 0;
 				while (t.hasMoreElements()) {
-
+System.err.println("tata ggg: "+ count +" : "+ calMeeting +" : "+meetingEs.size());
 					try {
 						sched.put(
 								new java.util.Date(Long.parseLong((t
