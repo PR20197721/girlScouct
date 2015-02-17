@@ -92,12 +92,11 @@
 				}
 				return;
 			case SelectYearPlan:
-				
-	System.err.println("***			SelectYearPlan");
-				troopUtil.selectYearPlan(user, troop,
+				try{
+					troopUtil.selectYearPlan(user, troop,
 						request.getParameter("addYearPlanUser"),
 						request.getParameter("addYearPlanName"));
-				
+				}catch(VtkYearPlanChangeException e){ System.err.println(e.getMessage()); e.printStackTrace(); out.println( e.getMessage() ); }
 				
 				return;
 			case AddLocation:

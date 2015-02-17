@@ -50,6 +50,8 @@ function x1_1(planPath, planName){
 		cache: false
 	}).done(function( html ) {
 		//loadMeetings();
+		if( html !=null && $.trim(html)!="" )
+			{alert( $.trim(html)); return; }
 		location.reload();
 	});
 }
