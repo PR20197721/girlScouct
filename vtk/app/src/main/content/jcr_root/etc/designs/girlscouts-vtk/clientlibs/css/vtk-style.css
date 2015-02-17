@@ -1162,7 +1162,18 @@ input[type="file"] {
     border: none;
     border-radius: 0;
     background: none; }
-  #ui-datepicker-div .ui-datepicker .ui-datepicker-title {
+  #ui-datepicker-div table {
+    border: none; }
+  #ui-datepicker-div .ui-datepicker-header .ui-datepicker-title {
+    float: none; }
+  #ui-datepicker-div a.ui-state-default.ui-state-highlight,
+  #ui-datepicker-div .ui-state-active,
+  #ui-datepicker-div .ui-widget-content .ui-state-active,
+  #ui-datepicker-div .ui-widget-header .ui-state-active {
+    background: #cfefde; }
+  #ui-datepicker-div .ui-state-default,
+  #ui-datepicker-div .ui-widget-content .ui-state-default,
+  #ui-datepicker-div .ui-widget-header .ui-state-default {
     text-align: center; }
 
 @media only screen and (max-width: 40em) {

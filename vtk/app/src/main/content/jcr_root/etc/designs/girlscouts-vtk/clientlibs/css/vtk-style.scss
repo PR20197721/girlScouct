@@ -1574,8 +1574,22 @@ input[type="file"] {
     border-radius: 0;
     background: none;
   }
-  .ui-datepicker .ui-datepicker-title {
-    text-align:center;
+  table {
+    border:none;
+  }
+  .ui-datepicker-header .ui-datepicker-title {
+    float:none;
+  }
+  a.ui-state-default.ui-state-highlight,
+  .ui-state-active, 
+  .ui-widget-content .ui-state-active,
+  .ui-widget-header .ui-state-active {
+    background: #cfefde;
+  }
+  .ui-state-default,
+  .ui-widget-content .ui-state-default,
+  .ui-widget-header .ui-state-default {
+    text-align: center;
   }
 }
 
