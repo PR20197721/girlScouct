@@ -23,9 +23,9 @@
 		</h3>
 		<a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
 	</div>
-	<a id="print" onclick="javascript:window.print()" class="icon" title="print"><i class="icon-printer"></i>print</a>
+	<a id="print" onclick="printDiv()" class="icon" title="print"><i class="icon-printer"></i>print</a>
 	
-	<div class="scroll content" id="printDiv">
+	<div class="scroll content">
 		<div class="setupCalendar row">
 		
 		<%
@@ -126,5 +126,18 @@
 <%}%>
 		</div>
 	</div>
-	
+<script>
+function printDiv(divName) {
+	var printContents = $('.modal_agenda_edit .scroll').html();
+    var originalContents = document.body.innerHTML;
+
+    document.body.innerHTML = printContents;
+
+    window.print();
+
+    document.body.innerHTML = originalContents;
+
+}
+
+</script>
 
