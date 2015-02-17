@@ -18,7 +18,7 @@
 <%
 String councilId= request.getParameter("cid");
 int t=0;
-java.util.List<Milestone> milestones = yearPlanUtil.getCouncilMilestones(councilId ) ;
+java.util.List<Milestone> milestones = yearPlanUtil.getCouncilMilestones(councilId) ;
 for(int i=0;i<milestones.size();i++,t++){
 %>
 <tr id="entry<%=t %>">
