@@ -33,6 +33,8 @@ import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
+import org.girlscouts.vtk.models.MilestonesCollection;
+
 
 @Component
 @Service(value = CouncilDAO.class)
@@ -200,32 +202,37 @@ public class CouncilDAOImpl implements CouncilDAO {
 	
 	public java.util.List<Milestone> getCouncilMilestones(String councilCode) {
 
-//		String councilStr = councilMapper.getCouncilBranch(councilCode);
-//		councilStr = councilStr.replace("/content/", "");
+		String councilStr = councilMapper.getCouncilBranch(councilCode);
+		councilStr = councilStr.replace("/content/", "");
 		Session session = null;
 		java.util.List<Milestone> milestones = null;
 		try {
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Milestone.class);
+			classes.add(MilestonesCollection.class);
+
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
 			QueryManager queryManager = ocm.getQueryManager();
-			Filter filter = queryManager.createFilter(Milestone.class);
-			filter.setScope("/vtk/" + councilCode + "/milestones//");
-			Query query = queryManager.createQuery(filter);
-			milestones = (java.util.List<Milestone>) ocm.getObjects(query);
-			if(milestones==null || milestones.isEmpty()){
-				Milestone ms = new Milestone("Cookie Sales Start",true,null);
-				ms.setPath("/vtk/" + councilCode + "/milestones");
-				milestones.add(ms);
-				ocm.insert(ms);
+			Filter filter = queryManager.createFilter(MilestonesCollection.class);
+			String path = "/vtk/" + councilCode + "/milestones";
+			if(session.itemExists(path)){
+				MilestonesCollection list = (MilestonesCollection)ocm.getObject(path);
+				milestones = list.getMilestones();
 
-				//milestones.add(new Milestone("Cookie Sales End",true,null));
-				//milestones.add(new Milestone("Re-Enroll Girls",true,null));
-				//ocm.update(new Milestone("Cookie Sales Start",true,null));
+			}else{
+				MilestonesCollection list = new MilestonesCollection(path); 
+				milestones = new ArrayList<Milestone>();
+				milestones.add(new Milestone("Cookie Sales Start",true,null));
+				milestones.add(new Milestone("Cookie Sales End",true,null));
+				milestones.add(new Milestone("Re-Enroll Girls",true,null));
+				list.setMilestones(milestones);
+				ocm.insert(list);
+				ocm.save();
 			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
