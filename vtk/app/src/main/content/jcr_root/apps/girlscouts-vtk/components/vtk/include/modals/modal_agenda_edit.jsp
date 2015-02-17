@@ -7,7 +7,7 @@
 
 
 <div class="modal_agenda_edit">
-	<div class="header clearfix">
+	<div class="header clearfix">	
 		<h3 class="columns large-22">
 		<% 
 			if (request.getParameter("isOverview") != null) {
@@ -23,8 +23,11 @@
 		</h3>
 		<a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
 	</div>
-	<div class="scroll content">
+	<a id="print" onclick="javascript:window.print()" class="icon" title="print"><i class="icon-printer"></i>print</a>
+	
+	<div class="scroll content" id="printDiv">
 		<div class="setupCalendar row">
+		
 		<%
 			MeetingE meeting = null;
 			java.util.List<MeetingE> meetings = troop.getYearPlan()
@@ -123,3 +126,5 @@
 <%}%>
 		</div>
 	</div>
+	
+
