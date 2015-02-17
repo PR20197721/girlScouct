@@ -977,7 +977,7 @@
             input[type=checkbox]:checked + label:before {
               content: "\e6d7";
               font-family: "JollyFont";
-              color: green;
+              color: #00AE55;
             }
             input[type="checkbox"] {
               display:none;
@@ -1136,6 +1136,9 @@
           text-transform: uppercase;
         }
       }
+    }
+    .icon-printer {
+      color: #00AE53;
     }
   }
   //calendar inside the meeting date and location popup
@@ -1589,6 +1592,9 @@ input[type="file"] {
   .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget tbody td,
   .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody td {
     padding: 9px;
+  }
+  .vtk-body .modalWrap .tabs-wrapper .tabs-content table tr:nth-of-type(odd) {
+    background: #f9f9f9;
   }
   .vtk-body #modal-meeting-reminder .accordion dd .content li span {
     max-width: 245px;
