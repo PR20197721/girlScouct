@@ -72,13 +72,13 @@
           line-height:20px;
         }
       }
-      input[type=radio] {
+      input[type="radio"] {
         display: none;
       }
-      input[type=radio] + label {
+      input[type="radio"] + label {
         position: relative;
       }
-      input[type=radio] + label:before {
+      input[type="radio"] + label:before {
         width: 2.81rem;
         height: 2.81rem;
         content: '';
@@ -88,7 +88,7 @@
         margin: 0 0.5em;
         color: transparent;
       }
-      input[type=radio]:checked + label:after{
+      input[type="radio"]:checked + label:after{
         content: '';
         display: inline-block;
         border: none;
@@ -1144,6 +1144,41 @@
   //calendar inside the meeting date and location popup
   .modifyCalendarDate {
     margin-top: 25px;
+    input[type="radio"] {
+      display: none;
+    }
+    input[type="radio"] + label {
+      position: relative;
+      p {
+        top: 25%;
+        left: 60px;
+        white-space: nowrap;
+        position: absolute;
+      }
+    }
+    input[type="radio"] + label:before {
+      width: 2.81rem;
+      height: 2.81rem;
+      content: '';
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 50%;
+      margin: 0 0.5em;
+      color: transparent;
+    }
+    input[type="radio"]:checked + label:after{
+      content: '';
+      display: inline-block;
+      border: none;
+      border-radius: 50%;
+      margin: 0 0.5em;
+      position: absolute;
+      background: #00ae58;
+      width: 2.19rem;
+      height: 2.19rem;
+      top: 5px;
+      left: 5px;
+    }
   }
   #modal_meeting_aids {
     .button {
@@ -1457,6 +1492,9 @@
       }
     }
   }
+  #vtk-main-menu li {
+    padding-bottom: 5px;
+  }
 }
 .tabs dd {
   width: 16.666667%;
@@ -1528,6 +1566,19 @@ input[type="file"] {
     border-radius: 0;
   }
 }
+//popup calendar
+#ui-datepicker-div {
+  background: #fff;
+  .ui-corner-all {
+    border:none;
+    border-radius: 0;
+    background: none;
+  }
+  .ui-datepicker .ui-datepicker-title {
+    text-align:center;
+  }
+}
+
 //Media queries
 //small screen
 @media only screen and (max-width: 40em) {
