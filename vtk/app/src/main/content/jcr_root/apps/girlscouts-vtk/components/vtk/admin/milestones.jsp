@@ -23,30 +23,24 @@ for(int i=0;i<milestones.size();i++,t++){
 %>
 <tr id="entry<%=t %>">
  <td><a onclick="rmvEntry()"><i>cross icon</i></a></td>
- <td><input type="text" id="blurb<%=t %>" name="ms_blurb<%=t %>" value="<%=milestones.get(i).getBlurb()%>"/></td>
- <td><input type="text" id="date<%=t %>" name="ms_date<%=t %>" placeholder="  /  /    " onchange="doChkSubmitValid()"value="<%=FORMAT_MMddYYYY.format(milestones.get(i).getDate())%>" onchange="doChkSubmitValid()"/>
-     <label for="date<%=t %>"><i class="icon-calendar"></i></label>
- </td>
- <td><input type="checkbox" id="show<%=t %>" name="ms_show<%=t %>" value=<%=milestones.get(i).getShow()?"checked":"unchecked" %>/></td>
+ <td><input type="text" id="blurb<%=t %>" name="ms_blurb[]<%=t %>" value="<%=milestones.get(i).getBlurb()%>"/></td>
+ <td><input type="text" id="date<%=t %>" name="ms_date[]<%=t %>"  placeholder="  /  /    " onchange="doChkSubmitValid()" value="<%=milestones.get(i).getDate()==null?"":FORMAT_MMddYYYY.format(milestones.get(i).getDate())%>" onchange="doChkSubmitValid()"/></td>
+ <td><input type="checkbox" id="show<%=t %>" name="ms_show[]<%=t %>" <%=milestones.get(i).getShow()?"checked":"unchecked"%>/></td>
 </tr>
 <%} %>
 
 <tr id="entry<%=t++ %>">
- <td><a onclick="rmvEntry()"<i>cross icon</i></a></td>
+ <td><a onclick="rmvEntry()"><i>cross icon</i></a></td>
  <td><input type="text" id="blurb<%=t %>" name="ms_blurb[]" placeholder="Enter a Milestone"/></td>
- <td><input type="text" id="date<%=t %>" name="ms_date[]" placeholder="  /  /    "/>
-     <label for="date<%=t %>"><i class="icon-calendar"></i></label>
- </td>
- <td><input type="checkbox" id="show<%=t %>" name="ms_show[] value="unchecked"/></td>
+ <td><input type="text" id="date<%=t %>" name="ms_date[]" placeholder="  /  /    "/></td>
+ <td><input type="checkbox" id="show<%=t %>" name="ms_show[]" unchecked/></td>
 </tr>
 
 <tr id="entry<%=t++ %>">
 
- <td><a onclick="rmvEntry()"<i>cross icon</i></a></td>
+ <td><a onclick="rmvEntry()"><i>cross icon</i></a></td>
  <td><input type="text" id="blurb<%=t %>" name="ms_blurb[]" placeholder="Enter a Milestone"/></td>
- <td><input type="text" id="date<%=t %>" name="ms_date[]" placeholder="  /  /    "/>
-     <label for="date<%=t %>"><i class="icon-calendar"></i></label>
- </td>
+ <td><input type="text" id="date<%=t %>" name="ms_date[]" placeholder="  /  /    "/></td>
  <td><input type="checkbox" id="show<%=t %>" name="ms_show[] value="checked"/></td>
 </tr>
  

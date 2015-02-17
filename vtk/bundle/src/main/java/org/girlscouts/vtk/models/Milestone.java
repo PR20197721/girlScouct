@@ -24,6 +24,13 @@ public class Milestone extends YearPlanComponent implements Serializable {
 		this.uid = "M" + new java.util.Date().getTime() + "_" + Math.random();
 		super.setType(YearPlanComponentType.MILESTONE);
 	}
+	public Milestone(String blurb, boolean show, java.util.Date date) {
+		this.uid = "M" + new java.util.Date().getTime() + "_" + Math.random();
+		super.setType(YearPlanComponentType.MILESTONE);
+		this.blurb=blurb;
+		this.show = show;
+		this.date = date;
+	}
 
 	public String getPath() {
 		return path;

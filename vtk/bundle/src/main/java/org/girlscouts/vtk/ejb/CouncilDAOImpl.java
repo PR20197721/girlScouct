@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import javax.jcr.Session;
 
@@ -16,6 +17,7 @@ import org.apache.jackrabbit.ocm.manager.ObjectContentManager;
 import org.apache.jackrabbit.ocm.manager.impl.ObjectContentManagerImpl;
 import org.apache.jackrabbit.ocm.mapper.Mapper;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
+import org.apache.jackrabbit.ocm.query.Query;
 import org.apache.jackrabbit.ocm.query.Filter;
 import org.apache.jackrabbit.ocm.query.QueryManager;
 import org.girlscouts.vtk.auth.permission.Permission;
@@ -41,6 +43,10 @@ public class CouncilDAOImpl implements CouncilDAO {
 
 	@Reference
 	private UserUtil userUtil;
+	
+	@Reference
+	org.girlscouts.vtk.helpers.CouncilMapper councilMapper;
+
 
 	@Activate
 	void activate() {
@@ -180,6 +186,74 @@ public class CouncilDAOImpl implements CouncilDAO {
 			ocm.update(council);
 			ocm.save();
 
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null)
+					sessionFactory.closeSession(session);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+	}
+	
+	public java.util.List<Milestone> getCouncilMilestones(String councilCode) {
+
+//		String councilStr = councilMapper.getCouncilBranch(councilCode);
+//		councilStr = councilStr.replace("/content/", "");
+		Session session = null;
+		java.util.List<Milestone> milestones = null;
+		try {
+			session = sessionFactory.getSession();
+			List<Class> classes = new ArrayList<Class>();
+			classes.add(Milestone.class);
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+					mapper);
+			QueryManager queryManager = ocm.getQueryManager();
+			Filter filter = queryManager.createFilter(Milestone.class);
+			filter.setScope("/vtk/" + councilCode + "/milestones//");
+			Query query = queryManager.createQuery(filter);
+			milestones = (java.util.List<Milestone>) ocm.getObjects(query);
+			if(milestones==null || milestones.isEmpty()){
+				Milestone ms = new Milestone("Cookie Sales Start",true,null);
+				ms.setPath("/vtk/" + councilCode + "/milestones");
+				milestones.add(ms);
+				ocm.insert(ms);
+
+				//milestones.add(new Milestone("Cookie Sales End",true,null));
+				//milestones.add(new Milestone("Re-Enroll Girls",true,null));
+				//ocm.update(new Milestone("Cookie Sales Start",true,null));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null)
+					sessionFactory.closeSession(session);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		return milestones;
+	}
+
+	public void saveCouncilMilestones(java.util.List<Milestone> milestones, String cid) {
+		
+	    
+		Session session = null;
+		try {
+			session = sessionFactory.getSession();
+			List<Class> classes = new ArrayList<Class>();
+			classes.add(Milestone.class);
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+					mapper);
+
+			for (int i = 0; i < milestones.size(); i++)
+				ocm.update(milestones.get(i));
+			ocm.save();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
