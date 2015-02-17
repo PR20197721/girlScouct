@@ -977,7 +977,7 @@
             input[type=checkbox]:checked + label:before {
               content: "\e6d7";
               font-family: "JollyFont";
-              color: green;
+              color: #00AE55;
             }
             input[type="checkbox"] {
               display:none;
@@ -1136,6 +1136,9 @@
           text-transform: uppercase;
         }
       }
+    }
+    .icon-printer {
+      color: #00AE53;
     }
   }
   //calendar inside the meeting date and location popup

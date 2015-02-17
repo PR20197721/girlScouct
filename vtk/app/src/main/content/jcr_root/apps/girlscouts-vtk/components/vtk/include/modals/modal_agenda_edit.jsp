@@ -23,11 +23,11 @@
 		</h3>
 		<a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
 	</div>
-	<a id="print" onclick="javascript:window.print()" class="icon" title="print"><i class="icon-printer"></i>print</a>
 	
-	<div class="scroll content" id="printDiv">
+	
+	<div class="scroll content">
 		<div class="setupCalendar row">
-		
+		<a id="print" onclick="javascript:window.print()" class="icon-printer right" title="print"></a>
 		<%
 			MeetingE meeting = null;
 			java.util.List<MeetingE> meetings = troop.getYearPlan()

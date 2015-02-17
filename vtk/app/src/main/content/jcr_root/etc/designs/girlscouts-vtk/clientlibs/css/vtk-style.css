@@ -710,7 +710,7 @@
         .vtk-body .modalWrap .tabs-wrapper .tabs-content #manageLocationSection .locationList li input[type=checkbox]:checked + label:before {
           content: "\e6d7";
           font-family: "JollyFont";
-          color: green; }
+          color: #00AE55; }
         .vtk-body .modalWrap .tabs-wrapper .tabs-content #manageLocationSection .locationList li input[type="checkbox"] {
           display: none; }
         .vtk-body .modalWrap .tabs-wrapper .tabs-content #manageLocationSection .locationList li label:before {
@@ -848,6 +848,9 @@
 .vtk-body .reveal-modal .setupCalendar .editable-textarea h5,
 .vtk-body .modalWrap .setupCalendar .editable-textarea h5 {
   text-transform: uppercase; }
+.vtk-body .reveal-modal .icon-printer,
+.vtk-body .modalWrap .icon-printer {
+  color: #00ae53; }
 .vtk-body .modifyCalendarDate {
   margin-top: 25px; }
 .vtk-body #modal_meeting_aids .button {
