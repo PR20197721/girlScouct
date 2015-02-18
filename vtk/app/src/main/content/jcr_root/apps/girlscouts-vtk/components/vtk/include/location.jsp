@@ -24,7 +24,7 @@
   <div id="locationEdit" class="columns small-24"><!-- add 4 js err ms -->
     <p>Add, delete or edit locations to assign to your meetings.</p>
     <div id="err" class="errorMsg error"></div>
-    <form id="addLocationForm">
+    <form id="addLocationForm" onsubmit="return false">
   	   <input type="hidden" id="loc_city" value=""/>
   	   <input type="hidden" id="loc_state" value=""/>
   	   <input type="hidden" id="loc_zip" value=""/>

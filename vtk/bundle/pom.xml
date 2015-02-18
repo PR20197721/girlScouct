@@ -20,6 +20,11 @@
     <name>Girl Scouts Volunteer Toolkit Bundle</name>
 
     <dependencies>
+	    <dependency>
+		    <groupId>com.googlecode.java-diff-utils</groupId>
+		    <artifactId>diffutils</artifactId>
+		    <version>1.2.1</version>
+		</dependency>
         <dependency>
             <groupId>org.girlscouts.vtk</groupId>
             <artifactId>modified-checker-bundle</artifactId>
@@ -123,26 +128,12 @@
         	<version>0.1-SNAPSHOT</version> 
         </dependency>
         <!-- This package is not included in CQ5.6.1 by default -->
-        
-          
-         
-                   <dependency>
-            <groupId>org.apache.jackrabbit</groupId>
-            <artifactId>jackrabbit-ocm</artifactId>
-           <version>1.5.3</version>      
+	<dependency>
+		<groupId>org.apache.jackrabbit</groupId>
+		<artifactId>jackrabbit-ocm</artifactId>
+		<version>1.5.3</version>
         </dependency>
-       
- 
-    <!-- 
-    <dependency>
-	<groupId>org.apache</groupId>
-	<artifactId>jackrabbit-ocm</artifactId>
-	<version>2.0.0</version>
-</dependency>
-    -->
-        
-	
-        
+   
         <!--
         <dependency>
             <groupId>cglib</groupId>

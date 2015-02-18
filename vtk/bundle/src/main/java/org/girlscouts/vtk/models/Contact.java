@@ -18,10 +18,8 @@ public class Contact implements java.io.Serializable {
 	String path;
 
 	@Field
-	private String email, phone, firstName, lastName, address, address1, city,
-			state, zip, suite, country, role;
+	private String email, phone, firstName, lastName, address, address1, city, state, zip, suite, role, dob, country;
 
-	@Field String dob;
 	@Field Integer age;
 	
 	public String getPath() {
@@ -136,8 +134,6 @@ public class Contact implements java.io.Serializable {
 		this.role = role;
 	}
 
-	
-
 	public Integer getAge() {
 		return age;
 	}
@@ -157,8 +153,4 @@ public class Contact implements java.io.Serializable {
 	public void setDob(String dob) {
 		this.dob = dob;
 	}
-
-	
-	
-	
 }

@@ -1,4 +1,3 @@
-
 <%@page	import="org.girlscouts.vtk.models.Troop, org.girlscouts.vtk.auth.permission.*, org.girlscouts.vtk.utils.VtkUtil"%>
 <%!java.text.SimpleDateFormat FORMAT_MMddYYYY = new java.text.SimpleDateFormat("MM/dd/yyyy");
 	java.text.SimpleDateFormat FORMAT_hhmm_AMPM = new java.text.SimpleDateFormat("hh:mm a");
@@ -31,13 +30,16 @@
 
 		return false;
 	}
-	
-	
-	
-	%>
-<%
-// Alex
 
+
+	// Feature set toggles
+	boolean SHOW_BETA = false; // controls feature for all users -- don't set this to true unless you know what I'm talking about
+	String SHOW_BETA_FEATURE = "showBeta"; // request parameter to control feature per user session
+	String SESSION_FEATURE_MAP = "sessionFeatureMap"; // session attribute to hold map of enabled features
+	String[] ENABLED_FEATURES = new String[] {SHOW_BETA_FEATURE};
+
+%>
+<%
 	boolean isMultiUserFullBlock = true;
 	final CalendarUtil calendarUtil = sling.getService(CalendarUtil.class);
 	final LocationUtil locationUtil = sling.getService(LocationUtil.class);
@@ -48,6 +50,7 @@
 	final UserUtil userUtil = sling.getService(UserUtil.class);
 	final FinanceUtil financeUtil = sling.getService(FinanceUtil.class);
 	final SessionFactory sessionFactory = sling.getService(SessionFactory.class);
+	final ContactUtil contactUtil = sling.getService(ContactUtil.class);
 	
 	//dont use
 	final TroopDAO troopDAO = sling.getService(TroopDAO.class);
@@ -57,10 +60,26 @@
 	HttpSession session = request.getSession();
 
 	int timeout = session.getMaxInactiveInterval();
-	response.setHeader("Refresh", timeout
-			+ "; URL = /content/girlscouts-vtk/en/vtk.logout.html");
+	response.setHeader("Refresh", timeout + "; URL = /content/girlscouts-vtk/en/vtk.logout.html");
 
-	
+	if (session.getAttribute(SESSION_FEATURE_MAP) == null) {
+		session.setAttribute(SESSION_FEATURE_MAP, new HashSet<String>());
+	}
+	Set sessionFeatures = (Set) session.getAttribute(SESSION_FEATURE_MAP);
+	for (String enabledFeature: ENABLED_FEATURES) {
+		if (request.getParameter(enabledFeature) != null) {
+			String thisFeatureValue = ((String) request.getParameter(enabledFeature)).trim().toLowerCase();
+			if ("true".equals(thisFeatureValue) || "yes".equals(thisFeatureValue) ) {
+				if (!sessionFeatures.contains(enabledFeature)) {
+					sessionFeatures.add(enabledFeature);
+				}
+			} else if ("false".equals(thisFeatureValue) || "no".equals(thisFeatureValue) ) {
+				if (sessionFeatures.contains(enabledFeature)) {
+					sessionFeatures.remove(enabledFeature);
+				}
+			}
+		}
+	}
 	
 	org.girlscouts.vtk.auth.models.ApiConfig apiConfig = null;
 	try {
@@ -169,7 +188,7 @@
 		}
 		
 		
-		//troop.setApiConfig(apiConfig);
+		
 		troop.setTroop(prefTroop);
 		troop.setSfTroopId(troop.getTroop().getTroopId());
 		troop.setSfUserId( user.getApiConfig().getUserId() ); //troop.getApiConfig().getUserId());

@@ -63,6 +63,7 @@
     String time = startTimeStr;
     
     String endDateSt = properties.get("end", "");
+	String timeZoneLabel = properties.get("timezone", "");
 	String register = properties.get("register", String.class);
 	
 	//Start Time : startTimeStr var called time
@@ -87,6 +88,9 @@
 			
 		}
 	       
+	}
+	if(!timeZoneLabel.isEmpty()){
+		dateStr += " " + timeZoneLabel;
 	}
 	
 	

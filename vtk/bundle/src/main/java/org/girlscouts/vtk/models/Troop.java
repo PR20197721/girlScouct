@@ -26,32 +26,40 @@ public class Troop implements Serializable {
 		this.setRetrieveTime(new java.util.Date());
 	}
 
-	@Field(id = true)
-	private String id;
-	@Field(path = true)
-	String path;
-	@Bean
-	YearPlan yearPlan;
-	// -private ApiConfig apiConfig;
+	@Field(id = true) private String id;
+	@Field(path = true) String path;
+	@Bean (autoUpdate= false) YearPlan yearPlan;
 	private org.girlscouts.vtk.salesforce.Troop troop;
-	@Field
-	private String sfUserId, sfTroopId, sfTroopName, sfTroopAge, sfCouncil;
-	@Field(jcrName = "jcr:lastModified")
-	private Calendar lastModified;
-	@Field
-	private String currentTroop;
-	@Field
-	private String errCode, refId;
+	@Field private String sfUserId, sfTroopId, sfTroopName, sfTroopAge, sfCouncil;
+	@Field(jcrName = "jcr:lastModified")private Calendar lastModified;
+	@Field private String currentTroop;
+	@Field private String errCode, refId;
 	private boolean isRefresh; // reload yearPlan from DB. case: someone
 								// modified plan:lock
 	private java.util.Date retrieveTime;
 	private EmailMeetingReminder sendingEmail; // tmp
+	private boolean isDbUpdate=false;
+	
+	
+	
+	
+	
+	
+	public boolean isDbUpdate() {
+		return isDbUpdate;
+		
+	}
+
+	public void setDbUpdate(boolean isDbUpdate) {
+		this.isDbUpdate = isDbUpdate;
+	}
 
 	public java.util.Date getRetrieveTime() {
 		return retrieveTime;
 	}
 
 	public void setRetrieveTime(java.util.Date retrieveTime) {
+		
 		this.retrieveTime = retrieveTime;
 	}
 
@@ -60,6 +68,7 @@ public class Troop implements Serializable {
 	}
 
 	public void setRefresh(boolean isRefresh) {
+		
 		this.isRefresh = isRefresh;
 	}
 
@@ -69,6 +78,8 @@ public class Troop implements Serializable {
 
 	public void setErrCode(String errCode) {
 		this.errCode = errCode;
+		isDbUpdate=true;
+		
 	}
 
 	public String getCurrentTroop() {
@@ -77,6 +88,8 @@ public class Troop implements Serializable {
 
 	public void setCurrentTroop(String currentUser) {
 		this.currentTroop = currentUser;
+		isDbUpdate=true;
+		
 	}
 
 	public String getSfCouncil() {
@@ -85,6 +98,8 @@ public class Troop implements Serializable {
 
 	public void setSfCouncil(String sfCouncil) {
 		this.sfCouncil = sfCouncil;
+		//isDbUpdate=true;
+		
 	}
 
 	public String getSfTroopAge() {
@@ -93,6 +108,8 @@ public class Troop implements Serializable {
 
 	public void setSfTroopAge(String sfTroopAge) {
 		this.sfTroopAge = sfTroopAge;
+		//isDbUpdate=true;
+		
 	}
 
 	public EmailMeetingReminder getSendingEmail() {
@@ -109,6 +126,8 @@ public class Troop implements Serializable {
 
 	public void setLastModified(Calendar lastModified) {
 		this.lastModified = lastModified;
+		isDbUpdate=true;
+		
 
 	}
 
@@ -118,6 +137,8 @@ public class Troop implements Serializable {
 
 	public void setSfTroopName(String sfTroopName) {
 		this.sfTroopName = sfTroopName;
+		//isDbUpdate=true;
+		
 	}
 
 	public String getSfUserId() {
@@ -126,6 +147,8 @@ public class Troop implements Serializable {
 
 	public void setSfUserId(String sfUserId) {
 		this.sfUserId = sfUserId;
+		//isDbUpdate=true;
+		
 	}
 
 	public String getSfTroopId() {
@@ -134,6 +157,8 @@ public class Troop implements Serializable {
 
 	public void setSfTroopId(String sfTroopId) {
 		this.sfTroopId = sfTroopId;
+		//isDbUpdate=true;
+		
 	}
 
 	public org.girlscouts.vtk.salesforce.Troop getTroop() {
@@ -154,6 +179,7 @@ public class Troop implements Serializable {
 
 	public void setYearPlan(YearPlan yearPlan) {
 		this.yearPlan = yearPlan;
+		
 	}
 
 	public String getPath() {
@@ -162,6 +188,8 @@ public class Troop implements Serializable {
 
 	public void setPath(String path) {
 		this.path = path;
+		isDbUpdate=true;
+		
 	}
 
 	public String getId() {
@@ -170,6 +198,8 @@ public class Troop implements Serializable {
 
 	public void setId(String id) {
 		this.id = id;
+		isDbUpdate=true;
+		
 	}
 
 	public String getRefId() {
@@ -178,6 +208,10 @@ public class Troop implements Serializable {
 
 	public void setRefId(String refId) {
 		this.refId = refId;
+		isDbUpdate=true;
+		
 	}
+	
+	
 
 }

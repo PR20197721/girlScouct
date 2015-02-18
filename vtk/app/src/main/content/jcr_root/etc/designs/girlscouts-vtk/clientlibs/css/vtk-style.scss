@@ -977,7 +977,7 @@
             input[type=checkbox]:checked + label:before {
               content: "\e6d7";
               font-family: "JollyFont";
-              color: green;
+              color: #00AE55;
             }
             input[type="checkbox"] {
               display:none;
@@ -1136,6 +1136,9 @@
           text-transform: uppercase;
         }
       }
+    }
+    .icon-printer {
+      color: #00AE53;
     }
   }
   //calendar inside the meeting date and location popup
@@ -1320,9 +1323,6 @@
         color:#fff;
         font-size: 14px;
         vertical-align: middle;
-      }
-      h3 {
-        position:relative;
       }
       h3,
       h6 {
@@ -1562,6 +1562,7 @@ input[type="file"] {
   .vtk-body .accordion > dt h3 {
     width:100%;
     display: block;
+    position: relative;
     &.on {
       &:before {
         margin-left: -40px;
