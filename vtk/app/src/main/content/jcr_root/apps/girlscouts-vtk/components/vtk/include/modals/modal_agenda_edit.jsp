@@ -129,7 +129,14 @@
 	<script type="text/javascript">
 	 $(document).ready(function() {
 		$('#print-link').on('click',function() {
-			$('.modal_agenda_edit .scroll.content').print();
+			$('.modal_agenda_edit .scroll.content .editable-textarea').print();
 		});
 	});
 	</script>
+
+	<style type="text/css">
+
+
+
+
+    </style>
