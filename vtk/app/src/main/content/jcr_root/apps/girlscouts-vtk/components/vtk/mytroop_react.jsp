@@ -68,11 +68,11 @@
                     <dd class="accordion-navigation">
                       <div id="panel<%=i+1%>b" class="content">
                         <ul class="column large-4">
-                          <li>DOB: 9/1/2004</li>
-                          <li>AGE: 10</li>
+                          <li>DOB: <%=contact.getDob() %></li>
+                          <li>AGE: <%=contact.getAge() %></li>
                         </ul>
                         <ul class="column large-18">
-                          <li><address>1 Main St. Apt 5B<br/>Cleveland, OH<br/>00000</address></li>
+                          <li><address><%=contact.getAddress() %><br/><%=contact.getCity() %>, <%=contact.getState() %><br/><%=contact.getZip() %></address></li>
                         </ul>
                         
                         
