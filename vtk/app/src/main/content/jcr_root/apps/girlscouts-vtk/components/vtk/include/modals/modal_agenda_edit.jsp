@@ -25,7 +25,9 @@
 	</div>
 	
 	<div class="scroll content">
-		<div><a id="print-link" class="icon-printer right" title="print"></a></div>	
+	<%  if (request.getParameter("isAgenda") == null) {%>
+		<a id="print-link" class="icon-printer right" title="print"></a>
+	<% } %>
 		<div class="setupCalendar row">
 		<%
 			MeetingE meeting = null;
@@ -132,10 +134,3 @@
 		});
 	});
 	</script>
-
-	<style type="text/css">
-
-
-
-
-    </style>
