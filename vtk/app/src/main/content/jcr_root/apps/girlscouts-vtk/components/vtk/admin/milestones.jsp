@@ -8,7 +8,7 @@
 <p>edit milestones, add dates, create new milestones, and set to show in plans.</p>
 
 <div>
-<form id="MileStoneForm">
+<form action="/content/girlscouts-vtk/controllers/vtk.controller.html" method="POST" style="display:none;" id="MileStoneForm">
 
 <table id="MileStoneTable">
 	<th></th>
@@ -22,7 +22,7 @@ java.util.List<Milestone> milestones = yearPlanUtil.getCouncilMilestones(council
 for(int i=0;i<milestones.size();i++,t++){
 %>
 <tr id="entry<%=t %>">
- <td><a onclick="rmvEntry()"><i>cross icon</i></a></td>
+ <td><a onclick="rmvEntry()"><i class="icon-button-circle-cross" style="color: green"></i></a></td>
  <td><input type="text" id="blurb<%=t %>" name="ms_blurb[]<%=t %>" value="<%=milestones.get(i).getBlurb()%>"/></td>
  <td><input type="text" id="date<%=t %>" name="ms_date[]<%=t %>"  placeholder="  /  /    " onchange="doChkSubmitValid()" value="<%=milestones.get(i).getDate()==null?"":FORMAT_MMddYYYY.format(milestones.get(i).getDate())%>" onchange="doChkSubmitValid()"/></td>
  <td><input type="checkbox" id="show<%=t %>" name="ms_show[]<%=t %>" <%=milestones.get(i).getShow()?"checked":"unchecked"%>/></td>
@@ -30,7 +30,7 @@ for(int i=0;i<milestones.size();i++,t++){
 <%} %>
 
 <tr id="entry<%=t++ %>">
- <td><a onclick="rmvEntry()"><i>cross icon</i></a></td>
+ <td><a onclick="rmvEntry()"><i class="icon-button-circle-cross" style="color: green"></i></a></td>
  <td><input type="text" id="blurb<%=t %>" name="ms_blurb[]" placeholder="Enter a Milestone"/></td>
  <td><input type="text" id="date<%=t %>" name="ms_date[]" placeholder="  /  /    "/></td>
  <td><input type="checkbox" id="show<%=t %>" name="ms_show[]" unchecked/></td>
@@ -38,17 +38,21 @@ for(int i=0;i<milestones.size();i++,t++){
 
 <tr id="entry<%=t++ %>">
 
- <td><a onclick="rmvEntry()"><i>cross icon</i></a></td>
+ <td><a onclick="rmvEntry()"><i class="icon-button-circle-cross" style="color: green"></i></a></td>
  <td><input type="text" id="blurb<%=t %>" name="ms_blurb[]" placeholder="Enter a Milestone"/></td>
- <td><input type="text" id="date<%=t %>" name="ms_date[]" placeholder="  /  /    "/></td>
+ <td><input type="text" id="date<%=t %>" name="ms_date[]" placeholder="  /  /    "/>
  <td><input type="checkbox" id="show<%=t %>" name="ms_show[] value="checked"/></td>
 </tr>
  
 
 </table>
+<div class="right clearfix">
+	<input type="submit" name="saveCouncilMilestones" value="Save To Plans" class="button btn"/>
+	<!--  <input class="button btn" value="Send email" type="button" onclick="sendMeetingReminderEmail()"/>-->
+</div>
 </form>
 <div id="add_entry">
-<a  onclick = "newEntry()"><i>plus icon</i></a>Add a MileStone
+<a  onclick = "newEntry()"><i>icon-plus</i></a>Add a MileStone
 </div>
 
 
@@ -63,14 +67,14 @@ for(int i=0;i<milestones.size();i++,t++){
   function newEntry(){
 	  var n = $('#MileStoneTable tr').length-1;
 
-	  $('#MileStoneTable tr:last').after('<tr id="entry'+n+'><a onclick = "rmvEntry()"<i>cross icon</i></a></tr>');
+	  $('#MileStoneTable tr:last').after('<tr id="entry'+n+'"></tr>');
 
-<%-- 	 // $("#MileStoneTable").append('<tr id="entry<%=t%>"><a onclick = "rmvEntry(t)"<i>cross icon</i></a><tr>');
- --%>	 /*  $("#MileStoneTable").append("<td><input type='text' id='blurb"+t+"' name='ms_blurb[]' placeholder='Enter a Milestone'/></td>");
-	  $("#MileStoneTable").append("<td><input type='text' id='date"+t+"' name='ms_date[]' placeholder='  /  /    '/>");
-	  $("#MileStoneTable").append("<label for='date"+t+"'><i class='icon-calendar'></i></label></td>");
-	  $("#MileStoneTable").append("<td><input type='checkbox' id='show"+t+"' name='ms_show[]' value='unchecked'/></td></tr>");
-	   */
+<%-- 	 // $("#MileStoneTable").append('<tr id="entry<%=t%>"><a onclick = "rmvEntry(t)"<i class="icon-button-circle-cross" style="color: green"></i></a><tr>');
+ --%> $("#entry"+n).append("<td><a onclick='rmvEntry()'><i class='icon-button-circle-cross' style='color: green'></i></a></td>");
+      $("#entry"+n).append("<td><input type='text' id='blurb"+n+"' name='ms_blurb[]' placeholder='Enter a Milestone'/></td>");
+	  $("#entry"+n).append("<td><input type='text' id='date"+n+"' name='ms_date[]' placeholder='  /  /    '/></td>");
+	  $("#entry"+n).append("<td><input type='checkbox' id='show"+n+"' name='ms_show[]' value='unchecked'/></td></tr>");
+	  
 
   }; 
   
