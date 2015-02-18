@@ -178,7 +178,7 @@
 
 
 <script>
-	//var template;
+	var template;
 	$(document).ready(function(){
 		//print out the date the email was sent.TBD
 		 /* if(moment(new Date()) != null && moment(new Date()) !='') {
