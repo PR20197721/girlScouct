@@ -30,21 +30,28 @@
         }
 
         Finance finance = financeUtil.getFinances(user, troop, qtr);
+        FinanceConfiguration financeConfig = financeUtil.getFinanceConfig(user, troop);
+        
+        List<String> expenseFields = financeConfig.getExpenseFields();
+        List<String> incomeFields = financeConfig.getIncomeFields();
+        
         if( finance ==null ){
           finance= new Finance();
         }
 
-        double acc_out = (finance.getGsusaRegistration() + finance.getServiceActivitiesEvents() + finance.getProductSalesProceeds() + finance.getTroopActivities() + finance.getTroopSupplies() + finance.getGsStorePurchases());
+        /* double acc_out = (finance.getGsusaRegistration() + finance.getServiceActivitiesEvents() + finance.getProductSalesProceeds() + finance.getTroopActivities() + finance.getTroopSupplies() + finance.getGsStorePurchases());
         double acc_rcv = (finance.getStartingBalance() + finance.getTroopDues() + finance.getSponsorshipDonations() + finance.getProductSalesProceeds()+ finance.getApprovedMoneyEarningActivity()+ finance.getInterestOnBankAccount() );
-        double balance = acc_rcv - acc_out;
+        double balance = acc_rcv - acc_out; */
+        
+        
         
         
         boolean hasAdminPermissions = true;
         String financeFieldTag = "";
         String save_btn = "";
         if(hasAdminPermissions){
-        	financeFieldTag = "<input type=\"text\" id=\"%s\" onblur=\"updateTotals()\" value=\"%s\"/>";
-          save_btn = "<a role=\"button\" aria-label=\"submit form\" href=\"#\" class=\"button\">Save</a>";
+        	financeFieldTag = "<input type=\"text\" id=\"%s\" name=\"%s\" onblur=\"updateTotals()\" value=\"%s\"/>";
+          save_btn = "<a role=\"button\" href=\"\" onclick=\"saveFinances()\" class=\"button\">Save</a>";
         } else{
         	financeFieldTag = "<p name=\"%s\" id=\"%s\">&s</p>";
         }
@@ -71,49 +78,42 @@
         <section class="column large-12 medium-12">
           <h6>current income</h6>
           <ul class="large-block-grid-2 small-block-grid-2 text-right">
-            <li>Beginning Balance:</li>
-            <li><%=String.format(financeFieldTag, "income1", FORMAT_COST_CENTS.format(finance.getStartingBalance())) %></li>
-            <li>Troop Dues:</li>
-            <li><%=String.format(financeFieldTag, "income2", FORMAT_COST_CENTS.format(finance.getTroopDues())) %></li>
-            <li>Sponsorship/Donations:</li>
-            <li><%=String.format(financeFieldTag, "income3", FORMAT_COST_CENTS.format(finance.getSponsorshipDonations())) %></li>
-            <li>Product Sales Proceeds:</li>
-            <li><%=String.format(financeFieldTag, "income4", FORMAT_COST_CENTS.format(finance.getProductSalesProceeds())) %></li>
-            <li>Approved Money-Earnings Activities:</li>
-            <li><%=String.format(financeFieldTag, "income5", FORMAT_COST_CENTS.format(finance.getApprovedMoneyEarningActivity())) %></li>
-            <li>Interest on Bank Accounts:</li>
-            <li><%=String.format(financeFieldTag, "income6", FORMAT_COST_CENTS.format(finance.getInterestOnBankAccount())) %></li>
+          <% for(int i = 0; i < incomeFields.size(); i++){
+        	  String tempField = incomeFields.get(i);
+        	  %><li><%=tempField%>:</li> 
+        	  	<li><%=String.format(financeFieldTag, "income" + (i + 1), tempField, FORMAT_COST_CENTS.format(finance.getIncomeByName(tempField))) %></li>
+        	  <%
+          }
+          	
+          %>
+           
           </uL>
         </section>
 
         <section class="column large-12 medium-12">
            <h6>current expenses</h6>
            <ul class="large-block-grid-2 small-block-grid-2 text-right">
-             <li>GSUSA Registrations:</li>
-             <li><%=String.format(financeFieldTag, "expense1", FORMAT_COST_CENTS.format(finance.getGsusaRegistration())) %></li>
-             <li>Service Activities/Events:</li>
-             <li><%=String.format(financeFieldTag, "expense2", FORMAT_COST_CENTS.format(finance.getServiceActivitiesEvents())) %></li>
-             <li>Council Programs/Camp:</li>
-             <li><%=String.format(financeFieldTag, "expense3", FORMAT_COST_CENTS.format(finance.getCouncilProgramsCamp())) %></li>
-             <li>Troop Activities:</li>
-             <li><%=String.format(financeFieldTag, "expense4", FORMAT_COST_CENTS.format(finance.getTroopActivities())) %></li>
-             <li>Troop Supplies:</li>
-             <li><%=String.format(financeFieldTag, "expense5", FORMAT_COST_CENTS.format(finance.getTroopSupplies())) %></li>
-             <li>GS Store Purchase:</li>
-             <li><%=String.format(financeFieldTag, "expense6", FORMAT_COST_CENTS.format(finance.getSponsorshipDonations())) %></li>
+              <% for(int i = 0; i < expenseFields.size(); i++){
+        	  String tempField = expenseFields.get(i);
+        	  %><li><%=tempField%>:</li> 
+        	  	<li><%=String.format(financeFieldTag, "expense" + (i + 1), tempField, FORMAT_COST_CENTS.format(finance.getExpenseByName(tempField))) %></li>
+        	  <%
+          }
+          	
+          %>
            </ul>
         </section>
       </div><!--/row-->
       <!-- totals -->
       <div class="text-right row collapse">
         <section>
-          <h6 class="clearfix"><span class="column small-20">Total Income:</span>  <span id="total_income" class="column small-4">$<%=FORMAT_COST_CENTS.format(acc_rcv)%></span></h6>
+          <h6 class="clearfix"><span class="column small-20">Total Income:</span>  <span id="total_income" class="column small-4">0.00</span></h6>
         </section>
         <section>
-          <h6 class="clearfix"><span class="column small-20">Total Expenses:</span> <span id="total_expenses" class="column small-4">$<%=FORMAT_COST_CENTS.format(acc_out)%></span></h6>
+          <h6 class="clearfix"><span class="column small-20">Total Expenses:</span> <span id="total_expenses" class="column small-4">0.00</span></h6>
         </section>
         <section>
-          <h6 class="clearfix"><span class="column small-20">Current Balance:</span> <span id="current_balance" class="column small-4">$<%=FORMAT_COST_CENTS.format(balance)%></span></h6>
+          <h6 class="clearfix"><span class="column small-20">Current Balance:</span> <span id="current_balance" class="column small-4">0.00</span></h6>
         </section>
         <%=save_btn%>
        </div>

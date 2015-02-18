@@ -37,11 +37,46 @@ $(function() {
 	
 	
 function saveFinances(){
-		
-		
-	/*	
+		alert("started save");
+		alert("first value is: " + document.getElementById("income1").value);
+
 		
 		var qtr = document.getElementById("qtr").value;
+		alert("Quarter is: " + document.getElementById("qtr").value);
+		var exp = "[";
+		var i = 1;
+		var inc = "[";
+		do{
+			var tempElement = $('#income' + i);
+			if(tempElement.length > 0){
+				if(i != 1){
+					inc = inc + ", ";
+				}
+				inc = inc + tempElement.attr('name') + ", " + tempElement.val();
+			}
+			i++;
+		}while(tempElement.length > 0);
+		
+		i = 1;
+		do{
+			var tempElement = $('#expense' + i);
+			
+			if(tempElement.length > 0){
+				if(i != 1){
+					exp = exp + ", ";
+				}
+				exp = exp + tempElement.attr('name') + ", " + tempElement.val();
+				
+			}
+			i++;
+		}while(tempElement.length > 0);
+		
+		inc = inc + "]";
+		exp = exp + "]";
+		
+		alert("Income: " + inc);
+		alert("Expenses: " + exp);
+		
 		
 		  $.ajax({
 				url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand='+Date.now(),
@@ -49,24 +84,16 @@ function saveFinances(){
 				data: { 
 					act:'UpdateFinances',
 					qtr:qtr,
-					starting_balance:starting_balance,
-					troop_dues:troop_dues,
-					sponsorship_donations:sponsorship_donations,
-					product_sales_proceeds:product_sales_proceeds,
-					amea:amea,
-					bank_interest:bank_interest,
-					gsusa_registrations:gsusa_registrations,
-					service_ae:service_ae,
-					council_pc:council_pc,
-					troop_activities:troop_activities,
-					troop_supplies:troop_supplies,
-					gs_store_purchase:gs_store_purchase,
+					expenses: exp,
+					income: inc,
 					a:Date.now()
 				},
 				success: function(result) {
 					
 				}
-			}); */
+			});
+			
+			return false;
 		
 	}
 	

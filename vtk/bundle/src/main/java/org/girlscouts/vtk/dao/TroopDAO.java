@@ -1,6 +1,7 @@
 package org.girlscouts.vtk.dao;
 
 import org.girlscouts.vtk.models.Finance;
+import org.girlscouts.vtk.models.FinanceConfiguration;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.UserGlobConfig;
@@ -29,6 +30,10 @@ public interface TroopDAO {
 
 	public Finance getFinanaces(User user, Troop troop, int qtr);
 
-	public void setFinances(User user, Troop troop, Finance finance);
+	public void setFinances(User user, Troop troop, String path, int qtr, java.util.Map<String, String[]> params);
+	
+	public FinanceConfiguration getFinanaceConfiguration(User user, Troop troop);
+	
+	public void setFinanceConfiguration(User user, Troop troop, FinanceConfiguration financeConfig);
 
 }

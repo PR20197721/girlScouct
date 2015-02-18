@@ -3,11 +3,18 @@ package org.girlscouts.vtk.ejb;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.StringTokenizer;
+
+import javax.jcr.Node;
+import javax.jcr.PathNotFoundException;
+import javax.jcr.Property;
+import javax.jcr.PropertyIterator;
+import javax.jcr.RepositoryException;
 import javax.jcr.Session;
+
 import org.apache.commons.beanutils.BeanComparator;
-import org.apache.commons.collections4.map.PassiveExpiringMap;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
@@ -20,12 +27,13 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.AnnotationMapperImpl;
 import org.apache.jackrabbit.ocm.query.Filter;
 import org.apache.jackrabbit.ocm.query.QueryManager;
 import org.girlscouts.vtk.auth.permission.Permission;
-import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.TroopDAO;
 import org.girlscouts.vtk.models.Activity;
+import org.girlscouts.vtk.models.Asset;
 import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.Council;
 import org.girlscouts.vtk.models.Finance;
+import org.girlscouts.vtk.models.FinanceConfiguration;
 import org.girlscouts.vtk.models.JcrNode;
 import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.MeetingE;
@@ -34,7 +42,6 @@ import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.UserGlobConfig;
 import org.girlscouts.vtk.models.YearPlan;
-import org.girlscouts.vtk.models.Asset;
 import org.girlscouts.vtk.modifiedcheck.ModifiedChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -472,10 +479,137 @@ public class TroopDAOImpl implements TroopDAO {
 
 	public Finance getFinanaces(User user, Troop troop, int qtr) {
 
+		
+		System.err.println("*******Getting finances data");
+		Session mySession = null;
+		Finance result = null;
+		try {
+			mySession = sessionFactory.getSession();
+			
+
+			
+			result = new Finance();
+			result.setFinancialQuarter(qtr);
+			
+			String path = "/vtk/" + troop.getSfCouncil() + "/troops/" + troop.getId() + "/finances/" + qtr;
+			try{
+				Node financeNode = mySession.getNode(path);
+				Node incomeNode = financeNode.getNode("income");
+				Node expensesNode = financeNode.getNode("expenses");
+				PropertyIterator incomeFieldIterator = incomeNode.getProperties();
+				PropertyIterator expensesFieldIterator = expensesNode.getProperties();
+				HashMap<String, Double> incomeMap = new HashMap<String, Double>();
+				while(incomeFieldIterator.hasNext()){
+					
+					Property temp = incomeFieldIterator.nextProperty();
+					String fieldName = temp.getName();
+					fieldName = fieldName.replaceAll("#", "/");
+					String value = temp.getValue().getString();
+					
+					if(value.isEmpty()){
+						value = "0.00";
+					}
+					if(!fieldName.equals("jcr:primaryType")){
+						incomeMap.put(fieldName, Double.parseDouble(value));
+					}
+				}
+				
+				HashMap<String, Double> expensesMap = new HashMap<String, Double>();
+				while(expensesFieldIterator.hasNext()){
+					Property temp = expensesFieldIterator.nextProperty();
+					String fieldName = temp.getName();
+					fieldName = fieldName.replaceAll("#", "/");
+					String value = temp.getValue().getString();
+					if(value.isEmpty()){
+						value = "0.00";
+					}
+					if(!fieldName.equals("jcr:primaryType")){
+						expensesMap.put(fieldName, Double.parseDouble(value));
+					}
+				}
+				result.setExpenses(expensesMap);
+				result.setIncome(incomeMap);
+				
+			}catch(PathNotFoundException ex){
+				
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (sessionFactory != null)
+					sessionFactory.closeSession(mySession);
+			} catch (Exception es) {
+				es.printStackTrace();
+			}
+		}
+		return result;
+	}
+
+	public void setFinances(User user, Troop troop, String path, int qtr, java.util.Map<String, String[]> params) {
+
+		// TODO PERMISSIONS HERE
+		Session mySession = null;
+		try {
+			mySession = sessionFactory.getSession();
+			Node rootNode = mySession.getRootNode();
+			try{
+				
+				Node financeQuarterNode = mySession.getNode("/" + path);
+				
+				
+			} catch(PathNotFoundException ex){
+				//Create base finance node structure if one doesn't exist
+				String[] pathElements = path.split("/");
+				Node currentNode = rootNode.getNode("vtk");
+				for(int i = 1; i < pathElements.length; i++){
+					
+					if(currentNode.hasNode(pathElements[i])){
+						currentNode = currentNode.getNode(pathElements[i]);
+					
+					} else{
+						System.err.println("#####Trying to add node: " + pathElements[i]);
+						currentNode = currentNode.addNode(pathElements[i], "nt:unstructured");	
+						
+					}
+				}
+				
+				mySession.save();
+				
+			}
+			
+			if(rootNode.hasNode(path + "/" + qtr)){
+				//Remove quarter specific finance node if one exists
+				Node tempNode = rootNode.getNode(path + "/" + qtr);
+				tempNode.remove();
+				mySession.save();
+			}
+			Node financeNode = rootNode.addNode(path + "/" + qtr, "nt:unstructured");
+			Node expensesNode = financeNode.addNode("expenses");
+			Node incomeNode = financeNode.addNode("income");
+			this.populateFinanceChildren(incomeNode, expensesNode, params.get("expenses")[0], params.get("income")[0]);
+			
+			mySession.save();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				sessionFactory.closeSession(mySession);
+			} catch (Exception es) {
+				es.printStackTrace();
+			}
+		}
+	}
+	
+	
+	public FinanceConfiguration getFinanaceConfiguration(User user, Troop troop) { 
+
 		// TODO PERMISSIONS HERE
 
 		Session mySession = null;
-		Finance finance = null;
+		FinanceConfiguration financeConfig = null;
 		try {
 			mySession = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
@@ -488,8 +622,8 @@ public class TroopDAOImpl implements TroopDAO {
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(Finance.class);
 
-			finance = (Finance) ocm.getObject("/vtk/" + troop.getSfCouncil()
-					+ "/troops/" + troop.getId() + "/finances/" + qtr);
+			financeConfig = (FinanceConfiguration) ocm.getObject("/vtk/" + troop.getSfCouncil()
+					+ "/troops/" + troop.getId() + "/finance_config/");
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -501,30 +635,30 @@ public class TroopDAOImpl implements TroopDAO {
 				es.printStackTrace();
 			}
 		}
-		return finance;
+		return financeConfig;
 	}
 
-	public void setFinances(User user, Troop troop, Finance finance) {
+	public void setFinanceConfiguration(User user, Troop troop, FinanceConfiguration financeConfig) {
 
 		// TODO PERMISSIONS HERE
 		Session mySession = null;
 		try {
 			mySession = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
-			classes.add(Finance.class);
+			classes.add(FinanceConfiguration.class);
 
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
 					mapper);
 
-			if (mySession.itemExists(finance.getPath())) {
-				ocm.update(finance);
+			if (mySession.itemExists(financeConfig.getPath())) {
+				ocm.update(financeConfig);
 			} else {
 				JcrUtils.getOrCreateByPath(
-						finance.getPath().substring(0,
-								finance.getPath().lastIndexOf("/")),
+						financeConfig.getPath().substring(0,
+								financeConfig.getPath().lastIndexOf("/")),
 						"nt:unstructured", mySession);
-				ocm.insert(finance);
+				ocm.insert(financeConfig);
 			}
 			ocm.save();
 
@@ -538,6 +672,30 @@ public class TroopDAOImpl implements TroopDAO {
 			}
 		}
 	}
+	
+	private void populateFinanceChildren(Node incomeNode, Node expensesNode, String expensesParams, String incomeParams) throws RepositoryException{
+		String[] expenses = expensesParams.replaceAll("\\[|\\]", "").replaceAll("/", "#").split(",");
+		String[] income = incomeParams.replaceAll("\\[|\\]", "").replaceAll("/", "#").split(",");
+	
+	
+		for(int i = 0; i < expenses.length; i = i + 2){
+			
+			String fieldName = expenses[i].trim();
+			String fieldValue = expenses[i + 1].trim();
+			System.err.println("Field Name: " + fieldName + " Field Value: " + fieldValue);
+			expensesNode.setProperty(fieldName, fieldValue);
+		}
+		
+		for(int i = 0; i < income.length; i = i + 2){
+			
+			String fieldName = income[i].trim();
+			String fieldValue = income[i + 1].trim();
+			System.err.println("Field Name: " + fieldName + " Field Value: " + fieldValue);
+			incomeNode.setProperty(fieldName, fieldValue);
+		}
+	}
+	
+	
 
 }// ednclass
 
