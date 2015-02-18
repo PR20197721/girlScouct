@@ -1,11 +1,13 @@
 package org.girlscouts.vtk.ejb;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -42,8 +44,11 @@ import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
+import org.girlscouts.vtk.models.SentEmail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+
 
 @Component
 @Service(MeetingUtil.class)
@@ -695,7 +700,7 @@ public class MeetingUtil {
 		}
 
 	}
-
+	
 	public void addAids(User user, Troop troop, String aidId, String meetingId,
 			String assetName, String docType)
 			throws java.lang.IllegalAccessException {
@@ -1356,6 +1361,35 @@ public class MeetingUtil {
 		return false;
 	}
 	
-	
+	public void saveEmail(User user, Troop troop, String meetingId){
+
+		java.util.List<MeetingE> meetings = troop.getYearPlan()
+				.getMeetingEvents();
+		for (int i = 0; i < meetings.size(); i++) {
+			MeetingE meeting = meetings.get(i);
+			if (meeting.getUid().equals(meetingId)) {
+				try{
+					SentEmail email = new SentEmail(troop.getSendingEmail());
+					java.util.List<SentEmail> emails = meeting.getSentEmails();
+					emails = emails == null? new java.util.ArrayList<SentEmail>() :emails;
+					emails.add(email);
+
+					meeting.setSentEmails(emails);
+					if(meeting.getEmlTemplate()==null){
+						meeting.setEmlTemplate(troop.getSendingEmail().getTemplate());
+					}
+					meetingDAO.updateMeetingEvent(user, troop, meeting);
+					return;
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+			//java.util.List<Activity> activities = troop.getYearPlan().getActivities();
+		}
+
+	}
+
+
+
 
 }

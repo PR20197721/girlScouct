@@ -15,19 +15,37 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 		super.setType(YearPlanComponentType.MEETING);
 	}
 
-	@Field(path = true) String path;
-	@Field private String refId; 
-	@Field	private String locationRef;
+	@Field(path = true)
+	String path;
+	
+	@Field
+	private String refId; // path to meetingInfo template
+
+	@Field
+	private String locationRef;
 	private Meeting meetingInfo;
-	@Field	private String cancelled;
-	@Field	private Integer id;
-	@Field(id = true) String uid;
-	@Collection	java.util.List<Asset> assets;
-	@Field	java.util.Date lastAssetUpdate;
-	private boolean isDbUpdate=false;
+
+	@Field
+	private String cancelled;
+
+	@Field
+	private Integer id;
+
+	@Field(id = true)
+	String uid;
 	
+	@Field
+	private String emlTemplate;
+
+	@Collection
+	java.util.List<Asset> assets;
 	
+	@Collection
+	java.util.List<SentEmail> sentEmails;
 	
+	@Field
+	java.util.Date lastAssetUpdate;
+    private boolean isDbUpdate=false;
 	public java.util.Date getLastAssetUpdate() {
 		return lastAssetUpdate;
 	}
@@ -136,10 +154,23 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 		this.path = path;
 		
 	}
-
 	
+	public java.util.List<SentEmail> getSentEmails() {
+		return sentEmails;
+	}
 
+	public void setSentEmails(java.util.List<SentEmail> emails) {
+		this.sentEmails = emails;
+	}
+	
+	public String getEmlTemplate() {
+		return emlTemplate;
+	}
 
+	public void setEmlTemplate(String template) {
+		this.emlTemplate =  template;
+	}
+	
 	public boolean isDbUpdate() {
 		return isDbUpdate;
 	}
@@ -147,5 +178,4 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 	public void setDbUpdate(boolean isDbUpdate) {
 		this.isDbUpdate = isDbUpdate;
 	}
-	
 }

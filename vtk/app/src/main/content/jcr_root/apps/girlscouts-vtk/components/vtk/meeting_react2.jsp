@@ -2,7 +2,7 @@
 <% 
 
 String mid = planView.getYearPlanComponent().getUid();
-MeetingE meeting = (MeetingE)planView.getYearPlanComponent();
+MeetingE meeting = planView.getMeeting();
 
 
 Attendance attendance = meetingUtil.getAttendance( user,  troop,  meeting.getPath()+"/attendance");
@@ -53,6 +53,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 
 <script>
     var thisMeetingPath = "";
+    var template = "";
 </script>
 
 <div id="panelWrapper" class="row content meeting-detail">
@@ -60,6 +61,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 <%@include file="include/modals/modal_meeting_aids.jsp"%>
 <%@include file="include/modals/modal_agenda.jsp"%>
 <%@include file="include/modals/modal_meeting_reminder.jsp" %>
+<%@include file="include/modals/modal_view_sent_emails.jsp"%>
 
   <div id="theMeeting">
     <script type="text/jsx">
