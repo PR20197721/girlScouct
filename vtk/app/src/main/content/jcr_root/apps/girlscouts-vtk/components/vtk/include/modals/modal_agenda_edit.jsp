@@ -24,10 +24,9 @@
 		<a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
 	</div>
 	
-	
 	<div class="scroll content">
+		<div><a id="print-link" class="icon-printer right" title="print"></a></div>	
 		<div class="setupCalendar row">
-		<a id="print-link" class="icon-printer right" title="print"></a>
 		<%
 			MeetingE meeting = null;
 			java.util.List<MeetingE> meetings = troop.getYearPlan()
@@ -129,7 +128,7 @@
 	<script type="text/javascript">
 	 $(document).ready(function() {
 		$('#print-link').on('click',function() {
-			$('.modal_agenda_edit .scroll.content .editable-textarea').print();
+			$('.modal_agenda_edit .scroll.content').print();
 		});
 	});
 	</script>
