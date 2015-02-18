@@ -1,7 +1,7 @@
 package org.girlscouts.vtk.models;
 
 import java.io.Serializable;
-import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
@@ -10,16 +10,20 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 @Node(jcrMixinTypes = "mix:lockable")
 public class Finance implements Serializable {
 
+	
+	public static final String INCOME = "income";
+	public static final String EXPENSES = "expenses";
+	
 	private static final long serialVersionUID = 8084860336298434137L;
 
 	@Field(path = true)
 	String path;
 
 	@Collection
-	public HashMap<String, Double> expenses;
+	public Map<String, Double> expenses;
 	
 	@Collection
-	public HashMap<String, Double> income;
+	public Map<String, Double> income;
 	
 	public Finance(){
 		
@@ -28,11 +32,11 @@ public class Finance implements Serializable {
 	@Field(id = true)
 	private int financialQuarter;
 
-	public void setExpenses(HashMap<String, Double> expenses){
+	public void setExpenses(Map<String, Double> expenses){
 		this.expenses = expenses;
 	}
 	
-	public void setIncome(HashMap<String, Double> income){
+	public void setIncome(Map<String, Double> income){
 		this.income = income;
 	}
 	

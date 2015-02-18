@@ -28,12 +28,12 @@ public interface TroopDAO {
 
 	public void updateUserGlobConfig();
 
-	public Finance getFinanaces(User user, Troop troop, int qtr);
+	public Finance getFinanaces(Troop troop, int qtr);
 
-	public void setFinances(User user, Troop troop, String path, int qtr, java.util.Map<String, String[]> params);
+	public void setFinances(Troop troop, int qtr, java.util.Map<String, String[]> params);
 	
-	public FinanceConfiguration getFinanaceConfiguration(User user, Troop troop);
+	public FinanceConfiguration getFinanceConfiguration(Troop troop);
 	
-	public void setFinanceConfiguration(User user, Troop troop, FinanceConfiguration financeConfig);
+	public void setFinanceConfiguration(Troop troop, String income, String expenses);
 
 }

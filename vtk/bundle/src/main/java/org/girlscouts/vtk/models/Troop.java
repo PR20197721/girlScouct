@@ -179,5 +179,11 @@ public class Troop implements Serializable {
 	public void setRefId(String refId) {
 		this.refId = refId;
 	}
+	
+	
+	public String getTroopPath(){
+		return "/vtk/" + this.getSfCouncil() + "/troop/" + this.getId();
+		
+	}
 
 }

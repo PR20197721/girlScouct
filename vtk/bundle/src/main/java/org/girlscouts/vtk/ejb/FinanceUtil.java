@@ -22,15 +22,14 @@ public class FinanceUtil {
 	TroopDAO troopDAO;
 
 	public Finance getFinances(User user, Troop troop, int qtr) {
-		return troopDAO.getFinanaces(user, troop, qtr);
+		return troopDAO.getFinanaces(troop, qtr);
 	}
 
 	public void updateFinances(User user, Troop troop,
 			java.util.Map<String, String[]> params) {
 		Finance finance = new Finance();
 		
-		String path = "vtk/" + troop.getSfCouncil() + "/troops/"
-				+ troop.getId() + "/finances";
+
 		
 		
 
@@ -49,35 +48,15 @@ public class FinanceUtil {
 		int quarter = Integer.parseInt(params.get("qtr")[0]);
 		
 		
-		troopDAO.setFinances(user, troop, path, quarter, params);
+		troopDAO.setFinances(troop, quarter, params);
 
 		// TODO NOTIFY Council here
 
 	}
 	
-	public FinanceConfiguration getFinanceConfig(User user, Troop troop) {
-		//return troopDAO.getFinanaceConfiguration(user, troop);
-		FinanceConfiguration stubConfig = new FinanceConfiguration();
-		List<String> income = new ArrayList<String>();
-		income.add("Beginning Balance");
-		income.add("Troop Dues");
-		income.add("Sponsorship/Donations");
-		income.add("Product Sales Proceeds");
-		income.add("Approved Money-Earnings Activities");
-		income.add("Interest on Bank Accounts");
+	public FinanceConfiguration getFinanceConfig(Troop troop) {
+		return troopDAO.getFinanceConfiguration(troop);
 		
-		List<String> expenses = new ArrayList<String>();
-		expenses.add("GSUSA Registrations");
-		expenses.add("Service Activities/Events");
-		expenses.add("Council Programs/Camp");
-		expenses.add("Troop Activities");
-		expenses.add("Troop Supplies");
-		expenses.add("GS Store Purchase");
-		
-		stubConfig.setExpenseFields(expenses);
-		stubConfig.setIncomeFields(income);
-		
-		return stubConfig;
 		
 	}
 
@@ -85,14 +64,12 @@ public class FinanceUtil {
 			java.util.Map<java.lang.String, java.lang.String[]> params) {
 		FinanceConfiguration financeConfig = new FinanceConfiguration();
 		
+		String expenses = params.get(Finance.EXPENSES)[0];
 		
+		String income = params.get(Finance.INCOME)[0];
 		
-		
-		
-		financeConfig.setPath("/vtk/" + troop.getSfCouncil() + "/troops/"
-				+ troop.getId() + "/finance_config/");
 
-		troopDAO.setFinanceConfiguration(user, troop, financeConfig);
+		troopDAO.setFinanceConfiguration(troop, income, expenses);
 
 		// TODO NOTIFY Council here
 
