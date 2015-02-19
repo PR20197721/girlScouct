@@ -89,36 +89,36 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
 	   },
 	   "paraformat": {
 	      "features": "*",
-	      "formats": {
-	         "p": {
-	            "description": "Paragraph",
-	            "tag": "p"
-	         },
-	         "h1": {
-	            "description": "Header 1",
-	            "tag": "h1"
-	         },
-	         "h2": {
-	            "description": "Header 2",
-	            "tag": "h2"
-	         },
-	         "h3": {
-	            "description": "Header 3",
-	            "tag": "h3"
-	         },
-	         "h4": {
-	            "description": "Header 4",
-	            "tag": "h4"
-	         },
-	         "h5": {
-	            "description": "Header 5",
-	            "tag": "h5"
-	         },
-	         "h6": {
-	            "description": "Header 6",
-	            "tag": "h6"
-	         }
-	      }
+	      "formats": [
+	          {
+	              "description": "Paragraph",
+	              "tag": "p"
+	          },
+	          {
+	              "description": "Header 1",
+	              "tag": "h1"
+	          },
+	          {
+	              "description": "Header 2",
+	              "tag": "h2"
+	          },
+	          {
+	              "description": "Header 3",
+	              "tag": "h3"
+	          },
+	          {
+	              "description": "Header 4",
+	              "tag": "h4"
+	          },
+	          {
+	              "description": "Header 5",
+	              "tag": "h5"
+	          },
+	          {
+	              "description": "Header 6",
+	              "tag": "h6"
+	          }
+		  ]
 	   },
 	   "spellcheck": {
 	      "features": "*"
