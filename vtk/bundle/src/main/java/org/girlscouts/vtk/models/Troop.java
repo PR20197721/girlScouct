@@ -182,7 +182,7 @@ public class Troop implements Serializable {
 	
 	
 	public String getTroopPath(){
-		return "/vtk/" + this.getSfCouncil() + "/troop/" + this.getId();
+		return "vtk/" + this.getSfCouncil() + "/troops/" + this.getId();
 		
 	}
 

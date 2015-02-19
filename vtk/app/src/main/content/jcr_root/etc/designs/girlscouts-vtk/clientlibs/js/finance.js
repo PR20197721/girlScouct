@@ -33,7 +33,60 @@ $(function() {
 });
 
 
+function saveFinanceAdmin(){
 
+	console.log("Going through the lists");
+    var incomeArray = "[";
+    var expenseArray = "["
+    
+	var incomeChildren = document.getElementById("income-list").children;
+    var addComma = false;
+	for(var i = 0; i < incomeChildren.length; i++){
+		var tempChild = incomeChildren[i].firstElementChild;
+		
+		if(tempChild.tagName == "INPUT"){
+			if(addComma){
+				incomeArray = incomeArray + ", ";
+			}
+			incomeArray = incomeArray + tempChild.value;
+            addComma = true;
+		}
+	}
+	addComma = false;
+	var expenseChildren = document.getElementById("expense-list").children;
+	for(var i = 0; i < expenseChildren.length; i++){
+		var tempChild = expenseChildren[i].firstElementChild;
+        
+		if(tempChild.tagName == "INPUT"){
+			if(addComma){
+				expenseArray = expenseArray + ", ";
+			}
+			expenseArray = expenseArray + tempChild.value;
+            addComma = true;
+		}
+	}
+    incomeArray = incomeArray + "]";
+    expenseArray = expenseArray + "]";
+	console.log("Income array is: " + incomeArray);
+	console.log("Expense array is: " + expenseArray);
+
+    $.ajax({
+				url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand='+Date.now(),
+				type: 'POST',
+				data: { 
+					act:'UpdateFinanceAdmin',
+					expenses: expenseArray,
+					income: incomeArray,
+				},
+				success: function(result) {
+					
+				}
+			});
+
+
+	return false;
+}
+	
 	
 	
 function saveFinances(){
@@ -149,3 +202,70 @@ function updateTotals(){
 	
 	
 	}
+	
+function deleteIncomeRow(counter){ 
+	var button = document.getElementById("incomeButton" + counter);
+	var input = document.getElementById("incomeField" + counter);
+	button.parentNode.removeChild(button);
+	input.parentNode.removeChild(input);
+    return false;
+	
+}
+
+function deleteExpenseRow(counter){ 
+	var button = document.getElementById("expenseButton" + counter);
+	var input = document.getElementById("expenseField" + counter);
+	button.parentNode.removeChild(button);
+	input.parentNode.removeChild(input);
+    return false;
+
+}
+
+function addExpenseField(){
+	return addFinanceRow("expense-list", "expenseCount", "expenseButton", "expenseField", "deleteExpenseRow");
+}
+
+function addIncomeField(){
+	return addFinanceRow("income-list", "incomeCount", "incomeButton", "incomeField", "deleteIncomeRow");
+}
+
+function addFinanceRow(listId, countId, buttonId, inputId, delMethod){
+	var fieldsList = document.getElementById(listId);
+	var countHolder = document.getElementById(countId);
+	var count = countHolder.value;
+	
+	//Create button list element
+	var newButtonHolder = document.createElement("LI");
+	newButtonHolder.setAttribute("id", buttonId + count);
+	
+	var newButtonLink = document.createElement("A");
+	newButtonLink.setAttribute("href", "");
+	newButtonLink.setAttribute("onclick", "return " + delMethod + "(" + count + ")");
+	
+	var newButtonIcon = document.createElement("I");
+	newButtonIcon.setAttribute("class", "icon-button-circle-cross");
+	
+	newButtonLink.appendChild(newButtonIcon);
+	newButtonHolder.appendChild(newButtonLink);
+	
+	//Create input list element
+	var newInputHolder = document.createElement("LI");
+	newInputHolder.setAttribute("id", inputId + count);
+	
+	var newInput = document.createElement("INPUT");
+	newInput.setAttribute("type", "text");
+	newInput.setAttribute("value", "");
+	
+	newInputHolder.appendChild(newInput);
+	
+	fieldsList.appendChild(newButtonHolder);
+	fieldsList.appendChild(newInputHolder);
+	
+	
+	
+	
+	
+	countHolder.value = (Number(count) + 1) + "";
+	
+	return false;
+}

@@ -492,7 +492,7 @@ public class TroopDAOImpl implements TroopDAO {
 			result = new Finance();
 			result.setFinancialQuarter(qtr);
 			
-			String path = troop.getTroopPath() + "/finances/" + qtr;
+			String path = "/" + troop.getTroopPath() + "/finances/" + qtr;
 			try{
 				Node financeNode = mySession.getNode(path);
 				Node incomeNode = financeNode.getNode("income");
@@ -554,7 +554,7 @@ public class TroopDAOImpl implements TroopDAO {
 		
 		Session mySession = null;
 		try {
-			String path = troop.getTroopPath();
+			String path = troop.getTroopPath() + "/finances/";
 			mySession = sessionFactory.getSession();
 			Node rootNode = mySession.getRootNode();
 			if(!rootNode.hasNode(path)){
@@ -592,7 +592,7 @@ public class TroopDAOImpl implements TroopDAO {
 		FinanceConfiguration financeConfig = new FinanceConfiguration();
 		try {
 			mySession = sessionFactory.getSession();
-			String configPath = troop.getTroopPath() + FinanceConfiguration.FINANCE_CONFIG;
+			String configPath = "/" + troop.getTroopPath() + FinanceConfiguration.FINANCE_CONFIG;
 			Node configNode = mySession.getNode(configPath);
 			List<String> expensesList = new ArrayList<String>();
 			List<String> incomeList = new ArrayList<String>();
@@ -637,9 +637,9 @@ public class TroopDAOImpl implements TroopDAO {
 				this.establishBaseNode(configPath, mySession);
 			}
 			
-			Node configNode = mySession.getNode(configPath);
+			Node configNode = mySession.getNode("/" + configPath);
 			String[] incomeFields = income.replaceAll("\\[|\\]", "").split(",");
-			String[] expensesFields = income.replaceAll("\\[|\\]", "").split(",");
+			String[] expensesFields = expenses.replaceAll("\\[|\\]", "").split(",");
 			configNode.setProperty(Finance.INCOME, incomeFields);
 			configNode.setProperty(Finance.EXPENSES, expensesFields);
 			

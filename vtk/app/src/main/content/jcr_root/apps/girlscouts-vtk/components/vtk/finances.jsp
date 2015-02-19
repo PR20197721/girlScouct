@@ -29,8 +29,8 @@
           return;
         }
 
-        Finance finance = financeUtil.getFinances(user, troop, qtr);
-        FinanceConfiguration financeConfig = financeUtil.getFinanceConfig(user, troop);
+        Finance finance = financeUtil.getFinances(troop, qtr);
+        FinanceConfiguration financeConfig = financeUtil.getFinanceConfig(troop);
         
         List<String> expenseFields = financeConfig.getExpenseFields();
         List<String> incomeFields = financeConfig.getIncomeFields();

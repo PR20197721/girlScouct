@@ -21,11 +21,11 @@ public class FinanceUtil {
 	@Reference
 	TroopDAO troopDAO;
 
-	public Finance getFinances(User user, Troop troop, int qtr) {
+	public Finance getFinances(Troop troop, int qtr) {
 		return troopDAO.getFinanaces(troop, qtr);
 	}
 
-	public void updateFinances(User user, Troop troop,
+	public void updateFinances(Troop troop,
 			java.util.Map<String, String[]> params) {
 		Finance finance = new Finance();
 		
@@ -57,10 +57,9 @@ public class FinanceUtil {
 	public FinanceConfiguration getFinanceConfig(Troop troop) {
 		return troopDAO.getFinanceConfiguration(troop);
 		
-		
 	}
 
-	public void updateFinanceConfiguration(User user, Troop troop,
+	public void updateFinanceConfiguration(Troop troop,
 			java.util.Map<java.lang.String, java.lang.String[]> params) {
 		FinanceConfiguration financeConfig = new FinanceConfiguration();
 		

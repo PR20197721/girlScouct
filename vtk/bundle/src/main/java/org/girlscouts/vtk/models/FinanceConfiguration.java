@@ -1,6 +1,7 @@
 package org.girlscouts.vtk.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
@@ -21,7 +22,19 @@ public class FinanceConfiguration implements Serializable{
 	private List<String> expenseFields;
 
 	public List<String> getIncomeFields() {
-		return incomeFields;
+		if(this.incomeFields == null){
+			List<String> income = new ArrayList<String>();
+			income.add("Beginning Balance");
+			income.add("Troop Dues");
+			income.add("Sponsorship/Donations");
+			income.add("Product Sales Proceeds");
+			income.add("Approved Money-Earnings Activities");
+			income.add("Interest on Bank Accounts");
+			return income;
+		} else{
+			return this.incomeFields;
+		}
+		
 	}
 
 	public void setIncomeFields(List<String> incomeFields) {
@@ -29,7 +42,19 @@ public class FinanceConfiguration implements Serializable{
 	}
 
 	public List<String> getExpenseFields() {
-		return expenseFields;
+		if(this.expenseFields == null){
+
+			List<String> expenses = new ArrayList<String>();
+			expenses.add("GSUSA Registrations");
+			expenses.add("Service Activities/Events");
+			expenses.add("Council Programs/Camp");
+			expenses.add("Troop Activities");
+			expenses.add("Troop Supplies");
+			expenses.add("GS Store Purchase");
+			return expenses;
+		}else{
+			return expenseFields;
+		}
 	}
 
 	public void setExpenseFields(List<String> expenseFields) {

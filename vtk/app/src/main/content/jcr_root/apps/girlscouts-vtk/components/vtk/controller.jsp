@@ -238,14 +238,16 @@
 				out.println(yearPlanUtil.isYearPlanAltered(user, troop));
 				return;
 			case GetFinances:
-				financeUtil.getFinances(user, troop, Integer
+				financeUtil.getFinances(troop, Integer
 						.parseInt(request.getParameter("finance_qtr")));
 				return;
 			case UpdateFinances:
-				financeUtil.updateFinances(user, troop,
+				financeUtil.updateFinances(troop,
 						request.getParameterMap());
 				return;
-
+			case UpdateFinanceAdmin:
+				financeUtil.updateFinanceConfiguration(troop, request.getParameterMap());
+				return;
 			case RmMeeting:
 				meetingUtil.rmMeeting(user, troop,
 						request.getParameter("mid"));
