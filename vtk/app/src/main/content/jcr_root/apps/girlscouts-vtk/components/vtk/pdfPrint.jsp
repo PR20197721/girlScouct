@@ -27,13 +27,16 @@ Meeting meetingInfo = yearPlanUtil.getMeeting(user,meeting.getRefId());
 java.util.List<Activity> _activities = meetingInfo.getActivities();
 java.util.Map<String, JcrCollectionHoldString> meetingInfoItems = meetingInfo.getMeetingInfo();
 
-if( act.equals("isActivity") )
-    str = meetingInfoItems.get("detailed activity plan").getStr();
-else if( act.equals("isMaterials") )
-    str= meetingInfoItems.get("materials").getStr();
-else if( act.equals("isOverview") )
-    str =meetingInfoItems.get("overview").getStr();
+if( act.equals("isActivity") ){
 
+    str += meetingInfoItems.get("detailed activity plan").getStr();
+
+}else if( act.equals("isMaterials") )
+    str= meetingInfoItems.get("materials").getStr();
+else if( act.equals("isOverview") ){
+    str = "<h2>"+meetingInfo.getName() +": introduction</h2>";
+    str +=meetingInfoItems.get("overview").getStr();
+}
 
 try{
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream();

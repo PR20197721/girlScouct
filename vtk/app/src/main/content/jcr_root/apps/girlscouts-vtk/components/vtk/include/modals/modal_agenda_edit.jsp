@@ -10,12 +10,16 @@
 	<div class="header clearfix">
 		<h3 class="columns large-22">
 		<% 
+		  String act="";
 			if (request.getParameter("isOverview") != null) {
 					out.println("Overview");
+					act="isOverview";
 			} else if (request.getParameter("isActivity") != null) {
-				out.println("Activity");
+					out.println("Activity");
+					act="isActivity";
 			} else if (request.getParameter("isMaterials") != null) {
-				out.println("Materials");
+					out.println("Materials");
+					act="isMaterials";
 			} else if (request.getParameter("isAgenda") != null) {
 				out.println("Agenda");
 			}
@@ -25,6 +29,9 @@
 			class="icon-button-circle-cross"></i></a>
 	</div>
 	<div class="scroll content">
+	<% if(!act.isEmpty()) { %>
+		<a href="/content/girlscouts-vtk/controllers/vtk.pdfPrint.html?act=<%=act%>&mid=<%=request.getParameter("mid") %>" target="_blank" class="icon-download right"></a>
+	<% } %>
 		<div class="setupCalendar row">
 		<%
 			MeetingE meeting = null;
