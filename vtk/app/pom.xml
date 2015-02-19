@@ -133,6 +133,11 @@
                         </embedded>
                         <embedded>
                             <groupId>${project.groupId}</groupId>
+                            <artifactId>boon-wrapper</artifactId>
+                            <target>/apps/girlscouts-vtk/install</target>
+                        </embedded>
+                        <embedded>
+                            <groupId>${project.groupId}</groupId>
                             <artifactId>modified-checker-bundle</artifactId>
                             <target>/apps/girlscouts-vtk/install</target>
                         </embedded>
@@ -173,6 +178,11 @@
                                     <embedded>
                                         <groupId>${project.groupId}</groupId>
                                         <artifactId>beanutils-wrapper</artifactId>
+                                        <target>/apps/girlscouts-vtk/install</target>
+                                    </embedded>
+                                    <embedded>
+                                        <groupId>${project.groupId}</groupId>
+                                        <artifactId>boon-wrapper</artifactId>
                                         <target>/apps/girlscouts-vtk/install</target>
                                     </embedded>
                                     <embedded>

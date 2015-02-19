@@ -261,6 +261,7 @@
     <module>replication-bundle</module>
     <module>ical4j-wrapper</module>
     <module>beanutils-wrapper</module>
+    <module>boon-wrapper</module>
     <module>app</module>
   </modules>
 </project>
