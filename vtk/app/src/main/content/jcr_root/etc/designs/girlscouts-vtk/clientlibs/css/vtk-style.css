@@ -541,8 +541,7 @@
     .vtk-body #modal-meeting-reminder .accordion dt .name:nth-of-type(1).on:before {
       border-color: #000 transparent transparent; }
   .vtk-body #modal-meeting-reminder .accordion dd .name {
-    font-weight: 600;
-    vertical-align: middle; }
+    font-weight: 600; }
   .vtk-body #modal-meeting-reminder .accordion dd .small-block-grid-2 > li:nth-child(2n),
   .vtk-body #modal-meeting-reminder .accordion dd .small-block-grid-3 > li:nth-child(3n) {
     text-align: right; }
@@ -841,7 +840,7 @@
   text-transform: uppercase; }
 .vtk-body .reveal-modal .icon-printer,
 .vtk-body .modalWrap .icon-printer {
-  color: #00ae53; }
+  color: #00AE53; }
 .vtk-body .modifyCalendarDate {
   margin-top: 25px; }
 .vtk-body #modal_meeting_aids .button {
@@ -1028,6 +1027,27 @@
   background: rgba(0, 0, 0, 0.6) !important;
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.9) !important;
   opacity: 1 !important; }
+.vtk-body .icon a, .vtk-body .icon span {
+  vertical-align: top; }
+  .vtk-body .icon a:before, .vtk-body .icon span:before {
+    background: url("/etc/designs/girlscouts-vtk/images/icon_sprite.png") transparent no-repeat 0 0;
+    height: 25px;
+    width: 20px;
+    display: inline-block;
+    white-space: nowrap;
+    padding-left: 30px;
+    content: " "; }
+.vtk-body .icon p {
+  padding-left: 30px;
+  margin-top: -10px; }
+.vtk-body .icon.pdf a:before, .vtk-body .icon.pdf span:before {
+  background-position: -30px 0; }
+.vtk-body .icon.docx a:before, .vtk-body .icon.docx span:before, .vtk-body .icon.doc a:before, .vtk-body .icon.doc span:before {
+  background-position: -60px 0; }
+.vtk-body .icon.xlsx a:before, .vtk-body .icon.xlsx span:before, .vtk-body .icon.xls a:before, .vtk-body .icon.xls span:before {
+  background-position: -90px 0; }
+.vtk-body .icon.zip a:before, .vtk-body .icon.zip span:before {
+  background-position: -120px 0; }
 
 .inline-list .icon i {
   color: inherit;
