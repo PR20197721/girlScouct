@@ -1,5 +1,7 @@
 package org.girlscouts.vtk.auth.permission;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 public class PermissionConstants {
 
 	public static final int PERMISSION_LOGIN_ID = 0;
@@ -94,5 +96,9 @@ public class PermissionConstants {
 	public static final String GROUP_MEMBER_TROOP_DISPLAY = "Member with troop Associations";
 	public static final int[] GROUP_MEMBER_TROOP_PERMISSIONS = new int[] {
 	};
-
+	
+	public static final int GROUP_MEMBER_COUNCIL = 16;
+	public static final String GROUP_MEMBER_COUNCIL_DISPLAY = "COUNCIL";
+	public static final int[] GROUP_MEMBER_COUNCIL_PERMISSIONS = ArrayUtils.addAll(new int[] {PERMISSION_VIEW_FINANCE_ID, PERMISSION_VIEW_MILESTONE_ID},
+			GROUP_LEADER_PERMISSIONS);
 }
