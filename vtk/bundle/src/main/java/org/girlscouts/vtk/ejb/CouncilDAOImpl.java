@@ -202,8 +202,14 @@ public class CouncilDAOImpl implements CouncilDAO {
 	
 	public java.util.List<Milestone> getCouncilMilestones(String councilCode) {
 
-		String councilStr = councilMapper.getCouncilBranch(councilCode);
-		councilStr = councilStr.replace("/content/", "");
+//		String councilStr = councilMapper.getCouncilBranch(councilCode);
+//		councilStr = councilStr.replace("/content/", "");
+		
+//		if (user != null
+//				&& !userUtil.hasPermission(user.getPermissions(),
+//						Permission.PERMISSION_LOGIN_ID))
+//			throw new IllegalAccessException();
+
 		Session session = null;
 		java.util.List<Milestone> milestones = null;
 		try {
@@ -216,10 +222,12 @@ public class CouncilDAOImpl implements CouncilDAO {
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
 			QueryManager queryManager = ocm.getQueryManager();
-			Filter filter = queryManager.createFilter(MilestonesCollection.class);
+			Filter filter = queryManager.createFilter(Milestone.class);
+			Query query = queryManager.createQuery(filter);
+
 			String path = "/vtk/" + councilCode + "/milestones";
 			if(session.itemExists(path)){
-				MilestonesCollection list = (MilestonesCollection)ocm.getObject(path);
+				MilestonesCollection list = (MilestonesCollection)ocm.getObject(query);
 				milestones = list.getMilestones();
 
 			}else{
@@ -248,19 +256,45 @@ public class CouncilDAOImpl implements CouncilDAO {
 
 	public void saveCouncilMilestones(java.util.List<Milestone> milestones, String cid) {
 		
-	    
+//		if (user != null
+//				&& !userUtil.hasPermission(user.getPermissions(),
+//						Permission.PERMISSION_LOGIN_ID))
+//			throw new IllegalAccessException();
 		Session session = null;
 		try {
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Milestone.class);
+			classes.add(MilestonesCollection.class);
+
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
+			QueryManager queryManager = ocm.getQueryManager();
+			Filter filter = queryManager.createFilter(MilestonesCollection.class);
+			String path = "/vtk/" + cid + "/milestones";
+			if(session.itemExists(path)){
+				MilestonesCollection list = (MilestonesCollection)ocm.getObject(path);
+				java.util.List<Milestone> oldMilestones = list.getMilestones();
+				for (int i = 0; i < milestones.size(); i++) {
+					
+				
+					for(int j=0; j<oldMilestones.size() ; j++){
+						
+					}
+				}
 
-			for (int i = 0; i < milestones.size(); i++)
-				ocm.update(milestones.get(i));
-			ocm.save();
+			}else{
+				MilestonesCollection list = new MilestonesCollection(path); 
+				milestones = new ArrayList<Milestone>();
+				milestones.add(new Milestone("Cookie Sales Start",true,null));
+				milestones.add(new Milestone("Cookie Sales End",true,null));
+				milestones.add(new Milestone("Re-Enroll Girls",true,null));
+				list.setMilestones(milestones);
+				ocm.insert(list);
+				ocm.save();
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

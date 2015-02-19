@@ -4,11 +4,15 @@
 <%@include file="../include/session.jsp"%>
 
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.datepicker.validation.js"></script>
-
+<%
+int councilCode = apiConfig.getTroops().get(0).getCouncilCode();
+String councilId= request.getParameter("cid")==null? Integer.toString(councilCode):request.getParameter("cid");
+%>
 <p>edit milestones, add dates, create new milestones, and set to show in plans.</p>
 
 <div>
 <form action="/content/girlscouts-vtk/controllers/vtk.controller.html" method="POST" id="MileStoneForm">
+<input type="hidden" name="cid" value="<%=councilId%>"/>
 
 <table id="MileStoneTable">
 	<th></th>
@@ -16,9 +20,6 @@
 	<th>Date</th>
 	<th>Show in Plans</th>
 <%
-int councilCode = apiConfig.getTroops().get(0).getCouncilCode();
-String councilId= request.getParameter("cid")==null? Integer.toString(councilCode):request.getParameter("cid");
-
 int t=0;
 java.util.List<Milestone> milestones = yearPlanUtil.getCouncilMilestones(councilId) ;
 for(int i=0;i<milestones.size();i++,t++){
@@ -50,7 +51,6 @@ for(int i=0;i<milestones.size();i++,t++){
 </table>
 <div class="right clearfix">
 	<input type="submit" name="saveCouncilMilestones" value="Save To Plans" class="button btn"/>
-	<!--  <input class="button btn" value="Send email" type="button" onclick="sendMeetingReminderEmail()"/>-->
 </div>
 </form>
 <div id="add_entry">
@@ -69,16 +69,11 @@ for(int i=0;i<milestones.size();i++,t++){
 
   function newEntry(){
 	  var n = $('#MileStoneTable tr').length-1;
-
 	  $('#MileStoneTable tr:last').after('<tr id="entry'+n+'"></tr>');
-
-<%-- 	 // $("#MileStoneTable").append('<tr id="entry<%=t%>"><a onclick = "rmvEntry(t)"<i class="icon-button-circle-cross" style="color: green"></i></a><tr>');
- --%> $("#entry"+n).append("<td><i id='remove-entry' class='icon-button-circle-cross' style='color: green'></i></td>");
+	  $("#entry"+n).append("<td><i id='remove-entry' class='icon-button-circle-cross' style='color: green'></i></td>");
       $("#entry"+n).append("<td><input type='text' id='blurb"+n+"' name='ms_blurb[]' placeholder='Enter a Milestone'/></td>");
 	  $("#entry"+n).append("<td><input type='text' id='date"+n+"' name='ms_date[]' placeholder='  /  /    '/></td>");
 	  $("#entry"+n).append("<td><input type='checkbox' id='show"+n+"' name='ms_show[]' value='unchecked'/></td></tr>");
-	  
-
   }; 
   
 </script>
