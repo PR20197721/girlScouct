@@ -58,9 +58,12 @@ for(int i=0;i<milestones.size();i++,t++){
 </div>
 
 
+
 <script>
 	$(document).on('click', '#remove-entry', function() {
-	    $(this).parent().parent().remove();
+		if (confirm('Are you sure you want to delete this milestone?')) {
+		    $(this).parent().parent().remove();
+		} 
 	});
 
 /*    $(function() {

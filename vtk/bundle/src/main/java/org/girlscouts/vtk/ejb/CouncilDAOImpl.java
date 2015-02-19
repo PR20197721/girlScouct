@@ -222,12 +222,12 @@ public class CouncilDAOImpl implements CouncilDAO {
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
 			QueryManager queryManager = ocm.getQueryManager();
-			Filter filter = queryManager.createFilter(Milestone.class);
+			Filter filter = queryManager.createFilter(MilestonesCollection.class);
 			Query query = queryManager.createQuery(filter);
 
 			String path = "/vtk/" + councilCode + "/milestones";
 			if(session.itemExists(path)){
-				MilestonesCollection list = (MilestonesCollection)ocm.getObject(query);
+				MilestonesCollection list = (MilestonesCollection)ocm.getObject(path);
 				milestones = list.getMilestones();
 
 			}else{
@@ -276,13 +276,20 @@ public class CouncilDAOImpl implements CouncilDAO {
 			if(session.itemExists(path)){
 				MilestonesCollection list = (MilestonesCollection)ocm.getObject(path);
 				java.util.List<Milestone> oldMilestones = list.getMilestones();
-				for (int i = 0; i < milestones.size(); i++) {
-					
-				
-					for(int j=0; j<oldMilestones.size() ; j++){
-						
+				int removed =0;
+				for (int i = 0; i < oldMilestones.size(); i++) {
+					for(int j=0; j<=i-removed ; j++){
+						if(oldMilestones.get(i).getBlurb().equals(milestones.get(j).getBlurb())){
+							oldMilestones.get(i)=milestones.get(j);
+							ocm.update(oldMilestones.get(i));
+							milestones.remove(j);
+							removed++;
+						}
 					}
+					removed++;
+					ocm.remove(oldMilestones.get(i));
 				}
+				
 
 			}else{
 				MilestonesCollection list = new MilestonesCollection(path); 
