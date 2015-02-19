@@ -54,9 +54,20 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
         this.doLayout();
         
         var http = CQ.shared.HTTP;
-        http.get(http.externalize('/content/girlscouts-vtk/meetings/myyearplan/brownie/B14B02/activities.1.json'), function(options, success, response) {
-        	
-        }, this); 
+        // TODO: get the path. What if creating a new one?
+        var response = http.get(http.externalize('/content/girlscouts-vtk/meetings/myyearplan/brownie/B14B02/activities.1.json'));
+        
+        var responseJson = JSON.parse(response.responseText);
+        for (var childKey in responseJson) {
+        	var child = responseJson[childKey];
+        	if (responseJson.hasOwnProperty(childKey) && typeof child === 'object') { // If object, then it is a child node.
+        		var activityNumber = child.activityNumber;
+        		var name = child.name;
+        		var cost = child.cost;
+        		var duration = child.duration;
+        		alert('[' + activityNumber + '^' + name + '^' + duration + ']');
+        	}
+        }
 
         var value = newValue.split(']');
         value.pop(); // remove the last one
