@@ -21,6 +21,122 @@
 
 girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
 
+	RTE_PLUGIN_CONF: {
+	   "links": [
+	      {
+	         "height": 316,
+	         "linkAttributes": [
+	            {
+	               "collapsed": true,
+	               "collapsible": true,
+	               "inputValue": "advanced",
+	               "name": "./linkdialog/cq:adhocLinkTrackingTab",
+	               "title": "Link tracking",
+	               "xtype": "dialogfieldset",
+	               "items": {
+	                  "enable": {
+	                     "attribute": "enabletracking",
+	                     "fieldDescription": "override analytics framework settings",
+	                     "fieldLabel": "Custom link tracking",
+	                     "name": "./linkdialog/cq:adhocLinkTrackingEnableTracking",
+	                     "xtype": "checkbox",
+	                     "listeners": {
+	                        "check": function(component){ var dlg=component.findParentByType('rtelinkdialog');dlg.enableSCFields(component.checked); }
+	                     }
+	                  },
+	                  "events": {
+	                     "attribute": "adhocevents",
+	                     "fieldDescription": "e.g.: event2, event7",
+	                     "fieldLabel": "Include SiteCatalyst events",
+	                     "name": "./linkdialog/cq:adhocLinkTrackingEvents",
+	                     "xtype": "textfield"
+	                  },
+	                  "evars": {
+	                     "attribute": "adhocevars",
+	                     "fieldDescription": "e.g.: eVar1: pagedata.url, prop4: 'const'",
+	                     "fieldLabel": "Include SiteCatalyst variables",
+	                     "name": "./linkdialog/cq:adhocLinkTrackingEvars",
+	                     "xtype": "textfield"
+	                  }
+	               }
+	            }
+	         ]
+	      }
+	   ],
+	   "misctools": {
+	      "features": "*"
+	   },
+	   "edit": {
+	      "features": "[paste-plaintext,paste-wordhtml]"
+	   },
+	   "findreplace": {
+	      "features": "*"
+	   },
+	   "format": {
+	      "features": "*"
+	   },
+	   "image": {
+	      "features": "*"
+	   },
+	   "keys": {
+	      "features": "*"
+	   },
+	   "justify": {
+	      "features": "*"
+	   },
+	   "lists": {
+	      "features": "*"
+	   },
+	   "paraformat": {
+	      "features": "*",
+	      "formats": {
+	         "p": {
+	            "description": "Paragraph",
+	            "tag": "p"
+	         },
+	         "h1": {
+	            "description": "Header 1",
+	            "tag": "h1"
+	         },
+	         "h2": {
+	            "description": "Header 2",
+	            "tag": "h2"
+	         },
+	         "h3": {
+	            "description": "Header 3",
+	            "tag": "h3"
+	         },
+	         "h4": {
+	            "description": "Header 4",
+	            "tag": "h4"
+	         },
+	         "h5": {
+	            "description": "Header 5",
+	            "tag": "h5"
+	         },
+	         "h6": {
+	            "description": "Header 6",
+	            "tag": "h6"
+	         }
+	      }
+	   },
+	   "spellcheck": {
+	      "features": "*"
+	   },
+	   "styles": {
+	      "features": "*"
+	   },
+	   "subsuperscript": {
+	      "features": "*"
+	   },
+	   "table": {
+	      "features": "*"
+	   },
+	   "undo": {
+	      "features": "*"
+	   }
+	},
+
     hiddenField: null,
     nameField: null,
 	durationField: null,
@@ -69,7 +185,8 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
         this.add(this.durationField);
         
         this.add(new CQ.Ext.form.Label({text: "Description"}));
-        this.descriptionField = new CQ.Ext.form.TextField({
+        this.descriptionField = new CQ.form.RichText({
+        	rtePlugins: this.RTE_PLUGIN_CONF,
             listeners: {
                 change: {
                     scope:this,
