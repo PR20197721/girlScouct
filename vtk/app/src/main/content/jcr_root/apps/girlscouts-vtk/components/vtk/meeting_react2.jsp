@@ -2,7 +2,7 @@
 <% 
 
 String mid = planView.getYearPlanComponent().getUid();
-MeetingE meeting = (MeetingE)planView.getYearPlanComponent();
+MeetingE meeting = planView.getMeeting();
 
 
 Attendance attendance = meetingUtil.getAttendance( user,  troop,  meeting.getPath()+"/attendance");
@@ -49,9 +49,6 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
  <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
  <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script> 
 <!-- script src="http://fb.me/react-with-addons-0.12.1.js"></script> -->
-
-
-<div id="modal_popup" class="reveal-modal" data-reveal></div>
 <%@include file="include/tab_navigation.jsp"%>
 
 <script>
@@ -63,6 +60,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 <%@include file="include/modals/modal_meeting_aids.jsp"%>
 <%@include file="include/modals/modal_agenda.jsp"%>
 <%@include file="include/modals/modal_meeting_reminder.jsp" %>
+<%@include file="include/modals/modal_view_sent_emails.jsp"%>
 
   <div id="theMeeting">
     <script type="text/jsx">
@@ -400,3 +398,4 @@ function addMinutes(date, minutes) {
       </script>
   </div>
 </div>
+<div id="modal_popup" class="reveal-modal" data-reveal></div>

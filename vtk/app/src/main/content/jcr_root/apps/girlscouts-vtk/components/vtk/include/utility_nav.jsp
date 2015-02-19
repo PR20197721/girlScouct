@@ -1,7 +1,7 @@
 <div class="hide-for-print crumbs clearfix hide-for-small">
   <div class="column small-24 medium-20 large-centered medium-centered large-20">
     <div class="row">
-      <div class="columns small-18 medium-20">
+      <div class="columns small-18 medium-19">
         <ul id="sub-nav" class="inline-list hide-for-print">
           <!--if on YP page this menu shows-->
             <% if("plan".equals(activeTab)) { 
@@ -52,7 +52,7 @@
           <% } %>
         </ul>
       </div>
-      <div class="columns small-6 medium-4">
+      <div class="columns small-6 medium-5">
        <ul class="inline-list" id="util-links">
         <li><a class="icon" data-reveal-id="modal_help" title="help"><i class="icon-questions-answers"></i></a></li>
         <% if("plan".equals(activeTab)) {%>

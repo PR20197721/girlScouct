@@ -122,16 +122,16 @@
             background-color:#f6f6f6;
             cursor: move;
             padding-left:0;
-            &:before {
-              content:'';
-              background: url("images/throbber.png") repeat-y #fff;
-              height: 100%;
-              width: 23px;
-              position: absolute;
-              left:-33px;
-              padding: 0 17px;
-              cursor: move;
-            }
+            // &:before {
+            //   content:'';
+            //   background: url("images/throbber.png") repeat-y #fff;
+            //   height: 100%;
+            //   width: 23px;
+            //   position: absolute;
+            //   left:-33px;
+            //   padding: 0 17px;
+            //   cursor: move;
+            // }
             p {
               margin:0;
               &.blurb,
@@ -977,7 +977,7 @@
             input[type=checkbox]:checked + label:before {
               content: "\e6d7";
               font-family: "JollyFont";
-              color: green;
+              color: #00AE55;
             }
             input[type="checkbox"] {
               display:none;
@@ -1136,6 +1136,9 @@
           text-transform: uppercase;
         }
       }
+    }
+    .icon-printer {
+      color: #00AE53;
     }
   }
   //calendar inside the meeting date and location popup
@@ -1622,6 +1625,19 @@ table tr {
 @media only screen and (min-width: 40.063em) and (max-width: 60.063em) {
   .vtk-body #main .crumbs .columns #util-links.inline-list li:nth-of-type(2) {
     margin: 0 11px;
+  }
+  .vtk-body #main #yearPlanMeetings ul .meeting > div {
+    .touchscroll {
+      position:absolute;
+      cursor: move;
+      z-index: 100;
+      display: block !important;
+      height:83px;
+      background: #fff;
+      padding-right: 6px;
+      left:-30px;
+    }
+
   }
    //my troop page accordion 
   .mytroop {
