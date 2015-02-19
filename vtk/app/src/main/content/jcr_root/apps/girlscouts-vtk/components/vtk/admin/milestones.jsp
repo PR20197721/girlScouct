@@ -8,7 +8,7 @@
 <p>edit milestones, add dates, create new milestones, and set to show in plans.</p>
 
 <div>
-<form action="/content/girlscouts-vtk/controllers/vtk.controller.html" method="POST" style="display:none;" id="MileStoneForm">
+<form action="/content/girlscouts-vtk/controllers/vtk.controller.html" method="POST" id="MileStoneForm">
 
 <table id="MileStoneTable">
 	<th></th>
@@ -16,13 +16,15 @@
 	<th>Date</th>
 	<th>Show in Plans</th>
 <%
-String councilId= request.getParameter("cid");
+int councilCode = apiConfig.getTroops().get(0).getCouncilCode();
+String councilId= request.getParameter("cid")==null? Integer.toString(councilCode):request.getParameter("cid");
+
 int t=0;
 java.util.List<Milestone> milestones = yearPlanUtil.getCouncilMilestones(councilId) ;
 for(int i=0;i<milestones.size();i++,t++){
 %>
 <tr id="entry<%=t %>">
- <td><a onclick="rmvEntry()"><i class="icon-button-circle-cross" style="color: green"></i></a></td>
+ <td><i id="remove-entry" class="icon-button-circle-cross" style="color: green"></i></td>
  <td><input type="text" id="blurb<%=t %>" name="ms_blurb[]<%=t %>" value="<%=milestones.get(i).getBlurb()%>"/></td>
  <td><input type="text" id="date<%=t %>" name="ms_date[]<%=t %>"  placeholder="  /  /    " onchange="doChkSubmitValid()" value="<%=milestones.get(i).getDate()==null?"":FORMAT_MMddYYYY.format(milestones.get(i).getDate())%>" onchange="doChkSubmitValid()"/></td>
  <td><input type="checkbox" id="show<%=t %>" name="ms_show[]<%=t %>" <%=milestones.get(i).getShow()?"checked":"unchecked"%>/></td>
@@ -30,7 +32,7 @@ for(int i=0;i<milestones.size();i++,t++){
 <%} %>
 
 <tr id="entry<%=t++ %>">
- <td><a onclick="rmvEntry()"><i class="icon-button-circle-cross" style="color: green"></i></a></td>
+ <td><i id="remove-entry" class="icon-button-circle-cross" style="color: green"></i></td>
  <td><input type="text" id="blurb<%=t %>" name="ms_blurb[]" placeholder="Enter a Milestone"/></td>
  <td><input type="text" id="date<%=t %>" name="ms_date[]" placeholder="  /  /    "/></td>
  <td><input type="checkbox" id="show<%=t %>" name="ms_show[]" unchecked/></td>
@@ -38,7 +40,7 @@ for(int i=0;i<milestones.size();i++,t++){
 
 <tr id="entry<%=t++ %>">
 
- <td><a onclick="rmvEntry()"><i class="icon-button-circle-cross" style="color: green"></i></a></td>
+ <td><i id="remove-entry" class="icon-button-circle-cross" style="color: green"></i></td>
  <td><input type="text" id="blurb<%=t %>" name="ms_blurb[]" placeholder="Enter a Milestone"/></td>
  <td><input type="text" id="date<%=t %>" name="ms_date[]" placeholder="  /  /    "/>
  <td><input type="checkbox" id="show<%=t %>" name="ms_show[] value="checked"/></td>
@@ -57,20 +59,21 @@ for(int i=0;i<milestones.size();i++,t++){
 
 
 <script>
+	$(document).on('click', '#remove-entry', function() {
+	    $(this).parent().parent().remove();
+	});
 
 /*    $(function() {
 	  $("input[name='ms_date[]']").datepicker();  
   });  */
-  function rmvEntry(){
-	  $(this).next().remove();
-  };
+
   function newEntry(){
 	  var n = $('#MileStoneTable tr').length-1;
 
 	  $('#MileStoneTable tr:last').after('<tr id="entry'+n+'"></tr>');
 
 <%-- 	 // $("#MileStoneTable").append('<tr id="entry<%=t%>"><a onclick = "rmvEntry(t)"<i class="icon-button-circle-cross" style="color: green"></i></a><tr>');
- --%> $("#entry"+n).append("<td><a onclick='rmvEntry()'><i class='icon-button-circle-cross' style='color: green'></i></a></td>");
+ --%> $("#entry"+n).append("<td><i id='remove-entry' class='icon-button-circle-cross' style='color: green'></i></td>");
       $("#entry"+n).append("<td><input type='text' id='blurb"+n+"' name='ms_blurb[]' placeholder='Enter a Milestone'/></td>");
 	  $("#entry"+n).append("<td><input type='text' id='date"+n+"' name='ms_date[]' placeholder='  /  /    '/></td>");
 	  $("#entry"+n).append("<td><input type='checkbox' id='show"+n+"' name='ms_show[]' value='unchecked'/></td></tr>");
