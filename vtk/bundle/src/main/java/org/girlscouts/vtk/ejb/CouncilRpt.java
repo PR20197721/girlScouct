@@ -7,7 +7,39 @@ import org.apache.felix.scr.annotations.Service;
 import org.girlscouts.vtk.dao.CouncilDAO;
 import org.girlscouts.vtk.models.CouncilRptBean;
 
+
+import org.boon.core.Function;
+import org.boon.datarepo.Repo;
+import org.boon.datarepo.Repos;
+import  org.boon.primitive.Int;
+
+import org.boon.Lists;
+import org.boon.Str;
+//import org.boon.criteria.ObjectFilter;
+//import org.boon.template.BoonTemplate;
+//import org.junit.Test;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
+//import static org.boon.Boon.fromJson;
+import static org.boon.Boon.puts;
+//import static org.boon.Boon.toJson;
+import static org.boon.Lists.copy;
+//import static org.boon.Lists.lazyAdd;
+import static org.boon.Lists.list;
+import static org.boon.Maps.map;
+import static org.boon.core.reflection.BeanUtils.atIndex;
+//import static org.boon.criteria.ObjectFilter.*;
+//import static org.boon.criteria.Selector.selectAs;
+//import static org.boon.criteria.Selector.selectAsTemplate;
+import static org.boon.criteria.Selector.selects;
+//import static org.boon.template.BoonTemplate.jstl;
+//import static org.boon.template.BoonTemplate.template;
+
 @Component
+@Service(value = CouncilRpt.class)
 public class CouncilRpt {
 
 	@Reference
@@ -153,4 +185,13 @@ public class CouncilRpt {
 		}
 		return container;
   }
+	
+	public void fmtRpt(java.util.List<CouncilRptBean> results){
+		
+		//Repo<Integer,CouncilRptBean> rptRepo;
+		java.util.List yearPlanNames;
+		
+		yearPlanNames = (List<CouncilRptBean>) atIndex(results, "yearPlanName");
+		System.err.println(yearPlanNames.size());
+	}
 }
