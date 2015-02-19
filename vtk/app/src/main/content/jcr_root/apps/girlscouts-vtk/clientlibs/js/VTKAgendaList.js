@@ -43,7 +43,7 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
 
     // overriding CQ.form.CompositeField#setValue
     setValue: function(newValue) {
-        this.fireEvent("change", this, value, this.getValue());
+        //this.fireEvent("change", this, value, this.getValue());
         var oldItems = this.items;
         oldItems.each(function(item/*, index, length*/) {
             if (item instanceof CQ.form.MultiField.Item) {
@@ -57,32 +57,25 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
         // TODO: get the path. What if creating a new one?
         var response = http.get(http.externalize('/content/girlscouts-vtk/meetings/myyearplan/brownie/B14B02/activities.1.json'));
         
+        var agendaItems = new Array();
         var responseJson = JSON.parse(response.responseText);
         for (var childKey in responseJson) {
         	var child = responseJson[childKey];
         	if (responseJson.hasOwnProperty(childKey) && typeof child === 'object') { // If object, then it is a child node.
         		var activityNumber = child.activityNumber;
-        		var name = child.name;
-        		var cost = child.cost;
-        		var duration = child.duration;
-        		alert('[' + activityNumber + '^' + name + '^' + duration + ']');
+        		agendaItems.push({
+        			"activityNumber": child.activityNumber,
+        			"name": child.name,
+        			"duration": child.duration,
+        			"description": child.activityDescription
+        		});
         	}
         }
 
-        var value = newValue.split(']');
-        value.pop(); // remove the last one
-        if ((value != null) && (value != "")) {
-            if (value instanceof Array || CQ.Ext.isArray(value)) {
-                for (var i = 0; i < value.length; i++) {
-                	var _value = value[i];
-                	// [1^open ceremory^10 => open ceremony^10 
-                	var _split = value[i].split('^');
-                	_value = _split[1] + '^' + _split[2];
-                	this.addItem(_value);
-                }
-            } else {
-                this.addItem(value);
-            }
+        //agendaItems.sort(function(a, b){return a.activityNumber - b.activityNumber});
+
+        for (var i = 0; i < agendaItems.length; i++) {
+        	this.addItem(agendaItems[i]);
         }
     },
 
