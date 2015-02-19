@@ -55,37 +55,36 @@
         </select>
       </div>
 
-      <div class="row collapse">
-
+      <div class="row">
         <section class="column large-12 medium-12">
           <h6>income categories</h6>
-          <p class="text-right">show in finances</p>
           <ul id="income-list" class="large-block-grid-2 small-block-grid-2 text-left">
           <%for(String incomeField : incomeFields){ %>
-            <li id="incomeButton<%=incomeCounter%>"><a href="" title="remove" onclick="return deleteIncomeRow(<%=incomeCounter%>)"><i class="icon-button-circle-cross"></i></a></li>
+            
             <li id="incomeField<%=incomeCounter%>"><input type="text" value="<%=incomeField%>"/></li>
+            <li id="incomeButton<%=incomeCounter%>"><a href="" title="remove" onclick="return deleteIncomeRow(<%=incomeCounter%>)"><i class="icon-button-circle-cross"></i></a></li>
           <% incomeCounter++;
           } %>
           </ul>
-          <a href="" title="add" onclick="return addIncomeField()"><i class="icon-button-circle-plus"></i></a>
+          <a class="add-btn" title="add" onclick="return addIncomeField()"><i class="icon-button-circle-plus"></i>Add a  Finance Field</a>
         </section>
 		
         <section class="column large-12 medium-12">
            <h6>expense categories</h6>
-           <p class="text-right">show in finances</p>
            <ul id="expense-list" class="large-block-grid-2 small-block-grid-2 text-left">
            <%for(String expenseField : expenseFields){ %>
-            <li id="expenseButton<%=expenseCounter%>"><a href="" title="remove" onclick="return deleteExpenseRow(<%=expenseCounter%>)"><i class="icon-button-circle-cross"></i></a></li>
+           
             <li id="expenseField<%=expenseCounter%>"><input type="text" value="<%=expenseField%>"/></li>
+            <li id="expenseButton<%=expenseCounter%>"><a href="" title="remove" onclick="return deleteExpenseRow(<%=expenseCounter%>)"><i class="icon-button-circle-cross"></i></a></li>
           <% expenseCounter++;
           	} %>
            </ul>
-           <a href="" title="add" onclick="return addExpenseField()"><i class="icon-button-circle-plus"></i></a>
+           <a class="add-btn" title="add" onclick="return addExpenseField()"><i class="icon-button-circle-plus"></i>Add a  Finance Field</a>
         </section>
       </div><!--/row-->
       <!-- totals -->
       <div class="text-right row collapse">
-       <a role="button" aria-label="submit form" href="" onclick="return saveFinanceAdmin()" class="button">Save</a>
+       <a role="button" aria-label="submit form" onclick="return saveFinanceAdmin()" class="button save">Save</a>
       </div>
 		<input type="hidden" id="incomeCount" value="<%=incomeCounter %>"/>
       	<input type="hidden" id="expenseCount" value="<%=expenseCounter %>"/>

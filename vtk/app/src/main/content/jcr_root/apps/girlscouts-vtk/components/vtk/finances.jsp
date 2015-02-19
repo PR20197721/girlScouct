@@ -51,9 +51,9 @@
         String save_btn = "";
         if(hasAdminPermissions){
         	financeFieldTag = "<input type=\"text\" id=\"%s\" name=\"%s\" onblur=\"updateTotals()\" value=\"%s\"/>";
-          save_btn = "<a role=\"button\" href=\"\" onclick=\"saveFinances()\" class=\"button\">Save</a>";
+          save_btn = "<a role=\"button\" onclick=\"saveFinances()\" class=\"button save\">Save</a>";
         } else{
-        	financeFieldTag = "<p name=\"%s\" id=\"%s\">&s</p>";
+        	financeFieldTag = "<p name=\"%s\" id=\"%s\">%s</p>";
         }
 %>
 
@@ -73,14 +73,14 @@
       <input type="hidden" id="qtr" name="qtr" value="<%=qtr%>"/>
       <div class="errorMsg error"></div>
       
-      <div class="row collapse">
+      <div class="row">
 
         <section class="column large-12 medium-12">
           <h6>current income</h6>
           <ul class="large-block-grid-2 small-block-grid-2 text-right">
           <% for(int i = 0; i < incomeFields.size(); i++){
         	  String tempField = incomeFields.get(i);
-        	  %><li><%=tempField%>:</li> 
+        	  %><li><p><%=tempField%>:</p></li> 
         	  	<li><%=String.format(financeFieldTag, "income" + (i + 1), tempField, FORMAT_COST_CENTS.format(finance.getIncomeByName(tempField))) %></li>
         	  <%
           }
@@ -95,7 +95,7 @@
            <ul class="large-block-grid-2 small-block-grid-2 text-right">
               <% for(int i = 0; i < expenseFields.size(); i++){
         	  String tempField = expenseFields.get(i);
-        	  %><li><%=tempField%>:</li> 
+        	  %><li><p><%=tempField%>:</p></li> 
         	  	<li><%=String.format(financeFieldTag, "expense" + (i + 1), tempField, FORMAT_COST_CENTS.format(finance.getExpenseByName(tempField))) %></li>
         	  <%
           }

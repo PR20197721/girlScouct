@@ -1,11 +1,6 @@
-
-
-function checkFinances(){
-	
-		alert("about to save finances");
+function checkFinances() {
+		// alert("about to save finances");
 		saveFinances();
-	
-	
 }
 
 $(function() {
@@ -90,12 +85,12 @@ function saveFinanceAdmin(){
 	
 	
 function saveFinances(){
-		alert("started save");
-		alert("first value is: " + document.getElementById("income1").value);
+		// alert("started save");
+		// alert("first value is: " + document.getElementById("income1").value);
 
 		
 		var qtr = document.getElementById("qtr").value;
-		alert("Quarter is: " + document.getElementById("qtr").value);
+		// alert("Quarter is: " + document.getElementById("qtr").value);
 		var exp = "[";
 		var i = 1;
 		var inc = "[";
@@ -127,8 +122,8 @@ function saveFinances(){
 		inc = inc + "]";
 		exp = exp + "]";
 		
-		alert("Income: " + inc);
-		alert("Expenses: " + exp);
+		// alert("Income: " + inc);
+		// alert("Expenses: " + exp);
 		
 		
 		  $.ajax({
@@ -206,8 +201,8 @@ function updateTotals(){
 function deleteIncomeRow(counter){ 
 	var button = document.getElementById("incomeButton" + counter);
 	var input = document.getElementById("incomeField" + counter);
-	button.parentNode.removeChild(button);
 	input.parentNode.removeChild(input);
+	button.parentNode.removeChild(button);
     return false;
 	
 }
@@ -215,8 +210,8 @@ function deleteIncomeRow(counter){
 function deleteExpenseRow(counter){ 
 	var button = document.getElementById("expenseButton" + counter);
 	var input = document.getElementById("expenseField" + counter);
-	button.parentNode.removeChild(button);
 	input.parentNode.removeChild(input);
+	button.parentNode.removeChild(button);
     return false;
 
 }
@@ -258,12 +253,8 @@ function addFinanceRow(listId, countId, buttonId, inputId, delMethod){
 	
 	newInputHolder.appendChild(newInput);
 	
-	fieldsList.appendChild(newButtonHolder);
 	fieldsList.appendChild(newInputHolder);
-	
-	
-	
-	
+	fieldsList.appendChild(newButtonHolder);
 	
 	countHolder.value = (Number(count) + 1) + "";
 	

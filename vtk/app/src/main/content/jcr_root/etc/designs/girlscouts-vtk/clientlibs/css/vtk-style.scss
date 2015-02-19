@@ -1429,27 +1429,38 @@
     section {
       margin-top:0;
       h6 {
+        margin-bottom: 5px;
         span {
           &:nth-of-type(2) {
             font-weight: normal;
           }
         }
       }
-      ul li {
-        margin:0;
-        line-height: 2;
+      ul {
+        margin-top: 20px;
+        li {
+          margin:0;
+          line-height: 2;
+        }
+      } 
+    }
+    .large-block-grid-2 {
+      > li:nth-child(2n+1) {
+          width: 70%;
+          white-space: nowrap;
+        }
       }
-    }
-    .large-block-grid-2 > li:nth-child(2n+1) {
-      width: 70%;
-      white-space: nowrap;
-    }
-    .large-block-grid-2 > li:nth-child(2n) {
-      width: 30%;
+    .large-block-grid-2 {
+      > li:nth-child(2n) {
+        width: 30%;
+      } 
     }
     input[type="text"] {
       height: 30px;
       text-align: right;
+    }
+    .save {
+      margin-top: 20px;
     }
   }
   //ADMIN PAGES
@@ -1500,7 +1511,6 @@
         font-size: 14px;
       }
     }
-    
   }
 } //end of vtk-body
 

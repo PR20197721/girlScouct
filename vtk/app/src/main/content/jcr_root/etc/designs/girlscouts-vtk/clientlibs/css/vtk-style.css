@@ -1042,11 +1042,15 @@
   opacity: 1 !important; }
 .vtk-body #main .meeting-detail #financeForm section {
   margin-top: 0; }
-  .vtk-body #main .meeting-detail #financeForm section h6 span:nth-of-type(2) {
-    font-weight: normal; }
-  .vtk-body #main .meeting-detail #financeForm section ul li {
-    margin: 0;
-    line-height: 2; }
+  .vtk-body #main .meeting-detail #financeForm section h6 {
+    margin-bottom: 5px; }
+    .vtk-body #main .meeting-detail #financeForm section h6 span:nth-of-type(2) {
+      font-weight: normal; }
+  .vtk-body #main .meeting-detail #financeForm section ul {
+    margin-top: 20px; }
+    .vtk-body #main .meeting-detail #financeForm section ul li {
+      margin: 0;
+      line-height: 2; }
 .vtk-body #main .meeting-detail #financeForm .large-block-grid-2 > li:nth-child(2n+1) {
   width: 70%;
   white-space: nowrap; }
@@ -1055,6 +1059,8 @@
 .vtk-body #main .meeting-detail #financeForm input[type="text"] {
   height: 30px;
   text-align: right; }
+.vtk-body #main .meeting-detail #financeForm .save {
+  margin-top: 20px; }
 .vtk-body #main .finances #financeForm input[type=checkbox]:checked + label:before {
   content: "\e6d7";
   font-family: "JollyFont";
