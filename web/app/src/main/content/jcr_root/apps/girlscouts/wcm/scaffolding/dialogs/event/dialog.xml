@@ -13,6 +13,11 @@
                     allowBlank="{Boolean}false"
                     fieldLabel="Title"
                     name="./jcr:content/jcr:title"/>
+                <timezoneselect
+                    jcr:primaryType="nt:unstructured"
+                    fieldLabel="Time Zone"
+                    name="./jcr:content/data/timezone"
+                    xtype="timezoneselect"/>
                 <start
                     jcr:primaryType="cq:Widget"
                     allowBlank="{Boolean}false"

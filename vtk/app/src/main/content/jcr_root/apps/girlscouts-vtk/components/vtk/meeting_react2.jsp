@@ -2,7 +2,7 @@
 <% 
 
 String mid = planView.getYearPlanComponent().getUid();
-MeetingE meeting = (MeetingE)planView.getYearPlanComponent();
+MeetingE meeting = planView.getMeeting();
 
 
 Attendance attendance = meetingUtil.getAttendance( user,  troop,  meeting.getPath()+"/attendance");
@@ -55,6 +55,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 <%@include file="include/modals/modal_meeting_aids.jsp"%>
 <%@include file="include/modals/modal_agenda.jsp"%>
 <%@include file="include/modals/modal_meeting_reminder.jsp" %>
+<%@include file="include/modals/modal_view_sent_emails.jsp"%>
 
   <div id="theMeeting">
     <script type="text/jsx">
@@ -265,7 +266,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
           render: function () {
       		return <section className="column large-20 medium-20 large-centered medium-centered">
         					 <h6>meeting agenda</h6>
-                  <p>Select and agenda item to view details, edit duration and delete. Drag and drop to reorder.</p>
+                  <p>Select and agenda item to view details, edit duration or delete. Drag and drop to reorder.</p>
        						 <SortableListItems1  key="{this.props.data}"  data={this.props.data} onClick={this.alex} onReorder={this.onReorder}/>
                   <AgendaTotal data={this.props.data}/>   				
                   <strong><a data-reveal-id="modal_agenda" className="add-btn"><i className="icon-button-circle-plus"></i> Add Agenda Item</a></strong>
@@ -392,3 +393,4 @@ function addMinutes(date, minutes) {
       </script>
   </div>
 </div>
+<div id="modal_popup" class="reveal-modal" data-reveal></div>

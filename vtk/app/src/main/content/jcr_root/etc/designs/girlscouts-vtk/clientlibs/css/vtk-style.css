@@ -93,15 +93,6 @@
       background-color: #f6f6f6;
       cursor: move;
       padding-left: 0; }
-      .vtk-body #main #yearPlanMeetings ul .meeting > div:before {
-        content: '';
-        background: url("images/throbber.png") repeat-y white;
-        height: 100%;
-        width: 23px;
-        position: absolute;
-        left: -33px;
-        padding: 0 17px;
-        cursor: move; }
       .vtk-body #main #yearPlanMeetings ul .meeting > div p {
         margin: 0; }
         .vtk-body #main #yearPlanMeetings ul .meeting > div p.blurb, .vtk-body #main #yearPlanMeetings ul .meeting > div p.category, .vtk-body #main #yearPlanMeetings ul .meeting > div p.subtitle {
@@ -722,7 +713,7 @@
         .vtk-body .modalWrap .tabs-wrapper .tabs-content #manageLocationSection .locationList li input[type=checkbox]:checked + label:before {
           content: "\e6d7";
           font-family: "JollyFont";
-          color: green; }
+          color: #00AE55; }
         .vtk-body .modalWrap .tabs-wrapper .tabs-content #manageLocationSection .locationList li input[type="checkbox"] {
           display: none; }
         .vtk-body .modalWrap .tabs-wrapper .tabs-content #manageLocationSection .locationList li label:before {
@@ -856,6 +847,9 @@
 .vtk-body .reveal-modal .setupCalendar .editable-textarea h5,
 .vtk-body .modalWrap .setupCalendar .editable-textarea h5 {
   text-transform: uppercase; }
+.vtk-body .reveal-modal .icon-printer,
+.vtk-body .modalWrap .icon-printer {
+  color: #00ae53; }
 .vtk-body .modifyCalendarDate {
   margin-top: 25px; }
 .vtk-body #modal_meeting_aids .button {
@@ -980,8 +974,7 @@
       text-transform: uppercase;
       margin-left: 40px;
       margin-right: 120px;
-      cursor: pointer;
-      position: relative; }
+      cursor: pointer; }
       .vtk-body .accordion > dt h3:before,
       .vtk-body .accordion > dt h6:before {
         border-style: solid;
@@ -1212,7 +1205,8 @@ input[type="file"] {
 
   .vtk-body .accordion > dt h3 {
     width: 100%;
-    display: block; }
+    display: block;
+    position: relative; }
     .vtk-body .accordion > dt h3.on:before {
       margin-left: -40px; }
     .vtk-body .accordion > dt h3:before {
@@ -1249,6 +1243,16 @@ input[type="file"] {
 @media only screen and (min-width: 40.063em) and (max-width: 60.063em) {
   .vtk-body #main .crumbs .columns #util-links.inline-list li:nth-of-type(2) {
     margin: 0 11px; }
+
+  .vtk-body #main #yearPlanMeetings ul .meeting > div .touchscroll {
+    position: absolute;
+    cursor: move;
+    z-index: 100;
+    display: block !important;
+    height: 83px;
+    background: #fff;
+    padding-right: 6px;
+    left: -30px; }
 
   .mytroop .accordion-inner dt .column {
     margin-bottom: 7px; } }

@@ -40,6 +40,7 @@ import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.UserGlobConfig;
 import org.girlscouts.vtk.models.YearPlan;
+import org.girlscouts.vtk.models.SentEmail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -96,8 +97,58 @@ public class TroopUtil {
 				&& troop.getYearPlan().getCalFreq() == null)
 			troop.getYearPlan().setCalFreq("biweekly");
 
+		
+		doDbReset(troop);
+		
+		System.err.println("tata Troop reset...");
+		
+		/*
+		//TODO
+		troop.getYearPlan().getSchedule().setUpdated(false);
+		java.util.List<MeetingE> _meetingsE = troop.getYearPlan().getMeetingEvents();
+		for(int i=0;i<_meetingsE.size();i++)
+			_meetingsE.get(i).setUpdated(false);
+		*/
+		
 		return troop;
 
+	}
+	
+	
+	
+	private void doDbReset(Troop troop){
+			if( troop!=null){
+				troop.setDbUpdate(false);
+				if( troop.getYearPlan()!=null){
+					troop.getYearPlan().setDbUpdate(false);
+					
+					if( troop.getYearPlan().getSchedule()!=null )
+						troop.getYearPlan().getSchedule().setDbUpdate(false);
+					
+					if( troop.getYearPlan().getLocations()!=null ){
+						for(int i=0;i<troop.getYearPlan().getLocations().size();i++)
+							troop.getYearPlan().getLocations().get(i).setDbUpdate(false);
+					}
+					
+					if( troop.getYearPlan().getActivities()!=null ){
+						for(int i=0;i<troop.getYearPlan().getActivities().size();i++ ){
+							troop.getYearPlan().getActivities().get(i).setDbUpdate(false);
+						}
+					}
+					
+					if( troop.getYearPlan().getMeetingEvents()!=null ){
+						for(int i=0;i<troop.getYearPlan().getMeetingEvents().size();i++ ){
+							troop.getYearPlan().getMeetingEvents().get(i).setDbUpdate(false);
+							java.util.List<Asset> assets = troop.getYearPlan().getMeetingEvents().get(i).getAssets();
+							if( assets!=null)
+							 for(int y=0;y<assets.size();y++)
+								assets.get(y).setDbUpdate(false);
+						}
+					}
+					
+				}
+			}
+			
 	}
 
 	// check if info was updated and need to pull from DB fresh copy
@@ -545,5 +596,8 @@ public class TroopUtil {
 		session.putValue("VTK_planView_memoPos", null);
 		new_troop.setCurrentTroop(session.getId());
 	}
+	
+	
+	
 }// end class
 

@@ -1,7 +1,7 @@
 <div class="hide-for-print crumbs clearfix hide-for-small">
   <div class="column small-24 medium-20 large-centered medium-centered large-20">
     <div class="row">
-      <div class="columns small-18 medium-20">
+      <div class="columns small-18 medium-19">
         <ul id="sub-nav" class="inline-list hide-for-print">
           <!--if on YP page this menu shows-->
             <% if("plan".equals(activeTab)) { 
@@ -19,11 +19,14 @@
               case ACTIVITY:
                 Activity activity = (Activity)meetingUtil.planView(user, troop, request).getYearPlanComponent();
                 if( activity.getIsEditable() ){%>
-                <li><a href="#" onclick="doEditActivity('editCustActiv')">edit activity</a></li>
+                <li>
+                    <!--  <a href="#" data-reveal-id="editModal" onclick="doEditActivity('editCustActiv')">edit activity</a> -->
+                    <a href="#" data-reveal-id="editCustActiv">edit activity</a>
+                  </li>
               <% }
                 if ( !(activity.getCancelled()!=null && activity.getCancelled().equals("true") ) && 
                 activity.getRegisterUrl()  !=null && !activity.getRegisterUrl().equals("")){%>
-                <li><a href="<%=activity.getRegisterUrl()%>" class="button linkButton" target="_blank">Register for this event</a></li><%
+                <li><a href="<%=activity.getRegisterUrl()%>"  target="_blank">Register for this event</a></li><%
                 } %>
                   <li><a href="javascript:rmCustActivity12(aPath)">delete this activity</a></li><% 
                   
@@ -49,7 +52,7 @@
           <% } %>
         </ul>
       </div>
-      <div class="columns small-6 medium-4">
+      <div class="columns small-6 medium-5">
        <ul class="inline-list" id="util-links">
         <li><a class="icon" data-reveal-id="modal_help" title="help"><i class="icon-questions-answers"></i></a></li>
         <% if("plan".equals(activeTab)) {%>

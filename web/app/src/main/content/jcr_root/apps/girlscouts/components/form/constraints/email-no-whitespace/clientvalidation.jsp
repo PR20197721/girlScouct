@@ -22,7 +22,6 @@
                   org.apache.sling.scripting.jsp.util.JspSlingHttpServletResponseWrapper"%>
 <%@taglib prefix="sling" uri="http://sling.apache.org/taglibs/sling/1.0" %><%
 %>
-<script>alert("BOOOOO");</script>
 
 <sling:defineObjects/><%
     final String regexp = "/^[^@]+([@]{1})[0-9a-zA-Z\\._-]+([\\.]{1})[0-9a-zA-Z\\._-]+$/";

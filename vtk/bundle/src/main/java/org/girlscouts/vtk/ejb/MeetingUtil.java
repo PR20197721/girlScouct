@@ -1,11 +1,13 @@
 package org.girlscouts.vtk.ejb;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -42,8 +44,11 @@ import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
+import org.girlscouts.vtk.models.SentEmail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+
 
 @Component
 @Service(MeetingUtil.class)
@@ -88,8 +93,9 @@ public class MeetingUtil {
 				MeetingE meeting = orgMeetings.get(i);
 				int newpos = newPoss.indexOf(i + 1);
 				meeting.setId(newpos);
+				meeting.setDbUpdate(true);
 				newMeeting.set(newpos, meeting);
-
+				
 			}
 		} catch (Exception e) {
 			log.error("ERROR : MeetingUtil.updateMeetingPos");
@@ -287,6 +293,7 @@ public class MeetingUtil {
 		YearPlan plan = troop.getYearPlan();
 		plan.setMeetingEvents(rearangedMeetings);
 		plan.setAltered("true");
+		plan.setDbUpdate(true);
 		troop.setYearPlan(plan);
 
 		troopUtil.updateTroop(user, troop);
@@ -369,12 +376,14 @@ public class MeetingUtil {
 		for (int i = 0; i < activities.size(); i++) {
 			Activity activity = activities.get(i);
 
-			if (activity.getPath().equals(activityPath))
+			if (activity.getPath().equals(activityPath)){
 				activities.remove(activity);
+				troopDAO.removeActivity(user, troop, activity);
+			}
 		}
 
-		troopUtil.updateTroop(user, troop);
-
+		//troopUtil.updateTroop(user, troop);
+		
 	}
 
 	public void swapMeetings(User user, Troop troop, String fromPath,
@@ -510,7 +519,7 @@ public class MeetingUtil {
 				maxMeetEId = troop.getYearPlan().getMeetingEvents().get(i)
 						.getId();
 		meeting.setId(maxMeetEId + 1);
-
+		meeting.setDbUpdate(true);
 		troop.getYearPlan().getMeetingEvents().add(meeting);
 
 		if (troop.getYearPlan().getSchedule() != null) {
@@ -691,7 +700,7 @@ public class MeetingUtil {
 		}
 
 	}
-
+	
 	public void addAids(User user, Troop troop, String aidId, String meetingId,
 			String assetName, String docType)
 			throws java.lang.IllegalAccessException {
@@ -868,10 +877,11 @@ public class MeetingUtil {
 				for (int y = 0; y < assets.size(); y++) {
 					if (assets.get(y).getRefId().equals(aidId)) {
 						assets.remove(y);
+						troopDAO.removeAsset(user, troop, assets.get(y));
 					}
 				}
 				// troop.getYearPlan().setAltered("true");
-				troopUtil.updateTroop(user, troop);
+				//troopUtil.updateTroop(user, troop);
 				return;
 			}
 		}
@@ -1160,10 +1170,12 @@ public class MeetingUtil {
 		java.util.List<MeetingE> meetings = troop.getYearPlan()
 				.getMeetingEvents();
 		for (int i = 0; i < meetings.size(); i++) {
-			if (meetings.get(i).getRefId().equals(meetingRefId))
+			if (meetings.get(i).getRefId().equals(meetingRefId)){
+				troopDAO.removeMeeting(user, troop, meetings.get(i));
 				meetings.remove(i);
+			}
 		}
-		troopUtil.updateTroop(user, troop);
+		//troopUtil.updateTroop(user, troop);
 		isRemoved = true;
 		return isRemoved;
 	}
@@ -1349,6 +1361,35 @@ public class MeetingUtil {
 		return false;
 	}
 	
-	
+	public void saveEmail(User user, Troop troop, String meetingId){
+
+		java.util.List<MeetingE> meetings = troop.getYearPlan()
+				.getMeetingEvents();
+		for (int i = 0; i < meetings.size(); i++) {
+			MeetingE meeting = meetings.get(i);
+			if (meeting.getUid().equals(meetingId)) {
+				try{
+					SentEmail email = new SentEmail(troop.getSendingEmail());
+					java.util.List<SentEmail> emails = meeting.getSentEmails();
+					emails = emails == null? new java.util.ArrayList<SentEmail>() :emails;
+					emails.add(email);
+
+					meeting.setSentEmails(emails);
+					if(meeting.getEmlTemplate()==null){
+						meeting.setEmlTemplate(troop.getSendingEmail().getTemplate());
+					}
+					meetingDAO.updateMeetingEvent(user, troop, meeting);
+					return;
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+			//java.util.List<Activity> activities = troop.getYearPlan().getActivities();
+		}
+
+	}
+
+
+
 
 }

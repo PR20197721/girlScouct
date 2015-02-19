@@ -1,9 +1,10 @@
 <%@ page
     import="java.util.Arrays,java.util.Iterator,
+    java.util.regex.Matcher,
+    java.util.regex.Pattern,
     java.util.List"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
-
 <%
 String[] link = properties.get("links", String[].class);
 String gs_us_path = currentPage.getAbsoluteParent(2).getPath();
@@ -43,6 +44,7 @@ public void buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_pat
 						menuBuilder.append(createHref(page));
 						menuBuilder.append("</div>");
 						remainderStrings.append("</li>");
+
 					}else{
 						menuBuilder.append("<li>");
 						menuBuilder.append("<div>");
@@ -106,12 +108,16 @@ public void buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_pat
 					}
 				}
 				if(!displayInHamburger.equalsIgnoreCase("true")){
-					if((currtPath.indexOf(menuPath)==0) || (currtPath.startsWith(menuPath))){
+                    Matcher matcher = Pattern.compile("/[^/]+/[^/]+/[^/]+/[^/]+").matcher(menuPath);
+                    if (matcher.find()) {
+                         menuPath = matcher.group(0);
+                    }
+                    if((currtPath.indexOf(menuPath)==0) || (currtPath.startsWith(menuPath))){
 					%>
 						<%if((rootPath!=null) && (rootPage.getPath().equals(currtPath))){
 				     		 %><li class="active">
 						<% } else{%>
-							<li>
+                           <li>
 				 			<%}%>
 				  		<div><a href="<%=path%>" <%= newWindow %>><%=label %></a></div>
 				  		<% if(currtPath.indexOf(menuPath)==0 || currtPath.startsWith(menuPath)){
@@ -132,7 +138,7 @@ public void buildMenu(Iterator<Page> iterPage, String rootPath, String gs_us_pat
 					<div><a href="<%= path %>"<%= newWindow %>><%= label %></a></div></li>
 				<% } %>
 				<%
-				}catch(Exception e){}
+				}catch(Exception e){%><script>console.log("Something went wrong - Eyebrow Nav");</script><%}
  			}
  		}%>
 		

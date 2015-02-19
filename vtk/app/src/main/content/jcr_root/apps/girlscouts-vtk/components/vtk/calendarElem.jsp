@@ -69,7 +69,6 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 
 <script>
 $(function() {
-    //$( "#cngDate0" ).datepicker({minDate: 0});
 	$( "#datepicker" ).datepicker({
 		  defaultDate: new Date ('<%=date%>'),
 		  minDate: 0,
@@ -80,8 +79,8 @@ $(function() {
 		      document.getElementById("cngDate0").value =dateAsString;
 		      
 		   }
-		  });
-  });
+	});
+});
 </script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.extensions.js"></script>
@@ -142,9 +141,9 @@ $('#saveCalElem').click(function() {
 		   fnOpenNormalDialog();
 	}
 	else if($("#cngRadio").prop("checked")){
-		
+
 		if ($('#frmCalElem').valid()) {
-			
+		
 			if(!timeDiff()){ return false;}
 			
 			  updSched1('0','<%=meeting.getPath()%>','<%=date.getTime()%>');
