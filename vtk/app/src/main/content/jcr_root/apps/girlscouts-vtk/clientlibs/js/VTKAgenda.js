@@ -187,6 +187,26 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
         this.add(new CQ.Ext.form.Label({text: "Description"}));
         this.descriptionField = new CQ.form.RichText({
         	rtePlugins: this.RTE_PLUGIN_CONF,
+        	specialCharsConfig: {
+        		chars: {
+        			"em-dash": {
+        				"entity": "&#8212;"
+        			},
+        			"copyright": {
+        				"entity": "&#169;"
+        			},
+        			"registerd": {
+        				"entity": "&#174;",
+        			},
+        			"trademark": {
+        				"entity": "&#8482;",
+        			},
+        			"horizontal-rule": {
+        				"entity": "<hr>"
+        			}	
+        		}
+        	},
+
             listeners: {
                 change: {
                     scope:this,
