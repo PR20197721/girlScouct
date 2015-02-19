@@ -88,8 +88,9 @@ public class MeetingUtil {
 				MeetingE meeting = orgMeetings.get(i);
 				int newpos = newPoss.indexOf(i + 1);
 				meeting.setId(newpos);
+				meeting.setDbUpdate(true);
 				newMeeting.set(newpos, meeting);
-
+				
 			}
 		} catch (Exception e) {
 			log.error("ERROR : MeetingUtil.updateMeetingPos");
@@ -287,6 +288,7 @@ public class MeetingUtil {
 		YearPlan plan = troop.getYearPlan();
 		plan.setMeetingEvents(rearangedMeetings);
 		plan.setAltered("true");
+		plan.setDbUpdate(true);
 		troop.setYearPlan(plan);
 
 		troopUtil.updateTroop(user, troop);
@@ -369,12 +371,14 @@ public class MeetingUtil {
 		for (int i = 0; i < activities.size(); i++) {
 			Activity activity = activities.get(i);
 
-			if (activity.getPath().equals(activityPath))
+			if (activity.getPath().equals(activityPath)){
 				activities.remove(activity);
+				troopDAO.removeActivity(user, troop, activity);
+			}
 		}
 
-		troopUtil.updateTroop(user, troop);
-
+		//troopUtil.updateTroop(user, troop);
+		
 	}
 
 	public void swapMeetings(User user, Troop troop, String fromPath,
@@ -510,7 +514,7 @@ public class MeetingUtil {
 				maxMeetEId = troop.getYearPlan().getMeetingEvents().get(i)
 						.getId();
 		meeting.setId(maxMeetEId + 1);
-
+		meeting.setDbUpdate(true);
 		troop.getYearPlan().getMeetingEvents().add(meeting);
 
 		if (troop.getYearPlan().getSchedule() != null) {
@@ -868,10 +872,11 @@ public class MeetingUtil {
 				for (int y = 0; y < assets.size(); y++) {
 					if (assets.get(y).getRefId().equals(aidId)) {
 						assets.remove(y);
+						troopDAO.removeAsset(user, troop, assets.get(y));
 					}
 				}
 				// troop.getYearPlan().setAltered("true");
-				troopUtil.updateTroop(user, troop);
+				//troopUtil.updateTroop(user, troop);
 				return;
 			}
 		}
@@ -1160,10 +1165,12 @@ public class MeetingUtil {
 		java.util.List<MeetingE> meetings = troop.getYearPlan()
 				.getMeetingEvents();
 		for (int i = 0; i < meetings.size(); i++) {
-			if (meetings.get(i).getRefId().equals(meetingRefId))
+			if (meetings.get(i).getRefId().equals(meetingRefId)){
+				troopDAO.removeMeeting(user, troop, meetings.get(i));
 				meetings.remove(i);
+			}
 		}
-		troopUtil.updateTroop(user, troop);
+		//troopUtil.updateTroop(user, troop);
 		isRemoved = true;
 		return isRemoved;
 	}

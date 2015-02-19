@@ -31,9 +31,12 @@
 		return false;
 	}
 
+
 	// Feature set toggles
-	String SHOW_BETA = "showBeta";
-	String[] ENABLED_FEATURES = new String[] {SHOW_BETA};
+	boolean SHOW_BETA = false; // controls feature for all users -- don't set this to true unless you know what I'm talking about
+	String SHOW_BETA_FEATURE = "showBeta"; // request parameter to control feature per user session
+	String SESSION_FEATURE_MAP = "sessionFeatureMap"; // session attribute to hold map of enabled features
+	String[] ENABLED_FEATURES = new String[] {SHOW_BETA_FEATURE};
 
 %>
 <%
@@ -59,13 +62,13 @@
 	int timeout = session.getMaxInactiveInterval();
 	response.setHeader("Refresh", timeout + "; URL = /content/girlscouts-vtk/en/vtk.logout.html");
 
-	if (session.getAttribute("SESSION_FEATURE_MAP") == null) {
-		session.setAttribute("SESSION_FEATURES", new HashSet<String>());
+	if (session.getAttribute(SESSION_FEATURE_MAP) == null) {
+		session.setAttribute(SESSION_FEATURE_MAP, new HashSet<String>());
 	}
-	Set sessionFeatures = (Set) session.getAttribute("SESSION_FEATURES");
+	Set sessionFeatures = (Set) session.getAttribute(SESSION_FEATURE_MAP);
 	for (String enabledFeature: ENABLED_FEATURES) {
 		if (request.getParameter(enabledFeature) != null) {
-			String thisFeatureValue = ((String) request.getParameter(enabledFeature)).toLowerCase();
+			String thisFeatureValue = ((String) request.getParameter(enabledFeature)).trim().toLowerCase();
 			if ("true".equals(thisFeatureValue) || "yes".equals(thisFeatureValue) ) {
 				if (!sessionFeatures.contains(enabledFeature)) {
 					sessionFeatures.add(enabledFeature);
@@ -77,7 +80,6 @@
 			}
 		}
 	}
-	session.setAttribute("SESSION_FEATURES", sessionFeatures);
 	
 	org.girlscouts.vtk.auth.models.ApiConfig apiConfig = null;
 	try {
@@ -186,7 +188,7 @@
 		}
 		
 		
-		//troop.setApiConfig(apiConfig);
+		
 		troop.setTroop(prefTroop);
 		troop.setSfTroopId(troop.getTroop().getTroopId());
 		troop.setSfUserId( user.getApiConfig().getUserId() ); //troop.getApiConfig().getUserId());

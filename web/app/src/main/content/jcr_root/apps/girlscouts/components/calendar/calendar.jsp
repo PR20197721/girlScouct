@@ -38,6 +38,12 @@
 			Node node =   resourceResolver.getResource(path).adaptTo(Node.class);
 			if(node.hasNode("jcr:content/data")) {
 				Node propNode = node.getNode("jcr:content/data");
+
+				//End should never be null. If end is null, the event may be stretched
+                if(!propNode.hasProperty("end")){
+					propNode.setProperty("end",propNode.getProperty("start").getString());
+                }
+
 				JSONObject obj = new JSONObject();
 				
 				if(propNode.hasProperty("end")){
@@ -84,15 +90,24 @@
 						cal2.setTime(endDate.getTime());
 						boolean sameDay = cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
 					                  cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
+                        boolean sameTime = cal1.get(Calendar.HOUR_OF_DAY) == cal2.get(Calendar.HOUR_OF_DAY) && 
+                            		  cal1.get(Calendar.MINUTE) == cal2.get(Calendar.MINUTE);
 						String endDateStr = dateFormat.format(endDt.getTime());
 						String endTimeStr = timeFormat.format(endDt.getTime());
-						
-						if (!sameDay) {
+
+                        if (!sameDay && !sameTime) {
 					 	  	dateStr += " - " + endDateStr +", " + endTimeStr;
-						}else{
+						}else if(!sameTime){
 							dateStr += " - " + endTimeStr;
 						}
 	            	  }
+                    
+					//Add time zone label to date string if event has one
+               		String timeZoneLabel = propNode.hasProperty("timezone") ? propNode.getProperty("timezone").getString() : "";
+					if(!timeZoneLabel.isEmpty()){
+						dateStr = dateStr + " " + timeZoneLabel;
+					}
+
 					if(propNode.hasProperty("color")){
 	            		 color = propNode.getProperty("color").getString();
 	            	}

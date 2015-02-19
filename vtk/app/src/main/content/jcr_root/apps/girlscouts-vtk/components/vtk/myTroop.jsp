@@ -10,13 +10,13 @@
 <%@include file="include/tab_navigation.jsp"%>
 <div id="panelWrapper" class="row content">
 <%
-	if (!sessionFeatures.contains(SHOW_BETA)) {
+	if (SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) {
 %>
-<%@include file="myTroopOff.jsp"%>
+<%@include file="mytroop_react.jsp"%>
 <%
         } else {
 %>
-<%@include file="mytroop_react.jsp"%>
+<%@include file="myTroopOff.jsp"%>
 <%
 	}
 %>
