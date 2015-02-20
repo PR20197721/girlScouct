@@ -106,7 +106,7 @@
       	for(int i=0;i<planView.getAidTags().size();i++) { 
 						String ext = planView.getAidTags().get(i).getDocType();
 						if(ext == null) {
-						  ext = "pdf";
+							ext= org.girlscouts.vtk.utils.GSUtils.getDocExtensionFromString(planView.getAidTags().get(i).getRefId());
 						}
       	%>
       		<li class="icon <%=ext%>"><span class="name"><%= planView.getAidTags().get(i).getTitle() %></span></li>
