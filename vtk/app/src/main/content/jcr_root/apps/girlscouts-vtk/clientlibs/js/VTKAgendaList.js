@@ -36,8 +36,13 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
         this.add(this.hiddenField);
 
         var form = this.findParentByType("form");
+
+        this.name = '';
         form.on('beforeaction', function(){
         	this.hiddenField.setValue(this.getValue());
+        	for (var i = 0; i < this.items.length; i++) {
+        		alert(this.items[i].getValue());
+        	}
         }, this);
     },
 
@@ -72,7 +77,7 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
         	}
         }
 
-        //agendaItems.sort(function(a, b){return a.activityNumber - b.activityNumber});
+        agendaItems.sort(function(a, b){return a.activityNumber - b.activityNumber});
 
         for (var i = 0; i < agendaItems.length; i++) {
         	this.addItem(agendaItems[i]);
@@ -84,8 +89,8 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
         var value = '';
         this.items.each(function(item, index/*, length*/) {
             if (item instanceof CQ.form.MultiField.Item) {
-                //value[index] = item.getValue();
-                value += '[' + index + '^' + item.getValue() + ']';
+            	var agendaItem = item.getValue();
+                value += '[' + index + '^' + agendaItem.name + '^' + agendaItem.duration + ']';
                 index++;
             }
         }, this);
