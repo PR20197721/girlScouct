@@ -45,7 +45,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 
 	@Reference
 	private UserUtil userUtil;
-	
+
 	@Reference
 	org.girlscouts.vtk.helpers.CouncilMapper councilMapper;
 
@@ -199,9 +199,9 @@ public class CouncilDAOImpl implements CouncilDAO {
 			}
 		}
 	}
-	
+
 	public java.util.List<Milestone> getCouncilMilestones(String councilCode) {
-		
+
 		MilestonesCollection list = getMilestonesCollection(councilCode);
 		java.util.List<Milestone> milestones = list.getMilestones();
 		Comparator<Milestone> comp = new BeanComparator("date");
@@ -209,16 +209,16 @@ public class CouncilDAOImpl implements CouncilDAO {
 
 		return milestones;
 	}
-	
-	public MilestonesCollection getMilestonesCollection(String councilCode) {
 
-//		String councilStr = councilMapper.getCouncilBranch(councilCode);
-//		councilStr = councilStr.replace("/content/", "");
-		
-//		if (user != null
-//				&& !userUtil.hasPermission(user.getPermissions(),
-//						Permission.PERMISSION_LOGIN_ID))
-//			throw new IllegalAccessException();
+	private MilestonesCollection getMilestonesCollection(String councilCode) {
+
+		//		String councilStr = councilMapper.getCouncilBranch(councilCode);
+		//		councilStr = councilStr.replace("/content/", "");
+
+		//		if (user != null
+		//				&& !userUtil.hasPermission(user.getPermissions(),
+		//						Permission.PERMISSION_LOGIN_ID))
+		//			throw new IllegalAccessException();
 
 		Session session = null;
 		MilestonesCollection list = null;
@@ -244,18 +244,18 @@ public class CouncilDAOImpl implements CouncilDAO {
 					//create council, need user permission
 				}
 				list = new MilestonesCollection(path); 
-//				milestones = new ArrayList<Milestone>();
-//				milestones.add(new Milestone("Cookie Sales Start",true,null));
-//				milestones.add(new Milestone("Cookie Sales End",true,null));
-//				milestones.add(new Milestone("Re-Enroll Girls",true,null));
+				//				milestones = new ArrayList<Milestone>();
+				//				milestones.add(new Milestone("Cookie Sales Start",true,null));
+				//				milestones.add(new Milestone("Cookie Sales End",true,null));
+				//				milestones.add(new Milestone("Re-Enroll Girls",true,null));
 				List<Milestone> milestones = getAllMilestones(councilCode);
-//				Comparator<Milestone> comp = new BeanComparator("uid");
-//				Collections.sort(milestones, comp);
+				//				Comparator<Milestone> comp = new BeanComparator("uid");
+				//				Collections.sort(milestones, comp);
 				list.setMilestones(milestones);
 				ocm.insert(list);
 				ocm.save();
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -270,11 +270,11 @@ public class CouncilDAOImpl implements CouncilDAO {
 	}
 
 	public void updateCouncilMilestones(java.util.List<Milestone> milestones, String cid) {
-		
-//		if (user != null
-//				&& !userUtil.hasPermission(user.getPermissions(),
-//						Permission.PERMISSION_LOGIN_ID))
-//			throw new IllegalAccessException();
+
+		//		if (user != null
+		//				&& !userUtil.hasPermission(user.getPermissions(),
+		//						Permission.PERMISSION_LOGIN_ID))
+		//			throw new IllegalAccessException();
 		Session session = null;
 		try {
 			session = sessionFactory.getSession();
@@ -285,39 +285,46 @@ public class CouncilDAOImpl implements CouncilDAO {
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
-			QueryManager queryManager = ocm.getQueryManager();
-			Filter filter = queryManager.createFilter(MilestonesCollection.class);
-			String path = "/vtk/" + cid + "/milestones";
-			if(session.itemExists(path)){
-				MilestonesCollection list = (MilestonesCollection)ocm.getObject(path);
-				java.util.List<Milestone> oldMilestones = list.getMilestones();
-				int removed =0;
-				for (int i = 0; i < oldMilestones.size(); i++) {
-					for(int j=0; j<=i-removed ; j++){
-						if(oldMilestones.get(i).getBlurb().equals(milestones.get(j).getBlurb())){
-							oldMilestones.set(i,milestones.get(j));
-							ocm.update(oldMilestones.get(i));
-							milestones.remove(j);
-							removed++;
-							break;
-						}
-					}
-					removed++;
-					ocm.remove(oldMilestones.get(i));
+
+			MilestonesCollection list = getMilestonesCollection(cid);
+			java.util.List<Milestone> oldMilestones = list.getMilestones();
+			Comparator<Milestone> comp = new BeanComparator("date");
+			Collections.sort(oldMilestones, comp);
+
+
+			//int removed =0;
+			int i=0;
+			for (; i < oldMilestones.size(); i++) {
+				if(oldMilestones.get(i).getBlurb().equals(milestones.get(i).getBlurb())){
+					oldMilestones.set(i,milestones.get(i));
+					//ocm.update(oldMilestones.get(i));
+					//removed++;
+					break;
+				}else{
+					oldMilestones.remove(i);
+					i--;
 				}
-				for(int i=0;i<milestones.size(); i++){
-					milestones.get(i).setPath(path+"/"+milestones.get(i).getUid());
-					ocm.insert(milestones.get(i));
-				}
-				ocm.save();
-				
-			}else{
-				MilestonesCollection list = new MilestonesCollection(path); 
-				list.setMilestones(milestones);
-				ocm.insert(list);
-				ocm.save();
+				//					for(int j=0; j<=i-removed ; j++){
+				//						if(oldMilestones.get(i).getBlurb().equals(milestones.get(j).getBlurb())){
+				//							oldMilestones.set(i,milestones.get(j));
+				//							ocm.update(oldMilestones.get(i));
+				//							milestones.remove(j);
+				//							removed++;
+				//							break;
+				//						}
+				//					}
+				//					removed++;
+				//					ocm.remove(oldMilestones.get(i));
 			}
-			
+			for(int k=i;k<milestones.size(); k++){
+				//					milestones.get(k).setPath(path+"/"+milestones.get(k).getUid());
+				//					ocm.insert(milestones.get(k));
+				oldMilestones.add(milestones.get(k));
+			}
+			list.setMilestones(oldMilestones);
+			ocm.update(list);
+			ocm.save();
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -329,7 +336,6 @@ public class CouncilDAOImpl implements CouncilDAO {
 			}
 		}
 	}
-	
 
 
 	public java.util.List<Milestone> getAllMilestones(String councilCode) {
@@ -364,6 +370,6 @@ public class CouncilDAOImpl implements CouncilDAO {
 		}
 		return milestones;
 	}
-	
+
 
 }

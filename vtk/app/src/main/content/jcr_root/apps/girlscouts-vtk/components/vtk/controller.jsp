@@ -605,7 +605,15 @@
 
 
 			for (int i = 0; i < blurbs.length; i++) {
-				Milestone m = new Milestone(blurbs[i],shows[i].equals("true"),FORMAT_MMddYYYY.parse(dates[i]));
+				String blurb = blurbs[i];
+				if(blurb==null || blurb.trim().isEmpty()){break;}
+				boolean show = shows[i].equals("true");
+				Date date=null;
+				if(!dates[i].isEmpty()){
+					date = FORMAT_MMddYYYY.parse(dates[i]);
+				}
+				
+				Milestone m = new Milestone(blurb,show,date);
 				milestones.add(m);
 			}
 

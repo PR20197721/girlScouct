@@ -83,12 +83,13 @@ String councilId= request.getParameter("cid")==null? Integer.toString(councilCod
 
       <section class="row">
         <div class="column large-2">
-          <a onclick = "newEntry()" title="add-entry"><i class="icon-button-circle-plus"></i>Add a  Milestone</a>
+          <a onclick = "newEntry()" title="add-entry"><i class="icon-button-circle-plus"></i></a>
         </div>
+        <p>Add a  Milestone</p>
+        
       </section>
       <section class="row">
         <input type="submit" name="saveCouncilMilestones" value="Save To Plans" class="btn right button"/>
-        
       </section>
 
     </form>
@@ -99,7 +100,6 @@ String councilId= request.getParameter("cid")==null? Integer.toString(councilCod
 	var n;
 	$(document).ready(function(){
 		$( ".datepicker" ).datepicker();
-		//n = $('#MileStoneTable tr').length-1;
 		n=$('#MileStoneForm #ms-section').length-1;;
 	});
 		
@@ -118,9 +118,6 @@ String councilId= request.getParameter("cid")==null? Integer.toString(councilCod
 		
 	});
 
-/*    $(function() {
-	  $("input[name='ms_date[]']").datepicker();  
-  });  */
 
   function newEntry(){
 	  $('#MileStoneForm section#ms-section').last().after('<section id="ms-section" class="row"></section>');
@@ -129,11 +126,7 @@ String councilId= request.getParameter("cid")==null? Integer.toString(councilCod
 	  $('#MileStoneForm section#ms-section').last().append('<div class="column large-4 large-push-2"><input type="text" id="date'+n+'" class="datepicker" name="ms_date[]" /></div>');
 	  $('#MileStoneForm section#ms-section').last().append('<div class="column large-1 large-push-2"><label for="date'+n+'"><a class="icon-calendar"></a></label></div>');
 	  $('#MileStoneForm section#ms-section').last().append('<div class="column large-2 large-pull-5"><input type="checkbox" id="ch_'+n+'" name="ms_show[]" unchecked/><label for="ch_'+n+'"></label></div>');
-	  /* $("#entry"+n).append("<td><i id='remove-entry' class='icon-button-circle-cross' style='color: green'></i></td>");
-      $("#entry"+n).append("<td><input type='text' id='blurb"+n+"' name='ms_blurb[]' placeholder='Enter a Milestone'/></td>");
-	  $("#entry"+n).append("<td><input type='text' id='date"+n+"' name='ms_date[]' placeholder='  /  /    '/></td>");
-	  $("#entry"+n).append("<td><input type='checkbox' id='show"+n+"' name='ms_show[]' value='unchecked'/></td></tr>"); */
- 	  n++; 
+	  n++; 
   }; 
   
 </script>
