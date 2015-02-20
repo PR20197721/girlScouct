@@ -41,7 +41,6 @@
                         <Bundle-SymbolicName>org.girlscouts.vtk.boon-wrapper</Bundle-SymbolicName>
                         <Import-Package>
                             com.sun.management.*;resolution:=optional,
-                            sun.misc.*;resolution:=optional,
                             *
                         </Import-Package>
                         <Export-Package>org.boon.core.*</Export-Package>

@@ -142,6 +142,11 @@
                             <target>/apps/girlscouts-vtk/install</target>
                         </embedded>
                         <embedded>
+                            <groupId>com.github.livesense</groupId>
+                            <artifactId>org.liveSense.fragment.sun.misc</artifactId>
+                            <target>/apps/girlscouts-vtk/install</target>
+                        </embedded>
+                        <embedded>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>modified-checker-bundle</artifactId>
                             <target>/apps/girlscouts-vtk/install</target>
@@ -183,6 +188,11 @@
                                     <embedded>
                                         <groupId>${project.groupId}</groupId>
                                         <artifactId>beanutils-wrapper</artifactId>
+                                        <target>/apps/girlscouts-vtk/install</target>
+                                    </embedded>
+                                    <embedded>
+                                        <groupId>com.github.livesense</groupId>
+                                        <artifactId>org.liveSense.fragment.sun.misc</artifactId>
                                         <target>/apps/girlscouts-vtk/install</target>
                                     </embedded>
                                     <embedded>
