@@ -1,0 +1,29 @@
+Manifest-Version: 1.0
+Bnd-LastModified: 1424390948933
+Build-Jdk: 1.6.0_65
+Built-By: akobovich
+Bundle-ClassPath: .,boon-0.30.jar
+Bundle-Description: Maven Multimodule project for Girl Scouts Volunteer 
+ Toolkit.
+Bundle-ManifestVersion: 2
+Bundle-Name: Girl Scouts boon Wrapper
+Bundle-SymbolicName: org.girlscouts.vtk.boon-wrapper
+Bundle-Version: 1.0.0.SNAPSHOT
+Created-By: Apache Maven Bundle Plugin
+Embed-Dependency: *;scope=compile|runtime
+Embed-Transitive: true
+Embedded-Artifacts: boon-0.30.jar;g="io.fastjson";a="boon";v="0.30"
+Export-Package: org.boon.core;uses:="org.boon.core.reflection,com.sun.ma
+ nagement,org.boon.core.timer";version="1.0.0.SNAPSHOT",org.boon.core.re
+ flection.impl;uses:="org.boon.core.reflection,org.boon.core";version="1
+ .0.0.SNAPSHOT",org.boon.core.timer;uses:="org.boon.core";version="1.0.0
+ .SNAPSHOT",org.boon.core.reflection.fields;uses:="org.boon.core,org.boo
+ n.core.value,org.boon.core.reflection,sun.misc";version="1.0.0.SNAPSHOT
+ ",org.boon.core.value;uses:="org.boon.core,org.boon.core.reflection";ve
+ rsion="1.0.0.SNAPSHOT",org.boon.core.reflection;uses:="org.boon.core,or
+ g.boon.core.reflection.fields,org.boon.core.reflection.impl,sun.misc,or
+ g.boon.core.value";version="1.0.0.SNAPSHOT"
+Import-Package: com.sun.management;resolution:=optional,javax.management
+ ,javax.management.openmbean,org.boon.core.timer,sun.misc;resolution:=op
+ tional
+Tool: Bnd-1.50.0
