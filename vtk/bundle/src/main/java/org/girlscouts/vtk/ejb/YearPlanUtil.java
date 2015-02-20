@@ -273,9 +273,10 @@ if( endDate ==null ) endDate = cal.getTime();
 				meeting);
 	}
 
-	public void saveCouncilMilestones(java.util.List<Milestone> milestones) {
-		
-		meetingDAO.saveCouncilMilestones(milestones);
+	public void saveCouncilMilestones(java.util.List<Milestone> milestones, String cid) {
+		councilDAO.saveCouncilMilestones(milestones,cid);
+
+		//meetingDAO.saveCouncilMilestones(milestones);
 	}
 
 	public java.util.List<Activity> searchA1(User user, Troop troop,

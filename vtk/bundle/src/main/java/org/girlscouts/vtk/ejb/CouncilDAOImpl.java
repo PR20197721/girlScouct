@@ -201,6 +201,16 @@ public class CouncilDAOImpl implements CouncilDAO {
 	}
 	
 	public java.util.List<Milestone> getCouncilMilestones(String councilCode) {
+		
+		MilestonesCollection list = getMilestonesCollection(councilCode);
+		java.util.List<Milestone> milestones = list.getMilestones();
+		Comparator<Milestone> comp = new BeanComparator("date");
+		Collections.sort(milestones, comp);
+
+		return milestones;
+	}
+	
+	public MilestonesCollection getMilestonesCollection(String councilCode) {
 
 //		String councilStr = councilMapper.getCouncilBranch(councilCode);
 //		councilStr = councilStr.replace("/content/", "");
@@ -211,7 +221,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 //			throw new IllegalAccessException();
 
 		Session session = null;
-		java.util.List<Milestone> milestones = null;
+		MilestonesCollection list = null;
 		try {
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
@@ -227,21 +237,18 @@ public class CouncilDAOImpl implements CouncilDAO {
 
 			String path = "/vtk/" + councilCode + "/milestones";
 			if(session.itemExists(path)){
-				MilestonesCollection list = (MilestonesCollection)ocm.getObject(path);
-				milestones = list.getMilestones();
-				Comparator<Milestone> comp = new BeanComparator("uid");
-				Collections.sort(milestones, comp);
+				list = (MilestonesCollection)ocm.getObject(path);
 
 			}else{
 				if(!session.itemExists("/vtk/" + councilCode)){
 					//create council, need user permission
 				}
-				MilestonesCollection list = new MilestonesCollection(path); 
+				list = new MilestonesCollection(path); 
 //				milestones = new ArrayList<Milestone>();
 //				milestones.add(new Milestone("Cookie Sales Start",true,null));
 //				milestones.add(new Milestone("Cookie Sales End",true,null));
 //				milestones.add(new Milestone("Re-Enroll Girls",true,null));
-				milestones = getAllMilestones(councilCode);
+				List<Milestone> milestones = getAllMilestones(councilCode);
 //				Comparator<Milestone> comp = new BeanComparator("uid");
 //				Collections.sort(milestones, comp);
 				list.setMilestones(milestones);
@@ -259,10 +266,10 @@ public class CouncilDAOImpl implements CouncilDAO {
 				ex.printStackTrace();
 			}
 		}
-		return milestones;
+		return list;
 	}
 
-	public void saveCouncilMilestones(java.util.List<Milestone> milestones, String cid) {
+	public void updateCouncilMilestones(java.util.List<Milestone> milestones, String cid) {
 		
 //		if (user != null
 //				&& !userUtil.hasPermission(user.getPermissions(),
@@ -322,6 +329,9 @@ public class CouncilDAOImpl implements CouncilDAO {
 			}
 		}
 	}
+	
+
+
 	public java.util.List<Milestone> getAllMilestones(String councilCode) {
 		String councilPath = councilMapper.getCouncilBranch(councilCode);
 		java.util.List<Milestone> milestones = null;

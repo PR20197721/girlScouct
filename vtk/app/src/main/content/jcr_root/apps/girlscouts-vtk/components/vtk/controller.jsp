@@ -592,7 +592,7 @@
 
 			}
 
-			yearPlanUtil.saveCouncilMilestones(milestones);
+			//yearPlanUtil.saveCouncilMilestones(milestones);
 			response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
 
 		} else if (request.getParameter("saveCouncilMilestones") != null) {
@@ -605,13 +605,11 @@
 
 
 			for (int i = 0; i < blurbs.length; i++) {
-
-				Milestone m = new Milestone(blurbs[0],shows[0].equals("true"),FORMAT_MMddYYYY.parse(dates[0]));
-				
-
+				Milestone m = new Milestone(blurbs[i],shows[i].equals("true"),FORMAT_MMddYYYY.parse(dates[i]));
+				milestones.add(m);
 			}
 
-			//yearPlanUtil.saveCouncilMilestones(milestones);
+			yearPlanUtil.saveCouncilMilestones(milestones,councilId);
 			response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
 
 		} else if (request.getParameter("createCouncilMilestones") != null) {
