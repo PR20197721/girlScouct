@@ -232,10 +232,11 @@ public class CouncilDAOImpl implements CouncilDAO {
 
 			}else{
 				MilestonesCollection list = new MilestonesCollection(path); 
-				milestones = new ArrayList<Milestone>();
-				milestones.add(new Milestone("Cookie Sales Start",true,null));
-				milestones.add(new Milestone("Cookie Sales End",true,null));
-				milestones.add(new Milestone("Re-Enroll Girls",true,null));
+//				milestones = new ArrayList<Milestone>();
+//				milestones.add(new Milestone("Cookie Sales Start",true,null));
+//				milestones.add(new Milestone("Cookie Sales End",true,null));
+//				milestones.add(new Milestone("Re-Enroll Girls",true,null));
+				milestones = getAllMilestones(councilCode);
 				list.setMilestones(milestones);
 				ocm.insert(list);
 				ocm.save();
@@ -280,23 +281,24 @@ public class CouncilDAOImpl implements CouncilDAO {
 				for (int i = 0; i < oldMilestones.size(); i++) {
 					for(int j=0; j<=i-removed ; j++){
 						if(oldMilestones.get(i).getBlurb().equals(milestones.get(j).getBlurb())){
-							oldMilestones.get(i)=milestones.get(j);
+							oldMilestones.set(i,milestones.get(j));
 							ocm.update(oldMilestones.get(i));
 							milestones.remove(j);
 							removed++;
+							break;
 						}
 					}
 					removed++;
 					ocm.remove(oldMilestones.get(i));
 				}
+				for(int i=0;i<milestones.size(); i++){
+					milestones.get(i).setPath(path+"/"+milestones.get(i).getUid());
+					ocm.insert(milestones.get(i));
+				}
+				ocm.save();
 				
-
 			}else{
 				MilestonesCollection list = new MilestonesCollection(path); 
-				milestones = new ArrayList<Milestone>();
-				milestones.add(new Milestone("Cookie Sales Start",true,null));
-				milestones.add(new Milestone("Cookie Sales End",true,null));
-				milestones.add(new Milestone("Re-Enroll Girls",true,null));
 				list.setMilestones(milestones);
 				ocm.insert(list);
 				ocm.save();
@@ -313,5 +315,37 @@ public class CouncilDAOImpl implements CouncilDAO {
 			}
 		}
 	}
+	public java.util.List<Milestone> getAllMilestones(String councilCode) {
+		//String councilPath = councilMapper.getCouncilBranch(councilCode);
+		java.util.List<Milestone> milestones = null;
+		Session session = null;
+		try {
+			session = sessionFactory.getSession();
+			List<Class> classes = new ArrayList<Class>();
+			classes.add(Milestone.class);
+
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+					mapper);
+			QueryManager queryManager = ocm.getQueryManager();
+			Filter filter = queryManager.createFilter(Milestone.class);
+			//filter.setScope(councilPath+"/milestones/");
+			filter.setScope("/content/girlscouts-vtk/milestones/");
+			Query query = queryManager.createQuery(filter);
+			milestones = (List<Milestone>)ocm.getObjects(query);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null)
+					sessionFactory.closeSession(session);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		return milestones;
+	}
+	
 
 }

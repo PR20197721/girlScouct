@@ -598,21 +598,20 @@
 		} else if (request.getParameter("saveCouncilMilestones") != null) {
 
 			String councilId = request.getParameter("cid");
+			java.util.List<Milestone> milestones = new ArrayList<Milestone>();
+			String[] blurbs = request.getParameterValues("ms_blurb[]");
+			String[] dates = request.getParameterValues("ms_date[]");
+			String[] shows = request.getParameterValues("ms_show[]");
 
-			java.util.List<Milestone> milestones = yearPlanUtil
-					.getCouncilMilestones(councilId);
-			for (int i = 0; i < milestones.size(); i++) {
 
-				Milestone m = milestones.get(i);
-				String blurb = request.getParameter("blurb" + i);
-				String date = request.getParameter("date" + i);
+			for (int i = 0; i < blurbs.length; i++) {
 
-				m.setBlurb(blurb);
-				m.setDate(new java.util.Date(date));
+				Milestone m = new Milestone(blurbs[0],shows[0].equals("true"),FORMAT_MMddYYYY.parse(dates[0]));
+				
 
 			}
 
-			yearPlanUtil.saveCouncilMilestones(milestones);
+			//yearPlanUtil.saveCouncilMilestones(milestones);
 			response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
 
 		} else if (request.getParameter("createCouncilMilestones") != null) {

@@ -25,9 +25,9 @@ java.util.List<Milestone> milestones = yearPlanUtil.getCouncilMilestones(council
 for(int i=0;i<milestones.size();i++,t++){
 %>
 <tr id="entry<%=t %>">
- <td><i id="remove-entry" class="icon-button-circle-cross" style="color: green"></i></td>
+ <td><i id="delete" class="icon-button-circle-cross" style="color: green"></i></td>
  <td><input type="text" id="blurb<%=t %>" name="ms_blurb[]<%=t %>" value="<%=milestones.get(i).getBlurb()%>"/></td>
- <td><input type="text" id="date<%=t %>" name="ms_date[]<%=t %>"  placeholder="  /  /    " onchange="doChkSubmitValid()" value="<%=milestones.get(i).getDate()==null?"":FORMAT_MMddYYYY.format(milestones.get(i).getDate())%>" onchange="doChkSubmitValid()"/></td>
+ <td><input type="text" id="date<%=t %>" name="ms_date[]<%=t %>"  placeholder="  /  /    "  value="<%=milestones.get(i).getDate()==null?"":FORMAT_MMddYYYY.format(milestones.get(i).getDate())%>"/></td>
  <td><input type="checkbox" id="show<%=t %>" name="ms_show[]<%=t %>" <%=milestones.get(i).getShow()?"checked":"unchecked"%>/></td>
 </tr>
 <%} %>
@@ -60,10 +60,22 @@ for(int i=0;i<milestones.size();i++,t++){
 
 
 <script>
-	$(document).on('click', '#remove-entry', function() {
-		if (confirm('Are you sure you want to delete this milestone?')) {
+	var n;
+	$(document).ready(function(){
+		 n = $('#MileStoneTable tr').length-1;
+	});
+		
+	
+	$(document).on('click', '#delete', function() {
+		//if (confirm('Are you sure you want to delete this milestone?')) {
 		    $(this).parent().parent().remove();
-		} 
+		//} 
+	});
+	
+	$(document).on('click', '#remove-entry', function() {
+		 
+		$(this).parent().parent().remove();
+		
 	});
 
 /*    $(function() {
@@ -71,12 +83,12 @@ for(int i=0;i<milestones.size();i++,t++){
   });  */
 
   function newEntry(){
-	  var n = $('#MileStoneTable tr').length-1;
 	  $('#MileStoneTable tr:last').after('<tr id="entry'+n+'"></tr>');
 	  $("#entry"+n).append("<td><i id='remove-entry' class='icon-button-circle-cross' style='color: green'></i></td>");
       $("#entry"+n).append("<td><input type='text' id='blurb"+n+"' name='ms_blurb[]' placeholder='Enter a Milestone'/></td>");
 	  $("#entry"+n).append("<td><input type='text' id='date"+n+"' name='ms_date[]' placeholder='  /  /    '/></td>");
 	  $("#entry"+n).append("<td><input type='checkbox' id='show"+n+"' name='ms_show[]' value='unchecked'/></td></tr>");
+ 	  n++; 
   }; 
   
 </script>
