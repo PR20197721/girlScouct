@@ -86,11 +86,14 @@ var $ = jQuery.noConflict();
 	  	     },
 	  	 	}
 	  	 });
-	  	 select_tabs();
+	  	// select_tabs();
 	  	 modal_height_on_open();
 	  	 vtk_accordion();
 	  	 validate_image();
 	  	 resizeWindow();
+	  	 if($('.tabs dd').length == 6) {
+	  	 	$('.tabs dd').css('width','100%');
+	  	 }
   });
 
  $(window).resize(function() {

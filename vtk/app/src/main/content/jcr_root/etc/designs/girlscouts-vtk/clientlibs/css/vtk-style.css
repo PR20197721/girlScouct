@@ -855,20 +855,14 @@
 .vtk-body .modal-attendance .content h4 {
   font-size: 24px;
   margin-bottom: 50px; }
-.vtk-body .modal-attendance .content table {
-  border: none; }
-  .vtk-body .modal-attendance .content table tr,
-  .vtk-body .modal-attendance .content table td,
-  .vtk-body .modal-attendance .content table th {
-    background: none; }
-  .vtk-body .modal-attendance .content table p {
-    font-weight: 600;
-    font-size: 17px;
-    text-transform: uppercase;
-    margin-right: 80px; }
-  .vtk-body .modal-attendance .content table thead th,
-  .vtk-body .modal-attendance .content table td:nth-child(n+2) {
-    text-align: center; }
+.vtk-body .modal-attendance .content p {
+  font-weight: 600;
+  font-size: 17px;
+  text-transform: uppercase;
+  margin-right: 80px; }
+.vtk-body .modal-attendance .content thead th,
+.vtk-body .modal-attendance .content td:nth-child(n+2) {
+  text-align: center; }
 .vtk-body .browseMeetingAids a, .vtk-body .browseMeetingAids p, .vtk-body .browseMeetingAids span, .vtk-body .browseMeetingAids input {
   font-size: 14px; }
 .vtk-body #manageCalendarSection .holidays ul li {
@@ -1020,14 +1014,44 @@
         font-size: 14px !important; }
     .vtk-body .accordion .accordion-inner ul.column:first-child {
       margin-left: 27px; }
-.vtk-body table thead,
-.vtk-body table tfoot {
-  background: none; }
 .vtk-body .reveal-modal-bg,
 .vtk-body .ui-widget-overlay {
   background: rgba(0, 0, 0, 0.6) !important;
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.9) !important;
   opacity: 1 !important; }
+.vtk-body table {
+  border: none; }
+  .vtk-body table tr,
+  .vtk-body table td,
+  .vtk-body table th {
+    background: none; }
+.vtk-body #main .milestones input[type=checkbox]:checked + label:before {
+  content: "\e6d7";
+  font-family: "JollyFont";
+  color: green; }
+.vtk-body #main .milestones input[type="checkbox"] {
+  display: none; }
+.vtk-body #main .milestones input[type=checkbox] + label:before {
+  border: solid 1px #ccc;
+  content: "";
+  height: 30px;
+  width: 30px;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+  font-size: 15px;
+  text-align: center;
+  display: inline-block;
+  float: left;
+  padding: 4px; }
+.vtk-body #main .milestones [class^="icon-"],
+.vtk-body #main .milestones [class*=" icon-"] {
+  font-size: 32px; }
+.vtk-body #main .milestones p.column {
+  margin-bottom: 5px;
+  font-weight: 700;
+  text-align: center; }
+  .vtk-body #main .milestones p.column.end {
+    line-height: 32px;
+    text-align: left; }
 
 .inline-list .icon i {
   color: inherit;
