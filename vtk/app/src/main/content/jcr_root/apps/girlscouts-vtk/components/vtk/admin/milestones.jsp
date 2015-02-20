@@ -19,19 +19,20 @@ String councilId= request.getParameter("cid")==null? Integer.toString(councilCod
      <p class="column large-4 large-pull-4">Show in Plans</p>
     </div>
     <form class="clearfix" action="/content/girlscouts-vtk/controllers/vtk.controller.html" method="POST" id="MileStoneForm">
-      <input type="hidden" name="cid" value="<%=councilId%>"/>
-      <section id="mileStone" class="row">
+        <input type="hidden" name="cid" value="<%=councilId%>"/>
     	<%int i=0;
     	java.util.List<Milestone> milestones = yearPlanUtil.getCouncilMilestones(councilId) ;
     	for(; i<milestones.size(); i++ ) { %>
+    	<section id="ms-section" class="row">
+    	
         <div class="column large-1">
-          <a href="" id="delete" title="remove"><i class="icon-button-circle-cross"></i></a>
+          <a id="delete" title="remove" class="icon-button-circle-cross"></a>
         </div>
         <div class="column large-7 large-push-1">
           <input type="text" id="blurb<%=i %>" name="ms_blurb[]" value="<%=milestones.get(i).getBlurb()%>"/>
         </div>
         <div class="column large-4 large-push-2">
-         <input type="text" id="date<%=i %>" class="datepicker" name="ms_date[]"  placeholder="  /  /    "  value="<%=milestones.get(i).getDate()==null?"":FORMAT_MMddYYYY.format(milestones.get(i).getDate())%>"/>
+         <input type="text" id="date<%=i %>" class="datepicker" name="ms_date[]" value="<%=milestones.get(i).getDate()==null?"":FORMAT_MMddYYYY.format(milestones.get(i).getDate())%>"/>
         </div>
         <div class="column large-1 large-push-2">
           <label for="date<%=i %>"><a class="icon-calendar"></a></label>
@@ -40,17 +41,18 @@ String councilId= request.getParameter("cid")==null? Integer.toString(councilCod
           <input type="checkbox" id="ch_<%=i %>" name="ms_show[]" <%=milestones.get(i).getShow()?"checked":"unchecked"%>/>
           <label for="ch_<%=i %>"></label>
         </div>
+        </section>
     	<%}%>
-    	
+    	<section id="ms-section" class="row">
     	<!-- empty entries -->
     	<div class="column large-1">
-          <a href="" id="remove-entry" title="remove"><i class="icon-button-circle-cross"></i></a>
+          <a id="remove-entry" title="remove" class="icon-button-circle-cross"></a>
         </div>
         <div class="column large-7 large-push-1">
           <input type="text" id="blurb<%=i %>" name="ms_blurb[]" placeholder="Enter a Milestone"/>
         </div>
         <div class="column large-4 large-push-2">
-         <input type="text" id="date<%=i %>" class="datepicker" name="ms_date[]"  placeholder="  /  /    "/>
+         <input type="text" id="date<%=i %>" class="datepicker" name="ms_date[]" />
         </div>
         <div class="column large-1 large-push-2">
           <label for="date<%=i %>"><a class="icon-calendar"></a></label>
@@ -59,14 +61,16 @@ String councilId= request.getParameter("cid")==null? Integer.toString(councilCod
           <input type="checkbox" id="ch_<%=i %>" name="ms_show[]" unchecked/>
           <label for="ch_<%=i %>"></label>
         </div>
+        </section>
+        <section id="ms-section" class="row">   
         <div class="column large-1">
-          <a href="" id="remove-entry" title="remove"><i class="icon-button-circle-cross"></i></a>
+          <a id="remove-entry" title="remove"><i class="icon-button-circle-cross"></i></a>
         </div>
         <div class="column large-7 large-push-1">
           <input type="text" id="blurb<%=i+1 %>" name="ms_blurb[]" placeholder="Enter a Milestone"/>
         </div>
         <div class="column large-4 large-push-2">
-         <input type="text" id="date<%=i+1 %>" class="datepicker" name="ms_date[]"  placeholder="  /  /    "/>
+         <input type="text" id="date<%=i+1 %>" class="datepicker" name="ms_date[]" />
         </div>
         <div class="column large-1 large-push-2">
           <label for="date<%=i+1 %>"><a class="icon-calendar"></a></label>
@@ -76,18 +80,17 @@ String councilId= request.getParameter("cid")==null? Integer.toString(councilCod
           <label for="ch_<%=i+1 %>"></label>
         </div>
    	  </section>
-    
+
       <section class="row">
         <div class="column large-2">
-          <a href="" onclick = "newEntry()" title="add-entry"><i class="icon-button-circle-plus"></i></a>
+          <a onclick = "newEntry()" title="add-entry"><i class="icon-button-circle-plus"></i>Add a  Milestone</a>
         </div>
-        <p class="column large-4 end">Add a  Milestone</p>
       </section>
       <section class="row">
-<!--         <button class="btn right button">Save to plans</button>
- -->        <input type="submit" name="saveCouncilMilestones" value="Save To Plans" class="btn right button"/>
+        <input type="submit" name="saveCouncilMilestones" value="Save To Plans" class="btn right button"/>
         
       </section>
+
     </form>
   </div>
 </div>
@@ -97,20 +100,21 @@ String councilId= request.getParameter("cid")==null? Integer.toString(councilCod
 	$(document).ready(function(){
 		$( ".datepicker" ).datepicker();
 		//n = $('#MileStoneTable tr').length-1;
-		//n=$('#MileStone div').length-1;;
-		n=5;
+		n=$('#MileStoneForm #ms-section').length-1;;
 	});
 		
 	
 	$(document).on('click', '#delete', function() {
-		//if (confirm('Are you sure you want to delete this milestone?')) {
-		    $(this).parent().remove();
-		//} 
+		if (confirm('Are you sure you want to delete this milestone?')) {
+		    $(this).parent().parent().remove();
+		} 
+		return false;
 	});
 	
 	$(document).on('click', '#remove-entry', function() {
 		 
-		$(this).parent().remove();
+		$(this).parent().parent().remove();
+		return false;
 		
 	});
 
@@ -119,12 +123,12 @@ String councilId= request.getParameter("cid")==null? Integer.toString(councilCod
   });  */
 
   function newEntry(){
-	  //$('#MileStoneTable tr:last').after('<tr id="entry'+n+'"></tr>');
-	  $('#mileStone').append('<div class="column large-1"><a href="" id="remove-entry" title="remove"><i class="icon-button-circle-cross"></i></a></div>');
-	  $('#mileStone').append('<div class="column large-7 large-push-1"><input type="text" id="blurb'+n+'" name="ms_blurb[]" placeholder="Enter a Milestone"/></div>');
-	  $('#mileStone').append('<div class="column large-4 large-push-2"><input type="text" id="date'+n+'" class="datepicker" name="ms_date[]"  placeholder="  /  /    "/></div>');
-	  $('#mileStone').append('<div class="column large-1 large-push-2"><label for="date'+n+'"><a class="icon-calendar"></a></label></div>');
-	  $('#mileStone').append('<div class="column large-2 large-pull-5"><input type="checkbox" id="ch_'+n+'" name="ms_show[]" unchecked/><label for="ch_'+n+'"></label></div>');
+	  $('#MileStoneForm section#ms-section').last().after('<section id="ms-section" class="row"></section>');
+	  $('#MileStoneForm section#ms-section').last().append('<div class="column large-1"><a id="remove-entry" title="remove" class="icon-button-circle-cross"></a></div>');
+	  $('#MileStoneForm section#ms-section').last().append('<div class="column large-7 large-push-1"><input type="text" id="blurb'+n+'" name="ms_blurb[]" placeholder="Enter a Milestone"/></div>');
+	  $('#MileStoneForm section#ms-section').last().append('<div class="column large-4 large-push-2"><input type="text" id="date'+n+'" class="datepicker" name="ms_date[]" /></div>');
+	  $('#MileStoneForm section#ms-section').last().append('<div class="column large-1 large-push-2"><label for="date'+n+'"><a class="icon-calendar"></a></label></div>');
+	  $('#MileStoneForm section#ms-section').last().append('<div class="column large-2 large-pull-5"><input type="checkbox" id="ch_'+n+'" name="ms_show[]" unchecked/><label for="ch_'+n+'"></label></div>');
 	  /* $("#entry"+n).append("<td><i id='remove-entry' class='icon-button-circle-cross' style='color: green'></i></td>");
       $("#entry"+n).append("<td><input type='text' id='blurb"+n+"' name='ms_blurb[]' placeholder='Enter a Milestone'/></td>");
 	  $("#entry"+n).append("<td><input type='text' id='date"+n+"' name='ms_date[]' placeholder='  /  /    '/></td>");

@@ -217,7 +217,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Milestone.class);
 			classes.add(MilestonesCollection.class);
-
+			classes.add(Council.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
@@ -229,14 +229,21 @@ public class CouncilDAOImpl implements CouncilDAO {
 			if(session.itemExists(path)){
 				MilestonesCollection list = (MilestonesCollection)ocm.getObject(path);
 				milestones = list.getMilestones();
+				Comparator<Milestone> comp = new BeanComparator("uid");
+				Collections.sort(milestones, comp);
 
 			}else{
+				if(!session.itemExists("/vtk/" + councilCode)){
+					//create council, need user permission
+				}
 				MilestonesCollection list = new MilestonesCollection(path); 
 //				milestones = new ArrayList<Milestone>();
 //				milestones.add(new Milestone("Cookie Sales Start",true,null));
 //				milestones.add(new Milestone("Cookie Sales End",true,null));
 //				milestones.add(new Milestone("Re-Enroll Girls",true,null));
 				milestones = getAllMilestones(councilCode);
+//				Comparator<Milestone> comp = new BeanComparator("uid");
+//				Collections.sort(milestones, comp);
 				list.setMilestones(milestones);
 				ocm.insert(list);
 				ocm.save();
@@ -316,7 +323,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 		}
 	}
 	public java.util.List<Milestone> getAllMilestones(String councilCode) {
-		//String councilPath = councilMapper.getCouncilBranch(councilCode);
+		String councilPath = councilMapper.getCouncilBranch(councilCode);
 		java.util.List<Milestone> milestones = null;
 		Session session = null;
 		try {
@@ -329,11 +336,12 @@ public class CouncilDAOImpl implements CouncilDAO {
 					mapper);
 			QueryManager queryManager = ocm.getQueryManager();
 			Filter filter = queryManager.createFilter(Milestone.class);
-			//filter.setScope(councilPath+"/milestones/");
-			filter.setScope("/content/girlscouts-vtk/milestones/");
+			filter.setScope(councilPath+"/en/milestones//");
+			//filter.setScope("/content/girlscouts-vtk//");
 			Query query = queryManager.createQuery(filter);
 			milestones = (List<Milestone>)ocm.getObjects(query);
-
+			Comparator<Milestone> comp = new BeanComparator("date");
+			Collections.sort(milestones, comp);
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
