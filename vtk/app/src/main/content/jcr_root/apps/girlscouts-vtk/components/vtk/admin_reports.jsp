@@ -21,17 +21,17 @@
 	
 	
 	java.util.List<CouncilRptBean> container = councilRpt.getRpt( request.getParameter("cid"));
-	
+	int count=0;
 	for(String ageGroup : ageGroups){
 		java.util.List<CouncilRptBean> brownies= councilRpt.getCollection_byAgeGroup( container, ageGroup);
 	    Set<String> yearPlanNames = councilRpt.getDistinctPlanNames( brownies );
-	    
+	    count++;
   %>
     <div class="row">
       <dl class="accordion" data-accordion="">
-        <dt data-target="panel1"><h3 class="on"><%=ageGroup %></h3></dt>
+        <dt data-target="panel<%=count%>"><h3 class="on"><%=ageGroup %></h3></dt>
         <dd class="accordion-navigation">
-          <div class="content active" id="panel1">
+          <div class="content active" id="panel<%=count%>">
             <div class="row">
               <div class="column large-23 large-centered">
                   <div class="row titles">
@@ -41,38 +41,33 @@
                     <span class="name column large-5 text-center end">Plans with Added Activities</span>
                   </div>
                   <% 
+                  int y=0;
                   for(String yearPlanName: yearPlanNames){
                 	  java.util.List<CouncilRptBean> yearPlanNameBeans = councilRpt.getCollection_byYearPlanName( brownies, yearPlanName );
                 	  int countAltered = councilRpt.countAltered(yearPlanNameBeans);
                 	  int countActivity= councilRpt.countActivity(yearPlanNameBeans);
+                	  y++;
                     %>
                   <div class="row">
                     <dl class="accordion-inner clearfix" data-accordion="">
-                      <dt data-target="panel1b" class="clearfix">
+                      <dt data-target="panel<%=y %>b" class="clearfix">
                         <span class="name column large-9"><%=yearPlanName %></span>
                         <span class="column large-4 text-center"><%=(yearPlanNameBeans.size()- countAltered) %></span>
                         <span class="column large-4 text-center"><%=countAltered %></span>
                         <span class="column large-4 text-center"><%=countActivity %></span>
                       </dt>
                       <dd class="accordion-navigation">
-                        <div id="panel1b" class="content">
+                        <div id="panel<%=y %>b" class="content">
+                        
+                        <%for(CouncilRptBean crb : yearPlanNameBeans ) {%>
                           <div class="clearfix">
                             <span class="column large-4 text-center large-push-9">
-                              <a href="#" title="Troop 245" data-reveal-id="modal_report_detail">Troop245</a>
+                              <a href="#" title="Troop 245" data-reveal-id="modal_report_detail">TroopXXX</a>
                             </span>
-                            <p class="check column large-4 text-center large-push-9"></p>
-                            <p class="check column large-4 text-center"></p>
-
+                            <p class="<%=crb.isAltered() ? "check " : "" %> column large-4 text-center large-push-9"></p>
+                            <p class="<%=crb.isActivity() ? "check " : "" %> column large-4 text-center"></p>
                           </div>
-                          <div class="clearfix">
-                            <span class="column large-4 text-center large-push-9">
-                              <a href="#" title="Troop 245" data-reveal-id="modal_report_detail">Troop245</a>
-                            </span>
-                            <p class="check column large-4 text-center large-push-9"></p>
-                              <!-- <input type="checkbox" name="ch_3" id="ch_3" /><label for="ch_3"></label> -->
-                            <p class="check column large-4 text-center"></p>
-                              <!-- <input type="checkbox" name="ch_4" id="ch_4" /><label for="ch_4"></label> -->
-                          </div>
+                         <%} %>
                         </div>
                       </dd>
                     </dl>
