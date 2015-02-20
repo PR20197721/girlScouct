@@ -1,42 +1,16 @@
 package org.girlscouts.vtk.ejb;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.Predicate;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
-import org.girlscouts.vtk.dao.CouncilDAO;
 import org.girlscouts.vtk.models.CouncilRptBean;
-
-
-import org.boon.core.Function;
-import org.boon.datarepo.Repo;
-import org.boon.datarepo.Repos;
-import  org.boon.primitive.Int;
-
-import org.boon.Lists;
-import org.boon.Str;
-//import org.boon.criteria.ObjectFilter;
-//import org.boon.template.BoonTemplate;
-//import org.junit.Test;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
-//import static org.boon.Boon.fromJson;
-import static org.boon.Boon.puts;
-//import static org.boon.Boon.toJson;
-import static org.boon.Lists.copy;
-//import static org.boon.Lists.lazyAdd;
-import static org.boon.Lists.list;
-import static org.boon.Maps.map;
-import static org.boon.core.reflection.BeanUtils.atIndex;
-//import static org.boon.criteria.ObjectFilter.*;
-//import static org.boon.criteria.Selector.selectAs;
-//import static org.boon.criteria.Selector.selectAsTemplate;
-import static org.boon.criteria.Selector.selects;
-//import static org.boon.template.BoonTemplate.jstl;
-//import static org.boon.template.BoonTemplate.template;
 
 @Component
 @Service(value = CouncilRpt.class)
@@ -61,29 +35,20 @@ public class CouncilRpt {
 
 		try {
 			s = sessionFactory.getSession();
-
 			javax.jcr.query.QueryManager qm = s.getWorkspace()
 					.getQueryManager();
-
 			javax.jcr.query.Query q = qm.createQuery(sql1,
 					javax.jcr.query.Query.SQL);
-
-			System.err.println("tatay: activ start " + new java.util.Date());
-
+			
+System.err.println("tatay: start activ SQL: "+ new java.util.Date());
 			javax.jcr.query.QueryResult result = q.execute();
-
-			System.err.println("tatay: activ end " + new java.util.Date());
-
-			System.err.println("tatay: start travers activ: "
-					+ new java.util.Date());
-
+System.err.println("tatay: end activ SQL: "+ new java.util.Date());
 			for (javax.jcr.query.RowIterator it = result.getRows(); it
 					.hasNext();) {
-
 				javax.jcr.query.Row r = it.nextRow();
 
 				String path = r.getValue("jcr:path").getString();
-
+//System.err.println("tatay: "+ path);
 				if (path.indexOf("/yearPlan") != -1) {
 
 					String yp = path
@@ -119,21 +84,19 @@ public class CouncilRpt {
 		" from nt:base "+
 		" where jcr:path like '/vtk/"+sfCouncil+"/troops/%' and ocm_classname='org.girlscouts.vtk.models.YearPlan'";
 		
+		java.util.List<String> activities = getActivityRpt(sfCouncil);
+		javax.jcr.query.QueryResult result=null;
 		try{
+			
 			s = sessionFactory.getSession();
-
 			javax.jcr.query.QueryManager qm = s.getWorkspace()
 					.getQueryManager();
-
 			javax.jcr.query.Query q = qm.createQuery(sql,
 					javax.jcr.query.Query.SQL);
+System.err.println("tatay: start rpt sql "+ new java.util.Date());			
+			 result = q.execute();
+System.err.println("tatay: end rpt sql "+ new java.util.Date());
 
-			System.err.println("tatay: activ start " + new java.util.Date());
-			javax.jcr.query.QueryResult result = q.execute();
-			System.err.println("tatay: activ end " + new java.util.Date());
-			System.err.println("tatay: start travers activ: "
-					+ new java.util.Date());
-		
 			for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {
 			
 				String yearPlanName= "", libPath="", ageGroup="";
@@ -141,7 +104,7 @@ public class CouncilRpt {
 				javax.jcr.query.Row r = it.nextRow();
 				
 				String path = r.getValue("jcr:path").getString() ;
-				
+//System.err.println("tatay: path "+ new java.util.Date());				
 				try{ isAltered= r.getValue("altered").getBoolean(); }catch(Exception e){}
 				
 				try{ yearPlanName= r.getValue("name").getString();}catch(Exception e){}
@@ -165,12 +128,14 @@ public class CouncilRpt {
 				crb.setAltered(isAltered);
 				crb.setLibPath(libPath);
 				crb.setAgeGroup(ageGroup);
+				if( activities.contains(path))
+					crb.setActivity(true);
 				container.add( crb);
 				
-			
+				
 			}
 			
-			
+			System.err.println("tatay: end activ "+ new java.util.Date());
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -186,12 +151,55 @@ public class CouncilRpt {
 		return container;
   }
 	
-	public void fmtRpt(java.util.List<CouncilRptBean> results){
-		
-		//Repo<Integer,CouncilRptBean> rptRepo;
-		java.util.List yearPlanNames;
-		
-		yearPlanNames = (List<CouncilRptBean>) atIndex(results, "yearPlanName");
-		System.err.println(yearPlanNames.size());
+public void fmtRpt(java.util.List<CouncilRptBean> results){
 	}
+
+public Set<String>  getDistinctPlanNames(java.util.List<CouncilRptBean> results){
+	Set <String> container= new HashSet<String>();
+	for(CouncilRptBean bean : results){
+		container.add( bean.getYearPlanName());
+	}
+	return container;
+}
+
+
+public java.util.List<CouncilRptBean> getCollection_byAgeGroup( java.util.List<CouncilRptBean> results, final String ageGroup){
+	
+	java.util.List<CouncilRptBean> container =( java.util.List<CouncilRptBean>)CollectionUtils.select(results, new Predicate<CouncilRptBean>() {
+	    public boolean evaluate( CouncilRptBean o ) {
+	    	return o.getAgeGroup().equals(ageGroup);
+	    }
+	});
+	return container;
+}
+
+public int countAltered(java.util.List<CouncilRptBean> results){
+	int countAltered = CollectionUtils.countMatches(results, new Predicate() {
+		  public boolean evaluate(Object o) {
+			    return ((CouncilRptBean)o).isAltered() ==true; 
+			  }
+			});
+	return countAltered;
+}
+
+
+public java.util.List<CouncilRptBean> getCollection_byYearPlanName( java.util.List<CouncilRptBean> results, final String ageGroup){
+	
+	Collection<CouncilRptBean> container = CollectionUtils.select(results, new Predicate<CouncilRptBean>() {
+	    public boolean evaluate( CouncilRptBean o ) {
+	    	return o.getYearPlanName().equals(ageGroup);
+	    }
+	});
+	return (java.util.List<CouncilRptBean>) container;
+}
+
+public int countActivity(java.util.List<CouncilRptBean> results){
+	int countActivity = CollectionUtils.countMatches(results, new Predicate() {
+		  public boolean evaluate(Object o) {
+			    return ((CouncilRptBean)o).isActivity() ==true; 
+			  }
+			});
+	return countActivity;
+}
+
 }

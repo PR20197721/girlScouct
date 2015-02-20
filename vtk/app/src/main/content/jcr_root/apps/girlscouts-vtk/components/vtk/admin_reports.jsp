@@ -10,10 +10,26 @@
   <%@include file="include/utility_nav.jsp"%>
 
 
-  <div class="column large-23 large-centered">         
+  <div class="column large-23 large-centered">       
+  <% 
+	final CouncilRpt councilRpt = sling.getService(CouncilRpt.class);
+	
+	java.util.List<String> ageGroups = new java.util.ArrayList<String>();
+	ageGroups.add("brownie");
+	ageGroups.add("daisy");
+	ageGroups.add("junior");
+	
+	
+	java.util.List<CouncilRptBean> container = councilRpt.getRpt( request.getParameter("cid"));
+	
+	for(String ageGroup : ageGroups){
+		java.util.List<CouncilRptBean> brownies= councilRpt.getCollection_byAgeGroup( container, ageGroup);
+	    Set<String> yearPlanNames = councilRpt.getDistinctPlanNames( brownies );
+	    
+  %>
     <div class="row">
       <dl class="accordion" data-accordion="">
-        <dt data-target="panel1"><h3 class="on">Daisies</h3></dt>
+        <dt data-target="panel1"><h3 class="on"><%=ageGroup %></h3></dt>
         <dd class="accordion-navigation">
           <div class="content active" id="panel1">
             <div class="row">
@@ -24,13 +40,19 @@
                     <span class="name column large-5 text-center"># of Plans Customized</span>
                     <span class="name column large-5 text-center end">Plans with Added Activities</span>
                   </div>
+                  <% 
+                  for(String yearPlanName: yearPlanNames){
+                	  java.util.List<CouncilRptBean> yearPlanNameBeans = councilRpt.getCollection_byYearPlanName( brownies, yearPlanName );
+                	  int countAltered = councilRpt.countAltered(yearPlanNameBeans);
+                	  int countActivity= councilRpt.countActivity(yearPlanNameBeans);
+                    %>
                   <div class="row">
                     <dl class="accordion-inner clearfix" data-accordion="">
                       <dt data-target="panel1b" class="clearfix">
-                        <span class="name column large-9">#1 Badge Year One</span>
-                        <span class="column large-4 text-center">66</span>
-                        <span class="column large-4 text-center">5</span>
-                        <span class="column large-4 text-center">4</span>
+                        <span class="name column large-9"><%=yearPlanName %></span>
+                        <span class="column large-4 text-center"><%=(yearPlanNameBeans.size()- countAltered) %></span>
+                        <span class="column large-4 text-center"><%=countAltered %></span>
+                        <span class="column large-4 text-center"><%=countActivity %></span>
                       </dt>
                       <dd class="accordion-navigation">
                         <div id="panel1b" class="content">
@@ -40,12 +62,7 @@
                             </span>
                             <p class="check column large-4 text-center large-push-9"></p>
                             <p class="check column large-4 text-center"></p>
-<!--                             <span class="column large-4 text-center large-push-9">
-                              <input type="checkbox" name="ch_1" id="ch_1" /><label for="ch_1"></label>
-                            </span> -->
-<!--                             <span class="column large-4 text-center">
-                              <input type="checkbox" name="ch_2" id="ch_2" /><label for="ch_2"></label>
-                            </span> -->
+
                           </div>
                           <div class="clearfix">
                             <span class="column large-4 text-center large-push-9">
@@ -61,36 +78,17 @@
                     </dl>
                   </div>
                   
-                  <div class="row">
-                    <dl class="accordion-inner clearfix" data-accordion="">
-                      <dt data-target="panel2b" class="clearfix">
-                        <span class="name column large-10">#1 Badge Year One</span>
-                      </dt>
-                      <dd class="accordion-navigation">
-                        <div id="panel2b" class="content">
-                          <div class="clearfix">
-                            <span class="column large-4 text-center large-push-9">
-                              <a href="#" title="Troop 245" data-reveal-id="modal_report_detail">Troop245</a>
-                            </span>
-                            <p class="check column large-4 text-center large-push-9"></p>
-                            <p class="check column large-4 text-center"></p>
- <!--                            <span class="column large-4 text-center large-push-9">
-                              <input type="checkbox" name="ch_5" id="ch_5" /><label for="ch_5"></label>
-                            </span>
-                            <span class="column large-4 text-center">
-                              <input type="checkbox" name="ch_6" id="ch_6" /><label for="ch_6"></label>
-                            </span> -->
-                          </div>
-                        </div>
-                      </dd>
-                    </dl>
-                  </div>
+                 <%}//edn for %>
               </div>
             </div>
           </div>
         </dd>
       </dl>
-    </div>    
+    </div><!-- /row -->
+    
+    <%}//edn for %>
+    
+   
   </div>
 </div>
 <%@include file="include/modals/modal_report_detail.jsp" %>

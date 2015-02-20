@@ -3,7 +3,7 @@ package org.girlscouts.vtk.models;
 public class CouncilRptBean {
 
 	private String yearPlanName,libPath ,ageGroup; 
-	private boolean isAltered;
+	private boolean isAltered, isActivity;
 	
 	
 	public String getYearPlanName() {
@@ -29,6 +29,12 @@ public class CouncilRptBean {
 	}
 	public void setAltered(boolean isAltered) {
 		this.isAltered = isAltered;
+	}
+	public boolean isActivity() {
+		return isActivity;
+	}
+	public void setActivity(boolean isActivity) {
+		this.isActivity = isActivity;
 	}
 	
 	
