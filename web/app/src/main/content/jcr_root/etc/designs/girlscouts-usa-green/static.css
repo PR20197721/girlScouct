@@ -329,7 +329,7 @@ a:hover.menuHighlight {
   margin: 0;
 }
 [class^="icon-"], [class*=" icon-"] {
-  color:white;
+/*  color:white;*/
   font-size: 32px;
 }
 @media only screen and (max-width: 40em) { 
