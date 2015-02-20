@@ -10,12 +10,16 @@
 	<div class="header clearfix">	
 		<h3 class="columns large-22">
 		<% 
+		  String act="";
 			if (request.getParameter("isOverview") != null) {
 					out.println("Overview");
+					act="isOverview";
 			} else if (request.getParameter("isActivity") != null) {
-				out.println("Activity");
+					out.println("Activity");
+					act="isActivity";
 			} else if (request.getParameter("isMaterials") != null) {
-				out.println("Materials");
+					out.println("Materials");
+					act="isMaterials";
 			} else if (request.getParameter("isAgenda") != null) {
 				out.println("Agenda");
 			}
@@ -26,6 +30,9 @@
 	
 	
 	<div class="scroll content">
+	<% if(!act.isEmpty()) { %>
+		<a href="/content/girlscouts-vtk/controllers/vtk.pdfPrint.html?act=<%=act%>&mid=<%=request.getParameter("mid") %>" target="_blank" class="icon-download right"></a>
+	<% } %>
 		<div class="setupCalendar row">
 		<a id="print-link" class="icon-printer right" title="print"></a>
 		<%
@@ -60,7 +67,8 @@
 		<%
 			} else if (request.getParameter("isMaterials") != null) {
 		%>
-		<div class="editable-textarea column small-20 small-centered" id="editMeetingMaterials"><%=meetingInfoItems.get("materials").getStr()%></div>
+		<div class="editable-textarea column small-20 small-centered" id="editMeetingMaterials">
+		<%=meetingInfoItems.get("materials").getStr()%></div>
 			<%
 			} else if (request.getParameter("isAgenda") != null) {
 					try {
