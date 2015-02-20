@@ -48,14 +48,22 @@ jQuery.fn.print = function(){
     objDoc.open();
     objDoc.write( "<!DOCTYPE html>" );
     objDoc.write( "<html>" );
-    objDoc.write( "<body>" );
+    objDoc.write( '<body class="vtk-body" data-grid-framework="f4" data-grid-color="darksalmon" data-grid-opacity="0.5" data-grid-zindex="10" data-grid-gutterwidth="10px" data-grid-nbcols="24" style="overflow: hidden;">' );
     objDoc.write( "<head>" );
     objDoc.write( "<title>" );
     objDoc.write( document.title );
     objDoc.write( "</title>" );
-    objDoc.write( jStyleDiv.html() );
+    //objDoc.write( jStyleDiv.html() );
+	objDoc.write('<link rel="stylesheet" href="/etc/designs/girlscouts-vtk/clientlibs.css" type="text/css"/>');
     objDoc.write( "</head>" );
+    objDoc.write('<div id="modal_popup" class="reveal-modal open">');
+    objDoc.write('<div class="modal_agenda_edit">');
+    objDoc.write('<div class="scroll content">');
     objDoc.write( this.html() );
+    objDoc.write("</div>");
+    objDoc.write("</div>");
+    objDoc.write("</div>");
+
     objDoc.write( "</body>" );
     objDoc.write( "</html>" );
     objDoc.close();

@@ -53,11 +53,11 @@
     padding-bottom: 20px; }
   .vtk-body #main #yearPlanSelection .row a {
     line-height: 20px; }
-  .vtk-body #main #yearPlanSelection input[type=radio] {
+  .vtk-body #main #yearPlanSelection input[type="radio"] {
     display: none; }
-  .vtk-body #main #yearPlanSelection input[type=radio] + label {
+  .vtk-body #main #yearPlanSelection input[type="radio"] + label {
     position: relative; }
-  .vtk-body #main #yearPlanSelection input[type=radio] + label:before {
+  .vtk-body #main #yearPlanSelection input[type="radio"] + label:before {
     width: 2.81rem;
     height: 2.81rem;
     content: '';
@@ -66,7 +66,7 @@
     border-radius: 50%;
     margin: 0 0.5em;
     color: transparent; }
-  .vtk-body #main #yearPlanSelection input[type=radio]:checked + label:after {
+  .vtk-body #main #yearPlanSelection input[type="radio"]:checked + label:after {
     content: '';
     display: inline-block;
     border: none;
@@ -849,9 +849,39 @@
   text-transform: uppercase; }
 .vtk-body .reveal-modal .icon-printer,
 .vtk-body .modalWrap .icon-printer {
-  color: #00ae53; }
+  color: #00AE53; }
 .vtk-body .modifyCalendarDate {
   margin-top: 25px; }
+  .vtk-body .modifyCalendarDate input[type="radio"] {
+    display: none; }
+  .vtk-body .modifyCalendarDate input[type="radio"] + label {
+    position: relative; }
+    .vtk-body .modifyCalendarDate input[type="radio"] + label p {
+      top: 25%;
+      left: 60px;
+      white-space: nowrap;
+      position: absolute; }
+  .vtk-body .modifyCalendarDate input[type="radio"] + label:before {
+    width: 2.81rem;
+    height: 2.81rem;
+    content: '';
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    margin: 0 0.5em;
+    color: transparent; }
+  .vtk-body .modifyCalendarDate input[type="radio"]:checked + label:after {
+    content: '';
+    display: inline-block;
+    border: none;
+    border-radius: 50%;
+    margin: 0 0.5em;
+    position: absolute;
+    background: #00ae58;
+    width: 2.19rem;
+    height: 2.19rem;
+    top: 5px;
+    left: 5px; }
 .vtk-body #modal_meeting_aids .button {
   padding: 5px 8px;
   display: block;
@@ -1120,6 +1150,8 @@
         content: "";
         position: absolute;
         right: 20px; }
+  .tab-wrapper.row #vtk-main-menu li {
+    padding-bottom: 5px; }
 
 .tabs dd {
   max-width: 16.666667%;
@@ -1180,6 +1212,26 @@ input[type="file"] {
   padding: 10px !important;
   border-radius: 0; }
 
+#ui-datepicker-div {
+  background: #fff; }
+  #ui-datepicker-div .ui-corner-all {
+    border: none;
+    border-radius: 0;
+    background: none; }
+  #ui-datepicker-div table {
+    border: none; }
+  #ui-datepicker-div .ui-datepicker-header .ui-datepicker-title {
+    float: none; }
+  #ui-datepicker-div a.ui-state-default.ui-state-highlight,
+  #ui-datepicker-div .ui-state-active,
+  #ui-datepicker-div .ui-widget-content .ui-state-active,
+  #ui-datepicker-div .ui-widget-header .ui-state-active {
+    background: #cfefde; }
+  #ui-datepicker-div .ui-state-default,
+  #ui-datepicker-div .ui-widget-content .ui-state-default,
+  #ui-datepicker-div .ui-widget-header .ui-state-default {
+    text-align: center; }
+
 @media only screen and (max-width: 40em) {
   .vtk-body #main #yearPlanMeetings ul .meeting > div .touchscroll {
     position: absolute;
@@ -1232,6 +1284,9 @@ input[type="file"] {
   .vtk-body .reveal-modal #frmCalElem #datepicker .ui-widget tbody td,
   .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody td {
     padding: 9px; }
+
+  .vtk-body .modalWrap .tabs-wrapper .tabs-content table tr:nth-of-type(odd) {
+    background: #f9f9f9; }
 
   .vtk-body #modal-meeting-reminder .accordion dd .content li span {
     max-width: 245px;

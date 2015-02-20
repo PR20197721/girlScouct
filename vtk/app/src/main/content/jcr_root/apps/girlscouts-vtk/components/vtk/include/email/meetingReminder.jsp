@@ -34,7 +34,7 @@
 	</ul>
 	<section class="clearfix">
 		<label for="email_to_cc">Enter your own:</label>
-		<input type="email" id="email_to_cc" value="<%=troop.getSendingEmail()==null ? "" : troop.getSendingEmail().getCc()%>" placeholder="enter email addresses separated by commas"/>
+		<input type="email" id="email_to_cc" value="<%=troop.getSendingEmail()==null ? "" : troop.getSendingEmail().getCc()%>" placeholder="enter email addresses separated by semicolons"/>
 	</section>
 	<h6>Compose Email</h6>
 	<section class="clearfix">
@@ -241,7 +241,9 @@
 		}
 	};
 	function validate(){
-	    var emailReg = /^(([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?\;?)+$/;
+	    //var emailReg = /^(([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?\;?)+$/;
+	    //allow leading and trailing spaces for every email addr
+	    var emailReg = /^((\ *[\w-\.]+@([\w-]+\.)+[\w-]{2,4}\ *)\;?)+$/;
 	    var emailAddr = $('#email_to_cc').val();
 	    var subject = $('#email_subj').val();
 	    var body = $('#email_htm').val();
