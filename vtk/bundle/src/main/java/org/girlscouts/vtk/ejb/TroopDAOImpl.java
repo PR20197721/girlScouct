@@ -627,11 +627,12 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 		
 		Session mySession = null;
 		try {
-			String path = troop.getTroopPath() + "/finances/";
+			String path = troop.getTroopPath() + "/finances";
 			mySession = sessionFactory.getSession();
 			Node rootNode = mySession.getRootNode();
+			Node financesNode = null;
 			if(!rootNode.hasNode(path)){
-				this.establishBaseNode(path, mySession);
+				financesNode = this.establishBaseNode(path, mySession);
 			}
 			
 			if(rootNode.hasNode(path + "/" + qtr)){
@@ -665,26 +666,34 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 		FinanceConfiguration financeConfig = new FinanceConfiguration();
 		try {
 			mySession = sessionFactory.getSession();
-			String configPath = "/" + troop.getTroopPath() + FinanceConfiguration.FINANCE_CONFIG;
-			Node configNode = mySession.getNode(configPath);
+			String troopPath = "/" + troop.getTroopPath();
+			String configPath = troopPath + "/" + FinanceConfiguration.FINANCE_CONFIG;
+			Node configNode = null;
+			try {
+				configNode = mySession.getNode(configPath);
+			} catch (PathNotFoundException pfe) {
+				// Path does not exist.  Get parent node.
+				Node troopNode = mySession.getNode(troopPath);
+				// Now create and bind it to config
+				configNode = troopNode.addNode(FinanceConfiguration.FINANCE_CONFIG);
+			}
+
 			List<String> expensesList = new ArrayList<String>();
 			List<String> incomeList = new ArrayList<String>();
-			Value[] expensesValues = configNode.getProperty(Finance.EXPENSES).getValues();
-			Value[] incomeValues = configNode.getProperty(Finance.INCOME).getValues();
-			for(Value tempValue : expensesValues){
-				expensesList.add(tempValue.getString());
+			if (configNode.hasProperty(Finance.EXPENSES)) {
+				Value[] expensesValues = configNode.getProperty(Finance.EXPENSES).getValues();
+				for(Value tempValue : expensesValues){
+					expensesList.add(tempValue.getString());
+				}
+				financeConfig.setExpenseFields(expensesList);
 			}
-			
-			for(Value tempValue : incomeValues){
-				incomeList.add(tempValue.getString());
+			if (configNode.hasProperty(Finance.INCOME)) {
+				Value[] incomeValues = configNode.getProperty(Finance.INCOME).getValues();
+				for(Value tempValue : incomeValues){
+					incomeList.add(tempValue.getString());
+				}
+				financeConfig.setIncomeFields(incomeList);
 			}
-			
-			financeConfig.setExpenseFields(expensesList);
-			financeConfig.setIncomeFields(incomeList);
-			
-			
-			
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -705,11 +714,13 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 		try {
 			mySession = sessionFactory.getSession();
 			Node rootNode = mySession.getRootNode();
-			String configPath = troop.getTroopPath() + FinanceConfiguration.FINANCE_CONFIG;
+			String configPath = troop.getTroopPath() + "/" + FinanceConfiguration.FINANCE_CONFIG;
+System.out.println("### configPath = " + configPath);
+			Node financesNode = null;
 			if(!rootNode.hasNode(configPath)){
-				this.establishBaseNode(configPath, mySession);
+				financesNode = this.establishBaseNode(configPath, mySession);
 			}
-			
+
 			Node configNode = mySession.getNode("/" + configPath);
 			String[] incomeFields = income.replaceAll("\\[|\\]", "").split(",");
 			String[] expensesFields = expenses.replaceAll("\\[|\\]", "").split(",");
@@ -754,23 +765,23 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 		}
 	}
 	
-	private void establishBaseNode(String path, Session session) throws RepositoryException{
+	private Node establishBaseNode(String path, Session session) throws RepositoryException{
 		Node rootNode = session.getRootNode();
 		String[] pathElements = path.split("/");
 		Node currentNode = rootNode.getNode("vtk");
 		for(int i = 1; i < pathElements.length; i++){
-			
-			if(currentNode.hasNode(pathElements[i])){
-				currentNode = currentNode.getNode(pathElements[i]);
-			
-			} else{
-				System.err.println("#####Trying to add node: " + pathElements[i]);
-				currentNode = currentNode.addNode(pathElements[i], "nt:unstructured");	
+			if (!pathElements[i].equals("")) {
+				if(currentNode.hasNode(pathElements[i])){
+					currentNode = currentNode.getNode(pathElements[i]);
 				
+				} else{
+					System.err.println("#####Trying to add node: " + pathElements[i]);
+					currentNode = currentNode.addNode(pathElements[i], "nt:unstructured");	
+					
+				}
 			}
 		}
-		
-		
+		return currentNode;
 	}
 	
 	private String replaceIllegalChars(String value){

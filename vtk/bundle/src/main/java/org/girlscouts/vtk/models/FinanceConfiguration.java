@@ -11,7 +11,7 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
 public class FinanceConfiguration implements Serializable{
 
-	public static final String FINANCE_CONFIG = "/finance_configuration";
+	public static final String FINANCE_CONFIG = "finance_configuration";
 	private static final long serialVersionUID = 6064391709671475214L;
 
 	
