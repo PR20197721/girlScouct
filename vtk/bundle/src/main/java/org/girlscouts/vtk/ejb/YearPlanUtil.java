@@ -22,6 +22,7 @@ import org.girlscouts.vtk.dao.ActivityDAO;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.TroopDAO;
 import org.girlscouts.vtk.dao.YearPlanDAO;
+import org.girlscouts.vtk.dao.CouncilDAO;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Asset;
 import org.girlscouts.vtk.models.Meeting;
@@ -49,6 +50,9 @@ public class YearPlanUtil {
 
 	@Reference
 	private MeetingDAO meetingDAO;
+	
+	@Reference
+	private CouncilDAO councilDAO;
 
 	@Reference
 	private UserUtil userUtil;
@@ -215,7 +219,8 @@ if( endDate ==null ) endDate = cal.getTime();
 	}
 
 	public java.util.List<Milestone> getCouncilMilestones(String councilCode) {
-		return meetingDAO.getCouncilMilestones(councilCode);
+		//return meetingDAO.getCouncilMilestones(councilCode);
+		return councilDAO.getCouncilMilestones(councilCode);
 	}
 
 	public Meeting getMeeting(User user, String path)
@@ -269,6 +274,7 @@ if( endDate ==null ) endDate = cal.getTime();
 	}
 
 	public void saveCouncilMilestones(java.util.List<Milestone> milestones) {
+		
 		meetingDAO.saveCouncilMilestones(milestones);
 	}
 

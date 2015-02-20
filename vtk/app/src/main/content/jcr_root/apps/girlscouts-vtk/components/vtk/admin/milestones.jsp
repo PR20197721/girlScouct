@@ -3,8 +3,100 @@
 <cq:defineObjects/>
 <%@include file="../include/session.jsp"%>
 
-<%@include file="../admin/toolbar.jsp"%>
+<script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.datepicker.validation.js"></script>
+<%
+int councilCode = apiConfig.getTroops().get(0).getCouncilCode();
+String councilId= request.getParameter("cid")==null? Integer.toString(councilCode):request.getParameter("cid");
+%>
+<p>edit milestones, add dates, create new milestones, and set to show in plans.</p>
 
+<div>
+<form action="/content/girlscouts-vtk/controllers/vtk.controller.html" method="POST" id="MileStoneForm">
+<input type="hidden" name="cid" value="<%=councilId%>"/>
+
+<table id="MileStoneTable">
+	<th></th>
+	<th>Message</th>
+	<th>Date</th>
+	<th>Show in Plans</th>
+<%
+int t=0;
+java.util.List<Milestone> milestones = yearPlanUtil.getCouncilMilestones(councilId) ;
+for(int i=0;i<milestones.size();i++,t++){
+%>
+<tr id="entry<%=t %>">
+ <td><i id="delete" class="icon-button-circle-cross" style="color: green"></i></td>
+ <td><input type="text" id="blurb<%=t %>" name="ms_blurb[]<%=t %>" value="<%=milestones.get(i).getBlurb()%>"/></td>
+ <td><input type="text" id="date<%=t %>" name="ms_date[]<%=t %>"  placeholder="  /  /    "  value="<%=milestones.get(i).getDate()==null?"":FORMAT_MMddYYYY.format(milestones.get(i).getDate())%>"/></td>
+ <td><input type="checkbox" id="show<%=t %>" name="ms_show[]<%=t %>" <%=milestones.get(i).getShow()?"checked":"unchecked"%>/></td>
+</tr>
+<%} %>
+
+<tr id="entry<%=t++ %>">
+ <td><i id="remove-entry" class="icon-button-circle-cross" style="color: green"></i></td>
+ <td><input type="text" id="blurb<%=t %>" name="ms_blurb[]" placeholder="Enter a Milestone"/></td>
+ <td><input type="text" id="date<%=t %>" name="ms_date[]" placeholder="  /  /    "/></td>
+ <td><input type="checkbox" id="show<%=t %>" name="ms_show[]" unchecked/></td>
+</tr>
+
+<tr id="entry<%=t++ %>">
+
+ <td><i id="remove-entry" class="icon-button-circle-cross" style="color: green"></i></td>
+ <td><input type="text" id="blurb<%=t %>" name="ms_blurb[]" placeholder="Enter a Milestone"/></td>
+ <td><input type="text" id="date<%=t %>" name="ms_date[]" placeholder="  /  /    "/>
+ <td><input type="checkbox" id="show<%=t %>" name="ms_show[] value="checked"/></td>
+</tr>
+ 
+
+</table>
+<div class="right clearfix">
+	<input type="submit" name="saveCouncilMilestones" value="Save To Plans" class="button btn"/>
+</div>
+</form>
+<div id="add_entry">
+<a  onclick = "newEntry()"><i>icon-plus</i></a>Add a MileStone
+</div>
+
+
+
+<script>
+	var n;
+	$(document).ready(function(){
+		 n = $('#MileStoneTable tr').length-1;
+	});
+		
+	
+	$(document).on('click', '#delete', function() {
+		//if (confirm('Are you sure you want to delete this milestone?')) {
+		    $(this).parent().parent().remove();
+		//} 
+	});
+	
+	$(document).on('click', '#remove-entry', function() {
+		 
+		$(this).parent().parent().remove();
+		
+	});
+
+/*    $(function() {
+	  $("input[name='ms_date[]']").datepicker();  
+  });  */
+
+  function newEntry(){
+	  $('#MileStoneTable tr:last').after('<tr id="entry'+n+'"></tr>');
+	  $("#entry"+n).append("<td><i id='remove-entry' class='icon-button-circle-cross' style='color: green'></i></td>");
+      $("#entry"+n).append("<td><input type='text' id='blurb"+n+"' name='ms_blurb[]' placeholder='Enter a Milestone'/></td>");
+	  $("#entry"+n).append("<td><input type='text' id='date"+n+"' name='ms_date[]' placeholder='  /  /    '/></td>");
+	  $("#entry"+n).append("<td><input type='checkbox' id='show"+n+"' name='ms_show[]' value='unchecked'/></td></tr>");
+ 	  n++; 
+  }; 
+  
+</script>
+
+
+
+
+<%-- 
 
 <%
 String councilId= request.getParameter("cid");
@@ -99,4 +191,4 @@ for(int i=0;i<milestones.size();i++){
 </tr>
 </table>
 </form>
-</div>
+</div> --%>

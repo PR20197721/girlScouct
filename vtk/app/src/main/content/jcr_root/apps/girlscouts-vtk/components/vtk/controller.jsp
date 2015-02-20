@@ -595,6 +595,25 @@
 			yearPlanUtil.saveCouncilMilestones(milestones);
 			response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
 
+		} else if (request.getParameter("saveCouncilMilestones") != null) {
+
+			String councilId = request.getParameter("cid");
+			java.util.List<Milestone> milestones = new ArrayList<Milestone>();
+			String[] blurbs = request.getParameterValues("ms_blurb[]");
+			String[] dates = request.getParameterValues("ms_date[]");
+			String[] shows = request.getParameterValues("ms_show[]");
+
+
+			for (int i = 0; i < blurbs.length; i++) {
+
+				Milestone m = new Milestone(blurbs[0],shows[0].equals("true"),FORMAT_MMddYYYY.parse(dates[0]));
+				
+
+			}
+
+			//yearPlanUtil.saveCouncilMilestones(milestones);
+			response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
+
 		} else if (request.getParameter("createCouncilMilestones") != null) {
 
 			String councilId = request.getParameter("cid");
