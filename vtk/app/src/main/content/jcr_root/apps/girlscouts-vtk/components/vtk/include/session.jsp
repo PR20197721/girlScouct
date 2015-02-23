@@ -34,9 +34,13 @@
 
 	// Feature set toggles
 	boolean SHOW_BETA = false; // controls feature for all users -- don't set this to true unless you know what I'm talking about
+
 	String SHOW_BETA_FEATURE = "showBeta"; // request parameter to control feature per user session
+	String SHOW_FINANCE_FEATURE = "showFinance"; 
+	String SHOW_PARENT_FEATURE = "showParent";
+
 	String SESSION_FEATURE_MAP = "sessionFeatureMap"; // session attribute to hold map of enabled features
-	String[] ENABLED_FEATURES = new String[] {SHOW_BETA_FEATURE};
+	String[] ENABLED_FEATURES = new String[] {SHOW_BETA_FEATURE, SHOW_FINANCE_FEATURE, SHOW_PARENT_FEATURE};
 
 %>
 <%

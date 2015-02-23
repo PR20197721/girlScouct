@@ -146,37 +146,45 @@ function saveFinances(){
 	}
 	
 function updateTotals(){
-
-
 		var totalIncome = 0;
 		var totalExpenses = 0;
 
 		var i = 1;
 		do{
-			var tempElement = document.getElementById("income" + i);
+			var tempElement = $("#income" + i);
 			if(tempElement != null){
-				var tempVal = tempElement.value;
+				var tempVal = null;
+				if (tempElement.val() != null) {
+					tempVal = tempElement.val();
+				} else {
+                                        tempVal = tempElement.text();
+				}
 				tempVal = Number(tempVal.replace(/,/g, ''));
 				tempVal = tempVal * 100;
 				
 				totalIncome += tempVal;
 			}
 			i++;
-		}while(tempElement != null);
+		}while(tempElement.length > 0);
 		
 		i = 1;
 		
 		do{
-			var tempElement = document.getElementById("expense" + i);
+			var tempElement = $("#expense" + i);
 			if(tempElement != null){
-				var tempVal = tempElement.value;
+                                var tempVal = null;
+                                if (tempElement.val() != null) {
+                                        tempVal = tempElement.val();
+                                } else {
+                                        tempVal = tempElement.text();
+                                }
 				tempVal = Number(tempVal.replace(/,/g, ''));
 				tempVal = tempVal * 100;
 				
 				totalExpenses += tempVal;
 			}
 			i++;
-		}while(tempElement != null);
+		}while(tempElement.length > 0);
 	
 		
 		
@@ -187,15 +195,9 @@ function updateTotals(){
 		totalExpenses = totalExpenses / 100;
 		currentBalance = currentBalance / 100;
 		
-		
-		
-		
-		document.getElementById("total_income").innerHTML = "$" + totalIncome;
-		document.getElementById("total_expenses").innerHTML = "$" + totalExpenses;
-		document.getElementById("current_balance").innerHTML = "$" + currentBalance;
-		
-	
-	
+		$("#total_income").text(totalIncome);
+		$("#total_expenses").text(totalExpenses);
+		$("#current_balance").text(currentBalance);
 	}
 	
 function deleteIncomeRow(counter){ 
@@ -260,3 +262,16 @@ function addFinanceRow(listId, countId, buttonId, inputId, delMethod){
 	
 	return false;
 }
+
+/*
+Number.prototype.formatMoney = function(decPlaces, thouSeparator, decSeparator) {
+    var n = this,
+        decPlaces = isNaN(decPlaces = Math.abs(decPlaces)) ? 2 : decPlaces,
+        decSeparator = decSeparator == undefined ? "." : decSeparator,
+        thouSeparator = thouSeparator == undefined ? "," : thouSeparator,
+        sign = n < 0 ? "-" : "",
+        i = parseInt(n = Math.abs(+n || 0).toFixed(decPlaces)) + "",
+        j = (j = i.length) > 3 ? j % 3 : 0;
+    return sign + (j ? i.substr(0, j) + thouSeparator : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thouSeparator) + (decPlaces ? decSeparator + Math.abs(n - i).toFixed(decPlaces).slice(2) : "");
+};
+*/

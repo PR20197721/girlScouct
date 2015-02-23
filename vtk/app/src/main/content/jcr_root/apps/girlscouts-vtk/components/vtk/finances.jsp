@@ -19,14 +19,16 @@
         String activeTab = "finances";
         boolean showVtkNav = true;
 		
-        int qtr = 0;
+        int qtr = 1;
         
         boolean isQuarterly = true;
         
         try { 
-          qtr = Integer.parseInt( request.getParameter("qtr") );
-        }catch(Exception e){out.println("Invalid qtr"); 
-          return;
+		if (request.getParameter("qtr") != null) {
+			qtr = Integer.parseInt( request.getParameter("qtr") );
+		}
+        }catch(NumberFormatException nfe){
+		nfe.printStackTrace();
         }
 
         Finance finance = financeUtil.getFinances(troop, qtr);
@@ -42,33 +44,29 @@
         /* double acc_out = (finance.getGsusaRegistration() + finance.getServiceActivitiesEvents() + finance.getProductSalesProceeds() + finance.getTroopActivities() + finance.getTroopSupplies() + finance.getGsStorePurchases());
         double acc_rcv = (finance.getStartingBalance() + finance.getTroopDues() + finance.getSponsorshipDonations() + finance.getProductSalesProceeds()+ finance.getApprovedMoneyEarningActivity()+ finance.getInterestOnBankAccount() );
         double balance = acc_rcv - acc_out; */
-        
-        
-        
-        
-        boolean hasAdminPermissions = true;
-        String financeFieldTag = "";
-        String save_btn = "";
-        if(hasAdminPermissions){
-        	financeFieldTag = "<input type=\"text\" id=\"%s\" name=\"%s\" onblur=\"updateTotals()\" value=\"%s\"/>";
-          save_btn = "<a role=\"button\" onclick=\"saveFinances()\" class=\"button save\">Save</a>";
-        } else{
-        	financeFieldTag = "<p name=\"%s\" id=\"%s\">%s</p>";
-        }
 %>
 
 <%@include file="include/tab_navigation.jsp"%>
 
 <div id="panelWrapper" class="row content meeting-detail">
   
-  <%@include file="include/utility_nav.jsp"%>
+<%@include file="include/utility_nav.jsp"%>
+<%
+        if ((SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) && sessionFeatures.contains(SHOW_FINANCE_FEATURE)) {
 
-  <%@include file="include/finances_navigator.jsp"%>
+        String financeFieldTag = "";
+        String save_btn = "";
+        if(sessionFeatures.contains(SHOW_PARENT_FEATURE)){
+                financeFieldTag = "<p name=\"%s\" id=\"%s\">%s</p>";
+        } else{
+                financeFieldTag = "<input type=\"text\" id=\"%s\" name=\"%s\" onblur=\"updateTotals()\" value=\"%s\"/>";
+                save_btn = "<a role=\"button\" onclick=\"saveFinances()\" class=\"button save\">Save</a>";
+        }
+%>
+<%@include file="include/finances_navigator.jsp"%>
 
-  <div class="column large-20 medium-20 large-centered medium-centered small-24">
+<div class="column large-20 medium-20 large-centered medium-centered small-24">
 
-    
-    
     <form class="cmxform" id="financeForm">
       <input type="hidden" id="qtr" name="qtr" value="<%=qtr%>"/>
       <div class="errorMsg error"></div>
@@ -82,12 +80,10 @@
         	  String tempField = incomeFields.get(i);
         	  %><li><p><%=tempField%>:</p></li> 
         	  	<li><%=String.format(financeFieldTag, "income" + (i + 1), tempField, FORMAT_COST_CENTS.format(finance.getIncomeByName(tempField))) %></li>
-        	  <%
+<%
           }
-          	
-          %>
-           
-          </uL>
+%>
+          </ul>
         </section>
 
         <section class="column large-12 medium-12">
@@ -97,10 +93,9 @@
         	  String tempField = expenseFields.get(i);
         	  %><li><p><%=tempField%>:</p></li> 
         	  	<li><%=String.format(financeFieldTag, "expense" + (i + 1), tempField, FORMAT_COST_CENTS.format(finance.getExpenseByName(tempField))) %></li>
-        	  <%
+<%
           }
-          	
-          %>
+%>
            </ul>
         </section>
       </div><!--/row-->
@@ -117,8 +112,26 @@
         </section>
         <%=save_btn%>
        </div>
-      </div>
     </form>
 
   </div>
+  <script>
+	$( document ).ready(function() {
+                updateTotals();
+	});
+   </script>
+<%
+	} else {
+%>
+  <div class="columns large-20 large-centered">
+  	<h3>Coming in future releases:</h3> 
+		<ul>
+			<li>- Create and manage your troop's financial report</li>
+			<li>- Share with council personnel and with troop parents</li>
+		</ul>
+  </div>
+<%
+
+	}
+%>
 </div>
