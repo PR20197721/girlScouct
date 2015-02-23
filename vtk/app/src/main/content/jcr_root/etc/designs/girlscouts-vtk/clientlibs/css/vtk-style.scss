@@ -122,16 +122,16 @@
             background-color:#f6f6f6;
             cursor: move;
             padding-left:0;
-            // &:before {
-            //   content:'';
-            //   background: url("images/throbber.png") repeat-y #fff;
-            //   height: 100%;
-            //   width: 23px;
-            //   position: absolute;
-            //   left:-33px;
-            //   padding: 0 17px;
-            //   cursor: move;
-            // }
+            &:before {
+              content:'';
+              background: url("images/throbber.png") repeat-y #fff;
+              height: 100%;
+              width: 23px;
+              position: absolute;
+              left:-33px;
+              padding: 0 17px;
+              cursor: move;
+            }
             p {
               margin:0;
               &.blurb,
@@ -235,7 +235,9 @@
               }
               &:before {
                 cursor: default !important;
-                content: none;
+                background: #fff;
+                left: 0;
+                content: "";
               }
             }
           }
@@ -1605,6 +1607,9 @@ input[type="file"] {
       height:83px;
       background: #fff;
       padding-right: 6px;
+      top: 1px;
+      left: 7px;
+      width: 23px;
     }
     .bg-square {
       left:30px;
@@ -1614,7 +1619,7 @@ input[type="file"] {
     }
     &:before {
       background: #fff;
-      left:0;
+      left:-30px;
     }
     > div:nth-of-type(2) {
         padding-left: 115px;
@@ -1704,6 +1709,8 @@ table tr {
       background: #fff;
       padding-right: 6px;
       left:-30px;
+      width: 23px;
+
     }
 
   }
