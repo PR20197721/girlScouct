@@ -33,7 +33,7 @@ import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
-import org.girlscouts.vtk.models.MilestonesCollection;
+import org.girlscouts.vtk.models.CouncilInfo;
 
 
 @Component
@@ -202,63 +202,16 @@ public class CouncilDAOImpl implements CouncilDAO {
 
 	public java.util.List<Milestone> getCouncilMilestones(String councilCode) {
 
-		MilestonesCollection list = getMilestonesCollection(councilCode);
+		CouncilInfo list = getCouncilInfo(councilCode);
 		java.util.List<Milestone> milestones = list.getMilestones();
 		Comparator<Milestone> comp = new BeanComparator("date");
 		Collections.sort(milestones, comp);
 
 		return milestones;
 	}
-	public java.util.List<Milestone> getCouncilMilestones2(String councilCode) {
+	
 
-		Session session = null;
-		java.util.List<Milestone> list = null;
-		try {
-			session = sessionFactory.getSession();
-			List<Class> classes = new ArrayList<Class>();
-			classes.add(Milestone.class);
-			classes.add(Council.class);
-			Mapper mapper = new AnnotationMapperImpl(classes);
-			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
-					mapper);
-
-			String path = "/vtk/" + councilCode + "/milestones";
-			if(session.itemExists(path)){
-				list = (List<Milestone>)ocm.getObjects(Milestone.class,path);
-
-			}else{
-				if(!session.itemExists("/vtk/" + councilCode)){
-					//create council, need user permission
-				}
-				//list = new MilestonesCollection(path); 
-				//				milestones = new ArrayList<Milestone>();
-				//				milestones.add(new Milestone("Cookie Sales Start",true,null));
-				//				milestones.add(new Milestone("Cookie Sales End",true,null));
-				//				milestones.add(new Milestone("Re-Enroll Girls",true,null));
-				list = getAllMilestones(councilCode);
-				//				Comparator<Milestone> comp = new BeanComparator("uid");
-				//				Collections.sort(milestones, comp);
-				for(Milestone m : list){
-					m.setPath(path+"/"+m.getUid());
-					ocm.insert(m);
-				}
-				ocm.save();
-			}
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				if (session != null)
-					sessionFactory.closeSession(session);
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-		}
-		return list;
-	}
-
-	private MilestonesCollection getMilestonesCollection(String councilCode) {
+	private CouncilInfo getCouncilInfo(String councilCode) {
 
 		//		String councilStr = councilMapper.getCouncilBranch(councilCode);
 		//		councilStr = councilStr.replace("/content/", "");
@@ -269,29 +222,29 @@ public class CouncilDAOImpl implements CouncilDAO {
 		//			throw new IllegalAccessException();
 
 		Session session = null;
-		MilestonesCollection list = null;
+		CouncilInfo list = null;
 		try {
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Milestone.class);
-			classes.add(MilestonesCollection.class);
-			classes.add(Council.class);
+			classes.add(CouncilInfo.class);
+			//classes.add(Council.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
 			QueryManager queryManager = ocm.getQueryManager();
-			Filter filter = queryManager.createFilter(MilestonesCollection.class);
+			Filter filter = queryManager.createFilter(CouncilInfo.class);
 			Query query = queryManager.createQuery(filter);
 
-			String path = "/vtk/" + councilCode + "/milestones";
+			String path = "/vtk/" + councilCode + "/councilInfo";
 			if(session.itemExists(path)){
-				list = (MilestonesCollection)ocm.getObject(path);
+				list = (CouncilInfo)ocm.getObject(path);
 
 			}else{
 				if(!session.itemExists("/vtk/" + councilCode)){
 					//create council, need user permission
 				}
-				list = new MilestonesCollection(path); 
+				list = new CouncilInfo(path); 
 				//				milestones = new ArrayList<Milestone>();
 				//				milestones.add(new Milestone("Cookie Sales Start",true,null));
 				//				milestones.add(new Milestone("Cookie Sales End",true,null));
@@ -328,13 +281,13 @@ public class CouncilDAOImpl implements CouncilDAO {
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Milestone.class);
-			classes.add(MilestonesCollection.class);
+			classes.add(CouncilInfo.class);
 
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
 
-			MilestonesCollection list = getMilestonesCollection(cid);
+			CouncilInfo list = getCouncilInfo(cid);
 			java.util.List<Milestone> oldMilestones = list.getMilestones();
 			Comparator<Milestone> comp = new BeanComparator("date");
 			Collections.sort(oldMilestones, comp);

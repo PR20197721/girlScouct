@@ -7,17 +7,17 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 
 @Node(jcrMixinTypes = "mix:lockable")
-public class MilestonesCollection implements Serializable {
+public class CouncilInfo implements Serializable {
 
 	@Field(path = true)
 	String path;
 	@Collection
 	java.util.List<Milestone> milestones;
 	
-	public MilestonesCollection() {
+	public CouncilInfo() {
 		
 	}
-	public MilestonesCollection(String path) {
+	public CouncilInfo(String path) {
 		this.path = path;
 	}
 
