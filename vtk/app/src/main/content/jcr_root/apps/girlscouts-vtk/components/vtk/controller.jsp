@@ -601,8 +601,8 @@
 			java.util.List<Milestone> milestones = new ArrayList<Milestone>();
 			String[] blurbs = request.getParameterValues("ms_blurb[]");
 			String[] dates = request.getParameterValues("ms_date[]");
+			//String[] shows2 = request.getParameterValues("show_ch[]");
 			String[] shows = request.getParameterValues("ms_show[]");
-
 
 			for (int i = 0; i < blurbs.length; i++) {
 				String blurb = blurbs[i];
@@ -619,6 +619,7 @@
 
 			yearPlanUtil.saveCouncilMilestones(milestones,councilId);
 			response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
+
 
 		} else if (request.getParameter("createCouncilMilestones") != null) {
 

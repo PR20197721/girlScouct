@@ -275,7 +275,6 @@ if( endDate ==null ) endDate = cal.getTime();
 
 	public void saveCouncilMilestones(java.util.List<Milestone> milestones, String cid) {
 		councilDAO.updateCouncilMilestones(milestones,cid);
-
 		//meetingDAO.saveCouncilMilestones(milestones);
 	}
 

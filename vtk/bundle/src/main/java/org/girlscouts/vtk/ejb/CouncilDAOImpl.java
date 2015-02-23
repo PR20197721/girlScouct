@@ -291,34 +291,18 @@ public class CouncilDAOImpl implements CouncilDAO {
 			Comparator<Milestone> comp = new BeanComparator("date");
 			Collections.sort(oldMilestones, comp);
 
-
-			//int removed =0;
 			int i=0;
 			for (; i < oldMilestones.size(); i++) {
 				if(oldMilestones.get(i).getBlurb().equals(milestones.get(i).getBlurb())){
-					oldMilestones.set(i,milestones.get(i));
-					//ocm.update(oldMilestones.get(i));
-					//removed++;
-					break;
+					oldMilestones.get(i).setDate(milestones.get(i).getDate());
+					oldMilestones.get(i).setShow(milestones.get(i).getShow());
+					continue;
 				}else{
 					oldMilestones.remove(i);
 					i--;
 				}
-				//					for(int j=0; j<=i-removed ; j++){
-				//						if(oldMilestones.get(i).getBlurb().equals(milestones.get(j).getBlurb())){
-				//							oldMilestones.set(i,milestones.get(j));
-				//							ocm.update(oldMilestones.get(i));
-				//							milestones.remove(j);
-				//							removed++;
-				//							break;
-				//						}
-				//					}
-				//					removed++;
-				//					ocm.remove(oldMilestones.get(i));
 			}
 			for(int k=i;k<milestones.size(); k++){
-				//					milestones.get(k).setPath(path+"/"+milestones.get(k).getUid());
-				//					ocm.insert(milestones.get(k));
 				oldMilestones.add(milestones.get(k));
 			}
 			list.setMilestones(oldMilestones);
