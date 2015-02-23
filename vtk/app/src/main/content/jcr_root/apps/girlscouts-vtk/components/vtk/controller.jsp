@@ -593,7 +593,7 @@
 			}
 
 			//yearPlanUtil.saveCouncilMilestones(milestones);
-			response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
+			response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin_milestones.html");
 
 		} else if (request.getParameter("saveCouncilMilestones") != null) {
 
@@ -618,7 +618,7 @@
 			}
 
 			yearPlanUtil.saveCouncilMilestones(milestones,councilId);
-			response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
+			response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin_milestones.html");
 
 
 		} else if (request.getParameter("createCouncilMilestones") != null) {
