@@ -134,7 +134,7 @@ function updateTotals(){
 		var tempElement = $("#income" + i);
 		if(tempElement != null){
 			var tempVal = null;
-			if (tempElement.val() != null) {
+			if (tempElement.val()) {
 				tempVal = tempElement.val();
 			} else {
 				tempVal = tempElement.text();
@@ -151,7 +151,7 @@ function updateTotals(){
 		var tempElement = $("#expense" + i);
 		if(tempElement != null){
 			var tempVal = null;
-			if (tempElement.val() != null) {
+			if (tempElement.val()) {
 				tempVal = tempElement.val();
 			} else {
 				tempVal = tempElement.text();

@@ -74,11 +74,11 @@
 	for (String enabledFeature: ENABLED_FEATURES) {
 		if (request.getParameter(enabledFeature) != null) {
 			String thisFeatureValue = ((String) request.getParameter(enabledFeature)).trim().toLowerCase();
-			if ("true".equals(thisFeatureValue) || "yes".equals(thisFeatureValue) ) {
+			if ("true".equals(thisFeatureValue) || "yes".equals(thisFeatureValue) || "1".equals(thisFeatureValue)) {
 				if (!sessionFeatures.contains(enabledFeature)) {
 					sessionFeatures.add(enabledFeature);
 				}
-			} else if ("false".equals(thisFeatureValue) || "no".equals(thisFeatureValue) ) {
+			} else if ("false".equals(thisFeatureValue) || "no".equals(thisFeatureValue) || "0".equals(thisFeatureValue)) {
 				if (sessionFeatures.contains(enabledFeature)) {
 					sessionFeatures.remove(enabledFeature);
 				}
