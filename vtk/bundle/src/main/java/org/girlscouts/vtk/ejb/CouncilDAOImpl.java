@@ -209,6 +209,54 @@ public class CouncilDAOImpl implements CouncilDAO {
 
 		return milestones;
 	}
+	public java.util.List<Milestone> getCouncilMilestones2(String councilCode) {
+
+		Session session = null;
+		java.util.List<Milestone> list = null;
+		try {
+			session = sessionFactory.getSession();
+			List<Class> classes = new ArrayList<Class>();
+			classes.add(Milestone.class);
+			classes.add(Council.class);
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+					mapper);
+
+			String path = "/vtk/" + councilCode + "/milestones";
+			if(session.itemExists(path)){
+				list = (List<Milestone>)ocm.getObjects(Milestone.class,path);
+
+			}else{
+				if(!session.itemExists("/vtk/" + councilCode)){
+					//create council, need user permission
+				}
+				//list = new MilestonesCollection(path); 
+				//				milestones = new ArrayList<Milestone>();
+				//				milestones.add(new Milestone("Cookie Sales Start",true,null));
+				//				milestones.add(new Milestone("Cookie Sales End",true,null));
+				//				milestones.add(new Milestone("Re-Enroll Girls",true,null));
+				list = getAllMilestones(councilCode);
+				//				Comparator<Milestone> comp = new BeanComparator("uid");
+				//				Collections.sort(milestones, comp);
+				for(Milestone m : list){
+					m.setPath(path+"/"+m.getUid());
+					ocm.insert(m);
+				}
+				ocm.save();
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null)
+					sessionFactory.closeSession(session);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		return list;
+	}
 
 	private MilestonesCollection getMilestonesCollection(String councilCode) {
 
@@ -293,7 +341,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 
 			int i=0;
 			for (; i < oldMilestones.size(); i++) {
-				if(oldMilestones.get(i).getBlurb().equals(milestones.get(i).getBlurb())){
+				if(milestones.size()>i && oldMilestones.get(i).getBlurb().equals(milestones.get(i).getBlurb())){
 					oldMilestones.get(i).setDate(milestones.get(i).getDate());
 					oldMilestones.get(i).setShow(milestones.get(i).getShow());
 					continue;

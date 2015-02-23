@@ -35,7 +35,7 @@
       //  }
       %>
       <dl class="tabs hide-for-small">
-      	<!--  tab for admin view -->
+      	<!--  milesonte tab for admin view -->
 <%--      <dd <%= "admin_milestones".equals(activeTab) ? "class='active'" : "" %>>
             <a href="/content/girlscouts-vtk/en/vtk.admin_milestones.html">Milestones</a>
           </dd> --%>
