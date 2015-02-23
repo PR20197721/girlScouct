@@ -14,6 +14,7 @@
   <% 
 	final CouncilRpt councilRpt = sling.getService(CouncilRpt.class);
 	
+
 	java.util.List<String> ageGroups = new java.util.ArrayList<String>();
 	ageGroups.add("brownie");
 	ageGroups.add("daisy");
@@ -24,11 +25,12 @@
 	int count=0;
 	for(String ageGroup : ageGroups){
 		java.util.List<CouncilRptBean> brownies= councilRpt.getCollection_byAgeGroup( container, ageGroup);
-	    Set<String> yearPlanNames = councilRpt.getDistinctPlanNames( brownies );
+	    //Set<String> yearPlanNames = councilRpt.getDistinctPlanNames( brownies );
+	    Map<String, String> yearPlanNames = councilRpt.getDistinctPlanNamesPath(brownies);
 	    count++;
   %>
     <div class="row">
-      <dl class="accordion" data-accordion="">
+      <dl class="accordion" data-accordion>
         <dt data-target="panel<%=count%>"><h3 class="on"><%=ageGroup %></h3></dt>
         <dd class="accordion-navigation">
           <div class="content active" id="panel<%=count%>">
@@ -42,7 +44,12 @@
                   </div>
                   <% 
                   int y=0;
-                  for(String yearPlanName: yearPlanNames){
+                  //for(String yearPlanName: yearPlanNames){
+                  java.util.Iterator itr = yearPlanNames.keySet().iterator();
+                  while( itr.hasNext()){
+                	  
+                	  String yearPlanPath = (String)itr.next();
+                	  String yearPlanName= yearPlanNames.get(yearPlanPath);
                 	  java.util.List<CouncilRptBean> yearPlanNameBeans = councilRpt.getCollection_byYearPlanName( brownies, yearPlanName );
                 	  int countAltered = councilRpt.countAltered(yearPlanNameBeans);
                 	  int countActivity= councilRpt.countActivity(yearPlanNameBeans);
@@ -51,7 +58,7 @@
                   <div class="row">
                     <dl class="accordion-inner clearfix" data-accordion="">
                       <dt data-target="panel<%=y %>b" class="clearfix">
-                        <span class="name column large-9"><%=yearPlanName %></span>
+                        <span class="name column large-9" onclick="anna('<%=yearPlanPath %>')"><%=yearPlanName %></span>
                         <span class="column large-4 text-center"><%=(yearPlanNameBeans.size()- countAltered) %></span>
                         <span class="column large-4 text-center"><%=countAltered %></span>
                         <span class="column large-4 text-center"><%=countActivity %></span>
@@ -62,12 +69,13 @@
                         <%for(CouncilRptBean crb : yearPlanNameBeans ) {%>
                           <div class="clearfix">
                             <span class="column large-4 text-center large-push-9">
-                              <a href="#" title="Troop 245" data-reveal-id="modal_report_detail">TroopXXX</a>
+                              <a title="Troop 245" data-reveal-id="modal_report_detail" data-reveal-ajax="true" href="/content/girlscouts-vtk/controllers/vtk.include.modals.modal_report_detail.html?cid=<%=request.getParameter("cid")%>&tid=<%=crb.getTroopId()%>"><span id="<%=crb.getTroopId()%>"><%=crb.getTroopId() %></span></span></a>
                             </span>
                             <p class="<%=crb.isAltered() ? "check " : "" %> column large-4 text-center large-push-9"></p>
                             <p class="<%=crb.isActivity() ? "check " : "" %> column large-4 text-center"></p>
                           </div>
                          <%} %>
+                         
                         </div>
                       </dd>
                     </dl>
@@ -86,4 +94,34 @@
    
   </div>
 </div>
-<%@include file="include/modals/modal_report_detail.jsp" %>
+
+<div id="modal_report_detail"  class="reveal-modal" data-reveal></div>
+<script>
+function anna(troopId){
+	console.log( troopId );   
+	   
+	   $.ajax({
+	        url: "/content/girlscouts-vtk/controllers/vtk.controller.html?isAdminRpt=true&cid=<%=request.getParameter("cid")%>&ypPath="+troopId ,
+	        cache: false
+	    }).done(function( html ) {
+	       anna1( html );
+	    });
+	}
+	
+	function anna1(input){
+		
+	
+		var lines = input.split('\n');
+		var output = '';
+		$.each(lines, function(key, line) {
+		    var parts = line.split(';');
+		    for(var i=0;i<parts.length;i++){
+		     output +=  parts[i] + '; \n';
+		     }
+		});
+		
+		output = "<script> function test(){" + output +" } test(); </"+""+"script>";
+		$(output).appendTo('body');
+	
+	}
+</script>

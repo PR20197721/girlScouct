@@ -2,7 +2,9 @@ package org.girlscouts.vtk.ejb;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.Predicate;
@@ -128,6 +130,8 @@ System.err.println("tatay: end rpt sql "+ new java.util.Date());
 				crb.setAltered(isAltered);
 				crb.setLibPath(libPath);
 				crb.setAgeGroup(ageGroup);
+				crb.setYearPlanPath( path );
+				try{ crb.setTroopId( path.split("/")[4]); }catch(Exception e){e.printStackTrace();}
 				if( activities.contains(path))
 					crb.setActivity(true);
 				container.add( crb);
@@ -202,4 +206,48 @@ public int countActivity(java.util.List<CouncilRptBean> results){
 	return countActivity;
 }
 
+
+
+  public java.util.Map<String, String>  getTroopNames(String councilId, String yearPlanPath){
+	java.util.Map<String, String> container= new java.util.TreeMap<String, String>();
+	javax.jcr.Session s = null;
+	String sql="select parent.sfTroopId, parent.sfTroopName from [nt:base] as parent INNER JOIN [nt:base] as child ON ISCHILDNODE(child, parent) " +
+			" where (isdescendantnode (parent, ['/vtk/"+ councilId+"/troops/']))  and " +
+			" parent.ocm_classname='org.girlscouts.vtk.models.Troop' and child.refId like '"+ yearPlanPath +"%'";
+			//" parent.ocm_classname='org.girlscouts.vtk.models.Troop' and child.refId like '"+ yearPlanPath +"%'";
+	
+	javax.jcr.query.QueryResult result=null;
+	try{
+		
+		s = sessionFactory.getSession();
+		javax.jcr.query.QueryManager qm = s.getWorkspace().getQueryManager();	
+		javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.JCR_SQL2);
+		result = q.execute();
+		for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext(); ) {				
+			javax.jcr.query.Row r = it.nextRow();	
+			String troopId= r.getValue("parent.sfTroopId").getString();
+			String troopName= r.getValue("parent.sfTroopName").getString();
+			container.put(troopId, troopName);
+		}
+	} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (s != null)
+					sessionFactory.closeSession(s);
+
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		return container;
+  }
+  
+  public Map<String, String>  getDistinctPlanNamesPath(java.util.List<CouncilRptBean> results){
+		Map <String, String> container= new TreeMap<String, String>();
+		for(CouncilRptBean bean : results){
+			container.put(bean.getLibPath(), bean.getYearPlanName());
+		}
+		return container;
+	}
 }
