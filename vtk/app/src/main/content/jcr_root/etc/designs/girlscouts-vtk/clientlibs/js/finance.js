@@ -86,7 +86,8 @@ function saveFinances(){
 			if(i != 1){
 				inc = inc + ", ";
 			}
-			inc = inc + tempElement.attr('name') + ", " + tempElement.val();
+			
+			inc = inc + tempElement.attr('name') + ", " + tempElement.val().replace(/,/g, '');
 		}
 		i++;
 	}while(tempElement.length > 0);
@@ -99,7 +100,7 @@ function saveFinances(){
 			if(i != 1){
 				exp = exp + ", ";
 			}
-			exp = exp + tempElement.attr('name') + ", " + tempElement.val();
+			exp = exp + tempElement.attr('name') + ", " + tempElement.val().replace(/,/g, '');
 			
 		}
 		i++;

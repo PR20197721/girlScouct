@@ -49,6 +49,8 @@
         if( finance ==null ){
           finance= new Finance();
         }
+        
+        
 %>
 <%@include file="include/tab_navigation.jsp"%>
 <div id="panelWrapper" class="row content meeting-detail">
@@ -74,9 +76,11 @@
 				<h6>current income</h6>
 				<ul class="large-block-grid-2 small-block-grid-2 text-right">
 <%
+		double incomeTotal = 0.0;
 		for(int i = 0; i < incomeFields.size(); i++){
 			String tempField = incomeFields.get(i);
 %>
+					<%incomeTotal +=  finance.getIncomeByName(tempField);%>
 					<li><p><%=tempField%>:</p></li> 
 					<li><%=String.format(financeFieldTag, "income" + (i + 1), tempField, FORMAT_COST_CENTS.format(finance.getIncomeByName(tempField))) %></li>
 <%
@@ -88,10 +92,12 @@
 				<h6>current expenses</h6>
 				<ul class="large-block-grid-2 small-block-grid-2 text-right">
 <%
+		double expenseTotal = 0.0;
 		for(int i = 0; i < expenseFields.size(); i++){
 			String tempField = expenseFields.get(i);
 %>
-					<li><p><%=tempField%>:</p></li> 
+					<%expenseTotal += finance.getExpenseByName(tempField); %>
+					<li><p><%=tempField%>:</p></li>
 					<li><%=String.format(financeFieldTag, "expense" + (i + 1), tempField, FORMAT_COST_CENTS.format(finance.getExpenseByName(tempField))) %></li>
 <%
 		}
@@ -100,15 +106,16 @@
 			</section>
 		</div>
 		<!-- totals -->
+		<% double balance = incomeTotal - expenseTotal; %>
 		<div class="text-right row collapse">
 			<section>
-				<h6 class="clearfix"><span class="column small-20">Total Income:</span>  <span id="total_income" class="column small-4">0.00</span></h6>
+				<h6 class="clearfix"><span class="column small-20">Total Income:</span>  <span id="total_income" class="column small-4"><%=FORMAT_COST_CENTS.format(incomeTotal) %></span></h6>
 			</section>
 			<section>
-				<h6 class="clearfix"><span class="column small-20">Total Expenses:</span> <span id="total_expenses" class="column small-4">0.00</span></h6>
+				<h6 class="clearfix"><span class="column small-20">Total Expenses:</span> <span id="total_expenses" class="column small-4"><%=FORMAT_COST_CENTS.format(expenseTotal) %></span></h6>
 			</section>
 			<section>
-				<h6 class="clearfix"><span class="column small-20">Current Balance:</span> <span id="current_balance" class="column small-4">0.00</span></h6>
+				<h6 class="clearfix"><span class="column small-20">Current Balance:</span> <span id="current_balance" class="column small-4"><%=FORMAT_COST_CENTS.format(balance) %></span></h6>
 			</section>
 			<%=save_btn%>
 		</div>
