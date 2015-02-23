@@ -325,7 +325,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 
 	public java.util.List<Milestone> getAllMilestones(String councilCode) {
 		String councilPath = councilMapper.getCouncilBranch(councilCode);
-		java.util.List<Milestone> milestones = null;
+		java.util.List<Milestone> milestones = new ArrayList<Milestone>();
 		Session session = null;
 		try {
 			session = sessionFactory.getSession();
@@ -335,14 +335,19 @@ public class CouncilDAOImpl implements CouncilDAO {
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
-			QueryManager queryManager = ocm.getQueryManager();
-			Filter filter = queryManager.createFilter(Milestone.class);
-			filter.setScope(councilPath+"/en/milestones//");
-			//filter.setScope("/content/girlscouts-vtk//");
-			Query query = queryManager.createQuery(filter);
-			milestones = (List<Milestone>)ocm.getObjects(query);
-			Comparator<Milestone> comp = new BeanComparator("date");
-			Collections.sort(milestones, comp);
+			if(session.itemExists(councilPath+"/en/milestones")){
+				QueryManager queryManager = ocm.getQueryManager();
+				Filter filter = queryManager.createFilter(Milestone.class);
+				filter.setScope(councilPath+"/en/milestones//");
+				//filter.setScope("/content/girlscouts-vtk//");
+				Query query = queryManager.createQuery(filter);
+				milestones = (List<Milestone>)ocm.getObjects(query);
+				Comparator<Milestone> comp = new BeanComparator("date");
+				Collections.sort(milestones, comp);
+			}else{
+				return milestones;
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
