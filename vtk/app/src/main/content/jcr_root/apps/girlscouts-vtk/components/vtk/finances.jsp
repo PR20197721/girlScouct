@@ -58,7 +58,7 @@
 		String financeFieldTag = "";
 		String save_btn = "";
 		if(sessionFeatures.contains(SHOW_PARENT_FEATURE)){
-			financeFieldTag = "<p name=\"%s\" id=\"%s\">%s</p>";
+			financeFieldTag = "<p id=\"%s\" name=\"%s\">%s</p>";
 		} else{
 			financeFieldTag = "<input type=\"text\" id=\"%s\" name=\"%s\" onblur=\"updateTotals()\" value=\"%s\"/>";
 			save_btn = "<a id=\"saveFinanceFieldFormButton\" role=\"button\" onclick=\"saveFinances()\" class=\"button save disabled\">Save</a>";
