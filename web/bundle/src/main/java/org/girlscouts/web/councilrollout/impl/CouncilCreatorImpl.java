@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.NoSuchElementException;
 
 import javax.jcr.ItemExistsException;
 import javax.jcr.Node;
@@ -21,9 +22,6 @@ import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.Value;
 import javax.jcr.ValueFactory;
-import javax.jcr.security.AccessControlException;
-import javax.jcr.security.AccessControlList;
-import javax.jcr.security.AccessControlManager;
 
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
@@ -162,7 +160,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		return damNodes;
 	}
 
-	public List<Tag> generateTags(Session session, ResourceResolver rr, String path, String councilName, String councilTitle) {
+	public List<Tag> generateTags(Session session, ResourceResolver rr, String councilName, String councilTitle) {
 		ArrayList<Tag> tags = new ArrayList<Tag>();
 		final String tagPath = "/etc/tags";
 
@@ -217,33 +215,38 @@ public class CouncilCreatorImpl implements CouncilCreator {
 
 	public List<Group> generateGroups(Session session, ResourceResolver rr,	String councilName, String councilTitle) {
 		ArrayList<Group> groupList = new ArrayList<Group>();
-		String homePath = "/home/groups";
+		final String homePath = "/home/groups";
+		final String girlscoutsPath = "girlscouts-usa";
+		final String allAuthorsGroup = "gs-authors";
+		final String allReviewersGroup = "gs-authors";
 
 		try {
 			UserManager manager = (UserManager) rr.adaptTo(UserManager.class);
 			Group councilAuthors = manager.createGroup(councilName + "-authors", councilName + "-authors", homePath + "/" + councilName);
-			Group councilReviewers = manager.createGroup(councilName + "-reviewers", councilName + "-reviewers", homePath + "/"	+ councilName);
+			Group councilReviewers = manager.createGroup(councilName + "-reviewers", councilName + "-reviewers", homePath + "/" + councilName);
 			groupList.add(councilAuthors);
 			groupList.add(councilReviewers);
-			Group gsAuthors = (Group) manager.findByHome(homePath + "/girlscouts-usa/gs-authors");
+			Group gsAuthors = (Group) manager.findByHome(homePath + "/" + girlscoutsPath + "/" + allAuthorsGroup);
 			gsAuthors.addMember(councilAuthors);
-			Group gsReviewers = (Group) manager.findByHome(homePath + "/girlscouts-usa/gs-reviewers");
+			Group gsReviewers = (Group) manager.findByHome(homePath + "/" + girlscoutsPath + "/" + allReviewersGroup);
 			gsReviewers.addMember(councilReviewers);
+			
+			String authorsProfilePath = councilAuthors.getProfile().getPath();
+			session.getNode(authorsProfilePath).setProperty("givenName", councilTitle + " Authors");
+			String reviewersProfilePath = councilReviewers.getProfile().getPath();
+			session.getNode(reviewersProfilePath).setProperty("givenName", councilTitle + " Reviewers");
 			
 			buildPermissions(session, councilName, councilAuthors);
 			buildPermissions(session, councilName, councilReviewers);
 			
 			session.save();
-
 		} catch (Exception e) {
-			LOG.error(e.toString());
+			LOG.error("Error occurred during council Group creation" + e.toString());
 		}
 		return groupList;
 	}
 
 	private void buildPermissions(Session session, String councilName, Group councilGroup) {
-		//final Group[] councilGroups = {councilAuthors, councilReviewers};			
-		//Principal[] principals = new Principal[councilGroups.length];
 		final String AUTHORS = councilName + "-authors";
 		final String REVIEWERS = councilName + "-reviewers";
 
@@ -252,51 +255,33 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			JackrabbitAccessControlManager acm = (JackrabbitAccessControlManager) session.getAccessControlManager();
 			List<JackrabbitAccessControlList> aclList = new ArrayList<JackrabbitAccessControlList>();
 			org.apache.jackrabbit.api.security.user.UserManager manager = jackSession.getUserManager();
-		    /*for(int i = 0; i < councilGroups.length-1; i++) {
-		    	principals[i] = manager.getAuthorizable(councilGroups[i].getID()).getPrincipal();
-		    }*/
-			Principal principal = manager.getAuthorizable(councilGroup.getID()).getPrincipal();
+			//Converting Group to a Principal to be used as an argument for permission creation
+			Principal principal = manager.getAuthorizable(councilGroup.getID()).getPrincipal();			
 			String groupName = principal.getName();
 
-			if(groupName == AUTHORS) {
-			aclList.addAll(new PermissionsSetter(new Rule(principal, "/content/" + councilName, "READ_WRITE_MODIFY"), acm, session).getPrivilegeList());
-			aclList.addAll(new PermissionsSetter(new Rule(principal, "/content/" + councilName, "MODIFY", "*/jcr:content*"), acm, session).getPrivilegeList());
+			if(groupName.equals(AUTHORS)) {
+				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName, "READ_WRITE"), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName + "/en", "MODIFY", "*/jcr:content*"), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/content/dam/" + councilName, "READ_WRITE_MODIFY_REPLICATE"), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/tags/" + councilName, "READ_WRITE_MODIFY_REPLICATE"), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/scaffolding/" + councilName, "READ"), acm, session).getPrivilegeList());
 			}
-			if(groupName == REVIEWERS) {
-				
+			if(groupName.equals(REVIEWERS)) {
+				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName, "READ_WRITE_REPLICATE_DELETE"), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName + "/en", "MODIFY", "*/jcr:content*"), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/content/dam/" + councilName, "READ_WRITE_REPLICATE_DELETE"), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/tags/" + councilName, "READ_WRITE_REPLICATE_DELETE"), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/scaffolding/" + councilName, "READ"), acm, session).getPrivilegeList());			
 			}
-				for(JackrabbitAccessControlList l: aclList) {
-					acm.setPolicy(l.getPath(), l);
-				}
-			
-			//setPermissions(session, principal, councilName);
-		} catch (Exception e) {
-			LOG.error("Error occurred while converting Groups to Principals during Permission generation: " + e.toString());
-		}
-		
-		/*for (int i = 0; i < principals.length-1; i++) {
-			try {
-				setPermissions(session, principals[i], councilName);
-			} catch (RepositoryException e) {
-				LOG.error("Repository error occurred while setting permissions for groups: " + e.toString());
-			}
-		}*/
-	}
-		
-	/*private void setPermissions(Session session, Principal principal, String councilName) throws RepositoryException {
-		JackrabbitAccessControlManager acm = (JackrabbitAccessControlManager) session.getAccessControlManager();
-		String groupName = principal.getName();
-		
-		if(groupName == councilName + "-authors") {
-		List<JackrabbitAccessControlList> aclList = new ArrayList<JackrabbitAccessControlList>();
-		aclList.addAll(new PermissionsSetter(new Rule(principal, "/content/" + councilName, "READ_WRITE_MODIFY"), acm, session).getPrivilegeList());
-		aclList.addAll(new PermissionsSetter(new Rule(principal, "/content/" + councilName, "MODIFY", "jcr:content*"), acm, session).getPrivilegeList());
-
+			//Policies are all generated into a list and for loop binds policies to their respective nodes
 			for(JackrabbitAccessControlList l: aclList) {
-				acm.setPolicy(l.getPath(), l);
+					acm.setPolicy(l.getPath(), l);
 			}
+			
+		} catch (Exception e) {
+				e.printStackTrace();
 		}
-	}*/
+	}
 	
 	class Rule {
 		Principal principal;
@@ -308,6 +293,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			this.principal = principal;
 			this.contentPath = contentPath;
 			this.permission = permission;
+			this.glob = null;
 		}
 		
 		Rule(Principal principal, String contentPath, String permission, String glob) {
@@ -322,7 +308,6 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		Rule rule;
 		JackrabbitAccessControlManager manager;
 		Session session;
-		String glob;
 		
 		PermissionsSetter(Rule rule, JackrabbitAccessControlManager manager, Session session) {
 			this.rule = rule;
@@ -330,29 +315,29 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			this.session = session;
 		}
 		
-		private List<JackrabbitAccessControlList> getPrivilegeList(){
-			List<JackrabbitAccessControlList> aclList = new ArrayList<JackrabbitAccessControlList>();
+		private JackrabbitAccessControlList getPrivilegeList(){
 			Map<String, Privilege[]> privilegesMap = new HashMap<String, Privilege[]>();
 			JackrabbitAccessControlPolicy jacp = null;
 
 			privilegesMap = setPrivilegesMap(manager);
-			
+
 			try {
 			if(privilegesMap.get(this.rule.permission) != null) {
 				Privilege[] privileges = privilegesMap.get(this.rule.permission); 			
-			    jacp = (JackrabbitAccessControlPolicy) this.manager.getApplicablePolicies(this.rule.contentPath).nextAccessControlPolicy();
-				
-				if (!this.glob.equals("") && this.glob != null) {
+			    try {
+				jacp = (JackrabbitAccessControlPolicy) this.manager.getApplicablePolicies(this.rule.contentPath).nextAccessControlPolicy();
+			    } catch (NoSuchElementException e) {
+			    	jacp = (JackrabbitAccessControlPolicy) this.manager.getPolicies(this.rule.contentPath)[0];
+			    }
+				if (this.rule.glob != null) {
 					Map<String, Value> restrictions = new HashMap<String, Value>();
 					ValueFactory vf = session.getValueFactory();
 					restrictions.put("rep:glob", vf.createValue(this.rule.glob));
 					((JackrabbitAccessControlList) jacp).addEntry(this.rule.principal, privileges, true, restrictions);
-				} else if (this.rule.glob.equals("") || this.rule.glob == null){
-					((AccessControlList) jacp).addAccessControlEntry(this.rule.principal, privileges);					
+				} else if (this.rule.glob == null) {
+					((JackrabbitAccessControlList) jacp).addEntry(this.rule.principal, privileges, true);	
 				}	
 				
-				aclList.add((JackrabbitAccessControlList) jacp);
-
 			} else {
 				LOG.error("Privilege(s) not found for given Permission rule " + this.rule.permission);
 				throw new NullPointerException();			
@@ -364,7 +349,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			return aclList;
+			return (JackrabbitAccessControlList) jacp;
 	}
 		
 		private Map<String, Privilege[]> setPrivilegesMap(JackrabbitAccessControlManager manager) {
@@ -372,45 +357,18 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			
 			try {
 			map.put("READ", new Privilege[]{manager.privilegeFromName(Privilege.JCR_READ)});
-			map.put("READ_WRITE", new Privilege[]{manager.privilegeFromName(Privilege.JCR_READ), manager.privilegeFromName(Privilege.JCR_ADD_CHILD_NODES), manager.privilegeFromName(Privilege.JCR_LOCK_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_MODIFY_PROPERTIES), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_VERSION_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT)});
-			map.put("READ_WRITE_REPLICATE", new Privilege[]{manager.privilegeFromName(Replicator.REPLICATE_PRIVILEGE), manager.privilegeFromName(Privilege.JCR_LOCK_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_READ), manager.privilegeFromName(Privilege.JCR_VERSION_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_WRITE)});
 			map.put("MODIFY", new Privilege[]{manager.privilegeFromName(Privilege.JCR_ADD_CHILD_NODES), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_REMOVE_CHILD_NODES), manager.privilegeFromName(Privilege.JCR_REMOVE_NODE)});
-
+			map.put("READ_WRITE", new Privilege[]{manager.privilegeFromName(Privilege.JCR_READ), manager.privilegeFromName(Privilege.JCR_ADD_CHILD_NODES), manager.privilegeFromName(Privilege.JCR_LOCK_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_MODIFY_PROPERTIES), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_VERSION_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT)});
+			map.put("READ_WRITE_REPLICATE_DELETE", new Privilege[]{manager.privilegeFromName(Replicator.REPLICATE_PRIVILEGE), manager.privilegeFromName(Privilege.JCR_LOCK_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_READ), manager.privilegeFromName(Privilege.JCR_VERSION_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_WRITE)});
+			map.put("READ_WRITE_MODIFY_REPLICATE", new Privilege[]{manager.privilegeFromName(Replicator.REPLICATE_PRIVILEGE), manager.privilegeFromName(Privilege.JCR_ADD_CHILD_NODES), manager.privilegeFromName(Privilege.JCR_LOCK_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_MODIFY_PROPERTIES), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_READ), manager.privilegeFromName(Privilege.JCR_VERSION_MANAGEMENT)});
+			//map.put("READ_WRITE_MODIFY_REPLICATE_DELETE", new Privilege[]{manager.privilegeFromName(Replicator.REPLICATE_PRIVILEGE), manager.privilegeFromName(Privilege.JCR_ADD_CHILD_NODES), manager.privilegeFromName(Privilege.JCR_LOCK_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_MODIFY_PROPERTIES), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_READ), manager.privilegeFromName(Privilege.JCR_VERSION_MANAGEMENT)});
 			} catch (RepositoryException e) {
 				LOG.error("Error occurred while generating privileges in Privilege Map: " + e.toString());
-			}
-			
-			return map;
-			
+			}			
+			return map;			
 		}
 		
 	}
-		/*private List<JackrabbitAccessControlList> getPermissionsList(Session session, AccessControlManager acm, Privilege[] privilege) throws AccessControlException, RepositoryException {
-			Privilege[] privileges;
-			List<JackrabbitAccessControlList> aclList = new ArrayList<JackrabbitAccessControlList>();
-			JackrabbitAccessControlPolicy jacp = null;
-			String councilGroup = this.principal.getName();
-			
-			if (councilGroup.contains("-authors")) {
-				if (this.contentPath.equals("/content/" + councilName)) {
-					//privileges = new Privilege[]{acm.privilegeFromName(Privilege.JCR_READ), acm.privilegeFromName(Privilege.JCR_ADD_CHILD_NODES), acm.privilegeFromName(Privilege.JCR_LOCK_MANAGEMENT), acm.privilegeFromName(Privilege.JCR_MODIFY_PROPERTIES), acm.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT), acm.privilegeFromName(Privilege.JCR_VERSION_MANAGEMENT), acm.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT)};
-					jacp = (JackrabbitAccessControlPolicy) acm.getApplicablePolicies(contentPath).nextAccessControlPolicy();
-					((AccessControlList) jacp).addAccessControlEntry(principal, privileges);
-					aclList.add((JackrabbitAccessControlList) jacp);
-					
-					//privileges = new Privilege[]{acm.privilegeFromName(Privilege.JCR_ADD_CHILD_NODES), acm.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT), acm.privilegeFromName(Privilege.JCR_REMOVE_CHILD_NODES), acm.privilegeFromName(Privilege.JCR_REMOVE_NODE)};
-				    jacp = (JackrabbitAccessControlPolicy) acm.getApplicablePolicies(contentPath).nextAccessControlPolicy();
-					Map<String, Value> restrictions = new HashMap<String, Value>();
-					ValueFactory vf = session.getValueFactory();
-					restrictions.put("rep:glob", vf.createValue("/jcr:content"));
-					((JackrabbitAccessControlList) jacp).addEntry(principal, privileges, true, restrictions);
-					aclList.add((JackrabbitAccessControlList) jacp);
-
-				} 
-			}
-			return aclList;
-	}
-	}*/
 	
 	private HashMap<String, String> setLangPropertyMap(String path, String langAbbrev) {
 		HashMap<String, String> propertyMap = new HashMap<String, String>();

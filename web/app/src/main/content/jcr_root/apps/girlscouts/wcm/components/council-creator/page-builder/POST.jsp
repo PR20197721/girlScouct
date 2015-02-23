@@ -53,31 +53,31 @@ Node contentNode = session.getNode(contentPath);
             }
        
         %><br>SCAFFOLDING:<br><%
-        //ArrayList<Node> scaffoldingList = creator.generateScaffolding(session, resourceResolver, councilName);
-        //for (Node s : scaffoldingList) { 
-            %>"<%//= s.getName() %>" scaffolding created under path:
-            <%//= s.getPath() %>
+        ArrayList<Node> scaffoldingList = new ArrayList<Node>(creator.generateScaffolding(session, resourceResolver, councilName));
+        for (Node s : scaffoldingList) { 
+            %>"<%= s.getName() %>" scaffolding created under path:
+            <%= s.getPath() %>
             <br>
             <%
-        //}
+        }
 
         %><br>ASSETS:<br><%
-        //ArrayList<Node> folderList = creator.generateDAMFolders(session, contentPath, councilName, councilTitle);
-        //for (Node n : folderList) { 
-            %>"<%//= n.getName() %>" folder created under path:
-            <%//= n.getPath() %>
+        ArrayList<Node> folderList = new ArrayList<Node>(creator.generateDAMFolders(session, contentPath, councilName, councilTitle));
+        for (Node n : folderList) { 
+            %>"<%= n.getName() %>" folder created under path:
+            <%= n.getPath() %>
             <br>
             <%
-        //}
+        }
 
         %><br>TAGS:<br><%
-        //ArrayList<Tag> tagList = creator.generateTags(session, resourceResolver, contentPath, councilName, councilTitle);
-        //for (Tag t : tagList) { 
-            %>"<%//= t.getTitle() %>" tag created under path:
-            <%//= t.getPath() %>
+        ArrayList<Tag> tagList = new ArrayList<Tag>(creator.generateTags(session, resourceResolver, councilName, councilTitle));
+        for (Tag t : tagList) { 
+            %>"<%= t.getTitle() %>" tag created under path:
+            <%= t.getPath() %>
             <br>
             <%
-        //}
+        }
         
         %><br>GROUPS:<br><%
         ArrayList<Group> groupList = new ArrayList<Group>(creator.generateGroups(session, resourceResolver, councilName, councilTitle));
@@ -89,13 +89,13 @@ Node contentNode = session.getNode(contentPath);
         }
 
         %><br>DESIGN:<br><%
-    //ArrayList<Node> designList = new ArrayList<Node>(creator.generateDesign(session, resourceResolver, councilName, councilTitle));
-      //    for (Node d : designList) { 
-            %>"<%//= d.getName() %>" design created under path:
-            <%//= d.getPath() %>
+    	ArrayList<Node> designList = new ArrayList<Node>(creator.generateDesign(session, resourceResolver, councilName, councilTitle));
+        for (Node d : designList) { 
+            %>"<%= d.getName() %>" design created under path:
+            <%= d.getPath() %>
             <br>
             <%
-        //}
+        }
 }
 }
 

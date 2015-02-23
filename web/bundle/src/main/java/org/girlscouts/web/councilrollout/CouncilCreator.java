@@ -21,7 +21,7 @@ public interface CouncilCreator {
     
     List<Node> generateDAMFolders(Session session, String path, String councilName, String councilTitle);
 
-    List<Tag> generateTags(Session session, ResourceResolver rr, String path, String councilName, String councilTitle);
+    List<Tag> generateTags(Session session, ResourceResolver rr, String councilName, String councilTitle);
     
     List<Node> generateDesign(Session session, ResourceResolver rr, String councilName, String councilTitle);
     
