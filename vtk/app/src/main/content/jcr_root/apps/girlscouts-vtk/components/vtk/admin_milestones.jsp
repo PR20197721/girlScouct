@@ -90,10 +90,8 @@ String councilId= request.getParameter("cid")==null? Integer.toString(councilCod
 	});
 	
 	$(document).on('click', '.remove-entry', function() {
-		 
 		$(this).parent().parent().remove();
 		return false;
-		
 	});
 	
 
