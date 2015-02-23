@@ -111,9 +111,9 @@ String councilId= request.getParameter("cid")==null? Integer.toString(councilCod
 
 		</form>
 	</div>
-	<div id="saved">
+<!-- 	<div id="saved">
 		<p>Milestones saved.</p>
-	</div>
+	</div> -->
 </div>
 
 <script>
@@ -133,6 +133,8 @@ String councilId= request.getParameter("cid")==null? Integer.toString(councilCod
 			}
 	 
 	 	}); 
+		 //$('#saved').dialog({ autoOpen: false, zIndex: 200 });
+
 
 	});
 		
