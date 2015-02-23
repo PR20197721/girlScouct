@@ -13,6 +13,18 @@
 .vtk-body span {
   font-size: 14px;
   line-height: 1.5; }
+.vtk-body input[type="button"],
+.vtk-body .button,
+.vtk-body .btn {
+  text-transform: uppercase;
+  color: #fff;
+  padding: 12px 20px;
+  font-size: 14px;
+  line-height: 1rem; }
+.vtk-body .add-btn,
+.vtk-body .add-btn * {
+  font-weight: 700;
+  line-height: 27px; }
 .vtk-body #header > .columns {
   padding-right: 0.9375em;
   padding-left: 0.9375em; }
@@ -297,10 +309,6 @@
       margin-right: -5px;
       margin-bottom: 1.25em;
       padding: 5px; }
-    .vtk-body #main .meeting-detail section .add-btn,
-    .vtk-body #main .meeting-detail section .add-btn * {
-      font-weight: 700;
-      line-height: 27px; }
     .vtk-body #main .meeting-detail section ul {
       padding: 0;
       margin: 0; }
@@ -428,7 +436,7 @@
     .vtk-body .reveal-modal .content [class*=" icon-"] {
       font-size: 27px;
       vertical-align: middle; }
-    .vtk-body .reveal-modal .content input {
+    .vtk-body .reveal-modal .content input[type="text"] {
       padding: 5px 8px;
       height: auto; }
     .vtk-body .reveal-modal .content select {
@@ -461,10 +469,6 @@
       content: "\e6d7";
       font-family: "JollyFont";
       color: green; }
-    .vtk-body .reveal-modal .content .btn {
-      text-transform: uppercase;
-      color: #fff;
-      margin-left: 5px; }
     .vtk-body .reveal-modal .content section {
       margin: 0 0 40px 0; }
       .vtk-body .reveal-modal .content section p {
@@ -663,7 +667,8 @@
           background: none; }
       .vtk-body .modalWrap .tabs-wrapper .tabs-content .date label[for="sch_startDate"],
       .vtk-body .modalWrap .tabs-wrapper .tabs-content .date label[for="sch_endDate"],
-      .vtk-body .modalWrap .tabs-wrapper .tabs-content .date label[for="newCustActivity_date"] {
+      .vtk-body .modalWrap .tabs-wrapper .tabs-content .date label[for="newCustActivity_date"],
+      .vtk-body .modalWrap .tabs-wrapper .tabs-content .date label[for="calStartDt"] {
         margin-top: 5px; }
       .vtk-body .modalWrap .tabs-wrapper .tabs-content #manageLocationSection,
       .vtk-body .modalWrap .tabs-wrapper .tabs-content #manageActivitySection,
@@ -738,12 +743,7 @@
       font-size: 27px;
       color: #00ae57;
       vertical-align: middle; }
-  .vtk-body .modalWrap .btn {
-    text-transform: uppercase;
-    color: #fff; }
-    .vtk-body .modalWrap .btn.add-btn {
-      padding: 10px 2rem; }
-  .vtk-body .modalWrap button, .vtk-body .modalWrap select {
+  .vtk-body .modalWrap select {
     text-transform: uppercase; }
 .vtk-body .reveal-modal input[type="checkbox"] + label,
 .vtk-body .reveal-modal input[type="radio"] + label,
@@ -752,8 +752,7 @@
   margin: 0; }
 .vtk-body .reveal-modal .button,
 .vtk-body .modalWrap .button {
-  margin-bottom: 0;
-  text-transform: uppercase; }
+  margin-bottom: 0; }
 .vtk-body .reveal-modal #frmCalElem,
 .vtk-body .modalWrap #frmCalElem {
   margin-bottom: 0; }
@@ -885,14 +884,10 @@
     height: 2.19rem;
     top: 5px;
     left: 5px; }
-.vtk-body #modal_meeting_aids .button {
-  padding: 5px 8px;
-  display: block;
-  margin: 0; }
 .vtk-body .modal_agenda_edit .content h3 {
   margin-bottom: 20px; }
-.vtk-body .modal_agenda_edit .content .btn {
-  padding: 4px 20px; }
+.vtk-body .modal_agenda_edit .content select {
+  height: 40px; }
 .vtk-body .modal-attendance .content h4 {
   font-size: 24px;
   margin-bottom: 50px; }
@@ -910,8 +905,6 @@
   .vtk-body .modal-attendance .content table thead th,
   .vtk-body .modal-attendance .content table td:nth-child(n+2) {
     text-align: center; }
-.vtk-body .browseMeetingAids a, .vtk-body .browseMeetingAids p, .vtk-body .browseMeetingAids span, .vtk-body .browseMeetingAids input {
-  font-size: 14px; }
 .vtk-body #manageCalendarSection .holidays ul li {
   list-style: none; }
 .vtk-body #manageCalendarSection .holidays input[type=checkbox]:checked + label:before {

@@ -16,6 +16,20 @@
     font-size:14px;
     line-height:1.5;
   }
+  input[type="button"],
+  .button,
+  .btn {
+    text-transform: uppercase;
+    color: #fff;
+    padding: 12px 20px;
+    font-size:14px;
+    line-height:1rem;
+  }
+  .add-btn,
+  .add-btn * {
+    font-weight: 700;
+    line-height:27px;
+  }
   #header {
     >.columns {
       padding-right:0.9375em;
@@ -401,11 +415,6 @@
         margin-bottom: 1.25em;
         padding: 5px;
       }
-      .add-btn,
-      .add-btn * {
-        font-weight: 700;
-        line-height:27px;
-      }
       ul {
         padding:0;
         margin:0;
@@ -582,7 +591,7 @@
         font-size:27px;
         vertical-align: middle;
       }
-      input {
+      input[type="text"] {
         padding: 5px 8px;
         height: auto;
       }
@@ -626,11 +635,6 @@
         content: "\e6d7";
         font-family: "JollyFont";
         color: green;
-      }
-      .btn {
-        text-transform: uppercase;
-        color: #fff;
-        margin-left:5px;
       }
       section {
         margin: 0 0 40px 0;
@@ -913,7 +917,8 @@
         .date {
           label[for="sch_startDate"],
           label[for="sch_endDate"],
-          label[for="newCustActivity_date"] {
+          label[for="newCustActivity_date"],
+          label[for="calStartDt"] {
             margin-top:5px;
           }
         }
@@ -1024,14 +1029,7 @@
         vertical-align:middle;
       }
     }
-    .btn {
-      text-transform: uppercase;
-      color: #fff;
-      &.add-btn {
-        padding:10px 2rem;
-      }
-    }
-    button, select {
+    select {
       text-transform:uppercase;
     }
   }
@@ -1044,7 +1042,6 @@
     }
     .button {
       margin-bottom: 0;
-      text-transform: uppercase;
     }
     #frmCalElem {
       margin-bottom:0;
@@ -1182,20 +1179,20 @@
       left: 5px;
     }
   }
-  #modal_meeting_aids {
-    .button {
-      padding: 5px 8px;
-      display: block;
-      margin:0;
-    }
-  }
+  // #modal_meeting_aids {
+  //   .button {
+  //     padding: 5px 8px;
+  //     display: block;
+  //     margin:0;
+  //   }
+  // }
   .modal_agenda_edit {
     .content {
       h3 {
         margin-bottom:20px;
       }
-      .btn {
-        padding:4px 20px;
+      select {
+        height: 40px;
       }
     }
   }
@@ -1225,11 +1222,11 @@
       }
     }
   }
-  .browseMeetingAids {
-    a, p, span, input {
-      font-size: 14px;
-    }
-  }
+  // .browseMeetingAids {
+  //   a, p, span, input {
+  //     font-size: 14px;
+  //   }
+  // }
   //calendars on the popups
   #manageCalendarSection {
     .holidays {
