@@ -25,6 +25,8 @@
 
 	List<String> incomeFields = financeConfig.getIncomeFields();
 	List<String> expenseFields = financeConfig.getExpenseFields();
+	
+	String period = financeConfig.getPeriod();
 
 	int incomeCounter = 0;
 	int expenseCounter = 0;
@@ -40,9 +42,14 @@
 			<div class="errorMsg error"></div>
 			<div class="row collapse opts">
 				<span class="column small-10 large-5 medium-7">Reporting Frequency:</span>
-				<select class="columns small-6 large-3 medium-5 left">
+				<select id="periodSelection" class="columns small-6 large-3 medium-5 left">
+				<%if("Yearly".equals(period)){%>
+					<option value="Yearly">Yearly</option>
+					<option value="Quarterly">Quarterly</option>
+				<%} else{%>
 					<option value="Quarterly">Quarterly</option>
 					<option value="Yearly">Yearly</option>
+				<%} %>
 				</select>
 			</div>
 			<div class="row">

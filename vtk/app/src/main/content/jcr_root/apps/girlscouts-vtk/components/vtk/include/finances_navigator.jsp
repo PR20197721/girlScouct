@@ -37,9 +37,11 @@
   </div>
   	<% } else{ %>
   	<div class="meeting-navigation row collapse">
+  	<p class="column"></p>
     <div class="column">
       <h3>2015</h3>
     </div>
+    <p class="column"></p>
     
   </div>
   	

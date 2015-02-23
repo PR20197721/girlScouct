@@ -21,9 +21,18 @@
         int qtr = 1;
         
         boolean isQuarterly = true;
+       
+        FinanceConfiguration financeConfig = financeUtil.getFinanceConfig(troop);
+        
         
         try { 
-		if (request.getParameter("qtr") != null) {
+        
+        String period = financeConfig.getPeriod();
+        if(period != null && period.equals("Yearly")){
+        	qtr = 0;
+        	isQuarterly = false;
+        }
+        if (request.getParameter("qtr") != null) {
 			qtr = Integer.parseInt( request.getParameter("qtr") );
 		}
         }catch(NumberFormatException nfe){
@@ -31,7 +40,8 @@
         }
 
         Finance finance = financeUtil.getFinances(troop, qtr);
-        FinanceConfiguration financeConfig = financeUtil.getFinanceConfig(troop);
+        
+       
         
         List<String> expenseFields = financeConfig.getExpenseFields();
         List<String> incomeFields = financeConfig.getIncomeFields();

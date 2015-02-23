@@ -20,6 +20,8 @@ public class FinanceConfiguration implements Serializable{
 	private List<String> incomeFields;
 	
 	private List<String> expenseFields;
+	
+	private String period;
 
 	public List<String> getIncomeFields() {
 		if(this.incomeFields == null){
@@ -59,6 +61,14 @@ public class FinanceConfiguration implements Serializable{
 
 	public void setExpenseFields(List<String> expenseFields) {
 		this.expenseFields = expenseFields;
+	}
+	
+	public void setPeriod(String value){
+		this.period = value;
+	}
+	
+	public String getPeriod(){
+		return this.period;
 	}
 
 

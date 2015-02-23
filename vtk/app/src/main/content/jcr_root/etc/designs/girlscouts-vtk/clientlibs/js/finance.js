@@ -24,6 +24,8 @@ $(function() {
 function saveFinanceAdmin(){
 	var incomeArray = "[";
 	var expenseArray = "["
+	
+	var periodValue = document.getElementById("periodSelection").value;
 
 	var incomeChildren = document.getElementById("income-list").children;
 	var addComma = false;
@@ -62,6 +64,8 @@ function saveFinanceAdmin(){
 			act:'UpdateFinanceAdmin',
 			expenses: expenseArray,
 			income: incomeArray,
+			period: periodValue 
+			
 		},
 		success: function(result) {
 			$("#saveFinanceFieldFormButton").addClass("disabled");

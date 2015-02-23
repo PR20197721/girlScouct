@@ -67,8 +67,10 @@ public class FinanceUtil {
 		
 		String income = params.get(Finance.INCOME)[0];
 		
+		String period = params.get(Finance.PERIOD)[0];
+		
 
-		troopDAO.setFinanceConfiguration(troop, income, expenses);
+		troopDAO.setFinanceConfiguration(troop, income, expenses, period);
 
 		// TODO NOTIFY Council here
 

@@ -13,6 +13,7 @@ public class Finance implements Serializable {
 	
 	public static final String INCOME = "income";
 	public static final String EXPENSES = "expenses";
+	public static final String PERIOD = "period";
 	
 	private static final long serialVersionUID = 8084860336298434137L;
 

@@ -694,6 +694,10 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 				}
 				financeConfig.setIncomeFields(incomeList);
 			}
+			if(configNode.hasProperty(Finance.PERIOD)){
+				String period = configNode.getProperty(Finance.PERIOD).getString();
+				financeConfig.setPeriod(period);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -707,7 +711,7 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 		return financeConfig;
 	}
 
-	public void setFinanceConfiguration(Troop troop, String income, String expenses) {
+	public void setFinanceConfiguration(Troop troop, String income, String expenses, String period) {
 
 		// TODO PERMISSIONS HERE
 		Session mySession = null;
@@ -715,7 +719,6 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 			mySession = sessionFactory.getSession();
 			Node rootNode = mySession.getRootNode();
 			String configPath = troop.getTroopPath() + "/" + FinanceConfiguration.FINANCE_CONFIG;
-System.out.println("### configPath = " + configPath);
 			Node financesNode = null;
 			if(!rootNode.hasNode(configPath)){
 				financesNode = this.establishBaseNode(configPath, mySession);
@@ -726,6 +729,7 @@ System.out.println("### configPath = " + configPath);
 			String[] expensesFields = expenses.replaceAll("\\[|\\]", "").split(",");
 			configNode.setProperty(Finance.INCOME, incomeFields);
 			configNode.setProperty(Finance.EXPENSES, expensesFields);
+			configNode.setProperty(Finance.PERIOD, period);
 			
 			mySession.save();
 		

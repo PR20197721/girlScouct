@@ -36,7 +36,7 @@ public interface TroopDAO {
 	
 	public FinanceConfiguration getFinanceConfiguration(Troop troop);
 	
-	public void setFinanceConfiguration(Troop troop, String income, String expenses);
+	public void setFinanceConfiguration(Troop troop, String income, String expenses, String period);
 	
 	public boolean removeActivity(User user, Troop troop, Activity activity) throws java.lang.IllegalAccessException, java.lang.IllegalAccessException ;
 	
