@@ -593,7 +593,7 @@
 			}
 
 			//yearPlanUtil.saveCouncilMilestones(milestones);
-			response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin_milestones.html");
+			response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
 
 		} else if (request.getParameter("saveCouncilMilestones") != null) {
 
@@ -603,18 +603,19 @@
 			String[] dates = request.getParameterValues("ms_date[]");
 			//String[] shows2 = request.getParameterValues("show_ch[]");
 			String[] shows = request.getParameterValues("ms_show[]");
-
-			for (int i = 0; i < blurbs.length; i++) {
-				String blurb = blurbs[i];
-				if(blurb==null || blurb.trim().isEmpty()){break;}
-				boolean show = shows[i].equals("true");
-				Date date=null;
-				if(!dates[i].isEmpty()){
-					date = FORMAT_MMddYYYY.parse(dates[i]);
+			if(blurbs!=null){
+				for (int i = 0; i < blurbs.length; i++) {
+					String blurb = blurbs[i];
+					if(blurb==null || blurb.trim().isEmpty()){break;}
+					boolean show = shows[i].equals("true");
+					Date date=null;
+					if(!dates[i].isEmpty()){
+						date = FORMAT_MMddYYYY.parse(dates[i]);
+					}
+					
+					Milestone m = new Milestone(blurb,show,date);
+					milestones.add(m);
 				}
-				
-				Milestone m = new Milestone(blurb,show,date);
-				milestones.add(m);
 			}
 
 			yearPlanUtil.saveCouncilMilestones(milestones,councilId);
