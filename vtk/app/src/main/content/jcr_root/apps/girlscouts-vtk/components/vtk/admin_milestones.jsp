@@ -78,13 +78,17 @@ String councilId= request.getParameter("cid")==null? Integer.toString(councilCod
 				return false;
 			}
 	 
-	 	}); 
+	 	});
+		
+	    $('input[type="submit"]').attr('disabled',true);
 
 	});
 		
 	$(document).on('click', '.delete', function() {
 		if (confirm('Are you sure you want to delete this milestone?')) {
 		    $(this).parent().parent().remove();
+		      $('input[type="submit"]').attr('disabled',false);
+
 		} 
 		return false;
 	});
@@ -95,7 +99,19 @@ String councilId= request.getParameter("cid")==null? Integer.toString(councilCod
 		return false;
 		
 	});
+	$(document).on('change', 'input', function(){
+	      $('input[type="submit"]').attr('disabled',false);
+	});
 	
+	//to add a new milestone.
+	function newEntry() {
+  		var section = $('#MileStoneForm section:nth-last-child(2)');
+  		section.before('<section class="row"><div class="column large-1"><a title="remove" class="remove-entry icon-button-circle-cross"></a></div><div class="column large-7"><input type="text" id="blurb'+n+'" name="ms_blurb[]" placeholder="Enter a Milestone"/></div><div class="column large-4 large-push-1"><input type="text" id="date'+n+'" class="datepicker" name="ms_date[]" /></div><div class="column large-1 large-push-1"><label for="date'+n+'"><a class="icon-calendar"></a></label></div><div class="column large-2 large-pull-5"><input type="checkbox" id="ch_'+n+'" name="show_ch[]" unchecked/><label for="ch_'+n+'"></label></div></section>');
+	  	n++; 
+	  	$( ".datepicker" ).datepicker();
+ 	};
+ 
+
 
 	
 /* 	$("#MileStoneForm").submit(function( event ) {
@@ -131,11 +147,5 @@ String councilId= request.getParameter("cid")==null? Integer.toString(councilCod
 	    //}
 /* 	}); */ 
 
-	//to add a new milestone.
-  function newEntry() {
-  	var section = $('#MileStoneForm section:nth-last-child(2)');
-  		section.before('<section class="row"><div class="column large-1"><a title="remove" class="remove-entry icon-button-circle-cross"></a></div><div class="column large-7"><input type="text" id="blurb'+n+'" name="ms_blurb[]" placeholder="Enter a Milestone"/></div><div class="column large-4 large-push-1"><input type="text" id="date'+n+'" class="datepicker" name="ms_date[]" /></div><div class="column large-1 large-push-1"><label for="date'+n+'"><a class="icon-calendar"></a></label></div><div class="column large-2 large-pull-5"><input type="checkbox" id="ch_'+n+'" name="show_ch[]" unchecked/><label for="ch_'+n+'"></label></div></section>');
-	  n++; 
-	  $( ".datepicker" ).datepicker();
-  }; 
+	
 </script>
