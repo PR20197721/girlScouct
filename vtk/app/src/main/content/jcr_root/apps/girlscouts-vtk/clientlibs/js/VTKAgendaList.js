@@ -40,9 +40,12 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
         this.name = '';
         form.on('beforeaction', function(){
         	this.hiddenField.setValue(this.getValue());
-        	for (var i = 0; i < this.items.length; i++) {
-        		alert(this.items[i].getValue());
-        	}
+        	
+        	// TODO: need this?
+//            var value = new Array();
+//            this.items.each(function(item, index/*, length*/) {
+//                alert(index + (item instanceof CQ.form.MultiField.Item));
+//            }, this);
         }, this);
     },
 
@@ -69,6 +72,7 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
         	if (responseJson.hasOwnProperty(childKey) && typeof child === 'object') { // If object, then it is a child node.
         		var activityNumber = child.activityNumber;
         		agendaItems.push({
+        			"id": childKey,
         			"activityNumber": child.activityNumber,
         			"name": child.name,
         			"duration": child.duration,

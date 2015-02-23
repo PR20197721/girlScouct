@@ -219,9 +219,17 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
 
     // overriding CQ.form.CompositeField#setValue
     setValue: function(value) {
+    	// Generate name if empty
+    	if (!value.id) {
+    		value.id= 'A' + (Date.now() + Math.floor(Math.random()*9000) + 1000);
+    	}
+    	var path = './activities/' + value.id + '/';
     	this.nameField.setValue(value.name);
+    	this.nameField.el.dom.name = path + 'name';
     	this.durationField.setValue(value.duration);
+    	this.durationField.el.dom.name = path + 'duration';
     	this.descriptionField.setValue(value.description);
+    	this.descriptionField.el.dom.name = path + 'activityDescription';
     },
 
     // overriding CQ.form.CompositeField#getValue
