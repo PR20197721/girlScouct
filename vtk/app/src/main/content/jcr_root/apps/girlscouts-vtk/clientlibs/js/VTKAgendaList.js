@@ -40,13 +40,24 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
         this.name = '';
         form.on('beforeaction', function(){
         	this.hiddenField.setValue(this.getValue());
-        	
-        	// TODO: need this?
+
+
             var value = new Array();
             var index = 1;
             this.items.each(function(item/*,index, length*/) {
                 if (item instanceof CQ.form.MultiField.Item) {
-                	item.field.numberField.setValue(index++);
+                	var field = item.field;
+			    	// Generate name if empty
+			    	if (!field.nodeName) {
+			    		field.nodeName = 'A' + (Date.now() + Math.floor(Math.random()*9000) + 1000);
+			    	}
+			    	// Setup property keys
+			    	var path = './activities/' + field.nodeName+ '/';
+			    	field.nameField.el.dom.name = path + 'name';
+			    	field.durationField.el.dom.name = path + 'duration';
+			    	field.descriptionField.el.dom.name = path + 'activityDescription';
+			    	field.numberField.el.dom.name = path + 'activityNumber';
+                	field.numberField.setValue(index++);
                 }
             }, this);
         }, this);
