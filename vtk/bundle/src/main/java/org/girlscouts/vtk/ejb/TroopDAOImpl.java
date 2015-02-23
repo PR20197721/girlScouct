@@ -53,6 +53,7 @@ import org.girlscouts.vtk.models.JcrCollectionHoldString;
 import org.girlscouts.vtk.modifiedcheck.ModifiedChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.apache.jackrabbit.util.Text;
 
 @Component
 @Service(value = TroopDAO.class)
@@ -577,7 +578,7 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 					
 					Property temp = incomeFieldIterator.nextProperty();
 					String fieldName = temp.getName();
-					fieldName = this.restoreIllegalChars(fieldName);
+					fieldName = Text.unescapeIllegalJcrChars(fieldName);
 					String value = temp.getValue().getString();
 					
 					if(value.isEmpty()){
@@ -592,7 +593,7 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 				while(expensesFieldIterator.hasNext()){
 					Property temp = expensesFieldIterator.nextProperty();
 					String fieldName = temp.getName();
-					fieldName = this.replaceIllegalChars(fieldName);
+					fieldName = Text.escapeIllegalJcrChars(fieldName);
 					String value = temp.getValue().getString();
 					if(value.isEmpty()){
 						value = "0.00";
@@ -788,18 +789,8 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 		return currentNode;
 	}
 	
-	private String replaceIllegalChars(String value){
-		String result = value;
-		result = result.replaceAll("/","#");
-		return result;
-	}
 	
-	private String restoreIllegalChars(String value){
-		String result = value;
-		result = result.replaceAll("#", "/");
-		return result;
-	}
-	
+
 	
 	
 	

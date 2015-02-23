@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*, org.apache.commons.lang.StringEscapeUtils" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
@@ -82,7 +82,7 @@
 %>
 					<%incomeTotal +=  finance.getIncomeByName(tempField);%>
 					<li><p><%=tempField%>:</p></li> 
-					<li><%=String.format(financeFieldTag, "income" + (i + 1), tempField, FORMAT_COST_CENTS.format(finance.getIncomeByName(tempField))) %></li>
+					<li><%=String.format(financeFieldTag, "income" + (i + 1), StringEscapeUtils.escapeHtml(tempField), FORMAT_COST_CENTS.format(finance.getIncomeByName(tempField))) %></li>
 <%
 		}
 %>
@@ -98,7 +98,7 @@
 %>
 					<%expenseTotal += finance.getExpenseByName(tempField); %>
 					<li><p><%=tempField%>:</p></li>
-					<li><%=String.format(financeFieldTag, "expense" + (i + 1), tempField, FORMAT_COST_CENTS.format(finance.getExpenseByName(tempField))) %></li>
+					<li><%=String.format(financeFieldTag, "expense" + (i + 1), StringEscapeUtils.escapeHtml(tempField), FORMAT_COST_CENTS.format(finance.getExpenseByName(tempField))) %></li>
 <%
 		}
 %>
