@@ -17,78 +17,72 @@
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/finance.js"></script>
 <div id="errInfo"></div>
 <%
-        String activeTab = "finances";
-        boolean showVtkNav = true;
-        
-        FinanceConfiguration financeConfig = financeUtil.getFinanceConfig(troop);
-      
+	String activeTab = "finances";
+	pageContext.setAttribute("activeSubTab", "editFinances");
+	boolean showVtkNav = true;
 
-        List<String> incomeFields = financeConfig.getIncomeFields();
-        List<String> expenseFields = financeConfig.getExpenseFields();
-        
-        int incomeCounter = 0;
-        int expenseCounter = 0;
-        
-        
-        boolean hasAdminPermissions = true;
-        String financeFieldTag = "";
-       
-        
+	FinanceConfiguration financeConfig = financeUtil.getFinanceConfig(troop);
+
+	List<String> incomeFields = financeConfig.getIncomeFields();
+	List<String> expenseFields = financeConfig.getExpenseFields();
+
+	int incomeCounter = 0;
+	int expenseCounter = 0;
+
+	boolean hasAdminPermissions = true;
+	String financeFieldTag = "";
 %>
-
 <%@include file="include/tab_navigation.jsp"%>
-
 <div id="panelWrapper" class="row content meeting-detail finances">
-  
-  <%@include file="include/utility_nav.jsp"%>
-
-  <div class="column large-20 medium-20 large-centered medium-centered small-24">
-    
-    <form class="cmxform" id="financeForm">
-      <div class="errorMsg error"></div>
-      
-      <div class="row collapse opts">
-        <span class="column small-10 large-5 medium-7">Reporting Frequency:</span>
-        <select class="columns small-6 large-3 medium-5 left">
-          <option value="Quarterly">Quarterly</option>
-          <option value="Yearly">Yearly</option>
-        </select>
-      </div>
-
-      <div class="row">
-        <section class="column large-12 medium-12">
-          <h6>income categories</h6>
-          <ul id="income-list" class="large-block-grid-2 small-block-grid-2 text-left">
-          <%for(String incomeField : incomeFields){ %>
-            
-            <li id="incomeField<%=incomeCounter%>"><input type="text" value="<%=incomeField%>"/></li>
-            <li id="incomeButton<%=incomeCounter%>"><a href="" title="remove" onclick="return deleteIncomeRow(<%=incomeCounter%>)"><i class="icon-button-circle-cross"></i></a></li>
-          <% incomeCounter++;
-          } %>
-          </ul>
-          <a class="add-btn" title="add" onclick="return addIncomeField()"><i class="icon-button-circle-plus"></i>Add a  Finance Field</a>
-        </section>
-		
-        <section class="column large-12 medium-12">
-           <h6>expense categories</h6>
-           <ul id="expense-list" class="large-block-grid-2 small-block-grid-2 text-left">
-           <%for(String expenseField : expenseFields){ %>
-           
-            <li id="expenseField<%=expenseCounter%>"><input type="text" value="<%=expenseField%>"/></li>
-            <li id="expenseButton<%=expenseCounter%>"><a href="" title="remove" onclick="return deleteExpenseRow(<%=expenseCounter%>)"><i class="icon-button-circle-cross"></i></a></li>
-          <% expenseCounter++;
-          	} %>
-           </ul>
-           <a class="add-btn" title="add" onclick="return addExpenseField()"><i class="icon-button-circle-plus"></i>Add a  Finance Field</a>
-        </section>
-      </div><!--/row-->
-      <!-- totals -->
-      <div class="text-right row collapse">
-       <a role="button" aria-label="submit form" onclick="return saveFinanceAdmin()" class="button save">Save</a>
-      </div>
-		<input type="hidden" id="incomeCount" value="<%=incomeCounter %>"/>
-      	<input type="hidden" id="expenseCount" value="<%=expenseCounter %>"/>
-    </form>
-
-  </div>
+<%@include file="include/utility_nav.jsp"%>
+	<div class="column large-20 medium-20 large-centered medium-centered small-24">
+		<form class="cmxform" id="financeForm" onchange="enableSaveButton()">
+			<div class="errorMsg error"></div>
+			<div class="row collapse opts">
+				<span class="column small-10 large-5 medium-7">Reporting Frequency:</span>
+				<select class="columns small-6 large-3 medium-5 left">
+					<option value="Quarterly">Quarterly</option>
+					<option value="Yearly">Yearly</option>
+				</select>
+			</div>
+			<div class="row">
+				<section class="column large-12 medium-12">
+					<h6>income categories</h6>
+					<ul id="income-list" class="large-block-grid-2 small-block-grid-2 text-left">
+<%
+	for(String incomeField : incomeFields){
+%>
+						<li id="incomeField<%=incomeCounter%>"><input type="text" value="<%=incomeField%>"/></li>
+						<li id="incomeButton<%=incomeCounter%>"><a href="" title="remove" onclick="return deleteIncomeRow(<%=incomeCounter%>)"><i class="icon-button-circle-cross"></i></a></li>
+<%
+		incomeCounter++;
+	}
+%>
+					</ul>
+					<a class="add-btn" title="add" onclick="return addIncomeField()"><i class="icon-button-circle-plus"></i>Add a  Finance Field</a>
+				</section>
+				<section class="column large-12 medium-12">
+					<h6>expense categories</h6>
+					<ul id="expense-list" class="large-block-grid-2 small-block-grid-2 text-left">
+<%
+	for(String expenseField : expenseFields){
+%>
+						<li id="expenseField<%=expenseCounter%>"><input type="text" value="<%=expenseField%>"/></li>
+						<li id="expenseButton<%=expenseCounter%>"><a href="" title="remove" onclick="return deleteExpenseRow(<%=expenseCounter%>)"><i class="icon-button-circle-cross"></i></a></li>
+<%
+		expenseCounter++;
+	}
+%>
+					</ul>
+					<a class="add-btn" title="add" onclick="return addExpenseField()"><i class="icon-button-circle-plus"></i>Add a  Finance Field</a>
+				</section>
+			</div><!--/row-->
+			<!-- totals -->
+			<div class="text-right row collapse">
+				<a id="saveFinanceFieldFormButton" role="button" aria-label="submit form" onclick="return saveFinanceAdmin()" class="button save disabled">Save</a>
+			</div>
+			<input type="hidden" id="incomeCount" value="<%=incomeCounter %>"/>
+			<input type="hidden" id="expenseCount" value="<%=expenseCounter %>"/>
+		</form>
+	</div>
 </div>

@@ -199,7 +199,7 @@
       line-height: 1; }
       .vtk-body .inline-list#sub-nav > li:last-child {
         border: none; }
-      .vtk-body .inline-list#sub-nav > li a {
+      .vtk-body .inline-list#sub-nav > li a, .vtk-body .inline-list#sub-nav > li p, {
         font-size: 0.75em; }
 .vtk-body table {
   width: 100%;
