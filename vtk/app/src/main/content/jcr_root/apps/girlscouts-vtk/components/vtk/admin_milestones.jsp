@@ -2,7 +2,7 @@
 	import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig,  org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <cq:defineObjects />
-<%@include file="../include/session.jsp"%>
+<%@include file="include/session.jsp"%>
 
 <script type="text/javascript"
 	src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.datepicker.validation.js"></script>
@@ -133,8 +133,6 @@ String councilId= request.getParameter("cid")==null? Integer.toString(councilCod
 			}
 	 
 	 	}); 
-		 //$('#saved').dialog({ autoOpen: false, zIndex: 200 });
-
 
 	});
 		
