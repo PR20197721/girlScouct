@@ -241,7 +241,9 @@
 		}
 	};
 	function validate(){
-	    var emailReg = /^(([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?\;?)+$/;
+	    //var emailReg = /^(([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?\;?)+$/;
+	    //allow leading and trailing spaces for every email addr
+	    var emailReg = /^((\ *[\w-\.]+@([\w-]+\.)+[\w-]{2,4}\ *)\;?)+$/;
 	    var emailAddr = $('#email_to_cc').val();
 	    var subject = $('#email_subj').val();
 	    var body = $('#email_htm').val();

@@ -54,7 +54,8 @@ jQuery.fn.print = function(){
     objDoc.write( document.title );
     objDoc.write( "</title>" );
     //objDoc.write( jStyleDiv.html() );
-	objDoc.write('<link rel="stylesheet" href="/etc/designs/girlscouts-vtk/clientlibs.css" type="text/css"/>');
+	// objDoc.write('<link rel="stylesheet" href="/etc/designs/girlscouts-vtk/clientlibs.css" type="text/css"/>');
+ //    objDoc.write('<link rel="stylesheet" href="/etc/designs/girlscouts-vtk/print.css" type="text/css"/>');
     objDoc.write( "</head>" );
     objDoc.write('<div id="modal_popup" class="reveal-modal open">');
     objDoc.write('<div class="modal_agenda_edit">');
