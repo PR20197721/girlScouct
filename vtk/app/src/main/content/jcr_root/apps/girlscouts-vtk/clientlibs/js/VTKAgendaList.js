@@ -42,10 +42,13 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
         	this.hiddenField.setValue(this.getValue());
         	
         	// TODO: need this?
-//            var value = new Array();
-//            this.items.each(function(item, index/*, length*/) {
-//                alert(index + (item instanceof CQ.form.MultiField.Item));
-//            }, this);
+            var value = new Array();
+            var index = 1;
+            this.items.each(function(item/*,index, length*/) {
+                if (item instanceof CQ.form.MultiField.Item) {
+                	item.field.numberField.setValue(index++);
+                }
+            }, this);
         }, this);
     },
 
@@ -63,7 +66,7 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
         
         var http = CQ.shared.HTTP;
         // TODO: get the path. What if creating a new one?
-        var response = http.get(http.externalize('/content/girlscouts-vtk/meetings/myyearplan/brownie/B14B02/activities.1.json'));
+        var response = http.get(http.externalize('/content/girlscouts-vtk/meetings/myyearplan/brownie/B14B04/activities.1.json'));
         
         var agendaItems = new Array();
         var responseJson = JSON.parse(response.responseText);
@@ -72,7 +75,7 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
         	if (responseJson.hasOwnProperty(childKey) && typeof child === 'object') { // If object, then it is a child node.
         		var activityNumber = child.activityNumber;
         		agendaItems.push({
-        			"id": childKey,
+        			"nodeName": childKey,
         			"activityNumber": child.activityNumber,
         			"name": child.name,
         			"duration": child.duration,

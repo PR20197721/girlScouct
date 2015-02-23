@@ -138,9 +138,11 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
 	},
 
     hiddenField: null,
+    numberField: null,
     nameField: null,
 	durationField: null,
 	descriptionField: null,
+	nodeName: null,
     
     constructor: function(config) {
         config = config || { };
@@ -157,12 +159,12 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
     initComponent: function() {
         girlscouts.components.VTKAgenda.superclass.initComponent.call(this);
 
-        this.hiddenField = new CQ.Ext.form.Hidden({
-            name: this.name
-        });
+        this.hiddenField = new CQ.Ext.form.Hidden({});
         this.add(this.hiddenField);
 
-        this.add(new CQ.Ext.form.Label({text: "Name"}));
+        this.numberField = new CQ.Ext.form.Hidden({});
+        this.add(this.numberField);
+
         this.nameField = new CQ.Ext.form.TextField({
             listeners: {
                 change: {
@@ -220,16 +222,18 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
     // overriding CQ.form.CompositeField#setValue
     setValue: function(value) {
     	// Generate name if empty
-    	if (!value.id) {
-    		value.id= 'A' + (Date.now() + Math.floor(Math.random()*9000) + 1000);
+    	if (!value.nodeName) {
+    		value.nodeName = 'A' + (Date.now() + Math.floor(Math.random()*9000) + 1000);
     	}
-    	var path = './activities/' + value.id + '/';
+    	this.nodeName = value.nodeName;
+    	var path = './activities/' + value.nodeName+ '/';
     	this.nameField.setValue(value.name);
     	this.nameField.el.dom.name = path + 'name';
     	this.durationField.setValue(value.duration);
     	this.durationField.el.dom.name = path + 'duration';
     	this.descriptionField.setValue(value.description);
     	this.descriptionField.el.dom.name = path + 'activityDescription';
+    	this.numberField.el.dom.name = path + 'activityNumber';
     },
 
     // overriding CQ.form.CompositeField#getValue
@@ -240,6 +244,7 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
     // overriding CQ.form.CompositeField#getRawValue
     getRawValue: function() {
     	var agenda = {
+    		"nodeName": this.nodeName,
     		"name": this.nameField.getValue(),
     		"duration": this.durationField.getValue(),
     		"description": this.descriptionField.getValue()
