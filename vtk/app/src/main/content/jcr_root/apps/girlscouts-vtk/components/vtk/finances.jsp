@@ -66,33 +66,33 @@
 			<section class="column large-12 medium-12">
 				<h6>current income</h6>
 				<ul id="incomeFields" class="large-block-grid-2 small-block-grid-2 text-right">
-<%
-		double incomeTotal = 0.0;
-		for(int i = 0; i < incomeFields.size(); i++){
-			String tempField = incomeFields.get(i);
-%>
-					<%incomeTotal +=  finance.getIncomeByName(tempField);%>
-					<li><p><%=tempField%>:</p></li> 
-					<li><%=String.format(financeFieldTag, "income" + (i + 1), StringEscapeUtils.escapeHtml(tempField), FORMAT_COST_CENTS.format(finance.getIncomeByName(tempField))) %></li>
-<%
-		}
-%>
+					<%
+							double incomeTotal = 0.0;
+							for(int i = 0; i < incomeFields.size(); i++){
+								String tempField = incomeFields.get(i);
+					%>
+						<%incomeTotal +=  finance.getIncomeByName(tempField);%>
+						<li><p><%=tempField%>:</p></li> 
+						<li><%=String.format(financeFieldTag, "income" + (i + 1), StringEscapeUtils.escapeHtml(tempField), FORMAT_COST_CENTS.format(finance.getIncomeByName(tempField))) %></li>
+					<%
+							}
+					%>
 				</ul>
 			</section>
 			<section class="column large-12 medium-12">
 				<h6>current expenses</h6>
 				<ul id="expenseFields" class="large-block-grid-2 small-block-grid-2 text-right">
-<%
-		double expenseTotal = 0.0;
-		for(int i = 0; i < expenseFields.size(); i++){
-			String tempField = expenseFields.get(i);
-%>
-					<%expenseTotal += finance.getExpenseByName(tempField); %>
-					<li><p><%=tempField%>:</p></li>
-					<li><%=String.format(financeFieldTag, "expense" + (i + 1), StringEscapeUtils.escapeHtml(tempField), FORMAT_COST_CENTS.format(finance.getExpenseByName(tempField))) %></li>
-<%
-		}
-%>
+					<%
+							double expenseTotal = 0.0;
+							for(int i = 0; i < expenseFields.size(); i++){
+								String tempField = expenseFields.get(i);
+					%>
+							<%expenseTotal += finance.getExpenseByName(tempField); %>
+							<li><p><%=tempField%>:</p></li>
+							<li><%=String.format(financeFieldTag, "expense" + (i + 1), StringEscapeUtils.escapeHtml(tempField), FORMAT_COST_CENTS.format(finance.getExpenseByName(tempField))) %></li>
+					<%
+							}
+					%>
 				</ul>
 			</section>
 		</div>
@@ -101,13 +101,13 @@
 		<% double balance = incomeTotal - expenseTotal; %>
 		<div class="text-right row">
 			<section>
-				<h6 class="clearfix"><span class="column small-20">Total Income:</span>  <span id="total_income" class="column small-4"><%="&#36; " + FORMAT_COST_CENTS.format(incomeTotal) %></span></h6>
+				<h6 class="clearfix"><span class="column small-15 medium-20 large-20">Total Income:</span>  <span id="total_income" class="column small-9 large-4 medium-4"><%="&#36; " + FORMAT_COST_CENTS.format(incomeTotal) %></span></h6>
 			</section>
 			<section>
-				<h6 class="clearfix"><span class="column small-20">Total Expenses:</span> <span id="total_expenses" class="column small-4"><%="&#36; " + FORMAT_COST_CENTS.format(expenseTotal) %></span></h6>
+				<h6 class="clearfix"><span class="column small-15 medium-20 large-20">Total Expenses:</span> <span id="total_expenses" class="column small-9 large-4 medium-4"><%="&#36; " + FORMAT_COST_CENTS.format(expenseTotal) %></span></h6>
 			</section>
 			<section>
-				<h6 class="clearfix"><span class="column small-20">Current Balance:</span> <span id="current_balance" class="column small-4"><%="&#36; " + FORMAT_COST_CENTS.format(balance) %></span></h6>
+				<h6 class="clearfix"><span class="column small-15 medium-20 large-20">Current Balance:</span> <span id="current_balance" class="column small-9 large-4 medium-4"><%="&#36; " + FORMAT_COST_CENTS.format(balance) %></span></h6>
 			</section>
 			<%=save_btn%>
 		</div>
