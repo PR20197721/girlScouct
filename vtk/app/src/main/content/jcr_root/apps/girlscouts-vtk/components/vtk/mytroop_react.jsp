@@ -40,7 +40,7 @@
     <%
             if (!resourceResolver.resolve(troopPhotoUrl).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
     %>
-        <img src="<%=troopPhotoUrl %>" alt="GirlScouts Troop <%=troop.getTroop().getTroopName()%> Photo" />
+        <img id="troopPhoto" src="<%=troopPhotoUrl %>" alt="GirlScouts <%=troop.getTroop().getTroopName()%> Photo" />
         <a data-reveal-id="modal_upload_image" title="update photo" href="#nogo" title="upload image"><i class="icon-photo-camera"></i></a>
     <%
     	}
@@ -72,11 +72,11 @@
                     <dd class="accordion-navigation">
                       <div id="panel<%=i+1%>b" class="content">
                         <ul class="column large-4">
-                          <li>DOB: 9/1/2004</li>
-                          <li>AGE: 10</li>
+                          <li>DOB: <%=contact.getDob() %></li>
+                          <li>AGE: <%=contact.getAge() %></li>
                         </ul>
                         <ul class="column large-18">
-                          <li><address>1 Main St. Apt 5B<br/>Cleveland, OH<br/>00000</address></li>
+                          <li><address><%=contact.getAddress() %><br/><%=contact.getCity() %>, <%=contact.getState() %><br/><%=contact.getZip() %></address></li>
                         </ul>
                         
                         
@@ -139,3 +139,17 @@
     </dl>
 
   </div><!--/column-->
+
+<%
+	if (request.getHeader("newTroopPhoto") != null) {
+
+%>
+<script>
+	$( document ).ready(function() {
+		var d = new Date();
+		$("troopPhoto").attr("src", $(".hero-image img").attr("src") + "?" + d.getTime());
+	});
+</script>
+<%
+	}
+%>

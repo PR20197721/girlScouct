@@ -46,10 +46,14 @@
 	imgPath = node.getPath()+"/jcr:content/data/image";
 	iconPath=node.hasProperty("jcr:content/data/image/fileReference") ? node.getProperty("jcr:content/data/image/fileReference").getString() : "";
 	
-	if (dateStr != null) {
-		dateStr =  dateStr.replaceAll(":00","").replaceAll(" ([AP]M)", "&nbsp;$1");
+
+
+	//Add time zone label to date string if event has one
+	String timeZoneLabel = propNode.hasProperty("timezone") ? propNode.getProperty("timezone").getString() : "";
+	if(!timeZoneLabel.isEmpty()){
+		dateStr = dateStr + " " + timeZoneLabel;
 	}
-	
+
 	String title = (String)request.getAttribute("title");
 	String href = (String)request.getAttribute("href");
 %>
