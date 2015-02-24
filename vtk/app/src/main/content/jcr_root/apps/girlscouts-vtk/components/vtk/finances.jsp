@@ -91,7 +91,7 @@
 			</section>
 		</div>
 		<!-- totals -->
-		<div class="text-right row collapse">
+		<div class="text-right row">
 			<section>
 				<h6 class="clearfix"><span class="column small-20">Total Income:</span>  <span id="total_income" class="column small-4">0.00</span></h6>
 			</section>
