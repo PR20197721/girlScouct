@@ -30,6 +30,7 @@ import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -328,6 +329,7 @@ public class CalendarUtil {
 	 * 
 	 * //-SAVE troopUtil.updateTroop(user, troop); return isChg; }
 	 */
+	private int weekOfMonth=0, dayOfWeek=0;
 	public void createSched(User user, Troop troop, String freq,
 			org.joda.time.DateTime newStartDate, String exclDate,
 			long oldFromDate) throws java.lang.IllegalAccessException {
@@ -367,6 +369,10 @@ public class CalendarUtil {
 		Calendar newCalDate = java.util.Calendar.getInstance();
 		newCalDate.setTimeInMillis(newStartDate.getMillis());
 
+		
+		 weekOfMonth = getWeekOfMonth( newCalDate.getTime().getTime() ) ;//-1;
+		 dayOfWeek = newCalDate.get(Calendar.DAY_OF_WEEK);
+		
 		StringTokenizer t = new StringTokenizer(dates, ",");
 		while (t.hasMoreElements()) {
 			java.util.Date dt = new java.util.Date(
@@ -433,6 +439,7 @@ public class CalendarUtil {
 		return exclDates;
 	}
 
+	
 	private long getNextDate(List<String> exclDates, long theDate, String freq,
 			boolean isUseCurrDate) {
 
@@ -444,11 +451,28 @@ public class CalendarUtil {
 				date = date.plusWeeks(1);
 
 			} else if (freq.equals("monthly")) {
-				//date = date.plusMonths(1);
+				
+				/*//date = date.plusMonths(1);
+		
 				int x= date.getDayOfWeek();
+				int prevMonth1 = new DateTime(date.getMillis()).getMonthOfYear();
 				int prevMonth = new DateTime(date.getMillis()).plusMonths(1).getMonthOfYear();
-				date= date.plusMonths(1).withDayOfWeek(x); 	    
-				if(date.getMonthOfYear() != prevMonth ) date = date.minusWeeks(1);
+				
+				date= date.plusMonths(1).withDayOfWeek(x); 	
+//System.err.println("tatag: "+ date);		
+				if(date.getMonthOfYear() == prevMonth1 ) {
+//System.err.println("tatag: adding 1 week");					
+					date = date.plusWeeks(1);
+				}else if(date.getMonthOfYear() != prevMonth ) {
+//System.err.println("tatag: minus 1 week");						
+					date = date.minusWeeks(1);
+				}
+System.err.println("tatag: final "+ date);	
+
+*/
+//System.err.println("tatag before "+ date);
+				date = new org.joda.time.DateTime(getMonthlyNextDate(date));
+//System.err.println("tatag after "+ date);
 
 			} else if (freq.equals("biweekly")) {
 				date = date.plusWeeks(2);
@@ -461,6 +485,62 @@ public class CalendarUtil {
 		else
 			return getNextDate(exclDates, nextDate, freq, false);
 
+	}
+	
+	
+	private int getWeekOfMonth( long date ){
+		
+		Calendar cal = java.util.Calendar.getInstance();
+		cal.setTimeInMillis(date);
+		int dayOfTheWeek = cal.get(java.util.Calendar.DAY_OF_WEEK);
+		
+		int toRet = 1;
+		Calendar tmp = java.util.Calendar.getInstance();
+		tmp.setTimeInMillis(date);
+		tmp.set(java.util.Calendar.DATE, 1);
+		while(tmp.getTimeInMillis()!= date ){
+			if(  tmp.get(java.util.Calendar.DAY_OF_WEEK) == dayOfTheWeek)
+				toRet++;
+			tmp.add( java.util.Calendar.DATE, 1);
+		}
+		//return cal.get( java.util.Calendar.WEEK_OF_MONTH );
+		return toRet;
+	}
+	
+	private long getMonthlyNextDate( DateTime date){
+		
+		
+		
+		java.util.Calendar cal = java.util.Calendar.getInstance();
+		cal.setTimeInMillis(date.getMillis());
+		cal.add(java.util.Calendar.MONTH, 1);
+		cal.set(java.util.Calendar.DATE, 1);
+	
+		int month= cal.get(java.util.Calendar.MONTH);
+//System.err.println("tatag test month: "+ month +" : "+ cal.get(java.util.Calendar.MONTH ) );
+//System.err.println("tatag while "+ ( cal.get(java.util.Calendar.MONTH )== month) );
+		int count=0;
+		long lastdt=0;
+		while( cal.get(java.util.Calendar.MONTH )== month){
+
+			if(dayOfWeek == cal.get(java.util.Calendar.DAY_OF_WEEK) ){
+				count++;
+				lastdt = cal.getTimeInMillis();
+			}
+//System.err.println("tatag m: " +count+ " == "+ weekOfMonth +" : "+
+		dayOfWeek+" == "+cal.get(java.util.Calendar.DAY_OF_WEEK));		
+
+			if( count == weekOfMonth && 
+					dayOfWeek == cal.get(java.util.Calendar.DAY_OF_WEEK) ){
+				
+				return cal.getTimeInMillis();
+			}
+//System.err.println("tatag cal next: "+ cal.getTime());			
+			cal.add( java.util.Calendar.DATE, 1);
+			
+		}
+		
+		return lastdt;
 	}
 
 }
