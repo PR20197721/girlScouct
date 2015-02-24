@@ -52,14 +52,14 @@
                     %>
                   <div class="row">
                     <dl class="accordion-inner clearfix" data-accordion="">
-                      <dt data-target="panel<%=y %>b" class="clearfix">
+                      <dt data-target="panel<%=count %>_<%=y %>b" class="clearfix">
                         <span class="name column large-9" onclick="councilRpt('<%=yearPlanPath %>', '<%=request.getParameter("cid")%>')"><%=yearPlanName %></span>
                         <span class="column large-4 text-center"><%=(yearPlanNameBeans.size()- countAltered) %></span>
                         <span class="column large-4 text-center"><%=countAltered %></span>
                         <span class="column large-4 text-center"><%=countActivity %></span>
                       </dt>
                       <dd class="accordion-navigation">
-                        <div id="panel<%=y %>b" class="content">
+                        <div id="panel<%=count %>_<%=y %>b" class="content">
                         
                         <%for(CouncilRptBean crb : yearPlanNameBeans ) {%>
                           <div class="clearfix">
