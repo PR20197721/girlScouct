@@ -2,24 +2,32 @@ function checkFinances() {
 	saveFinances();
 }
 
-$(function() {
+function maskAllFields() {
 	var i = 1;
-	do{
-		var tempElement = $('#income' + i);
-		if(tempElement.length > 0){
-			tempElement.maskMoney();
+	var incomeChildren = document.getElementById("incomeFields").children;
+	var expenseChildren = document.getElementById("expenseFields").children;
+	
+	for(var i = 0; i < incomeChildren.length || i < expenseChildren.length ; i++){
+		if(i < incomeChildren.length){
+			var incChild = incomeChildren[i].firstElementChild;
+			if(incChild.tagName == "INPUT"){
+				$(incChild).maskMoney({allowZero: true, prefix: '$'});
+			}
+		
 		}
-		i++;
-	}while(tempElement.length > 0);
-		i = 1;
-		do{
-			var tempElement = $('#expense' + i);
-			if(tempElement.length > 0){
-			tempElement.maskMoney();
+		if(i < expenseChildren.length){
+			var expChild = expenseChildren[i].firstElementChild;
+			if(expChild.tagName == "INPUT"){
+				$(expChild).maskMoney({allowZero: true, prefix: '$'});
+				
+			}
+		
 		}
-		i++;
-	}while(tempElement.length > 0);
-});
+		
+		
+	}
+	
+}
 
 function saveFinanceAdmin(){
 	var incomeArray = "[";
@@ -77,37 +85,39 @@ function saveFinanceAdmin(){
 
 function saveFinances(){
 	var qtr = document.getElementById("qtr").value;
-	var exp = "[";
-	var i = 1;
-	var inc = "[";
-	do{
-		var tempElement = $('#income' + i);
-		if(tempElement.length > 0){
-			if(i != 1){
-				inc = inc + ", ";
-			}
-			
-			inc = inc + tempElement.attr('name') + ", " + tempElement.val().replace(/,/g, '');
-		}
-		i++;
-	}while(tempElement.length > 0);
 	
-	i = 1;
-	do{
-		var tempElement = $('#expense' + i);
+	var incomeArray = "[";
+	var expenseArray = "["
+
+	var incomeChildren = document.getElementById("incomeFields").children;
+	var addComma = false;
+	for(var i = 0; i < incomeChildren.length; i++){
+		var tempChild = incomeChildren[i].firstElementChild;
 		
-		if(tempElement.length > 0){
-			if(i != 1){
-				exp = exp + ", ";
+		if(tempChild.tagName == "INPUT"){
+			if(addComma){
+				incomeArray = incomeArray + ",";
 			}
-			exp = exp + tempElement.attr('name') + ", " + tempElement.val().replace(/,/g, '');
-			
+			incomeArray = incomeArray + tempChild.getAttribute("name") + "," + tempChild.value.replace(/\$/g, '').replace(/,/g, '');
+			addComma = true;
 		}
-		i++;
-	}while(tempElement.length > 0);
+	}
+	addComma = false;
+	var expenseChildren = document.getElementById("expenseFields").children;
+	for(var i = 0; i < expenseChildren.length; i++){
+		var tempChild = expenseChildren[i].firstElementChild;
+        
+		if(tempChild.tagName == "INPUT"){
+			if(addComma){
+				expenseArray = expenseArray + ",";
+			}
+			expenseArray = expenseArray + tempChild.getAttribute("name") + "," + tempChild.value.replace(/\$/g, '').replace(/,/g, '');
+			addComma = true;
+		}
+	}
+	incomeArray = incomeArray + "]";
+	expenseArray = expenseArray + "]";
 	
-	inc = inc + "]";
-	exp = exp + "]";
 	
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand='+Date.now(),
@@ -115,8 +125,8 @@ function saveFinances(){
 		data: { 
 			act:'UpdateFinances',
 			qtr:qtr,
-			expenses: exp,
-			income: inc,
+			expenses: expenseArray,
+			income: incomeArray,
 			a:Date.now()
 		},
 		success: function(result) {
@@ -139,7 +149,8 @@ function updateTotals(){
 			} else {
 				tempVal = tempElement.text();
 			}
-			tempVal = Number(tempVal.replace(/,/g, ''));
+			tempVal = tempVal.replace(/\$/g, '').replace(/,/g, '');
+			tempVal = Number(tempVal);
 			tempVal = tempVal * 100;
 			
 			totalIncome += tempVal;
@@ -156,7 +167,8 @@ function updateTotals(){
 			} else {
 				tempVal = tempElement.text();
 			}
-			tempVal = Number(tempVal.replace(/,/g, ''));
+			tempVal = tempVal.replace(/\$/g, '').replace(/,/g, '');
+			tempVal = Number(tempVal);
 			tempVal = tempVal * 100;
 			
 			totalExpenses += tempVal;
@@ -164,11 +176,21 @@ function updateTotals(){
 		i++;
 	}while(tempElement.length > 0);
 	
+	
+	
 	var currentBalance = totalIncome - totalExpenses;
+	
+	totalIncome = Math.round(totalIncome);
+	totalExpenses = Math.round(totalExpenses);
+	currentBalance = Math.round(currentBalance);
 	
 	totalIncome = totalIncome / 100;
 	totalExpenses = totalExpenses / 100;
 	currentBalance = currentBalance / 100;
+	
+	totalIncome =  totalIncome.toFixed(2);
+	totalExpenses =  totalExpenses.toFixed(2);
+	currentBalance =  currentBalance.toFixed(2);
 	
 	$("#total_income").text(totalIncome);
 	$("#total_expenses").text(totalExpenses);

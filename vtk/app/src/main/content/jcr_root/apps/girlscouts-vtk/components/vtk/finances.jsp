@@ -74,7 +74,7 @@
 		<div class="row">
 			<section class="column large-12 medium-12">
 				<h6>current income</h6>
-				<ul class="large-block-grid-2 small-block-grid-2 text-right">
+				<ul id="incomeFields" class="large-block-grid-2 small-block-grid-2 text-right">
 <%
 		double incomeTotal = 0.0;
 		for(int i = 0; i < incomeFields.size(); i++){
@@ -90,7 +90,7 @@
 			</section>
 			<section class="column large-12 medium-12">
 				<h6>current expenses</h6>
-				<ul class="large-block-grid-2 small-block-grid-2 text-right">
+				<ul id="expenseFields" class="large-block-grid-2 small-block-grid-2 text-right">
 <%
 		double expenseTotal = 0.0;
 		for(int i = 0; i < expenseFields.size(); i++){
@@ -122,8 +122,10 @@
 	</form>
 </div>
 <script>
+	
 	$( document ).ready(function() {
 		updateTotals();
+		maskAllFields();
 	});
 </script>
 <%
