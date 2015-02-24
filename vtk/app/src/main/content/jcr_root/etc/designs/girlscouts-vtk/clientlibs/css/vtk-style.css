@@ -13,6 +13,18 @@
 .vtk-body span {
   font-size: 14px;
   line-height: 1.5; }
+.vtk-body input[type="button"],
+.vtk-body .button,
+.vtk-body .btn {
+  text-transform: uppercase;
+  color: #fff;
+  padding: 12px 20px;
+  font-size: 14px;
+  line-height: 1rem; }
+.vtk-body .add-btn,
+.vtk-body .add-btn * {
+  font-weight: 700;
+  line-height: 27px; }
 .vtk-body #header > .columns {
   padding-right: 0.9375em;
   padding-left: 0.9375em; }
@@ -53,11 +65,11 @@
     padding-bottom: 20px; }
   .vtk-body #main #yearPlanSelection .row a {
     line-height: 20px; }
-  .vtk-body #main #yearPlanSelection input[type=radio] {
+  .vtk-body #main #yearPlanSelection input[type="radio"] {
     display: none; }
-  .vtk-body #main #yearPlanSelection input[type=radio] + label {
+  .vtk-body #main #yearPlanSelection input[type="radio"] + label {
     position: relative; }
-  .vtk-body #main #yearPlanSelection input[type=radio] + label:before {
+  .vtk-body #main #yearPlanSelection input[type="radio"] + label:before {
     width: 2.81rem;
     height: 2.81rem;
     content: '';
@@ -66,7 +78,7 @@
     border-radius: 50%;
     margin: 0 0.5em;
     color: transparent; }
-  .vtk-body #main #yearPlanSelection input[type=radio]:checked + label:after {
+  .vtk-body #main #yearPlanSelection input[type="radio"]:checked + label:after {
     content: '';
     display: inline-block;
     border: none;
@@ -93,6 +105,15 @@
       background-color: #f6f6f6;
       cursor: move;
       padding-left: 0; }
+      .vtk-body #main #yearPlanMeetings ul .meeting > div:before {
+        content: '';
+        background: url("images/throbber.png") repeat-y white;
+        height: 100%;
+        width: 23px;
+        position: absolute;
+        left: -33px;
+        padding: 0 17px;
+        cursor: move; }
       .vtk-body #main #yearPlanMeetings ul .meeting > div p {
         margin: 0; }
         .vtk-body #main #yearPlanMeetings ul .meeting > div p.blurb, .vtk-body #main #yearPlanMeetings ul .meeting > div p.category, .vtk-body #main #yearPlanMeetings ul .meeting > div p.subtitle {
@@ -170,7 +191,9 @@
           border-color: transparent transparent transparent #00abe6; }
       .vtk-body #main #yearPlanMeetings ul .meeting.activity > div:before {
         cursor: default !important;
-        content: none; }
+        background: #fff;
+        left: 0;
+        content: ""; }
     .vtk-body #main #yearPlanMeetings ul .milestone {
       pointer-events: none; }
       .vtk-body #main #yearPlanMeetings ul .milestone > div {
@@ -182,9 +205,9 @@
           text-transform: uppercase; }
   .vtk-body #main #theMeeting {
     padding-bottom: 20px; }
-.vtk-body #mainContent.welcome-page .parbase.section.text h1 {
-  margin: 0 0 1.25rem 0; }
-.vtk-body #mainContent.welcome-page .parbase.section.text p {
+.vtk-body #mainContent.welcome-page h1 {
+  margin: 1.88rem 0 4.38rem 0; }
+.vtk-body #mainContent.welcome-page p {
   font-size: 0.875rem;
   margin-top: 1.13rem; }
 .vtk-body .inline-list {
@@ -201,6 +224,22 @@
         border: none; }
       .vtk-body .inline-list#sub-nav > li a {
         font-size: 0.75em; }
+.vtk-body table {
+  width: 100%;
+  border: none; }
+  .vtk-body table thead,
+  .vtk-body table tfoot {
+    background: none;
+    border: none; }
+  .vtk-body table tr,
+  .vtk-body table td {
+    border: none; }
+.vtk-body table tr {
+  background: #fff; }
+  .vtk-body table tr:nth-of-type(odd) {
+    background: #f9f9f9; }
+  .vtk-body table tr:nth-of-type(even) {
+    background: #fff; }
 .vtk-body .sectionHeader > div.column {
   background-color: #f6f6f6; }
 .vtk-body .sectionHeader #showHideReveal {
@@ -253,7 +292,8 @@
       min-height: 70px; }
       .vtk-body #main .meeting-detail .meeting-navigation .column:nth-child(2) h3 {
         margin: 0;
-        padding-top: 15px; }
+        padding-top: 15px;
+        line-height: 1.5; }
     .vtk-body #main .meeting-detail .meeting-navigation .direction {
       border: solid 1px transparent; }
       .vtk-body #main .meeting-detail .meeting-navigation .direction:before {
@@ -277,19 +317,15 @@
     font-size: 27px; }
   .vtk-body #main .meeting-detail section {
     margin-top: 17px; }
+    .vtk-body #main .meeting-detail section:first-child {
+      margin-top: 0; }
     .vtk-body #main .meeting-detail section h6 {
       font-size: 14px;
       font-weight: 600;
       text-transform: uppercase;
       background: #f6f6f6;
-      margin-left: -5px;
-      margin-right: -5px;
       margin-bottom: 1.25em;
       padding: 5px; }
-    .vtk-body #main .meeting-detail section .add-btn,
-    .vtk-body #main .meeting-detail section .add-btn * {
-      font-weight: 700;
-      line-height: 27px; }
     .vtk-body #main .meeting-detail section ul {
       padding: 0;
       margin: 0; }
@@ -326,16 +362,14 @@
           opacity: .5;
           content: "";
           display: block; }
-  .vtk-body #main .meeting-detail #main-info {
+  .vtk-body #main .meeting-detail #main-info section {
+    margin-bottom: 30px;
     margin-top: 0; }
-    .vtk-body #main .meeting-detail #main-info section {
-      margin-bottom: 30px;
-      margin-top: 0; }
-      .vtk-body #main .meeting-detail #main-info section p {
-        margin: 0;
-        font-weight: 700; }
-      .vtk-body #main .meeting-detail #main-info section:last-child {
-        margin-bottom: 0; }
+    .vtk-body #main .meeting-detail #main-info section p {
+      margin: 0;
+      font-weight: 700; }
+    .vtk-body #main .meeting-detail #main-info section:last-child {
+      margin-bottom: 0; }
   .vtk-body #main .meeting-detail .wrapper {
     position: relative;
     background-color: #f6f6f6;
@@ -417,7 +451,7 @@
     .vtk-body .reveal-modal .content [class*=" icon-"] {
       font-size: 27px;
       vertical-align: middle; }
-    .vtk-body .reveal-modal .content input {
+    .vtk-body .reveal-modal .content input[type="text"] {
       padding: 5px 8px;
       height: auto; }
     .vtk-body .reveal-modal .content select {
@@ -451,8 +485,6 @@
       font-family: "JollyFont";
       color: green; }
     .vtk-body .reveal-modal .content .btn {
-      text-transform: uppercase;
-      color: #fff;
       margin-left: 5px; }
     .vtk-body .reveal-modal .content section {
       margin: 0 0 40px 0; }
@@ -468,7 +500,6 @@
   color: #000; }
   .vtk-body #modal-meeting-reminder h6:before {
     border-color: transparent transparent transparent #000;
-    margin-left: 5px;
     border-width: 5px;
     margin-top: -5px; }
   .vtk-body #modal-meeting-reminder h6.on:before {
@@ -541,8 +572,7 @@
     .vtk-body #modal-meeting-reminder .accordion dt .name:nth-of-type(1).on:before {
       border-color: #000 transparent transparent; }
   .vtk-body #modal-meeting-reminder .accordion dd .name {
-    font-weight: 600;
-    vertical-align: middle; }
+    font-weight: 600; }
   .vtk-body #modal-meeting-reminder .accordion dd .small-block-grid-2 > li:nth-child(2n),
   .vtk-body #modal-meeting-reminder .accordion dd .small-block-grid-3 > li:nth-child(3n) {
     text-align: right; }
@@ -652,7 +682,8 @@
           background: none; }
       .vtk-body .modalWrap .tabs-wrapper .tabs-content .date label[for="sch_startDate"],
       .vtk-body .modalWrap .tabs-wrapper .tabs-content .date label[for="sch_endDate"],
-      .vtk-body .modalWrap .tabs-wrapper .tabs-content .date label[for="newCustActivity_date"] {
+      .vtk-body .modalWrap .tabs-wrapper .tabs-content .date label[for="newCustActivity_date"],
+      .vtk-body .modalWrap .tabs-wrapper .tabs-content .date label[for="calStartDt"] {
         margin-top: 5px; }
       .vtk-body .modalWrap .tabs-wrapper .tabs-content #manageLocationSection,
       .vtk-body .modalWrap .tabs-wrapper .tabs-content #manageActivitySection,
@@ -727,12 +758,7 @@
       font-size: 27px;
       color: #00ae57;
       vertical-align: middle; }
-  .vtk-body .modalWrap .btn {
-    text-transform: uppercase;
-    color: #fff; }
-    .vtk-body .modalWrap .btn.add-btn {
-      padding: 10px 2rem; }
-  .vtk-body .modalWrap button, .vtk-body .modalWrap select {
+  .vtk-body .modalWrap select {
     text-transform: uppercase; }
 .vtk-body .reveal-modal input[type="checkbox"] + label,
 .vtk-body .reveal-modal input[type="radio"] + label,
@@ -741,8 +767,7 @@
   margin: 0; }
 .vtk-body .reveal-modal .button,
 .vtk-body .modalWrap .button {
-  margin-bottom: 0;
-  text-transform: uppercase; }
+  margin-bottom: 0; }
 .vtk-body .reveal-modal #frmCalElem,
 .vtk-body .modalWrap #frmCalElem {
   margin-bottom: 0; }
@@ -841,17 +866,43 @@
   text-transform: uppercase; }
 .vtk-body .reveal-modal .icon-printer,
 .vtk-body .modalWrap .icon-printer {
-  color: #00ae53; }
+  color: #00AE53; }
 .vtk-body .modifyCalendarDate {
   margin-top: 25px; }
-.vtk-body #modal_meeting_aids .button {
-  padding: 5px 8px;
-  display: block;
-  margin: 0; }
+  .vtk-body .modifyCalendarDate input[type="radio"] {
+    display: none; }
+  .vtk-body .modifyCalendarDate input[type="radio"] + label {
+    position: relative; }
+    .vtk-body .modifyCalendarDate input[type="radio"] + label p {
+      top: 25%;
+      left: 60px;
+      white-space: nowrap;
+      position: absolute; }
+  .vtk-body .modifyCalendarDate input[type="radio"] + label:before {
+    width: 2.81rem;
+    height: 2.81rem;
+    content: '';
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    margin: 0 0.5em;
+    color: transparent; }
+  .vtk-body .modifyCalendarDate input[type="radio"]:checked + label:after {
+    content: '';
+    display: inline-block;
+    border: none;
+    border-radius: 50%;
+    margin: 0 0.5em;
+    position: absolute;
+    background: #00ae58;
+    width: 2.19rem;
+    height: 2.19rem;
+    top: 5px;
+    left: 5px; }
 .vtk-body .modal_agenda_edit .content h3 {
   margin-bottom: 20px; }
-.vtk-body .modal_agenda_edit .content .btn {
-  padding: 4px 20px; }
+.vtk-body .modal_agenda_edit .content select {
+  height: 40px; }
 .vtk-body .modal-attendance .content h4 {
   font-size: 24px;
   margin-bottom: 50px; }
@@ -869,8 +920,6 @@
   .vtk-body .modal-attendance .content table thead th,
   .vtk-body .modal-attendance .content table td:nth-child(n+2) {
     text-align: center; }
-.vtk-body .browseMeetingAids a, .vtk-body .browseMeetingAids p, .vtk-body .browseMeetingAids span, .vtk-body .browseMeetingAids input {
-  font-size: 14px; }
 .vtk-body #manageCalendarSection .holidays ul li {
   list-style: none; }
 .vtk-body #manageCalendarSection .holidays input[type=checkbox]:checked + label:before {
@@ -1020,14 +1069,87 @@
         font-size: 14px !important; }
     .vtk-body .accordion .accordion-inner ul.column:first-child {
       margin-left: 27px; }
-.vtk-body table thead,
-.vtk-body table tfoot {
-  background: none; }
 .vtk-body .reveal-modal-bg,
 .vtk-body .ui-widget-overlay {
   background: rgba(0, 0, 0, 0.6) !important;
   box-shadow: 0 0 50px rgba(0, 0, 0, 0.9) !important;
   opacity: 1 !important; }
+.vtk-body #main .meeting-detail #financeForm section {
+  margin-top: 0; }
+  .vtk-body #main .meeting-detail #financeForm section h6 {
+    margin-bottom: 5px; }
+    .vtk-body #main .meeting-detail #financeForm section h6 span:nth-of-type(2) {
+      font-weight: normal; }
+  .vtk-body #main .meeting-detail #financeForm section ul {
+    margin-top: 20px; }
+    .vtk-body #main .meeting-detail #financeForm section ul li {
+      margin: 0;
+      line-height: 2; }
+.vtk-body #main .meeting-detail #financeForm .large-block-grid-2 > li:nth-child(2n+1) {
+  width: 70%;
+  white-space: nowrap; }
+.vtk-body #main .meeting-detail #financeForm .large-block-grid-2 > li:nth-child(2n) {
+  width: 30%; }
+.vtk-body #main .meeting-detail #financeForm input[type="text"] {
+  height: 30px;
+  text-align: right; }
+.vtk-body #main .meeting-detail #financeForm .save {
+  margin-top: 20px; }
+.vtk-body #main .finances #financeForm input[type=checkbox]:checked + label:before {
+  content: "\e6d7";
+  font-family: "JollyFont";
+  color: green; }
+.vtk-body #main .finances #financeForm input[type="checkbox"] {
+  display: none; }
+.vtk-body #main .finances #financeForm input[type="text"] {
+  text-align: left; }
+.vtk-body #main .finances #financeForm label:before {
+  border: solid 1px #ccc;
+  content: "";
+  height: 30px;
+  width: 30px;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+  font-size: 15px;
+  text-align: center;
+  display: inline-block;
+  float: left;
+  padding: 4px; }
+.vtk-body #main .finances #financeForm section p:nth-of-type(1) {
+  font-size: 12px;
+  font-weight: 600;
+  margin-right: 23px;
+  margin-bottom: 5px; }
+.vtk-body #main .finances #financeForm .opts {
+  margin-bottom: 15px; }
+  .vtk-body #main .finances #financeForm .opts span {
+    margin-top: 3px; }
+  .vtk-body #main .finances #financeForm .opts select {
+    height: 30px;
+    padding: 0 11px;
+    border: solid 1px #333;
+    font-weight: bold;
+    font-size: 14px; }
+.vtk-body .icon a, .vtk-body .icon span {
+  vertical-align: top; }
+  .vtk-body .icon a:before, .vtk-body .icon span:before {
+    background: url("/etc/designs/girlscouts-vtk/images/icon_sprite.png") transparent no-repeat 0 0;
+    height: 25px;
+    width: 20px;
+    display: inline-block;
+    white-space: nowrap;
+    padding-left: 30px;
+    content: " "; }
+.vtk-body .icon p {
+  padding-left: 30px;
+  margin-top: -10px; }
+.vtk-body .icon.pdf a:before, .vtk-body .icon.pdf span:before {
+  background-position: -30px 0; }
+.vtk-body .icon.docx a:before, .vtk-body .icon.docx span:before, .vtk-body .icon.doc a:before, .vtk-body .icon.doc span:before {
+  background-position: -60px 0; }
+.vtk-body .icon.xlsx a:before, .vtk-body .icon.xlsx span:before, .vtk-body .icon.xls a:before, .vtk-body .icon.xls span:before {
+  background-position: -90px 0; }
+.vtk-body .icon.zip a:before, .vtk-body .icon.zip span:before {
+  background-position: -120px 0; }
 
 .inline-list .icon i {
   color: inherit;
@@ -1056,9 +1178,12 @@
         content: "";
         position: absolute;
         right: 20px; }
+  .tab-wrapper.row #vtk-main-menu li {
+    padding-bottom: 5px; }
 
 .tabs dd {
-  width: 16.666667%;
+  max-width: 16.666667%;
+  min-width: 14.252874%;
   border-bottom: solid 6px #009447; }
   .tabs dd > a {
     background: #00ae57;
@@ -1115,6 +1240,26 @@ input[type="file"] {
   padding: 10px !important;
   border-radius: 0; }
 
+#ui-datepicker-div {
+  background: #fff; }
+  #ui-datepicker-div .ui-corner-all {
+    border: none;
+    border-radius: 0;
+    background: none; }
+  #ui-datepicker-div table {
+    border: none; }
+  #ui-datepicker-div .ui-datepicker-header .ui-datepicker-title {
+    float: none; }
+  #ui-datepicker-div a.ui-state-default.ui-state-highlight,
+  #ui-datepicker-div .ui-state-active,
+  #ui-datepicker-div .ui-widget-content .ui-state-active,
+  #ui-datepicker-div .ui-widget-header .ui-state-active {
+    background: #cfefde; }
+  #ui-datepicker-div .ui-state-default,
+  #ui-datepicker-div .ui-widget-content .ui-state-default,
+  #ui-datepicker-div .ui-widget-header .ui-state-default {
+    text-align: center; }
+
 @media only screen and (max-width: 40em) {
   .vtk-body #main #yearPlanMeetings ul .meeting > div .touchscroll {
     position: absolute;
@@ -1123,14 +1268,17 @@ input[type="file"] {
     display: block !important;
     height: 83px;
     background: #fff;
-    padding-right: 6px; }
+    padding-right: 6px;
+    top: 1px;
+    left: 7px;
+    width: 23px; }
   .vtk-body #main #yearPlanMeetings ul .meeting > div .bg-square {
     left: 30px; }
     .vtk-body #main #yearPlanMeetings ul .meeting > div .bg-square:after {
       content: none; }
   .vtk-body #main #yearPlanMeetings ul .meeting > div:before {
     background: #fff;
-    left: 0; }
+    left: -30px; }
   .vtk-body #main #yearPlanMeetings ul .meeting > div > div:nth-of-type(2) {
     padding-left: 115px; }
 
@@ -1168,6 +1316,9 @@ input[type="file"] {
   .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody td {
     padding: 9px; }
 
+  .vtk-body .modalWrap .tabs-wrapper .tabs-content table tr:nth-of-type(odd) {
+    background: #f9f9f9; }
+
   .vtk-body #modal-meeting-reminder .accordion dd .content li span {
     max-width: 245px;
     overflow: hidden;
@@ -1175,16 +1326,6 @@ input[type="file"] {
 
   .mytroop .accordion-inner dt .column {
     margin-bottom: 7px; } }
-table {
-  width: 100%; }
-
-table tr {
-  background: #fff; }
-  table tr:nth-of-type(odd) {
-    background: #f9f9f9; }
-  table tr:nth-of-type(even) {
-    background: #fff; }
-
 @media only screen and (min-width: 40.063em) and (max-width: 60.063em) {
   .vtk-body #main .crumbs .columns #util-links.inline-list li:nth-of-type(2) {
     margin: 0 11px; }
@@ -1197,7 +1338,8 @@ table tr {
     height: 83px;
     background: #fff;
     padding-right: 6px;
-    left: -30px; }
+    left: -30px;
+    width: 23px; }
 
   .mytroop .accordion-inner dt .column {
     margin-bottom: 7px; } }

@@ -1,5 +1,4 @@
-<%@page
-	import="org.codehaus.jackson.map.ObjectMapper,org.joda.time.LocalDate,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
+<%@page import="org.codehaus.jackson.map.ObjectMapper,org.joda.time.LocalDate,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <cq:defineObjects />
 <%@include file="include/session.jsp"%>
@@ -238,14 +237,14 @@
 				out.println(yearPlanUtil.isYearPlanAltered(user, troop));
 				return;
 			case GetFinances:
-				financeUtil.getFinances(user, troop, Integer
-						.parseInt(request.getParameter("finance_qtr")));
+				financeUtil.getFinances(troop, Integer.parseInt(request.getParameter("finance_qtr")), user.getCurrentYear());
 				return;
 			case UpdateFinances:
-				financeUtil.updateFinances(user, troop,
-						request.getParameterMap());
+				financeUtil.updateFinances(troop, user.getCurrentYear(), request.getParameterMap());
 				return;
-
+			case UpdateFinanceAdmin:
+				financeUtil.updateFinanceConfiguration(troop, user.getCurrentYear(), request.getParameterMap());
+				return;
 			case RmMeeting:
 				meetingUtil.rmMeeting(user, troop,
 						request.getParameter("mid"));
@@ -253,7 +252,6 @@
 						Long.parseLong(request.getParameter("rmDate")));
 				return;
 			case UpdAttendance:
-	System.err.println("tata66: "+ request.getParameter("attendance"));			
 				meetingUtil.updateAttendance(user, troop, request);
 				meetingUtil.updateAchievement(user, troop, request);
 				return;
