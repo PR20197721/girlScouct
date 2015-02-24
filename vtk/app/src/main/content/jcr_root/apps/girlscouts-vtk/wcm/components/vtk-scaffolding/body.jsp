@@ -330,7 +330,11 @@
                     }
                 }
                 
+                // Add original URL to params
+                params.originalUrl = '<%= formUrl %>';
                 var action = new CQ.form.SlingSubmitAction(frm, {
+                	// Direct to our special servlet
+                	url:  '/bin/vtk-scaffolding-post',
                     params: params,
                     success: function(frm, resp) {
                         var contentPath = resp.result["Path"];

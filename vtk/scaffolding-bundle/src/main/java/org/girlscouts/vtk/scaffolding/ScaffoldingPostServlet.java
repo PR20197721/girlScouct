@@ -1,6 +1,8 @@
 package org.girlscouts.vtk.scaffolding;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Map;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
@@ -18,14 +20,18 @@ import org.slf4j.LoggerFactory;
 @Service({ Servlet.class })
 @Property(name = "sling.servlet.paths", value = { "/bin/vtk-scaffolding-post" })
 public class ScaffoldingPostServlet extends SlingAllMethodsServlet {
-    private final Logger logger;
-    public ScaffoldingPostServlet() {
-        this.logger = LoggerFactory.getLogger(getClass());
-    }
+    private static final Logger log = LoggerFactory.getLogger(ScaffoldingPostServlet.class);
     
     @Override
     protected void doPost(SlingHttpServletRequest request,
             SlingHttpServletResponse response) throws ServletException,
             IOException {
+        PrintWriter out = response.getWriter();
+        out.println("hello world");
+        Map<String, String[]> paramMap = request.getParameterMap();
+        
+        for (String key : paramMap.keySet()) {
+        }
+        request.getRequestDispatcher(request.getParameter("originalUrl")).forward(request, response);
     }
 }
