@@ -13,35 +13,24 @@
       	<%if(planView.getSearchDate()!=null && planView.getSearchDate().after( new java.util.Date("1/1/1977") )){ 
       	      Calendar meetingDate = null;
       	      meetingDate=Calendar.getInstance();
-			  meetingDate.setTime(planView.getSearchDate());
-			  meetingDate.add(Calendar.MINUTE, planView.getMeetingLength());
-			  //Date meetingEnd = null;
-			  Date meetingEnd = meetingDate.getTime();%>
-        <span className="month">{this.props.meetingModMONTH}</span>
-        <span className="day">{this.props.meetingModDAY}</span>
-        <span className="hour">{this.props.meetingModHOUR}</span>
-        -<span><%=FORMAT_hhmm_AMPM.format(meetingEnd)%></span>
-
-
-      	<%} %>
-      	
-      	
-      	
+      			  meetingDate.setTime(planView.getSearchDate());
+      			  meetingDate.add(Calendar.MINUTE, planView.getMeetingLength());
+      			  //Date meetingEnd = null;
+      			  Date meetingEnd = meetingDate.getTime();%>
+              <span className="month">{this.props.meetingModMONTH}</span>
+              <span className="day">{this.props.meetingModDAY}</span>
+              <span className="hour">{this.props.meetingModHOUR}</span>
+              -<span><%=FORMAT_hhmm_AMPM.format(meetingEnd)%></span>
+      	<%} %>  	
       	<% switch( planView.getYearPlanComponent().getType() ) {
-	
-	  		case ACTIVITY:
-				
-					java.util.Date endDate = ( (Activity) planView.getYearPlanComponent() ).getEndDate();
-					
-						out.println("-");
-						if(planView.getSearchDate().getMonth() !=  endDate.getMonth() ){%><%= FORMAT_MONTH.format(endDate)%><% }
-						if(planView.getSearchDate().getDay() !=  endDate.getDay() ){%><%=FORMAT_DAY_OF_MONTH.format(endDate)%><% }
-						
-						%><%=FORMAT_hhmm_AMPM.format(endDate) %><% 
-					
-				
-				break;
-    		  }
+    	  		case ACTIVITY:
+    					java.util.Date endDate = ( (Activity) planView.getYearPlanComponent() ).getEndDate();
+    						out.println("-");
+    						if(planView.getSearchDate().getMonth() !=  endDate.getMonth() ){%><%= FORMAT_MONTH.format(endDate)%><% }
+    						if(planView.getSearchDate().getDay() !=  endDate.getDay() ){%><%=FORMAT_DAY_OF_MONTH.format(endDate)%><% }				
+    						%><%=FORMAT_hhmm_AMPM.format(endDate) %>
+            <% break; 
+          }
         %>
       </p>
     </div>

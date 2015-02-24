@@ -274,17 +274,15 @@
       padding-bottom:20px;
     }
   }
-  #mainContent.welcome-page .parbase.section {
-    &.text {
+  #mainContent.welcome-page {
       h1 {
-        margin: 0 0 1.25rem 0;
+        margin: 1.88rem 0 4.38rem 0;
       }
       p {
         font-size: 0.875rem;
         margin-top: 1.13rem;
       }
     }
-  }
   .inline-list {
     margin: 0;
     &#sub-nav {
@@ -302,6 +300,29 @@
           font-size: 0.75em;
         }
       }
+    }
+  }
+  //table overwrites
+  table {
+    width: 100%;
+    border:none;
+    thead, 
+    tfoot {
+      background: none;
+      border:none;
+    }
+    tr, 
+    td {
+      border:none;
+    }
+  }
+  table tr {
+    background: #fff;
+    &:nth-of-type(odd) {
+      background: #f9f9f9;
+    }
+    &:nth-of-type(even) {
+      background: #fff;
     }
   }
   .sectionHeader {
@@ -372,6 +393,7 @@
           h3 {
             margin: 0;
             padding-top: 15px;
+            line-height:1.5;
           }
         }
       }
@@ -404,14 +426,17 @@
       font-size:27px;
     }
     section {
-      margin-top:17px;
+      margin-top: 17px;
+    &:first-child {
+      margin-top: 0;
+    }
       h6 {
         font-size: 14px;
         font-weight:600;
         text-transform: uppercase;
         background: #f6f6f6;
-        margin-left: -5px;
-        margin-right: -5px;
+        // margin-left: -5px;
+        // margin-right: -5px;
         margin-bottom: 1.25em;
         padding: 5px;
       }
@@ -458,7 +483,6 @@
         }
       }
     #main-info {
-      margin-top: 0;
       section {
         margin-bottom:30px;
         margin-top: 0;
@@ -636,6 +660,9 @@
         font-family: "JollyFont";
         color: green;
       }
+      .btn {
+        margin-left:5px;
+      }
       section {
         margin: 0 0 40px 0;
         p {
@@ -655,7 +682,6 @@
       color:#000;
       &:before {
         border-color: transparent transparent transparent #000;
-        margin-left:5px;
         border-width: 5px;
         margin-top: -5px;
       }
@@ -1435,20 +1461,98 @@
         }
       }
   }
-  //tables
-  table {
-    thead, 
-    tfoot {
-      background: none;
-    }
-  }
-
   .reveal-modal-bg,
   .ui-widget-overlay {
     background: rgba(0, 0, 0, 0.6) !important;
     box-shadow: 0 0 50px rgba(0, 0, 0, .9) !important;
     opacity: 1 !important;
   }
+
+  //Financial page 
+  #main .meeting-detail #financeForm {
+    section {
+      margin-top:0;
+      h6 {
+        margin-bottom: 5px;
+        span {
+          &:nth-of-type(2) {
+            font-weight: normal;
+          }
+        }
+      }
+      ul {
+        margin-top: 20px;
+        li {
+          margin:0;
+          line-height: 2;
+        }
+      } 
+    }
+    .large-block-grid-2 {
+      > li:nth-child(2n+1) {
+          width: 70%;
+          white-space: nowrap;
+        }
+      }
+    .large-block-grid-2 {
+      > li:nth-child(2n) {
+        width: 30%;
+      } 
+    }
+    input[type="text"] {
+      height: 30px;
+      text-align: right;
+    }
+    .save {
+      margin-top: 20px;
+    }
+  }
+  //ADMIN PAGES
+  #main .finances #financeForm  {
+    input[type=checkbox]:checked + label:before {
+      content: "\e6d7";
+      font-family: "JollyFont";
+      color: green;
+    }
+    input[type="checkbox"] {
+      display: none;
+    }
+    input[type="text"] {
+      text-align: left;
+    }
+    label {
+      &:before {
+        border: solid 1px #ccc;
+        content: "";
+        height: 30px;
+        width: 30px;
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+        font-size: 15px;
+        text-align: center;
+        display: inline-block;
+        float: left;
+        padding:4px;
+      }
+    }
+    section {
+      p:nth-of-type(1) {
+        font-size: 12px;
+        font-weight: 600;
+        margin-right: 23px;
+        margin-bottom: 5px;
+      }
+    }
+    .opts {
+      margin-bottom: 15px;
+      span {
+        margin-top:3px;
+      }
+      select {
+        height: 30px;
+        padding: 0 11px;
+        border: solid 1px #333;
+        font-weight: bold;
+        font-size: 14px;
   .icon {
     a,span {
       vertical-align: top;
@@ -1500,6 +1604,10 @@
 } //end of vtk-body
 
 //overwrite of global
+.btn, .button, button {
+  text-transform:uppercase;
+  color:#fff;
+}
 .inline-list {
   .icon {
     i {
@@ -1544,7 +1652,8 @@
   }
 }
 .tabs dd {
-  width: 16.666667%;
+  max-width: 16.666667%;
+  min-width: 14.252874%;
   border-bottom:solid 6px #009447;
   > a {
     background: #00ae57;
@@ -1725,18 +1834,6 @@ input[type="file"] {
         }
       }
     }
-  }
-}
-table { 
-  width: 100%; 
-}
-table tr {
-  background: #fff;
-  &:nth-of-type(odd) {
-    background: #f9f9f9;
-  }
-  &:nth-of-type(even) {
-    background: #fff;
   }
 }
 //medium screen 
