@@ -25,6 +25,9 @@
 				emailTo= emailTo.substring(0, emailTo.length()-1);
 			if( emailTo.startsWith(",") ) 
 				emailTo= emailTo.substring(1, emailTo.length());
+			System.err.println("testh: "+ emailTo);
+			emailTo = java.net.URLEncoder.encode( emailTo );
+			System.err.println("testh: after "+ emailTo);
 			
 	}catch(Exception e){e.printStackTrace();}
 	
@@ -54,13 +57,14 @@
                 <% for(int i=0; i<contacts.size(); i++) { 
                     org.girlscouts.vtk.models.Contact contact = contacts.get(i);
                     java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, troop, contact);
-                %>
+                    String _email= java.net.URLEncoder.encode(contact.getFirstName() +"<"+contact.getEmail() +">");
+                   %>
                 <div class="row">
                   <dl class="accordion-inner clearfix" data-accordion>
                     <dt data-target="panel<%=i+1%>b" class="clearfix">
                       <span class="name column large-10"><%=contact.getFirstName() %></span>
                      <!--  <span class="name column large-4 hide-for-small">&nbsp;</span> -->
-                      <a class="column large-8 email" href="mailto:"<%=contact.getFirstName() %>" <%=contact.getEmail() %>">
+   <a class="column large-8 email" href="mailto:<%=_email%>">
                         <i class="icon icon-mail"></i><%=contact.getEmail() %>
                       </a>
                       <span class="column large-4"><%=contact.getPhone() %></span>
