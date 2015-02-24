@@ -226,7 +226,7 @@ public class Asset extends SlingAllMethodsServlet {
 					+ request.getParameter("id"));
 
 		} else if (request.getParameter("upldTroopPic") != null) {
-			response.sendRedirect("/content/girlscouts-vtk/en/vtk.mytroop_react.html");
+			response.sendRedirect("/content/girlscouts-vtk/en/vtk.myTroop.html");
 		}
 	}
 
