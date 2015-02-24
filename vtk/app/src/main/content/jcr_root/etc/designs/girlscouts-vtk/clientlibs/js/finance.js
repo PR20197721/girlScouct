@@ -6,11 +6,13 @@ function maskAllFields() {
 	var i = 1;
 	var incomeChildren = document.getElementById("incomeFields").children;
 	var expenseChildren = document.getElementById("expenseFields").children;
-	
+	console.log("Started Masking Fields");
 	for(var i = 0; i < incomeChildren.length || i < expenseChildren.length ; i++){
 		if(i < incomeChildren.length){
+			
 			var incChild = incomeChildren[i].firstElementChild;
 			if(incChild.tagName == "INPUT"){
+			console.log("Masked income child" + i);
 				$(incChild).maskMoney({allowZero: true, prefix: '$'});
 			}
 		
@@ -18,6 +20,7 @@ function maskAllFields() {
 		if(i < expenseChildren.length){
 			var expChild = expenseChildren[i].firstElementChild;
 			if(expChild.tagName == "INPUT"){
+			console.log("Masked expense child" + i);
 				$(expChild).maskMoney({allowZero: true, prefix: '$'});
 				
 			}
