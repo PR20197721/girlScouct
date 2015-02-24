@@ -407,7 +407,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 		if (user != null
 				&& !userUtil.hasPermission(user.getPermissions(),
-						Permission.PERMISSION_CREATE_ACTIVITY_ID))
+						Permission.PERMISSION_ADD_ACTIVITY_ID))
 			throw new IllegalAccessException();
 
 		if (user != null && !userUtil.isCurrentTroopId(troop, user.getSid())) {
@@ -549,7 +549,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 		List<org.girlscouts.vtk.models.Search> matched = null;
 		if (!userUtil.hasPermission(troop,
-				Permission.PERMISSION_SEARCH_MEETING_ID))
+				Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
 
 		final String RESOURCES_PATH = "resources";
@@ -1576,7 +1576,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			throws IllegalAccessException {
 
 		if (!userUtil.hasPermission(user.getPermissions(),
-				Permission.PERMISSION_SEARCH_MEETING_ID))
+				Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
 
 		Session session = null;
@@ -1668,7 +1668,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		Session session = null;
 
 		if (!userUtil.hasPermission(user.getPermissions(),
-				Permission.PERMISSION_SEARCH_MEETING_ID))
+				Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
 
 		if (user != null && !userUtil.isCurrentTroopId(troop, user.getSid())) {

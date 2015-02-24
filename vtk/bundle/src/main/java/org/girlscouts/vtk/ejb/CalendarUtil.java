@@ -220,7 +220,7 @@ public class CalendarUtil {
 
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
-						Permission.PERMISSION_UPDATE_MEETING_ID))
+						Permission.PERMISSION_EDIT_MEETING_ID))
 			throw new IllegalAccessException();
 
 		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {

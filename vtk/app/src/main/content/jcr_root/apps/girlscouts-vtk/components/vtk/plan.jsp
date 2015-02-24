@@ -132,7 +132,7 @@ var scrollTarget = "";
     					</ul>
      			);
         }else{
-          return <div className="pleaseWait">Please wait..</div>        
+          return <div><img src="/etc/designs/girlscouts-vtk/images/loading.gif"/></div>        
     		 }  		
         },
       onReorder: function(order) {
