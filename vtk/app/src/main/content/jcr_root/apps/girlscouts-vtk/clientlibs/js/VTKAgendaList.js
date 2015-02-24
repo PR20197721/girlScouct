@@ -76,29 +76,36 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
         this.doLayout();
         
         var http = CQ.shared.HTTP;
-        // TODO: get the path. What if creating a new one?
-        var response = http.get(http.externalize('/content/girlscouts-vtk/meetings/myyearplan/brownie/B14B04/activities.1.json'));
-        
-        var agendaItems = new Array();
-        var responseJson = JSON.parse(response.responseText);
-        for (var childKey in responseJson) {
-        	var child = responseJson[childKey];
-        	if (responseJson.hasOwnProperty(childKey) && typeof child === 'object') { // If object, then it is a child node.
-        		var activityNumber = child.activityNumber;
-        		agendaItems.push({
-        			"nodeName": childKey,
-        			"activityNumber": child.activityNumber,
-        			"name": child.name,
-        			"duration": child.duration,
-        			"description": child.activityDescription
-        		});
-        	}
-        }
-
-        agendaItems.sort(function(a, b){return a.activityNumber - b.activityNumber});
-
-        for (var i = 0; i < agendaItems.length; i++) {
-        	this.addItem(agendaItems[i]);
+        // If it is an update, read agenda items.
+        var path = window.location.pathname;
+        if (path.indexOf('/etc/scaffolding') != 0) { 
+        	// /content/girlscouts-vtk/meetings/myyearplan/brownie/B14B04.scaffolding.html
+        	// =>
+        	// /content/girlscouts-vtk/meetings/myyearplan/brownie/B14B04
+        	path = path.substring(0, path.indexOf('.', path.lastIndexOf('/')));
+	        var response = http.get(http.externalize(path + '/activities.1.json'));
+	        
+	        var agendaItems = new Array();
+	        var responseJson = JSON.parse(response.responseText);
+	        for (var childKey in responseJson) {
+	        	var child = responseJson[childKey];
+	        	if (responseJson.hasOwnProperty(childKey) && typeof child === 'object') { // If object, then it is a child node.
+	        		var activityNumber = child.activityNumber;
+	        		agendaItems.push({
+	        			"nodeName": childKey,
+	        			"activityNumber": child.activityNumber,
+	        			"name": child.name,
+	        			"duration": child.duration,
+	        			"description": child.activityDescription
+	        		});
+	        	}
+	        }
+	
+	        agendaItems.sort(function(a, b){return a.activityNumber - b.activityNumber});
+	
+	        for (var i = 0; i < agendaItems.length; i++) {
+	        	this.addItem(agendaItems[i]);
+	        }
         }
     },
 
