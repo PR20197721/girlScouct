@@ -92,15 +92,18 @@ public class Cal extends SlingSafeMethodsServlet {
 			SlingHttpServletResponse response) throws ServerException,
 			IOException {
 
+		// MeetingDAO meetingDAO = resourceResolver.adaptTo(MeetingDAO.class);
+				User user = ((org.girlscouts.vtk.models.User) request.getSession()
+						.getAttribute(org.girlscouts.vtk.models.User.class.getName()));
+
+				Troop troop = (Troop) request.getSession().getValue("VTK_troop");
+				
+				
 		response.setHeader("Content-Disposition",
-				"attachment;filename=\"mycalendar.ics\"");
+				"attachment;filename=\""+ troop.getYearPlan().getName()+".ics\"");
 		response.setContentType("text/calendar");
 
-		// MeetingDAO meetingDAO = resourceResolver.adaptTo(MeetingDAO.class);
-		User user = ((org.girlscouts.vtk.models.User) request.getSession()
-				.getAttribute(org.girlscouts.vtk.models.User.class.getName()));
-
-		Troop troop = (Troop) request.getSession().getValue("VTK_troop");
+		
 
 		// MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
 		try {

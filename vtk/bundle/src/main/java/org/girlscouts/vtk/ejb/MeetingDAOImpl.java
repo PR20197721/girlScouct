@@ -65,6 +65,7 @@ import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
+import org.girlscouts.vtk.models.SentEmail;
 import org.girlscouts.web.search.DocHit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -298,6 +299,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 			classes.add(JcrCollectionHoldString.class);
 			classes.add(JcrNode.class);
 			classes.add(Asset.class);
+			classes.add(SentEmail.class);
+
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
@@ -359,6 +362,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 			classes.add(JcrCollectionHoldString.class);
 			classes.add(JcrNode.class);
 			classes.add(Asset.class);
+			classes.add(SentEmail.class);
+
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
@@ -2118,6 +2123,46 @@ public class MeetingDAOImpl implements MeetingDAO {
 				ocm.insert(Achievement);
 			ocm.update(Achievement);
 			ocm.save();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null)
+					sessionFactory.closeSession(session);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+
+		return false;
+	}
+	
+	public boolean updateMeetingEvent(User user, Troop troop, MeetingE meeting)
+			throws IllegalAccessException, IllegalStateException{
+
+		Session session = null;
+		if (troop != null
+				&& !userUtil.hasPermission(troop,
+						Permission.PERMISSION_EDIT_MEETING_ID))
+			throw new IllegalAccessException();
+
+		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
+			troop.setErrCode("112");
+			throw new java.lang.IllegalStateException();
+		}
+		try {
+			session = sessionFactory.getSession();
+			List<Class> classes = new ArrayList<Class>();
+			classes.add(MeetingE.class);
+			classes.add(JcrCollectionHoldString.class);
+			classes.add(Asset.class);
+			classes.add(SentEmail.class);
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+					mapper);
+			ocm.update(meeting);
+			ocm.save();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

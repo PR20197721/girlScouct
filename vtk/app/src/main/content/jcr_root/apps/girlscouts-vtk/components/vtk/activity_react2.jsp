@@ -28,7 +28,7 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
 <div id="panelWrapper" class="row content meeting-detail">
   <%@include file="include/utility_nav.jsp"%>
   <%@include file="include/activity_edit_react.jsp"%>
-			
+  <%@include file="include/modals/modal_view_sent_emails.jsp"%>			
   <div id="theActivity">
 
 
@@ -107,7 +107,9 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
               <section>
                 <p>Cost: {this.props.data.cost}</p>
               </section>
+
               <p dangerouslySetInnerHTML={{__html: this.props.data.content}}/>
+
             </div>
             <%@include file="include/meeting_communication.jsp"%>
           </div>

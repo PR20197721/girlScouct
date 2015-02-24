@@ -7,15 +7,19 @@
 
 
 <div class="modal_agenda_edit">
-	<div class="header clearfix">
+	<div class="header clearfix">	
 		<h3 class="columns large-22">
 		<% 
+		  String act="";
 			if (request.getParameter("isOverview") != null) {
 					out.println("Overview");
+					act="isOverview";
 			} else if (request.getParameter("isActivity") != null) {
-				out.println("Activity");
+					out.println("Activity");
+					act="isActivity";
 			} else if (request.getParameter("isMaterials") != null) {
-				out.println("Materials");
+					out.println("Materials");
+					act="isMaterials";
 			} else if (request.getParameter("isAgenda") != null) {
 				out.println("Agenda");
 			}
@@ -23,7 +27,14 @@
 		</h3>
 		<a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
 	</div>
+	
 	<div class="scroll content">
+	<% if(!act.isEmpty()) { %>
+		<a href="/content/girlscouts-vtk/controllers/vtk.pdfPrint.html?act=<%=act%>&mid=<%=request.getParameter("mid") %>" target="_blank" class="icon-download right"></a>
+	<% } %>
+	<%  if (request.getParameter("isAgenda") == null) {%>
+		<a id="print-link" class="icon-printer right" title="print"></a>
+	<% } %>
 		<div class="setupCalendar row">
 		<%
 			MeetingE meeting = null;
@@ -57,7 +68,8 @@
 		<%
 			} else if (request.getParameter("isMaterials") != null) {
 		%>
-		<div class="editable-textarea column small-20 small-centered" id="editMeetingMaterials"><%=meetingInfoItems.get("materials").getStr()%></div>
+		<div class="editable-textarea column small-20 small-centered" id="editMeetingMaterials">
+		<%=meetingInfoItems.get("materials").getStr()%></div>
 			<%
 			} else if (request.getParameter("isAgenda") != null) {
 					try {
@@ -77,49 +89,56 @@
 					}
 				%>
 <% if (request.getParameter("isAgenda") != null) {%>
-			<div class="row">
-                        <form onsubmit="return false;">
-						<h3>Agenda Item: <%=_activity.getName()%></h3>
-						<div class="columns small-4">
-							<select onchange="durEditActiv(this.options[this.selectedIndex].value, '<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">
-								<option value="0" selected>Time Allotment</option>
-								<option value="5"
-									<%=(_activity.getDuration() == 5)  ? "SELECTED" : ""%>>5</option>
-								<option value="10"
-									<%=(_activity.getDuration() == 10) ? "SELECTED" : ""%>>10</option>
-								<option value="15"
-									<%=(_activity.getDuration() == 15) ? "SELECTED" : ""%>>15</option>
-								<option value="20"
-									<%=(_activity.getDuration() == 20) ? "SELECTED" : ""%>>20</option>
-								<option value="25"
-									<%=(_activity.getDuration() == 25) ? "SELECTED" : ""%>>25</option>
-								<option value="30"
-									<%=(_activity.getDuration() == 30) ? "SELECTED" : ""%>>30</option>
-							</select>
-							
-						</div>
-						<div class="columns small-20">
-							<button onclick="location.reload();" class="btn button">Save and Back to meeting</button>
-							<button class="btn button" onclick="return rmAgenda('<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">Delete This Agenda Item</button>
-						
-						</div>
-			</form>
+	<div class="row">
+   	<form onsubmit="return false;">
+			<h3>Agenda Item: <%=_activity.getName()%></h3>
+			<div class="columns small-4">
+				<select onchange="durEditActiv(this.options[this.selectedIndex].value, '<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">
+					<option value="0" selected>Time Allotment</option>
+					<option value="5"
+						<%=(_activity.getDuration() == 5)  ? "SELECTED" : ""%>>5</option>
+					<option value="10"
+						<%=(_activity.getDuration() == 10) ? "SELECTED" : ""%>>10</option>
+					<option value="15"
+						<%=(_activity.getDuration() == 15) ? "SELECTED" : ""%>>15</option>
+					<option value="20"
+						<%=(_activity.getDuration() == 20) ? "SELECTED" : ""%>>20</option>
+					<option value="25"
+						<%=(_activity.getDuration() == 25) ? "SELECTED" : ""%>>25</option>
+					<option value="30"
+						<%=(_activity.getDuration() == 30) ? "SELECTED" : ""%>>30</option>
+				</select>
+				
 			</div>
-					<section class="row">
-						<%
-							if (_activity.getActivityDescription() != null && !_activity.getActivityDescription().isEmpty()) {
-								out.println("<div class=\"clearfix columns small-20 small-centered\">" + _activity.getActivityDescription() + "</div>");
-							}
-						%>
-					</section>
+			<div class="columns small-20">
+				<button onclick="location.reload();" class="btn button">Save and Back to meeting</button>
+				<button class="btn button" onclick="return rmAgenda('<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">Delete This Agenda Item</button>
+			
 			</div>
-			<section class="row">
-				<%
-					if (_activity.getActivityDescription() != null && !_activity.getActivityDescription().isEmpty()) {
-						out.println("<div class=\"clearfix columns small-20 small-centered\">" + _activity.getActivityDescription() + "</div>");
-					}
-				%>
-			</section>
-<%}%>
+		</form>
+		</div>
+				<section class="row">
+					<%
+						if (_activity.getActivityDescription() != null && !_activity.getActivityDescription().isEmpty()) {
+							out.println("<div class=\"clearfix columns small-20 small-centered\">" + _activity.getActivityDescription() + "</div>");
+						}
+					%>
+				</section>
+		</div>
+		<section class="row">
+			<%
+				if (_activity.getActivityDescription() != null && !_activity.getActivityDescription().isEmpty()) {
+					out.println("<div class=\"clearfix columns small-20 small-centered\">" + _activity.getActivityDescription() + "</div>");
+				}
+			%>
+		</section>
+		<%}%>
 		</div>
 	</div>
+	<script type="text/javascript">
+	 $(document).ready(function() {
+		$('#print-link').on('click',function() {
+			$('.modal_agenda_edit .scroll.content').print();
+		});
+	});
+	</script>
