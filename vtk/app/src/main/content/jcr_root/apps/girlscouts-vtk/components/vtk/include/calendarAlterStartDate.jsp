@@ -16,10 +16,10 @@
   <input type="hidden" id="orgDt" name="orgDt" value="<%=( startAlterDate!=null && !startAlterDate.trim().equals("")) ? startAlterDate:( troop.getYearPlan().getCalStartDate()==null ? "" : new java.util.Date(troop.getYearPlan().getCalStartDate()).getTime() ) %>"/>   
   <section class="clearfix">
 
-    <div class="small-5 columns">
+    <div class="small-5 columns date">
       <input type="text" placeholder="Start Date" id="calStartDt" name="calStartDt" value="<%=( startAlterDate!=null && !startAlterDate.trim().equals("")) ? FORMAT_MMddYYYY.format(new java.util.Date( Long.parseLong(startAlterDate))):( troop.getYearPlan().getCalStartDate()==null ? "" : FORMAT_MMddYYYY.format(new java.util.Date(troop.getYearPlan().getCalStartDate()))) %>" />
     </div>
-    <div class="small-2 columns">
+    <div class="small-2 columns date">
       <label for="calStartDt"><i class="icon-calendar"></i></label>
     </div>
     <div class="small-4 columns">
