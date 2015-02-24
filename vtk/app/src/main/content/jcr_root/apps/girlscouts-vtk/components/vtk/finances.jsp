@@ -97,8 +97,9 @@
 			</section>
 		</div>
 		<!-- totals -->
+
 		<% double balance = incomeTotal - expenseTotal; %>
-		<div class="text-right row collapse">
+		<div class="text-right row">
 			<section>
 				<h6 class="clearfix"><span class="column small-20">Total Income:</span>  <span id="total_income" class="column small-4"><%="&#36; " + FORMAT_COST_CENTS.format(incomeTotal) %></span></h6>
 			</section>
