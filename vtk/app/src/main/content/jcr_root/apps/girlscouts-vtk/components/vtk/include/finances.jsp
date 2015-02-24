@@ -6,12 +6,10 @@
 <%
 int qtr= 0;
 try{ qtr = Integer.parseInt( request.getParameter("qtr") ); }catch(Exception e){out.println("Invalid qtr"); return;}
-Finance finance = financeUtil.getFinances(user, troop, qtr);
+Finance finance = financeUtil.getFinances(user, user.getCurrentYear(), troop, qtr);
 if( finance ==null ){
-
 	finance= new Finance();
 }
-
 
 double acc_out = (finance.getGsusaRegistration() + finance.getServiceActivitiesEvents() + finance.getProductSalesProceeds() + finance.getTroopActivities() + finance.getTroopSupplies() + finance.getGsStorePurchases());
 double acc_rcv = (finance.getStartingBalance() + finance.getTroopDues() + finance.getSponsorshipDonations() + finance.getProductSalesProceeds()+ finance.getApprovedMoneyEarningActivity()+ finance.getInterestOnBankAccount() );

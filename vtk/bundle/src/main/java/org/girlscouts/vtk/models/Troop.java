@@ -40,14 +40,8 @@ public class Troop implements Serializable {
 	private EmailMeetingReminder sendingEmail; // tmp
 	private boolean isDbUpdate=false;
 	
-	
-	
-	
-	
-	
 	public boolean isDbUpdate() {
 		return isDbUpdate;
-		
 	}
 
 	public void setDbUpdate(boolean isDbUpdate) {

@@ -123,8 +123,7 @@ public class TroopDAOImpl implements TroopDAO {
 		return troop;
 	}
 
-	public Troop getTroop_byPath(User user, String troopPath)
-			throws IllegalAccessException {
+	public Troop getTroop_byPath(User user, String troopPath) throws IllegalAccessException {
 		Session mySession = null;
 		Troop troop = null;
 
@@ -551,21 +550,15 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 
 	}
 
-	public Finance getFinanaces(Troop troop, int qtr) {
-
-		
-		System.err.println("*******Getting finances data");
+	public Finance getFinances(Troop troop, int qtr, String currentYear) {
 		Session mySession = null;
 		Finance result = null;
 		try {
 			mySession = sessionFactory.getSession();
-			
-
-			
 			result = new Finance();
 			result.setFinancialQuarter(qtr);
 			
-			String path = "/" + troop.getTroopPath() + "/finances/" + qtr;
+			String path = "/" + troop.getTroopPath() + "/finances/" + currentYear + "/" + qtr;
 			try{
 				Node financeNode = mySession.getNode(path);
 				Node incomeNode = financeNode.getNode("income");
@@ -622,12 +615,11 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 		return result;
 	}
 
-	public void setFinances(Troop troop, int qtr, java.util.Map<String, String[]> params) {
-
+	public void setFinances(Troop troop, int qtr, String currentYear, java.util.Map<String, String[]> params) {
 		
 		Session mySession = null;
 		try {
-			String path = troop.getTroopPath() + "/finances";
+			String path = troop.getTroopPath() + "/finances/" + currentYear;
 			mySession = sessionFactory.getSession();
 			Node rootNode = mySession.getRootNode();
 			Node financesNode = null;
@@ -660,14 +652,14 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 	}
 	
 	
-	public FinanceConfiguration getFinanceConfiguration(Troop troop) { 
+	public FinanceConfiguration getFinanceConfiguration(Troop troop, String currentYear) { 
 
 		Session mySession = null;
 		FinanceConfiguration financeConfig = new FinanceConfiguration();
 		try {
 			mySession = sessionFactory.getSession();
 			String troopPath = "/" + troop.getTroopPath();
-			String configPath = troopPath + "/" + FinanceConfiguration.FINANCE_CONFIG;
+			String configPath = troopPath + "/finances/" + currentYear + "/" + FinanceConfiguration.FINANCE_CONFIG;
 			Node configNode = null;
 			try {
 				configNode = mySession.getNode(configPath);
@@ -711,14 +703,14 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 		return financeConfig;
 	}
 
-	public void setFinanceConfiguration(Troop troop, String income, String expenses, String period) {
+	public void setFinanceConfiguration(Troop troop, String currentYear, String income, String expenses, String period) {
 
 		// TODO PERMISSIONS HERE
 		Session mySession = null;
 		try {
 			mySession = sessionFactory.getSession();
 			Node rootNode = mySession.getRootNode();
-			String configPath = troop.getTroopPath() + "/" + FinanceConfiguration.FINANCE_CONFIG;
+                        String configPath = troop.getTroopPath() + "/finances/" + currentYear + "/" + FinanceConfiguration.FINANCE_CONFIG;
 			Node financesNode = null;
 			if(!rootNode.hasNode(configPath)){
 				financesNode = this.establishBaseNode(configPath, mySession);
@@ -732,9 +724,6 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 			configNode.setProperty(Finance.PERIOD, period);
 			
 			mySession.save();
-		
-			
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -751,9 +740,7 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 		String[] expenses = expensesParams.replaceAll("\\[|\\]", "").replaceAll("/", "#").split(",");
 		String[] income = incomeParams.replaceAll("\\[|\\]", "").replaceAll("/", "#").split(",");
 	
-	
 		for(int i = 0; i < expenses.length; i = i + 2){
-			
 			String fieldName = expenses[i].trim();
 			String fieldValue = expenses[i + 1].trim();
 			System.err.println("Field Name: " + fieldName + " Field Value: " + fieldValue);

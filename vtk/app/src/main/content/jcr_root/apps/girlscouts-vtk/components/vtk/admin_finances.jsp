@@ -21,7 +21,7 @@
 	pageContext.setAttribute("activeSubTab", "editFinances");
 	boolean showVtkNav = true;
 
-	FinanceConfiguration financeConfig = financeUtil.getFinanceConfig(troop);
+	FinanceConfiguration financeConfig = financeUtil.getFinanceConfig(troop, user.getCurrentYear());
 
 	List<String> incomeFields = financeConfig.getIncomeFields();
 	List<String> expenseFields = financeConfig.getExpenseFields();
