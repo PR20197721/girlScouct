@@ -934,10 +934,13 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 								new java.util.ArrayList());
 
 					for (int i = 0; i < troop.getYearPlan()
-							.getMilestones().size(); i++)
+							.getMilestones().size(); i++){
+						if(troop.getYearPlan().getMilestones()
+								.get(i).getDate()!=null)
 						sched.put(troop.getYearPlan().getMilestones()
 								.get(i).getDate(), troop.getYearPlan()
 								.getMilestones().get(i));
+					}
 
 					//edn milestone
 

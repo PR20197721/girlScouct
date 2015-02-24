@@ -204,9 +204,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 
 		CouncilInfo list = getCouncilInfo(councilCode);
 		java.util.List<Milestone> milestones = list.getMilestones();
-		Comparator<Milestone> comp = new BeanComparator("date");
-		Collections.sort(milestones, comp);
-
+		sortMilestonesByDate(milestones);
 		return milestones;
 	}
 	
@@ -289,8 +287,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 
 			CouncilInfo list = getCouncilInfo(cid);
 			java.util.List<Milestone> oldMilestones = list.getMilestones();
-			Comparator<Milestone> comp = new BeanComparator("date");
-			Collections.sort(oldMilestones, comp);
+			sortMilestonesByDate(oldMilestones);
 
 			int i=0;
 			for (; i < oldMilestones.size(); i++) {
@@ -342,8 +339,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 				//filter.setScope("/content/girlscouts-vtk//");
 				Query query = queryManager.createQuery(filter);
 				milestones = (List<Milestone>)ocm.getObjects(query);
-				Comparator<Milestone> comp = new BeanComparator("date");
-				Collections.sort(milestones, comp);
+				sortMilestonesByDate(milestones);
 			}else{
 				return milestones;
 			}
@@ -359,6 +355,25 @@ public class CouncilDAOImpl implements CouncilDAO {
 			}
 		}
 		return milestones;
+	}
+	private void sortMilestonesByDate(List<Milestone> milestones){
+		Comparator<Milestone> comp = new Comparator<Milestone>() {
+			public int compare(Milestone m1, Milestone m2){
+				if(m1.getDate()!=null){
+					if(m2.getDate()!=null){
+						return m1.getDate().compareTo(m2.getDate());
+					}else{
+						return -1;
+					}
+				}else if(m2.getDate()!=null){
+					return 1;
+				}else{
+					return m1.getBlurb().compareTo(m2.getBlurb());
+				}
+			}
+			
+		};
+		Collections.sort(milestones, comp);
 	}
 
 
