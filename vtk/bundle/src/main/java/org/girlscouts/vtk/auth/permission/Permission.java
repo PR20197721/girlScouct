@@ -19,7 +19,7 @@ public class Permission extends PermissionConstants {
 	public static final Permission meeting_view = new Permission(PERMISSION_VIEW_MEETING_ID, year_plan_view);
 	public static final Permission meeting_edit = new Permission(PERMISSION_EDIT_MEETING_ID, meeting_view);
         public static final Permission meeting_add = new Permission(PERMISSION_ADD_MEETING_ID, meeting_edit);
-        public static final Permission meeting_create = new Permission(PERMISSION_ADD_MEETING_ID, meeting_edit);
+        public static final Permission meeting_create = new Permission(PERMISSION_CREATE_MEETING_ID, meeting_edit);
         public static final Permission meeting_remove = new Permission(PERMISSION_REMOVE_MEETING_ID, meeting_create);
 
 	/*** ACTIVITY  ***/

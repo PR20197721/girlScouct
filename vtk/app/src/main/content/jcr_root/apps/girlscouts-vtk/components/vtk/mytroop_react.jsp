@@ -37,7 +37,7 @@
     <%
             if (!resourceResolver.resolve(troopPhotoUrl).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
     %>
-        <img src="<%=troopPhotoUrl %>" alt="GirlScouts Troop <%=troop.getTroop().getTroopName()%> Photo" />
+        <img src="<%=troopPhotoUrl %>" alt="GirlScouts <%=troop.getTroop().getTroopName()%> Photo" />
         <a data-reveal-id="modal_upload_image" title="update photo" href="#nogo" title="upload image"><i class="icon-photo-camera"></i></a>
     <%
     	}
