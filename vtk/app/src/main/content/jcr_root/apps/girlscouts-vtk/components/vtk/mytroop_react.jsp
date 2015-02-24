@@ -17,8 +17,8 @@
 			for(int i=0;i<contacts.size();i++)
 				if( contacts.get(i).getEmail()!=null && !contacts.get(i).getEmail().trim().equals("") && 
 						!emailTo.contains( contacts.get(i).getEmail().trim()+"," ) ) 
-					emailTo+= contacts.get(i).getEmail() +",";
-					//emailTo += Text.escape(contacts.get(i).getFirstName()) +"<" + contacts.get(i).getEmail() +">,";
+					//emailTo+= contacts.get(i).getEmail() +",";
+					emailTo += "\""+Text.escape(contacts.get(i).getFirstName()) +"\"" +"<" + contacts.get(i).getEmail() +">,";
 			
 			emailTo = emailTo.trim(); 
 			if( emailTo.endsWith(",") ) 
@@ -60,7 +60,7 @@
                     <dt data-target="panel<%=i+1%>b" class="clearfix">
                       <span class="name column large-10"><%=contact.getFirstName() %></span>
                      <!--  <span class="name column large-4 hide-for-small">&nbsp;</span> -->
-                      <a class="column large-8 email" href="mailto:<%=contact.getEmail() %>">
+                      <a class="column large-8 email" href="mailto:"<%=contact.getFirstName() %>" <%=contact.getEmail() %>">
                         <i class="icon icon-mail"></i><%=contact.getEmail() %>
                       </a>
                       <span class="column large-4"><%=contact.getPhone() %></span>
