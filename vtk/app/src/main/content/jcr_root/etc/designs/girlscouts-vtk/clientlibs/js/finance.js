@@ -192,9 +192,9 @@ function updateTotals(){
 	totalExpenses =  totalExpenses.toFixed(2);
 	currentBalance =  currentBalance.toFixed(2);
 	
-	$("#total_income").text(totalIncome);
-	$("#total_expenses").text(totalExpenses);
-	$("#current_balance").text(currentBalance);
+	$("#total_income").text("\$ " + totalIncome);
+	$("#total_expenses").text("\$ " + totalExpenses);
+	$("#current_balance").text("\$ " + currentBalance);
 }
 	
 function deleteIncomeRow(counter){ 

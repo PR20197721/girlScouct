@@ -100,13 +100,13 @@
 		<% double balance = incomeTotal - expenseTotal; %>
 		<div class="text-right row collapse">
 			<section>
-				<h6 class="clearfix"><span class="column small-20">Total Income:</span>  <span id="total_income" class="column small-4"><%=FORMAT_COST_CENTS.format(incomeTotal) %></span></h6>
+				<h6 class="clearfix"><span class="column small-20">Total Income:</span>  <span id="total_income" class="column small-4"><%="&#36; " + FORMAT_COST_CENTS.format(incomeTotal) %></span></h6>
 			</section>
 			<section>
-				<h6 class="clearfix"><span class="column small-20">Total Expenses:</span> <span id="total_expenses" class="column small-4"><%=FORMAT_COST_CENTS.format(expenseTotal) %></span></h6>
+				<h6 class="clearfix"><span class="column small-20">Total Expenses:</span> <span id="total_expenses" class="column small-4"><%="&#36; " + FORMAT_COST_CENTS.format(expenseTotal) %></span></h6>
 			</section>
 			<section>
-				<h6 class="clearfix"><span class="column small-20">Current Balance:</span> <span id="current_balance" class="column small-4"><%=FORMAT_COST_CENTS.format(balance) %></span></h6>
+				<h6 class="clearfix"><span class="column small-20">Current Balance:</span> <span id="current_balance" class="column small-4"><%="&#36; " + FORMAT_COST_CENTS.format(balance) %></span></h6>
 			</section>
 			<%=save_btn%>
 		</div>
@@ -115,7 +115,6 @@
 <script>
 	
 	$( document ).ready(function() {
-		updateTotals();
 		maskAllFields();
 	});
 </script>
