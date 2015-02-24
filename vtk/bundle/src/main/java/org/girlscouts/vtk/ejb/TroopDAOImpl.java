@@ -658,14 +658,14 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 		FinanceConfiguration financeConfig = new FinanceConfiguration();
 		try {
 			mySession = sessionFactory.getSession();
-			String troopPath = "/" + troop.getTroopPath();
-			String configPath = troopPath + "/finances/" + currentYear + "/" + FinanceConfiguration.FINANCE_CONFIG;
+			String councilPath = "/" + troop.getCouncilPath();
+			String configPath = councilPath + "/" + FinanceConfiguration.FINANCE_CONFIG + "/" + currentYear;
 			Node configNode = null;
 			try {
 				configNode = mySession.getNode(configPath);
 			} catch (PathNotFoundException pfe) {
 				// Path does not exist.  Get parent node.
-				Node troopNode = mySession.getNode(troopPath);
+				Node troopNode = mySession.getNode(councilPath);
 				// Now create and bind it to config
 				configNode = troopNode.addNode(FinanceConfiguration.FINANCE_CONFIG);
 			}
@@ -710,7 +710,7 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 		try {
 			mySession = sessionFactory.getSession();
 			Node rootNode = mySession.getRootNode();
-                        String configPath = troop.getTroopPath() + "/finances/" + currentYear + "/" + FinanceConfiguration.FINANCE_CONFIG;
+                        String configPath = troop.getCouncilPath() + "/" + FinanceConfiguration.FINANCE_CONFIG + "/" + currentYear;
 			Node financesNode = null;
 			if(!rootNode.hasNode(configPath)){
 				financesNode = this.establishBaseNode(configPath, mySession);
