@@ -37,12 +37,15 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
 
         var form = this.findParentByType("form");
 
+        // Do not submit the default value. Value will be submitted by the hidden field.
         this.name = '';
+        // Cleanup before submission
         form.on('beforeaction', function(){
+        	// The combined value.
+        	// e.g. agenda = [1^As Girls Arrive^10][2^As Girls Arrive^10][3^As Girls Arrive^10]...
         	this.hiddenField.setValue(this.getValue());
 
-
-            var value = new Array();
+        	// Setup each agenda item
             var index = 1;
             this.items.each(function(item/*,index, length*/) {
                 if (item instanceof CQ.form.MultiField.Item) {
