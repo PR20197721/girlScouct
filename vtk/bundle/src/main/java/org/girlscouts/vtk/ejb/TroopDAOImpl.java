@@ -719,13 +719,8 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 
 			Node configNode = mySession.getNode("/" + configPath);
 			String[] incomeFields = income.replaceAll("\\[|\\]", "").split(",");
-			for(int i = 0; i < incomeFields.length; i++){
-				incomeFields[i] = Text.escapeIllegalJcrChars(incomeFields[i]);
-			}
 			String[] expensesFields = expenses.replaceAll("\\[|\\]", "").split(",");
-			for(int i = 0; i < expensesFields.length; i++){
-				expensesFields[i] = Text.escapeIllegalJcrChars(expensesFields[i]);
-			}
+			
 			configNode.setProperty(Finance.INCOME, incomeFields);
 			configNode.setProperty(Finance.EXPENSES, expensesFields);
 			configNode.setProperty(Finance.PERIOD, period);
