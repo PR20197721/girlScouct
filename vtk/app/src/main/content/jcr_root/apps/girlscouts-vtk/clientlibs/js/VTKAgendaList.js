@@ -54,6 +54,9 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
 			    	if (!field.nodeName) {
 			    		field.nodeName = 'A' + (Date.now() + Math.floor(Math.random()*9000) + 1000);
 			    	}
+			    	// Remove special Characters
+			    	field.nodeName = field.nodeName.replace(/[^a-zA-Z0-9]/g, '');
+			    	
 			    	// Setup property keys
 			    	var path = './activities/' + field.nodeName+ '/';
 			    	field.nameField.el.dom.name = path + 'name';

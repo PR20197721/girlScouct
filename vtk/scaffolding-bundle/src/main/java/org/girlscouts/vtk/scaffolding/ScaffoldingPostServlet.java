@@ -2,8 +2,14 @@ package org.girlscouts.vtk.scaffolding;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
+import javax.jcr.Node;
+import javax.jcr.NodeIterator;
+import javax.jcr.RepositoryException;
+import javax.jcr.Session;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 
@@ -16,6 +22,8 @@ import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.day.cq.commons.jcr.JcrUtil;
+
 @Component(metatype = false)
 @Service({ Servlet.class })
 @Property(name = "sling.servlet.paths", value = { "/bin/vtk-scaffolding-post" })
@@ -26,12 +34,84 @@ public class ScaffoldingPostServlet extends SlingAllMethodsServlet {
     protected void doPost(SlingHttpServletRequest request,
             SlingHttpServletResponse response) throws ServletException,
             IOException {
-        PrintWriter out = response.getWriter();
-        out.println("hello world");
-        Map<String, String[]> paramMap = request.getParameterMap();
+        Session session = request.getResourceResolver().adaptTo(Session.class); 
         
-        for (String key : paramMap.keySet()) {
+        // Determine the destination node
+        // Meeting
+        if (request.getParameter("./vtkDataType").equals("meeting")) {
+            String rootPath = request.getParameter("originalUrl");
+            if (rootPath.endsWith("*")) {
+                // /content/girlscouts-vtk/meetings/myyearplan/*
+                // =>
+                // /content/girlscouts-vtk/meetings/myyearplan/brownie/B14B05
+                rootPath = rootPath.substring(0, rootPath.length() - 1); 
+                rootPath = rootPath + request.getParameter("./level").toLowerCase() + "/" 
+                        + request.getParameter("./id").toUpperCase();
+            }
+            
+            try {
+                Set<String> childrenNodePaths = getChildrenNodePaths(rootPath, request);
+
+                createNodes(childrenNodePaths, session);
+                
+                // Special logic for meetings. Get existing agenda items
+                Set<String> existingNodePaths = new HashSet<String>();
+                Node activitiesNode = session.getNode(rootPath + "/activities");
+                NodeIterator iter = activitiesNode.getNodes();
+                while (iter.hasNext()) {
+                    existingNodePaths.add(iter.nextNode().getPath());
+                }
+                
+                // Do set sub to see if any agenda item node needs to be removed.
+                existingNodePaths.removeAll(childrenNodePaths);
+                
+                // Cannot do this way because of special character problems.
+                // e.g. /content/girlscouts-vtk/meetings/myyearplan/brownie/B14B04/activities/A1405659407340[7]
+                //for (String path : existingNodePaths) {
+                //    session.removeItem(path);
+                //}
+                iter = activitiesNode.getNodes();
+                while (iter.hasNext()) {
+                    Node node = iter.nextNode();
+                    if (!existingNodePaths.contains(node.getName())) {
+                        node.remove();
+                    }
+                }
+                
+                session.save();          
+            } catch (RepositoryException e) {
+                throw new ServletException(e);
+            }
         }
+        
         request.getRequestDispatcher(request.getParameter("originalUrl")).forward(request, response);
+    }
+    
+    protected Set<String> getChildrenNodePaths(String rootPath, SlingHttpServletRequest request) {
+        // e.g. ./meetingInfo/overview/str
+        Map<String, String[]> paramMap = request.getParameterMap();
+        Set<String> nodePaths = new HashSet<String>();
+        for (String key : paramMap.keySet()) {
+            if (key.startsWith("./")) {
+                // ./meetingInfo/overview/str => meetingInfo/overview/str
+                // ./id => id
+                String relPath = key.substring(2);
+                if (relPath.contains("/")) {
+                    // meetingInfo/overview/str => meetingInfo/overview
+                    relPath = relPath.substring(0, relPath.lastIndexOf('/'));
+                    String path = rootPath + "/" + relPath;
+                    nodePaths.add(path);
+                }
+            }
+        }
+        return nodePaths;
+    }
+
+    protected void createNodes(Set<String> nodePaths, Session session) throws RepositoryException {
+        for (String path : nodePaths) {
+            if (!session.nodeExists(path)) {
+                JcrUtil.createPath(path, "nt:unstructured", session);
+            }
+        }
     }
 }
