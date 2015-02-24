@@ -222,7 +222,7 @@
       line-height: 1; }
       .vtk-body .inline-list#sub-nav > li:last-child {
         border: none; }
-      .vtk-body .inline-list#sub-nav > li a, .vtk-body .inline-list#sub-nav > li p, {
+      .vtk-body .inline-list#sub-nav > li a {
         font-size: 0.75em; }
 .vtk-body table {
   width: 100%;
@@ -1129,10 +1129,6 @@
     border: solid 1px #333;
     font-weight: bold;
     font-size: 14px; }
-
-.btn, .button, button {
-  text-transform: uppercase;
-  color: #fff; }
 .vtk-body .icon a, .vtk-body .icon span {
   vertical-align: top; }
   .vtk-body .icon a:before, .vtk-body .icon span:before {

@@ -1553,6 +1553,9 @@
         border: solid 1px #333;
         font-weight: bold;
         font-size: 14px;
+      }
+    }
+  }
   .icon {
     a,span {
       vertical-align: top;
@@ -1603,11 +1606,6 @@
   }
 } //end of vtk-body
 
-//overwrite of global
-.btn, .button, button {
-  text-transform:uppercase;
-  color:#fff;
-}
 .inline-list {
   .icon {
     i {
