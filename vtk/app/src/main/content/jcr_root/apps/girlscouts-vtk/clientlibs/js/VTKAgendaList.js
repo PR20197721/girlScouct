@@ -96,6 +96,10 @@ girlscouts.components.VTKAgendaList= CQ.Ext.extend(CQ.form.MultiField, {
 	        for (var childKey in responseJson) {
 	        	var child = responseJson[childKey];
 	        	if (responseJson.hasOwnProperty(childKey) && typeof child === 'object') { // If object, then it is a child node.
+	        		// Skip CQ built-in stuff
+	        		if (childKey.indexOf('jcr:') == 0 || childKey.indexOf('cq:') == 0) {
+	        			continue;
+	        		}
 	        		var activityNumber = child.activityNumber;
 	        		agendaItems.push({
 	        			"nodeName": childKey,
