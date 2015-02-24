@@ -4,8 +4,9 @@
 <cq:defineObjects />
 <%@include file="include/session.jsp"%>
 
-<script type="text/javascript"
-	src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.datepicker.validation.js"></script>
+<script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.datepicker.validation.js"></script>
+<script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.validate.js"></script>
+	
 <%
 String activeTab = "admin_milestones";
 
@@ -23,26 +24,25 @@ String councilId= request.getParameter("cid")==null? Integer.toString(councilCod
 		</div>
 		<form class="clearfix" action="/content/girlscouts-vtk/controllers/vtk.controller.html" method="POST" id="MileStoneForm">
 			<input type="hidden" name="cid" value="<%=councilId%>" />
-			<% int i=0;
+			<% 
 				//If there are milestones show them in the input fields to view/edit
     		java.util.List<Milestone> milestones = yearPlanUtil.getCouncilMilestones(councilId) ;
-    		for(; i<milestones.size(); i++ ) { %>
+    		for(int i=0; i<milestones.size(); i++ ) { %>
 					<section class="row">
 						<div class="column large-1">
 							<a title="remove" class="icon-button-circle-cross delete"></a>
 						</div>
 						<div class="column large-7">
-							<input type="text" id="blurb<%=i %>" name="ms_blurb[]"
-								value="<%=milestones.get(i).getBlurb()%>" />
+							<input type="text" id="blurb<%=i %>" name="ms_blurb[]" class="required" title="Message is required." value="<%=milestones.get(i).getBlurb()%>" />
 						</div>
 						<div class="column large-4 large-push-1">
-							<input type="text" id="date<%=i %>" class="datepicker" name="ms_date[]" value="<%=milestones.get(i).getDate()==null?"":FORMAT_MMddYYYY.format(milestones.get(i).getDate())%>" />
+							<input type="text" id="date<%=i %>" class="datepicker date" placeholder="mm/dd/yyyy" name="ms_date[]" value="<%=milestones.get(i).getDate()==null?"":FORMAT_MMddYYYY.format(milestones.get(i).getDate())%>" />
 						</div>
 						<div class="column large-1 large-push-1">
 							<label for="date<%=i %>"><a class="icon-calendar"></a></label>
 						</div>
 						<div class="column large-2 large-pull-5">
-							<input type="checkbox" id="ch_<%=i %>" name="show_ch[]"<%=milestones.get(i).getShow() ? "checked" : "unchecked" %> /><label for="ch_<%=i %>"></label>
+							<input type="checkbox" id="ch_<%=i %>" name="show_ch[]"<%=milestones.get(i).getShow()!=null && milestones.get(i).getShow().booleanValue()? "checked" : "unchecked" %> /><label for="ch_<%=i %>"></label>
 						</div>
 				</section>
 				<%}%>
@@ -65,22 +65,28 @@ String councilId= request.getParameter("cid")==null? Integer.toString(councilCod
 <script>
 	var n;
 	$(document).ready(function(){
+
 		$( ".datepicker" ).datepicker();
-		n=$('#MileStoneForm section').length-1;
-		
+  		//$(".datepicker").inputmask("mm/dd/yyyy", {});
+
+		n=$('#MileStoneForm section').length-2;
+
 		$("#MileStoneForm").submit(function( event ) {
+	  		if ($('#MileStoneForm').valid()) {
+
 			if (confirm('You are about to save the milestones.')) {
 				$('input[type=checkbox]').each(function () {
 		        	$("#MileStoneForm").append("<input type='hidden' name='ms_show[]' value='"+this.checked+"'/>");
 	 			});
 				return true;
-			}else{
+			}}else{
 				return false;
 			}
 	 
 	 	});
 		
 	    $('input[type="submit"]').attr('disabled',true);
+	  
 
 	});
 		
@@ -97,14 +103,19 @@ String councilId= request.getParameter("cid")==null? Integer.toString(councilCod
 		$(this).parent().parent().remove();
 		return false;
 	});
-	$(document).on('change', 'input', function(){
-	      $('input[type="submit"]').attr('disabled',false);
+	$(document).on('change', 'input', function(event){
+		/* [name="ms_blurb[]"] var _name=event.target.id;
+		var index = $('input[name="ms_blurb[]"]').index(event.target);
+		
+		alert(index); */
+	    $('input[type="submit"]').attr('disabled',false);
 	});
+
 	
 	//to add a new milestone.
 	function newEntry() {
   		var section = $('#MileStoneForm section:nth-last-child(2)');
-  		section.before('<section class="row"><div class="column large-1"><a title="remove" class="remove-entry icon-button-circle-cross"></a></div><div class="column large-7"><input type="text" id="blurb'+n+'" name="ms_blurb[]" placeholder="Enter a Milestone"/></div><div class="column large-4 large-push-1"><input type="text" id="date'+n+'" class="datepicker" name="ms_date[]" /></div><div class="column large-1 large-push-1"><label for="date'+n+'"><a class="icon-calendar"></a></label></div><div class="column large-2 large-pull-5"><input type="checkbox" id="ch_'+n+'" name="show_ch[]" unchecked/><label for="ch_'+n+'"></label></div></section>');
+  		section.before('<section class="row"><div class="column large-1"><a title="remove" class="remove-entry icon-button-circle-cross"></a></div><div class="column large-7"><input type="text" id="blurb'+n+'" name="ms_blurb[]" placeholder="Enter a Milestone"/></div><div class="column large-4 large-push-1"><input type="text" id="date'+n+'" class="datepicker" placeholder="mm/dd/yyyy" name="ms_date[]" /></div><div class="column large-1 large-push-1"><label for="date'+n+'"><a class="icon-calendar"></a></label></div><div class="column large-2 large-pull-5"><input type="checkbox" id="ch_'+n+'" name="show_ch[]" unchecked/><label for="ch_'+n+'"></label></div></section>');
 	  	n++; 
 	  	$( ".datepicker" ).datepicker();
  	};

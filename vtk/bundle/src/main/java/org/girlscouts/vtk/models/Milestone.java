@@ -14,7 +14,7 @@ public class Milestone extends YearPlanComponent implements Serializable {
 	@Field
 	private String blurb;
 	@Field
-	boolean show;
+	Boolean show;
 	@Field
 	private java.util.Date date;
 	@Field(id = true)
@@ -28,7 +28,7 @@ public class Milestone extends YearPlanComponent implements Serializable {
 		this.uid = "M" + new java.util.Date().getTime() + "_" + Math.random();
 		super.setType(YearPlanComponentType.MILESTONE);
 		this.blurb=blurb;
-		this.show = show;
+		this.show = new Boolean(show);
 		this.date = date;
 	}
 
@@ -68,11 +68,11 @@ public class Milestone extends YearPlanComponent implements Serializable {
 		this.uid = uid;
 	}
 	
-	public boolean getShow() {
+	public Boolean getShow() {
 		return show;
 	}
 
-	public void setShow(boolean showInPlans) {
+	public void setShow(Boolean showInPlans) {
 		this.show = showInPlans;
 	}
 
