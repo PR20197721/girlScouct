@@ -198,8 +198,8 @@ public class Asset extends SlingAllMethodsServlet {
 			response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.previewImportMeeting.html?id=" + request.getParameter("id"));
 		} else if (request.getParameter("upldTroopPic") != null) {
 			try {
-				// wait 2 seconds for image to upload
-				Thread.sleep(2000); 
+				// wait 1 seconds for image to upload
+				Thread.sleep(1000); 
 			} catch(InterruptedException ex) {
 				Thread.currentThread().interrupt();
 			}
@@ -207,6 +207,7 @@ public class Asset extends SlingAllMethodsServlet {
                         response.addHeader("Cache-Control", "no-cache,must-revalidate");
                         response.addHeader("Expires", "Mon, 26 Jul 2014 05:00:00 GMT");
                         response.addHeader("Pragma", "no-cache");
+			response.addHeader("newTroopPhoto", "true");
 			response.sendRedirect("/content/girlscouts-vtk/en/vtk.myTroop.html");
 		}
 	}
