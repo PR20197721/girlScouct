@@ -176,6 +176,10 @@
             border-color: transparent transparent transparent #00abe6; }
         .vtk-body #main #yearPlanMeetings ul .meeting.activity > div:before {
           cursor: default !important; }
+      .vtk-body #main #yearPlanMeetings ul .meeting.ui-state-disabled {
+        opacity: 1; }
+        .vtk-body #main #yearPlanMeetings ul .meeting.ui-state-disabled > div {
+          cursor: default; }
     .vtk-body #main #yearPlanMeetings ul .milestone {
       pointer-events: none; }
       .vtk-body #main #yearPlanMeetings ul .milestone > div {

@@ -230,6 +230,12 @@
               }
             }
           }
+          &.ui-state-disabled {
+            opacity: 1;
+            > div  {
+              cursor: default;
+            }
+          }
         }
         .milestone {
           pointer-events: none;
