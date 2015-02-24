@@ -35,7 +35,7 @@
          <div class="column small-10">
            <input type="text" placeholder="Location Address" id="loc_address" value="" />
          </div>
-         <button class="btn right add-btn" onclick="addLocation()">Add</button>
+         <button class="btn right" onclick="addLocation()">Add</button>
        </section>
        <section class="row">
         <div id="locList"><script>loadLocMng();</script></div>

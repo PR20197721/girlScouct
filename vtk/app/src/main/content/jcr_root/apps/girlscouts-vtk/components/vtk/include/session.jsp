@@ -113,7 +113,6 @@
 	user = ((org.girlscouts.vtk.models.User) session
 			.getAttribute(org.girlscouts.vtk.models.User.class
 					.getName()));
-	
 	user.setSid(session.getId());
 
 	String errMsg = null;

@@ -148,8 +148,13 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
         },
         render: function() {
           var commentNodes = this.props.data.map(function (comment ,i ) {
+            var thisAssetExtension = "pdf";
+            var thisAssetExtensionPattern=/.*\.(.+)$/;
+            if (comment.refId.indexOf(".") != -1) {
+              thisAssetExtension = comment.refId.replace(thisAssetExtensionPattern, "$1");
+            }
             return (
-       			 <MeetingAsset item={comment} key={i} refId={comment.refId} title={comment.title} description={comment.description}/>
+       			 <MeetingAsset item={comment} key={i} refId={comment.refId} title={comment.title} description={comment.description} extension={thisAssetExtension}/>
             );
           });
           return (

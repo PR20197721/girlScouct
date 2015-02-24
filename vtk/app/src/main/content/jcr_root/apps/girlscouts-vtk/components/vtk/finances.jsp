@@ -17,37 +17,28 @@
 <%
         String activeTab = "finances";
         boolean showVtkNav = true;
-		
         int qtr = 1;
-        
         boolean isQuarterly = true;
-       
-        FinanceConfiguration financeConfig = financeUtil.getFinanceConfig(troop);
-        
-        
+        FinanceConfiguration financeConfig = financeUtil.getFinanceConfig(troop, user.getCurrentYear());
         try { 
-        
-        String period = financeConfig.getPeriod();
-        if(period != null && period.equals("Yearly")){
-        	qtr = 0;
-        	isQuarterly = false;
-        }
-        if (request.getParameter("qtr") != null) {
+		String period = financeConfig.getPeriod();
+		if(period != null && period.equals("Yearly")){
+			qtr = 0;
+			isQuarterly = false;
+		}
+		if (request.getParameter("qtr") != null) {
 			qtr = Integer.parseInt( request.getParameter("qtr") );
 		}
         }catch(NumberFormatException nfe){
 		nfe.printStackTrace();
         }
 
-        Finance finance = financeUtil.getFinances(troop, qtr);
-        
-       
-        
+        Finance finance = financeUtil.getFinances(troop, qtr, user.getCurrentYear());
         List<String> expenseFields = financeConfig.getExpenseFields();
         List<String> incomeFields = financeConfig.getIncomeFields();
         
         if( finance ==null ){
-          finance= new Finance();
+		finance= new Finance();
         }
         
         
