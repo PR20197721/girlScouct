@@ -33,10 +33,10 @@ String councilId= request.getParameter("cid")==null? Integer.toString(councilCod
 							<a title="remove" class="icon-button-circle-cross delete"></a>
 						</div>
 						<div class="column large-7">
-							<input type="text" id="blurb<%=i %>" name="ms_blurb[]" class="required" title="Message is required." value="<%=milestones.get(i).getBlurb()%>" />
+							<input type="text" id="blurb<%=i %>" name="ms_blurb[]" value="<%=milestones.get(i).getBlurb()%>" />
 						</div>
 						<div class="column large-4 large-push-1">
-							<input type="text" id="date<%=i %>" class="datepicker date" placeholder="mm/dd/yyyy" name="ms_date[]" value="<%=milestones.get(i).getDate()==null?"":FORMAT_MMddYYYY.format(milestones.get(i).getDate())%>" />
+							<input type="text" id="date<%=i %>" class="datepicker" placeholder="mm/dd/yyyy" name="ms_date[]" value="<%=milestones.get(i).getDate()==null?"":FORMAT_MMddYYYY.format(milestones.get(i).getDate())%>" />
 						</div>
 						<div class="column large-1 large-push-1">
 							<label for="date<%=i %>"><a class="icon-calendar"></a></label>
@@ -65,32 +65,47 @@ String councilId= request.getParameter("cid")==null? Integer.toString(councilCod
 <script>
 	var n;
 	$(document).ready(function(){
-
 		$( ".datepicker" ).datepicker();
-  		//$(".datepicker").inputmask("mm/dd/yyyy", {});
-
 		n=$('#MileStoneForm section').length-2;
-
-		$("#MileStoneForm").submit(function( event ) {
-	  		if ($('#MileStoneForm').valid()) {
-
-			if (confirm('You are about to save the milestones.')) {
-				$('input[type=checkbox]').each(function () {
-		        	$("#MileStoneForm").append("<input type='hidden' name='ms_show[]' value='"+this.checked+"'/>");
-	 			});
-				return true;
-			}}else{
-				return false;
-			}
-	 
-	 	});
 		
 	    $('input[type="submit"]').attr('disabled',true);
-	  
-
+	  	
 	});
+
+
+	$("#MileStoneForm").submit(function( event ) {
+		/*can not validate fields with same name*/
+/* 		$("#MileStoneForm").validate({
+			rules:{
+				'ms_blurb[]':{
+					required:true,
+				},
+				'ms_date[]':{
+					date: true,
+					required:true
+				},
+				
+			},
+	    	messages:{
+	    		'ms_blurb[]':{
+	    			required:"Message is required."
+	    		},
+	    		'ms_date[]':{
+	    			date:"Date format: MM/DD/YYYY."
+	    		}
+	    	}
+	    
+		}); */
+
+		$('input[type=checkbox]').each(function () {
+        	$("#MileStoneForm").prepend("<input type='hidden' name='ms_show[]' value='"+this.checked+"'/>");	
+		});
+		return (confirm('You are about to save the milestones.')) 
+ 
+ 	});
+
 		
-	$(document).on('click', '.delete', function() {
+	$("#MileStoneForm").on('click', '.delete', function() {
 		if (confirm('Are you sure you want to delete this milestone?')) {
 		    $(this).parent().parent().remove();
 		      $('input[type="submit"]').attr('disabled',false);
@@ -99,62 +114,24 @@ String councilId= request.getParameter("cid")==null? Integer.toString(councilCod
 		return false;
 	});
 	
-	$(document).on('click', '.remove-entry', function() {
+	$("#MileStoneForm").on('click', '.remove-entry', function() {
 		$(this).parent().parent().remove();
 		return false;
 	});
-	$(document).on('change', 'input', function(event){
-		/* [name="ms_blurb[]"] var _name=event.target.id;
-		var index = $('input[name="ms_blurb[]"]').index(event.target);
-		
-		alert(index); */
-	    $('input[type="submit"]').attr('disabled',false);
+	$("#MileStoneForm").on('change', 'input', function(event){
+	    	$('input[type="submit"]').attr('disabled',false);
 	});
-
+	
 	
 	//to add a new milestone.
 	function newEntry() {
   		var section = $('#MileStoneForm section:nth-last-child(2)');
-  		section.before('<section class="row"><div class="column large-1"><a title="remove" class="remove-entry icon-button-circle-cross"></a></div><div class="column large-7"><input type="text" id="blurb'+n+'" name="ms_blurb[]" placeholder="Enter a Milestone"/></div><div class="column large-4 large-push-1"><input type="text" id="date'+n+'" class="datepicker" placeholder="mm/dd/yyyy" name="ms_date[]" /></div><div class="column large-1 large-push-1"><label for="date'+n+'"><a class="icon-calendar"></a></label></div><div class="column large-2 large-pull-5"><input type="checkbox" id="ch_'+n+'" name="show_ch[]" unchecked/><label for="ch_'+n+'"></label></div></section>');
+  		var newSection = '<section class="row"><div class="column large-1"><a title="remove" class="remove-entry icon-button-circle-cross"></a></div><div class="column large-7"><input type="text" id="blurb'+n+'" name="ms_blurb[]" placeholder="Enter a Milestone"/></div><div class="column large-4 large-push-1"><input type="text" id="date'+n+'" class="datepicker" placeholder="mm/dd/yyyy" name="ms_date[]" /></div><div class="column large-1 large-push-1"><label for="date'+n+'"><a class="icon-calendar"></a></label></div><div class="column large-2 large-pull-5"><input type="checkbox" id="ch_'+n+'" name="show_ch[]" unchecked/><label for="ch_'+n+'"></label></div></section>'
+  		section.before(newSection);
 	  	n++; 
 	  	$( ".datepicker" ).datepicker();
  	};
  
-
-
-	
-/* 	$("#MileStoneForm").submit(function( event ) {
-		alert("aaa");
-        event.preventDefault();
-        if_show = [];
-		var i=0;
-		$('input[type=checkbox]').each(function () {
-/* 		    if_show[i++] = (this.checked ? "true" : "false");*/
-			//this.attr( "value", );
-	       /*  $("#MileStoneForm").append("<input type="hidden" name='show[]' value='this.checked'/>");
-
- 		}); */
-	    // If .required's value's length is zero
-	    /* if ( $( ".required" ).val().length === 0 ) {
-	 
-	        // Usually show some kind of error message here
-	 
-	        // Prevent the form from submitting
-	        event.preventDefault();
-	    }  else {*/
-/* 	    	$.ajax({
-				   type: "POST",
-				   data:$( "#myForm" ).serialize()
-					    ,
-				   url: "/content/girlscouts-vtk/controllers/vtk.controller.html",
-				   success: function(msg){
-				    
-				   }
-			}
-	    	); */
-	 
-	    //}
-/* 	}); */ 
 
 	
 </script>
