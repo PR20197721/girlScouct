@@ -1,5 +1,7 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
+<%-- DO NOT REMOVE THIS LINE. For eagle checking --%>
+<!-- 404 GirlScouts -->
 <!--PAGE STRUCTURE: MAIN-->
 <% String headerPath = (String) request.getAttribute("headerPath"); %>
   <div id="main" class="row collapse page-404">
