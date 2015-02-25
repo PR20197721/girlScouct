@@ -59,7 +59,7 @@
 <%
 	for(String incomeField : incomeFields){
 %>
-						<li id="incomeField<%=incomeCounter%>"><input maxlength="30" type="text" value="<%=StringEscapeUtils.escapeHtml(incomeField)%>"/></li>
+						<li id="incomeField<%=incomeCounter%>"><input onkeyDown="enableSaveButton()" oninput="enableSaveButton()" onpaste="enableSaveButton()"  maxlength="30" type="text" value="<%=StringEscapeUtils.escapeHtml(incomeField)%>"/></li>
 						<li id="incomeButton<%=incomeCounter%>"><a href="" title="remove" onclick="return deleteIncomeRow(<%=incomeCounter%>)"><i class="icon-button-circle-cross"></i></a></li>
 <%
 		incomeCounter++;
@@ -74,7 +74,7 @@
 <%
 	for(String expenseField : expenseFields){
 %>
-						<li id="expenseField<%=expenseCounter%>"><input type="text" maxlength="30" value="<%=StringEscapeUtils.escapeHtml(expenseField)%>"/></li>
+						<li id="expenseField<%=expenseCounter%>"><input onkeyDown="enableSaveButton()" oninput="enableSaveButton()" onpaste="enableSaveButton()" type="text" maxlength="30" value="<%=StringEscapeUtils.escapeHtml(expenseField)%>"/></li>
 						<li id="expenseButton<%=expenseCounter%>"><a href="" title="remove" onclick="return deleteExpenseRow(<%=expenseCounter%>)"><i class="icon-button-circle-cross"></i></a></li>
 <%
 		expenseCounter++;
