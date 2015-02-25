@@ -20,8 +20,129 @@
  */
 
 girlscouts.components.VTKMeetingId = CQ.Ext.extend(CQ.form.CompositeField, {
-    meetingField: null,
-    linkField: null,
+
+	RTE_PLUGIN_CONF: {
+	   "links": [
+	      {
+	         "height": 316,
+	         "linkAttributes": [
+	            {
+	               "collapsed": true,
+	               "collapsible": true,
+	               "inputValue": "advanced",
+	               "name": "./linkdialog/cq:adhocLinkTrackingTab",
+	               "title": "Link tracking",
+	               "xtype": "dialogfieldset",
+	               "items": {
+	                  "enable": {
+	                     "attribute": "enabletracking",
+	                     "fieldDescription": "override analytics framework settings",
+	                     "fieldLabel": "Custom link tracking",
+	                     "name": "./linkdialog/cq:adhocLinkTrackingEnableTracking",
+	                     "xtype": "checkbox",
+	                     "listeners": {
+	                        "check": function(component){ var dlg=component.findParentByType('rtelinkdialog');dlg.enableSCFields(component.checked); }
+	                     }
+	                  },
+	                  "events": {
+	                     "attribute": "adhocevents",
+	                     "fieldDescription": "e.g.: event2, event7",
+	                     "fieldLabel": "Include SiteCatalyst events",
+	                     "name": "./linkdialog/cq:adhocLinkTrackingEvents",
+	                     "xtype": "textfield"
+	                  },
+	                  "evars": {
+	                     "attribute": "adhocevars",
+	                     "fieldDescription": "e.g.: eVar1: pagedata.url, prop4: 'const'",
+	                     "fieldLabel": "Include SiteCatalyst variables",
+	                     "name": "./linkdialog/cq:adhocLinkTrackingEvars",
+	                     "xtype": "textfield"
+	                  }
+	               }
+	            }
+	         ]
+	      }
+	   ],
+	   "misctools": {
+	      "features": "*"
+	   },
+	   "edit": {
+	      "features": "[paste-plaintext,paste-wordhtml]"
+	   },
+	   "findreplace": {
+	      "features": "*"
+	   },
+	   "format": {
+	      "features": "*"
+	   },
+	   "image": {
+	      "features": "*"
+	   },
+	   "keys": {
+	      "features": "*"
+	   },
+	   "justify": {
+	      "features": "*"
+	   },
+	   "lists": {
+	      "features": "*"
+	   },
+	   "paraformat": {
+	      "features": "*",
+	      "formats": [
+	          {
+	              "description": "Paragraph",
+	              "tag": "p"
+	          },
+	          {
+	              "description": "Header 1",
+	              "tag": "h1"
+	          },
+	          {
+	              "description": "Header 2",
+	              "tag": "h2"
+	          },
+	          {
+	              "description": "Header 3",
+	              "tag": "h3"
+	          },
+	          {
+	              "description": "Header 4",
+	              "tag": "h4"
+	          },
+	          {
+	              "description": "Header 5",
+	              "tag": "h5"
+	          },
+	          {
+	              "description": "Header 6",
+	              "tag": "h6"
+	          }
+		  ]
+	   },
+	   "spellcheck": {
+	      "features": "*"
+	   },
+	   "styles": {
+	      "features": "*"
+	   },
+	   "subsuperscript": {
+	      "features": "*"
+	   },
+	   "table": {
+	      "features": "*"
+	   },
+	   "undo": {
+	      "features": "*"
+	   }
+	},
+
+    hiddenField: null,
+    numberField: null,
+    nameField: null,
+	durationField: null,
+	descriptionField: null,
+	nodeName: null,
     
     constructor: function(config) {
         config = config || { };
@@ -38,41 +159,72 @@ girlscouts.components.VTKMeetingId = CQ.Ext.extend(CQ.form.CompositeField, {
     initComponent: function() {
         girlscouts.components.VTKMeetingId.superclass.initComponent.call(this);
 
-        this.meetingField = new CQ.form.Selection({
-            type: 'combobox',
-            options: [
-                {
-                	"value": "B14B01",
-                	"text": "B14B01"
-                },
-                {
-                	"value": "B14B12",
-                	"text": "B14B12"
-                }
-            ],
+        this.hiddenField = new CQ.Ext.form.Hidden({});
+        this.add(this.hiddenField);
+
+        this.numberField = new CQ.Ext.form.Hidden({});
+        this.add(this.numberField);
+
+        this.nameField = new CQ.Ext.form.TextField({
             listeners: {
-                selectionchanged: {
+                change: {
                     scope:this,
-                    fn:this.updateLink
+                    fn:this.updateHidden
                 }
             }
         });
-        this.add(this.meetingField);
+        this.add(this.nameField);
         
-        this.linkField = new CQ.Ext.form.Label({
-        	html: '<a href="/etc/scaffolding/girlscouts-vtk/meeting.html">Create New Meeting</a>'
+        this.add(new CQ.Ext.form.Label({text: "Duration"}));
+        this.durationField = new CQ.Ext.form.NumberField({
+            listeners: {
+                change: {
+                    scope:this,
+                    fn:this.updateHidden
+                }
+            }
         });
-        this.add(this.linkField);
-    },
-    
-    updateLink: function(path) {
-    	this.linkField.setText('<a href="http://www.google.com/">Edit Meeting</a>',
-    			false);
+        this.add(this.durationField);
+        
+        this.add(new CQ.Ext.form.Label({text: "Description"}));
+        this.descriptionField = new CQ.form.RichText({
+        	rtePlugins: this.RTE_PLUGIN_CONF,
+        	specialCharsConfig: {
+        		chars: {
+        			"em-dash": {
+        				"entity": "&#8212;"
+        			},
+        			"copyright": {
+        				"entity": "&#169;"
+        			},
+        			"registerd": {
+        				"entity": "&#174;",
+        			},
+        			"trademark": {
+        				"entity": "&#8482;",
+        			},
+        			"horizontal-rule": {
+        				"entity": "<hr>"
+        			}	
+        		}
+        	},
+
+            listeners: {
+                change: {
+                    scope:this,
+                    fn:this.updateHidden
+                }
+            }
+        });
+        this.add(this.descriptionField);
     },
 
     // overriding CQ.form.CompositeField#setValue
     setValue: function(value) {
-    	this.meetingField.setValue(value);
+    	this.nodeName = value.nodeName;
+    	this.nameField.setValue(value.name);
+    	this.durationField.setValue(value.duration);
+    	this.descriptionField.setValue(value.description);
     },
 
     // overriding CQ.form.CompositeField#getValue
@@ -82,8 +234,20 @@ girlscouts.components.VTKMeetingId = CQ.Ext.extend(CQ.form.CompositeField, {
 
     // overriding CQ.form.CompositeField#getRawValue
     getRawValue: function() {
-    	return this.meetingField.getValue();
-    }
+    	var agenda = {
+    		"nodeName": this.nodeName,
+    		"name": this.nameField.getValue(),
+    		"duration": this.durationField.getValue(),
+    		"description": this.descriptionField.getValue()
+    	};
+    	return agenda;
+    },
+
+    // private
+    updateHidden: function() {
+        this.hiddenField.setValue(this.getValue());
+    } 
+
 });
 
 // register xtype

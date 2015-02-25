@@ -821,10 +821,6 @@
                         jcr:primaryType="nt:unstructured"
                         xtype="vtk-agenda"/>
                 </agenda>
-                <test
-                    jcr:primaryType="cq:Widget"
-                    fieldLabel="Test"
-                    xtype="vtk-meeting-id"/>
             </items>
         </tab1>
     </items>
