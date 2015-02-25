@@ -24,7 +24,7 @@ int badges_earned=0, meeting_activities_added=0, calendar_activities_added=0;
      <h4>??? <span id="distinctGirl"></span> Girls Enrolled</h4>
      <div class="row bg">
         <div class="column large-12">
-          <ul class="large-block-grid-2">
+          <ul class="large-block-grid-2 small-block-grid-2">
             <li><strong>Plan:</strong></li>
             <li><%=_troop.getYearPlan().getName() %></li>
             <li><strong>Plan Customized:</strong></li>
@@ -34,7 +34,7 @@ int badges_earned=0, meeting_activities_added=0, calendar_activities_added=0;
           </ul>
         </div>
         <div class="column large-12">
-           <ul class="large-block-grid-2">
+           <ul class="large-block-grid-2 small-block-grid-2">
             <li><strong>Meeting Activities Added:</strong></li>
             <li><div id="meeting_activities_added"></div></li>
             <li><strong>Calendar Activities Added:</strong></li>
