@@ -53,7 +53,7 @@
 		if(sessionFeatures.contains(SHOW_PARENT_FEATURE)){
 			financeFieldTag = "<p id=\"%s\" name=\"%s\">&#36;%s</p>";
 		} else{
-			financeFieldTag = "<input type=\"text\" id=\"%s\" name=\"%s\" onblur=\"updateTotals()\" value=\"&#36;%s\"/>";
+			financeFieldTag = "<input type=\"text\" id=\"%s\" name=\"%s\" onblur=\"updateTotals()\" maxlength=\"11\" value=\"&#36;%s\"/>";
 			save_btn = "<a id=\"saveFinanceFieldFormButton\" role=\"button\" onclick=\"saveFinances()\" class=\"button save disabled\">Save</a>";
 		}
 %>
