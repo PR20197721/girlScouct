@@ -32,6 +32,8 @@ function maskAllFields() {
 	
 }
 
+
+
 function saveFinanceAdmin(){
 	var incomeArray = "[";
 	var expenseArray = "["
@@ -203,22 +205,49 @@ function updateTotals(){
 	$("#total_expenses").text("\$ " + totalExpenses);
 	$("#current_balance").text("\$ " + currentBalance);
 }
+
+function incomeAtMinimum(){
+	if(document.getElementById("income-list").children.length <= 2){
+		return true
+	} else{
+		return false;
+	}
+
+}
+
+function expensesAtMinimum(){
+	if(document.getElementById("expense-list").children.length <= 2){
+		return true
+	} else{
+		return false;
+	}
+
+}
 	
 function deleteIncomeRow(counter){ 
+	
+	if(incomeAtMinimum()){
+		return false;
+	}
 	var button = document.getElementById("incomeButton" + counter);
 	var input = document.getElementById("incomeField" + counter);
 	input.parentNode.removeChild(input);
 	button.parentNode.removeChild(button);
+	
 	saveFinanceAdmin();
 	return false;
 }
 
 function deleteExpenseRow(counter){ 
+	
+	if(expensesAtMinimum()){
+		return false;
+	}
 	var button = document.getElementById("expenseButton" + counter);
 	var input = document.getElementById("expenseField" + counter);
 	input.parentNode.removeChild(input);
 	button.parentNode.removeChild(button);
-	saveFinancesAdmin();
+	saveFinanceAdmin();
 	return false;
 }
 
