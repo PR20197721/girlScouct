@@ -8,6 +8,7 @@ import org.girlscouts.vtk.models.Achievement;
 import org.girlscouts.vtk.models.Attendance;
 import org.girlscouts.vtk.models.Contact;
 import org.girlscouts.vtk.models.ContactExtras;
+import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
@@ -23,6 +24,8 @@ public class ContactUtil {
 	@Reference
 	MeetingUtil meetingUtil;
 	
+	@Reference
+	YearPlanUtil yearPlanUtil;
 	
 	public void saveContact(User user, Troop troop, Contact contact)
 			throws IllegalStateException, IllegalAccessException {
@@ -60,6 +63,12 @@ public class ContactUtil {
 		    
 		    
 		    if( extra.isAttended() || extra.isAchievement() ){
+		    	if( meeting.getMeetingInfo()==null ){
+		    		try{ 
+		    			meeting.setMeetingInfo(  yearPlanUtil.getMeeting(user,
+							meeting.getRefId()) );
+		    		}catch(Exception e){e.printStackTrace();}
+		    	}
 		    	extra.setYearPlanComponent(meeting);
 		    	extras.add(extra);
 		    }

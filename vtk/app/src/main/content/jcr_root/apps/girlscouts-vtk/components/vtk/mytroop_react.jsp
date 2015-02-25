@@ -1,4 +1,7 @@
 <!-- PAGEID :: ./app/src/main/content/jcr_root/apps/girlscouts-vtk/components/vtk/mytroop_react.jsp -->
+
+<%@ page
+  import="com.google.common.collect .*"%>
 <%
   java.util.List<org.girlscouts.vtk.models.Contact> contacts = null;
   if( isCachableContacts && session.getAttribute("vtk_cachable_contacts")!=null ) {
@@ -36,13 +39,14 @@
     try{
         sched = meetingUtil
                  .getYearPlanSched(user,
-                         troop.getYearPlan(), true, false);
+                         troop.getYearPlan(), true, true);
     }catch(Exception e){e.printStackTrace();}
    // org.apache.commons.collections.BidiMap inverseMap =new org.apache.commons.collections.bidimap.TreeBidiMap( sched );
-    com.google.common.collect.BiMap sched_bm= sched;
+    BiMap sched_bm=   HashBiMap.create(sched);//com.google.common.collect.HashBiMap().create();
+    //sched_bm.create(sched);
     com.google.common.collect.BiMap sched_bm_inverse = sched_bm.inverse();
-    
     //org.apache.commons.collections.BidiMap x= ( org.apache.commons.collections.BidiMap )sched;
+    
 %>
 <%@include file="include/utility_nav.jsp"%>
 <%@include file='include/modals/modal_upload_img.jsp' %>
@@ -90,14 +94,33 @@
                           <li><address><p>1 Main St. Apt 5B<br/>Cleveland, OH<br/>00000</p></address></li>
                         </ul>
                          <ul class="column large-18 right">
-                          <%  for(int y=0; y<infos.size(); y++) { %>
+                          
                             <li>
-                              <p><strong>Attendance:</strong></p><p><%=  infos.get(y).isAttended() %></p>
+                              <p><strong>Achievements:</strong></p>
+                              <p>
+                               <%
+		                        for(int y=0;y<infos.size();y++){
+		                                   if(infos.get(y).isAchievement()){
+		                                	  %> <%= infos.get(y).getYearPlanComponent().getType()== YearPlanComponentType.MEETING ? ((MeetingE) infos.get(y).getYearPlanComponent()).getMeetingInfo().getName() : "" %>,<% 
+		                                   }
+		                        }
+		                        %>
+                              </p>
                              </li>
+                             
                              <li>
-                                <p><strong>Meeting Attended:</strong></p><p><%=  infos.get(y).isAttended() %></p>
+                             <p><strong>Meeting Attended:</strong></p>
+                                <p> 
+                                 <%
+			                        for(int y=0;y<infos.size();y++){
+			                                   if(infos.get(y).isAttended()){
+			                                      %><%=fmr_ddmm.format(sched_bm_inverse.get( infos.get(y).getYearPlanComponent() )) %>,<% 
+			                                   }
+			                        }
+			                        %>     
+                                </p>
                             </li>
-                          <% } %>
+                          
                           <li>
                             <p><strong>Secondary Info:</strong></p>
                             <span class="column large-5">Janie Berger</span>
@@ -105,32 +128,6 @@
                             <span class="column large-5">999.999.9999</span>
                           </li>
                          </ul>
-                        
-                        <!-- attendance & ach -->
-                        <!-- <%
-                        for(int y=0;y<infos.size();y++){
-                        	%>
-                        	   <div>
-                        	       <%= infos.get(y).getYearPlanComponent().getType()== YearPlanComponentType.MEETING ? ((MeetingE) infos.get(y).getYearPlanComponent()).getRefId() : "" %>
-                        	       <br/>Attendance: <%=  infos.get(y).isAttended()%>
-                        	       <br/>Achievement: <%=  infos.get(y).isAchievement()%>
-                        	   </div>
-                        	<% 
-                        }
-
-                        %>
-                        
-                        
-                        <div>Attendance:</div>
-                        <%
-                        for(int y=0;y<infos.size();y++){
-                                   if(infos.get(y).isAttended()){
-                                      %><%=sched_bm_inverse.get( infos.get(y).getYearPlanComponent() ) %>,<% 
-                                   }
-                        }
-                        %>
-
-                        
                       </div>
                     </dd>
                   </dl>
