@@ -31,7 +31,18 @@
 			
 	}catch(Exception e){e.printStackTrace();}
 	
-
+	
+	java.util.Map<java.util.Date, YearPlanComponent> sched = null;
+    try{
+        sched = meetingUtil
+                 .getYearPlanSched(user,
+                         troop.getYearPlan(), true, false);
+    }catch(Exception e){e.printStackTrace();}
+   // org.apache.commons.collections.BidiMap inverseMap =new org.apache.commons.collections.bidimap.TreeBidiMap( sched );
+    com.google.common.collect.BiMap sched_bm= sched;
+    com.google.common.collect.BiMap sched_bm_inverse = sched_bm.inverse();
+    
+    //org.apache.commons.collections.BidiMap x= ( org.apache.commons.collections.BidiMap )sched;
 %>
 <%@include file="include/utility_nav.jsp"%>
 <%@include file='include/modals/modal_upload_img.jsp' %>
@@ -95,7 +106,7 @@
                         <%
                         for(int y=0;y<infos.size();y++){
                                    if(infos.get(y).isAttended()){
-                                      %>1/1/2015<% 
+                                      %><%=sched_bm_inverse.get( infos.get(y).getYearPlanComponent() ) %>,<% 
                                    }
                         }
                         %>

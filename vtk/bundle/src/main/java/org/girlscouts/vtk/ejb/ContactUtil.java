@@ -11,6 +11,7 @@ import org.girlscouts.vtk.models.ContactExtras;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
+import org.girlscouts.vtk.models.YearPlanComponent;
 
 @Component
 @Service(value = ContactUtil.class)
@@ -38,6 +39,7 @@ public class ContactUtil {
 	
 	   if( contact==null ) return null;
 	   java.util.List<ContactExtras> extras = new java.util.ArrayList<ContactExtras>();
+	   
 	   for(int i=0;i<troop.getYearPlan().getMeetingEvents().size();i++){
 		   
 		    MeetingE meeting = troop.getYearPlan().getMeetingEvents().get(i);
@@ -50,7 +52,6 @@ public class ContactUtil {
 		    	attendance_users = "," +attendance.getUsers() +","; 	
 		    if( achievement!=null && achievement.getUsers()!=null && !achievement.getUsers().equals("") )
 		    	achievement_users = "," +achievement.getUsers() +","; 
-		    
 		    
 		    if( attendance_users.contains( "," + contact.getId() + "," ) )	    	
 		    	extra.setAttended(true);
