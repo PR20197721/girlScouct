@@ -16,6 +16,9 @@
     font-size:14px;
     line-height:1.5;
   }
+  address {
+    font-style:normal;
+  }
   #header {
     >.columns {
       padding-right:0.9375em;
@@ -1309,8 +1312,15 @@
       &.email {
         text-overflow: ellipsis;
         overflow: hidden;
+        padding-left:0;
       }
     }
+    dl {
+      dd a.email {
+        padding-left:5px;
+      }
+    }
+
    > dt {
       background: #00ae58;
       position: relative;
@@ -1405,12 +1415,20 @@
       background: none;
     }
   }
-
   .reveal-modal-bg,
   .ui-widget-overlay {
     background: rgba(0, 0, 0, 0.6) !important;
     box-shadow: 0 0 50px rgba(0, 0, 0, .9) !important;
     opacity: 1 !important;
+  }
+  .mytroop {
+    //paragraph after the address
+    dd ul li {
+      margin-bottom: 20px;
+      p {
+        margin-bottom: 0;
+      }
+    }
   }
 } //end of vtk-body
 

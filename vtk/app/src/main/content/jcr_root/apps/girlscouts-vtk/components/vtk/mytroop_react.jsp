@@ -64,34 +64,49 @@
                     <dt data-target="panel<%=i+1%>b" class="clearfix">
                       <span class="name column large-10"><%=contact.getFirstName() %></span>
                      <!--  <span class="name column large-4 hide-for-small">&nbsp;</span> -->
-   <a class="column large-8 email" href="mailto:<%=_email%>">
+                        <a class="column large-10 email" href="mailto:<%=_email%>">
                         <i class="icon icon-mail"></i><%=contact.getEmail() %>
                       </a>
                       <span class="column large-4"><%=contact.getPhone() %></span>
                     </dt>
-                    <dd class="accordion-navigation">
-                      <div id="panel<%=i+1%>b" class="content">
+                    <dd class="accordion-navigation clearfix">
+                      <div id="panel<%=i+1%>b" class="content clearfix">
                         <ul class="column large-4">
                           <li>DOB: 9/1/2004</li>
                           <li>AGE: 10</li>
                         </ul>
-                        <ul class="column large-18">
-                          <li><address>1 Main St. Apt 5B<br/>Cleveland, OH<br/>00000</address></li>
+                        <ul class="column large-18 right">
+                          <li><address><p>1 Main St. Apt 5B<br/>Cleveland, OH<br/>00000</p></address></li>
                         </ul>
-                        
+                         <ul class="column large-18 right">
+                          <%  for(int y=0; y<infos.size(); y++) { %>
+                            <li>
+                              <p><strong>Attendance:</strong></p><p><%=  infos.get(y).isAttended() %></p>
+                             </li>
+                             <li>
+                                <p><strong>Meeting Attended:</strong></p><p><%=  infos.get(y).isAttended() %></p>
+                            </li>
+                          <% } %>
+                          <li>
+                            <p><strong>Secondary Info:</strong></p>
+                            <span class="column large-5">Janie Berger</span>
+                            <a class="column large-13 email" href="mailto:<%=_email%>"><i class="icon icon-mail"></i><%=contact.getEmail() %></a>
+                            <span class="column large-5">999.999.9999</span>
+                          </li>
+                         </ul>
                         
                         <!-- attendance & ach -->
-                        <%
+                        <!-- <%
                         for(int y=0;y<infos.size();y++){
                         	%>
-                        	   <div style="background-color:yellow;">
+                        	   <div>
                         	       <%= infos.get(y).getYearPlanComponent().getType()== YearPlanComponentType.MEETING ? ((MeetingE) infos.get(y).getYearPlanComponent()).getRefId() : "" %>
                         	       <br/>Attendance: <%=  infos.get(y).isAttended()%>
                         	       <br/>Achievement: <%=  infos.get(y).isAchievement()%>
                         	   </div>
                         	<% 
                         }
-                        %>
+                        %> -->
                         
                       </div>
                     </dd>
