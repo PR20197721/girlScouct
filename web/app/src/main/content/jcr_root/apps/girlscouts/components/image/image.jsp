@@ -27,12 +27,24 @@
     image.loadStyleData(currentStyle);
     image.setSelector(".img"); // use image script
     image.setDoctype(Doctype.fromRequest(request));
+
+	String s = properties.get("./blank", "");
+	Boolean blank = Boolean.parseBoolean(s);
+
     // add design information if not default (i.e. for reference paras)
     if (!currentDesign.equals(resourceDesign)) {
         image.setSuffix(currentDesign.getId());
     }
     String divId = "cq-image-jsp-" + resource.getPath();
-    %><div id="<%= divId %>"><% image.draw(out); %></div><%
+    %><div id="<%= divId %>"><% 
+        if(!blank) { 
+        image.draw(out); 
+    	}
+		else { %>
+			<%= image.getString().replace("<a ", "<a target=\"_blank\"") %>
+		<%
+		}
+	%></div><%
     %><cq:text property="jcr:description" placeholder="" tagName="small" escapeXml="true"/>
     
     <%@include file="/libs/foundation/components/image/tracking-js.jsp"%>

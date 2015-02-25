@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Dialog"
     activeTab="{Long}0"
     helpPath="en/cq/current/wcm/default_components.html#Image"
@@ -39,6 +39,24 @@
                     fieldLabel="Link to"
                     name="./linkURL"
                     xtype="pathfield"/>
+                <newWindow
+                    jcr:primaryType="cq:Widget"
+                    defaultValue="{Boolean}false"
+                    fieldDescription="Click radio button if you want to open image link in New Window."
+                    fieldLabel="Open Link in New Window"
+                    name="./blank"
+                    xtype="selection">
+                    <options jcr:primaryType="cq:WidgetCollection">
+                        <true
+                            jcr:primaryType="nt:unstructured"
+                            text="TRUE"
+                            value="true"/>
+                        <false
+                            jcr:primaryType="nt:unstructured"
+                            text="FALSE"
+                            value="false"/>
+                    </options>
+                </newWindow>
                 <description
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Description"
