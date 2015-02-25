@@ -7,10 +7,10 @@ import org.girlscouts.vtk.salesforce.Troop;
 public class ApiConfig implements Serializable {
 
 	private String accessToken, instanceUrl, tokenType, id, refreshToken,
-			userId; /* userId should be moved out.User obj exists* */
+			userId, webServicesUrl; /* userId should be moved out.User obj exists* */
 	private org.girlscouts.vtk.auth.models.User user;
 	private java.util.List<Troop> troops;
-
+	
 	public java.util.List<Troop> getTroops() {
 		return troops;
 	}
@@ -73,6 +73,14 @@ public class ApiConfig implements Serializable {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+
+	public String getWebServicesUrl() {
+		return webServicesUrl;
+	}
+
+	public void setWebServicesUrl(String webServicesUrl) {
+		this.webServicesUrl = webServicesUrl;
 	}
 
 }

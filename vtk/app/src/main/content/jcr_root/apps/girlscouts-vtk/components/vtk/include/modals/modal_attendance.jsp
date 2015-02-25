@@ -40,7 +40,13 @@
             </tr>
           </thead>
           <tbody>
-	          <%for(int i=0;i<contacts.size();i++){ %> 
+	          <%for(int i=0;i<contacts.size();i++){
+	        	 
+	 System.err.println("tatagg i=" + i);       	  
+	 System.err.println("tatagg * " + (attendance==null) +" : "+ (achievement==null) );       	  
+	 System.err.println("tatagg -: "+ i +" : "+ (contacts.get(i) ==null));       	  
+	 System.err.println("tatagg: "+ i +" : "+contacts.get(i).getId());       	  
+	        	  %> 
 	          <tr>
 	            <td>
 	              <p><%=contacts.get(i).getFirstName() %></p>         

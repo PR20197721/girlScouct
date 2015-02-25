@@ -71,24 +71,35 @@
 						<%
 							//com.day.cq.wcm.foundation.List elist= (com.day.cq.wcm.foundation.List)request.getAttribute("elist");
 							Set<String> featureEvents = (HashSet) request.getAttribute("featureEvents");
+							Calendar cale =  Calendar.getInstance();
 							if (!featureEvents.isEmpty()) {
 								Iterator<String> itemUrl = featureEvents.iterator();
-
+								Date currentDate = new Date();
 								while (itemUrl.hasNext()) {
 									Node node = resourceResolver.getResource(itemUrl.next()).adaptTo(Node.class);
 									href = node.getPath() + ".html";
 									try {
 										if (node.hasNode("jcr:content/data")) {
 											Node propNode = node.getNode("jcr:content/data");
-											title = propNode.getProperty("../jcr:title").getString();
-											request.setAttribute("propNode", propNode);
-											request.setAttribute("node", node);
-											request.setAttribute("href", href);
-											request.setAttribute("title", title);
-											%>
-												<cq:include script="event-render.jsp" />
-											<%
-                                                eventsRendered++;
+
+                                            //Check for featured events excluded by date added by Igor Kaplunov
+
+											cale.setTime(fromFormat.parse(propNode.getProperty("start").getString()));
+											Date eventStartDate = cale.getTime();
+
+                                            if(eventStartDate.after(currentDate)){
+
+                                                title = propNode.getProperty("../jcr:title").getString();
+    
+                                                request.setAttribute("propNode", propNode);
+                                                request.setAttribute("node", node);
+                                                request.setAttribute("href", href);
+                                                request.setAttribute("title", title);
+                                                %>
+                                                    <cq:include script="event-render.jsp" />
+                                                <%
+                                                    eventsRendered++;
+                                            }
 										}
 									} catch (Exception e) {}
 								}
@@ -102,7 +113,7 @@
 							// if daysofevents is provided then we have to look for the start date such that start >= today.
 							int count = 0;
 							if (eventcounts > 0) {
-								Calendar cale =  Calendar.getInstance();
+
 								for (String result : results) {
 									Node node = resourceResolver.getResource(result).adaptTo(Node.class);
 									Date fromdate = null;
