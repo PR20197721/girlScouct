@@ -31,7 +31,18 @@
 			
 	}catch(Exception e){e.printStackTrace();}
 	
-
+	
+	java.util.Map<java.util.Date, YearPlanComponent> sched = null;
+    try{
+        sched = meetingUtil
+                 .getYearPlanSched(user,
+                         troop.getYearPlan(), true, false);
+    }catch(Exception e){e.printStackTrace();}
+   // org.apache.commons.collections.BidiMap inverseMap =new org.apache.commons.collections.bidimap.TreeBidiMap( sched );
+    com.google.common.collect.BiMap sched_bm= sched;
+    com.google.common.collect.BiMap sched_bm_inverse = sched_bm.inverse();
+    
+    //org.apache.commons.collections.BidiMap x= ( org.apache.commons.collections.BidiMap )sched;
 %>
 <%@include file="include/utility_nav.jsp"%>
 <%@include file='include/modals/modal_upload_img.jsp' %>
@@ -106,7 +117,19 @@
                         	   </div>
                         	<% 
                         }
-                        %> -->
+
+                        %>
+                        
+                        
+                        <div>Attendance:</div>
+                        <%
+                        for(int y=0;y<infos.size();y++){
+                                   if(infos.get(y).isAttended()){
+                                      %><%=sched_bm_inverse.get( infos.get(y).getYearPlanComponent() ) %>,<% 
+                                   }
+                        }
+                        %>
+
                         
                       </div>
                     </dd>
@@ -120,31 +143,7 @@
       </dd>
 
       
-      <!-- 
-      <dt data-target="panel2"><h3><%=troop.getSfTroopName() %> VOLUNTEERS</h3><a href="mailto:adulfan@gmail.com">email to 10 contacts</a></dt>
-      <dd class="accordion-navigation">
-        <div class="content" id="panel2">
-          <div class="row">
-            <div class="column large-23 large-centered">
-              <dl class="accordion" data-accordion>
-                <dd class="accordion-navigation">
-                  <a href="#panel1b">Accordion 1</a>
-                  <div id="panel1 b" class="content active">
-                    Panel 1. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                  </div>
-                </dd>
-                <dd class="accordion-navigation">
-                  <a href="#panel3b">Accordion 2</a>
-                  <div id="panel2b" class="content">
-                    Panel 2. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                  </div>
-                </dd>
-                <dd class="accordion-navigation">
-                  <a href="#panel3b">Accordion 3</a>
-                  <div id="panel3b" class="content">
-                    Panel 3. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                  </div>
-                </dd> -->
+     
               </dl>
             </div>
           </div>
