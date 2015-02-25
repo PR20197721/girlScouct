@@ -51,7 +51,7 @@
     <%
             if (!resourceResolver.resolve(troopPhotoUrl).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
     %>
-        <img id="troopPhoto" src="<%=troopPhotoUrl %>" alt="GirlScouts <%=troop.getTroop().getTroopName()%> Photo" />
+        <img src="<%=troopPhotoUrl %>" alt="GirlScouts Troop <%=troop.getTroop().getTroopName()%> Photo" />
         <a data-reveal-id="modal_upload_image" title="update photo" href="#nogo" title="upload image"><i class="icon-photo-camera"></i></a>
     <%
     	}
@@ -75,30 +75,49 @@
                     <dt data-target="panel<%=i+1%>b" class="clearfix">
                       <span class="name column large-10"><%=contact.getFirstName() %></span>
                      <!--  <span class="name column large-4 hide-for-small">&nbsp;</span> -->
-   <a class="column large-8 email" href="mailto:<%=_email%>">
+                        <a class="column large-10 email" href="mailto:<%=_email%>">
                         <i class="icon icon-mail"></i><%=contact.getEmail() %>
                       </a>
                       <span class="column large-4"><%=contact.getPhone() %></span>
                     </dt>
-                    <dd class="accordion-navigation">
-                      <div id="panel<%=i+1%>b" class="content">
+                    <dd class="accordion-navigation clearfix">
+                      <div id="panel<%=i+1%>b" class="content clearfix">
                         <ul class="column large-4">
-                          <li>DOB: <%=contact.getDob() %></li>
-                          <li>AGE: <%=contact.getAge() %></li>
+                          <li>DOB: 9/1/2004</li>
+                          <li>AGE: 10</li>
                         </ul>
-                        <ul class="column large-18">
-                          <li><address><%=contact.getAddress() %><br/><%=contact.getCity() %>, <%=contact.getState() %><br/><%=contact.getZip() %></address></li>
+                        <ul class="column large-18 right">
+                          <li><address><p>1 Main St. Apt 5B<br/>Cleveland, OH<br/>00000</p></address></li>
                         </ul>
-                        
+                         <ul class="column large-18 right">
+                          <%  for(int y=0; y<infos.size(); y++) { %>
+                            <li>
+                              <p><strong>Attendance:</strong></p><p><%=  infos.get(y).isAttended() %></p>
+                             </li>
+                             <li>
+                                <p><strong>Meeting Attended:</strong></p><p><%=  infos.get(y).isAttended() %></p>
+                            </li>
+                          <% } %>
+                          <li>
+                            <p><strong>Secondary Info:</strong></p>
+                            <span class="column large-5">Janie Berger</span>
+                            <a class="column large-13 email" href="mailto:<%=_email%>"><i class="icon icon-mail"></i><%=contact.getEmail() %></a>
+                            <span class="column large-5">999.999.9999</span>
+                          </li>
+                         </ul>
                         
                         <!-- attendance & ach -->
-                        <div>Achievements:</div>
-                        <%
+                        <!-- <%
                         for(int y=0;y<infos.size();y++){
-                        	       if(infos.get(y).isAchievement()){
-                            	      %> <%= infos.get(y).getYearPlanComponent().getType()== YearPlanComponentType.MEETING ? ((MeetingE) infos.get(y).getYearPlanComponent()).getMeetingInfo().getName() : "" %>,<% 
-                        	       }
+                        	%>
+                        	   <div>
+                        	       <%= infos.get(y).getYearPlanComponent().getType()== YearPlanComponentType.MEETING ? ((MeetingE) infos.get(y).getYearPlanComponent()).getRefId() : "" %>
+                        	       <br/>Attendance: <%=  infos.get(y).isAttended()%>
+                        	       <br/>Achievement: <%=  infos.get(y).isAchievement()%>
+                        	   </div>
+                        	<% 
                         }
+
                         %>
                         
                         
@@ -110,6 +129,7 @@
                                    }
                         }
                         %>
+
                         
                       </div>
                     </dd>
@@ -123,7 +143,7 @@
       </dd>
 
       
-      
+     
               </dl>
             </div>
           </div>
@@ -133,17 +153,3 @@
     </dl>
 
   </div><!--/column-->
-
-<%
-	if (request.getHeader("newTroopPhoto") != null) {
-
-%>
-<script>
-	$( document ).ready(function() {
-		var d = new Date();
-		$("troopPhoto").attr("src", $(".hero-image img").attr("src") + "?" + d.getTime());
-	});
-</script>
-<%
-	}
-%>
