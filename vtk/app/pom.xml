@@ -42,6 +42,11 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>google-collections-wrapper</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>itextpdf-wrapper</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -148,6 +153,11 @@
                         </embedded>
                         <embedded>
                             <groupId>${project.groupId}</groupId>
+                            <artifactId>google-collections-wrapper</artifactId>
+                            <target>/apps/girlscouts-vtk/install</target>
+                        </embedded>
+                        <embedded>
+                            <groupId>${project.groupId}</groupId>
                             <artifactId>modified-checker-bundle</artifactId>
                             <target>/apps/girlscouts-vtk/install</target>
                         </embedded>
@@ -193,6 +203,11 @@
                                     <embedded>
                                         <groupId>${project.groupId}</groupId>
                                         <artifactId>beanutils-wrapper</artifactId>
+                                        <target>/apps/girlscouts-vtk/install</target>
+                                    </embedded>
+                                    <embedded>
+                                        <groupId>${project.groupId}</groupId>
+                                        <artifactId>google-collections-wrapper</artifactId>
                                         <target>/apps/girlscouts-vtk/install</target>
                                     </embedded>
                                     <embedded>
