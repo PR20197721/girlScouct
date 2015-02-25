@@ -101,7 +101,6 @@ girlscouts.components.VTKMeetingIdList= CQ.Ext.extend(CQ.form.MultiField, {
 	        meetings.sort(function(a, b){return a.id - b.id});
 	
 	        for (var i = 0; i < meetings.length; i++) {
-	        	alert(meetings[i].refId);
 	        	this.addItem(meetings[i]);
 	        }
         }

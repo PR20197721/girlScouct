@@ -23,6 +23,7 @@ girlscouts.components.VTKMeetingId = CQ.Ext.extend(CQ.form.CompositeField, {
     idField: null,
     ocmField: null,
 	refIdField: null,
+	linkField: null,
     
     constructor: function(config) {
         config = config || { };
@@ -67,12 +68,28 @@ girlscouts.components.VTKMeetingId = CQ.Ext.extend(CQ.form.CompositeField, {
             }
         });
         this.add(this.refIdField);
+        
+        this.linkField = new CQ.Ext.form.Label({
+        	html: '<span class="cq-tbtn cq-tbtn-medium x-btn-noicon">' + 
+        		'<span class="x-btn-text" href="/etc/scaffolding/girlscouts-vtk/meeting.html">' +
+        		'Create New Meeting</span></span>',
+        	name: ''
+        });
+        this.add(this.linkField);
+    },
+    
+    updateLink: function(path) {
+    	this.linkField.setText('<span class="cq-tbtn cq-tbtn-medium x-btn-noicon">' + 
+    			'<span class="x-btn-text" href="http://www.google.com/">' + 
+    			'Edit Meeting</span></span>',
+    			false);
     },
 
     // overriding CQ.form.CompositeField#setValue
     setValue: function(value) {
     	this.idField.setValue(value.id);
     	this.refIdField.setValue(value.refId);
+    	this.updateLink();
     },
 
     // overriding CQ.form.CompositeField#getValue
