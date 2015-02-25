@@ -23,7 +23,7 @@ public class FinanceConfiguration implements Serializable{
 	public List<String> getIncomeFields() {
 		if(this.incomeFields == null){
 			List<String> income = new ArrayList<String>();
-			income.add("Beginning Balance");
+			income.add("Starting Balance");
 			income.add("Troop Dues");
 			income.add("Sponsorship/Donations");
 			income.add("Product Sales Proceeds");

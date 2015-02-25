@@ -195,6 +195,10 @@ function updateTotals(){
 	totalExpenses =  totalExpenses.toFixed(2);
 	currentBalance =  currentBalance.toFixed(2);
 	
+	totalIncome = numberWithCommas(totalIncome);
+	totalExpenses = numberWithCommas(totalExpenses);
+	currentBalance = numberWithCommas(currentBalance);
+	
 	$("#total_income").text("\$ " + totalIncome);
 	$("#total_expenses").text("\$ " + totalExpenses);
 	$("#current_balance").text("\$ " + currentBalance);
@@ -265,4 +269,8 @@ function addFinanceRow(listId, countId, buttonId, inputId, delMethod){
 
 function enableSaveButton() {
 	$("#saveFinanceFieldFormButton").removeClass("disabled");
+}
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
