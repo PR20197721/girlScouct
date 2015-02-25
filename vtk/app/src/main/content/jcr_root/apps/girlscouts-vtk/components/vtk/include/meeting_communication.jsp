@@ -4,19 +4,24 @@
 <section className="column large-20 medium-20 large-centered medium-centered">
   <h6>manage communications</h6>
   <ul className="large-block-grid-2 medium-block-grid-2 small-block-grid-2">
-  <li>
   <% if( (planView.getYearPlanComponent().getType() ==  YearPlanComponentType.ACTIVITY) ){%>
-	   <a href="#" >Meeting Reminder Email</a>
+	     <li><a href="#" >Meeting Reminder Email</a></li>
+	     <li>(0 sent - 
+  		 	<a href="#" title="view sent emails" className="view" data-reveal-id="modal_view_sent_emails">view</a>)
+  		</li>
   <%}else{ %>
-   		<a <%if(planView.getSearchDate()!=null && planView.getSearchDate().after( new java.util.Date("1/1/1977") )) {%> 
+   		<li><a <%if(planView.getSearchDate()!=null && planView.getSearchDate().after( new java.util.Date("1/1/1977") )) {%> 
    		href="#" data-reveal-id="modal-meeting-reminder" 
       <%} else{%>
    		href="javascript:alert('You have not yet scheduled your meeting calendar.\nPlease select a year plan and schedule your meetings by clicking on the MEETING DATES AND LOCATION link.')"
    		<%} %> 
    		title="Meeting Reminder Email">Edit/Sent Meeting Reminder Email</a>
+   		</li>
+  		<li>(<%=planView.getMeeting().getSentEmails()==null?0:planView.getMeeting().getSentEmails().size() %> sent - 
+  		 	<a href="#" title="view sent emails" className="view" data-reveal-id="modal_view_sent_emails">view</a>)
+  		</li>
   <% }%> 
-  </li>
-  <li></li>
+
    
   <%if((planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING)){ %>
    <li>        

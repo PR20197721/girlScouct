@@ -77,7 +77,4 @@ public class User implements Serializable {
 	public void setSfUserId(String sfUserId) {
 		this.sfUserId = sfUserId;
 	}
-
-	
-	
 }

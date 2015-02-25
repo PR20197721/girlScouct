@@ -57,7 +57,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 
 			if (user != null
 					&& !userUtil.hasPermission(user.getPermissions(),
-							Permission.PERMISSION_CREATE_ACTIVITY_ID))
+							Permission.PERMISSION_ADD_ACTIVITY_ID))
 				throw new IllegalAccessException();
 
 			if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
@@ -177,13 +177,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 		return path;
 	}
 
-	public boolean isActivityByPath(User user, String path)
-			throws IllegalAccessException {
-
-		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
-						Permission.PERMISSION_VIEW_ACTIVITY_ID))
-			throw new IllegalAccessException();
+	public boolean isActivityByPath(User user, String path) {
 
 		Session session = null;
 		boolean isActivity = true;
@@ -231,13 +225,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 		return isActivity;
 	}
 
-	public Activity findActivity(User user, String path)
-			throws IllegalAccessException {
-
-		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
-						Permission.PERMISSION_SEARCH_ACTIVITY_ID))
-			throw new IllegalAccessException();
+	public Activity findActivity(User user, String path) {
 
 		Activity activity = null;
 		Session session = null;

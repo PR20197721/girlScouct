@@ -19,7 +19,7 @@ public class Emailer {
 	@Reference
 	private MessageGatewayService messageGatewayService;
 
-	public void test(EmailMeetingReminder emr) {
+	public void send(EmailMeetingReminder emr) {
 
 		try {
 			MessageGateway<HtmlEmail> messageGateway = messageGatewayService
@@ -47,14 +47,12 @@ public class Emailer {
 				}
 			}
 			
-			
-			// email.setHostName("mail.whatserver.com");
-			// email.setFrom("me@apache.org");
-			email.setHtmlMsg(emr.getHtml());
-			email.setTo(emailRecipients);
 			email.setSubject(emr.getSubj());
-
-			messageGateway.send(email);
+			email.setHtmlMsg(emr.getHtml());
+			if(!emailRecipients.isEmpty()){
+				email.setTo(emailRecipients);
+				messageGateway.send(email);
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();

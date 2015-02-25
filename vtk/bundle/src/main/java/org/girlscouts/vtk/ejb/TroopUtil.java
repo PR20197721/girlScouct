@@ -40,6 +40,7 @@ import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.UserGlobConfig;
 import org.girlscouts.vtk.models.YearPlan;
+import org.girlscouts.vtk.models.SentEmail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -458,6 +459,7 @@ public class TroopUtil {
 
 		session.setAttribute("VTK_troop", new_troop);
 		session.putValue("VTK_planView_memoPos", null);
+		session.setAttribute("vtk_cachable_contacts", null);
 		// new_troop.setCurrentTroop( session.getId() );
 		// updateTroop(user, new_troop);
 

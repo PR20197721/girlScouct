@@ -40,14 +40,8 @@ public class Troop implements Serializable {
 	private EmailMeetingReminder sendingEmail; // tmp
 	private boolean isDbUpdate=false;
 	
-	
-	
-	
-	
-	
 	public boolean isDbUpdate() {
 		return isDbUpdate;
-		
 	}
 
 	public void setDbUpdate(boolean isDbUpdate) {
@@ -212,6 +206,11 @@ public class Troop implements Serializable {
 		
 	}
 	
-	
+	public String getTroopPath(){
+		return "vtk/" + this.getSfCouncil() + "/troops/" + this.getId();
+	}
 
+	public String getCouncilPath() {
+                return "vtk/" + this.getSfCouncil();
+	}
 }
