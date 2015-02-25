@@ -81,11 +81,22 @@
                         
                         
                         <!-- attendance & ach -->
+                        <div>Achievements:</div>
                         <%
                         for(int y=0;y<infos.size();y++){
                         	       if(infos.get(y).isAchievement()){
-                            	      %> <%= infos.get(y).getYearPlanComponent().getType()== YearPlanComponentType.MEETING ? ((MeetingE) infos.get(y).getYearPlanComponent()).getMeetingInfo().getName() : "" %><% %>
+                            	      %> <%= infos.get(y).getYearPlanComponent().getType()== YearPlanComponentType.MEETING ? ((MeetingE) infos.get(y).getYearPlanComponent()).getMeetingInfo().getName() : "" %>,<% 
                         	       }
+                        }
+                        %>
+                        
+                        
+                        <div>Attendance:</div>
+                        <%
+                        for(int y=0;y<infos.size();y++){
+                                   if(infos.get(y).isAttended()){
+                                      %>1/1/2015<% 
+                                   }
                         }
                         %>
                         
