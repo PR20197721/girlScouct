@@ -21,7 +21,8 @@
 				if( contacts.get(i).getEmail()!=null && !contacts.get(i).getEmail().trim().equals("") && 
 						!emailTo.contains( contacts.get(i).getEmail().trim()+"," ) ) 
 					//emailTo+= contacts.get(i).getEmail() +",";
-					emailTo += "\""+Text.escape(contacts.get(i).getFirstName()) +"\"" +"<" + contacts.get(i).getEmail() +">,";
+					//emailTo += "\""+contacts.get(i).getFirstName().replace(" ", "&nbsp;") +"\"" +"<" + contacts.get(i).getEmail() +">,";
+            emailTo += contacts.get(i).getFirstName().replace(" ", "&nbsp;")  +java.net.URLEncoder.encode("<" + contacts.get(i).getEmail() +">,");
 			
 			emailTo = emailTo.trim(); 
 			if( emailTo.endsWith(",") ) 
@@ -29,7 +30,7 @@
 			if( emailTo.startsWith(",") ) 
 				emailTo= emailTo.substring(1, emailTo.length());
 			System.err.println("testh: "+ emailTo);
-			emailTo = java.net.URLEncoder.encode( emailTo );
+			//emailTo = java.net.URLEncoder.encode( emailTo );
 			System.err.println("testh: after "+ emailTo);
 			
 	}catch(Exception e){e.printStackTrace();}
@@ -72,8 +73,10 @@
                 <% for(int i=0; i<contacts.size(); i++) { 
                     org.girlscouts.vtk.models.Contact contact = contacts.get(i);
                     java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, troop, contact);
-                    String _email= java.net.URLEncoder.encode(contact.getFirstName() +"<"+contact.getEmail() +">");
-                   %>
+                    //-Works !!! String _email= java.net.URLEncoder.encode(contact.getFirstName() +"<"+contact.getEmail() +">");
+                  String _email= contact.getFirstName().replace(" ", "&nbsp;") + java.net.URLEncoder.encode("<"+contact.getEmail() +">");
+                  
+                    %>
                 <div class="row">
                   <dl class="accordion-inner clearfix" data-accordion>
                     <dt data-target="panel<%=i+1%>b" class="clearfix">
