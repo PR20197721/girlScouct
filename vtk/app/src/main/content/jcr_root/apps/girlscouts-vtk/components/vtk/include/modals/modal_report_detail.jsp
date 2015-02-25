@@ -21,7 +21,8 @@ int badges_earned=0, meeting_activities_added=0, calendar_activities_added=0;
   </div>
   <div class="scroll">
     <div class="content">
-     <h4>??? <span id="distinctGirl"></span> Girls Enrolled</h4>
+     <h4 id="troopName">[ Troop Leader Name goes here]</h4>
+     <h4 id="distinctGirl"> Girls Enrolled</h4>
      <div class="row bg">
         <div class="column large-12">
           <ul class="large-block-grid-2">
@@ -80,5 +81,7 @@ int badges_earned=0, meeting_activities_added=0, calendar_activities_added=0;
 $("#rpt_badges_earned").html("<%=badges_earned%>");
 $("#meeting_activities_added").html("<%=meeting_activities_added%>");
 $("#calendar_activities_added").html("<%=calendar_activities_added%>");
-$("#distinctGirl").html("<%=distinctGirl.size()%>");
+$(document).ready(function() {
+	$("#distinctGirl").text("<%=distinctGirl.size()%>" + $("#distinctGirl").text());
+});
 </script>
