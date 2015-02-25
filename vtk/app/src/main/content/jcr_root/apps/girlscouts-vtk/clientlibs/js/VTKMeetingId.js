@@ -39,8 +39,19 @@ girlscouts.components.VTKMeetingId = CQ.Ext.extend(CQ.form.CompositeField, {
         girlscouts.components.VTKMeetingId.superclass.initComponent.call(this);
 
         this.meetingField = new CQ.form.Selection({
+            type: 'combobox',
+            options: [
+                {
+                	"value": "B14B01",
+                	"text": "B14B01"
+                },
+                {
+                	"value": "B14B12",
+                	"text": "B14B12"
+                }
+            ],
             listeners: {
-                change: {
+                selectionchanged: {
                     scope:this,
                     fn:this.updateLink
                 }
@@ -52,6 +63,11 @@ girlscouts.components.VTKMeetingId = CQ.Ext.extend(CQ.form.CompositeField, {
         	html: '<a href="/etc/scaffolding/girlscouts-vtk/meeting.html">Create New Meeting</a>'
         });
         this.add(this.linkField);
+    },
+    
+    updateLink: function(path) {
+    	this.linkField.setText('<a href="http://www.google.com/">Edit Meeting</a>',
+    			false);
     },
 
     // overriding CQ.form.CompositeField#setValue
