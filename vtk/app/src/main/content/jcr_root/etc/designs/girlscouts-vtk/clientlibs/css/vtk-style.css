@@ -855,7 +855,7 @@
   text-transform: uppercase; }
 .vtk-body .reveal-modal .icon-printer,
 .vtk-body .modalWrap .icon-printer {
-  color: #00ae53; }
+  color: #00AE53; }
 .vtk-body .modifyCalendarDate {
   margin-top: 25px; }
 .vtk-body #modal_meeting_aids .button {
@@ -896,11 +896,11 @@
     vertical-align: middle; }
     .vtk-body #modal_report_detail table tr td:nth-last-child(-n+2) {
       text-align: center; }
-.vtk-body #modal_report_detail .large-block-grid-2 > li:nth-child(2n+1) {
-  text-align: right; }
 .vtk-body #modal_report_detail [class*="block-grid-"] > li {
-  padding-bottom: 1em;
-  white-space: nowrap; }
+  padding-bottom: 1em; }
+  .vtk-body #modal_report_detail [class*="block-grid-"] > li:nth-child(2n+1) {
+    text-align: right;
+    padding-right: 0; }
 .vtk-body .browseMeetingAids a, .vtk-body .browseMeetingAids p, .vtk-body .browseMeetingAids span, .vtk-body .browseMeetingAids input {
   font-size: 14px; }
 .vtk-body #manageCalendarSection .holidays ul li {
