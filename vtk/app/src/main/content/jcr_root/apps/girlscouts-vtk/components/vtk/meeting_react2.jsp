@@ -43,7 +43,6 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 %>
  <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script> 
 
-<div id="modal_popup" class="reveal-modal" data-reveal></div>
 <%@include file="include/tab_navigation.jsp"%>
 
 <script>
