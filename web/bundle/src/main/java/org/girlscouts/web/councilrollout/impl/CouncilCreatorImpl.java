@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.io.StringBufferInputStream;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,6 +32,7 @@ import org.apache.jackrabbit.api.JackrabbitSession;
 import org.apache.jackrabbit.api.security.JackrabbitAccessControlList;
 import org.apache.jackrabbit.api.security.JackrabbitAccessControlManager;
 import org.apache.jackrabbit.api.security.JackrabbitAccessControlPolicy;
+import org.apache.jackrabbit.commons.JcrUtils;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.girlscouts.web.councilrollout.CouncilCreator;
 import org.slf4j.Logger;
@@ -189,8 +191,10 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			Node designsFolder = session.getNode(designPath);
 			if (designsFolder.hasNode(designPrototypePath)) {
 				Node prototypeDesign = designsFolder.getNode(designPrototypePath);
-				Node councilDesign = JcrUtil.copy(prototypeDesign, designsFolder, "girlscouts-" + councilName);
-				buildCSSFile(councilDesign, councilName, councilTitle, "text/css", "utf-8");				
+				Node councilDesign = JcrUtil.copy(prototypeDesign, designsFolder, "girlscouts-" + councilName); 
+				StringBufferInputStream stream = new StringBufferInputStream("/* COUNCIL-SPECIFIC STYLING FOR " + councilTitle + " */");
+				Calendar date = Calendar.getInstance();
+				JcrUtils.putFile(councilDesign, councilName + ".css", "text/css", stream, date);
 				design.add(councilDesign);
 				councilDesign.getNode("jcr:content").setProperty("jcr:title", councilTitle);
 
@@ -231,11 +235,13 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			Group gsReviewers = (Group) manager.findByHome(homePath + "/" + girlscoutsPath + "/" + allReviewersGroup);
 			gsReviewers.addMember(councilReviewers);
 			
+			//Titles of council Groups set
 			String authorsProfilePath = councilAuthors.getProfile().getPath();
 			session.getNode(authorsProfilePath).setProperty("givenName", councilTitle + " Authors");
 			String reviewersProfilePath = councilReviewers.getProfile().getPath();
 			session.getNode(reviewersProfilePath).setProperty("givenName", councilTitle + " Reviewers");
 			
+			//Permissions for council Group are generated here
 			buildPermissions(session, councilName, councilAuthors);
 			buildPermissions(session, councilName, councilReviewers);
 			
@@ -356,11 +362,11 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			Map<String, Privilege[]> map = new HashMap<String, Privilege[]>();
 			
 			try {
-			map.put("READ", new Privilege[]{manager.privilegeFromName(Privilege.JCR_READ)});
-			map.put("MODIFY", new Privilege[]{manager.privilegeFromName(Privilege.JCR_ADD_CHILD_NODES), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_REMOVE_CHILD_NODES), manager.privilegeFromName(Privilege.JCR_REMOVE_NODE)});
-			map.put("READ_WRITE", new Privilege[]{manager.privilegeFromName(Privilege.JCR_READ), manager.privilegeFromName(Privilege.JCR_ADD_CHILD_NODES), manager.privilegeFromName(Privilege.JCR_LOCK_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_MODIFY_PROPERTIES), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_VERSION_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT)});
-			map.put("READ_WRITE_REPLICATE_DELETE", new Privilege[]{manager.privilegeFromName(Replicator.REPLICATE_PRIVILEGE), manager.privilegeFromName(Privilege.JCR_LOCK_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_READ), manager.privilegeFromName(Privilege.JCR_VERSION_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_WRITE)});
-			map.put("READ_WRITE_MODIFY_REPLICATE", new Privilege[]{manager.privilegeFromName(Replicator.REPLICATE_PRIVILEGE), manager.privilegeFromName(Privilege.JCR_ADD_CHILD_NODES), manager.privilegeFromName(Privilege.JCR_LOCK_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_MODIFY_PROPERTIES), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_READ), manager.privilegeFromName(Privilege.JCR_VERSION_MANAGEMENT)});
+				map.put("READ", new Privilege[]{manager.privilegeFromName(Privilege.JCR_READ)});
+				map.put("MODIFY", new Privilege[]{manager.privilegeFromName(Privilege.JCR_ADD_CHILD_NODES), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_REMOVE_CHILD_NODES), manager.privilegeFromName(Privilege.JCR_REMOVE_NODE)});
+				map.put("READ_WRITE", new Privilege[]{manager.privilegeFromName(Privilege.JCR_READ), manager.privilegeFromName(Privilege.JCR_ADD_CHILD_NODES), manager.privilegeFromName(Privilege.JCR_LOCK_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_MODIFY_PROPERTIES), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_VERSION_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT)});
+				map.put("READ_WRITE_REPLICATE_DELETE", new Privilege[]{manager.privilegeFromName(Replicator.REPLICATE_PRIVILEGE), manager.privilegeFromName(Privilege.JCR_LOCK_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_READ), manager.privilegeFromName(Privilege.JCR_VERSION_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_WRITE)});
+			    map.put("READ_WRITE_MODIFY_REPLICATE", new Privilege[]{manager.privilegeFromName(Replicator.REPLICATE_PRIVILEGE), manager.privilegeFromName(Privilege.JCR_ADD_CHILD_NODES), manager.privilegeFromName(Privilege.JCR_LOCK_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_MODIFY_PROPERTIES), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_READ), manager.privilegeFromName(Privilege.JCR_VERSION_MANAGEMENT)});
 			
 			} catch (RepositoryException e) {
 				LOG.error("Error occurred while generating privileges in Privilege Map: " + e.toString());
@@ -455,43 +461,5 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			LOG.error("Cannot build Repository page titled " + title + " " + e.toString());
 		}
 		return thisRepositoryPage;
-	}
-
-	private Node buildCSSFile(Node folderNode, String councilName, String councilTitle, String mimeType, String encoding) {
-		Node CSSNode = null;
-
-		try {
-			File CSSFile = buildFile(councilName + ".css", "/* COUNCIL-SPECIFIC STYLING FOR " + councilTitle + " */");
-			CSSNode = folderNode.addNode(CSSFile.getName(), "nt:file");
-			//Setting data for jcr:content of css file
-			Node resNode = CSSNode.addNode("jcr:content", "nt:resource");
-			resNode.setProperty("jcr:mimeType", mimeType);
-			resNode.setProperty("jcr:encoding", encoding);
-			resNode.setProperty("jcr:data", new FileInputStream(CSSFile));
-			Calendar lastModified = Calendar.getInstance();
-			lastModified.setTimeInMillis(CSSFile.lastModified());
-			resNode.setProperty("jcr:lastModified", lastModified);
-		} catch (RepositoryException e) {
-			LOG.error("Error with repository: " + e.toString());
-		} catch (FileNotFoundException e) {
-			LOG.error("CSS File not found: " + e.toString());
-		} catch (Exception e) {
-			LOG.error("Error occurred while building CSS File: " + e.toString());
-		}
-		return CSSNode;
-	}
-
-	private File buildFile(String fileName, String text) {
-		File file = null;
-		
-		try {
-			file = new File(fileName);
-			BufferedWriter output = new BufferedWriter(new FileWriter(file));
-			output.write(text);
-			output.close();
-		} catch (Exception e) {
-			LOG.error("Error occurred while building generic File: " + e.toString());
-		}
-		return file;
 	}
 }
