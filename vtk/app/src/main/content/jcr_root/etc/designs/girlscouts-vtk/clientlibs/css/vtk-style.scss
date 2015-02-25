@@ -1365,7 +1365,7 @@
       line-height:.5;
       }
       .accordion-inner {
-        background: #f7f7f6;
+        &* { background: #f7f7f6; }
         dt {
           position: relative;
           padding: 10px 10px 10px 15px;

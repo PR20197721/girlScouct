@@ -998,39 +998,39 @@
     font-size: 31px;
     margin-right: 30px;
     line-height: .5; }
-  .vtk-body .accordion .accordion-inner {
+  .vtk-body .accordion .accordion-inner* {
     background: #f7f7f6; }
-    .vtk-body .accordion .accordion-inner dt {
-      position: relative;
-      padding: 10px 10px 10px 15px;
-      margin-bottom: 0; }
-      .vtk-body .accordion .accordion-inner dt * {
-        vertical-align: middle; }
-      .vtk-body .accordion .accordion-inner dt .name:nth-of-type(1) {
-        cursor: pointer;
-        padding-left: 30px; }
-        .vtk-body .accordion .accordion-inner dt .name:nth-of-type(1):before {
-          border-style: solid;
-          content: "";
-          border-width: 10px;
-          display: block;
-          position: absolute;
-          margin-top: -10px;
-          top: 50%;
-          border-color: transparent transparent transparent #00ae58;
-          left: 5px; }
-        .vtk-body .accordion .accordion-inner dt .name:nth-of-type(1).on {
-          font-weight: 700; }
-          .vtk-body .accordion .accordion-inner dt .name:nth-of-type(1).on:before {
-            border-color: #00ae58 transparent transparent;
-            margin-top: -4px; }
-    .vtk-body .accordion .accordion-inner .accordion-navigation {
-      clear: both; }
-      .vtk-body .accordion .accordion-inner .accordion-navigation ul,
-      .vtk-body .accordion .accordion-inner .accordion-navigation li {
-        font-size: 14px !important; }
-    .vtk-body .accordion .accordion-inner ul.column:first-child {
-      margin-left: 27px; }
+  .vtk-body .accordion .accordion-inner dt {
+    position: relative;
+    padding: 10px 10px 10px 15px;
+    margin-bottom: 0; }
+    .vtk-body .accordion .accordion-inner dt * {
+      vertical-align: middle; }
+    .vtk-body .accordion .accordion-inner dt .name:nth-of-type(1) {
+      cursor: pointer;
+      padding-left: 30px; }
+      .vtk-body .accordion .accordion-inner dt .name:nth-of-type(1):before {
+        border-style: solid;
+        content: "";
+        border-width: 10px;
+        display: block;
+        position: absolute;
+        margin-top: -10px;
+        top: 50%;
+        border-color: transparent transparent transparent #00ae58;
+        left: 5px; }
+      .vtk-body .accordion .accordion-inner dt .name:nth-of-type(1).on {
+        font-weight: 700; }
+        .vtk-body .accordion .accordion-inner dt .name:nth-of-type(1).on:before {
+          border-color: #00ae58 transparent transparent;
+          margin-top: -4px; }
+  .vtk-body .accordion .accordion-inner .accordion-navigation {
+    clear: both; }
+    .vtk-body .accordion .accordion-inner .accordion-navigation ul,
+    .vtk-body .accordion .accordion-inner .accordion-navigation li {
+      font-size: 14px !important; }
+  .vtk-body .accordion .accordion-inner ul.column:first-child {
+    margin-left: 27px; }
 .vtk-body table thead,
 .vtk-body table tfoot {
   background: none; }
