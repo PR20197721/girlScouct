@@ -1853,7 +1853,6 @@ input[type="file"] {
       width: 23px;
 
     }
-
   }
    //my troop page accordion 
   .mytroop {
@@ -1871,5 +1870,13 @@ input[type="file"] {
     margin-left: -30%;
     width: 60%;
   }
+  .right-off-canvas-menu  {
+    visibility: hidden !important;
+    display:none !important;
+      &* {
+      visibility: hidden !important;
+      display:none !important;
+      }
+    }
 }
 

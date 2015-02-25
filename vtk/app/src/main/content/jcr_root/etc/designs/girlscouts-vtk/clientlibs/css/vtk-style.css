@@ -1347,4 +1347,11 @@ input[type="file"] {
 @media only screen and (min-width: 60.063em) {
   .vtk-body .reveal-modal {
     margin-left: -30%;
-    width: 60%; } }
+    width: 60%; }
+
+  .right-off-canvas-menu {
+    visibility: hidden !important;
+    display: none !important; }
+    .right-off-canvas-menu* {
+      visibility: hidden !important;
+      display: none !important; } }
