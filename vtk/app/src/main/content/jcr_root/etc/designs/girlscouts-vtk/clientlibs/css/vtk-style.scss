@@ -247,12 +247,6 @@
               opacity: 1;
               border:none;
               }
-            &:before {
-              cursor: default !important;
-              background: #fff;
-              left: 0;
-              content: "";
-            }
             > div  {
               cursor: default;
               .bg-square {
@@ -260,6 +254,12 @@
                 &:after {
                   border-color: transparent transparent transparent #00abe6;
                 }
+              }
+              &:before {
+                cursor: default !important;
+                background: #fff;
+                left: 0;
+                content: "";
               }
             }
           }

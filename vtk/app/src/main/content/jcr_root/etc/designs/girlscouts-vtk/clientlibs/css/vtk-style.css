@@ -189,17 +189,17 @@
     .vtk-body #main #yearPlanMeetings ul .meeting.activity.ui-state-disabled {
       opacity: 1;
       border: none; }
-    .vtk-body #main #yearPlanMeetings ul .meeting.activity:before {
-      cursor: default !important;
-      background: #fff;
-      left: 0;
-      content: ""; }
     .vtk-body #main #yearPlanMeetings ul .meeting.activity > div {
       cursor: default; }
       .vtk-body #main #yearPlanMeetings ul .meeting.activity > div .bg-square {
         background-color: #00abe6; }
         .vtk-body #main #yearPlanMeetings ul .meeting.activity > div .bg-square:after {
           border-color: transparent transparent transparent #00abe6; }
+      .vtk-body #main #yearPlanMeetings ul .meeting.activity > div:before {
+        cursor: default !important;
+        background: #fff;
+        left: 0;
+        content: ""; }
     .vtk-body #main #yearPlanMeetings ul .milestone {
       pointer-events: none; }
       .vtk-body #main #yearPlanMeetings ul .milestone > div {
