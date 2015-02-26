@@ -139,6 +139,11 @@
         <pluginManagement>
             <plugins>
                 <plugin>
+                    <groupId>org.jasig.maven</groupId>
+                    <artifactId>sass-maven-plugin</artifactId>
+                    <version>1.1.1</version>
+                </plugin>
+                <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-scr-plugin</artifactId>
                     <version>1.7.4</version>
