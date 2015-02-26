@@ -210,20 +210,20 @@
                 }
               }
               &.passed {
-                 background-color: #e7e7e7;
-                 color: #999;
-                 &:after {
-                   border-color: transparent transparent transparent #e7e7e7;
-                 }
-                 .count {
+                background-color: #e7e7e7;
+                color: #999;
+                &:after {
+                  border-color: transparent transparent transparent #e7e7e7;
+                }
+                .count {
                   background: transparent;
-                 }
+                }
               }
               &.current {
-                 background-color: #F9A61A;
-                 &:after {
-                   border-color: transparent transparent transparent #F9A61A;
-                 }
+                background-color: #F9A61A;
+                &:after {
+                  border-color: transparent transparent transparent #F9A61A;
+                }
               }
             }
             > div:first-child {
@@ -247,19 +247,19 @@
               opacity: 1;
               border:none;
               }
+            &:before {
+              cursor: default !important;
+              background: #fff;
+              left: 0;
+              content: "";
+            }
             > div  {
               cursor: default;
-               .bg-square {
+              .bg-square {
                 background-color: #00abe6;
                 &:after {
                   border-color: transparent transparent transparent #00abe6;
                 }
-              }
-              &:before {
-                cursor: default !important;
-                background: #fff;
-                left: 0;
-                content: "";
               }
             }
           }
@@ -283,14 +283,14 @@
     }
   }
   #mainContent.welcome-page {
-      h1 {
-        margin: 1.88rem 0 4.38rem 0;
-      }
-      p {
-        font-size: 0.875rem;
-        margin-top: 1.13rem;
-      }
+    h1 {
+      margin: 1.88rem 0 4.38rem 0;
     }
+    p {
+      font-size: 0.875rem;
+      margin-top: 1.13rem;
+    }
+  }
   .inline-list {
     margin: 0;
     &#sub-nav {
@@ -1213,13 +1213,6 @@
       left: 5px;
     }
   }
-  // #modal_meeting_aids {
-  //   .button {
-  //     padding: 5px 8px;
-  //     display: block;
-  //     margin:0;
-  //   }
-  // }
   .modal_agenda_edit {
     .content {
       h3 {
@@ -1290,7 +1283,6 @@
       font-size: 14px;
     }
   }
->>>>>>> 27189997e5ad14306d13de5f0680276f712cc351
   //calendars on the popups
   #manageCalendarSection {
     .holidays {
@@ -1412,7 +1404,7 @@
         overflow: hidden;
       }
     }
-   > dt {
+    > dt {
       background: #00ae58;
       position: relative;
       padding: 13px 0 11px 25px;
@@ -1533,10 +1525,10 @@
     }
     .large-block-grid-2 {
       > li:nth-child(2n+1) {
-          width: 70%;
-          white-space: nowrap;
-        }
+        width: 70%;
+        white-space: nowrap;
       }
+    }
     .large-block-grid-2 {
       > li:nth-child(2n) {
         width: 30%;
@@ -1634,7 +1626,7 @@
     &.doc {
       a,span {
         &:before {
-           background-position: -60px 0;
+          background-position: -60px 0;
         }
       }
     }
@@ -1642,14 +1634,14 @@
     &.xls  {
       a,span {
         &:before {
-           background-position: -90px 0;
+          background-position: -90px 0;
         }
       }
     }
     &.zip {
       a,span {
         &:before {
-           background-position: -120px 0;
+          background-position: -120px 0;
         }
       }
     }
@@ -1859,7 +1851,7 @@ input[type="file"] {
       left:-30px;
     }
     > div:nth-of-type(2) {
-        padding-left: 115px;
+      padding-left: 115px;
     }
   } 
   .vtk-body #main #yearPlanMeetings > .row > div.column {
@@ -1907,7 +1899,7 @@ input[type="file"] {
     overflow: hidden;
     text-overflow: ellipsis;
   }
-   //my troop page accordion 
+  //my troop page accordion 
   .mytroop {
     .accordion-inner {
       dt {
@@ -1938,7 +1930,7 @@ input[type="file"] {
     }
 
   }
-   //my troop page accordion 
+  //my troop page accordion 
   .mytroop {
     .accordion-inner {
       dt {

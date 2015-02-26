@@ -189,17 +189,17 @@
     .vtk-body #main #yearPlanMeetings ul .meeting.activity.ui-state-disabled {
       opacity: 1;
       border: none; }
+    .vtk-body #main #yearPlanMeetings ul .meeting.activity:before {
+      cursor: default !important;
+      background: #fff;
+      left: 0;
+      content: ""; }
     .vtk-body #main #yearPlanMeetings ul .meeting.activity > div {
       cursor: default; }
       .vtk-body #main #yearPlanMeetings ul .meeting.activity > div .bg-square {
         background-color: #00abe6; }
         .vtk-body #main #yearPlanMeetings ul .meeting.activity > div .bg-square:after {
           border-color: transparent transparent transparent #00abe6; }
-      .vtk-body #main #yearPlanMeetings ul .meeting.activity > div:before {
-        cursor: default !important;
-        background: #fff;
-        left: 0;
-        content: ""; }
     .vtk-body #main #yearPlanMeetings ul .milestone {
       pointer-events: none; }
       .vtk-body #main #yearPlanMeetings ul .milestone > div {
@@ -946,19 +946,15 @@
   white-space: nowrap; }
 .vtk-body .browseMeetingAids a, .vtk-body .browseMeetingAids p, .vtk-body .browseMeetingAids span, .vtk-body .browseMeetingAids input {
   font-size: 14px; }
-.vtk-body > > > > > > > 27189997e5ad14306d13de5f0680276f712cc351
-#manageCalendarSection .holidays ul li {
+.vtk-body #manageCalendarSection .holidays ul li {
   list-style: none; }
-.vtk-body > > > > > > > 27189997e5ad14306d13de5f0680276f712cc351
-#manageCalendarSection .holidays input[type=checkbox]:checked + label:before {
+.vtk-body #manageCalendarSection .holidays input[type=checkbox]:checked + label:before {
   content: "\e6d7";
   font-family: "JollyFont";
   color: green; }
-.vtk-body > > > > > > > 27189997e5ad14306d13de5f0680276f712cc351
-#manageCalendarSection .holidays input[type="checkbox"] {
+.vtk-body #manageCalendarSection .holidays input[type="checkbox"] {
   display: none; }
-.vtk-body > > > > > > > 27189997e5ad14306d13de5f0680276f712cc351
-#manageCalendarSection .holidays label:before {
+.vtk-body #manageCalendarSection .holidays label:before {
   border: solid 1px #ccc;
   content: "";
   height: 30px;
@@ -969,13 +965,11 @@
   display: inline-block;
   float: left;
   padding: 4px; }
-.vtk-body > > > > > > > 27189997e5ad14306d13de5f0680276f712cc351
-#manageCalendarSection .holidays label p {
+.vtk-body #manageCalendarSection .holidays label p {
   float: left;
   margin-top: -5px;
   margin-left: 9px; }
-.vtk-body > > > > > > > 27189997e5ad14306d13de5f0680276f712cc351
-#manageCalendarSection .holidays label span {
+.vtk-body #manageCalendarSection .holidays label span {
   display: block; }
 .vtk-body .hero-image {
   margin-bottom: 10px;
