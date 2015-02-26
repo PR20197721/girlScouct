@@ -1706,7 +1706,6 @@
       margin-bottom: 10px;
       position: relative;
       &:after {
-        
         border: solid 7px transparent;
         border-color: #000 transparent transparent transparent;
         content: "";
@@ -1719,7 +1718,8 @@
   }
 }
 .tabs dd {
-  width: 16.666667%;
+  max-width: 16.666667%;
+  min-width: 14.252874%;
   border-bottom:solid 6px #009447;
   > a {
     background: #00ae57;
