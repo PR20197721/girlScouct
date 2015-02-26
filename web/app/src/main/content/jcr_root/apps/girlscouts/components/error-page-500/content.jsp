@@ -3,7 +3,6 @@
 <%-- DO NOT REMOVE THIS LINE. For eagle checking --%>
 <!-- 500 GirlScouts -->
 <!--PAGE STRUCTURE: MAIN-->
-<% String headerPath = (String) request.getAttribute("headerPath"); %>
   <div id="main" class="row collapse page-404">
 	<div class="small-13 columns small-centered">
         <p><h3>Internal Server Error</h3></p>
