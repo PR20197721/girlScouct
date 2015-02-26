@@ -545,6 +545,12 @@ public class SalesforceDAO {
 											.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
 									log.debug("REGISTER ROLL DP");
 									break;
+								case CouncilAdmin:
+									troop.setPermissionTokens(Permission
+											.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
+									troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));
+									log.debug("Council Admin");
+									break;
 								default:
 									log.debug("REGISTER ROLL DEFAULT");
 									troop.setPermissionTokens(Permission

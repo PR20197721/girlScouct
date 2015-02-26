@@ -30,6 +30,7 @@ import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -220,7 +221,7 @@ public class CalendarUtil {
 
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
-						Permission.PERMISSION_UPDATE_MEETING_ID))
+						Permission.PERMISSION_EDIT_MEETING_ID))
 			throw new IllegalAccessException();
 
 		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
@@ -328,6 +329,7 @@ public class CalendarUtil {
 	 * 
 	 * //-SAVE troopUtil.updateTroop(user, troop); return isChg; }
 	 */
+	private int weekOfMonth=0, dayOfWeek=0;
 	public void createSched(User user, Troop troop, String freq,
 			org.joda.time.DateTime newStartDate, String exclDate,
 			long oldFromDate) throws java.lang.IllegalAccessException {
@@ -367,6 +369,10 @@ public class CalendarUtil {
 		Calendar newCalDate = java.util.Calendar.getInstance();
 		newCalDate.setTimeInMillis(newStartDate.getMillis());
 
+		
+		 weekOfMonth = getWeekOfMonth( newCalDate.getTime().getTime() ) ;//-1;
+		 dayOfWeek = newCalDate.get(Calendar.DAY_OF_WEEK);
+		
 		StringTokenizer t = new StringTokenizer(dates, ",");
 		while (t.hasMoreElements()) {
 			java.util.Date dt = new java.util.Date(
@@ -433,6 +439,7 @@ public class CalendarUtil {
 		return exclDates;
 	}
 
+	
 	private long getNextDate(List<String> exclDates, long theDate, String freq,
 			boolean isUseCurrDate) {
 
@@ -442,17 +449,10 @@ public class CalendarUtil {
 			org.joda.time.DateTime date = new org.joda.time.DateTime(theDate);
 			if (freq.equals("weekly")) {
 				date = date.plusWeeks(1);
-
 			} else if (freq.equals("monthly")) {
-				//date = date.plusMonths(1);
-				int x= date.getDayOfWeek();
-				int prevMonth = new DateTime(date.getMillis()).plusMonths(1).getMonthOfYear();
-				date= date.plusMonths(1).withDayOfWeek(x); 	    
-				if(date.getMonthOfYear() != prevMonth ) date = date.minusWeeks(1);
-
+				date = new org.joda.time.DateTime(getMonthlyNextDate(date));
 			} else if (freq.equals("biweekly")) {
 				date = date.plusWeeks(2);
-
 			}
 			nextDate = date.getMillis();
 		}
@@ -460,7 +460,48 @@ public class CalendarUtil {
 			return nextDate;
 		else
 			return getNextDate(exclDates, nextDate, freq, false);
-
 	}
+	
+	private int getWeekOfMonth( long date ){
+		Calendar cal = java.util.Calendar.getInstance();
+		cal.setTimeInMillis(date);
+		int dayOfTheWeek = cal.get(java.util.Calendar.DAY_OF_WEEK);
+		
+		int toRet = 1;
+		Calendar tmp = java.util.Calendar.getInstance();
+		tmp.setTimeInMillis(date);
+		tmp.set(java.util.Calendar.DATE, 1);
+		while(tmp.getTimeInMillis()!= date ){
+			if(  tmp.get(java.util.Calendar.DAY_OF_WEEK) == dayOfTheWeek)
+				toRet++;
+			tmp.add( java.util.Calendar.DATE, 1);
+		}
+		return toRet;
+	}
+	
+	private long getMonthlyNextDate( DateTime date){
+		java.util.Calendar cal = java.util.Calendar.getInstance();
+		cal.setTimeInMillis(date.getMillis());
+		cal.add(java.util.Calendar.MONTH, 1);
+		cal.set(java.util.Calendar.DATE, 1);
+	
+		int month= cal.get(java.util.Calendar.MONTH);
+		int count=0;
+		long lastdt=0;
+		while( cal.get(java.util.Calendar.MONTH )== month){
 
+			if(dayOfWeek == cal.get(java.util.Calendar.DAY_OF_WEEK) ){
+				count++;
+				lastdt = cal.getTimeInMillis();
+			}
+
+			if( count == weekOfMonth && 
+					dayOfWeek == cal.get(java.util.Calendar.DAY_OF_WEEK) ){
+				
+				return cal.getTimeInMillis();
+			}
+			cal.add( java.util.Calendar.DATE, 1);
+		}
+		return lastdt;
+	}
 }

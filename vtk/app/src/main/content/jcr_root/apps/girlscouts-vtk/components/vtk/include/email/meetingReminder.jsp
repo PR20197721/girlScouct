@@ -34,7 +34,7 @@
 	</ul>
 	<section class="clearfix">
 		<label for="email_to_cc">Enter your own:</label>
-		<input type="email" id="email_to_cc" value="<%=troop.getSendingEmail()==null ? "" : troop.getSendingEmail().getCc()%>" placeholder="enter email addresses separated by commas"/>
+		<input type="email" id="email_to_cc" value="<%=troop.getSendingEmail()==null ? "" : troop.getSendingEmail().getCc()%>" placeholder="enter email addresses separated by semicolons"/>
 	</section>
 	<h6>Compose Email</h6>
 	<section class="clearfix">
@@ -103,8 +103,13 @@
 	  <dd class="accordion-navigation">
 	    <div class="content" id="panel1">
       	<ul class="small-block-grid-2"><%  
-      	for(int i=0;i<planView.getAidTags().size();i++) { %>
-      		<li><i class="icon-pdf-file-extension ext"><!-- <span class="color-overlay"></span> --></i><span class="name"><%= planView.getAidTags().get(i).getTitle() %></span></li>
+      	for(int i=0;i<planView.getAidTags().size();i++) { 
+						String ext = planView.getAidTags().get(i).getDocType();
+						if(ext == null) {
+							ext= org.girlscouts.vtk.utils.GSUtils.getDocExtensionFromString(planView.getAidTags().get(i).getRefId());
+						}
+      	%>
+      		<li class="icon <%=ext%>"><span class="name"><%= planView.getAidTags().get(i).getTitle() %></span></li>
       		<li><a class="add-links" href="#nogo" title="add" onclick="addAidLink('<%=planView.getAidTags().get(i).getRefId()%>','<%=planView.getAidTags().get(i).getTitle()%>','<%=mid %>')"><i class="icon-button-circle-plus"></i></a></li><%
       	}%>
       	</ul>
@@ -223,7 +228,7 @@
 		var url = window.location.href;
 		var arr = url.split("/");
 		var host = arr[0] + "//" + arr[2];
-		$('.jqte_editor #aidLinks').append('<li><a href="'+host+refId+'">'+title+'</a></li>');
+		$('.jqte_editor #aidLinks').append('<li><a href="'+host+refId+'" target="_blank">'+title+'</a></li>');
 		$('.jqte_editor #aidLinks p.hide').removeClass();
 		$('#added').dialog('open');
 		$('.ui-dialog-titlebar').css('display', 'none');
@@ -241,7 +246,9 @@
 		}
 	};
 	function validate(){
-	    var emailReg = /^(([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?\;?)+$/;
+	    //var emailReg = /^(([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?\;?)+$/;
+	    //allow leading and trailing spaces for every email addr
+	    var emailReg = /^((\ *[\w-\.]+@([\w-]+\.)+[\w-]{2,4}\ *)\;?)+$/;
 	    var emailAddr = $('#email_to_cc').val();
 	    var subject = $('#email_subj').val();
 	    var body = $('#email_htm').val();

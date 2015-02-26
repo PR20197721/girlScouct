@@ -107,7 +107,9 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
               <section>
                 <p>Cost: {this.props.data.cost}</p>
               </section>
-              <p>{this.props.data.content}</p>
+
+              <p dangerouslySetInnerHTML={{__html: this.props.data.content}}/>
+
             </div>
             <%@include file="include/meeting_communication.jsp"%>
           </div>

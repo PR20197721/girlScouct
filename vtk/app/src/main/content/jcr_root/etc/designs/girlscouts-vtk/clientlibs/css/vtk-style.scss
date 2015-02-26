@@ -16,6 +16,20 @@
     font-size:14px;
     line-height:1.5;
   }
+  input[type="button"],
+  .button,
+  .btn {
+    text-transform: uppercase;
+    color: #fff;
+    padding: 12px 20px;
+    font-size:14px;
+    line-height:1rem;
+  }
+  .add-btn,
+  .add-btn * {
+    font-weight: 700;
+    line-height:27px;
+  }
   .check{
     margin-bottom: 20px;
     &:before {
@@ -80,13 +94,13 @@
           line-height:20px;
         }
       }
-      input[type=radio] {
+      input[type="radio"] {
         display: none;
       }
-      input[type=radio] + label {
+      input[type="radio"] + label {
         position: relative;
       }
-      input[type=radio] + label:before {
+      input[type="radio"] + label:before {
         width: 2.81rem;
         height: 2.81rem;
         content: '';
@@ -96,7 +110,7 @@
         margin: 0 0.5em;
         color: transparent;
       }
-      input[type=radio]:checked + label:after{
+      input[type="radio"]:checked + label:after{
         content: '';
         display: inline-block;
         border: none;
@@ -130,16 +144,16 @@
             background-color:#f6f6f6;
             cursor: move;
             padding-left:0;
-            // &:before {
-            //   content:'';
-            //   background: url("images/throbber.png") repeat-y #fff;
-            //   height: 100%;
-            //   width: 23px;
-            //   position: absolute;
-            //   left:-33px;
-            //   padding: 0 17px;
-            //   cursor: move;
-            // }
+            &:before {
+              content:'';
+              background: url("images/throbber.png") repeat-y #fff;
+              height: 100%;
+              width: 23px;
+              position: absolute;
+              left:-33px;
+              padding: 0 17px;
+              cursor: move;
+            }
             p {
               margin:0;
               &.blurb,
@@ -196,20 +210,20 @@
                 }
               }
               &.passed {
-                 background-color: #e7e7e7;
-                 color: #999;
-                 &:after {
-                   border-color: transparent transparent transparent #e7e7e7;
-                 }
-                 .count {
+                background-color: #e7e7e7;
+                color: #999;
+                &:after {
+                  border-color: transparent transparent transparent #e7e7e7;
+                }
+                .count {
                   background: transparent;
-                 }
+                }
               }
               &.current {
-                 background-color: #F9A61A;
-                 &:after {
-                   border-color: transparent transparent transparent #F9A61A;
-                 }
+                background-color: #F9A61A;
+                &:after {
+                  border-color: transparent transparent transparent #F9A61A;
+                }
               }
             }
             > div:first-child {
@@ -233,17 +247,19 @@
               opacity: 1;
               border:none;
               }
+            &:before {
+              cursor: default !important;
+              background: #fff;
+              left: 0;
+              content: "";
+            }
             > div  {
               cursor: default;
-               .bg-square {
+              .bg-square {
                 background-color: #00abe6;
                 &:after {
                   border-color: transparent transparent transparent #00abe6;
                 }
-              }
-              &:before {
-                cursor: default !important;
-                content: none;
               }
             }
           }
@@ -267,14 +283,14 @@
     }
   }
   #mainContent.welcome-page {
-      h1 {
-        margin: 1.88rem 0 4.38rem 0;
-      }
-      p {
-        font-size: 0.875rem;
-        margin-top: 1.13rem;
-      }
+    h1 {
+      margin: 1.88rem 0 4.38rem 0;
     }
+    p {
+      font-size: 0.875rem;
+      margin-top: 1.13rem;
+    }
+  }
   .inline-list {
     margin: 0;
     &#sub-nav {
@@ -431,11 +447,6 @@
         // margin-right: -5px;
         margin-bottom: 1.25em;
         padding: 5px;
-      }
-      .add-btn,
-      .add-btn * {
-        font-weight: 700;
-        line-height:27px;
       }
       ul {
         padding:0;
@@ -612,7 +623,7 @@
         font-size:27px;
         vertical-align: middle;
       }
-      input {
+      input[type="text"] {
         padding: 5px 8px;
         height: auto;
       }
@@ -785,7 +796,7 @@
       dd {
         .name {
           font-weight: 600;
-          vertical-align: middle;
+          // vertical-align: middle;
         }
         .small-block-grid-2 > li:nth-child(2n),
         .small-block-grid-3 > li:nth-child(3n){
@@ -915,13 +926,13 @@
       padding: 30px 20px 25px;
       .tabs {
         dd {
-          width: 33.3333333%;
+          min-width: 33.3333333%;
           float:left;
           background:#00ae57;
         }
         #createActivityTab,
         #pickActivityTab {
-          width:50%;
+          min-width:50%;
         }
       }
       .tabs-content {
@@ -940,7 +951,8 @@
         .date {
           label[for="sch_startDate"],
           label[for="sch_endDate"],
-          label[for="newCustActivity_date"] {
+          label[for="newCustActivity_date"],
+          label[for="calStartDt"] {
             margin-top:5px;
           }
         }
@@ -1049,11 +1061,6 @@
         font-size:27px;
         color: #00ae57;
         vertical-align:middle;
-      }
-    }
-    .btn {
-      &.add-btn {
-        padding:10px 2rem;
       }
     }
     select {
@@ -1170,12 +1177,40 @@
   //calendar inside the meeting date and location popup
   .modifyCalendarDate {
     margin-top: 25px;
-  }
-  #modal_meeting_aids {
-    .button {
-      padding: 5px 8px;
-      display: block;
-      margin:0;
+    input[type="radio"] {
+      display: none;
+    }
+    input[type="radio"] + label {
+      position: relative;
+      p {
+        top: 25%;
+        left: 60px;
+        white-space: nowrap;
+        position: absolute;
+      }
+    }
+    input[type="radio"] + label:before {
+      width: 2.81rem;
+      height: 2.81rem;
+      content: '';
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 50%;
+      margin: 0 0.5em;
+      color: transparent;
+    }
+    input[type="radio"]:checked + label:after{
+      content: '';
+      display: inline-block;
+      border: none;
+      border-radius: 50%;
+      margin: 0 0.5em;
+      position: absolute;
+      background: #00ae58;
+      width: 2.19rem;
+      height: 2.19rem;
+      top: 5px;
+      left: 5px;
     }
   }
   .modal_agenda_edit {
@@ -1183,8 +1218,8 @@
       h3 {
         margin-bottom:20px;
       }
-      .btn {
-        padding:4px 20px;
+      select {
+        height: 40px;
       }
     }
   }
@@ -1370,7 +1405,7 @@
         overflow: hidden;
       }
     }
-   > dt {
+    > dt {
       background: #00ae58;
       position: relative;
       padding: 13px 0 11px 25px;
@@ -1470,16 +1505,35 @@
     section {
       margin-top:0;
       h6 {
+        margin-bottom: 5px;
         span {
           &:nth-of-type(2) {
             font-weight: normal;
           }
         }
       }
+      ul {
+        margin-top: 20px;
+        li {
+          margin:0;
+          line-height: 2;
+        }
+      } 
       ul li {
         margin:0;
         line-height: 2;
       }
+    }
+    .large-block-grid-2 {
+      > li:nth-child(2n+1) {
+        width: 70%;
+        white-space: nowrap;
+      }
+    }
+    .large-block-grid-2 {
+      > li:nth-child(2n) {
+        width: 30%;
+      } 
     }
     .large-block-grid-2 > li:nth-child(2n+1) {
       width: 70%;
@@ -1491,6 +1545,9 @@
     input[type="text"] {
       height: 30px;
       text-align: right;
+    }
+    .save {
+      margin-top: 20px;
     }
   }
   //ADMIN PAGES
@@ -1542,6 +1599,54 @@
       }
     }
   }
+  .icon {
+    a,span {
+      vertical-align: top;
+      &:before {
+        background: url("/etc/designs/girlscouts-vtk/images/icon_sprite.png") transparent no-repeat 0 0;
+        height: 25px;
+        width: 20px;
+        display: inline-block;
+        white-space: nowrap;
+        padding-left: 30px;
+        content: " ";
+      }
+    }
+    p {
+      padding-left: 30px;
+      margin-top:-10px;
+    }
+    &.pdf {
+      a,span {
+        &:before {
+          background-position:-30px 0;
+        }
+      }
+    }
+    &.docx,
+    &.doc {
+      a,span {
+        &:before {
+          background-position: -60px 0;
+        }
+      }
+    }
+    &.xlsx,
+    &.xls  {
+      a,span {
+        &:before {
+          background-position: -90px 0;
+        }
+      }
+    }
+    &.zip {
+      a,span {
+        &:before {
+          background-position: -120px 0;
+        }
+      }
+    }
+  }
   #main .reports {
     .row.titles {
       font-weight: 700;
@@ -1576,11 +1681,6 @@
   }
 } //end of vtk-body
 
-//overwrite of global
-.btn, .button, button {
-  text-transform:uppercase;
-  color:#fff;
-}
 .inline-list {
   .icon {
     i {
@@ -1622,6 +1722,9 @@
         margin-top:-3px;
       }
     }
+  }
+  #vtk-main-menu li {
+    padding-bottom: 5px;
   }
 }
 .tabs dd {
@@ -1695,7 +1798,32 @@ input[type="file"] {
     border-radius: 0;
   }
 }
-
+//popup calendar
+#ui-datepicker-div {
+  background: #fff;
+  .ui-corner-all {
+    border:none;
+    border-radius: 0;
+    background: none;
+  }
+  table {
+    border:none;
+  }
+  .ui-datepicker-header .ui-datepicker-title {
+    float:none;
+  }
+  a.ui-state-default.ui-state-highlight,
+  .ui-state-active, 
+  .ui-widget-content .ui-state-active,
+  .ui-widget-header .ui-state-active {
+    background: #cfefde;
+  }
+  .ui-state-default,
+  .ui-widget-content .ui-state-default,
+  .ui-widget-header .ui-state-default {
+    text-align: center;
+  }
+}
 
 //Media queries
 //small screen
@@ -1709,6 +1837,9 @@ input[type="file"] {
       height:83px;
       background: #fff;
       padding-right: 6px;
+      top: 1px;
+      left: 7px;
+      width: 23px;
     }
     .bg-square {
       left:30px;
@@ -1718,10 +1849,10 @@ input[type="file"] {
     }
     &:before {
       background: #fff;
-      left:0;
+      left:-30px;
     }
     > div:nth-of-type(2) {
-        padding-left: 115px;
+      padding-left: 115px;
     }
   } 
   .vtk-body #main #yearPlanMeetings > .row > div.column {
@@ -1761,12 +1892,15 @@ input[type="file"] {
   .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody td {
     padding: 9px;
   }
+  .vtk-body .modalWrap .tabs-wrapper .tabs-content table tr:nth-of-type(odd) {
+    background: #f9f9f9;
+  }
   .vtk-body #modal-meeting-reminder .accordion dd .content li span {
     max-width: 245px;
     overflow: hidden;
     text-overflow: ellipsis;
   }
-   //my troop page accordion 
+  //my troop page accordion 
   .mytroop {
     .accordion-inner {
       dt {
@@ -1792,10 +1926,12 @@ input[type="file"] {
       background: #fff;
       padding-right: 6px;
       left:-30px;
+      width: 23px;
+
     }
 
   }
-   //my troop page accordion 
+  //my troop page accordion 
   .mytroop {
     .accordion-inner {
       dt {

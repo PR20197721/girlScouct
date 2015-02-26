@@ -459,6 +459,7 @@ public class TroopUtil {
 
 		session.setAttribute("VTK_troop", new_troop);
 		session.putValue("VTK_planView_memoPos", null);
+		session.setAttribute("vtk_cachable_contacts", null);
 		// new_troop.setCurrentTroop( session.getId() );
 		// updateTroop(user, new_troop);
 

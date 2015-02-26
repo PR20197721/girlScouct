@@ -54,19 +54,17 @@
         <dd <%= "resource".equals(activeTab) ? "class='active'" : "" %>>
           <a href="/content/girlscouts-vtk/en/vtk.resource.html">Resources</a>
         </dd>
-        <dd <%= "reports".equals(activeTab) ? "class='active'" : "" %>>
-          <a href="/content/girlscouts-vtk/en/vtk.admin_reports.html">Reports</a>
-        </dd>
-        <% if( hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){ %>
+        <% if(hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){ %>
+          <dd <%= "reports".equals(activeTab) ? "class='active'" : "" %>>
+            <a href="/content/girlscouts-vtk/en/vtk.admin_reports.html">Reports</a>
+          </dd>
           <dd <%= "finances".equals(activeTab) ? "class='active'" : "" %>>
             <a href="/content/girlscouts-vtk/en/vtk.finances.html">Finances</a>
           </dd>
         <% }  %>
-        <!-- % // to do add this to javA if(hasPermission(troop, Permission.PERMISSION_VIEW_PROFILE) ) { %-->
         <dd <%= "profile".equals(activeTab) ? "class='active'" : "" %>>
           <a href="/content/girlscouts-vtk/en/vtk.profile.html">Profile</a>
         </dd>
-        <!-- % // }   %-->
       </dl>
       <div class="dropdown show-for-small hide-for-print">
         <a id="vtk-main-menu-button" onclick="$('#vtk-main-menu').slideToggle('slow')" class="expand">Menu</a>
@@ -131,7 +129,7 @@
           <%  } %>
           
           <li <%= ("resource".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.resource.html">Resources</a></li>
-          <li <%= ("finances".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.finances.html">Finances</a></li>
+          <li <%= ("finances".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.finances.html?qtr=1">Finances</a></li>
            <li <%= ("profile".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.profile.html">Profile</a></li>
         </ul>
       </div>

@@ -17,14 +17,17 @@
 			for(int i=0;i<contacts.size();i++)
 				if( contacts.get(i).getEmail()!=null && !contacts.get(i).getEmail().trim().equals("") && 
 						!emailTo.contains( contacts.get(i).getEmail().trim()+"," ) ) 
-					emailTo+= contacts.get(i).getEmail() +",";
-					//emailTo += Text.escape(contacts.get(i).getFirstName()) +"<" + contacts.get(i).getEmail() +">,";
+					//emailTo+= contacts.get(i).getEmail() +",";
+					emailTo += "\""+Text.escape(contacts.get(i).getFirstName()) +"\"" +"<" + contacts.get(i).getEmail() +">,";
 			
 			emailTo = emailTo.trim(); 
 			if( emailTo.endsWith(",") ) 
 				emailTo= emailTo.substring(0, emailTo.length()-1);
 			if( emailTo.startsWith(",") ) 
 				emailTo= emailTo.substring(1, emailTo.length());
+			System.err.println("testh: "+ emailTo);
+			emailTo = java.net.URLEncoder.encode( emailTo );
+			System.err.println("testh: after "+ emailTo);
 			
 	}catch(Exception e){e.printStackTrace();}
 	
@@ -37,7 +40,7 @@
     <%
             if (!resourceResolver.resolve(troopPhotoUrl).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
     %>
-        <img src="<%=troopPhotoUrl %>" alt="GirlScouts Troop <%=troop.getTroop().getTroopName()%> Photo" />
+        <img id="troopPhoto" src="<%=troopPhotoUrl %>" alt="GirlScouts <%=troop.getTroop().getTroopName()%> Photo" />
         <a data-reveal-id="modal_upload_image" title="update photo" href="#nogo" title="upload image"><i class="icon-photo-camera"></i></a>
     <%
     	}
@@ -54,13 +57,14 @@
                 <% for(int i=0; i<contacts.size(); i++) { 
                     org.girlscouts.vtk.models.Contact contact = contacts.get(i);
                     java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, troop, contact);
-                %>
+                    String _email= java.net.URLEncoder.encode(contact.getFirstName() +"<"+contact.getEmail() +">");
+                   %>
                 <div class="row">
                   <dl class="accordion-inner clearfix" data-accordion>
                     <dt data-target="panel<%=i+1%>b" class="clearfix">
                       <span class="name column large-10"><%=contact.getFirstName() %></span>
                      <!--  <span class="name column large-4 hide-for-small">&nbsp;</span> -->
-                      <a class="column large-8 email" href="mailto:<%=contact.getEmail() %>">
+   <a class="column large-8 email" href="mailto:<%=_email%>">
                         <i class="icon icon-mail"></i><%=contact.getEmail() %>
                       </a>
                       <span class="column large-4"><%=contact.getPhone() %></span>
@@ -77,15 +81,22 @@
                         
                         
                         <!-- attendance & ach -->
+                        <div>Achievements:</div>
                         <%
                         for(int y=0;y<infos.size();y++){
-                        	%>
-                        	   <div style="background-color:yellow;">
-                        	       <%= infos.get(y).getYearPlanComponent().getType()== YearPlanComponentType.MEETING ? ((MeetingE) infos.get(y).getYearPlanComponent()).getRefId() : "" %>
-                        	       <br/>Attendance: <%=  infos.get(y).isAttended()%>
-                        	       <br/>Achievement: <%=  infos.get(y).isAchievement()%>
-                        	   </div>
-                        	<% 
+                        	       if(infos.get(y).isAchievement()){
+                            	      %> <%= infos.get(y).getYearPlanComponent().getType()== YearPlanComponentType.MEETING ? ((MeetingE) infos.get(y).getYearPlanComponent()).getMeetingInfo().getName() : "" %>,<% 
+                        	       }
+                        }
+                        %>
+                        
+                        
+                        <div>Attendance:</div>
+                        <%
+                        for(int y=0;y<infos.size();y++){
+                                   if(infos.get(y).isAttended()){
+                                      %>1/1/2015<% 
+                                   }
                         }
                         %>
                         
@@ -101,31 +112,7 @@
       </dd>
 
       
-      <!-- 
-      <dt data-target="panel2"><h3><%=troop.getSfTroopName() %> VOLUNTEERS</h3><a href="mailto:adulfan@gmail.com">email to 10 contacts</a></dt>
-      <dd class="accordion-navigation">
-        <div class="content" id="panel2">
-          <div class="row">
-            <div class="column large-23 large-centered">
-              <dl class="accordion" data-accordion>
-                <dd class="accordion-navigation">
-                  <a href="#panel1b">Accordion 1</a>
-                  <div id="panel1 b" class="content active">
-                    Panel 1. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                  </div>
-                </dd>
-                <dd class="accordion-navigation">
-                  <a href="#panel3b">Accordion 2</a>
-                  <div id="panel2b" class="content">
-                    Panel 2. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                  </div>
-                </dd>
-                <dd class="accordion-navigation">
-                  <a href="#panel3b">Accordion 3</a>
-                  <div id="panel3b" class="content">
-                    Panel 3. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                  </div>
-                </dd> -->
+      
               </dl>
             </div>
           </div>
@@ -135,3 +122,17 @@
     </dl>
 
   </div><!--/column-->
+
+<%
+	if (request.getHeader("newTroopPhoto") != null) {
+
+%>
+<script>
+	$( document ).ready(function() {
+		var d = new Date();
+		$("troopPhoto").attr("src", $(".hero-image img").attr("src") + "?" + d.getTime());
+	});
+</script>
+<%
+	}
+%>
