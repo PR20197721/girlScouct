@@ -918,13 +918,13 @@
       padding: 30px 20px 25px;
       .tabs {
         dd {
-          width: 33.3333333%;
+          min-width: 33.3333333%;
           float:left;
           background:#00ae57;
         }
         #createActivityTab,
         #pickActivityTab {
-          width:50%;
+          min-width:50%;
         }
       }
       .tabs-content {
