@@ -1475,13 +1475,6 @@
         }
       }
   }
-  //tables
-  table {
-    thead, 
-    tfoot {
-      background: none;
-    }
-  }
   .reveal-modal-bg,
   .ui-widget-overlay {
     background: rgba(0, 0, 0, 0.6) !important;
@@ -1674,6 +1667,46 @@
       margin-bottom: 20px;
       p {
         margin-bottom: 0;
+      }
+    }
+  }
+
+  #main .milestones  {
+    input[type=checkbox]:checked + label:before {
+      content: "\e6d7";
+      font-family: "JollyFont";
+      color: green;
+    }
+    input[type="checkbox"] {
+      display: none;
+    }
+    input[type=checkbox] + label {
+      &:before {
+        border: solid 1px #ccc;
+        content: "";
+        height: 30px;
+        width: 30px;
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+        font-size: 15px;
+        text-align: center;
+        display: inline-block;
+        float: left;
+        padding:4px;
+      }
+    }
+    [class^="icon-"],
+    [class*=" icon-"] {
+      font-size: 32px;
+    }
+    p{
+      &.column {
+        margin-bottom: 5px;
+        font-weight: 700;
+        text-align: center;
+        &.end {
+          line-height: 32px;
+          text-align: left;
+        }
       }
     }
   }
@@ -1930,4 +1963,3 @@ table tr {
       }
     }
 }
-
