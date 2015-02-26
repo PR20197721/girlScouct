@@ -2,10 +2,12 @@ package org.girlscouts.vtk.models;
 
 import java.io.Serializable;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
+
 
 @Node(jcrMixinTypes = "mix:lockable")
 public class Finance implements Serializable {
@@ -40,6 +42,8 @@ public class Finance implements Serializable {
 	public void setIncome(Map<String, Double> income){
 		this.income = income;
 	}
+	
+	
 	
 
 	public String getPath() {

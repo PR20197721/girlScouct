@@ -8,9 +8,11 @@ import org.girlscouts.vtk.models.Achievement;
 import org.girlscouts.vtk.models.Attendance;
 import org.girlscouts.vtk.models.Contact;
 import org.girlscouts.vtk.models.ContactExtras;
+import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
+import org.girlscouts.vtk.models.YearPlanComponent;
 
 @Component
 @Service(value = ContactUtil.class)
@@ -22,6 +24,8 @@ public class ContactUtil {
 	@Reference
 	MeetingUtil meetingUtil;
 	
+	@Reference
+	YearPlanUtil yearPlanUtil;
 	
 	public void saveContact(User user, Troop troop, Contact contact)
 			throws IllegalStateException, IllegalAccessException {
@@ -38,6 +42,7 @@ public class ContactUtil {
 	
 	   if( contact==null ) return null;
 	   java.util.List<ContactExtras> extras = new java.util.ArrayList<ContactExtras>();
+	   
 	   for(int i=0;i<troop.getYearPlan().getMeetingEvents().size();i++){
 		   
 		    MeetingE meeting = troop.getYearPlan().getMeetingEvents().get(i);
@@ -51,7 +56,6 @@ public class ContactUtil {
 		    if( achievement!=null && achievement.getUsers()!=null && !achievement.getUsers().equals("") )
 		    	achievement_users = "," +achievement.getUsers() +","; 
 		    
-		    
 		    if( attendance_users.contains( "," + contact.getId() + "," ) )	    	
 		    	extra.setAttended(true);
 		    if( achievement_users.contains( "," +  contact.getId() + "," ) )	    	
@@ -59,6 +63,12 @@ public class ContactUtil {
 		    
 		    
 		    if( extra.isAttended() || extra.isAchievement() ){
+		    	if( meeting.getMeetingInfo()==null ){
+		    		try{ 
+		    			meeting.setMeetingInfo(  yearPlanUtil.getMeeting(user,
+							meeting.getRefId()) );
+		    		}catch(Exception e){e.printStackTrace();}
+		    	}
 		    	extra.setYearPlanComponent(meeting);
 		    	extras.add(extra);
 		    }

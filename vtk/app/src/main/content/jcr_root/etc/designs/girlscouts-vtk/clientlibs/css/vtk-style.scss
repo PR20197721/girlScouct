@@ -16,19 +16,8 @@
     font-size:14px;
     line-height:1.5;
   }
-  input[type="button"],
-  .button,
-  .btn {
-    text-transform: uppercase;
-    color: #fff;
-    padding: 12px 20px;
-    font-size:14px;
-    line-height:1rem;
-  }
-  .add-btn,
-  .add-btn * {
-    font-weight: 700;
-    line-height:27px;
+  address {
+    font-style:normal;
   }
   .check{
     margin-bottom: 20px;
@@ -94,13 +83,13 @@
           line-height:20px;
         }
       }
-      input[type="radio"] {
+      input[type=radio] {
         display: none;
       }
-      input[type="radio"] + label {
+      input[type=radio] + label {
         position: relative;
       }
-      input[type="radio"] + label:before {
+      input[type=radio] + label:before {
         width: 2.81rem;
         height: 2.81rem;
         content: '';
@@ -110,7 +99,7 @@
         margin: 0 0.5em;
         color: transparent;
       }
-      input[type="radio"]:checked + label:after{
+      input[type=radio]:checked + label:after{
         content: '';
         display: inline-block;
         border: none;
@@ -247,12 +236,6 @@
               opacity: 1;
               border:none;
               }
-            &:before {
-              cursor: default !important;
-              background: #fff;
-              left: 0;
-              content: "";
-            }
             > div  {
               cursor: default;
               .bg-square {
@@ -260,6 +243,10 @@
                 &:after {
                   border-color: transparent transparent transparent #00abe6;
                 }
+              }
+              &:before {
+                cursor: default !important;
+                content: none;
               }
             }
           }
@@ -282,13 +269,15 @@
       padding-bottom:20px;
     }
   }
-  #mainContent.welcome-page {
-    h1 {
-      margin: 1.88rem 0 4.38rem 0;
-    }
-    p {
-      font-size: 0.875rem;
-      margin-top: 1.13rem;
+  #mainContent.welcome-page .parbase.section {
+    &.text {
+      h1 {
+        margin: 0 0 1.25rem 0;
+      }
+      p {
+        font-size: 0.875rem;
+        margin-top: 1.13rem;
+      }
     }
   }
   .inline-list {
@@ -401,7 +390,6 @@
           h3 {
             margin: 0;
             padding-top: 15px;
-            line-height:1.5;
           }
         }
       }
@@ -434,19 +422,21 @@
       font-size:27px;
     }
     section {
-      margin-top: 17px;
-    &:first-child {
-      margin-top: 0;
-    }
+      margin-top:17px;
       h6 {
         font-size: 14px;
         font-weight:600;
         text-transform: uppercase;
         background: #f6f6f6;
-        // margin-left: -5px;
-        // margin-right: -5px;
+        margin-left: -5px;
+        margin-right: -5px;
         margin-bottom: 1.25em;
         padding: 5px;
+      }
+      .add-btn,
+      .add-btn * {
+        font-weight: 700;
+        line-height:27px;
       }
       ul {
         padding:0;
@@ -491,6 +481,7 @@
         }
       }
     #main-info {
+      margin-top: 0;
       section {
         margin-bottom:30px;
         margin-top: 0;
@@ -623,7 +614,7 @@
         font-size:27px;
         vertical-align: middle;
       }
-      input[type="text"] {
+      input {
         padding: 5px 8px;
         height: auto;
       }
@@ -669,6 +660,8 @@
         color: green;
       }
       .btn {
+        text-transform: uppercase;
+        color: #fff;
         margin-left:5px;
       }
       section {
@@ -690,6 +683,7 @@
       color:#000;
       &:before {
         border-color: transparent transparent transparent #000;
+        margin-left:5px;
         border-width: 5px;
         margin-top: -5px;
       }
@@ -796,7 +790,7 @@
       dd {
         .name {
           font-weight: 600;
-          // vertical-align: middle;
+          vertical-align: middle;
         }
         .small-block-grid-2 > li:nth-child(2n),
         .small-block-grid-3 > li:nth-child(3n){
@@ -951,8 +945,7 @@
         .date {
           label[for="sch_startDate"],
           label[for="sch_endDate"],
-          label[for="newCustActivity_date"],
-          label[for="calStartDt"] {
+          label[for="newCustActivity_date"] {
             margin-top:5px;
           }
         }
@@ -1018,7 +1011,7 @@
             input[type=checkbox]:checked + label:before {
               content: "\e6d7";
               font-family: "JollyFont";
-              color: #00AE55;
+              color: green;
             }
             input[type="checkbox"] {
               display:none;
@@ -1063,7 +1056,14 @@
         vertical-align:middle;
       }
     }
-    select {
+    .btn {
+      text-transform: uppercase;
+      color: #fff;
+      &.add-btn {
+        padding:10px 2rem;
+      }
+    }
+    button, select {
       text-transform:uppercase;
     }
   }
@@ -1076,6 +1076,7 @@
     }
     .button {
       margin-bottom: 0;
+      text-transform: uppercase;
     }
     #frmCalElem {
       margin-bottom:0;
@@ -1170,47 +1171,16 @@
         }
       }
     }
-    .icon-printer {
-      color: #00AE53;
-    }
   }
   //calendar inside the meeting date and location popup
   .modifyCalendarDate {
     margin-top: 25px;
-    input[type="radio"] {
-      display: none;
-    }
-    input[type="radio"] + label {
-      position: relative;
-      p {
-        top: 25%;
-        left: 60px;
-        white-space: nowrap;
-        position: absolute;
-      }
-    }
-    input[type="radio"] + label:before {
-      width: 2.81rem;
-      height: 2.81rem;
-      content: '';
-      display: inline-block;
-      border: 1px solid #ccc;
-      border-radius: 50%;
-      margin: 0 0.5em;
-      color: transparent;
-    }
-    input[type="radio"]:checked + label:after{
-      content: '';
-      display: inline-block;
-      border: none;
-      border-radius: 50%;
-      margin: 0 0.5em;
-      position: absolute;
-      background: #00ae58;
-      width: 2.19rem;
-      height: 2.19rem;
-      top: 5px;
-      left: 5px;
+  }
+  #modal_meeting_aids {
+    .button {
+      padding: 5px 8px;
+      display: block;
+      margin:0;
     }
   }
   .modal_agenda_edit {
@@ -1218,8 +1188,8 @@
       h3 {
         margin-bottom:20px;
       }
-      select {
-        height: 40px;
+      .btn {
+        padding:4px 20px;
       }
     }
   }
@@ -1403,6 +1373,12 @@
       &.email {
         text-overflow: ellipsis;
         overflow: hidden;
+        padding-left:0;
+      }
+    }
+    dl {
+      dd a.email {
+        padding-left:5px;
       }
     }
     > dt {
@@ -1450,7 +1426,7 @@
       line-height:.5;
       }
       .accordion-inner {
-        background: #f7f7f6;
+        & * { background: #f7f7f6; }
         dt {
           position: relative;
           padding: 10px 10px 10px 15px;
@@ -1493,19 +1469,26 @@
         }
       }
   }
+  //tables
+  table {
+    thead, 
+    tfoot {
+      background: none;
+    }
+  }
   .reveal-modal-bg,
   .ui-widget-overlay {
     background: rgba(0, 0, 0, 0.6) !important;
     box-shadow: 0 0 50px rgba(0, 0, 0, .9) !important;
     opacity: 1 !important;
   }
-
   //Financial page 
   #main .meeting-detail #financeForm {
     section {
       margin-top:0;
       h6 {
         margin-bottom: 5px;
+        padding-right:0;
         span {
           &:nth-of-type(2) {
             font-weight: normal;
@@ -1679,8 +1662,18 @@
       padding-left: 0;
     }
   }
+  .mytroop {
+    //paragraph after the address
+    dd ul li {
+      margin-bottom: 20px;
+      p {
+        margin-bottom: 0;
+      }
+    }
+  }
 } //end of vtk-body
 
+//overwrite of global
 .inline-list {
   .icon {
     i {
@@ -1723,13 +1716,9 @@
       }
     }
   }
-  #vtk-main-menu li {
-    padding-bottom: 5px;
-  }
 }
 .tabs dd {
-  max-width: 16.666667%;
-  min-width: 14.252874%;
+  width: 16.666667%;
   border-bottom:solid 6px #009447;
   > a {
     background: #00ae57;
@@ -1798,33 +1787,6 @@ input[type="file"] {
     border-radius: 0;
   }
 }
-//popup calendar
-#ui-datepicker-div {
-  background: #fff;
-  .ui-corner-all {
-    border:none;
-    border-radius: 0;
-    background: none;
-  }
-  table {
-    border:none;
-  }
-  .ui-datepicker-header .ui-datepicker-title {
-    float:none;
-  }
-  a.ui-state-default.ui-state-highlight,
-  .ui-state-active, 
-  .ui-widget-content .ui-state-active,
-  .ui-widget-header .ui-state-active {
-    background: #cfefde;
-  }
-  .ui-state-default,
-  .ui-widget-content .ui-state-default,
-  .ui-widget-header .ui-state-default {
-    text-align: center;
-  }
-}
-
 //Media queries
 //small screen
 @media only screen and (max-width: 40em) {
@@ -1837,9 +1799,6 @@ input[type="file"] {
       height:83px;
       background: #fff;
       padding-right: 6px;
-      top: 1px;
-      left: 7px;
-      width: 23px;
     }
     .bg-square {
       left:30px;
@@ -1849,7 +1808,7 @@ input[type="file"] {
     }
     &:before {
       background: #fff;
-      left:-30px;
+      left:0;
     }
     > div:nth-of-type(2) {
       padding-left: 115px;
@@ -1892,9 +1851,6 @@ input[type="file"] {
   .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody td {
     padding: 9px;
   }
-  .vtk-body .modalWrap .tabs-wrapper .tabs-content table tr:nth-of-type(odd) {
-    background: #f9f9f9;
-  }
   .vtk-body #modal-meeting-reminder .accordion dd .content li span {
     max-width: 245px;
     overflow: hidden;
@@ -1909,6 +1865,18 @@ input[type="file"] {
         }
       }
     }
+  }
+}
+table { 
+  width: 100%; 
+}
+table tr {
+  background: #fff;
+  &:nth-of-type(odd) {
+    background: #f9f9f9;
+  }
+  &:nth-of-type(even) {
+    background: #fff;
   }
 }
 //medium screen 
@@ -1929,7 +1897,6 @@ input[type="file"] {
       width: 23px;
 
     }
-
   }
   //my troop page accordion 
   .mytroop {
@@ -1947,5 +1914,13 @@ input[type="file"] {
     margin-left: -30%;
     width: 60%;
   }
+  .right-off-canvas-menu  {
+    visibility: hidden !important;
+    display:none !important;
+      &* {
+      visibility: hidden !important;
+      display:none !important;
+      }
+    }
 }
 

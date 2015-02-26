@@ -53,6 +53,7 @@ import org.girlscouts.vtk.models.JcrCollectionHoldString;
 import org.girlscouts.vtk.modifiedcheck.ModifiedChecker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.apache.jackrabbit.util.Text;
 
 @Component
 @Service(value = TroopDAO.class)
@@ -570,7 +571,7 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 					
 					Property temp = incomeFieldIterator.nextProperty();
 					String fieldName = temp.getName();
-					fieldName = this.restoreIllegalChars(fieldName);
+					fieldName = Text.unescapeIllegalJcrChars(fieldName);
 					String value = temp.getValue().getString();
 					
 					if(value.isEmpty()){
@@ -585,7 +586,7 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 				while(expensesFieldIterator.hasNext()){
 					Property temp = expensesFieldIterator.nextProperty();
 					String fieldName = temp.getName();
-					fieldName = this.replaceIllegalChars(fieldName);
+					fieldName = Text.unescapeIllegalJcrChars(fieldName);
 					String value = temp.getValue().getString();
 					if(value.isEmpty()){
 						value = "0.00";
@@ -719,6 +720,7 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 			Node configNode = mySession.getNode("/" + configPath);
 			String[] incomeFields = income.replaceAll("\\[|\\]", "").split(",");
 			String[] expensesFields = expenses.replaceAll("\\[|\\]", "").split(",");
+			
 			configNode.setProperty(Finance.INCOME, incomeFields);
 			configNode.setProperty(Finance.EXPENSES, expensesFields);
 			configNode.setProperty(Finance.PERIOD, period);
@@ -737,11 +739,12 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 	
 	//Populate the two nodes expenses and income with the properties and values enetered into the finance form
 	private void populateFinanceChildren(Node incomeNode, Node expensesNode, String expensesParams, String incomeParams) throws RepositoryException{
-		String[] expenses = expensesParams.replaceAll("\\[|\\]", "").replaceAll("/", "#").split(",");
-		String[] income = incomeParams.replaceAll("\\[|\\]", "").replaceAll("/", "#").split(",");
+		String[] expenses = expensesParams.replaceAll("\\[|\\]", "").split(",");
+		String[] income = incomeParams.replaceAll("\\[|\\]", "").split(",");
 	
 		for(int i = 0; i < expenses.length; i = i + 2){
 			String fieldName = expenses[i].trim();
+			fieldName = Text.escapeIllegalJcrChars(fieldName);
 			String fieldValue = expenses[i + 1].trim();
 			System.err.println("Field Name: " + fieldName + " Field Value: " + fieldValue);
 			expensesNode.setProperty(fieldName, fieldValue);
@@ -750,6 +753,7 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 		for(int i = 0; i < income.length; i = i + 2){
 			
 			String fieldName = income[i].trim();
+			fieldName = Text.escapeIllegalJcrChars(fieldName);
 			String fieldValue = income[i + 1].trim();
 			System.err.println("Field Name: " + fieldName + " Field Value: " + fieldValue);
 			incomeNode.setProperty(fieldName, fieldValue);
@@ -775,18 +779,8 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 		return currentNode;
 	}
 	
-	private String replaceIllegalChars(String value){
-		String result = value;
-		result = result.replaceAll("/","#");
-		return result;
-	}
 	
-	private String restoreIllegalChars(String value){
-		String result = value;
-		result = result.replaceAll("#", "/");
-		return result;
-	}
-	
+
 	
 	
 	
