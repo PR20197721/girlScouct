@@ -30,6 +30,14 @@
     font-weight: 700;
     line-height:27px;
   }
+  .check{
+    margin-bottom: 20px;
+    &:before {
+      content: "\e6d7";
+      font-family: "JollyFont";
+      color: green;
+    }
+  }
   #header {
     >.columns {
       padding-right:0.9375em;
@@ -316,7 +324,7 @@
       border:none;
     }
   }
-  table tr {
+  table tbody tr {
     background: #fff;
     &:nth-of-type(odd) {
       background: #f9f9f9;
@@ -1248,11 +1256,41 @@
       }
     }
   }
-  // .browseMeetingAids {
-  //   a, p, span, input {
-  //     font-size: 14px;
-  //   }
-  // }
+  #modal_report_detail {
+    scroll * {font-size: 14px;}
+    .row.bg {
+      background: #f9f9f9;
+      padding-top:1em;
+    }
+    table {
+      margin-top: 20px;
+      tr {
+        th {
+          text-align:center;
+        }
+        td {
+          vertical-align: middle;
+          &:nth-last-child(-n+2) {
+            text-align:center;
+          }
+        }
+      }
+
+    }
+    .large-block-grid-2 > li:nth-child(2n+1) {
+      text-align: right;
+    }
+    [class*="block-grid-"] > li {
+      padding-bottom: 1em;
+      white-space: nowrap;
+    }
+  }
+  .browseMeetingAids {
+    a, p, span, input {
+      font-size: 14px;
+    }
+  }
+>>>>>>> 27189997e5ad14306d13de5f0680276f712cc351
   //calendars on the popups
   #manageCalendarSection {
     .holidays {
@@ -1392,6 +1430,7 @@
         margin-left: 40px;
         margin-right: 120px;
         cursor: pointer;
+        position: relative;
         &:before {
           border-style: solid;
           content: "";
@@ -1487,6 +1526,10 @@
           line-height: 2;
         }
       } 
+      ul li {
+        margin:0;
+        line-height: 2;
+      }
     }
     .large-block-grid-2 {
       > li:nth-child(2n+1) {
@@ -1498,6 +1541,13 @@
       > li:nth-child(2n) {
         width: 30%;
       } 
+    }
+    .large-block-grid-2 > li:nth-child(2n+1) {
+      width: 70%;
+      white-space: nowrap;
+    }
+    .large-block-grid-2 > li:nth-child(2n) {
+      width: 30%;
     }
     input[type="text"] {
       height: 30px;
@@ -1604,6 +1654,38 @@
       }
     }
   }
+  #main .reports {
+    .row.titles {
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    input[type=checkbox]:checked + label:before {
+      content: "\e6d7";
+      font-family: "JollyFont";
+      color: green;
+    }
+    input[type="checkbox"] {
+      display: none;
+    }
+    label {
+      margin:0;
+      &:before {
+        border: solid 1px #ccc;
+        content: "";
+        height: 30px;
+        width: 30px;
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+        font-size: 15px;
+        text-align: center;
+        display: inline-block;
+        float: left;
+        padding:4px;
+      }
+    }
+    .accordion .accordion-inner dt {
+      padding-left: 0;
+    }
+  }
 } //end of vtk-body
 
 .inline-list {
@@ -1636,12 +1718,15 @@
       display: block;
       padding: 10px;
       margin-bottom: 10px;
+      position: relative;
       &:after {
-        border: solid 8px transparent;
+        border: solid 7px transparent;
         border-color: #000 transparent transparent transparent;
         content: "";
         position: absolute;
-        right: 20px;
+        right: 3.3333%;
+        top: 50%;
+        margin-top:-3px;
       }
     }
   }
@@ -1784,7 +1869,6 @@ input[type="file"] {
   .vtk-body .accordion > dt h3 {
     width:100%;
     display: block;
-    position: relative;
     &.on {
       &:before {
         margin-left: -40px;

@@ -25,6 +25,12 @@
 .vtk-body .add-btn * {
   font-weight: 700;
   line-height: 27px; }
+.vtk-body .check {
+  margin-bottom: 20px; }
+  .vtk-body .check:before {
+    content: "\e6d7";
+    font-family: "JollyFont";
+    color: green; }
 .vtk-body #header > .columns {
   padding-right: 0.9375em;
   padding-left: 0.9375em; }
@@ -234,11 +240,11 @@
   .vtk-body table tr,
   .vtk-body table td {
     border: none; }
-.vtk-body table tr {
+.vtk-body table tbody tr {
   background: #fff; }
-  .vtk-body table tr:nth-of-type(odd) {
+  .vtk-body table tbody tr:nth-of-type(odd) {
     background: #f9f9f9; }
-  .vtk-body table tr:nth-of-type(even) {
+  .vtk-body table tbody tr:nth-of-type(even) {
     background: #fff; }
 .vtk-body .sectionHeader > div.column {
   background-color: #f6f6f6; }
@@ -920,15 +926,39 @@
   .vtk-body .modal-attendance .content table thead th,
   .vtk-body .modal-attendance .content table td:nth-child(n+2) {
     text-align: center; }
-.vtk-body #manageCalendarSection .holidays ul li {
+.vtk-body #modal_report_detail scroll * {
+  font-size: 14px; }
+.vtk-body #modal_report_detail .row.bg {
+  background: #f9f9f9;
+  padding-top: 1em; }
+.vtk-body #modal_report_detail table {
+  margin-top: 20px; }
+  .vtk-body #modal_report_detail table tr th {
+    text-align: center; }
+  .vtk-body #modal_report_detail table tr td {
+    vertical-align: middle; }
+    .vtk-body #modal_report_detail table tr td:nth-last-child(-n+2) {
+      text-align: center; }
+.vtk-body #modal_report_detail .large-block-grid-2 > li:nth-child(2n+1) {
+  text-align: right; }
+.vtk-body #modal_report_detail [class*="block-grid-"] > li {
+  padding-bottom: 1em;
+  white-space: nowrap; }
+.vtk-body .browseMeetingAids a, .vtk-body .browseMeetingAids p, .vtk-body .browseMeetingAids span, .vtk-body .browseMeetingAids input {
+  font-size: 14px; }
+.vtk-body > > > > > > > 27189997e5ad14306d13de5f0680276f712cc351
+#manageCalendarSection .holidays ul li {
   list-style: none; }
-.vtk-body #manageCalendarSection .holidays input[type=checkbox]:checked + label:before {
+.vtk-body > > > > > > > 27189997e5ad14306d13de5f0680276f712cc351
+#manageCalendarSection .holidays input[type=checkbox]:checked + label:before {
   content: "\e6d7";
   font-family: "JollyFont";
   color: green; }
-.vtk-body #manageCalendarSection .holidays input[type="checkbox"] {
+.vtk-body > > > > > > > 27189997e5ad14306d13de5f0680276f712cc351
+#manageCalendarSection .holidays input[type="checkbox"] {
   display: none; }
-.vtk-body #manageCalendarSection .holidays label:before {
+.vtk-body > > > > > > > 27189997e5ad14306d13de5f0680276f712cc351
+#manageCalendarSection .holidays label:before {
   border: solid 1px #ccc;
   content: "";
   height: 30px;
@@ -939,11 +969,13 @@
   display: inline-block;
   float: left;
   padding: 4px; }
-.vtk-body #manageCalendarSection .holidays label p {
+.vtk-body > > > > > > > 27189997e5ad14306d13de5f0680276f712cc351
+#manageCalendarSection .holidays label p {
   float: left;
   margin-top: -5px;
   margin-left: 9px; }
-.vtk-body #manageCalendarSection .holidays label span {
+.vtk-body > > > > > > > 27189997e5ad14306d13de5f0680276f712cc351
+#manageCalendarSection .holidays label span {
   display: block; }
 .vtk-body .hero-image {
   margin-bottom: 10px;
@@ -1015,7 +1047,8 @@
       text-transform: uppercase;
       margin-left: 40px;
       margin-right: 120px;
-      cursor: pointer; }
+      cursor: pointer;
+      position: relative; }
       .vtk-body .accordion > dt h3:before,
       .vtk-body .accordion > dt h6:before {
         border-style: solid;
@@ -1085,6 +1118,14 @@
     .vtk-body #main .meeting-detail #financeForm section ul li {
       margin: 0;
       line-height: 2; }
+  .vtk-body #main .meeting-detail #financeForm section ul li {
+    margin: 0;
+    line-height: 2; }
+.vtk-body #main .meeting-detail #financeForm .large-block-grid-2 > li:nth-child(2n+1) {
+  width: 70%;
+  white-space: nowrap; }
+.vtk-body #main .meeting-detail #financeForm .large-block-grid-2 > li:nth-child(2n) {
+  width: 30%; }
 .vtk-body #main .meeting-detail #financeForm .large-block-grid-2 > li:nth-child(2n+1) {
   width: 70%;
   white-space: nowrap; }
@@ -1150,6 +1191,30 @@
   background-position: -90px 0; }
 .vtk-body .icon.zip a:before, .vtk-body .icon.zip span:before {
   background-position: -120px 0; }
+.vtk-body #main .reports .row.titles {
+  font-weight: 700;
+  white-space: nowrap; }
+.vtk-body #main .reports input[type=checkbox]:checked + label:before {
+  content: "\e6d7";
+  font-family: "JollyFont";
+  color: green; }
+.vtk-body #main .reports input[type="checkbox"] {
+  display: none; }
+.vtk-body #main .reports label {
+  margin: 0; }
+  .vtk-body #main .reports label:before {
+    border: solid 1px #ccc;
+    content: "";
+    height: 30px;
+    width: 30px;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+    font-size: 15px;
+    text-align: center;
+    display: inline-block;
+    float: left;
+    padding: 4px; }
+.vtk-body #main .reports .accordion .accordion-inner dt {
+  padding-left: 0; }
 
 .inline-list .icon i {
   color: inherit;
@@ -1171,13 +1236,16 @@
     .tab-wrapper.row .dropdown a.expand {
       display: block;
       padding: 10px;
-      margin-bottom: 10px; }
+      margin-bottom: 10px;
+      position: relative; }
       .tab-wrapper.row .dropdown a.expand:after {
-        border: solid 8px transparent;
+        border: solid 7px transparent;
         border-color: #000 transparent transparent transparent;
         content: "";
         position: absolute;
-        right: 20px; }
+        right: 3.3333%;
+        top: 50%;
+        margin-top: -3px; }
   .tab-wrapper.row #vtk-main-menu li {
     padding-bottom: 5px; }
 
@@ -1288,8 +1356,7 @@ input[type="file"] {
 
   .vtk-body .accordion > dt h3 {
     width: 100%;
-    display: block;
-    position: relative; }
+    display: block; }
     .vtk-body .accordion > dt h3.on:before {
       margin-left: -40px; }
     .vtk-body .accordion > dt h3:before {

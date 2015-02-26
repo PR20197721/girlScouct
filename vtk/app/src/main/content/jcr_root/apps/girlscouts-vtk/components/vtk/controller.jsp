@@ -1,4 +1,4 @@
-<%@page import="org.codehaus.jackson.map.ObjectMapper,org.joda.time.LocalDate,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
+<%@page import="java.util.Comparator,org.codehaus.jackson.map.ObjectMapper,org.joda.time.LocalDate,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <cq:defineObjects />
 <%@include file="include/session.jsp"%>
@@ -522,10 +522,9 @@
 					}
 
 					try {
-						if (!m.getRefId().contains("_"))
-							yearPlanUtil.createCustomMeeting(user,
-									troop, m, custM);
-						else {
+						if (!m.getRefId().contains("_")){
+							yearPlanUtil.createCustomMeeting(user,troop, m, custM);
+						}else {
 							yearPlanUtil.updateCustomMeeting(user,
 									troop, m, custM);
 						}
@@ -795,7 +794,7 @@
 
 _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new JcrCollectionHoldString(org.apache.commons.lang.StringEscapeUtils.unescapeHtml(_meeting.getMeetingInfo().getMeetingInfo().get("meeting short description").getStr()))); 
 		
-		Comparator<Activity> comp = new org.apache.commons.beanutils.BeanComparator(
+		java.util.Comparator<Activity> comp = new org.apache.commons.beanutils.BeanComparator(
 									"activityNumber");
 							Collections.sort(_activities, comp);
 						}
@@ -1021,6 +1020,16 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 				e.printStackTrace();
 			}
 
+		} else if (request.getParameter("isAdminRpt") != null) {
+			final CouncilRpt councilRpt = sling.getService(CouncilRpt.class);  
+			java.util.Map container = councilRpt.getTroopNames( request.getParameter("cid"), request.getParameter("ypPath"));
+			java.util.Iterator itr= container.keySet().iterator();
+			while( itr.hasNext() ){
+				String troopId= (String) itr.next();
+				String troopName= (String)container.get( troopId);
+				%> $("#<%=troopId %>").html("<%=troopName%>"); <% 
+			}
+		
 		} else {
 			//TODO throw ERROR CODE
 		}

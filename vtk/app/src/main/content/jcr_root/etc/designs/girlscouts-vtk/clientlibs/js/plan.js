@@ -613,3 +613,31 @@ function rmMeeting( rmDate, mid){
 	});
 }
 
+function councilRpt(troopId, cid){
+	console.log( troopId );   
+	   
+	   $.ajax({
+	        url: "/content/girlscouts-vtk/controllers/vtk.controller.html?isAdminRpt=true&cid="+cid+"&ypPath="+troopId ,
+	        cache: false
+	    }).done(function( html ) {
+	    	councilRpt_updateTroopName( html );
+	    });
+	}
+	
+	function councilRpt_updateTroopName(input){
+		
+	
+		var lines = input.split('\n');
+		var output = '';
+		$.each(lines, function(key, line) {
+		    var parts = line.split(';');
+		    for(var i=0;i<parts.length;i++){
+		     output +=  parts[i] + '; \n';
+		     }
+		});
+		
+		output = "<script> function test(){" + output +" } test(); </"+""+"script>";
+		$(output).appendTo('body');
+	
+	}
+
