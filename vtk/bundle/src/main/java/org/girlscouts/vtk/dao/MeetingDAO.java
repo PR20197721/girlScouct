@@ -14,6 +14,8 @@ import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.SearchTag;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
+import org.girlscouts.vtk.models.SentEmail;
+
 
 public interface MeetingDAO {
 
@@ -104,5 +106,9 @@ public interface MeetingDAO {
 	public Achievement getAchievement(User user, Troop troop, String mid);
 
 	public boolean setAchievement(User user, Troop troop, String mid,
-			Achievement a);
+			Achievement a);	
+	
+	public boolean updateMeetingEvent(User user, Troop troop, MeetingE meeting)
+			throws IllegalAccessException, IllegalStateException;
+	
 }

@@ -1,5 +1,12 @@
 function rmLocation(locationName){
+	
         showError(null, "#locationEdit .errorMsg");
+     
+        
+     if(!confirm('Are you sure you want to delete this location?') ){
+    	 return false;
+     }   
+        
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
 		type: 'POST',
@@ -9,7 +16,7 @@ function rmLocation(locationName){
 			a:Date.now()
 		},
 		success: function(result) {
-		$("#locList").load("/content/girlscouts-vtk/controllers/vtk.locationManage.html?rand="+Date.now());
+			$("#locList").load("/content/girlscouts-vtk/controllers/vtk.locationManage.html?rand="+Date.now());
 		}
 	});
 }

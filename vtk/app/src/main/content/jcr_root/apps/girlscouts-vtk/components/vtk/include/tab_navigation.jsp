@@ -37,9 +37,9 @@
       <dl class="tabs hide-for-small">
         <% if(hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
           <dd <%= "myTroop".equals(activeTab) ? "class='active'" : "" %>>
-            <a href="/content/girlscouts-vtk/en/vtk.mytroop_react.html">My Troop</a>
+            <a href="/content/girlscouts-vtk/en/vtk.myTroop.html">My Troop</a>
           </dd>
-        <% } %>
+        <%} %>
         <% if(hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID)) { %>
           <dd <%= "plan".equals(activeTab) ? "class='active'" : "" %>>
            <!--  <a href="/content/girlscouts-vtk/en/vtk.plan.html">Year Plan</a> -->
@@ -54,16 +54,17 @@
         <dd <%= "resource".equals(activeTab) ? "class='active'" : "" %>>
           <a href="/content/girlscouts-vtk/en/vtk.resource.html">Resources</a>
         </dd>
-        <% if( hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){ %>
+        <% if(hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){ %>
+          <dd <%= "reports".equals(activeTab) ? "class='active'" : "" %>>
+            <a href="/content/girlscouts-vtk/en/vtk.admin_reports.html">Reports</a>
+          </dd>
           <dd <%= "finances".equals(activeTab) ? "class='active'" : "" %>>
             <a href="/content/girlscouts-vtk/en/vtk.finances.html">Finances</a>
           </dd>
         <% }  %>
-        <!-- % // to do add this to javA if(hasPermission(troop, Permission.PERMISSION_VIEW_PROFILE) ) { %-->
         <dd <%= "profile".equals(activeTab) ? "class='active'" : "" %>>
           <a href="/content/girlscouts-vtk/en/vtk.profile.html">Profile</a>
         </dd>
-        <!-- % // }   %-->
       </dl>
       <div class="dropdown show-for-small hide-for-print">
         <a id="vtk-main-menu-button" onclick="$('#vtk-main-menu').slideToggle('slow')" class="expand">Menu</a>
@@ -102,7 +103,7 @@
                 <% }
                   if ( !(activity.getCancelled()!=null && activity.getCancelled().equals("true") ) && 
                   activity.getRegisterUrl()  !=null && !activity.getRegisterUrl().equals("")){%>
-                  <li><a href="<%=activity.getRegisterUrl()%>" class="button linkButton" target="_blank">Register for this event</a></li><%
+                  <li><a href="<%=activity.getRegisterUrl()%>" target="_blank">Register for this event</a></li><%
                   } %>
                     <li><a href="javascript:rmCustActivity12(aPath)">delete this activity</a></li><% 
                     
@@ -128,7 +129,7 @@
           <%  } %>
           
           <li <%= ("resource".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.resource.html">Resources</a></li>
-          <li <%= ("finances".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.finances.html">Finances</a></li>
+          <li <%= ("finances".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.finances.html?qtr=1">Finances</a></li>
            <li <%= ("profile".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.profile.html">Profile</a></li>
         </ul>
       </div>

@@ -260,7 +260,9 @@
     <module>bundle</module>
     <module>replication-bundle</module>
     <module>ical4j-wrapper</module>
+    <module>itextpdf-wrapper</module>
     <module>beanutils-wrapper</module>
+    <module>boon-wrapper</module>
     <module>app</module>
   </modules>
 </project>

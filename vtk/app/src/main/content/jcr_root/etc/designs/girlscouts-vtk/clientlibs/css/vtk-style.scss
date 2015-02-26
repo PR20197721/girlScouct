@@ -16,6 +16,28 @@
     font-size:14px;
     line-height:1.5;
   }
+  input[type="button"],
+  .button,
+  .btn {
+    text-transform: uppercase;
+    color: #fff;
+    padding: 12px 20px;
+    font-size:14px;
+    line-height:1rem;
+  }
+  .add-btn,
+  .add-btn * {
+    font-weight: 700;
+    line-height:27px;
+  }
+  .check{
+    margin-bottom: 20px;
+    &:before {
+      content: "\e6d7";
+      font-family: "JollyFont";
+      color: green;
+    }
+  }
   #header {
     >.columns {
       padding-right:0.9375em;
@@ -72,13 +94,13 @@
           line-height:20px;
         }
       }
-      input[type=radio] {
+      input[type="radio"] {
         display: none;
       }
-      input[type=radio] + label {
+      input[type="radio"] + label {
         position: relative;
       }
-      input[type=radio] + label:before {
+      input[type="radio"] + label:before {
         width: 2.81rem;
         height: 2.81rem;
         content: '';
@@ -88,7 +110,7 @@
         margin: 0 0.5em;
         color: transparent;
       }
-      input[type=radio]:checked + label:after{
+      input[type="radio"]:checked + label:after{
         content: '';
         display: inline-block;
         border: none;
@@ -188,20 +210,20 @@
                 }
               }
               &.passed {
-                 background-color: #e7e7e7;
-                 color: #999;
-                 &:after {
-                   border-color: transparent transparent transparent #e7e7e7;
-                 }
-                 .count {
+                background-color: #e7e7e7;
+                color: #999;
+                &:after {
+                  border-color: transparent transparent transparent #e7e7e7;
+                }
+                .count {
                   background: transparent;
-                 }
+                }
               }
               &.current {
-                 background-color: #F9A61A;
-                 &:after {
-                   border-color: transparent transparent transparent #F9A61A;
-                 }
+                background-color: #F9A61A;
+                &:after {
+                  border-color: transparent transparent transparent #F9A61A;
+                }
               }
             }
             > div:first-child {
@@ -225,17 +247,19 @@
               opacity: 1;
               border:none;
               }
+            &:before {
+              cursor: default !important;
+              background: #fff;
+              left: 0;
+              content: "";
+            }
             > div  {
               cursor: default;
-               .bg-square {
+              .bg-square {
                 background-color: #00abe6;
                 &:after {
                   border-color: transparent transparent transparent #00abe6;
                 }
-              }
-              &:before {
-                cursor: default !important;
-                content: none;
               }
             }
           }
@@ -258,15 +282,13 @@
       padding-bottom:20px;
     }
   }
-  #mainContent.welcome-page .parbase.section {
-    &.text {
-      h1 {
-        margin: 0 0 1.25rem 0;
-      }
-      p {
-        font-size: 0.875rem;
-        margin-top: 1.13rem;
-      }
+  #mainContent.welcome-page {
+    h1 {
+      margin: 1.88rem 0 4.38rem 0;
+    }
+    p {
+      font-size: 0.875rem;
+      margin-top: 1.13rem;
     }
   }
   .inline-list {
@@ -286,6 +308,29 @@
           font-size: 0.75em;
         }
       }
+    }
+  }
+  //table overwrites
+  table {
+    width: 100%;
+    border:none;
+    thead, 
+    tfoot {
+      background: none;
+      border:none;
+    }
+    tr, 
+    td {
+      border:none;
+    }
+  }
+  table tbody tr {
+    background: #fff;
+    &:nth-of-type(odd) {
+      background: #f9f9f9;
+    }
+    &:nth-of-type(even) {
+      background: #fff;
     }
   }
   .sectionHeader {
@@ -356,6 +401,7 @@
           h3 {
             margin: 0;
             padding-top: 15px;
+            line-height:1.5;
           }
         }
       }
@@ -388,21 +434,19 @@
       font-size:27px;
     }
     section {
-      margin-top:17px;
+      margin-top: 17px;
+    &:first-child {
+      margin-top: 0;
+    }
       h6 {
         font-size: 14px;
         font-weight:600;
         text-transform: uppercase;
         background: #f6f6f6;
-        margin-left: -5px;
-        margin-right: -5px;
+        // margin-left: -5px;
+        // margin-right: -5px;
         margin-bottom: 1.25em;
         padding: 5px;
-      }
-      .add-btn,
-      .add-btn * {
-        font-weight: 700;
-        line-height:27px;
       }
       ul {
         padding:0;
@@ -447,7 +491,6 @@
         }
       }
     #main-info {
-      margin-top: 0;
       section {
         margin-bottom:30px;
         margin-top: 0;
@@ -580,7 +623,7 @@
         font-size:27px;
         vertical-align: middle;
       }
-      input {
+      input[type="text"] {
         padding: 5px 8px;
         height: auto;
       }
@@ -626,8 +669,6 @@
         color: green;
       }
       .btn {
-        text-transform: uppercase;
-        color: #fff;
         margin-left:5px;
       }
       section {
@@ -649,7 +690,6 @@
       color:#000;
       &:before {
         border-color: transparent transparent transparent #000;
-        margin-left:5px;
         border-width: 5px;
         margin-top: -5px;
       }
@@ -756,7 +796,7 @@
       dd {
         .name {
           font-weight: 600;
-          vertical-align: middle;
+          // vertical-align: middle;
         }
         .small-block-grid-2 > li:nth-child(2n),
         .small-block-grid-3 > li:nth-child(3n){
@@ -886,13 +926,13 @@
       padding: 30px 20px 25px;
       .tabs {
         dd {
-          width: 33.3333333%;
+          min-width: 33.3333333%;
           float:left;
           background:#00ae57;
         }
         #createActivityTab,
         #pickActivityTab {
-          width:50%;
+          min-width:50%;
         }
       }
       .tabs-content {
@@ -911,7 +951,8 @@
         .date {
           label[for="sch_startDate"],
           label[for="sch_endDate"],
-          label[for="newCustActivity_date"] {
+          label[for="newCustActivity_date"],
+          label[for="calStartDt"] {
             margin-top:5px;
           }
         }
@@ -977,7 +1018,7 @@
             input[type=checkbox]:checked + label:before {
               content: "\e6d7";
               font-family: "JollyFont";
-              color: green;
+              color: #00AE55;
             }
             input[type="checkbox"] {
               display:none;
@@ -1022,14 +1063,7 @@
         vertical-align:middle;
       }
     }
-    .btn {
-      text-transform: uppercase;
-      color: #fff;
-      &.add-btn {
-        padding:10px 2rem;
-      }
-    }
-    button, select {
+    select {
       text-transform:uppercase;
     }
   }
@@ -1042,7 +1076,6 @@
     }
     .button {
       margin-bottom: 0;
-      text-transform: uppercase;
     }
     #frmCalElem {
       margin-bottom:0;
@@ -1137,16 +1170,47 @@
         }
       }
     }
+    .icon-printer {
+      color: #00AE53;
+    }
   }
   //calendar inside the meeting date and location popup
   .modifyCalendarDate {
     margin-top: 25px;
-  }
-  #modal_meeting_aids {
-    .button {
-      padding: 5px 8px;
-      display: block;
-      margin:0;
+    input[type="radio"] {
+      display: none;
+    }
+    input[type="radio"] + label {
+      position: relative;
+      p {
+        top: 25%;
+        left: 60px;
+        white-space: nowrap;
+        position: absolute;
+      }
+    }
+    input[type="radio"] + label:before {
+      width: 2.81rem;
+      height: 2.81rem;
+      content: '';
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 50%;
+      margin: 0 0.5em;
+      color: transparent;
+    }
+    input[type="radio"]:checked + label:after{
+      content: '';
+      display: inline-block;
+      border: none;
+      border-radius: 50%;
+      margin: 0 0.5em;
+      position: absolute;
+      background: #00ae58;
+      width: 2.19rem;
+      height: 2.19rem;
+      top: 5px;
+      left: 5px;
     }
   }
   .modal_agenda_edit {
@@ -1154,8 +1218,8 @@
       h3 {
         margin-bottom:20px;
       }
-      .btn {
-        padding:4px 20px;
+      select {
+        height: 40px;
       }
     }
   }
@@ -1182,6 +1246,36 @@
         td:nth-child(n+2) {
           text-align:center;
         }
+      }
+    }
+  }
+  #modal_report_detail {
+    scroll * {font-size: 14px;}
+    .row.bg {
+      background: #f9f9f9;
+      padding-top:1em;
+    }
+    table {
+      margin-top: 20px;
+      tr {
+        th {
+          text-align:center;
+        }
+        td {
+          vertical-align: middle;
+          &:nth-last-child(-n+2) {
+            text-align:center;
+          }
+        }
+      }
+
+    }
+    [class*="block-grid-"] > li {
+      padding-bottom: 1em;
+      // white-space: nowrap;
+      &:nth-child(2n+1) {
+        text-align: right;
+        padding-right:0;
       }
     }
   }
@@ -1311,7 +1405,7 @@
         overflow: hidden;
       }
     }
-   > dt {
+    > dt {
       background: #00ae58;
       position: relative;
       padding: 13px 0 11px 25px;
@@ -1321,9 +1415,6 @@
         font-size: 14px;
         vertical-align: middle;
       }
-      h3 {
-        position:relative;
-      }
       h3,
       h6 {
         display: inline;
@@ -1332,6 +1423,7 @@
         margin-left: 40px;
         margin-right: 120px;
         cursor: pointer;
+        position: relative;
         &:before {
           border-style: solid;
           content: "";
@@ -1401,23 +1493,194 @@
         }
       }
   }
-  //tables
-  table {
-    thead, 
-    tfoot {
-      background: none;
-    }
-  }
-
   .reveal-modal-bg,
   .ui-widget-overlay {
     background: rgba(0, 0, 0, 0.6) !important;
     box-shadow: 0 0 50px rgba(0, 0, 0, .9) !important;
     opacity: 1 !important;
   }
+
+  //Financial page 
+  #main .meeting-detail #financeForm {
+    section {
+      margin-top:0;
+      h6 {
+        margin-bottom: 5px;
+        span {
+          &:nth-of-type(2) {
+            font-weight: normal;
+          }
+        }
+      }
+      ul {
+        margin-top: 20px;
+        li {
+          margin:0;
+          line-height: 2;
+        }
+      } 
+      ul li {
+        margin:0;
+        line-height: 2;
+      }
+    }
+    .large-block-grid-2 {
+      > li:nth-child(2n+1) {
+        width: 70%;
+        white-space: nowrap;
+      }
+    }
+    .large-block-grid-2 {
+      > li:nth-child(2n) {
+        width: 30%;
+      } 
+    }
+    .large-block-grid-2 > li:nth-child(2n+1) {
+      width: 70%;
+      white-space: nowrap;
+    }
+    .large-block-grid-2 > li:nth-child(2n) {
+      width: 30%;
+    }
+    input[type="text"] {
+      height: 30px;
+      text-align: right;
+    }
+    .save {
+      margin-top: 20px;
+    }
+  }
+  //ADMIN PAGES
+  #main .finances #financeForm  {
+    input[type=checkbox]:checked + label:before {
+      content: "\e6d7";
+      font-family: "JollyFont";
+      color: green;
+    }
+    input[type="checkbox"] {
+      display: none;
+    }
+    input[type="text"] {
+      text-align: left;
+    }
+    label {
+      &:before {
+        border: solid 1px #ccc;
+        content: "";
+        height: 30px;
+        width: 30px;
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+        font-size: 15px;
+        text-align: center;
+        display: inline-block;
+        float: left;
+        padding:4px;
+      }
+    }
+    section {
+      p:nth-of-type(1) {
+        font-size: 12px;
+        font-weight: 600;
+        margin-right: 23px;
+        margin-bottom: 5px;
+      }
+    }
+    .opts {
+      margin-bottom: 15px;
+      span {
+        margin-top:3px;
+      }
+      select {
+        height: 30px;
+        padding: 0 11px;
+        border: solid 1px #333;
+        font-weight: bold;
+        font-size: 14px;
+      }
+    }
+  }
+  .icon {
+    a,span {
+      vertical-align: top;
+      &:before {
+        background: url("/etc/designs/girlscouts-vtk/images/icon_sprite.png") transparent no-repeat 0 0;
+        height: 25px;
+        width: 20px;
+        display: inline-block;
+        white-space: nowrap;
+        padding-left: 30px;
+        content: " ";
+      }
+    }
+    p {
+      padding-left: 30px;
+      margin-top:-10px;
+    }
+    &.pdf {
+      a,span {
+        &:before {
+          background-position:-30px 0;
+        }
+      }
+    }
+    &.docx,
+    &.doc {
+      a,span {
+        &:before {
+          background-position: -60px 0;
+        }
+      }
+    }
+    &.xlsx,
+    &.xls  {
+      a,span {
+        &:before {
+          background-position: -90px 0;
+        }
+      }
+    }
+    &.zip {
+      a,span {
+        &:before {
+          background-position: -120px 0;
+        }
+      }
+    }
+  }
+  #main .reports {
+    .row.titles {
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    input[type=checkbox]:checked + label:before {
+      content: "\e6d7";
+      font-family: "JollyFont";
+      color: green;
+    }
+    input[type="checkbox"] {
+      display: none;
+    }
+    label {
+      margin:0;
+      &:before {
+        border: solid 1px #ccc;
+        content: "";
+        height: 30px;
+        width: 30px;
+        text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+        font-size: 15px;
+        text-align: center;
+        display: inline-block;
+        float: left;
+        padding:4px;
+      }
+    }
+    .accordion .accordion-inner dt {
+      padding-left: 0;
+    }
+  }
 } //end of vtk-body
 
-//overwrite of global
 .inline-list {
   .icon {
     i {
@@ -1448,18 +1711,25 @@
       display: block;
       padding: 10px;
       margin-bottom: 10px;
+      position: relative;
       &:after {
-        border: solid 8px transparent;
+        border: solid 7px transparent;
         border-color: #000 transparent transparent transparent;
         content: "";
         position: absolute;
-        right: 20px;
+        right: 3.3333%;
+        top: 50%;
+        margin-top:-3px;
       }
     }
   }
+  #vtk-main-menu li {
+    padding-bottom: 5px;
+  }
 }
 .tabs dd {
-  width: 16.666667%;
+  max-width: 16.666667%;
+  min-width: 14.252874%;
   border-bottom:solid 6px #009447;
   > a {
     background: #00ae57;
@@ -1528,6 +1798,33 @@ input[type="file"] {
     border-radius: 0;
   }
 }
+//popup calendar
+#ui-datepicker-div {
+  background: #fff;
+  .ui-corner-all {
+    border:none;
+    border-radius: 0;
+    background: none;
+  }
+  table {
+    border:none;
+  }
+  .ui-datepicker-header .ui-datepicker-title {
+    float:none;
+  }
+  a.ui-state-default.ui-state-highlight,
+  .ui-state-active, 
+  .ui-widget-content .ui-state-active,
+  .ui-widget-header .ui-state-active {
+    background: #cfefde;
+  }
+  .ui-state-default,
+  .ui-widget-content .ui-state-default,
+  .ui-widget-header .ui-state-default {
+    text-align: center;
+  }
+}
+
 //Media queries
 //small screen
 @media only screen and (max-width: 40em) {
@@ -1540,6 +1837,9 @@ input[type="file"] {
       height:83px;
       background: #fff;
       padding-right: 6px;
+      top: 1px;
+      left: 7px;
+      width: 23px;
     }
     .bg-square {
       left:30px;
@@ -1549,10 +1849,10 @@ input[type="file"] {
     }
     &:before {
       background: #fff;
-      left:0;
+      left:-30px;
     }
     > div:nth-of-type(2) {
-        padding-left: 115px;
+      padding-left: 115px;
     }
   } 
   .vtk-body #main #yearPlanMeetings > .row > div.column {
@@ -1592,12 +1892,15 @@ input[type="file"] {
   .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody td {
     padding: 9px;
   }
+  .vtk-body .modalWrap .tabs-wrapper .tabs-content table tr:nth-of-type(odd) {
+    background: #f9f9f9;
+  }
   .vtk-body #modal-meeting-reminder .accordion dd .content li span {
     max-width: 245px;
     overflow: hidden;
     text-overflow: ellipsis;
   }
-   //my troop page accordion 
+  //my troop page accordion 
   .mytroop {
     .accordion-inner {
       dt {
@@ -1608,24 +1911,27 @@ input[type="file"] {
     }
   }
 }
-table { 
-  width: 100%; 
-}
-table tr {
-  background: #fff;
-  &:nth-of-type(odd) {
-    background: #f9f9f9;
-  }
-  &:nth-of-type(even) {
-    background: #fff;
-  }
-}
 //medium screen 
 @media only screen and (min-width: 40.063em) and (max-width: 60.063em) {
   .vtk-body #main .crumbs .columns #util-links.inline-list li:nth-of-type(2) {
     margin: 0 11px;
   }
-   //my troop page accordion 
+  .vtk-body #main #yearPlanMeetings ul .meeting > div {
+    .touchscroll {
+      position:absolute;
+      cursor: move;
+      z-index: 100;
+      display: block !important;
+      height:83px;
+      background: #fff;
+      padding-right: 6px;
+      left:-30px;
+      width: 23px;
+
+    }
+
+  }
+  //my troop page accordion 
   .mytroop {
     .accordion-inner {
       dt {
