@@ -15,7 +15,7 @@
 	java.text.NumberFormat FORMAT_CURRENCY = java.text.NumberFormat
 			.getCurrencyInstance();
 	java.text.DecimalFormat FORMAT_COST_CENTS = new java.text.DecimalFormat(
-			"#0.00");
+			"#,##0.00");
 	java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat("MM/dd/yyyy hh:mm a");
 	java.text.SimpleDateFormat fmr_ddmm = new java.text.SimpleDateFormat("M/d");
 	

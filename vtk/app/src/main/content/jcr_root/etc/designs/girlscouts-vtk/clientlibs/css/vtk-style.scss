@@ -1488,6 +1488,7 @@
       margin-top:0;
       h6 {
         margin-bottom: 5px;
+        padding-right:0;
         span {
           &:nth-of-type(2) {
             font-weight: normal;
@@ -1896,7 +1897,6 @@ table tr {
       width: 23px;
 
     }
-
   }
   //my troop page accordion 
   .mytroop {
@@ -1914,5 +1914,13 @@ table tr {
     margin-left: -30%;
     width: 60%;
   }
+  .right-off-canvas-menu  {
+    visibility: hidden !important;
+    display:none !important;
+      &* {
+      visibility: hidden !important;
+      display:none !important;
+      }
+    }
 }
 
