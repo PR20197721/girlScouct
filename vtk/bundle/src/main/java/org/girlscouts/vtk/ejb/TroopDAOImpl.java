@@ -904,10 +904,11 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,mapper);
 			
-			
-	if( meeting.getPath() ==null ){
+			System.err.println("tata meeting create path " +meeting.getPath() );
+	if( meeting.getPath() ==null || !ocm.objectExists(troop.getPath() +"/yearPlan/meetingEvents") ){
+		System.err.println("tata meeting create path null " +troop.getPath() +"/yearPlan/meetingEvents");
 		JcrUtils.getOrCreateByPath(
-				 troop.getYearPlan().getPath() +"/meetingEvents",
+				 troop.getPath() +"/yearPlan/meetingEvents",
 				"nt:unstructured", mySession);
 		meeting.setPath( troop.getYearPlan().getPath() +"/meetingEvents/"+meeting.getUid());
 	}
@@ -1315,6 +1316,30 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 		return isUpdated;
 	}
 	
-	
+	public boolean removeMeetings(User user, Troop troop)
+			throws java.lang.IllegalAccessException,
+			java.lang.IllegalAccessException {
+		
+		Session mySession = null;
+		boolean isUpdated = false;
+		try {
+			mySession = sessionFactory.getSession();
+			mySession.removeItem(troop.getPath() +"/yearPlan/meetingEvents");
+			mySession.save();
+			isUpdated=true;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (mySession != null)
+					sessionFactory.closeSession(mySession);
+			} catch (Exception es) {
+				es.printStackTrace();
+			}
+		}
+		
+		return isUpdated;
+	}
 }// ednclass
 
