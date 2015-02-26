@@ -23,12 +23,12 @@ String councilId= request.getParameter("cid")==null? Integer.toString(councilCod
 			<p class="column large-4 large-pull-4">Show in Plans</p>
 		</div>
 		<form class="clearfix" action="/content/girlscouts-vtk/controllers/vtk.controller.html" method="POST" id="MileStoneForm">
-			<input type="hidden" name="cid" value="<%=councilId%>" />
+			<input type="hidden" id="cid" name="cid" value="<%=councilId%>" />
 			<% 
 				//If there are milestones show them in the input fields to view/edit
     		java.util.List<Milestone> milestones = yearPlanUtil.getCouncilMilestones(councilId) ;
     		for(int i=0; i<milestones.size(); i++ ) { %>
-					<section class="row">
+				<section class="row">
 						<div class="column large-1">
 							<a title="remove" class="icon-button-circle-cross delete"></a>
 						</div>
@@ -98,7 +98,7 @@ String councilId= request.getParameter("cid")==null? Integer.toString(councilCod
 		}); */
 
 		$('input[type=checkbox]').each(function () {
-        	$("#MileStoneForm").prepend("<input type='hidden' name='ms_show[]' value='"+this.checked+"'/>");	
+        	$("#MileStoneForm #cid").before("<input type='hidden' name='ms_show[]' value='"+this.checked+"'/>");	
 		});
 		return (confirm('You are about to save the milestones.')) 
  
