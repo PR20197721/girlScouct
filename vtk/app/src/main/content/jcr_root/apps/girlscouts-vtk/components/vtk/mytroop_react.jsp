@@ -70,13 +70,13 @@
         <div class="content active" id="panel1">
           <div class="row">
             <div class="column large-20 large-centered">
-                <% for(int i=0; i<contacts.size(); i++) { 
-                    org.girlscouts.vtk.models.Contact contact = contacts.get(i);
-                    java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, troop, contact);
-                    //-Works !!! String _email= java.net.URLEncoder.encode(contact.getFirstName() +"<"+contact.getEmail() +">");
-                  String _email= contact.getFirstName().replace(" ", "&nbsp;") + java.net.URLEncoder.encode("<"+contact.getEmail() +">");
-                  
-                    %>
+              <% for(int i=0; i<contacts.size(); i++) { 
+                  org.girlscouts.vtk.models.Contact contact = contacts.get(i);
+                  java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, troop, contact);
+                  //-Works !!! String _email= java.net.URLEncoder.encode(contact.getFirstName() +"<"+contact.getEmail() +">");
+                String _email= contact.getFirstName().replace(" ", "&nbsp;") + java.net.URLEncoder.encode("<"+contact.getEmail() +">");
+                
+                  %>
                 <div class="row">
                   <dl class="accordion-inner clearfix" data-accordion>
                     <dt data-target="panel<%=i+1%>b" class="clearfix">
@@ -96,60 +96,46 @@
                         <ul class="column large-18 right">
                           <li><address><p>1 Main St. Apt 5B<br/>Cleveland, OH<br/>00000</p></address></li>
                         </ul>
-                         <ul class="column large-18 right">
-                          
-                            <li>
+                         <ul class="column large-18">
+                           <li class="row">
+                              <p><strong>Secondary Info:</strong></p>
+                              <span class="column large-5">Janie Berger</span>
+                              <a class="column large-13 email" href="mailto:<%=_email%>"><i class="icon icon-mail"></i><%=contact.getEmail() %></a>
+                              <span class="column large-5">999.999.9999</span>
+                            </li>
+                            <li class="row">
                               <p><strong>Achievements:</strong></p>
                               <p>
-                               <%
-		                        for(int y=0;y<infos.size();y++){
-		                                   if(infos.get(y).isAchievement()){
-		                                	  %> <%= infos.get(y).getYearPlanComponent().getType()== YearPlanComponentType.MEETING ? ((MeetingE) infos.get(y).getYearPlanComponent()).getMeetingInfo().getName() : "" %>,<% 
-		                                   }
-		                        }
-		                        %>
+                                 <%
+  		                            for(int y=0;y<infos.size();y++){
+                                   if(infos.get(y).isAchievement()){
+                                	  %><%= infos.get(y).getYearPlanComponent().getType()== YearPlanComponentType.MEETING ? ((MeetingE) infos.get(y).getYearPlanComponent()).getMeetingInfo().getName() : "" %>,<% 
+                                   }
+  		                          }
+  		                          %>
                               </p>
                              </li>
-                             
-                             <li>
-                             <p><strong>Meeting Attended:</strong></p>
-                                <p> 
-                                 <%
-			                        for(int y=0;y<infos.size();y++){
-			                                   if(infos.get(y).isAttended()){
-			                                      %><%=fmr_ddmm.format(sched_bm_inverse.get( infos.get(y).getYearPlanComponent() )) %>,<% 
-			                                   }
-			                        }
-			                        %>     
-                                </p>
-                            </li>
-                          
-                          <li>
-                            <p><strong>Secondary Info:</strong></p>
-                            <span class="column large-5">Janie Berger</span>
-                            <a class="column large-13 email" href="mailto:<%=_email%>"><i class="icon icon-mail"></i><%=contact.getEmail() %></a>
-                            <span class="column large-5">999.999.9999</span>
-                          </li>
+                             <li class="row">
+                              <p><strong>Meeting Attended:</strong></p>
+                              <p> 
+                                <% for(int y=0;y<infos.size();y++){
+                                 if(infos.get(y).isAttended()){
+                                    %><%=fmr_ddmm.format(sched_bm_inverse.get( infos.get(y).getYearPlanComponent() )) %>,<% 
+                                 }
+  			                        }
+  			                        %>     
+                              </p>
+                            </li>                          
                          </ul>
                       </div>
                     </dd>
                   </dl>
                 </div>
-                <%}//end for %>
+              <%}%>
               
             </div>
           </div>
         </div>
       </dd>
-
-      
-     
-              </dl>
-            </div>
-          </div>
-        </div>
-      </dd>
-
     </dl>
-
-  </div><!--/column-->
+  </div>
