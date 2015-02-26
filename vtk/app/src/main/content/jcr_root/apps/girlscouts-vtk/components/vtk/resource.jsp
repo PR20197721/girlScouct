@@ -31,6 +31,10 @@
 
 <%@include file="include/tab_navigation.jsp"%>
 <div id="modal_popup" class="reveal-modal" data-reveal=""></div>
+
+<div id="myModal0" class="reveal-modal" data-reveal=""></div>
+<div id="myModal1" class="reveal-modal" data-reveal=""></div>
+
 <div id="panelWrapper" class="row content">
   <div class="columns large-20 large-centered">
 		<script>
