@@ -269,15 +269,21 @@
       padding-bottom:20px;
     }
   }
-  #mainContent.welcome-page .parbase.section {
-    &.text {
-      h1 {
-        margin: 0 0 1.25rem 0;
+  #mainContent.welcome-page {
+    .parbase.section {
+      &.text {
+        h1 {
+          margin: 0 0 1.25rem 0;
+        }
+        p {
+          font-size: 0.875rem;
+          margin-top: 1.13rem;
+        }
       }
-      p {
-        font-size: 0.875rem;
-        margin-top: 1.13rem;
-      }
+    }
+    ul li a {
+      display: block;
+      margin-bottom:20px;
     }
   }
   .inline-list {
