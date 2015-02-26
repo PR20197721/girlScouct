@@ -285,6 +285,8 @@ function addFinanceRow(listId, countId, buttonId, inputId, delMethod){
 	var newInput = document.createElement("INPUT");
 	newInput.setAttribute("type", "text");
 	newInput.setAttribute("value", "");
+	newInput.setAttribute("maxlength", "30");
+	newInput.setAttribute("onkeyDown", "enableSaveButton()");
 	
 	newInputHolder.appendChild(newInput);
 	
