@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*, org.apache.commons.lang.StringEscapeUtils" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
@@ -40,6 +40,8 @@
         if( finance ==null ){
 		finance= new Finance();
         }
+        
+        
 %>
 <%@include file="include/tab_navigation.jsp"%>
 <div id="panelWrapper" class="row content meeting-detail">
@@ -49,9 +51,10 @@
 		String financeFieldTag = "";
 		String save_btn = "";
 		if(sessionFeatures.contains(SHOW_PARENT_FEATURE)){
-			financeFieldTag = "<p id=\"%s\" name=\"%s\">%s</p>";
+
+			financeFieldTag = "<p id=\"%s\" name=\"%s\">&#36;%s</p>";
 		} else{
-			financeFieldTag = "<input type=\"text\" id=\"%s\" name=\"%s\" onblur=\"updateTotals()\" value=\"%s\"/>";
+			financeFieldTag = "<input type=\"text\" id=\"%s\" name=\"%s\" onkeyDown=\"enableSaveButton()\" oninput=\"enableSaveButton()\" onpaste=\"enableSaveButton()\" onblur=\"updateTotals()\" maxlength=\"11\" value=\"&#36;%s\"/>";
 			save_btn = "<a id=\"saveFinanceFieldFormButton\" role=\"button\" onclick=\"saveFinances()\" class=\"button save disabled\">Save</a>";
 		}
 %>
@@ -63,43 +66,49 @@
 		<div class="row">
 			<section class="column large-12 medium-12">
 				<h6>current income</h6>
-				<ul class="large-block-grid-2 small-block-grid-2 text-right">
-<%
-		for(int i = 0; i < incomeFields.size(); i++){
-			String tempField = incomeFields.get(i);
-%>
-					<li><p><%=tempField%>:</p></li> 
-					<li><%=String.format(financeFieldTag, "income" + (i + 1), tempField, FORMAT_COST_CENTS.format(finance.getIncomeByName(tempField))) %></li>
-<%
-		}
-%>
+				<ul id="incomeFields" class="large-block-grid-2 small-block-grid-2 text-right">
+					<%
+							double incomeTotal = 0.0;
+							for(int i = 0; i < incomeFields.size(); i++){
+								String tempField = incomeFields.get(i);
+					%>
+						<%incomeTotal +=  finance.getIncomeByName(tempField);%>
+						<li><p><%=tempField%>:</p></li> 
+						<li><%=String.format(financeFieldTag, "income" + (i + 1), StringEscapeUtils.escapeHtml(tempField), FORMAT_COST_CENTS.format(finance.getIncomeByName(tempField))) %></li>
+					<%
+							}
+					%>
 				</ul>
 			</section>
 			<section class="column large-12 medium-12">
 				<h6>current expenses</h6>
-				<ul class="large-block-grid-2 small-block-grid-2 text-right">
-<%
-		for(int i = 0; i < expenseFields.size(); i++){
-			String tempField = expenseFields.get(i);
-%>
-					<li><p><%=tempField%>:</p></li> 
-					<li><%=String.format(financeFieldTag, "expense" + (i + 1), tempField, FORMAT_COST_CENTS.format(finance.getExpenseByName(tempField))) %></li>
-<%
-		}
-%>
+				<ul id="expenseFields" class="large-block-grid-2 small-block-grid-2 text-right">
+					<%
+							double expenseTotal = 0.0;
+							for(int i = 0; i < expenseFields.size(); i++){
+								String tempField = expenseFields.get(i);
+					%>
+							<%expenseTotal += finance.getExpenseByName(tempField); %>
+							<li><p><%=tempField%>:</p></li>
+							<li><%=String.format(financeFieldTag, "expense" + (i + 1), StringEscapeUtils.escapeHtml(tempField), FORMAT_COST_CENTS.format(finance.getExpenseByName(tempField))) %></li>
+					<%
+							}
+					%>
 				</ul>
 			</section>
 		</div>
 		<!-- totals -->
-		<div class="text-right row collapse">
+
+		<% double balance = incomeTotal - expenseTotal; %>
+		<div class="text-right row">
 			<section>
-				<h6 class="clearfix"><span class="column small-20">Total Income:</span>  <span id="total_income" class="column small-4">0.00</span></h6>
+				<h6 class="clearfix"><span class="column small-15 medium-20 large-20">Total Income:</span>  <span id="total_income" class="column small-9 large-4 medium-4"><%="&#36; " + FORMAT_COST_CENTS.format(incomeTotal) %></span></h6>
 			</section>
 			<section>
-				<h6 class="clearfix"><span class="column small-20">Total Expenses:</span> <span id="total_expenses" class="column small-4">0.00</span></h6>
+				<h6 class="clearfix"><span class="column small-15 medium-20 large-20">Total Expenses:</span> <span id="total_expenses" class="column small-9 large-4 medium-4"><%="&#36; " + FORMAT_COST_CENTS.format(expenseTotal) %></span></h6>
 			</section>
 			<section>
-				<h6 class="clearfix"><span class="column small-20">Current Balance:</span> <span id="current_balance" class="column small-4">0.00</span></h6>
+				<h6 class="clearfix"><span class="column small-15 medium-20 large-20">Current Balance:</span> <span id="current_balance" class="column small-9 large-4 medium-4"><%="&#36; " + FORMAT_COST_CENTS.format(balance) %></span></h6>
 			</section>
 			<%=save_btn%>
 		</div>
@@ -107,7 +116,7 @@
 </div>
 <script>
 	$( document ).ready(function() {
-		updateTotals();
+		maskAllFields();
 	});
 </script>
 <%

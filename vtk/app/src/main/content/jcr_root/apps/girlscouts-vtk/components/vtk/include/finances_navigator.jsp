@@ -1,7 +1,3 @@
-<!--   <a href="/content/girlscouts-vtk/en/vtk.finances.html?qtr=1">Q1</a> 
-<a href="/content/girlscouts-vtk/en/vtk.finances.html?qtr=2">Q2</a> 
-<a href="/content/girlscouts-vtk/en/vtk.finances.html?qtr=3">Q3</a>  
-<a href="/content/girlscouts-vtk/en/vtk.finances.html?qtr=4">Q4</a>  -->
 <div class="column large-20 medium-20 large-centered medium-centered small-24">
 <%
         int currentYear = Integer.parseInt(user.getCurrentYear());

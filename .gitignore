@@ -44,3 +44,5 @@ target/
 
 bin/
 /target
+
+vtk/app/src/main/content/jcr_root/etc/designs/girlscouts-vtk/clientlibs/css/vtk-style.css

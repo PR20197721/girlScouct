@@ -1,4 +1,4 @@
-<%@page import="org.codehaus.jackson.map.ObjectMapper,org.joda.time.LocalDate,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
+<%@page import="java.util.Comparator,org.codehaus.jackson.map.ObjectMapper,org.joda.time.LocalDate,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <cq:defineObjects />
 <%@include file="include/session.jsp"%>
@@ -91,9 +91,12 @@
 				}
 				return;
 			case SelectYearPlan:
-				troopUtil.selectYearPlan(user, troop,
+				try{
+					troopUtil.selectYearPlan(user, troop,
 						request.getParameter("addYearPlanUser"),
 						request.getParameter("addYearPlanName"));
+				}catch(VtkYearPlanChangeException e){ System.err.println(e.getMessage()); e.printStackTrace(); out.println( e.getMessage() ); }
+				
 				return;
 			case AddLocation:
 
@@ -522,10 +525,9 @@
 					}
 
 					try {
-						if (!m.getRefId().contains("_"))
-							yearPlanUtil.createCustomMeeting(user,
-									troop, m, custM);
-						else {
+						if (!m.getRefId().contains("_")){
+							yearPlanUtil.createCustomMeeting(user,troop, m, custM);
+						}else {
 							yearPlanUtil.updateCustomMeeting(user,
 									troop, m, custM);
 						}
@@ -590,8 +592,35 @@
 
 			}
 
-			yearPlanUtil.saveCouncilMilestones(milestones);
+			//yearPlanUtil.saveCouncilMilestones(milestones);
 			response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.milestones.html");
+
+		} else if (request.getParameter("saveCouncilMilestones") != null) {
+
+			String councilId = request.getParameter("cid");
+			java.util.List<Milestone> milestones = new ArrayList<Milestone>();
+			String[] blurbs = request.getParameterValues("ms_blurb[]");
+			String[] dates = request.getParameterValues("ms_date[]");
+			//String[] shows2 = request.getParameterValues("show_ch[]");
+			String[] shows = request.getParameterValues("ms_show[]");
+			if(blurbs!=null){
+				for (int i = 0; i < blurbs.length; i++) {
+					String blurb = blurbs[i];
+					if(blurb==null || blurb.trim().isEmpty()){break;}
+					boolean show = shows[i].equals("true");
+					Date date=null;
+					if(!dates[i].isEmpty()){
+						date = FORMAT_MMddYYYY.parse(dates[i]);
+					}
+					
+					Milestone m = new Milestone(blurb,show,date);
+					milestones.add(m);
+				}
+			}
+
+			yearPlanUtil.saveCouncilMilestones(milestones,councilId);
+			response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin_milestones.html");
+
 
 		} else if (request.getParameter("createCouncilMilestones") != null) {
 
@@ -795,7 +824,7 @@
 
 _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new JcrCollectionHoldString(org.apache.commons.lang.StringEscapeUtils.unescapeHtml(_meeting.getMeetingInfo().getMeetingInfo().get("meeting short description").getStr()))); 
 		
-		Comparator<Activity> comp = new org.apache.commons.beanutils.BeanComparator(
+		java.util.Comparator<Activity> comp = new org.apache.commons.beanutils.BeanComparator(
 									"activityNumber");
 							Collections.sort(_activities, comp);
 						}
@@ -818,8 +847,11 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 			}
 
 		} else if (request.getParameter("yearPlanSched") != null) {
-
-			if (troop.getYearPlan() == null)
+			
+		if( troop.getYearPlan() !=null)
+		    System.err.println("tata yearPlan: "+  troop.getYearPlan().getRefId());
+			
+		    if (troop.getYearPlan() == null)
 				return;
 
 			boolean isFirst = false;
@@ -905,10 +937,13 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 								new java.util.ArrayList());
 
 					for (int i = 0; i < troop.getYearPlan()
-							.getMilestones().size(); i++)
+							.getMilestones().size(); i++){
+						if(troop.getYearPlan().getMilestones()
+								.get(i).getDate()!=null)
 						sched.put(troop.getYearPlan().getMilestones()
 								.get(i).getDate(), troop.getYearPlan()
 								.getMilestones().get(i));
+					}
 
 					//edn milestone
 
@@ -1021,6 +1056,16 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 				e.printStackTrace();
 			}
 
+		} else if (request.getParameter("isAdminRpt") != null) {
+			final CouncilRpt councilRpt = sling.getService(CouncilRpt.class);  
+			java.util.Map container = councilRpt.getTroopNames( request.getParameter("cid"), request.getParameter("ypPath"));
+			java.util.Iterator itr= container.keySet().iterator();
+			while( itr.hasNext() ){
+				String troopId= (String) itr.next();
+				String troopName= (String)container.get( troopId);
+				%> $("#<%=troopId %>").html("<%=troopName%>"); <% 
+			}
+		
 		} else {
 			//TODO throw ERROR CODE
 		}

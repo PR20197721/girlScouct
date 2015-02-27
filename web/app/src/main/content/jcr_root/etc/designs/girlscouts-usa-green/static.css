@@ -39,7 +39,7 @@ Font : Open Sans
   font-family: 'Open Sans';
   font-style: italic;
   font-weight: 600;
-  src: local('Open Sans SemiBold'), local('OpenSans-SemiBoldIt'), url('../girlscouts/open-sans-semibolditalic.woff') format('woff');
+  src: local('Open Sans SemiBold'), local('OpenSans-SemiBoldIt'), url('../girlscouts/open-sans-semiboldItalic.woff') format('woff');
 }
 @font-face {
   font-family: 'Open Sans';
@@ -181,6 +181,16 @@ padding: 0;
   .featureSmallHeader h2 a {
     font-size: 1.96588rem !important;
     line-height: 1.4em;
+  }
+}
+@media only screen and (min-width: 60.063em) {
+ .right-off-canvas-menu {
+    visibility: hidden !important;
+    display: none !important; 
+  }
+  .right-off-canvas-menu * {
+    visibility: hidden !important;
+    display: none !important; 
   }
 }
 a.menu {

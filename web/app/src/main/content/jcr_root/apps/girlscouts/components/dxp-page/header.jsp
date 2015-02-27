@@ -40,7 +40,7 @@
                     <div class="columns"></div>
         			<div class="small-12 columns">
          			 <div class="small-search-hamburger">
-            			<a class="right-off-canvas-toggle menu-icon"><img src="<%= designPath %>/images/hamburger.png" width="22" height="28" alt="toggle hamburger side menu icon"/></a>
+            			<a class="right-off-canvas-toggle menu-icon"><img src="/etc/designs/girlscouts/images/hamburger.png" width="22" height="28" alt="toggle hamburger side menu icon"/></a>
           			 </div>
         			</div>
       			</div>
@@ -57,7 +57,7 @@
                 <!-- top nav medium window hamburger -->
 				<div class="small-search-hamburger show-for-medium medium-1 columns">
 					<a class="show-for-medium right-off-canvas-toggle menu-icon"><img
-						src="/etc/designs/girlscouts-usa-green/images/hamburger.png"
+						src="/etc/designs/girlscouts/images/hamburger.png"
 						width="19" height="28" alt="side menu icon"></a>
 				</div>
 			</div>

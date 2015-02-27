@@ -439,9 +439,7 @@ public class CalendarUtil {
 		return exclDates;
 	}
 
-	
-	private long getNextDate(List<String> exclDates, long theDate, String freq,
-			boolean isUseCurrDate) {
+	public long getNextDate(List<String> exclDates, long theDate, String freq, boolean isUseCurrDate) {
 
 		long nextDate = theDate;
 
@@ -456,7 +454,9 @@ public class CalendarUtil {
 			}
 			nextDate = date.getMillis();
 		}
-		if (!exclDates.contains(fmtDate.format(new java.util.Date(nextDate))))
+		System.err.println("tatax nextDate: "+ new java.util.Date(nextDate));
+		if ( (nextDate > new java.util.Date().getTime()) &&
+						!exclDates.contains(fmtDate.format(new java.util.Date(nextDate))))
 			return nextDate;
 		else
 			return getNextDate(exclDates, nextDate, freq, false);

@@ -97,7 +97,11 @@ var $ = jQuery.noConflict();
 	  	 }
   });
 
- $(window).resize(function() {
- 	modal_height_resize()
- });
- })($);
+	$(window).resize(function() {
+		modal_height_resize()
+		// if($(window).width() < 420) {
+		// 	$('.vtk-body .reveal-modal').css('top','0');
+		// }
+	});
+
+})($);
