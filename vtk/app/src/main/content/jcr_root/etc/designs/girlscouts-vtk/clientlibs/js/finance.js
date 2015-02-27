@@ -2,24 +2,37 @@ function checkFinances() {
 	saveFinances();
 }
 
-$(function() {
+function maskAllFields() {
 	var i = 1;
-	do{
-		var tempElement = $('#income' + i);
-		if(tempElement.length > 0){
-			tempElement.maskMoney();
+	var incomeChildren = document.getElementById("incomeFields").children;
+	var expenseChildren = document.getElementById("expenseFields").children;
+	console.log("Started Masking Fields");
+	for(var i = 0; i < incomeChildren.length || i < expenseChildren.length ; i++){
+		if(i < incomeChildren.length){
+			
+			var incChild = incomeChildren[i].firstElementChild;
+			if(incChild.tagName == "INPUT"){
+			console.log("Masked income child" + i);
+				$(incChild).maskMoney({allowZero: true, prefix: '$'});
+			}
+		
 		}
-		i++;
-	}while(tempElement.length > 0);
-		i = 1;
-		do{
-			var tempElement = $('#expense' + i);
-			if(tempElement.length > 0){
-			tempElement.maskMoney();
+		if(i < expenseChildren.length){
+			var expChild = expenseChildren[i].firstElementChild;
+			if(expChild.tagName == "INPUT"){
+			console.log("Masked expense child" + i);
+				$(expChild).maskMoney({allowZero: true, prefix: '$'});
+				
+			}
+		
 		}
-		i++;
-	}while(tempElement.length > 0);
-});
+		
+		
+	}
+	
+}
+
+
 
 function saveFinanceAdmin(){
 	var incomeArray = "[";
@@ -77,36 +90,39 @@ function saveFinanceAdmin(){
 
 function saveFinances(){
 	var qtr = document.getElementById("qtr").value;
-	var exp = "[";
-	var i = 1;
-	var inc = "[";
-	do{
-		var tempElement = $('#income' + i);
-		if(tempElement.length > 0){
-			if(i != 1){
-				inc = inc + ", ";
-			}
-			inc = inc + tempElement.attr('name') + ", " + tempElement.val();
-		}
-		i++;
-	}while(tempElement.length > 0);
 	
-	i = 1;
-	do{
-		var tempElement = $('#expense' + i);
+	var incomeArray = "[";
+	var expenseArray = "["
+
+	var incomeChildren = document.getElementById("incomeFields").children;
+	var addComma = false;
+	for(var i = 0; i < incomeChildren.length; i++){
+		var tempChild = incomeChildren[i].firstElementChild;
 		
-		if(tempElement.length > 0){
-			if(i != 1){
-				exp = exp + ", ";
+		if(tempChild.tagName == "INPUT"){
+			if(addComma){
+				incomeArray = incomeArray + ",";
 			}
-			exp = exp + tempElement.attr('name') + ", " + tempElement.val();
-			
+			incomeArray = incomeArray + tempChild.getAttribute("name") + "," + tempChild.value.replace(/\$/g, '').replace(/,/g, '');
+			addComma = true;
 		}
-		i++;
-	}while(tempElement.length > 0);
+	}
+	addComma = false;
+	var expenseChildren = document.getElementById("expenseFields").children;
+	for(var i = 0; i < expenseChildren.length; i++){
+		var tempChild = expenseChildren[i].firstElementChild;
+        
+		if(tempChild.tagName == "INPUT"){
+			if(addComma){
+				expenseArray = expenseArray + ",";
+			}
+			expenseArray = expenseArray + tempChild.getAttribute("name") + "," + tempChild.value.replace(/\$/g, '').replace(/,/g, '');
+			addComma = true;
+		}
+	}
+	incomeArray = incomeArray + "]";
+	expenseArray = expenseArray + "]";
 	
-	inc = inc + "]";
-	exp = exp + "]";
 	
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand='+Date.now(),
@@ -114,8 +130,8 @@ function saveFinances(){
 		data: { 
 			act:'UpdateFinances',
 			qtr:qtr,
-			expenses: exp,
-			income: inc,
+			expenses: expenseArray,
+			income: incomeArray,
 			a:Date.now()
 		},
 		success: function(result) {
@@ -138,7 +154,8 @@ function updateTotals(){
 			} else {
 				tempVal = tempElement.text();
 			}
-			tempVal = Number(tempVal.replace(/,/g, ''));
+			tempVal = tempVal.replace(/\$/g, '').replace(/,/g, '');
+			tempVal = Number(tempVal);
 			tempVal = tempVal * 100;
 			
 			totalIncome += tempVal;
@@ -155,7 +172,8 @@ function updateTotals(){
 			} else {
 				tempVal = tempElement.text();
 			}
-			tempVal = Number(tempVal.replace(/,/g, ''));
+			tempVal = tempVal.replace(/\$/g, '').replace(/,/g, '');
+			tempVal = Number(tempVal);
 			tempVal = tempVal * 100;
 			
 			totalExpenses += tempVal;
@@ -163,32 +181,73 @@ function updateTotals(){
 		i++;
 	}while(tempElement.length > 0);
 	
+	
+	
 	var currentBalance = totalIncome - totalExpenses;
+	
+	totalIncome = Math.round(totalIncome);
+	totalExpenses = Math.round(totalExpenses);
+	currentBalance = Math.round(currentBalance);
 	
 	totalIncome = totalIncome / 100;
 	totalExpenses = totalExpenses / 100;
 	currentBalance = currentBalance / 100;
 	
-	$("#total_income").text(totalIncome);
-	$("#total_expenses").text(totalExpenses);
-	$("#current_balance").text(currentBalance);
+	totalIncome =  totalIncome.toFixed(2);
+	totalExpenses =  totalExpenses.toFixed(2);
+	currentBalance =  currentBalance.toFixed(2);
+	
+	totalIncome = numberWithCommas(totalIncome);
+	totalExpenses = numberWithCommas(totalExpenses);
+	currentBalance = numberWithCommas(currentBalance);
+	
+	$("#total_income").text("\$ " + totalIncome);
+	$("#total_expenses").text("\$ " + totalExpenses);
+	$("#current_balance").text("\$ " + currentBalance);
+}
+
+function incomeAtMinimum(){
+	if(document.getElementById("income-list").children.length <= 2){
+		return true
+	} else{
+		return false;
+	}
+
+}
+
+function expensesAtMinimum(){
+	if(document.getElementById("expense-list").children.length <= 2){
+		return true
+	} else{
+		return false;
+	}
+
 }
 	
 function deleteIncomeRow(counter){ 
+	
+	if(incomeAtMinimum()){
+		return false;
+	}
 	var button = document.getElementById("incomeButton" + counter);
 	var input = document.getElementById("incomeField" + counter);
 	input.parentNode.removeChild(input);
 	button.parentNode.removeChild(button);
+	
 	saveFinanceAdmin();
 	return false;
 }
 
 function deleteExpenseRow(counter){ 
+	
+	if(expensesAtMinimum()){
+		return false;
+	}
 	var button = document.getElementById("expenseButton" + counter);
 	var input = document.getElementById("expenseField" + counter);
 	input.parentNode.removeChild(input);
 	button.parentNode.removeChild(button);
-	saveFinancesAdmin();
+	saveFinanceAdmin();
 	return false;
 }
 
@@ -226,6 +285,8 @@ function addFinanceRow(listId, countId, buttonId, inputId, delMethod){
 	var newInput = document.createElement("INPUT");
 	newInput.setAttribute("type", "text");
 	newInput.setAttribute("value", "");
+	newInput.setAttribute("maxlength", "30");
+	newInput.setAttribute("onkeyDown", "enableSaveButton()");
 	
 	newInputHolder.appendChild(newInput);
 	
@@ -239,4 +300,8 @@ function addFinanceRow(listId, countId, buttonId, inputId, delMethod){
 
 function enableSaveButton() {
 	$("#saveFinanceFieldFormButton").removeClass("disabled");
+}
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }

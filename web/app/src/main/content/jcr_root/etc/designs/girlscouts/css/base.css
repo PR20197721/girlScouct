@@ -180,6 +180,16 @@ a:hover {
     line-height: 1.4em;
   }
 }
+@media only screen and (min-width: 60.063em) {
+ .right-off-canvas-menu {
+    visibility: hidden !important;
+    display: none !important; 
+  }
+  .right-off-canvas-menu * {
+    visibility: hidden !important;
+    display: none !important; 
+  }
+}
 a.menu {
   color: #C1EAD4;
   font-size: 1em;

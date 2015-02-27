@@ -15,7 +15,7 @@
       <p className="subtitle">
       	<ViewMeeting date={moment(comment).toDate()} name={obj[comment].name}/>
       </p>
-     	<p className="category">{obj[comment].content}</p>
+     	<p className="category">{ obj[comment].content.replace(/(<([^>]+)>)/ig,"") }</p>
      	<p className="blurb">{obj[comment].locationName}</p>
      
     </div>

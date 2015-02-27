@@ -45,6 +45,7 @@ import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
 import org.girlscouts.vtk.models.SentEmail;
+import org.girlscouts.vtk.utils.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -215,7 +216,7 @@ public class MeetingUtil {
 				StringTokenizer t = new StringTokenizer(calMeeting, ",");
 				int count = 0;
 				while (t.hasMoreElements()) {
-
+System.err.println("tata ggg: "+ count +" : "+ calMeeting +" : "+meetingEs.size());
 					try {
 						sched.put(
 								new java.util.Date(Long.parseLong((t
@@ -494,6 +495,7 @@ public class MeetingUtil {
 		meeting.setDbUpdate(true);
 		troop.getYearPlan().getMeetingEvents().add(meeting);
 
+		/*021715
 		if (troop.getYearPlan().getSchedule() != null) {
 
 			StringTokenizer t = new StringTokenizer(troop.getYearPlan()
@@ -516,6 +518,14 @@ public class MeetingUtil {
 									+ (secondDate + diff) + ","));
 
 		}
+		*/
+		if (troop.getYearPlan().getSchedule() != null) {
+			java.util.List<java.util.Date> sched = VtkUtil.getStrCommDelToArrayDates(troop.getYearPlan().getSchedule().getDates());
+			long newDate = new CalendarUtil().getNextDate(VtkUtil.getStrCommDelToArrayStr( troop.getYearPlan().getCalExclWeeksOf() ), sched.get(sched.size()-1).getTime(), troop.getYearPlan().getCalFreq(), false);		
+			sched.add( new java.util.Date(newDate) );
+			troop.getYearPlan().getSchedule().setDates( VtkUtil.getArrayDateToLongComDelim(sched));
+		}
+		
 		troop.getYearPlan().setAltered("true");
 		troopUtil.updateTroop(user, troop);
 

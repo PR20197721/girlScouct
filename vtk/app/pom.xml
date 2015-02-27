@@ -42,6 +42,11 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>google-collections-wrapper</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>itextpdf-wrapper</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -108,6 +113,13 @@
     <artifactId>itextpdf</artifactId>
     <version>5.0.6</version>
 </dependency>
+
+<dependency>
+    <groupId>com.google.collections</groupId>
+    <artifactId>google-collections</artifactId>
+    <version>1.0</version>
+</dependency>
+
         
     </dependencies>
     <build>
@@ -118,10 +130,33 @@
                 <excludes>
                     <exclude>**/.vlt</exclude>
                     <exclude>**/.vltignore</exclude>
+                    <exclude>**/*.scss</exclude>
                 </excludes>
+            </resource>
+            <resource>
+                <directory>${project.build.directory}/sass-gen-css</directory>
+                <targetPath>../vault-work/jcr_root/etc/designs/girlscouts-vtk/clientlibs/css</targetPath>
             </resource>
         </resources>
         <plugins>
+            <plugin>
+                <groupId>org.jasig.maven</groupId>
+                <artifactId>sass-maven-plugin</artifactId>
+                <version>1.1.1</version>
+                <executions>
+                    <execution>
+                        <id>generate-css</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>update-stylesheets</goal>
+                        </goals>
+                        <configuration>
+                            <sassSourceDirectory>${basedir}/src/main/content/jcr_root/etc/designs/girlscouts-vtk/clientlibs/css</sassSourceDirectory>
+                            <destination>${project.build.directory}/sass-gen-css</destination>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-resources-plugin</artifactId>
@@ -165,6 +200,11 @@
                         <embedded>
                             <groupId>${project.groupId}</groupId>
                             <artifactId>boon-wrapper</artifactId>
+                            <target>/apps/girlscouts-vtk/install</target>
+                        </embedded>
+                        <embedded>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>google-collections-wrapper</artifactId>
                             <target>/apps/girlscouts-vtk/install</target>
                         </embedded>
                         <embedded>
@@ -229,6 +269,11 @@
                                     <embedded>
                                         <groupId>${project.groupId}</groupId>
                                         <artifactId>boon-wrapper</artifactId>
+                                        <target>/apps/girlscouts-vtk/install</target>
+                                    </embedded>
+                                    <embedded>
+                                        <groupId>${project.groupId}</groupId>
+                                        <artifactId>google-collections-wrapper</artifactId>
                                         <target>/apps/girlscouts-vtk/install</target>
                                     </embedded>
                                     <embedded>
