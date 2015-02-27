@@ -105,15 +105,20 @@
                             </li>
                             <li class="row">
                               <p><strong>Achievements:</strong></p>
-                                <%
-  		                            for(int y=0;y<infos.size();y++){
-                                   if(infos.get(y).isAchievement() && infos.get(y).getYearPlanComponent().getType()== YearPlanComponentType.MEETING) {
-                                     out.write("<span>");
-                                     out.println(((MeetingE) infos.get(y).getYearPlanComponent()).getMeetingInfo().getName());
-                                     out.println((y == infos.size()-1) ? "" : ",");out.write("</span>");
-  		                              }
-                                  }
-  		                          %>
+<span>
+<%
+boolean isFirstItem = true;
+for(int y=0;y<infos.size();y++){
+	if(infos.get(y).isAchievement() && infos.get(y).getYearPlanComponent().getType()== YearPlanComponentType.MEETING) {
+		if (!isFirstItem) {
+			out.println(",");
+		}
+		out.println(((MeetingE) infos.get(y).getYearPlanComponent()).getMeetingInfo().getName());
+		isFirstItem = false;
+	}
+}
+%>
+</span>
                              </li>
                              <li class="row">
                               <p><strong>Meetings Attended:</strong></p>
