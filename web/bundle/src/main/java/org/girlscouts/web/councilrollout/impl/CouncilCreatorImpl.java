@@ -222,7 +222,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		final String homePath = "/home/groups";
 		final String girlscoutsPath = "girlscouts-usa";
 		final String allAuthorsGroup = "gs-authors";
-		final String allReviewersGroup = "gs-authors";
+		final String allReviewersGroup = "gs-reviewers";
 
 		try {
 			UserManager manager = (UserManager) rr.adaptTo(UserManager.class);
@@ -230,11 +230,17 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			Group councilReviewers = manager.createGroup(councilName + "-reviewers", councilName + "-reviewers", homePath + "/" + councilName);
 			groupList.add(councilAuthors);
 			groupList.add(councilReviewers);
-			Group gsAuthors = (Group) manager.findByHome(homePath + "/" + girlscoutsPath + "/" + allAuthorsGroup);
-			gsAuthors.addMember(councilAuthors);
-			Group gsReviewers = (Group) manager.findByHome(homePath + "/" + girlscoutsPath + "/" + allReviewersGroup);
-			gsReviewers.addMember(councilReviewers);
 			
+			if (manager.hasAuthorizable(allAuthorsGroup) && manager.hasAuthorizable(allReviewersGroup)) {
+				Group gsAuthors = (Group) manager.findByHome(homePath + "/" + girlscoutsPath + "/" + allAuthorsGroup);
+				gsAuthors.addMember(councilAuthors);
+				Group gsReviewers = (Group) manager.findByHome(homePath + "/" + girlscoutsPath + "/" + allReviewersGroup);
+				gsReviewers.addMember(councilReviewers);
+			} 
+			else {
+				LOG.error(allAuthorsGroup + " or " + allReviewersGroup + " not found."); 
+				throw new PathNotFoundException();
+			}
 			//Titles of council Groups set
 			String authorsProfilePath = councilAuthors.getProfile().getPath();
 			session.getNode(authorsProfilePath).setProperty("givenName", councilTitle + " Authors");
