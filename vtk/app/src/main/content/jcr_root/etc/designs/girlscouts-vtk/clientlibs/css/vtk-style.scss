@@ -1187,6 +1187,41 @@
   //calendar inside the meeting date and location popup
   .modifyCalendarDate {
     margin-top: 25px;
+    input[type="radio"] {
+      display: none;
+    }
+    input[type="radio"] + label {
+      position: relative;
+      p {
+        top: 25%;
+        left: 60px;
+        white-space: nowrap;
+        position: absolute;
+      }
+    }
+    input[type="radio"] + label:before {
+      width: 2.81rem;
+      height: 2.81rem;
+      content: '';
+      display: inline-block;
+      border: 1px solid #ccc;
+      border-radius: 50%;
+      margin: 0 0.5em;
+      color: transparent;
+    }
+    input[type="radio"]:checked + label:after{
+      content: '';
+      display: inline-block;
+      border: none;
+      border-radius: 50%;
+      margin: 0 0.5em;
+      position: absolute;
+      background: #00ae58;
+      width: 2.19rem;
+      height: 2.19rem;
+      top: 5px;
+      left: 5px;
+    }
   }
   #modal_meeting_aids {
     .button {
