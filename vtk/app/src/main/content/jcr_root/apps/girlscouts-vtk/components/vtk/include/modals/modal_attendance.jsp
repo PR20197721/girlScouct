@@ -74,9 +74,10 @@
 <script>
 	function setDefaultAchievement(checkedState, achievementId) {
 		if (!checkedState) {
-			if ($(achievementId).length > 0) {
-				$(achievementId).prop('checked', false);
+			if ($("#" + achievementId).length > 0) {
+				$("#" + achievementId).prop('checked', false);
 			}
 		}
 	}
+
 </script>
