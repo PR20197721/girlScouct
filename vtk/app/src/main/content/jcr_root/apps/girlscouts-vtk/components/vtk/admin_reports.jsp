@@ -8,10 +8,9 @@
 <%@include file="include/tab_navigation.jsp"%>
 <div id="panelWrapper" class="row content reports meeting-detail">
   <%@include file="include/utility_nav.jsp"%>
-
-
   <div class="column large-23 large-centered">       
   <% 
+if ((SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) && sessionFeatures.contains(SHOW_ADMIN_FEATURE)) {
 	final CouncilRpt councilRpt = sling.getService(CouncilRpt.class);
 	java.util.List<String> ageGroups = new java.util.ArrayList<String>();
 	ageGroups.add("brownie");
@@ -88,9 +87,7 @@
       </dl>
     </div><!-- /row -->
     
-    <%}//edn for %>
-    
-   
+    <%}}%>
   </div>
 </div>
 
