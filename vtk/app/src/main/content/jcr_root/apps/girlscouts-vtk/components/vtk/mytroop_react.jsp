@@ -121,7 +121,7 @@
                                   if(infos.get(y).isAttended()) {
                                     out.write("<span>");
                                     out.println(fmr_ddmm.format(sched_bm_inverse.get( infos.get(y).getYearPlanComponent())));
-                                    out.println((infos.size() > 1) ? "," : "");out.write("</span>");
+                                    out.println((infos.size() > 1 && infos.size()-1 !=y) ? "," : "");out.write("</span>");
                                   }
                               } %>
                             </li>                          
