@@ -317,8 +317,6 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
       });
 
       function repositionActivity1(meetingPath,newVals){
-      
-
       var x =$.ajax({
       	url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=RearrangeActivity&mid='+meetingPath+'&isActivityCngAjax='+ newVals, // JQuery loads serverside.php
       	data: '', 
@@ -331,69 +329,67 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
       } 
 
       React.render(
-<%
-	String elem = request.getParameter("elem");
-	if (elem != null) {
-		elem = "&elem=" + elem;
-	} else {
-		elem = "";
-	}
-%>
+      <%
+      	String elem = request.getParameter("elem");
+      	if (elem != null) {
+      		elem = "&elem=" + elem;
+      	} else {
+      		elem = "";
+      	}
+      %>
       <CommentBox url="/content/girlscouts-vtk/controllers/vtk.controller.html?reactjs=asdf<%= elem%>" pollInterval={10000} />,
         document.getElementById('theMeeting')
       );
 
 
- var AgendaTotal = React.createClass({
-       
-        render: function() {
-          return (
-              <p className="row">
-                <strong className="column small-2 small-push-21">{getAgendaTotalTime(this.props.data)}</strong>
-              </p>
-              
-          );
-        }
-      });
+     var AgendaTotal = React.createClass({
+           
+            render: function() {
+              return (
+                  <p className="row">
+                    <strong className="column small-2 small-push-21">{getAgendaTotalTime(this.props.data)}</strong>
+                  </p>
+                  
+              );
+            }
+          });
 
 
 
-function getAgendaTotalTime(x){
+    function getAgendaTotalTime(x){
 
-if( x==null ) return "";
-  var total =0;
-  x.map((function(item, i) {
-        total += item.duration;
-  }))
-
-
-    var hours = Math.floor( total / 60);          
-    var minutes = total % 60;
-
-    if( hours<=0 )
-      return minutes;
-   else
-    return hours+":"+ minutes;
-
-}
+    if( x==null ) return "";
+      var total =0;
+      x.map((function(item, i) {
+            total += item.duration;
+      }))
 
 
-function getAgendaTime( duration ){
+        var hours = Math.floor( total / 60);          
+        var minutes = total % 60;
+
+        if( hours<=0 )
+          return minutes;
+       else
+        return hours+":"+ minutes;
+
+    }
 
 
- if( agendaSched==null ){
-    agendaSched= thisMeetingDate.getTime();
- }
+    function getAgendaTime( duration ){
+     if( agendaSched==null ){
+        agendaSched= thisMeetingDate.getTime();
+     }
 
-var curr= agendaSched;
-  agendaSched  = addMinutes( agendaSched, duration);
+    var curr= agendaSched;
+      agendaSched  = addMinutes( agendaSched, duration);
 
-  return curr;
-}
+      return curr;
+    }
 
-function addMinutes(date, minutes) {
-    return new Date(date + minutes*60000).getTime();
-}
+    function addMinutes(date, minutes) {
+        return new Date(date + minutes*60000).getTime();
+    }
       </script>
   </div>
 </div>

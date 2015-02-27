@@ -116,15 +116,14 @@
                               </p>
                              </li>
                              <li class="row">
-                              <p><strong>Meeting Attended:</strong></p>
-                              <p> 
-                                <% for(int y=0;y<infos.size();y++){
-                                 if(infos.get(y).isAttended()){
-                                    %><%=fmr_ddmm.format(sched_bm_inverse.get( infos.get(y).getYearPlanComponent() )) %>,<% 
-                                 }
-  			                        }
-  			                        %>     
-                              </p>
+                              <p><strong>Meetings Attended:</strong></p>
+                              <% for(int y=0;y<infos.size();y++) {
+                                  if(infos.get(y).isAttended()) {
+                                    out.write("<span>");
+                                    out.println(fmr_ddmm.format(sched_bm_inverse.get( infos.get(y).getYearPlanComponent())));
+                                    out.println((infos.size() > 1) ? "," : "");out.write("</span>");
+                                  }
+                              } %>
                             </li>                          
                          </ul>
                       </div>
