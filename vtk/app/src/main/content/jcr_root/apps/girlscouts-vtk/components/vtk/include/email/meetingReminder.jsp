@@ -20,7 +20,7 @@
 	<ul class="small-block-grid-3">
 	  <li>
 	    <input type="checkbox" id="email_to_gp" checked />
-	    <label for="email_to_gp"><p>Girls / Parents</p></label>
+	    <label for="email_to_gp"><p>Parents / Caregivers</p></label>
 	  </li>
 
 	  <li>
