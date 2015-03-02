@@ -42,20 +42,6 @@
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Description"
                     name="./desc"/>
-                <test
-                    jcr:primaryType="cq:Widget"
-                    fieldLabel="Description"
-                    name="./test"
-                    xtype="selection"
-                    type="combobox"
-                    optionsProvider="girlscouts.components.VTKMeetingIdHelper.provideOptions" />
-                <test2
-                    jcr:primaryType="cq:Widget"
-                    fieldLabel="Description"
-                    name="./test"
-                    xtype="selection"
-                    type="combobox"
-                    optionsProvider="girlscouts.components.VTKMeetingIdHelper.provideOptions" />
                 <resources
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Resources"
@@ -65,7 +51,9 @@
                     xtype="vtk-meeting-id-list">
                     <fieldConfig
                         jcr:primaryType="nt:unstructured"
-                        xtype="vtk-meeting-id"/>
+                    	xtype="selection"
+                   		type="select"
+                    	optionsProvider="girlscouts.components.VTKMeetingIdHelper.provideOptions" />
                 </meetings>
             </items>
         </tab1>

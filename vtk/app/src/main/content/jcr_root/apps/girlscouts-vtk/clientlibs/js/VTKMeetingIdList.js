@@ -18,6 +18,46 @@
  * Creates a new CustomWidget.
  * @param {Object} config The config object
  */
+girlscouts.components.VTKMeetingIdHelper = {};
+girlscouts.components.VTKMeetingIdHelper.options = null;
+girlscouts.components.VTKMeetingIdHelper.provideOptions = function() {
+	if (!girlscouts.components.VTKMeetingIdHelper.options) {
+		girlscouts.components.VTKMeetingIdHelper.updateOptions();
+	}
+	console.info('called');
+	return girlscouts.components.VTKMeetingIdHelper.options;
+},
+girlscouts.components.VTKMeetingIdHelper.updateOptions = function() {
+    var http = CQ.shared.HTTP;
+    var base = '/content/girlscouts-vtk/meetings/myyearplan/';
+	var options = new Array();
+    var levels = ['brownie', 'junior', 'daisy'];
+
+    for (var i = 0; i < levels.length; i++) {
+    	var level = levels[i];
+		var path = base + level.toLowerCase() + '.1.json';
+		var response = http.get(http.externalize(path));
+		var responseJson = JSON.parse(response.responseText);
+		
+	    for (var childKey in responseJson) {
+	    	var child = responseJson[childKey];
+	    	if (responseJson.hasOwnProperty(childKey) && typeof child === 'object') { // If object, then it is a child node.
+	    		// Skip CQ built-in stuff
+	    		if (childKey.indexOf('jcr:') == 0 || childKey.indexOf('cq:') == 0) {
+	    			continue;
+	        	}
+	    	
+		    	options.push({
+		    		"value": base + level + '/' + childKey,
+		    		"text": childKey,
+		    		"qtip": child.name
+		    	});
+	    	}
+	    }
+    }
+    
+    girlscouts.components.VTKMeetingIdHelper.options = options;
+};
 
 girlscouts.components.VTKMeetingIdList= CQ.Ext.extend(CQ.form.MultiField, {
 	options: null,
@@ -32,13 +72,7 @@ girlscouts.components.VTKMeetingIdList= CQ.Ext.extend(CQ.form.MultiField, {
     // overriding CQ.Ext.Component#initComponent
     initComponent: function() {
         girlscouts.components.VTKMeetingIdList.superclass.initComponent.call(this);
-        this.hiddenField = new CQ.Ext.form.Hidden({
-            name: this.name
-        });
-        this.add(this.hiddenField);
 
-        // Do not submit the default value. Value will be submitted by the hidden field.
-        this.name = '';
         // Cleanup before submission
         var form = this.findParentByType("form");
         form.on('beforeaction', function(){
@@ -49,13 +83,18 @@ girlscouts.components.VTKMeetingIdList= CQ.Ext.extend(CQ.form.MultiField, {
                 	var field = item.field;
 			    	// Setup property keys
 			    	var path = './meetings/meeting' + index + '/';
-			    	field.idField.el.dom.name = path + 'id';
-			    	field.idField.setValue(index);
+			    	field.add(new CQ.Ext.form.Hidden({
+			    		name: path + 'id',
+			    		value: index
+			    	}));
 			    	index++;
 
 			    	field.refIdField.el.dom.name = path + 'refId';
 
-			    	field.ocmField.el.dom.name = path + 'ocm_classname';
+			    	field.add(new CQ.Ext.form.Hidden({
+			    		name: path + 'ocm_classname',
+			    		value: 'org.girlscouts.vtk.models.MeetingE'
+			    	}));
                 }
             }, this);
         }, this);
@@ -102,22 +141,9 @@ girlscouts.components.VTKMeetingIdList= CQ.Ext.extend(CQ.form.MultiField, {
 	        meetings.sort(function(a, b){return a.id - b.id});
 	
 	        for (var i = 0; i < meetings.length; i++) {
-	        	this.addItem(meetings[i]);
+	        	this.addItem(meetings[i].refId);
 	        }
         }
-    },
-
-    // overriding CQ.form.CompositeField#getValue
-    getValue: function() {
-        var value = '';
-        this.items.each(function(item, index/*, length*/) {
-            if (item instanceof CQ.form.MultiField.Item) {
-            	var agendaItem = item.getValue();
-                value += '[' + index + '^' + agendaItem.name + '^' + agendaItem.duration + ']';
-                index++;
-            }
-        }, this);
-        return value;
     }
 });
 
