@@ -18,45 +18,50 @@
  * Creates a new CustomWidget.
  * @param {Object} config The config object
  */
-girlscouts.components.VTKMeetingIdHelper = {};
-girlscouts.components.VTKMeetingIdHelper.options = null;
-girlscouts.components.VTKMeetingIdHelper.provideOptions = function() {
-	if (!girlscouts.components.VTKMeetingIdHelper.options) {
-		girlscouts.components.VTKMeetingIdHelper.updateOptions();
-	}
-	return girlscouts.components.VTKMeetingIdHelper.options;
-},
-girlscouts.components.VTKMeetingIdHelper.updateOptions = function() {
-    var http = CQ.shared.HTTP;
-    var base = '/content/girlscouts-vtk/meetings/myyearplan/';
-	var options = new Array();
-    var levels = ['brownie', 'junior', 'daisy'];
 
-    for (var i = 0; i < levels.length; i++) {
-    	var level = levels[i];
-		var path = base + level.toLowerCase() + '.1.json';
-		var response = http.get(http.externalize(path));
-		var responseJson = JSON.parse(response.responseText);
-		
-	    for (var childKey in responseJson) {
-	    	var child = responseJson[childKey];
-	    	if (responseJson.hasOwnProperty(childKey) && typeof child === 'object') { // If object, then it is a child node.
-	    		// Skip CQ built-in stuff
-	    		if (childKey.indexOf('jcr:') == 0 || childKey.indexOf('cq:') == 0) {
-	    			continue;
-	        	}
-	    	
-		    	options.push({
-		    		"value": base + level + '/' + childKey,
-		    		"text": childKey,
-		    		"qtip": child.name
-		    	});
-	    	}
+(function(){
+	var helper= {};
+
+	helper.options = null;
+	helper.provideOptions = function() {
+		if (!helper.options) {
+			helper.updateOptions();
+		}
+		return helper.options;
+	},
+	helper.updateOptions = function() {
+	    var http = CQ.shared.HTTP;
+	    var base = '/content/girlscouts-vtk/meetings/myyearplan/';
+		var options = new Array();
+	    var levels = ['brownie', 'junior', 'daisy'];
+	
+	    for (var i = 0; i < levels.length; i++) {
+	    	var level = levels[i];
+			var path = base + level.toLowerCase() + '.1.json';
+			var response = http.get(http.externalize(path));
+			var responseJson = JSON.parse(response.responseText);
+			
+		    for (var childKey in responseJson) {
+		    	var child = responseJson[childKey];
+		    	if (responseJson.hasOwnProperty(childKey) && typeof child === 'object') { // If object, then it is a child node.
+		    		// Skip CQ built-in stuff
+		    		if (childKey.indexOf('jcr:') == 0 || childKey.indexOf('cq:') == 0) {
+		    			continue;
+		        	}
+		    	
+			    	options.push({
+			    		"value": base + level + '/' + childKey,
+			    		"text": childKey,
+			    		"qtip": child.name
+			    	});
+		    	}
+		    }
 	    }
-    }
-    
-    girlscouts.components.VTKMeetingIdHelper.options = options;
-};
+	    
+	    helper.options = options;
+	};
+	girlscouts.components.VTKMeetingIdHelper = helper;
+})();
 
 girlscouts.components.VTKMeetingIdList= CQ.Ext.extend(CQ.form.MultiField, {
 	options: null,
