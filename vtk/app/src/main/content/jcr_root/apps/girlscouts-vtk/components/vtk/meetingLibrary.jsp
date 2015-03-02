@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
 <%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page
+  import="com.google.common.collect .*"%>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
@@ -41,8 +43,28 @@
         java.util.List<String> myMeetingIds= new java.util.ArrayList();
         java.util.List<MeetingE> myMeetings = troop.getYearPlan().getMeetingEvents();
 
+        
+        
+        //add ability to add past meetings again
+        java.util.Map<java.util.Date, YearPlanComponent> sched = null;
+	    try{
+	        sched = meetingUtil
+	                 .getYearPlanSched(user,
+	                         troop.getYearPlan(), true, true);
+	    }catch(Exception e){e.printStackTrace();}
+	    BiMap sched_bm=   HashBiMap.create(sched);
+	    com.google.common.collect.BiMap<YearPlanComponent, java.util.Date> sched_bm_inverse = sched_bm.inverse();
+	    
+        
+        
+        
+        
         for(int i=0;i< myMeetings.size();i++){
           // ADD CANCELED MEETINGS if( myMeetings.get(i).getCancelled()!=null && myMeetings.get(i).getCancelled().equals("true")) continue;
+      
+          java.util.Date meetingDate =  sched_bm_inverse.get( myMeetings.get(i));
+          if( meetingDate.before( new java.util.Date() ) && meetingDate.after( new java.util.Date("1/1/2000") ) ) continue;
+          
           String meetingId = myMeetings.get(i).getRefId();
           meetingId= meetingId.substring(meetingId.lastIndexOf("/") +1).trim().toLowerCase();
           myMeetingIds.add( meetingId );
