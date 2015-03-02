@@ -30,7 +30,7 @@
 	
 	<div class="scroll content">
 	<% if(!act.isEmpty()) { %>
-		<a href="/content/girlscouts-vtk/controllers/vtk.pdfPrint.html?act=<%=act%>&mid=<%=request.getParameter("mid") %>" target="_blank" class="icon-download right"></a>
+		<a href="/content/girlscouts-vtk/controllers/vtk.pdfPrint.html?act=<%=act%>&mid=<%=request.getParameter("mid") %>" target="_blank" class="icon-download right" download="<%=act%>"></a>
 	<% } %>
 	<%  if (request.getParameter("isAgenda") == null) {%>
 		<a id="print-link" class="icon-printer right" title="print"></a>
