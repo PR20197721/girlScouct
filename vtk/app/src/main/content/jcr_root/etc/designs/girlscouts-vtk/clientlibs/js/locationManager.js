@@ -54,7 +54,7 @@ function updLocations(locationPath,idName){
 			a:Date.now()
 		},
 		success: function(result) {
-			document.location="/content/girlscouts-vtk/en/vtk.plan.html";
+			//document.location="/content/girlscouts-vtk/en/vtk.plan.html";
 		}
 	});
 }
