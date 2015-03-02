@@ -51,8 +51,8 @@
                     xtype="vtk-meeting-id-list">
                     <fieldConfig
                         jcr:primaryType="nt:unstructured"
-                    	xtype="selection"
-                   		type="select"
+                    	xtype="vtk-meeting-id"
+                    	type="select"
                     	optionsProvider="girlscouts.components.VTKMeetingIdHelper.provideOptions" />
                 </meetings>
             </items>

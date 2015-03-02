@@ -83,18 +83,14 @@ girlscouts.components.VTKMeetingIdList= CQ.Ext.extend(CQ.form.MultiField, {
                 	var field = item.field;
 			    	// Setup property keys
 			    	var path = './meetings/meeting' + index + '/';
-			    	field.add(new CQ.Ext.form.Hidden({
-			    		name: path + 'id',
-			    		value: index
-			    	}));
+			    	field.idField.el.dom.name = path + 'id';
+			    	field.idField.setValue(index);
 			    	index++;
 
-			    	field.refIdField.el.dom.name = path + 'refId';
+			    	field.ocmField.el.dom.name = path + 'ocm_classname';
+			    	field.ocmField.setValue('org.girlscouts.vtk.models.MeetingE');
 
-			    	field.add(new CQ.Ext.form.Hidden({
-			    		name: path + 'ocm_classname',
-			    		value: 'org.girlscouts.vtk.models.MeetingE'
-			    	}));
+			    	field.hiddenField.el.dom.name = path + 'refId';
                 }
             }, this);
         }, this);
