@@ -26,10 +26,7 @@ function toggleSection(section) {
 }
 </script>
 
-<% 
-if( request.getParameter("tabIndex")!=null) 
-    { %> <script>toggleSection('<%=request.getParameter("tabIndex")%>')</script><% }
-%>
+
 
 
 
