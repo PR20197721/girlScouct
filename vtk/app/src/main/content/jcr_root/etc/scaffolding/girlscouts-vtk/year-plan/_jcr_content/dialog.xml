@@ -42,6 +42,20 @@
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Description"
                     name="./desc"/>
+                <test
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Description"
+                    name="./test"
+                    xtype="selection"
+                    type="combobox"
+                    optionsProvider="girlscouts.components.VTKMeetingIdHelper.provideOptions" />
+                <test2
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Description"
+                    name="./test"
+                    xtype="selection"
+                    type="combobox"
+                    optionsProvider="girlscouts.components.VTKMeetingIdHelper.provideOptions" />
                 <resources
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Resources"

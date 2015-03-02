@@ -19,6 +19,46 @@
  * @param {Object} config The config object
  */
 
+girlscouts.components.VTKMeetingIdHelper = {};
+girlscouts.components.VTKMeetingIdHelper.options = null;
+girlscouts.components.VTKMeetingIdHelper.provideOptions = function() {
+	if (!girlscouts.components.VTKMeetingIdHelper.options) {
+		girlscouts.components.VTKMeetingIdHelper.updateOptions();
+	}
+	console.info('called');
+	return girlscouts.components.VTKMeetingIdHelper.options;
+},
+girlscouts.components.VTKMeetingIdHelper.updateOptions = function() {
+    var http = CQ.shared.HTTP;
+    var base = '/content/girlscouts-vtk/meetings/myyearplan/';
+	var options = new Array();
+    var levels = ['brownie', 'junior', 'daisy'];
+
+    for (var i = 0; i < levels.length; i++) {
+    	var level = levels[i];
+		var path = base + level.toLowerCase() + '.1.json';
+		var response = http.get(http.externalize(path));
+		var responseJson = JSON.parse(response.responseText);
+		
+	    for (var childKey in responseJson) {
+	    	var child = responseJson[childKey];
+	    	if (responseJson.hasOwnProperty(childKey) && typeof child === 'object') { // If object, then it is a child node.
+	    		// Skip CQ built-in stuff
+	    		if (childKey.indexOf('jcr:') == 0 || childKey.indexOf('cq:') == 0) {
+	    			continue;
+	        	}
+	    	
+		    	options.push({
+		    		"value": base + childKey,
+		    		"text": childKey
+		    	});
+	    	}
+	    }
+    }
+    
+    girlscouts.components.VTKMeetingIdHelper.options = options;
+};
+
 girlscouts.components.VTKMeetingId = CQ.Ext.extend(CQ.form.CompositeField, {
     idField: null,
     ocmField: null,
@@ -48,11 +88,9 @@ girlscouts.components.VTKMeetingId = CQ.Ext.extend(CQ.form.CompositeField, {
         });
         this.add(this.ocmField);
 
-        var form = this.findParentByType("form");
-
         this.refIdField = new CQ.form.Selection({
             type: 'combobox',
-            optionsProvider: girlscouts.components.VTKMeetingId.Helper.getOptions,
+            optionsProvider: girlscouts.components.VTKMeetingIdHelper.provideOptions,
             listeners: {
                 selectionchanged: {
                     scope:this,
@@ -108,43 +146,3 @@ girlscouts.components.VTKMeetingId = CQ.Ext.extend(CQ.form.CompositeField, {
 
 // register xtype
 CQ.Ext.reg('vtk-meeting-id', girlscouts.components.VTKMeetingId);
-
-girlscouts.components.VTKMeetingId.Helper = {
-	options: null,
-	getOptions: function() {
-		alert('getOptions');
-		if (!this.options) {
-			this.updateOptions();
-		}
-	},
-	updateOptions: function() {
-		alert('updateOptions');
-	    var http = CQ.shared.HTTP;
-	    var base = '/content/girlscouts-vtk/meetings/myyearplan/';
-		var options = new Array();
-	    var levels = ['brownie', 'junior', 'daisy'];
-
-	    for (var i = 0; i < levels.length; i++) {
-	    	var level = levels[i];
-			var path = base + level.toLowerCase() + '.1.json';
-			var response = http.get(http.externalize(path));
-			var responseJson = JSON.parse(response.responseText);
-			
-		    for (var childKey in responseJson) {
-		    	if (responseJson.hasOwnProperty(childKey) && typeof child === 'object') { // If object, then it is a child node.
-		    		// Skip CQ built-in stuff
-		    		if (childKey.indexOf('jcr:') == 0 || childKey.indexOf('cq:') == 0) {
-		    			continue;
-		        	}
-		    	
-			    	options.push({
-			    		"value": base + childKey,
-			    		"text": childKey
-			    	});
-		    	}
-		    }
-	    }
-	    
-	    this.options = options;
-	}
-};
