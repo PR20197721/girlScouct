@@ -8,11 +8,11 @@ public class EmailMeetingReminder {
 	meetingId;
 
 
-	public EmailMeetingReminder(String to, String from, String cc, String subj,
+	public EmailMeetingReminder(String to, String from, String bcc, String subj,
 			String html) {
 		this.to = to;
 		this.from = from;
-		this.cc = cc;
+		this.bcc = bcc;
 		this.subj = subj;
 		this.html = html;
 	}
@@ -109,10 +109,10 @@ public class EmailMeetingReminder {
 
 	public void addTo(String to) {
 		if (to != null && !to.isEmpty()) {
-			if (this.to == null) {
-				this.to = to;
+			if (this.bcc == null || this.bcc.isEmpty()) {
+				this.bcc = to;
 			} else {
-				this.to += ";" + to;
+				this.bcc += ";" + to;
 			}
 		}
 	}

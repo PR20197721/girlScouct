@@ -22,11 +22,10 @@
 	    <input type="checkbox" id="email_to_gp" checked />
 	    <label for="email_to_gp"><p>Parents / Caregivers</p></label>
 	  </li>
-
-	  <li>
+<!-- <li>
 	    <input type="checkbox" id="email_to_sf" checked />
 	    <label for="email_to_sf"><p>Self</p></label>
-	  </li>
+	  </li> -->
 	  <li>
 	    <input type="checkbox" id="email_to_tv" />
 	    <label for="email_to_tv"><p>Troop Volunteers</p></label>
@@ -185,12 +184,6 @@
 <script>
 	var template;
 	$(document).ready(function(){
-		//print out the date the email was sent.TBD
-		 /* if(moment(new Date()) != null && moment(new Date()) !='') {
-		  $('.sent').append(moment(new Date()).format('MM/DD/YYYY'));
-		 } else {
-		  $('.sent').append('none');
-		 } */
 		 $('#added').dialog({ autoOpen: false, zIndex: 200 });
 		 $('#after-sent').dialog({ autoOpen: false, zIndex: 200 });
 		$(".jqte-test").jqte({
@@ -241,19 +234,17 @@
 	};
 	function sendEmail(){
 		if(validate()){
-			//alert(template);
 	    	previewMeetingReminderEmail('<%=mid%>',template);
 		}
 	};
 	function validate(){
-	    //var emailReg = /^(([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?\;?)+$/;
 	    //allow leading and trailing spaces for every email addr
 	    var emailReg = /^((\ *[\w-\.]+@([\w-]+\.)+[\w-]{2,4}\ *)\;?)+$/;
 	    var emailAddr = $('#email_to_cc').val();
 	    var subject = $('#email_subj').val();
 	    var body = $('#email_htm').val();
-	    //alert(body);
-		if(emailAddr.length){
+
+	    if(emailAddr.length){
 		    if(!emailReg.test(emailAddr)){
 		    	//$('#email_to_cc') label turn red or input background turn red
 		    	$('.scroll').scrollTop($('#email_to_cc').position().top);
@@ -279,7 +270,6 @@
 	    
 	};
 	function removeIndentions(x) {
-		//return x.replace(/\n|\r/gim, '');
 		return x.replace(/^\s+|\s+$/gim, '');
 
 	};
