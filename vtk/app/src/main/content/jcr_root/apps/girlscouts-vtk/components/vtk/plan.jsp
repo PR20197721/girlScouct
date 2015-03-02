@@ -21,8 +21,24 @@
  <div id="panelWrapper" class="row meeting-detail content">
    <%@include file="include/utility_nav.jsp"%>
    <%@include file="include/view_yp_dropdown.jsp"%>
+   
+   <%if( troop.getYearPlan().getMeetingEvents()==null || troop.getYearPlan().getMeetingEvents().size()<=0 ){ %>
+    <div style="background-color:yellow;">
+        <b>Custom Year Plan:</b>
+        <br/>Start adding meetings and/or activities to your custom plan
+       <ul>
+        <li><a href="#" onclick="doMeetingLib()" title="Add Meeting">Add Meeting</a></li>
+        <li><a href="#" onclick="newActivity()" title="Add Activity">Add Activity</a></li>
+        </ul>
+    </div>
+    <%} %>
+    
+    
   <div id="yearPlanMeetings">
     <div id="thePlan">
+
+  
+   
 
     <script type="text/jsx">
     	var isActivNew;

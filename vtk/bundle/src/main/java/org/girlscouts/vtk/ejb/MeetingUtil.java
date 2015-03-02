@@ -135,7 +135,8 @@ public class MeetingUtil {
 			if (isLoadMeetingInfo) {
 
 				java.util.List<MeetingE> meetingEs = plan.getMeetingEvents();
-				for (int i = 0; i < meetingEs.size(); i++) {
+				if( meetingEs!=null)
+				 for (int i = 0; i < meetingEs.size(); i++) {
 					MeetingE meetingE = meetingEs.get(i);
 					Meeting meetingInfo = yearPlanUtil.getMeeting(user,
 							meetingE.getRefId());
@@ -206,17 +207,16 @@ public class MeetingUtil {
 			List<Activity> activities = plan.getActivities();
 
 			java.util.List<MeetingE> meetingEs = plan.getMeetingEvents();
-
+if( meetingEs!=null){
 			Comparator<MeetingE> comp = new BeanComparator("id");
 			Collections.sort(meetingEs, comp);
-
+}
 			if (plan.getSchedule() != null) {
 
 				String calMeeting = plan.getSchedule().getDates();
 				StringTokenizer t = new StringTokenizer(calMeeting, ",");
 				int count = 0;
 				while (t.hasMoreElements()) {
-System.err.println("tata ggg: "+ count +" : "+ calMeeting +" : "+meetingEs.size());
 					try {
 						sched.put(
 								new java.util.Date(Long.parseLong((t
@@ -240,7 +240,8 @@ System.err.println("tata ggg: "+ count +" : "+ calMeeting +" : "+meetingEs.size(
 				Calendar tmp = java.util.Calendar.getInstance();
 				tmp.setTime(new java.util.Date("1/1/1976"));
 
-				for (int i = 0; i < meetingEs.size(); i++) {
+				if( meetingEs!=null)
+				 for (int i = 0; i < meetingEs.size(); i++) {
 
 					sched.put(tmp.getTime(), meetingEs.get(i));
 					tmp.add(java.util.Calendar.DATE, 1);
@@ -486,13 +487,14 @@ System.err.println("tata ggg: "+ count +" : "+ calMeeting +" : "+meetingEs.size(
 		meeting.setRefId(newMeetingPath);
 
 		int maxMeetEId = 0;
-		for (int i = 0; i < troop.getYearPlan().getMeetingEvents().size(); i++)
-			if (maxMeetEId < troop.getYearPlan().getMeetingEvents().get(i)
-					.getId())
-				maxMeetEId = troop.getYearPlan().getMeetingEvents().get(i)
-						.getId();
+		if( troop.getYearPlan().getMeetingEvents() !=null)
+		 for (int i = 0; i < troop.getYearPlan().getMeetingEvents().size(); i++)
+			if (maxMeetEId < troop.getYearPlan().getMeetingEvents().get(i).getId())
+				maxMeetEId = troop.getYearPlan().getMeetingEvents().get(i).getId();
 		meeting.setId(maxMeetEId + 1);
 		meeting.setDbUpdate(true);
+		if( troop.getYearPlan().getMeetingEvents() ==null )
+			troop.getYearPlan().setMeetingEvents(new java.util.ArrayList() );
 		troop.getYearPlan().getMeetingEvents().add(meeting);
 
 		/*021715
@@ -900,7 +902,8 @@ System.err.println("tata ggg: "+ count +" : "+ calMeeting +" : "+meetingEs.size(
 			javax.servlet.http.HttpServletRequest request) throws Exception {
 
 		PlanView planView = planView1(user, troop, request);
-
+		if( planView==null ) {return null;}
+		
 		YearPlanComponent _comp = planView.getYearPlanComponent();
 		if (_comp == null) {
 

@@ -70,8 +70,8 @@
        <ul class="inline-list" id="util-links">
         <li><a data-reveal-id="modal_help" title="help"><i class="icon-questions-answers"></i></a></li>
         <% if("plan".equals(activeTab)) {%>
-          <li><a
-          	<% if(troop.getYearPlan() != null && meetingUtil.planView(user, troop, request).getSearchDate() != null 
+          <li><a class="icon" 
+          	<% if(troop.getYearPlan() != null && meetingUtil.planView(user, troop, request)!=null && meetingUtil.planView(user, troop, request).getSearchDate() != null 
           		&& meetingUtil.planView(user, troop, request).getSearchDate().after( new java.util.Date("1/1/1977")) ){
   	         %> onclick="self.location = '/content/girlscouts-vtk/en/cal.ics'"
   	        <%} else{
