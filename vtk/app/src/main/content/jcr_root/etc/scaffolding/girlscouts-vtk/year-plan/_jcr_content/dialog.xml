@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Dialog"
     xtype="tabpanel">
     <items jcr:primaryType="cq:WidgetCollection">
@@ -9,19 +9,19 @@
             <items jcr:primaryType="cq:WidgetCollection">
                 <ocm_classname
                     jcr:primaryType="cq:Widget"
-                    xtype="hidden"
+                    defaultValue="org.girlscouts.vtk.models.YearPlan"
                     name="./ocm_classname"
-                    defaultValue="org.girlscouts.vtk.models.YearPlan"/>
+                    xtype="hidden"/>
                 <resType
                     jcr:primaryType="cq:Widget"
-                    xtype="hidden"
+                    defaultValue="girlscouts-vtk/components/vtk-data"
                     name="./sling:resourceType"
-                    defaultValue="girlscouts-vtk/components/vtk-data"/>
+                    xtype="hidden"/>
                 <vtkDataType
                     jcr:primaryType="cq:Widget"
-                    xtype="hidden"
+                    defaultValue="year-plan"
                     name="./vtkDataType"
-                    defaultValue="year-plan"/>
+                    xtype="hidden"/>
                 <id
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Id"
@@ -30,6 +30,14 @@
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Name"
                     name="./name"/>
+                <level
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Level"
+                    name="./level">
+                    <listeners
+                        jcr:primaryType="nt:unstructured"
+                        change="function(field){girlscouts.components.VTKMeetingIdList.updateMeetingList(field, field.getValue());}"/>
+                </level>
                 <desc
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Description"

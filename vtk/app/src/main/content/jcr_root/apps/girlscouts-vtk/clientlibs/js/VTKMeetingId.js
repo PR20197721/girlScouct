@@ -48,18 +48,11 @@ girlscouts.components.VTKMeetingId = CQ.Ext.extend(CQ.form.CompositeField, {
         });
         this.add(this.ocmField);
 
+        var form = this.findParentByType("form");
+
         this.refIdField = new CQ.form.Selection({
             type: 'combobox',
-            options: [
-                {
-                	"value": "B14B01",
-                	"text": "B14B01"
-                },
-                {
-                	"value": "B14B12",
-                	"text": "B14B12"
-                }
-            ],
+            optionsProvider: girlscouts.components.VTKMeetingId.Helper.getOptions,
             listeners: {
                 selectionchanged: {
                     scope:this,
@@ -115,3 +108,43 @@ girlscouts.components.VTKMeetingId = CQ.Ext.extend(CQ.form.CompositeField, {
 
 // register xtype
 CQ.Ext.reg('vtk-meeting-id', girlscouts.components.VTKMeetingId);
+
+girlscouts.components.VTKMeetingId.Helper = {
+	options: null,
+	getOptions: function() {
+		alert('getOptions');
+		if (!this.options) {
+			this.updateOptions();
+		}
+	},
+	updateOptions: function() {
+		alert('updateOptions');
+	    var http = CQ.shared.HTTP;
+	    var base = '/content/girlscouts-vtk/meetings/myyearplan/';
+		var options = new Array();
+	    var levels = ['brownie', 'junior', 'daisy'];
+
+	    for (var i = 0; i < levels.length; i++) {
+	    	var level = levels[i];
+			var path = base + level.toLowerCase() + '.1.json';
+			var response = http.get(http.externalize(path));
+			var responseJson = JSON.parse(response.responseText);
+			
+		    for (var childKey in responseJson) {
+		    	if (responseJson.hasOwnProperty(childKey) && typeof child === 'object') { // If object, then it is a child node.
+		    		// Skip CQ built-in stuff
+		    		if (childKey.indexOf('jcr:') == 0 || childKey.indexOf('cq:') == 0) {
+		    			continue;
+		        	}
+		    	
+			    	options.push({
+			    		"value": base + childKey,
+			    		"text": childKey
+			    	});
+		    	}
+		    }
+	    }
+	    
+	    this.options = options;
+	}
+};

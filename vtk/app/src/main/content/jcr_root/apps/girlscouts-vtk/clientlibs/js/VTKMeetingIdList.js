@@ -20,6 +20,8 @@
  */
 
 girlscouts.components.VTKMeetingIdList= CQ.Ext.extend(CQ.form.MultiField, {
+	options: null,
+	
     constructor: function(config) {
         config = config || {};
         defaults = {};
@@ -35,11 +37,10 @@ girlscouts.components.VTKMeetingIdList= CQ.Ext.extend(CQ.form.MultiField, {
         });
         this.add(this.hiddenField);
 
-        var form = this.findParentByType("form");
-
         // Do not submit the default value. Value will be submitted by the hidden field.
         this.name = '';
         // Cleanup before submission
+        var form = this.findParentByType("form");
         form.on('beforeaction', function(){
         	// Setup each meeting id
             var index = 1;
@@ -48,11 +49,11 @@ girlscouts.components.VTKMeetingIdList= CQ.Ext.extend(CQ.form.MultiField, {
                 	var field = item.field;
 			    	// Setup property keys
 			    	var path = './meetings/meeting' + index + '/';
-			    	field.numberField.el.dom.name = path + 'id';
-			    	field.numberField.setValue(index);
+			    	field.idField.el.dom.name = path + 'id';
+			    	field.idField.setValue(index);
 			    	index++;
 
-			    	field.meetingField.el.dom.name = path + 'refId';
+			    	field.refIdField.el.dom.name = path + 'refId';
 
 			    	field.ocmField.el.dom.name = path + 'ocm_classname';
                 }
