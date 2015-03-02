@@ -24,7 +24,6 @@ girlscouts.components.VTKMeetingIdHelper.provideOptions = function() {
 	if (!girlscouts.components.VTKMeetingIdHelper.options) {
 		girlscouts.components.VTKMeetingIdHelper.updateOptions();
 	}
-	console.info('called');
 	return girlscouts.components.VTKMeetingIdHelper.options;
 },
 girlscouts.components.VTKMeetingIdHelper.updateOptions = function() {
