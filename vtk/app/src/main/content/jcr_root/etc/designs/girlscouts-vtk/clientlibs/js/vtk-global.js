@@ -94,7 +94,7 @@ var $ = jQuery.noConflict();
 	  	 resizeWindow();
 	  	 if($('.tabs dd').length == 6) {
 	  	 	$('.tabs dd').css('width','100%');
-	  	 }
+	  	 } 	 
   });
 
 	$(window).resize(function() {

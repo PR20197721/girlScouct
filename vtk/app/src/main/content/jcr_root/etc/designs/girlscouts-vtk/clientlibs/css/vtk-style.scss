@@ -16,7 +16,6 @@
     font-size:14px;
     line-height:1.5;
   }
-
   table { 
     width: 100%; 
   }
@@ -29,7 +28,6 @@
       background: #fff;
     }
   }
-
   input[type="button"],
   .button,
   .btn {
@@ -38,6 +36,13 @@
     padding: 12px 20px;
     font-size:14px;
     line-height:1rem;
+  }
+  button.disabled,
+  button[disabled],
+  .button.disabled,
+  .button[disabled] {
+    background-color: #adadad;
+    border:none;
   }
   .add-btn,
   .add-btn * {
@@ -161,16 +166,23 @@
             background-color:#f6f6f6;
             cursor: move;
             padding-left:0;
-            &:before {
-              content:'';
-              background: url("images/throbber.png") repeat-y #fff;
-              height: 100%;
-              width: 23px;
+            .touchscroll {
               position: absolute;
-              left:-33px;
-              padding: 0 17px;
+              left: -30px;
+              height: 84px;
               cursor: move;
+              z-index: 10;
             }
+            // &:before {
+            //   content:'';
+            //   background: url("images/throbber.png") repeat-y #fff;
+            //   height: 100%;
+            //   width: 23px;
+            //   position: absolute;
+            //   left:-33px;
+            //   padding: 0 17px;
+            //   cursor: move;
+            // }
             p {
               margin:0;
               &.blurb,
@@ -267,16 +279,11 @@
               border:none;
               }
             > div  {
-              cursor: default;
               .bg-square {
                 background-color: #00abe6;
                 &:after {
                   border-color: transparent transparent transparent #00abe6;
                 }
-              }
-              &:before {
-                cursor: default !important;
-                content: none;
               }
             }
           }
@@ -552,6 +559,7 @@
         top: 0;
         border-right: 5px white solid;
         display: block;
+        z-index: 10;
       }
       a {
         font-weight: 100;
@@ -1024,23 +1032,23 @@
               display:none;
             }
             label {
-            &:before {
-              border: solid 1px #ccc;
-              content: "";
-              height: 30px;
-              width: 30px;
-              text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
-              font-size: 15px;
-              text-align: center;
-              display: inline-block;
-              float: left;
-              padding:4px;
-            }
-            p {
-              float: left;
-              margin-left: 9px;
-              max-width:75px;
-            }
+              &:before {
+                border: solid 1px #ccc;
+                content: "";
+                height: 30px;
+                width: 30px;
+                text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+                font-size: 15px;
+                text-align: center;
+                display: inline-block;
+                float: left;
+                padding:4px;
+              }
+              p {
+                float: left;
+                margin-left: 9px;
+                max-width:75px;
+              }
               span {
                 display: block;
               }
@@ -1059,22 +1067,22 @@
               display:none;
             }
             label {
-            &:before {
-              border: solid 1px #ccc;
-              content: "";
-              height: 30px;
-              width: 30px;
-              text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
-              font-size: 15px;
-              text-align: center;
-              display: inline-block;
-              float: left;
-              padding:4px;
-            }
-            p {
-              float: left;
-              margin-left: 9px;
-            }
+              &:before {
+                border: solid 1px #ccc;
+                content: "";
+                height: 30px;
+                width: 30px;
+                text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+                font-size: 15px;
+                text-align: center;
+                display: inline-block;
+                float: left;
+                padding:4px;
+              }
+              p {
+                float: left;
+                margin-left: 9px;
+              }
               span {
                 display: block;
               }
@@ -1342,23 +1350,23 @@
         display: none;
       }
       label {
-      &:before {
-        border: solid 1px #ccc;
-        content: "";
-        height: 30px;
-        width: 30px;
-        text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
-        font-size: 15px;
-        text-align: center;
-        display: inline-block;
-        float: left;
-        padding:4px;
-      }
-      p {
-        float: left;
-        margin-top: -5px;
-        margin-left: 9px;
-      }
+        &:before {
+          border: solid 1px #ccc;
+          content: "";
+          height: 30px;
+          width: 30px;
+          text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+          font-size: 15px;
+          text-align: center;
+          display: inline-block;
+          float: left;
+          padding:4px;
+        }
+        p {
+          float: left;
+          margin-top: -5px;
+          margin-left: 9px;
+        }
         span {
           display: block;
         }
@@ -1933,17 +1941,22 @@ input[type="file"] {
 @media only screen and (max-width: 40em) {
   .vtk-body #main #yearPlanMeetings ul .meeting > div {
     .touchscroll {
-      position:absolute;
-      cursor: move;
-      z-index: 100;
-      display: block !important;
-      height:83px;
-      background: #fff;
-      padding-right: 6px;
-      top: 1px;
-      left: 7px;
-      width: 23px;
+      left: 0;
+      padding: 0 5px;
+      width: 30px;
     }
+    // .touchscroll {
+    //   position:absolute;
+    //   cursor: move;
+    //   z-index: 100;
+    //   display: block !important;
+    //   height:83px;
+    //   background: #fff;
+    //   padding-right: 6px;
+    //   top: 1px;
+    //   left: 7px;
+    //   width: 23px;
+    // }
     .bg-square {
       left:30px;
       &:after {
@@ -1951,13 +1964,27 @@ input[type="file"] {
       }
     }
     &:before {
-      background: #fff;
-      left:-30px;
+      // background: #fff;
+      left:0px;
     }
     > div:nth-of-type(2) {
       padding-left: 115px;
     }
   } 
+  .vtk-body #main #yearPlanMeetings ul {
+    .meeting {
+      > div {
+          &:before {
+            background: #fff;
+            width: 30px;
+            content: "";
+            position: absolute;
+            left: 0;
+            height: 100%;
+          }
+        }
+      }
+    }
   .vtk-body #main #yearPlanMeetings > .row > div.column {
     padding-left:5px;
     padding-right:5px;
@@ -2022,16 +2049,15 @@ input[type="file"] {
   }
   .vtk-body #main #yearPlanMeetings ul .meeting > div {
     .touchscroll {
-      position:absolute;
-      cursor: move;
-      z-index: 100;
-      display: block !important;
-      height:83px;
-      background: #fff;
-      padding-right: 6px;
-      left:-30px;
-      width: 23px;
-
+      // position:absolute;
+      // cursor: move;
+      // z-index: 100;
+      // display: block !important;
+      // height:83px;
+      // background: #fff;
+      // padding-right: 6px;
+      // left:-30px;
+      // width: 23px;
     }
   }
   //my troop page accordion 
