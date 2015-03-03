@@ -82,7 +82,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			pages.add(buildPage(manager, session, languagePath, "Ad Page", null, "ad-page", "", "girlscouts/components/ad-list-page", null));
 			pages.add(buildPage(manager, session, languagePath, "Search | " + councilTitle, "Search | " + councilTitle, "site-search", "", "girlscouts/components/three-column-page", null));
 			pages.add(buildPage(manager, session, languagePath, "Map", null, "map", "", "girlscouts/components/map", null));
-			pages.add(buildPage(manager, session, languagePath, "404", null, "404", "", "girlscouts/components/error-page", null));
+			pages.add(buildPage(manager, session, languagePath, "404", null, "404", "", "girlscouts/components/error-page-404", null));
 			pages.add(buildRepository(manager, session, languagePath, "events-repository", "", "Events Repository"));
 			pages.add(buildRepository(manager, session, languagePath, "contacts", "", "Contacts"));
 			pages.add(buildRepository(manager, session, languagePath, "milestones", "", "Milestones"));
@@ -274,6 +274,10 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			if(groupName.equals(AUTHORS)) {
 				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName, "READ_WRITE"), acm, session).getPrivilegeList());
 				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName + "/en", "MODIFY", "*/jcr:content*"), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName + "/en/ad-page", "REPLICATE"), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName + "/en/contacts", "REPLICATE"), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName + "/en/events-repository", "REPLICATE"), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName + "/en/milestones", "REPLICATE"), acm, session).getPrivilegeList());
 				aclList.add(new PermissionsSetter(new Rule(principal, "/content/dam/" + councilName, "READ_WRITE_MODIFY_REPLICATE"), acm, session).getPrivilegeList());
 				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/tags/" + councilName, "READ_WRITE_MODIFY_REPLICATE"), acm, session).getPrivilegeList());
 				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/scaffolding/" + councilName, "READ"), acm, session).getPrivilegeList());
@@ -370,6 +374,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			try {
 				map.put("READ", new Privilege[]{manager.privilegeFromName(Privilege.JCR_READ)});
 				map.put("MODIFY", new Privilege[]{manager.privilegeFromName(Privilege.JCR_ADD_CHILD_NODES), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_REMOVE_CHILD_NODES), manager.privilegeFromName(Privilege.JCR_REMOVE_NODE)});
+			    map.put("REPLICATE", new Privilege[]{manager.privilegeFromName(Replicator.REPLICATE_PRIVILEGE)});
 				map.put("READ_WRITE", new Privilege[]{manager.privilegeFromName(Privilege.JCR_READ), manager.privilegeFromName(Privilege.JCR_ADD_CHILD_NODES), manager.privilegeFromName(Privilege.JCR_LOCK_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_MODIFY_PROPERTIES), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_VERSION_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT)});
 				map.put("READ_WRITE_REPLICATE_DELETE", new Privilege[]{manager.privilegeFromName(Replicator.REPLICATE_PRIVILEGE), manager.privilegeFromName(Privilege.JCR_LOCK_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_READ), manager.privilegeFromName(Privilege.JCR_VERSION_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_WRITE), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT)});
 			    map.put("READ_WRITE_MODIFY_REPLICATE", new Privilege[]{manager.privilegeFromName(Replicator.REPLICATE_PRIVILEGE), manager.privilegeFromName(Privilege.JCR_ADD_CHILD_NODES), manager.privilegeFromName(Privilege.JCR_LOCK_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_MODIFY_PROPERTIES), manager.privilegeFromName(Privilege.JCR_NODE_TYPE_MANAGEMENT), manager.privilegeFromName(Privilege.JCR_READ), manager.privilegeFromName(Privilege.JCR_VERSION_MANAGEMENT)});
