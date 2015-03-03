@@ -55,6 +55,11 @@
   <div class="hero-image">
     <%
             if (!resourceResolver.resolve(troopPhotoUrl).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+		if (request.getParameter("newTroopPhoto") != null) {
+			Random r  = new Random();
+			troopPhotoUrl += "?pid=";
+			troopPhotoUrl += r.nextInt();
+		}
     %>
         <img src="<%=troopPhotoUrl %>" alt="GirlScouts Troop <%=troop.getTroop().getTroopName()%> Photo" />
         <a data-reveal-id="modal_upload_image" title="update photo" href="#nogo" title="upload image"><i class="icon-photo-camera"></i></a>
