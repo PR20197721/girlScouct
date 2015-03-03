@@ -278,7 +278,7 @@ public class SalesforceDAO {
 		return null;
 	}
 
-	// master
+	
 	private String refreshToken(String refreshToken) {
 
 		String newAccessToken = null;
@@ -297,7 +297,7 @@ public class SalesforceDAO {
 		try {
 			httpclient.executeMethod(post);
 
-			log.debug("REfreshing Token " + refreshToken + "****** "
+System.err.println("REfreshing Token " + refreshToken + "****** "
 					+ post.getStatusCode() + " :::::: "
 					+ post.getResponseBodyAsString());
 			if (post.getStatusCode() == HttpStatus.SC_OK) {
@@ -305,7 +305,8 @@ public class SalesforceDAO {
 					JSONObject authResponse = new JSONObject(new JSONTokener(
 							new InputStreamReader(
 									post.getResponseBodyAsStream())));
-
+System.err.println("tata55: "+ authResponse );					
+System.err.println("tata55: newAccessToken "+ authResponse.getString("access_token") );
 					return authResponse.getString("access_token");
 
 				} catch (JSONException e) {
@@ -326,6 +327,11 @@ public class SalesforceDAO {
 
 	public java.util.List<Contact> getContacts(ApiConfig apiConfig,String sfTroopId) {
 
+		System.err.println("tata55 start refresh token");
+		String newtoken= refreshToken( apiConfig.getRefreshToken() );
+		System.err.println("tata55 : newToken rcvd"+ newtoken);
+		
+		
 			System.err.println("test*************** APEX START *************************");
 
 			java.util.List<Contact> contacts = new java.util.ArrayList();
@@ -571,4 +577,6 @@ public class SalesforceDAO {
 				
 		return troops;
 	}
+	
+	
 }
