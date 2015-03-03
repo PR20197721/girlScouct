@@ -579,7 +579,6 @@ public class SalesforceDAO {
 
 									if( contactId.equals("005Z0000002J5CYIA0")){
 
-
 									System.err.println( "tester in");
 
 									rollType=org.girlscouts.vtk.auth.permission.RollType.valueOf("PA");

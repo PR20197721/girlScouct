@@ -263,11 +263,15 @@ if( meetingEs!=null){
 	}
 
 	public void changeMeetingPositions(User user, Troop troop, String newPositions) throws IllegalAccessException {
+
+
+System.err.println("test123 start");		
+		
 		if (!userUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID)) {
 			troop.setErrCode("112");
 			throw new IllegalAccessException();
 		}
-
+System.err.println("test123 yes");
 		java.util.List<Integer> newMeetingSetup = new java.util.ArrayList();
 		java.util.StringTokenizer t = new java.util.StringTokenizer(
 				newPositions, ",");

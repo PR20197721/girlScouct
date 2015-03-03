@@ -21,11 +21,12 @@
  <div id="panelWrapper" class="row meeting-detail content">
    <%@include file="include/utility_nav.jsp"%>
    
-   <%if(  hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ){%>
+   <%if( hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ){%>
        <%@include file="include/view_yp_dropdown.jsp"%>
    <%} %>
    
-   <%if(  hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) && troop.getYearPlan().getMeetingEvents()==null || troop.getYearPlan().getMeetingEvents().size()<=0 ){ %>
+   <%if( hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) &&
+		   (troop.getYearPlan()==null || troop.getYearPlan().getMeetingEvents()==null || troop.getYearPlan().getMeetingEvents().size()<=0) ){ %>
     <div style="background-color:yellow;">
         <b>Custom Year Plan:</b>
         <br/>Start adding meetings and/or activities to your custom plan
