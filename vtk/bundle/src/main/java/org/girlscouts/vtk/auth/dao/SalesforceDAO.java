@@ -16,6 +16,7 @@ import org.girlscouts.vtk.auth.models.User;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.TroopDAO;
+import org.girlscouts.vtk.helpers.ConfigManager;
 import org.girlscouts.vtk.models.Contact;
 import org.girlscouts.vtk.models.UserGlobConfig;
 import org.girlscouts.vtk.salesforce.Troop;
@@ -31,6 +32,9 @@ public class SalesforceDAO {
 	// private final Logger log = LoggerFactory.getLogger(SalesforceDAO.class);
 	private final Logger log = LoggerFactory.getLogger("vtk");
 
+	//@Reference
+	//private ConfigManager configManager;
+	
 	String OAuthUrl;
 	String clientId;
 	String clientSecret;
@@ -40,6 +44,7 @@ public class SalesforceDAO {
 
 	public SalesforceDAO(TroopDAO troopDAO) {
 		this.troopDAO = troopDAO;
+		//this.clientId = configManager.getConfig("clientId");
 	}
 
 	public User getUser(ApiConfig config) {
@@ -145,8 +150,12 @@ public class SalesforceDAO {
 						e.printStackTrace();
 					}
 
-					//java.util.List<Troop> troops = troopInfo(config, user.getContactId());
+					
+					
+					 //java.util.List<Troop> troops = troopInfo(config, user.getContactId());
+					 
 					java.util.List<Troop> troops = troopInfo(config, user.getSfUserId());
+					/*
 					if (troops == null || troops.size() <= 0) {
 						log.debug("Trying troops 2 time....");
 						UserGlobConfig ubConf = troopDAO.getUserGlobConfig();
@@ -162,6 +171,7 @@ public class SalesforceDAO {
 						}
 						troops = troopInfo(config, user.getSfUserId());
 					}
+					*/
 					config.setTroops(troops);
 
 					return user;
@@ -261,6 +271,14 @@ public class SalesforceDAO {
 					if (refreshTokenStr != null) {
 						config.setRefreshToken(refreshTokenStr);
 					}
+					
+					
+					
+					//should be set here at all. bad idea. cq problems
+					config.setCallbackUrl(callbackUrl);
+					config.setClientId(clientId);
+					config.setClientSecret(clientSecret);
+					config.setOAuthUrl(OAuthUrl);
 					return config;
 				} catch (JSONException e) {
 					log.error("JSON Parse exception: " + e.toString());
@@ -278,35 +296,36 @@ public class SalesforceDAO {
 		return null;
 	}
 
-	// master
-	private String refreshToken(String refreshToken) {
+	
+	private ApiConfig refreshToken(ApiConfig config) {
 
 		String newAccessToken = null;
 
 		HttpClient httpclient = new HttpClient();
 
-		String tokenUrl = OAuthUrl + "/services/oauth2/token";
-
+		//String tokenUrl = OAuthUrl + "/services/oauth2/token";
+		String tokenUrl = config.getOAuthUrl() + "/services/oauth2/token";
+		
 		PostMethod post = new PostMethod(tokenUrl);
 		// post.addParameter("code", code);
 		post.addParameter("grant_type", "refresh_token");
-		post.addParameter("client_id", clientId);
-		post.addParameter("client_secret", clientSecret);
-		post.addParameter("refresh_token", refreshToken);
+		post.addParameter("client_id", config.getClientId() );
+		post.addParameter("client_secret", config.getClientSecret());
+		post.addParameter("refresh_token", config.getRefreshToken());
 
 		try {
 			httpclient.executeMethod(post);
 
-			log.debug("REfreshing Token " + refreshToken + "****** "
+/*System.err.println("REfreshing Token " + config.getRefreshToken() + "****** "
 					+ post.getStatusCode() + " :::::: "
 					+ post.getResponseBodyAsString());
-			if (post.getStatusCode() == HttpStatus.SC_OK) {
+*/
+if (post.getStatusCode() == HttpStatus.SC_OK) {
 				try {
 					JSONObject authResponse = new JSONObject(new JSONTokener(
 							new InputStreamReader(
 									post.getResponseBodyAsStream())));
-
-					return authResponse.getString("access_token");
+					config.setAccessToken( authResponse.getString("access_token") );
 
 				} catch (JSONException e) {
 					log.error("JSON Parse exception: " + e.toString());
@@ -318,14 +337,16 @@ public class SalesforceDAO {
 		} catch (Exception e) {
 			log.error("Error executing HTTP POST when authenticating: "
 					+ e.toString());
+			e.printStackTrace();
 		} finally {
 			post.releaseConnection();
 		}
-		return null;
+		return config;
 	}
 
 	public java.util.List<Contact> getContacts(ApiConfig apiConfig,String sfTroopId) {
 
+		
 			System.err.println("test*************** APEX START *************************");
 
 			java.util.List<Contact> contacts = new java.util.ArrayList();
@@ -351,9 +372,15 @@ public class SalesforceDAO {
 			    //UserGlobConfig ubConf = troopDAO.getUserGlobConfig(); 
 
 			    //method.setRequestHeader("Authorization", "OAuth " + ubConf.getMasterSalesForceToken());
-
-			    method.setRequestHeader("Authorization", "OAuth " +apiConfig.getAccessToken());
-
+				/*
+			    	//check token valid : 25min
+			    java.util.Calendar validTokenTime = java.util.Calendar.getInstance();
+				validTokenTime.add(java.util.Calendar.MINUTE, -20);
+			    if( validTokenTime.getTimeInMillis() < apiConfig.getLastTimeTokenRefreshed() )	
+			    	apiConfig =refreshToken( apiConfig );
+			    */
+			    //-method.setRequestHeader("Authorization", "OAuth " +apiConfig.getAccessToken());
+			    method.setRequestHeader("Authorization", "OAuth " +getToken( apiConfig));
 			   
 
 			   
@@ -479,8 +506,9 @@ public class SalesforceDAO {
 		System.err.println("**OAuth** URL  "+ apiConfig.getWebServicesUrl() +"/services/apexrest/activeUserTroopData?userId="+ contactId);
 		
 		    try {
-		    method.setRequestHeader("Authorization", "OAuth " +apiConfig.getAccessToken());
-
+		   // method.setRequestHeader("Authorization", "OAuth " +apiConfig.getAccessToken());
+		    	 method.setRequestHeader("Authorization", "OAuth " +getToken( apiConfig));
+		    	 
 		      int statusCode = client.executeMethod(method);
 
 
@@ -570,5 +598,17 @@ public class SalesforceDAO {
 					}
 				
 		return troops;
+	}
+	
+	private String getToken( ApiConfig apiConfig ){
+		
+		    java.util.Calendar validTokenTime = java.util.Calendar.getInstance();
+			validTokenTime.add(java.util.Calendar.MINUTE, -20);
+			
+			if( validTokenTime.getTimeInMillis() > apiConfig.getLastTimeTokenRefreshed() )	
+		    	apiConfig =refreshToken( apiConfig );
+		    
+		    
+		    return apiConfig.getAccessToken() ;
 	}
 }
