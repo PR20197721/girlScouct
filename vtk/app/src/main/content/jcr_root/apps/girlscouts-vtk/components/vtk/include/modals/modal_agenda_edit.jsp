@@ -15,10 +15,10 @@
 					out.println("Overview");
 					act="isOverview";
 			} else if (request.getParameter("isActivity") != null) {
-					out.println("Activity");
+					out.println("Activity Plan");
 					act="isActivity";
 			} else if (request.getParameter("isMaterials") != null) {
-					out.println("Materials");
+					out.println("Materials List");
 					act="isMaterials";
 			} else if (request.getParameter("isAgenda") != null) {
 				out.println("Agenda");

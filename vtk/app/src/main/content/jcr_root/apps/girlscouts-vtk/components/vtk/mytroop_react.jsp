@@ -55,6 +55,11 @@
   <div class="hero-image">
     <%
             if (!resourceResolver.resolve(troopPhotoUrl).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+		if (request.getParameter("newTroopPhoto") != null) {
+			Random r  = new Random();
+			troopPhotoUrl += "?pid=";
+			troopPhotoUrl += r.nextInt();
+		}
     %>
         <img src="<%=troopPhotoUrl %>" alt="GirlScouts Troop <%=troop.getTroop().getTroopName()%> Photo" />
         <a data-reveal-id="modal_upload_image" title="update photo" href="#nogo" title="upload image"><i class="icon-photo-camera"></i></a>
@@ -81,7 +86,6 @@
                   <dl class="accordion-inner clearfix" data-accordion>
                     <dt data-target="panel<%=i+1%>b" class="clearfix">
                       <span class="name column large-10"><%=contact.getFirstName() %></span>
-                     <!--  <span class="name column large-4 hide-for-small">&nbsp;</span> -->
                         <a class="column large-10 email" href="mailto:<%=_email%>">
                         <i class="icon icon-mail"></i><%=contact.getEmail() %>
                       </a>
@@ -99,32 +103,39 @@
                          <ul class="column large-18">
                            <li class="row">
                               <p><strong>Secondary Info:</strong></p>
+			      <p>
                               <span class="column large-5">Janie Berger</span>
-                              <a class="column large-13 email" href="mailto:<%=_email%>"><i class="icon icon-mail"></i><%=contact.getEmail() %></a>
+                              <a class="column large-14 email" href="mailto:<%=_email%>"><i class="icon icon-mail"></i><%=contact.getEmail() %></a>
                               <span class="column large-5">999.999.9999</span>
+			      </p>
                             </li>
                             <li class="row">
                               <p><strong>Achievements:</strong></p>
-                              <p>
-                                 <%
-  		                            for(int y=0;y<infos.size();y++){
-                                   if(infos.get(y).isAchievement()){
-                                	  %><%= infos.get(y).getYearPlanComponent().getType()== YearPlanComponentType.MEETING ? ((MeetingE) infos.get(y).getYearPlanComponent()).getMeetingInfo().getName() : "" %>,<% 
-                                   }
-  		                          }
-  		                          %>
-                              </p>
+<p>
+<%
+boolean isFirstItem = true;
+for(int y=0;y<infos.size();y++){
+	if(infos.get(y).isAchievement() && infos.get(y).getYearPlanComponent().getType()== YearPlanComponentType.MEETING) {
+		if (!isFirstItem) {
+			out.println(",");
+		}
+		out.println(((MeetingE) infos.get(y).getYearPlanComponent()).getMeetingInfo().getName());
+		isFirstItem = false;
+	}
+}
+%>
+</p>
                              </li>
                              <li class="row">
-                              <p><strong>Meeting Attended:</strong></p>
-                              <p> 
-                                <% for(int y=0;y<infos.size();y++){
-                                 if(infos.get(y).isAttended()){
-                                    %><%=fmr_ddmm.format(sched_bm_inverse.get( infos.get(y).getYearPlanComponent() )) %>,<% 
-                                 }
-  			                        }
-  			                        %>     
-                              </p>
+                              <p><strong>Meetings Attended:</strong></p>
+				<p>
+                              <% for(int y=0;y<infos.size();y++) {
+                                  if(infos.get(y).isAttended()) {
+                                    out.println(fmr_ddmm.format(sched_bm_inverse.get( infos.get(y).getYearPlanComponent())));
+                                    out.println((infos.size() > 1 && infos.size()-1 !=y) ? "," : "");
+                                  }
+                              } %>
+				</p>
                             </li>                          
                          </ul>
                       </div>

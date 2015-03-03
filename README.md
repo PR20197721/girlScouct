@@ -1,4 +1,4 @@
 girlscouts
 ==========
 
-Girl Scouts web platform and volunteer toolkit code base.
+Girl Scouts web platform and Volunteer Toolkit code base.

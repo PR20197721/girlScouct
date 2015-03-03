@@ -111,6 +111,11 @@ function newLocCal(){
 	loadModalPage('/content/girlscouts-vtk/controllers/vtk.locations.html', false, null, true, false);
 }
 
+function newLocCal_withTarget(tabIndex){
+	closeModalPage();
+	loadModalPage('/content/girlscouts-vtk/controllers/vtk.locations.html?tabIndex=location', false, null, true, false);
+}
+
 function closeModalPage() {
         try {
                 $("#gsModal").dialog( "close");
