@@ -22,10 +22,8 @@
 	boolean isCachableContacts=false;
 	
 	public boolean hasPermission(Troop troop, int permissionId) {
-		java.util.Set<Integer> myPermissionTokens = troop.getTroop()
-				.getPermissionTokens();
-		if (myPermissionTokens != null
-				&& myPermissionTokens.contains(permissionId))
+		java.util.Set<Integer> myPermissionTokens = troop.getTroop().getPermissionTokens();
+		if (myPermissionTokens != null && myPermissionTokens.contains(permissionId))
 			return true;
 
 		return false;
