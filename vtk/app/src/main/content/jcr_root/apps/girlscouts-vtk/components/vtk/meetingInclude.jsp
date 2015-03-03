@@ -115,9 +115,9 @@ if( troop.getYearPlan().getSchedule()!=null ){ //sched exists
       var scrollTarget = "";
       if (Modernizr.touch) {
         // touch device
-        scrollTarget = ".touchscroll";
+        //scrollTarget = ".touchscroll";
       } else {
-        $(".touchscroll").hide();
+       // $(".touchscroll").hide();
       }
       $("#sortable123").sortable({
         items: "li:not(.ui-state-disabled)",

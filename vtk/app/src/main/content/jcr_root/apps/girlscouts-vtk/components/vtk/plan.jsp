@@ -145,11 +145,9 @@
         link_bg_square();
 
       if (Modernizr.touch) {
-
         scrollTarget = ".touchscroll";
       } else {
-
-        $(".touchscroll").hide();
+        // $(".touchscroll").hide();
       }
 
           var dom = $(this.getDOMNode());
@@ -166,26 +164,24 @@
           handle: scrollTarget,
           helper:'clone',
 
-            stop: function (event, ui) {
-              var order = dom.sortable("toArray", {attribute: "id"});
-              var yy  = order.toString().replace('"',''); 
-                doUpdMeeting1(yy);
-                onReorder(order);
-            },
-            start: function(event, ui) {
-            //$(ui.item).sortable('cancel');  
-            //dom.sortable('cancel');           
+          stop: function (event, ui) {
+            var order = dom.sortable("toArray", {attribute: "id"});
+            var yy  = order.toString().replace('"',''); 
+              doUpdMeeting1(yy);
+              onReorder(order);
+          },
+          start: function(event, ui) {
+          //$(ui.item).sortable('cancel');  
+          //dom.sortable('cancel');           
         }
     }).disableSelection();
       },
       componentWillUpdate: function() {
-
-
       if (Modernizr.touch) {
         // touch device
         scrollTarget = ".touchscroll";
       } else {
-        $(".touchscroll").hide();
+        // $(".touchscroll").hide();
       }
 
         var dom = $(this.getDOMNode());
@@ -224,10 +220,9 @@
          if( !imageExists( src ) ){ 
             imgReturn="hide"; 
          }
-            return (
-      	     	<img src={src} className={imgReturn}/>
-             );
-          
+          return (
+    	     	<img src={src} className={imgReturn}/>
+           );        
         }
       });
 
@@ -271,15 +266,14 @@
          }
         }
 
-        function imageExists(image_url){
+        function imageExists(image_url) {
 
-            var http = new XMLHttpRequest();
+          var http = new XMLHttpRequest();
 
-            http.open('HEAD', image_url, false);
-            http.send();
+          http.open('HEAD', image_url, false);
+          http.send();
 
-            return http.status != 404;
-
+          return http.status != 404;
         }
       </script>  
     </div>
