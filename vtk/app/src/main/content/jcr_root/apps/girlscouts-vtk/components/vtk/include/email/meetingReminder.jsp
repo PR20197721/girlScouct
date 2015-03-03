@@ -133,7 +133,7 @@
 			
 			//For testing on local set default council since gateway doesn't have tags
 			if(branch == null || branch.isEmpty() || branch.equals("gateway")){
-				branch = "gsctx";
+				branch = "gsnetx";
 			}
 			
 			org.girlscouts.vtk.utils.DocumentUtil docUtil = new org.girlscouts.vtk.utils.DocumentUtil(resourceResolver, sling.getService(com.day.cq.tagging.JcrTagManagerFactory.class), branch);
