@@ -6,7 +6,10 @@
           <!--if on YP page this menu shows-->
             <% if("plan".equals(activeTab)) { 
            		if (troop.getYearPlan() != null) { %>
-            		<li><a href="#" onclick="newLocCal()" title="Metting Dates and Location">Specify Dates and Locations</a></li>
+            		
+            		 <%if( troop.getYearPlan().getMeetingEvents()!=null && troop.getYearPlan().getMeetingEvents().size()>0 ){ %>
+            		  <li><a href="#" onclick="newLocCal()" title="Metting Dates and Location">Specify Dates and Locations</a></li>
+            		<%} %>
             		<li><a href="#" onclick="doMeetingLib()" title="Add Meeting">Add Meeting</a></li>
             		<li><a href="#" onclick="newActivity()" title="Add Activity">Add Activity</a></li>
           		<% }

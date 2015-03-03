@@ -23,15 +23,12 @@
    <%@include file="include/view_yp_dropdown.jsp"%>
    
    <%if( troop.getYearPlan().getMeetingEvents()==null || troop.getYearPlan().getMeetingEvents().size()<=0 ){ %>
-    <div style="background-color:yellow;">
+      <div style="background-color:yellow;">
         <b>Custom Year Plan:</b>
         <br/>Start adding meetings and/or activities to your custom plan
-       <ul>
-        <li><a href="#" onclick="doMeetingLib()" title="Add Meeting">Add Meeting</a></li>
-        <li><a href="#" onclick="newActivity()" title="Add Activity">Add Activity</a></li>
-        </ul>
-    </div>
-    <%} %>
+       
+      </div>
+    <%} %> 
     
     
   <div id="yearPlanMeetings">
@@ -112,7 +109,12 @@
       				  <div className="row">
       				    <div className="column large-20 medium-20 large-centered medium-centered">
         					  <h1 className="yearPlanTitle">{this.props.yearPlanName}</h1>
-        					  <p className="hide-for-print">Drag and drop to reorder meetings</p> 
+        	
+    <%if( troop.getYearPlan().getMeetingEvents()==null || troop.getYearPlan().getMeetingEvents().size()<=0 ){ %>
+      
+    <%}else{ %>				  
+        <p className="hide-for-print">Drag and drop to reorder meetings</p> 
+    <%}%>
       					  </div>
       				  </div>
       					<MeetingComponent key={this.props.data} data={this.props.data} onReorder={this.onReorder}/> 
