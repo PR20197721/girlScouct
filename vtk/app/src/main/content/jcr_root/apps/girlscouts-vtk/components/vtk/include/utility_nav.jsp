@@ -4,13 +4,13 @@
       <div class="columns small-18 medium-19">
         <ul id="sub-nav" class="inline-list hide-for-print">
           <!--if on YP page this menu shows-->
-            <% if("plan".equals(activeTab)) { 
-           		if (troop.getYearPlan() != null) { %>
+            <% 
+           		if (plan".equals(activeTab) && hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) && troop.getYearPlan() != null ) { %>
             		<li><a href="#" onclick="newLocCal()" title="Metting Dates and Location">Specify Dates and Locations</a></li>
             		<li><a href="#" onclick="doMeetingLib()" title="Add Meeting">Add Meeting</a></li>
             		<li><a href="#" onclick="newActivity()" title="Add Activity">Add Activity</a></li>
           		<% }
-            } %>
+             %>
 
           <!-- if on Meeting Detail Page-->
             <% if("planView".equals(activeTab)) { %>
