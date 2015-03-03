@@ -288,6 +288,7 @@
             mode="replace"
             root="/apps/wcm"
             rules="[]"/>
+<<<<<<< HEAD
  		 <f56
             jcr:primaryType="sling:Folder"
             mode="replace"

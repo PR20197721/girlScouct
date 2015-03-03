@@ -1319,3 +1319,33 @@ form .form_captcha_input {
 .update-list .more-link:after {
   content:">";
 }
+
+/******************************/
+/**********404 Page************/
+/******************************/
+
+.page-404 {
+  padding-top: 30px;
+}
+
+.page-404 .searchBar {
+padding: 40px 0px 40px 0;
+}
+
+.page-404 .searchBar form{
+  position:relative;
+}
+
+.page-404 .searchBar form input[type="text"] {
+  padding:0 10px;
+}
+
+.page-404 .searchBar form:after {
+  font-family: "JollyFont";
+  position: absolute;
+  content: "\e66c";
+  color: rgb(0, 174, 88);
+  top: .5rem;
+  right: 1%;
+  font-size: 1.3em;
+}
