@@ -28,8 +28,9 @@
     	var isActivNew;
     	var isFirst=1;
       var meetingPassed=false;
-var scrollTarget = "";
+      var scrollTarget = "";
       var CommentBox = React.createClass({
+
        loadCommentsFromServer: function( isFirst ) {
        console.log("loading.." + (isActivNew) +" : "+isFirst+ " : "+(isFirst ==1));
          $.ajax({
@@ -74,11 +75,11 @@ var scrollTarget = "";
         },
         render: function() {
         	var x, yearPlanName;   	
-        	if( this.state.data.schedule!=null){
-        		x =  this.state.data.schedule;
-  			yearPlanName = this.state.data.yearPlan;       
-        		return (
-         			 <YearPlanComponents yearPlanName={yearPlanName} data={x} /> 
+        	if( this.state.data.schedule!=null) {
+        	   x =  this.state.data.schedule;
+  			     yearPlanName = this.state.data.yearPlan;       
+        		  return (
+         			  <YearPlanComponents yearPlanName={yearPlanName} data={x} /> 
         	    );
         	} else {
         		return <div></div>;
@@ -91,16 +92,16 @@ var scrollTarget = "";
         },
         render: function() {
           return ( 
-  			<div id="yearPlanMeetings" className="columns">
-  				  <div className="row">
-  				    <div className="column large-20 medium-20 large-centered medium-centered">
-    					  <h1 className="yearPlanTitle">{this.props.yearPlanName}</h1>
-    					  <p className="hide-for-print">Drag and drop to reorder meetings</p> 
-  					  </div>
-  				  </div>
-  					<MeetingComponent key={this.props.data} data={this.props.data} onReorder={this.onReorder}/> 
-  			</div>			
-  	    );
+      			<div id="yearPlanMeetings" className="columns">
+      				  <div className="row">
+      				    <div className="column large-20 medium-20 large-centered medium-centered">
+        					  <h1 className="yearPlanTitle">{this.props.yearPlanName}</h1>
+        					  <p className="hide-for-print">Drag and drop to reorder meetings</p> 
+      					  </div>
+      				  </div>
+      					<MeetingComponent key={this.props.data} data={this.props.data} onReorder={this.onReorder}/> 
+      			</div>			
+  	       );
         } //end of render
       });
 
@@ -122,7 +123,7 @@ var scrollTarget = "";
     									return <%@include file="include/view_meeting.jsp" %> 
     							  }else if( obj[comment].type == 'ACTIVITY' ){
     									return <%@include file="include/view_activity.jsp" %>
-    							  }else if( obj[comment].type == 'MILESTONE' ){
+    							  }else if( obj[comment].type == 'MILESTONE' && obj[comment].show){
     									return <%@include file="include/view_milestone.jsp" %>
     							  }
 
@@ -140,8 +141,8 @@ var scrollTarget = "";
         alert(1);
       },
       componentDidMount: function() {
-resizeWindow();
-
+        resizeWindow();
+        link_bg_square();
 
       if (Modernizr.touch) {
 
@@ -156,14 +157,14 @@ resizeWindow();
           dom.sortable({
           items: "li:not(.ui-state-disabled)",
 
-        delay:150,
-        distance: 5,
-        opacity: 0.5 ,
-        scroll: true,
-        scrollSensitivity: 10 ,
-        tolerance: "intersect" ,
-        handle: scrollTarget,
-        helper:'clone',
+          delay:150,
+          distance: 5,
+          opacity: 0.5 ,
+          scroll: true,
+          scrollSensitivity: 10 ,
+          tolerance: "intersect" ,
+          handle: scrollTarget,
+          helper:'clone',
 
             stop: function (event, ui) {
               var order = dom.sortable("toArray", {attribute: "id"});
@@ -171,7 +172,7 @@ resizeWindow();
                 doUpdMeeting1(yy);
                 onReorder(order);
             },
-    start: function(event, ui) {
+            start: function(event, ui) {
             //$(ui.item).sortable('cancel');  
             //dom.sortable('cancel');           
         }
@@ -192,7 +193,7 @@ resizeWindow();
         dom.sortable({
         items: "li:not(.ui-state-disabled)",
 
-      delay:150,
+        delay:150,
         distance: 5,
         opacity: 0.5 ,
         scroll: true,
@@ -202,13 +203,13 @@ resizeWindow();
         helper:'clone',
 
 
-            stop: function (event, ui) {
-            	var order = dom.sortable("toArray", {attribute: "id"});
-            	var yy  = order.toString().replace('"','');
-                doUpdMeeting1(yy); 
-                onReorder(order);
-            },
-    start: function(event, ui) {
+        stop: function (event, ui) {
+        	var order = dom.sortable("toArray", {attribute: "id"});
+        	var yy  = order.toString().replace('"','');
+            doUpdMeeting1(yy); 
+            onReorder(order);
+        },
+        start: function(event, ui) {
            // dom.sortable('cancel');       
       }
     }).disableSelection();
@@ -233,7 +234,7 @@ resizeWindow();
     var ViewMeeting = React.createClass({
         render: function() {
           var date  = new Date(this.props.date).getTime();
-  		    var src= "/content/girlscouts-vtk/en/vtk.details.html?elem="+date;
+  		    var src = "/content/girlscouts-vtk/en/vtk.details.html?elem="+date;
           return (
       		  <a href={src}>{this.props.name}</a>
           );
@@ -253,37 +254,33 @@ resizeWindow();
           document.getElementById('thePlan')
         );
 
-function testrr(obj, comment){ 
+        function bgcolor(obj, comment){ 
 
- if(  moment(comment).get('year') < 1978 ){
-    return "bg-square";
- }else if(  moment(comment) < moment( new Date()) ){
-    return "bg-square passed";
- }else if(meetingPassed && 
-    moment(comment) > moment( new Date())) {
-  meetingPassed= false;
-  return "bg-square current";
- }else if( obj[comment].cancelled =='true' ){
-    return "bg-square canceled";
- }else{
-    return "bg-square";
- }
-}
+         if(  moment(comment).get('year') < 1978 ){
+            return "bg-square";
+         }else if(  moment(comment) < moment( new Date()) ){
+            return "bg-square passed";
+         }else if(meetingPassed && 
+            moment(comment) > moment( new Date())) {
+          meetingPassed= false;
+          return "bg-square current";
+         }else if( obj[comment].cancelled =='true' ){
+            return "bg-square canceled";
+         }else{
+            return "bg-square";
+         }
+        }
 
-function imageExists(image_url){
+        function imageExists(image_url){
 
-    var http = new XMLHttpRequest();
+            var http = new XMLHttpRequest();
 
-    http.open('HEAD', image_url, false);
-    http.send();
+            http.open('HEAD', image_url, false);
+            http.send();
 
-    return http.status != 404;
+            return http.status != 404;
 
-}
-
-
-
-
+        }
       </script>  
     </div>
   </div>

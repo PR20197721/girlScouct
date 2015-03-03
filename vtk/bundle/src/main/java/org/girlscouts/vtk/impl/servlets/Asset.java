@@ -208,7 +208,7 @@ public class Asset extends SlingAllMethodsServlet {
                         response.addHeader("Expires", "Mon, 26 Jul 2014 05:00:00 GMT");
                         response.addHeader("Pragma", "no-cache");
 			response.addHeader("newTroopPhoto", "true");
-			response.sendRedirect("/content/girlscouts-vtk/en/vtk.myTroop.html");
+			response.sendRedirect("/content/girlscouts-vtk/en/vtk.myTroop.html?newTroopPhoto=true");
 		}
 	}
 

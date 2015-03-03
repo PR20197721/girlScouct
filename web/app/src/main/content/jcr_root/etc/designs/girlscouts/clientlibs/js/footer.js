@@ -30,7 +30,15 @@
         $('.footer-navigation > div:nth-of-type(2) ul').css('text-align', 'right');
       }
   }
+  function link_bg_square() {
+    $(".meeting").each(function() {
+    var test = $(this).find('.subtitle a').attr('href');
 
+      $(this).find('.bg-square').on('click', function(){
+        location.href = test;
+      })
+    });
+  }
 $(document).ready(function(){
  resizeWindow();
  addClassGrid();
