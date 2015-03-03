@@ -83,9 +83,9 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			pages.add(buildPage(manager, session, languagePath, "Search | " + councilTitle, "Search | " + councilTitle, "site-search", "", "girlscouts/components/three-column-page", null));
 			pages.add(buildPage(manager, session, languagePath, "Map", null, "map", "", "girlscouts/components/map", null));
 			pages.add(buildPage(manager, session, languagePath, "404", null, "404", "", "girlscouts/components/error-page-404", null));
-			pages.add(buildRepository(manager, session, languagePath, "events-repository", "", "Events Repository"));
-			pages.add(buildRepository(manager, session, languagePath, "contacts", "", "Contacts"));
-			pages.add(buildRepository(manager, session, languagePath, "milestones", "", "Milestones"));
+			pages.add(buildRepositoryPage(manager, session, languagePath, "events-repository", "", "Events Repository"));
+			pages.add(buildRepositoryPage(manager, session, languagePath, "contacts", "", "Contacts"));
+			pages.add(buildRepositoryPage(manager, session, languagePath, "milestones", "", "Milestones"));
 
 	        session.save();
 	        
@@ -463,7 +463,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		return returnPage;
 	}
 
-	private Page buildRepository(PageManager manager, Session session, String languagePath, String pageName, String template, String title) {
+	private Page buildRepositoryPage(PageManager manager, Session session, String languagePath, String pageName, String template, String title) {
 		Page thisRepositoryPage = null;
 
 		try {
