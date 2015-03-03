@@ -776,8 +776,9 @@
               position: absolute;
               left:0;
             }
-            span.name {
+            .name {
               margin-left: 30px;
+              white-space: nowrap;  
             }
           }
         }

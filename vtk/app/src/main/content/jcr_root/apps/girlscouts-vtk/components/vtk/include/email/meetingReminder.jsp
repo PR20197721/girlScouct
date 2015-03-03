@@ -109,11 +109,9 @@
 							ext= org.girlscouts.vtk.utils.GSUtils.getDocExtensionFromString(planView.getAidTags().get(i).getRefId());
 						}
       	%>
-      		<li class="icon <%=ext%>">
-<%--      		<span class="name"><%= planView.getAidTags().get(i).getTitle() %></span> --%>
-				<a href="<%=planView.getAidTags().get(i).getRefId()%>" target="_blank" ><%= planView.getAidTags().get(i).getTitle() %></a>
-      		</li>
-      		<li><a class="add-links" href="#nogo" title="add" onclick="addAidLink('<%=planView.getAidTags().get(i).getRefId()%>','<%=planView.getAidTags().get(i).getTitle()%>','<%=mid %>')"><i class="icon-button-circle-plus"></i></a></li><%
+      		<li class="icon <%=ext%>"><a class="name" href="<%=planView.getAidTags().get(i).getRefId()%>" target="_blank"><%= planView.getAidTags().get(i).getTitle() %></a></li>
+			<li><a class="add-links" href="#nogo" title="add" onclick="addAidLink('<%=planView.getAidTags().get(i).getRefId()%>','<%=planView.getAidTags().get(i).getTitle()%>','<%=mid %>')"><i class="icon-button-circle-plus"></i></a></li><%
+  
       	}%>
       	</ul>
 	    </div>
@@ -154,7 +152,7 @@
 					<ul class="small-block-grid-2"><% 
 					Document tempDoc = tempCategory.getNextDocument();
 					while(tempDoc != null){%>
-						<li><span><%=tempDoc.getTitle()%></span></li> 
+						<li><a href="<%=tempDoc.getPath()%>" target="_blank"><span><%=tempDoc.getTitle()%></span></a></li> 
 						<li><a class="add-links" href="#nogo" title="add" onclick="addFormLink('<%=tempDoc.getPath()%>', '<%=tempDoc.getTitle()%>', 'panel<%=panelCount%>b')"><i class="icon-button-circle-plus"></i></a></li> <%
 						tempDoc = tempCategory.getNextDocument();
 					}
