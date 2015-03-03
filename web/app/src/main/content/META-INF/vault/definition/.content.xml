@@ -288,14 +288,13 @@
             mode="replace"
             root="/apps/wcm"
             rules="[]"/>
-<<<<<<< HEAD
  		 <f56
             jcr:primaryType="sling:Folder"
             mode="replace"
             root="/etc/council-rollout"
             rules="[]"/>
  		 <f57
-            jcr:primaryType="nt:unstructured"
+            jcr:primaryType="cq:Page"
             mode="replace"
             root="/etc/designs/girlscouts-prototype"
             rules="[]"/>  

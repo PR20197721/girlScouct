@@ -34,7 +34,6 @@ import org.apache.jackrabbit.api.security.JackrabbitAccessControlManager;
 import org.apache.jackrabbit.api.security.JackrabbitAccessControlPolicy;
 import org.apache.jackrabbit.commons.JcrUtils;
 import org.apache.sling.api.resource.ResourceResolver;
-import org.girlscouts.web.councilrollout.CouncilCreator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
