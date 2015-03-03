@@ -26,8 +26,8 @@ public class UserUtil {
 	}
 
 	public boolean hasPermission(Troop troop, int permissionId) {
-		if (true)
-			return true;
+		//if (true)
+		//	return true;
 		if (!hasPermission(troop.getTroop().getPermissionTokens(), permissionId))
 			return false;
 		return true;
