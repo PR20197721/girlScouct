@@ -8,17 +8,13 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 @Node(jcrMixinTypes = "mix:lockable")
 public class Location implements Serializable {
 
-	@Field(path = true)
-	String path;
-	@Field
-	private String address, state, city, zip;
-	@Field
-	private String name;
-	@Field
-	private String locatinName, locationAddress;
-	@Field(id = true)
-	private String uid;
-
+	@Field(path = true) String path;
+	@Field private String address, state, city, zip;
+	@Field private String name;
+	@Field private String locatinName, locationAddress;
+	@Field(id = true) private String uid;
+	private boolean isDbUpdate=false;
+	
 	public Location() {
 		this.uid = "L" + new java.util.Date().getTime();
 	}
@@ -32,6 +28,7 @@ public class Location implements Serializable {
 		this.state = state;
 		this.zip = zip;
 		this.city = city;
+		isDbUpdate=true;
 	}
 
 	public String getUid() {
@@ -39,6 +36,10 @@ public class Location implements Serializable {
 	}
 
 	public void setUid(String uid) {
+		if( this.uid!=null && uid!=null && this.uid.equals(uid)){
+			isDbUpdate=true;	
+		}
+		
 		this.uid = uid;
 		if (uid == null)
 			this.uid = "L" + new java.util.Date().getTime() + "_"
@@ -50,6 +51,8 @@ public class Location implements Serializable {
 	}
 
 	public void setLocatinName(String locatinName) {
+		if(this.locatinName!=null && locatinName!=null && !this.locatinName.equals(locatinName))
+			isDbUpdate=true;
 		this.locatinName = locatinName;
 	}
 
@@ -58,6 +61,8 @@ public class Location implements Serializable {
 	}
 
 	public void setLocationAddress(String locationAddress) {
+		if(locationAddress!=null && this.locationAddress!=null && !locationAddress.equals(this.locationAddress))
+			isDbUpdate=true;
 		this.locationAddress = locationAddress;
 	}
 
@@ -66,6 +71,8 @@ public class Location implements Serializable {
 	}
 
 	public void setPath(String path) {
+		if( this.path!=null && path!=null && this.path.equals(path) )
+			isDbUpdate=true;
 		this.path = path;
 	}
 
@@ -74,6 +81,8 @@ public class Location implements Serializable {
 	}
 
 	public void setAddress(String address) {
+		if( address!=null && this.address!=null && !this.address.equals(address))
+			isDbUpdate=true;
 		this.address = address;
 	}
 
@@ -82,6 +91,8 @@ public class Location implements Serializable {
 	}
 
 	public void setState(String state) {
+		if( state!=null && this.state!=null && !this.state.equals(state))
+			isDbUpdate=true;
 		this.state = state;
 	}
 
@@ -90,6 +101,8 @@ public class Location implements Serializable {
 	}
 
 	public void setCity(String city) {
+		if( this.city!=null && city!=null && this.city.equals(city))
+			isDbUpdate=true;
 		this.city = city;
 	}
 
@@ -98,6 +111,8 @@ public class Location implements Serializable {
 	}
 
 	public void setZip(String zip) {
+		if( this.zip!=null && zip!=null && !this.zip.equals(zip))
+			isDbUpdate=true;
 		this.zip = zip;
 	}
 
@@ -106,7 +121,19 @@ public class Location implements Serializable {
 	}
 
 	public void setName(String name) {
+		if( name!=null && this.name!=null && !this.name.equals(name) )
+			isDbUpdate=true;
 		this.name = name;
 	}
 
+	public boolean isDbUpdate() {
+		return isDbUpdate;
+	}
+
+	public void setDbUpdate(boolean isDbUpdate) {
+		this.isDbUpdate = isDbUpdate;
+	}
+
+	
+	
 }

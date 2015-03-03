@@ -2,7 +2,7 @@
 <% 
 
 String mid = planView.getYearPlanComponent().getUid();
-MeetingE meeting = (MeetingE)planView.getYearPlanComponent();
+MeetingE meeting = planView.getMeeting();
 
 
 Attendance attendance = meetingUtil.getAttendance( user,  troop,  meeting.getPath()+"/attendance");
@@ -41,17 +41,8 @@ pageContext.setAttribute("PLANVIEW_TIME", Long.valueOf(planView.getSearchDate().
 pageContext.setAttribute("DETAIL_TYPE", "meeting");
 
 %>
-<!-- <script src="http://code.jquery.com/jquery-1.9.1.js"></script> -->
-<!-- <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script -->
-<!--  2/1/15 link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" / -->
-<!-- script src="http://fb.me/react-0.12.1.js"></script -->
-<!-- script src="http://fb.me/JSXTransformer-0.12.1.js"></script -->
- <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
  <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script> 
-<!-- script src="http://fb.me/react-with-addons-0.12.1.js"></script> -->
 
-
-<div id="modal_popup" class="reveal-modal" data-reveal></div>
 <%@include file="include/tab_navigation.jsp"%>
 
 <script>
@@ -63,6 +54,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 <%@include file="include/modals/modal_meeting_aids.jsp"%>
 <%@include file="include/modals/modal_agenda.jsp"%>
 <%@include file="include/modals/modal_meeting_reminder.jsp" %>
+<%@include file="include/modals/modal_view_sent_emails.jsp"%>
 
   <div id="theMeeting">
     <script type="text/jsx">
@@ -81,9 +73,9 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
         },
         render: function() {
          var scheduleDates =null;
-  		if( this.props.schedule!=null){
-  			scheduleDates= this.props.schedule.dates;
-  		}
+      		if( this.props.schedule!=null){
+      			scheduleDates= this.props.schedule.dates;
+      		}
          
          var commentNodes = this.props.data.map(function (comment ,i ) {
          
@@ -155,8 +147,13 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
         },
         render: function() {
           var commentNodes = this.props.data.map(function (comment ,i ) {
+            var thisAssetExtension = "pdf";
+            var thisAssetExtensionPattern=/.*\.(.+)$/;
+            if (comment.refId.indexOf(".") != -1) {
+              thisAssetExtension = comment.refId.replace(thisAssetExtensionPattern, "$1");
+            }
             return (
-       			 <MeetingAsset item={comment} key={i} refId={comment.refId} title={comment.title} description={comment.description}/>
+       			 <MeetingAsset item={comment} key={i} refId={comment.refId} title={comment.title} description={comment.description} extension={thisAssetExtension}/>
             );
           });
           return (
@@ -273,7 +270,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
           render: function () {
       		return <section className="column large-20 medium-20 large-centered medium-centered">
         					 <h6>meeting agenda</h6>
-                  <p>Select and agenda item to view details, edit duration and delete. Drag and drop to reorder.</p>
+                  <p>Select and agenda item to view details, edit duration or delete. Drag and drop to reorder.</p>
        						 <SortableListItems1  key="{this.props.data}"  data={this.props.data} onClick={this.alex} onReorder={this.onReorder}/>
                   <AgendaTotal data={this.props.data}/>   				
                   <strong><a data-reveal-id="modal_agenda" className="add-btn"><i className="icon-button-circle-plus"></i> Add Agenda Item</a></strong>
@@ -289,7 +286,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
   					  <%@include file="include/meeting_agenda.jsp"%>
   					);
           }else{
-            return <div className="pleaseWait">Please wait..</div>
+            return <div><img src="/etc/designs/girlscouts-vtk/images/loading.gif"/></div> 
           }
         },
         componentDidMount: function() {
@@ -400,3 +397,4 @@ function addMinutes(date, minutes) {
       </script>
   </div>
 </div>
+<div id="modal_popup" class="reveal-modal" data-reveal></div>
