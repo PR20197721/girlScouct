@@ -9,7 +9,9 @@ import java.io.StringBufferInputStream;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -33,7 +35,9 @@ import org.apache.jackrabbit.api.security.JackrabbitAccessControlList;
 import org.apache.jackrabbit.api.security.JackrabbitAccessControlManager;
 import org.apache.jackrabbit.api.security.JackrabbitAccessControlPolicy;
 import org.apache.jackrabbit.commons.JcrUtils;
+import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.girlscouts.web.councilrollout.CouncilCreator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,6 +55,9 @@ import com.day.cq.tagging.TagManager;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
 import com.day.cq.wcm.api.WCMException;
+import com.day.cq.wcm.msm.api.LiveRelationshipManager;
+import com.day.cq.wcm.msm.api.RolloutConfig;
+import com.day.cq.wcm.msm.api.RolloutConfigManager;
 
 @Component
 @Service(value = CouncilCreator.class)
@@ -67,32 +74,79 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		ArrayList<Page> pages = new ArrayList<Page>();
 		HashMap<String, String> propertyMap = new HashMap<String, String>();
 		String councilPath = contentPath + "/" + councilName;
-
 		try {
-			PageManager manager = (PageManager) rr.adaptTo(PageManager.class);
-			// Create Council HomePage
-			pages.add(buildPage(manager, session, contentPath, councilTitle, null, councilName, "", "foundation/components/page", null));
-			propertyMap = setLangPropertyMap(councilPath, "en");
-			Page englishPage = buildPage(manager, session, councilPath, councilTitle, null, "en", "","girlscouts/components/homepage", propertyMap);
+			Node contentNode = session.getNode(contentPath);
+			
+			if (!contentNode.hasNode(councilName)) {
+				PageManager pageManager = (PageManager) rr.adaptTo(PageManager.class);
+				// Create Council HomePage
+			
+				pages.add(buildPage(pageManager, session, contentPath, councilTitle, null, councilName, "", "foundation/components/page", null));
+				propertyMap = setLangPropertyMap(councilPath, "en");
+				Page englishPage = buildPage(pageManager, session, councilPath, councilTitle, null, "en", "","girlscouts/components/homepage", propertyMap);
 
-			String languagePath = englishPage.getPath();
+				String languagePath = englishPage.getPath();
 
-			pages.add(englishPage);
-			pages.add(buildPage(manager, session, languagePath, "Ad Page", null, "ad-page", "", "girlscouts/components/ad-list-page", null));
-			pages.add(buildPage(manager, session, languagePath, "Search | " + councilTitle, "Search | " + councilTitle, "site-search", "", "girlscouts/components/three-column-page", null));
-			pages.add(buildPage(manager, session, languagePath, "Map", null, "map", "", "girlscouts/components/map", null));
-			pages.add(buildPage(manager, session, languagePath, "404", null, "404", "", "girlscouts/components/error-page-404", null));
-			pages.add(buildRepositoryPage(manager, session, languagePath, "events-repository", "", "Events Repository"));
-			pages.add(buildRepositoryPage(manager, session, languagePath, "contacts", "", "Contacts"));
-			pages.add(buildRepositoryPage(manager, session, languagePath, "milestones", "", "Milestones"));
+				pages.add(englishPage);
+				pages.addAll(buildLiveCopyPages(pageManager, rr, contentNode, contentPath, "girlscouts-template", councilPath, "en"));
+				pages.add(buildPage(pageManager, session, languagePath, "Ad Page", null, "ad-page", "", "girlscouts/components/ad-list-page", null));
+				pages.add(buildPage(pageManager, session, languagePath, "Search | " + councilTitle, "Search | " + councilTitle, "site-search", "", "girlscouts/components/three-column-page", null));
+				pages.add(buildPage(pageManager, session, languagePath, "Map", null, "map", "", "girlscouts/components/map", null));
+				pages.add(buildPage(pageManager, session, languagePath, "404", null, "404", "", "girlscouts/components/error-page-404", null));
+				pages.add(buildRepositoryPage(pageManager, session, languagePath, "events-repository", "", "Events Repository"));
+				pages.add(buildRepositoryPage(pageManager, session, languagePath, "contacts", "", "Contacts"));
+				pages.add(buildRepositoryPage(pageManager, session, languagePath, "milestones", "", "Milestones"));
 
-	        session.save();
-	        
-		    } catch (Exception e) {
+				session.save();
+			}
+			else {
+				LOG.error("Council Pages already exist.");
+				throw new Exception();
+			}
+		
+		} catch (Exception e) {
 		    	LOG.error("Error occurred during Page Building Procedure: " + e.toString());
 		    	e.printStackTrace();
-		    }
+		}
 		return pages;
+	}
+
+	private List<Page> buildLiveCopyPages(PageManager manager,  ResourceResolver rr, Node rootNode, String contentPath, String templatePath, String councilPath, String languagePath) {
+		ArrayList<Page> copyPages = new ArrayList<Page>();
+		final String templateLangPath = templatePath + "/" + languagePath;
+		LiveRelationshipManager relationshipMgr = (LiveRelationshipManager) rr.adaptTo(LiveRelationshipManager.class);
+		RolloutConfigManager configMgr = (RolloutConfigManager) rr.adaptTo(RolloutConfigManager.class);
+		
+		try {			
+			if (rootNode.hasNode(templateLangPath)) {
+				Resource languageRootRes = rr.resolve(contentPath + "/" + templateLangPath);
+				Iterator<Resource> pageItr = languageRootRes.listChildren();
+				while (pageItr.hasNext()) {
+					Resource childRes = pageItr.next();
+					if (childRes.getName().equals("jcr:content")) {
+						
+					} 
+					else {
+						String templatePageName = childRes.getName();
+						Page templatePage = (Page) languageRootRes.getChild(templatePageName).adaptTo(Page.class);
+						Page copyPage = manager.copy(templatePage, councilPath + "/" + languagePath + "/" + templatePageName, templatePageName, false, true);
+						copyPages.add(copyPage);
+						RolloutConfig gsConfig = configMgr.getRolloutConfig("/etc/msm/rolloutconfigs/gsdefault");
+						relationshipMgr.establishRelationship(templatePage, copyPage, true, false, gsConfig);					
+					}
+				}
+			}
+			else {
+				LOG.error(templatePath + " doesn't exist in repository. Cannot create live copies");
+				throw new RepositoryException();
+			}
+		} catch (RepositoryException e) {
+			LOG.error("Repository exception thrown during Live Copy Process " + e.toString());
+		} catch (Exception e) {
+			LOG.error("Error occurred during Live Copy Process " + e.toString());
+			e.printStackTrace();
+		}
+		return copyPages;
 	}
 
 	public List<Node> generateScaffolding(Session session, ResourceResolver rr, String councilName) {
