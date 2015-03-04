@@ -1530,11 +1530,22 @@ girlscouts.components.TagInputField = CQ.Ext.extend(CQ.form.CompositeField, {
     // private
     loadTagNamespaces: function() {
         this.tagNamespaces = {};
+        /*
         var tagJson = this.loadJson(this.tagsBasePath + CQ.tagging.TAG_LIST_JSON_SUFFIX + "?count=false");
         if (tagJson && tagJson.tags) {
             CQ.Ext.each(tagJson.tags, function(t) {
                 this.tagNamespaces[t.name] = t;
             }, this);
+        }
+        */
+        var tagJson = this.loadJson(this.tagsBasePath + '.1.json?count=false');
+        if (tagJson) {
+        	for (var tagKey in tagJson) {
+        		if (tagJson[tagKey]['jcr:primaryType'] === "cq:Tag") {
+        			var tagDef = this.loadJson(this.tagsBasePath + "/" + tagKey + CQ.tagging.TAG_JSON_SUFFIX);
+        			this.tagNamespaces[tagKey] = tagDef;
+        		}
+        	}
         }
         
         this.setupPopupMenu();

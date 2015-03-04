@@ -49,8 +49,7 @@
                 <resourcesNew
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Resources Tags"
-                    tagsBasePath="/etc/tags/girlscouts-vtk"
-                    namespaces="[tag]"
+                    namespaces="[girlscouts-vtk]"
                     name="./resourcesNew"
                     xtype="vtk-tags"/>
                 <meetings
