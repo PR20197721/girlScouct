@@ -60,7 +60,6 @@
        <%if(hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_ID)){ %>
         <a data-reveal-id="modal_upload_image" title="update photo" href="#nogo" title="upload image"><i class="icon-photo-camera"></i></a>
         <%} %>
-    
     <%
     	}
     %>
