@@ -1,15 +1,9 @@
 package org.girlscouts.web.councilrollout.impl;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.StringBufferInputStream;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -109,44 +103,6 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		    	e.printStackTrace();
 		}
 		return pages;
-	}
-
-	private List<Page> buildLiveCopyPages(PageManager manager,  ResourceResolver rr, Node rootNode, String contentPath, String templatePath, String councilPath, String languagePath) {
-		ArrayList<Page> copyPages = new ArrayList<Page>();
-		final String templateLangPath = templatePath + "/" + languagePath;
-		LiveRelationshipManager relationshipMgr = (LiveRelationshipManager) rr.adaptTo(LiveRelationshipManager.class);
-		RolloutConfigManager configMgr = (RolloutConfigManager) rr.adaptTo(RolloutConfigManager.class);
-		
-		try {			
-			if (rootNode.hasNode(templateLangPath)) {
-				Resource languageRootRes = rr.resolve(contentPath + "/" + templateLangPath);
-				Iterator<Resource> pageItr = languageRootRes.listChildren();
-				while (pageItr.hasNext()) {
-					Resource childRes = pageItr.next();
-					if (childRes.getName().equals("jcr:content")) {
-						
-					} 
-					else {
-						String templatePageName = childRes.getName();
-						Page templatePage = (Page) languageRootRes.getChild(templatePageName).adaptTo(Page.class);
-						Page copyPage = manager.copy(templatePage, councilPath + "/" + languagePath + "/" + templatePageName, templatePageName, false, true);
-						copyPages.add(copyPage);
-						RolloutConfig gsConfig = configMgr.getRolloutConfig("/etc/msm/rolloutconfigs/gsdefault");
-						relationshipMgr.establishRelationship(templatePage, copyPage, true, false, gsConfig);					
-					}
-				}
-			}
-			else {
-				LOG.error(templatePath + " doesn't exist in repository. Cannot create live copies");
-				throw new RepositoryException();
-			}
-		} catch (RepositoryException e) {
-			LOG.error("Repository exception thrown during Live Copy Process " + e.toString());
-		} catch (Exception e) {
-			LOG.error("Error occurred during Live Copy Process " + e.toString());
-			e.printStackTrace();
-		}
-		return copyPages;
 	}
 
 	public List<Node> generateScaffolding(Session session, ResourceResolver rr, String councilName) {
@@ -525,5 +481,43 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			LOG.error("Cannot build Repository page titled " + title + " " + e.toString());
 		}
 		return thisRepositoryPage;
+	}
+	
+	private List<Page> buildLiveCopyPages(PageManager manager,  ResourceResolver rr, Node rootNode, String contentPath, String templatePath, String councilPath, String languagePath) {
+		ArrayList<Page> copyPages = new ArrayList<Page>();
+		final String templateLangPath = templatePath + "/" + languagePath;
+		LiveRelationshipManager relationshipMgr = (LiveRelationshipManager) rr.adaptTo(LiveRelationshipManager.class);
+		RolloutConfigManager configMgr = (RolloutConfigManager) rr.adaptTo(RolloutConfigManager.class);
+		
+		try {			
+			if (rootNode.hasNode(templateLangPath)) {
+				Resource languageRootRes = rr.resolve(contentPath + "/" + templateLangPath);
+				Iterator<Resource> pageItr = languageRootRes.listChildren();
+				while (pageItr.hasNext()) {
+					Resource childRes = pageItr.next();
+					if (childRes.getName().equals("jcr:content")) {
+						
+					} 
+					else {
+						String templatePageName = childRes.getName();
+						Page templatePage = (Page) languageRootRes.getChild(templatePageName).adaptTo(Page.class);
+						Page copyPage = manager.copy(templatePage, councilPath + "/" + languagePath + "/" + templatePageName, templatePageName, false, true);
+						copyPages.add(copyPage);
+						RolloutConfig gsConfig = configMgr.getRolloutConfig("/etc/msm/rolloutconfigs/gsdefault");
+						relationshipMgr.establishRelationship(templatePage, copyPage, true, false, gsConfig);					
+					}
+				}
+			}
+			else {
+				LOG.error(templatePath + " doesn't exist in repository. Cannot create live copies");
+				throw new RepositoryException();
+			}
+		} catch (RepositoryException e) {
+			LOG.error("Repository exception thrown during Live Copy Process " + e.toString());
+		} catch (Exception e) {
+			LOG.error("Error occurred during Live Copy Process " + e.toString());
+			e.printStackTrace();
+		}
+		return copyPages;
 	}
 }
