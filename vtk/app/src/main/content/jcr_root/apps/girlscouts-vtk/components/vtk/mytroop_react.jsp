@@ -94,30 +94,33 @@
 											</li>
 											<li class="row">
 												<p><strong>Achievements:</strong></p>
+<!--
 												<ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-3">
+-->
+												<p>
 <%
 			boolean isFirstItem = true;
 			for(int y=0;y<infos.size();y++){
 				if(infos.get(y).isAchievement() && infos.get(y).getYearPlanComponent().getType()== YearPlanComponentType.MEETING) {
-/*
 					if (!isFirstItem) {
 						out.println(",");
 					}
-*/
 					MeetingE meeting = (MeetingE)infos.get(y).getYearPlanComponent();
 					String achievementImg  = "/content/dam/girlscouts-vtk/local/icon/meetings/" + meeting.getMeetingInfo().getId() + ".png";
-
 %>
-													<li>
+<!--
 														<img src="<%= achievementImg%>"/><br/>
+-->
 														<%= ((MeetingE)infos.get(y).getYearPlanComponent()).getMeetingInfo().getName() %>
-													</li>
 <%
 					isFirstItem = false;
 				}
 			}
 %>
+												</p>
+<!--
 												</ul>
+-->
 											</li>
 											<li class="row">
 												<p><strong>Meetings Attended:</strong></p>

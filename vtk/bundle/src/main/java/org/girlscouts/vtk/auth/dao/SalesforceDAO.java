@@ -298,12 +298,8 @@ public class SalesforceDAO {
 
 	
 	private ApiConfig refreshToken(ApiConfig config) {
-
 		String newAccessToken = null;
-
 		HttpClient httpclient = new HttpClient();
-
-		//String tokenUrl = OAuthUrl + "/services/oauth2/token";
 		String tokenUrl = config.getOAuthUrl() + "/services/oauth2/token";
 		
 		PostMethod post = new PostMethod(tokenUrl);
@@ -315,12 +311,8 @@ public class SalesforceDAO {
 
 		try {
 			httpclient.executeMethod(post);
-
-/*System.err.println("REfreshing Token " + config.getRefreshToken() + "****** "
-					+ post.getStatusCode() + " :::::: "
-					+ post.getResponseBodyAsString());
-*/
-if (post.getStatusCode() == HttpStatus.SC_OK) {
+			System.out.println("Refreshing Token " + config.getRefreshToken() + "****** " + post.getStatusCode() + " :::::: " + post.getResponseBodyAsString());
+			if (post.getStatusCode() == HttpStatus.SC_OK) {
 				try {
 					JSONObject authResponse = new JSONObject(new JSONTokener(
 							new InputStreamReader(
@@ -603,10 +595,12 @@ if (post.getStatusCode() == HttpStatus.SC_OK) {
 	private String getToken( ApiConfig apiConfig ){
 		
 		    java.util.Calendar validTokenTime = java.util.Calendar.getInstance();
-			validTokenTime.add(java.util.Calendar.MINUTE, -20);
-			
-			if( validTokenTime.getTimeInMillis() > apiConfig.getLastTimeTokenRefreshed() )	
-		    	apiConfig =refreshToken( apiConfig );
+			validTokenTime.add(java.util.Calendar.MINUTE, -1);
+			if( validTokenTime.getTimeInMillis() > apiConfig.getLastTimeTokenRefreshed() )	{
+				apiConfig =refreshToken( apiConfig );
+				log.info("Refreshing Salesforce token");
+				
+			}
 		    
 		    
 		    return apiConfig.getAccessToken() ;
