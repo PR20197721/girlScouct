@@ -421,10 +421,10 @@ public class SalesforceDAO {
 					
 					//primary
 					Contact contactSub= new Contact();
-					contactSub.setEmail(  results.getJSONObject(i).getJSONObject("C_Bios__Preferred_Contact__r").getString("Email") );
-					contactSub.setFirstName(  results.getJSONObject(i).getJSONObject("C_Bios__Preferred_Contact__r").getString("FirstName") );
-					contactSub.setLastName(  results.getJSONObject(i).getJSONObject("C_Bios__Preferred_Contact__r").getString("LastName") );
-					contactSub.setRole(  results.getJSONObject(i).getJSONObject("C_Bios__Preferred_Contact__r").getString("type") );
+					contactSub.setEmail(  results.getJSONObject(i).getJSONObject("Account").getJSONObject("rC_Bios__Preferred_Contact__r").getString("Email") );
+					contactSub.setFirstName(  results.getJSONObject(i).getJSONObject("Account").getJSONObject("rC_Bios__Preferred_Contact__r").getString("FirstName") );
+					contactSub.setLastName(  results.getJSONObject(i).getJSONObject("Account").getJSONObject("rC_Bios__Preferred_Contact__r").getString("LastName") );
+					//contactSub.setRole(  results.getJSONObject(i).getJSONObject("Account").getJSONObject("rC_Bios__Preferred_Contact__r").getString("type") );
 					contactSub.setType(1);
 					
 					java.util.List<Contact> contactsSub = new java.util.ArrayList<Contact>();

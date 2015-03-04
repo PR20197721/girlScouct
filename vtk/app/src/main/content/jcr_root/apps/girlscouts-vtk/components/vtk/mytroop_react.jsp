@@ -102,13 +102,15 @@
                         </ul>
                          <ul class="column large-18">
                          
-                         <%for(Contact contactSub: contact.getContacts()){ %>
+                         <%
+                         if( contact.getContacts()!=null )
+                          for(Contact contactSub: contact.getContacts()){ %>
                            <li class="row">                           
                               <p><strong>Secondary Info:</strong></p>
 			                  <p>
                               <span class="column large-5"><%=contactSub.getFirstName() %> <%=contactSub.getLastName() %></span>
                               <a class="column large-14 email" href="mailto:<%=contactSub.getEmail()%>"><i class="icon icon-mail"></i><%=contactSub.getEmail() %></a>
-                              <span class="column large-5"><%=contactSub.getPhone() %></span>
+                              <span class="column large-5"><%=contactSub.getPhone()==null ? "" : contactSub.getPhone() %></span>
 			                  </p>
                             </li>
                          <%} %>
