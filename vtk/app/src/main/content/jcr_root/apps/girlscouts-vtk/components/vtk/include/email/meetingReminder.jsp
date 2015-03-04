@@ -109,7 +109,7 @@
 							ext= org.girlscouts.vtk.utils.GSUtils.getDocExtensionFromString(planView.getAidTags().get(i).getRefId());
 						}
       	%>
-      		<li class="icon <%=ext%>"><span class="name"><%= planView.getAidTags().get(i).getTitle() %></span></li>
+      		<li><span class="name icon <%=ext%>"><%= planView.getAidTags().get(i).getTitle() %></span></li>
       		<li><a class="add-links" href="#nogo" title="add" onclick="addAidLink('<%=planView.getAidTags().get(i).getRefId()%>','<%=planView.getAidTags().get(i).getTitle()%>','<%=mid %>')"><i class="icon-button-circle-plus"></i></a></li><%
       	}%>
       	</ul>

@@ -77,16 +77,16 @@
       </div>
       <div class="columns small-6 medium-5">
        <ul class="inline-list" id="util-links">
-        <li><a class="icon" data-reveal-id="modal_help" title="help"><i class="icon-questions-answers"></i></a></li>
+        <li><a data-reveal-id="modal_help" title="help"><i class="icon-questions-answers"></i></a></li>
         <% if("plan".equals(activeTab)) {%>
-          <li><a class="icon" 
+          <li><a
           	<% if(troop.getYearPlan() != null && meetingUtil.planView(user, troop, request).getSearchDate() != null 
           		&& meetingUtil.planView(user, troop, request).getSearchDate().after( new java.util.Date("1/1/1977")) ){
   	         %> onclick="self.location = '/content/girlscouts-vtk/en/cal.ics'"
   	        <%} else{
   	          	%> onclick="alert('You have not yet scheduled your meeting calendar.\nPlease select a year plan and schedule your meetings by clicking on the MEETING DATES AND LOCATION link.')"
   	        <% } %> title="download the calendar"><i class="icon-download"></i></a></li>
-            <li><a class="icon" onclick="javascript:window.print()" title="print"><i class="icon-printer"></i></a></li>
+            <li><a onclick="javascript:window.print()" title="print"><i class="icon-printer"></i></a></li>
           <% } %>
         </ul>
       </div>
