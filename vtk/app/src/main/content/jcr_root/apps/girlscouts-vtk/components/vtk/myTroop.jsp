@@ -11,10 +11,14 @@
 <div id="panelWrapper" class="row content">
 <%
 	if (SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) {
-%>
-<%@include file="mytroop_react.jsp"%>
+
+	     if( !hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_ID) ){%>
+	       <%@include file="mytroop_react_parent.jsp"%>
+	  <% }else{ %>
+	       <%@include file="mytroop_react.jsp"%>
+      <% }%>
 <%
-        } else {
+    } else {
 %>
 <%@include file="myTroopOff.jsp"%>
 <%
