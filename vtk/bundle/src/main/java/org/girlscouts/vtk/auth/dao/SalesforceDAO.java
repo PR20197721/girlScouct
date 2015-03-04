@@ -417,6 +417,20 @@ public class SalesforceDAO {
 					contact.setAge(  results.getJSONObject(i).getInt("rC_Bios__Age__c") );
 					contact.setDob(  results.getJSONObject(i).getString("Birthdate") );
 					contact.setRole(  results.getJSONObject(i).getString("rC_Bios__Role__c") );
+					contact.setType(0);
+					
+					//primary
+					Contact contactSub= new Contact();
+					contactSub.setEmail(  results.getJSONObject(i).getJSONObject("C_Bios__Preferred_Contact__r").getString("Email") );
+					contactSub.setFirstName(  results.getJSONObject(i).getJSONObject("C_Bios__Preferred_Contact__r").getString("FirstName") );
+					contactSub.setLastName(  results.getJSONObject(i).getJSONObject("C_Bios__Preferred_Contact__r").getString("LastName") );
+					contactSub.setRole(  results.getJSONObject(i).getJSONObject("C_Bios__Preferred_Contact__r").getString("type") );
+					contactSub.setType(1);
+					
+					java.util.List<Contact> contactsSub = new java.util.ArrayList<Contact>();
+					contactsSub.add( contactSub );
+					contact.setContacts( contactsSub );
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

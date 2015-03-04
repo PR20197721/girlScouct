@@ -18,6 +18,7 @@
 			"#,##0.00");
 	java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat("MM/dd/yyyy hh:mm a");
 	java.text.SimpleDateFormat fmr_ddmm = new java.text.SimpleDateFormat("M/d");
+	java.text.SimpleDateFormat fmt_yyyyMMdd = new java.text.SimpleDateFormat("yyyy-MM-dd");
 	
 	boolean isCachableContacts=false;
 	

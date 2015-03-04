@@ -94,21 +94,26 @@
                     <dd class="accordion-navigation clearfix">
                       <div id="panel<%=i+1%>b" class="content clearfix">
                         <ul class="column large-4">
-                          <li>DOB: 9/1/2004</li>
-                          <li>AGE: 10</li>
+                          <li>DOB: <%= FORMAT_MMddYYYY.format(fmt_yyyyMMdd.parse(contact.getDob()))  %></li>
+                          <li>AGE: <%=contact.getAge() %></li>
                         </ul>
                         <ul class="column large-18 right">
-                          <li><address><p>1 Main St. Apt 5B<br/>Cleveland, OH<br/>00000</p></address></li>
+                          <li><address><p><%=contact.getAddress() %><br/><%=contact.getCity() %>, <%=contact.getState() %><br/><%=contact.getZip() %></p></address></li>
                         </ul>
                          <ul class="column large-18">
-                           <li class="row">
+                         
+                         <%for(Contact contactSub: contact.getContacts()){ %>
+                           <li class="row">                           
                               <p><strong>Secondary Info:</strong></p>
-			      <p>
-                              <span class="column large-5">Janie Berger</span>
-                              <a class="column large-14 email" href="mailto:<%=_email%>"><i class="icon icon-mail"></i><%=contact.getEmail() %></a>
-                              <span class="column large-5">999.999.9999</span>
-			      </p>
+			                  <p>
+                              <span class="column large-5"><%=contactSub.getFirstName() %> <%=contactSub.getLastName() %></span>
+                              <a class="column large-14 email" href="mailto:<%=contactSub.getEmail()%>"><i class="icon icon-mail"></i><%=contactSub.getEmail() %></a>
+                              <span class="column large-5"><%=contactSub.getPhone() %></span>
+			                  </p>
                             </li>
+                         <%} %>
+                         
+                         
                             <li class="row">
                               <p><strong>Achievements:</strong></p>
 <p>
