@@ -1,12 +1,4 @@
 <!-- PAGEID :: ./app/src/main/content/jcr_root/apps/girlscouts-vtk/components/vtk/mytroop_react.jsp -->
-
-<% if( !hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_ID) ){%>
-    <jsp:forward page="mytroop_react_parent.jsp"/>
-    
-<%
-     return;
-  } %>
-
 <%@ page import="com.google.common.collect .*"%>
 <%
 	java.util.List<org.girlscouts.vtk.models.Contact> contacts = null;
@@ -44,7 +36,6 @@
 		com.google.common.collect.BiMap sched_bm_inverse = sched_bm.inverse();
 %>
 <%@include file="include/utility_nav.jsp"%>
-<%@include file='include/modals/modal_upload_img.jsp' %>
 <div class="hero-image">
 <%
 		if (!resourceResolver.resolve(troopPhotoUrl).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
