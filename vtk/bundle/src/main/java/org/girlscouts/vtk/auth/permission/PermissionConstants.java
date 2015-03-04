@@ -30,7 +30,7 @@ public class PermissionConstants {
         public static final int PERMISSION_RM_YEARPLAN_MEETING_ID = 512;
 
 	public static final int PERMISSION_TERMINATE_ID = 1000; // max int for
-															// permissions
+
 	public static final int PERMISSION_VIEW_REPORT_ID=601;
 	public static final int PERMISSION_VIEW_MILESTONE_ID=611;
 	public static final int PERMISSION_VIEW_ATTENDANCE_ID=621;
@@ -49,8 +49,7 @@ public class PermissionConstants {
 
 	public static final int GROUP_ADMIN = 1;
 	public static final String GROUP_ADMIN_DISPLAY = "Admin";
-	public static final int[] GROUP_ADMIN_PERMISSIONS = new int[] {
-	};
+	public static final int[] GROUP_ADMIN_PERMISSIONS = new int[] { };
 
 	public static final int GROUP_GUEST = 2;
 	public static final String GROUP_GUEST_DISPLAY = "Guest";
@@ -69,27 +68,21 @@ public class PermissionConstants {
 
 	public static final int GROUP_MEMBER_2G = 12;
 	public static final String GROUP_MEMBER_2G_DISPLAY = "Member with 2 girls";
-	public static final int[] GROUP_MEMBER_2G_PERMISSIONS = new int[] {
-	};
+	public static final int[] GROUP_MEMBER_2G_PERMISSIONS = new int[] { };
 
 	public static final int GROUP_MEMBER_1G = 13;
 	public static final String GROUP_MEMBER_1G_DISPLAY = "Member with 1 girl";
-	public static final int[] GROUP_MEMBER_1G_PERMISSIONS = new int[] {
-	};
+	public static final int[] GROUP_MEMBER_1G_PERMISSIONS = new int[] { };
 
 	public static final int GROUP_MEMBER_NO_TROOP = 14;
 	public static final String GROUP_MEMBER_NO_TROOP_DISPLAY = "Member with no troop Associations";
-	public static final int[] GROUP_MEMBER_NO_TROOP_PERMISSIONS = new int[] { 
-		
-	};
+	public static final int[] GROUP_MEMBER_NO_TROOP_PERMISSIONS = new int[] { };
 
 	public static final int GROUP_MEMBER_TROOP = 15;
 	public static final String GROUP_MEMBER_TROOP_DISPLAY = "Member with troop Associations";
-	public static final int[] GROUP_MEMBER_TROOP_PERMISSIONS = new int[] {
-	};
+	public static final int[] GROUP_MEMBER_TROOP_PERMISSIONS = new int[] { };
 	
 	public static final int GROUP_MEMBER_COUNCIL = 16;
 	public static final String GROUP_MEMBER_COUNCIL_DISPLAY = "COUNCIL";
-	public static final int[] GROUP_MEMBER_COUNCIL_PERMISSIONS = ArrayUtils.addAll(new int[] {PERMISSION_VIEW_FINANCE_ID, PERMISSION_VIEW_MILESTONE_ID},
-			GROUP_LEADER_PERMISSIONS);
+	public static final int[] GROUP_MEMBER_COUNCIL_PERMISSIONS = ArrayUtils.addAll(new int[] {PERMISSION_VIEW_FINANCE_ID, PERMISSION_VIEW_MILESTONE_ID}, GROUP_LEADER_PERMISSIONS);
 }

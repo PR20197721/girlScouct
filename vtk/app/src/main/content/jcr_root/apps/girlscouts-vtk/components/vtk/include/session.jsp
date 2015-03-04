@@ -8,29 +8,22 @@
 	java.text.SimpleDateFormat FORMAT_MONTH_DAY = new java.text.SimpleDateFormat("MMM d");
 	java.text.SimpleDateFormat FORMAT_MMM_dd_hhmm_AMPM = new java.text.SimpleDateFormat(	"MMM dd hh:mm a");
 	java.text.SimpleDateFormat FORMAT_MEETING_REMINDER = new java.text.SimpleDateFormat("EEE MMM dd, yyyy hh:mm a");
-	java.text.SimpleDateFormat FORMAT_MMM_dd_yyyy_hhmm_AMPM = new java.text.SimpleDateFormat(
-			"MMM dd yyyy hh:mm a");
-	java.text.SimpleDateFormat FORMAT_CALENDAR_DATE = new java.text.SimpleDateFormat(
-			"MMM dd, yyyy hh:mm a");
-	java.text.NumberFormat FORMAT_CURRENCY = java.text.NumberFormat
-			.getCurrencyInstance();
-	java.text.DecimalFormat FORMAT_COST_CENTS = new java.text.DecimalFormat(
-			"#,##0.00");
+	java.text.SimpleDateFormat FORMAT_MMM_dd_yyyy_hhmm_AMPM = new java.text.SimpleDateFormat( "MMM dd yyyy hh:mm a");
+	java.text.SimpleDateFormat FORMAT_CALENDAR_DATE = new java.text.SimpleDateFormat( "MMM dd, yyyy hh:mm a");
+	java.text.NumberFormat FORMAT_CURRENCY = java.text.NumberFormat.getCurrencyInstance();
+	java.text.DecimalFormat FORMAT_COST_CENTS = new java.text.DecimalFormat( "#,##0.00");
 	java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat("MM/dd/yyyy hh:mm a");
 	java.text.SimpleDateFormat fmr_ddmm = new java.text.SimpleDateFormat("M/d");
 	
 	boolean isCachableContacts=false;
 	
 	public boolean hasPermission(Troop troop, int permissionId) {
-		java.util.Set<Integer> myPermissionTokens = troop.getTroop()
-				.getPermissionTokens();
-		if (myPermissionTokens != null
-				&& myPermissionTokens.contains(permissionId))
+		java.util.Set<Integer> myPermissionTokens = troop.getTroop().getPermissionTokens();
+		if (myPermissionTokens != null && myPermissionTokens.contains(permissionId)) {
 			return true;
-
+		}
 		return false;
 	}
-
 
 	// Feature set toggles
 	boolean SHOW_BETA = false; // controls feature for all users -- don't set this to true unless you know what I'm talking about
@@ -39,9 +32,10 @@
 	String SHOW_FINANCE_FEATURE = "showFinance"; 
 	String SHOW_PARENT_FEATURE = "showParent";
 	String SHOW_ADMIN_FEATURE = "showCouncilAdmin";
+	String SHOW_PERMISSION_FEATURE = "showPermission";
 
 	String SESSION_FEATURE_MAP = "sessionFeatureMap"; // session attribute to hold map of enabled features
-	String[] ENABLED_FEATURES = new String[] {SHOW_BETA_FEATURE, SHOW_FINANCE_FEATURE, SHOW_PARENT_FEATURE, SHOW_ADMIN_FEATURE};
+	String[] ENABLED_FEATURES = new String[] {SHOW_BETA_FEATURE, SHOW_FINANCE_FEATURE, SHOW_PARENT_FEATURE, SHOW_ADMIN_FEATURE, SHOW_PERMISSION_FEATURE};
 
 %>
 <%
@@ -241,20 +235,13 @@
 One of your co-leaders is currently making changes in the Volunteer Toolkit for your troop.  When the updates are completed, you will be able to update the Volunteer Toolkit.
 </div>
 <%
-	troop.setRefresh(true);
-		
+		troop.setRefresh(true);
 	}
-
-
-
-
-
-
-
-	if (false){//troop.getSfUserId().equals("005Z0000002OBPiIAO")) {
+//	if (false){//troop.getSfUserId().equals("005Z0000002OBPiIAO")) {
+	if ((SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) && sessionFeatures.contains(SHOW_PERMISSION_FEATURE)) {
 %>
-<div class="small-18 medium-18 large-18 columns">
-	<form action="/content/girlscouts-vtk/controllers/vtk.controller.html">
+<form action="/content/girlscouts-vtk/controllers/vtk.controller.html">
+	<div class="small-18 medium-18 large-18 columns">
 		<select name="chngPermis">
 			<option value="<%=PermissionConstants.GROUP_LEADER%>">
 				Leader-
@@ -265,23 +252,15 @@ One of your co-leaders is currently making changes in the Volunteer Toolkit for 
 			<option value="<%=PermissionConstants.GROUP_MEMBER_TROOP%>">GROUP_MEMBER_TROOP_PERMISSIONS</option>
 			<option value="<%=PermissionConstants.GROUP_GUEST%>">GROUP_GUEST_PERMISSIONS</option>
 		</select>
-</div>
-<div class="small-6 medium-6 large-6 columns">
-	<input type="submit" value="Change my permission" class="button" />
-</div>
+	</div>
+	<div class="small-6 medium-6 large-6 columns">
+		<input type="submit" value="Change my permission" class="button" />
+	</div>
 </form>
 <%
 	}
-	
-//SFUser: <%= user.getApiConfig().getUserId() >
-//<br/><=VtkUtil.doHash( user.getApiConfig().getUserId() ) >
-%>
-
-
-<% 
-if( false ){//troop!=null && troop.getYearPlan()!=null){	
+if( false ){//troop!=null && troop.getYearPlan()!=null){
 	String footerScript = "<script>$( document ).ready(function() {setTimeout(function(){expiredcheck('"+session.getId()+"','"+troop.getYearPlan().getPath()+"');},20000);});</script>";
 	request.setAttribute("footerScript", footerScript);
-} %>
-
- 
+}
+%>
