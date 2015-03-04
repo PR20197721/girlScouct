@@ -50,29 +50,20 @@
           <li><a data-reveal-id="modal_upload_image" title="update photo" href="#">add/change a photo of your troop</a></li>
           <li><a title="remove photo" href="#" onclick="rmTroopInfo()">remove troop photo</a></li>
           <% } %>
-	  <!-- if finance page -->
-<%
-	if("finances".equals(activeTab)) {
-		if ((SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) && sessionFeatures.contains(SHOW_ADMIN_FEATURE)) {
-%>
-	<li>
-<%
-			if("editFinances".equals((String)pageContext.getAttribute("activeSubTab"))) {
-%>
-		<p>edit finance fields</p>
-<%
-			} else {
-%>
-                <a title="Edit Finance Fields" href="/content/girlscouts-vtk/en/vtk.admin_finances.html">edit finance fields</a>
-<%
-			}
-%>
-	</li>
-<%
-		}
-	}
-%>
-
+            	  <!-- if finance page -->
+            <% if("finances".equals(activeTab)) {
+            		if ((SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) && sessionFeatures.contains(SHOW_ADMIN_FEATURE)) { %>
+            	<li>
+            <% if("editFinances".equals((String)pageContext.getAttribute("activeSubTab"))) { %>
+            		<p>edit finance fields</p>
+            <% } else { %>
+                 <a title="Edit Finance Fields" href="/content/girlscouts-vtk/en/vtk.admin_finances.html">edit finance fields</a>
+            <% } %>
+            	</li>
+            <%
+            		}
+            	}
+            %>
         </ul>
       </div>
       <div class="columns small-6 medium-5">

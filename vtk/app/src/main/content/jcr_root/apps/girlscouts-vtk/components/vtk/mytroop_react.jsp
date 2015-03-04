@@ -39,12 +39,12 @@
 <%@include file='include/modals/modal_upload_img.jsp' %>
 <div class="hero-image">
 <%
-		if (!resourceResolver.resolve(troopPhotoUrl).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-			if (request.getParameter("newTroopPhoto") != null) {
-				Random r  = new Random();
-				troopPhotoUrl += "?pid=";
-				troopPhotoUrl += r.nextInt();
-			}
+	if (!resourceResolver.resolve(troopPhotoUrl).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+		if (request.getParameter("newTroopPhoto") != null) {
+			Random r  = new Random();
+			troopPhotoUrl += "?pid=";
+			troopPhotoUrl += r.nextInt();
+		}
 %>
 	<img src="<%=troopPhotoUrl %>" alt="GirlScouts Troop <%=troop.getTroop().getTroopName()%> Photo" />
 	<a data-reveal-id="modal_upload_image" title="update photo" href="#nogo" title="upload image"><i class="icon-photo-camera"></i></a>
@@ -59,12 +59,12 @@
 			<div class="content active" id="panel1">
 				<div class="row">
 					<div class="column large-20 large-centered">
-<%
-		for(int i=0; i<contacts.size(); i++) { 
-			org.girlscouts.vtk.models.Contact contact = contacts.get(i);
-			java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, troop, contact);
-			String _email= contact.getFirstName().replace(" ", "&nbsp;") + java.net.URLEncoder.encode("<"+contact.getEmail() +">");
-%>
+						<%
+								for(int i=0; i<contacts.size(); i++) { 
+									org.girlscouts.vtk.models.Contact contact = contacts.get(i);
+									java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, troop, contact);
+									String _email= contact.getFirstName().replace(" ", "&nbsp;") + java.net.URLEncoder.encode("<"+contact.getEmail() +">");
+						%>
 						<div class="row">
 							<dl class="accordion-inner clearfix" data-accordion>
 								<dt data-target="panel<%=i+1%>b" class="clearfix">
@@ -85,61 +85,60 @@
 										</ul>
 										<ul class="column large-18">
 											<li class="row">
-												<p><strong>Secondary Info:</strong></p>
-												<p>
+												<p class="column large-24"><strong>Secondary Info:</strong></p>
+												<div>
 													<span class="column large-5">Janie Berger</span>
 													<a class="column large-14 email" href="mailto:<%=_email%>"><i class="icon-mail"></i><%=contact.getEmail() %></a>
 													<span class="column large-5">999.999.9999</span>
-												</p>
+												</div>
 											</li>
 											<li class="row">
-												<p><strong>Achievements:</strong></p>
+												<p class="column large-24"><strong>Achievements:</strong></p>
 												<ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-3">
-<%
-			boolean isFirstItem = true;
-			for(int y=0;y<infos.size();y++){
-				if(infos.get(y).isAchievement() && infos.get(y).getYearPlanComponent().getType()== YearPlanComponentType.MEETING) {
-/*
-					if (!isFirstItem) {
-						out.println(",");
-					}
-*/
-					MeetingE meeting = (MeetingE)infos.get(y).getYearPlanComponent();
-					String achievementImg  = "/content/dam/girlscouts-vtk/local/icon/meetings/" + meeting.getMeetingInfo().getId() + ".png";
-
-%>
+													<%
+														boolean isFirstItem = true;
+														for(int y=0;y<infos.size();y++){
+															if(infos.get(y).isAchievement() && infos.get(y).getYearPlanComponent().getType()== YearPlanComponentType.MEETING) {
+															/*
+															if (!isFirstItem) {
+															out.println(",");
+															}
+															*/
+															MeetingE meeting = (MeetingE)infos.get(y).getYearPlanComponent();
+															String achievementImg  = "/content/dam/girlscouts-vtk/local/icon/meetings/" + meeting.getMeetingInfo().getId() + ".png";
+													%>
 													<li>
 														<img src="<%= achievementImg%>"/><br/>
 														<%= ((MeetingE)infos.get(y).getYearPlanComponent()).getMeetingInfo().getName() %>
 													</li>
-<%
-					isFirstItem = false;
-				}
-			}
-%>
+													<% isFirstItem = false; 
+														}
+													}%>
 												</ul>
 											</li>
 											<li class="row">
 												<p><strong>Meetings Attended:</strong></p>
+												<%if(infos.size()>1) {%>
 												<p>
-<%
-			for(int y=0;y<infos.size();y++) {
-				if(infos.get(y).isAttended()) {
-					out.println(fmr_ddmm.format(sched_bm_inverse.get( infos.get(y).getYearPlanComponent())));
-					out.println((infos.size() > 1 && infos.size()-1 !=y) ? "," : "");
-				}
-			}
-%>
+													<% 
+														for(int y=0;y<infos.size();y++) {
+															if(infos.get(y).isAttended()) {
+																out.println(fmr_ddmm.format(sched_bm_inverse.get( infos.get(y).getYearPlanComponent())));
+																out.println((infos.size() > 1 && infos.size()-1 !=y) ? "," : "");
+															}
+														}
+													%>
 												</p>
+												<%}%>
 											</li>
 										</ul>
 									</div>
 								</dd>
 							</dl>
 						</div>
-<%
-		}
-%>
+						<%
+								}
+						%>
 					</div>
 				</div>
 			</div>
