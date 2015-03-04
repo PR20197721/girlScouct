@@ -29,10 +29,10 @@
  * @extends CQ.form.CompositeField
  *
  * @constructor
- * Creates a new <code>girlscouts.components.TagInputField</code>.
+ * Creates a new <code>CQ.tagging.TagInputField</code>.
  * Example:
  * <pre><code>
-var myComp = new girlscouts.components.TagInputField({
+var myComp = new CQ.tagging.TagInputField({
     "id": "tagInputField",
     "fieldLabel": "Tags / Keywords",
     "name": "./cq:tags",
