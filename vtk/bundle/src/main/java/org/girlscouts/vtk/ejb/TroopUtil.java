@@ -481,8 +481,9 @@ System.err.println("tata2b2b2 :"+ (troop.getYearPlan().getMeetingEvents().size()
 			java.lang.IllegalAccessException {
 		YearPlan plan = null;
 		try {
+			if( yearPlanPath==null || yearPlanPath.equals("") ) return new YearPlan();
 			plan = troopDAO.addYearPlan1(user, troop, yearPlanPath);
-			plan.setRefId(yearPlanPath);
+ 			plan.setRefId(yearPlanPath);
 
 			plan.setMeetingEvents(yearPlanUtil.getAllEventMeetings_byPath(user,
 					yearPlanPath.endsWith("/meetings/") ? yearPlanPath
@@ -708,7 +709,7 @@ System.err.println("tata2b2b2 :"+ (troop.getYearPlan().getMeetingEvents().size()
 			for(int i= (oldSched.size()-1); i>= currMeetingCount ; i--){
 				if(oldSched.get(i).after(new java.util.Date() ) )
 					oldSched.remove(i); //rm last meeting if in future
-				else
+				else if( currMeetingCount>0)
 					throw new org.girlscouts.vtk.ejb.VtkYearPlanChangeException("Can not change year plan. Dates in the past can not be changed ("+ oldSched.get(i) +")");
 			}
 		
@@ -763,11 +764,17 @@ System.err.println("tata2b2b2 :"+ (troop.getYearPlan().getMeetingEvents().size()
 		for(int i=0;i< dates.size();i++)
 			if( dates.get(i).before( new java.util.Date() ) )
 				numOfPastMeetings++;
+		
 		//overwrite first numOfPastMeetings from oldPlan to newPlan; ASSUMING NEW & OLD Meetings are sorted!!!
-		if( newYearPlan.getMeetingEvents().size()>= numOfPastMeetings) //if newYearPlan has at least numOfPastMeetings-> overwrite
+		if( newYearPlan.getMeetingEvents().size()>= numOfPastMeetings){ //if newYearPlan has at least numOfPastMeetings-> overwrite			
 		 for(int i=0; i< numOfPastMeetings;i++ ){
 			 newYearPlan.getMeetingEvents().set(i, oldPlan.getMeetingEvents().get(i));
 		 }
+		}else if(newYearPlan.getMeetingEvents()==null || newYearPlan.getMeetingEvents().size() ==0){
+			newYearPlan.setMeetingEvents( new java.util.ArrayList<MeetingE>());
+			for(int i=0; i< numOfPastMeetings;i++ )
+				 newYearPlan.getMeetingEvents().add( oldPlan.getMeetingEvents().get(i) );
+		}
 		
 		return VtkUtil.setToDbUpdate( newYearPlan.getMeetingEvents() );
 	}

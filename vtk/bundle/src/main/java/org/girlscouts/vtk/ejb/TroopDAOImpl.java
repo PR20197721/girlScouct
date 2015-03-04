@@ -1047,6 +1047,9 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 					ocm.update(schedule);
 			else 
 					ocm.insert(schedule);
+			
+			if( schedule!=null && (schedule.getDates()==null || schedule.getDates().equals("")) )
+					ocm.remove(schedule);
 			ocm.save();
 			isUpdated= true;
 		} catch (Exception e) {
