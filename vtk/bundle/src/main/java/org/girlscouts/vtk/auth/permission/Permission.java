@@ -46,6 +46,7 @@ public class Permission extends PermissionConstants {
 	/*** EMAIL ***/
 	public static final Permission email_send = new Permission(PERMISSION_SEND_EMAIL_ID, meeting_view);
 	
+	
 	private static Map<Integer, Permission> GLOBAL_PERMISSION_MAP;
 
 	private Integer thisId;
