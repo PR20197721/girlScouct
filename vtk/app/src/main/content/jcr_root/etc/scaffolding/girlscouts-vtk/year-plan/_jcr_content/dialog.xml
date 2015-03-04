@@ -50,7 +50,7 @@
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Resources Tags"
                     namespaces="[girlscouts-vtk]"
-                    name="./resourcesNew"
+                    name="./resources"
                     xtype="vtk-tags"/>
                 <meetings
                     jcr:primaryType="cq:Widget"
