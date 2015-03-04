@@ -410,7 +410,7 @@
 			emr.setTemplate(template);
 			//if (email_to_sf.equals("true")) {
 				emr.setEmailToSelf("true");
-				emr.setTo(apiConfig.getUser().getEmail());
+				emr.setTo(user.getApiConfig().getUser().getEmail());
 			//}
 			if (email_to_gp.equals("true")) {
 				java.util.List<Contact> contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
