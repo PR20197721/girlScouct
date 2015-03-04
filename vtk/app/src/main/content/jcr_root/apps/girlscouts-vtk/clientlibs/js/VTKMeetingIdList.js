@@ -51,7 +51,7 @@
 		    	
 			    	options.push({
 			    		"value": base + level + '/' + childKey,
-			    		"text": childKey,
+			    		"text": childKey + ' - ' + child.name,
 			    		"qtip": child.name
 			    	});
 		    	}
