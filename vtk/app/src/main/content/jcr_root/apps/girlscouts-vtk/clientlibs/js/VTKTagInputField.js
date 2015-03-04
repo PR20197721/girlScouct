@@ -53,9 +53,13 @@ girlscouts.components.TagInputField = CQ.Ext.extend(CQ.tagging.TagInputField, {
 			var value = valueArray[i];
 			value = 'girlscouts-vtk:tag/' + value;
 			valueArray[i] = value;
-			console.info('value = ' + value);
 		}
 		girlscouts.components.TagInputField.superclass.setValue.call(this, valueArray, partialTags);
+	},
+	
+	getValue: function() {
+		var values = girlscouts.components.TagInputField.superclass.getValue.call(this);
+		return values.join(';');
 	}
 });
 
