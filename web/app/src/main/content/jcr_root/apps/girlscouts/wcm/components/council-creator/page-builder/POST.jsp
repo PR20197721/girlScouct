@@ -40,7 +40,8 @@ Node contentNode = session.getNode(contentPath);
         <cq:include script="form.jsp" />
         Council Already Exists. Abort.
         <% 
-    } else {
+    } 
+    else {
         %><br>PAGES:<br><%
         //Create a service that will generate the Pages, Scaffolding, Assets, Tags and Groups
         CouncilCreator creator = sling.getService(CouncilCreator.class);
@@ -96,7 +97,7 @@ Node contentNode = session.getNode(contentPath);
             <br>
             <%
         }
-}
+	}
 }
 
 %>
