@@ -46,14 +46,20 @@
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Resources"
                     name="./resources"/>
+                <resourcesNew
+                    jcr:primaryType="cq:Widget"
+                    fieldLabel="Resources Tags"
+                    namespaces="[girlscouts-vtk]"
+                    name="./resourcesNew"
+                    xtype="vtk-tags"/>
                 <meetings
                     jcr:primaryType="cq:Widget"
                     xtype="vtk-meeting-id-list">
                     <fieldConfig
                         jcr:primaryType="nt:unstructured"
-                    	xtype="vtk-meeting-id"
-                    	type="select"
-                    	optionsProvider="girlscouts.components.VTKMeetingIdHelper.provideOptions" />
+                        optionsProvider="girlscouts.components.VTKMeetingIdHelper.provideOptions"
+                        type="select"
+                        xtype="vtk-meeting-id"/>
                 </meetings>
             </items>
         </tab1>

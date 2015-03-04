@@ -5,3 +5,4 @@ VTKAgenda.js
 VTKAgendaList.js
 VTKMeetingId.js
 VTKMeetingIdList.js
+VTKTagInputField.js
