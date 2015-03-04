@@ -1,11 +1,6 @@
 <!-- PAGEID :: ./app/src/main/content/jcr_root/apps/girlscouts-vtk/components/vtk/mytroop_react.jsp -->
 
-<% if( !hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_ID) ){%>
-    <jsp:forward page="mytroop_react_parent.jsp"/>
-    
-<%
-     return;
-  } %>
+
 
 <%@ page import="com.google.common.collect .*"%>
 <%
