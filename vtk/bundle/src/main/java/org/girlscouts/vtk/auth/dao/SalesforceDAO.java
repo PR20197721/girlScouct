@@ -436,6 +436,20 @@ public class SalesforceDAO {
 					contact.setAge(  results.getJSONObject(i).getInt("rC_Bios__Age__c") );
 					contact.setDob(  results.getJSONObject(i).getString("Birthdate") );
 					contact.setRole(  results.getJSONObject(i).getString("rC_Bios__Role__c") );
+					contact.setType(0);
+					
+					//primary
+					Contact contactSub= new Contact();
+					contactSub.setEmail(  results.getJSONObject(i).getJSONObject("Account").getJSONObject("rC_Bios__Preferred_Contact__r").getString("Email") );
+					contactSub.setFirstName(  results.getJSONObject(i).getJSONObject("Account").getJSONObject("rC_Bios__Preferred_Contact__r").getString("FirstName") );
+					contactSub.setLastName(  results.getJSONObject(i).getJSONObject("Account").getJSONObject("rC_Bios__Preferred_Contact__r").getString("LastName") );
+					//contactSub.setRole(  results.getJSONObject(i).getJSONObject("Account").getJSONObject("rC_Bios__Preferred_Contact__r").getString("type") );
+					contactSub.setType(1);
+					
+					java.util.List<Contact> contactsSub = new java.util.ArrayList<Contact>();
+					contactsSub.add( contactSub );
+					contact.setContacts( contactsSub );
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -559,7 +573,51 @@ public class SalesforceDAO {
 
 								org.girlscouts.vtk.auth.permission.RollType rollType = org.girlscouts.vtk.auth.permission.RollType
 										.valueOf("DP");
+								
+								
+								try{
+
+									System.err.println("tester 123");
+
+									if( contactId.equals("005Z0000002J5CYIA0")){
+
+
+									System.err.println( "tester in");
+
+									rollType=org.girlscouts.vtk.auth.permission.RollType.valueOf("PA");
+
+									troop.setCouncilCode(603); //TO BE REMOVED : only 4 test
+
+									System.err.println("tester: "+ troop.getCouncilCode() +" : "+ troop.getCouncilId() +" : "+ troop.getGradeLevel() +" : "+ troop.getTroopId() +" : "+ troop.getTroopName());
+
+									if( troop.getTroopId().equals("701Z0000000gvSKIAY")){
+
+									troop.setTroopId("701G0000000uQzTIAU");
+
+									troop.setTroopName("Troop 603104");
+
+									troop.setGradeLevel("2-Brownie");
+
+									}
+
+									}
+
+									}catch(Exception nn){nn.printStackTrace();}
+
+
+								
 								switch (rollType) {
+								case PA:
+
+									troop.setPermissionTokens(Permission
+
+									.getPermissionTokens(Permission.GROUP_MEMBER_1G_PERMISSIONS));
+
+									log.debug("REGISTER ROLL PA= parent");
+
+									break;
+
+
 								case DP:
 									troop.setPermissionTokens(Permission
 											.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));

@@ -46,7 +46,7 @@
           }%> 
         
           <!-- if on a My Troop page-->
-          <% if("myTroop".equals(activeTab)) { %>
+          <% if( "myTroop".equals(activeTab) && hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_ID) ) { %>
           <li><a data-reveal-id="modal_upload_image" title="update photo" href="#">add/change a photo of your troop</a></li>
           <li><a title="remove photo" href="#" onclick="rmTroopInfo()">remove troop photo</a></li>
           <% } %>
