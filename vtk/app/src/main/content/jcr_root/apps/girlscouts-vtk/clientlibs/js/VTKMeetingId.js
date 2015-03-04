@@ -47,30 +47,6 @@ girlscouts.components.VTKMeetingId = CQ.Ext.extend(CQ.form.Selection, {
 
 		this.ocmField = new CQ.Ext.form.Hidden({});
 		this.add(this.ocmField);
-		
-		this.button = this.addButton({
-			text: 'Add New Meeting'
-		}, function() {
-			window.location.href = '/etc/scaffolding/girlscouts-vtk/year-plan.html';
-		}, this);
-    },
-    
-    updateButton: function(value) {
-    	if (!value) {
-    		value = this.getValue();
-    	}
-		if (value) {
-			this.button.setText('Edit Meeting');
-			this.button.setHandler(function() {
-				var path = value + '.scaffolding.html';
-				window.location.href = path;
-			}, this);
-		}
-    },
-    
-    setValue: function(value) {
-        girlscouts.components.VTKMeetingId.superclass.setValue.apply(this, arguments);
-        this.updateButton(value);
     }
 });
 
