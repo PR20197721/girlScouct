@@ -10,12 +10,17 @@
   		 	<a href="#" title="view sent emails" className="view" data-reveal-id="modal_view_sent_emails">view</a>)
   		</li>
   <%}else{ %>
-   		<li><a <%if(planView.getSearchDate()!=null && planView.getSearchDate().after( new java.util.Date("1/1/1977") )) {%> 
-   		href="#" data-reveal-id="modal-meeting-reminder" 
-      <%} else{%>
-   		href="javascript:alert('You have not yet scheduled your meeting calendar.\nPlease select a year plan and schedule your meetings by clicking on the MEETING DATES AND LOCATION link.')"
-   		<%} %> 
-   		title="Meeting Reminder Email">Edit/Sent Meeting Reminder Email</a>
+   		<li>
+   		<%if(hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ID ) || !sessionFeatures.contains(SHOW_PARENT_FEATURE)) {%>
+	   		<a <%if(planView.getSearchDate()!=null && planView.getSearchDate().after( new java.util.Date("1/1/1977") )) {%> 
+	   		href="#" data-reveal-id="modal-meeting-reminder" 
+	      <%} else{%>
+	   		href="javascript:alert('You have not yet scheduled your meeting calendar.\nPlease select a year plan and schedule your meetings by clicking on the MEETING DATES AND LOCATION link.')"
+	   		<%} %> 
+	   		title="Meeting Reminder Email">Edit/Sent Meeting Reminder Email</a>
+	   	<%} else{%>
+	   		<a>Meeting Reminder email</a>
+	   	<% }%>
    		</li>
    		<li>
    		<%if (planView.getMeeting().getSentEmails()!=null && !planView.getMeeting().getSentEmails().isEmpty()) {%>
@@ -53,5 +58,5 @@
   </ul>
 </section>
 <%
-        }
+}
 %>
