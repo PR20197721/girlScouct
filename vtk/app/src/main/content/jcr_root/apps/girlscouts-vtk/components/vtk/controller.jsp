@@ -28,6 +28,24 @@
 				while (x.indexOf(",,") != -1) {
 					x = x.replaceAll(",,", ",");
 				}
+	
+				
+				
+				
+				StringTokenizer t = new StringTokenizer( x, ",");
+				if( troop.getYearPlan().getMeetingEvents().size() != t.countTokens()){
+					String tmp = x;
+					if( !tmp.startsWith(",")) tmp =","+ tmp;
+					if( !tmp.endsWith(",")) tmp = tmp +",";
+					for( int i=1;i< troop.getYearPlan().getMeetingEvents().size();i++)
+						if( tmp.indexOf( ","+i+"," )==-1 )
+							x = i+","+ x;
+								
+				}
+				
+				
+				
+				
 
 				meetingUtil.changeMeetingPositions(user, troop, x);
 				//meetingUtil.changeMeetingPositions( user, troop, request.getParameter("isMeetingCngAjax") );

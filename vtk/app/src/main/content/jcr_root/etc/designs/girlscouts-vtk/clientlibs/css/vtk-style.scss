@@ -1453,11 +1453,12 @@
         text-overflow: ellipsis;
         overflow: hidden;
         padding-left:0;
+        line-height:1.6;
       }
     }
     dl {
       dd a.email {
-        padding-left:5px;
+        padding-left:10px;
       }
     }
     > dt {
@@ -1478,7 +1479,6 @@
         margin-left: 40px;
         margin-right: 120px;
         cursor: pointer;
-        position: relative;
         &:before {
           border-style: solid;
           content: "";
@@ -1501,7 +1501,7 @@
     }
     .icon-mail {
       font-size: 31px;
-      margin-right: 30px;
+      margin-right: 10px;
       line-height:.5;
       }
       .accordion-inner {
@@ -1670,51 +1670,41 @@
       }
     }
   }
+  p.info {
+    padding-left: 30px;
+    margin-top:-10px;
+  }
   .icon {
-    a,span {
-      vertical-align: top;
-      &:before {
-        background: url("/etc/designs/girlscouts-vtk/images/icon_sprite.png") transparent no-repeat 0 0;
-        height: 25px;
-        width: 20px;
-        display: inline-block;
-        white-space: nowrap;
-        padding-left: 30px;
-        content: " ";
-      }
-    }
-    p {
+    &:before {
+      background: url("/etc/designs/girlscouts-vtk/images/icon_sprite.png") transparent no-repeat 0 0;
+      height: 25px;
+      width: 20px;
+      display: inline-block;
+      white-space: nowrap;
       padding-left: 30px;
-      margin-top:-10px;
+      content: " ";
+      vertical-align: middle;
     }
     &.pdf {
-      a,span {
-        &:before {
-          background-position:-30px 0;
-        }
+      &:before {
+        background-position:-30px 0;
       }
     }
     &.docx,
     &.doc {
-      a,span {
-        &:before {
-          background-position: -60px 0;
-        }
+      &:before {
+        background-position: -60px 0;
       }
     }
     &.xlsx,
     &.xls  {
-      a,span {
-        &:before {
-          background-position: -90px 0;
-        }
+      &:before {
+        background-position: -90px 0;
       }
     }
     &.zip {
-      a,span {
-        &:before {
-          background-position: -120px 0;
-        }
+      &:before {
+        background-position: -120px 0;
       }
     }
   }
@@ -1970,7 +1960,13 @@ input[type="file"] {
     > div:nth-of-type(2) {
       padding-left: 115px;
     }
-  } 
+  }
+ .vtk-body .accordion .accordion-inner ul.column:first-child {
+    margin-left:0;
+  }
+  .vtk-body .accordion dl dd a.email {
+    padding-left:0;
+  }
   .vtk-body #main #yearPlanMeetings ul {
     .meeting {
       > div {

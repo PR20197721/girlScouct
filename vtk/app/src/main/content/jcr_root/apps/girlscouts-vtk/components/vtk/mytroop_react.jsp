@@ -54,7 +54,7 @@
 </div>
 <div class="column large-24 large-centered mytroop">
 	<dl class="accordion" data-accordion>
-		<dt data-target="panel1"><h3 class="on"><%=troop.getSfTroopName() %> INFO</h3><a href='mailto:<%=emailTo%>'><i class="icon icon-mail"></i>email to <%= contacts.size() %> contacts</a></dt>
+		<dt data-target="panel1"><h3 class="on"><%=troop.getSfTroopName() %> INFO</h3><a href='mailto:<%=emailTo%>'><i class="icon-mail"></i>email to <%= contacts.size() %> contacts</a></dt>
 		<dd class="accordion-navigation">
 			<div class="content active" id="panel1">
 				<div class="row">
@@ -70,7 +70,7 @@
 								<dt data-target="panel<%=i+1%>b" class="clearfix">
 									<span class="name column large-10"><%=contact.getFirstName() %></span>
 									<a class="column large-10 email" href="mailto:<%=_email%>">
-										<i class="icon icon-mail"></i><%=contact.getEmail() %>
+										<i class="icon-mail"></i><%=contact.getEmail() %>
 									</a>
 									<span class="column large-4"><%=contact.getPhone() %></span>
 								</dt>
@@ -85,51 +85,52 @@
 										</ul>
 										<ul class="column large-18">
 											<li class="row">
-												<p><strong>Secondary Info:</strong></p>
+												<p class="column large-24"><strong>Secondary Info:</strong></p>
 												<p>
 													<span class="column large-5">Janie Berger</span>
-													<a class="column large-14 email" href="mailto:<%=_email%>"><i class="icon icon-mail"></i><%=contact.getEmail() %></a>
+													<a class="column large-14 email" href="mailto:<%=_email%>"><i class="icon-mail"></i><%=contact.getEmail() %></a>
 													<span class="column large-5">999.999.9999</span>
 												</p>
 											</li>
 											<li class="row">
-												<p><strong>Achievements:</strong></p>
+												<p class="column large-24"><strong>Achievements:</strong></p>
+<!--
 												<ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-3">
-<%
-			boolean isFirstItem = true;
-			for(int y=0;y<infos.size();y++){
-				if(infos.get(y).isAchievement() && infos.get(y).getYearPlanComponent().getType()== YearPlanComponentType.MEETING) {
-/*
-					if (!isFirstItem) {
-						out.println(",");
-					}
-*/
-					MeetingE meeting = (MeetingE)infos.get(y).getYearPlanComponent();
-					String achievementImg  = "/content/dam/girlscouts-vtk/local/icon/meetings/" + meeting.getMeetingInfo().getId() + ".png";
-
-%>
-													<li>
-														<img src="<%= achievementImg%>"/><br/>
+-->
+												<p class="column large-24">
+													<%
+													boolean isFirstItem = true;
+													for(int y=0;y<infos.size();y++){
+														if(infos.get(y).isAchievement() && infos.get(y).getYearPlanComponent().getType()== YearPlanComponentType.MEETING) {
+															if (!isFirstItem) {
+																out.println(",");
+															}
+															MeetingE meeting = (MeetingE)infos.get(y).getYearPlanComponent();
+															String achievementImg  = "/content/dam/girlscouts-vtk/local/icon/meetings/" + meeting.getMeetingInfo().getId() + ".png";
+													%>
+													<!-- <img src="<%= achievementImg%>"/><br/> -->
 														<%= ((MeetingE)infos.get(y).getYearPlanComponent()).getMeetingInfo().getName() %>
-													</li>
-<%
-					isFirstItem = false;
-				}
-			}
-%>
+													<%
+														isFirstItem = false;
+														}
+													}
+													%>
+												<div>
+<!--
 												</ul>
+-->
 											</li>
 											<li class="row">
-												<p><strong>Meetings Attended:</strong></p>
-												<p>
-<%
-			for(int y=0;y<infos.size();y++) {
-				if(infos.get(y).isAttended()) {
-					out.println(fmr_ddmm.format(sched_bm_inverse.get( infos.get(y).getYearPlanComponent())));
-					out.println((infos.size() > 1 && infos.size()-1 !=y) ? "," : "");
-				}
-			}
-%>
+												<p class="columns large-24"><strong>Meetings Attended:</strong></p>
+												<p class="column large-24">
+													<%
+													for(int y=0;y<infos.size();y++) {
+														if(infos.get(y).isAttended()) {
+															out.println(fmr_ddmm.format(sched_bm_inverse.get( infos.get(y).getYearPlanComponent())));
+															out.println((infos.size() > 1 && infos.size()-1 !=y) ? "," : "");
+														}
+													}
+													%>
 												</p>
 											</li>
 										</ul>
@@ -137,9 +138,9 @@
 								</dd>
 							</dl>
 						</div>
-<%
-		}
-%>
+						<%
+								}
+						%>
 					</div>
 				</div>
 			</div>
