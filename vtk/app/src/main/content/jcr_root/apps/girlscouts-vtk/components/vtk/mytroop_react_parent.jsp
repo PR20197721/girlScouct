@@ -81,27 +81,10 @@
                     </dt>
                     <dd class="accordion-navigation clearfix">
                       <div id="panel<%=i+1%>b" class="content clearfix">
-                        <ul class="column large-4">
-                          <li>DOB: <%= FORMAT_MMddYYYY.format(fmt_yyyyMMdd.parse(contact.getDob()))  %></li>
-                          <li>AGE: <%=contact.getAge() %></li>
-                        </ul>
-                        <ul class="column large-18 right">
-                          <li><address><p><%=contact.getAddress() %><br/><%=contact.getCity() %>, <%=contact.getState() %><br/><%=contact.getZip() %></p></address></li>
-                        </ul>
+
                          <ul class="column large-18">
                          
-                         <%
-                         if( contact.getContacts()!=null )
-                          for(Contact contactSub: contact.getContacts()){ %>
-                           <li class="row">                           
-                              <p><strong>Secondary Info:</strong></p>
-                              <p>
-                              <span class="column large-5"><%=contactSub.getFirstName() %> <%=contactSub.getLastName() %></span>
-                              <a class="column large-14 email" href="mailto:<%=contactSub.getEmail()%>"><i class="icon icon-mail"></i><%=contactSub.getEmail() %></a>
-                              <span class="column large-5"><%=contactSub.getPhone()==null ? "" : contactSub.getPhone() %></span>
-                              </p>
-                            </li>
-                         <%} %>
+                        
                          
                          
                             <li class="row">
