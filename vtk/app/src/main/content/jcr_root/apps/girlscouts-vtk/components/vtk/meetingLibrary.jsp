@@ -68,8 +68,7 @@
           java.util.Date meetingDate =  sched_bm_inverse.get( myMeetings.get(i));
           if( meetingDate.before( new java.util.Date() ) && meetingDate.after( new java.util.Date("1/1/2000") ) ) {
         	  reAddMeetings.add(meetingId);
-          
-    System.err.println("tata56 adding "+ meetingId.toLowerCase() );      
+              
           }else{
         	  futureMeetings.add(meetingId);
           }
@@ -118,9 +117,7 @@
                 <% } else {%>
                   <img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/check.png" width="10" height="15"> <i class="included">Included in Year Plan</i>
                     
-                    
-                    <%
-                    System.err.println("tata56 chk "+ meeting.getId().toLowerCase() );     
+                    <%                   
                     if( !futureMeetings.contains(meeting.getId().toLowerCase() )  && reAddMeetings.contains( meeting.getId().toLowerCase() ) ){%>
                          <a onclick="cngMeeting('<%=meeting.getPath()%>')">Re-add meeting</a>
                     <%} %>
