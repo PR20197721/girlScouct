@@ -27,6 +27,11 @@
 	List<String> expenseFields = financeConfig.getExpenseFields();
 	
 	String period = financeConfig.getPeriod();
+	
+	String recipient = financeConfig.getRecipient();
+	if(recipient == null){
+		recipient = "";
+	}
 
 	int incomeCounter = 0;
 	int expenseCounter = 0;
@@ -39,7 +44,7 @@
 <%@include file="include/utility_nav.jsp"%>
 	<div class="column large-20 medium-20 large-centered medium-centered small-24">
 		<form class="cmxform" id="financeForm" onchange="enableSaveButton()">
-			<div class="errorMsg error"></div>
+			<div class="errorMsg error"><p id="errorText"> </p></div>
 			<div class="row collapse opts">
 				<span class="column small-10 large-5 medium-7">Reporting Frequency:</span>
 				<select id="periodSelection" class="columns small-6 large-3 medium-5 left">
@@ -51,6 +56,12 @@
 					<option value="Yearly">Yearly</option>
 				<%} %>
 				</select>
+			</div>
+			<div class="row">
+				<ul id="incomeFields" class="large-block-grid-2 small-block-grid-2 text-right">
+					<li><p>Send To:</p></li>
+					<li><input id="recipient" type="text" onkeyDown="enableSaveButton()" value="<%=recipient%>"/></li> 
+				</ul>
 			</div>
 			<div class="row">
 				<section class="column large-12 medium-12">

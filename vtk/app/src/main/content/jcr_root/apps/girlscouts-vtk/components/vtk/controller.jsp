@@ -241,6 +241,7 @@
 				return;
 			case UpdateFinances:
 				financeUtil.updateFinances(troop, user.getCurrentYear(), request.getParameterMap());
+				financeUtil.sendFinanceDataEmail(troop, Integer.parseInt(request.getParameter("qtr")),  user.getCurrentYear());
 				return;
 			case UpdateFinanceAdmin:
 				financeUtil.updateFinanceConfiguration(troop, user.getCurrentYear(), request.getParameterMap());

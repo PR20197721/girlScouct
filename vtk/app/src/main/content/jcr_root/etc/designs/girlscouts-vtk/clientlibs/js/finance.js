@@ -33,8 +33,66 @@ function maskAllFields() {
 }
 
 
+function validateFinanceAdmin(){
+
+	document.getElementById("errorText").innerHTML = "";
+	var recipient = document.getElementById("recipient").value;
+	var emailFormat = /\S+@[A-Z]+\.[A-Z]+$/i;
+	if(!emailFormat.test(recipient)){
+		document.getElementById("errorText").innerHTML = "Send To field must be a valid email address";
+		return false;
+	}
+	
+	var incomeChildren = document.getElementById("income-list").children;
+	for(var i = 0; i < incomeChildren.length; i++){
+		var tempChild = incomeChildren[i].firstElementChild;
+		
+		if(tempChild.tagName == "INPUT"){
+			var inputVal = tempChild.value;
+			inputVal = inputVal.trim();
+			if(inputVal == ""){
+				document.getElementById("errorText").innerHTML = "Income fields cannot be left empty. Either remove the fields or input values. " + 
+				"At least one income field is required.";
+					return false;
+			}
+		}
+	}
+	
+	var expenseChildren = document.getElementById("expense-list").children;
+	for(var i = 0; i < expenseChildren.length; i++){
+		var tempChild = expenseChildren[i].firstElementChild;
+        
+		if(tempChild.tagName == "INPUT"){
+			var inputVal = tempChild.value;
+			inputVal = inputVal.trim();
+			if(inputVal == ""){
+				document.getElementById("errorText").innerHTML = "Expense fields cannot be left empty. Either remove the fields or enter values. " + 
+					"At least one expense field is required.";
+					return false;
+			}
+		}
+	}
+		
+
+
+	return true;
+}
+
+
 
 function saveFinanceAdmin(){
+	
+	
+	
+	var recipient = document.getElementById("recipient").value;
+	
+	
+	if(!validateFinanceAdmin()){
+		return false;
+	}
+	
+	
+	
 	var incomeArray = "[";
 	var expenseArray = "["
 	
@@ -68,8 +126,7 @@ function saveFinanceAdmin(){
 	}
 	incomeArray = incomeArray + "]";
 	expenseArray = expenseArray + "]";
-	console.log("Income array is: " + incomeArray);
-	console.log("Expense array is: " + expenseArray);
+	
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand='+Date.now(),
 		type: 'POST',
@@ -77,7 +134,8 @@ function saveFinanceAdmin(){
 			act:'UpdateFinanceAdmin',
 			expenses: expenseArray,
 			income: incomeArray,
-			period: periodValue 
+			period: periodValue,
+			recipient: recipient 
 			
 		},
 		success: function(result) {

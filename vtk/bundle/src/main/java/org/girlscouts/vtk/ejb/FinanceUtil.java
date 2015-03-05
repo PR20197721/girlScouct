@@ -2,10 +2,12 @@ package org.girlscouts.vtk.ejb;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.util.ByteArrayDataSource;
 
@@ -57,7 +59,8 @@ public class FinanceUtil {
 		String expenses = params.get(Finance.EXPENSES)[0];
 		String income = params.get(Finance.INCOME)[0];
 		String period = params.get(Finance.PERIOD)[0];
-		troopDAO.setFinanceConfiguration(troop, currentYear, income, expenses, period);
+		String recipient = params.get(FinanceConfiguration.RECIPIENT)[0];
+		troopDAO.setFinanceConfiguration(troop, currentYear, income, expenses, period, recipient);
 		// TODO NOTIFY Council here
 	}
 	
@@ -77,39 +80,57 @@ public class FinanceUtil {
 			List<String> incomeFields = financeConfig.getIncomeFields();
 			List<String> expenseFields = financeConfig.getExpenseFields();
 			
+			NumberFormat formatter = NumberFormat.getCurrencyInstance();
+			double totalIncome = 0.0;
+			double totalExpenses = 0.0;
+			double balance = 0.0;
+			
 			for(int i = 0; i < incomeFields.size() || i < expenseFields.size(); i++){
 				String incomeField = "";
 				String incomeValue = "";
 				if(i < incomeFields.size()){
 					incomeField = incomeFields.get(i);
-					incomeValue = Double.toString(finance.getIncomeByName(incomeField));
+					double moneyValue = finance.getIncomeByName(incomeField);
+					incomeValue = formatter.format(moneyValue);
+					totalIncome += moneyValue;
 				}
 				String expenseField = "";
 				String expenseValue = "";
 				if(i < expenseFields.size()){
-					expenseField = incomeFields.get(i);
-					expenseValue = Double.toString(finance.getExpenseByName(expenseField));
+					expenseField = expenseFields.get(i);
+					double moneyValue = finance.getExpenseByName(expenseField);
+					expenseValue = formatter.format(moneyValue);
+					totalExpenses += moneyValue;
 				}
 				csvWriter.writeRow(incomeField, incomeValue, expenseField, expenseValue);
 				
 			}
+			
+			balance = totalIncome - totalExpenses;
+			csvWriter.writeRow("", "", "", "");
+			csvWriter.writeRow("", "", "", "Total Income", formatter.format(totalIncome));
+			csvWriter.writeRow("", "", "", "Total Expenses", formatter.format(totalExpenses));
+			csvWriter.writeRow("", "", "", "Current Balance", formatter.format(balance));
 			
 			csvWriter.close();
 			
 			writer.close();
 			String csvContents = writer.toString();
 			
-			
+			String recipient = financeConfig.getRecipient();
 			HtmlEmail email = new HtmlEmail();
 			ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
-			
+			emailRecipients.add(new InternetAddress(recipient));
 			email.setTo(emailRecipients);
 			email.setSubject("Troop Finances");
 			
 			
 			email.attach(new ByteArrayDataSource(csvContents.getBytes(),"text/csv"), "finances.csv", "Finances Data");
-			
-			messageGateway.send(email);
+			if(messageGateway == null){
+				System.err.println("!!!!!!!!Message Gateway is null!!!!!!!!!");
+			}else{
+				messageGateway.send(email);
+			}
 			
 			
 			
@@ -117,6 +138,9 @@ public class FinanceUtil {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (EmailException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (AddressException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
