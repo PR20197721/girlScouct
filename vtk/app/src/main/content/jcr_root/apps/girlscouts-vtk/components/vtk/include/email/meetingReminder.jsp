@@ -1,8 +1,10 @@
 
 <%@ page import="org.girlscouts.vtk.helpers.*" %>
+<!-- /apps/girlscouts-vtk/components/vtk/include/email/meetingReminder.jsp -->
 <div class="content clearfix">
 
 <% 
+	MeetingE _meeting = planView.getMeeting();
 	Calendar c = Calendar.getInstance();
 	c.setTime(planView.getSearchDate());
 	c.add(Calendar.MINUTE, planView.getMeetingLength());
@@ -44,8 +46,8 @@
 	<div style="background-color:yellow;"></div>
 
 	<textarea id="email_htm" name="textarea" class="jqte-test" rows="25" cols="25">
-		<%if (meeting.getEmlTemplate()!=null) {%>
-		<%= meeting.getEmlTemplate()%> 
+		<%if (_meeting.getEmlTemplate()!=null) {%>
+		<%= _meeting.getEmlTemplate()%> 
 		<%}else{ %>
 		<p>Hello Girl Scout Families,</p>
 		<br/><p>Here are the details of our next meeting:</p>
@@ -55,9 +57,9 @@
 			</tr>
 			<tr><th>Location:</th>
 				<td><%
-				if( meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null ){
+				if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null ){
 					for(int k=0;k<troop.getYearPlan().getLocations().size();k++){	
-						if( troop.getYearPlan().getLocations().get(k).getPath().equals( meeting.getLocationRef() ) ){%>
+						if( troop.getYearPlan().getLocations().get(k).getPath().equals( _meeting.getLocationRef() ) ){%>
 						<%=troop.getYearPlan().getLocations().get(k).getName() %>
 						<br/><%=troop.getYearPlan().getLocations().get(k).getAddress() %>
 						<%-- 
@@ -71,10 +73,10 @@
 				%></td>
 			</tr>
 			<tr><th>Topic:</th>
-				<td><%= meeting.getMeetingInfo().getName() %></td>
+				<td><%= _meeting.getMeetingInfo().getName() %></td>
 			</tr>
 		</table>
-		<%=meeting.getMeetingInfo().getMeetingInfo().get("overview").getStr() %>
+		<%=_meeting.getMeetingInfo().getMeetingInfo().get("overview").getStr() %>
 		<br/><p>If you have any questions, or want to participate in this meeting, please contact me at 
 		<%if(apiConfig.getUser().getPhone()!=null)%><%=apiConfig.getUser().getPhone() %>
 		<%if(apiConfig.getUser().getMobilePhone()!=null)%><%=apiConfig.getUser().getMobilePhone() %>
@@ -109,7 +111,7 @@
 						}
       	%>
       		<li><span class="name icon <%=ext%>"><%= planView.getAidTags().get(i).getTitle() %></span></li>
-      		<li><a class="add-links" href="#nogo" title="add" onclick="addAidLink('<%=planView.getAidTags().get(i).getRefId()%>','<%=planView.getAidTags().get(i).getTitle()%>','<%=mid %>')"><i class="icon-button-circle-plus"></i></a></li><%
+      		<li><a class="add-links" href="#nogo" title="add" onclick="addAidLink('<%=planView.getAidTags().get(i).getRefId()%>','<%=planView.getAidTags().get(i).getTitle()%>','<%=_meeting.getUid() %>')"><i class="icon-button-circle-plus"></i></a></li><%
       	}%>
       	</ul>
 	    </div>
@@ -234,7 +236,7 @@
 	};
 	function sendEmail(){
 		if(validate()){
-	    	previewMeetingReminderEmail('<%=mid%>',template);
+	    	previewMeetingReminderEmail('<%=_meeting.getUid()%>',template);
 		}
 	};
 	function validate(){
