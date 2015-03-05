@@ -12,12 +12,15 @@
   			<%} %>
   		</li>
   <%}else{ %>
-   		<li><a <%if(planView.getSearchDate()!=null && planView.getSearchDate().after( new java.util.Date("1/1/1977") )) {%> 
-   		href="#" data-reveal-id="modal-meeting-reminder" 
-      <%} else{%>
-   		href="javascript:alert('You have not yet scheduled your meeting calendar.\nPlease select a year plan and schedule your meetings by clicking on the MEETING DATES AND LOCATION link.')"
-   		<%} %> 
-   		title="Meeting Reminder Email">Edit/Sent Meeting Reminder Email</a>
+   		<li><%if(hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ID )) {%>
+	   		<a <%if(planView.getSearchDate()!=null && planView.getSearchDate().after( new java.util.Date("1/1/1977") )) {%> 
+	   			href="#" data-reveal-id="modal-meeting-reminder" <%
+	   			} else{%>
+	   			href="javascript:alert('You have not yet scheduled your meeting calendar.\nPlease select a year plan and schedule your meetings by clicking on the MEETING DATES AND LOCATION link.')"
+	   			<%} %> title="Meeting Reminder Email">Edit/Sent Meeting Reminder Email</a><%
+	   		} else{ // no permission or showParent set to true%>
+	   		<a>Meeting Reminder email</a>
+	   	<% }%>
    		</li>
    		<li>
    		<%if (planView.getMeeting().getSentEmails()!=null && !planView.getMeeting().getSentEmails().isEmpty()) {%>
@@ -55,5 +58,5 @@
   </ul>
 </section>
 <%
-        }
+}
 %>

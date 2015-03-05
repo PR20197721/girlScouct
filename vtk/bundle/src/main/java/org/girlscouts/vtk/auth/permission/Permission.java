@@ -47,6 +47,10 @@ public class Permission extends PermissionConstants {
 	public static final Permission email_send_mt = new Permission(PERMISSION_SEND_EMAIL_MT_ID, meeting_edit);
 	public static final Permission email_send_act = new Permission(PERMISSION_SEND_EMAIL_ACT_ID, activity_edit);
 	
+	
+	/*** ACTIVITY PLAN OF MEETING***/
+	public static final Permission activity_plan_view = new Permission(PERMISSION_VIEW_ACTIVITY_PLAN_ID, meeting_view);
+
 	private static Map<Integer, Permission> GLOBAL_PERMISSION_MAP;
 
 	private Integer thisId;

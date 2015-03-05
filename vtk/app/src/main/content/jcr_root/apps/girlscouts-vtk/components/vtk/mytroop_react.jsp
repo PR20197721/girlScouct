@@ -56,7 +56,7 @@
   <div class="column large-24 large-centered mytroop">
 
     <dl class="accordion" data-accordion>
-      <dt data-target="panel1"><h3 class="on"><%=troop.getSfTroopName() %> INFO</h3><a href='mailto:<%=emailTo%>'><i class="icon icon-mail"></i>email to <%= contacts.size() %> contacts</a></dt>
+      <dt data-target="panel1"><h3 class="on"><%=troop.getSfTroopName() %> INFO</h3><a href='mailto:<%=emailTo%>'><i class="icon-mail"></i>email to <%= contacts.size() %> contacts</a></dt>
       <dd class="accordion-navigation">
         <div class="content active" id="panel1">
           <div class="row">
@@ -73,7 +73,7 @@
                     <dt data-target="panel<%=i+1%>b" class="clearfix">
                       <span class="name column large-10"><%=contact.getFirstName() %></span>
                         <a class="column large-10 email" href="mailto:<%=_email%>">
-                        <i class="icon icon-mail"></i><%=contact.getEmail() %>
+                        <i class="icon-mail"></i><%=contact.getEmail() %>
                       </a>
                       <span class="column large-4"><%=contact.getPhone() %></span>
                     </dt>
@@ -95,7 +95,7 @@
                               <p><strong>Secondary Info:</strong></p>
 			                  <p>
                               <span class="column large-5"><%=contactSub.getFirstName() %> <%=contactSub.getLastName() %></span>
-                              <a class="column large-14 email" href="mailto:<%=contactSub.getEmail()%>"><i class="icon icon-mail"></i><%=contactSub.getEmail() %></a>
+                              <a class="column large-14 email" href="mailto:<%=contactSub.getEmail()%>"><i class="icon-mail"></i><%=contactSub.getEmail() %></a>
                               <span class="column large-5"><%=contactSub.getPhone()==null ? "" : contactSub.getPhone() %></span>
 			                  </p>
                             </li>
