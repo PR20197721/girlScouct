@@ -75,7 +75,7 @@ public class PermissionConstants {
 	public static final int GROUP_MEMBER_1G = 13;
 	public static final String GROUP_MEMBER_1G_DISPLAY = "Member with 1 girl";
 	public static final int[] GROUP_MEMBER_1G_PERMISSIONS = new int[] {
-		PERMISSION_VIEW_YEARPLAN_ID, PERMISSION_VIEW_MEETING_ID
+		PERMISSION_VIEW_YEARPLAN_ID, PERMISSION_VIEW_MEETING_ID, PERMISSION_VIEW_TROOP_ID
 	};
 
 	public static final int GROUP_MEMBER_NO_TROOP = 14;
