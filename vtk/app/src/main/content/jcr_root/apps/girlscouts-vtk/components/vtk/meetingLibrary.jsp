@@ -105,10 +105,11 @@
             			<p class="blurb"><%=meeting.getBlurb() %></p>
           		</td>
               <td>
-                <%  if( !myMeetingIds.contains( meeting.getId().trim().toLowerCase()) ) { %>
-                  <a href="#" onclick="cngMeeting('<%=meeting.getPath()%>')">Select Meeting</a>
+                <% if( !myMeetingIds.contains( meeting.getId().trim().toLowerCase()) ) { %>
+                  <a onclick="cngMeeting('<%=meeting.getPath()%>')">Select Meeting</a>
                 <% } else {%>
                   <img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/check.png" width="10" height="15"> <i class="included">Included in Year Plan</i>
+                  <a onclick="cngMeeting('<%=meeting.getPath()%>')">Re-add meeting</a>
                 <% }%>
               </td>
           		<td>
@@ -116,10 +117,9 @@
               	try {
               		String img= meeting.getId().substring( meeting.getId().lastIndexOf("/")+1).toUpperCase();
               		if(img.contains("_") )img= img.substring(0, img.indexOf("_"));
-              %>
+                %>
                     <img width="100" height="100" src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png"/>
-                <%
-                	} catch(Exception e){
+                  <% } catch(Exception e){
                 		e.printStackTrace();
                 	}
                 %>

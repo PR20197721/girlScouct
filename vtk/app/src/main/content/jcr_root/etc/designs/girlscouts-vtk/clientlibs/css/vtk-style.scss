@@ -905,7 +905,7 @@
         border:none;
         tbody {
           tr td:first-child {
-            width: 70%;
+            width: 65%;
           }
         }
       }
@@ -927,7 +927,8 @@
         }
       }
       .included {
-        font-size:10px;
+        margin-bottom:5px;
+        display: inline-block;
       }
     }
     .tabs-wrapper {
