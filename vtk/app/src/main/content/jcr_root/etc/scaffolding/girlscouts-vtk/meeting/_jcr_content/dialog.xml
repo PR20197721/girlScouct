@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
     jcr:primaryType="cq:Dialog"
     xtype="tabpanel">
     <items jcr:primaryType="cq:WidgetCollection">
@@ -9,19 +9,19 @@
             <items jcr:primaryType="cq:WidgetCollection">
                 <ocm_classname
                     jcr:primaryType="cq:Widget"
-                    xtype="hidden"
+                    defaultValue="org.girlscouts.vtk.models.Meeting"
                     name="./ocm_classname"
-                    defaultValue="org.girlscouts.vtk.models.Meeting"/>
+                    xtype="hidden"/>
                 <resType
                     jcr:primaryType="cq:Widget"
-                    xtype="hidden"
+                    defaultValue="girlscouts-vtk/components/vtk-data"
                     name="./sling:resourceType"
-                    defaultValue="girlscouts-vtk/components/vtk-data"/>
+                    xtype="hidden"/>
                 <vtkDataType
                     jcr:primaryType="cq:Widget"
-                    xtype="hidden"
+                    defaultValue="meeting"
                     name="./vtkDataType"
-                    defaultValue="meeting"/>
+                    xtype="hidden"/>
                 <id
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Id"
@@ -49,16 +49,20 @@
                 <aidTags
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Aid Tags"
-                    name="./aidTags"/>
+                    name="./aidTags"
+                    namespaces="[girlscouts-vtk]"
+                    xtype="vtk-tags"/>
                 <resources
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Resources"
-                    name="./resources"/>
+                    name="./resources"
+                    namespaces="[girlscouts-vtk]"
+                    xtype="vtk-tags"/>
                 <overview
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Overview"
-                    xtype="richtext"
-                    name="./meetingInfo/overview/str">
+                    name="./meetingInfo/overview/str"
+                    xtype="richtext">
                     <rtePlugins jcr:primaryType="nt:unstructured">
                         <links jcr:primaryType="nt:unstructured">
                             <linkDialogConfig
@@ -201,14 +205,13 @@
                 </overview>
                 <overview_ocm
                     jcr:primaryType="cq:Widget"
-                    xtype="hidden"
-                    name="./meetingInfo/overview/ocm_classname"/>
-                    defaultValue="org.girlscouts.vtk.models.JcrCollectionHoldString"/>
+                    name="./meetingInfo/overview/ocm_classname"
+                    xtype="hidden"/>
                 <detailed_activity_plan
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Detailed Activity Plan"
-                    xtype="richtext"
-                    name="./meetingInfo/detailed activity plan/str">
+                    name="./meetingInfo/detailed activity plan/str"
+                    xtype="richtext">
                     <rtePlugins jcr:primaryType="nt:unstructured">
                         <links jcr:primaryType="nt:unstructured">
                             <linkDialogConfig
@@ -351,14 +354,13 @@
                 </detailed_activity_plan>
                 <detailed_activity_plan_ocm
                     jcr:primaryType="cq:Widget"
-                    xtype="hidden"
-                    name="./meetingInfo/detailed activity plan/ocm_classname"/>
-                    defaultValue="org.girlscouts.vtk.models.JcrCollectionHoldString"/>
+                    name="./meetingInfo/detailed activity plan/ocm_classname"
+                    xtype="hidden"/>
                 <materials
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Materials"
-                    xtype="richtext"
-                    name="./meetingInfo/materials/str">
+                    name="./meetingInfo/materials/str"
+                    xtype="richtext">
                     <rtePlugins jcr:primaryType="nt:unstructured">
                         <links jcr:primaryType="nt:unstructured">
                             <linkDialogConfig
@@ -501,18 +503,13 @@
                 </materials>
                 <materials_ocm
                     jcr:primaryType="cq:Widget"
-                    xtype="hidden"
-                    name="./meetingInfo/materials/ocm_classname"/>
-                    defaultValue="org.girlscouts.vtk.models.JcrCollectionHoldString"/>
-                <resources
-                    jcr:primaryType="cq:Widget"
-                    fieldLabel="Resources"
-                    name="./resources"/>
+                    name="./meetingInfo/materials/ocm_classname"
+                    xtype="hidden"/>
                 <email_invite
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Email Invite"
-                    xtype="richtext"
-                    name="./meetingInfo/email invite/str">
+                    name="./meetingInfo/email invite/str"
+                    xtype="richtext">
                     <rtePlugins jcr:primaryType="nt:unstructured">
                         <links jcr:primaryType="nt:unstructured">
                             <linkDialogConfig
@@ -655,14 +652,13 @@
                 </email_invite>
                 <email_invite_ocm
                     jcr:primaryType="cq:Widget"
-                    xtype="hidden"
-                    name="./meetingInfo/email invite/ocm_classname"/>
-                    defaultValue="org.girlscouts.vtk.models.JcrCollectionHoldString"/>
+                    name="./meetingInfo/email invite/ocm_classname"
+                    xtype="hidden"/>
                 <email_summary
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Email Summary"
-                    xtype="richtext"
-                    name="./meetingInfo/email summary/str">
+                    name="./meetingInfo/email summary/str"
+                    xtype="richtext">
                     <rtePlugins jcr:primaryType="nt:unstructured">
                         <links jcr:primaryType="nt:unstructured">
                             <linkDialogConfig
@@ -805,9 +801,8 @@
                 </email_summary>
                 <email_summary_ocm
                     jcr:primaryType="cq:Widget"
-                    xtype="hidden"
-                    name="./meetingInfo/email summary/ocm_classname"/>
-                    defaultValue="org.girlscouts.vtk.models.JcrCollectionHoldString"/>
+                    name="./meetingInfo/email summary/ocm_classname"
+                    xtype="hidden"/>
                 <agenda-label
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Agenda"
