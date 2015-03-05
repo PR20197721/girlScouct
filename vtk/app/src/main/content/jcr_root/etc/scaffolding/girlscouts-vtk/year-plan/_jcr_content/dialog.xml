@@ -50,6 +50,7 @@
                     xtype="vtk-tags"/>
                 <meetings
                     jcr:primaryType="cq:Widget"
+                    fieldLabel="Meetings"
                     xtype="vtk-meeting-id-list">
                     <fieldConfig
                         jcr:primaryType="nt:unstructured"
