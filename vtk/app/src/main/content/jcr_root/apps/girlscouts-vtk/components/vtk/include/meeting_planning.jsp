@@ -4,7 +4,7 @@
    <li>
     <a data-reveal-id="modal_popup" data-reveal-ajax="true" href={"/content/girlscouts-vtk/controllers/vtk.include.modals.modal_agenda_edit.html?mid=<%=mid%>&isOverview=true"}>Meeting Overview</a>    
   </li>
-<%if(!sessionFeatures.contains(SHOW_PARENT_FEATURE)) {%>   
+<%if(hasPermission(troop, Permission.PERMISSION_VIEW_ACTIVITY_PLAN_ID) && !sessionFeatures.contains(SHOW_PARENT_FEATURE)) {%>   
    <li>
     <a data-reveal-id="modal_popup" data-reveal-ajax="true" href={"/content/girlscouts-vtk/controllers/vtk.include.modals.modal_agenda_edit.html?mid=<%=mid%>&isActivity=true"}>Activity Plan</a>            
    </li>
