@@ -16,7 +16,7 @@
 
 
 girlscouts.components.TagInputField = CQ.Ext.extend(CQ.tagging.TagInputField, {
-	
+
     updateHiddenFields: function() {
         for (var i=0; i < this.hiddenFields.length; i++) {
             this.remove(this.hiddenFields[i]);
@@ -24,48 +24,62 @@ girlscouts.components.TagInputField = CQ.Ext.extend(CQ.tagging.TagInputField, {
         
         this.hiddenFields = [];
         
-        // GS: now it is single value
-        /*
-        // ensure multivalue property (when only one value is set)
-        var typeHintHiddenField = new CQ.Ext.form.Hidden({
-            name: this.getName() + CQ.Sling.TYPEHINT_SUFFIX,
-            value: "String[]"
+		// Girl Scouts: value is now always a single string.
+		// Do not need these special logic any more.
+
+//        // ensure multivalue property (when only one value is set)
+//        var typeHintHiddenField = new CQ.Ext.form.Hidden({
+//            name: this.getName() + CQ.Sling.TYPEHINT_SUFFIX,
+//            value: "String"
+//        });
+//        this.add(typeHintHiddenField);
+//        this.hiddenFields.push(typeHintHiddenField);
+//        
+//        // run patch operation on multi value property
+//        var patchHiddenField = new CQ.Ext.form.Hidden({
+//            name: this.getName() + "@Patch",
+//            value: "true"
+//        });
+//        this.add(patchHiddenField);
+//        this.hiddenFields.push(patchHiddenField);
+//        
+//        var op;
+//        function addHiddenField(tagObj) {
+//            if (tagObj.type == "denied" || tagObj.type == "partial") {
+//                return;
+//            }
+//            var tagID = tagObj.tag.tagID || tagObj.tag;
+//            var hiddenField = new CQ.Ext.form.Hidden({
+//                name: this.getName(), // all hidden fields have the name of this field
+//                value: op + tagID
+//            });
+//            this.add(hiddenField);
+//            this.hiddenFields.push(hiddenField);
+//        }
+//        
+//        // use @Patch operations
+//        op = "+";
+//        CQ.Ext.each(this.addedTags, addHiddenField, this);
+//        op = "-";
+//        CQ.Ext.each(this.removedTags, addHiddenField, this);
+
+        var values = this.getValue();
+		for (var i = 0; i < values.length; i++) {
+			// girlscouts-vtk:tag/wog-badges => wog-badges
+			values[i] = values[i].substring(values[i].lastIndexOf('/') + 1);
+		}
+		var finalValue = values.join(';');
+
+        var hiddenField = new CQ.Ext.form.Hidden({
+        	name: this.getName(),
+        	value: finalValue
         });
-        this.add(typeHintHiddenField);
-        this.hiddenFields.push(typeHintHiddenField);
-        */
-        
-        // run patch operation on multi value property
-        var patchHiddenField = new CQ.Ext.form.Hidden({
-            name: this.getName() + "@Patch",
-            value: "true"
-        });
-        this.add(patchHiddenField);
-        this.hiddenFields.push(patchHiddenField);
-        
-        var op;
-        function addHiddenField(tagObj) {
-            if (tagObj.type == "denied" || tagObj.type == "partial") {
-                return;
-            }
-            var tagID = tagObj.tag.tagID || tagObj.tag;
-            var hiddenField = new CQ.Ext.form.Hidden({
-                name: this.getName(), // all hidden fields have the name of this field
-                value: op + tagID
-            });
-            this.add(hiddenField);
-            this.hiddenFields.push(hiddenField);
-        }
-        
-        // use @Patch operations
-        op = "+";
-        CQ.Ext.each(this.addedTags, addHiddenField, this);
-        op = "-";
-        CQ.Ext.each(this.removedTags, addHiddenField, this);
+        this.hiddenFields.push(hiddenField);
+        this.add(hiddenField);
         
         this.doLayout();
     },
-    
+
     // private
     loadTagNamespaces: function() {
         this.tagNamespaces = {};
@@ -104,52 +118,7 @@ girlscouts.components.TagInputField = CQ.Ext.extend(CQ.tagging.TagInputField, {
 			valueArray[i] = value;
 		}
 		girlscouts.components.TagInputField.superclass.setValue.call(this, valueArray, partialTags);
-	},
-	
-	getValue: function() {
-		var values = girlscouts.components.TagInputField.superclass.getValue.call(this);
-		return values.join(';');
-	},
-	
-    // private
-    internalAddTag: function(tag, type) {
-        type = type || (typeof tag === "string" ? "new" : "added");
-
-        // create ui label
-        var tagLabel = new CQ.tagging.TagLabel({
-            // GS
-        	name: '',
-            tag: tag,
-            namespace: null,
-            type: type,
-            showPath: this.showPathInLabels,
-            displayTitles: this.displayTitles,
-            readOnly: this.readOnly,
-            locale: this.locale
-        });
-
-        tagLabel.on("remove", function() {
-            this.removeTag(tag);
-            this.textField.focus();
-        }, this);
-
-        if (type == "partial") {
-            tagLabel.on("add", function() {
-                // convert partial tag into fully added tag
-                this.removeTag(tag);
-                this.addTag(tag);
-                this.textField.focus();
-            }, this);
-        }
-
-        // insert before the last element, the real input field
-        this.inputDummy.insert(this.inputDummy.items.getCount()-1, tagLabel);
-
-        var tagObj = this.createTagObj(tag, type, tagLabel);
-        this.tags.push(tagObj);
-
-        return tagObj;
-    }
+	}
 });
 
 // register xtype
