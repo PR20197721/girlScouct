@@ -37,7 +37,7 @@
 					String tmp = x;
 					if( !tmp.startsWith(",")) tmp =","+ tmp;
 					if( !tmp.endsWith(",")) tmp = tmp +",";
-					for( int i=1;i< troop.getYearPlan().getMeetingEvents().size();i++)
+					for( int i= troop.getYearPlan().getMeetingEvents().size();i>0;i--)
 						if( tmp.indexOf( ","+i+"," )==-1 )
 							x = i+","+ x;
 								
