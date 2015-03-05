@@ -44,7 +44,7 @@
 <%@include file="include/utility_nav.jsp"%>
 	<div class="column large-20 medium-20 large-centered medium-centered small-24">
 		<form class="cmxform" id="financeForm" onchange="enableSaveButton()">
-			<div class="errorMsg error"><p id="errorText"> </p></div>
+			<p class="error-message"> </p>
 			<div class="row collapse opts">
 				<span class="column small-10 large-5 medium-7">Reporting Frequency:</span>
 				<select id="periodSelection" class="columns small-6 large-3 medium-5 left">

@@ -35,11 +35,11 @@ function maskAllFields() {
 
 function validateFinanceAdmin(){
 
-	document.getElementById("errorText").innerHTML = "";
+	$(".error-message").text('');
 	var recipient = document.getElementById("recipient").value;
 	var emailFormat = /\S+@[A-Z]+\.[A-Z]+$/i;
 	if(!emailFormat.test(recipient)){
-		document.getElementById("errorText").innerHTML = "Send To field must be a valid email address";
+		$(".error-message").append("Send To field must be a valid email address");
 		return false;
 	}
 	
@@ -51,8 +51,8 @@ function validateFinanceAdmin(){
 			var inputVal = tempChild.value;
 			inputVal = inputVal.trim();
 			if(inputVal == ""){
-				document.getElementById("errorText").innerHTML = "Income fields cannot be left empty. Either remove the fields or input values. " + 
-				"At least one income field is required.";
+				$(".error-message").append("Income fields cannot be left empty. Either remove the fields or input values." + 
+				"At least one income field is required.");
 					return false;
 			}
 		}
@@ -66,15 +66,12 @@ function validateFinanceAdmin(){
 			var inputVal = tempChild.value;
 			inputVal = inputVal.trim();
 			if(inputVal == ""){
-				document.getElementById("errorText").innerHTML = "Expense fields cannot be left empty. Either remove the fields or enter values. " + 
-					"At least one expense field is required.";
+				$(".error-message").append("Expense fields cannot be left empty. Either remove the fields or enter values. " + 
+					"At least one expense field is required.");
 					return false;
 			}
 		}
 	}
-		
-
-
 	return true;
 }
 
