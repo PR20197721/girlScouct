@@ -44,7 +44,9 @@
 <%@include file="include/utility_nav.jsp"%>
 	<div class="column large-20 medium-20 large-centered medium-centered small-24">
 		<form class="cmxform" id="financeForm" onchange="enableSaveButton()">
-			<p class="error-message"> </p>
+			
+			<p class="error-message"></p>
+			
 			<div class="row collapse opts">
 				<span class="column small-10 large-5 medium-7">Reporting Frequency:</span>
 				<select id="periodSelection" class="columns small-6 large-3 medium-5 left">
@@ -56,41 +58,39 @@
 					<option value="Yearly">Yearly</option>
 				<%} %>
 				</select>
+				<div class="column large-12" id="incomeFields">
+					<span>Send To:</span><input name="recipient" id="recipient" type="text" onkeyDown="enableSaveButton()" placeholder="Enter email of the recipient" value="<%=recipient%>"/> 
+				</div>
 			</div>
-			<div class="row">
-				<ul id="incomeFields" class="large-block-grid-2 small-block-grid-2 text-right">
-					<li><p>Send To:</p></li>
-					<li><input id="recipient" type="text" onkeyDown="enableSaveButton()" value="<%=recipient%>"/></li> 
-				</ul>
-			</div>
+
 			<div class="row">
 				<section class="column large-12 medium-12">
 					<h6>income categories</h6>
 					<ul id="income-list" class="large-block-grid-2 small-block-grid-2 text-left">
-<%
-	for(String incomeField : incomeFields){
-%>
+						<%
+							for(String incomeField : incomeFields){
+						%>
 						<li id="incomeField<%=incomeCounter%>"><input onkeyDown="enableSaveButton()" oninput="enableSaveButton()" onpaste="enableSaveButton()"  maxlength="30" type="text" value="<%=StringEscapeUtils.escapeHtml(incomeField)%>"/></li>
 						<li id="incomeButton<%=incomeCounter%>"><a href="" title="remove" onclick="return deleteIncomeRow(<%=incomeCounter%>)"><i class="icon-button-circle-cross"></i></a></li>
-<%
-		incomeCounter++;
-	}
-%>
+						<%
+								incomeCounter++;
+							}
+						%>
 					</ul>
 					<a class="add-btn" title="add" onclick="return addIncomeField()"><i class="icon-button-circle-plus"></i>Add a  Finance Field</a>
 				</section>
 				<section class="column large-12 medium-12">
 					<h6>expense categories</h6>
 					<ul id="expense-list" class="large-block-grid-2 small-block-grid-2 text-left">
-<%
-	for(String expenseField : expenseFields){
-%>
+						<%
+							for(String expenseField : expenseFields){
+						%>
 						<li id="expenseField<%=expenseCounter%>"><input onkeyDown="enableSaveButton()" oninput="enableSaveButton()" onpaste="enableSaveButton()" type="text" maxlength="30" value="<%=StringEscapeUtils.escapeHtml(expenseField)%>"/></li>
 						<li id="expenseButton<%=expenseCounter%>"><a href="" title="remove" onclick="return deleteExpenseRow(<%=expenseCounter%>)"><i class="icon-button-circle-cross"></i></a></li>
-<%
-		expenseCounter++;
-	}
-%>
+						<%
+								expenseCounter++;
+							}
+						%>
 					</ul>
 					<a class="add-btn" title="add" onclick="return addExpenseField()"><i class="icon-button-circle-plus"></i>Add a  Finance Field</a>
 				</section>

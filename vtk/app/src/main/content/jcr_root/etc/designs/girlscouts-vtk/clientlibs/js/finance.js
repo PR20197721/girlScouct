@@ -15,7 +15,6 @@ function maskAllFields() {
 			console.log("Masked income child" + i);
 				$(incChild).maskMoney({allowZero: true, prefix: '$'});
 			}
-		
 		}
 		if(i < expenseChildren.length){
 			var expChild = expenseChildren[i].firstElementChild;
@@ -24,22 +23,17 @@ function maskAllFields() {
 				$(expChild).maskMoney({allowZero: true, prefix: '$'});
 				
 			}
-		
-		}
-		
-		
+		}		
 	}
-	
 }
 
 
 function validateFinanceAdmin(){
-
 	$(".error-message").text('');
 	var recipient = document.getElementById("recipient").value;
 	var emailFormat = /\S+@[A-Z]+\.[A-Z]+$/i;
 	if(!emailFormat.test(recipient)){
-		$(".error-message").append("Send To field must be a valid email address");
+		$(".error-message").append("<i class=\"icon-notice-info-announcement\"></i>Send To field must be a valid email address");
 		return false;
 	}
 	
@@ -51,7 +45,7 @@ function validateFinanceAdmin(){
 			var inputVal = tempChild.value;
 			inputVal = inputVal.trim();
 			if(inputVal == ""){
-				$(".error-message").append("Income fields cannot be left empty. Either remove the fields or input values." + 
+				$(".error-message").append("<i class=\"icon-notice-info-announcement\"></i>Income fields cannot be left empty. Either remove the fields or input values." + 
 				"At least one income field is required.");
 					return false;
 			}
@@ -66,7 +60,7 @@ function validateFinanceAdmin(){
 			var inputVal = tempChild.value;
 			inputVal = inputVal.trim();
 			if(inputVal == ""){
-				$(".error-message").append("Expense fields cannot be left empty. Either remove the fields or enter values. " + 
+				$(".error-message").append("<i class=\"icon-notice-info-announcement\"></i>Expense fields cannot be left empty. Either remove the fields or enter values. " + 
 					"At least one expense field is required.");
 					return false;
 			}
@@ -75,21 +69,13 @@ function validateFinanceAdmin(){
 	return true;
 }
 
-
-
 function saveFinanceAdmin(){
-	
-	
-	
 	var recipient = document.getElementById("recipient").value;
-	
 	
 	if(!validateFinanceAdmin()){
 		return false;
 	}
-	
-	
-	
+
 	var incomeArray = "[";
 	var expenseArray = "["
 	
@@ -149,7 +135,7 @@ function saveFinances(){
 	var incomeArray = "[";
 	var expenseArray = "["
 
-	var incomeChildren = document.getElementById("incomeFields").children;
+	var incomeChildren = $("#incomeFields").children;
 	var addComma = false;
 	for(var i = 0; i < incomeChildren.length; i++){
 		var tempChild = incomeChildren[i].firstElementChild;

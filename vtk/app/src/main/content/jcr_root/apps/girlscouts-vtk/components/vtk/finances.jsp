@@ -15,15 +15,11 @@
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/finance.js"></script>
 <div id="errInfo"></div>
 <%
-        String activeTab = "finances";
-        boolean showVtkNav = true;
-        int qtr = 1;
-        boolean isQuarterly = true;
-        FinanceConfiguration financeConfig = financeUtil.getFinanceConfig(troop, user.getCurrentYear());
-        
-        
-        
-        
+    String activeTab = "finances";
+    boolean showVtkNav = true;
+    int qtr = 1;
+    boolean isQuarterly = true;
+    FinanceConfiguration financeConfig = financeUtil.getFinanceConfig(troop, user.getCurrentYear());    
 %>
 <%@include file="include/tab_navigation.jsp"%>
 <div id="panelWrapper" class="row content meeting-detail">
@@ -42,12 +38,8 @@
 					qtr = Integer.parseInt( request.getParameter("qtr") );
 				}
 		        }catch(NumberFormatException nfe){
-				nfe.printStackTrace();
-		        }
-
-				
-		        	
-		        
+							nfe.printStackTrace();
+		        }    
 		        Finance finance = financeUtil.getFinances(troop, qtr, user.getCurrentYear());
 		        List<String> expenseFields = financeConfig.getExpenseFields();
 		        List<String> incomeFields = financeConfig.getIncomeFields();
@@ -132,7 +124,7 @@
 			%> 
 			<div class="columns large-20 large-centered">
 				<h3>No Financial Configuration Data exists.</h3>
-				<h3>The <b>Finance Administration Form</b> must be filled out by the <b>Troop Administrator</b>.</h3> 
+				<h3>The Finance Administration Form must be filled out by the Troop Administrator.</h3> 
 			</div>
 			<% 
 		}
