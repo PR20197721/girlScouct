@@ -37,9 +37,7 @@
                       <li>
                       <a href="#" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=(String) meetingPath %>&xx=<%= planViewTime.longValue() %>', false, null, true)">replace this meeting</a>
                        
-                      <% if( planViewTime.longValue() < new java.util.Date().getTime() ){%>
-                       ||<a href="#" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?isReenter=true&mpath=<%=(String) meetingPath %>&xx=<%= planViewTime.longValue() %>', false, null, true)">repeat this meeting</a>
-                      <%} %>
+                     
                       
                       
                       </li><% 
