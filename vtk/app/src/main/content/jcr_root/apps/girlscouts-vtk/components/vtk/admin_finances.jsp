@@ -34,7 +34,7 @@
 	boolean hasAdminPermissions = true;
 	String financeFieldTag = "";
 %>
-<%@include file="include/tab_navigation.jsp"%>
+<%@include file="include/admin_tab_navigation.jsp"%>
 <div id="panelWrapper" class="row content meeting-detail finances">
 <%@include file="include/utility_nav.jsp"%>
 	<div class="column large-20 medium-20 large-centered medium-centered small-24">

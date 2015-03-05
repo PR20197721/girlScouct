@@ -8,11 +8,13 @@
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.validate.js"></script>
 	
 <%
-String activeTab = "admin_milestones";
+String activeTab = "milestones";
 
 int councilCode = apiConfig.getTroops().get(0).getCouncilCode();
 String councilId= request.getParameter("cid")==null? Integer.toString(councilCode):request.getParameter("cid");
 %>
+<%@include file="include/admin_tab_navigation.jsp"%>
+
 <div id="panelWrapper" class="row content milestones meeting-detail">
 	<div class="columns small-20 small-centered">
 		<p>Edit milestones, add dates, create new milestones, and set to
