@@ -44,10 +44,6 @@
                     name="./desc"/>
                 <resources
                     jcr:primaryType="cq:Widget"
-                    fieldLabel="Resources"
-                    name="./resources"/>
-                <resourcesNew
-                    jcr:primaryType="cq:Widget"
                     fieldLabel="Resources Tags"
                     namespaces="[girlscouts-vtk]"
                     name="./resources"
