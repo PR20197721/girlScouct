@@ -287,6 +287,16 @@
             jcr:primaryType="nt:unstructured"
             mode="replace"
             root="/apps/wcm"
+            rules="[]"/>
+ 		 <f56
+            jcr:primaryType="sling:Folder"
+            mode="replace"
+            root="/etc/council-rollout"
+            rules="[]"/>
+ 		 <f57
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/designs/girlscouts-prototype"
             rules="[]"/>  
          <f56
             jcr:primaryType="cq:Page"

@@ -37,113 +37,109 @@
 %>
 <%@include file="include/utility_nav.jsp"%>
 <%@include file='include/modals/modal_upload_img.jsp' %>
-<div class="hero-image">
-<%
-		if (!resourceResolver.resolve(troopPhotoUrl).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-			if (request.getParameter("newTroopPhoto") != null) {
-				Random r  = new Random();
-				troopPhotoUrl += "?pid=";
-				troopPhotoUrl += r.nextInt();
-			}
-%>
-	<img src="<%=troopPhotoUrl %>" alt="GirlScouts Troop <%=troop.getTroop().getTroopName()%> Photo" />
-	<a data-reveal-id="modal_upload_image" title="update photo" href="#nogo" title="upload image"><i class="icon-photo-camera"></i></a>
-<%
+
+  <div class="hero-image">
+    <%
+            if (!resourceResolver.resolve(troopPhotoUrl).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+		if (request.getParameter("newTroopPhoto") != null) {
+			Random r  = new Random();
+			troopPhotoUrl += "?pid=";
+			troopPhotoUrl += r.nextInt();
 		}
-%>
-</div>
-<div class="column large-24 large-centered mytroop">
-	<dl class="accordion" data-accordion>
-		<dt data-target="panel1"><h3 class="on"><%=troop.getSfTroopName() %> INFO</h3><a href='mailto:<%=emailTo%>'><i class="icon-mail"></i>email to <%= contacts.size() %> contacts</a></dt>
-		<dd class="accordion-navigation">
-			<div class="content active" id="panel1">
-				<div class="row">
-					<div class="column large-20 large-centered">
+    %>
+        <img src="<%=troopPhotoUrl %>" alt="GirlScouts Troop <%=troop.getTroop().getTroopName()%> Photo" />
+        <a data-reveal-id="modal_upload_image" title="update photo" href="#nogo" title="upload image"><i class="icon-photo-camera"></i></a>
+    <%
+    	}
+    %>
+  </div>
+  <div class="column large-24 large-centered mytroop">
+
+    <dl class="accordion" data-accordion>
+      <dt data-target="panel1"><h3 class="on"><%=troop.getSfTroopName() %> INFO</h3><a href='mailto:<%=emailTo%>'><i class="icon-mail"></i>email to <%= contacts.size() %> contacts</a></dt>
+      <dd class="accordion-navigation">
+        <div class="content active" id="panel1">
+          <div class="row">
+            <div class="column large-20 large-centered">
+              <% for(int i=0; i<contacts.size(); i++) { 
+                  org.girlscouts.vtk.models.Contact contact = contacts.get(i);
+                  java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, troop, contact);
+                  //-Works !!! String _email= java.net.URLEncoder.encode(contact.getFirstName() +"<"+contact.getEmail() +">");
+                String _email= contact.getFirstName().replace(" ", "&nbsp;") + java.net.URLEncoder.encode("<"+contact.getEmail() +">");
+                
+                  %>
+                <div class="row">
+                  <dl class="accordion-inner clearfix" data-accordion>
+                    <dt data-target="panel<%=i+1%>b" class="clearfix">
+                      <span class="name column large-10"><%=contact.getFirstName() %></span>
+                        <a class="column large-10 email" href="mailto:<%=_email%>">
+                        <i class="icon-mail"></i><%=contact.getEmail() %>
+                      </a>
+                      <span class="column large-4"><%=contact.getPhone() %></span>
+                    </dt>
+                    <dd class="accordion-navigation clearfix">
+                      <div id="panel<%=i+1%>b" class="content clearfix">
+                        <ul class="column large-4">
+                          <li>DOB: <%= FORMAT_MMddYYYY.format(fmt_yyyyMMdd.parse(contact.getDob()))  %></li>
+                          <li>AGE: <%=contact.getAge() %></li>
+                        </ul>
+                        <ul class="column large-18 right">
+                          <li><address><p><%=contact.getAddress() %><br/><%=contact.getCity() %>, <%=contact.getState() %><br/><%=contact.getZip() %></p></address></li>
+                        </ul>
+                         <ul class="column large-18">
+                         
+                         <%
+                         if( contact.getContacts()!=null )
+                          for(Contact contactSub: contact.getContacts()){ %>
+                           <li class="row">                           
+                              <p><strong>Secondary Info:</strong></p>
+			                  <p>
+                              <span class="column large-5"><%=contactSub.getFirstName() %> <%=contactSub.getLastName() %></span>
+                              <a class="column large-14 email" href="mailto:<%=contactSub.getEmail()%>"><i class="icon-mail"></i><%=contactSub.getEmail() %></a>
+                              <span class="column large-5"><%=contactSub.getPhone()==null ? "" : contactSub.getPhone() %></span>
+			                  </p>
+                            </li>
+                         <%} %>
+                         
+                         
+                            <li class="row">
+                              <p><strong>Achievements:</strong></p>
+<p>
 <%
-		for(int i=0; i<contacts.size(); i++) { 
-			org.girlscouts.vtk.models.Contact contact = contacts.get(i);
-			java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, troop, contact);
-			String _email= contact.getFirstName().replace(" ", "&nbsp;") + java.net.URLEncoder.encode("<"+contact.getEmail() +">");
+boolean isFirstItem = true;
+for(int y=0;y<infos.size();y++){
+	if(infos.get(y).isAchievement() && infos.get(y).getYearPlanComponent().getType()== YearPlanComponentType.MEETING) {
+		if (!isFirstItem) {
+			out.println(",");
+		}
+		out.println(((MeetingE) infos.get(y).getYearPlanComponent()).getMeetingInfo().getName());
+		isFirstItem = false;
+	}
+}
 %>
-						<div class="row">
-							<dl class="accordion-inner clearfix" data-accordion>
-								<dt data-target="panel<%=i+1%>b" class="clearfix">
-									<span class="name column large-10"><%=contact.getFirstName() %></span>
-									<a class="column large-10 email" href="mailto:<%=_email%>">
-										<i class="icon-mail"></i><%=contact.getEmail() %>
-									</a>
-									<span class="column large-4"><%=contact.getPhone() %></span>
-								</dt>
-								<dd class="accordion-navigation clearfix">
-									<div id="panel<%=i+1%>b" class="content clearfix">
-										<ul class="column large-4">
-											<li>DOB: 9/1/2004</li>
-											<li>AGE: 10</li>
-										</ul>
-										<ul class="column large-18 right">
-											<li><address><p>1 Main St. Apt 5B<br/>Cleveland, OH<br/>00000</p></address></li>
-										</ul>
-										<ul class="column large-18">
-											<li class="row">
-												<p class="column large-24"><strong>Secondary Info:</strong></p>
-												<p>
-													<span class="column large-5">Janie Berger</span>
-													<a class="column large-14 email" href="mailto:<%=_email%>"><i class="icon-mail"></i><%=contact.getEmail() %></a>
-													<span class="column large-5">999.999.9999</span>
-												</p>
-											</li>
-											<li class="row">
-												<p class="column large-24"><strong>Achievements:</strong></p>
-<!--
-												<ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-3">
--->
-												<p class="column large-24">
-													<%
-													boolean isFirstItem = true;
-													for(int y=0;y<infos.size();y++){
-														if(infos.get(y).isAchievement() && infos.get(y).getYearPlanComponent().getType()== YearPlanComponentType.MEETING) {
-															if (!isFirstItem) {
-																out.println(",");
-															}
-															MeetingE meeting = (MeetingE)infos.get(y).getYearPlanComponent();
-															String achievementImg  = "/content/dam/girlscouts-vtk/local/icon/meetings/" + meeting.getMeetingInfo().getId() + ".png";
-													%>
-													<!-- <img src="<%= achievementImg%>"/><br/> -->
-														<%= ((MeetingE)infos.get(y).getYearPlanComponent()).getMeetingInfo().getName() %>
-													<%
-														isFirstItem = false;
-														}
-													}
-													%>
-												<div>
-<!--
-												</ul>
--->
-											</li>
-											<li class="row">
-												<p class="columns large-24"><strong>Meetings Attended:</strong></p>
-												<p class="column large-24">
-													<%
-													for(int y=0;y<infos.size();y++) {
-														if(infos.get(y).isAttended()) {
-															out.println(fmr_ddmm.format(sched_bm_inverse.get( infos.get(y).getYearPlanComponent())));
-															out.println((infos.size() > 1 && infos.size()-1 !=y) ? "," : "");
-														}
-													}
-													%>
-												</p>
-											</li>
-										</ul>
-									</div>
-								</dd>
-							</dl>
-						</div>
-						<%
-								}
-						%>
-					</div>
-				</div>
-			</div>
-		</dd>
-	</dl>
-</div>
+</p>
+                             </li>
+                             <li class="row">
+                              <p><strong>Meetings Attended:</strong></p>
+				<p>
+                              <% for(int y=0;y<infos.size();y++) {
+                                  if(infos.get(y).isAttended()) {
+                                    out.println(fmr_ddmm.format(sched_bm_inverse.get( infos.get(y).getYearPlanComponent())));
+                                    out.println((infos.size() > 1 && infos.size()-1 !=y) ? "," : "");
+                                  }
+                              } %>
+				</p>
+                            </li>                          
+                         </ul>
+                      </div>
+                    </dd>
+                  </dl>
+                </div>
+              <%}%>
+              
+            </div>
+          </div>
+        </div>
+      </dd>
+    </dl>
+  </div>
