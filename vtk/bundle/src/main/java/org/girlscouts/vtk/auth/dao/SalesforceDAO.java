@@ -566,8 +566,6 @@ public class SalesforceDAO {
 										.getJSONObject("Parent")
 										.getString("Name"));
 
-								
-
 								log.debug("ETSTS: "
 										+ org.girlscouts.vtk.auth.permission.RollType.DP);
 
