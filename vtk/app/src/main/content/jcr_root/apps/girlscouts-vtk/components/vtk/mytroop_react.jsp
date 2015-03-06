@@ -65,7 +65,7 @@
   <div class="column large-24 large-centered mytroop">
 
     <dl class="accordion" data-accordion>
-      <dt data-target="panel2"><h3>Attendance</dt>
+      <dt data-target="panel2"><h3>Attendance</h3></dt>
       <dd class="accordion-navigation">
         <div class="content" id="panel2">
            <%@include file='include/troop_child_attnds.jsp' %>
@@ -76,7 +76,7 @@
 
   <div class="column large-24 large-centered mytroop">
     <dl class="accordion" data-accordion>
-      <dt data-target="panel3"><h3 class="on">Achievements for [CHILDS NAME]</a></dt>
+      <dt data-target="panel3"><h3 class="on">Achievements for [CHILDS NAME]</h3></a></dt>
       <dd class="accordion-navigation">
         <div class="content active" id="panel3">
            <%@include file='include/troop_child_achievmts.jsp' %>
