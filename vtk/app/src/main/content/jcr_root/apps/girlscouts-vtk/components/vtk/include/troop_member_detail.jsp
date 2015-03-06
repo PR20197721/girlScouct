@@ -20,8 +20,10 @@
           <% } %>
           </a>
           <span class="column large-4"><%=contact.getPhone() %></span>
-        </dt>
-        <%@include file='troop_child_detail.jsp' %>
+        </dt>       
+        <%if(hasPermission(troop, Permission.PERMISSION_canViewMemberdDetail_TROOP_ID)){ %>
+          <%@include file='troop_child_detail.jsp' %>
+        <%} %>
       </dl>
     </div>
   <%}%>
