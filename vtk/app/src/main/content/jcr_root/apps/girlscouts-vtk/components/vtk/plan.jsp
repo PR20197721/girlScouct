@@ -22,7 +22,10 @@
    <%@include file="include/utility_nav.jsp"%>
    <%@include file="include/view_yp_dropdown.jsp"%>
    
-   <%if( troop.getYearPlan().getMeetingEvents()==null || troop.getYearPlan().getMeetingEvents().size()<=0 ){ %>
+   <%
+   if( troop.getYearPlan()==null ||
+		   troop.getYearPlan().getMeetingEvents()==null ||
+				   troop.getYearPlan().getMeetingEvents().size()<=0 ){ %>
       <div style="background-color:yellow;">
         <b>Custom Year Plan:</b>
         <br/>Start adding meetings and/or activities to your custom plan
@@ -110,7 +113,7 @@
       				    <div className="column large-20 medium-20 large-centered medium-centered">
         					  <h1 className="yearPlanTitle">{this.props.yearPlanName}</h1>
         	
-    <%if( troop.getYearPlan().getMeetingEvents()==null || troop.getYearPlan().getMeetingEvents().size()<=0 ){ %>
+    <%if( troop.getYearPlan()==null || troop.getYearPlan().getMeetingEvents()==null || troop.getYearPlan().getMeetingEvents().size()<=0 ){ %>
       
     <%}else{ %>				  
         <p className="hide-for-print">Drag and drop to reorder meetings</p> 
