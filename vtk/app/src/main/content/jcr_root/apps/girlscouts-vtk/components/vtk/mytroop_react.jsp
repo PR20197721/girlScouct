@@ -56,7 +56,7 @@
 <%if(hasPermission(troop, Permission.PERMISSION_canViewOwnChildDetail_TROOP_ID)){ %>
   <div class="column large-24 large-centered mytroop">
     <dl class="accordion" data-accordion>
-      <dt data-target="panel2"><h3>Attendance</dt>
+      <dt data-target="panel2"><h3>Attendance</h3></dt>
       <dd class="accordion-navigation">
         <div class="content" id="panel2">
            <%@include file='include/troop_child_attnds.jsp' %>
@@ -64,6 +64,7 @@
       </dd>
     </dl>
   </div>
+
 
        <% for(int i=0; i<contacts.size(); i++) { 
             org.girlscouts.vtk.models.Contact contact = contacts.get(i);
@@ -82,6 +83,7 @@
         <%}
  }     
         %>
+
 
   <div class="column large-24 large-centered mytroop">
     <dl class="accordion" data-accordion>
