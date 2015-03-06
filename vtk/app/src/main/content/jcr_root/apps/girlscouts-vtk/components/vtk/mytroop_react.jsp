@@ -59,8 +59,44 @@
     <a data-reveal-id="modal_upload_image" title="update photo" href="#nogo" title="upload image"><i class="icon-photo-camera"></i></a>
     <% } %>
   </div>
-
   <div class="column large-24 large-centered mytroop">
+    <dl class="accordion" data-accordion>
+      <dt data-target="panel1"><h3 class="on">ATTENDANCE</h3></dt>
+      <dd class="accordion-navigation">
+        <div class="content active" id="panel1">
+           <%@include file='include/troop_myChildren_attendance.jsp' %>
+        </div>
+      </dd>
+    </dl>
+  </div>
+  
+  
+   <div class="column large-24 large-centered mytroop">
+    <dl class="accordion" data-accordion>
+      <dt data-target="panel1"><h3 class="on">ACHIEVEMENTS FOR [Girl name 1]</h3></dt>
+      <dd class="accordion-navigation">
+        <div class="content active" id="panel1">
+           <%@include file='include/troop_myChild_achievements.jsp' %>
+        </div>
+      </dd>
+    </dl>
+  </div>
+  
+  
+   <div class="column large-24 large-centered mytroop">
+    <dl class="accordion" data-accordion>
+      <dt data-target="panel1"><h3 class="on">ACHIEVEMENTS FOR [Girl name 2]</h3></dt>
+      <dd class="accordion-navigation">
+        <div class="content active" id="panel1">
+           <%@include file='include/troop_myChild_achievements.jsp' %>
+        </div>
+      </dd>
+    </dl>
+  </div>
+  
+  
+  <div class="column large-24 large-centered mytroop">
+
     <dl class="accordion" data-accordion>
       <dt data-target="panel1"><h3 class="on"><%=troop.getSfTroopName() %> INFO</h3><a href='mailto:<%=emailTo%>'><i class="icon-mail"></i>email to <%= contacts.size() %> contacts</a></dt>
       <dd class="accordion-navigation">
