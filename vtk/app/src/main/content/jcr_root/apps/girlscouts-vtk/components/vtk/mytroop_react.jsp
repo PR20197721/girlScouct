@@ -1,7 +1,4 @@
 <!-- PAGEID :: ./app/src/main/content/jcr_root/apps/girlscouts-vtk/components/vtk/mytroop_react.jsp -->
-
-
-
 <%@ page import="com.google.common.collect .*"%>
 <%
 	java.util.List<org.girlscouts.vtk.models.Contact> contacts = null;
@@ -35,7 +32,7 @@
 			sched = meetingUtil.getYearPlanSched(user, troop.getYearPlan(), true, true);
 		}catch(Exception e){e.printStackTrace();}
 
-		BiMap sched_bm=   HashBiMap.create(sched);//com.google.common.collect.HashBiMap().create();
+		BiMap sched_bm = HashBiMap.create(sched);//com.google.common.collect.HashBiMap().create();
 		com.google.common.collect.BiMap sched_bm_inverse = sched_bm.inverse();
 %>
 <%@include file="include/utility_nav.jsp"%>
@@ -58,9 +55,12 @@
     <%
     	}
     %>
+    <img src="<%=troopPhotoUrl %>" alt="GirlScouts Troop <%=troop.getTroop().getTroopName()%> Photo" />
+    <a data-reveal-id="modal_upload_image" title="update photo" href="#nogo" title="upload image"><i class="icon-photo-camera"></i></a>
+    <% } %>
   </div>
-  <div class="column large-24 large-centered mytroop">
 
+  <div class="column large-24 large-centered mytroop">
     <dl class="accordion" data-accordion>
       <dt data-target="panel1"><h3 class="on"><%=troop.getSfTroopName() %> INFO</h3><a href='mailto:<%=emailTo%>'><i class="icon-mail"></i>email to <%= contacts.size() %> contacts</a></dt>
       <dd class="accordion-navigation">
@@ -70,3 +70,26 @@
       </dd>
     </dl>
   </div>
+
+  <div class="column large-24 large-centered mytroop">
+    <dl class="accordion" data-accordion>
+      <dt data-target="panel2"><h3 class="on"><%=troop.getSfTroopName() %> INFO</h3><a href='mailto:<%=emailTo%>'><i class="icon-mail"></i>email to <%= contacts.size() %> contacts</a></dt>
+      <dd class="accordion-navigation">
+        <div class="content active" id="panel2">
+           <%@include file='include/troop_child_attnds.jsp' %>
+        </div>
+      </dd>
+    </dl>
+  </div>
+
+  <div class="column large-24 large-centered mytroop">
+    <dl class="accordion" data-accordion>
+      <dt data-target="panel3"><h3 class="on"><%=troop.getSfTroopName() %> INFO</h3><a href='mailto:<%=emailTo%>'><i class="icon-mail"></i>email to <%= contacts.size() %> contacts</a></dt>
+      <dd class="accordion-navigation">
+        <div class="content active" id="panel3">
+           <%@include file='include/troop_child_achievmts.jsp' %>
+        </div>
+      </dd>
+    </dl>
+  </div>
+
