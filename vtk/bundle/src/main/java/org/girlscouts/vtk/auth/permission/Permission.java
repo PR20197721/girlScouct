@@ -30,7 +30,9 @@ public class Permission extends PermissionConstants {
 	/*** TROOP ***/
 	public static final Permission troop_view = new Permission( PERMISSION_VIEW_TROOP_ID, login);
 	public static final Permission troop_edit = new Permission( PERMISSION_EDIT_TROOP_ID, troop_view);
-
+	public static final Permission troop_canViewOwnChildDetail= new Permission( PERMISSION_canViewOwnChildDetail_TROOP_ID, troop_view);
+	public static final Permission troop_canViewMemberdDetail = new Permission( PERMISSION_canViewMemberdDetail_TROOP_ID, troop_view);
+	
 	/*** FINANCE ***/
 	public static final Permission finance_view = new Permission(PERMISSION_VIEW_FINANCE_ID, login);
 
