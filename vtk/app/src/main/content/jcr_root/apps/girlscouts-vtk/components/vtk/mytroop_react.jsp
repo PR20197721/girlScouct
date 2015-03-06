@@ -52,6 +52,8 @@
     <% } %>
   </div>
 
+
+<%if(hasPermission(troop, Permission.PERMISSION_canViewOwnChildDetail_TROOP_ID)){ %>
   <div class="column large-24 large-centered mytroop">
     <dl class="accordion" data-accordion>
       <dt data-target="panel2"><h3>Attendance</dt>
@@ -63,17 +65,23 @@
     </dl>
   </div>
 
-  <div class="column large-24 large-centered mytroop">
-    <dl class="accordion" data-accordion>
-      <dt data-target="panel3"><h3 class="on">Achievements for [CHILDS NAME]</a></dt>
-      <dd class="accordion-navigation">
-        <div class="content active" id="panel3">
-           <%@include file='include/troop_child_achievmts.jsp' %>
-        </div>
-      </dd>
-    </dl>
-  </div>
-
+       <% for(int i=0; i<contacts.size(); i++) { 
+            org.girlscouts.vtk.models.Contact contact = contacts.get(i);
+            java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, troop, contact);
+            %>
+			  <div class="column large-24 large-centered mytroop">
+			    <dl class="accordion" data-accordion>
+			      <dt data-target="panel_myChild_<%=i%>"><h3 class="on">Achievements for <%=contact.getFirstName() %></a></dt>
+			      <dd class="accordion-navigation">
+			        <div class="content <%=i==0 ? "active" : "" %>" id="panel_myChild_<%=i%>">
+			             <%@include file='include/troop_child_achievmts.jsp' %>
+				        </div>
+				      </dd>
+				    </dl>
+				  </div>
+        <%}
+ }     
+        %>
 
   <div class="column large-24 large-centered mytroop">
     <dl class="accordion" data-accordion>

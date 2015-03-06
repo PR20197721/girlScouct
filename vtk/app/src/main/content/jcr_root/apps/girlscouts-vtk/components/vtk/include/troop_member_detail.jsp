@@ -3,8 +3,7 @@
     <% for(int i=0; i<contacts.size(); i++) { 
       org.girlscouts.vtk.models.Contact contact = contacts.get(i);
       java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, troop, contact);
-      //-Works !!! String _email= java.net.URLEncoder.encode(contact.getFirstName() +"<"+contact.getEmail() +">");
-      String _email= contact.getFirstName().replace(" ", "&nbsp;") + java.net.URLEncoder.encode("<"+contact.getEmail() +">");     
+       String _email= contact.getFirstName().replace(" ", "&nbsp;") + java.net.URLEncoder.encode("<"+contact.getEmail() +">");     
     %>
     <div class="row">
       <dl class="accordion-inner clearfix" data-accordion>
@@ -15,8 +14,10 @@
           <i class="icon-mail"></i><%=contact.getEmail() %>
           </a>
           <span class="column large-4"><%=contact.getPhone() %></span>
-        </dt>
-        <%@include file='troop_child_detail.jsp' %>
+        </dt>       
+        <%if(hasPermission(troop, Permission.PERMISSION_canViewMemberdDetail_TROOP_ID)){ %>
+          <%@include file='troop_child_detail.jsp' %>
+        <%} %>
       </dl>
     </div>
   <%}%>
