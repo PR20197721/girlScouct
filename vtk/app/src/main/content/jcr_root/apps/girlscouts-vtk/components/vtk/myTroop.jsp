@@ -12,12 +12,10 @@
 <%
 	if (SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) {
 
-	     if( !hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_ID) ){%>
-	       <%@include file="mytroop_react_parent.jsp"%>
-	  <% }else{ %>
-	       <%@include file="mytroop_react.jsp"%>
-      <% }%>
-<%
+	   
+	       %><%@include file="mytroop_react.jsp"%><% 
+    
+
     } else {
 %>
 <%@include file="myTroopOff.jsp"%>
