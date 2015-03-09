@@ -65,22 +65,34 @@
                   org.girlscouts.vtk.models.Contact contact = contacts.get(i);
                   java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, troop, contact);
                   //-Works !!! String _email= java.net.URLEncoder.encode(contact.getFirstName() +"<"+contact.getEmail() +">");
-                String _email= contact.getFirstName().replace(" ", "&nbsp;") + java.net.URLEncoder.encode("<"+contact.getEmail() +">");
-                
+        String _email = "";
+        if(contact.getFirstName() != null && contact.getEmail() != null){
+            _email= contact.getFirstName().replace(" ", "&nbsp;") + java.net.URLEncoder.encode("<"+contact.getEmail() +">");
+        }
                   %>
                 <div class="row">
                   <dl class="accordion-inner clearfix" data-accordion>
                     <dt data-target="panel<%=i+1%>b" class="clearfix">
                       <span class="name column large-10"><%=contact.getFirstName() %></span>
-                        <a class="column large-10 email" href="mailto:<%=_email%>">
-                        <i class="icon-mail"></i><%=contact.getEmail() %>
+                      <%
+                      if(contact.getFirstName() != null && contact.getEmail() != null){
+                        %><a class="column large-10 email" href="mailto:<%=_email%>">
+                        <i class="icon-mail"></i><%=contact.getEmail() %><%
+                      }%>
                       </a>
                       <span class="column large-4"><%=contact.getPhone() %></span>
                     </dt>
                     <dd class="accordion-navigation clearfix">
                       <div id="panel<%=i+1%>b" class="content clearfix">
                         <ul class="column large-4">
-                          <li>DOB: <%= FORMAT_MMddYYYY.format(fmt_yyyyMMdd.parse(contact.getDob()))  %></li>
+                        <%
+							if(contact.getDob() != null){
+							%><li>DOB: <%= FORMAT_MMddYYYY.format(fmt_yyyyMMdd.parse(contact.getDob()))  %></li><%
+									}
+							else{
+							%><li>DOB: null</li><%
+							}
+							%>
                           <li>AGE: <%=contact.getAge() %></li>
                         </ul>
                         <ul class="column large-18 right">
