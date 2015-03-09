@@ -825,11 +825,11 @@ System.err.println("tatax 1 after:"+ troop.getYearPlan().getMeetingEvents().size
 
 			
 			java.util.List<MeetingE> futureMeetings = getFutureMeetings( user, troop,orgSchedDates );
-System.err.println("tatax: futureMeet " + futureMeetings.size() );			
+//System.err.println("tatax: futureMeet " + futureMeetings.size() );			
 			java.util.List<MeetingE> pastMeetings = rmFutureMeetings(user, troop, futureMeetings);
-System.err.println("tatax: past m " + pastMeetings.size() );			
+//System.err.println("tatax: past m " + pastMeetings.size() );			
 			troop.getYearPlan().setMeetingEvents( VtkUtil.setToDbUpdate(pastMeetings) );	
-System.err.println("tatax final : "+ troop.getYearPlan().getMeetingEvents() );			
+//System.err.println("tatax final : "+ troop.getYearPlan().getMeetingEvents() );			
 
 		}
 		
@@ -846,12 +846,12 @@ System.err.println("tatax final : "+ troop.getYearPlan().getMeetingEvents() );
 		troop.getYearPlan().setAltered("false");
 		troop.getYearPlan().setName(planName);
 		troop.getYearPlan().setDbUpdate(true);
-System.err.println("tatax UpdateMeetings " + troop.getYearPlan().getMeetingEvents().size());
+//System.err.println("tatax UpdateMeetings " + troop.getYearPlan().getMeetingEvents().size());
 
 
 
 		troopDAO.removeMeetings(user, troop);
-System.err.println("tatax UpdateMeetings1 " + troop.getYearPlan().getMeetingEvents().size());
+//System.err.println("tatax UpdateMeetings1 " + troop.getYearPlan().getMeetingEvents().size());
 		troopDAO.updateTroop(user, troop);
 	}
 	
@@ -861,10 +861,10 @@ System.err.println("tatax UpdateMeetings1 " + troop.getYearPlan().getMeetingEven
 		
 		
 		//java.util.List<MeetingE> futureMeetings = getFutureMeetings( user, troop );
-System.err.println("tatax found future meetings " + futureMeetings.size() +" : "+ pastMeetings.size());		
+//System.err.println("tatax found future meetings " + futureMeetings.size() +" : "+ pastMeetings.size());		
 		java.util.List<MeetingE> temp = new java.util.ArrayList();
-
-		for( MeetingE meeting : futureMeetings){
+		if( futureMeetings!=null)
+		 for( MeetingE meeting : futureMeetings){
 	
 //System.err.println("tatax Removing future meeting "+ meeting.getId() +" : "+i);
 			//troopDAO.removeMeeting(user, troop, meeting);
