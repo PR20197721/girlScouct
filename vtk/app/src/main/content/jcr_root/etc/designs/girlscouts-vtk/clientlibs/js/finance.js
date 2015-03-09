@@ -29,6 +29,8 @@ function maskAllFields() {
 
 
 function validateFinanceAdmin(){
+
+	var isError = false;
 	$(".error-message").text('');
 	var recipient = document.getElementById("recipient").value;
 	var emailFormat = /\S+@[A-Z]+\.[A-Z]+$/i;
@@ -135,7 +137,7 @@ function saveFinances(){
 	var incomeArray = "[";
 	var expenseArray = "["
 
-	var incomeChildren = $("#incomeFields").children;
+	var incomeChildren = document.getElementById("incomeFields").children;
 	var addComma = false;
 	for(var i = 0; i < incomeChildren.length; i++){
 		var tempChild = incomeChildren[i].firstElementChild;
