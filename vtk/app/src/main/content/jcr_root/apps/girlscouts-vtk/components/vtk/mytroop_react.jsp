@@ -75,7 +75,7 @@
                     <dt data-target="panel<%=i+1%>b" class="clearfix">
                       <span class="name column large-10"><%=contact.getFirstName() %></span>
                       <%
-                      if(contact.getFirstName() != null && contact.getEmail() != null){
+                      if(contact.getEmail() != null){
                         %><a class="column large-10 email" href="mailto:<%=_email%>">
                         <i class="icon-mail"></i><%=contact.getEmail() %><%
                       }%>
