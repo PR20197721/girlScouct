@@ -376,9 +376,9 @@
 	        	text: "Activate",
 	        	handler: function() {
 	        		$.ajax({
-	        			url: location.href.replace("scaffolding.html", "activate.html"),
-	        			type: "GET",
-	        			data: "action=activate",
+	        			url: '/bin/vtk-scaffolding-post',
+	        			type: "POST",
+	        			data: "action=activate&originalUrl=<%= formUrl %>",
 	        			success: function(data) {
                             CQ.Ext.Msg.alert("Success", "Activation succeeded.");
 	        			},

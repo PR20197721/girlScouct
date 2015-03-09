@@ -1,7 +1,6 @@
 package org.girlscouts.vtk.scaffolding;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -15,6 +14,7 @@ import javax.servlet.ServletException;
 
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Property;
+import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
@@ -23,6 +23,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.day.cq.commons.jcr.JcrUtil;
+import com.day.cq.replication.ReplicationActionType;
+import com.day.cq.replication.ReplicationException;
+import com.day.cq.replication.Replicator;
 
 @Component(metatype = false)
 @Service({ Servlet.class })
@@ -30,8 +33,45 @@ import com.day.cq.commons.jcr.JcrUtil;
 public class ScaffoldingPostServlet extends SlingAllMethodsServlet {
     private static final Logger log = LoggerFactory.getLogger(ScaffoldingPostServlet.class);
     
+    @Reference
+    Replicator replicator;
+    
     @Override
     protected void doPost(SlingHttpServletRequest request,
+            SlingHttpServletResponse response) throws ServletException,
+            IOException {
+        String action = request.getParameter("action");
+        if (action != null && action.equals("activate")) {
+            doActivate(request, response);
+        } else {
+            doRegularPost(request, response);
+        }
+    }
+    
+    protected void doActivate(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServletException, IOException {
+	    Session session = (Session)request.getResourceResolver().adaptTo(Session.class);
+	    try {
+            String path = request.getParameter("originalUrl");
+            System.out.println(path);
+            Node currentNode = session.getNode(path);
+	        replicate(currentNode, session);
+	    } catch (RepositoryException e0) {
+	        throw new ServletException(e0);
+	    } catch (ReplicationException e1) {
+	        throw new ServletException(e1);
+	    }
+	}
+
+	protected void replicate(Node currentNode, Session session) throws RepositoryException, ReplicationException {
+    	replicator.replicate(session, ReplicationActionType.ACTIVATE, currentNode.getPath());
+    	NodeIterator iter = currentNode.getNodes();
+    	while (iter.hasNext()) {
+    	    Node node = iter.nextNode();
+    	    replicate(node, session);
+    	}
+	}
+
+    protected void doRegularPost(SlingHttpServletRequest request,
             SlingHttpServletResponse response) throws ServletException,
             IOException {
         Session session = request.getResourceResolver().adaptTo(Session.class); 
