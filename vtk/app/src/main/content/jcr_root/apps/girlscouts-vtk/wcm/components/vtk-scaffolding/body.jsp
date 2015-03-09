@@ -362,13 +362,30 @@
             }
         });
        
-        // Preview Button
+        // Preview Button and Activate Button
         if (isUpdate) {
 	        myForm.addButton({
 	        	text: "Preview",
 	        	handler: function() {
 	        		// Remove the scaffolding selector
 	        		location.href = location.href.replace("scaffolding.html", ".html");
+	        	}
+	        });
+	        
+	        myForm.addButton({
+	        	text: "Activate",
+	        	handler: function() {
+	        		$.ajax({
+	        			url: location.href.replace("scaffolding.html", "activate.html"),
+	        			type: "GET",
+	        			data: "action=activate",
+	        			success: function(data) {
+                            CQ.Ext.Msg.alert("Success", "Activation succeeded.");
+	        			},
+	        			fail: function() {
+                            CQ.Ext.Msg.alert("Success", "Activation failed.");
+	        			}
+	        		});
 	        	}
 	        });
         }
