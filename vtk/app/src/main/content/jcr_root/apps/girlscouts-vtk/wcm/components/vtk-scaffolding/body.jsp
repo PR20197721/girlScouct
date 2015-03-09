@@ -362,10 +362,12 @@
             }
         });
        
+        // Preview Button
         if (isUpdate) {
 	        myForm.addButton({
 	        	text: "Preview",
 	        	handler: function() {
+	        		// Remove the scaffolding selector
 	        		location.href = location.href.replace("scaffolding.html", ".html");
 	        	}
 	        });
