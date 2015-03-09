@@ -22,6 +22,8 @@ public class DocumentCategory {
 		
 		while(iterator.hasNext()){
 			Resource temp = iterator.next();
+			//return only documents
+			if(temp.getName().equals("metadata")){
 			ValueMap properties = temp.adaptTo(ValueMap.class);
 			String docTitle = properties.get("jcr:title",String.class);
 			if (docTitle==null || docTitle.isEmpty()) docTitle =  properties.get("dc:title",String.class);
@@ -32,6 +34,7 @@ public class DocumentCategory {
 			
 			Document tempDoc = new Document(docTitle, docPath);
 			this.allDocs.add(tempDoc);
+			}
 		}
 		
 	}
