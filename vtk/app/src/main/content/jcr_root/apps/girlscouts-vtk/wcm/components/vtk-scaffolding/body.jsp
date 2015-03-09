@@ -361,6 +361,16 @@
                 frm.doAction(action);
             }
         });
+       
+        if (isUpdate) {
+	        myForm.addButton({
+	        	text: "Preview",
+	        	handler: function() {
+	        		location.href = location.href.replace("scaffolding.html", ".html");
+	        	}
+	        });
+        }
+        
         var url = CQ.HTTP.externalize("<%= xssAPI.encodeForJSString(dlgPath) %>.infinity.json");
         var data = CQ.HTTP.eval(url);
         if (data) {
