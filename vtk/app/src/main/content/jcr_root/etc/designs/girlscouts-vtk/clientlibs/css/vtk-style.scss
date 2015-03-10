@@ -281,6 +281,12 @@
             > div  {
               .bg-square {
                 background-color: #00abe6;
+                &.passed {
+                  background-color: #d7e3e7;
+                  &:after {
+                    border-color: transparent transparent transparent #d7e3e7;
+                  }
+                }
                 &:after {
                   border-color: transparent transparent transparent #00abe6;
                 }
