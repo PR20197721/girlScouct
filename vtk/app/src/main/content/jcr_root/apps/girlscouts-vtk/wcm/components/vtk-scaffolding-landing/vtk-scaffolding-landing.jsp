@@ -11,7 +11,7 @@
 	final String YEAR_PLAN_BASE = "/content/girlscouts-vtk/yearPlanTemplates/yearplan2014";
 	final Session session = resourceResolver.adaptTo(Session.class);
 %>	
-	<h1>Year Plans</h1>
+	<p><h1>Year Plans</h1></p>
 <%
 	NodeIterator iter = session.getNode(YEAR_PLAN_BASE).getNodes();
 	while (iter.hasNext()) {
@@ -35,7 +35,7 @@
 %>
 
 <!--  TODO: Do not repeat code -->
-	<h1>Meetings</h1>
+	<p><h1>Meetings</h1></p>
 <%
 	iter = session.getNode(MEETING_BASE).getNodes();
 	while (iter.hasNext()) {
