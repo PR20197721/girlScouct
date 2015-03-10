@@ -20,7 +20,7 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
 <!-- script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script -->
 <!-- script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script -->
 <!-- script src="http://fb.me/react-with-addons-0.12.1.js"></script> -->
-
+<script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.maskMoney.js"></script>
 <%@include file="include/tab_navigation.jsp"%>
 <!--%@include file="include/myPop.jsp"%-->
 <div id="modal_popup" class="reveal-modal" data-reveal></div>
@@ -105,7 +105,7 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
                 <p>Age: <%=troop.getSfTroopAge()%></p>
               </section>
               <section>
-                <p>Cost: {this.props.data.cost}</p>
+                <p>Cost: { fmtMaskedMoney(this.props.data.cost)}</p>
               </section>
 
               <p dangerouslySetInnerHTML={{__html: this.props.data.content}}/>
@@ -116,6 +116,15 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
           );
         }
       });
+
+
+Number.prototype.format = function(n, x) {
+    var re = '(\\d)(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
+    return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$1,');
+};
+ function fmtMaskedMoney(amount){
+        return "$"+amount.format(2);
+    }
     </script>
   </div>
 
