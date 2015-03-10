@@ -164,11 +164,13 @@
         resizeWindow();
         link_bg_square();
 
-      if (Modernizr.touch) {
-        scrollTarget = ".touchscroll";
-      } else {
-        // $(".touchscroll").hide();
-      }
+      // if (Modernizr.touch) {
+
+      //   scrollTarget = ".touchscroll";
+      // } else {
+
+      //   $(".touchscroll").hide();
+      // }
 
           var dom = $(this.getDOMNode());
           var onReorder = this.props.onReorder;
@@ -197,12 +199,14 @@
     }).disableSelection();
       },
       componentWillUpdate: function() {
-      if (Modernizr.touch) {
-        // touch device
-        scrollTarget = ".touchscroll";
-      } else {
-        // $(".touchscroll").hide();
-      }
+
+
+      // if (Modernizr.touch) {
+      //   // touch device
+      //   scrollTarget = ".touchscroll";
+      // } else {
+      //   $(".touchscroll").hide();
+      // }
 
         var dom = $(this.getDOMNode());
         var onReorder = this.props.onReorder;

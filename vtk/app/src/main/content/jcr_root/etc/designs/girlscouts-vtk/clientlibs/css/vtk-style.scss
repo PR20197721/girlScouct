@@ -173,6 +173,21 @@
               cursor: move;
               z-index: 10;
             }
+            &:before {
+              //background: url("images/throbber.png") repeat-y #fff;
+              // height: 100%;
+              // width: 23px;
+              // position: absolute;
+              // left:-33px;
+              // padding: 0 17px;
+              // display: block;
+             // cursor: move;
+             content: ' ';
+             background: #fff;
+             width: 30px;
+             position: absolute;
+             height: 100%;
+            }
             // &:before {
             //   content:'';
             //   background: url("images/throbber.png") repeat-y #fff;
@@ -290,6 +305,10 @@
                 &:after {
                   border-color: transparent transparent transparent #00abe6;
                 }
+              }
+              &:before {
+                cursor: default !important;
+                content: ' ';
               }
             }
           }

@@ -314,10 +314,10 @@ if( _aidTags!=null )
 </div>
 	<script>
 		var scrollTarget = "";
-		if (Modernizr.touch) {
-			// touch device
-			scrollTarget = ".touchscroll";
-		}
+		// if (Modernizr.touch) {
+		// 	// touch device
+		// 	scrollTarget = ".touchscroll";
+		// }
 		$("#sortable").sortable({
 			delay:150,
 			cursor: "move" ,
