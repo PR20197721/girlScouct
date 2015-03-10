@@ -8,6 +8,10 @@
                javax.jcr.NodeIterator,
                org.apache.sling.api.resource.ResourceResolver" %>
 <%@include file="/libs/foundation/global.jsp" %>
+<head>
+	<title>Meeting Preview</title>
+</head>
+<body>
 <%
 	ContextInfo info = new ContextInfo(resourceResolver, out, currentNode.getPath());
 	printProperty(info, "ID", "id");
@@ -41,15 +45,16 @@
 		}
 	});
 	
+	printTitle(info, "Agenda Items", "h1");
 	int activityCount = 0;
 	for (Activity activity : activities) {
 	    activityCount++;
 	    ContextInfo info1 = new ContextInfo(resourceResolver, out, activity.node.getPath());
-	    printTitle(info1, "Activity " + Integer.toString(activityCount));
+	    printTitle(info1, "Agenda Item " + Integer.toString(activityCount), "h2");
 	    %><p><%= activity.node.getPath() %></p><%
-	    printProperty(info1, "Name", "name");
-	    printProperty(info1, "Duration", "duration");
-	    printProperty(info1, "Description", "activityDescription");
+	    printProperty(info1, "Name", "name", "h3");
+	    printProperty(info1, "Duration", "duration", "h3");
+	    printProperty(info1, "Description", "activityDescription", "h3");
 	}
 %>
 <%!
@@ -74,15 +79,15 @@
 		}
 	}
 
-	void printTitle(ContextInfo info, String key) throws IOException {
+	void printTitle(ContextInfo info, String key, String level) throws IOException {
 	    JspWriter out = info.out;
-    	out.println("<p><h1>" + key + "</h1></p>");
+    	out.println("<p><" + level + ">" + key + "</" + level + "></p>");
 	}
 
-	void printProperty(ContextInfo info, String key, String path) throws ServletException {
+	void printProperty(ContextInfo info, String key, String path, String level) throws ServletException {
 	    JspWriter out = info.out;
     	try {
-    	    printTitle(info, key);
+    	    printTitle(info, key, level);
 			String value = info.rr.resolve(info.basePath + "/" + path).adaptTo(Property.class).getString();
     		out.println("<p>");
 	    	out.println(value);
@@ -95,4 +100,9 @@
     	   	throw new ServletException(ie); 
     	}
 	}
+
+	void printProperty(ContextInfo info, String key, String path) throws ServletException {
+		printProperty(info, key, path, "h1");
+	}
 %>
+</body>
