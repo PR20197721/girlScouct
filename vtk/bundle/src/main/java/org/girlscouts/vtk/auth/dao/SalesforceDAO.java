@@ -108,7 +108,9 @@ public class SalesforceDAO {
 							e.printStackTrace();
 						}
 
-						// user.setEmail(results.getJSONObject(current).getString("Email"));
+						try{  user.setEmail(results.getJSONObject(current).getString("Email")); }catch(Exception e){System.err.println("SAlesforceDAO.getUser: no email");}
+						try{  user.setPhone(results.getJSONObject(current).getString("Phone")); }catch(Exception e){System.err.println("SAlesforceDAO.getUser: no phone");}
+						
 						try {
 							user.setContactId(results.getJSONObject(current)
 									.getString("ContactId"));
