@@ -11,7 +11,10 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
 
 
 %>
-
+<style>
+.hideImg{display:none;}
+.showImg{display:inline;}
+</style>
 <!-- <script src="http://code.jquery.com/jquery-1.9.1.js"></script> -->
 <!-- <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 <!-- 2/1/15 link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" / -->
@@ -37,6 +40,8 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
       var aPath;
       var meetingStartDate="";
       var meetingEndDate="";
+      var imageUrl = '';
+      var displayImg ='hideImg';
       var CommentBox = React.createClass({
       loadCommentsFromServer: function( isFirst ) {
         console.log("loading..");
@@ -66,6 +71,15 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
           this.loadCommentsFromServer(1);
           setInterval( this.loadCommentsFromServer, this.props.pollInterval);
           setInterval( this.checkLocalUpdate, 1000);
+
+
+ imageExists(imageUrl, function(exists) {
+
+    if( exists){
+        displayImg="showImg";
+    }
+  })
+
         },
         checkLocalUpdate: function(){
         	if( (isActivNew == 1) || (isActivNew == 2) )
@@ -92,7 +106,9 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
         document.getElementById('theActivity')
       );
         var Activity = React.createClass({
+
         render: function() {
+        imageUrl : this.props.data.refUid+"/jcr:content/data/image.img.png";
         return (
           <div className="section-wrapper">
             <%@include file="include/meeting_navigator.jsp"%>
@@ -109,13 +125,25 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
               </section>
 
               <p dangerouslySetInnerHTML={{__html: this.props.data.content}}/>
-
+<div id="activ_img" className={displayImg}>
+    <img src={this.props.data.refUid+"/jcr:content/data/image.img.png"}/>
+</div>
             </div>
             <%@include file="include/meeting_communication.jsp"%>
           </div>
           );
         }
       });
+
+
+function imageExists(url, callback) {
+  var img = new Image();
+  img.onload = function() { callback(true); };
+  img.onerror = function() { callback(false); };
+  img.src = url;
+}
+
+
     </script>
   </div>
 
