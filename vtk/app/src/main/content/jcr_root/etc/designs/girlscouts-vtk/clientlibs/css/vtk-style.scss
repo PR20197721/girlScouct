@@ -133,15 +133,27 @@
             background-color:#f6f6f6;
             cursor: move;
             padding-left:0;
-            &:before {
-              content:'';
-              background: url("images/throbber.png") repeat-y #fff;
-              height: 100%;
-              width: 23px;
+            .touchscroll {
               position: absolute;
-              left:-33px;
-              padding: 0 17px;
+              left: -30px;
+              height: 84px;
               cursor: move;
+              z-index: 10;
+            }
+            &:before {
+              //background: url("images/throbber.png") repeat-y #fff;
+              // height: 100%;
+              // width: 23px;
+              // position: absolute;
+              // left:-33px;
+              // padding: 0 17px;
+              // display: block;
+             // cursor: move;
+             content: ' ';
+             background: #fff;
+             width: 30px;
+             position: absolute;
+             height: 100%;
             }
             p {
               margin:0;
@@ -248,7 +260,7 @@
               }
               &:before {
                 cursor: default !important;
-                content: none;
+                content: ' ';
               }
             }
           }
@@ -1875,15 +1887,11 @@ input[type="file"] {
 //small screen
 @media only screen and (max-width: 40em) {
   .vtk-body #main #yearPlanMeetings ul .meeting > div {
-    .touchscroll {
-      position:absolute;
-      cursor: move;
-      z-index: 100;
-      display: block !important;
-      height:83px;
-      background: #fff;
-      padding-right: 6px;
-    }
+   .touchscroll {
+     left: 0;
+     padding: 0 5px;
+     width: 30px;
+   }
     .bg-square {
       left:30px;
       &:after {
@@ -1969,18 +1977,16 @@ table tr {
     margin: 0 11px;
   }
   .vtk-body #main #yearPlanMeetings ul .meeting > div {
-    .touchscroll {
-      position:absolute;
-      cursor: move;
-      z-index: 100;
-      display: block !important;
-      height:83px;
-      background: #fff;
-      padding-right: 6px;
-      left:-30px;
-      width: 23px;
-
-    }
+    // .touchscroll {
+    //   position:absolute;
+    //   cursor: move;
+    //   z-index: 100;
+    //   display: block !important;
+    //   height:83px;
+    //   background: #fff;
+    //   padding-right: 6px;
+    //   left:-30px;
+    // }
   }
   //my troop page accordion 
   .mytroop {

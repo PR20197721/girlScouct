@@ -164,13 +164,13 @@
         resizeWindow();
         link_bg_square();
 
-      if (Modernizr.touch) {
+      // if (Modernizr.touch) {
 
-        scrollTarget = ".touchscroll";
-      } else {
+      //   scrollTarget = ".touchscroll";
+      // } else {
 
-        $(".touchscroll").hide();
-      }
+      //   $(".touchscroll").hide();
+      // }
 
           var dom = $(this.getDOMNode());
           var onReorder = this.props.onReorder;
@@ -201,12 +201,12 @@
       componentWillUpdate: function() {
 
 
-      if (Modernizr.touch) {
-        // touch device
-        scrollTarget = ".touchscroll";
-      } else {
-        $(".touchscroll").hide();
-      }
+      // if (Modernizr.touch) {
+      //   // touch device
+      //   scrollTarget = ".touchscroll";
+      // } else {
+      //   $(".touchscroll").hide();
+      // }
 
         var dom = $(this.getDOMNode());
         var onReorder = this.props.onReorder;
