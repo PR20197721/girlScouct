@@ -9,8 +9,15 @@
 <%
 	final String MEETING_BASE = "/content/girlscouts-vtk/meetings/myyearplan";
 	final String YEAR_PLAN_BASE = "/content/girlscouts-vtk/yearPlanTemplates/yearplan2014";
+	final String MEETING_SCAFFOLDING = "/etc/scaffolding/girlscouts-vtk/meeting.html";
+	final String YEAR_PLAN_SCAFFOLDING = "/etc/scaffolding/girlscouts-vtk/year-plan.html";
 	final Session session = resourceResolver.adaptTo(Session.class);
 %>	
+	<p><h1>New</h1></p>
+		<p>
+			<input type="button" value="New Year Plan" onclick="window.location.href='<%= YEAR_PLAN_SCAFFOLDING %>'"></input>
+			<input type="button" value="New Meeting" onclick="window.location.href='<%= MEETING_SCAFFOLDING %>'"></input>
+		</p>
 	<p><h1>Year Plans</h1></p>
 <%
 	NodeIterator iter = session.getNode(YEAR_PLAN_BASE).getNodes();
