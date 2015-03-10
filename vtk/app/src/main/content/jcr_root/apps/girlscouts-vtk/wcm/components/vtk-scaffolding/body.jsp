@@ -371,23 +371,6 @@
 	        		location.href = location.href.replace("scaffolding.html", ".html");
 	        	}
 	        });
-	        
-	        myForm.addButton({
-	        	text: "Activate",
-	        	handler: function() {
-	        		$.ajax({
-	        			url: '/bin/vtk-scaffolding-post',
-	        			type: "POST",
-	        			data: "action=activate&originalUrl=<%= formUrl %>",
-	        			success: function(data) {
-                            CQ.Ext.Msg.alert("Success", "Activation succeeded.");
-	        			},
-	        			fail: function() {
-                            CQ.Ext.Msg.alert("Success", "Activation failed.");
-	        			}
-	        		});
-	        	}
-	        });
         }
         
         var url = CQ.HTTP.externalize("<%= xssAPI.encodeForJSString(dlgPath) %>.infinity.json");
