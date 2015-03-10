@@ -1,7 +1,11 @@
 <%@page import="java.util.List,
                java.util.ArrayList,
+               java.util.Collections,
+               java.util.Comparator,
                java.io.IOException,
                javax.jcr.Property,
+               javax.jcr.Node,
+               javax.jcr.NodeIterator,
                org.apache.sling.api.resource.ResourceResolver" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%
@@ -19,8 +23,45 @@
 	printProperty(info, "Materials", "meetingInfo/materials/str");
 	printProperty(info, "Email Invite", "meetingInfo/overview/str");
 	printProperty(info, "Email Summary", "meetingInfo/overview/str");
+	
+	List<Activity> activities = new ArrayList<Activity>();
+	NodeIterator iter = currentNode.getNode("activities").getNodes();
+	while (iter.hasNext()) {
+	    Node node = iter.nextNode();
+	    Long id = node.getProperty("./activityNumber").getLong();
+	    Activity activity = new Activity(id, node);
+	    activities.add(activity);
+	}
+	Collections.sort(activities, new Comparator<Activity>() {
+		public int compare(Activity a0, Activity a1) {
+		    return (int)(a0.id - a1.id);
+		}
+		public boolean equals(Activity a0, Activity a1) {
+		    return a0.id == a1.id;
+		}
+	});
+	
+	int activityCount = 0;
+	for (Activity activity : activities) {
+	    activityCount++;
+	    ContextInfo info1 = new ContextInfo(resourceResolver, out, activity.node.getPath());
+	    printTitle(info1, "Activity " + Integer.toString(activityCount));
+	    %><p><%= activity.node.getPath() %></p><%
+	    printProperty(info1, "Name", "name");
+	    printProperty(info1, "Duration", "duration");
+	    printProperty(info1, "Description", "activityDescription");
+	}
 %>
 <%!
+	class Activity {
+    	Long id;
+    	Node node;
+    	
+    	Activity(Long id, Node node) {
+    	    this.id = id;
+    	    this.node = node;
+    	}
+	}
 	class ContextInfo {
 		ResourceResolver rr;
 		String basePath;
