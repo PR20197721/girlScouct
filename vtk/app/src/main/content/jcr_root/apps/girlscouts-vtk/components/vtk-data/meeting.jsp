@@ -39,8 +39,7 @@
 	for (SortItem activity : activities) {
 	    activityCount++;
 	    ContextInfo info1 = new ContextInfo(resourceResolver, out, activity.node.getPath());
-	    printTitle(info1, "Agenda Item " + Integer.toString(activityCount), "h2");
-	    %><p><%= activity.node.getPath() %></p><%
+	    printTitle(info1, "Agenda Item #" + Integer.toString(activityCount), "h2");
 	    printProperty(info1, "Name", "name", "h3");
 	    printProperty(info1, "Duration", "duration", "h3");
 	    printProperty(info1, "Description", "activityDescription", "h3");
