@@ -29,19 +29,19 @@
 						<tr>
 							<th></th>
 							<th>Attendance</th>
-<%
-	if( showAchievement ){
-%>
-							<th>Achievement Earned</th>
-<%
-	}
-%>
+							<%
+								if( showAchievement ) {
+							%>
+								<th>Achievement Earned</th>
+							<%
+								}
+							%>
 						</tr>
 					</thead>
 					<tbody>
-<%
-	for(int i=0;i<contacts.size();i++){
-%> 
+						<%
+							for(int i=0;i<contacts.size();i++){
+						%> 
 						<tr>
 							<td>
 								<p><%=contacts.get(i).getFirstName() %></p>         
@@ -50,20 +50,20 @@
 								<input type="checkbox"  <%= ( !isAttendance || (attendance!=null && attendance.getUsers()!=null && attendance.getUsers().contains(contacts.get(i).getId()) ) )  ? "checked" : "" %> name="attendance" id="a<%=contacts.get(i).getId() %>" value="<%=contacts.get(i).getId() %>" onclick="setDefaultAchievement(this.checked, 'c<%=contacts.get(i).getId() %>')">
 								<label for="a<%=contacts.get(i).getId() %>"></label>
 							</td>
-<%
-		if( showAchievement ){
-%>
+							<%
+							 if( showAchievement ){
+							%>
 							<td>
 								<input type="checkbox"  <%= ( !isAchievement  || (achievement!=null && achievement.getUsers()!=null && achievement.getUsers().contains(contacts.get(i).getId())) )  ? "checked" : "" %> name="achievement" id="c<%=contacts.get(i).getId() %>" value="<%=contacts.get(i).getId() %>">
 								<label for="c<%=contacts.get(i).getId() %>"></label>
 							</td>
-<%
-		}
-%>
+							<%
+									}
+							%>
 						</tr>
-<%
-	}
-%>
+						<%
+							}
+						%>
 					</tbody>
 				</table>        
 				<input type="button" value="Save"  class="btn button right" onclick="updateAttendAchvm('<%=request.getParameter("mid")%>')"/>
@@ -72,6 +72,7 @@
 	</div>
 </div>
 <script>
+  attendance_popup_width();
 	function setDefaultAchievement(checkedState, achievementId) {
 		if (!checkedState) {
 			if ($("#" + achievementId).length > 0) {
