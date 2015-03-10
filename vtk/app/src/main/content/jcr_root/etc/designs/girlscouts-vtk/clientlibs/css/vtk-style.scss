@@ -572,9 +572,14 @@
   //activity tabpage
   #main #theActivity {
     #main-info {
-      section {
-        float:left;
-        width:50%;
+      ul{
+        li{
+          padding-bottom: 0.94em;
+          p {
+            margin-bottom:0;
+            font-weight:600;
+          }
+        }
       }
     }
   }
