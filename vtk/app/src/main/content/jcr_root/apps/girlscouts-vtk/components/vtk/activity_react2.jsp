@@ -26,8 +26,7 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
       var aPath;
       var meetingStartDate="";
       var meetingEndDate="";
-      var imageUrl = '';
-      var displayImg ='hide';
+  
       var CommentBox = React.createClass({
       loadCommentsFromServer: function( isFirst ) {
         console.log("loading..");
@@ -58,14 +57,6 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
           setInterval( this.loadCommentsFromServer, this.props.pollInterval);
           setInterval( this.checkLocalUpdate, 1000);
 
-
- imageExists(imageUrl, function(exists) {
-
-    if( exists){
-        displayImg="show";
-    }
-  })
-
         },
         checkLocalUpdate: function(){
         	if( (isActivNew == 1) || (isActivNew == 2) )
@@ -79,6 +70,9 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
     			aPath= x.path;
     			meetingStartDate=new Date(Number(x.date));
     			meetingEndDate=new Date(Number(x.endDate));
+      
+         getEventImg( x.refUid );
+
               return (
                 <Activity data={x} meetingTitle={x.name} meetingModMONTH={moment(meetingStartDate).format('MMMM')} meetingModDAY={moment(meetingStartDate).format('DD')} meetingModHOUR={moment(meetingStartDate).format('h:mm a')}/>
               );
@@ -94,14 +88,19 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
         var Activity = React.createClass({
 
         render: function() {
-        imageUrl : this.props.data.refUid+"/jcr:content/data/image.img.png";
+        //imageUrl : this.props.data.refUid+"/jcr:content/data/image.img.png";
+        //imageUrl : this.props.data.refUid;
         return (
           <div className="section-wrapper">
             <%@include file="include/meeting_navigator.jsp"%>
             <div className="column large-20 medium-20 large-centered medium-centered clearfix" id="main-info">
-<div id="activ_img" className={displayImg}>
-    <img src={this.props.data.refUid+"/jcr:content/data/image.img.png"}/>
-</div>
+
+              <div id="activ_img" />
+
+
+
+
+
               <section>
                 <p>Location: {this.props.data.locationName} </p>
                 <p>{this.props.data.locationAddress} {this.props.data.locationRef}</p>
@@ -123,12 +122,7 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
       });
 
 
-function imageExists(url, callback) {
-  var img = new Image();
-  img.onload = function() { callback(true); };
-  img.onerror = function() { callback(false); };
-  img.src = url;
-}
+
 
 
     </script>
