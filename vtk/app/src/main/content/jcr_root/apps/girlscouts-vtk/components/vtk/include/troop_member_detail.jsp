@@ -13,7 +13,7 @@
       <dl class="accordion-inner clearfix" data-accordion>
         <dt data-target="panel<%=i+1%>b" class="clearfix">
           <span class="name column large-6"><%=contact.getFirstName() %></span>
-          <span class="name column large-4">[Caregiver Name]</span>
+          <span class="name column large-4">[caregivers]</span>
 	      <% if(contact.getEmail() != null){ %>
             <a class="column large-10 email" href="mailto:<%=_email%>">
               <i class="icon-mail"></i><%=contact.getEmail() %>
