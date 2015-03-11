@@ -31,12 +31,26 @@
         			}
         		});
 			}
+			function scaffoldingDeactivateCallback() {
+        		$CQ.ajax({
+        			url: '/bin/vtk-scaffolding-post',
+        			type: "POST",
+        			data: "action=deactivate&originalUrl=" + window.location.pathname.replace(/\.html$/, ""),
+        			success: function(data) {
+        				alert('Deactivation Succeeded.');
+        			},
+        			fail: function() {
+        				alert('Deactivation Failed.');
+        			}
+        		});
+			}
 		</script>
 		<!-- Empty <p> for more spaces -->
 		<p>
 			<form>
 				<input type="button" value="Edit" onclick="scaffoldingEditCallback();"></input>
 				<input type="button" value="Activate" onclick="scaffoldingActivateCallback();"></input>
+				<input type="button" value="Deactivate" onclick="scaffoldingDeactivateCallback();"></input>
 				<input type="button" value="VTK Scaffolding Home" onclick="scaffoldingLandingCallback();"></input>
 			</form>
 		</p>
@@ -51,6 +65,7 @@
 			<form>
 				<input type="button" value="Edit" onclick="scaffoldingEditCallback();"></input>
 				<input type="button" value="Activate" onclick="scaffoldingActivateCallback();"></input>
+				<input type="button" value="Deactivate" onclick="scaffoldingDeactivateCallback();"></input>
 				<input type="button" value="VTK Scaffolding Home" onclick="scaffoldingLandingCallback();"></input>
 			</form>
 		</p>

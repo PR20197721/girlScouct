@@ -43,6 +43,8 @@ public class ScaffoldingPostServlet extends SlingAllMethodsServlet {
         String action = request.getParameter("action");
         if (action != null && action.equals("activate")) {
             doActivate(request, response);
+        } else if (action != null && action.equals("deactivate")) {
+            doDeactivate(request, response);
         } else {
             doRegularPost(request, response);
         }
@@ -52,7 +54,6 @@ public class ScaffoldingPostServlet extends SlingAllMethodsServlet {
 	    Session session = (Session)request.getResourceResolver().adaptTo(Session.class);
 	    try {
             String path = request.getParameter("originalUrl");
-            System.out.println(path);
             Node currentNode = session.getNode(path);
 	        replicate(currentNode, session);
 	    } catch (RepositoryException e0) {
@@ -61,7 +62,7 @@ public class ScaffoldingPostServlet extends SlingAllMethodsServlet {
 	        throw new ServletException(e1);
 	    }
 	}
-
+    
 	protected void replicate(Node currentNode, Session session) throws RepositoryException, ReplicationException {
     	replicator.replicate(session, ReplicationActionType.ACTIVATE, currentNode.getPath());
     	NodeIterator iter = currentNode.getNodes();
@@ -70,6 +71,16 @@ public class ScaffoldingPostServlet extends SlingAllMethodsServlet {
     	    replicate(node, session);
     	}
 	}
+
+    protected void doDeactivate(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServletException, IOException {
+	    Session session = (Session)request.getResourceResolver().adaptTo(Session.class);
+	    try {
+            String path = request.getParameter("originalUrl");
+	        replicator.replicate(session, ReplicationActionType.DEACTIVATE, path);
+	    } catch (ReplicationException e) {
+	        throw new ServletException(e);
+	    }
+    }
 
     protected void doRegularPost(SlingHttpServletRequest request,
             SlingHttpServletResponse response) throws ServletException,
