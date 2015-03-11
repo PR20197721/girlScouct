@@ -35,10 +35,6 @@
       //  }
       %>
       <dl class="tabs hide-for-small hide-for-portrait">
-      	<!--  milesonte tab for admin view -->
-<%--      <dd <%= "admin_milestones".equals(activeTab) ? "class='active'" : "" %>>
-            <a href="/content/girlscouts-vtk/en/vtk.admin_milestones.html">Milestones</a>
-          </dd> --%>
         <% if(hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
           <dd <%= "myTroop".equals(activeTab) ? "class='active'" : "" %>>
             <a href="/content/girlscouts-vtk/en/vtk.myTroop.html">My Troop</a>
