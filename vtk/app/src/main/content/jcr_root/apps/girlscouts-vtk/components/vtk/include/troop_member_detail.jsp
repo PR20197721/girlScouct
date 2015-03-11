@@ -4,12 +4,13 @@
       org.girlscouts.vtk.models.Contact contact = contacts.get(i);
       java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, troop, contact);
        String _email= contact.getFirstName().replace(" ", "&nbsp;") + java.net.URLEncoder.encode("<"+contact.getEmail() +">");     
-    %>
+      // VtkUtil.getSubContact( contact, 1)
+      %>
     <div class="row">
       <dl class="accordion-inner clearfix" data-accordion>
         <dt data-target="panel<%=i+1%>b" class="clearfix">
           <span class="name column large-6"><%=contact.getFirstName() %></span>
-          <span class="name column large-4"><%=VtkUtil.getSubContact( contact, 1) %></span>
+          <span class="name column large-4">[caregivers]</span>
           <a class="column large-10 email" href="mailto:<%=_email%>">
           <i class="icon-mail"></i><%=contact.getEmail() %>
           </a>

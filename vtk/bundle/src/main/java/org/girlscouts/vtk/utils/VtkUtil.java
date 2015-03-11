@@ -159,10 +159,11 @@ public enum VtkUtil {
   }
   
   public static final Contact getSubContact( Contact contact, int contactType){
-	  
+	  /*
 	  if( contact.getContacts()!=null )
 		  for()
-	  
+	  */
+	  return null;
   }
   
 }
