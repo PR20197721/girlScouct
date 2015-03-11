@@ -31,6 +31,7 @@ import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.Troop;
+import org.girlscouts.vtk.models.SentEmail;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.CouncilInfo;
@@ -73,8 +74,8 @@ public class CouncilDAOImpl implements CouncilDAO {
 			classes.add(Location.class);
 			classes.add(Cal.class);
 			classes.add(Activity.class);
-			classes.add(Asset.class);
 			classes.add(SentEmail.class);
+			classes.add(Asset.class);
 			classes.add(JcrNode.class);
 			classes.add(Milestone.class);
 			classes.add(Troop.class);
