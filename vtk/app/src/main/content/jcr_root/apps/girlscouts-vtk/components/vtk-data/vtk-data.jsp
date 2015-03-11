@@ -12,6 +12,9 @@
 		<cq:includeClientLib categories="cq.foundation-main"/>
 		<script src="/libs/cq/ui/resources/cq-ui.js" type="text/javascript"></script>
 		<script>
+			function scaffoldingLandingCallback() {
+				location.href = '/etc/scaffolding/girlscouts-vtk/landing.html';
+			}
 			function scaffoldingEditCallback() {
 	        	location.href = location.href.replace(/\.html/, ".scaffolding.html");
 			}
@@ -34,6 +37,7 @@
 			<form>
 				<input type="button" value="Edit" onclick="scaffoldingEditCallback();"></input>
 				<input type="button" value="Activate" onclick="scaffoldingActivateCallback();"></input>
+				<input type="button" value="VTK Scaffolding Home" onclick="scaffoldingLandingCallback();"></input>
 			</form>
 		</p>
 <%
@@ -47,5 +51,6 @@
 			<form>
 				<input type="button" value="Edit" onclick="scaffoldingEditCallback();"></input>
 				<input type="button" value="Activate" onclick="scaffoldingActivateCallback();"></input>
+				<input type="button" value="VTK Scaffolding Home" onclick="scaffoldingLandingCallback();"></input>
 			</form>
 		</p>

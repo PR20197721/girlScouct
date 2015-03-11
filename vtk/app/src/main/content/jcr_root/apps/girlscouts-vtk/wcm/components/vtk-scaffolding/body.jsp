@@ -346,7 +346,7 @@
                 	}
                 	
 	                var destDir = '<%=contentPath%>/' + level;
-	                girlscouts.functions.createPath(destDir, 'cq:Page');
+	                girlscouts.functions.createPath(destDir, 'nt:unstructured');
 	                var destUrl = destDir + '/' + id;
 	                frm.url = destUrl;
                 }
