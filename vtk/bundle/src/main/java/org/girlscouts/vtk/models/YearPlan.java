@@ -81,7 +81,7 @@ public class YearPlan implements Serializable {
 		 */
 		this.milestones = milestones;
 
-		calFreq = "biweekly"; // todo rm
+		//-calFreq = "biweekly"; // todo rm
 
 	}
 
