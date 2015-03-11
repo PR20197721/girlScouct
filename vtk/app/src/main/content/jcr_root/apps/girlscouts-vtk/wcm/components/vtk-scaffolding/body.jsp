@@ -341,6 +341,8 @@
                 	if (type === 'org.girlscouts.vtk.models.YearPlan') {
                 		id = frm.findField("./id").getValue();
                 		id = 'yearPlan' + id;
+                	} else if (type === 'org.girlscouts.vtk.models.Meeting') {
+                		id = frm.findField("./id").getValue();
                 	}
                 	
 	                var destDir = '<%=contentPath%>/' + level;

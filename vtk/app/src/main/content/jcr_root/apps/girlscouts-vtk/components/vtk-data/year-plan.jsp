@@ -14,7 +14,6 @@
 	printProperty(info, "Level", "level");
 	printProperty(info, "Name", "name");
 	printProperty(info, "Description", "desc");
-	printProperty(info, "Resources", "resources");
 	
 	List<SortItem> meetings = new ArrayList<SortItem>();
 	NodeIterator iter = currentNode.getNode("meetings").getNodes();
