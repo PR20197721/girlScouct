@@ -7,6 +7,7 @@ import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 
 import org.apache.sling.api.resource.Resource;
+import org.apache.sling.api.resource.ValueMap;
 
 import com.day.cq.commons.RangeIterator;
 
@@ -21,14 +22,19 @@ public class DocumentCategory {
 		
 		while(iterator.hasNext()){
 			Resource temp = iterator.next();
-			temp = temp.getParent();
-			temp = temp.getParent();
+			//return only documents
+			if(temp.getName().equals("metadata")){
+			ValueMap properties = temp.adaptTo(ValueMap.class);
+			String docTitle = properties.get("jcr:title",String.class);
+			if (docTitle==null || docTitle.isEmpty()) docTitle =  properties.get("dc:title",String.class);
 			
+			temp = temp.getParent().getParent();
 			String docPath = temp.getPath();
-			String docTitle = temp.getName();
+			if (docTitle==null || docTitle.isEmpty()) docTitle = temp.getName();
 			
 			Document tempDoc = new Document(docTitle, docPath);
 			this.allDocs.add(tempDoc);
+			}
 		}
 		
 	}
