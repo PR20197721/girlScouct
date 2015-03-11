@@ -31,6 +31,8 @@ if( meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null )
 	}
 }
 
+
+
 //pageContext.setAttribute("MEETING_achievement_TOTAL", achievementTotal);
 pageContext.setAttribute("MEETING_achievement_CURRENT", achievementCurrent);
 pageContext.setAttribute("MEETING_ATTENDANCE_TOTAL", attendanceTotal);
@@ -274,8 +276,10 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
         					 <h6>meeting agenda</h6>
                   <p>Select and agenda item to view details, edit duration or delete. Drag and drop to reorder.</p>
        						 <SortableListItems1  key="{this.props.data}"  data={this.props.data} onClick={this.alex} onReorder={this.onReorder}/>
-                  <AgendaTotal data={this.props.data}/>   				
+                  <AgendaTotal data={this.props.data}/> 
+				<%if( hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID ) ) {%>  				
                   <strong><a data-reveal-id="modal_agenda" className="add-btn"><i className="icon-button-circle-plus"></i> Add Agenda Item</a></strong>
+				<%}%>
 						     </section>; 
           }
       });
@@ -295,6 +299,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
           resizeWindow();
           var dom = $(this.getDOMNode());
           var onReorder = this.props.onReorder;
+		<%if( hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID ) ) {%>
           dom.sortable({
             stop: function (event, ui) {
               var order = dom.sortable("toArray", {attribute: "id"});
@@ -303,10 +308,12 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
               onReorder(order);
             }
           });
+		<%}%>
         },
         componentWillUpdate: function() {
           var dom = $(this.getDOMNode());
           var onReorder = this.props.onReorder;
+		<%if( hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID ) ) {%>
           dom.sortable({
               stop: function (event, ui) {
               	var order = dom.sortable("toArray", {attribute: "id"});
@@ -315,6 +322,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
       			onReorder(order);
               }
           });
+		<%}%>
         }
       });
 
