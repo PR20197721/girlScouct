@@ -74,6 +74,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 			classes.add(Cal.class);
 			classes.add(Activity.class);
 			classes.add(Asset.class);
+			classes.add(SentEmail.class);
 			classes.add(JcrNode.class);
 			classes.add(Milestone.class);
 			classes.add(Troop.class);
@@ -118,6 +119,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 			classes.add(Cal.class);
 			classes.add(Activity.class);
 			classes.add(Asset.class);
+			classes.add(SentEmail.class);
 			classes.add(JcrNode.class);
 			classes.add(Milestone.class);
 			classes.add(Troop.class);
@@ -177,6 +179,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 			classes.add(Cal.class);
 			classes.add(Activity.class);
 			classes.add(Asset.class);
+			classes.add(SentEmail.class);
 			classes.add(JcrNode.class);
 			classes.add(Milestone.class);
 			classes.add(Troop.class);
