@@ -333,20 +333,27 @@
                 /****************************************
                 // Customize code to add level
                 ****************************************/
+                
                 if(!isUpdate){
-					var levelField = frm.findField("./level");
-	                var level = levelField.getValue();
+					var level = frm.findField("./level").getValue();
+                	var type = frm.findField("./ocm_classname").getValue();
+                	var id;
+                	if (type === 'org.girlscouts.vtk.models.YearPlan') {
+                		id = frm.findField("./id").getValue();
+                		id = 'yearPlan' + id;
+                	}
+                	
 	                var destDir = '<%=contentPath%>/' + level;
 	                girlscouts.functions.createPath(destDir, 'cq:Page');
-	                frm.url = destDir + '/*';
+	                var destUrl = destDir + '/' + id;
+	                frm.url = destUrl;
                 }
                 /****************************************
                 // End: Customize code to add level
                 ****************************************/
-
                 
                 // Add original URL to params
-                params.originalUrl = '<%= formUrl %>';
+                params.originalUrl = frm.url;
                 var action = new CQ.form.SlingSubmitAction(frm, {
                 	// Direct to our special servlet
                 	url:  '/bin/vtk-scaffolding-post',

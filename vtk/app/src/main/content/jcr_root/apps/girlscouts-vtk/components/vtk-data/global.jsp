@@ -59,6 +59,8 @@
     	   	throw new ServletException(re); 
     	} catch (IOException ie) {
     	   	throw new ServletException(ie); 
+    	} catch (NullPointerException npe) {
+    	    // Do nothing. Value not found.
     	}
 	}
 
