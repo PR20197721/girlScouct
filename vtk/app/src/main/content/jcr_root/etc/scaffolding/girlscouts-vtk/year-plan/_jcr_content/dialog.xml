@@ -9,17 +9,17 @@
             <items jcr:primaryType="cq:WidgetCollection">
                 <ocm_classname
                     jcr:primaryType="cq:Widget"
-                    defaultValue="org.girlscouts.vtk.models.YearPlan"
+                    value="org.girlscouts.vtk.models.YearPlan"
                     name="./ocm_classname"
                     xtype="hidden"/>
                 <resType
                     jcr:primaryType="cq:Widget"
-                    defaultValue="girlscouts-vtk/components/vtk-data"
+                    value="girlscouts-vtk/components/vtk-data"
                     name="./sling:resourceType"
                     xtype="hidden"/>
                 <vtkDataType
                     jcr:primaryType="cq:Widget"
-                    defaultValue="year-plan"
+                    value="year-plan"
                     name="./vtkDataType"
                     xtype="hidden"/>
                 <id
