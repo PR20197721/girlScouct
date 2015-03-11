@@ -1,28 +1,14 @@
 <!-- PAGE START activity_react2.jsp -->
 <%
 
-if( false ){
-	out.println("ACTIVITY ");
-	return;	
-}
+
 
 String aid = planView.getYearPlanComponent().getUid();
 pageContext.setAttribute("DETAIL_TYPE", "activity");
 
 
 %>
-<style>
-.hideImg{display:none;}
-.showImg{display:inline;}
-</style>
-<!-- <script src="http://code.jquery.com/jquery-1.9.1.js"></script> -->
-<!-- <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-<!-- 2/1/15 link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" / -->
-<!-- script src="http://fb.me/react-0.12.1.js"></script -->
-<!-- script src="http://fb.me/JSXTransformer-0.12.1.js"></script -->
-<!-- script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script -->
-<!-- script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script -->
-<!-- script src="http://fb.me/react-with-addons-0.12.1.js"></script> -->
+
 
 <%@include file="include/tab_navigation.jsp"%>
 <!--%@include file="include/myPop.jsp"%-->
@@ -41,7 +27,7 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
       var meetingStartDate="";
       var meetingEndDate="";
       var imageUrl = '';
-      var displayImg ='hideImg';
+      var displayImg ='hide';
       var CommentBox = React.createClass({
       loadCommentsFromServer: function( isFirst ) {
         console.log("loading..");
@@ -76,7 +62,7 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
  imageExists(imageUrl, function(exists) {
 
     if( exists){
-        displayImg="showImg";
+        displayImg="show";
     }
   })
 
@@ -113,6 +99,9 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
           <div className="section-wrapper">
             <%@include file="include/meeting_navigator.jsp"%>
             <div className="column large-20 medium-20 large-centered medium-centered clearfix" id="main-info">
+<div id="activ_img" className={displayImg}>
+    <img src={this.props.data.refUid+"/jcr:content/data/image.img.png"}/>
+</div>
               <section>
                 <p>Location: {this.props.data.locationName} </p>
                 <p>{this.props.data.locationAddress} {this.props.data.locationRef}</p>
@@ -125,9 +114,7 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
               </section>
 
               <p dangerouslySetInnerHTML={{__html: this.props.data.content}}/>
-<div id="activ_img" className={displayImg}>
-    <img src={this.props.data.refUid+"/jcr:content/data/image.img.png"}/>
-</div>
+
             </div>
             <%@include file="include/meeting_communication.jsp"%>
           </div>
