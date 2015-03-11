@@ -330,6 +330,21 @@
                     }
                 }
                 
+                /****************************************
+                // Customize code to add level
+                ****************************************/
+                if(!isUpdate){
+					var levelField = frm.findField("./level");
+	                var level = levelField.getValue();
+	                var destDir = '<%=contentPath%>/' + level;
+	                girlscouts.functions.createPath(destDir, 'cq:Page');
+	                frm.url = destDir + '/*';
+                }
+                /****************************************
+                // End: Customize code to add level
+                ****************************************/
+
+                
                 // Add original URL to params
                 params.originalUrl = '<%= formUrl %>';
                 var action = new CQ.form.SlingSubmitAction(frm, {
