@@ -9,8 +9,6 @@
     
 	org.girlscouts.vtk.models.PlanView planView = meetingUtil.planView(user, troop, request);
 	
-
-
 	switch( planView.getYearPlanComponent().getType() ) {
 	  case MEETING:
 		%><%@include file="meeting_react2.jsp"%><%
@@ -20,4 +18,9 @@
 		break;
 	}
 %>
-
+<script>
+//need to call it again here.
+$(document).ready(function(){
+  resizeWindow();
+}) 
+</script>

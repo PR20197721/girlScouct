@@ -390,6 +390,8 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
     function addMinutes(date, minutes) {
         return new Date(date + minutes*60000).getTime();
     }
+
+   
       </script>
   </div>
 </div>
