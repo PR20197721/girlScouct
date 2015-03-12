@@ -4,10 +4,11 @@
       org.girlscouts.vtk.models.Contact contact = contacts.get(i);
       java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, troop, contact);
       //-Works !!! String _email= java.net.URLEncoder.encode(contact.getFirstName() +"<"+contact.getEmail() +">");
-                  String _email = "";
-                  if(contact.getFirstName() != null && contact.getEmail() != null){
-                      _email= contact.getFirstName().replace(" ", "&nbsp;") + java.net.URLEncoder.encode("<"+contact.getEmail() +">");
-                  }
+      String _email = "";
+      if(contact.getFirstName() != null && contact.getEmail() != null){
+          _email= contact.getFirstName().replace(" ", "&nbsp;") + java.net.URLEncoder.encode("<"+contact.getEmail() +">");
+      }
+      Contact caregiver = VtkUtil.getSubContact( contact, 1);
     %>
     <div class="row">
       <dl class="accordion-inner clearfix" data-accordion>
