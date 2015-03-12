@@ -46,38 +46,29 @@
           }%> 
         
           <!-- if on a My Troop page-->
-          <% if("myTroop".equals(activeTab)) { %>
+          <% if( "myTroop".equals(activeTab) && hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_ID) ) { %>
           <li><a data-reveal-id="modal_upload_image" title="update photo" href="#">add/change a photo of your troop</a></li>
           <li><a title="remove photo" href="#" onclick="rmTroopInfo()">remove troop photo</a></li>
           <% } %>
-	  <!-- if finance page -->
-<%
-	if("finances".equals(activeTab)) {
-		if ((SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) && sessionFeatures.contains(SHOW_ADMIN_FEATURE)) {
-%>
-	<li>
-<%
-			if("editFinances".equals((String)pageContext.getAttribute("activeSubTab"))) {
-%>
-		<p>edit finance fields</p>
-<%
-			} else {
-%>
-                <a title="Edit Finance Fields" href="/content/girlscouts-vtk/en/vtk.admin_finances.html">edit finance fields</a>
-<%
-			}
-%>
-	</li>
-<%
-		}
-	}
-%>
-
+            	  <!-- if finance page -->
+            <% if("finances".equals(activeTab)) {
+            		if ((SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) && sessionFeatures.contains(SHOW_ADMIN_FEATURE)) { %>
+            	<li>
+            <% if("editFinances".equals((String)pageContext.getAttribute("activeSubTab"))) { %>
+            		<p>edit finance fields</p>
+            <% } else { %>
+                 <a title="Edit Finance Fields" href="/content/girlscouts-vtk/en/vtk.admin_finances.html">edit finance fields</a>
+            <% } %>
+            	</li>
+            <%
+            		}
+            	}
+            %>
         </ul>
       </div>
       <div class="columns small-6 medium-5">
        <ul class="inline-list" id="util-links">
-        <li><a class="icon" data-reveal-id="modal_help" title="help"><i class="icon-questions-answers"></i></a></li>
+        <li><a data-reveal-id="modal_help" title="help"><i class="icon-questions-answers"></i></a></li>
         <% if("plan".equals(activeTab)) {%>
           <li><a class="icon" 
           	<% if(troop.getYearPlan() != null && meetingUtil.planView(user, troop, request)!=null && meetingUtil.planView(user, troop, request).getSearchDate() != null 
@@ -86,7 +77,7 @@
   	        <%} else{
   	          	%> onclick="alert('You have not yet scheduled your meeting calendar.\nPlease select a year plan and schedule your meetings by clicking on the MEETING DATES AND LOCATION link.')"
   	        <% } %> title="download the calendar"><i class="icon-download"></i></a></li>
-            <li><a class="icon" onclick="javascript:window.print()" title="print"><i class="icon-printer"></i></a></li>
+            <li><a onclick="javascript:window.print()" title="print"><i class="icon-printer"></i></a></li>
           <% } %>
         </ul>
       </div>

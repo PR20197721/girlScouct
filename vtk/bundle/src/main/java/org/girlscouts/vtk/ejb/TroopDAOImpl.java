@@ -47,7 +47,6 @@ import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.UserGlobConfig;
 import org.girlscouts.vtk.models.YearPlan;
-import org.girlscouts.vtk.models.Asset;
 import org.girlscouts.vtk.models.SentEmail;
 import org.girlscouts.vtk.models.JcrCollectionHoldString;
 import org.girlscouts.vtk.modifiedcheck.ModifiedChecker;

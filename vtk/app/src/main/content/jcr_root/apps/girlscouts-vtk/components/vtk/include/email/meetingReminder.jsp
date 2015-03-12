@@ -109,7 +109,7 @@
 							ext= org.girlscouts.vtk.utils.GSUtils.getDocExtensionFromString(planView.getAidTags().get(i).getRefId());
 						}
       	%>
-      		<li class="icon <%=ext%>"><span class="name"><%= planView.getAidTags().get(i).getTitle() %></span></li>
+      		<li><span class="name icon <%=ext%>"><a href="<%=planView.getAidTags().get(i).getRefId()%>" target="_blank"><%= planView.getAidTags().get(i).getTitle() %></a></span></li>
       		<li><a class="add-links" href="#nogo" title="add" onclick="addAidLink('<%=planView.getAidTags().get(i).getRefId()%>','<%=planView.getAidTags().get(i).getTitle()%>','<%=mid %>')"><i class="icon-button-circle-plus"></i></a></li><%
       	}%>
       	</ul>
@@ -132,7 +132,7 @@
 			
 			//For testing on local set default council since gateway doesn't have tags
 			if(branch == null || branch.isEmpty() || branch.equals("gateway")){
-				branch = "gsctx";
+				branch = "gsnetx";
 			}
 			
 			org.girlscouts.vtk.utils.DocumentUtil docUtil = new org.girlscouts.vtk.utils.DocumentUtil(resourceResolver, sling.getService(com.day.cq.tagging.JcrTagManagerFactory.class), branch);
@@ -151,7 +151,7 @@
 					<ul class="small-block-grid-2"><% 
 					Document tempDoc = tempCategory.getNextDocument();
 					while(tempDoc != null){%>
-						<li><span><%=tempDoc.getTitle()%></span></li> 
+						<li><a href="<%=tempDoc.getPath()%>" target="_blank"><span><%=tempDoc.getTitle()%></span></a></li> 
 						<li><a class="add-links" href="#nogo" title="add" onclick="addFormLink('<%=tempDoc.getPath()%>', '<%=tempDoc.getTitle()%>', 'panel<%=panelCount%>b')"><i class="icon-button-circle-plus"></i></a></li> <%
 						tempDoc = tempCategory.getNextDocument();
 					}
@@ -212,7 +212,7 @@
 		var url = window.location.href;
 		var arr = url.split("/");
 		var host = arr[0] + "//" + arr[2];
-		$('.jqte_editor #formLinks').append('<li><a href="'+host+link+'">'+formname+'</a></li>');
+		$('.jqte_editor #formLinks').append('<li><a href="'+host+link+'" target="_blank>'+formname+'</a></li>');
 		$('.jqte_editor #formLinks p.hide').removeClass();
 		$("dt[data-target='" + categoryId + "'] span").removeClass('on');
 		$('.accordion #' + categoryId).slideToggle('slow');

@@ -1,4 +1,4 @@
-  <li className={ "icon "+ this.props.extension}>
-    <a href={this.props.refId} target="_blank" title="View Meeting Aids">{this.props.title}</a>
-    <p>{this.props.description}</p>
+  <li>
+    <a href={this.props.refId} target="_blank" title="View Meeting Aids" className={ "icon "+ this.props.extension}>{this.props.title}</a>
+    <p className="info">{this.props.description}</p>
   </li>

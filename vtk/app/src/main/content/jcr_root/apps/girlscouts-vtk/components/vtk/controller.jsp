@@ -1,5 +1,7 @@
 <%@page import="java.util.Comparator,org.codehaus.jackson.map.ObjectMapper,org.joda.time.LocalDate,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
 <%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/girlscouts/components/global.jsp" %>
+
 <cq:defineObjects />
 <%@include file="include/session.jsp"%>
 <%
@@ -28,6 +30,24 @@
 				while (x.indexOf(",,") != -1) {
 					x = x.replaceAll(",,", ",");
 				}
+	
+				
+				
+				
+				StringTokenizer t = new StringTokenizer( x, ",");
+				if( troop.getYearPlan().getMeetingEvents().size() != t.countTokens()){
+					String tmp = x;
+					if( !tmp.startsWith(",")) tmp =","+ tmp;
+					if( !tmp.endsWith(",")) tmp = tmp +",";
+					for( int i= troop.getYearPlan().getMeetingEvents().size();i>0;i--)
+						if( tmp.indexOf( ","+i+"," )==-1 )
+							x = i+","+ x;
+								
+				}
+				
+				
+				
+				
 
 				meetingUtil.changeMeetingPositions(user, troop, x);
 				//meetingUtil.changeMeetingPositions( user, troop, request.getParameter("isMeetingCngAjax") );
@@ -1065,7 +1085,17 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 				String troopName= (String)container.get( troopId);
 				%> $("#<%=troopId %>").html("<%=troopName%>"); <% 
 			}
-		
+		}else if( request.getParameter("getEventImg")!=null){
+			
+			try {
+			    String imgPath = request.getParameter("path") + "/jcr:content/data/image";
+	
+			    Node imgNode = resourceResolver.getResource(imgPath).adaptTo(Node.class);  
+			    if( imgNode.hasProperty("fileReference")){
+			     %> <%= displayRendition(resourceResolver, imgPath, "cq5dam.web.520.520") %><% 
+			    }
+			}catch(Exception e){e.printStackTrace();}
+				
 		} else {
 			//TODO throw ERROR CODE
 		}

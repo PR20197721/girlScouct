@@ -7,26 +7,27 @@
 	String path = request.getParameter("path");
 	String type = request.getParameter("type");
 	String propertiesStr = request.getParameter("prop");
-	
+
 	if (type == null || type.isEmpty()) {
 		type = "cq:Page";
 	}
 
 	Session session = resourceResolver.adaptTo(Session.class);
-	
+
 	if (path != null  && !path.isEmpty()) {
-		Node node = JcrUtil.createPath(path, type, session);
+		Node node = JcrUtil.createPath(path, false, type, type, session, true);
 		Node jcrNode = null;
 		if (type.equals("cq:Page")) {
 		    if (!node.hasNode("jcr:content")) {
 				jcrNode = node.addNode("jcr:content", "cq:PageContent");
+                session.save();
 		    } else {
 				jcrNode = node.getNode("jcr:content");
 		    }
 		} else {
 		    jcrNode = node;
 		}
-		
+
 		if (propertiesStr != null && !propertiesStr.isEmpty()) {
 			String[] targetProperties = propertiesStr.split("\\|\\|\\|");
 			for (int i = 0; i < targetProperties.length; i++) {
@@ -40,7 +41,7 @@
 					}
 				}
 			}
-			session.save();
 		}
+        session.save();
 	}
 %>

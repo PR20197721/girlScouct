@@ -20,8 +20,29 @@ public class Contact implements java.io.Serializable {
 	@Field
 	private String email, phone, firstName, lastName, address, address1, city, state, zip, suite, role, dob, country;
 
-	@Field Integer age;
+	@Field Integer age, type;
 	
+	private java.util.List <Contact>contacts;
+	
+	
+	
+	
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
+	}
+
+	public java.util.List<Contact> getContacts() {
+		return contacts;
+	}
+
+	public void setContacts(java.util.List<Contact> contacts) {
+		this.contacts = contacts;
+	}
+
 	public String getPath() {
 		return path;
 	}

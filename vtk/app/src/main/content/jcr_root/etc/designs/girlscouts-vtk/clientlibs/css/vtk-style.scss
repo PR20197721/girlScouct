@@ -16,6 +16,39 @@
     font-size:14px;
     line-height:1.5;
   }
+  table { 
+    width: 100%; 
+  }
+  table tr {
+    background: #fff;
+    &:nth-of-type(odd) {
+      background: #f9f9f9;
+    }
+    &:nth-of-type(even) {
+      background: #fff;
+    }
+  }
+  input[type="button"],
+  .button,
+  .btn {
+    text-transform: uppercase;
+    color: #fff;
+    padding: 12px 20px;
+    font-size:14px;
+    line-height:1rem;
+  }
+  button.disabled,
+  button[disabled],
+  .button.disabled,
+  .button[disabled] {
+    background-color: #adadad;
+    border:none;
+  }
+  .add-btn,
+  .add-btn * {
+    font-weight: 700;
+    line-height:27px;
+  }
   address {
     font-style:normal;
   }
@@ -155,6 +188,16 @@
              position: absolute;
              height: 100%;
             }
+            // &:before {
+            //   content:'';
+            //   background: url("images/throbber.png") repeat-y #fff;
+            //   height: 100%;
+            //   width: 23px;
+            //   position: absolute;
+            //   left:-33px;
+            //   padding: 0 17px;
+            //   cursor: move;
+            // }
             p {
               margin:0;
               &.blurb,
@@ -251,9 +294,14 @@
               border:none;
               }
             > div  {
-              cursor: default;
               .bg-square {
                 background-color: #00abe6;
+                &.passed {
+                  background-color: #d7e3e7;
+                  &:after {
+                    border-color: transparent transparent transparent #d7e3e7;
+                  }
+                }
                 &:after {
                   border-color: transparent transparent transparent #00abe6;
                 }
@@ -536,6 +584,7 @@
         top: 0;
         border-right: 5px white solid;
         display: block;
+        z-index: 10;
       }
       a {
         font-weight: 100;
@@ -548,9 +597,14 @@
   //activity tabpage
   #main #theActivity {
     #main-info {
-      section {
-        float:left;
-        width:50%;
+      ul{
+        li{
+          padding-bottom: 0.94em;
+          p {
+            margin-bottom:0;
+            font-weight:600;
+          }
+        }
       }
     }
   }
@@ -641,7 +695,7 @@
         font-size:27px;
         vertical-align: middle;
       }
-      input {
+      input[type="text"] {
         padding: 5px 8px;
         height: auto;
       }
@@ -687,8 +741,6 @@
         color: green;
       }
       .btn {
-        text-transform: uppercase;
-        color: #fff;
         margin-left:5px;
       }
       section {
@@ -788,8 +840,9 @@
               position: absolute;
               left:0;
             }
-            span.name {
+            .name {
               margin-left: 30px;
+              white-space: nowrap;  
             }
           }
         }
@@ -972,7 +1025,8 @@
         .date {
           label[for="sch_startDate"],
           label[for="sch_endDate"],
-          label[for="newCustActivity_date"] {
+          label[for="newCustActivity_date"],
+          label[for="calStartDt"] {
             margin-top:5px;
           }
         }
@@ -1009,23 +1063,23 @@
               display:none;
             }
             label {
-            &:before {
-              border: solid 1px #ccc;
-              content: "";
-              height: 30px;
-              width: 30px;
-              text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
-              font-size: 15px;
-              text-align: center;
-              display: inline-block;
-              float: left;
-              padding:4px;
-            }
-            p {
-              float: left;
-              margin-left: 9px;
-              max-width:75px;
-            }
+              &:before {
+                border: solid 1px #ccc;
+                content: "";
+                height: 30px;
+                width: 30px;
+                text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+                font-size: 15px;
+                text-align: center;
+                display: inline-block;
+                float: left;
+                padding:4px;
+              }
+              p {
+                float: left;
+                margin-left: 9px;
+                max-width:75px;
+              }
               span {
                 display: block;
               }
@@ -1038,28 +1092,28 @@
             input[type=checkbox]:checked + label:before {
               content: "\e6d7";
               font-family: "JollyFont";
-              color: green;
+              color: #00AE55;
             }
             input[type="checkbox"] {
               display:none;
             }
             label {
-            &:before {
-              border: solid 1px #ccc;
-              content: "";
-              height: 30px;
-              width: 30px;
-              text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
-              font-size: 15px;
-              text-align: center;
-              display: inline-block;
-              float: left;
-              padding:4px;
-            }
-            p {
-              float: left;
-              margin-left: 9px;
-            }
+              &:before {
+                border: solid 1px #ccc;
+                content: "";
+                height: 30px;
+                width: 30px;
+                text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+                font-size: 15px;
+                text-align: center;
+                display: inline-block;
+                float: left;
+                padding:4px;
+              }
+              p {
+                float: left;
+                margin-left: 9px;
+              }
               span {
                 display: block;
               }
@@ -1083,16 +1137,8 @@
         vertical-align:middle;
       }
     }
-    .btn {
-      text-transform: uppercase;
-      color: #fff;
-      &.add-btn {
-        padding:10px 2rem;
-      }
-    }
-    button, select {
-      text-transform:uppercase;
-    }
+
+ 
   }
   //both modals
   .reveal-modal,
@@ -1103,7 +1149,6 @@
     }
     .button {
       margin-bottom: 0;
-      text-transform: uppercase;
     }
     #frmCalElem {
       margin-bottom:0;
@@ -1198,6 +1243,9 @@
         }
       }
     }
+    .icon-printer {
+      color: #00AE53;
+    }
   }
   //calendar inside the meeting date and location popup
   .modifyCalendarDate {
@@ -1238,20 +1286,20 @@
       left: 5px;
     }
   }
-  #modal_meeting_aids {
-    .button {
-      padding: 5px 8px;
-      display: block;
-      margin:0;
-    }
-  }
+  // #modal_meeting_aids {
+  //   .button {
+  //     padding: 5px 8px;
+  //     display: block;
+  //     margin:0;
+  //   }
+  // }
   .modal_agenda_edit {
     .content {
       h3 {
         margin-bottom:20px;
       }
-      .btn {
-        padding:4px 20px;
+      select {
+        height: 40px;
       }
     }
   }
@@ -1333,23 +1381,23 @@
         display: none;
       }
       label {
-      &:before {
-        border: solid 1px #ccc;
-        content: "";
-        height: 30px;
-        width: 30px;
-        text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
-        font-size: 15px;
-        text-align: center;
-        display: inline-block;
-        float: left;
-        padding:4px;
-      }
-      p {
-        float: left;
-        margin-top: -5px;
-        margin-left: 9px;
-      }
+        &:before {
+          border: solid 1px #ccc;
+          content: "";
+          height: 30px;
+          width: 30px;
+          text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+          font-size: 15px;
+          text-align: center;
+          display: inline-block;
+          float: left;
+          padding:4px;
+        }
+        p {
+          float: left;
+          margin-top: -5px;
+          margin-left: 9px;
+        }
         span {
           display: block;
         }
@@ -1436,11 +1484,12 @@
         text-overflow: ellipsis;
         overflow: hidden;
         padding-left:0;
+        line-height:1.6;
       }
     }
     dl {
       dd a.email {
-        padding-left:5px;
+        padding-left:10px;
       }
     }
     > dt {
@@ -1461,7 +1510,6 @@
         margin-left: 40px;
         margin-right: 120px;
         cursor: pointer;
-        position: relative;
         &:before {
           border-style: solid;
           content: "";
@@ -1484,11 +1532,11 @@
     }
     .icon-mail {
       font-size: 31px;
-      margin-right: 30px;
+      margin-right: 10px;
       line-height:.5;
       }
       .accordion-inner {
-        & * { background: #f7f7f6; }
+        & * { background: #f7f7f6 !important; }
         dt {
           position: relative;
           padding: 10px 10px 10px 15px;
@@ -1531,11 +1579,27 @@
         }
       }
   }
+  //tables
+  table {
+    thead, 
+    tfoot {
+      background: none;
+    }
+  }
   .reveal-modal-bg,
   .ui-widget-overlay {
     background: rgba(0, 0, 0, 0.6) !important;
     box-shadow: 0 0 50px rgba(0, 0, 0, .9) !important;
     opacity: 1 !important;
+  }
+  .mytroop {
+    //paragraph after the address
+    dd ul li {
+      margin-bottom: 20px;
+      p {
+        margin-bottom: 0;
+      }
+    }
   }
   //Financial page 
   #main .meeting-detail #financeForm {
@@ -1637,51 +1701,41 @@
       }
     }
   }
+  p.info {
+    padding-left: 30px;
+    margin-top:-10px;
+  }
   .icon {
-    a,span {
-      vertical-align: top;
-      &:before {
-        background: url("/etc/designs/girlscouts-vtk/images/icon_sprite.png") transparent no-repeat 0 0;
-        height: 25px;
-        width: 20px;
-        display: inline-block;
-        white-space: nowrap;
-        padding-left: 30px;
-        content: " ";
-      }
-    }
-    p {
+    &:before {
+      background: url("/etc/designs/girlscouts-vtk/images/icon_sprite.png") transparent no-repeat 0 0;
+      height: 25px;
+      width: 20px;
+      display: inline-block;
+      white-space: nowrap;
       padding-left: 30px;
-      margin-top:-10px;
+      content: " ";
+      vertical-align: middle;
     }
     &.pdf {
-      a,span {
-        &:before {
-          background-position:-30px 0;
-        }
+      &:before {
+        background-position:-30px 0;
       }
     }
     &.docx,
     &.doc {
-      a,span {
-        &:before {
-          background-position: -60px 0;
-        }
+      &:before {
+        background-position: -60px 0;
       }
     }
     &.xlsx,
     &.xls  {
-      a,span {
-        &:before {
-          background-position: -90px 0;
-        }
+      &:before {
+        background-position: -90px 0;
       }
     }
     &.zip {
-      a,span {
-        &:before {
-          background-position: -120px 0;
-        }
+      &:before {
+        background-position: -120px 0;
       }
     }
   }
@@ -1715,15 +1769,6 @@
     }
     .accordion .accordion-inner dt {
       padding-left: 0;
-    }
-  }
-  .mytroop {
-    //paragraph after the address
-    dd ul li {
-      margin-bottom: 20px;
-      p {
-        margin-bottom: 0;
-      }
     }
   }
 
@@ -1811,6 +1856,9 @@
       }
     }
   }
+  #vtk-main-menu li {
+    padding-bottom: 5px;
+  }
 }
 .tabs dd {
   max-width: 16.666667%;
@@ -1883,15 +1931,53 @@ input[type="file"] {
     border-radius: 0;
   }
 }
+//popup calendar
+#ui-datepicker-div {
+  background: #fff;
+  .ui-corner-all {
+    border:none;
+    border-radius: 0;
+    background: none;
+  }
+  table {
+    border:none;
+  }
+  .ui-datepicker-header .ui-datepicker-title {
+    float:none;
+  }
+  a.ui-state-default.ui-state-highlight,
+  .ui-state-active, 
+  .ui-widget-content .ui-state-active,
+  .ui-widget-header .ui-state-active {
+    background: #cfefde;
+  }
+  .ui-state-default,
+  .ui-widget-content .ui-state-default,
+  .ui-widget-header .ui-state-default {
+    text-align: center;
+  }
+}
 //Media queries
 //small screen
 @media only screen and (max-width: 40em) {
   .vtk-body #main #yearPlanMeetings ul .meeting > div {
-   .touchscroll {
-     left: 0;
-     padding: 0 5px;
-     width: 30px;
-   }
+    .touchscroll {
+      left: 0;
+      padding: 0 5px;
+      width: 30px;
+    }
+    // .touchscroll {
+    //   position:absolute;
+    //   cursor: move;
+    //   z-index: 100;
+    //   display: block !important;
+    //   height:83px;
+    //   background: #fff;
+    //   padding-right: 6px;
+    //   top: 1px;
+    //   left: 7px;
+    //   width: 23px;
+    // }
     .bg-square {
       left:30px;
       &:after {
@@ -1899,13 +1985,33 @@ input[type="file"] {
       }
     }
     &:before {
-      background: #fff;
-      left:0;
+      // background: #fff;
+      left:0px;
     }
     > div:nth-of-type(2) {
       padding-left: 115px;
     }
-  } 
+  }
+ .vtk-body .accordion .accordion-inner ul.column:first-child {
+    margin-left:0;
+  }
+  .vtk-body .accordion dl dd a.email {
+    padding-left:0;
+  }
+  .vtk-body #main #yearPlanMeetings ul {
+    .meeting {
+      > div {
+          &:before {
+            background: #fff;
+            width: 30px;
+            content: "";
+            position: absolute;
+            left: 0;
+            height: 100%;
+          }
+        }
+      }
+    }
   .vtk-body #main #yearPlanMeetings > .row > div.column {
     padding-left:5px;
     padding-right:5px;
@@ -1913,6 +2019,7 @@ input[type="file"] {
   .vtk-body .accordion > dt h3 {
     width:100%;
     display: block;
+    position: relative;
     &.on {
       &:before {
         margin-left: -40px;
@@ -1943,6 +2050,9 @@ input[type="file"] {
   .vtk-body .modalWrap #frmCalElem #datepicker .ui-widget tbody td {
     padding: 9px;
   }
+  .vtk-body .modalWrap .tabs-wrapper .tabs-content table tr:nth-of-type(odd) {
+    background: #f9f9f9;
+  }
   .vtk-body #modal-meeting-reminder .accordion dd .content li span {
     max-width: 245px;
     overflow: hidden;
@@ -1959,34 +2069,23 @@ input[type="file"] {
     }
   }
 }
-table { 
-  width: 100%; 
-}
-table tr {
-  background: #fff;
-  &:nth-of-type(odd) {
-    background: #f9f9f9;
-  }
-  &:nth-of-type(even) {
-    background: #fff;
-  }
-}
 //medium screen 
 @media only screen and (min-width: 40.063em) and (max-width: 60.063em) {
   .vtk-body #main .crumbs .columns #util-links.inline-list li:nth-of-type(2) {
     margin: 0 11px;
   }
   .vtk-body #main #yearPlanMeetings ul .meeting > div {
-    // .touchscroll {
-    //   position:absolute;
-    //   cursor: move;
-    //   z-index: 100;
-    //   display: block !important;
-    //   height:83px;
-    //   background: #fff;
-    //   padding-right: 6px;
-    //   left:-30px;
-    // }
+    .touchscroll {
+      // position:absolute;
+      // cursor: move;
+      // z-index: 100;
+      // display: block !important;
+      // height:83px;
+      // background: #fff;
+      // padding-right: 6px;
+      // left:-30px;
+      // width: 23px;
+    }
   }
   //my troop page accordion 
   .mytroop {
@@ -2007,9 +2106,11 @@ table tr {
   .right-off-canvas-menu  {
     visibility: hidden !important;
     display:none !important;
-      &* {
+      & * {
       visibility: hidden !important;
       display:none !important;
       }
     }
 }
+
+

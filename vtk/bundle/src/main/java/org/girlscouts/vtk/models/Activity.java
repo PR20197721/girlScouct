@@ -47,7 +47,7 @@ public class Activity extends YearPlanComponent implements Serializable {
 	@Field private String cancelled;
 	@Field private String registerUrl;
 	private boolean isDbUpdate=false;
-	
+	@Field String img;
 	
 	public String getRegisterUrl() {
 		return registerUrl;
@@ -295,6 +295,14 @@ public class Activity extends YearPlanComponent implements Serializable {
 
 	public void setDbUpdate(boolean isDbUpdate) {
 		this.isDbUpdate = isDbUpdate;
+	}
+
+	public String getImg() {
+		return img;
+	}
+
+	public void setImg(String img) {
+		this.img = img;
 	}
 
 	

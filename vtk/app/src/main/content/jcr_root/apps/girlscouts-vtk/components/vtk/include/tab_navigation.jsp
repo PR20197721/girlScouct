@@ -34,11 +34,7 @@
       <%
       //  }
       %>
-      <dl class="tabs hide-for-small">
-      	<!--  milesonte tab for admin view -->
-<%--      <dd <%= "admin_milestones".equals(activeTab) ? "class='active'" : "" %>>
-            <a href="/content/girlscouts-vtk/en/vtk.admin_milestones.html">Milestones</a>
-          </dd> --%>
+      <dl class="tabs hide-for-small hide-for-portrait">
         <% if(hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
           <dd <%= "myTroop".equals(activeTab) ? "class='active'" : "" %>>
             <a href="/content/girlscouts-vtk/en/vtk.myTroop.html">My Troop</a>
@@ -59,7 +55,7 @@
           <a href="/content/girlscouts-vtk/en/vtk.resource.html">Resources</a>
         </dd>
         <% if(hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){ %>
-	<% if ((SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) && sessionFeatures.contains(SHOW_ADMIN_FEATURE)) { %>
+      	<% if ((SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) && sessionFeatures.contains(SHOW_ADMIN_FEATURE)) { %>
           <dd <%= "reports".equals(activeTab) ? "class='active'" : "" %>>
             <a href="/content/girlscouts-vtk/en/vtk.admin_reports.html">Reports</a>
           </dd>
@@ -72,11 +68,11 @@
           <a href="/content/girlscouts-vtk/en/vtk.profile.html">Profile</a>
         </dd>
       </dl>
-      <div class="dropdown show-for-small hide-for-print">
+      <div class="dropdown show-for-small hide-for-print show-for-portrait">
         <a id="vtk-main-menu-button" onclick="$('#vtk-main-menu').slideToggle('slow')" class="expand">Menu</a>
         <ul id="vtk-main-menu" class="hide-for-print" style="display: none;">
           <% if(hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
-          <li class='has-dropdown<%= ("myTroop".equals(activeTab)) ? " active" : " " %>'><a href="/content/girlscouts-vtk/en/vtk.mytroop_react.html">My Troop</a>
+          <li class='has-dropdown<%= ("myTroop".equals(activeTab)) ? " active" : " " %>'><a href="/content/girlscouts-vtk/en/vtk.myTroop.html">My Troop</a>
           	<ul class="dropdown">
           	<% if("myTroop".equals(activeTab)) { %>
           		<li><a data-reveal-id="modal_upload_image" title="update photo" href="#">add/change a photo of your troop</a></li>
@@ -134,12 +130,12 @@
           </li>
           <%  } %>
           <li <%= ("resource".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.resource.html">Resources</a></li>
-        <% if(hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ){ %>
+        <% if(hasPermission(troop, Permission.PERMISSION_VIEW_FINANCE_ID) ) { %>
         <% if ((SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) && sessionFeatures.contains(SHOW_ADMIN_FEATURE)) { %>
           <li <%= ("reports".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.admin_reports.html">Reports</a></li>
-	<% } %>
+	       <% } %>
           <li <%= ("finances".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.finances.html?qtr=1">Finances</a></li>
-        <% } %>
+         <% } %>
           <li <%= ("profile".equals(activeTab)) ? "class='active'" : "" %>><a href="/content/girlscouts-vtk/en/vtk.profile.html">Profile</a></li>
         </ul>
       </div>
