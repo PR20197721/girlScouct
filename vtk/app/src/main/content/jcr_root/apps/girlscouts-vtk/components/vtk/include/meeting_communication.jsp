@@ -4,7 +4,7 @@
 <section className="column large-20 medium-20 large-centered medium-centered">
   <h6>manage communications</h6>
   <ul className="large-block-grid-2 medium-block-grid-2 small-block-grid-2">
-  <!-- Reminder Email -->
+  <%-- Reminder Email --%>
   <% if( (planView.getYearPlanComponent().getType() ==  YearPlanComponentType.ACTIVITY) ){%>
 	     <li><%
 	     if(hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_MT_ID )) {%>
@@ -38,8 +38,8 @@
   			<%} %>
   		</li>
   		
-  		<%-- ATTENDANCE & ACHIEVMENT --%>
-  		<%if(hasPermission(troop, Permission.PERMISSION_VIEW_ATTENDANCE_ID )) {%>
+ 		 <%if(planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING &&
+  			hasPermission(troop, Permission.PERMISSION_VIEW_ATTENDANCE_ID )) {%>
   		<li>        
     		<a data-reveal-id="modal_popup" data-reveal-ajax="true" href={"/content/girlscouts-vtk/controllers/vtk.include.modals.modal_attendance.html?mid=<%=planView.getYearPlanComponent().getUid() %>&isAch=<%=(planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING) ? ((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getIsAchievement() : "false" %>&mName=<%= (planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING) ? ((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getName() : ((Activity)planView.getYearPlanComponent()).getName()%>"}>Record Attendance &amp; Achievements</a>
     	</li>
