@@ -200,8 +200,12 @@ public class CouncilDAOImpl implements CouncilDAO {
 		}
 	}
 
-	public java.util.List<Milestone> getCouncilMilestones(String councilCode) {
-
+	public java.util.List<Milestone> getCouncilMilestones(User user, String councilCode) 
+			throws IllegalAccessException{
+		if (user != null
+				&& !userUtil.hasPermission(user.getPermissions(),
+						Permission.PERMISSION_VIEW_MILESTONE_ID))
+			throw new IllegalAccessException();
 		CouncilInfo list = getCouncilInfo(councilCode);
 		java.util.List<Milestone> milestones = list.getMilestones();
 		sortMilestonesByDate(milestones);
@@ -214,10 +218,6 @@ public class CouncilDAOImpl implements CouncilDAO {
 		//		String councilStr = councilMapper.getCouncilBranch(councilCode);
 		//		councilStr = councilStr.replace("/content/", "");
 
-		//		if (user != null
-		//				&& !userUtil.hasPermission(user.getPermissions(),
-		//						Permission.PERMISSION_LOGIN_ID))
-		//			throw new IllegalAccessException();
 
 		Session session = null;
 		CouncilInfo list = null;
@@ -268,12 +268,13 @@ public class CouncilDAOImpl implements CouncilDAO {
 		return list;
 	}
 
-	public void updateCouncilMilestones(java.util.List<Milestone> milestones, String cid) {
+	public void updateCouncilMilestones(User user, java.util.List<Milestone> milestones, String cid)
+			throws IllegalAccessException{
 
-		//		if (user != null
-		//				&& !userUtil.hasPermission(user.getPermissions(),
-		//						Permission.PERMISSION_LOGIN_ID))
-		//			throw new IllegalAccessException();
+		if (user != null
+				&& !userUtil.hasPermission(user.getPermissions(),
+						Permission.PERMISSION_EDIT_MILESTONE_ID))
+			throw new IllegalAccessException();
 		Session session = null;
 		try {
 			session = sessionFactory.getSession();
@@ -320,7 +321,8 @@ public class CouncilDAOImpl implements CouncilDAO {
 	}
 
 
-	public java.util.List<Milestone> getAllMilestones(String councilCode) {
+	private java.util.List<Milestone> getAllMilestones(String councilCode) {
+		
 		String councilPath = councilMapper.getCouncilBranch(councilCode);
 		java.util.List<Milestone> milestones = new ArrayList<Milestone>();
 		Session session = null;

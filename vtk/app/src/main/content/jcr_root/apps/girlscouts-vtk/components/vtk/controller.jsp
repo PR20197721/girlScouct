@@ -636,7 +636,7 @@
 				}
 			}
 
-			yearPlanUtil.saveCouncilMilestones(milestones,councilId);
+			yearPlanUtil.saveCouncilMilestones(user, milestones,councilId);
 			response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin_milestones.html");
 
 

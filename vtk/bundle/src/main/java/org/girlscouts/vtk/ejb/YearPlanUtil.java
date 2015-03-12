@@ -218,9 +218,10 @@ if( endDate ==null ) endDate = cal.getTime();
 		return container;
 	}
 
-	public java.util.List<Milestone> getCouncilMilestones(String councilCode) {
+	public java.util.List<Milestone> getCouncilMilestones(User user,String councilCode)
+			throws IllegalAccessException{
 		//return meetingDAO.getCouncilMilestones(councilCode);
-		return councilDAO.getCouncilMilestones(councilCode);
+		return councilDAO.getCouncilMilestones(user, councilCode);
 	}
 
 	public Meeting getMeeting(User user, String path)
@@ -273,8 +274,9 @@ if( endDate ==null ) endDate = cal.getTime();
 				meeting);
 	}
 
-	public void saveCouncilMilestones(java.util.List<Milestone> milestones, String cid) {
-		councilDAO.updateCouncilMilestones(milestones,cid);
+	public void saveCouncilMilestones(User user, java.util.List<Milestone> milestones, String cid)
+			throws IllegalAccessException{
+		councilDAO.updateCouncilMilestones(user, milestones, cid);
 		//meetingDAO.saveCouncilMilestones(milestones);
 	}
 
