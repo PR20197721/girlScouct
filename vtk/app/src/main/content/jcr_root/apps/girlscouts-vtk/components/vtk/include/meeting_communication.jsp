@@ -5,7 +5,7 @@
   <h6>manage communications</h6>
   <ul className="large-block-grid-2 medium-block-grid-2 small-block-grid-2">
   <% if( (planView.getYearPlanComponent().getType() ==  YearPlanComponentType.ACTIVITY) ){%>
-  		<!-- ACTIVITY VIEW-->
+  		<%-- ACTIVITY VIEW--%>
 	    <li><a href="#" >Meeting Reminder Email</a></li>
 	    <li>(0 sent - 
   			<a href="#" title="view sent emails" className="view" data-reveal-id="modal_view_sent_emails">view</a>)
