@@ -16,8 +16,8 @@
 
       String confMsg="";
       if( troop.getYearPlan()!=null ){
-        if( troop.getYearPlan().getAltered()!=null && troop.getYearPlan().getAltered().equals("true") ){
-          confMsg ="Are You Sure? You will lose customizations that you have made";
+		if( troop.getYearPlan().getAltered()!=null && troop.getYearPlan().getAltered().equals("true") ){
+        	confMsg ="Are You Sure? You will lose customizations that you have made";
         } 
       }
       
@@ -28,17 +28,27 @@
       %>
       <div class="row">
         <div class="columns large-push-2 medium-2 medium-push-2 small-2">
-           <input type="radio" <%=( troop.getYearPlan()!=null && (yearPlan.getName().equals(troop.getYearPlan().getName()))) ? " checked " : "" %> id="r_<%=yearPlan.getId()%>" class="radio1" name="group1" onclick="x('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>', '<%=yearPlan.getName()%>')" />
+           <input type="radio" <%=( troop.getYearPlan()!=null && (yearPlan.getName().equals(troop.getYearPlan().getName()))) ? " checked " : "" %> 
+           id="r_<%=yearPlan.getId()%>" class="radio1" name="group1" onclick="chgYearPlan('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>', '<%=yearPlan.getName()%>')" />
             <label for="r_<%=yearPlan.getId()%>"></label>
             
         </div>
         <div class="small-18 columns large-pull-2 medium-pull-2 small-pull-2">
-          <a href="#" onclick="x('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>', '<%=yearPlan.getName()%>')"><%=yearPlan.getName()%></a>
-          <p><%=yearPlan.getDesc()%>
-           
-          </p>
+			<a href="#" onclick="chgYearPlan('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>', '<%=yearPlan.getName()%>')"><%=yearPlan.getName()%></a>
+			<p><%=yearPlan.getDesc()%></p>
         </div>
       </div><!--/row-->
       <% }  %>
   </div><!--/yearPlanSelection-->
 </section>
+<script>
+function chgYearPlan(planId, planPath, confirmMsg, planName){
+	<%if( troop.getYearPlan()!=null ){%>
+		if(planName==='<%=troop.getYearPlan().getName()%>'){
+			confirmMsg ="Are you sure to reset the yearplan?";
+		}
+	<%}%>
+	x(planId, planPath, confirmMsg, planName);
+};
+
+</script>
