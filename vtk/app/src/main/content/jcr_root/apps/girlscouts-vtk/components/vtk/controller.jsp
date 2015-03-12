@@ -1,5 +1,7 @@
 <%@page import="java.util.Comparator,org.codehaus.jackson.map.ObjectMapper,org.joda.time.LocalDate,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
 <%@include file="/libs/foundation/global.jsp"%>
+<%@include file="/apps/girlscouts/components/global.jsp" %>
+
 <cq:defineObjects />
 <%@include file="include/session.jsp"%>
 <%
@@ -37,7 +39,7 @@
 					String tmp = x;
 					if( !tmp.startsWith(",")) tmp =","+ tmp;
 					if( !tmp.endsWith(",")) tmp = tmp +",";
-					for( int i=1;i< troop.getYearPlan().getMeetingEvents().size();i++)
+					for( int i= troop.getYearPlan().getMeetingEvents().size();i>0;i--)
 						if( tmp.indexOf( ","+i+"," )==-1 )
 							x = i+","+ x;
 								
@@ -405,9 +407,9 @@
 			emailUtil.sendMeetingReminder(troop, emr);
 		} else if (request.getParameter("previewMeetingReminderEmail") != null) {
 			String email_to_gp = request.getParameter("email_to_gp");
-			String email_to_sf = request.getParameter("email_to_sf");
+			//String email_to_sf = request.getParameter("email_to_sf");
 			String email_to_tv = request.getParameter("email_to_tv");
-			String cc = request.getParameter("email_cc");
+			String bcc = request.getParameter("email_cc");
 			String subj = request.getParameter("email_subj");
 			String html = request.getParameter("email_htm");
 			String meetingId = request.getParameter("mid");
@@ -416,21 +418,20 @@
 
 			if (troop.getSendingEmail() != null) {
 				emr = troop.getSendingEmail();
-				emr.setCc(cc);
+				emr.setBcc(bcc);
 				emr.setSubj(subj);
 				emr.setHtml(html);
 			} else {
-				emr = new EmailMeetingReminder(null, null, cc, subj,
+				emr = new EmailMeetingReminder(null, null, bcc, subj,
 						html);
 			}
 
 			emr.setMeetingId(meetingId);
 			emr.setTemplate(template);
-			if (email_to_sf.equals("true")) {
-				//emr.setEmailToSelf(apiConfig.getUser().getEmail());
+			//if (email_to_sf.equals("true")) {
 				emr.setEmailToSelf("true");
-				emr.setTo(apiConfig.getUser().getEmail());
-			}
+				emr.setTo(user.getApiConfig().getUser().getEmail());
+			//}
 			if (email_to_gp.equals("true")) {
 				java.util.List<Contact> contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
 						troopDAO).getContacts(user.getApiConfig(),
@@ -450,7 +451,7 @@
 			}
 			
 			if (email_to_tv.equals("true")) {
-				emr.setEmailToTroopVolunteer(email_to_tv);
+				//emr.setEmailToTroopVolunteer(email_to_tv);
 				emr.setEmailToTroopVolunteer("true");
 				/*Troop Volunteers data needed */
 			}
@@ -476,14 +477,7 @@
 			}
 			troop.setSendingEmail(null);
 
-		} /* else if (request.getParameter("getHtmlMsg") != null) {
-			String template = request.getParameter("template");
-			String eid = request.getParameter("eid");
-			meetingUtil.saveEmail(user, troop, emr.getMeetingId());
-
-		
-			
-		} */else if (request.getParameter("testAB") != null) {
+		} else if (request.getParameter("testAB") != null) {
 
 			//java.util.Set<Integer> myPermissionTokens = new HashSet<Integer>();
 			//troop.getTroop().setPermissionTokens(myPermissionTokens);
@@ -1083,7 +1077,17 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 				String troopName= (String)container.get( troopId);
 				%> $("#<%=troopId %>").html("<%=troopName%>"); <% 
 			}
-		
+		}else if( request.getParameter("getEventImg")!=null){
+			
+			try {
+			    String imgPath = request.getParameter("path") + "/jcr:content/data/image";
+	
+			    Node imgNode = resourceResolver.getResource(imgPath).adaptTo(Node.class);  
+			    if( imgNode.hasProperty("fileReference")){
+			     %> <%= displayRendition(resourceResolver, imgPath, "cq5dam.web.520.520") %><% 
+			    }
+			}catch(Exception e){e.printStackTrace();}
+				
 		} else {
 			//TODO throw ERROR CODE
 		}

@@ -126,12 +126,10 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
       });
 
 
-      var ActivityName = React.createClass({
-        
+      var ActivityName = React.createClass({     
         render: function() {
           return (
-              <a data-reveal-id="modal_popup" data-reveal-ajax="true" href={"/content/girlscouts-vtk/controllers/vtk.include.modals.modal_agenda_edit.html?mid=<%=mid%>&isAgenda="+(this.props.item.activityNumber-1)}>{this.props.item.name}</a>
-              
+              <a data-reveal-id="modal_popup" data-reveal-ajax="true" href={"/content/girlscouts-vtk/controllers/vtk.include.modals.modal_agenda_edit.html?mid=<%=mid%>&isAgenda="+(this.props.item.activityNumber-1)}>{this.props.item.name}</a> 
           );
         }
       });
@@ -162,7 +160,9 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
        			  <ul className="large-block-grid-2 medium-block-grid-2 small-block-grid-1">
                 {commentNodes}
         		  </ul>
+              <%if( hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID ) ) {%>
               <a className="add-btn" data-reveal-id="modal_meeting_aids" href="#" title="Add meeting aids"><i className="icon-button-circle-plus"></i> Add Meeting Aids</a>
+              <%}%>
       		  </section> 
           );
         }
@@ -390,6 +390,8 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
     function addMinutes(date, minutes) {
         return new Date(date + minutes*60000).getTime();
     }
+
+   
       </script>
   </div>
 </div>

@@ -8,7 +8,7 @@
 
 	if( contacts==null ){
 		contacts =	new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO).getContacts( user.getApiConfig(), troop.getSfTroopId() );
-		if( contacts!=null )
+		if( contacts!=null ) {
 			session.setAttribute("vtk_cachable_contacts" , contacts);
 		}
 
@@ -40,21 +40,28 @@
 
   <div class="hero-image">
     <%
-      if (!resourceResolver.resolve(troopPhotoUrl).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
-  		if (request.getParameter("newTroopPhoto") != null) {
-  			Random r  = new Random();
-  			troopPhotoUrl += "?pid=";
-  			troopPhotoUrl += r.nextInt();
-  		}
+            if (!resourceResolver.resolve(troopPhotoUrl).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
+		if (request.getParameter("newTroopPhoto") != null) {
+			Random r  = new Random();
+			troopPhotoUrl += "?pid=";
+			troopPhotoUrl += r.nextInt();
+		}
+    %>
+        <img src="<%=troopPhotoUrl %>" alt="GirlScouts Troop <%=troop.getTroop().getTroopName()%> Photo" />
+       
+       <%if(hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_ID)){ %>
+        <a data-reveal-id="modal_upload_image" title="update photo" href="#nogo" title="upload image"><i class="icon-photo-camera"></i></a>
+        <%} %>
+    <%
+    	}
     %>
     <img src="<%=troopPhotoUrl %>" alt="GirlScouts Troop <%=troop.getTroop().getTroopName()%> Photo" />
     <a data-reveal-id="modal_upload_image" title="update photo" href="#nogo" title="upload image"><i class="icon-photo-camera"></i></a>
-    <% } %>
   </div>
-
 
 <%if(hasPermission(troop, Permission.PERMISSION_canViewOwnChildDetail_TROOP_ID)){ %>
   <div class="column large-24 large-centered mytroop">
+
     <dl class="accordion" data-accordion>
       <dt data-target="panel2"><h3>Attendance</h3></dt>
       <dd class="accordion-navigation">
@@ -65,14 +72,13 @@
     </dl>
   </div>
 
-
        <% for(int i=0; i<contacts.size(); i++) { 
             org.girlscouts.vtk.models.Contact contact = contacts.get(i);
             java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, troop, contact);
             %>
 			  <div class="column large-24 large-centered mytroop">
 			    <dl class="accordion" data-accordion>
-			      <dt data-target="panel_myChild_<%=i%>"><h3 class="on">Achievements for <%=contact.getFirstName() %></a></dt>
+      <dt data-target="panel_myChild_<%=i%>"><h3 class="on">Achievements for <%=contact.getFirstName() %></h3></a></dt>
 			      <dd class="accordion-navigation">
 			        <div class="content <%=i==0 ? "active" : "" %>" id="panel_myChild_<%=i%>">
 			             <%@include file='include/troop_child_achievmts.jsp' %>
@@ -83,7 +89,6 @@
         <%}
  }     
         %>
-
 
   <div class="column large-24 large-centered mytroop">
     <dl class="accordion" data-accordion>
@@ -99,4 +104,5 @@
       </dd>
     </dl>
   </div>
+    <% } %>
 

@@ -41,9 +41,10 @@
   }
   function attendance_popup_width() {
     var modal = $(".modal-attendance").parent();
+    modal.addClass('small');
     var wd_wdth = $( window ).width();
-    modal.width("500px");
-    if($( window ).width() > 641) {
+    modal.width("40%");
+    if($(window).width() > 641) {
       if(modal.width() < wd_wdth) {
         var middle = modal.width()/2;
         modal.css('margin-left',"-"+middle+'px');

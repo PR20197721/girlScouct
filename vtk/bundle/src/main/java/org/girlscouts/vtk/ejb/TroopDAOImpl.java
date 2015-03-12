@@ -144,6 +144,7 @@ public class TroopDAOImpl implements TroopDAO {
 			classes.add(Asset.class);
 			classes.add(Cal.class);
 			classes.add(Milestone.class);
+			classes.add(SentEmail.class);
 
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
@@ -812,7 +813,8 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 			 for(int i=0;i<troop.getYearPlan().getActivities().size();i++)
 				modifyActivity( user, troop, troop.getYearPlan().getActivities().get(i) );
 			
-			for(int i=0;i<troop.getYearPlan().getMeetingEvents().size();i++){
+			if( troop.getYearPlan().getMeetingEvents() !=null )
+			 for(int i=0;i<troop.getYearPlan().getMeetingEvents().size();i++){
 				MeetingE meeting = troop.getYearPlan().getMeetingEvents().get(i);
 		
 				if( meeting.getPath()==null || !meeting.getPath().startsWith( troop.getYearPlan().getPath() ))
@@ -900,6 +902,7 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(MeetingE.class);
 			classes.add(Asset.class);
+			classes.add(SentEmail.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,mapper);
 			
@@ -1127,6 +1130,7 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 			classes.add(Asset.class);
 			classes.add(JcrNode.class);
 			classes.add(Milestone.class);
+			classes.add(SentEmail.class);
 			classes.add(Council.class);
 			classes.add(org.girlscouts.vtk.models.Troop.class);
 			
@@ -1233,6 +1237,7 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 			mySession = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Activity.class);
+			classes.add(SentEmail.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,mapper);
 			ocm.remove(activity);

@@ -1,7 +1,14 @@
 <dd class="accordion-navigation clearfix">
   <div id="panel<%=i+1%>b" class="content clearfix">
     <ul class="column large-4">
-      <li>DOB: <%= FORMAT_MMddYYYY.format(fmt_yyyyMMdd.parse(contact.getDob()))  %></li>
+                            <%
+                            if(contact.getDob() != null){
+                            %><li>DOB: <%= FORMAT_MMddYYYY.format(fmt_yyyyMMdd.parse(contact.getDob()))  %></li><%
+                                    }
+                            else{
+                            %><li>DOB: null</li><%
+                            }
+                            %>
       <li>AGE: <%=contact.getAge() %></li>
     </ul>
     <ul class="column large-18 right">
@@ -16,7 +23,7 @@
           <p><strong>Secondary Info:</strong></p>
           <div class="row">
             <span class="column large-5"><%=contactSub.getFirstName() %> <%=contactSub.getLastName() %></span>
-            <a class="column large-14 email" href="mailto:<%=contactSub.getEmail()%>"><i class="icon-mail"></i><%=contactSub.getEmail() %></a>
+                              <a class="column large-14 email" href="mailto:<%=contactSub.getEmail()%>"><i class="icon-mail"></i><%=contactSub.getEmail() %></a>
             <span class="column large-5"><%=contactSub.getPhone()==null ? "" : contactSub.getPhone() %></span>
           </div>
         </li>
@@ -28,8 +35,11 @@
           boolean isFirstItem = true;
           for(int y=0;y<infos.size();y++) {
             if(infos.get(y).isAchievement() && infos.get(y).getYearPlanComponent().getType()== YearPlanComponentType.MEETING) {
+            if (!isFirstItem) {
+                out.println(",");
+            }
               out.println(((MeetingE) infos.get(y).getYearPlanComponent()).getMeetingInfo().getName());
-              out.println((!isFirstItem) ? "," : "");
+
               isFirstItem = false;
             }
           }

@@ -8,16 +8,25 @@
 		</div>
 		<div class="scroll">
 			<div class="content">
-			  	<div class="browseSentEmails">
-					<% if( (planView.getYearPlanComponent().getType() ==  YearPlanComponentType.ACTIVITY) ){%>
-	   					<p>emails not set up for activities</p> 
-	   				<% } else{
+			  	<div class="browseSentEmails"><% 
+					if( (planView.getYearPlanComponent().getType() ==  YearPlanComponentType.ACTIVITY) ){
+						Activity curA = (Activity)planView.getYearPlanComponent();
+	   					List<SentEmail> emails = curA.getSentEmails();
+	   					if(emails!=null && !emails.isEmpty()){
+		   					for(int k=emails.size(); k>0; k--){
+		   						SentEmail eml = emails.get(k-1);%>
+		   						<div>Sent: <%=FORMAT_CALENDAR_DATE.format(eml.getSentDate()) %></div>
+		   						<div><%=eml.getSubject() %></div>
+ 		   						<div><%=curA.getEmlTemplate()==null? "":eml.getHtmlMsg(curA.getEmlTemplate())%> </div>		   						<hr>
+		   					<% } 
+	   					}	   				
+	   				} else{
 	   					MeetingE curM = planView.getMeeting();
 	   					List<SentEmail> emails = curM.getSentEmails();
 	   					if(emails!=null && !emails.isEmpty()){
 		   					for(int k=emails.size(); k>0; k--){
 		   						SentEmail eml = emails.get(k-1);%>
-		   						<div><%=FORMAT_CALENDAR_DATE.format(eml.getSentDate()) %></div>
+		   						<div>Sent: <%=FORMAT_CALENDAR_DATE.format(eml.getSentDate()) %></div>
 		   						<div><%=eml.getSubject() %></div>
  		   						<div><%=curM.getEmlTemplate()==null? "":eml.getHtmlMsg(curM.getEmlTemplate())%> </div>		   						<hr>
 		   					<% } 

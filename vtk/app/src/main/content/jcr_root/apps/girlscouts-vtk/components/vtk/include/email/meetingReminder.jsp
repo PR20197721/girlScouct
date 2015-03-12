@@ -1,8 +1,10 @@
 
 <%@ page import="org.girlscouts.vtk.helpers.*" %>
+<!-- /apps/girlscouts-vtk/components/vtk/include/email/meetingReminder.jsp -->
 <div class="content clearfix">
 
 <% 
+	MeetingE _meeting = planView.getMeeting();
 	Calendar c = Calendar.getInstance();
 	c.setTime(planView.getSearchDate());
 	c.add(Calendar.MINUTE, planView.getMeetingLength());
@@ -22,11 +24,10 @@
 	    <input type="checkbox" id="email_to_gp" checked />
 	    <label for="email_to_gp"><p>Parents / Caregivers</p></label>
 	  </li>
-
-	  <li>
+<!-- <li>
 	    <input type="checkbox" id="email_to_sf" checked />
 	    <label for="email_to_sf"><p>Self</p></label>
-	  </li>
+	  </li> -->
 	  <li>
 	    <input type="checkbox" id="email_to_tv" />
 	    <label for="email_to_tv"><p>Troop Volunteers</p></label>
@@ -45,8 +46,8 @@
 	<div style="background-color:yellow;"></div>
 
 	<textarea id="email_htm" name="textarea" class="jqte-test" rows="25" cols="25">
-		<%if (meeting.getEmlTemplate()!=null) {%>
-		<%= meeting.getEmlTemplate()%> 
+		<%if (_meeting.getEmlTemplate()!=null) {%>
+		<%= _meeting.getEmlTemplate()%> 
 		<%}else{ %>
 		<p>Hello Girl Scout Families,</p>
 		<br/><p>Here are the details of our next meeting:</p>
@@ -56,9 +57,9 @@
 			</tr>
 			<tr><th>Location:</th>
 				<td><%
-				if( meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null ){
+				if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null ){
 					for(int k=0;k<troop.getYearPlan().getLocations().size();k++){	
-						if( troop.getYearPlan().getLocations().get(k).getPath().equals( meeting.getLocationRef() ) ){%>
+						if( troop.getYearPlan().getLocations().get(k).getPath().equals( _meeting.getLocationRef() ) ){%>
 						<%=troop.getYearPlan().getLocations().get(k).getName() %>
 						<br/><%=troop.getYearPlan().getLocations().get(k).getAddress() %>
 						<%-- 
@@ -72,10 +73,10 @@
 				%></td>
 			</tr>
 			<tr><th>Topic:</th>
-				<td><%= meeting.getMeetingInfo().getName() %></td>
+				<td><%= _meeting.getMeetingInfo().getName() %></td>
 			</tr>
 		</table>
-		<%=meeting.getMeetingInfo().getMeetingInfo().get("overview").getStr() %>
+		<%=_meeting.getMeetingInfo().getMeetingInfo().get("overview").getStr() %>
 		<br/><p>If you have any questions, or want to participate in this meeting, please contact me at 
 		<%if(apiConfig.getUser().getPhone()!=null)%><%=apiConfig.getUser().getPhone() %>
 		<%if(apiConfig.getUser().getMobilePhone()!=null)%><%=apiConfig.getUser().getMobilePhone() %>
@@ -109,8 +110,8 @@
 							ext= org.girlscouts.vtk.utils.GSUtils.getDocExtensionFromString(planView.getAidTags().get(i).getRefId());
 						}
       	%>
-      		<li><span class="name icon <%=ext%>"><%= planView.getAidTags().get(i).getTitle() %></span></li>
-      		<li><a class="add-links" href="#nogo" title="add" onclick="addAidLink('<%=planView.getAidTags().get(i).getRefId()%>','<%=planView.getAidTags().get(i).getTitle()%>','<%=mid %>')"><i class="icon-button-circle-plus"></i></a></li><%
+      		<li><span class="name icon <%=ext%>"><a href="<%=planView.getAidTags().get(i).getRefId()%>" target="_blank"><%= planView.getAidTags().get(i).getTitle() %></a></span></li>
+      		<li><a class="add-links" href="#nogo" title="add" onclick="addAidLink('<%=planView.getAidTags().get(i).getRefId()%>','<%=planView.getAidTags().get(i).getTitle()%>','<%=_meeting.getUid() %>')"><i class="icon-button-circle-plus"></i></a></li><%
       	}%>
       	</ul>
 	    </div>
@@ -132,7 +133,7 @@
 			
 			//For testing on local set default council since gateway doesn't have tags
 			if(branch == null || branch.isEmpty() || branch.equals("gateway")){
-				branch = "gsctx";
+				branch = "gsnetx";
 			}
 			
 			org.girlscouts.vtk.utils.DocumentUtil docUtil = new org.girlscouts.vtk.utils.DocumentUtil(resourceResolver, sling.getService(com.day.cq.tagging.JcrTagManagerFactory.class), branch);
@@ -151,7 +152,7 @@
 					<ul class="small-block-grid-2"><% 
 					Document tempDoc = tempCategory.getNextDocument();
 					while(tempDoc != null){%>
-						<li><span><%=tempDoc.getTitle()%></span></li> 
+						<li><a href="<%=tempDoc.getPath()%>" target="_blank"><span><%=tempDoc.getTitle()%></span></a></li> 
 						<li><a class="add-links" href="#nogo" title="add" onclick="addFormLink('<%=tempDoc.getPath()%>', '<%=tempDoc.getTitle()%>', 'panel<%=panelCount%>b')"><i class="icon-button-circle-plus"></i></a></li> <%
 						tempDoc = tempCategory.getNextDocument();
 					}
@@ -185,12 +186,6 @@
 <script>
 	var template;
 	$(document).ready(function(){
-		//print out the date the email was sent.TBD
-		 /* if(moment(new Date()) != null && moment(new Date()) !='') {
-		  $('.sent').append(moment(new Date()).format('MM/DD/YYYY'));
-		 } else {
-		  $('.sent').append('none');
-		 } */
 		 $('#added').dialog({ autoOpen: false, zIndex: 200 });
 		 $('#after-sent').dialog({ autoOpen: false, zIndex: 200 });
 		$(".jqte-test").jqte({
@@ -212,7 +207,7 @@
 		var url = window.location.href;
 		var arr = url.split("/");
 		var host = arr[0] + "//" + arr[2];
-		$('.jqte_editor #formLinks').append('<li><a href="'+host+link+'">'+formname+'</a></li>');
+		$('.jqte_editor #formLinks').append('<li><a href="'+host+link+'" target="_blank>'+formname+'</a></li>');
 		$('.jqte_editor #formLinks p.hide').removeClass();
 		$("dt[data-target='" + categoryId + "'] span").removeClass('on');
 		$('.accordion #' + categoryId).slideToggle('slow');
@@ -241,19 +236,17 @@
 	};
 	function sendEmail(){
 		if(validate()){
-			//alert(template);
-	    	previewMeetingReminderEmail('<%=mid%>',template);
+	    	previewMeetingReminderEmail('<%=_meeting.getUid()%>',template);
 		}
 	};
 	function validate(){
-	    //var emailReg = /^(([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?\;?)+$/;
 	    //allow leading and trailing spaces for every email addr
 	    var emailReg = /^((\ *[\w-\.]+@([\w-]+\.)+[\w-]{2,4}\ *)\;?)+$/;
 	    var emailAddr = $('#email_to_cc').val();
 	    var subject = $('#email_subj').val();
 	    var body = $('#email_htm').val();
-	    //alert(body);
-		if(emailAddr.length){
+
+	    if(emailAddr.length){
 		    if(!emailReg.test(emailAddr)){
 		    	//$('#email_to_cc') label turn red or input background turn red
 		    	$('.scroll').scrollTop($('#email_to_cc').position().top);
@@ -279,7 +272,6 @@
 	    
 	};
 	function removeIndentions(x) {
-		//return x.replace(/\n|\r/gim, '');
 		return x.replace(/^\s+|\s+$/gim, '');
 
 	};

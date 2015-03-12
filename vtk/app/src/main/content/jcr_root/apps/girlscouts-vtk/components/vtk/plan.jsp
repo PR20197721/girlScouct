@@ -20,9 +20,29 @@
 
  <div id="panelWrapper" class="row meeting-detail content">
    <%@include file="include/utility_nav.jsp"%>
-   <%@include file="include/view_yp_dropdown.jsp"%>
+   
+   <%if( hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ){%>
+       <%@include file="include/view_yp_dropdown.jsp"%>
+   <%} %>
+   
+   <%if( hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) &&
+		   (troop.getYearPlan()==null || troop.getYearPlan().getMeetingEvents()==null || troop.getYearPlan().getMeetingEvents().size()<=0) ){ %>
+    <div style="background-color:yellow;">
+        <b>Custom Year Plan:</b>
+        <br/>Start adding meetings and/or activities to your custom plan
+       <ul>
+        <li><a href="#" onclick="doMeetingLib()" title="Add Meeting">Add Meeting</a></li>
+        <li><a href="#" onclick="newActivity()" title="Add Activity">Add Activity</a></li>
+        </ul>
+    </div>
+    <%} %>
+    
+    
   <div id="yearPlanMeetings">
     <div id="thePlan">
+
+  
+   
 
     <script type="text/jsx">
     	var isActivNew;
@@ -144,11 +164,13 @@
         resizeWindow();
         link_bg_square();
 
-      if (Modernizr.touch) {
-        scrollTarget = ".touchscroll";
-      } else {
-        // $(".touchscroll").hide();
-      }
+      // if (Modernizr.touch) {
+
+      //   scrollTarget = ".touchscroll";
+      // } else {
+
+      //   $(".touchscroll").hide();
+      // }
 
           var dom = $(this.getDOMNode());
           var onReorder = this.props.onReorder;
@@ -177,12 +199,14 @@
     }).disableSelection();
       },
       componentWillUpdate: function() {
-      if (Modernizr.touch) {
-        // touch device
-        scrollTarget = ".touchscroll";
-      } else {
-        // $(".touchscroll").hide();
-      }
+
+
+      // if (Modernizr.touch) {
+      //   // touch device
+      //   scrollTarget = ".touchscroll";
+      // } else {
+      //   $(".touchscroll").hide();
+      // }
 
         var dom = $(this.getDOMNode());
         var onReorder = this.props.onReorder;
@@ -255,10 +279,10 @@
             return "bg-square";
          }else if(  moment(comment) < moment( new Date()) ){
             return "bg-square passed";
-         }else if(meetingPassed && 
-            moment(comment) > moment( new Date())) {
-          meetingPassed= false;
-          return "bg-square current";
+         }else if( (obj[comment].id==0 && moment(comment) > moment( new Date()))||
+             (meetingPassed && moment(comment) > moment( new Date()))) {
+                meetingPassed= false;
+                return "bg-square current";
          }else if( obj[comment].cancelled =='true' ){
             return "bg-square canceled";
          }else{

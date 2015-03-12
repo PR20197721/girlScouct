@@ -173,6 +173,21 @@
               cursor: move;
               z-index: 10;
             }
+            &:before {
+              //background: url("images/throbber.png") repeat-y #fff;
+              // height: 100%;
+              // width: 23px;
+              // position: absolute;
+              // left:-33px;
+              // padding: 0 17px;
+              // display: block;
+             // cursor: move;
+             content: ' ';
+             background: #fff;
+             width: 30px;
+             position: absolute;
+             height: 100%;
+            }
             // &:before {
             //   content:'';
             //   background: url("images/throbber.png") repeat-y #fff;
@@ -281,9 +296,19 @@
             > div  {
               .bg-square {
                 background-color: #00abe6;
+                &.passed {
+                  background-color: #d7e3e7;
+                  &:after {
+                    border-color: transparent transparent transparent #d7e3e7;
+                  }
+                }
                 &:after {
                   border-color: transparent transparent transparent #00abe6;
                 }
+              }
+              &:before {
+                cursor: default !important;
+                content: ' ';
               }
             }
           }
@@ -572,9 +597,14 @@
   //activity tabpage
   #main #theActivity {
     #main-info {
-      section {
-        float:left;
-        width:50%;
+      ul{
+        li{
+          padding-bottom: 0.94em;
+          p {
+            margin-bottom:0;
+            font-weight:600;
+          }
+        }
       }
     }
   }
@@ -810,8 +840,9 @@
               position: absolute;
               left:0;
             }
-            span.name {
+            .name {
               margin-left: 30px;
+              white-space: nowrap;  
             }
           }
         }
@@ -1505,7 +1536,7 @@
       line-height:.5;
       }
       .accordion-inner {
-        & * { background: #f7f7f6; }
+        & * { background: #f7f7f6 !important; }
         dt {
           position: relative;
           padding: 10px 10px 10px 15px;
