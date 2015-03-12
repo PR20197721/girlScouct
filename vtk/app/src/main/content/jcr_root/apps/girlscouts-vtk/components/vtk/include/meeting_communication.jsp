@@ -8,6 +8,7 @@
   <% if( (planView.getYearPlanComponent().getType() ==  YearPlanComponentType.ACTIVITY) ){%>
 	     <li><%
 	     if(hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_MT_ID )) {%>
+  		    <%-- ACTIVITY VIEW--%>
 	     	<a href="#" data-reveal-id="modal-meeting-reminder" title="Activity Reminder Email" >Edit/Send Invitation/Reminder</a><%
 	     }else {%>
 	     	<a>Invitation/Reminder</a><%
