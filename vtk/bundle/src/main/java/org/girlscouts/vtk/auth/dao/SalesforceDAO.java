@@ -440,13 +440,13 @@ public class SalesforceDAO {
 					contact.setRole(  results.getJSONObject(i).getString("rC_Bios__Role__c") );
 					contact.setType(0);
 					
-					//primary
+					//caregiver(rC_Bios__Preferred_Contact__r) per Sharif 3-11-15
 					Contact contactSub= new Contact();
 					contactSub.setEmail(  results.getJSONObject(i).getJSONObject("Account").getJSONObject("rC_Bios__Preferred_Contact__r").getString("Email") );
 					contactSub.setFirstName(  results.getJSONObject(i).getJSONObject("Account").getJSONObject("rC_Bios__Preferred_Contact__r").getString("FirstName") );
 					contactSub.setLastName(  results.getJSONObject(i).getJSONObject("Account").getJSONObject("rC_Bios__Preferred_Contact__r").getString("LastName") );
 					//contactSub.setRole(  results.getJSONObject(i).getJSONObject("Account").getJSONObject("rC_Bios__Preferred_Contact__r").getString("type") );
-					contactSub.setType(1);
+					contactSub.setType(1);//caregiver
 					
 					java.util.List<Contact> contactsSub = new java.util.ArrayList<Contact>();
 					contactsSub.add( contactSub );

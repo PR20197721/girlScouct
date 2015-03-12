@@ -2,22 +2,17 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
-<div id="errInfo"></div>
+<div id="error-message"></div>
 <%
-        String activeTab = "myTroop";
-        boolean showVtkNav = true;
+  String activeTab = "myTroop";
+  boolean showVtkNav = true;
 %>
 <%@include file="include/tab_navigation.jsp"%>
 <div id="panelWrapper" class="row content">
 <%
-	if (SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) {
-%>
-<%@include file="mytroop_react.jsp"%>
-<%
-        } else {
-%>
-<%@include file="myTroopOff.jsp"%>
-<%
-	}
-%>
+	if (SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) { %>
+    <%@include file="mytroop_react.jsp"%><% 
+  } else { %>
+    <%@include file="myTroopOff.jsp"%>
+<% } %>
 </div><!--panel-wrapper-->

@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import org.apache.commons.beanutils.BeanComparator;
+import org.girlscouts.vtk.models.Contact;
 import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.Meeting;
 import org.girlscouts.vtk.models.MeetingE;
@@ -156,4 +157,16 @@ public enum VtkUtil {
   	}
   	return str;
   }
+  
+  public static final Contact getSubContact( Contact contact, int contactType){
+	  
+	  if( contact.getContacts()!=null )
+		  for(Contact subContact: contact.getContacts()){
+			  if( subContact.getType()==1)
+				  return subContact;
+		  }
+	  
+	  return null;
+  }
+  
 }

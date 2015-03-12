@@ -22,6 +22,8 @@ public class PermissionConstants {
 
 	public static final int PERMISSION_VIEW_TROOP_ID = 300;
 	public static final int PERMISSION_EDIT_TROOP_ID = 301;
+	public static final int PERMISSION_canViewOwnChildDetail_TROOP_ID=302;
+	public static final int PERMISSION_canViewMemberdDetail_TROOP_ID=303;
 	
 	public static final int PERMISSION_VIEW_FINANCE_ID = 400;
 
@@ -37,6 +39,7 @@ public class PermissionConstants {
 	public static final int PERMISSION_SEND_EMAIL_MT_ID=631;	
 	public static final int PERMISSION_SEND_EMAIL_ACT_ID=641;	
 	public static final int PERMISSION_VIEW_ACTIVITY_PLAN_ID=651; //in meeting meterials
+
 	public static final int GROUP_ROOT = 0;
 	public static final String GROUP_ROOT_DISPLAY = "ROOT";
 	public static final int[] ROOT_PERMISSIONS;
@@ -66,7 +69,8 @@ public class PermissionConstants {
 			PERMISSION_ADD_MEETING_ID, PERMISSION_CREATE_MEETING_ID,
 			PERMISSION_REMOVE_MEETING_ID,PERMISSION_SEND_EMAIL_MT_ID,
 			PERMISSION_SEND_EMAIL_ACT_ID,PERMISSION_VIEW_ACTIVITY_PLAN_ID,
-			PERMISSION_VIEW_ATTENDANCE_ID};
+			PERMISSION_VIEW_ATTENDANCE_ID,
+			PERMISSION_REMOVE_MEETING_ID, PERMISSION_canViewMemberdDetail_TROOP_ID};
 
 	public static final int GROUP_MEMBER_2G = 12;
 	public static final String GROUP_MEMBER_2G_DISPLAY = "Member with 2 girls";
@@ -75,9 +79,8 @@ public class PermissionConstants {
 	public static final int GROUP_MEMBER_1G = 13;
 	public static final String GROUP_MEMBER_1G_DISPLAY = "Member with 1 girl";
 	public static final int[] GROUP_MEMBER_1G_PERMISSIONS = new int[] {
-		PERMISSION_VIEW_YEARPLAN_ID, PERMISSION_VIEW_MEETING_ID, PERMISSION_VIEW_TROOP_ID
+		PERMISSION_VIEW_YEARPLAN_ID, PERMISSION_VIEW_MEETING_ID, PERMISSION_VIEW_TROOP_ID, PERMISSION_canViewOwnChildDetail_TROOP_ID
 	};
-
 
 	public static final int GROUP_MEMBER_NO_TROOP = 14;
 	public static final String GROUP_MEMBER_NO_TROOP_DISPLAY = "Member with no troop Associations";
