@@ -46,6 +46,9 @@ public class Activity extends YearPlanComponent implements Serializable {
 	@Field Boolean isEditable;
 	@Field private String cancelled;
 	@Field private String registerUrl;
+	@Field private String emlTemplate;
+	@Collection java.util.List<SentEmail> sentEmails;
+	
 	private boolean isDbUpdate=false;
 	@Field String img;
 	
@@ -295,6 +298,22 @@ public class Activity extends YearPlanComponent implements Serializable {
 
 	public void setDbUpdate(boolean isDbUpdate) {
 		this.isDbUpdate = isDbUpdate;
+	}
+	
+	public java.util.List<SentEmail> getSentEmails() {
+		return sentEmails;
+	}
+
+	public void setSentEmails(java.util.List<SentEmail> emails) {
+		this.sentEmails = emails;
+	}
+	
+	public String getEmlTemplate() {
+		return emlTemplate;
+	}
+
+	public void setEmlTemplate(String template) {
+		this.emlTemplate =  template;
 	}
 
 	public String getImg() {

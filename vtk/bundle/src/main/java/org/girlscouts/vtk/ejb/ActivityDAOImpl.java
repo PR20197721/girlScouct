@@ -2,11 +2,13 @@ package org.girlscouts.vtk.ejb;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.jcr.Session;
 import javax.jcr.Value;
 import javax.jcr.query.QueryResult;
 import javax.jcr.query.Row;
 import javax.jcr.query.RowIterator;
+
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
@@ -33,6 +35,7 @@ import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
+import org.girlscouts.vtk.models.SentEmail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -76,6 +79,7 @@ public class ActivityDAOImpl implements ActivityDAO {
 			classes.add(Location.class);
 			classes.add(Asset.class);
 			classes.add(Milestone.class);
+			classes.add(SentEmail.class);
 
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
@@ -307,6 +311,45 @@ public class ActivityDAOImpl implements ActivityDAO {
 		}
 
 		return activity;
+	}
+	
+	public boolean updateActivity(User user, Troop troop, Activity activity)
+			throws IllegalAccessException, IllegalStateException{
+
+		Session session = null;
+		if (troop != null
+				&& !userUtil.hasPermission(troop,
+						Permission.PERMISSION_EDIT_ACTIVITY_ID))
+			throw new IllegalAccessException();
+
+		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
+			troop.setErrCode("112");
+			throw new java.lang.IllegalStateException();
+		}
+		try {
+			session = sessionFactory.getSession();
+			List<Class> classes = new ArrayList<Class>();
+			classes.add(Activity.class);
+			classes.add(Asset.class);
+			classes.add(SentEmail.class);
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+					mapper);
+			ocm.update(activity);
+			ocm.save();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null)
+					sessionFactory.closeSession(session);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+
+		return false;
 	}
 
 }

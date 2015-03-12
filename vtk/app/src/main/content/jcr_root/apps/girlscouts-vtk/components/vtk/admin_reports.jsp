@@ -5,7 +5,7 @@
 <% 
     String activeTab = "reports";
 %>
-<%@include file="include/tab_navigation.jsp"%>
+<%@include file="include/admin_tab_navigation.jsp"%>
 <div id="panelWrapper" class="row content reports meeting-detail">
   <%@include file="include/utility_nav.jsp"%>
   <div class="column large-23 large-centered">       

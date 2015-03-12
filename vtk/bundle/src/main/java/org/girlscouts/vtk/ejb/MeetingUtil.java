@@ -1323,7 +1323,7 @@ System.err.println("test123 yes");
 	}
 	
 	public void saveEmail(User user, Troop troop, String meetingId){
-
+		
 		java.util.List<MeetingE> meetings = troop.getYearPlan()
 				.getMeetingEvents();
 		for (int i = 0; i < meetings.size(); i++) {
@@ -1345,8 +1345,29 @@ System.err.println("test123 yes");
 					e.printStackTrace();
 				}
 			}
-			//java.util.List<Activity> activities = troop.getYearPlan().getActivities();
 		}
+		java.util.List<Activity> activities = troop.getYearPlan().getActivities();
+		for (int i = 0; i < activities.size(); i++) {
+			Activity activity = activities.get(i);
+			if (activity.getUid().equals(meetingId)) {
+				try{
+					SentEmail email = new SentEmail(troop.getSendingEmail());
+					java.util.List<SentEmail> emails = activity.getSentEmails();
+					emails = emails == null? new java.util.ArrayList<SentEmail>() :emails;
+					emails.add(email);
+
+					activity.setSentEmails(emails);
+					if(activity.getEmlTemplate()==null){
+						activity.setEmlTemplate(troop.getSendingEmail().getTemplate());
+					}
+					activityDAO.updateActivity(user, troop, activity);
+					return;
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
+
 
 	}
 

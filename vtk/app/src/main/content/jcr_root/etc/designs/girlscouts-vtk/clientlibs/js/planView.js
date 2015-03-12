@@ -177,7 +177,7 @@ function revertAgenda(mid) {
 
 function previewMeetingReminderEmail(mid,template){
 	var email_to_gp = document.getElementById("email_to_gp").checked;
-	var email_to_sf = document.getElementById("email_to_sf").checked;
+	//var email_to_sf = document.getElementById("email_to_sf").checked;
 	var email_to_tv = document.getElementById("email_to_tv").checked;
 	var email_cc = document.getElementById("email_to_cc").value;
 	var email_subj = document.getElementById("email_subj").value;
@@ -190,7 +190,7 @@ function previewMeetingReminderEmail(mid,template){
 			previewMeetingReminderEmail: true,
 			mid: mid,
 			email_to_gp :email_to_gp,
-			email_to_sf:email_to_sf,
+			//email_to_sf:email_to_sf,
 			email_to_tv:email_to_tv,
 			email_cc:email_cc,
 			email_subj:email_subj,
