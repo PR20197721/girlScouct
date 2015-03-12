@@ -255,10 +255,10 @@
             return "bg-square";
          }else if(  moment(comment) < moment( new Date()) ){
             return "bg-square passed";
-         }else if(meetingPassed && 
-            moment(comment) > moment( new Date())) {
-          meetingPassed= false;
-          return "bg-square current";
+         }else if( (obj[comment].id==0 && moment(comment) > moment( new Date()))||
+             (meetingPassed && moment(comment) > moment( new Date()))) {
+                meetingPassed= false;
+                return "bg-square current";
          }else if( obj[comment].cancelled =='true' ){
             return "bg-square canceled";
          }else{
