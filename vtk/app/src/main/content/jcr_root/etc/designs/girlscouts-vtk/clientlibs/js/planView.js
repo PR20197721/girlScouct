@@ -285,3 +285,24 @@ function getCheckedCheckboxesFor(checkboxName) {
     });
     return t;//values;
 }
+
+
+function getEventImg( eventPath){
+
+    $.ajax({
+        cache: false,
+        url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand=' + Date.now(),
+        type: 'POST',
+        data: { 
+            'getEventImg':'EventImg',
+            path: eventPath,
+            a:Date.now()
+        },
+        success: function(result) {
+           
+           document.getElementById("activ_img").innerHTML = $.trim(result);
+           return result;
+        }
+    });
+    return '';
+}
