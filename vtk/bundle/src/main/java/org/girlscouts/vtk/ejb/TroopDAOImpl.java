@@ -812,7 +812,8 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 			 for(int i=0;i<troop.getYearPlan().getActivities().size();i++)
 				modifyActivity( user, troop, troop.getYearPlan().getActivities().get(i) );
 			
-			for(int i=0;i<troop.getYearPlan().getMeetingEvents().size();i++){
+			if( troop.getYearPlan().getMeetingEvents() !=null )
+			 for(int i=0;i<troop.getYearPlan().getMeetingEvents().size();i++){
 				MeetingE meeting = troop.getYearPlan().getMeetingEvents().get(i);
 		
 				if( meeting.getPath()==null || !meeting.getPath().startsWith( troop.getYearPlan().getPath() ))

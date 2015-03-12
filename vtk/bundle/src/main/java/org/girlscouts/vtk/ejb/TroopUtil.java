@@ -799,8 +799,11 @@ System.err.println("tata2b2b2 :"+ (troop.getYearPlan().getMeetingEvents().size()
 			troop.getYearPlan().setSchedule( selectYearPlan_newSched( user,  troop,  yearPlanPath ) );	
 		if( troop.getYearPlan()==null)
 			troop.setYearPlan(newYearPlan);
-		troop.getYearPlan().setMeetingEvents( selectYearPlan_newMeetingPlan( user, troop, newYearPlan) );			
 		
+		if(yearPlanPath!=null && !yearPlanPath.equals("") )
+			troop.getYearPlan().setMeetingEvents( selectYearPlan_newMeetingPlan( user, troop, newYearPlan) );			
+		else
+			troop.getYearPlan().setMeetingEvents(null);
 		if( oldPlan!=null){
 			troopDAO.removeMeetings(user, troop);
 			
