@@ -37,29 +37,30 @@ public class Emailer {
 			HtmlEmail email = new HtmlEmail();
 			ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
 
-			String[] ccStrings,toStrings;
-			if(emr.getCc()!=null && !emr.getCc().isEmpty()){
-				ccStrings = emr.getCc().split(";");
-				for (int i = 0; i < ccStrings.length; i++) {
-					if(!ccStrings[i].isEmpty()){
-						emailRecipients.add(new InternetAddress(ccStrings[i]));
+			String[] bccStrings,toStrings;
+			if(emr.getBcc()!=null && !emr.getBcc().isEmpty()){
+				bccStrings = emr.getBcc().split(";");
+				for (int i = 0; i < bccStrings.length; i++) {
+					if(!bccStrings[i].isEmpty()){
+						emailRecipients.add(new InternetAddress(bccStrings[i]));
 					}
 				}
 
 			}
 			if(emr.getTo()!=null && !emr.getTo().isEmpty()){
-				toStrings = emr.getTo().split(";");
-				for (int i = 0; i < toStrings.length; i++) {
-					if(!toStrings[i].isEmpty()){
-						emailRecipients.add(new InternetAddress(toStrings[i]));
-					}
-				}
+				email.addTo(emr.getTo());
+//				toStrings = emr.getTo().split(";");
+//				for (int i = 0; i < toStrings.length; i++) {
+//					if(!toStrings[i].isEmpty()){
+//						emailRecipients.add(new InternetAddress(toStrings[i]));
+//					}
+//				}
 			}
 			
 			email.setSubject(emr.getSubj());
 			email.setHtmlMsg(emr.getHtml());
 			if(!emailRecipients.isEmpty()){
-				email.setTo(emailRecipients);
+				email.setBcc(emailRecipients);
 				messageGateway.send(email);
 			}
 

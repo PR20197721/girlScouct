@@ -20,5 +20,8 @@ public interface ActivityDAO {
 
 	public boolean isActivityByPath(User user, String path)
 			throws IllegalStateException, IllegalAccessException;
+	
+	public boolean updateActivity(User user, Troop troop, Activity activity)
+			throws IllegalAccessException, IllegalStateException;
 
 }

@@ -144,6 +144,7 @@ public class TroopDAOImpl implements TroopDAO {
 			classes.add(Asset.class);
 			classes.add(Cal.class);
 			classes.add(Milestone.class);
+			classes.add(SentEmail.class);
 
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
@@ -900,6 +901,7 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(MeetingE.class);
 			classes.add(Asset.class);
+			classes.add(SentEmail.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,mapper);
 			
@@ -1127,6 +1129,7 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 			classes.add(Asset.class);
 			classes.add(JcrNode.class);
 			classes.add(Milestone.class);
+			classes.add(SentEmail.class);
 			classes.add(Council.class);
 			classes.add(org.girlscouts.vtk.models.Troop.class);
 			
@@ -1233,6 +1236,7 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 			mySession = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Activity.class);
+			classes.add(SentEmail.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,mapper);
 			ocm.remove(activity);
