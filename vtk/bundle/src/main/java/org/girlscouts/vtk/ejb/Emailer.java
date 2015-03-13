@@ -27,8 +27,10 @@ public class Emailer {
 	public void send(User user, EmailMeetingReminder emr) throws IllegalAccessException {
 
 		if (user != null
-				&& !userUtil.hasPermission(user.getPermissions(),
-						Permission.PERMISSION_SEND_EMAIL_ID))
+				&& !(userUtil.hasPermission(user.getPermissions(),
+						Permission.PERMISSION_SEND_EMAIL_MT_ID) || 
+						userUtil.hasPermission(user.getPermissions(),
+								Permission.PERMISSION_SEND_EMAIL_ACT_ID)))
 			throw new IllegalAccessException();
 		try {
 			MessageGateway<HtmlEmail> messageGateway = messageGatewayService
