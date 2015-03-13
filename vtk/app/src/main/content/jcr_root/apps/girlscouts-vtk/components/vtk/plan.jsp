@@ -47,7 +47,7 @@
     <script type="text/jsx">
     	var isActivNew;
     	var isFirst=1;
-      var meetingPassed=false;
+      var meetingPassed=true;
       var scrollTarget = "";
       var CommentBox = React.createClass({
 
@@ -134,10 +134,11 @@
             
     						{ keys.map( function (comment ,i ) {
 
+/*
                     if(  ( obj[comment].type == 'MEETING')  &&
                       moment(comment) < moment( new Date()) )
-                        {meetingPassed= true;}
-
+                        {meetingPassed= false;}
+*/
 
     							  if( obj[comment].type == 'MEETING' ){
     									return <%@include file="include/view_meeting.jsp" %> 
@@ -273,19 +274,30 @@
           document.getElementById('thePlan')
         );
 
-        function bgcolor(obj, comment){ 
+        function bgcolor(obj, comment, objType){ 
 
-         if(  moment(comment).get('year') < 1978 ){
+    if(  meetingPassed && 
+             ((moment(comment) > moment( new Date() )) || (moment(comment).get('year') < 1978) )
+             ) {
+console.log("3 ");
+                    if( objType=='1'){  meetingPassed= false;}
+
+                            return "bg-square current";
+ 
+console.log("tata: "+meetingPassed +" : "+ moment(comment).format('MMMM DD YYYY') +" > "+moment( new Date()) +": " + (moment(comment) > moment( new Date()) ));
+         }else if(   moment(comment).get('year') < 1978 ){
+console.log("1");
             return "bg-square";
-         }else if(  moment(comment) < moment( new Date()) ){
+    
+        }else if(  moment(comment) < moment( new Date()) ){
+console.log("2");
             return "bg-square passed";
-         }else if( (obj[comment].id==0 && moment(comment) > moment( new Date()))||
-             (meetingPassed && moment(comment) > moment( new Date()))) {
-                meetingPassed= false;
-                return "bg-square current";
+         
          }else if( obj[comment].cancelled =='true' ){
+console.log("4");
             return "bg-square canceled";
          }else{
+console.log("5");
             return "bg-square";
          }
         }
@@ -299,6 +311,30 @@
 
           return http.status != 404;
         }
+
+
+
+
+
+ var DateBox = React.createClass({
+        render: function() {
+
+var obj = this.props.obj;
+var comment= this.props.comment;  
+      return (
+        <div className={bgcolor(obj, comment, 1)}>
+        <div className={ (moment(comment).get('year') < 1978) ?  "hide" : "count"}>{(obj[comment].id)+1}</div>      
+        <div className="date">
+          <p className="month">{ moment(comment).get('year') < 1978 ? "meeting" : moment(comment).format('MMM')}</p>
+          <p className="day">{ moment(comment).get('year') < 1978 ? (obj[comment].id)+1 : moment(comment).format('DD')}</p>
+          <p className="hour">{ moment(comment).get('year') < 1978 ? "" : moment(comment).format('hh:mm a')}</p>
+        </div>
+      </div>
+           );        
+        }
+      });
+
+     
       </script>  
     </div>
   </div>
