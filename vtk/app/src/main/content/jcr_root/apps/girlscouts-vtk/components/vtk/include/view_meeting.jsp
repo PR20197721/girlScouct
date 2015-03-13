@@ -3,6 +3,7 @@
     <img className="touchscroll <%= hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : " hide" %>" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/throbber.png"/> 
     <div className="large-3 medium-3 small-4 columns">
       <div className={bgcolor(obj, comment)}>
+      
         <div className={ (moment(comment).get('year') < 1978) ?  "hide" : "count"}>{(obj[comment].id)+1}</div>      
         <div className="date">
           <p className="month">{ moment(comment).get('year') < 1978 ? "meeting" : moment(comment).format('MMM')}</p>
