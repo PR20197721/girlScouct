@@ -469,7 +469,7 @@
 
 			org.girlscouts.vtk.ejb.Emailer emailer = sling
 					.getService(org.girlscouts.vtk.ejb.Emailer.class);
-			emailer.send(emr);
+			emailer.send(user,emr);
 			try{
 				meetingUtil.saveEmail(user, troop, emr.getMeetingId());
 			}catch(Exception e){
