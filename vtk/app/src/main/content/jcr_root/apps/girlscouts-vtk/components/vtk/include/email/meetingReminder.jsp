@@ -111,8 +111,7 @@
 						}
       	%>
       		<li><span class="name icon <%=ext%>"><a href="<%=planView.getAidTags().get(i).getRefId()%>" target="_blank"><%= planView.getAidTags().get(i).getTitle() %></a></span></li>
-      		<li><a class="add-links" href="#nogo" title="add" onclick="addAidLink('<%=planView.getAidTags().get(i).getRefId()%>','<%=planView.getAidTags().get(i).getTitle()%>','<%=mid %>')"><i class="icon-button-circle-plus"></i></a></li><%
-
+      		<li><a class="add-links" href="#nogo" title="add" onclick="addAidLink('<%=planView.getAidTags().get(i).getRefId()%>','<%=planView.getAidTags().get(i).getTitle()%>','<%=_meeting.getUid() %>')"><i class="icon-button-circle-plus"></i></a></li><%
       	}%>
       	</ul>
 	    </div>
