@@ -1,7 +1,7 @@
 <li  draggable={false} className="row meeting activity ui-state-default ui-state-disabled" key={obj[comment].id} >
   <div  className="column large-20 medium-20 large-centered medium-centered">  
     <div className="large-3 medium-3 small-4 columns">
-    <div className={bgcolor(obj, comment)}>
+    <div className={bgcolor(obj, comment, 0)}>
         <div className="date">
           <p className="month">{ moment(comment).get('year') < 1978 ? "" : moment(comment).format('MMM')}</p>
           <p className="day">{ moment(comment).get('year') < 1978 ? "" : moment(comment).format('DD')}</p>

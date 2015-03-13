@@ -27,7 +27,7 @@
     <script type="text/jsx">
     	var isActivNew;
     	var isFirst=1;
-      var meetingPassed=false;
+      var meetingPassed=true;
       var scrollTarget = "";
       var CommentBox = React.createClass({
 
@@ -249,19 +249,28 @@
           document.getElementById('thePlan')
         );
 
-        function bgcolor(obj, comment){ 
-
-         if(  moment(comment).get('year') < 1978 ){
+        function bgcolor(obj, comment, objType){ 
+console.log("tata: "+meetingPassed +" : "+ moment(comment).format('MMMM DD YYYY') +" > "+moment( new Date()) +": " + (moment(comment) > moment( new Date()) ));
+         if(  (meetingPassed==false) && moment(comment).get('year') < 1978 ){
+console.log("1");
             return "bg-square";
-         }else if(  moment(comment) < moment( new Date()) ){
+        }else if(  meetingPassed && 
+             ((moment(comment) > moment( new Date() )) || moment(comment).get('year') < 1978 )
+             ) {
+console.log("3 "+ objType +" :" + (objType=='1'));
+                    if( objType=='1'){  meetingPassed= false;}
+console.log(meetingPassed); 
+                            return "bg-square current";
+ 
+        }else if(  moment(comment) < moment( new Date()) ){
+console.log("2");
             return "bg-square passed";
-         }else if( (obj[comment].id==0 && moment(comment) > moment( new Date()))||
-             (meetingPassed && moment(comment) > moment( new Date()))) {
-                meetingPassed= false;
-                return "bg-square current";
+         
          }else if( obj[comment].cancelled =='true' ){
+console.log("4");
             return "bg-square canceled";
          }else{
+console.log("5");
             return "bg-square";
          }
         }
