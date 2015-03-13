@@ -114,10 +114,11 @@
             
     						{ keys.map( function (comment ,i ) {
 
+/*
                     if(  ( obj[comment].type == 'MEETING')  &&
                       moment(comment) < moment( new Date()) )
-                        {meetingPassed= true;}
-
+                        {meetingPassed= false;}
+*/
 
     							  if( obj[comment].type == 'MEETING' ){
     									return <%@include file="include/view_meeting.jsp" %> 
@@ -250,18 +251,20 @@
         );
 
         function bgcolor(obj, comment, objType){ 
-console.log("tata: "+meetingPassed +" : "+ moment(comment).format('MMMM DD YYYY') +" > "+moment( new Date()) +": " + (moment(comment) > moment( new Date()) ));
-         if(  (meetingPassed==false) && moment(comment).get('year') < 1978 ){
-console.log("1");
-            return "bg-square";
-        }else if(  meetingPassed && 
-             ((moment(comment) > moment( new Date() )) || moment(comment).get('year') < 1978 )
+
+    if(  meetingPassed && 
+             ((moment(comment) > moment( new Date() )) || (moment(comment).get('year') < 1978) )
              ) {
-console.log("3 "+ objType +" :" + (objType=='1'));
+console.log("3 ");
                     if( objType=='1'){  meetingPassed= false;}
-console.log(meetingPassed); 
+
                             return "bg-square current";
  
+console.log("tata: "+meetingPassed +" : "+ moment(comment).format('MMMM DD YYYY') +" > "+moment( new Date()) +": " + (moment(comment) > moment( new Date()) ));
+         }else if(   moment(comment).get('year') < 1978 ){
+console.log("1");
+            return "bg-square";
+    
         }else if(  moment(comment) < moment( new Date()) ){
 console.log("2");
             return "bg-square passed";
@@ -284,6 +287,30 @@ console.log("5");
 
           return http.status != 404;
         }
+
+
+
+
+
+ var DateBox = React.createClass({
+        render: function() {
+
+var obj = this.props.obj;
+var comment= this.props.comment;  
+      return (
+        <div className={bgcolor(obj, comment, 1)}>
+        <div className={ (moment(comment).get('year') < 1978) ?  "hide" : "count"}>{(obj[comment].id)+1}</div>      
+        <div className="date">
+          <p className="month">{ moment(comment).get('year') < 1978 ? "meeting" : moment(comment).format('MMM')}</p>
+          <p className="day">{ moment(comment).get('year') < 1978 ? (obj[comment].id)+1 : moment(comment).format('DD')}</p>
+          <p className="hour">{ moment(comment).get('year') < 1978 ? "" : moment(comment).format('hh:mm a')}</p>
+        </div>
+      </div>
+           );        
+        }
+      });
+
+     
       </script>  
     </div>
   </div>
