@@ -796,8 +796,16 @@ System.err.println("tata2b2b2 :"+ (troop.getYearPlan().getMeetingEvents().size()
 		YearPlan newYearPlan = addYearPlan(user, troop, yearPlanPath);// troopDAO.addYearPlan1(troop,
 
 		if( oldPlan!=null)
-			troop.getYearPlan().setSchedule( selectYearPlan_newSched( user,  troop,  yearPlanPath ) );	
-		if( troop.getYearPlan()==null)
+			if(oldPlan.getName().equals(planName)) {//reset current yearplan
+				if(!userUtil.hasPermission(troop,Permission.PERMISSION_RM_YEARPLAN_ID))
+					throw new IllegalAccessException();
+				Cal cal = new Cal();
+				cal.setDbUpdate(true);
+				troop.getYearPlan().setSchedule(cal);//set to cal with dates equals to null to remove the schedule
+			}
+			else
+				troop.getYearPlan().setSchedule( selectYearPlan_newSched( user,  troop,  yearPlanPath ) );	
+		else
 			troop.setYearPlan(newYearPlan);
 		
 		if(yearPlanPath!=null && !yearPlanPath.equals("") )

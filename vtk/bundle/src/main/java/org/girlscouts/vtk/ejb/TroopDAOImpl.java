@@ -1028,7 +1028,7 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 		
 		Cal schedule = troop.getYearPlan().getSchedule();
 		
-		if( schedule==null || !schedule.isDbUpdate() )return true;
+		if( schedule==null || !schedule.isDbUpdate() ) return true;
 		
 		Session mySession = null;
 		boolean isUpdated = false;
@@ -1038,16 +1038,25 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 			classes.add(Cal.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,mapper);
-			if( schedule.getPath()==null){
-				JcrUtils.getOrCreateByPath(
-						 troop.getYearPlan().getPath() +"/schedule",
-						"nt:unstructured", mySession);
-				schedule.setPath( troop.getYearPlan().getPath() +"/schedule");
+			if(schedule.getDates() == null){//remove the schedule to reset the yearplan
+				if( schedule.getPath()==null){
+					schedule.setPath( troop.getYearPlan().getPath() +"/schedule");
+				}
+				if( ocm.objectExists(schedule.getPath()))
+					ocm.remove(schedule);
+				troop.getYearPlan().setSchedule(null);
+			}else{
+				if( schedule.getPath()==null){
+					JcrUtils.getOrCreateByPath(
+							 troop.getYearPlan().getPath() +"/schedule",
+							"nt:unstructured", mySession);
+					schedule.setPath( troop.getYearPlan().getPath() +"/schedule");
+				}
+				if( ocm.objectExists(schedule.getPath()))
+						ocm.update(schedule);
+				else 
+						ocm.insert(schedule);
 			}
-			if( ocm.objectExists(schedule.getPath()))
-					ocm.update(schedule);
-			else 
-					ocm.insert(schedule);
 			ocm.save();
 			isUpdated= true;
 		} catch (Exception e) {
