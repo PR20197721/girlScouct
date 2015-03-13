@@ -13,7 +13,7 @@
       <p className="subtitle">
       	<ViewMeeting date={moment(comment).toDate()} name={obj[comment].name} />
       </p>
-     	<p className="category">{ obj[comment].content.replace(/(<([^>]+)>)/ig,"") }</p>
+     	<p className="category">{ obj[comment].content.replace('&nbsp;','').replace(/(<([^>]+)>)/ig,"") }</p>
      	<p className="blurb">{obj[comment].locationName}</p>    
     </div>
     <div className="large-2 medium-2 columns hide-for-small"></div>
