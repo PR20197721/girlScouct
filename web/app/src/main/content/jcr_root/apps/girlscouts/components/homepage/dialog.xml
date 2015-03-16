@@ -130,6 +130,12 @@
                             name="./timezone"
                             value="US/Eastern"
                             xtype="textfield"/>
+                        <header-image-path
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Header Image Path"
+                            name="./headerImagePath"
+                            rootPath="/content/dam"
+                            xtype="pathfield"/>
                     </items>
                 </girl-scouts>
             </items>
