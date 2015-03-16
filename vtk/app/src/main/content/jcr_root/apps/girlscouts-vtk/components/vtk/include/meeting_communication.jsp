@@ -19,7 +19,7 @@
   		 	<a href="#" title="view sent emails" className="view" data-reveal-id="modal_view_sent_emails">view</a>)
   			<%} %>
   		</li>
-  <%}else{ %>
+  <% }else{ %>
    		<li><%
    		if(hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_MT_ID )) {%>
 	   		<a <%if(planView.getSearchDate()!=null && planView.getSearchDate().after( new java.util.Date("1/1/1977") )) {%> 
