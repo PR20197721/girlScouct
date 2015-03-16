@@ -2,6 +2,8 @@
   <div className="column large-20 medium-20 large-centered medium-centered">
     <img className="touchscroll <%= hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : " hide" %>" src="/etc/designs/girlscouts-vtk/clientlibs/css/images/throbber.png"/> 
     <div className="large-3 medium-3 small-4 columns">
+
+
 <DateBox comment= {comment} obj={obj}/>
     </div>
     <div className="large-22 medium-22 small-24 columns">
