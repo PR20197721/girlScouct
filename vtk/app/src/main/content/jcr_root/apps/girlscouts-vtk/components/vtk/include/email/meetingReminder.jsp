@@ -76,8 +76,12 @@
 				<td><%= _meeting.getMeetingInfo().getName() %></td>
 			</tr>
 		</table>
-		
+		<%JcrCollectionHoldString eInvite =  _meeting.getMeetingInfo().getMeetingInfo().get("email invite");
+		if(eInvite!=null && eInvite.getStr()!=null && !eInvite.getStr().trim().isEmpty()) {%>
 		<%=_meeting.getMeetingInfo().getMeetingInfo().get("email invite").getStr() %>
+		<% }else{%> 
+		<%=_meeting.getMeetingInfo().getMeetingInfo().get("overview").getStr() %>
+		<% } %>
 		<br/><p>If you have any questions, or want to participate in this meeting, please contact me at 
 		<%if(apiConfig.getUser().getPhone()!=null)%><%=apiConfig.getUser().getPhone() %>
 		<%if(apiConfig.getUser().getMobilePhone()!=null)%><%=apiConfig.getUser().getMobilePhone() %>
