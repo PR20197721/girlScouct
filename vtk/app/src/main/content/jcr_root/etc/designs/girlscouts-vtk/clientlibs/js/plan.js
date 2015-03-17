@@ -207,12 +207,14 @@ function yesPlan(){
     document.getElementById('showHideReveal').innerHTML='VIEW YEAR PLAN LIBRARY';
     // document.getElementById('arrowDirection').innerHTML='&#9660;';
     $('#showHideReveal').toggleClass('open').addClass('close');
+    $("#empty-yp-directions").show();
   }else{
     document.getElementById('yearPlanMeetings').style.display='none';
     document.getElementById('yearPlanSelection').style.display='block';
     document.getElementById('showHideReveal').innerHTML='YEAR PLAN LIBRARY';
     // document.getElementById('arrowDirection').innerHTML='&#9650;';
     $('#showHideReveal').removeClass('close').addClass('open');
+    $("#empty-yp-directions").hide();
   }
 }
 function addLocation(){
