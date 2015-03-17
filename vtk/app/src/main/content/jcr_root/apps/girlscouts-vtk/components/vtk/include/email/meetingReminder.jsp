@@ -207,7 +207,7 @@
 		var url = window.location.href;
 		var arr = url.split("/");
 		var host = arr[0] + "//" + arr[2];
-		$('.jqte_editor #formLinks').append('<li><a href="'+host+link+'" target="_blank>'+formname+'</a></li>');
+		$('.jqte_editor #formLinks').append('<li><a href="'+host+link+'" target="_blank">'+formname+'</a></li>');
 		$('.jqte_editor #formLinks p.hide').removeClass();
 		$("dt[data-target='" + categoryId + "'] span").removeClass('on');
 		$('.accordion #' + categoryId).slideToggle('slow');
