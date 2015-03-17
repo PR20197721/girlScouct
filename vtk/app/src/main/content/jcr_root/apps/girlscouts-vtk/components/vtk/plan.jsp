@@ -26,7 +26,7 @@
    if( troop.getYearPlan()==null ||
 		   troop.getYearPlan().getMeetingEvents()==null ||
 				   troop.getYearPlan().getMeetingEvents().size()<=0 ){ %>
-      <div id="empty-yp-directions">
+      <div id="empty-yp-directions" style="padding-left:20px;">
         <p><strong>Custom Year Plan:</strong></p>
         <p>Start adding meetings and/or activities to your custom plan</p>
       </div>
