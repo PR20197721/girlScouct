@@ -104,8 +104,8 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
 
 
              <ul className="small-block-grid-2">
-                <li><p>Location Name:</p><p>{this.props.data.locationName}</p></li>
-                <li><p>Location Address:</p><p>{this.props.data.locationAddress} {this.props.data.locationRef}</p></li>
+                <li><p>Location Name:</p><p>{this.props.data.locationName ? this.props.data.locationName.replace('&nbsp;','').replace(/(<([^>]+)>)/ig,"") : ''}</p></li>
+                <li><p>Location Address:</p><p>{this.props.data.locationAddress ? this.props.data.locationAddress.replace('&nbsp;','').replace(/(<([^>]+)>)/ig,"") : '' } {this.props.data.locationRef ? this.props.data.locationRef.replace('&nbsp;','').replace(/(<([^>]+)>)/ig,"") : ''}</p></li>
                 <li><p>Age:</p><p><%=troop.getSfTroopAge()%></p></li>
                 <li><p>Cost:</p><p>{ fmtMaskedMoney(this.props.data.cost)}</p></li>
               </ul>
