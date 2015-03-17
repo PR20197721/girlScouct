@@ -26,10 +26,16 @@
    if( troop.getYearPlan()==null ||
 		   troop.getYearPlan().getMeetingEvents()==null ||
 				   troop.getYearPlan().getMeetingEvents().size()<=0 ){ %>
-      <div id="empty-yp-directions" style="padding-left:20px;">
-        <p><strong>Custom Year Plan:</strong></p>
-        <p>Start adding meetings and/or activities to your custom plan</p>
-      </div>
+      <section class="yp-wrapper">
+        <div class="sectionHeader">
+         <div class="column large-20 medium-20 large-centered medium-centered"> 
+		      <div id="empty-yp-directions" style="padding-left:20px;">
+		         <p><strong>Custom Year Plan:</strong></p>
+		         <p>Start adding meetings and/or activities to your custom plan</p>
+		      </div>
+        </div>
+       </div>
+      </section>
     <%} %> 
     
     
