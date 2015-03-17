@@ -29,46 +29,13 @@ function maskAllFields() {
 
 
 function validateFinanceAdmin(){
-
-	var isError = false;
-	$(".error-message").text('');
-	var recipient = document.getElementById("recipient").value;
-	var emailFormat = /\S+@[A-Z]+\.[A-Z]+$/i;
-	if(!emailFormat.test(recipient)){
-		$(".error-message").append("<i class=\"icon-notice-info-announcement\"></i>Send To field must be a valid email address");
-		return false;
+	var result = $("#financeAdminForm").valid();
+	alert("Result:" + result);
+	if(!result){
+		$(".error-message").append("<i class=\"icon-notice-info-announcement\"></i>There were errors while submitting the form");
+		$('body').scrollTo("#error-message");
 	}
-	
-	var incomeChildren = document.getElementById("income-list").children;
-	for(var i = 0; i < incomeChildren.length; i++){
-		var tempChild = incomeChildren[i].firstElementChild;
-		
-		if(tempChild.tagName == "INPUT"){
-			var inputVal = tempChild.value;
-			inputVal = inputVal.trim();
-			if(inputVal == ""){
-				$(".error-message").append("<i class=\"icon-notice-info-announcement\"></i>Income fields cannot be left empty. Either remove the fields or input values." + 
-				"At least one income field is required.");
-					return false;
-			}
-		}
-	}
-	
-	var expenseChildren = document.getElementById("expense-list").children;
-	for(var i = 0; i < expenseChildren.length; i++){
-		var tempChild = expenseChildren[i].firstElementChild;
-        
-		if(tempChild.tagName == "INPUT"){
-			var inputVal = tempChild.value;
-			inputVal = inputVal.trim();
-			if(inputVal == ""){
-				$(".error-message").append("<i class=\"icon-notice-info-announcement\"></i>Expense fields cannot be left empty. Either remove the fields or enter values. " + 
-					"At least one expense field is required.");
-					return false;
-			}
-		}
-	}
-	return true;
+	return result;
 }
 
 function saveFinanceAdmin(){

@@ -43,13 +43,13 @@
 <div id="panelWrapper" class="row content meeting-detail finances">
 <%@include file="include/utility_nav.jsp"%>
 	<div class="column large-20 medium-20 large-centered medium-centered small-24">
-		<form class="cmxform" id="financeForm" onchange="enableSaveButton()">
+		<form class="cmxform" id="financeAdminForm" onchange="enableSaveButton()">
 			
-			<p class="error-message"></p>
+			<p id="error-message" class="error-message"></p>
 			
 			<div class="row collapse opts">
 				<span class="column small-10 large-5 medium-7">Reporting Frequency:</span>
-				<select id="periodSelection" class="columns small-6 large-3 medium-5 left">
+				<select id="periodSelection" name="periodSelection" class="columns small-6 large-3 medium-5 left">
 				<%if("Yearly".equals(period)){%>
 					<option value="Yearly">Yearly</option>
 					<option value="Quarterly">Quarterly</option>
@@ -68,9 +68,10 @@
 					<h6>income categories</h6>
 					<ul id="income-list" class="large-block-grid-2 small-block-grid-2 text-left">
 						<%
+						
 							for(String incomeField : incomeFields){
 						%>
-						<li id="incomeField<%=incomeCounter%>"><input onkeyDown="enableSaveButton()" oninput="enableSaveButton()" onpaste="enableSaveButton()"  maxlength="30" type="text" value="<%=StringEscapeUtils.escapeHtml(incomeField)%>"/></li>
+						<li id="incomeField<%=incomeCounter%>"><input name="incomeValue<%=incomeCounter%>" onkeyDown="enableSaveButton()" class="financeAdminField" oninput="enableSaveButton()" onpaste="enableSaveButton()"  maxlength="35" type="text" value="<%=StringEscapeUtils.escapeHtml(incomeField)%>"/></li>
 						<li id="incomeButton<%=incomeCounter%>"><a href="" title="remove" onclick="return deleteIncomeRow(<%=incomeCounter%>)"><i class="icon-button-circle-cross"></i></a></li>
 						<%
 								incomeCounter++;
@@ -85,7 +86,7 @@
 						<%
 							for(String expenseField : expenseFields){
 						%>
-						<li id="expenseField<%=expenseCounter%>"><input onkeyDown="enableSaveButton()" oninput="enableSaveButton()" onpaste="enableSaveButton()" type="text" maxlength="30" value="<%=StringEscapeUtils.escapeHtml(expenseField)%>"/></li>
+						<li id="expenseField<%=expenseCounter%>"><input onkeyDown="enableSaveButton()" name="expenseValue<%=expenseCounter%>" oninput="enableSaveButton()" class="financeAdminField" onpaste="enableSaveButton()" type="text" maxlength="35" value="<%=StringEscapeUtils.escapeHtml(expenseField)%>"/></li>
 						<li id="expenseButton<%=expenseCounter%>"><a href="" title="remove" onclick="return deleteExpenseRow(<%=expenseCounter%>)"><i class="icon-button-circle-cross"></i></a></li>
 						<%
 								expenseCounter++;
@@ -104,3 +105,39 @@
 		</form>
 	</div>
 </div>
+
+<script type="text/javascript"> 
+	$(document).ready( function(){
+		jQuery.validator.addMethod("gsEmail", function(value, element) { 
+			var emailFormat = /\S+@[A-Z]+\.[A-Z]+$/i;
+			return emailFormat.test(value); 
+		}, "The email format is invalid");
+		jQuery.validator.addClassRules("financeAdminField", {
+			required: true
+		});
+	
+		$("#financeAdminForm").validate({
+			rules: { 
+				recipient: {
+					required: true,
+					gsEmail: true
+				} 
+			},
+			 invalidHandler: function(event, validator) {
+				var errors = validator.numberOfInvalids();
+				if (errors) {
+					$(".error-message").append("<i class=\"icon-notice-info-announcement\"></i>There were errors while submitting the form");
+					$('body').scrollTo("#error-message");
+				} else {
+					$(".error-message").html("");
+				}
+			}
+		});
+		
+	});
+</script>
+
+<!--
+
+//-->
+</script>
