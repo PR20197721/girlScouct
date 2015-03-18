@@ -1046,7 +1046,7 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 				}
 
 				ObjectMapper mapper = new ObjectMapper();
-				out.println(mapper.writeValueAsString(currentActivity));
+				out.println(mapper.writeValueAsString(currentActivity).replace("mailto:",""));
 
 			}
 
