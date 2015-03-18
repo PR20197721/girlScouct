@@ -28,7 +28,7 @@ import com.day.cq.replication.Replicator;
     @Property(name=Constants.SIBLING_SERVERS_PROPERTY, description="Sibling servers, separated by space. Node changes will be replicated to these servers")
 })
 public class ReplicationManager {
-    private static final String[] MONITOR_PATHS = { Constants.ROOT_PATH };
+    private static final String[] MONITOR_PATHS = { Constants.ROOT_PATH, Constants.DAM_PATH };
     private static final Logger log = LoggerFactory
             .getLogger(ReplicationManager.class);
 
@@ -56,12 +56,11 @@ public class ReplicationManager {
         if (repository.getDescriptor(Repository.OPTION_OBSERVATION_SUPPORTED)
                 .equals("true")) {
             manager = session.getWorkspace().getObservationManager();
-            final String[] types = { Constants.PRIMARY_TYPE };
             listener = new NodeListener(session, replicator);
 
             for (int i = 0; i < MONITOR_PATHS.length; i++) {
                 manager.addEventListener(listener, Constants.PROPERTY_UPDATE | Event.NODE_REMOVED | Event.NODE_MOVED,
-                        MONITOR_PATHS[i], true, null, types, true);
+                        MONITOR_PATHS[i], true, null, Constants.PRIMARY_TYPES, true);
             }
         } else {
             log.error("Listeners not added.");
