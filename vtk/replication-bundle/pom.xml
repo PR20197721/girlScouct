@@ -70,6 +70,7 @@
             <groupId>com.adobe.granite</groupId>
             <artifactId>com.adobe.granite.replication.core</artifactId>
             <version>5.12.2</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>com.day.cq</groupId>
@@ -147,6 +148,7 @@
                 <configuration>
                     <instructions>
                         <Bundle-SymbolicName>org.girlscouts.vtk.girlscouts-vtk-replication-bundle</Bundle-SymbolicName>
+                        <Private-Package>com.day.cq.replication.impl.content.durbo, com.day.cq.replication.impl.bl</Private-Package>
                         <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
                     </instructions>
                 </configuration>
