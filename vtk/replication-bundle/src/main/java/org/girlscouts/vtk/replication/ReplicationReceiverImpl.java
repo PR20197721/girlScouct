@@ -47,14 +47,9 @@ public class ReplicationReceiverImpl
   public static final int DEFAULT_SAVE_EVERY_HOW_MANY = 1000;
 
   @Reference
-  private Packaging pkgSvc;
-
-  @Reference
   private EventAdmin eventAdmin;
   private long tmpfileThreshold;
   private DurboImporter durboImporter;
-
-  public ReplicationReceiverImpl() { this.pkgSvc = null; }
 
 
   @Activate
@@ -141,17 +136,6 @@ public class ReplicationReceiverImpl
     return deletedCount;
   }
 
-  protected void bindPkgSvc(Packaging paramPackaging)
-  {
-    this.pkgSvc = paramPackaging;
-  }
-
-  protected void unbindPkgSvc(Packaging paramPackaging)
-  {
-    if (this.pkgSvc == paramPackaging)
-      this.pkgSvc = null;
-  }
-
   protected void bindEventAdmin(EventAdmin paramEventAdmin)
   {
     this.eventAdmin = paramEventAdmin;
@@ -214,26 +198,7 @@ public class ReplicationReceiverImpl
     private void onActivate(Node node)
       throws ReplicationException
     {
-      String path = null;
-      try {
-        path = node.getPath();
-      } catch (Exception e) {
-        ReplicationReceiverImpl.log.error("Error while retrieving path of node.", e);
-      }
-      try
-      {
-        if ((this.install) && (path != null) && (path.startsWith("/etc/packages/")) && (node.isNodeType("{http://www.jcp.org/jcr/nt/1.0}file")))
-        {
-          this.writer.write("Content package received at " + path + ". Starting import.\n");
-          JcrPackageManager packMgr = ReplicationReceiverImpl.this.pkgSvc.getPackageManager(node.getSession());
-          JcrPackage pack = packMgr.open(node);
-          ImportOptions opts = new ImportOptions();
-          opts.setListener(new DefaultProgressListener(new PrintWriter(this.writer)));
-          pack.extract(opts);
-        }
-      } catch (Exception e) {
-        ReplicationReceiverImpl.log.error("Error while unpacking package at " + path, e);
-      }
+        // Does nothing. No need for package unwrapping.
     }
 
     private void onDelete()
