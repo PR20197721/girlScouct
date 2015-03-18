@@ -177,7 +177,7 @@ function fnOpenNormalDialog() {
         height: 250,
         width: 400,
         buttons: {
-            "Go ahead,cancel the meeting": function () {
+            "Go ahead, cancel the meeting": function () {
                 $(this).dialog('close');
                 var r = $("#meeting_select option:selected").val();
                 rmMeeting('<%=date.getTime()%>',r);

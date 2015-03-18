@@ -854,15 +854,14 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 				session.putValue("VTK_troop", troop);
 
 				ObjectMapper mapper = new ObjectMapper();
-				out.println(mapper.writeValueAsString(troop));
-
+				//out.println(mapper.writeValueAsString(troop));
+			    out.println(mapper.writeValueAsString(troop).replaceAll("mailto:","").replaceAll("</a>\"</a>","</a>").replaceAll("\"</a>\"",""));
+                
 			}
 
 		} else if (request.getParameter("yearPlanSched") != null) {
 			
-		if( troop.getYearPlan() !=null)
-		    System.err.println("tata yearPlan: "+  troop.getYearPlan().getRefId());
-			
+		
 		    if (troop.getYearPlan() == null)
 				return;
 
@@ -974,13 +973,13 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 					out.println("{\"yearPlan\":\""
 							+ troop.getYearPlan().getName()
 							+ "\",\"schedule\":");
-					out.println(mapper.writeValueAsString(sched));
+					out.println(mapper.writeValueAsString(sched).replaceAll("mailto:",""));
 					out.println("}");
 				}
 			}
-
+			
 		} else if (request.getParameter("reactActivity") != null) {
-
+					
 			boolean isFirst = false;
 			if (request.getParameter("isFirst") != null
 					&& request.getParameter("isFirst").equals("1")) {
@@ -1046,7 +1045,9 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 				}
 
 				ObjectMapper mapper = new ObjectMapper();
-				out.println(mapper.writeValueAsString(currentActivity).replace("mailto:",""));
+				out.println(mapper.writeValueAsString(currentActivity));
+			
+			
 
 			}
 

@@ -10,6 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpSession;
 
@@ -159,6 +160,16 @@ public class MeetingUtil {
 			switch (_comp.getType()) {
 			case ACTIVITY:
 				Activity activity = (Activity) _comp;
+	/*			
+				long tmp = date.getTime();
+	System.err.println("tata555: "+ tmp +" : "+container.containsKey( date ) );			
+				if( container.containsKey( date ) ){ //add 2 sec
+	System.err.println("tata555 b4:"+ tmp );				
+					tmp = tmp + TimeUnit.SECONDS.toMillis(5);
+    System.err.println("tata555 after:"+ tmp +" : "+ new java.util.Date(tmp) );		
+				}
+		*/		
+				//container.put(new java.util.Date(tmp), activity);
 				container.put(date, activity);
 				break;
 
@@ -251,7 +262,16 @@ if( meetingEs!=null){
 			if (activities != null)
 				for (int i = 0; i < activities.size(); i++) {
 
-					sched.put(activities.get(i).getDate(), activities.get(i));
+					long tmp = activities.get(i).getDate().getTime();
+					//System.err.println("tata555: "+ tmp +" : "+container.containsKey( date ) );			
+								if( sched.containsKey( activities.get(i).getDate() ) ){ //add 2 sec
+					System.err.println("tata555 b4:"+ tmp );				
+									tmp = tmp + TimeUnit.MILLISECONDS.toMillis(1);
+				    System.err.println("tata555 after:"+ tmp +" : "+ new java.util.Date(tmp) );		
+								}
+								
+					sched.put(new java.util.Date(tmp), activities.get(i));
+					//sched.put(activities.get(i).getDate(), activities.get(i));
 				}
 
 		} catch (Exception e) {
