@@ -184,17 +184,17 @@ public class ReplicationReceiverImpl
       try
       {
         ReplicationActionType type = this.action.getType();
-        switch (type.ordinal()) {
-        case 1:
+        switch (type) {
+        case ACTIVATE:
           onActivate(node);
           break;
-        case 2:
+        case DELETE:
           onDelete();
           break;
-        case 3:
+        case DEACTIVATE:
           onDeactivate();
           break;
-        case 4:
+        case TEST:
           onTest();
           break;
         default:
