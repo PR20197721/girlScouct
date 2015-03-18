@@ -130,6 +130,7 @@
     		if( this.props.data!=null){
     			var keys =  Object.keys( this.props.data );
     			var obj = this.props.data;
+meetingPassed= true;
     			return (<ul id="sortable123">
             
     						{ keys.map( function (comment ,i ) {
