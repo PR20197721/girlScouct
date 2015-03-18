@@ -15,9 +15,11 @@
 			<dd <%= "plan".equals(activeTab) ? "class='active'" : "" %>>
 				<a href="/content/girlscouts-vtk/en/vtk.admin_plan.html">Year Plans</a>
 			</dd>
+			<% if(hasPermission(troop, Permission.PERMISSION_EDIT_MILESTONE_ID)) { %>
 			<dd <%= "milestones".equals(activeTab) ? "class='active'" : "" %>>
 				<a href="/content/girlscouts-vtk/en/vtk.admin_milestones.html">Milestones</a>
 			</dd>
+			<% } %>
 			<dd <%= "finances".equals(activeTab) ? "class='active'" : "" %>>
 				<a href="/content/girlscouts-vtk/en/vtk.admin_finances.html">Finances</a>
 			</dd>
@@ -41,9 +43,11 @@
 			<li <%= "plan".equals(activeTab) ? "class='active'" : "" %>>
 				<a href="/content/girlscouts-vtk/en/vtk.admin_plan.html">Year Plans</a>
 			</li>
+			<% if(hasPermission(troop, Permission.PERMISSION_EDIT_MILESTONE_ID)) { %>
 			<li <%= "milestones".equals(activeTab) ? "class='active'" : "" %>>
 				<a href="/content/girlscouts-vtk/en/vtk.admin_milestones.html">Milestones</a>
 			</li>
+			<% } %>
 			<li <%= "finances".equals(activeTab) ? "class='active'" : "" %>>
 				<a href="/content/girlscouts-vtk/en/vtk.admin_finances.html">Finances</a>
 			</li>
