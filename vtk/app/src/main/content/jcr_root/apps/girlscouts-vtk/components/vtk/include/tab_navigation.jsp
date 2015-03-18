@@ -34,7 +34,7 @@
       <%
       //  }
       %>
-      <dl class="tabs hide-for-small hide-for-portrait">
+      <dl class="tabs show-for-medium-up hide-for-portrait">
         <% if(hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
           <dd <%= "myTroop".equals(activeTab) ? "class='active'" : "" %>>
             <a href="/content/girlscouts-vtk/en/vtk.myTroop.html">My Troop</a>
