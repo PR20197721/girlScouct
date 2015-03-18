@@ -123,15 +123,18 @@
 					gsEmail: true
 				} 
 			},
-			 invalidHandler: function(event, validator) {
-				var errors = validator.numberOfInvalids();
+      		showErrors: function(errorMap, errorList) {
+      			var errors = this.numberOfInvalids();
 				if (errors) {
-					$(".error-message").append("<i class=\"icon-notice-info-announcement\"></i>There were errors while submitting the form");
-					$('body').scrollTo("#error-message");
+					$(".error-message").html("<i class=\"icon-notice-info-announcement\"></i>There were errors while submitting the form");
+					
+					$('#error-message')[0].scrollIntoView( true );
 				} else {
 					$(".error-message").html("");
 				}
-			}
+				this.defaultShowErrors();
+      		}
+      		
 		});
 		
 	});

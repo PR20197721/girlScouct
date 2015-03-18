@@ -29,13 +29,8 @@ function maskAllFields() {
 
 
 function validateFinanceAdmin(){
-	var result = $("#financeAdminForm").valid();
-	alert("Result:" + result);
-	if(!result){
-		$(".error-message").append("<i class=\"icon-notice-info-announcement\"></i>There were errors while submitting the form");
-		$('body').scrollTo("#error-message");
-	}
-	return result;
+	return $("#financeAdminForm").valid();
+	
 }
 
 function saveFinanceAdmin(){
