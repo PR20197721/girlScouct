@@ -923,6 +923,23 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 							
 					session.putValue("VTK_troop", troop);
 
+					
+					
+	//****
+	
+	//java.util.Iterator itr= sched.keySet().iterator();
+	//while( itr.hasNext() ){
+	Object tmp[] = sched.values().toArray();
+	for(int i=0;i<tmp.length;i++){
+		try{
+		   ((MeetingE)tmp[i]).getMeetingInfo().setActivities(null);
+		   ((MeetingE)tmp[i]).getMeetingInfo().setMeetingInfo(null);
+		   ((MeetingE)tmp[i]).getMeetingInfo().setResources(null);
+		   ((MeetingE)tmp[i]).getMeetingInfo().setAgenda(null);
+		}catch(Exception e){}
+	}
+	
+	//*****
 					ObjectMapper mapper = new ObjectMapper();
 					out.println("{\"yearPlan\":\""
 							+ troop.getYearPlan().getName()
