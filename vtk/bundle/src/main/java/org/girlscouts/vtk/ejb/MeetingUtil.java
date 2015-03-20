@@ -250,7 +250,7 @@ if( meetingEs!=null){
 				int count = 0;
 				while (t.hasMoreElements()) {
 					try {
-						java.util.Date dt = new java.util.Date(Long.parseLong((t.nextToken())));
+						java.util.Date dt = new java.util.Date(Long.parseLong((t.nextToken().replace("\n", "").replace("\r", "").trim())));
 						int maxLook=0;
 						if( sched.containsKey(dt)){
 							dt = new Date(dt.getTime() + 5l);
