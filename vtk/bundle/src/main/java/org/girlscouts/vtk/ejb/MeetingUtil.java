@@ -160,16 +160,6 @@ public class MeetingUtil {
 			switch (_comp.getType()) {
 			case ACTIVITY:
 				Activity activity = (Activity) _comp;
-	/*			
-				long tmp = date.getTime();
-	System.err.println("tata555: "+ tmp +" : "+container.containsKey( date ) );			
-				if( container.containsKey( date ) ){ //add 2 sec
-	System.err.println("tata555 b4:"+ tmp );				
-					tmp = tmp + TimeUnit.SECONDS.toMillis(5);
-    System.err.println("tata555 after:"+ tmp +" : "+ new java.util.Date(tmp) );		
-				}
-		*/		
-				//container.put(new java.util.Date(tmp), activity);
 				container.put(date, activity);
 				break;
 
@@ -178,6 +168,7 @@ public class MeetingUtil {
 
 		// now set meetings & etc
 		itr = orgSched.keySet().iterator();
+		boolean heal=false;
 		while (itr.hasNext()) {
 			java.util.Date date = (java.util.Date) itr.next();
 			YearPlanComponent _comp = (YearPlanComponent) orgSched.get(date);
@@ -193,11 +184,14 @@ public class MeetingUtil {
 					meetingE.setMeetingInfo(meetingInfo);
 				}
 				
-				int maxLook=100;
+				int maxLook=0;
 				while (container.containsKey(date)) {
 					date = new Date(date.getTime() + 5l);
+					heal = true;
+					maxLook++;
 					if(maxLook>100) break;
 				}
+				
 				container.put(date, meetingE);
 				
 				break;
@@ -209,8 +203,28 @@ public class MeetingUtil {
 			}
 		}
 
+		
+		checkIt(container);
+		
 		return container;
 
+	}
+	
+	
+	private boolean checkIt( java.util.Map container ){
+		
+		boolean toRet= false;
+		java.util.Date now= java.util.Calendar.getInstance().getTime();
+		
+		java.util.Iterator itr = container.keySet().iterator();
+		while( itr.hasNext() ){
+			java.util.Date date= (java.util.Date)itr.next();
+			if( date.before( now ) ){
+				
+			}
+				
+		}
+		return toRet;
 	}
 
 	public java.util.Map getYearPlanSched(YearPlan plan) {
@@ -236,9 +250,14 @@ if( meetingEs!=null){
 				int count = 0;
 				while (t.hasMoreElements()) {
 					try {
-						sched.put(
-								new java.util.Date(Long.parseLong((t
-										.nextToken()))), meetingEs.get(count));
+						java.util.Date dt = new java.util.Date(Long.parseLong((t.nextToken())));
+						int maxLook=0;
+						if( sched.containsKey(dt)){
+							dt = new Date(dt.getTime() + 5l);
+							maxLook++;
+							if(maxLook>100) break;
+						}
+						sched.put(dt, meetingEs.get(count));
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -270,15 +289,14 @@ if( meetingEs!=null){
 				for (int i = 0; i < activities.size(); i++) {
 
 					long tmp = activities.get(i).getDate().getTime();
-					//System.err.println("tata555: "+ tmp +" : "+container.containsKey( date ) );			
 								if( sched.containsKey( activities.get(i).getDate() ) ){ //add 2 sec
-					System.err.println("tata555 b4:"+ tmp );				
+									
 									tmp = tmp + TimeUnit.MILLISECONDS.toMillis(1);
-				    System.err.println("tata555 after:"+ tmp +" : "+ new java.util.Date(tmp) );		
+				   	
 								}
 								
 					sched.put(new java.util.Date(tmp), activities.get(i));
-					//sched.put(activities.get(i).getDate(), activities.get(i));
+					
 				}
 
 		} catch (Exception e) {
