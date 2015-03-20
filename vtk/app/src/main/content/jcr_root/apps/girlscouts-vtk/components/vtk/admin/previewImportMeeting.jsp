@@ -235,7 +235,7 @@ java.util.Map <String, org.girlscouts.vtk.models.JcrCollectionHoldString>infos  
 
 String fileToRm= fileDir +"/"+ request.getParameter("id");
 if( fileToRm!=null && !fileToRm.equals("") && fileToRm.startsWith("/tmp/")){
-	System.err.println("cleaning file... "+ fileToRm );
+	//System.err.println("cleaning file... "+ fileToRm );
 
 	//java io
 	//-importer.doClean(fileToRm);

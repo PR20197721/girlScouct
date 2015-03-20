@@ -46,16 +46,22 @@
                 title="Styles"
                 xtype="panel">
                 <items jcr:primaryType="cq:WidgetCollection">
-                    <additional-css
+                    <gridStyle
                         jcr:primaryType="cq:Widget"
-                        fieldDescription="Separated by spaces. CSS tags will be added to the grid system itself."
-                        fieldLabel="Row CSS"
-                        name="./additionalCss"
+                        fieldDescription="Enter css tags separated by spaces ie &quot;padding:0px color:#FFFFFF&quot;. Tags for this field will affect the entire grid."
+                        fieldLabel="Grid Css"
+                        name="./gridStyle"
+                        xtype="textfield"/>
+                    <itemStyle
+                        jcr:primaryType="cq:Widget"
+                        fieldDescription="Enter css tags separated by spaces ie &quot;padding:0px color:#FFFFFF&quot;. Tags for this field will affect each individual item within the grid."
+                        fieldLabel="Individual Item Css"
+                        name="./itemStyle"
                         xtype="textfield"/>
                     <cssClasses
                         jcr:primaryType="cq:Widget"
-                        fieldDescription="Separated by spaces. CSS tags will be added to all children components."
-                        fieldLabel="Children CSS"
+                        fieldDescription="Css classes will be added to all children components"
+                        fieldLabel="CSS Classes"
                         name="./cssClasses"
                         xtype="textfield"/>
                 </items>

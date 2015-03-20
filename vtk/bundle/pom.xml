@@ -1,567 +1,313 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
-    <modelVersion>4.0.0</modelVersion>
-    <!-- ====================================================================== -->
-    <!-- P A R E N T P R O J E C T D E S C R I P T I O N -->
-    <!-- ====================================================================== -->
-    <parent>
-        <groupId>org.girlscouts.vtk</groupId>
-        <artifactId>girlscouts-vtk</artifactId>
-        <version>1.0-SNAPSHOT</version>
-    </parent>
-
-    <!-- ====================================================================== -->
-    <!-- P R O J E C T D E S C R I P T I O N -->
-    <!-- ====================================================================== -->
-
-    <artifactId>girlscouts-vtk-bundle</artifactId>
-    <packaging>bundle</packaging>
-    <name>Girl Scouts Volunteer Toolkit Bundle</name>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.osgi</groupId>
-            <artifactId>org.osgi.compendium</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.osgi</groupId>
-            <artifactId>org.osgi.core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.felix</groupId>
-            <artifactId>org.apache.felix.scr.annotations</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>biz.aQute</groupId>
-            <artifactId>bndlib</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>javax.jcr</groupId>
-            <artifactId>jcr</artifactId>
-        </dependency>
-   
-        <dependency>
-            <groupId>org.apache.sling</groupId>
-            <artifactId>org.apache.sling.api</artifactId>
-        </dependency>
-       
-        <dependency>
-            <groupId>org.apache.sling</groupId>
-            <artifactId>org.apache.sling.jcr.api</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>com.adobe.granite</groupId>
-            <artifactId>com.adobe.granite.replication.core</artifactId>
-            <version>5.12.2</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.day.commons.osgi.wrapper</groupId>
-            <artifactId>com.day.commons.osgi.wrapper.commons-httpclient</artifactId>
-            <version>3.1.0.018</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.adobe.granite.bundles</groupId>
-            <artifactId>json</artifactId>
-            <version>20090211_1</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.apache.sling</groupId>
-            <artifactId>org.apache.sling.api</artifactId>
-            <version>2.4.3-R1488084</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.jackrabbit</groupId>
-            <artifactId>jackrabbit-jcr-commons</artifactId>
-            <version>2.6.2</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.day.commons.osgi.wrapper</groupId>
-            <artifactId>com.day.commons.osgi.wrapper.joda-time</artifactId>
-            <version>1.6-0002</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.day.cq</groupId>
-            <artifactId>cq-commons</artifactId>
-            <version>5.6.4</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-        	<groupId>org.girlscouts.web</groupId>
-        	<artifactId>girlscouts-bundle</artifactId>
-        	<version>0.1-SNAPSHOT</version> 
-        </dependency>
-        <!-- This package is not included in CQ5.6.1 by default -->
-        
-          
-         
-                   <dependency>
-            <groupId>org.apache.jackrabbit</groupId>
-            <artifactId>jackrabbit-ocm</artifactId>
-           <version>1.5.3</version>      
-        </dependency>
-       
- 
-    <!-- 
-    <dependency>
-	<groupId>org.apache</groupId>
-	<artifactId>jackrabbit-ocm</artifactId>
-	<version>2.0.0</version>
-</dependency>
-    -->
-        
-	
-        
-        <!--
-        <dependency>
-            <groupId>cglib</groupId>
-            <artifactId>cglib</artifactId>
-            <version>[0,)</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-beanutils</groupId>
-            <artifactId>commons-beanutils</artifactId>
-            <version>[0,)</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-digester</groupId>
-            <artifactId>commons-digester</artifactId>
-            <version>[0,)</version>
-        </dependency>
-        -->
-   
-   
-       <!--  
-        <dependency>
-	<groupId>com.day.commons.osgi.wrapper</groupId>
-	<artifactId>com.day.commons.osgi.wrapper.commons-email</artifactId>
-	<version>1.2.0-0002</version>
-	<scope>provided</scope>
-</dependency>
--->
-	
-      
-
-<dependency>
-	<groupId>com.day.cq</groupId>
-	<artifactId>cq-mailer</artifactId>
-	<version>5.6.4</version>
-	<scope>provided</scope>
-</dependency>
-
-
-
-
-<dependency>
-	<groupId>com.day.commons.osgi.wrapper</groupId>
-	<artifactId>com.day.commons.osgi.wrapper.commons-email</artifactId>
-	<version>1.2.0-0002</version>
-	<scope>provided</scope>
-</dependency>
-
-
-<dependency>
-	<groupId>javax.mail</groupId>
-	<artifactId>mail</artifactId>
-	<version>1.5.0-b01</version>
-	<scope>provided</scope>
-</dependency>
-
-<!--   
-<dependency>
-	<groupId>org.mnode.ical4j</groupId>
-	<artifactId>ical4j</artifactId>
-	<version>1.0.3</version>
-	<scope>provided</scope>
-</dependency>
-
-<dependency>
-	<groupId>backport-util-concurrent</groupId>
-	<artifactId>backport-util-concurrent</artifactId>
-	<version>3.1</version>
-	<scope>provided</scope>
-</dependency>
--->
-<dependency>
-	<groupId>org.girlscouts.vtk</groupId>
-	<artifactId>ical4j-wrapper</artifactId>
-	<version>1.0-SNAPSHOT</version>
-	<scope>provided</scope>
-</dependency>
-
-<dependency>
-	<groupId>commons-fileupload</groupId>
-	<artifactId>commons-fileupload</artifactId>
-	<version>1.3</version>
-</dependency>
-<dependency>
-	<groupId>javax.portlet</groupId>
-	<artifactId>portlet-api</artifactId>
-	<version>2.0</version>
-</dependency>
-<dependency>
-	<groupId>commons-net</groupId>
-	<artifactId>commons-net</artifactId>
-	<version>3.0.1</version>
-</dependency>
-
-
-<dependency>
-	<groupId>com.day.cq</groupId>
-	<artifactId>cq-search</artifactId>
-	<version>5.6.4</version>
-	<scope>provided</scope>
-</dependency>
-
-
-
-
-<!-- 
-
-<dependency>
-    <groupId>com.cognifide.slice</groupId>
-    <artifactId>slice-core-api</artifactId>
-    <version>4.0.0</version>
-</dependency>
-<dependency>
-    <groupId>com.cognifide.slice</groupId>
-    <artifactId>slice-core</artifactId>
-    <version>4.0.0</version>
-</dependency>
-<dependency>
-    <groupId>com.cognifide.slice</groupId>
-    <artifactId>slice-mapper</artifactId>
-    <version>4.0.0</version>
-</dependency>
-<dependency>
-    <groupId>com.cognifide.slice</groupId>
-    <artifactId>slice-mapper-api</artifactId>
-    <version>4.0.0</version>
-</dependency>
-
-
-<dependency>
-    <groupId>com.cognifide.slice-addon</groupId>
-    <artifactId>slice-cq56</artifactId>
-    <version>1.0.1</version>
-</dependency>
-<dependency>
-    <groupId>com.cognifide.slice-addon</groupId>
-    <artifactId>slice-cq56-taglib</artifactId>
-    <version>1.0.1</version>
-</dependency>
-
-
--->
-
-  <!-- 
-<dependency>
-	<groupId>org.apache.sling</groupId>
-	<artifactId>org.apache.sling.scripting.java</artifactId>
-	<version>2.0.6</version>
-	<scope>provided</scope>
-</dependency>
--->
-
-<!-- 
-<dependency>
-	<groupId>com.day.cq.wcm</groupId>
-	<artifactId>cq-wcm-api</artifactId>
-	<version>5.6.6</version>
-	<scope>provided</scope>
-</dependency>
--->
-
-
-<!-- 
-<dependency>
-  <groupId>org.jsoup</groupId>
-  <artifactId>jsoup</artifactId>
-  <version>1.7.3</version>
-</dependency>
--->
-
- <!-- 
-<dependency>
-        <groupId>org.seleniumhq.selenium</groupId>
-        <artifactId>selenium-java</artifactId>
-        <version>2.42.2</version>
-    </dependency>  
-
-
-
-<dependency>
-	<groupId>org.apache.myfaces.core</groupId>
-	<artifactId>myfaces-api</artifactId>
-	<version>2.2.4</version>
-</dependency>
--->
-
-
-
-<!--  
-<dependency>
-	<groupId>javax.faces</groupId>
-	<artifactId>jsf-api</artifactId>
-	<version>2.1</version>
-</dependency>
-<dependency>
-	<groupId>com.sun.faces</groupId>
-	<artifactId>jsf-impl</artifactId>
-	<version>2.2.7</version>
-</dependency>
-
-
-<dependency>
-	<groupId>javax.validation</groupId>
-	<artifactId>validation-api</artifactId>
-	<version>1.1.0.Final</version>
-</dependency>
-<dependency>
-	<groupId>taglibs</groupId>
-	<artifactId>standard</artifactId>
-	<version>1.1.2</version>
-</dependency>
-<dependency>
-	<groupId>javax.servlet.jsp.jstl</groupId>
-	<artifactId>javax.servlet.jsp.jstl-api</artifactId>
-	<version>1.2.1</version>
-</dependency>
--->
-
-
-<!-- 
-<dependency>
-	<groupId>org.apache.sling</groupId>
-	<artifactId>org.apache.sling.fragment.xml</artifactId>
-	<version>1.0.2</version>
-	<scope>provided</scope>
-</dependency>
-
-
-<dependency>
-	<groupId>org.codehaus.jackson</groupId>
-	<artifactId>jackson-mapper-asl</artifactId>
-	<version>1.9.13</version>
-</dependency>
-<dependency>
-	<groupId>org.codehaus.jackson</groupId>
-	<artifactId>jackson-core-asl</artifactId>
-	<version>1.9.13</version>
-</dependency>
--->
-
-
-<!-- import dep>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.jackrabbit</groupId>
-      <artifactId>jackrabbit-ocm</artifactId>
-      <version>1.5.3</version>
-    </dependency>
-    -->
-
-<!--  
-    <dependency>
-      <groupId>javax.jcr</groupId>
-      <artifactId>jcr</artifactId>
-      <version>2.0</version>
-    </dependency>
-<dependency>
-    <groupId>org.apache.jackrabbit</groupId>
-    <artifactId>jackrabbit-jcr-commons</artifactId>
-    <version>2.8.0</version>
-</dependency>
-<dependency>
-    <groupId>org.apache.jackrabbit</groupId>
-    <artifactId>jackrabbit-jcr2dav</artifactId>
-    <version>2.3.0</version>
-</dependency>
-
-<dependency>
-    <groupId>org.slf4j</groupId>
-    <artifactId>slf4j-api</artifactId>
-    <version>1.7.7</version>
-</dependency>
-<dependency>
-    <groupId>org.slf4j</groupId>
-    <artifactId>slf4j-log4j12</artifactId>
-    <version>1.7.7</version>
-</dependency>
-
-<dependency>
-    <groupId>org.apache.sling</groupId>
-    <artifactId>org.apache.sling.api</artifactId>
-    <version>2.2.0</version>
-</dependency>
--->
-
-<!-- 
-
-<dependency>
-    <groupId>org.apache.httpcomponents</groupId>
-    <artifactId>httpclient</artifactId>
-    <version>4.0.1</version>
-</dependency>
-
-<dependency>
-    <groupId>org.apache.httpcomponents</groupId>
-    <artifactId>httpmime</artifactId>
-    <version>4.0.1</version>
-</dependency>
--->
-
-<!-- 
-
-<dependency>
-    <groupId>org.apache.poi</groupId>
-    <artifactId>poi-ooxml</artifactId>
-    <version>3.10-FINAL</version>
-    <scope>provided</scope>
-</dependency>
--->
-
-<dependency>
-	<groupId>org.jsoup</groupId>
-	<artifactId>jsoup</artifactId>
-	<version>1.7.3</version>
-	<scope>provided</scope>
-</dependency>
-
-<dependency>
-	<groupId>com.adobe.granite</groupId>
-	<artifactId>com.adobe.granite.poi</artifactId>
-	<version>1.1.0</version>
-	<scope>provided</scope>
-</dependency>
-
-<!-- end import dep -->
-
-
-<dependency>
-	<groupId>org.apache.servicemix.bundles</groupId>
-	<artifactId>org.apache.servicemix.bundles.shiro</artifactId>
-	<version>1.1.0_2</version>
-</dependency>
-
-<dependency>
-	<groupId>commons-pool</groupId>
-	<artifactId>commons-pool</artifactId>
-	<version>1.4</version>
-</dependency>
-
-
-<dependency>
-	<groupId>javax.jms</groupId>
-	<artifactId>jms-api</artifactId>
-	<version>1.1-rev-1</version>
-</dependency>
-
-<dependency>
-	<groupId>javax.jms</groupId>
-	<artifactId>javax.jms-api</artifactId>
-	<version>2.0</version>
-</dependency>
-<!-- 
-<dependency>
-  <groupId>org.apache.activemq</groupId>
-  <artifactId>activemq-all</artifactId>
-  <version>5.8.0</version>
-</dependency>
--->
-
-    </dependencies>
-
-
-
-
-<repositories>
-    <repository>
-        <id>adobe-public-releases</id>
-        <name>Adobe Public Repository</name>
-        <url>http://repo.adobe.com/nexus/content/groups/public</url>
-        <releases>
-            <enabled>true</enabled>
-            <updatePolicy>never</updatePolicy>
-        </releases>
-        <snapshots>
-            <enabled>false</enabled>
-        </snapshots>
-    </repository>
-    <repository>
-        <id>com.springsource.repository.bundles.external</id>
-        <name>SpringSource Enterprise Bundle Repository - SpringSource Bundle Releases</name>
-        <url>http://repository.springsource.com/maven/bundles/external/</url>
-    </repository>
-   
-</repositories>
-
-    <!-- ====================================================================== -->
-    <!-- B U I L D D E F I N I T I O N -->
-    <!-- ====================================================================== -->
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-scr-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>generate-scr-descriptor</id>
-                        <goals>
-                            <goal>scr</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.felix</groupId>
-                <artifactId>maven-bundle-plugin</artifactId>
-                <extensions>true</extensions>
-                <configuration>
-                    <instructions>
-                        <Bundle-SymbolicName>org.girlscouts.vtk.girlscouts-vtk-bundle</Bundle-SymbolicName>
-                        <Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
-                        <!-- Mike Z.: It is safe not to import these packages. Ref: -->
-                        <!-- http://svn.apache.org/repos/asf/sling/tags/org.apache.sling.jcr.ocm-2.0.4-incubator/pom.xml -->
-                        <Import-Package>
-                        !org.apache.myfaces.*,
-                            !org.apache.tools.ant,
-                            !org.apache.tools.ant.types,
-                            !org.objectweb.asm,
-                            !org.objectweb.asm.attrs,
-                            !org.objectweb.asm.util,
-                            !org.codehaus.aspectwerkz.hook,
-                            !com.google.inject.internal.asm.util,
-                            *
-                        </Import-Package>
-                        <!--  
-                        <Export-Package>
-	                        net.fortuna.ical4j.data,
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd ">
+	<modelVersion>4.0.0</modelVersion>
+	<!-- ====================================================================== -->
+	<!-- P A R E N T P R O J E C T D E S C R I P T I O N -->
+	<!-- ====================================================================== -->
+	<parent>
+		<groupId>org.girlscouts.vtk</groupId>
+		<artifactId>girlscouts-vtk</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<!-- ====================================================================== -->
+	<!-- P R O J E C T D E S C R I P T I O N -->
+	<!-- ====================================================================== -->
+
+	<artifactId>girlscouts-vtk-bundle</artifactId>
+	<packaging>bundle</packaging>
+	<name>Girl Scouts Volunteer Toolkit Bundle</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.googlecode.java-diff-utils</groupId>
+			<artifactId>diffutils</artifactId>
+			<version>1.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.girlscouts.vtk</groupId>
+			<artifactId>modified-checker-bundle</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.compendium</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.osgi</groupId>
+			<artifactId>org.osgi.core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.felix</groupId>
+			<artifactId>org.apache.felix.scr.annotations</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>biz.aQute</groupId>
+			<artifactId>bndlib</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.day.cq</groupId>
+			<artifactId>cq-tagging</artifactId>
+			<version>5.6.4</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.jcr</groupId>
+			<artifactId>jcr</artifactId>
+		</dependency>
+	   
+		<dependency>
+			<groupId>org.apache.sling</groupId>
+			<artifactId>org.apache.sling.api</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.13</version>
+			<scope>provided</scope>
+		</dependency>
+		   
+		<dependency>
+			<groupId>org.apache.sling</groupId>
+			<artifactId>org.apache.sling.jcr.api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.adobe.granite</groupId>
+			<artifactId>com.adobe.granite.replication.core</artifactId>
+			<version>5.12.2</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.day.commons.osgi.wrapper</groupId>
+			<artifactId>com.day.commons.osgi.wrapper.commons-httpclient</artifactId>
+			<version>3.1.0.018</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.adobe.granite.bundles</groupId>
+			<artifactId>json</artifactId>
+			<version>20090211_1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.sling</groupId>
+			<artifactId>org.apache.sling.api</artifactId>
+			<version>2.4.3-R1488084</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.jackrabbit</groupId>
+			<artifactId>jackrabbit-jcr-commons</artifactId>
+			<version>2.6.2</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.day.commons.osgi.wrapper</groupId>
+			<artifactId>com.day.commons.osgi.wrapper.joda-time</artifactId>
+			<version>1.6-0002</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.day.cq</groupId>
+			<artifactId>cq-commons</artifactId>
+			<version>5.6.4</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.girlscouts.web</groupId>
+			<artifactId>girlscouts-bundle</artifactId>
+			<version>0.1-SNAPSHOT</version> 
+		</dependency>
+		<!-- This package is not included in CQ5.6.1 by default -->
+		<dependency>
+			<groupId>org.apache.jackrabbit</groupId>
+			<artifactId>jackrabbit-ocm</artifactId>
+			<version>1.5.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.day.cq</groupId>
+			<artifactId>cq-mailer</artifactId>
+			<version>5.6.4</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.day.commons.osgi.wrapper</groupId>
+			<artifactId>com.day.commons.osgi.wrapper.commons-email</artifactId>
+			<version>1.2.0-0002</version>
+			<scope>provided</scope>
+		</dependency>
+
+
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.5.0-b01</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.girlscouts.vtk</groupId>
+			<artifactId>ical4j-wrapper</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.3</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.portlet</groupId>
+			<artifactId>portlet-api</artifactId>
+			<version>2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-net</groupId>
+			<artifactId>commons-net</artifactId>
+			<version>3.0.1</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>com.day.cq</groupId>
+			<artifactId>cq-search</artifactId>
+			<version>5.6.4</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.7.3</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.adobe.granite</groupId>
+			<artifactId>com.adobe.granite.poi</artifactId>
+			<version>1.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- end import dep -->
+
+
+		<dependency>
+			<groupId>org.apache.servicemix.bundles</groupId>
+			<artifactId>org.apache.servicemix.bundles.shiro</artifactId>
+			<version>1.1.0_2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-pool</groupId>
+			<artifactId>commons-pool</artifactId>
+			<version>1.4</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>javax.jms</groupId>
+			<artifactId>jms-api</artifactId>
+			<version>1.1-rev-1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.jms</groupId>
+			<artifactId>javax.jms-api</artifactId>
+			<version>2.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections4</artifactId>
+			<version>4.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.0</version>
+		</dependency>
+	</dependencies>
+	<repositories>
+		<repository>
+			<id>adobe-public-releases</id>
+			<name>Adobe Public Repository</name>
+			<url>http://repo.adobe.com/nexus/content/groups/public</url>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>com.springsource.repository.bundles.external</id>
+			<name>SpringSource Enterprise Bundle Repository - SpringSource Bundle Releases</name>
+			<url>http://repository.springsource.com/maven/bundles/external/</url>
+		</repository>
+	</repositories>
+
+	<!-- ====================================================================== -->
+	<!-- B U I L D D E F I N I T I O N -->
+	<!-- ====================================================================== -->
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-scr-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>generate-scr-descriptor</id>
+						<goals>
+							<goal>scr</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<extensions>true</extensions>
+				<configuration>
+					<instructions>
+						<Bundle-SymbolicName>org.girlscouts.vtk.girlscouts-vtk-bundle</Bundle-SymbolicName>
+						<Embed-Dependency>*;scope=compile|runtime</Embed-Dependency>
+						<!-- Mike Z.: It is safe not to import these packages. Ref: -->
+						<!-- http://svn.apache.org/repos/asf/sling/tags/org.apache.sling.jcr.ocm-2.0.4-incubator/pom.xml -->
+						<Import-Package>
+						!org.apache.myfaces.*,
+							!org.apache.tools.ant,
+							!org.apache.tools.ant.types,
+							!org.objectweb.asm,
+							!org.objectweb.asm.attrs,
+							!org.objectweb.asm.util,
+							!org.codehaus.aspectwerkz.hook,
+							!com.google.inject.internal.asm.util,
+							*
+						</Import-Package>
+						<!--  
+						<Export-Package>
+							net.fortuna.ical4j.data,
 							net.fortuna.ical4j.filter,
 							net.fortuna.ical4j.model,
 							net.fortuna.ical4j.model.component,
@@ -569,35 +315,33 @@
 							net.fortuna.ical4j.model.property,
 							net.fortuna.ical4j.transform,
 							net.fortuna.ical4j.util
-                        </Export-Package>
-                        -->
-                        
-            <!--  <Export-Package>org.alex.app.core*;version="${project.version}"</Export-Package> -->
-           <Bundle-Activator>org.alex.app.core.Activator</Bundle-Activator> 
-           
-                        
-                        <!-- Recursively embed dependency jars -->
-                        <Embed-Transitive>true</Embed-Transitive>
-                    </instructions>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.sling</groupId>
-                <artifactId>maven-sling-plugin</artifactId>
-                <configuration>
-                    <slingUrl>http://${crx.host}:${crx.port}/apps/myproject/install</slingUrl>
-                    <usePut>true</usePut>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                 <configuration>
-                    <excludePackageNames>
-                        *.impl
-                    </excludePackageNames>
-                 </configuration>
-            </plugin>
-        </plugins>
-    </build>
+						</Export-Package>
+						-->
+						
+		   
+						
+						<!-- Recursively embed dependency jars -->
+						<Embed-Transitive>true</Embed-Transitive>
+					</instructions>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.sling</groupId>
+				<artifactId>maven-sling-plugin</artifactId>
+				<configuration>
+					<slingUrl>http://${crx.host}:${crx.port}/apps/myproject/install</slingUrl>
+					<usePut>true</usePut>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				 <configuration>
+					<excludePackageNames>
+						*.impl
+					</excludePackageNames>
+				 </configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

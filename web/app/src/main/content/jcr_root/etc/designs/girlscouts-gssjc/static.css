@@ -98,8 +98,13 @@ a:hover.menuHighlight {
 /***********************************/
 
 /* HEADER */
+.header-wrapper {
+  background-color: #fff; 
+}
 #header {
-  color: #FFFFFF;
+    padding: 15px 0px 0px 0px;
+    background-color: #00ae58;
+    color: #FFFFFF;
 }
 #header span {
     color: #FAA61A;

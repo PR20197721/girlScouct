@@ -272,12 +272,18 @@
                 } else {
                 	team = "default";
                 }
-                var	teamNodeName = team.toLowerCase().replace(/ /g, "-");
-                var destDir = '<%= contentPath %>/' + teamNodeName;
+                var	teamNodeName = team.toLowerCase().replace(/[^a-zA-Z0-9]+/g, "-");
+                
+                if (isUpdate) {
+    				var destDir = '<%= contentPath %>';
+                }                
+                else if (!isUpdate) { 
+				    var destDir = '<%= contentPath %>/' + teamNodeName;
+                    frm.url = destDir + '/*';
+                }
+
                 girlscouts.functions.createPath(destDir, 'cq:Page', 'jcr:title|' + team);
-if(!isUpdate){
-                frm.url = destDir + '/*';
-}
+                
                 var action = new CQ.form.SlingSubmitAction(frm, {
                     params: params,
                     success: function(frm, resp) {

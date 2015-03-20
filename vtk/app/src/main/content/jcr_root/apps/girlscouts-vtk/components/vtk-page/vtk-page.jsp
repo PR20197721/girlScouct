@@ -1,7 +1,7 @@
 <%@page session="false" contentType="text/html; charset=utf-8" import="com.day.cq.commons.Doctype, com.day.cq.wcm.api.WCMMode, com.day.cq.wcm.foundation.ELEvaluator" %><%@taglib prefix="cq" uri="http://www.day.com/taglibs/cq/1.0" %><cq:defineObjects/><%
 
-
 boolean isAutoLogin =false;
+
 HttpSession session = request.getSession();
 if( !isAutoLogin ){
     
@@ -24,6 +24,7 @@ if( !isAutoLogin ){
 	
 	final org.girlscouts.vtk.ejb.TroopUtil troopUtil = sling.getService(org.girlscouts.vtk.ejb.TroopUtil.class);
 	troopUtil.autoLogin(session);
+	
 }
 	
 	
@@ -64,8 +65,25 @@ if( !isAutoLogin ){
 	}
 	
 	request.setAttribute("PAGE_CATEGORY", "VTK");
+	
+	
+	
+	
+	
+	
 %><%= Doctype.fromRequest(request).getDeclaration() %>
 <html <%= wcmModeIsPreview ? "class=\"preview\"" : ""%>>
 <cq:include script="head.jsp"/>
 <cq:include script="body.jsp"/>
+
+<% 
+
+String thisFooterScript = (String)request.getAttribute("footerScript") ;
+if (thisFooterScript!= null) {
+	out.println(thisFooterScript);
+}else{
+	out.println("");
+}
+%>
+
 </html>

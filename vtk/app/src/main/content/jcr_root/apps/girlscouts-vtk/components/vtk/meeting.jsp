@@ -3,6 +3,8 @@
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
 
+<div id="modal_popup" class="reveal-modal" data-reveal></div>
+
        <a href="/content/girlscouts-vtk/en/vtk.plan.html">Back to Plan</a>
        <div id="errInfo"></div>
        

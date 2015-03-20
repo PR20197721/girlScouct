@@ -17,7 +17,9 @@
 	String imgName = "";
 	String path = "Image_"+number_of_children;
 	List<String> nameImage = new ArrayList<String>(); 
+	int blank_number = 0;
 	for(int i=1; i<slideShowCount+1;i++){
+        imgName = "";
 		if(images.hasNext()){
 			Resource imgResource = images.next();
 			imagePath = imgResource.getPath();
@@ -29,18 +31,13 @@
 		<% 	path = imgName;
 		}
 		else{
-			if(!imgName.isEmpty()){
-				number_of_children = Integer.parseInt(imgName.substring(6,path.length())) + 1;
-				path = "Image_"+number_of_children;
-			}else{
-				number_of_children = number_of_children+1;
-				path = "Image_"+number_of_children;
-			}
+           	path = "Image_empty_" + blank_number;
+            blank_number++;
 			%>
 			<div>        
 				<cq:include path="<%=path%>" resourceType="girlscouts/components/hero-slideshow-images"/>  
 			</div> 
-		<%  path = "";
+			<%  path = "";
 			imgName="";
 		}%>
 		

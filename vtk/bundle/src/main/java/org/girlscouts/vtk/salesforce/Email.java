@@ -2,12 +2,8 @@ package org.girlscouts.vtk.salesforce;
 
 public class Email {
 
-	private String from, to, 
-		txtEmail,htmlEmail, subject, parentId;
+	private String from, to, txtEmail, htmlEmail, subject, parentId;
 	private java.util.List bcc;
-	
-	
-	
 
 	public java.util.List getBcc() {
 		return bcc;
@@ -64,16 +60,16 @@ public class Email {
 	public void setParentId(String parentId) {
 		this.parentId = parentId;
 	}
-	
-	
-	public String fmtBcc(){
-		
-		if( this.getBcc()==null || this.getBcc().size()<=0 ) return null;
-		
-		 String fmtBccs="";
-		for(int i=0;i<this.getBcc().size();i++)
-			fmtBccs +=  this.bcc.get(i) +", ";
+
+	public String fmtBcc() {
+
+		if (this.getBcc() == null || this.getBcc().size() <= 0)
+			return null;
+
+		String fmtBccs = "";
+		for (int i = 0; i < this.getBcc().size(); i++)
+			fmtBccs += this.bcc.get(i) + ", ";
 		return fmtBccs;
 	}
-	
+
 }

@@ -1,0 +1,58 @@
+/***** GREEN NAV *****/
+
+#main .side-nav * {
+  color: #858585;
+  margin: 0;
+  font-size: 13.5px;
+}
+#main .side-nav > li:before {
+  border: none;
+}
+#main .side-nav li a {
+  line-height: 1em;
+}
+#main .side-nav > li.active {
+  background: #ffffff;
+}
+#main .side-nav > li > div > a {
+  font-weight: normal;
+}
+#main .side-nav > li.active > div > a {
+  font-weight: bold;
+  color: #414141;
+}
+#main .side-nav li div:hover {
+  background-color: #DCDCDC;
+}
+#main .side-nav li div {
+  padding-bottom: 7px;
+  padding-top: 7px;
+  position: relative;
+  padding: 10px 0px 10px 10px;
+}
+#main .side-nav li.active.current {
+  background-color: #00ae58;
+  /*background: url('/etc/designs/girlscouts/images/orange_arrow.png') no-repeat 185px 6px #00ae58;*/
+}
+#main .side-nav li.active.current > div:after {
+  border: solid 7px;
+  content: "";
+  border-color: transparent transparent transparent #f7941d;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  margin-top: -7px;
+  /*  background: url('/etc/designs/girlscouts-usa-green/images/small-green-arrow-right.png') no-repeat 185px 6px #f1f1ef;*/
+}
+#main .side-nav li.active.current > ul > li {
+  background: #ffffff;
+}
+#main .side-nav > li {
+  background: #ffffff;
+  list-style: none;
+}
+#main .side-nav li.active.current > div,
+#main .side-nav li.active li.active > div {
+  background-color: transparent;
+}
+

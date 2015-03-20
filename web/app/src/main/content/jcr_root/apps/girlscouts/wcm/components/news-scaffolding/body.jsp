@@ -23,8 +23,8 @@
 %><body>
     <script src="/libs/cq/ui/resources/cq-ui.js" type="text/javascript"></script><%
         String contentPath = properties.get("cq:targetPath", "");
-        String dlgPathProperty = properties.get("dialogPath", "");
-        String dlgPath = !dlgPathProperty.isEmpty() ? dlgPathProperty : resource.getPath() + "/dialog";
+	    String dlgPathProperty = properties.get("dialogPath", "");
+	    String dlgPath = !dlgPathProperty.isEmpty() ? dlgPathProperty : resource.getPath() + "/dialog";
         String templatePath = properties.get("cq:targetTemplate", "");
         String scaffoldPath = resourcePage.getPath();
         String formUrl = contentPath + "/*";
@@ -268,13 +268,14 @@
                 if(!isUpdate){
                 var dateField = frm.findField("./jcr:content/date");
                 var year;
+                var newsYearProps = "showCurrent|true|||hideInNav|true";
                 if (dateField.getValue()) {
                 	year = dateField.getValue().getFullYear();	
                 } else {
                 	year = new Date().getFullYear();
                 }
                 var destDir = '<%= contentPath %>/' + year;
-                girlscouts.functions.createPath(destDir, 'cq:Page');
+                girlscouts.functions.createPath(destDir, 'cq:Page', newsYearProps);
 
                     frm.url = destDir + '/*';
     }

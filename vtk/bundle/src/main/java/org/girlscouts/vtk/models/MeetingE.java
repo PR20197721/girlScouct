@@ -7,43 +7,55 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
 
-@Node(jcrMixinTypes="mix:lockable" )
-public class MeetingE extends YearPlanComponent implements Serializable{
+@Node(jcrMixinTypes = "mix:lockable")
+public class MeetingE extends YearPlanComponent implements Serializable {
 
-	public MeetingE(){
-		this.uid= "M"+new java.util.Date().getTime();
+	public MeetingE() {
+		this.uid = "M" + new java.util.Date().getTime();
 		super.setType(YearPlanComponentType.MEETING);
-		}
-	
-	@Field(path=true) String path;
-	@Field private String refId; //path to meetingInfo template
+	}
 
-	@Field private String locationRef;
-	private Meeting meetingInfo; 
+	@Field(path = true)
+	String path;
 	
-	@Field private String cancelled;
-	
-	@Field private Integer id;
-	
-	@Field(id=true) String uid;
-	 
-	@Collection java.util.List<Asset> assets;
-	@Field java.util.Date lastAssetUpdate;
-	
+	@Field
+	private String refId; // path to meetingInfo template
 
-	
-	
-	
-	
-	
-	
+	@Field
+	private String locationRef;
+	private Meeting meetingInfo;
 
+	@Field
+	private String cancelled;
+
+	@Field
+	private Integer id;
+
+	@Field(id = true)
+	String uid;
+	
+	@Field
+	private String emlTemplate;
+
+	@Collection
+	java.util.List<Asset> assets;
+	
+	@Collection
+	java.util.List<SentEmail> sentEmails;
+	
+	@Field
+	java.util.Date lastAssetUpdate;
+    private boolean isDbUpdate=false;
 	public java.util.Date getLastAssetUpdate() {
 		return lastAssetUpdate;
 	}
 
 	public void setLastAssetUpdate(java.util.Date lastAssetUpdate) {
+		if( (lastAssetUpdate !=null && this.lastAssetUpdate!=null && !this.lastAssetUpdate.equals(lastAssetUpdate)  )	||
+				(lastAssetUpdate!=null && this.lastAssetUpdate==null) )
+			isDbUpdate=true;
 		this.lastAssetUpdate = lastAssetUpdate;
+	
 	}
 
 	public java.util.List<Asset> getAssets() {
@@ -51,7 +63,11 @@ public class MeetingE extends YearPlanComponent implements Serializable{
 	}
 
 	public void setAssets(java.util.List<Asset> assets) {
+		if( (assets !=null && this.assets!=null && !this.assets.equals(assets)  )	||
+				(assets!=null && this.assets==null) )
+			isDbUpdate=true;
 		this.assets = assets;
+		
 	}
 
 	public String getUid() {
@@ -60,8 +76,10 @@ public class MeetingE extends YearPlanComponent implements Serializable{
 
 	public void setUid(String uid) {
 		this.uid = uid;
-		if(uid==null)
-			this.uid= "M"+new java.util.Date().getTime()+"_"+ Math.random();
+		if (uid == null)
+			this.uid = "M" + new java.util.Date().getTime() + "_"
+					+ Math.random();
+		
 	}
 
 	public Integer getId() {
@@ -69,7 +87,11 @@ public class MeetingE extends YearPlanComponent implements Serializable{
 	}
 
 	public void setId(Integer id) {
+		if( (id !=null && this.id!=null && !this.id.equals(id)  )	||
+				(id!=null && this.id==null) )
+			isDbUpdate=true;
 		this.id = id;
+		
 	}
 
 	public String getCancelled() {
@@ -77,7 +99,11 @@ public class MeetingE extends YearPlanComponent implements Serializable{
 	}
 
 	public void setCancelled(String cancelled) {
+		if( (cancelled !=null && this.cancelled!=null && !this.cancelled.equals(cancelled)  )	||
+				(cancelled!=null && this.cancelled==null) )
+			isDbUpdate=true;
 		this.cancelled = cancelled;
+		
 	}
 
 	public String getLocationRef() {
@@ -85,7 +111,12 @@ public class MeetingE extends YearPlanComponent implements Serializable{
 	}
 
 	public void setLocationRef(String locationRef) {
+		if( (locationRef !=null && this.locationRef!=null && !this.locationRef.equals(locationRef)  )	||
+				(locationRef!=null && this.locationRef==null) )
+			isDbUpdate=true;
+		
 		this.locationRef = locationRef;
+		
 	}
 
 	public Meeting getMeetingInfo() {
@@ -93,7 +124,9 @@ public class MeetingE extends YearPlanComponent implements Serializable{
 	}
 
 	public void setMeetingInfo(Meeting meetingInfo) {
+		
 		this.meetingInfo = meetingInfo;
+		
 	}
 
 	public String getRefId() {
@@ -101,7 +134,11 @@ public class MeetingE extends YearPlanComponent implements Serializable{
 	}
 
 	public void setRefId(String refId) {
+		if( (refId !=null && this.refId!=null && !this.refId.equals(refId)  )	||
+				(refId!=null && this.refId==null) )
+			isDbUpdate=true;
 		this.refId = refId;
+		
 	}
 
 	public String getPath() {
@@ -109,8 +146,36 @@ public class MeetingE extends YearPlanComponent implements Serializable{
 	}
 
 	public void setPath(String path) {
+		
+		if( (path !=null && this.path!=null && !this.path.equals(path)  )	||
+				(path!=null && this.path==null) )
+			isDbUpdate=true;
+		
 		this.path = path;
+		
 	}
 	
+	public java.util.List<SentEmail> getSentEmails() {
+		return sentEmails;
+	}
+
+	public void setSentEmails(java.util.List<SentEmail> emails) {
+		this.sentEmails = emails;
+	}
 	
+	public String getEmlTemplate() {
+		return emlTemplate;
+	}
+
+	public void setEmlTemplate(String template) {
+		this.emlTemplate =  template;
+	}
+	
+	public boolean isDbUpdate() {
+		return isDbUpdate;
+	}
+
+	public void setDbUpdate(boolean isDbUpdate) {
+		this.isDbUpdate = isDbUpdate;
+	}
 }

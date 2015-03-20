@@ -6,25 +6,32 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 import org.girlscouts.vtk.dao.YearPlanComponentType;
 
-@Node(jcrMixinTypes="mix:lockable" )
-public class Milestone extends YearPlanComponent  implements Serializable{
+@Node(jcrMixinTypes = "mix:lockable")
+public class Milestone extends YearPlanComponent implements Serializable {
 
-	@Field(path=true) String path;
-	@Field private String blurb;
-	@Field private java.util.Date date;
-	@Field(id=true) String uid;
-	
-	public Milestone(){
-		this.uid= "M"+new java.util.Date().getTime()+"_"+ Math.random(); 
+	@Field(path = true)
+	String path;
+	@Field
+	private String blurb;
+	@Field
+	Boolean show;
+	@Field
+	private java.util.Date date;
+	@Field(id = true)
+	String uid;
+
+	public Milestone() {
+		this.uid = "M" + new java.util.Date().getTime() + "_" + Math.random();
 		super.setType(YearPlanComponentType.MILESTONE);
-		}
+	}
+	public Milestone(String blurb, boolean show, java.util.Date date) {
+		this.uid = "M" + new java.util.Date().getTime() + "_" + Math.random();
+		super.setType(YearPlanComponentType.MILESTONE);
+		this.blurb=blurb;
+		this.show = new Boolean(show);
+		this.date = date;
+	}
 
-	
-	
-	
-	
-	
-	
 	public String getPath() {
 		return path;
 	}
@@ -41,6 +48,7 @@ public class Milestone extends YearPlanComponent  implements Serializable{
 		this.blurb = blurb;
 	}
 
+
 	public java.util.Date getDate() {
 		return date;
 	}
@@ -50,8 +58,9 @@ public class Milestone extends YearPlanComponent  implements Serializable{
 	}
 
 	public String getUid() {
-		if(uid==null)
-			this.uid= "M"+new java.util.Date().getTime()+"_"+ Math.random();
+		if (uid == null)
+			this.uid = "M" + new java.util.Date().getTime() + "_"
+					+ Math.random();
 		return uid;
 	}
 
@@ -59,7 +68,12 @@ public class Milestone extends YearPlanComponent  implements Serializable{
 		this.uid = uid;
 	}
 	
-	
-	
-	
+	public Boolean getShow() {
+		return show;
+	}
+
+	public void setShow(Boolean showInPlans) {
+		this.show = showInPlans;
+	}
+
 }

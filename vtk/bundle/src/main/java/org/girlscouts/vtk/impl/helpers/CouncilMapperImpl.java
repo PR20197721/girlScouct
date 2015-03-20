@@ -20,75 +20,78 @@ import org.slf4j.LoggerFactory;
 @Component
 @Service
 public class CouncilMapperImpl implements CouncilMapper, ConfigListener {
-    private static final Logger log = LoggerFactory.getLogger(CouncilMapperImpl.class);
-    private static final String DEFAULT_BRANCH = "/content/girlscouts-usa";
-    private String defaultBranch;
-    private Map<String, String> councilMap;
-    private ResourceResolver resourceResolver;
+	private static final Logger log = LoggerFactory
+			.getLogger(CouncilMapperImpl.class);
+	private static final String DEFAULT_BRANCH = "/content/girlscouts-usa";
+	private String defaultBranch;
+	private Map<String, String> councilMap;
+	private ResourceResolver resourceResolver;
 
-    @Reference
-    private ConfigManager configManager;
+	@Reference
+	private ConfigManager configManager;
 
-    @Reference
-    private ResourceResolverFactory resourceResolverFactory;
-    
-    @Activate
-    public void init() {
-        configManager.register(this);
-        try {
-            resourceResolver = resourceResolverFactory.getResourceResolver(null);
-        } catch (LoginException e) {
-            log.error("Cannot get ResourceResolver.");
-        }
-    }
-    
-    @SuppressWarnings("rawtypes")
-    public void updateConfig(Dictionary configs) {
-        defaultBranch = (String)configs.get("defaultBranch");        
-        if (defaultBranch == null) {
-            defaultBranch = DEFAULT_BRANCH;
-            log.error("Default mapping is null. Use /content/girlscouts-usa");
-        }
+	@Reference
+	private ResourceResolverFactory resourceResolverFactory;
 
-        String[] mappings = (String[])configs.get("councilMapping");
-        councilMap = new HashMap<String, String>();
-        if (mappings != null) {
-            for (int i = 0; i < mappings.length; i++) {
-                String[] configRecord = mappings[i].split("::");
-                if (configRecord.length >= 2) {
-                    councilMap.put(configRecord[0], configRecord[1]);
-                } else {
-                    log.error("Malformatted council mapping record: " + mappings[i]);
-                }
-            }
-        } else {
-            log.warn("No mappings set");
-        }
-    }
+	@Activate
+	public void init() {
+		configManager.register(this);
+		try {
+			resourceResolver = resourceResolverFactory
+					.getResourceResolver(null);
+		} catch (LoginException e) {
+			log.error("Cannot get ResourceResolver.");
+		}
+	}
 
-    public String getCouncilBranch(String id) {
-        String branch = null;
-        if (id != null) {
-            branch = councilMap.get(id);
-        }
-        if (branch == null) {
-            branch = defaultBranch;
-        }
-        return "/content/" + branch;
-    }
+	@SuppressWarnings("rawtypes")
+	public void updateConfig(Dictionary configs) {
+		defaultBranch = (String) configs.get("defaultBranch");
+		if (defaultBranch == null) {
+			defaultBranch = DEFAULT_BRANCH;
+			log.error("Default mapping is null. Use /content/girlscouts-usa");
+		}
 
-    public String getCouncilBranch() {
-        return getCouncilBranch(null);
-    }
-    
-    public String getCouncilUrl(String id) {
-        String branch = getCouncilBranch(id);
-        String url = resourceResolver.map(branch + "/");
-        return url;
-    }
+		String[] mappings = (String[]) configs.get("councilMapping");
+		councilMap = new HashMap<String, String>();
+		if (mappings != null) {
+			for (int i = 0; i < mappings.length; i++) {
+				String[] configRecord = mappings[i].split("::");
+				if (configRecord.length >= 2) {
+					councilMap.put(configRecord[0], configRecord[1]);
+				} else {
+					log.error("Malformatted council mapping record: "
+							+ mappings[i]);
+				}
+			}
+		} else {
+			log.warn("No mappings set");
+		}
+	}
 
-    public String getCouncilUrl() {
-        return getCouncilUrl(null);
-    }
-    
+	public String getCouncilBranch(String id) {
+		String branch = null;
+		if (id != null) {
+			branch = councilMap.get(id);
+		}
+		if (branch == null) {
+			branch = defaultBranch;
+		}
+		return "/content/" + branch;
+	}
+
+	public String getCouncilBranch() {
+		return getCouncilBranch(null);
+	}
+
+	public String getCouncilUrl(String id) {
+		String branch = getCouncilBranch(id);
+		String url = resourceResolver.map(branch + "/");
+		return url;
+	}
+
+	public String getCouncilUrl() {
+		return getCouncilUrl(null);
+	}
+
 }

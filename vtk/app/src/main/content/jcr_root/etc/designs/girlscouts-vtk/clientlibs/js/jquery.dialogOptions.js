@@ -48,9 +48,11 @@ $.ui.dialog.prototype._init = function () {
     _init.apply(this, arguments);
 
     //patch
+if ($.ui.dialog.overlay) { 
     $.ui.dialog.overlay.events = $.map('focus,keydown,keypress'.split(','), function (event) {
         return event + '.dialog-overlay';
     }).join(' ');
+}
 
 };
 // end _init
@@ -85,7 +87,8 @@ $.ui.dialog.prototype.open = function () {
 
             // check & set height
             if ((oHeight + 100) > wHeight || elem.hasClass("resizedH")) {
-                elem.dialog("option", "height", setHeight).parent().css("max-height", setHeight);
+// In Koo JQuery UI Modal fix
+//                elem.dialog("option", "height", setHeight).parent().css("max-height", setHeight);
                 elem.addClass("resizedH");
             }
 

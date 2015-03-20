@@ -1,22 +1,18 @@
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="com.day.text.Text, java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*, java.io.*, java.net.*"%>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
+<div id="error-message"></div>
 <%
-        String activeTab = "myTroop";
-        boolean showVtkNav = true;
+  String activeTab = "myTroop";
+  boolean showVtkNav = true;
 %>
-<%@include file="include/vtk-nav.jsp"%>
-<br/>
-<h3>Coming in future releases:</h3> 
-<ul>
-	<li>- View troop membership and contact information</li>
-	<li>- View and contact volunteers and council support personnel</li>
-	<li>- Renew troop membership</li>
-	<li>- Request information or support from your council</li>
-	<li>- Gain access to the troop leadership community</li>
-</ul>
-<br/>
-<script>
-	fixVerticalSizing = true;
-</script>
+<%@include file="include/tab_navigation.jsp"%>
+<div id="panelWrapper" class="row content">
+<%
+	if (SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) { %>
+    <%@include file="mytroop_react.jsp"%><% 
+  } else { %>
+    <%@include file="myTroopOff.jsp"%>
+<% } %>
+</div><!--panel-wrapper-->

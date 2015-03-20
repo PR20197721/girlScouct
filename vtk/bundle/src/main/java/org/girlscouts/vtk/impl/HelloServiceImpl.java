@@ -10,18 +10,18 @@ import org.apache.sling.jcr.api.SlingRepository;
 import org.girlscouts.vtk.HelloService;
 
 /**
- * One implementation of the {@link HelloService}. Note that
- * the repository is injected, not retrieved.
+ * One implementation of the {@link HelloService}. Note that the repository is
+ * injected, not retrieved.
  */
 @Service
 @Component(metatype = false)
 public class HelloServiceImpl implements HelloService {
-    
-    @Reference
-    private SlingRepository repository;
 
-    public String getRepositoryName() {
-        return repository.getDescriptor(Repository.REP_NAME_DESC);
-    }
+	@Reference
+	private SlingRepository repository;
+
+	public String getRepositoryName() {
+		return repository.getDescriptor(Repository.REP_NAME_DESC);
+	}
 
 }

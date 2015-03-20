@@ -1,4 +1,4 @@
-@import url("home.css");
+/*@import url("home.css");*/
 /***********************************/
 /************* GLOBAL **************/
 /***********************************/
@@ -17,7 +17,7 @@ Font : Open Sans
 */
 /* Embedded Fonts */
 
-<!-- @font-face {
+@font-face {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 300;
@@ -32,10 +32,23 @@ Font : Open Sans
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
+  font-weight: 600;
+  src: local('Open Sans SemiBold'), local('OpenSans-SemiBold'), url('../girlscouts/open-sans-semibold.woff') format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: italic;
+  font-weight: 600;
+  src: local('Open Sans SemiBold'), local('OpenSans-SemiBoldIt'), url('../girlscouts/open-sans-semiboldItalic.woff') format('woff');
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
   font-weight: 700;
   src: local('Open Sans Bold'), local('OpenSans-Bold'), url('../girlscouts/open-sans-bold.woff') format('woff');
 }
---> html {
+
+html {
   font-size: 16px;
 }
 body {
@@ -61,6 +74,11 @@ a {
 }
 a:hover {
   color: green;
+}
+@media only screen and (min-width:500px and max-width: 620px) {
+  .home-section .columns.large-1 {
+    margin:0;
+  }
 }
 @media only screen and (min-width: 40.063em) {
 /*    .news-image {
@@ -91,7 +109,10 @@ padding-right: 0px;
 padding-left: 0px;
 padding-right: 0px;
 }*/
-  
+  #footer li {
+    white-space: nowrap;
+    padding:0;
+  }
   .news-block {
     margin: 0;
   }
@@ -162,6 +183,16 @@ padding: 0;
     line-height: 1.4em;
   }
 }
+@media only screen and (min-width: 60.063em) {
+ .right-off-canvas-menu {
+    visibility: hidden !important;
+    display: none !important; 
+  }
+  .right-off-canvas-menu * {
+    visibility: hidden !important;
+    display: none !important; 
+  }
+}
 a.menu {
   color: #C1EAD4;
   font-size: 1em;
@@ -190,13 +221,15 @@ a:hover.menuHighlight {
   background-color: #00ae58;
 }
 #header {
+  padding: 15px 0px 0px 0px;
+  background-color: #00ae58;
   color: #FFFFFF;
-  padding-top:15px;
 }
 #header span {
   color: #FAA61A;
   font-size: 1.0em;
   font-weight: bold;
+  line-height: 1;
 }
 #header a {
   color: #FFFFFF;
@@ -204,23 +237,16 @@ a:hover.menuHighlight {
 #header a:hover {
   color: #FAA61A;
 }
-#header a.signout {
-    font-size: 0.875em;
-    color: #fff;
-    margin: 0 15px;
-}
-#header a:hover.signout {
-  color: #c00;
-}
+
 #header ul {
   float: right;
 }
 #header ul li {
   font-size: 1.0em;
 }
-/*#header > .large-6 {
+#header > .large-6 {
   padding: 0.72916667% 0 0 0;
-}*/
+}
 #header .message {
   text-align: right;
 }
@@ -245,7 +271,7 @@ a:hover.menuHighlight {
 
 #headerBar {
   background-color: #009447;
-  margin-top: 15px;
+  margin-top: 20px;
 }
 #headerBar>div {
   /*padding: 3px 10px 0px 10px;*/
@@ -270,17 +296,65 @@ a:hover.menuHighlight {
 #headerBar ul.inline-list li {
   line-height: 31px;
 }
+#headerBar .small-search-hamburger.show-for-medium {
+  margin-top:6px;
+}
 /* FOOTER */
-
 #footer {
   background-color: #00ae58;
-  padding: 0px 0px;
+  padding: 0px;
 }
 #footer a {
   font-size: 0.875em;
   font-weight: normal;
   margin: 0px 10px 0px 0px;
+  color:#C1EAD4; 
 }
+#footer a:hover {
+    color: #ffffff;
+}
+#footer div.footer-navigation {
+  padding: 10px 0 0px 20px;
+}
+#footer ul {
+/*  margin: 0;
+  padding: 0;
+  line-height: 1;*/
+}
+#footer [class*="block-grid-"] > li {
+  padding-bottom: 0.63em;
+}
+#footer .footer-navigation div:nth-of-type(1) ul {
+  padding-top: 7px;
+}
+#footer .footer-navigation div:last-child ul {
+/*  text-align: right;*/
+}
+#footer li {
+  display: inline;
+  list-style: none;
+}
+#footer .footer-navigation div:last-child ul a,
+#footer .footer-navigation div:last-child ul a {
+  margin: 0;
+}
+[class^="icon-"], [class*=" icon-"] {
+/*  color:white;*/
+  font-size: 32px;
+}
+@media only screen and (max-width: 40em) { 
+  #footer div.footer-navigation {
+    background-color: #009447;
+/*    padding:10px 0 0 20px;*/
+  }
+   #footer .footer-navigation div:nth-of-type(1) ul {
+  padding-bottom:25px;
+  }
+  .logo nav {
+    text-align: center;
+  }
+}
+
 #mobile-nav-footer {
   background-color: #009447;
   padding: 0px 0px;
@@ -290,22 +364,17 @@ a:hover.menuHighlight {
   font-weight: normal;
   margin: 10px 0;
 }
-#mobile-nav-footer div.footer-navigation {
-  /* temporarily removed because it is being covered by footer links
-    background: url('/etc/designs/girlscouts-usa-green/images/small-trefoil.png') no-repeat;
-    background-position: center;
-*/
-}
+/***mobile footer logo**/
 #mobile-footer {
   background-color: #00ae58;
   padding-top: 15px;
   padding-bottom: 15px;
 }
-.footerLinks {
+/*.footerLinks {
   display: inline-block;
   float: left;
-}
-.footerSocialMedia {
+}*/
+/*.footerSocialMedia {
   display: inline-block;
   float: right;
   padding-right: 20px;
@@ -317,13 +386,13 @@ a:hover.menuHighlight {
 }
 .footerSocialMediaMobile a img {
   padding: 0 10px 10px 10px;
-}
-.footerMiscellaneous {
+}*/
+/*.footerMiscellaneous {
   position: absolute;
   bottom: 4px;
   right: 0;
-}
-@media only screen and (max-width: 40em) {
+}*/
+/*@media only screen and (max-width: 40em) {
   .footerMiscellaneous {
     text-align: center;
     clear: both;
@@ -332,12 +401,12 @@ a:hover.menuHighlight {
   .logo nav {
     text-align: center;
   }
-}
+}*/
 .social-media-icons p {
   margin: 0;
 }
-/* MAIN */
 
+/* MAIN */
 #main {
   background-color: #ffffff;
   color: #000000;
@@ -403,36 +472,48 @@ a:hover.menuHighlight {
   list-style: none;
 }
 /* Left-Nav MG Changes */
-
+#main .side-nav li {
+  list-style: none;
+  position: relative;
+}
 #main .side-nav > li {
-  background: url('/etc/designs/girlscouts-usa-green/images/orange-vertical.png') repeat-y 0px 0px;
+/*  background: url('/etc/designs/girlscouts-usa-green/images/orange-vertical.png') repeat-y 0px 0px;*/
   background-color: #F1F1EF;
 }
 #main .side-nav > li.active {
-  background: url('/etc/designs/girlscouts-usa-green/images/orange-yellow-vertical.png') repeat-y 0px 0px;
+/*  background: url('/etc/designs/girlscouts-usa-green/images/orange-yellow-vertical.png') repeat-y 0px 0px;*/
   background-color: #f7f7f6;
 }
+#main .side-nav li:before {
+    border: solid 5px #FAA61A;
+    content: "";
+    position: absolute;
+    height: 100%;
+}
+#main .side-nav > li.active:before {
+    border-color:#FBCD41;
+    z-index: 10;
+}
 #main .side-nav li div {
-  padding: 10px 0px 10px 10px;
-  margin-left: 10px;
+  padding: 10px 0px;
+/*  margin-left: 10px;*/
 }
 #main ul.side-nav, .side-nav ul {
   padding: 0px;
   margin: 0px;
 }
-#main .side-nav li {
-  list-style: none;
-}
-#main .side-nav li li div {
+#main .side-nav li div a {
   padding-left: 20px;
+  line-height: 1.3;
 }
-#main .side-nav li li li div {
+#main .side-nav li li div a {
   padding-left: 30px;
+
 }
-#main .side-nav li li li li div {
+#main .side-nav li li li div a {
   padding-left: 40px;
 }
-#main .side-nav li li li li li div {
+#main .side-nav li li li li div a {
   padding-left: 50px;
 }
 #main .side-nav > li > div > a {
@@ -770,9 +851,19 @@ td.fc-header-left {
 .eyebrow-fontsize>li a {
   font-size: 0.875rem;
 }
-#header .searchField {
-  height: 21px;
-  width: 100%;
+#header .searchBar input {
+    height: 21px;
+    width: 100%;
+    position: relative;;
+}
+#header .searchBar form:after {
+  font-family: "JollyFont";
+  position: absolute;
+  content: "\e66c";
+  color: rgb(0, 174, 88);
+  top: 0px;
+  right: 0%;
+  font-size: 1.3em;
 }
 #headerBar ul li.active {
   background: url('/etc/designs/girlscouts-usa-green/images/white-up-arrow.png') no-repeat 60px 0px;
@@ -781,32 +872,44 @@ td.fc-header-left {
 #header div.login {
 	margin-top: 2px;
 }
-
-#header a.signin{
-   color:#FFF;
-   font-size:0.875rem;
-   font-weight:bold;
-   margin: 0 10px;
+#header a.link-login {
+  color: #FFF;
+  font-size: 0.875rem;
+  font-weight: bold;
+  margin: 0 0 0 10px;
+  position:relative;
 }
-
+#header a.link-login:after {
+  border: solid 5px;
+  content: "";
+  border-color: transparent transparent transparent #fff;
+  position: absolute;
+  margin: -4px 0 0 5px;
+  top:50%;
+}
+#header a.link-login:hover:after {
+  border-color: transparent transparent transparent #FAA61A;
+}
+#header a.link-login:hover {
+  color: #FAA61A;
+}
 #header .vtk-login .login {
-	padding-top: 5px;
-	padding-left: 20px;
-  white-space: nowrap;
+/*	padding-top: 5px;
+	padding-left: 20px;*/
 }
 
 #header .small-search-hamburger {
 	float:right;
-	padding-right:5px;
+  font-size: 1.3rem;
+/*	padding-right:5px;*/
 }
 
-#footer div.footer-navigation{
+/*#footer div.footer-navigation {
     padding:10px 0 10px 20px;
-/* temporarily removed because it is being covered by footer links
     background: url('/etc/designs/girlscouts-usa-green/images/small-trefoil.png') no-repeat;
     background-position:center;
-*/
-}
+
+}*/
 /*#leftContent li.active ul li.active{
     background: url('/etc/designs/girlscouts-usa-green/images/small-green-arrow-right.png') no-repeat  0px 0px;
     background-position:right 9px;  
@@ -888,8 +991,10 @@ div.textimage.nowrap div.text p {
 /* added change for the search small menu */
 
 #header .topMessage.alt {
-  height: 30px;
-  margin-top: 20px
+/*  height: 30px;*/
+  margin-top: 20px;
+  padding-top:3px;
+  padding-bottom:3px;
 }
 /*#header > div.show-for-small.small-24.columns.topMessage.alt > .row.srch-box {
     line-height: 30px;
@@ -903,10 +1008,21 @@ div.textimage.nowrap div.text p {
   text-align: right;
 }
 .srch-box form {
-  margin: 5px 0 0 0;
+/*  margin: 5px 0 0 0;*/
+  margin:0;
+}
+.srch-box form:after {
+  font-family: "JollyFont";
+  position: absolute;
+  content: "\e66c";
+  color: rgb(0, 174, 88);
+  top: 0px;
+  left: 94%;
+  font-size: 1.3em;
 }
 .srch-box form input[type="text"] {
   margin: 0;
+  height: 20px
 }
 #header > .show-for-small.topMessage.alt > .srch-box > .small-2.columns {
   padding: 0;
@@ -1210,10 +1326,10 @@ div#eventListWrapper {
     margin: 0;
 }*/
 
-#smallFooterLinks li {
+/*#smallFooterLinks li {
   padding: 0.31em 0.9375em;
   font-size: 0.9em;
-}
+}*/
 ul.searchResultsList li {
   list-style-type: none;
 }
@@ -1249,7 +1365,6 @@ ul.searchResultsList article p {
     padding-right: 0 !important;
 }
 */
-
 .mainRightBottom {
   margin: 0 !important;
 }
@@ -1360,6 +1475,77 @@ form .form_captcha_img {
 form .form_captcha_input {
   height: 40px;
 }
+
+/******* Home page specific******/
+/*Adding home specific fix page**/
+/*we need to adjust the padding for the gutters*/
+.home-section .columns,
+.home-section .column {
+  padding-left: 0.38em;
+  padding-right: 0.38em;
+}
+/* icon alignemnt to the header text */
+.home-section .columns.large-1 {
+/*  margin-top: .8%;*/
+}
+.home-section.hero-banner .columns,
+.home-section.hero-banner .column {
+ padding:0;
+}
+.home-section h2 {
+  margin-top:0;
+  line-height: 1;
+  margin-bottom: 3.125%;
+}
+.styled-subparsys .home-section.feature-shortstory:nth-of-type(2) {
+  margin-top: 5.2083333%;/*50px*/
+}
+.home-section.feature-shortstory,
+.home-section.events-list,
+.home-section.news-list {
+  margin-bottom: 3.125%; /*30px*/
+}
+.home-section.feature-shortstory .column.large-23 .small-22 img {
+  margin-bottom:5%;
+}
+/*events list*/
+.home-section .lists-image img {
+   margin-bottom:2.173913%;
+}
+@media only screen {
+  .home-section .lists-image img {
+    min-width: 100%;
+  }
+}
+@media only screen and (max-width: 420px) {
+  .home-section .columns.small-2 {
+    margin-top:.8%;
+  }
+}
+.home-section .lists-image {
+  padding: 0;
+}
+/*news list*/
+.home-section .row.news-rows {
+  margin-bottom:2.173913%;
+}
+.home-section .row.news-rows img {
+  margin-bottom:2.173913%;
+  padding-right: 0.38em;
+  padding-left: 0;
+}
+
+.home-section .news-rows p:first-child {
+  margin: 0;
+}
+.home-section .news-rows p {
+  line-height: 1.2em;
+  margin-bottom: 0.2rem;
+}
+.home-section .news-rows .list-text {
+  padding-left: 0;
+}
+
 /*styles for updates list pages */
 .update-list .row {
   background-color: #fff;

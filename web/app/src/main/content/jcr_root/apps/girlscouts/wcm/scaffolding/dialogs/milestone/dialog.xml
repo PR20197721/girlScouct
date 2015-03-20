@@ -18,6 +18,16 @@
                     hideTime="{Boolean}true"
                     name="./jcr:content/date"
                     xtype="datetime"/>
+                <show
+                    jcr:primaryType="cq:Widget"
+                    name="./jcr:content/show"
+                    value="{Boolean}true"
+                    xtype="hidden"/>
+                <show-hint
+                    jcr:primaryType="cq:Widget"
+                    name="./jcr:content/show@TypeHint"
+                    value="Boolean"
+                    xtype="hidden"/>
                 <ocm-classname
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Milestone Blurb"

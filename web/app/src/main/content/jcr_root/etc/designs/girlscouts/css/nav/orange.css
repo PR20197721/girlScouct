@@ -1,0 +1,39 @@
+/***** ORANGE BORDER GREY NAV *****/
+
+#main .side-nav * {
+  color: #333333;
+  margin: 0px;
+}
+#main .side-nav > li > div > a {
+  font-weight: bold;
+}
+#main .side-nav li div {
+	margin-left:10px;
+    padding: 10px 0px 10px 10px;
+}
+#main .side-nav li div:hover {
+  background-color: #DCDCDC;
+}
+#main .side-nav li.active.current > div {
+  background-color: #B0B0B0;
+}
+#main .side-nav > li {
+  /*background: url('/etc/designs/girlscouts-usa-green/images/orange-vertical.png') repeat-y 0px 0px;*/
+  background-color: #F1F1EF;
+  list-style: none;
+  position: relative;
+}
+#main .side-nav > li:before {
+  border: solid 5px #FAA61A;
+  content: "";
+  position: absolute;
+  height: 100%;
+}
+#main .side-nav > li.active {
+  background-color: #f7f7f6;
+}
+#main .side-nav > li.active:before {
+  border-color: #FBCD41;
+  z-index: 10;
+}
+

@@ -17,19 +17,11 @@ String logoPath = currentPage.getAbsoluteParent(2).getContentResource().getPath(
 %>
 <!-- web/app/src/main/content/jcr_root/apps/girlscouts/components/page/footer.jsp -->
 <div class="hide-for-print">
-	<div id="footer" class="hide-for-small row">
-		<% setCssClasses("large-24 medium-24 small-24 columns", request); %>
-			<%
-				request.setAttribute("centerLinks", false);
-			%>
+ <!--footer menu links-->
+	<div id="footer" class="row">
 		<cq:include path="<%= footerPath + "/nav"%>" resourceType="girlscouts/components/footer-navigation"/>
 	</div>
-	<div id="mobile-nav-footer" class="show-for-small collapse">
-		<%
-			request.setAttribute("centerLinks", true);
-		%>
-		<cq:include path="<%= footerPath + "/nav"%>" resourceType="girlscouts/components/footer-navigation"/>
-	</div> 
+	<!--logo for the mobile footer-->
 	<div id="mobile-footer" class="row show-for-small">
 		<%
 			request.setAttribute("noLink", true);
@@ -37,18 +29,8 @@ String logoPath = currentPage.getAbsoluteParent(2).getContentResource().getPath(
 		<cq:include path="<%= logoPath + "/logo"%>" resourceType="girlscouts/components/logo" />
 	</div>
 </div>
+
 <cq:include script="google-analytics.jsp" />
 <cq:include script="footer-tracking.jsp" />
-<script type="text/javascript">
-	var resizeWindow = function(){
-		if(fixVerticalSizing) {
-			var currentMainHeight = $('#main').height();
-			var targetMainHeight = $(this).height() - $("#header").height() - $("#headerBar").height() - $("#footer").height() - 15;
-			if (targetMainHeight > 1.1 * currentMainHeight) {
-				$('#main').height(targetMainHeight);
-			}
-		}
-	};
-	window.onload = resizeWindow;
-	$(window).resize(resizeWindow);
-</script>
+
+<script type="text/javascript" src="/etc/designs/girlscouts/clientlibs/js/footer.js"></script>

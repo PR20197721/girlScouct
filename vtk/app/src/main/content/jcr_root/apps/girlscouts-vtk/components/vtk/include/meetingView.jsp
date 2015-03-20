@@ -171,5 +171,3 @@ function showIt(x){
        
        
 </div>
-
-<br/><br/>

@@ -1,0 +1,17 @@
+/**** WHITE HEADER *****/
+
+#header {
+    padding: 15px 0px 0px 0px;
+    color: #FFFFFF;
+}
+
+.header-wrapper
+{
+    background-color: #FFFFFF;
+}
+
+#mobile-footer {
+    background-color: #FFFFFF;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}

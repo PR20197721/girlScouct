@@ -233,19 +233,18 @@ beforeShowDay: function(d) {
 
     function validateForm(){
 
-        if($('#startdtRange').val() == "" && $('#enddtRange').val() == ""){
+
+        if($('#enddtRange').val() == "" && $('#startdtRange').val() == ""){
 			return true;
         }
 
-
-
-        if(!isDate($('#enddtRange').val())){
-			displayError("Inavlid End Date");
+		if(!isDate($('#enddtRange').val())){
+			displayError("Invalid End Date");
 			return false;
 		}
 
 		if(!isDate($('#startdtRange').val())){
-			displayError("Inavlid Start Date");
+			displayError("Invalid Start Date");
 			return false;
 		}
 		

@@ -4,8 +4,8 @@
     <images/>
     <jcr:content
         cq:doctype="html_5"
-        cq:lastModified="{Date}2014-08-12T09:37:51.332-04:00"
-        cq:lastModifiedBy="mage"
+        cq:lastModified="{Date}2014-09-16T16:13:17.078-04:00"
+        cq:lastModifiedBy="admin"
         cq:lastReplicated="{Date}2014-08-14T11:48:38.533-04:00"
         cq:lastReplicatedBy="mage"
         cq:lastReplicationAction="Activate"
@@ -15,7 +15,9 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="Girl Scouts USA North Carolina Coastal Pines"
         jcr:uuid="de872021-d9ca-412c-8d5b-26cafcf722d5"
-        sling:resourceType="wcm/core/components/designer">
+        sling:resourceType="/apps/girlscouts/wcm/components/designer"
+        headerStyle="/etc/designs/girlscouts/css/header/white.css"
+        navStyle="/etc/designs/girlscouts/css/nav/white.css">
         <homepage jcr:primaryType="nt:unstructured">
             <styled-subpar
                 jcr:lastModified="{Date}2014-04-27T22:38:05.265-04:00"

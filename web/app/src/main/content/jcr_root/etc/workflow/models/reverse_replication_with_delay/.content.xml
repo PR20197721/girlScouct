@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:mix="http://www.jcp.org/jcr/mix/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        cq:designPath="/etc/designs/default"
+        cq:lastModified="{Date}2014-12-15T21:25:00.958-05:00"
+        cq:lastModifiedBy="mzou"
+        cq:lastReplicated="{Date}2014-12-15T21:25:40.792-05:00"
+        cq:lastReplicatedBy="mzou"
+        cq:lastReplicationAction="Activate"
+        cq:template="/libs/cq/workflow/templates/model"
+        jcr:isCheckedOut="{Boolean}true"
+        jcr:mixinTypes="[mix:versionable]"
+        jcr:primaryType="cq:PageContent"
+        jcr:title="Reverse Replication With Delay"
+        jcr:uuid="9748c5ac-958f-4964-993f-c1ed0c379b65"
+        sling:resourceType="cq/workflow/components/pages/model">
+        <flow
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="foundation/components/parsys">
+            <process
+                jcr:created="{Date}2014-12-15T21:22:22.456-05:00"
+                jcr:createdBy="mzou"
+                jcr:description="Wait for 10 seconds"
+                jcr:lastModified="{Date}2014-12-15T21:25:00.955-05:00"
+                jcr:lastModifiedBy="mzou"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Wait"
+                sling:resourceType="cq/workflow/components/model/process">
+                <metaData
+                    jcr:primaryType="nt:unstructured"
+                    PROCESS="/etc/workflow/scripts/social/group/sleep.ecma"
+                    PROCESS_ARGS="10000"
+                    PROCESS_AUTO_ADVANCE="true"/>
+            </process>
+            <reversereplicateproc
+                jcr:created="{Date}2014-12-15T21:20:51.332-05:00"
+                jcr:createdBy="mzou"
+                jcr:description="A process to reverse replicate content."
+                jcr:lastModified="{Date}2014-12-15T21:20:51.332-05:00"
+                jcr:lastModifiedBy="mzou"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="Reverse Replicate Content"
+                sling:resourceType="wcm/workflow/components/workflow/reversereplicateprocess">
+                <metaData
+                    jcr:primaryType="nt:unstructured"
+                    PROCESS="com.day.cq.wcm.workflow.process.ReverseReplicateProcess"
+                    PROCESS_AUTO_ADVANCE="true"/>
+            </reversereplicateproc>
+        </flow>
+        <model/>
+    </jcr:content>
+</jcr:root>

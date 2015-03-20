@@ -6,9 +6,9 @@ package org.girlscouts.vtk;
 
 public class SimpleUnitTest {
 
-    //@Test
-    public void someTest() {
-    //    assertTrue(true);
-    }
+	// @Test
+	public void someTest() {
+		// assertTrue(true);
+	}
 
 }

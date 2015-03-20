@@ -1,0 +1,13 @@
+/***** BLACK FONT FOR HEADER *****/
+
+#header a {
+  color: #000000;
+}
+
+#header a.link-login {
+  color: #000;
+}
+
+#header a.link-login:after {
+  border-color: transparent transparent transparent #000;
+}

@@ -9,10 +9,6 @@
 
 <!-- TODO -->
 <!-- <cq:includeClientLib categories="apps.girlscouts-vtk" /> -->
-
-<script>
-	fixVerticalSizing = false;
-</script>
 <!--PAGE STRUCTURE: MAIN-->
 <div id="main">
 	<cq:include path="vtk" resourceType="girlscouts-vtk/components/vtk" />

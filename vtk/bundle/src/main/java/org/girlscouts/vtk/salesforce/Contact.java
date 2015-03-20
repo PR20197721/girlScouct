@@ -2,11 +2,8 @@ package org.girlscouts.vtk.salesforce;
 
 public class Contact {
 
-	
 	private String id, lastName, accountId, email, phone;
 
-		
-	
 	public String getPhone() {
 		return phone;
 	}
@@ -31,8 +28,6 @@ public class Contact {
 		this.id = id;
 	}
 
-	
-
 	public String getAccountId() {
 		return accountId;
 	}
@@ -49,6 +44,4 @@ public class Contact {
 		this.lastName = lastName;
 	}
 
-	
-	
 }

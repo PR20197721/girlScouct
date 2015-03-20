@@ -340,7 +340,7 @@ cTrans.put("313", "Girl Scouts of Gateway Council, Inc.");
 				else if( planId.startsWith("j"))
 					users.get(i).setSfTroopAge("3-Junior");
 			}
-			System.err.println( users.get(i).getSfTroopAge() );
+			//System.err.println( users.get(i).getSfTroopAge() );
 		  }catch(Exception e){e.printStackTrace();}
 		}
 		

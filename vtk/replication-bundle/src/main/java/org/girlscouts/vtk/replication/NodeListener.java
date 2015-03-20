@@ -3,9 +3,13 @@ package org.girlscouts.vtk.replication;
 import java.util.Collection;
 
 import javax.jcr.Session;
+import javax.jcr.observation.Event;
 import javax.jcr.observation.EventIterator;
 import javax.jcr.observation.EventListener;
 
+import org.girlscouts.vtk.replication.AgentIdRegexFilter;
+import org.girlscouts.vtk.replication.Constants;
+import org.girlscouts.vtk.replication.NodeEventCollector;
 import org.girlscouts.vtk.replication.NodeEventCollector.NodeEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,15 +35,30 @@ public class NodeListener implements EventListener {
         opts.setSuppressVersions(true);
     }
 
+   
+    
     public void onEvent(EventIterator iter) {
+    	/*
+    try{
+    	while( iter.hasNext()){
+    		Event e = (Event)iter.next();
+    		System.err.println(">> tata >> "+e.getInfo().size() +" : "+ e.getPath() +" : "+ e.getType() +" : "+ e.getUserID() );
+    	}
+    }catch(Exception e){e.printStackTrace();}
+    	*/
         Collection<NodeEvent> events = NodeEventCollector.getEvents(iter);
-        
         for (NodeEvent event : events) {
             try {
+            
                 String path = event.getPath();
+                if (path.endsWith("jcr:content")) {
+                    continue;
+                }
+              
                 int type = event.getType();
-                
+ System.err.println("tatataaa : " + type+ " : "+ path);   
                 if (type == Constants.EVENT_UPDATE) {
+                	
                     replicator.replicate(session, ReplicationActionType.ACTIVATE, path, opts);
                 } else if (type == Constants.EVENT_REMOVE){
                     replicator.replicate(session, ReplicationActionType.DELETE, path, opts);

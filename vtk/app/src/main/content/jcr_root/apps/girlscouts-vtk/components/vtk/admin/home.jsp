@@ -24,7 +24,6 @@ function rmUser(){
 <br/><br/>
 <div style="background-color:#efefef;">
 
-
 <div class="grid-system nopadding section" >
 <ul class="large-block-grid-2 medium-block-grid-2 small-block-grid-1 ">
 
@@ -72,8 +71,7 @@ Do you want to preview meeting file uploads?
 
 
 <li style="padding:25px;"><div class="text parbase nopadding section">
-<table border="0" cellpadding="0" cellspacing="0"
-style="border: none;">
+<table border="0" cellpadding="0" cellspacing="0" style="border: none;">
 <tbody><tr><td>
 
 <a href="/content/girlscouts-vtk/en/vtk.admin.milestones.html" >
@@ -89,8 +87,7 @@ style="border: none;">
 
 
 <li style="padding:25px;"><div class="text parbase nopadding section">
-<table border="0" cellpadding="0" cellspacing="0"
-style="border: none;">
+<table border="0" cellpadding="0" cellspacing="0" style="border: none;">
 <tbody><tr><td>
 <a href="/content/girlscouts-vtk/en/vtk.admin.councilRpt.html">
 <input type="submit" value="Report" />
@@ -111,8 +108,7 @@ Council Report</td>
 
 
 <li style="padding:25px;"><div class="text parbase nopadding section">
-<table border="0" cellpadding="0" cellspacing="0"
-style="border: none;">
+<table border="0" cellpadding="0" cellspacing="0" style="border: none;">
 <tbody><tr><td>
 
 <a href="/content/girlscouts-vtk/en/vtk.admin.ocm.html" >UUID</a>
@@ -126,8 +122,7 @@ style="border: none;">
 
 
 <li style="padding:25px;"><div class="text parbase nopadding section">
-<table border="0" cellpadding="0" cellspacing="0"
-style="border: none;">
+<table border="0" cellpadding="0" cellspacing="0" style="border: none;">
 <tbody><tr><td>
 
 <a href="/content/girlscouts-vtk/en/vtk.admin.troopPhoto.html" >change troop picture</a>
@@ -137,6 +132,10 @@ style="border: none;">
 </tbody></table>
 </div>
 </li>
+
+<br/>VTK v2::
+<br/><a href="/content/girlscouts-vtk/en/vtk.include.finances.html?qtr=2">Finances TAB</a>
+<br/><a href="/content/girlscouts-vtk/en/vtk.admin.troopPhoto.html" >change troop picture</a>
 
 <hr/>Use this within rec <a href="/content/girlscouts-vtk/en/vtk.controller.html?resetCal=true">RESET CAL</a>
 

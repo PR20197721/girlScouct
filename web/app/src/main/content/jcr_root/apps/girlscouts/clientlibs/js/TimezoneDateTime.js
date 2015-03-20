@@ -114,42 +114,9 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
         // call parent initComponent
         girlscouts.components.TimezoneDateTime.superclass.initComponent.call(this);
         
-        // Setup timezone 
-        if (!this.timezone) {
-        	this.timezone = this.defaultTimezone;
-        } else if (typeof this.timezone === 'function') {
-        	try {
-        		this.timezone = eval('(' + this.timezone + ')();');
-        	} catch (e) {
-        		this.timezone = this.defaultTimezone;
-        	}
-        } else if (this.timezone === 'dynamic') {
-        	var url = window.location.pathname;
-        	var path = CQ.shared.HTTP.getPath(url);
-        	
-        	// New event from scaffolding page
-        	var regexScaffolding = /\/etc\/scaffolding\/[^/]+\/event/; //e.g. /etc/scaffolding/gsnetx/event
-        	if (regexScaffolding.test(path)) {
-        		var targetPathProperty = regexScaffolding.exec(path) + '/jcr:content/cq:targetPath';
-        		var response = CQ.shared.HTTP.get(targetPathProperty);
-        		if (response.status == 200) {
-        			path = response.body;
-        		}
-        	}
-        	
-        	var regex = /^\/content\/[^/]+\/[^/]+/; // e.g. /content/girlscouts-prototype/en
-        	if (regex.test(path)) {
-        		var timezoneProperty = regex.exec(path) + '/jcr:content/timezone';
-        		var response = CQ.shared.HTTP.get(timezoneProperty);
-        		if (response.status == 200) {
-        			this.timezone = response.body;
-        		} else {
-        			this.timezone = this.defaultTimezone;
-        		}
-        	} else {
-        		this.timezone = this.defaultTimezone;
-        	}
-        }
+        var timezones = girlscouts.functions.getTimezones();
+        // Choose the default time zone
+        this.timezone = timezones[0].timezone;
         
         // create DateField
         var dateConfig = CQ.Ext.apply({}, {
@@ -731,7 +698,15 @@ girlscouts.components.TimezoneDateTime = CQ.Ext.extend(CQ.Ext.form.Field, {
         return function(val) {
             return CQ.Ext.util.Format.date(val, format);
         };
+    },
+    
+    setTimezone: function(timezone) {
+    	this.timezone = timezone;
+    	this.lf.setText(timezone);
+    	this.updateHidden();
     }
+    
+    
 });
 
 // register xtype

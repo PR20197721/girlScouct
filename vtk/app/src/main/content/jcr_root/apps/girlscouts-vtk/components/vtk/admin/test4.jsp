@@ -24,8 +24,7 @@ java.util.Map,java.util.HashMap,java.util.List" %>
 
 try{
 	//org.girlscouts.vtk.auth.models.User x= 
-	String t= new org.girlscouts.vtk.auth.dao.SalesforceDAO(userDAO).getcaca3( troop.getApiConfig() , request.getParameter("xx44") ) ;
-	out.println(t);
+	
 }catch(Exception e){e.printStackTrace();}
 %>
 done 

@@ -26,7 +26,48 @@
 %><%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 <%
+    String gridStyle = "";
+	String itemStyle = "";
 	String cssClasses = properties.get("cssClasses", "");
+	String rawGridStyle = properties.get("gridStyle", "");
+	rawGridStyle = rawGridStyle.trim();
+	String rawItemStyle = properties.get("itemStyle", "");
+	rawItemStyle = rawItemStyle.trim();
+
+	if(!rawGridStyle.isEmpty()){
+		String[] gridTags = rawGridStyle.split(" ");
+        boolean first = true;
+        for(String styleItem : gridTags){
+            if(!styleItem.isEmpty()){
+                if(first){
+                    gridStyle = gridStyle + styleItem;
+                    first = false;
+                } else{
+    
+                    gridStyle = gridStyle + "; " + styleItem;
+                }
+            }
+        }
+	}
+
+	if(!rawItemStyle.isEmpty()){
+		String[] itemTags = rawItemStyle.split(" ");
+        boolean first = true;
+        for(String styleItem : itemTags){
+            if(!styleItem.isEmpty()){
+                if(first){
+                    itemStyle = itemStyle + styleItem;
+                    first = false;
+                } else{
+    
+                    itemStyle = itemStyle + "; " + styleItem;
+                }
+            }
+        }
+	}
+
+
+
 	String largeBlocks = properties.get("largeBlocks", "4");
 	if (!largeBlocks.isEmpty()) {
 		largeBlocks = "large-block-grid-" + largeBlocks + " ";
@@ -44,13 +85,21 @@
     ParagraphSystem parSys = ParagraphSystem.create(resource, slingRequest);
     String newType = resource.getResourceType() + "/new";
     
-    %><ul class="<%=largeBlocks%><%=mediumBlocks%><%=smallBlocks%>"><% 
+    %>
+<style>
+	
+</style>
+
+<ul style= "<%= gridStyle%>" class="<%=largeBlocks%><%=mediumBlocks%><%=smallBlocks%>"><% 
     
     boolean hasColumns = false;
+	int count = 0;
+
     for (Paragraph par: parSys.paragraphs()) {
         if (editContext != null) {
             editContext.setAttribute("currentResource", par);
         }
+
         switch (par.getType()) {
             case START:
                 if (hasColumns) {
@@ -64,7 +113,7 @@
                     addedClasses.add("colctrl-start");
                     IncludeOptions.getOptions(request, true).getCssClassNames().addAll(addedClasses);
                     setCssClasses(cssClasses, request);
-                    %><li><sling:include resource="<%= par %>"/></li><%
+                    %><li style="<%= itemStyle %>"><sling:include resource="<%= par %>"/></li><%
                 }
                 // open outer div
                 %><div class="parsys_column <%= par.getBaseCssClass()%>"><%
@@ -77,7 +126,7 @@
                     // draw 'new' bar
                     IncludeOptions.getOptions(request, true).getCssClassNames().add("section");
                     setCssClasses(cssClasses, request);
-                    %><li><sling:include resource="<%= par %>" resourceType="<%= newType %>"/></li><%
+                    %><li style="<%= itemStyle %>"><sling:include resource="<%= par %>" resourceType="<%= newType %>"/></li><%
                 }
                 // open next column div
                 %></div><div class="parsys_column <%= par.getCssClass() %>"><%
@@ -87,7 +136,7 @@
                     // draw new bar
                     IncludeOptions.getOptions(request, true).getCssClassNames().add("section");
                     setCssClasses(cssClasses, request);
-                    %><li><sling:include resource="<%= par %>" resourceType="<%= newType %>"/></li><%
+                    %><li style="<%= itemStyle %>"><sling:include resource="<%= par %>" resourceType="<%= newType %>"/></li><%
                 }
                 if (hasColumns) {
                     // close divs and clear floating
@@ -98,7 +147,7 @@
                     // draw 'end' bar
                     IncludeOptions.getOptions(request, true).getCssClassNames().add("section");
                     setCssClasses(cssClasses, request);
-                    %><li><sling:include resource="<%= par %>"/></li><%
+                    %><li style="<%= itemStyle %>"><sling:include resource="<%= par %>"/></li><%
                 }
                 break;
             case NORMAL:
@@ -114,9 +163,12 @@
                     %><a name="<%= anchorID %>" style="visibility:hidden"></a><%
                 }
                 setCssClasses(cssClasses, request);
-                %><li><sling:include resource="<%= par %>"/></li><%
+
+            %><li style="<%= itemStyle %>"><sling:include resource="<%= par %>"/></li><%
+
                 break;
         }
+
     }
     if (hasColumns) {
         // close divs in case END missing. and clear floating
@@ -133,3 +185,4 @@
     }
 %>
 </ul>
+

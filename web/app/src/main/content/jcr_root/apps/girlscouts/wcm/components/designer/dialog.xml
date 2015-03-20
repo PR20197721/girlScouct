@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    xtype="dialog">
+    <items
+        jcr:primaryType="cq:Widget"
+        xtype="tabpanel">
+        <items jcr:primaryType="cq:WidgetCollection">
+            <tab1
+                jcr:primaryType="cq:Panel"
+                title="Design Choices">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <header
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldLabel="Header Style"
+                        name="./headerStyle"
+                        type="select"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <green
+                                jcr:primaryType="nt:unstructured"
+                                text="Green"
+                                value="/etc/designs/girlscouts/css/header/green.css"/>
+                            <white
+                                jcr:primaryType="nt:unstructured"
+                                text="White"
+                                value="/etc/designs/girlscouts/css/header/white.css"/>
+                        </options>
+                    </header>
+                    <headerfont
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldLabel="Header Font Style"
+                        name="./headerFontStyle"
+                        type="select"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <black
+                                jcr:primaryType="nt:unstructured"
+                                text="Black"
+                                value="/etc/designs/girlscouts/css/headerfont/black.css"/>
+                            <white
+                                jcr:primaryType="nt:unstructured"
+                                text="White"
+                                value="/etc/designs/girlscouts/css/headerfont/white.css"/>
+                            <green
+                                jcr:primaryType="nt:unstructured"
+                                text="Green"
+                                value="/etc/designs/girlscouts/css/headerfont/green.css"/>
+                        </options>
+                    </headerfont>
+                    <nav
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldLabel="Navigation Style"
+                        name="./navStyle"
+                        type="select"
+                        xtype="selection">
+                        <options jcr:primaryType="cq:WidgetCollection">
+                            <orange
+                                jcr:primaryType="nt:unstructured"
+                                text="Orange"
+                                value="/etc/designs/girlscouts/css/nav/orange.css"/>
+                            <grey
+                                jcr:primaryType="nt:unstructured"
+                                text="Grey"
+                                value="/etc/designs/girlscouts/css/nav/grey.css"/>
+                            <green
+                                jcr:primaryType="nt:unstructured"
+                                text="Green"
+                                value="/etc/designs/girlscouts/css/nav/green.css"/>
+                        </options>
+                    </nav>
+                    <council
+                        jcr:primaryType="cq:Widget"
+                        allowBlank="{Boolean}false"
+                        fieldLabel="Council Style"
+                        name="./councilStyle"
+                        rootPath="/etc/designs"
+                        xtype="pathfield"/>
+                </items>
+            </tab1>
+        </items>
+    </items>
+</jcr:root>

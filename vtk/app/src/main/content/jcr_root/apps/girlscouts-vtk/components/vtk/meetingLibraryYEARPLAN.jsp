@@ -20,7 +20,7 @@
         String ageLevel=  troop.getTroop().getGradeLevel();
 	ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1).toLowerCase().trim();
 
-        java.util.Iterator<YearPlan> yearPlans =  yearPlanUtil.getAllYearPlans(ageLevel).listIterator();
+        java.util.Iterator<YearPlan> yearPlans =  yearPlanUtil.getAllYearPlans(user, ageLevel).listIterator();
 	List<YearPlan> yearPlanList = new ArrayList<YearPlan>();
         while (yearPlans.hasNext()) {
 		yearPlanList.add(yearPlans.next());
@@ -124,7 +124,7 @@
 </div>
 <script>
 function cngMeeting(mPath){
-	$( "#cngMeet" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?<%=meetingPath ==null ? "addMeeting" : "cngMeeting"%>=true&fromPath=<%=meetingPath%>&toPath="+mPath,function( html ) {
+	$( "#cngMeet" ).load( "/content/girlscouts-vtk/controllers/vtk.controller.html?<%=meetingPath ==null ? "act=AddMeeting&addMeeting" : "act=SwapMeetings&cngMeeting"%>=true&fromPath=<%=meetingPath%>&toPath="+mPath,function( html ) {
 <%
 	if( request.getParameter("xx") ==null ){
 %>

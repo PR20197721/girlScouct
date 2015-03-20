@@ -118,7 +118,7 @@ ul.tabs {
 #newLocationCal {
   background-color: #fff;
   padding: 2em;
-  border: 2px solid grey;
+  border: 2px solid gray;
 }
 #newLocationModal {
   background-color: #fff;
@@ -220,10 +220,11 @@ table.planSquareWrapper td {
   padding: 5px;
   width: 100%;
   border-top: 0;
-  border-bottom: 1px solid grey;
+  border-bottom: 1px solid gray;
   border-left: 0;
   border-right: 0;
   background: #ffffff;
+  cursor: pointer;
 }
 #yearPlanMeetings li a {
   font-weight: bold;
@@ -236,7 +237,7 @@ table.planSquareWrapper td {
 }
 #yearPlanMeetings li.activity.ui-state-disabled {
   opacity: 1.00;
-  border-bottom: 1px solid grey;
+  border-bottom: 1px solid gray;
   background: #ffffff;
 }
 #yearPlanMeetings .planMain {
@@ -358,7 +359,7 @@ li.milestone .listBody {} #troop {
 #newMeetingAgenda {
   background-color: #ffffff;
   padding: 10px;
-  border: 1px solid grey;
+  border: 1px solid gray;
 }
 a.direction {
   font-size: 4em;

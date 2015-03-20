@@ -11,5 +11,5 @@ public class CampaignMember {
 	public void setId(String id) {
 		this.id = id;
 	}
-	
+
 }

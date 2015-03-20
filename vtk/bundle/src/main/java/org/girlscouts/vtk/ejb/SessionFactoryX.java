@@ -9,34 +9,33 @@ import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.jcr.api.SlingRepository;
 
 @Component
-@Service(value=SessionFactoryX.class)
-public class SessionFactoryX  extends BasePoolableObjectFactory {
-	
-	//@Reference
-    private SlingRepository repository;
-		
-    		public SessionFactoryX(){}
-			public SessionFactoryX(SlingRepository repository){ this.repository = repository;}
-	
-	        public Session makeObject() throws Exception {
-	        	System.err.println( "REpository: " +( repository==null) ); 
-	            return  repository.loginAdministrative(null);
-	        }
+@Service(value = SessionFactoryX.class)
+public class SessionFactoryX extends BasePoolableObjectFactory {
 
-	       
-	        public void destroyObject(Session obj) throws Exception {
-	        	System.err.println("Destroying session...");
-	        	if( obj!=null)
-	        		obj.logout();
-	            obj =null;
-	            
-	        }
-	        
-	        
-	        @Activate
-	        void activate() {
-	            System.err.println("Activating session factory");
-	        }
-	      
-	    }
+	// @Reference
+	private SlingRepository repository;
 
+	public SessionFactoryX() {
+	}
+
+	public SessionFactoryX(SlingRepository repository) {
+		this.repository = repository;
+	}
+
+	public Session makeObject() throws Exception {
+		return repository.loginAdministrative(null);
+	}
+
+	public void destroyObject(Session obj) throws Exception {
+		if (obj != null)
+			obj.logout();
+		obj = null;
+
+	}
+
+	@Activate
+	void activate() {
+
+	}
+
+}

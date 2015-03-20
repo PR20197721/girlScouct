@@ -9,6 +9,7 @@
 <%@include file="/libs/foundation/global.jsp"%>
 <%@page session="false" %>
 <cq:defineObjects/>
+
 <%
 final int DEFAULT_AD_COUNT = 2;
 final String AD_ATTR = "apps.girlscouts.components.ad-list-page.currentAd";
@@ -26,6 +27,7 @@ if (selectors.length != 0) {
 
 Iterator<Page> iter = currentPage.listChildren();
 Boolean oddAdCount = false;
+int renderCount = 0;
 while(iter.hasNext() && adCount > 0) {
 	if (adCount%2 == 1){
 		oddAdCount = true;
@@ -48,5 +50,11 @@ while(iter.hasNext() && adCount > 0) {
 </div>
 
 <%
+    renderCount ++;
 }
+
+if(renderCount == 0){
+    %><h2>No Ads Available To Render</h2> <%
+}
+
 %>

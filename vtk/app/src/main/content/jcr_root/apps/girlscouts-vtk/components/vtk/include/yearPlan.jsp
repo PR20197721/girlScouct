@@ -18,7 +18,7 @@
 			{confMsg ="Are You Sure? This will modify plans on /after [date]. Any customization for meeting(s) will be lost.";confMsg+=isDtMeetings(troop.getYearPlan().getSchedule(), 0); }
 	}
 	
-	java.util.Iterator <YearPlan>yearPlans =yearPlanUtil.getAllYearPlans( request.getParameter("ageLevel")).listIterator();
+	java.util.Iterator <YearPlan>yearPlans =yearPlanUtil.getAllYearPlans(user, request.getParameter("ageLevel")).listIterator();
 
 	while(yearPlans.hasNext()){
 		YearPlan yearPlan = yearPlans.next();

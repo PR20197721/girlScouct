@@ -148,7 +148,7 @@
 				} else {
 					var tens = Math.pow(10, <%=accuracy%>);
 					result = Math.round(result*tens)/tens;
-					$('form#<%=formId%> input[name="<%=thisField%>"]').val(result);
+					$('form#<%=formId%> input[name="<%=thisField%>"]').val(result.toFixed(<%=accuracy%>));
 				}
 			}
 

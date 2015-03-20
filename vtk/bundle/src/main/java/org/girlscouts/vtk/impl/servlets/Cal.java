@@ -1,7 +1,5 @@
 package org.girlscouts.vtk.impl.servlets;
 
-
-
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -36,8 +34,6 @@ import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
 import javax.servlet.http.*;
 
-
-
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -68,64 +64,56 @@ import org.girlscouts.vtk.ejb.YearPlanUtil;
 
 import com.day.cq.commons.jcr.JcrUtil;
 
-
 /*
-@SlingServlet(
-   resourceTypes = "sling/servlet/default",
-   selectors = "hello",
-   extensions = "js",
-   methods = "GET"
-)
-*/
+ @SlingServlet(
+ resourceTypes = "sling/servlet/default",
+ selectors = "hello",
+ extensions = "js",
+ methods = "GET"
+ )
+ */
 
-@Component(
-		    label="vtk upload tet",
-		    description="vtk upload test",
-		    metatype=true, 
-		    immediate=true
-		)
-		@Service
-		@Properties ({
-		    @Property(propertyPrivate=true, name = "sling.servlet.resourceTypes", value = "sling/servlet/default"),
-		    @Property(propertyPrivate=true, name = "sling.servlet.extensions", value = "ics"),
-		    @Property(propertyPrivate=true, name = "sling.servlet.methods", value = "GET")
-		})
+@Component(label = "vtk upload tet", description = "vtk upload test", metatype = true, immediate = true)
+@Service
+@Properties({
+		@Property(propertyPrivate = true, name = "sling.servlet.resourceTypes", value = "sling/servlet/default"),
+		@Property(propertyPrivate = true, name = "sling.servlet.extensions", value = "ics"),
+		@Property(propertyPrivate = true, name = "sling.servlet.methods", value = "GET") })
+public class Cal extends SlingSafeMethodsServlet {
 
-
-		public class Cal extends SlingSafeMethodsServlet {
-
-	 
-		 
 	@Reference
-	private ResourceResolverFactory resolverFactory; 
-	 
-		 @Reference
-		 YearPlanUtil yearPlanUtil;
-		
-	 @Override
-     protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) throws ServerException, IOException {
-	 
-		 //System.err.println("Hello ics.get..");
-		 response.setHeader ("Content-Disposition", "attachment;filename=\"mycalendar.ics\"");
-		 response.setContentType("text/calendar");
+	private ResourceResolverFactory resolverFactory;
 
-		 
-		 // MeetingDAO meetingDAO = resourceResolver.adaptTo(MeetingDAO.class);
-		 User user =  ((org.girlscouts.vtk.models.User) request.getSession()
-					.getAttribute(org.girlscouts.vtk.models.User.class
-							.getName()));
-		 
-		  Troop troop= (Troop) request.getSession().getValue("VTK_troop");
-		  
-		 // System.err.println("Chk: "+ (meetingDAO==null)  +" : "+ (user==null) );
-		  
-		 //MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
-		 try {
-			net.fortuna.ical4j.model.Calendar calendar = yearPlanUtil.yearPlanCal(user, troop );
-			
-			//java.io.FileOutputStream fout = new java.io.FileOutputStream("mycalendar.ics");
+	@Reference
+	YearPlanUtil yearPlanUtil;
+
+	@Override
+	protected void doGet(SlingHttpServletRequest request,
+			SlingHttpServletResponse response) throws ServerException,
+			IOException {
+
+		// MeetingDAO meetingDAO = resourceResolver.adaptTo(MeetingDAO.class);
+				User user = ((org.girlscouts.vtk.models.User) request.getSession()
+						.getAttribute(org.girlscouts.vtk.models.User.class.getName()));
+
+				Troop troop = (Troop) request.getSession().getValue("VTK_troop");
+				
+				
+		response.setHeader("Content-Disposition",
+				"attachment;filename=\""+ troop.getYearPlan().getName()+".ics\"");
+		response.setContentType("text/calendar");
+
+		
+
+		// MeetingDAO meetingDAO = sling.getService(MeetingDAO.class);
+		try {
+			net.fortuna.ical4j.model.Calendar calendar = yearPlanUtil
+					.yearPlanCal(user, troop);
+
+			// java.io.FileOutputStream fout = new
+			// java.io.FileOutputStream("mycalendar.ics");
 			ServletOutputStream fout = response.getOutputStream();
-			
+
 			net.fortuna.ical4j.data.CalendarOutputter outputter = new net.fortuna.ical4j.data.CalendarOutputter();
 			outputter.output(calendar, fout);
 			fout.flush();
@@ -133,15 +121,7 @@ import com.day.cq.commons.jcr.JcrUtil;
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 
-		 
-
-
-		 
-	 }
-		    
 	}
-		 
-	
 
+}

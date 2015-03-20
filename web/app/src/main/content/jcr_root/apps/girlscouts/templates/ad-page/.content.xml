@@ -3,7 +3,7 @@
     jcr:description="A piece of advertisement that will display on a page, usually on the right column. Please use scaffolding to generate an Ad."
     jcr:primaryType="cq:Template"
     jcr:title="Advertisement"
-    allowedPaths="[/content(/.*)?]"
+    allowedPaths="[]"
     ranking="{Long}50">
     <jcr:content
         jcr:primaryType="cq:PageContent"

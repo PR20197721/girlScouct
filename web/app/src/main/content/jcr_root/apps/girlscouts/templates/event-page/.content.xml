@@ -3,7 +3,7 @@
     jcr:description="Please use scaffolding to generate an event."
     jcr:primaryType="cq:Template"
     jcr:title="Event"
-    allowedPaths="[/content(/.*)?]"
+    allowedPaths="[]"
     ranking="{Long}40">
     <jcr:content
         jcr:primaryType="cq:PageContent"

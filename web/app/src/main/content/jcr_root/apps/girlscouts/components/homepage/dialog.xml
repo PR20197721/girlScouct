@@ -124,44 +124,18 @@
                         </hide-vtk-button>
                         <locale
                             jcr:primaryType="cq:Widget"
-                            defaultValue="America/New_York"
-                            fieldLabel="Locale"
-                            imageLabel="Image"
-                            name="./locale"
-                            type="select"
-                            value="America/New_York"
-                            xtype="selection">
-                            <options jcr:primaryType="cq:WidgetCollection">
-                                <newyork
-                                    jcr:primaryType="nt:unstructured"
-                                    text="America/New_York"
-                                    value="America/New_York"/>
-                                <chicago
-                                    jcr:primaryType="nt:unstructured"
-                                    text="America/Chicago"
-                                    value="America/Chicago"/>
-                                <losangeles
-                                    jcr:primaryType="nt:unstructured"
-                                    text="America/Los_Angeles"
-                                    value="America/Los_Angeles"/>
-                                <phoenix
-                                    jcr:primaryType="nt:unstructured"
-                                    text="America/Phoenix"
-                                    value="America/Phoenix"/>
-                                <denver
-                                    jcr:primaryType="nt:unstructured"
-                                    text="America/Denver"
-                                    value="America/Denver"/>
-                                <alaska
-                                    jcr:primaryType="nt:unstructured"
-                                    text="US/Alaska"
-                                    value="US/Alaska"/>
-                                <hawaii
-                                    jcr:primaryType="nt:unstructured"
-                                    text="US/Hawaii"
-                                    value="US/Hawaii"/>
-                            </options>
-                        </locale>
+                            defaultValue="US/Eastern"
+                            fieldDescription="The time zone that the council is in. If there are multiple time zones, use this format: time_zone:label, separated by commas. e.g. US/Eastern:EST,US/Central:CST. The label will be appended when displaying time in events. Available time zones:&lt;br/>US/Eastern&lt;br/>US/Central&lt;br/>US/Mountain&lt;br/>US/Pacific&lt;br/>US/Hawaii&lt;br/>US/Alaska&lt;br/>US/Aleutian&lt;br/>US/Arizona&lt;br/>US/East-Indiana&lt;br/>US/Indiana-Starke&lt;br/>US/Michigan&lt;br/>US/Pacific-New&lt;br/>US/Samoa"
+                            fieldLabel="Time Zone"
+                            name="./timezone"
+                            value="US/Eastern"
+                            xtype="textfield"/>
+                        <header-image-path
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Header Image Path"
+                            name="./headerImagePath"
+                            rootPath="/content/dam"
+                            xtype="pathfield"/>
                     </items>
                 </girl-scouts>
             </items>

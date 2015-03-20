@@ -1,0 +1,20 @@
+To: ${initiator.email}
+
+Dear Council,
+<br>
+A page on template site ${preview.prefix}${payload.path}.html has been approved and published to
+<br>
+<br>
+${publish.prefix}${payload.path}.html
+<br>
+<br>
+Comments:
+<br>
+${comment}
+<br>
+
+<br>
+${payload.path}
+<br>
+${payload.type}
+

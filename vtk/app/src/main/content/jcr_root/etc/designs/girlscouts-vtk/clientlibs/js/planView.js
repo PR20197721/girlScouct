@@ -11,6 +11,7 @@ function rmCustActivity12(x){
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand=' + Date.now(),
 		type: 'POST',
 		data: { 
+			act:'RemoveCustomActivity',
 			rmCustActivity:x,
 			a:Date.now()
 		},
@@ -55,10 +56,33 @@ function createCustAgendaItem1(mid, time, mPath){
 	var createCustAgendaTxt = document.getElementById("newCustAgendaTxt").value;
 	var urlPath =mPath +"&duration="+newCustAgendaDuration+"&name="+ newCustAgendaName+"&startTime="+time+"&txt="+createCustAgendaTxt ;
 	$.ajax({
-		url: "/content/girlscouts-vtk/controllers/vtk.controller.html?newCustAgendaName="+urlPath,
+		url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=CreateCustomAgenda&newCustAgendaName="+urlPath,
 		cache: false
 	}).done(function( html ) {
 		document.location="/content/girlscouts-vtk/en/vtk.planView.html?elem="+mid;
+	});
+}
+
+//no reload
+function createCustAgendaItem2(mid, time, mPath){
+	
+
+	
+	var newCustAgendaName = document.getElementById("newCustAgendaName").value;
+	if( $.trim(newCustAgendaName)==''){alert("Please fill agenda name"); return false;}
+	var newCustAgendaDuration= document.getElementById("newCustAgendaDuration").value;
+	
+	if( newCustAgendaDuration<1){alert('Invalid Duration');return false;}
+	var createCustAgendaTxt = document.getElementById("newCustAgendaTxt").value;
+	var urlPath =mPath +"&duration="+newCustAgendaDuration+"&name="+ newCustAgendaName+"&startTime="+time+"&txt="+createCustAgendaTxt ;
+	
+	$.ajax({
+		url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=CreateCustomAgenda&newCustAgendaName="+urlPath,
+		cache: false
+	}).done(function( html ) {
+		//document.location="/content/girlscouts-vtk/en/vtk.planView.html?elem="+mid;
+		//-location.reload("true");
+		$('#modal_popup').foundation('reveal', 'close');
 	});
 }
 
@@ -75,14 +99,15 @@ function getNewActivitySetup() {
 	return toRet.substring(0, toRet.length-1);
 }
 
-function repositionActivity(meetingPath){
-	var newVals = getNewActivitySetup();
+function repositionActivity(meetingPath,newVals ){
+	//-var newVals = getNewActivitySetup();
+console.log(1);	
 	var x =$.ajax({ // ajax call starts
-		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?mid='+meetingPath+'&isActivityCngAjax='+ newVals, // JQuery loads serverside.php
+		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=RearrangeActivity&mid='+meetingPath+'&isActivityCngAjax='+ newVals, // JQuery loads serverside.php
 		data: '', // Send value of the clicked button
 		dataType: 'html', // Choosing a JSON datatype
 		success: function (data) { 
-			location.reload();
+			//-location.reload();
 		},
 		error: function (data) { 
 		}
@@ -100,29 +125,33 @@ function editAgenda(x){
 }
 
 function rmAgenda(id, mid){
-	
+
 	var isRm = confirm("Remove Agenda?");
 	if( !isRm ) return false;
 	
+	
 	var x =$.ajax({ // ajax call starts
-		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rmAgenda='+id+'&mid='+mid, // JQuery loads serverside.php
+		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=RemoveAgenda&rmAgenda='+id+'&mid='+mid, // JQuery loads serverside.php
 		data: '', // Send value of the clicked button
 		dataType: 'html', // Choosing a JSON datatype
 		success: function (data) { 
+			
 			location.reload();
 		},
 		error: function (data) { 
+			
 		}
 	});
+	
 }
 
 function durEditActiv(duration, activPath, meetingPath){
 	var x =$.ajax({ // ajax call starts
-		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?editAgendaDuration='+duration+'&aid='+activPath+'&mid='+meetingPath, // JQuery loads serverside.php
+		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=EditAgendaDuration&editAgendaDuration='+duration+'&aid='+activPath+'&mid='+meetingPath, // JQuery loads serverside.php
 		data: '', // Send value of the clicked button
 		dataType: 'html', // Choosing a JSON datatype
 		success: function (data) { 
-			//location.reload();
+			location.reload();
 		},
 		error: function (data) { 
 
@@ -131,8 +160,10 @@ function durEditActiv(duration, activPath, meetingPath){
 }
 
 function revertAgenda(mid) {
+	console.log("MID: "+mid); 
+	
 	var x =$.ajax({ // ajax call starts
-		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?revertAgenda=true&mid='+ mid, // JQuery loads serverside.php
+		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=RevertAgenda&revertAgenda=true&mid='+ mid, // JQuery loads serverside.php
 		data: '', // Send value of the clicked button
 		dataType: 'html', // Choosing a JSON datatype
 		success: function (data) { 
@@ -144,48 +175,14 @@ function revertAgenda(mid) {
 	});
 }
 
-function previewMeetingReminderEmail(mid){
-	
-	
-	
-	var email_to_gp = document.getElementById("email_to_gp").value;
-	var email_to_sf = document.getElementById("email_to_sf").value;
-	var email_to_tv = document.getElementById("email_to_tv").value;
+function previewMeetingReminderEmail(mid,template){
+	var email_to_gp = document.getElementById("email_to_gp").checked;
+	//var email_to_sf = document.getElementById("email_to_sf").checked;
+	var email_to_tv = document.getElementById("email_to_tv").checked;
 	var email_cc = document.getElementById("email_to_cc").value;
 	var email_subj = document.getElementById("email_subj").value;
-	var email_htm = document.getElementById("email_htm").value; 
-	
-	$.ajax({
-		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
-		type: 'POST',
-		data: { 
-			previewMeetingReminderEmail: true,
-			mid: mid,
-			email_to_gp :email_to_gp,
-			email_to_sf:email_to_sf,
-			email_to_tv:email_to_tv,
-			email_cc:email_cc,
-			email_subj:email_subj,
-			mid:mid,
-			email_htm: email_htm
-		},
-		success: function(result) {
-			//console.log(result);
-			document.location="/content/girlscouts-vtk/en/vtk.include.email.meetingReminder_preview.html";
-		}
-	});
-	return;
-}
+	var email_htm = document.getElementById("email_htm").value;
 
-function addAidToEmail(aidUrl, mid){
-	
-	var email_to_gp = document.getElementById("email_to_gp").value;
-	var email_to_sf = document.getElementById("email_to_sf").value;
-	var email_to_tv = document.getElementById("email_to_tv").value;
-	var email_cc = document.getElementById("email_to_cc").value;
-	var email_subj = document.getElementById("email_subj").value;
-	var email_htm = document.getElementById("email_htm").value; 
-	
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
 		type: 'POST',
@@ -193,22 +190,19 @@ function addAidToEmail(aidUrl, mid){
 			previewMeetingReminderEmail: true,
 			mid: mid,
 			email_to_gp :email_to_gp,
-			email_to_sf:email_to_sf,
+			//email_to_sf:email_to_sf,
 			email_to_tv:email_to_tv,
 			email_cc:email_cc,
 			email_subj:email_subj,
 			mid:mid,
-			addAid:aidUrl,
-			email_htm: email_htm
+			email_htm: email_htm,
+			template:template
 		},
 		success: function(result) {
-			//console.log(result);
-			location.reload();
-			//document.location="/content/girlscouts-vtk/en/vtk.include.email.meetingReminder_preview.html";
+			sendMeetingReminderEmail();
 		}
 	});
 	return;
-	
 }
 
 function sendMeetingReminderEmail(){
@@ -217,12 +211,16 @@ function sendMeetingReminderEmail(){
 		type: 'POST',
 		data: { 
 			sendMeetingReminderEmail: true,
-			
 		},
 		success: function(result) {
-			
-			document.location="/content/girlscouts-vtk/en/vtk.html";
-			
+			location.reload('true');
+		    $('.ui-dialog-titlebar').css('display', 'none');
+			$('#after-sent').dialog('open');
+			$('.ui-dialog').css('z-index', 300);
+		    setTimeout(function() {
+		    	$('#added').dialog('close');
+		    }, 10000);
+
 		}
 	});
 	return;
@@ -248,4 +246,63 @@ function openClose1(div1, div2){
 		document.getElementById(div1).style.display='none';
 		document.getElementById(div2).style.display='none';	
 	}
+}
+
+function updateAttendAchvm(mid){
+	
+	var attend = getCheckedCheckboxesFor('attendance');
+	var achn = getCheckedCheckboxesFor('achievement');
+	//var UpdAttendance= document.getElementById('UpdAttendance');
+	//var mid= document.getElementById('mid');
+	console.log( "attend: "+ attend);
+	console.log( "achv: "+ achn);
+	$.ajax({
+		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
+		type: 'POST',
+		data: { 
+			act:'UpdAttendance',
+			mid:mid,
+			attendance:attend,
+			achievement:achn
+		},
+		success: function(result) {
+			console.log("closing...");
+			
+			$('#modal_popup').foundation('reveal', 'close');
+			location.reload();
+		}
+	});
+	return;
+	
+}
+
+function getCheckedCheckboxesFor(checkboxName) {
+	var t="";
+    var checkboxes = document.querySelectorAll('input[name="' + checkboxName + '"]:checked'), values = [];
+    Array.prototype.forEach.call(checkboxes, function(el) {
+        //values.push(el.value);
+    	t+= el.value +",";
+    });
+    return t;//values;
+}
+
+
+function getEventImg( eventPath){
+
+    $.ajax({
+        cache: false,
+        url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand=' + Date.now(),
+        type: 'POST',
+        data: { 
+            'getEventImg':'EventImg',
+            path: eventPath,
+            a:Date.now()
+        },
+        success: function(result) {
+           
+           document.getElementById("activ_img").innerHTML = $.trim(result);
+           return result;
+        }
+    });
+    return '';
 }

@@ -1,9 +1,8 @@
 
 
+ 
 
-
-
-
+<%= meeting.getPath()%>
 <!-- apps/girlscouts-vtk/components/vtk/include/viewYearPlanMeeting.jsp -->
 <br/>
 <div class="row meetingDetailHeader">
@@ -72,7 +71,7 @@
 	}
 	if (loc != null) {
 %>
-			<p>Location: <%=loc.getName() %> - <a href="/content/girlscouts-vtk/controllers/vtk.map.html?address=<%= loc.getAddress()%>" target="_blank"><%=loc.getAddress() %></a></p>
+			<p>Location:<%=loc.getName() %> - <a href="/content/girlscouts-vtk/controllers/vtk.map.html?address=<%= loc.getAddress()%>" target="_blank"><%=loc.getAddress() %></a></p>
 <%
 	} else {
 %>
@@ -88,7 +87,7 @@
 	</div>
         <div class="small-24 medium-6 large-5 columns linkButtonWrapper">
         
-       <%  if( hasPermission(troop, Permission.PERMISSION_REPLACE_MEETING_ID) ){ %>
+       <%  if( hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID) ){ %>
 			<a href="#" class="mLocked button linkButton" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=meeting.getPath()%>&xx=<%=searchDate.getTime()%>', false, null, true)">replace this meeting</a>
 			<br/>
 		<%} %>
@@ -184,12 +183,12 @@ if( _aidTags!=null )
 
 <div class="sectionHeader">Meeting Agenda</div>
 
-<% if( hasPermission(troop, Permission.PERMISSION_MOVE_MEETING_ID) ){ %>
+<% if( hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID) ){ %>
 	<a href="javascript:void(0)" onclick="revertAgenda('<%=meeting.getPath()%>')"  class="mLocked">Revert to Original Agenda</a>
 <%} %>
 
 <p>Select an item to view details, edit duration, or delete. Drag and drop items to reorder them.</p>
-<ul id="<%= hasPermission(troop, Permission.PERMISSION_MOVE_MEETING_ID) ? "sortable" : ""%>" >
+<ul id="<%= hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID) ? "sortable" : ""%>" >
 <%
 	java.util.Calendar activSched= java.util.Calendar.getInstance();
 	activSched.setTime( searchDate);
@@ -223,7 +222,7 @@ if( _aidTags!=null )
 %>
 				<td>
 				
-					<%if( !isLocked && hasPermission(troop, Permission.PERMISSION_UPDATE_MEETING_ID)) {%>
+					<%if( !isLocked && hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID)) {%>
 						<a href="javascript:void(0)"  class="mLocked" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=meeting.getUid()%>&isAgenda=<%=ii %>', true, 'Agenda')"><%=_activity.getName() %></a>
 					<%}else{ %>
 						<%=_activity.getName() %>
@@ -264,7 +263,7 @@ if( _aidTags!=null )
   <!--  
 	<input type="button" name="" value="Add Agenda Items" onclick="addCustAgenda()"  class="mLocked button linkButton"/>
 -->
- <%if(hasPermission(troop, Permission.PERMISSION_UPDATE_MEETING_ID)){ %>
+ <%if(hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID)){ %>
 	<a href="javascript:void(0)" onclick="loadModal('#newMeetingAgenda', true, 'Agenda', false);">Add Agenda Items</a>
  <%} %>
 
@@ -315,10 +314,10 @@ if( _aidTags!=null )
 </div>
 	<script>
 		var scrollTarget = "";
-		if (Modernizr.touch) {
-			// touch device
-			scrollTarget = ".touchscroll";
-		}
+		// if (Modernizr.touch) {
+		// 	// touch device
+		// 	scrollTarget = ".touchscroll";
+		// }
 		$("#sortable").sortable({
 			delay:150,
 			cursor: "move" ,

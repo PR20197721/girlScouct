@@ -1,3 +1,14 @@
+<%
+
+	if( false ){
+		
+		
+		response.sendRedirect("/content/girlscouts-vtk/en/vtk.rand.meeting.html?elem=189320400000");
+		return;
+	}
+%>
+
+
 <%@ page
 	import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
 <%@include file="/libs/foundation/global.jsp"%>
@@ -6,132 +17,66 @@
 <%@include file="include/session.jsp"%>
 <!-- apps/girlscouts-vtk/components/vtk/planView.jsp -->
 <%
-	String activeTab = "planView";
+		String activeTab = "planView";
         boolean showVtkNav = true;
 %>
 <%@include file="include/vtk-nav.jsp"%>
 <%
-	if( !hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID ) ) {
-%><span class="error">You have no permission to view meeting(s)</span>
-<%
-	return;
-}
+		  if( !hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID ) ) {
+					%><span class="error">You have no permission to view meeting(s)</span><%
+					return;
+		  }
 
-        if( troop.getYearPlan()!=null){
-                // split resource panel
-%>
-<div id="panelWrapper" class="row">
-	<div id="panelLeft" class="small-24 medium-24 large-18 columns">
-		<%
+      	  if( troop.getYearPlan()!=null){
+		                // split resource panel
+					%>
+					<div id="panelWrapper" class="row">
+						<div id="panelLeft" class="small-24 medium-24 large-18 columns">
+							<%
 			}
-
-			java.util.Map <java.util.Date,  YearPlanComponent> sched = new MeetingUtil().getYearPlanSched(troop.getYearPlan(), false);
-			if( sched==null || (sched.size()==0)){out.println( "You must first select a year plan."); return;}
-			java.util.List<java.util.Date> dates =new java.util.ArrayList<java.util.Date>(sched.keySet());
-			long nextDate=0, prevDate=0;
-			java.util.Date searchDate= null;
-
-			if( request.getParameter("elem") !=null ) {
-				searchDate = new java.util.Date( Long.parseLong(  request.getParameter("elem")  ) );	
-			}else if( session.getValue("VTK_planView_memoPos") !=null ){
-				searchDate= new java.util.Date( (Long)session.getValue("VTK_planView_memoPos")  );
+    
+      	  	
+      			
+      	  	PlanView planView = meetingUtil.planView(user, troop, request);
+      	  	long nextDate=planView.getNextDate(), prevDate=planView.getPrevDate();
+			java.util.Date searchDate= planView.getSearchDate();
+			MeetingE meeting = planView.getMeeting();
+			List<Asset> _aidTags = planView.getAidTags();
+			Meeting meetingInfo = meeting.getMeetingInfo();
+			YearPlanComponent _comp = planView.getYearPlanComponent();
+			int meetingCount = planView.getMeetingCount();
+			java.util.List <Activity> _activities = meetingInfo.getActivities();
+			java.util.Map<String, JcrCollectionHoldString> meetingInfoItems= meetingInfo.getMeetingInfo();
+			int currInd= planView.getCurrInd();
 			
-			} else {
-				
-				if( troop.getYearPlan().getSchedule()==null)
-					searchDate = (java.util.Date) sched.keySet().iterator().next();
-				else{
-			
-				  java.util.Iterator itr = sched.keySet().iterator();
-				  while( itr.hasNext() ){
-					searchDate= (java.util.Date)itr.next();
-					if( searchDate.after( new java.util.Date() ) )
-					break;
-			
-				  }
-			    }
-			
+			boolean isCanceled =false;
+			if( meeting.getCancelled()!=null && meeting.getCancelled().equals("true")){
+				isCanceled  = true;
 			}
+			
+			boolean isLocked=false;
+			if(searchDate.before( new java.util.Date() ) && troop.getYearPlan().getSchedule()!=null ) isLocked= true;
 
-			int currInd =dates.indexOf(searchDate);
-		        int meetingCount = currInd+1;
-
-			if( dates.size()-1 > currInd )
-				nextDate = ((java.util.Date)dates.get(currInd+1)).getTime();
-			if( currInd>0 )
-				prevDate = ((java.util.Date)dates.get(currInd-1)).getTime();
-	System.err.println("TEST: "+searchDate.getTime() +" : "+ searchDate );		
-			session.putValue("VTK_planView_memoPos", searchDate.getTime());
-		        YearPlanComponent _comp= sched.get(searchDate);
-
-
-		    MeetingE meeting = null;
-			List<Asset> _aidTags = null;
-			Meeting meetingInfo = null;
-		%>
-		<div id="planMsg"></div>
-		<%
+			
+			if( _comp ==null ){
+				%><span class="error">
+				A co-leader has made changes to the schedule of the Year Plan that affect this meeting. 
+				<a href="/content/girlscouts-vtk/en/vtk.plan.html">Click here</a> to go to the Year Plan view to see this changes and access the updated version of this meeting.
+				</span><% 
+				return;
+			}
+			
+			%><div id="planMsg"></div><%
+			
+			
 			try {
-			
-			if ( _comp.getType() == YearPlanComponentType.MEETING) {
-				meeting = (MeetingE) _comp;
-				meetingInfo = yearPlanUtil.getMeeting( user, meeting.getRefId() );
-				
-				meeting.setMeetingInfo(meetingInfo);
-				
-				java.util.List <Activity> _activities = meetingInfo.getActivities();
-				java.util.Map<String, JcrCollectionHoldString> meetingInfoItems=  meetingInfo.getMeetingInfo();
-
-				boolean isLocked=false;
-				if(searchDate.before( new java.util.Date() ) && troop.getYearPlan().getSchedule()!=null ) isLocked= true;
-
-				boolean isCanceled =false;
-				if( meeting.getCancelled()!=null && meeting.getCancelled().equals("true")){
-			isCanceled  = true;
-				}
-
-				_aidTags = meeting.getAssets();
-
-				java.util.Date sysAssetLastLoad =  sling.getService(org.girlscouts.vtk.helpers.DataImportTimestamper.class).getTimestamp(); //SYSTEM QUERY
-	
-				
-				if(meeting.getLastAssetUpdate()==null || meeting.getLastAssetUpdate().before(sysAssetLastLoad) ){
-
-			_aidTags = _aidTags ==null ? new java.util.ArrayList() : _aidTags;
-
-			//rm cachables
-			java.util.List aidToRm= new java.util.ArrayList();
-			for(int i=0;i<_aidTags.size();i++){
-				if( _aidTags.get(i).getIsCachable() )
-					aidToRm.add( _aidTags.get(i));
-			}
-
-			for(int i=0;i<aidToRm.size();i++)
-				_aidTags.remove( aidToRm.get(i));
-
-			//query aids cachables
-			 java.util.List __aidTags =  yearPlanUtil.getAids(user, meetingInfo.getAidTags(), meetingInfo.getId(), meeting.getUid());
-
-			//merge lists aids
-			_aidTags.addAll( __aidTags );
-
-			//query resources cachables
-			java.util.List __resources =  yearPlanUtil.getResources(user, meetingInfo.getResources(), meetingInfo.getId(), meeting.getUid());
-
-			//merge lists resources
-			_aidTags.addAll( __resources );
-
-			meeting.setLastAssetUpdate( new java.util.Date() );
-			meeting.setAssets( _aidTags);
-		troopUtil.updateTroop(user, troop);
-		
-				}
-		%><%@include file="include/viewYearPlanMeeting.jsp"%>
-		<%
-			} else {
-		%><%@include file="include/viewYearPlanActivity.jsp"%>
-		<%
-			}
+					if ( _comp.getType() == YearPlanComponentType.MEETING) {		
+						%><%@include file="include/viewYearPlanMeeting.jsp"%>
+						<%
+					} else {
+						%><%@include file="include/viewYearPlanActivity.jsp"%>
+						<%
+					}
 			} catch (NullPointerException npe) {
 				npe.printStackTrace();
 			}
@@ -144,18 +89,16 @@
 		<ul>
 			<%
 				int planMeetingResourceCount = 0;
-
-			if( _aidTags!=null ) {
-				for(int i=0;i<_aidTags.size();i++){
-					org.girlscouts.vtk.models.Asset asset = _aidTags.get(i);
-					if( asset.getType()!=null )
-					 if( asset.getType(false)!=  org.girlscouts.vtk.dao.AssetComponentType.RESOURCE ) continue;
-				planMeetingResourceCount++;
-			%>
-			<li>- <a href="<%=asset.getRefId()%>" target="_blank"><%=asset.getTitle()%></a></li>
-			<%
+				if( _aidTags!=null ) {
+					for(int i=0;i<_aidTags.size();i++){
+						org.girlscouts.vtk.models.Asset asset = _aidTags.get(i);
+						if( asset.getType()!=null )
+						if( asset.getType(false)!=  org.girlscouts.vtk.dao.AssetComponentType.RESOURCE ) continue;
+						planMeetingResourceCount++;
+				
+						%><li>- <a href="<%=asset.getRefId()%>" target="_blank"><%=asset.getTitle()%></a></li><%
+					}
 				}
-			}
 			%>
 		</ul>
 
@@ -190,6 +133,7 @@
 </style>
 
 <script>
+
 	function x12(xx, ttl, id) {
 
 		var y = document.getElementById('ifr');

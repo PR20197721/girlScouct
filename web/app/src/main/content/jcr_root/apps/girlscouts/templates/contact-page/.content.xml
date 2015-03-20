@@ -3,7 +3,7 @@
     jcr:description="Represents a contact. Please use scaffolding to generate a contact."
     jcr:primaryType="cq:Template"
     jcr:title="Contact"
-    allowedPaths="[/content(/.*)?]"
+    allowedPaths="[]"
     ranking="{Long}60">
     <jcr:content
         jcr:primaryType="cq:PageContent"
