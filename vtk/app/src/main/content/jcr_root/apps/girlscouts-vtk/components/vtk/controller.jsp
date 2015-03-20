@@ -1,4 +1,5 @@
-<%@page import="java.util.Comparator,org.codehaus.jackson.map.ObjectMapper,org.joda.time.LocalDate,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
+<%@page import="java.util.Comparator,org.codehaus.jackson.map.ObjectMapper,org.joda.time.LocalDate,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*,
+                org.girlscouts.vtk.modifiedcheck.ModifiedChecker"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 
@@ -753,35 +754,10 @@
 			}
 
 			boolean isCng = false;
-			try {
 
-				if (!isFirst) {
-
-					java.net.URL url = new java.net.URL(
-							"http://"
-									+ serverName
-									+ serverPort
-									+ "/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid=X"
-									+ session.getId() + "&ypid="
-									+ troop.getYearPlan().getPath()
-									+ "&d=");
-					java.net.URLConnection yc = url.openConnection();
-					java.io.BufferedReader in = new java.io.BufferedReader(
-							new java.io.InputStreamReader(
-									yc.getInputStream()));
-					String inputLine;
-					while ((inputLine = in.readLine()) != null) {
-
-						if (inputLine != null
-								&& (inputLine
-										.indexOf("\"yp_cng\":\"true\"") != -1)) {
-							isCng = true;
-						}
-					}
-					in.close();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
+			if (!isFirst) {
+				ModifiedChecker modifiedChecker = sling.getService(ModifiedChecker.class);
+				isCng = modifiedChecker.isModified(session.getId(), troop.getYearPlan().getPath());
 			}
 
 			if (isFirst || isCng) {
@@ -854,15 +830,14 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 				session.putValue("VTK_troop", troop);
 
 				ObjectMapper mapper = new ObjectMapper();
-				out.println(mapper.writeValueAsString(troop));
-
+				//out.println(mapper.writeValueAsString(troop));
+			    out.println(mapper.writeValueAsString(troop).replaceAll("mailto:","").replaceAll("</a>\"</a>","</a>").replaceAll("\"</a>\"",""));
+                
 			}
 
 		} else if (request.getParameter("yearPlanSched") != null) {
 			
-		if( troop.getYearPlan() !=null)
-		    System.err.println("tata yearPlan: "+  troop.getYearPlan().getRefId());
-			
+		
 		    if (troop.getYearPlan() == null)
 				return;
 
@@ -873,35 +848,10 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 			}
 
 			boolean isCng = false;
-			try {
-
-				if (!isFirst) {
-
-					java.net.URL url = new java.net.URL(
-							"http://"
-									+ serverName
-									+ serverPort
-									+ "/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid=X"
-									+ session.getId() + "&ypid="
-									+ troop.getYearPlan().getPath()
-									+ "&d=");
-					java.net.URLConnection yc = url.openConnection();
-					java.io.BufferedReader in = new java.io.BufferedReader(
-							new java.io.InputStreamReader(
-									yc.getInputStream()));
-					String inputLine;
-					while ((inputLine = in.readLine()) != null) {
-						if (inputLine != null
-								&& (inputLine
-										.indexOf("\"yp_cng\":\"true\"") != -1)) {
-							isCng = true;
-						}
-					}
-					in.close();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		    if (!isFirst) {
+			    ModifiedChecker modifiedChecker = sling.getService(ModifiedChecker.class);
+			    isCng = modifiedChecker.isModified(session.getId(), troop.getYearPlan().getPath());
+		    }
 			//isCng=true;
 			if (isFirst || isCng
 					|| request.getParameter("isActivNew") != null) {
@@ -931,6 +881,7 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 							.getYearPlanSched(user,
 									troop.getYearPlan(), true, true);
 
+					
 					//start milestone
 					try {
 
@@ -968,19 +919,21 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 							.getGradeLevel());
 					troop.setSfCouncil(troop.getTroop()
 							.getCouncilCode() + "");
+					
+							
 					session.putValue("VTK_troop", troop);
 
 					ObjectMapper mapper = new ObjectMapper();
 					out.println("{\"yearPlan\":\""
 							+ troop.getYearPlan().getName()
 							+ "\",\"schedule\":");
-					out.println(mapper.writeValueAsString(sched));
+					out.println(mapper.writeValueAsString(sched).replaceAll("mailto:",""));
 					out.println("}");
 				}
 			}
-
+			
 		} else if (request.getParameter("reactActivity") != null) {
-
+					
 			boolean isFirst = false;
 			if (request.getParameter("isFirst") != null
 					&& request.getParameter("isFirst").equals("1")) {
@@ -988,34 +941,11 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 			}
 
 			boolean isCng = false;
-			try {
 
-				if (!isFirst) {
-					java.net.URL url = new java.net.URL(
-							"http://"
-									+ serverName
-									+ serverPort
-									+ "/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid=X"
-									+ session.getId() + "&ypid="
-									+ troop.getYearPlan().getPath()
-									+ "&d=");
-					java.net.URLConnection yc = url.openConnection();
-					java.io.BufferedReader in = new java.io.BufferedReader(
-							new java.io.InputStreamReader(
-									yc.getInputStream()));
-					String inputLine;
-					while ((inputLine = in.readLine()) != null) {
-						if (inputLine != null
-								&& (inputLine
-										.indexOf("\"yp_cng\":\"true\"") != -1)) {
-							isCng = true;
-						}
-					}
-					in.close();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		    if (!isFirst) {
+				ModifiedChecker modifiedChecker = sling.getService(ModifiedChecker.class);
+				isCng = modifiedChecker.isModified(session.getId(), troop.getYearPlan().getPath());
+            }
 
 			if (isFirst || isCng) {
 
@@ -1047,6 +977,8 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 
 				ObjectMapper mapper = new ObjectMapper();
 				out.println(mapper.writeValueAsString(currentActivity));
+			
+			
 
 			}
 

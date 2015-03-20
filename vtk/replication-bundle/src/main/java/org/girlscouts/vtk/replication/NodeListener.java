@@ -51,6 +51,9 @@ public class NodeListener implements EventListener {
             try {
             
                 String path = event.getPath();
+                if (path.endsWith("jcr:content")) {
+                    continue;
+                }
               
                 int type = event.getType();
  System.err.println("tatataaa : " + type+ " : "+ path);   

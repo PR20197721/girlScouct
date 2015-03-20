@@ -25,19 +25,6 @@
        <%@include file="include/view_yp_dropdown.jsp"%>
    <%} %>
    
-   <%if( hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) &&
-		   (troop.getYearPlan()==null || troop.getYearPlan().getMeetingEvents()==null || troop.getYearPlan().getMeetingEvents().size()<=0) ){ %>
-    <div style="background-color:yellow;">
-        <b>Custom Year Plan:</b>
-        <br/>Start adding meetings and/or activities to your custom plan
-       <ul>
-        <li><a href="#" onclick="doMeetingLib()" title="Add Meeting">Add Meeting</a></li>
-        <li><a href="#" onclick="newActivity()" title="Add Activity">Add Activity</a></li>
-        </ul>
-    </div>
-    <%} %>
-    
-    
   <div id="yearPlanMeetings">
     <div id="thePlan">
 
@@ -130,6 +117,7 @@
     		if( this.props.data!=null){
     			var keys =  Object.keys( this.props.data );
     			var obj = this.props.data;
+meetingPassed= true;
     			return (<ul id="sortable123">
             
     						{ keys.map( function (comment ,i ) {

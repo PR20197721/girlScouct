@@ -35,11 +35,13 @@ import org.girlscouts.vtk.models.SentEmail;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.CouncilInfo;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Component
 @Service(value = CouncilDAO.class)
 public class CouncilDAOImpl implements CouncilDAO {
+	private final Logger log = LoggerFactory.getLogger("vtk");
 
 	@Reference
 	private SessionFactory sessionFactory;
@@ -224,13 +226,12 @@ public class CouncilDAOImpl implements CouncilDAO {
 		//			throw new IllegalAccessException();
 
 		Session session = null;
-		CouncilInfo list = null;
+		CouncilInfo cinfo = null;
 		try {
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Milestone.class);
 			classes.add(CouncilInfo.class);
-			//classes.add(Council.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
@@ -240,13 +241,20 @@ public class CouncilDAOImpl implements CouncilDAO {
 
 			String path = "/vtk/" + councilCode + "/councilInfo";
 			if(session.itemExists(path)){
-				list = (CouncilInfo)ocm.getObject(path);
-
+				cinfo = (CouncilInfo)ocm.getObject(path);
+				if(cinfo==null) log.error("OCM failed to retrieve /vtk/"+councilCode+ "/councilInfo !!!");
+				if(cinfo.getMilestones()==null){
+					List<Milestone> milestones = getAllMilestones(councilCode);
+					cinfo.setMilestones(milestones);
+					ocm.update(cinfo);
+					ocm.save();
+				}
 			}else{
 				if(!session.itemExists("/vtk/" + councilCode)){
 					//create council, need user permission
+					log.error("/vtk/"+councilCode+"does NOT exist!!!");
 				}
-				list = new CouncilInfo(path); 
+				cinfo = new CouncilInfo(path); 
 				//				milestones = new ArrayList<Milestone>();
 				//				milestones.add(new Milestone("Cookie Sales Start",true,null));
 				//				milestones.add(new Milestone("Cookie Sales End",true,null));
@@ -254,8 +262,8 @@ public class CouncilDAOImpl implements CouncilDAO {
 				List<Milestone> milestones = getAllMilestones(councilCode);
 				//				Comparator<Milestone> comp = new BeanComparator("uid");
 				//				Collections.sort(milestones, comp);
-				list.setMilestones(milestones);
-				ocm.insert(list);
+				cinfo.setMilestones(milestones);
+				ocm.insert(cinfo);
 				ocm.save();
 			}
 
@@ -269,7 +277,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 				ex.printStackTrace();
 			}
 		}
-		return list;
+		return cinfo;
 	}
 
 	public void updateCouncilMilestones(java.util.List<Milestone> milestones, String cid) {
@@ -345,6 +353,7 @@ public class CouncilDAOImpl implements CouncilDAO {
 				milestones = (List<Milestone>)ocm.getObjects(query);
 				sortMilestonesByDate(milestones);
 			}else{
+				log.error(councilPath+"/en/milestones does NOT exist!");
 				return milestones;
 			}
 			

@@ -40,26 +40,6 @@
       </div><!--/row-->
       <% }  %>
       
-      
-      
-      <!-- cust year plan -->
-        <div class="row">
-        <div class="columns large-push-2 medium-2 medium-push-2 small-2">
-           <input type="radio" <%=( troop.getYearPlan()!=null && ("custom plan".equals(troop.getYearPlan().getName()))) ? " checked " : "" %> id="r_0" class="radio1" name="group1" onclick="x('0', '', '<%=confMsg%>', 'custom plan')" />
-            <label for="r_0"></label>
-            
-        </div>
-        <div class="small-18 columns large-pull-2 medium-pull-2 small-pull-2">
-          <a href="#" onclick="x('0', '', '<%=confMsg%>', 'custom plan')">custom plan</a>
-          <p>
-           Custom plan
-          </p>
-        </div>
-      </div><!--/row-->
-      
-      
-      <!-- end custom year plan -->
-      
   </div><!--/yearPlanSelection-->
 </section>
 <script>

@@ -10,6 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpSession;
 
@@ -167,6 +168,7 @@ public class MeetingUtil {
 
 		// now set meetings & etc
 		itr = orgSched.keySet().iterator();
+		boolean heal=false;
 		while (itr.hasNext()) {
 			java.util.Date date = (java.util.Date) itr.next();
 			YearPlanComponent _comp = (YearPlanComponent) orgSched.get(date);
@@ -181,7 +183,17 @@ public class MeetingUtil {
 
 					meetingE.setMeetingInfo(meetingInfo);
 				}
+				
+				int maxLook=0;
+				while (container.containsKey(date)) {
+					date = new Date(date.getTime() + 5l);
+					heal = true;
+					maxLook++;
+					if(maxLook>100) break;
+				}
+				
 				container.put(date, meetingE);
+				
 				break;
 			case MILESTONE:
 				Milestone milestone = (Milestone) _comp;
@@ -191,8 +203,28 @@ public class MeetingUtil {
 			}
 		}
 
+		
+		checkIt(container);
+		
 		return container;
 
+	}
+	
+	
+	private boolean checkIt( java.util.Map container ){
+		
+		boolean toRet= false;
+		java.util.Date now= java.util.Calendar.getInstance().getTime();
+		
+		java.util.Iterator itr = container.keySet().iterator();
+		while( itr.hasNext() ){
+			java.util.Date date= (java.util.Date)itr.next();
+			if( date.before( now ) ){
+				
+			}
+				
+		}
+		return toRet;
 	}
 
 	public java.util.Map getYearPlanSched(YearPlan plan) {
@@ -218,9 +250,14 @@ if( meetingEs!=null){
 				int count = 0;
 				while (t.hasMoreElements()) {
 					try {
-						sched.put(
-								new java.util.Date(Long.parseLong((t
-										.nextToken()))), meetingEs.get(count));
+						java.util.Date dt = new java.util.Date(Long.parseLong((t.nextToken().replace("\n", "").replace("\r", "").trim())));
+						int maxLook=0;
+						if( sched.containsKey(dt)){
+							dt = new Date(dt.getTime() + 5l);
+							maxLook++;
+							if(maxLook>100) break;
+						}
+						sched.put(dt, meetingEs.get(count));
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -251,7 +288,13 @@ if( meetingEs!=null){
 			if (activities != null)
 				for (int i = 0; i < activities.size(); i++) {
 
-					sched.put(activities.get(i).getDate(), activities.get(i));
+					long tmp = activities.get(i).getDate().getTime();
+								if( sched.containsKey( activities.get(i).getDate() ) ){ //add 2 sec
+									tmp = tmp + TimeUnit.MILLISECONDS.toMillis(1);
+								}
+								
+					sched.put(new java.util.Date(tmp), activities.get(i));
+					
 				}
 
 		} catch (Exception e) {
@@ -529,7 +572,8 @@ System.err.println("test123 yes");
 		*/
 		if (troop.getYearPlan().getSchedule() != null) {
 			java.util.List<java.util.Date> sched = VtkUtil.getStrCommDelToArrayDates(troop.getYearPlan().getSchedule().getDates());
-			long newDate = new CalendarUtil().getNextDate(VtkUtil.getStrCommDelToArrayStr( troop.getYearPlan().getCalExclWeeksOf() ), sched.get(sched.size()-1).getTime(), troop.getYearPlan().getCalFreq(), false);		
+			long newDate = 
+					new CalendarUtil().getNextDate(VtkUtil.getStrCommDelToArrayStr( troop.getYearPlan().getCalExclWeeksOf() ), sched.get(sched.size()-1).getTime(), troop.getYearPlan().getCalFreq(), false);		
 			sched.add( new java.util.Date(newDate) );
 			troop.getYearPlan().getSchedule().setDates( VtkUtil.getArrayDateToLongComDelim(sched));
 		}

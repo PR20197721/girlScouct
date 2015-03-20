@@ -373,32 +373,44 @@ public class CalendarUtil {
 		 weekOfMonth = getWeekOfMonth( newCalDate.getTime().getTime() ) ;//-1;
 		 dayOfWeek = newCalDate.get(Calendar.DAY_OF_WEEK);
 		
+System.err.println("ttt dates:"+ dates);	
+
+String newDates= "";
+//String tmpDates= dates;
 		StringTokenizer t = new StringTokenizer(dates, ",");
 		while (t.hasMoreElements()) {
-			java.util.Date dt = new java.util.Date(
-					Long.parseLong(t.nextToken()));
+			java.util.Date dt = new java.util.Date( Long.parseLong(t.nextToken()));
+System.err.println("ttt ************************************" +freq+ "****************************");			
+System.err.println("\n\n\n ttt got date: " + dt );			
 			if ((dt.getTime() == oldFromDate)) {
-				long newDate = getNextDate(exclDates,
-						newCalDate.getTimeInMillis(), freq, true);
-
-				dates = dates.replace("," + dt.getTime() + ",", "," + newDate
-						+ ",");
+	System.err.println("ttt equals");			
+				long newDate = getNextDate(exclDates, newCalDate.getTimeInMillis(), freq, true);
+	System.err.println("ttt new Date: 1 " + new java.util.Date(newDate) );			
+				//dates = dates.replace("," + dt.getTime() + ",", "," + newDate + ",");
 				newCalDate.setTimeInMillis(newDate);
+	newDates += ","+ newDate;
+
 			} else if (dt.getTime() > oldFromDate) {
-
-				long newDate = getNextDate(exclDates,
-						newCalDate.getTimeInMillis(), freq, false);
-				dates = dates.replace("," + dt.getTime() + ",", "," + newDate
-						+ ",");
+				
+	System.err.println("ttt >");			
+				long newDate = getNextDate(exclDates,newCalDate.getTimeInMillis(), freq, false);
+	System.err.println("ttt new Date: 2 " + new java.util.Date(newDate) );	
+				//dates = dates.replace("," + dt.getTime() + ",", "," + newDate + ",");
 				newCalDate.setTimeInMillis(newDate);
-
+	newDates += ","+ newDate;			
+			}else{
+	newDates += ","+ dt.getTime();			
 			}
+			
 		}
+		
+		
+	dates= newDates;	
 		if (dates.startsWith(","))
 			dates = dates.substring(1);
 		if (dates.endsWith(","))
 			dates = dates.substring(0, dates.length() - 1);
-
+System.err.println("ttt dates after: "+ dates );
 		YearPlan plan = troop.getYearPlan();
 		plan.setCalFreq(freq);
 		plan.setCalStartDate(Long.parseLong(dates.substring(0,
@@ -440,22 +452,27 @@ public class CalendarUtil {
 	}
 
 	public long getNextDate(List<String> exclDates, long theDate, String freq, boolean isUseCurrDate) {
-
-		long nextDate = theDate;
+	long nextDate = theDate;
 
 		if (!isUseCurrDate) {
 			org.joda.time.DateTime date = new org.joda.time.DateTime(theDate);
 			if (freq.equals("weekly")) {
 				date = date.plusWeeks(1);
 			} else if (freq.equals("monthly")) {
-				date = new org.joda.time.DateTime(getMonthlyNextDate(date));
+		DateTime _date = new org.joda.time.DateTime(getMonthlyNextDate(date));
+if( _date.isBefore( new java.util.Date().getTime()) ) 
+		date= date.plusMonths(1);
+else	
+		date= _date;
+
+
 			} else if (freq.equals("biweekly")) {
 				date = date.plusWeeks(2);
 			}
 			nextDate = date.getMillis();
 		}
-		System.err.println("tatax nextDate: "+ new java.util.Date(nextDate));
-		if ( (nextDate > new java.util.Date().getTime()) &&
+		
+		if ( nextDate<=0 || (nextDate > new java.util.Date().getTime()) &&
 						!exclDates.contains(fmtDate.format(new java.util.Date(nextDate))))
 			return nextDate;
 		else
@@ -479,17 +496,22 @@ public class CalendarUtil {
 		return toRet;
 	}
 	
-	private long getMonthlyNextDate( DateTime date){
+	private long getMonthlyNextDate( org.joda.time.DateTime date){
+		
+
+
+			
+		
 		java.util.Calendar cal = java.util.Calendar.getInstance();
 		cal.setTimeInMillis(date.getMillis());
 		cal.add(java.util.Calendar.MONTH, 1);
 		cal.set(java.util.Calendar.DATE, 1);
+		
 	
 		int month= cal.get(java.util.Calendar.MONTH);
 		int count=0;
 		long lastdt=0;
 		while( cal.get(java.util.Calendar.MONTH )== month){
-
 			if(dayOfWeek == cal.get(java.util.Calendar.DAY_OF_WEEK) ){
 				count++;
 				lastdt = cal.getTimeInMillis();

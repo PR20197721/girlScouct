@@ -4,7 +4,7 @@
       <div class="columns small-18 medium-19">
         <ul id="sub-nav" class="inline-list hide-for-print">
           <!--if on YP page this menu shows-->
-            <% 
+            <%
            		if ("plan".equals(activeTab) && troop.getYearPlan() != null  && hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ) { %>
             		<li><a href="#" onclick="newLocCal()" title="Metting Dates and Location">Specify Dates and Locations</a></li>
             		<li><a href="#" onclick="doMeetingLib()" title="Add Meeting">Add Meeting</a></li>
@@ -17,6 +17,7 @@
             <!--if activity detail page-->
             <% switch(meetingUtil.planView(user, troop, request).getYearPlanComponent().getType() ) {
               case ACTIVITY:
+            	  pageContext.setAttribute("YearPlanComponent", "ACTIVITY");
                 Activity activity = (Activity)meetingUtil.planView(user, troop, request).getYearPlanComponent();
                 if( activity.getIsEditable() ){%>
                 <li>
@@ -29,8 +30,9 @@
                 <li><a href="<%=activity.getRegisterUrl()%>"  target="_blank">Register for this event</a></li><%
                 } %>
                   <li><a href="javascript:rmCustActivity12(aPath)">delete this activity</a></li><% 
-                  
+                  break;
             case MEETING:
+            	pageContext.setAttribute("YearPlanComponent", "MEETING");
               try {	Object meetingPath = pageContext.getAttribute("MEETING_PATH");
                       if (meetingPath != null && meetingPath != "") {
                         Long planViewTime = (Long) pageContext.getAttribute("PLANVIEW_TIME");%>
@@ -72,7 +74,10 @@
       </div>
       <div class="columns small-6 medium-5">
        <ul class="inline-list" id="util-links">
+       <%if(activeTab!=null  && ( "plan".equals(activeTab) || (  pageContext.getAttribute("YearPlanComponent")!=null && ((String)pageContext.getAttribute("YearPlanComponent")).equals("MEETING")  &&  "planView".equals(activeTab) )) ){ %>
         <li><a data-reveal-id="modal_help" title="help"><i class="icon-questions-answers"></i></a></li>
+       <%} %>
+       
         <% if("plan".equals(activeTab)) {%>
           <li><a
           	<% if(troop.getYearPlan() != null && meetingUtil.planView(user, troop, request)!=null && meetingUtil.planView(user, troop, request).getSearchDate() != null 

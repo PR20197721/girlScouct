@@ -63,7 +63,7 @@
         <input type="checkbox" id="chk_2" name="exclDt" value="10/12/2015" <%=("".equals(exlDates) || exlDates.contains("10/12/2015")) ? "CHECKED" : ""  %>/><label for="chk_2"><p><span class="date">10/12/2015</span><span>Columbus Day</span></p></label>
       </li>
       <li>
-        <input type="checkbox" id="chk_3" name="exclDt" value="11/11/2015" <%=("".equals(exlDates) || exlDates.contains("11/11/2015")) ? "CHECKED" : ""  %>/><label for="chk_3"><p><span class="date">11/11/2015</span><span>Veteran's Day Day</span></p></label>
+        <input type="checkbox" id="chk_3" name="exclDt" value="11/11/2015" <%=("".equals(exlDates) || exlDates.contains("11/11/2015")) ? "CHECKED" : ""  %>/><label for="chk_3"><p><span class="date">11/11/2015</span><span>Veteran's Day</span></p></label>
       </li>
       <li>
         <input type="checkbox" id="chk_4" name="exclDt" value="11/26/2015" <%=("".equals(exlDates) || exlDates.contains("11/26/2015")) ? "CHECKED" : ""  %>/><label for="chk_4"><p><span class="date">11/26/2015</span><span>Thanksgiving</span></p></label>

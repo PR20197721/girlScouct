@@ -11,10 +11,10 @@
     </div>
     <div className="large-22 medium-22 small-24 columns">
       <p className="subtitle">
-      	<ViewMeeting date={moment(comment).toDate()} name={obj[comment].name} />
+      	<ViewMeeting date={moment(comment)} name={obj[comment].name} />
       </p>
      	<p className="category">{ obj[comment].content.replace('&nbsp;','').replace(/(<([^>]+)>)/ig,"") }</p>
-     	<p className="blurb">{obj[comment].locationName}</p>    
+     	<p className="blurb">{obj[comment].locationName.replace('&nbsp;','').replace(/(<([^>]+)>)/ig,"")}</p>    
     </div>
     <div className="large-2 medium-2 columns hide-for-small"></div>
   </div>
