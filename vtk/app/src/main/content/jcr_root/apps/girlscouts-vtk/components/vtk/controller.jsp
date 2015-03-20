@@ -881,6 +881,7 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 							.getYearPlanSched(user,
 									troop.getYearPlan(), true, true);
 
+					
 					//start milestone
 					try {
 
@@ -918,6 +919,8 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 							.getGradeLevel());
 					troop.setSfCouncil(troop.getTroop()
 							.getCouncilCode() + "");
+					
+							
 					session.putValue("VTK_troop", troop);
 
 					ObjectMapper mapper = new ObjectMapper();
