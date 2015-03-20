@@ -1,4 +1,5 @@
-<%@page import="java.util.Comparator,org.codehaus.jackson.map.ObjectMapper,org.joda.time.LocalDate,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
+<%@page import="java.util.Comparator,org.codehaus.jackson.map.ObjectMapper,org.joda.time.LocalDate,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*,
+                org.girlscouts.vtk.modifiedcheck.ModifiedChecker"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 
@@ -753,35 +754,10 @@
 			}
 
 			boolean isCng = false;
-			try {
 
-				if (!isFirst) {
-
-					java.net.URL url = new java.net.URL(
-							"http://"
-									+ serverName
-									+ serverPort
-									+ "/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid=X"
-									+ session.getId() + "&ypid="
-									+ troop.getYearPlan().getPath()
-									+ "&d=");
-					java.net.URLConnection yc = url.openConnection();
-					java.io.BufferedReader in = new java.io.BufferedReader(
-							new java.io.InputStreamReader(
-									yc.getInputStream()));
-					String inputLine;
-					while ((inputLine = in.readLine()) != null) {
-
-						if (inputLine != null
-								&& (inputLine
-										.indexOf("\"yp_cng\":\"true\"") != -1)) {
-							isCng = true;
-						}
-					}
-					in.close();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
+			if (!isFirst) {
+				ModifiedChecker modifiedChecker = sling.getService(ModifiedChecker.class);
+				isCng = modifiedChecker.isModified(session.getId(), troop.getYearPlan().getPath());
 			}
 
 			if (isFirst || isCng) {
@@ -872,35 +848,10 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 			}
 
 			boolean isCng = false;
-			try {
-
-				if (!isFirst) {
-
-					java.net.URL url = new java.net.URL(
-							"http://"
-									+ serverName
-									+ serverPort
-									+ "/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid=X"
-									+ session.getId() + "&ypid="
-									+ troop.getYearPlan().getPath()
-									+ "&d=");
-					java.net.URLConnection yc = url.openConnection();
-					java.io.BufferedReader in = new java.io.BufferedReader(
-							new java.io.InputStreamReader(
-									yc.getInputStream()));
-					String inputLine;
-					while ((inputLine = in.readLine()) != null) {
-						if (inputLine != null
-								&& (inputLine
-										.indexOf("\"yp_cng\":\"true\"") != -1)) {
-							isCng = true;
-						}
-					}
-					in.close();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		    if (!isFirst) {
+			    ModifiedChecker modifiedChecker = sling.getService(ModifiedChecker.class);
+			    isCng = modifiedChecker.isModified(session.getId(), troop.getYearPlan().getPath());
+		    }
 			//isCng=true;
 			if (isFirst || isCng
 					|| request.getParameter("isActivNew") != null) {
@@ -987,34 +938,11 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 			}
 
 			boolean isCng = false;
-			try {
 
-				if (!isFirst) {
-					java.net.URL url = new java.net.URL(
-							"http://"
-									+ serverName
-									+ serverPort
-									+ "/content/girlscouts-vtk/en/vtk.expiredcheck.json?sid=X"
-									+ session.getId() + "&ypid="
-									+ troop.getYearPlan().getPath()
-									+ "&d=");
-					java.net.URLConnection yc = url.openConnection();
-					java.io.BufferedReader in = new java.io.BufferedReader(
-							new java.io.InputStreamReader(
-									yc.getInputStream()));
-					String inputLine;
-					while ((inputLine = in.readLine()) != null) {
-						if (inputLine != null
-								&& (inputLine
-										.indexOf("\"yp_cng\":\"true\"") != -1)) {
-							isCng = true;
-						}
-					}
-					in.close();
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		    if (!isFirst) {
+				ModifiedChecker modifiedChecker = sling.getService(ModifiedChecker.class);
+				isCng = modifiedChecker.isModified(session.getId(), troop.getYearPlan().getPath());
+            }
 
 			if (isFirst || isCng) {
 
