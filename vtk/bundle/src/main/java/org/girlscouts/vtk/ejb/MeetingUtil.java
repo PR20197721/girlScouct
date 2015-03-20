@@ -290,9 +290,7 @@ if( meetingEs!=null){
 
 					long tmp = activities.get(i).getDate().getTime();
 								if( sched.containsKey( activities.get(i).getDate() ) ){ //add 2 sec
-									
 									tmp = tmp + TimeUnit.MILLISECONDS.toMillis(1);
-				   	
 								}
 								
 					sched.put(new java.util.Date(tmp), activities.get(i));
