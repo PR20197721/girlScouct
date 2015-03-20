@@ -373,32 +373,44 @@ public class CalendarUtil {
 		 weekOfMonth = getWeekOfMonth( newCalDate.getTime().getTime() ) ;//-1;
 		 dayOfWeek = newCalDate.get(Calendar.DAY_OF_WEEK);
 		
+System.err.println("ttt dates:"+ dates);	
+
+String newDates= "";
+//String tmpDates= dates;
 		StringTokenizer t = new StringTokenizer(dates, ",");
 		while (t.hasMoreElements()) {
-			java.util.Date dt = new java.util.Date(
-					Long.parseLong(t.nextToken()));
+			java.util.Date dt = new java.util.Date( Long.parseLong(t.nextToken()));
+System.err.println("ttt ************************************" +freq+ "****************************");			
+System.err.println("\n\n\n ttt got date: " + dt );			
 			if ((dt.getTime() == oldFromDate)) {
-				long newDate = getNextDate(exclDates,
-						newCalDate.getTimeInMillis(), freq, true);
-
-				dates = dates.replace("," + dt.getTime() + ",", "," + newDate
-						+ ",");
+	System.err.println("ttt equals");			
+				long newDate = getNextDate(exclDates, newCalDate.getTimeInMillis(), freq, true);
+	System.err.println("ttt new Date: 1 " + new java.util.Date(newDate) );			
+				//dates = dates.replace("," + dt.getTime() + ",", "," + newDate + ",");
 				newCalDate.setTimeInMillis(newDate);
+	newDates += ","+ newDate;
+
 			} else if (dt.getTime() > oldFromDate) {
-
-				long newDate = getNextDate(exclDates,
-						newCalDate.getTimeInMillis(), freq, false);
-				dates = dates.replace("," + dt.getTime() + ",", "," + newDate
-						+ ",");
+				
+	System.err.println("ttt >");			
+				long newDate = getNextDate(exclDates,newCalDate.getTimeInMillis(), freq, false);
+	System.err.println("ttt new Date: 2 " + new java.util.Date(newDate) );	
+				//dates = dates.replace("," + dt.getTime() + ",", "," + newDate + ",");
 				newCalDate.setTimeInMillis(newDate);
-
+	newDates += ","+ newDate;			
+			}else{
+	newDates += ","+ dt.getTime();			
 			}
+			
 		}
+		
+		
+	dates= newDates;	
 		if (dates.startsWith(","))
 			dates = dates.substring(1);
 		if (dates.endsWith(","))
 			dates = dates.substring(0, dates.length() - 1);
-
+System.err.println("ttt dates after: "+ dates );
 		YearPlan plan = troop.getYearPlan();
 		plan.setCalFreq(freq);
 		plan.setCalStartDate(Long.parseLong(dates.substring(0,
