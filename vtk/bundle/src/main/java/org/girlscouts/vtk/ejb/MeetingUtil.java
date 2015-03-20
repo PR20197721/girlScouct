@@ -192,7 +192,14 @@ public class MeetingUtil {
 
 					meetingE.setMeetingInfo(meetingInfo);
 				}
+				
+				int maxLook=100;
+				while (container.containsKey(date)) {
+					date = new Date(date.getTime() + 5l);
+					if(maxLook>100) break;
+				}
 				container.put(date, meetingE);
+				
 				break;
 			case MILESTONE:
 				Milestone milestone = (Milestone) _comp;
