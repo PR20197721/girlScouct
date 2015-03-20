@@ -572,7 +572,8 @@ System.err.println("test123 yes");
 		*/
 		if (troop.getYearPlan().getSchedule() != null) {
 			java.util.List<java.util.Date> sched = VtkUtil.getStrCommDelToArrayDates(troop.getYearPlan().getSchedule().getDates());
-			long newDate = new CalendarUtil().getNextDate(VtkUtil.getStrCommDelToArrayStr( troop.getYearPlan().getCalExclWeeksOf() ), sched.get(sched.size()-1).getTime(), troop.getYearPlan().getCalFreq(), false);		
+			long newDate = 
+					new CalendarUtil().getNextDate(VtkUtil.getStrCommDelToArrayStr( troop.getYearPlan().getCalExclWeeksOf() ), sched.get(sched.size()-1).getTime(), troop.getYearPlan().getCalFreq(), false);		
 			sched.add( new java.util.Date(newDate) );
 			troop.getYearPlan().getSchedule().setDates( VtkUtil.getArrayDateToLongComDelim(sched));
 		}

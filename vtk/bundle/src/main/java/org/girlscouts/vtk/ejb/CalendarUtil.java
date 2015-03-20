@@ -452,22 +452,27 @@ System.err.println("ttt dates after: "+ dates );
 	}
 
 	public long getNextDate(List<String> exclDates, long theDate, String freq, boolean isUseCurrDate) {
-
-		long nextDate = theDate;
+	long nextDate = theDate;
 
 		if (!isUseCurrDate) {
 			org.joda.time.DateTime date = new org.joda.time.DateTime(theDate);
 			if (freq.equals("weekly")) {
 				date = date.plusWeeks(1);
 			} else if (freq.equals("monthly")) {
-				date = new org.joda.time.DateTime(getMonthlyNextDate(date));
+		DateTime _date = new org.joda.time.DateTime(getMonthlyNextDate(date));
+if( _date.isBefore( new java.util.Date().getTime()) ) 
+		date= date.plusMonths(1);
+else	
+		date= _date;
+
+
 			} else if (freq.equals("biweekly")) {
 				date = date.plusWeeks(2);
 			}
 			nextDate = date.getMillis();
 		}
-		System.err.println("tatax nextDate: "+ new java.util.Date(nextDate));
-		if ( (nextDate > new java.util.Date().getTime()) &&
+		
+		if ( nextDate<=0 || (nextDate > new java.util.Date().getTime()) &&
 						!exclDates.contains(fmtDate.format(new java.util.Date(nextDate))))
 			return nextDate;
 		else
@@ -491,17 +496,22 @@ System.err.println("ttt dates after: "+ dates );
 		return toRet;
 	}
 	
-	private long getMonthlyNextDate( DateTime date){
+	private long getMonthlyNextDate( org.joda.time.DateTime date){
+		
+
+
+			
+		
 		java.util.Calendar cal = java.util.Calendar.getInstance();
 		cal.setTimeInMillis(date.getMillis());
 		cal.add(java.util.Calendar.MONTH, 1);
 		cal.set(java.util.Calendar.DATE, 1);
+		
 	
 		int month= cal.get(java.util.Calendar.MONTH);
 		int count=0;
 		long lastdt=0;
 		while( cal.get(java.util.Calendar.MONTH )== month){
-
 			if(dayOfWeek == cal.get(java.util.Calendar.DAY_OF_WEEK) ){
 				count++;
 				lastdt = cal.getTimeInMillis();
