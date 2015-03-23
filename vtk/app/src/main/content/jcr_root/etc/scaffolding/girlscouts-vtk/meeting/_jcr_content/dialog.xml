@@ -58,6 +58,13 @@
                     name="./resources"
                     namespaces="[girlscouts-vtk]"
                     xtype="vtk-tags"/>
+                <isAchievement
+                    jcr:primaryType="cq:Widget"
+                    checkboxBoolTypeHint="{Boolean}true"
+                    fieldLabel="Is Achievement"
+                    name="./isAchievement"
+                    type="checkbox"
+                    xtype="selection"/>
                 <overview
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Overview"
