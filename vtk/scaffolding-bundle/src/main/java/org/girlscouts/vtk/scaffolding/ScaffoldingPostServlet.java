@@ -86,116 +86,65 @@ public class ScaffoldingPostServlet extends SlingAllMethodsServlet {
     protected void doRegularPost(SlingHttpServletRequest request,
             SlingHttpServletResponse response) throws ServletException,
             IOException {
-        Session session = request.getResourceResolver().adaptTo(Session.class); 
         
-        // Determine the destination node
-        // Meeting
-        if (request.getParameter("./vtkDataType").equals("meeting")) {
-            String rootPath = request.getParameter("originalUrl");
-            if (rootPath.endsWith("*")) {
-                // /content/girlscouts-vtk/meetings/myyearplan/*
-                // =>
-                // /content/girlscouts-vtk/meetings/myyearplan/brownie/B14B05
-                rootPath = rootPath.substring(0, rootPath.length() - 1); 
-                rootPath = rootPath + request.getParameter("./level").toLowerCase() + "/" 
-                        + request.getParameter("./id").toUpperCase();
+        try {
+            if (request.getParameter("./vtkDataType").equals("meeting")) {
+                removeObsoleteNodes(request, "activities");
+            } else if (request.getParameter("./vtkDataType").equals("year-plan")) {
+                removeObsoleteNodes(request, "meetings");
             }
-            
-            try {
-                Set<String> childrenNodePaths = getChildrenNodePaths(rootPath, request);
-
-                createNodes(childrenNodePaths, session);
-                
-                // Special logic for meetings. Get existing agenda items
-                Set<String> existingNodePaths = new HashSet<String>();
-                Node activitiesNode = session.getNode(rootPath + "/activities");
-                NodeIterator iter = activitiesNode.getNodes();
-                while (iter.hasNext()) {
-                    existingNodePaths.add(iter.nextNode().getPath());
-                }
-                
-                // Do set sub to see if any agenda item node needs to be removed.
-                existingNodePaths.removeAll(childrenNodePaths);
-                
-                // Cannot do this way because of special character problems.
-                // e.g. /content/girlscouts-vtk/meetings/myyearplan/brownie/B14B04/activities/A1405659407340[7]
-                //for (String path : existingNodePaths) {
-                //    session.removeItem(path);
-                //}
-                iter = activitiesNode.getNodes();
-                while (iter.hasNext()) {
-                    Node node = iter.nextNode();
-                    if (!existingNodePaths.contains(node.getName())) {
-                        node.remove();
-                    }
-                }
-                
-                session.save();          
-            } catch (RepositoryException e) {
-                throw new ServletException(e);
-            }
-        } else if (request.getParameter("./vtkDataType").equals("year-plan")) {
-            System.err.println("year-plan");
-            String rootPath = request.getParameter("originalUrl");
-            if (rootPath.endsWith("*")) {
-                // /content/girlscouts-vtk/yearPlanTemplates/yearplan2014/*
-                // =>
-                // /content/girlscouts-vtk/yearPlanTemplates/yearplan2014/brownie/yearPlan1
-                rootPath = rootPath.substring(0, rootPath.length() - 1); 
-                rootPath = rootPath + request.getParameter("./level").toLowerCase() + "/" 
-                        + request.getParameter("./id").toUpperCase();
-            }
-            
-            try {
-                Set<String> childrenNodePaths = getChildrenNodePaths(rootPath, request);
-
-                createNodes(childrenNodePaths, session);
-                
-                // Special logic for year plans. Get existing meetings. 
-                Set<String> existingNodePaths = new HashSet<String>();
-                Node meetingsNode = session.getNode(rootPath + "/meetings");
-                NodeIterator iter = meetingsNode.getNodes();
-                while (iter.hasNext()) {
-                    existingNodePaths.add(iter.nextNode().getPath());
-                }
-                
-                for (String path : childrenNodePaths) {
-                    System.err.println("child: " + path);
-                }
-                for (String path : existingNodePaths) {
-                    System.err.println("exist: " + path);
-                }
-
-                // Do set sub to see if any meeting node needs to be removed.
-                existingNodePaths.removeAll(childrenNodePaths);
-                
-                for (String path : existingNodePaths) {
-                    System.err.println("remain: " + path);
-                }
-
-                // Cannot do this way because of special character problems.
-                System.err.println("Begin removing nodes.");
-                iter = meetingsNode.getNodes();
-                while (iter.hasNext()) {
-                    Node node = iter.nextNode();
-
-                    if (existingNodePaths.contains(node.getPath())) {
-                        System.err.println("Removing node: " + node.getPath());
-                        node.remove();
-                    } else {
-                        System.err.println("Stay node: " + node.getPath());
-                    }
-                }
-                
-                session.save();          
-            } catch (RepositoryException e) {
-                throw new ServletException(e);
-            }
+        } catch (RepositoryException e) {
+            throw new ServletException(e);
         }
         
         request.getRequestDispatcher(request.getParameter("originalUrl")).forward(request, response);
     }
     
+    protected void removeObsoleteNodes(SlingHttpServletRequest request, String childTop) throws RepositoryException {
+        Session session = request.getResourceResolver().adaptTo(Session.class);
+        String rootPath = request.getParameter("originalUrl");
+        if (rootPath.endsWith("*")) {
+            // /content/girlscouts-vtk/meetings/myyearplan/*
+            // =>
+            // /content/girlscouts-vtk/meetings/myyearplan/brownie/B14B05
+            rootPath = rootPath.substring(0, rootPath.length() - 1); 
+            rootPath = rootPath + request.getParameter("./level").toLowerCase() + "/" 
+                    + request.getParameter("./id").toUpperCase();
+        }
+
+        Set<String> childrenNodePaths = getChildrenNodePaths(rootPath, request);
+
+        createNodes(childrenNodePaths, session);
+        
+        // Special logic for year plans. Get existing meetings. 
+        Set<String> existingNodePaths = new HashSet<String>();
+        Node childTopNode = session.getNode(rootPath + "/" + childTop);
+        NodeIterator iter = childTopNode.getNodes();
+        
+        while (iter.hasNext()) {
+            existingNodePaths.add(iter.nextNode().getPath());
+        }
+
+        // Do set sub to see if any meeting node needs to be removed.
+        existingNodePaths.removeAll(childrenNodePaths);
+        
+        // Cannot do this way because of special character problems.
+        // e.g. /content/girlscouts-vtk/meetings/myyearplan/brownie/B14B04/activities/A1405659407340[7]
+        //for (String path : existingNodePaths) {
+        //    session.removeItem(path);
+        //}
+        iter = childTopNode.getNodes();
+        while (iter.hasNext()) {
+            Node node = iter.nextNode();
+
+            if (existingNodePaths.contains(node.getPath())) {
+                node.remove();
+            }
+        }
+        
+        session.save();          
+    }
+
     protected Set<String> getChildrenNodePaths(String rootPath, SlingHttpServletRequest request) {
         // e.g. ./meetingInfo/overview/str
         @SuppressWarnings("unchecked")
