@@ -22,11 +22,14 @@
   <% }else{ %>
    		<li><%
    		if(hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_MT_ID )) {%>
-	   		<a <%if(planView.getSearchDate()!=null && planView.getSearchDate().after( new java.util.Date("1/1/1977") )) {%> 
-	   			href="#" data-reveal-id="modal-meeting-reminder" <%
-	   			} else{%>
-	   			href="javascript:alert('You have not yet scheduled your meeting calendar.\nPlease select a year plan and schedule your meetings by clicking on the MEETING DATES AND LOCATION link.')"
-	   			<%} %> title="Meeting Reminder Email">Edit/Sent Meeting Reminder Email</a><%
+	   		<a href="#" 
+	   		<%if(planView.getSearchDate()!=null && planView.getSearchDate().after( new java.util.Date("1/1/1977") )) {%> 
+	   			 data-reveal-id="modal-meeting-reminder" 
+	   		<%} else{%>
+	   			onclick="javascript:alert('You have not yet scheduled your meeting calendar.\nPlease select a year plan and schedule your meetings by clicking on the MEETING DATES AND LOCATION link.')"
+	   		<%} %>
+	   		
+	   		 title="Meeting Reminder Email">Edit/Sent Meeting Reminder Email</a><%
 	   	} else{ // no permission or showParent set to true%>
 	   		<a>Meeting Reminder email</a><%
 	   	}%>
