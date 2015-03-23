@@ -746,6 +746,25 @@
 					new org.girlscouts.vtk.models.Asset(request
 							.getParameter("addAsset")));
 		} else if (request.getParameter("reactjs") != null) {
+System.err.println("manu reactjs___________________________________________________________ " + new java.util.Date());
+System.out.println("manuservlet path= " + request.getServletPath());
+System.out.println("manurequest URL= " + request.getRequestURL());
+System.out.println("manurequest URI= " + request.getRequestURI());
+String str=request.getRequestURL()+"?";
+Enumeration<String> paramNames = request.getParameterNames();
+while (paramNames.hasMoreElements())
+{
+    String paramName = paramNames.nextElement();
+    String[] paramValues = request.getParameterValues(paramName);
+    for (int i = 0; i < paramValues.length; i++) 
+    {
+        String paramValue = paramValues[i];
+        str=str + paramName + "=" + paramValue;
+    }
+    str=str+"&";
+}
+System.out.println("manu: "+str.substring(0,str.length()-1));
+
 
 			boolean isFirst = false;
 			if (request.getParameter("isFirst") != null
@@ -756,8 +775,11 @@
 			boolean isCng = false;
 
 			if (!isFirst) {
+				System.err.println("manu reactjs 1");
+			
 				ModifiedChecker modifiedChecker = sling.getService(ModifiedChecker.class);
 				isCng = modifiedChecker.isModified(session.getId(), troop.getYearPlan().getPath());
+				System.err.println("manu reactjs 2 ::" +isCng);
 			}
 
 			if (isFirst || isCng) {
@@ -950,7 +972,7 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 			}
 			
 		} else if (request.getParameter("reactActivity") != null) {
-					
+System.err.println("manu reactActivity");					
 			boolean isFirst = false;
 			if (request.getParameter("isFirst") != null
 					&& request.getParameter("isFirst").equals("1")) {

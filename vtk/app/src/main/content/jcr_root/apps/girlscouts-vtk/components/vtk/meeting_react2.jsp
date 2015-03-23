@@ -246,7 +246,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 
   )
 
-)
+),
         		/*end nav include*/
         		
         		
@@ -259,10 +259,12 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
       React.createElement("section", null, 
         
         React.createElement("p", null, 
-            "<%if(loc!=null){ %>", 
-                "Location: ", "<%=loc.getName() %>", " -" + ' ' + 
-               "hrefhrefe", 
-            "<%}//end if %>"
+            <%if(loc!=null){ %> 
+                Location: <%=loc.getName()%>  - React.createElement("a", {href: "/content/girlscouts-vtk/controllers/vtk.map.html?address=<%=loc.getAddress()%>", target: "_blank"}, "<%=loc.getAddress()%> ")
+                
+            <%}else{%>
+                ""
+            <%}%>
         )
       ), 
       React.createElement("section", null, 
@@ -274,13 +276,136 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
       React.createElement("img", {src: this.props.meetingGlobalId, alt: "badge"})
     )
   )
-)
+),
 
         		
         		
         		
         		
         		/*end main info*/
+        		
+        		
+        		
+        		/*planning*/
+        		React.createElement("section", {className: "column large-20 medium-20 large-centered medium-centered"}, 
+  React.createElement("h6", null, "planning materials"), 
+  React.createElement("ul", null, 
+   React.createElement("li", null, 
+    React.createElement("a", {"data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_agenda_edit.html?mid=<%=mid%>&isOverview=true"}, "Meeting Overview")
+  ), 
+<%if(hasPermission(troop, Permission.PERMISSION_VIEW_ACTIVITY_PLAN_ID)) {%> 
+   React.createElement("li", null, 
+    React.createElement("a", {"data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_agenda_edit.html?mid=<%=mid%>&isActivity=true"}, "Activity Plan")
+   ), 
+<%} %> 
+   React.createElement("li", null, 
+    React.createElement("a", {"data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_agenda_edit.html?mid=<%=mid%>&isMaterials=true"}, "Materials List")
+  )
+  )
+)
+        		/* end planning*/
+        		
+        		
+        		
+        		/*communication*/
+        <% if (SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) {%>
+
+,React.createElement("section", {className: "column large-20 medium-20 large-centered medium-centered"}, 
+
+  React.createElement("h6", null, "manage communications"), 
+
+  React.createElement("ul", {className: "large-block-grid-2 medium-block-grid-2 small-block-grid-2"}, 
+
+  <% if( (planView.getYearPlanComponent().getType() ==  YearPlanComponentType.ACTIVITY) ){%>
+
+    React.createElement("li", null, 
+
+<%    if(hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_MT_ID )) {%>
+
+    React.createElement("a", {href: "#", "data-reveal-id": "modal-meeting-reminder", title: "Activity Reminder Email"}, "Edit/Send Invitation/Reminder"), 
+
+    <%}else {%>
+
+    React.createElement("a", null, "Invitation/Reminder"), 
+
+<%    } %>
+
+    ), 
+
+    React.createElement("li", null, 
+
+<%if (((Activity)planView.getYearPlanComponent()).getSentEmails()!=null && !((Activity)planView.getYearPlanComponent()).getSentEmails().isEmpty()) {%>
+
+ "   (<%=((Activity)planView.getYearPlanComponent()).getSentEmails().size() %>", " sent -",  
+
+     React.createElement("a", {href: "#", title: "view sent emails", className: "view", "data-reveal-id": "modal_view_sent_emails"}, "view"), ")", 
+
+ <%} %>
+
+  )
+  <%}else{ %>
+  
+  /*start else*/
+    
+  
+  
+  
+  
+React.createElement("li", null, 
+<%if(hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_MT_ID )) {%> 
+           
+            <%if(planView.getSearchDate()!=null && planView.getSearchDate().after( new java.util.Date("1/1/1977") )) {%> 
+                 React.createElement("a", {href: "#", "data-reveal-id": "modal-meeting-reminder", title: "Meeting Reminder Email"}, "Edit/Sent Meeting Reminder Email") 
+            <%} else{%>
+                React.createElement("a", {href: "#", onclick: "javascript:alert('You have not yet scheduled your meeting calendar.\\nPlease select a year plan and schedule your meetings by clicking on the MEETING DATES AND LOCATION link.')", title: "Meeting Reminder Email"}, "Edit/Sent Meeting Reminder Email")
+            <%} %>
+            
+             
+             <%} else{ %>  
+            React.createElement("a", null, "Meeting Reminder email"), 
+            <%}%>
+        ), 
+        React.createElement("li", null, 
+        <%if (planView.getMeeting().getSentEmails()!=null && !planView.getMeeting().getSentEmails().isEmpty()) {%> 
+            "(", "<%=planView.getMeeting().getSentEmails().size() %>", " sent -",  
+            React.createElement("a", {href: "#", title: "view sent emails", className: "view", "data-reveal-id": "modal_view_sent_emails"}, "view"), ")", 
+            <%}else{ %>"" <%} %>
+        ), 
+        
+        <%if(planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING &&hasPermission(troop, Permission.PERMISSION_VIEW_ATTENDANCE_ID )) {%> 
+        React.createElement("li", null, 
+            React.createElement("a", {"data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_attendance.html?mid=<%=planView.getYearPlanComponent().getUid() %>&isAch=<%=(planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING) ? ((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getIsAchievement() : "false" %>&mName=<%= (planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING) ? ((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getName() : ((Activity)planView.getYearPlanComponent()).getName()%>"}, "Record Attendance & Achievements")
+        ), 
+        React.createElement("li", null, "(", 
+            <%if( pageContext.getAttribute("MEETING_ATTENDANCE_TOTAL") ==null || pageContext.getAttribute("MEETING_ATTENDANCE_TOTAL").equals("")){ %> 
+            "none present, no achievements", 
+            <%}else{ %> 
+            <% if(pageContext.getAttribute("MEETING_ATTENDANCE_CURRENT") ==null || ((Integer)pageContext.getAttribute("MEETING_ATTENDANCE_CURRENT")) ==0 ){ %>
+              "none present,",  
+            <%}else{%>
+                <%= pageContext.getAttribute("MEETING_ATTENDANCE_CURRENT") %> of <%= pageContext.getAttribute("MEETING_ATTENDANCE_TOTAL") %> present,<%}%> 
+            
+            <% if( pageContext.getAttribute("MEETING_achievement_CURRENT") ==null ||  ((Integer)pageContext.getAttribute("MEETING_achievement_CURRENT")) ==0){ %>
+              "no achievements", 
+            <% }else{%> 
+             <%= pageContext.getAttribute("MEETING_achievement_CURRENT") %> of <%= pageContext.getAttribute("MEETING_ATTENDANCE_TOTAL") %> achievement(s)
+            <%} %>
+             ")"
+        )
+        <%} %>
+        
+        <%} %>
+  
+  
+  
+  /*end else*/
+  <%}%>
+)
+
+)
+<%} %>
+/*end communication*/
+        		
          )
       }
     });
@@ -306,11 +431,11 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
           cache: false,
           success: function(data) {
               this.setState({data:data.yearPlan});
-          if( isActivNew ==1 ){
-              isActivNew=2;
-          }else if( isActivNew ==2 ){
-              isActivNew=0;
-          }
+	          if( isActivNew ==1 ){
+	              isActivNew=2;
+	          }else if( isActivNew ==2 ){
+	              isActivNew=0;
+	          }
             }.bind(this),
           error: function(xhr, status, err) {
             

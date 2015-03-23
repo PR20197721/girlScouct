@@ -17,7 +17,7 @@
 	     <li><%if (((Activity)planView.getYearPlanComponent()).getSentEmails()!=null && !((Activity)planView.getYearPlanComponent()).getSentEmails().isEmpty()) {%>
   			(<%=((Activity)planView.getYearPlanComponent()).getSentEmails().size() %> sent - 
   		 	<a href="#" title="view sent emails" className="view" data-reveal-id="modal_view_sent_emails">view</a>)
-  			<%} %>
+  		    <%} %>
   		</li>
   <% }else{ %>
    		<li><%
