@@ -135,6 +135,7 @@ public class ScaffoldingPostServlet extends SlingAllMethodsServlet {
                 throw new ServletException(e);
             }
         } else if (request.getParameter("./vtkDataType").equals("year-plan")) {
+            System.err.println("year-plan");
             String rootPath = request.getParameter("originalUrl");
             if (rootPath.endsWith("*")) {
                 // /content/girlscouts-vtk/yearPlanTemplates/yearplan2014/*
@@ -158,15 +159,31 @@ public class ScaffoldingPostServlet extends SlingAllMethodsServlet {
                     existingNodePaths.add(iter.nextNode().getPath());
                 }
                 
-                // Do set sub to see if any agenda item node needs to be removed.
+                for (String path : childrenNodePaths) {
+                    System.err.println("child: " + path);
+                }
+                for (String path : existingNodePaths) {
+                    System.err.println("exist: " + path);
+                }
+
+                // Do set sub to see if any meeting node needs to be removed.
                 existingNodePaths.removeAll(childrenNodePaths);
                 
+                for (String path : existingNodePaths) {
+                    System.err.println("remain: " + path);
+                }
+
                 // Cannot do this way because of special character problems.
+                System.err.println("Begin removing nodes.");
                 iter = meetingsNode.getNodes();
                 while (iter.hasNext()) {
                     Node node = iter.nextNode();
-                    if (!existingNodePaths.contains(node.getName())) {
+
+                    if (existingNodePaths.contains(node.getPath())) {
+                        System.err.println("Removing node: " + node.getPath());
                         node.remove();
+                    } else {
+                        System.err.println("Stay node: " + node.getPath());
                     }
                 }
                 
