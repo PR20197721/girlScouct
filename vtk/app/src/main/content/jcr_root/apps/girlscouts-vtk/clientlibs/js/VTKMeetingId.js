@@ -27,13 +27,7 @@ girlscouts.components.VTKMeetingId = CQ.Ext.extend(CQ.form.Selection, {
     		editable: true,
     		optionsConfig: {
     			forceSelection: true
-    		},
-        	listeners: {
-        		selectionchanged: {
-        			scope: this,
-        			fn: this.updateButton
-        		}
-        	}
+    		}
         };
         config = CQ.Util.applyDefaults(config, defaults);
         girlscouts.components.VTKMeetingId.superclass.constructor.call(this, config);
