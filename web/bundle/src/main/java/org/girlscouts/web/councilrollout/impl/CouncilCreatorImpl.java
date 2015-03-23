@@ -64,6 +64,14 @@ import com.day.cq.wcm.msm.api.RolloutConfigManager;
 public class CouncilCreatorImpl implements CouncilCreator {
 	private static Logger LOG = LoggerFactory.getLogger(CouncilCreatorImpl.class);
 
+	/**
+	 * Creates the layout of the site (national pages)
+	 * 
+	 * @param  contentPath  path leading up to council root, e.g. "/content/"
+	 * @param  councilName  the full name of the council
+	 * @param  councilTitle  the site's domain name
+	 * @return      
+	 */
 	public List<Page> generateSite(Session session, ResourceResolver rr, String contentPath, String councilName, String councilTitle) {
 		ArrayList<Page> pages = new ArrayList<Page>();
 		HashMap<String, String> propertyMap = new HashMap<String, String>();
