@@ -19,8 +19,6 @@ import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
 import org.apache.sling.api.servlets.SlingAllMethodsServlet;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.day.cq.commons.jcr.JcrUtil;
 import com.day.cq.replication.ReplicationActionType;
@@ -31,8 +29,11 @@ import com.day.cq.replication.Replicator;
 @Service({ Servlet.class })
 @Property(name = "sling.servlet.paths", value = { "/bin/vtk-scaffolding-post" })
 public class ScaffoldingPostServlet extends SlingAllMethodsServlet {
-    private static final Logger log = LoggerFactory.getLogger(ScaffoldingPostServlet.class);
-    
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 4468363069979147472L;
+
     @Reference
     Replicator replicator;
     
@@ -133,6 +134,46 @@ public class ScaffoldingPostServlet extends SlingAllMethodsServlet {
             } catch (RepositoryException e) {
                 throw new ServletException(e);
             }
+        } else if (request.getParameter("./vtkDataType").equals("year-plan")) {
+            String rootPath = request.getParameter("originalUrl");
+            if (rootPath.endsWith("*")) {
+                // /content/girlscouts-vtk/yearPlanTemplates/yearplan2014/*
+                // =>
+                // /content/girlscouts-vtk/yearPlanTemplates/yearplan2014/brownie/yearPlan1
+                rootPath = rootPath.substring(0, rootPath.length() - 1); 
+                rootPath = rootPath + request.getParameter("./level").toLowerCase() + "/" 
+                        + request.getParameter("./id").toUpperCase();
+            }
+            
+            try {
+                Set<String> childrenNodePaths = getChildrenNodePaths(rootPath, request);
+
+                createNodes(childrenNodePaths, session);
+                
+                // Special logic for year plans. Get existing meetings. 
+                Set<String> existingNodePaths = new HashSet<String>();
+                Node meetingsNode = session.getNode(rootPath + "/meetings");
+                NodeIterator iter = meetingsNode.getNodes();
+                while (iter.hasNext()) {
+                    existingNodePaths.add(iter.nextNode().getPath());
+                }
+                
+                // Do set sub to see if any agenda item node needs to be removed.
+                existingNodePaths.removeAll(childrenNodePaths);
+                
+                // Cannot do this way because of special character problems.
+                iter = meetingsNode.getNodes();
+                while (iter.hasNext()) {
+                    Node node = iter.nextNode();
+                    if (!existingNodePaths.contains(node.getName())) {
+                        node.remove();
+                    }
+                }
+                
+                session.save();          
+            } catch (RepositoryException e) {
+                throw new ServletException(e);
+            }
         }
         
         request.getRequestDispatcher(request.getParameter("originalUrl")).forward(request, response);
@@ -140,6 +181,7 @@ public class ScaffoldingPostServlet extends SlingAllMethodsServlet {
     
     protected Set<String> getChildrenNodePaths(String rootPath, SlingHttpServletRequest request) {
         // e.g. ./meetingInfo/overview/str
+        @SuppressWarnings("unchecked")
         Map<String, String[]> paramMap = request.getParameterMap();
         Set<String> nodePaths = new HashSet<String>();
         for (String key : paramMap.keySet()) {
