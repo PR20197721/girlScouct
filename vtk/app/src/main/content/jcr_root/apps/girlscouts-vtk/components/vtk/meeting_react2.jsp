@@ -556,6 +556,7 @@ React.createElement("li", null,
     data: '', 
     dataType: 'html', 
     success: function (data) { 
+    	location.reload();
     },
     error: function (data) { 
     }

@@ -747,23 +747,6 @@
 							.getParameter("addAsset")));
 		} else if (request.getParameter("reactjs") != null) {
 System.err.println("manu reactjs___________________________________________________________ " + new java.util.Date());
-System.out.println("manuservlet path= " + request.getServletPath());
-System.out.println("manurequest URL= " + request.getRequestURL());
-System.out.println("manurequest URI= " + request.getRequestURI());
-String str=request.getRequestURL()+"?";
-Enumeration<String> paramNames = request.getParameterNames();
-while (paramNames.hasMoreElements())
-{
-    String paramName = paramNames.nextElement();
-    String[] paramValues = request.getParameterValues(paramName);
-    for (int i = 0; i < paramValues.length; i++) 
-    {
-        String paramValue = paramValues[i];
-        str=str + paramName + "=" + paramValue;
-    }
-    str=str+"&";
-}
-System.out.println("manu: "+str.substring(0,str.length()-1));
 
 
 			boolean isFirst = false;
