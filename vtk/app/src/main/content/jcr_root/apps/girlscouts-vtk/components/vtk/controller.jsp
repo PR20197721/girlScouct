@@ -761,7 +761,7 @@ System.err.println("manu reactjs________________________________________________
 				System.err.println("manu reactjs 1");
 			
 				ModifiedChecker modifiedChecker = sling.getService(ModifiedChecker.class);
-				isCng = modifiedChecker.isModified(session.getId(), troop.getYearPlan().getPath());
+				isCng = modifiedChecker.isModified("X" + session.getId(), troop.getYearPlan().getPath());
 				System.err.println("manu reactjs 2 ::" +isCng);
 			}
 
@@ -855,7 +855,7 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 			boolean isCng = false;
 		    if (!isFirst) {
 			    ModifiedChecker modifiedChecker = sling.getService(ModifiedChecker.class);
-			    isCng = modifiedChecker.isModified(session.getId(), troop.getYearPlan().getPath());
+			    isCng = modifiedChecker.isModified("X"+ session.getId(), troop.getYearPlan().getPath());
 		    }
 			//isCng=true;
 			if (isFirst || isCng
@@ -966,7 +966,7 @@ System.err.println("manu reactActivity");
 
 		    if (!isFirst) {
 				ModifiedChecker modifiedChecker = sling.getService(ModifiedChecker.class);
-				isCng = modifiedChecker.isModified(session.getId(), troop.getYearPlan().getPath());
+				isCng = modifiedChecker.isModified("X" + session.getId(), troop.getYearPlan().getPath());
             }
 
 			if (isFirst || isCng) {
