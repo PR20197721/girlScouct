@@ -1035,11 +1035,14 @@ System.err.println("manu reactActivity");
 			
 			try {
 			    String imgPath = request.getParameter("path") + "/jcr:content/data/image";
-	
-			    Node imgNode = resourceResolver.getResource(imgPath).adaptTo(Node.class);  
-			    if( imgNode.hasProperty("fileReference")){
-			     %> <%= displayRendition(resourceResolver, imgPath, "cq5dam.web.520.520") %><% 
-			    }
+
+                Resource imgResource = resourceResolver.getResource(imgPath);
+                if (imgResource != null) {
+			        Node imgNode = imgResource.adaptTo(Node.class);  
+			        if( imgNode.hasProperty("fileReference")){
+			            %> <%= displayRendition(resourceResolver, imgPath, "cq5dam.web.520.520") %><% 
+			        }
+                }
 			}catch(Exception e){e.printStackTrace();}
 				
 		} else {
