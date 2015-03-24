@@ -177,6 +177,8 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
         
         this.add(new CQ.Ext.form.Label({text: "Duration"}));
         this.durationField = new CQ.Ext.form.NumberField({
+        	maxValue: 30,
+        	maxText: 'Duration should not exceed 30 minutes',
             listeners: {
                 change: {
                     scope:this,
