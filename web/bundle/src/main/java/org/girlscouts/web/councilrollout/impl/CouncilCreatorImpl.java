@@ -68,8 +68,8 @@ public class CouncilCreatorImpl implements CouncilCreator {
 	 * Creates the layout of the site (national pages)
 	 * 
 	 * @param  contentPath  path leading up to council root, e.g. "/content/"
-	 * @param  councilName  the full name of the council
-	 * @param  councilTitle  the site's domain name
+	 * @param  councilName  the domain name of the council
+	 * @param  councilTitle  the full name of the council
 	 * @return a list containing all pages that were created
 	 */
 	public List<Page> generateSite(Session session, ResourceResolver rr, String contentPath, String councilName, String councilTitle) {
@@ -84,13 +84,19 @@ public class CouncilCreatorImpl implements CouncilCreator {
 				// Create Council HomePage
 			
 				pages.add(buildPage(pageManager, session, contentPath, councilTitle, null, councilName, "", "foundation/components/page", null));
-				propertyMap = setLangPropertyMap(councilPath, "en");
+				propertyMap = setLangPropertyMap(councilPath, "en", councilName);
 				Page englishPage = buildPage(pageManager, session, councilPath, councilTitle, null, "en", "","girlscouts/components/homepage", propertyMap);
 
 				String languagePath = englishPage.getPath();
 
 				pages.add(englishPage);
 				pages.addAll(buildLiveCopyPages(pageManager, rr, contentNode, contentPath, "girlscouts-template", councilPath, "en"));
+				pages.add(buildPage(pageManager, session, languagePath, "Events", null, "events", "/apps/girlscouts/templates/three-column-page", "girlscouts/components/placeholder-page", null));
+				pages.add(buildPage(pageManager, session, languagePath + "/events", "Event List", null, "event-list", "/apps/girlscouts/templates/three-column-page", "girlscouts/components/three-column-page", null));
+				pages.add(buildPage(pageManager, session, languagePath + "/events", "Event Calendar", null, "event-calendar", "/apps/girlscouts/templates/three-column-page", "girlscouts/components/three-column-page", null));
+				pages.add(buildPage(pageManager, session, languagePath, "Our Council", null, "our-council", "/apps/girlscouts/templates/three-column-page", "girlscouts/components/placeholder-page", null));
+				pages.add(buildPage(pageManager, session, languagePath + "/our-council", "News", null, "news", "/apps/girlscouts/templates/three-column-page", "girlscouts/components/placeholder-page", null));
+				pages.add(buildContactPage(pageManager, session, languagePath + "/our-council", councilTitle, councilName));
 				pages.add(buildPage(pageManager, session, languagePath, "Ad Page", null, "ad-page", "", "girlscouts/components/ad-list-page", null));
 				pages.add(buildPage(pageManager, session, languagePath, "Search | " + councilTitle, "Search | " + councilTitle, "site-search", "", "girlscouts/components/three-column-page", null));
 				pages.add(buildPage(pageManager, session, languagePath, "Map", null, "map", "", "girlscouts/components/map", null));
@@ -462,11 +468,11 @@ public class CouncilCreatorImpl implements CouncilCreator {
 	 * @param  langAbbrev  used to create path to resources
 	 * @return a map of the properties set by this method
 	 */
-	private HashMap<String, String> setLangPropertyMap(String path, String langAbbrev) {
+	private HashMap<String, String> setLangPropertyMap(String path, String langAbbrev, String councilDomain) {
 		HashMap<String, String> propertyMap = new HashMap<String, String>();
 
 		try {
-			propertyMap.put("cq:designPath", "/etc/designs/girlscouts-usa-green");
+			propertyMap.put("cq:designPath", "/etc/designs/girlscouts-" + councilDomain);
 			propertyMap.put("adsPath", path + "/" + langAbbrev + "/ad-page");
 			propertyMap.put("calendarPath", path + "/" + langAbbrev + "/event-calendar");
 			propertyMap.put("eventLanding", path + "/" + langAbbrev	+ "/events/event-list");
@@ -553,6 +559,125 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		return returnPage;
+	}
+	
+	/**
+	 * Creates the contact us page with it's form and properties
+	 * @param  path  path to the page's directory
+	 * @param  councilTitle  full name of the council
+	 * @param  councilName  domain name of the council
+	 * @return the newly created contact us page
+	 */
+	private Page buildContactPage(PageManager manager, Session session, String path, String councilTitle, String councilName){
+		Page returnPage = null;
+		
+		try {
+			returnPage = manager.create(path, "contact-us", "/apps/girlscouts/templates/three-column-page", "Contact Us");
+			Node jcrNode = session.getNode(returnPage.getPath() + "/jcr:content");
+			jcrNode.setProperty("sling:resourceType", "girlscouts/components/three-column-page");
+			jcrNode.setProperty("seoTitle", "Contact Us | " + councilTitle);
+			
+			Node contentNode = jcrNode.addNode("content");
+			contentNode.setPrimaryType("nt:unstructured");
+			
+			Node middleNode = contentNode.addNode("middle");
+			middleNode.setPrimaryType("nt:unstructured");
+			
+			Node parNode = middleNode.addNode("par");
+			parNode.setPrimaryType("nt:unstructured");
+			parNode.setProperty("sling:resourceType", "foundation/components/parsys");
+			
+			Node formStartNode = parNode.addNode("form_start");
+			formStartNode.setProperty("actionType","foundation/components/form/actions/mail");
+			formStartNode.setProperty("formid","contact-us");
+			formStartNode.setProperty("from","placeholder@"+councilName+".org");
+			formStartNode.setProperty("mailto","placeholder@"+councilName+".org");
+			formStartNode.setProperty("sling:resourceType", "foundation/components/form/start");
+			formStartNode.setProperty("subject", "Contact Form");
+			
+			Node titleNode = parNode.addNode("title");
+			titleNode.setPrimaryType("nt:unstructured");
+			titleNode.setProperty("sling:resourceType", "girlscouts/components/title");
+			
+			Node text3Node = parNode.addNode("text_3");
+			text3Node.setPrimaryType("nt:unstructured");
+			text3Node.setProperty("sling:resourceType", "girlscouts/components/text");
+			text3Node.setProperty("text", "<p><b>We'd love to hear from you.</b></p>");
+			text3Node.setProperty("textIsRich", "true");
+			
+			Node textNode = parNode.addNode("text");
+			textNode.setProperty("constraintType", "foundation/components/form/constraints/name");
+			textNode.setPrimaryType("nt:unstructured");
+			textNode.setProperty("jcr:title", "Name");
+			textNode.setProperty("name", "name");
+			textNode.setProperty("required", true);
+			textNode.setProperty("requiredMessage", "Your name is required");
+			textNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
+			textNode.setProperty("sling:resourceType", "foundation/components/form/text");
+			
+			Node text0Node = parNode.addNode("text_0");
+			text0Node.setProperty("constraintType", "foundation/components/form/constraint/email");
+			text0Node.setPrimaryType("nt:unstructured");
+			text0Node.setProperty("jcr:title", "Email");
+			text0Node.setProperty("name", "email");
+			text0Node.setProperty("required", true);
+			text0Node.setProperty("requiredMessage", "Your email address is required");
+			text0Node.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
+			text0Node.setProperty("sling:resourceType", "foundation/components/form/text");
+			
+			Node text2Node = parNode.addNode("text_2");
+			text2Node.setProperty("constraintType", "foundation/components/form/constraints/numeric");
+			text2Node.setProperty("jcr:description", "Please enter phone number in the following format: 5555555555");
+			text2Node.setPrimaryType("nt:unstructured");
+			text2Node.setProperty("jcr:title", "Phone");
+			text2Node.setProperty("name", "phone");
+			text2Node.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
+			text2Node.setProperty("sling:resourceType", "foundation/components/form/text");
+			
+			Node text5Node = parNode.addNode("text_5");
+			text5Node.setProperty("constraintMessage", "Please enter a valid 5-digit Zip Code.");
+			text5Node.setProperty("constraintType", "foundation/components/form/constraints/numeric");
+			text5Node.setPrimaryType("nt:unstructured");
+			text5Node.setProperty("jcr:title", "ZIP Code");
+			text5Node.setProperty("name", "zipcode");
+			text5Node.setProperty("required", true);
+			text5Node.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
+			text5Node.setProperty("sling:resourceType", "foundation/components/form/text");
+			
+			Node captchaNode = parNode.addNode("Captcha");
+			captchaNode.setProperty("constraintMessage", "Invalid Captcha");
+			captchaNode.setProperty("jcr:description", "(Please type verification code in the box above. Click Refresh to get new code)");
+			captchaNode.setPrimaryType("nt:unstructured");
+			captchaNode.setProperty("jcr:title", "Verification Code");
+			captchaNode.setProperty("required", true);
+			captchaNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
+			captchaNode.setProperty("sling:resourceType", "girlscouts/components/form/captcha");
+			
+			Node text1Node = parNode.addNode("text_1");
+			text1Node.setPrimaryType("nt:unstructured");
+			text1Node.setProperty("jcr:title", "Comments");
+			text1Node.setProperty("name", "comments");
+			text1Node.setProperty("rows", 4);
+			text1Node.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
+			text1Node.setProperty("sling:resourceType", "foundation/components/form/text");
+			
+			Node submitNode = parNode.addNode("submit");
+			submitNode.setProperty("css", "form-btn");
+			submitNode.setPrimaryType("nt:unstructured");
+			submitNode.setProperty("sling:resourceSuperType", "foundation/components/form/defaults/field");
+			submitNode.setProperty("sling:resourceType", "foundation/components/form/submit");
+			
+			Node formEndNode = parNode.addNode("form_end_1395155284038");
+			formEndNode.setPrimaryType("nt:unstructured");
+			formEndNode.setProperty("sling:resourceType", "foundation/components/form/end");
+			
+		} catch (WCMException e) {
+			LOG.error("Cannot build contact us page: \n" +  e.toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		return returnPage;
 	}
 
