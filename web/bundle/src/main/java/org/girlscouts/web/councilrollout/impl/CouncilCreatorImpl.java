@@ -70,7 +70,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 	 * @param  contentPath  path leading up to council root, e.g. "/content/"
 	 * @param  councilName  the full name of the council
 	 * @param  councilTitle  the site's domain name
-	 * @return      
+	 * @return a list containing all pages that were created
 	 */
 	public List<Page> generateSite(Session session, ResourceResolver rr, String contentPath, String councilName, String councilTitle) {
 		ArrayList<Page> pages = new ArrayList<Page>();
@@ -113,6 +113,12 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		return pages;
 	}
 
+	/**
+	 * Creates site scaffolding and sets target paths
+	 * 
+	 * @param  councilName  the full name of the council
+	 * @return a list containing the scaffolding nodes that were created
+	 */
 	public List<Node> generateScaffolding(Session session, ResourceResolver rr, String councilName) {
 
 		ArrayList<Node> scaffoldings = new ArrayList<Node>();
@@ -161,6 +167,13 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		return scaffoldings;
 	}
 
+	/**
+	 * Creates DAM folder and subfolders for the site TODO: Images
+	 * 
+	 * @param  path  path to the parent directory e.g. "/content/dam"
+	 * @param  councilName the full name of the council
+	 * @return a list containing the folder nodes that were created
+	 */
 	public List<Node> generateDAMFolders(Session session, String path, String councilName, String councilTitle) {
 		ArrayList<Node> damNodes = new ArrayList<Node>();
 
@@ -179,6 +192,13 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		return damNodes;
 	}
 
+	/**
+	 * Creates tag folder and categories
+	 * 
+	 * @param  councilName  the full name of the council
+	 * @param  councilTitle the domain of the council
+	 * @return a list containing the nodes that were created
+	 */
 	public List<Tag> generateTags(Session session, ResourceResolver rr, String councilName, String councilTitle) {
 		ArrayList<Tag> tags = new ArrayList<Tag>();
 		final String tagPath = "/etc/tags";
@@ -199,6 +219,13 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		return tags;
 	}
 
+	/**
+	 * Creates design folder, CSS file, favicon, and content
+	 * 
+	 * @param  councilName  the full name of the council
+	 * @param  councilTitle the domain of the council
+	 * @return a list containing the nodes that were created
+	 */
 	public List<Node> generateDesign(Session session, ResourceResolver rr, String councilName, String councilTitle) {
 		ArrayList<Node> design = new ArrayList<Node>();
 		final String designPath = "/etc/designs";
@@ -234,6 +261,13 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		return design;
 	}
 
+	/**
+	 * Creates user groups and sets inheritance TODO: Fix inheritance. It broke.
+	 * 
+	 * @param  councilName  the full name of the council
+	 * @param  councilTitle the domain of the council
+	 * @return a list containing the user groups that were created
+	 */
 	public List<Group> generateGroups(Session session, ResourceResolver rr,	String councilName, String councilTitle) {
 		ArrayList<Group> groupList = new ArrayList<Group>();
 		final String homePath = "/home/groups";
@@ -275,6 +309,12 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		return groupList;
 	}
 
+	/**
+	 * Sets council specific user group permissions TODO: Fix permissions. It broke.
+	 * 
+	 * @param  councilName  the full name of the council
+	 * @param  councilTitle the domain of the council
+	 */
 	private void buildPermissions(Session session, String councilName, Group councilGroup) {
 		final String AUTHORS = councilName + "-authors";
 		final String REVIEWERS = councilName + "-reviewers";
@@ -341,13 +381,19 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		Rule rule;
 		JackrabbitAccessControlManager manager;
 		Session session;
-		
+
 		PermissionsSetter(Rule rule, JackrabbitAccessControlManager manager, Session session) {
 			this.rule = rule;
 			this.manager = manager;
 			this.session = session;
 		}
 		
+		/**
+		 * Used to set permissions for a user group. Used by buildPermissions()
+		 * 
+		 * @param  rule  a specific rule for a specific user/group
+		 * @return a list of rules for the user/group
+		 */
 		private JackrabbitAccessControlList getPrivilegeList(){
 			Map<String, Privilege[]> privilegesMap = new HashMap<String, Privilege[]>();
 			JackrabbitAccessControlPolicy jacp = null;
