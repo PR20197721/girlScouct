@@ -63,7 +63,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
     var thisMeetingDate="a";
     var isActivNew=0;
     var agendaSched= null;
-
+    var scrollTarget = "";
     var MeetingList = React.createClass({displayName: "MeetingList",
       getInitialState: function() {
         return { show: false };
@@ -500,17 +500,23 @@ React.createElement("li", null,
                 		  
                 		   React.createElement("ul", null, 
                 		      this.props.data.map((function(item, i) {
-                		      return React.createElement("li", {className: "row", key: item.activityNumber, id: item.activityNumber}, 
-                		        React.createElement("div", {className: "wrapper clearfix"}, 
-                		          React.createElement("div", {className: "large-3 medium-3 small-3 columns small-push-1 large-push-2"}, 
-                		            React.createElement("span", null,   moment('<%=planView.getSearchDate()%>').format('YYYY') <1978 ? item.activityNumber : moment( getAgendaTime( item.duration )).format("h:mm"), " ")
-                		          ), 
-                		            React.createElement("div", {className: "large-17 columns medium-17 small-17 small-push-1 large-push-1"}, 
-                		              React.createElement(ActivityName, {item: item, key: item.uid, selected: item.uid, itemSelected: this.setSelectedItem, activityNumber: item.activityNumber - 1})
-                		            ), 
-                		            React.createElement("div", {className: "large-3 medium-3 small-3 columns"}, 
-                		              React.createElement("span", null, ":", item.duration<10 ? ("0"+item.duration) : item.duration)
+                		      return React.createElement("li", {className: "row meeting ui-state-default", key: item.activityNumber, id: item.activityNumber},
+                		    		  
+                		       React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"},                      	  
+                		       //React.createElement("div", {className: "wrapper clearfix"}, 
+									React.createElement("div", {className: "large-2 medium-2 small-2 columns small-push-1 large-push-2"},                 		    	
+									    React.createElement("img", {className: (moment('<%=planView.getSearchDate()%>') < moment( new Date()) && (moment('<%=planView.getSearchDate()%>').get('year') >2000)) ? "touchscroll hide" : "touchscroll <%=hasPermission(troop, Permission.PERMISSION_EDIT_ACTIVITY_ID) ? "" : " hide" %>", src: "/etc/designs/girlscouts-vtk/clientlibs/css/images/throbber.png"}) 
+									  ),                                           
+	                		        React.createElement("div", {className: "large-2 medium-2 small-2 columns small-push-1 large-push-2"}, 
+	                		            React.createElement("span", null,   moment('<%=planView.getSearchDate()%>').format('YYYY') <1978 ? item.activityNumber : moment( getAgendaTime( item.duration )).format("h:mm"), " ")
+	                		          ), 
+                		            React.createElement("div", {className: "large-14 columns medium-14 small-14 small-push-1 large-push-1"}, 
+                		               React.createElement(ActivityName, {item: item, key: item.uid, selected: item.uid, itemSelected: this.setSelectedItem, activityNumber: item.activityNumber - 1})
+                		             ), 
+                		            React.createElement("div", {className: "large-2 medium-2 small-2 columns"}, 
+                		               React.createElement("span", null, ":", item.duration<10 ? ("0"+item.duration) : item.duration)
                 		            )
+                		            
                 		          )
                 		        );
                 		                })) 
@@ -534,7 +540,15 @@ React.createElement("li", null,
         var dom = $(this.getDOMNode());
         var onReorder = this.props.onReorder;
         dom.sortable({
-        	 tolerance: "intersect" ,
+        	items: "li:not(.ui-state-disabled)",
+            delay:150,
+            distance: 5,
+            opacity: 0.5 ,
+            scroll: true,
+            scrollSensitivity: 10 ,
+            tolerance: "intersect" ,
+            handle: scrollTarget,
+            helper:'clone',
           stop: function (event, ui) {
             var order = dom.sortable("toArray", {attribute: "id"});
             var yy  = order.toString().replace('"','');
@@ -551,7 +565,15 @@ React.createElement("li", null,
 
         var onReorder = this.props.onReorder;
         dom.sortable({
-        	tolerance: "intersect" ,
+        	items: "li:not(.ui-state-disabled)",
+            delay:150,
+            distance: 5,
+            opacity: 0.5 ,
+            scroll: true,
+            scrollSensitivity: 10 ,
+            tolerance: "intersect" ,
+            handle: scrollTarget,
+            helper:'clone',
             stop: function (event, ui) {
               var order = dom.sortable("toArray", {attribute: "id"});
               var yy  = order.toString().replace('"','');
@@ -570,7 +592,7 @@ React.createElement("li", null,
     data: '', 
     dataType: 'html', 
     success: function (data) { 
-    	location.reload();
+    	//location.reload();
     },
     error: function (data) { 
     }
