@@ -72,7 +72,7 @@
 	</div>
 </div>
 <script>
-  attendance_popup_width();
+  //attendance_popup_width();
 	function setDefaultAchievement(checkedState, achievementId) {
 		if (!checkedState) {
 			if ($("#" + achievementId).length > 0) {
