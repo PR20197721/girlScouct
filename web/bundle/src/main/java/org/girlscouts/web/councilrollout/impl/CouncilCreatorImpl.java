@@ -431,6 +431,11 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			return (JackrabbitAccessControlList) jacp;
 	}
 		
+		/**
+		 * Generates the privileges map used for getPrivilegesList()
+		 * 
+		 * @return a map of privileges for a user group
+		 */
 		private Map<String, Privilege[]> setPrivilegesMap(JackrabbitAccessControlManager manager) {
 			Map<String, Privilege[]> map = new HashMap<String, Privilege[]>();
 			
@@ -450,6 +455,13 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		
 	}
 	
+	/**
+	 * Sets page properties for lang page (e.g. en)
+	 * 
+	 * @param  path  a path to the lang page (e.g. en)
+	 * @param  langAbbrev  used to create path to resources
+	 * @return a map of the properties set by this method
+	 */
 	private HashMap<String, String> setLangPropertyMap(String path, String langAbbrev) {
 		HashMap<String, String> propertyMap = new HashMap<String, String>();
 
@@ -476,6 +488,13 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		return propertyMap;
 	}
 
+	/**
+	 * Creates a folder in the jcr and a jcr:content node if needed
+	 * 
+	 * @param  folderName  The name used in the path to the folder
+	 * @param  folderTitle  The visible title of the folder
+	 * @return the newly created folder
+	 */
 	private Node buildFolder(Node node, String folderName, String folderTitle, String primaryType, boolean hasJcrNode) {
 		Node folderNode = null;
 
@@ -500,6 +519,17 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		return folderNode;
 	}
 
+	/**
+	 * Creates a page in the jcr
+	 * 
+	 * @param  path  a path to the page to be created
+	 * @param  title  the visible title not used for the file path
+	 * @param  seoTitle  the seoTitle property (when used)
+	 * @param  pageName  the name used in the file path
+	 * @param  template  path to the template being used (e.g. three-Column Page). Shows up in siteadmin
+	 * @param  resourceType  the page's component type (e.g. homepage, placeholder-page)
+	 * @return the newly created page
+	 */
 	private Page buildPage(PageManager manager, Session session, String path, String title, String seoTitle, String pageName, String template, String resourceType, HashMap<String, String> propertyMap) {
 		Page returnPage = null;
 
@@ -526,6 +556,16 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		return returnPage;
 	}
 
+	/**
+	 * Creates a page in the jcr
+	 * Specifically used for pages that won't be visible to users, and are just used for hierarchical purposes
+	 * 
+	 * @param  languagePath  used to create page path
+	 * @param  pageName  the name used in the file path
+	 * @param  template  path to the template being used (e.g. three-Column Page). Shows up in siteadmin
+	 * @param  title  visible page name
+	 * @return the newly created page
+	 */
 	private Page buildRepositoryPage(PageManager manager, Session session, String languagePath, String pageName, String template, String title) {
 		Page thisRepositoryPage = null;
 
@@ -537,6 +577,16 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		return thisRepositoryPage;
 	}
 	
+	/**
+	 * Creates all live copies of existing (national) pages
+	 * 
+	 * @param  rootNode  the root node, in this case located at "/content"
+	 * @param  pageName  path to root node
+	 * @param  templatePath  relative path from "/content" to the page that is being used as a template (e.g. "girlscouts-template")
+	 * @param  councilPath  path to the council that contains the copies
+	 * @param  languagePath  relative path from councilPath to lang page "e.g. en"
+	 * @return the newly created page
+	 */
 	private List<Page> buildLiveCopyPages(PageManager manager,  ResourceResolver rr, Node rootNode, String contentPath, String templatePath, String councilPath, String languagePath) {
 		ArrayList<Page> copyPages = new ArrayList<Page>();
 		final String templateLangPath = templatePath + "/" + languagePath;
