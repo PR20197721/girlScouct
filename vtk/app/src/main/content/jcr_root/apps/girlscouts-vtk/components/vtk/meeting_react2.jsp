@@ -338,9 +338,8 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 
 <%if (((Activity)planView.getYearPlanComponent()).getSentEmails()!=null && !((Activity)planView.getYearPlanComponent()).getSentEmails().isEmpty()) {%>
 
- "   (<%=((Activity)planView.getYearPlanComponent()).getSentEmails().size() %>", " sent -",  
-
-     React.createElement("a", {href: "#", title: "view sent emails", className: "view", "data-reveal-id": "modal_view_sent_emails"}, "view"), ")", 
+     React.createElement("span", null,"   (<%=((Activity)planView.getYearPlanComponent()).getSentEmails().size() %>", " sent -"), 
+     React.createElement("a", {href: "#", title: "view sent emails", className: "view", "data-reveal-id": "modal_view_sent_emails"}, "view"), ")" 
 
  <%} %>
 
@@ -369,8 +368,8 @@ React.createElement("li", null,
         ), 
         React.createElement("li", null, 
         <%if (planView.getMeeting().getSentEmails()!=null && !planView.getMeeting().getSentEmails().isEmpty()) {%> 
-            "(", "<%=planView.getMeeting().getSentEmails().size() %>", " sent -",  
-            React.createElement("a", {href: "#", title: "view sent emails", className: "view", "data-reveal-id": "modal_view_sent_emails"}, "view"), ")", 
+            React.createElement("span",null, "(", "<%=planView.getMeeting().getSentEmails().size() %>", " sent -"),
+            React.createElement("a", {href: "#", title: "view sent emails", className: "view", "data-reveal-id": "modal_view_sent_emails"}, " view", ")")
             <%}else{ %>"" <%} %>
         ), 
         
