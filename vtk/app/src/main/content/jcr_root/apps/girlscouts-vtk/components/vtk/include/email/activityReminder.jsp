@@ -156,6 +156,9 @@
 	function removeIndentions(x) {
 		return x.replace(/^\s+|\s+$/gim, '');
 	};
+	$("#modal-meeting-reminder").on('change', 'input', function(event){
+    	$('input[type="button"]').attr('disabled',false);
+	});
 
 </script>
  
