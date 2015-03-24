@@ -182,24 +182,24 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
     });
 
     var MeetingPlan = React.createClass({displayName: "MeetingPlan",
+    	
       render: function() {
+    	  
         return (
-        
-        		
-        		
+        		React.createElement("div",{className: "section-wrapper"},
         		/*nav include*/
         		React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered small-24"}, 
 
-  React.createElement("div", {className: "meeting-navigation<%= (planView.getYearPlanComponent().getType() ==  YearPlanComponentType.ACTIVITY) ? " activity-navigation " : "" %> row collapse"}, 
+  React.createElement("div", {className: "meeting-navigation <%= (planView.getYearPlanComponent().getType() ==  YearPlanComponentType.ACTIVITY) ? " activity-navigation " : "" %> row collapse"}, 
 
     React.createElement("p", {className: "column"}, 
 
     React.createElement("span", null, 
 
-       '<%=planView.getPrevDate()%>' !=0 ? 
+       <%if(planView.getPrevDate()!=0){ %>
 
-        React.createElement("a", {className: "direction prev", href: "/content/girlscouts-vtk/en/vtk.details.html?elem=<%=planView.getPrevDate()%>"}) : ""
-
+    	    React.createElement("a", {className: "direction prev", href: "/content/girlscouts-vtk/en/vtk.details.html?elem=<%=planView.getPrevDate()%>"})
+       <%}else{%>""<%}%>   
       
 
       )
@@ -208,7 +208,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 
     React.createElement("div", {className: "column"}, 
 
-      React.createElement("h3", null, "<%=planView.getYearPlanComponent().getType()%>", this.props.id,   this.props.meetingTitle), 
+      React.createElement("h3", null, "<%=planView.getYearPlanComponent().getType()%>", " : ",this.props.id, this.props.meetingTitle), 
 
       React.createElement("p", {className: "date"}, 
 
@@ -219,7 +219,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
             React.createElement("span", {className: "day"}, this.props.meetingModDAY), 
 
             React.createElement("span", {className: "hour"}, this.props.meetingModHOUR)
-<%}%>
+    <%}else{%>""<%}%>
  
             
       
@@ -232,11 +232,11 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 
       React.createElement("span", null, 
 
-       '<%=planView.getNextDate()%>' !=0 ? 
+      <% if(planView.getNextDate()!=0 ){  %>
 
-       React.createElement("a", {className: "direction next", href: "/content/girlscouts-vtk/en/vtk.details.html?elem=<%=planView.getNextDate()%>"})
+    	    React.createElement("a", {className: "direction next", href: "/content/girlscouts-vtk/en/vtk.details.html?elem=<%=planView.getNextDate()%>"})
 
-        : ""
+     <%}else{%>""<%}%>
 
     
 
@@ -405,7 +405,7 @@ React.createElement("li", null,
 )
 <%} %>
 /*end communication*/
-        		
+      )
          )
       }
     });
@@ -523,9 +523,15 @@ React.createElement("li", null,
       },
       componentDidMount: function() {
         resizeWindow();
+        if (Modernizr.touch) {
+
+            scrollTarget = ".touchscroll";
+          } 
+        
         var dom = $(this.getDOMNode());
         var onReorder = this.props.onReorder;
         dom.sortable({
+        	 tolerance: "intersect" ,
           stop: function (event, ui) {
             var order = dom.sortable("toArray", {attribute: "id"});
             var yy  = order.toString().replace('"','');
@@ -536,8 +542,13 @@ React.createElement("li", null,
       },
       componentWillUpdate: function() {
         var dom = $(this.getDOMNode());
+        if (Modernizr.touch) {
+            scrollTarget = ".touchscroll";
+          }
+
         var onReorder = this.props.onReorder;
         dom.sortable({
+        	tolerance: "intersect" ,
             stop: function (event, ui) {
               var order = dom.sortable("toArray", {attribute: "id"});
               var yy  = order.toString().replace('"','');
