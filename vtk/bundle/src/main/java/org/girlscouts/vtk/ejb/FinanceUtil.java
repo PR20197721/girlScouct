@@ -75,6 +75,16 @@ public class FinanceUtil {
 			Csv csvWriter = new Csv();
 			csvWriter.writeInit(writer);
 			
+			
+			
+			csvWriter.writeRow("Troop Name: ", troop.getSfTroopName(), "Troop Id: ", troop.getSfTroopId() );
+			
+			if(qtr != 0){
+				csvWriter.writeRow("Finaces for Year:", currentYear, "Quarter: ", Integer.toString(qtr));
+			}else{
+				csvWriter.writeRow("Finaces for Year:", currentYear);
+			}
+			
 			csvWriter.writeRow("Income", "", "Expenses", "");
 			
 			List<String> incomeFields = financeConfig.getIncomeFields();
