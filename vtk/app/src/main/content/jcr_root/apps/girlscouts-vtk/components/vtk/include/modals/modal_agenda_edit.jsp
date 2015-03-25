@@ -90,8 +90,10 @@
 				%>
 <% if (request.getParameter("isAgenda") != null) {%>
 	<div class="row">
+	<h3>Agenda Item: <%=_activity.getName()%></h3>
+	<%if( hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID ) ) {%>
    	<form onsubmit="return false;">
-			<h3>Agenda Item: <%=_activity.getName()%></h3>
+			
 			<div class="columns small-4">
 				<select onchange="durEditActiv(this.options[this.selectedIndex].value, '<%=_activity.getPath()%>', '<%=meeting.getPath()%>')">
 					<option value="0" selected>Time Allotment</option>
@@ -116,6 +118,7 @@
 			
 			</div>
 		</form>
+		<%} %>
 		</div>
 				<section class="row">
 					<%
@@ -125,13 +128,7 @@
 					%>
 				</section>
 		</div>
-		<section class="row">
-			<%
-				if (_activity.getActivityDescription() != null && !_activity.getActivityDescription().isEmpty()) {
-					out.println("<div class=\"clearfix columns small-20 small-centered\">" + _activity.getActivityDescription() + "</div>");
-				}
-			%>
-		</section>
+		
 		<%}%>
 		</div>
 	</div>
