@@ -82,11 +82,13 @@ Node contentNode = session.getNode(contentPath);
         
         %><br>GROUPS:<br><%
         ArrayList<Group> groupList = new ArrayList<Group>(creator.generateGroups(session, resourceResolver, councilName, councilTitle));
-        for (Group g : groupList) { 
-            %>"<%= g.getName() %>" group created under path:
-            <%= g.getHomePath() %>
-            <br>
-            <%
+        if(groupList != null){
+        	for (Group g : groupList) { 
+            	%>"<%= g.getName() %>" group created under path:
+            	<%= g.getHomePath() %>
+            	<br>
+            	<%
+        	}
         }
 
         %><br>DESIGN:<br><%
@@ -98,6 +100,8 @@ Node contentNode = session.getNode(contentPath);
             <%
         }
 	}
+
+	session.save();
 }
 
 %>
