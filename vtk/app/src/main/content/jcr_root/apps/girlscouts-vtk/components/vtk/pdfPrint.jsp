@@ -39,6 +39,8 @@ else if( act.equals("isOverview") ){
 }
 
 try{
+	
+	System.err.println("**** : "+ str);
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 		PdfWriter.getInstance(document, response.getOutputStream());
 		document.open();

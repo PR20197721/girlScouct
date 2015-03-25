@@ -18,7 +18,7 @@ jquery-print.js
 vtk-global.js
 
 ## use for prod
-react-with-addons-0.12.2.min.js
+  react-with-addons-0.12.2.min.js
 
 ## use for dev
 #react-with-addons-0.12.2.js
