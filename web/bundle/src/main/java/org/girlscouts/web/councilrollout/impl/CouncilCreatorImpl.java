@@ -11,12 +11,14 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
 
+import javax.jcr.AccessDeniedException;
 import javax.jcr.ItemExistsException;
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
 import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
+import javax.jcr.UnsupportedRepositoryOperationException;
 import javax.jcr.Value;
 import javax.jcr.ValueFactory;
 
@@ -24,6 +26,7 @@ import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Service;
+import org.apache.felix.scr.annotations.Reference;
 import org.apache.jackrabbit.api.JackrabbitSession;
 import org.apache.jackrabbit.api.security.JackrabbitAccessControlList;
 import org.apache.jackrabbit.api.security.JackrabbitAccessControlManager;
@@ -31,15 +34,26 @@ import org.apache.jackrabbit.api.security.JackrabbitAccessControlPolicy;
 import org.apache.jackrabbit.commons.JcrUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.girlscouts.web.councilrollout.CouncilCreator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.day.cq.commons.jcr.JcrUtil;
 import com.day.cq.replication.Replicator;
-import com.day.cq.security.Authorizable;
-import com.day.cq.security.Group;
-import com.day.cq.security.UserManager;
+//import com.day.cq.security.Authorizable;
+//import com.day.cq.security.Group;
+//import com.day.cq.security.UserManager;
+
+//Jackrabbit User APIs
+import org.apache.jackrabbit.api.JackrabbitSession;
+import org.apache.jackrabbit.api.security.user.UserManager;
+import org.apache.jackrabbit.api.security.user.User;
+import org.apache.jackrabbit.api.security.user.Group;
+import org.apache.jackrabbit.api.security.user.Authorizable;
+
+import org.apache.jackrabbit.core.security.principal.DefaultPrincipalProvider;
+import org.apache.jackrabbit.core.security.user.UserManagerImpl;
 
 import javax.jcr.security.Privilege;
 
@@ -62,6 +76,10 @@ import com.day.cq.wcm.msm.api.RolloutConfigManager;
     @Property(name = "service.vendor", value = "Girl Scouts", propertyPrivate = false) })
 
 public class CouncilCreatorImpl implements CouncilCreator {
+	
+	@Reference
+	ResourceResolverFactory resolverFactory;
+	
 	private static Logger LOG = LoggerFactory.getLogger(CouncilCreatorImpl.class);
 
 	/**
@@ -268,13 +286,60 @@ public class CouncilCreatorImpl implements CouncilCreator {
 	}
 
 	/**
-	 * Creates user groups and sets inheritance TODO: Fix inheritance. It broke.
+	 * Creates user groups and sets inheritance
 	 * 
 	 * @param  councilName  the full name of the council
 	 * @param  councilTitle the domain of the council
 	 * @return a list containing the user groups that were created
 	 */
-	public List<Group> generateGroups(Session session, ResourceResolver rr,	String councilName, String councilTitle) {
+	public List<String> generateGroups(Session session, ResourceResolver rr, String councilName, String councilTitle) {
+		ArrayList<String> groupList = new ArrayList<String>();
+		final String homePath = "/home/groups";
+		final String girlscoutsPath = "girlscouts-usa";
+		final String allAuthorsGroup = "gs-authors";
+		final String allReviewersGroup = "gs-reviewers";
+		try {
+        	ResourceResolver adminRR = resolverFactory.getAdministrativeResourceResolver(null);
+			UserManager userManager = ((JackrabbitSession) session).getUserManager();
+			DefaultPrincipalProvider dpp = new DefaultPrincipalProvider(session, (UserManagerImpl) userManager);
+			Principal principalAuthors = dpp.getPrincipal(councilName + "-authors");
+			Group councilAuthors = userManager.createGroup(principalAuthors, homePath + "/" + councilName);
+			Principal principalReviewers = dpp.getPrincipal(councilName + "-reviewers");
+			Group councilReviewers = userManager.createGroup(principalReviewers, homePath + "/" + councilName);
+			
+			if(userManager.getAuthorizable(allAuthorsGroup) != null && userManager.getAuthorizable(allReviewersGroup) != null){
+				groupList.add("\"" + principalAuthors.getName() + "\"" + "group created under path:\n" + councilAuthors.getPath());
+				groupList.add("\"" + principalReviewers.getName() + "\"" + "gorup created under path:\n" + councilReviewers.getPath());
+				//groupList.add(councilAuthor);
+				//groupList.add(councilReviewers);			
+				Group gsAuthors = (Group) userManager.getAuthorizable(allAuthorsGroup);
+				Group gsReviewers = (Group) userManager.getAuthorizable(allReviewersGroup);
+				gsAuthors.addMember(councilAuthors);
+				gsReviewers.addMember(councilReviewers);
+			}
+			else {
+				groupList.clear();
+				LOG.error(allAuthorsGroup + " or " + allReviewersGroup + " not found."); 
+				throw new PathNotFoundException();
+			}
+			
+			//Titles of council Groups set
+			String authorsProfilePath = councilAuthors.getPath();
+			session.getNode(authorsProfilePath).setProperty("givenName", councilTitle + " Authors");
+			String reviewersProfilePath = councilReviewers.getPath();
+			session.getNode(reviewersProfilePath).setProperty("givenName", councilTitle + " Reviewers");
+			
+			//Permissions for council Group are generated here
+			buildPermissions(session, councilName, councilAuthors);
+			buildPermissions(session, councilName, councilReviewers);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return groupList;
+	}
+	
+	/*public List<Group> generateGroups(Session session, ResourceResolver rr,	String councilName, String councilTitle) {
 		ArrayList<Group> groupList = new ArrayList<Group>();
 		final String homePath = "/home/groups";
 		final String girlscoutsPath = "girlscouts-usa";
@@ -314,10 +379,10 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			LOG.error("Error occurred during council Group creation" + e.toString());
 		}
 		return groupList;
-	}
+	}*/
 
 	/**
-	 * Sets council specific user group permissions TODO: Fix permissions. It broke.
+	 * Sets council specific user group permissions
 	 * 
 	 * @param  councilName  the full name of the council
 	 * @param  councilTitle the domain of the council
@@ -330,7 +395,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			JackrabbitSession jackSession = (JackrabbitSession) session;
 			JackrabbitAccessControlManager acm = (JackrabbitAccessControlManager) session.getAccessControlManager();
 			List<JackrabbitAccessControlList> aclList = new ArrayList<JackrabbitAccessControlList>();
-			org.apache.jackrabbit.api.security.user.UserManager manager = jackSession.getUserManager();
+			UserManager manager = jackSession.getUserManager();
 			//Converting Group to a Principal to be used as an argument for permission creation
 			Principal principal = manager.getAuthorizable(councilGroup.getID()).getPrincipal();			
 			String groupName = principal.getName();
