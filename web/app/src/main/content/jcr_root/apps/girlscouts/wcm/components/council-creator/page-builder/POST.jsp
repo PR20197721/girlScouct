@@ -80,7 +80,7 @@ Node contentNode = session.getNode(contentPath);
         }
         
         %><br>GROUPS:<br><%
-        ArrayList<String> groupList = new ArrayList<String>(creator.generateGroups(session, resourceResolver, councilName, councilTitle));
+        ArrayList<String> groupList = new ArrayList<String>(creator.generateGroups(session, councilName, councilTitle));
         if(groupList != null){
         	for (String g : groupList) { 
             	%><%= g %><br><%
@@ -97,7 +97,7 @@ Node contentNode = session.getNode(contentPath);
         }
 	}
 
-	//session.save();
+	session.save();
 }
 
 %>

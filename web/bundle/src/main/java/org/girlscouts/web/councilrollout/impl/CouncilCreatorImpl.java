@@ -26,7 +26,6 @@ import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Service;
-import org.apache.felix.scr.annotations.Reference;
 import org.apache.jackrabbit.api.JackrabbitSession;
 import org.apache.jackrabbit.api.security.JackrabbitAccessControlList;
 import org.apache.jackrabbit.api.security.JackrabbitAccessControlManager;
@@ -34,7 +33,6 @@ import org.apache.jackrabbit.api.security.JackrabbitAccessControlPolicy;
 import org.apache.jackrabbit.commons.JcrUtils;
 import org.apache.sling.api.resource.Resource;
 import org.apache.sling.api.resource.ResourceResolver;
-import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.girlscouts.web.councilrollout.CouncilCreator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -76,10 +74,6 @@ import com.day.cq.wcm.msm.api.RolloutConfigManager;
     @Property(name = "service.vendor", value = "Girl Scouts", propertyPrivate = false) })
 
 public class CouncilCreatorImpl implements CouncilCreator {
-	
-	@Reference
-	ResourceResolverFactory resolverFactory;
-	
 	private static Logger LOG = LoggerFactory.getLogger(CouncilCreatorImpl.class);
 
 	/**
@@ -292,14 +286,13 @@ public class CouncilCreatorImpl implements CouncilCreator {
 	 * @param  councilTitle the domain of the council
 	 * @return a list containing the user groups that were created
 	 */
-	public List<String> generateGroups(Session session, ResourceResolver rr, String councilName, String councilTitle) {
+	public List<String> generateGroups(Session session, String councilName, String councilTitle) {
 		ArrayList<String> groupList = new ArrayList<String>();
 		final String homePath = "/home/groups";
 		final String girlscoutsPath = "girlscouts-usa";
 		final String allAuthorsGroup = "gs-authors";
 		final String allReviewersGroup = "gs-reviewers";
 		try {
-        	ResourceResolver adminRR = resolverFactory.getAdministrativeResourceResolver(null);
 			UserManager userManager = ((JackrabbitSession) session).getUserManager();
 			DefaultPrincipalProvider dpp = new DefaultPrincipalProvider(session, (UserManagerImpl) userManager);
 			Principal principalAuthors = dpp.getPrincipal(councilName + "-authors");
@@ -309,9 +302,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			
 			if(userManager.getAuthorizable(allAuthorsGroup) != null && userManager.getAuthorizable(allReviewersGroup) != null){
 				groupList.add("\"" + principalAuthors.getName() + "\"" + "group created under path:\n" + councilAuthors.getPath());
-				groupList.add("\"" + principalReviewers.getName() + "\"" + "gorup created under path:\n" + councilReviewers.getPath());
-				//groupList.add(councilAuthor);
-				//groupList.add(councilReviewers);			
+				groupList.add("\"" + principalReviewers.getName() + "\"" + "gorup created under path:\n" + councilReviewers.getPath());		
 				Group gsAuthors = (Group) userManager.getAuthorizable(allAuthorsGroup);
 				Group gsReviewers = (Group) userManager.getAuthorizable(allReviewersGroup);
 				gsAuthors.addMember(councilAuthors);
