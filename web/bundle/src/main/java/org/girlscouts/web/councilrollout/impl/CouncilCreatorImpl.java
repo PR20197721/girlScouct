@@ -39,9 +39,6 @@ import org.slf4j.LoggerFactory;
 
 import com.day.cq.commons.jcr.JcrUtil;
 import com.day.cq.replication.Replicator;
-//import com.day.cq.security.Authorizable;
-//import com.day.cq.security.Group;
-//import com.day.cq.security.UserManager;
 
 //Jackrabbit User APIs
 import org.apache.jackrabbit.api.JackrabbitSession;
@@ -333,54 +330,12 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		}
 		return groupList;
 	}
-	
-	/*public List<Group> generateGroups(Session session, ResourceResolver rr,	String councilName, String councilTitle) {
-		ArrayList<Group> groupList = new ArrayList<Group>();
-		final String homePath = "/home/groups";
-		final String girlscoutsPath = "girlscouts-usa";
-		final String allAuthorsGroup = "gs-authors";
-		final String allReviewersGroup = "gs-reviewers";
-
-		try {
-			UserManager manager = (UserManager) rr.adaptTo(UserManager.class);
-			Group councilAuthors = manager.createGroup(councilName + "-authors", councilName + "-authors", homePath + "/" + councilName);
-			Group councilReviewers = manager.createGroup(councilName + "-reviewers", councilName + "-reviewers", homePath + "/" + councilName);
-			
-			if (manager.hasAuthorizable(allAuthorsGroup) && manager.hasAuthorizable(allReviewersGroup)) {
-				groupList.add(councilAuthors);
-				groupList.add(councilReviewers);
-				Group gsAuthors = (Group) manager.findByHome(homePath + "/" + girlscoutsPath + "/" + allAuthorsGroup);
-				gsAuthors.addMember(councilAuthors);
-				Group gsReviewers = (Group) manager.findByHome(homePath + "/" + girlscoutsPath + "/" + allReviewersGroup);
-				gsReviewers.addMember(councilReviewers);
-			} 
-			else {
-				groupList.clear();
-				LOG.error(allAuthorsGroup + " or " + allReviewersGroup + " not found."); 
-				throw new PathNotFoundException();
-			}
-			//Titles of council Groups set
-			String authorsProfilePath = councilAuthors.getProfile().getPath();
-			session.getNode(authorsProfilePath).setProperty("givenName", councilTitle + " Authors");
-			String reviewersProfilePath = councilReviewers.getProfile().getPath();
-			session.getNode(reviewersProfilePath).setProperty("givenName", councilTitle + " Reviewers");
-			
-			//Permissions for council Group are generated here
-			buildPermissions(session, councilName, councilAuthors);
-			buildPermissions(session, councilName, councilReviewers);
-			
-			//session.save();
-		} catch (Exception e) {
-			LOG.error("Error occurred during council Group creation" + e.toString());
-		}
-		return groupList;
-	}*/
 
 	/**
 	 * Sets council specific user group permissions
 	 * 
-	 * @param  councilName  the full name of the council
-	 * @param  councilTitle the domain of the council
+	 * @param  councilName  domain of the council
+	 * @param  councilGroup  the group whose permissions are being set
 	 */
 	private void buildPermissions(Session session, String councilName, Group councilGroup) {
 		final String AUTHORS = councilName + "-authors";
@@ -390,12 +345,11 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			JackrabbitSession jackSession = (JackrabbitSession) session;
 			JackrabbitAccessControlManager acm = (JackrabbitAccessControlManager) session.getAccessControlManager();
 			List<JackrabbitAccessControlList> aclList = new ArrayList<JackrabbitAccessControlList>();
-			UserManager manager = jackSession.getUserManager();
-			//Converting Group to a Principal to be used as an argument for permission creation
-			Principal principal = manager.getAuthorizable(councilGroup.getID()).getPrincipal();			
+
+			Principal principal = councilGroup.getPrincipal();	
 			String groupName = principal.getName();
 
-			if(groupName.equals(AUTHORS)) {
+			if(councilGroup.getID().equals(AUTHORS)) {
 				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName, "READ_WRITE"), acm, session).getPrivilegeList());
 				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName + "/en", "MODIFY", "*/jcr:content*"), acm, session).getPrivilegeList());
 				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName + "/en/ad-page", "REPLICATE"), acm, session).getPrivilegeList());
@@ -405,8 +359,9 @@ public class CouncilCreatorImpl implements CouncilCreator {
 				aclList.add(new PermissionsSetter(new Rule(principal, "/content/dam/" + councilName, "READ_WRITE_MODIFY_REPLICATE"), acm, session).getPrivilegeList());
 				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/tags/" + councilName, "READ_WRITE_MODIFY_REPLICATE"), acm, session).getPrivilegeList());
 				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/scaffolding/" + councilName, "READ"), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName + "/en/our-council/news", "REPLICATE"), acm, session).getPrivilegeList());
 			}
-			if(groupName.equals(REVIEWERS)) {
+			if(councilGroup.getID().equals(REVIEWERS)) {
 				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName, "READ_WRITE_REPLICATE_DELETE"), acm, session).getPrivilegeList());
 				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName + "/en", "MODIFY", "*/jcr:content*"), acm, session).getPrivilegeList());
 				aclList.add(new PermissionsSetter(new Rule(principal, "/content/dam/" + councilName, "READ_WRITE_REPLICATE_DELETE"), acm, session).getPrivilegeList());
