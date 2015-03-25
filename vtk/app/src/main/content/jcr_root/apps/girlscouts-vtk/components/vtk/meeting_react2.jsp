@@ -499,7 +499,7 @@ React.createElement("li", null,
 
     		   React.createElement("ul", null, 
     		      this.props.data.map((function(item, i) {
-    		      return React.createElement("li", {className: "row", key: item.activityNumber, id: item.activityNumber}, 
+    		      return React.createElement("li", {className: "row ui-state-default", key: item.activityNumber, id: item.activityNumber}, 
     		        React.createElement("div", {className: "wrapper clearfix"},
 
 
