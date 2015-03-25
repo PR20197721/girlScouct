@@ -320,31 +320,47 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 
   <% if( (planView.getYearPlanComponent().getType() ==  YearPlanComponentType.ACTIVITY) ){%>
 
-    React.createElement("li", null, 
+    	React.createElement("li", null, 
 
-<%    if(hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ACT_ID )) {%>
+		<% if(hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ACT_ID )) {%>
 
-    React.createElement("a", {href: "#", "data-reveal-id": "modal-meeting-reminder", title: "Activity Reminder Email"}, "Edit/Send Invitation/Reminder"), 
+	    	React.createElement("a", {href: "#", "data-reveal-id": "modal-meeting-reminder", title: "Activity Reminder Email"}, "Edit/Send Invitation/Reminder")
+	
+	    	), 
+	
+	    	React.createElement("li", null, 
+	
+			<%if (((Activity)planView.getYearPlanComponent()).getSentEmails()!=null && !((Activity)planView.getYearPlanComponent()).getSentEmails().isEmpty()) {%>
+	
+	     	React.createElement("span", null,"   (<%=((Activity)planView.getYearPlanComponent()).getSentEmails().size() %>", " sent -"), 
+	     	React.createElement("a", {href: "#", title: "view sent emails", className: "view", "data-reveal-id": "modal_view_sent_emails"}, "view"), ")" 
+	
+	 		<%} %>
+	
+	  		)
+		<%}else {%>
 
-    <%}else {%>
+	    	React.createElement("a", {href: "#", title: "view sent emails", "data-reveal-id": "modal_view_sent_emails"}, "Invitation/Reminder")
+	
+			), 
+	
+			React.createElement("li", null, 
+	
+			<%if (((Activity)planView.getYearPlanComponent()).getSentEmails()!=null && !((Activity)planView.getYearPlanComponent()).getSentEmails().isEmpty()) {%>
+	
+	 		React.createElement("span", null,"   (<%=((Activity)planView.getYearPlanComponent()).getSentEmails().size() %>", " sent -"), 
+	 		React.createElement("a", {href: "#", title: "view sent emails", className: "view", "data-reveal-id": "modal_view_sent_emails"}, "view"), ")" 
+	
+			<%} else{%>
+		 		React.createElement("span", null,"0 sent -",")") 
 
-    React.createElement("a", null, "Invitation/Reminder"), 
+			<%}%>
+	
+			)
+		<% } %>
 
-<%    } %>
 
-    ), 
-
-    React.createElement("li", null, 
-
-<%if (((Activity)planView.getYearPlanComponent()).getSentEmails()!=null && !((Activity)planView.getYearPlanComponent()).getSentEmails().isEmpty()) {%>
-
-     React.createElement("span", null,"   (<%=((Activity)planView.getYearPlanComponent()).getSentEmails().size() %>", " sent -"), 
-     React.createElement("a", {href: "#", title: "view sent emails", className: "view", "data-reveal-id": "modal_view_sent_emails"}, "view"), ")" 
-
- <%} %>
-
-  )
-  <%}else{ %>
+<%}else{ %>
   
   /*start else*/
     
@@ -355,26 +371,35 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 React.createElement("li", null, 
 <%if(hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_MT_ID )) {%> 
            
-            <%if(planView.getSearchDate()!=null && planView.getSearchDate().after( new java.util.Date("1/1/1977") )) {%> 
-                 React.createElement("a", {href: "#", "data-reveal-id": "modal-meeting-reminder", title: "Meeting Reminder Email"}, "Edit/Sent Meeting Reminder Email") 
-            <%} else{%>
-                React.createElement("a", {href: "javascript:alert('You have not yet scheduled your meeting calendar.\\nPlease select a year plan and schedule your meetings by clicking on the MEETING DATES AND LOCATION link.')", title: "Meeting Reminder Email"}, "Edit/Sent Meeting Reminder Email")
+	<%if(planView.getSearchDate()!=null && planView.getSearchDate().after( new java.util.Date("1/1/1977") )) {%> 
+	React.createElement("a", {href: "#", "data-reveal-id": "modal-meeting-reminder", title: "Meeting Reminder Email"}, "Edit/Sent Meeting Reminder Email") 
+	<%} else{%>
+            React.createElement("a", {href: "javascript:alert('You have not yet scheduled your meeting calendar.\\nPlease select a year plan and schedule your meetings by clicking on the MEETING DATES AND LOCATION link.')", title: "Meeting Reminder Email"}, "Edit/Sent Meeting Reminder Email")
             <%} %>
+			), 
+			React.createElement("li", null, 
+			<%if (planView.getMeeting().getSentEmails()!=null && !planView.getMeeting().getSentEmails().isEmpty()) {%> 
+    		React.createElement("span",null, "(", "<%=planView.getMeeting().getSentEmails().size() %>", " sent -"),
+    		React.createElement("a", {href: "#", title: "view sent emails", className: "view", "data-reveal-id": "modal_view_sent_emails"}, " view", ")")
+    		<%}else{ %>"" <%} %>
+			) 
             
-             
-             <%} else{ %>  
-            React.createElement("a", null, "Meeting Reminder email"), 
-            <%}%>
-        ), 
-        React.createElement("li", null, 
-        <%if (planView.getMeeting().getSentEmails()!=null && !planView.getMeeting().getSentEmails().isEmpty()) {%> 
-            React.createElement("span",null, "(", "<%=planView.getMeeting().getSentEmails().size() %>", " sent -"),
-            React.createElement("a", {href: "#", title: "view sent emails", className: "view", "data-reveal-id": "modal_view_sent_emails"}, " view", ")")
-            <%}else{ %>"" <%} %>
-        ), 
+<%} else{ %>  
+  React.createElement("a", {href: "#",title: "view sent emails","data-reveal-id": "modal_view_sent_emails"}, "Meeting Reminder email")
+  ), 
+  	React.createElement("li", null, 
+  <%if (planView.getMeeting().getSentEmails()!=null && !planView.getMeeting().getSentEmails().isEmpty()) {%> 
+      React.createElement("span",null, "(", "<%=planView.getMeeting().getSentEmails().size() %>", " sent -"),
+      React.createElement("a", {href: "#", title: "view sent emails", className: "view", "data-reveal-id": "modal_view_sent_emails"}, " view", ")")
+  <%}else{ %>      
+      React.createElement("span",null, "(", "0 sent",")")
+  <%} %>
+  ), 
+<%}%>
+        
         
         <%if(hasPermission(troop, Permission.PERMISSION_VIEW_ATTENDANCE_ID )) {%> 
-        React.createElement("li", null, 
+        ,React.createElement("li", null, 
             React.createElement("a", {"data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_attendance.html?mid=<%=planView.getYearPlanComponent().getUid() %>&isAch=<%=(planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING) ? ((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getIsAchievement() : "false" %>&mName=<%= (planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING) ? ((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getName() : ((Activity)planView.getYearPlanComponent()).getName()%>"}, "Record Attendance & Achievements")
         ), 
         React.createElement("li", null, "(" 
@@ -397,7 +422,7 @@ React.createElement("li", null,
         )
         <%} %>
         
-        <%} %>
+        <%}%>
   
   
   
