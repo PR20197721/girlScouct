@@ -50,9 +50,6 @@ import org.apache.jackrabbit.api.security.user.User;
 import org.apache.jackrabbit.api.security.user.Group;
 import org.apache.jackrabbit.api.security.user.Authorizable;
 
-import org.apache.jackrabbit.core.security.principal.DefaultPrincipalProvider;
-import org.apache.jackrabbit.core.security.user.UserManagerImpl;
-
 import javax.jcr.security.Privilege;
 
 import com.day.cq.tagging.InvalidTagFormatException;
@@ -286,7 +283,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 	 * @param  councilTitle the domain of the council
 	 * @return a list containing the user groups that were created
 	 */
-	public List<String> generateGroups(Session session, String councilName, String councilTitle) {
+	public List<String> generateGroups(Session session, final String councilName, String councilTitle) {
 		ArrayList<String> groupList = new ArrayList<String>();
 		final String homePath = "/home/groups";
 		final String girlscoutsPath = "girlscouts-usa";
@@ -294,10 +291,17 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		final String allReviewersGroup = "gs-reviewers";
 		try {
 			UserManager userManager = ((JackrabbitSession) session).getUserManager();
-			DefaultPrincipalProvider dpp = new DefaultPrincipalProvider(session, (UserManagerImpl) userManager);
-			Principal principalAuthors = dpp.getPrincipal(councilName + "-authors");
+			Principal principalAuthors = new Principal() {
+		        public String getName() {
+		          return councilName + "-authors";
+		        }
+		    };
+		    Principal principalReviewers = new Principal() {
+		        public String getName() {
+		          return councilName + "-reviewers";
+		        }
+		    };
 			Group councilAuthors = userManager.createGroup(principalAuthors, homePath + "/" + councilName);
-			Principal principalReviewers = dpp.getPrincipal(councilName + "-reviewers");
 			Group councilReviewers = userManager.createGroup(principalReviewers, homePath + "/" + councilName);
 			
 			if(userManager.getAuthorizable(allAuthorsGroup) != null && userManager.getAuthorizable(allReviewersGroup) != null){
