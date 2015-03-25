@@ -304,7 +304,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			Group councilAuthors = userManager.createGroup(principalAuthors, homePath + "/" + councilName);
 			Group councilReviewers = userManager.createGroup(principalReviewers, homePath + "/" + councilName);
 			
-			if(userManager.getAuthorizable(allAuthorsGroup) != null && userManager.getAuthorizable(allReviewersGroup) != null){
+			if(userManager.getAuthorizableByPath(homePath + "/" + girlscoutsPath + "/" + allAuthorsGroup) != null && userManager.getAuthorizableByPath(homePath + "/" + girlscoutsPath + "/"  + allReviewersGroup) != null){
 				groupList.add("\"" + principalAuthors.getName() + "\"" + "group created under path:\n" + councilAuthors.getPath());
 				groupList.add("\"" + principalReviewers.getName() + "\"" + "gorup created under path:\n" + councilReviewers.getPath());		
 				Group gsAuthors = (Group) userManager.getAuthorizable(allAuthorsGroup);
