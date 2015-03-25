@@ -118,20 +118,20 @@
                                         return (
 
 
-                                        		React.createElement("li", {className:  <%if( !hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ){%> true || <%} %> (moment(comment) < moment( new Date()) && (moment(comment).get('year') >2000)) ? 'row meeting ui-state-default ui-state-disabled' : 'row meeting ui-state-default', key: obj[comment].id, id: obj[comment].id+1}, 
-                                        			    React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"}, 
-                                        			        React.createElement("img", {className: (moment(comment) < moment( new Date()) && (moment(comment).get('year') >2000)) ? "touchscroll hide" : "touchscroll <%=hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : " hide" %>", src: "/etc/designs/girlscouts-vtk/clientlibs/css/images/throbber.png"}), 
-                                        			        React.createElement("div", {className: "large-3 medium-3 small-4 columns"}, React.createElement(DateBox, {comment: comment, obj: obj})), 
-                                        			        React.createElement("div", {className: "large-22 medium-22 small-24 columns"}, 
-                                        			            React.createElement("p", {className: "subtitle"}, React.createElement(ViewMeeting, {date: moment(comment).toDate(), name: obj[comment].meetingInfo.name})), 
-                                        			            React.createElement("p", {className: "category"}, obj[comment].meetingInfo.cat), 
-                                        			            React.createElement("p", {className: "blurb"}, obj[comment].meetingInfo.blurb)
-                                        			        ), 
-                                        			        React.createElement("div", {className: "large-2 medium-2 columns hide-for-small"}, 
-                                        			            React.createElement(MeetingImg, {mid: obj[comment].meetingInfo.id})
-                                        			        )
-                                        			    )
-                                        			)
+        		React.createElement("li", {className:  <%if( !hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ){%> true || <%} %> (moment(comment) < moment( new Date()) && (moment(comment).get('year') >2000)) ? 'row meeting ui-state-default ui-state-disabled' : 'row meeting ui-state-default', key: obj[comment].id, id: obj[comment].id+1}, 
+        			    React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"}, 
+    			        React.createElement("img", {className: (moment(comment) < moment( new Date()) && (moment(comment).get('year') >2000)) ? "touchscroll hide" : "touchscroll <%=hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : " hide" %>", src: "/etc/designs/girlscouts-vtk/clientlibs/css/images/throbber.png"}), 
+    			        React.createElement("div", {className: "large-3 medium-3 small-4 columns"}, React.createElement(DateBox, {comment: comment, obj: obj})), 
+    			        React.createElement("div", {className: "large-22 medium-22 small-24 columns"}, 
+    			            React.createElement("p", {className: "subtitle"}, React.createElement(ViewMeeting, {date: moment(comment).toDate(), name: obj[comment].meetingInfo.name})), 
+    			            React.createElement("p", {className: "category"}, obj[comment].meetingInfo.cat), 
+    			            React.createElement("p", {className: "blurb"}, obj[comment].meetingInfo.blurb)
+    			        ), 
+    			        React.createElement("div", {className: "large-2 medium-2 columns hide-for-small"}, 
+    			            React.createElement(MeetingImg, {mid: obj[comment].meetingInfo.id})
+    			        )
+        			    )
+        			)
 
 
 

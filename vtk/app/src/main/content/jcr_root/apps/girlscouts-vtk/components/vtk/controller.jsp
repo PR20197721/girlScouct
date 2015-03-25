@@ -761,6 +761,8 @@ System.err.println("manu reactjs________________________________________________
 				System.err.println("manu reactjs 1");
 			
 				ModifiedChecker modifiedChecker = sling.getService(ModifiedChecker.class);
+
+                // TODO: This is a special logic. "X". Rewrite ModifiedChecker later. There are two places in this file.
 				isCng = modifiedChecker.isModified("X" + session.getId(), troop.getYearPlan().getPath());
 				System.err.println("manu reactjs 2 ::" +isCng);
 			}
