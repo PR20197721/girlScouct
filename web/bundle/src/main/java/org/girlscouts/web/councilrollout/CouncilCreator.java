@@ -25,5 +25,5 @@ public interface CouncilCreator {
     
     List<Node> generateDesign(Session session, ResourceResolver rr, String councilName, String councilTitle);
     
-    List<String> generateGroups(Session session, ResourceResolver rr, String councilName, String councilTitle);
+    List<String> generateGroups(Session session, String councilName, String councilTitle);
 }
