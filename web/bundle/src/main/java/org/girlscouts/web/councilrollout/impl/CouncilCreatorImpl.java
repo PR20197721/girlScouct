@@ -105,7 +105,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 				pages.add(buildRepositoryPage(pageManager, session, languagePath, "contacts", "", "Contacts"));
 				pages.add(buildRepositoryPage(pageManager, session, languagePath, "milestones", "", "Milestones"));
 
-				session.save();
+				//session.save();
 			}
 			else {
 				LOG.error("Council Pages already exist.");
@@ -158,7 +158,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 				LOG.error(scaffoldingPrototype + "folder not found, cannot copy scaffolding");
 				throw new PathNotFoundException();
 			}
-			session.save();
+			//session.save();
 			
 		} catch (PathNotFoundException e) {
 			LOG.error("Path not found during scaffolding generation: " + e.toString());
@@ -188,7 +188,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			Node councilNode = buildFolder(damNode, councilName, null, "sling:OrderedFolder", true);
 			damNodes.add(councilNode);
 			damNodes.add(buildFolder(councilNode, "documents", "Forms and Documents", "sling:OrderedFolder", true));
-			session.save();
+			//session.save();
 			
 		} catch (PathNotFoundException e) {
 			LOG.error("Provided path is not correct" + e.toString());
@@ -215,7 +215,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			tags.add(manager.createTag(tagPath + "/" + councilName + "/" + "categories", "Categories", ""));
 			tags.add(manager.createTag(tagPath + "/" + councilName + "/" + "program-level", "Program Level", ""));
 			tags.add(manager.createTag(tagPath + "/" + councilName + "/" + "forms_documents", "Forms & Documents", ""));
-			session.save();
+			//session.save();
 
 		} catch (InvalidTagFormatException e) {
 			LOG.error("Unable to create Tag with correct format: " + e.toString());
@@ -252,7 +252,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 				LOG.error("design prototype folder not found");
 				throw new PathNotFoundException();
 			}
-			session.save();
+			//session.save();
 			
 		} catch (PathNotFoundException e) {
 			LOG.error("Path not found during design generation: " + e.toString());
@@ -285,16 +285,17 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			UserManager manager = (UserManager) rr.adaptTo(UserManager.class);
 			Group councilAuthors = manager.createGroup(councilName + "-authors", councilName + "-authors", homePath + "/" + councilName);
 			Group councilReviewers = manager.createGroup(councilName + "-reviewers", councilName + "-reviewers", homePath + "/" + councilName);
-			groupList.add(councilAuthors);
-			groupList.add(councilReviewers);
 			
 			if (manager.hasAuthorizable(allAuthorsGroup) && manager.hasAuthorizable(allReviewersGroup)) {
+				groupList.add(councilAuthors);
+				groupList.add(councilReviewers);
 				Group gsAuthors = (Group) manager.findByHome(homePath + "/" + girlscoutsPath + "/" + allAuthorsGroup);
 				gsAuthors.addMember(councilAuthors);
 				Group gsReviewers = (Group) manager.findByHome(homePath + "/" + girlscoutsPath + "/" + allReviewersGroup);
 				gsReviewers.addMember(councilReviewers);
 			} 
 			else {
+				groupList.clear();
 				LOG.error(allAuthorsGroup + " or " + allReviewersGroup + " not found."); 
 				throw new PathNotFoundException();
 			}
@@ -308,7 +309,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			buildPermissions(session, councilName, councilAuthors);
 			buildPermissions(session, councilName, councilReviewers);
 			
-			session.save();
+			//session.save();
 		} catch (Exception e) {
 			LOG.error("Error occurred during council Group creation" + e.toString());
 		}
