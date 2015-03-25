@@ -313,7 +313,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 				gsReviewers.addMember(councilReviewers);
 			}
 			else {
-				groupList.clear();
+				groupList.add("None");
 				LOG.error(allAuthorsGroup + " or " + allReviewersGroup + " not found."); 
 				throw new PathNotFoundException();
 			}
