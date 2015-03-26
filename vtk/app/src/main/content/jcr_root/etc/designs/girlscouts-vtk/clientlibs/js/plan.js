@@ -165,7 +165,7 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 			show: 375,
 			minWidth:dWidth,
 			maxWidth: dWidth,
-			width:dWidth,
+			width: '100%',
 			open: function() {
 				$('.scroll').css('max-height' , ($(window).height()-75)+'px');
 				$("body").css({ overflow: 'hidden' });

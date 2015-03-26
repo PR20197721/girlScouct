@@ -527,7 +527,6 @@ React.createElement("li", null,
       componentDidMount: function() {
        try{ resizeWindow(); }catch(err){}
         if (Modernizr.touch) {
-
             scrollTarget = ".touchscroll";
           } 
         
