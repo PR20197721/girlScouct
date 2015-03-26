@@ -63,7 +63,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
     var thisMeetingDate="a";
     var isActivNew=0;
     var agendaSched= null;
-
+    var scrollTarget = "";
     var MeetingList = React.createClass({displayName: "MeetingList",
       getInitialState: function() {
         return { show: false };
@@ -496,10 +496,12 @@ React.createElement("li", null,
           agendaSched=null;
           return (
                 		  
+
     		   React.createElement("ul", null, 
     		      this.props.data.map((function(item, i) {
-    		      return React.createElement("li", {className: "row", key: item.activityNumber, id: item.activityNumber}, 
+    		      return React.createElement("li", {className: "row ui-state-default", key: item.activityNumber, id: item.activityNumber}, 
     		        React.createElement("div", {className: "wrapper clearfix"},
+
 
 
                 React.createElement("img", {className: (moment('<%=planView.getSearchDate()%>') < moment( new Date()) && (moment('<%=planView.getSearchDate()%>').get('year') >2000)) ? "touchscroll hide" : "touchscroll <%=hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : " hide" %>", src: "/etc/designs/girlscouts-vtk/clientlibs/css/images/throbber.png"}),
@@ -537,7 +539,15 @@ React.createElement("li", null,
         var dom = $(this.getDOMNode());
         var onReorder = this.props.onReorder;
         dom.sortable({
-        	 tolerance: "intersect" ,
+        	items: "li:not(.ui-state-disabled)",
+            delay:150,
+            distance: 5,
+            opacity: 0.5 ,
+            scroll: true,
+            scrollSensitivity: 10 ,
+            tolerance: "intersect" ,
+            handle: scrollTarget,
+            helper:'clone',
           stop: function (event, ui) {
             var order = dom.sortable("toArray", {attribute: "id"});
             var yy  = order.toString().replace('"','');
@@ -554,7 +564,15 @@ React.createElement("li", null,
 
         var onReorder = this.props.onReorder;
         dom.sortable({
-        	tolerance: "intersect" ,
+        	items: "li:not(.ui-state-disabled)",
+            delay:150,
+            distance: 5,
+            opacity: 0.5 ,
+            scroll: true,
+            scrollSensitivity: 10 ,
+            tolerance: "intersect" ,
+            handle: scrollTarget,
+            helper:'clone',
             stop: function (event, ui) {
               var order = dom.sortable("toArray", {attribute: "id"});
               var yy  = order.toString().replace('"','');
@@ -573,7 +591,7 @@ React.createElement("li", null,
     data: '', 
     dataType: 'html', 
     success: function (data) { 
-    	location.reload();
+    	//location.reload();
     },
     error: function (data) { 
     }
