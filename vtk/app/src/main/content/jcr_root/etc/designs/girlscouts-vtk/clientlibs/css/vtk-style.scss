@@ -1229,6 +1229,13 @@
           }
         }
       }
+      > section.row {
+        .column.left {
+          select {
+            padding-right: 3px;
+          }
+        }
+      }
     }
     #frmCalElem_1 {
       margin-top:20px;
