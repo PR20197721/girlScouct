@@ -110,6 +110,11 @@ public class CouncilCreatorImpl implements CouncilCreator {
 				pages.add(buildRepositoryPage(pageManager, session, languagePath, "events-repository", "", "Events Repository"));
 				pages.add(buildRepositoryPage(pageManager, session, languagePath, "contacts", "", "Contacts"));
 				pages.add(buildRepositoryPage(pageManager, session, languagePath, "milestones", "", "Milestones"));
+				
+				Node enJcrContentNode = rr.getResource(councilPath + "/en/jcr:content").adaptTo(Node.class);
+				Node enContentNode = enJcrContentNode.addNode("content", "nt:unstructured");
+				Node subParNode = enContentNode.addNode("styled-subpar");
+				subParNode.setProperty("cssClasses", "row home-section");
 
 				//session.save();
 			}
