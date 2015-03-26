@@ -100,6 +100,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 				pages.add(buildPage(pageManager, session, languagePath, "Events", null, "events", "/apps/girlscouts/templates/three-column-page", "girlscouts/components/placeholder-page", null));
 				pages.add(buildPage(pageManager, session, languagePath + "/events", "Event List", null, "event-list", "/apps/girlscouts/templates/three-column-page", "girlscouts/components/three-column-page", null));
 				pages.add(buildPage(pageManager, session, languagePath + "/events", "Event Calendar", null, "event-calendar", "/apps/girlscouts/templates/three-column-page", "girlscouts/components/three-column-page", null));
+				pages.add(buildPage(pageManager, session, languagePath, "Camp", null, "camp", "/apps/girlscouts/templates/three-column-page", "girlscouts/components/placeholder-page", null));
 				pages.add(buildPage(pageManager, session, languagePath, "Our Council", null, "our-council", "/apps/girlscouts/templates/three-column-page", "girlscouts/components/placeholder-page", null));
 				pages.add(buildPage(pageManager, session, languagePath + "/our-council", "News", null, "news", "/apps/girlscouts/templates/three-column-page", "girlscouts/components/placeholder-page", null));
 				pages.add(buildContactPage(pageManager, session, languagePath + "/our-council", councilTitle, councilName));
@@ -517,7 +518,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 		try {
 			propertyMap.put("cq:designPath", "/etc/designs/girlscouts-" + councilDomain);
 			propertyMap.put("adsPath", path + "/" + langAbbrev + "/ad-page");
-			propertyMap.put("calendarPath", path + "/" + langAbbrev + "/event-calendar");
+			propertyMap.put("calendarPath", path + "/" + langAbbrev + "/events/event-calendar");
 			propertyMap.put("eventLanding", path + "/" + langAbbrev	+ "/events/event-list");
 			propertyMap.put("eventPath", path + "/" + langAbbrev + "/events-repository");
 			propertyMap.put("footerTracking", "<script src=\"https://www.girlscouts.org/includes/join/council_ebiz_conversion_include.js\"></script>");
