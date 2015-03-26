@@ -15,23 +15,16 @@
 	   					if(emails!=null && !emails.isEmpty()){
 		   					for(int k=emails.size(); k>0; k--){
 		   						SentEmail eml = emails.get(k-1);%>
-		   						<%-- <div>Sent: <%=FORMAT_CALENDAR_DATE.format(eml.getSentDate()) %></div>
-		   						<div><%=eml.getSubject() %></div>
- 		   						<div><%=curA.getEmlTemplate()==null? "":eml.getHtmlMsg(curA.getEmlTemplate())%> </div><hr> --%>
 		   						<dl class="accordion" data-accordion>
-	  								<dt data-target="panel1"><h6 class="off">Sent: <%=FORMAT_CALENDAR_DATE.format(eml.getSentDate()) %></h6></dt>
+	  								<dt data-target="panel<%=k%>s"><h6 class="off">Sent: <%=FORMAT_CALENDAR_DATE.format(eml.getSentDate()) %></h6></dt>
 	  								<dd class="accordion-navigation">
-	    							<div class="content" id="panel1">
-      								<ul class="small-block-grid-2"> 
-      								<li>
+	    							<div class="content" id="panel<%=k%>s">
       								<div><%=eml.getSubject() %></div>
  		   							<div><%=curA.getEmlTemplate()==null? "":eml.getHtmlMsg(curA.getEmlTemplate())%> </div>
- 		   							</li>
       								</ul>
 	    							</div>
 	  								</dd>
 								</dl>
-		   					
 		   					<% } 
 
 	   					}else{%>
@@ -43,12 +36,19 @@
 	   					if(emails!=null && !emails.isEmpty()){
 		   					for(int k=emails.size(); k>0; k--){
 		   						SentEmail eml = emails.get(k-1);%>
-		   						<div>Sent: <%=FORMAT_CALENDAR_DATE.format(eml.getSentDate()) %></div>
-		   						<div><%=eml.getSubject() %></div>
- 		   						<div><%=curM.getEmlTemplate()==null? "":eml.getHtmlMsg(curM.getEmlTemplate())%> </div>		   						<hr>
+		   						<dl class="accordion" data-accordion>
+	  								<dt data-target="panel<%=k%>s"><h6 class="off">Sent: <%=FORMAT_CALENDAR_DATE.format(eml.getSentDate()) %></h6></dt>
+	  								<dd class="accordion-navigation">
+	    							<div class="content" id="panel<%=k%>s">
+      								<div><%=eml.getSubject() %></div>
+ 		   							<div><%=curM.getEmlTemplate()==null? "":eml.getHtmlMsg(curM.getEmlTemplate())%> </div>
+      								</ul>
+	    							</div>
+	  								</dd>
+								</dl>
 		   					<% } 
 	   					}else{%>
-   						<div>No email has been sent.</div><% 
+   							<div>No email has been sent.</div><% 
    						}
 	   				}%>
 				</div>
