@@ -19,7 +19,9 @@
 		   						<div><%=eml.getSubject() %></div>
  		   						<div><%=curA.getEmlTemplate()==null? "":eml.getHtmlMsg(curA.getEmlTemplate())%> </div>		   						<hr>
 		   					<% } 
-	   					}	   				
+	   					}else{%>
+	   						<div>No email has been sent.</div><% 
+	   					}
 	   				} else{
 	   					MeetingE curM = planView.getMeeting();
 	   					List<SentEmail> emails = curM.getSentEmails();
@@ -30,7 +32,9 @@
 		   						<div><%=eml.getSubject() %></div>
  		   						<div><%=curM.getEmlTemplate()==null? "":eml.getHtmlMsg(curM.getEmlTemplate())%> </div>		   						<hr>
 		   					<% } 
-	   					}
+	   					}else{%>
+   						<div>No email has been sent.</div><% 
+   						}
 	   				}%>
 				</div>
 					
