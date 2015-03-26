@@ -33,9 +33,11 @@
 								</dl>
 		   					
 		   					<% } 
-	   					}	   				
-	   					
-					} else{
+
+	   					}else{%>
+	   						<div>No email has been sent.</div><% 
+	   					}
+	   				} else{
 	   					MeetingE curM = planView.getMeeting();
 	   					List<SentEmail> emails = curM.getSentEmails();
 	   					if(emails!=null && !emails.isEmpty()){
@@ -45,7 +47,9 @@
 		   						<div><%=eml.getSubject() %></div>
  		   						<div><%=curM.getEmlTemplate()==null? "":eml.getHtmlMsg(curM.getEmlTemplate())%> </div>		   						<hr>
 		   					<% } 
-	   					}
+	   					}else{%>
+   						<div>No email has been sent.</div><% 
+   						}
 	   				}%>
 				</div>
 					
