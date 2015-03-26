@@ -188,7 +188,8 @@ public class CouncilCreatorImpl implements CouncilCreator {
 	 * Creates DAM folder and subfolders for the site TODO: Images
 	 * 
 	 * @param  path  path to the parent directory e.g. "/content/dam"
-	 * @param  councilName the full name of the council
+	 * @param  councilName  the domain name of the council
+	 * @param  councilTitle  the full name of the council
 	 * @return a list containing the folder nodes that were created
 	 */
 	public List<Node> generateDAMFolders(Session session, String path, String councilName, String councilTitle) {
@@ -196,9 +197,30 @@ public class CouncilCreatorImpl implements CouncilCreator {
 
 		try {
 			Node damNode = session.getNode(path + "/" + "dam");
-			Node councilNode = buildFolder(damNode, councilName, null, "sling:OrderedFolder", true);
+			Node councilNode = buildFolder(damNode, "girlscouts-" + councilName, councilTitle, "sling:OrderedFolder", true);
 			damNodes.add(councilNode);
 			damNodes.add(buildFolder(councilNode, "documents", "Forms and Documents", "sling:OrderedFolder", true));
+			Node imageNode = buildFolder(councilNode, "images", "Images", "sling:OrderedFolder", true);
+			damNodes.add(imageNode);
+			
+			Node bannersNode = buildFolder(imageNode, "banners", "Banners", "sling:OrderedFolder", true);
+			damNodes.add(bannersNode);
+			Node bannersLarge = buildFolder(bannersNode, "large", "Large", "sling:OrderedFolder", true);
+			damNodes.add(bannersLarge);
+			Node bannersMedium = buildFolder(bannersNode, "medium", "Medium", "sling:OrderedFolder", true);
+			damNodes.add(bannersMedium);
+			Node bannersSmall = buildFolder(bannersNode, "small", "Small", "sling:OrderedFolder", true);
+			damNodes.add(bannersSmall);
+			
+			Node logoNode = buildFolder(imageNode, "logo", "Logos", "sling:OrderedFolder", true);
+			damNodes.add(logoNode);
+			Node logoLarge = buildFolder(logoNode, "large", "Large", "sling:OrderedFolder", true);
+			damNodes.add(logoLarge);
+			Node logoMedium = buildFolder(logoNode, "medium", "Medium", "sling:OrderedFolder", true);
+			damNodes.add(logoMedium);
+			Node logoSmall = buildFolder(logoNode, "small", "Small", "sling:OrderedFolder", true);
+			damNodes.add(logoSmall);
+			
 			//session.save();
 			
 		} catch (PathNotFoundException e) {
