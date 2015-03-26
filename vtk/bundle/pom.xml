@@ -140,8 +140,45 @@
 			<artifactId>jackrabbit-ocm</artifactId>
 			<version>1.5.3</version>
 		</dependency>
+      
+<dependency>
+        	<groupId>com.day.commons</groupId>
+        	<artifactId>day-commons-text</artifactId>
+        	<version>1.1.8</version>
+        	<scope>provided</scope>
+        </dependency>
+   
+        <!--
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version>[0,)</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-beanutils</groupId>
+            <artifactId>commons-beanutils</artifactId>
+            <version>[0,)</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-digester</groupId>
+            <artifactId>commons-digester</artifactId>
+            <version>[0,)</version>
+        </dependency>
+        -->
+   
+   
+       <!--  
+        <dependency>
+	<groupId>com.day.commons.osgi.wrapper</groupId>
+	<artifactId>com.day.commons.osgi.wrapper.commons-email</artifactId>
+	<version>1.2.0-0002</version>
+	<scope>provided</scope>
+</dependency>
+-->
+	
+      
 
-		<dependency>
+<dependency>
 			<groupId>com.day.cq</groupId>
 			<artifactId>cq-mailer</artifactId>
 			<version>5.6.4</version>

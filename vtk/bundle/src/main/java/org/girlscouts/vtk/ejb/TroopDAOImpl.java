@@ -679,6 +679,7 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 					expensesList.add(tempValue.getString());
 				}
 				financeConfig.setExpenseFields(expensesList);
+				financeConfig.setPersisted(true);
 			}
 			if (configNode.hasProperty(Finance.INCOME)) {
 				Value[] incomeValues = configNode.getProperty(Finance.INCOME).getValues();
@@ -686,10 +687,17 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 					incomeList.add(tempValue.getString());
 				}
 				financeConfig.setIncomeFields(incomeList);
+				financeConfig.setPersisted(true);
 			}
 			if(configNode.hasProperty(Finance.PERIOD)){
 				String period = configNode.getProperty(Finance.PERIOD).getString();
 				financeConfig.setPeriod(period);
+				financeConfig.setPersisted(true);
+			}
+			if(configNode.hasProperty(FinanceConfiguration.RECIPIENT)){
+				String recipient = configNode.getProperty(FinanceConfiguration.RECIPIENT).getString();
+				financeConfig.setRecipient(recipient);
+				financeConfig.setPersisted(true);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -704,7 +712,7 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 		return financeConfig;
 	}
 
-	public void setFinanceConfiguration(Troop troop, String currentYear, String income, String expenses, String period) {
+	public void setFinanceConfiguration(Troop troop, String currentYear, String income, String expenses, String period, String recipient) {
 
 		// TODO PERMISSIONS HERE
 		Session mySession = null;
@@ -724,6 +732,7 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 			configNode.setProperty(Finance.INCOME, incomeFields);
 			configNode.setProperty(Finance.EXPENSES, expensesFields);
 			configNode.setProperty(Finance.PERIOD, period);
+			configNode.setProperty(FinanceConfiguration.RECIPIENT, recipient);
 			
 			mySession.save();
 		} catch (Exception e) {
