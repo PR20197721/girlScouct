@@ -341,12 +341,21 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
            );        
         }
       });
-      
-      </script>  
+
+        //when dialog resizes we need to place is in the middle of the page.
+       $(window).resize(function() {
+         dWidth = $('.vtk-body .ui-dialog.modalWrap').width();
+         if($(window).width() > 920) {
+           $('.vtk-body .ui-dialog.modalWrap').css({'max-width':$(window).width()/2, 'width':'100%', 'left': ($(window).width()-dWidth)/2});
+         } else {
+           $('.vtk-body .ui-dialog.modalWrap').css({'max-width':$(window).width()/2, 'width':'100%', 'left': '0 !important'});
+         }
+       });
+
+     </script>  
     </div>
   </div>
 </div><!--/panelWrapper-->
-
 
 
 

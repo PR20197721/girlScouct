@@ -920,8 +920,7 @@
     -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.7);
     width: 100% !important;
-    max-width: auto !important;
-    min-width: 320px !important;
+    max-width: 920px !important;
     #gsModal {
       background: #fff;
       padding:0;
@@ -1016,6 +1015,9 @@
           min-width: 33.3333333%;
           float:left;
           background:#00ae57;
+          &.active {
+            background: #fff;
+          }
         }
         #createActivityTab,
         #pickActivityTab {

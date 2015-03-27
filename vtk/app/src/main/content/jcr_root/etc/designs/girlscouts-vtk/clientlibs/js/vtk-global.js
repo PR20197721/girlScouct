@@ -46,7 +46,6 @@ var $ = jQuery.noConflict();
 		$('.scroll').css('max-height' , popup_h + 'px');
 		$('.modalWrap').css('max-height' , $(window).height()+'px');
 	}
-
 	function validate_image() {
 		$('form#frmImg').submit(function(e) {
 		   var $this = $(this);
@@ -127,10 +126,7 @@ var $ = jQuery.noConflict();
   });
 
 	$(window).resize(function() {
-		modal_height_resize()
-		// if($(window).width() < 420) {
-		// 	$('.vtk-body .reveal-modal').css('top','0');
-		// }
+		modal_height_resize();
 	});
 
 })($);

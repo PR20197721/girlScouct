@@ -148,12 +148,10 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 	
 	var wWidth = $(window).width();
 	var wHeight = $(window).height();
-	var dWidth = wWidth * 1; //this will make the dialog 80% of the
+	// var dWidth = wWidth * .8; //this will make the dialog 80% of the
 	var dHeight = wHeight * 1;
-	var tHeight = $(window).height() 
-	if (dWidth > 960) {
-		dWidth = 960; // max-width: 60em;
-	}
+	var dWidth = '920';
+	var tHeight = $(window).height(); 
 	var dialog = null;
 	if (print) {
 		title += "<span class=\"printIcon\"><a href=\"#\" onclick=\"printDiv('gsModal')\"><img src=\"/etc/designs/girlscouts-vtk/clientlibs/css/images/print-icon.png\" width=\"22\" height=\"22\" alt=\"print icon\"/></a></span>";
@@ -163,9 +161,11 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 			dialogClass: "modalWrap",
 			modal: true,
 			show: 375,
-			minWidth:dWidth,
-			maxWidth: dWidth,
+			maxWidth: '920',
 			width: '100%',
+			// minWidth:dWidth,
+			// maxWidth: dWidth,
+			// width: '100%',
 			open: function() {
 				$('.scroll').css('max-height' , ($(window).height()-75)+'px');
 				$("body").css({ overflow: 'hidden' });
@@ -190,7 +190,13 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 			modal:true,
 			dialogClass:"modalWrap",
 			show:375,
+			maxWidth: dWidth,
 			open: function() {
+				if($(window).width() > 920) {
+					$('.vtk-body .ui-dialog.modalWrap').css({'max-width':$(window).width()/2, 'width':'100%', 'left': ($(window).width()-dWidth)/2});
+				} else {
+					$('.vtk-body .ui-dialog.modalWrap').css({'max-width':$(window).width()/2, 'width':'100%', 'left': '0 !important'});
+				}
 				if (!showTitle) {
 					$(".ui-dialog-titlebar").hide();
 				} else {
@@ -205,6 +211,8 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 		});
 	}
 }
+
+
 function yesPlan(){
   if(document.getElementById('yearPlanMeetings').style.display=='none' ){
     document.getElementById('yearPlanMeetings').style.display='block';
