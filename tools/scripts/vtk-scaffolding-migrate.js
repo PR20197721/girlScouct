@@ -4,29 +4,29 @@
 
 console.log("VTK Scaffolding Data Migration Tool.");
 
-var http = require('http');
-function httpCombine(callback) {
-    return function(response) {
-        var str = '';
-        response.on('data', function (chunk) {
-            str += chunk; 
-        });
-        response.on('end', function () {
-            callback.call(this, str, response);
-        });
-    }
-};
+var request = require('urllib-sync').request;
 
-function LocalRequest(path, callback, method) {
-    var request = http.request({
-        host: 'localhost',
-        port: '4502',
+function getJSON(path, method) {
+    var method = method ? method : 'GET';
+    var response = request('http://localhost:4502' + path + '.1.json', {
         auth: 'admin:admin',
-        path: path,
-        method: method ? method : 'GET'
-    }, httpCombine(callback));
+        dataType: 'json'
+    });
 
-    this.do = function(){ request.end(); };
+    var data = response.data;
+    for (var key in data) {
+        if (key.indexOf('jcr:') == 0 || key.indexOf('cq:') == 0) {
+            delete data[key];
+        }
+    }
+    return data;
 }
 
-new LocalRequest('/content/gateway/en.1.json', function(str){ console.log(str); }).do();
+function addProperties(rootPath, options) {
+    var root = getJSON(rootPath);
+    for (var level in root) {
+        console.log(level);
+    }
+}
+
+addProperties('/content/girlscouts-vtk/meetings/myyearplan');
