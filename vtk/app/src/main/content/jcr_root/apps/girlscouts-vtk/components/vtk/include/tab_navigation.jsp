@@ -34,7 +34,7 @@
       <%
       //  }
       %>
-      <dl class="tabs show-for-medium-up hide-for-portrait">
+      <dl class="tabs show-for-large-up">
         <% if(hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
           <dd <%= "myTroop".equals(activeTab) ? "class='active'" : "" %>>
             <a href="/content/girlscouts-vtk/en/vtk.myTroop.html">My Troop</a>
@@ -68,7 +68,7 @@
           <a href="/content/girlscouts-vtk/en/vtk.profile.html">Profile</a>
         </dd>
       </dl>
-      <div class="dropdown show-for-small hide-for-print show-for-portrait">
+      <div class="dropdown hide-for-print hide-for-large-up">
         <a id="vtk-main-menu-button" onclick="$('#vtk-main-menu').slideToggle('slow')" class="expand">Menu</a>
         <ul id="vtk-main-menu" class="hide-for-print" style="display: none;">
           <% if(hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
