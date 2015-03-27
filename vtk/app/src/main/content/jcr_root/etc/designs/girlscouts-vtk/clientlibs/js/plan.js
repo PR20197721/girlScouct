@@ -179,7 +179,7 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 					$("span.ui-dialog-title").html(title);
 					$(".ui-dialog-titlebar").show();
 				}
-					
+				placeholder_IE9();
 			},
 			close: function() {
 				$("body").css({ overflow: 'inherit' });
@@ -207,14 +207,13 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 }
 //add placeholder to the forms in the popups for IE9.
 function placeholder_IE9() {
-  if (navigator.userAgent.match(/msie/i) ) {
+  if (navigator.userAgent.match(/msie/i)) {
     $('select').css('background-image', 'none');
     function add() {
       if($(this).val() === ''){
         $(this).val($(this).attr('placeholder')).addClass('placeholder');
       }
     }
-
     function remove() {
       if($(this).val() === $(this).attr('placeholder')){
         $(this).val('').removeClass('placeholder');
@@ -253,8 +252,7 @@ function addLocation(){
 	
 	//NEEDS to be BACK vtk-global.js? showError(null, "#locationEdit .errorMsg");	
 	var  name = document.getElementById("loc_name").value;
-	
-	if( $.trim(name) =='' ){
+	if( $.trim(name) == ''){
 		//showError("Please enter a location", "#locationEdit .errorMsg"); //js missing from VTK2
 		alert("Please enter a location");
 		return false;
@@ -264,9 +262,6 @@ function addLocation(){
 	var  city = document.getElementById("loc_city").value;
 	var  state = document.getElementById("loc_state").value;
 	var  zip = document.getElementById("loc_zip").value;
-	
-	
-	
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
 		type: 'POST',

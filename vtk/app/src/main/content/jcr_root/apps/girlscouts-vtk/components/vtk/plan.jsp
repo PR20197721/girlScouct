@@ -190,7 +190,6 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
         link_bg_square();
 
        if (Modernizr.touch) {
-
          scrollTarget = ".touchscroll";
        } else {
 
@@ -288,25 +287,19 @@ var ViewMeeting = React.createClass({displayName: "ViewMeeting",
 
         function bgcolor(obj, comment, objType){ 
 
-         if(  meetingPassed && 
-             ((moment(comment) > moment( new Date() )) || (moment(comment).get('year') < 1978) )
-             ) {
-                    if( objType=='1'){  meetingPassed= false;}
-
-                            return "bg-square current";
- 
+       if(  meetingPassed && 
+           ((moment(comment) > moment( new Date() )) || (moment(comment).get('year') < 1978) )
+           ) {
+        if( objType=='1'){  meetingPassed= false;}
+          return "bg-square current";
          }else if(   moment(comment).get('year') < 1978 ){
-
             return "bg-square";
-    
         }else if(  moment(comment) < moment( new Date()) ){
             return "bg-square passed";
-         
          }else if( obj[comment].cancelled =='true' ){
 
             return "bg-square canceled";
          }else{
-
             return "bg-square";
          }
         }
