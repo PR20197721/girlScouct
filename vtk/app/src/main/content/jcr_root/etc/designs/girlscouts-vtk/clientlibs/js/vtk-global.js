@@ -37,6 +37,11 @@ var $ = jQuery.noConflict();
 			var window_h = $(window).height();
 			var popup_h = (window_h - 75);
 			$(this).find('.scroll').css('max-height' , popup_h + 'px');
+			if (navigator.userAgent.match(/msie/i) ) {
+			  // alert(navigator.userAgent.match(/msie/i));
+			  placeholder_IE9();
+			  $('select').css('background-image', 'none');
+			}
 		});
 	}
 	
@@ -97,35 +102,34 @@ var $ = jQuery.noConflict();
 		  });
 		}
   }
-	//all function calls should go here
-	  $(document).ready(function() {
-	  	 $(document).foundation({
-	  	  reveal : {
-	  	     animation: 'fade',
-	  	     root_element: 'window',
-	  	     close_on_background_click: false,
-	  	     open: function () { 
-	  	     	$('body').css({'overflow':'hidden'});
-	  	     },
-	  	     close: function () {
-	  	     	$('body').css({'overflow':'inherit'})
-	  	     },
-	  	 	}
-	  	 });
-	  	 //select_tabs();
-	  	 modal_height_on_open();
-	  	 vtk_accordion();
-	  	 validate_image();
-	  	 resizeWindow();
-	  	 if($('.tabs dd').length == 6) {
-	  	 	$('.tabs dd').css('width','100%');
-	  	 } 	
-
-	  	 if (navigator.userAgent.match(/msie/i) ) {
-	  	   // alert(navigator.userAgent.match(/msie/i));
-	  	   placeholder_IE9();
-	  	   $('select').css('background-image', 'none');
-	  	 }
+//all function calls should go here
+  $(document).ready(function() {
+  	 $(document).foundation({
+  	  reveal : {
+  	     animation: 'fade',
+  	     root_element: 'window',
+  	     close_on_background_click: false,
+  	     open: function () { 
+  	     	$('body').css({'overflow':'hidden'});
+  	     },
+  	     close: function () {
+  	     	$('body').css({'overflow':'inherit'})
+  	     },
+  	 	}
+  	 });
+  	 //select_tabs();
+  	 modal_height_on_open();
+  	 vtk_accordion();
+  	 validate_image();
+  	 resizeWindow();
+  	 if($('.tabs dd').length == 6) {
+  	 	$('.tabs dd').css('width','100%');
+  	 } 	
+  	 if (navigator.userAgent.match(/msie/i) ) {
+  	   // alert(navigator.userAgent.match(/msie/i));
+  	   placeholder_IE9();
+  	   $('select').css('background-image', 'none');
+  	 }
   });
 	$(window).resize(function() {
 		modal_height_resize()

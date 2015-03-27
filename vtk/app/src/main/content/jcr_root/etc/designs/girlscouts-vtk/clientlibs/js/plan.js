@@ -179,7 +179,11 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 					$("span.ui-dialog-title").html(title);
 					$(".ui-dialog-titlebar").show();
 				}
-				placeholder_IE9();
+				
+				if (navigator.userAgent.match(/msie/i)) {
+					$('select').css('background-image', 'none');
+					placeholder_IE9();
+				}
 			},
 			close: function() {
 				$("body").css({ overflow: 'inherit' });
@@ -198,6 +202,7 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 					$(".ui-dialog-titlebar").show();
 				}
 				$("body").css({ overflow: 'hidden' });
+				placeholder_IE9();
 			},
 			close: function() {
 				$("body").css({ overflow: 'inherit' });
@@ -207,30 +212,28 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 }
 //add placeholder to the forms in the popups for IE9.
 function placeholder_IE9() {
-  if (navigator.userAgent.match(/msie/i)) {
-    $('select').css('background-image', 'none');
-    function add() {
-      if($(this).val() === ''){
-        $(this).val($(this).attr('placeholder')).addClass('placeholder');
-      }
+  $('select').css('background-image', 'none');
+  function add() {
+    if($(this).val() === ''){
+      $(this).val($(this).attr('placeholder')).addClass('placeholder');
     }
-    function remove() {
-      if($(this).val() === $(this).attr('placeholder')){
-        $(this).val('').removeClass('placeholder');
-      }
+  }
+  function remove() {
+    if($(this).val() === $(this).attr('placeholder')){
+      $(this).val('').removeClass('placeholder');
     }
+  }
 
-    // Create a dummy element for feature detection
-    if (!('placeholder' in $('<input>')[0])) {
+  // Create a dummy element for feature detection
+  if (!('placeholder' in $('<input>')[0])) {
 
-      // Select the elements that have a placeholder attribute
-      $('input[placeholder], textarea[placeholder]').blur(add).focus(remove).each(add);
+    // Select the elements that have a placeholder attribute
+    $('input[placeholder], textarea[placeholder]').blur(add).focus(remove).each(add);
 
-      // Remove the placeholder text before the form is submitted
-      $('form').submit(function(){
-        $(this).find('input[placeholder], textarea[placeholder]').each(remove);
-      });
-    }
+    // Remove the placeholder text before the form is submitted
+    $('form').submit(function(){
+      $(this).find('input[placeholder], textarea[placeholder]').each(remove);
+    });
   }
 }
 function yesPlan(){
