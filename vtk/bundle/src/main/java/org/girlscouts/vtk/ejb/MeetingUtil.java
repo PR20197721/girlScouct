@@ -990,7 +990,7 @@ System.err.println("test123 yes");
 		MeetingE meeting = null;
 		List<Asset> _aidTags = null;
 		Meeting meetingInfo = null;
-		if (_comp.getType() == YearPlanComponentType.MEETING) {
+		if (_comp.getType() == YearPlanComponentType.MEETING || _comp.getType() == YearPlanComponentType.MEETINGCANCELED) {
 			meeting = (MeetingE) _comp;
 			int meetingCount = troop.getYearPlan().getMeetingEvents().indexOf(_comp)+1;
 			meetingInfo = yearPlanUtil.getMeeting(user, meeting.getRefId());

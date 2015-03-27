@@ -842,7 +842,7 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 				ObjectMapper mapper = new ObjectMapper();
 				//out.println(mapper.writeValueAsString(troop));
 			    out.println(mapper.writeValueAsString(troop).replaceAll("mailto:","").replaceAll("</a>\"</a>","</a>").replaceAll("\"</a>\"",""));
-                
+           System.err.println(mapper.writeValueAsString(troop));     
 			}
 
 		} else if (request.getParameter("yearPlanSched") != null) {

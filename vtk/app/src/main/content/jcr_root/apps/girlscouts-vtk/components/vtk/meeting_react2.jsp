@@ -43,7 +43,8 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 %>
  <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script> 
 
-<%@include file="include/tab_navigation.jsp"%>
+    <%@include file="include/tab_navigation.jsp"%>
+
 
 <script>
     var thisMeetingPath = "";
@@ -72,13 +73,13 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
         this.setState({ show: !this.state.show });
       },
       render: function() {
+    	  
        var scheduleDates =null;
           if( this.props.schedule!=null){
               scheduleDates= this.props.schedule.dates;
           }
        
        var commentNodes = this.props.data.map(function (comment ,i ) {
-       
        if(comment.uid=='<%=mid%>') {
         
         if( scheduleDates !=null ) {
@@ -94,9 +95,15 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
           thisMeetingRefId  = comment.refId;
           thisMeetingPath  = comment.path;
           thisMeetingImg   = "/content/dam/girlscouts-vtk/local/icon/meetings/"+ comment.meetingInfo.id +".png";
+         
+         
+         
           thisMeetingDate = new Date( Number(thisMeetingDate) );
-
-          return (
+          if( isNaN(thisMeetingDate) ){
+        	  thisMeetingDate = new Date(<%=planView.getSearchDate().getTime()%>);
+        	  alert(thisMeetingDate)
+          }
+     return (
             React.createElement(YearPlan, {item: comment, key: i}, 
                    React.createElement(MeetingPlan, {meetingModMONTH: moment(thisMeetingDate).format('MMMM'), meetingModDAY: moment(thisMeetingDate).format('DD'), meetingModHOUR: moment(thisMeetingDate).format('h:mm a'), uid: comment.uid, meetingTitle: comment.meetingInfo.name, meetingId: comment.id, meetingGlobalId: thisMeetingImg, location: comment.locationRef, cat: comment.meetingInfo.cat, blurb: comment.meetingInfo.meetingInfo["meeting short description"].str}), 
                    React.createElement(MeetingAssets, {data: comment.assets}), 
@@ -430,12 +437,18 @@ React.createElement("li", null,
       render: function() {
           var x;
           var sched;
-          if( this.state.data.meetingEvents!=null){
+          if( <%=planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING%> && this.state.data.meetingEvents!=null){
               x =  this.state.data.meetingEvents;
               sched = this.state.data.schedule;
               return (
                    React.createElement(MeetingList, {data: x, schedule: sched}) 
               );
+          }else if( <%=planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETINGCANCELED%> &&  this.state.data.meetingCanceled!=null){
+                  x =  this.state.data.meetingCanceled;
+                  sched = this.state.data.schedule;
+                  return (
+                       React.createElement(MeetingList, {data: x, schedule: sched}) 
+                  );
           }else{
               return React.createElement("div", null, "loading...");
           }
