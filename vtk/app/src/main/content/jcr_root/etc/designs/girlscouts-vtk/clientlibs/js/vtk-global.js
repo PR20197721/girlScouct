@@ -37,7 +37,7 @@ var $ = jQuery.noConflict();
 			var window_h = $(window).height();
 			var popup_h = (window_h - 75);
 			$(this).find('.scroll').css('max-height' , popup_h + 'px');
-			if (navigator.userAgent.match(/msie/i) ) {
+			if (navigator.userAgent.match(/(msie\ [0-9]{1})/i)[0].split(" ")[1] == 9) {
 			  // alert(navigator.userAgent.match(/msie/i));
 			  placeholder_IE9();
 			  $('select').css('background-image', 'none');
@@ -125,11 +125,11 @@ var $ = jQuery.noConflict();
   	 if($('.tabs dd').length == 6) {
   	 	$('.tabs dd').css('width','100%');
   	 } 	
-  	 if (navigator.userAgent.match(/msie/i) ) {
-  	   // alert(navigator.userAgent.match(/msie/i));
-  	   placeholder_IE9();
-  	   $('select').css('background-image', 'none');
-  	 }
+  	 // if (navigator.userAgent.match(/msie/i) ) {
+  	 //   // alert(navigator.userAgent.match(/msie/i));
+  	 //   placeholder_IE9();
+  	 //   $('select').css('background-image', 'none');
+  	 // }
   });
 	$(window).resize(function() {
 		modal_height_resize()

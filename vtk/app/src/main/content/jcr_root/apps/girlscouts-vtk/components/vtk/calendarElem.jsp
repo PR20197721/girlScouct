@@ -165,7 +165,7 @@ $('#saveCalElem').click(function() {
 //	return true;
 //}
 
-if (navigator.userAgent.match(/msie/i) ) {
+if (navigator.userAgent.match(/(msie\ [0-9]{1})/i)[0].split(" ")[1] == 9) {
   $('select').css('background-image', 'none');
 }
 function fnOpenNormalDialog() {
