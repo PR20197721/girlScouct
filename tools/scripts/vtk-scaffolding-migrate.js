@@ -2,13 +2,14 @@
 // Dependency: node.js. See https://nodejs.org/ for how to install.
 // Mike Zou <mzou@northpointdigital.com>
 
-console.log("VTK Scaffolding Data Migration Tool.");
+var urlBase = 'http://localhost:4502';
+var auth = 'admin:admin';
 
 var request = require('urllib-sync').request;
 
 function getJSON(path) {
-    var response = request('http://localhost:4502' + path + '.1.json', {
-        auth: 'admin:admin',
+    var response = request(urlBase + path + '.1.json', {
+        auth: auth,
         dataType: 'json'
     });
 
@@ -33,9 +34,9 @@ var fieldsYearPlan = {
 
 function addProperties(entityPath, fields) {
     console.log('Adding properties: ' + entityPath);
-    request('http://localhost:4502' + entityPath, {
+    request(urlBase + entityPath, {
         method: 'POST',
-        auth: 'admin:admin',
+        auth: auth,
         data: fields
     });
 }
@@ -51,3 +52,4 @@ function addAllProperties(rootPath, fields) {
 }
 
 addAllProperties('/content/girlscouts-vtk/meetings/myyearplan', fieldsMeeting);
+addAllProperties('/content/girlscouts-vtk/meetings/yearplan2015', fieldsYearPlan);
