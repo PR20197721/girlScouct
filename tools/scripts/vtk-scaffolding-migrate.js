@@ -35,6 +35,7 @@ function addProperties(entityPath, fields) {
     console.log('Adding properties: ' + entityPath);
     request('http://localhost:4502' + entityPath, {
         method: 'POST',
+        auth: 'admin:admin',
         data: fields
     });
 }
