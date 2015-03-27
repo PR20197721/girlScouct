@@ -101,7 +101,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
           thisMeetingDate = new Date( Number(thisMeetingDate) );
           if( isNaN(thisMeetingDate) ){
         	  thisMeetingDate = new Date(<%=planView.getSearchDate().getTime()%>);
-        	  alert(thisMeetingDate)
+        	  
           }
      return (
             React.createElement(YearPlan, {item: comment, key: i}, 

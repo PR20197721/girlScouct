@@ -35,6 +35,7 @@
       var isFirst=1;
       var meetingPassed=true;
       var scrollTarget = "";
+      
       var CommentBox = React.createClass({displayName: "CommentBox",
        loadCommentsFromServer: function( isFirst ) {
          $.ajax({
@@ -357,7 +358,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
             var comment= this.props.comment;  
       return (
         React.createElement("div", {className: bgcolor(obj, comment, 1)}, 
-        React.createElement("div", {className:  (moment(comment).get('year') < 1978) ?  "hide" : "count"}, (obj[comment].id)+1), 
+        React.createElement("div", {className:  (moment(comment).get('year') < 1978 || obj[comment].type == 'MEETINGCANCELED' ) ?  "hide" : "count"}, (obj[comment].id)+1), 
         React.createElement("div", {className: "date"}, 
           React.createElement("p", {className: "month"},  moment(comment).get('year') < 1978 ? "meeting" : moment(comment).format('MMM')), 
           React.createElement("p", {className: "day"},  moment(comment).get('year') < 1978 ? (obj[comment].id)+1 : moment(comment).format('DD')), 
