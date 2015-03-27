@@ -13,6 +13,12 @@
 						Activity curA = (Activity)planView.getYearPlanComponent();
 	   					List<SentEmail> emails = curA.getSentEmails();
 	   					if(emails!=null && !emails.isEmpty()){
+	   						if(emails.size()==1){
+	   							SentEmail eml = emails.get(0);%>
+	   							<div>Sent: <%=FORMAT_CALENDAR_DATE.format(eml.getSentDate()) %></div>
+  								<div><%=eml.getSubject() %></div>
+		   						<div><%=curA.getEmlTemplate()==null? "":eml.getHtmlMsg(curA.getEmlTemplate())%> </div><% 
+	   						}else{
 		   					for(int k=emails.size(); k>0; k--){
 		   						SentEmail eml = emails.get(k-1);%>
 		   						<dl class="accordion" data-accordion>
@@ -26,6 +32,7 @@
 	  								</dd>
 								</dl>
 		   					<% } 
+	   						}
 
 	   					}else{%>
 	   						<div>No email has been sent.</div><% 
@@ -34,6 +41,12 @@
 	   					MeetingE curM = planView.getMeeting();
 	   					List<SentEmail> emails = curM.getSentEmails();
 	   					if(emails!=null && !emails.isEmpty()){
+	   						if(emails.size()==1){
+   							SentEmail eml = emails.get(0);%>
+   							<div>Sent: <%=FORMAT_CALENDAR_DATE.format(eml.getSentDate()) %></div>
+							<div><%=eml.getSubject() %></div>
+	   						<div><%=curM.getEmlTemplate()==null? "":eml.getHtmlMsg(curM.getEmlTemplate())%> </div><% 
+   						}else{
 		   					for(int k=emails.size(); k>0; k--){
 		   						SentEmail eml = emails.get(k-1);%>
 		   						<dl class="accordion" data-accordion>
@@ -46,7 +59,8 @@
 	    							</div>
 	  								</dd>
 								</dl>
-		   					<% } 
+		   					<% }
+	   						}
 	   					}else{%>
    							<div>No email has been sent.</div><% 
    						}
