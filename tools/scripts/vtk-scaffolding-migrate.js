@@ -6,8 +6,7 @@ console.log("VTK Scaffolding Data Migration Tool.");
 
 var request = require('urllib-sync').request;
 
-function getJSON(path, method) {
-    var method = method ? method : 'GET';
+function getJSON(path) {
     var response = request('http://localhost:4502' + path + '.1.json', {
         auth: 'admin:admin',
         dataType: 'json'
@@ -22,11 +21,32 @@ function getJSON(path, method) {
     return data;
 }
 
-function addProperties(rootPath, options) {
+var fieldsMeeting = {
+    "sling:resourceType": "girlscouts-vtk/components/vtk-data",
+    "vtkDataType": "meeting"
+};
+
+var fieldsYearPlan = {
+    "sling:resourceType": "girlscouts-vtk/components/vtk-data",
+    "vtkDataType": "year-plan"
+};
+
+function addProperties(entityPath, fields) {
+    console.log('Adding properties: ' + entityPath);
+    request('http://localhost:4502' + entityPath, {
+        method: 'POST',
+        data: fields
+    });
+}
+
+function addAllProperties(rootPath, fields) {
     var root = getJSON(rootPath);
-    for (var level in root) {
-        console.log(level);
+    for (var levelKey in root) {
+        var level = getJSON(rootPath + '/' + levelKey);
+        for (var entityKey in level) {
+            addProperties(rootPath + '/' + levelKey + '/' + entityKey, fields);
+        }
     }
 }
 
-addProperties('/content/girlscouts-vtk/meetings/myyearplan');
+addAllProperties('/content/girlscouts-vtk/meetings/myyearplan', fieldsMeeting);
