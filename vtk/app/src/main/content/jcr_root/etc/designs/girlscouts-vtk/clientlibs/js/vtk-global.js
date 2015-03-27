@@ -72,6 +72,31 @@ var $ = jQuery.noConflict();
 			}
 		});
   }
+  function placeholder_IE9() {
+  	function add() {
+			if($(this).val() === ''){
+			  $(this).val($(this).attr('placeholder')).addClass('placeholder');
+			}
+		}
+
+		function remove() {
+			if($(this).val() === $(this).attr('placeholder')){
+			  $(this).val('').removeClass('placeholder');
+			}
+		}
+
+		// Create a dummy element for feature detection
+		if (!('placeholder' in $('<input>')[0])) {
+
+		  // Select the elements that have a placeholder attribute
+		  $('input[placeholder], textarea[placeholder]').blur(add).focus(remove).each(add);
+
+		  // Remove the placeholder text before the form is submitted
+		  $('form').submit(function(){
+		    $(this).find('input[placeholder], textarea[placeholder]').each(remove);
+		  });
+		}
+  }
 	//all function calls should go here
 	  $(document).ready(function() {
 	  	 $(document).foundation({
@@ -94,9 +119,14 @@ var $ = jQuery.noConflict();
 	  	 resizeWindow();
 	  	 if($('.tabs dd').length == 6) {
 	  	 	$('.tabs dd').css('width','100%');
-	  	 } 	 
-  });
+	  	 } 	
 
+	  	 if (navigator.userAgent.match(/msie/i) ) {
+	  	   // alert(navigator.userAgent.match(/msie/i));
+	  	   placeholder_IE9();
+	  	   $('select').css('background-image', 'none');
+	  	 }
+  });
 	$(window).resize(function() {
 		modal_height_resize()
 		// if($(window).width() < 420) {

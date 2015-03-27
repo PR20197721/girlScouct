@@ -205,6 +205,35 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 		});
 	}
 }
+//add placeholder to the forms in the popups for IE9.
+function placeholder_IE9() {
+  if (navigator.userAgent.match(/msie/i) ) {
+    $('select').css('background-image', 'none');
+    function add() {
+      if($(this).val() === ''){
+        $(this).val($(this).attr('placeholder')).addClass('placeholder');
+      }
+    }
+
+    function remove() {
+      if($(this).val() === $(this).attr('placeholder')){
+        $(this).val('').removeClass('placeholder');
+      }
+    }
+
+    // Create a dummy element for feature detection
+    if (!('placeholder' in $('<input>')[0])) {
+
+      // Select the elements that have a placeholder attribute
+      $('input[placeholder], textarea[placeholder]').blur(add).focus(remove).each(add);
+
+      // Remove the placeholder text before the form is submitted
+      $('form').submit(function(){
+        $(this).find('input[placeholder], textarea[placeholder]').each(remove);
+      });
+    }
+  }
+}
 function yesPlan(){
   if(document.getElementById('yearPlanMeetings').style.display=='none' ){
     document.getElementById('yearPlanMeetings').style.display='block';

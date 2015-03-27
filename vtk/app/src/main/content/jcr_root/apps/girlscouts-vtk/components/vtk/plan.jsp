@@ -249,31 +249,29 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
       }
     }).disableSelection();
   }
-});
-      
-      
-      var MeetingImg = React.createClass({displayName: "MeetingImg",
-        render: function() {
-          var src= "/content/dam/girlscouts-vtk/local/icon/meetings/"+ this.props.mid +".png";
-          var imgReturn="";
-         if( !imageExists( src ) ){ 
-            imgReturn="hide"; 
-         }
-          return (
-                React.createElement("img", {src: src, className: imgReturn})
-           );        
-        }
-      });
+}); 
+  var MeetingImg = React.createClass({displayName: "MeetingImg",
+    render: function() {
+      var src= "/content/dam/girlscouts-vtk/local/icon/meetings/"+ this.props.mid +".png";
+      var imgReturn="";
+     if( !imageExists( src ) ){ 
+        imgReturn="hide"; 
+     }
+      return (
+            React.createElement("img", {src: src, className: imgReturn})
+       );        
+    }
+  });
 
-    var ViewMeeting = React.createClass({displayName: "ViewMeeting",
-        render: function() {
-          var date  = new Date(this.props.date).getTime();
-            var src = "/content/girlscouts-vtk/en/vtk.details.html?elem="+date;
-          return (
-              React.createElement("a", {href: src}, this.props.name)
-          );
-        }
-      });
+var ViewMeeting = React.createClass({displayName: "ViewMeeting",
+    render: function() {
+      var date  = new Date(this.props.date).getTime();
+        var src = "/content/girlscouts-vtk/en/vtk.details.html?elem="+date;
+      return (
+          React.createElement("a", {href: src}, this.props.name)
+      );
+    }
+  });
 
     function doUpdMeeting1(newVals){
         var x =$.ajax({ 
@@ -313,22 +311,17 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
          }
         }
 
-        function imageExists(image_url) {
-          var http = new XMLHttpRequest();
-          http.open('HEAD', image_url, false);
-          http.send();
-          return http.status != 404;
-        }
-
-
-
-
-
+  function imageExists(image_url) {
+    var http = new XMLHttpRequest();
+    http.open('HEAD', image_url, false);
+    http.send();
+    return http.status != 404;
+  }
  var DateBox = React.createClass({displayName: "DateBox",
         render: function() {
 
-            var obj = this.props.obj;
-            var comment= this.props.comment;  
+      var obj = this.props.obj;
+      var comment= this.props.comment;  
       return (
         React.createElement("div", {className: bgcolor(obj, comment, 1)}, 
         React.createElement("div", {className:  (moment(comment).get('year') < 1978) ?  "hide" : "count"}, (obj[comment].id)+1), 
