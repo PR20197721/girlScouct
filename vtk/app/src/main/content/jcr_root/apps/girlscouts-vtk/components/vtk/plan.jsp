@@ -114,7 +114,33 @@
                 meetingPassed= true;
                 return (React.createElement("ul", {id: "sortable123"}, 
                              keys.map( function (comment ,i ) {
-                                  if( obj[comment].type == 'MEETING' ){
+                                  
+                              if( obj[comment].type == 'MEETINGCANCELED' ){
+                                     return (
+
+
+             React.createElement("li", {className: 'row meeting ui-state-default ui-state-disabled', key: obj[comment].id, id: obj[comment].id+1}, 
+                     React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered"}, 
+                     React.createElement("img", {className: (moment(comment) < moment( new Date()) && (moment(comment).get('year') >2000)) ? "touchscroll hide" : "touchscroll <%=hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : " hide" %>", src: "/etc/designs/girlscouts-vtk/clientlibs/css/images/throbber.png"}), 
+                     React.createElement("div", {className: "large-3 medium-3 small-4 columns"}, React.createElement(DateBox, {comment: comment, obj: obj})), 
+                     React.createElement("div", {className: "large-22 medium-22 small-24 columns"}, 
+                         React.createElement("p", {className: "subtitle"}, React.createElement(ViewMeeting, {date: moment(comment).toDate(), name: obj[comment].meetingInfo.name})), 
+                         React.createElement("p", {className: "category"}, obj[comment].meetingInfo.cat), 
+                         React.createElement("p", {className: "blurb"}, obj[comment].meetingInfo.blurb)
+                         
+                     ), 
+                     React.createElement("div", {className: "large-2 medium-2 columns hide-for-small"}, 
+                         React.createElement(MeetingImg, {mid: obj[comment].meetingInfo.id})
+                     )
+                     )
+                 )
+
+
+
+                                     );
+                            	 
+                            	 
+                             }else if( obj[comment].type == 'MEETING' ){
                                         return (
 
 
@@ -290,7 +316,10 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
 
         function bgcolor(obj, comment, objType){ 
 
-         if(  meetingPassed && 
+        if( obj[comment].cancelled =='true' ){
+
+            return "bg-square canceled";
+        }else if(  meetingPassed && 
              ((moment(comment) > moment( new Date() )) || (moment(comment).get('year') < 1978) )
              ) {
                     if( objType=='1'){  meetingPassed= false;}
@@ -304,9 +333,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
         }else if(  moment(comment) < moment( new Date()) ){
             return "bg-square passed";
          
-         }else if( obj[comment].cancelled =='true' ){
-
-            return "bg-square canceled";
+        
          }else{
 
             return "bg-square";

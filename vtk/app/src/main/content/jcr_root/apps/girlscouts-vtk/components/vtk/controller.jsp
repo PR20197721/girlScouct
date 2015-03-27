@@ -271,6 +271,8 @@
 				financeUtil.updateFinanceConfiguration(troop, user.getCurrentYear(), request.getParameterMap());
 				return;
 			case RmMeeting:
+				meetingUtil.createMeetingCanceled(user, troop,
+                        request.getParameter("mid"), Long.parseLong(request.getParameter("rmDate")));
 				meetingUtil.rmMeeting(user, troop,
 						request.getParameter("mid"));
 				meetingUtil.rmSchedDate(user, troop,

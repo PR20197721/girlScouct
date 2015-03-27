@@ -38,6 +38,7 @@ import org.girlscouts.vtk.models.Attendance;
 import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.JcrCollectionHoldString;
 import org.girlscouts.vtk.models.Meeting;
+import org.girlscouts.vtk.models.MeetingCanceled;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.PlanView;
@@ -144,6 +145,16 @@ public class MeetingUtil {
 					meetingE.setMeetingInfo(meetingInfo);
 				}
 				plan.setMeetingEvents(meetingEs);
+				
+				
+				//load meetingCanceled
+				for (int i = 0; i < plan.getMeetingCanceled().size(); i++) {
+					MeetingCanceled meetingCanceled = plan.getMeetingCanceled().get(i);
+					Meeting meetingInfo = yearPlanUtil.getMeeting(user,
+							meetingCanceled.getRefId());
+					meetingCanceled.setMeetingInfo(meetingInfo);
+				}
+				
 			}
 
 			return getYearPlanSched(plan);
@@ -162,7 +173,7 @@ public class MeetingUtil {
 				Activity activity = (Activity) _comp;
 				container.put(date, activity);
 				break;
-
+		
 			}
 		}
 
@@ -174,6 +185,10 @@ public class MeetingUtil {
 			YearPlanComponent _comp = (YearPlanComponent) orgSched.get(date);
 
 			switch (_comp.getType()) {
+			case MEETINGCANCELED:
+				MeetingCanceled meetingCanceled = (MeetingCanceled) _comp;
+				container.put(date, meetingCanceled);
+				break;
 			case MEETING:
 
 				MeetingE meetingE = (MeetingE) _comp;
@@ -289,11 +304,23 @@ if( meetingEs!=null){
 				for (int i = 0; i < activities.size(); i++) {
 
 					long tmp = activities.get(i).getDate().getTime();
-								if( sched.containsKey( activities.get(i).getDate() ) ){ //add 2 sec
+					if( sched.containsKey( activities.get(i).getDate() ) ){ //add 2 sec
 									tmp = tmp + TimeUnit.MILLISECONDS.toMillis(1);
 								}
 								
 					sched.put(new java.util.Date(tmp), activities.get(i));
+					
+				}
+			
+			if (plan.getMeetingCanceled() != null)
+				for (int i = 0; i < plan.getMeetingCanceled().size(); i++) {
+
+					long tmp = plan.getMeetingCanceled().get(i).getDate().getTime();
+					if( sched.containsKey( plan.getMeetingCanceled().get(i).getDate() ) ){ //add 2 sec
+									tmp = tmp + TimeUnit.MILLISECONDS.toMillis(1);
+								}
+								
+					sched.put(new java.util.Date(tmp), plan.getMeetingCanceled().get(i));
 					
 				}
 
@@ -1416,6 +1443,19 @@ System.err.println("test123 yes");
 	}
 
 
-
+public void createMeetingCanceled(User user, Troop troop,
+        String meetingRefId, long meetingDate) throws IllegalAccessException{
+	
+	MeetingCanceled  meeting = new MeetingCanceled();
+	meeting.setDate( new java.util.Date(meetingDate) );
+	meeting.setRefId(meetingRefId);
+	meeting.setCancelled("true");
+	meeting.setDbUpdate(true);
+	java.util.List<MeetingCanceled>  meetingsCanceled = troop.getYearPlan().getMeetingCanceled();
+	meetingsCanceled= meetingsCanceled==null ? new java.util.ArrayList<MeetingCanceled>() : meetingsCanceled;
+	meetingsCanceled.add(meeting);
+	troop.getYearPlan().setMeetingCanceled(meetingsCanceled);
+	troopDAO.updateTroop(user, troop);
+}
 
 }
