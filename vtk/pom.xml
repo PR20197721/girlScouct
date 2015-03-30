@@ -259,6 +259,7 @@
     <module>modified-checker-bundle</module>
     <module>bundle</module>
     <module>replication-bundle</module>
+    <module>scaffolding-bundle</module>
     <module>ical4j-wrapper</module>
     <module>beanutils-wrapper</module>
     <module>app</module>
