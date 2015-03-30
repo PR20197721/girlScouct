@@ -48,7 +48,13 @@
         <% } %>
         <% if(hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) { %>
         <dd <%= "planView".equals(activeTab) ? "class='active'" : "" %>>
-           <a <%= troop.getYearPlan() != null ? "href='/content/girlscouts-vtk/en/vtk.details.html'" :  "href='#' onClick='alert(\"Please select a year plan\")'"  %>>Meeting Plan</a>
+           <%if(troop.getYearPlan()!=null && 
+        		 (troop.getYearPlan().getActivities()==null || troop.getYearPlan().getActivities().size()<=0 ) &&
+        		    ( troop.getYearPlan().getMeetingEvents()==null || troop.getYearPlan().getMeetingEvents().size()<=0 )){ %>
+        		     <a href='#' onClick='alert("Content only available for meetings. Add at least one meeting to the Year Plan to access this tab.")'>Meeting Plan</a>
+           <%}else{ %>		         
+                     <a <%= troop.getYearPlan() != null ? "href='/content/girlscouts-vtk/en/vtk.details.html'" :  "href='#' onClick='alert(\"Please select a year plan\")'"  %>>Meeting Plan</a>
+           <%} %> 
         </dd>
         <%  } %>
         <dd <%= "resource".equals(activeTab) ? "class='active'" : "" %>>

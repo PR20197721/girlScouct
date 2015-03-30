@@ -411,7 +411,7 @@ public class SalesforceDAO {
 
 			JSONObject response = new JSONObject(rsp);
 
-			System.err.println("<<<<<Apex test r1: "+ response);
+			System.err.println("<<<<<Apex contacts reponse: "+ response);
 
 			JSONArray results = response.getJSONArray("records");
 

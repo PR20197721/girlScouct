@@ -481,8 +481,9 @@ System.err.println("tata2b2b2 :"+ (troop.getYearPlan().getMeetingEvents().size()
 			java.lang.IllegalAccessException {
 		YearPlan plan = null;
 		try {
+			if( yearPlanPath==null || yearPlanPath.equals("") ) return new YearPlan();
 			plan = troopDAO.addYearPlan1(user, troop, yearPlanPath);
-			plan.setRefId(yearPlanPath);
+ 			plan.setRefId(yearPlanPath);
 
 			plan.setMeetingEvents(yearPlanUtil.getAllEventMeetings_byPath(user,
 					yearPlanPath.endsWith("/meetings/") ? yearPlanPath
@@ -708,7 +709,7 @@ System.err.println("tata2b2b2 :"+ (troop.getYearPlan().getMeetingEvents().size()
 			for(int i= (oldSched.size()-1); i>= currMeetingCount ; i--){
 				if(oldSched.get(i).after(new java.util.Date() ) )
 					oldSched.remove(i); //rm last meeting if in future
-				else
+				else if( currMeetingCount>0)
 					throw new org.girlscouts.vtk.ejb.VtkYearPlanChangeException("Can not change year plan. Dates in the past can not be changed ("+ oldSched.get(i) +")");
 			}
 		
@@ -763,11 +764,17 @@ System.err.println("tata2b2b2 :"+ (troop.getYearPlan().getMeetingEvents().size()
 		for(int i=0;i< dates.size();i++)
 			if( dates.get(i).before( new java.util.Date() ) )
 				numOfPastMeetings++;
+		
 		//overwrite first numOfPastMeetings from oldPlan to newPlan; ASSUMING NEW & OLD Meetings are sorted!!!
-		if( newYearPlan.getMeetingEvents().size()>= numOfPastMeetings) //if newYearPlan has at least numOfPastMeetings-> overwrite
+		if( newYearPlan.getMeetingEvents().size()>= numOfPastMeetings){ //if newYearPlan has at least numOfPastMeetings-> overwrite			
 		 for(int i=0; i< numOfPastMeetings;i++ ){
 			 newYearPlan.getMeetingEvents().set(i, oldPlan.getMeetingEvents().get(i));
 		 }
+		}else if(newYearPlan.getMeetingEvents()==null || newYearPlan.getMeetingEvents().size() ==0){
+			newYearPlan.setMeetingEvents( new java.util.ArrayList<MeetingE>());
+			for(int i=0; i< numOfPastMeetings;i++ )
+				 newYearPlan.getMeetingEvents().add( oldPlan.getMeetingEvents().get(i) );
+		}
 		
 		return VtkUtil.setToDbUpdate( newYearPlan.getMeetingEvents() );
 	}
@@ -788,32 +795,55 @@ System.err.println("tata2b2b2 :"+ (troop.getYearPlan().getMeetingEvents().size()
 		}
 
 		YearPlan oldPlan = troop.getYearPlan();
-		/*
-		if(oldPlan!=null && oldPlan.getMeetingEvents()!=null)
-    		for(int i=0;i<oldPlan.getMeetingEvents().size();i++)
-				System.err.println("tatax oldPlan:"+((MeetingE)oldPlan.getMeetingEvents().get(i)).getRefId());
-*/
+
+		String orgSchedDates = "";
+		if( oldPlan!=null && oldPlan.getSchedule()!=null)
+			orgSchedDates =oldPlan.getSchedule().getDates();
+	
+System.err.println("tatax : oldPlan schedd : "+ orgSchedDates);		
+
 		YearPlan newYearPlan = addYearPlan(user, troop, yearPlanPath);// troopDAO.addYearPlan1(troop,
 
-		if( oldPlan!=null)
+		if( oldPlan!=null) {
 			if(oldPlan.getName().equals(planName)) {//reset current yearplan
-				if(!userUtil.hasPermission(troop,Permission.PERMISSION_RM_YEARPLAN_ID))
+				if(!userUtil.hasPermission(troop,Permission.PERMISSION_RM_YEARPLAN_ID)) {
 					throw new IllegalAccessException();
+                }
 				Cal cal = new Cal();
 				cal.setDbUpdate(true);
 				troop.getYearPlan().setSchedule(cal);//set to cal with dates equals to null to remove the schedule
-			}
-			else
+			} else {
 				troop.getYearPlan().setSchedule( selectYearPlan_newSched( user,  troop,  yearPlanPath ) );	
-		else
+            }
+		} else {
 			troop.setYearPlan(newYearPlan);
+        }
 		
-		if(yearPlanPath!=null && !yearPlanPath.equals("") )
-			troop.getYearPlan().setMeetingEvents( selectYearPlan_newMeetingPlan( user, troop, newYearPlan) );			
-		else
-			troop.getYearPlan().setMeetingEvents(null);
+		if(yearPlanPath!=null && !yearPlanPath.equals("") ){
+//System.err.println("tatax 1b4:"+ troop.getYearPlan().getMeetingEvents().size());			
+			troop.getYearPlan().setMeetingEvents( selectYearPlan_newMeetingPlan( user, troop, newYearPlan) );	
+//System.err.println("tatax 1 after:"+ troop.getYearPlan().getMeetingEvents().size());
+		}else{
+		
+			/*
+System.err.println("tatax 1b4:"+ troop.getYearPlan().getMeetingEvents().size());			
+			troop.getYearPlan().setMeetingEvents( selectYearPlan_newMeetingPlan( user, troop, newYearPlan) );	
+System.err.println("tatax 1 after:"+ troop.getYearPlan().getMeetingEvents().size());
+*/
+
+			
+			java.util.List<MeetingE> futureMeetings = getFutureMeetings( user, troop,orgSchedDates );
+//System.err.println("tatax: futureMeet " + futureMeetings.size() );			
+			java.util.List<MeetingE> pastMeetings = rmFutureMeetings(user, troop, futureMeetings);
+//System.err.println("tatax: past m " + pastMeetings.size() );			
+			troop.getYearPlan().setMeetingEvents( VtkUtil.setToDbUpdate(pastMeetings) );	
+//System.err.println("tatax final : "+ troop.getYearPlan().getMeetingEvents() );			
+
+		}
+		
 		if( oldPlan!=null){
-			troopDAO.removeMeetings(user, troop);
+		    //troopDAO.removeMeetings(user, troop);
+			//rmFutureMeetings(user, troop);
 			
 			//rm activities
 			if(troop.getYearPlan().getActivities()!=null )
@@ -824,7 +854,73 @@ System.err.println("tata2b2b2 :"+ (troop.getYearPlan().getMeetingEvents().size()
 		troop.getYearPlan().setAltered("false");
 		troop.getYearPlan().setName(planName);
 		troop.getYearPlan().setDbUpdate(true);
+//System.err.println("tatax UpdateMeetings " + troop.getYearPlan().getMeetingEvents().size());
+
+
+
+		troopDAO.removeMeetings(user, troop);
+//System.err.println("tatax UpdateMeetings1 " + troop.getYearPlan().getMeetingEvents().size());
 		troopDAO.updateTroop(user, troop);
+	}
+	
+	private java.util.List<MeetingE> rmFutureMeetings(User user, Troop troop, java.util.List<MeetingE> futureMeetings) throws IllegalAccessException{
+		
+		java.util.List<MeetingE> pastMeetings = troop.getYearPlan().getMeetingEvents();
+		
+		
+		//java.util.List<MeetingE> futureMeetings = getFutureMeetings( user, troop );
+//System.err.println("tatax found future meetings " + futureMeetings.size() +" : "+ pastMeetings.size());		
+		java.util.List<MeetingE> temp = new java.util.ArrayList();
+		if( futureMeetings!=null)
+		 for( MeetingE meeting : futureMeetings){
+	
+//System.err.println("tatax Removing future meeting "+ meeting.getId() +" : "+i);
+			//troopDAO.removeMeeting(user, troop, meeting);
+//System.err.println("tatax chk : "+ pastMeetings.contains(meeting) +" : " + pastMeetings.size());			
+			//-pastMeetings.remove(meeting);
+//System.err.println("tatax chk after : "+ pastMeetings.contains(meeting) +" : " + pastMeetings.size());
+			temp.add( meeting );
+		}
+		
+		
+		
+		for(MeetingE rm : temp){
+			pastMeetings.remove(rm);
+		}
+		
+		
+		return pastMeetings;
+	}
+	
+	private java.util.List<MeetingE> getFutureMeetings(User user, Troop troop, String dates){
+System.err.println("tatax check sched : "+troop.getYearPlan().getSchedule() );		
+		java.util.List<MeetingE> futureMeetings = new java.util.ArrayList<MeetingE>();
+		if(troop.getYearPlan().getSchedule()==null )
+			return troop.getYearPlan().getMeetingEvents();
+		
+		//String dates = schedule.getDates();
+		
+		java.util.List<MeetingE> allMeetings = troop.getYearPlan().getMeetingEvents();
+		if( allMeetings!=null){
+			Comparator<MeetingE> comp = new BeanComparator("id");
+			Collections.sort(allMeetings, comp);
+        }
+		
+		long timeNow=  new java.util.Date().getTime();
+		int countMeetings =0;
+System.err.println("tatax dates : "+ dates );		
+dates= ","+ dates;
+		StringTokenizer t= new java.util.StringTokenizer( dates, ",");
+		while( t.hasMoreElements() ){
+
+			long x = Long.parseLong( t.nextToken() );
+System.err.println("tatax : comp "+ timeNow +" : "+ x +" : "+ (timeNow < x   )); 			
+			if( timeNow < x)
+				futureMeetings.add( allMeetings.get(countMeetings));
+			countMeetings++;
+		}
+		
+		return futureMeetings;
 	}
 }// end class
 
