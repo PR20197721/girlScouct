@@ -282,6 +282,9 @@
 				meetingUtil.updateAttendance(user, troop, request);
 				meetingUtil.updateAchievement(user, troop, request);
 				return;
+			case CreateCustomYearPlan:
+                meetingUtil.createCustomYearPlan(user, troop, request.getParameter("mids"));
+                return;
 			default:
 				break;
 			}

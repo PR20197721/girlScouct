@@ -148,7 +148,8 @@ public class MeetingUtil {
 				
 				
 				//load meetingCanceled
-				for (int i = 0; i < plan.getMeetingCanceled().size(); i++) {
+				if( plan.getMeetingCanceled()!=null )
+				 for (int i = 0; i < plan.getMeetingCanceled().size(); i++) {
 					MeetingCanceled meetingCanceled = plan.getMeetingCanceled().get(i);
 					Meeting meetingInfo = yearPlanUtil.getMeeting(user,
 							meetingCanceled.getRefId());
@@ -1458,4 +1459,11 @@ public void createMeetingCanceled(User user, Troop troop,
 	troopDAO.updateTroop(user, troop);
 }
 
+
+public void createCustomYearPlan( User user, Troop troop, String mids) throws IllegalAccessException{
+	StringTokenizer t= new StringTokenizer(mids, ",");
+	while( t.hasMoreElements())
+		addMeetings( user,  troop,  t.nextToken());
 }
+
+}//edn class

@@ -38,6 +38,7 @@ request.setAttribute("meetings", meetings);
   $(function() {
     $( "#sortable1, #sortable2" ).sortable({
       connectWith: ".connectedSortable",
+      revert: true,
       stop : function(event, ui) {   	 
     	  var sortedIDs = $( "#sortable2" ).sortable( "toArray" );
     	  console.log("New rpt: "+sortedIDs); 
@@ -45,19 +46,47 @@ request.setAttribute("meetings", meetings);
     }).disableSelection();
   });
   
+  
+  function clearCart(){
+		        $('#sortable2 li').each(function(){
+		            $(this).appendTo('#sortable1');
+		        });
+		        }
+ 
+  
+  function rmMeeting(meetingId){
+    $('#sortable2 ').click(function(){
+      $(this).remove();
+    });
+  }
+  
+  function createPlan(){
+	  var sortedIDs = $( "#sortable2" ).sortable( "toArray" );
+	  $.ajax({
+          url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=CreateCustomYearPlan&mids="+ sortedIDs,
+          cache: false
+      }).done(function( html ) {
+         
+      });
+  }
+ 
+  
   </script>
 </head>
 <body>
  
 <ul id="sortable1" class="connectedSortable">
   <c:forEach var="meeting" items="${meetings}" >
-   <li class="ui-state-default" id="${meeting.id }">${meeting.name }</li>
+   <li class="ui-state-default" id="${meeting.path }">${meeting.name } </li>
   </c:forEach>
 </ul>
  
 <ul id="sortable2" class="connectedSortable">
 </ul>
  
+   <input type="button" value="Cancel"/> <!--  close modal -->
+   <input type="button" value="Clear" onclick="clearCart()"/>  <!-- clear cart -->
+   <input type="button" value="Create Plan" onclick="createPlan()"/> <!-- submit -->
  
 </body>
 </html>
