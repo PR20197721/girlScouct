@@ -29,7 +29,26 @@
                 <level
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Level"
-                    name="./level"/>
+                    allowBlank="{Boolean}false"
+                    name="./level"
+                    xtype="selection"
+                    type="radio">
+                    <options
+                        jcr:primaryType="cq:WidgetCollection">
+                        <brownie
+                            jcr:primaryType="nt:unstructured"
+                            text="Brownie"
+                            value="brownie"/>
+                        <daisy
+                            jcr:primaryType="nt:unstructured"
+                            text="Daisy"
+                            value="daisy"/>
+                        <junior
+                            jcr:primaryType="nt:unstructured"
+                            text="Junior"
+                            value="junior"/>
+                    </options>
+                </level>
                 <name
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Name"

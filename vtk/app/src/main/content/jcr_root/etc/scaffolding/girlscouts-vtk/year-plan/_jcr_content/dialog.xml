@@ -33,10 +33,28 @@
                 <level
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Level"
+                    xtype="selection"
+                    type="radio"
+                    allowBlank="{Boolean}false"
                     name="./level">
                     <listeners
                         jcr:primaryType="nt:unstructured"
                         change="function(field){girlscouts.components.VTKMeetingIdList.updateMeetingList(field, field.getValue());}"/>
+                    <options
+                        jcr:primaryType="cq:WidgetCollection">
+                        <brownie
+                            jcr:primaryType="nt:unstructured"
+                            text="Brownie"
+                            value="brownie"/>
+                        <daisy
+                            jcr:primaryType="nt:unstructured"
+                            text="Daisy"
+                            value="daisy"/>
+                        <junior
+                            jcr:primaryType="nt:unstructured"
+                            text="Junior"
+                            value="junior"/>
+                    </options>
                 </level>
                 <desc
                     jcr:primaryType="cq:Widget"
