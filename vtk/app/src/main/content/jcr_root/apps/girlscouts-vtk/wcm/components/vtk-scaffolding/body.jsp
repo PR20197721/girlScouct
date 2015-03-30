@@ -350,6 +350,7 @@
 	                var destUrl = destDir + '/' + id;
 	                frm.url = destUrl;
 	                
+	                // Check if node already exists.
 	                var http = CQ.shared.HTTP;
         			var response = http.get(http.externalize(destUrl + '.1.json'));
         			if (response.status == 200) {
