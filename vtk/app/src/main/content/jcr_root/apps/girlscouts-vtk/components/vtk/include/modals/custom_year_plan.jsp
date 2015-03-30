@@ -52,6 +52,12 @@ java.util.List<Meeting> meetings =yearPlanUtil.getAllMeetings(user, ageLevel);
  
 <ul id="sortable1" class="connectedSortable">
   
+  <c:forEach var="i" begin="1" end="5">
+
+   Item <c:out value="${i}"/><p>
+
+  </c:forEach
+
 <% for(int i=0;i<meetings.size();i++){ %>
     <li class="ui-state-default" id="<%=meetings.get(i).getId()%>"><%=meetings.get(i).getName() %></li>
 <% } %>
