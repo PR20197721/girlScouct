@@ -197,7 +197,7 @@ implements OptingServlet {
                     		buffer.append("#set Zip=");
                     	}
                     	else if(!name.equals("name") && !name.equals("comments") && !name.equals("Submit")){
-                    		buffer.append("#" + name + " ");
+                    		buffer.append("#set " + name + " ");
                     	}
                         final String[] pValues = request.getParameterValues(name);
                         for (final String v : pValues) {
