@@ -268,8 +268,8 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
         )
       ), 
       React.createElement("section", null, 
-        React.createElement("p", null, "Category:"), 
-        React.createElement("p", null, this.props.cat)
+        // React.createElement("p", null, "Category:"), 
+        React.createElement("p", null, "Category: " + this.props.cat)
       )
     ), 
     React.createElement("div", {className: "column large-7 medium-7 small-7 text-right"}, 
