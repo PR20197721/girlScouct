@@ -25,10 +25,12 @@
                 <id
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Id"
+                    allowBlank="{Boolean}false"
                     name="./id"/>
                 <name
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Name"
+                    allowBlank="{Boolean}false"
                     name="./name"/>
                 <level
                     jcr:primaryType="cq:Widget"
@@ -59,10 +61,12 @@
                 <desc
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Description"
+                    allowBlank="{Boolean}false"
                     name="./desc"/>
                 <meetings
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Meetings"
+                    allowBlank="{Boolean}false"
                     xtype="vtk-meeting-id-list">
                     <fieldConfig
                         jcr:primaryType="nt:unstructured"
