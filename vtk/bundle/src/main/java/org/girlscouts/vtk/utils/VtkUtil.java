@@ -142,8 +142,8 @@ public enum VtkUtil {
     }
     
   public static final java.util.List<MeetingE> setToDbUpdate( java.util.List<MeetingE> meetings){
-    	
-    	for(int i=0;i<meetings.size();i++)
+    	if( meetings!=null )
+    	 for(int i=0;i<meetings.size();i++)
     		meetings.get(i).setDbUpdate(true);
 	  return meetings; 	
   }
