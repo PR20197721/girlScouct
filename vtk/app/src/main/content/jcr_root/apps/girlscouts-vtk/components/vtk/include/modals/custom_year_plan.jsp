@@ -9,6 +9,7 @@
 String ageLevel=  troop.getTroop().getGradeLevel();
 ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1).toLowerCase().trim();
 java.util.List<Meeting> meetings =yearPlanUtil.getAllMeetings(user, ageLevel);
+request.setAttribute("meetings", meetings);
 %>
 
  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
@@ -37,12 +38,10 @@ java.util.List<Meeting> meetings =yearPlanUtil.getAllMeetings(user, ageLevel);
   $(function() {
     $( "#sortable1, #sortable2" ).sortable({
       connectWith: ".connectedSortable",
-      stop : function(event, ui) {
-    	 
+      stop : function(event, ui) {   	 
     	  var sortedIDs = $( "#sortable2" ).sortable( "toArray" );
     	  console.log("New rpt: "+sortedIDs); 
       }
-    
     }).disableSelection();
   });
   
@@ -51,20 +50,12 @@ java.util.List<Meeting> meetings =yearPlanUtil.getAllMeetings(user, ageLevel);
 <body>
  
 <ul id="sortable1" class="connectedSortable">
-  
-  <c:forEach var="i" begin="1" end="5">
-
-   Item <c:out value="${i}"/><p>
-
-  </c:forEach
-
-<% for(int i=0;i<meetings.size();i++){ %>
-    <li class="ui-state-default" id="<%=meetings.get(i).getId()%>"><%=meetings.get(i).getName() %></li>
-<% } %>
+  <c:forEach var="meeting" items="${meetings}" >
+   <li class="ui-state-default" id="${meeting.id }">${meeting.name }</li>
+  </c:forEach>
 </ul>
  
 <ul id="sortable2" class="connectedSortable">
-  
 </ul>
  
  
