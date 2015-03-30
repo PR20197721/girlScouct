@@ -349,6 +349,13 @@
 	                girlscouts.functions.createPath(destDir, 'nt:unstructured');
 	                var destUrl = destDir + '/' + id;
 	                frm.url = destUrl;
+	                
+	                var http = CQ.shared.HTTP;
+        			var response = http.get(http.externalize(destUrl + '.1.json'));
+        			if (response.status == 200) {
+        				alert('Meeting / year plan with this ID already exist: ' + destUrl + '. Please check ID and level.');
+        				return false;
+        			}
                 }
                 /****************************************
                 // End: Customize code to add level
