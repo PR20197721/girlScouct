@@ -37,6 +37,7 @@ public class YearPlan implements Serializable {
 	@Field private String name, desc, id, refId, altered, resources;
 	@Field(path = true) String path;
 	@Collection( autoUpdate = false) private java.util.List<MeetingE> meetingEvents;
+	
 	@Collection  (autoUpdate= false) private java.util.List<Activity> activities;
 	@Bean( autoUpdate = false) private Cal schedule;
 	@Collection (autoUpdate= false) private java.util.List<Location> locations;
@@ -44,7 +45,8 @@ public class YearPlan implements Serializable {
 	@Field private String calFreq, calExclWeeksOf;
 	private boolean isDbUpdate=false;
 	private java.util.List<Milestone> milestones;
-
+	@Collection( autoUpdate = false) 
+	private java.util.List<MeetingCanceled> meetingCanceled;
 	
 	
 	
@@ -222,6 +224,14 @@ public class YearPlan implements Serializable {
 
 	public void setDbUpdate(boolean isDbUpdate) {
 		this.isDbUpdate = isDbUpdate;
+	}
+
+	public java.util.List<MeetingCanceled> getMeetingCanceled() {
+		return meetingCanceled;
+	}
+
+	public void setMeetingCanceled(java.util.List<MeetingCanceled> meetingCanceled) {
+		this.meetingCanceled = meetingCanceled;
 	}
 
 }

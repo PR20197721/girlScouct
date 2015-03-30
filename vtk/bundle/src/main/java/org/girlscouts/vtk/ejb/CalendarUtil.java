@@ -413,7 +413,10 @@ System.err.println("\n\n\n ttt got date: " + dt );
 System.err.println("ttt dates after: "+ dates );
 		YearPlan plan = troop.getYearPlan();
 		plan.setCalFreq(freq);
-		plan.setCalStartDate(Long.parseLong(dates.substring(0,
+		if( dates!=null && !dates.contains(",") && dates.length()>3) //only 1
+			plan.setCalStartDate(Long.parseLong( dates) );
+		else
+			plan.setCalStartDate(Long.parseLong(dates.substring(0,
 				dates.indexOf(","))));
 		plan.setCalExclWeeksOf(exclDate);
 

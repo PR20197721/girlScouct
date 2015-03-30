@@ -271,6 +271,8 @@
 				financeUtil.updateFinanceConfiguration(troop, user.getCurrentYear(), request.getParameterMap());
 				return;
 			case RmMeeting:
+				meetingUtil.createMeetingCanceled(user, troop,
+                        request.getParameter("mid"), Long.parseLong(request.getParameter("rmDate")));
 				meetingUtil.rmMeeting(user, troop,
 						request.getParameter("mid"));
 				meetingUtil.rmSchedDate(user, troop,
@@ -280,6 +282,10 @@
 				meetingUtil.updateAttendance(user, troop, request);
 				meetingUtil.updateAchievement(user, troop, request);
 				return;
+			case CreateCustomYearPlan:
+				System.err.println("tatax: "+request.getParameter("mids"));
+                meetingUtil.createCustomYearPlan(user, troop, request.getParameter("mids"));
+                return;
 			default:
 				break;
 			}
@@ -840,7 +846,7 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 				ObjectMapper mapper = new ObjectMapper();
 				//out.println(mapper.writeValueAsString(troop));
 			    out.println(mapper.writeValueAsString(troop).replaceAll("mailto:","").replaceAll("</a>\"</a>","</a>").replaceAll("\"</a>\"",""));
-                
+           System.err.println(mapper.writeValueAsString(troop));     
 			}
 
 		} else if (request.getParameter("yearPlanSched") != null) {
