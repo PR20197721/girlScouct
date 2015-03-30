@@ -788,11 +788,11 @@ System.err.println("tata2b2b2 :"+ (troop.getYearPlan().getMeetingEvents().size()
 		}
 
 		YearPlan oldPlan = troop.getYearPlan();
-		
+		/*
 		if(oldPlan!=null && oldPlan.getMeetingEvents()!=null)
     		for(int i=0;i<oldPlan.getMeetingEvents().size();i++)
 				System.err.println("tatax oldPlan:"+((MeetingE)oldPlan.getMeetingEvents().get(i)).getRefId());
-
+*/
 		YearPlan newYearPlan = addYearPlan(user, troop, yearPlanPath);// troopDAO.addYearPlan1(troop,
 
 		if( oldPlan!=null)

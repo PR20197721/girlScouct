@@ -66,27 +66,38 @@ request.setAttribute("meetings", meetings);
           url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=CreateCustomYearPlan&mids="+ sortedIDs,
           cache: false
       }).done(function( html ) {
-         
+    	  //$('#modal_popup').foundation('reveal', 'close');
+    	  location.reload();
       });
   }
  
   
   </script>
 </head>
-<body>
+
  
-<ul id="sortable1" class="connectedSortable">
-  <c:forEach var="meeting" items="${meetings}" >
-   <li class="ui-state-default" id="${meeting.path }">${meeting.name } </li>
-  </c:forEach>
-</ul>
- 
-<ul id="sortable2" class="connectedSortable">
-</ul>
- 
-   <input type="button" value="Cancel"/> <!--  close modal -->
-   <input type="button" value="Clear" onclick="clearCart()"/>  <!-- clear cart -->
-   <input type="button" value="Create Plan" onclick="createPlan()"/> <!-- submit -->
- 
-</body>
-</html>
+
+  <div class="header clearfix">
+    <h3 class="columns large-22">CREATE your own year plan</h3>
+    <a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
+  </div>
+  <div class="scroll">
+    <div class="content">
+
+			<ul id="sortable1" class="connectedSortable">
+			  <c:forEach var="meeting" items="${meetings}" >
+			   <li class="ui-state-default" id="${meeting.path }">${meeting.name } </li>
+			  </c:forEach>
+			</ul>
+			 
+			<ul id="sortable2" class="connectedSortable">
+			</ul>
+			 
+			<input type="button" value="Cancel"/> <!--  close modal -->
+			<input type="button" value="Clear" onclick="clearCart()"/>  <!-- clear cart -->
+			<input type="button" value="Create Plan" onclick="createPlan()"/> <!-- submit -->
+			 
+       
+    </div>
+  </div>
+

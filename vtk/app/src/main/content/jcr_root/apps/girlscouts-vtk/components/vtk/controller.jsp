@@ -283,6 +283,7 @@
 				meetingUtil.updateAchievement(user, troop, request);
 				return;
 			case CreateCustomYearPlan:
+				System.err.println("tatax: "+request.getParameter("mids"));
                 meetingUtil.createCustomYearPlan(user, troop, request.getParameter("mids"));
                 return;
 			default:
