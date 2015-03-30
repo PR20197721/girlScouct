@@ -25,6 +25,7 @@ girlscouts.components.VTKMeetingId = CQ.Ext.extend(CQ.form.Selection, {
         defaults = {
     		type: 'select',
     		editable: true,
+    		allowBlank: false,
     		optionsConfig: {
     			forceSelection: true
     		}
