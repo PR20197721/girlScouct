@@ -25,6 +25,7 @@
                 <id
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Id"
+                    allowBlank="{Boolean}false"
                     name="./id"/>
                 <level
                     jcr:primaryType="cq:Widget"
@@ -52,18 +53,22 @@
                 <name
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Name"
+                    allowBlank="{Boolean}false"
                     name="./name"/>
                 <meeting_short_description
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Meeting Short Description"
+                    allowBlank="{Boolean}false"
                     name="./meetingInfo/meeting short description/str"/>
                 <blurb
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Blurb"
+                    allowBlank="{Boolean}false"
                     name="./blurb"/>
                 <cat
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Category"
+                    allowBlank="{Boolean}false"
                     name="./cat"/>
                 <aidTags
                     jcr:primaryType="cq:Widget"
@@ -88,6 +93,7 @@
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Overview"
                     name="./meetingInfo/overview/str"
+                    allowBlank="{Boolean}false"
                     xtype="richtext">
                     <rtePlugins jcr:primaryType="nt:unstructured">
                         <links jcr:primaryType="nt:unstructured">
@@ -237,6 +243,7 @@
                 <detailed_activity_plan
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Detailed Activity Plan"
+                    allowBlank="{Boolean}false"
                     name="./meetingInfo/detailed activity plan/str"
                     xtype="richtext">
                     <rtePlugins jcr:primaryType="nt:unstructured">
@@ -388,6 +395,7 @@
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Materials"
                     name="./meetingInfo/materials/str"
+                    allowBlank="{Boolean}false"
                     xtype="richtext">
                     <rtePlugins jcr:primaryType="nt:unstructured">
                         <links jcr:primaryType="nt:unstructured">
