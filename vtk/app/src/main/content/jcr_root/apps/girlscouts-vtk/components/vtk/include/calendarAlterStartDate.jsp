@@ -87,10 +87,10 @@
         <input type="checkbox" id="chk_10" name="exclDt" value="07/04/2016" <%=("".equals(exlDates) || exlDates.contains("07/04/2016")) ? "CHECKED" : ""  %>/><label for="chk_10"><p><span class="date">07/04/2016</span><span>Independence Day</span></p></label>
       </li>
       
-       <%for(int i=9;i<split_exclDates.length;i++){ 
+       <%for(int i=10;i<split_exclDates.length;i++){ 
        %>
          <li>
-            <input type="checkbox" id="chk_<%=(i+2) %>" name="exclDt" value="<%=split_exclDates[i] %>" CHECKED/><label for="chk_<%=(i+2)%>"><p><span class="date"><%= split_exclDates[i]%></span><span>Custom</span></p></label>
+            <input type="checkbox" id="chk_<%=(i+1) %>" name="exclDt" value="<%=split_exclDates[i] %>" CHECKED/><label for="chk_<%=(i+1)%>"><p><span class="date"><%= split_exclDates[i]%></span><span>Custom</span></p></label>
          </li>
       <%} %>
     </ul>

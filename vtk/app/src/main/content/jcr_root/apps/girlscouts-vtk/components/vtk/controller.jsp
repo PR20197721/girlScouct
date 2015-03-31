@@ -746,6 +746,8 @@
 					new org.girlscouts.vtk.models.Asset(request
 							.getParameter("addAsset")));
 		} else if (request.getParameter("reactjs") != null) {
+System.err.println("manu reactjs___________________________________________________________ " + new java.util.Date());
+
 
 			boolean isFirst = false;
 			if (request.getParameter("isFirst") != null
@@ -756,8 +758,13 @@
 			boolean isCng = false;
 
 			if (!isFirst) {
+				System.err.println("manu reactjs 1");
+			
 				ModifiedChecker modifiedChecker = sling.getService(ModifiedChecker.class);
-				isCng = modifiedChecker.isModified(session.getId(), troop.getYearPlan().getPath());
+
+                // TODO: This is a special logic. "X". Rewrite ModifiedChecker later. There are two places in this file.
+				isCng = modifiedChecker.isModified("X" + session.getId(), troop.getYearPlan().getPath());
+				System.err.println("manu reactjs 2 ::" +isCng);
 			}
 
 			if (isFirst || isCng) {
@@ -850,7 +857,7 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 			boolean isCng = false;
 		    if (!isFirst) {
 			    ModifiedChecker modifiedChecker = sling.getService(ModifiedChecker.class);
-			    isCng = modifiedChecker.isModified(session.getId(), troop.getYearPlan().getPath());
+			    isCng = modifiedChecker.isModified("X"+ session.getId(), troop.getYearPlan().getPath());
 		    }
 			//isCng=true;
 			if (isFirst || isCng
@@ -923,6 +930,23 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 							
 					session.putValue("VTK_troop", troop);
 
+					
+					
+	//****
+	
+	//java.util.Iterator itr= sched.keySet().iterator();
+	//while( itr.hasNext() ){
+	Object tmp[] = sched.values().toArray();
+	for(int i=0;i<tmp.length;i++){
+		try{
+		   ((MeetingE)tmp[i]).getMeetingInfo().setActivities(null);
+		   ((MeetingE)tmp[i]).getMeetingInfo().setMeetingInfo(null);
+		   ((MeetingE)tmp[i]).getMeetingInfo().setResources(null);
+		   ((MeetingE)tmp[i]).getMeetingInfo().setAgenda(null);
+		}catch(Exception e){}
+	}
+	
+	//*****
 					ObjectMapper mapper = new ObjectMapper();
 					out.println("{\"yearPlan\":\""
 							+ troop.getYearPlan().getName()
@@ -933,7 +957,7 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 			}
 			
 		} else if (request.getParameter("reactActivity") != null) {
-					
+System.err.println("manu reactActivity");					
 			boolean isFirst = false;
 			if (request.getParameter("isFirst") != null
 					&& request.getParameter("isFirst").equals("1")) {
@@ -944,7 +968,7 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 
 		    if (!isFirst) {
 				ModifiedChecker modifiedChecker = sling.getService(ModifiedChecker.class);
-				isCng = modifiedChecker.isModified(session.getId(), troop.getYearPlan().getPath());
+				isCng = modifiedChecker.isModified("X" + session.getId(), troop.getYearPlan().getPath());
             }
 
 			if (isFirst || isCng) {
@@ -1013,11 +1037,14 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 			
 			try {
 			    String imgPath = request.getParameter("path") + "/jcr:content/data/image";
-	
-			    Node imgNode = resourceResolver.getResource(imgPath).adaptTo(Node.class);  
-			    if( imgNode.hasProperty("fileReference")){
-			     %> <%= displayRendition(resourceResolver, imgPath, "cq5dam.web.520.520") %><% 
-			    }
+
+                Resource imgResource = resourceResolver.getResource(imgPath);
+                if (imgResource != null) {
+			        Node imgNode = imgResource.adaptTo(Node.class);  
+			        if( imgNode.hasProperty("fileReference")){
+			            %> <%= displayRendition(resourceResolver, imgPath, "cq5dam.web.520.520") %><% 
+			        }
+                }
 			}catch(Exception e){e.printStackTrace();}
 				
 		} else {
