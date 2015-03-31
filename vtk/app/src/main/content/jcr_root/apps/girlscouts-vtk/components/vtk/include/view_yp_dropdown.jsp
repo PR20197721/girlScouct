@@ -21,10 +21,11 @@
         } 
       }
       
+      //boolean isLibYearPlan= false;
       java.util.Iterator<YearPlan> yearPlans = yearPlanUtil.getAllYearPlans(user, ageLevel).listIterator();
         while (yearPlans.hasNext()) {
           YearPlan yearPlan = yearPlans.next();
-          
+         // if(troop.getYearPlan()!=null && (yearPlan.getName().equals(troop.getYearPlan().getName()))){isLibYearPlan=true;}
       %>
       <div class="row">
         <div class="columns large-push-2 medium-2 medium-push-2 small-2">
@@ -43,11 +44,11 @@
       
         <div class="row">
         <div class="columns large-push-2 medium-2 medium-push-2 small-2">
-           <input type="radio" id="r_0" class="radio1" name="group1" onclick="" />
+           <input type="radio" <%=( troop.getYearPlan()!=null && (troop.getYearPlan().getName().equals(troop.getYearPlan().getName()))) ? " checked " : "" %> id="r_0" class="radio1" name="group1"  onclick="chgYearPlan('<%=troop.getYearPlan().getId()%>', '<%=troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan().getName()%>')" />
             <label for="r_0"></label>
         </div>
         <div class="small-18 columns large-pull-2 medium-pull-2 small-pull-2">
-            <a href="/content/girlscouts-vtk/controllers/vtk.include.modals.modal_custom_year_plan.html" data-reveal-ajax="true" data-reveal-id="modal_custom_year_plan" >Create Your Own Year Plan</a>
+            <a href="/content/girlscouts-vtk/controllers/vtk.include.modals.modal_custom_year_plan.html" data-reveal-ajax="true" data-reveal-id="modal_custom_year_plan" onclick="return chgYearPlan('<%=troop.getYearPlan().getId()%>', '<%=troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan().getName()%>')">Create Your Own Year Plan</a>
             <p>Choose this option to create your own year plan using meetings from  our meeting library</p>
         </div>
       </div><!--/row-->

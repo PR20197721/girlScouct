@@ -1460,7 +1460,8 @@ public void createMeetingCanceled(User user, Troop troop,
 }
 
 
-public void createCustomYearPlan( User user, Troop troop, String mids) throws IllegalAccessException{
+public void createCustomYearPlan( User user, Troop troop, String mids) throws IllegalAccessException, VtkYearPlanChangeException{
+	troopUtil.selectYearPlan( user,  troop, "", "Custom Year Plan");
 	StringTokenizer t= new StringTokenizer(mids, ",");
 	while( t.hasMoreElements())
 		addMeetings( user,  troop,  t.nextToken());
