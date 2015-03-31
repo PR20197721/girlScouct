@@ -69,11 +69,14 @@ function createCustAgendaItem2(mid, time, mPath){
 
 	
 	var newCustAgendaName = document.getElementById("newCustAgendaName").value;
-	if( $.trim(newCustAgendaName)==''){alert("Please fill agenda name"); return false;}
+	if( $.trim(newCustAgendaName)=='' || $.trim(newCustAgendaName)=='Enter Agenda Item Name'){alert("Please fill agenda name"); return false;}
 	var newCustAgendaDuration= document.getElementById("newCustAgendaDuration").value;
 	
 	if( newCustAgendaDuration<1){alert('Invalid Duration');return false;}
 	var createCustAgendaTxt = document.getElementById("newCustAgendaTxt").value;
+	if( $.trim(createCustAgendaTxt)=='' || $.trim(createCustAgendaTxt)=='Description')
+	{createCustAgendaTxt='';}
+	
 	var urlPath =mPath +"&duration="+newCustAgendaDuration+"&name="+ newCustAgendaName+"&startTime="+time+"&txt="+createCustAgendaTxt ;
 	
 	$.ajax({
@@ -81,7 +84,9 @@ function createCustAgendaItem2(mid, time, mPath){
 		cache: false
 	}).done(function( html ) {
 		//document.location="/content/girlscouts-vtk/en/vtk.planView.html?elem="+mid;
-		location.reload("true");
+		//location.reload("true");
+		
+		window.location.reload(true);
 		$('#modal_popup').foundation('reveal', 'close');
 	});
 }

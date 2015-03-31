@@ -255,13 +255,17 @@ function addLocation(){
 	
 	//NEEDS to be BACK vtk-global.js? showError(null, "#locationEdit .errorMsg");	
 	var  name = document.getElementById("loc_name").value;
-	if( $.trim(name) == ''){
+	if( $.trim(name) == '' || $.trim(name) == 'Location Name'){
 		//showError("Please enter a location", "#locationEdit .errorMsg"); //js missing from VTK2
 		alert("Please enter a location");
 		return false;
 	}
 	
-	var  address = document.getElementById("loc_address").value;	
+	var  address = document.getElementById("loc_address").value;
+	if( $.trim(address) == '' || $.trim(address) == 'Location Address'){
+		alert("Please enter a location address");
+		return false;
+	}
 	var  city = document.getElementById("loc_city").value;
 	var  state = document.getElementById("loc_state").value;
 	var  zip = document.getElementById("loc_zip").value;
@@ -396,7 +400,7 @@ function rmCustActivity(x){
 
 function createNewCustActivity(){	
 	var newCustActivity_name = document.getElementById("newCustActivity_name").value;
-	if( $.trim(newCustActivity_name) =='' ){alert("Please fill 'Name' field"); return false;}
+	if( $.trim(newCustActivity_name) =='' || $.trim(newCustActivity_name) =='Activity Name'){alert("Please fill 'Name' field"); return false;}
 	var newCustActivity_date = document.getElementById("newCustActivity_date").value;
 	
 	var aDate = new Date(newCustActivity_date);
@@ -407,8 +411,18 @@ function createNewCustActivity(){
 	var newCustActivity_startTime = document.getElementById("newCustActivity_startTime").value;
 	var newCustActivity_endTime = document.getElementById("newCustActivity_endTime").value;
 	var newCustActivity_txt = document.getElementById("newCustActivity_txt").value;
+	if( $.trim(newCustActivity_txt) =='' || $.trim(newCustActivity_txt) =='Activity Description')
+	{newCustActivity_txt='';}
+
+	
 	var newCustActivityLocName = document.getElementById("newCustActivity_locName").value;
+	if( $.trim(newCustActivityLocName) =='' || $.trim(newCustActivityLocName) =='Location Name')
+		{alert("Please fill 'Location Name' field"); return false;}
+	
 	var newCustActivityLocAddr = document.getElementById("newCustActivity_locAddr").value;
+	if( $.trim(newCustActivityLocAddr) =='' || $.trim(newCustActivityLocAddr) =='Location Address')
+	{alert("Please fill 'Location Address' field"); return false;}
+	
 	var newCustActivity_startTime_AP = document.getElementById("newCustActivity_startTime_AP").value;
 	var newCustActivity_endTime_AP = document.getElementById("newCustActivity_endTime_AP").value;
 	var newCustActivity_cost = document.getElementById("newCustActivity_cost").value;
