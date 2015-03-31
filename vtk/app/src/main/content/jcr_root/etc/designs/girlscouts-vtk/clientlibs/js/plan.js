@@ -263,8 +263,7 @@ function addLocation(){
 	
 	var  address = document.getElementById("loc_address").value;
 	if( $.trim(address) == '' || $.trim(address) == 'Location Address'){
-		alert("Please enter a location address");
-		return false;
+		address="";
 	}
 	var  city = document.getElementById("loc_city").value;
 	var  state = document.getElementById("loc_state").value;
@@ -459,6 +458,7 @@ function editNewCustActivity(activityUid){
 	var newCustActivity_startTime = document.getElementById("newCustActivity_startTime").value;
 	var newCustActivity_endTime = document.getElementById("newCustActivity_endTime").value;
 	var newCustActivity_txt = document.getElementById("newCustActivity_txt").value;
+	if( $.trim(newCustActivity_txt) =='Activity Description' ){ newCustActivity_txt=''; }
 	var newCustActivityLocName = document.getElementById("newCustActivity_locName").value;
 	var newCustActivityLocAddr = document.getElementById("newCustActivity_locAddr").value;
 	var newCustActivity_startTime_AP = document.getElementById("newCustActivity_startTime_AP").value;

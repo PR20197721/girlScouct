@@ -48,7 +48,7 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
           return {data: []};
         },
         componentDidMount: function() {
-          resizeWindow();
+        	try{ resizeWindow(); }catch(err){}
           this.loadCommentsFromServer(1);
           setInterval( this.loadCommentsFromServer, this.props.pollInterval);
           setInterval( this.checkLocalUpdate, 1000);
