@@ -213,7 +213,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 
             React.createElement("div", {className: "column"}, 
 
-            React.createElement("h3", null, "<%=planView.getYearPlanComponent().getType()%>", " : ",this.props.id, this.props.meetingTitle), 
+            React.createElement("h3", null, "<%=(planView.getYearPlanComponent().getType() == YearPlanComponentType.MEETINGCANCELED) ? "MEETING (Canceled)" : planView.getYearPlanComponent().getType()%>", " : ",this.props.id, this.props.meetingTitle), 
 
             React.createElement("p", {className: "date"}, 
 
@@ -353,7 +353,7 @@ React.createElement("li", null,
 <%}%>
         
         
-        <%if(hasPermission(troop, Permission.PERMISSION_VIEW_ATTENDANCE_ID )) {%> 
+        <%if( planView.getYearPlanComponent().getType()!= YearPlanComponentType.MEETINGCANCELED && hasPermission(troop, Permission.PERMISSION_VIEW_ATTENDANCE_ID )) {%> 
         ,React.createElement("li", null, 
             React.createElement("a", {"data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_attendance.html?mid=<%=planView.getYearPlanComponent().getUid() %>&isAch=<%=(planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING) ? ((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getIsAchievement() : "false" %>&mName=<%= (planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING) ? ((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getName() : ((Activity)planView.getYearPlanComponent()).getName()%>"}, "Record Attendance & Achievements")
         ), 
