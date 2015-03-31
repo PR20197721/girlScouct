@@ -1,5 +1,5 @@
 <%@page import="java.util.Comparator,org.codehaus.jackson.map.ObjectMapper,org.joda.time.LocalDate,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*,
-                org.girlscouts.vtk.modifiedcheck.ModifiedChecker"%>
+                org.girlscouts.vtk.modifiedcheck.ModifiedChecker, com.day.cq.commons.jcr.JcrUtil, org.apache.commons.codec.binary.Base64, com.day.cq.commons.ImageHelper, com.day.image.Layer, java.io.ByteArrayInputStream"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 
@@ -1054,6 +1054,45 @@ System.err.println("manu reactActivity");
                 }
 			}catch(Exception e){e.printStackTrace();}
 				
+		} else if(request.getParameter("imageData") != null){
+			try{
+                String imgData = request.getParameter("imageData");
+                //System.out.println(imgData.substring(imgData.length()-11));
+				imgData = imgData.replace("data:image/png;base64,", "");
+                byte[] decoded = Base64.decodeBase64(imgData);
+
+                //creates folder path if it doesn't exist yet
+                String path = "/content/dam/girlscouts-vtk/camera-test/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib";
+                String pathWithFile = path+"/troop_pic.png/jcr:content";
+
+                Session __session = sessionFactory.getSession();
+
+                Node baseNode = JcrUtil.createPath(path, "nt:folder", __session);
+
+                ByteArrayInputStream byteStream = new ByteArrayInputStream(decoded);
+                ValueFactory vf = __session.getValueFactory();
+                Binary bin = vf.createBinary(byteStream);
+
+                //for some reason, the data property can't be updated, just remade
+                try{
+                    __session.removeItem(path+"/troop_pic.png");
+                	__session.save();
+                }
+                catch(Exception e){
+
+                }
+
+                //creates file and jcr:content nodes if they don't exist yet
+                Node jcrNode = JcrUtil.createPath(pathWithFile, false, "nt:file", "nt:resource", __session, false);
+
+                jcrNode.setProperty("jcr:data",bin);
+                jcrNode.setProperty("jcr:mimeType","image/png");
+
+				__session.save();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		} else {
 			//TODO throw ERROR CODE
 		}
