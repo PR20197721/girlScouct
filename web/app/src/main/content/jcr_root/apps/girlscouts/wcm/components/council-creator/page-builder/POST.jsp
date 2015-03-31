@@ -1,7 +1,6 @@
 <%@ page
 
 import="org.girlscouts.web.councilrollout.CouncilCreator,
-com.day.cq.security.Group,
 com.day.cq.wcm.api.Page,
 com.day.cq.tagging.Tag,
 java.util.ArrayList,
@@ -81,12 +80,11 @@ Node contentNode = session.getNode(contentPath);
         }
         
         %><br>GROUPS:<br><%
-        ArrayList<Group> groupList = new ArrayList<Group>(creator.generateGroups(session, resourceResolver, councilName, councilTitle));
-        for (Group g : groupList) { 
-            %>"<%= g.getName() %>" group created under path:
-            <%= g.getHomePath() %>
-            <br>
-            <%
+        ArrayList<String> groupList = new ArrayList<String>(creator.generateGroups(session, councilName, councilTitle));
+        if(groupList != null){
+        	for (String g : groupList) { 
+            	%><%= g %><br><%
+        	}
         }
 
         %><br>DESIGN:<br><%
@@ -98,6 +96,8 @@ Node contentNode = session.getNode(contentPath);
             <%
         }
 	}
+
+	session.save();
 }
 
 %>
