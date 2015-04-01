@@ -1,9 +1,4 @@
 <div id="image-tool"></div>
-
-<video autoplay id="video" width="100%" style="display:none; max-width:640px; max-height:480px;"></video>
-<canvas id="canvas" width="100%" style="display:none; max-width:640px; max-height:480px;"></canvas>
-
-
 <script>
 
 var uploadMsg = document.createElement("p");
@@ -16,21 +11,20 @@ var imageLoader = document.createElement("input");
     imageLoader.accept = "image/*";
     imageLoader.setAttribute("capture","camera");
 
-var video = document.getElementById("video");
-
 var croppingTool = document.createElement("div");
     croppingTool.id = "cropping-tool";
-    croppingTool.style="overflow:hidden; height:480px; width:960px; position:relative;";
+    croppingTool.style.overflow = "hidden";
+    croppingTool.style.height = "480px";
+    croppingTool.style.width = "960px";
+    croppingTool.style.position = "relative";
 
 var overlay = document.createElement("div");
-    overlay.class = "overlay";
+    overlay.className = "overlay";
 
 var overlayInner = document.createElement("div");
-    overlayInner.class = "overlay-inner";
+    overlayInner.className = "overlay-inner";
 
     overlay.appendChild(overlayInner);
-
-var canvas = document.getElementById("canvas");
 
 var takeShot = document.createElement("button");
     takeShot.id = "takeShot";
@@ -64,17 +58,14 @@ var imageTool = document.getElementById("image-tool");
 
     imageTool.appendChild(uploadMsg);
 	imageTool.appendChild(imageLoader);
-    imageTool.appendChild(video);
     imageTool.appendChild(croppingTool);
     imageTool.appendChild(takeShot);
     imageTool.appendChild(retakeShot);
     imageTool.appendChild(submitShot);
     imageTool.appendChild(switchButton);
     croppingTool.appendChild(overlay);
-    overlay.appendChild(canvas);
 
 var localMediaStream = null;
-var context = canvas.getContext('2d');
 var hasCamera = false;
 var uploadedCheck = false;
 var tookPic = false;
@@ -92,147 +83,7 @@ navigator.getUserMedia = ( navigator.getUserMedia ||
                        navigator.mozGetUserMedia ||
                        navigator.msGetUserMedia);
 
-function handleImage(imageEvent){
-    var reader = new FileReader();
-    reader.onload = function(readerEvent){
-        img = new Image();
-        img.onload = function(){
-            img.src = readerEvent.target.result;
-            canvas.width = img.width;
-            canvas.height = img.height;
-            context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);
-            if(canvas.toDataURL() == "data:,"){//mobile safari
-                aspectWeirdness = true;
-                aspectRatio = img.width/img.height;
-                if(img.width > img.height){
-					img.height = canvas.style.maxHeight.replace("px","");
-                    img.width = img.height*aspectRatio;
-                }
-                else{
-					img.width = canvas.style.maxWidth.replace("px","");
-                    img.height = img.width/aspectRatio;
-                }
-                canvas.width = img.width;
-                canvas.height = img.height;
-                context.drawImage(img, 0, 0, img.width, img.height);
-            }
-        }
-        img.src = readerEvent.target.result;
-        uploadedCheck = true;
-    }
-    reader.readAsDataURL(imageEvent.target.files[0]);
-    canvas.style.display='block';
-    switchText = "Switch to camera";
-    if(hasCamera == true){
-		switchButton.style.display='block';
-    }
-    submitShot.style.display='block';
-    takeShot.style.display='none';
-    retakeShot.style.display='none';
-    if(video.style.display == 'block'){
-    	video.style.display = 'none';
-    }
-    var tempImage = new Image();
-	tempImage.src = canvas.toDataURL();
-	resizeableImage(tempImage);
-}
-
-function switchCam(){
-    context.clearRect ( 0 , 0 , canvas.width, canvas.height );
-	if(video.style.display == 'block' || tookPic){
-		video.style.display = 'none';
-        retakeShot.style.display='none';
-        takeShot.style.display='none';
-		switchText = "Switch to camera";
-		if(img != null){
-            canvas.width = img.width;
-            canvas.height = img.height;
-            context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);
-            canvas.style.display = 'block';
-            submitShot.style.display='block';
-        }
-        tookPic = false;
-	}
-	else{
-		video.style.display = 'block';
-		takeShot.style.display='block';
-        canvas.style.display = 'none';
-        submitShot.style.display = 'none';
-        if(img != null){
-        	switchButton.style.display='block';
-        }
-		switchText = "Switch to uploaded image";
-        tookPic = false;
-	}
-	var tempImage = new Image();
-	tempImage.src = canvas.toDataURL();
-	resizeableImage(tempImage);
-}    
-    
-//website requests permission to use your webcam
-if (navigator.getUserMedia) {
-    var camFoundText = document.createTextNode("Or take a photo from your webcam");
-	uploadMsg.appendChild(document.createElement("br"));
-    uploadMsg.appendChild(camFoundText);
-   navigator.getUserMedia (
-
-      // constraints
-      {
-         video: true,
-         audio: false
-      },
-
-      // successCallback
-      function(stream) {
-    	  hasCamera = true;
-          console.log("Camera Detected");
-    	  switchCam();
-          video.src = window.URL.createObjectURL(stream);
-          	localMediaStream = stream;
-      },
-
-      // errorCallback
-      function(err) {
-    	  hasCamera = false;
-          camFoundText.data = "";
-          console.log("The following error occurred: " + err);
-      }
-   );
-} else {
-    camFoundText.data = "";
-   	console.log("getUserMedia not supported");
-}
-
-function snapshot() {
-    if (localMediaStream) {
-        tookPic = true;
-        canvas.width = video.getBoundingClientRect().width;
-        canvas.height = video.getBoundingClientRect().height;
-        video.style.display='none';
-        takeShot.style.display='none';
-        canvas.style.display='block';
-		retakeShot.style.display='block';
-        submitShot.style.display='block';
-        if(img != null){
-        	switchText="Switch to uploaded image";
-        	switchButton.style.display='block';
-        }
-        context.drawImage(video, 0, 0);
-        picData = context.getImageData(0,0, canvas.width, canvas.height);
-    }
-}
-
-function retake() {
-    tookPic = false;
-    canvas.style.display='none';
-    retakeShot.style.display='none';
-    submitShot.style.display='none';
-	video.style.display='block';
-    takeShot.style.display='block';
-}
-
 var resizeableImage = function(image_target){
-	console.log("resize");
     var $container,
         orig_src = new Image(),
         image_target = $(image_target).get(0),
@@ -242,7 +93,7 @@ var resizeableImage = function(image_target){
         min_height = 60,
         max_width = 800, //change as required
         max_height = 900,
-        resize_canvas = document.getElementById('canvas');
+        resize_canvas = document.createElement('canvas');
 
     init = function(){
 
@@ -250,11 +101,11 @@ var resizeableImage = function(image_target){
         orig_src.src = image_target.src;
 
         //Wrap the image with the container and add resize handles
-        $(image_target).wrap('<div class="resize-container"><div>')
-        .before('<span class="resize-handle resize-handle-nw"></div>')
-        .before('<span class="resize-handle resize-handle-ne"></span>')
-        .after('<span class="resize-handle resize-handle-se"></span>')
-        .after('<span class="resize-handle resize-handle-sw"></span>');
+        $(image_target).wrap('<div class="resize-container"></div>')
+    .before('<span class="resize-handle resize-handle-nw"></span>')
+    .before('<span class="resize-handle resize-handle-ne"></span>')
+    .after('<span class="resize-handle resize-handle-se"></span>')
+    .after('<span class="resize-handle resize-handle-sw"></span>');
 
         //Assign the container to a variable
         $container = $(image_target).parent('.resize-container');
@@ -262,6 +113,7 @@ var resizeableImage = function(image_target){
         //Add events
         $container.on('mousedown touchstart', '.resize-handle', startResize);
         $container.on('mousedown touchstart', 'img', startMoving);
+        console.log($container);
 
         submitShot.addEventListener('click', crop, false);
     };
@@ -443,10 +295,21 @@ var resizeableImage = function(image_target){
     init();
 };
 
-function upload() {
-    var dataURL = canvas.toDataURL("image/png",1.0); //change the second parameter to reduce quality
-    upload(dataURL);
-}
+handleImage = function(e){
+    $('.resize-container').remove();
+	$('#cropping-tool').append('<img class="resize-image" style="display:none;" />');
+    var resize_image = document.getElementsByClassName('resize-image')[0];
+    var reader = new FileReader();
+    reader.readAsDataURL(e.target.files[0]);
+    reader.onload = function(event){
+		resize_image.src = event.target.result;
+     	if(resize_image.style.display == 'none'){
+			resize_image.style.display = 'block';
+    	}
+		resizeableImage(resize_image);
+    }
+  };
+
 
 function upload(dataURL){
 	if(!tookPic && !uploadedCheck){
@@ -465,8 +328,6 @@ function upload(dataURL){
     	    data: { imageData: dataURL }
 		})
   		.done(function( msg ) {
-  			video.src = null;
-  			localMediaStream.stop();
     	    console.log( "Uploaded");
   		});
     }
@@ -477,54 +338,11 @@ $(document).ajaxSuccess(function() {
         imageTool.style.display = "none";
 });
 
-$(window).resize(function() {
-    if(canvas.style.display == 'block'){
-        if(window.innerWidth < 640){
-			canvas.style.maxWidth = window.innerWidth + "px";
-        }
-        else if(window.innerWidth > 640){
-			canvas.style.maxWidth = "640px";
-        }
-        if(window.innerHeight < 480){
-			canvas.style.maxHeight = window.innerHeight + "px";
-        }
-		else if(window.innerHeight > 480){
-			canvas.style.maxHeight = "480px";
-        }
-  		// Resize original canvas
-        if(tookPic && picData != null){
-			context.putImageData(picData, 0, 0);
-        }
-        else if(!aspectWeirdness){
-    		context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);
-        }
-        else{
-			if(img.width > img.height){
-				img.height = canvas.style.maxHeight.replace("px","");
-                img.width = img.height*aspectRatio;
-            }
-            else{
-				img.width = canvas.style.maxWidth.replace("px","");
-            	img.height = img.width/aspectRatio;
-            }
-            canvas.width = img.width;
-            canvas.height = img.height;
-            context.drawImage(img, 0, 0, img.width, img.height);
-        }
-    }
-});
-
 window.onload=function() {
-    if(window.innerWidth < 640){
-		canvas.style.maxWidth = window.innerWidth + "px";
-    }
-    if(window.innerHeight < 480){
-		canvas.style.maxHeight = window.innerHeight + "px";
-    }
-	imageLoader.addEventListener('change', handleImage, false);
-    takeShot.addEventListener('click', snapshot, false);
+    imageLoader.addEventListener('change', handleImage, false);
+    /*takeShot.addEventListener('click', snapshot, false);
     retakeShot.addEventListener('click', retake, false);
-    switchButton.addEventListener('click', switchCam, false);
+    switchButton.addEventListener('click', switchCam, false);*/
 }
 
 </script>
