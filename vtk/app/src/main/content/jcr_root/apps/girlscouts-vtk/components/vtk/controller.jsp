@@ -892,19 +892,14 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 							prefTroop.getTroopId());
 
 					java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil
-							.getYearPlanSched(user,
-									troop.getYearPlan(), true, true);
-
+							.getYearPlanSched(user, troop.getYearPlan(), true, true);
 					
 					//start milestone
 					try {
-
-						if (troop.getYearPlan() != null)
-							troop.getYearPlan()
-									.setMilestones(
-											yearPlanUtil
-													.getCouncilMilestones(""
-															+ troop.getSfCouncil()));
+						if (troop.getYearPlan() != null) {
+							troop.getYearPlan() .setMilestones(
+								yearPlanUtil.getCouncilMilestones("" + troop.getSfCouncil()));
+						}
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -937,23 +932,16 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 							
 					session.putValue("VTK_troop", troop);
 
-					
-					
-	//****
+					Object tmp[] = sched.values().toArray();
+					for(int i=0;i<tmp.length;i++){
+						try{
+						   ((MeetingE)tmp[i]).getMeetingInfo().setActivities(null);
+						   ((MeetingE)tmp[i]).getMeetingInfo().setMeetingInfo(null);
+						   ((MeetingE)tmp[i]).getMeetingInfo().setResources(null);
+						   ((MeetingE)tmp[i]).getMeetingInfo().setAgenda(null);
+						}catch(Exception e){}
+					}
 	
-	//java.util.Iterator itr= sched.keySet().iterator();
-	//while( itr.hasNext() ){
-	Object tmp[] = sched.values().toArray();
-	for(int i=0;i<tmp.length;i++){
-		try{
-		   ((MeetingE)tmp[i]).getMeetingInfo().setActivities(null);
-		   ((MeetingE)tmp[i]).getMeetingInfo().setMeetingInfo(null);
-		   ((MeetingE)tmp[i]).getMeetingInfo().setResources(null);
-		   ((MeetingE)tmp[i]).getMeetingInfo().setAgenda(null);
-		}catch(Exception e){}
-	}
-	
-	//*****
 					ObjectMapper mapper = new ObjectMapper();
 					out.println("{\"yearPlan\":\""
 							+ troop.getYearPlan().getName()
