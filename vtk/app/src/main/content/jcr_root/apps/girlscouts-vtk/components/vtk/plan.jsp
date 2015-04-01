@@ -39,7 +39,7 @@
       var CommentBox = React.createClass({displayName: "CommentBox",
        loadCommentsFromServer: function( isFirst ) {
     	 if (isActivNew == 1) {
-    		 this.setState({data: [{schedule: null}]});
+    		 this.setState({data: {schedule: null}});
     	 }
          $.ajax({
             url: this.props.url + 
