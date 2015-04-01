@@ -22,13 +22,13 @@
                 <timezoneselect
                     jcr:primaryType="nt:unstructured"
                     fieldLabel="Time Zone"
-                    name="./jcr:content/data/timezone"
+                    name="./jcr:content/timezone"
                     xtype="timezoneselect"/>
                 <date
                     jcr:primaryType="cq:Widget"
                     allowBlank="{Boolean}false"
                     fieldLabel="Date"
-                    name="./jcr:content/data/start"
+                    name="./jcr:content/date"
                     timezone="dynamic"
                     xtype="timezonedatetime"/>
             </items>
