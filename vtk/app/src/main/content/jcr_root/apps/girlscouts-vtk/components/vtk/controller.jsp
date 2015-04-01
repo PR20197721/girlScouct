@@ -867,88 +867,78 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 			    isCng = modifiedChecker.isModified("X"+ session.getId(), troop.getYearPlan().getPath());
 		    }
 			//isCng=true;
-			if (isFirst || isCng
-					|| request.getParameter("isActivNew") != null) {
-				if (request.getParameter("isActivNew") != null
-						&& request.getParameter("isActivNew").equals(
-								"1")) {
-					out.println("[{\"yearPlan\":\""
-							+ troop.getYearPlan().getName()
-							+ "\",\"schedule\":null}]");
-				} else {
-
-					org.girlscouts.vtk.salesforce.Troop prefTroop = apiConfig
-							.getTroops().get(0);
-					for (int ii = 0; ii < apiConfig.getTroops().size(); ii++) {
-						if (apiConfig.getTroops().get(ii).getTroopId()
-								.equals(troop.getSfTroopId())) {
-							prefTroop = apiConfig.getTroops().get(ii);
-							break;
-						}
+			if (isFirst || isCng) {
+				org.girlscouts.vtk.salesforce.Troop prefTroop = apiConfig
+						.getTroops().get(0);
+				for (int ii = 0; ii < apiConfig.getTroops().size(); ii++) {
+					if (apiConfig.getTroops().get(ii).getTroopId()
+							.equals(troop.getSfTroopId())) {
+						prefTroop = apiConfig.getTroops().get(ii);
+						break;
 					}
-
-					troop = troopUtil.getTroop(user,
-							"" + prefTroop.getCouncilCode(),
-							prefTroop.getTroopId());
-
-					java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil
-							.getYearPlanSched(user, troop.getYearPlan(), true, true);
-					
-					//start milestone
-					try {
-						if (troop.getYearPlan() != null) {
-							troop.getYearPlan() .setMilestones(
-								yearPlanUtil.getCouncilMilestones("" + troop.getSfCouncil()));
-						}
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-
-					if (troop.getYearPlan().getMilestones() == null)
-						troop.getYearPlan().setMilestones(
-								new java.util.ArrayList());
-
-					for (int i = 0; i < troop.getYearPlan()
-							.getMilestones().size(); i++){
-						if(troop.getYearPlan().getMilestones()
-								.get(i).getDate()!=null)
-						sched.put(troop.getYearPlan().getMilestones()
-								.get(i).getDate(), troop.getYearPlan()
-								.getMilestones().get(i));
-					}
-
-					//edn milestone
-
-					troop.setTroop(prefTroop);
-					troop.setSfTroopId(troop.getTroop().getTroopId());
-					troop.setSfUserId(user.getApiConfig().getUserId());
-					troop.setSfTroopName(troop.getTroop()
-							.getTroopName());
-					troop.setSfTroopAge(troop.getTroop()
-							.getGradeLevel());
-					troop.setSfCouncil(troop.getTroop()
-							.getCouncilCode() + "");
-					
-							
-					session.putValue("VTK_troop", troop);
-
-					Object tmp[] = sched.values().toArray();
-					for(int i=0;i<tmp.length;i++){
-						try{
-						   ((MeetingE)tmp[i]).getMeetingInfo().setActivities(null);
-						   ((MeetingE)tmp[i]).getMeetingInfo().setMeetingInfo(null);
-						   ((MeetingE)tmp[i]).getMeetingInfo().setResources(null);
-						   ((MeetingE)tmp[i]).getMeetingInfo().setAgenda(null);
-						}catch(Exception e){}
-					}
-	
-					ObjectMapper mapper = new ObjectMapper();
-					out.println("{\"yearPlan\":\""
-							+ troop.getYearPlan().getName()
-							+ "\",\"schedule\":");
-					out.println(mapper.writeValueAsString(sched).replaceAll("mailto:",""));
-					out.println("}");
 				}
+
+				troop = troopUtil.getTroop(user,
+						"" + prefTroop.getCouncilCode(),
+						prefTroop.getTroopId());
+
+				java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil
+						.getYearPlanSched(user, troop.getYearPlan(), true, true);
+				
+				//start milestone
+				try {
+					if (troop.getYearPlan() != null) {
+						troop.getYearPlan() .setMilestones(
+							yearPlanUtil.getCouncilMilestones("" + troop.getSfCouncil()));
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				if (troop.getYearPlan().getMilestones() == null)
+					troop.getYearPlan().setMilestones(
+							new java.util.ArrayList());
+
+				for (int i = 0; i < troop.getYearPlan()
+						.getMilestones().size(); i++){
+					if(troop.getYearPlan().getMilestones()
+							.get(i).getDate()!=null)
+					sched.put(troop.getYearPlan().getMilestones()
+							.get(i).getDate(), troop.getYearPlan()
+							.getMilestones().get(i));
+				}
+
+				//edn milestone
+
+				troop.setTroop(prefTroop);
+				troop.setSfTroopId(troop.getTroop().getTroopId());
+				troop.setSfUserId(user.getApiConfig().getUserId());
+				troop.setSfTroopName(troop.getTroop()
+						.getTroopName());
+				troop.setSfTroopAge(troop.getTroop()
+						.getGradeLevel());
+				troop.setSfCouncil(troop.getTroop()
+						.getCouncilCode() + "");
+				
+						
+				session.putValue("VTK_troop", troop);
+
+				Object tmp[] = sched.values().toArray();
+				for(int i=0;i<tmp.length;i++){
+					try{
+					   ((MeetingE)tmp[i]).getMeetingInfo().setActivities(null);
+					   ((MeetingE)tmp[i]).getMeetingInfo().setMeetingInfo(null);
+					   ((MeetingE)tmp[i]).getMeetingInfo().setResources(null);
+					   ((MeetingE)tmp[i]).getMeetingInfo().setAgenda(null);
+					}catch(Exception e){}
+				}
+
+				ObjectMapper mapper = new ObjectMapper();
+				out.println("{\"yearPlan\":\""
+						+ troop.getYearPlan().getName()
+						+ "\",\"schedule\":");
+				out.println(mapper.writeValueAsString(sched).replaceAll("mailto:",""));
+				out.println("}");
 			}
 			
 		} else if (request.getParameter("reactActivity") != null) {
