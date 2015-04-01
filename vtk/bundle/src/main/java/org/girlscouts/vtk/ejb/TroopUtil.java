@@ -722,6 +722,7 @@ System.err.println("tata2b2b2 :"+ (troop.getYearPlan().getMeetingEvents().size()
 			
 			//add meeting dates
 			for(int i=oldSched.size();i < currMeetingCount;i ++ ){
+System.err.println("tataRt:: "+ oldSched +" : "+ oldSched.size() +" : " +currMeetingCount);				
 				long newDate = new CalendarUtil().getNextDate(VtkUtil.getStrCommDelToArrayStr( oldPlan.getCalExclWeeksOf() ), oldSched.get(oldSched.size()-1).getTime(), oldPlan.getCalFreq(), false);
 				oldSched.add( new java.util.Date(newDate) );
 			}
@@ -825,13 +826,13 @@ System.err.println("testr2");
 			
 			troop.getYearPlan().setMeetingEvents( selectYearPlan_newMeetingPlan( user, troop, newYearPlan) );	
 		}else{
-System.err.println("testr3");	
+//System.err.println("testr3");	
 			java.util.List<MeetingE> futureMeetings = getFutureMeetings( user, troop,orgSchedDates );
-System.err.println("testr 3.1 futuremeetings :" + futureMeetings.size() );					
+//System.err.println("testr 3.1 futuremeetings :" + futureMeetings.size() );					
 			java.util.List<MeetingE> pastMeetings = rmFutureMeetings(user, troop, futureMeetings);
-System.err.println("testr 3.2 pastMeetings :" + pastMeetings.size() );		
+//System.err.println("testr 3.2 pastMeetings :" + pastMeetings.size() );		
 			troop.getYearPlan().setMeetingEvents( VtkUtil.setToDbUpdate(pastMeetings) );	
-System.err.println("testr 4 final :" +troop.getYearPlan().getMeetingEvents() );			
+//System.err.println("testr 4 final :" +troop.getYearPlan().getMeetingEvents() );			
 		}
 		
 		if( oldPlan!=null){

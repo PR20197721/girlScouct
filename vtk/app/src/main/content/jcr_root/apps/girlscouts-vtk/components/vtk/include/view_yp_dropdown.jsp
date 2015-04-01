@@ -8,7 +8,7 @@
   <div id="yearPlanSelection" <%= (troop.getYearPlan()!=null) ? "style=\"display: none\"":" " %> class="columns">
     <div class="row">
       <p class="large-20 medium-20 large-centered medium-centered columns">To start planning your year, select a Year Plan.</p>
-    </div>
+    </div> 
     <%
       String ageLevel=  troop.getTroop().getGradeLevel();
       ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1);
@@ -20,7 +20,7 @@
         	confMsg ="Are You Sure? You will lose customizations that you have made";
         } 
       }
-      
+     
       //boolean isLibYearPlan= false;
       java.util.Iterator<YearPlan> yearPlans = yearPlanUtil.getAllYearPlans(user, ageLevel).listIterator();
         while (yearPlans.hasNext()) {
@@ -44,7 +44,7 @@
       
         <div class="row">
         <div class="columns large-push-2 medium-2 medium-push-2 small-2">
-           <input type="radio" <%=( troop.getYearPlan()!=null && (troop.getYearPlan().getName().equals(troop.getYearPlan().getName()))) ? " checked " : "" %> id="r_0" class="radio1" name="group1"  onclick="chgCustYearPlan('<%=troop.getYearPlan().getId()%>', '<%=troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan().getName()%>')" />
+           <input type="radio" <%=( troop.getYearPlan()!=null && (troop.getYearPlan().getName().equals("Custom Year Plan"))) ? " checked " : "" %> id="r_0" class="radio1" name="group1"  onclick="chgCustYearPlan('<%=troop.getYearPlan().getId()%>', '<%=troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan().getName()%>')" />
             <label for="r_0"></label>
         </div>
         <div class="small-18 columns large-pull-2 medium-pull-2 small-pull-2">
