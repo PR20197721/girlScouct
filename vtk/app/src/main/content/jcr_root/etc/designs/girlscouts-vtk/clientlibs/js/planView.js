@@ -319,3 +319,27 @@ function isSafary(){
 	  }
 	  return false;
 }
+
+var getDataIfModified;
+(function() {
+	var eTags = {};
+	var _getDataIfModified = function(url, that, success, isFirst) {
+		$.ajax(
+			url: url + (isFirst ==1 ? ("&isFirst="+ isFirst) : ''),
+			dataType: 'json',
+			success: function(data, textStatus, jqXHR){
+				var eTag = jqXHR.getResponseHeader("ETag");
+				if (eTag) {
+					eTags[url] = eTag;
+				}
+				success.apply(this, arguments);
+			}.bind(that),
+			beforeSend: function(reqeust) {
+				if (eTags[url]) {
+					request.setRequestHeader('If-None-Match', eTags[url]);
+				}
+			}
+		);
+	}
+	getDataIfModified = _getDataIfModified;
+})();
