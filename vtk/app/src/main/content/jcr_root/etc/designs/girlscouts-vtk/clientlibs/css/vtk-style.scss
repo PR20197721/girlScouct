@@ -1653,6 +1653,40 @@
       margin-top: 20px;
     }
   }
+//reminder emails body
+.browseSentEmails {
+  .scroll_1 {
+    max-height: 150px;
+    border: solid 1px #000;
+    overflow: auto;
+    height: 100%;
+  }
+  .scroll_2 {
+    padding: 10px;
+    border: solid 1px #000;
+    margin-top: 20px;
+    overflow: auto;
+  }
+  #email-list {
+    padding: 10px;
+    margin: 0;
+    list-style: none;
+    li {
+      margin-bottom: 7px;
+      &:hover,
+      &.active {
+        background: #00ae57;
+        color: #fff;
+        & * {
+          color: #fff;
+        }
+      }
+      &:last-child {
+        margin:0;
+      }
+    }
+  }
+ }
   //ADMIN PAGES
   #main .finances #financeForm  {
     input[type=checkbox]:checked + label:before {

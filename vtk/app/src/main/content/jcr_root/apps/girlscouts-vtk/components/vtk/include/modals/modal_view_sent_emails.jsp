@@ -18,20 +18,25 @@
 	   							<div>Sent: <%=FORMAT_CALENDAR_DATE.format(eml.getSentDate()) %></div>
   								<div><%=eml.getSubject() %></div>
 		   						<div><%=curA.getEmlTemplate()==null? "":eml.getHtmlMsg(curA.getEmlTemplate())%> </div><% 
-	   						}else{
-		   					for(int k=emails.size(); k>0; k--){
-		   						SentEmail eml = emails.get(k-1);%>
-		   						<dl class="accordion" data-accordion>
-	  								<dt data-target="panel<%=k%>s"><h6 class="off">Sent: <%=FORMAT_CALENDAR_DATE.format(eml.getSentDate()) %></h6></dt>
-	  								<dd class="accordion-navigation">
-	    							<div class="content" id="panel<%=k%>s">
-      								<div><%=eml.getSubject() %></div>
- 		   							<div><%=curA.getEmlTemplate()==null? "":eml.getHtmlMsg(curA.getEmlTemplate())%> </div>
-      								</ul>
-	    							</div>
-	  								</dd>
-								</dl>
-		   					<% } 
+	   						}else{%>
+		   						<div class="scroll_1">
+	                <ul id="email-list"><% 
+	                for(int k=emails.size(); k>0; k--){
+	                  SentEmail eml = emails.get(k-1);%>
+	                  <li class="<%= k==emails.size()? "active" : ""%>"><a href="#nogo" data-target="panel<%=k%>s"><%=eml.getSubject()%></a><span class="right"><%=FORMAT_MONTH_DAY.format(eml.getSentDate()) %></span></li>
+	                <% } %>
+	                </ul> 
+	                </div>
+	                <div class="scroll_2"><% 
+	                for(int k=emails.size(); k>0; k--){
+	                  SentEmail eml = emails.get(k-1); %>
+	                  <div id="panel<%=k%>s" class="<%= k==emails.size()? "show" : "hide"%>">
+	                      <div><%=eml.getSubject() %></div>
+	                      <div>Sent: <%=FORMAT_MMMM_dd_hhmm_AMPM.format(eml.getSentDate())%></div>
+	                    <div><%=curA.getEmlTemplate()==null? "":eml.getHtmlMsg(curA.getEmlTemplate())%> </div>
+	                  </div>
+                <% } %>
+                </div><% 
 	   						}
 
 	   					}else{%>
@@ -46,20 +51,25 @@
    							<div>Sent: <%=FORMAT_CALENDAR_DATE.format(eml.getSentDate()) %></div>
 							<div><%=eml.getSubject() %></div>
 	   						<div><%=curM.getEmlTemplate()==null? "":eml.getHtmlMsg(curM.getEmlTemplate())%> </div><% 
-   						}else{
+   						}else{%>
+   							<div class="scroll_1">
+   							<ul id="email-list"><% 
 		   					for(int k=emails.size(); k>0; k--){
 		   						SentEmail eml = emails.get(k-1);%>
-		   						<dl class="accordion" data-accordion>
-	  								<dt data-target="panel<%=k%>s"><h6 class="off">Sent: <%=FORMAT_CALENDAR_DATE.format(eml.getSentDate()) %></h6></dt>
-	  								<dd class="accordion-navigation">
-	    							<div class="content" id="panel<%=k%>s">
+		   						<li class="<%= k==emails.size()? "active" : ""%>"><a href="#nogo" data-target="panel<%=k%>s"><%=eml.getSubject()%></a><span class="right"><%=FORMAT_MONTH_DAY.format(eml.getSentDate()) %></span></li>
+		   					<% } %>
+		   					</ul> 
+		   					</div>
+		   					<div class="scroll_2"><% 
+		   					for(int k=emails.size(); k>0; k--){
+		   						SentEmail eml = emails.get(k-1); %>
+	    						<div id="panel<%=k%>s" class="<%= k==emails.size()? "show" : "hide"%>">
       								<div><%=eml.getSubject() %></div>
+      								<div>Sent: <%=FORMAT_MMMM_dd_hhmm_AMPM.format(eml.getSentDate())%></div>
  		   							<div><%=curM.getEmlTemplate()==null? "":eml.getHtmlMsg(curM.getEmlTemplate())%> </div>
-      								</ul>
-	    							</div>
-	  								</dd>
-								</dl>
-		   					<% }
+ 		   						</div>
+		   					<% } %>
+		   					</div><% 
 	   						}
 	   					}else{%>
    							<div>No email has been sent.</div><% 
@@ -70,4 +80,22 @@
 			</div>
 		</div>
 	</div>
+
+<script>
+	$('.browseSentEmails li a').on('click', function() {
+		$('.browseSentEmails li').removeClass('active');
+		var link = $(this).data('target');
+		$(this).parent().addClass('active');
+		$('div.show').removeClass('show').addClass('hide');
+		$('div#'+ link ).removeClass('hide').addClass('show');
+	})
+	   //adding a heights to popups with two scrollable content.
+	   function scroll_2() {
+		  $('.scroll_2').css('max-height', ($(window).height()-75)-$('.scroll_1').height() + 'px');
+		 }
+	scroll_2();
+	$(window).resize(function() {
+		scroll_2();
+	});
+</script>
 	
