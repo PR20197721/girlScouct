@@ -42,8 +42,9 @@
     		 this.setState({data: {schedule: null}});
     	 }
          $.ajax({
-            url: this.props.url + 
-            (isFirst ==1 ? ("&isFirst="+ isFirst) : ''),
+            //url: this.props.url + 
+            //(isFirst ==1 ? ("&isFirst="+ isFirst) : ''),
+            url: "/vtk-data/year-plan/1234567.json",
             dataType: 'json',
             cache: false,
             success: function(data) {

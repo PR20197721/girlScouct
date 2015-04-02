@@ -849,15 +849,15 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
            System.err.println(mapper.writeValueAsString(troop));     
 			}
 
-		} else if (request.getParameter("yearPlanSched") != null) {
+		} else if (request.getAttribute("yearPlanSched") != null) {
 			
 		
 		    if (troop.getYearPlan() == null)
 				return;
 
 			boolean isFirst = false;
-			if (request.getParameter("isFirst") != null
-					&& request.getParameter("isFirst").equals("1")) {
+			if (request.getAttribute("isFirst") != null
+					&& ((String)request.getAttribute("isFirst")).equals("1")) {
 				isFirst = true;
 			}
 
