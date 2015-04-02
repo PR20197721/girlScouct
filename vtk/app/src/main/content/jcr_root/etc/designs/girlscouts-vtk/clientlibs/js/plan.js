@@ -28,6 +28,7 @@ function x(planId, planPath, confirmMsg, planName) {
     		}else{
     			x1_1(planPath, planName);
     		}
+    		vtkTrackerPushAction('ChangeYearPlan');
     	});
     	
     }
@@ -52,7 +53,7 @@ function x1_1(planPath, planName){
 		//loadMeetings();
 		if( html !=null && $.trim(html)!="" )
 			{alert( $.trim(html)); return; }
-		location.reload();
+		 location.reload();
 	});
 }
 
@@ -744,3 +745,32 @@ function councilRpt(troopId, cid){
 	
 	}
 
+	//loaded in vtkFooter jsp
+	function vtkCreateTracker(){
+		
+		(function(i,s,o,g,r,a,m){
+			i['GoogleAnalyticsObject']=r;
+			i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();
+			a=s.createElement(o),m=s.getElementsByTagName(o)[0];
+			a.async=1;
+			a.src=g;
+			m.parentNode.insertBefore(a,m)})
+			(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		ga('create', 'UA-61431888-1', 'auto', {'name': 'vtkTracker'});
+		
+	}
+	
+	function vtkInitTracker(tName, tId, uId){
+		//var newTracker = ga.getByName('vtkTracker');
+		//vtkCreateTracker();
+		ga('vtkTracker.set', 'dimension1', tName);
+		ga('vtkTracker.set', 'dimension2', tId);
+		ga('vtkTracker.set', 'dimension3', uId);
+	}
+	
+	function vtkTrackerPushAction(vAction){
+		ga('vtkTracker.send', 'pageview', {
+			dimension4: vAction
+			});
+console.log(vAction);		
+	}

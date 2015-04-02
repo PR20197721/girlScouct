@@ -565,7 +565,7 @@ System.err.println("maxYearDAte -- " + new java.util.Date(startYearPlanDate));
 		//get sep1 of this year
 		java.util.Calendar sepThisYear = java.util.Calendar.getInstance();
 		sepThisYear.set(java.util.Calendar.DAY_OF_MONTH, 1);
-		sepThisYear.set(java.util.Calendar.MONTH, java.util.Calendar.SEPTEMBER);
+		sepThisYear.set(java.util.Calendar.MONTH, java.util.Calendar.AUGUST);
 		sepThisYear.set(java.util.Calendar.YEAR, _startYearPlanDate.get(java.util.Calendar.YEAR));
 		
 		//if sep1 of this year is after startYearPlanDate, use this year
