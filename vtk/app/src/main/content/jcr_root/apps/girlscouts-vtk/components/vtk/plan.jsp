@@ -41,26 +41,17 @@
     	 if (isActivNew == 1) {
     		 this.setState({data: {schedule: null}});
     	 }
-         $.ajax({
-            //url: this.props.url + 
-            //(isFirst ==1 ? ("&isFirst="+ isFirst) : ''),
-            url: "/vtk-data/year-plan/1234567.json",
-            dataType: 'json',
-            cache: false,
-            success: function(data) {
-                this.setState({data:data});
-            if( isActivNew ==1 ){
-                isActivNew=2;
-            }else if( isActivNew ==2 ){
-                isActivNew=0;
-            }
-
-                  }.bind(this),
-                error: function(xhr, status, err) {
-                 
-                }.bind(this)
-              });
-
+    	 getDataIfModified("/vtk-data/year-plan/1234567.json", this, function(data, textStatus, req){
+    		// Skip if is 304.
+    		if (req.status == 200) {
+	            this.setState({data:data});
+	            if( isActivNew ==1 ){
+	                isActivNew=2;
+	            }else if( isActivNew ==2 ){
+	                isActivNew=0;
+	            }
+    		}
+    	 });
        },
         getInitialState: function() {
           return {data: []};

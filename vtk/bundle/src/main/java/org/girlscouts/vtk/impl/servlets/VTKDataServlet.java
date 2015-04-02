@@ -33,10 +33,6 @@ public class VTKDataServlet extends SlingSafeMethodsServlet {
         String type = null, id = null;
         Matcher matcher = PATH_PATTERN.matcher(path);
         while (matcher.find()) {
-            if (matcher.groupCount() <= 2) {
-                log.error("Cannot get type and id.");
-                continue;
-            }
             type = matcher.group(1);
             id = matcher.group(2);
         }
