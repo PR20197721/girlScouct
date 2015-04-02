@@ -201,7 +201,6 @@ var uploadInit = function(){
           	console.log("The following error occurred: " + err);
       	});
 	} else {
-    	uploadText.data = "";
    		console.log("getUserMedia not supported");
 	}
 
@@ -237,6 +236,43 @@ var uploadInit = function(){
         uploadTool.style.display = "none";
         resizeableImage(canvas.toDataURL("image/png",1.0));
     }
+    
+    $(window).resize(function() {
+        if(canvas.style.display == 'block'){
+            if(window.innerWidth < 640){
+    			canvas.style.maxWidth = window.innerWidth + "px";
+            }
+            else if(window.innerWidth > 640){
+    			canvas.style.maxWidth = "640px";
+            }
+            if(window.innerHeight < 480){
+    			canvas.style.maxHeight = window.innerHeight + "px";
+            }
+    		else if(window.innerHeight > 480){
+    			canvas.style.maxHeight = "480px";
+            }
+      		// Resize original canvas
+            if(tookPic && picData != null){
+    			context.putImageData(picData, 0, 0);
+            }
+            else if(!aspectWeirdness){
+        		context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);
+            }
+            else{
+    			if(img.width > img.height){
+    				img.height = canvas.style.maxHeight.replace("px","");
+                    img.width = img.height*aspectRatio;
+                }
+                else{
+    				img.width = canvas.style.maxWidth.replace("px","");
+                	img.height = img.width/aspectRatio;
+                }
+                canvas.width = img.width;
+                canvas.height = img.height;
+                context.drawImage(img, 0, 0, img.width, img.height);
+            }
+        }
+    });
 
     imageLoader.addEventListener('change', handleImage, false);
     takeShot.addEventListener('click', snapshot, false);
@@ -294,6 +330,13 @@ var resizeableImage = function(image_data){
     	image_target.src = image_data;
 
     croppingTool.appendChild(image_target);
+
+    if(window.innerWidth < 640){
+		croppingTool.style.maxWidth = window.innerWidth + "px";
+    }
+    if(window.innerHeight < 480){
+		croppingTool.style.maxHeight = window.innerHeight + "px";
+    }
 
     var $container,
         orig_src = new Image(),
@@ -488,7 +531,9 @@ var resizeableImage = function(image_data){
     };
 
     crop = function(){
-		localMediaStream.stop();
+        if(localMediaStream != null && localMediaStream != undefined){
+			localMediaStream.stop();
+        }
 		$('#upload-tool').remove();
 
         //Find the part of the image that is inside the crop box
@@ -520,6 +565,9 @@ var resizeableImage = function(image_data){
     			Date.now = function() { return new Date().getTime(); }
 			}
 
+            var temp = new Image();
+            temp.src = dataURL;
+
 			$.ajax({
   				method: "POST",
     	   		url: "/content/girlscouts-vtk/controllers/vtk.include.imageStore.html?" + Date.now(), //random string to prevent ajax caching
@@ -542,6 +590,21 @@ var resizeableImage = function(image_data){
         $('#crop-buttons').remove();
         uploadTool.style.display = "block";
     }
+
+    $(window).resize(function() {
+            if(window.innerWidth < 640){
+    			croppingTool.style.maxWidth = window.innerWidth + "px";
+            }
+            else if(window.innerWidth > 640){
+    			croppingTool.style.maxWidth = "640px";
+            }
+            if(window.innerHeight < 480){
+    			croppingTool.style.maxHeight = window.innerHeight + "px";
+            }
+    		else if(window.innerHeight > 480){
+    			croppingTool.style.maxHeight = "480px";
+            }
+    });
 
     init();
 };
