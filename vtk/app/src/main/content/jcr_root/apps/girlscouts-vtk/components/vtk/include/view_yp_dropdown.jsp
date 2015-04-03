@@ -40,6 +40,20 @@
       </div><!--/row-->
       <% }  %>
       
+      
+        <div class="row">
+        <div class="columns large-push-2 medium-2 medium-push-2 small-2">
+           <input type="radio" id="r_0" class="radio1" name="group1" onclick="" />
+            <label for="r_0"></label>
+        </div>
+        <div class="small-18 columns large-pull-2 medium-pull-2 small-pull-2">
+            <a href="/content/girlscouts-vtk/controllers/vtk.include.modals.modal_custom_year_plan.html" data-reveal-ajax="true" data-reveal-id="modal_custom_year_plan" >Create Your Own Year Plan</a>
+            <p>Choose this option to create your own year plan using meetings from  our meeting library</p>
+        </div>
+      </div><!--/row-->
+      
+      
+      
   </div><!--/yearPlanSelection-->
 </section>
 <script>
@@ -53,3 +67,4 @@ function chgYearPlan(planId, planPath, confirmMsg, planName){
 };
 
 </script>
+<div id="modal_custom_year_plan" class="reveal-modal" data-reveal></div>

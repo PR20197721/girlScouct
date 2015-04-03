@@ -34,7 +34,7 @@
       <%
       //  }
       %>
-      <dl class="tabs show-for-medium-up hide-for-portrait">
+      <dl class="tabs show-for-large-up">
         <% if(hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
           <dd <%= "myTroop".equals(activeTab) ? "class='active'" : "" %>>
             <a href="/content/girlscouts-vtk/en/vtk.myTroop.html">My Troop</a>
@@ -48,7 +48,13 @@
         <% } %>
         <% if(hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID)) { %>
         <dd <%= "planView".equals(activeTab) ? "class='active'" : "" %>>
-           <a <%= troop.getYearPlan() != null ? "href='/content/girlscouts-vtk/en/vtk.details.html'" :  "href='#' onClick='alert(\"Please select a year plan\")'"  %>>Meeting Plan</a>
+           <%if(troop.getYearPlan()!=null && 
+        		 (troop.getYearPlan().getActivities()==null || troop.getYearPlan().getActivities().size()<=0 ) &&
+        		    ( troop.getYearPlan().getMeetingEvents()==null || troop.getYearPlan().getMeetingEvents().size()<=0 )){ %>
+        		     <a href='#' onClick='alert("Content only available for meetings. Add at least one meeting to the Year Plan to access this tab.")'>Meeting Plan</a>
+           <%}else{ %>		         
+                     <a <%= troop.getYearPlan() != null ? "href='/content/girlscouts-vtk/en/vtk.details.html'" :  "href='#' onClick='alert(\"Please select a year plan\")'"  %>>Meeting Plan</a>
+           <%} %> 
         </dd>
         <%  } %>
         <dd <%= "resource".equals(activeTab) ? "class='active'" : "" %>>
@@ -68,7 +74,7 @@
           <a href="/content/girlscouts-vtk/en/vtk.profile.html">Profile</a>
         </dd>
       </dl>
-      <div class="dropdown show-for-small hide-for-print show-for-portrait">
+      <div class="dropdown hide-for-print hide-for-large-up">
         <a id="vtk-main-menu-button" onclick="$('#vtk-main-menu').slideToggle('slow')" class="expand">Menu</a>
         <ul id="vtk-main-menu" class="hide-for-print" style="display: none;">
           <% if(hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
