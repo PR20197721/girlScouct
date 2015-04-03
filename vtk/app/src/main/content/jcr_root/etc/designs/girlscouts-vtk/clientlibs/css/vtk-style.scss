@@ -1662,16 +1662,23 @@
     height: 100%;
   }
   .scroll_2 {
-    padding: 10px;
+    padding: 8px;
     border: solid 1px #000;
     margin-top: 20px;
     overflow: auto;
   }
   #email-list {
-    padding: 10px;
     margin: 0;
     list-style: none;
+    font-size:14px;
+    font-weight:300;
     li {
+      a {
+        padding:8px;
+      }
+      span {
+        padding-right:8px;
+      }
       margin-bottom: 7px;
       &:hover,
       &.active {
@@ -1681,8 +1688,8 @@
           color: #fff;
         }
       }
-      &:last-child {
-        margin:0;
+      &:first-child {
+        margin-top: 7px;
       }
     }
   }
