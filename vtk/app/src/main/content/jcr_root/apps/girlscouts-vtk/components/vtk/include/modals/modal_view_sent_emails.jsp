@@ -15,8 +15,8 @@
 	   					if(emails!=null && !emails.isEmpty()){
 	   						if(emails.size()==1){
 	   							SentEmail eml = emails.get(0);%>
+	   							<div><%=eml.getSubject() %></div>
 	   							<div>Sent: <%=FORMAT_CALENDAR_DATE.format(eml.getSentDate()) %></div>
-  								<div><%=eml.getSubject() %></div>
 		   						<div><%=curA.getEmlTemplate()==null? "":eml.getHtmlMsg(curA.getEmlTemplate())%> </div><% 
 	   						}else{%>
 		   						<div class="scroll_1">
@@ -48,8 +48,8 @@
 	   					if(emails!=null && !emails.isEmpty()){
 	   						if(emails.size()==1){
    							SentEmail eml = emails.get(0);%>
+   							<div><%=eml.getSubject() %></div>
    							<div>Sent: <%=FORMAT_CALENDAR_DATE.format(eml.getSentDate()) %></div>
-							<div><%=eml.getSubject() %></div>
 	   						<div><%=curM.getEmlTemplate()==null? "":eml.getHtmlMsg(curM.getEmlTemplate())%> </div><% 
    						}else{%>
    							<div class="scroll_1">
