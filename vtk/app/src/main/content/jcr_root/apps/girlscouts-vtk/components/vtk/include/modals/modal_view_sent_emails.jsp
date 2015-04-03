@@ -89,13 +89,5 @@
 		$('div.show').removeClass('show').addClass('hide');
 		$('div#'+ link ).removeClass('hide').addClass('show');
 	})
-	   //adding a heights to popups with two scrollable content.
-	   function scroll_2() {
-		  $('.scroll_2').css('max-height', ($(window).height()-75)-$('.scroll_1').height() + 'px');
-		 }
-	scroll_2();
-	$(window).resize(function() {
-		scroll_2();
-	});
 </script>
 	
