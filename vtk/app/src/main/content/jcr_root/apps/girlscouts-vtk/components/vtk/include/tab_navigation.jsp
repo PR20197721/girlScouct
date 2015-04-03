@@ -6,7 +6,7 @@
 %>
 
 <div id="troop" class="row hide-for-print">
-  <div class="columns large-7 medium-7 right">
+  <div class="columns large-7 medium-8 right">
     <select id="reloginid" onchange="relogin()">
       <%
         for (int i = 0; i < troops.size(); i++) {
