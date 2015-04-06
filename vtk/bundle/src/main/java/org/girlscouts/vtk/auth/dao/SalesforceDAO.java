@@ -508,8 +508,157 @@ public class SalesforceDAO {
 	}
 
 	
-	
-	public java.util.List<Troop> troopInfo(ApiConfig apiConfig, String contactId) {	
+public java.util.List<Troop> troopInfo(ApiConfig apiConfig, String contactId) {
+
+		
+		java.util.List<Troop> troops = new java.util.ArrayList();
+		System.err.println("test*************** APEX START *************************");
+
+		HttpClient client = new HttpClient();
+		//GetMethod method = new GetMethod("https://gsuat-gsmembers.cs11.force.com/members/services/apexrest/activeUserTroopData?userId="+ contactId);
+		//System.err.println("**||** URL  https://gsuat-gsmembers.cs11.force.com/members/services/apexrest/activeUserTroopData?userId="+ contactId);
+		
+		GetMethod method = new GetMethod(apiConfig.getWebServicesUrl() +"/services/apexrest/activeUserTroopData?userId="+ contactId);
+		
+		System.err.println("**OAuth** URL  "+ apiConfig.getWebServicesUrl() +"/services/apexrest/activeUserTroopData?userId="+ contactId);
+		
+		    try {
+		   // method.setRequestHeader("Authorization", "OAuth " +apiConfig.getAccessToken());
+		    	 method.setRequestHeader("Authorization", "OAuth " +getToken( apiConfig));
+		    	 
+		      int statusCode = client.executeMethod(method);
+
+
+
+		      if (statusCode != HttpStatus.SC_OK) {
+
+		        System.err.println("Method failed: " + method.getStatusLine());
+
+		      }
+
+
+
+		      // Read the response body.
+
+		      byte[] responseBody = method.getResponseBody();
+
+		String rsp = new String(responseBody);
+		rsp ="{\"records\":"+ rsp +"}";
+
+		JSONObject response = new JSONObject(rsp);
+
+		System.err.println("<<<<<Apex test r1: "+ response);
+
+		JSONArray results = response.getJSONArray("records");
+
+			
+						for (int i = 0; i < results.length(); i++) {
+
+							log.debug("_____ " + results.get(i));
+
+							java.util.Iterator itr = results.getJSONObject(i)
+									.getJSONObject("Parent").keys();
+							
+							Troop troop = new Troop();
+							try {
+								troop.setCouncilCode(results.getJSONObject(i)
+										.getJSONObject("Parent")
+										.getInt("Council_Code__c")); // girls id
+								troop.setCouncilId(results.getJSONObject(i)
+										.getJSONObject("Parent")
+										.getString("Account__c"));
+
+								troop.setGradeLevel(results.getJSONObject(i)
+										.getJSONObject("Parent")
+										.getString("Program_Grade_Level__c"));
+								troop.setTroopId(results.getJSONObject(i)
+										.getString("ParentId"));
+								troop.setTroopName(results.getJSONObject(i)
+										.getJSONObject("Parent")
+										.getString("Name"));
+
+								log.debug("ETSTS: "
+										+ org.girlscouts.vtk.auth.permission.RollType.DP);
+
+								org.girlscouts.vtk.auth.permission.RollType rollType = org.girlscouts.vtk.auth.permission.RollType
+										.valueOf("DP");
+								
+								
+								try{
+
+									System.err.println("tester 123");
+
+									if( contactId.equals("005Z0000002J5CYIA0")){
+
+									System.err.println( "tester in");
+
+									rollType=org.girlscouts.vtk.auth.permission.RollType.valueOf("PA");
+
+									troop.setCouncilCode(603); //TO BE REMOVED : only 4 test
+
+									System.err.println("tester: "+ troop.getCouncilCode() +" : "+ troop.getCouncilId() +" : "+ troop.getGradeLevel() +" : "+ troop.getTroopId() +" : "+ troop.getTroopName());
+
+									if( troop.getTroopId().equals("701Z0000000gvSKIAY")){
+
+									troop.setTroopId("701G0000000uQzTIAU");
+
+									troop.setTroopName("Troop 603104");
+
+									troop.setGradeLevel("2-Brownie");
+
+									}
+
+									}
+
+									}catch(Exception nn){nn.printStackTrace();}
+
+
+								
+								switch (rollType) {
+								case PA:
+
+									troop.setPermissionTokens(Permission
+
+									.getPermissionTokens(Permission.GROUP_MEMBER_1G_PERMISSIONS));
+
+									log.debug("REGISTER ROLL PA= parent");
+
+									break;
+
+
+								case DP:
+									troop.setPermissionTokens(Permission
+											.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
+									log.debug("REGISTER ROLL DP");
+									break;
+								case CouncilAdmin:
+									troop.setPermissionTokens(Permission
+											.getPermissionTokens(Permission.GROUP_LEADER_PERMISSIONS));
+									troop.getPermissionTokens().addAll(Permission.getPermissionTokens(Permission.GROUP_ADMIN_PERMISSIONS));
+									log.debug("Council Admin");
+									break;
+								default:
+									log.debug("REGISTER ROLL DEFAULT");
+									troop.setPermissionTokens(Permission
+											.getPermissionTokens(Permission.GROUP_GUEST_PERMISSIONS));
+									break;
+								}
+
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+							troops.add(troop);
+						}
+
+					} catch (Exception e) {
+						e.printStackTrace();
+
+					}
+				
+		return troops;
+	}
+	//testing connection pool
+	public java.util.List<Troop> troopInfo_WithConnection(ApiConfig apiConfig, String contactId) {	
 		
 		java.util.List<Troop> troops = new java.util.ArrayList();
 
