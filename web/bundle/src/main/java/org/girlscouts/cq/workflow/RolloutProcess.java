@@ -5,7 +5,7 @@ import java.util.Collections;
 
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
-
+import javax.jcr.Node;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Reference;
@@ -30,6 +30,7 @@ import com.day.cq.workflow.WorkflowSession;
 import com.day.cq.workflow.exec.WorkItem;
 import com.day.cq.workflow.exec.WorkflowProcess;
 import com.day.cq.workflow.metadata.MetaDataMap;
+import javax.jcr.nodetype.NoSuchNodeTypeException;
 
 @Component
 @Service
@@ -89,13 +90,21 @@ public class RolloutProcess implements WorkflowProcess {
                 rolloutManager.rollout(resourceResolver, relation);
                 session.save();
                 String targetPath = relation.getTargetPath();
+                if(targetPath.contains("join")){
+                	Node startFunToday = (Node)resourceResolver.resolve(targetPath+"/content/middle/par/text_1").adaptTo(Node.class);
+                	try{               
+                		startFunToday.removeMixin("cq:LiveRelationship");
+                	}catch(NoSuchNodeTypeException e){ 
+                		startFunToday.removeMixin("cq:LiveSyncCancelled");
+                	}
+                }
                 // Remove jcr:content
                 if (targetPath.endsWith("/jcr:content")) {
                     targetPath = targetPath.substring(0, targetPath.lastIndexOf('/'));
                 }
                 replicator.replicate(session, ReplicationActionType.ACTIVATE, targetPath);
             }
-        } catch (WCMException e) {
+        }catch (WCMException e) {
             log.error("WCMException for LiveRelationshipManager");
         } catch (RepositoryException e) {
             log.error("RepositoryException for LiveRelationshipManager");
