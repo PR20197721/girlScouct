@@ -33,53 +33,70 @@ var displayCurrent = function(){
     var currentPic = document.createElement("img");
     currentPic.id = "current-picture";
     currentPic.src = imgPath;
+    currentPic.style.float = "left";
+    var currentUncropped = document.createElement("img");
+
+    var displayButtons = document.createElement("div");
+    displayButtons.id="display-buttons";
+    displayButtons.style.float = "left";
+    displayButtons.style.clear = "both";
 
     var loadUncroppedButton = document.createElement("button");
 	loadUncroppedButton.id = "load-uncropped";
-    loadUncroppedButton.style.float = "left";
 	var loadText = document.createTextNode("Uncropped Image Found");
     loadUncroppedButton.appendChild(loadText);
 
     var newButton = document.createElement("button");
 	newButton.id = "new-image";
-    newButton.style.float = "left";
 	var newButtonText = document.createTextNode("Upload New Image");
     newButton.appendChild(newButtonText);
 
     loadUncroppedButton.addEventListener('click', loadUncropped, false);
     newButton.addEventListener('click', uploadNew, false);
 
-    var currentUncropped = document.createElement("img");
+    var clearBoth = document.createElement("div");
+    clearBoth.style.clear = "both";
 
     currentPic.onload = function(){
-        if(currentPic.height != 0) { //check if img exists yet
-			currentDisplay.appendChild(currentPic);
-        }
 		currentDisplay.appendChild(currentPic);
         currentUncropped.src = uncroppedPath;
         currentUncropped.onload = function(){
-			if(currentUncropped.height != 0) { //check if img exists yet
-                currentDisplay.appendChild(loadUncropped);
-        	}
-            currentDisplay.appendChild(newButton);
+            displayButtons.appendChild(loadUncropped);
+            displayButtons.appendChild(newButton);
         }
+        currentUncropped.onerror = function(){
+            displayButtons.appendChild(newButton);
+        }
+        currentDisplay.appendChild(displayButtons);
+    }
+    currentPic.onerror = function(){
+		currentUncropped.src = uncroppedPath;
+        currentUncropped.onload = function(){
+            displayButtons.appendChild(loadUncropped);
+            displayButtons.appendChild(newButton);
+        }
+        currentUncropped.onerror = function(){
+			displayButtons.appendChild(newButton);
+        }
+        currentDisplay.appendChild(displayButtons);
     }
 
-    var loadUncropped = function(){
+    function loadUncropped(){
     	removeCurrent();
     	resizeableImage(currentUncropped);
     }
 
-    var uploadNew = function(){
+    function uploadNew(){
 		removeCurrent();
 		uploadInit();
     }
 
     imageTool.appendChild(currentDisplay);
+    imageTool.appendChild(clearBoth);
 }
 
 var removeCurrent = function(){
-	$('#currentDisplay').remove();
+	$('#current-display').remove();
 }
 
 var uploadInit = function(){
@@ -110,8 +127,8 @@ var uploadInit = function(){
 	var canvas = document.createElement("canvas");
     canvas.id = "canvas";
     canvas.setAttribute("width","100%");
-    canvas.style.maxWidth = $('#upload-tool').width() + "px";
-	canvas.style.maxHeight = $('#upload-tool').height() + "px";
+    canvas.style.maxWidth = "1220px";
+	canvas.style.maxHeight = "1080px";
     canvas.style.display = "none";
 
     var context = canvas.getContext('2d');
@@ -181,17 +198,17 @@ var uploadInit = function(){
             	if(canvas.toDataURL() == "data:,"){//mobile safari
                 	aspectWeirdness = true;
                 	aspectRatio = img.width/img.height;
-                	if(window.innerWidth < 960){
+                	if(window.innerWidth < 1220){
     					canvas.style.maxWidth = window.innerWidth + "px";
             		}
-            		else if(window.innerWidth > 960){
-    					canvas.style.maxWidth = "960px";
+            		else if(window.innerWidth > 1220){
+    					canvas.style.maxWidth = "1220px";
             		}
-            		if(window.innerHeight < 340){
+            		if(window.innerHeight < 1080){
     					canvas.style.maxHeight = window.innerHeight + "px";
             		}
-    				else if(window.innerHeight > 340){
-    					canvas.style.maxHeight = "340px";
+    				else if(window.innerHeight > 1080){
+    					canvas.style.maxHeight = "1080px";
             		}
                 	if(img.width > img.height){
     					img.height = canvas.style.maxHeight.replace("px","");
@@ -364,17 +381,17 @@ var uploadInit = function(){
     
     $(window).resize(function() {
         if(canvas.style.display == 'block'){
-            if(window.innerWidth < 960){
+            if(window.innerWidth < 1220){
     			canvas.style.maxWidth = window.innerWidth + "px";
             }
-            else if(window.innerWidth > 960){
-    			canvas.style.maxWidth = "960px";
+            else if(window.innerWidth > 1220){
+    			canvas.style.maxWidth = "1220px";
             }
-            if(window.innerHeight < 340){
+            if(window.innerHeight < 1080){
     			canvas.style.maxHeight = window.innerHeight + "px";
             }
-    		else if(window.innerHeight > 340){
-    			canvas.style.maxHeight = "340px";
+    		else if(window.innerHeight > 1080){
+    			canvas.style.maxHeight = "1080px";
             }
       		// Resize original canvas
             if(tookPic && picData != null){
@@ -748,12 +765,6 @@ var resizeableImage = function(image_data){
     		if (!Date.now) {
     			Date.now = function() { return new Date().getTime(); }
 			}
-
-            var ret = new Image();
-            ret.src = dataURL;
-            ret.width = "960px";
-            ret.height = "340px";
-            dataURL = ret.src;
 
 			$.ajax({
   				method: "POST",
