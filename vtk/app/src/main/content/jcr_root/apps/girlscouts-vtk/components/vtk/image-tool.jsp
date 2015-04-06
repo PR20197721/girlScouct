@@ -1,5 +1,3 @@
-<%@include file="include/session.jsp"%>
-
 <div id="image-tool"></div>
 
 <script>
@@ -26,8 +24,8 @@ navigator.getUserMedia = ( navigator.getUserMedia ||
                        navigator.mozGetUserMedia ||
                        navigator.msGetUserMedia);
 
-var imgPath = "/content/dam/girlscouts-vtk/camera-test/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png";
-var uncroppedPath = "/content/dam/girlscouts-vtk/camera-test/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic_uncropped.png";
+var imgPath = "<%= "/content/dam/girlscouts-vtk/camera-test/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png" %>";
+var uncroppedPath = "<%= "/content/dam/girlscouts-vtk/camera-test/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic_uncropped.png" %>";
 
 var displayCurrent = function(){
     currentDisplay = document.createElement("div");
@@ -72,7 +70,7 @@ var displayCurrent = function(){
     	resizeableImage(currentUncropped);
     }
 
-    var newButton = function(){
+    var uploadNew = function(){
 		removeCurrent();
 		uploadInit();
     }
