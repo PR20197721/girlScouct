@@ -99,8 +99,7 @@
 	if (apiConfig.getTroops() == null
 			|| apiConfig.getTroops().size() <= 0
 			|| (apiConfig.getTroops().get(0).getType() == 1)) {
-		out.println("Council Code: "
-				+ apiConfig.getTroops().get(0).getCouncilCode());
+		//out.println("Council Code: "+ apiConfig.getTroops().get(0).getCouncilCode());
 		out.println("<span class='error'>Sorry, this user is not part of a valid GirlScouts' campaign. Please ask your council admin for SalesForce access.</span>");
 		return;
 	}
