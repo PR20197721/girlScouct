@@ -5,6 +5,12 @@
 var imageTool = document.getElementById("image-tool");
 var uploadTool, croppingTool, currentDisplay;
 
+var cancelButton = document.createElement("Button");
+var cancelText = document.createTextNode("Cancel");
+    cancelButton.appendChild(cancelText);
+    cancelButton.className = "cancel";
+    cancelButton.style.float = "right";
+
 var localMediaStream = null;
 var hasCamera = false;
 var uploadedCheck = false;
@@ -15,6 +21,8 @@ var aspectWeirdness = false; //applies to mobile safari, which has resizing issu
 var aspectRatio = 1;
 var resizeImageInstance;
 var successMsg = "You image has been uploaded. ";
+var uncroppedFound = false;
+var uncroppedInUse = false;
 
     //Webcam support for laptop/some devices
 
@@ -24,15 +32,22 @@ navigator.getUserMedia = ( navigator.getUserMedia ||
                        navigator.mozGetUserMedia ||
                        navigator.msGetUserMedia);
 
-var imgPath = "<%= "/content/dam/girlscouts-vtk/camera-test/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png" %>";
-var uncroppedPath = "<%= "/content/dam/girlscouts-vtk/camera-test/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic_uncropped.png" %>";
+var imgPath = "<%= "/content/dam/girlscouts-vtk/camera-test/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png?" %>";
+var uncroppedPath = "<%= "/content/dam/girlscouts-vtk/camera-test/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic_uncropped.png?" %>";
 
 var displayCurrent = function(){
+	uncroppedFound = false;
+	uncroppedInUse = false;
     currentDisplay = document.createElement("div");
     currentDisplay.id = "current-display";
     var currentPic = document.createElement("img");
     currentPic.id = "current-picture";
-    currentPic.src = imgPath;
+    
+    if (!Date.now) {
+		Date.now = function() { return new Date().getTime(); }
+	}
+    
+    currentPic.src = imgPath + Date.now();
     currentPic.style.float = "left";
     var currentUncropped = document.createElement("img");
 
@@ -55,13 +70,17 @@ var displayCurrent = function(){
     newButton.addEventListener('click', uploadNew, false);
 
     var clearBoth = document.createElement("div");
+    clearBoth.id = "clear-both";
     clearBoth.style.clear = "both";
 
     currentPic.onload = function(){
 		currentDisplay.appendChild(currentPic);
-        currentUncropped.src = uncroppedPath;
+        currentUncropped.src = uncroppedPath + Date.now();
         currentUncropped.onload = function(){
-            displayButtons.appendChild(loadUncropped);
+        	uncroppedFound = true;
+        	if(window.innerHeight > 340 && window.innerWidth > 960){
+            	displayButtons.appendChild(loadUncroppedButton);
+        	}
             displayButtons.appendChild(newButton);
         }
         currentUncropped.onerror = function(){
@@ -72,7 +91,10 @@ var displayCurrent = function(){
     currentPic.onerror = function(){
 		currentUncropped.src = uncroppedPath;
         currentUncropped.onload = function(){
-            displayButtons.appendChild(loadUncropped);
+        	uncroppedFound = true;
+        	if(window.innerHeight > 340 && window.innerWidth > 960){
+            	displayButtons.appendChild(loadUncroppedButton);
+        	}
             displayButtons.appendChild(newButton);
         }
         currentUncropped.onerror = function(){
@@ -82,8 +104,10 @@ var displayCurrent = function(){
     }
 
     function loadUncropped(){
+    	uploadedCheck = true;
+    	uncroppedInUse = true;
     	removeCurrent();
-    	resizeableImage(currentUncropped);
+    	resizeableImage(currentUncropped.src);
     }
 
     function uploadNew(){
@@ -97,6 +121,7 @@ var displayCurrent = function(){
 
 var removeCurrent = function(){
 	$('#current-display').remove();
+	$('#clear-both').remove();
 }
 
 var uploadInit = function(){
@@ -104,7 +129,7 @@ var uploadInit = function(){
 	uploadTool = document.createElement("div");
     uploadTool.id = "upload-tool"
     uploadTool.style.display = "hidden";
-    uploadTool.style.width = "960px";
+    uploadTool.style.width = "100%";
 
 	var uploadMsg = document.createElement("p");
     var text = document.createTextNode("Upload an image from your phone or computer");
@@ -171,6 +196,7 @@ var uploadInit = function(){
     uploadTool.appendChild(retakeShot);
     uploadTool.appendChild(submitShot);
     uploadTool.appendChild(switchButton);
+    uploadTool.appendChild(cancelButton);
 
     if(window.innerHeight < 340 || window.innerWidth < 960){
 		text4.data = "Submit";
@@ -195,6 +221,18 @@ var uploadInit = function(){
 					context.translate(-img.width * 0.5, -img.height * 0.5);
                 }
             	context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);
+            	if(window.innerWidth < 1220){
+    				canvas.style.maxWidth = window.innerWidth + "px";
+           	 	}
+            	else if(window.innerWidth > 1220){
+    				canvas.style.maxWidth = "1220px";
+            	}
+            	if(window.innerHeight < 1080){
+    				canvas.style.maxHeight = window.innerHeight + "px";
+            	}
+    			else if(window.innerHeight > 1080){
+    				canvas.style.maxHeight = "1080px";
+            	}
             	if(canvas.toDataURL() == "data:,"){//mobile safari
                 	aspectWeirdness = true;
                 	aspectRatio = img.width/img.height;
@@ -280,7 +318,9 @@ var uploadInit = function(){
         	tookPic = false;
 		}
 	}    
+    
     var uploadText;
+
 	//website requests permission to use your webcam
 	if (navigator.getUserMedia) {
         uploadText = document.createTextNode(" or take a photo from your webcam");
@@ -341,6 +381,7 @@ var uploadInit = function(){
 	}
 
     function resizeUpload(){
+    	cancelButton.removeEventListener('click',cancel);
         if((window.innerHeight < 340 || window.innerWidth < 960) && submitShot.style.display == "block"){
             retakeShot.style.display = "none";
             switchButton.style.display = "none";
@@ -354,7 +395,15 @@ var uploadInit = function(){
         }
     }
 
-    function submitUncropped(dataURL){
+    function submitUncropped(dataURL){   	
+    	if(uncroppedFound){
+    		var proceed = confirm("An existing uncropped image exists for this council. Are you sure you would like to save over it?");
+    		if(proceed == false){
+    			cancel();
+    			return null;
+    		}
+    	}
+    	
 		var dataURL = canvas.toDataURL("image/png",1.0); //change the second parameter to reduce quality
     	if(!tookPic && !uploadedCheck){
     		alert("Image Error: no image data detected");
@@ -497,6 +546,8 @@ var resizeableImage = function(image_data){
 
     cropButtons.appendChild(backToUpload);
     cropButtons.appendChild(submitCrop);
+    
+    cropButtons.appendChild(cancelButton);
 
     var image_target = document.createElement("img");
     	image_target.id = "resize-image";
@@ -769,7 +820,7 @@ var resizeableImage = function(image_data){
 			$.ajax({
   				method: "POST",
     	   		url: "/content/girlscouts-vtk/controllers/vtk.include.imageStore.html?" + Date.now(), //random string to prevent ajax caching
-    	    	data: { imageData: dataURL }
+    	    	data: { imageData: dataURL, deleteUncropped: uncroppedInUse.toString() }
 			})
   			.done(function( msg ) {
     	   		console.log( "Uploaded");
@@ -803,13 +854,24 @@ var resizeableImage = function(image_data){
     init();
 };
 
+function cancel(){
+	cancelButton.removeEventListener('click',cancel);
+	$('#cropping-tool').remove();
+	$('#crop-buttons').remove();
+	$('#upload-tool').remove();
+	displayCurrent();
+}
+
 $(document).ajaxSuccess(function() {
   alert(successMsg);
-    $('#upload-tool').remove();
-    $('#cropping-tool').remove();
+  cancelButton.removeEventListener('click',cancel);
+  $('#upload-tool').remove();
+  $('#cropping-tool').remove();
+  displayCurrent();
 });
 
 window.onload=function() {
+	cancelButton.addEventListener('click',cancel, false);
 	displayCurrent();
 }
 

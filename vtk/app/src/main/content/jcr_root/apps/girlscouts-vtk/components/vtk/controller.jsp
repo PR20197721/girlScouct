@@ -1064,6 +1064,8 @@ System.err.println("manu reactActivity");
                 //creates folder path if it doesn't exist yet
                 String path = "/content/dam/girlscouts-vtk/camera-test/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib";
                 String pathWithFile = path+"/troop_pic.png/jcr:content";
+                
+                String pathUncropped = path+"/troop_pic_uncropped.png/jcr:content";
 
                 Session __session = sessionFactory.getSession();
 
@@ -1075,7 +1077,19 @@ System.err.println("manu reactActivity");
 
                 //for some reason, the data property can't be updated, just remade
                 try{
-                    __session.removeItem(path+"/troop_pic.png");
+                	if(request.getParameter("uncropped") != null){
+                		if(request.getParameter("uncropped").equals("true")){
+                			__session.removeItem(path+"/troop_pic_uncropped.png");
+                		}
+                	}	
+                	else if(request.getParameter("deleteUncropped") != null){
+                		if(request.getParameter("deleteUncropped").equals("true")){
+                			__session.removeItem(path+"/troop_pic_uncropped.png");
+                		}
+                	}
+                	else{
+                    	__session.removeItem(path+"/troop_pic.png");
+                	}
                 	__session.save();
                 }
                 catch(Exception e){
@@ -1084,6 +1098,11 @@ System.err.println("manu reactActivity");
 
                 //creates file and jcr:content nodes if they don't exist yet
                 Node jcrNode = JcrUtil.createPath(pathWithFile, false, "nt:file", "nt:resource", __session, false);
+                if(request.getParameter("uncropped") != null){
+                	if(request.getParameter("uncropped").equals("true")){
+                		jcrNode = JcrUtil.createPath(pathUncropped, false, "nt:file", "nt:resource", __session, false);
+                	}
+                }
 
                 jcrNode.setProperty("jcr:data",bin);
                 jcrNode.setProperty("jcr:mimeType","image/png");
