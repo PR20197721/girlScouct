@@ -564,8 +564,10 @@ public class MeetingDAOImpl implements MeetingDAO {
 			session = sessionFactory.getSession();
 			java.util.Map<String, String> map = new java.util.HashMap<String, String>();
 			map.put("fulltext", _query);
+			map.put("group.3_path", "/content/dam/girlscouts-vtk/global/resource");
 			map.put("group.2_path", "/content/dam/girlscouts-vtk/global/aid");
 			map.put("group.1_path", resourceRootPath);
+			
 			map.put("group.p.or", "true"); // combine this group with OR
 			map.put("p.offset", "0"); // same as query.setStart(0) below
 			map.put("p.limit", "2000"); // same as query.setHitsPerPage(20)
@@ -578,6 +580,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			query.setExcerpt(true);
 			java.util.Map<String, org.girlscouts.vtk.models.Search> unq = new java.util.TreeMap();
 			SearchResult result = query.getResult();
+			System.err.println("tataxxxx: "+query.toString());
 
 			for (Hit hit : result.getHits()) {
 				try {
