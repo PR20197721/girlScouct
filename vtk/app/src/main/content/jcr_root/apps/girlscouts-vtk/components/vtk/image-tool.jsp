@@ -399,12 +399,6 @@ var uploadInit = function(){
         }
     }
 
-    function cancel(){
-    	$('#upload-tool').remove();
-    	displayCurrent();
-    	cancelButton.removeEventListener('click',cancel);
-    }
-
     function submitUncropped(dataURL){   	
     	if(uncroppedFound){
     		var proceed = confirm("An existing uncropped image exists for this council. Are you sure you would like to save over it?");
@@ -513,7 +507,6 @@ var uploadInit = function(){
     retakeShot.addEventListener('click', retake, false);
     switchButton.addEventListener('click', switchCam, false);
     submitShot.addEventListener('click', resizeUpload, false);
-    cancelButton.addEventListener('click',cancel, false);
 }
 
 var resizeableImage = function(image_data){
@@ -613,7 +606,6 @@ var resizeableImage = function(image_data){
 
         submitCrop.addEventListener('click', crop, false);
         backToUpload.addEventListener('click', back, false);
-        cancelButton.addEventListener('click',cancel, false);
     };
 
     startResize = function(e){
@@ -849,14 +841,6 @@ var resizeableImage = function(image_data){
         $('#crop-buttons').remove();
         uploadTool.style.display = "block";
     }
-    
-    cancel = function(){
-    	cancelButton.removeEventListener('click',cancel);
-    	$('#cropping-tool').remove();
-    	$('#crop-buttons').remove();
-    	$('#upload-tool').remove();
-    	displayCurrent();
-    }
 
     $(window).resize(function() {
         if(window.innerWidth < 960){
@@ -890,6 +874,14 @@ var resizeableImage = function(image_data){
     init();
 };
 
+cancel = function(){
+	cancelButton.removeEventListener('click',cancel);
+	$('#cropping-tool').remove();
+	$('#crop-buttons').remove();
+	$('#upload-tool').remove();
+	displayCurrent();
+}
+
 $(document).ajaxSuccess(function() {
   alert(successMsg);
   cancelButton.removeEventListener('click',cancel);
@@ -899,6 +891,7 @@ $(document).ajaxSuccess(function() {
 });
 
 window.onload=function() {
+	cancelButton.addEventListener('click',cancel, false);
 	displayCurrent();
 }
 
