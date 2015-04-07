@@ -1,6 +1,7 @@
 package org.girlscouts.cq.livecopy;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,6 +10,7 @@ import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.Value;
+import javax.jcr.nodetype.NodeType;
 import javax.mail.internet.InternetAddress;
 
 import org.apache.commons.mail.HtmlEmail;
@@ -33,6 +35,7 @@ import com.day.cq.wcm.msm.api.ActionConfig;
 import com.day.cq.wcm.msm.api.LiveAction;
 import com.day.cq.wcm.msm.api.LiveActionFactory;
 import com.day.cq.wcm.msm.api.LiveRelationship;
+import com.day.cq.wcm.msm.api.LiveStatus;
 
 @SuppressWarnings("deprecation")
 @Component(metatype=false)
@@ -40,14 +43,10 @@ import com.day.cq.wcm.msm.api.LiveRelationship;
 public class GirlScoutsNotificationActionFactory implements LiveActionFactory<LiveAction> {
 
 	@Reference
-	private static MessageGatewayService messageGatewayService;
+	public MessageGatewayService messageGatewayService;
 
-	//	@Property(name = "message", label = "email message", description = "controller.")
-	//	private String emlTemplate;
-
-	@Property(value="gsNotification")
-	static final String actionname = LiveActionFactory.LIVE_ACTION_NAME;
-
+	@Property(name="liveActionName")
+	static final String LIVE_ACTION_NAME = "gsNotification";
 
 	public LiveAction createAction(Resource resource) throws WCMException {
 		ValueMap config;
@@ -56,58 +55,70 @@ public class GirlScoutsNotificationActionFactory implements LiveActionFactory<Li
 		} else {
 			config = resource.adaptTo(ValueMap.class);
 		}
-
-		return new GirlScoutsNotificationAction(config,actionname);
+		return new GirlScoutsNotificationAction(config,LIVE_ACTION_NAME);
 	}
 
 	public String createsAction() {
-		return actionname;
+		return LIVE_ACTION_NAME;
 	}
 
-	private static class GirlScoutsNotificationAction implements LiveAction {
+	private class GirlScoutsNotificationAction implements LiveAction {
 		private String name;
 		private ValueMap configs;
-		private static final Logger log = LoggerFactory.getLogger(GirlScoutsNotificationAction.class);
+		private final Logger log = LoggerFactory.getLogger(GirlScoutsNotificationAction.class);
 		public GirlScoutsNotificationAction(ValueMap config, String actionname){
 			name=actionname;
 			configs = config;
 		}
+		
 		public void execute(Resource source, Resource target,
 				LiveRelationship relation, boolean autosave, boolean isResetRollout)
 						throws WCMException {
-			log.error("*** Executing GirlScoutsNotificationAction *** ");
+			log.info("**** Executing GirlScoutsNotificationAction **** ");
 			if (source == null) {
 				log.info("Source is null. Quit");
 				return;
 			}
-//			if (target == null) {
-//				log.info("Target is null. Quit");
-//				return;
-//			}
-//						Node sourceNode = (Node)source.adaptTo(Node.class);
-//						Node targetNode = (Node)target.adaptTo(Node.class);
-//			if (sourceNode == null) {
-//				log.error("Cannot access source node: " + source + ". Quit.");
-//				return;
-//			}
-//			if (targetNode == null) {
-//				log.error("Cannot access target node: " + target + ". Quit.");
-//				return;
-//			}
-
-//			String sourcePath = source.getPath();
-//			String targetPath = target.getPath();
-
-
-
-			if(relation.getStatus().isCancelled()){
-				if(configs !=null)
-				send((String)configs.get("emlTemplate"));
+			if (target == null) {
+				log.info("Target is null. Quit");
+				return;
+			}
+			Node sourceNode = (Node)source.adaptTo(Node.class);
+			Node targetNode = (Node)target.adaptTo(Node.class);
+			if (sourceNode == null) {
+				log.error("Cannot access source node: " + source + ". Quit.");
+				return;
+			}
+			if (targetNode == null) {
+				log.error("Cannot access target node: " + target + ". Quit.");
+				return;
+			}
+			LiveStatus status = relation.getStatus();
+			
+			if(status.isPage() && status.getAdvancedStatus("msm:isTargetCancelledChild")){
+				String sourcePath = source.getPath();
+				String targetPath = target.getPath();
+				String branch = getBranch(targetPath);
+					if(configs !=null){
+						log.info("**** GirlScoutsNotificationAction: sending email to "+branch+" *****");
+						send((String)configs.get("emlTemplate"),sourcePath,targetPath);
+					}
+				
 			}
 
 		}
+		
+		private final Pattern BRANCH_PATTERN = Pattern.compile("^(/content/[^/]+)/?");
+        private String getBranch(String path) throws WCMException {
+            Matcher matcher = BRANCH_PATTERN.matcher(path);
+            if (matcher.find()) {
+                return matcher.group().substring(9);
+            } else {
+                throw new WCMException("Cannot get branch: " + path);
+            }
+        }
 
-		public void send(String html) {
+		public void send(String html, String nationalPage, String councilPage) {
 
 			try {
 				MessageGateway<HtmlEmail> messageGateway = messageGatewayService
@@ -118,20 +129,9 @@ public class GirlScoutsNotificationActionFactory implements LiveActionFactory<Li
 
 				emailRecipients.add(new InternetAddress("cwu@northpointdigital.com"));
 
-
 				email.setSubject("GSUSA rollout notification");
 				String msg =html;
-				ResourceResolver resourceResolver = null;
-
-				//				try {
-				//					resourceResolver = resourceResolverFactory.getResourceResolver(null);
-				//				} catch (Exception e) {
-				//					log.error(e.getMessage());
-				//				}
-				//
-				//				Node msgNode = (Node)resourceResolver.resolve("/etc/msm/rolloutconfigs/gsdefault/jcr:content/gsReferencesUpdate").adaptTo(Node.class);
-				//				msg = msgNode.getProperty("msg").getString();
-				email.setHtmlMsg(html);
+				email.setHtmlMsg(html+"<p>National page URL: "+nationalPage +"</p><p>Your page URL: "+councilPage+"</p>");
 				if(!emailRecipients.isEmpty()){
 					email.setTo(emailRecipients);
 					messageGateway.send(email);
@@ -143,15 +143,6 @@ public class GirlScoutsNotificationActionFactory implements LiveActionFactory<Li
 
 		}
 
-		//		private static final Pattern BRANCH_PATTERN = Pattern.compile("^(/content/[^/]+)/?");
-		//		private String getBranch(String path) throws WCMException {
-		//			Matcher matcher = BRANCH_PATTERN.matcher(path);
-		//			if (matcher.find()) {
-		//				return matcher.group();
-		//			} else {
-		//				throw new WCMException("Cannot get level " + BRANCH_LEVEL + " branch: " + path);
-		//			}
-		//		}
 
 		public String getName() {
 			return name;

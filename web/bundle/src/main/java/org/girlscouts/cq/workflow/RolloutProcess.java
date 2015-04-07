@@ -101,14 +101,14 @@ public class RolloutProcess implements WorkflowProcess {
             for (LiveRelationship relation : relations) {
 
                 String targetPath = relation.getTargetPath();
-                if(targetPath.contains("join")){
-                	String targetPath2 = targetPath.substring(0, targetPath.lastIndexOf('/'));
-                	 Resource tgtRes = resourceResolver.resolve(targetPath2);
-                     Page tgtPage = (Page)tgtRes.adaptTo(Page.class);
-                     Map<String,Page> skipmap = relationManager.getSkippedSourcePages(tgtPage);
-                     System.out.println(skipmap);
-
-
+//                if(targetPath.contains("join")){
+//                	String targetPath2 = targetPath.substring(0, targetPath.lastIndexOf('/'));
+//                	 Resource tgtRes = resourceResolver.resolve(targetPath2);
+//                     Page tgtPage = (Page)tgtRes.adaptTo(Page.class);
+//                     Map<String,Page> skipmap = relationManager.getSkippedSourcePages(tgtPage);
+//                     System.out.println(skipmap);
+//
+//
 //                	Node startFunToday = (Node)resourceResolver.resolve(targetPath+"/content/middle/par/text_1").adaptTo(Node.class);
 //
 //                	try{               
@@ -118,8 +118,8 @@ public class RolloutProcess implements WorkflowProcess {
 //                	}
 //                	Resource scr = resourceResolver.resolve(targetPath+"/content/middle/par/text_1");
 //                	relationManager.endRelationship(scr, true); 
-
-                }
+//
+//                }
                 rolloutManager.rollout(resourceResolver, relation,false,true);
                 session.save();
                 // Remove jcr:content

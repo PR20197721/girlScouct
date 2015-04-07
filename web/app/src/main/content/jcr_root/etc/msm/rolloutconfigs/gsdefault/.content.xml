@@ -31,7 +31,7 @@
             enabled="true"/>
         <gsNotification
             jcr:primaryType="cq:LiveSyncAction"
-            emlTemplate="Dear Council, &#xa;It has been detected that one or more component(s) on the following page(s) has been modified by GSUSA. Please review and make any updates to content or simply reinstate the inheritance(s). If you choose to reinstate the inheritance(s) please be aware that you will be discarding your own changes (custom content) that have been made to this page and will immediately receive the new national content.&#xa;National page URL: /content/girlscouts-template/en/about-girl-scouts/who-we-are.html   &#x9;&#xa;Your page URL: https://www.nccoastalpines.org/en/about-girl-scouts/who-we-are.html&#xa;"
+            emlTemplate="Dear Council, &#xa;It has been detected that one or more component(s) on the following page(s) has been modified by GSUSA. Please review and make any updates to content or simply reinstate the inheritance(s). If you choose to reinstate the inheritance(s) please be aware that you will be discarding your own changes (custom content) that have been made to this page and will immediately receive the new national content."
             enabled="true"/>
     </jcr:content>
 </jcr:root>
