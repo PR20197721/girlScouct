@@ -109,6 +109,9 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 		} catch (Exception e) {
 		}
 		String redirectUrl;
+		
+		
+	System.err.println("tataxxx: "+ callbackUrl +" : " +targetUrl);	
 		if (config == null || config.getId() == null) {
 			redirectUrl = OAuthUrl
 					+ "/services/oauth2/authorize?prompt=login&response_type=code&client_id="

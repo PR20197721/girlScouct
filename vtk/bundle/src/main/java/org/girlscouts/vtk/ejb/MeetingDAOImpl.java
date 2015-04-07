@@ -570,6 +570,9 @@ public class MeetingDAOImpl implements MeetingDAO {
 			map.put("p.offset", "0"); // same as query.setStart(0) below
 			map.put("p.limit", "2000"); // same as query.setHitsPerPage(20)
 										// below
+			
+		System.err.println("tataxx: "+ resourceRootPath);
+		
 			com.day.cq.search.Query query = qBuilder.createQuery(
 					PredicateGroup.create(map), session);
 			query.setExcerpt(true);
