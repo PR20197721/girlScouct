@@ -113,7 +113,7 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 			redirectUrl = OAuthUrl
 					+ "/services/oauth2/authorize?prompt=login&response_type=code&client_id="
 					+ clientId + "&redirect_uri=" + callbackUrl + "&state="
-					+ targetUrl;
+					+ "644";
 		} else {
 			redirectUrl = targetUrl;
 		}
