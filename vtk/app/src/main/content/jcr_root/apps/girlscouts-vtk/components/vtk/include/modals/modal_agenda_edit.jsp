@@ -125,13 +125,7 @@
 		 <%} %>
 		</form>
 		</div>
-				<section class="row">
-					<%
-						if (_activity.getActivityDescription() != null && !_activity.getActivityDescription().isEmpty()) {
-							out.println("<div class=\"clearfix columns small-20 small-centered\">" + _activity.getActivityDescription() + "</div>");
-						}
-					%>
-				</section>
+				
 		</div>
 		<section class="row">
 			<%
