@@ -75,11 +75,11 @@ var displayCurrent = function(){
 
     currentPic.onload = function(){
 		currentDisplay.appendChild(currentPic);
-        currentUncropped.src = uncroppedPath + Date.now();
+        currentUncropped.src = uncroppedPath;
         currentUncropped.onload = function(){
         	uncroppedFound = true;
         	if(window.innerHeight > 340 && window.innerWidth > 960){
-            	displayButtons.appendChild(loadUncroppedButton);
+            	displayButtons.appendChild(loadUncropped);
         	}
             displayButtons.appendChild(newButton);
         }
@@ -93,7 +93,7 @@ var displayCurrent = function(){
         currentUncropped.onload = function(){
         	uncroppedFound = true;
         	if(window.innerHeight > 340 && window.innerWidth > 960){
-            	displayButtons.appendChild(loadUncroppedButton);
+            	displayButtons.appendChild(loadUncropped);
         	}
             displayButtons.appendChild(newButton);
         }
@@ -104,10 +104,9 @@ var displayCurrent = function(){
     }
 
     function loadUncropped(){
-    	uploadedCheck = true;
     	uncroppedInUse = true;
     	removeCurrent();
-    	resizeableImage(currentUncropped.src);
+		resizeableImage(currentUncropped.src);
     }
 
     function uploadNew(){
@@ -126,6 +125,12 @@ var removeCurrent = function(){
 
 var uploadInit = function(){
 
+    localMediaStream = null;
+    hasCamera = false;
+    uploadedCheck = false;
+    tookPic = false;
+    aspectWeirdness = false;
+
 	uploadTool = document.createElement("div");
     uploadTool.id = "upload-tool"
     uploadTool.style.display = "hidden";
@@ -143,7 +148,6 @@ var uploadInit = function(){
 
 	var video = document.createElement("video");
     video.autoplay = true;
-    video.setAttribute("width","100%");
     video.id = "video";
     video.style.maxWidth = $('#upload-tool').width() + "px";
 	video.style.maxHeight = $('#upload-tool').height() + "px";
@@ -221,7 +225,7 @@ var uploadInit = function(){
 					context.translate(-img.width * 0.5, -img.height * 0.5);
                 }
             	context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);
-            	if(window.innerWidth < 1220){
+                if(window.innerWidth < 1220){
     				canvas.style.maxWidth = window.innerWidth + "px";
            	 	}
             	else if(window.innerWidth > 1220){
@@ -395,6 +399,12 @@ var uploadInit = function(){
         }
     }
 
+    function cancel(){
+    	$('#upload-tool').remove();
+    	displayCurrent();
+    	cancelButton.removeEventListener('click',cancel);
+    }
+
     function submitUncropped(dataURL){   	
     	if(uncroppedFound){
     		var proceed = confirm("An existing uncropped image exists for this council. Are you sure you would like to save over it?");
@@ -503,14 +513,15 @@ var uploadInit = function(){
     retakeShot.addEventListener('click', retake, false);
     switchButton.addEventListener('click', switchCam, false);
     submitShot.addEventListener('click', resizeUpload, false);
+    cancelButton.addEventListener('click',cancel, false);
 }
 
 var resizeableImage = function(image_data){
 
 	croppingTool = document.createElement("div");
     croppingTool.id = "cropping-tool";
-    croppingTool.style.overflow = "hidden";
-    croppingTool.style.width = "100%";
+    croppingTool.style.overflow = "scroll";
+    croppingTool.style.minHeight = "344px";
     croppingTool.style.position = "relative";
 
 	var overlay = document.createElement("div");
@@ -556,10 +567,16 @@ var resizeableImage = function(image_data){
     croppingTool.appendChild(image_target);
 
     if(window.innerWidth < 960){
-		croppingTool.style.maxWidth = window.innerWidth + "px";
+		croppingTool.width = window.innerWidth;
+    }
+    else{
+		croppingTool.width = window.innerWidth;
     }
     if(window.innerHeight < 340){
-		croppingTool.style.maxHeight = window.innerHeight + "px";
+		croppingTool.height = window.innerHeight;
+    }
+    else{
+		croppingTool.style.height = window.innerHeight;
     }
 
     var $container,
@@ -568,7 +585,7 @@ var resizeableImage = function(image_data){
         event_state = {},
         constrain = false,
         min_width = 120, //change as required
-        min_height = 120,
+        min_height = 344,
         max_width = 1220, //change as required
         max_height = 1080,
         resize_canvas = document.createElement('canvas');
@@ -588,8 +605,6 @@ var resizeableImage = function(image_data){
         //Assign the container to a variable
         $container = $(image_target).parent('.resize-container');
 
-        $('#cropping-tool').css({"min-width": $('#cropping-tool').width(), "min-height": $('#cropping-tool').height()});
-
         overlayOffset();
 
         //Add events
@@ -598,6 +613,7 @@ var resizeableImage = function(image_data){
 
         submitCrop.addEventListener('click', crop, false);
         backToUpload.addEventListener('click', back, false);
+        cancelButton.addEventListener('click',cancel, false);
     };
 
     startResize = function(e){
@@ -833,9 +849,28 @@ var resizeableImage = function(image_data){
         $('#crop-buttons').remove();
         uploadTool.style.display = "block";
     }
+    
+    cancel = function(){
+    	cancelButton.removeEventListener('click',cancel);
+    	$('#cropping-tool').remove();
+    	$('#crop-buttons').remove();
+    	$('#upload-tool').remove();
+    	displayCurrent();
+    }
 
     $(window).resize(function() {
-        overlayOffset();
+        if(window.innerWidth < 960){
+            croppingTool.width = window.innerWidth;
+        }
+        else{
+            croppingTool.width = window.innerWidth;
+        }
+        if(window.innerHeight < 340){
+            croppingTool.height = window.innerHeight;
+        }
+        else{
+            croppingTool.height = window.innerHeight;
+        }
         if(aspectWeirdness){
 			if(image_target.width > image_target.height){
 				image_target.height = croppingTool.style.maxHeight.replace("px","");
@@ -849,18 +884,11 @@ var resizeableImage = function(image_data){
         if(window.innerHeight < 340 || window.innerWidth < 960){
 			back();
         }
+        overlayOffset();
     });
 
     init();
 };
-
-function cancel(){
-	cancelButton.removeEventListener('click',cancel);
-	$('#cropping-tool').remove();
-	$('#crop-buttons').remove();
-	$('#upload-tool').remove();
-	displayCurrent();
-}
 
 $(document).ajaxSuccess(function() {
   alert(successMsg);
@@ -871,7 +899,6 @@ $(document).ajaxSuccess(function() {
 });
 
 window.onload=function() {
-	cancelButton.addEventListener('click',cancel, false);
 	displayCurrent();
 }
 
