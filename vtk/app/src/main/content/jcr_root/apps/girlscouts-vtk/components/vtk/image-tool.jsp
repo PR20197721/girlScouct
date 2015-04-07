@@ -104,6 +104,7 @@ var displayCurrent = function(){
     }
 
     function loadUncropped(){
+    	var uploadedCheck = true;
     	uncroppedInUse = true;
     	removeCurrent();
 		resizeableImage(currentUncropped.src);
@@ -189,6 +190,13 @@ var uploadInit = function(){
     switchButton.style.display = "none";
 	var switchText = document.createTextNode("Switch to Camera");
     switchButton.appendChild(switchText);
+    
+    var rotateButton = document.createElement("button");
+    rotateButton.id = "rotate-button";
+    rotateButton.style.float = "left";
+    rotateButton.style.display = "none";
+    var rotateText = document.createTextNode("Rotate");
+    rotateButton.appendChild(rotateText);
 
     imageTool.appendChild(uploadTool);
 
@@ -200,6 +208,7 @@ var uploadInit = function(){
     uploadTool.appendChild(retakeShot);
     uploadTool.appendChild(submitShot);
     uploadTool.appendChild(switchButton);
+    uploadTool.appendChild(rotateButton);
     uploadTool.appendChild(cancelButton);
 
     if(window.innerHeight < 340 || window.innerWidth < 960){
@@ -253,17 +262,6 @@ var uploadInit = function(){
                 	canvas.width = img.width;
                 	canvas.height = img.height;
 
-                    if(window.orientation == 0 || window.orientation == 180){
-						/// translate so rotation happens at center of image
-                        context.translate(img.width * 0.5, img.height * 0.5);
-
-						/// rotate canvas context
-						context.rotate(0.5 * Math.PI); /// 90deg clock-wise
-
-						/// translate back so next draw op happens in upper left corner
-                        context.translate(-img.width * 0.5, -img.height * 0.5);
-                	}
-
                 	context.drawImage(img, 0, 0, img.width, img.height);
                 }
         	}
@@ -277,6 +275,7 @@ var uploadInit = function(){
     	if(hasCamera == true){
 			switchButton.style.display='block';
     	}
+    	rotateButton.style.display = 'block';
     	submitShot.style.display='block';
     	takeShot.style.display='none';
     	retakeShot.style.display='none';
@@ -290,6 +289,7 @@ var uploadInit = function(){
 		if(video.style.display == 'block' || tookPic){
 			video.style.display = 'none';
         	retakeShot.style.display='none';
+        	rotateButton.style.display='none';
         	takeShot.style.display='none';
 			switchButton.innerHTML = "Switch to camera";
 			if(img != null){
@@ -297,6 +297,7 @@ var uploadInit = function(){
             	canvas.height = img.height;
             	context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);
             	canvas.style.display = 'block';
+            	rotateButton.style.display = 'block';
             	submitShot.style.display='block';
         	}
         	tookPic = false;
@@ -305,8 +306,10 @@ var uploadInit = function(){
 			video.style.display = 'block';
 			takeShot.style.display='block';
         	canvas.style.display = 'none';
+        	rotateButton.style.display = 'none';
         	submitShot.style.display = 'none';
         	if(img != null){
+        		rotateButton.style.display = 'block';
         		switchButton.style.display='block';
         	}
 			switchButton.innerHTML = "Switch to uploaded image";
@@ -355,6 +358,7 @@ var uploadInit = function(){
         	video.style.display='none';
         	takeShot.style.display='none';
         	canvas.style.display='block';
+        	rotateButton.style.display = 'block';
 			retakeShot.style.display='block';
         	submitShot.style.display='block';
         	if(img != null){
@@ -369,6 +373,7 @@ var uploadInit = function(){
 	function retake() {
     	tookPic = false;
     	canvas.style.display='none';
+    	rotateButton.style.display = 'none';
     	retakeShot.style.display='none';
     	submitShot.style.display='none';
 		video.style.display='block';
@@ -380,6 +385,7 @@ var uploadInit = function(){
         if((window.innerHeight < 340 || window.innerWidth < 960) && submitShot.style.display == "block"){
             retakeShot.style.display = "none";
             switchButton.style.display = "none";
+            rotateButton.style.display = 'none';
             submitShot.disabled = true;
             text4.data = "Uploading...";
             submitUncropped(canvas.toDataURL("image/png",1.0));
@@ -423,6 +429,24 @@ var uploadInit = function(){
     	}
     }
     
+    function rotate(){
+    	context.clearRect ( 0 , 0 , canvas.width, canvas.height );
+    	/// translate so rotation happens at center of image
+		context.translate(img.width * 0.5, img.height * 0.5);
+
+		/// rotate canvas context
+		context.rotate(0.5 * Math.PI); /// 90deg clock-wise
+
+		/// translate back so next draw op happens in upper left corner
+		context.translate(-img.width * 0.5, -img.height * 0.5);
+		if(!aspectWeirdness){
+        	context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);
+        }
+        else{
+        	context.drawImage(img, 0, 0, img.width, img.height);
+        }
+    }
+    
     $(window).resize(function() {
         if(canvas.style.display == 'block'){
             if(window.innerWidth < 1220){
@@ -442,16 +466,6 @@ var uploadInit = function(){
     			context.putImageData(picData, 0, 0);
             }
             else if(!aspectWeirdness){
-                if(window.orientation == 0 || window.orientation == 180){
-					/// translate so rotation happens at center of image
-					context.translate(img.width * 0.5, img.height * 0.5);
-
-					/// rotate canvas context
-					context.rotate(0.5 * Math.PI); /// 90deg clock-wise
-
-					/// translate back so next draw op happens in upper left corner
-					context.translate(-img.width * 0.5, -img.height * 0.5);
-                }
         		context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);
             }
             else{
@@ -465,16 +479,6 @@ var uploadInit = function(){
                 }
                 canvas.width = img.width;
                 canvas.height = img.height;
-                if(window.orientation == 0 || window.orientation == 180){
-					/// translate so rotation happens at center of image
-					context.translate(img.width * 0.5, img.height * 0.5);
-
-					/// rotate canvas context
-					context.rotate(0.5 * Math.PI); /// 90deg clock-wise
-
-					/// translate back so next draw op happens in upper left corner
-					context.translate(-img.width * 0.5, -img.height * 0.5);
-                }
                 context.drawImage(img, 0, 0, img.width, img.height);
             }
         }
@@ -500,13 +504,14 @@ var uploadInit = function(){
     retakeShot.addEventListener('click', retake, false);
     switchButton.addEventListener('click', switchCam, false);
     submitShot.addEventListener('click', resizeUpload, false);
+    rotateButton.addEventListener('click', rotate, false);
 }
 
 var resizeableImage = function(image_data){
 
 	croppingTool = document.createElement("div");
     croppingTool.id = "cropping-tool";
-    croppingTool.style.overflow = "scroll";
+    croppingTool.style.overflow = "hidden";
     croppingTool.style.minHeight = "344px";
     croppingTool.style.position = "relative";
 
