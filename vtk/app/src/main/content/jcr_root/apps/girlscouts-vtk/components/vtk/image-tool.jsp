@@ -487,18 +487,20 @@ var uploadInit = function(){
                 context.drawImage(img, 0, 0, img.width, img.height);
             }
         }
-        if(window.innerHeight < 340 || window.innerWidth < 960){
-            if(submitShot.style.display == "block"){
-            	submitShot.style.display = "hidden";
-            }
-			text4.data = "Submit";
-        }
-        else if(window.innerHeight >= 340 || window.innerWidth >= 960){
-            if(submitShot.style.display == "hidden"){
-            	submitShot.style.display = "block";
-            }
-            text4.data = "Select this picture";
-        }
+        if(text4.data != "Uploading..."){}
+	        if(window.innerHeight < 340 || window.innerWidth < 960){
+	            if(submitShot.style.display == "block"){
+	            	submitShot.style.display = "hidden";
+	            }
+				text4.data = "Submit";
+	        }
+	        else if(window.innerHeight >= 340 || window.innerWidth >= 960){
+	            if(submitShot.style.display == "hidden"){
+	            	submitShot.style.display = "block";
+	            }
+	            text4.data = "Select this picture";
+	        }
+    	}
 
     });
 
