@@ -259,6 +259,7 @@ function addLocation(){
 			 loadLocMng();
 			//document.getElementById("err").innerHtml=result;
 			$("#addLocationForm").trigger("reset");
+			vtkTrackerPushAction('addLocation');
 			
 		}
 	});
@@ -342,6 +343,7 @@ function buildSched(){
 	
 	
 	viewProposedSched(calStartDt, calAP, z, calTime, _level, orgDt );
+	vtkTrackerPushAction('ChangeSchedule');
 }
 function buildSchedContr(calStartDt, calAP, z, calTime, _level, orgDt){	
 	
@@ -434,6 +436,7 @@ function rmCustActivity(x){
 			alert("Sorry.  Unable to remove activity: " + status);
 		}
 	});
+	vtkTrackerPushAction('removeActivity');
 }
 
 function createNewCustActivity(){	
@@ -475,6 +478,7 @@ function createNewCustActivity(){
 		},
 		success: function(result) {
 			location.reload();
+			vtkTrackerPushAction('createNewCustomActivity');
 		}
 	});
 }
@@ -517,6 +521,7 @@ function editNewCustActivity(activityUid){
 			//var x= new Date(newCustActivity_date + " "+ newCustActivity_startTime +" "+newCustActivity_startTime_AP);
 			//alert(x);
 			//-self.location="/content/girlscouts-vtk/en/vtk.planView.html?elem="+new Date(newCustActivity_date + " "+ newCustActivity_startTime +" "+newCustActivity_startTime_AP).getTime(); 
+			vtkTrackerPushAction('editCustomActivity');
 		}
 	});
 }
@@ -549,6 +554,7 @@ function searchActivity(){
 		"&existActivSLevl="+_level+
 		"&existActivSCat="+existActivSCat;
 	$("#listExistActivity").load("/content/girlscouts-vtk/controllers/vtk.controller.html?searchExistActivity=true"+ urlParam);
+	vtkTrackerPushAction('search');
 }
 
 $('#plan_hlp_hrf').click(function() {
@@ -713,6 +719,7 @@ function rmMeeting( rmDate, mid){
 		},
 		success: function(result) {
 			location.reload();
+			vtkTrackerPushAction('removeMeeting');
 		}
 	});
 }
