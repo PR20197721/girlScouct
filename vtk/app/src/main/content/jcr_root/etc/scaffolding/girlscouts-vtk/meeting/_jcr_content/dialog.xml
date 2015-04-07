@@ -39,15 +39,15 @@
                         <brownie
                             jcr:primaryType="nt:unstructured"
                             text="Brownie"
-                            value="brownie"/>
+                            value="Brownie"/>
                         <daisy
                             jcr:primaryType="nt:unstructured"
                             text="Daisy"
-                            value="daisy"/>
+                            value="Daisy"/>
                         <junior
                             jcr:primaryType="nt:unstructured"
                             text="Junior"
-                            value="junior"/>
+                            value="Junior"/>
                     </options>
                 </level>
                 <name
