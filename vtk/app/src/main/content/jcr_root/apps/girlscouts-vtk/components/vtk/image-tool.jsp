@@ -79,7 +79,7 @@ var displayCurrent = function(){
         currentUncropped.onload = function(){
         	uncroppedFound = true;
         	if(window.innerHeight > 340 && window.innerWidth > 960){
-            	displayButtons.appendChild(loadUncropped);
+            	displayButtons.appendChild(loadUncroppedButton);
         	}
             displayButtons.appendChild(newButton);
         }
@@ -93,7 +93,7 @@ var displayCurrent = function(){
         currentUncropped.onload = function(){
         	uncroppedFound = true;
         	if(window.innerHeight > 340 && window.innerWidth > 960){
-            	displayButtons.appendChild(loadUncropped);
+            	displayButtons.appendChild(loadUncroppedButton);
         	}
             displayButtons.appendChild(newButton);
         }
@@ -214,16 +214,6 @@ var uploadInit = function(){
             	img.src = readerEvent.target.result;
             	canvas.width = img.width;
             	canvas.height = img.height;
-                if(window.orientation == 0 || window.orientation == 180){
-					/// translate so rotation happens at center of image
-					context.translate(img.width * 0.5, img.height * 0.5);
-
-					/// rotate canvas context
-					context.rotate(0.5 * Math.PI); /// 90deg clock-wise
-
-					/// translate back so next draw op happens in upper left corner
-					context.translate(-img.width * 0.5, -img.height * 0.5);
-                }
             	context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);
                 if(window.innerWidth < 1220){
     				canvas.style.maxWidth = window.innerWidth + "px";
@@ -281,6 +271,7 @@ var uploadInit = function(){
         	uploadedCheck = true;
     	}
     	reader.readAsDataURL(imageEvent.target.files[0]);
+    	
     	canvas.style.display='block';
     	switchButton.innerHTML = "Switch to camera";
     	if(hasCamera == true){
@@ -487,7 +478,7 @@ var uploadInit = function(){
                 context.drawImage(img, 0, 0, img.width, img.height);
             }
         }
-        if(text4.data != "Uploading..."){}
+        if(text4.data != "Uploading..."){
 	        if(window.innerHeight < 340 || window.innerWidth < 960){
 	            if(submitShot.style.display == "block"){
 	            	submitShot.style.display = "hidden";
