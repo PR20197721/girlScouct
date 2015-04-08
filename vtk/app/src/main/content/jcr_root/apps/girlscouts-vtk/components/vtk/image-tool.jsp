@@ -519,6 +519,8 @@ var resizeableImage = function(image_data){
     croppingTool.id = "cropping-tool";
     croppingTool.style.overflow = "hidden";
     croppingTool.style.minHeight = "344px";
+    croppingTool.style.maxWidth = window.innerWidth + "px";
+    croppingTool.style.maxHeight = window.innerHeight + "px";
     croppingTool.style.position = "relative";
 
 	var overlay = document.createElement("div");
@@ -583,8 +585,8 @@ var resizeableImage = function(image_data){
         constrain = false,
         min_width = 120, //change as required
         min_height = 344,
-        max_width = 1220, //change as required
-        max_height = 1080,
+        max_width = $('#resize-image').width(), //change as required
+        max_height = $('#resize-image').height(),
         resize_canvas = document.createElement('canvas');
 
     init = function(){
@@ -610,6 +612,8 @@ var resizeableImage = function(image_data){
 
         submitCrop.addEventListener('click', crop, false);
         backToUpload.addEventListener('click', back, false);
+        
+        resizeImage(max_width, max_height);
     };
 
     startResize = function(e){
@@ -788,7 +792,7 @@ var resizeableImage = function(image_data){
         var overlay;
         var crop_canvas,
             left = $('.overlay').offset().left - $container.offset().left + (2 * window.scrollX),
-            top = $('.overlay').offset().top - $container.offset().top + (2 * window.scrollY),
+            top = $('.overlay').offset().top - $container.offset().top,
             width = $('.overlay').width(),
             height = $('.overlay').height();
 
@@ -798,7 +802,6 @@ var resizeableImage = function(image_data){
 
         crop_canvas.getContext('2d').drawImage(image_target, left, top, width, height, 0, 0, width, height);
         if(aspectWeirdness){
-        	left = left - (2*window.scrollX);
             aspectRatio = image_target.width/image_target.height;
             if(image_target.width > image_target.height){
 				image_target.height = croppingTool.style.maxHeight.replace("px","");
