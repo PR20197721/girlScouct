@@ -901,7 +901,6 @@ cancel = function(){
 
 $(document).ajaxSuccess(function() {
   alert(successMsg);
-  cancelButton.removeEventListener('click',cancel);
   $('#upload-tool').remove();
   $('#cropping-tool').remove();
   displayCurrent();
