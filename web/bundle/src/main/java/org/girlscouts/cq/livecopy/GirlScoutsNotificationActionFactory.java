@@ -1,8 +1,6 @@
 package org.girlscouts.cq.livecopy;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,14 +8,9 @@ import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.Value;
-import javax.jcr.nodetype.NodeType;
 import javax.mail.internet.InternetAddress;
 
 import org.apache.commons.mail.HtmlEmail;
-
-import com.day.cq.mailer.MessageGateway;
-import com.day.cq.mailer.MessageGatewayService;
-
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
@@ -30,12 +23,15 @@ import org.apache.sling.commons.json.io.JSONWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.WCMException;
 import com.day.cq.wcm.msm.api.ActionConfig;
 import com.day.cq.wcm.msm.api.LiveAction;
 import com.day.cq.wcm.msm.api.LiveActionFactory;
 import com.day.cq.wcm.msm.api.LiveRelationship;
 import com.day.cq.wcm.msm.api.LiveStatus;
+import com.day.cq.mailer.MessageGateway;
+import com.day.cq.mailer.MessageGatewayService;
 
 @SuppressWarnings("deprecation")
 @Component(metatype=false)
@@ -46,7 +42,7 @@ public class GirlScoutsNotificationActionFactory implements LiveActionFactory<Li
 	public MessageGatewayService messageGatewayService;
 
 	@Property(name="liveActionName")
-	static final String LIVE_ACTION_NAME = "gsNotification";
+	static final String[] LIVE_ACTION_NAME = {GirlScoutsNotificationAction.class.getSimpleName(),"gsNotification"};
 
 	public LiveAction createAction(Resource resource) throws WCMException {
 		ValueMap config;
@@ -55,11 +51,11 @@ public class GirlScoutsNotificationActionFactory implements LiveActionFactory<Li
 		} else {
 			config = resource.adaptTo(ValueMap.class);
 		}
-		return new GirlScoutsNotificationAction(config,LIVE_ACTION_NAME);
+		return new GirlScoutsNotificationAction(config,LIVE_ACTION_NAME[0]);
 	}
 
 	public String createsAction() {
-		return LIVE_ACTION_NAME;
+		return LIVE_ACTION_NAME[0];
 	}
 
 	private class GirlScoutsNotificationAction implements LiveAction {
@@ -82,6 +78,7 @@ public class GirlScoutsNotificationActionFactory implements LiveActionFactory<Li
 				log.info("Target is null. Quit");
 				return;
 			}
+
 			Node sourceNode = (Node)source.adaptTo(Node.class);
 			Node targetNode = (Node)target.adaptTo(Node.class);
 			if (sourceNode == null) {
@@ -94,11 +91,20 @@ public class GirlScoutsNotificationActionFactory implements LiveActionFactory<Li
 			}
 			LiveStatus status = relation.getStatus();
 			//one or more child components were unlocked on that page
-			if(status.isPage() && status.getAdvancedStatus("msm:isTargetCancelledChild")){
+			if(status!=null && status.isPage() && 
+					status.getAdvancedStatus("msm:isTargetCancelledChild")!=null && status.getAdvancedStatus("msm:isTargetCancelledChild")){
 				String sourcePath = source.getPath();
 				String targetPath = target.getPath();
 					if(configs !=null && configs.get("emlTemplate")!=null){
-						send((String)configs.get("emlTemplate"),sourcePath,targetPath);
+						String branch = getBranch(targetPath);
+						log.info("**** GirlScoutsNotificationAction: sending email to "+branch.substring(9)+" *****");
+						ResourceResolver resourceResolver = source.getResourceResolver();
+//						Session session = resolver.adaptTo(javax.jcr.Session.class);
+						Page homepage = resourceResolver.resolve(branch+"/en").adaptTo(Page.class);
+						ValueMap valuemap = homepage.getProperties();
+						String email1=(String)valuemap.get("email1");
+						String email2=(String)valuemap.get("email2");
+						send((String)configs.get("emlTemplate"),sourcePath,targetPath,email1,email2);
 					}else{
 						throw new WCMException("Email template configuration was not found under /etc/msm/rolloutconfigs/gsdefault/jcr:content/gsNotification");
 					}
@@ -117,10 +123,9 @@ public class GirlScoutsNotificationActionFactory implements LiveActionFactory<Li
             }
         }
 
-		public void send(String html, String nationalPage, String councilPage) throws WCMException{
+		public void send(String html, String nationalPage, String councilPage,String email1, String email2) 
+				throws WCMException{
 			
-			String branch = getBranch(councilPage);
-			log.info("**** GirlScoutsNotificationAction: sending email to "+branch.substring(9)+" *****");
 			try {
 				MessageGateway<HtmlEmail> messageGateway = messageGatewayService
 						.getGateway(HtmlEmail.class);
@@ -129,6 +134,10 @@ public class GirlScoutsNotificationActionFactory implements LiveActionFactory<Li
 				ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
 				
 				emailRecipients.add(new InternetAddress("cwu@northpointdigital.com"));
+				if(email1!=null && !email1.isEmpty())
+					emailRecipients.add(new InternetAddress(email1));
+				if(email2!=null && !email2.isEmpty())
+					emailRecipients.add(new InternetAddress(email2));
 
 				email.setSubject("GSUSA rollout notification");
 				html+="<p><b>National page URL: </b>"+getURL(nationalPage) +"&nbsp; &nbsp;</p>";
