@@ -108,10 +108,7 @@
 
 <script type="text/javascript"> 
 	$(document).ready( function(){
-		jQuery.validator.addMethod("gsEmail", function(value, element) { 
-			var emailFormat = /\S+@[A-Z]+\.[A-Z]+$/i;
-			return emailFormat.test(value); 
-		}, "The email format is invalid");
+		
 		jQuery.validator.addClassRules("financeAdminField", {
 			required: true
 		});
@@ -120,7 +117,7 @@
 			rules: { 
 				recipient: {
 					required: true,
-					gsEmail: true
+					email: true
 				} 
 			},
       		showErrors: function(errorMap, errorList) {
