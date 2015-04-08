@@ -104,7 +104,7 @@ var displayCurrent = function(){
     }
 
     function loadUncropped(){
-    	var uploadedCheck = true;
+    	uploadedCheck = true;
     	uncroppedInUse = true;
     	removeCurrent();
 		resizeableImage(currentUncropped.src);
@@ -381,11 +381,9 @@ var uploadInit = function(){
 	}
 
     function resizeUpload(){
-    	cancelButton.removeEventListener('click',cancel);
         if((window.innerHeight < 340 || window.innerWidth < 960) && submitShot.style.display == "block"){
             retakeShot.style.display = "none";
             switchButton.style.display = "none";
-            rotateButton.style.display = 'none';
             submitShot.disabled = true;
             text4.data = "Uploading...";
             submitUncropped(canvas.toDataURL("image/png",1.0));
@@ -439,6 +437,14 @@ var uploadInit = function(){
 
 		/// translate back so next draw op happens in upper left corner
 		context.translate(-img.width * 0.5, -img.height * 0.5);
+		
+		/*var oldCanvasWidth = canvas.width;
+		var oldImgWidth = img.width;
+		canvas.width = canvas.height;
+		canvas.height = oldCanvasWidth;
+		img.width = img.height;
+		img.height = oldImgWidth;*/
+		
 		if(!aspectWeirdness){
         	context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);
         }
@@ -781,8 +787,8 @@ var resizeableImage = function(image_data){
         //Find the part of the image that is inside the crop box
         var overlay;
         var crop_canvas,
-            left = $('.overlay').offset().left - $container.offset().left,
-            top = $('.overlay').offset().top - $container.offset().top,
+            left = $('.overlay').offset().left - $container.offset().left + (2 * window.scrollX),
+            top = $('.overlay').offset().top - $container.offset().top + (2 * window.scrollY),
             width = $('.overlay').width(),
             height = $('.overlay').height();
 
@@ -837,8 +843,19 @@ var resizeableImage = function(image_data){
     back = function(){
         $('#cropping-tool').remove();
         $('#crop-buttons').remove();
-        uploadTool.style.display = "block";
+        if(uncroppedInUse){
+        	uncroppedInUse = false;
+        	uploadInit();
+        }
+        else{
+        	uploadTool.style.display = "block";
+        	uploadTool.appendChild(cancelButton);
+        }       
     }
+    
+    $('#resize-image').load(function(){
+    	overlayOffset();
+    });
 
     $(window).resize(function() {
         if(window.innerWidth < 960){
@@ -873,7 +890,6 @@ var resizeableImage = function(image_data){
 };
 
 cancel = function(){
-	cancelButton.removeEventListener('click',cancel);
 	$('#cropping-tool').remove();
 	$('#crop-buttons').remove();
 	$('#upload-tool').remove();
