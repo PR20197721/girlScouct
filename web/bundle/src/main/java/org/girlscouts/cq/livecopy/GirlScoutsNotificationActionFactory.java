@@ -74,7 +74,6 @@ public class GirlScoutsNotificationActionFactory implements LiveActionFactory<Li
 		public void execute(Resource source, Resource target,
 				LiveRelationship relation, boolean autosave, boolean isResetRollout)
 						throws WCMException {
-			log.info("**** Executing GirlScoutsNotificationAction **** ");
 			if (source == null) {
 				log.info("Source is null. Quit");
 				return;
@@ -118,7 +117,7 @@ public class GirlScoutsNotificationActionFactory implements LiveActionFactory<Li
             }
         }
 
-		public void send(String html, String nationalPage, String councilPage) {
+		public void send(String html, String nationalPage, String councilPage) throws WCMException{
 			
 			String branch = getBranch(councilPage);
 			log.info("**** GirlScoutsNotificationAction: sending email to "+branch.substring(9)+" *****");
@@ -132,7 +131,9 @@ public class GirlScoutsNotificationActionFactory implements LiveActionFactory<Li
 				emailRecipients.add(new InternetAddress("cwu@northpointdigital.com"));
 
 				email.setSubject("GSUSA rollout notification");
-				email.setHtmlMsg(html+"<p>National page URL: "+getURL(nationalPage) +"</p><p>Your page URL: "+getURL(councilPage)+"</p>");
+				html+="<p><b>National page URL: </b>"+getURL(nationalPage) +"&nbsp; &nbsp;</p>";
+				html+="<p><b>Your page URL: </b>"+getURL(councilPage).replaceFirst("/content/([^/]+)","www.$1.org")+"</p>";
+				email.setHtmlMsg(html);
 				if(!emailRecipients.isEmpty()){
 					email.setTo(emailRecipients);
 					messageGateway.send(email);
