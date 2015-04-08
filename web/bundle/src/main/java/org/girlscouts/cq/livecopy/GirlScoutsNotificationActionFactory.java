@@ -94,14 +94,14 @@ public class GirlScoutsNotificationActionFactory implements LiveActionFactory<Li
 				return;
 			}
 			LiveStatus status = relation.getStatus();
-			
+			//one or more child components were unlocked on that page
 			if(status.isPage() && status.getAdvancedStatus("msm:isTargetCancelledChild")){
 				String sourcePath = source.getPath();
 				String targetPath = target.getPath();
-				String branch = getBranch(targetPath);
-					if(configs !=null){
-						log.info("**** GirlScoutsNotificationAction: sending email to "+branch+" *****");
+					if(configs !=null && configs.get("emlTemplate")!=null){
 						send((String)configs.get("emlTemplate"),sourcePath,targetPath);
+					}else{
+						throw new WCMException("Email template configuration was not found under /etc/msm/rolloutconfigs/gsdefault/jcr:content/gsNotification");
 					}
 				
 			}
@@ -112,35 +112,42 @@ public class GirlScoutsNotificationActionFactory implements LiveActionFactory<Li
         private String getBranch(String path) throws WCMException {
             Matcher matcher = BRANCH_PATTERN.matcher(path);
             if (matcher.find()) {
-                return matcher.group().substring(9);
+                return matcher.group();
             } else {
                 throw new WCMException("Cannot get branch: " + path);
             }
         }
 
 		public void send(String html, String nationalPage, String councilPage) {
-
+			
+			String branch = getBranch(councilPage);
+			log.info("**** GirlScoutsNotificationAction: sending email to "+branch.substring(9)+" *****");
 			try {
 				MessageGateway<HtmlEmail> messageGateway = messageGatewayService
 						.getGateway(HtmlEmail.class);
 
 				HtmlEmail email = new HtmlEmail();
 				ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
-
+				
 				emailRecipients.add(new InternetAddress("cwu@northpointdigital.com"));
 
 				email.setSubject("GSUSA rollout notification");
-				String msg =html;
-				email.setHtmlMsg(html+"<p>National page URL: "+nationalPage +"</p><p>Your page URL: "+councilPage+"</p>");
+				email.setHtmlMsg(html+"<p>National page URL: "+getURL(nationalPage) +"</p><p>Your page URL: "+getURL(councilPage)+"</p>");
 				if(!emailRecipients.isEmpty()){
 					email.setTo(emailRecipients);
 					messageGateway.send(email);
 				}
 
 			} catch (Exception e) {
-				e.printStackTrace();
+                throw new WCMException(e.getMessage(), e);
 			}
 
+		}
+		public String getURL(String path){
+			if (path.endsWith("/jcr:content")) {
+                path = path.substring(0, path.lastIndexOf('/'));
+            }
+			return path+".html";
 		}
 
 

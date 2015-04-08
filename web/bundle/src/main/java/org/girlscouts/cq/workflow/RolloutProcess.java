@@ -120,7 +120,7 @@ public class RolloutProcess implements WorkflowProcess {
 //                	relationManager.endRelationship(scr, true); 
 //
 //                }
-                rolloutManager.rollout(resourceResolver, relation,false,true);
+                rolloutManager.rollout(resourceResolver, relation, false, true);
                 session.save();
                 // Remove jcr:content
                 if (targetPath.endsWith("/jcr:content")) {
