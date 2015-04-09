@@ -16,7 +16,14 @@ if( !isAutoLogin ){
 		e.printStackTrace();
 	}
 	if( apiConfig==null ){
-		response.sendRedirect("/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signin");
+	    String redirectTo = "/content/girlscouts-vtk/controllers/auth.sfauth.html?action=signin";
+	    // GSWS-190 Add refererCouncil
+	    String refererCouncil = request.getParameter("refererCouncil");
+	    if (refererCouncil != null && !refererCouncil.isEmpty()) {
+	        redirectTo = redirectTo + "&refererCouncil=" + refererCouncil;
+	    }
+
+		response.sendRedirect(redirectTo);
 		return;
 	}
 	

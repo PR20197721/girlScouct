@@ -12,12 +12,21 @@
 	Design newCurrentDesign = null;
 
 	String councilId = null;
-	if (apiConfig != null) {
-	    if (apiConfig.getTroops().size() > 0) {
-	        councilId = Integer.toString(apiConfig.getTroops().get(0).getCouncilCode());
+
+	String branch = "";
+	try {
+	    councilId = Integer.toString(apiConfig.getTroops().get(0).getCouncilCode());
+   		branch = mapper.getCouncilBranch(councilId);
+	} catch (Exception e) {
+	    String refererCouncil = (String)session.getAttribute("refererCouncil");
+	    if (refererCouncil != null && !refererCouncil.isEmpty()) {
+	        branch = "/content/" + refererCouncil;
+	    } else {
+	        branch = mapper.getCouncilBranch();
 	    }
 	}
-   	String branch = mapper.getCouncilBranch(councilId);
+	    
+
    	// TODO: language
    	branch += "/en";
    	newCurrentPage = (Page)resourceResolver.resolve(branch).adaptTo(Page.class);
