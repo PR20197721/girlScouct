@@ -102,6 +102,13 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 	private void signIn(SlingHttpServletRequest request,
 			SlingHttpServletResponse response) {
 		HttpSession session = request.getSession();
+		
+		// Set referer council
+		String refererCouncil = request.getParameter("refererCouncil");
+		if (refererCouncil == null) {
+		    refererCouncil = "";
+		}
+		
 		ApiConfig config = null;
 		try {
 			config = (ApiConfig) session
@@ -113,7 +120,7 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 			redirectUrl = OAuthUrl
 					+ "/services/oauth2/authorize?prompt=login&response_type=code&client_id="
 					+ clientId + "&redirect_uri=" + callbackUrl + "&state="
-					+ targetUrl;
+					+ refererCouncil;
 		} else {
 			redirectUrl = targetUrl;
 		}
@@ -167,6 +174,10 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 						.get(0).getCouncilCode());
 				redirectUrl = councilMapper.getCouncilUrl(councilId);
 			} catch (Exception e) {
+			    String refererCouncil = (String)session.getAttribute("refererCouncil");
+			    if (refererCouncil != null  && !refererCouncil.isEmpty()) {
+			        redirectUrl = "/content/" + refererCouncil + "/";
+			    }
 			}
 		}
 
@@ -197,6 +208,12 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 			SlingHttpServletResponse response) {
 		HttpSession session = request.getSession();
 
+		// save refererCouncil
+		String refererCouncil = request.getParameter("state");
+		if (refererCouncil != null && !refererCouncil.isEmpty()) {
+		    session.setAttribute("refererCouncil", refererCouncil);
+		}
+		
 		ApiConfig apiConfig = null;
 		try {
 			apiConfig = (ApiConfig) session.getAttribute(ApiConfig.class
