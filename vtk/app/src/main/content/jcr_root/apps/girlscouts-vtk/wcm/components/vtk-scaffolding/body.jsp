@@ -335,7 +335,7 @@
                 ****************************************/
                 
                 if(!isUpdate){
-					var level = frm.findField("./level").getValue();
+					var level = frm.findField("./level").getValue().toLowerCase();
                 	var type = frm.findField("./ocm_classname").getValue();
                 	var id;
                 	if (type === 'org.girlscouts.vtk.models.YearPlan') {
