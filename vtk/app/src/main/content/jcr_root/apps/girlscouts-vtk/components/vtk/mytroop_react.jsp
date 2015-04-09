@@ -39,7 +39,7 @@
 <%@include file='include/modals/modal_upload_img.jsp' %>
 
   <div class="hero-image">
-    <%
+   <!-- <%
             if (!resourceResolver.resolve(troopPhotoUrl).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 		if (request.getParameter("newTroopPhoto") != null) {
 			Random r  = new Random();
@@ -54,7 +54,8 @@
         <%} %>
     <%
     	}
-    %>
+    %> -->
+    <%@include file="image-tool.jsp"%>
   </div>
 
 <%if(hasPermission(troop, Permission.PERMISSION_canViewOwnChildDetail_TROOP_ID)){ %>

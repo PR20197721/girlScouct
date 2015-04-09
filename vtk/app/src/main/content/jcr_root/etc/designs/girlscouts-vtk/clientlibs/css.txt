@@ -6,3 +6,4 @@ themes_smoothness_jquery-ui.css
 vtk-style.css
 print.css
 image-tool.css
+imgareaselect-animated.css

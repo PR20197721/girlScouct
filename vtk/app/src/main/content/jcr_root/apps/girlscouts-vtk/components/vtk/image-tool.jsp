@@ -21,8 +21,9 @@ var aspectWeirdness = false; //applies to mobile safari, which has resizing issu
 var aspectRatio = 1;
 var resizeImageInstance;
 var successMsg = "You image has been uploaded. ";
-var uncroppedFound = false;
-var uncroppedInUse = false;
+
+var maxWidth = 1920;
+var maxHeight = 680;
 
     //Webcam support for laptop/some devices
 
@@ -33,11 +34,8 @@ navigator.getUserMedia = ( navigator.getUserMedia ||
                        navigator.msGetUserMedia);
 
 var imgPath = "<%= "/content/dam/girlscouts-vtk/camera-test/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png?" %>";
-var uncroppedPath = "<%= "/content/dam/girlscouts-vtk/camera-test/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic_uncropped.png?" %>";
 
 var displayCurrent = function(){
-	uncroppedFound = false;
-	uncroppedInUse = false;
     currentDisplay = document.createElement("div");
     currentDisplay.id = "current-display";
     var currentPic = document.createElement("img");
@@ -49,24 +47,20 @@ var displayCurrent = function(){
     
     currentPic.src = imgPath + Date.now();
     currentPic.style.float = "left";
-    var currentUncropped = document.createElement("img");
 
     var displayButtons = document.createElement("div");
     displayButtons.id="display-buttons";
     displayButtons.style.float = "left";
     displayButtons.style.clear = "both";
-
-    var loadUncroppedButton = document.createElement("button");
-	loadUncroppedButton.id = "load-uncropped";
-	var loadText = document.createTextNode("Uncropped Image Found");
-    loadUncroppedButton.appendChild(loadText);
+    displayButtons.style.overflow = "hidden";
 
     var newButton = document.createElement("button");
 	newButton.id = "new-image";
 	var newButtonText = document.createTextNode("Upload New Image");
     newButton.appendChild(newButtonText);
+    
+    displayButtons.appendChild(newButton);
 
-    loadUncroppedButton.addEventListener('click', loadUncropped, false);
     newButton.addEventListener('click', uploadNew, false);
 
     var clearBoth = document.createElement("div");
@@ -75,39 +69,10 @@ var displayCurrent = function(){
 
     currentPic.onload = function(){
 		currentDisplay.appendChild(currentPic);
-        currentUncropped.src = uncroppedPath + Date.now();
-        currentUncropped.onload = function(){
-        	uncroppedFound = true;
-        	if(window.innerHeight > 340 && window.innerWidth > 960){
-            	displayButtons.appendChild(loadUncroppedButton);
-        	}
-            displayButtons.appendChild(newButton);
-        }
-        currentUncropped.onerror = function(){
-            displayButtons.appendChild(newButton);
-        }
         currentDisplay.appendChild(displayButtons);
     }
     currentPic.onerror = function(){
-		currentUncropped.src = uncroppedPath;
-        currentUncropped.onload = function(){
-        	uncroppedFound = true;
-        	if(window.innerHeight > 340 && window.innerWidth > 960){
-            	displayButtons.appendChild(loadUncroppedButton);
-        	}
-            displayButtons.appendChild(newButton);
-        }
-        currentUncropped.onerror = function(){
-			displayButtons.appendChild(newButton);
-        }
         currentDisplay.appendChild(displayButtons);
-    }
-
-    function loadUncropped(){
-    	uploadedCheck = true;
-    	uncroppedInUse = true;
-    	removeCurrent();
-		resizeableImage(currentUncropped.src);
     }
 
     function uploadNew(){
@@ -153,12 +118,12 @@ var uploadInit = function(){
     video.style.maxWidth = $('#upload-tool').width() + "px";
 	video.style.maxHeight = $('#upload-tool').height() + "px";
     video.style.display = "none";
-
+    
 	var canvas = document.createElement("canvas");
     canvas.id = "canvas";
     canvas.setAttribute("width","100%");
-    canvas.style.maxWidth = "1220px"; 
-	canvas.style.maxHeight = "1080px";
+    canvas.style.maxWidth = maxWidth + "px"; 
+	canvas.style.maxHeight = maxHeight + "px";
     canvas.style.display = "none";
 
     var context = canvas.getContext('2d');
@@ -197,6 +162,10 @@ var uploadInit = function(){
     rotateButton.style.display = "none";
     var rotateText = document.createTextNode("Rotate");
     rotateButton.appendChild(rotateText);
+    
+    var uploadButtons = document.createElement("div");
+    uploadButtons.id = "upload-buttons";
+    uploadButtons.style.overflow = "hidden";
 
     imageTool.appendChild(uploadTool);
 
@@ -204,16 +173,13 @@ var uploadInit = function(){
 	uploadTool.appendChild(imageLoader);
     uploadTool.appendChild(video);
     uploadTool.appendChild(canvas);
-    uploadTool.appendChild(takeShot);
-    uploadTool.appendChild(retakeShot);
-    uploadTool.appendChild(submitShot);
-    uploadTool.appendChild(switchButton);
-    uploadTool.appendChild(rotateButton);
-    uploadTool.appendChild(cancelButton);
-
-    if(window.innerHeight < 340 || window.innerWidth < 960){
-		text4.data = "Submit";
-    }
+    uploadTool.appendChild(uploadButtons);
+    uploadButtons.appendChild(takeShot);
+    uploadButtons.appendChild(retakeShot);
+    uploadButtons.appendChild(submitShot);
+    uploadButtons.appendChild(switchButton);
+    uploadButtons.appendChild(rotateButton);
+    uploadButtons.appendChild(cancelButton);
 
     function handleImage(imageEvent){
     	var reader = new FileReader();
@@ -224,44 +190,29 @@ var uploadInit = function(){
             	canvas.width = img.width;
             	canvas.height = img.height;
             	context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);
-                if(window.innerWidth < 1220){
-    				canvas.style.maxWidth = window.innerWidth + "px";
+                if(window.innerWidth < maxWidth){
+    				canvas.width = window.innerWidth;
            	 	}
-            	else if(window.innerWidth > 1220){
-    				canvas.style.maxWidth = "1220px";
+            	else if(window.innerWidth > maxWidth){
+    				canvas.width = maxWidth;
             	}
-            	if(window.innerHeight < 1080){
-    				canvas.style.maxHeight = window.innerHeight + "px";
+            	if(window.innerHeight < maxHeight){
+    				canvas.height = window.innerHeight;
             	}
-    			else if(window.innerHeight > 1080){
-    				canvas.style.maxHeight = "1080px";
+    			else if(window.innerHeight > maxHeight){
+    				canvas.height = maxHeight;
             	}
             	if(canvas.toDataURL() == "data:,"){//mobile safari
                 	aspectWeirdness = true;
                 	aspectRatio = img.width/img.height;
-                	if(window.innerWidth < 1220){
-    					canvas.style.maxWidth = window.innerWidth + "px";
-            		}
-            		else if(window.innerWidth > 1220){
-    					canvas.style.maxWidth = "1220px";
-            		}
-            		if(window.innerHeight < 1080){
-    					canvas.style.maxHeight = window.innerHeight + "px";
-            		}
-    				else if(window.innerHeight > 1080){
-    					canvas.style.maxHeight = "1080px";
-            		}
                 	if(img.width > img.height){
-    					img.height = canvas.style.maxHeight.replace("px","");
+    					img.height = canvas.height;
                     	img.width = img.height*aspectRatio;
                 	}
                 	else{
-    					img.width = canvas.style.maxWidth.replace("px","");
+    					img.width = canvas.width;
                 		img.height = img.width/aspectRatio;
                 	}
-                	canvas.width = img.width;
-                	canvas.height = img.height;
-
                 	context.drawImage(img, 0, 0, img.width, img.height);
                 }
         	}
@@ -381,50 +332,8 @@ var uploadInit = function(){
 	}
 
     function resizeUpload(){
-        if((window.innerHeight < 340 || window.innerWidth < 960) && submitShot.style.display == "block"){
-            retakeShot.style.display = "none";
-            switchButton.style.display = "none";
-            submitShot.disabled = true;
-            text4.data = "Uploading...";
-            submitUncropped(canvas.toDataURL("image/png",1.0));
-        }
-        else{
-            uploadTool.style.display = "none";
-        	resizeableImage(canvas.toDataURL("image/png",1.0));
-        }
-    }
-
-    function submitUncropped(dataURL){   	
-    	if(uncroppedFound){
-    		var proceed = confirm("An existing uncropped image exists for this council. Are you sure you would like to save over it?");
-    		if(proceed == false){
-    			cancel();
-    			return null;
-    		}
-    	}
-    	
-		var dataURL = canvas.toDataURL("image/png",1.0); //change the second parameter to reduce quality
-    	if(!tookPic && !uploadedCheck){
-    		alert("Image Error: no image data detected");
-    	}
-    	else{
-    		tookPic = false;
-
-    		if (!Date.now) {
-    			Date.now = function() { return new Date().getTime(); }
-			}
-
-            successMsg = "Your browser window is too small for the image cropping tool. Your picture will be stored but not set, and can be accessed from the My Troop VTK Page."; 
-	
-			$.ajax({
-  				method: "POST",
-    	    	url: "/content/girlscouts-vtk/controllers/vtk.include.imageStore.html?" + Date.now(), //random string to prevent ajax caching
-                data: { imageData: dataURL, uncropped: "true" }
-			})
-  			.done(function( msg ) {
-    	    	console.log( "Uploaded");
-  			});
-    	}
+        uploadTool.style.display = "none";
+        resizeableImage(canvas.toDataURL("image/png",1.0));
     }
     
     function rotate(){
@@ -488,20 +397,6 @@ var uploadInit = function(){
                 context.drawImage(img, 0, 0, img.width, img.height);
             }
         }
-        if(text4.data != "Uploading..."){
-	        if(window.innerHeight < 340 || window.innerWidth < 960){
-	            if(submitShot.style.display == "block"){
-	            	submitShot.style.display = "hidden";
-	            }
-				text4.data = "Submit";
-	        }
-	        else if(window.innerHeight >= 340 || window.innerWidth >= 960){
-	            if(submitShot.style.display == "hidden"){
-	            	submitShot.style.display = "block";
-	            }
-	            text4.data = "Select this picture";
-	        }
-    	}
 
     });
 
@@ -517,16 +412,8 @@ var resizeableImage = function(image_data){
 
 	croppingTool = document.createElement("div");
     croppingTool.id = "cropping-tool";
-    croppingTool.style.overflow = "hidden";
-    croppingTool.style.minHeight = "344px";
     croppingTool.style.maxWidth = window.innerWidth + "px";
     croppingTool.style.position = "relative";
-
-	var overlay = document.createElement("div");
-    overlay.className = "overlay";
-
-	var overlayInner = document.createElement("div");
-    overlayInner.className = "overlay-inner";
 
 	var backToUpload = document.createElement("button");
     backToUpload.id = "back-button";
@@ -549,9 +436,6 @@ var resizeableImage = function(image_data){
     imageTool.appendChild(croppingTool);
     imageTool.appendChild(cropButtons);
 
-    croppingTool.appendChild(overlay);
-    overlay.appendChild(overlayInner);
-
     cropButtons.appendChild(backToUpload);
     cropButtons.appendChild(submitCrop);
     
@@ -563,238 +447,30 @@ var resizeableImage = function(image_data){
 
     croppingTool.appendChild(image_target);
 
-    if(window.innerWidth < 960){
-		croppingTool.width = window.innerWidth;
-		croppingTool.style.width = window.innerWidth + "px";
-    }
-    else{
-		croppingTool.width = window.innerWidth;
-		croppingTool.style.width = window.innerWidth + "px";
-    }
-    if(window.innerHeight < 340){
-		croppingTool.height = window.innerHeight;
-		croppingTool.style.height = window.innerHeight + "px";
-    }
-    else{
-    	croppingTool.height = window.innerHeight;
-		croppingTool.style.height = window.innerHeight + "px";
-		
-    }
-
-    var $container,
-        orig_src = new Image(),
-        image_target = $(image_target).get(0),
-        event_state = {},
-        constrain = true,
-        min_width = 192, //change as required
-        min_height = 68,
-        max_width = window.innerWidth, //change as required
-        max_height = window.innerHeight,
-        resize_canvas = document.createElement('canvas');
-
     init = function(){
 
-        //When resizing, we will always use this copy of the original as the base
-        orig_src.src = image_target.src;
-
-        //Wrap the image with the container and add resize handles
-        $(overlay).wrap('<div class="resize-container"></div>')
-    .before('<span class="resize-handle resize-handle-nw"></span>')
-    .before('<span class="resize-handle resize-handle-ne"></span>')
-    .after('<span class="resize-handle resize-handle-se"></span>')
-    .after('<span class="resize-handle resize-handle-sw"></span>');
-
-        //Assign the container to a variable
-        $container = $(overlay).parent('.resize-container');
-        
-        orig_overlay_w = $(overlay).width();
-        orig_overlay_h = $(overlay).height();
-        
-        image_target.style.position = "absolute";
-        $container.css({position: "absolute"});
-        
-        $container.css({top: "50%", left: "50%"});
-
-        overlayOffset();
-
-        //Add events
-        $container.on('mousedown touchstart', '.resize-handle', startResize);
-        $container.on('mousedown touchstart', '.overlay', startMoving);
+    	$('#resize-image').imgAreaSelect({
+    		handles: true,
+    		aspectRatio: "48:17",
+    		onSelectChange: storeCoords,
+    		parent: "#cropping-tool"
+    	});
 
         submitCrop.addEventListener('click', crop, false);
         backToUpload.addEventListener('click', back, false);
         
-        $container.width($(overlay).width());
-        $container.height($(overlay).height());
     };
-
-    startResize = function(e){
-		e.preventDefault();
-        e.stopPropagation();
-        saveEventState(e);
-        $(document).on('mousemove touchmove', resizing);
-        $(document).on('mouseup touchend', endResize);
-    };
-
-    endResize = function(e){
-		e.preventDefault();
-        $(document).off('mouseup touchend', endResize);
-        $(document).off('mousemove touchmove', resizing);
-    };
-
-    saveEventState = function(e){
-        //Save the initial event details and container state
-        event_state.container_width = $container.width();
-        event_state.container_height = $container.height();
-        event_state.container_left = $container.offset().left;
-        event_state.container_top = $container.offset().top;
-        event_state.mouse_x = (e.clientX || e.pageX || e.originalEvent.touches[0].clientX) + $(window).scrollLeft();
-        event_state.mouse_y = (e.clientY || e.pageY || e.originalEvent.touches[0].clientY) + $(window).scrollTop();
-
-        //This is a fix for mobile safari
-        //For some reason it does not allow a direct copy of the touches property
-        if(typeof e.originalEvent.touches != 'undefined'){
-            event_state.touches = [];
-            $.each(e.originalEvent.touches, function(i, ob){
-                event_state.touches[i] = {};
-                event_state.touches[i].clientX = 0+ob.clientX;
-                event_state.touches[i].clientY = 0+ob.clientY;
-            });
-        }
-
-        event_state.evnt = e;
-    };
-
-    resizing = function(e){
-        var mouse = {},width,height,left,top,offset=$container.offset();
-        if(e.originalEvent.touches != undefined){
-            if(e.originalEvent.touches[0] != undefined){
-                mouse.x = (e.clientX || e.pageX || e.originalEvent.touches[0].clientX) + $(window).scrollLeft();
-                mouse.y = (e.clientY || e.pageY || e.originalEvent.touches[0].clientY) + $(window).scrollTop();
-            }
-        }
-        else{
-            mouse.x = (e.clientX || e.pageX) + $(window).scrollLeft();
-            mouse.y = (e.clientY || en.pageY) + $(window).scrollTop();
-        }
-
-        //Position image differently depending on the corner dragged and constraints
-        if( $(event_state.evnt.target).hasClass('resize-handle-se') ){
-            width = mouse.x - event_state.container_left;
-            height = mouse.y - event_state.container_top;
-            left = event_state.container_left;
-            top = event_state.container_top;
-        } else if($(event_state.evnt.target).hasClass('resize-handle-sw')){
-            width = event_state.container_width - (mouse.x - event_state.container_left);
-            height = mouse.y - event_state.container_top;
-            left = mouse.x;
-            top = event_state.container_top;
-        } else if($(event_state.evnt.target).hasClass('resize-handle-nw')){
-            width = event_state.container_width - (mouse.x - event_state.container_left);
-            height = event_state.container_height - (mouse.y - event_state.container_top);
-            left = mouse.x;
-            top = mouse.y;
-            if(constrain || e.shiftKey){
-                top = mouse.y - ((width / orig_overlay_w * orig_overlay_h) - height);
-            }
-        } else if($(event_state.evnt.target).hasClass('resize-handle-ne')){
-            width = mouse.x - event_state.container_left;
-            height = event_state.container_height - (mouse.y - event_state.container_top);
-            left = event_state.container_left;
-            top = mouse.y;
-            if(constrain || e.shiftKey){
-                top = mouse.y - ((width / orig_overlay_w * orig_overlay_h) - height);
-            }
-        }
-
-        //Optionally maintain aspect ratio
-        if(constrain || e.shiftKey){
-            height = width / orig_overlay_w * orig_overlay_h;
-        }
-
-        if(width > min_width && height > min_height && width < max_width && height < max_height){
-            //To improve performance you might limit how often resizeImage() is called
-            resizeImage(width,height);
-            //Without this Firefox will not recalculate the image dimensions until drag end
-            $container.offset({'left': left, 'top': top});
-        }
-        else{
-        	console.log("width: " + width + ", height: " + height + ", min_width: " + min_width + ", min_height: " + min_height + ", max_width: " + max_width + ", max_height: " + max_height);
-        }
-    }
-
-    resizeImage = function(width, height){
-        $container.width(width);
-        $container.height(height);
-        //resize_canvas.getContext('2d').drawImage(orig_src, 0, 0, width, height);
-        //$(image_target).attr('src', resize_canvas.toDataURL("image/png"));
-    };
-
-    overlayOffset = function(){
-		var overTop = ($('#cropping-tool').height() - $('.overlay').height())/(2 * $('#cropping-tool').height()) * 100;
-        overTop = overTop + "%";
-        var overLeft = ($('#cropping-tool').width() - $('.overlay').width())/(2 * $('#cropping-tool').width()) * 100;
-        overLeft = overLeft + "%";
-        $('.resize-container').css({top: overTop, left: overLeft});
-    };
-
-    startMoving = function(e){
-        e.preventDefault();
-        e.stopPropagation();
-        saveEventState(e);
-        $(document).on('mousemove touchmove', moving);
-        $(document).on('mouseup touchend', endMoving);
-    };
-
-    endMoving = function(e){
-		e.preventDefault();
-        $(document).off('mouseup touchend', endMoving);
-        $(document).off('mousemove touchmove', moving);
-    };
-
-    moving = function(e){
-        var mouse={}, touches;
-        e.preventDefault();
-        e.stopPropagation();
-
-        touches = e.originalEvent.touches;
-        if(touches != undefined){
-            if(touches[0] != undefined){
-                mouse.x = (e.clientX || e.pageX || touches[0].clientX) + $(window).scrollLeft();
-                mouse.y = (e.clientY || e.pageY || touches[0].clientY) + $(window).scrollTop();
-            }
-        }
-        else{
-            mouse.x = (e.clientX || e.pageX) + $(window).scrollLeft();
-            mouse.y = (e.clientY || e.pageY) + $(window).scrollTop();
-        }
-        $container.offset({
-            'left': mouse.x - (event_state.mouse_x - event_state.container_left),
-            'top': mouse.y - (event_state.mouse_y - event_state.container_top)
-        });
-
-        //Watch for pinch zoom gesture qhile moving
-        if(event_state.touches && event_state.touches.length > 1 && touches.length > 1){
-            var width = event_state.container_width, height = event_state.container_height;
-            var a = event_state.touches[0].clientX - event_state.touches[1].clientX;
-            a = a * a;
-            var b = event_state.touches[0].clientY - event_state.touches[1].clientY;
-            b = b * b;
-            var dist1 = Math.sqrt(a + b);
-
-            a = e.originalEvent.touches[0].clientX - touches[1].clientX;
-            a = a * a;
-            b = e.originalEvent.touches[0].clientY - touches[1].clientY;
-            b = b * b;
-            var dist2 = Math.sqrt(a + b);
-
-            var ratio = dist2/dist1;
-
-            width = width * ratio;
-            height = height * ratio;
-            //To improve performance you might limit how often resizeImage() is called
-            resizeImage(width, height);
-        }
+    
+    var x1, x2, y1, y2, width, height;
+    
+    storeCoords = function(img, selection){
+    	console.log(x1 + "," + y1 + " -> " + x2 + "," + y2);
+    	x1 = selection.x1;
+    	x2 = selection.x2;
+    	y1 = selection.y1;
+    	y2 = selection.y2;
+    	width = selection.width;
+    	height = selection.height;
     };
 
     crop = function(){
@@ -803,37 +479,13 @@ var resizeableImage = function(image_data){
         }
 		$('#upload-tool').remove();
 
-        //Find the part of the image that is inside the crop box
-        var overlay;
-        var crop_canvas,
-            left = $('.overlay').offset().left - $container.offset().left + (2 * window.scrollX),
-            top = $('.overlay').offset().top - $container.offset().top,
-            width = $('.overlay').width(),
-            height = $('.overlay').height();
-
-        crop_canvas = document.createElement('canvas');
-        crop_canvas.width = width;
-        crop_canvas.height = height;
-
-        crop_canvas.getContext('2d').drawImage(image_target, left, top, width, height, 0, 0, width, height);
-        if(aspectWeirdness){
-            aspectRatio = image_target.width/image_target.height;
-            if(image_target.width > image_target.height){
-				image_target.height = croppingTool.style.maxHeight.replace("px","");
-                image_target.width = image_target.height*aspectRatio;
-            }
-            else{
-				image_target.width = croppingTool.style.maxWidth.replace("px","");
-            	image_target.height = image_target.width/aspectRatio;
-            }
-            crop_canvas.width = image_target.width;
-            crop_canvas.height = image_target.height;
-            crop_canvas.getContext('2d').drawImage(image_target, left, top, width, height, 0, 0, width, height);
-        }
-        upload(crop_canvas.toDataURL("image/png"));
+        upload();
     };
 
-    upload = function(dataURL){
+    upload = function(){
+    	
+    	var dataURL = image_target.src;
+    	
 		if(!tookPic && !uploadedCheck){
     		alert("Image Error: no image data detected");
     	}
@@ -846,15 +498,20 @@ var resizeableImage = function(image_data){
     		if (!Date.now) {
     			Date.now = function() { return new Date().getTime(); }
 			}
+    		
+    		var coordsArray = [x1, y1, x2, y2, width, height];
 
 			$.ajax({
   				method: "POST",
     	   		url: "/content/girlscouts-vtk/controllers/vtk.include.imageStore.html?" + Date.now(), //random string to prevent ajax caching
-    	    	data: { imageData: dataURL, deleteUncropped: uncroppedInUse.toString() }
+    	    	data: { imageData: dataURL, coords: coordsArray.toString() }
 			})
   			.done(function( msg ) {
-  				uncroppedInUse =false;
     	   		console.log( "Uploaded");
+  			})
+  			.fail(function(msg){
+  				alert("Upload failed");
+  				cancel();
   			});
     	};
 	}
@@ -862,53 +519,12 @@ var resizeableImage = function(image_data){
     back = function(){
         $('#cropping-tool').remove();
         $('#crop-buttons').remove();
-        if(uncroppedInUse){
-        	uncroppedInUse = false;
-        	uploadInit();
-        }
-        else{
-        	uploadTool.style.display = "block";
-        	uploadTool.appendChild(cancelButton);
-        }       
+        uploadTool.style.display = "block";
+        uploadTool.appendChild(cancelButton);  
     }
-    
-    $('#resize-image').load(function(){
-    	overlayOffset();
-    });
 
     $(window).resize(function() {
-        if(window.innerWidth < 960){
-            croppingTool.width = window.innerWidth;
-            croppingTool.style.width = window.innerWidth + "px";
-        }
-        else{
-            croppingTool.width = window.innerWidth;
-            croppingTool.style.width = window.innerWidth + "px";
-        }
-        if(window.innerHeight < 340){
-            croppingTool.height = window.innerHeight;
-            croppingTool.style.height = window.innerHeight + "px";
-        }
-        else{
-            croppingTool.height = window.innerHeight;
-            croppingTool.style.height = window.innerHeight + "px";
-        }
-        if(aspectWeirdness){
-			if(image_target.width > image_target.height){
-				image_target.height = croppingTool.style.maxHeight.replace("px","");
-                image_target.width = image_target.height*aspectRatio;
-            }
-            else{
-				image_target.width = croppingTool.style.maxWidth.replace("px","");
-            	image_target.height = image_target.width/aspectRatio;
-            }
-        }
-        if(window.innerHeight < 340 || window.innerWidth < 960){
-			back();
-        }
-        //$container.width($('#cropping-tool').width());
-        //$container.height($('#cropping-tool').height());
-        //overlayOffset();
+        croppingTool.style.maxWidth = window.innerWidth;
     });
 
     init();

@@ -1,5 +1,5 @@
-<%@page import="java.util.Comparator,org.codehaus.jackson.map.ObjectMapper,org.joda.time.LocalDate,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*,
-                org.girlscouts.vtk.modifiedcheck.ModifiedChecker, com.day.cq.commons.jcr.JcrUtil, org.apache.commons.codec.binary.Base64, com.day.cq.commons.ImageHelper, com.day.image.Layer, java.io.ByteArrayInputStream"%>
+<%@page import="java.util.Comparator,org.codehaus.jackson.map.ObjectMapper,org.joda.time.LocalDate,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*,com.day.image.Layer, java.awt.geom.Rectangle2D.Double,
+                org.girlscouts.vtk.modifiedcheck.ModifiedChecker, com.day.cq.commons.jcr.JcrUtil, org.apache.commons.codec.binary.Base64, com.day.cq.commons.ImageHelper, com.day.image.Layer, java.io.ByteArrayInputStream, java.awt.image.BufferedImage, javax.imageio.ImageIO"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 
@@ -1056,16 +1056,56 @@ System.err.println("manu reactActivity");
 				
 		} else if(request.getParameter("imageData") != null){
 			try{
+				
+				int x1 = -1, x2 = -1, y1 = -1, y2 = -1, width = -1, height = -1;
+				
+				int[] coords = new int[0];
+				
+				if(request.getParameter("coords") != null){
+					String coordString = request.getParameter("coords").toString();
+					String[] nums = coordString.replaceAll("\\[", "").replaceAll("\\]", "").split(",");
+
+					coords = new int[nums.length];
+
+					for (int i = 0; i < nums.length; i++) {
+					    try {
+					      coords[i] = Integer.parseInt(nums[i]);
+					    } catch (NumberFormatException nfe) {};
+					}
+				}
+				
+				if(coords.length == 6){
+					x1 = coords[0];
+					y1 = coords[1];
+					x2 = coords[2];
+					y2 = coords[3];
+					width = coords[4];
+					height = coords[5];
+				}
+				
+				//System.out.println("Image upload details");
+				//System.out.println(x1 + "," + y1 + " -> " + x2 + "," + y2 + "; " + width + " x " + height);
+				
                 String imgData = request.getParameter("imageData");
+                
                 //System.out.println(imgData.substring(imgData.length()-11));
 				imgData = imgData.replace("data:image/png;base64,", "");
                 byte[] decoded = Base64.decodeBase64(imgData);
+                
+                if(x1 >= 0 && x2 >= 0 && y1 >= 0 && y2 >= 0 && width >= 0 && height >= 0){
+                	BufferedImage inputImage = ImageIO.read(new ByteArrayInputStream(decoded));
+                	Layer uncroppedLayer = new Layer(inputImage);
+                	Rectangle2D.Double rect = new Rectangle2D.Double(x1, y1, width, height);
+                	uncroppedLayer.crop(rect);
+                	inputImage = layer.getImage();
+                	ByteArrayOutputStream out = new ByteArrayOutputStream();
+                	ImageIO.write(inputImage, "PNG", out);
+                	decoded = out.toByteArray();
+				}
 
                 //creates folder path if it doesn't exist yet
                 String path = "/content/dam/girlscouts-vtk/camera-test/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib";
                 String pathWithFile = path+"/troop_pic.png/jcr:content";
-                
-                String pathUncropped = path+"/troop_pic_uncropped.png/jcr:content";
 
                 Session __session = sessionFactory.getSession();
 
@@ -1077,19 +1117,7 @@ System.err.println("manu reactActivity");
 
                 //for some reason, the data property can't be updated, just remade
                 try{
-                	if(request.getParameter("uncropped") != null){
-                		if(request.getParameter("uncropped").equals("true")){
-                			__session.removeItem(path+"/troop_pic_uncropped.png");
-                		}
-                	}	
-                	else if(request.getParameter("deleteUncropped") != null){
-                		if(request.getParameter("deleteUncropped").equals("true")){
-                			__session.removeItem(path+"/troop_pic_uncropped.png");
-                		}
-                	}
-                	else{
-                    	__session.removeItem(path+"/troop_pic.png");
-                	}
+                    __session.removeItem(path+"/troop_pic.png");
                 	__session.save();
                 }
                 catch(Exception e){
@@ -1098,11 +1126,6 @@ System.err.println("manu reactActivity");
 
                 //creates file and jcr:content nodes if they don't exist yet
                 Node jcrNode = JcrUtil.createPath(pathWithFile, false, "nt:file", "nt:resource", __session, false);
-                if(request.getParameter("uncropped") != null){
-                	if(request.getParameter("uncropped").equals("true")){
-                		jcrNode = JcrUtil.createPath(pathUncropped, false, "nt:file", "nt:resource", __session, false);
-                	}
-                }
 
                 jcrNode.setProperty("jcr:data",bin);
                 jcrNode.setProperty("jcr:mimeType","image/png");
@@ -1114,6 +1137,7 @@ System.err.println("manu reactActivity");
 			}
 		} else {
 			//TODO throw ERROR CODE
+			
 		}
 
 	} catch (java.lang.IllegalAccessException e) {
