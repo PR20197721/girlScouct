@@ -1,5 +1,5 @@
-<%@page import="java.util.Comparator,org.codehaus.jackson.map.ObjectMapper,org.joda.time.LocalDate,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*,com.day.image.Layer, java.awt.geom.Rectangle2D.Double,
-                org.girlscouts.vtk.modifiedcheck.ModifiedChecker, com.day.cq.commons.jcr.JcrUtil, org.apache.commons.codec.binary.Base64, com.day.cq.commons.ImageHelper, com.day.image.Layer, java.io.ByteArrayInputStream, java.awt.image.BufferedImage, javax.imageio.ImageIO"%>
+<%@page import="java.util.Comparator,org.codehaus.jackson.map.ObjectMapper,org.joda.time.LocalDate,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*,com.day.image.Layer, java.awt.geom.Rectangle2D, java.awt.geom.Rectangle2D.Double,
+                org.girlscouts.vtk.modifiedcheck.ModifiedChecker, com.day.cq.commons.jcr.JcrUtil, org.apache.commons.codec.binary.Base64, com.day.cq.commons.ImageHelper, com.day.image.Layer, java.io.ByteArrayInputStream, java.io.ByteArrayOutputStream, java.awt.image.BufferedImage, javax.imageio.ImageIO"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 
@@ -1083,8 +1083,8 @@ System.err.println("manu reactActivity");
 					height = coords[5];
 				}
 				
-				//System.out.println("Image upload details");
-				//System.out.println(x1 + "," + y1 + " -> " + x2 + "," + y2 + "; " + width + " x " + height);
+				System.out.println("Image upload details");
+				System.out.println(x1 + "," + y1 + " -> " + x2 + "," + y2 + "; " + width + " x " + height);
 				
                 String imgData = request.getParameter("imageData");
                 
@@ -1094,13 +1094,16 @@ System.err.println("manu reactActivity");
                 
                 if(x1 >= 0 && x2 >= 0 && y1 >= 0 && y2 >= 0 && width >= 0 && height >= 0){
                 	BufferedImage inputImage = ImageIO.read(new ByteArrayInputStream(decoded));
-                	Layer uncroppedLayer = new Layer(inputImage);
-                	Rectangle2D.Double rect = new Rectangle2D.Double(x1, y1, width, height);
-                	uncroppedLayer.crop(rect);
+                	Layer layer = new Layer(inputImage);             	
+                	int smallerX = Math.min(x1, x2);
+                	int smallerY = Math.min(y1, y2);
+                	System.out.println(smallerX + ", " + smallerY + " : " + width + " x " + height);
+                	Rectangle2D rect = new Rectangle2D.Double(581, 239, 263, 93);
+                	layer.crop(rect);
                 	inputImage = layer.getImage();
-                	ByteArrayOutputStream out = new ByteArrayOutputStream();
-                	ImageIO.write(inputImage, "PNG", out);
-                	decoded = out.toByteArray();
+                	ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+                	ImageIO.write(inputImage, "PNG", outStream);
+                	decoded = outStream.toByteArray();
 				}
 
                 //creates folder path if it doesn't exist yet

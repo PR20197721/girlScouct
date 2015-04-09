@@ -354,6 +354,24 @@ $.imgAreaSelect = function (img, options) {
             .width(max(w - $border.outerWidth() + $border.innerWidth(), 0))
             .height(max(h - $border.outerHeight() + $border.innerHeight(), 0));
 
+        var borderTop, borderRight, borderBottom, borderLeft;
+        if(x2 > x1){
+        	borderRight = ($img.width() - x2) + "px";
+        	borderLeft = x1 + "px";
+        }
+        else{
+        	borderRight = ($img.width() - x1) + "px";
+        	borderLeft = x2 + "px";
+        }
+        if(y2 > y1){
+        	borderTop = y1 + "px";
+        	borderBottom = ($img.height() - y2) + "px";
+        }
+        else{
+        	borderTop = y2 + "px";
+        	borderBottom = ($img.height() - y1) + "px";
+        }
+        
         /* Set the dimensions and border styles of the outer area */
         $outer.css({
             left: "0px",
@@ -361,10 +379,10 @@ $.imgAreaSelect = function (img, options) {
             width: "100%",
             height: "100%",
             borderStyle: 'solid',
-            borderTopWidth: y1 + "px", 
-            borderRightWidth: ($img.width() - x2) + "px",
-            borderBottomWidth: ($img.height() - y2) + "px",
-            borderLeftWidth: x1 + "px"
+            borderTopWidth: borderTop, 
+            borderRightWidth: borderRight,
+            borderBottomWidth: borderBottom,
+            borderLeftWidth: borderLeft
             /*borderWidth: selection.y1 + 'px ' +
                 (imgWidth - selection.x2) + 'px ' + (imgHeight - selection.y2) +
                 'px ' + selection.x1 + 'px'*/

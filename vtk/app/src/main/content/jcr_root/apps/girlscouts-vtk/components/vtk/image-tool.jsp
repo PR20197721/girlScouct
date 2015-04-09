@@ -1,4 +1,4 @@
-<div id="image-tool"></div>
+<div id="image-tool" style="width:100%"></div>
 
 <script>
 
@@ -22,8 +22,11 @@ var aspectRatio = 1;
 var resizeImageInstance;
 var successMsg = "You image has been uploaded. ";
 
-var maxWidth = 1920;
-var maxHeight = 680;
+var maxWidth = 960;
+var maxHeight = 340;
+
+var imgMaxW = 1920;
+var imgMaxH = 680;
 
     //Webcam support for laptop/some devices
 
@@ -40,6 +43,9 @@ var displayCurrent = function(){
     currentDisplay.id = "current-display";
     var currentPic = document.createElement("img");
     currentPic.id = "current-picture";
+    
+    currentPic.style.maxWidth = imgMaxW + "px";
+    currentPic.style.maxHeight = imgMaxH + "px";
     
     if (!Date.now) {
 		Date.now = function() { return new Date().getTime(); }
@@ -70,6 +76,11 @@ var displayCurrent = function(){
     currentPic.onload = function(){
 		currentDisplay.appendChild(currentPic);
         currentDisplay.appendChild(displayButtons);
+        
+        if($(currentPic).width() < maxWidth){
+        	$(currentPic).width(maxWidth);
+        	$(currentPic).height(maxHeight);
+        }
     }
     currentPic.onerror = function(){
         currentDisplay.appendChild(displayButtons);
@@ -100,7 +111,6 @@ var uploadInit = function(){
 	uploadTool = document.createElement("div");
     uploadTool.id = "upload-tool"
     uploadTool.style.display = "hidden";
-    uploadTool.style.width = "100%";
 
 	var uploadMsg = document.createElement("p");
     var text = document.createTextNode("Upload an image from your phone or computer");
@@ -185,22 +195,24 @@ var uploadInit = function(){
     	var reader = new FileReader();
     	reader.onload = function(readerEvent){
         	img = new Image();
+        	img.style.maxWidth = imgMaxW;
+        	img.style.maxHeight = imgMaxH;
         	img.onload = function(){
             	img.src = readerEvent.target.result;
             	canvas.width = img.width;
             	canvas.height = img.height;
             	context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);
                 if(window.innerWidth < maxWidth){
-    				canvas.width = window.innerWidth;
+    				canvas.style.maxWidth = window.innerWidth;
            	 	}
             	else if(window.innerWidth > maxWidth){
-    				canvas.width = maxWidth;
+    				canvas.style.maxWidth = maxWidth;
             	}
             	if(window.innerHeight < maxHeight){
-    				canvas.height = window.innerHeight;
+    				canvas.style.maxHeight = window.innerHeight;
             	}
     			else if(window.innerHeight > maxHeight){
-    				canvas.height = maxHeight;
+    				canvas.style.maxHeight = maxHeight;
             	}
             	if(canvas.toDataURL() == "data:,"){//mobile safari
                 	aspectWeirdness = true;
@@ -213,6 +225,8 @@ var uploadInit = function(){
     					img.width = canvas.width;
                 		img.height = img.width/aspectRatio;
                 	}
+                	canvas.width = img.width;
+                    canvas.height = img.height;
                 	context.drawImage(img, 0, 0, img.width, img.height);
                 }
         	}
@@ -347,13 +361,6 @@ var uploadInit = function(){
 		/// translate back so next draw op happens in upper left corner
 		context.translate(-img.width * 0.5, -img.height * 0.5);
 		
-		/*var oldCanvasWidth = canvas.width;
-		var oldImgWidth = img.width;
-		canvas.width = canvas.height;
-		canvas.height = oldCanvasWidth;
-		img.width = img.height;
-		img.height = oldImgWidth;*/
-		
 		if(!aspectWeirdness){
         	context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);
         }
@@ -364,17 +371,17 @@ var uploadInit = function(){
     
     $(window).resize(function() {
         if(canvas.style.display == 'block'){
-            if(window.innerWidth < 1220){
+            if(window.innerWidth < maxWidth){
     			canvas.style.maxWidth = window.innerWidth + "px";
             }
-            else if(window.innerWidth > 1220){
-    			canvas.style.maxWidth = "1220px";
+            else if(window.innerWidth > maxWidth){
+    			canvas.style.maxWidth = maxWidth + "px";
             }
-            if(window.innerHeight < 1080){
+            if(window.innerHeight < maxHeight){
     			canvas.style.maxHeight = window.innerHeight + "px";
             }
-    		else if(window.innerHeight > 1080){
-    			canvas.style.maxHeight = "1080px";
+    		else if(window.innerHeight > maxHeight){
+    			canvas.style.maxHeight = maxHeight + "px";
             }
       		// Resize original canvas
             if(tookPic && picData != null){
