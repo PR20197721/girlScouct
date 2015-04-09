@@ -87,9 +87,14 @@ java.util.Calendar"%>
         int nItems = properties.get("nItems",updateList.size());
         for(int i=0; i<nItems&&i<updateList.size(); i++) {
         ValueMap updateItem = updateList.get(i);
-        String dateField = updateItem.get("date", "00/00/00");
+        String dateField = updateItem.get("date", "1999-01-01T02:30:00.000-04:00");
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S");
-		Date date = sdf.parse(dateField);
+		Date date = sdf.parse("1999-01-01T02:30:00.000-04:00");
+		try{
+			date = sdf.parse(dateField);
+		} catch(Exception e){
+			e.printStackTrace();
+		}
 
         SimpleDateFormat displayDateFormat = new SimpleDateFormat("MM.dd.yyyy h:mm a");
 		String formattedDateStr = displayDateFormat.format(date);
