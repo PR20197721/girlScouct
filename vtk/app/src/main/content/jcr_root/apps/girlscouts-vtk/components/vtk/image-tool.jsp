@@ -157,7 +157,7 @@ var uploadInit = function(){
 	var canvas = document.createElement("canvas");
     canvas.id = "canvas";
     canvas.setAttribute("width","100%");
-    canvas.style.maxWidth = "1220px";
+    canvas.style.maxWidth = "1220px"; 
 	canvas.style.maxHeight = "1080px";
     canvas.style.display = "none";
 
@@ -585,11 +585,11 @@ var resizeableImage = function(image_data){
         orig_src = new Image(),
         image_target = $(image_target).get(0),
         event_state = {},
-        constrain = false,
-        min_width = 120, //change as required
-        min_height = 344,
-        max_width = $('#resize-image').width(), //change as required
-        max_height = $('#resize-image').height(),
+        constrain = true,
+        min_width = 192, //change as required
+        min_height = 68,
+        max_width = window.innerWidth, //change as required
+        max_height = window.innerHeight,
         resize_canvas = document.createElement('canvas');
 
     init = function(){
@@ -607,6 +607,9 @@ var resizeableImage = function(image_data){
         //Assign the container to a variable
         $container = $(overlay).parent('.resize-container');
         
+        orig_overlay_w = $(overlay).width();
+        orig_overlay_h = $(overlay).height();
+        
         image_target.style.position = "absolute";
         $container.css({position: "absolute"});
         
@@ -616,14 +619,13 @@ var resizeableImage = function(image_data){
 
         //Add events
         $container.on('mousedown touchstart', '.resize-handle', startResize);
-        $container.on('mousedown touchstart', 'div', startMoving);
+        $container.on('mousedown touchstart', '.overlay', startMoving);
 
         submitCrop.addEventListener('click', crop, false);
         backToUpload.addEventListener('click', back, false);
         
         $container.width($(overlay).width());
         $container.height($(overlay).height());
-        resizeImage(max_width, max_height);
     };
 
     startResize = function(e){
@@ -680,7 +682,7 @@ var resizeableImage = function(image_data){
         if( $(event_state.evnt.target).hasClass('resize-handle-se') ){
             width = mouse.x - event_state.container_left;
             height = mouse.y - event_state.container_top;
-            left = event_state.container_top;
+            left = event_state.container_left;
             top = event_state.container_top;
         } else if($(event_state.evnt.target).hasClass('resize-handle-sw')){
             width = event_state.container_width - (mouse.x - event_state.container_left);
@@ -693,7 +695,7 @@ var resizeableImage = function(image_data){
             left = mouse.x;
             top = mouse.y;
             if(constrain || e.shiftKey){
-                top = mouse.y - ((width / orig_src.width * orig_src.height) - height);
+                top = mouse.y - ((width / orig_overlay_w * orig_overlay_h) - height);
             }
         } else if($(event_state.evnt.target).hasClass('resize-handle-ne')){
             width = mouse.x - event_state.container_left;
@@ -701,14 +703,14 @@ var resizeableImage = function(image_data){
             left = event_state.container_left;
             top = mouse.y;
             if(constrain || e.shiftKey){
-                top = mouse.y - ((width / orig_src.width * orig_src.height) - height);
+                top = mouse.y - ((width / orig_overlay_w * orig_overlay_h) - height);
             }
         }
 
         //Optionally maintain aspect ratio
-        //if(constrain || e.shiftKey){
-            height = width / orig_src.width * orig_src.height;
-        //}
+        if(constrain || e.shiftKey){
+            height = width / orig_overlay_w * orig_overlay_h;
+        }
 
         if(width > min_width && height > min_height && width < max_width && height < max_height){
             //To improve performance you might limit how often resizeImage() is called
@@ -716,11 +718,14 @@ var resizeableImage = function(image_data){
             //Without this Firefox will not recalculate the image dimensions until drag end
             $container.offset({'left': left, 'top': top});
         }
+        else{
+        	console.log("width: " + width + ", height: " + height + ", min_width: " + min_width + ", min_height: " + min_height + ", max_width: " + max_width + ", max_height: " + max_height);
+        }
     }
 
     resizeImage = function(width, height){
-        overlay.width = width;
-        overlay.height = height;
+        $container.width(width);
+        $container.height(height);
         //resize_canvas.getContext('2d').drawImage(orig_src, 0, 0, width, height);
         //$(image_target).attr('src', resize_canvas.toDataURL("image/png"));
     };
@@ -901,8 +906,8 @@ var resizeableImage = function(image_data){
         if(window.innerHeight < 340 || window.innerWidth < 960){
 			back();
         }
-        $container.width($('#cropping-tool').width());
-        $container.height($('#cropping-tool').height());
+        //$container.width($('#cropping-tool').width());
+        //$container.height($('#cropping-tool').height());
         //overlayOffset();
     });
 

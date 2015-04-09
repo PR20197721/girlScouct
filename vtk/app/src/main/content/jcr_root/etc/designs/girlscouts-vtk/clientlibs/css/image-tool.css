@@ -23,7 +23,7 @@
     width: 10px;
     height: 10px;
     background: rgb(50, 125, 60);
-    z-index: 999;
+    z-index: 1000;
 }
 
 .resize-handle-nw {
@@ -59,7 +59,7 @@
 	height: 340px;
     border: solid 2px rgb(140, 65, 215);
 	box-sizing: content-box;
-	pointer-events: none;
+	/*pointer-events: none;*/
 }
 
 .overlay:after,
