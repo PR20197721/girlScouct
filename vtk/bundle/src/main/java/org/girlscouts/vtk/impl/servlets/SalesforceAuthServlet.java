@@ -15,14 +15,15 @@ import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.api.SlingHttpServletRequest;
 import org.apache.sling.api.SlingHttpServletResponse;
+import org.apache.sling.api.resource.LoginException;
 import org.apache.sling.api.resource.ResourceResolver;
+import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.resource.ValueMap;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
 import org.girlscouts.vtk.auth.dao.SalesforceDAO;
 import org.girlscouts.vtk.auth.dao.SalesforceDAOFactory;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.models.User;
-
 import org.girlscouts.vtk.ejb.TroopUtil;
 //import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.helpers.ConfigListener;
@@ -68,6 +69,10 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 	@Reference
 	private TroopUtil troopUtil;
 
+	@Reference
+	private ResourceResolverFactory resourceResolverFactory;
+	private ResourceResolver resourceResolver;
+
 	@Override
 	protected void doGet(SlingHttpServletRequest request,
 			SlingHttpServletResponse response) {
@@ -97,11 +102,24 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 	@Activate
 	public void init() {
 		configManager.register(this);
+		try {
+			resourceResolver = resourceResolverFactory
+					.getResourceResolver(null);
+		} catch (LoginException e) {
+			log.error("Cannot get ResourceResolver.");
+		}
 	}
 
 	private void signIn(SlingHttpServletRequest request,
 			SlingHttpServletResponse response) {
 		HttpSession session = request.getSession();
+		
+		// Set referer council
+		String refererCouncil = request.getParameter("refererCouncil");
+		if (refererCouncil == null) {
+		    refererCouncil = "";
+		}
+		
 		ApiConfig config = null;
 		try {
 			config = (ApiConfig) session
@@ -113,7 +131,7 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 			redirectUrl = OAuthUrl
 					+ "/services/oauth2/authorize?prompt=login&response_type=code&client_id="
 					+ clientId + "&redirect_uri=" + callbackUrl + "&state="
-					+ targetUrl;
+					+ refererCouncil;
 		} else {
 			redirectUrl = targetUrl;
 		}
@@ -167,6 +185,11 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 						.get(0).getCouncilCode());
 				redirectUrl = councilMapper.getCouncilUrl(councilId);
 			} catch (Exception e) {
+			    String refererCouncil = (String)session.getAttribute("refererCouncil");
+			    if (refererCouncil != null  && !refererCouncil.isEmpty()) {
+			        redirectUrl = "/content/" + refererCouncil + "/";
+			        redirectUrl = resourceResolver.map(redirectUrl);
+			    }
 			}
 		}
 
@@ -197,6 +220,12 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 			SlingHttpServletResponse response) {
 		HttpSession session = request.getSession();
 
+		// save refererCouncil
+		String refererCouncil = request.getParameter("state");
+		if (refererCouncil != null && !refererCouncil.isEmpty()) {
+		    session.setAttribute("refererCouncil", refererCouncil);
+		}
+		
 		ApiConfig apiConfig = null;
 		try {
 			apiConfig = (ApiConfig) session.getAttribute(ApiConfig.class
@@ -229,14 +258,14 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 
 		org.girlscouts.vtk.models.User vtkUser = new org.girlscouts.vtk.models.User();
 		vtkUser.setApiConfig(config);
-
+if(config.getTroops()!=null && config.getTroops().size()>0){
 		// CHN to LOAD PERMISSION HERE
 		vtkUser.setPermissions(config.getTroops().get(0).getPermissionTokens());
 
 		// load config
 		vtkUser.setCurrentYear(getCurrentYear(request.getResourceResolver(),
 				vtkUser.getApiConfig().getTroops().get(0).getCouncilCode()));
-
+}
 		session.setAttribute(org.girlscouts.vtk.models.User.class.getName(),
 				vtkUser);
 

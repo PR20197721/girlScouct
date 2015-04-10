@@ -19,17 +19,27 @@
     }catch(Exception e){e.printStackTrace();}
 
     int councilIdInt = 0;
+    String councilId = "0";
+    CouncilMapper mapper = sling.getService(CouncilMapper.class);
+
+    String branch = null;
     try {
     	councilIdInt = apiConfig.getTroops().get(0).getCouncilCode();
+    	councilId = Integer.toString(councilIdInt);
+    	branch = mapper.getCouncilBranch(councilId);
     } catch (Exception e) {
-        e.printStackTrace();
+        String refererCouncil = (String)session.getAttribute("refererCouncil");
+        if (refererCouncil != null && !refererCouncil.isEmpty()) {
+            branch = "/content/" + refererCouncil;
+        } else {
+            branch = mapper.getCouncilBranch();
+        }
     }
 
-    String councilId = Integer.toString(councilIdInt);
-    CouncilMapper mapper = sling.getService(CouncilMapper.class);
-    String branch = mapper.getCouncilBranch(councilId);
+
     // language
     branch += "/en/jcr:content";
+    System.out.println("##branch = " + branch);
 
     ValueMap valueMap = (ValueMap)resourceResolver.resolve(branch).adaptTo(ValueMap.class);
     boolean isHideSignIn = valueMap.get("hideVTKButton", "").equals("true");

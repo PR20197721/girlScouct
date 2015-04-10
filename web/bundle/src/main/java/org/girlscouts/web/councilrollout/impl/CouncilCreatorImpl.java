@@ -384,7 +384,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName + "/en/contacts", "REPLICATE"), acm, session).getPrivilegeList());
 				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName + "/en/events-repository", "REPLICATE"), acm, session).getPrivilegeList());
 				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName + "/en/milestones", "REPLICATE"), acm, session).getPrivilegeList());
-				aclList.add(new PermissionsSetter(new Rule(principal, "/content/dam/" + councilName, "READ_WRITE_MODIFY_REPLICATE"), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/content/dam/girlscouts-" + councilName, "READ_WRITE_MODIFY_REPLICATE"), acm, session).getPrivilegeList());
 				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/tags/" + councilName, "READ_WRITE_MODIFY_REPLICATE"), acm, session).getPrivilegeList());
 				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/scaffolding/" + councilName, "READ"), acm, session).getPrivilegeList());
 				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName + "/en/our-council/news", "REPLICATE"), acm, session).getPrivilegeList());
@@ -392,7 +392,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			if(councilGroup.getID().equals(REVIEWERS)) {
 				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName, "READ_WRITE_REPLICATE_DELETE"), acm, session).getPrivilegeList());
 				aclList.add(new PermissionsSetter(new Rule(principal, "/content/" + councilName + "/en", "MODIFY", "*/jcr:content*"), acm, session).getPrivilegeList());
-				aclList.add(new PermissionsSetter(new Rule(principal, "/content/dam/" + councilName, "READ_WRITE_REPLICATE_DELETE"), acm, session).getPrivilegeList());
+				aclList.add(new PermissionsSetter(new Rule(principal, "/content/dam/girlscouts-" + councilName, "READ_WRITE_REPLICATE_DELETE"), acm, session).getPrivilegeList());
 				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/tags/" + councilName, "READ_WRITE_REPLICATE_DELETE"), acm, session).getPrivilegeList());
 				aclList.add(new PermissionsSetter(new Rule(principal, "/etc/scaffolding/" + councilName, "READ"), acm, session).getPrivilegeList());			
 			}

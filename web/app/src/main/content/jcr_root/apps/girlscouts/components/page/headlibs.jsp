@@ -29,7 +29,15 @@
 
 	String helloUrl = configManager.getConfig("helloUrl");
 	String callbackUrl = configManager.getConfig("callbackUrl");
+	String refererCouncil = null;
+	try {
+		String councilRoot = currentPage.getAbsoluteParent(1).getPath(); // /content/gsnetx
+		refererCouncil = councilRoot.split("/")[2];  // gsnetx
+	} catch (Exception e) {} // Not in a normal council
 	String signInUrl = callbackUrl + "?action=signin";
+	if (refererCouncil != null) {
+	    signInUrl = signInUrl + "&refererCouncil=" + refererCouncil;
+	}
 	String signOutUrl = callbackUrl + "?action=signout";
 	String siteRoot = currentPage.getAbsoluteParent(2).getPath();
 	String language = siteRoot.substring(siteRoot.lastIndexOf("/") + 1);
