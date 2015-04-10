@@ -18,12 +18,12 @@ import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.jcr.api.SlingRepository;
+import org.girlscouts.vtk.helpers.TroopHashGenerator;
 import org.osgi.service.component.ComponentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.day.cq.replication.Replicator;
-import com.day.cq.replication.impl.ServiceTracker.Listener;
 
 @Component(metatype=true, immediate=true)
 @Service(value=ReplicationManager.class)
@@ -39,6 +39,8 @@ public class ReplicationManager {
     @Reference
     private SlingRepository repository;
     
+    @Reference
+    private TroopHashGenerator troopHashGenerator;
      
     @Reference
     private Replicator replicator;
@@ -64,7 +66,7 @@ public class ReplicationManager {
             manager = session.getWorkspace().getObservationManager();
             
             for (int i = 0; i < MONITOR_PATHS.length; i++) {
-                EventListener listener = new NodeListener(session, replicator);
+                EventListener listener = new NodeListener(session, replicator, troopHashGenerator);
                 listeners.add(listener);
                 manager.addEventListener(listener, Constants.PROPERTY_UPDATE | Event.NODE_REMOVED | Event.NODE_MOVED,
                         MONITOR_PATHS[i], true, null, Constants.PRIMARY_TYPES, true);

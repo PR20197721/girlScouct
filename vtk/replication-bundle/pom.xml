@@ -25,6 +25,12 @@
              <artifactId>modified-checker-bundle</artifactId>
              <scope>provided</scope>
     	</dependency>
+    	<dependency>
+             <groupId>org.girlscouts.vtk</groupId>
+             <artifactId>girlscouts-vtk-bundle</artifactId>
+             <version>${project.version}</version>
+             <scope>provided</scope>
+    	</dependency>
         <dependency>
             <groupId>org.osgi</groupId>
             <artifactId>org.osgi.compendium</artifactId>
