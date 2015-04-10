@@ -92,23 +92,24 @@ public class GirlScoutsNotificationActionFactory implements LiveActionFactory<Li
 			LiveStatus status = relation.getStatus();
 			//one or more child components were unlocked on that page
 			if(status!=null && status.isPage() && 
-					status.getAdvancedStatus("msm:isTargetCancelledChild")!=null && status.getAdvancedStatus("msm:isTargetCancelledChild")){
+					status.getAdvancedStatus("msm:isTargetCancelledChild")!=null 
+					&& status.getAdvancedStatus("msm:isTargetCancelledChild")){
 				String sourcePath = source.getPath();
 				String targetPath = target.getPath();
-					if(configs !=null && configs.get("emlTemplate")!=null){
-						String branch = getBranch(targetPath);
-						log.info("**** GirlScoutsNotificationAction: sending email to "+branch.substring(9)+" *****");
-						ResourceResolver resourceResolver = source.getResourceResolver();
-//						Session session = resolver.adaptTo(javax.jcr.Session.class);
-						Page homepage = resourceResolver.resolve(branch+"/en").adaptTo(Page.class);
-						ValueMap valuemap = homepage.getProperties();
-						String email1=(String)valuemap.get("email1");
-						String email2=(String)valuemap.get("email2");
-						send((String)configs.get("emlTemplate"),sourcePath,targetPath,email1,email2);
-					}else{
-						throw new WCMException("Email template configuration was not found under /etc/msm/rolloutconfigs/gsdefault/jcr:content/gsNotification");
-					}
-				
+				if(configs !=null && configs.get("emlTemplate")!=null){
+					String branch = getBranch(targetPath);
+					log.info("**** GirlScoutsNotificationAction: sending email to "+branch.substring(9)+" *****");
+					ResourceResolver resourceResolver = source.getResourceResolver();
+					//get the email addresses configured in page properties of the council's homepage
+					Page homepage = resourceResolver.resolve(branch+"/en").adaptTo(Page.class);
+					ValueMap valuemap = homepage.getProperties();
+					String email1=(String)valuemap.get("email1");
+					String email2=(String)valuemap.get("email2");
+					send(sourcePath,targetPath,email1,email2);
+				}else{
+					throw new WCMException("Email template configuration was not found under /etc/msm/rolloutconfigs/gsdefault/jcr:content/gsNotification");
+				}
+			
 			}
 
 		}
@@ -122,10 +123,9 @@ public class GirlScoutsNotificationActionFactory implements LiveActionFactory<Li
                 throw new WCMException("Cannot get branch: " + path);
             }
         }
-
-		public void send(String html, String nationalPage, String councilPage,String email1, String email2) 
+        //send email using cq email service
+		public void send(String nationalPage, String councilPage,String email1, String email2) 
 				throws WCMException{
-			
 			try {
 				MessageGateway<HtmlEmail> messageGateway = messageGatewayService
 						.getGateway(HtmlEmail.class);
@@ -133,19 +133,27 @@ public class GirlScoutsNotificationActionFactory implements LiveActionFactory<Li
 				HtmlEmail email = new HtmlEmail();
 				ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
 				
-				emailRecipients.add(new InternetAddress("cwu@northpointdigital.com"));
-				if(email1!=null && !email1.isEmpty())
+				if(email1!=null && !email1.isEmpty()){//primary addr
 					emailRecipients.add(new InternetAddress(email1));
+				}else {//send to email address for testing
+					String testAddr = (String)configs.get("testEmail");
+					if(testAddr!=null && !testAddr.isEmpty()){ 
+						emailRecipients.add(new InternetAddress(testAddr));
+					}
+				}//backup addr
 				if(email2!=null && !email2.isEmpty())
 					emailRecipients.add(new InternetAddress(email2));
 
-				email.setSubject("GSUSA rollout notification");
-				html+="<p><b>National page URL: </b>"+getURL(nationalPage) +"&nbsp; &nbsp;</p>";
+				email.setSubject("GSUSA Rollout Notification");
+				String html = (String)configs.get("emlTemplate");
+				html+="<p><b>National page URL: </b>"+getURL(nationalPage) +"</p>";
 				html+="<p><b>Your page URL: </b>"+getURL(councilPage).replaceFirst("/content/([^/]+)","www.$1.org")+"</p>";
 				email.setHtmlMsg(html);
 				if(!emailRecipients.isEmpty()){
 					email.setTo(emailRecipients);
 					messageGateway.send(email);
+				}else{
+					log.error("No email address found for council :" + getBranch(councilPage));
 				}
 
 			} catch (Exception e) {
@@ -159,7 +167,6 @@ public class GirlScoutsNotificationActionFactory implements LiveActionFactory<Li
             }
 			return path+".html";
 		}
-
 
 		public String getName() {
 			return name;

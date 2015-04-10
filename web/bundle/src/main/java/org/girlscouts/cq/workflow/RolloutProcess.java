@@ -2,11 +2,9 @@ package org.girlscouts.cq.workflow;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Map;
+
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
-import javax.jcr.Node;
-import javax.jcr.Value;
 
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Property;
@@ -32,7 +30,6 @@ import com.day.cq.workflow.WorkflowSession;
 import com.day.cq.workflow.exec.WorkItem;
 import com.day.cq.workflow.exec.WorkflowProcess;
 import com.day.cq.workflow.metadata.MetaDataMap;
-import javax.jcr.nodetype.NoSuchNodeTypeException;
 
 @Component
 @Service
@@ -87,48 +84,18 @@ public class RolloutProcess implements WorkflowProcess {
         }
 
         try {
-        	Resource scr = resourceResolver.resolve(srcPath+"/jcr:content/content/middle/par/text_1");
-            Page startpage = (Page)scr.adaptTo(Page.class);
-            //relationManager.addSkippedPage(srcPage,{"/jcr:content/content/middle/par/text_1"},true);
-        	Collection<LiveRelationship> startRelations = relationManager.getLiveRelationships(scr,null,null,true);
             Collection<LiveRelationship> relations = relationManager.getLiveRelationships(srcPage, null, null, true);
-//            for (LiveRelationship relation : startRelations) {
-//                String targetPath = relation.getTargetPath();
-//                relationManager.cancelRelationship(resourceResolver, relation, true);  
-//
-//            }
-
             for (LiveRelationship relation : relations) {
-
-                String targetPath = relation.getTargetPath();
-//                if(targetPath.contains("join")){
-//                	String targetPath2 = targetPath.substring(0, targetPath.lastIndexOf('/'));
-//                	 Resource tgtRes = resourceResolver.resolve(targetPath2);
-//                     Page tgtPage = (Page)tgtRes.adaptTo(Page.class);
-//                     Map<String,Page> skipmap = relationManager.getSkippedSourcePages(tgtPage);
-//                     System.out.println(skipmap);
-//
-//
-//                	Node startFunToday = (Node)resourceResolver.resolve(targetPath+"/content/middle/par/text_1").adaptTo(Node.class);
-//
-//                	try{               
-//                		startFunToday.removeMixin("cq:LiveRelationship");
-//                	}catch(NoSuchNodeTypeException e){ 
-//                		startFunToday.removeMixin("cq:LiveSyncCancelled");
-//                	}
-//                	Resource scr = resourceResolver.resolve(targetPath+"/content/middle/par/text_1");
-//                	relationManager.endRelationship(scr, true); 
-//
-//                }
-                rolloutManager.rollout(resourceResolver, relation, false, true);
+                rolloutManager.rollout(resourceResolver, relation, false);
                 session.save();
+                String targetPath = relation.getTargetPath();
                 // Remove jcr:content
                 if (targetPath.endsWith("/jcr:content")) {
                     targetPath = targetPath.substring(0, targetPath.lastIndexOf('/'));
                 }
                 replicator.replicate(session, ReplicationActionType.ACTIVATE, targetPath);
             }
-        }catch (WCMException e) {
+        } catch (WCMException e) {
             log.error("WCMException for LiveRelationshipManager");
         } catch (RepositoryException e) {
             log.error("RepositoryException for LiveRelationshipManager");

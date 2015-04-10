@@ -21,11 +21,14 @@ import javax.jcr.Session;
 import javax.jcr.UnsupportedRepositoryOperationException;
 import javax.jcr.Value;
 import javax.jcr.ValueFactory;
+import javax.jcr.query.Query;
+import javax.jcr.security.Privilege;
 
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
 import org.apache.felix.scr.annotations.Property;
 import org.apache.felix.scr.annotations.Service;
+import org.apache.felix.scr.annotations.Reference;
 import org.apache.jackrabbit.api.JackrabbitSession;
 import org.apache.jackrabbit.api.security.JackrabbitAccessControlList;
 import org.apache.jackrabbit.api.security.JackrabbitAccessControlManager;
@@ -37,9 +40,6 @@ import org.girlscouts.web.councilrollout.CouncilCreator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.day.cq.commons.jcr.JcrUtil;
-import com.day.cq.replication.Replicator;
-
 //Jackrabbit User APIs
 import org.apache.jackrabbit.api.JackrabbitSession;
 import org.apache.jackrabbit.api.security.user.UserManager;
@@ -47,8 +47,8 @@ import org.apache.jackrabbit.api.security.user.User;
 import org.apache.jackrabbit.api.security.user.Group;
 import org.apache.jackrabbit.api.security.user.Authorizable;
 
-import javax.jcr.security.Privilege;
-
+import com.day.cq.commons.jcr.JcrUtil;
+import com.day.cq.replication.Replicator;
 import com.day.cq.tagging.InvalidTagFormatException;
 import com.day.cq.tagging.Tag;
 import com.day.cq.tagging.TagManager;
@@ -69,6 +69,9 @@ import com.day.cq.wcm.msm.api.RolloutConfigManager;
 
 public class CouncilCreatorImpl implements CouncilCreator {
 	private static Logger LOG = LoggerFactory.getLogger(CouncilCreatorImpl.class);
+	
+	@Reference
+    private LiveRelationshipManager relationManager;
 
 	/**
 	 * Creates the layout of the site (national pages)
@@ -593,7 +596,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			if (seoTitle != null && seoTitle != "") {
 				jcrNode.setProperty("seoTitle", seoTitle);
 			}
-			if (!propertyMap.isEmpty() && propertyMap != null) {
+			if (propertyMap != null && !propertyMap.isEmpty()  ) {
 				for (Entry<String, String> map : propertyMap.entrySet()) {
 					jcrNode.setProperty(map.getKey(), map.getValue());
 				}
@@ -777,7 +780,8 @@ public class CouncilCreatorImpl implements CouncilCreator {
 						Page copyPage = manager.copy(templatePage, councilPath + "/" + languagePath + "/" + templatePageName, templatePageName, false, true);
 						copyPages.add(copyPage);
 						RolloutConfig gsConfig = configMgr.getRolloutConfig("/etc/msm/rolloutconfigs/gsdefault");
-						relationshipMgr.establishRelationship(templatePage, copyPage, true, false, gsConfig);					
+						relationshipMgr.establishRelationship(templatePage, copyPage, true, false, gsConfig);
+						cancelInheritance(rr, councilPath + "/" + languagePath);
 					}
 				}
 			}
@@ -792,5 +796,20 @@ public class CouncilCreatorImpl implements CouncilCreator {
 			e.printStackTrace();
 		}
 		return copyPages;
+	}
+	//cancel the Inheritance for certain components (with mixin type cq:LiveSyncCancelled from national template page)
+	private void cancelInheritance(ResourceResolver rr, String councilPath){
+		try {
+			String sql = "SELECT * FROM [cq:LiveSyncCancelled] AS s WHERE ISDESCENDANTNODE(s, '"
+					+ councilPath + "')";
+			LOG.debug("SQL " + sql);
+			for (Iterator<Resource> it = rr.findResources(sql, Query.JCR_SQL2);it.hasNext();){
+				Resource target = it.next();
+                relationManager.endRelationship(target,true);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
 	}
 }
