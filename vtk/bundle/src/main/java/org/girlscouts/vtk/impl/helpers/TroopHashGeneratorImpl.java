@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 public class TroopHashGeneratorImpl implements TroopHashGenerator {
     private static final Logger log = LoggerFactory.getLogger(TroopHashGeneratorImpl.class);
     private static final String BASE = "/vtk-data/";
-    private static final String SALT = "\u2308\u2208%^%@2H3^&8\u0008\u1308\u0021\u0223\u0046";
+    private static final String SALT = "\u90B9\u6B23\u822A\u2308\u2208%^%@2H3^&8\u0008\u1308\u0021\u0223\u0046";
 
     public String hash(String troopId) {
         byte[] origBytes;
