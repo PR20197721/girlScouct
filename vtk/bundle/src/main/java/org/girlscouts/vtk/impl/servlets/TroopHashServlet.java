@@ -34,9 +34,9 @@ public class TroopHashServlet extends SlingSafeMethodsServlet {
         try {
             if (troopId == null || troopId.isEmpty()) {
                 log.warn("Cannot get troopId. It was: " + troopId + ".");
-                out.println(new JSONObject().put("errMsg", "Cannot get troopId.").toString());
+                out.print(new JSONObject().put("errMsg", "Cannot get troopId.").toString());
             } else {
-                new JSONObject().put("path", hashGenerator.getPath(troopId)).toString();
+                out.print(new JSONObject().put("path", hashGenerator.getPath(troopId)).toString());
             }
         } catch (JSONException e) {
             log.error("Cannot generate JSON");
