@@ -22,7 +22,7 @@ public class VTKDataServlet extends SlingSafeMethodsServlet {
 
     private static final String ROOT = "/vtk-data";
     private static final Logger log = LoggerFactory.getLogger(VTKDataServlet.class);
-    private static final Pattern PATH_PATTERN = Pattern.compile(ROOT + "/([^/]+)/([^/\\.])+.*");
+    private static final Pattern PATH_PATTERN = Pattern.compile(ROOT + "/([^/]+)/([^/\\.]+)\\..*");
 
     @Override
     protected void doGet(SlingHttpServletRequest request,
@@ -33,8 +33,8 @@ public class VTKDataServlet extends SlingSafeMethodsServlet {
         String type = null, id = null;
         Matcher matcher = PATH_PATTERN.matcher(path);
         while (matcher.find()) {
-            type = matcher.group(1);
-            id = matcher.group(2);
+            id = matcher.group(1);
+            type = matcher.group(2);
         }
         log.debug("type = " + type + ", id = " + id);
         

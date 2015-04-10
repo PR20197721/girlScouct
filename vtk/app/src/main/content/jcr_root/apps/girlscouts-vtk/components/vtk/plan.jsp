@@ -41,7 +41,7 @@
     	 if (isActivNew == 1) {
     		 this.setState({data: {schedule: null}});
     	 }
-    	 getDataIfModified("/vtk-data/year-plan/1234567.json", this, function(data, textStatus, req){
+    	 getDataIfModified("year-plan.json", this, function(data, textStatus, req){
     		// Skip if is 304.
     		if (req.status == 200) {
 	            this.setState({data:data});

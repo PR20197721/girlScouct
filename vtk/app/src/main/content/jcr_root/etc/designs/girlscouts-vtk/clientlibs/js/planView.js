@@ -322,8 +322,17 @@ function isSafary(){
 
 var getDataIfModified;
 (function() {
+	var BASE_PATH = '/vtk-data';
     var eTags = {};
-    var _getDataIfModified = function(url, that, success) {
+    function _getTroopDataToken() {
+    	// Ref: https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie
+    	// Get cookie: troopDataToken
+    	var hash = document.cookie.replace(/(?:(?:^|.*;\s*)troopDataToken\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    	return hash;
+    }
+    
+    function _getDataIfModified(path, that, success) {
+    	var url = BASE_PATH + '/' + _getTroopDataToken() + '/' + path;
         $.ajax({
             url: url,
             dataType: 'json',
