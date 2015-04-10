@@ -3,7 +3,7 @@
 <script>
 
 var imageTool = document.getElementById("image-tool");
-var uploadTool, croppingTool, currentDisplay;
+var uploadTool, croppingTool, currentDisplay, uploadButtons;
 
 var cancelButton = document.createElement("Button");
 var cancelText = document.createTextNode("Cancel");
@@ -41,16 +41,16 @@ var imgPath = "<%= "/content/dam/girlscouts-vtk/camera-test/troop-data/"+ troop.
 var displayCurrent = function(){
     currentDisplay = document.createElement("div");
     currentDisplay.id = "current-display";
-    var currentPic = document.createElement("img");
+
+	var currentPic = document.createElement("img");
     currentPic.id = "current-picture";
     
-    currentPic.style.maxWidth = imgMaxW + "px";
-    currentPic.style.maxHeight = imgMaxH + "px";
-    
+    currentPic.style.maxWidth = "100%";
+
     if (!Date.now) {
 		Date.now = function() { return new Date().getTime(); }
 	}
-    
+
     currentPic.src = imgPath + Date.now();
     currentPic.style.float = "left";
 
@@ -76,10 +76,9 @@ var displayCurrent = function(){
     currentPic.onload = function(){
 		currentDisplay.appendChild(currentPic);
         currentDisplay.appendChild(displayButtons);
-        
+
         if($(currentPic).width() < maxWidth){
         	$(currentPic).width(maxWidth);
-        	$(currentPic).height(maxHeight);
         }
     }
     currentPic.onerror = function(){
@@ -172,8 +171,14 @@ var uploadInit = function(){
     rotateButton.style.display = "none";
     var rotateText = document.createTextNode("Rotate");
     rotateButton.appendChild(rotateText);
+
+	var videoLoader = document.createElement("button");
+	videoLoader.id = "load-video";
+	videoLoader.style.display = "none";
+	var vidLoadText = document.createTextNode("Use Webcam");
+	videoLoader.appendChild(vidLoadText);
     
-    var uploadButtons = document.createElement("div");
+    uploadButtons = document.createElement("div");
     uploadButtons.id = "upload-buttons";
     uploadButtons.style.overflow = "hidden";
 
@@ -181,6 +186,7 @@ var uploadInit = function(){
 
     uploadTool.appendChild(uploadMsg);
 	uploadTool.appendChild(imageLoader);
+	uploadTool.appendChild(videoLoader);
     uploadTool.appendChild(video);
     uploadTool.appendChild(canvas);
     uploadTool.appendChild(uploadButtons);
@@ -203,30 +209,30 @@ var uploadInit = function(){
             	canvas.height = img.height;
             	context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);
                 if(window.innerWidth < maxWidth){
-    				canvas.style.maxWidth = window.innerWidth;
+    				canvas.style.maxWidth = window.innerWidth + "px";
            	 	}
             	else if(window.innerWidth > maxWidth){
-    				canvas.style.maxWidth = maxWidth;
+    				canvas.style.maxWidth = maxWidth + "px";
             	}
             	if(window.innerHeight < maxHeight){
-    				canvas.style.maxHeight = window.innerHeight;
+    				canvas.style.maxHeight = window.innerHeight + "px";
             	}
     			else if(window.innerHeight > maxHeight){
-    				canvas.style.maxHeight = maxHeight;
+    				canvas.style.maxHeight = maxHeight + "px";
             	}
             	if(canvas.toDataURL() == "data:,"){//mobile safari
                 	aspectWeirdness = true;
                 	aspectRatio = img.width/img.height;
-                	if(img.width > img.height){
-    					img.height = canvas.height;
+					if(img.width > img.height){
+    					img.height = canvas.style.maxHeight.replace("px","");
                     	img.width = img.height*aspectRatio;
                 	}
                 	else{
-    					img.width = canvas.width;
+    					img.width = canvas.style.maxWidth.replace("px","");
                 		img.height = img.width/aspectRatio;
                 	}
                 	canvas.width = img.width;
-                    canvas.height = img.height;
+                	canvas.height = img.height;
                 	context.drawImage(img, 0, 0, img.width, img.height);
                 }
         	}
@@ -274,7 +280,6 @@ var uploadInit = function(){
         	rotateButton.style.display = 'none';
         	submitShot.style.display = 'none';
         	if(img != null){
-        		rotateButton.style.display = 'block';
         		switchButton.style.display='block';
         	}
 			switchButton.innerHTML = "Switch to uploaded image";
@@ -285,35 +290,40 @@ var uploadInit = function(){
     var uploadText;
 
 	//website requests permission to use your webcam
-	if (navigator.getUserMedia) {
-        uploadText = document.createTextNode(" or take a photo from your webcam");
-		uploadMsg.appendChild(uploadText);
-   		navigator.getUserMedia (
+       	if (navigator.getUserMedia) {
+            uploadText = document.createTextNode(" or take a photo from your webcam");
+			videoLoader.style.display = "block";
+            uploadMsg.appendChild(uploadText);
+    	}else {
+            console.log("getUserMedia not supported");
+        }
 
-      	// constraints
-      	{
-         	video: true,
-         	audio: false
-      	},
-
-      	// successCallback
-      	function(stream) {
-    	  	hasCamera = true;
-          	console.log("Camera Detected");
-    	  	switchCam();
-          	video.src = window.URL.createObjectURL(stream);
-          	localMediaStream = stream;
-      	},
-
-      	// errorCallback
-      	function(err) {
-    	  	hasCamera = false;
-          	uploadText.data = "";
-          	console.log("The following error occurred: " + err);
-      	});
-	} else {
-   		console.log("getUserMedia not supported");
-	}
+	function loadVideo(){
+			videoLoader.style.display = "none";
+            navigator.getUserMedia (
+    
+            // constraints
+            {
+                video: true,
+                audio: false
+            },
+    
+            // successCallback
+            function(stream) {
+                hasCamera = true;
+                console.log("Camera Detected");
+                switchCam();
+                video.src = window.URL.createObjectURL(stream);
+                localMediaStream = stream;
+            },
+    
+            // errorCallback
+            function(err) {
+                hasCamera = false;
+                uploadText.data = "";
+                console.log("The following error occurred: " + err);
+            });
+    }
 
 	function snapshot() {
     	if (localMediaStream) {
@@ -323,7 +333,7 @@ var uploadInit = function(){
         	video.style.display='none';
         	takeShot.style.display='none';
         	canvas.style.display='block';
-        	rotateButton.style.display = 'block';
+        	rotateButton.style.display = 'none';
 			retakeShot.style.display='block';
         	submitShot.style.display='block';
         	if(img != null){
@@ -347,7 +357,12 @@ var uploadInit = function(){
 
     function resizeUpload(){
         uploadTool.style.display = "none";
-        resizeableImage(canvas.toDataURL("image/png",1.0));
+        if(tookPic = false){
+			resizeableImage(img.src);
+        }
+        else{
+            resizeableImage(canvas.toDataURL("image/png",1.0));
+        }
     }
     
     function rotate(){
@@ -413,13 +428,13 @@ var uploadInit = function(){
     switchButton.addEventListener('click', switchCam, false);
     submitShot.addEventListener('click', resizeUpload, false);
     rotateButton.addEventListener('click', rotate, false);
+    videoLoader.addEventListener('click', loadVideo, false);
 }
 
 var resizeableImage = function(image_data){
 
 	croppingTool = document.createElement("div");
     croppingTool.id = "cropping-tool";
-    croppingTool.style.maxWidth = window.innerWidth + "px";
     croppingTool.style.position = "relative";
 
 	var backToUpload = document.createElement("button");
@@ -450,21 +465,18 @@ var resizeableImage = function(image_data){
 
     var image_target = document.createElement("img");
     	image_target.id = "resize-image";
-    	image_target.src = image_data;
 
-    croppingTool.appendChild(image_target);
+    croppingTool.maxWidth = maxWidth;
+    croppingTool.maxHeight = maxHeight;
+
 
     init = function(){
 
-    	$('#resize-image').imgAreaSelect({
-    		handles: true,
-    		aspectRatio: "48:17",
-    		onSelectChange: storeCoords,
-    		parent: "#cropping-tool"
-    	});
-
         submitCrop.addEventListener('click', crop, false);
         backToUpload.addEventListener('click', back, false);
+        croppingTool.appendChild(image_target);
+        $(croppingTool).width($(image_target).width());
+    	$(croppingTool).height($(image_target).height());
         
     };
     
@@ -527,14 +539,25 @@ var resizeableImage = function(image_data){
         $('#cropping-tool').remove();
         $('#crop-buttons').remove();
         uploadTool.style.display = "block";
-        uploadTool.appendChild(cancelButton);  
+        uploadButtons.appendChild(cancelButton);
     }
 
     $(window).resize(function() {
         croppingTool.style.maxWidth = window.innerWidth;
     });
 
-    init();
+    image_target.onload = function(){
+        init();
+        $('#resize-image').imgAreaSelect({
+    		handles: true,
+    		aspectRatio: "48:17",
+    		onSelectChange: storeCoords,
+    		parent: "#cropping-tool"
+    	});
+    };
+
+	image_target.src = image_data;
+
 };
 
 cancel = function(){
@@ -542,6 +565,9 @@ cancel = function(){
 	$('#crop-buttons').remove();
 	$('#upload-tool').remove();
 	displayCurrent();
+    if(localMediaStream != null && localMediaStream != undefined){
+			localMediaStream.stop();
+        }
 }
 
 $(document).ajaxSuccess(function() {

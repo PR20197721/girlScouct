@@ -1098,7 +1098,11 @@ System.err.println("manu reactActivity");
                 	int smallerX = Math.min(x1, x2);
                 	int smallerY = Math.min(y1, y2);
                 	System.out.println(smallerX + ", " + smallerY + " : " + width + " x " + height);
-                	Rectangle2D rect = new Rectangle2D.Double(581, 239, 263, 93);
+					double ratio = 1;
+                    if(layer.getWidth() > 960){
+                        ratio = layer.getWidth() / 960;
+                    }
+                	Rectangle2D rect = new Rectangle2D.Double(smallerX * ratio, smallerY * ratio, width * ratio, height * ratio);
                 	layer.crop(rect);
                 	inputImage = layer.getImage();
                 	ByteArrayOutputStream outStream = new ByteArrayOutputStream();
