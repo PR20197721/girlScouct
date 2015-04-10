@@ -479,9 +479,9 @@ var resizeableImage = function(image_data){
     	$(croppingTool).height($(image_target).height());
         
     };
-    
+
     var x1, x2, y1, y2, width, height;
-    
+
     storeCoords = function(img, selection){
     	console.log(x1 + "," + y1 + " -> " + x2 + "," + y2);
     	x1 = selection.x1;
@@ -517,13 +517,16 @@ var resizeableImage = function(image_data){
     		if (!Date.now) {
     			Date.now = function() { return new Date().getTime(); }
 			}
-    		
-    		var coordsArray = [x1, y1, x2, y2, width, height];
+
+            var ajaxW = $('#resize-image').width();
+
+    		var coordsArray = [x1, y1, x2, y2, width, height, ajaxW];
+            console.log(coordsArray);
 
 			$.ajax({
   				method: "POST",
     	   		url: "/content/girlscouts-vtk/controllers/vtk.include.imageStore.html?" + Date.now(), //random string to prevent ajax caching
-    	    	data: { imageData: dataURL, coords: coordsArray.toString() }
+                data: { imageData: dataURL, coords: coordsArray.toString() }
 			})
   			.done(function( msg ) {
     	   		console.log( "Uploaded");

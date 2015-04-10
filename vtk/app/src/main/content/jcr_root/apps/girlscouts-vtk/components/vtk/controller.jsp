@@ -1058,7 +1058,8 @@ System.err.println("manu reactActivity");
 			try{
 				
 				int x1 = -1, x2 = -1, y1 = -1, y2 = -1, width = -1, height = -1;
-				
+                double maxW = 960;
+
 				int[] coords = new int[0];
 				
 				if(request.getParameter("coords") != null){
@@ -1074,24 +1075,22 @@ System.err.println("manu reactActivity");
 					}
 				}
 				
-				if(coords.length == 6){
+				if(coords.length == 7){
 					x1 = coords[0];
 					y1 = coords[1];
 					x2 = coords[2];
 					y2 = coords[3];
 					width = coords[4];
 					height = coords[5];
+                    maxW = coords[6];
 				}
-				
-				System.out.println("Image upload details");
-				System.out.println(x1 + "," + y1 + " -> " + x2 + "," + y2 + "; " + width + " x " + height);
-				
+
                 String imgData = request.getParameter("imageData");
                 
                 //System.out.println(imgData.substring(imgData.length()-11));
 				imgData = imgData.replace("data:image/png;base64,", "");
                 byte[] decoded = Base64.decodeBase64(imgData);
-                
+
                 if(x1 >= 0 && x2 >= 0 && y1 >= 0 && y2 >= 0 && width >= 0 && height >= 0){
                 	BufferedImage inputImage = ImageIO.read(new ByteArrayInputStream(decoded));
                 	Layer layer = new Layer(inputImage);             	
@@ -1099,9 +1098,15 @@ System.err.println("manu reactActivity");
                 	int smallerY = Math.min(y1, y2);
                 	System.out.println(smallerX + ", " + smallerY + " : " + width + " x " + height);
 					double ratio = 1;
-                    if(layer.getWidth() > 960){
-                        ratio = layer.getWidth() / 960;
+
+                    if(layer.getWidth() > maxW){
+                        ratio = layer.getWidth() / maxW;
                     }
+
+                    System.out.println("Image upload details");
+					System.out.println(x1 + "," + y1 + " -> " + x2 + "," + y2 + "; " + width + " x " + height);
+                    System.out.println(layer.getWidth() + ", " + maxW + ", " + ratio);
+
                 	Rectangle2D rect = new Rectangle2D.Double(smallerX * ratio, smallerY * ratio, width * ratio, height * ratio);
                 	layer.crop(rect);
                 	inputImage = layer.getImage();
