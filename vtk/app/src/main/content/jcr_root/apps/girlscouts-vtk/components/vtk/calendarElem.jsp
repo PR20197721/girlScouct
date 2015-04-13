@@ -165,7 +165,9 @@ $('#saveCalElem').click(function() {
 //	return true;
 //}
 
-
+if (navigator.userAgent.match(/(msie\ [0-9]{1})/i)[0].split(" ")[1] == 9) {
+  $('select').css('background-image', 'none');
+}
 function fnOpenNormalDialog() {
     $("#dialog-confirm").html("Are you sure you want to cancel the meeting? This will remove the meeting from the calendar and you will have <%=(sched.size()-1)%> meetings instead of <%=sched.size()%> meetings this year.");
 
@@ -177,20 +179,19 @@ function fnOpenNormalDialog() {
         height: 250,
         width: 400,
         buttons: {
-            "Go ahead, cancel the meeting": function () {
-                $(this).dialog('close');
-                var r = $("#meeting_select option:selected").val();
-                rmMeeting('<%=date.getTime()%>',r);
-            },
-                "Return to Specify Dates and Locations": function () {
-                $(this).dialog('close');
-                newLocCal();
-            }
+        "Go ahead, cancel the meeting": function () {
+            $(this).dialog('close');
+            var r = $("#meeting_select option:selected").val();
+            rmMeeting('<%=date.getTime()%>',r);
+        },
+            "Return to Specify Dates and Locations": function () {
+            $(this).dialog('close');
+            newLocCal();
+        }
         },
         create: function (event, ui) {
         	$(".ui-dialog-titlebar.ui-widget-header").hide();
     		}
-
     });
 }
 </script> 

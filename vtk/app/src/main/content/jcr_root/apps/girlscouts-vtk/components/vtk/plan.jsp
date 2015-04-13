@@ -216,7 +216,6 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
         link_bg_square();
 
        if (Modernizr.touch) {
-
          scrollTarget = ".touchscroll";
        } else {
 
@@ -275,31 +274,29 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
       }
     }).disableSelection();
   }
-});
-      
-      
-      var MeetingImg = React.createClass({displayName: "MeetingImg",
-        render: function() {
-          var src= "/content/dam/girlscouts-vtk/local/icon/meetings/"+ this.props.mid +".png";
-          var imgReturn="";
-         if( !imageExists( src ) ){ 
-            imgReturn="hide"; 
-         }
-          return (
-                React.createElement("img", {src: src, className: imgReturn})
-           );        
-        }
-      });
+}); 
+  var MeetingImg = React.createClass({displayName: "MeetingImg",
+    render: function() {
+      var src= "/content/dam/girlscouts-vtk/local/icon/meetings/"+ this.props.mid +".png";
+      var imgReturn="";
+     if( !imageExists( src ) ){ 
+        imgReturn="hide"; 
+     }
+      return (
+            React.createElement("img", {src: src, className: imgReturn})
+       );        
+    }
+  });
 
-    var ViewMeeting = React.createClass({displayName: "ViewMeeting",
-        render: function() {
-          var date  = new Date(this.props.date).getTime();
-            var src = "/content/girlscouts-vtk/en/vtk.details.html?elem="+date;
-          return (
-              React.createElement("a", {href: src}, this.props.name)
-          );
-        }
-      });
+var ViewMeeting = React.createClass({displayName: "ViewMeeting",
+    render: function() {
+      var date  = new Date(this.props.date).getTime();
+        var src = "/content/girlscouts-vtk/en/vtk.details.html?elem="+date;
+      return (
+          React.createElement("a", {href: src}, this.props.name)
+      );
+    }
+  });
 
     function doUpdMeeting1(newVals){
         var x =$.ajax({ 
@@ -316,46 +313,34 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
 
         function bgcolor(obj, comment, objType){ 
 
-        if( obj[comment].cancelled =='true' ){
+	if( obj[comment].cancelled =='true' ){
 
             return "bg-square canceled";
-        }else if(  meetingPassed && 
-             ((moment(comment) > moment( new Date() )) || (moment(comment).get('year') < 1978) )
-             ) {
-                    if( objType=='1'){  meetingPassed= false;}
-
-                            return "bg-square current";
- 
+        } else if(  meetingPassed && 
+           ((moment(comment) > moment( new Date() )) || (moment(comment).get('year') < 1978) )
+           ) {
+        if( objType=='1'){  meetingPassed= false;}
+          return "bg-square current";
          }else if(   moment(comment).get('year') < 1978 ){
-
             return "bg-square";
-    
         }else if(  moment(comment) < moment( new Date()) ){
             return "bg-square passed";
-         
-        
          }else{
-
             return "bg-square";
          }
         }
 
-        function imageExists(image_url) {
-          var http = new XMLHttpRequest();
-          http.open('HEAD', image_url, false);
-          http.send();
-          return http.status != 404;
-        }
-
-
-
-
-
+  function imageExists(image_url) {
+    var http = new XMLHttpRequest();
+    http.open('HEAD', image_url, false);
+    http.send();
+    return http.status != 404;
+  }
  var DateBox = React.createClass({displayName: "DateBox",
         render: function() {
 
-            var obj = this.props.obj;
-            var comment= this.props.comment;  
+      var obj = this.props.obj;
+      var comment= this.props.comment;  
       return (
         React.createElement("div", {className: bgcolor(obj, comment, 1)}, 
         React.createElement("div", {className:  (moment(comment).get('year') < 1978 || obj[comment].type == 'MEETINGCANCELED' ) ?  "hide" : "count"}, (obj[comment].id)+1), 

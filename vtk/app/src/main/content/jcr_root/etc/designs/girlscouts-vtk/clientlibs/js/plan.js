@@ -179,7 +179,11 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 					$("span.ui-dialog-title").html(title);
 					$(".ui-dialog-titlebar").show();
 				}
-					
+				
+				if (navigator.userAgent.match(/(msie\ [0-9]{1})/i)[0].split(" ")[1] == 9) {
+					$('select').css('background-image', 'none');
+					placeholder_IE9();
+				}
 			},
 			close: function() {
 				$("body").css({ overflow: 'inherit' });
@@ -198,12 +202,39 @@ function loadModal(divSelector, showTitle, title, fullPageScroll, print) {
 					$(".ui-dialog-titlebar").show();
 				}
 				$("body").css({ overflow: 'hidden' });
+				placeholder_IE9();
 			},
 			close: function() {
 				$("body").css({ overflow: 'inherit' });
 			}
 		});
 	}
+}
+//add placeholder to the forms in the popups for IE9.
+function placeholder_IE9() {
+  $('select').css('background-image', 'none');
+  function add() {
+    if($(this).val() === ''){
+      $(this).val($(this).attr('placeholder')).addClass('placeholder');
+    }
+  }
+  function remove() {
+    if($(this).val() === $(this).attr('placeholder')){
+      $(this).val('').removeClass('placeholder');
+    }
+  }
+
+  // Create a dummy element for feature detection
+  if (!('placeholder' in $('<input>')[0])) {
+
+    // Select the elements that have a placeholder attribute
+    $('input[placeholder], textarea[placeholder]').blur(add).focus(remove).each(add);
+
+    // Remove the placeholder text before the form is submitted
+    $('form').submit(function(){
+      $(this).find('input[placeholder], textarea[placeholder]').each(remove);
+    });
+  }
 }
 function yesPlan(){
   if(document.getElementById('yearPlanMeetings').style.display=='none' ){
@@ -226,20 +257,19 @@ function addLocation(){
 	
 	//NEEDS to be BACK vtk-global.js? showError(null, "#locationEdit .errorMsg");	
 	var  name = document.getElementById("loc_name").value;
-	
-	if( $.trim(name) =='' ){
+	if( $.trim(name) == '' || $.trim(name) == 'Location Name'){
 		//showError("Please enter a location", "#locationEdit .errorMsg"); //js missing from VTK2
 		alert("Please enter a location");
 		return false;
 	}
 	
-	var  address = document.getElementById("loc_address").value;	
+	var  address = document.getElementById("loc_address").value;
+	if( $.trim(address) == '' || $.trim(address) == 'Location Address'){
+		address="";
+	}
 	var  city = document.getElementById("loc_city").value;
 	var  state = document.getElementById("loc_state").value;
 	var  zip = document.getElementById("loc_zip").value;
-	
-	
-	
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
 		type: 'POST',
@@ -371,7 +401,7 @@ function rmCustActivity(x){
 
 function createNewCustActivity(){	
 	var newCustActivity_name = document.getElementById("newCustActivity_name").value;
-	if( $.trim(newCustActivity_name) =='' ){alert("Please fill 'Name' field"); return false;}
+	if( $.trim(newCustActivity_name) =='' || $.trim(newCustActivity_name) =='Activity Name'){alert("Please fill 'Name' field"); return false;}
 	var newCustActivity_date = document.getElementById("newCustActivity_date").value;
 	
 	var aDate = new Date(newCustActivity_date);
@@ -382,8 +412,18 @@ function createNewCustActivity(){
 	var newCustActivity_startTime = document.getElementById("newCustActivity_startTime").value;
 	var newCustActivity_endTime = document.getElementById("newCustActivity_endTime").value;
 	var newCustActivity_txt = document.getElementById("newCustActivity_txt").value;
+	if( $.trim(newCustActivity_txt) =='' || $.trim(newCustActivity_txt) =='Activity Description')
+	{newCustActivity_txt='';}
+
+	
 	var newCustActivityLocName = document.getElementById("newCustActivity_locName").value;
+	if( $.trim(newCustActivityLocName) =='' || $.trim(newCustActivityLocName) =='Location Name')
+		{alert("Please fill 'Location Name' field"); return false;}
+	
 	var newCustActivityLocAddr = document.getElementById("newCustActivity_locAddr").value;
+	if( $.trim(newCustActivityLocAddr) =='' || $.trim(newCustActivityLocAddr) =='Location Address')
+	{alert("Please fill 'Location Address' field"); return false;}
+	
 	var newCustActivity_startTime_AP = document.getElementById("newCustActivity_startTime_AP").value;
 	var newCustActivity_endTime_AP = document.getElementById("newCustActivity_endTime_AP").value;
 	var newCustActivity_cost = document.getElementById("newCustActivity_cost").value;
@@ -420,6 +460,7 @@ function editNewCustActivity(activityUid){
 	var newCustActivity_startTime = document.getElementById("newCustActivity_startTime").value;
 	var newCustActivity_endTime = document.getElementById("newCustActivity_endTime").value;
 	var newCustActivity_txt = document.getElementById("newCustActivity_txt").value;
+	if( $.trim(newCustActivity_txt) =='Activity Description' ){ newCustActivity_txt=''; }
 	var newCustActivityLocName = document.getElementById("newCustActivity_locName").value;
 	var newCustActivityLocAddr = document.getElementById("newCustActivity_locAddr").value;
 	var newCustActivity_startTime_AP = document.getElementById("newCustActivity_startTime_AP").value;
