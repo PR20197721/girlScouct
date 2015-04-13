@@ -16,6 +16,7 @@ function rmLocation(locationName){
 			a:Date.now()
 		},
 		success: function(result) {
+			vtkTrackerPushAction('RemoveLocation');
 			$("#locList").load("/content/girlscouts-vtk/controllers/vtk.locationManage.html?rand="+Date.now());
 		}
 	});
@@ -32,6 +33,7 @@ function applyLocToAllMeetings(locationPath){
 		},
 		success: function(result) {
 			//document.location="/content/girlscouts-vtk/en/vtk.plan.html";
+			vtkTrackerPushAction('ChangeLocation');
 			$("#locList").load("/content/girlscouts-vtk/controllers/vtk.locationManage.html?rand="+Date.now());
 		}
 	});

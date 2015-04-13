@@ -140,6 +140,7 @@ function saveFinances(){
 			a:Date.now()
 		},
 		success: function(result) {
+			vtkTrackerPushAction('ChangeFinance');
 			$("#saveFinanceFieldFormButton").addClass("disabled");
 		}
 	});

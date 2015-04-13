@@ -46,6 +46,7 @@ function updSched1(i, meetingPath, currDt){
 	      },
 	      success: function(result) {
 	    	  
+	    	  vtkTrackerPushAction('UpdateSched');
 	    	  document.location="/content/girlscouts-vtk/en/vtk.plan.html";
 	      },
 	      error: function (xhr, ajaxOptions, thrownError) {

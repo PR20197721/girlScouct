@@ -266,7 +266,7 @@ if( false ){//troop!=null && troop.getYearPlan()!=null){
 }
 
 
-    String footerScript ="<script>vtkInitTracker('"+troop.getSfTroopName()+"', '"+troop.getSfTroopId() +"', '"+user.getApiConfig().getUser().getSfUserId()+"');vtkTrackerPushAction('sessionjsp');</script>";
+    String footerScript ="<script>vtkInitTracker('"+troop.getSfTroopName()+"', '"+troop.getSfTroopId() +"', '"+user.getApiConfig().getUser().getSfUserId()+"');vtkTrackerPushAction('View');</script>";
     request.setAttribute("footerScript", footerScript);
 
 

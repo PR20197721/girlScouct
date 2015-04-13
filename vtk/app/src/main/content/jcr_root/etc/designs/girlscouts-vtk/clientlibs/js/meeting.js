@@ -42,6 +42,7 @@ function rmAsset(meetingId, assetId){
 			a:Date.now()
 		}
 	}).done(function( html ) {
+		vtkTrackerPushAction("RemoveAsset");
 		location.reload();
 	});
 	
