@@ -432,6 +432,8 @@ var uploadInit = function(){
 }
 
 var resizeableImage = function(image_data){
+	
+	var coordsSelected = false;
 
 	croppingTool = document.createElement("div");
     croppingTool.id = "cropping-tool";
@@ -490,15 +492,21 @@ var resizeableImage = function(image_data){
     	y2 = selection.y2;
     	width = selection.width;
     	height = selection.height;
+    	coordsSelected = true;
     };
 
     crop = function(){
-        if(localMediaStream != null && localMediaStream != undefined){
-			localMediaStream.stop();
-        }
-		$('#upload-tool').remove();
-
-        upload();
+    	if(!coordsSelected){
+    		alert("Please crop the part of the image you would like to upload by clicking and dragging across the picture");
+    	}
+    	else{
+	        if(localMediaStream != null && localMediaStream != undefined){
+				localMediaStream.stop();
+	        }
+			$('#upload-tool').remove();
+	
+	        upload();
+    	}
     };
 
     upload = function(){
@@ -526,7 +534,8 @@ var resizeableImage = function(image_data){
 			$.ajax({
   				method: "POST",
     	   		url: "/content/girlscouts-vtk/controllers/vtk.include.imageStore.html?" + Date.now(), //random string to prevent ajax caching
-                data: { imageData: dataURL, coords: coordsArray.toString() }
+                data: { imageData: dataURL, coords: coordsArray.toString() },
+				success: uploadSuccess
 			})
   			.done(function( msg ) {
     	   		console.log( "Uploaded");
@@ -573,12 +582,12 @@ cancel = function(){
         }
 }
 
-$(document).ajaxSuccess(function() {
+uploadSuccess = function() {
   alert(successMsg);
   $('#upload-tool').remove();
   $('#cropping-tool').remove();
   displayCurrent();
-});
+};
 
 window.onload=function() {
 	cancelButton.addEventListener('click',cancel, false);
