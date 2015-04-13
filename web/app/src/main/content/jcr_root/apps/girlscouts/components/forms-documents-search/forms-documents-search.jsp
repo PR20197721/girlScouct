@@ -120,7 +120,7 @@ try{
 		Node node = resourceResolver.resolve(hit.getPath()).adaptTo(Node.class);
 
 		//GSWS-132: Prevents unwanted (folder) results
-		if(!node.hasNode("jcr:content")){
+		if(!node.getPrimaryNodeType().getName().equals("dam:Asset")){
 			continue;
 		}
 
