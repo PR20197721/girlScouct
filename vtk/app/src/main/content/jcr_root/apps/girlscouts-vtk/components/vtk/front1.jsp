@@ -5,12 +5,19 @@
 
 <%
 final org.girlscouts.vtk.ejb.SessionFactory sessionFactory = sling.getService( org.girlscouts.vtk.ejb.SessionFactory.class);
+Session session = null;
+try {
+    session = sessionFactory.getSession();
 
-
-                   Node node = session.getNode(request.getParmater("path") );
+                   Node node = session.getNode(request.getParameter("path") );
                    node.setProperty("isAnalytics", true);
                    session.save();
-                   System.err.println("saved: "+path);
+                   System.err.println("saved: "+request.getParameter("path"));
+                   
+}catch(Exception e){e.printStackTrace();
+}finally{
+    sessionFactory.closeSession(session);
+}   
                    %>
                    
                   
