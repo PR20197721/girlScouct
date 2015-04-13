@@ -10,7 +10,7 @@ try {
     session = sessionFactory.getSession();
 
                    Node node = session.getNode(request.getParameter("path") );
-                   node.setProperty("isAnalytics", true);
+                   node.setProperty("analyticsLastUpdated", new java.util.Date().getTime());
                    session.save();
                    System.err.println("saved: "+request.getParameter("path"));
                    

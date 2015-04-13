@@ -30,7 +30,7 @@ final org.girlscouts.vtk.ejb.SessionFactory sessionFactory = sling.getService( o
 
           
            String sql = "";
-           sql = "select sfUserId , jcr:lastModified ,  sfTroopId, sfTroopName from nt:base where jcr:path like '/vtk/%' and ocm_classname='org.girlscouts.vtk.models.Troop' and isAnalytics is null";
+           sql = "select sfUserId , jcr:lastModified ,  sfTroopId, sfTroopName from nt:base where jcr:path like '/vtk/%' and ocm_classname='org.girlscouts.vtk.models.Troop' and analyticsLastUpdated is null";
 
            javax.jcr.query.QueryManager qm = session.getWorkspace().getQueryManager();
            javax.jcr.query.Query q = qm.createQuery(sql, javax.jcr.query.Query.SQL);
@@ -105,7 +105,7 @@ ga('create', 'UA-61431888-1', 'auto', {'name': 'vtkTracker'});
        }finally{
            sessionFactory.closeSession(session);
        }
-      // return rptList;
+      
 java.util.Random r = new java.util.Random();
 int refr= r.nextInt(5000-1000) + 1000;
 %>
@@ -114,9 +114,12 @@ int refr= r.nextInt(5000-1000) + 1000;
 <script>
 
 function refresh() {
-    
-        //window.location.reload(true);
-        //setTimeout(refresh, <%=refr%>);
+   
+	    //uncomment 2 lines auto post db to google
+        /*
+        window.location.reload(true);
+        setTimeout(refresh, <%=refr%>);
+        */
 }
 
 setTimeout(refresh, <%=refr%>);
