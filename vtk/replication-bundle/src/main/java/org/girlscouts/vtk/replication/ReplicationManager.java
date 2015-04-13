@@ -41,6 +41,9 @@ public class ReplicationManager {
     
     @Reference
     private TroopHashGenerator troopHashGenerator;
+    
+    @Reference
+    private VTKDataCacheInvalidator cacheInvator;
      
     @Reference
     private Replicator replicator;
@@ -66,7 +69,7 @@ public class ReplicationManager {
             manager = session.getWorkspace().getObservationManager();
             
             for (int i = 0; i < MONITOR_PATHS.length; i++) {
-                EventListener listener = new NodeListener(session, replicator, troopHashGenerator);
+                EventListener listener = new NodeListener(session, replicator, troopHashGenerator, cacheInvator);
                 listeners.add(listener);
                 manager.addEventListener(listener, Constants.PROPERTY_UPDATE | Event.NODE_REMOVED | Event.NODE_MOVED,
                         MONITOR_PATHS[i], true, null, Constants.PRIMARY_TYPES, true);

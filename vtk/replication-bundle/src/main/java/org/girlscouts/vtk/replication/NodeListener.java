@@ -26,11 +26,14 @@ public class NodeListener implements EventListener {
     private ReplicationOptions opts;
     private ReplicationOptions vtkDataOpts;
     private TroopHashGenerator troopHashGenerator;
+    private VTKDataCacheInvalidator cacheInvalidator;
     
-    public NodeListener(Session session, Replicator replicator, TroopHashGenerator troopHashGenerator) {
+    public NodeListener(Session session, Replicator replicator, 
+            TroopHashGenerator troopHashGenerator, VTKDataCacheInvalidator cacheInvalidator) {
         this.session = session;
         this.replicator = replicator;
         this.troopHashGenerator = troopHashGenerator;
+        this.cacheInvalidator = cacheInvalidator;
 
         opts = new ReplicationOptions();
         opts.setFilter(new AgentIdRegexFilter("^" + Constants.VTK_AGENT_PREFIX + ".*"));
@@ -83,11 +86,7 @@ public class NodeListener implements EventListener {
         // Found affected troop. Invalidate VTK data cache on dispatcher.
         if (affectedTroop != null) {
             String troopPath = troopHashGenerator.getPath(affectedTroop);
-            try {
-                replicator.replicate(session, ReplicationActionType.ACTIVATE, troopPath, vtkDataOpts);
-            } catch (ReplicationException e) {
-                log.error("Replication Exception while trying to invalidating VTK data cache. Event not handled.");
-            }
+            cacheInvalidator.addPath(troopPath);
         }
     }
 }
