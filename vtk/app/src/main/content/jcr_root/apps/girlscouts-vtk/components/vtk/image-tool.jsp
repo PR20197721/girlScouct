@@ -438,13 +438,7 @@ var resizeableImage = function(image_data){
 	croppingTool = document.createElement("div");
     croppingTool.id = "cropping-tool";
     croppingTool.style.position = "relative";
-
-	var backToUpload = document.createElement("button");
-    backToUpload.id = "back-button";
-	backToUpload.style.float = "left";
-	var backText = document.createTextNode("Choose another picture");
-    backToUpload.appendChild(backText);
-
+    
 	var cropButtons = document.createElement("div");
     cropButtons.id = "crop-buttons";
     cropButtons.style.overflow = "hidden";
@@ -454,13 +448,12 @@ var resizeableImage = function(image_data){
 	var submitCrop = document.createElement("button");
     submitCrop.id = "submitCrop";
     submitCrop.style.float = "left";
-	var submitText = document.createTextNode("Submit");
+	var submitText = document.createTextNode("Crop & Select");
     submitCrop.appendChild(submitText);
 
     imageTool.appendChild(croppingTool);
     imageTool.appendChild(cropButtons);
 
-    cropButtons.appendChild(backToUpload);
     cropButtons.appendChild(submitCrop);
     
     cropButtons.appendChild(cancelButton);
@@ -475,7 +468,6 @@ var resizeableImage = function(image_data){
     init = function(){
 
         submitCrop.addEventListener('click', crop, false);
-        backToUpload.addEventListener('click', back, false);
         croppingTool.appendChild(image_target);
         $(croppingTool).width($(image_target).width());
     	$(croppingTool).height($(image_target).height());
@@ -500,6 +492,10 @@ var resizeableImage = function(image_data){
     		alert("Please crop the part of the image you would like to upload by clicking and dragging across the picture");
     	}
     	else{
+    		
+        	submitText.data="Uploading...";
+        	submitCrop.disabled = true;
+        	
 	        if(localMediaStream != null && localMediaStream != undefined){
 				localMediaStream.stop();
 	        }
@@ -517,8 +513,6 @@ var resizeableImage = function(image_data){
     		alert("Image Error: no image data detected");
     	}
     	else{
-
-            $('#crop-buttons').remove();
 
     		tookPic = false;
 
@@ -546,13 +540,6 @@ var resizeableImage = function(image_data){
   			});
     	};
 	}
-
-    back = function(){
-        $('#cropping-tool').remove();
-        $('#crop-buttons').remove();
-        uploadTool.style.display = "block";
-        uploadButtons.appendChild(cancelButton);
-    }
 
     $(window).resize(function() {
         croppingTool.style.maxWidth = window.innerWidth;
@@ -586,6 +573,7 @@ uploadSuccess = function() {
   alert(successMsg);
   $('#upload-tool').remove();
   $('#cropping-tool').remove();
+  $('#crop-buttons').remove();
   displayCurrent();
 };
 
