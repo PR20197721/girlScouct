@@ -25,6 +25,9 @@
                 <id
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Id"
+                    fieldSubLabel="Should be a number. e.g. 5"
+                    regex="/^[0-9]*$/"
+                    regexText="ID should only contain digits."
                     allowBlank="{Boolean}false"
                     name="./id"/>
                 <name

@@ -25,7 +25,10 @@
                 <id
                     jcr:primaryType="cq:Widget"
                     fieldLabel="Id"
+                    regex="/^[a-zA-Z][0-9a-zA-Z]*$/"
+                    regexText="ID should begin with an alphabet and contain only alphabets and digits."
                     allowBlank="{Boolean}false"
+                    fieldSubLabel="e.g. B14B01"
                     name="./id"/>
                 <level
                     jcr:primaryType="cq:Widget"
