@@ -1283,7 +1283,14 @@ System.err.println("test123 yes");
 				_attendances += Attendances.get(i) + ",";
 
 		ATTENDANCES.setUsers(_attendances);
-		ATTENDANCES.setTotal(contacts.size());
+		//count the number of contacts that are not null
+		int cTotal = 0;
+		for(int i=0;i<contacts.size();i++){
+			if(contacts.get(i).getId()!=null){	
+				cTotal++;
+			}
+		}
+		ATTENDANCES.setTotal(cTotal);
 		setAttendance(user, troop, mid, ATTENDANCES);
 
 		return false;
