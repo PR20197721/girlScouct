@@ -22,7 +22,7 @@ public class Council implements Serializable {
 
 	@Collection
 	private java.util.List<Troop> troops;
-
+	
 	public java.util.List<Troop> getTroops() {
 		return troops;
 	}
@@ -30,7 +30,7 @@ public class Council implements Serializable {
 	public void setTroops(java.util.List<Troop> troops) {
 		this.troops = troops;
 	}
-
+	
 	public String getPath() {
 		return path;
 	}

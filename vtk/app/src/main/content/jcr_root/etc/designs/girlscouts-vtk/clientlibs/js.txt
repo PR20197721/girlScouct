@@ -10,9 +10,15 @@ meeting.js
 plan.js
 planView.js
 resources.js
-jquery.jscroll.js
 jquery.jscroll.min.js
 moment.min.js
-vtk-global.js
 JSXTransformer-0.12.1.js
-react-with-addons-0.12.1.js
+jquery.validate.js
+jquery-print.js
+vtk-global.js
+
+## use for prod
+  react-with-addons-0.12.2.min.js
+
+## use for dev
+#react-with-addons-0.12.2.js

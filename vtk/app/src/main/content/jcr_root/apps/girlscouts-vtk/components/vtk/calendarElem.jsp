@@ -27,13 +27,13 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 
 	<div class="modifyCalendarDate clearfix">
 		<div class="column large-10 medium-10 small-24">
-			<input type="radio" value="change" id="cngRadio" CHECKED name="change"><strong> Change Date / Time</strong>
+			<input type="radio" value="change" id="cngRadio" CHECKED name="change" /><label for="cngRadio"><p>Change Date / Time</p></label>
 			<form id="frmCalElem">
 				<p><strong>Change Date:</strong></p>
 				<span>Select today's date or any future date</span>
 				<div id="datepicker"></div>
 				<!-- <input type="hidden" name="cngDate0" value="" id="cngDate0" /> -->
-				<input type="hidden" value="<%= FORMAT_MMddYYYY.format(date) %>" id="cngDate0"  name="cngDate0" class="date calendarField"/>
+				<input type="hidden" value="<%= FORMAT_MMddYYYY.format(date) %>" id="cngDate0"  name="cngDate0" class="date calendarField" />
 				<p><strong>Change Time:</strong></p>
 				<section class='row clearfix'>
 					<div class="column small-6">
@@ -51,7 +51,7 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 		</div>
 
 		<div class="column small-24 large-10 medium-10">
-			<input type="radio" value="cancel" id="cclRadio" name="cancel"><strong> Cancel Meeting</strong>
+			<input type="radio" value="cancel" id="cclRadio" name="cancel" /><label for="cclRadio"><p>Cancel Meeting</p></label>
 			<p>Select meeting plan you would like to cancel:</p>
 			<form id="frmCalElem_1">
 				<select id="meeting_select">	
@@ -69,7 +69,6 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 
 <script>
 $(function() {
-    //$( "#cngDate0" ).datepicker({minDate: 0});
 	$( "#datepicker" ).datepicker({
 		  defaultDate: new Date ('<%=date%>'),
 		  minDate: 0,
@@ -80,8 +79,8 @@ $(function() {
 		      document.getElementById("cngDate0").value =dateAsString;
 		      
 		   }
-		  });
-  });
+	});
+});
 </script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.extensions.js"></script>
@@ -89,7 +88,6 @@ $(function() {
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/inputmask.date.extensions.js"></script>
 
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.maskedinput.js"></script>
-<script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script>
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.maskMoney.js"></script>
 
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.datepicker.validation.js"></script>
@@ -143,9 +141,9 @@ $('#saveCalElem').click(function() {
 		   fnOpenNormalDialog();
 	}
 	else if($("#cngRadio").prop("checked")){
-		
+
 		if ($('#frmCalElem').valid()) {
-			
+		
 			if(!timeDiff()){ return false;}
 			
 			  updSched1('0','<%=meeting.getPath()%>','<%=date.getTime()%>');
@@ -179,7 +177,7 @@ function fnOpenNormalDialog() {
         height: 250,
         width: 400,
         buttons: {
-            "Go ahead,cancel the meeting": function () {
+            "Go ahead, cancel the meeting": function () {
                 $(this).dialog('close');
                 var r = $("#meeting_select option:selected").val();
                 rmMeeting('<%=date.getTime()%>',r);

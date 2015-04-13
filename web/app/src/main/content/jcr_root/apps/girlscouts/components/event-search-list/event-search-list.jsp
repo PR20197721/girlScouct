@@ -102,7 +102,14 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(startDate);
 				int month = cal.get(Calendar.MONTH);
-				
+
+                //Add time zone label to date string if event has one
+                String timeZoneLabel = propNode.hasProperty("timezone") ? propNode.getProperty("timezone").getString() : "";
+				if(!timeZoneLabel.isEmpty()){
+					dateStr = dateStr + " " + timeZoneLabel;
+				}
+
+
 				try{
 					String eventDt = formatter.format(evntComparsion);
 					evntComparsion = formatter.parse(eventDt);

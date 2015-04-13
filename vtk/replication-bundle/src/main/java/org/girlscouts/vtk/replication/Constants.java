@@ -3,10 +3,11 @@ package org.girlscouts.vtk.replication;
 import javax.jcr.observation.Event;
 
 public interface Constants {
-    String PRIMARY_TYPE = "nt:unstructured";
+    String[] PRIMARY_TYPES = { "nt:unstructured", "nt:file" };
     String NODE_REMOVED_PROPERTY = "nodeRemoved";
     // TODO: make it an OSGI conf
     String ROOT_PATH = "/vtk";
+    String DAM_PATH = "/content/dam/girlscouts-vtk/troop-data";
     int EVENT_UPDATE = 0;
     int EVENT_REMOVE = 1;
     String JOB_NAME = "Publish VTK Node Job";

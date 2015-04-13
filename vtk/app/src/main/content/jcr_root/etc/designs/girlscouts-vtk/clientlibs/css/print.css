@@ -81,6 +81,9 @@
     #header {
       background:#00ae58 !important;
     }
+    p,span,ul,li {
+      page-break-inside: avoid;
+    }
     .vtk-body #main #yearPlanMeetings li.milestone,
     .vtk-body #main #yearPlanMeetings li.milestone.ui-state-disabled {
       border-bottom: 1px solid #aaa !important;

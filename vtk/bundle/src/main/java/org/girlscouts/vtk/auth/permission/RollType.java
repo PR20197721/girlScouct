@@ -1,7 +1,7 @@
 package org.girlscouts.vtk.auth.permission;
 
 public enum RollType {
-	DP("DP");
+	DP("DP"), CouncilAdmin("CA"), PA("PA");
 
 	String value = null;
 

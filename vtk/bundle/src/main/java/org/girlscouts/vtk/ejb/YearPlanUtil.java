@@ -22,6 +22,7 @@ import org.girlscouts.vtk.dao.ActivityDAO;
 import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.TroopDAO;
 import org.girlscouts.vtk.dao.YearPlanDAO;
+import org.girlscouts.vtk.dao.CouncilDAO;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Asset;
 import org.girlscouts.vtk.models.Meeting;
@@ -49,13 +50,16 @@ public class YearPlanUtil {
 
 	@Reference
 	private MeetingDAO meetingDAO;
+	
+	@Reference
+	private CouncilDAO councilDAO;
 
 	@Reference
 	private UserUtil userUtil;
 
 	public void createActivity(User user, Troop troop, Activity activity)
 			throws java.lang.IllegalAccessException {
-
+		activity.setDbUpdate(true);
 		activityDAO.createActivity(user, troop, activity);
 		troop.getYearPlan().setAltered("true");
 		troopDAO.updateTroop(user, troop);
@@ -215,7 +219,8 @@ if( endDate ==null ) endDate = cal.getTime();
 	}
 
 	public java.util.List<Milestone> getCouncilMilestones(String councilCode) {
-		return meetingDAO.getCouncilMilestones(councilCode);
+		//return meetingDAO.getCouncilMilestones(councilCode);
+		return councilDAO.getCouncilMilestones(councilCode);
 	}
 
 	public Meeting getMeeting(User user, String path)
@@ -268,8 +273,9 @@ if( endDate ==null ) endDate = cal.getTime();
 				meeting);
 	}
 
-	public void saveCouncilMilestones(java.util.List<Milestone> milestones) {
-		meetingDAO.saveCouncilMilestones(milestones);
+	public void saveCouncilMilestones(java.util.List<Milestone> milestones, String cid) {
+		councilDAO.updateCouncilMilestones(milestones,cid);
+		//meetingDAO.saveCouncilMilestones(milestones);
 	}
 
 	public java.util.List<Activity> searchA1(User user, Troop troop,

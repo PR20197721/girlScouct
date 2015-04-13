@@ -18,8 +18,30 @@ public class Contact implements java.io.Serializable {
 	String path;
 
 	@Field
-	private String email, phone, firstName, lastName, address, address1, city,
-			state, zip, suite;
+	private String email, phone, firstName, lastName, address, address1, city, state, zip, suite, role, dob, country;
+
+	@Field Integer age, type;
+	
+	private java.util.List <Contact>contacts;
+	
+	
+	
+	
+	public Integer getType() {
+		return type;
+	}
+
+	public void setType(Integer type) {
+		this.type = type;
+	}
+
+	public java.util.List<Contact> getContacts() {
+		return contacts;
+	}
+
+	public void setContacts(java.util.List<Contact> contacts) {
+		this.contacts = contacts;
+	}
 
 	public String getPath() {
 		return path;
@@ -117,4 +139,39 @@ public class Contact implements java.io.Serializable {
 		this.lastName = lastName;
 	}
 
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	public String getDob() {
+		return dob;
+	}
+
+	public void setDob(String dob) {
+		this.dob = dob;
+	}
 }

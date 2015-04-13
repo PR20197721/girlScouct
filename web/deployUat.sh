@@ -7,7 +7,7 @@ if [ -z $VERSION ]; then
     VERSION=`sed '10q;d' pom.xml | sed 's/.*<version>\(.*\)<\/version>/\1/'`
 fi
 
-SERVER_LIST=(54.173.251.222:4503 54.173.30.56:4502)
+SERVER_LIST=(54.173.251.222:4503 52.0.183.181:4502)
 
 for server in ${SERVER_LIST[@]}; do
 	echo "Trying server $server"

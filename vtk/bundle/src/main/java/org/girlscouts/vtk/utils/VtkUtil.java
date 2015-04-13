@@ -3,9 +3,14 @@ package org.girlscouts.vtk.utils;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 
+import org.apache.commons.beanutils.BeanComparator;
+import org.girlscouts.vtk.models.Contact;
 import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.Meeting;
+import org.girlscouts.vtk.models.MeetingE;
 
 public enum VtkUtil {
 	;
@@ -81,4 +86,87 @@ public enum VtkUtil {
 		
 		return total;
 	}
+	
+	
+	public static final java.util.List<java.util.Date> getStrCommDelToArrayDates( String date ){
+		
+		java.util.List <java.util.Date> sched = new java.util.ArrayList<java.util.Date>();
+		if( date==null || date.equals("")) return sched;
+		
+		java.util.StringTokenizer t= new java.util.StringTokenizer( date, ",");
+		while( t.hasMoreElements()){
+			sched.add( new java.util.Date( Long.parseLong( t.nextToken() ) ) );
+		}
+		return sched;
+		
+	}
+	
+    public static final java.util.List<String> getStrCommDelToArrayStr( String date ){
+		
+		java.util.List <String> sched = new java.util.ArrayList<String>();
+		if( date==null || date.equals("")) return sched;
+		
+		java.util.StringTokenizer t= new java.util.StringTokenizer( date, ",");
+		while( t.hasMoreElements()){
+			sched.add(  t.nextToken() );
+		}
+		return sched;
+		
+	}
+    
+    public static final String getArrayDateToStringComDelim( java.util.List<java.util.Date> dates){
+    	
+    	String str ="";
+    	
+    	for(int i=0;i<dates.size();i++){
+    		str+= dates.get(i) +",";
+    	}
+    	return str;
+    }
+    
+    
+    public static final java.util.List<MeetingE> sortMeetingsById( java.util.List<MeetingE> meetings){
+    	
+    	//for(int i=0;i<meetings.size();i++)
+    	//	System.err.println("tatax sorting before: "+ i+" :" +meetings.get(i).getId());
+    	
+    	
+    	Comparator<MeetingE> comp = new BeanComparator("id");
+		Collections.sort(meetings, comp);
+		
+		//for(int i=0;i<meetings.size();i++)
+    	//	System.err.println("tatax sorting after: "+ i+" :" +meetings.get(i).getId());
+		
+    	return meetings;
+    	
+    }
+    
+  public static final java.util.List<MeetingE> setToDbUpdate( java.util.List<MeetingE> meetings){
+    	if( meetings!=null )
+    	 for(int i=0;i<meetings.size();i++)
+    		meetings.get(i).setDbUpdate(true);
+	  return meetings; 	
+  }
+  
+  public static final String getArrayDateToLongComDelim( java.util.List<java.util.Date> dates){
+  	
+  	String str ="";
+  	
+  	for(int i=0;i<dates.size();i++){
+  		str+= dates.get(i).getTime() +",";
+  	}
+  	return str;
+  }
+  
+  public static final Contact getSubContact( Contact contact, int contactType){
+	  
+	  if( contact.getContacts()!=null )
+		  for(Contact subContact: contact.getContacts()){
+			  if( subContact.getType()==1)
+				  return subContact;
+		  }
+	  
+	  return null;
+  }
+  
 }

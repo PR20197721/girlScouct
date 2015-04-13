@@ -8,7 +8,11 @@
     <a class="close-reveal-modal columns large-2" href="#"><i class="icon-button-circle-cross"></i></a>
   </div>
   <div class="scroll">
-  	<%@include file="/apps/girlscouts-vtk/components/vtk/include/email/meetingReminder.jsp" %>  
+  <% if( (planView.getYearPlanComponent().getType() ==  YearPlanComponentType.ACTIVITY) ){%>
+  <%@include file="/apps/girlscouts-vtk/components/vtk/include/email/activityReminder.jsp" %>  
+  <% }else {%>
+  <%@include file="/apps/girlscouts-vtk/components/vtk/include/email/meetingReminder.jsp" %>  
+  <%} %>
   </div><!--/scroll-->
 </div>
 

@@ -7,10 +7,14 @@ import org.girlscouts.vtk.salesforce.Troop;
 public class ApiConfig implements Serializable {
 
 	private String accessToken, instanceUrl, tokenType, id, refreshToken,
-			userId; /* userId should be moved out.User obj exists* */
+			userId, webServicesUrl; /* userId should be moved out.User obj exists* */
 	private org.girlscouts.vtk.auth.models.User user;
 	private java.util.List<Troop> troops;
-
+	
+	//used in refreshToken
+	private String callbackUrl, clientId, clientSecret, OAuthUrl;
+	private long lastTimeTokenRefreshed;
+	
 	public java.util.List<Troop> getTroops() {
 		return troops;
 	}
@@ -49,6 +53,7 @@ public class ApiConfig implements Serializable {
 
 	public void setAccessToken(String accessToken) {
 		this.accessToken = accessToken;
+		this.lastTimeTokenRefreshed = new java.util.Date().getTime();
 	}
 
 	public String getInstanceUrl() {
@@ -74,5 +79,54 @@ public class ApiConfig implements Serializable {
 	public void setId(String id) {
 		this.id = id;
 	}
+
+	public String getWebServicesUrl() {
+		return webServicesUrl;
+	}
+
+	public void setWebServicesUrl(String webServicesUrl) {
+		this.webServicesUrl = webServicesUrl;
+	}
+
+	public String getCallbackUrl() {
+		return callbackUrl;
+	}
+
+	public void setCallbackUrl(String callbackUrl) {
+		this.callbackUrl = callbackUrl;
+	}
+
+	public String getClientId() {
+		return clientId;
+	}
+
+	public void setClientId(String clientId) {
+		this.clientId = clientId;
+	}
+
+	public String getClientSecret() {
+		return clientSecret;
+	}
+
+	public void setClientSecret(String clientSecret) {
+		this.clientSecret = clientSecret;
+	}
+
+	public String getOAuthUrl() {
+		return OAuthUrl;
+	}
+
+	public void setOAuthUrl(String oAuthUrl) {
+		OAuthUrl = oAuthUrl;
+	}
+
+	public long getLastTimeTokenRefreshed() {
+		return lastTimeTokenRefreshed;
+	}
+
+	public void setLastTimeTokenRefreshed(long lastTimeTokenRefreshed) {
+		this.lastTimeTokenRefreshed = lastTimeTokenRefreshed;
+	}
+	
 
 }

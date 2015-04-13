@@ -65,6 +65,7 @@ import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
+import org.girlscouts.vtk.models.SentEmail;
 import org.girlscouts.web.search.DocHit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -298,6 +299,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 			classes.add(JcrCollectionHoldString.class);
 			classes.add(JcrNode.class);
 			classes.add(Asset.class);
+			classes.add(SentEmail.class);
+
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
@@ -359,6 +362,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 			classes.add(JcrCollectionHoldString.class);
 			classes.add(JcrNode.class);
 			classes.add(Asset.class);
+			classes.add(SentEmail.class);
+
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
@@ -402,7 +407,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 		if (user != null
 				&& !userUtil.hasPermission(user.getPermissions(),
-						Permission.PERMISSION_CREATE_ACTIVITY_ID))
+						Permission.PERMISSION_ADD_ACTIVITY_ID))
 			throw new IllegalAccessException();
 
 		if (user != null && !userUtil.isCurrentTroopId(troop, user.getSid())) {
@@ -544,7 +549,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 
 		List<org.girlscouts.vtk.models.Search> matched = null;
 		if (!userUtil.hasPermission(troop,
-				Permission.PERMISSION_SEARCH_MEETING_ID))
+				Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
 
 		final String RESOURCES_PATH = "resources";
@@ -1571,7 +1576,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			throws IllegalAccessException {
 
 		if (!userUtil.hasPermission(user.getPermissions(),
-				Permission.PERMISSION_SEARCH_MEETING_ID))
+				Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
 
 		Session session = null;
@@ -1663,7 +1668,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 		Session session = null;
 
 		if (!userUtil.hasPermission(user.getPermissions(),
-				Permission.PERMISSION_SEARCH_MEETING_ID))
+				Permission.PERMISSION_VIEW_MEETING_ID))
 			throw new IllegalAccessException();
 
 		if (user != null && !userUtil.isCurrentTroopId(troop, user.getSid())) {
@@ -2118,6 +2123,46 @@ public class MeetingDAOImpl implements MeetingDAO {
 				ocm.insert(Achievement);
 			ocm.update(Achievement);
 			ocm.save();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (session != null)
+					sessionFactory.closeSession(session);
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+
+		return false;
+	}
+	
+	public boolean updateMeetingEvent(User user, Troop troop, MeetingE meeting)
+			throws IllegalAccessException, IllegalStateException{
+
+		Session session = null;
+		if (troop != null
+				&& !userUtil.hasPermission(troop,
+						Permission.PERMISSION_EDIT_MEETING_ID))
+			throw new IllegalAccessException();
+
+		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
+			troop.setErrCode("112");
+			throw new java.lang.IllegalStateException();
+		}
+		try {
+			session = sessionFactory.getSession();
+			List<Class> classes = new ArrayList<Class>();
+			classes.add(MeetingE.class);
+			classes.add(JcrCollectionHoldString.class);
+			classes.add(Asset.class);
+			classes.add(SentEmail.class);
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
+					mapper);
+			ocm.update(meeting);
+			ocm.save();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

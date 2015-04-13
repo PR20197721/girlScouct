@@ -11,4 +11,4 @@ misc.js
 slick/slick.min.js
 slideshow.js
 responsive-tables/responsive-tables.js
-
+footer.js

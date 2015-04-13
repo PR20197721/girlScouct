@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
 <%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page
+  import="com.google.common.collect .*"%>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
@@ -40,12 +42,38 @@
       <% 
         java.util.List<String> myMeetingIds= new java.util.ArrayList();
         java.util.List<MeetingE> myMeetings = troop.getYearPlan().getMeetingEvents();
-
-        for(int i=0;i< myMeetings.size();i++){
-          // ADD CANCELED MEETINGS if( myMeetings.get(i).getCancelled()!=null && myMeetings.get(i).getCancelled().equals("true")) continue;
-          String meetingId = myMeetings.get(i).getRefId();
-          meetingId= meetingId.substring(meetingId.lastIndexOf("/") +1).trim().toLowerCase();
-          myMeetingIds.add( meetingId );
+        java.util.List<String> futureMeetings = new java.util.ArrayList<String>();
+        java.util.List<String> reAddMeetings = new java.util.ArrayList<String>(); 
+        
+        //add ability to add past meetings again
+        java.util.Map<java.util.Date, YearPlanComponent> sched = null;
+	    try{
+	        sched = meetingUtil
+	                 .getYearPlanSched(user,
+	                         troop.getYearPlan(), true, true);
+	    }catch(Exception e){e.printStackTrace();}
+	    BiMap sched_bm=   HashBiMap.create(sched);
+	    com.google.common.collect.BiMap<YearPlanComponent, java.util.Date> sched_bm_inverse = sched_bm.inverse();
+	    
+       
+        
+        if(myMeetings!=null) {
+          for(int i=0;i< myMeetings.size();i++){
+            // ADD CANCELED MEETINGS if( myMeetings.get(i).getCancelled()!=null && myMeetings.get(i).getCancelled().equals("true")) continue;      
+            //if( request.getParameter("isReenter")!=null && meetingPath.equals( myMeetings.get(i).getPath() ) ) continue;
+            
+            String meetingId = myMeetings.get(i).getRefId();
+            meetingId= meetingId.substring(meetingId.lastIndexOf("/") +1).trim().toLowerCase();
+            myMeetingIds.add( meetingId );
+            
+            java.util.Date meetingDate =  sched_bm_inverse.get( myMeetings.get(i));
+            if( meetingDate.before( new java.util.Date() ) && meetingDate.after( new java.util.Date("1/1/2000") ) ) {
+          	  reAddMeetings.add(meetingId);
+                
+            }else{
+          	  futureMeetings.add(meetingId);
+            }
+          }
         }
       %>
     </div>
@@ -83,10 +111,15 @@
             			<p class="blurb"><%=meeting.getBlurb() %></p>
           		</td>
               <td>
-                <%  if( !myMeetingIds.contains( meeting.getId().trim().toLowerCase()) ) { %>
-                  <a href="#" onclick="cngMeeting('<%=meeting.getPath()%>')">Select Meeting</a>
+                <% if( !myMeetingIds.contains( meeting.getId().trim().toLowerCase()) ) { %>
+                  <a onclick="cngMeeting('<%=meeting.getPath()%>')">Select Meeting</a>
                 <% } else {%>
                   <img src="/etc/designs/girlscouts-vtk/clientlibs/css/images/check.png" width="10" height="15"> <i class="included">Included in Year Plan</i>
+                    
+                    <%                   
+                    if( !futureMeetings.contains(meeting.getId().toLowerCase() )  && reAddMeetings.contains( meeting.getId().toLowerCase() ) ){%>
+                         <a onclick="cngMeeting('<%=meeting.getPath()%>')">Re-add meeting</a>
+                    <%} %>
                 <% }%>
               </td>
           		<td>
@@ -94,10 +127,9 @@
               	try {
               		String img= meeting.getId().substring( meeting.getId().lastIndexOf("/")+1).toUpperCase();
               		if(img.contains("_") )img= img.substring(0, img.indexOf("_"));
-              %>
+                %>
                     <img width="100" height="100" src="/content/dam/girlscouts-vtk/local/icon/meetings/<%=img%>.png"/>
-                <%
-                	} catch(Exception e){
+                  <% } catch(Exception e){
                 		e.printStackTrace();
                 	}
                 %>

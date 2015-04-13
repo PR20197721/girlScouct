@@ -1,203 +1,312 @@
-
-
-function checkFinances(){
-	if ($('#financeForm').valid()) {	
-			saveFinances();
-		}else {			
-			alert("The form has one or more errors.  Please update and try again.", "#createActivitySection .errorMsg");
-		}
+function checkFinances() {
+	saveFinances();
 }
 
-$(function() {		
-		$("#starting_balance").maskMoney();
-		$("#troop_dues").maskMoney();
-		$("#sponsorship_donations").maskMoney();
-		$("#product_sales_proceeds").maskMoney();
-		$("#amea").maskMoney();
-		$("#bank_interest").maskMoney();
-		$("#gsusa_registrations").maskMoney();
-		$("#service_ae").maskMoney();
-		$("#council_pc").maskMoney();
-		$("#troop_activities").maskMoney();
-		$("#troop_supplies").maskMoney();
-		$("#gs_store_purchase").maskMoney();	
-});
-
-
-$.validator.addMethod('currency', function(value, element, regexp) {
-		var re = /^\d{1,9}(\.\d{1,2})?$/;
-		return this.optional(element) || re.test(value);
-		}, '');
-
-
-
-	$().ready(function() {
-		$("#financeForm").validate({
-			rules : {
-				troop_supplies	: {
-					required : true,
-					minlength : 4,
-					currency : true
-				},
-				gs_store_purchase: {
-					required : true,
-					minlength : 4,
-					currency : true
-				},
-				
-				troop_dues: {
-					required : true,
-					minlength : 4,
-					currency : true
-				},
-				sponsorship_donations: {
-					required : true,
-					minlength : 4,
-					currency : true
-				},
-				product_sales_proceeds: {
-					required : true,
-					minlength : 4,
-					currency : true
-				},
-				amea: {
-					required : true,
-					minlength : 4,
-					currency : true
-				},
-				bank_interest: {
-					required : true,
-					minlength : 4,
-					currency : true
-				},
-				gsusa_registrations: {
-					required : true,
-					minlength : 4,
-					currency : true
-				},
-				service_ae: {
-					required : true,
-					minlength : 4,
-					currency : true
-				},
-				council_pc: {
-					required : true,
-					minlength : 4,
-					currency : true
-				},
-				troop_activities : {
-						required : true,
-						minlength : 4,
-						currency : true
-					},
-				starting_balance : {
-					required : true,
-					minlength : 4,
-					currency : true
-				}
-			},
-
-			messages : {
-				troop_dues : {
-					required : "Please enter a valid amount. Default 0.00",
-					minlength : "Valid format 0.00"
-				},
-				sponsorship_donations: {
-					required : "Please enter a valid amount. Default 0.00",
-					minlength : "Valid format 0.00"
-				},
-				product_sales_proceeds: {
-					required : "Please enter a valid amount. Default 0.00",
-					minlength : "Valid format 0.00"
-				},
-				amea: {
-					required : "Please enter a valid amount. Default 0.00",
-					minlength : "Valid format 0.00"
-				},
-				bank_interest: {
-					required : "Please enter a valid amount. Default 0.00",
-					minlength : "Valid format 0.00"
-				},
-				gsusa_registrations: {
-					required : "Please enter a valid amount. Default 0.00",
-					minlength : "Valid format 0.00"
-				},
-				gsusa_registrations: {
-					required : "Please enter a valid amount. Default 0.00",
-					minlength : "Valid format 0.00"
-				},
-				service_ae: {
-					required : "Please enter a valid amount. Default 0.00",
-					minlength : "Valid format 0.00"
-				},
-				council_pc: {
-					required : "Please enter a valid amount. Default 0.00",
-					minlength : "Valid format 0.00"
-				},
-				troop_activities: {
-					required : "Please enter a valid amount. Default 0.00",
-					minlength : "Valid format 0.00"
-				},
-				troop_supplies: {
-					required : "Please enter a valid amount. Default 0.00",
-					minlength : "Valid format 0.00"
-				},
-				starting_balance : {
-					required : "Please enter a valid amount. Default 0.00",
-					minlength : "Valid format 0.00"
-				}
-
+function maskAllFields() {
+	var i = 1;
+	var incomeChildren = document.getElementById("incomeFields").children;
+	var expenseChildren = document.getElementById("expenseFields").children;
+	console.log("Started Masking Fields");
+	for(var i = 0; i < incomeChildren.length || i < expenseChildren.length ; i++){
+		if(i < incomeChildren.length){
+			
+			var incChild = incomeChildren[i].firstElementChild;
+			if(incChild.tagName == "INPUT"){
+			console.log("Masked income child" + i);
+				$(incChild).maskMoney({allowZero: true, prefix: '$'});
 			}
-		});
-
-	});
-	
-	
-	function saveFinances(){
-		
-		var starting_balance = document.getElementById("starting_balance").value;
-		var troop_dues = document.getElementById("troop_dues").value;
-	
-		var sponsorship_donations = document.getElementById("sponsorship_donations").value;
-		var product_sales_proceeds = document.getElementById("product_sales_proceeds").value;
-		
-		var amea = document.getElementById("amea").value;
-		var bank_interest = document.getElementById("bank_interest").value;
-		var gsusa_registrations = document.getElementById("gsusa_registrations").value;
-		
-		var service_ae = document.getElementById("service_ae").value;
-		var council_pc = document.getElementById("council_pc").value;
-		var troop_activities = document.getElementById("troop_activities").value;
-		
-		var troop_supplies = document.getElementById("troop_supplies").value;
-
-		var gs_store_purchase = document.getElementById("gs_store_purchase").value;
-		
-		var qtr = document.getElementById("qtr").value;
-		
-		  $.ajax({
-				url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand='+Date.now(),
-				type: 'POST',
-				data: { 
-					act:'UpdateFinances',
-					qtr:qtr,
-					starting_balance:starting_balance,
-					troop_dues:troop_dues,
-					sponsorship_donations:sponsorship_donations,
-					product_sales_proceeds:product_sales_proceeds,
-					amea:amea,
-					bank_interest:bank_interest,
-					gsusa_registrations:gsusa_registrations,
-					service_ae:service_ae,
-					council_pc:council_pc,
-					troop_activities:troop_activities,
-					troop_supplies:troop_supplies,
-					gs_store_purchase:gs_store_purchase,
-					a:Date.now()
-				},
-				success: function(result) {
-					
-				}
-			});
-		
+		}
+		if(i < expenseChildren.length){
+			var expChild = expenseChildren[i].firstElementChild;
+			if(expChild.tagName == "INPUT"){
+			console.log("Masked expense child" + i);
+				$(expChild).maskMoney({allowZero: true, prefix: '$'});
+				
+			}
+		}		
 	}
+}
+
+
+function validateFinanceAdmin(){
+	return $("#financeAdminForm").valid();
+	
+}
+
+function saveFinanceAdmin(){
+	var recipient = document.getElementById("recipient").value;
+	
+	if(!validateFinanceAdmin()){
+		return false;
+	}
+
+	var incomeArray = "[";
+	var expenseArray = "["
+	
+	var periodValue = document.getElementById("periodSelection").value;
+
+	var incomeChildren = document.getElementById("income-list").children;
+	var addComma = false;
+	for(var i = 0; i < incomeChildren.length; i++){
+		var tempChild = incomeChildren[i].firstElementChild;
+		
+		if(tempChild.tagName == "INPUT"){
+			if(addComma){
+				incomeArray = incomeArray + ",";
+			}
+			incomeArray = incomeArray + tempChild.value;
+			addComma = true;
+		}
+	}
+	addComma = false;
+	var expenseChildren = document.getElementById("expense-list").children;
+	for(var i = 0; i < expenseChildren.length; i++){
+		var tempChild = expenseChildren[i].firstElementChild;
+        
+		if(tempChild.tagName == "INPUT"){
+			if(addComma){
+				expenseArray = expenseArray + ",";
+			}
+			expenseArray = expenseArray + tempChild.value;
+			addComma = true;
+		}
+	}
+	incomeArray = incomeArray + "]";
+	expenseArray = expenseArray + "]";
+	
+	$.ajax({
+		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand='+Date.now(),
+		type: 'POST',
+		data: { 
+			act:'UpdateFinanceAdmin',
+			expenses: expenseArray,
+			income: incomeArray,
+			period: periodValue,
+			recipient: recipient 
+			
+		},
+		success: function(result) {
+			$("#saveFinanceFieldFormButton").addClass("disabled");
+		}
+	});
+
+	return false;
+}
+
+function saveFinances(){
+	var qtr = document.getElementById("qtr").value;
+	
+	var incomeArray = "[";
+	var expenseArray = "["
+
+	var incomeChildren = document.getElementById("incomeFields").children;
+	var addComma = false;
+	for(var i = 0; i < incomeChildren.length; i++){
+		var tempChild = incomeChildren[i].firstElementChild;
+		
+		if(tempChild.tagName == "INPUT"){
+			if(addComma){
+				incomeArray = incomeArray + ",";
+			}
+			incomeArray = incomeArray + tempChild.getAttribute("name") + "," + tempChild.value.replace(/\$/g, '').replace(/,/g, '');
+			addComma = true;
+		}
+	}
+	addComma = false;
+	var expenseChildren = document.getElementById("expenseFields").children;
+	for(var i = 0; i < expenseChildren.length; i++){
+		var tempChild = expenseChildren[i].firstElementChild;
+        
+		if(tempChild.tagName == "INPUT"){
+			if(addComma){
+				expenseArray = expenseArray + ",";
+			}
+			expenseArray = expenseArray + tempChild.getAttribute("name") + "," + tempChild.value.replace(/\$/g, '').replace(/,/g, '');
+			addComma = true;
+		}
+	}
+	incomeArray = incomeArray + "]";
+	expenseArray = expenseArray + "]";
+	
+	
+	$.ajax({
+		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand='+Date.now(),
+		type: 'POST',
+		data: { 
+			act:'UpdateFinances',
+			qtr:qtr,
+			expenses: expenseArray,
+			income: incomeArray,
+			a:Date.now()
+		},
+		success: function(result) {
+			$("#saveFinanceFieldFormButton").addClass("disabled");
+		}
+	});
+	return false;
+}
+	
+function updateTotals(){
+	var totalIncome = 0;
+	var totalExpenses = 0;
+	var i = 1;
+	do{
+		var tempElement = $("#income" + i);
+		if(tempElement != null){
+			var tempVal = null;
+			if (tempElement.val()) {
+				tempVal = tempElement.val();
+			} else {
+				tempVal = tempElement.text();
+			}
+			tempVal = tempVal.replace(/\$/g, '').replace(/,/g, '');
+			tempVal = Number(tempVal);
+			tempVal = tempVal * 100;
+			
+			totalIncome += tempVal;
+		}
+		i++;
+	}while(tempElement.length > 0);
+	i = 1;
+	do{
+		var tempElement = $("#expense" + i);
+		if(tempElement != null){
+			var tempVal = null;
+			if (tempElement.val()) {
+				tempVal = tempElement.val();
+			} else {
+				tempVal = tempElement.text();
+			}
+			tempVal = tempVal.replace(/\$/g, '').replace(/,/g, '');
+			tempVal = Number(tempVal);
+			tempVal = tempVal * 100;
+			
+			totalExpenses += tempVal;
+		}
+		i++;
+	}while(tempElement.length > 0);
+	
+	
+	
+	var currentBalance = totalIncome - totalExpenses;
+	
+	totalIncome = Math.round(totalIncome);
+	totalExpenses = Math.round(totalExpenses);
+	currentBalance = Math.round(currentBalance);
+	
+	totalIncome = totalIncome / 100;
+	totalExpenses = totalExpenses / 100;
+	currentBalance = currentBalance / 100;
+	
+	totalIncome =  totalIncome.toFixed(2);
+	totalExpenses =  totalExpenses.toFixed(2);
+	currentBalance =  currentBalance.toFixed(2);
+	
+	totalIncome = numberWithCommas(totalIncome);
+	totalExpenses = numberWithCommas(totalExpenses);
+	currentBalance = numberWithCommas(currentBalance);
+	
+	$("#total_income").text("\$ " + totalIncome);
+	$("#total_expenses").text("\$ " + totalExpenses);
+	$("#current_balance").text("\$ " + currentBalance);
+}
+
+function incomeAtMinimum(){
+	if(document.getElementById("income-list").children.length <= 2){
+		return true
+	} else{
+		return false;
+	}
+
+}
+
+function expensesAtMinimum(){
+	if(document.getElementById("expense-list").children.length <= 2){
+		return true
+	} else{
+		return false;
+	}
+
+}
+	
+function deleteIncomeRow(counter){ 
+	
+	if(incomeAtMinimum()){
+		return false;
+	}
+	var button = document.getElementById("incomeButton" + counter);
+	var input = document.getElementById("incomeField" + counter);
+	input.parentNode.removeChild(input);
+	button.parentNode.removeChild(button);
+	
+	saveFinanceAdmin();
+	return false;
+}
+
+function deleteExpenseRow(counter){ 
+	
+	if(expensesAtMinimum()){
+		return false;
+	}
+	var button = document.getElementById("expenseButton" + counter);
+	var input = document.getElementById("expenseField" + counter);
+	input.parentNode.removeChild(input);
+	button.parentNode.removeChild(button);
+	saveFinanceAdmin();
+	return false;
+}
+
+function addExpenseField(){
+	return addFinanceRow("expense-list", "expenseCount", "expenseButton", "expenseField", "deleteExpenseRow");
+}
+
+function addIncomeField(){
+	return addFinanceRow("income-list", "incomeCount", "incomeButton", "incomeField", "deleteIncomeRow");
+}
+
+function addFinanceRow(listId, countId, buttonId, inputId, delMethod){
+	var fieldsList = document.getElementById(listId);
+	var countHolder = document.getElementById(countId);
+	var count = countHolder.value;
+	
+	//Create button list element
+	var newButtonHolder = document.createElement("LI");
+	newButtonHolder.setAttribute("id", buttonId + count);
+	
+	var newButtonLink = document.createElement("A");
+	newButtonLink.setAttribute("href", "");
+	newButtonLink.setAttribute("onclick", "return " + delMethod + "(" + count + ")");
+	
+	var newButtonIcon = document.createElement("I");
+	newButtonIcon.setAttribute("class", "icon-button-circle-cross");
+	
+	newButtonLink.appendChild(newButtonIcon);
+	newButtonHolder.appendChild(newButtonLink);
+	
+	//Create input list element
+	var newInputHolder = document.createElement("LI");
+	newInputHolder.setAttribute("id", inputId + count);
+	
+	var newInput = document.createElement("INPUT");
+	newInput.setAttribute("type", "text");
+	newInput.setAttribute("value", "");
+	newInput.setAttribute("maxlength", "30");
+	newInput.setAttribute("onkeyDown", "enableSaveButton()");
+	
+	newInputHolder.appendChild(newInput);
+	
+	fieldsList.appendChild(newInputHolder);
+	fieldsList.appendChild(newButtonHolder);
+	
+	countHolder.value = (Number(count) + 1) + "";
+	
+	return false;
+}
+
+function enableSaveButton() {
+	$("#saveFinanceFieldFormButton").removeClass("disabled");
+}
+
+function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}

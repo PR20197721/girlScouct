@@ -1,5 +1,8 @@
 package org.girlscouts.vtk.replication;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.jcr.Repository;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
@@ -20,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.day.cq.replication.Replicator;
+import com.day.cq.replication.impl.ServiceTracker.Listener;
 
 @Component(metatype=true, immediate=true)
 @Service(value=ReplicationManager.class)
@@ -28,7 +32,7 @@ import com.day.cq.replication.Replicator;
     @Property(name=Constants.SIBLING_SERVERS_PROPERTY, description="Sibling servers, separated by space. Node changes will be replicated to these servers")
 })
 public class ReplicationManager {
-    private static final String[] MONITOR_PATHS = { Constants.ROOT_PATH };
+    private static final String[] MONITOR_PATHS = { Constants.ROOT_PATH, Constants.DAM_PATH };
     private static final Logger log = LoggerFactory
             .getLogger(ReplicationManager.class);
 
@@ -41,7 +45,7 @@ public class ReplicationManager {
 
     private Session session;
     private ObservationManager manager;
-    private EventListener listener;
+    private List<EventListener> listeners;
 
     public Session getSession() {
         return this.session;
@@ -49,6 +53,8 @@ public class ReplicationManager {
 
     @Activate
     protected void activate(ComponentContext context) throws Exception {
+        listeners = new ArrayList<EventListener>();
+        
         // Login repository
         session = repository.loginAdministrative(null);
 
@@ -56,12 +62,12 @@ public class ReplicationManager {
         if (repository.getDescriptor(Repository.OPTION_OBSERVATION_SUPPORTED)
                 .equals("true")) {
             manager = session.getWorkspace().getObservationManager();
-            final String[] types = { Constants.PRIMARY_TYPE };
-            listener = new NodeListener(session, replicator);
-
+            
             for (int i = 0; i < MONITOR_PATHS.length; i++) {
+                EventListener listener = new NodeListener(session, replicator);
+                listeners.add(listener);
                 manager.addEventListener(listener, Constants.PROPERTY_UPDATE | Event.NODE_REMOVED | Event.NODE_MOVED,
-                        MONITOR_PATHS[i], true, null, types, true);
+                        MONITOR_PATHS[i], true, null, Constants.PRIMARY_TYPES, true);
             }
         } else {
             log.error("Listeners not added.");
@@ -74,7 +80,9 @@ public class ReplicationManager {
         // Unregister the listeners
         if (manager != null) {
             try {
-                manager.removeEventListener(listener);
+                for (EventListener listener : listeners) {
+                    manager.removeEventListener(listener);
+                }
             } catch (RepositoryException e) {
                 log.error("Error deactivating listeners");
             }

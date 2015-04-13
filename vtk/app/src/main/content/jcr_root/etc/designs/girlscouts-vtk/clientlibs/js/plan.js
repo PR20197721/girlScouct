@@ -4,28 +4,58 @@ function loadMeetings(){
 }	
 
 function x(planId, planPath, confirmMsg, planName) {	
+	console.log(1);
 	if( confirmMsg!=null && confirmMsg!='' ){
-		if( !confirm(confirmMsg) ) return;
+		console.log(2);
+		if( !confirm(confirmMsg) ){
+			return;
+		}else{
+			x1_1(planPath, planName);
+		}
     }else{
-    	
+    	console.log(3);
     	$.ajax({
     		url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=isAltered&isAltered=chk",
     		cache: false
     	}).done(function( html ) {
     		html= $.trim(html)  		
-    		if(html=='true')
-    			if( !confirm("Are You Sure? You will lose customizations that you have made") ) return;
+    		if(html=='true'){
+    			if( !confirm("Are You Sure? You will lose customizations that you have made") ){
+    				return;
+    			}else{
+    				x1_1(planPath, planName);
+    			}
+    		}else{
+    			x1_1(planPath, planName);
+    		}
     	});
     	
-    }	
+    }
+	/*
+	console.log(4);
+	
 	$.ajax({
 		url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=SelectYearPlan&addYearPlanUser="+planPath+"&addYearPlanName="+ planName,
 		cache: false
 	}).done(function( html ) {
-		loadMeetings();
+		//loadMeetings();
+		location.reload();
+	});
+	*/
+}
+
+function x1_1(planPath, planName){
+	$.ajax({
+		url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=SelectYearPlan&addYearPlanUser="+planPath+"&addYearPlanName="+ planName,
+		cache: false
+	}).done(function( html ) {
+		//loadMeetings();
+		if( html !=null && $.trim(html)!="" )
+			{alert( $.trim(html)); return; }
 		location.reload();
 	});
 }
+
 
 function testIt(){
 	var s =  document.getElementById("sortable");
@@ -79,6 +109,11 @@ function addExistActivity(activityId){
 
 function newLocCal(){
 	loadModalPage('/content/girlscouts-vtk/controllers/vtk.locations.html', false, null, true, false);
+}
+
+function newLocCal_withTarget(tabIndex){
+	closeModalPage();
+	loadModalPage('/content/girlscouts-vtk/controllers/vtk.locations.html?tabIndex=location', false, null, true, false);
 }
 
 function closeModalPage() {
@@ -177,12 +212,14 @@ function yesPlan(){
     document.getElementById('showHideReveal').innerHTML='VIEW YEAR PLAN LIBRARY';
     // document.getElementById('arrowDirection').innerHTML='&#9660;';
     $('#showHideReveal').toggleClass('open').addClass('close');
+    $("#empty-yp-directions").show();
   }else{
     document.getElementById('yearPlanMeetings').style.display='none';
     document.getElementById('yearPlanSelection').style.display='block';
     document.getElementById('showHideReveal').innerHTML='YEAR PLAN LIBRARY';
     // document.getElementById('arrowDirection').innerHTML='&#9650;';
     $('#showHideReveal').removeClass('close').addClass('open');
+    $("#empty-yp-directions").hide();
   }
 }
 function addLocation(){
@@ -612,4 +649,32 @@ function rmMeeting( rmDate, mid){
 		}
 	});
 }
+
+function councilRpt(troopId, cid){
+	console.log( troopId );   
+	   
+	   $.ajax({
+	        url: "/content/girlscouts-vtk/controllers/vtk.controller.html?isAdminRpt=true&cid="+cid+"&ypPath="+troopId ,
+	        cache: false
+	    }).done(function( html ) {
+	    	councilRpt_updateTroopName( html );
+	    });
+	}
+	
+	function councilRpt_updateTroopName(input){
+		
+	
+		var lines = input.split('\n');
+		var output = '';
+		$.each(lines, function(key, line) {
+		    var parts = line.split(';');
+		    for(var i=0;i<parts.length;i++){
+		     output +=  parts[i] + '; \n';
+		     }
+		});
+		
+		output = "<script> function test(){" + output +" } test(); </"+""+"script>";
+		$(output).appendTo('body');
+	
+	}
 

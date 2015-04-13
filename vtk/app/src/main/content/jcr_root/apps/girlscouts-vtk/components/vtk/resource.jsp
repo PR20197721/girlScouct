@@ -13,6 +13,7 @@
                 org.girlscouts.vtk.helpers.CouncilMapper"%>
 <%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
 <%@include file="/libs/foundation/global.jsp"%>
+<%@include file="include/session.jsp"%>
 <%
 	final String RESOURCE_SEARCH_PROMPT = "type in a search word or term here";
 	final String MEETING_AID_PATH = "/content/dam/girlscouts-vtk/global/aid";
@@ -22,25 +23,18 @@
 	final QueryBuilder queryBuilder = sling.getService(QueryBuilder.class);
 %>
 
-<%@include file="include/session.jsp"%>
 <%-- VTK tab --%>
 <%
     String activeTab = "resource";
     boolean showVtkNav = true;
 %>
 
-<div id="myModal0" class="reveal-modal" data-reveal></div>
-<div id="myModal1" class="reveal-modal" data-reveal></div>
-
-
-   
 <%@include file="include/tab_navigation.jsp"%>
+<div id="modal_popup" class="reveal-modal" data-reveal=""></div>
 
+<div id="myModal0" class="reveal-modal" data-reveal=""></div>
+<div id="myModal1" class="reveal-modal" data-reveal=""></div>
 
-
-   
-   
-   
 <div id="panelWrapper" class="row content">
   <div class="columns large-20 large-centered">
 		<script>
@@ -223,7 +217,7 @@
 						Iterator<Page> resIter = categoryPage.listChildren();
 						while (resIter.hasNext()) {
 						    Page resPage = resIter.next();
-							displayAllChildren(resPage, builder);
+							displayAllChildren(resPage, builder, xssAPI);
 					    }
 						%><%= builder.toString() %><%
 						%></ul><%
@@ -249,20 +243,18 @@
 		return count;
 	}
 
-	private void displayAllChildren(Page rootPage, StringBuilder builder) {
-	    builder.append("<li>");
+	private void displayAllChildren(Page rootPage, StringBuilder builder, com.adobe.granite.xss.XSSAPI xssAPI) {
+        builder.append("<li>");
 	    String path = rootPage.getPath();
 	    // TODO: Get the link back once the dialog is styled
-	    builder.append("<a href=\"javascript:void(0)\" onclick=\"displayResource('web', '");
-	    builder.append(path);
-	    builder.append("')\">");
-	    builder.append(rootPage.getTitle());
-	    builder.append("</a>");
+        String href = "\"/content/girlscouts-vtk/controllers/vtk.include.modals.modal_resource.html?resource=" + path + "\">";
+        String modalUrl = "<a data-reveal-id=\"modal_popup\" data-reveal-ajax=\"true\" href=" + href + rootPage.getTitle() + "</a>";
+        builder.append(modalUrl);
 	    Iterator<Page> iter = rootPage.listChildren();
 	    while (iter.hasNext()) {
 	        Page childPage = iter.next();
 		    builder.append("<ul>");
-		    displayAllChildren(childPage, builder);
+		    displayAllChildren(childPage, builder, xssAPI);
 		    builder.append("</ul>");
 	    }
 	    builder.append("</li>");
@@ -303,11 +295,12 @@
 		    while (iter.hasNext()) {
 		        Resource resource = iter.next();
 		        Meeting meeting = yearPlanUtil.getMeeting(user,resource.getPath());
-			    builder.append("<li><a href=\"javascript:void(0)\" onclick=\"displayResource('overview', '");
-			    builder.append(meeting.getPath());
-			    builder.append("')\">");
-			    builder.append(meeting.getName());
-			    builder.append("</a> - "+ meeting.getBlurb()+"</li>");
+                String path = meeting.getPath();
+                builder.append("<li>");
+                String href = "\"/content/girlscouts-vtk/controllers/vtk.include.modals.modal_volunteer.html?resource=" + path + "\">";
+        		String modalUrl = "<a data-reveal-id=\"modal_popup\" data-reveal-ajax=\"true\" href=" + href + meeting.getName() + "</a>";
+        		builder.append(modalUrl);
+                builder.append(" - "+ meeting.getBlurb()+"</li>");
 		    }
 	
 	        builder.append("</ul>");

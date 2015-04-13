@@ -1,12 +1,29 @@
 package org.girlscouts.vtk.ejb;
 
+import java.io.IOException;
+import java.io.StringWriter;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.util.ByteArrayDataSource;
+
+import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.HtmlEmail;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.girlscouts.vtk.dao.TroopDAO;
 import org.girlscouts.vtk.models.Finance;
+import org.girlscouts.vtk.models.FinanceConfiguration;
 import org.girlscouts.vtk.models.Troop;
-import org.girlscouts.vtk.models.User;
+
+import com.day.cq.mailer.MessageGateway;
+import com.day.cq.mailer.MessageGatewayService;
+import com.day.text.csv.Csv;
 
 @Component
 @Service(value = FinanceUtil.class)
@@ -14,44 +31,130 @@ public class FinanceUtil {
 
 	@Reference
 	TroopDAO troopDAO;
+	
+	@Reference
+	private MessageGatewayService messageGatewayService;
 
-	public Finance getFinances(User user, Troop troop, int qtr) {
-		return troopDAO.getFinanaces(user, troop, qtr);
+	public Finance getFinances(Troop troop, int qtr, String currentYear) {
+		return troopDAO.getFinances(troop, qtr, currentYear);
 	}
 
-	public void updateFinances(User user, Troop troop,
-			java.util.Map<java.lang.String, java.lang.String[]> params) {
+	public void updateFinances(Troop troop, String currentYear, java.util.Map<String, String[]> params) {
 		Finance finance = new Finance();
-		finance.setApprovedMoneyEarningActivity(Double.parseDouble(params
-				.get("amea")[0]));
-		finance.setCouncilProgramsCamp(Double.parseDouble(params
-				.get("council_pc")[0]));
-		finance.setFinancialQuarter(Integer.parseInt(params.get("qtr")[0]));
-		finance.setGsStorePurchases(Double.parseDouble(params
-				.get("gs_store_purchase")[0]));
-		finance.setGsusaRegistration(Double.parseDouble(params
-				.get("gsusa_registrations")[0]));
-		finance.setInterestOnBankAccount(Double.parseDouble(params
-				.get("bank_interest")[0]));
-		finance.setProductSalesProceeds(Double.parseDouble(params
-				.get("product_sales_proceeds")[0]));
-		finance.setServiceActivitiesEvents(Double.parseDouble(params
-				.get("service_ae")[0]));
-		finance.setSponsorshipDonations(Double.parseDouble(params
-				.get("sponsorship_donations")[0]));
-		finance.setStartingBalance(Double.parseDouble(params
-				.get("starting_balance")[0]));
-		finance.setTroopActivities(Double.parseDouble(params
-				.get("troop_activities")[0]));
-		finance.setTroopDues(Double.parseDouble(params.get("troop_dues")[0]));
-		finance.setTroopSupplies(Double.parseDouble(params
-				.get("troop_supplies")[0]));
-		finance.setPath("/vtk/" + troop.getSfCouncil() + "/troops/"
-				+ troop.getId() + "/finances/" + finance.getFinancialQuarter());
-
-		troopDAO.setFinances(user, troop, finance);
-
+		Set<String> keySet = params.keySet();
+		for(String temp : keySet){
+			String[] tempArray = params.get(temp);
+		}
+		int quarter = Integer.parseInt(params.get("qtr")[0]);
+		troopDAO.setFinances(troop, quarter, currentYear, params);
 		// TODO NOTIFY Council here
+	}
+	
+	public FinanceConfiguration getFinanceConfig(Troop troop, String currentYear) {
+		return troopDAO.getFinanceConfiguration(troop, currentYear);
+	}
 
+	public void updateFinanceConfiguration(Troop troop, String currentYear, java.util.Map<java.lang.String, java.lang.String[]> params) {
+		FinanceConfiguration financeConfig = new FinanceConfiguration();
+		String expenses = params.get(Finance.EXPENSES)[0];
+		String income = params.get(Finance.INCOME)[0];
+		String period = params.get(Finance.PERIOD)[0];
+		String recipient = params.get(FinanceConfiguration.RECIPIENT)[0];
+		troopDAO.setFinanceConfiguration(troop, currentYear, income, expenses, period, recipient);
+		// TODO NOTIFY Council here
+	}
+	
+	public void sendFinanceDataEmail(Troop troop, int qtr, String currentYear){
+		Finance finance = getFinances(troop, qtr, currentYear);
+		FinanceConfiguration financeConfig = getFinanceConfig(troop, currentYear);
+		
+		try {
+			MessageGateway<HtmlEmail> messageGateway = messageGatewayService.getGateway(HtmlEmail.class);
+			
+			StringWriter writer = new StringWriter();
+			Csv csvWriter = new Csv();
+			csvWriter.writeInit(writer);
+			
+			
+			
+			csvWriter.writeRow("Troop Name: ", troop.getSfTroopName(), "Troop Id: ", troop.getSfTroopId() );
+			
+			if(qtr != 0){
+				csvWriter.writeRow("Finaces for Year:", currentYear, "Quarter: ", Integer.toString(qtr));
+			}else{
+				csvWriter.writeRow("Finaces for Year:", currentYear);
+			}
+			
+			csvWriter.writeRow("Income", "", "Expenses", "");
+			
+			List<String> incomeFields = financeConfig.getIncomeFields();
+			List<String> expenseFields = financeConfig.getExpenseFields();
+			
+			NumberFormat formatter = NumberFormat.getCurrencyInstance();
+			double totalIncome = 0.0;
+			double totalExpenses = 0.0;
+			double balance = 0.0;
+			
+			for(int i = 0; i < incomeFields.size() || i < expenseFields.size(); i++){
+				String incomeField = "";
+				String incomeValue = "";
+				if(i < incomeFields.size()){
+					incomeField = incomeFields.get(i);
+					double moneyValue = finance.getIncomeByName(incomeField);
+					incomeValue = formatter.format(moneyValue);
+					totalIncome += moneyValue;
+				}
+				String expenseField = "";
+				String expenseValue = "";
+				if(i < expenseFields.size()){
+					expenseField = expenseFields.get(i);
+					double moneyValue = finance.getExpenseByName(expenseField);
+					expenseValue = formatter.format(moneyValue);
+					totalExpenses += moneyValue;
+				}
+				csvWriter.writeRow(incomeField, incomeValue, expenseField, expenseValue);
+				
+			}
+			
+			balance = totalIncome - totalExpenses;
+			csvWriter.writeRow("", "", "", "");
+			csvWriter.writeRow("", "", "", "Total Income", formatter.format(totalIncome));
+			csvWriter.writeRow("", "", "", "Total Expenses", formatter.format(totalExpenses));
+			csvWriter.writeRow("", "", "", "Current Balance", formatter.format(balance));
+			
+			csvWriter.close();
+			
+			writer.close();
+			String csvContents = writer.toString();
+			
+			String recipient = financeConfig.getRecipient();
+			HtmlEmail email = new HtmlEmail();
+			ArrayList<InternetAddress> emailRecipients = new ArrayList<InternetAddress>();
+			emailRecipients.add(new InternetAddress(recipient));
+			email.setTo(emailRecipients);
+			email.setSubject("Troop Finances");
+			
+			
+			email.attach(new ByteArrayDataSource(csvContents.getBytes(),"text/csv"), "finances.csv", "Finances Data");
+			if(messageGateway == null){
+				System.err.println("!!!!!!!!Message Gateway is null!!!!!!!!!");
+			}else{
+				messageGateway.send(email);
+			}
+			
+			
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (EmailException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (AddressException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
+
+

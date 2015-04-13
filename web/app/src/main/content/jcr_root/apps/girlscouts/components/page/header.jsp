@@ -15,12 +15,13 @@
   String designPath = currentDesign == null ? "/" : currentDesign.getPath();
   int depth = currentPage.getDepth();
   request.setAttribute("headerPath", headerPath);
+  String headerImagePath = currentSite.get("headerImagePath", "");
 %>
 <!-- Modern Browser -->
 <!--[if gt IE 8]><!-->
 <!--<![endif]-->
 <!--PAGE STRUCTURE: HEADER-->
-<div class="header-wrapper row collapse hide-for-print">
+<div class="header-wrapper row collapse hide-for-print" <% if(!headerImagePath.equals("") && headerImagePath != null){ %> style="background-image: url('<%= headerImagePath%>')" <%}%> >
 <div class='columns'>
   <div id="header" class="row">
     <div class="large-6 medium-9 columns">
@@ -42,9 +43,9 @@
     </div>
     <div class="show-for-small small-24 columns topMessage alt">
       <div class="row vtk-login collapse">
-        <% setCssClasses("small-12 columns", request); %>
+        <% setCssClasses("small-20 columns", request); %>
         <cq:include path="<%= headerPath + "/login" %>" resourceType="girlscouts/components/login" />
-        <div class="small-12 columns">
+        <div class="small-4 columns">
           <div class="small-search-hamburger">
              <% if(currentSite.get("hideSearch","false").equals("false")){ %>
               <a class="search-icon"><img src="/etc/designs/girlscouts/images/search_white.png" width="21" height="21" alt="search icon"/></a>

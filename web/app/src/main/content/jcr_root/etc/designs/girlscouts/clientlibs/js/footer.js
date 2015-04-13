@@ -30,10 +30,34 @@
         $('.footer-navigation > div:nth-of-type(2) ul').css('text-align', 'right');
       }
   }
+  function link_bg_square() {
+    $(".meeting").each(function() {
+    var test = $(this).find('.subtitle a').attr('href');
 
+      $(this).find('.bg-square').on('click', function(){
+        location.href = test;
+      })
+    });
+  }
+  function attendance_popup_width() {
+    var modal = $(".modal-attendance").parent();
+    modal.addClass('small');
+    var wd_wdth = $( window ).width();
+    modal.width("40%");
+    if($(window).width() > 641) {
+      if(modal.width() < wd_wdth) {
+        var middle = modal.width()/2;
+        modal.css('margin-left',"-"+middle+'px');
+      }
+    } else {
+      modal.width("100%");
+      modal.css('margin-left','');
+    }
+  }
 $(document).ready(function(){
  resizeWindow();
  addClassGrid();
+ attendance_popup_width();
 })
 $(window).load(function(){
   var currentMainHeight = $('.inner-wrap').height();
@@ -43,11 +67,14 @@ $(window).load(function(){
   if(targetMainHeight != 0) {
     resizeWindow();
   }
+  attendance_popup_width();
 })
 $(window).resize(function() {
  //first remove the padding added after reload.
   $('.vtk-body #main .row.content').css('padding-bottom','');
   $('#main.content').css('padding-bottom','');
+  $(".modal-attendance").parent().css('margin-left','');
   resizeWindow();
   addClassGrid();
+  attendance_popup_width();
 });

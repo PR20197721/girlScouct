@@ -14,8 +14,6 @@
 		<div class="large-24 medium-24 small-18 columns">
 			<p class='subtitle'><%= activity.getName()%></p>
 			<p class="blurb"><%=activity.getLocationName() %></p>
-			<%if( hasPermission(troop, Permission.PERMISSION_VIEW_ACTIVITY_ID) ){ %>
-			<%} %>
 		</div>
 	</div><!--/columns-->
 </li>

@@ -15,6 +15,7 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.jcr.Node;
@@ -38,6 +39,8 @@ import org.apache.commons.lang.StringUtils;
 import com.day.cq.commons.jcr.JcrConstants;
 import com.day.text.Text;
 import com.day.text.XMLChar;
+
+import apps.wcm.core.components.bulkeditor.json;
 
 /**
  * Servers as base for image servlets
@@ -121,17 +124,33 @@ public class csv extends SlingAllMethodsServlet {
                 //Node node = (Node) session.getItem(hit.getValue(JcrConstants.JCR_PATH).getString());
                 if (node != null) {
                     //bw.write(csv.valueParser(hit.getValue(JcrConstants.JCR_PATH).getString(), separator));
-                    bw.write(csv.valueParser(node.getPath(), separator));
-                    if (properties != null) {
-                        for (String property : properties) {
-                            bw.write(separator);
-                            property = property.trim();
-                            if (node.hasProperty(property)) {
-                                Property prop = node.getProperty(property);
-                                bw.write(csv.format(prop));
-                            }
-                        }
-                    }
+					if(node.hasProperty("isEncrypted") && node.getProperty("isEncrypted").getString().equals("true")){
+						Map<String, String[]> decryptedMap=json.getNodeSecret(node,request);
+						if (properties != null) {
+							for (String property : properties) {
+								bw.write(separator);
+								property = property.trim();
+								if(decryptedMap.containsKey(property)){
+									String[] values = decryptedMap.get(property);
+									bw.write(csv.format(values));
+								}else if (node.hasProperty(property)) {
+									Property prop = node.getProperty(property);
+									bw.write(csv.format(prop));
+								}
+							}
+						}
+					}else{
+						if (properties != null) {
+							for (String property : properties) {
+								bw.write(separator);
+								property = property.trim();
+								if (node.hasProperty(property)) {
+									Property prop = node.getProperty(property);
+									bw.write(csv.format(prop));
+								}
+							}
+						}
+					}
                     bw.newLine();
                 }
             }
@@ -209,6 +228,32 @@ public class csv extends SlingAllMethodsServlet {
         return attrValue.toString();
     }
 
+	public static String format(String[] values) throws RepositoryException {
+		StringBuffer attrValue = new StringBuffer();
+		if (values.length>1) {
+			attrValue.append('[');
+			for (int i = 0; i < values.length; i++) {
+				if (i > 0) {
+					attrValue.append(',');
+				}
+				attrValue.append(values[i]);
+			}
+			attrValue.append(']');
+		} else {
+			String strValue = values.length==0?"":values[0];
+			escape(attrValue, strValue, false);
+		}
+		String strValue = attrValue.toString();
+		if (strValue.contains(",")) {
+			strValue = strValue.replace("\"", "\"\"");
+			strValue = "\"" + strValue + "\"";
+		}
+		if (strValue.isEmpty()) {
+			strValue = "\"\"";
+		}
+		return strValue;
+
+	}
     /**
      * Escapes the value
      *

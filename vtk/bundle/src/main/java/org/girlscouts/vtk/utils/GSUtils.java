@@ -5,15 +5,7 @@ import java.util.regex.Pattern;
 
 public class GSUtils {
 	public static String getDocTypeImageFromString(String str) {
-		String regexStr = "\\.([a-z]*)$";
-		Pattern pattern = Pattern.compile(regexStr, Pattern.CASE_INSENSITIVE);
-		Matcher matcher = pattern.matcher(str);
-		String extension = "";
-		if (matcher.find()) {
-			extension = matcher.group(1).toLowerCase();
-		} else {
-			extension = str;
-		}
+		String extension = getDocExtensionFromString(str);
 		String docTypeImage = null;
 		if (extension.equals("pdf")) {
 			docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-pdf.png";
@@ -35,5 +27,17 @@ public class GSUtils {
 			docTypeImage = "/etc/designs/girlscouts-vtk/clientlibs/css/images/doctype-text.png";
 		}
 		return docTypeImage;
+	}
+	public static String getDocExtensionFromString(String str) {
+		String regexStr = "\\.([a-z]*)$";
+		Pattern pattern = Pattern.compile(regexStr, Pattern.CASE_INSENSITIVE);
+		Matcher matcher = pattern.matcher(str);
+		String extension = "";
+		if (matcher.find()) {
+			extension = matcher.group(1).toLowerCase();
+		} else {
+			extension = str;
+		}
+		return extension;
 	}
 }

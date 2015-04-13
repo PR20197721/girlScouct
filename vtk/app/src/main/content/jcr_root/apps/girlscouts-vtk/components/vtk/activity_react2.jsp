@@ -1,45 +1,30 @@
 <!-- PAGE START activity_react2.jsp -->
 <%
-
-if( false ){
-	out.println("ACTIVITY ");
-	return;	
-}
-
 String aid = planView.getYearPlanComponent().getUid();
 pageContext.setAttribute("DETAIL_TYPE", "activity");
-
-
 %>
 
-<!-- <script src="http://code.jquery.com/jquery-1.9.1.js"></script> -->
-<!-- <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-<!-- 2/1/15 link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" / -->
-<!-- script src="http://fb.me/react-0.12.1.js"></script -->
-<!-- script src="http://fb.me/JSXTransformer-0.12.1.js"></script -->
-<!-- script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.ui.touch-punch.min.js"></script -->
-<!-- script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script -->
-<!-- script src="http://fb.me/react-with-addons-0.12.1.js"></script> -->
-
+<script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.maskMoney.js"></script>
 <%@include file="include/tab_navigation.jsp"%>
-<!--%@include file="include/myPop.jsp"%-->
 <div id="modal_popup" class="reveal-modal" data-reveal></div>
 
 <div id="panelWrapper" class="row content meeting-detail">
   <%@include file="include/utility_nav.jsp"%>
   <%@include file="include/activity_edit_react.jsp"%>
-			
+  <%@include file="include/modals/modal_meeting_reminder.jsp" %>
+  <%@include file="include/modals/modal_view_sent_emails.jsp"%>			
   <div id="theActivity">
 
 
-    <script type="text/jsx">
+    <script type="text/javascript">
       var isActivNew=0;
       var aPath;
       var meetingStartDate="";
       var meetingEndDate="";
+  
       var CommentBox = React.createClass({
       loadCommentsFromServer: function( isFirst ) {
-        console.log("loading..");
+        //console.log("loading..");
         $.ajax({
             url: this.props.url + 
         		(isActivNew==1 ? ("&isActivNew="+ isActivNew) : '')+
@@ -63,9 +48,11 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
           return {data: []};
         },
         componentDidMount: function() {
+          resizeWindow();
           this.loadCommentsFromServer(1);
           setInterval( this.loadCommentsFromServer, this.props.pollInterval);
           setInterval( this.checkLocalUpdate, 1000);
+
         },
         checkLocalUpdate: function(){
         	if( (isActivNew == 1) || (isActivNew == 2) )
@@ -79,41 +66,176 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
     			aPath= x.path;
     			meetingStartDate=new Date(Number(x.date));
     			meetingEndDate=new Date(Number(x.endDate));
+      
+         getEventImg( x.refUid );
+
               return (
-                <Activity data={x} meetingTitle={x.name} meetingModMONTH={moment(meetingStartDate).format('MMMM')} meetingModDAY={moment(meetingStartDate).format('DD')} meetingModHOUR={moment(meetingStartDate).format('h:mm a')}/>
-              );
+            		  React.createElement(Activity, {data: x, meetingTitle: x.name, meetingModMONTH: moment(meetingStartDate).format('MMMM'), meetingModDAY: moment(meetingStartDate).format('DD'), meetingModHOUR: moment(meetingStartDate).format('h:mm a')})
+                      
+            		  );
         	}else{
-        		return <div>loading...</div>;
+        		 return React.createElement("div", null, React.createElement("img", {src: "/etc/designs/girlscouts-vtk/images/loading.gif"})) 
         	}
         }
       });
       React.render(
-      <CommentBox url="/content/girlscouts-vtk/controllers/vtk.controller.html?reactActivity=<%=aid%>" pollInterval={10000} />,
-        document.getElementById('theActivity')
-      );
+    	      React.createElement(CommentBox, {url: "/content/girlscouts-vtk/controllers/vtk.controller.html?reactActivity=<%=aid%>", pollInterval: 10000}),
+    	        document.getElementById('theActivity')
+    	      );
         var Activity = React.createClass({
+
         render: function() {
         return (
-          <div className="section-wrapper">
-            <%@include file="include/meeting_navigator.jsp"%>
-            <div className="column large-20 medium-20 large-centered medium-centered clearfix" id="main-info">
-              <section>
-                <p>Location: {this.props.data.locationName} </p>
-                <p>{this.props.data.locationAddress} {this.props.data.locationRef}</p>
-              </section>  
-              <section>
-                <p>Age: <%=troop.getSfTroopAge()%></p>
-              </section>
-              <section>
-                <p>Cost: {this.props.data.cost}</p>
-              </section>
-              <p>{this.props.data.content}</p>
-            </div>
-            <%@include file="include/meeting_communication.jsp"%>
-          </div>
+          React.createElement("div",{className: "section-wrapper"},
+                /*nav include*/
+                React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered small-24"}, 
+
+  React.createElement("div", {className: "meeting-navigation <%= (planView.getYearPlanComponent().getType() ==  YearPlanComponentType.ACTIVITY) ? " activity-navigation " : "" %> row collapse"}, 
+
+    React.createElement("p", {className: "column"}, 
+
+    React.createElement("span", null, 
+
+       <%if(planView.getPrevDate()!=0){ %>
+
+            React.createElement("a", {className: "direction prev", href: "/content/girlscouts-vtk/en/vtk.details.html?elem=<%=planView.getPrevDate()%>"})
+       <%}else{%>""<%}%>   
+      
+
+      )
+
+    ), 
+
+    React.createElement("div", {className: "column"}, 
+
+      React.createElement("h3", null, "<%=planView.getYearPlanComponent().getType()%>", " : ",this.props.id, this.props.meetingTitle), 
+
+      React.createElement("p", {className: "date"}, 
+
+      <%if(planView.getSearchDate()!=null && planView.getSearchDate().after( new java.util.Date("1/1/1977") )){ %> 
+
+         React.createElement("span", {className: "month"}, this.props.meetingModMONTH), 
+
+            React.createElement("span", {className: "day"}, this.props.meetingModDAY), 
+
+            React.createElement("span", {className: "hour"}, this.props.meetingModHOUR)
+    <%}else{%>""<%}%>
+ 
+            
+      
+
+      )
+
+    ), 
+
+    React.createElement("p", {className: "column"}, 
+
+      React.createElement("span", null, 
+
+      <% if(planView.getNextDate()!=0 ){  %>
+
+            React.createElement("a", {className: "direction next", href: "/content/girlscouts-vtk/en/vtk.details.html?elem=<%=planView.getNextDate()%>"})
+
+     <%}else{%>""<%}%>
+
+    
+
+      )
+
+    )
+
+  )
+
+),
+                /*end nav include*/
+            
+           React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered clearfix", id: "main-info"}, 
+
+              React.createElement("div", {id: "activ_img"}), 
+
+             React.createElement("ul", {className: "small-block-grid-2"}, 
+                React.createElement("li", null, React.createElement("p", null, "Location Name:"), React.createElement("p", null, this.props.data.locationName ? this.props.data.locationName.replace('&nbsp;','').replace(/(<([^>]+)>)/ig,"") : '')), 
+                React.createElement("li", null, React.createElement("p", null, "Location Address:"), React.createElement("p", null, this.props.data.locationAddress ? this.props.data.locationAddress.replace('&nbsp;','').replace(/(<([^>]+)>)/ig,"") : '', " ", this.props.data.locationRef ? this.props.data.locationRef.replace('&nbsp;','').replace(/(<([^>]+)>)/ig,"") : '')), 
+                React.createElement("li", null, React.createElement("p", null, "Age:"), React.createElement("p", null, "<%=troop.getSfTroopAge()%>")), 
+                React.createElement("li", null, React.createElement("p", null, "Cost:"), React.createElement("p", null,  fmtMaskedMoney(this.props.data.cost)))
+              ), 
+              React.createElement("p", {dangerouslySetInnerHTML: {__html: this.props.data.content}})
+            )
+            
+
+
+/*communication*/
+        <% if (SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) {%>
+
+,React.createElement("section", {className: "column large-20 medium-20 large-centered medium-centered"}, 
+
+  React.createElement("h6", null, "manage communications"), 
+
+  React.createElement("ul", {className: "large-block-grid-2 medium-block-grid-2 small-block-grid-2"}, 
+
+
+    	React.createElement("li", null, 
+
+		<% if(hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_ACT_ID )) {%>
+
+	    	React.createElement("a", {href: "#", "data-reveal-id": "modal-meeting-reminder", title: "Activity Reminder Email"}, "Edit/Send Invitation/Reminder")
+	
+	    	), 
+	
+	    	React.createElement("li", null, 
+	
+			<%if (((Activity)planView.getYearPlanComponent()).getSentEmails()!=null && !((Activity)planView.getYearPlanComponent()).getSentEmails().isEmpty()) {%>
+	
+	     	React.createElement("span", null,"   (<%=((Activity)planView.getYearPlanComponent()).getSentEmails().size() %>", " sent -"), 
+	     	React.createElement("a", {href: "#", title: "view sent emails", className: "view", "data-reveal-id": "modal_view_sent_emails"}, "view"), ")" 
+	
+	 		<%} else{%>""<%}%>
+	
+	  		)
+		<%}else {%>
+
+	    	React.createElement("a", {href: "#", title: "view sent emails", "data-reveal-id": "modal_view_sent_emails"}, "Invitation/Reminder")
+	
+			), 
+	
+			React.createElement("li", null, 
+	
+			<%if (((Activity)planView.getYearPlanComponent()).getSentEmails()!=null && !((Activity)planView.getYearPlanComponent()).getSentEmails().isEmpty()) {%>
+	
+	 		React.createElement("span", null,"   (<%=((Activity)planView.getYearPlanComponent()).getSentEmails().size() %>", " sent -"), 
+	 		React.createElement("a", {href: "#", title: "view sent emails", className: "view", "data-reveal-id": "modal_view_sent_emails"}, "view"), ")" 
+	
+			<%} else{%>
+		 		React.createElement("span", null,"(","0 sent ",")") 
+
+			<%}%>
+	
+			)
+		<% } %>
+
+
+
+	)
+
+)
+<%} %>
+/*end communication*/
+
+
+)
+         // </div>
           );
         }
       });
+
+
+Number.prototype.format = function(n, x) {
+    var re = '(\\d)(?=(\\d{' + (x || 3) + '})+' + (n > 0 ? '\\.' : '$') + ')';
+    return this.toFixed(Math.max(0, ~~n)).replace(new RegExp(re, 'g'), '$1,');
+};
+ function fmtMaskedMoney(amount){
+        return "$"+amount.format(2);
+    }
     </script>
   </div>
 

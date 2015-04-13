@@ -81,7 +81,7 @@ function createCustAgendaItem2(mid, time, mPath){
 		cache: false
 	}).done(function( html ) {
 		//document.location="/content/girlscouts-vtk/en/vtk.planView.html?elem="+mid;
-		//-location.reload("true");
+		location.reload("true");
 		$('#modal_popup').foundation('reveal', 'close');
 	});
 }
@@ -125,20 +125,24 @@ function editAgenda(x){
 }
 
 function rmAgenda(id, mid){
-	
+
 	var isRm = confirm("Remove Agenda?");
 	if( !isRm ) return false;
+	
 	
 	var x =$.ajax({ // ajax call starts
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=RemoveAgenda&rmAgenda='+id+'&mid='+mid, // JQuery loads serverside.php
 		data: '', // Send value of the clicked button
 		dataType: 'html', // Choosing a JSON datatype
 		success: function (data) { 
+			
 			location.reload();
 		},
 		error: function (data) { 
+			
 		}
 	});
+	
 }
 
 function durEditActiv(duration, activPath, meetingPath){
@@ -171,14 +175,14 @@ function revertAgenda(mid) {
 	});
 }
 
-function previewMeetingReminderEmail(mid){
+function previewMeetingReminderEmail(mid,template){
 	var email_to_gp = document.getElementById("email_to_gp").checked;
-	var email_to_sf = document.getElementById("email_to_sf").checked;
+	//var email_to_sf = document.getElementById("email_to_sf").checked;
 	var email_to_tv = document.getElementById("email_to_tv").checked;
 	var email_cc = document.getElementById("email_to_cc").value;
 	var email_subj = document.getElementById("email_subj").value;
-	var email_htm = document.getElementById("email_htm").value; 
-	
+	var email_htm = document.getElementById("email_htm").value;
+
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
 		type: 'POST',
@@ -186,12 +190,13 @@ function previewMeetingReminderEmail(mid){
 			previewMeetingReminderEmail: true,
 			mid: mid,
 			email_to_gp :email_to_gp,
-			email_to_sf:email_to_sf,
+			//email_to_sf:email_to_sf,
 			email_to_tv:email_to_tv,
 			email_cc:email_cc,
 			email_subj:email_subj,
 			mid:mid,
-			email_htm: email_htm
+			email_htm: email_htm,
+			template:template
 		},
 		success: function(result) {
 			sendMeetingReminderEmail();
@@ -199,48 +204,13 @@ function previewMeetingReminderEmail(mid){
 	});
 	return;
 }
-/*
-function addAidToEmail(aidUrl, aidTitle, mid){
-	
-	var email_to_gp = document.getElementById("email_to_gp").value;
-	var email_to_sf = document.getElementById("email_to_sf").value;
-	var email_to_tv = document.getElementById("email_to_tv").value;
-	var email_cc = document.getElementById("email_to_cc").value;
-	var email_subj = document.getElementById("email_subj").value;
-	var email_htm = document.getElementById("email_htm").value; 
-	
-	$.ajax({
-		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
-		type: 'POST',
-		data: { 
-			previewMeetingReminderEmail: true,
-			mid: mid,
-			email_to_gp :email_to_gp,
-			email_to_sf:email_to_sf,
-			email_to_tv:email_to_tv,
-			email_cc:email_cc,
-			email_subj:email_subj,
-			mid:mid,
-			addAid:aidUrl,
-			aidTitle:aidTitle,
-			email_htm: email_htm
-		},
-		success: function(result) {
-			$('#aids').append('<a href="'+aidUrl+'">'+aidTitle+'/a>');
-			$('.addAidToEmail').text("-");
-		}
-	});
-	return;
-	
-}
-*/
+
 function sendMeetingReminderEmail(){
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html',
 		type: 'POST',
 		data: { 
 			sendMeetingReminderEmail: true,
-			email_sent_date: moment(new Date()).format('MM/DD/YYYY')
 		},
 		success: function(result) {
 			location.reload('true');
@@ -314,4 +284,38 @@ function getCheckedCheckboxesFor(checkboxName) {
     	t+= el.value +",";
     });
     return t;//values;
+}
+
+
+function getEventImg( eventPath){
+
+    $.ajax({
+        cache: false,
+        url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand=' + Date.now(),
+        type: 'POST',
+        data: { 
+            'getEventImg':'EventImg',
+            path: eventPath,
+            a:Date.now()
+        },
+        success: function(result) {
+           
+           document.getElementById("activ_img").innerHTML = $.trim(result);
+           return result;
+        }
+    });
+    return '';
+}
+
+
+function isSafary(){
+	var ua = navigator.userAgent.toLowerCase(); 
+	  if (ua.indexOf('safari') != -1) { 
+	    if (ua.indexOf('chrome') > -1) {
+	      return false; // Chrome
+	    } else {
+	     return true; // Safari
+	    }
+	  }
+	  return false;
 }

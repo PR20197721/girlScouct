@@ -1,13 +1,16 @@
 package org.girlscouts.vtk.ejb;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpSession;
 
@@ -35,6 +38,7 @@ import org.girlscouts.vtk.models.Attendance;
 import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.JcrCollectionHoldString;
 import org.girlscouts.vtk.models.Meeting;
+import org.girlscouts.vtk.models.MeetingCanceled;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.PlanView;
@@ -42,8 +46,12 @@ import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
+import org.girlscouts.vtk.models.SentEmail;
+import org.girlscouts.vtk.utils.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+
 
 @Component
 @Service(MeetingUtil.class)
@@ -88,8 +96,9 @@ public class MeetingUtil {
 				MeetingE meeting = orgMeetings.get(i);
 				int newpos = newPoss.indexOf(i + 1);
 				meeting.setId(newpos);
+				meeting.setDbUpdate(true);
 				newMeeting.set(newpos, meeting);
-
+				
 			}
 		} catch (Exception e) {
 			log.error("ERROR : MeetingUtil.updateMeetingPos");
@@ -128,13 +137,25 @@ public class MeetingUtil {
 			if (isLoadMeetingInfo) {
 
 				java.util.List<MeetingE> meetingEs = plan.getMeetingEvents();
-				for (int i = 0; i < meetingEs.size(); i++) {
+				if( meetingEs!=null)
+				 for (int i = 0; i < meetingEs.size(); i++) {
 					MeetingE meetingE = meetingEs.get(i);
 					Meeting meetingInfo = yearPlanUtil.getMeeting(user,
 							meetingE.getRefId());
 					meetingE.setMeetingInfo(meetingInfo);
 				}
 				plan.setMeetingEvents(meetingEs);
+				
+				
+				//load meetingCanceled
+				if( plan.getMeetingCanceled()!=null )
+				 for (int i = 0; i < plan.getMeetingCanceled().size(); i++) {
+					MeetingCanceled meetingCanceled = plan.getMeetingCanceled().get(i);
+					Meeting meetingInfo = yearPlanUtil.getMeeting(user,
+							meetingCanceled.getRefId());
+					meetingCanceled.setMeetingInfo(meetingInfo);
+				}
+				
 			}
 
 			return getYearPlanSched(plan);
@@ -153,17 +174,22 @@ public class MeetingUtil {
 				Activity activity = (Activity) _comp;
 				container.put(date, activity);
 				break;
-
+		
 			}
 		}
 
 		// now set meetings & etc
 		itr = orgSched.keySet().iterator();
+		boolean heal=false;
 		while (itr.hasNext()) {
 			java.util.Date date = (java.util.Date) itr.next();
 			YearPlanComponent _comp = (YearPlanComponent) orgSched.get(date);
 
 			switch (_comp.getType()) {
+			case MEETINGCANCELED:
+				MeetingCanceled meetingCanceled = (MeetingCanceled) _comp;
+				container.put(date, meetingCanceled);
+				break;
 			case MEETING:
 
 				MeetingE meetingE = (MeetingE) _comp;
@@ -173,7 +199,17 @@ public class MeetingUtil {
 
 					meetingE.setMeetingInfo(meetingInfo);
 				}
+				
+				int maxLook=0;
+				while (container.containsKey(date)) {
+					date = new Date(date.getTime() + 5l);
+					heal = true;
+					maxLook++;
+					if(maxLook>100) break;
+				}
+				
 				container.put(date, meetingE);
+				
 				break;
 			case MILESTONE:
 				Milestone milestone = (Milestone) _comp;
@@ -183,8 +219,28 @@ public class MeetingUtil {
 			}
 		}
 
+		
+		checkIt(container);
+		
 		return container;
 
+	}
+	
+	
+	private boolean checkIt( java.util.Map container ){
+		
+		boolean toRet= false;
+		java.util.Date now= java.util.Calendar.getInstance().getTime();
+		
+		java.util.Iterator itr = container.keySet().iterator();
+		while( itr.hasNext() ){
+			java.util.Date date= (java.util.Date)itr.next();
+			if( date.before( now ) ){
+				
+			}
+				
+		}
+		return toRet;
 	}
 
 	public java.util.Map getYearPlanSched(YearPlan plan) {
@@ -199,21 +255,25 @@ public class MeetingUtil {
 			List<Activity> activities = plan.getActivities();
 
 			java.util.List<MeetingE> meetingEs = plan.getMeetingEvents();
-
+if( meetingEs!=null){
 			Comparator<MeetingE> comp = new BeanComparator("id");
 			Collections.sort(meetingEs, comp);
-
+}
 			if (plan.getSchedule() != null) {
 
 				String calMeeting = plan.getSchedule().getDates();
 				StringTokenizer t = new StringTokenizer(calMeeting, ",");
 				int count = 0;
 				while (t.hasMoreElements()) {
-
 					try {
-						sched.put(
-								new java.util.Date(Long.parseLong((t
-										.nextToken()))), meetingEs.get(count));
+						java.util.Date dt = new java.util.Date(Long.parseLong((t.nextToken().replace("\n", "").replace("\r", "").trim())));
+						int maxLook=0;
+						if( sched.containsKey(dt)){
+							dt = new Date(dt.getTime() + 5l);
+							maxLook++;
+							if(maxLook>100) break;
+						}
+						sched.put(dt, meetingEs.get(count));
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -233,7 +293,8 @@ public class MeetingUtil {
 				Calendar tmp = java.util.Calendar.getInstance();
 				tmp.setTime(new java.util.Date("1/1/1976"));
 
-				for (int i = 0; i < meetingEs.size(); i++) {
+				if( meetingEs!=null)
+				 for (int i = 0; i < meetingEs.size(); i++) {
 
 					sched.put(tmp.getTime(), meetingEs.get(i));
 					tmp.add(java.util.Calendar.DATE, 1);
@@ -243,7 +304,25 @@ public class MeetingUtil {
 			if (activities != null)
 				for (int i = 0; i < activities.size(); i++) {
 
-					sched.put(activities.get(i).getDate(), activities.get(i));
+					long tmp = activities.get(i).getDate().getTime();
+					if( sched.containsKey( activities.get(i).getDate() ) ){ //add 2 sec
+									tmp = tmp + TimeUnit.MILLISECONDS.toMillis(1);
+								}
+								
+					sched.put(new java.util.Date(tmp), activities.get(i));
+					
+				}
+			
+			if (plan.getMeetingCanceled() != null)
+				for (int i = 0; i < plan.getMeetingCanceled().size(); i++) {
+
+					long tmp = plan.getMeetingCanceled().get(i).getDate().getTime();
+					if( sched.containsKey( plan.getMeetingCanceled().get(i).getDate() ) ){ //add 2 sec
+									tmp = tmp + TimeUnit.MILLISECONDS.toMillis(1);
+								}
+								
+					sched.put(new java.util.Date(tmp), plan.getMeetingCanceled().get(i));
+					
 				}
 
 		} catch (Exception e) {
@@ -254,20 +333,18 @@ public class MeetingUtil {
 		return sched;
 	}
 
-	public void changeMeetingPositions(User user, Troop troop,
-			String newPositions) throws IllegalAccessException {
+	public void changeMeetingPositions(User user, Troop troop, String newPositions) throws IllegalAccessException {
 
-		/*
-		 * if( !userUtil.hasAccess(troop, troop.getCurrentTroop(),
-		 * Permission.PERMISSION_MOVE_MEETING_ID ) ){ troop.setErrCode("112");
-		 * throw new IllegalAccessException(); }
-		 */
-		if (!userUtil.hasPermission(troop,
-				Permission.PERMISSION_MOVE_MEETING_ID)) {
+
+System.err.println("test123 start");		
+	for (Integer i: troop.getTroop().getPermissionTokens()) {
+		System.out.println("Permissions of trooop " + i);
+	}
+		if (!userUtil.hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID)) {
 			troop.setErrCode("112");
 			throw new IllegalAccessException();
 		}
-
+System.err.println("test123 yes");
 		java.util.List<Integer> newMeetingSetup = new java.util.ArrayList();
 		java.util.StringTokenizer t = new java.util.StringTokenizer(
 				newPositions, ",");
@@ -287,6 +364,7 @@ public class MeetingUtil {
 		YearPlan plan = troop.getYearPlan();
 		plan.setMeetingEvents(rearangedMeetings);
 		plan.setAltered("true");
+		plan.setDbUpdate(true);
 		troop.setYearPlan(plan);
 
 		troopUtil.updateTroop(user, troop);
@@ -297,11 +375,6 @@ public class MeetingUtil {
 			String meetingPath, int duration, long _startTime, String txt)
 			throws IllegalAccessException {
 
-		/*
-		 * if( !userUtil.hasAccess(troop, troop.getCurrentTroop(),
-		 * Permission.PERMISSION_CREATE_MEETING_ID ) ){ troop.setErrCode("112");
-		 * throw new IllegalAccessException(); }
-		 */
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_CREATE_MEETING_ID))
@@ -349,14 +422,9 @@ public class MeetingUtil {
 
 	public void rmCustomActivity(User user, Troop troop, String activityPath)
 			throws IllegalStateException, IllegalAccessException {
-		/*
-		 * if( ! userUtil.hasAccess(troop, troop.getCurrentTroop(),
-		 * Permission.PERMISSION_REMOVE_MEETING_ID ) ){ troop.setErrCode("112");
-		 * throw new IllegalAccessException(); }
-		 */
 		if (user != null
 				&& !userUtil.hasPermission(user.getPermissions(),
-						Permission.PERMISSION_REMOVE_MEETING_ID))
+						Permission.PERMISSION_RM_ACTIVITY_ID))
 			throw new IllegalAccessException();
 
 		if (user != null && !userUtil.isCurrentTroopId(troop, user.getSid())) {
@@ -369,25 +437,27 @@ public class MeetingUtil {
 		for (int i = 0; i < activities.size(); i++) {
 			Activity activity = activities.get(i);
 
-			if (activity.getPath().equals(activityPath))
+			if (activity.getPath().equals(activityPath)){
 				activities.remove(activity);
+				troopDAO.removeActivity(user, troop, activity);
+			}
 		}
 
-		troopUtil.updateTroop(user, troop);
-
+		//troopUtil.updateTroop(user, troop);
+		
 	}
 
 	public void swapMeetings(User user, Troop troop, String fromPath,
 			String toPath) throws java.lang.IllegalAccessException {
 		/*
 		 * if( ! userUtil.hasAccess(troop, troop.getCurrentTroop()
-		 * ,Permission.PERMISSION_REPLACE_MEETING_ID)){ troop.setErrCode("112");
+		 * ,Permission.PERMISSION_EDIT_MEETING_ID)){ troop.setErrCode("112");
 		 * throw new IllegalAccessException(); }
 		 */
 
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
-						Permission.PERMISSION_REPLACE_MEETING_ID))
+						Permission.PERMISSION_EDIT_MEETING_ID))
 			throw new IllegalAccessException();
 
 		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
@@ -417,14 +487,9 @@ public class MeetingUtil {
 	public void rearrangeActivity(User user, Troop troop, String meetingPath,
 			String _newPoss) throws java.lang.IllegalAccessException {
 
-		/*
-		 * if( ! userUtil.hasAccess(troop, troop.getCurrentTroop(),
-		 * Permission.PERMISSION_MOVE_MEETING_ID ) ){ troop.setErrCode("112");
-		 * throw new IllegalAccessException(); }
-		 */
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
-						Permission.PERMISSION_MOVE_MEETING_ID))
+						Permission.PERMISSION_EDIT_MEETING_ID))
 			throw new IllegalAccessException();
 
 		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
@@ -485,11 +550,6 @@ public class MeetingUtil {
 
 	public void addMeetings(User user, Troop troop, String newMeetingPath)
 			throws java.lang.IllegalAccessException {
-		/*
-		 * if( !userUtil.hasAccess(troop, troop.getCurrentTroop(),
-		 * Permission.PERMISSION_CREATE_MEETING_ID ) ){ troop.setErrCode("112");
-		 * throw new IllegalAccessException(); }
-		 */
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_CREATE_MEETING_ID))
@@ -504,15 +564,17 @@ public class MeetingUtil {
 		meeting.setRefId(newMeetingPath);
 
 		int maxMeetEId = 0;
-		for (int i = 0; i < troop.getYearPlan().getMeetingEvents().size(); i++)
-			if (maxMeetEId < troop.getYearPlan().getMeetingEvents().get(i)
-					.getId())
-				maxMeetEId = troop.getYearPlan().getMeetingEvents().get(i)
-						.getId();
+		if( troop.getYearPlan().getMeetingEvents() !=null)
+		 for (int i = 0; i < troop.getYearPlan().getMeetingEvents().size(); i++)
+			if (maxMeetEId < troop.getYearPlan().getMeetingEvents().get(i).getId())
+				maxMeetEId = troop.getYearPlan().getMeetingEvents().get(i).getId();
 		meeting.setId(maxMeetEId + 1);
-
+		meeting.setDbUpdate(true);
+		if( troop.getYearPlan().getMeetingEvents() ==null )
+			troop.getYearPlan().setMeetingEvents(new java.util.ArrayList() );
 		troop.getYearPlan().getMeetingEvents().add(meeting);
 
+		/*021715
 		if (troop.getYearPlan().getSchedule() != null) {
 
 			StringTokenizer t = new StringTokenizer(troop.getYearPlan()
@@ -535,6 +597,15 @@ public class MeetingUtil {
 									+ (secondDate + diff) + ","));
 
 		}
+		*/
+		if (troop.getYearPlan().getSchedule() != null) {
+			java.util.List<java.util.Date> sched = VtkUtil.getStrCommDelToArrayDates(troop.getYearPlan().getSchedule().getDates());
+			long newDate = 
+					new CalendarUtil().getNextDate(VtkUtil.getStrCommDelToArrayStr( troop.getYearPlan().getCalExclWeeksOf() ), sched.get(sched.size()-1).getTime(), troop.getYearPlan().getCalFreq(), false);		
+			sched.add( new java.util.Date(newDate) );
+			troop.getYearPlan().getSchedule().setDates( VtkUtil.getArrayDateToLongComDelim(sched));
+		}
+		
 		troop.getYearPlan().setAltered("true");
 		troopUtil.updateTroop(user, troop);
 
@@ -542,11 +613,6 @@ public class MeetingUtil {
 
 	public void rmAgenda(User user, Troop troop, String agendaPathToRm,
 			String fromMeetingPath) throws java.lang.IllegalAccessException {
-		/*
-		 * if( ! userUtil.hasAccess(troop, troop.getCurrentTroop() ,
-		 * Permission.PERMISSION_REMOVE_MEETING_ID) ){ troop.setErrCode("112");
-		 * throw new IllegalAccessException(); }
-		 */
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_REMOVE_MEETING_ID))
@@ -597,11 +663,6 @@ public class MeetingUtil {
 			String activityPath, String meetingPath)
 			throws java.lang.IllegalAccessException {
 
-		/*
-		 * if( ! userUtil.hasAccess(troop, troop.getCurrentTroop() ,
-		 * Permission.PERMISSION_EDIT_MEETING_ID) ){ troop.setErrCode("112");
-		 * throw new IllegalAccessException(); }
-		 */
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_EDIT_MEETING_ID))
@@ -643,14 +704,9 @@ public class MeetingUtil {
 
 	public void reverAgenda(User user, Troop troop, String meetingPath)
 			throws java.lang.IllegalAccessException {
-		/*
-		 * if( ! userUtil.hasAccess(troop, troop.getCurrentTroop(),
-		 * Permission.PERMISSION_REPLACE_MEETING_ID ) ){
-		 * troop.setErrCode("112"); throw new IllegalAccessException(); }
-		 */
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
-						Permission.PERMISSION_REPLACE_MEETING_ID))
+						Permission.PERMISSION_EDIT_MEETING_ID))
 			throw new IllegalAccessException();
 
 		if (!userUtil.isCurrentTroopId(troop, user.getSid())) {
@@ -691,15 +747,10 @@ public class MeetingUtil {
 		}
 
 	}
-
+	
 	public void addAids(User user, Troop troop, String aidId, String meetingId,
 			String assetName, String docType)
 			throws java.lang.IllegalAccessException {
-		/*
-		 * if( ! userUtil.hasAccess(troop, troop.getCurrentTroop() ,
-		 * Permission.PERMISSION_CREATE_MEETING_ID) ){ troop.setErrCode("112");
-		 * //return; throw new IllegalAccessException(); }
-		 */
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_CREATE_MEETING_ID))
@@ -771,11 +822,6 @@ public class MeetingUtil {
 	public void addResource(User user, Troop troop, String aidId,
 			String meetingId, String assetName, String docType)
 			throws java.lang.IllegalAccessException {
-		/*
-		 * if( ! userUtil.hasAccess(troop, troop.getCurrentTroop(),
-		 * Permission.PERMISSION_CREATE_MEETING_ID ) ){ troop.setErrCode("112");
-		 * //return; throw new IllegalAccessException(); }
-		 */
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_CREATE_MEETING_ID))
@@ -842,11 +888,6 @@ public class MeetingUtil {
 
 	public void rmAsset(User user, Troop troop, String aidId, String meetingId)
 			throws java.lang.IllegalAccessException {
-		/*
-		 * if( ! userUtil.hasAccess(troop, troop.getCurrentTroop(),
-		 * Permission.PERMISSION_REMOVE_MEETING_ID ) ){ troop.setErrCode("112");
-		 * //return; throw new IllegalAccessException(); }
-		 */
 		if (troop != null
 				&& !userUtil.hasPermission(troop,
 						Permission.PERMISSION_REMOVE_MEETING_ID))
@@ -868,10 +909,11 @@ public class MeetingUtil {
 				for (int y = 0; y < assets.size(); y++) {
 					if (assets.get(y).getRefId().equals(aidId)) {
 						assets.remove(y);
+						troopDAO.removeAsset(user, troop, assets.get(y));
 					}
 				}
 				// troop.getYearPlan().setAltered("true");
-				troopUtil.updateTroop(user, troop);
+				//troopUtil.updateTroop(user, troop);
 				return;
 			}
 		}
@@ -938,7 +980,8 @@ public class MeetingUtil {
 			javax.servlet.http.HttpServletRequest request) throws Exception {
 
 		PlanView planView = planView1(user, troop, request);
-
+		if( planView==null ) {return null;}
+		
 		YearPlanComponent _comp = planView.getYearPlanComponent();
 		if (_comp == null) {
 
@@ -948,7 +991,7 @@ public class MeetingUtil {
 		MeetingE meeting = null;
 		List<Asset> _aidTags = null;
 		Meeting meetingInfo = null;
-		if (_comp.getType() == YearPlanComponentType.MEETING) {
+		if (_comp.getType() == YearPlanComponentType.MEETING || _comp.getType() == YearPlanComponentType.MEETINGCANCELED) {
 			meeting = (MeetingE) _comp;
 			int meetingCount = troop.getYearPlan().getMeetingEvents().indexOf(_comp)+1;
 			meetingInfo = yearPlanUtil.getMeeting(user, meeting.getRefId());
@@ -1160,10 +1203,12 @@ public class MeetingUtil {
 		java.util.List<MeetingE> meetings = troop.getYearPlan()
 				.getMeetingEvents();
 		for (int i = 0; i < meetings.size(); i++) {
-			if (meetings.get(i).getRefId().equals(meetingRefId))
+			if (meetings.get(i).getRefId().equals(meetingRefId)){
+				troopDAO.removeMeeting(user, troop, meetings.get(i));
 				meetings.remove(i);
+			}
 		}
-		troopUtil.updateTroop(user, troop);
+		//troopUtil.updateTroop(user, troop);
 		isRemoved = true;
 		return isRemoved;
 	}
@@ -1349,6 +1394,76 @@ public class MeetingUtil {
 		return false;
 	}
 	
-	
+	public void saveEmail(User user, Troop troop, String meetingId){
+		
+		java.util.List<MeetingE> meetings = troop.getYearPlan()
+				.getMeetingEvents();
+		for (int i = 0; i < meetings.size(); i++) {
+			MeetingE meeting = meetings.get(i);
+			if (meeting.getUid().equals(meetingId)) {
+				try{
+					SentEmail email = new SentEmail(troop.getSendingEmail());
+					java.util.List<SentEmail> emails = meeting.getSentEmails();
+					emails = emails == null? new java.util.ArrayList<SentEmail>() :emails;
+					emails.add(email);
 
+					meeting.setSentEmails(emails);
+					if(meeting.getEmlTemplate()==null){
+						meeting.setEmlTemplate(troop.getSendingEmail().getTemplate());
+					}
+					meetingDAO.updateMeetingEvent(user, troop, meeting);
+					return;
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
+		java.util.List<Activity> activities = troop.getYearPlan().getActivities();
+		for (int i = 0; i < activities.size(); i++) {
+			Activity activity = activities.get(i);
+			if (activity.getUid().equals(meetingId)) {
+				try{
+					SentEmail email = new SentEmail(troop.getSendingEmail());
+					java.util.List<SentEmail> emails = activity.getSentEmails();
+					emails = emails == null? new java.util.ArrayList<SentEmail>() :emails;
+					emails.add(email);
+
+					activity.setSentEmails(emails);
+					if(activity.getEmlTemplate()==null){
+						activity.setEmlTemplate(troop.getSendingEmail().getTemplate());
+					}
+					activityDAO.updateActivity(user, troop, activity);
+					return;
+				}catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+		}
+
+
+	}
+
+
+public void createMeetingCanceled(User user, Troop troop,
+        String meetingRefId, long meetingDate) throws IllegalAccessException{
+	
+	MeetingCanceled  meeting = new MeetingCanceled();
+	meeting.setDate( new java.util.Date(meetingDate) );
+	meeting.setRefId(meetingRefId);
+	meeting.setCancelled("true");
+	meeting.setDbUpdate(true);
+	java.util.List<MeetingCanceled>  meetingsCanceled = troop.getYearPlan().getMeetingCanceled();
+	meetingsCanceled= meetingsCanceled==null ? new java.util.ArrayList<MeetingCanceled>() : meetingsCanceled;
+	meetingsCanceled.add(meeting);
+	troop.getYearPlan().setMeetingCanceled(meetingsCanceled);
+	troopDAO.updateTroop(user, troop);
 }
+
+
+public void createCustomYearPlan( User user, Troop troop, String mids) throws IllegalAccessException{
+	StringTokenizer t= new StringTokenizer(mids, ",");
+	while( t.hasMoreElements())
+		addMeetings( user,  troop,  t.nextToken());
+}
+
+}//edn class

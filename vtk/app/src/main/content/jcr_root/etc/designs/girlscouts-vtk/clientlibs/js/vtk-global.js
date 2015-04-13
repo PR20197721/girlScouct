@@ -58,6 +58,7 @@ var $ = jQuery.noConflict();
 		  }    
 		});
 	}
+	//used if using select instead of tabs for small, screens was removed.
 	function select_tabs() {
 		$("select.tabs").on('change', function(index) {
 		    if ($(this).index() !==0 ) {
@@ -86,14 +87,21 @@ var $ = jQuery.noConflict();
 	  	     },
 	  	 	}
 	  	 });
-	  	 select_tabs();
+	  	 //select_tabs();
 	  	 modal_height_on_open();
 	  	 vtk_accordion();
 	  	 validate_image();
 	  	 resizeWindow();
+	  	 if($('.tabs dd').length == 6) {
+	  	 	$('.tabs dd').css('width','100%');
+	  	 } 	 
   });
 
- $(window).resize(function() {
- 	modal_height_resize()
- });
- })($);
+	$(window).resize(function() {
+		modal_height_resize()
+		// if($(window).width() < 420) {
+		// 	$('.vtk-body .reveal-modal').css('top','0');
+		// }
+	});
+
+})($);

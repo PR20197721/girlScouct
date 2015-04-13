@@ -3,6 +3,7 @@
     <filter root="/apps/girlscouts"/>
     <filter root="/apps/foundation"/>
     <filter root="/apps/wcm"/>
+    <filter root="/etc/council-rollout"/>
     <filter root="/etc/map.author"/>
     <filter root="/etc/map.publish"/>
     <filter root="/etc/map.publish.dev"/>
@@ -15,6 +16,7 @@
     <filter root="/etc/designs/girlscouts-usa-blue"/>
     <filter root="/etc/designs/girlscoutsnccp"/>
     <filter root="/etc/designs/girlscouts-nccp"/>
+    <filter root="/etc/designs/girlscouts-prototype"/>
     <filter root="/etc/scaffolding/girlscouts-prototype"/>
     <filter root="/etc/scaffolding/girlscouts-dxp"/>
     <filter root="/etc/workflow/models/email-workflow"/>

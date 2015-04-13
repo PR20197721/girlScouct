@@ -52,7 +52,7 @@ public class ReplicationServlet extends SlingAllMethodsServlet {
     protected OutboxManager outboxManager;
 
     @Reference
-    protected ReplicationReceiver receiver;
+    protected VTKReplicationReceiver receiver;
     
     @Reference
     protected ReplicationManager replicationManager;
@@ -252,7 +252,7 @@ public class ReplicationServlet extends SlingAllMethodsServlet {
             this.outboxManager = null;
     }
 
-    protected void bindReceiver(ReplicationReceiver paramReplicationReceiver) {
+    protected void bindReceiver(VTKReplicationReceiver paramReplicationReceiver) {
         this.receiver = paramReplicationReceiver;
     }
 

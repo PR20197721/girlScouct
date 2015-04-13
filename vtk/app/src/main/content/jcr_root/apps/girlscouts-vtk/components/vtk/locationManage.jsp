@@ -67,9 +67,9 @@ if( locations==null || locations.size()<=0){
               %>
             </ul>
             <div class="linkButton Wrapper">
-            	<button class="btn" onclick="updLocations('<%=location.getPath()%>', '<%=location.getName()%>')" class="button linkButton">Assign to checked locations</button>
+            	<button class="btn" onclick="updLocations('<%=location.getPath()%>', '<%=location.getName()%>'); " class="button linkButton">Assign to checked locations</button>
             	<button class="btn" onclick="applyLocToAllMeetings('<%=location.getPath()%>')" class="button linkButton">Apply to all meetings</button>
-              <button class="btn right" onclick="rmLocation('<%=location.getUid()%>');">Remove</button>
+                <button class="btn right" onclick="rmLocation('<%=location.getUid()%>');">Remove</button>
             </div>
             <% } %>
           </div><!--/location-list-->

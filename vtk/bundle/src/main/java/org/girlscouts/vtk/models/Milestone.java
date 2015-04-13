@@ -14,6 +14,8 @@ public class Milestone extends YearPlanComponent implements Serializable {
 	@Field
 	private String blurb;
 	@Field
+	Boolean show;
+	@Field
 	private java.util.Date date;
 	@Field(id = true)
 	String uid;
@@ -21,6 +23,13 @@ public class Milestone extends YearPlanComponent implements Serializable {
 	public Milestone() {
 		this.uid = "M" + new java.util.Date().getTime() + "_" + Math.random();
 		super.setType(YearPlanComponentType.MILESTONE);
+	}
+	public Milestone(String blurb, boolean show, java.util.Date date) {
+		this.uid = "M" + new java.util.Date().getTime() + "_" + Math.random();
+		super.setType(YearPlanComponentType.MILESTONE);
+		this.blurb=blurb;
+		this.show = new Boolean(show);
+		this.date = date;
 	}
 
 	public String getPath() {
@@ -39,6 +48,7 @@ public class Milestone extends YearPlanComponent implements Serializable {
 		this.blurb = blurb;
 	}
 
+
 	public java.util.Date getDate() {
 		return date;
 	}
@@ -56,6 +66,14 @@ public class Milestone extends YearPlanComponent implements Serializable {
 
 	public void setUid(String uid) {
 		this.uid = uid;
+	}
+	
+	public Boolean getShow() {
+		return show;
+	}
+
+	public void setShow(Boolean showInPlans) {
+		this.show = showInPlans;
 	}
 
 }
