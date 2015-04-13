@@ -357,12 +357,7 @@ var uploadInit = function(){
 
     function resizeUpload(){
         uploadTool.style.display = "none";
-        if(tookPic = false){
-			resizeableImage(img.src);
-        }
-        else{
-            resizeableImage(canvas.toDataURL("image/png",1.0));
-        }
+        resizeableImage(canvas.toDataURL("image/png",1.0));
     }
     
     function rotate(){
@@ -450,6 +445,7 @@ var resizeableImage = function(image_data){
     submitCrop.style.float = "left";
 	var submitText = document.createTextNode("Crop & Select");
     submitCrop.appendChild(submitText);
+    submitCrop.disabled = true;
 
     imageTool.appendChild(croppingTool);
     imageTool.appendChild(cropButtons);
@@ -477,13 +473,14 @@ var resizeableImage = function(image_data){
     var x1, x2, y1, y2, width, height;
 
     storeCoords = function(img, selection){
-    	console.log(x1 + "," + y1 + " -> " + x2 + "," + y2);
+    	//console.log(x1 + "," + y1 + " -> " + x2 + "," + y2);
     	x1 = selection.x1;
     	x2 = selection.x2;
     	y1 = selection.y1;
     	y2 = selection.y2;
     	width = selection.width;
     	height = selection.height;
+    	submitCrop.disabled = false;
     	coordsSelected = true;
     };
 

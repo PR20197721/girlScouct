@@ -1092,7 +1092,11 @@ System.err.println("manu reactActivity");
                 byte[] decoded = Base64.decodeBase64(imgData);
 
                 if(x1 >= 0 && x2 >= 0 && y1 >= 0 && y2 >= 0 && width >= 0 && height >= 0){
-                	BufferedImage inputImage = ImageIO.read(new ByteArrayInputStream(decoded));
+                	ByteArrayInputStream bais = new ByteArrayInputStream(decoded);
+                	BufferedImage inputImage = ImageIO.read(bais);
+                	
+					String formatName = "PNG";
+                	
                 	Layer layer = new Layer(inputImage);             	
                 	int smallerX = Math.min(x1, x2);
                 	int smallerY = Math.min(y1, y2);
@@ -1111,7 +1115,7 @@ System.err.println("manu reactActivity");
                 	layer.crop(rect);
                 	inputImage = layer.getImage();
                 	ByteArrayOutputStream outStream = new ByteArrayOutputStream();
-                	ImageIO.write(inputImage, "PNG", outStream);
+                	ImageIO.write(inputImage, formatName, outStream);
                 	decoded = outStream.toByteArray();
 				}
 
