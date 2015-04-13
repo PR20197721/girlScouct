@@ -1,4 +1,4 @@
-<%@page	import="org.girlscouts.vtk.models.Troop, org.girlscouts.vtk.auth.permission.*, org.girlscouts.vtk.utils.VtkUtil"%>
+<%@page	import="org.apache.sling.runmode.RunMode, org.girlscouts.vtk.models.Troop, org.girlscouts.vtk.auth.permission.*, org.girlscouts.vtk.utils.VtkUtil"%>
 <%!java.text.SimpleDateFormat FORMAT_MMddYYYY = new java.text.SimpleDateFormat("MM/dd/yyyy");
 	java.text.SimpleDateFormat FORMAT_hhmm_AMPM = new java.text.SimpleDateFormat("hh:mm a");
 	java.text.SimpleDateFormat FORMAT_hhmm = new java.text.SimpleDateFormat("hh:mm");
@@ -265,9 +265,11 @@ if( false ){//troop!=null && troop.getYearPlan()!=null){
 	request.setAttribute("footerScript", footerScript);
 }
 
-
+RunMode runModeService = sling.getService(RunMode.class);
+if( true){//!runModeService.isActive("prod"){
     String footerScript ="<script>vtkInitTracker('"+troop.getSfTroopName()+"', '"+troop.getSfTroopId() +"', '"+user.getApiConfig().getUser().getSfUserId()+"');vtkTrackerPushAction('View');</script>";
     request.setAttribute("footerScript", footerScript);
+}
 
 
 %>
