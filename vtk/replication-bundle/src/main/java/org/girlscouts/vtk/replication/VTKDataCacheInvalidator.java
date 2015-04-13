@@ -20,12 +20,12 @@ import org.slf4j.LoggerFactory;
 )
 public class VTKDataCacheInvalidator implements Job {
     private static final Logger log = LoggerFactory.getLogger(VTKReplicationReceiver.class);
-
-    // Go to sleep if nothing happens after seconds of this value.
-    protected static final int COUNT_DOWN = 10; 
     
-    // The count down value
-    protected int countDown;
+    // Interval for the next invalidation, in milliseconds.
+    private static final int INTERVAL = 1000;
+
+    // If invalidation is scheduled
+    protected boolean scheduled;
 
     protected Collection<String> paths;
     protected Object lock;
@@ -37,36 +37,29 @@ public class VTKDataCacheInvalidator implements Job {
     public void init() {
         lock = new Object();
         paths = new HashSet<String>();
+        scheduled = false;
     }
     
     public void addPath(String path) {
         synchronized(lock) {
             paths.add(path);
             // If nothing is scheduled, schedule a new task.
-            if (countDown <= 0) {
-                countDown = COUNT_DOWN;
+            if (!scheduled) {
+                scheduled = true;
                 schedule();
             }
         }
     }
     
     public void execute(JobContext ctx) {
-        System.out.println("Execute timestamp: " + System.currentTimeMillis());
+        log.debug("Execute timestamp: " + System.currentTimeMillis());
         Collection<String> _paths;
         synchronized(lock) {
             _paths = paths;
-            // If nothing comes in, reduce countDown.
-            if (_paths.isEmpty()) {
-                countDown--;
-            } else {
-                countDown = COUNT_DOWN;
+            if (!paths.isEmpty()) {
                 paths = new HashSet<String>();
             }
-
-            System.out.println("countDown = " + countDown);
-            if (countDown > 0) {
-                schedule();
-            }
+            scheduled = false;
         }
         
         if (!_paths.isEmpty()) {
@@ -76,14 +69,14 @@ public class VTKDataCacheInvalidator implements Job {
 
     protected void schedule() {
         try {
-            scheduler.fireJobAt(null, this, null, new Date(System.currentTimeMillis() + 1000));
+            scheduler.fireJobAt(null, this, null, new Date(System.currentTimeMillis() + INTERVAL));
         } catch (Exception e) {
             log.error("Job not scheduled.");
         }
     }
 
     public void invalidateCache(Collection<String> paths) {
-        // TODO
+        // TODO heavy lifting that does not require synchronization.
         System.out.println("==================Invalidating cache: ");
         for (String path : paths) {
             System.out.println(path);
