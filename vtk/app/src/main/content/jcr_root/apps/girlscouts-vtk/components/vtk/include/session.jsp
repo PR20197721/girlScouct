@@ -265,10 +265,9 @@ if( false ){//troop!=null && troop.getYearPlan()!=null){
 	request.setAttribute("footerScript", footerScript);
 }
 
-if(true){//userUtil.hasPermission(troop, Permission.PERMISSION_REMOVE_MEETING_ID)){
-    //String footerScript ="<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', 'UA-61431888-1', 'auto');ga('set', 'dimension1', '"+troop.getSfTroopName()+"');ga('set', 'dimension2', '"+troop.getSfTroopId() +"');ga('set', 'dimension3', '"+user.getApiConfig().getUser().getSfUserId()+"');ga('send', 'pageview');</script>";
+/*
     String footerScript ="<script>vtkInitTracker('"+troop.getSfTroopName()+"', '"+troop.getSfTroopId() +"', '"+user.getApiConfig().getUser().getSfUserId()+"');vtkTrackerPushAction('sessionjsp');</script>";
     request.setAttribute("footerScript", footerScript);
-}
+*/
 
 %>

@@ -658,7 +658,7 @@ public java.util.List<Troop> troopInfo(ApiConfig apiConfig, String contactId) {
 		return troops;
 	}
 	//testing connection pool
-	public java.util.List<Troop> troopInfo_WithConnection(ApiConfig apiConfig, String contactId) {	
+	public java.util.List<Troop> troopInfoXX(ApiConfig apiConfig, String contactId) {	
 		
 		java.util.List<Troop> troops = new java.util.ArrayList();
 
