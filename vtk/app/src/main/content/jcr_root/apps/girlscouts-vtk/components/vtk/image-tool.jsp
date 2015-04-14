@@ -72,7 +72,7 @@ var displayCurrent = function(){
     imageTool.appendChild(clearBoth);
     
     <%if(hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_ID)){ %>
-    	$("<a data-reveal-id=\"modal_upload_image\" title=\"update photo\" href=\"#nogo\" title=\"upload image\"><i class=\"icon-photo-camera\"></i></a>").insertAfter($('#current-picture'));
+    	$("<a data-reveal-id=\"modal_upload_image\" title=\"update photo\" href=\"#nogo\" title=\"Upload a new Photo\"><i class=\"icon-photo-camera\"></i></a>").insertAfter($('#current-picture'));
 	<%} %>
 }
 
@@ -207,16 +207,16 @@ var displayCurrent = function(){
 	            	canvas.width = img.width;
 	            	canvas.height = img.height;
 	            	context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);
-	                if(window.innerWidth < maxWidth){
-	    				canvas.style.maxWidth = window.innerWidth + "px";
+	                if($('#modal_upload_image').innerWidth() < maxWidth){
+	    				canvas.style.maxWidth = $('#modal_upload_image').innerWidth() + "px";
 	           	 	}
-	            	else if(window.innerWidth > maxWidth){
+	            	else if($('#modal_upload_image').innerWidth() > maxWidth){
 	    				canvas.style.maxWidth = maxWidth + "px";
 	            	}
-	            	if(window.innerHeight < maxHeight){
-	    				canvas.style.maxHeight = window.innerHeight + "px";
+	            	if($('#modal_upload_image').innerHeight() < maxHeight){
+	    				canvas.style.maxHeight = $('#modal_upload_image').innerHeight() + "px";
 	            	}
-	    			else if(window.innerHeight > maxHeight){
+	    			else if($('#modal_upload_image').innerHeight() > maxHeight){
 	    				canvas.style.maxHeight = maxHeight + "px";
 	            	}
 	            	aspectRatio = img.width/img.height;
@@ -257,13 +257,19 @@ var displayCurrent = function(){
 		}
 	    
 	    function directUploadTest(){
-	    	directUploadRatio = $('#canvas').width()/$('#canvas').height();
-	    	if(directUploadRatio == (48/17)){
-	    		directUploadOk = true;
-	    		directUploadButton.disabled = false;
-	    	}
+	    	if(!tookPic && video.style.display == 'none'){
+	    		directUploadRatio = img.width/img.height;
+	    		if(directUploadRatio == (48/17)){
+		    		directUploadOk = true;
+		    		directUploadButton.disabled = false;
+		    	}
+		    	else{
+		    		directUploadOk = false;
+		    		directUploadButton.disabled = true;
+		    	}
+		    }
 	    	else{
-	    		directUploadOk = true;
+	    		directUploadOk = false;
 	    		directUploadButton.disabled = true;
 	    	}
 	    }
@@ -400,16 +406,16 @@ var displayCurrent = function(){
 	    
 	    $(window).resize(function() {
 	        if(canvas.style.display == 'block'){
-	            if(window.innerWidth < maxWidth){
-	    			canvas.style.maxWidth = window.innerWidth + "px";
+	            if($('#modal_upload_image').innerWidth() < maxWidth){
+	    			canvas.style.maxWidth = $('#modal_upload_image').innerWidth() + "px";
 	            }
-	            else if(window.innerWidth > maxWidth){
+	            else if($('#modal_upload_image').innerWidth() > maxWidth){
 	    			canvas.style.maxWidth = maxWidth + "px";
 	            }
-	            if(window.innerHeight < maxHeight){
-	    			canvas.style.maxHeight = window.innerHeight + "px";
+	            if($('#modal_upload_image').innerHeight() < maxHeight){
+	    			canvas.style.maxHeight = $('#modal_upload_image').innerHeight() + "px";
 	            }
-	    		else if(window.innerHeight > maxHeight){
+	    		else if($('#modal_upload_image').innerHeight() > maxHeight){
 	    			canvas.style.maxHeight = maxHeight + "px";
 	            }
 	      		// Resize original canvas
@@ -433,7 +439,6 @@ var displayCurrent = function(){
 	                context.drawImage(img, 0, 0, img.width, img.height);
 	            }
 	        }
-	
 	    });
 	    
 	    function directUpload(){
@@ -602,7 +607,7 @@ var displayCurrent = function(){
 		}
 	
 	    $(window).resize(function() {
-	        croppingTool.style.maxWidth = window.innerWidth;
+	        croppingTool.style.maxWidth = $('#modal_upload_image').innerWidth();
 	    });
 	
 	    image_target.onload = function(){
