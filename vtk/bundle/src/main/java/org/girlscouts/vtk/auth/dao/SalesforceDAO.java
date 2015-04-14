@@ -3,6 +3,10 @@ package org.girlscouts.vtk.auth.dao;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URLDecoder;
+
+import javax.jcr.LoginException;
+import javax.jcr.RepositoryException;
+
 import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
@@ -362,6 +366,161 @@ public class SalesforceDAO {
 	}
 
 	public java.util.List<Contact> getContacts(ApiConfig apiConfig,
+			String sfTroopId)  {
+		
+		
+		CloseableHttpClient connection = null;
+		java.util.List<Contact> contacts = new java.util.ArrayList();
+		HttpClient client = new HttpClient();
+		//GetMethod method = new GetMethod(apiConfig.getWebServicesUrl()+ "/services/apexrest/troopMembers/?troopId=" + sfTroopId);
+		HttpGet method = new HttpGet(apiConfig.getWebServicesUrl()+ "/services/apexrest/troopMembers/?troopId=" + sfTroopId);
+		method.setHeader("Authorization", "OAuth " + getToken(apiConfig));
+		try {
+
+			connection = connectionFactory.getConnection();
+			
+			//method.setRequestHeader("Authorization", "OAuth "+ getToken(apiConfig));
+
+			// Execute the method.
+
+			//int statusCode = client.executeMethod(method);
+			HttpResponse resp = connection.execute(method);
+			int statusCode = resp.getStatusLine().getStatusCode();
+			if (statusCode != HttpStatus.SC_OK) {
+
+				System.err.println("Method failed: " + resp.getStatusLine());//method.getStatusLine());
+
+			}
+
+			
+			HttpEntity entity = resp.getEntity();
+
+			// byte[] responseBody = method.getResponseBody();
+			entity.getContent();
+			String rsp = EntityUtils.toString(entity);
+			
+			
+			// Read the response body.
+
+			//byte[] responseBody = method.getResponseBody();
+
+			//String rsp = new String(responseBody);
+
+			rsp = "{\"records\":" + rsp + "}";
+
+			log.debug(">>>>> " + rsp);
+
+			try {
+
+				JSONObject response = new JSONObject(rsp);
+
+				log.debug("<<<<<Apex contacts reponse: " + response);
+
+				JSONArray results = response.getJSONArray("records");
+
+				for (int i = 0; i < results.length(); i++) {
+					
+					log.debug("_____ " + results.get(i));
+					Contact contact = new Contact();
+					try {
+						
+						contact.setFirstName(results.getJSONObject(i)
+								.getString("Name"));
+						contact.setEmail(results.getJSONObject(i).getString(
+								"Email"));
+						contact.setPhone(results.getJSONObject(i).getString(
+								"Phone"));
+						contact.setId(results.getJSONObject(i).getString("Id"));
+						contact.setAddress(results.getJSONObject(i).getString(
+								"MailingStreet"));
+						contact.setCity(results.getJSONObject(i).getString(
+								"MailingCity"));
+						contact.setState(results.getJSONObject(i).getString(
+								"MailingState"));
+						contact.setState(results.getJSONObject(i).getString(
+								"MailingPostalCode"));
+						contact.setCountry(results.getJSONObject(i).getString(
+								"MailingCountry"));
+						contact.setZip(results.getJSONObject(i).getString(
+								"MailingPostalCode"));
+						contact.setAge(results.getJSONObject(i).getInt(
+								"rC_Bios__Age__c"));
+						contact.setDob(results.getJSONObject(i).getString(
+								"Birthdate"));
+						contact.setRole(results.getJSONObject(i).getString(
+								"rC_Bios__Role__c"));
+						contact.setAccountId(results.getJSONObject(i)
+								.getString("AccountId"));
+						contact.setType(0);
+
+						// caregiver(rC_Bios__Preferred_Contact__r) per Sharif
+						// 3-11-15
+						Contact contactSub = new Contact();
+						contactSub.setEmail(results.getJSONObject(i)
+								.getJSONObject("Account")
+								.getJSONObject("rC_Bios__Preferred_Contact__r")
+								.getString("Email"));
+						contactSub.setFirstName(results.getJSONObject(i)
+								.getJSONObject("Account")
+								.getJSONObject("rC_Bios__Preferred_Contact__r")
+								.getString("FirstName"));
+						contactSub.setLastName(results.getJSONObject(i)
+								.getJSONObject("Account")
+								.getJSONObject("rC_Bios__Preferred_Contact__r")
+								.getString("LastName"));
+						contactSub.setAccountId(results.getJSONObject(i)
+								.getJSONObject("Account").getString("Id"));
+						// contactSub.setRole(
+						// results.getJSONObject(i).getJSONObject("Account").getJSONObject("rC_Bios__Preferred_Contact__r").getString("type")
+						// );
+						contactSub.setType(1);// caregiver
+
+						java.util.List<Contact> contactsSub = new java.util.ArrayList<Contact>();
+						contactsSub.add(contactSub);
+						contact.setContacts(contactsSub);
+
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					contacts.add(contact);
+				}
+
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+
+		} catch (HttpException e) {
+
+			System.err.println("Fatal protocol violation: " + e.getMessage());
+
+			e.printStackTrace();
+
+		} catch (IOException e) {
+
+			System.err.println("Fatal transport error: " + e.getMessage());
+
+			e.printStackTrace();
+		} catch (Exception eG) {
+
+			System.err.println("Fatal transport error: " + eG.getMessage());
+
+			eG.printStackTrace();
+
+		} finally {
+
+			// Release the connection.
+
+			method.releaseConnection();
+
+		}
+
+		
+
+		return contacts;
+	}
+
+	//org wihtout connection pool
+	public java.util.List<Contact> getContactsxx(ApiConfig apiConfig,
 			String sfTroopId) {
 
 		java.util.List<Contact> contacts = new java.util.ArrayList();
@@ -498,14 +657,12 @@ public class SalesforceDAO {
 
 		return contacts;
 	}
-
 	//original troopInfo without Conn pool-just in case
 	public java.util.List<Troop> troopInfoXX(ApiConfig apiConfig,
 			String contactId) {
 
 		java.util.List<Troop> troops = new java.util.ArrayList();
-		System.err
-				.println("test*************** APEX START *************************");
+		
 
 		HttpClient client = new HttpClient();
 		// GetMethod method = new
