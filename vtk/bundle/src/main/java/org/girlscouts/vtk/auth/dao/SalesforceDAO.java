@@ -829,17 +829,19 @@ public class SalesforceDAO {
 		log.debug("**OAuth** troopInfo URL  " + apiConfig.getWebServicesUrl()
 				+ "/services/apexrest/activeUserTroopData?userId=" + contactId);
 		CloseableHttpClient connection = null;
+		HttpGet method =null;
 		try {
 			// method.setRequestHeader("Authorization", "OAuth "
 			// +apiConfig.getAccessToken());
 
-			HttpGet method = new HttpGet(apiConfig.getWebServicesUrl()
+			 method = new HttpGet(apiConfig.getWebServicesUrl()
 					+ "/services/apexrest/activeUserTroopData?userId="
 					+ contactId);
 			method.setHeader("Authorization", "OAuth " + getToken(apiConfig));
 
 			connection = connectionFactory.getConnection();
 			HttpResponse resp = connection.execute(method);
+			
 			int statusCode = resp.getStatusLine().getStatusCode();
 
 			if (statusCode != HttpStatus.SC_OK) {
@@ -964,7 +966,8 @@ public class SalesforceDAO {
 
 		} finally {
 			try {
-				connection.close();
+				//connection.close();
+				method.releaseConnection();
 			} catch (Exception eConn) {
 				eConn.printStackTrace();
 			}
