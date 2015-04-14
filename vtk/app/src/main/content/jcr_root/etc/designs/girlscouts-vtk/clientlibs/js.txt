@@ -17,6 +17,7 @@ jquery.validate.js
 jquery-print.js
 vtk-global.js
 jquery.imgareaselect.js
+exif.js
 
 ## use for prod
   react-with-addons-0.12.2.min.js

@@ -198,6 +198,24 @@ var displayCurrent = function(){
 	    	directUploadAvailable = false;
 	    	var reader = new FileReader();
 	    	reader.onload = function(readerEvent){
+	    		
+	    		var exif = EXIF.readFromBinaryFile(new BinaryFile(this.result));
+
+	    	    switch(exif.Orientation){
+
+	    	       case 8:
+	    	           context.rotate(90*Math.PI/180);
+	    	           break;
+	    	       case 3:
+	    	           context.rotate(180*Math.PI/180);
+	    	           break;
+	    	       case 6:
+	    	           context.rotate(-90*Math.PI/180);
+	    	           break;
+
+
+	    	    }
+	    		
 	        	img = new Image();
 	        	img.style.maxWidth = imgMaxW;
 	        	img.style.maxHeight = imgMaxH;
