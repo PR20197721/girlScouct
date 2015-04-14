@@ -6,8 +6,3 @@
     <div id="upload-crop-area" class="content row">
     </div>
   </div>
-  
-  <script>
-  	document.getElementById("modal_upload_image").appendChild(modal);
-	uploadInit();
-  </script>

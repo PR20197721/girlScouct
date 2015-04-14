@@ -63,8 +63,32 @@
     <%
     	}
     %> -->
-    <%@include file="image-tool.jsp"%>
     <%@include file='include/modals/modal_upload_img.jsp' %>
+    <%@include file="image-tool.jsp"%>
+    <script>
+    $('#modal_upload_image').bind('opened',uploadInit);
+    $('#modal_upload_image').bind('closed',cancel);
+    
+	function cancel(){
+		$('#cropping-tool').remove();
+		$('#crop-buttons').remove();
+		$('#upload-tool').remove();
+		$('#modal_upload_image').foundation('reveal', 'close');
+		displayCurrent();
+	    if(localMediaStream != null && localMediaStream != undefined){
+				localMediaStream.stop();
+	        }
+	}
+	
+	function uploadSuccess() {
+	  alert(successMsg);
+	  $('#upload-tool').remove();
+	  $('#cropping-tool').remove();
+	  $('#crop-buttons').remove();
+	  $('#modal_upload_image').foundation('reveal', 'close');
+	  displayCurrent();
+	};
+    </script>
   </div>
 
 <%if(hasPermission(troop, Permission.PERMISSION_canViewOwnChildDetail_TROOP_ID)){ %>

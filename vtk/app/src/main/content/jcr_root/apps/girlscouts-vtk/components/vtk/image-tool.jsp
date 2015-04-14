@@ -5,9 +5,8 @@
 
 var imageTool = document.getElementById("image-tool");
 
-var modal = document.createElement("div");
-modal.id="upload-crop-area";
-modal.className = "content row";
+var modal = document.getElementById("upload-crop-area");
+document.getElementById("modal_upload_image").appendChild(modal);
 
 var uploadTool, croppingTool, currentDisplay, uploadButtons;
 
@@ -618,26 +617,6 @@ var displayCurrent = function(){
 	
 		image_target.src = image_data;
 	
-	};
-	
-	cancel = function(){
-		$('#cropping-tool').remove();
-		$('#crop-buttons').remove();
-		$('#upload-tool').remove();
-		$('#upload-crop-area').foundation('reveal', 'close');
-		displayCurrent();
-	    if(localMediaStream != null && localMediaStream != undefined){
-				localMediaStream.stop();
-	        }
-	}
-	
-	uploadSuccess = function() {
-	  alert(successMsg);
-	  $('#upload-tool').remove();
-	  $('#cropping-tool').remove();
-	  $('#crop-buttons').remove();
-	  $('#modal_upload_image').foundation('reveal', 'close');
-	  displayCurrent();
 	};
 	
 	window.onload=function() {
