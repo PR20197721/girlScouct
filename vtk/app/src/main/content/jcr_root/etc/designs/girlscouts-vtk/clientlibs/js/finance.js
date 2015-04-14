@@ -15,7 +15,6 @@ function maskAllFields() {
 			console.log("Masked income child" + i);
 				$(incChild).maskMoney({allowZero: true, prefix: '$'});
 			}
-		
 		}
 		if(i < expenseChildren.length){
 			var expChild = expenseChildren[i].firstElementChild;
@@ -24,17 +23,23 @@ function maskAllFields() {
 				$(expChild).maskMoney({allowZero: true, prefix: '$'});
 				
 			}
-		
-		}
-		
-		
+		}		
 	}
-	
 }
 
 
+function validateFinanceAdmin(){
+	return $("#financeAdminForm").valid();
+	
+}
 
 function saveFinanceAdmin(){
+	var recipient = document.getElementById("recipient").value;
+	
+	if(!validateFinanceAdmin()){
+		return false;
+	}
+
 	var incomeArray = "[";
 	var expenseArray = "["
 	
@@ -68,8 +73,7 @@ function saveFinanceAdmin(){
 	}
 	incomeArray = incomeArray + "]";
 	expenseArray = expenseArray + "]";
-	console.log("Income array is: " + incomeArray);
-	console.log("Expense array is: " + expenseArray);
+	
 	$.ajax({
 		url: '/content/girlscouts-vtk/controllers/vtk.controller.html?rand='+Date.now(),
 		type: 'POST',
@@ -77,7 +81,8 @@ function saveFinanceAdmin(){
 			act:'UpdateFinanceAdmin',
 			expenses: expenseArray,
 			income: incomeArray,
-			period: periodValue 
+			period: periodValue,
+			recipient: recipient 
 			
 		},
 		success: function(result) {

@@ -502,8 +502,8 @@
         font-weight:600;
         text-transform: uppercase;
         background: #f6f6f6;
-        margin-left: -5px;
-        margin-right: -5px;
+        margin-left: auto;
+        margin-right: auto;
         margin-bottom: 1.25em;
         padding: 5px;
       }
@@ -1238,6 +1238,13 @@
           }
         }
       }
+      > section.row {
+        .column.left {
+          select {
+            padding-right: 3px;
+          }
+        }
+      }
     }
     #frmCalElem_1 {
       margin-top:20px;
@@ -1636,24 +1643,26 @@
         line-height: 2;
       }
     }
-    .large-block-grid-2 {
+    .row:nth-of-type(2) .large-block-grid-2 {
       > li:nth-child(2n+1) {
         width: 70%;
         white-space: nowrap;
       }
     }
-    .large-block-grid-2 {
+    .row:nth-of-type(2) .large-block-grid-2 {
       > li:nth-child(2n) {
         width: 30%;
       } 
     }
-    .large-block-grid-2 > li:nth-child(2n+1) {
-      width: 70%;
-      white-space: nowrap;
-    }
-    .large-block-grid-2 > li:nth-child(2n) {
-      width: 30%;
-    }
+    // .large-block-grid-2 > li:nth-child(2n+1) {
+    //   width: 70%;
+    //   white-space: nowrap;
+    //   color:red;
+    // }
+    // .large-block-grid-2 > li:nth-child(2n) {
+    //   width: 30%;
+    //   color:red;
+    // }
     input[type="text"] {
       height: 30px;
       text-align: right;
@@ -1664,31 +1673,37 @@
   }
   //ADMIN PAGES
   #main .finances #financeForm  {
-    input[type=checkbox]:checked + label:before {
-      content: "\e6d7";
-      font-family: "JollyFont";
-      color: green;
-    }
-    input[type="checkbox"] {
-      display: none;
-    }
+    // input[type=checkbox]:checked + label:before {
+    //   content: "\e6d7";
+    //   font-family: "JollyFont";
+    //   color: green;
+    // }
+    // input[type="checkbox"] {
+    //   display: none;
+    // }
     input[type="text"] {
       text-align: left;
     }
-    label {
-      &:before {
-        border: solid 1px #ccc;
-        content: "";
-        height: 30px;
-        width: 30px;
-        text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
-        font-size: 15px;
-        text-align: center;
-        display: inline-block;
-        float: left;
-        padding:4px;
-      }
+    //email field
+    input#recipient {
+      width: 50%;
+      display: inline;
+      margin-left: 5px;
     }
+    // label {
+    //   &:before {
+    //     border: solid 1px #ccc;
+    //     content: "";
+    //     height: 30px;
+    //     width: 30px;
+    //     text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+    //     font-size: 15px;
+    //     text-align: center;
+    //     display: inline-block;
+    //     float: left;
+    //     padding:4px;
+    //   }
+    // }
     section {
       p:nth-of-type(1) {
         font-size: 12px;
@@ -1698,7 +1713,7 @@
       }
     }
     .opts {
-      margin-bottom: 15px;
+      // margin-bottom: 15px;
       span {
         margin-top:3px;
       }

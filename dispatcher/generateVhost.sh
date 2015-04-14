@@ -8,15 +8,19 @@ if [ "$1" = "prod" ]
 then
     var0="<VirtualHost *:80>
     ServerName "$1"."$2".org
-    #ServerName www."$2".org"
+    #ServerName www."$2".org
+    DocumentRoot /mnt/var/www/html
+    ErrorDocument 404 /content/"$2"/en/404.html
+    ErrorDocument 500 /content/"$2"/en/500.html"
+
 else
     var0="<VirtualHost *:80>
-    ServerName "$1"."$2".org"
+    ServerName "$1"."$2".org
+    DocumentRoot /mnt/var/www/html
+    ErrorDocument 404 \"404 GirlScouts\""
 fi
     
-var="    DocumentRoot /mnt/var/www/html
-    ErrorDocument 404 \"404 GirlScouts\"
-
+var="
     RewriteEngine On
     RewriteLog \"logs/rewrite-www-"$2"-org.log\"
     RewriteLogLevel 5

@@ -265,11 +265,14 @@
 				return;
 			case UpdateFinances:
 				financeUtil.updateFinances(troop, user.getCurrentYear(), request.getParameterMap());
+				financeUtil.sendFinanceDataEmail(troop, Integer.parseInt(request.getParameter("qtr")),  user.getCurrentYear());
 				return;
 			case UpdateFinanceAdmin:
 				financeUtil.updateFinanceConfiguration(troop, user.getCurrentYear(), request.getParameterMap());
 				return;
 			case RmMeeting:
+				meetingUtil.createMeetingCanceled(user, troop,
+                        request.getParameter("mid"), Long.parseLong(request.getParameter("rmDate")));
 				meetingUtil.rmMeeting(user, troop,
 						request.getParameter("mid"));
 				meetingUtil.rmSchedDate(user, troop,
@@ -279,6 +282,10 @@
 				meetingUtil.updateAttendance(user, troop, request);
 				meetingUtil.updateAchievement(user, troop, request);
 				return;
+			case CreateCustomYearPlan:
+				System.err.println("tatax: "+request.getParameter("mids"));
+                meetingUtil.createCustomYearPlan(user, troop, request.getParameter("mids"));
+                return;
 			default:
 				break;
 			}
@@ -839,7 +846,7 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 				ObjectMapper mapper = new ObjectMapper();
 				//out.println(mapper.writeValueAsString(troop));
 			    out.println(mapper.writeValueAsString(troop).replaceAll("mailto:","").replaceAll("</a>\"</a>","</a>").replaceAll("\"</a>\"",""));
-                
+           System.err.println(mapper.writeValueAsString(troop));     
 			}
 
 		} else if (request.getParameter("yearPlanSched") != null) {
@@ -1046,12 +1053,32 @@ System.err.println("manu reactActivity");
 			        }
                 }
 			}catch(Exception e){e.printStackTrace();}
-				
-		} else {
+	    }else if( request.getParameter("viewProposedSched")!=null){
+	    	
+	    	   String dates = calendarUtil.getSchedDates(user, troop,
+	    			   request.getParameter("calFreq"),
+                       new org.joda.time.DateTime(dateFormat4.parse(request
+                                       .getParameter("calStartDt")+ " "+ request.getParameter("calTime")
+                                       + " " + request.getParameter("calAP"))),
+                       request.getParameter("exclDt"),
+                       Long.parseLong((request
+                               .getParameter("orgDt") == null || request
+                               .getParameter("orgDt")
+                               .equals("")) ? "0"
+                               : request.getParameter("orgDt"))
+	    			   );
+	    	   //System.err.println("tatayx: "+ yearPlan.getSchedule().getDates());
+	    	   java.util.List _dates = VtkUtil.getStrCommDelToArrayDates( dates );
+	    	   out.println(_dates.size());
+	    } else {
 			//TODO throw ERROR CODE
 		}
 
 	} catch (java.lang.IllegalAccessException e) {
 		e.printStackTrace();
 	}
+	
+	
+ 
+    
 %>

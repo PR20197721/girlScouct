@@ -35,7 +35,7 @@
 	</ul>
 	<section class="clearfix">
 		<label for="email_to_cc">Enter your own:</label>
-		<input type="email" id="email_to_cc" value="<%=troop.getSendingEmail()==null ? "" : troop.getSendingEmail().getCc()%>" placeholder="enter email addresses separated by semicolons"/>
+		<input type="email" id="email_to_cc" placeholder="enter email addresses separated by semicolons"/>
 	</section>
 	<h6>Compose Email</h6>
 	<section class="clearfix">

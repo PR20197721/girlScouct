@@ -15,48 +15,48 @@
 <script type="text/javascript" src="/etc/designs/girlscouts-vtk/clientlibs/js/finance.js"></script>
 <div id="errInfo"></div>
 <%
-        String activeTab = "finances";
-        boolean showVtkNav = true;
-        int qtr = 1;
-        boolean isQuarterly = true;
-        FinanceConfiguration financeConfig = financeUtil.getFinanceConfig(troop, user.getCurrentYear());
-        try { 
-		String period = financeConfig.getPeriod();
-		if(period != null && period.equals("Yearly")){
-			qtr = 0;
-			isQuarterly = false;
-		}
-		if (request.getParameter("qtr") != null) {
-			qtr = Integer.parseInt( request.getParameter("qtr") );
-		}
-        }catch(NumberFormatException nfe){
-		nfe.printStackTrace();
-        }
-
-        Finance finance = financeUtil.getFinances(troop, qtr, user.getCurrentYear());
-        List<String> expenseFields = financeConfig.getExpenseFields();
-        List<String> incomeFields = financeConfig.getIncomeFields();
-        
-        if( finance ==null ){
-		finance= new Finance();
-        }
-        
-        
+    String activeTab = "finances";
+    boolean showVtkNav = true;
+    int qtr = 1;
+    boolean isQuarterly = true;
+    FinanceConfiguration financeConfig = financeUtil.getFinanceConfig(troop, user.getCurrentYear());    
 %>
 <%@include file="include/tab_navigation.jsp"%>
 <div id="panelWrapper" class="row content meeting-detail">
 <%@include file="include/utility_nav.jsp"%>
 <%
 	if ((SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE)) && sessionFeatures.contains(SHOW_FINANCE_FEATURE)) {
-		String financeFieldTag = "";
-		String save_btn = "";
-		if(sessionFeatures.contains(SHOW_PARENT_FEATURE)){
-
-			financeFieldTag = "<p id=\"%s\" name=\"%s\">&#36;%s</p>";
-		} else{
-			financeFieldTag = "<input type=\"text\" id=\"%s\" name=\"%s\" onkeyDown=\"enableSaveButton()\" oninput=\"enableSaveButton()\" onpaste=\"enableSaveButton()\" onblur=\"updateTotals()\" maxlength=\"11\" value=\"&#36;%s\"/>";
+		
+		if(financeConfig.isPersisted()){
+			try { 
+				String period = financeConfig.getPeriod();
+				if(period != null && period.equals("Yearly")){
+					qtr = 0;
+					isQuarterly = false;
+				}
+				if (request.getParameter("qtr") != null) {
+					qtr = Integer.parseInt( request.getParameter("qtr") );
+				}
+		        }catch(NumberFormatException nfe){
+							nfe.printStackTrace();
+		        }    
+		        Finance finance = financeUtil.getFinances(troop, qtr, user.getCurrentYear());
+		        List<String> expenseFields = financeConfig.getExpenseFields();
+		        List<String> incomeFields = financeConfig.getIncomeFields();
+		        
+		        if( finance ==null ){
+				finance= new Finance();
+		        }
+        
+			String financeFieldTag = "";
+			String save_btn = "";
+			if(sessionFeatures.contains(SHOW_PARENT_FEATURE)){
+	
+				financeFieldTag = "<p id=\"%s\" name=\"%s\">&#36;%s</p>";
+			} else{
+				financeFieldTag = "<input type=\"text\" id=\"%s\" name=\"%s\" onkeyDown=\"enableSaveButton()\" oninput=\"enableSaveButton()\" onpaste=\"enableSaveButton()\" onblur=\"updateTotals()\" maxlength=\"11\" value=\"&#36;%s\"/>";
 			save_btn = "<a id=\"saveFinanceFieldFormButton\" role=\"button\" onclick=\"saveFinances()\" class=\"button save disabled\">SEND</a>";
-		}
+			}
 %>
 <%@include file="include/finances_navigator.jsp"%>
 <div class="column large-20 medium-20 large-centered medium-centered small-24">
@@ -120,6 +120,14 @@
 	});
 </script>
 <%
+		} else{
+			%> 
+			<div class="columns large-20 large-centered">
+				<h3>No Financial Configuration Data exists.</h3>
+				<h3>The Finance Administration Form must be filled out by the Troop Administrator.</h3> 
+			</div>
+			<% 
+		}
 	} else {
 %>
 <div class="columns large-20 large-centered">

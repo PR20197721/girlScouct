@@ -90,7 +90,7 @@
        <%for(int i=10;i<split_exclDates.length;i++){ 
        %>
          <li>
-            <input type="checkbox" id="chk_<%=(i+1) %>" name="exclDt" value="<%=split_exclDates[i] %>" CHECKED/><label for="chk_<%=(i+1)%>"><p><span class="date"><%= split_exclDates[i]%></span><span>Custom</span></p></label>
+            <input type="checkbox" id="chk_<%=(i+1) %>" name="exclDt" value="<%=split_exclDates[i] %>" CHECKED/><label for="chk_<%=(i+1)%>"><p><span class="date"><%= split_exclDates[i]%></span><span>Canceled Meeting</span></p></label>
          </li>
       <%} %>
     </ul>

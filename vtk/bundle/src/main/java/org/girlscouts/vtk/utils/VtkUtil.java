@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import org.apache.commons.beanutils.BeanComparator;
+import org.apache.commons.lang.time.DateUtils;
 import org.girlscouts.vtk.models.Contact;
 import org.girlscouts.vtk.models.Location;
 import org.girlscouts.vtk.models.Meeting;
@@ -142,8 +143,8 @@ public enum VtkUtil {
     }
     
   public static final java.util.List<MeetingE> setToDbUpdate( java.util.List<MeetingE> meetings){
-    	
-    	for(int i=0;i<meetings.size();i++)
+    	if( meetings!=null )
+    	 for(int i=0;i<meetings.size();i++)
     		meetings.get(i).setDbUpdate(true);
 	  return meetings; 	
   }
@@ -168,5 +169,12 @@ public enum VtkUtil {
 	  
 	  return null;
   }
+  
+public static final boolean  isSameDate( java.util.Date date1, java.util.Date date2){
+	 return DateUtils.isSameDay(date1, date2);
+	  
+	  
+  }
+  
   
 }

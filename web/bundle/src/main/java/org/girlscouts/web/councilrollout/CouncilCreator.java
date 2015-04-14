@@ -8,7 +8,7 @@ import javax.jcr.Session;
 
 import org.apache.sling.api.resource.ResourceResolver;
 
-import com.day.cq.security.Group;
+//import com.day.cq.security.Group;
 import com.day.cq.tagging.Tag;
 import com.day.cq.wcm.api.Page;
 import com.day.cq.wcm.api.PageManager;
@@ -25,5 +25,5 @@ public interface CouncilCreator {
     
     List<Node> generateDesign(Session session, ResourceResolver rr, String councilName, String councilTitle);
     
-    List<Group> generateGroups(Session session, ResourceResolver rr, String councilName, String councilTitle);
+    List<String> generateGroups(Session session, String councilName, String councilTitle);
 }
