@@ -36,7 +36,15 @@
 		com.google.common.collect.BiMap sched_bm_inverse = sched_bm.inverse();
 %>
 <%@include file="include/utility_nav.jsp"%>
-<%@include file='include/modals/modal_upload_img.jsp' %>
+
+    <%
+    String troopId= troop.getTroop().getTroopId();
+    if( troopId ==null || troopId.trim().equals("") ) { %>
+      <span class="error">Warning: no troop is specified.</span>
+    <% return; }
+     String troopPhotoUrl = "/content/dam/girlscouts-vtk/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troopId + "/imgLib/troop_pic.png";
+     //String troopPhotoUrl = "/vtk/"+ troop.getTroop().getCouncilCode() +"/troops/" + troopId + "/resources/troop_pic.png";
+    %>
 
   <div class="hero-image">
    <!-- <%
@@ -56,6 +64,7 @@
     	}
     %> -->
     <%@include file="image-tool.jsp"%>
+    <%@include file='include/modals/modal_upload_img.jsp' %>
   </div>
 
 <%if(hasPermission(troop, Permission.PERMISSION_canViewOwnChildDetail_TROOP_ID)){ %>

@@ -111,3 +111,8 @@
 .cancel{
 	background-color: rgb(195, 60, 60);
 }
+
+#modal_upload_image {
+	margin-left: -40%;
+	width: 80%;
+}
