@@ -127,6 +127,9 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 		} catch (Exception e) {
 		}
 		String redirectUrl;
+		
+		
+//	System.err.println("tataxxx: "+ callbackUrl +" : " +targetUrl);	
 		if (config == null || config.getId() == null) {
 			redirectUrl = OAuthUrl
 					+ "/services/oauth2/authorize?prompt=login&response_type=code&client_id="
@@ -258,14 +261,14 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 
 		org.girlscouts.vtk.models.User vtkUser = new org.girlscouts.vtk.models.User();
 		vtkUser.setApiConfig(config);
-if(config.getTroops()!=null && config.getTroops().size()>0){
-		// CHN to LOAD PERMISSION HERE
-		vtkUser.setPermissions(config.getTroops().get(0).getPermissionTokens());
-
-		// load config
-		vtkUser.setCurrentYear(getCurrentYear(request.getResourceResolver(),
-				vtkUser.getApiConfig().getTroops().get(0).getCouncilCode()));
-}
+		if(config.getTroops()!=null && config.getTroops().size()>0){
+				// CHN to LOAD PERMISSION HERE
+				vtkUser.setPermissions(config.getTroops().get(0).getPermissionTokens());
+		
+				// load config
+				vtkUser.setCurrentYear(getCurrentYear(request.getResourceResolver(),
+						vtkUser.getApiConfig().getTroops().get(0).getCouncilCode()));
+		}
 		session.setAttribute(org.girlscouts.vtk.models.User.class.getName(),
 				vtkUser);
 

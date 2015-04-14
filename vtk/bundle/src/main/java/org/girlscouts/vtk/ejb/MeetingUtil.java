@@ -993,14 +993,17 @@ System.err.println("test123 yes");
 		Meeting meetingInfo = null;
 		if (_comp.getType() == YearPlanComponentType.MEETING || _comp.getType() == YearPlanComponentType.MEETINGCANCELED) {
 			meeting = (MeetingE) _comp;
-			int meetingCount = troop.getYearPlan().getMeetingEvents().indexOf(_comp)+1;
+			int meetingCount = 0;
+			if(_comp.getType() == YearPlanComponentType.MEETING)
+				meetingCount=troop.getYearPlan().getMeetingEvents().indexOf(_comp)+1;
+			else if(_comp.getType() == YearPlanComponentType.MEETINGCANCELED)
+				meetingCount=troop.getYearPlan().getMeetingCanceled().indexOf(_comp)+1;
 			meetingInfo = yearPlanUtil.getMeeting(user, meeting.getRefId());
 
 			meeting.setMeetingInfo(meetingInfo);
 
 			java.util.List<Activity> _activities = meetingInfo.getActivities();
-			java.util.Map<String, JcrCollectionHoldString> meetingInfoItems = meetingInfo
-					.getMeetingInfo();
+			java.util.Map<String, JcrCollectionHoldString> meetingInfoItems = meetingInfo.getMeetingInfo();
 
 			boolean isLocked = false;
 			// if(searchDate.before( new java.util.Date() ) &&
@@ -1467,10 +1470,24 @@ public void createMeetingCanceled(User user, Troop troop,
 }
 
 
-public void createCustomYearPlan( User user, Troop troop, String mids) throws IllegalAccessException{
+public void createCustomYearPlan( User user, Troop troop, String mids) throws IllegalAccessException, VtkYearPlanChangeException{
+	troopUtil.selectYearPlan( user,  troop, "", "Custom Year Plan");
 	StringTokenizer t= new StringTokenizer(mids, ",");
 	while( t.hasMoreElements())
 		addMeetings( user,  troop,  t.nextToken());
+}
+
+public void rmExtraMeetingsNotOnSched(User user, Troop troop) throws IllegalAccessException{
+	String dates = troop.getYearPlan().getSchedule().getDates();
+	StringTokenizer t= new StringTokenizer( dates, ",");
+	int meetingDatesCount = t.countTokens();
+System.err.println("tataxyz: "+ meetingDatesCount +" : "+troop.getYearPlan().getMeetingEvents().size())	;
+System.err.println("tataxyz: - "+(meetingDatesCount > troop.getYearPlan().getMeetingEvents().size() ));
+	while( meetingDatesCount < troop.getYearPlan().getMeetingEvents().size() ){
+System.err.println("tataxyz rming #:"+(troop.getYearPlan().getMeetingEvents().size()-1)+" : "+ troop.getYearPlan().getMeetingEvents().get(troop.getYearPlan().getMeetingEvents().size()-1).getRefId());
+
+		rmMeeting(user, troop, troop.getYearPlan().getMeetingEvents().get(troop.getYearPlan().getMeetingEvents().size()-1).getRefId());
+	}
 }
 
 }//edn class

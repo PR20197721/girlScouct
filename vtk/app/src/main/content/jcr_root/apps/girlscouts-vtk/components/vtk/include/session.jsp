@@ -265,4 +265,10 @@ if( false ){//troop!=null && troop.getYearPlan()!=null){
 	String footerScript = "<script>$( document ).ready(function() {setTimeout(function(){expiredcheck('"+session.getId()+"','"+troop.getYearPlan().getPath()+"');},20000);});</script>";
 	request.setAttribute("footerScript", footerScript);
 }
+
+/*
+    String footerScript ="<script>vtkInitTracker('"+troop.getSfTroopName()+"', '"+troop.getSfTroopId() +"', '"+user.getApiConfig().getUser().getSfUserId()+"');vtkTrackerPushAction('sessionjsp');</script>";
+    request.setAttribute("footerScript", footerScript);
+*/
+
 %>

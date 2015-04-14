@@ -29,6 +29,7 @@ import org.girlscouts.vtk.models.Troop;
 import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.models.YearPlan;
 import org.girlscouts.vtk.models.YearPlanComponent;
+import org.girlscouts.vtk.utils.VtkUtil;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.slf4j.Logger;
@@ -46,6 +47,9 @@ public class CalendarUtil {
 	@Reference
 	private UserUtil userUtil;
 
+	@Reference
+	MeetingUtil meetingUtil; //4/1/15
+	
 	private java.text.SimpleDateFormat fmtDate = new java.text.SimpleDateFormat(
 			"MM/dd/yyyy");
 
@@ -330,7 +334,7 @@ public class CalendarUtil {
 	 * //-SAVE troopUtil.updateTroop(user, troop); return isChg; }
 	 */
 	private int weekOfMonth=0, dayOfWeek=0;
-	public void createSched(User user, Troop troop, String freq,
+	public String getSchedDates(User user, Troop troop, String freq,
 			org.joda.time.DateTime newStartDate, String exclDate,
 			long oldFromDate) throws java.lang.IllegalAccessException {
 		if (troop != null
@@ -372,52 +376,66 @@ public class CalendarUtil {
 		
 		 weekOfMonth = getWeekOfMonth( newCalDate.getTime().getTime() ) ;//-1;
 		 dayOfWeek = newCalDate.get(Calendar.DAY_OF_WEEK);
-		
-System.err.println("ttt dates:"+ dates);	
 
-String newDates= "";
-//String tmpDates= dates;
+		long maxYearPlanDate =0;
+		String newDates= "";
 		StringTokenizer t = new StringTokenizer(dates, ",");
 		while (t.hasMoreElements()) {
 			java.util.Date dt = new java.util.Date( Long.parseLong(t.nextToken()));
-System.err.println("ttt ************************************" +freq+ "****************************");			
-System.err.println("\n\n\n ttt got date: " + dt );			
-			if ((dt.getTime() == oldFromDate)) {
-	System.err.println("ttt equals");			
-				long newDate = getNextDate(exclDates, newCalDate.getTimeInMillis(), freq, true);
-	System.err.println("ttt new Date: 1 " + new java.util.Date(newDate) );			
-				//dates = dates.replace("," + dt.getTime() + ",", "," + newDate + ",");
-				newCalDate.setTimeInMillis(newDate);
-	newDates += ","+ newDate;
-
-			} else if (dt.getTime() > oldFromDate) {
+			
 				
-	System.err.println("ttt >");			
-				long newDate = getNextDate(exclDates,newCalDate.getTimeInMillis(), freq, false);
-	System.err.println("ttt new Date: 2 " + new java.util.Date(newDate) );	
-				//dates = dates.replace("," + dt.getTime() + ",", "," + newDate + ",");
+			if ((dt.getTime() == oldFromDate)) {
+				long newDate = getNextDate(exclDates, newCalDate.getTimeInMillis(), freq, true);
+				if(maxYearPlanDate==0){
+					maxYearPlanDate= getMaxYearPlanDate(newDate);
+					System.err.println("MaxYearDate: max"+ new java.util.Date(maxYearPlanDate) );
+				}
+				if( newDate> maxYearPlanDate) break;
 				newCalDate.setTimeInMillis(newDate);
-	newDates += ","+ newDate;			
+				newDates += ","+ newDate;
+			} else if (dt.getTime() > oldFromDate) {			
+				long newDate = getNextDate(exclDates,newCalDate.getTimeInMillis(), freq, false);
+				if(maxYearPlanDate==0){
+					maxYearPlanDate= getMaxYearPlanDate(newDate);
+					System.err.println("MaxYearDate: max"+ new java.util.Date(maxYearPlanDate) );
+				}
+				if( newDate> maxYearPlanDate) break;
+				newCalDate.setTimeInMillis(newDate);
+				newDates += ","+ newDate;			
 			}else{
-	newDates += ","+ dt.getTime();			
+				if(maxYearPlanDate==0){
+					maxYearPlanDate= getMaxYearPlanDate(dt.getTime());
+					System.err.println("MaxYearDate: max"+ new java.util.Date(maxYearPlanDate) );
+				}
+				if( dt.getTime()> maxYearPlanDate) break;
+				newDates += ","+ dt.getTime();			
 			}
 			
 		}
+				
+System.err.println("MaxYearDate: max"+ new java.util.Date(maxYearPlanDate) );	
 		
-		
-	dates= newDates;	
+    	dates= newDates;	
 		if (dates.startsWith(","))
 			dates = dates.substring(1);
 		if (dates.endsWith(","))
 			dates = dates.substring(0, dates.length() - 1);
-System.err.println("ttt dates after: "+ dates );
+
+		System.err.println("MaxYearDate: "+ dates );	
+		return dates;
+	}
+	public YearPlan getSched(User user, Troop troop, String freq,
+			org.joda.time.DateTime newStartDate, String exclDate,
+			long oldFromDate) throws java.lang.IllegalAccessException {
+		String dates = getSchedDates(user,  troop,  freq,
+				 newStartDate,  exclDate,
+				 oldFromDate);
 		YearPlan plan = troop.getYearPlan();
 		plan.setCalFreq(freq);
 		if( dates!=null && !dates.contains(",") && dates.length()>3) //only 1
 			plan.setCalStartDate(Long.parseLong( dates) );
 		else
-			plan.setCalStartDate(Long.parseLong(dates.substring(0,
-				dates.indexOf(","))));
+			plan.setCalStartDate(Long.parseLong(dates.substring(0, dates.indexOf(","))));
 		plan.setCalExclWeeksOf(exclDate);
 
 		Cal calendar = plan.getSchedule();
@@ -425,19 +443,32 @@ System.err.println("ttt dates after: "+ dates );
 			calendar = new Cal();
 		calendar.setDates(dates);
 		calendar.setDbUpdate(true);
-		// calendar.fmtDate(dates);
 		plan.setSchedule(calendar);
-
-		troop.setYearPlan(plan);
-
-		// sort
-
+		
 		Comparator<MeetingE> comp = new BeanComparator("id");
-		Collections.sort(troop.getYearPlan().getMeetingEvents(), comp);
-
-		troopUtil.updateTroop(user, troop);
+		Collections.sort(plan.getMeetingEvents(), comp);
+		
+		return plan;
+	}
+	
+	public void createSched(User user, Troop troop, String freq,
+				org.joda.time.DateTime newStartDate, String exclDate,
+				long oldFromDate) throws java.lang.IllegalAccessException {
+			if (troop != null
+					&& !userUtil.hasPermission(troop,
+							Permission.PERMISSION_EDIT_MEETING_ID))
+				throw new IllegalAccessException();
+		
+			YearPlan plan = getSched( user,  troop,  freq, newStartDate,  exclDate, oldFromDate);
+			troop.setYearPlan(plan);
+			
+			//if sched dates > meetings = rm last N meetings
+			meetingUtil.rmExtraMeetingsNotOnSched(user, troop);
+			
+			troopUtil.updateTroop(user, troop);
 
 	}
+	
 
 	private java.util.List<String> getExclDates(String exclDate) {
 		java.util.List<String> exclDates = new java.util.ArrayList<String>();
@@ -501,10 +532,6 @@ else
 	
 	private long getMonthlyNextDate( org.joda.time.DateTime date){
 		
-
-
-			
-		
 		java.util.Calendar cal = java.util.Calendar.getInstance();
 		cal.setTimeInMillis(date.getMillis());
 		cal.add(java.util.Calendar.MONTH, 1);
@@ -522,11 +549,34 @@ else
 
 			if( count == weekOfMonth && 
 					dayOfWeek == cal.get(java.util.Calendar.DAY_OF_WEEK) ){
-				
 				return cal.getTimeInMillis();
 			}
 			cal.add( java.util.Calendar.DATE, 1);
 		}
 		return lastdt;
 	}
+	
+	public long getMaxYearPlanDate( long startYearPlanDate ){
+		
+System.err.println("maxYearDAte -- " + new java.util.Date(startYearPlanDate));
+		java.util.Calendar _startYearPlanDate = java.util.Calendar.getInstance();
+		_startYearPlanDate.setTimeInMillis(startYearPlanDate);
+		
+		//get sep1 of this year
+		java.util.Calendar sepThisYear = java.util.Calendar.getInstance();
+		sepThisYear.set(java.util.Calendar.DAY_OF_MONTH, 1);
+		sepThisYear.set(java.util.Calendar.MONTH, java.util.Calendar.AUGUST);
+		sepThisYear.set(java.util.Calendar.YEAR, _startYearPlanDate.get(java.util.Calendar.YEAR));
+		
+		//if sep1 of this year is after startYearPlanDate, use this year
+		if( ( !VtkUtil.isSameDate(sepThisYear.getTime() ,_startYearPlanDate.getTime())) &&
+				sepThisYear.getTimeInMillis() > _startYearPlanDate.getTimeInMillis() )
+			return sepThisYear.getTimeInMillis();
+		else{
+			sepThisYear.add( java.util.Calendar.YEAR, 1 );
+			return sepThisYear.getTimeInMillis();
+		}
+			
+	}
+	
 }

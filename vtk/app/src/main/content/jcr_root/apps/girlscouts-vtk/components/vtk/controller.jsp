@@ -1053,12 +1053,32 @@ System.err.println("manu reactActivity");
 			        }
                 }
 			}catch(Exception e){e.printStackTrace();}
-				
-		} else {
+	    }else if( request.getParameter("viewProposedSched")!=null){
+	    	
+	    	   String dates = calendarUtil.getSchedDates(user, troop,
+	    			   request.getParameter("calFreq"),
+                       new org.joda.time.DateTime(dateFormat4.parse(request
+                                       .getParameter("calStartDt")+ " "+ request.getParameter("calTime")
+                                       + " " + request.getParameter("calAP"))),
+                       request.getParameter("exclDt"),
+                       Long.parseLong((request
+                               .getParameter("orgDt") == null || request
+                               .getParameter("orgDt")
+                               .equals("")) ? "0"
+                               : request.getParameter("orgDt"))
+	    			   );
+	    	   //System.err.println("tatayx: "+ yearPlan.getSchedule().getDates());
+	    	   java.util.List _dates = VtkUtil.getStrCommDelToArrayDates( dates );
+	    	   out.println(_dates.size());
+	    } else {
 			//TODO throw ERROR CODE
 		}
 
 	} catch (java.lang.IllegalAccessException e) {
 		e.printStackTrace();
 	}
+	
+	
+ 
+    
 %>

@@ -12,10 +12,7 @@ java.util.List<Meeting> meetings =yearPlanUtil.getAllMeetings(user, ageLevel);
 request.setAttribute("meetings", meetings);
 %>
 
- <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
-  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-  <link rel="stylesheet" href="/resources/demos/style.css">
+ 
   <style>
   #sortable1, #sortable2 {
     border: 1px solid #eee;
@@ -40,8 +37,8 @@ request.setAttribute("meetings", meetings);
       connectWith: ".connectedSortable",
       revert: true,
       stop : function(event, ui) {   	 
-    	  var sortedIDs = $( "#sortable2" ).sortable( "toArray" );
-    	  console.log("New rpt: "+sortedIDs); 
+    	  //var sortedIDs = $( "#sortable2" ).sortable( "toArray" );
+    	  //console.log("New rpt: "+sortedIDs); 
       }
     }).disableSelection();
   });
@@ -61,7 +58,9 @@ request.setAttribute("meetings", meetings);
   }
   
   function createPlan(){
+	  //console.log($( "#sortable2" ));
 	  var sortedIDs = $( "#sortable2" ).sortable( "toArray" );
+	  //alert( sortedIDs);
 	  $.ajax({
           url: "/content/girlscouts-vtk/controllers/vtk.controller.html?act=CreateCustomYearPlan&mids="+ sortedIDs,
           cache: false
@@ -85,7 +84,7 @@ request.setAttribute("meetings", meetings);
     <div class="content">
 
 			<ul id="sortable1" class="connectedSortable">
-			  <c:forEach var="meeting" items="${meetings}" >
+			  <c:forEach var="meeting" items="${meetings}">
 			   <li class="ui-state-default" id="${meeting.path }">${meeting.name } </li>
 			  </c:forEach>
 			</ul>
