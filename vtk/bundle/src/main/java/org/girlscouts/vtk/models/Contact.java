@@ -23,7 +23,7 @@ public class Contact implements java.io.Serializable {
 	@Field Integer age, type;
 	
 	private java.util.List <Contact>contacts;
-	
+	private String accountId;
 	
 	
 	
@@ -174,4 +174,15 @@ public class Contact implements java.io.Serializable {
 	public void setDob(String dob) {
 		this.dob = dob;
 	}
+
+	public String getAccountId() {
+		return accountId;
+	}
+
+	public void setAccountId(String accountId) {
+		this.accountId = accountId;
+	}
+	
+	
+	
 }

@@ -442,7 +442,7 @@
 			//}
 			if (email_to_gp.equals("true")) {
 				java.util.List<Contact> contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
-						troopDAO).getContacts(user.getApiConfig(),
+						troopDAO, connectionFactory).getContacts(user.getApiConfig(),
 						troop.getSfTroopId());
 				String emails = null;
 				for (int i = 0; i < contacts.size(); i++) {

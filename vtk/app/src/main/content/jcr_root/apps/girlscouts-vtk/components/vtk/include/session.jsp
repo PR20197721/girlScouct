@@ -52,6 +52,7 @@
 	final FinanceUtil financeUtil = sling.getService(FinanceUtil.class);
 	final SessionFactory sessionFactory = sling.getService(SessionFactory.class);
 	final ContactUtil contactUtil = sling.getService(ContactUtil.class);
+	final ConnectionFactory connectionFactory = sling.getService(ConnectionFactory.class);
 	
 	//dont use
 	final TroopDAO troopDAO = sling.getService(TroopDAO.class);

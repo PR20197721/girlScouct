@@ -78,6 +78,9 @@ public class MeetingUtil {
 	@Reference
 	TroopDAO troopDAO; // 1/20/15
 
+	@Reference
+	private ConnectionFactory connectionFactory;
+	
 	 java.text.SimpleDateFormat FORMAT_MMddYYYY = new java.text.SimpleDateFormat(
 				"MM/dd/yyyy");
 	 
@@ -1232,7 +1235,7 @@ System.err.println("test123 yes");
 			}
 		}
 		java.util.List<org.girlscouts.vtk.models.Contact> contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
-				troopDAO)
+				troopDAO, connectionFactory)
 				.getContacts(user.getApiConfig(), troop.getSfTroopId());
 		String path = "/vtk/" + troop.getSfCouncil() + "/troops/"
 				+ troop.getSfTroopId() + "/yearPlan/meetingEvents/" + mid
@@ -1334,7 +1337,7 @@ System.err.println("test123 yes");
 		
 		
 		java.util.List<org.girlscouts.vtk.models.Contact> contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
-				troopDAO)
+				troopDAO, connectionFactory)
 				.getContacts(user.getApiConfig(), troop.getSfTroopId());
 		String path = "/vtk/" + troop.getSfCouncil() + "/troops/"
 				+ troop.getSfTroopId() + "/yearPlan/meetingEvents/" + mid
