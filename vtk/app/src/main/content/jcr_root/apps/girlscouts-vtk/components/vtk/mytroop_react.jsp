@@ -66,8 +66,13 @@
     <%@include file='include/modals/modal_upload_img.jsp' %>
     <%@include file="image-tool.jsp"%>
     <script>
-    $('#modal_upload_image').bind('opened',uploadInit);
-    $('#modal_upload_image').bind('closed',cancel);
+    $('#modal_upload_image').bind('opened',function(){
+    	uploadInit();
+    	$('.vtk-body').css("overflow", "scroll");
+    });
+    $('#modal_upload_image').bind('closed',function(){
+    	cancel();
+    });
     
 	function cancel(){
 		$('#cropping-tool').remove();

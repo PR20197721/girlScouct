@@ -15,6 +15,8 @@ var cancelText = document.createTextNode("Cancel");
     cancelButton.appendChild(cancelText);
     cancelButton.className = "cancel";
     cancelButton.style.float = "right";
+    
+var instructions = document.getElementById("instructions");
 
 var localMediaStream = null;
 var hasCamera = false;
@@ -95,10 +97,6 @@ var displayCurrent = function(){
 		uploadTool = document.createElement("div");
 	    uploadTool.id = "upload-tool"
 	    uploadTool.style.display = "hidden";
-	
-		var uploadMsg = document.createElement("p");
-	    var text = document.createTextNode("Upload an image from your phone or computer");
-	    uploadMsg.appendChild(text);
 	
 		var imageLoader = document.createElement("input");
 	    imageLoader.id = "imageLoader";
@@ -181,7 +179,6 @@ var displayCurrent = function(){
 	
 	    modal.appendChild(uploadTool);
 	
-	    uploadTool.appendChild(uploadMsg);
 		uploadTool.appendChild(imageLoader);
 		uploadTool.appendChild(videoLoader);
 	    uploadTool.appendChild(video);
@@ -194,6 +191,8 @@ var displayCurrent = function(){
 	    uploadButtons.appendChild(submitShot);      
 	    uploadButtons.appendChild(cancelButton);
 	    uploadButtons.appendChild(directUploadButton);
+	    
+	    instructions.innerHTML = "Instructions: Please choose a file that you would like to upload. \nWhen you are ready to upload your image, please select \"Crop this picture\". If the image you upload has an aspect ratio of 48:17 (960px x 340px), you can upload it directly without cropping by selecting \"Upload Without Cropping\"";
 	
 	    function handleImage(imageEvent){
 	    	directUploadAvailable = false;
@@ -313,9 +312,8 @@ var displayCurrent = function(){
 	
 		//website requests permission to use your webcam
 	       	if (navigator.getUserMedia) {
-	            uploadText = document.createTextNode(" or take a photo from your webcam");
+	       		instructions.innerHTML = "Instructions: Please choose a file that you would like to upload. You can also take a photo from your webcam. \nWhen you are ready to upload your image, please select \"Crop this picture\". If the image you upload has an aspect ratio of 48:17 (960px x 340px), you can upload it directly without cropping by selecting \"Upload Without Cropping\"";
 				videoLoader.style.display = "block";
-	            uploadMsg.appendChild(uploadText);
 	    	}else {
 	            console.log("getUserMedia not supported");
 	        }
@@ -530,6 +528,8 @@ var displayCurrent = function(){
 	
 	
 	    init = function(){
+	    	
+	    	instructions.innerHTML = "Instructions: Click and drag across the image to select the area you would like to use for your troop photo. Note that you will not be able to change the aspect ratio. When finished, click \"Crop and Select\" to upload the image. You will receive an alert when the upload is complete."
 	
 	        submitCrop.addEventListener('click', crop, false);
 	        croppingTool.appendChild(image_target);
