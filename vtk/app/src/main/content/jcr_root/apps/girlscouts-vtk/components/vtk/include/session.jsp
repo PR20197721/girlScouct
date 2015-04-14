@@ -266,7 +266,7 @@ if( false ){//troop!=null && troop.getYearPlan()!=null){
 }
 
 RunMode runModeService = sling.getService(RunMode.class);
-if( runModeService.isActive("prod"){
+if( runModeService.isActive("prod") ){
     String footerScript ="<script>vtkInitTracker('"+troop.getSfTroopName()+"', '"+troop.getSfTroopId() +"', '"+user.getApiConfig().getUser().getSfUserId()+"');vtkTrackerPushAction('View');</script>";
     request.setAttribute("footerScript", footerScript);
 }
