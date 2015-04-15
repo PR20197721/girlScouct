@@ -38,12 +38,24 @@
       
       var CommentBox = React.createClass({displayName: "CommentBox",
        loadCommentsFromServer: function( isFirst ) {
-    	 getDataIfModified("year-plan.json", this, function(data, textStatus, req){
-    		// Skip if is 304.
-    		if (req.status == 200) {
-	            this.setState({data:data});
-    		}
-    	 });
+    	 if (isFirst) {
+             $.ajax({
+                 url: this.props.url + '&isFirst=1',
+                 dataType: 'json',
+                 cache: false,
+                 success: function(data) {
+                	 console.info('data coming back');
+                     this.setState({data:data});
+                 }.bind(this),
+             });
+    	 } else {
+	    	 getDataIfModified("year-plan.json", this, function(data, textStatus, req){
+	    		// Skip if is 304.
+	    		if (req.status == 200) {
+		            this.setState({data:data});
+	    		}
+	    	 });
+    	 }
        },
         getInitialState: function() {
           return {data: []};
@@ -76,39 +88,8 @@
        var YearPlanComponents = React.createClass({displayName: "YearPlanComponents",      
         onReorder: function (order) {
         	var parent = this.props.parentComponent;
-        	console.info('state = ' + parent.state);
-        	console.info('order = ' + order);
-        	var yearPlan = parent.state.data.yearPlan;
-
-        	var oldSchedule = parent.state.data.schedule;
-        	var oldScheduleArr = new Array();
-        	for (var key in oldSchedule) {
-        		oldScheduleArr.push(key);
-        	}
-        	
-        	// Remove empty elements.
-        	var newOrder = new Array();
-        	for (var i = 0; i < order.length; i++) {
-        		if (order[i]) {
-        			newOrder.push(order[i]);
-        		}
-        	}
-        	order = newOrder;
-
-        	var newSchedule = {};
-        	var offset = oldScheduleArr.length - order.length;
-        	console.info('offset = ' + offset);
-        	for (var i = 0; i < offset; i++) {
-        		console.info('i = ' + i);
-        		newSchedule[oldScheduleArr[i]] = oldSchedule[oldScheduleArr[i]];
-        	}
-
-        	for (var i = 0; i < order.length; i++) {
-        		var oldIndex = order[i] - 1;
-        		newSchedule[oldScheduleArr[i + offset]] = oldSchedule[oldScheduleArr[oldIndex]];
-        	}
-        	parent.setState({data: {yearPlan: yearPlan}});
-        	parent.setState({data: {schedule: newSchedule, yearPlan: yearPlan}});
+        	parent.setState({data: {}});
+        	parent.loadCommentsFromServer(true);
         },
         render: function() {
           return ( 
@@ -257,10 +238,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
           stop: function (event, ui) {
             var order = dom.sortable("toArray", {attribute: "id"});
             var yy  = order.toString().replace('"',''); 
-              doUpdMeeting1(yy);
-              console.info('before on Reorder');
-              onReorder(order);
-              console.info('after on Reorder');
+              doUpdMeeting1(yy, onReorder, order);
           },
           start: function(event, ui) {
                     
@@ -289,8 +267,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
         stop: function (event, ui) {
             var order = dom.sortable("toArray", {attribute: "id"});
             var yy  = order.toString().replace('"','');
-            doUpdMeeting1(yy); 
-            onReorder(order);
+            doUpdMeeting1(yy, onReorder, order); 
         },
         start: function(event, ui) {      
       }
@@ -322,12 +299,18 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
         }
       });
 
-    function doUpdMeeting1(newVals){
+    function doUpdMeeting1(newVals, callback, callbackArgs){
         var x =$.ajax({ 
             url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=ChangeMeetingPositions&isMeetingCngAjax='+ newVals, // JQuery loads serverside.php
             data: '', 
             dataType: 'html', 
-        }).done(function( html ) { });          
+        }).done(function( html ) {
+        	console.info('Before calling callback');
+        	if (callback) {
+        		console.info('Calling callback');
+        		callback(callbackArgs);
+        	}
+        });          
     }
 
       React.render(
