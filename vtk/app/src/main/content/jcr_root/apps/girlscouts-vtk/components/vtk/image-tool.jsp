@@ -667,7 +667,8 @@ var displayCurrent = function(){
 		}
 	
 	    $(window).resize(function() {
-	        croppingTool.style.maxWidth = $('#modal_upload_image').innerWidth();
+	        $('#cropping-tool').css("max-width", $('#modal_upload_image').innerWidth());
+	        $('#cropping-tool').css("max-height", $('#resize-image').height())
 	    });
 	
 	    image_target.onload = function(){
