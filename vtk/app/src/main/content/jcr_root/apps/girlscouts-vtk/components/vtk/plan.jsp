@@ -86,10 +86,26 @@
         		oldScheduleArr.push(key);
         	}
         	
-        	var newSchedule = {};
+        	// Remove empty elements.
+        	var newOrder = new Array();
         	for (var i = 0; i < order.length; i++) {
-        		var index = order[i] - 1;
-        		newSchedule[oldScheduleArr[i]] = oldSchedule[oldScheduleArr[index]];
+        		if (order[i]) {
+        			newOrder.push(order[i]);
+        		}
+        	}
+        	order = newOrder;
+
+        	var newSchedule = {};
+        	var offset = oldScheduleArr.length - order.length;
+        	console.info('offset = ' + offset);
+        	for (var i = 0; i < offset; i++) {
+        		console.info('i = ' + i);
+        		newSchedule[oldScheduleArr[i]] = oldSchedule[oldScheduleArr[i]];
+        	}
+
+        	for (var i = 0; i < order.length; i++) {
+        		var oldIndex = order[i] - 1;
+        		newSchedule[oldScheduleArr[i + offset]] = oldSchedule[oldScheduleArr[oldIndex]];
         	}
         	parent.setState({data: {yearPlan: yearPlan}});
         	parent.setState({data: {schedule: newSchedule, yearPlan: yearPlan}});
