@@ -113,12 +113,14 @@ public class VTKDataCacheInvalidator implements Job {
                 int resStatus = httpClient.executeMethod(get);
                 if (resStatus != 200) {
                     log.error("Cannot invalidate this path: " + path + ". Putting back to the queue.");
+                    addPath(path);
                 } else {
                     log.debug("Successfully invalidate the cache: " + path);
                 }
                 get.releaseConnection();
             } catch (Exception e) {
                 log.debug("Cannot invalidate this path: " + path + ". Putting back to the queue.");
+                addPath(path);
             }
         }
         System.out.println("Invalidating cache done ==================");
