@@ -36,18 +36,10 @@
 		com.google.common.collect.BiMap sched_bm_inverse = sched_bm.inverse();
 %>
 <%@include file="include/utility_nav.jsp"%>
-
-    <%
-    String troopId= troop.getTroop().getTroopId();
-    if( troopId ==null || troopId.trim().equals("") ) { %>
-      <span class="error">Warning: no troop is specified.</span>
-    <% return; }
-     String troopPhotoUrl = "/content/dam/girlscouts-vtk/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troopId + "/imgLib/troop_pic.png";
-     //String troopPhotoUrl = "/vtk/"+ troop.getTroop().getCouncilCode() +"/troops/" + troopId + "/resources/troop_pic.png";
-    %>
+<%@include file='include/modals/modal_upload_img.jsp' %>
 
   <div class="hero-image">
-   <!-- <%
+    <%
             if (!resourceResolver.resolve(troopPhotoUrl).getResourceType().equals(Resource.RESOURCE_TYPE_NON_EXISTING)) {
 		if (request.getParameter("newTroopPhoto") != null) {
 			Random r  = new Random();
@@ -62,39 +54,7 @@
         <%} %>
     <%
     	}
-    %> -->
-    <%@include file='include/modals/modal_upload_img.jsp' %>
-    <%@include file="image-tool.jsp"%>
-    <script>
-    $('#modal_upload_image').bind('opened',function(){
-    	uploadInit();
-    	$('.vtk-body').css("overflow", "scroll");
-    	$('#modal_upload_image').css("top", "0px");
-    });
-    $('#modal_upload_image').bind('closed',function(){
-    	cancel();
-    });
-    
-	function cancel(){
-		$('#cropping-tool').remove();
-		$('#crop-buttons').remove();
-		$('#upload-tool').remove();
-		$('#modal_upload_image').foundation('reveal', 'close');
-		displayCurrent();
-	    if(localMediaStream != null && localMediaStream != undefined){
-				localMediaStream.stop();
-	        }
-	}
-	
-	function uploadSuccess() {
-	  alert(successMsg);
-	  $('#upload-tool').remove();
-	  $('#cropping-tool').remove();
-	  $('#crop-buttons').remove();
-	  $('#modal_upload_image').foundation('reveal', 'close');
-	  displayCurrent();
-	};
-    </script>
+    %>
   </div>
 
 <%if(hasPermission(troop, Permission.PERMISSION_canViewOwnChildDetail_TROOP_ID)){ %>
