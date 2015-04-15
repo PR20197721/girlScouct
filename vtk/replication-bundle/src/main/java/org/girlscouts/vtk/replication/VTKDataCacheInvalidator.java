@@ -68,9 +68,9 @@ public class VTKDataCacheInvalidator implements Job {
         synchronized(lock) {
             // If paths set is empty, assume nothing is scheduled. Schedule a new task.
             if (paths.isEmpty()) {
-                paths.add(path);
                 schedule();
             }
+            paths.add(path);
         }
     }
     
@@ -101,10 +101,10 @@ public class VTKDataCacheInvalidator implements Job {
 
     public void invalidateCache(Collection<String> paths) {
         // TODO heavy lifting that does not require synchronization.
-        System.out.println("==================Invalidating cache: ");
+        log.debug("==================Invalidating cache: ");
         GetMethod get = new GetMethod(flushUri);
         for (String path : paths) {
-            System.out.println("Path: " + path);
+            log.debug("Path: " + path);
             get.setRequestHeader("CQ-Action", "Activate");
             get.setRequestHeader("CQ-Handle", path);
             get.setRequestHeader("CQ-Path", path);
@@ -112,13 +112,13 @@ public class VTKDataCacheInvalidator implements Job {
             try {
                 int resStatus = httpClient.executeMethod(get);
                 if (resStatus != 200) {
-                    System.out.println("Cannot invalidate this path: " + path + ". Putting back to the queue.");
+                    log.error("Cannot invalidate this path: " + path + ". Putting back to the queue.");
                 } else {
-                    System.out.println("Successfully invalidate the cache: " + path);
+                    log.debug("Successfully invalidate the cache: " + path);
                 }
                 get.releaseConnection();
             } catch (Exception e) {
-                System.out.println("Cannot invalidate this path: " + path + ". Putting back to the queue.");
+                log.debug("Cannot invalidate this path: " + path + ". Putting back to the queue.");
             }
         }
         System.out.println("Invalidating cache done ==================");
