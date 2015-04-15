@@ -55,6 +55,7 @@ public class VTKDataCacheInvalidator implements Job {
         
         Session session = repository.loginAdministrative(null);
         flushUri = session.getNode(FLUSH_NODE).getProperty(FLUSH_PROPERTY).getString();
+        session.logout();
     }
     
     @Deactivate
@@ -105,7 +106,7 @@ public class VTKDataCacheInvalidator implements Job {
         GetMethod get = new GetMethod(flushUri);
         for (String path : paths) {
             log.debug("Path: " + path);
-            get.setRequestHeader("CQ-Action", "Activate");
+            get.setRequestHeader("CQ-Action", "Delete");
             get.setRequestHeader("CQ-Handle", path);
             get.setRequestHeader("CQ-Path", path);
 
@@ -123,6 +124,6 @@ public class VTKDataCacheInvalidator implements Job {
                 addPath(path);
             }
         }
-        System.out.println("Invalidating cache done ==================");
+        log.debug("Invalidating cache done ==================");
     }
 }
