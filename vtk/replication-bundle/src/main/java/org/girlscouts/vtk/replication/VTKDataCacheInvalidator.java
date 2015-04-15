@@ -3,9 +3,11 @@ package org.girlscouts.vtk.replication;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
+import org.apache.felix.scr.annotations.Deactivate;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.commons.scheduler.Job;
@@ -23,11 +25,9 @@ public class VTKDataCacheInvalidator implements Job {
     
     // Interval for the next invalidation, in milliseconds.
     private static final int INTERVAL = 1000;
+    private static final String JOB_NAME = "VTKDataCacheInvalidatorJob";
 
-    // If invalidation is scheduled
-    protected boolean scheduled;
-
-    protected Collection<String> paths;
+    protected Set<String> paths;
     protected Object lock;
 
     @Reference
@@ -37,29 +37,34 @@ public class VTKDataCacheInvalidator implements Job {
     public void init() {
         lock = new Object();
         paths = new HashSet<String>();
-        scheduled = false;
+    }
+    
+    @Deactivate
+    // Remove the scheduled job and try to invalidate the job right away.
+    public void deactivate() {
+        scheduler.removeJob(JOB_NAME);
+        execute(null);
     }
     
     public void addPath(String path) {
         synchronized(lock) {
-            paths.add(path);
-            // If nothing is scheduled, schedule a new task.
-            if (!scheduled) {
-                scheduled = true;
+            // If paths set is empty, assume nothing is scheduled. Schedule a new task.
+            if (paths.isEmpty()) {
+                paths.add(path);
                 schedule();
             }
         }
     }
     
+    // The method is executed when scheduled time arrives.
     public void execute(JobContext ctx) {
         log.debug("Execute timestamp: " + System.currentTimeMillis());
-        Collection<String> _paths;
+        Set<String> _paths;
         synchronized(lock) {
             _paths = paths;
             if (!paths.isEmpty()) {
                 paths = new HashSet<String>();
             }
-            scheduled = false;
         }
         
         if (!_paths.isEmpty()) {
@@ -69,9 +74,10 @@ public class VTKDataCacheInvalidator implements Job {
 
     protected void schedule() {
         try {
-            scheduler.fireJobAt(null, this, null, new Date(System.currentTimeMillis() + INTERVAL));
+            scheduler.fireJobAt(JOB_NAME, this, null, new Date(System.currentTimeMillis() + INTERVAL));
         } catch (Exception e) {
-            log.error("Job not scheduled.");
+            log.error("Job not scheduled. Execute right now.");
+            execute(null);
         }
     }
 

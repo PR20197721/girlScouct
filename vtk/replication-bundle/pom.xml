@@ -20,6 +20,12 @@
     <name>Girl Scouts Volunteer Toolkit Replication Bundle</name>
 
     <dependencies>
+        <dependency>
+            <groupId>com.day.commons.osgi.wrapper</groupId>
+                <artifactId>com.day.commons.osgi.wrapper.commons-httpclient</artifactId>
+                    <version>3.1.0.018</version>
+                        <scope>provided</scope>
+                        </dependency>
     	<dependency>
              <groupId>org.girlscouts.vtk</groupId>
              <artifactId>modified-checker-bundle</artifactId>
