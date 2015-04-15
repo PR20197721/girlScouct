@@ -151,19 +151,14 @@ var displayCurrent = function(){
 	    switchButton.style.display = "none";
 		var switchText = document.createTextNode("Switch to Camera");
 	    switchButton.appendChild(switchText);
-	    
-	    var rotateButton = document.createElement("button");
-	    rotateButton.id = "rotate-button";
-	    rotateButton.style.float = "left";
-	    rotateButton.style.display = "none";
-	    var rotateText = document.createTextNode("Rotate");
-	    rotateButton.appendChild(rotateText);
 	
 		var videoLoader = document.createElement("button");
 		videoLoader.id = "load-video";
 		videoLoader.style.display = "none";
 		var vidLoadText = document.createTextNode("Use Webcam");
 		videoLoader.appendChild(vidLoadText);
+		
+		var transform = "none";
 		
 		var directUploadButton = document.createElement("button");
 		directUploadButton.id = "direct-upload";
@@ -186,7 +181,6 @@ var displayCurrent = function(){
 	    uploadTool.appendChild(uploadButtons);
 	    uploadButtons.appendChild(takeShot);
 	    uploadButtons.appendChild(retakeShot);
-	    uploadButtons.appendChild(rotateButton);
 	    uploadButtons.appendChild(switchButton); 
 	    uploadButtons.appendChild(submitShot);      
 	    uploadButtons.appendChild(cancelButton);
@@ -194,76 +188,130 @@ var displayCurrent = function(){
 	    
 	    instructions.innerHTML = "Instructions: Please choose a file that you would like to upload. \nWhen you are ready to upload your image, please select \"Crop this picture\". If the image you upload has an aspect ratio of 48:17 (960px x 340px), you can upload it directly without cropping by selecting \"Upload Without Cropping\"";
 	
-	    function handleImage(imageEvent){
+	    function handleImage(){
+	    	var file = this.files[0];
 	    	directUploadAvailable = false;
-	    	var reader = new FileReader();
-	    	reader.onload = function(readerEvent){
-	    		
-	    		var exif = EXIF.readFromBinaryFile(new BinaryFile(this.result));
-
-	    	    switch(exif.Orientation){
-
-	    	       case 8:
-	    	           context.rotate(90*Math.PI/180);
-	    	           break;
-	    	       case 3:
-	    	           context.rotate(180*Math.PI/180);
-	    	           break;
-	    	       case 6:
-	    	           context.rotate(-90*Math.PI/180);
-	    	           break;
-
-
-	    	    }
-	    		
-	        	img = new Image();
+	    	var dataReader = new FileReader();	
+	    	dataReader.onload = function(readerEvent){
+	    		img = new Image();
+	    		img.setAttribute("exif","true");
 	        	img.style.maxWidth = imgMaxW;
 	        	img.style.maxHeight = imgMaxH;
 	        	img.onload = function(){
-	            	img.src = readerEvent.target.result;
-	            	canvas.width = img.width;
-	            	canvas.height = img.height;
-	            	context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);
-	                if($('#modal_upload_image').innerWidth() < maxWidth){
-	    				canvas.style.maxWidth = $('#modal_upload_image').innerWidth() + "px";
-	           	 	}
-	            	else if($('#modal_upload_image').innerWidth() > maxWidth){
-	    				canvas.style.maxWidth = maxWidth + "px";
-	            	}
-	            	if($('#modal_upload_image').innerHeight() < maxHeight){
-	    				canvas.style.maxHeight = $('#modal_upload_image').innerHeight() + "px";
-	            	}
-	    			else if($('#modal_upload_image').innerHeight() > maxHeight){
-	    				canvas.style.maxHeight = maxHeight + "px";
-	            	}
-	            	aspectRatio = img.width/img.height;
-	            	if(canvas.toDataURL() == "data:,"){//mobile safari
-	                	aspectWeirdness = true;             	
-						if(img.width > img.height){
-	    					img.height = canvas.style.maxHeight.replace("px","");
-	                    	img.width = img.height*aspectRatio;
-	                	}
-	                	else{
-	    					img.width = canvas.style.maxWidth.replace("px","");
-	                		img.height = img.width/aspectRatio;
-	                	}
-	                	canvas.width = img.width;
-	                	canvas.height = img.height;
-	                	context.drawImage(img, 0, 0, img.width, img.height);
-	                }
-	            	directUploadTest();
+	        		
+	        		var binaryReader = new FileReader();
+	        		var binWidth = img.width;
+	        		var binHeight = img.height;
+	        		
+	        		canvas.width = binWidth;
+	            	canvas.height = binHeight;
+	        		
+	        		binaryReader.onloadend = function(d){
+	        			
+	        			//Check if the photo is rotated via EXIF header tags (pertains mainly to iphone)
+	        			var exif, transform = "none";
+	        			exif = EXIF.readFromBinaryFile(createBinaryFile(d.target.result));
+	        			
+	        			if(exif.Orientation === 8){
+	        				binWidth = img.height;
+	        				binHeight = img.width;
+	        				transform = "left";
+	        			} else if(exif.Orientation === 6){
+	        				binWidth = img.height;
+	        				binHeight = img.width;
+	        				transform = "right";
+	        			} else if(exif.Orientation === 1){
+	        				binWidth = img.width;
+	        				binHeight = img.height;
+	        			} else if(exif.Orientation === 3){
+	        				binWidth = img.width;
+	        				binHeight = img.height;
+	        				transform = "flip";
+	        			} else{
+	        				binWidth = img.width;
+	        				binHeight = img.height;
+	        			}
+	        			
+	        			//Rotate and draw
+	        			
+	        			console.log("Transform: " + transform);
+	        			canvas.width = binWidth;
+		            	canvas.height = binHeight;
+	        			if(transform === 'left'){
+	        				context.setTransform(0, -1, 1, 0, 0, binHeight);
+	        				context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.height, canvas.width);
+	        			} else if(transform === 'right'){
+	        				context.setTransform(0, 1, -1, 0, binWidth, 0);
+	        				context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.height, canvas.width);
+	        			} else if(transform === 'flip'){
+	        				context.setTransform(1, 0, 0, -1, 0, binHeight);
+	        				context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);        				
+	        			} else{
+	        				context.setTransform(1, 0, 0, 1, 0, 0);
+	        				context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);
+	        			}
+	        			context.setTransform(1, 0, 0, 1, 0, 0);
+	        			
+	        			
+		                if($('#modal_upload_image').innerWidth() < maxWidth){
+		    				canvas.style.maxWidth = $('#modal_upload_image').innerWidth() + "px";
+		           	 	}
+		            	else if($('#modal_upload_image').innerWidth() > maxWidth){
+		    				canvas.style.maxWidth = maxWidth + "px";
+		            	}
+		            	if($('#modal_upload_image').innerHeight() < maxHeight){
+		    				canvas.style.maxHeight = $('#modal_upload_image').innerHeight() + "px";
+		            	}
+		    			else if($('#modal_upload_image').innerHeight() > maxHeight){
+		    				canvas.style.maxHeight = maxHeight + "px";
+		            	}
+		            	aspectRatio = img.width/img.height;
+		            	if(canvas.toDataURL() == "data:,"){//mobile safari
+		                	aspectWeirdness = true;             	
+							if(img.width > img.height){
+		    					img.height = canvas.style.maxHeight.replace("px","");
+		                    	img.width = img.height*aspectRatio;
+		                	}
+		                	else{
+		    					img.width = canvas.style.maxWidth.replace("px","");
+		                		img.height = img.width/aspectRatio;
+		                	}
+		                	canvas.width = img.width;
+		                	canvas.height = img.height;
+		                	if(transform === 'left'){
+		                		context.setTransform(0, -1, 1, 0, 0, binHeight);
+		                		context.drawImage(img, 0, 0, canvas.height, canvas.width);
+		                	}
+		                	else if(transform === 'right'){
+		                		context.setTransform(0, 1, -1, 0, binWidth, 0);
+		                		context.drawImage(img, 0, 0, canvas.height, canvas.width);
+		                	}
+		                	else if(transform === 'flip'){
+		                		context.setTransform(1, 0, 0, -1, 0, binHeight);
+		                		context.drawImage(img, 0, 0, canvas.width, canvas.height);
+		                	}
+		                	else{
+		                		context.setTransform(1, 0, 0, 1, 0, 0);
+		                		context.drawImage(img, 0, 0, canvas.width, canvas.height);
+		                	}
+		                }
+		            	directUploadTest();
+	        			
+	        		};
+	        		
+	        		binaryReader.readAsArrayBuffer(file);
+	        		
 	        	}
 	        	img.src = readerEvent.target.result;
 	        	uploadedCheck = true;
 	    	}
-	    	reader.readAsDataURL(imageEvent.target.files[0]);
+	    	dataReader.readAsDataURL(file);
 	    	
 	    	canvas.style.display='block';
 	    	switchButton.innerHTML = "Switch to camera";
 	    	if(hasCamera == true){
 				switchButton.style.display='block';
 	    	}
-	    	rotateButton.style.display = 'block';
 	    	submitShot.style.display='block';
 	    	directUploadButton.style.display = 'block';
 	    	takeShot.style.display='none';
@@ -272,6 +320,31 @@ var displayCurrent = function(){
 	    		video.style.display = 'none';
 	    	}
 		}
+	    
+	 // Wrapper around MPL-licensed http://www.nihilogic.dk/labs/binaryajax/binaryajax.js
+	 // to support JavaScript typed arrays since binary strings are not supported in IE 10
+	 var createBinaryFile = function(uintArray) {
+	     var data = new Uint8Array(uintArray);
+	     var file = new BinaryFile(data);
+
+	     file.getByteAt = function(iOffset) {
+	         return data[iOffset];
+	     };
+
+	     file.getBytesAt = function(iOffset, iLength) {
+	         var aBytes = [];
+	         for (var i = 0; i < iLength; i++) {
+	             aBytes[i] = data[iOffset  + i];
+	         }
+	         return aBytes;
+	     };
+
+	     file.getLength = function() {
+	         return data.length;
+	     };
+
+	     return file;
+	 };
 	    
 	    function directUploadTest(){
 	    	if(!tookPic && video.style.display == 'none'){
@@ -296,7 +369,6 @@ var displayCurrent = function(){
 			if(video.style.display == 'block' || tookPic){
 				video.style.display = 'none';
 	        	retakeShot.style.display='none';
-	        	rotateButton.style.display='none';
 	        	takeShot.style.display='none';
 				switchButton.innerHTML = "Switch to camera";
 				if(img != null){
@@ -304,7 +376,6 @@ var displayCurrent = function(){
 	            	canvas.height = img.height;
 	            	context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);
 	            	canvas.style.display = 'block';
-	            	rotateButton.style.display = 'block';
 	            	submitShot.style.display='block';
 	            	directUploadButton.style.display = 'block';
 	        	}
@@ -314,7 +385,6 @@ var displayCurrent = function(){
 				video.style.display = 'block';
 				takeShot.style.display='block';
 	        	canvas.style.display = 'none';
-	        	rotateButton.style.display = 'none';
 	        	submitShot.style.display = 'none';
 	        	directUploadButton.style.display = 'none';
 	        	if(img != null){
@@ -371,7 +441,6 @@ var displayCurrent = function(){
 	        	video.style.display='none';
 	        	takeShot.style.display='none';
 	        	canvas.style.display='block';
-	        	rotateButton.style.display = 'none';
 				retakeShot.style.display='block';
 	        	submitShot.style.display='block';
 	        	directUploadButton.style.display = 'block';
@@ -388,7 +457,6 @@ var displayCurrent = function(){
 		function retake() {
 	    	tookPic = false;
 	    	canvas.style.display='none';
-	    	rotateButton.style.display = 'none';
 	    	retakeShot.style.display='none';
 	    	submitShot.style.display='none';
 	    	directUploadButton.style.display = 'none';
@@ -401,60 +469,65 @@ var displayCurrent = function(){
 	        resizeableImage(canvas.toDataURL("image/png",1.0));
 	    }
 	    
-	    function rotate(){
-	    	context.clearRect ( 0 , 0 , canvas.width, canvas.height );
-	    	/// translate so rotation happens at center of image
-			context.translate(img.width * 0.5, img.height * 0.5);
-	
-			/// rotate canvas context
-			context.rotate(0.5 * Math.PI); /// 90deg clock-wise
-	
-			/// translate back so next draw op happens in upper left corner
-			context.translate(-img.width * 0.5, -img.height * 0.5);
-			
-			if(!aspectWeirdness){
-	        	context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);
-	        }
-	        else{
-	        	context.drawImage(img, 0, 0, img.width, img.height);
-	        }
-	    }
-	    
 	    $(window).resize(function() {
-	        if(canvas.style.display == 'block'){
-	            if($('#modal_upload_image').innerWidth() < maxWidth){
-	    			canvas.style.maxWidth = $('#modal_upload_image').innerWidth() + "px";
-	            }
-	            else if($('#modal_upload_image').innerWidth() > maxWidth){
-	    			canvas.style.maxWidth = maxWidth + "px";
-	            }
-	            if($('#modal_upload_image').innerHeight() < maxHeight){
-	    			canvas.style.maxHeight = $('#modal_upload_image').innerHeight() + "px";
-	            }
-	    		else if($('#modal_upload_image').innerHeight() > maxHeight){
-	    			canvas.style.maxHeight = maxHeight + "px";
-	            }
-	      		// Resize original canvas
-	            if(tookPic && picData != null){
-	    			context.putImageData(picData, 0, 0);
-	            }
-	            else if(!aspectWeirdness){
-	        		context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);
-	            }
-	            else{
-	    			if(img.width > img.height){
-	    				img.height = canvas.style.maxHeight.replace("px","");
-	                    img.width = img.height*aspectRatio;
-	                }
-	                else{
-	    				img.width = canvas.style.maxWidth.replace("px","");
-	                	img.height = img.width/aspectRatio;
-	                }
-	                canvas.width = img.width;
-	                canvas.height = img.height;
-	                context.drawImage(img, 0, 0, img.width, img.height);
-	            }
-	        }
+	    	if(transform === 'left'){
+				context.setTransform(0, -1, 1, 0, 0, binHeight);
+				context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.height, canvas.width);
+			} else if(transform === 'right'){
+				context.setTransform(0, 1, -1, 0, binWidth, 0);
+				context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.height, canvas.width);
+			} else if(transform === 'flip'){
+				context.setTransform(1, 0, 0, -1, 0, binHeight);
+				context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);        				
+			} else{
+				context.setTransform(1, 0, 0, 1, 0, 0);
+				context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);
+			}
+			context.setTransform(1, 0, 0, 1, 0, 0);
+			
+			
+            if($('#modal_upload_image').innerWidth() < maxWidth){
+				canvas.style.maxWidth = $('#modal_upload_image').innerWidth() + "px";
+       	 	}
+        	else if($('#modal_upload_image').innerWidth() > maxWidth){
+				canvas.style.maxWidth = maxWidth + "px";
+        	}
+        	if($('#modal_upload_image').innerHeight() < maxHeight){
+				canvas.style.maxHeight = $('#modal_upload_image').innerHeight() + "px";
+        	}
+			else if($('#modal_upload_image').innerHeight() > maxHeight){
+				canvas.style.maxHeight = maxHeight + "px";
+        	}
+        	aspectRatio = img.width/img.height;
+        	if(canvas.toDataURL() == "data:,"){//mobile safari
+            	aspectWeirdness = true;             	
+				if(img.width > img.height){
+					img.height = canvas.style.maxHeight.replace("px","");
+                	img.width = img.height*aspectRatio;
+            	}
+            	else{
+					img.width = canvas.style.maxWidth.replace("px","");
+            		img.height = img.width/aspectRatio;
+            	}
+            	canvas.width = img.width;
+            	canvas.height = img.height;
+            	if(transform === 'left'){
+            		context.setTransform(0, -1, 1, 0, 0, binHeight);
+            		context.drawImage(img, 0, 0, canvas.height, canvas.width);
+            	}
+            	else if(transform === 'right'){
+            		context.setTransform(0, 1, -1, 0, binWidth, 0);
+            		context.drawImage(img, 0, 0, canvas.height, canvas.width);
+            	}
+            	else if(transform === 'flip'){
+            		context.setTransform(1, 0, 0, -1, 0, binHeight);
+            		context.drawImage(img, 0, 0, canvas.width, canvas.height);
+            	}
+            	else{
+            		context.setTransform(1, 0, 0, 1, 0, 0);
+            		context.drawImage(img, 0, 0, canvas.width, canvas.height);
+            	}
+            }
 	    });
 	    
 	    function directUpload(){
@@ -503,7 +576,6 @@ var displayCurrent = function(){
 	    retakeShot.addEventListener('click', retake, false);
 	    switchButton.addEventListener('click', switchCam, false);
 	    submitShot.addEventListener('click', resizeUpload, false);
-	    rotateButton.addEventListener('click', rotate, false);
 	    videoLoader.addEventListener('click', loadVideo, false);
 	    directUploadButton.addEventListener('click', directUpload, false);
 	}
