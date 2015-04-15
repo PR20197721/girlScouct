@@ -101,10 +101,10 @@ public class VTKDataCacheInvalidator implements Job {
 
     public void invalidateCache(Collection<String> paths) {
         // TODO heavy lifting that does not require synchronization.
-        log.debug("==================Invalidating cache: ");
+        System.out.println("==================Invalidating cache: ");
         GetMethod get = new GetMethod(flushUri);
         for (String path : paths) {
-            log.debug("Path: " + path);
+            System.out.println("Path: " + path);
             get.setRequestHeader("CQ-Action", "Activate");
             get.setRequestHeader("CQ-Handle", path);
             get.setRequestHeader("CQ-Path", path);
@@ -112,15 +112,15 @@ public class VTKDataCacheInvalidator implements Job {
             try {
                 int resStatus = httpClient.executeMethod(get);
                 if (resStatus != 200) {
-                    log.error("Cannot invalidate this path: " + path + ". Putting back to the queue.");
+                    System.out.println("Cannot invalidate this path: " + path + ". Putting back to the queue.");
                 } else {
-                    log.debug("Successfully invalidate the cache: " + path);
+                    System.out.println("Successfully invalidate the cache: " + path);
                 }
                 get.releaseConnection();
             } catch (Exception e) {
-                log.error("Cannot invalidate this path: " + path + ". Putting back to the queue.");
+                System.out.println("Cannot invalidate this path: " + path + ". Putting back to the queue.");
             }
         }
-        log.debug("Invalidating cache done ==================");
+        System.out.println("Invalidating cache done ==================");
     }
 }
