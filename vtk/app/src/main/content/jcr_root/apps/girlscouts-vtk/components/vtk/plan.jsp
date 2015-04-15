@@ -38,18 +38,10 @@
       
       var CommentBox = React.createClass({displayName: "CommentBox",
        loadCommentsFromServer: function( isFirst ) {
-    	 if (isActivNew == 1) {
-    		 this.setState({data: {schedule: null}});
-    	 }
     	 getDataIfModified("year-plan.json", this, function(data, textStatus, req){
     		// Skip if is 304.
     		if (req.status == 200) {
 	            this.setState({data:data});
-	            if( isActivNew ==1 ){
-	                isActivNew=2;
-	            }else if( isActivNew ==2 ){
-	                isActivNew=0;
-	            }
     		}
     	 });
        },
@@ -71,7 +63,7 @@
                x =  this.state.data.schedule;
                  yearPlanName = this.state.data.yearPlan;       
                   return (
-                      React.createElement(YearPlanComponents, {yearPlanName: yearPlanName, data: x}) 
+                      React.createElement(YearPlanComponents, {yearPlanName: yearPlanName, data: x, parentComponent: this}) 
                 );
             } else {
                 return React.createElement("div", null);
@@ -83,7 +75,24 @@
       
        var YearPlanComponents = React.createClass({displayName: "YearPlanComponents",      
         onReorder: function (order) {
-            isActivNew=1;
+        	var parent = this.props.parentComponent;
+        	console.info('state = ' + parent.state);
+        	console.info('order = ' + order);
+        	var yearPlan = parent.state.data.yearPlan;
+
+        	var oldSchedule = parent.state.data.schedule;
+        	var oldScheduleArr = new Array();
+        	for (var key in oldSchedule) {
+        		oldScheduleArr.push(key);
+        	}
+        	
+        	var newSchedule = {};
+        	for (var i = 0; i < order.length; i++) {
+        		var index = order[i] - 1;
+        		newSchedule[oldScheduleArr[i]] = oldSchedule[oldScheduleArr[index]];
+        	}
+        	parent.setState({data: {yearPlan: yearPlan}});
+        	parent.setState({data: {schedule: newSchedule, yearPlan: yearPlan}});
         },
         render: function() {
           return ( 
@@ -233,7 +242,9 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
             var order = dom.sortable("toArray", {attribute: "id"});
             var yy  = order.toString().replace('"',''); 
               doUpdMeeting1(yy);
+              console.info('before on Reorder');
               onReorder(order);
+              console.info('after on Reorder');
           },
           start: function(event, ui) {
                     
