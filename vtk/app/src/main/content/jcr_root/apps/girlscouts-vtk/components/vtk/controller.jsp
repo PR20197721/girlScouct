@@ -1067,7 +1067,7 @@ System.err.println("manu reactActivity");
 					String coordString = request.getParameter("coords").toString();
 					String[] nums = coordString.replaceAll("\\[", "").replaceAll("\\]", "").split(",");          
 					coords = new int[nums.length];
-
+				if(request.getParameter("coords") != null){
 					for (int i = 0; i < nums.length; i++) {
 					    try {
 					      coords[i] = Integer.parseInt(nums[i]);
