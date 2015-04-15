@@ -5,6 +5,11 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.jcr.RepositoryException;
+import javax.jcr.Session;
+
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Deactivate;
@@ -13,6 +18,7 @@ import org.apache.felix.scr.annotations.Service;
 import org.apache.sling.commons.scheduler.Job;
 import org.apache.sling.commons.scheduler.JobContext;
 import org.apache.sling.commons.scheduler.Scheduler;
+import org.apache.sling.jcr.api.SlingRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,17 +32,29 @@ public class VTKDataCacheInvalidator implements Job {
     // Interval for the next invalidation, in milliseconds.
     private static final int INTERVAL = 1000;
     private static final String JOB_NAME = "VTKDataCacheInvalidatorJob";
+    private static final String FLUSH_NODE = "/etc/replication/agents.publish/flush/jcr:content";
+    private static final String FLUSH_PROPERTY = "transportUri";
 
     protected Set<String> paths;
     protected Object lock;
+    
+    protected HttpClient httpClient;
+    protected String flushUri;
 
     @Reference
     protected Scheduler scheduler;
     
+    @Reference
+    protected SlingRepository repository;
+    
     @Activate
-    public void init() {
+    public void init() throws RepositoryException {
         lock = new Object();
         paths = new HashSet<String>();
+        httpClient = new HttpClient();
+        
+        Session session = repository.loginAdministrative(null);
+        flushUri = session.getNode(FLUSH_NODE).getProperty(FLUSH_PROPERTY).getString();
     }
     
     @Deactivate
@@ -83,11 +101,26 @@ public class VTKDataCacheInvalidator implements Job {
 
     public void invalidateCache(Collection<String> paths) {
         // TODO heavy lifting that does not require synchronization.
-        System.out.println("==================Invalidating cache: ");
+        log.debug("==================Invalidating cache: ");
+        GetMethod get = new GetMethod(flushUri);
         for (String path : paths) {
-            System.out.println(path);
+            log.debug("Path: " + path);
+            get.setRequestHeader("CQ-Action", "Activate");
+            get.setRequestHeader("CQ-Handle", path);
+            get.setRequestHeader("CQ-Path", path);
+
+            try {
+                int resStatus = httpClient.executeMethod(get);
+                if (resStatus != 200) {
+                    log.error("Cannot invalidate this path: " + path + ". Putting back to the queue.");
+                } else {
+                    log.debug("Successfully invalidate the cache: " + path);
+                }
+                get.releaseConnection();
+            } catch (Exception e) {
+                log.error("Cannot invalidate this path: " + path + ". Putting back to the queue.");
+            }
         }
-        System.out.println("Invalidating cache done ==================");
+        log.debug("Invalidating cache done ==================");
     }
-    
 }
