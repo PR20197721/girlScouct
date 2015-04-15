@@ -61,7 +61,7 @@
           return {data: []};
         },
         componentDidMount: function() {
-          this.loadCommentsFromServer(1);
+          this.loadCommentsFromServer();
           setInterval( this.loadCommentsFromServer, this.props.pollInterval);
           setInterval( this.checkLocalUpdate, 100);
         },
