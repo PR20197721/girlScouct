@@ -268,7 +268,15 @@ var displayCurrent = function(){
 		            	aspectRatio = img.width/img.height;
 		            	if(canvas.toDataURL() == "data:,"){//mobile safari
 		                	aspectWeirdness = true;             	
-							if(img.width > img.height){
+		                	if(img.width > img.height && (transform === 'left' || transform === 'right')){
+								img.height = canvas.style.maxWidth.replace("px","");
+			                	img.width = img.height*aspectRatio;
+			            	}
+			            	else if(img.width < img.height && (transform === 'left' || transform === 'right')){
+								img.width = canvas.style.maxHeight.replace("px","");
+			            		img.height = img.width/aspectRatio;
+			            	}
+			            	else if(img.width > img.height){
 		    					img.height = canvas.style.maxHeight.replace("px","");
 		                    	img.width = img.height*aspectRatio;
 		                	}
@@ -276,21 +284,27 @@ var displayCurrent = function(){
 		    					img.width = canvas.style.maxWidth.replace("px","");
 		                		img.height = img.width/aspectRatio;
 		                	}
-		                	canvas.width = img.width;
-		                	canvas.height = img.height;
 		                	if(transform === 'left'){
-		                		context.setTransform(0, -1, 1, 0, 0, binHeight);
+		                		canvas.width = img.height;
+			                	canvas.height = img.width;
+		                		context.setTransform(0, -1, 1, 0, 0, canvas.height);
 		                		context.drawImage(img, 0, 0, canvas.height, canvas.width);
 		                	}
 		                	else if(transform === 'right'){
-		                		context.setTransform(0, 1, -1, 0, binWidth, 0);
+		                		canvas.width = img.height;
+			                	canvas.height = img.width;
+		                		context.setTransform(0, 1, -1, 0, canvas.width, 0);
 		                		context.drawImage(img, 0, 0, canvas.height, canvas.width);
 		                	}
 		                	else if(transform === 'flip'){
-		                		context.setTransform(1, 0, 0, -1, 0, binHeight);
+		                		canvas.width = img.width;
+			                	canvas.height = img.height;
+		                		context.setTransform(1, 0, 0, -1, 0, canvas.height);
 		                		context.drawImage(img, 0, 0, canvas.width, canvas.height);
 		                	}
 		                	else{
+		                		canvas.width = img.width;
+			                	canvas.height = img.height;
 		                		context.setTransform(1, 0, 0, 1, 0, 0);
 		                		context.drawImage(img, 0, 0, canvas.width, canvas.height);
 		                	}
@@ -470,64 +484,78 @@ var displayCurrent = function(){
 	    }
 	    
 	    $(window).resize(function() {
-	    	if(transform === 'left'){
-				context.setTransform(0, -1, 1, 0, 0, binHeight);
-				context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.height, canvas.width);
-			} else if(transform === 'right'){
-				context.setTransform(0, 1, -1, 0, binWidth, 0);
-				context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.height, canvas.width);
-			} else if(transform === 'flip'){
-				context.setTransform(1, 0, 0, -1, 0, binHeight);
-				context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);        				
-			} else{
+	    	if(canvas.style.display == 'block'){
+		    	if(transform === 'left'){
+					context.setTransform(0, -1, 1, 0, 0, canvas.height);
+					context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.height, canvas.width);
+				} else if(transform === 'right'){
+					context.setTransform(0, 1, -1, 0, canvas.width, 0);
+					context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.height, canvas.width);
+				} else if(transform === 'flip'){
+					context.setTransform(1, 0, 0, -1, 0, canvas.height);
+					context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);        				
+				} else{
+					context.setTransform(1, 0, 0, 1, 0, 0);
+					context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);
+				}
 				context.setTransform(1, 0, 0, 1, 0, 0);
-				context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);
-			}
-			context.setTransform(1, 0, 0, 1, 0, 0);
-			
-			
-            if($('#modal_upload_image').innerWidth() < maxWidth){
-				canvas.style.maxWidth = $('#modal_upload_image').innerWidth() + "px";
-       	 	}
-        	else if($('#modal_upload_image').innerWidth() > maxWidth){
-				canvas.style.maxWidth = maxWidth + "px";
-        	}
-        	if($('#modal_upload_image').innerHeight() < maxHeight){
-				canvas.style.maxHeight = $('#modal_upload_image').innerHeight() + "px";
-        	}
-			else if($('#modal_upload_image').innerHeight() > maxHeight){
-				canvas.style.maxHeight = maxHeight + "px";
-        	}
-        	aspectRatio = img.width/img.height;
-        	if(canvas.toDataURL() == "data:,"){//mobile safari
-            	aspectWeirdness = true;             	
-				if(img.width > img.height){
-					img.height = canvas.style.maxHeight.replace("px","");
-                	img.width = img.height*aspectRatio;
-            	}
-            	else{
-					img.width = canvas.style.maxWidth.replace("px","");
-            		img.height = img.width/aspectRatio;
-            	}
-            	canvas.width = img.width;
-            	canvas.height = img.height;
-            	if(transform === 'left'){
-            		context.setTransform(0, -1, 1, 0, 0, binHeight);
-            		context.drawImage(img, 0, 0, canvas.height, canvas.width);
-            	}
-            	else if(transform === 'right'){
-            		context.setTransform(0, 1, -1, 0, binWidth, 0);
-            		context.drawImage(img, 0, 0, canvas.height, canvas.width);
-            	}
-            	else if(transform === 'flip'){
-            		context.setTransform(1, 0, 0, -1, 0, binHeight);
-            		context.drawImage(img, 0, 0, canvas.width, canvas.height);
-            	}
-            	else{
-            		context.setTransform(1, 0, 0, 1, 0, 0);
-            		context.drawImage(img, 0, 0, canvas.width, canvas.height);
-            	}
-            }
+				
+				
+	            if($('#modal_upload_image').innerWidth() < maxWidth){
+					canvas.style.maxWidth = $('#modal_upload_image').innerWidth() + "px";
+	       	 	}
+	        	else if($('#modal_upload_image').innerWidth() > maxWidth){
+					canvas.style.maxWidth = maxWidth + "px";
+	        	}
+	        	if($('#modal_upload_image').innerHeight() < maxHeight){
+					canvas.style.maxHeight = $('#modal_upload_image').innerHeight() + "px";
+	        	}
+				else if($('#modal_upload_image').innerHeight() > maxHeight){
+					canvas.style.maxHeight = maxHeight + "px";
+	        	}
+	        	if(aspectWeirdness){//mobile safari            	
+					if(img.width > img.height && (transform === 'left' || transform === 'right')){
+						img.height = canvas.style.maxWidth.replace("px","");
+	                	img.width = img.height*aspectRatio;
+	            	}
+	            	else if(img.width < img.height && (transform === 'left' || transform === 'right')){
+						img.width = canvas.style.maxHeight.replace("px","");
+	            		img.height = img.width/aspectRatio;
+	            	}
+	            	else if(img.width > img.height){
+    					img.height = canvas.style.maxHeight.replace("px","");
+                    	img.width = img.height*aspectRatio;
+                	}
+                	else{
+    					img.width = canvas.style.maxWidth.replace("px","");
+                		img.height = img.width/aspectRatio;
+                	}
+                	if(transform === 'left'){
+                		canvas.width = img.height;
+	                	canvas.height = img.width;
+                		context.setTransform(0, -1, 1, 0, 0, canvas.height);
+                		context.drawImage(img, 0, 0, canvas.height, canvas.width);
+                	}
+                	else if(transform === 'right'){
+                		canvas.width = img.height;
+	                	canvas.height = img.width;
+                		context.setTransform(0, 1, -1, 0, canvas.width, 0);
+                		context.drawImage(img, 0, 0, canvas.height, canvas.width);
+                	}
+                	else if(transform === 'flip'){
+                		canvas.width = img.width;
+	                	canvas.height = img.height;
+                		context.setTransform(1, 0, 0, -1, 0, canvas.height);
+                		context.drawImage(img, 0, 0, canvas.width, canvas.height);
+                	}
+                	else{
+                		canvas.width = img.width;
+	                	canvas.height = img.height;
+                		context.setTransform(1, 0, 0, 1, 0, 0);
+                		context.drawImage(img, 0, 0, canvas.width, canvas.height);
+                	}
+	            }
+	    	}
 	    });
 	    
 	    function directUpload(){
