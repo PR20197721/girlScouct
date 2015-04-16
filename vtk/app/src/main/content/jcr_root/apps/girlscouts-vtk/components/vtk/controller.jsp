@@ -1120,7 +1120,7 @@ System.err.println("manu reactActivity");
 				}
 
                 //creates folder path if it doesn't exist yet
-                String path = "/content/dam/girlscouts-vtk/camera-test/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib";
+                String path = "/content/dam/girlscouts-vtk/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib";
                 String pathWithFile = path+"/troop_pic.png/jcr:content";
 
                 Session __session = sessionFactory.getSession();
