@@ -9,7 +9,3 @@
     <div id="upload-crop-area" class="content row">
     </div>    
   </div>
-  
-  <script>
-  
-  </script>
