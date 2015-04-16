@@ -218,7 +218,9 @@
 				System.out.println("New Troop Id = " + troopId);
 				TroopHashGenerator generator = sling.getService(TroopHashGenerator.class);
 				String token = generator.hash(troopId);
-				response.addCookie(new Cookie("troopDataToken", token));
+				Cookie cookie = new Cookie("troopDataToken", token);
+				cookie.setPath("/");
+				response.addCookie(cookie);
 				return;
 			case AddAid:
 				if (request.getParameter("assetType").equals("AID")) {
