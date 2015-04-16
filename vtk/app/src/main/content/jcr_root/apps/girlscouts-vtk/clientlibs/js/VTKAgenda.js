@@ -165,6 +165,7 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
         this.numberField = new CQ.Ext.form.Hidden({});
         this.add(this.numberField);
 
+        this.add(new CQ.Ext.form.Label({text: "Name"}));
         this.nameField = new CQ.Ext.form.TextField({
         	allowBlank: false,
             listeners: {
