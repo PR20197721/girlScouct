@@ -3,6 +3,7 @@ package org.girlscouts.vtk.auth.dao;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URLDecoder;
+import java.util.Random;
 
 import javax.jcr.LoginException;
 import javax.jcr.RepositoryException;
@@ -373,7 +374,9 @@ public class SalesforceDAO {
 		java.util.List<Contact> contacts = new java.util.ArrayList();
 		HttpClient client = new HttpClient();
 		//GetMethod method = new GetMethod(apiConfig.getWebServicesUrl()+ "/services/apexrest/troopMembers/?troopId=" + sfTroopId);
-		HttpGet method = new HttpGet(apiConfig.getWebServicesUrl()+ "/services/apexrest/troopMembers/?troopId=" + sfTroopId);
+		Random r = new Random() ;
+		HttpGet method = new HttpGet(apiConfig.getWebServicesUrl()+ "/services/apexrest/troopMembers/?troopId=" + sfTroopId +"&foo="+ r.nextInt());
+		
 		method.setHeader("Authorization", "OAuth " + getToken(apiConfig));
 		try {
 
@@ -398,7 +401,7 @@ public class SalesforceDAO {
 			// byte[] responseBody = method.getResponseBody();
 			entity.getContent();
 			String rsp = EntityUtils.toString(entity);
-			
+	//System.err.println("tata lenContact: "+ rsp.length());		
 			
 			// Read the response body.
 
@@ -520,7 +523,7 @@ public class SalesforceDAO {
 	}
 
 	//org wihtout connection pool
-	public java.util.List<Contact> getContactsxx(ApiConfig apiConfig,
+	public java.util.List<Contact> getContacts_noPool(ApiConfig apiConfig,
 			String sfTroopId) {
 
 		java.util.List<Contact> contacts = new java.util.ArrayList();
@@ -658,7 +661,7 @@ public class SalesforceDAO {
 		return contacts;
 	}
 	//original troopInfo without Conn pool-just in case
-	public java.util.List<Troop> troopInfoXX(ApiConfig apiConfig,
+	public java.util.List<Troop> troopInfo_noPool(ApiConfig apiConfig,
 			String contactId) {
 
 		java.util.List<Troop> troops = new java.util.ArrayList();
@@ -856,7 +859,8 @@ public class SalesforceDAO {
 			// byte[] responseBody = method.getResponseBody();
 			entity.getContent();
 			String rsp = EntityUtils.toString(entity);// new
-														// String(responseBody);
+//System.err.println("tata lenTroop: "+ rsp.length());			
+// String(responseBody);
 			rsp = "{\"records\":" + rsp + "}";
 
 			JSONObject response = new JSONObject(rsp);

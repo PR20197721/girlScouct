@@ -32,17 +32,26 @@ public class ConnectionFactory {
 	void activate() {
 	
 
-		connMrg = new PoolingHttpClientConnectionManager(1, TimeUnit.SECONDS);
-		connMrg.setMaxTotal(100);
-		int x =  40;//, 80
-		connMrg.setDefaultMaxPerRoute(x);
-		connMrg.closeIdleConnections(1,  TimeUnit.SECONDS);
-		connMrg.closeExpiredConnections();
+		connMrg = new PoolingHttpClientConnectionManager();//1, TimeUnit.SECONDS);
+		connMrg.setMaxTotal(200);
+		connMrg.setDefaultMaxPerRoute(10);
+		//connMrg.closeIdleConnections(1,  TimeUnit.SECONDS);
+		//connMrg.closeExpiredConnections();
+		
+		
+		
 	}
 	
 	public CloseableHttpClient getConnection() throws RepositoryException, LoginException {
 
 		
+		System.err.println("HP_STATS available: "+ connMrg.getTotalStats().getAvailable() +
+				" MAX: " + connMrg.getTotalStats().getMax() +
+				" leased: " + connMrg.getTotalStats().getLeased() +
+				" pending: " + connMrg.getTotalStats().getPending() 
+				
+				
+				);
 		
 		CloseableHttpClient connection = HttpClients.custom()
 				.setConnectionManager(connMrg)

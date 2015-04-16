@@ -1,14 +1,23 @@
 <dd class="accordion-navigation clearfix">
   <div id="panel<%=i+1%>b" class="content clearfix">
     <ul class="column large-4">
+             <li>DOB:
                             <%
-                            if(contact.getDob() != null){
-                            %><li>DOB: <%= FORMAT_MMddYYYY.format(fmt_yyyyMMdd.parse(contact.getDob()))  %></li><%
-                                    }
-                            else{
-                            %><li>DOB: null</li><%
+                            String mike= contact.getDob();
+                        //System.err.println("alexError ********* "+ mike ); 
+                            
+                            if( mike != null ){
+                            	try{
+                            		//FORMAT_MMddYYYY.format(fmt_yyyyMMdd.parse(mike))
+                            	     %><%=  mike %><%
+                            	}catch(Exception e){System.err.println("alexError: |"+mike+"|");e.printStackTrace();}
+                                    
+                            }else{
+                            	//System.err.println("alexError: na");
+                                %>N/A<%
                             }
                             %>
+            </li>                
       <li>AGE: <%=contact.getAge() %></li>
     </ul>
     <ul class="column large-18 right">
@@ -60,3 +69,5 @@
      </ul>
   </div>
 </dd>
+
+
