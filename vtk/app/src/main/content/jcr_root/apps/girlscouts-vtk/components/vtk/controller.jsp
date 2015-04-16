@@ -1,5 +1,6 @@
 <%@page import="java.util.Comparator,org.codehaus.jackson.map.ObjectMapper,org.joda.time.LocalDate,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*,
-                org.girlscouts.vtk.modifiedcheck.ModifiedChecker"%>
+                org.girlscouts.vtk.modifiedcheck.ModifiedChecker,
+                org.girlscouts.vtk.helpers.TroopHashGenerator"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 
@@ -211,6 +212,13 @@
 			case ReLogin:
 				troopUtil.reLogin(user, troop,
 						request.getParameter("loginAs"), session);
+				// Generator the new troopDataToken so the client can fetch data from the dispatcher.
+				Troop newTroop = (Troop)session.getAttribute("VTK_troop");
+				String troopId = newTroop.getTroop().getTroopId();
+				System.out.println("New Troop Id = " + troopId);
+				TroopHashGenerator generator = sling.getService(TroopHashGenerator.class);
+				String token = generator.hash(troopId);
+				response.addCookie(new Cookie("troopDataToken", token));
 				return;
 			case AddAid:
 				if (request.getParameter("assetType").equals("AID")) {
