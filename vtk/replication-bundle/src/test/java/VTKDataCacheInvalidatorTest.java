@@ -68,23 +68,16 @@ public class VTKDataCacheInvalidatorTest {
         
     }
     
-    private Scheduler scheduler;
-    private long beginTime, endTime;
 
     @Rule
     public final OsgiContext context = new OsgiContext();
 
-    @Before
-    public void init() {
-        //Repository repository = MockJcr.newRepository();
-        //context.registerInjectActivateService(repository);
-    }
-    
     // Test the Mock Scheduler
     private static final int MOCK_INTERVAL = 1000;
+    private long beginTime, endTime;
     @Test
-    public void testAddPath() throws Exception {
-        scheduler = new MockScheduler();
+    public void testMockScheduler() throws Exception {
+        Scheduler scheduler = new MockScheduler();
         Job job = new Job() {
             public void execute(JobContext ctx) {
                 endTime = System.currentTimeMillis();
@@ -97,6 +90,12 @@ public class VTKDataCacheInvalidatorTest {
         long interval = endTime - beginTime;
         assertTrue("Waiting interval is not within 1 second: " + interval, 
                 interval > MOCK_INTERVAL - 200 && interval < MOCK_INTERVAL + 200);
+    }
+    
+    @Test
+    public void testCacheInvalidator() {
+        //Repository repository = MockJcr.newRepository();
+        //context.registerInjectActivateService(repository);
     }
 
 }
