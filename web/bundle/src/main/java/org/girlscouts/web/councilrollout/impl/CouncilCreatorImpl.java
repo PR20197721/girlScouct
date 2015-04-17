@@ -127,6 +127,10 @@ public class CouncilCreatorImpl implements CouncilCreator {
 						"CAMP|||" + languagePath + "/camp||||||CAMP|||CAMP", 
 						"OUR COUNCIL|||" + languagePath + "/our-council||||||OUR COUNCIL|||OUR COUNCIL"
 						});
+				
+				Node searchBoxNode = enHeaderNode.addNode("search-box");
+				searchBoxNode.setProperty("searchAction", "globalLanding");
+				searchBoxNode.setProperty("sling:resourceType", "girlscouts/components/search-box");
 
 				//session.save();
 			}
