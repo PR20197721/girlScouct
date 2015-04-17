@@ -72,6 +72,12 @@ var $ = jQuery.noConflict();
 			}
 		});
   }
+  function equilize_ul() {
+    $('#modal_custom_year_plan .clearfix .large-12:nth-of-type(2) ul').css('height',$('#modal_custom_year_plan .clearfix .large-12:nth-of-type(1) ul').height()+14);
+  }
+  $(document).ajaxComplete(function( event,request, settings ) {
+ 	//	equilize_ul();
+	});
 	//all function calls should go here
 	  $(document).ready(function() {
 	  	 $(document).foundation({
@@ -81,6 +87,7 @@ var $ = jQuery.noConflict();
 	  	     close_on_background_click: false,
 	  	     open: function () { 
 	  	     	$('body').css({'overflow':'hidden'});
+	  	     	equilize_ul();
 	  	     },
 	  	     close: function () {
 	  	     	$('body').css({'overflow':'inherit'})
