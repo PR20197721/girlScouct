@@ -13,28 +13,33 @@ request.setAttribute("meetings", meetings);
 %>
 <script>
   $(function() {
+    $(".close").on('click', function(){
+      $('#modal_custom_year_plan').foundation('reveal', 'close');
+    })
     $( "#sortable1, #sortable2" ).sortable({
       connectWith: ".connectedSortable",
       revert: true,
       stop : function(event, ui) {
     	  //var sortedIDs = $( "#sortable2" ).sortable( "toArray" );
     	  //console.log("New rpt: "+sortedIDs); 
+      },
+      start: function(e,ui){
+        // console.log($('#sortable1').height());
+        var min_height = $('#sortable1').height()-71;
+        $("#sortable2").css('min-height', min_height);
       }
-      // start: function(e,ui){
-      //   console.log($('#sortable1').height());
-      //   $("#sortable2").height($('#sortable1').height());
-      // }
     }).disableSelection();
   });
 
   function clearCart() {
     $('#sortable2 li').each(function(){
         $(this).appendTo('#sortable1');
+        $("#sortable2").css('min-height', 'auto'); 
     });
   }
  
   function rmMeeting(meetingId){
-    $('#sortable2 ').click(function(){
+    $('#sortable2').click(function(){
       $(this).remove();
     });
   }
@@ -60,6 +65,7 @@ request.setAttribute("meetings", meetings);
   </div>
   <div class="scroll">
     <div class="content">
+    <p>Drag your selected meetings into your year plan.</p>
       <div class="clearfix" data-equalizer>
         <div class="columns large-12 medium-12 small-24">
           <p class="title">MEETINGS LIBRARY</p>
@@ -76,9 +82,9 @@ request.setAttribute("meetings", meetings);
         </div>
       </div>
       <div class="clearfix right btn-wrap">
-        <input type="button" value="Cancel" class="btn button cta-button" /> <!--  close modal -->
-        <input type="button" value="Clear" onclick="clearCart()" class="btn button cta-button" />  <!-- clear cart -->
-        <input type="button" value="Create Plan" onclick="createPlan()" class="btn button cta-button" /> <!-- submit -->
+        <input type="button" value="Cancel" class="btn button close" aria-label="Close"/> <!--  close modal -->
+        <input type="button" value="Clear" onclick="clearCart()" class="btn button" />  <!-- clear cart -->
+        <input type="button" value="Create Plan" onclick="createPlan()" class="btn button" /> <!-- submit -->
       </div>
     </div>
   </div>

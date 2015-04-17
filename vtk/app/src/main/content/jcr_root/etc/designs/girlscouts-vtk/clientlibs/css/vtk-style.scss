@@ -1374,10 +1374,13 @@
     ul {
      list-style: none;
      background: #F6F6F6;
-     // min-height: 50px;
-     // height: 100%;
+     // min-height: 200px;
+    // height: 100%;
      padding: 7px;
      margin: 0;
+     &#sortable2 {
+      margin-bottom: 20px;
+     }
       li {
         position: relative;
         padding: 20px 10px;

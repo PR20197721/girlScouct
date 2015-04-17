@@ -76,8 +76,12 @@ function chgCustYearPlan(planId, planPath, confirmMsg, planName) {
     //x(planId, planPath, confirmMsg, planName);
  
     $('#modal_custom_year_plan').foundation('reveal', 'open', {
-        url: '/content/girlscouts-vtk/controllers/vtk.include.modals.modal_custom_year_plan.html'  
+        url: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_custom_year_plan.html",
         //data: {param1: 'value1', param2: 'value2'}
+         success: function(data) {
+          var min_height = $('#sortable1').height()-71;
+          $("#sortable2").css('min-height', min_height);  
+        }
     });
 };
 
