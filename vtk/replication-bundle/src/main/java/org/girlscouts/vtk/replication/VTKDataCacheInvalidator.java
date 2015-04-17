@@ -101,7 +101,7 @@ public class VTKDataCacheInvalidator implements Job {
     }
 
     public void invalidateCache(Collection<String> paths) {
-        // TODO heavy lifting that does not require synchronization.
+        // Heavy lifting that does not require synchronization.
         log.debug("==================Invalidating cache: ");
         GetMethod get = new GetMethod(flushUri);
         for (String path : paths) {
