@@ -116,6 +116,17 @@ public class CouncilCreatorImpl implements CouncilCreator {
 				Node enContentNode = enJcrContentNode.addNode("content", "nt:unstructured");
 				Node subParNode = enContentNode.addNode("styled-subpar");
 				subParNode.setProperty("cssClasses", "row home-section");
+				
+				Node enHeaderNode = enJcrContentNode.addNode("header", "nt:unstructured");
+				Node globalNavNode = enHeaderNode.addNode("global-nav");
+				globalNavNode.setProperty("links", new String[]{
+						"ABOUT GIRL SCOUTS|||" + languagePath + "/about-girl-scouts||||||ABOUT GIRL SCOUTS|||ABOUT GIRL SCOUTS", 
+						"EVENTS|||" + languagePath + "/events||||||EVENTS|||EVENTS", 
+						"COOKIES|||" + languagePath + "/cookies||||||COOKIES|||COOKIES", 
+						"VOLUNTEER|||" + languagePath + "/for-volunteers||||||VOLUNTEER|||VOLUNTEER", 
+						"CAMP|||" + languagePath + "/camp||||||CAMP|||CAMP", 
+						"OUR COUNCIL|||" + languagePath + "/our-council||||||OUR COUNCIL|||OUR COUNCIL"
+						});
 
 				//session.save();
 			}
