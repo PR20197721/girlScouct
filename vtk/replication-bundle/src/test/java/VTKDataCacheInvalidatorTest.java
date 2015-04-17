@@ -51,8 +51,8 @@ public class VTKDataCacheInvalidatorTest {
 
         public void fireJobAt(String name, Object job,
                 Map<String, Serializable> config, Date date) throws Exception {
-            long period = date.getTime() - System.currentTimeMillis();
-            Thread.sleep(period);
+            long interval = date.getTime() - System.currentTimeMillis();
+            Thread.sleep(interval);
             ((Job)job).execute(null);
         }
 
@@ -78,22 +78,25 @@ public class VTKDataCacheInvalidatorTest {
     public void init() {
         //Repository repository = MockJcr.newRepository();
         //context.registerInjectActivateService(repository);
-        scheduler = new MockScheduler();
     }
     
+    // Test the Mock Scheduler
+    private static final int MOCK_INTERVAL = 1000;
     @Test
     public void testAddPath() throws Exception {
+        scheduler = new MockScheduler();
         Job job = new Job() {
             public void execute(JobContext ctx) {
                 endTime = System.currentTimeMillis();
             }
         };
         beginTime = System.currentTimeMillis();
-        scheduler.fireJobAt("Name", job, null, new Date(beginTime + 1000));
-        Thread.sleep(2000);
+        scheduler.fireJobAt("Name", job, null, new Date(beginTime + MOCK_INTERVAL));
+        Thread.sleep(MOCK_INTERVAL + 1000);
 
-        long period = endTime - beginTime;
-        assertTrue("Waiting period is not within 1 second: " + period, period > 800 && period < 1200);
+        long interval = endTime - beginTime;
+        assertTrue("Waiting interval is not within 1 second: " + interval, 
+                interval > MOCK_INTERVAL - 200 && interval < MOCK_INTERVAL + 200);
     }
 
 }
