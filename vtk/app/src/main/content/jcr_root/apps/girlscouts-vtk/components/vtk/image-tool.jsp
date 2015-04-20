@@ -1,4 +1,4 @@
-<img id="current-picture" src="<%= "/content/dam/girlscouts-vtk/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png?" %>" style="margin-left: auto; margin-right: auto; max-width: 100%"/>
+<img id="current-picture" src="<%= "/content/dam/girlscouts-vtk/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png?" %>" style="margin-left: auto; margin-right: auto; width: 100%"/>
 <div id="image-tool" style="width:100%"></div>
 
 <script>
@@ -59,14 +59,13 @@ var displayCurrent = function(){
     
     currentPic.onerror = function(){
     	$('#current-picture').css("display", "none");
-    	$('#current-display').css("margin-top", "20px");
-    	$('.icon-photo-camera').css("color","black");        
+    	$('.icon-photo-camera').css("display","none");        
     }
     
     currentPic.onload = function(){
     	$('#current-picture').css("display", "auto");
-    	$('#current-display').css("margin-top", "0px");
-    	$('.icon-photo-camera').css("color","white"); 
+    	$('.icon-photo-camera').css("display","auto"); 
+    	$('#current-picture').css("width", "100%");
     }
       
     currentPic.src = imgPath + Date.now();
@@ -174,7 +173,7 @@ var displayCurrent = function(){
 		var directUploadButton = document.createElement("button");
 		directUploadButton.id = "direct-upload";
 		directUploadButton.className = "btn button";
-		directUploadButton.disabled = true;
+		directUploadButton.style.display = 'none';
 		// directUploadButton.style.float = "left";
 		directUploadButton.style.display = "none";
 		var directUploadText = document.createTextNode("Upload Without Cropping");
@@ -376,16 +375,16 @@ var displayCurrent = function(){
 	    		directUploadRatio = img.width/img.height;
 	    		if(directUploadRatio == (48/17)){
 		    		directUploadOk = true;
-		    		directUploadButton.disabled = false;
+		    		directUploadButton.style.display = 'auto';
 		    	}
 		    	else{
 		    		directUploadOk = false;
-		    		directUploadButton.disabled = true;
+		    		directUploadButton.style.display = 'none';
 		    	}
 		    }
 	    	else{
 	    		directUploadOk = false;
-	    		directUploadButton.disabled = true;
+	    		directUploadButton.style.display = 'none';
 	    	}
 	    }
 	
@@ -490,7 +489,7 @@ var displayCurrent = function(){
 		}
 	
 	    function resizeUpload(){
-	        uploadTool.style.display = "none";
+	    	$('#upload-tool').remove();
 	        resizeableImage(canvas.toDataURL("image/png",1.0));
 	    }
 	    
