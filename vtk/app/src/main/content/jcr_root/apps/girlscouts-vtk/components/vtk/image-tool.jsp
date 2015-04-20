@@ -1,4 +1,4 @@
-<img id="current-picture" src="<%= "/content/dam/girlscouts-vtk/camera-test/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png?" %>" style="margin-left: auto; margin-right: auto; max-width: 100%"/>
+<img id="current-picture" src="<%= "/content/dam/girlscouts-vtk/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png?" %>" style="margin-left: auto; margin-right: auto; max-width: 100%"/>
 <div id="image-tool" style="width:100%"></div>
 
 <script>
