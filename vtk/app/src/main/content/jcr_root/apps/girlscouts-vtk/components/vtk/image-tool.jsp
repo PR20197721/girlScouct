@@ -132,7 +132,7 @@ var displayCurrent = function(){
 	
 		var takeShot = document.createElement("button");
 	    takeShot.id = "takeShot";
-	    takeShot.style.float = "left";
+	    // takeShot.style.float = "left";
 	    takeShot.className = "btn button";
 	    takeShot.style.display = "none";
 		var text2 = document.createTextNode("Take Picture");
@@ -141,14 +141,14 @@ var displayCurrent = function(){
 		var retakeShot = document.createElement("button");
 	    retakeShot.id = "retakeShot";
 	    retakeShot.className = "btn button";
-	    retakeShot.style.float = "left";
+	    // retakeShot.style.float = "left";
 	    retakeShot.style.display = "none";
 		var text3 = document.createTextNode("Retake Picture");
 	    retakeShot.appendChild(text3);
 	
 		var submitShot = document.createElement("button");
 	    submitShot.id = "submitShot";
-	    submitShot.style.float = "left";
+	    // submitShot.style.float = "left";
 	    submitShot.className = "btn button";
 	    submitShot.style.display = "none";
 		var text4 = document.createTextNode("Crop this picture");
@@ -156,8 +156,9 @@ var displayCurrent = function(){
 	
 		var switchButton = document.createElement("button");
 	    switchButton.id = "switchCam";
-	    switchButton.style.float = "left";
+	    // switchButton.style.float = "left";
 	    switchButton.style.display = "none";
+	    switchButton.className = "btn button";
 		var switchText = document.createTextNode("Switch to Camera");
 	    switchButton.appendChild(switchText);
 	
@@ -174,7 +175,7 @@ var displayCurrent = function(){
 		directUploadButton.id = "direct-upload";
 		directUploadButton.className = "btn button";
 		directUploadButton.disabled = true;
-		directUploadButton.style.float = "left";
+		// directUploadButton.style.float = "left";
 		directUploadButton.style.display = "none";
 		var directUploadText = document.createTextNode("Upload Without Cropping");
 		directUploadButton.appendChild(directUploadText);
@@ -580,6 +581,7 @@ var displayCurrent = function(){
 		var submitCrop = document.createElement("button");
 	    submitCrop.id = "submitCrop";
 	    submitCrop.style.float = "left";
+	    submitCrop.className = "btn button";
 		var submitText = document.createTextNode("Crop & Select");
 	    submitCrop.appendChild(submitText);
 	    submitCrop.disabled = true;

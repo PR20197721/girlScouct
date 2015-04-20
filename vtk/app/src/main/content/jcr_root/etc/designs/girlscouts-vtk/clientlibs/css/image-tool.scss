@@ -111,7 +111,20 @@
 .cancel{
 	background-color: rgb(195, 60, 60);
 }
-
+#crop-buttons {
+  margin-top: 20px;
+}
+#upload-buttons {
+  margin-top: 20px;
+  .btn,
+  button {
+    float: left;
+    margin-right: 5px;
+    &:last-child {
+      margin: 0;
+    }
+  }
+}
 @media only screen and (min-width: 60.063em) {
 	#modal_upload_image {
 		margin-left: -40%;
