@@ -79,6 +79,7 @@
 		$('#cropping-tool').remove();
 		$('#crop-buttons').remove();
 		$('#upload-tool').remove();
+		$('.clearfix.btn-wrap').remove();
 		$('#modal_upload_image').foundation('reveal', 'close');
 		displayCurrent();
 	    if(localMediaStream != null && localMediaStream != undefined){
@@ -91,6 +92,7 @@
 	  $('#upload-tool').remove();
 	  $('#cropping-tool').remove();
 	  $('#crop-buttons').remove();
+	  $('.clearfix.btn-wrap').remove();
 	  $('#modal_upload_image').foundation('reveal', 'close');
 	  displayCurrent();
 	};
