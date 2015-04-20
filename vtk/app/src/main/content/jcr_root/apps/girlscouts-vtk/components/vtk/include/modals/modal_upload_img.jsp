@@ -7,5 +7,5 @@
       <div class="columns large-24" id="upload-crop-area">
         <p id="instructions"></p>
       </div>
-    </div>    
+    </div>
   </div>

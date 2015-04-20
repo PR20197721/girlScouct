@@ -184,10 +184,14 @@ var displayCurrent = function(){
 	    uploadButtons.style.overflow = "hidden";
 	
 	    modal.appendChild(uploadTool);
+
+	    var buttonClearFix = document.createElement("div");
+	    buttonClearFix.className = "clearfix btn-wrap";
 	    
-		uploadTool.appendChild(imageLoader);
-		uploadTool.appendChild(cancelButton);
-		uploadTool.appendChild(videoLoader);
+			uploadTool.appendChild(imageLoader);
+			uploadTool.appendChild(buttonClearFix);
+			buttonClearFix.appendChild(cancelButton);
+			buttonClearFix.appendChild(videoLoader);
 	    uploadTool.appendChild(video);
 	    uploadTool.appendChild(canvas);
 	    uploadTool.appendChild(uploadButtons);
@@ -585,12 +589,13 @@ var displayCurrent = function(){
 	    submitCrop.appendChild(submitText);
 	    submitCrop.disabled = true;
 	    
-	    modal.appendChild(cancelButton);
 	    
+
 	    var cancelClearFix = document.createElement("div");
-	    cancelClearFix.className = "clearfix";
+	    cancelClearFix.className = "clearfix btn-wrap";
 	    
 	    modal.appendChild(cancelClearFix);
+	    cancelClearFix.appendChild(cancelButton);
 	
 	    modal.appendChild(croppingTool);
 	    modal.appendChild(cropButtons);
@@ -611,7 +616,7 @@ var displayCurrent = function(){
 	        submitCrop.addEventListener('click', crop, false);
 	        croppingTool.appendChild(image_target);
 	        $(croppingTool).width($(image_target).width());
-	    	$(croppingTool).height($(image_target).height());
+	    		$(croppingTool).css('min-height',$(image_target).height());
 	        
 	    };
 	
