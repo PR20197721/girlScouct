@@ -1,4 +1,4 @@
-<img id="current-picture" src="<%= "/content/dam/girlscouts-vtk/camera-test/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png?" %>" style="margin-left: auto; margin-right: auto; max-width: 100%"/>
+<img id="current-picture" src="<%= "/content/dam/girlscouts-vtk/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png?" %>" style="margin-left: auto; margin-right: auto; max-width: 100%"/>
 <div id="image-tool" style="width:100%"></div>
 
 <script>
@@ -43,7 +43,7 @@ navigator.getUserMedia = ( navigator.getUserMedia ||
                        navigator.mozGetUserMedia ||
                        navigator.msGetUserMedia);
 
-var imgPath = "<%= "/content/dam/girlscouts-vtk/camera-test/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png?" %>";
+var imgPath = "<%= "/content/dam/girlscouts-vtk/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib/troop_pic.png?pid=" %>";
 
 var displayCurrent = function(){
     currentDisplay = document.createElement("div");
@@ -54,21 +54,27 @@ var displayCurrent = function(){
     if (!Date.now) {
 		Date.now = function() { return new Date().getTime(); }
 	}
-
+    
+    currentDisplay.appendChild(currentPic);
+    
+    currentPic.onerror = function(){
+    	$('#current-picture').css("display", "none");
+    	$('#current-display').css("margin-top", "20px");
+    	$('.icon-photo-camera').css("color","black");        
+    }
+    
+    currentPic.onload = function(){
+    	$('#current-picture').css("display", "auto");
+    	$('#current-display').css("margin-top", "0px");
+    	$('.icon-photo-camera').css("color","white"); 
+    }
+      
     currentPic.src = imgPath + Date.now();
     currentPic.style.float = "left";
 
     var clearBoth = document.createElement("div");
     clearBoth.id = "clear-both";
     clearBoth.style.clear = "both";
-
-    currentPic.onload = function(){
-		currentDisplay.appendChild(currentPic);
-
-        if($(currentPic).width() < maxWidth){
-        	$(currentPic).width(maxWidth);
-        }
-    }
 
     imageTool.appendChild(currentDisplay);
     imageTool.appendChild(clearBoth);
