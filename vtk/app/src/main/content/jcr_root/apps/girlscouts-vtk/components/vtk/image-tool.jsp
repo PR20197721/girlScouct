@@ -184,8 +184,9 @@ var displayCurrent = function(){
 	    uploadButtons.style.overflow = "hidden";
 	
 	    modal.appendChild(uploadTool);
-	
+	    
 		uploadTool.appendChild(imageLoader);
+		uploadTool.appendChild(cancelButton);
 		uploadTool.appendChild(videoLoader);
 	    uploadTool.appendChild(video);
 	    uploadTool.appendChild(canvas);
@@ -194,7 +195,6 @@ var displayCurrent = function(){
 	    uploadButtons.appendChild(retakeShot);
 	    uploadButtons.appendChild(switchButton); 
 	    uploadButtons.appendChild(submitShot);      
-	    uploadButtons.appendChild(cancelButton);
 	    uploadButtons.appendChild(directUploadButton);
 	    
 	    instructions.innerHTML = "Instructions: Please choose a file that you would like to upload. \nWhen you are ready to upload your image, please select \"Crop this picture\". If the image you upload has an aspect ratio of 48:17 (960px x 340px), you can upload it directly without cropping by selecting \"Upload Without Cropping\"";
@@ -584,13 +584,18 @@ var displayCurrent = function(){
 		var submitText = document.createTextNode("Crop & Select");
 	    submitCrop.appendChild(submitText);
 	    submitCrop.disabled = true;
+	    
+	    modal.appendChild(cancelButton);
+	    
+	    var cancelClearFix = document.createElement("div");
+	    cancelClearFix.className = "clearfix";
+	    
+	    modal.appendChild(cancelClearFix);
 	
 	    modal.appendChild(croppingTool);
 	    modal.appendChild(cropButtons);
 	
 	    cropButtons.appendChild(submitCrop);
-	    
-	    cropButtons.appendChild(cancelButton);
 	
 	    var image_target = document.createElement("img");
 	    	image_target.id = "resize-image";
