@@ -13,7 +13,7 @@ var uploadTool, croppingTool, currentDisplay, uploadButtons;
 var cancelButton = document.createElement("Button");
 var cancelText = document.createTextNode("Cancel");
     cancelButton.appendChild(cancelText);
-    cancelButton.className = "cancel";
+    cancelButton.className = "btn button";
     cancelButton.style.float = "right";
     
 var instructions = document.getElementById("instructions");
@@ -127,12 +127,14 @@ var displayCurrent = function(){
 		var takeShot = document.createElement("button");
 	    takeShot.id = "takeShot";
 	    takeShot.style.float = "left";
+	    takeShot.className = "btn button";
 	    takeShot.style.display = "none";
 		var text2 = document.createTextNode("Take Picture");
 	    takeShot.appendChild(text2);
 	
 		var retakeShot = document.createElement("button");
 	    retakeShot.id = "retakeShot";
+	    retakeShot.className = "btn button";
 	    retakeShot.style.float = "left";
 	    retakeShot.style.display = "none";
 		var text3 = document.createTextNode("Retake Picture");
@@ -141,6 +143,7 @@ var displayCurrent = function(){
 		var submitShot = document.createElement("button");
 	    submitShot.id = "submitShot";
 	    submitShot.style.float = "left";
+	    submitShot.className = "btn button";
 	    submitShot.style.display = "none";
 		var text4 = document.createTextNode("Crop this picture");
 	    submitShot.appendChild(text4);
@@ -154,6 +157,7 @@ var displayCurrent = function(){
 	
 		var videoLoader = document.createElement("button");
 		videoLoader.id = "load-video";
+		videoLoader.className = "btn button";
 		videoLoader.style.display = "none";
 		var vidLoadText = document.createTextNode("Use Webcam");
 		videoLoader.appendChild(vidLoadText);
@@ -162,6 +166,7 @@ var displayCurrent = function(){
 		
 		var directUploadButton = document.createElement("button");
 		directUploadButton.id = "direct-upload";
+		directUploadButton.className = "btn button";
 		directUploadButton.disabled = true;
 		directUploadButton.style.float = "left";
 		directUploadButton.style.display = "none";
