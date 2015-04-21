@@ -1,3 +1,4 @@
+package org.girlscouts.vtk.replication;
 import static org.junit.Assert.assertTrue;
 
 import java.io.Serializable;
