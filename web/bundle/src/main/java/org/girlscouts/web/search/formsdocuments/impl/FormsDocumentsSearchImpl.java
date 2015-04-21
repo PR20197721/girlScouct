@@ -2,6 +2,7 @@ package org.girlscouts.web.search.formsdocuments.impl;
 
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -47,6 +48,8 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 	@Reference
 	FacetBuilder facetBuilder;
 
+	private long startTime, endTime;
+	
 	private static Logger log = LoggerFactory.getLogger(FormsDocumentsSearchImpl.class);
 	private static String FACETS_PATH = "/etc/tags/girlscouts";
 
@@ -93,6 +96,8 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 
 	private void documentsSearch(String path,String q, String[] tags,String formDocumentContentPath) throws RepositoryException{
 
+		startTime = new Date().getTime();
+		System.out.println("Start Time: " + startTime);
 		
 		searchResultsInfo = new SearchResultsInfo();
 		
@@ -132,6 +137,7 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 			mapFullText.put("group.2_fulltext.relPath", "@jcr:content/metadata/dc:title"); // search title
 			mapFullText.put("group.3_fulltext", q);
 			mapFullText.put("group.3_fulltext.relPath", "@jcr:content/metadata/dc:description"); // search description
+			mapFullText.put("group.4_fulltext", q); //search everything, including file contents via PDFBox
 			PredicateGroup predicateFullText = PredicateGroup.create(mapFullText);
 			master.add(predicateFullText);
 			
@@ -147,8 +153,13 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 		master.setAllRequired(true);
 		List<Hit> searchTermHits = new ArrayList<Hit>();
 		searchTermHits = performContentSearch(master,q);
+		//System.out.println("Length: " + searchTermHits.size());
 		this.searchResultsInfo.setResultsHits(searchTermHits);
 		this.searchResultsInfo = combineSearchTagsCounts();
+		
+		endTime = new Date().getTime();
+		System.out.println("End Time: " + endTime);
+		System.out.println("Time elapsed: " + (endTime - startTime));
 		
 	}
 	
@@ -169,11 +180,14 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 		// So put the hit in to the uni TreeMap to remove duplicates.
 
 		Map<String, DocHit> unq= new java.util.TreeMap<String,DocHit>();
+		java.util.List<Hit> hits = new java.util.ArrayList<Hit>();
 		for(Hit hit:searchTermHits)  {
 			//System.out.println("Hit" +hit.getPath());
 			DocHit docHit = new DocHit(hit);
 			if(!unq.containsKey(docHit.getURL())){
+				//System.out.println("Hit: " + docHit.getURL());
 				unq.put(docHit.getURL(), docHit);
+				hits.add(hit);
 			}
 		}
 		Iterator<String> uniIterator = unq.keySet().iterator();
@@ -218,6 +232,7 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 				info.setCount(facetWithCount.get(info.getFacetsTagId()));
 			}
 		}
+		this.searchResultsInfo.setResultsHits(hits);
 		return this.searchResultsInfo;	
 	}
 	private Map<String,String> addToDefaultQuery(String[] tags) throws RepositoryException{
