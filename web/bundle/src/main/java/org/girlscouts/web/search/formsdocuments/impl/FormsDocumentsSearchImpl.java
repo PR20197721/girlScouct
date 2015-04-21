@@ -2,6 +2,7 @@ package org.girlscouts.web.search.formsdocuments.impl;
 
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,6 +11,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.function.ToDoubleFunction;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
 
 import javax.jcr.Node;
 import javax.jcr.Property;
@@ -154,7 +159,37 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 		List<Hit> searchTermHits = new ArrayList<Hit>();
 		searchTermHits = performContentSearch(master,q);
 		//System.out.println("Length: " + searchTermHits.size());
-		this.searchResultsInfo.setResultsHits(searchTermHits);
+		
+		List<Hit> titleHits = new ArrayList<Hit>();
+		List<Hit> descriptionHits = new ArrayList<Hit>();
+		List<Hit> contentHits = new ArrayList<Hit>();
+		
+		for(Hit h : searchTermHits){
+			DocHit d = new DocHit(h);			
+			if(d.getTitle().toLowerCase().contains(q.toLowerCase())){
+				titleHits.add(h);
+			}
+			else if(d.getDescription().toLowerCase().contains(q.toLowerCase())){
+				descriptionHits.add(h);
+			}
+			else{
+				contentHits.add(h);
+			}
+		}
+		
+		List<Hit> sortedList = new ArrayList<Hit>();
+		
+		for(Hit title : titleHits){
+			sortedList.add(title);
+		}
+		for(Hit desc : descriptionHits){
+			sortedList.add(desc);
+		}
+		for(Hit content : contentHits){
+			sortedList.add(content);
+		}
+		
+		this.searchResultsInfo.setResultsHits(sortedList);
 		this.searchResultsInfo = combineSearchTagsCounts();
 		
 		endTime = new Date().getTime();
@@ -235,6 +270,7 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 		this.searchResultsInfo.setResultsHits(hits);
 		return this.searchResultsInfo;	
 	}
+	
 	private Map<String,String> addToDefaultQuery(String[] tags) throws RepositoryException{
 		
 		Map<String,String> tagSearch = new HashMap<String,String>();
