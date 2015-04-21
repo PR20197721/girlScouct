@@ -6,7 +6,6 @@
 var imageTool = document.getElementById("image-tool");
 
 var modal = document.getElementById("upload-crop-area");
-document.getElementById("modal_upload_image").appendChild(modal);
 
 var uploadTool, croppingTool, currentDisplay, uploadButtons;
 
@@ -96,8 +95,6 @@ var displayCurrent = function(){
 	    uploadedCheck = false;
 	    tookPic = false;
 	    aspectWeirdness = false;
-	    var directUploadRatio = 1;
-	    var directUploadOk = false;
 	
 		uploadTool = document.createElement("div");
 	    uploadTool.id = "upload-tool"
@@ -153,14 +150,6 @@ var displayCurrent = function(){
 		var text4 = document.createTextNode("Crop this picture");
 	    submitShot.appendChild(text4);
 	
-		var switchButton = document.createElement("button");
-	    switchButton.id = "switchCam";
-	    // switchButton.style.float = "left";
-	    switchButton.style.display = "none";
-	    switchButton.className = "btn button";
-		var switchText = document.createTextNode("Switch to Camera");
-	    switchButton.appendChild(switchText);
-	
 		var videoLoader = document.createElement("button");
 		videoLoader.id = "load-video";
 		videoLoader.className = "btn button";
@@ -169,15 +158,6 @@ var displayCurrent = function(){
 		videoLoader.appendChild(vidLoadText);
 		
 		var transform = "none";
-		
-		var directUploadButton = document.createElement("button");
-		directUploadButton.id = "direct-upload";
-		directUploadButton.className = "btn button";
-		directUploadButton.style.display = 'none';
-		// directUploadButton.style.float = "left";
-		directUploadButton.style.display = "none";
-		var directUploadText = document.createTextNode("Upload Without Cropping");
-		directUploadButton.appendChild(directUploadText);
 	    
 	    uploadButtons = document.createElement("div");
 	    uploadButtons.id = "upload-buttons";
@@ -188,20 +168,18 @@ var displayCurrent = function(){
 	    var buttonClearFix = document.createElement("div");
 	    buttonClearFix.className = "clearfix btn-wrap";
 	    
-			uploadTool.appendChild(imageLoader);
-			uploadTool.appendChild(buttonClearFix);
-			buttonClearFix.appendChild(cancelButton);
-			buttonClearFix.appendChild(videoLoader);
+		uploadTool.appendChild(imageLoader);
+		uploadTool.appendChild(buttonClearFix);
+		buttonClearFix.appendChild(cancelButton);
+		buttonClearFix.appendChild(videoLoader);
 	    uploadTool.appendChild(video);
 	    uploadTool.appendChild(canvas);
 	    uploadTool.appendChild(uploadButtons);
 	    uploadButtons.appendChild(takeShot);
 	    uploadButtons.appendChild(retakeShot);
-	    uploadButtons.appendChild(switchButton); 
 	    uploadButtons.appendChild(submitShot);      
-	    uploadButtons.appendChild(directUploadButton);
 	    
-	    instructions.innerHTML = "Instructions: Please choose a file that you would like to upload. \nWhen you are ready to upload your image, please select \"Crop this picture\". If the image you upload has an aspect ratio of 48:17 (960px x 340px), you can upload it directly without cropping by selecting \"Upload Without Cropping\"";
+	    instructions.innerHTML = "Instructions: Please choose a file that you would like to upload. \nWhen you are ready to upload your image, please select \"Crop this picture\".";
 	
 	    function handleImage(){
 	    	var file = this.files[0];
@@ -323,8 +301,7 @@ var displayCurrent = function(){
 		                		context.drawImage(img, 0, 0, canvas.width, canvas.height);
 		                	}
 		                }
-		            	directUploadTest();
-	        			
+	        			resizeUpload();
 	        		};
 	        		
 	        		binaryReader.readAsArrayBuffer(file);
@@ -336,12 +313,7 @@ var displayCurrent = function(){
 	    	dataReader.readAsDataURL(file);
 	    	
 	    	canvas.style.display='block';
-	    	switchButton.innerHTML = "Switch to camera";
-	    	if(hasCamera == true){
-				switchButton.style.display='block';
-	    	}
 	    	submitShot.style.display='block';
-	    	directUploadButton.style.display = 'block';
 	    	takeShot.style.display='none';
 	    	retakeShot.style.display='none';
 	    	if(video.style.display == 'block'){
@@ -349,86 +321,37 @@ var displayCurrent = function(){
 	    	}
 		}
 	    
-	 // Wrapper around MPL-licensed http://www.nihilogic.dk/labs/binaryajax/binaryajax.js
-	 // to support JavaScript typed arrays since binary strings are not supported in IE 10
-	 var createBinaryFile = function(uintArray) {
-	     var data = new Uint8Array(uintArray);
-	     var file = new BinaryFile(data);
-
-	     file.getByteAt = function(iOffset) {
-	         return data[iOffset];
-	     };
-
-	     file.getBytesAt = function(iOffset, iLength) {
-	         var aBytes = [];
-	         for (var i = 0; i < iLength; i++) {
-	             aBytes[i] = data[iOffset  + i];
-	         }
-	         return aBytes;
-	     };
-
-	     file.getLength = function() {
-	         return data.length;
-	     };
-
-	     return file;
-	 };
-	    
-	    function directUploadTest(){
-	    	if(!tookPic && video.style.display == 'none'){
-	    		directUploadRatio = img.width/img.height;
-	    		if(directUploadRatio == (48/17)){
-		    		directUploadOk = true;
-		    		directUploadButton.style.display = 'auto';
-		    	}
-		    	else{
-		    		directUploadOk = false;
-		    		directUploadButton.style.display = 'none';
-		    	}
-		    }
-	    	else{
-	    		directUploadOk = false;
-	    		directUploadButton.style.display = 'none';
-	    	}
-	    }
+		 // Wrapper around MPL-licensed http://www.nihilogic.dk/labs/binaryajax/binaryajax.js
+		 // to support JavaScript typed arrays since binary strings are not supported in IE 10
+		 var createBinaryFile = function(uintArray) {
+		     var data = new Uint8Array(uintArray);
+		     var file = new BinaryFile(data);
 	
-		function switchCam(){
-	    	context.clearRect ( 0 , 0 , canvas.width, canvas.height );
-			if(video.style.display == 'block' || tookPic){
-				video.style.display = 'none';
-	        	retakeShot.style.display='none';
-	        	takeShot.style.display='none';
-				switchButton.innerHTML = "Switch to camera";
-				if(img != null){
-	            	canvas.width = img.width;
-	            	canvas.height = img.height;
-	            	context.drawImage(img, 0, 0, img.width, img.height, 0, 0, canvas.width, canvas.height);
-	            	canvas.style.display = 'block';
-	            	submitShot.style.display='block';
-	            	directUploadButton.style.display = 'block';
-	        	}
-	        	tookPic = false;
-			}
-			else{
-				video.style.display = 'block';
-				takeShot.style.display='block';
-	        	canvas.style.display = 'none';
-	        	submitShot.style.display = 'none';
-	        	directUploadButton.style.display = 'none';
-	        	if(img != null){
-	        		switchButton.style.display='block';
-	        	}
-				switchButton.innerHTML = "Switch to uploaded image";
-	        	tookPic = false;
-			}
-			directUploadTest();
-		}    
+		     file.getByteAt = function(iOffset) {
+		         return data[iOffset];
+		     };
+	
+		     file.getBytesAt = function(iOffset, iLength) {
+		         var aBytes = [];
+		         for (var i = 0; i < iLength; i++) {
+		             aBytes[i] = data[iOffset  + i];
+		         }
+		         return aBytes;
+		     };
+	
+		     file.getLength = function() {
+		         return data.length;
+		     };
+	
+		     return file;
+		 };
+	    
 	    
 	    var uploadText;
 	
 		//website requests permission to use your webcam
 	       	if (navigator.getUserMedia) {
-	       		instructions.innerHTML = "Instructions: Please choose a file that you would like to upload. You can also take a photo from your webcam. \nWhen you are ready to upload your image, please select \"Crop this picture\". If the image you upload has an aspect ratio of 48:17 (960px x 340px), you can upload it directly without cropping by selecting \"Upload Without Cropping\"";
+	       		instructions.innerHTML = "Instructions: Please choose a file that you would like to upload. You can also take a photo from your webcam. \nWhen you are ready to upload your image, please select \"Crop this picture\".";
 				videoLoader.style.display = "block";
 	    	}else {
 	            console.log("getUserMedia not supported");
@@ -448,8 +371,11 @@ var displayCurrent = function(){
 	            function(stream) {
 	                hasCamera = true;
 	                console.log("Camera Detected");
-	                switchCam();
 	                video.src = window.URL.createObjectURL(stream);
+	                $('#imageLoader').remove();
+	                $('#load-video').remove();
+	                video.style.display = "block";
+	                takeShot.style.display = "block";
 	                localMediaStream = stream;
 	            },
 	    
@@ -471,15 +397,10 @@ var displayCurrent = function(){
 	        	canvas.style.display='block';
 				retakeShot.style.display='block';
 	        	submitShot.style.display='block';
-	        	directUploadButton.style.display = 'block';
-	        	if(img != null){
-	        		switchButton.innerHTML="Switch to uploaded image";
-	        		switchButton.style.display='block';
-	        	}
 	        	context.drawImage(video, 0, 0);
 	        	picData = context.getImageData(0,0, canvas.width, canvas.height);
+	        	resizeUpload();
 	    	}
-	    	directUploadTest();
 		}
 	
 		function retake() {
@@ -487,7 +408,6 @@ var displayCurrent = function(){
 	    	canvas.style.display='none';
 	    	retakeShot.style.display='none';
 	    	submitShot.style.display='none';
-	    	directUploadButton.style.display = 'none';
 			video.style.display='block';
 	    	takeShot.style.display='block';
 		}
@@ -514,55 +434,12 @@ var displayCurrent = function(){
 	        	}
 	    	}
 	    });
-	    
-	    function directUpload(){
-			var dataURL = canvas.toDataURL("image/png",1.0);
-	    	
-			if((!tookPic && !uploadedCheck) || !directUploadOk){
-	    		alert("Image Error: no image data detected");
-	    	}
-	    	else{
-	
-	    		tookPic = false;
-	
-	    		if (!Date.now) {
-	    			Date.now = function() { return new Date().getTime(); }
-				}
-	
-	    		var uploadableImage = new Image();
-	    		uploadableImage.id = "uploadable-image";
-	    		uploadableImage.onload = function(){
-	    			var ajaxW = $('#uploadable-image').width();
-	
-	        		var coordsArray = [0, 0, $('#canvas').width(), $('#canvas').height(), $('#canvas').width(), $('#canvas').height(), ajaxW];
-	                console.log(coordsArray);
-	
-	    			$.ajax({
-	      				method: "POST",
-	        	   		url: "/content/girlscouts-vtk/controllers/vtk.include.imageStore.html?" + Date.now(), //random string to prevent ajax caching
-	                    data: { imageData: dataURL, coords: coordsArray.toString() },
-	    				success: uploadSuccess
-	    			})
-	      			.done(function( msg ) {
-	        	   		console.log( "Uploaded");
-	      			})
-	      			.fail(function(msg){
-	      				alert("Upload failed");
-	      				cancel();
-	      			});
-	    		}
-	    		uploadableImage.src = dataURL;
-	            
-	    	}
-	    }
 	
 	    imageLoader.addEventListener('change', handleImage, false);
 	    takeShot.addEventListener('click', snapshot, false);
 	    retakeShot.addEventListener('click', retake, false);
-	    switchButton.addEventListener('click', switchCam, false);
 	    submitShot.addEventListener('click', resizeUpload, false);
 	    videoLoader.addEventListener('click', loadVideo, false);
-	    directUploadButton.addEventListener('click', directUpload, false);
 	}
 	
 	var resizeableImage = function(image_data){
@@ -589,7 +466,14 @@ var displayCurrent = function(){
 	    submitCrop.appendChild(submitText);
 	    submitCrop.disabled = true;
 	    
-	    
+	    var directUploadButton = document.createElement("button");
+		directUploadButton.id = "direct-upload";
+		directUploadButton.className = "btn button";
+		directUploadButton.style.display = 'none';
+		// directUploadButton.style.float = "left";
+		directUploadButton.style.display = "none";
+		var directUploadText = document.createTextNode("Upload Without Cropping");
+		directUploadButton.appendChild(directUploadText);
 
 	    var cancelClearFix = document.createElement("div");
 	    cancelClearFix.className = "clearfix btn-wrap";
@@ -601,6 +485,7 @@ var displayCurrent = function(){
 	    modal.appendChild(cropButtons);
 	
 	    cropButtons.appendChild(submitCrop);
+	    cropButtons.appendChild(directUploadButton);
 	
 	    var image_target = document.createElement("img");
 	    	image_target.id = "resize-image";
@@ -611,9 +496,12 @@ var displayCurrent = function(){
 	
 	    init = function(){
 	    	
-	    	instructions.innerHTML = "Instructions: Click and drag across the image to select the area you would like to use for your troop photo. Note that you will not be able to change the aspect ratio. When finished, click \"Crop and Select\" to upload the image. You will receive an alert when the upload is complete."
+		    var directUploadOk = false;
+	    	
+	    	instructions.innerHTML = "Instructions: Click and drag across the image to select the area you would like to use for your troop photo. Note that you will not be able to change the aspect ratio. When finished, click \"Crop and Select\" to upload the image. If your image has an aspect ratio of 960px x 340px, you will have the option to upload without cropping. You will receive an alert when the upload is complete."
 	
 	        submitCrop.addEventListener('click', crop, false);
+	    	directUploadButton.addEventListener('click', directUpload, false);
 	        croppingTool.appendChild(image_target);
 	        $(croppingTool).width($(image_target).width());
 	    		$(croppingTool).css('min-height',$(image_target).height());
@@ -651,6 +539,41 @@ var displayCurrent = function(){
 		        upload();
 	    	}
 	    };
+	    
+	    directUpload = function(){
+var dataURL = image_target.src;
+	    	
+			if(!tookPic && !uploadedCheck || !directUploadOk){
+	    		alert("Image Error: no image data detected");
+	    	}
+	    	else{
+	
+	    		tookPic = false;
+	
+	    		if (!Date.now) {
+	    			Date.now = function() { return new Date().getTime(); }
+				}
+	
+	            var ajaxW = $('#resize-image').width();
+	
+	    		var coordsArray = [0, 0, image_target.width, image_target.height, image_target.width, image_target.height, ajaxW];
+	            console.log(coordsArray);
+	
+				$.ajax({
+	  				method: "POST",
+	    	   		url: "/content/girlscouts-vtk/controllers/vtk.include.imageStore.html?" + Date.now(), //random string to prevent ajax caching
+	                data: { imageData: dataURL, coords: coordsArray.toString() },
+					success: uploadSuccess
+				})
+	  			.done(function( msg ) {
+	    	   		console.log( "Uploaded");
+	  			})
+	  			.fail(function(msg){
+	  				alert("Upload failed");
+	  				cancel();
+	  			});
+	    	}
+	    }
 	
 	    upload = function(){
 	    	
@@ -701,6 +624,11 @@ var displayCurrent = function(){
 	    		onSelectChange: storeCoords,
 	    		parent: "#cropping-tool"
 	    	});
+	        
+	        if(image_target.width % 960 == 0 && image_target.height % 340 == 0){
+	        	directUploadButton.style.display = "block";
+	        	directUploadOk = true;
+	        }
 	    };
 	
 		image_target.src = image_data;
