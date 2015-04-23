@@ -3,17 +3,16 @@
     <ul class="column large-4">
              <li>DOB:
                             <%
-                            String mike= contact.getDob();
-                        //System.err.println("alexError ********* "+ mike ); 
-                            
-                            if( mike != null ){
+                           
+                            if( contact.getDob() != null ){
                             	try{
-                            		//FORMAT_MMddYYYY.format(fmt_yyyyMMdd.parse(mike))
-                            	     %><%=  mike %><%
-                            	}catch(Exception e){System.err.println("alexError: |"+mike+"|");e.printStackTrace();}
+                            		
+                            	     %><%=contact.getDob()%>*<%=  FORMAT_MMddYYYY.format( fmt_yyyyMMdd.parse(contact.getDob()) ) %><%
+                            	
+                            	}catch(Exception e){e.printStackTrace();}
                                     
                             }else{
-                            	//System.err.println("alexError: na");
+                            	
                                 %>N/A<%
                             }
                             %>

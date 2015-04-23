@@ -2035,10 +2035,7 @@ public class MeetingDAOImpl implements MeetingDAO {
 			classes.add(Attendance.class);
 
 			Mapper mapper = new AnnotationMapperImpl(classes);
-			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
-					mapper);
-			QueryManager queryManager = ocm.getQueryManager();
-
+			ObjectContentManager ocm = new ObjectContentManagerImpl(session, mapper);
 			attendance = (Attendance) ocm.getObject(mid);
 
 		} catch (Exception e) {

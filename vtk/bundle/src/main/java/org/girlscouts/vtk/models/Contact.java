@@ -4,7 +4,7 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
 @Node(jcrMixinTypes = "mix:lockable")
-public class Contact implements java.io.Serializable {
+public class Contact implements java.io.Serializable, Comparable<Contact> {
 
 	/**
 	 * 
@@ -183,6 +183,9 @@ public class Contact implements java.io.Serializable {
 		this.accountId = accountId;
 	}
 	
-	
+	public int compareTo(Contact other)
+	  {
+	    return id.compareTo(other.id);
+	  }
 	
 }

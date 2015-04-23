@@ -2,7 +2,8 @@
   <div class="column large-20 large-centered">
     <% for(int i=0; i<contacts.size(); i++) { 
       org.girlscouts.vtk.models.Contact contact = contacts.get(i);
-      java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, troop, contact);
+      //java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, troop, contact);
+      java.util.List<ContactExtras> infos = contactsExtras.get(contact);
       //-Works !!! String _email= java.net.URLEncoder.encode(contact.getFirstName() +"<"+contact.getEmail() +">");
       String _email = "";
       if(contact.getFirstName() != null && contact.getEmail() != null){

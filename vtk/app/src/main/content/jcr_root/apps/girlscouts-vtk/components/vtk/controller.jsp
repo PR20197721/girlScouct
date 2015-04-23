@@ -61,8 +61,7 @@
 								new Activity(
 										request.getParameter("newCustActivity_name"),
 										request.getParameter("newCustActivity_txt"),
-										dateFormat4.parse(request
-												.getParameter("newCustActivity_date")
+										VtkUtil.formatDate(VtkUtil.dateFormat4,request.getParameter("newCustActivity_date"))
 												+ " "
 												+ request
 														.getParameter("newCustActivity_startTime")

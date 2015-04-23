@@ -3,7 +3,9 @@ package org.girlscouts.vtk.auth.dao;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URLDecoder;
+import java.util.Locale;
 import java.util.Random;
+import java.util.TimeZone;
 
 import javax.jcr.LoginException;
 import javax.jcr.RepositoryException;
@@ -15,10 +17,12 @@ import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
+//import org.apache.commons.lang3.time.FastDateFormat;
 import org.apache.felix.scr.annotations.Reference;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
@@ -44,6 +48,9 @@ import org.slf4j.LoggerFactory;
 // TODO: Need thread pool here
 public class SalesforceDAO {
 	// private final Logger log = LoggerFactory.getLogger(SalesforceDAO.class);
+	
+	//FastDateFormat FORMAT_MMddYYYY =  FastDateFormat.getInstance("MM/dd/yyyy", TimeZone.getDefault(), Locale.US);
+	
 	private final Logger log = LoggerFactory.getLogger("vtk");
 
 	// @Reference
@@ -368,46 +375,31 @@ public class SalesforceDAO {
 
 	public java.util.List<Contact> getContacts(ApiConfig apiConfig,
 			String sfTroopId)  {
-		
-		
+	
 		CloseableHttpClient connection = null;
 		java.util.List<Contact> contacts = new java.util.ArrayList();
-		HttpClient client = new HttpClient();
-		//GetMethod method = new GetMethod(apiConfig.getWebServicesUrl()+ "/services/apexrest/troopMembers/?troopId=" + sfTroopId);
-		Random r = new Random() ;
-		HttpGet method = new HttpGet(apiConfig.getWebServicesUrl()+ "/services/apexrest/troopMembers/?troopId=" + sfTroopId +"&foo="+ r.nextInt());
-		
+		Random r= new Random();
+     	HttpGet method = new HttpGet(apiConfig.getWebServicesUrl()+ "/services/apexrest/troopMembers/?troopId=" + sfTroopId+"&rrr1="+r.nextInt());	
 		method.setHeader("Authorization", "OAuth " + getToken(apiConfig));
 		try {
-
-			connection = connectionFactory.getConnection();
-			
-			//method.setRequestHeader("Authorization", "OAuth "+ getToken(apiConfig));
-
-			// Execute the method.
-
-			//int statusCode = client.executeMethod(method);
-			HttpResponse resp = connection.execute(method);
+			connection = connectionFactory.getConnection();			
+			CloseableHttpResponse resp = connection.execute(method);
 			int statusCode = resp.getStatusLine().getStatusCode();
 			if (statusCode != HttpStatus.SC_OK) {
-
 				System.err.println("Method failed: " + resp.getStatusLine());//method.getStatusLine());
-
 			}
-
-			
-			HttpEntity entity = resp.getEntity();
-
-			// byte[] responseBody = method.getResponseBody();
-			entity.getContent();
-			String rsp = EntityUtils.toString(entity);
-	//System.err.println("tata lenContact: "+ rsp.length());		
-			
-			// Read the response body.
-
-			//byte[] responseBody = method.getResponseBody();
-
-			//String rsp = new String(responseBody);
+			HttpEntity entity=null;
+			String rsp=null;
+			try{		
+					entity = resp.getEntity();
+					entity.getContent();
+					rsp = EntityUtils.toString(entity);
+					EntityUtils.consume(entity);
+					method.releaseConnection();
+					method=null;
+			}finally{
+				resp.close();
+		    }
 
 			rsp = "{\"records\":" + rsp + "}";
 
@@ -473,9 +465,7 @@ public class SalesforceDAO {
 								.getString("LastName"));
 						contactSub.setAccountId(results.getJSONObject(i)
 								.getJSONObject("Account").getString("Id"));
-						// contactSub.setRole(
-						// results.getJSONObject(i).getJSONObject("Account").getJSONObject("rC_Bios__Preferred_Contact__r").getString("type")
-						// );
+						
 						contactSub.setType(1);// caregiver
 
 						java.util.List<Contact> contactsSub = new java.util.ArrayList<Contact>();
@@ -512,7 +502,7 @@ public class SalesforceDAO {
 		} finally {
 
 			// Release the connection.
-
+			if( method!=null)
 			method.releaseConnection();
 
 		}
@@ -523,14 +513,16 @@ public class SalesforceDAO {
 	}
 
 	//org wihtout connection pool
-	public java.util.List<Contact> getContacts_noPool(ApiConfig apiConfig,
+	public java.util.List<Contact> getContacts_NoPool(ApiConfig apiConfig,
 			String sfTroopId) {
 
 		java.util.List<Contact> contacts = new java.util.ArrayList();
 		HttpClient client = new HttpClient();
+		Random r= new Random();
+	
 		GetMethod method = new GetMethod(apiConfig.getWebServicesUrl()
-				+ "/services/apexrest/troopMembers/?troopId=" + sfTroopId);
-
+				+ "/services/apexrest/troopMembers/?troopId=" + sfTroopId+"&rrr="+r.nextInt() );
+System.err.println( "fooBar /services/apexrest/troopMembers/?troopId=" + sfTroopId+"&rrr="+r.nextInt());
 		try {
 
 			
@@ -661,7 +653,7 @@ public class SalesforceDAO {
 		return contacts;
 	}
 	//original troopInfo without Conn pool-just in case
-	public java.util.List<Troop> troopInfo_noPool(ApiConfig apiConfig,
+	public java.util.List<Troop> troopInfoXX(ApiConfig apiConfig,
 			String contactId) {
 
 		java.util.List<Troop> troops = new java.util.ArrayList();

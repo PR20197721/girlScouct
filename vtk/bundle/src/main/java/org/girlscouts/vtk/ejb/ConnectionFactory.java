@@ -34,7 +34,7 @@ public class ConnectionFactory {
 
 		connMrg = new PoolingHttpClientConnectionManager();//1, TimeUnit.SECONDS);
 		connMrg.setMaxTotal(200);
-		connMrg.setDefaultMaxPerRoute(10);
+		connMrg.setDefaultMaxPerRoute(30);
 		//connMrg.closeIdleConnections(1,  TimeUnit.SECONDS);
 		//connMrg.closeExpiredConnections();
 		

@@ -17,4 +17,3 @@
 <% } %>
 </div><!--panel-wrapper-->
 
-<%System.err.println("test22: "+new java.util.Date());%>
