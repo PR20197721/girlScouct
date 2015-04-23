@@ -39,7 +39,7 @@ public class VtkUtil {
 	public static final SimpleDateFormat FORMAT_Md = new SimpleDateFormat("M/d");
 
 	// FORMAT_yyyyMMdd	
-	public static final SimpleDateFormat fmt_yyyyMMdd = new SimpleDateFormat("yyyy-MM-dd");
+	public static final SimpleDateFormat FORMAT_yyyyMMdd = new SimpleDateFormat("yyyy-MM-dd");
 
 	public static boolean isLocation(java.util.List<Location> locations,
 			String locationName) {
