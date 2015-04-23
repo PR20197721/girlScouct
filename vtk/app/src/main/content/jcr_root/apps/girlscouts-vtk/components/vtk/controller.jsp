@@ -61,14 +61,14 @@
 								new Activity(
 										request.getParameter("newCustActivity_name"),
 										request.getParameter("newCustActivity_txt"),
-										VtkUtil.parseDate(VtkUtil.dateFormat4,request.getParameter("newCustActivity_date")
+										VtkUtil.parseDate(VtkUtil.FORMAT_FULL,request.getParameter("newCustActivity_date")
 												+ " "
 												+ request
 														.getParameter("newCustActivity_startTime")
 												+ " "
 												+ request
 														.getParameter("newCustActivity_startTime_AP")),
-										VtkUtil.parseDate(VtkUtil.dateFormat4,request.getParameter("newCustActivity_date")
+										VtkUtil.parseDate(VtkUtil.FORMAT_FULL,request.getParameter("newCustActivity_date")
 												+ " "
 												+ request
 														.getParameter("newCustActivity_endTime")
@@ -90,7 +90,7 @@
 									troop,
 									request.getParameter("calFreq"),
 									new org.joda.time.DateTime(
-											VtkUtil.parseDate(VtkUtil.dateFormat4,request
+											VtkUtil.parseDate(VtkUtil.FORMAT_FULL,request
 													.getParameter("calStartDt")
 													+ " "
 													+ request
@@ -1055,7 +1055,7 @@ System.err.println("manu reactActivity");
 	    	
 	    	   String dates = calendarUtil.getSchedDates(user, troop,
 	    			   request.getParameter("calFreq"),
-                       new org.joda.time.DateTime( VtkUtil.parseDate(VtkUtil.dateFormat4,request
+                       new org.joda.time.DateTime( VtkUtil.parseDate(VtkUtil.FORMAT_FULL,request
                                        .getParameter("calStartDt")+ " "+ request.getParameter("calTime")
                                        + " " + request.getParameter("calAP"))),
                        request.getParameter("exclDt"),

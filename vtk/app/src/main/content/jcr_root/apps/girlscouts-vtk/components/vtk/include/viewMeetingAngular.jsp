@@ -39,8 +39,8 @@
 		}
 %>
 				<div class="date">
-					<div class="cal"><span class="month"><%= FORMAT_MONTH.format(date)%><br/></span>
-						<span class="day"><%= FORMAT_DAY_OF_MONTH.format(date)%><br/></span>
+					<div class="cal"><span class="month"><%= VtkUtil.formatDate(VtkUtil.FORMAT_MONTH, date)%><br/></span>
+						<span class="day"><%= VtkUtil.formatDate(VtkUtil.FORMAT_DAY_OF_MONTH, date)%><br/></span>
 						
 					</div>
 				</div>

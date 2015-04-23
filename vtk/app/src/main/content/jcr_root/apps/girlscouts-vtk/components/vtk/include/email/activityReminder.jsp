@@ -9,16 +9,16 @@
 	Date endDate =_activity.getEndDate();
 	String endDateString = "";
 	if(searchDate.getMonth() !=  endDate.getMonth() ){
-		endDateString = FORMAT_MEETING_REMINDER.format(endDate);
+		endDateString = VtkUtil.formatDate(VtkUtil.FORMAT_MEETING_REMINDER, endDate);
     }else if(searchDate.getDate() !=  endDate.getDate() ){
-    	endDateString = FORMAT_MEETING_REMINDER.format(endDate);
+    	endDateString = VtkUtil.formatDate(VtkUtil.FORMAT_MEETING_REMINDER, endDate);
     }else {	
     	endDateString = VtkUtil.formatDate(VtkUtil.FORMAT_hhmm_AMPM,endDate);
     };
 	
 %>
 	<h4>Reminder Activity <%=_activity.getName() %>
-	<%= FORMAT_MEETING_REMINDER.format(searchDate) %> - <%=endDateString %></h4> 
+	<%= VtkUtil.formatDate(VtkUtil.FORMAT_MEETING_REMINDER, searchDate) %> - <%=endDateString %></h4> 
 	<p>Sent: None</p>
 
 	<h6>Address List</h6>
@@ -40,7 +40,7 @@
 	<h6>Compose Email</h6>
 	<section class="clearfix">
 		<label for="email_subj">Subject:</label>
-		<input type="text" id="email_subj" value="Reminder <%=troop.getTroop().getGradeLevel() %> Activity <%= FORMAT_MEETING_REMINDER.format(searchDate) %> - <%=endDateString%>" />	
+		<input type="text" id="email_subj" value="Reminder <%=troop.getTroop().getGradeLevel() %> Activity <%= VtkUtil.formatDate(VtkUtil.FORMAT_MEETING_REMINDER, searchDate) %> - <%=endDateString%>" />	
 	</section>
 
 	<div style="background-color:yellow;"></div>
@@ -53,7 +53,7 @@
 		<br/><p>Here are the details of our next activity:</p>
 		<table> 
 			<tr><th>Date:</th>
-				<td><%= FORMAT_MEETING_REMINDER.format(searchDate)%> - <%=endDateString%></td>
+				<td><%= VtkUtil.formatDate(VtkUtil.FORMAT_MEETING_REMINDER, searchDate)%> - <%=endDateString%></td>
 			</tr>
 			<tr><th>Location:</th>
 				<td>

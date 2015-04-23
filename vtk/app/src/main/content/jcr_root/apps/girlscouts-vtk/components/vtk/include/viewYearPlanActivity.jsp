@@ -38,8 +38,8 @@
 								if( troop.getYearPlan().getSchedule()!=null ) {
 							%>
 							<div class="cal">
-								<span class="month"><%=FORMAT_MONTH.format(activity.getDate())%><br /></span><span
-									class="day"><%=FORMAT_DAY_OF_MONTH.format(activity.getDate())%></span>
+								<span class="month"><%=VtkUtil.formatDate(VtkUtil.FORMAT_MONTH, activity.getDate())%><br /></span><span
+									class="day"><%=VtkUtil.formatDate(VtkUtil.FORMAT_DAY_OF_MONTH, activity.getDate())%></span>
 							</div>
 							<%
 								} else {

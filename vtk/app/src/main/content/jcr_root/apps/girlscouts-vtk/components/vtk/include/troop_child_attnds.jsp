@@ -13,7 +13,7 @@
                 if(infos.get(y).isAttended()) {
                    %>
                    <ul class="inline-list">
-                    <li><%=VtkUtil.formatDate(VtkUtil.fmr_ddmm,(java.util.Date)sched_bm_inverse.get( infos.get(y).getYearPlanComponent()))%></li>
+                    <li><%=VtkUtil.formatDate(VtkUtil.FORMAT_Md,(java.util.Date)sched_bm_inverse.get( infos.get(y).getYearPlanComponent()))%></li>
                    </ul>
                   <% 
                 }

@@ -25,18 +25,18 @@ public class VtkUtil {
 	public static final SimpleDateFormat FORMAT_AMPM = new SimpleDateFormat("a");
 	public static final SimpleDateFormat FORMAT_MONTH = new SimpleDateFormat("MMM");
 	public static final SimpleDateFormat FORMAT_DAY_OF_MONTH = new SimpleDateFormat("d");
-	public static final SimpleDateFormat FORMAT_MONTH_DAY = new SimpleDateFormat("MMM d");
-	public static final SimpleDateFormat FORMAT_MMM_dd_hhmm_AMPM = new SimpleDateFormat("MMM dd hh:mm a");
+	//public static final SimpleDateFormat FORMAT_MONTH_DAY = new SimpleDateFormat("MMM d");
+	//public static final SimpleDateFormat FORMAT_MMM_dd_hhmm_AMPM = new SimpleDateFormat("MMM dd hh:mm a");
 	public static final SimpleDateFormat FORMAT_MMMM_dd_hhmm_AMPM = new SimpleDateFormat("MMMM dd hh:mm a");
 	public static final SimpleDateFormat FORMAT_MEETING_REMINDER = new SimpleDateFormat("EEE MMM dd, yyyy hh:mm a");
-	public static final SimpleDateFormat FORMAT_MMM_dd_yyyy_hhmm_AMPM = new SimpleDateFormat( "MMM dd yyyy hh:mm a");
+	//public static final SimpleDateFormat FORMAT_MMM_dd_yyyy_hhmm_AMPM = new SimpleDateFormat( "MMM dd yyyy hh:mm a");
 	public static final SimpleDateFormat FORMAT_CALENDAR_DATE = new SimpleDateFormat( "MMM dd, yyyy hh:mm a");
 
 	// FORMAT_FULL
-	public static final SimpleDateFormat dateFormat4 = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+	public static final SimpleDateFormat FORMAT_FULL = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
 
 	// FORMAT_Md
-	public static final SimpleDateFormat fmr_ddmm = new SimpleDateFormat("M/d");
+	public static final SimpleDateFormat FORMAT_Md = new SimpleDateFormat("M/d");
 
 	// FORMAT_yyyyMMdd	
 	public static final SimpleDateFormat fmt_yyyyMMdd = new SimpleDateFormat("yyyy-MM-dd");

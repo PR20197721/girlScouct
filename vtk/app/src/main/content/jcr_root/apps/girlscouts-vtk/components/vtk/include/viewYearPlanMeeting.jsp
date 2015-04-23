@@ -28,7 +28,7 @@
 %>
 			<div class="date">
         <%if( troop.getYearPlan().getSchedule()!=null ) {%>
-				<div class="cal"><span class="month"><%= FORMAT_MONTH.format(searchDate)%><br/></span><span class="day"><%= FORMAT_DAY_OF_MONTH.format(searchDate)%><br/></span><span class="time hide-for-small"><%= VtkUtil.formatDate(VtkUtil.FORMAT_hhmm_AMPM, searchDate)%></span></div>
+				<div class="cal"><span class="month"><%= VtkUtil.formatDate(VtkUtil.FORMAT_MONTH, searchDate)%><br/></span><span class="day"><%= VtkUtil.formatDate(VtkUtil.FORMAT_DAY_OF_MONTH, searchDate)%><br/></span><span class="time hide-for-small"><%= VtkUtil.formatDate(VtkUtil.FORMAT_hhmm_AMPM, searchDate)%></span></div>
         <%} else {%>
                                 <div class="cal"><span class="month">Meeting<br/></span><span class="day"><%=meetingCount%></span></div>
         <%}%>
