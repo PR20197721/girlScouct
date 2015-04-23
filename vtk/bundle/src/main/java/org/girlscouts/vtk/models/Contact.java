@@ -18,7 +18,7 @@ public class Contact implements java.io.Serializable, Comparable<Contact> {
 	String path;
 
 	@Field
-	private String email, phone, firstName, lastName, address, address1, city, state, zip, suite, role, dob, country;
+	private String email, phone, firstName, lastName, address, address1, city, state, zip, suite, role, dob, country, contactId;
 
 	@Field Integer age, type;
 	
@@ -187,5 +187,13 @@ public class Contact implements java.io.Serializable, Comparable<Contact> {
 	  {
 	    return id.compareTo(other.id);
 	  }
+
+	public String getContactId() {
+		return contactId;
+	}
+
+	public void setContactId(String contactId) {
+		this.contactId = contactId;
+	}
 	
 }

@@ -10,6 +10,7 @@
           _email= contact.getFirstName().replace(" ", "&nbsp;") + java.net.URLEncoder.encode("<"+contact.getEmail() +">");
       }
       Contact caregiver = VtkUtil.getSubContact( contact, 1);
+     
     %>
     <div class="row">
       <dl class="accordion-inner clearfix" data-accordion>
@@ -23,7 +24,8 @@
           <% } %>
           <span class="column large-4"><%=contact.getPhone() %></span>
         </dt>       
-        <%if(hasPermission(troop, Permission.PERMISSION_canViewMemberdDetail_TROOP_ID)){ %>
+        <%if(hasPermission(troop, Permission.PERMISSION_canViewMemberdDetail_TROOP_ID) ||
+        		user.getApiConfig().getUser().getContactId().equals(contact.getContactId() ) ){ %>
           <%@include file='troop_child_detail.jsp' %>
         <%} %>
       </dl>

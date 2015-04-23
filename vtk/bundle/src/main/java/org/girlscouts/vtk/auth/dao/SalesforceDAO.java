@@ -446,6 +446,7 @@ public class SalesforceDAO {
 								"rC_Bios__Role__c"));
 						contact.setAccountId(results.getJSONObject(i)
 								.getString("AccountId"));
+						contact.setContactId(results.getJSONObject(i).getString("Id"));
 						contact.setType(0);
 
 						// caregiver(rC_Bios__Preferred_Contact__r) per Sharif

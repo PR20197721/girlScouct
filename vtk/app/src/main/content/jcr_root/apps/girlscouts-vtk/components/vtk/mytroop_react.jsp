@@ -85,6 +85,8 @@ if(hasPermission(troop, Permission.PERMISSION_canViewOwnChildDetail_TROOP_ID)){ 
             org.girlscouts.vtk.models.Contact contact = contacts.get(i);
            // java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, troop, contact);
            java.util.List<ContactExtras> infos = contactsExtras.get( contact );
+           if(!user.getApiConfig().getUser().getContactId().equals(contact.getContactId() ) )
+        		continue;   
             %>
 			  <div class="column large-24 large-centered mytroop">
 			    <dl class="accordion" data-accordion>
