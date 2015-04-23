@@ -6,7 +6,7 @@
 				<div class="date">
 		    	<p class="month"><%= FORMAT_MONTH.format(activity.getDate())%></p>
 		      <p class="day"><%= FORMAT_DAY_OF_MONTH.format(activity.getDate())%></p>
-		      <p class="hour"><%= FORMAT_hhmm_AMPM.format(date) %></p>
+		      <p class="hour"><%= VtkUtil.formatDate(VtkUtil.FORMAT_hhmm_AMPM, date) %></p>
 			  </div>
 			</div><!--/square-->
 		</div>

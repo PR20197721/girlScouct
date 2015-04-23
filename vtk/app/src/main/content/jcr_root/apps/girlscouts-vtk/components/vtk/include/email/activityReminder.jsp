@@ -13,7 +13,7 @@
     }else if(searchDate.getDate() !=  endDate.getDate() ){
     	endDateString = FORMAT_MEETING_REMINDER.format(endDate);
     }else {	
-    	endDateString = FORMAT_hhmm_AMPM.format(endDate);
+    	endDateString = VtkUtil.formatDate(VtkUtil.FORMAT_hhmm_AMPM,endDate);
     };
 	
 %>

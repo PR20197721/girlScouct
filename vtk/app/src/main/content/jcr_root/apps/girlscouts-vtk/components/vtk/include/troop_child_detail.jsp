@@ -7,7 +7,7 @@
                             if( contact.getDob() != null ){
                             	try{
                             		
-                            	     %><%=contact.getDob()%>*<%=  FORMAT_MMddYYYY.format( fmt_yyyyMMdd.parse(contact.getDob()) ) %><%
+                            	     %><%=  VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY, VtkUtil.parseDate(VtkUtil.fmt_yyyyMMdd,contact.getDob()) ) %><%
                             	
                             	}catch(Exception e){e.printStackTrace();}
                                     
@@ -59,7 +59,7 @@
           <p>
           <% for(int y=0;y<infos.size();y++) {
               if(infos.get(y).isAttended()) {
-                out.println(fmr_ddmm.format(sched_bm_inverse.get( infos.get(y).getYearPlanComponent())));
+                out.println( VtkUtil.formatDate(VtkUtil.fmr_ddmm,(java.util.Date)sched_bm_inverse.get( infos.get(y).getYearPlanComponent())));
                 out.println((infos.size() > 1 && infos.size()-1 !=y) ? "," : "");
               }
           } %>
