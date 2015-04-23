@@ -48,7 +48,7 @@
             <label for="r_0"></label>
         </div>
         <div class="small-18 columns large-pull-2 medium-pull-2 small-pull-2">
-            <a href="/content/girlscouts-vtk/controllers/vtk.include.modals.modal_custom_year_plan.html" data-reveal-ajax="true" data-reveal-id="modal_custom_year_plan" onclick="return chgCustYearPlan('<%=troop.getYearPlan().getId()%>', '<%=troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan().getName()%>')">Create Your Own Year Plan</a>
+            <a onclick="return chgCustYearPlan('<%=troop.getYearPlan().getId()%>', '<%=troop.getYearPlan().getPath()%>', '<%=confMsg%>', '<%=troop.getYearPlan().getName()%>')">Create Your Own Year Plan</a>
             <p>Choose this option to create your own year plan using meetings from  our meeting library</p>
         </div>
       </div><!--/row-->
