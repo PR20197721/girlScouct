@@ -1,13 +1,16 @@
 <!-- PAGEID :: ./app/src/main/content/jcr_root/apps/girlscouts-vtk/components/vtk/mytroop_react.jsp -->
 <%@ page import="com.google.common.collect .*"%>
 <%
+
+
+java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras=null;
 	java.util.List<org.girlscouts.vtk.models.Contact> contacts = null;
 	if( isCachableContacts && session.getAttribute("vtk_cachable_contacts")!=null ) {
 		contacts = (java.util.List<org.girlscouts.vtk.models.Contact>) session.getAttribute("vtk_cachable_contacts");
 	}
 
 	if( contacts==null ){
-		contacts =	new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO).getContacts( user.getApiConfig(), troop.getSfTroopId() );
+		contacts =	new org.girlscouts.vtk.auth.dao.SalesforceDAO(troopDAO, connectionFactory).getContacts( user.getApiConfig(), troop.getSfTroopId() );
 		if( contacts!=null ) {
 			session.setAttribute("vtk_cachable_contacts" , contacts);
 		}
@@ -26,14 +29,18 @@
 				emailTo= emailTo.substring(1, emailTo.length());
 			}
 		}catch(Exception e){e.printStackTrace();}
-
+		//if(true)return;
 		java.util.Map<java.util.Date, YearPlanComponent> sched = null;
 		try{
-			sched = meetingUtil.getYearPlanSched(user, troop.getYearPlan(), true, true);
+			 //GOOD-sched = meetingUtil.getYearPlanSched(user, troop.getYearPlan(), true, true);
+			sched = meetingUtil.getYearPlanSched(user, troop.getYearPlan(), true, false);
 		}catch(Exception e){e.printStackTrace();}
-
+		
 		BiMap sched_bm = HashBiMap.create(sched);//com.google.common.collect.HashBiMap().create();
 		com.google.common.collect.BiMap sched_bm_inverse = sched_bm.inverse();
+//if(true)return;	
+		 contactsExtras = contactUtil.getContactsExtras( user,  troop, contacts);
+ 
 %>
 <%@include file="include/utility_nav.jsp"%>
 
@@ -99,7 +106,9 @@
     </script>
   </div>
 
-<%if(hasPermission(troop, Permission.PERMISSION_canViewOwnChildDetail_TROOP_ID)){ %>
+<%
+
+if(hasPermission(troop, Permission.PERMISSION_canViewOwnChildDetail_TROOP_ID)){ %>
   <div class="column large-24 large-centered mytroop">
 
     <dl class="accordion" data-accordion>
@@ -112,13 +121,18 @@
     </dl>
   </div>
 
-       <% for(int i=0; i<contacts.size(); i++) { 
+       <%
+     
+       for(int i=0; i<contacts.size(); i++) { 
             org.girlscouts.vtk.models.Contact contact = contacts.get(i);
-            java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, troop, contact);
+           // java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, troop, contact);
+           java.util.List<ContactExtras> infos = contactsExtras.get( contact );
+           if(!user.getApiConfig().getUser().getContactId().equals(contact.getContactId() ) )
+        		continue;   
             %>
 			  <div class="column large-24 large-centered mytroop">
 			    <dl class="accordion" data-accordion>
-      <dt data-target="panel_myChild_<%=i%>"><h3 class="on">Achievements for <%=contact.getFirstName() %></h3></a></dt>
+                <dt data-target="panel_myChild_<%=i%>"><h3 class="on">Achievements for <%=contact.getFirstName() %></h3></a></dt>
 			      <dd class="accordion-navigation">
 			        <div class="content <%=i==0 ? "active" : "" %>" id="panel_myChild_<%=i%>">
 			             <%@include file='include/troop_child_achievmts.jsp' %>
@@ -145,4 +159,7 @@
     </dl>
   </div>
     <% } %>
+
+
+
 

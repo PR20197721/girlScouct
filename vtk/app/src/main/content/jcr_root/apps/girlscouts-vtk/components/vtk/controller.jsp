@@ -61,16 +61,14 @@
 								new Activity(
 										request.getParameter("newCustActivity_name"),
 										request.getParameter("newCustActivity_txt"),
-										dateFormat4.parse(request
-												.getParameter("newCustActivity_date")
+										VtkUtil.parseDate(VtkUtil.FORMAT_FULL,request.getParameter("newCustActivity_date")
 												+ " "
 												+ request
 														.getParameter("newCustActivity_startTime")
 												+ " "
 												+ request
 														.getParameter("newCustActivity_startTime_AP")),
-										dateFormat4.parse(request
-												.getParameter("newCustActivity_date")
+										VtkUtil.parseDate(VtkUtil.FORMAT_FULL,request.getParameter("newCustActivity_date")
 												+ " "
 												+ request
 														.getParameter("newCustActivity_endTime")
@@ -92,7 +90,7 @@
 									troop,
 									request.getParameter("calFreq"),
 									new org.joda.time.DateTime(
-											dateFormat4.parse(request
+											VtkUtil.parseDate(VtkUtil.FORMAT_FULL,request
 													.getParameter("calStartDt")
 													+ " "
 													+ request
@@ -442,7 +440,7 @@
 			//}
 			if (email_to_gp.equals("true")) {
 				java.util.List<Contact> contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
-						troopDAO).getContacts(user.getApiConfig(),
+						troopDAO, connectionFactory).getContacts(user.getApiConfig(),
 						troop.getSfTroopId());
 				String emails = null;
 				for (int i = 0; i < contacts.size(); i++) {
@@ -630,7 +628,7 @@
 					boolean show = shows[i].equals("true");
 					Date date=null;
 					if(!dates[i].isEmpty()){
-						date = FORMAT_MMddYYYY.parse(dates[i]);
+						date = VtkUtil.parseDate(VtkUtil.FORMAT_MMddYYYY,dates[i]);
 					}
 					
 					Milestone m = new Milestone(blurb,show,date);
@@ -1057,7 +1055,7 @@ System.err.println("manu reactActivity");
 	    	
 	    	   String dates = calendarUtil.getSchedDates(user, troop,
 	    			   request.getParameter("calFreq"),
-                       new org.joda.time.DateTime(dateFormat4.parse(request
+                       new org.joda.time.DateTime( VtkUtil.parseDate(VtkUtil.FORMAT_FULL,request
                                        .getParameter("calStartDt")+ " "+ request.getParameter("calTime")
                                        + " " + request.getParameter("calAP"))),
                        request.getParameter("exclDt"),

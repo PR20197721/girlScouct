@@ -103,6 +103,14 @@ var $ = jQuery.noConflict();
 		  });
 		}
   }
+  function equilize_ul() {
+    $('#modal_custom_year_plan .clearfix .large-12:nth-of-type(2) ul').css('height',$('#modal_custom_year_plan .clearfix .large-12:nth-of-type(1) ul').height()+14);
+  }
+  
+  $(document).ajaxComplete(function( event,request, settings ) {
+ 	//	equilize_ul();
+	});
+  
 //all function calls should go here
   $(document).ready(function() {
   	 $(document).foundation({
@@ -112,25 +120,21 @@ var $ = jQuery.noConflict();
   	     close_on_background_click: false,
   	     open: function () { 
   	     	$('body').css({'overflow':'hidden'});
-  	     },
-  	     close: function () {
-  	     	$('body').css({'overflow':'inherit'})
-  	     },
-  	 	}
-  	 });
-  	 //select_tabs();
-  	 modal_height_on_open();
-  	 vtk_accordion();
-  	 validate_image();
-  	 resizeWindow();
-  	 if($('.tabs dd').length == 6) {
-  	 	$('.tabs dd').css('width','100%');
-  	 } 	
-  	 // if (navigator.userAgent.match(/msie/i) ) {
-  	 //   // alert(navigator.userAgent.match(/msie/i));
-  	 //   placeholder_IE9();
-  	 //   $('select').css('background-image', 'none');
-  	 // }
+	  	     	equilize_ul();
+	  	     },
+	  	     close: function () {
+	  	     	$('body').css({'overflow':'inherit'})
+	  	     },
+	  	 	}
+	  	 });
+	  	 //select_tabs();
+	  	 modal_height_on_open();
+	  	 vtk_accordion();
+	  	 validate_image();
+	  	 resizeWindow();
+	  	 if($('.tabs dd').length == 6) {
+	  	 	$('.tabs dd').css('width','100%');
+	  	 } 	 
   });
 	$(window).resize(function() {
 		modal_height_resize()

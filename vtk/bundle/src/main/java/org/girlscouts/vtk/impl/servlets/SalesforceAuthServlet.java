@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.Dictionary;
 
 import javax.net.ssl.HttpsURLConnection;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
 
 import org.apache.felix.scr.annotations.Activate;
@@ -77,7 +78,7 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 	protected void doGet(SlingHttpServletRequest request,
 			SlingHttpServletResponse response) {
 		String action = request.getParameter(ACTION);
-
+		
 		// if(true){ autoLogin(request, response); return; }
 
 		if (action == null) {
@@ -186,7 +187,10 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 			try {
 				String councilId = Integer.toString(apiConfig.getTroops()
 						.get(0).getCouncilCode());
-				redirectUrl = councilMapper.getCouncilUrl(councilId);
+				if( councilId==null || councilId.trim().equals("") )
+					redirectUrl = councilMapper.getCouncilUrl(getCouncilInClient(request));
+				else
+					redirectUrl = councilMapper.getCouncilUrl(councilId);
 			} catch (Exception e) {
 			    String refererCouncil = (String)session.getAttribute("refererCouncil");
 			    if (refererCouncil != null  && !refererCouncil.isEmpty()) {
@@ -215,7 +219,7 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 		redirectUrl = redirectUrl.contains("?") ? (redirectUrl = redirectUrl
 				+ "&isSignOutSalesForce=true") : (redirectUrl = redirectUrl
 				+ "?isSignOutSalesForce=true");
-
+System.err.println("tatayy:"+ redirectUrl +" :  "+getCouncilInClient(request));
 		redirect(response, redirectUrl);
 	}
 
@@ -248,8 +252,9 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 		if (code == null) {
 			log.error("In Salesforce callback but \"code\" parameter not returned. Quit.");
 			return;
-		}
-
+		}else
+			setCouncilInClient(response, request.getParameter("state") );
+System.err.println("Checking cookie: "+ getCouncilInClient(request));
 		SalesforceDAO dao = salesforceDAOFactory.getInstance();
 		ApiConfig config = dao.doAuth(code);
 		session.setAttribute(ApiConfig.class.getName(), config);
@@ -447,6 +452,29 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 
 		return elem;
 
+	}
+	
+	
+	public void setCouncilInClient(org.apache.sling.api.SlingHttpServletResponse response, String councilCode){
+		Cookie cookie = new Cookie("vtk_referer_council", councilCode);
+	    cookie.setMaxAge(-1);
+	    response.addCookie(cookie);
+	}
+	
+	public String getCouncilInClient(org.apache.sling.api.SlingHttpServletRequest request){
+		Cookie[] cookies = request.getCookies();
+		if (cookies != null) {
+			theCookie: for (int i = 0; i < cookies.length; i++) {
+				if (cookies[i].getName().equals("vtk_referer_council")) {
+					
+							return cookies[i].getValue();
+						
+
+				}
+
+			}
+		}
+		return null;
 	}
 
 }

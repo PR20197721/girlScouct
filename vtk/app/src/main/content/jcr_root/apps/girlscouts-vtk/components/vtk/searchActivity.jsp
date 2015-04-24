@@ -31,8 +31,8 @@ java.util.List <org.girlscouts.vtk.models.Activity> activities =  (java.util.Lis
 	%>
 		<li class="searchResultsItem" > 
 			<h4 class="activityName"><%=activities.get(i).getName()%></h4>
-			<p class="activityDate"><strong>Date: <%=activities.get(i).getDate()==null? "" : FORMAT_MEETING_REMINDER.format(activities.get(i).getDate()) %> - 
-			<%=activities.get(i).getEndDate()==null ? "" : FORMAT_MEETING_REMINDER.format(activities.get(i).getEndDate()) %></strong></p>
+			<p class="activityDate"><strong>Date: <%=activities.get(i).getDate()==null? "" : VtkUtil.formatDate(VtkUtil.FORMAT_MEETING_REMINDER, activities.get(i).getDate()) %> - 
+			<%=activities.get(i).getEndDate()==null ? "" : VtkUtil.formatDate(VtkUtil.FORMAT_MEETING_REMINDER, activities.get(i).getEndDate()) %></strong></p>
 			<p class="activityLocation"><strong>Location:
 			  <%=activities.get(i).getLocationName()==null ? "" : activities.get(i).getLocationName() %>
 				<%=activities.get(i).getLocationAddress()==null ? "Currently no location" : activities.get(i).getLocationAddress() %>

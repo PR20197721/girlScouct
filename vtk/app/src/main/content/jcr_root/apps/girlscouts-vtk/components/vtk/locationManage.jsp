@@ -1,4 +1,4 @@
-<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*" %>
+<%@ page import="java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*, org.girlscouts.vtk.utils.VtkUtil" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <cq:defineObjects/>
 <%@include file="include/session.jsp"%>
@@ -51,7 +51,7 @@ if( locations==null || locations.size()<=0){
                 %>
             		<li>
                   <input type="checkbox" id="chbx_<%=i%>_<%=num%>" name="<%=location.getName() %>" value="<%=date%>" <%= mLoc.equals(location.getPath() ) ? "CHECKED" : ""%> />
-                  <label for="chbx_<%=i%>_<%=num%>"><p><span class="date"><%=FORMAT_MMddYYYY.format(date) %></span></p></label>
+                  <label for="chbx_<%=i%>_<%=num%>"><p><span class="date"><%=VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY,date) %></span></p></label>
             		<%if( ((MeetingE)_comp).getCancelled()!=null && ((MeetingE)_comp).getCancelled().equals("true")){%>
             			<span class="alert">(Cancelled)</span>
             				<% } %>
@@ -59,7 +59,7 @@ if( locations==null || locations.size()<=0){
               <% 
                   }else{
               %>
-              		<li><%= mLoc.equals(location.getPath() ) ? "Activity day past" : ""%> <del><%=FORMAT_MMddYYYY.format(date) %></del></li>
+              		<li><%= mLoc.equals(location.getPath() ) ? "Activity day past" : ""%> <del><%=VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY,date) %></del></li>
               <% 
                 }
 
