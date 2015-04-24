@@ -7,6 +7,7 @@
 --%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
+<%@page import="java.util.Date" %>
 <%
 	String[] children = properties.get("children", String[].class);
 	String additionalCSS = properties.get("additional-css", "");
@@ -18,7 +19,7 @@
         %>
         <dl class="accordion" data-accordion><%
         for (int i=0; i<children.length; i++){
-        	String parsys = "parsys_" + i;
+        	String parsys = "parsys_" + new Date().getTime();
         	%><dt data-target="<%=parsys%>"><h6 class = "on"><%=children[i]%></dt>
         	<dd class="accordion-navigation">
         		<div class="content" id="<%=parsys%>">

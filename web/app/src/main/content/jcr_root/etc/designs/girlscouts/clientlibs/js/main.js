@@ -13,6 +13,21 @@ if (!Date.now) {
 function toggleParsys(s)
 {
     var componentPath = s;
+    
+    this.toggle = function()
+    {
+    	if (componentPath)
+        {
+    		var parsysComp = CQ.WCM.getEditable(componentPath);
+    		
+    		if(parsysComp.hidden == true){
+    			parsysComp.show();
+    		}
+    		else{
+    			parsysComp.hide();
+    		}
+        }
+    };
 
     this.hideParsys = function()
     {
