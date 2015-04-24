@@ -94,7 +94,7 @@ request.setAttribute("meetings", meetings);
     			<ul id="sortable1" class="connectedSortable" data-equalizer-watch="foo">
     			
     			  <c:forEach var="meeting" items="${meetings}">
-    			   <li class="ui-state-default" id="${meeting.path}"><p>${meeting.name}</p><p>${meeting.name}</p></li>
+    			   <li class="ui-state-default" id="${meeting.path}"><p>${meeting.name}</p><p>${meeting.cat}</p></li>
     			  </c:forEach>
     			
     			</ul> 
