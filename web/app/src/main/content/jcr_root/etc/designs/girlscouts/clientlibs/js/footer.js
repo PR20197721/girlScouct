@@ -54,9 +54,19 @@
       modal.css('margin-left','');
     }
   }
+  function vtk_accordion() {
+    $('.accordion dt > :first-child').on('click', function() {
+      var target = $(this).parent().data('target');
+      var toggle = $(this);
+      $('#' + target).slideToggle('slow');
+      $(toggle).toggleClass('on');
+        return false;
+    });
+  }
 $(document).ready(function(){
  resizeWindow();
  addClassGrid();
+ vtk_accordion();
  attendance_popup_width();
 })
 $(window).load(function(){
