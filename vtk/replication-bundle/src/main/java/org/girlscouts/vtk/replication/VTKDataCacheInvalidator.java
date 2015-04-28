@@ -52,9 +52,7 @@ public class VTKDataCacheInvalidator implements Job {
         lock = new Object();
         paths = new HashSet<String>();
         httpClient = new HttpClient();
-        System.out.println("@@@@@@@@Http Client Class is" + httpClient.getClass().getCanonicalName());
         Session session = repository.loginAdministrative(null);
-        System.out.println("@@@@@@@@Session Class is" + session.getClass().getCanonicalName());
         flushUri = session.getNode(FLUSH_NODE).getProperty(FLUSH_PROPERTY).getString();
         session.logout();
     }
@@ -95,7 +93,6 @@ public class VTKDataCacheInvalidator implements Job {
 
     protected void schedule() {
         try {
-        	System.out.println("JOB WAS SCHEDULED HERE");
             scheduler.fireJobAt(JOB_NAME, this, null, new Date(System.currentTimeMillis() + INTERVAL));
            
         } catch (Exception e) {
@@ -108,7 +105,6 @@ public class VTKDataCacheInvalidator implements Job {
         // Heavy lifting that does not require synchronization.
         log.debug("==================Invalidating cache: ");
         GetMethod get = new GetMethod(flushUri);
-        System.out.println("@@@@@@@@Getmethod Class is" + get.getClass().getCanonicalName());
         for (String path : paths) {
             log.debug("Path: " + path);
             get.setRequestHeader("CQ-Action", "Delete");
@@ -121,15 +117,15 @@ public class VTKDataCacheInvalidator implements Job {
                     log.error("Cannot invalidate this path: " + path + ". Putting back to the queue.");
                     addPath(path);
                 } else {
-                	System.out.println("Successfully invalidate the cache: " + path);
                     log.debug("Successfully invalidate the cache: " + path);
                 }
-                get.releaseConnection();
+                
             } catch (Exception e) {
-            	e.printStackTrace();
-            	System.out.println("Cannot invalidate this path: " + path + ". Putting back to the queue.");
+            	
                 log.debug("Cannot invalidate this path: " + path + ". Putting back to the queue.");
                 addPath(path);
+            } finally{
+            	get.releaseConnection();
             }
         }
         log.debug("Invalidating cache done ==================");

@@ -4,6 +4,7 @@ import static org.easymock.EasyMock.anyObject;
 import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.powermock.api.easymock.PowerMock.expectNew;
@@ -26,6 +27,7 @@ import javax.jcr.Session;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.sling.jcr.api.SlingRepository;
+import org.girlscouts.vtk.testing.tools.CallPathJob;
 import org.girlscouts.vtk.testing.tools.VtkJob;
 import org.junit.Before;
 import org.junit.Test;
@@ -39,7 +41,7 @@ import org.quartz.SchedulerException;
 import org.quartz.impl.StdSchedulerFactory;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({HttpClient.class, GetMethod.class})
+@PrepareForTest({HttpClient.class, GetMethod.class, VTKDataCacheInvalidator.class})
 public class VTKDataCacheInavlidatorTest {
 
 	VTKDataCacheInvalidator invalidator;
@@ -87,7 +89,7 @@ public class VTKDataCacheInavlidatorTest {
 	
 	
 	@Before
-	public void init(){
+	public void setup(){
 		try {
 			//get the private static final fields
 			
@@ -126,6 +128,7 @@ public class VTKDataCacheInavlidatorTest {
 			
 			
 			mockScheduler.getContext().put("invalidator", invalidator);
+			mockScheduler.getContext().put("iter", 1);
 			
 			
 			
@@ -163,14 +166,13 @@ public class VTKDataCacheInavlidatorTest {
 		} catch (SchedulerException e) {
 			fail("Unable to intiate mock scheduler");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fail("Generic exception message is: " + e.getMessage());
 		} 
 	}
 	
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testSuccessfulScheduleStatusOtherSingleCall() {
+	public void testSuccessfulScheduleStatus200SingleCall() {
 		
 		try {
 			mockScheduler.start();
@@ -195,7 +197,10 @@ public class VTKDataCacheInavlidatorTest {
 			get.setRequestHeader(anyObject(String.class), anyObject(String.class));
 			expectLastCall().times(3);
 			
-			expect(httpClient.executeMethod(get)).andReturn(404);
+			get.releaseConnection();
+			expectLastCall();
+			
+			expect(httpClient.executeMethod(get)).andReturn(200);
 			
 			replayAll();
 			
@@ -217,10 +222,231 @@ public class VTKDataCacheInavlidatorTest {
 		} catch (SchedulerException e) {
 			fail("Unable to start mock scheduler");
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			fail("Generic expception fail mesage is: " + e.getMessage());
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testSuccessfulScheduleStatusOtherSingleCall() {
+		
+		try {
+			mockScheduler.start();
+			
+			//Setup basic initial expected behavior on relevant mocks
+			
+			expectNew(HttpClient.class).andReturn(httpClient);
+			
+			expect(repository.loginAdministrative(anyObject(String.class))).andReturn(session);
+			expect(session.getNode(flushNode)).andReturn(node);
+			expect(node.getProperty(flushProperty)).andReturn(property);
+			expect(property.getString()).andReturn(flushURI);
+			session.logout();
+			expectLastCall();
+			
+			
+			scheduler.fireJobAt(eq(jobName), eq(invalidator), (Map<String, Serializable>) eq(null), anyObject(Date.class));	
+			expectLastCall().andDelegateTo(delegatorScheduler).anyTimes();
+			
+			expectNew(GetMethod.class, flushURI).andReturn(get);
+			
+			get.setRequestHeader(anyObject(String.class), anyObject(String.class));
+			expectLastCall().times(3);
+			
+			get.releaseConnection();
+			expectLastCall();
+			
+			expect(httpClient.executeMethod(get)).andReturn(404);
+			
+			replayAll();
+			
+			invalidator.init();
+			invalidator.addPath("sample path");
+			Thread.sleep(2000);
+			
+			Field pathsField = invalidator.getClass().getDeclaredField("paths");
+			pathsField.setAccessible(true);
+			Set<String> paths = (Set<String>) pathsField.get(invalidator);
+			
+			assertFalse(paths.isEmpty());
+			
+			
+			verifyAll();
+			
+			mockScheduler.shutdown();
+			
+		} catch (SchedulerException e) {
+			fail("Unable to start mock scheduler");
+		} catch (Exception e) {
+			fail("Generic expception fail mesage is: " + e.getMessage());
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testSuccessfulScheduleStatusExceptionSingleCall() {
+		
+		try {
+			mockScheduler.start();
+			
+			//Setup basic initial expected behavior on relevant mocks
+			
+			expectNew(HttpClient.class).andReturn(httpClient);
+			
+			expect(repository.loginAdministrative(anyObject(String.class))).andReturn(session);
+			expect(session.getNode(flushNode)).andReturn(node);
+			expect(node.getProperty(flushProperty)).andReturn(property);
+			expect(property.getString()).andReturn(flushURI);
+			session.logout();
+			expectLastCall();
+			
+			
+			scheduler.fireJobAt(eq(jobName), eq(invalidator), (Map<String, Serializable>) eq(null), anyObject(Date.class));	
+			expectLastCall().andDelegateTo(delegatorScheduler).anyTimes();
+			
+			expectNew(GetMethod.class, flushURI).andReturn(get);
+			
+			get.setRequestHeader(anyObject(String.class), anyObject(String.class));
+			expectLastCall().times(3);
+			
+			get.releaseConnection();
+			expectLastCall();
+			
+			expect(httpClient.executeMethod(get)).andThrow(new RuntimeException("THIS SHOULD BE CAUGHT BY THE INVALIDATOR"));
+			
+			replayAll();
+			
+			invalidator.init();
+			invalidator.addPath("sample path");
+			Thread.sleep(2000);
+			
+			Field pathsField = invalidator.getClass().getDeclaredField("paths");
+			pathsField.setAccessible(true);
+			Set<String> paths = (Set<String>) pathsField.get(invalidator);
+			
+			assertFalse(paths.isEmpty());
+			
+			
+			verifyAll();
+			
+			mockScheduler.shutdown();
+			
+		} catch (SchedulerException e) {
+			fail("Unable to start mock scheduler");
+		} catch (Exception e) {
+			fail("Generic expception fail mesage is: " + e.getMessage());
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testUnsuccessfulSchedule() {
+		
+		try {
+			mockScheduler.start();
+			
+			//Setup basic initial expected behavior on relevant mocks
+			
+			expectNew(HttpClient.class).andReturn(httpClient);
+			
+			expect(repository.loginAdministrative(anyObject(String.class))).andReturn(session);
+			expect(session.getNode(flushNode)).andReturn(node);
+			expect(node.getProperty(flushProperty)).andReturn(property);
+			expect(property.getString()).andReturn(flushURI);
+			session.logout();
+			expectLastCall();
+			
+			
+			scheduler.fireJobAt(eq(jobName), eq(invalidator), (Map<String, Serializable>) eq(null), anyObject(Date.class));	
+			expectLastCall().andThrow(new RuntimeException()).anyTimes();
+			
+			replayAll();
+			
+			invalidator.init();
+			invalidator.addPath("sample path");
+			
+			
+			Field pathsField = invalidator.getClass().getDeclaredField("paths");
+			pathsField.setAccessible(true);
+			Set<String> paths = (Set<String>) pathsField.get(invalidator);
+			
+			assertFalse(paths.isEmpty());
+			
+			
+			verifyAll();
+			
+			mockScheduler.shutdown();
+			
+		} catch (SchedulerException e) {
+			fail("Unable to start mock scheduler");
+		} catch (Exception e) {
+			fail("Generic expception fail mesage is: " + e.getMessage());
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Test
+	public void testSuccessfulScheduleStatus200RaceConditions() {
+		
+		try {
+			mockScheduler.start();
+			
+			//Setup basic initial expected behavior on relevant mocks
+			
+			expectNew(HttpClient.class).andReturn(httpClient);
+			
+			expect(repository.loginAdministrative(anyObject(String.class))).andReturn(session);
+			expect(session.getNode(flushNode)).andReturn(node);
+			expect(node.getProperty(flushProperty)).andReturn(property);
+			expect(property.getString()).andReturn(flushURI);
+			session.logout();
+			expectLastCall();
+			
+			
+			scheduler.fireJobAt(eq(jobName), eq(invalidator), (Map<String, Serializable>) eq(null), anyObject(Date.class));	
+			expectLastCall().andDelegateTo(delegatorScheduler);
+			
+			expectNew(GetMethod.class, flushURI).andReturn(get);
+			
+			get.setRequestHeader(anyObject(String.class), anyObject(String.class));
+			expectLastCall().times(15);
+			
+			get.releaseConnection();
+			expectLastCall().times(5);
+			
+			expect(httpClient.executeMethod(get)).andReturn(200).times(5);
+			
+			replayAll();
+			
+			invalidator.init();
+			invalidator.addPath("sample path");
+			
+			mockScheduler.scheduleJob(newJob(CallPathJob.class).build() , newTrigger().startAt(new Date(new Date().getTime() + 100L)).build());
+			mockScheduler.scheduleJob(newJob(CallPathJob.class).build() , newTrigger().startAt(new Date(new Date().getTime() + 200L)).build());
+			mockScheduler.scheduleJob(newJob(CallPathJob.class).build() , newTrigger().startAt(new Date(new Date().getTime() + 300L)).build());
+			mockScheduler.scheduleJob(newJob(CallPathJob.class).build() , newTrigger().startAt(new Date(new Date().getTime() + 400L)).build());
+			
+			Thread.sleep(2000);
+			
+			Field pathsField = invalidator.getClass().getDeclaredField("paths");
+			pathsField.setAccessible(true);
+			Set<String> paths = (Set<String>) pathsField.get(invalidator);
+			
+			assertTrue(paths.isEmpty());
+			
+			
+			verifyAll();
+			
+			mockScheduler.shutdown();
+			
+		} catch (SchedulerException e) {
+			fail("Unable to start mock scheduler");
+		} catch (Exception e) {
+			fail("Generic expception fail mesage is: " + e.getMessage());
+		}
+	}
+	
+	
 	
 
 }
