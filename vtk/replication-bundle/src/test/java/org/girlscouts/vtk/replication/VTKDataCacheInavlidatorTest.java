@@ -41,6 +41,7 @@ import org.quartz.SchedulerException;
 import org.quartz.impl.StdSchedulerFactory;
 
 @RunWith(PowerMockRunner.class)
+//This is done in order to be able to intercept calls to constructors for the HttpClient and GetMethod classes within the VTKDataCacheInvalidator class
 @PrepareForTest({HttpClient.class, GetMethod.class, VTKDataCacheInvalidator.class})
 public class VTKDataCacheInavlidatorTest {
 
@@ -91,7 +92,8 @@ public class VTKDataCacheInavlidatorTest {
 	@Before
 	public void setup(){
 		try {
-			//get the private static final fields
+			//get the private static final fields because they are used in the method calls within the invalidator
+			//And we need to have the values in order to properly set expectations for the methods to be called
 			
 			Field intervalField = VTKDataCacheInvalidator.class.getDeclaredField("INTERVAL");
 			intervalField.setAccessible(true);
@@ -110,8 +112,10 @@ public class VTKDataCacheInavlidatorTest {
 			flushProperty = (String) flushPropertyField.get(null);
 			
 			
+			//Create a plain instance of the invalidator this is not a mock because we will need to actually test it
 			invalidator = new VTKDataCacheInvalidator();
 			
+			//Create a quartz scheduler to simulate the sling scheduler
 			mockScheduler = StdSchedulerFactory.getDefaultScheduler();
 			
 			
@@ -126,12 +130,13 @@ public class VTKDataCacheInavlidatorTest {
 		
 			
 			
-			
+			//Give the quartz scheduler access to the invalidator so that it can call execute on it
 			mockScheduler.getContext().put("invalidator", invalidator);
 			mockScheduler.getContext().put("iter", 1);
 			
 			
-			
+			//Because the fireJobAt method returns void and we need to change the logic it performs we can only relate on the delegate to 
+			//and that forces us to delegate to a class that implements the same interface we need to define the class below
 			delegatorScheduler = new org.apache.sling.commons.scheduler.Scheduler(){
 
 				//Useless implements because Easy Mock is inflexible in certain regards
@@ -170,25 +175,33 @@ public class VTKDataCacheInavlidatorTest {
 		} 
 	}
 	
+	//Test scenario when there is a successful job schedule on addpath and httpclient returns 200 status
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testSuccessfulScheduleStatus200SingleCall() {
 		
 		try {
+			//Start the quartz scheduler
 			mockScheduler.start();
 			
 			//Setup basic initial expected behavior on relevant mocks
 			
+			//Intercept the constructor of HttpClient and return a mocked httpclient
 			expectNew(HttpClient.class).andReturn(httpClient);
 			
+			//a call on the already injected mock repository gives us a mock session
 			expect(repository.loginAdministrative(anyObject(String.class))).andReturn(session);
+			//a call on the mock session gives us a mock node
 			expect(session.getNode(flushNode)).andReturn(node);
+			//a call on the mock node gives us a mock property
 			expect(node.getProperty(flushProperty)).andReturn(property);
+			//a call on the mock property gives us a predetermined flushuri string
 			expect(property.getString()).andReturn(flushURI);
+			
 			session.logout();
 			expectLastCall();
 			
-			
+			//Excpect scheduling call on the slingscheduler and delegate on to the anonymous class created above 
 			scheduler.fireJobAt(eq(jobName), eq(invalidator), (Map<String, Serializable>) eq(null), anyObject(Date.class));	
 			expectLastCall().andDelegateTo(delegatorScheduler);
 			
@@ -226,6 +239,8 @@ public class VTKDataCacheInavlidatorTest {
 		}
 	}
 	
+	//Test scenario when there is a successful job schedule on addpath and httpclient returns other status
+	//Logic is the same as above except the httpclient returns a different status than 200
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testSuccessfulScheduleStatusOtherSingleCall() {
@@ -245,7 +260,8 @@ public class VTKDataCacheInavlidatorTest {
 			expectLastCall();
 			
 			
-			scheduler.fireJobAt(eq(jobName), eq(invalidator), (Map<String, Serializable>) eq(null), anyObject(Date.class));	
+			scheduler.fireJobAt(eq(jobName), eq(invalidator), (Map<String, Serializable>) eq(null), anyObject(Date.class));
+			//We can expect the job to be rescheduled multiple times since the path hasn't been validated
 			expectLastCall().andDelegateTo(delegatorScheduler).anyTimes();
 			
 			expectNew(GetMethod.class, flushURI).andReturn(get);
@@ -282,6 +298,8 @@ public class VTKDataCacheInavlidatorTest {
 		}
 	}
 	
+	//Test scenario when there is a successful job schedule on addpath and httpclient throws an exception
+	//Same logic as above except the result of an exception
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testSuccessfulScheduleStatusExceptionSingleCall() {
@@ -338,6 +356,10 @@ public class VTKDataCacheInavlidatorTest {
 		}
 	}
 	
+	
+	//Test scenario when scheduling a task on addpath throws an exception
+	//We don't get as far as invalidate because an exception is thrown and the class goes straight to execute before any path is added
+	//To the paths
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testUnsuccessfulSchedule() {
@@ -384,6 +406,8 @@ public class VTKDataCacheInavlidatorTest {
 		}
 	}
 	
+	
+	//Test scenario when we have a successful schedule the return status for httpclient is 200 and we have Race conditions
 	@SuppressWarnings("unchecked")
 	@Test
 	public void testSuccessfulScheduleStatus200RaceConditions() {
@@ -421,6 +445,7 @@ public class VTKDataCacheInavlidatorTest {
 			invalidator.init();
 			invalidator.addPath("sample path");
 			
+			//We use the quartz scheduler to simulate four calls after the first one  but before the scheduled invalidate job to create race conditions
 			mockScheduler.scheduleJob(newJob(CallPathJob.class).build() , newTrigger().startAt(new Date(new Date().getTime() + 100L)).build());
 			mockScheduler.scheduleJob(newJob(CallPathJob.class).build() , newTrigger().startAt(new Date(new Date().getTime() + 200L)).build());
 			mockScheduler.scheduleJob(newJob(CallPathJob.class).build() , newTrigger().startAt(new Date(new Date().getTime() + 300L)).build());
