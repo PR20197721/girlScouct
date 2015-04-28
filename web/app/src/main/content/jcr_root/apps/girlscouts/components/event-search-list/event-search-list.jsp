@@ -75,11 +75,13 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 				
 				String startDateStr = dateFormat.format(startDate);
 				String startTimeStr = timeFormat.format(startDate);
-				String dateStr = startDateStr + ", " +startTimeStr;
+				String formatedStartDateStr = startDateStr + ", " +startTimeStr;
 
 				if(propNode.hasProperty("locationLabel")){
 					locationLabel=propNode.getProperty("locationLabel").getString();
 				}
+				
+				String formatedEndDateStr="";
 				Date endDate =null;
 				if(propNode.hasProperty("end")){
 					cale.setTime(fromFormat.parse(propNode.getProperty("end").getString()));
@@ -93,9 +95,11 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 					String endDateStr = dateFormat.format(endDate);
 					String endTimeStr = timeFormat.format(endDate);
 					if (!sameDay) {
-						dateStr += " - " + endDateStr +", " + endTimeStr;
+						//dateStr += " - " + endDateStr +", " + endTimeStr;
+						formatedEndDateStr= endDateStr +", " + endTimeStr;
 					}else {
-						dateStr += " - " + endTimeStr;
+						//dateStr += " - " + endTimeStr;
+						formatedEndDateStr= endTimeStr;
 					}
 					todate = propNode.getProperty("end").getString();
 					tdt = fromFormat.parse(todate);
@@ -109,7 +113,8 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
                 //Add time zone label to date string if event has one
                 String timeZoneLabel = propNode.hasProperty("timezone") ? propNode.getProperty("timezone").getString() : "";
 				if(!timeZoneLabel.isEmpty()){
-					dateStr = dateStr + " " + timeZoneLabel;
+					//dateStr = dateStr + " " + timeZoneLabel;
+					formatedEndDateStr = formatedEndDateStr + " " + timeZoneLabel;
 				}
 
 
@@ -147,15 +152,13 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 				
 				<a class="bold" href="<%=href%>" itemprop="name"><%=title %></a></h6>
 				<p class="bold">Date: 
-				    <%
-                    try{
-                        if( dateStr!=null && dateStr.contains("-") ){
-                               java.util.StringTokenizer t= new java.util.StringTokenizer( dateStr, "-" );
-                               %><span itemprop="startDate" content="<%=utcFormat.format(startDate)%>"><%=t.nextToken()%></span> - <span itemprop="stopDate" content="<%=(endDate==null ? "" : utcFormat.format(endDate))%>"><%=t.nextToken() %></span><%     
-                        }else{
-                        	%><%=dateStr %><% 
+				    <%try{%>
+                        <span itemprop="startDate" content="<%=utcFormat.format(startDate)%>"><%=formatedStartDateStr%></span> 
+                        <% if(formatedEndDateStr!=null && !formatedEndDateStr.equals("")){ %>
+                            - <span itemprop="stopDate" content="<%=(endDate==null ? "" : utcFormat.format(endDate))%>"><%=formatedEndDateStr %></span>
+                        <%     
                         }
-                    }catch(Exception eDateStr){eDateStr.printStackTrace();}
+                     }catch(Exception eDateStr){eDateStr.printStackTrace();}
                     %>
 				</p>
 <%if(!locationLabel.isEmpty()){ %>
