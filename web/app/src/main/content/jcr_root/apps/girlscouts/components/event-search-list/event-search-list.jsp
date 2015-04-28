@@ -8,6 +8,8 @@ DateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S");
 DateFormat dateFormat = new SimpleDateFormat("EEE MMM d yyyy");
 DateFormat timeFormat = new SimpleDateFormat("h:mm a");
 DateFormat toFormat = new SimpleDateFormat("EEE dd MMM yyyy");
+DateFormat utcFormat =new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");//2015-05-31T12:00
+utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 
 Date today = new Date();
 DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -78,9 +80,10 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 				if(propNode.hasProperty("locationLabel")){
 					locationLabel=propNode.getProperty("locationLabel").getString();
 				}
+				Date endDate =null;
 				if(propNode.hasProperty("end")){
 					cale.setTime(fromFormat.parse(propNode.getProperty("end").getString()));
-					Date endDate = cale.getTime();
+					endDate = cale.getTime();
 					Calendar cal2 = Calendar.getInstance();
 					Calendar cal3 = Calendar.getInstance();
 					cal2.setTime(startDate);
@@ -132,7 +135,7 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 					}
 %>
 
-		<div class="eventsList eventSection">
+		<div class="eventsList eventSection" itemtype="http://schema.org/Event">
 			<div class="leftCol">
 <%
 				String imgPath = propNode.getPath() + "/image";
@@ -142,13 +145,24 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 			<div class="rightCol">
 				<h6>
 				
-				<a class="bold" href="<%=href%>"><%=title %></a></h6>
-				<p class="bold">Date: <%=dateStr%></p>
+				<a class="bold" href="<%=href%>" itemprop="name"><%=title %></a></h6>
+				<p class="bold">Date: 
+				    <%
+                    try{
+                        if( dateStr!=null && dateStr.contains("-") ){
+                               java.util.StringTokenizer t= new java.util.StringTokenizer( dateStr, "-" );
+                               %><span itemprop="startDate" content="<%=utcFormat.format(startDate)%>"><%=t.nextToken()%></span> - <span itemprop="stopDate" content="<%=(endDate==null ? "" : utcFormat.format(endDate))%>"><%=t.nextToken() %></span><%     
+                        }else{
+                        	%><%=dateStr %><% 
+                        }
+                    }catch(Exception eDateStr){eDateStr.printStackTrace();}
+                    %>
+				</p>
 <%if(!locationLabel.isEmpty()){ %>
-				<p class="bold">Location: <%=locationLabel %></p>
+				<p class="bold" itemprop="location" itemscope itemtype="http://schema.org/Place">Location:  <span itemprop="name"><%=locationLabel %></span></p>
 <% } %>
 <% if(propNode.hasProperty("srchdisp")){ %>
-				<p><%=propNode.getProperty("srchdisp").getString()%></p>
+				<p itemprop="description"><%=propNode.getProperty("srchdisp").getString()%></p>
 <% } %>
 
 			</div>
