@@ -1708,15 +1708,6 @@
         width: 30%;
       } 
     }
-    // .large-block-grid-2 > li:nth-child(2n+1) {
-    //   width: 70%;
-    //   white-space: nowrap;
-    //   color:red;
-    // }
-    // .large-block-grid-2 > li:nth-child(2n) {
-    //   width: 30%;
-    //   color:red;
-    // }
     input[type="text"] {
       height: 30px;
       text-align: right;
@@ -1779,6 +1770,44 @@
         font-size: 14px;
       }
     }
+  }
+  #main .finances #financeAdminForm {
+   > .row:nth-of-type(1) {
+      section {
+        span {
+          float: left;
+          line-height: 2.3125rem;
+        }
+        select, input {
+          float: left;
+        }
+        &:first-child {
+          span {
+            width: 40%;
+          }
+          select {
+            width: 60%;
+            padding: 0 10px;
+          }
+        }
+        &:last-child {
+          span {
+            width: 20%;
+          }
+          input {
+            width: 80%;
+          }
+        }
+      }
+    }
+    .large-block-grid-2 > {
+      li:nth-child(2n+1) {
+        width: 85%;
+      }
+      li:nth-child(2n) {
+        width: 15%;
+      }
+    } 
   }
   p.info {
     padding-left: 30px;
