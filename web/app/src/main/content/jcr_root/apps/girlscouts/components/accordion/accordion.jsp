@@ -14,10 +14,12 @@
         %><p>**Edit this component to add accordions**</p><%
 	}
 	else{
+		String[] ids = new String[children.length];
         %>
         <dl class="accordion" data-accordion><%
         for (int i=0; i<children.length; i++){
         	String parsys = resource.getName() + "_parsys_" + i;
+        	ids[i] = parsys;
         	%><dt data-target="<%=parsys%>"><h6 class = "on"><%=children[i]%></dt>
         	<dd class="accordion-navigation">
         		<div class="content" id="<%=parsys%>">
@@ -27,11 +29,17 @@
         	<%
         }
         %></dl>
-        <script> CQ.WCM.on("editablesready", function(){
-        	$('dd .content').each(function(){
-        			window[$( this ).attr('id')] = new toggleParsys("<%= resource.getPath() + "/"%>" + $( this ).attr('id'));
-        			window[$( this ).attr('id')].hideParsys();
-        		});
-        	});</script><%
+        <script> 
+        	CQ.WCM.on("editablesready", function(){
+        	<%
+        		for(int i=0; i<ids.length; i++){
+        	%>
+        			window.<%= ids[i] %> = new toggleParsys("<%= resource.getPath() + "/" + ids[i] %>");
+        			window.<%= ids[i] %>.hideParsys();
+        	<%
+				}
+			%>
+        	});
+        	</script><%
 	}
 %>
