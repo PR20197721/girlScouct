@@ -10,8 +10,6 @@
 <%@page import="java.util.Date" %>
 <%
 	String[] children = properties.get("children", String[].class);
-	String additionalCSS = properties.get("additional-css", "");
-	String cssClasses = properties.get("cssClasses", "");
 	if(children == null){
         %><p>**Edit this component to add accordions**</p><%
 	}
@@ -19,7 +17,7 @@
         %>
         <dl class="accordion" data-accordion><%
         for (int i=0; i<children.length; i++){
-        	String parsys = "parsys_" + new Date().getTime();
+        	String parsys = resource.getName() + "_parsys_" + i;
         	%><dt data-target="<%=parsys%>"><h6 class = "on"><%=children[i]%></dt>
         	<dd class="accordion-navigation">
         		<div class="content" id="<%=parsys%>">
