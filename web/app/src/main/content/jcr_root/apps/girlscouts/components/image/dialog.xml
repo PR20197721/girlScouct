@@ -42,20 +42,10 @@
                 <newWindow
                     jcr:primaryType="cq:Widget"
                     defaultValue="{Boolean}false"
-                    fieldDescription="Click radio button if you want to open image link in New Window."
                     fieldLabel="Open Link in New Window"
-                    name="./blank"
+                    name="./newWindow"
+                    type="checkbox"
                     xtype="selection">
-                    <options jcr:primaryType="cq:WidgetCollection">
-                        <true
-                            jcr:primaryType="nt:unstructured"
-                            text="TRUE"
-                            value="true"/>
-                        <false
-                            jcr:primaryType="nt:unstructured"
-                            text="FALSE"
-                            value="false"/>
-                    </options>
                 </newWindow>
                 <description
                     jcr:primaryType="cq:Widget"

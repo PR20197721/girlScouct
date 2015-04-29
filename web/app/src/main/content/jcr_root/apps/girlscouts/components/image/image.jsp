@@ -28,8 +28,7 @@
     image.setSelector(".img"); // use image script
     image.setDoctype(Doctype.fromRequest(request));
 
-	String s = properties.get("./blank", "");
-	Boolean blank = Boolean.parseBoolean(s);
+	Boolean newWindow = properties.get("./newWindow", false);
 
     // add design information if not default (i.e. for reference paras)
     if (!currentDesign.equals(resourceDesign)) {
@@ -37,7 +36,7 @@
     }
     String divId = "cq-image-jsp-" + resource.getPath();
     %><div id="<%= divId %>"><% 
-        if(!blank) { 
+        if(!newWindow) { 
         image.draw(out); 
     	}
 		else { %>
