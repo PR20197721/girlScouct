@@ -20,7 +20,7 @@
   String text="";
   String imgPath="";
   DateFormat inFormatter = new SimpleDateFormat("MM/dd/yy");
-  String date="";
+  String date="", date_yyyyMMdd="";
   String str = "";
   String external_url = "";
   int strP = 0;
@@ -48,11 +48,13 @@
 	    		
 	    		title = getTitle(node);
 	            date = getDate(node);
+	            date_yyyyMMdd = getDate(node);
 				text = getText(node);			
 				external_url=genLink(resourceResolver,getExternalUrl(node));
 				request.setAttribute("path",item.getPath());
 				request.setAttribute("title",title);
 				request.setAttribute("date",date);
+				request.setAttribute("date_yyyyMMdd",date_yyyyMMdd);
 				request.setAttribute("text",text);
 				request.setAttribute("external_url",external_url);
 				
@@ -75,11 +77,13 @@
 	Node contentNode = content.getNode("jcr:content");
 	title=getTitle(contentNode);
 	date=getDate(contentNode);
+	date_yyyyMMdd = getDate_yyyyMMdd(contentNode);
 	external_url=genLink(resourceResolver,getExternalUrl(contentNode));
 	text = getText(contentNode);
 	request.setAttribute("path",hit.getPath());
 	request.setAttribute("title",title);
 	request.setAttribute("date",date);
+	request.setAttribute("date_yyyyMMdd",date_yyyyMMdd);
 	request.setAttribute("text",text);
 	request.setAttribute("external_url",external_url);
 	if(!featureNews.contains(hit.getPath())){

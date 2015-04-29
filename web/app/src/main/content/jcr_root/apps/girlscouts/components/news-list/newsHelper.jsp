@@ -61,4 +61,17 @@
 	 	return(nNode.hasProperty("external-url")?nNode.getProperty("external-url").getString():"");
 	 }catch(Exception e){return "";}
  }
+ 
+ public String getDate_yyyyMMdd(Node nNode){
+       DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+ 
+     String newsDateStr ="";
+     try{
+        if (nNode.hasProperty("date")) {
+            Date dateString = nNode.getProperty("date").getDate().getTime();
+            newsDateStr = dateFormat.format(dateString);            
+        }
+     }catch(Exception e){return "";}    
+    return newsDateStr;
+ }
 %>
