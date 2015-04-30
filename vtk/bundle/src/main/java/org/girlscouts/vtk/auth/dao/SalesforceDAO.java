@@ -523,7 +523,6 @@ public class SalesforceDAO {
 	
 		GetMethod method = new GetMethod(apiConfig.getWebServicesUrl()
 				+ "/services/apexrest/troopMembers/?troopId=" + sfTroopId+"&rrr="+r.nextInt() );
-System.err.println( "fooBar /services/apexrest/troopMembers/?troopId=" + sfTroopId+"&rrr="+r.nextInt());
 		try {
 
 			
@@ -658,15 +657,7 @@ System.err.println( "fooBar /services/apexrest/troopMembers/?troopId=" + sfTroop
 			String contactId) {
 
 		java.util.List<Troop> troops = new java.util.ArrayList();
-		
-
 		HttpClient client = new HttpClient();
-		// GetMethod method = new
-		// GetMethod("https://gsuat-gsmembers.cs11.force.com/members/services/apexrest/activeUserTroopData?userId="+
-		// contactId);
-		// System.err.println("**||** URL  https://gsuat-gsmembers.cs11.force.com/members/services/apexrest/activeUserTroopData?userId="+
-		// contactId);
-
 		GetMethod method = new GetMethod(apiConfig.getWebServicesUrl()
 				+ "/services/apexrest/activeUserTroopData?userId=" + contactId);
 
@@ -674,8 +665,6 @@ System.err.println( "fooBar /services/apexrest/troopMembers/?troopId=" + sfTroop
 				+ "/services/apexrest/activeUserTroopData?userId=" + contactId);
 
 		try {
-			// method.setRequestHeader("Authorization", "OAuth "
-			// +apiConfig.getAccessToken());
 			method.setRequestHeader("Authorization", "OAuth "
 					+ getToken(apiConfig));
 
