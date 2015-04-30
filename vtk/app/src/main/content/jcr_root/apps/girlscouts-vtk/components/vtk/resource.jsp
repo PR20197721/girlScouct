@@ -16,7 +16,8 @@
 <%@include file="include/session.jsp"%>
 <%
 	final String RESOURCE_SEARCH_PROMPT = "type in a search word or term here";
-	final String MEETING_AID_PATH = "/content/dam/girlscouts-vtk/global/aid";
+	final String GLOBAL_MEETING_AID_PATH = "/content/dam/girlscouts-vtk/global/aid";
+	final String LOCAL_MEETING_AID_PATH = "/content/dam/girlscouts-vtk/local/aid/meetings/" + troop.getTroop().getGradeLevel().toUpperCase();
 	final String TYPE_MEETING_AIDS = "meeting-aids";
 	final String TYPE_MEETING_OVERVIEWS = "meeting-overviews";
 
@@ -133,9 +134,13 @@
 							    long minorCount;
 							    if (currentMinor.getProperties().get("type", "").equals(TYPE_MEETING_AIDS)) {
 							        minorCount = countAidAssets(
-							                MEETING_AID_PATH,
+							                GLOBAL_MEETING_AID_PATH,
 							                queryBuilder,
 							                resourceResolver.adaptTo(Session.class)
+							        ) + countAidAssets(
+							        		LOCAL_MEETING_AID_PATH,
+							        		queryBuilder,
+							        		resourceResolver.adaptTo(Session.class)
 							        );
 							     } else if (currentMinor.getProperties().get("type", "").equals(TYPE_MEETING_OVERVIEWS)) {
 							        try {
@@ -178,10 +183,35 @@
 				if (categoryPage != null) {
 				    if (categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_AIDS)) {
 					  
-					    	
-					   java.util.List<org.girlscouts.vtk.models.Asset> gresources = yearPlanUtil.getAllResources(user,MEETING_AID_PATH+"/"); 
+				    	java.util.List<org.girlscouts.vtk.models.Asset> lresources = yearPlanUtil.getAllResources(user,LOCAL_MEETING_AID_PATH+"/"); 
+					   	java.util.List<org.girlscouts.vtk.models.Asset> gresources = yearPlanUtil.getAllResources(user,GLOBAL_MEETING_AID_PATH+"/"); 
 					 
 					    %><table width="90%" align="center" class="browseMeetingAids"><tr><th colspan="3">Meeting Aids</th></tr><% 
+			    		for(int i=0;i<lresources.size();i++){
+							org.girlscouts.vtk.models.Asset a = lresources.get(i);
+							String assetImage = org.girlscouts.vtk.utils.GSUtils.getDocTypeImageFromString(a.getDocType());
+				%>
+						   	<tr>
+
+								<td width="40">
+				<%
+							if (assetImage != null) {
+				%>	
+									<img src="<%= assetImage %>" width="40" height="40" border="0"/>
+				<%
+							}
+				%>
+								</td>
+						   		<td><a class="previewItem" href="<%=a.getRefId() %>" target="_blank"><%= a.getTitle() %></a> </td>
+						   		<td width="40">
+						   			<% if( hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID ) ){ %>
+						   				<input type="button" value="Add to Meeting" onclick="applyAids('<%=a.getRefId()%>', '<%=a.getTitle()%>', '<%=AssetComponentType.AID%>' )" class="button linkButton"/>
+						   			<%} %>
+						   			</td>
+
+							</tr>
+						   	<%
+						   }
 					    for(int i=0;i<gresources.size();i++){
 						org.girlscouts.vtk.models.Asset a = gresources.get(i);
 						String assetImage = org.girlscouts.vtk.utils.GSUtils.getDocTypeImageFromString(a.getDocType());
