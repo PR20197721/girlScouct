@@ -446,10 +446,10 @@ public class VTKDataCacheInavlidatorTest {
 			invalidator.addPath("sample path");
 			
 			//We use the quartz scheduler to simulate four calls after the first one  but before the scheduled invalidate job to create race conditions
-			mockScheduler.scheduleJob(newJob(CallPathJob.class).build() , newTrigger().startAt(new Date(new Date().getTime() + 100L)).build());
-			mockScheduler.scheduleJob(newJob(CallPathJob.class).build() , newTrigger().startAt(new Date(new Date().getTime() + 200L)).build());
-			mockScheduler.scheduleJob(newJob(CallPathJob.class).build() , newTrigger().startAt(new Date(new Date().getTime() + 300L)).build());
-			mockScheduler.scheduleJob(newJob(CallPathJob.class).build() , newTrigger().startAt(new Date(new Date().getTime() + 400L)).build());
+			mockScheduler.scheduleJob(newJob(CallPathJob.class).build() , newTrigger().startNow().build());
+			mockScheduler.scheduleJob(newJob(CallPathJob.class).build() , newTrigger().startNow().build());
+			mockScheduler.scheduleJob(newJob(CallPathJob.class).build() , newTrigger().startNow().build());
+			mockScheduler.scheduleJob(newJob(CallPathJob.class).build() , newTrigger().startNow().build());
 			
 			Thread.sleep(2000);
 			
