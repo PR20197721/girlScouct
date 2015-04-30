@@ -159,6 +159,7 @@ public class VtkUtil {
     	//for(int i=0;i<meetings.size();i++)
     	//	System.err.println("tatax sorting before: "+ i+" :" +meetings.get(i).getId());
     	
+    	if( meetings==null ) return meetings;
     	
     	Comparator<MeetingE> comp = new BeanComparator("id");
 		Collections.sort(meetings, comp);

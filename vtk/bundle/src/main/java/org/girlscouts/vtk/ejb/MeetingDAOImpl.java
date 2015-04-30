@@ -160,6 +160,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 		try {
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(MeetingE.class);
+			classes.add(Achievement.class);
+			classes.add(Attendance.class);
 			session = sessionFactory.getSession();
 
 			Mapper mapper = new AnnotationMapperImpl(classes);
