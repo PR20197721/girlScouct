@@ -313,7 +313,7 @@
 					session.putValue("VTK_ADMIN", u);
 			}
 			response.sendRedirect("/content/girlscouts-vtk/en/vtk.admin.home.html");
-
+/*
 		} else if (request.getParameter("sendMeetingReminderEmail_SF") != null) { //view SalesForce
 			String email_to_gp = request.getParameter("email_to_gp");
 			String email_to_sf = request.getParameter("email_to_sf");
@@ -328,6 +328,7 @@
 			emr.setEmailToSelf(email_to_sf);
 			emr.setEmailToTroopVolunteer(email_to_tv);
 			emailUtil.sendMeetingReminder(troop, emr);
+			*/
 		} else if (request.getParameter("previewMeetingReminderEmail") != null) {
 			String email_to_gp = request.getParameter("email_to_gp");
 			//String email_to_sf = request.getParameter("email_to_sf");
