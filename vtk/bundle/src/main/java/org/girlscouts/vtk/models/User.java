@@ -10,8 +10,7 @@ public class User implements Serializable {
 	private java.util.Set<Integer> permissions;
 	private String sid;// my http sessionId
 	private String currentYear; // could be uniq id -> String
-	
-	
+
 	public java.util.Set<Integer> getPermissions() {
 		return permissions;
 	}
@@ -43,6 +42,5 @@ public class User implements Serializable {
 	public void setCurrentYear(String currentYear) {
 		this.currentYear = currentYear;
 	}
-
 
 }

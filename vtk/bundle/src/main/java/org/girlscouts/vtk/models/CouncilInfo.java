@@ -21,7 +21,6 @@ public class CouncilInfo implements Serializable {
 		this.path = path;
 	}
 
-
 	public String getPath() {
 		return path;
 	}
@@ -30,7 +29,6 @@ public class CouncilInfo implements Serializable {
 		this.path = path;
 	}
 
-
 	public java.util.List<Milestone> getMilestones() {
 		return milestones;
 	}
@@ -38,6 +36,4 @@ public class CouncilInfo implements Serializable {
 	public void setMilestones(java.util.List<Milestone> milestones) {
 		this.milestones = milestones;
 	}
-
-
 }
