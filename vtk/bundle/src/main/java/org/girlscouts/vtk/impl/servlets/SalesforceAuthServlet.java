@@ -3,11 +3,9 @@ package org.girlscouts.vtk.impl.servlets;
 import java.io.DataOutputStream;
 import java.net.URL;
 import java.util.Dictionary;
-
 import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
-
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
@@ -23,13 +21,10 @@ import org.girlscouts.vtk.auth.dao.SalesforceDAO;
 import org.girlscouts.vtk.auth.dao.SalesforceDAOFactory;
 import org.girlscouts.vtk.auth.models.ApiConfig;
 import org.girlscouts.vtk.auth.models.User;
-
 import org.girlscouts.vtk.ejb.TroopUtil;
-//import org.girlscouts.vtk.dao.UserDAO;
 import org.girlscouts.vtk.helpers.ConfigListener;
 import org.girlscouts.vtk.helpers.ConfigManager;
 import org.girlscouts.vtk.helpers.CouncilMapper;
-import org.girlscouts.vtk.salesforce.Troop;
 import org.girlscouts.vtk.utils.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -109,9 +104,9 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 		String redirectUrl;
 		if (config == null || config.getId() == null) {
 			String refererCouncil = request.getParameter("refererCouncil");
-		    if (refererCouncil == null) {
-			           refererCouncil = "";
-            }
+			if (refererCouncil == null) {
+				refererCouncil = "";
+			}
 			redirectUrl = OAuthUrl
 					+ "/services/oauth2/authorize?prompt=login&response_type=code&client_id="
 					+ clientId + "&redirect_uri=" + callbackUrl + "&state="
@@ -156,9 +151,11 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 				e.printStackTrace();
 			}
 			try {
-				String councilId = Integer.toString(apiConfig.getTroops().get(0).getCouncilCode());
-				if( councilId==null || councilId.trim().equals("") )
-					redirectUrl = councilMapper.getCouncilUrl(VtkUtil.getCouncilInClient(request));
+				String councilId = Integer.toString(apiConfig.getTroops()
+						.get(0).getCouncilCode());
+				if (councilId == null || councilId.trim().equals(""))
+					redirectUrl = councilMapper.getCouncilUrl(VtkUtil
+							.getCouncilInClient(request));
 				else
 					redirectUrl = councilMapper.getCouncilUrl(councilId);
 			} catch (Exception e) {
@@ -194,7 +191,7 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 		} catch (java.lang.ClassCastException e) {
 			e.printStackTrace();
 		}
-		
+
 		if (apiConfig != null) {
 			log.error("In Salesforce callback but the ApiConfig already exists. Redirect.");
 			redirect(response, targetUrl);
@@ -204,8 +201,8 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 		if (code == null) {
 			log.error("In Salesforce callback but \"code\" parameter not returned. Quit.");
 			return;
-		}else
-			setCouncilInClient(response, request.getParameter("state") );
+		} else
+			setCouncilInClient(response, request.getParameter("state"));
 		SalesforceDAO dao = salesforceDAOFactory.getInstance();
 		ApiConfig config = dao.doAuth(code);
 		session.setAttribute(ApiConfig.class.getName(), config);
@@ -214,13 +211,15 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 		config.setUser(user);
 		org.girlscouts.vtk.models.User vtkUser = new org.girlscouts.vtk.models.User();
 		vtkUser.setApiConfig(config);
-		if(config.getTroops()!=null && config.getTroops().size()>0){
-				// CHN to LOAD PERMISSION HERE
-				vtkUser.setPermissions(config.getTroops().get(0).getPermissionTokens());
-		
-				// load config
-				vtkUser.setCurrentYear(getCurrentYear(request.getResourceResolver(),
-						vtkUser.getApiConfig().getTroops().get(0).getCouncilCode()));
+		if (config.getTroops() != null && config.getTroops().size() > 0) {
+			// CHN to LOAD PERMISSION HERE
+			vtkUser.setPermissions(config.getTroops().get(0)
+					.getPermissionTokens());
+
+			// load config
+			vtkUser.setCurrentYear(getCurrentYear(
+					request.getResourceResolver(), vtkUser.getApiConfig()
+							.getTroops().get(0).getCouncilCode()));
 		}
 		session.setAttribute(org.girlscouts.vtk.models.User.class.getName(),
 				vtkUser);
@@ -309,28 +308,6 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 		}
 		return isSucc;
 	}
-/*
-	private void autoLogin(SlingHttpServletRequest request,
-			SlingHttpServletResponse response) {
-		HttpSession session = request.getSession();
-		ApiConfig config = new ApiConfig();
-		config.setId("test");
-		config.setAccessToken("test");
-		config.setInstanceUrl("etst");
-		config.setUserId("userId");
-		config.setUser(new User());
-		java.util.List<Troop> troops = new java.util.ArrayList();
-		Troop troop = new Troop();
-		troop.setCouncilCode(1);
-		troop.setGradeLevel("1-Brownie");
-		troop.setTroopId("troopId");
-		troop.setTroopName("test");
-		troops.add(troop);
-		config.setTroops(troops);
-		session.setAttribute(ApiConfig.class.getName(), config);
-	
-	}
-	*/
 
 	private String getCurrentYear(ResourceResolver resourceResolver,
 			int councilId) {
@@ -342,7 +319,8 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 					.adaptTo(ValueMap.class);
 			elem = valueMap.get("currentYear", "");
 		} catch (Exception e) {
-			System.err.println("SalesforceAuthServlet: Current Year not set"); e.printStackTrace();
+			System.err.println("SalesforceAuthServlet: Current Year not set");
+			e.printStackTrace();
 		}
 		return (elem == null || elem.trim().equals("")) ? getCurrentYearDefault(resourceResolver)
 				: elem;
@@ -361,10 +339,12 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 		}
 		return elem;
 	}
-	
-	public void setCouncilInClient(org.apache.sling.api.SlingHttpServletResponse response, String councilCode){
+
+	public void setCouncilInClient(
+			org.apache.sling.api.SlingHttpServletResponse response,
+			String councilCode) {
 		Cookie cookie = new Cookie("vtk_referer_council", councilCode);
-	    cookie.setMaxAge(-1);
-	    response.addCookie(cookie);
+		cookie.setMaxAge(-1);
+		response.addCookie(cookie);
 	}
 }
