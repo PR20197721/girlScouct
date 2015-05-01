@@ -155,8 +155,7 @@ public java.util.List<String[]> rptVtkDataFromDb( org.girlscouts.vtk.ejb.Session
 	               javax.jcr.Value sfTroopId =  r.getValue("sfTroopId");
 	               javax.jcr.Value sfTroopName =  r.getValue("sfTroopName");
 	               
-	               System.err.println(">>> tata: "+ path +" : "+ (sfUserId ==null ? "" :  sfUserId.getString()) +" : "+ (lastMondif==null ? "" : lastMondif.getString()) +" : " + (sfTroopId==null ? "" : sfTroopId.getString()) );
-	               
+	                
 	               String rpt[] =new String[4];
 	               rpt[0] = sfUserId ==null ? "" :  sfUserId.getString();
 	               rpt[1] = lastMondif==null ? "" : lastMondif.getString();
