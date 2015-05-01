@@ -39,7 +39,7 @@ public class Troop implements Serializable {
 	private java.util.Date retrieveTime;
 	private EmailMeetingReminder sendingEmail; // tmp
 	private boolean isDbUpdate=false;
-	
+
 	public boolean isDbUpdate() {
 		return isDbUpdate;
 	}

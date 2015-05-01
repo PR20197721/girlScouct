@@ -388,22 +388,15 @@ System.err.println("Checking cookie: "+ VtkUtil.getCouncilInClient(request));
 			int councilId) {
 
 		String elem = null;
-
 		try {
-
 			String branch = councilMapper.getCouncilBranch(councilId + "");
-
 			branch += "/jcr:content";
-
 			ValueMap valueMap = (ValueMap) resourceResolver.resolve(branch)
 					.adaptTo(ValueMap.class);
-
 			elem = valueMap.get("currentYear", "");
-
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.err.println("SalesforceAuthServlet: Current Year not set"); e.printStackTrace();
 		}
-
 		return (elem == null || elem.trim().equals("")) ? getCurrentYearDefault(resourceResolver)
 				: elem;
 
