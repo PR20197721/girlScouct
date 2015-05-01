@@ -1,4 +1,5 @@
 package org.girlscouts.vtk.auth.dao;
+
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URLDecoder;
@@ -29,6 +30,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 // TODO: Need thread pool here
 public class SalesforceDAO {
 	private final Logger log = LoggerFactory.getLogger("vtk");
@@ -399,9 +401,9 @@ public class SalesforceDAO {
 		log.debug("**OAuth** troopInfo URL  " + apiConfig.getWebServicesUrl()
 				+ "/services/apexrest/activeUserTroopData?userId=" + contactId);
 		CloseableHttpClient connection = null;
-		HttpGet method =null;
+		HttpGet method = null;
 		try {
-			 method = new HttpGet(apiConfig.getWebServicesUrl()
+			method = new HttpGet(apiConfig.getWebServicesUrl()
 					+ "/services/apexrest/activeUserTroopData?userId="
 					+ contactId);
 			method.setHeader("Authorization", "OAuth " + getToken(apiConfig));
@@ -424,7 +426,8 @@ public class SalesforceDAO {
 				Troop troop = new Troop();
 				try {
 					troop.setCouncilCode(results.getJSONObject(i)
-							.getJSONObject("Parent").getInt("Council_Code__c")); // girls id
+							.getJSONObject("Parent").getInt("Council_Code__c")); // girls
+																					// id
 					troop.setCouncilId(results.getJSONObject(i)
 							.getJSONObject("Parent").getString("Account__c"));
 					troop.setGradeLevel(results.getJSONObject(i)
@@ -434,27 +437,23 @@ public class SalesforceDAO {
 							"ParentId"));
 					troop.setTroopName(results.getJSONObject(i)
 							.getJSONObject("Parent").getString("Name"));
-					troop.setRole(results.getJSONObject(i).getString("Job_Code__c"));
+					troop.setRole(results.getJSONObject(i).getString(
+							"Job_Code__c"));
 					log.debug("User Roll: "
 							+ org.girlscouts.vtk.auth.permission.RollType.DP);
-					org.girlscouts.vtk.auth.permission.RollType rollType = org.girlscouts.vtk.auth.permission.RollType.valueOf( troop.getRole() );//"DP");
+					org.girlscouts.vtk.auth.permission.RollType rollType = org.girlscouts.vtk.auth.permission.RollType
+							.valueOf(troop.getRole());// "DP");
 					/*
-					try {
-						if (contactId.equals("005Z0000002J5CYIA0")) {	
-							rollType = org.girlscouts.vtk.auth.permission.RollType
-									.valueOf("PA");
-							troop.setCouncilCode(603); // TO BE REMOVED : only 4
-														// test
-							if (troop.getTroopId().equals("701Z0000000gvSKIAY")) {
-								troop.setTroopId("701G0000000uQzTIAU");
-								troop.setTroopName("Troop 603104");
-								troop.setGradeLevel("2-Brownie");
-							}
-						}
-					} catch (Exception nn) {
-						nn.printStackTrace();
-					}
-					*/
+					 * try { if (contactId.equals("005Z0000002J5CYIA0")) {
+					 * rollType = org.girlscouts.vtk.auth.permission.RollType
+					 * .valueOf("PA"); troop.setCouncilCode(603); // TO BE
+					 * REMOVED : only 4 // test if
+					 * (troop.getTroopId().equals("701Z0000000gvSKIAY")) {
+					 * troop.setTroopId("701G0000000uQzTIAU");
+					 * troop.setTroopName("Troop 603104");
+					 * troop.setGradeLevel("2-Brownie"); } } } catch (Exception
+					 * nn) { nn.printStackTrace(); }
+					 */
 					switch (rollType) {
 					case PA:
 						troop.setPermissionTokens(Permission

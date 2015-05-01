@@ -4,11 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.StringTokenizer;
-
 import javax.jcr.Session;
-
-import org.apache.commons.beanutils.BeanComparator;
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
@@ -52,7 +48,6 @@ public class CouncilDAOImpl implements CouncilDAO {
 	@Reference
 	org.girlscouts.vtk.helpers.CouncilMapper councilMapper;
 
-
 	@Activate
 	void activate() {
 	}
@@ -67,7 +62,6 @@ public class CouncilDAOImpl implements CouncilDAO {
 					&& !userUtil.hasPermission(user.getPermissions(),
 							Permission.PERMISSION_LOGIN_ID))
 				throw new IllegalAccessException();
-
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Council.class);
@@ -81,11 +75,9 @@ public class CouncilDAOImpl implements CouncilDAO {
 			classes.add(JcrNode.class);
 			classes.add(Milestone.class);
 			classes.add(Troop.class);
-
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
-
 			council = (Council) ocm.getObject("/vtk/" + councilId);
 
 		} catch (Exception e) {
@@ -98,7 +90,6 @@ public class CouncilDAOImpl implements CouncilDAO {
 				ex.printStackTrace();
 			}
 		}
-
 		return council;
 	}
 
@@ -109,7 +100,6 @@ public class CouncilDAOImpl implements CouncilDAO {
 				&& !userUtil.hasPermission(user.getPermissions(),
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
-
 		Session session = null;
 		Council council = null;
 		try {
@@ -126,11 +116,9 @@ public class CouncilDAOImpl implements CouncilDAO {
 			classes.add(JcrNode.class);
 			classes.add(Milestone.class);
 			classes.add(Troop.class);
-
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
-
 			council = new Council("/vtk/" + councilId);
 			ocm.insert(council);
 			ocm.save();
@@ -159,18 +147,15 @@ public class CouncilDAOImpl implements CouncilDAO {
 		Council council = findCouncil(user, councilId);
 		if (council == null)
 			council = createCouncil(user, councilId);
-
 		return council;
 	}
 
 	public void updateCouncil(User user, Council council)
 			throws IllegalAccessException {
-
 		if (user != null
 				&& !userUtil.hasPermission(user.getPermissions(),
 						Permission.PERMISSION_LOGIN_ID))
 			throw new IllegalAccessException();
-
 		Session session = null;
 		try {
 			session = sessionFactory.getSession();
@@ -186,7 +171,6 @@ public class CouncilDAOImpl implements CouncilDAO {
 			classes.add(JcrNode.class);
 			classes.add(Milestone.class);
 			classes.add(Troop.class);
-
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
@@ -213,18 +197,8 @@ public class CouncilDAOImpl implements CouncilDAO {
 		sortMilestonesByDate(milestones);
 		return milestones;
 	}
-	
 
 	private CouncilInfo getCouncilInfo(String councilCode) {
-
-		//		String councilStr = councilMapper.getCouncilBranch(councilCode);
-		//		councilStr = councilStr.replace("/content/", "");
-
-		//		if (user != null
-		//				&& !userUtil.hasPermission(user.getPermissions(),
-		//						Permission.PERMISSION_LOGIN_ID))
-		//			throw new IllegalAccessException();
-
 		Session session = null;
 		CouncilInfo cinfo = null;
 		try {
@@ -240,28 +214,24 @@ public class CouncilDAOImpl implements CouncilDAO {
 			Query query = queryManager.createQuery(filter);
 
 			String path = "/vtk/" + councilCode + "/councilInfo";
-			if(session.itemExists(path)){
-				cinfo = (CouncilInfo)ocm.getObject(path);
-				if(cinfo==null) log.error("OCM failed to retrieve /vtk/"+councilCode+ "/councilInfo !!!");
-				if(cinfo.getMilestones()==null){
+			if (session.itemExists(path)) {
+				cinfo = (CouncilInfo) ocm.getObject(path);
+				if (cinfo == null)
+					log.error("OCM failed to retrieve /vtk/" + councilCode
+							+ "/councilInfo !!!");
+				if (cinfo.getMilestones() == null) {
 					List<Milestone> milestones = getAllMilestones(councilCode);
 					cinfo.setMilestones(milestones);
 					ocm.update(cinfo);
 					ocm.save();
 				}
-			}else{
-				if(!session.itemExists("/vtk/" + councilCode)){
-					//create council, need user permission
-					log.error("/vtk/"+councilCode+"does NOT exist!!!");
+			} else {
+				if (!session.itemExists("/vtk/" + councilCode)) {
+					// create council, need user permission
+					log.error("/vtk/" + councilCode + "does NOT exist!!!");
 				}
-				cinfo = new CouncilInfo(path); 
-				//				milestones = new ArrayList<Milestone>();
-				//				milestones.add(new Milestone("Cookie Sales Start",true,null));
-				//				milestones.add(new Milestone("Cookie Sales End",true,null));
-				//				milestones.add(new Milestone("Re-Enroll Girls",true,null));
+				cinfo = new CouncilInfo(path);
 				List<Milestone> milestones = getAllMilestones(councilCode);
-				//				Comparator<Milestone> comp = new BeanComparator("uid");
-				//				Collections.sort(milestones, comp);
 				cinfo.setMilestones(milestones);
 				ocm.insert(cinfo);
 				ocm.save();
@@ -280,45 +250,39 @@ public class CouncilDAOImpl implements CouncilDAO {
 		return cinfo;
 	}
 
-	public void updateCouncilMilestones(java.util.List<Milestone> milestones, String cid) {
-
-		//		if (user != null
-		//				&& !userUtil.hasPermission(user.getPermissions(),
-		//						Permission.PERMISSION_LOGIN_ID))
-		//			throw new IllegalAccessException();
+	public void updateCouncilMilestones(java.util.List<Milestone> milestones,
+			String cid) {
 		Session session = null;
 		try {
 			session = sessionFactory.getSession();
 			List<Class> classes = new ArrayList<Class>();
 			classes.add(Milestone.class);
 			classes.add(CouncilInfo.class);
-
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
-
 			CouncilInfo list = getCouncilInfo(cid);
 			java.util.List<Milestone> oldMilestones = list.getMilestones();
 			sortMilestonesByDate(oldMilestones);
-
-			int i=0;
+			int i = 0;
 			for (; i < oldMilestones.size(); i++) {
-				if(milestones.size()>i && oldMilestones.get(i).getBlurb().equals(milestones.get(i).getBlurb())){
+				if (milestones.size() > i
+						&& oldMilestones.get(i).getBlurb()
+								.equals(milestones.get(i).getBlurb())) {
 					oldMilestones.get(i).setDate(milestones.get(i).getDate());
 					oldMilestones.get(i).setShow(milestones.get(i).getShow());
 					continue;
-				}else{
+				} else {
 					oldMilestones.remove(i);
 					i--;
 				}
 			}
-			for(int k=i;k<milestones.size(); k++){
+			for (int k = i; k < milestones.size(); k++) {
 				oldMilestones.add(milestones.get(k));
 			}
 			list.setMilestones(oldMilestones);
 			ocm.update(list);
 			ocm.save();
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -330,7 +294,6 @@ public class CouncilDAOImpl implements CouncilDAO {
 			}
 		}
 	}
-
 
 	public java.util.List<Milestone> getAllMilestones(String councilCode) {
 		String councilPath = councilMapper.getCouncilBranch(councilCode);
@@ -344,19 +307,18 @@ public class CouncilDAOImpl implements CouncilDAO {
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
-			if(session.itemExists(councilPath+"/en/milestones")){
+			if (session.itemExists(councilPath + "/en/milestones")) {
 				QueryManager queryManager = ocm.getQueryManager();
 				Filter filter = queryManager.createFilter(Milestone.class);
-				filter.setScope(councilPath+"/en/milestones//");
-				//filter.setScope("/content/girlscouts-vtk//");
+				filter.setScope(councilPath + "/en/milestones//");
 				Query query = queryManager.createQuery(filter);
-				milestones = (List<Milestone>)ocm.getObjects(query);
+				milestones = (List<Milestone>) ocm.getObjects(query);
 				sortMilestonesByDate(milestones);
-			}else{
-				log.error(councilPath+"/en/milestones does NOT exist!");
+			} else {
+				log.error(councilPath + "/en/milestones does NOT exist!");
 				return milestones;
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -369,25 +331,24 @@ public class CouncilDAOImpl implements CouncilDAO {
 		}
 		return milestones;
 	}
-	private void sortMilestonesByDate(List<Milestone> milestones){
+
+	private void sortMilestonesByDate(List<Milestone> milestones) {
 		Comparator<Milestone> comp = new Comparator<Milestone>() {
-			public int compare(Milestone m1, Milestone m2){
-				if(m1.getDate()!=null){
-					if(m2.getDate()!=null){
+			public int compare(Milestone m1, Milestone m2) {
+				if (m1.getDate() != null) {
+					if (m2.getDate() != null) {
 						return m1.getDate().compareTo(m2.getDate());
-					}else{
+					} else {
 						return -1;
 					}
-				}else if(m2.getDate()!=null){
+				} else if (m2.getDate() != null) {
 					return 1;
-				}else{
+				} else {
 					return m1.getBlurb().compareTo(m2.getBlurb());
 				}
 			}
-			
+
 		};
 		Collections.sort(milestones, comp);
 	}
-
-
 }
