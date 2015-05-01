@@ -37,7 +37,7 @@
 	   	   </div>
 	   	</div>  
 	   	
-	   	
+	   	<ul class="searchResultsList" itemscope itemtype="http://schema.org/BreadcrumbList">
 		<%
 	    	Iterator<Page> items = list.getPages();
 	    	String listItemClass = null;
@@ -60,16 +60,18 @@
 				
 			%>
            <%}%>
+           
 	       <cq:include script="news-list-render.jsp"/> <% newsRendered++; %> 
+	       
 	    
 	<%}%>
+    </ul>
  
  
  
  
  
- 
- 
+ <ul class="searchResultsList" itemscope itemtype="http://schema.org/BreadcrumbList">
  <%
   for(Hit hit:resultsHits)
   {
@@ -88,10 +90,13 @@
 	request.setAttribute("external_url",external_url);
 	if(!featureNews.contains(hit.getPath())){
 	%>
+	
 	<cq:include script="news-list-render.jsp"/> <% newsRendered++; %> 
+
 	
 	<%}
   }
+ %></ul><%
 
 	if(newsRendered == 0){ %>
 

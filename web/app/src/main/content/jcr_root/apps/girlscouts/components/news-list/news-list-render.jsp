@@ -39,8 +39,8 @@
 		}
 	}
 %> 
-<ul class="searchResultsList">
-<li itemtype="http://schema.org/NewsArticle"> 
+
+<li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem"> 
 	<h2>
 <%if(!external_url.isEmpty()){ %>
 	<a href="<%=external_url%>" target="_blank" itemprop="name"><%=title%></a>
@@ -56,6 +56,6 @@
 <%
 	}
 %>
-		<article><%=text %></article>
+		<article itemscope itemprop="description"><%=text %></article>
 	</li>
-</ul>
+
