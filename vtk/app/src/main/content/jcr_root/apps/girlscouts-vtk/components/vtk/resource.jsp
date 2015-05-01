@@ -23,7 +23,6 @@
 
 	final QueryBuilder queryBuilder = sling.getService(QueryBuilder.class);
 %>
-<script>console.log("<%=troop..toUpperCase()%>");</script>
 <%-- VTK tab --%>
 <%
     String activeTab = "resource";
@@ -140,7 +139,9 @@
 							        ) + countLocalAidAssets(
 							        		LOCAL_MEETING_AID_PATH,
 							        		queryBuilder,
-							        		resourceResolver.adaptTo(Session.class)
+							        		resourceResolver.adaptTo(Session.class),
+							        		resourceResolver,
+							        		troop
 							        );
 							     } else if (currentMinor.getProperties().get("type", "").equals(TYPE_MEETING_OVERVIEWS)) {
 							        try {
@@ -182,11 +183,48 @@
 
 				if (categoryPage != null) {
 				    if (categoryPage.getProperties().get("type", "").equals(TYPE_MEETING_AIDS)) {
+				    	
+				    	%><table width="90%" align="center" class="browseMeetingAids"><tr><th colspan="3">Meeting Aids</th></tr><% 
+				    	
+				    	//LOCAL AIDS
+				    	try {
+						    String levelMeetingsRootPath = getMeetingsRootPath(troop);
+						    Resource levelMeetingsRoot = resourceResolver.resolve(levelMeetingsRootPath);
+						    Iterator<Resource> iter = levelMeetingsRoot.listChildren();
+						    while (iter.hasNext()) {
+						        Resource meetingResource = iter.next();
+						        Meeting meeting = yearPlanUtil.getMeeting(user,meetingResource.getPath());
+						        
+						        java.util.List<org.girlscouts.vtk.models.Asset> lresources = yearPlanUtil.getAllResources(user,LOCAL_MEETING_AID_PATH+"/"+meeting.getId()); 
+						        for(int i=0;i<lresources.size();i++){
+								    org.girlscouts.vtk.models.Asset la = lresources.get(i);
+									String lAssetImage = org.girlscouts.vtk.utils.GSUtils.getDocTypeImageFromString(la.getDocType());
+						%>
+								   	<tr>
+					
+										<td width="40">
+						<%
+									if (lAssetImage != null) {
+						%>	
+											<img src="<%= lAssetImage %>" width="40" height="40" border="0"/>
+						<%
+									}
+						%>
+										</td>
+								   		<td><a class="previewItem" href="<%=la.getRefId() %>" target="_blank"><%= la.getTitle() %></a> </td>
+								   		<td width="40">
+								   			<% if( hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID ) ){ %>
+								   				<input type="button" value="Add to Meeting" onclick="applyAids('<%=la.getRefId()%>', '<%=la.getTitle()%>', '<%=AssetComponentType.AID%>' )" class="button linkButton"/>
+								   			<%} %>
+								   			</td>
+					
+									</tr>
+								   	<%
+						        }
+							}
+					    } catch (Exception e) {}
 					  
 					   	java.util.List<org.girlscouts.vtk.models.Asset> gresources = yearPlanUtil.getAllResources(user,GLOBAL_MEETING_AID_PATH+"/"); 
-					 
-					    %><table width="90%" align="center" class="browseMeetingAids"><tr><th colspan="3">Meeting Aids</th></tr><% 
-					    displayLocalMeetingAids(user, troop, resourceResolver, yearPlanUtil);
 					    for(int i=0;i<gresources.size();i++){
 						org.girlscouts.vtk.models.Asset a = gresources.get(i);
 						String assetImage = org.girlscouts.vtk.utils.GSUtils.getDocTypeImageFromString(a.getDocType());
@@ -234,65 +272,18 @@
 
 <%!
 
-	private String displayLocalMeetingAids(User user, Troop troop, ResourceResolver rr, YearPlanUtil, yearPlanUtil) {
-		try {
-		    StringBuilder builder = new StringBuilder("<ul>");
-		    String levelMeetingsRootPath = getMeetingsRootPath(troop);
-		    Resource levelMeetingsRoot = rr.resolve(levelMeetingsRootPath);
-		    Iterator<Resource> iter = levelMeetingsRoot.listChildren();
-		    while (iter.hasNext()) {
-		        Resource resource = iter.next();
-		        Meeting meeting = yearPlanUtil.getMeeting(user,resource.getPath());
-	            String path = meeting.getPath();
-	            builder.append("<li>");
-	            String href = "\"/content/girlscouts-vtk/controllers/vtk.include.modals.modal_volunteer.html?resource=" + path + "\">";
-	    		String modalUrl = "<a data-reveal-id=\"modal_popup\" data-reveal-ajax=\"true\" href=" + href + meeting.getName() + "</a>";
-	    		builder.append(modalUrl);
-	            builder.append(" - "+ meeting.getBlurb()+"</li>");
-		    }
-		    
-		    java.util.List<org.girlscouts.vtk.models.Asset> lresources = yearPlanUtil.getAllResources(user,LOCAL_MEETING_AID_PATH+"/"); 
-		    org.girlscouts.vtk.models.Asset a = lresources.get(i);
-			String assetImage = org.girlscouts.vtk.utils.GSUtils.getDocTypeImageFromString(a.getDocType());
-%>
-		   	<tr>
-
-				<td width="40">
-<%
-			if (assetImage != null) {
-%>	
-					<img src="<%= assetImage %>" width="40" height="40" border="0"/>
-<%
-			}
-%>
-				</td>
-		   		<td><a class="previewItem" href="<%=a.getRefId() %>" target="_blank"><%= a.getTitle() %></a> </td>
-		   		<td width="40">
-		   			<% if( hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID ) ){ %>
-		   				<input type="button" value="Add to Meeting" onclick="applyAids('<%=a.getRefId()%>', '<%=a.getTitle()%>', '<%=AssetComponentType.AID%>' )" class="button linkButton"/>
-		   			<%} %>
-		   			</td>
-
-			</tr>
-		   	<%
-	
-	        builder.append("</ul>");
-	        return builder.toString();
-	    } catch (Exception e) {}
-	    return "";
-	}
-
 	private long countAllChildren(Page page) {
-		// TODO: Need an effecient way.
-		if (page == null) {
-		    return 0;
-		}
-
+		// TODO: Need an efficient way.
 		long count = 1;
 		Iterator<Page> iter = page.listChildren();
-		while (iter.hasNext()) {
-		    Page currentPage = iter.next();
-		    count += countAllChildren(currentPage);
+		if(!iter.hasNext()){
+			count = 0;
+		}
+		else{
+			while (iter.hasNext()) {
+			    Page currentPage = iter.next();
+			    count += countAllChildren(currentPage);
+			}
 		}
 		return count;
 	}
@@ -361,5 +352,17 @@
 	        return builder.toString();
 	    } catch (Exception e) {}
 	    return "";
+	}
+	
+	private long countLocalAidAssets(String path, QueryBuilder builder, Session session, ResourceResolver rr, Troop troop){
+		long count = 0;
+	    String levelMeetingsRootPath = getMeetingsRootPath(troop);
+	    Resource levelMeetingsRoot = rr.resolve(levelMeetingsRootPath);
+	    Iterator<Resource> iter = levelMeetingsRoot.listChildren();
+	    while (iter.hasNext()) {
+	    	count++;
+	    	iter.next();
+	    }
+	    return count;
 	}
 %>
