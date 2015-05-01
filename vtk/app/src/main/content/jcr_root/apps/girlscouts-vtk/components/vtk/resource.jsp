@@ -130,18 +130,24 @@
 							    // TODO: encode URL
 							    String link = "?category=" + currentMinor.getPath();
 							    String title = currentMinor.getTitle();
-							    long minorCount;
+							    long minorCount = 0;
+								    try{
+								    String levelMeetingsRootPath = getMeetingsRootPath(troop);
+								    Resource levelMeetingsRoot = resourceResolver.resolve(levelMeetingsRootPath);
+								    Iterator<Resource> iter = levelMeetingsRoot.listChildren();
+								    while (iter.hasNext()) {
+								    	Resource meetingResource = iter.next();
+								        Meeting meeting = yearPlanUtil.getMeeting(user,meetingResource.getPath());
+								        
+								        java.util.List<org.girlscouts.vtk.models.Asset> lresources = yearPlanUtil.getAllResources(user,LOCAL_MEETING_AID_PATH+"/"+meeting.getId());
+								    	minorCount+= lresources.size();
+								    }
+							    }catch(Exception e){}
 							    if (currentMinor.getProperties().get("type", "").equals(TYPE_MEETING_AIDS)) {
-							        minorCount = countAidAssets(
+							        minorCount += countAidAssets(
 							                GLOBAL_MEETING_AID_PATH,
 							                queryBuilder,
 							                resourceResolver.adaptTo(Session.class)
-							        ) + countLocalAidAssets(
-							        		LOCAL_MEETING_AID_PATH,
-							        		queryBuilder,
-							        		resourceResolver.adaptTo(Session.class),
-							        		resourceResolver,
-							        		troop
 							        );
 							     } else if (currentMinor.getProperties().get("type", "").equals(TYPE_MEETING_OVERVIEWS)) {
 							        try {
@@ -352,17 +358,5 @@
 	        return builder.toString();
 	    } catch (Exception e) {}
 	    return "";
-	}
-	
-	private long countLocalAidAssets(String path, QueryBuilder builder, Session session, ResourceResolver rr, Troop troop){
-		long count = 0;
-	    String levelMeetingsRootPath = getMeetingsRootPath(troop);
-	    Resource levelMeetingsRoot = rr.resolve(levelMeetingsRootPath);
-	    Iterator<Resource> iter = levelMeetingsRoot.listChildren();
-	    while (iter.hasNext()) {
-	    	count++;
-	    	iter.next();
-	    }
-	    return count;
 	}
 %>
