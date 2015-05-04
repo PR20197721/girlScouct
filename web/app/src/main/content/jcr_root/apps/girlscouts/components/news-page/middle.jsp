@@ -20,8 +20,13 @@
 	}
 %>
 				<br/>
-<cq:include path="middle/par/text/image" resourceType="girlscouts/components/image" />
-<cq:include path="middle/par/text" resourceType="girlscouts/components/text"/>
+				
+<div itemprop="image">
+    <cq:include path="middle/par/text/image" resourceType="girlscouts/components/image" />
+</div>
+<div itemprop="articleBody">
+    <cq:include path="middle/par/text" resourceType="girlscouts/components/text"/>
+</div>
 			</div>
 		</div>
 	</div>

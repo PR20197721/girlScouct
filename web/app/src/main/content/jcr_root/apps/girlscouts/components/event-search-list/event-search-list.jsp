@@ -140,8 +140,8 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 					}
 %>
 
-		<div class="eventsList eventSection" itemtype="http://schema.org/Event">
-			<div class="leftCol">
+		<div class="eventsList eventSection" itemtype="http://schema.org/ItemList">
+			<div class="leftCol" itemprop="image">
 <%
 				String imgPath = propNode.getPath() + "/image";
 %>
@@ -153,9 +153,9 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 				<a class="bold" href="<%=href%>" itemprop="name"><%=title %></a></h6>
 				<p class="bold">Date: 
 				    <%try{%>
-                        <span itemprop="startDate" content="<%=utcFormat.format(startDate)%>"><%=formatedStartDateStr%></span> 
+                        <span itemprop="startDate" itemscope itemtype="http://schema.org/Event" content="<%=utcFormat.format(startDate)%>"><%=formatedStartDateStr%></span> 
                         <% if(formatedEndDateStr!=null && !formatedEndDateStr.equals("")){ %>
-                            - <span itemprop="stopDate" content="<%=(endDate==null ? "" : utcFormat.format(endDate))%>"><%=formatedEndDateStr %></span>
+                            - <span itemprop="stopDate" itemscope itemtype="http://schema.org/Event" content="<%=(endDate==null ? "" : utcFormat.format(endDate))%>"><%=formatedEndDateStr %></span>
                         <%     
                         }
                      }catch(Exception eDateStr){eDateStr.printStackTrace();}
