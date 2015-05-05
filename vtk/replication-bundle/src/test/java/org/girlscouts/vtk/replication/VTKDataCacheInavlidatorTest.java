@@ -16,6 +16,7 @@ import static org.quartz.TriggerBuilder.newTrigger;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
@@ -158,6 +159,22 @@ public class VTKDataCacheInavlidatorTest {
 			};
 			
 			
+			//Intercept the constructor of HttpClient and return a mocked httpclient
+			expectNew(HttpClient.class).andReturn(httpClient);
+			
+			//a call on the already injected mock repository gives us a mock session
+			expect(repository.loginAdministrative(null)).andReturn(session);
+			//a call on the mock session gives us a mock node
+			expect(session.getNode(flushNode)).andReturn(node);
+			//a call on the mock node gives us a mock property
+			expect(node.getProperty(flushProperty)).andReturn(property);
+			//a call on the mock property gives us a predetermined flushuri string
+			expect(property.getString()).andReturn(flushURI);
+			
+			session.logout();
+			expectLastCall();
+			
+			
 			
 			
 		} catch (NoSuchFieldException e) {
@@ -178,28 +195,11 @@ public class VTKDataCacheInavlidatorTest {
 	//Test scenario when there is a successful job schedule on addpath and httpclient returns 200 status
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testSuccessfulScheduleStatus200SingleCall() {
+	public void addPathSuccessfulScheduleStatus200SingleCall() {
 		
 		try {
 			//Start the quartz scheduler
 			mockScheduler.start();
-			
-			//Setup basic initial expected behavior on relevant mocks
-			
-			//Intercept the constructor of HttpClient and return a mocked httpclient
-			expectNew(HttpClient.class).andReturn(httpClient);
-			
-			//a call on the already injected mock repository gives us a mock session
-			expect(repository.loginAdministrative(anyObject(String.class))).andReturn(session);
-			//a call on the mock session gives us a mock node
-			expect(session.getNode(flushNode)).andReturn(node);
-			//a call on the mock node gives us a mock property
-			expect(node.getProperty(flushProperty)).andReturn(property);
-			//a call on the mock property gives us a predetermined flushuri string
-			expect(property.getString()).andReturn(flushURI);
-			
-			session.logout();
-			expectLastCall();
 			
 			//Excpect scheduling call on the slingscheduler and delegate on to the anonymous class created above 
 			scheduler.fireJobAt(eq(jobName), eq(invalidator), (Map<String, Serializable>) eq(null), anyObject(Date.class));	
@@ -207,13 +207,20 @@ public class VTKDataCacheInavlidatorTest {
 			
 			expectNew(GetMethod.class, flushURI).andReturn(get);
 			
-			get.setRequestHeader(anyObject(String.class), anyObject(String.class));
-			expectLastCall().times(3);
+			get.setRequestHeader("CQ-Action", "Delete");
+			expectLastCall();
 			
-			get.releaseConnection();
+			get.setRequestHeader("CQ-Handle", "sample path");
+			expectLastCall();
+			
+			get.setRequestHeader("CQ-Path", "sample path");
 			expectLastCall();
 			
 			expect(httpClient.executeMethod(get)).andReturn(200);
+			
+			//Look into sequential restrictions for expectations of method execution
+			get.releaseConnection();
+			expectLastCall();
 			
 			replayAll();
 			
@@ -243,21 +250,12 @@ public class VTKDataCacheInavlidatorTest {
 	//Logic is the same as above except the httpclient returns a different status than 200
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testSuccessfulScheduleStatusOtherSingleCall() {
+	public void addPathSuccessfulScheduleStatusOtherSingleCall() {
 		
 		try {
 			mockScheduler.start();
 			
 			//Setup basic initial expected behavior on relevant mocks
-			
-			expectNew(HttpClient.class).andReturn(httpClient);
-			
-			expect(repository.loginAdministrative(anyObject(String.class))).andReturn(session);
-			expect(session.getNode(flushNode)).andReturn(node);
-			expect(node.getProperty(flushProperty)).andReturn(property);
-			expect(property.getString()).andReturn(flushURI);
-			session.logout();
-			expectLastCall();
 			
 			
 			scheduler.fireJobAt(eq(jobName), eq(invalidator), (Map<String, Serializable>) eq(null), anyObject(Date.class));
@@ -302,21 +300,10 @@ public class VTKDataCacheInavlidatorTest {
 	//Same logic as above except the result of an exception
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testSuccessfulScheduleStatusExceptionSingleCall() {
+	public void addPathSuccessfulScheduleStatusExceptionSingleCall() {
 		
 		try {
 			mockScheduler.start();
-			
-			//Setup basic initial expected behavior on relevant mocks
-			
-			expectNew(HttpClient.class).andReturn(httpClient);
-			
-			expect(repository.loginAdministrative(anyObject(String.class))).andReturn(session);
-			expect(session.getNode(flushNode)).andReturn(node);
-			expect(node.getProperty(flushProperty)).andReturn(property);
-			expect(property.getString()).andReturn(flushURI);
-			session.logout();
-			expectLastCall();
 			
 			
 			scheduler.fireJobAt(eq(jobName), eq(invalidator), (Map<String, Serializable>) eq(null), anyObject(Date.class));	
@@ -362,22 +349,10 @@ public class VTKDataCacheInavlidatorTest {
 	//To the paths
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testUnsuccessfulSchedule() {
+	public void addPathUnsuccessfulSchedule() {
 		
 		try {
 			mockScheduler.start();
-			
-			//Setup basic initial expected behavior on relevant mocks
-			
-			expectNew(HttpClient.class).andReturn(httpClient);
-			
-			expect(repository.loginAdministrative(anyObject(String.class))).andReturn(session);
-			expect(session.getNode(flushNode)).andReturn(node);
-			expect(node.getProperty(flushProperty)).andReturn(property);
-			expect(property.getString()).andReturn(flushURI);
-			session.logout();
-			expectLastCall();
-			
 			
 			scheduler.fireJobAt(eq(jobName), eq(invalidator), (Map<String, Serializable>) eq(null), anyObject(Date.class));	
 			expectLastCall().andThrow(new RuntimeException()).anyTimes();
@@ -407,25 +382,106 @@ public class VTKDataCacheInavlidatorTest {
 	}
 	
 	
-	//Test scenario when we have a successful schedule the return status for httpclient is 200 and we have Race conditions
-	@SuppressWarnings("unchecked")
 	@Test
-	public void testSuccessfulScheduleStatus200RaceConditions() {
+	public void deactivatePathsEmpty() {
 		
 		try {
 			mockScheduler.start();
 			
 			//Setup basic initial expected behavior on relevant mocks
 			
-			expectNew(HttpClient.class).andReturn(httpClient);
-			
-			expect(repository.loginAdministrative(anyObject(String.class))).andReturn(session);
-			expect(session.getNode(flushNode)).andReturn(node);
-			expect(node.getProperty(flushProperty)).andReturn(property);
-			expect(property.getString()).andReturn(flushURI);
-			session.logout();
+			scheduler.removeJob(jobName);
 			expectLastCall();
 			
+			
+			
+			replayAll();
+			
+			invalidator.init();
+			
+			Field pathsField = invalidator.getClass().getDeclaredField("paths");
+			pathsField.setAccessible(true);
+			pathsField.set(invalidator, new HashSet<String>());
+			
+			invalidator.deactivate();
+			
+			verifyAll();
+			
+			mockScheduler.shutdown();
+			
+		} catch (SchedulerException e) {
+			fail("Unable to start mock scheduler");
+		} catch (Exception e) {
+			fail("Generic expception fail mesage is: " + e.getMessage());
+		}
+	}
+	
+	
+	@Test
+	public void deactivatePathsHaveMembersStatus200() {
+		
+		try {
+			mockScheduler.start();
+			
+			//Setup basic initial expected behavior on relevant mocks
+			
+			scheduler.removeJob(jobName);
+			expectLastCall();
+			
+			expectNew(GetMethod.class, flushURI).andReturn(get);
+			
+			get.setRequestHeader("CQ-Action", "Delete");
+			expectLastCall();
+			
+			get.setRequestHeader("CQ-Handle", "sample path");
+			expectLastCall();
+			
+			get.setRequestHeader("CQ-Path", "sample path");
+			expectLastCall();
+			
+			expect(httpClient.executeMethod(get)).andReturn(200);
+			
+			get.releaseConnection();
+			expectLastCall();
+			
+			replayAll();
+			
+			invalidator.init();
+			
+			Set<String> pSet = new HashSet<String>();
+			pSet.add("sample path");
+			
+			Field pathsField = invalidator.getClass().getDeclaredField("paths");
+			pathsField.setAccessible(true);
+			pathsField.set(invalidator, pSet);
+			
+			invalidator.deactivate();
+			
+			@SuppressWarnings("unchecked")
+			Set<String> paths = (Set<String>) pathsField.get(invalidator);
+			assertTrue(paths.isEmpty());
+			
+			verifyAll();
+			
+			mockScheduler.shutdown();
+			
+		} catch (SchedulerException e) {
+			fail("Unable to start mock scheduler");
+		} catch (Exception e) {
+			fail("Generic expception fail mesage is: " + e.getMessage());
+		}
+	}
+	
+	
+	
+	
+	//Test scenario when we have a successful schedule the return status for httpclient is 200 and we have Race conditions
+	@SuppressWarnings("unchecked")
+	@Test
+	public void addPathSuccessfulScheduleStatus200RaceConditions() {
+		
+		try {
+			mockScheduler.start();
 			
 			scheduler.fireJobAt(eq(jobName), eq(invalidator), (Map<String, Serializable>) eq(null), anyObject(Date.class));	
 			expectLastCall().andDelegateTo(delegatorScheduler);

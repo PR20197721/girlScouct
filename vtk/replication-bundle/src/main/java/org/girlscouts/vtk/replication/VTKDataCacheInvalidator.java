@@ -110,7 +110,6 @@ public class VTKDataCacheInvalidator implements Job {
             get.setRequestHeader("CQ-Action", "Delete");
             get.setRequestHeader("CQ-Handle", path);
             get.setRequestHeader("CQ-Path", path);
-
             try {
                 int resStatus = httpClient.executeMethod(get);
                 if (resStatus != 200) {
