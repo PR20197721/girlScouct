@@ -65,7 +65,7 @@ public class VTKDataCacheInvalidator implements Job {
     }
     
     public void addPath(String path) {
-    	System.out.println("ADDING PATH");
+    	System.out.println("ADDING PATH: " + path);
         synchronized(lock) {
             // If paths set is empty, assume nothing is scheduled. Schedule a new task.
             if (paths.isEmpty()) {
@@ -107,6 +107,7 @@ public class VTKDataCacheInvalidator implements Job {
         GetMethod get = new GetMethod(flushUri);
         for (String path : paths) {
             log.debug("Path: " + path);
+            System.out.println("Invalidating Path: " + path);
             get.setRequestHeader("CQ-Action", "Delete");
             get.setRequestHeader("CQ-Handle", path);
             get.setRequestHeader("CQ-Path", path);

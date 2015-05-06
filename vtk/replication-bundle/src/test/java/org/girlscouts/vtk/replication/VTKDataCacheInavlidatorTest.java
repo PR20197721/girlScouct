@@ -471,9 +471,7 @@ public class VTKDataCacheInavlidatorTest {
 			fail("Generic expception fail mesage is: " + e.getMessage());
 		}
 	}
-	
-	
-	
+
 	
 	//Test scenario when we have a successful schedule the return status for httpclient is 200 and we have Race conditions
 	@SuppressWarnings("unchecked")
@@ -484,41 +482,75 @@ public class VTKDataCacheInavlidatorTest {
 			mockScheduler.start();
 			
 			scheduler.fireJobAt(eq(jobName), eq(invalidator), (Map<String, Serializable>) eq(null), anyObject(Date.class));	
-			expectLastCall().andDelegateTo(delegatorScheduler);
+			expectLastCall().andDelegateTo(delegatorScheduler).anyTimes();
 			
-			expectNew(GetMethod.class, flushURI).andReturn(get);
+			expectNew(GetMethod.class, flushURI).andReturn(get).anyTimes();
 			
-			get.setRequestHeader(anyObject(String.class), anyObject(String.class));
-			expectLastCall().times(15);
+			get.setRequestHeader("CQ-Action", "Delete");
+			expectLastCall().anyTimes();
+			
+			for(int i = 0; i < 1000; i++){
+				get.setRequestHeader("CQ-Handle", "somepath" + i);
+				expectLastCall();
+				
+				get.setRequestHeader("CQ-Path", "somepath" + i);
+				expectLastCall();
+				
+				get.setRequestHeader("CQ-Handle", "otherpath" + i);
+				expectLastCall();
+				
+				get.setRequestHeader("CQ-Path", "otherpath" + i);
+				expectLastCall();
+			}
 			
 			get.releaseConnection();
-			expectLastCall().times(5);
+			expectLastCall().anyTimes();
 			
-			expect(httpClient.executeMethod(get)).andReturn(200).times(5);
+			expect(httpClient.executeMethod(get)).andReturn(200).anyTimes();
+			
+			
+			
 			
 			replayAll();
 			
 			invalidator.init();
-			invalidator.addPath("sample path");
 			
-			//We use the quartz scheduler to simulate four calls after the first one  but before the scheduled invalidate job to create race conditions
-			mockScheduler.scheduleJob(newJob(CallPathJob.class).build() , newTrigger().startNow().build());
-			mockScheduler.scheduleJob(newJob(CallPathJob.class).build() , newTrigger().startNow().build());
-			mockScheduler.scheduleJob(newJob(CallPathJob.class).build() , newTrigger().startNow().build());
-			mockScheduler.scheduleJob(newJob(CallPathJob.class).build() , newTrigger().startNow().build());
+			Runnable task1 = new Runnable(){
+
+				public void run() {
+					for(int i = 0; i < 1000; i++){
+						invalidator.addPath("somepath" + i);
+					}
+					
+				}};
+				
+
+			Runnable task2 = new Runnable(){
+
+				public void run() {
+					for(int i = 0; i < 1000; i++){
+						invalidator.addPath("otherpath" + i);
+					}
+					
+				}};
+					
+			Thread thread1 = new Thread(task1);
+			thread1.setName("thread1");
 			
-			Thread.sleep(2000);
+			Thread thread2 = new Thread(task2);
+			thread2.setName("thread2");
 			
-			Field pathsField = invalidator.getClass().getDeclaredField("paths");
-			pathsField.setAccessible(true);
-			Set<String> paths = (Set<String>) pathsField.get(invalidator);
+			thread1.start();
+			thread2.start();
 			
-			assertTrue(paths.isEmpty());
+			thread1.join();
+			thread2.join();
 			
+			Thread.sleep(10000);
+			
+			mockScheduler.shutdown(true);
 			
 			verifyAll();
-			
-			mockScheduler.shutdown();
 			
 		} catch (SchedulerException e) {
 			fail("Unable to start mock scheduler");
