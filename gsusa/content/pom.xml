@@ -55,7 +55,7 @@
                             <goal>update-stylesheets</goal>
                         </goals>
                         <configuration>
-                            <sassSourceDirectory>${basedir}/src/foundation/scss</sassSourceDirectory>
+                            <sassSourceDirectory>${basedir}/src/main/sass</sassSourceDirectory>
                             <destination>${project.build.directory}/sass-gen-css</destination>
                         </configuration>
                     </execution>
