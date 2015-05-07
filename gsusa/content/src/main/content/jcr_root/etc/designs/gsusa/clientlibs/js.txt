@@ -1,4 +1,6 @@
 #base=js
 
 modernizr.js
+jquery.min.js
+foundation.min.js
 app.js

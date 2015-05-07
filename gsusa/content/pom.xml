@@ -49,15 +49,11 @@
                 </excludes>
             </resource>
             <resource>
-                <directory>src/main/foundation/css</directory>
-                <targetPath>${project.build.directory}/vault-work/jcr_root/etc/designs/gsusa/clientlibs/css</targetPath>
-            </resource>
-            <resource>
-                <directory>src/main/foundation/custom/js</directory>
+                <directory>src/main/theme/custom/js</directory>
                 <targetPath>${project.build.directory}/vault-work/jcr_root/etc/designs/gsusa/clientlibs/js</targetPath>
             </resource>
             <resource>
-                <directory>src/main/foundation/custom/images</directory>
+                <directory>src/main/theme/custom/images</directory>
                 <targetPath>${project.build.directory}/vault-work/jcr_root/etc/designs/gsusa/clientlibs/images</targetPath>
             </resource>
         </resources>
@@ -81,7 +77,7 @@
                         </goals>
                         <phase>generate-resources</phase>
                         <configuration>
-                            <execArgs>${project.build.directory}/rubygems/bin/compass compile ${basedir}/src/main/foundation</execArgs>
+                            <execArgs>${project.build.directory}/rubygems/bin/compass compile ${basedir}/src/main/theme</execArgs>
                         </configuration>
                     </execution>
                 </executions>

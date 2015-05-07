@@ -4,7 +4,7 @@ require 'sass-globbing'
 
 # Set this to the root of your project when deployed:
 http_path = "/"
-css_dir = "css"
+css_dir = "../../main/content/jcr_root/etc/designs/gsusa/clientlibs/css"
 sass_dir = "custom/scss"
 images_dir = "custom/images"
 javascripts_dir = "custom/js"
