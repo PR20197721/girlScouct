@@ -15,5 +15,10 @@
             mode="replace"
             root="/apps/gsusa"
             rules="[]"/>
+        <f1
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/designs/gsusa"
+            rules="[]"/>
     </filter>
 </jcr:root>
