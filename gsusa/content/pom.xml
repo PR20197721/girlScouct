@@ -52,6 +52,14 @@
                 <directory>src/main/foundation/css</directory>
                 <targetPath>${project.build.directory}/vault-work/jcr_root/etc/designs/gsusa/clientlibs/css</targetPath>
             </resource>
+            <resource>
+                <directory>src/main/foundation/custom/js</directory>
+                <targetPath>${project.build.directory}/vault-work/jcr_root/etc/designs/gsusa/clientlibs/js</targetPath>
+            </resource>
+            <resource>
+                <directory>src/main/foundation/custom/images</directory>
+                <targetPath>${project.build.directory}/vault-work/jcr_root/etc/designs/gsusa/clientlibs/images</targetPath>
+            </resource>
         </resources>
 
         <plugins>
