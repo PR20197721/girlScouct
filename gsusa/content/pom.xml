@@ -25,6 +25,18 @@
             <artifactId>gsusa-bundle</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>rubygems</groupId>
+            <artifactId>compass</artifactId>
+            <version>1.0.3</version>
+            <type>gem</type>
+        </dependency>
+        <dependency>
+            <groupId>rubygems</groupId>
+            <artifactId>sass-globbing</artifactId>
+            <version>1.1.1</version>
+            <type>gem</type>
+        </dependency>
     </dependencies>
     <build>
         <resources>
@@ -37,26 +49,31 @@
                 </excludes>
             </resource>
             <resource>
-                <directory>${project.build.directory}/sass-gen-css</directory>
-                <targetPath>../vault-work/jcr_root/etc/designs/gsusa/clientlibs/css</targetPath>
+                <directory>src/main/foundation/css</directory>
+                <targetPath>${project.build.directory}/vault-work/jcr_root/etc/designs/gsusa/clientlibs/css</targetPath>
             </resource>
         </resources>
 
         <plugins>
             <plugin>
-                <groupId>org.jasig.maven</groupId>
-                <artifactId>sass-maven-plugin</artifactId>
-                <version>1.1.1</version>
+                <groupId>de.saumya.mojo</groupId>
+                <artifactId>gem-maven-plugin</artifactId>
+                <version>1.0.9</version>
                 <executions>
                     <execution>
-                        <id>generate-css</id>
-                        <phase>generate-resources</phase>
+                        <id>init</id>
                         <goals>
-                            <goal>update-stylesheets</goal>
+                           <goal>initialize</goal>
                         </goals>
+                    </execution>
+                    <execution>
+                        <id>compile</id>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
                         <configuration>
-                            <sassSourceDirectory>${basedir}/src/main/sass</sassSourceDirectory>
-                            <destination>${project.build.directory}/sass-gen-css</destination>
+                            <execArgs>${project.build.directory}/rubygems/bin/compass compile ${basedir}/src/main/foundation</execArgs>
                         </configuration>
                     </execution>
                 </executions>

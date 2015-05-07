@@ -110,6 +110,10 @@
             <url>http://repo.adobe.com/nexus/content/groups/public/</url>
             <layout>default</layout>
         </repository>
+        <repository>
+           <id>rubygems-release</id>
+           <url>http://rubygems-proxy.torquebox.org/releases</url>
+        </repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
