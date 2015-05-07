@@ -1,10 +1,11 @@
+<%@include file="/libs/foundation/global.jsp"%>
 <!doctype html>
 <html class="no-js" lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Foundation</title>
-    <cq:includeClientLib categories="app.girlscouts.modern" />
+    <cq:includeClientLib categories="apps.gsusa" />
   </head>
   <body>
     <div class="row">
