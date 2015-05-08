@@ -1,22 +1,9 @@
-<%@page	import="org.girlscouts.vtk.models.Troop, org.girlscouts.vtk.auth.permission.*, org.girlscouts.vtk.utils.VtkUtil"%>
-<%!java.text.SimpleDateFormat FORMAT_MMddYYYY = new java.text.SimpleDateFormat("MM/dd/yyyy");
-	java.text.SimpleDateFormat FORMAT_hhmm_AMPM = new java.text.SimpleDateFormat("hh:mm a");
-	java.text.SimpleDateFormat FORMAT_hhmm = new java.text.SimpleDateFormat("hh:mm");
-	java.text.SimpleDateFormat FORMAT_AMPM = new java.text.SimpleDateFormat("a");
-	java.text.SimpleDateFormat FORMAT_MONTH = new java.text.SimpleDateFormat("MMM");
-	java.text.SimpleDateFormat FORMAT_DAY_OF_MONTH = new java.text.SimpleDateFormat("d");
-	java.text.SimpleDateFormat FORMAT_MONTH_DAY = new java.text.SimpleDateFormat("MMM d");
-	java.text.SimpleDateFormat FORMAT_MMM_dd_hhmm_AMPM = new java.text.SimpleDateFormat("MMM dd hh:mm a");
-	java.text.SimpleDateFormat FORMAT_MMMM_dd_hhmm_AMPM = new java.text.SimpleDateFormat("MMMM dd hh:mm a");
-	java.text.SimpleDateFormat FORMAT_MEETING_REMINDER = new java.text.SimpleDateFormat("EEE MMM dd, yyyy hh:mm a");
-	java.text.SimpleDateFormat FORMAT_MMM_dd_yyyy_hhmm_AMPM = new java.text.SimpleDateFormat( "MMM dd yyyy hh:mm a");
-	java.text.SimpleDateFormat FORMAT_CALENDAR_DATE = new java.text.SimpleDateFormat( "MMM dd, yyyy hh:mm a");
+<%@page	import="java.text.SimpleDateFormat, org.apache.commons.lang3.time.FastDateFormat, org.girlscouts.vtk.models.Troop, org.girlscouts.vtk.auth.permission.*, org.girlscouts.vtk.utils.VtkUtil, org.apache.commons.lang3.time.FastDateFormat"%>
+<%!
+
 	java.text.NumberFormat FORMAT_CURRENCY = java.text.NumberFormat.getCurrencyInstance();
-	java.text.DecimalFormat FORMAT_COST_CENTS = new java.text.DecimalFormat( "#,##0.00");
-	java.text.SimpleDateFormat dateFormat4 = new java.text.SimpleDateFormat("MM/dd/yyyy hh:mm a");
-	java.text.SimpleDateFormat fmr_ddmm = new java.text.SimpleDateFormat("M/d");
-	java.text.SimpleDateFormat fmt_yyyyMMdd = new java.text.SimpleDateFormat("yyyy-MM-dd");
-	
+    java.text.DecimalFormat FORMAT_COST_CENTS = new java.text.DecimalFormat( "#,##0.00");
+    
 	boolean isCachableContacts=false;
 	
 	public boolean hasPermission(Troop troop, int permissionId) {
@@ -52,6 +39,7 @@
 	final FinanceUtil financeUtil = sling.getService(FinanceUtil.class);
 	final SessionFactory sessionFactory = sling.getService(SessionFactory.class);
 	final ContactUtil contactUtil = sling.getService(ContactUtil.class);
+	final ConnectionFactory connectionFactory = sling.getService(ConnectionFactory.class);
 	
 	//dont use
 	final TroopDAO troopDAO = sling.getService(TroopDAO.class);

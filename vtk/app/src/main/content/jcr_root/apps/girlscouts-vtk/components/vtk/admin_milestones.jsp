@@ -38,7 +38,7 @@ String councilId= request.getParameter("cid")==null? Integer.toString(councilCod
 							<input type="text" id="blurb<%=i %>" name="ms_blurb[]" value="<%=milestones.get(i).getBlurb()%>" />
 						</div>
 						<div class="column large-4 large-push-1">
-							<input type="text" id="date<%=i %>" class="datepicker" placeholder="mm/dd/yyyy" name="ms_date[]" value="<%=milestones.get(i).getDate()==null?"":FORMAT_MMddYYYY.format(milestones.get(i).getDate())%>" />
+							<input type="text" id="date<%=i %>" class="datepicker" placeholder="mm/dd/yyyy" name="ms_date[]" value="<%=milestones.get(i).getDate()==null?"": VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY,milestones.get(i).getDate())%>" />
 						</div>
 						<div class="column large-1 large-push-1">
 							<label for="date<%=i %>"><a class="icon-calendar"></a></label>

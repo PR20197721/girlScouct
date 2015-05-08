@@ -47,20 +47,24 @@
 			
 			<p id="error-message" class="error-message"></p>
 			
-			<div class="row collapse opts">
-				<span class="column small-10 large-5 medium-7">Reporting Frequency:</span>
-				<select id="periodSelection" name="periodSelection" class="columns small-6 large-3 medium-5 left">
-				<%if("Yearly".equals(period)){%>
-					<option value="Yearly">Yearly</option>
-					<option value="Quarterly">Quarterly</option>
-				<%} else{%>
-					<option value="Quarterly">Quarterly</option>
-					<option value="Yearly">Yearly</option>
-				<%} %>
-				</select>
-				<div class="column large-12" id="incomeFields">
-					<span>Send To:</span><input name="recipient" id="recipient" type="text" onkeyDown="enableSaveButton()" placeholder="Enter email of the recipient" value="<%=recipient%>"/> 
-				</div>
+			<div class="row options">
+			 <section class="column large-12 medium-12">
+				 <span>Reporting Frequency:</span>
+				 <select id="periodSelection" name="periodSelection">
+					 <%if("Yearly".equals(period)){%>
+					 	<option value="Yearly">Yearly</option>
+					 	<option value="Quarterly">Quarterly</option>
+					 <%} else{%>
+					 	<option value="Quarterly">Quarterly</option>
+					 	<option value="Yearly">Yearly</option>
+					 <%} %>
+				 </select>
+			 </section>
+			 <section class="column large-12 medium-12">
+				 <div id="incomeFields">
+				 	<span>Send To:</span><input name="recipient" id="recipient" type="text" onkeyDown="enableSaveButton()" placeholder="Enter email of the recipient" value="<%=recipient%>"/> 
+				 </div>
+			 </section>
 			</div>
 
 			<div class="row">
@@ -68,7 +72,6 @@
 					<h6>income categories</h6>
 					<ul id="income-list" class="large-block-grid-2 small-block-grid-2 text-left">
 						<%
-						
 							for(String incomeField : incomeFields){
 						%>
 						<li id="incomeField<%=incomeCounter%>"><input name="incomeValue<%=incomeCounter%>" onkeyDown="enableSaveButton()" class="financeAdminField" oninput="enableSaveButton()" onpaste="enableSaveButton()"  maxlength="35" type="text" value="<%=StringEscapeUtils.escapeHtml(incomeField)%>"/></li>

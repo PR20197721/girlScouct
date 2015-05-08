@@ -63,7 +63,7 @@
       <% if(!iconPath.isEmpty()) { /*if there is image*/ %>
         <%= displayRendition(resourceResolver, imgPath, "cq5dam.web.120.80") %>
       <%} else { /*if there is no image*/ %>
-        <img src="/content/dam/all_icons/icons_64/events_icon.jpg" alt="events icon"/>
+        <img src="/content/dam/girlscouts-shared/images/Icons/jolly-icons-64/events_icon.jpg" alt="events icon"/>
       <% } %>
     </div>
     <div class="medium-16 large-16 columns small-15">

@@ -2,6 +2,7 @@ package org.girlscouts.vtk.models;
 
 import java.io.Serializable;
 
+import org.apache.jackrabbit.ocm.mapper.impl.annotation.Bean;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Collection;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
@@ -45,6 +46,11 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 	
 	@Field
 	java.util.Date lastAssetUpdate;
+	
+	
+	@Bean( autoUpdate = false)  Attendance attendance;
+	@Bean( autoUpdate = false) Achievement achievement;
+	
     private boolean isDbUpdate=false;
 	public java.util.Date getLastAssetUpdate() {
 		return lastAssetUpdate;
@@ -178,4 +184,23 @@ public class MeetingE extends YearPlanComponent implements Serializable {
 	public void setDbUpdate(boolean isDbUpdate) {
 		this.isDbUpdate = isDbUpdate;
 	}
+
+	public Attendance getAttendance() {
+		return attendance;
+	}
+
+	public void setAttendance(Attendance attendance) {
+		this.attendance = attendance;
+	}
+
+	public Achievement getAchievement() {
+		return achievement;
+	}
+
+	public void setAchievement(Achievement achievement) {
+		this.achievement = achievement;
+	}
+	
+	
+	
 }

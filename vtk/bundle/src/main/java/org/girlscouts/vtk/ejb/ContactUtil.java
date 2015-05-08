@@ -37,6 +37,13 @@ public class ContactUtil {
 		return contactDAO.retreive(user, troop, contactId);
 	}
 	
+	public java.util.Map<Contact, java.util.List<ContactExtras>> getContactsExtras(User user, Troop troop, java.util.List <Contact> contacts){
+		java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras = new java.util.TreeMap<Contact, java.util.List<ContactExtras>>();
+		for( Contact contact: contacts){
+			contactsExtras.put(contact, girlAttendAchievement( user,  troop,  contact));
+		}
+		return contactsExtras;
+	}
 	
    public java.util.List<ContactExtras> girlAttendAchievement(User user, Troop troop, Contact contact){
 	
@@ -47,8 +54,13 @@ public class ContactUtil {
 		   
 		    MeetingE meeting = troop.getYearPlan().getMeetingEvents().get(i);
 		    ContactExtras extra = new ContactExtras();
-			Attendance attendance = meetingUtil.getAttendance(user, troop, meeting.getPath() + "/attendance");
-		    Achievement achievement = meetingUtil.getAchievement(user, troop, meeting.getPath() + "/achievement"); 
+//System.err.println("test55 start "+ new java.util.Date() );		    
+		//	Attendance attendance =   meetingUtil.getAttendance (user, troop, meeting.getPath() + "/attendance");
+		  //  Achievement achievement = meetingUtil.getAchievement(user, troop, meeting.getPath() + "/achievement"); 
+//System.err.println("test55 end "+ new java.util.Date());		    
+		    
+		    Attendance attendance = meeting.getAttendance();
+		    Achievement achievement = meeting.getAchievement();
 		    
 		    String attendance_users = "", achievement_users= "";
 		    if( attendance!=null && attendance.getUsers()!=null && !attendance.getUsers().equals("") )
@@ -65,8 +77,8 @@ public class ContactUtil {
 		    if( extra.isAttended() || extra.isAchievement() ){
 		    	if( meeting.getMeetingInfo()==null ){
 		    		try{ 
-		    			meeting.setMeetingInfo(  yearPlanUtil.getMeeting(user,
-							meeting.getRefId()) );
+//System.err.println("test55: meeting pull");	    			
+		    			meeting.setMeetingInfo(  yearPlanUtil.getMeeting(user,meeting.getRefId()) );
 		    		}catch(Exception e){e.printStackTrace();}
 		    	}
 		    	extra.setYearPlanComponent(meeting);
