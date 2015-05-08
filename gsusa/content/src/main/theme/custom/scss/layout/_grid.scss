@@ -1,0 +1,19 @@
+.right_col,
+.left_col {
+    @include grid-column(5);
+  }
+.two_cols {
+  .middle_col{
+    @include grid-column(19);
+  }
+}
+.three_cols {
+  .middle_col{
+    @include grid-column(14);
+  }
+}
+.one_cols {
+  .middle_col {
+    @include grid-column(24);
+  }
+}
