@@ -33,7 +33,8 @@
 	// date and time
     DateFormat dateFormat = new SimpleDateFormat("EEE MMM d yyyy");
 	DateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-
+	DateFormat utcFormat =new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");//2015-05-31T12:00
+	utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 	DateFormat timeFormat = new SimpleDateFormat("h:mm a");
 	//timeFormat.setTimeZone(tZone);
     DateFormat calendarFormat = new SimpleDateFormat("M-yyyy");
@@ -68,12 +69,15 @@
 	
 	//Start Time : startTimeStr var called time
 	
-	String dateStr = startDateStr + ", " +startTimeStr;
-
+	//String dateStr = startDateStr + ", " +startTimeStr;
+    String formatedStartDateStr= startDateStr + ", " +startTimeStr;
+	
+    String formatedEndDateStr="";
+    Date endDate=null;
 	if (endDateSt != null && !endDateSt.isEmpty()) {
 	    Calendar cal1 = Calendar.getInstance();
 	    Calendar cal2 = Calendar.getInstance();
-	    Date endDate = dateFormat1.parse(endDateSt);
+	    endDate = dateFormat1.parse(endDateSt);
 	    cal2.setTime(endDate);
 	    cal1.setTime(startDate);
 	    boolean sameDay = cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
@@ -81,16 +85,16 @@
 		String endDateStr = dateFormat.format(endDate);
 		String endTimeStr = timeFormat.format(endDate);
 		if (!sameDay) {
-	    	dateStr += " - " + endDateStr +", " + endTimeStr;
+			formatedEndDateStr =  endDateStr +", " + endTimeStr;
 		    
 		}else{
-			dateStr += " - " + endTimeStr;
+			formatedEndDateStr =  endTimeStr;
 			
 		}
 	       
 	}
 	if(!timeZoneLabel.isEmpty()){
-		dateStr += " " + timeZoneLabel;
+		formatedEndDateStr += " " + timeZoneLabel;
 	}
 	
 	
@@ -140,7 +144,7 @@
    </div>
    
    <div class="small-24 large-24 medium-24 columns">
-        <h2><%= title %></h2>
+        <h2  itemprop="name"><%= title %></h2>
    </div>
    
    <div class="small-24 large-24 medium-24 columns">
@@ -173,14 +177,23 @@
              <b>Date:</b>
 			</div>
                         <div class="small-16 medium-16 large-16 columns">
-           <b><%= dateStr %></b>
+           <b>
+           <%try{%>
+                        <span itemprop="startDate" itemscope itemtype="http://schema.org/Event" content="<%=utcFormat.format(startDate)%>"><%=formatedStartDateStr%></span> 
+                        <% if(formatedEndDateStr!=null && !formatedEndDateStr.equals("")){ %>
+                            - <span itemprop="stopDate" itemscope itemtype="http://schema.org/Event" content="<%=(endDate==null ? "" : utcFormat.format(endDate))%>"><%=formatedEndDateStr %></span>
+                        <%     
+                        }
+                     }catch(Exception eDateStr){eDateStr.printStackTrace();}
+                    %>
+           </b>
                         </div>
 		</div>
                 <div class="row">
                         <div class="small-8 medium-8 large-8 columns">
              <b>Location:</b>
                         </div>
-                        <div class="small-16 medium-16 large-16 columns">
+                        <div class="small-16 medium-16 large-16 columns" itemprop="location" itemscope itemtype="http://schema.org/Place">
            <b><%= locationLabel %></b> <%if(address!=null && !address.isEmpty()){%><a href="javascript:void(0)" onclick="showMap('<%=address%>')">Map</a><%} %>
                         </div>
                 </div>
@@ -231,7 +244,7 @@
 </div>  
    
 <div class="row">
-  <div class="small-24 large-24 medium-24 columns">
+  <div class="small-24 large-24 medium-24 columns" itemprop="description">
    <%=details %>
   </div>
 </div>      

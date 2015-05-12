@@ -9,6 +9,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.lang.time.DateUtils;
 import org.girlscouts.vtk.models.Contact;
@@ -208,5 +211,23 @@ public static Date parseDate(SimpleDateFormat f, String d) throws ParseException
     synchronized(f) {
 		return f.parse(d);
     }
+}
+
+
+
+public static String getCouncilInClient(HttpServletRequest request){
+	Cookie[] cookies = request.getCookies();
+	if (cookies != null) {
+		 for (int i = 0; i < cookies.length; i++) {
+			if (cookies[i].getName().equals("vtk_referer_council")) {
+				
+						return cookies[i].getValue();
+					
+
+			}
+
+		}
+	}
+	return null;
 }
 }

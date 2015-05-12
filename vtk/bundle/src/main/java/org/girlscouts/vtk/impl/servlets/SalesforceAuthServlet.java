@@ -31,6 +31,7 @@ import org.girlscouts.vtk.helpers.ConfigListener;
 import org.girlscouts.vtk.helpers.ConfigManager;
 import org.girlscouts.vtk.helpers.CouncilMapper;
 import org.girlscouts.vtk.salesforce.Troop;
+import org.girlscouts.vtk.utils.VtkUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -130,8 +131,14 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 		String redirectUrl;
 		
 		
-//	System.err.println("tataxxx: "+ callbackUrl +" : " +targetUrl);	
+
 		if (config == null || config.getId() == null) {
+			
+			String refererCouncil = request.getParameter("refererCouncil");
+		    if (refererCouncil == null) {
+			           refererCouncil = "";
+            }
+			
 			redirectUrl = OAuthUrl
 					+ "/services/oauth2/authorize?prompt=login&response_type=code&client_id="
 					+ clientId + "&redirect_uri=" + callbackUrl + "&state="
@@ -185,10 +192,9 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 			}
 
 			try {
-				String councilId = Integer.toString(apiConfig.getTroops()
-						.get(0).getCouncilCode());
+				String councilId = Integer.toString(apiConfig.getTroops().get(0).getCouncilCode());
 				if( councilId==null || councilId.trim().equals("") )
-					redirectUrl = councilMapper.getCouncilUrl(getCouncilInClient(request));
+					redirectUrl = councilMapper.getCouncilUrl(VtkUtil.getCouncilInClient(request));
 				else
 					redirectUrl = councilMapper.getCouncilUrl(councilId);
 			} catch (Exception e) {
@@ -206,7 +212,7 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 
 		// TODO: language?
 		redirectUrl += "en.html";
-
+System.err.println("tataggg: "+ redirectUrl);
 		try {
 			session.invalidate();
 		} catch (IllegalStateException e) {
@@ -219,7 +225,6 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 		redirectUrl = redirectUrl.contains("?") ? (redirectUrl = redirectUrl
 				+ "&isSignOutSalesForce=true") : (redirectUrl = redirectUrl
 				+ "?isSignOutSalesForce=true");
-System.err.println("tatayy:"+ redirectUrl +" :  "+getCouncilInClient(request));
 		redirect(response, redirectUrl);
 	}
 
@@ -254,7 +259,7 @@ System.err.println("tatayy:"+ redirectUrl +" :  "+getCouncilInClient(request));
 			return;
 		}else
 			setCouncilInClient(response, request.getParameter("state") );
-System.err.println("Checking cookie: "+ getCouncilInClient(request));
+System.err.println("Checking cookie: "+ VtkUtil.getCouncilInClient(request));
 		SalesforceDAO dao = salesforceDAOFactory.getInstance();
 		ApiConfig config = dao.doAuth(code);
 		session.setAttribute(ApiConfig.class.getName(), config);
@@ -460,7 +465,7 @@ System.err.println("Checking cookie: "+ getCouncilInClient(request));
 	    cookie.setMaxAge(-1);
 	    response.addCookie(cookie);
 	}
-	
+	/*
 	public String getCouncilInClient(org.apache.sling.api.SlingHttpServletRequest request){
 		Cookie[] cookies = request.getCookies();
 		if (cookies != null) {
@@ -476,5 +481,5 @@ System.err.println("Checking cookie: "+ getCouncilInClient(request));
 		}
 		return null;
 	}
-
+*/
 }

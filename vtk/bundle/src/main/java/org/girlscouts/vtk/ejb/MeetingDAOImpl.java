@@ -559,6 +559,8 @@ public class MeetingDAOImpl implements MeetingDAO {
 		}
 		String branch = councilMapper.getCouncilBranch(councilId);
 		String resourceRootPath = branch + "/en/" + RESOURCES_PATH;
+		
+System.err.println("tatatt: "+ branch + " : "+ resourceRootPath)	;	
 		matched = new ArrayList<org.girlscouts.vtk.models.Search>();
 		try {
 			session = sessionFactory.getSession();
@@ -573,14 +575,14 @@ public class MeetingDAOImpl implements MeetingDAO {
 			map.put("p.limit", "2000"); // same as query.setHitsPerPage(20)
 										// below
 			
-		System.err.println("tataxx: "+ resourceRootPath);
+		
 		
 			com.day.cq.search.Query query = qBuilder.createQuery(
 					PredicateGroup.create(map), session);
 			query.setExcerpt(true);
 			java.util.Map<String, org.girlscouts.vtk.models.Search> unq = new java.util.TreeMap();
 			SearchResult result = query.getResult();
-			System.err.println("tataxxxx: "+query.toString());
+			
 
 			for (Hit hit : result.getHits()) {
 				try {
