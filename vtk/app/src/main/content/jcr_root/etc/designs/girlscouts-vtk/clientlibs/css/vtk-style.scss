@@ -912,7 +912,7 @@
     }
   }
   //modals per JQ UI
-  .modalWrap {
+  .ui-dialog.modalWrap {
     padding:0;
     border-radius:0;
     border:0;
@@ -921,6 +921,8 @@
     top: 0 !important;
     -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
     box-shadow: 0 0 50px rgba(0, 0, 0, 0.7);
+    width: 100% !important;
+    max-width: 920px !important;
     #gsModal {
       background: #fff;
       padding:0;
@@ -1015,6 +1017,9 @@
           min-width: 33.3333333%;
           float:left;
           background:#00ae57;
+          &.active {
+            background: #fff;
+          }
         }
         #createActivityTab,
         #pickActivityTab {
@@ -1154,7 +1159,7 @@
   }
   //both modals
   .reveal-modal,
-  .modalWrap {
+  .ui-dialog.modalWrap {
     input[type="checkbox"] + label,
     input[type="radio"] + label {
       margin:0;
@@ -2137,7 +2142,11 @@ input[type="file"] {
       margin-left: -40px;
     }
   }
-  .vtk-body .modalWrap .tabs-wrapper .tabs-content .yearMeetingList td {
+  .vtk-body .ui-dialog.modalWrap .tabs-wrapper .tabs-content {
+    padding-left:5px;
+    padding-right:5px;
+  }
+  .vtk-body.vtk-body .ui-dialog.modalWrap .tabs-wrapper .tabs-content .yearMeetingList td {
     vertical-align: top;
     width: auto;
   }
@@ -2150,7 +2159,7 @@ input[type="file"] {
   .vtk-body #main .meeting-detail .meeting-navigation .direction:before {
     border-width:20px;
   }
-  .modalWrap {
+  .ui-dialog.modalWrap {
     width: 100% !important;
     max-width: 100% !important;
   }
