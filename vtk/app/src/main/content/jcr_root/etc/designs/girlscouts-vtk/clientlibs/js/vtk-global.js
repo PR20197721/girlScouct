@@ -52,7 +52,6 @@ var $ = jQuery.noConflict();
 		$('.scroll').css('max-height' , popup_h + 'px');
 		$('.modalWrap').css('max-height' , $(window).height()+'px');
 	}
-
 	function validate_image() {
 		$('form#frmImg').submit(function(e) {
 		   var $this = $(this);
@@ -78,49 +77,44 @@ var $ = jQuery.noConflict();
 			}
 		});
   }
-  function placeholder_IE9() {
-  	function add() {
-			if($(this).val() === ''){
-			  $(this).val($(this).attr('placeholder')).addClass('placeholder');
-			}
+
+  function add_placeholdersIE9() {
+		function add() {
+		  if($(this).val() === ''){
+		    $(this).val($(this).attr('placeholder')).addClass('placeholder');
+		  }
 		}
 
 		function remove() {
-			if($(this).val() === $(this).attr('placeholder')){
-			  $(this).val('').removeClass('placeholder');
-			}
+		  if($(this).val() === $(this).attr('placeholder')){
+		    $(this).val('').removeClass('placeholder');
+		  }
 		}
+	  // Create a dummy element for feature detection
+	  if (!('placeholder' in $('<input>')[0])) {
 
-		// Create a dummy element for feature detection
-		if (!('placeholder' in $('<input>')[0])) {
+	    // Select the elements that have a placeholder attribute
+	    $('input[placeholder], textarea[placeholder]').blur(add).focus(remove).each(add);
 
-		  // Select the elements that have a placeholder attribute
-		  $('input[placeholder], textarea[placeholder]').blur(add).focus(remove).each(add);
-
-		  // Remove the placeholder text before the form is submitted
-		  $('form').submit(function(){
-		    $(this).find('input[placeholder], textarea[placeholder]').each(remove);
-		  });
-		}
+	    // Remove the placeholder text before the form is submitted
+	    $('form').submit(function(){
+	      $(this).find('input[placeholder], textarea[placeholder]').each(remove);
+	    });
+	  }
   }
-  function equilize_ul() {
-    $('#modal_custom_year_plan .clearfix .large-12:nth-of-type(2) ul').css('height',$('#modal_custom_year_plan .clearfix .large-12:nth-of-type(1) ul').height()+14);
-  }
-  
-  $(document).ajaxComplete(function( event,request, settings ) {
- 	//	equilize_ul();
-	});
-  
-//all function calls should go here
-  $(document).ready(function() {
-  	 $(document).foundation({
-  	  reveal : {
-  	     animation: 'fade',
-  	     root_element: 'window',
-  	     close_on_background_click: false,
-  	     open: function () { 
-  	     	$('body').css({'overflow':'hidden'});
-	  	     	equilize_ul();
+	//all function calls should go here
+	  $(document).ready(function() {
+	  	 $(document).foundation({
+	  	  reveal : {
+	  	     animation: 'fade',
+	  	     root_element: 'window',
+	  	     close_on_background_click: false,
+	  	     open: function () { 
+	  	     	$('body').css({'overflow':'hidden'});
+     		  	if (navigator.userAgent.match(/msie/i) ) {
+     		  		// alert(navigator.userAgent.match(/msie/i));
+     	        add_placeholdersIE9();
+     	      }
 	  	     },
 	  	     close: function () {
 	  	     	$('body').css({'overflow':'inherit'})
@@ -131,16 +125,14 @@ var $ = jQuery.noConflict();
 	  	 modal_height_on_open();
 	  	 vtk_accordion();
 	  	 validate_image();
-	  	 resizeWindow();
+	  	 // resizeWindow();
 	  	 if($('.tabs dd').length == 6) {
 	  	 	$('.tabs dd').css('width','100%');
 	  	 } 	 
   });
+
 	$(window).resize(function() {
-		modal_height_resize()
-		// if($(window).width() < 420) {
-		// 	$('.vtk-body .reveal-modal').css('top','0');
-		// }
+		modal_height_resize();
 	});
 
 })($);

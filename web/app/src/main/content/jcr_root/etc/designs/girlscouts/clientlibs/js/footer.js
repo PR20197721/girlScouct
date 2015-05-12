@@ -1,4 +1,4 @@
-  //seems to be only used in VTK sections
+
   var resizeWindow = function() {
     //make sure fixVertical is defined.
     //if(typeof fixVerticalSizing != 'undefined' && fixVerticalSizing === true) {
@@ -54,27 +54,27 @@
       modal.css('margin-left','');
     }
   }
-$(document).ready(function(){
- resizeWindow();
- addClassGrid();
- attendance_popup_width();
-})
-$(window).load(function(){
-  var currentMainHeight = $('.inner-wrap').height();
-  //get the height of the window
-  var windowHeight = $(window).height();
-  var targetMainHeight = (windowHeight-currentMainHeight);
-  if(targetMainHeight != 0) {
+  $(document).ready(function(){
+   resizeWindow();
+   addClassGrid();
+   attendance_popup_width();
+  })
+  $(window).load(function(){
+    var currentMainHeight = $('.inner-wrap').height();
+    //get the height of the window
+    var windowHeight = $(window).height();
+    var targetMainHeight = (windowHeight-currentMainHeight);
+    if(targetMainHeight != 0) {
+      resizeWindow();
+    }
+    attendance_popup_width();
+  })
+  $(window).resize(function() {
+   //first remove the padding added after reload.
+    $('.vtk-body #main .row.content').css('padding-bottom','');
+    $('#main.content').css('padding-bottom','');
+    $(".modal-attendance").parent().css('margin-left','');
     resizeWindow();
-  }
-  attendance_popup_width();
-})
-$(window).resize(function() {
- //first remove the padding added after reload.
-  $('.vtk-body #main .row.content').css('padding-bottom','');
-  $('#main.content').css('padding-bottom','');
-  $(".modal-attendance").parent().css('margin-left','');
-  resizeWindow();
-  addClassGrid();
-  attendance_popup_width();
-});
+    addClassGrid();
+    attendance_popup_width();
+  });
