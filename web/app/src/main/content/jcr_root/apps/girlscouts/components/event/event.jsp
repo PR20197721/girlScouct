@@ -191,6 +191,7 @@
                  	Iterator<String> str = tags.keySet().iterator();
                 	 while(str.hasNext()){
                      String categoryTitle = str.next();
+                     if(map.get(categoryTitle)!=null){
                	%>
                		<div class="small-8 medium-8 large-8 columns">
  						<b> <%=map.get(categoryTitle)%>: </b>
@@ -206,7 +207,7 @@
                  
           		<% }%>
                   </div>
-                  <%} %>
+                  <% }} %>
                 </div>
                 <div class="row">
                      <div class="small-8 medium-8 large-8 columns">
