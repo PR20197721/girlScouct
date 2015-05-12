@@ -36,13 +36,8 @@
               try {	Object meetingPath = pageContext.getAttribute("MEETING_PATH");
                       if (meetingPath != null && meetingPath != "") {
                         Long planViewTime = (Long) pageContext.getAttribute("PLANVIEW_TIME");%>
-                      <li>
-                      <a href="#" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=(String) meetingPath %>&xx=<%= planViewTime.longValue() %>', false, null, true)">replace this meeting</a>
-                       
-                     
-                      
-                      
-                      </li><% 
+                      <li id="replaceMeeting"></li>
+                      <% 
                       }
                   } catch (Exception te) {
                     te.printStackTrace();

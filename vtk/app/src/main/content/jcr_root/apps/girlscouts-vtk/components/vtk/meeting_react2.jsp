@@ -65,6 +65,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
     var isActivNew=0;
     var agendaSched= null;
     var scrollTarget = "";
+    var thisMeetingUid;
     var MeetingList = React.createClass({displayName: "MeetingList",
       getInitialState: function() {
         return { show: false };
@@ -91,7 +92,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
              thisMeetingDate=new Date('<%=planView.getSearchDate()%>');
 
         }
-
+        thisMeetingUid= comment.uid;
           thisMeetingRefId  = comment.refId;
           thisMeetingPath  = comment.path;
           thisMeetingImg   = "/content/dam/girlscouts-vtk/local/icon/meetings/"+ comment.meetingInfo.id +".png";
@@ -298,15 +299,15 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
   React.createElement("h6", null, "planning materials"), 
   React.createElement("ul", null, 
    React.createElement("li", null, 
-    React.createElement("a", {"data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_agenda_edit.html?mid=<%=mid%>&isOverview=true"}, "Meeting Overview")
+    React.createElement("a", {"data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_agenda_edit.html?mid="+thisMeetingUid+"&isOverview=true"}, "Meeting Overview")
   ), 
 <%if(hasPermission(troop, Permission.PERMISSION_VIEW_ACTIVITY_PLAN_ID)) {%> 
    React.createElement("li", null, 
-    React.createElement("a", {"data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_agenda_edit.html?mid=<%=mid%>&isActivity=true"}, "Activity Plan")
+    React.createElement("a", {"data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_agenda_edit.html?mid="+thisMeetingUid+"&isActivity=true"}, "Activity Plan")
    ), 
 <%} %> 
    React.createElement("li", null, 
-    React.createElement("a", {"data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_agenda_edit.html?mid=<%=mid%>&isMaterials=true"}, "Materials List")
+    React.createElement("a", {"data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_agenda_edit.html?mid="+thisMeetingUid+"&isMaterials=true"}, "Materials List")
   )
   )
 )
@@ -515,7 +516,7 @@ React.createElement("li", null,
         }
       },
       componentDidMount: function() {
-       try{ resizeWindow(); }catch(err){}
+       try{  replaceMeetingHref(thisMeetingPath, moment(thisMeetingDate).valueOf()); resizeWindow(); }catch(err){}
         if (Modernizr.touch) {
 
             scrollTarget = ".touchscroll";

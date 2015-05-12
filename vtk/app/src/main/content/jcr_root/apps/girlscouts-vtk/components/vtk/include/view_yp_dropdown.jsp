@@ -9,6 +9,7 @@
     <div class="row">
       <p class="large-20 medium-20 large-centered medium-centered columns">To start planning your year, select a Year Plan.</p>
     </div> 
+    <div id="cngYearPlan">
     <%
       String ageLevel=  troop.getTroop().getGradeLevel();
       ageLevel= ageLevel.substring( ageLevel.indexOf("-")+1);
@@ -21,21 +22,21 @@
         } 
       }
      
-      //boolean isLibYearPlan= false;
+     
       java.util.Iterator<YearPlan> yearPlans = yearPlanUtil.getAllYearPlans(user, ageLevel).listIterator();
         while (yearPlans.hasNext()) {
           YearPlan yearPlan = yearPlans.next();
-         // if(troop.getYearPlan()!=null && (yearPlan.getName().equals(troop.getYearPlan().getName()))){isLibYearPlan=true;}
+         
       %>
       <div class="row">
         <div class="columns large-push-2 medium-2 medium-push-2 small-2">
        <input type="radio" <%=( troop.getYearPlan()!=null && (yearPlan.getName().equals(troop.getYearPlan().getName()))) ? " checked " : "" %> 
-           id="r_<%=yearPlan.getId()%>" class="radio1" name="group1" onclick="chgYearPlan('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>', '<%=yearPlan.getName()%>')" />
+           id="r_<%=yearPlan.getId()%>" class="radio1" name="group1" onclick="chgYearPlan('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>', '<%=yearPlan.getName()%>', <%=troop.getYearPlan()!=null ? true: false %> ,'<%=troop.getYearPlan().getName()%>' )" />
             <label for="r_<%=yearPlan.getId()%>"></label>
             
         </div>
         <div class="small-18 columns large-pull-2 medium-pull-2 small-pull-2">
-			<a href="#" onclick="chgYearPlan('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>', '<%=yearPlan.getName()%>')"><%=yearPlan.getName()%></a>
+			<a href="#" onclick="chgYearPlan('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>', '<%=yearPlan.getName()%>')"><%=yearPlan.getName()%>, , <%=troop.getYearPlan()!=null ? true: false %> ,'<%=troop.getYearPlan().getName()%>'</a>
 			<p><%=yearPlan.getDesc()%></p>
         </div>
       </div><!--/row-->
@@ -55,36 +56,9 @@
       
       
       
-      
+      </div>
   </div><!--/yearPlanSelection-->
 </section>
-<script>
-function chgYearPlan(planId, planPath, confirmMsg, planName){
-	<%if( troop.getYearPlan()!=null ){%>
-		if(planName==='<%=troop.getYearPlan().getName()%>'){
-			confirmMsg ="Are you sure to reset the yearplan?";
-		}
-	<%}%>
-	x(planId, planPath, confirmMsg, planName);
-};
 
-function chgCustYearPlan(planId, planPath, confirmMsg, planName) {
-    <%if( troop.getYearPlan()!=null ){%>
-        if(planName==='<%=troop.getYearPlan().getName()%>'){
-            confirmMsg ="Are you sure to reset the yearplan?";
-        }
-    <%}%>
-    //x(planId, planPath, confirmMsg, planName);
- 
-    $('#modal_custom_year_plan').foundation('reveal', 'open', {
-        url: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_custom_year_plan.html",
-        //data: {param1: 'value1', param2: 'value2'}
-         success: function(data) {
-          var min_height = $('#sortable1').height()-71;
-          $("#sortable2").css('min-height', min_height);  
-        }
-    });
-};
-
-</script>
 <div id="modal_custom_year_plan" class="reveal-modal" data-reveal></div>
+<script>getCngYearPlan();</script>
