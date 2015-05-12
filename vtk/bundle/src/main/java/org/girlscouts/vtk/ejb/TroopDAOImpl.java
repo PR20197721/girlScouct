@@ -845,7 +845,7 @@ public class TroopDAOImpl implements TroopDAO {
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
 					mapper);
 
-			if (ocm.objectExists(asset.getPath())) {
+			if (!ocm.objectExists(asset.getPath())) {
 				JcrUtils.getOrCreateByPath(
 						asset.getPath().substring(0,
 								asset.getPath().lastIndexOf("/")),

@@ -443,17 +443,19 @@ public class SalesforceDAO {
 							+ org.girlscouts.vtk.auth.permission.RollType.DP);
 					org.girlscouts.vtk.auth.permission.RollType rollType = org.girlscouts.vtk.auth.permission.RollType
 							.valueOf(troop.getRole());// "DP");
-					/*
-					 * try { if (contactId.equals("005Z0000002J5CYIA0")) {
-					 * rollType = org.girlscouts.vtk.auth.permission.RollType
-					 * .valueOf("PA"); troop.setCouncilCode(603); // TO BE
-					 * REMOVED : only 4 // test if
-					 * (troop.getTroopId().equals("701Z0000000gvSKIAY")) {
-					 * troop.setTroopId("701G0000000uQzTIAU");
-					 * troop.setTroopName("Troop 603104");
-					 * troop.setGradeLevel("2-Brownie"); } } } catch (Exception
-					 * nn) { nn.printStackTrace(); }
-					 */
+					
+					  try { 
+						  if (contactId.equals("005Z0000002J5CYIA0")) {
+					  rollType = org.girlscouts.vtk.auth.permission.RollType.valueOf("PA"); 
+					  troop.setCouncilCode(603); 
+					  // TO BE REMOVED : only 4 // test
+					  if(troop.getTroopId().equals("701Z0000000gvSKIAY")) {
+					  troop.setTroopId("701G0000000uQzTIAU");
+					  troop.setTroopName("Troop 603104");
+					  troop.setGradeLevel("2-Brownie"); } } 
+						  } catch (Exception
+					  nn) { nn.printStackTrace(); }
+					 
 					switch (rollType) {
 					case PA:
 						troop.setPermissionTokens(Permission

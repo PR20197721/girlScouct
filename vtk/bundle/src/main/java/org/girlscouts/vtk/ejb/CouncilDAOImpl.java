@@ -18,8 +18,10 @@ import org.apache.jackrabbit.ocm.query.Filter;
 import org.apache.jackrabbit.ocm.query.QueryManager;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.CouncilDAO;
+import org.girlscouts.vtk.models.Achievement;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Asset;
+import org.girlscouts.vtk.models.Attendance;
 import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.Council;
 import org.girlscouts.vtk.models.JcrNode;
@@ -75,6 +77,8 @@ public class CouncilDAOImpl implements CouncilDAO {
 			classes.add(JcrNode.class);
 			classes.add(Milestone.class);
 			classes.add(Troop.class);
+			classes.add(Attendance.class);
+			classes.add(Achievement.class);
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
