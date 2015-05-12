@@ -52,7 +52,6 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 
 <div id="panelWrapper" class="row content meeting-detail">
 <%@include file="include/utility_nav.jsp"%>
-<%@include file="include/modals/modal_meeting_aids.jsp"%>
 <%@include file="include/modals/modal_agenda.jsp"%>
 <%@include file="include/modals/modal_meeting_reminder.jsp" %>
 <%@include file="include/modals/modal_view_sent_emails.jsp"%>
@@ -169,7 +168,9 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
                  commentNodes
                    ), 
               " <%if( hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID ) ) {%>", 
-               React.createElement("a", {className: "add-btn", "data-reveal-id": "modal_meeting_aids", href: "#", title: "Add meeting aids"}, React.createElement("i", {className: "icon-button-circle-plus"}), " Add Meeting Aids"), 
+              React.createElement("a", {className: "add-btn", "data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_meeting_aids.html", title: "Add meeting aids"}, React.createElement("i", {className: "icon-button-circle-plus"}), " Add Meeting Aids"), 
+             
+               
                "<%}%>"
                ) 
            );
