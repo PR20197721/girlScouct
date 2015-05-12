@@ -1005,6 +1005,18 @@
 			java.util.List _dates = VtkUtil
 					.getStrCommDelToArrayDates(dates);
 			out.println(_dates.size());
+		} else if (request.getParameter("printTroopReloginids") != null) {
+			 %><select id="reloginid" onchange="relogin()"><% 
+			for (int i = 0; i < troops.size(); i++) { 
+			 
+			  %><option value="<%=troops.get(i).getTroopId()%>"
+	            <%=troop.getTroop().getTroopId()
+	              .equals(troops.get(i).getTroopId()) ? "SELECTED"
+	              : ""%>><%=troops.get(i).getTroopName()%>
+	              :  <%=troops.get(i).getGradeLevel()%></option><%
+	        }
+		
+		   %></select><% 
 		} else {
 			//TODO throw ERROR CODE
 		}

@@ -6,22 +6,7 @@
 %>
 
 <div id="troop" class="row hide-for-print">
-  <div class="columns large-7 medium-7 right">
-    <select id="reloginid" onchange="relogin()">
-      <%
-        for (int i = 0; i < troops.size(); i++) {
-      %>
-      <option value="<%=troops.get(i).getTroopId()%>"
-        <%=troop.getTroop().getTroopId()
-              .equals(troops.get(i).getTroopId()) ? "SELECTED"
-              : ""%>><%=troops.get(i).getTroopName()%>
-        :
-        <%=troops.get(i).getGradeLevel()%></option>
-      <%
-        }
-      %>
-    </select>
-  </div>
+  <div class="columns large-7 medium-7 right" id="relogin"></div>
 </div>
 <%
   }
@@ -152,4 +137,5 @@
   <%
     //}
   %>
+  <script>getRelogin();</script>
 </div><!--/hide-for-print-->

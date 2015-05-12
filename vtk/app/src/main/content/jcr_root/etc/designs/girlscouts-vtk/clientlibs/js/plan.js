@@ -782,3 +782,21 @@ function councilRpt(troopId, cid){
 			});
 		*/
 	}
+	
+	
+	function getRelogin(){
+		 $.ajax({
+		        url: "/content/girlscouts-vtk/controllers/vtk.controller.html?printTroopReloginids=true",
+		        cache: false
+		    }).done(function( html ) {
+		    	printRelogin(html);
+		    });
+	}
+	
+	
+	function printRelogin(reloginSelect){
+		var reloginDiv= document.getElementById("relogin");
+		if( reloginDiv !=null && reloginDiv!=null ){
+			reloginDiv.innerHTML = reloginSelect;
+		}
+	}

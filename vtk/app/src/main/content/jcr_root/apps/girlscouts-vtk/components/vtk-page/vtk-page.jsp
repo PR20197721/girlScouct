@@ -23,7 +23,7 @@ if( !isAutoLogin ){
 }else{
 	
 	final org.girlscouts.vtk.ejb.TroopUtil troopUtil = sling.getService(org.girlscouts.vtk.ejb.TroopUtil.class);
-	troopUtil.autoLogin(session);
+	//troopUtil.autoLogin(session);
 	
 }
 	
