@@ -118,8 +118,14 @@ try{
 		String description = docHit.getDescription();
 
 		Node node = resourceResolver.resolve(hit.getPath()).adaptTo(Node.class);
-        if(node.hasNode("jcr:content/metadata")){
-            Node metadata = node.getNode("jcr:content/metadata");
+
+		//GSWS-132: Prevents unwanted (folder) results
+		if(!node.getPrimaryNodeType().getName().equals("dam:Asset")){
+			continue;
+		}
+
+		else if(node.hasNode("jcr:content/metadata")){
+			Node metadata = node.getNode("jcr:content/metadata");
             //The title set in the dam is dc:title, and the description is dc:description
             
             // Temporary Hit fix for handling multiple description and title
