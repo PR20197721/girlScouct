@@ -8,6 +8,6 @@ var $ = jQuery.noConflict();
   $(document).foundation();
   //document ready startes here.
   $(document).ready(function () {
-    console.log();
+    console.log("GSUSA let's go!");
   });
 }($));

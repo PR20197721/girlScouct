@@ -6,7 +6,7 @@
     if (data != null) {
 %>
         <li class="header-nav-item">
-          <%= data %>
+          <a href="" title="<%= data %>"> <%= data %></a>
         </li>
 <%
     }
