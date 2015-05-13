@@ -168,7 +168,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
                  commentNodes
                    ), 
               " <%if( hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID ) ) {%>", 
-              React.createElement("a", {className: "add-btn", "data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_meeting_aids.html", title: "Add meeting aids"}, React.createElement("i", {className: "icon-button-circle-plus"}), " Add Meeting Aids"), 
+              React.createElement("a", {className: "add-btn", "data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_meeting_aids.html?elem="+moment(thisMeetingDate).valueOf(), title: "Add meeting aids"}, React.createElement("i", {className: "icon-button-circle-plus"}), " Add Meeting Aids"), 
              
                
                "<%}%>"

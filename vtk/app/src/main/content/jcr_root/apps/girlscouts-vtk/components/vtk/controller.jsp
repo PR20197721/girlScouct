@@ -680,7 +680,7 @@
 
 			boolean isCng = false;
 
-			if (!isFirst) {
+			if (!isFirst && troop.getYearPlan()!=null) {
 				ModifiedChecker modifiedChecker = sling
 						.getService(ModifiedChecker.class);
 
@@ -888,12 +888,11 @@
 
 			boolean isCng = false;
 
-			if (!isFirst) {
+			if (!isFirst && troop.getYearPlan()!=null) {
 				ModifiedChecker modifiedChecker = sling
 						.getService(ModifiedChecker.class);
 				isCng = modifiedChecker.isModified(
-						"X" + session.getId(), troop.getYearPlan()
-								.getPath());
+						"X" + session.getId(), troop.getYearPlan().getPath());
 			}
 
 			if (isFirst || isCng) {
@@ -1043,12 +1042,12 @@
 	      <div class="row">
 	        <div class="columns large-push-2 medium-2 medium-push-2 small-2">
 	       <input type="radio" <%=( troop.getYearPlan()!=null && (yearPlan.getName().equals(troop.getYearPlan().getName()))) ? " checked " : "" %> 
-	           id="r_<%=yearPlan.getId()%>" class="radio1" name="group1" onclick="chgYearPlan('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>', '<%=yearPlan.getName()%>', <%=troop.getYearPlan()!=null ? true: false %> ,'<%=troop.getYearPlan().getName()%>' )" />
+	           id="r_<%=yearPlan.getId()%>" class="radio1" name="group1" onclick="chgYearPlan('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>', '<%=yearPlan.getName()%>', <%=troop.getYearPlan()!=null ? true: false %> ,'<%=troop.getYearPlan()!=null ? troop.getYearPlan().getName() : "" %>' )" />
 	            <label for="r_<%=yearPlan.getId()%>"></label>
 	            
 	        </div>
 	        <div class="small-18 columns large-pull-2 medium-pull-2 small-pull-2">
-	            <a href="#" onclick="chgYearPlan('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>', '<%=yearPlan.getName()%>')"><%=yearPlan.getName()%>, , <%=troop.getYearPlan()!=null ? true: false %> ,'<%=troop.getYearPlan().getName()%>'</a>
+	            <a href="#" onclick="chgYearPlan('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>', '<%=yearPlan.getName()%>')"><%=yearPlan.getName()%>, , <%=troop.getYearPlan()!=null ? true: false %> ,'<%=troop.getYearPlan()!=null ? troop.getYearPlan().getName() : ""%>'</a>
 	            <p><%=yearPlan.getDesc()%></p>
 	        </div>
 	      </div><!--/row-->
