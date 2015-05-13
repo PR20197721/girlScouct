@@ -115,8 +115,8 @@ $column-gutter: rem-calc(20);
 // $black       : #000000;
 
 // We use these as default colors throughout
-// $primary-color: #008CBA;
-// $secondary-color: #e7e7e7;
+$primary-color: #00AE58; //green
+$secondary-color: #FAA61A; //orange
 // $alert-color: #f04124;
 // $success-color: #43AC6A;
 // $warning-color: #f08a24;
@@ -125,7 +125,7 @@ $column-gutter: rem-calc(20);
 // We use these to control various global styles
 // $body-bg: $white;
 // $body-font-color: $jet;
-// $body-font-family: $font-family-sans-serif;
+$body-font-family: "Open Sans";
 // $body-font-weight: $font-weight-normal;
 // $body-font-style: normal;
 
