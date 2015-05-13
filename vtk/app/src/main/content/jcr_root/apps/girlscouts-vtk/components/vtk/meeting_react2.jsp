@@ -43,7 +43,8 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 %>
  <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script> 
 
-<%@include file="include/tab_navigation.jsp"%>
+    <%@include file="include/tab_navigation.jsp"%>
+
 
 <script>
     var thisMeetingPath = "";
@@ -63,7 +64,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
     var thisMeetingDate="a";
     var isActivNew=0;
     var agendaSched= null;
-
+    var scrollTarget = "";
     var MeetingList = React.createClass({displayName: "MeetingList",
       getInitialState: function() {
         return { show: false };
@@ -72,13 +73,13 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
         this.setState({ show: !this.state.show });
       },
       render: function() {
+    	  
        var scheduleDates =null;
           if( this.props.schedule!=null){
               scheduleDates= this.props.schedule.dates;
           }
        
        var commentNodes = this.props.data.map(function (comment ,i ) {
-       
        if(comment.uid=='<%=mid%>') {
         
         if( scheduleDates !=null ) {
@@ -94,9 +95,15 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
           thisMeetingRefId  = comment.refId;
           thisMeetingPath  = comment.path;
           thisMeetingImg   = "/content/dam/girlscouts-vtk/local/icon/meetings/"+ comment.meetingInfo.id +".png";
+         
+         
+         
           thisMeetingDate = new Date( Number(thisMeetingDate) );
-
-          return (
+          if( isNaN(thisMeetingDate) ){
+        	  thisMeetingDate = new Date(<%=planView.getSearchDate().getTime()%>);
+        	  
+          }
+     return (
             React.createElement(YearPlan, {item: comment, key: i}, 
                    React.createElement(MeetingPlan, {meetingModMONTH: moment(thisMeetingDate).format('MMMM'), meetingModDAY: moment(thisMeetingDate).format('DD'), meetingModHOUR: moment(thisMeetingDate).format('h:mm a'), uid: comment.uid, meetingTitle: comment.meetingInfo.name, meetingId: comment.id, meetingGlobalId: thisMeetingImg, location: comment.locationRef, cat: comment.meetingInfo.cat, blurb: comment.meetingInfo.meetingInfo["meeting short description"].str}), 
                    React.createElement(MeetingAssets, {data: comment.assets}), 
@@ -190,37 +197,35 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
         		/*nav include*/
         		React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered small-24"}, 
 
-  React.createElement("div", {className: "meeting-navigation <%= (planView.getYearPlanComponent().getType() ==  YearPlanComponentType.ACTIVITY) ? " activity-navigation " : "" %> row collapse"}, 
+            React.createElement("div", {className: "meeting-navigation <%= (planView.getYearPlanComponent().getType() ==  YearPlanComponentType.ACTIVITY) ? " activity-navigation " : "" %> row collapse"}, 
 
-    React.createElement("p", {className: "column"}, 
+            React.createElement("p", {className: "column"}, 
 
-    React.createElement("span", null, 
+            React.createElement("span", null, 
 
-       <%if(planView.getPrevDate()!=0){ %>
+           <%if(planView.getPrevDate()!=0){ %>
 
-    	    React.createElement("a", {className: "direction prev", href: "/content/girlscouts-vtk/en/vtk.details.html?elem=<%=planView.getPrevDate()%>"})
-       <%}else{%>""<%}%>   
-      
-
+        	    React.createElement("a", {className: "direction prev", href: "/content/girlscouts-vtk/en/vtk.details.html?elem=<%=planView.getPrevDate()%>"})
+           <%}else{%>""<%}%>   
       )
 
     ), 
 
-    React.createElement("div", {className: "column"}, 
+            React.createElement("div", {className: "column"}, 
 
-      React.createElement("h3", null, "<%=planView.getYearPlanComponent().getType()%>", " : ",this.props.id, this.props.meetingTitle), 
+            React.createElement("h3", null, "<%=(planView.getYearPlanComponent().getType() == YearPlanComponentType.MEETINGCANCELED) ? "MEETING (Canceled)" : planView.getYearPlanComponent().getType()%>", " : ",this.props.id, this.props.meetingTitle), 
 
-      React.createElement("p", {className: "date"}, 
+            React.createElement("p", {className: "date"}, 
 
-      <%if(planView.getSearchDate()!=null && planView.getSearchDate().after( new java.util.Date("1/1/1977") )){ %> 
+            <%if(planView.getSearchDate()!=null && planView.getSearchDate().after( new java.util.Date("1/1/1977") )){ %> 
 
-         React.createElement("span", {className: "month"}, this.props.meetingModMONTH), 
+            React.createElement("span", {className: "month"}, this.props.meetingModMONTH), 
 
-            React.createElement("span", {className: "day"}, this.props.meetingModDAY), 
+              React.createElement("span", {className: "day"}, this.props.meetingModDAY), 
 
-            React.createElement("span", {className: "hour"}, this.props.meetingModHOUR)
-    <%}else{%>""<%}%>
- 
+              React.createElement("span", {className: "hour"}, this.props.meetingModHOUR)
+            <%}else{%>""<%}%>
+
             
       
 
@@ -228,15 +233,15 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 
     ), 
 
-    React.createElement("p", {className: "column"}, 
+          React.createElement("p", {className: "column"}, 
 
-      React.createElement("span", null, 
+          React.createElement("span", null, 
 
-      <% if(planView.getNextDate()!=0 ){  %>
+          <% if(planView.getNextDate()!=0 ){  %>
 
-    	    React.createElement("a", {className: "direction next", href: "/content/girlscouts-vtk/en/vtk.details.html?elem=<%=planView.getNextDate()%>"})
+            React.createElement("a", {className: "direction next", href: "/content/girlscouts-vtk/en/vtk.details.html?elem=<%=planView.getNextDate()%>"})
 
-     <%}else{%>""<%}%>
+          <%}else{%>""<%}%>
 
     
 
@@ -253,16 +258,16 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
         		/**main info */
         		
         		React.createElement("section", {className: "column large-20 medium-20 large-centered medium-centered", id: "main-info"}, 
-  React.createElement("div", {className: "row"}, 
-    React.createElement("div", {className: "column large-17 medium-17 small-17"}, 
-      React.createElement("p", null, this.props.blurb), 
-      React.createElement("section", null, 
+            React.createElement("div", {className: "row"}, 
+            React.createElement("div", {className: "column large-17 medium-17 small-17"}, 
+            React.createElement("p", null, this.props.blurb), 
+            React.createElement("section", null, 
         
-        React.createElement("p", null, 
+            React.createElement("p", null, 
             <%if(loc!=null){ %> 
                 
-                React.createElement("span", null, "Location: <%=loc.getName()%>  -"),
-                React.createElement("a", {href: "/content/girlscouts-vtk/controllers/vtk.map.html?address=<%=loc.getAddress()%>", target: "_blank"}, "<%=loc.getAddress()%> ")
+            React.createElement("span", null, "Location: <%=loc.getName()%>  -"),
+            React.createElement("a", {href: "/content/girlscouts-vtk/controllers/vtk.map.html?address=<%=loc.getAddress()%>", target: "_blank"}, "<%=loc.getAddress()%> ")
                 
             <%}else{%>
                 ""
@@ -270,8 +275,8 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
         )
       ), 
       React.createElement("section", null, 
-        React.createElement("p", null, "Category:"), 
-        React.createElement("p", null, this.props.cat)
+        // React.createElement("p", null, "Category:"), 
+        React.createElement("p", null, "Category: " + this.props.cat)
       )
     ), 
     React.createElement("div", {className: "column large-7 medium-7 small-7 text-right"}, 
@@ -348,30 +353,30 @@ React.createElement("li", null,
 <%}%>
         
         
-        <%if(hasPermission(troop, Permission.PERMISSION_VIEW_ATTENDANCE_ID )) {%> 
+        <%if( planView.getYearPlanComponent().getType()!= YearPlanComponentType.MEETINGCANCELED && hasPermission(troop, Permission.PERMISSION_VIEW_ATTENDANCE_ID )) {%> 
         ,React.createElement("li", null, 
             React.createElement("a", {"data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_attendance.html?mid=<%=planView.getYearPlanComponent().getUid() %>&isAch=<%=(planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING) ? ((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getIsAchievement() : "false" %>&mName=<%= (planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING) ? ((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getName() : ((Activity)planView.getYearPlanComponent()).getName()%>"}, "Record Attendance & Achievements")
         ), 
         React.createElement("li", null, "(" 
-            <%if( pageContext.getAttribute("MEETING_ATTENDANCE_TOTAL") ==null || pageContext.getAttribute("MEETING_ATTENDANCE_TOTAL").equals("")){ %> 
-                   , "none present, no achievements" 
-            <%}else{ %> 
-		            <% if(pageContext.getAttribute("MEETING_ATTENDANCE_CURRENT") ==null || ((Integer)pageContext.getAttribute("MEETING_ATTENDANCE_CURRENT")) ==0 ){ %>
-		              ,"none present,"  
-		            <%}else{%>
-		                ,"<%= pageContext.getAttribute("MEETING_ATTENDANCE_CURRENT") %> of <%= pageContext.getAttribute("MEETING_ATTENDANCE_TOTAL") %> present,"
-		             <%}%> 
-		            
-		             
-		            <% if( pageContext.getAttribute("MEETING_achievement_CURRENT") ==null ||  ((Integer)pageContext.getAttribute("MEETING_achievement_CURRENT")) ==0){ %>
-		              ,"no achievements" 
-		            <% }else{%> 
-		             ,"<%= pageContext.getAttribute("MEETING_achievement_CURRENT") %> of <%= pageContext.getAttribute("MEETING_ATTENDANCE_TOTAL") %> achievement(s)"
-		            <%} %>
-             ,")"
-        )
+        <%if( pageContext.getAttribute("MEETING_ATTENDANCE_TOTAL") ==null || ((Integer)pageContext.getAttribute("MEETING_ATTENDANCE_TOTAL")) ==0 || pageContext.getAttribute("MEETING_ATTENDANCE_TOTAL").equals("") ){ %> 
+               , "0 present, 0 achievements" 
+        <%}else{ %> 
+          <% if(pageContext.getAttribute("MEETING_ATTENDANCE_CURRENT") ==null || ((Integer)pageContext.getAttribute("MEETING_ATTENDANCE_CURRENT")) ==0 ){ %>
+            ,"0 of <%= pageContext.getAttribute("MEETING_ATTENDANCE_TOTAL") %> present,"  
+          <%}else{%>
+              ,"<%= pageContext.getAttribute("MEETING_ATTENDANCE_CURRENT") %> of <%= pageContext.getAttribute("MEETING_ATTENDANCE_TOTAL") %> present,"
+           <%}%> 
+          
+           
+          <% if( pageContext.getAttribute("MEETING_achievement_CURRENT") ==null ||  ((Integer)pageContext.getAttribute("MEETING_achievement_CURRENT")) ==0){ %>
+            ,"0 achievements" 
+          <% }else{%> 
+           ,"<%= pageContext.getAttribute("MEETING_achievement_CURRENT") %> of <%= pageContext.getAttribute("MEETING_ATTENDANCE_TOTAL") %> achievement(s)"
+          <%} %>
+         
         <%} %>
-        
+        ,")"
+        )
         <%}%>
   
   
@@ -432,12 +437,18 @@ React.createElement("li", null,
       render: function() {
           var x;
           var sched;
-          if( this.state.data.meetingEvents!=null){
+          if( <%=planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING%> && this.state.data.meetingEvents!=null){
               x =  this.state.data.meetingEvents;
               sched = this.state.data.schedule;
               return (
                    React.createElement(MeetingList, {data: x, schedule: sched}) 
               );
+          }else if( <%=planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETINGCANCELED%> &&  this.state.data.meetingCanceled!=null){
+                  x =  this.state.data.meetingCanceled;
+                  sched = this.state.data.schedule;
+                  return (
+                       React.createElement(MeetingList, {data: x, schedule: sched}) 
+                  );
           }else{
               return React.createElement("div", null, "loading...");
           }
@@ -468,30 +479,37 @@ React.createElement("li", null,
       render: function() {
         if( this.props.data!=null ){
           agendaSched=null;
-                  return (
-                		  
-                		   React.createElement("ul", null, 
-                		      this.props.data.map((function(item, i) {
-                		      return React.createElement("li", {className: "row", key: item.activityNumber, id: item.activityNumber}, 
-                		        React.createElement("div", {className: "wrapper clearfix"}, 
-                		          React.createElement("div", {className: "large-3 medium-3 small-3 columns small-push-1 large-push-2"}, 
-                		            React.createElement("span", null,   moment('<%=planView.getSearchDate()%>').format('YYYY') <1978 ? item.activityNumber : moment( getAgendaTime( item.duration )).format("h:mm"), " ")
-                		          ), 
-                		            React.createElement("div", {className: "large-17 columns medium-17 small-17 small-push-1 large-push-1"}, 
-                		              React.createElement(ActivityName, {item: item, key: item.uid, selected: item.uid, itemSelected: this.setSelectedItem, activityNumber: item.activityNumber - 1})
-                		            ), 
-                		            React.createElement("div", {className: "large-3 medium-3 small-3 columns"}, 
-                		              React.createElement("span", null, ":", item.duration<10 ? ("0"+item.duration) : item.duration)
-                		            )
-                		          )
-                		        );
-                		                })) 
-                		            
-                		            
-                		  )
+          return (
                 		  
 
-                  );
+    		   React.createElement("ul", null, 
+    		      this.props.data.map((function(item, i) {
+    		      return React.createElement("li", {className: "row ui-state-default", key: item.activityNumber, id: item.activityNumber}, 
+    		        React.createElement("div", {className: "wrapper clearfix"},
+
+
+
+                React.createElement("img", {className: (moment('<%=planView.getSearchDate()%>') < moment( new Date()) && (moment('<%=planView.getSearchDate()%>').get('year') >2000)) ? "touchscroll hide" : "touchscroll <%=hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : " hide" %>", src: "/etc/designs/girlscouts-vtk/clientlibs/css/images/throbber.png"}),
+
+
+    		          React.createElement("div", {className: "large-3 medium-3 small-3 columns small-push-1 large-push-2"}, 
+    		            React.createElement("span", null,   moment('<%=planView.getSearchDate()%>').format('YYYY') <1978 ? item.activityNumber : moment( getAgendaTime( item.duration )).format("h:mm"), " ")
+    		          ), 
+    		            React.createElement("div", {className: "large-17 columns medium-17 small-17 small-push-1 large-push-1"}, 
+    		              React.createElement(ActivityName, {item: item, key: item.uid, selected: item.uid, itemSelected: this.setSelectedItem, activityNumber: item.activityNumber - 1})
+    		            ), 
+    		            React.createElement("div", {className: "large-3 medium-3 small-3 columns"}, 
+    		              React.createElement("span", null, ":", item.duration<10 ? ("0"+item.duration) : item.duration)
+    		            )
+    		          )
+    		        );
+    		                })) 
+    		            
+    		            
+    		  )
+    		  
+
+      );
         }else{
           return React.createElement("div", null, React.createElement("img", {src: "/etc/designs/girlscouts-vtk/images/loading.gif"})) 
         }
@@ -506,7 +524,15 @@ React.createElement("li", null,
         var dom = $(this.getDOMNode());
         var onReorder = this.props.onReorder;
         dom.sortable({
-        	 tolerance: "intersect" ,
+        	items: "li:not(.ui-state-disabled)",
+            delay:150,
+            distance: 5,
+            opacity: 0.5 ,
+            scroll: true,
+            scrollSensitivity: 10 ,
+            tolerance: "intersect" ,
+            handle: scrollTarget,
+            helper:'clone',
           stop: function (event, ui) {
             var order = dom.sortable("toArray", {attribute: "id"});
             var yy  = order.toString().replace('"','');
@@ -523,7 +549,15 @@ React.createElement("li", null,
 
         var onReorder = this.props.onReorder;
         dom.sortable({
-        	tolerance: "intersect" ,
+        	items: "li:not(.ui-state-disabled)",
+            delay:150,
+            distance: 5,
+            opacity: 0.5 ,
+            scroll: true,
+            scrollSensitivity: 10 ,
+            tolerance: "intersect" ,
+            handle: scrollTarget,
+            helper:'clone',
             stop: function (event, ui) {
               var order = dom.sortable("toArray", {attribute: "id"});
               var yy  = order.toString().replace('"','');
@@ -542,7 +576,7 @@ React.createElement("li", null,
     data: '', 
     dataType: 'html', 
     success: function (data) { 
-    	location.reload();
+    	//location.reload();
     },
     error: function (data) { 
     }
