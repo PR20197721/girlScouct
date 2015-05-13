@@ -848,8 +848,12 @@ function councilRpt(troopId, cid){
 	function replaceMeetingHref(mPath, mDate){
 		
 		var replaceMeeting = document.getElementById("replaceMeeting");
+		var replaceMeetingSmall = document.getElementById("replaceMeetingSmall");
 		if(replaceMeeting!=null){
 			replaceMeeting.innerHTML = "<a href=\"#\" onclick=\"loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath="+mPath+"&xx="+mDate+"', false, null, true)\">replace this meeting</a>";
+		}
+		if(replaceMeetingSmall!=null){
+			replaceMeetingSmall.innerHTML = "<a href=\"#\" onclick=\"loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath="+mPath+"&xx="+mDate+"', false, null, true)\">replace this meeting</a>";
 		}
 		
 	}
