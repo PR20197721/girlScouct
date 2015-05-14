@@ -16,8 +16,7 @@ public class YearPlan implements Serializable {
 
 	@Field
 	private String name, desc, id, refId, altered, resources;
-	@Field(path = true)
-	String path;
+	@Field(path = true) String path;
 	@Collection(autoUpdate = false)
 	private java.util.List<MeetingE> meetingEvents;
 	@Collection(autoUpdate = false)
@@ -34,6 +33,17 @@ public class YearPlan implements Serializable {
 	private java.util.List<Milestone> milestones;
 	@Collection(autoUpdate = false)
 	private java.util.List<MeetingCanceled> meetingCanceled;
+	private Helper helper;
+	
+	
+	
+	public Helper getHelper() {
+		return helper;
+	}
+
+	public void setHelper(Helper helper) {
+		this.helper = helper;
+	}
 
 	public String getResources() {
 		return resources;

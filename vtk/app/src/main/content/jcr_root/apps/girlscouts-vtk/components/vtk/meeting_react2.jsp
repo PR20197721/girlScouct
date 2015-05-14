@@ -48,6 +48,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 
 <script>
     var thisMeetingPath = "";
+    
 </script>
 
 <div id="panelWrapper" class="row content meeting-detail">
@@ -65,6 +66,10 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
     var agendaSched= null;
     var scrollTarget = "";
     var thisMeetingUid;
+    var mid= '<%=mid%>';
+    var helper=null;
+    var nextMeetingDate=null;
+    
     var MeetingList = React.createClass({displayName: "MeetingList",
       getInitialState: function() {
         return { show: false };
@@ -78,26 +83,26 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
           if( this.props.schedule!=null){
               scheduleDates= this.props.schedule.dates;
           }
-       
+          
+          
+          
        var commentNodes = this.props.data.map(function (comment ,i ) {
-       if(comment.uid=='<%=mid%>') {
+       if(comment.uid== mid) {
         
         if( scheduleDates !=null ) {
               
           var scheduleDatesArray = scheduleDates.split(',');
               thisMeetingDate =  scheduleDatesArray[comment.id];  
       
-        } else{ 
+        } else { 
              thisMeetingDate=new Date('<%=planView.getSearchDate()%>');
-
         }
-        thisMeetingUid= comment.uid;
+          thisMeetingUid= comment.uid;
           thisMeetingRefId  = comment.refId;
           thisMeetingPath  = comment.path;
           thisMeetingImg   = "/content/dam/girlscouts-vtk/local/icon/meetings/"+ comment.meetingInfo.id +".png";
          
-         
-         
+          
           thisMeetingDate = new Date( Number(thisMeetingDate) );
           if( isNaN(thisMeetingDate) ){
         	  thisMeetingDate = new Date(<%=planView.getSearchDate().getTime()%>);
@@ -120,12 +125,12 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 
     var ActivityNameAlex = React.createClass({displayName: "ActivityNameAlex",
       onClick: function() {
-       loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid=<%=mid%>&isAgenda='+(this.props.item.activityNumber-1), true, 'Agenda')       
+       loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingMisc.html?mid="+mid+"&isAgenda='+(this.props.item.activityNumber-1), true, 'Agenda')       
         },
       render: function() {
         return (
             
-            React.createElement("a", {href: "javascript:void(0)", onClick: this.onClick, className: this.props.selected ? "selected" : "", mid: "<%=mid%>", isAgenda: (this.props.item.activityNumber-1)}, 
+            React.createElement("a", {href: "javascript:void(0)", onClick: this.onClick, className: this.props.selected ? "selected" : "", mid: mid, isAgenda: (this.props.item.activityNumber-1)}, 
                this.props.item.name
             )
         );
@@ -136,7 +141,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
     var ActivityName = React.createClass({displayName: "ActivityName",     
       render: function() {
         return (
-            React.createElement("a", {"data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_agenda_edit.html?mid=<%=mid%>&isAgenda="+(this.props.item.activityNumber-1)}, this.props.item.name) 
+            React.createElement("a", {"data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_agenda_edit.html?mid="+mid+"&isAgenda="+(this.props.item.activityNumber-1)}, this.props.item.name) 
         );
       }
     });
@@ -167,18 +172,30 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
                    React.createElement("ul", {className: "large-block-grid-2 medium-block-grid-2 small-block-grid-1"}, 
                  commentNodes
                    ), 
-              " <%if( hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID ) ) {%>", 
-              React.createElement("a", {className: "add-btn", "data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_meeting_aids.html?elem="+moment(thisMeetingDate).valueOf(), title: "Add meeting aids"}, React.createElement("i", {className: "icon-button-circle-plus"}), " Add Meeting Aids"), 
-             
-               
-               "<%}%>"
+                   React.createElement(AddMeeting)
                ) 
            );
          }
        });
 
+    
+    var AddMeeting = React.createClass({displayName: "Add Meeting",
+        render: function() { 
+        	
+        if( helper.permissions!=null && helper.permissions.indexOf('<%= Permission.PERMISSION_EDIT_MEETING_ID %>')!=-1){
+          return (
+             React.createElement("a", {className: "add-btn", "data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_meeting_aids.html?elem="+moment(thisMeetingDate).valueOf(), title: "Add meeting aids"}, React.createElement("i", {className: "icon-button-circle-plus"}), " Add Meeting Aids")
+          );
+        }else{ return React.createElement("span");}
+        }
+      });
+    
+    
     var YearPlan = React.createClass({displayName: "YearPlan",
       render: function() {
+    	  
+          
+          
         return (
           React.createElement("div", {className: "comment"}, 
             React.createElement("h2", {className: "commentAuthor"}, 
@@ -205,10 +222,8 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 
             React.createElement("span", null, 
 
-           <%if(planView.getPrevDate()!=0){ %>
-
-        	    React.createElement("a", {className: "direction prev", href: "/content/girlscouts-vtk/en/vtk.details.html?elem=<%=planView.getPrevDate()%>"})
-           <%}else{%>""<%}%>   
+            		React.createElement(NavDirectionPrev)
+             
       )
 
     ), 
@@ -217,33 +232,19 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 
             React.createElement("h3", null, "<%=(planView.getYearPlanComponent().getType() == YearPlanComponentType.MEETINGCANCELED) ? "MEETING (Canceled)" : planView.getYearPlanComponent().getType()%>", " : ",this.props.id, this.props.meetingTitle), 
 
-            React.createElement("p", {className: "date"}, 
-
-            <%if(planView.getSearchDate()!=null && planView.getSearchDate().after( new java.util.Date("1/1/1977") )){ %> 
-
-            React.createElement("span", {className: "month"}, this.props.meetingModMONTH), 
-
-              React.createElement("span", {className: "day"}, this.props.meetingModDAY), 
-
-              React.createElement("span", {className: "hour"}, this.props.meetingModHOUR)
-            <%}else{%>""<%}%>
-
-            
-      
-
-      )
-
+            React.createElement(MeetingDate,{meetingModMONTH:this.props.meetingModMONTH,
+            	meetingModDAY:this.props.meetingModDAY,
+            	meetingModHOUR:this.props.meetingModHOUR})
     ), 
 
           React.createElement("p", {className: "column"}, 
 
           React.createElement("span", null, 
 
-          <% if(planView.getNextDate()!=0 ){  %>
+         
 
-            React.createElement("a", {className: "direction next", href: "/content/girlscouts-vtk/en/vtk.details.html?elem=<%=planView.getNextDate()%>"})
-
-          <%}else{%>""<%}%>
+            React.createElement(NavDirectionNext) 
+        
 
     
 
@@ -259,7 +260,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
         		
         		/**main info */
         		
-        		React.createElement("section", {className: "column large-20 medium-20 large-centered medium-centered", id: "main-info"}, 
+        React.createElement("section", {className: "column large-20 medium-20 large-centered medium-centered", id: "main-info"}, 
             React.createElement("div", {className: "row"}, 
             React.createElement("div", {className: "column large-17 medium-17 small-17"}, 
             React.createElement("p", null, this.props.blurb), 
@@ -392,6 +393,28 @@ React.createElement("li", null,
       }
     });
 
+    
+    var MeetingDate = React.createClass({displayName: "Meeting Date",
+        render: function() {
+        	if(thisMeetingDate!=null && thisMeetingDate.getTime() > new Date("1/1/1977").getTime() ){
+                return (
+        		         React.createElement("p", {className: "date"}, 
+        	
+        		              React.createElement("span", {className: "month"}, this.props.meetingModMONTH), 
+        		              React.createElement("span", {className: "day"}, this.props.meetingModDAY), 
+        		              React.createElement("span", {className: "hour"}, this.props.meetingModHOUR)
+        		            
+        		      )
+          
+                );
+        }else{
+        	return React.createElement("p" )
+        }
+        }
+      });
+    
+   
+    
     var MeetingAsset = React.createClass({displayName: "MeetingAsset",
       render: function() {
         return (
@@ -402,9 +425,43 @@ React.createElement("li", null,
         );
       }
     });
+    
+    var NavDirectionPrev = React.createClass({displayName: "Prev Date",
+        render: function() {
+        	if(helper.prevDate!=0 && helper.prevDate!=null ){
+        	return (
+        		
+
+                  React.createElement("a", {className: "direction prev", href: "/content/girlscouts-vtk/en/vtk.details.html?elem="+helper.prevDate})
+             
+             )
+        	}else{
+        		return React.createElement("span");
+        	}
+         
+        }
+      });
+    
+    
+    var NavDirectionNext = React.createClass({displayName: "NavDirectionNext",
+        render: function() {
+        	if(nextMeetingDate!=0 && nextMeetingDate!=null ){
+        		return (  
+        			   React.createElement("a", { className: "direction next", href: "/content/girlscouts-vtk/en/vtk.details.html?elem="+nextMeetingDate})
+        		
+        			  );
+        	  }else{
+        		  return React.createElement("span", null, "");
+        	  }
+        }
+      });
+    
+    
+    
     var CommentBox = React.createClass({displayName: "CommentBox",
      loadCommentsFromServer: function( isFirst ) {
         console.log("loading..");
+       
        $.ajax({
         url: this.props.url + 
           (isActivNew==1 ? ("&isActivNew="+ isActivNew) : '')+
@@ -413,6 +470,9 @@ React.createElement("li", null,
           cache: false,
           success: function(data) {
               this.setState({data:data.yearPlan});
+              
+              
+             
 	          if( isActivNew ==1 ){
 	              isActivNew=2;
 	          }else if( isActivNew ==2 ){
@@ -431,16 +491,29 @@ React.createElement("li", null,
         this.loadCommentsFromServer(1);
         setInterval( this.loadCommentsFromServer, this.props.pollInterval);
         setInterval( this.checkLocalUpdate, 1000);
+        
+       
       },
       checkLocalUpdate: function(){
           if( (isActivNew == 1) || (isActivNew == 2) )
               { this.loadCommentsFromServer() ; }
       },
       render: function() {
+    	  
+    	
+    	  
           var x;
           var sched;
           if( <%=planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING%> && this.state.data.meetingEvents!=null){
-              x =  this.state.data.meetingEvents;
+            
+        	 
+              helper= this.state.data.helper;
+                
+              thisMeetingDate= helper.currentDate;
+              nextMeetingDate= helper.nextDate;
+             
+              
+        	  x =  this.state.data.meetingEvents;
               sched = this.state.data.schedule;
               return (
                    React.createElement(MeetingList, {data: x, schedule: sched}) 
@@ -491,11 +564,11 @@ React.createElement("li", null,
 
 
 
-                React.createElement("img", {className: (moment('<%=planView.getSearchDate()%>') < moment( new Date()) && (moment('<%=planView.getSearchDate()%>').get('year') >2000)) ? "touchscroll hide" : "touchscroll <%=hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : " hide" %>", src: "/etc/designs/girlscouts-vtk/clientlibs/css/images/throbber.png"}),
+                React.createElement("img", {className: (moment(thisMeetingDate) < moment( new Date()) && (moment(thisMeetingDate).get('year') >2000)) ? "touchscroll hide" : "touchscroll <%=hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ? "" : " hide" %>", src: "/etc/designs/girlscouts-vtk/clientlibs/css/images/throbber.png"}),
 
 
     		          React.createElement("div", {className: "large-3 medium-3 small-3 columns small-push-1 large-push-2"}, 
-    		            React.createElement("span", null,   moment('<%=planView.getSearchDate()%>').format('YYYY') <1978 ? item.activityNumber : moment( getAgendaTime( item.duration )).format("h:mm"), " ")
+    		            React.createElement("span", null,   moment(thisMeetingDate).format('YYYY') <1978 ? item.activityNumber : moment( getAgendaTime( item.duration )).format("h:mm"), " ")
     		          ), 
     		            React.createElement("div", {className: "large-17 columns medium-17 small-17 small-push-1 large-push-1"}, 
     		              React.createElement(ActivityName, {item: item, key: item.uid, selected: item.uid, itemSelected: this.setSelectedItem, activityNumber: item.activityNumber - 1})

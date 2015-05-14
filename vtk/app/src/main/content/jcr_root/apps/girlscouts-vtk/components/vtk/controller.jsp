@@ -719,10 +719,8 @@
 									.getActivities() != null) {
 
 						if (request.getParameter("isActivNew") != null
-								&& request.getParameter("isActivNew")
-										.equals("1")) {
-							_meeting.getMeetingInfo().setActivities(
-									null);
+								&& request.getParameter("isActivNew").equals("1")) {
+							_meeting.getMeetingInfo().setActivities(null);
 
 						} else {
 							java.util.List<Activity> _activities = _meeting
@@ -747,6 +745,26 @@
 					}
 				}
 
+				
+				if( troop!=null && troop.getYearPlan()!=null){
+					Helper helper = troop.getYearPlan().getHelper();
+					if( helper==null ) helper= new Helper();
+					helper.setNextDate(planView.getNextDate());
+					helper.setPrevDate(planView.getPrevDate());
+					helper.setCurrentDate(planView.getSearchDate().getTime());
+					java.util.ArrayList <String> permissions= new java.util.ArrayList<String>();
+					if (troop != null && userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_EDIT_MEETING_ID))
+						permissions.add(String.valueOf(Permission.PERMISSION_EDIT_MEETING_ID));
+					if (troop != null && userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_ACTIVITY_PLAN_ID))
+                        permissions.add(String.valueOf(Permission.PERMISSION_VIEW_ACTIVITY_PLAN_ID));
+					if (troop != null && userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_SEND_EMAIL_MT_ID))
+                        permissions.add(String.valueOf(Permission.PERMISSION_SEND_EMAIL_MT_ID));
+					if (troop != null && userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_ATTENDANCE_ID))
+                        permissions.add(String.valueOf(Permission.PERMISSION_VIEW_ATTENDANCE_ID));
+					helper.setPermissions(permissions);
+					troop.getYearPlan().setHelper(helper);
+				}
+				
 				troop.setTroop(prefTroop);
 				troop.setSfTroopId(troop.getTroop().getTroopId());
 				troop.setSfUserId(user.getApiConfig().getUserId());
