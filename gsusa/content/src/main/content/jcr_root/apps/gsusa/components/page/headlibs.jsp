@@ -19,5 +19,5 @@
 %><%@include file="/libs/foundation/global.jsp" %><%
 %><cq:includeClientLib categories="cq.foundation-main"/><%
 %><cq:include script="/libs/cq/cloudserviceconfigs/components/servicelibs/servicelibs.jsp"/>
+<cq:includeClientLib css="apps.gsusa" />
 <script src="/etc/designs/gsusa/clientlibs/js/modernizr.js"></script>
-<% currentDesign.writeCssIncludes(pageContext); %>
