@@ -67,10 +67,12 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
     var agendaSched= null;
     var scrollTarget = "";
     var thisMeetingUid;
-    var mid= '<%=mid%>';
+    var mid= null;
     var helper=null;
     var nextMeetingDate=null;
     var meetingLocation=null;
+    var thisMeetingType=null;
+    var sentEmails=0;
     
     var MeetingList = React.createClass({displayName: "MeetingList",
       getInitialState: function() {
@@ -82,32 +84,32 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
       render: function() {
     	  
        var scheduleDates =null;
-          if( this.props.schedule!=null){
+       if( this.props.schedule!=null){
               scheduleDates= this.props.schedule.dates;
           }
           
           
           
        var commentNodes = this.props.data.map(function (comment ,i ) {
-       if(comment.uid== mid) {
+      
         
         if( scheduleDates !=null ) {
-              
           var scheduleDatesArray = scheduleDates.split(',');
-              thisMeetingDate =  scheduleDatesArray[comment.id];  
-      
+          thisMeetingDate =  scheduleDatesArray[comment.id];  
         } else { 
-             thisMeetingDate=new Date('<%=planView.getSearchDate()%>');
+          thisMeetingDate=new Date(helper.currentDate);
         }
           thisMeetingUid= comment.uid;
           thisMeetingRefId  = comment.refId;
           thisMeetingPath  = comment.path;
           thisMeetingImg   = "/content/dam/girlscouts-vtk/local/icon/meetings/"+ comment.meetingInfo.id +".png";
           mid=comment.uid;
-          
+          thisMeetingType= comment.type;
+          sentEmails=comment.sentEmails;
+        	  
           thisMeetingDate = new Date( Number(thisMeetingDate) );
           if( isNaN(thisMeetingDate) ){
-        	  thisMeetingDate = new Date(<%=planView.getSearchDate().getTime()%>);
+        	  thisMeetingDate = new Date(helper.currentDate);
         	  
           }
      return (
@@ -118,7 +120,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
             )
           );
 
-       }//end if meetingId
+       
 
       }); //end of loop
         return ( React.createElement("div", {className: "commentList"}, commentNodes)    );
@@ -214,7 +216,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
         		/*nav include*/
         		React.createElement("div", {className: "column large-20 medium-20 large-centered medium-centered small-24"}, 
 
-            React.createElement("div", {className: "meeting-navigation <%= (planView.getYearPlanComponent().getType() ==  YearPlanComponentType.ACTIVITY) ? " activity-navigation " : "" %> row collapse"}, 
+            React.createElement("div", {className: "meeting-navigation row collapse"}, 
 
             React.createElement("p", {className: "column"}, 
 
@@ -228,8 +230,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 
             React.createElement("div", {className: "column"}, 
 
-            React.createElement("h3", null, "<%=(planView.getYearPlanComponent().getType() == YearPlanComponentType.MEETINGCANCELED) ? "MEETING (Canceled)" : planView.getYearPlanComponent().getType()%>", " : ",this.props.id, this.props.meetingTitle), 
-
+            React.createElement(MeetingName,{meetingTitle: this.props.meetingTitle}),
             React.createElement(MeetingDate,{meetingModMONTH:this.props.meetingModMONTH,
             	meetingModDAY:this.props.meetingModDAY,
             	meetingModHOUR:this.props.meetingModHOUR})
@@ -311,37 +312,9 @@ React.createElement(ActivityPlan),
 
   React.createElement("ul", {className: "large-block-grid-2 medium-block-grid-2 small-block-grid-2"},   
   
-React.createElement("li", null, 
-<%if(hasPermission(troop, Permission.PERMISSION_SEND_EMAIL_MT_ID )) {%> 
-           
-	<%if(planView.getSearchDate()!=null && planView.getSearchDate().after( new java.util.Date("1/1/1977") )) {%> 
-            React.createElement("a", {href: "#", "data-reveal-id": "modal-meeting-reminder", title: "Meeting Reminder Email"}, "Edit/Sent Meeting Reminder Email") 
-	<%} else{%>
-            React.createElement("a", {href: "javascript:alert('You have not yet scheduled your meeting calendar.\\nPlease select a year plan and schedule your meetings by clicking on the MEETING DATES AND LOCATION link.')", title: "Meeting Reminder Email"}, "Edit/Sent Meeting Reminder Email")
-    <%} %>
-			), 
-			React.createElement("li", null, 
-				<%if (planView.getMeeting().getSentEmails()!=null && !planView.getMeeting().getSentEmails().isEmpty()) {%> 
-		    		React.createElement("span",null, "(", "<%=planView.getMeeting().getSentEmails().size() %>", " sent -"),
-		    		React.createElement("a", {href: "#", title: "view sent emails", className: "view", "data-reveal-id": "modal_view_sent_emails"}, " view"), ")"
-	    		<%}else{ %>"" <%} %>
-			) 
-            
-<%} else{ %>  
-  React.createElement("a", {href: "#",title: "view sent emails","data-reveal-id": "modal_view_sent_emails"}, "Meeting Reminder email")
-  ), 
-  	React.createElement("li", null, 
-  <%if (planView.getMeeting().getSentEmails()!=null && !planView.getMeeting().getSentEmails().isEmpty()) {%> 
-      React.createElement("span",null, "(", "<%=planView.getMeeting().getSentEmails().size() %>", " sent -"),
-      React.createElement("a", {href: "#", title: "view sent emails", className: "view", "data-reveal-id": "modal_view_sent_emails"}, " view"), ")"
-  <%}else{ %>      
-      React.createElement("span",null, "(", "0 sent",")")
-  <%} %>
-  ) 
-<%}%>
+		React.createElement(EmailMeetingReminder),  
         
-        
-        ,React.createElement(AttendanceAchievement,{data:this.props.thisMeeting})
+        React.createElement(AttendanceAchievement,{data:this.props.thisMeeting})
   
   
 	)
@@ -355,6 +328,96 @@ React.createElement("li", null,
     });
 
     
+    
+    
+    
+    var EmailMeetingReminder = React.createClass({displayName: "Meeting Reminder Email",
+        render: function() {       	        	
+		    		if(helper.permissions.indexOf('<%= Permission.PERMISSION_SEND_EMAIL_MT_ID %>')!=-1 ) {		    		           
+		    			return (React.createElement(EmailMeetingReminderWithSched))		    		            
+		    		} else{   		    			 
+		    		   return (React.createElement(EmailMeetingReminderWithOutSched))  
+		    		}    		
+        }
+    });    
+    
+    
+    var EmailMeetingReminderWithSched = React.createClass({displayName: "Meeting Reminder Email with sched",
+        render: function() {
+        
+                        if( helper.currentDate!=null && (helper.currentDate> new Date("1/1/1977").getTime()) ) {
+                             return(React.createElement("li", null,        
+                                 React.createElement("a", {href: "#", "data-reveal-id": "modal-meeting-reminder", title: "Meeting Reminder Email"}, "Edit/Sent Meeting Reminder Email")
+                               ),React.createElement(PrintSentEmails)
+                               )
+                        } else{
+                              return (React.createElement("li", null,
+                                React.createElement("a", {href: "javascript:alert('You have not yet scheduled your meeting calendar.\\nPlease select a year plan and schedule your meetings by clicking on the MEETING DATES AND LOCATION link.')", title: "Meeting Reminder Email"}, "Edit/Sent Meeting Reminder Email")                                
+                                 ) ,React.createElement(PrintSentEmails)
+                                 );
+                        } 
+                       
+                         
+                   
+        }
+    });
+    
+    var PrintSentEmails = React.createClass({displayName: "printEmailSent",
+        render: function() {
+        	  if (sentEmails > 0) {
+                return (
+                		React.createElement("li", null,
+                         React.createElement("span",null, "(", sentEmails , " sent -"),
+                          React.createElement("a", {href: "#", title: "view sent emails", className: "view", "data-reveal-id": "modal_view_sent_emails"}, " view"),
+                          ")"
+                          )
+                
+                 )
+                }else{return (React.createElement("li"))}
+        }
+    });
+    
+    var EmailMeetingReminderWithOutSched = React.createClass({displayName: "Meeting Reminder Email no shched",
+        render: function() {
+        
+        	if (sentEmails > 0) { 
+        		
+               return(
+            		   React.createElement("li", null, 
+                         React.createElement("a", {href: "#",title: "view sent emails","data-reveal-id": "modal_view_sent_emails"}, "Meeting Reminder email")
+                ),
+                React.createElement("li", null,
+                React.createElement("span",null, "(", sentEmails, " sent -"),
+                React.createElement("a", {href: "#", title: "view sent emails", className: "view", "data-reveal-id": "modal_view_sent_emails"}, " view"), ")"
+                )
+                )
+                
+            }else{  
+            	
+            	return (
+                React.createElement("li", null, 
+                         React.createElement("a", {href: "#",title: "view sent emails","data-reveal-id": "modal_view_sent_emails"}, "Meeting Reminder email")
+                ),
+                React.createElement("li", null,
+                    React.createElement("span",null, "(", "0 sent",")")
+                    )
+                    )
+            }
+        }
+    });
+    
+    
+    var MeetingName = React.createClass({displayName: "Meeting Name h3",
+        render: function() {
+            if( thisMeetingType=='<%=YearPlanComponentType.MEETINGCANCELED%>'){
+                 return  React.createElement("h3", null,  "MEETING (Canceled) : " ,this.props.id, this.props.meetingTitle)
+            }else if(thisMeetingType=='<%=YearPlanComponentType.MEETING%>'){
+            	 return  React.createElement("h3", null,  "MEETING : " ,this.props.id, this.props.meetingTitle)
+                 
+            }else{return React.createElement("")}
+        }
+    });
+    
     var MeetingLocation = React.createClass({displayName: "Location",
         render: function() {
         	if( meetingLocation!=null){
@@ -364,7 +427,7 @@ React.createElement("li", null,
 			                React.createElement("a", {href: "/content/girlscouts-vtk/controllers/vtk.map.html?address="+meetingLocation.address, target: "_blank"}, meetingLocation.address+" ")
 			            
 			        )
-        	}else{return React.createLocation("")}
+        	}else{return React.createElement("")}
         }
     });
     

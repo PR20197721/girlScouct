@@ -709,7 +709,7 @@
 				PlanView planView = meetingUtil.planView(user, troop,
 						request);
 
-				//java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
+				java.util.List<MeetingE> TMP_meetings = troop.getYearPlan().getMeetingEvents();
 				//planView.getYearPlanComponent().getUid()
 				//for (int i = 0; i < meetings.size(); i++) {
 					
@@ -822,6 +822,10 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 						.replaceAll("mailto:", "")
 						.replaceAll("</a>\"</a>", "</a>")
 						.replaceAll("\"</a>\"", ""));
+				
+				
+				troop.getYearPlan().setMeetingEvents(TMP_meetings);
+				session.putValue("VTK_troop", troop);
 
 			}
 
