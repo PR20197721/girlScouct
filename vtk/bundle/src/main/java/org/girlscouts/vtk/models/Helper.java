@@ -4,7 +4,7 @@ public class Helper {
 
 	private long currentDate, nextDate, prevDate;
 	private java.util.ArrayList<String> permissions;
-	
+	private int achievementCurrent=0, attendanceCurrent=0, attendanceTotal=0;
 	
 	public java.util.ArrayList<String> getPermissions() {
 		return permissions;
@@ -30,5 +30,24 @@ public class Helper {
 	public void setPrevDate(long prevDate) {
 		this.prevDate = prevDate;
 	}
+	public int getAchievementCurrent() {
+		return achievementCurrent;
+	}
+	public void setAchievementCurrent(int achievementCurrent) {
+		this.achievementCurrent = achievementCurrent;
+	}
+	public int getAttendanceCurrent() {
+		return attendanceCurrent;
+	}
+	public void setAttendanceCurrent(int attendanceCurrent) {
+		this.attendanceCurrent = attendanceCurrent;
+	}
+	public int getAttendanceTotal() {
+		return attendanceTotal;
+	}
+	public void setAttendanceTotal(int attendanceTotal) {
+		this.attendanceTotal = attendanceTotal;
+	}
 
+	
 }

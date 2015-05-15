@@ -709,10 +709,48 @@
 				PlanView planView = meetingUtil.planView(user, troop,
 						request);
 
-				java.util.List<MeetingE> meetings = troop.getYearPlan()
-						.getMeetingEvents();
-				for (int i = 0; i < meetings.size(); i++) {
-					MeetingE _meeting = meetings.get(i);
+				//java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
+				//planView.getYearPlanComponent().getUid()
+				//for (int i = 0; i < meetings.size(); i++) {
+					
+					MeetingE _meeting = (MeetingE)planView.getYearPlanComponent(); // meetings.get(i);
+					java.util.List<MeetingE> meetings = new java.util.ArrayList();
+					meetings.add(_meeting);
+					troop.getYearPlan().setMeetingEvents(meetings);
+	System.err.println("tata: "+  _meeting.getUid() +" : "+ planView.getYearPlanComponent().getUid())	;			
+//?if( ! _meeting.getUid().equals(  request.getParameter("reactjs") )){ _meeting=null;continue;}
+
+
+/*a&a*/
+Attendance attendance = meetingUtil.getAttendance( user,  troop,  _meeting.getPath()+"/attendance");
+Achievement achievement = meetingUtil.getAchievement( user,  troop,  _meeting.getPath()+"/achievement");
+int achievementCurrent=0, attendanceCurrent=0, attendanceTotal=0;
+
+if( attendance !=null && attendance.getUsers()!=null ){
+    attendanceCurrent = new StringTokenizer( attendance.getUsers(), ",").countTokens();
+    attendanceTotal= attendance.getTotal();
+}
+
+if( achievement !=null && achievement.getUsers()!=null ){
+    achievementCurrent = new StringTokenizer( achievement.getUsers(), ",").countTokens();
+}
+/*a&a end*/
+
+
+
+
+if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null ) {
+    for(int k=0;k<troop.getYearPlan().getLocations().size();k++){
+        if( troop.getYearPlan().getLocations().get(k).getPath().equals( _meeting.getLocationRef() ) ){
+        	java.util.List<Location> locations= new java.util.ArrayList<Location>();
+        	locations.add( troop.getYearPlan().getLocations().get(k) );
+        	troop.getYearPlan().setLocations(locations);
+        }
+    }
+}
+
+
+
 
 					if (_meeting.getMeetingInfo() != null
 							&& _meeting.getMeetingInfo()
@@ -743,7 +781,7 @@
 						}
 
 					}
-				}
+				//}
 
 				
 				if( troop!=null && troop.getYearPlan()!=null){
@@ -762,6 +800,11 @@
 					if (troop != null && userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_VIEW_ATTENDANCE_ID))
                         permissions.add(String.valueOf(Permission.PERMISSION_VIEW_ATTENDANCE_ID));
 					helper.setPermissions(permissions);
+					
+					
+					helper.setAchievementCurrent(achievementCurrent);
+					helper.setAttendanceCurrent(attendanceCurrent);
+					helper.setAttendanceTotal(attendanceTotal);
 					troop.getYearPlan().setHelper(helper);
 				}
 				
