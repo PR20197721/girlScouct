@@ -104,7 +104,7 @@ Activity activity = (Activity)planView.getYearPlanComponent();
 	    	if(!timeDiff()){ return false;}
 	    	editNewCustActivity('<%=activity.getUid()%>');
 	    	//closeMe();
-	    	$('#editCustActiv').foundation('reveal', 'close');
+	    	$('#modal_popup_activity').foundation('reveal', 'close');
 	    }
 	    else {
 	      alert("The form has one or more errors.  Please update the form and try again.");
