@@ -350,14 +350,14 @@ React.createElement(ActivityPlan),
                              return(
                             		 React.createElement("li", null,                   		 
                             				   React.createElement("a", {href: "#", "data-reveal-id": "modal-meeting-reminder", title: "Meeting Reminder Email"}, "Edit/Sent Meeting Reminder Email")
-                            		 ),
-                            		 React.createElement(PrintSentEmails)
+                            		,  React.createElement(PrintSentEmails) )
+                            		
                                )
                         } else{
                         	
                               return (React.createElement("li", null,
                                 React.createElement("a", {href: "javascript:alert('You have not yet scheduled your meeting calendar.\\nPlease select a year plan and schedule your meetings by clicking on the MEETING DATES AND LOCATION link.')", title: "Meeting Reminder Email"}, "Edit/Sent Meeting Reminder Email")                                
-                                 ) ,React.createElement(PrintSentEmails)
+                                 ,React.createElement(PrintSentEmails))
                                  );
                         } 
                        
@@ -368,16 +368,18 @@ React.createElement(ActivityPlan),
     
     var PrintSentEmails = React.createClass({displayName: "printEmailSent",
         render: function() {
-        	  if (sentEmails > 0) {
+        	  if (true) {
                 return (
-                		React.createElement("li", null,
-                         React.createElement("span",null, "(", sentEmails , " sent -"),
+                		React.createElement("li", null, 
+                         React.createElement("span",null, "(", sentEmails , " sent -",
                           React.createElement("a", {href: "#", title: "view sent emails", className: "view", "data-reveal-id": "modal_view_sent_emails"}, " view"),
                           ")"
                           )
-                
+                        )
                  )
-                }else{return (React.createElement("li"))}
+                }else{ 	
+                    return (React.createElement("li"))
+                }
         }
     });
     
@@ -388,24 +390,19 @@ React.createElement(ActivityPlan),
         		
                return(
             		   React.createElement("li", null, 
-                         React.createElement("a", {href: "#",title: "view sent emails","data-reveal-id": "modal_view_sent_emails"}, "Meeting Reminder email")
-                ),
-                React.createElement("li", null,
-                React.createElement("span",null, "(", sentEmails, " sent -"),
-                React.createElement("a", {href: "#", title: "view sent emails", className: "view", "data-reveal-id": "modal_view_sent_emails"}, " view"), ")"
+                         React.createElement("a", {href: "#",title: "view sent emails","data-reveal-id": "modal_view_sent_emails"}, "Meeting Reminder email"),
+                          React.createElement("span",null, "(", sentEmails, " sent -",
+                        	React.createElement("a", {href: "#", title: "view sent emails", className: "view", "data-reveal-id": "modal_view_sent_emails"}, " view"), ")"
+                          )
+                       )  
                 )
-                )
-                
-            }else{  
-            	
+            }else{              	
             	return (
-                React.createElement("li", null, 
-                         React.createElement("a", {href: "#",title: "view sent emails","data-reveal-id": "modal_view_sent_emails"}, "Meeting Reminder email")
-                ),
-                React.createElement("li", null,
-                    React.createElement("span",null, "(", "0 sent",")")
-                    )
-                    )
+                   React.createElement("li", null, 
+                         React.createElement("a", {href: "#",title: "view sent emails","data-reveal-id": "modal_view_sent_emails"}, "Meeting Reminder email"),
+                            React.createElement("span",null, "(", "0 sent",")")
+                   )
+               )     
             }
         }
     });
@@ -462,24 +459,15 @@ React.createElement(ActivityPlan),
                           txt+= helper.achievementCurrent +" of " + helper.attendanceTotal + " achievement(s)";
                         }
                 }
-    			
-    			
-    			
     	     return (
-		        React.createElement("li", null, 
-		            React.createElement("a", {"data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_attendance.html?mid="+this.props.data.uid+"&isAch="+isArch+"&mName="+mName}, "Record Attendance & Achievements")
-		        ), 
-		        React.createElement("li", null, "(",
-		        txt,
-		      ")"
-   )
-   );
-          } 
-    		else
-    		{
+		           React.createElement("li", null, 
+		            React.createElement("a", {"data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_attendance.html?mid="+this.props.data.uid+"&isAch="+isArch+"&mName="+mName}, "Record Attendance & Achievements"),
+		              React.createElement("li", null, "(",txt,")")
+                  )
+		        );
+          } else{
     			return  React.createElement("span") ;
-    			}
-    	
+    	  }
         }
     });
     
