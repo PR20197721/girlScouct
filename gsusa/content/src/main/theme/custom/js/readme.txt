@@ -1,0 +1,1 @@
+javascript file is located in /src/main/content/jcr_root/etc/designs/gsusa/clientlibs/js/app.js
