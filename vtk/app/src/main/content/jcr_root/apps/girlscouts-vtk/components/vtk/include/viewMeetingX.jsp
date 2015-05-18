@@ -22,9 +22,9 @@
 			<div class="bg-square  <%=(!calendarNotSet && isCanceled) ? "canceled" : "" %>">
 				<div class="count"><%= meetingCount %></div>
 				<div class="date">
-					<p class="month"><%=calendarNotSet ? "Meeting" : FORMAT_MONTH.format(date) %></p>
-					<p class="day"><%=calendarNotSet ? meetingCount : FORMAT_DAY_OF_MONTH.format(date) %></p>
-					<p class="hour"><%=calendarNotSet ? meetingCount : FORMAT_hhmm_AMPM.format(date) %></p>
+					<p class="month"><%=calendarNotSet ? "Meeting" : VtkUtil.formatDate(VtkUtil.FORMAT_MONTH,date) %></p>
+					<p class="day"><%=calendarNotSet ? meetingCount : VtkUtil.formatDate(VtkUtil.FORMAT_DAY_OF_MONTH,date) %></p>
+					<p class="hour"><%=calendarNotSet ? meetingCount : VtkUtil.formatDate(VtkUtil.FORMAT_hhmm_AMPM,date) %></p>
 				</div>
 
 			</div>

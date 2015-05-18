@@ -7,4 +7,4 @@
     jcr:primaryType="cq:Component"
     jcr:title="Captcha"
     allowedParents="[*/parsys]"
-    componentGroup="Form"/>
+    componentGroup="Girl Scouts Form"/>

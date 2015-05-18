@@ -78,6 +78,9 @@ public class MeetingUtil {
 	@Reference
 	TroopDAO troopDAO; // 1/20/15
 
+	@Reference
+	private ConnectionFactory connectionFactory;
+	
 	 java.text.SimpleDateFormat FORMAT_MMddYYYY = new java.text.SimpleDateFormat(
 				"MM/dd/yyyy");
 	 
@@ -1232,7 +1235,7 @@ System.err.println("test123 yes");
 			}
 		}
 		java.util.List<org.girlscouts.vtk.models.Contact> contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
-				troopDAO)
+				troopDAO, connectionFactory)
 				.getContacts(user.getApiConfig(), troop.getSfTroopId());
 		String path = "/vtk/" + troop.getSfCouncil() + "/troops/"
 				+ troop.getSfTroopId() + "/yearPlan/meetingEvents/" + mid
@@ -1341,7 +1344,7 @@ System.err.println("test123 yes");
 		
 		
 		java.util.List<org.girlscouts.vtk.models.Contact> contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
-				troopDAO)
+				troopDAO, connectionFactory)
 				.getContacts(user.getApiConfig(), troop.getSfTroopId());
 		String path = "/vtk/" + troop.getSfCouncil() + "/troops/"
 				+ troop.getSfTroopId() + "/yearPlan/meetingEvents/" + mid
@@ -1481,10 +1484,10 @@ public void rmExtraMeetingsNotOnSched(User user, Troop troop) throws IllegalAcce
 	String dates = troop.getYearPlan().getSchedule().getDates();
 	StringTokenizer t= new StringTokenizer( dates, ",");
 	int meetingDatesCount = t.countTokens();
-System.err.println("tataxyz: "+ meetingDatesCount +" : "+troop.getYearPlan().getMeetingEvents().size())	;
-System.err.println("tataxyz: - "+(meetingDatesCount > troop.getYearPlan().getMeetingEvents().size() ));
+//System.err.println("tataxyz: "+ meetingDatesCount +" : "+troop.getYearPlan().getMeetingEvents().size())	;
+//System.err.println("tataxyz: - "+(meetingDatesCount > troop.getYearPlan().getMeetingEvents().size() ));
 	while( meetingDatesCount < troop.getYearPlan().getMeetingEvents().size() ){
-System.err.println("tataxyz rming #:"+(troop.getYearPlan().getMeetingEvents().size()-1)+" : "+ troop.getYearPlan().getMeetingEvents().get(troop.getYearPlan().getMeetingEvents().size()-1).getRefId());
+//System.err.println("tataxyz rming #:"+(troop.getYearPlan().getMeetingEvents().size()-1)+" : "+ troop.getYearPlan().getMeetingEvents().get(troop.getYearPlan().getMeetingEvents().size()-1).getRefId());
 
 		rmMeeting(user, troop, troop.getYearPlan().getMeetingEvents().get(troop.getYearPlan().getMeetingEvents().size()-1).getRefId());
 	}

@@ -8,6 +8,8 @@ DateFormat fromFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S");
 DateFormat dateFormat = new SimpleDateFormat("EEE MMM d yyyy");
 DateFormat timeFormat = new SimpleDateFormat("h:mm a");
 DateFormat toFormat = new SimpleDateFormat("EEE dd MMM yyyy");
+DateFormat utcFormat =new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");//2015-05-31T12:00
+utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
 
 Date today = new Date();
 DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
@@ -73,14 +75,17 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 				
 				String startDateStr = dateFormat.format(startDate);
 				String startTimeStr = timeFormat.format(startDate);
-				String dateStr = startDateStr + ", " +startTimeStr;
+				String formatedStartDateStr = startDateStr + ", " +startTimeStr;
 
 				if(propNode.hasProperty("locationLabel")){
 					locationLabel=propNode.getProperty("locationLabel").getString();
 				}
+				
+				String formatedEndDateStr="";
+				Date endDate =null;
 				if(propNode.hasProperty("end")){
 					cale.setTime(fromFormat.parse(propNode.getProperty("end").getString()));
-					Date endDate = cale.getTime();
+					endDate = cale.getTime();
 					Calendar cal2 = Calendar.getInstance();
 					Calendar cal3 = Calendar.getInstance();
 					cal2.setTime(startDate);
@@ -90,9 +95,11 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 					String endDateStr = dateFormat.format(endDate);
 					String endTimeStr = timeFormat.format(endDate);
 					if (!sameDay) {
-						dateStr += " - " + endDateStr +", " + endTimeStr;
+						//dateStr += " - " + endDateStr +", " + endTimeStr;
+						formatedEndDateStr= endDateStr +", " + endTimeStr;
 					}else {
-						dateStr += " - " + endTimeStr;
+						//dateStr += " - " + endTimeStr;
+						formatedEndDateStr= endTimeStr;
 					}
 					todate = propNode.getProperty("end").getString();
 					tdt = fromFormat.parse(todate);
@@ -106,7 +113,8 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
                 //Add time zone label to date string if event has one
                 String timeZoneLabel = propNode.hasProperty("timezone") ? propNode.getProperty("timezone").getString() : "";
 				if(!timeZoneLabel.isEmpty()){
-					dateStr = dateStr + " " + timeZoneLabel;
+					//dateStr = dateStr + " " + timeZoneLabel;
+					formatedEndDateStr = formatedEndDateStr + " " + timeZoneLabel;
 				}
 
 
@@ -132,8 +140,8 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 					}
 %>
 
-		<div class="eventsList eventSection">
-			<div class="leftCol">
+		<div class="eventsList eventSection" itemtype="http://schema.org/ItemList">
+			<div class="leftCol" itemprop="image">
 <%
 				String imgPath = propNode.getPath() + "/image";
 %>
@@ -142,13 +150,22 @@ if(properties.containsKey("isfeatureevents") && properties.get("isfeatureevents"
 			<div class="rightCol">
 				<h6>
 				
-				<a class="bold" href="<%=href%>"><%=title %></a></h6>
-				<p class="bold">Date: <%=dateStr%></p>
+				<a class="bold" href="<%=href%>" itemprop="name"><%=title %></a></h6>
+				<p class="bold">Date: 
+				    <%try{%>
+                        <span itemprop="startDate" itemscope itemtype="http://schema.org/Event" content="<%=utcFormat.format(startDate)%>"><%=formatedStartDateStr%></span> 
+                        <% if(formatedEndDateStr!=null && !formatedEndDateStr.equals("")){ %>
+                            - <span itemprop="stopDate" itemscope itemtype="http://schema.org/Event" content="<%=(endDate==null ? "" : utcFormat.format(endDate))%>"><%=formatedEndDateStr %></span>
+                        <%     
+                        }
+                     }catch(Exception eDateStr){eDateStr.printStackTrace();}
+                    %>
+				</p>
 <%if(!locationLabel.isEmpty()){ %>
-				<p class="bold">Location: <%=locationLabel %></p>
+				<p class="bold" itemprop="location" itemscope itemtype="http://schema.org/Place">Location:  <span itemprop="name"><%=locationLabel %></span></p>
 <% } %>
 <% if(propNode.hasProperty("srchdisp")){ %>
-				<p><%=propNode.getProperty("srchdisp").getString()%></p>
+				<p itemprop="description"><%=propNode.getProperty("srchdisp").getString()%></p>
 <% } %>
 
 			</div>

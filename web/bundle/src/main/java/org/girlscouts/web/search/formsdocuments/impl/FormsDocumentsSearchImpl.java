@@ -2,6 +2,8 @@ package org.girlscouts.web.search.formsdocuments.impl;
 
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -9,6 +11,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.function.ToDoubleFunction;
+import java.util.function.ToIntFunction;
+import java.util.function.ToLongFunction;
 
 import javax.jcr.Node;
 import javax.jcr.Property;
@@ -47,6 +53,8 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 	@Reference
 	FacetBuilder facetBuilder;
 
+	private long startTime, endTime;
+	
 	private static Logger log = LoggerFactory.getLogger(FormsDocumentsSearchImpl.class);
 	private static String FACETS_PATH = "/etc/tags/girlscouts";
 
@@ -93,6 +101,8 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 
 	private void documentsSearch(String path,String q, String[] tags,String formDocumentContentPath) throws RepositoryException{
 
+		startTime = new Date().getTime();
+		System.out.println("Start Time: " + startTime);
 		
 		searchResultsInfo = new SearchResultsInfo();
 		
@@ -132,6 +142,7 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 			mapFullText.put("group.2_fulltext.relPath", "@jcr:content/metadata/dc:title"); // search title
 			mapFullText.put("group.3_fulltext", q);
 			mapFullText.put("group.3_fulltext.relPath", "@jcr:content/metadata/dc:description"); // search description
+			mapFullText.put("group.4_fulltext", q); //search everything, including file contents via PDFBox
 			PredicateGroup predicateFullText = PredicateGroup.create(mapFullText);
 			master.add(predicateFullText);
 			
@@ -147,8 +158,43 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 		master.setAllRequired(true);
 		List<Hit> searchTermHits = new ArrayList<Hit>();
 		searchTermHits = performContentSearch(master,q);
-		this.searchResultsInfo.setResultsHits(searchTermHits);
+		//System.out.println("Length: " + searchTermHits.size());
+		
+		List<Hit> titleHits = new ArrayList<Hit>();
+		List<Hit> descriptionHits = new ArrayList<Hit>();
+		List<Hit> contentHits = new ArrayList<Hit>();
+		
+		for(Hit h : searchTermHits){
+			DocHit d = new DocHit(h);			
+			if(d.getTitle().toLowerCase().contains(q.toLowerCase())){
+				titleHits.add(h);
+			}
+			else if(d.getDescription().toLowerCase().contains(q.toLowerCase())){
+				descriptionHits.add(h);
+			}
+			else{
+				contentHits.add(h);
+			}
+		}
+		
+		List<Hit> sortedList = new ArrayList<Hit>();
+		
+		for(Hit title : titleHits){
+			sortedList.add(title);
+		}
+		for(Hit desc : descriptionHits){
+			sortedList.add(desc);
+		}
+		for(Hit content : contentHits){
+			sortedList.add(content);
+		}
+		
+		this.searchResultsInfo.setResultsHits(sortedList);
 		this.searchResultsInfo = combineSearchTagsCounts();
+		
+		endTime = new Date().getTime();
+		System.out.println("End Time: " + endTime);
+		System.out.println("Time elapsed: " + (endTime - startTime));
 		
 	}
 	
@@ -169,11 +215,14 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 		// So put the hit in to the uni TreeMap to remove duplicates.
 
 		Map<String, DocHit> unq= new java.util.TreeMap<String,DocHit>();
+		java.util.List<Hit> hits = new java.util.ArrayList<Hit>();
 		for(Hit hit:searchTermHits)  {
 			//System.out.println("Hit" +hit.getPath());
 			DocHit docHit = new DocHit(hit);
 			if(!unq.containsKey(docHit.getURL())){
+				//System.out.println("Hit: " + docHit.getURL());
 				unq.put(docHit.getURL(), docHit);
+				hits.add(hit);
 			}
 		}
 		Iterator<String> uniIterator = unq.keySet().iterator();
@@ -218,8 +267,10 @@ public class FormsDocumentsSearchImpl implements FormsDocumentsSearch {
 				info.setCount(facetWithCount.get(info.getFacetsTagId()));
 			}
 		}
+		this.searchResultsInfo.setResultsHits(hits);
 		return this.searchResultsInfo;	
 	}
+	
 	private Map<String,String> addToDefaultQuery(String[] tags) throws RepositoryException{
 		
 		Map<String,String> tagSearch = new HashMap<String,String>();

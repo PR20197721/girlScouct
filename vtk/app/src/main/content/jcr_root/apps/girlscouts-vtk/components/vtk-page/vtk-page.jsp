@@ -80,6 +80,10 @@ if( !isAutoLogin ){
 	
 %><%= Doctype.fromRequest(request).getDeclaration() %>
 <html <%= wcmModeIsPreview ? "class=\"preview\"" : ""%>>
+
+<% final org.girlscouts.vtk.ejb.UserUtil userUtilHead = sling.getService(org.girlscouts.vtk.ejb.UserUtil.class); %>
+<%=userUtilHead.getCouncilUrlPath((org.girlscouts.vtk.auth.models.ApiConfig)session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()), request) %>
+
 <cq:include script="head.jsp"/>
 <cq:include script="body.jsp"/>
 

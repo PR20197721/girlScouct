@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0"
+    jcr:primaryType="cq:Dialog"
+    height="400"
+    stateful="false"
+    xtype="dialog">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <tabs jcr:primaryType="cq:TabPanel">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <basic
+                    jcr:primaryType="cq:Widget"
+                    path="/apps/girlscouts/components/page/tab_basic.infinity.json"
+                    xtype="cqinclude"/>
+                <advanced
+                    jcr:primaryType="cq:Widget"
+                    path="/libs/foundation/components/page/tab_advanced.infinity.json"
+                    xtype="cqinclude"/>
+                <image
+                    jcr:primaryType="cq:Widget"
+                    path="/libs/foundation/components/page/tab_image.infinity.json"
+                    xtype="cqinclude"/>
+                <cloudservices
+                    jcr:primaryType="cq:Widget"
+                    path="/libs/foundation/components/page/tab_cloudservices.infinity.json"
+                    xtype="cqinclude"/>
+                <blueprint
+                    jcr:primaryType="cq:Widget"
+                    path="/libs/foundation/components/page/tab_blueprint.infinity.json"
+                    xtype="cqinclude"/>
+                <livecopy
+                    jcr:primaryType="cq:Widget"
+                    path="/libs/foundation/components/page/tab_livecopy.infinity.json"
+                    xtype="cqinclude"/>
+                <girl-scouts
+                    jcr:primaryType="cq:Widget"
+                    title="Girl Scouts">
+                    <items jcr:primaryType="cq:WidgetCollection">
+                        <google-analytics-id
+                            jcr:primaryType="cq:Widget"
+                            fieldLabel="Google Analytics ID "
+                            name="./googleAnalyticsId"/>
+                        <tracking
+                            jcr:primaryType="cq:Widget"
+                            fieldDescription="Put embedded HTML or JavaScript for tracking purposes here."
+                            fieldLabel="Tracking"
+                            name="./footerTracking"/>
+                    </items>
+                </girl-scouts>
+            </items>
+        </tabs>
+    </items>
+</jcr:root>

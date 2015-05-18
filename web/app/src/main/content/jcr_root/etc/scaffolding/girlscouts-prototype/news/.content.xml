@@ -5,7 +5,7 @@
         dialogPath="/apps/girlscouts/wcm/scaffolding/dialogs/news/dialog"
         cq:lastModified="{Date}2009-04-01T12:27:34.647+02:00"
         cq:lastModifiedBy="admin"
-        cq:targetPath="/content/girlscouts-prototype/en/about-our-council/news"
+        cq:targetPath="/content/girlscouts-prototype/en/our-council/news"
         cq:targetTemplate="/apps/girlscouts/templates/news-page"
         jcr:description="Girl Scouts News Scaffolding"
         jcr:primaryType="cq:PageContent"

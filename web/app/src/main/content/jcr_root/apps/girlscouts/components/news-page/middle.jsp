@@ -4,23 +4,29 @@
 <div id="main">
 	<div class="row">
 		<div class="large-24 medium-24 small-24 columns">
-			<div id="mainContent">
+			<div id="mainContent" itemscope itemtype="http://schema.org/NewsArticle">
 		
 <cq:include script="/libs/foundation/components/title/title.jsp"/>
 <%
 	
 
 	DateFormat dateFormat = new SimpleDateFormat("dd MMM yyyy");
+    DateFormat dateFormat_yyyyMMdd = new SimpleDateFormat("yyyyMMdd");
     Date date = properties.get("date",Date.class);
 	if(date!=null){
 %>
-				<p><%=dateFormat.format(date) %></p>
+				<p itemprop="datePublished" content="<%=dateFormat_yyyyMMdd.format(date)%>"><%=dateFormat.format(date) %></p>
 <%
 	}
 %>
 				<br/>
-<cq:include path="middle/par/text/image" resourceType="girlscouts/components/image" />
-<cq:include path="middle/par/text" resourceType="girlscouts/components/text"/>
+				
+<div itemprop="image">
+    <cq:include path="middle/par/text/image" resourceType="girlscouts/components/image" />
+</div>
+<div itemprop="articleBody">
+    <cq:include path="middle/par/text" resourceType="girlscouts/components/text"/>
+</div>
 			</div>
 		</div>
 	</div>

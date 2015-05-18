@@ -43,7 +43,7 @@
       
       
           <tr>
-            <td><%= FORMAT_MMddYYYY.format(date) %></td>
+            <td><%= VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY, date) %></td>
             <td><%=meeting.getMeetingInfo()==null ? "" : meeting.getMeetingInfo().getName() %></td>
             <td><%=attendanceCurrent == 0 ? "" : attendanceCurrent %></td>
             <td><p class="<%= (achievementCurrent > 0) ? "check" : "" %>"></p></td>
