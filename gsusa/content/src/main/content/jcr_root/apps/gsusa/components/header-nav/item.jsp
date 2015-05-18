@@ -11,4 +11,4 @@
 <%
     }
 %>
-<!-- END of header-nav item -->
+<!--/of header-nav item -->
