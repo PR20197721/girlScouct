@@ -1,5 +1,3 @@
 # Ignore app.css because it is compiled from sass.
 src/main/content/jcr_root/etc/designs/gsusa/clientlibs/css/app.css
-# Ignore app.js because it is copied source.
-src/main/content/jcr_root/etc/designs/gsusa/clientlibs/js/app.js
 .sass-cache/
