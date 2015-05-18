@@ -346,11 +346,15 @@ React.createElement(ActivityPlan),
         render: function() {
         
                         if( helper.currentDate!=null && (helper.currentDate> new Date("1/1/1977").getTime()) ) {
-                             return(React.createElement("li", null,        
-                                 React.createElement("a", {href: "#", "data-reveal-id": "modal-meeting-reminder", title: "Meeting Reminder Email"}, "Edit/Sent Meeting Reminder Email")
-                               ),React.createElement(PrintSentEmails)
+                      	
+                             return(
+                            		 React.createElement("li", null,                   		 
+                            				   React.createElement("a", {href: "#", "data-reveal-id": "modal-meeting-reminder", title: "Meeting Reminder Email"}, "Edit/Sent Meeting Reminder Email")
+                            		 ),
+                            		 React.createElement(PrintSentEmails)
                                )
                         } else{
+                        	
                               return (React.createElement("li", null,
                                 React.createElement("a", {href: "javascript:alert('You have not yet scheduled your meeting calendar.\\nPlease select a year plan and schedule your meetings by clicking on the MEETING DATES AND LOCATION link.')", title: "Meeting Reminder Email"}, "Edit/Sent Meeting Reminder Email")                                
                                  ) ,React.createElement(PrintSentEmails)
