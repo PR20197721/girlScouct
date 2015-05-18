@@ -857,3 +857,6 @@ function councilRpt(troopId, cid){
 		}
 		
 	}
+
+	
+	 

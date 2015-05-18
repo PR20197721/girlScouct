@@ -6,12 +6,12 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
 
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.maskMoney.js"></script>
 <%@include file="include/tab_navigation.jsp"%>
-<div id="modal_popup" class="reveal-modal" data-reveal></div>
+
 
 <div id="panelWrapper" class="row content meeting-detail">
   <%@include file="include/utility_nav.jsp"%>
-  <%@include file="include/activity_edit_react.jsp"%>
-  <%@include file="include/modals/modal_meeting_reminder.jsp" %>
+  <div id="modal_popup" class="reveal-modal" data-reveal></div>
+  <%@include file="include/modals/modal_meeting_reminder.jsp" %>     
   <%@include file="include/modals/modal_view_sent_emails.jsp"%>			
   <div id="theActivity">
 
@@ -315,4 +315,5 @@ Number.prototype.format = function(n, x) {
   </div>
 
 </div>
+<div id="modal_popup_activity" class="reveal-modal" data-reveal></div>
 <!-- PAGE STOP activity_react2.jsp -->

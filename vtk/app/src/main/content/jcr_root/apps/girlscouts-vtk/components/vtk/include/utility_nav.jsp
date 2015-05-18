@@ -22,7 +22,8 @@
                 if( activity.getIsEditable() ){%>
                 <li>
                     <!--  <a href="#" data-reveal-id="editModal" onclick="doEditActivity('editCustActiv')">edit activity</a> -->
-                    <a href="#" data-reveal-id="editCustActiv">edit activity</a>
+                    <!--  a href="#" data-reveal-id="editCustActiv">edit activity</a> -->
+                    <a data-reveal-id="modal_popup_activity" data-reveal-ajax="true" href="/content/girlscouts-vtk/controllers/vtk.include.activity_edit_react.html?elem=<%=meetingUtil.planView(user, troop, request).getSearchDate().getTime()%>">Edit Activity</a>
                   </li>
               <% }
                 if ( !(activity.getCancelled()!=null && activity.getCancelled().equals("true") ) && 
