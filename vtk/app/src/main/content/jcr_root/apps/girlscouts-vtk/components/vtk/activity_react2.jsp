@@ -216,14 +216,15 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
         	var x;
        	
         	if( this.state.data.activities!=null){
-        //console.log(this.state.data)		
+	
     			x= this.state.data.activities[0];
     			aPath= x.path;
     			meetingStartDate=new Date(Number(x.date));
     			meetingEndDate=new Date(Number(x.endDate));
-      activityHelper= this.state.data.helper;
-         getEventImg( x.refUid );
-
+    		    activityHelper= this.state.data.helper;
+                getEventImg( x.refUid );
+         
+                sendEmails = x.sentEmails;
               return (
             		  React.createElement(Activity, {data: x, meetingTitle: x.name, meetingModMONTH: moment(meetingStartDate).format('MMMM'), meetingModDAY: moment(meetingStartDate).format('DD'), meetingModHOUR: moment(meetingStartDate).format('h:mm a')})
                       
