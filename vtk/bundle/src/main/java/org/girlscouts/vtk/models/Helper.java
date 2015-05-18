@@ -5,6 +5,7 @@ public class Helper {
 	private long currentDate, nextDate, prevDate;
 	private java.util.ArrayList<String> permissions;
 	private int achievementCurrent=0, attendanceCurrent=0, attendanceTotal=0;
+	private String SfTroopAge;
 	
 	public java.util.ArrayList<String> getPermissions() {
 		return permissions;
@@ -47,6 +48,12 @@ public class Helper {
 	}
 	public void setAttendanceTotal(int attendanceTotal) {
 		this.attendanceTotal = attendanceTotal;
+	}
+	public String getSfTroopAge() {
+		return SfTroopAge;
+	}
+	public void setSfTroopAge(String sfTroopAge) {
+		SfTroopAge = sfTroopAge;
 	}
 
 	

@@ -977,19 +977,45 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 						"" + prefTroop.getCouncilCode(),
 						prefTroop.getTroopId());
 
+				PlanView planView = meetingUtil.planView(user, troop, request);
 				java.util.List<Activity> activities = troop
 						.getYearPlan().getActivities();
 				for (int i = 0; i < activities.size(); i++) {
 					if (activities
 							.get(i)
 							.getUid()
-							.equals(request
-									.getParameter("reactActivity")))
+							.equals(planView.getYearPlanComponent().getUid()))
 						currentActivity = activities.get(i);
 				}
 
+				YearPlan yearPlan = new YearPlan();
+				
+				
+			
+				if( troop!=null && troop.getYearPlan()!=null){
+                    Helper helper = troop.getYearPlan().getHelper();
+                    if( helper==null ) helper= new Helper();
+                    helper.setNextDate(planView.getNextDate());
+                    helper.setPrevDate(planView.getPrevDate());
+                    helper.setCurrentDate(planView.getSearchDate().getTime());
+                    helper.setSfTroopAge( troop.getSfTroopAge());
+                    java.util.ArrayList <String> permissions= new java.util.ArrayList<String>();
+                    
+                    if (troop != null && userUtil.hasPermission(user.getPermissions(), Permission.PERMISSION_SEND_EMAIL_ACT_ID))
+                        permissions.add(String.valueOf(Permission.PERMISSION_SEND_EMAIL_ACT_ID));
+                   
+                    helper.setPermissions(permissions);
+                    
+                    yearPlan.setHelper(helper);
+                }
+				
+				
+				java.util.List<Activity> _activities= new java.util.ArrayList();
+				_activities.add( currentActivity );
+				yearPlan.setActivities( _activities);
 				ObjectMapper mapper = new ObjectMapper();
-				out.println(mapper.writeValueAsString(currentActivity));
+				out.println(mapper.writeValueAsString(yearPlan));
+				//orgi out.println(mapper.writeValueAsString(currentActivity));
 
 			}
 
