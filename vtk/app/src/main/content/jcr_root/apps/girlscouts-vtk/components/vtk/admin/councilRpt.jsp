@@ -41,6 +41,14 @@ cTrans.put("664", "Oregon and SW Washington");
 cTrans.put("234", "North East Ohio");
 cTrans.put("661", "Sierra Nevada");
 
+cTrans.put("664", "Oregon & SW Wash");
+cTrans.put("240", "Western Ohio");
+cTrans.put("607", "Arizona Cactus Pine");
+cTrans.put("536", "Kansas Heartland");
+cTrans.put("563", "Western Oklahoma");
+cTrans.put("564", "Eastern Oklahoma");
+
+
 
 
 		javax.jcr.Session s= (slingRequest.getResourceResolver().adaptTo(Session.class));
