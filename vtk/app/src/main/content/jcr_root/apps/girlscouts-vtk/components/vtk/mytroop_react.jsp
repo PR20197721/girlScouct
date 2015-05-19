@@ -42,7 +42,7 @@ java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras=null;
 		 contactsExtras = contactUtil.getContactsExtras( user,  troop, contacts);
  
 %>
-<%@include file="include/utility_nav.jsp"%>
+<div id="vtkNav"></div>
 <%@include file='include/modals/modal_upload_img.jsp' %>
 
   <div class="hero-image">

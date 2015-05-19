@@ -20,37 +20,6 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
 
     <script type="text/javascript">
     
-  
-function loadNav(){
-	loadTabNav();
-	loadUNav();
-}
-
-
-function loadUNav(){
-    
-    $.ajax({
-        url: "/content/girlscouts-vtk/controllers/vtk.include.utility_nav.html?activeTab=planView",
-        cache: false
-    }).done(function( html ) {
-        var vtkNav = document.getElementById("vtkNav");
-        vtkNav.innerHTML =html;
-    })
-}
-
-
-
-function loadTabNav(){
-        
-        $.ajax({
-            url: "/content/girlscouts-vtk/controllers/vtk.include.tab_navigation.html?activeTab=planView",
-            cache: false
-        }).done(function( html ) {
-            var vtkNav = document.getElementById("vtkTabNav");
-            vtkNav.innerHTML =html;
-        })
-    }
-    
 
     
     
@@ -81,7 +50,7 @@ function loadTabNav(){
                 )
                  )
                  )
-        <%}else{%>React.createElement("")<%} %>
+        <%}else{%>React.createElement("span")<%} %>
       
         	  
         	  
@@ -185,20 +154,7 @@ function loadTabNav(){
           }
       });  
       
-      function getParameterByName(name) {
-          name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-          var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-              results = regex.exec(location.search);
-          return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-      }
-
-    function getElem(){
-        var elem = getParameterByName('elem');
-        if( elem!=null && elem!='')
-            return "&elem="+elem;
-        
-        return "";
-    }
+      
     
     var NavDirectionPrev = React.createClass({displayName: "Prev Date",
         render: function() {
@@ -350,7 +306,7 @@ Number.prototype.format = function(n, x) {
         return "$"+amount.format(2);
     }
  
- loadNav();
+ loadNav('planView');
     </script>
   </div>
 

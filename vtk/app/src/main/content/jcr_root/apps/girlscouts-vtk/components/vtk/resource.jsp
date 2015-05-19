@@ -29,13 +29,14 @@
     boolean showVtkNav = true;
 %>
 
-<%@include file="include/tab_navigation.jsp"%>
+<div id="vtkTabNav"></div>
 <div id="modal_popup" class="reveal-modal" data-reveal=""></div>
 
 <div id="myModal0" class="reveal-modal" data-reveal=""></div>
 <div id="myModal1" class="reveal-modal" data-reveal=""></div>
 
 <div id="panelWrapper" class="row content">
+<div id="vtkNav"></div>
   <div class="columns large-20 large-centered">
 		<script>
 			var fixVerticalSizing = false;
@@ -226,7 +227,7 @@
 			%>
 	</div>
 </div>
-
+<script>loadNav('resource');</script>
 <%!
 	private long countAllChildren(Page page) {
 		// TODO: Need an effecient way.

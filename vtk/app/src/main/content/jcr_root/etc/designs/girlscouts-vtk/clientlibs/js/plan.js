@@ -858,5 +858,49 @@ function councilRpt(troopId, cid){
 		
 	}
 
-	
+	  
+	function loadNav(activeTab){
+		loadTabNav(activeTab);
+		loadUNav(activeTab);
+	}
+
+
+	function loadUNav(activeTab){
+	    
+	    $.ajax({
+	        url: "/content/girlscouts-vtk/controllers/vtk.include.utility_nav.html?activeTab="+activeTab+ getElem(),
+	        cache: false
+	    }).done(function( html ) {
+	        var vtkNav = document.getElementById("vtkNav");
+	        vtkNav.innerHTML =html;
+	    })
+	}
+
+
+
+	function loadTabNav(activeTab){
+	        
+	        $.ajax({
+	            url: "/content/girlscouts-vtk/controllers/vtk.include.tab_navigation.html?activeTab="+activeTab,
+	            cache: false
+	        }).done(function( html ) {
+	            var vtkNav = document.getElementById("vtkTabNav");
+	            vtkNav.innerHTML =html;
+	        })
+	    }
+	    
+	function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
+  function getElem(){
+      var elem = getParameterByName('elem');
+      if( elem!=null && elem!='')
+          return "&elem="+elem;
+      
+      return "";
+  }
 	 

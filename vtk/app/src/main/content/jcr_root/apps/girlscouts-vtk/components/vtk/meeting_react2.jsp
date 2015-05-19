@@ -62,36 +62,6 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
     
     
 
-    function loadNav(){
-        loadTabNav();
-        loadUNav();
-    }
-
-
-    function loadUNav(){
-        
-        $.ajax({
-            url: "/content/girlscouts-vtk/controllers/vtk.include.utility_nav.html?activeTab=planView",
-            cache: false
-        }).done(function( html ) {
-            var vtkNav = document.getElementById("vtkNav");
-            vtkNav.innerHTML =html;
-        })
-    }
-
-
-
-    function loadTabNav(){
-            
-            $.ajax({
-                url: "/content/girlscouts-vtk/controllers/vtk.include.tab_navigation.html?activeTab=planView",
-                cache: false
-            }).done(function( html ) {
-                var vtkNav = document.getElementById("vtkTabNav");
-                vtkNav.innerHTML =html;
-            })
-        }
-        
     
     var thisMeetingRefId;
     var thisMeetingImg="default";
@@ -874,7 +844,7 @@ React.createElement(ActivityPlan),
 	  return "";
   }
   
-  loadNav();
+  loadNav('planView');
       </script>
   </div>
 </div>

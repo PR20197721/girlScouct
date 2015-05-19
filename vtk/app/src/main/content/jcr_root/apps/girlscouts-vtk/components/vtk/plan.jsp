@@ -34,35 +34,6 @@
       
       
 
-      function loadNav(){
-          loadTabNav();
-          loadUNav();
-      }
-
-
-      function loadUNav(){
-          
-          $.ajax({
-              url: "/content/girlscouts-vtk/controllers/vtk.include.utility_nav.html?activeTab=plan",
-              cache: false
-          }).done(function( html ) {
-              var vtkNav = document.getElementById("vtkNav");
-              vtkNav.innerHTML =html;
-          })
-      }
-
-
-
-      function loadTabNav(){
-              
-              $.ajax({
-                  url: "/content/girlscouts-vtk/controllers/vtk.include.tab_navigation.html?activeTab=plan",
-                  cache: false
-              }).done(function( html ) {
-                  var vtkNav = document.getElementById("vtkTabNav");
-                  vtkNav.innerHTML =html;
-              })
-          }
       
       
  var isActivNew;
@@ -403,7 +374,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
         }
       });
       
- loadNav();
+ loadNav('plan');
  
       </script>  
     </div>
