@@ -14,11 +14,11 @@
 
 
 
-<%@include file="include/tab_navigation.jsp"%>
+<div id="vtkTabNav"></div>
 
 
  <div id="panelWrapper" class="row meeting-detail content">
-   <%@include file="include/utility_nav.jsp"%>
+  <div id="vtkNav"></div>
    
    <%if( hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ){%>
        <%@include file="include/view_yp_dropdown.jsp"%>
@@ -31,6 +31,40 @@
    
 
       <script type="text/javascript">
+      
+      
+
+      function loadNav(){
+          loadTabNav();
+          loadUNav();
+      }
+
+
+      function loadUNav(){
+          
+          $.ajax({
+              url: "/content/girlscouts-vtk/controllers/vtk.include.utility_nav.html?activeTab=plan",
+              cache: false
+          }).done(function( html ) {
+              var vtkNav = document.getElementById("vtkNav");
+              vtkNav.innerHTML =html;
+          })
+      }
+
+
+
+      function loadTabNav(){
+              
+              $.ajax({
+                  url: "/content/girlscouts-vtk/controllers/vtk.include.tab_navigation.html?activeTab=plan",
+                  cache: false
+              }).done(function( html ) {
+                  var vtkNav = document.getElementById("vtkTabNav");
+                  vtkNav.innerHTML =html;
+              })
+          }
+      
+      
  var isActivNew;
       var isFirst=1;
       var meetingPassed=true;
@@ -369,6 +403,8 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
         }
       });
       
+ loadNav();
+ 
       </script>  
     </div>
   </div>
