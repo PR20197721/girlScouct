@@ -158,6 +158,8 @@ girlscouts.components.VTKAgenda = CQ.Ext.extend(CQ.form.CompositeField, {
     // overriding CQ.Ext.Component#initComponent
     initComponent: function() {
         girlscouts.components.VTKAgenda.superclass.initComponent.call(this);
+        this.ocmField = new CQ.Ext.form.Hidden({});
+        this.add(this.ocmField);
 
         this.hiddenField = new CQ.Ext.form.Hidden({});
         this.add(this.hiddenField);
