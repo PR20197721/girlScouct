@@ -5,11 +5,13 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
 %>
 
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.maskMoney.js"></script>
+
+
 <%@include file="include/tab_navigation.jsp"%>
-
-
+  
+  
 <div id="panelWrapper" class="row content meeting-detail">
-  <%@include file="include/utility_nav.jsp"%>
+  <div id="vtkNav"></div>
   <div id="modal_popup" class="reveal-modal" data-reveal></div>
   <%@include file="include/modals/modal_meeting_reminder.jsp" %>     
   <%@include file="include/modals/modal_view_sent_emails.jsp"%>			
@@ -17,6 +19,18 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
 
 
     <script type="text/javascript">
+    
+  
+function loadNav(){
+        
+        $.ajax({
+            url: "/content/girlscouts-vtk/controllers/vtk.include.utility_nav.html?activeTab=planView",
+            cache: false
+        }).done(function( html ) {
+        	var vtkNav = document.getElementById("vtkNav");
+        	vtkNav.innerHTML =html;
+        })
+    }
       var isActivNew=0;
       var aPath;
       var meetingStartDate="";
@@ -311,6 +325,8 @@ Number.prototype.format = function(n, x) {
  function fmtMaskedMoney(amount){
         return "$"+amount.format(2);
     }
+ 
+ loadNav();
     </script>
   </div>
 

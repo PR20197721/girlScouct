@@ -1,3 +1,11 @@
+<%@ page
+  import="java.text.SimpleDateFormat,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
+<%@include file="/libs/foundation/global.jsp"%>
+<cq:defineObjects />
+<%@include file="session.jsp"%>
+<%
+String activeTab=request.getParameter("activeTab");
+%>
 <div class="hide-for-print crumbs clearfix hide-for-small">
   <div class="column small-24 medium-20 large-centered medium-centered large-20">
     <div class="row">
