@@ -19,7 +19,7 @@
                     <height
                         jcr:primaryType="cq:Widget"
                         fieldDescription="Leave blank to use default"
-                        fieldLabel="Width"
+                        fieldLabel="Height"
                         name="./height"
                         xtype="numberfield"/>
                     <width
