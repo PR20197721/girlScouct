@@ -785,6 +785,7 @@ function councilRpt(troopId, cid){
 	
 	
 	function getRelogin(){
+		console.log('relogin')
 		 $.ajax({
 		        url: "/content/girlscouts-vtk/controllers/vtk.controller.html?printTroopReloginids=true",
 		        cache: false
@@ -862,6 +863,7 @@ function councilRpt(troopId, cid){
 	function loadNav(activeTab){
 		loadTabNav(activeTab);
 		loadUNav(activeTab);
+		getRelogin();
 	}
 
 

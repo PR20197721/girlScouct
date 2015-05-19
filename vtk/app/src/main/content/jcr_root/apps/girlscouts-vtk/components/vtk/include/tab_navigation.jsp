@@ -143,5 +143,5 @@ String activeTab=request.getParameter("activeTab");
   <%
     //}
   %>
-  <script>getRelogin();</script>
+  
 </div><!--/hide-for-print-->
