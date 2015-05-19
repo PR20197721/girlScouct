@@ -38,7 +38,7 @@
                 	<% } %>
                 	height="<%= height %>"
                 	width="<%= width %>"
-                	data-list-owner-screen-name="<%= username %>">
+                	data-screen-name="<%= username %>">
 					Tweets by @<%= username %>
 					</a>
 				</div>
