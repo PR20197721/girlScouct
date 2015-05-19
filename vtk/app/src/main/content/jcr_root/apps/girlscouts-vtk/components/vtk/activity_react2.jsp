@@ -7,8 +7,8 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/jquery.maskMoney.js"></script>
 
 
-<%@include file="include/tab_navigation.jsp"%>
-  
+
+  <div id="vtkTabNav"></div>
   
 <div id="panelWrapper" class="row content meeting-detail">
   <div id="vtkNav"></div>
@@ -22,15 +22,39 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
     
   
 function loadNav(){
+	loadTabNav();
+	loadUNav();
+}
+
+
+function loadUNav(){
+    
+    $.ajax({
+        url: "/content/girlscouts-vtk/controllers/vtk.include.utility_nav.html?activeTab=planView",
+        cache: false
+    }).done(function( html ) {
+        var vtkNav = document.getElementById("vtkNav");
+        vtkNav.innerHTML =html;
+    })
+}
+
+
+
+function loadTabNav(){
         
         $.ajax({
-            url: "/content/girlscouts-vtk/controllers/vtk.include.utility_nav.html?activeTab=planView",
+            url: "/content/girlscouts-vtk/controllers/vtk.include.tab_navigation.html?activeTab=planView",
             cache: false
         }).done(function( html ) {
-        	var vtkNav = document.getElementById("vtkNav");
-        	vtkNav.innerHTML =html;
+            var vtkNav = document.getElementById("vtkTabNav");
+            vtkNav.innerHTML =html;
         })
     }
+    
+
+    
+    
+    
       var isActivNew=0;
       var aPath;
       var meetingStartDate="";

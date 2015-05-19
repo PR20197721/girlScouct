@@ -1,3 +1,13 @@
+<%@ page
+  import="java.text.SimpleDateFormat,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
+<%@include file="/libs/foundation/global.jsp"%>
+<cq:defineObjects />
+<%@include file="session.jsp"%>
+<%
+String activeTab=request.getParameter("activeTab");
+%>
+
+
 <%
   if (troops != null && troops.size() > 1) {
     Cookie cookie = new Cookie("vtk_prefTroop", troop.getTroop().getGradeLevel());
@@ -75,7 +85,7 @@
           <% if(hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID)) { %>
           <li class='has-dropdown<%= ("plan".equals(activeTab)) ? " active" : " " %>'><a href="/content/girlscouts-vtk/en/vtk.html">Year Plan</a>
             <ul class="dropdown">
-            <% if("plan".equals(activeTab)) { %>
+            <% if("plan".equals(activeTab)  && hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID)) { %>
               <li><a onclick="newLocCal()">Specify Meeting Dates and Locations</a></li>
               <li><a onclick="doMeetingLib()">Add Meeting</a></li>
               <li><a onclick="newActivity()">Add Activity</a></li>
@@ -95,8 +105,8 @@
                   <li><a href="#" onclick="doEditActivity('editCustActiv')">edit activity</a></li>
                 <% }
                   if ( !(activity.getCancelled()!=null && activity.getCancelled().equals("true") ) && 
-                  activity.getRegisterUrl()  !=null && !activity.getRegisterUrl().equals("")){%>
-                  <li><a href="<%=activity.getRegisterUrl()%>" target="_blank">Register for this event</a></li><%
+                		  activity.getRegisterUrl()  !=null && !activity.getRegisterUrl().equals("")){%>
+                            <li><a href="<%=activity.getRegisterUrl()%>" target="_blank">Register for this event</a></li><%
                   } %>
                     <li><a href="javascript:rmCustActivity12(aPath)">delete this activity</a></li><% 
                     
@@ -111,9 +121,7 @@
                     }
                   break;
                 }%>
-              <!-- <li><a href="#" onclick="doEditActivity('editCustActiv')">edit activity</a></li>
-              <li><a href="#" target="_blank">Register for this event</a></li>
-              <li><a href="javascript:rmCustActivity12(aPath)">delete this activity</a></li> -->
+             
             <% } %>  
             </ul>
           </li>

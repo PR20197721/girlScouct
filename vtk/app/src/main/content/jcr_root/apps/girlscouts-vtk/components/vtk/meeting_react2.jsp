@@ -44,22 +44,55 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 %>
  <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script> 
 
-    <%@include file="include/tab_navigation.jsp"%>
 
 
 <script>
     var thisMeetingPath = "";
     
 </script>
-
+<div id="vtkTabNav"></div>
 <div id="panelWrapper" class="row content meeting-detail">
-
+<div id="vtkNav"></div>
 <%@include file="include/modals/modal_agenda.jsp"%>
 <%@include file="include/modals/modal_meeting_reminder.jsp" %>
 <%@include file="include/modals/modal_view_sent_emails.jsp"%>
 
   <div id="theMeeting">
     <script type="text/javascript">
+    
+    
+
+    function loadNav(){
+        loadTabNav();
+        loadUNav();
+    }
+
+
+    function loadUNav(){
+        
+        $.ajax({
+            url: "/content/girlscouts-vtk/controllers/vtk.include.utility_nav.html?activeTab=planView",
+            cache: false
+        }).done(function( html ) {
+            var vtkNav = document.getElementById("vtkNav");
+            vtkNav.innerHTML =html;
+        })
+    }
+
+
+
+    function loadTabNav(){
+            
+            $.ajax({
+                url: "/content/girlscouts-vtk/controllers/vtk.include.tab_navigation.html?activeTab=planView",
+                cache: false
+            }).done(function( html ) {
+                var vtkNav = document.getElementById("vtkTabNav");
+                vtkNav.innerHTML =html;
+            })
+        }
+        
+    
     var thisMeetingRefId;
     var thisMeetingImg="default";
     var thisMeetingDate="a";
@@ -840,6 +873,8 @@ React.createElement(ActivityPlan),
 	  
 	  return "";
   }
+  
+  loadNav();
       </script>
   </div>
 </div>
