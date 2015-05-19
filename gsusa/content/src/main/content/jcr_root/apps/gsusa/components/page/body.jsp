@@ -1,12 +1,15 @@
 <%@include file="/libs/foundation/global.jsp" %>
-<%@include file="/apps/girlscouts/components/global.jsp" %>
 <!-- body -->
 <body>
-    <!--Set CSS classes for the including div, separated by spaces.-->
+  <div class="header clearfix">
     <cq:include script="header.jsp"/>
+  </div>
+  <div class="content">
     <cq:include script="content.jsp"/>
-    <% setCssClasses("clearfix", request);%>
+  </div>
+  <footer>
     <cq:include script="footer.jsp"/>
-    <cq:include script="bodylibs.jsp"/>
+  </footer>
+  <cq:include script="bodylibs.jsp"/>
 </body>
-<!-- /of body -->
+<!-- END of body -->
