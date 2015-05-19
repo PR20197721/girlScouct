@@ -863,7 +863,7 @@ function councilRpt(troopId, cid){
 	function loadNav(activeTab){
 		loadTabNav(activeTab);
 		loadUNav(activeTab);
-		getRelogin();
+		
 	}
 
 
@@ -888,6 +888,7 @@ function councilRpt(troopId, cid){
 	        }).done(function( html ) {
 	            var vtkNav = document.getElementById("vtkTabNav");
 	            vtkNav.innerHTML =html;
+	            getRelogin();
 	        })
 	    }
 	    

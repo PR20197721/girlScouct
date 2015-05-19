@@ -50,7 +50,7 @@ pageContext.setAttribute("DETAIL_TYPE", "activity");
                 )
                  )
                  )
-        <%}else{%>React.createElement("span")<%} %>
+        <%}else{%>return React.createElement("span")<%} %>
       
         	  
         	  
