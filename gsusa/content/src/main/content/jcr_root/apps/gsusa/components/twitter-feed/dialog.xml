@@ -10,6 +10,12 @@
                 jcr:primaryType="cq:Panel"
                 title="Properties">
                 <items jcr:primaryType="cq:WidgetCollection">
+                	<widget-id
+                		jcr:primaryType="cq:Widget"
+                		fieldDescription="If you have a Widget ID for your own widget, please enter it here. If you don't have an ID or you don't know what this means, please leave blank."
+                		fieldLabel="Widget ID"
+                		name="./widgetID"
+                		xtype="textfield"/>
                     <username
                         jcr:primaryType="cq:Widget"
                         fieldDescription="Enter your username as it appears in the URL on your profile page"

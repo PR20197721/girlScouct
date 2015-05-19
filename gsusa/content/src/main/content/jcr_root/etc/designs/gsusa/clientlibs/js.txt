@@ -3,3 +3,4 @@
 jquery.min.js
 foundation.min.js
 app.js
+twitter-feed-widget.js
