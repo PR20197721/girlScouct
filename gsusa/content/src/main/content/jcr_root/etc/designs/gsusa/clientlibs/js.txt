@@ -2,4 +2,5 @@
 
 jquery.min.js
 foundation.min.js
+slick.min.js
 app.js

@@ -1408,7 +1408,7 @@ $topbar-bg: $topbar-bg-color;
 
 // Controlling the styles for the title in the top bar
 // $topbar-title-weight: $font-weight-normal;
-// $topbar-title-font-size: rem-calc(17);
+$topbar-title-font-size: rem-calc(17);
 
 // Set the link colors and styles for top-level nav
 $topbar-link-color: $white;
@@ -1416,7 +1416,7 @@ $topbar-link-color: $white;
 // $topbar-link-color-active: $white;
 // $topbar-link-color-active-hover: $white;
 // $topbar-link-weight: $font-weight-normal;
-// $topbar-link-font-size: rem-calc(13);
+$topbar-link-font-size: rem-calc(16);
 // $topbar-link-hover-lightness: -10%; // Darken by 10%
 $topbar-link-bg: transparent;
 // $topbar-link-bg-hover: $jet;
@@ -1483,3 +1483,4 @@ $topbar-dropdown-bg: transparent;
 // $include-accessibility-classes: true;
 // $include-table-visibility-classes: true;
 // $include-legacy-visibility-classes: true;
+

@@ -1,6 +1,10 @@
 @import "normalize";
 @import "settings";
 @import "foundation";
+// @import "font-awesome";
+
+@import "slick";
+@import "slick-theme";
 
 @import url(http://fonts.googleapis.com/css?family=Open+Sans);
 
@@ -15,6 +19,7 @@
 
 //Import partials
 @import "partials/**/*";
+
 
 //Import pages
 // @import "pages/**/*";

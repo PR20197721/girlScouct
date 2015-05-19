@@ -1,5 +1,7 @@
 # Require any additional compass plugins here.
 add_import_path "bower_components/foundation/scss"
+#add_import_path "bower_components/fontawesome/scss"
+
 require 'sass-globbing'
 
 # Set this to the root of your project when deployed:
@@ -8,8 +10,9 @@ css_dir = "../../main/content/jcr_root/etc/designs/gsusa/clientlibs/css"
 sass_dir = "custom/scss"
 images_dir = "custom/images"
 javascripts_dir = "custom/js"
+fonts_dir = "custom/fonts"
 
-# sourcemap = true
+# sourcemap = false
 
 # You can select your preferred output style here (can be overridden via the command line):
 # output_style = :expanded or :nested or :compact or :compressed

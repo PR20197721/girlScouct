@@ -1,0 +1,34 @@
+//default variabled from slick-theme.scss
+
+// $slick-font-path: "./fonts/" !default;
+// $slick-font-family: "slick" !default;
+// $slick-loader-path: "./" !default;
+$slick-arrow-color: red;
+// $slick-dot-color: black !default;
+// $slick-dot-color-active: $slick-dot-color !default;
+$slick-prev-character: "\f137";
+$slick-next-character: "\f138";
+$slick-dot-character: "\f20d";
+$slick-dot-size: rem-calc(16);
+// $slick-opacity-default: 0.75 !default;
+// $slick-opacity-on-hover: 1 !default;
+// $slick-opacity-not-active: 0.25 !default;
+
+.slick-slider {
+  margin: 0;
+}
+.slick-prev,
+.slick-next {
+  background-color: $slick-arrow-color;
+}
+.slick-prev {
+  left: 0;
+}
+.slick-next {
+  right: 0;
+}
+.slick-dots li button:before {
+  font-family: FontAwesome;
+  content: $slick-dot-character;
+  font-size: $slick-dot-size;
+}

@@ -1,13 +1,13 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <!-- body -->
 <body>
-  <div class="header clearfix">
+  <div class="header row">
     <cq:include script="header.jsp"/>
   </div>
-  <div class="content">
+  <div class="content row">
     <cq:include script="content.jsp"/>
   </div>
-  <footer>
+  <footer class="row">
     <cq:include script="footer.jsp"/>
   </footer>
   <cq:include script="bodylibs.jsp"/>

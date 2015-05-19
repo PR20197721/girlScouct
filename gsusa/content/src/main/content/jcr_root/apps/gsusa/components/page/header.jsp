@@ -6,6 +6,6 @@
     String logoPath = headerPath + "/logo";
     String headerNavPath = headerPath + "/header-nav";
 %>
-<cq:include path="<%= logoPath %>" resourceType="girlscouts/components/logo" />
+<cq:include path="<%= logoPath %>" resourceType="gsusa/components/logo" />
 <cq:include path="<%= headerNavPath %>" resourceType="gsusa/components/header-nav" />
 <!--/header -->
