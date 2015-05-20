@@ -122,12 +122,12 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 		}
 		String redirectUrl;
 		if (config == null || config.getId() == null) {
-
+/*
 			String refererCouncil = request.getParameter("refererCouncil");
 			if (refererCouncil == null) {
 				refererCouncil = "";
 			}
-
+*/
 			redirectUrl = OAuthUrl
 					+ "/services/oauth2/authorize?prompt=login&response_type=code&client_id="
 					+ clientId + "&redirect_uri=" + callbackUrl + "&state="
