@@ -7,9 +7,4 @@
     <filter root="/etc/scaffolding/girlscouts-vtk"/>
     <!-- Mike Z. Don't deploy the vtk-publish once it is setup. -->
     <!-- <filter root="/etc/replication/agents.publish/vtk-publish"/> -->
-    <filter root="/etc/map.publish/vtk-data"/>
-    <filter root="/etc/map.publish.dev/vtk-data"/>
-    <filter root="/etc/map.publish.stage/vtk-data"/>
-    <filter root="/etc/map.publish.uat/vtk-data"/>
-    <filter root="/etc/map.publish.production/vtk-data"/>
 </workspaceFilter>
