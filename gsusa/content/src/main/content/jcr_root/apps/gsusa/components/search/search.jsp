@@ -15,7 +15,7 @@ final ResourceBundle resourceBundle = slingRequest.getResourceBundle(pageLocale)
 
 QueryBuilder queryBuilder = sling.getService(QueryBuilder.class);
 String q = request.getParameter("q");
-String documentLocation = "/content/dam/gsusa/documents";
+String documentLocation = "/content/dam/girlscouts-shared/documents";
 String searchIn = (String) properties.get("searchIn");
 if (null==searchIn){
 	searchIn = currentPage.getAbsoluteParent(2).getPath();
@@ -29,21 +29,21 @@ pageContext.setAttribute("escapedQueryForAttr", escapedQueryForAttr);
 
 Map mapPath = new HashMap();
 mapPath.put("group.p.or","true");
-mapPath.put("group.1_path", currentPage.getAbsoluteParent(2).getPath());
-String regexStr = "/(content)/([^/]*)/(en)$";
-Pattern pattern = Pattern.compile(regexStr, Pattern.CASE_INSENSITIVE);
-Matcher matcher = pattern.matcher(currentPage.getAbsoluteParent(2).getPath());
-String theseDamDocuments = ""; // needs to return /content/dam/gateway/en/documents
-if (matcher.find()) {
-	theseDamDocuments = "/" + matcher.group(1) + "/dam/" +  matcher.group(2) + "/" + matcher.group(3) + "/documents";
-		
-}
-String damDocuments = properties.get("docusrchpath","");
-if(!damDocuments.isEmpty()){
-	theseDamDocuments = damDocuments;
+mapPath.put("group.1_path", searchIn);
+
+String theseDamDocuments = properties.get("docusrchpath","");
+if(theseDamDocuments.equals("")){
+	String regexStr = "/(content)/([^/]*)/(en)$";
+	Pattern pattern = Pattern.compile(regexStr, Pattern.CASE_INSENSITIVE);
+	Matcher matcher = pattern.matcher(currentPage.getAbsoluteParent(2).getPath());
+	if (matcher.find()) {
+		theseDamDocuments = "/" + matcher.group(1) + "/dam/gsusa/documents";
+			
+	}
 }
 long startTime = System.nanoTime();
 mapPath.put("group.2_path", theseDamDocuments); 
+mapPath.put("group.4_path", documentLocation);
 PredicateGroup predicatePath =PredicateGroup.create(mapPath);
 Map mapFullText = new HashMap();
 
