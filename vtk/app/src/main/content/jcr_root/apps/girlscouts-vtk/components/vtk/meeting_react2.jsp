@@ -111,10 +111,13 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
           sentEmails=comment.sentEmails;
         	  
           thisMeetingDate = new Date( Number(thisMeetingDate) );
+          console.log( "test: "+ (helper==null));
           if( isNaN(thisMeetingDate) ){
         	  thisMeetingDate = new Date(helper.currentDate);
         	  
           }
+          
+          
      return (
             React.createElement(YearPlan, {item: comment, key: i}, 
                    React.createElement(MeetingPlan, {thisMeeting: comment, meetingModMONTH: moment(thisMeetingDate).format('MMMM'), meetingModDAY: moment(thisMeetingDate).format('DD'), meetingModHOUR: moment(thisMeetingDate).format('h:mm a'), uid: comment.uid, meetingTitle: comment.meetingInfo.name, meetingId: comment.id, meetingGlobalId: thisMeetingImg, location: comment.locationRef, cat: comment.meetingInfo.cat, blurb: comment.meetingInfo.meetingInfo["meeting short description"].str}), 
@@ -126,6 +129,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
        
 
       }); //end of loop
+    
         return ( React.createElement("div", {className: "commentList"}, commentNodes)    );
       } //end of render
     });
@@ -213,7 +217,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
     var MeetingPlan = React.createClass({displayName: "MeetingPlan",
     	
       render: function() {
-    	  
+    	 
         return (
         		React.createElement("div",{className: "section-wrapper"},
         		/*nav include*/
@@ -418,7 +422,7 @@ React.createElement(ActivityPlan),
             }else if(thisMeetingType=='<%=YearPlanComponentType.MEETING%>'){
             	 return  React.createElement("h3", null,  "MEETING : " ,this.props.id, this.props.meetingTitle)
                  
-            }else{return React.createElement("")}
+            }else{return React.createElement("h3")}
         }
     });
     
@@ -431,7 +435,7 @@ React.createElement(ActivityPlan),
 			                React.createElement("a", {href: "/content/girlscouts-vtk/controllers/vtk.map.html?address="+meetingLocation.address, target: "_blank"}, meetingLocation.address+" ")
 			            
 			        )
-        	}else{return React.createElement("")}
+        	}else{return React.createElement("p")}
         }
     });
     
@@ -484,7 +488,7 @@ React.createElement(ActivityPlan),
 			    );
         
     	 }else{
-    		 return React.createElement("")
+    		 return React.createElement("li")
     	 }
     	 }
     });
@@ -616,12 +620,17 @@ React.createElement(ActivityPlan),
               if( this.state.data.locations!=null ){
             	  meetingLocation = this.state.data.locations[0];
               }
-              
+             
               return (
                    React.createElement(MeetingList, {data: x, schedule: sched}) 
               );
           }else if( <%=planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETINGCANCELED%> &&  this.state.data.meetingCanceled!=null){
-                  x =  this.state.data.meetingCanceled;
+        	  helper= this.state.data.helper;
+              
+              thisMeetingDate= helper.currentDate;
+              nextMeetingDate= helper.nextDate;
+                  
+        	  x =  this.state.data.meetingCanceled;
                   sched = this.state.data.schedule;
                   
                   if( this.state.data.locations!=null ){
