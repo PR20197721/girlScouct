@@ -15,7 +15,7 @@ final ResourceBundle resourceBundle = slingRequest.getResourceBundle(pageLocale)
 
 QueryBuilder queryBuilder = sling.getService(QueryBuilder.class);
 String q = request.getParameter("q");
-String documentLocation = "/content/dam/girlscouts-shared/en/documents";
+String documentLocation = "/content/dam/girlscouts-shared/documents";
 String searchIn = (String) properties.get("searchIn");
 if (null==searchIn){
 	searchIn = currentPage.getAbsoluteParent(2).getPath();
