@@ -325,13 +325,7 @@ var ViewMeeting = React.createClass({displayName: "ViewMeeting",
 	if( obj[comment].cancelled =='true' ){
 
             return "bg-square canceled";
-<<<<<<< HEAD
-        } else if(  meetingPassed && 
-           ((moment(comment) > moment( new Date() )) || (moment(comment).get('year') < 1978) )
-           ) {
-        if( objType=='1'){  meetingPassed= false;}
-          return "bg-square current";
-=======
+
         }else if(  meetingPassed &&
              ((moment(comment) > moment( new Date() )) || (moment(comment).get('year') < 1978) )
              ) {
@@ -339,20 +333,14 @@ var ViewMeeting = React.createClass({displayName: "ViewMeeting",
 
                             return "bg-square current";
 
->>>>>>> refs/remotes/origin/troopSwitchAjax
+
          }else if(   moment(comment).get('year') < 1978 ){
             return "bg-square";
-<<<<<<< HEAD
-=======
 
->>>>>>> refs/remotes/origin/troopSwitchAjax
+
         }else if(  moment(comment) < moment( new Date()) ){
             return "bg-square passed";
-<<<<<<< HEAD
-=======
 
-
->>>>>>> refs/remotes/origin/troopSwitchAjax
          }else{
             return "bg-square";
          }
@@ -367,13 +355,10 @@ var ViewMeeting = React.createClass({displayName: "ViewMeeting",
  var DateBox = React.createClass({displayName: "DateBox",
         render: function() {
 
-<<<<<<< HEAD
-      var obj = this.props.obj;
-      var comment= this.props.comment;  
-=======
+
             var obj = this.props.obj;
             var comment= this.props.comment;
->>>>>>> refs/remotes/origin/troopSwitchAjax
+
       return (
         React.createElement("div", {className: bgcolor(obj, comment, 1)},
         React.createElement("div", {className:  (moment(comment).get('year') < 1978 || obj[comment].type == 'MEETINGCANCELED' ) ?  "hide" : "count"}, (obj[comment].id)+1),
@@ -387,7 +372,7 @@ var ViewMeeting = React.createClass({displayName: "ViewMeeting",
         }
       });
 
-<<<<<<< HEAD
+/*
         //when dialog resizes we need to place is in the middle of the page.
        $(window).resize(function() {
          dWidth = $('.vtk-body .ui-dialog.modalWrap').width();
@@ -398,12 +383,11 @@ var ViewMeeting = React.createClass({displayName: "ViewMeeting",
          }
        });
 
-     </script>  
-=======
+*/
  loadNav('plan');
 
       </script>
->>>>>>> refs/remotes/origin/troopSwitchAjax
+
     </div>
   </div>
 </div><!--/panelWrapper-->

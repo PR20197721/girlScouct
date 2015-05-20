@@ -1141,7 +1141,7 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 	            
 	        </div>
 	        <div class="small-18 columns large-pull-2 medium-pull-2 small-pull-2">
-	            <a href="#" onclick="chgYearPlan('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>', '<%=yearPlan.getName()%>')"><%=yearPlan.getName()%>, , <%=troop.getYearPlan()!=null ? true: false %> ,'<%=troop.getYearPlan()!=null ? troop.getYearPlan().getName() : ""%>'</a>
+	            <a href="#" onclick="chgYearPlan('<%=yearPlan.getId()%>', '<%=yearPlan.getPath()%>', '<%=confMsg%>', '<%=yearPlan.getName()%>')"><%=yearPlan.getName()%></a>
 	            <p><%=yearPlan.getDesc()%></p>
 	        </div>
 	      </div><!--/row-->
