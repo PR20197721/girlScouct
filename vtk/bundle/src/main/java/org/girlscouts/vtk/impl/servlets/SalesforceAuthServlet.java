@@ -134,7 +134,7 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 
 		if (config == null || config.getId() == null) {
 			
-			String refererCouncil = request.getParameter("refererCouncil");
+			refererCouncil = request.getParameter("refererCouncil");
 		    if (refererCouncil == null) {
 			           refererCouncil = "";
             }
