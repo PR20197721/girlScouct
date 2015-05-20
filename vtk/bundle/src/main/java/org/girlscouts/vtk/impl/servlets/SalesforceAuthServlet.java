@@ -27,7 +27,12 @@ import org.girlscouts.vtk.ejb.TroopUtil;
 import org.girlscouts.vtk.helpers.ConfigListener;
 import org.girlscouts.vtk.helpers.ConfigManager;
 import org.girlscouts.vtk.helpers.CouncilMapper;
+
 import org.girlscouts.vtk.utils.VtkUtil;
+
+import org.girlscouts.vtk.helpers.TroopHashGenerator;
+import org.girlscouts.vtk.salesforce.Troop;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,6 +74,9 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 	@Reference
 	private ResourceResolverFactory resourceResolverFactory;
 	private ResourceResolver resourceResolver;
+	
+	@Reference
+	private TroopHashGenerator troopHashGenerator;
 
 	@Override
 	protected void doGet(SlingHttpServletRequest request,
@@ -243,11 +251,18 @@ public class SalesforceAuthServlet extends SlingSafeMethodsServlet implements
 			vtkUser.setPermissions(config.getTroops().get(0)
 					.getPermissionTokens());
 
-			// load config
-			vtkUser.setCurrentYear(getCurrentYear(
-					request.getResourceResolver(), vtkUser.getApiConfig()
-							.getTroops().get(0).getCouncilCode()));
-		}
+
+		// load config
+		vtkUser.setCurrentYear(getCurrentYear(request.getResourceResolver(),
+				vtkUser.getApiConfig().getTroops().get(0).getCouncilCode()));
+		
+		// Set cookie troopDataPath 
+		String troopDataPath = troopHashGenerator.hash(config.getTroops().get(0));
+		Cookie cookie = new Cookie("troopDataToken", troopDataPath);
+		cookie.setPath("/");
+		response.addCookie(cookie);
+}
+
 		session.setAttribute(org.girlscouts.vtk.models.User.class.getName(),
 				vtkUser);
 		redirect(response, targetUrl);

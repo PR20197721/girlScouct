@@ -324,3 +324,38 @@ function isSafary(){
 	  }
 	  return false;
 }
+
+var getDataIfModified;
+(function() {
+	var BASE_PATH = '/vtk-data';
+    var eTags = {};
+    function _getTroopDataToken() {
+    	// Ref: https://developer.mozilla.org/en-US/docs/Web/API/Document/cookie
+    	// Get cookie: troopDataToken
+    	var hash = document.cookie.replace(/(?:(?:^|.*;\s*)troopDataToken\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    	return hash;
+    }
+    
+    function _getDataIfModified(path, that, success) {
+    	var url = BASE_PATH + '/' + _getTroopDataToken() + '/' + path;
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            success: function(data, textStatus, jqXHR){
+                var eTag = jqXHR.getResponseHeader("ETag");
+                if (eTag) {
+                    eTags[url] = eTag;
+                }
+                if (success) {
+                    success.apply(this, arguments);
+                }
+            }.bind(that),
+            beforeSend: function(request) {
+                if (eTags[url]) {
+                    request.setRequestHeader('If-None-Match', eTags[url]);
+                }
+            }
+        });
+    };
+    getDataIfModified = _getDataIfModified;
+})();

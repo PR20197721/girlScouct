@@ -43,32 +43,32 @@
 
       var CommentBox = React.createClass({displayName: "CommentBox",
        loadCommentsFromServer: function( isFirst ) {
-         $.ajax({
-            url: this.props.url +
-            ( (isActivNew==1 || isActivNew==2) ? ("&isActivNew="+ isActivNew) : '')+
-            (isFirst ==1 ? ("&isFirst="+ isFirst) : ''),
-            dataType: 'json',
-            cache: false,
-            success: function(data) {
-                this.setState({data:data});
-            if( isActivNew ==1 ){
-                isActivNew=2;
-            }else if( isActivNew ==2 ){
-                isActivNew=0;
-            }
 
-                  }.bind(this),
-                error: function(xhr, status, err) {
-
-                }.bind(this)
-              });
+    	 if (isFirst) {
+             $.ajax({
+                 url: this.props.url + '&isFirst=1',
+                 dataType: 'json',
+                 cache: false,
+                 success: function(data) {
+                	 console.info('data coming back');
+                     this.setState({data:data});
+                 }.bind(this),
+             });
+    	 } else {
+	    	 getDataIfModified("year-plan.json", this, function(data, textStatus, req){
+	    		// Skip if is 304.
+	    		if (req.status == 200) {
+		            this.setState({data:data});
+	    		}
+	    	 });
+    	 }
 
        },
         getInitialState: function() {
           return {data: []};
         },
         componentDidMount: function() {
-          this.loadCommentsFromServer(1);
+          this.loadCommentsFromServer();
           setInterval( this.loadCommentsFromServer, this.props.pollInterval);
           setInterval( this.checkLocalUpdate, 100);
         },
@@ -82,7 +82,9 @@
                x =  this.state.data.schedule;
                  yearPlanName = this.state.data.yearPlan;
                   return (
-                      React.createElement(YearPlanComponents, {yearPlanName: yearPlanName, data: x})
+
+                      React.createElement(YearPlanComponents, {yearPlanName: yearPlanName, data: x, parentComponent: this}) 
+
                 );
             } else {
                 return React.createElement("div", null);
@@ -94,7 +96,9 @@
 
        var YearPlanComponents = React.createClass({displayName: "YearPlanComponents",
         onReorder: function (order) {
-            isActivNew=1;
+        	var parent = this.props.parentComponent;
+        	parent.setState({data: {}});
+        	parent.loadCommentsFromServer(true);
         },
         render: function() {
           return (
@@ -241,9 +245,14 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
           helper:'clone',
           stop: function (event, ui) {
             var order = dom.sortable("toArray", {attribute: "id"});
+/*
             var yy  = order.toString().replace('"','');
               doUpdMeeting1(yy);
               onReorder(order);
+*/
+            var yy  = order.toString().replace('"',''); 
+              doUpdMeeting1(yy, onReorder, order);
+
           },
           start: function(event, ui) {
 
@@ -272,8 +281,12 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
         stop: function (event, ui) {
             var order = dom.sortable("toArray", {attribute: "id"});
             var yy  = order.toString().replace('"','');
+/*
             doUpdMeeting1(yy);
             onReorder(order);
+*/
+            doUpdMeeting1(yy, onReorder, order); 
+
         },
         start: function(event, ui) {
       }
@@ -307,12 +320,31 @@ var ViewMeeting = React.createClass({displayName: "ViewMeeting",
     }
   });
 
+/*
     function doUpdMeeting1(newVals){
         var x =$.ajax({
+*/
+    function doUpdMeeting1(newVals, callback, callbackArgs){
+        var x =$.ajax({ 
+
             url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=ChangeMeetingPositions&isMeetingCngAjax='+ newVals, // JQuery loads serverside.php
+
+            		
+/*
             data: '',
             dataType: 'html',
         }).done(function( html ) { });
+*/
+            data: '', 
+            dataType: 'html', 
+        }).done(function( html ) {
+        	console.info('Before calling callback');
+        	if (callback) {
+        		//console.info('Calling callback');
+        		callback(callbackArgs);
+        	}
+        });          
+
     }
 
       React.render(
@@ -325,13 +357,13 @@ var ViewMeeting = React.createClass({displayName: "ViewMeeting",
 	if( obj[comment].cancelled =='true' ){
 
             return "bg-square canceled";
-<<<<<<< HEAD
+
         } else if(  meetingPassed && 
            ((moment(comment) > moment( new Date() )) || (moment(comment).get('year') < 1978) )
            ) {
         if( objType=='1'){  meetingPassed= false;}
           return "bg-square current";
-=======
+/*
         }else if(  meetingPassed &&
              ((moment(comment) > moment( new Date() )) || (moment(comment).get('year') < 1978) )
              ) {
@@ -339,20 +371,13 @@ var ViewMeeting = React.createClass({displayName: "ViewMeeting",
 
                             return "bg-square current";
 
->>>>>>> refs/remotes/origin/troopSwitchAjax
+*/
          }else if(   moment(comment).get('year') < 1978 ){
             return "bg-square";
-<<<<<<< HEAD
-=======
 
->>>>>>> refs/remotes/origin/troopSwitchAjax
         }else if(  moment(comment) < moment( new Date()) ){
             return "bg-square passed";
-<<<<<<< HEAD
-=======
 
-
->>>>>>> refs/remotes/origin/troopSwitchAjax
          }else{
             return "bg-square";
          }
@@ -367,13 +392,10 @@ var ViewMeeting = React.createClass({displayName: "ViewMeeting",
  var DateBox = React.createClass({displayName: "DateBox",
         render: function() {
 
-<<<<<<< HEAD
+
       var obj = this.props.obj;
       var comment= this.props.comment;  
-=======
-            var obj = this.props.obj;
-            var comment= this.props.comment;
->>>>>>> refs/remotes/origin/troopSwitchAjax
+
       return (
         React.createElement("div", {className: bgcolor(obj, comment, 1)},
         React.createElement("div", {className:  (moment(comment).get('year') < 1978 || obj[comment].type == 'MEETINGCANCELED' ) ?  "hide" : "count"}, (obj[comment].id)+1),
@@ -387,8 +409,7 @@ var ViewMeeting = React.createClass({displayName: "ViewMeeting",
         }
       });
 
-<<<<<<< HEAD
-        //when dialog resizes we need to place is in the middle of the page.
+/*
        $(window).resize(function() {
          dWidth = $('.vtk-body .ui-dialog.modalWrap').width();
          if($(window).width() > 920) {
@@ -399,11 +420,11 @@ var ViewMeeting = React.createClass({displayName: "ViewMeeting",
        });
 
      </script>  
-=======
+*/
  loadNav('plan');
 
       </script>
->>>>>>> refs/remotes/origin/troopSwitchAjax
+
     </div>
   </div>
 </div><!--/panelWrapper-->

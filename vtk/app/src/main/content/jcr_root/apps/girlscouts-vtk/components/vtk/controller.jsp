@@ -1,7 +1,6 @@
-
-<%@page
-	import="java.util.Comparator,org.codehaus.jackson.map.ObjectMapper,org.joda.time.LocalDate,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*,
-                org.girlscouts.vtk.modifiedcheck.ModifiedChecker"%>
+<%@page import="java.util.Comparator,org.codehaus.jackson.map.ObjectMapper,org.joda.time.LocalDate,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*,
+                org.girlscouts.vtk.modifiedcheck.ModifiedChecker,
+                org.girlscouts.vtk.helpers.TroopHashGenerator"%>
 
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
@@ -218,6 +217,15 @@
 			case ReLogin:
 				troopUtil.reLogin(user, troop,
 						request.getParameter("loginAs"), session);
+				// Generator the new troopDataToken so the client can fetch data from the dispatcher.
+				Troop newTroop = (Troop)session.getAttribute("VTK_troop");
+				String troopId = newTroop.getTroop().getTroopId();
+				System.out.println("New Troop Id = " + troopId);
+				TroopHashGenerator generator = sling.getService(TroopHashGenerator.class);
+				String token = generator.hash(troopId);
+				Cookie cookie = new Cookie("troopDataToken", token);
+				cookie.setPath("/");
+				response.addCookie(cookie);
 				return;
 			case AddAid:
 				if (request.getParameter("assetType").equals("AID")) {
@@ -831,18 +839,21 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 
 			}
 
-		} else if (request.getParameter("yearPlanSched") != null) {
 
-			if (troop.getYearPlan() == null)
+		} else if (request.getAttribute("yearPlanSched") != null || request.getParameter("yearPlanSched") != null) {
+			
+		    if (troop.getYearPlan() == null)
+
 				return;
 
 			boolean isFirst = false;
-			if (request.getParameter("isFirst") != null
-					&& request.getParameter("isFirst").equals("1")) {
+			if ((request.getAttribute("isFirst") != null
+					&& ((String)request.getAttribute("isFirst")).equals("1")) || (request.getParameter("isFirst") != null && request.getParameter("isFirst").equals("1"))) {
 				isFirst = true;
 			}
 
 			boolean isCng = false;
+
 			if (!isFirst) {
 				ModifiedChecker modifiedChecker = sling
 						.getService(ModifiedChecker.class);
@@ -869,7 +880,9 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 							prefTroop = apiConfig.getTroops().get(ii);
 							break;
 						}
+
 					}
+
 
 					troop = troopUtil.getTroop(user,
 							"" + prefTroop.getCouncilCode(),
@@ -942,7 +955,70 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 					out.println(mapper.writeValueAsString(sched)
 							.replaceAll("mailto:", ""));
 					out.println("}");
+
 				}
+
+				troop = troopUtil.getTroop(user,
+						"" + prefTroop.getCouncilCode(),
+						prefTroop.getTroopId());
+
+				java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil
+						.getYearPlanSched(user, troop.getYearPlan(), true, true);
+				
+				//start milestone
+				try {
+					if (troop.getYearPlan() != null) {
+						troop.getYearPlan() .setMilestones(
+							yearPlanUtil.getCouncilMilestones("" + troop.getSfCouncil()));
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+				if (troop.getYearPlan().getMilestones() == null)
+					troop.getYearPlan().setMilestones(
+							new java.util.ArrayList());
+
+				for (int i = 0; i < troop.getYearPlan()
+						.getMilestones().size(); i++){
+					if(troop.getYearPlan().getMilestones()
+							.get(i).getDate()!=null)
+					sched.put(troop.getYearPlan().getMilestones()
+							.get(i).getDate(), troop.getYearPlan()
+							.getMilestones().get(i));
+				}
+
+				//edn milestone
+
+				troop.setTroop(prefTroop);
+				troop.setSfTroopId(troop.getTroop().getTroopId());
+				troop.setSfUserId(user.getApiConfig().getUserId());
+				troop.setSfTroopName(troop.getTroop()
+						.getTroopName());
+				troop.setSfTroopAge(troop.getTroop()
+						.getGradeLevel());
+				troop.setSfCouncil(troop.getTroop()
+						.getCouncilCode() + "");
+				
+						
+				session.putValue("VTK_troop", troop);
+
+				Object tmp[] = sched.values().toArray();
+				for(int i=0;i<tmp.length;i++){
+					try{
+					   ((MeetingE)tmp[i]).getMeetingInfo().setActivities(null);
+					   ((MeetingE)tmp[i]).getMeetingInfo().setMeetingInfo(null);
+					   ((MeetingE)tmp[i]).getMeetingInfo().setResources(null);
+					   ((MeetingE)tmp[i]).getMeetingInfo().setAgenda(null);
+					}catch(Exception e){}
+				}
+
+				ObjectMapper mapper = new ObjectMapper();
+				out.println("{\"yearPlan\":\""
+						+ troop.getYearPlan().getName()
+						+ "\",\"schedule\":");
+				out.println(mapper.writeValueAsString(sched).replaceAll("mailto:",""));
+				out.println("}");
 			}
 
 		} else if (request.getParameter("reactActivity") != null) {
