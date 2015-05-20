@@ -47,22 +47,13 @@ final org.girlscouts.vtk.ejb.SessionFactory sessionFactory = sling.getService( o
                    javax.jcr.Value lastMondif =  r.getValue("jcr:lastModified");
                    javax.jcr.Value sfTroopId =  r.getValue("sfTroopId");
                    javax.jcr.Value sfTroopName =  r.getValue("sfTroopName");
-                   
-                   //System.err.println(">>> tata: "+ path +" : "+ (sfUserId ==null ? "" :  sfUserId.getString()) +" : "+ (lastMondif==null ? "" : lastMondif.getString()) +" : " + (sfTroopId==null ? "" : sfTroopId.getString()) );
-                   
                    String rpt[] =new String[4];
                    rpt[0] = sfUserId ==null ? "" :  sfUserId.getString();
                    rpt[1] = lastMondif==null ? "" : lastMondif.getString();
                    rpt[2] = sfTroopId==null ? "" : sfTroopId.getString();
                    rpt[3] = sfTroopName==null ? "" : sfTroopName.getString();
-                   //rptList.add(rpt);
                    out.println(rpt[0]);
                    
-                   /*
-                   Node node = session.getNode(path);
-                   node.setProperty("isAnalytics", true);
-                   session.save();
-                   */
                    %>
                    
                    <script>
@@ -76,12 +67,6 @@ final org.girlscouts.vtk.ejb.SessionFactory sessionFactory = sling.getService( o
     m.parentNode.insertBefore(a,m)})
     (window,document,'script','//www.google-analytics.com/analytics.js','ga');
 ga('create', 'UA-61431888-1', 'auto', {'name': 'vtkTracker'});
-
-
-
-//setTimeout(function(){  }, 3000);
-
-
     ga('vtkTracker.send', 'pageview', {
         dimension1: "<%=rpt[3]%>",
         dimension2: "<%=rpt[2]%>",
@@ -107,19 +92,14 @@ ga('create', 'UA-61431888-1', 'auto', {'name': 'vtkTracker'});
        }finally{
            sessionFactory.closeSession(session);
        }
-      // return rptList;
+      
 java.util.Random r = new java.util.Random();
 int refr= r.nextInt(5000-1000) + 1000;
 %>
 
 
 <script>
-
-function refresh() {
-    
-        //window.location.reload(true);
-        //setTimeout(refresh, <%=refr%>);
+function refresh() {      
 }
-
 setTimeout(refresh, <%=refr%>);
 </script>

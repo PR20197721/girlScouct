@@ -32,7 +32,6 @@
 	final CalendarUtil calendarUtil = sling.getService(CalendarUtil.class);
 	final LocationUtil locationUtil = sling.getService(LocationUtil.class);
 	final MeetingUtil meetingUtil = sling.getService(MeetingUtil.class);
-	final EmailUtil emailUtil = sling.getService(EmailUtil.class);
 	final YearPlanUtil yearPlanUtil = sling.getService(YearPlanUtil.class);
 	final TroopUtil troopUtil = sling.getService(TroopUtil.class);
 	final UserUtil userUtil = sling.getService(UserUtil.class);

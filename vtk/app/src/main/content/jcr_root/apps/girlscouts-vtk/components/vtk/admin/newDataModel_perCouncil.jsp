@@ -38,15 +38,12 @@ int count=0;
 for (javax.jcr.query.RowIterator it = result.getRows(); it.hasNext();) {
 	javax.jcr.query.Row r = it.nextRow();
 	javax.jcr.Value excerpt = r.getValue("jcr:path");
-	//paths.add( excerpt.getString() );
-	//System.err.println("Adding path: "+ excerpt.getString());
 	String p = excerpt.getString();
 	
 	javax.jcr.Node t =  jcr_session.getNode( p );
 	javax.jcr.NodeIterator itr= t.getNodes();
 	if( t.getNodes().getSize()>1 ){
 		count++;
-		//out.println("<hr/>");
 		%>
 			<tr>
 			<td>

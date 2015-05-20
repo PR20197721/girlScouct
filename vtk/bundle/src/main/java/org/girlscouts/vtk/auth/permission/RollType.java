@@ -1,7 +1,20 @@
 package org.girlscouts.vtk.auth.permission;
 
 public enum RollType {
-	DP("DP"), CouncilAdmin("CA"), PA("PA");
+	/*
+	 * 
+	 * 
+		DS (Direct Secondary)
+		DO (Direct Occasional)
+		IP (Indirect Primary)
+		IS (Indirect Secondary)
+	 */
+	
+	DP("DP"), CouncilAdmin("CA"), PA("PA"),
+	DS ("DS"),
+	DO ("DO"),
+	IP ("IP"),
+	IS ("IS");
 
 	String value = null;
 

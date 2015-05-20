@@ -28,20 +28,11 @@ public class VtkUtil {
 	public static final SimpleDateFormat FORMAT_AMPM = new SimpleDateFormat("a");
 	public static final SimpleDateFormat FORMAT_MONTH = new SimpleDateFormat("MMM");
 	public static final SimpleDateFormat FORMAT_DAY_OF_MONTH = new SimpleDateFormat("d");
-	//public static final SimpleDateFormat FORMAT_MONTH_DAY = new SimpleDateFormat("MMM d");
-	//public static final SimpleDateFormat FORMAT_MMM_dd_hhmm_AMPM = new SimpleDateFormat("MMM dd hh:mm a");
 	public static final SimpleDateFormat FORMAT_MMMM_dd_hhmm_AMPM = new SimpleDateFormat("MMMM dd hh:mm a");
 	public static final SimpleDateFormat FORMAT_MEETING_REMINDER = new SimpleDateFormat("EEE MMM dd, yyyy hh:mm a");
-	//public static final SimpleDateFormat FORMAT_MMM_dd_yyyy_hhmm_AMPM = new SimpleDateFormat( "MMM dd yyyy hh:mm a");
 	public static final SimpleDateFormat FORMAT_CALENDAR_DATE = new SimpleDateFormat( "MMM dd, yyyy hh:mm a");
-
-	// FORMAT_FULL
 	public static final SimpleDateFormat FORMAT_FULL = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
-
-	// FORMAT_Md
 	public static final SimpleDateFormat FORMAT_Md = new SimpleDateFormat("M/d");
-
-	// FORMAT_yyyyMMdd	
 	public static final SimpleDateFormat FORMAT_yyyyMMdd = new SimpleDateFormat("yyyy-MM-dd");
 
 	public static boolean isLocation(java.util.List<Location> locations,
@@ -155,18 +146,10 @@ public class VtkUtil {
     
     
     public static final java.util.List<MeetingE> sortMeetingsById( java.util.List<MeetingE> meetings){
-    	
-    	//for(int i=0;i<meetings.size();i++)
-    	//	System.err.println("tatax sorting before: "+ i+" :" +meetings.get(i).getId());
-    	
-    	
+    	if( meetings==null ) return meetings;
     	Comparator<MeetingE> comp = new BeanComparator("id");
 		Collections.sort(meetings, comp);
-		
-		//for(int i=0;i<meetings.size();i++)
-    	//	System.err.println("tatax sorting after: "+ i+" :" +meetings.get(i).getId());
-		
-    	return meetings;
+		return meetings;
     	
     }
     
@@ -212,8 +195,6 @@ public static Date parseDate(SimpleDateFormat f, String d) throws ParseException
 		return f.parse(d);
     }
 }
-
-
 
 public static String getCouncilInClient(HttpServletRequest request){
 	Cookie[] cookies = request.getCookies();

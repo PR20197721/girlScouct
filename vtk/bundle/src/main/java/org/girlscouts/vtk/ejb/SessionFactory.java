@@ -21,11 +21,7 @@ public class SessionFactory {
 	private SlingRepository repository;
 
 	public Session getSession() throws RepositoryException, LoginException {
-
 		Session adminSession = repository.loginAdministrative(null);
-		// org.apache.jackrabbit.ocm.transaction.jackrabbit.UserTransactionImpl
-		// x;
-		// adminSession.b
 		Session session = adminSession.impersonate(new SimpleCredentials("vtk",
 				new char[0]));
 		adminSession.logout();
@@ -34,7 +30,6 @@ public class SessionFactory {
 	}
 
 	public void closeSession(Session session) {
-
 		session.logout();
 	}
 

@@ -1,3 +1,12 @@
+<%@ page
+  import="java.text.SimpleDateFormat,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*"%>
+<%@include file="/libs/foundation/global.jsp"%>
+<cq:defineObjects />
+<%@include file="session.jsp"%>
+<%
+String activeTab=request.getParameter("activeTab");
+PlanView planView= meetingUtil.planView(user, troop, request);
+%>
 <div class="hide-for-print crumbs clearfix hide-for-small">
   <div class="column small-24 medium-20 large-centered medium-centered large-20">
     <div class="row">
@@ -15,14 +24,13 @@
           <!-- if on Meeting Detail Page-->
             <% if("planView".equals(activeTab)) { %>
             <!--if activity detail page-->
-            <% switch(meetingUtil.planView(user, troop, request).getYearPlanComponent().getType() ) {
+            <% switch(planView.getYearPlanComponent().getType() ) {
               case ACTIVITY:
             	  pageContext.setAttribute("YearPlanComponent", "ACTIVITY");
-                Activity activity = (Activity)meetingUtil.planView(user, troop, request).getYearPlanComponent();
+                Activity activity = (Activity)planView.getYearPlanComponent();
                 if( activity.getIsEditable() ){%>
                 <li>
-                    <!--  <a href="#" data-reveal-id="editModal" onclick="doEditActivity('editCustActiv')">edit activity</a> -->
-                    <a href="#" data-reveal-id="editCustActiv">edit activity</a>
+                     <a data-reveal-id="modal_popup_activity" data-reveal-ajax="true" href="/content/girlscouts-vtk/controllers/vtk.include.activity_edit_react.html?elem=<%=planView.getSearchDate().getTime()%>">Edit Activity</a>
                   </li>
               <% }
                 if ( !(activity.getCancelled()!=null && activity.getCancelled().equals("true") ) && 
@@ -33,16 +41,11 @@
                   break;
             case MEETING:
             	pageContext.setAttribute("YearPlanComponent", "MEETING");
-              try {	Object meetingPath = pageContext.getAttribute("MEETING_PATH");
+              try {	Object meetingPath = planView.getMeeting().getMeetingInfo().getPath();//.getAttribute("MEETING_PATH");
                       if (meetingPath != null && meetingPath != "") {
-                        Long planViewTime = (Long) pageContext.getAttribute("PLANVIEW_TIME");%>
-                      <li>
-                      <a href="#" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=(String) meetingPath %>&xx=<%= planViewTime.longValue() %>', false, null, true)">replace this meeting</a>
-                       
-                     
-                      
-                      
-                      </li><% 
+                        //Long planViewTime = (Long) pageContext.getAttribute("PLANVIEW_TIME");%>
+                      <li id="replaceMeeting"></li>
+                      <% 
                       }
                   } catch (Exception te) {
                     te.printStackTrace();

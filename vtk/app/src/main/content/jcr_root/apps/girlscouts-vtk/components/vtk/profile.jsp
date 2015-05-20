@@ -7,8 +7,9 @@
         String activeTab = "profile";
         boolean showVtkNav = true;
 %>
-<%@include file="include/tab_navigation.jsp"%>
+<div id="vtkTabNav"></div>
  <div id="panelWrapper" class="row content meeting-detail">
+ <div id="vtkNav"></div>
   <div class="columns large-20 large-centered">
   	<h3>Coming in future releases:</h3> 
 		<ul>
@@ -16,3 +17,4 @@
 		</ul>
   </div>
 </div>
+<script>loadNav('profile');</script>

@@ -829,3 +829,128 @@ function councilRpt(troopId, cid){
 			});
 		*/
 	}
+	
+	
+	function getRelogin(){
+		console.log('relogin')
+		 $.ajax({
+		        url: "/content/girlscouts-vtk/controllers/vtk.controller.html?printTroopReloginids=true",
+		        cache: false
+		    }).done(function( html ) {
+		    	printRelogin(html);
+		    });
+	}
+	
+	
+	function printRelogin(reloginSelect){
+		var reloginDiv= document.getElementById("relogin");
+		if( reloginDiv !=null && reloginDiv!=null ){
+			reloginDiv.innerHTML = reloginSelect;
+		}
+	}
+	
+	function chgYearPlan(planId, planPath, confirmMsg, planName, isYearPlan, yearPlanName){
+		if( isYearPlan ){
+			if(planName===yearPlanName){
+				confirmMsg ="Are you sure to reset the yearplan?";
+			}
+		}
+		x(planId, planPath, confirmMsg, planName);
+	};
+
+	function chgCustYearPlan(planId, planPath, confirmMsg, planName, isYearPlan, yearPlanName) {
+	    if( isYearPlan ){
+	        if(planName===yearPlanName){
+	            confirmMsg ="Are you sure to reset the yearplan?";
+	        }
+	    }
+
+	 
+	    $('#modal_custom_year_plan').foundation('reveal', 'open', {
+	        url: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_custom_year_plan.html",
+	        
+	         success: function(data) {
+	          var min_height = $('#sortable1').height()-71;
+	          $("#sortable2").css('min-height', min_height);  
+	        }
+	    });
+	};
+
+	function getCngYearPlan(){
+		 $.ajax({
+		        url: "/content/girlscouts-vtk/controllers/vtk.controller.html?printCngYearPlans=true",
+		        cache: false
+		    }).done(function( html ) {
+		    	printYearPlans(html);
+		    });
+	}
+	
+	
+	function printYearPlans(reloginSelect){
+		var reloginDiv= document.getElementById("cngYearPlan");
+		if( reloginDiv !=null && reloginDiv!=null ){
+			reloginDiv.innerHTML = reloginSelect;
+		}
+	}
+	
+	function replaceMeetingHref(mPath, mDate){
+		
+		var replaceMeeting = document.getElementById("replaceMeeting");
+		var replaceMeetingSmall = document.getElementById("replaceMeetingSmall");
+		if(replaceMeeting!=null){
+			replaceMeeting.innerHTML = "<a href=\"#\" onclick=\"loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath="+mPath+"&xx="+mDate+"', false, null, true)\">replace this meeting</a>";
+		}
+		if(replaceMeetingSmall!=null){
+			replaceMeetingSmall.innerHTML = "<a href=\"#\" onclick=\"loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath="+mPath+"&xx="+mDate+"', false, null, true)\">replace this meeting</a>";
+		}
+		
+	}
+
+	  
+	function loadNav(activeTab){
+		loadTabNav(activeTab);
+		loadUNav(activeTab);
+		
+	}
+
+
+	function loadUNav(activeTab){
+	    
+	    $.ajax({
+	        url: "/content/girlscouts-vtk/controllers/vtk.include.utility_nav.html?activeTab="+activeTab+ getElem(),
+	        cache: false
+	    }).done(function( html ) {
+	        var vtkNav = document.getElementById("vtkNav");
+	        vtkNav.innerHTML =html;
+	    })
+	}
+
+
+
+	function loadTabNav(activeTab){
+	        
+	        $.ajax({
+	            url: "/content/girlscouts-vtk/controllers/vtk.include.tab_navigation.html?activeTab="+activeTab+ getElem(),
+	            cache: false
+	        }).done(function( html ) {
+	            var vtkNav = document.getElementById("vtkTabNav");
+	            vtkNav.innerHTML =html;
+	            getRelogin();
+	        })
+	    }
+	    
+	function getParameterByName(name) {
+        name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+        var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+            results = regex.exec(location.search);
+        return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
+  function getElem(){
+      var elem = getParameterByName('elem');
+      if( elem!=null && elem!='')
+          return "&elem="+elem;
+      
+      return "";
+  }
+	 

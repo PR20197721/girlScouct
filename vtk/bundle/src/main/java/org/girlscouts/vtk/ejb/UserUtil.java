@@ -1,17 +1,13 @@
 package org.girlscouts.vtk.ejb;
 
 import javax.servlet.http.HttpServletRequest;
-
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Reference;
 import org.apache.felix.scr.annotations.Service;
-import org.apache.sling.api.SlingHttpServletRequest;
 import org.girlscouts.vtk.auth.models.ApiConfig;
-import org.girlscouts.vtk.dao.MeetingDAO;
 import org.girlscouts.vtk.dao.YearPlanDAO;
 import org.girlscouts.vtk.helpers.CouncilMapper;
 import org.girlscouts.vtk.models.Troop;
-import org.girlscouts.vtk.models.User;
 import org.girlscouts.vtk.utils.VtkUtil;
 
 @Component
@@ -20,7 +16,7 @@ public class UserUtil {
 
 	@Reference
 	YearPlanDAO yearPlanDAO;
-	
+
 	@Reference
 	private CouncilMapper councilMapper;
 
@@ -35,8 +31,7 @@ public class UserUtil {
 	}
 
 	public boolean hasPermission(Troop troop, int permissionId) {
-		//if (true)
-		//	return true;
+
 		if (!hasPermission(troop.getTroop().getPermissionTokens(), permissionId))
 			return false;
 		return true;
@@ -69,13 +64,16 @@ public class UserUtil {
 
 		return true;
 	}
-	
-	public String getCouncilUrlPath(ApiConfig apiConfig,  HttpServletRequest request){
-		String redirectUrl =null;
+
+	public String getCouncilUrlPath(ApiConfig apiConfig,
+			HttpServletRequest request) {
+		String redirectUrl = null;
 		try {
-			String councilId = Integer.toString(apiConfig.getTroops().get(0).getCouncilCode());
-			if( councilId==null || councilId.trim().equals("") )
-				redirectUrl = councilMapper.getCouncilUrl(VtkUtil.getCouncilInClient(request));
+			String councilId = Integer.toString(apiConfig.getTroops().get(0)
+					.getCouncilCode());
+			if (councilId == null || councilId.trim().equals(""))
+				redirectUrl = councilMapper.getCouncilUrl(VtkUtil
+						.getCouncilInClient(request));
 			else
 				redirectUrl = councilMapper.getCouncilUrl(councilId);
 		} catch (Exception e) {
