@@ -5,6 +5,7 @@
 <%@include file="session.jsp"%>
 <%
 String activeTab=request.getParameter("activeTab");
+PlanView planView = meetingUtil.planView(user, troop, request);
 %>
 
 
@@ -98,9 +99,9 @@ String activeTab=request.getParameter("activeTab");
           <li class='has-dropdown<%= ("planView".equals(activeTab)) ? " active" : " " %>'> <a <%= troop.getYearPlan() != null ? "href='/content/girlscouts-vtk/en/vtk.details.html'" :  "href='#' onClick='alert(\"Please select a year plan\")'"  %>>Meeting Plan</a>
             <ul class="dropdown">
             <% if("planView".equals(activeTab)) { 
-               switch(meetingUtil.planView(user, troop, request).getYearPlanComponent().getType() ) {
+               switch(planView.getYearPlanComponent().getType() ) {
                 case ACTIVITY:
-                  Activity activity = (Activity)meetingUtil.planView(user, troop, request).getYearPlanComponent();
+                  Activity activity = (Activity)planView.getYearPlanComponent();
                   if( activity.getIsEditable() ){%>
                   <li><a href="#" onclick="doEditActivity('editCustActiv')">edit activity</a></li>
                 <% }
@@ -111,7 +112,7 @@ String activeTab=request.getParameter("activeTab");
                     <li><a href="javascript:rmCustActivity12(aPath)">delete this activity</a></li><% 
                     
               	case MEETING:
-                	try { Object meetingPath = pageContext.getAttribute("MEETING_PATH");
+                	try { Object meetingPath = planView.getMeeting().getMeetingInfo().getPath(); //pageContext.getAttribute("MEETING_PATH");
                         if (meetingPath != null && meetingPath != "") {
                           Long planViewTime = (Long) pageContext.getAttribute("PLANVIEW_TIME");%>
                          <li id="replaceMeetingSmall"></li> 

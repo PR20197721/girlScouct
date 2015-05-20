@@ -883,7 +883,7 @@ function councilRpt(troopId, cid){
 	function loadTabNav(activeTab){
 	        
 	        $.ajax({
-	            url: "/content/girlscouts-vtk/controllers/vtk.include.tab_navigation.html?activeTab="+activeTab,
+	            url: "/content/girlscouts-vtk/controllers/vtk.include.tab_navigation.html?activeTab="+activeTab+ getElem(),
 	            cache: false
 	        }).done(function( html ) {
 	            var vtkNav = document.getElementById("vtkTabNav");
