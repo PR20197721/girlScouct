@@ -42,7 +42,14 @@ java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras=null;
 		 contactsExtras = contactUtil.getContactsExtras( user,  troop, contacts);
  
 %>
-
+ <%
+    String troopId= troop.getTroop().getTroopId();
+    if( troopId ==null || troopId.trim().equals("") ) { %>
+      <span class="error">Warning: no troop is specified.</span>
+    <% return; }
+     String troopPhotoUrl = "/content/dam/girlscouts-vtk/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troopId + "/imgLib/troop_pic.png";
+     //String troopPhotoUrl = "/vtk/"+ troop.getTroop().getCouncilCode() +"/troops/" + troopId + "/resources/troop_pic.png";
+    %>
 <div id="vtkNav"></div>
 <%@include file='include/modals/modal_upload_img.jsp' %>
 
