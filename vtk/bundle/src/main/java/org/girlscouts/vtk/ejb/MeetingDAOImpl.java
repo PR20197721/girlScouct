@@ -172,6 +172,14 @@ public class MeetingDAOImpl implements MeetingDAO {
 			ObjectContentManager ocm = new ObjectContentManagerImpl(session,
 					mapper);
 			meeting = (Meeting) ocm.getObject(path);
+			
+			
+			if( meeting!=null && path!=null && path.contains("/lib/meetings/")){ //cust meeting: overwrite meetingInfo
+				Meeting globalMeetingInfo = getMeeting( user, "/content/girlscouts-vtk/meetings/myyearplan/"+meeting.getLevel().toLowerCase().trim()+"/"+meeting.getId());
+				if(globalMeetingInfo!=null)
+					meeting.setMeetingInfo( globalMeetingInfo.getMeetingInfo() );	
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
