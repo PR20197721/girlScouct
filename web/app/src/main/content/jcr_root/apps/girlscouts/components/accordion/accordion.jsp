@@ -16,20 +16,20 @@
 	else{
 		String[] ids = new String[children.length];
         %>
-        <dl class="accordion" data-accordion><%
-        for (int i=0; i<children.length; i++){
-        	String parsys = resource.getName() + "_parsys_" + i;
-        	ids[i] = parsys;
-        	%><dt data-target="<%=parsys%>"><h6 class = "on"><%=children[i]%></dt>
-        	<dd class="accordion-navigation">
-        		<div class="content" id="<%=parsys%>">
-        			<cq:include path="<%=parsys%>" resourceType="foundation/components/parsys" />
-        		</div>     		
-        	</dd>
-        	<%
-        }
-        %></dl>
-        <script> 
+            <dl class="accordion" data-accordion><%
+            for (int i=0; i<children.length; i++){
+            	String parsys = resource.getName() + "_parsys_" + i;
+            	ids[i] = parsys;
+            	%><dt data-target="<%=parsys%>"><h6 class = "on"><%=children[i]%></dt>
+            	<dd class="accordion-navigation">
+            		<div class="content" id="<%=parsys%>">
+            			<cq:include path="<%=parsys%>" resourceType="foundation/components/parsys" />
+            		</div>
+            	</dd>
+            	<%
+            }
+            %></dl>
+        <script>
         	CQ.WCM.on("editablesready", function(){
         	<%
         		for(int i=0; i<ids.length; i++){

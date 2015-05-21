@@ -14,8 +14,8 @@ Small
 Font : Open Sans
 
 */
-/* Embedded Fonts */ 
-<!-- 
+/* Embedded Fonts */
+<!--
 @font-face {
   font-family: 'Open Sans';
   font-style: normal;
@@ -56,7 +56,7 @@ a:hover {
 }
 @media only screen and (min-width: 40.063em) {
     body {
-/* 
+/*
         min-width:740px;
  */
     }
@@ -143,8 +143,8 @@ a:hover.menuHighlight {
     background-color: #009447;
 }
 .searchField {
-    background: url('images/magnifyer-small.png') no-repeat 0px 10px; 
-    background-position: right; 
+    background: url('images/magnifyer-small.png') no-repeat 0px 10px;
+    background-position: right;
 }
 
 /* HEADER BAR */
@@ -251,7 +251,7 @@ a:hover.menuHighlight {
 #main .side-nav li.divider {
     margin: 0px;
     padding: 0px;
-    background: none; 
+    background: none;
 }
 #main .side-nav .active>a, #main .side-nav .isOpen>a {
     font-weight: bold;
@@ -332,7 +332,7 @@ a:hover.menuHighlight {
 }
 table, tr:first-child  {
      border-collapse:collapse;
-     border: 1px solid black; 
+     border: 1px solid black;
 }
 #contactsList table {
      width:100%;
@@ -347,13 +347,13 @@ table, tr:first-child  {
 /***********************************/
 
 .item{
-    float:left; 
+    float:left;
     width:33.3333%;
     background:#EBEBEB;
     padding:0 15px 0 0;
 }
 .twoColumn{
-    float:left; 
+    float:left;
     width:35%;
     height:75px;
     margin:1px auto;
@@ -363,13 +363,13 @@ input#date{
     /*width:120px;*/
     /*float:left;*/
     /* margin-right: 15px;*/
-    width:140px;  
+    width:140px;
 }
 #title{
   padding:3px;
 }
 .baseDiv{
-    float:left; 
+    float:left;
     width:100%;
     padding:10px;
     border-bottom:2px solid rgb(191, 194, 194);
@@ -444,7 +444,7 @@ input.form-btn, a.form-btn {
 }
 .span7 {
     width: 540px;
-}   
+}
 .noPadding{
   padding:0;
 }
@@ -525,7 +525,7 @@ td.fc-header-left{
     padding: 8px 0px 0px 5px;
 }
 #right-canvas-menu-bottom {
-    border-top: 1px solid #464646; 
+    border-top: 1px solid #464646;
 }
 
 .right-off-canvas-menu .side-nav li a:hover {
@@ -538,7 +538,7 @@ td.fc-header-left{
 .right-off-canvas-menu .side-nav li.divider {
     margin: 0px;
     padding: 0px;
-    background: none; 
+    background: none;
 }
 .right-off-canvas-menu .side-nav .active>a {
     font-weight: bold;
@@ -547,8 +547,8 @@ td.fc-header-left{
     color:#ddd;
     height:50px;
     font-size:1rem;
-   
-    
+
+
 }
 
 
@@ -556,23 +556,23 @@ td.fc-header-left{
     font-weight: normal;
 }
 #right-canvas-menu .side-nav>li {
-    /*background: url('images/orange-vertical.png') repeat-y  0px 0px;*/ 
-    
-     
+    /*background: url('images/orange-vertical.png') repeat-y  0px 0px;*/
+
+
 }
 #right-canvas-menu .side-nav>li.active {
     /*background: url('images/orange-yellow-vertical.png') repeat-y  0px 0px;*/
-    padding :0px 0px 0px 10px; 
-  
+    padding :0px 0px 0px 10px;
+
 }
 
 #right-canvas-menu .side-nav>li#sub-active {
     /*background: url('images/orange-yellow-vertical.png') repeat-y  0px 0px; */
-  
+
 }
 #right-canvas-menu .side-nav ul#submenu  {
-    padding:0px;    
-  
+    padding:0px;
+
 }
 
 .right-off-canvas-menu ul li{
@@ -596,7 +596,7 @@ td.fc-header-left{
 
 #headerBar ul li.active {
     background: url('images/white-up-arrow.png') no-repeat  60px 0px;
-    background-position:center bottom;  
+    background-position:center bottom;
 }
 
 #header .signin{
@@ -612,7 +612,7 @@ td.fc-header-left{
 
 #leftContent li.active ul li.active{
     background: url('images/small-green-arrow-right.png') no-repeat  0px 0px;
-    background-position:right 9px;  
+    background-position:right 9px;
 }
 
 #hrStyle >hr{
@@ -638,51 +638,51 @@ ul.side-nav, li#sub-active ul, li#sub-active > ul > li > ul > li{
 #right-canvas-menu .side-nav li {
     text-indent:30px;
   }
-    
+
 #right-canvas-menu .side-nav ul li ul li {
     text-indent:0px;
-    }    
-    
+    }
+
 #right-canvas-menu .side-nav li ul li {
     text-indent:8px;
-   }  
+   }
 
 #right-canvas-menu .side-nav li ul li ul li {
     text-indent:60px;
-   } 
+   }
 
 #right-canvas-menu .side-nav ul ul li {
     text-indent:25px;
-   }  
-   
+   }
+
 #right-canvas-menu .side-nav ul ul ul li {
     text-indent:70px;
-   }    
-   
+   }
+
 
 #right-canvas-menu .side-nav li ul li ul li {
     text-indent:30px;
-   } 
-   
+   }
+
 #right-canvas-menu li#sub-active > ul > ul >li > ul > li {
   text-indent:80px;
-}       
+}
 #right-canvas-menu .side-nav li {
     text-indent:10px;
-    }  
+    }
 /* Hamburger Menu changes end */
 
 #right-canvas-menu-bottom > ul{
    padding:0px;
   margin:0px;
 }
-#right-canvas-menu-bottom li 
+#right-canvas-menu-bottom li
  {
     height:50px;
     width:100%;
    /* text-indent:-5px;*/
     }
-    
+
 #right-canvas-menu-bottom > ul > li.active{
   background-color:#B0B0B0;
 }
@@ -705,13 +705,13 @@ ul.side-nav, li#sub-active ul, li#sub-active > ul > li > ul > li{
 .register a{
     background: url('images/small-green-arrow-right.png') no-repeat  0px 0px;
     background-position:right center;
-    padding-right:10px;  
+    padding-right:10px;
 }
 
 #calendar a{
     background: url('images/calendar-icon.png') no-repeat  0px 0px;
     background-position:left center;
-    padding-left:25px;  
+    padding-left:25px;
 }
 
 #mainContent ul {
