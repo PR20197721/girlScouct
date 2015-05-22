@@ -9,7 +9,5 @@
     for (int i = 0; i < numberOfStories; i++) {
         String id = "story_" + Integer.toString(i);
 %>
-        <cq:include path="<%= id %>" resourceType="gsusa/components/featured-story" />
-<%
-    }
-%>
+    <cq:include path="<%= id %>" resourceType="gsusa/components/featured-story" />
+<%}%>

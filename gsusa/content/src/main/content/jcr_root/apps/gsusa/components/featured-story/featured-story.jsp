@@ -2,4 +2,4 @@
 <%
 	String story = properties.get("story", "FEATURED STORY");
 %>
-<%= story %>
+<div><%= story %></div>

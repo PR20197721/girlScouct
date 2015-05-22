@@ -5,7 +5,7 @@
 // Foundation JavaScript
 // Documentation can be found at: http://foundation.zurb.com/docs
   $(document).foundation();
-  console.log('aaa');
+
   $('.hero-feature ul').slick({
     dots: true,
     infinite: true,
