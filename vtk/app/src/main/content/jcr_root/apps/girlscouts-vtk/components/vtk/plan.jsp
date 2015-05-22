@@ -13,7 +13,6 @@
 <script src="/etc/designs/girlscouts-vtk/clientlibs/js/planView.js"></script>
 
 
-
 <div id="vtkTabNav"></div>
 
 

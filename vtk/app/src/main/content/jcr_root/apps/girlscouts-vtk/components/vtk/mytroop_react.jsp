@@ -51,7 +51,6 @@ java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras=null;
      //String troopPhotoUrl = "/vtk/"+ troop.getTroop().getCouncilCode() +"/troops/" + troopId + "/resources/troop_pic.png";
     %>
 <div id="vtkNav"></div>
-<%@include file='include/modals/modal_upload_img.jsp' %>
 
 
   <div class="hero-image">
