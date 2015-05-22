@@ -18,13 +18,13 @@
                 		xtype="textfield"/>
                     <width
                         jcr:primaryType="cq:Widget"
-                        fieldDescription="Enter the width of the iframe. Include 'px' or '%' at the end or it will default to pixels"
+                        fieldDescription="Enter the width of the iframe. Include 'px' or '%' at the end or it will default to pixels. Default is 100%"
                         fieldLabel="Width"
                         name="./width"
                         xtype="textfield"/>
                     <height
                         jcr:primaryType="cq:Widget"
-                        fieldDescription="Enter the height of the iframe. Include 'px' or '%' at the end or it will default to pixels"
+                        fieldDescription="Enter the height of the iframe. Include 'px' or '%' at the end or it will default to pixels. Default is 500px"
                         fieldLabel="Height"
                         name="./height"
                         xtype="textfield"/>
@@ -33,13 +33,15 @@
                     	fieldDescription="Check to allow scrolling"
                     	fieldLabel="Scrolling"
                     	name="./scrolling"
-                    	xtype="checkbox"/>
+                    	type="checkbox"
+                    	xtype="selection"/>
                    	<frame-border
                    		jcr:primaryType="cq:Widget"
                    		fieldDescription="Check to give the frame a border"
                    		fieldLabel="Border"
                    		name="./frame-border"
-                   		xtype="checkbox"/>    
+                   		type="checkbox"
+                    	xtype="selection"/>    
                 </items>
             </properties>
             <design
@@ -61,13 +63,13 @@
             		<outer-class
             			jcr:primaryType="cq:Widget"
             			fieldDescription="Insert CSS classes for the iframe container, separated by spaces"
-            			fieldLable="Outer Frame Classes"
+            			fieldLabel="Outer Frame Classes"
             			name="./outer-class"
             			xtype="textfield"/>
             		<inner-class
             			jcr:primaryType="cq:Widget"
             			fieldDescription="Insert CSS classes for the iframe content, separated by spaces"
-            			fieldLable="Inner Frame Classes"
+            			fieldLabel="Inner Frame Classes"
             			name="./inner-class"
             			xtype="textfield"/>
             	</items>
