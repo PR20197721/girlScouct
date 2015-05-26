@@ -20,5 +20,20 @@
             mode="replace"
             root="/etc/designs/gsusa"
             rules="[]"/>
+        <f2
+            jcr:primaryType="nt:folder"
+            mode="replace"
+            root="/etc/workflow/scripts/gsusa"
+            rules="[]"/>
+        <f3
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/workflow/models/dam/update_asset"
+            rules="[]"/>
+        <f4
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/dam/video/hq"
+            rules="[]"/>
     </filter>
 </jcr:root>
