@@ -42,32 +42,31 @@
 
       var CommentBox = React.createClass({displayName: "CommentBox",
        loadCommentsFromServer: function( isFirst ) {
-         $.ajax({
-            url: this.props.url +
-            ( (isActivNew==1 || isActivNew==2) ? ("&isActivNew="+ isActivNew) : '')+
-            (isFirst ==1 ? ("&isFirst="+ isFirst) : ''),
-            dataType: 'json',
-            cache: false,
-            success: function(data) {
-                this.setState({data:data});
-            if( isActivNew ==1 ){
-                isActivNew=2;
-            }else if( isActivNew ==2 ){
-                isActivNew=0;
-            }
-
-                  }.bind(this),
-                error: function(xhr, status, err) {
-
-                }.bind(this)
-              });
-
+    	 if (isFirst) {
+             $.ajax({
+                 url: this.props.url + '&isFirst=1',
+                 dataType: 'json',
+                 cache: false,
+                 success: function(data) {
+                	 console.info('data coming back');
+                     this.setState({data:data});
+                 }.bind(this),
+             });
+    	 } else {
+	    	 getDataIfModified("year-plan.json", this, function(data, textStatus, req){
+	    		// Skip if is 304.
+	    		if (req.status == 200) {
+		            this.setState({data:data});
+	    		}
+                 
+	    	 });
+    	 }
        },
         getInitialState: function() {
           return {data: []};
         },
         componentDidMount: function() {
-          this.loadCommentsFromServer(1);
+          this.loadCommentsFromServer();
           setInterval( this.loadCommentsFromServer, this.props.pollInterval);
           setInterval( this.checkLocalUpdate, 100);
         },
@@ -81,7 +80,7 @@
                x =  this.state.data.schedule;
                  yearPlanName = this.state.data.yearPlan;
                   return (
-                      React.createElement(YearPlanComponents, {yearPlanName: yearPlanName, data: x})
+                      React.createElement(YearPlanComponents, {yearPlanName: yearPlanName, data: x, parentComponent: this}) 
                 );
             } else {
                 return React.createElement("div", null);
@@ -93,7 +92,9 @@
 
        var YearPlanComponents = React.createClass({displayName: "YearPlanComponents",
         onReorder: function (order) {
-            isActivNew=1;
+        	var parent = this.props.parentComponent;
+        	parent.setState({data: {}});
+        	parent.loadCommentsFromServer(true);
         },
         render: function() {
           return (
@@ -241,8 +242,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
           stop: function (event, ui) {
             var order = dom.sortable("toArray", {attribute: "id"});
             var yy  = order.toString().replace('"','');
-              doUpdMeeting1(yy);
-              onReorder(order);
+              doUpdMeeting1(yy, onReorder, order);
           },
           start: function(event, ui) {
 
@@ -271,8 +271,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
         stop: function (event, ui) {
             var order = dom.sortable("toArray", {attribute: "id"});
             var yy  = order.toString().replace('"','');
-            doUpdMeeting1(yy);
-            onReorder(order);
+            doUpdMeeting1(yy, onReorder, order); 
         },
         start: function(event, ui) {
       }
@@ -295,23 +294,28 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
         }
       });
 
+    var ViewMeeting = React.createClass({displayName: "ViewMeeting",
+        render: function() {
+          var date  = new Date(this.props.date).getTime();
+            var src = "/content/girlscouts-vtk/en/vtk.details.html?elem="+date;
+          return (
+              React.createElement("a", {href: src}, this.props.name)
+          );
+        }
+      });
 
-var ViewMeeting = React.createClass({displayName: "ViewMeeting",
-    render: function() {
-      var date  = new Date(this.props.date).getTime();
-        var src = "/content/girlscouts-vtk/en/vtk.details.html?elem="+date;
-      return (
-          React.createElement("a", {href: src}, this.props.name)
-      );
-    }
-  });
-
-    function doUpdMeeting1(newVals){
-        var x =$.ajax({
+    function doUpdMeeting1(newVals, callback, callbackArgs){
+        var x =$.ajax({ 
             url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=ChangeMeetingPositions&isMeetingCngAjax='+ newVals, // JQuery loads serverside.php
-            data: '',
-            dataType: 'html',
-        }).done(function( html ) { });
+            data: '', 
+            dataType: 'html', 
+        }).done(function( html ) {
+        	console.info('Before calling callback');
+        	if (callback) {
+        		console.info('Calling callback');
+        		callback(callbackArgs);
+        	}
+        });          
     }
 
       React.render(
