@@ -387,7 +387,7 @@ $include-html-type-classes: true;
 // 03. Block Grid
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
-// $include-html-block-grid-classes: $include-html-classes;
+$include-html-block-grid-classes: true;
 // $include-xl-html-block-grid-classes: false;
 
 // We use this to control the maximum number of block grid elements per row
@@ -403,7 +403,7 @@ $include-html-type-classes: true;
 // 04. Breadcrumbs
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
-// $include-html-nav-classes: $include-html-classes;
+$include-html-nav-classes: true;
 
 // We use this to set the background color for the breadcrumb container.
 // $crumb-bg: scale-color($secondary-color, $lightness: 55%);
@@ -434,7 +434,7 @@ $include-html-type-classes: true;
 // 05. Buttons
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
-// $include-html-button-classes: $include-html-classes;
+$include-html-button-classes: true;
 
 // We use these to build padding for buttons.
 // $button-tny: rem-calc(10);
@@ -497,7 +497,7 @@ $include-html-type-classes: true;
 // 07. Clearing
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
-// $include-html-clearing-classes: $include-html-classes;
+$include-html-clearing-classes: true;
 
 // We use these to set the background colors for parts of Clearing.
 // $clearing-bg: $oil;
@@ -527,7 +527,7 @@ $include-html-type-classes: true;
 // 08. Dropdown
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
-// $include-html-dropdown-classes: $include-html-classes;
+$include-html-dropdown-classes: true;
 
 // We use these to controls height and width styles.
 // $f-dropdown-max-width: 200px;
@@ -630,7 +630,7 @@ $include-html-type-classes: true;
 // 11. Forms
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
-// $include-html-form-classes: $include-html-classes;
+$include-html-form-classes: true;
 
 // We use this to set the base for lots of form spacing and positioning styles
 // $form-spacing: rem-calc(16);
@@ -834,7 +834,7 @@ $include-html-inline-list-classes: true;
 // Off Canvas Tab Bar Variables
 $include-html-off-canvas-classes: true;
 
-// $tabbar-bg: $oil;
+$tabbar-bg: $primary-color;
 // $tabbar-height: rem-calc(45);
 // $tabbar-icon-width: $tabbar-height;
 // $tabbar-line-height: $tabbar-height;
@@ -1122,7 +1122,7 @@ $include-html-off-canvas-classes: true;
 // 25. Reveal
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
-// $include-html-reveal-classes: $include-html-classes;
+$include-html-reveal-classes: true;
 
 // We use these to control the style of the reveal overlay.
 // $reveal-overlay-bg: rgba($black, .45);
@@ -1158,7 +1158,7 @@ $include-html-off-canvas-classes: true;
 // 26. Side Nav
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
-// $include-html-nav-classes: $include-html-classes;
+$include-html-nav-classes: true;
 
 // We use this to control padding.
 // $side-nav-padding: rem-calc(14 0);
@@ -1235,7 +1235,7 @@ $include-html-off-canvas-classes: true;
 // 28. Sub Nav
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
-// $include-html-nav-classes: $include-html-classes;
+$include-html-nav-classes: true;
 
 // We use these to control margin and padding
 // $sub-nav-list-margin: rem-calc(-4 0 18);
@@ -1479,7 +1479,7 @@ $topbar-dropdown-bg: transparent;
 // 36. Visibility Classes
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
-// $include-html-visibility-classes: $include-html-classes;
+$include-html-visibility-classes: true;
 // $include-accessibility-classes: true;
 // $include-table-visibility-classes: true;
 // $include-legacy-visibility-classes: true;

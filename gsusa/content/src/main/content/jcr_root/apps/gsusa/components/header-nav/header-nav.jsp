@@ -25,6 +25,7 @@
             </ul>
         </section>
     </nav>
+
 <%
         request.removeAttribute(DATA_KEY);
     }
