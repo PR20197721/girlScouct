@@ -5,9 +5,18 @@
     String data = (String)request.getAttribute(DATA_KEY);
     if (data != null) {
 %>
-        <li class="header-nav-item">
-          <a href="" title="<%= data %>"> <%= data %></a>
-        </li>
+    <li class="has-submenu">
+        <a href="" title="<%= data %>"> <%= data %></a>
+        <ul class="right-submenu">
+            <li class="back"><a href="#">Back</a></li>
+            <li><a href="#">Link 1</a></li>
+            <li><a href="#">Link 2</a></li>
+            <li><a href="#">Link 1</a></li>
+            <li><a href="#">Link 2</a></li>
+            <li><a href="#">Link 1</a></li>
+            <li><a href="#">Link 2</a></li>
+      </ul>
+    </li>
 <%
     }
 %>
