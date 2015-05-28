@@ -1,28 +1,22 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <!-- body -->
-<%
-    // All pages share the same header from the site root.
-    String headerPath = currentPage.getAbsoluteParent(2).getContentResource().getPath() + "/header";
-    String logoPath = headerPath + "/logo";
-    String headerNavPath = headerPath + "/header-nav";
-%>
 <body>
-    <div class="off-canvas-wrap">
+    <div class="off-canvas-wrap" data-offcanvas>
 
-      <div class="inner-wrap">
-        <section class="main-section">
-            <div class="header row">
-              <cq:include script="header.jsp"/>
-            </div>
-            <div class="content row">
-              <cq:include script="content.jsp"/>
-            </div>
-            <footer class="row">
-              <cq:include script="footer.jsp"/>
-            </footer>
-            <cq:include script="bodylibs.jsp"/>
-        </section>
-        <!-- close the off-canvas menu -->
+        <div class="inner-wrap">
+            <section class="main-section">
+                <div class="header">
+                  <cq:include script="header.jsp"/>
+                </div>
+                <div class="main-content row">
+                  <cq:include script="content.jsp"/>
+                </div>
+                <footer>
+                  <cq:include script="footer.jsp"/>
+                </footer>
+                <cq:include script="bodylibs.jsp"/>
+            </section>
+            <!-- close the off-canvas menu -->
          <a class="exit-off-canvas"></a>
       </div>
     </div>

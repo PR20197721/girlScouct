@@ -1,3 +1,3 @@
 <%@include file="/libs/foundation/global.jsp" %>
 
-LOGO
+<img src="https://www.google.com/images/srpr/logo11w.png" alt="gsusa home" />

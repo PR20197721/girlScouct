@@ -68,14 +68,14 @@
 // $base-line-height: 150%;
 
 // We use this to control whether or not CSS classes come through in the gem files.
-$include-html-classes: false;
+$include-html-classes: true;
 $include-print-styles: true;
 $include-html-global-classes: true;
 
 // b. Grid
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
-$include-html-grid-classes: true;
+$include-html-grid-classes: $include-html-classes;
 // $include-xl-html-grid-classes: false;
 
 $row-width: rem-calc(960);
@@ -125,7 +125,7 @@ $secondary-color: #FAA61A; //orange
 // We use these to control various global styles
 // $body-bg: $white;
 // $body-font-color: $jet;
-$body-font-family: "Open Sans";
+$body-font-family: "Open Sans", Arial, sans-serif;
 // $body-font-weight: $font-weight-normal;
 // $body-font-style: normal;
 
@@ -150,10 +150,10 @@ $body-font-family: "Open Sans";
 // d. Media Query Ranges
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
-// $small-breakpoint:  em-calc(640);
-// $medium-breakpoint: em-calc(1024);
-// $large-breakpoint:  em-calc(1440);
-// $xlarge-breakpoint: em-calc(1920);
+$small-breakpoint:  em-calc(640);
+$medium-breakpoint: em-calc(1024);
+$large-breakpoint:  em-calc(1440);
+$xlarge-breakpoint: em-calc(1920);
 
 // $small-range:   (0, $small-breakpoint);
 // $medium-range:  ($small-breakpoint  + em-calc(1), $medium-breakpoint);
@@ -206,7 +206,7 @@ $body-font-family: "Open Sans";
 // e. Typography
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
-$include-html-type-classes: true;
+$include-html-type-classes: $include-html-classes;
 
 // We use these to control header font styles
 // $header-font-family: $body-font-family;
@@ -387,7 +387,7 @@ $include-html-type-classes: true;
 // 03. Block Grid
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
-$include-html-block-grid-classes: true;
+$include-html-block-grid-classes: $include-html-classes;
 // $include-xl-html-block-grid-classes: false;
 
 // We use this to control the maximum number of block grid elements per row
@@ -403,7 +403,7 @@ $include-html-block-grid-classes: true;
 // 04. Breadcrumbs
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
-$include-html-nav-classes: true;
+$include-html-nav-classes: $include-html-classes;
 
 // We use this to set the background color for the breadcrumb container.
 // $crumb-bg: scale-color($secondary-color, $lightness: 55%);
@@ -434,7 +434,7 @@ $include-html-nav-classes: true;
 // 05. Buttons
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
-$include-html-button-classes: true;
+$include-html-button-classes: $include-html-classes;
 
 // We use these to build padding for buttons.
 // $button-tny: rem-calc(10);
@@ -497,7 +497,7 @@ $include-html-button-classes: true;
 // 07. Clearing
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
-$include-html-clearing-classes: true;
+$include-html-clearing-classes: $include-html-classes;
 
 // We use these to set the background colors for parts of Clearing.
 // $clearing-bg: $oil;
@@ -527,7 +527,7 @@ $include-html-clearing-classes: true;
 // 08. Dropdown
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
-$include-html-dropdown-classes: true;
+$include-html-dropdown-classes: $include-html-classes;
 
 // We use these to controls height and width styles.
 // $f-dropdown-max-width: 200px;
@@ -630,7 +630,7 @@ $include-html-dropdown-classes: true;
 // 11. Forms
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
-$include-html-form-classes: true;
+$include-html-form-classes: $include-html-classes;
 
 // We use this to set the base for lots of form spacing and positioning styles
 // $form-spacing: rem-calc(16);
@@ -728,7 +728,7 @@ $include-html-form-classes: true;
 // 13. Inline Lists
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
-$include-html-inline-list-classes: true;
+$include-html-inline-list-classes: $include-html-classes;
 
 // We use this to control the margins and padding of the inline list.
 // $inline-list-top-margin: 0;
@@ -832,10 +832,10 @@ $include-html-inline-list-classes: true;
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
 // Off Canvas Tab Bar Variables
-$include-html-off-canvas-classes: true;
+$include-html-off-canvas-classes: $include-html-classes;
 
-$tabbar-bg: $primary-color;
-// $tabbar-height: rem-calc(45);
+$tabbar-bg: #009447;
+$tabbar-height: rem-calc(30);
 // $tabbar-icon-width: $tabbar-height;
 // $tabbar-line-height: $tabbar-height;
 // $tabbar-color: $white;
@@ -854,7 +854,9 @@ $tabbar-bg: $primary-color;
 
 // Off Canvas Menu Variables
 // $off-canvas-width: rem-calc(250);
-// $off-canvas-bg: $oil;
+$off-canvas-bg: #6b6b6b;
+$off-canvas-bg-hover: transparent;
+$off-canvas-bg-active: transparent;
 // $off-canvas-bg-hover: scale-color($tabbar-bg, $lightness: -30%);
 // $off-canvas-bg-active: scale-color($tabbar-bg, $lightness: -30%);
 
@@ -869,8 +871,8 @@ $tabbar-bg: $primary-color;
 // $off-canvas-label-border-bottom: none;
 // $off-canvas-label-margin:0;
 // $off-canvas-link-padding: rem-calc(10, 15);
-// $off-canvas-link-color: rgba($white, .7);
-// $off-canvas-link-border-bottom: 1px solid scale-color($off-canvas-bg, $lightness: -25%);
+$off-canvas-link-color: #ddd;
+$off-canvas-link-border-bottom: none;
 // $off-canvas-back-bg: #444;
 // $off-canvas-back-border-top: $off-canvas-label-border-top;
 // $off-canvas-back-border-bottom: $off-canvas-label-border-bottom;
@@ -1122,7 +1124,7 @@ $tabbar-bg: $primary-color;
 // 25. Reveal
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
-$include-html-reveal-classes: true;
+$include-html-reveal-classes: $include-html-classes;
 
 // We use these to control the style of the reveal overlay.
 // $reveal-overlay-bg: rgba($black, .45);
@@ -1158,7 +1160,7 @@ $include-html-reveal-classes: true;
 // 26. Side Nav
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
-$include-html-nav-classes: true;
+$include-html-nav-classes: $include-html-classes;
 
 // We use this to control padding.
 // $side-nav-padding: rem-calc(14 0);
@@ -1235,7 +1237,7 @@ $include-html-nav-classes: true;
 // 28. Sub Nav
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
-$include-html-nav-classes: true;
+$include-html-nav-classes: $include-html-classes;
 
 // We use these to control margin and padding
 // $sub-nav-list-margin: rem-calc(-4 0 18);
@@ -1396,22 +1398,22 @@ $include-html-nav-classes: true;
 // 34. Top Bar
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
-$include-html-top-bar-classes: true;
+$include-html-top-bar-classes: $include-html-classes;
 
 // Background color for the top bar
-$topbar-bg-color: $primary-color;
+$topbar-bg-color: #009447;
 $topbar-bg: $topbar-bg-color;
 
 // Height and margin
-// $topbar-height: rem-calc(45);
+$topbar-height: rem-calc(30);
 // $topbar-margin-bottom: 0;
 
 // Controlling the styles for the title in the top bar
 // $topbar-title-weight: $font-weight-normal;
-$topbar-title-font-size: rem-calc(17);
+// $topbar-title-font-size: rem-calc(17);
 
 // Set the link colors and styles for top-level nav
-$topbar-link-color: $white;
+$topbar-link-color: #C1EAD4;
 // $topbar-link-color-hover: $white;
 // $topbar-link-color-active: $white;
 // $topbar-link-color-active-hover: $white;
@@ -1419,12 +1421,12 @@ $topbar-link-color: $white;
 $topbar-link-font-size: rem-calc(16);
 // $topbar-link-hover-lightness: -10%; // Darken by 10%
 $topbar-link-bg: transparent;
-// $topbar-link-bg-hover: $jet;
-// $topbar-link-bg-color-hover: $charcoal;
+$topbar-link-bg-hover: $topbar-link-bg;
+$topbar-link-bg-color-hover: $topbar-link-bg;
 // $topbar-link-bg-active: $primary-color;
 // $topbar-link-bg-active-hover: scale-color($primary-color, $lightness: -14%);
 // $topbar-link-font-family: $body-font-family;
-// $topbar-link-text-transform: none;
+$topbar-link-text-transform: uppercase;
 // $topbar-link-padding: ($topbar-height / 3);
 // $topbar-back-link-size: rem-calc(18);
 // $topbar-link-dropdown-padding: rem-calc(20);
@@ -1479,7 +1481,7 @@ $topbar-dropdown-bg: transparent;
 // 36. Visibility Classes
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
-$include-html-visibility-classes: true;
+$include-html-visibility-classes: $include-html-classes;
 // $include-accessibility-classes: true;
 // $include-table-visibility-classes: true;
 // $include-legacy-visibility-classes: true;
