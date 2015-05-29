@@ -113,6 +113,8 @@ $iron        : #CCCCCC;
 // $oil         : #333333;
 // $jet         : #222222;
 // $black       : #000000;
+$gs-orange      : #E29618;
+$gs-light-orange: #F2C63F;
 
 // We use these as default colors throughout
 $primary-color: #00AE58; //green
@@ -896,7 +898,7 @@ $off-canvas-link-border-bottom: none;
 // $tabbar-hamburger-icon-gap: 6px;
 
 // Off Canvas Back-Link Overlay
-// $off-canvas-overlay-transition: background 300ms ease;
+$off-canvas-overlay-transition: none;
 // $off-canvas-overlay-cursor: pointer;
 // $off-canvas-overlay-box-shadow: -4px 0 4px rgba($black, .5), 4px 0 4px rgba($black, .5);
 // $off-canvas-overlay-background: rgba($white, .2);
@@ -1415,7 +1417,7 @@ $topbar-height: rem-calc(30);
 // Set the link colors and styles for top-level nav
 $topbar-link-color: #C1EAD4;
 // $topbar-link-color-hover: $white;
-// $topbar-link-color-active: $white;
+$topbar-link-color-active: $white;
 // $topbar-link-color-active-hover: $white;
 // $topbar-link-weight: $font-weight-normal;
 $topbar-link-font-size: rem-calc(16);
@@ -1423,7 +1425,7 @@ $topbar-link-font-size: rem-calc(16);
 $topbar-link-bg: transparent;
 $topbar-link-bg-hover: $topbar-link-bg;
 $topbar-link-bg-color-hover: $topbar-link-bg;
-// $topbar-link-bg-active: $primary-color;
+$topbar-link-bg-active: transparent;
 // $topbar-link-bg-active-hover: scale-color($primary-color, $lightness: -14%);
 // $topbar-link-font-family: $body-font-family;
 $topbar-link-text-transform: uppercase;
