@@ -169,7 +169,7 @@ public class SalesforceDAO {
 		} catch (Exception e) {
 			log.error("Error decoding the code. Left it as is.");
 		}
-
+System.err.println("*************** "+OAuthUrl);
 		HttpClient httpclient = new HttpClient();
 		String tokenUrl = OAuthUrl + "/services/oauth2/token";
 		PostMethod post = new PostMethod(tokenUrl);
@@ -406,7 +406,8 @@ public class SalesforceDAO {
 			method = new HttpGet(apiConfig.getWebServicesUrl()
 					+ "/services/apexrest/activeUserTroopData?userId="
 					+ contactId);
-			method.setHeader("Authorization", "OAuth " + getToken(apiConfig));
+			method.setHeader("Authorization", "OAuth " +getToken(apiConfig));
+	//System.err.println("ttatatatat00DZ000000Mia06@appled.strudel@gmail.com");	
 			connection = connectionFactory.getConnection();
 			HttpResponse resp = connection.execute(method);
 			int statusCode = resp.getStatusLine().getStatusCode();

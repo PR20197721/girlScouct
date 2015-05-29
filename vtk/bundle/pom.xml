@@ -19,6 +19,11 @@
 	<packaging>bundle</packaging>
 	<name>Girl Scouts Volunteer Toolkit Bundle</name>
 
+<properties>
+    <slf4jVersion>1.7.12</slf4jVersion>
+    <junitVersion>4.12</junitVersion>
+  </properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.googlecode.java-diff-utils</groupId>
@@ -314,6 +319,50 @@
 </dependency>
 -->
 
+<!-- 
+<dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junitVersion}</version>
+      <scope>test</scope>
+    </dependency>
+    
+   
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+        <version>${slf4jVersion}</version>
+    </dependency>
+    <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-simple</artifactId>
+        <version>${slf4jVersion}</version>
+    </dependency>
+
+<dependency>
+    <groupId>org.apache.httpcomponents</groupId>
+    <artifactId>httpclient</artifactId>
+    <version>4.3.6</version>
+</dependency>
+-->
+<dependency>
+    <groupId>com.googlecode.json-simple</groupId>
+    <artifactId>json-simple</artifactId>
+    <version>1.1.1</version>
+</dependency>
+<dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <version>1.9</version>
+    </dependency>
+
+<!-- 
+<dependency>
+    <groupId>org.apache.servicemix.bundles</groupId>
+    <artifactId>org.apache.servicemix.bundles.commons-httpclient</artifactId>
+    <version>3.1_7</version>
+</dependency>
+-->
 
 
 	</dependencies>
