@@ -37,7 +37,7 @@
       event.stopPropagation();
       searchSlider.input.stop().animate({
         width: 'toggle',
-      }, 1500, function () {
+      }, 500, function () {
         if (searchSlider.input.is(':visible')) {
           searchSlider.input.focus();
           searchSlider.button.addClass('hide');
@@ -48,7 +48,7 @@
       });
     });
 
-    searchSlider.form.submit(function (event) {
+    searchSlider.form.submit(function () {
       searchSlider.input.keydown(function (e) {
         if (e.which === 13) {
           if (searchSlider.input.val() !== "") {
@@ -64,9 +64,9 @@
     $(document).click(function (event) {
       var target = $(event.target);
       if (target.closest('.tab-bar .search-form').length === 0) {
+        searchSlider.button.removeClass('hide');
          //searchSlider.button.click();
         searchSlider.input.hide('slow');
-        searchSlider.button.removeClass('hide');
       }
     });
   }

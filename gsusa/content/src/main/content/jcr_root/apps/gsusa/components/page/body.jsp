@@ -1,6 +1,6 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <!-- body -->
-<body>
+<body data-grid-framework="f4" data-grid-color="salmon" data-grid-opacity="0.5" data-grid-zindex="10" data-grid-gutterwidth="20px" data-grid-nbcols="24">
     <div class="off-canvas-wrap" data-offcanvas>
 
         <div class="inner-wrap">

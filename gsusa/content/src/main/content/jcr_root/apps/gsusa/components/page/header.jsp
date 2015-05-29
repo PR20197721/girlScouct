@@ -8,7 +8,9 @@
 %>
 <div class="top-header row">
     <section class="logo-section">
-        <cq:include path="<%= logoPath %>" resourceType="gsusa/components/logo" />
+        <a href="/" title="girscouts.com home">
+            <cq:include path="<%= logoPath %>" resourceType="gsusa/components/logo" />
+        </a>
     </section>
     <section class="utility show-for-medium-up">
         <ul class="inline-list">
