@@ -8,7 +8,6 @@
   $(document).foundation();
   //add height to the content for the footer to be always at the bottom.
   function fix_bottom_footer() {
-
     var footer_height = $("footer").outerHeight();
     var header_height = $(".header").outerHeight();
     var total_height = "calc((100vh - " + (footer_height + header_height) + "px))";
@@ -17,8 +16,8 @@
       "min-height" : total_height
     });
   }
-  function slide_search_bar() {
 
+  function slide_search_bar() {
     var searchSlider = {
       form: $(".tab-bar .search-form"),
       input: $(".tab-bar .search-form input"),
@@ -70,7 +69,21 @@
       }
     });
   }
-
+  function show_hide() {
+    console.log('Mike is here');
+    //if ($(".featured-stories.target").length > 0) {
+    $(".featured-story a").each(function (index) {
+      console.log(index);
+      $(this).click(function (e) {
+        e.stopPropagation();
+        var target = $(this).find('section');
+       // var toggle = $(this);
+        target.show("slow");
+      });
+      return false;
+    });
+    //}
+  }
   $('.hero-feature ul').slick({
     dots: true,
     infinite: true,
@@ -106,8 +119,9 @@
       // instead of a settings object
     ]
   });
-
   fix_bottom_footer();
   slide_search_bar();
+  show_hide();
+
 
 }(jQuery));
