@@ -910,7 +910,7 @@ function councilRpt(troopId, cid){
 	function loadNav(activeTab){
 		loadTabNav(activeTab);
 		loadUNav(activeTab);
-		
+		 	
 	}
 
 
@@ -936,6 +936,11 @@ function councilRpt(troopId, cid){
 	            var vtkNav = document.getElementById("vtkTabNav");
 	            vtkNav.innerHTML =html;
 	            getRelogin();
+	            
+	            if($('.tabs dd').length == 6) {
+			  	 	$('.tabs dd').css('width','100%');
+			  	 } 
+	            
 	        })
 	    }
 	    
