@@ -5,9 +5,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.rmi.ServerException;
 import java.util.Dictionary;
+
 import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
+
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
@@ -52,7 +54,9 @@ import org.slf4j.LoggerFactory;
 		"POST", "GET" })
 		 })
 		
+
 public class SSO extends SlingAllMethodsServlet{
+
 
 	
 	/**
@@ -67,10 +71,12 @@ public class SSO extends SlingAllMethodsServlet{
 	}
 
 
+
 	@Override
 	protected void doPost(SlingHttpServletRequest request,
 			SlingHttpServletResponse response) throws ServerException,
 			IOException {
+
 	
 	System.err.println("POST***********");
 	
