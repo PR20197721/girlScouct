@@ -3,9 +3,11 @@ package org.girlscouts.vtk.impl.servlets;
 import java.io.DataOutputStream;
 import java.net.URL;
 import java.util.Dictionary;
+
 import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpSession;
+
 import org.apache.felix.scr.annotations.Activate;
 import org.apache.felix.scr.annotations.Component;
 import org.apache.felix.scr.annotations.Properties;
@@ -18,6 +20,7 @@ import org.apache.sling.api.resource.LoginException;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.resource.ValueMap;
+import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
 import org.girlscouts.vtk.auth.dao.SalesforceDAO;
 import org.girlscouts.vtk.auth.dao.SalesforceDAOFactory;
@@ -49,7 +52,7 @@ import org.slf4j.LoggerFactory;
 		"POST", "GET" })
 		 })
 		
-public class SSO extends SlingSafeMethodsServlet implements
+public class SSO extends SlingAllMethodsServlet implements
 		ConfigListener {
 
 	
@@ -64,7 +67,7 @@ public class SSO extends SlingSafeMethodsServlet implements
 		System.err.println("GET ***********");
 	}
 
-	
+	@Override
 	public void doPost(SlingHttpServletRequest request,
 			SlingHttpServletResponse response) {
 	
