@@ -58,7 +58,7 @@
 	    		if (req.status == 200) {
 		            this.setState({data:data});
 	    		}
-                 
+
 	    	 });
     	 }
        },
@@ -80,7 +80,7 @@
                x =  this.state.data.schedule;
                  yearPlanName = this.state.data.yearPlan;
                   return (
-                      React.createElement(YearPlanComponents, {yearPlanName: yearPlanName, data: x, parentComponent: this}) 
+                      React.createElement(YearPlanComponents, {yearPlanName: yearPlanName, data: x, parentComponent: this})
                 );
             } else {
                 return React.createElement("div", null);
@@ -271,7 +271,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
         stop: function (event, ui) {
             var order = dom.sortable("toArray", {attribute: "id"});
             var yy  = order.toString().replace('"','');
-            doUpdMeeting1(yy, onReorder, order); 
+            doUpdMeeting1(yy, onReorder, order);
         },
         start: function(event, ui) {
       }
@@ -305,17 +305,17 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
       });
 
     function doUpdMeeting1(newVals, callback, callbackArgs){
-        var x =$.ajax({ 
+        var x =$.ajax({
             url: '/content/girlscouts-vtk/controllers/vtk.controller.html?act=ChangeMeetingPositions&isMeetingCngAjax='+ newVals, // JQuery loads serverside.php
-            data: '', 
-            dataType: 'html', 
+            data: '',
+            dataType: 'html',
         }).done(function( html ) {
         	console.info('Before calling callback');
         	if (callback) {
         		console.info('Calling callback');
         		callback(callbackArgs);
         	}
-        });          
+        });
     }
 
       React.render(
