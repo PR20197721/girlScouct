@@ -1,7 +1,9 @@
 package org.girlscouts.vtk.impl.servlets;
 
 import java.io.DataOutputStream;
+import java.io.IOException;
 import java.net.URL;
+import java.rmi.ServerException;
 import java.util.Dictionary;
 import javax.net.ssl.HttpsURLConnection;
 import javax.servlet.http.Cookie;
@@ -18,6 +20,7 @@ import org.apache.sling.api.resource.LoginException;
 import org.apache.sling.api.resource.ResourceResolver;
 import org.apache.sling.api.resource.ResourceResolverFactory;
 import org.apache.sling.api.resource.ValueMap;
+import org.apache.sling.api.servlets.SlingAllMethodsServlet;
 import org.apache.sling.api.servlets.SlingSafeMethodsServlet;
 import org.girlscouts.vtk.auth.dao.SalesforceDAO;
 import org.girlscouts.vtk.auth.dao.SalesforceDAOFactory;
@@ -36,12 +39,12 @@ import org.slf4j.LoggerFactory;
 @Properties({
 		@Property(propertyPrivate = true, name = "sling.servlet.resourceTypes", value = "sling/servlet/default"),
 		@Property(propertyPrivate = true, name = "sling.servlet.selectors", value = "sso"),
-		//@Property(propertyPrivate = true, name = "sling.servlet.extensions", value = "html"),
+		//@Property(propertyPrivate = true, name = "sling.servlet.extensions", value = "null"),
 		//@Property(propertyPrivate = true, name = "sling.servlet.methods", value = "null") })
 	
 		
 		@Property(propertyPrivate = true, name = "sling.servlet.extensions", value = {
-				"html", "xml" }),
+				"html", "xml", "saml", "res", "jsp" }),
 		
 		
 		
@@ -49,8 +52,7 @@ import org.slf4j.LoggerFactory;
 		"POST", "GET" })
 		 })
 		
-public class SSO extends SlingSafeMethodsServlet implements
-		ConfigListener {
+public class SSO extends SlingAllMethodsServlet{
 
 	
 	/**
@@ -64,9 +66,11 @@ public class SSO extends SlingSafeMethodsServlet implements
 		System.err.println("GET ***********");
 	}
 
-	
-	public void doPost(SlingHttpServletRequest request,
-			SlingHttpServletResponse response) {
+
+	@Override
+	protected void doPost(SlingHttpServletRequest request,
+			SlingHttpServletResponse response) throws ServerException,
+			IOException {
 	
 	System.err.println("POST***********");
 	
