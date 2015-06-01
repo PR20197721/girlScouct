@@ -69,20 +69,51 @@
       }
     });
   }
+  // function show_hide() {
+  //   alert("hello");
+  //   //if ($(".featured-stories.target").length > 0) {
+  //   $("li.featured-story").each(function (index) {
+  //     alert('inside' + index);
+  //     $(this).click(function (e) {
+  //       e.stopPropagation();
+  //       var target = $(this).children().data('target');
+  //       // var toggle = $(this);
+  //       $('.' + target).show("slow");
+  //       // target.show("slow");
+  //       return false;
+  //     });
+  //   });
+  //   //}
+  // }
+
   function show_hide() {
     console.log('Mike is here');
-    //if ($(".featured-stories.target").length > 0) {
-    $(".featured-story a").each(function (index) {
-      console.log(index);
-      $(this).click(function (e) {
-        e.stopPropagation();
-        var target = $(this).find('section');
-       // var toggle = $(this);
-        target.show("slow");
+    if ($("#_content_gsusa_en_jcr_content_content_featured-stories").length > 0) {
+      console.log($(".featured-stories.target").length);
+
+      $("ul.featured-stories li").each(function () {
+        alert("each function");
+        console.log($(this).length);
+        var elem = $(this);
+        var target = elem.find('section');
+        var contents = elem.find(".thumb .contents").html();
+        var section_header = target.find('.header');
+
+        elem.on("click", function (e) {
+          console.log($(this).length);
+          e.stopPropagation();
+          // var toggle = $(this);
+          $("ul.featured-stories li section .header").empty();
+          section_header.append(contents);
+          target.show("slow");
+        });
+        target.find('.icon-cross').on("click", function (e) {
+          target.hide("slow");
+          e.stopPropagation();
+          return false;
+        });
       });
-      return false;
-    });
-    //}
+    }
   }
   $('.hero-feature ul').slick({
     dots: true,
@@ -122,6 +153,4 @@
   fix_bottom_footer();
   slide_search_bar();
   show_hide();
-
-
 }(jQuery));

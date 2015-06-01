@@ -17,10 +17,17 @@ ul.featured-stories {
     margin-right: 0;
     margin-left: 0;
     text-align: center;
-    padding: rem-calc(20 0);
-    cursor: pointer;
-    .thumb * {
-      color: $white;
+    padding: rem-calc(30 0);
+    .thumb {
+      cursor: pointer;
+      font-size: rem-calc(14);
+      & * {
+        color: $white;
+      }
+      h2 {
+        font-size: rem-calc(26);
+        font-weight: 300;
+      }
     }
     .story {
       border: solid 1px red;
