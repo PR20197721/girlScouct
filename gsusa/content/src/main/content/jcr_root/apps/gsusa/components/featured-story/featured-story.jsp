@@ -11,8 +11,13 @@
     </div>
 </div>
 <section class="story" data-target="story_0">
-    <span class="icon-cross"></span>
-    <div class="header">
 
+    <div class="header">
+        <div class="contents">
+            <h2>Some title</h2>
+            <p class="dek">Donec nec justo eget felis facilisis fermentum.</p>
+            <img src="/" alt="" />
+        </div>
+        <span class="icon-cross"></span>
     </div>
 </section>

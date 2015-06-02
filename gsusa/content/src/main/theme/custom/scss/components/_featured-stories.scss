@@ -7,20 +7,20 @@ ul.featured-stories {
   p {
     margin: 0;
   }
-  [class^="icon-"],
-  [class*=" icon-"] {
-    font-size: rem-calc(60);
-  }
   li {
     width: 100%;
     margin-bottom: 1%;
     margin-right: 0;
     margin-left: 0;
-    text-align: center;
-    padding: rem-calc(30 0);
     .thumb {
       cursor: pointer;
       font-size: rem-calc(14);
+      text-align: center;
+      padding: rem-calc(30 0);
+      [class^="icon-"],
+      [class*=" icon-"] {
+        font-size: rem-calc(60);
+      }
       & * {
         color: $white;
       }
