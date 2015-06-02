@@ -34,7 +34,7 @@
     $('#modal_upload_image').bind('opened',function(){
     	uploadInit();
     	$('.vtk-body').css("overflow", "scroll");
-    	$('#modal_upload_image').css("top", "0px");
+    	//$('#modal_upload_image').css("top", "0px");
     });
     $('#modal_upload_image').bind('closed',function(){
     	cancel();
