@@ -71,7 +71,7 @@
     </dl>
   </div>
   
-  <div class="column large-20">
+  <div class="column large-20 large-centered medium-20 medium-centered small-20 small-centered">
   	<h3>Coming in future releases:</h3> 
 		<ul>
 			<li>- Manage your troop information</li>
