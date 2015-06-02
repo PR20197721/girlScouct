@@ -144,7 +144,7 @@ public class Utils {
 					"Detected use of ENTITY in XML, disabled to prevent XXE/XEE attacks");
 		}
 
-		 factory = DocumentBuilderFactory.newInstance();
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		factory.setNamespaceAware(true);
 		
 		// Add various options explicitly to prevent XXE attacks. add try/catch around every
