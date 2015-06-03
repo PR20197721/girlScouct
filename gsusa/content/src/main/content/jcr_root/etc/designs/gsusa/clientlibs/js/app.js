@@ -16,6 +16,23 @@
       "min-height" : total_height
     });
   }
+  function document_close_all() {
+    //when clicking outside of the form it will close the input.
+    $(document).click(function (event) {
+      event.stopPropagation();
+      var target = $(event.target);
+
+      if (target.closest('.tab-bar .search-form').length === 0
+          && $(".tab-bar .search-form input").css('display') !== 'none') {
+        $(".tab-bar .search-form span").removeClass('hide');
+        $(".tab-bar .search-form input").hide('slow');
+      }
+      if (target.closest('.featured-stories li').length === 0
+          && target.closest(".story").css('display') !== 'none') {
+        $(".story").hide("slow");
+      }
+    });
+  }
 
   function slide_search_bar() {
     var searchSlider = {
@@ -59,15 +76,14 @@
         }
       });
     });
-
   }
 
   function show_hide_features() {
     if ($(".featured-stories").length > 0) {
-      $(".featured-stories li").each(function () {
-        var elem = $(this);
-        var target = elem.find('section');
+      $(".featured-stories li").each(function (index) {
 
+        var elem = $(this);
+        var target = elem.find('.story');
         elem.on("click", function (e) {
           e.stopPropagation();
           target.show("slow");
@@ -81,25 +97,6 @@
         });
       });
     }
-  }
-  function document_close_all() {
-    //when clicking outside of the form it will close the input.
-    $(document).click(function (event) {
-      event.stopPropagation();
-      var target = $(event.target);
-
-      if (target.closest('.tab-bar .search-form').length === 0
-          && $(".tab-bar .search-form input").css('display') !== 'none') {
-
-        $(".tab-bar .search-form span").removeClass('hide');
-        $(".tab-bar .search-form input").hide('slow');
-      }
-      console.log(target.closest('.featured-stories li'));
-      if (target.closest('.featured-stories li').length === 0
-          && $(".story").css('display') !== 'none') {
-        $(".story").hide("slow");
-      }
-    });
   }
 
   $('.hero-feature ul').slick({

@@ -1,0 +1,10 @@
+.breaking-news {
+  background: $bg_breaking_news;
+  padding: 1.7708333% 0;
+  text-align: center;
+  :first-child {
+    margin-bottom: 0;
+    color: $white;
+    font-size: rem-calc(14);
+  }
+}

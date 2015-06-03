@@ -1,2 +1,2 @@
 <%@include file="/libs/foundation/global.jsp" %>
-Breaking News
+<a href="#" title="breaking news"><strong>breaking news: </strong>Girl Scouts Announces National Girl Scout Cookie Weekend lorem ipsum dolorem ipse dixit in the U.S.</a>
