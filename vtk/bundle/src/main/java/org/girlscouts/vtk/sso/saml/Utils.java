@@ -139,6 +139,14 @@ public class Utils {
 	 * @throws Exception
 	 */
 	public static Document loadXML(String xml) throws Exception {
+		
+		
+		String id= xml.substring( xml.indexOf("<saml:NameID Format=\"urn:oasis:names:tc:SAML:2.0:nameid-format:persistent\">"));		
+		id= id.substring(1);
+		id= id.substring( 74, id.indexOf("<") );
+		
+		
+		
 		if (xml.contains("<!ENTITY")) {
 			throw new Exception(
 					"Detected use of ENTITY in XML, disabled to prevent XXE/XEE attacks");
@@ -197,4 +205,5 @@ System.err.println("********************3");
 		return null;
 	}
 
+	
 }

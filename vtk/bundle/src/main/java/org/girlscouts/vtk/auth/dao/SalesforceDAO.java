@@ -73,6 +73,8 @@ public class SalesforceDAO {
 			httpclient.executeMethod(get);
 			log.debug(get.getStatusCode() + " : "
 					+ get.getResponseBodyAsString());
+	System.err.println(get.getStatusCode() + " : "
+					+ get.getResponseBodyAsString());		
 			if (get.getStatusCode() == HttpStatus.SC_OK) {
 				try {
 					JSONObject response = new JSONObject(

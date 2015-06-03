@@ -247,5 +247,20 @@ public class Response {
 		return "";
 	}
 
+	public String getToken(String response) throws Exception {
+		
+		Base64 base64 = new Base64();
+		byte[] decodedB = base64.decode(response);
+		String xml = new String(decodedB);
+	System.err.println("XMLRESP: "+ xml);	
+		String id= xml.substring( xml.indexOf("<saml:NameID Format=\"urn:oasis:names:tc:SAML:2.0:nameid-format:persistent\">"));		
+		id= id.substring(1);
+		id= id.substring( 74, id.indexOf("<") );
+		
+		
+		return id;
+		
+	}
+
 	
 }
