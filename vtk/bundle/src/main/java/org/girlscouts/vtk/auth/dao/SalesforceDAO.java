@@ -46,7 +46,7 @@ public class SalesforceDAO {
 		this.connectionFactory = connectionFactory;
 	}
 
-	public User getUser(ApiConfig config) {
+	public User getUserOrg(ApiConfig config) {
 		User user = new User();
 		HttpClient httpclient = new HttpClient();
 		GetMethod get = new GetMethod(config.getInstanceUrl()
@@ -511,4 +511,110 @@ System.err.println("*************** "+OAuthUrl);
 		}
 		return apiConfig.getAccessToken();
 	}
+	
+	
+	public User getUser(ApiConfig apiConfig) {
+		User user= new User();
+		CloseableHttpClient connection = null;
+System.err.println("tata new user");		
+		HttpGet method = new HttpGet(apiConfig.getWebServicesUrl()
+				+ "/services/apexrest/getUserInfo?USER_ID="+ apiConfig.getUserId());
+		method.setHeader("Authorization", "OAuth " + getToken(apiConfig));
+		try {
+			connection = connectionFactory.getConnection();
+			CloseableHttpResponse resp = connection.execute(method);
+			int statusCode = resp.getStatusLine().getStatusCode();
+			if (statusCode != HttpStatus.SC_OK) {
+				System.err.println("Method failed: " + resp.getStatusLine());
+			}
+			HttpEntity entity = null;
+			String rsp = null;
+			try {
+				entity = resp.getEntity();
+				entity.getContent();
+				rsp = EntityUtils.toString(entity);
+				EntityUtils.consume(entity);
+				method.releaseConnection();
+				method = null;
+			} finally {
+				resp.close();
+			}
+			rsp = "{\"records\":" + rsp + "}";
+			log.debug(">>>>> " + rsp);
+			try {
+				JSONObject response = new JSONObject(rsp);
+				log.debug("<<<<<Apex user reponse: " + response);
+				JSONArray results = response.getJSONArray("records");
+				for (int i = 0; i < results.length(); i++) {
+					log.debug("_____ " + results.get(i));
+					//int current = results.length() - 1;
+					try {
+						try {
+							user.setName(results.getJSONObject(i)
+									.getString("FirstName"));
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+						try {
+							user.setEmail(results.getJSONObject(i)
+									.getString("Email"));
+						} catch (Exception e) {
+							System.err
+									.println("SAlesforceDAO.getUser: no email");
+						}
+						try {
+							user.setPhone(results.getJSONObject(i)
+									.getString("Phone"));
+						} catch (Exception e) {
+							System.err
+									.println("SAlesforceDAO.getUser: no phone");
+						}
+
+						try {
+							user.setContactId(results.getJSONObject(i)
+									.getString("ContactId"));
+							user.setSfUserId(results.getJSONObject(i)
+									.getString("Id"));
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+						try {
+							String email = results.getJSONObject(i)
+									.getString("Email");
+
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					java.util.List<Troop> troops = troopInfo(apiConfig,
+							user.getSfUserId());
+					apiConfig.setTroops(troops);
+
+					return user;
+					
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		} catch (HttpException e) {
+			System.err.println("Fatal protocol violation: " + e.getMessage());
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.err.println("Fatal transport error: " + e.getMessage());
+			e.printStackTrace();
+		} catch (Exception eG) {
+			System.err.println("Fatal transport error: " + eG.getMessage());
+			eG.printStackTrace();
+		} finally {
+			if (method != null)
+				method.releaseConnection();
+		}
+		return user;
+	}
+
 }

@@ -311,10 +311,11 @@ samlResponse = new org.girlscouts.vtk.sso.saml.Response(accountSettings);
 // TODO Auto-generated catch block
 e1.printStackTrace();
 }
-String token= null;
+String token= null, userId= null;
 try {
 //samlResponse.loadXmlFromBase64(request.getParameter("SAMLResponse"));
  token =samlResponse.getToken(request.getParameter("SAMLResponse"));
+ userId= samlResponse.getUserId(request.getParameter("SAMLResponse"));
 } catch (Exception e) {
 // TODO Auto-generated catch block
 e.printStackTrace();
@@ -342,7 +343,7 @@ try {
 	log.debug("Skipping refresh token because SF is not providing it");
 }
 */
-String id = "005Z0000002PPYbIAO";
+String id =userId;// "005Z0000002PPYb";//"005Z0000002PPYbIAO";
 config.setId(id);
 config.setUserId(id.substring(id.lastIndexOf("/") + 1));
 if (refreshTokenStr != null) {
