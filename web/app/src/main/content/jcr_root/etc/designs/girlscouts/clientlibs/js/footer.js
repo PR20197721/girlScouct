@@ -1,5 +1,5 @@
 
-  var resizeWindow = function() {
+  var resizeWindow = function(e) {
     //make sure fixVertical is defined.
     //if(typeof fixVerticalSizing != 'undefined' && fixVerticalSizing === true) {
       //get height of the actual page
@@ -65,7 +65,7 @@
     var windowHeight = $(window).height();
     var targetMainHeight = (windowHeight-currentMainHeight);
     if(targetMainHeight != 0) {
-      resizeWindow();
+     //resizeWindow();
     }
     attendance_popup_width();
   })

@@ -279,13 +279,11 @@
 			<artifactId>jms-api</artifactId>
 			<version>1.1-rev-1</version>
 		</dependency>
-
 		<dependency>
 			<groupId>javax.jms</groupId>
 			<artifactId>javax.jms-api</artifactId>
 			<version>2.0</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-collections4</artifactId>
@@ -296,167 +294,90 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.4</version>
 		</dependency>
-   
- <dependency>
-    <groupId>org.apache.httpcomponents</groupId>
-    <artifactId>httpclient-osgi</artifactId>
-    <version>4.4</version>
-</dependency>
-<!--  
-<dependency>
-    <groupId>org.apache.servicemix.bundles</groupId>
-    <artifactId>org.apache.servicemix.bundles.ehcache</artifactId>
-    <version>2.4.3_2</version>
-</dependency>
-<dependency>
-    <groupId>org.apache.servicemix.bundles</groupId>
-    <artifactId>org.apache.servicemix.bundles.spymemcached</artifactId>
-    <version>2.5_2</version>
-</dependency>
-<dependency>
-    <groupId>org.hibernate</groupId>
-    <artifactId>hibernate-osgi</artifactId>
-    <version>4.3.8.Final</version>
-</dependency>
--->
-
-<!-- 
-<dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junitVersion}</version>
-      <scope>test</scope>
-    </dependency>
-    
-   
-    <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-api</artifactId>
-        <version>${slf4jVersion}</version>
-    </dependency>
-    <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-simple</artifactId>
-        <version>${slf4jVersion}</version>
-    </dependency>
-
-<dependency>
-    <groupId>org.apache.httpcomponents</groupId>
-    <artifactId>httpclient</artifactId>
-    <version>4.3.6</version>
-</dependency>
--->
-<dependency>
-    <groupId>com.googlecode.json-simple</groupId>
-    <artifactId>json-simple</artifactId>
-    <version>1.1.1</version>
-</dependency>
-<dependency>
-      <groupId>commons-codec</groupId>
-      <artifactId>commons-codec</artifactId>
-      <version>1.9</version>
-    </dependency>
-
-<!-- 
-<dependency>
-    <groupId>org.apache.servicemix.bundles</groupId>
-    <artifactId>org.apache.servicemix.bundles.commons-httpclient</artifactId>
-    <version>3.1_7</version>
-</dependency>
--->
-
-<!--  
-<dependency>
-    <groupId>xerces</groupId>
-    <artifactId>xercesImpl</artifactId>
-    <version>2.9.0</version>
-    <scope>provided</scope>
-</dependency>
--->
-
- 
-<dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-simple</artifactId>
-        <version>1.6.4</version>
-    </dependency>
-<dependency>
-    <groupId>org.apache.sling</groupId>
-    <artifactId>org.apache.sling.fragment.transaction</artifactId>
-    <version>1.0.0</version>
-    <scope>provided</scope>
-</dependency>
-
-
-<dependency>
-    <groupId>xerces</groupId>
-    <artifactId>xercesImpl</artifactId>
-    <version>2.11.0</version>
-</dependency>
-<dependency>
-    <groupId>xml-apis</groupId>
-    <artifactId>xml-apis</artifactId>
-    <version>1.4.01</version>
-</dependency>
-<dependency>
-    <groupId>xml-resolver</groupId>
-    <artifactId>xml-resolver</artifactId>
-    <version>1.2</version>
-</dependency>
-<dependency>
-    <groupId>org.codehaus.woodstox</groupId>
-    <artifactId>wstx-lgpl</artifactId>
-    <version>3.2.6</version>
-</dependency>
-<dependency>
-    <groupId>stax</groupId>
-    <artifactId>stax-api</artifactId>
-    <version>1.0.1</version>
-</dependency>
-<dependency>
-    <groupId>com.sun.msv.datatype.xsd</groupId>
-    <artifactId>xsdlib</artifactId>
-    <version>2013.2</version>
-</dependency>
-
-
- <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junitVersion}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>commons-codec</groupId>
-      <artifactId>commons-codec</artifactId>
-      <version>1.9</version>
-    </dependency>
-    <dependency>
-    <groupId>org.slf4j</groupId>
-    <artifactId>slf4j-api</artifactId>
-    <version>1.6.4</version>
-    <scope>provided</scope>
-</dependency>
-    <dependency>
-                <groupId>org.slf4j</groupId>
-                <artifactId>slf4j-simple</artifactId>
-                <version>${slf4jVersion}</version>
-        </dependency>
-        
-       
-   <dependency>
-    <groupId>com.sun.xml.bind</groupId>
-    <artifactId>jaxb1-impl</artifactId>
-    <version>2.0.2</version>
-</dependency>
-
-    <dependency>
-    <groupId>xalan</groupId>
-    <artifactId>xalan</artifactId>
-    <version>2.7.1</version>
-</dependency>
-    
-        
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient-osgi</artifactId>
+			<version>4.4</version>
+		</dependency>
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-simple</artifactId>
+			<version>1.6.4</version>
+		    </dependency>
+		<dependency>
+		    <groupId>org.apache.sling</groupId>
+		    <artifactId>org.apache.sling.fragment.transaction</artifactId>
+		    <version>1.0.0</version>
+		    <scope>provided</scope>
+		</dependency>
+		<dependency>
+		    <groupId>xerces</groupId>
+		    <artifactId>xercesImpl</artifactId>
+		    <version>2.11.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>xml-apis</groupId>
+		    <artifactId>xml-apis</artifactId>
+		    <version>1.4.01</version>
+		</dependency>
+		<dependency>
+		    <groupId>xml-resolver</groupId>
+		    <artifactId>xml-resolver</artifactId>
+		    <version>1.2</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.codehaus.woodstox</groupId>
+		    <artifactId>wstx-lgpl</artifactId>
+		    <version>3.2.6</version>
+		</dependency>
+		<dependency>
+		    <groupId>stax</groupId>
+		    <artifactId>stax-api</artifactId>
+		    <version>1.0.1</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.sun.msv.datatype.xsd</groupId>
+		    <artifactId>xsdlib</artifactId>
+		    <version>2013.2</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.sun.xml.bind</groupId>
+		    <artifactId>jaxb1-impl</artifactId>
+		    <version>2.0.2</version>
+		</dependency>
+		<dependency>
+		    <groupId>xalan</groupId>
+		    <artifactId>xalan</artifactId>
+		    <version>2.7.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-module-junit4</artifactId>
+			<version>1.6.2</version>
+			<scope>test</scope>
+   		</dependency>
+   		<dependency>
+			<groupId>org.powermock</groupId>
+			<artifactId>powermock-api-easymock</artifactId>
+			<version>1.6.2</version>
+			<scope>test</scope>
+   		</dependency>
+   		<dependency>
+  			<groupId>org.easymock</groupId>
+  			<artifactId>easymock</artifactId>
+  			<version>3.3.1</version>
+  			<scope>test</scope>
+		</dependency>  
 	</dependencies>
 	<repositories>
 		<repository>

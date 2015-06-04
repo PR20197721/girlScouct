@@ -21,7 +21,7 @@ java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras=null;
 			if( contacts.get(i).getEmail()!=null && !contacts.get(i).getEmail().trim().equals("") && !emailTo.contains( contacts.get(i).getEmail().trim()+"," )) {
 				emailTo += contacts.get(i).getFirstName().replace(" ", "&nbsp;")  +java.net.URLEncoder.encode("<" + contacts.get(i).getEmail() +">,");
 			}
-			emailTo = emailTo.trim(); 
+			emailTo = emailTo.trim();
 			if( emailTo.endsWith(",") )  {
 				emailTo= emailTo.substring(0, emailTo.length()-1);
 			}
@@ -35,12 +35,12 @@ java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras=null;
 			 //GOOD-sched = meetingUtil.getYearPlanSched(user, troop.getYearPlan(), true, true);
 			sched = meetingUtil.getYearPlanSched(user, troop.getYearPlan(), true, false);
 		}catch(Exception e){e.printStackTrace();}
-		
+
 		BiMap sched_bm = HashBiMap.create(sched);//com.google.common.collect.HashBiMap().create();
 		com.google.common.collect.BiMap sched_bm_inverse = sched_bm.inverse();
-//if(true)return;	
+//if(true)return;
 		 contactsExtras = contactUtil.getContactsExtras( user,  troop, contacts);
- 
+
 %>
  <%
     String troopId= troop.getTroop().getTroopId();
@@ -63,7 +63,7 @@ java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras=null;
 		}
     %>
         <img src="<%=troopPhotoUrl %>" alt="GirlScouts Troop <%=troop.getTroop().getTroopName()%> Photo" />
-       
+
        <%if(hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_ID)){ %>
         <a data-reveal-id="modal_upload_image" title="update photo" href="#nogo" title="upload image"><i class="icon-photo-camera"></i></a>
         <%} %>
@@ -76,12 +76,12 @@ java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras=null;
     $('#modal_upload_image').bind('opened',function(){
     	uploadInit();
     	$('.vtk-body').css("overflow", "scroll");
-    	$('#modal_upload_image').css("top", "0px");
+    	// $('#modal_upload_image').css("top", "0px");
     });
     $('#modal_upload_image').bind('closed',function(){
     	cancel();
     });
-    
+
 	function cancel(){
 		$('#cropping-tool').remove();
 		$('#crop-buttons').remove();
@@ -93,7 +93,7 @@ java.util.Map<Contact, java.util.List<ContactExtras>> contactsExtras=null;
 				localMediaStream.stop();
 	        }
 	}
-	
+
 	function uploadSuccess() {
 	  alert(successMsg);
 	  $('#upload-tool').remove();
@@ -122,13 +122,13 @@ if(hasPermission(troop, Permission.PERMISSION_canViewOwnChildDetail_TROOP_ID)){ 
   </div>
 
        <%
-     
-       for(int i=0; i<contacts.size(); i++) { 
+
+       for(int i=0; i<contacts.size(); i++) {
             org.girlscouts.vtk.models.Contact contact = contacts.get(i);
            // java.util.List<ContactExtras> infos = contactUtil.girlAttendAchievement(user, troop, contact);
            java.util.List<ContactExtras> infos = contactsExtras.get( contact );
            if(!user.getApiConfig().getUser().getContactId().equals(contact.getContactId() ) )
-        		continue;   
+        		continue;
             %>
 			  <div class="column large-24 large-centered mytroop">
 			    <dl class="accordion" data-accordion>
@@ -141,7 +141,7 @@ if(hasPermission(troop, Permission.PERMISSION_canViewOwnChildDetail_TROOP_ID)){ 
 				    </dl>
 				  </div>
         <%}
- }     
+ }
         %>
 
   <div class="column large-24 large-centered mytroop">

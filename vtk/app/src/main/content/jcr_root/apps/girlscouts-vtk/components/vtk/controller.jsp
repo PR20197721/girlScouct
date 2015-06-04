@@ -1,8 +1,7 @@
-
 <%@page
 	import="java.util.Comparator,org.codehaus.jackson.map.ObjectMapper,org.joda.time.LocalDate,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*,
-                org.girlscouts.vtk.modifiedcheck.ModifiedChecker"%>
-
+                org.girlscouts.vtk.modifiedcheck.ModifiedChecker, com.day.image.Layer, java.awt.geom.Rectangle2D, java.awt.geom.Rectangle2D.Double, com.day.cq.commons.jcr.JcrUtil, org.apache.commons.codec.binary.Base64, com.day.cq.commons.ImageHelper, com.day.image.Layer, java.io.ByteArrayInputStream, java.io.ByteArrayOutputStream, java.awt.image.BufferedImage, javax.imageio.ImageIO,
+                org.girlscouts.vtk.helpers.TroopHashGenerator"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp"%>
 
@@ -218,6 +217,15 @@
 			case ReLogin:
 				troopUtil.reLogin(user, troop,
 						request.getParameter("loginAs"), session);
+				// Generator the new troopDataToken so the client can fetch data from the dispatcher.
+				Troop newTroop = (Troop)session.getAttribute("VTK_troop");
+				String troopId = newTroop.getTroop().getTroopId();
+				System.out.println("New Troop Id = " + troopId);
+				TroopHashGenerator generator = sling.getService(TroopHashGenerator.class);
+				String token = generator.hash(troopId);
+				Cookie cookie = new Cookie("troopDataToken", token);
+				cookie.setPath("/");
+				response.addCookie(cookie);
 				return;
 			case AddAid:
 				if (request.getParameter("assetType").equals("AID")) {
@@ -831,14 +839,14 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 
 			}
 
-		} else if (request.getParameter("yearPlanSched") != null) {
+		} else if (request.getAttribute("yearPlanSched") != null || request.getParameter("yearPlanSched") != null) {
 
 			if (troop.getYearPlan() == null)
 				return;
 
 			boolean isFirst = false;
-			if (request.getParameter("isFirst") != null
-					&& request.getParameter("isFirst").equals("1")) {
+			if ((request.getAttribute("isFirst") != null
+					&& ((String)request.getAttribute("isFirst")).equals("1")) || (request.getParameter("isFirst") != null && request.getParameter("isFirst").equals("1"))) {
 				isFirst = true;
 			}
 
@@ -851,78 +859,66 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 								.getPath());
 			}
 
-			if (isFirst || isCng
-					|| request.getParameter("isActivNew") != null) {
-				if (request.getParameter("isActivNew") != null
-						&& request.getParameter("isActivNew").equals(
-								"1")) {
-					out.println("[{\"yearPlan\":\""
-							+ troop.getYearPlan().getName()
-							+ "\",\"schedule\":null}]");
-				} else {
-
-					org.girlscouts.vtk.salesforce.Troop prefTroop = apiConfig
-							.getTroops().get(0);
-					for (int ii = 0; ii < apiConfig.getTroops().size(); ii++) {
-						if (apiConfig.getTroops().get(ii).getTroopId()
-								.equals(troop.getSfTroopId())) {
-							prefTroop = apiConfig.getTroops().get(ii);
-							break;
-						}
+			if (isFirst || isCng) {
+				org.girlscouts.vtk.salesforce.Troop prefTroop = apiConfig
+						.getTroops().get(0);
+				for (int ii = 0; ii < apiConfig.getTroops().size(); ii++) {
+					if (apiConfig.getTroops().get(ii).getTroopId()
+							.equals(troop.getSfTroopId())) {
+						prefTroop = apiConfig.getTroops().get(ii);
+						break;
 					}
+				}
 
-					troop = troopUtil.getTroop(user,
-							"" + prefTroop.getCouncilCode(),
-							prefTroop.getTroopId());
+				troop = troopUtil.getTroop(user,
+						"" + prefTroop.getCouncilCode(),
+						prefTroop.getTroopId());
 
-					java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil
-							.getYearPlanSched(user,
-									troop.getYearPlan(), true, true);
-
-					//start milestone
-					try {
-
-						if (troop.getYearPlan() != null)
-							troop.getYearPlan()
-									.setMilestones(
-											yearPlanUtil
-													.getCouncilMilestones(""
-															+ troop.getSfCouncil()));
-					} catch (Exception e) {
-						e.printStackTrace();
+				java.util.Map<java.util.Date, YearPlanComponent> sched = meetingUtil
+						.getYearPlanSched(user, troop.getYearPlan(), true, true);
+					
+				//start milestone
+				try {
+					if (troop.getYearPlan() != null) {
+						troop.getYearPlan() .setMilestones(
+							yearPlanUtil.getCouncilMilestones("" + troop.getSfCouncil()));
 					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 
-					if (troop.getYearPlan().getMilestones() == null)
-						troop.getYearPlan().setMilestones(
-								new java.util.ArrayList());
+				if (troop.getYearPlan().getMilestones() == null)
+					troop.getYearPlan().setMilestones(
+							new java.util.ArrayList());
 
-					for (int i = 0; i < troop.getYearPlan()
-							.getMilestones().size(); i++) {
+				for (int i = 0; i < troop.getYearPlan()
+							.getMilestones().size(); i++){
 						if (troop.getYearPlan().getMilestones().get(i)
 								.getDate() != null)
 							sched.put(troop.getYearPlan()
 									.getMilestones().get(i).getDate(),
 									troop.getYearPlan().getMilestones()
 											.get(i));
-					}
+				}
 
-					//edn milestone
+				//edn milestone
 
-					troop.setTroop(prefTroop);
-					troop.setSfTroopId(troop.getTroop().getTroopId());
-					troop.setSfUserId(user.getApiConfig().getUserId());
-					troop.setSfTroopName(troop.getTroop()
-							.getTroopName());
-					troop.setSfTroopAge(troop.getTroop()
-							.getGradeLevel());
-					troop.setSfCouncil(troop.getTroop()
-							.getCouncilCode() + "");
+				troop.setTroop(prefTroop);
+				troop.setSfTroopId(troop.getTroop().getTroopId());
+				troop.setSfUserId(user.getApiConfig().getUserId());
+				troop.setSfTroopName(troop.getTroop()
+						.getTroopName());
+				troop.setSfTroopAge(troop.getTroop()
+						.getGradeLevel());
+				troop.setSfCouncil(troop.getTroop()
+						.getCouncilCode() + "");
+					
+							
+				session.putValue("VTK_troop", troop);
 
-					session.putValue("VTK_troop", troop);
-
-					Object tmp[] = sched.values().toArray();
-					for (int i = 0; i < tmp.length; i++) {
-						try {
+	Object tmp[] = sched.values().toArray();
+	for(int i=0;i<tmp.length;i++){
+		try{
 							((MeetingE) tmp[i]).getMeetingInfo()
 									.setActivities(null);
 							((MeetingE) tmp[i]).getMeetingInfo()
@@ -932,17 +928,16 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 							((MeetingE) tmp[i]).getMeetingInfo()
 									.setAgenda(null);
 						} catch (Exception e) {
-						}
+	}
 					}
 
-					ObjectMapper mapper = new ObjectMapper();
-					out.println("{\"yearPlan\":\""
-							+ troop.getYearPlan().getName()
-							+ "\",\"schedule\":");
+				ObjectMapper mapper = new ObjectMapper();
+				out.println("{\"yearPlan\":\""
+						+ troop.getYearPlan().getName()
+						+ "\",\"schedule\":");
 					out.println(mapper.writeValueAsString(sched)
 							.replaceAll("mailto:", ""));
-					out.println("}");
-				}
+				out.println("}");
 			}
 
 		} else if (request.getParameter("reactActivity") != null) {
@@ -1069,6 +1064,103 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 							<%
 	}
 				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else if(request.getParameter("imageData") != null){
+			try{
+				
+				int x1 = -1, x2 = -1, y1 = -1, y2 = -1, width = -1, height = -1;
+                double maxW = 960;
+
+				int[] coords = new int[0];
+				
+				if(request.getParameter("coords") != null){
+					String coordString = request.getParameter("coords").toString();
+					String[] nums = coordString.replaceAll("\\[", "").replaceAll("\\]", "").split(",");
+
+					coords = new int[nums.length];
+
+					for (int i = 0; i < nums.length; i++) {
+					    try {
+					      coords[i] = Integer.parseInt(nums[i]);
+					    } catch (NumberFormatException nfe) {};
+					}
+				}
+				
+				if(coords.length == 7){
+					x1 = coords[0];
+					y1 = coords[1];
+					x2 = coords[2];
+					y2 = coords[3];
+					width = coords[4];
+					height = coords[5];
+                    maxW = coords[6];
+				}
+
+                String imgData = request.getParameter("imageData");
+                
+                //System.out.println(imgData.substring(imgData.length()-11));
+				imgData = imgData.replace("data:image/png;base64,", "");
+                byte[] decoded = Base64.decodeBase64(imgData);
+
+                if(x1 >= 0 && x2 >= 0 && y1 >= 0 && y2 >= 0 && width >= 0 && height >= 0){
+                	ByteArrayInputStream bais = new ByteArrayInputStream(decoded);
+                	BufferedImage inputImage = ImageIO.read(bais);
+                	
+					String formatName = "PNG";
+                	
+                	Layer layer = new Layer(inputImage);             	
+                	int smallerX = Math.min(x1, x2);
+                	int smallerY = Math.min(y1, y2);
+                	System.out.println(smallerX + ", " + smallerY + " : " + width + " x " + height);
+					double ratio = 1;
+
+                    if(layer.getWidth() > maxW){
+                        ratio = layer.getWidth() / maxW;
+                    }
+
+                    System.out.println("Image upload details");
+					System.out.println(x1 + "," + y1 + " -> " + x2 + "," + y2 + "; " + width + " x " + height);
+                    System.out.println(layer.getWidth() + ", " + maxW + ", " + ratio);
+
+                	Rectangle2D rect = new Rectangle2D.Double(smallerX * ratio, smallerY * ratio, width * ratio, height * ratio);
+                	layer.crop(rect);
+                	inputImage = layer.getImage();
+                	ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+                	ImageIO.write(inputImage, formatName, outStream);
+                	decoded = outStream.toByteArray();
+				}
+
+                //creates folder path if it doesn't exist yet
+                String path = "/content/dam/girlscouts-vtk/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib";
+                String pathWithFile = path+"/troop_pic.png/jcr:content";
+
+                Session __session = sessionFactory.getSession();
+
+                Node baseNode = JcrUtil.createPath(path, "nt:folder", __session);
+
+                ByteArrayInputStream byteStream = new ByteArrayInputStream(decoded);
+                ValueFactory vf = __session.getValueFactory();
+                Binary bin = vf.createBinary(byteStream);
+
+                //for some reason, the data property can't be updated, just remade
+                try{
+                    __session.removeItem(path+"/troop_pic.png");
+                	__session.save();
+                }
+                catch(Exception e){
+
+                }
+
+                //creates file and jcr:content nodes if they don't exist yet
+                Node jcrNode = JcrUtil.createPath(pathWithFile, false, "nt:file", "nt:resource", __session, false);
+
+                jcrNode.setProperty("jcr:data",bin);
+                jcrNode.setProperty("jcr:mimeType","image/png");
+
+				__session.save();
+
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

@@ -74,6 +74,7 @@
 		if (session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()) != null) {
 			apiConfig = ((org.girlscouts.vtk.auth.models.ApiConfig) session.getAttribute(org.girlscouts.vtk.auth.models.ApiConfig.class.getName()));
 		} else {
+		    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 			out.println("Your session has timed out.  Please refresh this page and login.");
 			return;
 		}

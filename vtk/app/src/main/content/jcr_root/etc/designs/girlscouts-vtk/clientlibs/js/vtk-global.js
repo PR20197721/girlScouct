@@ -1,4 +1,5 @@
 var $ = jQuery.noConflict();
+//all function calls should go here
 (function($) {
 	function showError(msg, msgId) {
 		var targetNode = "#error_msg";
@@ -23,13 +24,16 @@ var $ = jQuery.noConflict();
 	// 	$('.scroll').css('max-height' , popup_h +' px');
 	// }
   function vtk_accordion() {
-    $('.accordion dt > :first-child').on('click', function() {
-      var target = $(this).parent().data('target');
-      var toggle = $(this);
-      $('#' + target).slideToggle('slow');
-      $(toggle).toggleClass('on');
-        return false;
-    });
+	if ($(".accordion").length > 0) {
+	    $('.accordion dt > :first-child').on('click', function(e) {
+	    e.stopPropagation();
+	      var target = $(this).parent().data('target');
+	      var toggle = $(this);
+	      $('#' + target).slideToggle('slow');
+	      $(toggle).toggleClass('on');
+	      return false;    
+		});
+	  }
   }
 
 	function modal_height_on_open() {
@@ -102,8 +106,8 @@ var $ = jQuery.noConflict();
 	    });
 	  }
   }
-	//all function calls should go here
-	  $(document).ready(function() {
+	
+//	  $(document).ready(function() {
 	  	 $(document).foundation({
 	  	  reveal : {
 	  	     animation: 'fade',
@@ -129,7 +133,7 @@ var $ = jQuery.noConflict();
 	  	 if($('.tabs dd').length == 6) {
 	  	 	$('.tabs dd').css('width','100%');
 	  	 } 	 
-  });
+//  });
 
 	$(window).resize(function() {
 		modal_height_resize();
