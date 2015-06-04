@@ -502,6 +502,7 @@ System.err.println("*************** "+OAuthUrl);
 	}
 
 	private String getToken(ApiConfig apiConfig) {
+		/*
 		java.util.Calendar validTokenTime = java.util.Calendar.getInstance();
 		validTokenTime.add(java.util.Calendar.MINUTE, -1);
 		if (validTokenTime.getTimeInMillis() > apiConfig
@@ -509,6 +510,7 @@ System.err.println("*************** "+OAuthUrl);
 			apiConfig = refreshToken(apiConfig);
 			log.info("Refreshing Salesforce token");
 		}
+		*/
 		return apiConfig.getAccessToken();
 	}
 	
@@ -516,7 +518,7 @@ System.err.println("*************** "+OAuthUrl);
 	public User getUser(ApiConfig apiConfig) {
 		User user= new User();
 		CloseableHttpClient connection = null;
-System.err.println("tata new user");		
+//System.err.println("tata new user");		
 		HttpGet method = new HttpGet(apiConfig.getWebServicesUrl()
 				+ "/services/apexrest/getUserInfo?USER_ID="+ apiConfig.getUserId());
 		method.setHeader("Authorization", "OAuth " + getToken(apiConfig));
