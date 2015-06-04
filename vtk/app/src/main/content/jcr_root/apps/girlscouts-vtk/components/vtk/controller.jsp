@@ -1099,9 +1099,7 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 				}
 
                 String imgData = request.getParameter("imageData");
-                
-                //System.out.println(imgData.substring(imgData.length()-11));
-				imgData = imgData.replace("data:image/png;base64,", "");
+		imgData = imgData.replace("data:image/png;base64,", "");
                 byte[] decoded = Base64.decodeBase64(imgData);
 
                 if(x1 >= 0 && x2 >= 0 && y1 >= 0 && y2 >= 0 && width >= 0 && height >= 0){
@@ -1113,17 +1111,11 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
                 	Layer layer = new Layer(inputImage);             	
                 	int smallerX = Math.min(x1, x2);
                 	int smallerY = Math.min(y1, y2);
-                	System.out.println(smallerX + ", " + smallerY + " : " + width + " x " + height);
-					double ratio = 1;
+			double ratio = 1;
 
                     if(layer.getWidth() > maxW){
                         ratio = layer.getWidth() / maxW;
                     }
-
-                    System.out.println("Image upload details");
-					System.out.println(x1 + "," + y1 + " -> " + x2 + "," + y2 + "; " + width + " x " + height);
-                    System.out.println(layer.getWidth() + ", " + maxW + ", " + ratio);
-
                 	Rectangle2D rect = new Rectangle2D.Double(smallerX * ratio, smallerY * ratio, width * ratio, height * ratio);
                 	layer.crop(rect);
                 	inputImage = layer.getImage();
