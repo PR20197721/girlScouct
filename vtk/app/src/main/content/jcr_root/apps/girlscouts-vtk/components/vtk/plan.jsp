@@ -18,6 +18,7 @@
 
  <div id="panelWrapper" class="row meeting-detail content">
   <div id="vtkNav"></div>
+  <%@include file="include/modals/modal_help.jsp"%>
 
    <%if( hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ){%>
        <%@include file="include/view_yp_dropdown.jsp"%>
@@ -219,6 +220,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
       componentDidMount: function() {
         resizeWindow();
         link_bg_square();
+        loadNav('plan');
 
        if (Modernizr.touch) {
          scrollTarget = ".touchscroll";
@@ -387,7 +389,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
        });
 
 */
- loadNav('plan');
+ 
 
       </script>
 

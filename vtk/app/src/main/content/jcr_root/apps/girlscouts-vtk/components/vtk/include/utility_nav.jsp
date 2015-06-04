@@ -96,5 +96,5 @@ PlanView planView= meetingUtil.planView(user, troop, request);
     </div>
   </div>
 </div>
-<%@include file="modals/modal_help.jsp"%>
+
 
