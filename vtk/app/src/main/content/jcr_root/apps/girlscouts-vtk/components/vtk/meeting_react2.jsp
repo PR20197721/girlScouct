@@ -105,7 +105,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
           thisMeetingUid= comment.uid;
           thisMeetingRefId  = comment.refId;
           thisMeetingPath  = comment.path;
-          console.log(comment)
+          
           thisMeetingImg   = "/content/dam/girlscouts-vtk/local/icon/meetings/"+ comment.meetingInfo.id +".png";
           mid=comment.uid;
           thisMeetingType= comment.type;
