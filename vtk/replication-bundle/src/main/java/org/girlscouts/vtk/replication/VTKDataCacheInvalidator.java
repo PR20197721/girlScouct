@@ -30,7 +30,7 @@ public class VTKDataCacheInvalidator implements Job {
     private static final Logger log = LoggerFactory.getLogger(VTKReplicationReceiver.class);
     
     // Interval for the next invalidation, in milliseconds.
-    private static final int INTERVAL = 1000;
+    private static final int INTERVAL = 100;
     private static final String JOB_NAME = "VTKDataCacheInvalidatorJob";
     private static final String FLUSH_NODE = "/etc/replication/agents.publish/flush/jcr:content";
     private static final String FLUSH_PROPERTY = "transportUri";
