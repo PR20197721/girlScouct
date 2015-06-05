@@ -992,7 +992,9 @@ public class MeetingUtil {
 		PlanView planView = new PlanView();
 		HttpSession session = request.getSession();
 
-		java.util.Map<java.util.Date, YearPlanComponent> sched = getYearPlanSched(
+		java.util.Map<java.util.Date, YearPlanComponent> sched = null;
+		if( troop.getYearPlan()!=null )
+			sched = getYearPlanSched(
 				user, troop.getYearPlan(), false, false);
 		if (sched == null || (sched.size() == 0)) {
 			System.err.println("You must first select a year plan.");
