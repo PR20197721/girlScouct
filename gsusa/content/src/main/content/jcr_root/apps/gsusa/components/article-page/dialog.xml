@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Dialog"
+    height="400"
+    stateful="false"
+    xtype="dialog">
+    <items jcr:primaryType="cq:WidgetCollection">
+        <tabs jcr:primaryType="cq:TabPanel">
+            <items jcr:primaryType="cq:WidgetCollection">
+                <basic
+                    jcr:primaryType="cq:Widget"
+                    path="/apps/gsusa/components/page/tab_basic.infinity.json"
+                    xtype="cqinclude"/>
+                <advanced
+                    jcr:primaryType="cq:Widget"
+                    path="/libs/foundation/components/page/tab_advanced.infinity.json"
+                    xtype="cqinclude"/>
+                <image
+                    jcr:primaryType="cq:Widget"
+                    path="/libs/foundation/components/page/tab_image.infinity.json"
+                    xtype="cqinclude"/>
+                <cloudservices
+                    jcr:primaryType="cq:Widget"
+                    path="/libs/foundation/components/page/tab_cloudservices.infinity.json"
+                    xtype="cqinclude"/>
+                <blueprint
+                    jcr:primaryType="cq:Widget"
+                    path="/libs/foundation/components/page/tab_blueprint.infinity.json"
+                    xtype="cqinclude"/>
+                <livecopy
+                    jcr:primaryType="cq:Widget"
+                    path="/libs/foundation/components/page/tab_livecopy.infinity.json"
+                    xtype="cqinclude"/>
+                <girl-scouts
+                    jcr:primaryType="cq:Widget"
+                    title="Girl Scouts">
+                    <items jcr:primaryType="cq:WidgetCollection">
+                        <hide-share
+                            jcr:primaryType="cq:Widget"
+                            fieldDescription="Check to hide the Facebook and Twitter Share buttons"
+                            fieldLabel="Hide Share Buttons"
+                            name="./hideShare"
+                            type="checkbox"
+                            xtype="selection"/>
+                        <share-title
+                            jcr:primaryType="cq:Widget"
+                            fieldDescription="Enter the default title for Facebook and Twitter share popups"
+                            fieldLabel="Share Title"
+                            name="./shareTitle"
+                            xtype="textfield"/>
+                        <fb-message
+                            jcr:primaryType="cq:Widget"
+                            fieldDescription="Enter the default message for the Facebook share popup"
+                            fieldLabel="Facebook Default Message"
+                            maxLength="500"
+                            name="./fbMessage"
+                            xtype="textarea"/>
+                        <twitter-message
+                            jcr:primaryType="cq:Widget"
+                            fieldDescription="Enter the default message for the Twitter share popup (max 140 characters)"
+                            fieldLabel="Twitter Default Message"
+                            maxLength="140"
+                            maxLengthText="Message can not be longer than 140 characters"
+                            name="./twitterMessage"
+                            xtype="textarea"/>
+                    </items>
+                </girl-scouts>
+                <share-image-tab
+                	jcr:primaryType="cq:Widget"
+		            ddGroups="[media]"
+		            fileNameParameter="./fileName"
+		            fileReferenceParameter="./fileReference"
+		            name="./regular/file"
+		            title="Share Image"
+		            xtype="html5smartimage">
+                    <items jcr:primaryType="cq:WidgetCollection">
+	                	<resType
+		                    jcr:primaryType="cq:Widget"
+		                    ignoreData="{Boolean}true"
+		                    name="./sling:resourceType"
+		                    value="foundation/components/image"
+		                    xtype="hidden"/>
+                    </items>
+            	</share-image-tab>
+            </items>
+        </tabs>
+    </items>
+</jcr:root>
