@@ -52,7 +52,7 @@
 // - - - - - - - - - - - - - - - - - - - - - - - - -
 
 // This is the default html and body font-size for the base rem value.
-// $rem-base: 16px;
+//$rem-base: 16px;
 
 // Allows the use of rem-calc() or lower-bound() in your settings
 @import "foundation/functions";
@@ -109,12 +109,14 @@ $iron        : #CCCCCC;
 // $monsoon     : #777777;
 // $steel       : #666666;
 // $charcoal    : #555555;
-// $tuatara     : #444444;
-// $oil         : #333333;
-// $jet         : #222222;
-// $black       : #000000;
+$tuatara     : #444444;
+$oil         : #333333;
+$jet         : #222222;
+$black       : #000000;
 $gs-orange      : #E29618;
 $gs-light-orange: #F2C63F;
+$hp_button      : #ec008c;
+$bg_breaking_news: #e34c38;
 
 // We use these as default colors throughout
 $primary-color: #00AE58; //green
@@ -221,9 +223,9 @@ $include-html-type-classes: $include-html-classes;
 // $header-text-rendering: optimizeLegibility;
 
 // We use these to control header font sizes
-// $h1-font-size: rem-calc(44);
-// $h2-font-size: rem-calc(37);
-// $h3-font-size: rem-calc(27);
+//$h1-font-size: rem-calc(44);
+$h2-font-size: rem-calc(38);
+$h3-font-size: rem-calc(26);
 // $h4-font-size: rem-calc(23);
 // $h5-font-size: rem-calc(18);
 // $h6-font-size: 1rem;

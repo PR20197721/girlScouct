@@ -11,3 +11,4 @@
 %>
     <cq:include path="<%= id %>" resourceType="gsusa/components/featured-story" />
 <%}%>
+

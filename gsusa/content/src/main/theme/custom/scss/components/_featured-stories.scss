@@ -1,14 +1,79 @@
 .featured-stories {
-  padding: 0;
   margin: 0;
+  position: relative;
+  overflow: visible;
+  p {
+    margin: 0;
+    font-size: rem-calc(14);
+  }
   li {
     width: 100%;
     margin-bottom: 1%;
     margin-right: 0;
     margin-left: 0;
+    h2 {
+      font-size: rem-calc(26);
+      font-weight: 300;
+    }
+    .thumb {
+      cursor: pointer;
+      font-size: rem-calc(14);
+      text-align: center;
+      padding: rem-calc(30);
+      min-height: rem-calc(280);
+      height: 100%;
+      [class^="icon-"],
+      [class*=" icon-"] {
+        font-size: rem-calc(60);
+      }
+      & * {
+        color: $white;
+      }
+    }
+    .story {
+      display: none;
+      height: 100%;
+      width: 100%;
+      position: absolute;
+      top: 0;
+      z-index: 2;
+      color: #333;
+      left: 0;
+      min-height: rem-calc(570);
+      .bg-wrapper {
+        height: 100%;
+      }
+      .header {
+        @include grid-row();
+        padding-top: rem-calc(10);
+        * {
+          color: $white;
+        }
+        .icon-cross {
+          @include grid-column(1, false, false,  0, 0, 0, true);
+          font-size: rem-calc(40);
+          cursor: pointer;
+        }
+        .left-wrapper {
+          @include grid-column(22);
+          @media #{$medium-up} {
+            @include grid-column(22, $offset:1, $collapse: true);
+          }
+          [class*=" icon-"],
+          [class^="icon-"] {
+            font-size: rem-calc(60);
+            float: left;
+            margin-right: rem-calc(10);
+          }
+        }
+      }
+      .contents {
+        @include grid-column(22, false, true);
+        margin-top: rem-calc(10);
+      }
+    }
     &:only-child {
       max-width: 100%;
-      background-color: blue;
     }
     &:first-child:nth-last-child(2) ~ li,
     &:first-child:nth-last-child(2),
@@ -17,7 +82,6 @@
      // max-width: (98 / 2) * 1%;
       max-width: 49.479167%;
       margin-right: 1.04%;
-      background: blue;
     }
     &:first-child:nth-last-child(3n+5) ~ li:nth-child(3n+2) {
       margin-right: 0;
@@ -25,20 +89,27 @@
     &:first-child:nth-last-child(3) ~ li,
     &:first-child:nth-last-child(3),
     &:first-child:nth-last-child(4) ~ li,
-    li:first-child:nth-last-child(4),
     &:first-child:nth-last-child(3n+6) ~ li,
     &:first-child:nth-last-child(3n+5) + li ~ li,
     &:first-child:nth-last-child(3n+6) {
       //max-width: (98 / 3) * 1%;
       max-width: 32.638889%;
       margin-right: 1.04%;
-      background: violet;
+    }
+    &:first-child:nth-last-child(4) .thumb {
+      margin: rem-calc(17);
+      max-width: 32.638889%;
     }
     &:first-child:nth-last-child(3n+6) ~ li:nth-child(3n) {
       margin-right: 0;
     }
     &:nth-last-of-type(1) {
       margin-right: 0 !important;
+    }
+    @media #{$small-only} {
+      max-width: 100% !important;
+      width: 100%;
+      float: none;
     }
   }
 }

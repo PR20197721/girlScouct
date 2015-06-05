@@ -20,7 +20,7 @@
             <li><a href="#" title="En Espanol">En Espa&#241;ol</a></li>
         </ul>
         <form action="/content/gateway/en/site-search.html" method="get" class="search-form">
-            <input type="text" name="q" placeholder="Search" />
+            <input type="search" name="q" placeholder="Search" />
         </form>
     </section>
 </div>
