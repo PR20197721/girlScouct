@@ -31,17 +31,10 @@
                     jcr:primaryType="cq:Widget"
                     path="/libs/foundation/components/page/tab_livecopy.infinity.json"
                     xtype="cqinclude"/>
-                <girl-scouts
+                <social
                     jcr:primaryType="cq:Widget"
-                    title="Girl Scouts">
+                    title="Social Media">
                     <items jcr:primaryType="cq:WidgetCollection">
-                        <hide-share
-                            jcr:primaryType="cq:Widget"
-                            fieldDescription="Check to hide the Facebook and Twitter Share buttons"
-                            fieldLabel="Hide Share Buttons"
-                            name="./hideShare"
-                            type="checkbox"
-                            xtype="selection"/>
                         <share-title
                             jcr:primaryType="cq:Widget"
                             fieldDescription="Enter the default title for Facebook and Twitter share popups"
@@ -64,13 +57,13 @@
                             name="./twitterMessage"
                             xtype="textarea"/>
                     </items>
-                </girl-scouts>
+                </social>
                 <share-image-tab
                 	jcr:primaryType="cq:Widget"
 		            ddGroups="[media]"
 		            fileNameParameter="./fileName"
 		            fileReferenceParameter="./fileReference"
-		            name="./regular/file"
+		            name="./file"
 		            title="Share Image"
 		            xtype="html5smartimage">
                     <items jcr:primaryType="cq:WidgetCollection">

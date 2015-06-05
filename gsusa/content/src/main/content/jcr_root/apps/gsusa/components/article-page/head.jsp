@@ -35,6 +35,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="keywords" content="<%= xssAPI.encodeForHTMLAttr(WCMUtils.getKeywords(currentPage, false)) %>"<%=xs%>>
     <meta name="description" content="<%= xssAPI.encodeForHTMLAttr(properties.get("jcr:description", "")) %>"<%=xs%>>
+    <%
+    String shareTitle = properties.get("shareTitle", "");
+    String fbMessage = properties.get("fbMessage", "");
+    String twitterMessage = properties.get("twitterMessage", "");
+    String filePath = properties.get("fileReference", "");
+    String url = currentPage.getPath() + ".html";
+    %>
+    <!-- Facebook - Open Graph Data -->
+    <meta property="og:url" content="<%= url %>" />
+    <meta property="og:type" content="website" />
+    <%
+    if(!shareTitle.equals("")){
+    %>
+    <meta property="og:title" content="<%= shareTitle %>" />
+    <%
+    }if(!fbMessage.equals("")){
+    %>
+    <meta property="og:description" content="<%= fbMessage %>" />
+    <%
+    }if(!filePath.equals("")){
+    %>
+    <meta property="og:image" content="<%= filePath %>" />
+    <%
+    }%>
+    <!-- Twitter Card Data -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@girlscouts" />
+    <%
+    if(!shareTitle.equals("")){
+    %>
+    <meta name="twitter:title" content="shareTitle">
+    <%
+    }if(!twitterMessage.equals("")){
+    %>
+    <meta name="twitter:description" content="<%= twitterMessage %>" >
+    <%
+    }if(!filePath.equals("")){
+   	%>
+   	<meta name="twitter:image" content="<%= url %>" />	
+    <%} %>
     <cq:include script="headlibs.jsp"/>
     <cq:include script="/libs/wcm/core/components/init/init.jsp"/>
     <cq:include script="stats.jsp"/>
