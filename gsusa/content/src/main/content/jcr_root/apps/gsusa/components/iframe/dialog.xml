@@ -33,8 +33,25 @@
                     	fieldDescription="Check to allow scrolling"
                     	fieldLabel="Scrolling"
                     	name="./scrolling"
-                    	type="checkbox"
-                    	xtype="selection"/>
+                    	value="Auto"
+                    	defaultValue="Auto"
+                    	type="select"
+                    	xtype="selection">
+                    	<options jcr:primaryType="cq:WidgetCollection">
+	                    	<auto
+	                    		jcr:primaryType="nt:unstructured"
+	                    		text="Auto"
+	                    		value="auto"/>
+                    		<yes
+                    			jcr:primaryType="nt:unstructured"
+                    			text="Yes"
+                    			value="yes"/>
+                    		<no
+                    			jcr:primaryType="nt:unstructured"
+                    			text="No"
+                    			value="no"/>
+                    	</options>
+                    </scrolling>
                    	<frame-border
                    		jcr:primaryType="cq:Widget"
                    		fieldDescription="Check to give the frame a border"
