@@ -31,7 +31,7 @@ var $ = jQuery.noConflict();
 	      var toggle = $(this);
 	      $('#' + target).slideToggle('slow');
 	      $(toggle).toggleClass('on');
-	      return false;    
+	      return false;
 		});
 	  }
   }
@@ -41,7 +41,7 @@ var $ = jQuery.noConflict();
 			var window_h = $(window).height();
 			var popup_h = (window_h - 75);
 			$(this).find('.scroll').css('max-height' , popup_h + 'px');
-			var browser =navigator.userAgent.match(/(msie\ [0-9]{1})/i);		
+			var browser =navigator.userAgent.match(/(msie\ [0-9]{1})/i);
 			if ( browser!=null && browser[0].split(" ")[1] == 9) {
 			  // alert(navigator.userAgent.match(/msie/i));
 			  placeholder_IE9();
@@ -49,7 +49,7 @@ var $ = jQuery.noConflict();
 			}
 		});
 	}
-	
+
 	function modal_height_resize() {
   	var window_h = $(window).height();
   	var popup_h = (window_h - 75);
@@ -62,16 +62,16 @@ var $ = jQuery.noConflict();
 		   var $input =  $this.find('input[type="file"]').val();
 		 if($input == '') {
 		   alert ("you must choose a image");
-		   return false; 
-		   e.preventDefault(); 
-		  }    
+		   return false;
+		   e.preventDefault();
+		  }
 		});
 	}
 	//used if using select instead of tabs for small, screens was removed.
 	function select_tabs() {
 		$("select.tabs").on('change', function(index) {
 		    if ($(this).index() !==0 ) {
-		      window.location.href = $(this).val();          
+		      window.location.href = $(this).val();
 		    }
 		});
 		var path = location.pathname;
@@ -106,14 +106,14 @@ var $ = jQuery.noConflict();
 	    });
 	  }
   }
-	
+
 //	  $(document).ready(function() {
 	  	 $(document).foundation({
 	  	  reveal : {
 	  	     animation: 'fade',
 	  	     root_element: 'window',
 	  	     close_on_background_click: false,
-	  	     open: function () { 
+	  	     open: function () {
 	  	     	$('body').css({'overflow':'hidden'});
      		  	if (navigator.userAgent.match(/msie/i) ) {
      		  		// alert(navigator.userAgent.match(/msie/i));
@@ -132,7 +132,10 @@ var $ = jQuery.noConflict();
 	  	 // resizeWindow();
 	  	 if($('.tabs dd').length == 6) {
 	  	 	$('.tabs dd').css('width','100%');
-	  	 } 	 
+	  	 }
+	  	 if($('.tabs dd').length == 5) {
+	  	 	$('.tabs dd').css('min-width','20%');
+	  	 }
 //  });
 
 	$(window).resize(function() {
