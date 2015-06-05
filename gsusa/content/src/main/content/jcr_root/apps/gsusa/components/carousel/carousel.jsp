@@ -2,25 +2,28 @@
 <div class="hero-feature">
     <ul>
         <li>
-            <img src="/etc/designs/gsusa/clientlibs/images/temp_hero.png" alt=""/>
             <div class="hero-text">
                 <h2>This is a huge idea that gives a show-her-wow type of energy.</h2>
-                <a href="#" class="button">Explore</a>
+                <a href="#" class="button">Read more</a>
             </div>
+            <img src="/etc/designs/gsusa/clientlibs/images/temp_hero.png" alt=""/>
         </li>
         <li>
-            <img src="/etc/designs/gsusa/clientlibs/images/temp_hero.png" alt=""/>
             <div class="hero-text">
-                <h2>This is a huge idea that gives a show-her-wow type of energy.</h2>
+                <h2>This is a second header.</h2>
                 <a href="#" class="button">Explore</a>
             </div>
+            <img src="/etc/designs/gsusa/clientlibs/images/temp_hero2.png" alt=""/>
         </li>
         <li>
-            <img src="/etc/designs/gsusa/clientlibs/images/temp_hero.png" alt=""/>
             <div class="hero-text">
-                <h2>This is a huge idea that gives a show-her-wow type of energy.</h2>
-                <a href="#" class="button">Explore</a>
+                <h2>This is some other header.</h2>
+                <a href="#" class="button">Check it</a>
             </div>
+            <img src="/etc/designs/gsusa/clientlibs/images/temp_hero3.png" alt=""/>
         </li>
     </ul>
+    <div class="join">
+        <a href="#" title="join">Join now</a>
+    </div>
 </div>
