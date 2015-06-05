@@ -14,7 +14,7 @@
                             fieldDescription="Enter an anchor for the link. If left blank, no anchor will be used"
                             fieldLabel="Anchor"
                             name="./anchor"
-                            xtype="textfield"
+                            xtype="textfield"/>
                 	</items>
             	</properties>
             	<facebook

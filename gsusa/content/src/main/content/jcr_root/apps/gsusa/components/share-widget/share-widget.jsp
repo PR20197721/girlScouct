@@ -10,7 +10,20 @@
 	String twitterMessage = properties.get("twitterMessage", "");
 	String hashtags = properties.get("hashtags", "");
 	
-	String url = anchor.equals("") ? currentPage.getPath() + ".html#" + anchor : currentPage.getPath() + ".html";
+	if(fbMessage.equals("") && twitterMessage.equals("") && WCMMode.fromRequest(request) == WCMMode.EDIT){
+		%> **Please configure the share widget component so that there is either a facebook or twitter message <%
+	}
+	
+	else{
+		String div = "<div id=\"" + anchor + "\"";
+		%> <%= div %>  <%
+	}
+	
+	ResourceResolver resourceResolver = request.getResourceResolver();
+	Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
+	String canonicalUrl = externalizer.publishLink(resourceResolver, "http", currentPage.getPath());
+	
+	String url = !anchor.equals("") ? canonicalUrl + ".html#" + anchor : canonicalUrl + ".html";
 	
 	if(!fbMessage.equals("")){
 		StringBuilder fb = new StringBuilder();
@@ -20,13 +33,14 @@
 		} if(!imagePath.equals("")){
 			fb.append(" data-image=\"" + imagePath + "\"");
 		}
+		fb.append("></div>");
 %>
 
 <%= fb.toString() %>
 
 <% 	}if(!twitterMessage.equals("")){
 		StringBuilder tw = new StringBuilder();
-		tw.append("<a class=\"twitter-share-button\" href=\"https://twitter.com/intent/tweet\"?url=\"" + url 
+		tw.append("<a class=\"twitter-share-button\" href=\"https://twitter.com/intent/tweet\"?url=\"" + canonicalUrl
 				+ "\"&via=\"@girlscouts\"&text=\"" + twitterMessage + "\"");
 		if(!hashtags.equals("")){
 			tw.append("&hashtags=\"" + hashtags + "\"");

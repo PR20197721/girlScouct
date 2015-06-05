@@ -40,10 +40,14 @@
     String fbMessage = properties.get("fbMessage", "");
     String twitterMessage = properties.get("twitterMessage", "");
     String filePath = properties.get("fileReference", "");
-    String url = currentPage.getPath() + ".html";
+    
+	ResourceResolver resourceResolver = request.getResourceResolver();
+	Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
+	String canonicalUrl = externalizer.publishLink(resourceResolver, "http", currentPage.getPath());
+   	
     %>
     <!-- Facebook - Open Graph Data -->
-    <meta property="og:url" content="<%= url %>" />
+    <meta property="og:url" content="<%= canonicalUrl %>" />
     <meta property="og:type" content="website" />
     <%
     if(!shareTitle.equals("")){
