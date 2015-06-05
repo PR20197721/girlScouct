@@ -16,8 +16,8 @@
     font-size:14px;
     line-height:1.5;
   }
-  table { 
-    width: 100%; 
+  table {
+    width: 100%;
   }
   table tr {
     background: #fff;
@@ -379,12 +379,12 @@
   table {
     width: 100%;
     border:none;
-    thead, 
+    thead,
     tfoot {
       background: none;
       border:none;
     }
-    tr, 
+    tr,
     td {
       border:none;
     }
@@ -853,7 +853,7 @@
             }
             .name {
               margin-left: 30px;
-              white-space: nowrap;  
+              white-space: nowrap;
             }
           }
         }
@@ -1155,7 +1155,7 @@
       }
     }
 
- 
+
   }
   //both modals
   .reveal-modal,
@@ -1657,7 +1657,7 @@
   }
   //tables
   table {
-    thead, 
+    thead,
     tfoot {
       background: none;
     }
@@ -1677,7 +1677,7 @@
       }
     }
   }
-  //Financial page 
+  //Financial page
   #main .meeting-detail #financeForm {
     section {
       margin-top:0;
@@ -1696,7 +1696,7 @@
           margin:0;
           line-height: 2;
         }
-      } 
+      }
       ul li {
         margin:0;
         line-height: 2;
@@ -1711,7 +1711,7 @@
     .row:nth-of-type(2) .large-block-grid-2 {
       > li:nth-child(2n) {
         width: 30%;
-      } 
+      }
     }
     input[type="text"] {
       height: 30px;
@@ -1812,7 +1812,7 @@
       li:nth-child(2n) {
         width: 15%;
       }
-    } 
+    }
   }
   p.info {
     padding-left: 30px;
@@ -1924,6 +1924,9 @@
       }
     }
   }
+  .notice {
+    margin: 40px 0;
+  }
 } //end of vtk-body
 
 //overwrite of global
@@ -1995,8 +1998,8 @@
   }
 }
 //jquery UI styles overwrite
-.ui-state-default, 
-.ui-widget-content .ui-state-default, 
+.ui-state-default,
+.ui-widget-content .ui-state-default,
 .ui-widget-header .ui-state-default {
   border: none;
   color: #393939;
@@ -2014,7 +2017,7 @@
     &:visited {
       color:#00ae58;
     }
-  } 
+  }
 }
 .ui-widget,
 .ui-widget .ui-widget {
@@ -2059,7 +2062,7 @@ input[type="file"] {
     float:none;
   }
   a.ui-state-default.ui-state-highlight,
-  .ui-state-active, 
+  .ui-state-active,
   .ui-widget-content .ui-state-active,
   .ui-widget-header .ui-state-active {
     background: #cfefde;
@@ -2175,7 +2178,7 @@ input[type="file"] {
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  //my troop page accordion 
+  //my troop page accordion
   .mytroop {
     .accordion-inner {
       dt {
@@ -2186,7 +2189,7 @@ input[type="file"] {
     }
   }
 }
-//medium screen 
+//medium screen
 @media only screen and (min-width: 40.063em) and (max-width: 60.063em) {
   .vtk-body #main .crumbs .columns #util-links.inline-list li:nth-of-type(2) {
     margin: 0 11px;
@@ -2204,7 +2207,7 @@ input[type="file"] {
       // width: 23px;
     }
   }
-  //my troop page accordion 
+  //my troop page accordion
   .mytroop {
     .accordion-inner {
       dt {
