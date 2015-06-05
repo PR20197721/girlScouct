@@ -119,8 +119,8 @@ public class MeetingUtil {
 			boolean meetingPlanSpecialSort, boolean isLoadMeetingInfo)
 			throws IllegalAccessException {
 
-		if (plan.getSchedule() != null || plan.getActivities() == null
-				|| plan.getActivities().size() <= 0) {
+		if (plan!=null && (plan.getSchedule() != null || plan.getActivities() == null
+				|| plan.getActivities().size() <= 0) ) {
 
 			// set meetingInfos if isLoadMeetingInfo
 			if (isLoadMeetingInfo) {
@@ -992,8 +992,9 @@ public class MeetingUtil {
 		PlanView planView = new PlanView();
 		HttpSession session = request.getSession();
 
-		java.util.Map<java.util.Date, YearPlanComponent> sched = getYearPlanSched(
-				user, troop.getYearPlan(), false, false);
+		java.util.Map<java.util.Date, YearPlanComponent> sched = null;
+		if( troop.getYearPlan()!=null )
+			sched = getYearPlanSched(user, troop.getYearPlan(), false, false);
 		if (sched == null || (sched.size() == 0)) {
 			System.err.println("You must first select a year plan.");
 			return null;

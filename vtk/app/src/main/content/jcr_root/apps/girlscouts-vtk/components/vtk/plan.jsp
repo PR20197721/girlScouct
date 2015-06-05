@@ -67,6 +67,7 @@
           return {data: []};
         },
         componentDidMount: function() {
+        	loadNav('plan'); 	
           this.loadCommentsFromServer();
           setInterval( this.loadCommentsFromServer, this.props.pollInterval);
           setInterval( this.checkLocalUpdate, 100);
