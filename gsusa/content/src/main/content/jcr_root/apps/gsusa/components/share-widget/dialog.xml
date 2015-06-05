@@ -9,15 +9,9 @@
 	                jcr:primaryType="cq:Panel"
 	                title="Properties">
 	                <items jcr:primaryType="cq:WidgetCollection">
-	                	<share-title
-                            jcr:primaryType="cq:Widget"
-                            fieldDescription="Enter the default title for Facebook and Twitter share popups"
-                            fieldLabel="Share Title"
-                            name="./shareTitle"
-                            xtype="textfield"/>
                         <anchor
                         	jcr:primaryType="cq:Widget"
-                            fieldDescription="Enter an anchor for the link"
+                            fieldDescription="Enter an anchor for the link. If left blank, no anchor will be used"
                             fieldLabel="Anchor"
                             name="./anchor"
                             xtype="textfield"
@@ -27,9 +21,15 @@
             		jcr:primaryType="cq:Panel"
 	                title="Facebook">
 	                <items jcr:primaryType="cq:WidgetCollection">
+	                	<fb-title
+                            jcr:primaryType="cq:Widget"
+                            fieldDescription="Enter the default title for Facebook share message"
+                            fieldLabel="Facebook Title"
+                            name="./fbTitle"
+                            xtype="textfield"/>
 	            		<fb-message
 		                    jcr:primaryType="cq:Widget"
-		                    fieldDescription="Enter the default message for the Facebook share popup"
+		                    fieldDescription="Enter the default message for the Facebook share popup. If left blank, Facebook button will be hidden"
 		                    fieldLabel="Facebook Default Message"
 		                    maxLength="500"
 		                    name="./fbMessage"
@@ -59,7 +59,7 @@
 	                <items jcr:primaryType="cq:WidgetCollection">
 	            		<twitter-message
 		                	jcr:primaryType="cq:Widget"
-		                    fieldDescription="Enter the default message for the Twitter share popup (max 140 characters)"
+		                    fieldDescription="Enter the default message for the Twitter share popup (max 140 characters). If blank, twitter button will be hidden"
 		                    fieldLabel="Twitter Message"
 		                    maxLength="140"
 		                    maxLengthText="Message can not be longer than 140 characters"
