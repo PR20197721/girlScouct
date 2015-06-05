@@ -664,8 +664,8 @@ React.createElement(ActivityPlan),
                 React.createElement("p", null, "Select and agenda item to view details, edit duration or delete. Drag and drop to reorder."), 
                            React.createElement(SortableListItems1, {key: "{this.props.data}", data: this.props.data, onClick: this.alex, onReorder: this.onReorder}), 
                 React.createElement(AgendaTotal, {data: this.props.data}),                
-                React.createElement("strong", null, React.createElement("a", {"data-reveal-id": "modal_agenda", className: "add-btn"}, React.createElement("i", {className: "icon-button-circle-plus"}), " Add Agenda Item"))
-                           ); 
+                React.createElement(AgendaItemAdd)
+          ); 
         }
     });
 
@@ -802,6 +802,23 @@ React.createElement(ActivityPlan),
           }
         });
 
+   var AgendaItemAdd = React.createClass({displayName: "AgendaItemAdd",
+       
+       render: function() {
+    	   
+    	   if( helper.permissions!=null && helper.permissions.indexOf('<%= Permission.PERMISSION_EDIT_MEETING_ID %>')!=-1){
+	         return (
+	             
+	        		 React.createElement("strong", null, 
+	                         React.createElement("a", {"data-reveal-id": "modal_agenda", className: "add-btn"}, 
+	                           React.createElement("i", {className: "icon-button-circle-plus"}), " Add Agenda Item"))
+	                           
+	         );
+    	   }else{
+    		        return React.createElement("strong", null);
+    	   }
+       }
+     });
 
 
   function getAgendaTotalTime(x){
