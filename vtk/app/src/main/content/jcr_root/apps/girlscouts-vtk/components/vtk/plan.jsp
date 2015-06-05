@@ -32,10 +32,6 @@
 
       <script type="text/javascript">
 
-
-
-
-
  var isActivNew;
       var isFirst=1;
       var meetingPassed=true;

@@ -158,7 +158,7 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 	private void signIn(SlingHttpServletRequest request,
 			SlingHttpServletResponse response) {
 		HttpSession session = request.getSession();
-System.err.println("Signin");		
+	
 		// Set referer council
 		String refererCouncil = request.getParameter("refererCouncil");
 		if (refererCouncil == null) {
@@ -332,7 +332,7 @@ SalesforceDAO dao = salesforceDAOFactory.getInstance();
 
 ApiConfig config = new ApiConfig();
 config.setAccessToken(token);
-config.setInstanceUrl(configManager.getConfig("instanceUrl"));//"https://gsusa--gsuat.cs11.my.salesforce.com");
+config.setInstanceUrl(configManager.getConfig("ssoWebServiceUrl"));//"https://gsusa--gsuat.cs11.my.salesforce.com");
 config.setWebServicesUrl(configManager.getConfig("ssoWebServiceUrl"));//"https://gsuat-gsmembers.cs11.force.com/members");
 String refreshTokenStr = null;
 /*
@@ -479,16 +479,21 @@ redirect(response, targetUrl);
 		HttpsURLConnection con = null;
 		try {
 			String url = apiConfig.getInstanceUrl()
-					+ "/secur/logout.jsp?display=touch"; // DYNAMIC
+					+ "/secur/logout.jsp"; // DYNAMIC
+			
+	System.err.println("......"+apiConfig.getInstanceUrl()+ "/secur/logout.jsp");		
+	
 			obj = new URL(url);
 			con = (HttpsURLConnection) obj.openConnection();
-			con.setRequestMethod("POST");
+			con.setRequestMethod("GET");
+			/*
 			con.setRequestProperty("Content-Type",
 					"application/x-www-form-urlencoded");
 			String urlParameters = "token=" + apiConfig.getAccessToken();
+			*/
 			con.setDoOutput(true);
 			wr = new DataOutputStream(con.getOutputStream());
-			wr.writeBytes(urlParameters);
+			//wr.writeBytes(urlParameters);
 			wr.flush();
 			wr.close();
 			int responseCode = con.getResponseCode();
