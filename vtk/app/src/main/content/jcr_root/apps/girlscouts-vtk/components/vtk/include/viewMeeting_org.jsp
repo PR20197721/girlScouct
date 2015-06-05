@@ -38,9 +38,9 @@
 		}
 %>
 				<div class="date">
-					<div class="cal"><span class="month"><%= FORMAT_MONTH.format(date)%><br/></span>
-						<span class="day"><%= FORMAT_DAY_OF_MONTH.format(date)%><br/></span>
-						<!-- <span class="time hide-for-small"><%= FORMAT_hhmm_AMPM.format(date)%></span> -->
+					<div class="cal"><span class="month"><%= VtkUtil.formatDate(VtkUtil.FORMAT_MONTH, date)%><br/></span>
+						<span class="day"><%= VtkUtil.formatDate(VtkUtil.FORMAT_DAY_OF_MONTH, date)%><br/></span>
+						
 					</div>
 				</div>
 <%
@@ -74,8 +74,7 @@ if( meetingE.getCancelled()!=null && meetingE.getCancelled().equals("true")){%>
 %>
 				<%=meeting.getName() %> </h2>
 				<p><small><%=meeting.getCat()%></small></p>
-				 <!--  p class="tags"><%=meeting.getAidTags() %></p --> 
-				<!-- <p class="show-for-small"><%= FORMAT_hhmm_AMPM.format(date)%></p> -->
+				
 				<br/>
 				<p class="blurb"><%=meeting.getBlurb() %></p>
 				<%if( hasPermission(troop, Permission.PERMISSION_VIEW_MEETING_ID) ){ %>

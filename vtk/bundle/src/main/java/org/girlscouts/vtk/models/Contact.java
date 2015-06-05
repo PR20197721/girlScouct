@@ -4,11 +4,8 @@ import org.apache.jackrabbit.ocm.mapper.impl.annotation.Field;
 import org.apache.jackrabbit.ocm.mapper.impl.annotation.Node;
 
 @Node(jcrMixinTypes = "mix:lockable")
-public class Contact implements java.io.Serializable {
+public class Contact implements java.io.Serializable, Comparable<Contact> {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -9143046810103196285L;
 
 	@Field(id = true)
@@ -18,12 +15,12 @@ public class Contact implements java.io.Serializable {
 	String path;
 
 	@Field
-	private String email, phone, firstName, lastName, address, address1, city, state, zip, suite, role, dob, country;
+	private String email, phone, firstName, lastName, address, address1, city, state, zip, suite, role, dob, country, contactId;
 
 	@Field Integer age, type;
 	
 	private java.util.List <Contact>contacts;
-	
+	private String accountId;
 	
 	
 	
@@ -174,4 +171,26 @@ public class Contact implements java.io.Serializable {
 	public void setDob(String dob) {
 		this.dob = dob;
 	}
+
+	public String getAccountId() {
+		return accountId;
+	}
+
+	public void setAccountId(String accountId) {
+		this.accountId = accountId;
+	}
+	
+	public int compareTo(Contact other)
+	  {
+	    return id.compareTo(other.id);
+	  }
+
+	public String getContactId() {
+		return contactId;
+	}
+
+	public void setContactId(String contactId) {
+		this.contactId = contactId;
+	}
+	
 }

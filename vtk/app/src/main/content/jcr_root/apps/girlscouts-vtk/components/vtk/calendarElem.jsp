@@ -10,7 +10,7 @@ String elem = request.getParameter("elem");
 java.util.Date date = new java.util.Date( Long.parseLong(elem));
 MeetingE meeting = (MeetingE)sched.get(date);
 String AP = "AM";
-if( FORMAT_AMPM.format(date).toUpperCase().equals("PM")){
+if( VtkUtil.formatDate(VtkUtil.FORMAT_AMPM, date).toUpperCase().equals("PM")){
 	AP="PM";
 }
 boolean isCancelMeeting= false;
@@ -33,11 +33,11 @@ java.util.List <MeetingE>meetingsToCancel = meetingUtil.getMeetingToCancel(user,
 				<span>Select today's date or any future date</span>
 				<div id="datepicker"></div>
 				<!-- <input type="hidden" name="cngDate0" value="" id="cngDate0" /> -->
-				<input type="hidden" value="<%= FORMAT_MMddYYYY.format(date) %>" id="cngDate0"  name="cngDate0" class="date calendarField" />
+				<input type="hidden" value="<%= VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY,date) %>" id="cngDate0"  name="cngDate0" class="date calendarField" />
 				<p><strong>Change Time:</strong></p>
 				<section class='row clearfix'>
 					<div class="column small-6">
-						<input type="text" id="cngTime0" value="<%= FORMAT_hhmm.format(date) %>" name="cngDate0"  />
+						<input type="text" id="cngTime0" value="<%= VtkUtil.formatDate(VtkUtil.FORMAT_hhmm,date) %>" name="cngDate0"  />
 					</div>
 					<div class="columm small-6 left">
 						<select id="cngAP0" name="cngAP0" class="ampm">
@@ -165,7 +165,9 @@ $('#saveCalElem').click(function() {
 //	return true;
 //}
 
-
+if (navigator.userAgent.match(/(msie\ [0-9]{1})/i)[0].split(" ")[1] == 9) {
+  $('select').css('background-image', 'none');
+}
 function fnOpenNormalDialog() {
     $("#dialog-confirm").html("Are you sure you want to cancel the meeting? This will remove the meeting from the calendar and you will have <%=(sched.size()-1)%> meetings instead of <%=sched.size()%> meetings this year.");
 
@@ -177,20 +179,19 @@ function fnOpenNormalDialog() {
         height: 250,
         width: 400,
         buttons: {
-            "Go ahead, cancel the meeting": function () {
-                $(this).dialog('close');
-                var r = $("#meeting_select option:selected").val();
-                rmMeeting('<%=date.getTime()%>',r);
-            },
-                "Return to Specify Dates and Locations": function () {
-                $(this).dialog('close');
-                newLocCal();
-            }
+        "Go ahead, cancel the meeting": function () {
+            $(this).dialog('close');
+            var r = $("#meeting_select option:selected").val();
+            rmMeeting('<%=date.getTime()%>',r);
+        },
+            "Return to Specify Dates and Locations": function () {
+            $(this).dialog('close');
+            newLocCal();
+        }
         },
         create: function (event, ui) {
         	$(".ui-dialog-titlebar.ui-widget-header").hide();
     		}
-
     });
 }
 </script> 

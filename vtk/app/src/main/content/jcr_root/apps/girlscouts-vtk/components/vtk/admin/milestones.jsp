@@ -40,7 +40,7 @@ String councilId= request.getParameter("cid")==null? Integer.toString(councilCod
 				<div class="column large-4 large-push-2">
 					<input type="text" id="date<%=i %>" class="datepicker"
 						name="ms_date[]"
-						value="<%=milestones.get(i).getDate()==null?"":FORMAT_MMddYYYY.format(milestones.get(i).getDate())%>" />
+						value="<%=milestones.get(i).getDate()==null?"": VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY, milestones.get(i).getDate())%>" />
 				</div>
 				<div class="column large-1 large-push-2">
 					<label for="date<%=i %>"><a class="icon-calendar"></a></label>
@@ -242,7 +242,7 @@ for(int i=0;i<milestones.size();i++){
 %>
 <tr>
 	<td><%= (i+1) %></td> 
-	<td><input type="text" id="date<%=i %>" name="date<%=i %>" value="<%=FORMAT_MMddYYYY.format(milestones.get(i).getDate())%>"/></td>
+	<td><input type="text" id="date<%=i %>" name="date<%=i %>" value="<%=VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY, milestones.get(i).getDate())%>"/></td>
 	<td><input type="text" name="blurb<%=i %>" value="<%=milestones.get(i).getBlurb()%>"/></td>
 	<td>
 	<!-- 

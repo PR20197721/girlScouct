@@ -38,8 +38,8 @@
 								if( troop.getYearPlan().getSchedule()!=null ) {
 							%>
 							<div class="cal">
-								<span class="month"><%=FORMAT_MONTH.format(activity.getDate())%><br /></span><span
-									class="day"><%=FORMAT_DAY_OF_MONTH.format(activity.getDate())%></span>
+								<span class="month"><%=VtkUtil.formatDate(VtkUtil.FORMAT_MONTH, activity.getDate())%><br /></span><span
+									class="day"><%=VtkUtil.formatDate(VtkUtil.FORMAT_DAY_OF_MONTH, activity.getDate())%></span>
 							</div>
 							<%
 								} else {
@@ -77,12 +77,12 @@
 
 		<br />
 		<br />Date:
-		<%=FORMAT_MMddYYYY.format(activity.getDate())%>
+		<%=VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY, activity.getDate())%>
 		<br />
 		<br />Time:
-		<%=FORMAT_hhmm_AMPM.format(activity.getDate())%>
+		<%=VtkUtil.formatDate(VtkUtil.FORMAT_hhmm_AMPM, activity.getDate())%>
 		-
-		<%=FORMAT_hhmm_AMPM.format(activity.getEndDate())%>
+		<%=VtkUtil.formatDate(VtkUtil.FORMAT_hhmm_AMPM, activity.getEndDate())%>
 
 
 		<%
@@ -373,32 +373,32 @@ $('#newCustActivity1').click(function() {
 			<div class="large-6 medium-12 small-24 columns">
 				Date: ex:05/07/2014<input type="text" name="newCustActivity_date"
 					id="newCustActivity_date"
-					value="<%=FORMAT_MMddYYYY.format(activity.getDate())%>"
+					value="<%=VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY,activity.getDate())%>"
 					style="width: 160px;" />
 			</div>
 			<div class="large-6 medium-12 small-24 columns">
 				Start Time: <input type="text" name="newCustActivity_startTime"
 					id="newCustActivity_startTime"
-					value="<%=FORMAT_hhmm_AMPM.format(activity.getDate())%>"
+					value="<%=VtkUtil.formatDate(VtkUtil.FORMAT_hhmm_AMPM, activity.getDate())%>"
 					style="width: 100px;" /> <select id="newCustActivity_startTime_AP">
 
 					<option value="am"
-						<%=FORMAT_AMPM.format(activity.getDate()).toUpperCase()
+						<%=VtkUtil.formatDate(VtkUtil.FORMAT_AMPM, activity.getDate()).toUpperCase()
 					.trim().equals("AM") ? "SELECTED" : ""%>>am</option>
 					<option value="pm"
-						<%=FORMAT_AMPM.format(activity.getDate()).toUpperCase()
+						<%=VtkUtil.formatDate(VtkUtil.FORMAT_AMPM, activity.getDate()).toUpperCase()
 					.trim().equals("PM") ? "SELECTED" : ""%>>pm</option>
 				</select>
 			</div>
 			<div class="large-6 medium-12 small-24 columns">
 				End Time: <input type="text" id="newCustActivity_endTime"
-					value="<%=FORMAT_hhmm_AMPM.format(activity.getEndDate())%>"
+					value="<%=VtkUtil.formatDate(VtkUtil.FORMAT_hhmm_AMPM, activity.getEndDate())%>"
 					style="width: 100px;" /> <select id="newCustActivity_endTime_AP">
 					<option value="am"
-						<%=FORMAT_AMPM.format(activity.getEndDate()).toUpperCase()
+						<%=VtkUtil.formatDate(VtkUtil.FORMAT_AMPM, activity.getEndDate()).toUpperCase()
 					.trim().equals("AM") ? "SELECTED" : ""%>>am</option>
 					<option value="pm"
-						<%=FORMAT_AMPM.format(activity.getEndDate()).toUpperCase()
+						<%=VtkUtil.formatDate(VtkUtil.FORMAT_AMPM, activity.getEndDate()).toUpperCase()
 					.trim().equals("PM") ? "SELECTED" : ""%>>pm</option>
 				</select>
 			</div>

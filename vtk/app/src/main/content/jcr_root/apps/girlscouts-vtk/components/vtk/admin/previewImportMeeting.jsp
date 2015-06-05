@@ -210,38 +210,11 @@ if( request.getParameter("runAll")!=null ){
 
 
 
-/*
-System.err.println("Unzipping "+ fileLoc+" : "+ fileDir);
-//importer.unzipFile(fileLoc, fileDir);
-importer.unzip(fileLoc, "destDirectory");
-*/
-
-
-/*
-org.girlscouts.vtk.models.Meeting meeting = importer.getMeetings(fileDir +"/"+ request.getParameter("id")+"/jcr:content");// fileDir+"/"+ fileId);
-if( meeting==null ){
-
-	out.println("No meetings processed");
-	return;
-}
-
-java.util.Map <String, org.girlscouts.vtk.models.JcrCollectionHoldString>infos  = meeting.getMeetingInfo();
-*/
-
-
 org.girlscouts.vtk.models.Meeting meeting =importer.doSingleFile( fileLoc );
-//java.util.Map <String, String>infos  = importer.getMeetings(fileLoc);//fileDir +"/"+ request.getParameter("id")+"/jcr:content");// fileDir+"/"+ fileId);
 java.util.Map <String, org.girlscouts.vtk.models.JcrCollectionHoldString>infos  = meeting.getMeetingInfo();
 
 String fileToRm= fileDir +"/"+ request.getParameter("id");
 if( fileToRm!=null && !fileToRm.equals("") && fileToRm.startsWith("/tmp/")){
-	//System.err.println("cleaning file... "+ fileToRm );
-
-	//java io
-	//-importer.doClean(fileToRm);
-	
-	//jcr
-	//-doIt();
 }
 
 String mid=infos.get("meeting id").getStr();
@@ -249,9 +222,6 @@ mid = mid.replaceAll("\\[\\[_(.*?)\\]\\]" ,"");
 mid = mid.replace("<b>","").replace("</b>", "").replace("<p>","").replace("</p>","").replace("<li>","").replace("</li>","");
 %>
 <div style="background-color:lightgray;">
-
-<!--  <a href="/content/girlscouts-vtk/en/vtk.admin.importMeeting.html?mid=<%=mid%>">Import file (<%=mid%>)</a> -->
-
 <a href="javascript:void(0)" onclick="importFile('<%=mid%>')">Import file (<%=mid%>)</a>
 
          
@@ -265,25 +235,6 @@ while( itr.hasNext()){
 	
 			String name= (String)itr.next();
 			String txt = infos.get(name).getStr();
-/* in java
-			txt = txt.replaceAll("\\[\\[_(.*?)\\]\\]" ,"");
-	
-			java.util.regex.Pattern p = java.util.regex.Pattern.compile("\\[\\[Activity(.*?)\\]\\]");
-			java.util.regex.Matcher m = p.matcher(txt);
-		     while(m.find())
-		      {
-		        //out.println("**"+m.group()+"**");
-		        String rpls="Activity ";
-		        java.util.StringTokenizer t= new java.util.StringTokenizer(  m.group() ,"|");
-		        t.nextToken();
-		        rpls += t.nextToken() +" : ";
-		        rpls += t.nextToken().replace("]]", "");
-		        txt = txt.replace( m.group(), rpls );
-		      }
-		     
-		     */
-			
-	
 	%>
 		<div style="border:1px solid #000; background-color:#<%=bgColor%>54713">
 			<h2><%=name %></h2>
@@ -296,65 +247,13 @@ while( itr.hasNext()){
 
 
 
-/*
-//meeting infos
-java.util.Map activities = meeting.getMeetingInfo();
-java.util.Iterator itr1= activities.keySet().iterator();
-while( itr1.hasNext()){
-	
-	String name= (String)itr1.next();
-	out.println("<li>"+name);
-	
-}
-
-
-//meeting activities
-java.util.List <Activity>activ = meeting.getActivities();
-if( activ!=null)
- for(int i=0;i<activ.size();i++){
-	Activity activity = activ.get(i);
-	out.println("<br>"+activity.getName()+": "+ activity.getActivityDescription());
-}
-*/
 %>
 </body>
 </html>
-
-
 <%!
-
-
 public void doIt(){
-	
 	try{
-		
-		
-		
-		javax.jcr.Repository repository = org.apache.jackrabbit.commons.JcrUtils.getRepository("http://localhost:4503/crx/server/");
-		 /*
-	        
-	        //Workspace Login
-	        SimpleCredentials creds = new SimpleCredentials("admin", "admin".toCharArray());
-	        Session session = null;
-	        session = repository.login(creds, "crx.default");
-		
-		
-	javax.jcr.Repository repository = org.apache.jackrabbit.commons.JcrUtils.getRepository("http://localhost:4503/crx/server/");
-
-    // Workspace Login
-    javax.jcr.SimpleCredentials creds = new javax.jcr.SimpleCredentials("admin",
-            "admin".toCharArray());
-    
-    javax.jcr.Session session = null;
-    session = repository.login(creds, "crx.default");
-    javax.jcr.Node root = session.getRootNode();
- 
-	Node fileNode = root.getNode("/tmp/import/assets/15_0.03358374794012875/");
-			Node jcrContent = fileNode.getNode("jcr:content");
-			String fileName = fileNode.getName();
-			InputStream content = jcrContent.getProperty("jcr:data").getStream();
-			System.err.println("CHK: "+ (content ==null ));
-		*/	
+		javax.jcr.Repository repository = org.apache.jackrabbit.commons.JcrUtils.getRepository("http://localhost:4503/crx/server/");		
 	}catch(Exception e){e.printStackTrace();}
 }
 %>

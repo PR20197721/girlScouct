@@ -20,6 +20,11 @@
 	<name>Girl Scouts Volunteer Toolkit App Package</name>
 
 	<dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>girlscouts-vtk-scaffolding-bundle</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>girlscouts-vtk-bundle</artifactId>
@@ -90,12 +95,18 @@
 			<artifactId>commons-beanutils</artifactId>
 			<version>1.9.2</version>
 		</dependency>
-
+<!-- 
 		<dependency>
 			<groupId>commons-collections</groupId>
 			<artifactId>commons-collections</artifactId>
 			<version>3.0</version>
 		</dependency>
+		-->
+		<dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>4.0</version>
+        </dependency>
 
 		<dependency>
 			<groupId>commons-logging</groupId>
@@ -166,6 +177,11 @@
 					<group>Girl Scouts</group>
 					<filterSource>src/main/content/META-INF/vault/filter.xml</filterSource>
 					<embeddeds>
+                        <embedded>
+                            <groupId>${project.groupId}</groupId>
+                            <artifactId>girlscouts-vtk-scaffolding-bundle</artifactId>
+                            <target>/apps/girlscouts-vtk/install</target>
+                        </embedded>
 						<embedded>
 							<groupId>${project.groupId}</groupId>
 							<artifactId>girlscouts-vtk-bundle</artifactId>
@@ -230,6 +246,11 @@
 							<group>Girl Scouts</group>
 							<filterSource>src/main/content/META-INF/vault/filter.xml</filterSource>
 							<embeddeds>
+                                <embedded>
+                                    <groupId>${project.groupId}</groupId>
+                                    <artifactId>girlscouts-vtk-scaffolding-bundle</artifactId>
+                                    <target>/apps/girlscouts-vtk/install</target>
+                                </embedded>
 								<embedded>
 									<groupId>${project.groupId}</groupId>
 									<artifactId>girlscouts-vtk-bundle</artifactId>

@@ -16,9 +16,12 @@ JSXTransformer-0.12.1.js
 jquery.validate.js
 jquery-print.js
 vtk-global.js
+jquery.imgareaselect.js
+binaryajax.js
+exif.js
 
 ## use for prod
-  react-with-addons-0.12.2.min.js
+  #react-with-addons-0.12.2.min.js
 
 ## use for dev
-#react-with-addons-0.12.2.js
+react-with-addons-0.12.2.js
