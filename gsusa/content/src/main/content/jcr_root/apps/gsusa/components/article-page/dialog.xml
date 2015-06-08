@@ -37,7 +37,7 @@
                     <items jcr:primaryType="cq:WidgetCollection">
                         <share-title
                             jcr:primaryType="cq:Widget"
-                            fieldDescription="Enter the default title for Facebook and Twitter share popups"
+                            fieldDescription="Enter the default title for Facebook and Twitter share popups. Facebook must be set up here."
                             fieldLabel="Share Title"
                             name="./shareTitle"
                             xtype="textfield"/>
@@ -59,21 +59,17 @@
                     </items>
                 </social>
                 <share-image-tab
+                	cropParameter="./imageCrop"
+                	ddGroups="media"
+                	fileNameParameter="./fileName"
+                	fileReferenceParameter="./fileReference"
                 	jcr:primaryType="cq:Widget"
-		            ddGroups="[media]"
-		            fileNameParameter="./fileName"
-		            fileReferenceParameter="./fileReference"
-		            name="./file"
+                	mapParameter="./imageMap"
+                	name="./file"
+                	requestSuffix=".img.png"
+                	rotateParameter="./imageRotate"
 		            title="Share Image"
-		            xtype="html5smartimage">
-                    <items jcr:primaryType="cq:WidgetCollection">
-	                	<resType
-		                    jcr:primaryType="cq:Widget"
-		                    ignoreData="{Boolean}true"
-		                    name="./sling:resourceType"
-		                    value="foundation/components/image"
-		                    xtype="hidden"/>
-                    </items>
+		            xtype="html5smartimage"
             	</share-image-tab>
             </items>
         </tabs>

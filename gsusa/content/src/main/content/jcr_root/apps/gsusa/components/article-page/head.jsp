@@ -23,7 +23,7 @@
   ==============================================================================
 
 --%><%@include file="/libs/foundation/global.jsp" %><%
-%><%@ page import="com.day.cq.commons.Doctype" %><%
+%><%@ page import="com.day.cq.commons.Doctype, com.day.cq.commons.Externalizer" %><%
     String xs = Doctype.isXHTML(request) ? "/" : "";
     String favIcon = currentDesign.getPath() + "/favicon.ico";
     if (resourceResolver.getResource(favIcon) == null) {
@@ -40,10 +40,12 @@
     String fbMessage = properties.get("fbMessage", "");
     String twitterMessage = properties.get("twitterMessage", "");
     String filePath = properties.get("fileReference", "");
-    
-	ResourceResolver resourceResolver = request.getResourceResolver();
-	Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
-	String canonicalUrl = externalizer.publishLink(resourceResolver, "http", currentPage.getPath());
+
+	//Externalizer externalizer = resourceResolver.adaptTo(Externalizer.class);
+	//Externalizer not properly configured
+	//String canonicalUrl = externalizer.publishLink(resourceResolver, "http", currentPage.getPath());
+	
+	String canonicalURL = currentPage.getPath().replaceFirst("content", "http://girlscouts.org");
    	
     %>
     <!-- Facebook - Open Graph Data -->
@@ -77,7 +79,7 @@
     <%
     }if(!filePath.equals("")){
    	%>
-   	<meta name="twitter:image" content="<%= url %>" />	
+   	<meta name="twitter:image" content="<%= filePath %>" />	
     <%} %>
     <cq:include script="headlibs.jsp"/>
     <cq:include script="/libs/wcm/core/components/init/init.jsp"/>
