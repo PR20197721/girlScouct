@@ -82,13 +82,15 @@
             var x, yearPlanName;
             if( this.state.data.schedule!=null) {
                x =  this.state.data.schedule;
-                 yearPlanName = this.state.data.yearPlan;
-                  return (
+               yearPlanName = this.state.data.yearPlan;
+               return (
                       React.createElement(YearPlanComponents, {yearPlanName: yearPlanName, data: x, parentComponent: this})
                 );
-            } else {
-                return React.createElement("h3", {className:"notice column large-22 large-centered medium-20 medium-centered small-21 small-centered"}, "The Year Plan has not yet been set up by the troop leader.");
+            }    else{
+            	return React.createElement("h3", {className:"notice column large-22 large-centered medium-20 medium-centered small-21 small-centered"}, "The Year Plan has not yet been set up by the troop leader.");
+                
             }
+            
         }
       });
 
