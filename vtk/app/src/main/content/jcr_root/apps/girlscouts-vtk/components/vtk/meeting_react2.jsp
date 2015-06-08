@@ -709,8 +709,14 @@ React.createElement(ActivityPlan),
         }
       },
       componentDidMount: function() {
-       try{  replaceMeetingHref(thisMeetingPath, moment(thisMeetingDate).valueOf()); resizeWindow(); }catch(err){}
-        if (Modernizr.touch) {
+       try{  
+    	   if( helper.permissions!=null && helper.permissions.indexOf('<%= Permission.PERMISSION_EDIT_MEETING_ID %>')!=-1){
+    		    replaceMeetingHref(thisMeetingPath, moment(thisMeetingDate).valueOf()); 
+    	   }
+    	   resizeWindow();
+       }catch(err){}
+       
+       if (Modernizr.touch) {
             scrollTarget = ".touchscroll";
           } 
         
