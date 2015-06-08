@@ -29,3 +29,25 @@
         </li>
     </ul>
 </div>
+<div class="columns large-6">
+    <ul class="gs-stories-block vertical">
+        <li>
+            <div>
+                <img src="/etc/designs/gsusa/clientlibs/images/temp_gs_storeis.png" alt="story title" />
+                <a href="#" title="story title">This is pretty awesome story about hourses!</a>
+            </div>
+        </li>
+        <li>
+            <div>
+                <img src="/etc/designs/gsusa/clientlibs/images/temp_gs_storeis.png" alt="story title" />
+                <a href="#" title="story title">Girl Scouts Friends are the best friends</a>
+            </div>
+        </li>
+        <li>
+            <div>
+                <img src="/etc/designs/gsusa/clientlibs/images/temp_gs_storeis.png" alt="story title" />
+                <a href="#" title="story title">These girsl are having a ball. You can, too!</a>
+            </div>
+        </li>
+    </ul>
+</div>
