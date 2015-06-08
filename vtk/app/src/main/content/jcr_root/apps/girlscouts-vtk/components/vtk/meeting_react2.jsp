@@ -53,6 +53,8 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
 <div id="vtkTabNav"></div>
 <div id="panelWrapper" class="row content meeting-detail">
 <div id="vtkNav"></div>
+<%@include file="include/modals/modal_help.jsp"%>
+
 <%@include file="include/modals/modal_agenda.jsp"%>
 <%@include file="include/modals/modal_meeting_reminder.jsp" %>
 <%@include file="include/modals/modal_view_sent_emails.jsp"%>
