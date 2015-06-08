@@ -48,7 +48,15 @@ PlanView planView = meetingUtil.planView(user, troop, request);
       <dl class="tabs show-for-large-up">
         <% if(hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
           <dd <%= "myTroop".equals(activeTab) ? "class='active'" : "" %>>
-            <a href="/content/girlscouts-vtk/en/vtk.myTroop.html">My Troop</a>
+          
+           <%if(troop.getYearPlan()!=null &&
+                 (troop.getYearPlan().getActivities()==null || troop.getYearPlan().getActivities().size()<=0 ) &&
+                    ( troop.getYearPlan().getMeetingEvents()==null || troop.getYearPlan().getMeetingEvents().size()<=0 )){ %>
+
+                    <a href="/content/girlscouts-vtk/en/vtk.myTroop.html">My Troop</a>
+           <%}else{ %>
+                    <a href="#" onclick="alert('There is not Year Plan set up at this time.')">My Troop</a>
+           <%} %>
           </dd>
         <%} %>
         <% if(hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID)) { %>
@@ -89,9 +97,19 @@ PlanView planView = meetingUtil.planView(user, troop, request);
         <a id="vtk-main-menu-button" onclick="$('#vtk-main-menu').slideToggle('slow')" class="expand">Menu</a>
         <ul id="vtk-main-menu" class="hide-for-print" style="display: none;">
           <% if(hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
-          <li class='has-dropdown<%= ("myTroop".equals(activeTab)) ? " active" : " " %>'><a href="/content/girlscouts-vtk/en/vtk.myTroop.html">My Troop</a>
+          <li class='has-dropdown<%= ("myTroop".equals(activeTab)) ? " active" : " " %>'>
+          
+          <%if(troop.getYearPlan()!=null &&
+                 (troop.getYearPlan().getActivities()==null || troop.getYearPlan().getActivities().size()<=0 ) &&
+                    ( troop.getYearPlan().getMeetingEvents()==null || troop.getYearPlan().getMeetingEvents().size()<=0 )){ %>
+             <a href="/content/girlscouts-vtk/en/vtk.myTroop.html">My Troop</a>
+          <%}else{ %>
+            <a href="#" onclick="alert('There is no Year Plan set up at this time.')">My Troop</a>
+          <%} %>
+          
+          
           	<ul class="dropdown">
-          	<% if("myTroop".equals(activeTab) &&  hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_ID) && (SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE) )) { %>
+          	<% if("myTroop".equals(activeTab) &&  hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_ID) ) { %>
           		<li><a data-reveal-id="modal_upload_image" title="update photo" href="#">add/change a photo of your troop</a></li>
           		<li><a title="remove photo" href="#" onclick="rmTroopInfo()">remove troop photo</a></li>
           	<% } %>
