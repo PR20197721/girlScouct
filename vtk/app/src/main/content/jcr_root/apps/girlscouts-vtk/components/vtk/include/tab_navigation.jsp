@@ -49,10 +49,8 @@ PlanView planView = meetingUtil.planView(user, troop, request);
         <% if(hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
           <dd <%= "myTroop".equals(activeTab) ? "class='active'" : "" %>>
           
-           <%if(troop.getYearPlan()!=null &&
-                 (troop.getYearPlan().getActivities()==null || troop.getYearPlan().getActivities().size()<=0 ) &&
-                    ( troop.getYearPlan().getMeetingEvents()==null || troop.getYearPlan().getMeetingEvents().size()<=0 )){ %>
-
+              <%if(troop.getYearPlan()!=null &&
+                 (troop.getYearPlan().getMeetingEvents()!=null && troop.getYearPlan().getMeetingEvents().size()>0 )){ %>
                     <a href="/content/girlscouts-vtk/en/vtk.myTroop.html">My Troop</a>
            <%}else{ %>
                     <a href="#" onclick="alert('There is not Year Plan set up at this time.')">My Troop</a>
@@ -61,7 +59,7 @@ PlanView planView = meetingUtil.planView(user, troop, request);
         <%} %>
         <% if(hasPermission(troop, Permission.PERMISSION_VIEW_YEARPLAN_ID)) { %>
           <dd <%= "plan".equals(activeTab) ? "class='active'" : "" %>>
-           <!--  <a href="/content/girlscouts-vtk/en/vtk.plan.html">Year Plan</a> -->
+           
            <a href="/content/girlscouts-vtk/en/vtk.html">Year Plan</a>
           </dd>
         <% } %>
@@ -100,8 +98,7 @@ PlanView planView = meetingUtil.planView(user, troop, request);
           <li class='has-dropdown<%= ("myTroop".equals(activeTab)) ? " active" : " " %>'>
           
           <%if(troop.getYearPlan()!=null &&
-                 (troop.getYearPlan().getActivities()==null || troop.getYearPlan().getActivities().size()<=0 ) &&
-                    ( troop.getYearPlan().getMeetingEvents()==null || troop.getYearPlan().getMeetingEvents().size()<=0 )){ %>
+                 (troop.getYearPlan().getMeetingEvents()!=null && troop.getYearPlan().getMeetingEvents().size()>0 )){ %>
              <a href="/content/girlscouts-vtk/en/vtk.myTroop.html">My Troop</a>
           <%}else{ %>
             <a href="#" onclick="alert('There is no Year Plan set up at this time.')">My Troop</a>
@@ -149,14 +146,14 @@ PlanView planView = meetingUtil.planView(user, troop, request);
               	case MEETING:
                 	try { 
                 		
-                	System.err.println("tatatt: 1");	
+                		
                 		
                 		Object meetingPath = planView.getMeeting().getMeetingInfo().getPath(); //pageContext.getAttribute("MEETING_PATH");
                        if(hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID))
                     	  if (meetingPath != null && meetingPath != ""  ) {
                           Long planViewTime = (Long) pageContext.getAttribute("PLANVIEW_TIME");
                           
-                          System.err.println("tatatt: 2");    
+                            
                           %>
                           
                         <li>
@@ -169,9 +166,7 @@ PlanView planView = meetingUtil.planView(user, troop, request);
                     }
                   break;
                 }%>
-              <!-- <li><a href="#" onclick="doEditActivity('editCustActiv')">edit activity</a></li>
-              <li><a href="#" target="_blank">Register for this event</a></li>
-              <li><a href="javascript:rmCustActivity12(aPath)">delete this activity</a></li> -->
+              
             <% } %>
             </ul>
           </li>
@@ -194,4 +189,4 @@ PlanView planView = meetingUtil.planView(user, troop, request);
     //}
   %>
   
-</div><!--/hide-for-print-->
+</div><!-- /hide-for-print -->

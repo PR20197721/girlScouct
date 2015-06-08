@@ -680,7 +680,7 @@ React.createElement(ActivityPlan),
 
     		   React.createElement("ul", null, 
     		      this.props.data.map((function(item, i) {
-    		      return React.createElement("li", {className: "row ui-state-default", key: item.activityNumber, id: item.activityNumber}, 
+    		      return React.createElement("li", {className: ( helper.permissions!=null && helper.permissions.indexOf('<%= Permission.PERMISSION_EDIT_MEETING_ID %>')!=-1) ? "row ui-state-default" :"ui-state-disabled" , key: item.activityNumber, id: item.activityNumber}, 
     		        React.createElement("div", {className: "wrapper clearfix"},
 
 

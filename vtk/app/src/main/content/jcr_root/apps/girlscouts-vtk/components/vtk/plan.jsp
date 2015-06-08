@@ -234,6 +234,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
 
           var dom = $(this.getDOMNode());
           var onReorder = this.props.onReorder;
+          
           dom.sortable({
           items: "li:not(.ui-state-disabled)",
           delay:150,
@@ -253,6 +254,7 @@ React.createElement("li", {draggable: false, className: "row meeting activity ui
 
         }
     }).disableSelection();
+          
       },
       componentWillUpdate: function() {
 

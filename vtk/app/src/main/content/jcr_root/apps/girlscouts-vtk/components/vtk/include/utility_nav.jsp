@@ -12,7 +12,7 @@ PlanView planView= meetingUtil.planView(user, troop, request);
     <div class="row">
       <div class="columns small-18 medium-19">
         <ul id="sub-nav" class="inline-list hide-for-print">
-          <!--if on YP page this menu shows-->
+          <!-- if on YP page this menu shows -->
             <%
            		if ("plan".equals(activeTab) && troop.getYearPlan() != null  && hasPermission(troop, Permission.PERMISSION_EDIT_YEARPLAN_ID) ) { %>
             		<li><a href="#" onclick="newLocCal()" title="Metting Dates and Location">Specify Dates and Locations</a></li>
@@ -21,7 +21,7 @@ PlanView planView= meetingUtil.planView(user, troop, request);
           		<% }
              %>
 
-          <!-- if on Meeting Detail Page-->
+          <!-- if on Meeting Detail Page -->
             <% if("planView".equals(activeTab)) { %>
             <!--if activity detail page-->
             <% switch(planView.getYearPlanComponent().getType() ) {
