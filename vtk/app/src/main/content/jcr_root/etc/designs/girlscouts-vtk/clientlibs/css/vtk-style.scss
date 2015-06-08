@@ -62,8 +62,10 @@
   }
   #header {
     >.columns {
-      padding-right:0.9375em;
-      padding-left:0.9375em;
+      @media only screen and (min-width: 60.063em) {
+        padding-right:0.9375em;
+        padding-left:0.9375em;
+      }
     }
   }
   #main {
