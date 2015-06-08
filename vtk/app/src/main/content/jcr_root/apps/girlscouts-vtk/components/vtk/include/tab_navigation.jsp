@@ -91,7 +91,7 @@ PlanView planView = meetingUtil.planView(user, troop, request);
           <% if(hasPermission(troop, Permission.PERMISSION_VIEW_TROOP_ID)) { %>
           <li class='has-dropdown<%= ("myTroop".equals(activeTab)) ? " active" : " " %>'><a href="/content/girlscouts-vtk/en/vtk.myTroop.html">My Troop</a>
           	<ul class="dropdown">
-          	<% if("myTroop".equals(activeTab)) { %>
+          	<% if("myTroop".equals(activeTab) &&  hasPermission(troop, Permission.PERMISSION_EDIT_TROOP_ID) && (SHOW_BETA || sessionFeatures.contains(SHOW_BETA_FEATURE) )) { %>
           		<li><a data-reveal-id="modal_upload_image" title="update photo" href="#">add/change a photo of your troop</a></li>
           		<li><a title="remove photo" href="#" onclick="rmTroopInfo()">remove troop photo</a></li>
           	<% } %>
