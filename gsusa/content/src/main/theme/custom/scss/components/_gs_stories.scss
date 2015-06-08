@@ -3,7 +3,6 @@
   a {
     color: $black;
     display: inline-block;
-    font-size: rem-calc(14);
     max-width: 170px;
     margin-top: 15px;
     &:after {
@@ -15,6 +14,9 @@
   }
   &.vertical {
     @include block-grid(1);
+    li {
+      float: none;
+    }
   }
   @media #{$small-only} {
     @include block-grid(1);
