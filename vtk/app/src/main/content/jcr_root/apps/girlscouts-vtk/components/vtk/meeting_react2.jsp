@@ -112,6 +112,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
           mid=comment.uid;
           thisMeetingType= comment.type;
           sentEmails=comment.sentEmails;
+          console.log(comment.sentEmails)
         	  
           thisMeetingDate = new Date( Number(thisMeetingDate) );
           console.log( "test: "+ (helper==null));
@@ -383,7 +384,7 @@ React.createElement(ActivityPlan),
         	  if (true) {
                 return (
                 		React.createElement("li", null, 
-                         React.createElement("span",null, "(", sentEmails , " sent -",
+                         React.createElement("span",null, "(", sentEmails[0].subject , " sent -",
                           React.createElement("a", {href: "#", title: "view sent emails", className: "view", "data-reveal-id": "modal_view_sent_emails"}, " view"),
                           ")"
                           )
