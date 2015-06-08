@@ -129,7 +129,8 @@ PlanView planView = meetingUtil.planView(user, troop, request);
               	case MEETING:
                 	try { 
                 		Object meetingPath = planView.getMeeting().getMeetingInfo().getPath(); //pageContext.getAttribute("MEETING_PATH");
-                        if (meetingPath != null && meetingPath != "" && hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID) ) {
+                       if(hasPermission(troop, Permission.PERMISSION_EDIT_MEETING_ID))
+                    	  if (meetingPath != null && meetingPath != ""  ) {
                           Long planViewTime = (Long) pageContext.getAttribute("PLANVIEW_TIME");%>
                         <li>
                         <a href="#" onclick="loadModalPage('/content/girlscouts-vtk/controllers/vtk.meetingLibrary.html?mpath=<%=(String) meetingPath %>&xx=<%= planViewTime.longValue() %>', false, null, true)">replace this meeting</a>
