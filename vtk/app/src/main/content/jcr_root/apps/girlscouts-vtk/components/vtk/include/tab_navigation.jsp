@@ -117,15 +117,17 @@ PlanView planView = meetingUtil.planView(user, troop, request);
                switch(meetingUtil.planView(user, troop, request).getYearPlanComponent().getType() ) {
                 case ACTIVITY:
                   Activity activity = (Activity)planView.getYearPlanComponent();
-                  if( activity.getIsEditable() ){%>
+                  if( hasPermission(troop, Permission.PERMISSION_EDIT_ACTIVITY_ID)  && activity.getIsEditable() ){%>
                   <li><a href="#" onclick="doEditActivity('editCustActiv')">edit activity</a></li>
                 <% }
                   if ( !(activity.getCancelled()!=null && activity.getCancelled().equals("true") ) &&
                   activity.getRegisterUrl()  !=null && !activity.getRegisterUrl().equals("")){%>
                   <li><a href="<%=activity.getRegisterUrl()%>" target="_blank">Register for this event</a></li><%
-                  } %>
-                    <li><a href="javascript:rmCustActivity12(aPath)">delete this activity</a></li><%
-
+                  }
+                  
+                  if(hasPermission(troop, Permission.PERMISSION_RM_ACTIVITY_ID) ){
+                        %><li><a href="javascript:rmCustActivity12(aPath)">delete this activity</a></li><%
+                  }		   
               	case MEETING:
                 	try { 
                 		
