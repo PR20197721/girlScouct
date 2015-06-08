@@ -843,7 +843,7 @@ if( _meeting.getLocationRef()!=null && troop.getYearPlan().getLocations()!=null 
 
 			if (troop.getYearPlan() == null){
 				ObjectMapper mapper = new ObjectMapper();
-                out.println("{\"yearPlan\":null\"}");
+                out.println("{\"yearPlan\":\"NYP\"}");
 				return;
 			}
 

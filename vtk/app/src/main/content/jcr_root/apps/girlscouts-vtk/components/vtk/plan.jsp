@@ -86,9 +86,10 @@
                return (
                       React.createElement(YearPlanComponents, {yearPlanName: yearPlanName, data: x, parentComponent: this})
                 );
-            }    else{
-            	return React.createElement("h3", {className:"notice column large-22 large-centered medium-20 medium-centered small-21 small-centered"}, "The Year Plan has not yet been set up by the troop leader.");
-                
+            }else if(this.state.data!=null && this.state.data.yearPlan !=null  && this.state.data.yearPlan =='NYP'){
+            	return React.createElement("h3", {className:"notice column large-22 large-centered medium-20 medium-centered small-21 small-centered"}, "The Year Plan has not yet been set up by the troop leader.");    
+            }else{
+            	return React.createElement("h3",null);
             }
             
         }
