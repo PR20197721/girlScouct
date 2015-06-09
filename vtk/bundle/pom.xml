@@ -425,6 +425,8 @@
                             !net.sf.ehcache,
                             !net.spy.memcached,
                             javax.xml.parsers,
+                            org.xml.sax,
+                            org.w3c.dom,
                             *
                         </Import-Package>
                         <!--  
