@@ -21,3 +21,7 @@ if(!url.equals("")){
 <%
 }
 %>
+
+<!-- Images not yet supported <div class="thumbnail">
+    <img src="/etc/designs/gsusa/clientlibs/images/temp_breakingnews.jpg" alt="" />
+</div> -->

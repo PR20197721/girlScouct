@@ -25,8 +25,5 @@
   }
   .utility {
     @include grid-column(18);
-    a {
-      font-size: rem-calc(14);
-    }
   }
 }
