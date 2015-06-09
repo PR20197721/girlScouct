@@ -1,2 +1,23 @@
 <%@include file="/libs/foundation/global.jsp" %>
-<a href="#" title="breaking news"><strong>breaking news: </strong>Girl Scouts Announces National Girl Scout Cookie Weekend lorem ipsum dolorem ipse dixit in the U.S.</a>
+
+<%
+String message = properties.get("message","");
+String url = properties.get("url","");
+if(!message.equals("")){
+%>
+<div id="breaking-news">
+<%
+if(!url.equals("")){
+	%><a href="<%= url %>"><%
+}
+%>
+<strong>Breaking News:</strong><%= message %>
+<%
+if(!url.equals("")){
+	%></a><%
+}
+%>
+</div>
+<%
+}
+%>
