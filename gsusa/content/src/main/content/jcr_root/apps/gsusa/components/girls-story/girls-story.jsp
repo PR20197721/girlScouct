@@ -13,26 +13,14 @@
             String description = vm.get("description", "");%>
             
             <div class="columns large-18">
-    			<ul class="gs-stories-block">
-        			<li>
-            			<div>
-			                 <img src="<%= imagePath%>" />
-			                <a href="#" title="story title"><%= description %></a>
-			            </div>
-			        </li>
-			        <li>
-			            <div>
-			                 <img src="<%= imagePath%>" />
-			                <a href="#" title="story title"><%= description %></a>
-			            </div>
-			        </li>
-			        <li>
-			            <div>
-			                 <img src="<%= imagePath%>" />
-			                <a href="#" title="story title"><%= description %></a>
-			            </div>
-			        </li>
-			    </ul>
+    	      <ul class="gs-stories-block">
+        	    <li>
+            	  <div>
+			        <img src="<%= imagePath%>" />
+			         <a href="#" title="story title"><%= description %></a>
+			      </div>
+			    </li>
+			  </ul>
 			</div>
             <%
         }
