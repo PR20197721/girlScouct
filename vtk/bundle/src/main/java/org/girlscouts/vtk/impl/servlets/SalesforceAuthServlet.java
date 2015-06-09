@@ -313,7 +313,7 @@ e1.printStackTrace();
 }
 String token= null, userId= null;
 try {
-//samlResponse.loadXmlFromBase64(request.getParameter("SAMLResponse"));
+samlResponse.loadXmlFromBase64(request.getParameter("SAMLResponse"));
  token =samlResponse.getToken(request.getParameter("SAMLResponse"));
  userId= samlResponse.getUserId(request.getParameter("SAMLResponse"));
 } catch (Exception e) {
