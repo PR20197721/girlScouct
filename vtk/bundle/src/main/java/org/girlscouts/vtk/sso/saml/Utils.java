@@ -182,18 +182,18 @@ public class Utils {
 	      } catch (Throwable t) {  /* OK.  Not all parsers will support this attribute */}
 	       
 		DocumentBuilder builder;
-	System.err.println("*************1");	
+		
 		try {
 			builder = factory.newDocumentBuilder();
 			Document doc = builder.parse(new InputSource(new StringReader(xml)));
-System.err.println("********************2");
+
 			// Loop through the doc and tag every element with an ID attribute as an XML ID node.
 	 		XPath xpath = XPathFactory.newInstance().newXPath();
 	 		XPathExpression expr = xpath.compile("//*[@ID]");
 	 		NodeList nodeList = (NodeList) expr.evaluate(doc, XPathConstants.NODESET);
-System.err.println("********************2.1: "+nodeList.getLength());	 		
+	 		
 			for (int i=0; i<nodeList.getLength() ; i++) {
-System.err.println("********************3");
+
 	 			Element elem = (Element) nodeList.item(i);
 	 			Attr attr = (Attr) elem.getAttributes().getNamedItem("ID");
 	 			elem.setIdAttributeNode(attr, true);

@@ -268,15 +268,23 @@ public String getUserId(String response) throws Exception {
 		byte[] decodedB = base64.decode(response);
 		String xml = new String(decodedB);
 		String id= xml.substring( xml.indexOf("<saml:Attribute Name=\"userId\" NameFormat=\"urn:oasis:names:tc:SAML:2.0:attrname-format:unspecified\"><saml:AttributeValue xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"xs:anyType\">"));		
-	System.err.println("TEST: "+ id);	
+	
 		id= id.substring(240);
-	System.err.println("ETSTST "+ id);	
+	
 		id= id.substring( 0, id.indexOf("<") );
-    System.err.println( "tatattt: "+ id);		
+    	
 		
 		return id;
 		
 	}
 
+
+public String getUserId() throws Exception {
+	NodeList nodes = xmlDoc.getElementsByTagNameNS("urn:oasis:names:tc:SAML:2.0:assertion", "userId");
+	if (nodes.getLength() == 0) {
+		throw new Exception("No name id found in Document.");
+	}
+	return nodes.item(0).getTextContent();
+}
 	
 }

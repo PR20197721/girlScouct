@@ -313,9 +313,13 @@ e1.printStackTrace();
 }
 String token= null, userId= null;
 try {
-samlResponse.loadXmlFromBase64(request.getParameter("SAMLResponse"));
- token =samlResponse.getToken(request.getParameter("SAMLResponse"));
- userId= samlResponse.getUserId(request.getParameter("SAMLResponse"));
+	 samlResponse.loadXmlFromBase64(request.getParameter("SAMLResponse"));
+	 samlResponse.setDestinationUrl(request.getRequestURL().toString());
+	  if (samlResponse.isValid()) {
+	
+		 token =samlResponse.getNameId(); //samlResponse.getToken(request.getParameter("SAMLResponse"));
+		 userId= samlResponse.getUserId(request.getParameter("SAMLResponse"));//samlResponse.getUserId();
+	  }
 } catch (Exception e) {
 // TODO Auto-generated catch block
 e.printStackTrace();
