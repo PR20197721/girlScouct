@@ -4,6 +4,7 @@ import com.day.cq.mailer.MailService;
 import com.day.cq.wcm.foundation.forms.FieldDescription;
 import com.day.cq.wcm.foundation.forms.FieldHelper;
 import com.day.cq.wcm.foundation.forms.FormsHelper;
+
 import org.apache.commons.mail.ByteArrayDataSource;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
@@ -30,10 +31,12 @@ import org.slf4j.LoggerFactory;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -149,7 +152,6 @@ implements OptingServlet {
                 String nameString = "";
                 String memberNameString = "";
                 String messageString = "";
-
                 // now add form fields to message
                 // and uploads as attachments
                 final List<RequestParameter> attachments = new ArrayList<RequestParameter>();
@@ -265,9 +267,19 @@ implements OptingServlet {
                 //final String subject = values.get(SUBJECT_PROPERTY, resBundle.getString("Form Mail"));
                 final String subject = nameString + " | " + memberNameString;
                 email.setSubject(subject);
-                final String fromAddress = values.get(FROM_PROPERTY, "");
-                if (fromAddress.length() > 0) {
+                String fromAddress = values.get(FROM_PROPERTY, "");
+                if(fromAddress==null || fromAddress.trim().isEmpty()){
+                	logger.debug("No from address set up for the form.");
+                    //get email strings from the form content
+                	final String[] emailValues = request.getParameterValues("email");
+                    if(emailValues != null && emailValues.length>0){
+                    	fromAddress = emailValues[0];
+                    }
+                }
+                if (fromAddress.trim().length() > 0) {
                     email.setFrom(fromAddress);
+                }else{
+                	logger.debug("No from email address found. Using cq Service config address.");
                 }
                 if (this.logger.isDebugEnabled()) {
                     this.logger.debug("Sending form activated mail: fromAddress={}, to={}, subject={}, text={}.",
