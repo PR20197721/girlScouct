@@ -13,9 +13,8 @@
                 <items jcr:primaryType="cq:WidgetCollection">
                     <path
                         jcr:primaryType="cq:Widget"
-                        fieldDescription="Please fill up this field"
                         fieldLabel="Story path"
-                        fieldSubLabel="Please Choose a path for the story"
+                        fieldSubLabel="Please choose a path for the story"
                         name="./path"
                         rootPath="/content/gsusa/en/girls-stories"
                         xtype="pathfield"/>
