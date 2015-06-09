@@ -424,6 +424,7 @@
                             !com.google.inject.internal.asm.util,
                             !net.sf.ehcache,
                             !net.spy.memcached,
+                            javax.xml.parsers,
                             *
                         </Import-Package>
                         <!--  
