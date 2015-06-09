@@ -4,7 +4,6 @@
   overflow: visible;
   p {
     margin: 0;
-    font-size: rem-calc(14);
   }
   li {
     width: 100%;
@@ -17,7 +16,6 @@
     }
     .thumb {
       cursor: pointer;
-      font-size: rem-calc(14);
       text-align: center;
       padding: rem-calc(30);
       min-height: rem-calc(280);

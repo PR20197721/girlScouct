@@ -38,7 +38,7 @@ div.carousel {
           font-weight: 300;
           margin-bottom: rem-calc(20);
           @media #{$small-only} {
-            font-size: rem-calc(26);
+            font-size: rem-calc(16);
           }
         }
         & * {color: $white;}
