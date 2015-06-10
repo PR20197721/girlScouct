@@ -5,27 +5,27 @@ String message = properties.get("message","");
 String url = properties.get("url","");
 //String filePath = properties.get("fileReference", "");
 Resource thumbnail = resource.getChild("thumbnail");
-if(thumbnail != null){
+if(thumbnail != null) {
 	String filePath = ((ValueMap)thumbnail.adaptTo(ValueMap.class)).get("fileReference", "");
-	if(!message.equals("")){
+	if(!message.equals("")) {
 		%>
-		<div id="breaking-news">
-		<%
-		if(!filePath.equals("")){
-			%>
-			<img src="<%= filePath %>" alt="Breaking News Image" />
+		<div class="inner-wrapper">
 			<%
-		}
-		if(!url.equals("")){
-			%><a href="<%= url %>"><%
-		}
-		%>
-		<strong>Breaking News:</strong><%= message %>
-		<%
-		if(!url.equals("")){
-			%></a><%
-		}
-		%>
+			if(!filePath.equals("")) { %>
+				<img src="<%= filePath %>" alt="Breaking News Image" />
+			<% } %>
+			<p>
+			<%
+			if(!url.equals("")) { %>
+				<a href="<%= url %>" title="<%= message %>">
+			<% } %>
+				<strong>BREAKING NEWS:</strong> <%= message %>
+			<%
+			if(!url.equals("")) {
+				%></a><%
+			}
+			%>
+			</p>
 		</div>
 		<%
 	}
