@@ -50,7 +50,12 @@ public class Response {
 		Base64 base64 = new Base64();
 		byte[] decodedB = base64.decode(response);
 		String decodedS = new String(decodedB);
-		xmlDoc = Utils.loadXML(decodedS);
+
+//decodedS= decodedS.replace("ogDP", "caca");		
+
+
+	xmlDoc = Utils.loadXML(decodedS);
+	System.err.println("test RESP: "+decodedS);	
 		System.out.println("----xmlDoc [ "+xmlDoc.getDocumentElement()+" ]");
 	}
 
@@ -145,16 +150,18 @@ public class Response {
 	            throw new Exception("A valid SubjectConfirmation was not found on this Response");
 	        }
 			
-			
-	//		if (setIdAttributeExists()) {
-	//			tagIdAttributes(xmlDoc);
-	//		}
-	
+			/*
+			if (setIdAttributeExists()) {
+				tagIdAttributes(xmlDoc);
+			}
+	*/
 			X509Certificate cert = certificate.getX509Cert();		
-			DOMValidateContext ctx = new DOMValidateContext(cert.getPublicKey(), nodes.item(0));		
+			DOMValidateContext ctx = new DOMValidateContext(cert.getPublicKey(), nodes.item(0));
+	System.err.println("testSign: "+ nodes.item(0));		
+	System.err.println("testPubKey: "+ cert.getPublicKey());
 			XMLSignatureFactory sigF = XMLSignatureFactory.getInstance("DOM");		
 			XMLSignature xmlSignature = sigF.unmarshalXMLSignature(ctx);		
-	
+	System.err.println("testIsValid: "+xmlSignature.validate(ctx));
 			return xmlSignature.validate(ctx);
 		}catch (Error e) {
 			error.append(e.getMessage());

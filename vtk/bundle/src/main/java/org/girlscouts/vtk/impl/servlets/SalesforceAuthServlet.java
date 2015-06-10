@@ -280,6 +280,7 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 		redirectUrl = redirectUrl.contains("?") ? (redirectUrl = redirectUrl
 				+ "&isSignOutSalesForce=true") : (redirectUrl = redirectUrl
 				+ "?isSignOutSalesForce=true");
+		redirectUrl = "http://gsuat-gsmembers.cs11.force.com/members/VTKLogout?redirectSource="+ "cnn.com";//redirectUrl;
 		redirect(response, redirectUrl);
 	}
 
@@ -319,9 +320,25 @@ try {
 	
 		 token =samlResponse.getNameId(); //samlResponse.getToken(request.getParameter("SAMLResponse"));
 		 userId= samlResponse.getUserId(request.getParameter("SAMLResponse"));//samlResponse.getUserId();
+	  }else{
+		  
+		  try{
+		        response.setStatus(500);
+		        return;
+		    } catch (Exception exx) {
+		      exx.printStackTrace();
+		    }
 	  }
 } catch (Exception e) {
 // TODO Auto-generated catch block
+	
+	try{
+        response.setStatus(500);
+        return;
+    } catch (Exception exx) {
+      exx.printStackTrace();
+    }
+	
 e.printStackTrace();
 }
 System.out.println("xSaml token: " + token +" : "+  targetUrl);
@@ -487,6 +504,9 @@ redirect(response, targetUrl);
 			
 	System.err.println("......"+apiConfig.getInstanceUrl()+ "/secur/logout.jsp");		
 	
+	
+	url ="http://gsuat-gsmembers.cs11.force.com/members/VTKLogout?redirectSource=http://localhost:4503/content/girlscouts-vtk/en/vtk.home.html";
+	System.err.println("TEsting logout");
 			obj = new URL(url);
 			con = (HttpsURLConnection) obj.openConnection();
 			con.setRequestMethod("GET");
@@ -501,8 +521,12 @@ redirect(response, targetUrl);
 			wr.flush();
 			wr.close();
 			int responseCode = con.getResponseCode();
-			if (responseCode == 200)
+			System.err.println("testing logout respCode: "+ responseCode);
+			if (responseCode == 200){
 				isSucc = true;
+			
+			System.err.println("testing logout succ");
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
