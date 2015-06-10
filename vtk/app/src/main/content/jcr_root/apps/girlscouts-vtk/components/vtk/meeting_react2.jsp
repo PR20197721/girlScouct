@@ -78,7 +78,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
     var meetingLocation=null;
     var thisMeetingType=null;
     var sentEmails=0;
-    var sentEmailsSubject=null;
+    
     var MeetingList = React.createClass({displayName: "MeetingList",
       getInitialState: function() {
         return { show: false };
@@ -112,11 +112,10 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
           mid=comment.uid;
           thisMeetingType= comment.type;
           sentEmails=comment.sentEmails;
-          if( sentEmails!=null){
-        	  sentEmailsSubject = sentEmails[0].subject;
-          }  
+          console.log(comment.sentEmails)
+        	  
           thisMeetingDate = new Date( Number(thisMeetingDate) );
-          
+          console.log( "test: "+ (helper==null));
           if( isNaN(thisMeetingDate) ){
         	  thisMeetingDate = new Date(helper.currentDate);
         	  
@@ -329,32 +328,6 @@ React.createElement(ActivityPlan),
 
         React.createElement(AttendanceAchievement,{data:this.props.thisMeeting})
 
-<%-- 
-        <%if(hasPermission(troop, Permission.PERMISSION_VIEW_ATTENDANCE_ID )) {%> 
-        ,React.createElement("li", null, 
-            React.createElement("a", {"data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_attendance.html?mid=<%=planView.getYearPlanComponent().getUid() %>&isAch=<%=(planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING) ? ((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getIsAchievement() : "false" %>&mName=<%= (planView.getYearPlanComponent().getType()== YearPlanComponentType.MEETING) ? ((MeetingE)planView.getYearPlanComponent()).getMeetingInfo().getName() : ((Activity)planView.getYearPlanComponent()).getName()%>"}, "Record Attendance & Achievements")
-        ), 
-        React.createElement("li", null, "(" 
-            <%if( pageContext.getAttribute("MEETING_ATTENDANCE_TOTAL") ==null || pageContext.getAttribute("MEETING_ATTENDANCE_TOTAL").equals("")){ %> 
-                   , "0 present, no achievements" 
-            <%}else{ %> 
-		            <% if(pageContext.getAttribute("MEETING_ATTENDANCE_CURRENT") ==null || ((Integer)pageContext.getAttribute("MEETING_ATTENDANCE_CURRENT")) ==0 ){ %>
-		              ,"0 present,"  
-		            <%}else{%>
-		                ,"<%= pageContext.getAttribute("MEETING_ATTENDANCE_CURRENT") %> of <%= pageContext.getAttribute("MEETING_ATTENDANCE_TOTAL") %> present,"
-		             <%}%> 
-		            
-		             
-		            <% if( pageContext.getAttribute("MEETING_achievement_CURRENT") ==null ||  ((Integer)pageContext.getAttribute("MEETING_achievement_CURRENT")) ==0){ %>
-		              ,"no achievements" 
-		            <% }else{%> 
-		             ,"<%= pageContext.getAttribute("MEETING_achievement_CURRENT") %> of <%= pageContext.getAttribute("MEETING_ATTENDANCE_TOTAL") %> achievement(s)"
-		            <%} %>
-             ,")"
-        )
-        <%} %>
-        
-        <%}%> --%>
 
   
   
@@ -412,7 +385,7 @@ React.createElement(ActivityPlan),
         	  if (true) {
                 return (
                 		React.createElement("li", null, 
-                         React.createElement("span",null, "(", sentEmailsSubject , " sent -",
+                         React.createElement("span",null, "(", sentEmails[0].subject , " sent -",
                           React.createElement("a", {href: "#", title: "view sent emails", className: "view", "data-reveal-id": "modal_view_sent_emails"}, " view"),
                           ")"
                           )

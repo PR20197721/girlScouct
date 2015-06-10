@@ -32,7 +32,7 @@
 	                  SentEmail eml = emails.get(k-1); %>
 	                  <div id="panel<%=k%>s" class="<%= k==emails.size()? "show" : "hide"%>">
 	                      <div><%=eml.getSubject() %></div>
-	                      <div>Sent: <%=VtkUtil.formatDate(Vtk.FORMAT_MMMM_dd_hhmm_AMPM, eml.getSentDate())%></div>
+	                      <div>Sent: <%=VtkUtil.formatDate(VtkUtil.FORMAT_MMMM_dd_hhmm_AMPM, eml.getSentDate())%></div>
 	                    <div><%=curA.getEmlTemplate()==null? "":eml.getHtmlMsg(curA.getEmlTemplate())%> </div>
 	                  </div>
                 <% } %>
