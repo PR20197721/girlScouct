@@ -35,19 +35,24 @@ blockquote {
     border: solid rem-calc(12) scale-color($fuchsia, $lightness: -11%);
   }
   &.lightorange {
-    background: $fuchsia;
+    background: $lightorange;
+    border: solid rem-calc(12) scale-color($lightorange, $lightness: -11%);
   }
   &.darkorange {
-    background: $fuchsia;
+    background: $darkorange;
+    border: solid rem-calc(12) scale-color($darkorange, $lightness: -11%);
   }
   &.purple {
-    background: $fuchsia;
+    background: $purple;
+    border: solid rem-calc(12) scale-color($purple, $lightness: -11%);
   }
   &.cyan {
-    background: $fuchsia;
+    background: $cyan;
+    border: solid rem-calc(12) scale-color($cyan, $lightness: -11%);
   }
   &.lightgreen {
-    background: $fuchsia;
+    background: $lightgreen;
+    border: solid rem-calc(12) scale-color($lightgreen, $lightness: -11%);
   }
   }
   &.bg-image {
