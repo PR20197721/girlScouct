@@ -89,6 +89,10 @@
         elem.on("click", function (e) {
           e.stopPropagation();
           target.show("slow");
+          // target.animate({
+          //   opacity: 1,
+          //   visibility: 'visible'
+          // }, 500);
           if ($(window).width() <= 640) {
             target.css({
               "min-height" : "100",
@@ -102,6 +106,10 @@
         //closing the section by clicking on the cross
         target.find('.icon-cross').on("click", function (e) {
           target.hide("slow");
+          // target.animate({
+          //   opacity: 0,
+          //   visibility: 'hidden'
+          // }, 500);
           e.stopPropagation();
           return false;
         });
