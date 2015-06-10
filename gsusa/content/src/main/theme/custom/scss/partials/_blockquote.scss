@@ -1,0 +1,62 @@
+blockquote {
+  border: none;
+  position: relative;
+  @include clearfix;
+  & * {
+    font-size: rem-calc(32);
+  }
+  p {
+    position: relative;
+    padding: rem-calc(0 25);
+    &:before,
+    &:after {
+      color: white;
+      font-size: rem-calc(48);
+      position: absolute;
+      line-height: .8;
+    }
+    &:before {
+      content: open-quote;
+      top: rem-calc(9);
+      left: 0;
+    }
+    &:after {
+      content: close-quote;
+      bottom: 0;
+    }
+  }
+  &.bg-color {
+    .white {
+      color: $white;
+      & * {color: $white};
+    }
+  &.fuchsia {
+    background: $fuchsia;
+    border: solid rem-calc(12) scale-color($fuchsia, $lightness: -11%);
+  }
+  &.lightorange {
+    background: $fuchsia;
+  }
+  &.darkorange {
+    background: $fuchsia;
+  }
+  &.purple {
+    background: $fuchsia;
+  }
+  &.cyan {
+    background: $fuchsia;
+  }
+  &.lightgreen {
+    background: $fuchsia;
+  }
+  }
+  &.bg-image {
+
+  }
+  .black {
+    color: $black;
+  }
+  .social-icons {
+    float: right;
+  }
+}
