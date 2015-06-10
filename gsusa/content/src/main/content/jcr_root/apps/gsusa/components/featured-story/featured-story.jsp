@@ -36,7 +36,7 @@
             <span class="icon-cross"></span>
         </div>
         <div class="contents">
-            <img src="/etc/designs/gsusa/clientlibs/images/temp.png" alt="" />
+          <cq:include path="par" resourceType="foundation/components/parsys" />
         </div>
     </div>
 </section>
