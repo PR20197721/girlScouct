@@ -1,4 +1,4 @@
-<%@page import="com.day.cq.wcm.api.WCMMode, java.lang.StringBuilder, com.day.cq.commons.Externalizer, org.apache.commons.lang.StringEscapeUtils.escapeHtml" %>
+<%@page import="com.day.cq.wcm.api.WCMMode, java.lang.StringBuilder, com.day.cq.commons.Externalizer, java.net.URLEncoder" %>
 <%@include file="/libs/foundation/global.jsp"%>
 
 <%
@@ -50,11 +50,11 @@
 	
 	<% 	}if(!twitterMessage.equals("")){
 			StringBuilder tw = new StringBuilder();
-			String htmlEncodedTweet = escapeHtml(twitterMessage);
+			String htmlEncodedTweet = URLEncoder.encode(twitterMessage, "US-ASCII");
 			tw.append("<a class=\"twitter-share-button\" href=\"https://twitter.com/intent/tweet?url=" + url
 					+ "&via=girlscouts&text=" + htmlEncodedTweet);
 			if(!hashtags.equals("")){
-				tw.append("&hashtags=\"" + hashtags + "\"");
+				tw.append("&hashtags=" + hashtags + "\"");
 			}
 			tw.append(">Tweet</a>");
 			
