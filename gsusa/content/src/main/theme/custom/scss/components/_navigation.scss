@@ -1,3 +1,64 @@
 .right-small {
   border:none;
 }
+.header-nav {
+  background: #009447;
+}
+.right-submenu .back  > a {
+  &:after {
+    content: none;
+  }
+  &:before {
+    content: "\AB";
+    margin-right: .5rem;
+  }
+}
+.top-bar-section {
+  li.has-submenu  {
+    > a {
+      position: relative;
+    }
+    &.active {
+      > a:after {
+        border-bottom: solid 8px $white;
+        position: absolute;
+        border-right: solid 8px transparent;
+        border-left: solid 8px transparent;
+        border-top: solid 8px transparent;
+        bottom: -1px;
+        display: block;
+        content: "";
+        left: 50%;
+        margin-left: -8px;
+      }
+    }
+  }
+}
+//off canvase menues.
+.right-off-canvas-menu {
+  ul.off-canvas-list {
+    &:first-child {
+      border-left: solid rem-calc(10) $gs-orange;
+      border-bottom: 1px solid #464646;
+    }
+    li.has-submenu {
+      > a {
+        text-transform: uppercase;
+        padding-left: rem-calc(15);
+        &:before {
+          content: none;
+        }
+      }
+    }
+  }
+  ul.off-canvas-list:last-child {
+    > li > a {
+      padding-left: rem-calc(25);
+    }
+  }
+  li.active {
+    > a {
+      background: #B0B0B0;
+    }
+  }
+}

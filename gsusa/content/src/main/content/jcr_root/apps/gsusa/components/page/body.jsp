@@ -1,14 +1,15 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <!-- body -->
-<body>
+<body data-grid-framework="f4" data-grid-color="salmon" data-grid-opacity="0.5" data-grid-zindex="10" data-grid-gutterwidth="20px" data-grid-nbcols="24">
+    <div id="fb-root"></div> <!-- Allows Facebook Share buttons -->
     <div class="off-canvas-wrap" data-offcanvas>
 
         <div class="inner-wrap">
             <section class="main-section">
-                <div class="header row">
+                <div class="header">
                   <cq:include script="header.jsp"/>
                 </div>
-                <div class="content row">
+                <div class="main-content row">
                   <cq:include script="content.jsp"/>
                 </div>
                 <footer>

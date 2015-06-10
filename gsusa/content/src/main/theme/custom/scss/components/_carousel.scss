@@ -5,35 +5,103 @@
 // $slick-font-path: "./fonts/" !default;
 // $slick-font-family: "slick" !default;
 // $slick-loader-path: "./" !default;
-$slick-arrow-color: red;
+// $slick-arrow-color: red;
 // $slick-dot-color: black !default;
 // $slick-dot-color-active: $slick-dot-color !default;
 $slick-prev-character: "\f137";
 $slick-next-character: "\f138";
-$slick-dot-character: "\f20d";
-$slick-dot-size: rem-calc(16);
+// $slick-dot-character: "\f111";
+// $slick-dot-size: rem-calc(16);
 // $slick-opacity-default: 0.75 !default;
 // $slick-opacity-on-hover: 1 !default;
 // $slick-opacity-not-active: 0.25 !default;
 div.carousel {
-  margin-bottom: 40px;
+  @media #{$medium-up} {
+    margin-bottom: rem-calc(35);
+  }
+  margin-top: 0;
   .slick-slider {
     margin: 0;
+    li {
+     // min-height: rem-calc(500);
+      .hero-text {
+        text-align: center;
+        position: absolute;
+        @include grid-column(24);
+        @media #{$medium-up} {
+          top: 25%;
+          @include grid-column(11, $offset:13);
+        }
+        h2 {
+          text-shadow: 0px 3px 8px #010101;
+          text-align: left;
+          font-weight: 300;
+          margin-bottom: rem-calc(20);
+          @media #{$small-only} {
+            font-size: rem-calc(16);
+          }
+        }
+        & * {color: $white;}
+      }
+    }
   }
   .slick-prev,
   .slick-next {
-    background-color: $slick-arrow-color;
+    border-radius: 50%;
+    width: rem-calc(40);
+    height: rem-calc(40);
+    background: $black;
+    &:before {
+      font-family: "FontAwesome";
+      font-size: rem-calc(35);
+      opacity: 1;
+    }
   }
   .slick-prev {
-    left: 0;
+    left: rem-calc(10);
+    &:before {
+      content: "\f0d9";
+      margin-right: rem-calc(4);
+    }
   }
   .slick-next {
-    right: 0;
-  }
-  .slick-dots li button:before {
-    font-family: FontAwesome;
-    content: $slick-dot-character;
-    font-size: $slick-dot-size;
+    right: rem-calc(10);
+    &:before {
+      content: "\f0da";
+      margin-left: rem-calc(4);
+    }
   }
 }
 
+.hero-feature {
+  position: relative;
+  .join {
+    @media #{$medium-up} {
+      position: absolute;
+    }
+    background-color: rgba(255,255,255, .8);
+    padding: rem-calc(34 0 24 0);
+    text-align: center;
+    bottom: 0;
+    width: 100%;
+    a {
+      font-size: rem-calc(30);
+      font-weight: 600;
+      text-transform: uppercase;
+      position: relative;
+      display: inline-block;
+      line-height: 1;
+      &:after {
+        content: "";
+        position: absolute;
+        display: block;
+        border-style: solid;
+        border-color: transparent transparent transparent #00AE58;
+        border-width: rem-calc(10);
+        top: 50%;
+        left: 105%;
+        margin-top: rem-calc(-10);
+      }
+    }
+  }
+}
