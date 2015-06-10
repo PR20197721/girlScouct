@@ -21,7 +21,7 @@
     </div>
 </div>
 <section class="story" data-target="story_0"  style="background: url('/etc/designs/gsusa/clientlibs/images/getty_163433067.jpg') no-repeat transparent 0 50% / cover">
-    <div class="bg-wrapper" style="background-color: rgba(231,12,130, .8)">
+    <div class="bg-wrapper" style="background-color: <%= bgcolor %>">
         <div class="header">
             <div class="left-wrapper">
                 <span class="icon-photo-camera"></span>
