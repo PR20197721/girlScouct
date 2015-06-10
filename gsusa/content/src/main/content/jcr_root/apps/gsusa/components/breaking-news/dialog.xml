@@ -25,17 +25,25 @@
                 </items>
             </properties>
             <image
-        		cropParameter="./imageCrop"
+        		cropParameter="./thumbnail/imageCrop"
                 ddGroups="media"
-                fileNameParameter="./fileName"
-                fileReferenceParameter="./fileReference"
+                fileNameParameter="./thumbnail/fileName"
+                fileReferenceParameter="./thumbnail/fileReference"
                 jcr:primaryType="cq:Widget"
-                mapParameter="./imageMap"
+                mapParameter="./thumbnail/imageMap"
                 name="./file"
-                requestSuffix=".img.png"
-                rotateParameter="./imageRotate"
+                requestSuffix="/thumbnail.img.png"
+                rotateParameter="./thumbnail/imageRotate"
 		        title="Image"
-		        xtype="html5smartimage"/>
+		        xtype="html5smartimage">
+		        <items jcr:primaryType="cq:WidgetCollection">
+		        	<resource-type
+                    	jcr:primaryType="cq:Widget"
+                    	xtype="hidden"
+                    	name="./thumbnail/sling:resourceType"
+                    	value="foundation/components/image"/>
+		        </items>
+		    </image>
         </items>
     </items>
 </jcr:root>
