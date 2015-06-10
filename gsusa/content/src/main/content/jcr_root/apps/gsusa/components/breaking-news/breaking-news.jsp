@@ -1,5 +1,33 @@
 <%@include file="/libs/foundation/global.jsp" %>
-<div class="thumbnail">
-    <img src="/etc/designs/gsusa/clientlibs/images/temp_breakingnews.jpg" alt="" />
-</div>
-<a href="#" title="breaking news"><strong>BREAKING NEWS: </strong>Girl Scouts Announces National Girl Scout Cookie Weekend lorem ipsum dolorem ipse dixit in the U.S.</a>
+
+<%
+String message = properties.get("message","");
+String url = properties.get("url","");
+//String filePath = properties.get("fileReference", "");
+Resource thumbnail = resource.getChild("thumbnail");
+if(thumbnail != null){
+	String filePath = ((ValueMap)thumbnail.adaptTo(ValueMap.class)).get("fileReference", "");
+	if(!message.equals("")){
+		%>
+		<div id="breaking-news">
+		<%
+		if(!filePath.equals("")){
+			%>
+			<img src="<%= filePath %>" alt="Breaking News Image" />
+			<%
+		}
+		if(!url.equals("")){
+			%><a href="<%= url %>"><%
+		}
+		%>
+		<strong>Breaking News:</strong><%= message %>
+		<%
+		if(!url.equals("")){
+			%></a><%
+		}
+		%>
+		</div>
+		<%
+	}
+}
+%>
