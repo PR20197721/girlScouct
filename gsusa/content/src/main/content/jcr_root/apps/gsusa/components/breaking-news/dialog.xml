@@ -25,10 +25,17 @@
                 </items>
             </properties>
             <image
-        		jcr:primaryType="cq:Panel"
-                title="Image">
-                <items jcr:primaryType="cq:WidgetCollection">
-                </items>
+        		cropParameter="./imageCrop"
+                ddGroups="media"
+                fileNameParameter="./fileName"
+                fileReferenceParameter="./fileReference"
+                jcr:primaryType="cq:Widget"
+                mapParameter="./imageMap"
+                name="./file"
+                requestSuffix=".img.png"
+                rotateParameter="./imageRotate"
+		        title="Image"
+		        xtype="html5smartimage">
         	</image>
         </items>
     </items>
