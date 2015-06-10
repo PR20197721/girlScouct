@@ -47,6 +47,10 @@ var $ = jQuery.noConflict();
 			  placeholder_IE9();
 			  $('select').css('background-image', 'none');
 			}
+
+			//adding a heights to popups with two scrollable content.
+			$('.scroll_2').css('max-height' , popup_h -$('.scroll_1').height() + 'px');
+
 		});
 	}
 
@@ -55,6 +59,8 @@ var $ = jQuery.noConflict();
   	var popup_h = (window_h - 75);
 		$('.scroll').css('max-height' , popup_h + 'px');
 		$('.modalWrap').css('max-height' , $(window).height()+'px');
+		//adding a heights to popups with two scrollable content.
+		$('.scroll_2').css('max-height', ($(window).height()-75)-$('.scroll_1').height() + 'px');
 	}
 	function validate_image() {
 		$('form#frmImg').submit(function(e) {
