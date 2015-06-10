@@ -1,4 +1,4 @@
-<%@page import="com.day.cq.wcm.api.WCMMode, java.lang.StringBuilder, com.day.cq.commons.Externalizer" %>
+<%@page import="com.day.cq.wcm.api.WCMMode, java.lang.StringBuilder, com.day.cq.commons.Externalizer, java.net.URLEncoder" %>
 <%@include file="/libs/foundation/global.jsp"%>
 
 <%
@@ -32,7 +32,7 @@
 		//Externalizer not yet configured
 		//String canonicalUrl = externalizer.publishLink(resourceResolver, "http", currentPage.getPath());
 		
-		String canonicalURL = currentPage.getPath().replaceFirst("content", "http://girlscouts.org");
+		String canonicalUrl = currentPage.getPath().replaceFirst("/content", "http://girlscouts.org");
 		String url = !anchor.equals("") ? canonicalUrl + ".html#" + anchor : canonicalUrl + ".html";
 		
 		if(!fbMessage.equals("")){
@@ -50,10 +50,11 @@
 	
 	<% 	}if(!twitterMessage.equals("")){
 			StringBuilder tw = new StringBuilder();
+			String htmlEncodedTweet = URLEncoder.encode(twitterMessage, "US-ASCII");
 			tw.append("<a class=\"twitter-share-button\" href=\"https://twitter.com/intent/tweet?url=" + url
-					+ "&via=girlscouts&text=" + twitterMessage + "\"");
+					+ "&via=girlscouts&text=" + htmlEncodedTweet);
 			if(!hashtags.equals("")){
-				tw.append("&hashtags=\"" + hashtags + "\"");
+				tw.append("&hashtags=" + hashtags + "\"");
 			}
 			tw.append(">Tweet</a>");
 			
