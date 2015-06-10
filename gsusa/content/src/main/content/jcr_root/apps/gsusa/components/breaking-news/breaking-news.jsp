@@ -3,10 +3,16 @@
 <%
 String message = properties.get("message","");
 String url = properties.get("url","");
+String filePath = properties.get("fileReference", "");
 if(!message.equals("")){
 %>
 <div id="breaking-news">
 <%
+if(!filePath.equals("")){
+%>
+<img src="<%= filePath %>" alt="Breaking News Image" />
+<%
+}
 if(!url.equals("")){
 	%><a href="<%= url %>"><%
 }
@@ -21,7 +27,3 @@ if(!url.equals("")){
 <%
 }
 %>
-
-<!-- Images not yet supported <div class="thumbnail">
-    <img src="/etc/designs/gsusa/clientlibs/images/temp_breakingnews.jpg" alt="" />
-</div> -->

@@ -24,6 +24,12 @@
                         xtype="textfield"/>
                 </items>
             </properties>
+            <image
+        		jcr:primaryType="cq:Panel"
+                title="Image">
+                <items jcr:primaryType="cq:WidgetCollection">
+                </items>
+        	</image>
         </items>
     </items>
 </jcr:root>
