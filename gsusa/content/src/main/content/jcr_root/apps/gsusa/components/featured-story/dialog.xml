@@ -11,11 +11,12 @@
                 jcr:primaryType="cq:Panel"
                 title="Configuration">
                 <items jcr:primaryType="cq:WidgetCollection">
-                    <navs
+                    <background-color
                         jcr:primaryType="cq:Widget"
-                        fieldLabel="Items"
-                        name="./navs"
-                        xtype="multifield"/>
+                        colors="[FAA61A,F27536,EC008C,AB218E,00AAE5,C4D82E]"
+                        fieldLabel="Background Color"
+                        name="./bgcolor"
+                        xtype="colorfield"/>
                 </items>
             </tab1>
         </items>

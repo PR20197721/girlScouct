@@ -1,9 +1,13 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <%
 	String story = properties.get("story", "FEATURED STORY");
+	String bgcolor = properties.get("bgcolor", "E70C82");
+	bgcolor = "rgba(" + hexToDec(bgcolor.substring(0, 2)) + ',' 
+	        + hexToDec(bgcolor.substring(2, 4)) + ','
+	        + hexToDec(bgcolor.substring(4, 6)) + ", .8)";
 %>
 <!-- <div><%= story %></div> -->
-<div class="thumb" style="background-color: rgba(231,12,130, .8)">
+<div class="thumb" style="background-color: <%= bgcolor %>">
     <span class="icon-photo-camera"></span>
     <div class="contents">
         <h3><%= story %></h3>
@@ -25,3 +29,9 @@
         </div>
     </div>
 </section>
+
+<%!
+    public String hexToDec(String hex) {
+    	return Integer.toString(Integer.parseInt(hex.trim(), 16));
+    }
+%>
