@@ -35,8 +35,7 @@
                 requestSuffix=".img.png"
                 rotateParameter="./imageRotate"
 		        title="Image"
-		        xtype="html5smartimage">
-        	</image>
+		        xtype="html5smartimage"/>
         </items>
     </items>
 </jcr:root>
