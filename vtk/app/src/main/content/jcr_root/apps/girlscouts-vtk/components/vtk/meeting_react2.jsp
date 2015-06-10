@@ -78,7 +78,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
     var meetingLocation=null;
     var thisMeetingType=null;
     var sentEmails=0;
-    
+    var sentEmailsSubject=null;
     var MeetingList = React.createClass({displayName: "MeetingList",
       getInitialState: function() {
         return { show: false };
@@ -112,10 +112,11 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
           mid=comment.uid;
           thisMeetingType= comment.type;
           sentEmails=comment.sentEmails;
-          console.log(comment.sentEmails)
-        	  
+          if( sentEmails!=null){
+        	  sentEmailsSubject = sentEmails[0].subject;
+          }  
           thisMeetingDate = new Date( Number(thisMeetingDate) );
-          console.log( "test: "+ (helper==null));
+          
           if( isNaN(thisMeetingDate) ){
         	  thisMeetingDate = new Date(helper.currentDate);
         	  
@@ -325,6 +326,7 @@ React.createElement(ActivityPlan),
   
 		React.createElement(EmailMeetingReminder),  
         
+        
 
         React.createElement(AttendanceAchievement,{data:this.props.thisMeeting})
 
@@ -385,7 +387,7 @@ React.createElement(ActivityPlan),
         	  if (true) {
                 return (
                 		React.createElement("li", null, 
-                         React.createElement("span",null, "(", sentEmails[0].subject , " sent -",
+                         React.createElement("span",null, "(", sentEmailsSubject , " sent -",
                           React.createElement("a", {href: "#", title: "view sent emails", className: "view", "data-reveal-id": "modal_view_sent_emails"}, " view"),
                           ")"
                           )

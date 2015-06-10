@@ -28,7 +28,7 @@ public class VtkUtil {
 	public static final SimpleDateFormat FORMAT_AMPM = new SimpleDateFormat("a");
 	public static final SimpleDateFormat FORMAT_MONTH = new SimpleDateFormat("MMM");
 	public static final SimpleDateFormat FORMAT_DAY_OF_MONTH = new SimpleDateFormat("d");
-	public static final SimpleDateFormat FORMAT_MONTH_DAY = new SimpleDateFormat("MMMM d");
+	public static final SimpleDateFormat FORMAT_MONTH_DAY = new SimpleDateFormat("MMM d");
 	public static final SimpleDateFormat FORMAT_MMMM_dd_hhmm_AMPM = new SimpleDateFormat("MMMM dd hh:mm a");
 	public static final SimpleDateFormat FORMAT_MEETING_REMINDER = new SimpleDateFormat("EEE MMM dd, yyyy hh:mm a");
 	public static final SimpleDateFormat FORMAT_CALENDAR_DATE = new SimpleDateFormat( "MMM dd, yyyy hh:mm a");
