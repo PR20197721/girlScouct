@@ -11,6 +11,11 @@
 	bgcolor = "rgba(" + hexToDec(bgcolor.substring(0, 2)) + ',' 
 	        + hexToDec(bgcolor.substring(2, 4)) + ','
 	        + hexToDec(bgcolor.substring(4, 6)) + ", .8)";
+	
+	String bg = "";
+	try {
+		bg = ((ValueMap)resource.getChild("bg").adaptTo(ValueMap.class)).get("fileReference", "");
+	} catch (Exception e) {}
 %>
 <!-- <div><%= title %></div> -->
 <div class="thumb" style="background-color: <%= bgcolor %>">
@@ -20,7 +25,7 @@
         <p class="dek"><%=description%></p>
     </div>
 </div>
-<section class="story" data-target="story_0"  style="background: url('/etc/designs/gsusa/clientlibs/images/getty_163433067.jpg') no-repeat transparent 0 50% / cover">
+<section class="story" data-target="story_0"  style="background: url('<%=bg%>') no-repeat transparent 0 50% / cover">
     <div class="bg-wrapper" style="background-color: <%= bgcolor %>">
         <div class="header">
             <div class="left-wrapper">

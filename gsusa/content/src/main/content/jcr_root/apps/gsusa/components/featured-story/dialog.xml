@@ -11,12 +11,6 @@
                 jcr:primaryType="cq:Panel"
                 title="Configuration">
                 <items jcr:primaryType="cq:WidgetCollection">
-                    <background-color
-                        jcr:primaryType="cq:Widget"
-                        colors="[FAA61A,F27536,EC008C,AB218E,00AAE5,C4D82E]"
-                        fieldLabel="Background Color"
-                        name="./bgcolor"
-                        xtype="colorfield"/>
                     <title
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Title"
@@ -25,8 +19,33 @@
                         jcr:primaryType="cq:Widget"
                         fieldLabel="Description"
                         name="./description"/>
+                    <background-color
+                        jcr:primaryType="cq:Widget"
+                        colors="[FAA61A,F27536,EC008C,AB218E,00AAE5,C4D82E]"
+                        fieldLabel="Background Color"
+                        name="./bgcolor"
+                        xtype="colorfield"/>
                 </items>
             </tab1>
+            <background-image
+                jcr:primaryType="cq:Widget"
+                allowUpload="{Boolean}false"
+                ddGroups="[media]"
+                fileNameParameter="./bg/fileName"
+                fileReferenceParameter="./bg/fileReference"
+                name="./bg/file"
+                requestSuffix="/bg.img.png"
+                title="Background Image"
+                xtype="html5smartimage">
+                <items jcr:primaryType="cq:WidgetCollection">
+                    <resType
+                        jcr:primaryType="cq:Widget"
+                        ignoreData="{Boolean}true"
+                        name="./bg/sling:resourceType"
+                        value="foundation/components/image"
+                        xtype="hidden"/>
+                </items>
+            </background-image>
         </items>
     </items>
 </jcr:root>
