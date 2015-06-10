@@ -17,6 +17,14 @@
                         fieldLabel="Background Color"
                         name="./bgcolor"
                         xtype="colorfield"/>
+                    <title
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Title"
+                        name="./title"/>
+                    <description
+                        jcr:primaryType="cq:Widget"
+                        fieldLabel="Description"
+                        name="./description"/>
                 </items>
             </tab1>
         </items>
