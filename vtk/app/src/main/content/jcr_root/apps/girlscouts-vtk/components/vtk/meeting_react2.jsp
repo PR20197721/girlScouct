@@ -458,17 +458,17 @@ React.createElement(ActivityPlan),
     			var txt=""; 
     				
     			if( helper.attendanceTotal ==null || helper.attendanceTotal==''){ 
-                       txt+= "none present, no achievements" ;
+                       txt+= "0 present, 0 achievements" ;
                 }else{  
                 
                         if(helper.attendanceCurrent ==null || helper.attendanceCurrent ==0 ){ 
-                          txt+="none present,"  ;
+                          txt+="0 present,"  ;
                         }else{
                            txt+=helper.attendanceCurrent +" of "+ helper.attendanceTotal +" present,";
                         } 
                         
                         if(helper.achievementCurrent ==null || helper.achievementCurrent==0){
-                          txt+="no achievements" ;
+                          txt+="0 achievements" ;
                         }else{
                           txt+= helper.achievementCurrent +" of " + helper.attendanceTotal + " achievement(s)";
                         }
