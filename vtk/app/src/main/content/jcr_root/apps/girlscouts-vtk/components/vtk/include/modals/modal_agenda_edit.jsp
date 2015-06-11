@@ -38,14 +38,26 @@
 		<div class="setupCalendar row">
 		<%
 			MeetingE meeting = null;
-			java.util.List<MeetingE> meetings = troop.getYearPlan()
-					.getMeetingEvents();
+			java.util.List<MeetingE> meetings = troop.getYearPlan().getMeetingEvents();
 			for (int i = 0; i < meetings.size(); i++)
 				if (meetings.get(i).getUid()
 						.equals(request.getParameter("mid"))) {
 					meeting = meetings.get(i);
 					break;
 				}
+			
+			if( meeting==null ){
+			    java.util.List<MeetingCanceled> cmeetings = troop.getYearPlan().getMeetingCanceled();
+	            for (int i = 0; i < cmeetings.size(); i++)
+	                if (cmeetings.get(i).getUid()
+	                        .equals(request.getParameter("mid"))) {
+	                    meeting = cmeetings.get(i);
+	                    break;
+	                }
+	            
+			}
+			
+			
 			Meeting meetingInfo = yearPlanUtil.getMeeting(user,
 					meeting.getRefId());
 			java.util.List<Activity> _activities = meetingInfo.getActivities();
