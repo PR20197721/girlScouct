@@ -14,7 +14,7 @@ if(!message.equals("")) {
 	<div class="inner-wrapper">
 		<%
 		if(!filePath.equals("")) { %>
-			<img src="<%= filePath %>" alt="Breaking News Image" />
+			<img src="<%= filePath %>" alt="Breaking News Image" style="max-width:50px; max-height:50px" />
 		<% } 
 		if(!url.equals("")) { %>
 			<a href="<%= url %>" title="<%= message %>">
