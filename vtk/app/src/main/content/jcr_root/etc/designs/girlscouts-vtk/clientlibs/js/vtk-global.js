@@ -37,6 +37,12 @@ var $ = jQuery.noConflict();
 			var window_h = $(window).height();
 			var popup_h = (window_h - 75);
 			$(this).find('.scroll').css('max-height' , popup_h + 'px');
+			var browser =navigator.userAgent.match(/(msie\ [0-9]{1})/i);		
+			if ( browser!=null && browser[0].split(" ")[1] == 9) {
+			  // alert(navigator.userAgent.match(/msie/i));
+			  placeholder_IE9();
+			  $('select').css('background-image', 'none');
+			}
 		});
 	}
 	
@@ -72,15 +78,49 @@ var $ = jQuery.noConflict();
 			}
 		});
   }
-	//all function calls should go here
-	  $(document).ready(function() {
-	  	 $(document).foundation({
-	  	  reveal : {
-	  	     animation: 'fade',
-	  	     root_element: 'window',
-	  	     close_on_background_click: false,
-	  	     open: function () { 
-	  	     	$('body').css({'overflow':'hidden'});
+  function placeholder_IE9() {
+  	function add() {
+			if($(this).val() === ''){
+			  $(this).val($(this).attr('placeholder')).addClass('placeholder');
+			}
+		}
+
+		function remove() {
+			if($(this).val() === $(this).attr('placeholder')){
+			  $(this).val('').removeClass('placeholder');
+			}
+		}
+
+		// Create a dummy element for feature detection
+		if (!('placeholder' in $('<input>')[0])) {
+
+		  // Select the elements that have a placeholder attribute
+		  $('input[placeholder], textarea[placeholder]').blur(add).focus(remove).each(add);
+
+		  // Remove the placeholder text before the form is submitted
+		  $('form').submit(function(){
+		    $(this).find('input[placeholder], textarea[placeholder]').each(remove);
+		  });
+		}
+  }
+  function equilize_ul() {
+    $('#modal_custom_year_plan .clearfix .large-12:nth-of-type(2) ul').css('height',$('#modal_custom_year_plan .clearfix .large-12:nth-of-type(1) ul').height()+14);
+  }
+  
+  $(document).ajaxComplete(function( event,request, settings ) {
+ 	//	equilize_ul();
+	});
+  
+//all function calls should go here
+  $(document).ready(function() {
+  	 $(document).foundation({
+  	  reveal : {
+  	     animation: 'fade',
+  	     root_element: 'window',
+  	     close_on_background_click: false,
+  	     open: function () { 
+  	     	$('body').css({'overflow':'hidden'});
+	  	     	equilize_ul();
 	  	     },
 	  	     close: function () {
 	  	     	$('body').css({'overflow':'inherit'})
@@ -96,7 +136,6 @@ var $ = jQuery.noConflict();
 	  	 	$('.tabs dd').css('width','100%');
 	  	 } 	 
   });
-
 	$(window).resize(function() {
 		modal_height_resize()
 		// if($(window).width() < 420) {

@@ -102,7 +102,7 @@ public class CouncilCreatorImpl implements CouncilCreator {
 				pages.add(buildPage(pageManager, session, languagePath + "/events", "Event Calendar", null, "event-calendar", "/apps/girlscouts/templates/three-column-page", "girlscouts/components/three-column-page", null));
 				pages.add(buildPage(pageManager, session, languagePath, "Camp", null, "camp", "/apps/girlscouts/templates/three-column-page", "girlscouts/components/placeholder-page", null));
 				pages.add(buildPage(pageManager, session, languagePath, "Our Council", null, "our-council", "/apps/girlscouts/templates/three-column-page", "girlscouts/components/placeholder-page", null));
-				pages.add(buildPage(pageManager, session, languagePath + "/our-council", "News", null, "news", "/apps/girlscouts/templates/three-column-page", "girlscouts/components/placeholder-page", null));
+				pages.add(buildPage(pageManager, session, languagePath + "/our-council", "News", null, "news", "/apps/girlscouts/templates/three-column-page", "girlscouts/components/three-column-page", null));
 				pages.add(buildContactPage(pageManager, session, languagePath + "/our-council", councilTitle, councilName));
 				pages.add(buildPage(pageManager, session, languagePath, "Ad Page", null, "ad-page", "", "girlscouts/components/ad-list-page", null));
 				pages.add(buildPage(pageManager, session, languagePath, "Search | " + councilTitle, "Search | " + councilTitle, "site-search", "", "girlscouts/components/three-column-page", null));
@@ -116,6 +116,21 @@ public class CouncilCreatorImpl implements CouncilCreator {
 				Node enContentNode = enJcrContentNode.addNode("content", "nt:unstructured");
 				Node subParNode = enContentNode.addNode("styled-subpar");
 				subParNode.setProperty("cssClasses", "row home-section");
+				
+				Node enHeaderNode = enJcrContentNode.addNode("header", "nt:unstructured");
+				Node globalNavNode = enHeaderNode.addNode("global-nav");
+				globalNavNode.setProperty("links", new String[]{
+						"ABOUT GIRL SCOUTS|||" + languagePath + "/about-girl-scouts||||||ABOUT GIRL SCOUTS|||ABOUT GIRL SCOUTS", 
+						"EVENTS|||" + languagePath + "/events||||||EVENTS|||EVENTS", 
+						"COOKIES|||" + languagePath + "/cookies||||||COOKIES|||COOKIES", 
+						"VOLUNTEER|||" + languagePath + "/for-volunteers||||||VOLUNTEER|||VOLUNTEER", 
+						"CAMP|||" + languagePath + "/camp||||||CAMP|||CAMP", 
+						"OUR COUNCIL|||" + languagePath + "/our-council||||||OUR COUNCIL|||OUR COUNCIL"
+						});
+				
+				Node searchBoxNode = enHeaderNode.addNode("search-box");
+				searchBoxNode.setProperty("searchAction", "globalLanding");
+				searchBoxNode.setProperty("sling:resourceType", "girlscouts/components/search-box");
 
 				//session.save();
 			}

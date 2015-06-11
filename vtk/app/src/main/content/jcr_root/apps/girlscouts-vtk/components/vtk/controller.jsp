@@ -1,5 +1,5 @@
-<%@page import="java.util.Comparator,org.codehaus.jackson.map.ObjectMapper,org.joda.time.LocalDate,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*,
-                org.girlscouts.vtk.modifiedcheck.ModifiedChecker"%>
+<%@page import="java.util.Comparator,org.codehaus.jackson.map.ObjectMapper,org.joda.time.LocalDate,java.util.*, org.girlscouts.vtk.auth.models.ApiConfig, org.girlscouts.vtk.models.*,org.girlscouts.vtk.dao.*,org.girlscouts.vtk.ejb.*,com.day.image.Layer, java.awt.geom.Rectangle2D, java.awt.geom.Rectangle2D.Double,
+                org.girlscouts.vtk.modifiedcheck.ModifiedChecker, com.day.cq.commons.jcr.JcrUtil, org.apache.commons.codec.binary.Base64, com.day.cq.commons.ImageHelper, com.day.image.Layer, java.io.ByteArrayInputStream, java.io.ByteArrayOutputStream, java.awt.image.BufferedImage, javax.imageio.ImageIO"%>
 <%@include file="/libs/foundation/global.jsp"%>
 <%@include file="/apps/girlscouts/components/global.jsp" %>
 
@@ -61,16 +61,14 @@
 								new Activity(
 										request.getParameter("newCustActivity_name"),
 										request.getParameter("newCustActivity_txt"),
-										dateFormat4.parse(request
-												.getParameter("newCustActivity_date")
+										VtkUtil.parseDate(VtkUtil.FORMAT_FULL,request.getParameter("newCustActivity_date")
 												+ " "
 												+ request
 														.getParameter("newCustActivity_startTime")
 												+ " "
 												+ request
 														.getParameter("newCustActivity_startTime_AP")),
-										dateFormat4.parse(request
-												.getParameter("newCustActivity_date")
+										VtkUtil.parseDate(VtkUtil.FORMAT_FULL,request.getParameter("newCustActivity_date")
 												+ " "
 												+ request
 														.getParameter("newCustActivity_endTime")
@@ -92,7 +90,7 @@
 									troop,
 									request.getParameter("calFreq"),
 									new org.joda.time.DateTime(
-											dateFormat4.parse(request
+											VtkUtil.parseDate(VtkUtil.FORMAT_FULL,request
 													.getParameter("calStartDt")
 													+ " "
 													+ request
@@ -265,11 +263,14 @@
 				return;
 			case UpdateFinances:
 				financeUtil.updateFinances(troop, user.getCurrentYear(), request.getParameterMap());
+				financeUtil.sendFinanceDataEmail(troop, Integer.parseInt(request.getParameter("qtr")),  user.getCurrentYear());
 				return;
 			case UpdateFinanceAdmin:
 				financeUtil.updateFinanceConfiguration(troop, user.getCurrentYear(), request.getParameterMap());
 				return;
 			case RmMeeting:
+				meetingUtil.createMeetingCanceled(user, troop,
+                        request.getParameter("mid"), Long.parseLong(request.getParameter("rmDate")));
 				meetingUtil.rmMeeting(user, troop,
 						request.getParameter("mid"));
 				meetingUtil.rmSchedDate(user, troop,
@@ -279,6 +280,10 @@
 				meetingUtil.updateAttendance(user, troop, request);
 				meetingUtil.updateAchievement(user, troop, request);
 				return;
+			case CreateCustomYearPlan:
+				System.err.println("tatax: "+request.getParameter("mids"));
+                meetingUtil.createCustomYearPlan(user, troop, request.getParameter("mids"));
+                return;
 			default:
 				break;
 			}
@@ -435,7 +440,7 @@
 			//}
 			if (email_to_gp.equals("true")) {
 				java.util.List<Contact> contacts = new org.girlscouts.vtk.auth.dao.SalesforceDAO(
-						troopDAO).getContacts(user.getApiConfig(),
+						troopDAO, connectionFactory).getContacts(user.getApiConfig(),
 						troop.getSfTroopId());
 				String emails = null;
 				for (int i = 0; i < contacts.size(); i++) {
@@ -623,7 +628,7 @@
 					boolean show = shows[i].equals("true");
 					Date date=null;
 					if(!dates[i].isEmpty()){
-						date = FORMAT_MMddYYYY.parse(dates[i]);
+						date = VtkUtil.parseDate(VtkUtil.FORMAT_MMddYYYY,dates[i]);
 					}
 					
 					Milestone m = new Milestone(blurb,show,date);
@@ -839,7 +844,7 @@ _meeting.getMeetingInfo().getMeetingInfo().put("meeting short description", new 
 				ObjectMapper mapper = new ObjectMapper();
 				//out.println(mapper.writeValueAsString(troop));
 			    out.println(mapper.writeValueAsString(troop).replaceAll("mailto:","").replaceAll("</a>\"</a>","</a>").replaceAll("\"</a>\"",""));
-                
+           System.err.println(mapper.writeValueAsString(troop));     
 			}
 
 		} else if (request.getParameter("yearPlanSched") != null) {
@@ -1046,12 +1051,131 @@ System.err.println("manu reactActivity");
 			        }
                 }
 			}catch(Exception e){e.printStackTrace();}
+	    }else if( request.getParameter("viewProposedSched")!=null){
+	    	
+	    	   String dates = calendarUtil.getSchedDates(user, troop,
+	    			   request.getParameter("calFreq"),
+                       new org.joda.time.DateTime( VtkUtil.parseDate(VtkUtil.FORMAT_FULL,request
+                                       .getParameter("calStartDt")+ " "+ request.getParameter("calTime")
+                                       + " " + request.getParameter("calAP"))),
+                       request.getParameter("exclDt"),
+                       Long.parseLong((request
+                               .getParameter("orgDt") == null || request
+                               .getParameter("orgDt")
+                               .equals("")) ? "0"
+                               : request.getParameter("orgDt"))
+	    			   );
+	    	   //System.err.println("tatayx: "+ yearPlan.getSchedule().getDates());
+	    	   java.util.List _dates = VtkUtil.getStrCommDelToArrayDates( dates );
+	    	   out.println(_dates.size());
 				
+		} else if(request.getParameter("imageData") != null){
+			try{
+				
+				int x1 = -1, x2 = -1, y1 = -1, y2 = -1, width = -1, height = -1;
+                double maxW = 960;
+
+				int[] coords = new int[0];
+				
+				if(request.getParameter("coords") != null){
+					String coordString = request.getParameter("coords").toString();
+					String[] nums = coordString.replaceAll("\\[", "").replaceAll("\\]", "").split(",");
+
+					coords = new int[nums.length];
+
+					for (int i = 0; i < nums.length; i++) {
+					    try {
+					      coords[i] = Integer.parseInt(nums[i]);
+					    } catch (NumberFormatException nfe) {};
+					}
+				}
+				
+				if(coords.length == 7){
+					x1 = coords[0];
+					y1 = coords[1];
+					x2 = coords[2];
+					y2 = coords[3];
+					width = coords[4];
+					height = coords[5];
+                    maxW = coords[6];
+				}
+
+                String imgData = request.getParameter("imageData");
+                
+                //System.out.println(imgData.substring(imgData.length()-11));
+				imgData = imgData.replace("data:image/png;base64,", "");
+                byte[] decoded = Base64.decodeBase64(imgData);
+
+                if(x1 >= 0 && x2 >= 0 && y1 >= 0 && y2 >= 0 && width >= 0 && height >= 0){
+                	ByteArrayInputStream bais = new ByteArrayInputStream(decoded);
+                	BufferedImage inputImage = ImageIO.read(bais);
+                	
+					String formatName = "PNG";
+                	
+                	Layer layer = new Layer(inputImage);             	
+                	int smallerX = Math.min(x1, x2);
+                	int smallerY = Math.min(y1, y2);
+                	System.out.println(smallerX + ", " + smallerY + " : " + width + " x " + height);
+					double ratio = 1;
+
+                    if(layer.getWidth() > maxW){
+                        ratio = layer.getWidth() / maxW;
+                    }
+
+                    System.out.println("Image upload details");
+					System.out.println(x1 + "," + y1 + " -> " + x2 + "," + y2 + "; " + width + " x " + height);
+                    System.out.println(layer.getWidth() + ", " + maxW + ", " + ratio);
+
+                	Rectangle2D rect = new Rectangle2D.Double(smallerX * ratio, smallerY * ratio, width * ratio, height * ratio);
+                	layer.crop(rect);
+                	inputImage = layer.getImage();
+                	ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+                	ImageIO.write(inputImage, formatName, outStream);
+                	decoded = outStream.toByteArray();
+				}
+
+                //creates folder path if it doesn't exist yet
+                String path = "/content/dam/girlscouts-vtk/troop-data/"+ troop.getTroop().getCouncilCode() +"/" + troop.getTroop().getTroopId() + "/imgLib";
+                String pathWithFile = path+"/troop_pic.png/jcr:content";
+
+                Session __session = sessionFactory.getSession();
+
+                Node baseNode = JcrUtil.createPath(path, "nt:folder", __session);
+
+                ByteArrayInputStream byteStream = new ByteArrayInputStream(decoded);
+                ValueFactory vf = __session.getValueFactory();
+                Binary bin = vf.createBinary(byteStream);
+
+                //for some reason, the data property can't be updated, just remade
+                try{
+                    __session.removeItem(path+"/troop_pic.png");
+                	__session.save();
+                }
+                catch(Exception e){
+
+                }
+
+                //creates file and jcr:content nodes if they don't exist yet
+                Node jcrNode = JcrUtil.createPath(pathWithFile, false, "nt:file", "nt:resource", __session, false);
+
+                jcrNode.setProperty("jcr:data",bin);
+                jcrNode.setProperty("jcr:mimeType","image/png");
+
+				__session.save();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		} else {
 			//TODO throw ERROR CODE
+			
 		}
 
 	} catch (java.lang.IllegalAccessException e) {
 		e.printStackTrace();
 	}
+	
+	
+ 
+    
 %>

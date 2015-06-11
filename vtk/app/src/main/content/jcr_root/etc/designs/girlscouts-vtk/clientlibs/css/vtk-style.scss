@@ -16,8 +16,8 @@
     font-size:14px;
     line-height:1.5;
   }
-  table { 
-    width: 100%; 
+  table {
+    width: 100%;
   }
   table tr {
     background: #fff;
@@ -358,6 +358,8 @@
     margin: 0;
     &#sub-nav {
       text-transform:uppercase;
+      margin-top: 10px;
+      margin-bottom: 10px;
       > li {
         border-right: solid 1px;
         margin-right: 5px;
@@ -377,12 +379,12 @@
   table {
     width: 100%;
     border:none;
-    thead, 
+    thead,
     tfoot {
       background: none;
       border:none;
     }
-    tr, 
+    tr,
     td {
       border:none;
     }
@@ -502,8 +504,8 @@
         font-weight:600;
         text-transform: uppercase;
         background: #f6f6f6;
-        margin-left: -5px;
-        margin-right: -5px;
+        margin-left: auto;
+        margin-right: auto;
         margin-bottom: 1.25em;
         padding: 5px;
       }
@@ -574,7 +576,7 @@
       background-color: #f6f6f6;
       padding: 20px 0;
       &:before {
-        background: url("images/throbber.png") repeat-y #fff;
+        background: #fff;
         content: '';
         height: 100%;
         width: 15px;
@@ -585,6 +587,15 @@
         border-right: 5px white solid;
         display: block;
         z-index: 10;
+      }
+      img.touchscroll {
+        position: absolute;
+        left: 0;
+        height: 100%;
+        cursor: move;
+        z-index: 10;
+        width: 10px;
+        top: 0;
       }
       a {
         font-weight: 100;
@@ -842,7 +853,7 @@
             }
             .name {
               margin-left: 30px;
-              white-space: nowrap;  
+              white-space: nowrap;
             }
           }
         }
@@ -1139,7 +1150,7 @@
       }
     }
 
- 
+
   }
   //both modals
   .reveal-modal,
@@ -1226,6 +1237,13 @@
                 pointer-events: none;
               }
             }
+          }
+        }
+      }
+      > section.row {
+        .column.left {
+          select {
+            padding-right: 3px;
           }
         }
       }
@@ -1360,6 +1378,58 @@
       }
     }
   }
+  //custom year plan
+  #modal_custom_year_plan {
+    ul {
+     list-style: none;
+     background: #F6F6F6;
+     // min-height: 200px;
+    // height: 100%;
+     padding: 7px;
+     margin: 0;
+     &#sortable2 {
+      margin-bottom: 20px;
+     }
+      li {
+        position: relative;
+        padding: 20px 10px;
+        margin: 3px;
+        background: #fff;
+        &:before {
+          position: absolute;
+          content: "";
+          width: 0;
+          height: 0;
+          display: block;
+          border-style: solid;
+          border-color: transparent transparent transparent #929292;
+          top: 50%;
+          border-width: 12px;
+          margin-top: -12px;
+        }
+        &:after {
+           content:'';
+           background: url("images/throbber.png") repeat-y #fff;
+           height: 80%;
+           position: absolute;
+           padding: 0 17px;
+           cursor: move;
+           top: 8px;
+           right: 0;
+         }
+        p {
+          margin: 0;
+          padding-left: 30px;
+          &:nth-of-type(1) {
+            text-transform: uppercase;
+          }
+        }
+      }
+    }
+    .btn-wrap {
+      padding-bottom: 20px;
+    }
+  }
   .browseMeetingAids {
     a, p, span, input {
       font-size: 14px;
@@ -1461,7 +1531,7 @@
     .columns {
       #util-links.inline-list {
         position:relative;
-        top: -10px;
+        // top: -10px;
         li {
           float:right;
           &:nth-of-type(2) {
@@ -1582,7 +1652,7 @@
   }
   //tables
   table {
-    thead, 
+    thead,
     tfoot {
       background: none;
     }
@@ -1602,7 +1672,7 @@
       }
     }
   }
-  //Financial page 
+  //Financial page
   #main .meeting-detail #financeForm {
     section {
       margin-top:0;
@@ -1621,29 +1691,22 @@
           margin:0;
           line-height: 2;
         }
-      } 
+      }
       ul li {
         margin:0;
         line-height: 2;
       }
     }
-    .large-block-grid-2 {
+    .row:nth-of-type(2) .large-block-grid-2 {
       > li:nth-child(2n+1) {
         width: 70%;
         white-space: nowrap;
       }
     }
-    .large-block-grid-2 {
+    .row:nth-of-type(2) .large-block-grid-2 {
       > li:nth-child(2n) {
         width: 30%;
-      } 
-    }
-    .large-block-grid-2 > li:nth-child(2n+1) {
-      width: 70%;
-      white-space: nowrap;
-    }
-    .large-block-grid-2 > li:nth-child(2n) {
-      width: 30%;
+      }
     }
     input[type="text"] {
       height: 30px;
@@ -1655,31 +1718,37 @@
   }
   //ADMIN PAGES
   #main .finances #financeForm  {
-    input[type=checkbox]:checked + label:before {
-      content: "\e6d7";
-      font-family: "JollyFont";
-      color: green;
-    }
-    input[type="checkbox"] {
-      display: none;
-    }
+    // input[type=checkbox]:checked + label:before {
+    //   content: "\e6d7";
+    //   font-family: "JollyFont";
+    //   color: green;
+    // }
+    // input[type="checkbox"] {
+    //   display: none;
+    // }
     input[type="text"] {
       text-align: left;
     }
-    label {
-      &:before {
-        border: solid 1px #ccc;
-        content: "";
-        height: 30px;
-        width: 30px;
-        text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
-        font-size: 15px;
-        text-align: center;
-        display: inline-block;
-        float: left;
-        padding:4px;
-      }
+    //email field
+    input#recipient {
+      width: 50%;
+      display: inline;
+      margin-left: 5px;
     }
+    // label {
+    //   &:before {
+    //     border: solid 1px #ccc;
+    //     content: "";
+    //     height: 30px;
+    //     width: 30px;
+    //     text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+    //     font-size: 15px;
+    //     text-align: center;
+    //     display: inline-block;
+    //     float: left;
+    //     padding:4px;
+    //   }
+    // }
     section {
       p:nth-of-type(1) {
         font-size: 12px;
@@ -1689,7 +1758,7 @@
       }
     }
     .opts {
-      margin-bottom: 15px;
+      // margin-bottom: 15px;
       span {
         margin-top:3px;
       }
@@ -1699,6 +1768,44 @@
         border: solid 1px #333;
         font-weight: bold;
         font-size: 14px;
+      }
+    }
+  }
+  #main .finances #financeAdminForm {
+   > .row:nth-of-type(1) {
+      section {
+        span {
+          float: left;
+          line-height: 2.3125rem;
+        }
+        select, input {
+          float: left;
+        }
+        &:first-child {
+          span {
+            width: 40%;
+          }
+          select {
+            width: 60%;
+            padding: 0 10px;
+          }
+        }
+        &:last-child {
+          span {
+            width: 20%;
+          }
+          input {
+            width: 80%;
+          }
+        }
+      }
+    }
+    .large-block-grid-2 > {
+      li:nth-child(2n+1) {
+        width: 85%;
+      }
+      li:nth-child(2n) {
+        width: 15%;
       }
     }
   }
@@ -1883,8 +1990,8 @@
   }
 }
 //jquery UI styles overwrite
-.ui-state-default, 
-.ui-widget-content .ui-state-default, 
+.ui-state-default,
+.ui-widget-content .ui-state-default,
 .ui-widget-header .ui-state-default {
   border: none;
   color: #393939;
@@ -1902,7 +2009,7 @@
     &:visited {
       color:#00ae58;
     }
-  } 
+  }
 }
 .ui-widget,
 .ui-widget .ui-widget {
@@ -1947,7 +2054,7 @@ input[type="file"] {
     float:none;
   }
   a.ui-state-default.ui-state-highlight,
-  .ui-state-active, 
+  .ui-state-active,
   .ui-widget-content .ui-state-active,
   .ui-widget-header .ui-state-active {
     background: #cfefde;
@@ -2059,7 +2166,7 @@ input[type="file"] {
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  //my troop page accordion 
+  //my troop page accordion
   .mytroop {
     .accordion-inner {
       dt {
@@ -2070,7 +2177,7 @@ input[type="file"] {
     }
   }
 }
-//medium screen 
+//medium screen
 @media only screen and (min-width: 40.063em) and (max-width: 60.063em) {
   .vtk-body #main .crumbs .columns #util-links.inline-list li:nth-of-type(2) {
     margin: 0 11px;
@@ -2088,7 +2195,7 @@ input[type="file"] {
       // width: 23px;
     }
   }
-  //my troop page accordion 
+  //my troop page accordion
   .mytroop {
     .accordion-inner {
       dt {

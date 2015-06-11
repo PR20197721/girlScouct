@@ -15,7 +15,8 @@
         jcr:primaryType="cq:PageContent"
         jcr:title="Update"
         jcr:uuid="a4baa22d-b61d-4fad-9163-de8e8f62d488"
-        sling:resourceType="wcm/scaffolding/components/scaffolding">
+        sling:resourceType="/apps/girlscouts/wcm/components/update-scaffolding"
+        dialogPath="/apps/girlscouts/wcm/scaffolding/dialogs/update/dialog">
         <dialog/>
     </jcr:content>
 </jcr:root>

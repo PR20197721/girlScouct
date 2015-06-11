@@ -1356,3 +1356,7 @@ padding: 40px 0px 40px 0;
   padding-bottom: 20px;
 }
 
+#main .side-nav li.active li.active > div > a, #main .side-nav li.active.current > div > a {
+	max-width: 170px;
+}
+

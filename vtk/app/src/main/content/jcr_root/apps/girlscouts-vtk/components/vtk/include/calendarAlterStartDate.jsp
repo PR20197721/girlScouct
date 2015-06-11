@@ -11,25 +11,25 @@
 
 
 <%if(startAlterDate!=null && !startAlterDate.equals("") ){ %>
-  <p>Configure <%=request.getParameter("mCountUpd") %> meeting dates starting on or after <%=FORMAT_MMddYYYY.format( new java.util.Date(Long.parseLong(startAlterDate))) %>:</p>
+  <p>Configure <%=request.getParameter("mCountUpd") %> meeting dates starting on or after <%=VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY, new java.util.Date(Long.parseLong(startAlterDate))) %>:</p>
 <%} %>
   <input type="hidden" id="orgDt" name="orgDt" value="<%=( startAlterDate!=null && !startAlterDate.trim().equals("")) ? startAlterDate:( troop.getYearPlan().getCalStartDate()==null ? "" : new java.util.Date(troop.getYearPlan().getCalStartDate()).getTime() ) %>"/>   
   <section class="clearfix">
 
     <div class="small-5 columns date">
-      <input type="text" placeholder="Start Date" id="calStartDt" name="calStartDt" value="<%=( startAlterDate!=null && !startAlterDate.trim().equals("")) ? FORMAT_MMddYYYY.format(new java.util.Date( Long.parseLong(startAlterDate))):( troop.getYearPlan().getCalStartDate()==null ? "" : FORMAT_MMddYYYY.format(new java.util.Date(troop.getYearPlan().getCalStartDate()))) %>" />
+      <input type="text" placeholder="Start Date" id="calStartDt" name="calStartDt" value="<%=( startAlterDate!=null && !startAlterDate.trim().equals("")) ? VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY, new java.util.Date( Long.parseLong(startAlterDate))):( troop.getYearPlan().getCalStartDate()==null ? "" : VtkUtil.formatDate(VtkUtil.FORMAT_MMddYYYY, new java.util.Date(troop.getYearPlan().getCalStartDate()))) %>" />
     </div>
     <div class="small-2 columns date">
       <label for="calStartDt"><i class="icon-calendar"></i></label>
     </div>
     <div class="small-4 columns">
-      <input type="text" placeholder="Time" id="calTime" value="<%=troop.getYearPlan().getCalStartDate()==null ? (org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_HOUR+":"+org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_MIN) : FORMAT_hhmm.format(new java.util.Date(troop.getYearPlan().getCalStartDate())) %>" />
+      <input type="text" placeholder="Time" id="calTime" value="<%=troop.getYearPlan().getCalStartDate()==null ? (org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_HOUR+":"+org.girlscouts.vtk.models.VTKConfig.CALENDAR_START_TIME_MIN) : VtkUtil.formatDate(VtkUtil.FORMAT_hhmm, new java.util.Date(troop.getYearPlan().getCalStartDate())) %>" />
     </div>
     <div class="small-3 columns">
       <select id="calAP">
         <% String AM = "PM";
           if( troop.getYearPlan().getCalStartDate() !=null ){
-            AM = FORMAT_AMPM.format(new java.util.Date(troop.getYearPlan().getCalStartDate()));
+            AM = VtkUtil.formatDate(VtkUtil.FORMAT_AMPM, new java.util.Date(troop.getYearPlan().getCalStartDate()));
           } 
         %>
         <option value="pm" <%=AM.equals("PM") ? " SELECTED" : "" %>>PM</option>
@@ -90,7 +90,7 @@
        <%for(int i=10;i<split_exclDates.length;i++){ 
        %>
          <li>
-            <input type="checkbox" id="chk_<%=(i+1) %>" name="exclDt" value="<%=split_exclDates[i] %>" CHECKED/><label for="chk_<%=(i+1)%>"><p><span class="date"><%= split_exclDates[i]%></span><span>Custom</span></p></label>
+            <input type="checkbox" id="chk_<%=(i+1) %>" name="exclDt" value="<%=split_exclDates[i] %>" CHECKED/><label for="chk_<%=(i+1)%>"><p><span class="date"><%= split_exclDates[i]%></span><span>Canceled Meeting</span></p></label>
          </li>
       <%} %>
     </ul>

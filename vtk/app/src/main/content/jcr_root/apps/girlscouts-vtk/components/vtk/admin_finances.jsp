@@ -27,6 +27,11 @@
 	List<String> expenseFields = financeConfig.getExpenseFields();
 	
 	String period = financeConfig.getPeriod();
+	
+	String recipient = financeConfig.getRecipient();
+	if(recipient == null){
+		recipient = "";
+	}
 
 	int incomeCounter = 0;
 	int expenseCounter = 0;
@@ -38,48 +43,58 @@
 <div id="panelWrapper" class="row content meeting-detail finances">
 <%@include file="include/utility_nav.jsp"%>
 	<div class="column large-20 medium-20 large-centered medium-centered small-24">
-		<form class="cmxform" id="financeForm" onchange="enableSaveButton()">
-			<div class="errorMsg error"></div>
-			<div class="row collapse opts">
-				<span class="column small-10 large-5 medium-7">Reporting Frequency:</span>
-				<select id="periodSelection" class="columns small-6 large-3 medium-5 left">
-				<%if("Yearly".equals(period)){%>
-					<option value="Yearly">Yearly</option>
-					<option value="Quarterly">Quarterly</option>
-				<%} else{%>
-					<option value="Quarterly">Quarterly</option>
-					<option value="Yearly">Yearly</option>
-				<%} %>
-				</select>
+		<form class="cmxform" id="financeAdminForm" onchange="enableSaveButton()">
+			
+			<p id="error-message" class="error-message"></p>
+			
+			<div class="row options">
+			 <section class="column large-12 medium-12">
+				 <span>Reporting Frequency:</span>
+				 <select id="periodSelection" name="periodSelection">
+					 <%if("Yearly".equals(period)){%>
+					 	<option value="Yearly">Yearly</option>
+					 	<option value="Quarterly">Quarterly</option>
+					 <%} else{%>
+					 	<option value="Quarterly">Quarterly</option>
+					 	<option value="Yearly">Yearly</option>
+					 <%} %>
+				 </select>
+			 </section>
+			 <section class="column large-12 medium-12">
+				 <div id="incomeFields">
+				 	<span>Send To:</span><input name="recipient" id="recipient" type="text" onkeyDown="enableSaveButton()" placeholder="Enter email of the recipient" value="<%=recipient%>"/> 
+				 </div>
+			 </section>
 			</div>
+
 			<div class="row">
 				<section class="column large-12 medium-12">
 					<h6>income categories</h6>
 					<ul id="income-list" class="large-block-grid-2 small-block-grid-2 text-left">
-<%
-	for(String incomeField : incomeFields){
-%>
-						<li id="incomeField<%=incomeCounter%>"><input onkeyDown="enableSaveButton()" oninput="enableSaveButton()" onpaste="enableSaveButton()"  maxlength="30" type="text" value="<%=StringEscapeUtils.escapeHtml(incomeField)%>"/></li>
+						<%
+							for(String incomeField : incomeFields){
+						%>
+						<li id="incomeField<%=incomeCounter%>"><input name="incomeValue<%=incomeCounter%>" onkeyDown="enableSaveButton()" class="financeAdminField" oninput="enableSaveButton()" onpaste="enableSaveButton()"  maxlength="35" type="text" value="<%=StringEscapeUtils.escapeHtml(incomeField)%>"/></li>
 						<li id="incomeButton<%=incomeCounter%>"><a href="" title="remove" onclick="return deleteIncomeRow(<%=incomeCounter%>)"><i class="icon-button-circle-cross"></i></a></li>
-<%
-		incomeCounter++;
-	}
-%>
+						<%
+								incomeCounter++;
+							}
+						%>
 					</ul>
 					<a class="add-btn" title="add" onclick="return addIncomeField()"><i class="icon-button-circle-plus"></i>Add a  Finance Field</a>
 				</section>
 				<section class="column large-12 medium-12">
 					<h6>expense categories</h6>
 					<ul id="expense-list" class="large-block-grid-2 small-block-grid-2 text-left">
-<%
-	for(String expenseField : expenseFields){
-%>
-						<li id="expenseField<%=expenseCounter%>"><input onkeyDown="enableSaveButton()" oninput="enableSaveButton()" onpaste="enableSaveButton()" type="text" maxlength="30" value="<%=StringEscapeUtils.escapeHtml(expenseField)%>"/></li>
+						<%
+							for(String expenseField : expenseFields){
+						%>
+						<li id="expenseField<%=expenseCounter%>"><input onkeyDown="enableSaveButton()" name="expenseValue<%=expenseCounter%>" oninput="enableSaveButton()" class="financeAdminField" onpaste="enableSaveButton()" type="text" maxlength="35" value="<%=StringEscapeUtils.escapeHtml(expenseField)%>"/></li>
 						<li id="expenseButton<%=expenseCounter%>"><a href="" title="remove" onclick="return deleteExpenseRow(<%=expenseCounter%>)"><i class="icon-button-circle-cross"></i></a></li>
-<%
-		expenseCounter++;
-	}
-%>
+						<%
+								expenseCounter++;
+							}
+						%>
 					</ul>
 					<a class="add-btn" title="add" onclick="return addExpenseField()"><i class="icon-button-circle-plus"></i>Add a  Finance Field</a>
 				</section>
@@ -93,3 +108,39 @@
 		</form>
 	</div>
 </div>
+
+<script type="text/javascript"> 
+	$(document).ready( function(){
+		
+		jQuery.validator.addClassRules("financeAdminField", {
+			required: true
+		});
+	
+		$("#financeAdminForm").validate({
+			rules: { 
+				recipient: {
+					required: true,
+					email: true
+				} 
+			},
+      		showErrors: function(errorMap, errorList) {
+      			var errors = this.numberOfInvalids();
+				if (errors) {
+					$(".error-message").html("<i class=\"icon-notice-info-announcement\"></i>There were errors while submitting the form");
+					
+					$('#error-message')[0].scrollIntoView( true );
+				} else {
+					$(".error-message").html("");
+				}
+				this.defaultShowErrors();
+      		}
+      		
+		});
+		
+	});
+</script>
+
+<!--
+
+//-->
+</script>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<workspaceFilter version="1.0">
+    <filter root="/apps/gsusa"/>
+    <filter root="/etc/designs/gsusa"/>
+    <filter root="/etc/workflow/models/dam/update_asset"/>
+    <filter root="/etc/workflow/scripts/gsusa"/>
+    <filter root="/etc/dam/video/hq"/>
+</workspaceFilter>

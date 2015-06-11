@@ -37,11 +37,10 @@ cTrans.put("320", "Girl Scouts of West Central Florida, Inc.");
 cTrans.put("388", "Girl Scout Council of the Southern Appalachians, Inc.");
 
 cTrans.put("313", "Girl Scouts of Gateway Council, Inc.");
+
 cTrans.put("664", "Oregon and SW Washington");
 cTrans.put("234", "North East Ohio");
 cTrans.put("661", "Sierra Nevada");
-
-
 
 		javax.jcr.Session s= (slingRequest.getResourceResolver().adaptTo(Session.class));
 		

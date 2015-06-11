@@ -33,14 +33,17 @@ import org.apache.jackrabbit.ocm.query.QueryManager;
 import org.apache.jackrabbit.commons.JcrUtils;
 import org.girlscouts.vtk.auth.permission.Permission;
 import org.girlscouts.vtk.dao.TroopDAO;
+import org.girlscouts.vtk.models.Achievement;
 import org.girlscouts.vtk.models.Activity;
 import org.girlscouts.vtk.models.Asset;
+import org.girlscouts.vtk.models.Attendance;
 import org.girlscouts.vtk.models.Cal;
 import org.girlscouts.vtk.models.Council;
 import org.girlscouts.vtk.models.Finance;
 import org.girlscouts.vtk.models.FinanceConfiguration;
 import org.girlscouts.vtk.models.JcrNode;
 import org.girlscouts.vtk.models.Location;
+import org.girlscouts.vtk.models.MeetingCanceled;
 import org.girlscouts.vtk.models.MeetingE;
 import org.girlscouts.vtk.models.Milestone;
 import org.girlscouts.vtk.models.Troop;
@@ -89,6 +92,7 @@ public class TroopDAOImpl implements TroopDAO {
 			classes.add(Troop.class);
 			classes.add(YearPlan.class);
 			classes.add(MeetingE.class);
+			classes.add(MeetingCanceled.class);
 			classes.add(Activity.class);
 			classes.add(Location.class);
 			classes.add(Asset.class);
@@ -96,7 +100,8 @@ public class TroopDAOImpl implements TroopDAO {
 			classes.add(Milestone.class);
 			classes.add(SentEmail.class);
 			classes.add(JcrCollectionHoldString.class);
-
+			classes.add(Attendance.class);
+			classes.add(Achievement.class);
 
 			Mapper mapper = new AnnotationMapperImpl(classes);
 			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,
@@ -679,6 +684,7 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 					expensesList.add(tempValue.getString());
 				}
 				financeConfig.setExpenseFields(expensesList);
+				financeConfig.setPersisted(true);
 			}
 			if (configNode.hasProperty(Finance.INCOME)) {
 				Value[] incomeValues = configNode.getProperty(Finance.INCOME).getValues();
@@ -686,10 +692,17 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 					incomeList.add(tempValue.getString());
 				}
 				financeConfig.setIncomeFields(incomeList);
+				financeConfig.setPersisted(true);
 			}
 			if(configNode.hasProperty(Finance.PERIOD)){
 				String period = configNode.getProperty(Finance.PERIOD).getString();
 				financeConfig.setPeriod(period);
+				financeConfig.setPersisted(true);
+			}
+			if(configNode.hasProperty(FinanceConfiguration.RECIPIENT)){
+				String recipient = configNode.getProperty(FinanceConfiguration.RECIPIENT).getString();
+				financeConfig.setRecipient(recipient);
+				financeConfig.setPersisted(true);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -704,7 +717,7 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 		return financeConfig;
 	}
 
-	public void setFinanceConfiguration(Troop troop, String currentYear, String income, String expenses, String period) {
+	public void setFinanceConfiguration(Troop troop, String currentYear, String income, String expenses, String period, String recipient) {
 
 		// TODO PERMISSIONS HERE
 		Session mySession = null;
@@ -724,6 +737,7 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 			configNode.setProperty(Finance.INCOME, incomeFields);
 			configNode.setProperty(Finance.EXPENSES, expensesFields);
 			configNode.setProperty(Finance.PERIOD, period);
+			configNode.setProperty(FinanceConfiguration.RECIPIENT, recipient);
 			
 			mySession.save();
 		} catch (Exception e) {
@@ -830,7 +844,23 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 				 }
 			}
 			
+			//canceled meeting
+			if( troop.getYearPlan().getMeetingCanceled() !=null )
+				 for(int i=0;i<troop.getYearPlan().getMeetingCanceled().size();i++){
+					MeetingCanceled meeting = troop.getYearPlan().getMeetingCanceled().get(i);
 			
+					if( meeting.getPath()==null || !meeting.getPath().startsWith( troop.getYearPlan().getPath() ))
+						meeting.setPath( troop.getYearPlan().getPath()  +"/meetingCanceled/"+ meeting.getUid());
+					modifyMeetingCanceled( user, troop, meeting );
+					java.util.List<Asset> assets = meeting.getAssets();
+					if( assets!=null)
+					 for(int y=0;y<assets.size();y++){
+						Asset asset = assets.get(y);
+						if( asset.getPath()==null )
+							asset.setPath( meeting.getPath() +"/assets/"+ asset.getUid() );
+						modifyAsset( user, troop, asset);
+					 }
+				}
 			
 			// modif
 			try {
@@ -1341,6 +1371,52 @@ System.err.println("tata chk after: "+ b.isAutoUpdate() );
 			mySession.save();
 			isUpdated=true;
 			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (mySession != null)
+					sessionFactory.closeSession(mySession);
+			} catch (Exception es) {
+				es.printStackTrace();
+			}
+		}
+		
+		return isUpdated;
+	}
+	
+	
+	public boolean modifyMeetingCanceled(User user, Troop troop, MeetingCanceled meeting)
+			throws java.lang.IllegalAccessException,
+			java.lang.IllegalAccessException {
+		
+		if( !meeting.isDbUpdate() )return true;
+		
+		Session mySession = null;
+		boolean isUpdated = false;
+		try {
+			mySession = sessionFactory.getSession();
+			List<Class> classes = new ArrayList<Class>();
+			classes.add(MeetingCanceled.class);
+			classes.add(Asset.class);
+			classes.add(SentEmail.class);
+			Mapper mapper = new AnnotationMapperImpl(classes);
+			ObjectContentManager ocm = new ObjectContentManagerImpl(mySession,mapper);
+			
+			System.err.println("tata meeting create path " +meeting.getPath() );
+	if( meeting.getPath() ==null || !ocm.objectExists(troop.getPath() +"/yearPlan/meetingCanceled") ){
+		System.err.println("tata meeting create path null " +troop.getPath() +"/yearPlan/meetingCanceled");
+		JcrUtils.getOrCreateByPath(
+				 troop.getPath() +"/yearPlan/meetingCanceled",
+				"nt:unstructured", mySession);
+		meeting.setPath( troop.getYearPlan().getPath() +"/meetingCanceled/"+meeting.getUid());
+	}
+			if( !ocm.objectExists(meeting.getPath()))
+				ocm.insert(meeting);
+			else
+				ocm.update(meeting);
+			ocm.save();
+			isUpdated= true;
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

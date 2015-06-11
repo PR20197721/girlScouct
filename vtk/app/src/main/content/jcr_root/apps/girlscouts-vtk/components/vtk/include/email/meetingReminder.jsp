@@ -13,7 +13,7 @@
 %>
 
 	<h4>Reminder Meeting #<%=planView.getMeetingCount()%>
-	<%= FORMAT_MEETING_REMINDER.format(searchDate) %> - <%=FORMAT_hhmm_AMPM.format(meetingEndDate)%></h4>
+	<%= VtkUtil.formatDate(VtkUtil.FORMAT_MEETING_REMINDER, searchDate) %> - <%=VtkUtil.formatDate(VtkUtil.FORMAT_hhmm_AMPM, meetingEndDate)%></h4>
 	
 	<p class="sent">Sent: None</p><!--TODO add the date after email is sent-->
 
@@ -35,12 +35,12 @@
 	</ul>
 	<section class="clearfix">
 		<label for="email_to_cc">Enter your own:</label>
-		<input type="email" id="email_to_cc" value="<%=troop.getSendingEmail()==null ? "" : troop.getSendingEmail().getCc()%>" placeholder="enter email addresses separated by semicolons"/>
+		<input type="email" id="email_to_cc" placeholder="enter email addresses separated by semicolons"/>
 	</section>
 	<h6>Compose Email</h6>
 	<section class="clearfix">
 		<label for="email_subj">Subject:</label>
-		<input type="text" id="email_subj" value="Reminder <%=troop.getTroop().getGradeLevel() %> Meeting #<%=planView.getMeetingCount()%> <%= FORMAT_MEETING_REMINDER.format(searchDate) %> - <%=FORMAT_hhmm_AMPM.format(meetingEndDate)%>" />	
+		<input type="text" id="email_subj" value="Reminder <%=troop.getTroop().getGradeLevel() %> Meeting #<%=planView.getMeetingCount()%> <%= VtkUtil.formatDate(VtkUtil.FORMAT_MEETING_REMINDER, searchDate) %> - <%= VtkUtil.formatDate(VtkUtil.FORMAT_hhmm_AMPM,meetingEndDate)%>" />	
 	</section>
 
 	<div style="background-color:yellow;"></div>
@@ -53,7 +53,7 @@
 		<br/><p>Here are the details of our next meeting:</p>
 		<table> 
 			<tr><th>Date:</th>
-				<td><%= FORMAT_MEETING_REMINDER.format(searchDate)%> - <%=FORMAT_hhmm_AMPM.format(meetingEndDate)%></td>
+				<td><%= VtkUtil.formatDate(VtkUtil.FORMAT_MEETING_REMINDER, searchDate)%> - <%= VtkUtil.formatDate(VtkUtil.FORMAT_hhmm_AMPM, meetingEndDate)%></td>
 			</tr>
 			<tr><th>Location:</th>
 				<td><%
