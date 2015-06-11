@@ -14,12 +14,7 @@
     </section>
     <section class="utility show-for-medium-up">
     	<div>
-	        <ul class="inline-list">
-	            <li><a href="#" title="Join">Join</a></li>
-	            <li><a href="#" title="Volunteer">Volunteer</a></li>
-	            <li><a href="#" title="Invest in Girls">Invest in Girls</a></li>
-	            <li><a href="#" title="En Espanol">En Espa&#241;ol</a></li>
-	        </ul>
+    	    <cq:include path="eyebrow-nav" resourceType="gsusa/components/eyebrow-nav" />
         </div>
         <form action="/content/gateway/en/site-search.html" method="get" class="search-form">
             <input type="search" name="q" placeholder="Search" />
