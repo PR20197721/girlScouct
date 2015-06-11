@@ -77,6 +77,7 @@ gsusa.components.LinkWidget = CQ.Ext.extend(CQ.form.CompositeField, {
         var parts = value.split("|||");
         this.labelField.setValue(parts[0]);
         this.pathField.setValue(parts[1]);
+        this.hiddenField.setValue(value);
     },
 
     // overriding CQ.form.CompositeField#getValue
