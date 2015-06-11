@@ -114,6 +114,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
           sentEmails=comment.sentEmails;
           if( sentEmails!=null){
         	  sentEmailsSubject = sentEmails[0].subject;
+        	  sentEmails= sentEmails.length;
           }  
           thisMeetingDate = new Date( Number(thisMeetingDate) );
           
@@ -386,10 +387,10 @@ React.createElement(ActivityPlan),
     
     var PrintSentEmails = React.createClass({displayName: "printEmailSent",
         render: function() {
-        	  if (true) {
+        	  if (sentEmails>0) {
                 return (
                 		React.createElement("li", null, 
-                         React.createElement("span",null, "(", sentEmailsSubject , " sent -",
+                         React.createElement("span",null, "(", sentEmails , " sent -",
                           React.createElement("a", {href: "#", title: "view sent emails", className: "view", "data-reveal-id": "modal_view_sent_emails"}, " view"),
                           ")"
                           )
@@ -409,7 +410,7 @@ React.createElement(ActivityPlan),
                return(
             		   React.createElement("li", null, 
                          React.createElement("a", {href: "#",title: "view sent emails","data-reveal-id": "modal_view_sent_emails"}, "Meeting Reminder email"),
-                          React.createElement("span",null, "(", sentEmails, " sent -",
+                          React.createElement("span",null, " (", sentEmails, " sent -",
                         	React.createElement("a", {href: "#", title: "view sent emails", className: "view", "data-reveal-id": "modal_view_sent_emails"}, " view"), ")"
                           )
                        )  
