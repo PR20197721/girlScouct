@@ -18,6 +18,7 @@
 	    <li class="has-submenu">
 	      <a href="<%= link %>" title="<%= label %>"> <%= label %></a>
 	      <ul class="right-submenu">
+	      	<!--  TODO: list children pages -->
 	        <li class="back"><a href="#">Back</a></li>
 	        <li><a href="#">Link 1</a></li>
 	        <li><a href="#">Link 2</a></li>
