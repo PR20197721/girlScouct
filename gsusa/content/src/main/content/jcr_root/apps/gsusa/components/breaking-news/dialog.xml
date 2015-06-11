@@ -18,7 +18,7 @@
                 		xtype="textarea"/>
                     <url
                         jcr:primaryType="cq:Widget"
-                        fieldDescription="(Optional) Enter a URL to link to"
+                        fieldDescription="(Optional) Enter a URL to link to, e.g. http://girlscouts.org"
                         fieldLabel="URL"
                         name="./url"
                         xtype="textfield"/>
