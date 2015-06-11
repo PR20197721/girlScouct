@@ -390,7 +390,7 @@ React.createElement(ActivityPlan),
         	  if (sentEmails>0) {
                 return (
                 		React.createElement("li", null, 
-                         React.createElement("span",null, "(", sentEmails , " sent -",
+                         React.createElement("span",null, " (", sentEmails , " sent -",
                           React.createElement("a", {href: "#", title: "view sent emails", className: "view", "data-reveal-id": "modal_view_sent_emails"}, " view"),
                           ")"
                           )
@@ -415,13 +415,16 @@ React.createElement(ActivityPlan),
                           )
                        )  
                 )
-            }else{              	
+        	} else if( thisMeetingType!='MEETINGCANCELED'){
+                         	
             	return (
                    React.createElement("li", null, 
                          React.createElement("a", {href: "#",title: "view sent emails","data-reveal-id": "modal_view_sent_emails"}, "Meeting Reminder email"),
-                            React.createElement("span",null, "(", "0 sent",")")
+                            React.createElement("span",null, "")
                    )
                )     
+            }else{
+            	return React.createElement("li", null);
             }
         }
     });
