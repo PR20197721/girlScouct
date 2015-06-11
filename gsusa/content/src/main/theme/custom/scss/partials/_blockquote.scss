@@ -10,7 +10,6 @@ blockquote {
     padding: rem-calc(0 25);
     &:before,
     &:after {
-      color: white;
       font-size: rem-calc(48);
       position: absolute;
       line-height: .8;
@@ -56,7 +55,18 @@ blockquote {
   }
   }
   &.bg-image {
-
+    padding-left: 0;
+    padding-right: 0;
+    &:before,
+    &:after {
+      content: "";
+      background-image: url("/etc/designs/gsusa/clientlibs/images/blockquote_bg.png");
+      height: rem-calc(9);
+      width: 100%;
+    }
+    &:before {
+      margin-bottom: rem-calc(20);
+    }
   }
   .black {
     color: $black;
