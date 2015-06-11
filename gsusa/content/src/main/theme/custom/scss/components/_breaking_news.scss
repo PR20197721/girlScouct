@@ -3,13 +3,12 @@
   background: $bg_breaking_news;
   padding: 0.52083333%;
   text-align: center;
-  min-height: rem-calc(60);
   & * {color: $white;}
   p {
-    @media #{$medium-up} {
-      position: relative;
-      top: rem-calc(15);
-    }
+    // @media #{$medium-up} {
+    //   position: relative;
+    //   top: rem-calc(15);
+    // }
     margin: 0;
   }
   .thumbnail {
