@@ -31,6 +31,12 @@
           && target.closest(".story").css('display') !== 'none') {
         $(".story").hide("slow");
       }
+      if (target.closest('.join a').length === 0
+          && target.closest(".join section").css('display') !== 'none') {
+        $('.join section').fadeOut('500', function () {
+          $('.join a').fadeIn('slow');
+        });
+      }
     });
   }
 
@@ -71,6 +77,15 @@
       } else {
         return false;
       }
+    });
+  }
+  //home page join now link will open the email form.
+  function join_now() {
+    $('.join a').on('click', function (e) {
+      e.preventDefault();
+      $(this).fadeOut(500, function () {
+        $(this).siblings('section').fadeIn('slow');
+      });
     });
   }
 
@@ -128,4 +143,5 @@
   slide_search_bar();
   show_hide_features();
   document_close_all();
+  join_now();
 }(jQuery));
