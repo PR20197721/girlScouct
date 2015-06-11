@@ -464,9 +464,9 @@ React.createElement(ActivityPlan),
                 }else{  
                 
                         if(helper.attendanceCurrent ==null || helper.attendanceCurrent ==0 ){ 
-                          txt+="0 present,"  ;
+                          txt+="0 present, "  ;
                         }else{
-                           txt+=helper.attendanceCurrent +" of "+ helper.attendanceTotal +" present,";
+                           txt+=helper.attendanceCurrent +" of "+ helper.attendanceTotal +" present, ";
                         } 
                         
                         if(helper.achievementCurrent ==null || helper.achievementCurrent==0){
