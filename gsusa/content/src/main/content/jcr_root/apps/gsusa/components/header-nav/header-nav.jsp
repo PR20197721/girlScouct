@@ -1,4 +1,5 @@
-<%@page import="java.util.*" %>
+<%@page import="java.util.*,
+                com.day.cq.wcm.api.WCMMode" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%
     final String LABEL_KEY = "gsusa.header-nav.item.label";
@@ -7,15 +8,14 @@
     List<String> labels = new ArrayList<String>();
     List<String> links = new ArrayList<String>();
     
-    for (int i = 0; i < navs.length; i++) {
-	    String[] split = navs[i].split("\\|\\|\\|");
-	    String label = split.length >= 1 ? split[0] : "";
-	    String link = split.length >= 2 ? split[1] : "";
-	    labels.add(label);
-	    links.add(link);
-    }
-
     if (navs != null) {
+	    for (int i = 0; i < navs.length; i++) {
+		    String[] split = navs[i].split("\\|\\|\\|");
+		    String label = split.length >= 1 ? split[0] : "";
+		    String link = split.length >= 2 ? split[1] : "";
+		    labels.add(label);
+		    links.add(link);
+	    }
 %>
     <nav class="top-bar show-for-medium-up large-19 medium-23 columns small-24 large-push-5" data-topbar role="navigation">
         <section class="top-bar-section">
@@ -30,11 +30,6 @@
         </section>
     </nav>
 
-<%
-    request.removeAttribute(LABEL_KEY);
-    request.removeAttribute(LINK_KEY);
-}
-%>
 <!-- OFF CANVAS MENU BAR -->
     <nav class="tab-bar hide-for-medium-up">
         <section>
@@ -65,3 +60,10 @@
             <li><a href="#" title="En Espanol">En Espa&#241;ol</a></li>
         </ul>
     </nav>
+<%
+	    request.removeAttribute(LABEL_KEY);
+	    request.removeAttribute(LINK_KEY);
+    } else if (WCMMode.fromRequest(request) == WCMMode.EDIT){
+        %>Double click here to edit header navigation.<%
+    }
+%>
