@@ -107,7 +107,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
           thisMeetingUid= comment.uid;
           thisMeetingRefId  = comment.refId;
           thisMeetingPath  = comment.path;
-          
+
           thisMeetingImg   = "/content/dam/girlscouts-vtk/local/icon/meetings/"+ comment.meetingInfo.id +".png";
           mid=comment.uid;
           thisMeetingType= comment.type;
@@ -637,7 +637,7 @@ React.createElement(ActivityPlan),
               thisMeetingDate= helper.currentDate;
               nextMeetingDate= helper.nextDate;
                   
-        	  x =  this.state.data.meetingCanceled;
+        	  x =  this.state.data.meetingEvents;//meetingCanceled;
                   sched = this.state.data.schedule;
                   
                   if( this.state.data.locations!=null ){
