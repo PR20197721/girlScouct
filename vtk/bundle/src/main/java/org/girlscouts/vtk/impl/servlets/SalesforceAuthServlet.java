@@ -218,6 +218,8 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 			SlingHttpServletResponse response) {
 		boolean isLogoutApi = false, isLogoutWeb = false;
 		HttpSession session = request.getSession();
+	
+	
 		try {
 			troopUtil.logout(((org.girlscouts.vtk.models.User) session
 					.getAttribute(org.girlscouts.vtk.models.User.class
@@ -228,8 +230,10 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 		ApiConfig apiConfig = (ApiConfig) session.getAttribute(ApiConfig.class
 				.getName());
+		
 		String redirectUrl = null;
 		if (apiConfig != null) {
 			try {
@@ -242,20 +246,28 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			/*
 			try {
 				isLogoutWeb = logoutWeb(apiConfig);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			*/
+			
 			try {
 				String councilId = Integer.toString(apiConfig.getTroops()
 						.get(0).getCouncilCode());
-				if (councilId == null || councilId.trim().equals(""))
+				if (councilId == null || councilId.trim().equals("")){
 					redirectUrl = councilMapper.getCouncilUrl(VtkUtil
 							.getCouncilInClient(request));
-				else
+					
+				}else{
 					redirectUrl = councilMapper.getCouncilUrl(councilId);
+	
+					}
 			} catch (Exception e) {
+				
+				
 			    String refererCouncil = (String)session.getAttribute("refererCouncil");
 			    if (refererCouncil != null  && !refererCouncil.isEmpty()) {
 			        redirectUrl = "/content/" + refererCouncil + "/";
@@ -265,7 +277,11 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 		}
 
 		if (redirectUrl == null) {
-			redirectUrl = councilMapper.getCouncilUrl();
+			if (councilMapper.getCouncilUrl().isEmpty()) {
+				redirectUrl = configManager.getConfig("baseUrl");
+			} else {
+				redirectUrl = councilMapper.getCouncilUrl();
+			}
 		}
 
 		// TODO: language?
@@ -280,7 +296,8 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 		redirectUrl = redirectUrl.contains("?") ? (redirectUrl = redirectUrl
 				+ "&isSignOutSalesForce=true") : (redirectUrl = redirectUrl
 				+ "?isSignOutSalesForce=true");
-		redirectUrl = configManager.getConfig("communityUrl")+"/VTKLogout?redirectSource="+ configManager.getConfig("baseUrl")+""+ redirectUrl;
+		redirectUrl = configManager.getConfig("communityUrl")+"/VTKLogout?redirectSource=" + java.net.URLEncoder.encode(redirectUrl);
+
 		redirect(response, redirectUrl);
 	}
 
