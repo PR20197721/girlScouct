@@ -1,7 +1,6 @@
 footer {
   background: $primary-color;
   color: #C1EAD4;
-  font-size: rem-calc(14);
   padding: rem-calc(40) 0;
   @include grid-row();
   section {

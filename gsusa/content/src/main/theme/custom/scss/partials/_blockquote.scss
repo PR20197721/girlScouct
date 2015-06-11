@@ -1,0 +1,67 @@
+blockquote {
+  border: none;
+  position: relative;
+  @include clearfix;
+  & * {
+    font-size: rem-calc(32);
+  }
+  p {
+    position: relative;
+    padding: rem-calc(0 25);
+    &:before,
+    &:after {
+      color: white;
+      font-size: rem-calc(48);
+      position: absolute;
+      line-height: .8;
+    }
+    &:before {
+      content: open-quote;
+      top: rem-calc(9);
+      left: 0;
+    }
+    &:after {
+      content: close-quote;
+      bottom: 0;
+    }
+  }
+  &.bg-color {
+    .white {
+      color: $white;
+      & * {color: $white};
+    }
+  &.fuchsia {
+    background: $fuchsia;
+    border: solid rem-calc(12) scale-color($fuchsia, $lightness: -11%);
+  }
+  &.lightorange {
+    background: $lightorange;
+    border: solid rem-calc(12) scale-color($lightorange, $lightness: -11%);
+  }
+  &.darkorange {
+    background: $darkorange;
+    border: solid rem-calc(12) scale-color($darkorange, $lightness: -11%);
+  }
+  &.purple {
+    background: $purple;
+    border: solid rem-calc(12) scale-color($purple, $lightness: -11%);
+  }
+  &.cyan {
+    background: $cyan;
+    border: solid rem-calc(12) scale-color($cyan, $lightness: -11%);
+  }
+  &.lightgreen {
+    background: $lightgreen;
+    border: solid rem-calc(12) scale-color($lightgreen, $lightness: -11%);
+  }
+  }
+  &.bg-image {
+
+  }
+  .black {
+    color: $black;
+  }
+  .social-icons {
+    float: right;
+  }
+}

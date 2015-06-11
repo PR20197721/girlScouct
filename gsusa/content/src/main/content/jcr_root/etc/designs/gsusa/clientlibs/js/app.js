@@ -8,7 +8,6 @@
   $(document).foundation();
   //add height to the content for the footer to be always at the bottom.
   function fix_bottom_footer() {
-
     var footer_height = $("footer").outerHeight();
     var header_height = $(".header").outerHeight();
     var total_height = "calc((100vh - " + (footer_height + header_height) + "px))";
@@ -17,8 +16,25 @@
       "min-height" : total_height
     });
   }
-  function slide_search_bar() {
+  function document_close_all() {
+    //when clicking outside of the form it will close the input.
+    $(document).click(function (event) {
+      event.stopPropagation();
+      var target = $(event.target);
 
+      if (target.closest('.tab-bar .search-form').length === 0
+          && $(".tab-bar .search-form input").css('display') !== 'none') {
+        $(".tab-bar .search-form span").removeClass('hide');
+        $(".tab-bar .search-form input").hide('slow');
+      }
+      if (target.closest('.featured-stories li').length === 0
+          && target.closest(".story").css('display') !== 'none') {
+        $(".story").hide("slow");
+      }
+    });
+  }
+
+  function slide_search_bar() {
     var searchSlider = {
       form: $(".tab-bar .search-form"),
       input: $(".tab-bar .search-form input"),
@@ -49,65 +65,67 @@
     });
 
     searchSlider.form.submit(function () {
-      searchSlider.input.keydown(function (e) {
-        if (e.which === 13) {
-          if (searchSlider.input.val() !== "") {
-            searchSlider.form.submit();
-            searchSlider.input.val('');
-          } else {
-            e.preventDefault();
-          }
-        }
-      });
-    });
-    //when clicking outside of the form it will close the input.
-    $(document).click(function (event) {
-      var target = $(event.target);
-      if (target.closest('.tab-bar .search-form').length === 0) {
-        searchSlider.button.removeClass('hide');
-         //searchSlider.button.click();
-        searchSlider.input.hide('slow');
+      if (searchSlider.input.val() !== "") {
+        searchSlider.form.submit();
+        searchSlider.input.val('');
+      } else {
+        return false;
       }
     });
   }
 
+  function show_hide_features() {
+    if ($(".featured-stories").length > 0) {
+      if ($(".featured-stories li").length <= 3) {
+        $(".featured-stories li .story").css({
+          "bottom" : "-17.5rem",
+          "top" : 'auto'
+        });
+      }
+      $(".featured-stories li").each(function (index) {
+        var elem = $(this);
+        var target = elem.find('.story');
+        //clicking on the LI will open the section with content.
+        elem.on("click", function (e) {
+          e.stopPropagation();
+          target.show("slow");
+          // target.animate({
+          //   opacity: 1,
+          //   visibility: 'visible'
+          // }, 500);
+          if ($(window).width() <= 640) {
+            target.css({
+              "min-height" : "100",
+              "bottom" : "auto",
+              "top" : $(document).scrollTop()
+            });
+            $(".featured-stories").css('position', 'static');
+          }
+          return false;
+        });
+        //closing the section by clicking on the cross
+        target.find('.icon-cross').on("click", function (e) {
+          target.hide("slow");
+          // target.animate({
+          //   opacity: 0,
+          //   visibility: 'hidden'
+          // }, 500);
+          e.stopPropagation();
+          return false;
+        });
+      });
+    }
+  }
+
   $('.hero-feature ul').slick({
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     fade: true,
-    cssEase: 'linear',
-    responsive: [
-      {
-        breakpoint: 1024,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3,
-          infinite: true,
-          dots: true
-        }
-      },
-      {
-        breakpoint: 600,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2
-        }
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1
-        }
-      }
-      // You can unslick at a given breakpoint now by adding:
-      // settings: "unslick"
-      // instead of a settings object
-    ]
+    cssEase: 'linear'
   });
-
   fix_bottom_footer();
   slide_search_bar();
-
+  show_hide_features();
+  document_close_all();
 }(jQuery));

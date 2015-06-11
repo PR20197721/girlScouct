@@ -24,7 +24,7 @@
     <nav class="tab-bar hide-for-medium-up">
         <section>
             <form action="/content/gateway/en/site-search.html" method="get" class="search-form">
-                <input type="text" name="q" placeholder="Search" />
+                <input type="search" name="q" placeholder="Search" />
                 <span class="icon-search-magnifying-glass"></span>
             </form>
         </section>
