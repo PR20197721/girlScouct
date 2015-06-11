@@ -84,7 +84,7 @@ div.carousel {
     text-align: center;
     bottom: 0;
     width: 100%;
-    min-height: rem-calc(90);
+    height: rem-calc(90);
     a {
       font-size: rem-calc(30);
       font-weight: 600;
@@ -117,10 +117,10 @@ div.carousel {
         font-size: rem-calc(20);
         font-weight: 500;
       }
-      input[type="email"] {
+      input[type="text"] {
         display: inline;
         width: 20%;
-        margin: 0;
+        padding-left: rem-calc(5);
       }
       button {
         padding: rem-calc(7);

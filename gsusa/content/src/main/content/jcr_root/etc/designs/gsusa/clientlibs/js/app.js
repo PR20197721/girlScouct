@@ -75,7 +75,8 @@
   }
   //home page join now link will open the email form.
   function join_now() {
-    $('.join a').on('click', function () {
+    $('.join a').on('click', function (e) {
+      e.preventDefault();
       $(this).fadeOut(500, function () {
         $(this).siblings('section').fadeIn('slow');
       });

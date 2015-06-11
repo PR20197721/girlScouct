@@ -28,7 +28,7 @@
             <a href="#" title="join">Join now</a>
             <section>
                 <span>FIND YOUR LOCAL COUNCIL</span>
-                <input type="email" name="email" placeholder="enter ZIP code" />
+                <input type="text" pattern="[0-9]*" name="zipcode" placeholder="enter ZIP code" />
                 <button class="button btn">GO</button>
             </section>
         </div>
