@@ -84,6 +84,7 @@ div.carousel {
     text-align: center;
     bottom: 0;
     width: 100%;
+    min-height: rem-calc(90);
     a {
       font-size: rem-calc(30);
       font-weight: 600;
@@ -91,6 +92,8 @@ div.carousel {
       position: relative;
       display: inline-block;
       line-height: 1;
+      width: rem-calc(200);
+      // @include single-transition(opacity, .25s, ease-in-out);
       &:after {
         content: "";
         position: absolute;
@@ -99,8 +102,29 @@ div.carousel {
         border-color: transparent transparent transparent #00AE58;
         border-width: rem-calc(10);
         top: 50%;
-        left: 105%;
+        right: 0;
         margin-top: rem-calc(-10);
+      }
+    }
+    section {
+      position: relative;
+      display: none;
+      .wrapper {
+        position: absolute;
+      }
+      span {
+        color: $primary-color;
+        font-size: rem-calc(20);
+        font-weight: 500;
+      }
+      input[type="email"] {
+        display: inline;
+        width: 20%;
+        margin: 0;
+      }
+      button {
+        padding: rem-calc(7);
+        margin: 0;
       }
     }
   }

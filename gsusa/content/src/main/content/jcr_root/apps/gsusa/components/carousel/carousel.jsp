@@ -24,6 +24,13 @@
         </li>
     </ul>
     <div class="join">
-        <a href="#" title="join">Join now</a>
+        <div class="wrapper">
+            <a href="#" title="join">Join now</a>
+            <section>
+                <span>FIND YOUR LOCAL COUNCIL</span>
+                <input type="email" name="email" placeholder="enter ZIP code" />
+                <button class="button btn">GO</button>
+            </section>
+        </div>
     </div>
 </div>

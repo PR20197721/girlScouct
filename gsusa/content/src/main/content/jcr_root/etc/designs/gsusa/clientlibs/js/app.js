@@ -73,6 +73,14 @@
       }
     });
   }
+  //home page join now link will open the email form.
+  function join_now() {
+    $('.join a').on('click', function () {
+      $(this).fadeOut(500, function () {
+        $(this).siblings('section').fadeIn('slow');
+      });
+    });
+  }
 
   function show_hide_features() {
     if ($(".featured-stories").length > 0) {
@@ -128,4 +136,5 @@
   slide_search_bar();
   show_hide_features();
   document_close_all();
+  join_now();
 }(jQuery));
