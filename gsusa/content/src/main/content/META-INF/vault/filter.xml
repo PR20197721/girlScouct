@@ -5,4 +5,5 @@
     <filter root="/etc/workflow/models/dam/update_asset"/>
     <filter root="/etc/workflow/scripts/gsusa"/>
     <filter root="/etc/dam/video/hq"/>
+    <filter root="/etc/scaffolding/gsusa"/>
 </workspaceFilter>

@@ -35,5 +35,10 @@
             mode="replace"
             root="/etc/dam/video/hq"
             rules="[]"/>
+        <f5
+            jcr:primaryType="cq:Page"
+            mode="replace"
+            root="/etc/scaffolding/gsusa"
+            rules="[]"/>
     </filter>
 </jcr:root>
