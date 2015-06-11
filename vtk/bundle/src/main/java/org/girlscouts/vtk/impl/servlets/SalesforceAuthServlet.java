@@ -280,7 +280,7 @@ public class SalesforceAuthServlet extends SlingAllMethodsServlet implements
 		redirectUrl = redirectUrl.contains("?") ? (redirectUrl = redirectUrl
 				+ "&isSignOutSalesForce=true") : (redirectUrl = redirectUrl
 				+ "?isSignOutSalesForce=true");
-		redirectUrl = "http://gsuat-gsmembers.cs11.force.com/members/VTKLogout?redirectSource="+ "cnn.com";//redirectUrl;
+		redirectUrl = "https://gsuat-gsmembers.cs11.force.com/members/VTKLogout?redirectSource="+ configManager.getConfig("baseUrl")+""+ redirectUrl;
 		redirect(response, redirectUrl);
 	}
 
