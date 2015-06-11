@@ -197,7 +197,7 @@ pageContext.setAttribute("DETAIL_TYPE", "meeting");
     
     var AddMeeting = React.createClass({displayName: "Add Meeting",
         render: function() {         	
-        if( helper.permissions!=null && helper.permissions.indexOf('<%= Permission.PERMISSION_EDIT_MEETING_ID %>')!=-1){
+        if( helper.permissions!=null && helper.permissions.indexOf('<%= Permission.PERMISSION_EDIT_MEETING_ID %>')!=-1 && thisMeetingType!='MEETINGCANCELED'){
           return (
              React.createElement("a", {className: "add-btn", "data-reveal-id": "modal_popup", "data-reveal-ajax": "true", href: "/content/girlscouts-vtk/controllers/vtk.include.modals.modal_meeting_aids.html?elem="+moment(thisMeetingDate).valueOf(), title: "Add meeting aids"}, React.createElement("i", {className: "icon-button-circle-plus"}), " Add Meeting Aids")
           );
@@ -361,7 +361,7 @@ React.createElement(ActivityPlan),
     var EmailMeetingReminderWithSched = React.createClass({displayName: "Meeting Reminder Email with sched",
         render: function() {
         
-                        if( helper.currentDate!=null && (helper.currentDate> new Date("1/1/1977").getTime()) ) {
+                        if( helper.currentDate!=null && (helper.currentDate> new Date("1/1/1977").getTime()) && thisMeetingType!='MEETINGCANCELED' ) {
                       	
                              return(
                             		 React.createElement("li", null,                   		 
@@ -369,13 +369,15 @@ React.createElement(ActivityPlan),
                             		,  React.createElement(PrintSentEmails) )
                             		
                                )
-                        } else{
+                        } else if( thisMeetingType!='MEETINGCANCELED'){
                         	
                               return (React.createElement("li", null,
                                 React.createElement("a", {href: "javascript:alert('You have not yet scheduled your meeting calendar.\\nPlease select a year plan and schedule your meetings by clicking on the MEETING DATES AND LOCATION link.')", title: "Meeting Reminder Email"}, "Edit/Sent Meeting Reminder Email")                                
                                  ,React.createElement(PrintSentEmails))
                                  );
-                        } 
+                        } else {
+                        	return (React.createElement("li", null));
+                        }
                        
                          
                    
@@ -684,7 +686,7 @@ React.createElement(ActivityPlan),
 
     		   React.createElement("ul", null, 
     		      this.props.data.map((function(item, i) {
-    		      return React.createElement("li", {className: ( helper.permissions!=null && helper.permissions.indexOf('<%= Permission.PERMISSION_EDIT_MEETING_ID %>')!=-1) ? "row ui-state-default" :"ui-state-disabled" , key: item.activityNumber, id: item.activityNumber}, 
+    		      return React.createElement("li", {className: ( helper.permissions!=null && helper.permissions.indexOf('<%= Permission.PERMISSION_EDIT_MEETING_ID %>')!=-1 && thisMeetingType!='MEETINGCANCELED') ? "row ui-state-default" :"ui-state-disabled" , key: item.activityNumber, id: item.activityNumber}, 
     		        React.createElement("div", {className: "wrapper clearfix"},
 
 
@@ -818,7 +820,7 @@ React.createElement(ActivityPlan),
        
        render: function() {
     	   
-    	   if( helper.permissions!=null && helper.permissions.indexOf('<%= Permission.PERMISSION_EDIT_MEETING_ID %>')!=-1){
+    	   if( helper.permissions!=null && helper.permissions.indexOf('<%= Permission.PERMISSION_EDIT_MEETING_ID %>')!=-1 && thisMeetingType!='MEETINGCANCELED'){
 	         return (
 	             
 	        		 React.createElement("strong", null, 
