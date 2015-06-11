@@ -1,14 +1,28 @@
+<%@page import="java.util.*" %>
 <%@include file="/libs/foundation/global.jsp" %>
 <%
-    final String DATA_KEY = "gsusa.header-nav.item.data";
+    final String LABEL_KEY = "gsusa.header-nav.item.label";
+    final String LINK_KEY = "gsusa.header-nav.item.link";
     final String[] navs = properties.get("navs", String[].class);
+    List<String> labels = new ArrayList<String>();
+    List<String> links = new ArrayList<String>();
+    
+    for (int i = 0; i < navs.length; i++) {
+	    String[] split = navs[i].split("\\|\\|\\|");
+	    String label = split.length >= 1 ? split[0] : "";
+	    String link = split.length >= 2 ? split[1] : "";
+	    labels.add(label);
+	    links.add(link);
+    }
+
     if (navs != null) {
 %>
     <nav class="top-bar show-for-medium-up large-19 medium-23 columns small-24 large-push-5" data-topbar role="navigation">
         <section class="top-bar-section">
             <ul>
                 <% for (int i = 0; i < navs.length; i++) {
-                    request.setAttribute(DATA_KEY, navs[i]);
+                    request.setAttribute(LABEL_KEY, labels.get(i));
+                    request.setAttribute(LINK_KEY, links.get(i));
                 %>
                     <cq:include script="item.jsp" />
                 <% } %>
@@ -17,7 +31,8 @@
     </nav>
 
 <%
-    request.removeAttribute(DATA_KEY);
+    request.removeAttribute(LABEL_KEY);
+    request.removeAttribute(LINK_KEY);
 }
 %>
 <!-- OFF CANVAS MENU BAR -->
@@ -37,7 +52,8 @@
     <nav class="right-off-canvas-menu">
         <ul class="off-canvas-list">
             <% for (int i = 0; i < navs.length; i++) {
-                request.setAttribute(DATA_KEY, navs[i]);
+                request.setAttribute(LABEL_KEY, labels.get(i));
+                request.setAttribute(LINK_KEY, links.get(i));
             %>
             <cq:include script="item.jsp" />
             <% } %>
