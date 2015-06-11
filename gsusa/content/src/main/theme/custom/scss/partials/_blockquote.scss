@@ -1,6 +1,10 @@
 blockquote {
   border: none;
   position: relative;
+  padding: 0;
+  .wrapper {
+    padding: rem-calc(20 50 0);
+  }
   @include clearfix;
   & * {
     font-size: rem-calc(32);
@@ -8,6 +12,7 @@ blockquote {
   p {
     position: relative;
     padding: rem-calc(0 25);
+    margin: 0;
     &:before,
     &:after {
       font-size: rem-calc(48);
@@ -55,8 +60,6 @@ blockquote {
   }
   }
   &.bg-image {
-    padding-left: 0;
-    padding-right: 0;
     &:before,
     &:after {
       content: "";
