@@ -1,5 +1,11 @@
 <%@include file="/libs/foundation/global.jsp" %>
 <%
+    final String EYEBROW_PROPS_KEY = "gsusa.eyebrow.items.data";
+    ValueMap extProperties = (ValueMap)request.getAttribute(EYEBROW_PROPS_KEY);
+    if (extProperties != null) {
+        properties = extProperties;
+    }
+
     final String[] navs = properties.get("navs", String[].class);
     
     if (navs != null) {

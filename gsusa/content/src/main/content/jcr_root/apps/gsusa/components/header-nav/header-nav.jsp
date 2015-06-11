@@ -54,9 +54,20 @@
             <cq:include script="item.jsp" />
             <% } %>
         </ul>
-        <% setHtmlTag("ul", request); %>
-        <% setCssClasses("off-canvas-list", request); %>
-        <sling:include path="../eyebrow-nav" addSelectors="items" resourceType="gsusa/components/eyebrow-nav" />
+<%
+        // This is a workaround to include the eyebrow nav without adding the editor bar.
+        // It leaves the editing bar on the main area so authors can edit. 
+        final String EYEBROW_PROPS_KEY = "gsusa.eyebrow.items.data";
+        final String EYEBROW_PATH = "/content/gsusa/en/jcr:content/header/eyebrow-nav";
+        ValueMap eyebrowProps = (ValueMap)resourceResolver.resolve(EYEBROW_PATH).adaptTo(ValueMap.class);
+        request.setAttribute(EYEBROW_PROPS_KEY, eyebrowProps);
+%>
+        <ul class="off-canvas-list">
+            <cq:include script="/apps/gsusa/components/eyebrow-nav/items.jsp" />
+        </ul>
+<%
+        request.removeAttribute(EYEBROW_PROPS_KEY);
+%>
     </nav>
 <%
 	    request.removeAttribute(LABEL_KEY);
