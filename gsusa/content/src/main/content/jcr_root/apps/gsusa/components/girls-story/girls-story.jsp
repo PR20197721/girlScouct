@@ -15,7 +15,7 @@
               <ul class="gs-stories-block">
                 <li>
                   <div>
-                    <img src="<%= imagePath%>" />
+                    <img src="<%= imagePath%>" width="300" height="300"/>
                      <a href="#" title="story title"><%= description %></a>
                   </div>
                 </li>
