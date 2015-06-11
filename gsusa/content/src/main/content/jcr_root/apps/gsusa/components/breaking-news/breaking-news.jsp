@@ -7,7 +7,7 @@ String url = properties.get("url","");
 Resource thumbnail = resource.getChild("thumbnail");
 if(thumbnail != null){
 	String filePath = ((ValueMap)thumbnail.adaptTo(ValueMap.class)).get("fileReference", "");
-	if(!message.equals("")){
+	if(!"".equals(message)){
 		%>
 		<div id="breaking-news">
 		<%
