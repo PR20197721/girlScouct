@@ -1,6 +1,7 @@
 <%@page import="java.util.*,
                 com.day.cq.wcm.api.WCMMode" %>
 <%@include file="/libs/foundation/global.jsp" %>
+<%@include file="/apps/girlscouts/components/global.jsp" %>
 <%
     final String LABEL_KEY = "gsusa.header-nav.item.label";
     final String LINK_KEY = "gsusa.header-nav.item.link";
@@ -53,12 +54,9 @@
             <cq:include script="item.jsp" />
             <% } %>
         </ul>
-        <ul class="off-canvas-list">
-            <li><a href="#" title="Join">Join</a></li>
-            <li><a href="#" title="Volunteer">Volunteer</a></li>
-            <li><a href="#" title="Invest in Girls">Invest in Girls</a></li>
-            <li><a href="#" title="En Espanol">En Espa&#241;ol</a></li>
-        </ul>
+        <% setHtmlTag("ul", request); %>
+        <% setCssClasses("off-canvas-list", request); %>
+        <sling:include path="../eyebrow-nav" addSelectors="items" resourceType="gsusa/components/eyebrow-nav" />
     </nav>
 <%
 	    request.removeAttribute(LABEL_KEY);

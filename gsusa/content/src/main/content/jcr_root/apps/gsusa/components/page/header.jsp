@@ -14,7 +14,7 @@
     </section>
     <section class="utility show-for-medium-up">
     	<div>
-    	    <cq:include path="eyebrow-nav" resourceType="gsusa/components/eyebrow-nav" />
+    	    <cq:include path="header/eyebrow-nav" resourceType="gsusa/components/eyebrow-nav" />
         </div>
         <form action="/content/gateway/en/site-search.html" method="get" class="search-form">
             <input type="search" name="q" placeholder="Search" />
