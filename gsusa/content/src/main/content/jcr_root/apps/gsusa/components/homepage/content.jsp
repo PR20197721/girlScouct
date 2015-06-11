@@ -7,28 +7,6 @@
 <!-- END of content -->
 
 <!--GS Stories TO BE MOVED TO IT"S OWN JSP THE COLUMN NAMES IS TEMPORARY-->
-<!-- <div class="columns large-18 medium-18">
-    <ul class="gs-stories-block">
-        <li>
-            <div>
-                <img src="/etc/designs/gsusa/clientlibs/images/temp_gs_storeis.png" alt="story title" />
-                <p><a href="#" title="story title">This is pretty awesome story about hourses!</a></p>
-            </div>
-        </li>
-        <li>
-            <div>
-                <img src="/etc/designs/gsusa/clientlibs/images/temp_gs_storeis.png" alt="story title" />
-                <p><a href="#" title="story title">Girl Scouts Friends are the best friends</a></p>
-            </div>
-        </li>
-        <li>
-            <div>
-                <img src="/etc/designs/gsusa/clientlibs/images/temp_gs_storeis.png" alt="story title" />
-                <p><a href="#" title="story title">These girsl are having a ball. You can, too!</a></p>
-            </div>
-        </li>
-    </ul>
-</div> -->
 <div class="columns large-6 medium-6"></div>
 <div class="columns large-18 medium-18">
 <h3>Column One</h3>
