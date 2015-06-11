@@ -31,6 +31,12 @@
           && target.closest(".story").css('display') !== 'none') {
         $(".story").hide("slow");
       }
+      if (target.closest('.join a').length === 0
+          && target.closest(".join section").css('display') !== 'none') {
+        $('.join section').fadeOut('500', function () {
+          $('.join a').fadeIn('slow');
+        });
+      }
     });
   }
 
