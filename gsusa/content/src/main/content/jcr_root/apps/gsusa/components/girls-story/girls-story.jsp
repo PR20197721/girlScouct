@@ -10,10 +10,22 @@
         String imagePath = path + "/jcr:content/image.img.png";
         if (res != null && !res.getResourceType().equals("sling:nonexisting")) {
             ValueMap vm = (ValueMap) res.adaptTo(ValueMap.class);
-            String deabout scription = vm.get("description", "");%>
+            String description = vm.get("description", "");%>
             <!--  the following lines (div and ul) should goes to the container of the component instead of individual girls story component -->
             <div class="columns large-18 medium-18"> 
               <ul class="gs-stories-block">
+                <li>
+                  <div>
+                    <img src="<%= imagePath%>" />
+                    <p><a href="#" title="story title"><%= description %></a></p>
+                  </div>
+                </li>
+                <li>
+                  <div>
+                    <img src="<%= imagePath%>" />
+                    <p><a href="#" title="story title"><%= description %></a></p>
+                  </div>
+                </li>
                 <li>
                   <div>
                     <img src="<%= imagePath%>" />

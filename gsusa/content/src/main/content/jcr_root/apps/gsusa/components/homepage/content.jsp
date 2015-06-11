@@ -7,7 +7,7 @@
 <!-- END of content -->
 
 <!--GS Stories TO BE MOVED TO IT"S OWN JSP THE COLUMN NAMES IS TEMPORARY-->
-<div class="columns large-18 medium-18">
+<!-- <div class="columns large-18 medium-18">
     <ul class="gs-stories-block">
         <li>
             <div>
@@ -28,7 +28,7 @@
             </div>
         </li>
     </ul>
-</div>
+</div> -->
 <div class="columns large-6 medium-6"></div>
 <div class="columns large-18 medium-18">
 <h3>Column One</h3>
