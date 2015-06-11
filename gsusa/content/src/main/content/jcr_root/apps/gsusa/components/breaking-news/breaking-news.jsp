@@ -1,2 +1,33 @@
 <%@include file="/libs/foundation/global.jsp" %>
-<a href="#" title="breaking news"><strong>breaking news: </strong>Girl Scouts Announces National Girl Scout Cookie Weekend lorem ipsum dolorem ipse dixit in the U.S.</a>
+
+<%
+String message = properties.get("message","");
+String url = properties.get("url","");
+//String filePath = properties.get("fileReference", "");
+Resource thumbnail = resource.getChild("thumbnail");
+if(thumbnail != null){
+	String filePath = ((ValueMap)thumbnail.adaptTo(ValueMap.class)).get("fileReference", "");
+	if(!"".equals(message)){
+		%>
+		<div id="breaking-news">
+		<%
+		if(!filePath.equals("")){
+			%>
+			<img src="<%= filePath %>" alt="Breaking News Image" />
+			<%
+		}
+		if(!url.equals("")){
+			%><a href="<%= url %>"><%
+		}
+		%>
+		<strong>Breaking News:</strong><%= message %>
+		<%
+		if(!url.equals("")){
+			%></a><%
+		}
+		%>
+		</div>
+		<%
+	}
+}
+%>

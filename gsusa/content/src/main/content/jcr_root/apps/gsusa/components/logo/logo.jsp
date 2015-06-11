@@ -1,3 +1,9 @@
 <%@include file="/libs/foundation/global.jsp" %>
+<%
+    String imgPath = "";
+    try {
+        imgPath = ((ValueMap)resource.getChild("image").adaptTo(ValueMap.class)).get("fileReference", "");
+    } catch (Exception e) {}
 
-<img src="https://www.google.com/images/srpr/logo11w.png" alt="gsusa home" />
+%>
+<img src="<%= imgPath %>" alt="gsusa home" />

@@ -1,9 +1,16 @@
 .breaking-news {
+  @include clearfix;
   background: $bg_breaking_news;
-  padding: 1.7708333% 0;
+  padding: 0.52083333%;
   text-align: center;
-  :first-child {
-    margin-bottom: 0;
+  a {
     color: $white;
+    @media #{$medium-up} {
+      position: relative;
+      top: rem-calc(15);
+    }
+  }
+  .thumbnail {
+    float:left
   }
 }
