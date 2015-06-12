@@ -518,8 +518,14 @@ var displayCurrent = function(){
 	    	y2 = selection.y2;
 	    	width = selection.width;
 	    	height = selection.height;
-	    	submitCrop.disabled = false;
-	    	coordsSelected = true;
+	    	if(width > 1 && height > 1){
+	    		submitCrop.disabled = false;
+	    		coordsSelected = true;
+	    	}
+	    	else{
+	    		submitCrop.disabled = true;
+	    		coordsSelected = false;
+	    	}
 	    };
 	
 	    crop = function(){
